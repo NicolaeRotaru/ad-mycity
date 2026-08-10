@@ -1365,3 +1365,16 @@ e il primo scrittore lo rigonfierebbe) · spostare le lezioni vecchie nello stor
 l'iniezione a inizio sessione: è memoria viva).
 **Dove:** `cervello/pota-apprendimento.mjs` (`principiSenzaCopia`), lato lettura in
 `pannello/src/app/api/memoria/auto-coscienza/route.ts`, prove in `archivi-senza-tetto.test.mjs`.
+
+## 2026-08-10 09:05 — 🟡 Il quinto sensore: il sito dei negozi entra in Cabina
+**Cosa:** il giro scriveva da giorni `salute_macchina.sito_uptime` («cieco da 28 giri, HTTP 503 dal
+30/7, migrazione Render→Vercel pianificata, non un guasto») e succedevano DUE cose insieme: il
+contratto lo bocciava come nome fuori schema — cancello rosso su ogni PR aperta — e la Cabina non lo
+mostrava lo stesso. Due elenchi scritti a mano in due file diversi, divergenti.
+**Fatto:** chiave ammessa in `cervello/valida-contratti.mjs`, quinto tile «Sito negozi» in
+`AutoCoscienza.tsx` (etichetta corta: risponde · ⚪ non misurato · non risponde — la frase lunga
+resta nel file, un tile non la regge), e una prova che tiene appaiati i due elenchi: se domani si
+ammette una chiave senza il tile, o si toglie il tile lasciando la chiave, diventa rossa e dice
+quale metà manca. Mutazione registrata.
+**Prova:** `valida-contratti --json` → violazioni [] · suite 149 file / 1563 asserzioni verde ·
+typecheck del Pannello verde · cancello del lotto 16 guardiani su 16.

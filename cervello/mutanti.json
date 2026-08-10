@@ -2037,6 +2037,14 @@
    "cerca": "    if (!lezione || lezione.testo !== p.testo) return p;",
    "sostituisci": "    if (!lezione) return p;",
    "test": "node --test cervello/test/archivi-senza-tetto.test.mjs"
+  },
+  {
+   "difetto": "contratto salute · due elenchi che divergono",
+   "nome": "il contratto ammette una chiave che nessun tile mostra: il giro scrive nel vuoto e il cancello resta rosso",
+   "file": "pannello/src/components/AutoCoscienza.tsx",
+   "cerca": "{ k: \"Sito negozi\", raw: sm.sito_uptime, okKey: \"sito\" },",
+   "sostituisci": "",
+   "test": "node cervello/test/scadenze-calcolate.test.mjs"
   }
  ]
 }

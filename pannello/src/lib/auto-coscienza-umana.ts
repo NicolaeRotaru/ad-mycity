@@ -109,5 +109,17 @@ export function saluteValore(k: string, v: unknown): { label: string; ok: boolea
     const n = Number(v) || 0;
     return { label: `${n} attivi`, ok: n > 0 };
   }
+  // Il sito dei negozi (10/8). Il giro scrive una FRASE — «cieco da 28 giri (HTTP 503 dal 30/7…)» —
+  // e in un tile largo due dita una frase esce dal riquadro: è il difetto «scritte che escono» già
+  // pagato qui. Quindi il tile porta l'esito in tre parole e la frase intera resta nel file.
+  // ⚪ non misurato NON è verde: il tile resta acceso di rosso, ma il testo dice che non l'ho visto,
+  // non che è rotto — sono due cose diverse e Nicola le deve poter distinguere.
+  if (key.includes("sito")) {
+    const s = String(v ?? "").trim().toLowerCase();
+    if (!s) return { label: "—", ok: false };
+    if (s.startsWith("ok")) return { label: "risponde", ok: true };
+    if (s.includes("cieco") || s.includes("non misurat")) return { label: "⚪ non misurato", ok: false };
+    return { label: "non risponde", ok: false };
+  }
   return { label: String(v ?? "—"), ok: !!v };
 }

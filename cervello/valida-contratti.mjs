@@ -51,7 +51,17 @@ const CONTRATTO = {
     },
     // il blocco salute_macchina, se presente, deve usare i nomi canonici del Pannello
     salute_macchina: {
-      canonici: ["supabase", "stripe", "dati_freschi", "sensori_attivi"],
+      // `sito_uptime` è entrato il 10/8, e il motivo per cui prima non c'era vale più della riga.
+      //
+      // Il giro lo scriveva già — «cieco da 28 giri (HTTP 503 dal 30/7, migrazione Render→Vercel
+      // pianificata, non un guasto)» — e questo contratto lo BOCCIAVA come nome fuori schema. Il
+      // risultato è la peggiore delle due bugie possibili: il cancello diventava rosso su ogni PR
+      // aperta, e intanto l'informazione «il sito dei negozi non risponde» non arrivava lo stesso
+      // in Cabina. Un contratto non è una lista di ciò che mi va bene: è la promessa che quello che
+      // il giro scrive, qualcuno lo mostra. Perciò la riga qui sotto arriva INSIEME al tile nel
+      // Pannello (AutoCoscienza.tsx) — e una prova tiene i due elenchi allineati, o fra un mese
+      // saranno di nuovo due.
+      canonici: ["supabase", "stripe", "dati_freschi", "sensori_attivi", "sito_uptime"],
       vietati: ["supabase_marketplace", "supabase_memoria"], // AR-043: alias che spengono i tile
     },
   },

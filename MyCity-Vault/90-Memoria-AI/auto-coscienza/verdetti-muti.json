@@ -1,57 +1,63 @@
 {
   "_cosa_e": "📮 Quante volte ho consegnato un lavoro il cui esito non è arrivato dove Nicola legge (AR-474). Il tetto SCENDE e non risale: aggiungerne uno è un errore, portarne via è il lavoro.",
-  "misurato": "2026-08-10 04:46",
+  "misurato": "2026-08-10 07:10",
   "finestra_giorni": 30,
-  "commit_esaminati": 458,
-  "esclusi_worker": 221,
-  "consegne": 237,
-  "mute": 199,
+  "commit_esaminati": 444,
+  "esclusi_worker": 219,
+  "consegne": 225,
+  "mute": 188,
   "tasso": 84,
   "ultime_mute": [
     {
-      "hash": "73372e1e9",
-      "quando": "2026-08-04 17:25",
-      "titolo": "Update settings.json"
+      "hash": "83124e53f",
+      "quando": "2026-08-01 14:56",
+      "titolo": "Il cancello dello Stop: il freno sull'abitudine, non sulle sue istanze"
     },
     {
-      "hash": "c19976caf",
-      "quando": "2026-08-04 17:10",
-      "titolo": "Update settings.json"
+      "hash": "662efe246",
+      "quando": "2026-07-31 23:02",
+      "titolo": "Il canale di misura-cieca, e il potatore che misurava un file inesiste"
     },
     {
-      "hash": "fdb15e635",
-      "quando": "2026-08-04 17:08",
-      "titolo": "Update settings.json"
+      "hash": "a83806bca",
+      "quando": "2026-07-31 21:34",
+      "titolo": "Lo stallo del VPS: i quattro difetti riparati alla radice (AR-467..470"
     },
     {
-      "hash": "04172b9b6",
-      "quando": "2026-08-04 04:32",
-      "titolo": "Update settings.json"
+      "hash": "4ab3fff2d",
+      "quando": "2026-07-30 22:00",
+      "titolo": "Il freno in tempo reale parlava a nessuno: adesso il verdetto arriva d"
     },
     {
-      "hash": "7c78d1c16",
-      "quando": "2026-08-04 04:13",
-      "titolo": "Update settings.json"
+      "hash": "53280b4b5",
+      "quando": "2026-07-30 16:10",
+      "titolo": "AR-459: «l'ho creato io» e «l'ho appena scoperto» diventano due cose c"
     },
     {
-      "hash": "9e0dc12d9",
-      "quando": "2026-08-01 22:05",
-      "titolo": "Fix JSON key casing for 'stop' to 'Stop'"
+      "hash": "f8c36f44a",
+      "quando": "2026-07-30 15:52",
+      "titolo": "Il cantiere torna visibile: la seconda strada oltre il MiB, e il verd…"
     },
     {
-      "hash": "eefa21191",
-      "quando": "2026-08-01 22:04",
-      "titolo": "Update settings.json"
+      "hash": "f28272765",
+      "quando": "2026-07-30 14:37",
+      "titolo": "Sorvegliante del delta: la revisione gira mentre lavoro, non a fine co"
     },
     {
-      "hash": "310a85065",
-      "quando": "2026-08-01 21:00",
-      "titolo": "Add stop hooks to settings.json"
+      "hash": "72dffa662",
+      "quando": "2026-07-30 14:15",
+      "titolo": "Auto-radiografia profonda: tre difetti di natura e il cantiere (#636)"
     }
+  ],
+  "esclusi_non_scrivibili": 13,
+  "file_non_scrivibili": [
+    ".claude/settings.json",
+    ".claude/settings.local.json",
+    "cervello/vps/.env"
   ],
   "cabina": {
     "stato_aggiornato": "2026-08-06 11:15",
-    "ultima_consegna": "2026-08-04 17:25",
+    "ultima_consegna": "2026-08-04 16:43",
     "giorni_indietro": 0
   },
   "tetti": {
