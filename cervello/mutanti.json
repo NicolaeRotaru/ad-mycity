@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-10 12:20",
+ "aggiornato": "2026-08-10 12:53",
  "mutanti": [
   {
    "lotto": 30,
@@ -2072,6 +2072,15 @@
    "cerca": "const fresca = freschezza(testo, soglia, oggiPiacenza());",
    "sostituisci": "const fresca = undefined;",
    "test": "node cervello/test/freschezza-intelligence.test.mjs"
+  },
+  {
+   "difetto": "settings-json-non-piu-negato",
+   "lezione": "L-2026-0804-01",
+   "nome": "il guardiano smette di accorgersi che .claude/settings.json non è più negato in Edit/Write alla macchina",
+   "file": "cervello/permessi-check.mjs",
+   "cerca": "deve_negare: /\\.claude\\/settings\\.json/,",
+   "sostituisci": "deve_negare: /NESSUNA_CORRISPONDENZA_MAI_XYZ/,",
+   "test": "node cervello/test/permessi-check.test.mjs"
   }
  ]
 }
