@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-10 23:28",
+  "aggiornato": "2026-08-10 23:55",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -11472,10 +11472,30 @@
       },
       "nato_da": "AR-562 (la stessa famiglia: un verdetto scritto da chi non ha guardato la stessa cosa)",
       "nota": "Dove: cervello/verifica-sensori.mjs (scrive sensori-cecita.json) · cervello/conta-blocco-mancante.mjs (scrive blocco-mancante.json) · cervello/costo-ai.mjs · cervello/sensori-spenti-check.mjs (lo legge e va rosso) · Impatto: una diagnosi lanciata da fuori può spegnere i sensi della macchina nel Pannello e far scattare le sentinelle su un guasto che non esiste."
+    },
+    {
+      "id": "AR-569",
+      "stato": "aperto",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "dimensione": "pannello-comportamento",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-10 23:55",
+      "nato_come": "scoperta",
+      "origine": "Trovato durante il collaudo della radiografia (10/8), accodando due card: le ho scritte, e il guardiano che misura il carico di firma ha continuato a dire «In attesa della tua firma: 5 · ✅ Coda sotto controllo». Contate a mano: 49 card in formato blocco (### 🟡/🔴 #slug) e 18 righe in formato tabella. Il parser della Cabina (pannello/src/lib/azioni-attesa.ts, 332 righe) riconosce i blocchi; guardiano-tempo.mjs no — zero occorrenze di «###», legge solo righe «| N | … |» con almeno 8 celle.",
+      "titolo": "Il guardiano che misura quanto lavoro aspetta la firma di Nicola ne vede 5 su 49, e dice che la coda è sotto controllo",
+      "causa_radice": "① La coda ha avuto due formati nel tempo: una tabella a 8 colonne, poi i blocchi ### con Cosa cambia / Se va bene. ② La Cabina è stata aggiornata al formato nuovo, il guardiano no. ③ Nessuno se n'è accorto perché il guardiano non dice «ho letto 18 righe su 67»: dice un numero e un verde. ④ Quindi la misura del carico di firma — il numero che serve a capire se Nicola è il collo di bottiglia — è ferma a un formato che quasi nessuna card usa più. ⑤ È la stessa famiglia di AR-562: due lettori, una fonte, due verità, e vince quella che rassicura. Qui il danno è doppio, perché il verde «coda sotto controllo» disinnesca proprio l'allarme che dovrebbe suonare.",
+      "fix_proposto": "🟡 (a) Il formato della coda si legge in UN posto solo: estrarre il parser dei blocchi in un modulo condiviso e farlo usare sia dalla Cabina sia da guardiano-tempo.mjs (una regola, una casa — AR-344). (b) Finché non è condiviso, il guardiano deve DICHIARARE la copertura: «ho letto 18 righe su 67 card» invece di un verde secco — cieco non è verde. (c) Un test che scrive una card in formato blocco in un repo finto e pretende che il conteggio la veda.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "serve decidere dove vive il parser condiviso: cervello importa da pannello, o si duplica con un test che li tiene allineati"
+      },
+      "nato_da": "AR-562 (due lettori, una fonte, due verità)",
+      "nota": "Dove: cervello/guardiano-tempo.mjs:64-82 (parsa solo la tabella) · pannello/src/lib/azioni-attesa.ts (parsa i blocchi) · Impatto: è il numero con cui si decide se la coda di Nicola è il collo di bottiglia. Oggi dice 5 e sono 49."
     }
   ],
   "meta": {
-    "aperti": 168,
+    "aperti": 169,
     "in_corso": 0,
     "chiusi": 334
   }

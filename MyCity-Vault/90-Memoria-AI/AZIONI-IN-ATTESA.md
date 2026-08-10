@@ -16,6 +16,32 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+<!-- cosa-vuol-dire-fatto -->
+
+### 🟡 #cosa-vuol-dire-fatto — Decidi se alzo l'asticella di cosa vuol dire «riparato» · ⏳ accodata 2026-08-10 23:45
+
+**Cosa cambia:** oggi un difetto su tre si chiude perché una parola compare in un file. Ti faccio l'esempio vero: il difetto AR-128 diceva «non esiste nessun sensore per le contestazioni carta». La sua prova era che la parola «chargeback» comparisse in un documento. Scrivere quella parola bastava a chiudere il difetto — e il sensore non c'era comunque. Sono 193 difetti su 552 messi così. **Questa è la ragione per cui gli errori li trovi tu e non io:** una ricerca di parole non può fallire nel modo in cui fallisce la realtà. Se dici sì, da domani un difetto grave o bloccante nasce con un comando che gira davvero, o non nasce; e i 193 vecchi li converto a lotti, partendo dai bloccanti.
+**Se va bene:** rispondi «ok asticella» e io scrivo la regola nel mansionario, la aggancio al cancello che ferma i lotti, e ti porto il primo lotto di conversione entro il giro seguente. Se preferisci di no, dimmelo lo stesso: chiudo il difetto come scelta tua e smetto di riproportelo. Se non decidiamo niente, resta com'è — e continuerai a trovare tu quello che io ho dichiarato risolto.
+**Nota tecnica:** difetto AR-564, nato dalla radiografia della catena di lavoro del 10/8. Le due forme di prova stanno in `cervello/auto-fix.mjs:154-179`; la forma ammessa per i comandi in `cervello/forma-prova.mjs`. Conteggio: 193/552 forma testuale, 243/552 comportamentale, 28 umane, 30 senza prova. Fra i chiusi la testuale è 67/332 (20%).
+- **Colore:** 🟡 (cambia una regola di lavoro della macchina, non tocca il marketplace né manda niente a nessuno)
+- **Reparto:** AD + prompt-engineer
+- **Origine:** `{origine:radiografia-catena-di-lavoro, difetto:AR-564, pr:697}`
+
+---
+
+<!-- quanto-chiudo-e-il-mio-voto -->
+
+### 🔴 #quanto-chiudo-e-il-mio-voto — Decidi se smetto di cercare quando riparo poco · ⏳ accodata 2026-08-10 23:45
+
+**Cosa cambia:** a luglio ho chiuso 244 difetti sui 455 che avevo trovato. Ad agosto, in dieci giorni, ne ho chiusi 14 su 90. Trovo circa tre volte più in fretta di quanto riparo, e il divario si allarga. Tu me l'hai detto con parole tue: «so già che dopo questo upgrade ti chiederò di rianalizzare e troverai un sacco di errori». **Hai ragione, e il motivo è questo numero, non la mia bravura.** Finché apro più di quanto chiudo, ogni radiografia che mi chiedi ti allunga la lista invece di accorciarla. Se dici sì, il mio voto su me stessa diventa uno solo: i difetti che chiudo nel mese diviso quelli che apro, obiettivo almeno 1. Sotto 1, il giro smette di aprire ricerche nuove e spende il turno a chiudere.
+**Se va bene:** rispondi «ok tasso di chiusura» e io lo scrivo negli obiettivi della squadra come numero mio, lo faccio calcolare a ogni giro, e cablo il freno che ferma le ricerche nuove quando è sotto 1. Da lì in avanti, quando mi chiedi una radiografia, la lista che ti riporto si accorcia invece di allungarsi. Se preferisci che continui a cercare comunque, dimmelo: è una scelta legittima, ma allora la lista cresce e va accettato.
+**Nota tecnica:** difetto AR-566. Numeri contati sui 552 difetti del cantiere per mese di nascita e di chiusura. La dimensione con più difetti aperti è «guardiani-e-guardrail» (21 su 168): i controlli sono la prima fonte di lavoro dei controlli. Oggi girano 79 guardiani a ogni giro, 38 possono fermare il lavoro.
+- **Colore:** 🔴 (è una regola di governo che limita quanto lavoro la macchina genera da sola: la decisione è tua, non mia)
+- **Reparto:** AD
+- **Origine:** `{origine:radiografia-catena-di-lavoro, difetto:AR-566, pr:697}`
+
+---
+
 <!-- piani-da-rivedere -->
 
 ### 🟡 #piani-da-rivedere — Dimmi quali piani riscrivo, e in che ordine · ⏳ accodata 2026-08-10 16:15

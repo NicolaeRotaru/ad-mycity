@@ -6,7 +6,7 @@ oggetto: la catena di lavoro — dall'innesco alla consegna
 
 # La catena di lavoro, radiografata da cima a fondo
 
-**In due righe:** ho seguito un lavoro dall'istante in cui nasce a quello in cui è finito. Ho misurato ogni pezzo della catena invece di fidarmi di quello che dichiara. Ho trovato sette difetti nuovi. Due li ho già riparati. E ho capito perché gli errori li trovi tu e non io.
+**In due righe:** ho seguito un lavoro dall'istante in cui nasce a quello in cui è finito. Ho misurato ogni pezzo della catena invece di fidarmi di quello che dichiara. Ho trovato otto difetti nuovi. Due li ho già riparati. E ho capito perché gli errori li trovi tu e non io.
 
 ## In parole semplici
 
@@ -36,7 +36,7 @@ Tre decisioni. Le prime due sono tue perché cambiano come lavoro, non come è s
 
 **Due: accetto di cercare di meno quando riparo poco?** Propongo un voto solo su me stessa: i difetti che chiudo nel mese diviso quelli che apro. L'obiettivo è almeno 1. Sotto 1, il giro smette di aprire ricerche nuove e spende il turno a chiudere. Senza questa regola, ogni radiografia che mi chiedi ti allunga la lista invece di accorciarla.
 
-**Tre: guarda la richiesta di unione.** Ci sono dentro le due riparazioni già fatte e i sette difetti registrati.
+**Tre: guarda la richiesta di unione.** Ci sono dentro le due riparazioni già fatte e gli otto difetti registrati. Le due domande qui sopra le trovi anche come card da firmare nella coda, così non restano sepolte in questo documento.
 
 ## Cosa non ho verificato
 
@@ -92,13 +92,21 @@ Questo è il punto in cui la macchina dovrebbe imparare, e non impara.
 - Lezioni decadute: **zero**. Niente esce mai. È un magazzino, non una memoria.
 - L'area che si ripete di più si chiama «correzione-nicola»: **26 lezioni, 18 ripetizioni, 25 arrivate da te**. È la firma di questo problema: il tema su cui sbaglio di più è quello su cui mi hai già corretto.
 
-### ⑧ Cosa vedi tu alla fine — ⚠️ vedi un numero che non tornava
+### ⑧ Cosa vedi tu alla fine — ❌ due numeri sbagliati su due
 
-Il Pannello legge quello che la sonda scrive. E fino a oggi la sonda scriveva 113 e 84. Adesso scrive 197 e 0.
+Il Pannello legge quello che la sonda scrive. Fino a oggi la sonda scriveva 113 e 84. Adesso scrive 197 e 0.
+
+Il secondo l'ho trovato mentre accodavo le due card di questa relazione. Le ho scritte, e il guardiano che misura quanto lavoro aspetta la tua firma ha continuato a dire «5 in attesa, coda sotto controllo».
+
+Le ho contate a mano. **In coda ci sono 49 card. Lui ne vede 5.**
+
+La ragione: la coda ha avuto due formati, e lui legge ancora quello vecchio. La Cabina è stata aggiornata, lui no. Nessuno se n'è accorto perché non dice «ho letto 18 righe su 67»: dice un numero e un verde.
+
+È il numero con cui si decide se sei tu il collo di bottiglia. E il verde «coda sotto controllo» spegne proprio l'allarme che dovrebbe suonare.
 
 ---
 
-## I sette difetti, in ordine di quanto ti costano
+## Gli otto difetti, in ordine di quanto ti costano
 
 | # | Cosa | Stato |
 |---|---|---|
@@ -108,11 +116,12 @@ Il Pannello legge quello che la sonda scrive. E fino a oggi la sonda scriveva 11
 | **AR-565** | Due guardiani, stesso 18%, verdetti opposti | 🟡 aperto |
 | **AR-567** | Otto riparazioni progettate col nome del file già scritto, e il file non è mai nato | 🟡 aperto |
 | **AR-568** | Ho spento i sensori della macchina lanciando un comando di sola lettura | 🟡 aperto |
+| **AR-569** | Il conto di quanto lavoro aspetta la tua firma ne vede 5 su 49, e dichiara la coda sotto controllo | 🟡 aperto |
 | **AR-563** | Il conto dei consumi stampava «zero token uguale ventisette per cento» | ✅ riparato oggi |
 
 ### AR-568 — l'ho combinato io, oggi, mentre facevo questa radiografia
 
-Lo racconto per intero perché è il più utile dei sette.
+Lo racconto per intero perché è il più utile degli otto.
 
 Per guardare i sensori ho lanciato un comando che legge e basta. Quel comando però scrive anche il risultato in memoria. Io giro su un computer a noleggio e non ho le chiavi del marketplace. Quindi per me ogni sensore risultava spento.
 
