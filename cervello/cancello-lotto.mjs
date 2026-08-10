@@ -76,6 +76,19 @@ export function difettiToccati(cantiereOra, cantierePrima) {
   return toccati;
 }
 
+/**
+ * Gli id che in questo lotto sono NATI: presenti adesso, assenti dal ramo pubblicato.
+ *
+ * Diverso da `difettiToccati`, che include anche le schede vecchie la cui prova è cambiata. Per
+ * l'asticella serve la distinzione: a una scheda vecchia si può migliorare la prova a piccoli passi,
+ * a una che nasce adesso si chiede la forma giusta subito.
+ */
+export function difettiNati(cantiereOra, cantierePrima) {
+  if (!cantierePrima) return null; // niente confronto → cieco, e cieco non accusa
+  const prima = new Set((cantierePrima.difetti || []).map((d) => d?.id));
+  return (cantiereOra.difetti || []).map((d) => d?.id).filter((id) => id && !prima.has(id));
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // I controlli PURI sulle prove — la parte che nessun altro guardiano fa
 // ─────────────────────────────────────────────────────────────────────────────
@@ -111,6 +124,50 @@ export function idDoppi(difetti = []) {
   return [...conta.entries()]
     .filter(([, titoli]) => titoli.length > 1)
     .map(([id, titoli]) => ({ id, quanti: titoli.length, titoli }));
+}
+
+/**
+ * L'ASTICELLA (AR-564, approvata da Nicola il 10/8: «ok asticella»).
+ *
+ * Un difetto grave o bloccante che NASCE adesso deve portare una prova che GIRA — un comando —
+ * non una parola da cercare in un file.
+ *
+ * Il conto che ha convinto: 193 difetti su 552 avevano per prova un file+pattern. Il caso vero è
+ * AR-128, «non esiste nessun sensore per le contestazioni carta», la cui prova era che la parola
+ * «chargeback» comparisse in un documento: scriverla bastava a chiudere il difetto, e il sensore
+ * non c'era comunque. Una ricerca di parole non può fallire nel modo in cui fallisce la realtà —
+ * per questo gli errori li trovava Nicola e non la macchina.
+ *
+ * Perché SOLO i nuovi, e solo grave/bloccante:
+ *   · sui 193 ereditati c'è già `prova-debole`, un tetto che scende e non risale. Vietarli tutti
+ *     adesso congelerebbe il cantiere, e un cancello sempre rosso viene aggirato al secondo giro
+ *     (è la lezione scritta in cima a questo file, e vale anche qui).
+ *   · sui `minore` la prova a pattern resta ammessa: il costo di scrivere un comando non lo vale.
+ *
+ * Le tre uscite oneste restano aperte: una prova a comando, oppure `tipo: "umano"` dichiarato
+ * (nessun guardiano potrà chiuderlo, e si vede), oppure il difetto non nasce grave.
+ *
+ * @param {object[]} difetti tutte le schede del cantiere di adesso
+ * @param {string[]|null} nati gli id NATI in questo lotto (assenti dal ramo pubblicato); null = cieco
+ */
+export function proveDeboliNate(difetti = [], nati = null) {
+  if (!Array.isArray(nati)) return []; // non so chi è nato adesso → non accuso nessuno
+  const grave = new Set(["grave", "bloccante", "critica", "alta", "alto"]);
+  const dentro = new Set(nati);
+  return difetti
+    .filter((d) => d && dentro.has(d.id) && grave.has(String(d.gravita || "").toLowerCase()))
+    .filter((d) => {
+      const v = d.verifica;
+      if (!v || typeof v !== "object") return true; // nessuna prova: è la forma più debole di tutte
+      if (v.tipo === "umano") return false; // dichiarata umana: onesto, si vede, passa
+      if (typeof v.comando === "string" && v.comando.trim()) return false; // gira: passa
+      return true; // resta file+pattern su una scheda grave nata adesso
+    })
+    .map((d) => ({
+      id: d.id,
+      gravita: d.gravita,
+      forma: d.verifica?.file ? `${d.verifica.file} ~ /${d.verifica.pattern}/` : "nessuna prova",
+    }));
 }
 
 export function provaConOr(difetto) {
@@ -449,6 +506,7 @@ function main() {
     cantierePrima = null;
   }
   const toccati = difettiToccati(cantiere, cantierePrima);
+  const nati = difettiNati(cantiere, cantierePrima);
   const tetti = leggiTetti();
 
   if (AGGIORNA_TETTI) {
@@ -519,6 +577,19 @@ function main() {
   } else {
     avvisi.push(`${deboli.deboli} schede aperte su ${deboli.aperti} portano ancora una prova a pattern (sotto il tetto)`);
   }
+
+  // `asticella`: una scheda GRAVE che NASCE adesso con una prova a pattern non entra (AR-564).
+  // Il debito vecchio resta sotto il tetto qui sopra; la porta d'ingresso però si chiude.
+  const deboliNate = proveDeboliNate(difetti, nati);
+  for (const x of deboliNate) {
+    violazioniProve.push({
+      regola: "asticella",
+      ids: [x.id],
+      motivo: `${x.id} nasce ${x.gravita} con una prova che non gira (${x.forma}): una parola in un file non è un comportamento. Dagli un comando che diventi rosso se il difetto c'è, oppure dichiara \`verifica: {tipo:"umano"}\` se nessun guardiano potrà mai chiuderlo`,
+    });
+  }
+  if (nati === null) avvisi.push("non so quali schede sono NATE in questo lotto: l'asticella non ha misurato");
+  else if (nati.length && !deboliNate.length) avvisi.push(`asticella: ${nati.length} schede nate in questo lotto, nessuna grave con prova debole`);
   // `mutazione-mancante`: stesso trattamento. Il debito ereditato ha un tetto che scende; un difetto
   // che il lotto tocca ADESSO senza la sua mutazione non si consegna, punto — anche sotto il tetto.
   const tettoMut = tetti.mutazione_mancante ?? 0;

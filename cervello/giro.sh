@@ -203,6 +203,7 @@ ESP_VINCOLO=""        # AR-041/106: guardiano esperimenti (promosso a gate hard 
 NORTH_STAR_VINCOLO="" # AR-113: north-star → vincolo HARD di allocazione (non blocca il giro)
 KEYWORD_VINCOLO=""    # AR-009/027: guardiano owner-keyword (promosso a gate hard da || true)
 APPRENDIMENTO_VINCOLO="" # Lever 1: guardiano apprendimento (archivio malato / errori ricorrenti non cristallizzati)
+CHIUSURA_VINCOLO=""   # AR-566: si aprono più difetti di quanti se ne chiudono → questo giro chiude, non cerca
 VERIFICA_VINCOLO=""      # Lever 2: verificatore avversariale (auto-analisi vuota) + validatore contratti come gate
 PROVE_VINCOLO=""         # AR-330: prove del cantiere già soddisfatte alla nascita (difetti che si chiudono da soli)
 COSTO_VINCOLO=""         # AR-196: il freno sui costi non sa quanto abbiamo speso (campo assente ≠ zero speso)
@@ -721,6 +722,21 @@ $_cad_out")"
 $_appr_ric"
     echo "[$(ts)] ⚠️  Lever 1: apprendimento malato → vincolo hard al motore." >&2
   fi
+  # ── AR-566 — Tasso di chiusura: si chiude almeno quanto si apre? → vincolo hard «chiudi, non cercare». ──
+  # Approvato da Nicola il 10/8 («ok tasso di chiusura»). È il voto della macchina su sé stessa: finché
+  # apre più difetti di quanti ne chiude, ogni ricerca nuova allunga la lista invece di accorciarla —
+  # e il lavoro sembra peggiorare proprio mentre se ne fa di più. Sotto obiettivo il giro spende il
+  # turno a chiudere. rc=2 è cieco (cantiere illeggibile): non è un verde, ma non ferma la ricerca.
+  echo "[$(ts)] Tasso di chiusura (AR-566: chiudo almeno quanto apro?)..."
+  _chius_out="$(node "$SCRIPT_DIR/tasso-chiusura.mjs" --gate 2>/dev/null)"; _chius_rc=$?
+  printf '%s\n' "$_chius_out" | tail -8
+  if [ "$_chius_rc" -eq 1 ]; then
+    CHIUSURA_VINCOLO="⛔ APRO PIÙ DI QUANTO CHIUDO (tasso-chiusura.mjs rc=$_chius_rc): questo giro NON apre ricerche nuove — niente radiografie, niente dimensioni d'analisi nuove, niente difetti nuovi se non quelli che incontri riparando. Spendi il turno a CHIUDERE difetti già nel cantiere, con una prova che gira. Il conto qui sotto è il tuo voto.
+$_chius_out"
+    echo "[$(ts)] ⚠️  AR-566: sotto obiettivo → vincolo hard «chiudi, non cercare»." >&2
+  elif [ "$_chius_rc" -eq 2 ]; then
+    echo "[$(ts)] ⚪ AR-566: non ho potuto contare il tasso di chiusura (cieco, non verde)." >&2
+  fi
   # ── Lever 3 — Cristallizzazione: promuovi le mature a principio + decadimento (meccanico, con backup). ──
   echo "[$(ts)] Cristallizzazione apprendimento (Lever 3: lezione→principio)..."
   node "$SCRIPT_DIR/cristallizza-apprendimento.mjs" --applica 2>&1 | esito_righe 4 || true
@@ -1020,6 +1036,12 @@ if [ -n "${APPRENDIMENTO_VINCOLO:-}" ]; then
 
 ## Vincolo apprendimento (HARD — Lever 1: la macchina deve imparare, non solo accumulare)
 $APPRENDIMENTO_VINCOLO"
+fi
+if [ -n "${CHIUSURA_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo tasso di chiusura (HARD — AR-566: chiudere viene prima di cercare)
+$CHIUSURA_VINCOLO"
 fi
 if [ -n "${VERIFICA_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

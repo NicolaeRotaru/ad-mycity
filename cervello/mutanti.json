@@ -2090,6 +2090,24 @@
    "cerca": "  if (!v.file || !v.pattern) return false; // niente da misurare → niente da accreditare",
    "sostituisci": "  return v.presente === true; // MUTANTE: torna a leggere la dichiarazione invece di misurare",
    "test": "node cervello/test/prova-misurata-non-dichiarata.test.mjs"
+  },
+  {
+   "difetto": "asticella-spenta",
+   "lezione": "L-2026-0810-04",
+   "nome": "l'asticella smette di fermare una scheda grave che nasce con «cerca questa parola in un file» invece di un comando che gira",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "      if (typeof v.comando === \"string\" && v.comando.trim()) return false; // gira: passa",
+   "sostituisci": "      return false; // MUTANTE: qualunque prova passa, l'asticella non ferma piu' niente",
+   "test": "node cervello/test/asticella-prova-che-gira.test.mjs"
+  },
+  {
+   "difetto": "tasso-chiusura-che-non-puo-bocciare",
+   "lezione": "L-2026-0810-05",
+   "nome": "il voto della macchina su se stessa torna a non poter dire di no: qualunque rapporto fra chiusi e aperti diventa «ok»",
+   "file": "cervello/tasso-chiusura.mjs",
+   "cerca": "  return { esito: \"sotto\", tasso, detto: `chiudo ${chiusi} e ne apro ${nati}: ne apro più di quanti ne chiudo (${tasso}, obiettivo ${OBIETTIVO})` };",
+   "sostituisci": "  return { esito: \"ok\", tasso, detto: \"MUTANTE: va sempre bene\" };",
+   "test": "node cervello/test/tasso-di-chiusura.test.mjs"
   }
  ]
 }

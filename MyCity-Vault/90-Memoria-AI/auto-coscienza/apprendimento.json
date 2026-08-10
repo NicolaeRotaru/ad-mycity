@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-10 23:30",
+ "aggiornato": "2026-08-11 00:15",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
@@ -11362,6 +11362,22 @@
    "testo": "**Un campo scritto per dire «cosa mi aspetto» non si legge mai come «cosa ho misurato» (radiografia della catena di lavoro, 10/8).** Nicola: «so già che dopo questo upgrade ti chiederò di rianalizzare e troverai un sacco di errori». Ha ragione, e la ragione è misurabile: la macchina si accreditava 84 difetti su 220 come «già risolti, aspettano solo il merge» leggendo `verifica.presente === true` — un campo che in auto-fix.mjs dice soltanto CON CHE VERSO leggere la prova, scritto quando il difetto nasce. Rieseguite a mano tutte e 84 le prove: 84 su 84 false (76 pattern assenti, 8 file inesistenti). Stessa malattia in piccolo su metabolismo.mjs (percentuale da un campo, numeratore da un altro) e in grande su AR-568, dove una misura cieca ha sovrascritto una misura vedente e il voto è MIGLIORATO perché la finestra si era ristretta da 26 messaggi a 2.",
    "regola": "chi emette un verdetto deve averlo MISURATO adesso: mai dedurlo da un campo scritto per un altro scopo, mai riportarlo da una misura precedente senza dichiararlo, mai sostituire una misura con una a copertura minore. Corollario: una prova di difetto è un comando che gira, non una parola in un file — una ricerca di parole non può fallire nel modo in cui fallisce la realtà, ed è per questo che gli errori li trova Nicola e non la macchina. Secondo corollario, pagato nello stesso lavoro: si scrive un file di memoria con scrivi-json.mjs, che CONSERVA l'indentazione del file; JSON.stringify(…, 2) su un file a un solo spazio lo riscrive tutto e lo spinge oltre il tetto di lettura di GitHub.",
    "gate": "node cervello/test/prova-misurata-non-dichiarata.test.mjs"
+  },
+  {
+   "id": "L-2026-0810-04",
+   "data": "2026-08-11 00:15",
+   "fonte": "decisione di Nicola",
+   "testo": "**«Fatto» vuol dire che un comportamento è cambiato, non che una parola compare in un file (Nicola 10/8: «ok asticella»).** Il conto: 193 difetti su 552 avevano per prova un file+pattern. AR-128 diceva «non esiste nessun sensore per le contestazioni carta» e la sua prova era che la parola «chargeback» comparisse in un documento: scriverla chiudeva il difetto, e il sensore non c'era. Una ricerca di parole non può fallire nel modo in cui fallisce la realtà — per questo gli errori li trovava Nicola e non la macchina.",
+   "regola": "un difetto grave o bloccante nasce con una prova che GIRA (un comando che diventa rosso se il difetto c'è) oppure con `verifica: {tipo:\"umano\"}` dichiarato; mai con un pattern da cercare. Il debito ereditato non si vieta di colpo — congelare il cantiere fa aggirare il cancello al secondo giro — ma scende sotto un tetto che non risale. Vale ovunque, non solo sui difetti: chiedersi sempre «questa prova può diventare rossa nel modo in cui il mondo mi smentirebbe?».",
+   "gate": "node cervello/test/asticella-prova-che-gira.test.mjs"
+  },
+  {
+   "id": "L-2026-0810-05",
+   "data": "2026-08-11 00:15",
+   "fonte": "decisione di Nicola",
+   "testo": "**Chi trova più in fretta di quanto ripara peggiora anche lavorando bene (Nicola 10/8: «ok tasso di chiusura»).** Luglio: 455 difetti nati, 244 chiusi (0,54). Agosto in dieci giorni: 90 nati, 14 chiusi (0,16). Nicola lo aveva previsto prima di me — «so già che dopo questo upgrade ti chiederò di rianalizzare e troverai un sacco di errori» — e la causa non è la bravura di chi cerca: è il rapporto. La dimensione con più difetti aperti è «guardiani-e-guardrail»: i controlli sono la prima fonte di lavoro dei controlli.",
+   "regola": "il voto della macchina su sé stessa è UNO: chiusi ÷ aperti nel mese, obiettivo ≥ 1. Sotto 1 non si aprono ricerche nuove — si chiude. Corollario generale: prima di aggiungere un rilevatore, chiedersi chi convertirà quello che rileva; percezione e conversione hanno due velocità diverse e solo la prima è automatica. Corollario sul misurare: sotto un campione minimo il verdetto è ⚪, perché un rapporto su pochi casi è rumore — e un freno che scatta sul rumore viene disattivato.",
+   "gate": "node cervello/test/tasso-di-chiusura.test.mjs"
   }
  ],
  "principi": [

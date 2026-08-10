@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-10 23:55",
+  "aggiornato": "2026-08-11 00:20",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -11377,7 +11377,7 @@
     },
     {
       "id": "AR-564",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "bloccante",
       "colore": "🟡",
       "dimensione": "guardiani-e-guardrail",
@@ -11389,10 +11389,11 @@
       "causa_radice": "① La prova di un difetto può avere due forme: un COMANDO che gira (comportamentale) o un file+pattern (testuale). ② 193 difetti su 552 hanno la forma testuale. ③ Una parola in un file non è un comportamento: si può scrivere «chargeback» in un documento e il difetto «non esiste nessun sensore per i chargeback» risulta risolto — è esattamente il caso di AR-128. ④ Un grep non può fallire nel modo in cui fallisce la realtà: per questo gli errori li trova Nicola e non la macchina. ⑤ La causa a monte è che la forma testuale è la più facile da scrivere quando si registra il difetto, e nessun cancello chiede di più.",
       "fix_proposto": "🟡 (a) Vietare la forma testuale ai difetti NUOVI di gravità bloccante o grave: nascono con un comando che gira, o non nascono. (b) Migrare i 193 esistenti a un comando, a lotti, partendo dai bloccanti. (c) Chi non è migrabile si dichiara «prova umana» e smette di contare come chiudibile da solo — cantiere-prove.mjs ne conta già 94 così, il numero vero è più alto.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "serve decidere la politica: quali difetti possono ancora nascere con una prova a grep"
+        "comando": "node cervello/test-cervello.mjs --solo asticella-prova-che-gira"
       },
-      "nota": "Dove: cervello/auto-fix.mjs:154-179 (le due forme) · cervello/forma-prova.mjs (la forma ammessa per i comandi) · Impatto: è la definizione stessa di «fatto» della macchina."
+      "nota": "Dove: cervello/auto-fix.mjs:154-179 (le due forme) · cervello/forma-prova.mjs (la forma ammessa per i comandi) · Impatto: è la definizione stessa di «fatto» della macchina.",
+      "chiuso_come": "Approvata da Nicola («ok asticella») e cablata. La regola vive in CLAUDE.md e la fa rispettare `cancello-lotto.mjs` (regola `asticella`, blocco duro sulle schede NATE nel lotto): una scheda grave o bloccante che nasce con un file+pattern non entra. Tre uscite oneste: un comando che gira, `tipo:\"umano\"` dichiarato, oppure gravità `minore`. Il debito ereditato resta sotto il tetto `prova_debole`, che scende e non risale. Freno: cervello/test/asticella-prova-che-gira.test.mjs (11 asserzioni); rompendo il fix cade 3 volte. Provata sul lotto vero: «8 schede nate, nessuna grave con prova debole».",
+      "chiuso_il": "2026-08-11 00:20"
     },
     {
       "id": "AR-565",
@@ -11416,7 +11417,7 @@
     },
     {
       "id": "AR-566",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "bloccante",
       "colore": "🟡",
       "dimensione": "strategia-costo-rischio",
@@ -11428,10 +11429,11 @@
       "causa_radice": "① Ogni radiografia aggiunge difetti al cantiere; nessun meccanismo lega la quantità di ricerca alla capacità di riparazione. ② 79 guardiani girano a ogni giro e producono segnalazioni; la riparazione invece passa da un lotto alla volta con la firma di Nicola. ③ Percezione e conversione hanno due velocità diverse per costruzione, e solo la prima è automatica. ④ Quindi ogni giro il numero di difetti aperti sale, il voto di salute scende, e la sentinella «SALUTE BASSA» riscatta su una condizione che nessuno può chiudere in tempo — tre volte solo il 10 agosto. ⑤ L'effetto su Nicola: gli si chiede di firmare sempre di più mentre il numero peggiora comunque, e la macchina sembra peggiorare proprio mentre lavora di più.",
       "fix_proposto": "🔴 Serve una decisione di Nicola, non un fix tecnico: il tasso di chiusura diventa il KPI della macchina su sé stessa (chiusi ÷ nati nel mese, obiettivo ≥ 1). Sotto 1, il giro NON apre dimensioni nuove di ricerca e spende il suo turno a chiudere. È l'unico modo perché una radiografia migliori la macchina invece di allungarle la lista.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "decisione di governo: si accetta di frenare la ricerca quando la riparazione è indietro?"
+        "comando": "node cervello/test-cervello.mjs --solo tasso-di-chiusura"
       },
-      "nota": "Impatto: è la ragione per cui Nicola trova errori dopo ogni upgrade — non perché il lavoro sia fatto male, ma perché la lista cresce più in fretta di quanto si accorcia."
+      "nota": "Impatto: è la ragione per cui Nicola trova errori dopo ogni upgrade — non perché il lavoro sia fatto male, ma perché la lista cresce più in fretta di quanto si accorcia.",
+      "chiuso_come": "Approvato da Nicola («ok tasso di chiusura») e cablato. Motore nuovo `cervello/tasso-chiusura.mjs`: chiusi ÷ nati nel mese, obiettivo ≥ 1, referto in auto-coscienza/tasso-chiusura.json. Agganciato a `giro.sh` come vincolo hard CHIUSURA_VINCOLO: sotto obiettivo il giro non apre ricerche nuove e spende il turno a chiudere. Numero scritto in OKR-Squadra come KPI dell'AD su sé stessa. Sotto 5 difetti nati nel mese il verdetto è ⚪ e il freno non scatta: un campione magro non è una bocciatura. Freno: cervello/test/tasso-di-chiusura.test.mjs (13 asserzioni); rompendo il fix cade 3 volte. Misura di oggi: 0,16 — il freno è ATTIVO.",
+      "chiuso_il": "2026-08-11 00:20"
     },
     {
       "id": "AR-567",
@@ -11495,8 +11497,8 @@
     }
   ],
   "meta": {
-    "aperti": 169,
+    "aperti": 167,
     "in_corso": 0,
-    "chiusi": 334
+    "chiusi": 336
   }
 }

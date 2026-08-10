@@ -1438,3 +1438,41 @@ accusava **tre note meteo** dell'AD («Martedì 21/7 pioggia»), perché il pian
 pretendendo che la riga parli anche di bandi, con la prova che lo blocca. **Il secondo:** avevo
 inventato una famiglia `verita` che in bacheca non esiste, e me n'ero «accertato» rileggendo una
 lista che conteneva già la mia riga — presa dal test dei guardiani, non da me.
+
+---
+
+## 2026-08-11 00:20 · 🟡 Nicola alza l'asticella e mi dà un voto su me stessa
+
+**Cosa ha deciso.** Due sì in chat, alle 00:0x del 11/8: «ok asticella e ok tasso di chiusura». Sono
+le due domande uscite dalla radiografia della catena di lavoro del 10/8 (PR #697, difetti AR-564 e
+AR-566), accodate come card e approvate nello stesso giro.
+
+**① L'asticella — «fatto» vuol dire che un comportamento è cambiato.** Un difetto grave o bloccante
+nasce con una prova che GIRA, oppure con `tipo:"umano"` dichiarato. Mai più una parola da cercare in
+un file. Il conto che l'ha motivata: 193 difetti su 552 avevano per prova un grep. AR-128 diceva
+«non esiste nessun sensore per le contestazioni carta» e si chiudeva scrivendo «chargeback» in un
+documento — il sensore non c'era comunque. *Una ricerca di parole non può fallire nel modo in cui
+fallisce la realtà: è per questo che gli errori li trovava Nicola e non la macchina.*
+
+**② Il tasso di chiusura — il mio voto su me stessa.** Chiusi ÷ aperti nel mese, obiettivo ≥ 1.
+Sotto 1 il giro non apre ricerche nuove: chiude. Storia vera: luglio 0,54 · agosto 0,16. Nicola
+l'aveva previsto prima di me («so già che dopo questo upgrade ti chiederò di rianalizzare e troverai
+un sacco di errori»): la causa non è la bravura di chi cerca, è il rapporto.
+
+**Perché il debito vecchio non si vieta di colpo.** Sui 193 grep ereditati resta il tetto
+`prova_debole`, che scende e non risale. Vietarli tutti oggi congelerebbe il cantiere, e un cancello
+sempre rosso viene aggirato al secondo giro — è la lezione già scritta in cima a `cancello-lotto.mjs`,
+e vale anche per questa regola. Si chiude la porta d'ingresso, non l'archivio.
+
+**Dove vivono adesso.** Regole in `CLAUDE.md` · cancello `asticella` in `cervello/cancello-lotto.mjs`
+· motore `cervello/tasso-chiusura.mjs` agganciato a `giro.sh` come vincolo hard · KPI dell'AD su sé
+stessa in `OKR-Squadra.md` · lezioni L-2026-0810-04 e L-2026-0810-05, ognuna col suo freno.
+
+**Prova.** 156 file di test / 1616 asserzioni verdi · i due freni nuovi cadono 3 volte ciascuno se
+rimetto il codice vecchio (mutanti `asticella-spenta` e `tasso-chiusura-che-non-puo-bocciare`) ·
+`gate-veri` 56 su 56 · il cancello sul lotto vero dice «8 schede nate, nessuna grave con prova
+debole» · il freno del tasso è ATTIVO oggi: 0,18.
+
+**Cosa NON ho fatto.** La conversione dei 193 grep ereditati: la card dice «primo lotto entro il giro
+seguente», e questo lotto ha cablato la regola, non l'ha ancora applicata all'arretrato. Resta il
+debito dichiarato, sotto un tetto che scende.

@@ -107,6 +107,7 @@ export const DESCRIZIONI = {
   "apprendimento-guardiano": { famiglia: "apprendimento", cosa: "Misura se le lezioni diventano regole o restano un archivio: accumulare non è imparare." },
   "cristallizza-apprendimento": { famiglia: "apprendimento", cosa: "Prende le lezioni mature e le trasforma in principi scritti nei mansionari, dove valgono sempre." },
   "tasso-lezioni": { famiglia: "apprendimento", cosa: "Conta quante lezioni la macchina ha davvero applicato in questo giro, non quante ne ha in magazzino." },
+  "tasso-chiusura": { famiglia: "apprendimento", cosa: "Il voto della macchina su sé stessa: quanti difetti chiude diviso quanti ne apre nel mese. Sotto 1 il giro smette di cercare e spende il turno a chiudere, perché ogni ricerca in più allungherebbe la lista invece di accorciarla." },
   "contesto-lezioni": { famiglia: "apprendimento", cosa: "Rimette in testa alla macchina, all'inizio di ogni sessione, i fatti-chiave e gli errori da non ripetere." },
   calibrazione: { famiglia: "apprendimento", cosa: "Costringe a dire prima cosa ci si aspetta, e poi a confrontarlo col reale: previsioni mai chiuse sono debito." },
   "sonda-volano": { famiglia: "apprendimento", cosa: "Controlla che l'anello impara→correggi giri davvero, invece di sembrare che giri." },
