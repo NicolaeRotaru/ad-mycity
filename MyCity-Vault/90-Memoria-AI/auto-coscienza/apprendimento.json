@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-10 13:15",
+ "aggiornato": "2026-08-10 13:26",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
@@ -7547,14 +7547,15 @@
     "nicola"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.97,
+   "confidenza": 0.82,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:42",
    "stato": "attiva",
-   "gate": "node cervello/ramo-pulito.mjs"
+   "gate": "node cervello/ramo-pulito.mjs",
+   "decaduto_step_il": "2026-08-10 13:25"
   },
   {
    "id": "L-2026-0713-114",
@@ -7570,14 +7571,15 @@
     "nicola"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.97,
+   "confidenza": 0.82,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:42",
    "stato": "attiva",
-   "gate": "node cervello/ramo-pulito.mjs"
+   "gate": "node cervello/ramo-pulito.mjs",
+   "decaduto_step_il": "2026-08-10 13:25"
   },
   {
    "id": "L-2026-0713-113",
@@ -7592,13 +7594,14 @@
     "nicola"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.98,
+   "confidenza": 0.83,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:39",
-   "stato": "attiva"
+   "stato": "attiva",
+   "decaduto_step_il": "2026-08-10 13:25"
   },
   {
    "id": "L-2026-0713-112",
@@ -7638,13 +7641,14 @@
     "nicola"
    ],
    "reparto": "@builder-automazioni",
-   "confidenza": 0.96,
+   "confidenza": 0.8099999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:38",
-   "stato": "attiva"
+   "stato": "attiva",
+   "decaduto_step_il": "2026-08-10 13:25"
   },
   {
    "id": "L-2026-0713-110",
@@ -7660,14 +7664,15 @@
     "nicola"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.97,
+   "confidenza": 0.82,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:39",
    "stato": "attiva",
-   "gate": "node cervello/ramo-pulito.mjs"
+   "gate": "node cervello/ramo-pulito.mjs",
+   "decaduto_step_il": "2026-08-10 13:25"
   },
   {
    "id": "L-2026-0713-109",
@@ -7799,13 +7804,14 @@
     "nicola"
    ],
    "reparto": "@builder-automazioni",
-   "confidenza": 0.97,
+   "confidenza": 0.82,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-13",
    "ultima_conferma": "2026-07-13 12:24",
-   "stato": "attiva"
+   "stato": "attiva",
+   "decaduto_step_il": "2026-08-10 13:25"
   },
   {
    "id": "L-2026-0713-103",
@@ -13086,12 +13092,12 @@
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.18,
-  "tasso_calcolato_il": "2026-08-10 13:15",
+  "tasso_calcolato_il": "2026-08-10 13:25",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-10 13:15",
+  "tick_leggero_il": "2026-08-10 13:25",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-10 12:18",
+  "cristallizzazione_ultima": "2026-08-10 13:25",
   "lezioni_totali": 511,
   "lezioni_per_stato": {
    "attiva": 411,

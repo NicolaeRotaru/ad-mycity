@@ -103,7 +103,11 @@
             "pattern": "systemctl (enable|start)[^\\n]*mycity-salute\\.timer",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-10 13:25",
+          "chiuso_come": "cervello/vps/install-ritmo-timers.sh contiene /systemctl (enable|start)[^\\n]*mycity-salute\\.timer/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Il worker interroga il database tre-quattro volte al secondo anche a coda vuota — e il commento accanto dichiara un intervallo cinque volte più lento di quello vero",
@@ -1348,7 +1352,11 @@
             "pattern": "enable[^\\n]*mycity-salute\\.timer",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-10 13:25",
+          "chiuso_come": "cervello/vps/install-ritmo-timers.sh contiene /enable[^\\n]*mycity-salute\\.timer/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "La strategia anti-conflitto dei 120 quaderni dei senior punta a una cartella che non esiste",
@@ -2538,16 +2546,16 @@
     "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
   },
   "sync_scan": {
-    "aggiornato": "2026-08-10 12:18",
-    "findings_aperti": 112,
+    "aggiornato": "2026-08-10 13:25",
+    "findings_aperti": 110,
     "findings_in_corso": 0,
-    "findings_chiusi": 11,
+    "findings_chiusi": 13,
     "findings_tot": 123,
     "cantiere_aperti": 163,
     "cantiere_in_corso": 0,
     "cantiere_chiusi": 332,
-    "match_aggiornati": 0,
-    "chiusi_verifica": 0,
+    "match_aggiornati": 2,
+    "chiusi_verifica": 2,
     "data_scan": "2026-07-30 05:09"
   },
   "sonda_meta": {

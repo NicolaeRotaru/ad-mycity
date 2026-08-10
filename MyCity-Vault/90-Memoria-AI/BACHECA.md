@@ -808,9 +808,9 @@ Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-incl
 
 ---
 
-## 🛡️ I guardiani della macchina · 2026-08-10 10:22
+## 🛡️ I guardiani della macchina · 2026-08-10 13:25
 
-A ogni giro, prima che l'AI scriva una riga, girano **75 controlli automatici**. **37** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
+A ogni giro, prima che l'AI scriva una riga, girano **78 controlli automatici**. **38** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
 
 Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato), **cieco** (non ha potuto misurare). Un guardiano cieco *non* vale come verde — è uno strumento rotto, e la macchina si ferma lo stesso: meglio memoria vecchia che memoria che mente.
 
@@ -820,7 +820,9 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | --- | --- | --- |
 | `coerenza-fatti` | Un fatto cambia in un posto solo. Se una copia vecchia resta in giro, la trova e ferma la pubblicazione. | ⛔ ferma il giro · 🚧 blocca la pubblicazione |
 | `coerenza-rischi` | Lo stesso per i rischi: il registro è la casa, gli altri file lo citano invece di ricopiarlo. | ℹ️ scrive e basta |
+| `errore-motore` | Porta fuori dal server il motivo per cui il motore si è fermato: senza, da fuori si vede che qualcosa è fallito ma mai il perché, e il guasto resta muto per giorni. | ℹ️ scrive e basta |
 | `esito-cadenza` | La testa unica delle tre cadenze: decide se il motore si può spegnere e se il lavoro è andato bene, con le stesse regole per tutte e tre. | ℹ️ scrive e basta |
+| `freschezza-intelligence` | Misura quanto è vecchia ogni analisi mostrata nella Cabina: un'analisi di tre settimane esposta come se fosse di stamattina fa decidere su una fotografia scaduta. | ⛔ ferma il giro |
 | `freschezza-segnali` | Controlla i controllori: se un guardiano è morto a metà giro, il suo verde è vecchio e non vale. | ⛔ ferma il giro |
 | `guardiani-check` | Tiene questa tabella agganciata al codice: se nasce un controllo e nessuno spiega cosa fa, il giro non si chiude. | ⛔ ferma il giro |
 | `mappa-macchina` | Tiene aggiornata la mappa «Com'è fatta la macchina»: i numeri li riconta a ogni giro, e se nasce un pezzo nuovo (skill, sensore, mano, servizio, area) senza una riga che dica cosa fa, il giro non si chiude. | ⛔ ferma il giro |
@@ -844,6 +846,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | `freschezza-okr` | Gli obiettivi della squadra scadono: se il documento è stantio o i target sono passati, lo dice. | ⛔ ferma il giro |
 | `intelligence-agenda` | Prepara la lista di cosa guardare fuori oggi — concorrenti, eventi, meteo — senza svegliare l'AI. | ℹ️ scrive e basta |
 | `north-star-check` | Tiene l'occhio sul numero che conta — ordini pagati, negozi vivi, margine — e alza la voce se il primo ordine è fermo da giorni. | ⛔ ferma il giro |
+| `piani-data` | Scrive in cima a ogni piano quando è stato aggiornato l'ultima volta, contando solo le modifiche al testo vero: un piano fermo da un mese si vede a colpo d'occhio invece di sembrare vivo perché la macchina gli tocca il fondo a ogni giro. | ⚠️ avvisa, non ferma |
 | `registro-scelte-check` | Ogni prospect nominato in un dossier deve stare anche nel registro, o il Pannello mostra una lista incompleta. | ⛔ ferma il giro |
 | `sblocco-capacita` | Veglia i cancelli di realtà: quando arriva il primo ordine o il quinto negozio, avvisa che una capacità nuova è ora costruibile. | ℹ️ scrive e basta |
 | `supervisione-negozi` | Passa in rassegna ogni negozio e ogni prodotto, trova i dati mancanti e prepara il riempimento come proposta da firmare. | ℹ️ scrive e basta |
