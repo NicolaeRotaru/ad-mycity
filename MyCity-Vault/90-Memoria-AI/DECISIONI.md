@@ -1378,3 +1378,26 @@ ammette una chiave senza il tile, o si toglie il tile lasciando la chiave, diven
 quale metà manca. Mutazione registrata.
 **Prova:** `valida-contratti --json` → violazioni [] · suite 149 file / 1563 asserzioni verde ·
 typecheck del Pannello verde · cancello del lotto 16 guardiani su 16.
+
+## 2026-08-10 12:00 — 🟡 Ogni piano dice da quanto è fermo
+**Cosa:** Nicola: «guarda tutti i piani — non sono stati aggiornati; aggiungi la data con l'ultima
+volta in cui sono stati aggiornati». Aveva ragione, e più di quanto sembrasse: dei dieci piani in
+`06-Piani` **nove non venivano rivisti dal 24-25 giugno**, cioè da 45-47 giorni. Nessuno portava
+addosso una data: per saperlo bisognava aprire git. Peggio, i piani sembravano vivi — il Piano
+Operativo ha 22 commit — perché a ogni giro l'AD rigenera un suo blocco in fondo al file: il file
+veniva toccato di continuo, il piano no. L'unica modifica al testo dopo la nascita è una riga sola
+sul Piano Vendite (commissione 12%→10%, allineamento di un fatto, 20/7), non una revisione.
+**Fatto:** la data è ora scritta in cima a tutti e dieci i piani, misurata da git sul **corpo** del
+piano e non sul file; il Pannello la mostra come etichetta «fermo da N giorni» nella riga del piano,
+contata al momento (nel file resta solo la data, che non scade). Il motore è
+`cervello/piani-data.mjs`: `--scrivi` riscrive le righe, `--controlla` esce 1 se una riga non dice
+più la verità, e in un clone superficiale esce 2 dicendo «cieco» invece di scrivere la data del
+clone — presa proprio così in questa sessione, dove prima del `--unshallow` tutti gli undici file
+dicevano «2026-08-09 18:20». Agganciato al punto 9 del giro, così resta vero da solo.
+**Non fatto (e resta da decidere a Nicola):** i piani **non sono stati riscritti**. Aggiornare il
+merito — bando ER scaduto, faro passato a Pane Quotidiano, date di giugno — è una revisione dei
+testi di Nicola, 🟡 sua: qui c'è la diagnosi, non la riscrittura.
+**Prova:** 11 prove nuove in `cervello/test/piani-data.test.mjs` (la terza ha trovato un difetto
+vero mentre la scrivevo: annotare la data faceva risultare aggiornato il piano che dichiarava fermo)
+· secondo `--scrivi` di fila = 0 file cambiati (idempotente) · `--controlla` esce 0 · typecheck del
+Pannello verde · le dieci righe rilette con la regex della route API danno l'etichetta attesa.

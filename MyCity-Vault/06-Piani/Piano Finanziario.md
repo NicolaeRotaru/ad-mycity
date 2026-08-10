@@ -1,5 +1,10 @@
 # 💶 PIANO FINANZIARIO / UNIT ECONOMICS 2026
 
+<!-- 🗓️ AD-DATA:START · riga di servizio: la riscrive `node cervello/piani-data.mjs --scrivi`, non a mano -->
+> 🗓️ **Ultimo aggiornamento: 2026-06-25 12:34** — il giorno in cui questo piano è stato scritto. Da allora il testo qui sotto non è più stato rivisto.
+<!-- 🗓️ AD-DATA {"corpo":"2026-06-25 12:34","nato":"2026-06-25 12:34","nota":null} -->
+<!-- 🗓️ AD-DATA:END -->
+
 > Base dati: [[Finanza & Unit Economics]] (fonte principale), [[Metriche & KPI]], [[Rischi & Compliance]]. Aggancia [[Piano di Notorieta 2026]] (domanda) e [[Bandi & Finanziamenti]] (capitale).
 > **Stato oggi (25/06/2026):** ~1 negozio, ~0 ordini. Stack **Supabase + Stripe Connect**. Consegna **cargo-bike con batching**. Riconciliazione Stripe↔`orders` non ancora attiva (0 transazioni).
 > **La tesi in 1 frase:** *l'ordine singolo perde soldi; il margine nasce dalla DENSITÀ (4-6 ordini/giro). Il break-even non chiede 1000 clienti, ne bastano ~150-320.*

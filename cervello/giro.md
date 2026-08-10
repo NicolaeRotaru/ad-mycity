@@ -149,6 +149,11 @@ Passi:
      **Piano di Crescita** ← le Opportunità del briefing; **Piano Operativo** ← meteo/picchi consegne;
      **Piano Finanziario** ← i 7 numeri (quando il DB è leggibile); **Piano Istituzionale** ← bandi/Comune/associazioni dal radar;
      **Piano Prodotto** ← opportunità tech/feature. Colore 🟡 (proposte nel vault di Nicola, non decisioni).
+   - **Alla fine del punto 9, SEMPRE:** `node cervello/piani-data.mjs --scrivi`. Riscrive in cima a ogni
+     piano la riga «Ultimo aggiornamento: …», misurata da git sul **corpo** del piano (il blocco qui sopra
+     non conta: si rigenera da solo). È così che il Pannello può dire «fermo da N giorni» senza aprirli.
+     Se la storia di git è troncata esce 2 e non scrive: una data sbagliata sarebbe peggio di nessuna data.
+     Il controllo `node cervello/piani-data.mjs --controlla` esce 1 se una riga non dice più la verità.
 10. INTENZIONI DI NICOLA (alimenta la card "Mosse di Nicola" del Pannello): LEGGI i Piani in
     `MyCity-Vault/06-Piani/` + `90-Memoria-AI/CHECKLIST-NICOLA.md` + `AZIONI-IN-ATTESA.md` ed ESTRAI
     cosa **Nicola** sta per fare (le SUE mosse, non le tue): quali primi negozi contatterà, in che

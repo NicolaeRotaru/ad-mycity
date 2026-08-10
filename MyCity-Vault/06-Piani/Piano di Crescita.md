@@ -1,5 +1,11 @@
 # 🚀 PIANO DI CRESCITA & ESPERIMENTI (Growth & Monetizzazione)
 
+<!-- 🗓️ AD-DATA:START · riga di servizio: la riscrive `node cervello/piani-data.mjs --scrivi`, non a mano -->
+> 🗓️ **Ultimo aggiornamento: 2026-06-25 12:34** — il giorno in cui questo piano è stato scritto. Da allora il testo qui sotto non è più stato rivisto.
+> *In fondo al piano l'AD tiene una sua nota automatica: quella è più recente, è del 2026-07-20 20:22, e non è una revisione del piano.*
+<!-- 🗓️ AD-DATA {"corpo":"2026-06-25 12:34","nato":"2026-06-25 12:34","nota":"2026-07-20 20:22"} -->
+<!-- 🗓️ AD-DATA:END -->
+
 > Base dati: [[Metriche & KPI]] (North Star + i 7 numeri + i primi 4 esperimenti), [[Clienti, Personas & Crescita]] (i 5 loop organici), [[Area - Crescita]], [[Finanza & Unit Economics]].
 > **Stato reale oggi (25/06/2026):** ~1 negozio, ~0 ordini. Non c'è ancora traffico → **non si "ottimizza la conversione" del nulla.** Questo piano è una **macchina che scala con la crescita**: parte da esperimenti a **costo ~0 e ad alto apprendimento**, e accende le leve di monetizzazione solo quando c'è volume per misurarle.
 > **Onestà:** a 0 ordini ogni numero qui è un'**ipotesi da validare**, non un fatto. La disciplina è: 1 metrica di successo dichiarata PRIMA, 1 cosa per volta, baseline → durata → criterio di stop. Si uccidono i perdenti.

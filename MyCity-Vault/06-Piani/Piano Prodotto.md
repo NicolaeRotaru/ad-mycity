@@ -1,5 +1,10 @@
 # 🧩 PIANO PRODOTTO / ROADMAP MyCity
 
+<!-- 🗓️ AD-DATA:START · riga di servizio: la riscrive `node cervello/piani-data.mjs --scrivi`, non a mano -->
+> 🗓️ **Ultimo aggiornamento: 2026-06-25 12:34** — il giorno in cui questo piano è stato scritto. Da allora il testo qui sotto non è più stato rivisto.
+<!-- 🗓️ AD-DATA {"corpo":"2026-06-25 12:34","nato":"2026-06-25 12:34","nota":null} -->
+<!-- 🗓️ AD-DATA:END -->
+
 > Base dati: [[Roadmap & Stato Prodotto]] (audit del codice reale 2026-06-17), [[Decisioni Aperte]], [[Prodotto & UX]].
 > **Stato vero:** il prodotto è costruito al ~90% — **24 feature FATTE, 2 PARZIALI, 0 mancanti**, più ~24 extra non in roadmap. Stack: Supabase + Stripe Connect + Gemini + WhatsApp, PWA.
 > **Realtà del business:** ~1 negozio, ~0 ordini. **Il collo di bottiglia NON è il prodotto: è la domanda/distribuzione.**

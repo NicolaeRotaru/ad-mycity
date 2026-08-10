@@ -1,5 +1,11 @@
 # 📝 PIANO EDITORIALE 2026 (il braccio "contenuti" della notorietà)
 
+<!-- 🗓️ AD-DATA:START · riga di servizio: la riscrive `node cervello/piani-data.mjs --scrivi`, non a mano -->
+> 🗓️ **Ultimo aggiornamento: 2026-06-25 12:14** — il giorno in cui questo piano è stato scritto. Da allora il testo qui sotto non è più stato rivisto.
+> *In fondo al piano l'AD tiene una sua nota automatica: quella è più recente, è del 2026-07-20 11:00, e non è una revisione del piano.*
+<!-- 🗓️ AD-DATA {"corpo":"2026-06-25 12:14","nato":"2026-06-25 12:14","nota":"2026-07-20 11:00"} -->
+<!-- 🗓️ AD-DATA:END -->
+
 > **Obiettivo:** alimentare di contenuti il [[Piano di Notorieta 2026]] — trasformare la causa "salviamo le botteghe del centro" in un flusso costante di post, reel, storie e copy che fanno **conoscere** MyCity (awareness) e **convertire** verso lista d'attesa/ordine.
 > **Canali:** Instagram · Facebook (pagina + **gruppi locali**, il canale a più alta reach gratuita) · TikTok (reel) · Google Business Profile (dei negozi e di MyCity) · Newsletter/WhatsApp Business (lista d'attesa).
 > **Principio guida:** prima la **causa civica** + la **riprova sociale di prossimità** ("vedo il sacchetto del vicino"), **mai spam**. Ogni contenuto racconta una bottega vera (nome, volto, dettaglio autentico) e ha **una CTA chiara** (lista d'attesa/ordine).
