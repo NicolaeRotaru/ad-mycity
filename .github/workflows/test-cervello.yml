@@ -70,22 +70,6 @@ jobs:
       - name: Test del cervello
         run: node cervello/test-cervello.mjs
 
-      # ⛑️ TEMPORANEO (AR-562, 10/8) — da togliere appena la causa è trovata.
-      # La suite riassume («1 asserzioni fallite») e il messaggio vero resta nel processo figlio: un
-      # rosso che non si riproduce in locale diventa così indiagnosticabile. Questo passo rilancia il
-      # test SOLO quando la suite è già rossa, in TAP pieno, per far uscire l'asserzione col suo testo.
-      # `continue-on-error` e non `|| true`: l'esito del comando resta visibile e non viene buttato —
-      # è solo il job, già rosso per conto suo, a non cambiare verdetto per colpa di questo passo.
-      - name: Quale asserzione è caduta (solo se la suite è rossa)
-        if: failure()
-        continue-on-error: true
-        run: |
-          node --test --test-reporter=tap cervello/test/campo-commit-e-turno.test.mjs
-          echo "── ambiente ──"
-          node --version
-          git --version
-          nproc
-
       # Le dipendenze servono al typecheck: senza, `tsc` non parte e il passo uscirebbe cieco.
       # Cieco non è verde — è la regola che questa macchina applica a ogni guardiano (AR-322), e
       # vale anche qui: un passo saltato non va raccontato come un passo superato.
