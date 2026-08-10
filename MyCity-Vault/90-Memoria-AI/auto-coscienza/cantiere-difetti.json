@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-10 16:50",
+  "aggiornato": "2026-08-10 18:20",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -11350,6 +11350,24 @@
       "verifica": {
         "comando": "node cervello/test/risposta-senza-rumore.test.mjs",
         "nota": "5 prove che ESEGUONO la funzione vera con un comando che stampa su tutti e due i flussi: il rumore non entra nella risposta, non si perde (va nel log), resta attaccato quando il lavoro fallisce, e il limite di quota viene riconosciuto anche se arriva solo su stderr. Mutazioni in mutanti.json (lezione L-2026-0810-03): rimettendo il 2>&1 o spegnendo la regola del guardiano, i test diventano rossi."
+      }
+    },
+    {
+      "id": "AR-563",
+      "stato": "aperto",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "prove-e-collaudo",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-10 18:20",
+      "nato_come": "scoperta",
+      "nato_da": "AR-562: la richiesta di unione 695 resta rossa per questo, non per il suo fix",
+      "origine": "campo-commit-e-turno.test.mjs cade su GitHub SOLO dentro la suite intera (1 asserzione su 10), e solo da quando la suite ha 154 file invece di 153. Misurato: da solo su GitHub passa 10/10 (passo diagnostico, run 31405845806); in locale passa sempre — suite intera 5 volte, test singolo 12 volte, clone pulito, clone completo (unshallow), e sotto carico artificiale a 8 processi. Su main (153 file) e verde; sul ramo prima della fusione (153 file, col test nuovo) era verde; insieme (154) e rosso 3 volte su 4.",
+      "titolo": "Una prova che cade solo dentro la suite intera, e solo sul server di GitHub",
+      "causa_radice": "NON TROVATA — e questo e il punto della scheda. Cio che so: (1) non e il contenuto del test, che da solo passa ovunque; (2) non e il clone superficiale, provato completo; (3) non e la velocita, provato sotto carico; (4) non e una corsa con chi scrive dentro cervello/, perche i paralleli finiscono prima che partano i seriali e questo test e seriale; (5) cambia solo con la COMPOSIZIONE della suite. Un test il cui esito dipende da quali ALTRI test gli girano accanto non e isolato, e un test non isolato insegna a rilanciare invece che a leggere.",
+      "fix_proposto": "Due strade, da scegliere. (a) Isolare la prova: il repo usa-e-getta copia cervello/ dal disco, cioe da uno stato che altri test possono aver toccato; copiarlo invece da uno snapshot git (git archive HEAD) lo rende immune a tutto cio che gli gira accanto. (b) Prima ancora, far uscire il messaggio: la suite riassume 'N asserzioni fallite' e butta il testo dell'asserzione, quindi un rosso che non si riproduce in locale oggi non e diagnosticabile — test-cervello.mjs dovrebbe conservare il TAP del file rosso.",
+      "verifica": {
+        "nota": "da scrivere col fix: serve un caso che sporchi cervello/ sul disco e pretenda che la prova resti verde lo stesso"
       }
     }
   ],
