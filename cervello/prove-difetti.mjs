@@ -66,10 +66,329 @@ const primaRigaUtile = (t) =>
     .find((r) => r && !r.startsWith("🔐") && !r.startsWith("(")) || "(nessun dettaglio)";
 
 // ═════════════════════════════════════════════════════════════════════════════
+// IL TRATTO DEL GIRO — si ritaglia un pezzo VERO di giro.sh e lo si esegue con motori finti.
+//
+// Tredici difetti gravi avevano per prova un pattern su `cervello/giro.sh`. Sono tutti della stessa
+// famiglia: «il giro chiama un guardiano e poi butta via quello che ha detto». Un pattern non lo può
+// vedere — la riga cercata è quasi sempre proprio quella che il fix deve AGGIUNGERE, quindi la prova
+// dice «aperto» finché non compare quel testo, e «riparato» appena qualcuno lo scrive, anche in un
+// commento. Qui invece il pezzo di giro si ESEGUE: si sostituisce il guardiano vero con uno finto che
+// dice quello che ci serve, e si guarda se il giro se n'è accorto.
+//
+// ⚠️ DUE TRAPPOLE, pagate col primo lotto (AR-571), e la difesa di ognuna sta qui dentro:
+//   ① UN RITAGLIO CHE NON STA IN PIEDI. Tagliando in mezzo a un `if/else`, bash muore alla prima riga
+//      di chiusura orfana. La prova non arriva mai al punto pericoloso — e siccome non ci arriva, non
+//      trova niente di rotto e sembra verde. Difesa: `bash -n` sul pezzo ritagliato PRIMA di eseguirlo;
+//      se non compila è ⚪, mai ✅.
+//   ② IL MOTORE FINTO CHE NON VIENE MAI CHIAMATO. Se il ritaglio è sbagliato e il guardiano finto non
+//      parte, la variabile resta vuota — che è esattamente il sintomo del difetto. Verde falso al
+//      contrario: si accusa un difetto guardando il proprio errore. Difesa: il motore finto lascia un
+//      SIGILLO quando parte. Niente sigillo = non ho misurato.
+// ═════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Ritaglia da giro.sh il tratto che parte dalla riga `ancora` e arriva fino a dove i blocchi aperti
+ * tornano in pari (così il pezzo sta in piedi da solo), fermandosi al più tardi alla prossima tappa
+ * del giro. Il fix può allungare il tratto — un `if` in più dopo la chiamata — e il ritaglio lo segue.
+ */
+function trattoDelGiro(righe, ancora) {
+  const da = righe.findIndex((r) => r.includes(ancora));
+  if (da < 0) return { errore: `non trovo più «${ancora}» in giro.sh: lo script è cambiato sotto i piedi` };
+  let livello = 0;
+  for (let i = da; i < righe.length; i++) {
+    const t = righe[i].trim();
+    if (/^(if|for|while)\b/.test(t)) livello++;
+    else if (t === "fi" || t === "done") livello--;
+    if (livello < 0) return { errore: "il tratto esce dal suo blocco: non ritaglio pezzi che non compilano" };
+    // Fine naturale: blocchi in pari e la riga dopo apre una tappa nuova del giro (o chiude il padre).
+    const dopo = (righe[i + 1] || "").trim();
+    if (livello === 0 && i > da && (/^echo "\[\$\(ts\)\]/.test(dopo) || dopo === "fi" || dopo === "")) {
+      return { blocco: righe.slice(da, i + 1).join("\n") };
+    }
+  }
+  return { errore: "il tratto non si chiude prima della fine di giro.sh" };
+}
+
+/**
+ * Esegue un tratto di giro.sh in una sandbox, con i guardiani sostituiti da script finti.
+ *
+ * `motori` = { "letargo.mjs": { stampa: "…", rc: 1 } } — ognuno lascia il suo sigillo quando parte.
+ * Ritorna le variabili chieste in `leggi`, più `partiti` (quali motori finti sono stati davvero
+ * eseguiti) — perché una variabile vuota vale solo se il guardiano ha parlato.
+ */
+function eseguiTrattoDelGiro({ nome, ancora, motori, leggi, preludio = "" }) {
+  const f = join(RADICE, "cervello/giro.sh");
+  if (!existsSync(f)) return { cieco: "cervello/giro.sh non c'è: non ho potuto eseguire il tratto" };
+  const { blocco, errore } = trattoDelGiro(readFileSync(f, "utf8").split("\n"), ancora);
+  if (errore) return { cieco: errore };
+
+  const dove = sandbox(nome);
+  const finti = join(dove, "motori");
+  mkdirSync(finti, { recursive: true });
+  for (const [file, { stampa, rc }] of Object.entries(motori)) {
+    // Il motore finto è uno script node vero: il tratto lo chiama con `node "$SCRIPT_DIR/<file>"`,
+    // esattamente come chiamerebbe il guardiano. Il sigillo dice «sono stato eseguito»: senza, una
+    // variabile vuota non prova il difetto — prova solo che il ritaglio non ha funzionato.
+    //
+    // ⚠️ In ESM (`.mjs`) `require` NON esiste: la prima versione di questo finto lo usava, moriva
+    // all'istante e usciva con un codice diverso da zero — che è ESATTAMENTE quello che la prova si
+    // aspetta da un guardiano che dice no. Il tratto vedeva rc≠0, la prova vedeva la variabile vuota,
+    // e avrebbe gridato «difetto!» guardando il proprio errore. L'ha spenta il sigillo, che non è mai
+    // arrivato: per questo il sigillo si scrive con l'import, non col require.
+    writeFileSync(
+      join(finti, file),
+      `import { writeFileSync } from "node:fs";\n` +
+        `writeFileSync(${JSON.stringify(join(dove, `partito-${file}`))}, "1");\n` +
+        `console.log(${JSON.stringify(stampa)});\nprocess.exit(${rc});\n`,
+    );
+  }
+
+  // Ogni variabile esce su un FILE suo: i vincoli sono frasi lunghe e vanno a capo, quindi qualunque
+  // separatore dentro un file solo prima o poi finisce dentro un valore e taglia la lettura a metà.
+  const fileVar = (v) => join(dove, `var-${v}`);
+  const script = join(dove, "prova.sh");
+  writeFileSync(
+    script,
+    `#!/bin/bash\nset -u\n` +
+      `ts() { echo 00:00; }\n` +
+      `esito_righe() { cat >/dev/null; }\n` +               // il filtro decorativo del giro: qui non serve
+      `guardiano() { node "$SCRIPT_DIR/$1"; GUARDIANO_RC=$?; return $GUARDIANO_RC; }\n` +
+      `vincolo_da_rc() { [ "$2" -eq 0 ] && echo "" || echo "$3"; }\n` +
+      `SCRIPT_DIR=${JSON.stringify(finti)}\nGUARDIANO_RC=0\n` +
+      leggi.map((v) => `${v}=""`).join("\n") + "\n" +
+      preludio + "\n" +
+      `${blocco}\n` +
+      leggi.map((v) => `printf '%s' "\${${v}:-}" > ${JSON.stringify(fileVar(v))}`).join("\n") + "\n",
+  );
+  chmodSync(script, 0o755);
+
+  // ① Il pezzo ritagliato sta in piedi? Se non compila, non ha provato niente.
+  const sintassi = spawnSync("bash", ["-n", script], { encoding: "utf8", timeout: 30_000 });
+  if (sintassi.status !== 0) {
+    return { cieco: `il tratto ritagliato non compila, quindi non l'ho eseguito: ${(sintassi.stderr || "").trim().split("\n")[0]}` };
+  }
+
+  const r = spawnSync("bash", [script], { encoding: "utf8", timeout: 60_000 });
+  if (r.error) return { cieco: `non ho potuto eseguire il tratto: ${r.error.message}` };
+
+  // ② I motori finti sono partiti? Senza, una variabile vuota è il MIO errore, non il difetto.
+  const partiti = Object.keys(motori).filter((f2) => existsSync(join(dove, `partito-${f2}`)));
+  if (partiti.length === 0) {
+    const perche = (r.stderr || r.stdout || "").trim().split("\n").filter(Boolean).slice(-1)[0] || `uscita ${r.status}`;
+    return { cieco: `il tratto non ha mai chiamato il guardiano, quindi non ho misurato niente (${perche.slice(0, 110)}) — cieco, non rosso` };
+  }
+
+  const vars = Object.fromEntries(
+    leggi.map((v) => [v, existsSync(fileVar(v)) ? readFileSync(fileVar(v), "utf8").trim() : ""]),
+  );
+  return { vars, partiti, log: `${r.stdout || ""}${r.stderr || ""}` };
+}
+
+/**
+ * La famiglia «il giro chiama un guardiano e butta via il verdetto»: il fix è sempre lo stesso —
+ * prendere il codice d'uscita FUORI dalla pipe e trasformarlo in un vincolo che porta le parole del
+ * guardiano. Qui il metro è uno solo, così le quattro prove non divergono riga per riga.
+ */
+function vincoloRaccolto({ nome, ancora, motore, stampa, variabile, spia, quandoVuoto, quandoFisso }) {
+  const r = eseguiTrattoDelGiro({ nome, ancora, motori: { [motore]: { stampa, rc: 1 } }, leggi: [variabile] });
+  if (r.cieco) return { cieco: r.cieco };
+  const valore = r.vars[variabile];
+  if (!valore) return { ...APERTO, detto: quandoVuoto };
+  if (!valore.includes(spia)) return { ...APERTO, detto: quandoFisso(valore) };
+  return { ...RIPARATO, detto: `${variabile} porta al motore quello che ha detto il guardiano («${spia}»), non una frase scritta a mano nel giro` };
+}
+
+// ═════════════════════════════════════════════════════════════════════════════
 // LE PROVE
 // ═════════════════════════════════════════════════════════════════════════════
 
 const PROVE = {
+  // ───────────────────────────────────────────────────────────────────────────
+  // I QUATTRO VERDETTI BUTTATI VIA — stessa malattia, quattro punti del giro.
+  // Il giro chiama un guardiano, il guardiano dice qualcosa, e quel qualcosa non arriva al motore.
+  // Le prove vecchie cercavano il nome della variabile che il fix deve CREARE: `LETARGO_VINCOLO`
+  // scritto in un commento le avrebbe rese verdi. Queste eseguono il tratto e guardano se il vincolo
+  // esiste davvero e se porta le parole del guardiano.
+  // ───────────────────────────────────────────────────────────────────────────
+  "ar-208": {
+    titolo: "Lo stop al budget è un freno, non un foglietto: il suo verdetto arriva al motore",
+    // Prova vecchia: `giro.sh ~ /BUDGET_VINCOLO|…/`. Cioè: «il difetto è riparato quando in giro.sh
+    // compare la parola BUDGET_VINCOLO» — la parola che il fix aggiunge. Qui il tratto si esegue con
+    // una sentinella finta che dichiara lo sforo: oggi il giro la manda in una pipe con `|| true`,
+    // quindi il verdetto muore lì e nessun vincolo raggiunge il motore.
+    prova() {
+      return vincoloRaccolto({
+        nome: "ar208",
+        ancora: "Sentinella budget per reparto",
+        motore: "sentinella-budget.mjs",
+        stampa: "⛔ STOP BUDGET: marketing ha sforato il tetto del mese",
+        variabile: "BUDGET_VINCOLO",
+        spia: "STOP BUDGET",
+        quandoVuoto:
+          "la sentinella ha dichiarato lo sforo (rc=1) e il giro non ne ha ricavato nessun vincolo: il verdetto finisce in una pipe con `|| true` e muore lì, il motore non sa che un reparto è in stop",
+        quandoFisso: (v) =>
+          `il vincolo del budget esiste ma non porta le parole della sentinella: al motore arriva «${v.slice(0, 70)}…», non il motivo vero dello stop`,
+      });
+    },
+  },
+
+  // ───────────────────────────────────────────────────────────────────────────
+  "ar-392": {
+    titolo: "Quando finisce la benzina, chi ordina di spegnere il superfluo viene ascoltato",
+    // Prova vecchia: cercare `LETARGO_VINCOLO` in giro.sh — la variabile che non esiste ancora.
+    // Qui il letargo finto dichiara il livello RISPARMIO: il fix è che quel livello diventi un
+    // vincolo. Oggi la riga è `node letargo.mjs | esito_righe 3 || true`: il codice d'uscita si
+    // perde nella pipe (in bash il rc di una pipe è quello dell'ULTIMO comando, cioè di `esito_righe`).
+    prova() {
+      return vincoloRaccolto({
+        nome: "ar392",
+        ancora: "Letargo (livello di degradazione)",
+        motore: "letargo.mjs",
+        stampa: "🛌 LIVELLO RISPARMIO: spegnere i giri notturni e i workflow pesanti",
+        variabile: "LETARGO_VINCOLO",
+        spia: "LIVELLO RISPARMIO",
+        quandoVuoto:
+          "il letargo ha dichiarato il livello RISPARMIO e il giro non ne ha ricavato nessun vincolo: il verdetto muore nella pipe, e la macchina continua a spendere come se avesse la benzina piena",
+        quandoFisso: (v) =>
+          `il vincolo del letargo esiste ma non porta il livello dichiarato: al motore arriva «${v.slice(0, 70)}…», quindi non sa cosa spegnere`,
+      });
+    },
+  },
+
+  // ───────────────────────────────────────────────────────────────────────────
+  "ar-323": {
+    titolo: "Il vincolo sugli esperimenti dice la causa vera, invece di ordinarne sempre uno nuovo",
+    // Prova vecchia: `ESP_VINCOLO="⛔ NESSUN ESPERIMENTO APERTO` con `presente:false` — cioè «il fix è
+    // fatto quando quella stringa sparisce». Cancellarla bastava, anche lasciando il giro muto.
+    // Qui il guardiano finto dichiara la causa DIVERSA (esperimenti scaduti da misurare) e si
+    // pretende che il vincolo la riporti: il testo lo deve produrre il guardiano, non il giro.
+    prova() {
+      return vincoloRaccolto({
+        nome: "ar323",
+        ancora: "Sweep esperimenti in scadenza",
+        motore: "esperimenti-check.mjs",
+        stampa: "⛔ 2 ESPERIMENTI SCADUTI DA MISURARE: chiusi senza esito, prima misura quelli",
+        variabile: "ESP_VINCOLO",
+        spia: "SCADUTI DA MISURARE",
+        quandoVuoto:
+          "il guardiano degli esperimenti ha detto no (rc=1) e nessun vincolo è arrivato al motore",
+        quandoFisso: (v) =>
+          `il guardiano ha detto «2 esperimenti scaduti da misurare», al motore arriva la frase fissa scritta a mano nel giro: «${v.slice(0, 80)}…». Il giro ordina di APRIRNE uno nuovo mentre il problema è che nessuno ha misurato quelli vecchi`,
+      });
+    },
+  },
+
+  // ───────────────────────────────────────────────────────────────────────────
+  "ar-158": {
+    titolo: "Il vincolo North Star riporta quello che ha misurato il guardiano, non un ordine fisso",
+    // Prova vecchia: `NORTH STAR IN STALLO` con `presente:false` — di nuovo «cancella la stringa».
+    // Il difetto vero: il giro ordina «SOLO azioni che avvicinano il 1° ordine» anche quando Nicola
+    // ha dichiarato una fase tecnica. Il testo del vincolo è scritto a mano nel giro, quindi non può
+    // cambiare quando cambia il fatto. Qui il guardiano finto dichiara la fase tecnica e si pretende
+    // che il vincolo la riporti.
+    prova() {
+      return vincoloRaccolto({
+        nome: "ar158",
+        ancora: "North Star (AR-113",
+        motore: "north-star-check.mjs",
+        stampa: "⛔ FASE TECNICA DICHIARATA fino al 2026-08-20: ammesso lavoro macchina, ma almeno 1 azione business per giro",
+        variabile: "NORTH_STAR_VINCOLO",
+        spia: "FASE TECNICA DICHIARATA",
+        quandoVuoto: "il guardiano North Star ha detto no (rc=1) e nessun vincolo è arrivato al motore",
+        quandoFisso: (v) =>
+          `il guardiano ha dichiarato la fase tecnica, al motore arriva la frase fissa del giro: «${v.slice(0, 80)}…». Il giro ordina il contrario di quello che ha deciso Nicola, e nessuno riconcilia i due comandi`,
+      });
+    },
+  },
+
+  // ───────────────────────────────────────────────────────────────────────────
+  "ar-395": {
+    titolo: "Il cancello di pubblicazione guarda lo stage mentre c'è ancora qualcosa da guardare",
+    // Prova vecchia: `gate_pubblicazione [\s\S]{0,600}?commit -q -m "giro AD` con `presente:true` —
+    // cercava l'ORDINE SBAGLIATO nel testo. Fragile in due modi: si sposta una riga di commento e la
+    // distanza di 600 caratteri non torna più (verde senza fix), e non dice niente su cosa il cancello
+    // veda davvero.
+    //
+    // Qui si esegue il tratto vero della pubblicazione su un repo finto, e — è il punto — si
+    // FOTOGRAFA lo stage NELL'ISTANTE in cui il cancello viene chiamato. È la lezione del secondo
+    // verde falso del primo lotto: un sigillo che prova solo l'ARRIVO al punto pericoloso non prova
+    // la salvezza. Quello che conta è lo stato in quell'istante.
+    prova() {
+      const f = join(RADICE, "cervello/giro.sh");
+      if (!existsSync(f)) return { cieco: "cervello/giro.sh non c'è" };
+      const righe = readFileSync(f, "utf8").split("\n");
+      const iApre = righe.findIndex((r) => r.includes("git diff --cached --quiet"));
+      if (iApre < 0) return { cieco: "non trovo più il blocco di pubblicazione in giro.sh: lo script è cambiato sotto i piedi" };
+      const iGate = righe.findIndex((r, i) => i > iApre && /gate_pubblicazione "\$SCRIPT_DIR"/.test(r));
+      if (iGate < 0) return { cieco: "non trovo la chiamata al cancello di pubblicazione dopo il blocco del commit" };
+
+      const dove = sandbox("ar395");
+      const repo = join(dove, "repo");
+      mkdirSync(repo, { recursive: true });
+      const git = (...a) => spawnSync("git", a, { cwd: repo, encoding: "utf8" });
+      git("init", "-q", "-b", "main");
+      git("config", "user.email", "prova@mycity.local");
+      git("config", "user.name", "prova");
+      writeFileSync(join(repo, "base.md"), "riga di partenza\n");
+      git("add", "-A");
+      git("commit", "-qm", "base");
+      // La memoria che il giro pubblicherebbe: una modifica messa NELLO STAGE, come fa il giro vero.
+      mkdirSync(join(repo, "MyCity-Vault/90-Memoria-AI"), { recursive: true });
+      writeFileSync(join(repo, "MyCity-Vault/90-Memoria-AI/STATO.md"), "memoria aggiornata dal giro\n");
+      git("add", "-A");
+
+      // Il cancello finto: non giudica, FOTOGRAFA. Quello che scrive è lo stage nell'istante in cui il
+      // giro gli chiede il permesso — cioè l'unica cosa che dice se aveva qualcosa da controllare.
+      const foto = join(dove, "stage-al-cancello.txt");
+      const gate = join(dove, "gate-pubblicazione.sh");
+      writeFileSync(
+        gate,
+        `gate_pubblicazione() {\n  git diff --cached --name-only > ${JSON.stringify(foto)} 2>&1\n  return 0\n}\n`,
+      );
+
+      // Il tratto si ferma alla chiamata del cancello — oltre c'è il push vero, che qui non deve
+      // partire — quindi resta con dei blocchi aperti: si contano e si chiudono, invece di indovinare
+      // quanti `fi` servono. Se il conto è sbagliato `bash -n` lo dice e la prova esce ⚪.
+      const tratto = righe.slice(iApre, iGate + 1);
+      let aperti = 0;
+      for (const r of tratto) {
+        const t = r.trim();
+        if (/^(if|for|while)\b/.test(t)) aperti++;
+        else if (t === "fi" || t === "done") aperti--;
+      }
+      const script = join(dove, "prova.sh");
+      writeFileSync(
+        script,
+        `#!/bin/bash\nset -u\ncd ${JSON.stringify(repo)}\n` +
+          `ts() { echo 00:00; }\n` +
+          `SCRIPT_DIR=${JSON.stringify(dove)}\nREPO=${JSON.stringify(repo)}\nbranch=main\n` +
+          `GIT_ID=(-c user.name=prova -c user.email=prova@mycity.local)\n` +
+          `GIRO_HAD_CHANGES=0\nGIRO_PUSH_BLOCCATO=0\nGIRO_PUSH_OK=0\n` +
+          `GIT_PUSH_TOKEN=finto\nGIT_REPO=finto/finto\n` +
+          `${tratto.join("\n")}\n  :\n${"fi\n".repeat(Math.max(aperti, 0))}`,
+      );
+      chmodSync(script, 0o755);
+      const sintassi = spawnSync("bash", ["-n", script], { encoding: "utf8", timeout: 30_000 });
+      if (sintassi.status !== 0) {
+        return { cieco: `il tratto ritagliato non compila, quindi non l'ho eseguito: ${(sintassi.stderr || "").trim().split("\n")[0]}` };
+      }
+      const r = spawnSync("bash", [script], { encoding: "utf8", timeout: 60_000 });
+      if (r.error) return { cieco: `non ho potuto eseguire il tratto della pubblicazione: ${r.error.message}` };
+      if (!existsSync(foto)) {
+        const perche = (r.stderr || r.stdout || "").trim().split("\n").filter(Boolean).slice(-1)[0] || `uscita ${r.status}`;
+        return { cieco: `il tratto non è mai arrivato a chiamare il cancello, quindi non ho misurato niente (${perche.slice(0, 110)}) — cieco, non rosso` };
+      }
+      const staged = readFileSync(foto, "utf8").split("\n").filter(Boolean);
+      if (staged.length === 0) {
+        return {
+          ...APERTO,
+          detto: "quando il cancello viene chiamato lo stage è VUOTO: il commit l'ha già svuotato due righe prima, quindi il controllo del perimetro non guarda niente e dice sempre di sì",
+        };
+      }
+      return { ...RIPARATO, detto: `il cancello vede ancora ${staged.length} file nello stage quando decide (${staged[0]}): ha davvero qualcosa su cui dire di no` };
+    },
+  },
+
   // ───────────────────────────────────────────────────────────────────────────
   "ar-206": {
     titolo: "Il permesso di eseguire è un elenco di programmi, non un jolly su una cartella scrivibile",

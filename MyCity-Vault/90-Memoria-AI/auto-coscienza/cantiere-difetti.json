@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-11 01:25",
+  "aggiornato": "2026-08-11 02:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -1383,12 +1383,12 @@
       "nato": "2026-07-16 23:58",
       "chiuso_il": "",
       "verifica": {
-        "file": "cervello/mappa-copertura.mjs",
-        "pattern": "sentinella|sensore|copertura",
-        "presente": true
+        "tipo": "umano",
+        "nota": "Nessun guardiano può chiudere questo difetto finché il pezzo non esiste: la vecchia prova puntava a `cervello/mappa-copertura.mjs`, che non è mai stato scritto. Chi giudica deve vedere DUE cose insieme: (a) il file esiste ed è un inventario eseguibile dei domini-chiave (ordini, payout, dispute, recensioni, negozi, carrelli, cassa, costo-AI, scadenze, rider-safety, breach, uptime); (b) per ognuno dice se ha sensore, sentinella e KPI con owner, e le celle vuote sono un numero che scende. Il file da solo non basta: un inventario con dentro tre domini su dodici è il difetto con un nome nuovo."
       },
       "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "prova_convertita_il": "2026-08-11 02:10"
     },
     {
       "id": "AR-133",
@@ -1897,14 +1897,14 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "NORTH STAR IN STALLO",
-        "presente": false
+        "comando": "node cervello/prove-difetti.mjs --ar-158",
+        "nota": "Esegue il tratto vero di giro.sh (North Star) con un guardiano finto che dichiara la fase tecnica e pretende che NORTH_STAR_VINCOLO la riporti. Oggi rossa: al motore arriva l'ordine fisso «SOLO azioni che avvicinano il 1° ordine», cioè il contrario di quello che ha deciso Nicola. Ribaltamento provato in cervello/test/prove-a-due-versi.test.mjs."
       },
       "nota": "Dove: cervello/giro.sh:384-390 (vincolo hard NORTH_STAR_VINCOLO) · cervello/allocazione-check.mjs:314-325 (cancello macchina-vs-business spento) · MyCity-Vault/90-Memoria-AI/DECISIONI.md:991 (decisione opposta di Nicola) · Impatto: Due danni distinti. Il primo: un vincolo HARD che viene disatteso a ogni giro da un mese insegna alla macchina che i vincoli hard si possono disattendere — e sono lo stesso meccanismo che protegge cose serie (sensori ciechi, segreti esposti, coerenza dei fatti). Il secondo: la macchina non sa di essere fuori rotta, perché il numero che lo dimostra e la regola che lo vieta non si incontrano mai. Nessun briefing di luglio riporta la quota 76,7%. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "prova_convertita_il": "2026-08-11 02:10"
     },
     {
       "id": "AR-159",
@@ -2553,14 +2553,14 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/sonda-acquisto.mjs",
-        "pattern": "checkout|carrello",
-        "presente": true
+        "tipo": "umano",
+        "nota": "Nessun guardiano può chiudere questo difetto finché il pezzo non esiste: la vecchia prova puntava a `cervello/sonda-acquisto.mjs`, mai scritto. Chi giudica deve vedere una sonda che percorre DAVVERO home → categoria → scheda → carrello → apertura del checkout su un ambiente vero, e si ferma prima di qualunque pagamento. La prova non può essere automatica qui perché richiede un sito raggiungibile e un negozio con catalogo: da una sessione senza rete direbbe sempre ⚪."
       },
       "nota": "Dove: cervello/verifica-sensori.mjs:236-249 · Impatto: La macchina ha un solo obiettivo dichiarato — il primo ordine pagato — e non ha modo di sapere se il gesto che lo produce funziona. Con 0 clienti nessuno si lamenterebbe: un checkout rotto resterebbe invisibile per settimane mentre l'AD continua a produrre post, QR e proposte per portare gente su un imbuto chiuso. La home a 200 dà una falsa sicurezza: è il caso peggiore, un sensore verde che copre un guasto.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "prova_convertita_il": "2026-08-11 02:10"
     },
     {
       "id": "AR-190",
@@ -2965,14 +2965,14 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "BUDGET_VINCOLO|sentinella-budget[\\s\\S]{0,200}rc=|STOP budget[\\s\\S]{0,120}vincolo",
-        "presente": true
+        "comando": "node cervello/prove-difetti.mjs --ar-208",
+        "nota": "Esegue il tratto vero di giro.sh («Sentinella budget per reparto») con una sentinella finta che dichiara lo sforo e esce 1, e guarda se ne esce un BUDGET_VINCOLO. Oggi rossa: il verdetto muore in `| esito_righe 4 || true`. Ribaltamento provato in cervello/test/prove-a-due-versi.test.mjs."
       },
       "nota": "Dove: cervello/sentinella-budget.mjs:74-87 (accoda una proposta) e :116 (esce con codice 1) + cervello/giro.sh:341 (l'uscita finisce in una pipe con «|| true») + MyCity-Vault/05-Soldi-Rischi/budget-reparti.json (speso ovunque a zero, nessuna fonte che lo riempia) · Impatto: Il guardrail economico esiste come rapporto e non come freno: un reparto può continuare a proporre e far approvare spese oltre il tetto senza che nulla si opponga, e la card di stop finisce in fondo alla stessa coda che genera le spese. Con più negozi e più canali a pagamento questo è il controllo che serve per primo — ed è quello che oggi non regge.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "prova_convertita_il": "2026-08-11 02:10"
     },
     {
       "id": "AR-209",
@@ -3135,14 +3135,14 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "MyCity-Vault/90-Memoria-AI/memoria-squadra/account-negozi.md",
-        "pattern": "\\S",
-        "presente": false
+        "tipo": "umano",
+        "nota": "Metà riparata, e la vecchia prova adesso MENTE — è la ragione per cui è finita qui. La prova era «il file MyCity-Vault/90-Memoria-AI/memoria-squadra/account-negozi.md NON deve contenere niente»: quella cartella doppia è stata cancellata, quindi oggi la prova sarebbe VERDE. Ma il difetto è mezzo vivo: la ricerca del Pannello (pannello/src/app/api/cerca/route.ts) cammina solo dentro le cartelle del vault, e i quaderni veri stanno in `memoria-squadra/` alla RADICE del repo — 124 file che nessuna ricerca raggiunge. Prima si trovava la copia vecchia; adesso non si trova più niente. Chi giudica deve cercare dal Pannello una frase che esiste solo in un quaderno vivo e vederla comparire."
       },
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/memoria-squadra/ (4 file) vs memoria-squadra/ (radice repo) · pannello/src/app/api/cerca/route.ts:11-22 · Impatto: Due verità per lo stesso quaderno, e la ricerca serve sistematicamente quella sbagliata. Il rischio concreto è che un senior o l'AD, cercando il precedente su un reparto, ricostruisca il contesto dalla versione amputata — nel caso di account-negozi si tratta di nove decimi della storia mancante, inclusi gli esiti che spiegano perché il negozio faro non è churn. Il lavoro di memoria si paga due volte: una per scriverlo, una per non trovarlo.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "prova_convertita_il": "2026-08-11 02:10"
     },
     {
       "id": "AR-217",
@@ -5416,14 +5416,14 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "ESP_VINCOLO=\"⛔ NESSUN ESPERIMENTO APERTO",
-        "presente": false
+        "comando": "node cervello/prove-difetti.mjs --ar-323",
+        "nota": "Esegue il tratto vero di giro.sh («Sweep esperimenti») con un guardiano finto che dichiara la causa DIVERSA («2 esperimenti scaduti da misurare») e pretende che ESP_VINCOLO la riporti. Oggi rossa: al motore arriva la frase fissa scritta a mano nel giro. Ribaltamento provato in cervello/test/prove-a-due-versi.test.mjs."
       },
       "nota": "Dove: cervello/esperimenti-check.mjs:131 contro cervello/giro.sh:352-353 · Impatto: Il volano che dovrebbe misurare atteso contro reale accumula esperimenti aperti e non ne chiude nessuno, restando formalmente in regola. La calibrazione, che è il modo in cui l'azienda impara, resta ferma proprio mentre i controlli dicono che gira.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "prova_convertita_il": "2026-08-11 02:10"
     },
     {
       "id": "AR-324",
@@ -6028,11 +6028,11 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/stampo-check.mjs:45,53-59 (il parco = i file .claude/agents/*.md; non esiste `.claude/agents/ad.md`) · MyCity-Vault/07-Agenti/kit/ (121 file, nessun `ad-KIT.md`) · cervello/agent-registry-check.mjs:202 (`derogheKpi = new Set([\"ad\"])`) · CLAUDE.md (nessuna occorrenza di «SCHEDA MESTIERE» ne di «RUBRICA-LIVELLI») · MyCity-Vault/07-Agenti/STAMPO-SENIOR-PRO.md:115-118 (la matrice dei vettori elenca **AD** come archetipo a pieno titolo). Sintomo: Verificato: lo stampo dichiara l'AD un archetipo da coprire (STAMPO-SENIOR-PRO.md:115-118, colonna «AD» nella tabella dei vettori) e CLAUDE.md gli carica i sette vettori-azienda piu difficili, ma sul disco non esiste ne un mansionario in .claude/agents/ ne un ad-KIT.md negli strati 3-4-5, CLAUDE.md non contiene ne la SCHEDA MESTIERE ne l'aggancio a RUBRICA-LIVELLI, e l'AD e l'unica deroga dichiarata sul KPI. Precisazione onesta rispetto alla segnalazione: una scorecard l'AD la registra (le righe in memoria-squadra/ad.md e AD.md la contengono), ma nessun guardiano la misura ne la confronta nel tempo. Tutto lo sforzo di installazione dei vettori e stato speso sui 120 delegati e zero sul soggetto che esegue il 100% dei giri.",
       "verifica": {
-        "file": "MyCity-Vault/07-Agenti/kit/ad-KIT.md",
-        "pattern": "STRATO 3",
-        "presente": true
+        "tipo": "umano",
+        "nota": "Nessun guardiano può chiudere questo difetto finché il pezzo non esiste: la vecchia prova puntava a `MyCity-Vault/07-Agenti/kit/ad-KIT.md`, mai scritto. Chi giudica deve vedere il kit con gli strati 3-4-5 pieni di decisioni VERE prese in questi mesi (non modelli astratti), e l'AD dentro il parco di stampo-check come i 120. Un file col titolo giusto e dentro un indice non è un kit: è il difetto con una copertina."
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "prova_convertita_il": "2026-08-11 02:10"
     },
     {
       "id": "AR-351",
@@ -6847,11 +6847,11 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/giro.sh:666 (`node \"$SCRIPT_DIR/letargo.mjs\" 2>&1 | esito_righe 3 || true`). Sintomo: VERIFICATO. letargo.mjs calcola il livello NORMALE / RISPARMIO / SOPRAVVIVENZA da quota AI, runway, sensori ciechi e salute, ed esce 1 quando la macchina va sorvegliata (`process.exit(out.ok ? 0 : 1)`, ultime righe). Nel giro è invocato con l'esito buttato via due volte: dentro una pipe (dove conta il codice di `esito_righe`) e poi con `|| true`. Il grep su tutto il repo mostra che il suo livello non lo legge nessun altro punto: solo giro.sh:666, la riga di catalogo in capacita.mjs:23, la descrizione in censimento-guardiani.mjs:131 e un test. È la stessa forma di difetto già curata per i guardiani accanto — sonda-volano, tasso-lezioni, stampo-check hanno tutti ricevuto un `*_VINCOLO` (AR-165/AR-178/AR-291); il letargo no.",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "LETARGO_VINCOLO",
-        "presente": true
+        "comando": "node cervello/prove-difetti.mjs --ar-392",
+        "nota": "Esegue il tratto vero di giro.sh (#37 Letargo) con un letargo finto che dichiara LIVELLO RISPARMIO e esce 1, e guarda se ne esce un LETARGO_VINCOLO. Oggi rossa: il rc si perde nella pipe. Ribaltamento provato in cervello/test/prove-a-due-versi.test.mjs."
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "prova_convertita_il": "2026-08-11 02:10"
     },
     {
       "id": "AR-393",
@@ -6909,11 +6909,11 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/giro.sh:1195 (commit) prima di cervello/giro.sh:1202 (gate_pubblicazione); cervello/gate-pubblicazione.sh:91 (`git diff --cached --name-only`). Sintomo: VERIFICATO. Il controllo del perimetro nel cancello condiviso legge lo STAGE (gate-pubblicazione.sh:91) e pretende che contenga solo cartelle di memoria. In giro.sh il commit avviene alla riga 1195 e il cancello viene invocato alla 1202: a quel punto lo stage è vuoto, `perimetro_ok` riceve una stringa vuota e passa sempre. Gli altri tre pubblicatori lo chiamano nell'ordine giusto (worker.sh:251 prima del commit alla 256, ritmo.sh:257 prima della 261, monitora.sh prima del suo push): giro.sh è l'unico invertito. Due conseguenze: (a) il perimetro nel pubblicatore principale è vacuo — oggi resta comunque coperto dalla guardia più vecchia delle righe 1184-1190, che toglie il codice dallo stage prima del commit, quindi chi domani togliesse quella fidandosi del cancello comune perderebbe il perimetro senza che niente diventi rosso; (b) quando il cancello dice no, in giro.sh il commit è già stato fatto e resta locale (1203-1205) — e il pubblicatore successivo (ritmo/worker) pusha `HEAD:main` portandosi dietro anche quel commit rifiutato, senza che il suo contenuto sia mai ripassato da un cancello.",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "gate_pubblicazione [\\s\\S]{0,600}?commit -q -m \"giro AD",
-        "presente": true
+        "comando": "node cervello/prove-difetti.mjs --ar-395",
+        "nota": "Esegue il tratto vero della pubblicazione su un repo finto e FOTOGRAFA lo stage nell'istante in cui il cancello viene chiamato. Oggi rossa: lo stage è vuoto perché il commit l'ha già preso, quindi il controllo del perimetro non guarda niente. Ribaltamento provato in cervello/test/prove-a-due-versi.test.mjs."
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "prova_convertita_il": "2026-08-11 02:10"
     },
     {
       "id": "AR-396",
@@ -7146,11 +7146,11 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: pannello/src/lib/esito-lettura.ts (1 importatore: lib/obsidian.ts:4, per la sola `comeServire`) · lib/esito-scrittura.ts (`scritturaConfermata` in 2 componenti; `STATUS_SCRITTURA_FALLITA` in 3 rotte su 29 con POST) · lib/stato-vivo.ts (`aggiornamentoPertinente` in 1 dei 2 ascoltatori del bus) · lib/panel-sync.ts:71 `usePanelRefresh` (2 usi contro 25 file con `usePanelSync`) · lib/useStrato.ts (5 strati registrati, 2 riquadri a schermo intero fuori). Sintomo: VERIFICATO contando i chiamanti reali con grep. `lib/esito-lettura.ts` esporta 8 funzioni (`letto`/`assente`/`cieco`/`haDato`/`oppure`/`testoQuandoVuoto`/`daRisposta`/`listaSicura`/`comeServire`/`semaforoDaLettura`) ed è importato da UN solo file, `lib/obsidian.ts:4`, solo per `comeServire`: ZERO componenti. `scritturaConfermata` compare in 2 file client (DemoBanner.tsx:5,36 e aree/Azioni.tsx:11,459) su decine di scritture; `STATUS_SCRITTURA_FALLITA` in 3 rotte su 29 che espongono un POST. `aggiornamentoPertinente` in 1 solo dei 2 ascoltatori del bus (page.tsx:2329, non ParlaCasella). `usePanelRefresh` in 2 punti (DirettaContenuti.tsx:139, lib/fatti.ts:36) contro 25 file che usano `usePanelSync`. `useStrato` in 5 punti mentre BottoneFotoChat e LetteraAdCard restano fuori. Ogni modulo porta in testa un commento che dichiara «qui la regola diventa una funzione, e chi la salta si vede nel diff» — ma nessun guardiano misura l'adozione: `cervello/adozione-medicine.mjs` NON esiste (ls → No such file).",
       "verifica": {
-        "file": "cervello/adozione-medicine.mjs",
-        "pattern": "esito-lettura",
-        "presente": true
+        "tipo": "umano",
+        "nota": "Nessun guardiano può chiudere questo difetto finché il pezzo non esiste: la vecchia prova puntava a `cervello/adozione-medicine.mjs`, mai scritto. Chi giudica deve vedere il registro (medicina → sintomo grezzo → punti che dovrebbero usarla) E il conto dei chiamanti reali per ognuna: è quel conto la cosa che manca, non il file. Una medicina installata in due punti su venti deve risultare installata in due punti su venti."
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "prova_convertita_il": "2026-08-11 02:10"
     },
     {
       "id": "AR-408",
@@ -7355,11 +7355,11 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: pannello/src/app/api/**/route.ts (76 file, contati) · i 5 collaudi dentro il Pannello (pannello/src/lib/*.test.mts) e i 33 in cervello/test che importano moduli del Pannello: nessuno importa un route.ts e nessuno costruisce una Request (zero occorrenze di `new Request(`/`NextRequest` nei test) · esempi di prova solo-testuale: cervello/test/pannello-serratura.test.mjs:102-113, errore-ingoiato.test.mjs:109, radiografia-snella.test.mjs:116, guardiani-in-bacheca.test.mjs:170 — tutti readFileSync + match di una parola. Sintomo: Il Pannello ha molti collaudi, ma tutti girano su funzioni pure di libreria. Nessuna prova, in nessun punto, costruisce una richiesta e chiama un handler di rotta: dove una prova vorrebbe parlare di una rotta, legge il file come testo e cerca una parola — la serratura verifica che azioni-pronte contenga la scritta «registraFirma(», non che approvare firmi. Il risultato si vede negli altri difetti di questa radiografia, che vivono tutti nell'ORDINE delle operazioni dentro le rotte: la GET che accoda un lavoro non è mai stata chiamata da una prova; l'approvazione che esegue senza memoria non è mai stata messa alla prova; la concorrenza fra due chiamate non è mai stata messa in scena.",
       "verifica": {
-        "file": "cervello/test/rotte-che-scrivono.test.mjs",
-        "pattern": "app/api/azioni-pronte/route",
-        "presente": true
+        "tipo": "umano",
+        "nota": "Nessun guardiano può chiudere questo difetto finché il pezzo non esiste: la vecchia prova puntava a `cervello/test/rotte-che-scrivono.test.mjs`, mai scritto. Chi giudica deve vedere un collaudo che CHIAMA davvero una rotta del Pannello con una Request finta — non un test che legge il sorgente della rotta e ci cerca dentro una parola, che è la stessa malattia in un file di test."
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "prova_convertita_il": "2026-08-11 02:10"
     },
     {
       "id": "AR-419",
@@ -7633,11 +7633,11 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/auto-fix.mjs:61 (ricalcolaMeta: conta solo aperti/in-corso/chiusi) · MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json. Sintomo: VERIFICATO CONTANDO SU TUTTI E 99 GLI APERTI. Lo schema, unito su tutti, contiene esattamente: id, titolo, dimensione, gravita, impatto_crescita, causa_radice, fix_proposto, colore, stato, nato, chiuso_il, verifica, origine, nota, chiuso_come. Nessun campo `owner`, nessun `scadenza`/`entro`: 0 su 99 per entrambi. L'unica contabilità è `ricalcolaMeta` (riga 61), che produce `{aperti: 99, in_corso: 0, chiusi: 183}`. Nel resto della macchina l'owner esiste ed è preteso: `REGISTRO-RISCHI.json` ce l'ha su tutti e 14 e `coerenza-rischi.mjs` fallisce se un rischio ALTA ne è privo; il guardiano owner-keyword impone un padrone unico per ogni mandato; il manuale chiede all'audit interno «raccomandazioni con owner e scadenza». Il cantiere no.",
       "verifica": {
-        "file": "cervello/cantiere-owner-check.mjs",
-        "pattern": "scadenza",
-        "presente": true
+        "tipo": "umano",
+        "nota": "Nessun guardiano può chiudere questo difetto finché il pezzo non esiste: la vecchia prova puntava a `cervello/cantiere-owner-check.mjs`, mai scritto. Chi giudica deve vedere che ogni difetto aperto ha un owner fra i 120 senior e una scadenza, e che il guardiano FALLISCE su un difetto ad alto impatto senza owner o scaduto. Il file che esiste ma non fallisce mai è un cartello, non un cancello."
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "prova_convertita_il": "2026-08-11 02:10"
     },
     {
       "id": "AR-433",
@@ -11554,8 +11554,8 @@
     }
   ],
   "meta": {
-    "aperti": 166,
+    "aperti": 167,
     "in_corso": 0,
-    "chiusi": 338
+    "chiusi": 337
   }
 }
