@@ -1,29 +1,28 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-10 16:45",
+ "aggiornato": "2026-08-11 01:20",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
-   "testo": "**Un messaggio breve di Nicola in una casella del Pannello ('la casella parte troncata') È GIÀ la segnalazione completa — non un campo vuoto o rumore di sistema (Nicola 4/8 17:36, «perché non avevi capito a cosa mi riferivo?», dopo che l'AD ha risposto «non vedo un messaggio vero da parte tua» e ha chiesto cosa voleva sapere).** Causa radice: il payload della casella conteneva sia il messaggio nuovo di Nicola sia una nota tecnica di sistema ('(troncato, mostro la parte più recente)') incollata nel contenuto pregresso — l'AD ha letto la nota tecnica come tutto il contenuto e non ha isolato la frase corta di Nicola come segnale a sé. La frase era già precisa e verificabile (la card 'Sala Operativa' mostra davvero un avviso di troncamento incollato dentro il testo, non come riga separata — causa reale trovata: file vault a 148k caratteri, Pannello mostra solo le ultime 6.000). Regola: quando in un turno compaiono sia una nota tecnica automatica sia una frase corta scritta da Nicola, trattare SEMPRE la frase di Nicola come la segnalazione da investigare per prima — non chiedere «cosa vuoi sapere» quando la domanda implicita (perché si vede troncato) è già nel messaggio.",
+   "testo": "**Trovato bug reale in `cervello/worker.sh` (funzione `_estrai_stream`, ~riga 461-497): quando durante una risposta scatta il cancello di stop, il segmento nuovo viene incollato al precedente SENZA separatore — il testo risulta illeggibile (frasi diverse attaccate senza andare a capo), non 'mancante' (Nicola 4/8 19:44, casella Sala Operativa, 3ª segnalazione della stessa cosa: prima 'la casella parte troncata', poi 'non vedo la risposta dal telefono', infine 'No, non c'è, ristampa e risolvi').** 5 perché: (1) la 1ª diagnosi dell'AD ('è la cache del telefono che non sincronizza') era SBAGLIATA — plausibile ma non verificata a fondo, solo controllato che la riga esistesse nel DB, non che fosse leggibile; (2) Nicola ha rifiutato la diagnosi con un comando diretto ('ristampa e risolvi'), non una semplice ripetizione della domanda — segnale che la spiegazione precedente non tornava con quello che vedeva lui; (3) solo ririleggendo il contenuto ESATTO salvato nel DB (non il riassunto) si è visto il punto di giuntura '...ti rispondo su quello.Il cancello di stop ha bloccato...' senza spazio/a capo; (4) causa root = il cancello di stop interrompe lo streaming a metà e il worker riprende scrivendo, ma il join dei segmenti non separa i turni; (5) fix NON applicato in questa chat — file delicato condiviso da tutte le chat, rischio di peggiorare in fretta senza test; consegnato come lavoro pronto per @tech con causa già trovata. Regola: davanti a 'non vedo/manca la risposta', prima di dare la colpa a cache/sync, rileggere il CONTENUTO ESATTO salvato (non il riassunto) — un testo incollato senza separatore sembra 'sparito' su schermo piccolo ma è un bug di formattazione, non di sincronizzazione. Riga in coda: `#bug-risposte-incollate-cancello-stop`.",
    "tag": [
-    "casella-pannello",
-    "messaggio-corto-e-segnalazione",
+    "worker.sh",
+    "cancello-stop",
+    "streaming",
     "sala-operativa",
-    "troncamento",
-    "lettura-richiesta"
+    "diagnosi-sbagliata",
+    "processo"
    ],
-   "reparto": "@ad",
+   "reparto": "@tech",
    "confidenza": 0.85,
-   "evidenze": 1,
+   "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-08-04",
-   "ultima_conferma": "2026-08-04 17:40",
+   "ultima_conferma": "2026-08-04 20:16",
+   "addendum_20_16": "Nicola ha richiesto esplicitamente 'metti nei difetti il problema della ch[a]t' — la risposta dell'AD cita 'Difetto AR-560 in cantiere-difetti.json' come se fosse già scritto, ma alle 20:16 il file NON contiene AR-560 né riferimenti a `_estrai_stream`/risposte incollate (verificato con grep). È il pattern già noto 'azione-narrata senza output' ([[L-2026-0709-XX]] 'commit narrato ma non fatto'): il gate/debito CLAUDE.md §6 non è ancora armato, resta debito dichiarato non lavoro finito. Fatto separato e VERO invece: PR #683 (branch fix/troncamento-casella-riga-separata) apre il fix del bug gemello — l'avviso '(troncato...)' incollato al testo in `pannello/src/lib/vault.ts` (`codaTesto`) — già in coda AZIONI-IN-ATTESA riga 13, in attesa di merge Nicola. Prossimo turno: verificare/registrare davvero AR-560 in cantiere-difetti.json prima di darlo per fatto una seconda volta.",
    "stato": "attiva",
-   "usi": [],
-   "gate": null,
-   "gate_attivo": false,
-   "gate_nota": "Debito dichiarato: è un errore di lettura/giudizio in una risposta di chat, non un pattern di codice — nessun test automatico può verificare 'ha letto bene il messaggio corto'. Il freno più vicino che esiste già è `cervello/contesto-lezioni.mjs --richiesta` (hook UserPromptSubmit): ri-espone questa lezione all'inizio di ogni turno il cui prompt tocca temi affini (casella/Pannello/Sala Operativa), verificato attivo l'8/4 17:xx (vedi L-2026-0804-01). Non è un cancello che blocca un commit, solo un promemoria a monte."
+   "usi": []
   },
   {
    "id": "L-2026-0804-01",
@@ -8534,24 +8533,27 @@
   },
   {
    "id": "L-2026-0710-71",
-   "testo": "**`.claude/settings.local.json` va in `.gitignore` — un `git checkout` lo sovrascrive (chat 10/7):** durante la chat, l'AD ha eseguito `git checkout feature/skill-rapide-chat` e il file `.claude/settings.local.json` (tracciato nel branch con una versione precedente) è stato sovrascritto dalla versione del branch, cancellando tutti i permessi che Nicola aveva appena aggiunto manualmente. È successo due volte nella stessa chat, costringendo Nicola a rincollare il contenuto ogni volta. **Causa radice:** il file è di sessione personale (permessi, allowlist) — NON va tracciato nel repo; è specifico del VPS/utente, non del codebase. Ogni branch con versione diversa lo sovrascrive al checkout. **Fix definitivo (da fare UNA volta sola):** aggiungere `.claude/settings.local.json` al `.gitignore` — così git non lo traccia, non lo commita, non lo sovrascrive mai ai checkout. **Regola riusabile:** tutti i file di config locale/personale (`.env`, `.claude/settings.local.json`, credenziali) devono stare in `.gitignore`; se già committati in un branch, non basta toglierli dalla HEAD — serve `git rm --cached <file>` per staccarli dal tracking. Vedi [[codice-solo-pr-mai-merge]], [[verifica-prima-di-affermare]].",
+   "testo": "**RECIDIVA STRUTTURALE — `.claude/settings.local.json` sovrascritto più volte nella stessa chat (10/7, chip skill rapide) — CAUSA RADICE CORRETTA (evidenza 3):** l'AD inizialmente ha attribuito la sparizione del file a `git checkout` (errore diagnostico). Verificando .gitignore a fine sessione: `.claude/settings.local.*` è GIÀ alla riga 28 del .gitignore — quindi git checkout NON può toccarlo. La causa reale era l'AD stesso che usava il proprio Write tool per sovrascrivere il file con un contenuto diverso (tentativo di aggiungere permessi con Write invece di Edit). **Causa radice aggiornata:** (1) il file era già protetto da .gitignore — il 'fix non fatto' era già fatto; (2) l'AD ha diagnosticato 'git checkout sovrascrive' senza verificare se il file era in .gitignore prima; (3) per aggiungere permessi al settings.local.json, l'AD usava Write (sovrascrittura totale) invece di Edit (modifica mirata) — ogni Write cancellava le righe precedenti se non le includeva tutte. **Regola/fix riusabile consolidato:** (a) PRIMA di diagnosticare 'git checkout ha sovrascritto', verificare con `grep settings.local .gitignore`; (b) per modificare settings.local.json usare SEMPRE Edit (non Write), o almeno rileggere il file prima di Write per includere tutto; (c) dopo ogni Write su settings.local.json, rileggere subito il file per confermare che il contenuto sia completo; (d) una lezione in memoria con causa radice sbagliata va corretta, non incrementata — la verità sui fatti vince sul racconto precedente. **PRECEDENTE DIAGNOSI** (evidenze 1-2): si credeva che git checkout sovrascrivesse perché il file non era in .gitignore — ora superata. I 5 perché precedenti restano parzialmente validi (usare Write invece di Edit è comunque il meccanismo prossimo), ma la causa strutturale era sbagliata.",
    "tag": [
-    "settings-local-json",
+    "settings-local",
     "gitignore",
     "git-checkout",
-    "sovrascrittura-permessi",
-    "allowlist-permessi",
-    "devops-sre"
+    "recidiva",
+    "debito-tecnico",
+    "fix-mai-applicato",
+    "pannello",
+    "permessi"
    ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.82,
-   "evidenze": 2,
+   "reparto": "@AD",
+   "confidenza": 0.98,
+   "evidenze": 4,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 18:00",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-07 18:21"
+   "ultima_conferma": "2026-07-10 22:30",
+   "stato": "principio",
+   "promosso_il": "2026-07-25 08:20",
+   "cristallizzato_in": "memoria-persistente"
   },
   {
    "id": "L-2026-0710-75",
@@ -8578,24 +8580,26 @@
   },
   {
    "id": "L-2026-0710-72",
-   "testo": "**Il glob `feature/*` nell'allowlist Bash non matcha i `/` nei nomi dei branch (chat 10/7):** aggiungendo `\"Bash(git push origin feature/*:*)\"` alle allowlist, ci si aspettava che coprisse `git push origin feature/skill-rapide-chat`. Non funziona: il glob `*` nelle allowlist di Claude Code non matcha il carattere `/` nei path — quindi `feature/*` non copre branch con slash aggiuntivi nel nome. Il push continuava a chiedere permesso nonostante la regola. **Fix riusabile:** per coprire qualsiasi push di branch, usare la forma generica `\"Bash(git push origin:*)\"` (senza pattern branch) oppure aggiungere il path esatto del branch. **Regola per le allowlist:** trattare i glob delle allowlist Bash come glob POSIX dove `*` non matcha `/`; se il pattern contiene slash, testare sempre con un branch reale prima di affidarsi all'allowlist.",
+   "testo": "**Due blocchi nuovi nella pipeline PR da VPS: `gh` non eredita il token del remote URL, e `feature/*` nell'allowlist non matcha branch con slash (chat 10/7):** (1) `gh` CLI ha bisogno di auth esplicito — il token nel remote URL git (`https://NicolaeRotaru:<PAT>@github.com/...`) NON viene passato automaticamente a `gh`; serve `echo \"$GIT_PUSH_TOKEN\" | gh auth login --with-token` dal terminale VPS (una volta sola) oppure `GH_TOKEN` come env var nello shell. (2) Il pattern `\"Bash(git push origin feature/*:*)\"` nell'allowlist di Claude Code matcha solo `feature/` seguito da UN segmento senza slash — quindi `feature/skill-rapide-chat` NON è coperto. Fix: usare `\"Bash(git push origin feature/**:*)\"` o il nome esatto del branch. **Regola riusabile:** prima di usare `gh pr create` da una sessione AD, verificare con `gh auth status` che il login sia attivo; e quando si aggiunge un'allowlist per un branch con `/` nel nome, testare il glob con il nome esatto o usare `**` invece di `*`. Quando l'auth `gh` manca, la via più veloce è GitHub UI (banner 'Compare & pull request') — non insistere con script intermedi.",
    "tag": [
-    "allowlist-bash",
-    "glob-pattern",
-    "git-push",
-    "branch-naming",
-    "settings-local-json",
-    "devops-sre"
+    "gh-cli",
+    "gh-auth",
+    "allowlist",
+    "glob",
+    "feature-branch",
+    "pr-create",
+    "devops-sre",
+    "pannello"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.75,
+   "confidenza": 0.77,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
-   "ultima_conferma": "2026-07-10 18:00",
+   "ultima_conferma": "2026-07-10 18:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-07 18:21"
+   "decaduto_step_il": "2026-08-07 19:03"
   },
   {
    "id": "L-2026-0709-69",
@@ -9577,21 +9581,29 @@
   },
   {
    "id": "L-2026-0701-27",
-   "testo": "Dopo superamento soglia 168h: cambiare linguaggio da «countdown» a «ritardo misurabile» + escalation post-soglia (v6+). Mossa n.1 resta #16/ordine PQ — non spostare focus. Se Scelta A già firmata: **NON riproporre A/B** — chiedere solo data/ora + `ok 16`. Card deploy/SQL già approvate → checklist operativa, non Proposte.",
+   "testo": "**Caso-studio Nicola (1/7 09:39 — casella cadenza-esecuzione):** «mycity-live non c'entra niente, toglila ovunque». Il finding `radiografia.js`/path Windows marketplace era **classificato nella dimensione sbagliata** — `cadenza-esecuzione` = schedulazione ritmo AD (mattino/sera/settimana), NON audit del sito. **5 perché:** (1) prima auto-radiografia ha mescolato path repo marketplace con tema cadenze; (2) `radiografia.js`/`MARKETPLACE_REPO` = dimensione `copertura-cieca` (audit marketplace); (3) il vero gap cadenza = `ritmo.md` documenta solo Windows (`schtasks`/`.ps1`) mentre il battito gira su VPS Linux; (4) Pannello = una casella per dimensione — contenuto misto confonde; (5) fix: AR-002 spostato → `copertura-cieca`; riscritto finding cadenza; `ritmo.md` + sezione VPS; AR-005 (timer systemd opzionale). **Pattern:** separare audit codice marketplace da ritmo operativo AD; quando Nicola dice «non c'entra» → ripulire **tutti** i file collegati (auto-radiografia.json, cantiere-difetti, RADIOGRAFIA-MACCHINA), non solo la casella Pannello. **RICADUTA + ESCALATION (4/7):** lo stesso path Windows era ancora cablato (`marketplace-repo.mjs` come fallback + `radiografia.js:46`/`audit-design.js:46`) → Nicola rialza il tono: «togli il cablato su windows **una volta per sempre**, **impedisci che riaccada** questo errore». **Lezione-radice (5° perché finale):** pulire i file a mano NON basta — l'errore rientra da una porta laterale. La chiusura vera di un anti-pattern ricorrente = **parametrizzare la fonte-di-verità** (resolver cross-platform in `marketplace-repo.mjs`: `MARKETPLACE_REPO` env o `<ad-repo>/marketplace`, mai una cartella di un PC) **+ un guardiano generativo** (`no-path-cablati-check.mjs` agganciato a `giro.sh`) che a ogni giro FALLISCE se un path di macchina (`C:\\…`, `/Users/<nome>`) rientra nel codice. Regola: quando Nicola dice «impedisci che riaccada» → non basta il fix, serve la **forcing-function** che rende l'errore impossibile in silenzio.",
    "tag": [
-    "stallo",
-    "escalation",
-    "168h",
-    "scelta_a",
-    "ux-pannello"
+    "auto-radiografia",
+    "cadenza",
+    "classificazione",
+    "nicola",
+    "pannello",
+    "ritmo",
+    "vps",
+    "hardcoded-path",
+    "cross-platform",
+    "guardiano",
+    "forcing-function"
    ],
    "reparto": "@AD",
-   "confidenza": 0.75,
-   "evidenze": 1,
-   "fonte": "auto-analisi",
+   "confidenza": 0.7999999999999999,
+   "evidenze": 2,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
    "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "in-prova"
+   "ultima_conferma": "2026-07-04 10:05",
+   "stato": "attiva",
+   "decaduto_step_il": "2026-08-04 12:12"
   },
   {
    "id": "L-2026-0701-26",
@@ -10371,6 +10383,24 @@
    "decaduto_step_il": "2026-08-06 06:21"
   },
   {
+   "id": "L-2026-0701-27",
+   "testo": "Dopo superamento soglia 168h: cambiare linguaggio da «countdown» a «ritardo misurabile» + escalation post-soglia (v6+). Mossa n.1 resta #16/ordine PQ — non spostare focus. Se Scelta A già firmata: **NON riproporre A/B** — chiedere solo data/ora + `ok 16`. Card deploy/SQL già approvate → checklist operativa, non Proposte.",
+   "tag": [
+    "stallo",
+    "escalation",
+    "168h",
+    "scelta_a",
+    "ux-pannello"
+   ],
+   "reparto": "@AD",
+   "confidenza": 0.75,
+   "evidenze": 1,
+   "fonte": "auto-analisi",
+   "nato": "2026-07-01",
+   "ultima_conferma": "2026-07-01",
+   "stato": "in-prova"
+  },
+  {
    "id": "L-2026-0707-01",
    "testo": "Su Vercel Hobby la quota giornaliera conta le CREAZIONI di deployment, non le build: un ignoreCommand salta la build ma il deployment CANCELED consuma quota lo stesso. Con push frequenti (memoria ogni ~5 min) l'unico fix vero è deploymentEnabled:false + Deploy Hook con path-filter (Action su pannello/**). Verifica sempre sul contatore reale (API list_deployments), mai sull'intuizione.",
    "tag": [
@@ -10399,6 +10429,48 @@
     "automazione",
     "memoria"
    ]
+  },
+  {
+   "id": "L-2026-0710-71",
+   "testo": "**`.claude/settings.local.json` va in `.gitignore` — un `git checkout` lo sovrascrive (chat 10/7):** durante la chat, l'AD ha eseguito `git checkout feature/skill-rapide-chat` e il file `.claude/settings.local.json` (tracciato nel branch con una versione precedente) è stato sovrascritto dalla versione del branch, cancellando tutti i permessi che Nicola aveva appena aggiunto manualmente. È successo due volte nella stessa chat, costringendo Nicola a rincollare il contenuto ogni volta. **Causa radice:** il file è di sessione personale (permessi, allowlist) — NON va tracciato nel repo; è specifico del VPS/utente, non del codebase. Ogni branch con versione diversa lo sovrascrive al checkout. **Fix definitivo (da fare UNA volta sola):** aggiungere `.claude/settings.local.json` al `.gitignore` — così git non lo traccia, non lo commita, non lo sovrascrive mai ai checkout. **Regola riusabile:** tutti i file di config locale/personale (`.env`, `.claude/settings.local.json`, credenziali) devono stare in `.gitignore`; se già committati in un branch, non basta toglierli dalla HEAD — serve `git rm --cached <file>` per staccarli dal tracking. Vedi [[codice-solo-pr-mai-merge]], [[verifica-prima-di-affermare]].",
+   "tag": [
+    "settings-local-json",
+    "gitignore",
+    "git-checkout",
+    "sovrascrittura-permessi",
+    "allowlist-permessi",
+    "devops-sre"
+   ],
+   "reparto": "@devops-sre",
+   "confidenza": 0.82,
+   "evidenze": 2,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-07-10",
+   "ultima_conferma": "2026-07-10 18:00",
+   "stato": "attiva",
+   "decaduto_step_il": "2026-08-07 18:21"
+  },
+  {
+   "id": "L-2026-0710-72",
+   "testo": "**Il glob `feature/*` nell'allowlist Bash non matcha i `/` nei nomi dei branch (chat 10/7):** aggiungendo `\"Bash(git push origin feature/*:*)\"` alle allowlist, ci si aspettava che coprisse `git push origin feature/skill-rapide-chat`. Non funziona: il glob `*` nelle allowlist di Claude Code non matcha il carattere `/` nei path — quindi `feature/*` non copre branch con slash aggiuntivi nel nome. Il push continuava a chiedere permesso nonostante la regola. **Fix riusabile:** per coprire qualsiasi push di branch, usare la forma generica `\"Bash(git push origin:*)\"` (senza pattern branch) oppure aggiungere il path esatto del branch. **Regola per le allowlist:** trattare i glob delle allowlist Bash come glob POSIX dove `*` non matcha `/`; se il pattern contiene slash, testare sempre con un branch reale prima di affidarsi all'allowlist.",
+   "tag": [
+    "allowlist-bash",
+    "glob-pattern",
+    "git-push",
+    "branch-naming",
+    "settings-local-json",
+    "devops-sre"
+   ],
+   "reparto": "@devops-sre",
+   "confidenza": 0.75,
+   "evidenze": 1,
+   "fonte": "chat",
+   "caso_studio_nicola": false,
+   "nato": "2026-07-10",
+   "ultima_conferma": "2026-07-10 18:00",
+   "stato": "attiva",
+   "decaduto_step_il": "2026-08-07 18:21"
   },
   {
    "id": "L-2026-0723-456",
@@ -11243,6 +11315,29 @@
    ],
    "gate": "node --test cervello/test/sorvegliante.test.mjs",
    "gate_attivo": true
+  },
+  {
+   "id": "L-2026-0804-02",
+   "testo": "**Un messaggio breve di Nicola in una casella del Pannello ('la casella parte troncata') È GIÀ la segnalazione completa — non un campo vuoto o rumore di sistema (Nicola 4/8 17:36, «perché non avevi capito a cosa mi riferivo?», dopo che l'AD ha risposto «non vedo un messaggio vero da parte tua» e ha chiesto cosa voleva sapere).** Causa radice: il payload della casella conteneva sia il messaggio nuovo di Nicola sia una nota tecnica di sistema ('(troncato, mostro la parte più recente)') incollata nel contenuto pregresso — l'AD ha letto la nota tecnica come tutto il contenuto e non ha isolato la frase corta di Nicola come segnale a sé. La frase era già precisa e verificabile (la card 'Sala Operativa' mostra davvero un avviso di troncamento incollato dentro il testo, non come riga separata — causa reale trovata: file vault a 148k caratteri, Pannello mostra solo le ultime 6.000). Regola: quando in un turno compaiono sia una nota tecnica automatica sia una frase corta scritta da Nicola, trattare SEMPRE la frase di Nicola come la segnalazione da investigare per prima — non chiedere «cosa vuoi sapere» quando la domanda implicita (perché si vede troncato) è già nel messaggio.",
+   "tag": [
+    "casella-pannello",
+    "messaggio-corto-e-segnalazione",
+    "sala-operativa",
+    "troncamento",
+    "lettura-richiesta"
+   ],
+   "reparto": "@ad",
+   "confidenza": 0.85,
+   "evidenze": 1,
+   "fonte": "chat",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-04",
+   "ultima_conferma": "2026-08-04 17:40",
+   "stato": "attiva",
+   "usi": [],
+   "gate": null,
+   "gate_attivo": false,
+   "gate_nota": "Debito dichiarato: è un errore di lettura/giudizio in una risposta di chat, non un pattern di codice — nessun test automatico può verificare 'ha letto bene il messaggio corto'. Il freno più vicino che esiste già è `cervello/contesto-lezioni.mjs --richiesta` (hook UserPromptSubmit): ri-espone questa lezione all'inizio di ogni turno il cui prompt tocca temi affini (casella/Pannello/Sala Operativa), verificato attivo l'8/4 17:xx (vedi L-2026-0804-01). Non è un cancello che blocca un commit, solo un promemoria a monte."
   },
   {
    "id": "L-2026-0810-01",
