@@ -11,7 +11,7 @@ import Aggiornato from "@/components/Aggiornato";
 import StellePolari from "@/components/StellePolari";
 import ParlaCasella from "@/components/ParlaCasella";
 
-type Piano = { nome: string; testo: string; aggiornato?: string | null; nota?: string | null };
+type Piano = { nome: string; testo: string; aggiornato?: string | null; nota?: string | null; smentite?: number };
 type Okr = { senior: string; kpi: string; target: string; budget: string };
 
 const Markdown: Components = {
@@ -182,6 +182,28 @@ function EtichettaData({ piano }: { piano: Piano }) {
   );
 }
 
+/**
+ * Quante frasi del piano il registro-fatti smentisce (`cervello/piani-verita.mjs`).
+ *
+ * Sta accanto a «fermo da N giorni» e non al suo posto perché le due dicono cose diverse, e da sola
+ * nessuna delle due basta: un piano può essere fermo da due mesi e non dire niente di falso, e uno
+ * appena scritto può nascere sbagliato — il Piano Istituzionale dava il Bando Commercio ER per
+ * aperto due giorni DOPO che si era chiuso. Il rosso qui non è «piano vecchio», è «piano che mente».
+ */
+function EtichettaSmentite({ piano }: { piano: Piano }) {
+  const n = piano.smentite ?? 0;
+  if (n === 0) return null;
+  const testo = n === 1 ? "1 frase non più vera" : `${n} frasi non più vere`;
+  return (
+    <span
+      className="text-[10px] font-medium px-1.5 py-0.5 rounded align-middle whitespace-nowrap bg-red-100 text-red-700"
+      title="Il registro dei fatti le smentisce. Apri il piano: l'avviso in cima dice quali righe e cosa dice il registro."
+    >
+      ⛔ {testo}
+    </span>
+  );
+}
+
 export function SezionePiani() {
   const [loading, setLoading] = useState(true);
   const [collegato, setCollegato] = useState(false);
@@ -225,7 +247,7 @@ export function SezionePiani() {
             {/* L'etichetta resta IN LINEA e la riga non diventa flex: su `summary` un display
                 diverso da `list-item` fa sparire la freccetta di apertura in Chrome. */}
             <summary className="text-[13px] font-semibold cursor-pointer">
-              🧩 {p.nome} <EtichettaData piano={p} />
+              🧩 {p.nome} <EtichettaData piano={p} /> <EtichettaSmentite piano={p} />
             </summary>
             <div className="mt-2 max-h-96 overflow-y-auto pr-1">
               <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={Markdown}>{p.testo}</ReactMarkdown>

@@ -16,6 +16,19 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+<!-- piani-da-rivedere -->
+
+### 🟡 #piani-da-rivedere — Dimmi quali piani riscrivo, e in che ordine · ⏳ accodata 2026-08-10 16:15
+
+**Cosa cambia:** i tuoi dieci piani non vengono rivisti dal 24-25 giugno, e adesso so anche cosa dicono di sbagliato: **48 frasi smentite dai fatti**, su nove piani su dieci. Ho messo l'avviso in cima a ognuno, così quando lo apri lo vedi subito, ma **il testo non l'ho toccato**: riscrivere un tuo piano è una revisione tua. La più urgente è il **Piano Istituzionale**, che apre dicendo che il Bando Commercio ER è aperto fino al 21 luglio. Quel bando è chiuso dal 23 giugno — due giorni prima che tu scrivessi quel piano. E il **Piano Vendite** lo ha trasformato in una frase da dire al negoziante: «lo Stato rimborsa il 40%, ma chiude il 21 luglio». È l'unica di queste frasi che può uscire di casa e arrivare a un commerciante vero: se qualcuno la usa, promette soldi che non esistono più.
+**Se va bene:** dimmi da quale partire e li rifaccio io, uno per volta, portandoti ogni volta la versione nuova da leggere prima che sostituisca la vecchia. Il mio ordine sarebbe: **① Piano Vendite** (15 frasi, ed è quello che parla ai negozianti) · **② Piano Istituzionale** (8, e apre con la frase sbagliata) · **③ Piano Editoriale** (8, tutte sul negozio-faro) · poi gli altri. Se invece preferisci rivederli tu, l'avviso in cima ti dice riga per riga cosa correggere. Se non facciamo niente, l'avviso resta lì: non è un problema tecnico, è che i piani restano vecchi.
+**Nota tecnica:** motore `cervello/piani-verita.mjs` (gira a ogni giro, `--scrivi` riscrive gli avvisi). Le cinque famiglie di smentite: bando ER dato per aperto (17 frasi), negozio-faro ancora Garetti/Casa Linda invece di Pane Quotidiano (20), commissione 12% invece del 10% deciso il 20/7 (4), fotografia del 25/06/2026 presentata come «oggi» (4), PI26 dato per aperto (3, tutte dentro il blocco che rigenera l'AD). Ogni regola cita il fatto in `registro-fatti.json` e ne stampa la fonte. Solo il Piano Prodotto è pulito.
+- **Colore:** 🟡 (riscrive testo del vault che è tuo: nessun invio a nessuno, ma la firma sul contenuto è tua)
+- **Reparto:** AD + relazioni-istituzionali (bando) · vendite (pitch) · content-social (faro)
+- **Origine:** `{origine:piani-verita, seguito-di:PR-690}`
+
+---
+
 <!-- permessi-senza-jolly -->
 
 ### 🟡 #permessi-senza-jolly — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50

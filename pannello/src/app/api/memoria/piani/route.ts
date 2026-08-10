@@ -21,6 +21,18 @@ function dataDelPiano(testo: string): { aggiornato: string | null; nota: string 
   }
 }
 
+// Quante frasi del piano il registro-fatti smentisce, contate dall'avviso che `piani-verita.mjs`
+// scrive in cima. Si legge il numero dichiarato nell'avviso invece di ricontare qui: il conto lo fa
+// il guardiano, che ha il registro sotto mano, e due conti diversi per la stessa cosa sarebbero due
+// verità nella stessa schermata. Nessun avviso = nessuna smentita nota.
+function smentiteDelPiano(testo: string): number {
+  const blocco = testo.match(/<!--\s*⛔ AD-SMENTITE:START[\s\S]*?AD-SMENTITE:END\s*-->/);
+  if (!blocco) return 0;
+  const m = blocco[0].match(/Attenzione: (?:(\d+) frasi|(una) frase)/);
+  if (!m) return 0;
+  return m[2] ? 1 : Number(m[1]);
+}
+
 // Piani: i piani del vault (cartella 06-Piani), saltando i file "Prompt - ...".
 export async function GET() {
   // I "Prompt - ..." sono ausiliari, non piani.
@@ -31,6 +43,11 @@ export async function GET() {
   const piani = nomi
     .map((nome, i) => ({ nome, testo: testi[i] }))
     .filter((p) => p.testo)
-    .map((p) => ({ nome: p.nome.replace(/\.md$/, ""), testo: p.testo!, ...dataDelPiano(p.testo!) }));
+    .map((p) => ({
+      nome: p.nome.replace(/\.md$/, ""),
+      testo: p.testo!,
+      ...dataDelPiano(p.testo!),
+      smentite: smentiteDelPiano(p.testo!),
+    }));
   return NextResponse.json({ collegato: piani.length > 0, piani });
 }
