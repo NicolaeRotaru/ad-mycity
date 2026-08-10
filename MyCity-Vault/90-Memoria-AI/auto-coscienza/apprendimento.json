@@ -7987,13 +7987,14 @@
     "css"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.98,
+   "confidenza": 0.83,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-12",
    "ultima_conferma": "2026-07-13 11:20",
-   "stato": "attiva"
+   "stato": "attiva",
+   "decaduto_step_il": "2026-08-10 11:31"
   },
   {
    "id": "L-2026-0712-95",
@@ -13069,7 +13070,7 @@
   "tick_leggero_il": "2026-08-10 11:25",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-10 11:02",
+  "cristallizzazione_ultima": "2026-08-10 11:31",
   "lezioni_totali": 509,
   "lezioni_per_stato": {
    "attiva": 411,
