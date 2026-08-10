@@ -6,7 +6,7 @@
 
 ## 🌡️ Meteo Piacenza 10-16/8 — nuova intensificazione prima di Ferragosto, sollievo spostato più avanti
 
-Rispetto al 30/7 (sollievo previsto verso il 7-8/8): il sollievo o non è arrivato pieno o è stato breve. Le fonti di oggi (9-10/8) segnalano **una nuova intensificazione tra l'11 e il 14/8**, con punte fino a 40-41°C indicate per Piacenza/Ferrara prima di Ferragosto, e il sollievo vero ora spostato a **non prima del 16-20/8**.
+Il 30/7 prevedevamo sollievo verso il 7-8/8. O non è arrivato pieno, o è stato breve. Le fonti di oggi (9-10/8) segnalano **una nuova intensificazione tra l'11 e il 14/8**, con punte fino a 40-41°C indicate per Piacenza/Ferrara prima di Ferragosto. Il sollievo vero è spostato a **non prima del 16-20/8**.
 
 | Data | iLMeteo.it (puntuale Piacenza) | Fonti nazionali (geopop/today/quotidianodiragusa) |
 |------|------|------|
@@ -17,11 +17,11 @@ Rispetto al 30/7 (sollievo previsto verso il 7-8/8): il sollievo o non è arriva
 | Sab 15/8 (Ferragosto) | 37° max, sereno | Anticiclone africano non molla neanche a Ferragosto |
 | Dom 16/8 | 36° max, lieve calo | Primo possibile allentamento (modelli divergono: 16-18/8 vs "non prima del 20/8") |
 
-**Nota onestà — le due fonti divergono sul valore assoluto:** iLMeteo (previsione puntuale Piacenza) resta stabile 36-37° tutta la settimana; le fonti nazionali parlano di punte 40-41° specifiche per Piacenza/Ferrara nei giorni pre-Ferragosto. Concordano sul pattern strutturale: caldo secco, sereno, nessuna pioggia, nessuna vera tregua fino a dopo Ferragosto. **Confidenza 85%** sul pattern (2 fonti indipendenti concordanti), **40%** sul valore di picco esatto (37° vs 41°, divergenza non risolta — nessuna terza fonte per arbitrare).
+**Nota onestà:** le due fonti divergono sul valore assoluto. iLMeteo (previsione puntuale Piacenza) resta stabile 36-37° tutta la settimana. Le fonti nazionali parlano di punte 40-41° specifiche per Piacenza/Ferrara nei giorni pre-Ferragosto. Concordano però sul pattern: caldo secco, sereno, nessuna pioggia, nessuna vera tregua fino a dopo Ferragosto. **Confidenza 85%** sul pattern (2 fonti indipendenti concordanti). **Confidenza 40%** sul valore di picco esatto — 37° o 41°, divergenza non risolta, non ho una terza fonte per arbitrare.
 
-**Impatto:** rinforza — non sostituisce — l'opportunità "pane fresco/ondata di caldo" già segnalata il 27/7 (bozza in `consegne/content/`, NON pubblicare per il vincolo pausa 24/8-1/9). Nessuna azione nuova, la card resta parcheggiata.
+**Impatto:** rinforza, non sostituisce, l'opportunità "pane fresco/ondata di caldo" già segnalata il 27/7 (bozza in `consegne/content/`, NON pubblicare per il vincolo pausa 24/8-1/9). Nessuna azione nuova, la card resta parcheggiata.
 
-Fonti: [iLMeteo.it Piacenza](https://www.ilmeteo.it/meteo/piacenza) · [Geopop](https://www.geopop.it/il-picco-della-quarta-ondata-di-caldo-sara-a-inizio-agosto-con-oltre-40-c-quanto-durera/) · [Today.it](https://www.today.it/meteo/quando-finisce-caldo-agosto-2026-previsioni.html) · [QuotidianoDiRagusa](https://www.quotidianodiragusa.it/2026/08/09/attualita/ondata-calore-agosto-2026-ferragosto/) (9/8/2026) — consultate 10/8.
+Fonti (link completi in fondo, consultate 10/8): iLMeteo.it Piacenza, Geopop, Today.it, QuotidianoDiRagusa (9/8/2026).
 
 ---
 
@@ -39,7 +39,7 @@ Fonti: [iLMeteo.it Piacenza](https://www.ilmeteo.it/meteo/piacenza) · [Geopop](
 
 **Ferragosto 15/8 — nota operativa (inferenza, non un dato misurato):** attesa chiusura ampia di negozi il 15/8 per consuetudine nazionale — non ho trovato un dato specifico su Piacenza, è un'inferenza non verificata con fonte locale. Impatto su MyCity oggi: nullo, unico negozio reale (Pane Quotidiano) non incassa ancora.
 
-Fonti: [piacenza24.eu — eventi fino al 16/8](https://www.piacenza24.eu/eventi-a-piacenza-fino-a-domenica-16-agosto/) · ilpiacenza.it/eventi (403, non verificabile oggi) · ricerca "Acqua a km zero" (chiusura confermata 2/8) — consultate 10/8.
+Fonti (link completi in fondo): piacenza24.eu — eventi fino al 16/8. ilpiacenza.it/eventi non raggiungibile oggi (errore 403). Ricerca su "Acqua a km zero" con chiusura confermata al 2/8. Tutte consultate 10/8.
 
 ---
 
@@ -70,4 +70,12 @@ PI26 chiuso (confermato). Ri-controllato oggi anche "Piccole Imprese Territorio 
 Report 27/7 → 30/7: versione precedente di questo file (in git history).
 
 ---
+
+**🔧 Link completi delle fonti** (consultate 10/8/2026):
+- ilmeteo.it/meteo/piacenza
+- geopop.it/il-picco-della-quarta-ondata-di-caldo-sara-a-inizio-agosto-con-oltre-40-c-quanto-durera
+- today.it/meteo/quando-finisce-caldo-agosto-2026-previsioni.html
+- quotidianodiragusa.it/2026/08/09/attualita/ondata-calore-agosto-2026-ferragosto
+- piacenza24.eu/eventi-a-piacenza-fino-a-domenica-16-agosto
+
 *Senior: @intelligence · nessuna azione da eseguire ora, tutto parcheggiato per la ripresa 24/8-1/9 salvo il monitoraggio bandi/meteo che resta sempre attivo*
