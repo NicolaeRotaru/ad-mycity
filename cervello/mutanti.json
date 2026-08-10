@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-10 18:45",
+ "aggiornato": "2026-08-10 22:10",
  "mutanti": [
   {
    "lotto": 30,
@@ -2108,6 +2108,15 @@
    "cerca": "/^not ok\\s+(?:\\d+\\s+)?-\\s+(.*)$/",
    "sostituisci": "/^not ok\\s+-\\s+(.*)$/",
    "test": "cervello/test/test-cervello.test.mjs"
+  },
+  {
+   "difetto": "AR-563",
+   "lezione": "L-2026-0810-03",
+   "nome": "la pulizia torna a decidere il verdetto: rmSync senza rete, come prima",
+   "file": "cervello/test/campo-commit-e-turno.test.mjs",
+   "cerca": "  try {\n    rimuovi(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 50 });\n    return { rimossa: true };\n  } catch (e) {",
+   "sostituisci": "  rimuovi(dir, { recursive: true, force: true, maxRetries: 10, retryDelay: 50 });\n  return { rimossa: true };\n  // eslint-disable-next-line no-unreachable\n  try { throw new Error(); } catch (e) {",
+   "test": "cervello/test/campo-commit-e-turno.test.mjs"
   }
  ]
 }
