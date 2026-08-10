@@ -2108,6 +2108,55 @@
    "cerca": "  return { esito: \"sotto\", tasso, detto: `chiudo ${chiusi} e ne apro ${nati}: ne apro più di quanti ne chiudo (${tasso}, obiettivo ${OBIETTIVO})` };",
    "sostituisci": "  return { esito: \"ok\", tasso, detto: \"MUTANTE: va sempre bene\" };",
    "test": "node cervello/test/tasso-di-chiusura.test.mjs"
+  },
+  {
+   "difetto": "AR-206 prova-cieca",
+   "nome": "la prova dei permessi smette di guardare il verdetto del guardiano e dice sempre che va bene",
+   "cerca": "      if (r.code === 0) return { ...RIPARATO, detto: \"permessi-check non trova più permessi troppo larghi\" };",
+   "sostituisci": "      return { ...RIPARATO, detto: \"MUTANTE: la prova non guarda piu niente\" };",
+   "file": "cervello/prove-difetti.mjs",
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "difetto": "AR-365 prova-cieca",
+   "nome": "la prova dell'allerta trasforma il «non ho potuto misurare» in un verde: è il ⚪ spacciato per ✅",
+   "cerca": "      if (/no-op|SUPABASE_URL/.test(t)) return { cieco: \"da qui non posso esercitarla: senza le chiavi della memoria sentinella-dati si spegne prima di rispondere. Sul server la prova misura\" };",
+   "sostituisci": "      if (/no-op|SUPABASE_URL/.test(t)) return { ...RIPARATO, detto: \"MUTANTE: chiama verde un'allerta che non ha mai provato\" };",
+   "file": "cervello/prove-difetti.mjs",
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "difetto": "AR-366 prova-cieca",
+   "nome": "la prova del battito smette di accorgersi che il timbro del lavoro riuscito non esiste",
+   "cerca": "        return { ...APERTO, detto: \"non esiste nessuna `battito_lavoro_riuscito` da eseguire: il worker batte in cima al ciclo, quando non sa ancora se il lavoro andrà a buon fine\" };",
+   "sostituisci": "        return { ...RIPARATO, detto: \"MUTANTE: la prova non guarda piu niente\" };",
+   "file": "cervello/prove-difetti.mjs",
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "difetto": "AR-388 prova-cieca",
+   "nome": "la prova delle scritture del server smette di guardare se il lavoro era scoperto al momento del checkout",
+   "cerca": "      if (ancoraScoperta && !messaDaParte) {",
+   "sostituisci": "      if (false) {",
+   "file": "cervello/prove-difetti.mjs",
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "difetto": "AR-412 prova-cieca",
+   "nome": "la prova del doppio clic chiama riparato un codice in cui nessuno prende il posto prima di eseguire",
+   "cerca": "        return { ...APERTO, detto: \"non esiste nessuna `prenotaAzione` da esercitare: l'azione parte prima che qualcuno abbia preso il posto, quindi due clic mandano due volte\" };",
+   "sostituisci": "        return { ...RIPARATO, detto: \"MUTANTE: dice che la prenotazione c'è senza averla cercata\" };",
+   "file": "cervello/prove-difetti.mjs",
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "difetto": "AR-570 due-versi-spento",
+   "lezione": "L-2026-0811-01",
+   "nome": "una prova resta inchiodata sul rosso anche quando il fix c'è: il controllo dei due versi deve accorgersene",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "      return { ...RIPARATO, detto: \"il timbro compare solo dopo un lavoro chiuso bene, e non dopo uno fallito\" };",
+   "sostituisci": "      return { ...APERTO, detto: \"MUTANTE: non sa dire di sì nemmeno col fix davanti\" };",
+   "test": "node cervello/test/prove-a-due-versi.test.mjs"
   }
  ]
 }

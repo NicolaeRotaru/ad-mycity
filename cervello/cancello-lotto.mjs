@@ -514,16 +514,21 @@ function main() {
       console.error(`cancello-lotto: ${ciechiProve[0]} → non abbasso un tetto che non ho misurato`);
       process.exit(2);
     }
+    // `prova_debole` entra qui dal lotto della conversione (11/8): il cancello consigliava
+    // «abbassa il tetto con --aggiorna-tetti» e quel comando quel tetto non lo toccava. Un guardiano
+    // che suggerisce un rimedio che non funziona insegna a ignorare i suoi consigli.
+    const debolliOra = contaProveDeboli(difetti).deboli;
     const nuovo = {
       prova_con_or: Math.min(conOr.length, tetti.prova_con_or ?? conOr.length),
       mutazione_mancante: Math.min(senzaMutazione.length, tetti.mutazione_mancante ?? senzaMutazione.length),
+      prova_debole: Math.min(debolliOra, tetti.prova_debole ?? debolliOra),
     };
     // Si FONDE con quello che c'è già: la prima versione riscriveva il file da zero e cancellava
     // le note (fra cui il perché il tetto non è zero). Un guardiano che perde le sue spiegazioni
     // lascia dietro un numero senza motivo — la cosa che questo cantiere cura.
     const { _mancante, _illeggibile, ...vecchio } = tetti;
     writeFileSync(TETTI, `${JSON.stringify({ ...vecchio, aggiornato: nowPiacenza(), ...nuovo }, null, 1)}\n`);
-    console.log(`🚧 tetti aggiornati: prova_con_or = ${nuovo.prova_con_or} · mutazione_mancante = ${nuovo.mutazione_mancante}`);
+    console.log(`🚧 tetti aggiornati: prova_con_or = ${nuovo.prova_con_or} · mutazione_mancante = ${nuovo.mutazione_mancante} · prova_debole = ${nuovo.prova_debole}`);
     process.exit(0);
   }
 

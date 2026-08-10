@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-11 00:15",
+ "aggiornato": "2026-08-11 01:15",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
@@ -11378,6 +11378,14 @@
    "testo": "**Chi trova più in fretta di quanto ripara peggiora anche lavorando bene (Nicola 10/8: «ok tasso di chiusura»).** Luglio: 455 difetti nati, 244 chiusi (0,54). Agosto in dieci giorni: 90 nati, 14 chiusi (0,16). Nicola lo aveva previsto prima di me — «so già che dopo questo upgrade ti chiederò di rianalizzare e troverai un sacco di errori» — e la causa non è la bravura di chi cerca: è il rapporto. La dimensione con più difetti aperti è «guardiani-e-guardrail»: i controlli sono la prima fonte di lavoro dei controlli.",
    "regola": "il voto della macchina su sé stessa è UNO: chiusi ÷ aperti nel mese, obiettivo ≥ 1. Sotto 1 non si aprono ricerche nuove — si chiude. Corollario generale: prima di aggiungere un rilevatore, chiedersi chi convertirà quello che rileva; percezione e conversione hanno due velocità diverse e solo la prima è automatica. Corollario sul misurare: sotto un campione minimo il verdetto è ⚪, perché un rapporto su pochi casi è rumore — e un freno che scatta sul rumore viene disattivato.",
    "gate": "node cervello/test/tasso-di-chiusura.test.mjs"
+  },
+  {
+   "id": "L-2026-0811-01",
+   "data": "2026-08-11 01:15",
+   "fonte": "lavoro proprio",
+   "testo": "**Una prova che sa dire solo di no è inutile quanto un grep che sa dire solo di sì (primo lotto di conversione, 11/8).** Convertendo 5 prove da «cerca una parola» a «esegui qualcosa» ho sbattuto contro due verdi falsi MIEI, uno dietro l'altro. ① Il primo: ritagliavo un pezzo di script partendo da dentro un if/else, bash moriva su `else` alla decima riga, il file sporco sopravviveva — non perché il codice lo protegga, ma perché non ci era mai arrivato. ② Il secondo: ho messo un sigillo per provare l'arrivo, ma il `git` finto intercettava il checkout senza eseguirlo, quindi il file sopravviveva per costruzione. Il sigillo provava l'arrivo, non la salvezza. Poi, verificando i mutanti a mano, 2 su 5 erano vuoti: colpivano righe che l'esecuzione non raggiunge. Al terzo giro zero. Scoperta a monte: NESSUN difetto aperto aveva mai avuto una prova a comando — zero su 220 — quindi tutta la macchina delle mutazioni era nata per prove che confermano un fix, non per prove che dimostrano un guasto.",
+   "regola": "una prova comportamentale vale solo se si ribalta: rossa quando il difetto c'è, verde quando il fix c'è. Va provata in ENTRAMBI i versi, simulando il fix, prima di fidarsene. E deve dimostrare di aver raggiunto il punto pericoloso e di aver osservato lo stato in QUEL momento: arrivare non è misurare, e intercettare l'operazione distruttiva rende il verde automatico. Corollario sui mutanti: scriverne uno non basta, bisogna guardare che rompa qualcosa — una mutazione su una riga che l'esecuzione non raggiunge sembra una difesa e non lo è.",
+   "gate": "node cervello/test/prove-a-due-versi.test.mjs"
   }
  ],
  "principi": [

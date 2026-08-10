@@ -1476,3 +1476,44 @@ debole» · il freno del tasso è ATTIVO oggi: 0,18.
 **Cosa NON ho fatto.** La conversione dei 193 grep ereditati: la card dice «primo lotto entro il giro
 seguente», e questo lotto ha cablato la regola, non l'ha ancora applicata all'arretrato. Resta il
 debito dichiarato, sotto un tetto che scende.
+
+---
+
+## 2026-08-11 01:15 · 🟡 Primo lotto di conversione: le prove dei 5 bloccanti adesso girano
+
+**Cosa ha chiesto Nicola.** «fai il primo lotto di conversione dei 193», subito dopo aver approvato
+l'asticella. I 193 erano i difetti la cui prova era un grep: «il fix è fatto quando questa parola
+compare in questo file».
+
+**Cosa ho fatto.** Convertiti i 5 bloccanti aperti — AR-206, AR-365, AR-366, AR-388, AR-412 — da
+`{file, pattern}` a `node cervello/prove-difetti.mjs --ar-NNN`. Ogni prova ESEGUE qualcosa: manda in
+esecuzione il guardiano dei permessi, esercita la consegna dell'allerta in un processo isolato,
+estrae dal worker la funzione del battito e la fa girare due volte, ricostruisce un repo finto per
+vedere se le scritture del server sopravvivono al checkout forzato, cerca la prenotazione come
+simbolo esportato invece che come parola.
+
+**La scoperta a monte.** Nessun difetto APERTO aveva mai avuto una prova a comando: zero su 220. Le
+243 prove che girano appartenevano tutte a difetti già chiusi. La macchina aveva prove che
+confermano un fix, mai prove che dimostrano un guasto. Da qui AR-570: il controllo che pretende un
+mutante non sa trattare le prove dei difetti aperti, perché quelle sono rosse di partenza e
+qualunque mutazione «funziona». Curato con la PROVA A DUE VERSI: si simula il fix su una copia e si
+pretende che il verdetto si ribalti.
+
+**I miei errori, che ha preso il collaudo.** Due verdi falsi di fila, entrambi miei. ① Ritagliavo un
+pezzo di script partendo da dentro un if/else: bash moriva alla decima riga e il file sporco
+sopravviveva — non perché il codice lo protegga, ma perché non ci era mai arrivato. ② Ho messo un
+sigillo per provare l'arrivo, ma il `git` finto intercettava il checkout senza eseguirlo: il file
+sopravviveva per costruzione. Il sigillo provava l'arrivo, non la salvezza. Poi, verificando i
+mutanti a mano, 3 su 6 erano vuoti — colpivano righe che l'esecuzione non raggiunge. Al terzo giro
+zero.
+
+**Prova.** 157 file di test e 1624 asserzioni verdi. Tutti e 6 i mutanti verificati a mano uno per
+uno: ognuno rende rossa la sua prova. Cancello del lotto verde. Prove a grep sui difetti non chiusi:
+126 → 121. Bloccanti aperti con prova a grep: 5 → 0. Tetto `prova_debole` abbassato da 127 a 121.
+
+**Fix in più.** `--aggiorna-tetti` non toccava il tetto `prova_debole` che il cancello stesso
+consigliava di abbassare: un guardiano che suggerisce un rimedio che non funziona insegna a ignorare
+i suoi consigli. Ora lo abbassa.
+
+**Cosa resta.** 121 prove a grep sui difetti non chiusi: 93 gravi, 25 minori, 3 medi. Il prossimo
+lotto prende i gravi.

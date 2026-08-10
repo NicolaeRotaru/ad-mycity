@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-11 00:20",
+  "aggiornato": "2026-08-11 01:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -2922,15 +2922,14 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": ".claude/settings.json",
-        "pattern": "cervello/\\*\\.mjs",
-        "presente": false
+        "comando": "node cervello/prove-difetti.mjs --ar-206"
       },
       "nota": "Dove: .claude/settings.json:23 (permesso «Bash(node cervello/*.mjs:*)») + cervello/motore-ai.sh:274 (scritture auto-accettate) + cervello/worker.sh:26 (tutte le chiavi esportate nell'ambiente) + cervello/permessi-check.mjs:40-88 (le 7 regole d'oro non coprono il caso) · Impatto: Ogni cancello diventa facoltativo: l'invio a un cliente, la scrittura su una tabella del sito, il merge, la pausa — tutto raggiungibile senza passare dagli script che contengono i controlli, quindi senza firma, senza pausa e senza allowlist. Vale sia per i lavori sia per la chat, che è anche la superficie che ingoia testo esterno (vault, allegati, web): un'istruzione ostile in un documento letto diventa eseguibile. Nessuna traccia in DECISIONI.md, perché la traccia la scrive solo lo script che si è aggirato. · 28/7 lotto 13: FATTA la (b) — permessi-check ha ora la regola no-jolly-su-cartella-scrivibile, che becca esattamente Bash(node cervello/*.mjs:*) e Bash(bash cervello/*.sh:*) e NON i permessi su un singolo script (la prima versione li bocciava tutti: un cancello che boccia cio che va bene viene disattivato). RESTA APERTO perche la (a) — sostituire il jolly con l elenco esplicito in .claude/settings.json — e AZIONE DI NICOLA: quel file e negato in Edit/Write alla macchina, apposta. Restano aperte anche la (c) provenienza degli script e la (d) chiavi fuori dall ambiente del worker. La radice condivisa con AR-272 e invece chiusa: esiste l elenco delle uscite verso il mondo reale (cervello/uscite-reali.json) e un guardiano che fallisce il giro se ne compare una non dichiarata. · 28/7 08:40 — PROVA CORRETTA prima che chiudesse a vuoto. Il passo 5 di come-riparo.md l ha intercettato: la prova puntava a no-jolly-su-cartella-scrivibile in permessi-check.mjs, cioe alla meta (b) che ho fatto io, e sarebbe passata lasciando aperta la (a) — togliere Bash(node cervello/*.mjs:*) e Bash(bash cervello/*.sh:*) da .claude/settings.json, che e azione di Nicola perche quel file e negato in Edit/Write alla macchina. Terza chiusura falsa intercettata in un giorno, tutte con la stessa forma: una prova che si accontenta di una parte del fix. Ora la prova guarda il file che deve cambiare.",
       "chiuso_il": "",
       "chiuso_come": "",
       "nota_fix": "Lotto 33 (29/7) — malattia comune ai dieci bloccanti: **il perimetro di un controllo era una dichiarazione scritta a mano, o un confine implicito di implementazione, invece di una misura derivata dal codice vero**. Cura condivisa: `cervello/perimetro.mjs` (funzioni pure: elenco ricorsivo con esclusioni dichiarate, derivazione dei nomi dal codice, confronto dichiarati↔derivati) + `cervello/segnali-attesi.mjs` + `pannello/src/lib/rotte-scriventi.ts`. Registrata come malattia `perimetro-dedotto-non-misurato` in cervello/malattie.json (tetto 5 netto, scende e non si alza). **RESTA APERTO, e non per dimenticanza.** La parte (b) della scheda — la regola «niente jolly su una cartella scrivibile» in permessi-check.mjs — esisteva già ed è verde: il guardiano segnala correttamente `Bash(node cervello/*.mjs:*)` e `Bash(bash cervello/*.sh:*)`. La parte (a) — sostituire il jolly con l'elenco esplicito — richiede di modificare `.claude/settings.json`, che è NEGATO in Edit/Write alla macchina apposta (regola `no-auto-permessi`: la macchina non deve poter toccare i propri permessi, né per allargarli né per restringerli). Farlo da qui sarebbe stato scavalcare il confine che il difetto stesso chiede di rispettare. L'elenco esplicito pronto da incollare è preparato in AZIONI-IN-ATTESA. Le parti (c) controllo di provenienza su ogni script e (d) chiavi fuori dall'ambiente del worker restano da fare: sono infrastruttura, non perimetro, e vanno in un lotto loro.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_prova": "Prova convertita il 2026-08-11 00:45 (AR-564, l'asticella). Prima era un grep: .claude/settings.json ~ /cervello\\/\\*\\.mjs/ (presente:false). il grep guardava UNA scrittura sola del difetto: un jolly scritto in un altro modo, o messo in settings.local.json, sarebbe passato. La prova nuova esegue `permessi-check.mjs`, che applica la regola `no-jolly-su-cartella-scrivibile` a entrambi i file e a ogni forma. Oggi trova 2 permessi troppo larghi."
     },
     {
       "id": "AR-207",
@@ -6325,11 +6324,10 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/sentinella-dati.mjs:634-641 (ramo soloAllerta) · cervello/sentinella-dati.mjs:572-581 (pingTelegram, `if (!tok || !chat) return;` alla riga 575) · cervello/sentinella-dati.mjs:303 (M1 worker morto, soloAllerta) e :417 (M7 REST cieco, soloAllerta) · cervello/sensori-motivi.json:6-11 (telegram «da-chiedere» dal 2026-07-28). Sintomo: VERIFICATO riga per riga. Le due sole regole 🔴 che sorvegliano la macchina stessa — M1 «worker morto» (riga 301-309) e M7 «REST cieco ORA» (riga 416-423) — sono `soloAllerta: true`. Il ramo che le gestisce (righe 634-641) fa esattamente due cose: `await pingTelegram(...)` e `state.regole[ev.chiave] = { …, ultimo_accodato: quando, … }`. Non accoda un lavoro, non scrive in `impostazioni`, non tocca AZIONI-IN-ATTESA: il Pannello non le vede. E `pingTelegram` (572) inizia con `if (!tok || !chat) return;` — ritorna in silenzio. Il token non c'è: `sensori-cecita.json` dà telegram_bot `non_configurato` e `cervello/sensori-motivi.json` scrive «Il bot Telegram è costruito e mai acceso… nessuno gliel'ha mai chiesto», card in coda dal 28/7. Percorso completo dell'unico allarme 🔴 sulla morte della macchina: condizione vera → funzione che ritorna subito → riga 637 che registra nello stato «allertato alle HH:MM», il che spegne pure il dedup e brucia la seconda occasione di accorgersene.",
       "verifica": {
-        "file": "cervello/sentinella-dati.mjs",
-        "pattern": "consegnaAllerta\\(",
-        "presente": true
+        "comando": "node cervello/prove-difetti.mjs --ar-365"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_prova": "Prova convertita il 2026-08-11 00:45 (AR-564, l'asticella). Prima era un grep: cervello/sentinella-dati.mjs ~ /consegnaAllerta\\(/. bastava definire una funzione con quel nome e lasciarla vuota per chiudere il difetto. La prova nuova la ESERCITA in un processo a parte: chiede la consegna con zero canali configurati e pretende l'elenco dei canali raggiunti. Da una sessione senza le chiavi della memoria il modulo si spegne prima di rispondere: da lì la prova esce ⚪ (non misurata), sul server misura."
     },
     {
       "id": "AR-366",
@@ -6344,11 +6342,10 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/worker.sh:390-401 (battito_worker) · cervello/worker.sh:1067-1073 (battito in cima al ciclo, throttle WORKER_BATTITO_SEC default 20s) · cervello/sentinella-dati.mjs:301 (regola M1) e :66 (WORKER_MORTO_MIN default 3) · MyCity-Vault/90-Memoria-AI/auto-coscienza/sentinella-dati.json (`worker_eta_min: 0`, `regole` senza la chiave `worker_morto`). Sintomo: VERIFICATO. `battito_worker` (worker.sh:390-401) scrive `worker:ultimo` e `worker:ultimo:<lane>` in cima al ciclo principale (righe 1067-1073), PRIMA di sapere se c'è lavoro e senza mai consultare lo stato del motore AI; il ciclo gira ogni 5s anche a coda vuota. La regola M1 (sentinella-dati.mjs:301) è `worker_eta_min > WORKER_MORTO_MIN && lavori_in_corso === 0`. Conseguenza esatta: un worker il cui motore AI ha esaurito la quota — la causa diagnosticata in STATO.md per queste 36 ore — continua a battere ogni 20 secondi, `worker_eta_min` resta 0, M1 non scatta mai. Lo conferma il file di stato: `sentinella-dati.json` ha cinque chiavi in `regole` (sensori_ciechi, salute_bassa, volano_fermo, cassa_sconosciuta, negozio_fermo) e `worker_morto` NON c'è — non è mai scattata; `ultimo_stato.worker_eta_min` è 0. Grep confermato: non esiste nessuna chiave tipo `worker:ultimo:lavoro-riuscito`. Il battito misura che il processo respira, non che produce; la sentinella lo interpreta come «il cervello funziona».",
       "verifica": {
-        "file": "cervello/worker.sh",
-        "pattern": "worker:ultimo:lavoro-riuscito",
-        "presente": true
+        "comando": "node cervello/prove-difetti.mjs --ar-366"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_prova": "Prova convertita il 2026-08-11 00:45 (AR-564, l'asticella). Prima era un grep: cervello/worker.sh ~ /worker:ultimo:lavoro-riuscito/. quella stringa scritta in un commento avrebbe chiuso il difetto. La prova nuova estrae da worker.sh la funzione che timbra il lavoro riuscito e la ESEGUE due volte con uno scrittore finto — una con lavoro fallito, una con lavoro riuscito — pretendendo il timbro solo nel secondo caso. Provata in entrambi i versi: con un finto fix diventa verde, senza torna rossa."
     },
     {
       "id": "AR-367",
@@ -6773,11 +6770,10 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/vps/aggiorna-cervello.sh:97 (ramo «il cancello ha detto no» → git reset e prosegue) e :162 (`git checkout -f -B \"$branch\" FETCH_HEAD`). Sintomo: VERIFICATO riga per riga. Alle 92-101 le scritture pendenti del vault vengono stagiate e sottoposte al cancello condiviso (AR-314). Se il cancello rifiuta, la riga 97 stampa «Scritture pendenti NON committate: … restano sul server», la 98 fa `git reset HEAD -- .` e l'esecuzione PROSEGUE. Alla riga 162 arriva `git checkout -f -B \"$branch\" FETCH_HEAD`: il `-f` scarta le modifiche non committate ai file tracciati, cioè esattamente quelle dichiarate salve. Fra 97 e 162 nessuna uscita le protegge: l'exit sui commit pendenti (125) scatta solo se ce ne sono e il push fallisce, l'exit 3 solo se HEAD è su un altro ramo, l'exit sul fetch solo se il fetch fallisce. Nel percorso normale si arriva al checkout -f. Sopravvivono solo i file NUOVI (untracked, es. un briefing nuovo); si perdono le modifiche a STATO.md, AZIONI-IN-ATTESA.md, DECISIONI.md — cioè le righe FATTO e i numeri aggiornati. Il caso non è teorico: quando lo scan-segreti ha bloccato la pubblicazione (già successo due volte, AR-118/AR-124) il cancello diceva no a ogni passata.",
       "verifica": {
-        "file": "cervello/vps/aggiorna-cervello.sh",
-        "pattern": "git stash push",
-        "presente": true
+        "comando": "node cervello/prove-difetti.mjs --ar-388"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_prova": "Prova convertita il 2026-08-11 00:45 (AR-564, l'asticella). Prima era un grep: cervello/vps/aggiorna-cervello.sh ~ /git stash push/. il pattern poteva essere soddisfatto da un `git stash push` in un ramo dello script che non c'entra (quello del rebase), chiudendo il difetto senza ripararlo. La prova nuova costruisce un repo finto con una scrittura non committata, esegue il ramo vero col cancello che rifiuta, e fotografa lo stato del repo NELL'ISTANTE in cui il checkout forzato starebbe per partire. Provata in entrambi i versi."
     },
     {
       "id": "AR-389",
@@ -7246,11 +7242,10 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: pannello/src/app/api/azioni-pronte/route.ts:132-141 (legge lo stato) e :177-178 (esegue le mani, POI scrive lo stato) · pannello/src/lib/autopilota.ts:26-27 (legge tutti gli stati una volta) e :51-62 (esegue in ciclo, poi scrive) · i tre inneschi indipendenti dell'autopilota: pannello/src/app/api/heartbeat/route.ts:53 (cron), pannello/src/components/Autopilota.tsx:23 (fetch all'avvio del componente) e pannello/src/components/aree/Azioni.tsx:228 (secondo fetch all'avvio dell'area) · da confrontare con pannello/src/lib/store.ts:617-627 (setImpostazione è un upsert incondizionato: non esiste «scrivi solo se non c'è»). Sintomo: La guardia contro il doppio invio è un «leggi lo stato, se è vuoto procedi» seguito, secondi dopo, da «scrivi lo stato». In mezzo c'è la chiamata che manda l'email o chiude la pratica. Due richieste ravvicinate leggono entrambe lo stato vuoto e partono entrambe. Lo stesso schema è nell'autopilota, che legge tutte le impostazioni una volta sola e scrive solo dopo ogni invio — e ho verificato che l'autopilota viene lanciato da TRE strade indipendenti, di cui due partono insieme al caricamento della stessa pagina (Autopilota.tsx e Azioni.tsx fanno entrambe la POST se l'autopilota è acceso). Su Vercel ogni strada è un processo diverso: nessun lucchetto in memoria può vederle tutte. La rotta gemella /api/proposta ha già imparato la lezione (salva prima, crea il lavoro dopo); quella che tocca il mondo reale no.",
       "verifica": {
-        "file": "pannello/src/app/api/azioni-pronte/route.ts",
-        "pattern": "in-corso",
-        "presente": true
+        "comando": "node cervello/prove-difetti.mjs --ar-412"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_prova": "Prova convertita il 2026-08-11 00:45 (AR-564, l'asticella). Prima era un grep: pannello/src/app/api/azioni-pronte/route.ts ~ /in-corso/. la parola «in-corso» in un commento avrebbe chiuso il difetto — e infatti nel file c'è già in altri contesti. La prova nuova cerca una `prenotaAzione` ESPORTATA (un commento non esporta niente) e pretende che sia chiamata PRIMA delle mani, non dopo. Provata in entrambi i versi."
     },
     {
       "id": "AR-413",
@@ -11494,11 +11489,32 @@
       },
       "nato_da": "AR-562 (due lettori, una fonte, due verità)",
       "nota": "Dove: cervello/guardiano-tempo.mjs:64-82 (parsa solo la tabella) · pannello/src/lib/azioni-attesa.ts (parsa i blocchi) · Impatto: è il numero con cui si decide se la coda di Nicola è il collo di bottiglia. Oggi dice 5 e sono 49."
+    },
+    {
+      "id": "AR-570",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "colore": "🟡",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-11 01:05",
+      "nato_come": "scoperta",
+      "nato_da": "AR-564 (l'asticella), trovato facendo il primo lotto di conversione",
+      "origine": "Convertite le prime 5 prove da grep a comando, il cancello del lotto ha chiesto per ognuna un MUTANTE: «rompi il fix e pretendi il rosso». Ma su un difetto APERTO la prova è già rossa, quindi qualunque mutazione «funziona» e il controllo diventa vuoto. La causa a monte è la scoperta di questo lotto: prima di oggi NESSUN difetto aperto aveva una prova a comando — zero su 220. Tutte e 243 le prove che girano appartenevano a difetti già chiusi.",
+      "titolo": "Il controllo che pretende un mutante non sa trattare le prove dei difetti ancora aperti",
+      "causa_radice": "① Il mutante serve a dimostrare che una prova sa dire di NO: si rompe il fix e si pretende il rosso. ② Ma quel ragionamento presuppone che il fix ci sia — cioè che il difetto sia CHIUSO. ③ Su un difetto aperto la prova è rossa di partenza: la mutazione non cambia niente e il controllo passa senza aver misurato. ④ Nessuno se n'era accorto perché la forma a comando non era mai stata usata su un difetto aperto: la macchina aveva prove che confermano un fix, non prove che dimostrano un guasto. ⑤ Il rischio simmetrico è lo stesso che l'asticella cura: una prova inchiodata sul rosso non ha mai avuto occasione di sbagliarsi, esattamente come un grep inchiodato sul verde.",
+      "fix_proposto": "🟡 FATTO: la PROVA A DUE VERSI (cervello/test/prove-a-due-versi.test.mjs). Per ogni prova di un difetto aperto si copia il pezzo di repo che guarda, ci si simula sopra il fix, e si pretende che il verdetto SI RIBALTI: rosso adesso, verde col fix finto. I mutanti registrati rompono il RILEVATORE — non il fix, che non esiste — e fanno diventare rossa la prova a due versi: mutazione non vuota.",
+      "verifica": {
+        "comando": "node cervello/test-cervello.mjs --solo prove-a-due-versi"
+      },
+      "chiuso_il": "2026-08-11 01:05",
+      "chiuso_come": "Riparato e provato. 5 prove convertite (AR-206, AR-365, AR-366, AR-388, AR-412), tutte con la prova a due versi. Verificati a mano tutti e 5 i mutanti: al primo giro 2 su 5 erano VUOTI (colpivano righe che l'esecuzione non raggiunge), al secondo 1 su 5, al terzo zero. È lo stesso metodo applicato a sé stesso: non basta scrivere un mutante, bisogna guardare che rompa qualcosa.",
+      "nota": "Dove: cervello/cancello-lotto.mjs (regola mutazione-mancante) · cervello/prove-difetti.mjs (le prove nuove) · cervello/test/prove-a-due-versi.test.mjs (il controllo dei due versi)."
     }
   ],
   "meta": {
     "aperti": 167,
     "in_corso": 0,
-    "chiusi": 336
+    "chiusi": 337
   }
 }
