@@ -126,11 +126,23 @@ function campo() {
         return { rc: e.status ?? 1, out: `${e.stdout || ""}${e.stderr || ""}` };
       }
     },
-    // Cintura oltre a `gc.auto 0`: se un processo scrive lì dentro mentre cancello, non voglio che il
-    // caso diventi rosso per la PULIZIA — il verdetto deve venire dalle asserzioni, non dal fatto che
-    // la cartella temporanea fosse occupata mezzo secondo di troppo. `maxRetries` riprova invece di
-    // morire al primo ENOTEMPTY.
-    pulisci: () => rmSync(d, { recursive: true, force: true, maxRetries: 10, retryDelay: 50 }),
+    // LA PULIZIA NON DÀ IL VERDETTO (AR-563). `gc.auto 0` toglie la causa principale — la manutenzione
+    // che git avviava in background — ma sul runner resta l'ENOTEMPTY che il filesystem a strati
+    // restituisce su una cartella appena svuotata, senza nessun processo vivo dentro. Stava nel
+    // `finally`, quindi si portava dietro il caso: due esecuzioni di fila hanno accusato tre casi
+    // DIVERSI, che è la firma di un guasto d'ambiente e non di una difesa che ha trovato qualcosa.
+    //
+    // Un caso deve essere rosso per ciò che ASSERISCE. Se la cartella di scarto in /tmp resiste, lo
+    // dico e tiro dritto: non sparisce in silenzio (il messaggio resta nel log, e il sistema quella
+    // cartella la ripulisce da sé), ma non trasforma una prova verde in un rosso che manda a cercare
+    // un bug che non c'è — che è il costo già pagato qui in mezzo pomeriggio.
+    pulisci: () => {
+      try {
+        rmSync(d, { recursive: true, force: true, maxRetries: 10, retryDelay: 50 });
+      } catch (e) {
+        console.error(`⚠️  cartella di prova non cancellata (${e.code}): ${d} — il verdetto del caso non cambia`);
+      }
+    },
   };
 }
 
