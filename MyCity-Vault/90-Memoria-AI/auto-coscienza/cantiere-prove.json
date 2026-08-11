@@ -1,24 +1,23 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-11 00:36",
+  "aggiornato": "2026-08-11 09:38",
   "giorni_sospetto": 3,
-  "difetti_aperti": 224,
+  "difetti_aperti": 225,
   "per_classe": {
-    "umana": 98,
-    "auto-sospetta": 107,
-    "auto-attesa": 8,
-    "auto-comando": 5,
-    "auto-ok": 6
+    "umana": 104,
+    "auto-sospetta": 102,
+    "auto-comando": 12,
+    "auto-ok": 5,
+    "auto-attesa": 2
   },
-  "non_auto_chiudibili": 205,
+  "non_auto_chiudibili": 206,
   "bloccanti_ciechi": [
     "AR-473",
     "AR-072",
     "AR-518",
     "AR-521",
-    "AR-568",
-    "AR-569"
+    "AR-568"
   ],
   "voci": [
     {
@@ -71,9 +70,9 @@
       "gravita": "grave",
       "eta_giorni": 26,
       "titolo": "La dimensione «copertura-cieca» è solo-LLM: manca una mappa-copertura deterministica (dominio × sensore/sentin",
-      "classe": "auto-attesa",
-      "perche": "il fix consiste nel creare cervello/mappa-copertura.mjs, non ancora presente",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-133",
@@ -134,9 +133,9 @@
       "gravita": "grave",
       "eta_giorni": 15,
       "titolo": "Ogni giro riceve l'ordine tassativo di produrre solo cose che avvicinano il primo ordine, mentre il padrone ha",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 15 giorni (cervello/giro.sh ~ /NORTH STAR IN STALLO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/prove-difetti.mjs --ar-158",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-160",
@@ -224,9 +223,9 @@
       "gravita": "grave",
       "eta_giorni": 15,
       "titolo": "Il sito lo controlliamo solo bussando alla porta: nessuno prova mai a comprare",
-      "classe": "auto-attesa",
-      "perche": "il fix consiste nel creare cervello/sonda-acquisto.mjs, non ancora presente",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-190",
@@ -332,9 +331,9 @@
       "gravita": "grave",
       "eta_giorni": 15,
       "titolo": "Lo stop al budget è un foglietto in coda, non un freno — e il suo verdetto viene buttato via",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 15 giorni (cervello/giro.sh ~ /BUDGET_VINCOLO|sentinella-budget[\\s\\S]{0,200}rc=|STOP budget[\\s\\S]{0,120}vincolo/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/prove-difetti.mjs --ar-208",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-209",
@@ -368,9 +367,9 @@
       "gravita": "grave",
       "eta_giorni": 15,
       "titolo": "Cercando nel Pannello si trova la copia vecchia dei quaderni, quella viva non c'è",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (MyCity-Vault/90-Memoria-AI/memoria-squadra/account-negozi.md ~ /\\S/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-217",
@@ -620,9 +619,9 @@
       "gravita": "grave",
       "eta_giorni": 15,
       "titolo": "Il vincolo sugli esperimenti ordina di aprirne uno nuovo anche quando il problema è che nessuno ha misurato qu",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 15 giorni (cervello/giro.sh ~ /ESP_VINCOLO=\"⛔ NESSUN ESPERIMENTO APERTO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/prove-difetti.mjs --ar-323",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-324",
@@ -791,9 +790,9 @@
       "gravita": "grave",
       "eta_giorni": 13,
       "titolo": "L'unico che lavora a ogni giro non ha ne kit ne scheda mestiere, e nessun metro lo misura",
-      "classe": "auto-attesa",
-      "perche": "il fix consiste nel creare MyCity-Vault/07-Agenti/kit/ad-KIT.md, non ancora presente",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-351",
@@ -1016,9 +1015,9 @@
       "gravita": "grave",
       "eta_giorni": 13,
       "titolo": "Chi deve spegnere il superfluo quando finisce la benzina parla e nessuno lo ascolta",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 13 giorni (cervello/giro.sh ~ /LETARGO_VINCOLO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/prove-difetti.mjs --ar-392",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-394",
@@ -1034,9 +1033,9 @@
       "gravita": "grave",
       "eta_giorni": 13,
       "titolo": "Nel giro il cancello guarda lo stage dopo che il commit l'ha svuotato",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 13 giorni (cervello/giro.sh ~ /gate_pubblicazione [\\s\\S]{0,600}?commit -q -m \"giro AD/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/prove-difetti.mjs --ar-395",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-396",
@@ -1106,9 +1105,9 @@
       "gravita": "grave",
       "eta_giorni": 13,
       "titolo": "Le medicine dei lotti si scrivono e non si somministrano: nessuno conta chi le usa",
-      "classe": "auto-attesa",
-      "perche": "il fix consiste nel creare cervello/adozione-medicine.mjs, non ancora presente",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-408",
@@ -1196,9 +1195,9 @@
       "gravita": "grave",
       "eta_giorni": 13,
       "titolo": "Nessuna prova, in tutto il progetto, chiama mai una porta del Pannello: settantasei porte e zero collaudi che ",
-      "classe": "auto-attesa",
-      "perche": "il fix consiste nel creare cervello/test/rotte-che-scrivono.test.mjs, non ancora presente",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-420",
@@ -1268,9 +1267,9 @@
       "gravita": "grave",
       "eta_giorni": 13,
       "titolo": "Novantanove difetti aperti e nessuno di loro ha un responsabile né una data: il cantiere della macchina è l'un",
-      "classe": "auto-attesa",
-      "perche": "il fix consiste nel creare cervello/cantiere-owner-check.mjs, non ancora presente",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-433",
@@ -2002,6 +2001,24 @@
       "auto_chiudibile": false
     },
     {
+      "id": "AR-562",
+      "gravita": "grave",
+      "eta_giorni": 1,
+      "titolo": "Il rumore che la CLI scrive all'avvio finisce dentro la risposta che legge Nicola",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/risposta-senza-rumore.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-563",
+      "gravita": "grave",
+      "eta_giorni": 1,
+      "titolo": "Il rosso veniva dalla PULIZIA della cartella di prova, non da un'asserzione",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/test-cervello.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
       "id": "AR-565",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -2024,15 +2041,6 @@
       "gravita": "bloccante",
       "eta_giorni": 1,
       "titolo": "Un comando di sola lettura lanciato da dove mancano le chiavi riscrive la memoria dei sensi con la propria cec",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-569",
-      "gravita": "bloccante",
-      "eta_giorni": 1,
-      "titolo": "Il guardiano che misura quanto lavoro aspetta la firma di Nicola ne vede 5 su 49, e dice che la coda è sotto c",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
