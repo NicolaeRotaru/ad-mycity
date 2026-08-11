@@ -1019,14 +1019,37 @@ recupera_lavori_orfani() {
 
 # 2) SCADUTI in_attesa: un `giro` fermo da >SOGLIA_GIRO_MIN non ha più valore (è puntuale) ed è il veleno
 #    n.1 (il più pesante) → chiudilo. Qualsiasi altro lavoro fermo da >SOGLIA_ABBANDONO_MIN = abbandonato.
+#
+# ⏸️ CHI ASPETTA IL SUO RITENTATIVO NON È ABBANDONATO (11/8, sintomo osservato da Nicola).
+# Questa funzione contava l'attesa da `created_at` e ignorava `riprova_dopo`, mentre il claim lo
+# rispetta (`or=(riprova_dopo.is.null,riprova_dopo.lte.now)`). Le due regole si mordevano: un giro
+# che falliva una volta veniva PARCHEGGIATO dalla retry-policy — 6h di passo sul limite settimanale,
+# fino a 4h su quota — e quel parcheggio veniva letto qui come «in coda da troppo» → ucciso prima
+# di poter ripartire. Non era un caso limite: era la fine garantita di ogni giro fallito una volta,
+# perché OGNI attesa della retry-policy supera i 120 minuti del giro.
+# Le due prove che l'hanno inchiodato (coda memoria, 11/8): il giro delle 11:00 aveva il ritentativo
+# fissato alle 19:20 ed è stato chiuso alle 15:12; quello delle 00:31 lo aveva alle 13:09 ed è stato
+# chiuso alle 09:03. Sono i due «lavori mai partiti» che Nicola vedeva in Cabina.
+# Regola giusta: «rimasto in coda» = tempo in cui il lavoro era PRENDIBILE. Chi ha un ritentativo nel
+# futuro si salta; a chi l'ha nel passato si conta il tempo da quell'istante, non dalla nascita.
 scarta_lavori_scaduti() {
-  local vecchi row id tipo creato eta soglia
-  vecchi="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&select=id,tipo,created_at&order=created_at.asc" "${AUTH[@]}" 2>/dev/null || true)"
+  local vecchi row id tipo creato attesa eta soglia
+  vecchi="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&select=id,tipo,created_at,riprova_dopo&order=created_at.asc" "${AUTH[@]}" 2>/dev/null || true)"
   printf '%s' "$vecchi" | jq -c '.[]?' 2>/dev/null | while read -r row; do
     id="$(printf '%s' "$row" | jq -r '.id // empty')"; [ -z "$id" ] && continue
     tipo="$(printf '%s' "$row" | jq -r '.tipo // "?"')"
     creato="$(printf '%s' "$row" | jq -r '.created_at // empty')"
-    eta="$(_eta_min "$creato")"
+    attesa="$(printf '%s' "$row" | jq -r '.riprova_dopo // empty')"
+    if [ -n "$attesa" ]; then
+      # _eta_min torna NEGATIVO per un istante futuro: è il parcheggio ancora in corso.
+      eta="$(_eta_min "$attesa")"
+      if [ "$eta" -lt 0 ] 2>/dev/null; then
+        echo "[$(ts)] Lavoro $id ($tipo): aspetta il ritentativo delle $attesa → non è scaduto, lo lascio in coda." >&2
+        continue
+      fi
+    else
+      eta="$(_eta_min "$creato")"
+    fi
     if [ "$tipo" = "giro" ]; then soglia="$SOGLIA_GIRO_MIN"; else soglia="$SOGLIA_ABBANDONO_MIN"; fi
     if [ "$eta" -gt "$soglia" ]; then
       echo "[$(ts)] Scaduto $id ($tipo, ${eta}min > ${soglia}): DEAD-LETTER (errore)." >&2

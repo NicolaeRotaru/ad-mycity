@@ -1685,3 +1685,33 @@ cura, non un rattoppo per far passare il mio lavoro.
 passata. Questa era l'unica che poteva scoppiare.
 
 **Prova.** 159 file, 1648 asserzioni, verdi. Il test da solo: 3 esecuzioni, 3 verdi.
+
+---
+
+## 2026-08-11 17:20 — 🟡 I giri aspettavano il loro ritentativo e venivano uccisi due ore prima
+
+**Cosa mi ha detto Nicola.** «Nella coda lavori ci sono un sacco di lavori mai partiti da 6 giorni»
+— più «Vercel non fa il deploy da 24 ore» e «l'ultimo briefing è di 27 ore fa». Tre sintomi, e si è
+scoperto che sono tre cose diverse: uno non era un guasto, uno sì, uno resta aperto.
+
+**Vercel non è rotto.** I deploy partono solo quando un cambiamento tocca la cartella `pannello/`,
+ed è una scelta presa il 6/7 per non bruciare la quota (il VPS pubblica la memoria ogni 5 minuti: a
+deploy automatici accesi la quota moriva entro mezzogiorno). Dall'ultimo deploy sono arrivate su
+main sette modifiche e **nessuna** tocca il Pannello. Fermo da 24 ore è il comportamento giusto.
+
+**La coda invece era rotta, e in modo garantito.** I lavori non erano «mai partiti»: partivano,
+fallivano una volta, e venivano parcheggiati in attesa del ritentativo. Chi PRENDE i lavori
+rispettava il parcheggio; chi li SCARTA no — contava l'attesa dalla nascita del lavoro e ignorava
+l'ora del ritentativo. Siccome ogni attesa del ritentativo supera i 120 minuti di soglia del giro,
+**ogni giro fallito una volta era condannato in partenza**. Le due prove: il giro nato alle 11:00
+aveva il ritentativo alle 19:20 ed è stato chiuso alle 15:12; quello delle 00:31 lo aveva alle 13:09
+ed è stato chiuso alle 09:03.
+
+**Il rimedio.** «Rimasto in coda» ora vuol dire *tempo in cui il lavoro era prendibile*: chi ha un
+ritentativo nel futuro si salta, a chi l'ha nel passato si conta il tempo da quell'istante.
+
+**Prova.** 160 file, 1652 asserzioni, verdi. La prova nuova nei due versi: rossa col codice di
+prima (2 casi su 4), verde dopo.
+
+**Cosa resta aperto (non l'ho chiuso).** Il giro esce con i cancelli rossi — nove vincoli attivi —
+e per questo il briefing resta vecchio. È un'altra malattia, e va guardata a parte.
