@@ -16,6 +16,17 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+<!-- sensori-cancellati -->
+
+### ⏳ #sensori-cancellati — Chiudi la falla che cancella lo stato dei sensori quando qualcuno guarda senza chiavi
+
+**Cosa cambia:** in Cabina i sensori possono passare da «a posto» a «non collegato» senza che si sia rotto niente. Basta che io lanci il controllo da un posto dove le chiavi non ci sono. È successo stanotte alle due e mezza, mentre preparavo la radiografia. Il file si è riscritto da solo. Sette occhi che sul server funzionano sono diventati «non configurato»: Stripe, il database del marketplace, il sito, la memoria, la Cabina. E con la data fresca, come se qualcuno li avesse appena controllati. Me ne sono accorto e ho rimesso a posto. Ma il giro dopo legge quel file per decidere se fidarsi dei numeri. Trovandolo così si mette il freno «niente numeri nuovi» per un guasto che non esiste. Il file poi finisce nel salvataggio, quindi la bugia arriva anche al server. La protezione contro tutto questo **è già scritta nel codice**, con un commento che la spiega. Solo che non si chiude mai. Basta che un controllo qualsiasi si dichiari a posto e la porta si apre per tutti. E uno di quei controlli risponde sempre di sì, perché guarda se esiste un file su disco invece di guardare se c'è una chiave.
+**Se va bene:** rispondi «ok sensori». Faccio due cose. La prima: la porta si chiude sul singolo sensore invece che sull'intero file. Così chi non ha la chiave di Stripe non può riscrivere lo stato di Stripe, e lascia in pace gli altri. La seconda: aggiungo un freno che fallisce se qualcuno riapre la porta. Lancia il controllo a chiavi spente su una copia e pretende che il file non cambi. Ci vuole un giro. Se invece lo vuoi lasciare com'è, va bene: lo segno come tua decisione e non te lo ripropongo più. Sappi però che finché resta così, ogni volta che guardo da fuori dal server ti sporco la Cabina.
+**Nota tecnica:** unico bloccante della radiografia dell'11/8. Sta nella foto `auto-coscienza/auto-radiografia.json`, sotto `macchina/sensori-cecita`. Prende un numero di cantiere quando si apre il lotto che lo ripara. Il punto esatto: `cervello/verifica-sensori.mjs` righe 594-602 calcola `ambienteConfigurato` con un `some`, cioè basta un solo controllo a posto. Il controllo del guardiano esterno alle righe 346-359 si dichiara sempre configurato, in tutti e quattro i rami. Lo fa perché verifica se esiste il file `.github/workflows/battito-esterno.yml`, non se c'è una chiave. La porta di scrittura è `cervello/stato-sensori.mjs` righe 41-48. Il file riscritto è `auto-coscienza/sensori-cecita.json`. Misurato stanotte: 10 sensori su 12 a posto prima, 3 dopo.
+- **Colore:** 🟡 — tocca il codice della macchina, non il marketplace, e nessuno riceve messaggi.
+- **Reparto:** AD + tech
+- **Origine:** `{origine:radiografia-totale, rapporto:consegne/audit/2026-08-11-radiografia-totale.md}`
+
 <!-- cosa-vuol-dire-fatto -->
 
 ### ✅ #cosa-vuol-dire-fatto — Alzata l'asticella di cosa vuol dire «riparato». FATTO 2026-08-11 00:20, col tuo ok in chat
