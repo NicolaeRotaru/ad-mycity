@@ -225,12 +225,12 @@ Specchio umano di `registro-fatti.json` (AR-102): qui vivono i fatti-chiave del 
 | --- | --- | --- |
 | Negozio faro | **Pane Quotidiano** — unico negozio reale attivo (demo Casa Linda esclusa) | 06/7 23:55 |
 | Cliente core | **Botteghe** (carrello multi-negozio settimanale) — non ristoranti/trattorie | 13/7 22:35 |
-| Commissione MyCity | **10%** sul venduto | 20/7 12:39 |
+| Commissione MyCity | **10%** sul venduto tramite la piattaforma, e **serve a pagare la consegna** (Nicola, 11/8). Non è un margine sull'incasso che il negozio faceva già: sta solo sugli ordini che porta MyCity | 11/8 10:21 |
 | Abbonamento venditore | **50 €/mese** | 20/7 12:39 |
 | Fonti di reddito | **Due:** ① marketplace (10% + 50 €/m + 3 € fee consegna). ② **Worker per i negozi**, non ancora costruito: prezzo nella riga qui sotto | 11/8 02:18 |
 | Le 46 leve di ricavo (lista Nicola 29/7) | **Mappa del potenziale, NON linee attive**: 16 incassabili a zero ordini · 11 ferme al 1° ordine · 12 richiedono pubblico · 7 richiedono un permesso. Nessun prezzo approvato | 29/7 16:20 |
 | Worker per i negozi — prezzo | **Incluso nei 50 €/m del marketplace** fino a ~50-100 negozi, poi **+50 €/m** (100 €/m in tutto per negozio). Supera il listino a 3 fasce del 29/7 (99 · 299 · 699-999): non era mai stato venduto a nessuno | 11/8 02:18 |
-| Worker per i negozi — pilot | **149 €/m bloccato** per 3 founder: I Frutti della Terra, Enoteca La Canteina, Il Pollivendolo (da fondare: non risultano nei dati). ⚠️ Il documento dell'11/8 non li nomina: restano a 149 finché non lo dice Nicola | 29/7 00:15 |
+| Worker per i negozi — i 3 di prova | **Pagano 50 €/m come tutti** (Nicola, 11/8): I Frutti della Terra, Enoteca La Canteina, Il Pollivendolo. Il prezzo bloccato del 29/7 non esiste più. Restano da fondare: non risultano nei dati | 11/8 10:21 |
 | Worker per i negozi — stato | **Definito, NON costruito** — si crea in sessioni dedicate future; nessuna azione né pitch finché non lo apre Nicola | 29/7 01:19 |
 | Obiettivo di ricavo | **10.000 €/mese** = 100 negozi × 100 €/m; **10-20 fonti di entrata attive entro gennaio 2027** | 11/8 02:18 |
 | Costi infrastruttura | **~302 €/mese** fissi (dettaglio nella sezione "💰 Costi infrastruttura" qui sotto) | 21/7 00:37 |

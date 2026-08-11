@@ -1,8 +1,34 @@
 ---
 tipo: stato
-aggiornato: 2026-08-11 02:18
+aggiornato: 2026-08-11 10:25
 fonte: AD digitale (chat)
 ---
+
+> 📕 **11/8 10:25 — CHAT: le due ricerche lette per intero, e tre domande aperte che si chiudono.**
+> Nicola risponde alle tre domande della richiesta di unione #701, e ne aggiunge una quarta: «leggi i
+> due pdf è fondamentale».
+>
+> **Le tre risposte.** ① Il **10% sulle vendite tramite la piattaforma serve a pagare la consegna**.
+> Non è un margine sull'incasso che il negozio faceva già, e per questo regge insieme al paletto «zero
+> commissioni»: la percentuale sta solo sugli ordini che porta MyCity, cioè su denaro nuovo. ② I **tre
+> negozi di prova pagano 50 euro al mese come tutti**: il prezzo bloccato a 149 nato il 29/7 non esiste
+> più. ③ **«Hulii» non è nessuno**: è un nome scritto a caso all'iscrizione di questo account Claude,
+> finito nel documento da lì. Il proprietario è Nicola, punto.
+>
+> **I due PDF, letti davvero.** Venti pagine: 11 la teoria del cambiamento, 9 il bottegaio. Servivano
+> font speciali per tirarne fuori il testo, e stamattina alle 02:12 avevo dichiarato che non ci
+> riuscivo. Ci sono riuscito. Il riassunto di Nicola regge: su venti numeri controllati, diciotto
+> tornano esatti. **Due non hanno riscontro da nessuna parte** — il «~84% dichiara di amare il locale»
+> e l'«integrazione POS-registratori telematici obbligatoria dal 2026». Non li ho corretti: il testo è
+> suo.
+>
+> **La cosa che vale di più.** Nei PDF ci sono **nove soglie operative che nel riassunto non erano
+> arrivate**, e sono quelle che dicono quando fermarsi e quando spingere. Tre esempi. Da tre a cinque
+> negozi del fresco attivi con numeri veri entro 60 giorni. Se il porta a porta nel fresco converte
+> sotto il 20%, si rivede il discorso prima di allargare. E per il welfare basta **una sola** azienda
+> che sposti il budget: quel caso diventa la leva per tutte le altre. Tutte in
+> `consegne/strategia/2026-08-11-verifica-sintesi-contro-ricerche.md`, in attesa che Nicola scelga
+> quali adottare. **Business invariato:** 1 negozio, 0 ordini pagati.
 
 > 🧠 **11/8 02:18 — CHAT: è arrivato il perché del business, e sposta il prezzo del Worker da 99 euro a zero.**
 > Nicola consegna un documento che tiene insieme due ricerche di agosto. Una guarda il cittadino: perché uno che

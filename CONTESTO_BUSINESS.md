@@ -196,11 +196,11 @@ I due report completi (dati, casi, caveat) sono la fonte di verità estesa:
 > sessione di Claude Code per usarlo senza sbagliare. Il testo sopra (§0→§12) è suo, parola per
 > parola, e non va riscritto: se un numero cambia, cambia il registro dei fatti e si segnala qui.
 
-**① «Hulii» è il proprietario, cioè Nicola.** Nel §0 e nel §1 il proprietario si chiama *Hulii*.
-In tutto il resto della macchina si chiama *Nicola*: nel `CLAUDE.md`, nella memoria, nel Pannello.
-MyCity ha un operatore solo, quindi sono la stessa persona. Il §0.3 dice «fermati e segnalalo a
-Hulii»: vuol dire fermarsi e chiederlo a Nicola. È una deduzione, non una sua parola. Se sbaglio,
-correggila: questa riga sparisce.
+**① «Hulii» non è nessuno.** Nel §0 e nel §1 il proprietario si chiama *Hulii*. Nicola ha
+spiegato l'11/8/2026 da dove viene: è un nome scritto a caso quando ha creato questo account
+Claude, ed è finito nel documento da lì. Il proprietario di MyCity è **Nicola**, e basta. Dove il
+§0.3 dice «fermati e segnalalo a Hulii», si legge «fermati e dillo a Nicola». Il nome non va usato
+in nessun testo che esce di casa. *(`identita.hulii` nel registro dei fatti.)*
 
 **② I numeri vivi stanno nel registro dei fatti, non qui.** Questo documento è il *perché*, e
 cambia di rado. Prezzi, date e soglie cambiano spesso, e hanno UNA casa sola:
@@ -210,21 +210,27 @@ Così i guardiani possono controllarle a ogni giro. **Se il registro e questo fi
 diversi, vince il registro.** E chi se ne accorge lo scrive a Nicola: vuol dire che una delle due
 case è rimasta indietro.
 
-**③ Tre punti che il documento lascia aperti** (segnalati a Nicola l'11/8/2026 02:12, ancora senza
-risposta al momento in cui scrivo):
+**③ Tre punti che il documento lasciava aperti, e che Nicola ha chiuso l'11/8/2026:**
 
-- **La commissione.** Il §4.1 e il §5 vendono «canone fisso, zero commissioni». Oggi il
-  marketplace trattiene il **10% sul venduto**, ed è scritto sia nel registro
-  (`pricing.commissione`) sia nel codice del sito. Le due cose stanno insieme solo leggendo
-  «zero commissioni **sullo scontrino che il negozio faceva già**» — il 10% resta sugli ordini
-  che porta MyCity, cioè denaro nuovo. Finché Nicola non lo conferma, il 10% **non si tocca** e
-  la frase «zero commissioni» **non si usa da sola in un pitch**: va detta con il pezzo che la
-  rende vera.
-- **I 3 pilot a 149 €/mese.** Il §5 dice che il Worker è incluso nei 50 €/mese e poi costa altri
-  50. Nel registro c'è ancora `pilot.worker-negozi` = tre negozi founder a **149 €/mese
-  bloccato**. Il documento non li nomina: non so se restano a quel prezzo o rientrano nello
-  schema nuovo, quindi li ho lasciati come stavano.
+- **La commissione: il 10% paga la consegna.** Il §4.1 e il §5 vendono «canone fisso, zero
+  commissioni». Il marketplace trattiene il **10% sul venduto**, ed è scritto sia nel registro
+  (`pricing.commissione`) sia nel codice del sito. Nicola: quel 10% **serve a pagare la consegna**.
+  Le due cose stanno insieme proprio per questo. Il negozio non paga niente sull'incasso che
+  faceva già: la percentuale sta solo sugli ordini che porta MyCity, cioè su denaro nuovo, e copre
+  il costo di portarli. Regola d'uso: la frase «zero commissioni» **non si dice mai da sola** in un
+  pitch, va detta col pezzo che la rende vera.
+- **I tre negozi di prova pagano 50 €/mese come tutti.** Nel registro c'era
+  `pilot.worker-negozi` = tre founder a 149 €/mese bloccato, un prezzo nato in una chat del 29/7.
+  Nicola l'ha chiuso: pagano l'abbonamento normale, come chiunque altro. Restano entità da
+  fondare — non risultano nei dati del marketplace — quindi niente materiale intestato a loro.
 - **La stella polare.** L'§8 dice che la stella polare sono gli **euro spostati verificati**, non
   il GMV e non il numero di negozi. Nel registro il contatore storico si chiama ancora
   `northstar.consegnati` (ordini consegnati, oggi 0). Non l'ho rinominato: è un numero letto dal
   database, e serve comunque. Ma «ordini consegnati» adesso è **un contatore, non la stella**.
+
+**④ Le due ricerche sono state lette per intero, non solo archiviate.** L'11/8/2026 Nicola ha
+chiesto di leggerle davvero. Fatto: 11 pagine di *Teoria del cambiamento* e 9 di *Il bottegaio come
+cliente pagante*, estratte dai PDF e confrontate riga per riga con la sintesi qui sopra. Il verdetto
+sta in `consegne/strategia/2026-08-11-verifica-sintesi-contro-ricerche.md`: la sintesi regge, due
+numeri non hanno riscontro nei report, e nove soglie operative stanno solo nei PDF e non erano
+arrivate quassù.

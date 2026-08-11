@@ -22,6 +22,26 @@ riassunto non basta o quando qualcuno chiede «da dove salta fuori questo numero
   — è la regola «nessun numero senza fonte» del `CLAUDE.md`.
 - **Sono arrivati così.** I due file sono stati archiviati l'11/8/2026 esattamente come Nicola li
   ha consegnati: rinominati per leggibilità, contenuto non toccato.
+- **Sono stati letti, non solo archiviati.** L'11/8/2026 li ho letti per intero e confrontati col
+  riassunto. Il verdetto sta in `consegne/strategia/2026-08-11-verifica-sintesi-contro-ricerche.md`.
+  Là dentro c'è anche la lista delle soglie operative che vivono solo qui dentro, e che nel riassunto
+  non erano arrivate.
+
+## Come si legge il testo, che non è ovvio
+
+Questi due PDF usano font con una codifica propria. Un estrattore semplice restituisce solo simboli
+e frammenti come `fi`, `fl`, `AdobeUCS`. Sembrano file vuoti o rotti, e non lo sono. Serve una
+libreria che sappia seguire la mappa di conversione dei caratteri.
+
+La ricetta che funziona, in tre passi:
+
+1. `npm i pdfjs-dist@4` in una cartella temporanea, fuori da questo repo.
+2. `getDocument({data}).getPage(n).getTextContent()` per ogni pagina.
+3. Unire i pezzi guardando la coordinata verticale, cioè `item.transform[5]`. Senza quel passaggio
+   le righe si incollano tutte insieme e il testo diventa illeggibile.
+
+Pagine vere: 11 la teoria del cambiamento, 9 il bottegaio. Attenzione: il comando `file` ne dichiara
+8 per entrambi, e sbaglia.
 
 | File archiviato | Nome di consegna |
 |---|---|
