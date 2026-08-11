@@ -42,6 +42,21 @@ const run = (args) => {
 };
 const registro = () => JSON.parse(readFileSync(CAL, "utf8"));
 
+// LA FINESTRA DELLA PREVISIONE DI PROVA: una data che non può scadere.
+//
+// Qui c'era `2026-08-10` scritto a mano, e l'11/8 alle 00:00 questo test è diventato rosso da solo —
+// su main, per tutte le PR, senza che nessuno avesse toccato una riga. Il codice era a posto: la
+// finestra si era chiusa il giorno prima, quindi `registra` rifiutava la chiusura per AR-173
+// («oggi è troppo tardi per dichiararne l'esito») e la riga «Chiusa la previsione aperta» non
+// usciva. Un test con una scadenza dentro è una bomba a orologeria: passa finché passa, poi accusa
+// di un guasto chi non l'ha causato — ed è esattamente il rosso che si impara ad aggirare.
+//
+// La finestra qui non è ciò che si sta provando: si prova che il SECONDO momento chiude la
+// previsione del PRIMO. Il caso della chiusura fuori tempo ha già il suo test, più sotto («AR-173,
+// ultima clausola»). Quindi la data va spinta dove non può arrivare, come fa già
+// `previsione-banale-dai-dati.test.mjs` con `--entro=2099-01-01`.
+const ENTRO_CHE_NON_SCADE = "2099-01-01";
+
 prova("il caso che ha rotto: creato e chiuso nello stesso giorno non è una previsione", () => {
   const finta = { stato: "azzeccata", sensore_stato: "ok", atteso: 1, baseline: 0, creato: "2026-07-20 09:00", chiuso_il: "2026-07-20 18:30" };
   assert.equal(nataChiusa(finta), true);
@@ -62,7 +77,7 @@ prova("i due momenti ESISTONO come due comandi", () => {
 prova("il ciclo completo, ESEGUITO: apre prima, chiude dopo, e la voce conta", () => {
   const prima = readFileSync(CAL, "utf8");
   try {
-    run([LOOP, "prevedi", "@prova-due-momenti", "fare la cosa", "ordini", "2", "0", "2026-08-10"]);
+    run([LOOP, "prevedi", "@prova-due-momenti", "fare la cosa", "ordini", "2", "0", ENTRO_CHE_NON_SCADE]);
     const aperta = registro().registro.find((e) => e.stato === "aperta" && e.reparto === "@prova-due-momenti");
     assert.ok(aperta, "il primo momento deve aprire una previsione vera");
     assert.equal(aperta.baseline, 0, "con la baseline del momento in cui si apre");
@@ -87,7 +102,7 @@ prova("senza la fonte del numero la previsione resta APERTA, non si chiude a vuo
   // ragione da sola; lasciarla aperta è la risposta scomoda e vera.
   const prima = readFileSync(CAL, "utf8");
   try {
-    run([LOOP, "prevedi", "@prova-due-momenti", "fare la cosa", "ordini", "2", "0", "2026-08-10"]);
+    run([LOOP, "prevedi", "@prova-due-momenti", "fare la cosa", "ordini", "2", "0", ENTRO_CHE_NON_SCADE]);
     const aperta = registro().registro.find((e) => e.stato === "aperta" && e.reparto === "@prova-due-momenti");
     const senza = run([LOOP, "registra", "@prova-due-momenti", "ctx", "sc", "2", "2"]);
     assert.match(senza.out, /manca la fonte del numero/);
