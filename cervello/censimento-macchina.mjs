@@ -126,6 +126,7 @@ export const DESCRIZIONI = {
     "audit-pannello": "Audit del Pannello stesso: bug di navigazione, stato perso, liste vecchie, errori a runtime.",
     "auto-radiografia": "La macchina che analizza sé stessa: 12 dimensioni sull'architettura, più pre-mortem e confronto coi migliori.",
     "giro-operativo": "Il giro fatto da una flotta di senior in parallelo: ognuno propone le mosse a maggior ritorno, poi l'AD ordina.",
+    "radiografia-totale": "Tutti gli organi insieme in tre giri: 48 dimensioni su macchina, Pannello, senior, worker, GitHub e codice, dove ogni giro cerca ciò che il precedente non ha visto.",
   },
 };
 
