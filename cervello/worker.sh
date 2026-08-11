@@ -1280,6 +1280,13 @@ Esegui la metabolizzazione seguendo le istruzioni sopra. NON produrre risposte p
       # nell'output sopra (cerca «GATE MEMORIA», «VAULT-SANITÀ», «COERENZA-FATTI» oppure «push … fallito»).
       stato="errore"; out="$out
 [worker] Memoria scritta in locale ma NON pubblicata su main (rc=2). Motivo nell'output sopra: o il gate coerenza/vault-sanità l'ha bloccata (es. un JSON del vault non parsabile → ripara il file), oppure il push è fallito (controlla GIT_PUSH_TOKEN)."
+    elif [ "$rc" -eq 4 ]; then
+      # ⭕ GIRO A VUOTO (11/8). Il motore è andato bene e non ha scritto un file. Prima questo caso
+      # usciva 0 e il worker lo segnava «fatto»: la macchina stava ferma e la Cabina la mostrava che
+      # lavorava. Ha la sua riga perché ha un rimedio suo — si guarda cosa ha risposto il motore, non
+      # si va a caccia di cancelli rossi né si accusa il push.
+      stato="errore"; out="$out
+[worker] Giro A VUOTO (rc=4): il motore ha risposto bene ma non ha scritto NESSUN file — niente briefing, niente memoria nuova. Non è un problema di pubblicazione né di cancelli: guarda cosa ha risposto il motore nell'output sopra."
     elif [ "$rc" -eq 3 ]; then
       # AR-300/AR-320: il giro è arrivato in fondo e la memoria è pubblicata, ma dei vincoli sono
       # rimasti ATTIVI (o il motore è stato saltato mentre lo erano). Non è un fallimento del motore

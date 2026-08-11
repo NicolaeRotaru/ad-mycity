@@ -152,6 +152,7 @@ export function esitoCadenza({
   vincoliAttivi = 0,
   vincoliNonConsegnati = false,
   memoriaIncoerente = false,
+  motoreEseguito = true,
 } = {}) {
   const ai = Number(aiRc) || 0;
   const gate = Math.max(0, Number(vincoliAttivi) || 0);
@@ -160,16 +161,24 @@ export function esitoCadenza({
   const passi = !(passiOk === false || passiOk === 0 || passiOk === "0");
   const incoerente = memoriaIncoerente === true || memoriaIncoerente === 1 || memoriaIncoerente === "1";
   const nonConsegnati = vincoliNonConsegnati === true || vincoliNonConsegnati === 1 || vincoliNonConsegnati === "1";
+  const motore = !(motoreEseguito === false || motoreEseguito === 0 || motoreEseguito === "0");
 
+  // ⭕ Il giro a vuoto (11/8) e l'ordine dell'etichetta: la regola vera sta in `esito_giro_rc` e
+  // `esito_giro_etichetta` di cervello/giro-esito.sh, e questa è la sua gemella. Le due DEVONO dare
+  // la stessa risposta su tutta la tabella di verità — è quello che prova esito-cadenza.test.mjs.
+  // Ordine dell'etichetta, dal fatto più grave: motore rotto → memoria non uscita → giro a vuoto →
+  // controlli rossi → passi saltati → pulito.
   const etichetta = ai !== 0
     ? "motore-fallito"
-    : gate > 0
-      ? "vincoli-attivi"
-      : !push
-        ? "non-pubblicato"
-        : !passi
-          ? "passi-saltati"
-          : "pulito";
+    : !push
+      ? "non-pubblicato"
+      : motore && !cambi
+        ? "giro-a-vuoto"
+        : gate > 0
+          ? "vincoli-attivi"
+          : !passi
+            ? "passi-saltati"
+            : "pulito";
 
   let codice;
   // AR-104: la memoria bloccata dal cancello ha la precedenza — non è un successo silenzioso
@@ -181,7 +190,8 @@ export function esitoCadenza({
     // sono rossi vale la regola di sotto — non è un giro pulito.
     if (cambi && push) codice = gate > 0 ? 3 : 0;
     else codice = 1;
-  } else if (gate > 0) codice = 3;
+  } else if (motore && !cambi) codice = 4;
+  else if (gate > 0) codice = 3;
   else if (nonConsegnati) codice = 3;
   else codice = 0;
 

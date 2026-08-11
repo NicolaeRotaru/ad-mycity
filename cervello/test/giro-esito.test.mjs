@@ -15,19 +15,32 @@ const QUI = dirname(fileURLToPath(import.meta.url));
 const SH = join(QUI, "..", "giro-esito.sh");
 
 /** Esegue la funzione reale in una bash pulita e restituisce il codice deciso. */
-function rc({ memoriaIncoerente = 0, hadChanges = 1, pushOk = 1, aiRc = 0, gateRossi = 0, nonConsegnati = 0 }) {
+function rc({
+  memoriaIncoerente = 0,
+  hadChanges = 1,
+  pushOk = 1,
+  aiRc = 0,
+  gateRossi = 0,
+  nonConsegnati = 0,
+  motoreEseguito = 1,
+}) {
   const out = execFileSync(
     "bash",
-    ["-c", `. "${SH}"; esito_giro_rc ${memoriaIncoerente} ${hadChanges} ${pushOk} ${aiRc} ${gateRossi} ${nonConsegnati}`],
+    [
+      "-c",
+      `. "${SH}"; esito_giro_rc ${memoriaIncoerente} ${hadChanges} ${pushOk} ${aiRc} ${gateRossi} ${nonConsegnati} ${motoreEseguito}`,
+    ],
     { encoding: "utf8" },
   );
   return Number(out.trim());
 }
 
-function etichetta({ aiRc = 0, gateRossi = 0, pushOk = 1, stepsOk = 1 }) {
-  return execFileSync("bash", ["-c", `. "${SH}"; esito_giro_etichetta ${aiRc} ${gateRossi} ${pushOk} ${stepsOk}`], {
-    encoding: "utf8",
-  }).trim();
+function etichetta({ aiRc = 0, gateRossi = 0, pushOk = 1, stepsOk = 1, hadChanges = 1, motoreEseguito = 1 }) {
+  return execFileSync(
+    "bash",
+    ["-c", `. "${SH}"; esito_giro_etichetta ${aiRc} ${gateRossi} ${pushOk} ${stepsOk} ${hadChanges} ${motoreEseguito}`],
+    { encoding: "utf8" },
+  ).trim();
 }
 
 const casi = [];
@@ -75,6 +88,35 @@ prova("motore instabile E cancelli rossi → resta exit 3, non 0", () => {
   assert.equal(rc({ aiRc: 3, hadChanges: 1, pushOk: 1, gateRossi: 2 }), 3);
 });
 
+// ── Il giro a vuoto (11/8) ────────────────────────────────────────────────────
+// Il sintomo che l'ha fatto vedere: il registro delle cadenze diceva «giro fermo da 31 ore» mentre
+// le impostazioni dicevano che il giro era uscito quel pomeriggio. Erano vere entrambe — girava e
+// non scriveva — e l'esito lo chiamava «pulito». È il buco peggiore possibile qui dentro: non
+// racconta un guasto, racconta un successo mentre la macchina sta ferma.
+prova("il caso che ha rotto: motore acceso, zero file scritti → NON è un giro pulito", () => {
+  assert.equal(
+    rc({ aiRc: 0, hadChanges: 0, gateRossi: 0, motoreEseguito: 1 }),
+    4,
+    "un giro che non scrive niente non può uscire 0: il worker lo segnerebbe «fatto» e la Cabina lo mostrerebbe verde",
+  );
+});
+prova("giro a vuoto: la notizia è il vuoto, non i cancelli rossi", () => {
+  // Se il motore non ha scritto, i cancelli rossi sono la CONSEGUENZA (nessuno li ha consumati).
+  // Dire «vincoli attivi» manderebbe a sistemare i controlli mentre il giro non è proprio successo.
+  assert.equal(rc({ aiRc: 0, hadChanges: 0, gateRossi: 9, motoreEseguito: 1 }), 4);
+});
+prova("il motore SPENTO apposta dal delta-gate resta un esito legittimo", () => {
+  // AR-019: quando non è cambiato niente il motore si spegne di proposito. Lì zero scritture è la
+  // risposta giusta, non un difetto — altrimenti il fix trasformerebbe un risparmio in un errore fisso.
+  assert.equal(rc({ aiRc: 0, hadChanges: 0, gateRossi: 0, motoreEseguito: 0 }), 0);
+});
+prova("motore spento con vincoli non consegnati resta exit 3", () => {
+  assert.equal(rc({ hadChanges: 0, motoreEseguito: 0, nonConsegnati: 1 }), 3);
+});
+prova("un giro che scrive davvero non viene scambiato per vuoto", () => {
+  assert.equal(rc({ aiRc: 0, hadChanges: 1, gateRossi: 0, motoreEseguito: 1 }), 0);
+});
+
 // ── «Giro pieno» si guadagna (AR-301) ─────────────────────────────────────────
 // Dichiararsi pieno fa saltare il motore ai giri successivi fino a 12h: un giro fallito che si
 // dichiarava pieno spegneva quelli dopo. Prima girava sempre.
@@ -101,6 +143,29 @@ prova("etichetta: pulito solo quando lo è davvero", () => {
   assert.equal(etichetta({ aiRc: 1 }), "motore-fallito");
   assert.equal(etichetta({ pushOk: 0 }), "non-pubblicato");
   assert.equal(etichetta({ stepsOk: 0 }), "passi-saltati");
+});
+
+prova("il caso che ha rotto: «memoria non uscita» non si nasconde dietro «vincoli attivi»", () => {
+  // È l'etichetta che Nicola legge in Cabina. Con i cancelli rossi copriva il fatto più grave, e
+  // chi leggeva andava a sistemare i controlli mentre il problema era che non si pubblicava più.
+  assert.equal(etichetta({ pushOk: 0, gateRossi: 9 }), "non-pubblicato");
+});
+prova("etichetta: il giro a vuoto ha un nome suo", () => {
+  assert.equal(etichetta({ hadChanges: 0, motoreEseguito: 1 }), "giro-a-vuoto");
+  assert.equal(etichetta({ hadChanges: 0, motoreEseguito: 1, gateRossi: 9 }), "giro-a-vuoto");
+  // motore spento apposta: nessuna scrittura attesa, l'etichetta non deve accusare nessuno
+  assert.equal(etichetta({ hadChanges: 0, motoreEseguito: 0 }), "pulito");
+});
+prova("giro.sh scrive il verbale con l'etichetta della funzione, non con una copia sua", () => {
+  // Nel file esito-giro.json viveva una SECONDA copia della regola, scritta in JS. Le due si erano
+  // già allontanate: la copia diceva «vincoli-attivi» dove la funzione dice «non-pubblicato».
+  const src = readFileSync(join(QUI, "..", "giro.sh"), "utf8");
+  assert.match(src, /ESITO="\$\(esito_giro_etichetta /, "il verbale deve chiamare la funzione unica");
+  assert.doesNotMatch(
+    src,
+    /const esito = \(ai!==0\)/,
+    "seconda copia della regola in JS: due copie non restano d'accordo, e nessuno se ne accorge",
+  );
 });
 
 
