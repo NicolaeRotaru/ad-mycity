@@ -1,9 +1,9 @@
 {
-  "data": "2026-08-11 11:19",
+  "data": "2026-08-11 13:37",
   "tipo": "radiografia-totale",
   "voto_salute_architettura": 4,
   "trend": "=",
-  "sintesi": "Radiografia di tutti gli organi in tre giri (macchina, Pannello, senior, worker, GitHub, codice), 11/8. 156 trovati: 1 bloccano, 111 gravi, 44 minori. Ogni difetto grave è passato da un revisore che provava a smontarlo. Restano in lista anche 110 findings aperti della radiografia del 2026-07-30.",
+  "sintesi": "Radiografia di tutti gli organi in tre giri (macchina, Pannello, senior, worker, GitHub, codice), 11/8. 163 trovati: 1 bloccano, 114 gravi, 48 minori. Ogni difetto grave è passato da un revisore che provava a smontarlo. Restano in lista anche 110 findings aperti della radiografia del 2026-08-11.",
   "dimensioni": [
     {
       "key": "worker-vps",
@@ -2578,7 +2578,7 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "macchina/agenti-routing",
@@ -2691,7 +2691,7 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "macchina/volano-cadenze",
@@ -2778,7 +2778,7 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "macchina/sensori-cecita",
@@ -2852,7 +2852,7 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "macchina/semaforo-northstar",
@@ -2939,7 +2939,7 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "pannello/stato-freschezza",
@@ -3117,7 +3117,7 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "pannello/errori-navigazione",
@@ -3256,7 +3256,7 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "pannello/card-mobile-perf",
@@ -3395,7 +3395,7 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "senior/registro-qualita",
@@ -3547,7 +3547,7 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "senior/loop-collaborazione",
@@ -3673,7 +3673,7 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "worker/coda-lock-orfani",
@@ -3825,7 +3825,7 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "worker/git-motore-timer",
@@ -4029,7 +4029,7 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "worker/script-shell-risorse",
@@ -4181,13 +4181,13 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "github/ci-segreti-igiene",
-      "voto": 6,
+      "voto": 5,
       "stato": "da-sistemare",
-      "sintesi": "12 trovati: 0 bloccano, 3 gravi, 9 minori.",
+      "sintesi": "16 trovati: 0 bloccano, 5 gravi, 11 minori.",
       "findings": [
         {
           "titolo": "Quando il guardiano che vive fuori dal server non riesce a misurare, esce con la spunta verde e non dice niente a nessuno",
@@ -4344,9 +4344,61 @@
           "prova": "cd /home/user/ad-mycity && for p in node_modules/x cervello/node_modules/x npm-debug.log; do git check-ignore -q \"$p\" || { echo \"ROSSO: $p non è escluso\"; exit 1; }; done; echo verde",
           "prova_tipo": "comando",
           "stato": "aperto"
+        },
+        {
+          "titolo": "Nessun controllo su GitHub cerca le chiavi segrete prima che entrino nel codice",
+          "dove": "I due lavori che girano su GitHub — «cancello del lotto» (.github/workflows/cancello-lotto.yml, righe 60-64) e «test del cervello» (.github/workflows/test-cervello.yml, righe 70-80) — confrontati con lo scanner cervello/scan-segreti.mjs, che viene chiamato solo da cervello/giro.sh (righe 1306-1313) e da .githooks/pre-commit",
+          "severita": "grave",
+          "descrizione": "La macchina ha uno scanner di segreti che funziona bene: gli ho piantato una finta chiave Stripe in un file e l'ha visto subito, uscendo con codice 1 e il messaggio «1 possibili segreti in 1 file. BLOCCA il commit» (misurato adesso, 11/08 13:15, su una copia usa-e-getta del progetto). Il problema non è lo scanner: è che nessuno su GitHub lo esegue. I comandi che i quattro lavori eseguono davvero sono cinque in tutto — il battito esterno, la suite del cervello, il typecheck, le dipendenze del Pannello e il cancello del lotto — e nessuno di questi passa dallo scanner. Ho fatto elencare al cancello delle richieste di unione le sue regole eseguendolo: sono tutte sul cantiere dei difetti (id-doppio, prova-con-or, asticella, mutazione-mancante) più suite e typecheck. Dei segreti non parla nessuna. Quindi le due sole strade per cui il codice arriva a main — la richiesta di unione fusa col bottone di GitHub, e la spinta diretta su main — sono entrambe scoperte: il bottone «merge» non esegue nessun gancio locale, e la spinta diretta incontra solo la suite. Onestà sulla misura: ho verificato adesso la metà che si misura in pochi secondi (lo scanner esce 1 sulla chiave piantata) e l'elenco delle regole del cancello; l'esecuzione completa dei due gate con la chiave piantata supera il mio tetto di 30 secondi per comando, ed è quella che il comando qui sotto porta a termine in qualche minuto.",
+          "impatto": "Una chiave vera di Stripe o di Supabase committata da una sessione che non ha i ganci accesi arriva su main senza incontrare nessun controllo. Con la chiave di servizio di Supabase si legge e si scrive l'intero database del marketplace — clienti, ordini, negozi — e main è pubblico per chiunque abbia accesso al repo. Il rimedio dopo il fatto non è cancellare il file: è ruotare la chiave e ripulire la storia.",
+          "causa_radice": "La difesa sui segreti è agganciata a due esecutori che vivono fuori da GitHub: il giro sul server, e un gancio git locale che si accende solo se qualcuno lancia installa-hooks.sh (lo fanno il giro e l'avvio di sessione di Claude Code). È esattamente la malattia che il file test-cervello.yml dichiara alle righe 21-22 di non voler più avere — «nessuna difesa può avere come unico esecutore un processo che può stare fermo giorni» — e che cancello-lotto.yml alle righe 5-7 dice già dei ganci locali: «una sessione nuova può avere core.hooksPath non impostato e non se ne accorge nessuno». Quando il lotto 33 ha portato le altre difese su GitHub, quella dei segreti non è stata portata con loro.",
+          "fix_proposto": "Aggiungere un passo «node cervello/scan-segreti.mjs» dentro cancello-lotto.yml (dopo il checkout, prima delle dipendenze: costa pochi secondi e non serve npm) e dentro test-cervello.yml. Sono due righe per file. In parallelo chiedere a Nicola di accendere la protezione nativa di GitHub contro le chiavi in chiaro nelle impostazioni del repository, che copre anche i casi che il nostro scanner non conosce.",
+          "impatto_crescita": "medio",
+          "prova": "d=$(mktemp -d)/r; git clone -q --local --no-hardlinks /home/user/ad-mycity \"$d\" && cd \"$d\" || exit 1; printf 'export const K=\"sk_\"$(echo live)\"_51AbCdEfGhIjKlMnOpQrStUvWxYz0123456789\";\\n' > cervello/chiave-piantata.mjs; node cervello/scan-segreti.mjs cervello/chiave-piantata.mjs >/dev/null 2>&1; s=$?; [ $s -eq 0 ] && { echo 'PROVA NON VALIDA: lo scanner non vede nemmeno la chiave piantata'; exit 1; }; timeout 600 node cervello/test-cervello.mjs >/dev/null 2>&1; a=$?; npm --prefix pannello ci >/dev/null 2>&1; timeout 900 node cervello/cancello-lotto.mjs >/dev/null 2>&1; b=$?; [ $a -eq 0 ] && { echo 'ROSSO: il gate della spinta su main e verde con una chiave Stripe in chiaro nel codice'; exit 1; }; [ $b -eq 0 ] && { echo 'ROSSO: il gate delle richieste di unione e verde con una chiave Stripe in chiaro nel codice'; exit 1; }; echo VERDE",
+          "prova_tipo": "comando",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Il deploy del Pannello si dichiara riuscito appena Vercel risponde, non quando la pagina è davvero aggiornata",
+          "dove": "Il lavoro «deploy» dentro .github/workflows/deploy-pannello.yml, righe 46-50: controlla il codice HTTP della chiamata al Deploy Hook e finisce lì",
+          "severita": "grave",
+          "descrizione": "Il workflow chiama il Deploy Hook di Vercel e considera fatto il lavoro se la risposta è un codice fra 200 e 299. Ma quel codice vuol dire soltanto «ho preso in carico la richiesta, la costruzione parte adesso»: la costruzione vera avviene dopo, sui server di Vercel, e se fallisce — errore di compilazione, variabile d'ambiente mancante, quota finita a metà — il workflow su GitHub resta verde lo stesso. Nessun altro controllo guarda la versione pubblicata: ho cercato in tutte le rotte del Pannello un punto che esponga la versione distribuita (il codice del commit che Vercel mette a disposizione durante la costruzione) e non ce n'è nessuna. Quindi non esiste nemmeno un modo, da fuori, di chiedere alla Cabina «che versione stai servendo». Il risultato è che il Pannello può restare fermo alla versione precedente per giorni con la spunta verde accanto all'ultimo deploy. È la stessa malattia che il file accanto, battito-esterno.yml, dichiara alle righe 75-76 di aver già curato altrove: «si guarda cosa TORNA, non il fatto che il comando sia partito; dichiarare consegnato ciò che nessuno ha ricevuto è il difetto che ha reso muto l'allarme di Telegram».",
+          "impatto": "Nicola guarda una Cabina che gli sembra aggiornata e non lo è: firma decisioni su numeri e code vecchi, senza nessun segnale che glielo dica. E chi ha fatto la modifica vede il verde e passa oltre, quindi il guasto resta finché non lo nota una persona.",
+          "causa_radice": "Il Deploy Hook è una chiamata asincrona: chi la fa riceve una ricevuta di accettazione, non un esito. Il workflow tratta la ricevuta come esito perché fermarsi lì non richiede né una chiave API di Vercel né un ciclo di attesa — e nessuno ha poi aggiunto il secondo pezzo, quello che chiede a Vercel come è finita.",
+          "fix_proposto": "Due pezzi. ① Far esporre al Pannello la versione che sta servendo (una rotta minima che restituisce la variabile del commit che Vercel imposta durante la costruzione). ② Nel workflow, dopo la chiamata al hook, attendere e confrontare quella versione con il commit appena spinto: se dopo qualche minuto non coincide, il passo diventa rosso. Così il verde su GitHub significa «il Pannello sta servendo questo codice», non «Vercel mi ha risposto».",
+          "impatto_crescita": "medio",
+          "prova": "Apri Vercel, progetto ad-mycity, sezione Deployments. Cerca l'ultimo deployment con stato Error o Canceled e prendine data e ora. Poi vai su GitHub, tab Actions, workflow «Deploy Pannello su Vercel», e apri la corsa partita in quello stesso minuto. Se quella corsa ha la spunta verde mentre il deployment corrispondente è fallito, il difetto c'è. Serve un occhio umano perché né il cruscotto di Vercel né lo storico delle corse sono raggiungibili da questa sessione.",
+          "prova_tipo": "umano",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Cambiare il gancio che blocca i segreti non fa partire nessun collaudo",
+          "dove": "L'elenco dei percorsi che accendono il lavoro, in .github/workflows/test-cervello.yml righe 31-35: sono quattro (il cervello, il Pannello, la cartella delle skill e i workflow stessi) e nessuno copre la cartella dei ganci git né il file che elenca cosa non va versionato",
+          "severita": "minore",
+          "descrizione": "Il lavoro «test del cervello» parte su una spinta solo se cambia uno di quattro percorsi. Restano fuori due file che sono essi stessi delle difese: il gancio pre-commit, che è oggi l'unico posto dove lo scanner dei segreti viene davvero eseguito, e il file che elenca cosa non deve finire in git. La suite contiene un test proprio su quel gancio — verifica che dentro ci siano lo scanner dei segreti, il controllo della sintassi shell e il cancello del lotto — ma quel test non viene eseguito nel momento in cui il gancio viene modificato: solo più tardi, per caso, quando qualcuno tocca il cervello o il Pannello. Chi svuota o rompe il gancio con una spinta diretta su main non incontra niente. Nota: sulle richieste di unione la suite parte comunque, quindi la strada scoperta è quella della spinta diretta — che è però la strada che questa macchina usa tutti i giorni dal server.",
+          "impatto": "Una modifica che spegne il gancio dei segreti passa senza che nessun collaudo se ne accorga — e visto che oggi quel gancio è l'unico posto dove lo scanner gira davvero, spegnerlo significa restare senza nessuna difesa sui segreti.",
+          "causa_radice": "Il filtro dei percorsi è stato scritto elencando le cartelle dove vive il codice, non quelle dove vivono le difese. La cartella dei ganci non assomiglia a codice — è configurazione — ed è finita fuori senza che nessuno lo decidesse.",
+          "fix_proposto": "Aggiungere due righe all'elenco dei percorsi: la cartella dei ganci git e il file che elenca cosa non versionare. Sono le due configurazioni che decidono cosa entra nel progetto: meritano di far partire i collaudi quanto il codice.",
+          "impatto_crescita": "basso",
+          "prova": "cd /home/user/ad-mycity && node -e 'const fs=require(\"fs\");const y=fs.readFileSync(\".github/workflows/test-cervello.yml\",\"utf8\");const blocco=y.split(/paths:/)[1].split(/^\\s{2}\\w/m)[0];const p=[...blocco.matchAll(/-\\s*\"([^\"]+)\"/g)].map(m=>m[1]);const bersagli=[\".githooks/pre-commit\",\".gitignore\"];const scoperti=bersagli.filter(b=>!p.some(x=>b.startsWith(x.replace(/\\/\\*\\*$/,\"\")+\"/\")||b===x));if(scoperti.length){console.log(\"ROSSO: cambiando \"+scoperti.join(\" o \")+\" non parte nessun collaudo. Filtri attivi: \"+p.join(\", \"));process.exit(1)}console.log(\"VERDE\")'",
+          "prova_tipo": "comando",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Un file di prova vuoto viaggia dentro il progetto da luglio",
+          "dove": "Il file consegne/test-write.tmp, versionato in git dal 4 luglio col commit del passaggio al ramo unico, zero byte",
+          "severita": "minore",
+          "descrizione": "Dentro le consegne c'è un file di zero byte che si chiama «prova di scrittura»: è l'artefatto lasciato da un controllo che verificava di riuscire a scrivere su disco, ed è finito versionato durante il travaso della memoria sul ramo unico. Non fa danni, ma è la firma di una regola mancante: le regole su cosa non versionare coprono i file che finiscono per .bak e .save e quelli che iniziano per _tmp_, ma non quelli che finiscono per .tmp. Se domani un controllo scrive di nuovo una prova con quel nome, e un giro fa il suo salvataggio automatico della memoria, la prova torna dentro senza che nessuno la veda.",
+          "impatto": "Rumore nel progetto e, se il caso si ripete, salvataggi automatici che riportano dentro artefatti di prova a ogni giro — il tipo di file che genera conflitti quando due rami lo riscrivono.",
+          "causa_radice": "Le regole su cosa escludere sono state scritte una alla volta, in reazione a incidenti già successi (il file con la chiave, i file temporanei di sessione, i salvataggi di lavoro): ogni volta si è aggiunto il nome esatto del caso visto, mai la famiglia. La famiglia dei file temporanei per estensione non è mai stata coperta.",
+          "fix_proposto": "Togliere il file dal versionamento e aggiungere alle regole di esclusione la famiglia per estensione (i file .tmp), accanto a quelle già presenti per i backup e i temporanei di sessione.",
+          "impatto_crescita": "basso",
+          "prova": "cd /home/user/ad-mycity && out=$(git ls-files --error-unmatch consegne/test-write.tmp 2>/dev/null); if [ -n \"$out\" ]; then echo \"ROSSO: $out e' versionato in git\"; exit 1; fi; echo VERDE",
+          "prova_tipo": "comando",
+          "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "macchina/rischio-se-stessa",
@@ -4433,7 +4485,7 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "github/hook-locali",
@@ -4533,13 +4585,13 @@
           "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     },
     {
       "key": "codice/guardiani-scritture",
-      "voto": 6,
+      "voto": 5,
       "stato": "da-sistemare",
-      "sintesi": "4 trovati: 0 bloccano, 3 gravi, 1 minori.",
+      "sintesi": "7 trovati: 0 bloccano, 4 gravi, 3 minori.",
       "findings": [
         {
           "titolo": "Ogni giro la pulizia della coda incolla un'altra intestazione d'archivio in mezzo alle azioni",
@@ -4592,9 +4644,48 @@
           "prova": "cd /home/user/ad-mycity && grep -L 'scrivi-json' $(grep -rl 'writeFileSync' cervello/*.mjs) | wc -l   # oggi torna 53: cinquantatre programmi scrivono su disco senza lo scrittore atomico. Prova debole (conteggio statico): dichiarata come tale, non la spaccio per comportamentale.",
           "prova_tipo": "grep",
           "stato": "aperto"
+        },
+        {
+          "titolo": "Settantasei difetti risultano chiusi senza dire quando, e il voto che mi do non li conta",
+          "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json (76 schede) · cervello/tasso-chiusura.mjs:70 (contaMese) · cervello/allinea-scan-cantiere.mjs:142 · cervello/sonda-volano.mjs:199",
+          "severita": "grave",
+          "descrizione": "Nel cantiere ci sono 563 schede: 338 marcate chiuse, 166 aperte, 57 da riverificare, 2 chiuse-in-codice. Di quelle chiuse, 76 non hanno la data di chiusura: il campo manca del tutto (l'ho controllato scheda per scheda — es. AR-465, AR-466, AR-471, AR-474, AR-478, AR-479 non hanno nemmeno la chiave). Il voto che la macchina si dà — chiusi diviso nati nel mese — legge quella data per capire a quale mese appartiene la chiusura. Senza data la chiusura non appartiene a nessun mese e sparisce dal conto. Risultato misurato adesso su agosto 2026: il motore conta 101 difetti nati e 20 chiusi, tasso 0,20 — cioè il freno resta tirato e il giro non apre ricerche nuove. Ma le chiusure che non compaiono da nessuna parte sono 76, quasi quattro volte quelle contate. Lo stesso campo lo usa anche la sonda del volano (quella che dice se la ruota gira): filtra le chiusure recenti calcolando quante ore fa è avvenuta la chiusura, e su una data vuota il conto è un non-numero, quindi anche lì quelle 76 spariscono in silenzio.",
+          "impatto": "Il numero con cui la macchina decide come spendere il turno è sbagliato di 76 chiusure. Il voto di agosto sembra 0,20 (una catastrofe) quando gran parte del lavoro fatto è semplicemente invisibile: la macchina si autoaccusa di non chiudere niente e resta in modalità «non cercare», mentre la misura vera nessuno la conosce. Finché il campo manca, l'obiettivo «chiudo almeno quanto apro» non è raggiungibile nemmeno lavorando bene.",
+          "causa_radice": "Il campo non lo pretende nessuno. Il cancello del lotto non nomina mai la data di chiusura (zero occorrenze nel file). L'audit delle chiusure la copia con «oppure stringa vuota» invece di bocciarla. E chi riallinea il cantiere la scrive esplicitamente vuota: `f.chiuso_il = f.chiuso_il || d.chiuso_il || \"\"` — cioè il codice mette nero su bianco un valore che il conto del mese non sa leggere. Il numero su cui la macchina si giudica dipende da un campo che nessun guardiano difende: chi chiude una scheda a mano non riceve nessun rosso.",
+          "fix_proposto": "Tre pezzi, in quest'ordine: ① chi porta una scheda a «chiuso» scrive sempre la data con l'orologio di Piacenza — togliere il fallback a stringa vuota in allinea-scan-cantiere.mjs:142 e far fallire l'allineamento se la data non c'è; ② aggiungere al cancello del lotto un controllo che diventa rosso se una scheda chiusa non ha una data leggibile (è il comando qui sopra); ③ per le 76 già ferite, recuperare la data dal commit che le ha chiuse (git log sul file) e riempirle una volta sola, dichiarando quali non si sono potute datare invece di inventarle.",
+          "impatto_crescita": "medio",
+          "prova": "cd /home/user/ad-mycity && node -e 'const d=JSON.parse(require(\"fs\").readFileSync(\"MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json\",\"utf8\")).difetti;const ok=x=>/^\\d{4}-\\d{2}-\\d{2}/.test(String(x||\"\"));const muti=d.filter(x=>String(x.stato||\"\").startsWith(\"chiuso\")&&!ok(x.chiuso_il));console.log(muti.length?`ROSSO: ${muti.length} schede chiuse senza data — il voto mensile non le conta (es. ${muti.slice(0,3).map(x=>x.id).join(\", \")})`:\"VERDE\");process.exit(muti.length?1:0)' — lanciato ora: stampa «ROSSO: 76 schede chiuse senza data», esce 1. Diventa verde solo quando ogni scheda chiusa porta la sua data.",
+          "prova_tipo": "comando",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Chiudere un difetto «nel codice» non conta come chiuderlo",
+          "dove": "cervello/tasso-chiusura.mjs:70 (la riga che confronta lo stato) · MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json (2 schede in stato chiuso-in-codice)",
+          "severita": "minore",
+          "descrizione": "Il cantiere usa quattro stati diversi: chiuso (338), aperto (166), da-riverificare (57), chiuso-in-codice (2). Il conto del mese riconosce solo la parola esatta «chiuso». Ho passato alla funzione vera una scheda chiusa-in-codice, nata il 1º agosto e chiusa il 5 agosto con la data scritta bene: il conto torna 1 nato e 0 chiusi. La stessa identica scheda con la parola «chiuso» torna 1 e 1. Oggi sono due schede, quindi il danno è piccolo; il meccanismo però è aperto: ogni volta che uno strumento inventa un nome di stato nuovo, quelle schede escono dal voto senza che nessuno lo dica.",
+          "impatto": "Oggi due chiusure non contate; domani, al primo stato nuovo, un intero lotto può sparire dal voto senza un rosso. È lo stesso difetto del punto precedente visto dall'altro lato: il numero che governa il turno si può abbassare senza che nessuno rompa niente.",
+          "causa_radice": "Il vocabolario degli stati non ha una casa sola: ogni strumento confronta una stringa scritta a mano invece di chiedere a un elenco condiviso quali stati significano «finito». Un nome nuovo non rompe niente — sparisce e basta, che è il modo peggiore di sbagliare.",
+          "fix_proposto": "Dichiarare in un posto solo quali stati contano come chiusi (per esempio la lista chiuso, chiuso-in-codice) ed esportarla da tasso-chiusura, poi farla usare a chi conta: il conto del mese, la sonda del volano e la Cabina. Aggiungere al guardiano un rosso quando compare nel cantiere uno stato che non sta in quella lista.",
+          "impatto_crescita": "basso",
+          "prova": "cd /home/user/ad-mycity && node -e 'import(\"./cervello/tasso-chiusura.mjs\").then(m=>{const s={id:\"X\",stato:\"chiuso-in-codice\",nato:\"2026-08-01\",chiuso_il:\"2026-08-05 10:00\"};const r=m.contaMese([s],\"2026-08\");console.log(\"chiusa-in-codice ->\",JSON.stringify(r));process.exit(r.chiusi===1?0:1)})' — lanciato ora: stampa {\"nati\":1,\"chiusi\":0} ed esce 1. Diventa verde quando anche gli stati che significano «finito» vengono contati.",
+          "prova_tipo": "comando",
+          "stato": "aperto"
+        },
+        {
+          "titolo": "Quattro schede non sono nate in nessun mese, e due hanno una virgoletta incollata dentro la data",
+          "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json — schede AR-038 e AR-039 (il campo della data di nascita vale «\\\"2026-07-07», con una virgoletta davanti) e AR-439, AR-440 (campo vuoto) · letto da cervello/tasso-chiusura.mjs:69",
+          "severita": "minore",
+          "descrizione": "Su 563 schede, 4 hanno una data di nascita che nessuno sa leggere: due sono vuote, due contengono un carattere virgoletta appiccicato davanti alla data. Il conto del mese le mette in nessun mese, quindi anche il denominatore del voto è più piccolo del vero. La virgoletta dentro il valore è una firma: quel dato non è stato scritto serializzando un oggetto, è stato incollato come testo — e nessun controllo se n'è accorto per un mese.",
+          "impatto": "Poche schede, ma toccano il denominatore del voto che decide se il giro cerca o chiude, e mostrano che il registro può prendersi caratteri sporchi senza che nessuno lo veda. Il rischio vero non sono queste quattro: è che la prossima scrittura fatta a mano ne produca cento.",
+          "causa_radice": "Nessuno valida la forma dei campi-data del cantiere quando una scheda entra: il controllo sulla nascita esiste ma guarda un altro campo (come è nato: scoperta o regressione), non se la data è una data. Un file di memoria scritto per pezzi di testo invece che per oggetti può prendersi caratteri estranei senza che il JSON diventi illeggibile — quindi passa.",
+          "fix_proposto": "Aggiungere al cancello un controllo di forma sui due campi-data del cantiere (nascita e chiusura): devono cominciare con anno-mese-giorno, altrimenti rosso. Poi ripulire le quattro schede recuperando la data dal commit che le ha create, e far passare ogni scrittura del cantiere dallo scrittore atomico invece che da testo incollato.",
+          "impatto_crescita": "basso",
+          "prova": "cd /home/user/ad-mycity && node -e 'const d=JSON.parse(require(\"fs\").readFileSync(\"MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json\",\"utf8\")).difetti;const brutte=d.filter(x=>!/^\\d{4}-\\d{2}-\\d{2}/.test(String(x.nato||\"\")));console.log(brutte.length?\"ROSSO: \"+brutte.map(x=>x.id+\"=\"+JSON.stringify(x.nato)).join(\" \"):\"VERDE\");process.exit(brutte.length?1:0)' — con lo stesso filtro che usa il conto del mese ho misurato 4 schede fuori norma (AR-038, AR-039, AR-439, AR-440); il comando esce 1.",
+          "prova_tipo": "comando",
+          "stato": "aperto"
         }
       ],
-      "giro": "2026-08-11 11:19"
+      "giro": "2026-08-11 13:37"
     }
   ],
   "pre_mortem": [
@@ -4751,11 +4842,11 @@
     "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
   },
   "sync_scan": {
-    "aggiornato": "2026-08-11 11:19",
-    "findings_aperti": 266,
+    "aggiornato": "2026-08-11 13:37",
+    "findings_aperti": 273,
     "findings_in_corso": 0,
     "findings_chiusi": 13,
-    "findings_tot": 279
+    "findings_tot": 286
   },
   "sonda_meta": {
     "giri_tasso_basso": 89,
@@ -5045,6 +5136,19 @@
     "Nessun git commit, git push o git add è stato lanciato (divieto del mandato): tutto ciò che riguarda il comportamento al momento del commit è dedotto leggendo il testo degli hook e i motori che chiamano, non provato sul campo.",
     "Cinque file di auto-coscienza (cantiere, coerenza dei fatti, stampo, tasso di chiusura, verdetti muti) erano già modificati nel working tree, con orari di scrittura fra le 11:05 e le 11:11 di oggi mentre io leggevo: non ho potuto attribuire chi li scrive, quindi non ho concluso niente sulla domanda «un hook scrive mentre il comando è di sola lettura». Resta aperta.",
     "Non ho verificato se il guardiano degli hook venga lanciato anche fuori dal cancello del lotto: l'unica chiamata che ho trovato è cervello/cancello-lotto.mjs:677, cioè solo in CI sulle pull request.",
-    "Gli altri hook di sessione (mano-fermata, cancello-senior, memoria-guardia, intento-turno, misura-cieca, contesto-lezioni) non li ho aperti: il mandato era sugli hook locali di git, e pre-scrittura è già stato coperto dal giro precedente."
+    "Gli altri hook di sessione (mano-fermata, cancello-senior, memoria-guardia, intento-turno, misura-cieca, contesto-lezioni) non li ho aperti: il mandato era sugli hook locali di git, e pre-scrittura è già stato coperto dal giro precedente.",
+    "Le impostazioni del repository su GitHub: protezione del ramo main, protezione nativa contro le chiavi in chiaro (secret scanning e push protection), elenco dei segreti configurati, permessi di default del token delle azioni. Da questa sessione non si vedono — e la prima e la seconda cambiano quanto è grave il difetto sui segreti.",
+    "Lo storico delle corse su GitHub Actions: non ho guardato se i quattro workflow siano davvero girati, quante volte e con quale esito. Ho letto cosa dicono di fare, non cosa hanno fatto.",
+    "Il server (VPS) e i suoi timer: non raggiungibili da qui, come dichiarato nel mandato. Tutto ciò che riguarda il giro e i ganci accesi sul server è dedotto dai file, non osservato.",
+    "Il cruscotto di Vercel: stato reale degli ultimi deployment, quota consumata, variabili d'ambiente del progetto. È la ragione per cui la prova sul deploy è affidata a un occhio umano.",
+    "L'esecuzione completa dei due gate con la chiave piantata: entrambi superano i 30 secondi per comando che avevo come tetto. Ho misurato lo scanner (esce 1 sulla chiave) e l'elenco delle regole del cancello delle richieste di unione, non la corsa intera.",
+    "La storia di git alla ricerca di segreti già entrati in passato e poi rimossi: ho scansionato solo l'albero attuale dei file versionati (nessuna chiave vera trovata: le uniche occorrenze sono finte chiavi dentro le prove del cantiere). Un segreto entrato a maggio e cancellato a giugno sarebbe ancora nella storia e io non l'ho cercato.",
+    "Il contenuto dei due file .env.example versionati: ho verificato che sono gli unici .env tracciati, non ho letto riga per riga se contengano per errore un valore reale invece di un segnaposto.",
+    "Il worker e il VPS da qui non si vedono: non ho potuto guardare se durante un giro vero due processi scrivono davvero lo stesso file nello stesso istante, né leggere i log dei servizi. La corsa fra scritture resta un ragionamento sul codice, non una cosa osservata.",
+    "Non ho eseguito nessun guardiano che scrive il proprio referto (le freschezze, le sentinelle, la salute, la verifica dei sensori): farli girare voleva dire farli scrivere, e il mandato era sola lettura. Quindi i loro verdetti reali di oggi non li ho visti.",
+    "Dei 186 file di cervello ne ho ispezionati circa venticinque. Restano non aperti riga per riga i più grossi e sospetti: prove-difetti (quindici scritture su file), cancello-stop (oltre trenta catch che ingoiano l'errore in silenzio), e i sei script round-applica che riscrivono il cantiere.",
+    "Dieci file calcolano «oggi» con l'ora di Greenwich invece che di Piacenza (autopilot, calibrazione, esperimenti-check, guardia-viva, hooks-check, nascita-difetti, peso-contesto, pulisci-coda, sorvegliante) mentre quindici usano il fuso giusto. Ho visto la spaccatura ma non ho potuto provare che produca una data sbagliata su un caso reale: va guardato, soprattutto sui conti fatti a cavallo di mezzanotte e del primo del mese.",
+    "L'orologio di Piacenza usa la formattazione internazionale di Node: se sul VPS Node è compilato con i fusi ridotti, quella chiamata esplode e ogni data si ferma. Da qui funziona; sul VPS non l'ho potuto provare.",
+    "Ho verificato che le rotte del Pannello non scrivono nel vault (zero scritture in pannello/src/app/api e pannello/src/lib), quindi la corsa fra Cabina e worker non esiste — ma non ho cercato script che scrivano da fuori quelle due cartelle."
   ]
 }

@@ -1,5 +1,5 @@
 ---
-data: 2026-08-11 13:26
+data: 2026-08-11 13:36
 ---
 
 # Radiografia di tutti gli organi

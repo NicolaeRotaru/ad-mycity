@@ -121,7 +121,14 @@ const ora = new Date().toISOString().slice(0, 16).replace("T", " ");
 // aspetta, e alcuni sono l'aggancio di mutazioni che proteggono fix già fatti.
 // Sostituirla cancellerebbe quella storia — quindi le nuove dimensioni si
 // aggiungono in coda alle vecchie, marcate col giro che le ha trovate.
-const vecchieDim = (vecchia.dimensioni || []).map((d) => ({ ...d, giro: d.giro || vecchia.data }));
+// Rilanciabile senza danno: le dimensioni che questo stesso giro aveva già
+// scritto si SOSTITUISCONO, non si accodano. Senza questo, un secondo lancio
+// raddoppiava tutto — 58 dimensioni e 442 findings al posto di 41 e 279.
+const chiaviNuove = new Set(dimensioni.map((d) => d.key));
+const mieDiOggi = (d) => chiaviNuove.has(d.key) && String(d.giro || "").slice(0, 10) === ora.slice(0, 10);
+const vecchieDim = (vecchia.dimensioni || [])
+  .map((d) => ({ ...d, giro: d.giro || vecchia.data }))
+  .filter((d) => !mieDiOggi(d));
 const nuoveDim = dimensioni.map((d) => ({ ...d, giro: ora }));
 const findingsVecchi = vecchieDim.reduce((a, d) => a + (d.findings?.length || 0), 0);
 const apertiVecchi = vecchieDim.reduce((a, d) => a + (d.findings || []).filter((f) => f.stato !== "chiuso").length, 0);
