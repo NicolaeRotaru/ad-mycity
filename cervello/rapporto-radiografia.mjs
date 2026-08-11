@@ -89,7 +89,8 @@ const ora = new Date().toISOString().slice(0, 16).replace("T", " ");
 const L = [];
 L.push(`---\ndata: ${ora}\n---\n`);
 L.push(`# Radiografia di tutti gli organi\n`);
-L.push(`**In due righe:** ho guardato sei organi in tre giri, e ogni difetto grave è passato da un secondo revisore che provava a smontarlo. Sono rimasti **${unici.length} difetti**: ${conta(unici, "bloccante")} bloccano, ${conta(unici, "grave")} sono gravi, ${conta(unici, "minore")} minori.\n`);
+const nB = conta(unici, "bloccante");
+L.push(`**In due righe:** ho guardato sei organi in tre giri, e ogni difetto grave è passato da un secondo revisore che provava a smontarlo. Sono rimasti **${unici.length} difetti**: ${nB === 1 ? "uno blocca" : `${nB} bloccano`}, ${conta(unici, "grave")} sono gravi, ${conta(unici, "minore")} minori.\n`);
 
 const alto = unici.filter((d) => d.impatto_crescita === "alto" && d.severita !== "minore");
 L.push(`**Cosa cambia per te:** ${alto.length} di questi frenano direttamente ordini, negozi o margine. Quelli sono i primi da riparare.\n`);
@@ -107,7 +108,7 @@ L.push(``);
 const prove = { comando: 0, umano: 0, grep: 0 };
 for (const d of unici) prove[d.prova_tipo] = (prove[d.prova_tipo] || 0) + 1;
 L.push(`**Come sono provati:** ${prove.comando || 0} portano un comando che diventa rosso se il difetto c'è, ${prove.umano || 0} chiedono un occhio umano, ${prove.grep || 0} si appoggiano ancora a una parola cercata in un file — questi ultimi sono i più deboli.\n`);
-if (doppioni) L.push(`*(${doppioni} doppioni tolti: più giri avevano trovato la stessa cosa.)*\n`);
+if (doppioni) L.push(`*(${doppioni === 1 ? "Un doppione tolto" : `${doppioni} doppioni tolti`}: più giri avevano trovato la stessa cosa con parole diverse.)*\n`);
 
 for (const sev of ["bloccante", "grave", "minore"]) {
   const ds = unici.filter((d) => d.severita === sev);
