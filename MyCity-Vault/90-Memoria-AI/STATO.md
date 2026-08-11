@@ -5,31 +5,33 @@ fonte: AD digitale (chat)
 ---
 
 > 🧠 **11/8 02:18 — CHAT: è arrivato il perché del business, e sposta il prezzo del Worker da 99 euro a zero.**
-> Nicola consegna il documento che tiene insieme due ricerche di agosto — una sul cittadino («perché uno che
-> compra su Amazon dovrebbe comprare in bottega»), una sul negoziante («chi è davvero quello che paga») — più i
-> due studi interi. Non è una specifica: è la regola con cui si decide **cosa non costruire**, e va letta prima
-> di proporre una funzione, non dopo.
+> Nicola consegna un documento che tiene insieme due ricerche di agosto. Una guarda il cittadino: perché uno che
+> compra su Amazon dovrebbe comprare in bottega. L'altra guarda il negoziante: chi è davvero quello che paga.
+> Insieme al documento arrivano i due studi interi. Non è una specifica. È la regola con cui si decide **cosa
+> non costruire**, e va letta prima di proporre una funzione.
 >
 > **Il cambio che pesa sui soldi.** Il Worker per i negozi non ha più le tre fasce da 99, 299 e 699-999 euro al
-> mese: è **incluso nei 50 euro dell'abbonamento** fino a circa 50-100 negozi, e solo oltre quella soglia costa
-> altri 50. Il ricavo per negozio passa da «99 come primo gradino» a «zero fino alla soglia, poi 50». Torna con
-> l'obiettivo scritto due paragrafi dopo: **10.000 euro al mese = 100 negozi per 100 euro** (50 marketplace + 50
-> Worker), con 10-20 fonti di entrata attive entro gennaio 2027. Il cambio non tocca nessun cliente: a quei
-> prezzi non era mai stato venduto niente e la linea non è costruita.
+> mese. Adesso è **incluso nei 50 euro dell'abbonamento**, fino a circa 50-100 negozi. Solo oltre quella soglia
+> costa altri 50 euro al mese. Il ricavo per negozio passa da 99 euro come primo gradino a zero fino alla
+> soglia, poi 50. Torna con l'obiettivo scritto due paragrafi dopo: **10.000 euro al mese = 100 negozi per 100
+> euro**, cioè 50 di marketplace più 50 di Worker. Nello stesso paragrafo Nicola chiede 10-20 fonti di entrata
+> attive entro gennaio 2027. Il cambio non tocca nessun cliente: a quei prezzi non era mai stato venduto niente,
+> e la linea non è costruita.
 >
-> **Tre cose che il documento lascia aperte, e che non ho deciso io.** ① Vende «canone fisso, zero commissioni»,
-> ma il marketplace trattiene il **10% sul venduto** ed è scritto nel codice del sito: le due frasi stanno
+> **Tre cose che il documento lascia aperte, e che non ho deciso io.** ① Vende «canone fisso, zero commissioni».
+> Ma il marketplace trattiene il **10% sul venduto**, ed è scritto nel codice del sito. Le due frasi stanno
 > insieme solo se «zero commissioni» vuol dire *sullo scontrino che il negozio faceva già*. Finché non me lo
 > confermi, il 10% non si tocca e quella frase non si usa da sola in un pitch. ② I **3 pilot founder a 149 euro
-> bloccati** non sono nominati da nessuna parte: li ho lasciati come stavano. ③ La stella polare diventa **gli
-> euro spostati verificati** contro un gruppo di controllo, non gli ordini consegnati: il contatore degli ordini
-> resta, ma smette di essere la stella.
+> al mese bloccati** non sono nominati da nessuna parte: li ho lasciati come stavano. ③ La stella polare diventa
+> **gli euro spostati verificati** contro un gruppo di controllo, non gli ordini consegnati. Il contatore degli
+> ordini resta, ma smette di essere la stella.
 >
 > Nel registro dei fatti sono entrate **9 voci — 2 cambiate, 7 nuove**: prezzo del Worker, linee di ricavo,
 > obiettivo di ricavo, gli otto paletti che nessuna funzione può rompere, la lista di cosa non costruire mai, il
 > calendario dei segmenti da settembre a dicembre, la stella polare coi suoi cancelli, come si consegna, e dove
-> vive il perché. Il guardiano della coerenza è passato dal **rosso** — 3 copie vecchie del listino, in Bacheca e
-> nel documento delle tre macchine — al **verde su 1.224 file**. **Business invariato:** 1 negozio, 0 ordini pagati.
+> vive il perché. Il guardiano della coerenza è passato dal **rosso** al **verde su 1.224 file**. Erano 3 copie
+> vecchie del listino: due in Bacheca, una nel documento delle tre macchine. **Business invariato:** 1 negozio,
+> 0 ordini pagati.
 
 > 🧭 **10/8 16:15 — I piani non erano solo fermi: 48 frasi su 10 piani dicono cose che i fatti smentiscono.**
 > È il seguito del lavoro del mattino, la PR #690 già mergiata. Quella misurava **da quanto** ogni piano è
