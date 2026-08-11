@@ -11551,6 +11551,27 @@
       "chiuso_come": "Riparato e visto girare: ora stampa «550000/2000000 token = 27.5% della soglia» — la frazione torna.",
       "nota": "Dove: cervello/metabolismo.mjs:85-86.",
       "nota_rinumero": "Nato come AR-563 il 10/8; rinumerato a AR-572 l'11/8 perché un'altra sessione aveva pubblicato AR-563 su main con un difetto diverso. Cede chi arriva dopo."
+    },
+    {
+      "id": "AR-573",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "colore": "🔴",
+      "dimensione": "sensori-cecita",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-11 11:02",
+      "nato_come": "scoperta",
+      "origine": "Radiografia di tutti gli organi (11/8), organo macchina. Trovato due volte: a mano alle 02:30 lanciando verifica-sensori.mjs da una sessione senza chiavi, e poi dalla radiografia per una strada sua. Il file sensori-cecita.json, che alimenta la Cabina, e passato da 10 sensori a posto su 12 a 3, con la data fresca.",
+      "titolo": "Il controllo che dovrebbe solo guardare cancella quello che i sensori avevano visto",
+      "causa_radice": "La protezione esisteva gia (AR-035/AR-281) ma non si chiudeva mai, per due motivi che si sommano. ① Il voto era checks.some(c => c.configurato !== false) su TUTTI i controlli, e il guardiano esterno legge un file nel repo invece di una chiave: risponde sempre configurato, e da solo apriva la porta per tutti gli altri. ② La porta era sul file intero: bastava una chiave qualsiasi presente per riscrivere anche i sensori che quella esecuzione non aveva potuto misurare. La malattia di sistema: una guardia che vota a maggioranza su cose che non sono confrontabili — chi dipende dallambiente e chi no.",
+      "fix_proposto": "🟡 FATTO: il voto filtra i controlli con dipende_da_env !== false, e la porta si chiude sul singolo sensore (chi non e stato misurato conserva il valore precedente, marcato non_misurato_qui).",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/sensori-non-calpestati.test.mjs"
+      },
+      "chiuso_il": "2026-08-11 17:15",
+      "chiuso_come": "riparato-con-freno",
+      "nota": "Freno: cervello/test/sensori-non-calpestati.test.mjs (5 controlli, 2 eseguono il comando su una copia). Mutazioni in cervello/mutanti.json: rimettendo il difetto 3 controlli su 5 diventano rossi."
     }
   ],
   "meta": {

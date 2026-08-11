@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-11 17:15 · Chiusa la falla che cancellava lo stato dei sensori quando il controllo gira senza chiavi · il comando a chiavi spente non tocca piu il file, 5 controlli verdi, mutazione registrata · atteso bastava filtrare il voto sui sensori che dipendono dalle chiavi → reale serviva anche chiudere la porta sul singolo sensore: col solo filtro, una chiave presente riscriveva comunque tutti gli altri · #sensori
 - 2026-08-10 09:11 · Il giro scriveva il sensore del sito e il contratto lo bocciava: cancello rosso su ogni PR e informazione persa · 1 chiave su 5, rossa da giorni · atteso fosse deriva del giro da ripulire → reale il sensore e vero (sito giu dal 30/7): il contratto era indietro e la Cabina non aveva il tile — aggiunti insieme, con la prova che li tiene appaiati · #contratto
 - 2026-08-04 21:08 · L'archivio delle lezioni sforava il tetto di lettura e rendeva rossa ogni PR · 1.049.294 byte contro 1.048.576 · atteso servisse potare lezioni vive o alzare il tetto → reale 86 principi su 87 ripetevano il testo della loro lezione: tolta la copia (98.050 caratteri), 947.517 byte, zero lezioni perse · #archivio
 - 2026-08-04 20:01 · La macchina non leggeva la CI delle PR che apre da sola · 6 PR aperte lette: 5 rosse, 1 senza controlli · atteso il rosso fosse colpa delle PR → reale il rosso era su main da 4 ore: 5 su 5 lo ereditavano, e una PR era rossa per META sua · #ci
