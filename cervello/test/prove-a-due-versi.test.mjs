@@ -105,6 +105,75 @@ test("AR-412 — il doppio clic: rossa oggi, verde se la prenotazione esiste ed 
   });
 });
 
+// ── Il secondo lotto: i quattro verdetti buttati via + il cancello cieco ─────
+//
+// Tutti e cinque leggono `cervello/giro.sh`, e tutti e cinque nascono rossi. Il finto fix è ogni
+// volta la stessa mossa — prendere quello che il guardiano ha detto e portarlo al motore — perché
+// la malattia è una sola in cinque punti diversi.
+
+test("AR-208 — il budget: rossa oggi, verde se il rc esce dalla pipe e diventa vincolo", () => {
+  siRibalta({
+    flag: "--ar-208",
+    file: "cervello/giro.sh",
+    cerca: '  node "$SCRIPT_DIR/sentinella-budget.mjs" 2>&1 | esito_righe 4 || true',
+    sostituisci:
+      '  _budget_out="$(node "$SCRIPT_DIR/sentinella-budget.mjs" 2>&1)"; _budget_rc=$?\n' +
+      "  printf '%s\\n' \"$_budget_out\" | esito_righe 4\n" +
+      '  if [ "$_budget_rc" -ne 0 ]; then\n' +
+      "    BUDGET_VINCOLO=\"$(printf '%s\\n' \"$_budget_out\" | head -1)\"\n" +
+      "  fi",
+  });
+});
+
+test("AR-392 — il letargo: rossa oggi, verde se il livello dichiarato diventa vincolo", () => {
+  siRibalta({
+    flag: "--ar-392",
+    file: "cervello/giro.sh",
+    cerca: '  node "$SCRIPT_DIR/letargo.mjs" 2>&1 | esito_righe 3 || true',
+    sostituisci:
+      '  _letargo_out="$(node "$SCRIPT_DIR/letargo.mjs" 2>&1)"; _letargo_rc=$?\n' +
+      "  printf '%s\\n' \"$_letargo_out\" | esito_righe 3\n" +
+      '  if [ "$_letargo_rc" -ne 0 ]; then\n' +
+      "    LETARGO_VINCOLO=\"$(printf '%s\\n' \"$_letargo_out\" | head -1)\"\n" +
+      "  fi",
+  });
+});
+
+test("AR-323 — gli esperimenti: rossa oggi, verde se il testo lo produce il guardiano e non il giro", () => {
+  siRibalta({
+    flag: "--ar-323",
+    file: "cervello/giro.sh",
+    cerca: '    ESP_VINCOLO="⛔ NESSUN ESPERIMENTO APERTO',
+    sostituisci: "    ESP_VINCOLO=\"$(printf '%s\\n' \"$_esp_out\" | head -1)\" # era: ⛔ NESSUN ESPERIMENTO APERTO",
+  });
+});
+
+test("AR-158 — la North Star: rossa oggi, verde se il vincolo riporta la misura invece dell'ordine fisso", () => {
+  siRibalta({
+    flag: "--ar-158",
+    file: "cervello/giro.sh",
+    cerca: '    NORTH_STAR_VINCOLO="⛔ NORTH STAR IN STALLO',
+    sostituisci: "    NORTH_STAR_VINCOLO=\"$(printf '%s\\n' \"$_north_out\" | head -1)\" # era: ⛔ NORTH STAR IN STALLO",
+  });
+});
+
+test("AR-395 — il cancello di pubblicazione: rossa oggi, verde se decide PRIMA che il commit svuoti lo stage", () => {
+  siRibalta({
+    flag: "--ar-395",
+    file: "cervello/giro.sh",
+    // Il fix vero è spostare la chiamata prima del commit, come già fanno ritmo, monitora e worker.
+    // Qui basta anticiparne una: la prova prende la PRIMA chiamata al cancello dopo il blocco, quindi
+    // se il fix la mette prima del commit, la fotografia dello stage la trova ancora piena.
+    cerca: "    GIRO_HAD_CHANGES=1",
+    sostituisci:
+      "    GIRO_HAD_CHANGES=1\n" +
+      '    . "$SCRIPT_DIR/gate-pubblicazione.sh"\n' +
+      '    if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO" "$branch"; then\n' +
+      '      echo "cancello: no" >&2\n' +
+      "    fi",
+  });
+});
+
 // ── Le due che qui non si possono ribaltare, e il perché ─────────────────────
 
 test("AR-206 — la prova delega al guardiano dei permessi, che ha già i suoi controlli", () => {

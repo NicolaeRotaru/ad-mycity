@@ -42,6 +42,21 @@ const run = (args) => {
 };
 const registro = () => JSON.parse(readFileSync(CAL, "utf8"));
 
+/**
+ * La finestra della previsione di prova, CALCOLATA da oggi — mai scritta a mano.
+ *
+ * IL CONTO DI NON AVERLO FATTO. Qui c'era `"2026-08-10"`. Il giorno dopo, a mezzanotte, il test è
+ * diventato rosso da solo su `main` e ci è rimasto: AR-173 vieta di chiudere una previsione dopo la
+ * fine della sua finestra — giustamente, è la regola che il test stesso difende — e la finestra era
+ * scaduta il giorno prima. Nessuno aveva toccato una riga di codice.
+ *
+ * È il difetto peggiore che un test possa avere, perché rompe la sua ragione di esistere: un rosso
+ * che non viene da un comportamento sbagliato non insegna niente, e chi lo vede la seconda volta
+ * impara a ignorarlo. E finché resta, tinge di rosso ogni richiesta di unione aperta — anche quelle
+ * che non lo sfiorano.
+ */
+const FRA_UNA_SETTIMANA = new Date(Date.now() + 7 * 86_400_000).toISOString().slice(0, 10);
+
 prova("il caso che ha rotto: creato e chiuso nello stesso giorno non è una previsione", () => {
   const finta = { stato: "azzeccata", sensore_stato: "ok", atteso: 1, baseline: 0, creato: "2026-07-20 09:00", chiuso_il: "2026-07-20 18:30" };
   assert.equal(nataChiusa(finta), true);
@@ -62,7 +77,7 @@ prova("i due momenti ESISTONO come due comandi", () => {
 prova("il ciclo completo, ESEGUITO: apre prima, chiude dopo, e la voce conta", () => {
   const prima = readFileSync(CAL, "utf8");
   try {
-    run([LOOP, "prevedi", "@prova-due-momenti", "fare la cosa", "ordini", "2", "0", "2026-08-10"]);
+    run([LOOP, "prevedi", "@prova-due-momenti", "fare la cosa", "ordini", "2", "0", FRA_UNA_SETTIMANA]);
     const aperta = registro().registro.find((e) => e.stato === "aperta" && e.reparto === "@prova-due-momenti");
     assert.ok(aperta, "il primo momento deve aprire una previsione vera");
     assert.equal(aperta.baseline, 0, "con la baseline del momento in cui si apre");
@@ -87,7 +102,7 @@ prova("senza la fonte del numero la previsione resta APERTA, non si chiude a vuo
   // ragione da sola; lasciarla aperta è la risposta scomoda e vera.
   const prima = readFileSync(CAL, "utf8");
   try {
-    run([LOOP, "prevedi", "@prova-due-momenti", "fare la cosa", "ordini", "2", "0", "2026-08-10"]);
+    run([LOOP, "prevedi", "@prova-due-momenti", "fare la cosa", "ordini", "2", "0", FRA_UNA_SETTIMANA]);
     const aperta = registro().registro.find((e) => e.stato === "aperta" && e.reparto === "@prova-due-momenti");
     const senza = run([LOOP, "registra", "@prova-due-momenti", "ctx", "sc", "2", "2"]);
     assert.match(senza.out, /manca la fonte del numero/);
