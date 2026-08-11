@@ -21,6 +21,23 @@ pronte da approvare**, non problemi.
 
 Parli sempre **in italiano**, chiaro e concreto. Citi sempre i numeri reali.
 
+> 🧠 **PERCHÉ esiste MyCity: leggi `CONTESTO_BUSINESS.md` prima di decidere cosa costruire.**
+> Nicola, 11/8/2026: due ricerche (una sul cittadino, una sul negoziante) condensate in un
+> documento solo. Non è una specifica tecnica — è il motivo per cui una cosa va costruita e
+> un'altra no, e serve **prima** di scrivere una riga, non dopo. **Cinque domande su ogni
+> funzione proposta:** ① quale abitudine cambia davvero ② a quale tipo di negozio serve e cosa
+> gli fa incassare il primo mese ③ rompe uno degli otto paletti (il negozio non paga una
+> percentuale su quello che già vendeva · i suoi clienti restano suoi · nessuna app nuova da
+> imparare, si lavora su WhatsApp con l'anteprima da approvare · il primo risultato si vede in
+> 2-4 settimane) ④ aggiunge fatica al negoziante o al cittadino ⑤ si vede in cassa entro 2-4
+> settimane. **Se non passa tutte e cinque, non si costruisce** — e se una richiesta rompe un
+> paletto, fermati e dillo a Nicola prima di partire. Il documento porta anche una lista di cose
+> da **non** costruire mai (moneta alternativa all'euro, prezzi che ballano, dirette di vendita
+> h24, usato, notifiche a chi passa davanti al negozio, dodici funzioni insieme): quella lista
+> vale quanto le altre regole. Le due ricerche intere stanno in `docs/ricerca/`. ⚠️ I numeri che
+> cambiano — prezzi, date, soglie, target — **non si leggono lì**: stanno in `registro-fatti.json`,
+> che è l'unica casa aggiornata (AR-102).
+
 ---
 
 ## ⭐ La regola d'oro (vale SEMPRE, per te e per ogni agente)

@@ -1,8 +1,63 @@
 ---
 tipo: stato
-aggiornato: 2026-08-10 16:15
+aggiornato: 2026-08-11 10:25
 fonte: AD digitale (chat)
 ---
+
+> 📕 **11/8 10:25 — CHAT: le due ricerche lette per intero, e tre domande aperte che si chiudono.**
+> Nicola risponde alle tre domande della richiesta di unione #701, e ne aggiunge una quarta: «leggi i
+> due pdf è fondamentale».
+>
+> **Le tre risposte.** ① Il **10% sulle vendite tramite la piattaforma serve a pagare la consegna**.
+> Non è un margine sull'incasso che il negozio faceva già, e per questo regge insieme al paletto «zero
+> commissioni»: la percentuale sta solo sugli ordini che porta MyCity, cioè su denaro nuovo. ② I **tre
+> negozi di prova pagano 50 euro al mese come tutti**: il prezzo bloccato a 149 nato il 29/7 non esiste
+> più. ③ **«Hulii» non è nessuno**: è un nome scritto a caso all'iscrizione di questo account Claude,
+> finito nel documento da lì. Il proprietario è Nicola, punto.
+>
+> **I due PDF, letti davvero.** Venti pagine: 11 la teoria del cambiamento, 9 il bottegaio. Servivano
+> font speciali per tirarne fuori il testo, e stamattina alle 02:12 avevo dichiarato che non ci
+> riuscivo. Ci sono riuscito. Il riassunto di Nicola regge: su venti numeri controllati, diciotto
+> tornano esatti. **Due non hanno riscontro da nessuna parte** — il «~84% dichiara di amare il locale»
+> e l'«integrazione POS-registratori telematici obbligatoria dal 2026». Non li ho corretti: il testo è
+> suo.
+>
+> **La cosa che vale di più.** Nei PDF ci sono **nove soglie operative che nel riassunto non erano
+> arrivate**, e sono quelle che dicono quando fermarsi e quando spingere. Tre esempi. Da tre a cinque
+> negozi del fresco attivi con numeri veri entro 60 giorni. Se il porta a porta nel fresco converte
+> sotto il 20%, si rivede il discorso prima di allargare. E per il welfare basta **una sola** azienda
+> che sposti il budget: quel caso diventa la leva per tutte le altre. Tutte in
+> `consegne/strategia/2026-08-11-verifica-sintesi-contro-ricerche.md`, in attesa che Nicola scelga
+> quali adottare. **Business invariato:** 1 negozio, 0 ordini pagati.
+
+> 🧠 **11/8 02:18 — CHAT: è arrivato il perché del business, e sposta il prezzo del Worker da 99 euro a zero.**
+> Nicola consegna un documento che tiene insieme due ricerche di agosto. Una guarda il cittadino: perché uno che
+> compra su Amazon dovrebbe comprare in bottega. L'altra guarda il negoziante: chi è davvero quello che paga.
+> Insieme al documento arrivano i due studi interi. Non è una specifica. È la regola con cui si decide **cosa
+> non costruire**, e va letta prima di proporre una funzione.
+>
+> **Il cambio che pesa sui soldi.** Il Worker per i negozi non ha più le tre fasce da 99, 299 e 699-999 euro al
+> mese. Adesso è **incluso nei 50 euro dell'abbonamento**, fino a circa 50-100 negozi. Solo oltre quella soglia
+> costa altri 50 euro al mese. Il ricavo per negozio passa da 99 euro come primo gradino a zero fino alla
+> soglia, poi 50. Torna con l'obiettivo scritto due paragrafi dopo: **10.000 euro al mese = 100 negozi per 100
+> euro**, cioè 50 di marketplace più 50 di Worker. Nello stesso paragrafo Nicola chiede 10-20 fonti di entrata
+> attive entro gennaio 2027. Il cambio non tocca nessun cliente: a quei prezzi non era mai stato venduto niente,
+> e la linea non è costruita.
+>
+> **Tre cose che il documento lascia aperte, e che non ho deciso io.** ① Vende «canone fisso, zero commissioni».
+> Ma il marketplace trattiene il **10% sul venduto**, ed è scritto nel codice del sito. Le due frasi stanno
+> insieme solo se «zero commissioni» vuol dire *sullo scontrino che il negozio faceva già*. Finché non me lo
+> confermi, il 10% non si tocca e quella frase non si usa da sola in un pitch. ② I **3 pilot founder a 149 euro
+> al mese bloccati** non sono nominati da nessuna parte: li ho lasciati come stavano. ③ La stella polare diventa
+> **gli euro spostati verificati** contro un gruppo di controllo, non gli ordini consegnati. Il contatore degli
+> ordini resta, ma smette di essere la stella.
+>
+> Nel registro dei fatti sono entrate **9 voci — 2 cambiate, 7 nuove**: prezzo del Worker, linee di ricavo,
+> obiettivo di ricavo, gli otto paletti che nessuna funzione può rompere, la lista di cosa non costruire mai, il
+> calendario dei segmenti da settembre a dicembre, la stella polare coi suoi cancelli, come si consegna, e dove
+> vive il perché. Il guardiano della coerenza è passato dal **rosso** al **verde su 1.224 file**. Erano 3 copie
+> vecchie del listino: due in Bacheca, una nel documento delle tre macchine. **Business invariato:** 1 negozio,
+> 0 ordini pagati.
 
 > 🧭 **10/8 16:15 — I piani non erano solo fermi: 48 frasi su 10 piani dicono cose che i fatti smentiscono.**
 > È il seguito del lavoro del mattino, la PR #690 già mergiata. Quella misurava **da quanto** ogni piano è

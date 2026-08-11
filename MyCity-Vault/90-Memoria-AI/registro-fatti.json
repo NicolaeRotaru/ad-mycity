@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-08-10 10:03",
+  "aggiornato": "2026-08-11 10:20",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -221,6 +221,16 @@
       "esenzioni": []
     },
     {
+      "id": "identita.hulii",
+      "nome": "Chi è «Hulii» nel documento del business",
+      "valore": "«Hulii» NON è un nome di persona: è un nome scritto a caso da Nicola quando ha creato questo account Claude, e da lì è finito dentro CONTESTO_BUSINESS.md ai paragrafi 0 e 1. Il proprietario di MyCity è Nicola, e basta. Dove il documento dice «segnalalo a Hulii» si legge «dillo a Nicola». Non va usato in nessun testo che esce di casa.",
+      "fonte": "Nicola, chat 2026-08-11: «hulii è un nome scritto a caso quando avevo creato questo account di claude» (in risposta alla domanda aperta della PR #701)",
+      "aggiornato": "2026-08-11 10:20",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "logistica.bici-consegna",
       "nome": "Bici consegna — disponibilità",
       "valore": "Non operativa; prossima settimana (21-27/7) bollette; riparazione bici settimana dopo (~28/7+); inserimento botteghe solo con bici pronta",
@@ -272,6 +282,16 @@
       "esenzioni": []
     },
     {
+      "id": "logistica.consegne-e-kit",
+      "nome": "Come si consegna e cosa riceve il negozio",
+      "valore": "Consegne fatte in proprio fino a circa 30 ordini al giorno; rider a 3-5 euro a consegna solo per coprire i picchi orari. Packaging termico a carico dei negozi. Kit del negozio = QR + vetrofania, stampati in copisteria. Niente white-label ad altre città: prima Piacenza, gestita da una persona sola.",
+      "fonte": "Nicola — CONTESTO_BUSINESS.md, consegnato in chat 2026-08-11 02:12 insieme alle due ricerche archiviate in docs/ricerca/ (paragrafo 11)",
+      "aggiornato": "2026-08-11 02:18",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "marketplace.hosting",
       "nome": "marketplace.hosting",
       "valore": "Sito mycity-marketplace.com GIU dal 2026-07-30 08:20 (HTTP 503) — NON e un guasto: Nicola non ha rinnovato Render perche sposta il marketplace su Vercel. Migrazione pianificata in una sessione dedicata. Il sensore sito_uptime resta cieco fino ad allora: non e un allarme da alzare, e non va contato come downtime subito.",
@@ -287,6 +307,16 @@
       "valore": "main (ramo unico dal 2026-07-06 21:11)",
       "fonte": "PR #205/#206 + commit VPS verificati",
       "aggiornato": "2026-07-07 00:29",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "metriche.stella-polare",
+      "nome": "La stella polare e i cancelli di verità",
+      "valore": "Stella polare: EURO SPOSTATI VERIFICATI, cioè quanta spesa si è mossa davvero misurandola contro un gruppo di controllo — non il venduto totale, non il numero di negozi. Cancelli: la fase 0 si supera con riacquisto sopra il 40% su una coorte a 8 settimane E almeno una fonte di denaro vincolato attiva (un'azienda o il Comune); la fase 1 con incrementalità positiva contro il gruppo di controllo e costo per transazione in calo. Soglia di stop o ripensamento: a 6 mesi, riacquisto sotto il 25% E nessun ente che immette denaro vincolato, si ridisegna l'offerta PRIMA di spendere in acquisizione. Regola dei 90 giorni: il 40-60% delle disdette dei piccoli clienti cade lì, quindi ogni segmento ha una vittoria rapida pianificata più un contatto umano periodico. NOTA: northstar.consegnati (ordini consegnati) resta un contatore letto dal database, ma non è più la stella.",
+      "fonte": "Nicola — CONTESTO_BUSINESS.md, consegnato in chat 2026-08-11 02:12 insieme alle due ricerche archiviate in docs/ricerca/ (paragrafi 7 e 8)",
+      "aggiornato": "2026-08-11 02:18",
       "storia": [],
       "caccia": [],
       "esenzioni": []
@@ -353,6 +383,16 @@
       "esenzioni": []
     },
     {
+      "id": "obiettivo.ricavi",
+      "nome": "Obiettivo di ricavo e fonti di entrata",
+      "valore": "10.000 euro/mese = 100 negozi per 100 euro/mese (50 marketplace + 50 Worker); 10-20 fonti di entrata attive entro gennaio 2027. Sul Worker è atteso un avvio lento, per la diffidenza iniziale dei negozianti. Filosofia dichiarata: molte fonti anche piccole, percepite dai clienti come valore e mai come peso.",
+      "fonte": "Nicola — CONTESTO_BUSINESS.md, consegnato in chat 2026-08-11 02:12 insieme alle due ricerche archiviate in docs/ricerca/ (paragrafo 11)",
+      "aggiornato": "2026-08-11 02:18",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "onboarding.6-ristoranti-tattici",
       "nome": "onboarding.6-ristoranti-tattici",
       "valore": "ESCLUSI — Nicola 16/7: «non lavoro con i ristoranti». I 6 del dossier 6/7 (Tigellabella, Forchetta, Tre Ganasce, Carducci, Dispensa, Pescatori) non sono prospect validi. MyCity lavora solo con botteghe, non ristoranti/trattorie.",
@@ -390,12 +430,26 @@
     },
     {
       "id": "pilot.worker-negozi",
-      "nome": "Pilot founder del Worker negozi",
-      "valore": "3 pilot founder a 149€/mese bloccato: I Frutti della Terra, Enoteca La Canteina, Il Pollivendolo (entità non ancora nel registro-realta: da fondare prima di produrre asset intestati)",
-      "fonte": "Nicola — chat claude.ai «Worker subscription plans for shops», screenshot 2026-07-29 00:13",
-      "aggiornato": "2026-07-29 00:15",
-      "storia": [],
-      "caccia": [],
+      "nome": "I tre negozi di prova del Worker",
+      "valore": "I 3 negozi di prova — I Frutti della Terra, Enoteca La Canteina, Il Pollivendolo — pagano 50 euro/mese di abbonamento come tutti gli altri: Nicola, 11/8/2026. Il prezzo bloccato a 149 euro/mese NON esiste più, era nato in una chat del 29/7 e il documento del business non lo nominava. Restano entità da fondare: non risultano nei dati del marketplace, quindi niente asset pesanti intestati a loro.",
+      "fonte": "Nicola, chat 2026-08-11: «i negozi di prova pagano 50€ di abbonamento come tutti» (in risposta alla domanda aperta della PR #701)",
+      "aggiornato": "2026-08-11 10:20",
+      "storia": [
+        {
+          "valore": "3 pilot founder a 149€/mese bloccato: I Frutti della Terra, Enoteca La Canteina, Il Pollivendolo (entità non ancora nel registro-realta: da fondare prima di produrre asset intestati)",
+          "fino_a": "2026-08-11 10:20"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "**149 €/m bloccato** per 3 founder",
+          "dal": "2026-08-11 10:20"
+        },
+        {
+          "pattern": "3 pilot founder a 149€/mese bloccato: I Frutti della Terra, Enoteca La Canteina, Il Pollivendolo (entità non ancora nel registro-realta: da fondare prima di produrre asset intestati)",
+          "dal": "2026-08-11 10:20"
+        }
+      ],
       "esenzioni": []
     },
     {
@@ -429,10 +483,15 @@
     {
       "id": "pricing.commissione",
       "nome": "Commissione piattaforma MyCity",
-      "valore": "10% sul venduto",
-      "fonte": "Nicola chat Pannello 2026-07-20 12:39 + codice marketplace (MARKETPLACE_FEE_BPS 10%)",
-      "aggiornato": "2026-07-20 12:39",
-      "storia": [],
+      "valore": "10% sul venduto tramite la piattaforma, e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero commissioni» proprio per questo — la percentuale sta solo sugli ordini portati da MyCity, cioè su denaro nuovo, e copre il costo di portarli. In un pitch va detta così, mai la sola frase «zero commissioni».",
+      "fonte": "Nicola, chat 2026-08-11: «c'è il 10% sulle vendite tramite piattaforma, serve per pagare la delivery» (in risposta alla domanda aperta della PR #701); il 10% è anche nel codice del marketplace, MARKETPLACE_FEE_BPS",
+      "aggiornato": "2026-08-11 10:20",
+      "storia": [
+        {
+          "valore": "10% sul venduto",
+          "fino_a": "2026-08-11 10:20"
+        }
+      ],
       "caccia": [
         {
           "pattern": "commissione 12%",
@@ -462,10 +521,52 @@
     },
     {
       "id": "pricing.worker-negozi",
-      "nome": "Listino Worker per i negozi (3 abbonamenti)",
-      "valore": "Vetrina 99€/mese · Autopilot 299€/mese · Direttore Digitale 699-999€/mese (+ setup una tantum). Prodotto DIVERSO dall'abbonamento venditore marketplace (pricing.abbonamento = 50€/mese)",
-      "fonte": "Nicola — chat claude.ai «Worker subscription plans for shops», screenshot 2026-07-29 00:13",
-      "aggiornato": "2026-07-29 00:15",
+      "nome": "Prezzo del Worker per i negozi",
+      "valore": "Il Worker è INCLUSO nell'abbonamento marketplace da 50 euro/mese fino a circa 50-100 negozi; oltre quella soglia diventa un servizio in più da altri 50 euro/mese (totale 100 euro/mese per negozio). Supera il listino a tre fasce del 29/7 (Vetrina 99 · Autopilot 299 · Direttore Digitale 699-999, più setup): nessun negozio è mai stato venduto a quei prezzi e la linea non è costruita, quindi il cambio non tocca nessun cliente. Coerente con l'obiettivo dichiarato di 10.000 euro/mese = 100 negozi per 100 euro/mese (obiettivo.ricavi). APERTO: i 3 pilot founder a 149 euro/mese (pilot.worker-negozi) non sono nominati nel documento — restano come stavano finché non lo dice Nicola.",
+      "fonte": "Nicola — CONTESTO_BUSINESS.md paragrafo 5 (Pricing, «Decisione attuale») e paragrafo 11 (Obiettivo), consegnato in chat 2026-08-11 02:12",
+      "aggiornato": "2026-08-11 02:18",
+      "storia": [
+        {
+          "valore": "Vetrina 99€/mese · Autopilot 299€/mese · Direttore Digitale 699-999€/mese (+ setup una tantum). Prodotto DIVERSO dall'abbonamento venditore marketplace (pricing.abbonamento = 50€/mese)",
+          "fino_a": "2026-08-11 02:18"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Vetrina 99 €/m · Autopilot 299 €/m · Direttore Digitale 699-999 €/m",
+          "dal": "2026-08-11 02:18"
+        },
+        {
+          "pattern": "**Worker per i negozi** (99/299/699-999 €/m)",
+          "dal": "2026-08-11 02:18"
+        },
+        {
+          "pattern": "i piani da 99, 299 e 699-999 euro",
+          "dal": "2026-08-11 02:18"
+        },
+        {
+          "pattern": "Vetrina 99€/mese · Autopilot 299€/mese · Direttore Digitale 699-999€/mese (+ setup una tantum). Prodotto DIVERSO dall'abbonamento venditore marketplace (pricing.abbonamento = 50€/mese)",
+          "dal": "2026-08-11 02:18"
+        }
+      ],
+      "esenzioni": []
+    },
+    {
+      "id": "prodotto.non-costruire",
+      "nome": "Cosa non costruire mai",
+      "valore": "Da non costruire in nessuna fase (CONTESTO_BUSINESS.md paragrafo 7): moneta complementare alternativa all'euro; prezzi che cambiano da soli in modo aggressivo; dirette di vendita 24 ore su 24; usato e second-hand; notifiche a chi passa davanti al negozio (beacon di prossimità); 12 funzionalità in parallelo. Vale quanto i paletti: se arriva una richiesta su una di queste, si dice di no e si spiega perché.",
+      "fonte": "Nicola — CONTESTO_BUSINESS.md, consegnato in chat 2026-08-11 02:12 insieme alle due ricerche archiviate in docs/ricerca/ (paragrafo 7)",
+      "aggiornato": "2026-08-11 02:18",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
+      "id": "prodotto.paletti",
+      "nome": "Gli otto paletti non negoziabili del prodotto",
+      "valore": "Otto regole che nessuna funzione può rompere (CONTESTO_BUSINESS.md paragrafo 4): 1) zero commissioni sullo scontrino che il negozio faceva già — canone fisso, eventuali fee solo sul denaro nuovo (welfare, gift card); 2) i clienti sono del negozio: contatti sempre visibili ed esportabili, mai disintermediazione stile Glovo o TheFork; 3) attrito zero e anteprima-poi-approva su WhatsApp, nessuna app nuova da imparare; 4) primo risultato in 2-4 settimane, misurato in cassa e comunicato; 5) onboarding fatto dalla piattaforma, non dal negoziante: il self-service resta inutilizzato; 6) report in linguaggio di cassa (incassi, clienti, ordini), mai like o impression o follower; 7) soldi in sola lettura dentro il perimetro Stripe Connect e Issuing, niente moneta alternativa, gift card multi-negozio da validare con un legale prima di scalare; 8) su WhatsApp mai spam: solo messaggi agganciati a un motivo vero, e le disiscrizioni sono un indicatore di salute critico. Se una richiesta ne rompe uno: fermarsi e dirlo a Nicola PRIMA di costruire.",
+      "fonte": "Nicola — CONTESTO_BUSINESS.md, consegnato in chat 2026-08-11 02:12 insieme alle due ricerche archiviate in docs/ricerca/ (paragrafo 4)",
+      "aggiornato": "2026-08-11 02:18",
       "storia": [],
       "caccia": [],
       "esenzioni": []
@@ -595,6 +696,16 @@
       "esenzioni": []
     },
     {
+      "id": "strategia.contesto-business",
+      "nome": "Dove vive il perché del business",
+      "valore": "Il perché del business — i meccanismi che spostano la spesa, i segmenti, i paletti non negoziabili, la roadmap a cancelli e la lista di cose da non costruire mai — vive in CONTESTO_BUSINESS.md (radice della repo), sintesi delle due ricerche di agosto 2026 archiviate in docs/ricerca/ (teoria-del-cambiamento.pdf = lato cittadino, bottegaio-cliente-pagante.pdf = lato negoziante). Si legge PRIMA di decidere prodotto, priorità o architettura: sono 5 domande di ammissione per ogni funzione proposta. I numeri che cambiano — prezzi, date, soglie, target — NON si leggono lì: stanno in questo registro, che è l'unica casa aggiornata.",
+      "fonte": "Nicola — CONTESTO_BUSINESS.md, consegnato in chat 2026-08-11 02:12 insieme alle due ricerche archiviate in docs/ricerca/",
+      "aggiornato": "2026-08-11 02:18",
+      "storia": [],
+      "caccia": [],
+      "esenzioni": []
+    },
+    {
       "id": "strategia.leve-ricavo-potenziali",
       "nome": "Le 46 leve di ricavo (mappa del potenziale)",
       "valore": "46 leve di ricavo MAPPATE (Bacheca 2026-07-29 16:20) — mappa del POTENZIALE, non linee attive e non prezzi approvati. Le linee di ricavo attive restano DUE (vedi strategia.linee-ricavo). Ripartizione per cancello: 16 incassabili a zero ordini, 11 ferme al 1o ordine, 12 richiedono pubblico, 7 richiedono un permesso/contratto. Nessuna azione, nessun pitch e nessun prezzo pubblicato da questa lista finche' non lo apre Nicola.",
@@ -607,9 +718,29 @@
     {
       "id": "strategia.linee-ricavo",
       "nome": "Le fonti di reddito di MyCity",
-      "valore": "DUE linee: (1) Marketplace = 10% sul venduto + 50 euro/mese abbonamento venditore + 3 euro fee consegna — viva, dipende dagli ordini. (2) Worker per i negozi = 99/299/699-999 euro/mese + setup — ricorrente, incassa anche a zero ordini, NON ancora costruita. Non mescolare i due listini.",
-      "fonte": "Nicola — chat Pannello 2026-07-29 00:30 + codice marketplace (MARKETPLACE_FEE_BPS, fee consegna 3 euro)",
-      "aggiornato": "2026-07-29 01:19",
+      "valore": "DUE linee: (1) Marketplace = 10% sul venduto + 50 euro/mese abbonamento venditore + 3 euro fee consegna — viva, dipende dagli ordini. (2) Worker per i negozi = incluso nei 50 euro/mese fino a circa 50-100 negozi, poi altri 50 euro/mese (vedi pricing.worker-negozi) — ricorrente, incassa anche a zero ordini, NON ancora costruita. Obiettivo dichiarato: 10.000 euro/mese = 100 negozi per 100 euro/mese, con 10-20 fonti di entrata attive entro gennaio 2027. Non mescolare i due listini.",
+      "fonte": "Nicola — CONTESTO_BUSINESS.md paragrafi 5 e 11 (2026-08-11 02:12); base precedente: chat Pannello 2026-07-29 00:30 + codice marketplace (MARKETPLACE_FEE_BPS, fee consegna 3 euro)",
+      "aggiornato": "2026-08-11 02:18",
+      "storia": [
+        {
+          "valore": "DUE linee: (1) Marketplace = 10% sul venduto + 50 euro/mese abbonamento venditore + 3 euro fee consegna — viva, dipende dagli ordini. (2) Worker per i negozi = 99/299/699-999 euro/mese + setup — ricorrente, incassa anche a zero ordini, NON ancora costruita. Non mescolare i due listini.",
+          "fino_a": "2026-08-11 02:18"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "DUE linee: (1) Marketplace = 10% sul venduto + 50 euro/mese abbonamento venditore + 3 euro fee consegna — viva, dipende dagli ordini. (2) Worker per i negozi = 99/299/699-999 euro/mese + setup — ricorrente, incassa anche a zero ordini, NON ancora costruita. Non mescolare i due listini.",
+          "dal": "2026-08-11 02:18"
+        }
+      ],
+      "esenzioni": []
+    },
+    {
+      "id": "strategia.segmenti-onboarding",
+      "nome": "Calendario dei segmenti da aprire (set-dic 2026)",
+      "valore": "SETTEMBRE 2026 — fresco (frutta e verdura, panetterie, gastronomie, macellerie): primo valore = anti-spreco + richiami su WhatsApp, pre-ordini per le macellerie; prova richiesta = box vendute e clienti richiamati. OTTOBRE — ottiche, estetiste, mercato coperto: primo valore = prenotazioni + promemoria + recupero dei clienti persi; prova = meno buchi in agenda. NOVEMBRE — regali (enoteche, fiorai, cartolerie) e PMI strutturate: primo valore = gift card cittadina, regali aziendali, welfare territoriale; prova = primo ordine welfare o gift card incassato. DICEMBRE — stop all'onboarding: si consolida e si rinnova. Esclusi per decisione di Nicola: ristoranti, catene e franchising; pescherie in fase 2.",
+      "fonte": "Nicola — CONTESTO_BUSINESS.md, consegnato in chat 2026-08-11 02:12 insieme alle due ricerche archiviate in docs/ricerca/ (paragrafo 6)",
+      "aggiornato": "2026-08-11 02:18",
       "storia": [],
       "caccia": [],
       "esenzioni": []

@@ -1,12 +1,55 @@
 {
-  "data": "2026-08-11 10:20",
-  "esito": "non_verificato",
-  "copertura": 0,
-  "fatti_totali": 30,
-  "cacce_aperte": 0,
-  "file_scansionati": 0,
+  "data": "2026-08-11 10:27",
+  "esito": "ok",
+  "copertura": 1225,
+  "fatti_totali": 38,
+  "cacce_aperte": 7,
+  "file_scansionati": 1225,
   "incoerenze": [],
-  "cacce": [],
+  "cacce": [
+    {
+      "fatto": "pilot.worker-negozi",
+      "pattern": "**149 €/m bloccato** per 3 founder",
+      "dal": "2026-08-11 10:20",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "pilot.worker-negozi",
+      "pattern": "3 pilot founder a 149€/mese bloccato: I Frutti della Terra, Enoteca La Canteina, Il Pollivendolo (entità non ancora nel registro-realta: da fondare prima di produrre asset intestati)",
+      "dal": "2026-08-11 10:20",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "pricing.worker-negozi",
+      "pattern": "Vetrina 99 €/m · Autopilot 299 €/m · Direttore Digitale 699-999 €/m",
+      "dal": "2026-08-11 02:18",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "pricing.worker-negozi",
+      "pattern": "**Worker per i negozi** (99/299/699-999 €/m)",
+      "dal": "2026-08-11 02:18",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "pricing.worker-negozi",
+      "pattern": "i piani da 99, 299 e 699-999 euro",
+      "dal": "2026-08-11 02:18",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "pricing.worker-negozi",
+      "pattern": "Vetrina 99€/mese · Autopilot 299€/mese · Direttore Digitale 699-999€/mese (+ setup una tantum). Prodotto DIVERSO dall'abbonamento venditore marketplace (pricing.abbonamento = 50€/mese)",
+      "dal": "2026-08-11 02:18",
+      "copie_trovate": 0
+    },
+    {
+      "fatto": "strategia.linee-ricavo",
+      "pattern": "DUE linee: (1) Marketplace = 10% sul venduto + 50 euro/mese abbonamento venditore + 3 euro fee consegna — viva, dipende dagli ordini. (2) Worker per i negozi = 99/299/699-999 euro/mese + setup — ricorrente, incassa anche a zero ordini, NON ancora costruita. Non mescolare i due listini.",
+      "dal": "2026-08-11 02:18",
+      "copie_trovate": 0
+    }
+  ],
   "esenzioni_default": [
     "MyCity-Vault/90-Memoria-AI/DECISIONI.md",
     "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
@@ -16,5 +59,5 @@
     "MyCity-Vault/90-Memoria-AI/registro-fatti.json",
     "memoria-squadra/"
   ],
-  "istruzioni": "NON VERIFICATO: nessuna caccia aperta, quindi non è stato letto alcun file. Non è un verde — è l'assenza di una misura (AR-211)."
+  "istruzioni": "Memoria coerente: nessuna copia vecchia nei file vivi."
 }
