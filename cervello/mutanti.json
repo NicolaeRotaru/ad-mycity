@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-10 22:10",
+ "aggiornato": "2026-08-11 02:45",
  "mutanti": [
   {
    "lotto": 30,
@@ -2211,6 +2211,51 @@
    "cerca": "    ok: !stallo && !troppeInCoda,",
    "sostituisci": "    ok: !stallo,",
    "test": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
+  },
+  {
+   "lotto": "prove-2",
+   "difetto": "AR-208 prova-cieca",
+   "nome": "la prova del budget legge una variabile che nessun fix popolerà mai: non saprebbe accorgersi della riparazione",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "        variabile: \"BUDGET_VINCOLO\",",
+   "sostituisci": "        variabile: \"MUTANTE_MAI_ESISTITA\",",
+   "test": "node --test cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "lotto": "prove-2",
+   "difetto": "AR-392 prova-cieca",
+   "nome": "la prova del letargo legge una variabile che nessun fix popolerà mai: resta rossa anche a difetto riparato",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "        variabile: \"LETARGO_VINCOLO\",",
+   "sostituisci": "        variabile: \"MUTANTE_MAI_ESISTITA\",",
+   "test": "node --test cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "lotto": "prove-2",
+   "difetto": "AR-323 prova-cieca",
+   "nome": "la prova degli esperimenti chiama riparato un vincolo che resta identico qualunque cosa dica il guardiano",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "  if (vA === vB) return { ...APERTO, detto: quandoFisso(vA) };",
+   "sostituisci": "  if (vA === vB) return { ...RIPARATO, detto: quandoFisso(vA) };",
+   "test": "node --test cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "lotto": "prove-2",
+   "difetto": "AR-158 prova-cieca",
+   "nome": "i due giri della prova North Star stampano la stessa cosa: il confronto non puo piu distinguere un testo copiato da uno fisso",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "        seconda: { stampa: \"⛔ STALLO VERO: 0 ordini pagati da 9 giorni e nessuna fase tecnica dichiarata\", spia: \"STALLO VERO\" },",
+   "sostituisci": "        seconda: { stampa: \"⛔ FASE TECNICA DICHIARATA fino al 2026-08-20: ammesso lavoro macchina, ma almeno 1 azione business per giro\", spia: \"FASE TECNICA DICHIARATA\" },",
+   "test": "node --test cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "lotto": "prove-2",
+   "difetto": "AR-395 prova-cieca",
+   "nome": "la prova del cancello smette di guardare la fotografia dello stage: lo stage vuoto non la insospettisce più",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "      if (staged.length === 0) {",
+   "sostituisci": "      if (false) {",
+   "test": "node --test cervello/test/prove-a-due-versi.test.mjs"
   }
  ]
 }
