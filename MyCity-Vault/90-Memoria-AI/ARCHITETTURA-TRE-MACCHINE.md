@@ -61,9 +61,14 @@ Le altre tre fasi non partono adesso. Aspettano Vercel, i primi incassi e una tu
 
 Tre cose, dette per quello che sono.
 
-**Il margine del canone.** Il prezzo esiste già ed è tuo. Sono i piani da 99, 299 e 699-999 euro al
-mese, più il pilota a prezzo bloccato di 149. Quello che nessuno sa è quanto costa in AI servire un negozio per
-un mese. Finché non lo misuriamo, il margine di quel listino è un'ipotesi.
+**Il margine del canone.** Il prezzo esiste già ed è tuo, ma dall'11/8/2026 è un altro. Il Worker è
+**incluso nei 50 euro al mese** dell'abbonamento marketplace, fino a circa 50-100 negozi. Solo oltre
+quella soglia costa altri 50 euro al mese (`pricing.worker-negozi`). Le tre fasce da 99, 299 e 699-999
+euro al mese che questo documento aveva in testa il 3/8 non ci sono più. Il pilota a 149 euro al mese
+bloccato non è ancora stato riallineato. Quello che nessuno sa resta lo stesso: quanto costa in AI
+servire un negozio per un mese. E adesso pesa di più. Il primo gradino di ricavo per negozio era 99
+euro al mese; adesso è **zero fino alla soglia, poi 50 euro al mese**. Finché non lo misuriamo, il
+margine di quel canone è un'ipotesi.
 
 **I tempi.** Ho scritto «giorni» per la Fase 1 e «settimane» per la Fase 2. Sono stime mie, non
 misure.
