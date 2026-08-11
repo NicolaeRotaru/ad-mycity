@@ -231,8 +231,8 @@ Specchio umano di `registro-fatti.json` (AR-102): qui vivono i fatti-chiave del 
 | Le 46 leve di ricavo (lista Nicola 29/7) | **Mappa del potenziale, NON linee attive**: 16 incassabili a zero ordini · 11 ferme al 1° ordine · 12 richiedono pubblico · 7 richiedono un permesso. Nessun prezzo approvato | 29/7 16:20 |
 | Worker per i negozi — prezzo | **Incluso nei 50 €/m del marketplace** fino a ~50-100 negozi, poi **+50 €/m** (100 €/m in tutto per negozio). Supera il listino a 3 fasce del 29/7 (99 · 299 · 699-999): non era mai stato venduto a nessuno | 11/8 02:18 |
 | Worker per i negozi — pilot | **149 €/m bloccato** per 3 founder: I Frutti della Terra, Enoteca La Canteina, Il Pollivendolo (da fondare: non risultano nei dati). ⚠️ Il documento dell'11/8 non li nomina: restano a 149 finché non lo dice Nicola | 29/7 00:15 |
-| Obiettivo di ricavo | **10.000 €/mese** = 100 negozi × 100 €/m; **10-20 fonti di entrata attive entro gennaio 2027** | 11/8 02:18 |
 | Worker per i negozi — stato | **Definito, NON costruito** — si crea in sessioni dedicate future; nessuna azione né pitch finché non lo apre Nicola | 29/7 01:19 |
+| Obiettivo di ricavo | **10.000 €/mese** = 100 negozi × 100 €/m; **10-20 fonti di entrata attive entro gennaio 2027** | 11/8 02:18 |
 | Costi infrastruttura | **~302 €/mese** fissi (dettaglio nella sezione "💰 Costi infrastruttura" qui sotto) | 21/7 00:37 |
 | Soglia costi extra (admin/assicurazioni/app store) | Sospesi finché l'utile netto non arriva a **~5.000 €/mese** | 23/7 17:26 |
 | Ripresa lavoro operativo (inserimento negozi) | **Dopo il 24 agosto – 1 settembre 2026** | 23/7 17:36 |
