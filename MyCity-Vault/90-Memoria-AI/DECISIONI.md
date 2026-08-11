@@ -1649,3 +1649,35 @@ scritto, non una svista — ma va saputo.
 **Prova.** 158 file, 1641 asserzioni verdi. Le 10 prove a due versi passano. 5 mutanti su 5 rompono.
 Cancello del lotto e `gate-veri` verdi. Le 5 prove escono ⚪ (non ❌ né ✅) se qualcuno cambia la forma
 di `giro.sh`: verificato togliendo le ancore.
+
+---
+
+## 2026-08-11 02:10 · 🟡 · [AD] · Un test è diventato rosso da solo a mezzanotte, e teneva rossa ogni PR
+
+**Come è arrivato.** La CI ha bocciato la mia richiesta di unione. Un test su 159:
+`cervello/test/previsione-aperta-prima.test.mjs`, che non tocco.
+
+**Non era mio, e l'ho provato invece di dirlo.** Eseguito su un `worktree` di `origin/main` puro,
+senza una riga del mio lavoro: rosso lì uguale. Tre esecuzioni di fila, sempre rosso — non è
+intermittente, è deterministico.
+
+**La causa.** Il test apriva una previsione con la finestra scritta a mano, `"2026-08-10"`, e
+pretendeva che `registra` la chiudesse. AR-173 vieta di chiudere una previsione oltre la fine della
+sua finestra, ed è la regola che quel test stesso difende. A mezzanotte dell'11 la finestra era
+scaduta: il codice ha fatto esattamente la cosa giusta, e il test è caduto. Nessuno aveva toccato
+niente.
+
+**Perché conta più di un test rosso.** ① Tingeva di rosso OGNI richiesta di unione aperta, anche
+quelle che non lo sfiorano — cioè rendeva la CI inutile come segnale. ② Un rosso che non viene da un
+comportamento sbagliato non insegna niente, e alla seconda volta si impara a ignorarlo. ③ Non si
+sarebbe curato da solo: non è un guasto passeggero, è una data che resta scaduta per sempre.
+
+**Il rimedio.** La scadenza si calcola da oggi (`FRA_UNA_SETTIMANA`), non si scrive. Provato nei due
+versi: rosso col codice di prima, verde dopo. E applicato a `main` puro lo aggiusta lì — quindi è la
+cura, non un rattoppo per far passare il mio lavoro.
+
+**Cercate le sorelle.** Le altre date scritte a mano nei test sono tutte nel passato (luglio, e un
+`2026-01-01`), usate come reperti vecchi. Una data passata non può scadere: diventa solo più
+passata. Questa era l'unica che poteva scoppiare.
+
+**Prova.** 159 file, 1648 asserzioni, verdi. Il test da solo: 3 esecuzioni, 3 verdi.
