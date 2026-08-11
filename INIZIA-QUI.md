@@ -16,6 +16,7 @@ Ci sono **due mondi**:
 ## 🔎 DOVE TROVO…? (la scorciatoia)
 | Mi serve… | Apri |
 |---|---|
+| **Perché** costruiamo una cosa e non un'altra | `CONTESTO_BUSINESS.md` *(le due ricerche intere: `docs/ricerca/`)* |
 | Com'è messa l'azienda adesso (i numeri) | [[STATO]] |
 | Cosa devo **firmare / approvare** | [[AZIONI-IN-ATTESA]] |
 | Cosa sta **facendo la squadra** adesso | [[SALA-OPERATIVA]] |
