@@ -391,6 +391,10 @@ async function checkN8n() {
 async function main() {
   const quando = nowPiacenza();
   const cecita = leggiCecita();
+  // Una copia di com'era PRIMA: `cecita` viene riscritto sensore per sensore mentre i
+  // controlli girano, quindi a fine giro il vecchio valore non c'è più. Serve per non
+  // calpestare i sensori che questa esecuzione non ha potuto misurare (AR-573).
+  const esistente = structuredClone(cecita);
   cecita.meta = cecita.meta || {};
   cecita.meta.giri_totali = (cecita.meta.giri_totali || 0) + 1;
 
@@ -490,7 +494,11 @@ async function main() {
   );
 
   const wd = await checkWatchdogEsterno();
-  checks.push({ nome: "watchdog_esterno", ...wd, canale: "GitHub Actions" });
+  // `dipende_da_env: false` — questo controllo guarda un file nel repo, non una chiave.
+  // Dice sempre «configurato», ed è giusto per lui. Ma il suo sì NON deve far parte del
+  // voto che apre la porta di scrittura: da una sessione senza chiavi bastava lui a far
+  // passare per «misurati» tutti gli altri, che invece erano solo invisibili da qui.
+  checks.push({ nome: "watchdog_esterno", ...wd, canale: "GitHub Actions", dipende_da_env: false });
   cecita.sensori.watchdog_esterno = aggiornaSensore(
     cecita.sensori,
     "watchdog_esterno",
@@ -591,9 +599,27 @@ async function main() {
   // AR-035: scrivi lo stato condiviso (quello che il Pannello mostra a Nicola) SOLO se questo è un vero
   // ambiente-sensori (almeno una chiave presente) o è un aggiornamento MCP esplicito. Da una sessione
   // cloud senza chiavi NON tocchiamo il file: altrimenti una falsa cecità sovrascrive lo stato reale del VPS.
-  const ambienteConfigurato = checks.some((c) => c.configurato !== false);
+  // AR-573: il voto conta SOLO i sensori che dipendono davvero dall'ambiente. Prima era
+  // `checks.some(...)` su tutti, e il guardiano esterno — che non legge chiavi e risponde
+  // sempre «configurato» — da solo apriva la porta. Risultato misurato l'11/8 alle 02:30:
+  // da una sessione senza chiavi, 10 sensori a posto su 12 diventavano 3, con data fresca.
+  const dipendentiDaEnv = checks.filter((c) => c.dipende_da_env !== false);
+  const ambienteConfigurato = dipendentiDaEnv.some((c) => c.configurato !== false);
   const aggiornamentoMcp = mcpSb !== null || mcpStripe !== null;
   const scriviStato = ambienteConfigurato || aggiornamentoMcp;
+
+  // AR-573, seconda mossa: la porta si chiude sul SINGOLO sensore, non sul file intero.
+  // Anche quando si scrive, un sensore che questa esecuzione non ha potuto misurare non
+  // si tocca: tiene il valore di chi l'aveva misurato davvero. Senza questo, bastava una
+  // sola chiave presente per riscrivere a «non configurato» tutti gli altri.
+  if (scriviStato && esistente?.sensori) {
+    for (const c of checks) {
+      if (c.configurato !== false || c.dipende_da_env === false) continue;
+      const prima = esistente.sensori[c.nome];
+      if (!prima) continue;
+      cecita.sensori[c.nome] = { ...prima, non_misurato_qui: `${quando}: ${c.dettaglio}` };
+    }
+  }
   // AR-281: la guardia non vive più qui dentro come variabile locale — passa dalla porta condivisa,
   // la stessa che usano cassa, delta-gate e sentinella-fonti. Una regola di classe, un punto solo.
   const esitoScrittura = scriviStatoSensore(CECITA_PATH, cecita, {

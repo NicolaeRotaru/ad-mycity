@@ -2256,6 +2256,24 @@
    "cerca": "      if (staged.length === 0) {",
    "sostituisci": "      if (false) {",
    "test": "node --test cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "lotto": "radiografia-totale",
+   "difetto": "AR-573 sensori-calpestati",
+   "nome": "il voto che apre la porta torna a contare anche i controlli che non leggono chiavi",
+   "file": "cervello/verifica-sensori.mjs",
+   "cerca": "const dipendentiDaEnv = checks.filter((c) => c.dipende_da_env !== false);\n  const ambienteConfigurato = dipendentiDaEnv.some((c) => c.configurato !== false);",
+   "sostituisci": "const ambienteConfigurato = checks.some((c) => c.configurato !== false);",
+   "test": "node cervello/test/sensori-non-calpestati.test.mjs"
+  },
+  {
+   "lotto": "radiografia-totale",
+   "difetto": "AR-573 sensori-calpestati",
+   "nome": "il sensore non misurato smette di conservare il valore di chi laveva misurato davvero",
+   "file": "cervello/verifica-sensori.mjs",
+   "cerca": "      cecita.sensori[c.nome] = { ...prima, non_misurato_qui: `${quando}: ${c.dettaglio}` };",
+   "sostituisci": "      void prima;",
+   "test": "node cervello/test/sensori-non-calpestati.test.mjs"
   }
  ]
 }
