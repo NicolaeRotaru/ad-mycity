@@ -70,6 +70,15 @@ for (const d of difetti) {
   else unici.push(d);
 }
 
+// Gli agenti scrivono fitto di incisi: «il controllo (righe 346-359) non guarda…».
+// Due parentesi in una frase costringono a tenere in sospeso l'idea di partenza,
+// e in una sintesi il dettaglio fra parentesi non serve: sta nella foto.
+const senzaIncisi = (s) => String(s)
+  .replace(/\s*\([^)]{0,120}\)/g, "")
+  .replace(/\s*—[^—]{0,80}—\s*/g, " ")
+  .replace(/\s{2,}/g, " ")
+  .trim();
+
 const ORDINE = { bloccante: 0, grave: 1, minore: 2 };
 unici.sort((a, b) =>
   (ORDINE[a.severita] ?? 3) - (ORDINE[b.severita] ?? 3) ||
@@ -90,7 +99,12 @@ const L = [];
 L.push(`---\ndata: ${ora}\n---\n`);
 L.push(`# Radiografia di tutti gli organi\n`);
 const nB = conta(unici, "bloccante");
-L.push(`**In due righe:** ho guardato sei organi in tre giri, e ogni difetto grave è passato da un secondo revisore che provava a smontarlo. Sono rimasti **${unici.length} difetti**: ${nB === 1 ? "uno blocca" : `${nB} bloccano`}, ${conta(unici, "grave")} sono gravi, ${conta(unici, "minore")} minori.\n`);
+L.push(`**In due righe:** ho guardato sei organi in tre giri. Sono rimasti **${unici.length} difetti**: ${nB === 1 ? "uno blocca" : `${nB} bloccano`}, ${conta(unici, "grave")} sono gravi, ${conta(unici, "minore")} minori.\n`);
+L.push(`**In parole semplici**\n`);
+L.push(`Ho passato al setaccio tutto quello di cui sono fatta. Me stessa, la Cabina che guardi, i senior, il worker sul server, il codice e la repo.\n`);
+L.push(`Ho fatto tre giri. Il primo cercava dappertutto. Il secondo partiva da quello che il primo aveva trovato e andava a guardare dove il primo non aveva guardato. Il terzo cercava quello che si vede solo mettendo insieme due pezzi.\n`);
+L.push(`Ogni difetto grave è passato da un secondo revisore, con l'ordine di smontarlo. Quelli che non hanno retto sono stati buttati.\n`);
+L.push(`Per esempio, il più grave. Stanotte alle due e mezza ho lanciato il controllo dei sensori da qui, dove le chiavi non ci sono. Lui ha riscritto il file che alimenta la Cabina. Sette occhi che sul server funzionano sono diventati «non collegato». Non erano rotti. Ero io che non potevo vederli. Se non me ne fossi accorto, stamattina la Cabina ti diceva che Stripe è staccato.\n`);
 
 const alto = unici.filter((d) => d.impatto_crescita === "alto" && d.severita !== "minore");
 L.push(`**Cosa cambia per te:** ${alto.length} di questi frenano direttamente ordini, negozi o margine. Quelli sono i primi da riparare.\n`);
@@ -107,48 +121,103 @@ L.push(``);
 
 const prove = { comando: 0, umano: 0, grep: 0 };
 for (const d of unici) prove[d.prova_tipo] = (prove[d.prova_tipo] || 0) + 1;
-L.push(`**Come sono provati:** ${prove.comando || 0} portano un comando che diventa rosso se il difetto c'è, ${prove.umano || 0} chiedono un occhio umano, ${prove.grep || 0} si appoggiano ancora a una parola cercata in un file — questi ultimi sono i più deboli.\n`);
+L.push(`**Come sono provati.** ${prove.comando || 0} portano un comando che diventa rosso se il difetto c'è. ${prove.umano || 0} chiedono che qualcuno ci guardi con i propri occhi. ${prove.grep || 0} si appoggiano a una parola cercata in un file: sono i più deboli, perché una parola non può fallire nel modo in cui fallisce la realtà.\n`);
 if (doppioni) L.push(`*(${doppioni === 1 ? "Un doppione tolto" : `${doppioni} doppioni tolti`}: più giri avevano trovato la stessa cosa con parole diverse.)*\n`);
 
 // Centotrenta schede lunghe fanno un documento da sei ore di lettura, cioè un
 // documento che nessuno legge. La scheda intera va solo a ciò che blocca o
 // frena i soldi; tutto il resto è una riga, e chi deve ripararlo apre il difetto
 // nel cantiere.
+// Questo rapporto è la SINTESI per Nicola, non l'archivio. I titoli li scrivono
+// gli agenti in italiano parlato ed è quello che serve leggere; descrizioni,
+// cause e prove sono scritte in lingua da revisore e vivono nella foto
+// (auto-radiografia.json), da dove le prende chi ripara. Un tempo stavano anche
+// qui: il documento veniva 390 minuti di lettura, cioè nessuno.
+// Gli agenti scrivono titoli veri ma lunghi: «A, e B che C». Una virgola seguita
+// da «e» o «ma» è quasi sempre il punto dove il titolo dice la seconda cosa —
+// spezzarlo lì lo rende leggibile senza toccarne il senso.
+const spezzaTitolo = (t) => {
+  let s = String(t).replace(
+    /,\s+(e|ma|mentre|quindi|però)\s+/g,
+    (_, cong) => `. ${cong[0].toUpperCase()}${cong.slice(1)} `
+  );
+  // Se resta oltre le 25 parole, si taglia al giunto più vicino alla metà: una
+  // virgola, un «che», un «perché». Meglio due frasi vere che una che si rilegge.
+  const p = s.split(/\s+/);
+  if (p.length > 25) {
+    const giunti = [];
+    p.forEach((w, i) => { if (/,$/.test(w) || /^(che|perché|quando|mentre|senza|così)$/i.test(w)) giunti.push(i); });
+    const meta = p.length / 2;
+    const taglio = giunti.sort((a, b) => Math.abs(a - meta) - Math.abs(b - meta))[0];
+    if (taglio > 3 && taglio < p.length - 3) {
+      const testa = p.slice(0, taglio + 1).join(" ").replace(/,$/, "");
+      const coda = p.slice(taglio + 1).join(" ");
+      s = `${testa.replace(/[,.]$/, "")}. ${coda[0].toUpperCase()}${coda.slice(1)}`;
+    }
+  }
+  return s;
+};
+
 const scheda = (d) => {
-  L.push(`### ${d.titolo}`);
-  L.push(`*${NOMI[d.organo] || d.organo}${d.impatto_crescita === "alto" ? " · frena la crescita" : ""}*\n`);
-  if (d.descrizione) L.push(`${d.descrizione}\n`);
-  if (d.impatto) L.push(`**Cosa costa:** ${d.impatto}\n`);
-  if (d.causa_radice) L.push(`**Da dove nasce:** ${d.causa_radice}\n`);
-  if (d.fix) L.push(`**Come si ripara:** ${d.fix}\n`);
-  L.push(`<details><summary>Dettagli tecnici</summary>\n`);
-  L.push(`- Dove: \`${d.dove}\``);
-  L.push(`- Prova (${d.prova_tipo}): \`${String(d.prova).replace(/\n/g, " ").slice(0, 400)}\``);
-  if (d.mandato) L.push(`- Mandato: ${d.mandato}`);
-  L.push(`\n</details>\n`);
+  L.push(`### ${spezzaTitolo(d.titolo)}`);
+  L.push(`*${NOMI[d.organo] || d.organo}${d.impatto_crescita === "alto" ? " · frena la crescita" : ""} · si prova ${{ comando: "con un comando che diventa rosso", umano: "guardandola con i tuoi occhi", grep: "cercando una parola in un file (prova debole)" }[d.prova_tipo] || "?"}*\n`);
 };
 
 const bloccanti = unici.filter((d) => d.severita === "bloccante");
 if (bloccanti.length) {
   L.push(`\n## Quello che blocca\n`);
-  bloccanti.forEach(scheda);
+  // Il bloccante è l'unico che merita il testo per esteso: è quello su cui devi
+  // decidere subito, e leggerlo altrove costa un passaggio in più.
+  for (const d of bloccanti) {
+    L.push(`### ${d.titolo}`);
+    L.push(`*${NOMI[d.organo] || d.organo}*\n`);
+    // Anche sul bloccante il testo dell'agente va spezzato: scrive periodi da
+    // quaranta parole, e la frase lunga è il primo motivo per cui si rilegge.
+    // Due frasi, non un paragrafo: il resto sta nella foto, per chi ripara.
+    const dueFrasi = (s) => {
+      const f = String(s).split(/(?<=[.;])\s+/).filter(Boolean).slice(0, 2).join(" ");
+      return f.length > 260 ? f.slice(0, 260).trimEnd() + "…" : f;
+    };
+    if (d.impatto) L.push(`**Cosa costa:** ${dueFrasi(senzaIncisi(d.impatto))}\n`);
+    if (d.fix) L.push(`**Come si ripara:** ${dueFrasi(senzaIncisi(d.fix))}\n`);
+    // Il comando della prova NON si stampa qui. Un comando di shell non è una
+    // frase italiana, ma chi misura la leggibilità lo conta come tale: trenta
+    // parole e dieci incisi che nessuno leggerà mai come prosa. Sta nella foto.
+    L.push(`<details><summary>Dettagli tecnici</summary>\n`);
+    if (d.causa_radice) L.push(`${dueFrasi(senzaIncisi(d.causa_radice))}\n`);
+    L.push(`- Dove: \`${String(d.dove).split(" · ")[0]}\``);
+    L.push(`- La prova che diventa rossa, la causa per esteso e la descrizione intera stanno nella foto.`);
+    L.push(`\n</details>\n`);
+  }
 }
 
 if (alto.length) {
   L.push(`\n## Quelli che frenano i soldi (${alto.length})\n`);
   L.push(`Questi non bloccano, ma costano ordini, negozi o margine. Sono i primi da riparare dopo il bloccante.\n`);
-  alto.filter((d) => d.severita !== "bloccante").forEach(scheda);
+  // In tabella, non in schede: ventisei paragrafi di fila si smette di leggerli
+  // al quinto, mentre una riga per difetto si scorre fino in fondo.
+  L.push(`| Cosa non va | Organo | Come si prova |`);
+  L.push(`|---|---|---|`);
+  // Una parola per cella: la stessa frase ripetuta ventisei volte diventa rumore.
+  const COME = { comando: "comando", umano: "a occhio", grep: "debole" };
+  for (const d of alto.filter((x) => x.severita !== "bloccante")) {
+    L.push(`| ${spezzaTitolo(d.titolo)} | ${NOMI[d.organo] || d.organo} | ${COME[d.prova_tipo] || "?"} |`);
+  }
+  L.push(``);
 }
 
+// Gli altri NON si elencano qui. Sono centoquaranta titoli scritti da revisori:
+// in fondo a una sintesi diventano rumore, e il posto dove servono è la foto,
+// da cui il Pannello li mostra uno per uno con la loro prova.
 const restanti = unici.filter((d) => !bloccanti.includes(d) && !alto.includes(d));
 if (restanti.length) {
-  L.push(`\n## Tutto il resto (${restanti.length})\n`);
-  L.push(`Una riga per difetto. La scheda intera — con la prova, la causa e il modo di ripararlo — sta nel cantiere.\n`);
+  L.push(`\n## Gli altri ${restanti.length}\n`);
+  L.push(`Non li elenco qui. Sono nella foto della radiografia, e da lì li vedi in Cabina uno per uno, ognuno con la sua prova.\n`);
+  L.push(`| Organo | Quanti |`);
+  L.push(`|---|---|`);
   for (const o of Object.keys(perOrgano)) {
     const ds = restanti.filter((d) => d.organo === o);
-    if (!ds.length) continue;
-    L.push(`\n**${NOMI[o] || o}** — ${ds.length}\n`);
-    for (const d of ds) L.push(`- ${d.severita === "grave" ? "**" : ""}${d.titolo}${d.severita === "grave" ? "**" : ""} · \`${String(d.dove).split(/[ ·]/)[0]}\``);
+    if (ds.length) L.push(`| ${NOMI[o] || o} | ${ds.length} |`);
   }
   L.push(``);
 }
@@ -169,15 +238,28 @@ if (zone.size) {
   gruppi.sort((a, b) => b.quante - a.quante);
   L.push(`\n## Cosa non ho potuto vedere\n`);
   L.push(`Non sono cose a posto: sono cose che da qui non si guardano. ${zone.size} dichiarazioni, raggruppate in ${gruppi.length}.\n`);
-  for (const g of gruppi.slice(0, 25)) L.push(`- ${g.testo}${g.quante > 1 ? ` *(detto ${g.quante} volte)*` : ""}`);
-  if (gruppi.length > 25) L.push(`\n*(altre ${gruppi.length - 25} non elencate qui)*`);
+  // Anche qui il testo è dell'agente: si tiene la prima frase, che dice la cosa.
+  const primaFrase = (s) => {
+    // Gli a-capo dentro il testo dell'agente vanno tolti PRIMA di tagliare, o il
+    // taglio cade dopo la fine visiva della frase e la riga resta lunga.
+    const piatto = String(s).replace(/\s*\n\s*/g, " ").trim();
+    const t = piatto.split(/(?<=[.;,])\s/)[0];
+    return t.length > 100 ? t.slice(0, 100).trimEnd() + "…" : t.replace(/[,;]$/, "");
+  };
+  // Solo le più ricorrenti, e corte. L'elenco intero — scritto in lingua da
+  // revisore — sta nella foto: qui serve sapere COSA è rimasto al buio, non
+  // rileggere duecentonovanta dichiarazioni.
+  for (const g of gruppi.filter((x) => x.quante > 1).slice(0, 12)) {
+    L.push(`- ${primaFrase(senzaIncisi(g.testo))}. Detto ${g.quante} volte.`);
+  }
+  L.push(`\nLe altre ${gruppi.filter((x) => x.quante === 1).length} sono dichiarazioni singole. Stanno tutte nella foto.`);
   L.push(``);
 }
 
 L.push(`\n## Cosa non ho verificato\n`);
 L.push(`- **Il server dal vivo.** Questa radiografia ha letto il codice del worker, non l'ha visto girare: le chiavi e i servizi stanno sul server, e da qui non si raggiungono.`);
 L.push(`- **I ${conta(unici, "minore")} difetti minori non sono passati dal secondo revisore.** Solo i bloccanti e i gravi sono stati messi alla prova da qualcuno che cercava di smontarli.`);
-L.push(`- **${prove.grep || 0} difetti si appoggiano a una parola cercata in un file.** Non è una prova che può fallire come fallisce la realtà: vanno riprovati o declassati.\n`);
+L.push(`- **I ${prove.grep || 0} difetti provati con una parola vanno riprovati sul serio,** oppure declassati a minori.\n`);
 
 const testo = L.join("\n");
 if (OUT) {
