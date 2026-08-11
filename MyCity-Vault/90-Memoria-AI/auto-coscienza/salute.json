@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-11 02:12",
+  "aggiornato": "2026-08-11 02:26",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -15,15 +15,15 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-08-11 02:12",
-      "iso": "2026-08-11T00:12:46.163Z",
+      "quando": "2026-08-11 02:26",
+      "iso": "2026-08-11T00:26:13.294Z",
       "casa": "claude",
-      "modo": "rapido",
-      "ok": 11,
-      "rotti": 1,
+      "modo": "completo",
+      "ok": 12,
+      "rotti": 3,
       "guasti": 0,
       "nonvisti": 7,
-      "copertura": 0.63,
+      "copertura": 0.68,
       "controlli": [
         {
           "id": "worker.ponte",
@@ -31,7 +31,7 @@
           "titolo": "Il VPS si sta ancora visitando",
           "impatto": 1,
           "esito": "ok",
-          "detto": "il VPS si è visitato 19 ore fa",
+          "detto": "il VPS si è visitato 20 ore fa",
           "prova": null,
           "regressione": false
         },
@@ -66,6 +66,16 @@
           "regressione": false
         },
         {
+          "id": "worker.automazione",
+          "organo": "worker",
+          "titolo": "Token, push e allineamento git",
+          "impatto": 2,
+          "esito": "nonvisto",
+          "detto": "manca GIT_PUSH_TOKEN in questo ambiente",
+          "prova": null,
+          "regressione": false
+        },
+        {
           "id": "cervello.fatti",
           "organo": "cervello",
           "titolo": "I fatti-chiave sono coerenti ovunque",
@@ -86,6 +96,16 @@
           "regressione": false
         },
         {
+          "id": "cervello.test",
+          "organo": "cervello",
+          "titolo": "I test del cervello passano",
+          "impatto": 3,
+          "esito": "rotto",
+          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-08-11 02:24  (4 corsie · 24 in fila perché scrivono sul dato vivo) · ✅ cervello/test/allineamento-esito.test.mjs  (18 passati)",
+          "prova": "node cervello/test-cervello.mjs",
+          "regressione": false
+        },
+        {
           "id": "cervello.vault",
           "organo": "cervello",
           "titolo": "La memoria è sana",
@@ -101,7 +121,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 0 min fa (2026-08-11T00:12:32.128Z) — 1 file guardati, 0 voci, 0 gravi.",
+          "detto": "✅ ultimo scatto 0 min fa (2026-08-11T00:26:04.800Z) — 3 file guardati, 0 voci, 0 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false
         },
@@ -130,8 +150,8 @@
           "organo": "cervello",
           "titolo": "Quando scrivo a Nicola, gli rispondo",
           "impatto": 2,
-          "esito": "nonvisto",
-          "detto": "nessun messaggio che pretendesse le quattro risposte in questa finestra",
+          "esito": "rotto",
+          "detto": "«Cosa non ho verificato» mancato nel 50% dei 2 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
           "prova": null,
           "regressione": false
         },
@@ -143,6 +163,16 @@
           "esito": "ok",
           "detto": "5 skill installate, tutte versionate o rigenerabili",
           "prova": null,
+          "regressione": false
+        },
+        {
+          "id": "cabina.test",
+          "organo": "cabina",
+          "titolo": "I test del Pannello passano",
+          "impatto": 2,
+          "esito": "ok",
+          "detto": "tutti i test del Pannello girano e passano",
+          "prova": "node cervello/test-pannello.mjs",
           "regressione": false
         },
         {
@@ -857,6 +887,17 @@
       "guasti": 0,
       "nonvisti": 7,
       "copertura": 0.63
+    },
+    {
+      "quando": "2026-08-11 02:26",
+      "iso": "2026-08-11T00:26:13.294Z",
+      "casa": "claude",
+      "modo": "completo",
+      "ok": 12,
+      "rotti": 3,
+      "guasti": 0,
+      "nonvisti": 7,
+      "copertura": 0.68
     }
   ]
 }
