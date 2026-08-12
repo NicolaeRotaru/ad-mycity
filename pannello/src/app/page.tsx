@@ -2638,6 +2638,13 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           body: JSON.stringify({ ids: blocco }),
           cache: "no-store",
         });
+        if (!r.ok) {
+          // Il server non è riuscito a leggere (memoria giù, database che non risponde): NON è
+          // «questa casella non ha un nome». Tolgo il segno di «già chiesto» e riprovo al
+          // prossimo giro di poll, invece di lasciare le caselle senza nome fino al ricaricamento.
+          blocco.forEach((id) => nomiChiestiRef.current.delete(id));
+          return;
+        }
         const d = await r.json();
         const nomi: Record<string, string> = d?.nomi || {};
         if (Object.keys(nomi).length === 0) continue;

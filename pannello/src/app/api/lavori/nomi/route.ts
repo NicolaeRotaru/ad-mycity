@@ -23,10 +23,15 @@ export async function POST(req: NextRequest) {
     if (!memoryConnected()) {
       return NextResponse.json({ ok: false, memoria: false, nomi: {} }, { status: 503 });
     }
-    const righe = await getRigheNome(ids);
+    const { letto, righe } = await getRigheNome(ids);
+    // Lettura fallita ≠ nessun nome. Se rispondessi «ok, nessun nome» il Pannello ci crederebbe e
+    // non li chiederebbe più: le caselle resterebbero senza nome fino al prossimo caricamento.
+    if (!letto) {
+      return NextResponse.json({ ok: false, letto: false, nomi: {} }, { status: 502 });
+    }
     const nomi: Record<string, string> = {};
     for (const r of righe) nomi[r.id] = nomeLavoro(r);
-    return NextResponse.json({ ok: true, nomi });
+    return NextResponse.json({ ok: true, letto: true, nomi });
   } catch (e: any) {
     return NextResponse.json({ ok: false, nomi: {}, error: e.message }, { status: 500 });
   }
