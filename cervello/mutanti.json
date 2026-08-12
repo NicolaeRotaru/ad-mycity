@@ -134,8 +134,8 @@
    "difetto": "AR-166",
    "nome": "un passo saltato torna a non avere un nome",
    "file": "cervello/esito-cadenza.mjs",
-   "cerca": "        : !passi\n          ? \"passi-saltati\"\n          : \"pulito\";",
-   "sostituisci": "        : \"pulito\";",
+   "cerca": "          : !passi\n            ? \"passi-saltati\"\n            : \"pulito\";",
+   "sostituisci": "          : \"pulito\";",
    "test": "cervello/test/esito-cadenza.test.mjs"
   },
   {
@@ -2274,6 +2274,24 @@
    "cerca": "      cecita.sensori[c.nome] = { ...prima, non_misurato_qui: `${quando}: ${c.dettaglio}` };",
    "sostituisci": "      void prima;",
    "test": "node cervello/test/sensori-non-calpestati.test.mjs"
+  },
+  {
+   "lotto": 34,
+   "difetto": "AR-giro-a-vuoto",
+   "nome": "un giro che non scrive niente torna a essere «pulito»",
+   "file": "cervello/esito-cadenza.mjs",
+   "cerca": "  } else if (motore && !cambi) codice = 4;",
+   "sostituisci": "  } else if (false) codice = 4;",
+   "test": "node cervello/test/esito-cadenza.test.mjs"
+  },
+  {
+   "lotto": 34,
+   "difetto": "AR-memoria-non-uscita",
+   "nome": "«memoria non uscita» torna a nascondersi dietro «vincoli attivi»",
+   "file": "cervello/esito-cadenza.mjs",
+   "cerca": "    : !push\n      ? \"non-pubblicato\"",
+   "sostituisci": "    : gate > 0\n      ? \"vincoli-attivi\"",
+   "test": "node cervello/test/esito-cadenza.test.mjs"
   }
  ]
 }

@@ -8,14 +8,25 @@
 #
 # 🟢 Sola lettura: non tocca file, non chiama rete, non fa git. Definisce solo funzioni.
 
-# esito_giro_rc <memoria_incoerente> <had_changes> <push_ok> <ai_rc> <gate_rossi> <vincoli_non_consegnati>
+# esito_giro_rc <memoria_incoerente> <had_changes> <push_ok> <ai_rc> <gate_rossi> <vincoli_non_consegnati> [motore_eseguito]
 #   0 = giro pulito (o memoria salvata nonostante AI instabile)
 #   1 = AI fallita e nessuna memoria nuova pubblicata
 #   2 = memoria scritta ma push fallito, oppure gate memoria (AR-104) ha bloccato la pubblicazione
 #   3 = giro concluso ma con VINCOLI ANCORA ATTIVI: la memoria è pubblicata, il giro NON è pulito
+#   4 = il motore ha GIRATO e non ha scritto NIENTE: un giro a vuoto
+#
+# ⭕ IL GIRO A VUOTO (11/8, trovato guardando perché il briefing restava vecchio di 31 ore).
+# Fin qui un giro col motore andato bene e ZERO file scritti usciva 0, cioè «pulito»: il worker lo
+# segnava fatto e la Cabina lo mostrava verde. È il buco peggiore che possa avere questa funzione,
+# perché non racconta un guasto — racconta un successo mentre la macchina sta ferma. Il sintomo che
+# l'ha fatto vedere: il registro delle cadenze diceva «giro fermo da 31h» mentre le impostazioni
+# dicevano che il giro era uscito quel pomeriggio. Erano vere entrambe: girava e non scriveva.
+# Serve `motore_eseguito` per non confondere due silenzi diversi. Il delta-gate SPEGNE apposta il
+# motore quando non è cambiato niente (AR-019): lì zero scritture è la risposta giusta e resta 0.
+# Un motore ACCESO che non lascia una riga, invece, è un giro che non è successo.
 esito_giro_rc() {
   local memoria_incoerente="${1:-0}" had_changes="${2:-0}" push_ok="${3:-1}"
-  local ai_rc="${4:-0}" gate_rossi="${5:-0}" non_consegnati="${6:-0}"
+  local ai_rc="${4:-0}" gate_rossi="${5:-0}" non_consegnati="${6:-0}" motore_eseguito="${7:-1}"
 
   # AR-104: il gate memoria ha la precedenza — se la pubblicazione è stata bloccata, non è un successo
   # silenzioso nemmeno quando non siamo arrivati al commit.
@@ -31,6 +42,11 @@ esito_giro_rc() {
     fi
     echo 1; return
   fi
+
+  # Il giro a vuoto viene PRIMA dei cancelli: se il motore non ha scritto niente, i cancelli rossi
+  # sono la conseguenza (nessuno li ha consumati), non la notizia. Dire «vincoli attivi» manderebbe
+  # a cercare la causa nel posto sbagliato — è lo stesso errore di rotta che questa riga ripara.
+  [ "$motore_eseguito" = 1 ] && [ "$had_changes" != 1 ] && { echo 4; return; }
 
   # AR-300/AR-320: i vincoli hard ora contano nell'esito. Prima vivevano solo dentro il testo del
   # prompt: un giro con tutti i controlli falliti usciva 0 e il Pannello lo mostrava verde.
@@ -50,13 +66,22 @@ giro_e_pieno() {
   if [ "$ai_rc" -eq 0 ] && [ "$steps_ok" = 1 ] && [ "$gate_rossi" -eq 0 ]; then echo 1; else echo 0; fi
 }
 
-# esito_giro_etichetta <ai_rc> <gate_rossi> <push_ok> <steps_ok>
+# esito_giro_etichetta <ai_rc> <gate_rossi> <push_ok> <steps_ok> [had_changes] [motore_eseguito]
 # Nome leggibile dell'esito, scritto in esito-giro.json e usato nei messaggi.
+#
+# 🏷️ L'ORDINE È LA NOTIZIA (11/8). L'etichetta è quello che Nicola legge in Cabina, quindi deve dire
+# il fatto PIÙ GRAVE, non il primo che capita. Prima «vincoli-attivi» veniva prima di «non-pubblicato»:
+# un giro la cui memoria non era uscita dal server veniva raccontato come «ci sono dei controlli
+# rossi», e chi leggeva andava a sistemare i controlli mentre il problema era che non si pubblicava
+# più niente. Ordine giusto, dal più grave: motore rotto → memoria non uscita → giro a vuoto →
+# controlli rossi → passi saltati → pulito.
 esito_giro_etichetta() {
   local ai_rc="${1:-0}" gate_rossi="${2:-0}" push_ok="${3:-1}" steps_ok="${4:-1}"
+  local had_changes="${5:-1}" motore_eseguito="${6:-1}"
   if [ "$ai_rc" -ne 0 ]; then echo "motore-fallito"; return; fi
-  if [ "$gate_rossi" -gt 0 ]; then echo "vincoli-attivi"; return; fi
   if [ "$push_ok" != 1 ]; then echo "non-pubblicato"; return; fi
+  if [ "$motore_eseguito" = 1 ] && [ "$had_changes" != 1 ]; then echo "giro-a-vuoto"; return; fi
+  if [ "$gate_rossi" -gt 0 ]; then echo "vincoli-attivi"; return; fi
   if [ "$steps_ok" != 1 ]; then echo "passi-saltati"; return; fi
   echo "pulito"
 }

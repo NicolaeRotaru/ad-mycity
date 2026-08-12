@@ -1542,17 +1542,25 @@ if command -v node >/dev/null 2>&1; then
   PUSH_OK="${GIRO_PUSH_OK:-1}" \
   STEPS_OK="${GIRO_STEPS_OK:-1}" \
   NON_CONSEGNATI="${VINCOLI_NON_CONSEGNATI:-0}" \
+  HAD_CHANGES="${GIRO_HAD_CHANGES:-0}" \
+  MOTORE_ESEGUITO="${RUN_AI:-1}" \
+  ESITO="$(esito_giro_etichetta "$ai_rc" "${GATE_ROSSI:-0}" "${GIRO_PUSH_OK:-1}" "${GIRO_STEPS_OK:-1}" "${GIRO_HAD_CHANGES:-0}" "${RUN_AI:-1}")" \
   node -e '
     const fs=require("fs");
     const g=+process.env.GATE_ROSSI||0, ai=+process.env.AI_RC||0;
     const push=process.env.PUSH_OK==="1", steps=process.env.STEPS_OK==="1";
-    const esito = (ai!==0) ? "motore-fallito" : (g>0 ? "vincoli-attivi" : (!push ? "non-pubblicato" : (!steps ? "passi-saltati" : "pulito")));
+    // L etichetta arriva da esito_giro_etichetta (cervello/giro-esito.sh): UNA regola sola.
+    // Prima qui c era una seconda copia scritta in JS, e le due si erano gia allontanate — questo
+    // file diceva «vincoli-attivi» dove la funzione diceva «non-pubblicato». Due copie di una
+    // regola non restano d accordo: una si aggiorna e l altra no, e nessuno se ne accorge.
+    const esito = process.env.ESITO || "pulito";
     fs.writeFileSync("MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-giro.json", JSON.stringify({
       _cosa_e:"Esito REALE dell ultimo giro (AR-300). Prima il giro stampava «Giro completato.» anche a controlli tutti rossi: questo file dice la verita, e il Pannello la puo leggere.",
       data:new Date(Date.now()+2*3600*1000).toISOString().slice(0,16).replace("T"," "),
       esito, pulito: esito==="pulito",
       gate_rossi:g, vincoli_attivi:(process.env.VINCOLI_ELENCO||"").split(" ").filter(Boolean),
       ai_rc:ai, push_ok:push, passi_11_12_ok:steps,
+      ha_scritto: process.env.HAD_CHANGES==="1", motore_eseguito: process.env.MOTORE_ESEGUITO==="1",
       vincoli_non_consegnati:process.env.NON_CONSEGNATI==="1"
     },null,2)+"\n");
   ' 2>/dev/null || true
@@ -1572,21 +1580,25 @@ fi
 # «tutto bene» anche con i cancelli rossi.
 # shellcheck source=cervello/giro-esito.sh
 . "$SCRIPT_DIR/giro-esito.sh"
-_giro_rc="$(esito_giro_rc "${MEMORIA_INCOERENTE:-0}" "$GIRO_HAD_CHANGES" "$GIRO_PUSH_OK" "$ai_rc" "${GATE_ROSSI:-0}" "${VINCOLI_NON_CONSEGNATI:-0}")"
+_giro_rc="$(esito_giro_rc "${MEMORIA_INCOERENTE:-0}" "$GIRO_HAD_CHANGES" "$GIRO_PUSH_OK" "$ai_rc" "${GATE_ROSSI:-0}" "${VINCOLI_NON_CONSEGNATI:-0}" "${RUN_AI:-1}")"
 # AR-164/AR-166: il giro lascia la sua riga nello STESSO registro delle altre due cadenze, con l'ora.
 # Serve al guardiano freschezza-cadenze.mjs, che risponde alla domanda che nessuno faceva — non «la
 # sveglia è carica?» (il timer systemd) ma «qualcuno si è alzato?». Un passo saltato (GIRO_STEPS_OK=0)
 # finiva solo su stderr, «il registro tecnico del server»: da qui in poi è un fatto che sopravvive.
 cadenza_registra giro "$_giro_rc" \
-  "$(esito_giro_etichetta "$ai_rc" "${GATE_ROSSI:-0}" "${GIRO_PUSH_OK:-1}" "${GIRO_STEPS_OK:-1}")" \
+  "$(esito_giro_etichetta "$ai_rc" "${GATE_ROSSI:-0}" "${GIRO_PUSH_OK:-1}" "${GIRO_STEPS_OK:-1}" "$GIRO_HAD_CHANGES" "${RUN_AI:-1}")" \
   "$ai_rc" "${GIRO_PUSH_OK:-1}" "${GIRO_STEPS_OK:-1}" "${GATE_ROSSI:-0}" "${VINCOLI_ATTIVI[*]:-}"
 case "$_giro_rc" in
   2) echo "[$(ts)] ⛔ MEMORIA NON PUBBLICATA (gate AR-104 o push fallito) — exit 2 (non è un successo)." >&2 ;;
   1) echo "[$(ts)] ⛔ Motore AI fallito e nessuna memoria nuova pubblicata — exit 1." >&2 ;;
+  4) echo "[$(ts)] ⭕ GIRO A VUOTO: il motore è andato bene ma non ha scritto NESSUN file — exit 4. Niente briefing, niente memoria nuova, niente da pubblicare: questo giro non è successo. Guarda l'output del motore qui sopra prima di dare la colpa ai cancelli." >&2 ;;
   3) if [ "${VINCOLI_NON_CONSEGNATI:-0}" = 1 ]; then
        echo "[$(ts)] ⛔ VINCOLI NON CONSEGNATI: il motore è stato saltato mentre dei cancelli erano attivi — exit 3." >&2
      else
-       echo "[$(ts)] ⛔ GIRO NON PULITO: ${GATE_ROSSI:-0} vincoli ancora attivi (${VINCOLI_ATTIVI[*]:-}) — exit 3. La memoria è pubblicata, ma questo giro non va contato come riuscito." >&2
+       # «pubblicata» solo se c'era davvero qualcosa da pubblicare: un giro senza scritture non
+       # pubblica niente, e dirlo lo stesso è la bugia che teneva in piedi il giro a vuoto.
+       if [ "${GIRO_HAD_CHANGES:-0}" = 1 ]; then _pubbl="La memoria è pubblicata"; else _pubbl="Non c'era memoria nuova da pubblicare"; fi
+       echo "[$(ts)] ⛔ GIRO NON PULITO: ${GATE_ROSSI:-0} vincoli ancora attivi (${VINCOLI_ATTIVI[*]:-}) — exit 3. ${_pubbl}, ma questo giro non va contato come riuscito." >&2
      fi ;;
   0) [ "$ai_rc" -ne 0 ] && echo "[$(ts)] WARN: motore AI instabile ma memoria pubblicata su GitHub." >&2 ;;
 esac
