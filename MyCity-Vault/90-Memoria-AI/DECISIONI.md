@@ -1715,3 +1715,35 @@ prima (2 casi su 4), verde dopo.
 
 **Cosa resta aperto (non l'ho chiuso).** Il giro esce con i cancelli rossi — nove vincoli attivi —
 e per questo il briefing resta vecchio. È un'altra malattia, e va guardata a parte.
+
+---
+
+## 2026-08-12 23:17 — 🟡 Quattro caselle chiamate «analisi» e «playbook»: ora ognuna ha il suo nome
+
+**Cosa mi ha detto Nicola.** Lo screenshot dei Lavori, e una riga sola: «ogni playbook ed ogni
+analisi devono avere il loro nome». Nella lista si vedevano quattro caselle una sotto l'altra
+chiamate «analisi», «analisi», «playbook», «playbook». Non è un nome: è il nome della specie. Per
+sapere cosa contenevano bisognava aprirle una per una.
+
+**Perché succedeva.** La lista dei lavori gira leggera apposta: non porta la `richiesta`, cioè il
+testo da cui si capisce di che lavoro si tratta. Il motivo è buono e l'ho misurato sul database
+della memoria (3.033 righe): sulle chat la richiesta pesa 9,8 KB di media e arriva a 55 KB, e la
+lista si ricarica ogni 8 secondi. Senza quel testo il Pannello ripiegava sul campo `tipo` — la
+sigla tecnica — e la mostrava come titolo.
+
+**Cosa ho fatto.** Il nome ora lo calcola il server, una volta per casella, e il browser se lo
+tiene (la richiesta di un lavoro non cambia più dopo la nascita della riga). Ogni forma che la
+macchina scrive davvero diventa un nome proprio: i playbook prendono il nome dal catalogo
+dell'arsenale («🛒 Recupero carrelli abbandonati», «⭐ Caccia recensioni»), le sentinelle dicono
+cosa è successo e con quale dettaglio («🧠 Salute bassa: il voto salute dell'architettura è 45»),
+le riapprovazioni portano il nome dell'azione originale con 🔄 davanti. Anche una conversazione a
+più messaggi non si chiama più «Conversazione · 3 messaggi» ma col nome del messaggio che l'ha
+aperta. Se il nome non è ancora arrivato, il ripiego è italiano — «Analisi dell'AD» — mai la sigla.
+
+**Prova, nei due versi.** Un test nuovo (12 prove) costruito sulle richieste VERE lette dal
+database, non su esempi immaginati: verde col codice nuovo, e rimettendo il codice di prima
+diventa rosso in 4 prove su 12 — fra cui esattamente il caso dello screenshot. In più una prova a
+schermo: Chromium apre il Pannello vero, va sui Lavori e legge i titoli delle card.
+
+**Cosa resta vero.** La lista continua a girare leggera: non ho rimesso la richiesta nel giro di
+poll, che era la strada facile e avrebbe riportato i tempi morti che quella scelta evitava.

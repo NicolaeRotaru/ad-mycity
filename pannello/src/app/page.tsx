@@ -128,7 +128,15 @@ import { parla as parlaVoce, fermaVoce } from "@/lib/voce-worker";
 import ThemeToggle from "@/components/ThemeToggle";
 import { preparaLavoro } from "@/lib/comandi";
 import { caricaAllegatiChat } from "@/lib/allegati-chat";
-import { salvaGruppoLavoroLocale, leggiMappaGruppiLocali, raggruppaLavori, messaggiDaGruppo, type GruppoLavori } from "@/lib/lavori-gruppo";
+import {
+  salvaGruppoLavoroLocale,
+  leggiMappaGruppiLocali,
+  leggiNomiLavoriLocali,
+  salvaNomiLavoriLocali,
+  raggruppaLavori,
+  messaggiDaGruppo,
+  type GruppoLavori,
+} from "@/lib/lavori-gruppo";
 import { accodaSyncConvMeta, caricaConvMeta, mergeLette } from "@/lib/conv-meta";
 import { ripristinaSub } from "@/lib/nav";
 import { deveChiudereOverlay, eTastoChiudi, overlayInCima, type StatoOverlay } from "@/lib/overlay-chiusura";
@@ -414,6 +422,8 @@ type Lavoro = {
   risultato?: string;
   esperto: string;
   gruppo_id?: string | null;
+  /** Il nome della casella, da /api/lavori/nomi: il poll leggero non porta `richiesta`. */
+  titolo?: string;
 };
 
 // ⚡ Skill & comandi: non più chip fisse sopra la textarea + card in fondo alla pagina —
@@ -1670,7 +1680,9 @@ export default function Dashboard() {
     if (a.length !== b.length) return false;
     for (let i = 0; i < a.length; i++) {
       const x = a[i], y = b[i];
-      if (x.id !== y.id || x.stato !== y.stato || x.updated_at !== y.updated_at || x.risultato !== y.risultato) return false;
+      // `titolo` sta nel confronto perché il nome arriva DOPO la riga (una lettura a parte): se
+      // non lo guardassimo, la lista resterebbe quella di prima — con le caselle senza nome.
+      if (x.id !== y.id || x.stato !== y.stato || x.updated_at !== y.updated_at || x.risultato !== y.risultato || x.titolo !== y.titolo) return false;
     }
     return true;
   }
@@ -2592,6 +2604,65 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   // Ponte col cervello: polling lavori — 2s se C'È QUALSIASI chat in attesa (anche di
   // un'altra conversazione), 8s altrimenti. Risolve TUTTI i pendenti, non solo l'ultimo.
   // Lista leggera (solo metadati); corpo completo solo per chat in corso / pendenti.
+  // ── I NOMI DELLE CASELLE ────────────────────────────────────────────────────────────────────
+  // Il poll non porta `richiesta` (troppo pesante: 9,8 KB di media sulle chat), e senza richiesta
+  // ogni casella si chiamava come la sua specie: «analisi», «analisi», «playbook», «playbook»
+  // (Nicola, 12/8, screenshot dei Lavori). Il nome lo calcola il server su richiesta, per le
+  // caselle in cima ai gruppi — cioè quelle che si vedono in lista — e poi resta salvato: la
+  // richiesta di un lavoro non cambia più dopo la nascita della riga, quindi si chiede una volta.
+  const nomiLavoriRef = useRef<Record<string, string>>({});
+  const nomiChiestiRef = useRef<Set<string>>(new Set());
+  const nomiPronti = useRef(false);
+  if (typeof window !== "undefined" && !nomiPronti.current) {
+    nomiPronti.current = true;
+    nomiLavoriRef.current = leggiNomiLavoriLocali();
+  }
+
+  async function assicuraNomiLavori(lista: Lavoro[]) {
+    // Solo i capi-gruppo: dentro una conversazione aperta i titoli arrivano già col dettaglio.
+    const capi = raggruppaLavori(lista, leggiMappaGruppiLocali()).map((g) => g.lavori[0]);
+    const mancanti = capi
+      .filter((l) => l && !l.richiesta && !nomiLavoriRef.current[l.id] && !nomiChiestiRef.current.has(l.id))
+      .map((l) => l.id);
+    if (mancanti.length === 0) return;
+
+    // A blocchi (il server ne legge al massimo 25 per volta), in fila e non tutti insieme: è una
+    // rifinitura della vista, non deve rubare banda alla chat che sta rispondendo.
+    for (let i = 0; i < mancanti.length && i < 120; i += 20) {
+      const blocco = mancanti.slice(i, i + 20);
+      blocco.forEach((id) => nomiChiestiRef.current.add(id));
+      try {
+        const r = await fetch("/api/lavori/nomi", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ ids: blocco }),
+          cache: "no-store",
+        });
+        if (!r.ok) {
+          // Il server non è riuscito a leggere (memoria giù, database che non risponde): NON è
+          // «questa casella non ha un nome». Tolgo il segno di «già chiesto» e riprovo al
+          // prossimo giro di poll, invece di lasciare le caselle senza nome fino al ricaricamento.
+          blocco.forEach((id) => nomiChiestiRef.current.delete(id));
+          return;
+        }
+        const d = await r.json();
+        const nomi: Record<string, string> = d?.nomi || {};
+        if (Object.keys(nomi).length === 0) continue;
+        Object.assign(nomiLavoriRef.current, nomi);
+        salvaNomiLavoriLocali(nomiLavoriRef.current);
+        setLavori((prev) => {
+          const merged = prev.map((l) => (nomi[l.id] && l.titolo !== nomi[l.id] ? { ...l, titolo: nomi[l.id] } : l));
+          return lavoriUguali(prev, merged) ? prev : merged;
+        });
+      } catch {
+        // Niente nome, per ora: la casella resta col nome della specie e si riprova al prossimo
+        // giro di poll (tolgo il segno di «già chiesto», altrimenti non ci riproverebbe mai).
+        blocco.forEach((id) => nomiChiestiRef.current.delete(id));
+        return;
+      }
+    }
+  }
+
   async function arricchisciLavoriAttivi(lista: Lavoro[]): Promise<Lavoro[]> {
     const ids = new Set<string>();
     for (const p of pendingLavoroChatRef.current.values()) ids.add(p.id);
@@ -2627,18 +2698,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           // ri-renderizzerebbe tutto il Pannello ad ogni tick (2-8s) inutilmente.
           setLavori((prev) => {
             const merged = arricchiti.map((l) => {
+              const nome = nomiLavoriRef.current[l.id];
               const old = prev.find((p) => p.id === l.id);
-              if (!old) return l;
+              if (!old) return nome ? { ...l, titolo: nome } : l;
               return {
                 ...l,
                 richiesta: l.richiesta ?? old.richiesta,
                 risultato: l.risultato ?? old.risultato,
+                titolo: nome ?? l.titolo ?? old.titolo,
               };
             });
             if (lavoriUguali(prev, merged)) return prev;
             emitSyncDaLavoriFiniti(prev, merged);
             return merged;
           });
+          // I nomi mancanti si chiedono dopo aver mostrato la lista: la vista non aspetta.
+          void assicuraNomiLavori(arricchiti);
           if (d.conteggi?.coda != null) {
             setConteggiLavori({ coda: d.conteggi.coda, archivio: d.conteggi.archivio });
           }
@@ -2707,12 +2782,18 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       const r = await fetch(`/api/lavori?limit=${nuovoLimit}`, { cache: "no-store" });
       const d = await r.json();
       if (Array.isArray(d.lavori)) {
-        setLavori(d.lavori);
+        // I nomi già noti si riattaccano subito (altrimenti le righe vecchie tornerebbero senza
+        // nome); quelli delle righe appena arrivate si chiedono dopo aver mostrato la lista.
+        const conNomi: Lavoro[] = d.lavori.map((l: Lavoro) =>
+          nomiLavoriRef.current[l.id] ? { ...l, titolo: nomiLavoriRef.current[l.id] } : l
+        );
+        setLavori(conNomi);
         if (d.conteggi?.coda != null) {
           setConteggiLavori({ coda: d.conteggi.coda, archivio: d.conteggi.archivio });
         }
         if (d.archivio?.hasMore != null) setArchivioHasMore(Boolean(d.archivio.hasMore));
         setArchivioLimit(nuovoLimit);
+        void assicuraNomiLavori(conNomi);
       }
     } catch {
     } finally {

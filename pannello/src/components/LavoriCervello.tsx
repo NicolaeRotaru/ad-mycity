@@ -501,7 +501,10 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
                                 {badgeRitentativo(lv)}
                                 <span className="ml-auto text-[10px] text-black/35 dark:text-white/35">{faRelativo(lv.updated_at || lv.created_at)}</span>
                               </div>
-                              <div className="text-[13px] font-medium text-ink/80 dark:text-white/80 line-clamp-2">{titoloLavoro(lv)}</div>
+                              {/* col DETTAGLIO, non con la riga leggera: la richiesta è già stata
+                                  caricata all'apertura del gruppo, e senza di lei il messaggio si
+                                  chiamerebbe come la sua specie invece che col suo nome. */}
+                              <div className="text-[13px] font-medium text-ink/80 dark:text-white/80 line-clamp-2">{titoloLavoro(lavoroConDettaglio(lv))}</div>
                             </div>
                           </button>
 
