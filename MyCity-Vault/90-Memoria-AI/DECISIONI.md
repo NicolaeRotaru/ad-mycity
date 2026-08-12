@@ -1747,3 +1747,17 @@ schermo: Chromium apre il Pannello vero, va sui Lavori e legge i titoli delle ca
 
 **Cosa resta vero.** La lista continua a girare leggera: non ho rimesso la richiesta nel giro di
 poll, che era la strada facile e avrebbe riportato i tempi morti che quella scelta evitava.
+
+## 2026-08-13 00:35 — 🟡 Gli organi rossi della Cabina: curati i tre guaribili da qui, incartati i due che servono a Nicola
+
+Nicola ha chiesto di guardare gli organi (7 rotti · 8 non visti) e risolverli. Visita fatta, cause trovate, riparato sul ramo `claude/organi-x-rossa-pallino-bianco-fbg0xh` (PR con base main, merge suo).
+
+**① Il test del cervello era rosso in entrambe le case** perché l'archivio delle lezioni aveva sfondato il muro di lettura (1.070.609 byte contro 1.048.576): la scheda Apprendimento non si leggeva più. Potatura applicata (87 copie di principi tolte, 99.741 caratteri, zero lezioni vive toccate) e — la causa vera, scheda AR-416 — il potatore ora lo lancia IL GIRO da solo (`--se-serve`, pota sopra il 95% del tetto, prima del muro). Prova: `node cervello/test/archivi-senza-tetto.test.mjs` (23/23, tre prove nuove). Scoperto e ripreso anche un blocco di prove che viveva DOPO il process.exit del test: non girava mai.
+
+**② «Cosa non ho verificato» mancava nel 100% dei 26 messaggi del VPS** (e negli altri tre blocchi zero mancanze): il metro (si-capisce) pretende quattro blocchi, ma CLAUDE.md ne insegnava tre e i prompt del worker nessuno. Mandato allineato al metro (CLAUDE.md + prompt chat e lavori del worker), scheda nuova AR-574, freno nel test `regola-scrittura-nei-senior.test.mjs` (14/14): diventa rosso se il quarto blocco sparisce di nuovo dal mandato.
+
+**③ I due pallini della Cabina** («manca PANNELLO_URL») erano una chiave mai servita: l'indirizzo del Pannello è pubblico. Ora vive committato in `cervello/ponte-cabina.json` (l'ambiente vince sempre sul file) e la visita distingue la voce del proxy («Host not in allowlist», misurata stasera) da una Cabina davvero giù: niente rossi falsi. Prova: `node cervello/test/occhi-sulla-cabina.test.mjs` (9/9).
+
+**④ Restano due cose che può fare solo Nicola**, incartate in coda: la visita del VPS è ferma dal 10/8 alle 06:46 (5 visite saltate; il resto del server pubblica regolarmente, ultimo push 12/8 23:42) → card #visita-vps-ferma con i comandi pronti; e l'ambiente cloud non ha né rete né chiavi verso Cabina e database → card #occhi-ambiente-cloud con i tre host e le variabili esatte.
+
+**Riconferma:** batteria completa 162 file / 1.673 asserzioni tutti verdi · visita completa da qui: 13 ✅ · 1 ❌ (solo il ponte VPS, che è la card) · 8 ⚪ dichiarati col motivo giusto.

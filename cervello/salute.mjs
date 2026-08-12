@@ -325,6 +325,40 @@ export function giudicaPubblicazione({ rinvii, ahead, cieco } = {}, soglie = SOG
   return ok("tutto quello che il server scrive arriva su GitHub", dati);
 }
 
+/**
+ * L'indirizzo della Cabina: l'ambiente vince, il file committato è il fallback.
+ *
+ * L'URL del Pannello non è un segreto (è la pagina pubblica che Nicola apre dal telefono), ma per
+ * mesi è vissuto SOLO nelle env del VPS: ogni sessione cloud rispondeva «manca PANNELLO_URL» e i due
+ * controlli cabina.* restavano ⚪ per una chiave che non era mai servita. Il fallback committato
+ * (cervello/ponte-cabina.json) toglie la dipendenza dalla chiave; resta quella — vera — dalla rete.
+ */
+export function urlCabina(env = process.env, root = AD_ROOT) {
+  const daEnv = env.PANNELLO_URL || env.CABINA_URL;
+  if (daEnv) return { url: String(daEnv).trim().replace(/\/$/, ""), fonte: "ambiente" };
+  try {
+    const j = JSON.parse(readFileSync(join(root, "cervello/ponte-cabina.json"), "utf8"));
+    if (j.pannello_url) return { url: String(j.pannello_url).trim().replace(/\/$/, ""), fonte: "ponte-cabina.json" };
+  } catch {
+    /* né env né file: si resta ⚪, e il ⚪ dice cosa manca */
+  }
+  return null;
+}
+
+/**
+ * La voce del PROXY non è la voce della Cabina.
+ *
+ * Negli ambienti cloud l'uscita di rete passa da un proxy con allowlist: un host non ammesso torna
+ * come errore di trasporto (CONNECT 403) O come una risposta HTTP 403 vera con corpo «Host not in
+ * allowlist» — misurato il 13/8 da questa stessa sessione. Trattarla come «la Cabina risponde 403»
+ * sarebbe un ❌ falso su un servizio sano: il verdetto giusto è ⚪ «da QUESTO ambiente non si passa».
+ */
+export function reteChiusa(r) {
+  if (!r) return false;
+  if (!r.ok) return /allowlist|egress|CONNECT|ENOTFOUND|EAI_AGAIN|ECONNREFUSED|proxy/i.test(String(r.errore || ""));
+  return (r.status === 403 || r.status === 407) && /allowlist|egress|proxy/i.test(String(r.testo || ""));
+}
+
 /** La Cabina vista da fuori: risponde, risponde male, o risponde troppo tardi. */
 export function giudicaCabina(r, soglie = SOGLIE) {
   if (!r.ok) return rotto(`la Cabina non risponde: ${r.errore}`);
@@ -762,9 +796,14 @@ const CONTROLLI = [
     titolo: "La Cabina risponde",
     impatto: 1,
     async prova() {
-      const base = process.env.PANNELLO_URL || process.env.CABINA_URL;
-      if (!base) return nonVisto("manca PANNELLO_URL / CABINA_URL in questo ambiente");
-      return giudicaCabina(await guarda(base.replace(/\/$/, "")));
+      const base = urlCabina();
+      if (!base) return nonVisto("manca PANNELLO_URL / CABINA_URL e manca anche cervello/ponte-cabina.json");
+      const r = await guarda(base.url);
+      if (reteChiusa(r))
+        return nonVisto(
+          `la rete di QUESTO ambiente non arriva alla Cabina (${base.url}): aggiungi il host alla allowlist di rete dell'ambiente — non è la Cabina a essere giù`,
+        );
+      return giudicaCabina(r);
     },
   },
   {
@@ -773,9 +812,13 @@ const CONTROLLI = [
     titolo: "La Cabina è collegata alla memoria",
     impatto: 2,
     async prova() {
-      const base = process.env.PANNELLO_URL || process.env.CABINA_URL;
-      if (!base) return nonVisto("manca PANNELLO_URL / CABINA_URL in questo ambiente");
-      const r = await guarda(`${base.replace(/\/$/, "")}/api/cuore`);
+      const base = urlCabina();
+      if (!base) return nonVisto("manca PANNELLO_URL / CABINA_URL e manca anche cervello/ponte-cabina.json");
+      const r = await guarda(`${base.url}/api/cuore`);
+      if (reteChiusa(r))
+        return nonVisto(
+          `la rete di QUESTO ambiente non arriva alla Cabina (${base.url}): aggiungi il host alla allowlist di rete dell'ambiente — non è la Cabina a essere giù`,
+        );
       if (!r.ok) return rotto(`il cuore della Cabina non risponde: ${r.errore}`);
       // «collegato: false» non è un guasto del Pannello: è il Pannello che dice la verità su una
       // chiave mancante. Resta un rosso perché a Nicola i numeri non arrivano — ma il fix è nelle

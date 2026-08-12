@@ -740,6 +740,12 @@ $_chius_out"
   # ── Lever 3 — Cristallizzazione: promuovi le mature a principio + decadimento (meccanico, con backup). ──
   echo "[$(ts)] Cristallizzazione apprendimento (Lever 3: lezione→principio)..."
   node "$SCRIPT_DIR/cristallizza-apprendimento.mjs" --applica 2>&1 | esito_righe 4 || true
+  # ── AR-416 — Potatore dell'archivio: la cristallizzazione fa CRESCERE apprendimento.json a ogni
+  #    giro, e il potatore non lo lanciava nessuno — l'11/8 il file ha superato il tetto di lettura
+  #    (1.070.609 > 1.048.576) e la scheda Apprendimento della Cabina è tornata illeggibile.
+  #    --se-serve pota SOLO sopra il 95% del tetto (mai le lezioni vive), sotto non scrive un byte. ──
+  echo "[$(ts)] Potatore archivio apprendimento (AR-416: pota prima del muro)..."
+  node "$SCRIPT_DIR/pota-apprendimento.mjs" --se-serve 2>&1 | esito_righe 3 || true
   # ── Lever 2 — Verificatore avversariale: l'ultima auto-analisi era una refutazione VERA o un timbro? ──
   echo "[$(ts)] Verificatore avversariale (Lever 2: auto-verifica vera o timbro?)..."
   # AR-309 — due correzioni. (a) `2>&1` mescolava stderr nel testo del vincolo: una traccia d'errore

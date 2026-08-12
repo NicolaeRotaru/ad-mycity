@@ -1,6 +1,6 @@
 {
   "_cosa_e": "📮 Quante volte un messaggio che pretendeva le quattro risposte è uscito senza. Il tetto è una QUOTA e SCENDE: aggiungerne è un errore, portarne via è il lavoro. Nato dalla domanda di Nicola del 3/8 («come fai a non dimenticartene mai?»).",
-  "misurato": "2026-08-11 00:26",
+  "misurato": "2026-08-12 22:22",
   "finestra_giorni": 7,
   "trascrizioni": {
     "trovate": 1,
@@ -8,25 +8,21 @@
     "file_visti": 1,
     "scartati_per_estensione": {}
   },
-  "messaggi_misurati": 2,
+  "messaggi_misurati": 0,
   "mancanze": {
     "In parole semplici": 0,
     "Cosa cambia per te": 0,
     "Cosa devi fare": 0,
-    "Cosa non ho verificato": 1
+    "Cosa non ho verificato": 0
   },
-  "blocco_peggiore": "Cosa non ho verificato",
-  "quota_peggiore": 50,
-  "esempi": [
-    "Il metro ora passa quasi pulito: da quattro difetti a uno (mi chiedeva"
-  ],
+  "blocco_peggiore": "In parole semplici",
+  "quota_peggiore": null,
+  "esempi": [],
   "tetto": {
     "quota_peggiore": 45
   },
   "verdetto": {
-    "righe": [
-      "❌ «Cosa non ho verificato» manca nel 50% dei messaggi che lo pretendevano (tetto 45%): l'abitudine non sta sparendo."
-    ],
-    "rotto": true
+    "righe": [],
+    "rotto": false
   }
 }

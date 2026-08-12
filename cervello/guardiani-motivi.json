@@ -37,10 +37,6 @@
    "motivo": "da-cablare",
    "perche": "AR-207/AR-112/AR-234: sorveglia le route HTTP del Pannello che cambiano lo stato del mondo. È la superficie gemella di porte-check, che invece è cablato nel giro. Buco vero, fuori dalla malattia di questa corsia."
   },
-  "pota-apprendimento.mjs": {
-   "motivo": "da-cablare",
-   "perche": "AR-254/AR-199: rimette l'archivio dell'apprendimento sotto il tetto di lettura della Cabina. È un'azione che modifica la memoria, quindi non può girare da sola a ogni giro senza una firma; ma oggi non la chiede nessuno, e questo è il buco."
-  },
   "prova-trigger.mjs": {
    "motivo": "decisione",
    "perche": "Manda frasi vere a `claude -p` per vedere se la skill si accende: costa token del motore AI a ogni esecuzione. Tenerlo fuori dai processi automatici è una scelta di costo, non una dimenticanza — si lancia quando si tocca la description di una skill."

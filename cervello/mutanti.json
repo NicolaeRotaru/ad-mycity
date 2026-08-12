@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-11 02:45",
+ "aggiornato": "2026-08-13",
  "mutanti": [
   {
    "lotto": 30,
@@ -2301,6 +2301,38 @@
    "cerca": "  [ \"$head_ok\" != 1 ] && { echo 6; return; }",
    "sostituisci": "  [ \"$head_ok\" != 9 ] && { :; }",
    "test": "node cervello/test/allineamento-esito.test.mjs"
+  },
+  {
+   "difetto": "AR-416",
+   "nome": "il giro smette di lanciare il potatore: l'archivio torna a crescere fino al muro senza che nessuno poti",
+   "file": "cervello/giro.sh",
+   "cerca": "  node \"$SCRIPT_DIR/pota-apprendimento.mjs\" --se-serve 2>&1 | esito_righe 3 || true",
+   "sostituisci": "  : # potatore mai lanciato",
+   "test": "node cervello/test/archivi-senza-tetto.test.mjs"
+  },
+  {
+   "difetto": "AR-416",
+   "nome": "la soglia preventiva si spegne: --se-serve non pota mai e il muro arriva comunque",
+   "file": "cervello/pota-apprendimento.mjs",
+   "cerca": "  return Number(prima) > tetto * 0.95;",
+   "sostituisci": "  return false;",
+   "test": "node cervello/test/archivi-senza-tetto.test.mjs"
+  },
+  {
+   "difetto": "AR-574",
+   "nome": "CLAUDE.md torna a insegnare tre blocchi: il quarto — quello che sparisce — esce di nuovo dal mandato",
+   "file": "CLAUDE.md",
+   "cerca": "i **quattro blocchi**",
+   "sostituisci": "i **tre blocchi**",
+   "test": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
+  },
+  {
+   "difetto": "AR-574",
+   "nome": "il prompt della chat del worker perde «Cosa non ho verificato»: i messaggi lunghi del VPS tornano senza il blocco",
+   "file": "cervello/worker.sh",
+   "cerca": "«Cosa non ho verificato» (dichiara cosa NON hai potuto controllare da qui",
+   "sostituisci": "",
+   "test": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
   }
  ]
 }

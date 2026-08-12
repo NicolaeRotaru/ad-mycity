@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-11 02:26",
+  "aggiornato": "2026-08-13 00:22",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -15,23 +15,23 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-08-11 02:26",
-      "iso": "2026-08-11T00:26:13.294Z",
+      "quando": "2026-08-13 00:22",
+      "iso": "2026-08-12T22:22:42.834Z",
       "casa": "claude",
       "modo": "completo",
-      "ok": 12,
-      "rotti": 3,
+      "ok": 13,
+      "rotti": 1,
       "guasti": 0,
-      "nonvisti": 7,
-      "copertura": 0.68,
+      "nonvisti": 8,
+      "copertura": 0.64,
       "controlli": [
         {
           "id": "worker.ponte",
           "organo": "worker",
           "titolo": "Il VPS si sta ancora visitando",
           "impatto": 1,
-          "esito": "ok",
-          "detto": "il VPS si è visitato 20 ore fa",
+          "esito": "rotto",
+          "detto": "l'ultima visita del VPS è di 66 ore fa: da lassù non si sta più controllando nessuno",
           "prova": null,
           "regressione": false
         },
@@ -40,8 +40,8 @@
           "organo": "worker",
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
-          "esito": "rotto",
-          "detto": "nessun processo automatico lascia tracce da 12 ore (l'ultima è sentinella-dati.json, 2026-08-10 14:21)",
+          "esito": "ok",
+          "detto": "ultima traccia 1 ore fa (sentinella-dati.json)",
           "prova": null,
           "regressione": false
         },
@@ -100,8 +100,8 @@
           "organo": "cervello",
           "titolo": "I test del cervello passano",
           "impatto": 3,
-          "esito": "rotto",
-          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-08-11 02:24  (4 corsie · 24 in fila perché scrivono sul dato vivo) · ✅ cervello/test/allineamento-esito.test.mjs  (18 passati)",
+          "esito": "ok",
+          "detto": "tutti i test del cervello girano e passano",
           "prova": "node cervello/test-cervello.mjs",
           "regressione": false
         },
@@ -121,7 +121,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 0 min fa (2026-08-11T00:26:04.800Z) — 3 file guardati, 0 voci, 0 gravi.",
+          "detto": "✅ ultimo scatto 2 min fa (2026-08-12T22:20:57.046Z) — 21 file guardati, 5 voci, 0 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false
         },
@@ -131,7 +131,7 @@
           "titolo": "I guardiani del giro esistono tutti",
           "impatto": 3,
           "esito": "ok",
-          "detto": "64 guardiani del giro presenti",
+          "detto": "65 guardiani del giro presenti",
           "prova": null,
           "regressione": false
         },
@@ -150,8 +150,8 @@
           "organo": "cervello",
           "titolo": "Quando scrivo a Nicola, gli rispondo",
           "impatto": 2,
-          "esito": "rotto",
-          "detto": "«Cosa non ho verificato» mancato nel 50% dei 2 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
+          "esito": "nonvisto",
+          "detto": "nessun messaggio che pretendesse le quattro risposte in questa finestra",
           "prova": null,
           "regressione": false
         },
@@ -181,7 +181,7 @@
           "titolo": "La Cabina risponde",
           "impatto": 1,
           "esito": "nonvisto",
-          "detto": "manca PANNELLO_URL / CABINA_URL in questo ambiente",
+          "detto": "la rete di QUESTO ambiente non arriva alla Cabina (https://ad-mycity.vercel.app): aggiungi il host alla allowlist di rete dell'ambiente — non è la Cabina a essere giù",
           "prova": null,
           "regressione": false
         },
@@ -191,7 +191,7 @@
           "titolo": "La Cabina è collegata alla memoria",
           "impatto": 2,
           "esito": "nonvisto",
-          "detto": "manca PANNELLO_URL / CABINA_URL in questo ambiente",
+          "detto": "la rete di QUESTO ambiente non arriva alla Cabina (https://ad-mycity.vercel.app): aggiungi il host alla allowlist di rete dell'ambiente — non è la Cabina a essere giù",
           "prova": null,
           "regressione": false
         },
@@ -221,7 +221,7 @@
           "titolo": "I senior chiudono il loop",
           "impatto": 3,
           "esito": "ok",
-          "detto": "18 senior con almeno un esito registrato",
+          "detto": "15 senior con almeno un esito registrato",
           "prova": null,
           "regressione": false
         },
@@ -898,6 +898,39 @@
       "guasti": 0,
       "nonvisti": 7,
       "copertura": 0.68
+    },
+    {
+      "quando": "2026-08-12 23:49",
+      "iso": "2026-08-12T21:49:28.763Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 10,
+      "rotti": 2,
+      "guasti": 0,
+      "nonvisti": 7,
+      "copertura": 0.63
+    },
+    {
+      "quando": "2026-08-13 00:20",
+      "iso": "2026-08-12T22:20:56.457Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 11,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 7,
+      "copertura": 0.63
+    },
+    {
+      "quando": "2026-08-13 00:22",
+      "iso": "2026-08-12T22:22:42.834Z",
+      "casa": "claude",
+      "modo": "completo",
+      "ok": 13,
+      "rotti": 1,
+      "guasti": 0,
+      "nonvisti": 8,
+      "copertura": 0.64
     }
   ]
 }
