@@ -377,6 +377,28 @@ export async function getLavoriByIds(ids: string[]): Promise<Lavoro[]> {
   return (await res.json()) as Lavoro[];
 }
 
+/**
+ * Solo quel che serve per NOMINARE un lavoro: id, tipo e richiesta. Niente `risultato`.
+ *
+ * La lista del Pannello gira leggera apposta (vedi LAVORI_SELECT_LIGHT): senza `richiesta` ogni
+ * casella finiva per chiamarsi come la sua specie — «analisi», «playbook». Rimettere `richiesta`
+ * nel poll non si può: sulle chat pesa 9,8 KB a riga (max 55 KB) e il poll gira ogni 8 secondi.
+ * Questa invece è una lettura sola, per le righe che si stanno guardando, e il nome che ne esce il
+ * browser se lo tiene: la richiesta di un lavoro non cambia più dopo la nascita della riga.
+ */
+export async function getRigheNome(ids: string[]): Promise<{ id: string; tipo: string; richiesta?: string }[]> {
+  if (!memoryConnected()) return [];
+  const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const uniq = [...new Set(ids.map((x) => String(x).trim()).filter((x) => uuid.test(x)))].slice(0, 25);
+  if (uniq.length === 0) return [];
+  const res = await sbGet(`${URL}/rest/v1/lavori?select=id,tipo,richiesta&id=in.(${uniq.join(",")})`, {
+    headers: headers(),
+    cache: "no-store",
+  });
+  if (!res.ok) return [];
+  return (await res.json()) as { id: string; tipo: string; richiesta?: string }[];
+}
+
 /** Aggiorna stato/risultato di un lavoro. Torna true se riuscito. */
 export async function patchLavoro(id: string, patch: Partial<Pick<Lavoro, "stato" | "risultato">>): Promise<boolean> {
   if (!memoryConnected()) return false;
