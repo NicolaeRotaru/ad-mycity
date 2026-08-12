@@ -20,19 +20,34 @@
 #
 # 🟢 Sola lettura: definisce solo funzioni pure. Nessun I/O, così un test le esegue davvero.
 
-# esito_allineamento <ok_push_pendenti> <fetch_ok> <lavoro_vivo_su_ramo>
+# esito_allineamento <ok_push_pendenti> <fetch_ok> <lavoro_vivo_su_ramo> [head_sul_ramo]
 #   0 = allineato       · si può segnare lo SHA
 #   3 = rimandato       · lavoro vivo su un ramo: riprova al prossimo giro (già esistente)
 #   4 = fetch fallito   · non ho scaricato niente: NON segnare lo SHA (AR-312)
 #   5 = push pendenti fallito · ci sono commit del server non pubblicati: NON allineare, li perderei (AR-311)
+#   6 = HEAD non è finito sul ramo · i file sono aggiornati ma la POSIZIONE no (12/8)
 #
 # L'ordine conta: il push pendenti si valuta PER PRIMO perché è l'unico caso in cui proseguire
 # DISTRUGGE del lavoro. Gli altri due lasciano solo il server indietro, che è recuperabile.
+#
+# 📍 IL QUARTO CASO — «HEAD staccato» (12/8, due giorni di macchina ferma).
+# Il difetto è lo stesso dei tre qui sopra, nel passo che nessuno aveva coperto: quello che rimette
+# la POSIZIONE. Il comando che riporta HEAD sul ramo finiva con `|| true`; se falliva, il copione
+# tirava dritto, aggiornava i FILE da main e stampava «✓ Allineamento completato». Vero sui file,
+# falso sulla posizione: il server restava staccato su un commit vecchio.
+# Cosa è costato: `git status` sul server diceva `## HEAD (no branch)` mentre l'allineamento aveva
+# appena dichiarato successo. Da lì tre sintomi che sembravano tre guasti diversi — la memoria non
+# usciva più (la pubblicazione si rifiuta se non è sul ramo), il worker non prendeva più i fix (il
+# file era più avanti del commit staccato, e la guardia lo leggeva come «codice manomesso»), e la
+# Cabina mostrava un pallino arancione al posto di «sono ferma da due giorni».
+# La regola è già scritta in cima a questo file, e vale anche qui: un passo che non è riuscito non
+# si racconta come riuscito. Aggiornare i file senza spostare la posizione non è un allineamento.
 esito_allineamento() {
-  local ok_push="${1:-1}" fetch_ok="${2:-1}" lavoro_vivo="${3:-0}"
+  local ok_push="${1:-1}" fetch_ok="${2:-1}" lavoro_vivo="${3:-0}" head_ok="${4:-1}"
   [ "$ok_push" != 1 ] && { echo 5; return; }
   [ "$lavoro_vivo" = 1 ] && { echo 3; return; }
   [ "$fetch_ok" != 1 ] && { echo 4; return; }
+  [ "$head_ok" != 1 ] && { echo 6; return; }
   echo 0
 }
 
@@ -118,6 +133,7 @@ motivo_allineamento() {
     3) echo "rimandato: una sessione sta lavorando su un ramo" ;;
     4) echo "fetch fallito: non ho scaricato niente, quindi NON ho allineato (rete o token)" ;;
     5) echo "commit del server non pubblicati: NON allineo, il checkout -f li cancellerebbe" ;;
+    6) echo "HEAD è rimasto STACCATO (nessun ramo): i file sono aggiornati ma la posizione no — la memoria non si pubblica e i fix non si caricano finché non torna sul ramo" ;;
     *) echo "allineamento fallito (rc=$1)" ;;
   esac
 }

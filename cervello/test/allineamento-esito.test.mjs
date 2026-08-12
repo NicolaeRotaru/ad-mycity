@@ -68,6 +68,41 @@ prova("quando è andato tutto bene, dice 0", () => {
   assert.equal(sh("esito_allineamento 1 1 0"), "0");
 });
 
+// ── HEAD staccato (12/8): i file aggiornati, la posizione no ─────────────────
+// Il quarto caso della stessa regola, nel passo che nessuno aveva coperto. Il comando che riporta
+// HEAD sul ramo finiva con `|| true`: se falliva, il copione aggiornava i FILE da main e dichiarava
+// «✓ Allineamento completato», mentre HEAD restava staccato su un commit vecchio.
+// Costo reale: due giorni di macchina ferma. La memoria non è uscita per 31 ore (la pubblicazione
+// si rifiuta se non sei sul ramo) e due fix già mergiati non sono mai stati caricati dal worker.
+prova("il caso che ha rotto: file aggiornati ma HEAD staccato NON è un allineamento", () => {
+  assert.equal(
+    sh("esito_allineamento 1 1 0 0"),
+    "6",
+    "aggiornare i file senza spostare la posizione veniva raccontato come riuscito",
+  );
+  assert.match(sh("motivo_allineamento 6"), /STACCATO/);
+  assert.match(sh("motivo_allineamento 6"), /la memoria non si pubblica/);
+});
+
+prova("HEAD staccato non fa segnare lo SHA: il server deve riprovare, non rassegnarsi", () => {
+  // Segnare lo SHA significa «ho visto questa versione e l'ho applicata»: da quel momento
+  // watch-main non ci riprova più, ed è così che il server è rimasto indietro senza dirlo.
+  assert.notEqual(sh("watch_azione 6 0"), "segna");
+});
+
+prova("chi chiama con tre soli argomenti si comporta come prima", () => {
+  // Il quarto argomento è nuovo: se manca, si assume che HEAD sia a posto — altrimenti ogni
+  // chiamante non aggiornato comincerebbe a fallire per una domanda che non gli è stata fatta.
+  assert.equal(sh("esito_allineamento 1 1 0"), "0");
+  assert.equal(sh("esito_allineamento 1 1 1"), "3");
+});
+
+prova("il copione dell'allineamento controlla DAVVERO la posizione prima di dire «completato»", () => {
+  const src = readFileSync(join(QUI, "..", "vps", "aggiorna-cervello.sh"), "utf8");
+  assert.match(src, /_head_ora="\$\(git rev-parse --abbrev-ref HEAD/, "manca il controllo della posizione");
+  assert.match(src, /esito_allineamento 1 1 0 0/, "il controllo non porta all'esito «HEAD staccato»");
+});
+
 // ── la regola: lo SHA si segna SOLO su un allineamento riuscito ──────────────
 prova("il caso che ha rotto: nessun esito diverso da 0 può far segnare lo SHA", () => {
   // Segnare lo SHA significa «ho applicato questa versione». Con rc=4 il server non ha scaricato

@@ -2292,6 +2292,15 @@
    "cerca": "    : !push\n      ? \"non-pubblicato\"",
    "sostituisci": "    : gate > 0\n      ? \"vincoli-attivi\"",
    "test": "node cervello/test/esito-cadenza.test.mjs"
+  },
+  {
+   "lotto": 34,
+   "difetto": "AR-head-staccato",
+   "nome": "l'allineamento torna a dire «completato» con HEAD staccato",
+   "file": "cervello/allineamento-esito.sh",
+   "cerca": "  [ \"$head_ok\" != 1 ] && { echo 6; return; }",
+   "sostituisci": "  [ \"$head_ok\" != 9 ] && { :; }",
+   "test": "node cervello/test/allineamento-esito.test.mjs"
   }
  ]
 }

@@ -207,6 +207,24 @@ if ! git fetch "$url" "$branch" 2>/dev/null; then
 fi
 git checkout -f -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -f -B "$branch" 2>/dev/null || true
 
+# 📍 LA POSIZIONE SI CONTROLLA, NON SI DÀ PER FATTA (12/8 — due giorni di macchina ferma).
+# La riga qui sopra finiva col suo `|| true` e basta. Se entrambi i checkout fallivano, il copione
+# tirava dritto: aggiornava i FILE da main e stampava «✓ Allineamento completato», mentre HEAD
+# restava STACCATO su un commit vecchio. Sul server si vedeva `## HEAD (no branch)` mezz'ora dopo
+# un allineamento «riuscito». Da lì la memoria ha smesso di uscire per 31 ore (la pubblicazione si
+# rifiuta se non sei sul ramo) e i fix mergiati non venivano più caricati (il file su disco era più
+# avanti del commit staccato, e la guardia anti-manomissione leggeva quella differenza come codice
+# toccato a mano). Tre sintomi, una riga.
+# È il quarto caso della regola scritta in cima ad allineamento-esito.sh, applicata al passo che
+# nessuno aveva coperto: quello che sposta la posizione.
+_head_ora="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo '?')"
+if [ "$_head_ora" != "$branch" ]; then
+  _rc_all="$(esito_allineamento 1 1 0 0)"
+  echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all") — HEAD è su '$_head_ora', non su '$branch'." >&2
+  echo "[$(ts)]    Rimedio: git checkout -B $branch FETCH_HEAD (se si lamenta di modifiche locali, mettile da parte con git stash push prima)." >&2
+  exit "$_rc_all"
+fi
+
 # Fetch di main NON silenziato: se fallisce, FETCH_HEAD resterebbe quello di $branch (riga sopra)
 # e l'"allineamento" diventerebbe un no-op silenzioso (allinea il ramo a se stesso). Fermiamoci.
 if ! git fetch "$url" main; then

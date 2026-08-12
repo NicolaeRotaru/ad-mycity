@@ -1,8 +1,33 @@
 ---
 tipo: stato
-aggiornato: 2026-08-11 10:25
+aggiornato: 2026-08-12 21:00
 fonte: AD digitale (chat)
 ---
+
+> 🛑 **12/8 21:00 — LA MACCHINA È FERMA DA DUE GIORNI.** Questa pagina ne è la prova.
+> Quello che leggi qui sotto è dell'11 agosto mattina. Da allora la memoria non esce più dal server.
+> Non è che non sia successo niente. È che non si riesce più a scriverlo.
+>
+> **Il fatto misurato.** Il magazzino del codice sul server è rimasto **staccato**. Fermo a un punto
+> del 10 agosto sera. Da lì vengono tutti e tre i sintomi visti in Cabina, e sono lo stesso guasto:
+>
+> - **La memoria non si pubblica.** Una guardia pubblica solo dal ramo principale. Il server non è su
+>   nessun ramo. Sono **31 ore** di scritture in attesa.
+> - **Il worker non carica le riparazioni.** Confronta il file col punto in cui è rimasto fermo. Legge
+>   quella differenza come una manomissione. Il file non è manomesso: è più avanti.
+> - **Due riparazioni già unite non sono mai entrate in funzione.** Sono la #702 e la #704.
+>
+> **Perché nessuno se n'è accorto.** Lo strumento che allinea il codice diceva «allineamento
+> completato» senza controllare di essersi mosso. La riparazione è nella richiesta di unione **#705**.
+> Adesso, se la posizione resta staccata, lo dichiara invece di dirsi riuscito.
+>
+> **Cosa lo tiene fermo.** Misurato il 12/8 alle 20:58. Non è un lucchetto di git: l'avevo sospettato
+> e mi sbagliavo. Sono **undici file di stato** della macchina stessa, quelli che i guardiani
+> riscrivono a ogni giro. Risultano modificati sul disco. Git rifiuta di spostare la posizione perché
+> li cancellerebbe. Si mettono da parte, e la posizione torna al suo posto.
+>
+> **Business invariato, e va detto:** 1 negozio, 1 ordine creato, **0 ordini pagati**. La stella polare
+> è in stallo totale. Questo guasto non c'entra: non stava nascondendo vendite.
 
 > 📕 **11/8 10:25 — CHAT: le due ricerche lette per intero, e tre domande aperte che si chiudono.**
 > Nicola risponde alle tre domande della richiesta di unione #701, e ne aggiunge una quarta: «leggi i
