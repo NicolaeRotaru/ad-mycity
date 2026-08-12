@@ -780,3 +780,11 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-12 23:15 · @AD · FATTO · Corretta un'imprecisione del passaggio delle 22:43: in questa sessione `node cervello/*.mjs` funziona (non è più bloccato come nelle ~15 sessioni precedenti).
 - 2026-08-12 23:15 · @AD · FATTO · Rispettato il vincolo HARD tasso-di-chiusura (0,23): nessuna ricerca nuova aperta in questo passaggio, solo chiusura di debito già noto.
 - 2026-08-12 23:15 · @AD · PASSO-A · @Nicola — invariato: mossa n.1 resta `#ordine-test-dentro-o-fuori-dalla-pausa`, ferma da 15 giorni.
+
+### 2026-08-12 23:52 — 🔁 Giro richiesto in chat (nuova sessione)
+- 2026-08-12 23:52 · @AD · FATTO · Riconfermato dal vivo su Supabase (MCP `execute_sql`): ordini=1, pagati=0, consegnati=0, profili=7, negozi=1, recensioni=0, carrelli=6/3 abbandonati, ordini_7g=0, nuovi_clienti_7g=0 — identico al passaggio delle 23:15 e a ogni lettura dal 4/8. Stallo North Star invariato a 49 giorni.
+- 2026-08-12 23:52 · @AD · FATTO · `node cervello/*.mjs` bloccato in QUESTA sessione (approvazione non arriva su `test-cervello.mjs` né su `node -e` banale; `gh pr list`/`gh pr view` negati). `node --version`, `git`, `date` e i tool Supabase MCP funzionano regolarmente. Confermato che il blocco varia sessione per sessione, non è strutturale.
+- 2026-08-12 23:52 · @AD · FATTO · Applicata la strategia snella (AR-113): non riscritti `auto-analisi.json`/`registro-realta.json`/`ultimo-briefing.json` pesanti perché già freschi (20-50 min) su dati identici — solo aggiornati data/situazione in `ultimo-briefing.json`.
+- 2026-08-12 23:52 · @AD · FATTO · Rispettato il vincolo HARD tasso-di-chiusura (0,24 nel mese): nessuna ricerca nuova, nessuna radiografia in questo passaggio.
+- 2026-08-12 23:52 · @AD · FATTO · Scritti/aggiornati [[STATO]], [[Briefing/2026-08-12]], `ultimo-briefing.json`.
+- 2026-08-12 23:52 · @AD · PASSO-A · @Nicola — invariato: mossa n.1 resta `#ordine-test-dentro-o-fuori-dalla-pausa`, ferma da **15 giorni** senza risposta.

@@ -1,8 +1,34 @@
 ---
 tipo: stato
-aggiornato: 2026-08-12 23:15
+aggiornato: 2026-08-12 23:52
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **12/8 23:52 — Giro richiesto in chat: business riconfermato invariato dal vivo, nessuna novità rispetto al passaggio delle 23:15.**
+> Query diretta su Supabase MCP (`execute_sql`, non da memoria): 1 ordine (24/6, annullato, mai pagato), 0 pagati,
+> 0 consegnati, 7 profili (1 negozio/seller = Pane Quotidiano, 4 buyer, 1 rider, 1 admin), 0 recensioni, 6 carrelli
+> / 3 abbandonati, 0 ordini negli ultimi 7 giorni, 0 nuovi clienti negli ultimi 7 giorni. **Identico** a ogni
+> lettura dal 4/8. North Star: stallo confermato a **49 giorni** (invariato, stesso giorno del calcolo delle
+> 22:43). È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme.
+>
+> **Perché questo passaggio è corto.** Rispetta il vincolo HARD tasso-chiusura: 0,24 questo mese, sotto la
+> soglia di 1. Niente radiografie. Niente dimensioni d'analisi nuove. I file pesanti sono già freschi di meno
+> di un'ora su dati identici: `auto-analisi.json` delle 23:03, `registro-realta.json` delle 22:43,
+> `ultimo-briefing.json` delle 23:15. Riscriverli ora sarebbe la 6ª passata sullo stesso stato invariato di
+> stasera (21:00→22:43→23:03→23:15→23:42/46→ora). Non li tocco, per [[playbook-giro-pieno-ripetuto-strategia]]
+> (AR-113).
+>
+> **Limite di sessione.** In questa chat `node cervello/*.mjs` chiede un'approvazione che qui non arriva.
+> L'ho verificato su `test-cervello.mjs` e su un `node -e` banale. `node --version`, `git` e `date` invece
+> girano liberi. Le uniche eccezioni già ammesse sono `pulisci-coda.mjs` e `git-pr.mjs`. I verdetti HARD dei
+> gate — freschezza-cadenze, tasso-chiusura, north-star, apprendimento — restano quelli calcolati da `giro.sh`
+> prima di questo turno. Non li ho potuti ricalcolare da qui. È lo stesso limite di ~15 sessioni precedenti
+> (vedi [[project-workflow-tool-gated-in-worker-sessione]] e le note analoghe qui in STATO).
+>
+> **Mossa n.1, invariata.** Resta ferma da **15 giorni** senza risposta:
+> [[AZIONI-IN-ATTESA|`#ordine-test-dentro-o-fuori-dalla-pausa`]]. È l'ordine di prova da 3-5€ a Pane Quotidiano,
+> accodato il 28/7. È l'unica leva che muove il North Star senza toccare la pausa sui nuovi negozi. Briefing:
+> [[Briefing/2026-08-12]].
 
 > 🔁 **12/8 23:15 — Passaggio successivo al giro delle 22:43: business invariato, chiuso il gate chiusura-loop.**
 > Riconfermato dal vivo (MCP `execute_sql`): identico a 22:43. 1 ordine mai pagato, 0 pagati, 7 profili, 1 negozio.
