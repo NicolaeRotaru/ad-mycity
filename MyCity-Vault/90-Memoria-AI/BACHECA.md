@@ -809,9 +809,9 @@ Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-incl
 
 ---
 
-## 🛡️ I guardiani della macchina · 2026-08-10 13:25
+## 🛡️ I guardiani della macchina · 2026-08-12 22:22
 
-A ogni giro, prima che l'AI scriva una riga, girano **78 controlli automatici**. **38** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
+A ogni giro, prima che l'AI scriva una riga, girano **80 controlli automatici**. **39** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
 
 Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato), **cieco** (non ha potuto misurare). Un guardiano cieco *non* vale come verde — è uno strumento rotto, e la macchina si ferma lo stesso: meglio memoria vecchia che memoria che mente.
 
@@ -829,6 +829,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | `mappa-macchina` | Tiene aggiornata la mappa «Com'è fatta la macchina»: i numeri li riconta a ogni giro, e se nasce un pezzo nuovo (skill, sensore, mano, servizio, area) senza una riga che dica cosa fa, il giro non si chiude. | ⛔ ferma il giro |
 | `onesta-check` | Cerca i numeri orfani: una cifra scritta in memoria senza una fonte accanto non deve uscire. | ⚠️ avvisa, non ferma |
 | `peso-file-cabina` | Pesa i file che la Cabina rilegge di continuo: quando uno cresce troppo GitHub smette di servirlo e la schermata si svuota fingendo che vada tutto bene. | ℹ️ scrive e basta |
+| `piani-verita` | Legge i piani e ci cerca le frasi che il registro-fatti smentisce — un bando chiuso dato per aperto, la commissione vecchia, il negozio-faro sbagliato — e scrive l'avviso in cima al piano, senza toccare il testo di Nicola. Risponde alla domanda che viene dopo «da quanto è fermo»: cosa dice di falso mentre è fermo. | ⚠️ avvisa, non ferma |
 | `sensore-cassa` | Guarda cassa e autonomia: quanto è entrato davvero, quanto brucia al mese, quanti mesi restano. | ℹ️ scrive e basta |
 | `sensori-spenti-check` | Uno strumento costruito e mai acceso è un buco, non uno stato: pretende un perché scritto. | ⛔ ferma il giro |
 | `sentinella-fonti` | Prova le fonti web da cui la macchina si informa: una fonte morta smette di portare notizie senza dirlo. | ℹ️ scrive e basta |
@@ -863,6 +864,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | `cristallizza-apprendimento` | Prende le lezioni mature e le trasforma in principi scritti nei mansionari, dove valgono sempre. | ℹ️ scrive e basta |
 | `macchina-del-tempo` | Ricostruisce la giornata della macchina in ordine: cosa è successo, quando, e perché è stato deciso. | ℹ️ scrive e basta |
 | `sonda-volano` | Controlla che l'anello impara→correggi giri davvero, invece di sembrare che giri. | ⛔ ferma il giro |
+| `tasso-chiusura` | Il voto della macchina su sé stessa: quanti difetti chiude diviso quanti ne apre nel mese. Sotto 1 il giro smette di cercare e spende il turno a chiudere, perché ogni ricerca in più allungherebbe la lista invece di accorciarla. | ⛔ ferma il giro |
 | `tasso-lezioni` | Conta quante lezioni la macchina ha davvero applicato in questo giro, non quante ne ha in magazzino. | ⛔ ferma il giro |
 | `taste-file` | Registra i verdetti di Nicola — cosa gli è piaciuto e cosa no — perché il gusto non si reinventa ogni volta. | ℹ️ scrive e basta |
 
