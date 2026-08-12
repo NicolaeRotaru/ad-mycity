@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-11 02:10",
+  "aggiornato": "2026-08-12 21:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -11330,7 +11330,7 @@
     },
     {
       "id": "AR-562",
-      "stato": "chiuso-in-codice",
+      "stato": "chiuso",
       "gravita": "grave",
       "colore": "🟡",
       "dimensione": "guardiani-e-guardrail",
@@ -11345,11 +11345,14 @@
       "verifica": {
         "comando": "node cervello/test/risposta-senza-rumore.test.mjs",
         "nota": "5 prove che ESEGUONO la funzione vera con un comando che stampa su tutti e due i flussi: il rumore non entra nella risposta, non si perde (va nel log), resta attaccato quando il lavoro fallisce, e il limite di quota viene riconosciuto anche se arriva solo su stderr. Mutazioni in mutanti.json (lezione L-2026-0810-03): rimettendo il 2>&1 o spegnendo la regola del guardiano, i test diventano rossi."
-      }
+      },
+      "chiuso_il": "2026-08-12 21:10",
+      "chiuso_come": "node cervello/test/risposta-senza-rumore.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-563",
-      "stato": "chiuso-in-codice",
+      "stato": "chiuso",
       "gravita": "grave",
       "colore": "🟡",
       "dimensione": "prove-e-collaudo",
@@ -11364,7 +11367,10 @@
       "verifica": {
         "comando": "node cervello/test/test-cervello.test.mjs",
         "nota": "prova diretta della diagnosticabilita': su TAP vero righeRosse deve tornare il nome del caso e il messaggio error. Per il rosso in se' la prova e' la CI: e' l'unico posto dove si e' mai manifestato, e il fix toglie la causa (gc in background) invece di mascherarla."
-      }
+      },
+      "chiuso_il": "2026-08-12 21:10",
+      "chiuso_come": "node cervello/test/test-cervello.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-564",
@@ -11575,8 +11581,8 @@
     }
   ],
   "meta": {
-    "aperti": 167,
+    "aperti": 166,
     "in_corso": 0,
-    "chiusi": 337
+    "chiusi": 341
   }
 }
