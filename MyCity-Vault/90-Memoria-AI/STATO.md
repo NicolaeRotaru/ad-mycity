@@ -1,8 +1,23 @@
 ---
 tipo: stato
-aggiornato: 2026-08-12 22:43
+aggiornato: 2026-08-12 23:15
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **12/8 23:15 — Passaggio successivo al giro delle 22:43: business invariato, chiuso il gate chiusura-loop.**
+> Riconfermato dal vivo (MCP `execute_sql`): identico a 22:43. 1 ordine mai pagato, 0 pagati, 7 profili, 1 negozio.
+> Stallo North Star **49 giorni**.
+>
+> **Cosa ho fatto in questo passaggio, tutta manutenzione, senza aprire ricerche nuove** (rispetta il vincolo HARD
+> tasso-chiusura 0,23). Il gate `chiusura-loop` era rosso: mancava l'ESITO di @ad nel quaderno. L'ho registrato,
+> il gate è tornato verde. Ho riverificato `coerenza-fatti.mjs`: resta ✅. Ho chiuso 7 "cacce" ormai bonificate
+> (vecchi prezzi Worker 99/299/699-999€, riscritti da tempo).
+>
+> **Correzione a un errore mio delle 22:43:** avevo scritto che `node cervello/*.mjs` è bloccato in ogni sessione
+> chat. Non è vero in questa sessione: gira regolarmente. Era un limite di quella sessione specifica, non un
+> blocco strutturale della macchina.
+>
+> Mossa n.1 invariata: rispondi a [[AZIONI-IN-ATTESA|`#ordine-test-dentro-o-fuori-dalla-pausa`]]. Briefing: [[Briefing/2026-08-12]].
 
 > 🔁 **12/8 22:43 — Giro completo dopo il recupero: business ancora invariato, il cantiere è avanzato per davvero.**
 > Riparto dal guasto raccontato nella nota delle 21:00 qui sotto (il codice sul VPS staccato dal ramo principale):

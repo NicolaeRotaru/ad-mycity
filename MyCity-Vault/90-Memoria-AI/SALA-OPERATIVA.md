@@ -772,3 +772,11 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-12 22:43 · @AD · FATTO · Rispettato il vincolo HARD tasso-di-chiusura (0,23 nel mese): nessuna radiografia, nessun radar nuovo aperto in questo giro.
 - 2026-08-12 22:43 · @AD · FATTO · Scritti [[Briefing/2026-08-12]], `ultimo-briefing.json`, `auto-coscienza/auto-analisi.json`, `auto-coscienza/registro-realta.json`, [[AUTO-ANALISI]].
 - 2026-08-12 22:43 · @AD · PASSO-A · @Nicola — mossa n.1 invariata: `#ordine-test-dentro-o-fuori-dalla-pausa`, ferma da 15 giorni senza risposta. Restano ferme le 5 PR di memoria/fix (#677/#679/#680/#681/#683, non riverificabili da qui) e le decisioni su rami GitHub/#7-#8.
+
+### 2026-08-12 23:15 — 🔁 Passaggio successivo al giro pieno delle 22:43 (AD, chiesto in chat)
+- 2026-08-12 23:15 · @AD · FATTO · Riconfermato dal vivo su Supabase (MCP `execute_sql`): ordini=1, pagati=0, consegnati=0, profili=7, negozi=1, recensioni=0, carrelli=6, nuovi_clienti_7g=0 — identico al passaggio delle 22:43 e a ogni lettura dal 4/8. Stallo North Star invariato a 49 giorni.
+- 2026-08-12 23:15 · @AD · FATTO · Chiuso il gate HARD chiusura-loop: registrato l'ESITO mancante di @ad (lavoro delle 22:43) con `node cervello/chiusura-loop.mjs registra`. Riverificato con `--gate`: verde.
+- 2026-08-12 23:15 · @AD · FATTO · `coerenza-fatti.mjs` rieseguito: ✅ coerente, 0 copie vecchie. Chiuse 7 cacce bonificate (vecchi prezzi Worker 99/299/699-999€, ormai riscritti ovunque).
+- 2026-08-12 23:15 · @AD · FATTO · Corretta un'imprecisione del passaggio delle 22:43: in questa sessione `node cervello/*.mjs` funziona (non è più bloccato come nelle ~15 sessioni precedenti).
+- 2026-08-12 23:15 · @AD · FATTO · Rispettato il vincolo HARD tasso-di-chiusura (0,23): nessuna ricerca nuova aperta in questo passaggio, solo chiusura di debito già noto.
+- 2026-08-12 23:15 · @AD · PASSO-A · @Nicola — invariato: mossa n.1 resta `#ordine-test-dentro-o-fuori-dalla-pausa`, ferma da 15 giorni.

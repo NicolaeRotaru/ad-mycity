@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-12 22:43",
-  "situazione": "Business ancora invariato (riconfermato dal vivo su Supabase): 1 ordine mai pagato, 0 pagati, 0 consegne, 7 profili, 1 negozio, 0 nuovi clienti in 7 giorni — stallo North Star a 49 giorni, pausa concordata con Nicola fino al 24/8-1/9. Il guasto che aveva fermato il VPS per due giorni (codice staccato dal ramo principale) è risolto, e nel frattempo il cantiere difetti è avanzato per davvero (166 aperti/341 chiusi, era 161/332). Mossa n.1: nessuna azione business nuova (pausa da rispettare) — resta la domanda sull'ordine di prova su Pane Quotidiano.",
+  "data": "2026-08-12 23:15",
+  "situazione": "Business ancora invariato, riconfermato dal vivo una 2ª volta stasera. 1 ordine mai pagato, 0 pagati, 0 consegne, 7 profili, 1 negozio, 0 nuovi clienti in 7 giorni. Stallo North Star a 49 giorni, pausa concordata con Nicola fino al 24/8-1/9. In questo passaggio ho chiuso il gate HARD chiusura-loop, registrando l'ESITO per @ad. Ho riverificato coerenza-fatti: ✅, con 7 cacce bonificate chiuse. Mossa n.1: nessuna azione business nuova, la pausa va rispettata. Resta la domanda sull'ordine di prova su Pane Quotidiano.",
   "opportunita": [
     {
       "titolo": "Sblocca l'ordine di prova su Pane Quotidiano",
@@ -30,6 +30,6 @@
   "sentinelle_scattate": [
     "North Star 0 — stallo 49 giorni (pausa concordata, non churn)",
     "Tasso di chiusura 0,23 nel mese — sotto soglia 1: questo giro non ha aperto ricerche nuove",
-    "node cervello/*.mjs bloccato in questa sessione chat — causa nota, fix richiede terminale VPS (card #20)"
+    "chiusura-loop: chiuso in questo passaggio (ESITO @ad registrato, gate verde)"
   ]
 }
