@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-12 21:10",
+  "aggiornato": "2026-08-12 23:42",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -3153,7 +3153,7 @@
       "causa_radice": "① Perché i senior accodano nel file sbagliato? Perché il prompt del playbook glielo dice. ② Perché il prompt lo dice ancora? Perché è stato scritto quando `AZIONI-PRONTE.md` era davvero la coda, e la migrazione ha aggiornato il file di memoria e il lettore, non i produttori. ③ Perché i produttori sono rimasti indietro? Perché vivono nel codice del Pannello (`lib/playbook.ts`), lontano dal file di memoria che porta l'avviso. ④ Perché nessuno se n'è accorto in un mese? Perché non esiste un controllo che chieda «chi scrive in questa coda?»: il gate sulle azioni guarda la coda canonica, e ciò che finisce altrove è invisibile per definizione. ⑤ CAUSA DI SISTEMA: quando una fonte unica viene dichiarata, si aggiorna il documento e si dimenticano gli istruttori — i prompt che dicono agli agenti dove scrivere sono codice a tutti gli effetti, ma non sono trattati come parte del contratto della coda, e nessun guardiano cerca i riferimenti al nome deprecato.",
       "fix_proposto": "🟡 (a) Riscrivere le 14 occorrenze in `lib/playbook.ts` con «Accoda in AZIONI-IN-ATTESA», l'unica coda che la scheda Da firmare legge. (b) Recuperare i blocchi presenti solo in `AZIONI-PRONTE.md` (A30, A33, A34 tra questi): o portarli nella coda canonica se ancora validi, o marcarli chiusi — non lasciarli in un limbo che sembra una coda. (c) Aggiungere al controllo di igiene un divieto sul nome deprecato fuori dai log storici: quando si dichiara una fonte unica, il nome vecchio diventa una parola vietata nei prompt e nel codice, e il gate fallisce finché non sparisce. È lo stesso meccanismo della «caccia» del registro dei fatti, applicato ai nomi dei contenitori invece che ai valori.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -3162,9 +3162,10 @@
         "presente": false
       },
       "nota": "Dove: pannello/src/lib/playbook.ts (14 occorrenze «Accoda in AZIONI-PRONTE») vs MyCity-Vault/90-Memoria-AI/AZIONI-PRONTE.md:9-13 e pannello/src/lib/azioni-pronte.ts:78 · Impatto: L'istruzione viva contraddice la regola scritta nel file stesso, e a perderci è l'anello più caro della catena: un'azione preparata da un senior che finisce nel file sbagliato non compare mai tra quelle da firmare — il lavoro è fatto, il valore è zero, e nessuno se ne accorge perché la coda canonica non sa che quella carta esiste. Su dieci playbook che girano a cadenza giornaliera e settimanale, l'errore non è occasionale: è programmato.",
-      "chiuso_il": "",
-      "chiuso_come": "",
-      "nato_come": "scoperta"
+      "chiuso_il": "2026-08-12 23:42",
+      "chiuso_come": "pannello/src/lib/playbook.ts NON contiene /AZIONI-PRONTE/ → assente",
+      "nato_come": "scoperta",
+      "corroborata": true
     },
     {
       "id": "AR-218",
@@ -11581,8 +11582,8 @@
     }
   ],
   "meta": {
-    "aperti": 166,
+    "aperti": 165,
     "in_corso": 0,
-    "chiusi": 341
+    "chiusi": 342
   }
 }
