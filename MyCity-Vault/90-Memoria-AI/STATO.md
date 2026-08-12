@@ -1,8 +1,31 @@
 ---
 tipo: stato
-aggiornato: 2026-08-11 10:25
+aggiornato: 2026-08-12 21:00
 fonte: AD digitale (chat)
 ---
+
+> 🛑 **12/8 21:00 — LA MACCHINA È FERMA DA DUE GIORNI, E QUESTA PAGINA NE È LA PROVA.**
+> Quello che leggi qui sotto è del 11/8 mattina perché da allora la memoria non esce più dal server.
+> Non è che non sia successo niente: è che non si riesce più a scriverlo.
+>
+> **Il fatto misurato.** Il magazzino del codice sul server è rimasto **staccato** su un punto del 10
+> agosto sera. Da lì discendono tutti e tre i sintomi che Nicola ha visto in Cabina, e sono lo stesso
+> guasto: ① la memoria non si pubblica, perché una guardia pubblica solo dal ramo principale e il
+> server non è su nessun ramo — sono **31 ore** di scritture in attesa; ② il worker non carica i fix,
+> perché confronta il file col punto in cui è rimasto e legge quella differenza come una manomissione;
+> ③ due riparazioni già unite (#702 e #704) non sono mai entrate in funzione.
+>
+> **Perché nessuno se n'è accorto.** Lo strumento che allinea il codice diceva «allineamento
+> completato» senza controllare di essersi mosso. La riparazione è nella richiesta di unione **#705**:
+> se la posizione resta staccata, adesso lo dichiara invece di dirsi riuscito.
+>
+> **Cosa lo tiene fermo, misurato il 12/8 alle 20:58.** Non un lucchetto di git — l'avevo sospettato e
+> mi sbagliavo. Sono **undici file di stato** della macchina stessa (`auto-coscienza/*.json`, quelli
+> che i guardiani riscrivono a ogni giro): sono modificati sul disco, e git rifiuta di spostare la
+> posizione perché li sovrascriverebbe. Si mettono da parte e la posizione torna al suo posto.
+>
+> **Business invariato, e va detto:** 1 negozio, 1 ordine creato, **0 ordini pagati**. La stella polare
+> è in stallo totale, e questo guasto non c'entra: non stava nascondendo vendite.
 
 > 📕 **11/8 10:25 — CHAT: le due ricerche lette per intero, e tre domande aperte che si chiudono.**
 > Nicola risponde alle tre domande della richiesta di unione #701, e ne aggiunge una quarta: «leggi i
