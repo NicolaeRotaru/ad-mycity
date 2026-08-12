@@ -1,68 +1,68 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-08-10 11:20",
-  "voto_fiducia": 80,
-  "sintesi": "GIRO PIENO (richiesto in chat, per intero su cervello/giro.md), primo passaggio NARRATO da 4 giorni (ultimo: 2026-08-06 11:15). Nel mezzo il worker VPS ha scritto solo file tecnici in background (commit 'recupero: scritture pendenti da un giro interrotto' e 'riconcilia: chiude difetti risolti nel codice' tra il 6/8 e le 09:05-10:22 di stamattina) senza mai produrre un Briefing/RITMO narrato — coerente col vincolo HARD 'freschezza-cadenze' segnalato in apertura di questa sessione (4/4 cadenze automatiche recenti hanno saltato auto-analisi/apprendimento). Riverificato dal vivo con query SQL diretta (mcp__supabase-marketplace execute_sql, non ereditata): 1 ordine totale (mai pagato, creato 2026-06-24), 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 1 negozio, 0 recensioni, 6 carrelli (user_carts) / 3 abbandonati — IDENTICO alla fotografia del 6/8 11:15: business ancora fermo per la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Stallo North Star ricalcolato a mano dalla data dell'ultimo ordine: **47 giorni** (era 43 il 6/8, +4 giorni di calendario passati senza narrazione). Trovata e accodata una regressione tecnica reale: apprendimento.json è ricresciuto a 1.052.950 byte, di nuovo sopra il tetto di lettura GitHub (1 MiB) che era stato tagliato a 947.517 il 4/8 — stesso difetto, ricomparso in 6 giorni, non ancora risolto alla radice (solo ripulito una volta). Lavoro di questo passaggio: riconferma dati, rigenerazione CHECKLIST-NICOLA.md (era ferma 6 giorni, violava AR-030), accodata riga #14 in AZIONI-IN-ATTESA, scrittura completa del cancello di serietà e del briefing.",
-  "trend_fiducia": "→ 80 (invariato) — nessuna nuova regressione di business; il buco di narrazione di 4 giorni è un difetto di processo già noto (cadenze automatiche non sostituiscono un giro narrato), non una perdita di dati. La ricrescita di apprendimento.json è una regressione tecnica reale ma minore (già capitata una volta, fix noto, non ancora applicato alla radice) — non abbassa il voto perché non tocca il business né la verità dei dati mostrati a Nicola, ma è annotata come segnale da seguire se ricapita una terza volta.",
+  "data": "2026-08-12 22:43",
+  "voto_fiducia": 78,
+  "sintesi": "GIRO PIENO (richiesto in chat, per intero su cervello/giro.md), primo passaggio narrato dopo un guasto reale: il codice sul VPS era rimasto staccato dal ramo principale per ~31 ore (nota delle 21:00 di oggi in STATO.md, PR #705), risolto dal commit di recupero delle 22:20. Riverificato dal vivo con query SQL dirette (mcp__supabase-marketplace execute_sql, non ereditate): 1 ordine totale (mai pagato, creato 2026-06-24), 0 pagati, 0 consegnati, 7 profili, 1 negozio, 0 recensioni, 3 carrelli abbandonati, 0 nuovi clienti in 7 giorni — IDENTICO alla fotografia del 10/8: business fermo per la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Stallo North Star ricalcolato a mano dalla data dell'ultimo ordine: 49 giorni (era 47 il 10/8). Il cantiere difetti È avanzato per davvero nel frattempo (166 aperti/341 chiusi, era 161/332) grazie a riconciliazione automatica del pre-step di giro.sh, non a lavoro di questo passaggio. Limite di sessione confermato: node cervello/*.mjs bloccato in Bash (causa nota, card #20 in memoria di sessione) — non ho potuto rieseguire test-cervello.mjs, coerenza-fatti.mjs, chiusura-loop.mjs, calibrazione.mjs, piani-data.mjs, sonda-volano.mjs, correzione-nicola-gate.mjs. Ho usato Supabase MCP (canale diverso, funziona) per i dati, e NON ho toccato a mano apprendimento.json (1,07MB)/cantiere-difetti.json (1,48MB) per rischio di corromperli senza validatore. Lavoro fatto: rigenerazione CHECKLIST-NICOLA.md (AR-030) e OKR-Squadra.md (AR-115), briefing completo, aggiornamento STATO/SALA-OPERATIVA/ultimo-briefing.json. Rispettato il vincolo HARD tasso-di-chiusura (0,23): nessuna radiografia o radar nuovo aperto.",
+  "trend_fiducia": "→ 78 (-2 da 80 del 10/8) — non per una regressione di business (identico da 7 settimane) ma perché tre vincoli HARD restano non chiudibili da questa sessione: test-cervello (non riverificabile), apprendimento (non toccabile a mano in sicurezza), volano/scadenzario (non rieseguibili). Non li ho finti chiusi: sono debito dichiarato. Il voto scende di poco perché il limite è sistemico e già diagnosticato (non una novità che io abbia introdotto), ma resta un limite reale su cosa questo giro può garantire.",
   "entita_verificate": [
     {
       "nome": "Pane Quotidiano",
       "stato": "confermato",
-      "fonte": "registro-realta.json (verifiche precedenti, invariato) + coerenza con la query SQL diretta di questo giro (1 negozio su seller_storefronts)"
+      "fonte": "registro-realta.json (verifiche precedenti, invariato) + query SQL diretta di questo giro (1 profilo role=seller)"
     },
     {
-      "nome": "0 ordini pagati / 1 ordine PENDING (mai pagato, creato 24/6) / 7 profili / 5 prodotti / 0 recensioni / 6 carrelli (user_carts) / 3 abbandonati",
+      "nome": "0 ordini pagati / 1 ordine (mai pagato, creato 24/6, canceled_at 3/7) / 7 profili / 0 recensioni / 3 carrelli abbandonati / 0 nuovi clienti 7gg",
       "stato": "confermato",
-      "fonte": "mcp__supabase-marketplace execute_sql, query diretta 2026-08-10 ~11:10 — identico al passaggio del 6/8 11:15"
+      "fonte": "mcp__supabase-marketplace execute_sql, 5 query dirette 2026-08-12 ~22:35"
     },
     {
-      "nome": "Stallo North Star = 47 giorni (dal 2026-06-24 al 2026-08-10)",
+      "nome": "Stallo North Star = 49 giorni (dal 2026-06-24 al 2026-08-12)",
       "stato": "confermato",
-      "fonte": "calcolo a mano sulla data ultimo_ordine restituita da execute_sql (north-star-check.mjs --gate non eseguibile in questa sessione)"
+      "fonte": "calcolo a mano sulla data canceled_at/created_at restituita da execute_sql (north-star-check.mjs --gate non eseguibile in questa sessione)"
     },
     {
-      "nome": "apprendimento.json = 1.052.950 byte, sopra il tetto GitHub di 1 MiB",
-      "stato": "confermato",
-      "fonte": "`wc -c` diretto sul file in questo passaggio — misura reale, non stimata"
-    },
-    {
-      "nome": "Cantiere difetti: 161 aperti / 332 chiusi",
+      "nome": "Cantiere difetti: 166 aperti / 341 chiusi",
       "stato": "confermato",
       "fonte": "grep diretto su cantiere-difetti.json in questo passaggio"
     },
     {
-      "nome": "Quaderni apprendimento vivi: 11/120 (era 13/120 il 6/8)",
+      "nome": "Guasto di allineamento git VPS risolto (commit di recupero 0143ce833, 22:20)",
       "stato": "confermato",
-      "fonte": "auto-coscienza/chiusura-loop.json, aggiornato 2026-08-10 10:21 dal pre-step di giro.sh"
+      "fonte": "git log -1 in questo passaggio + nota già scritta in STATO.md delle 21:00 di oggi (non riscritta, solo confermata)"
+    },
+    {
+      "nome": "apprendimento.json = 1.070.610 byte, cantiere-difetti.json = 1.481.215 byte",
+      "stato": "confermato",
+      "fonte": "wc -c diretto sui file in questo passaggio"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9, nessuna campagna/contenuto in scope) — auto-miglioramento saltato di proposito, coerente col vincolo North Star che ammette solo lavoro macchina se sblocca direttamente una card business in coda. Il lavoro di questo passaggio è ricognizione + colmare il buco di narrazione di 4 giorni + un fix tecnico accodato (non eseguito, permessi bloccati).",
+  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola, nessuna campagna/contenuto in scope) — auto-miglioramento saltato di proposito, coerente col vincolo North Star. Il lavoro di questo passaggio è ricognizione + colmare il buco di narrazione dopo il guasto + due rigenerazioni AR-030/AR-115.",
   "salute_macchina": {
-    "supabase": "ok (execute_sql risposto, query diretta di questo giro + list_tables)",
-    "stripe": "non riverificato in questo passaggio (ereditato da sensori-cecita.json: stripe_api ok, ultimo_ok 2026-08-10 10:20)",
+    "supabase": "ok (execute_sql risposto, query dirette di questo giro + list_tables)",
+    "stripe": "non riverificato in questo passaggio (ereditato da sensori-cecita.json)",
     "dati_freschi": true,
     "sensori_attivi": 8,
-    "sito_uptime": "cieco da 100 giri (HTTP 503 dal 30/7, migrazione Render→Vercel pianificata, non un guasto — registro-fatti.json → marketplace.hosting)"
+    "sito_uptime": "cieco (HTTP 503 dal 30/7, migrazione Render→Vercel non fatta, non un guasto — registro-fatti.json → marketplace.hosting)"
   },
   "livello_verifica": "L1 (numeri di business e stato sensori verificati con query dirette in questo passaggio, non ereditati dal giro precedente)",
-  "refutazione": "REFUTAZIONE VERA su 3 claim di questo passaggio: (1) 'il business è ancora invariato dal 24/6' — non presunto: query SQL diretta in questo passaggio (non riuso di delta-gate.json) conferma la stessa firma esatta del 6/8 11:15 — SOPRAVVIVE. (2) 'apprendimento.json è tornato sopra il tetto GitHub' — verificato con `wc -c` diretto (1.052.950 byte > 1.048.576 = 1 MiB), non un'inferenza dal diff del git status — SOPRAVVIVE. (3) 'il buco di narrazione di 4 giorni non ha perso dati di business' — verificato incrociando sensori-cecita.json (supabase_rest ok ininterrottamente) e le query dirette identiche al 6/8 — SOPRAVVIVE. NON sopravvive l'ipotesi implicita che i commit tecnici del worker tra il 6/8 e oggi fossero equivalenti a un giro narrato: hanno chiuso difetti reali (161→332 nel cantiere) ma nessuna sezione narrata prodotta — corretto a 'buco reale colmato ora', non 'giro già fatto altrove'.",
+  "refutazione": "REFUTAZIONE VERA su 3 claim di questo passaggio: (1) 'il business è ancora invariato dal 24/6' — query SQL diretta (non riuso di delta-gate.json) conferma la stessa firma esatta del 10/8 — SOPRAVVIVE. (2) 'il cantiere difetti è avanzato per davvero (166/341)' — verificato con grep diretto sul file aggiornato, non dedotto dal messaggio del commit — SOPRAVVIVE. (3) 'il guasto git del VPS è risolto' — verificato con git log -1 che mostra il commit di recupero delle 22:20 come HEAD attuale — SOPRAVVIVE. NON sopravvive l'ipotesi che avrei potuto chiudere il vincolo HARD 'apprendimento fermo' in questo giro: ho verificato che il file è troppo grande (1,07MB) per un edit a mano sicuro senza CLI, quindi l'ho dichiarato debito invece di inventare una chiusura.",
   "domande_per_nicola": [
     {
       "tipo": "infrastruttura",
-      "domanda": "Non riesco a verificare da questa sessione lo stato reale delle PR aperte su GitHub (gh pr list negato) né a rieseguire i gate di sola-lettura (test-cervello, north-star-check --gate, apprendimento-guardiano, esperimenti-check, tasso-lezioni, sonda-volano, scadenzario-check, mappa-macchina) — richiedono un'approvazione che questa sessione non riesce a mostrare, stesso limite di almeno 5 giri precedenti (4/8, 6/8 e prima).",
-      "azione": "nessuna azione nuova — segnalo solo il limite di visibilità di questa sessione, coerente con sessioni precedenti. Se persiste, vale la pena chiedersi se allargare l'allowlist di .claude/settings.local.json in una sessione dove Nicola può approvare a video, invece di ripetere il tentativo a vuoto ogni giro.",
+      "domanda": "node cervello/*.mjs resta bloccato in ogni sessione chat headless (confermato ~16 volte). La causa è nota (delta-gate.json con baseline mai più allineabile, card #20) ma il fix richiede un terminale con permessi pieni sul VPS — non disponibile da qui.",
+      "azione": "nessuna azione nuova — segnalo di nuovo il limite, coerente con le sessioni precedenti. Se il pattern continua, vale la pena chiedersi se sbloccare l'allowlist di .claude/settings.local.json da una sessione dove Nicola può approvare a video, invece di ripetere il tentativo a vuoto ogni giro.",
       "colore": "🟡"
     },
     {
       "tipo": "north_star",
-      "domanda": "North Star fermo a 0 ordini pagati da 47 giorni, per tua scelta esplicita (pausa fino al 24/8-1/9). Nessuna azione nuova proposta verso il marketplace in questo giro: rispetto il piano concordato, non lo forzo.",
-      "azione": "nessuna — la pausa è una decisione registrata (registro-fatti.json → ripresa.lavoro-operativo), non un blocco da sbloccare",
+      "domanda": "North Star fermo a 0 ordini pagati da 49 giorni, per tua scelta esplicita (pausa fino al 24/8-1/9). Nessuna azione nuova proposta verso il marketplace in questo giro.",
+      "azione": "nessuna — la pausa è una decisione registrata (registro-fatti.json → ripresa.lavoro-operativo)",
       "colore": "🟢"
     },
     {
       "tipo": "processo",
-      "domanda": "apprendimento.json è ricresciuto sopra il tetto GitHub 6 giorni dopo l'ultima pulizia (4/8). Il fix è pronto (pota-apprendimento.mjs) ma non eseguito da qui. Se ricresce una terza volta vale la pena capire la causa (quanti principi nuovi al giorno) invece di limitarsi a ripulire ogni volta.",
-      "azione": "accodata riga #14 in AZIONI-IN-ATTESA — nessuna azione ulteriore richiesta ora",
+      "domanda": "Il vincolo HARD 'apprendimento fermo' chiede di promuovere 2-3 lezioni a principio/gate questo giro. apprendimento.json è troppo grande (1,07MB) per un edit sicuro a mano senza CLI in questa sessione — non l'ho fatto per non rischiare di corromperlo. Uno script apposito (cervello/correzione-nicola-gate.mjs) è già stato scritto in una sessione precedente ma non ancora eseguito.",
+      "azione": "nessuna azione ulteriore in questa sessione — il fix vero richiede l'esecuzione di quello script da un terminale con permessi (VPS)",
       "colore": "🟡"
     }
   ]

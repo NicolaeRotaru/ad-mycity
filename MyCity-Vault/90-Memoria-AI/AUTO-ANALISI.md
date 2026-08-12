@@ -1,3 +1,42 @@
+# 🔬 AUTO-ANALISI — 2026-08-12 22:43
+
+> Giro completo (`giro.md` per intero, richiesto in chat). Primo passaggio narrato dopo un guasto reale: il codice
+> sul VPS era rimasto staccato dal ramo principale ~31 ore (nota delle 21:00 di oggi in [[STATO]], PR #705),
+> risolto dal commit di recupero delle 22:20.
+
+## Voto di fiducia: **78/100** (↓2 da 80 del 10/8)
+Non per una regressione di business (identico da 7 settimane) ma perché tre vincoli HARD restano non chiudibili
+da questa sessione (test-cervello, apprendimento, guardiani CLI) — dichiarati come debito, non finti chiusi.
+
+## Aggiornamento 22:43
+Riverificato dal vivo con query SQL diretta, non ereditata: **1 ordine (mai pagato, del 24/6, annullato 3/7), 0
+pagati, 0 consegnati, 7 profili, 1 negozio, 0 recensioni, 3 carrelli abbandonati, 0 nuovi clienti in 7 giorni**.
+Identico cifra per cifra al passaggio del 10/8 11:20. Stallo North Star ricalcolato a mano: **49 giorni** (era 47
+il 10/8). Nessuna entità nuova, nessun declassamento.
+
+**Cosa È successo per davvero mentre la Cabina era ferma (non lavoro di questo passaggio):** il cantiere difetti
+è avanzato da 161/332 a **166 aperti/341 chiusi** — riconciliazione automatica del pre-step di `giro.sh` su
+difetti già risolti nel codice.
+
+**Limite di sessione, confermato di nuovo:** `node cervello/*.mjs` bloccato in Bash (causa nota, card `#20` —
+`delta-gate.json` confronta contro una baseline del 29/7 mai più allineabile da quando `sito_uptime` è cieco).
+Usato Supabase MCP (canale diverso, funziona) per i numeri reali. **Non toccati a mano** `apprendimento.json`
+(1,07 MB) né `cantiere-difetti.json` (1,48 MB): troppo grandi per validarli senza CLI dedicata, il rischio di
+corromperli non vale il guadagno — è debito dichiarato, non lavoro finto.
+
+**Cosa ho fatto in questo passaggio.** Colore 🟢, dentro il mio perimetro:
+- **Rigenerata `CHECKLIST-NICOLA.md`** — era ferma dal 10/8 11:20 (2 giorni, al limite AR-030). Aggiornati stallo (49gg) e conteggio cantiere (166/341), aggiunte 2 card comparse dopo l'ultima rigenerazione (`#piani-da-rivedere`, `#avvisi-permessi-nelle-analisi`).
+- **Aggiornato `OKR-Squadra.md`** — era fermo dal 4/8 (8 giorni, violava AR-115). Aggiornati stallo North Star (41→49gg) e tasso di chiusura (0,16→0,23, dato del pre-step di oggi).
+- Scritto il briefing completo, `STATO.md`, `ultimo-briefing.json`, `SALA-OPERATIVA.md`, `auto-analisi.json`, `registro-realta.json`.
+
+**Rispettato il vincolo HARD tasso-di-chiusura (0,23 nel mese):** nessuna radiografia, nessun radar nuovo aperto in questo giro.
+
+**Debito CLI invariato rispetto al 10/8:** `test-cervello.mjs`, `north-star-check.mjs --gate`, `coerenza-fatti.mjs`, `chiusura-loop.mjs`, `calibrazione.mjs`, `piani-data.mjs`, `sonda-volano.mjs`, `apprendimento-guardiano.mjs`, `correzione-nicola-gate.mjs` (scritto in una sessione precedente, mai eseguito) restano bloccati da un'approvazione che questa sessione non riesce a mostrare. `gh pr list` negato.
+
+**Cosa NON è cambiato:** Pane Quotidiano resta in attesa concordata con Nicola fino al 24/8-1/9. Nessuna azione nuova verso il marketplace in questo giro.
+
+## Passaggi precedenti
+
 # 🔬 AUTO-ANALISI — 2026-08-10 11:20
 
 > Giro completo (`giro.md` per intero, richiesto in chat). Primo passaggio NARRATO da 4 giorni (ultimo: 2026-08-06 11:15).

@@ -1,11 +1,9 @@
 {
   "_cosa_e": "Quanto è vecchia ogni scheda della card «Intelligence & opportunità». La soglia è DERIVATA dalle cadenze delle fonti in radar-fonti.json, non scritta a mano: cambiando la cadenza di una fonte, la soglia si aggiorna da sola.",
-  "aggiornato": "2026-08-11 13:51",
-  "oggi": "2026-08-11",
+  "aggiornato": "2026-08-12 22:22",
+  "oggi": "2026-08-12",
   "scadute": [],
-  "non_misurabili": [
-    "concorrenti"
-  ],
+  "non_misurabili": [],
   "schede": [
     {
       "id": "concorrenti",
@@ -13,11 +11,11 @@
       "etichetta": "Concorrenti",
       "soglia": 8,
       "fonti": 4,
-      "stato": "senza-data",
-      "giorni": null,
-      "data": null,
+      "stato": "fresca",
+      "giorni": 2,
+      "data": "2026-08-10",
       "scaduta": false,
-      "frase": "senza data in cima: non posso dire quanto è vecchia"
+      "frase": "aggiornata 2 giorni fa"
     },
     {
       "id": "eventi",
@@ -26,10 +24,10 @@
       "soglia": 2,
       "fonti": 6,
       "stato": "fresca",
-      "giorni": 1,
+      "giorni": 2,
       "data": "2026-08-10",
       "scaduta": false,
-      "frase": "aggiornata ieri"
+      "frase": "aggiornata 2 giorni fa"
     },
     {
       "id": "buchi",
@@ -38,10 +36,10 @@
       "soglia": 2,
       "fonti": 1,
       "stato": "fresca",
-      "giorni": 1,
+      "giorni": 2,
       "data": "2026-08-10",
       "scaduta": false,
-      "frase": "aggiornata ieri"
+      "frase": "aggiornata 2 giorni fa"
     },
     {
       "id": "leve",
@@ -50,10 +48,10 @@
       "soglia": 2,
       "fonti": 5,
       "stato": "fresca",
-      "giorni": 1,
+      "giorni": 2,
       "data": "2026-08-10",
       "scaduta": false,
-      "frase": "aggiornata ieri"
+      "frase": "aggiornata 2 giorni fa"
     },
     {
       "id": "reputazione",
@@ -62,10 +60,10 @@
       "soglia": 2,
       "fonti": 2,
       "stato": "fresca",
-      "giorni": 1,
+      "giorni": 2,
       "data": "2026-08-10",
       "scaduta": false,
-      "frase": "aggiornata ieri"
+      "frase": "aggiornata 2 giorni fa"
     }
   ]
 }

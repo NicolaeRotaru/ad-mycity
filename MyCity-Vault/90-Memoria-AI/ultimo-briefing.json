@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-10 11:30",
-  "situazione": "Business ancora invariato (riconfermato ora dal vivo su Supabase): 1 ordine mai pagato, 0 pagati, 0 consegne, 7 profili, 5 prodotti, 1 negozio — stallo North Star ricalcolato a 47 giorni, pausa concordata con Nicola fino al 24/8-1/9. Dal 6/8 il worker ha scritto solo memoria tecnica senza mai chiudere un giro narrato, colmato ora. Novità tecnica: la memoria delle lezioni (apprendimento.json) è ricresciuta sopra il tetto GitHub che blocca le PR — stesso problema già risolto una volta il 4/8. Mossa n.1: nessuna azione business (pausa da rispettare) — resta la domanda già in coda su dentro/fuori dell'ordine di prova.",
+  "data": "2026-08-12 22:43",
+  "situazione": "Business ancora invariato (riconfermato dal vivo su Supabase): 1 ordine mai pagato, 0 pagati, 0 consegne, 7 profili, 1 negozio, 0 nuovi clienti in 7 giorni — stallo North Star a 49 giorni, pausa concordata con Nicola fino al 24/8-1/9. Il guasto che aveva fermato il VPS per due giorni (codice staccato dal ramo principale) è risolto, e nel frattempo il cantiere difetti è avanzato per davvero (166 aperti/341 chiusi, era 161/332). Mossa n.1: nessuna azione business nuova (pausa da rispettare) — resta la domanda sull'ordine di prova su Pane Quotidiano.",
   "opportunita": [
     {
       "titolo": "Sblocca l'ordine di prova su Pane Quotidiano",
@@ -9,32 +9,27 @@
       "sforzo": "basso"
     },
     {
-      "titolo": "Ripulisci di nuovo la memoria delle lezioni prima che rompa una PR",
-      "motivo": "apprendimento.json è tornato sopra il tetto GitHub 6 giorni dopo l'ultima pulizia",
-      "impatto": "medio",
-      "sforzo": "basso"
+      "titolo": "Fai completare al fornaio la pratica pagamenti",
+      "motivo": "Dati mai inviati, incassi e versamenti disattivati dal 15/6: se un cliente pagasse oggi, il pagamento non partirebbe",
+      "impatto": "alto",
+      "sforzo": "medio"
     }
   ],
   "azioni": [
     {
       "titolo": "Rispondi: l'ordine di prova resta dentro la pausa o lo fai adesso",
-      "motivo": "È l'unica cosa in coda che dimostra che pagamento e consegna funzionano davvero",
-      "livello": "giallo"
-    },
-    {
-      "titolo": "Mergia PR #677, #679, #680, #681, #683 — invariato dal 6/8",
-      "motivo": "origin/main non accetta push diretto da questa sessione: la PR è l'unico veicolo per pubblicare i commit di memoria",
+      "motivo": "È l'unica cosa in coda che dimostra che pagamento e consegna funzionano davvero, ferma da 15 giorni",
       "livello": "rosso"
     },
     {
-      "titolo": "Scegli come chiudere le PR: squash con riallineamento automatico o merge normale",
-      "motivo": "Un merge in squash può far chiudere da sole altre PR aperte sulla stessa base — già capitato",
+      "titolo": "Mergia le PR di memoria/fix ferme in coda (#677, #679, #680, #681, #683)",
+      "motivo": "Non riverificabile da questa sessione: GitHub resta bloccato in chat headless",
       "livello": "rosso"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo 47 giorni (pausa concordata, non churn)",
-    "apprendimento.json sopra il tetto GitHub (1.052.950 byte) — stesso problema del 4/8, ricresciuto",
-    "auto-radiografia completa scaduta — 269 ore (>10 giorni) dall'ultima"
+    "North Star 0 — stallo 49 giorni (pausa concordata, non churn)",
+    "Tasso di chiusura 0,23 nel mese — sotto soglia 1: questo giro non ha aperto ricerche nuove",
+    "node cervello/*.mjs bloccato in questa sessione chat — causa nota, fix richiede terminale VPS (card #20)"
   ]
 }
