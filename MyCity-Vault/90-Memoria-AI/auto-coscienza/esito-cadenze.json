@@ -12,21 +12,20 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-13 13:14",
-      "esito": "vincoli-attivi",
-      "codice": 3,
+      "quando": "2026-08-13 18:12",
+      "esito": "non-pubblicato",
+      "codice": 2,
       "ai_rc": 0,
-      "push_ok": true,
+      "push_ok": false,
       "passi_ok": false,
-      "vincoli_attivi": 11,
+      "vincoli_attivi": 10,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
         "CHIUSURA",
-        "CI",
         "CORREZIONE_NICOLA",
         "FRESCHEZZA",
-        "GATE",
+        "MAPPA",
         "NORTH_STAR",
         "TASSO",
         "TEST",
@@ -74,5 +73,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-13 18:05"
+  "aggiornato": "2026-08-13 18:12"
 }
