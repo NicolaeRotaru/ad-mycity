@@ -63,6 +63,12 @@ const CANCELLO = join(REPO, "cervello/gate-pubblicazione.sh");
 const FUORI = new Set([
   "node_modules", ".git", ".next", "dist", "build",
   "MyCity-Vault", "consegne", "creativi", "memoria-squadra", "marketplace", "auto-coscienza",
+  // `.claude/worktrees/<agent>/` sono checkout completi del repo creati per isolare il lavoro di un
+  // agente in parallelo: contengono una SECONDA copia di ogni file di `cervello/`, test compresi. Senza
+  // questa esclusione un file dentro `.claude/worktrees/x/cervello/test/y.test.mjs` non inizia per
+  // "cervello/test/" (il percorso relativo parte da `.claude/`), quindi il rilevatore lo tratta come un
+  // invocatore VERO — un test annidato che dichiara di guardia un guardiano solo perché esiste due volte.
+  "worktrees",
 ]);
 
 /** Estensioni che possono contenere un'esecuzione. */
