@@ -75,7 +75,7 @@ Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un g
 **Serve da te:** una parola per ciascuna delle due domande. Io non posso toccare il foglio dei permessi: è negato in scrittura alla macchina, apposta.
 
 **Nota tecnica:** trovato riparando il vincolo HARD test-cervello di questo giro (5 test rossi su 1096, uno era questo). File: `.claude/settings.local.json` righe `Bash(git push origin main/feature/*/fix/*:*)` + `mcp__supabase-memoria__execute_sql` + `mcp__supabase-marketplace__execute_sql`. Registro debito aggiornato nello stesso lavoro: `cervello/permessi-debito.json`.
-- **Colore:** 🟡 (tocca solo la dichiarazione del debito, non i permessi veri — quelli restano di Nicola)
+- **Colore:** 🟡 — tocca solo la dichiarazione del debito. I permessi veri restano tuoi.
 - **Reparto:** security
 - **Origine:** `{origine:giro-2026-08-12, guardiano:permessi-di-guardia.test.mjs}`
 
@@ -1066,13 +1066,15 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 **Contenuto completo:** `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md` · anteprima [[AZIONI-PRONTE]] **A28**
 
-**Testo pronto (versione Gruppi Facebook):**
+**Testo pronto (versione Gruppi Facebook) — da copiare così com'è:**
 
-> Chi ha voglia di uscire a prendere la colazione fresca con questo caldo? 😅
->
-> Stiamo portando online i negozi veri di Piacenza: c'è **Pane Quotidiano** (Via Calzolai, bio dal '76) con kefir e freschi bio già ordinabili. Te li portiamo a casa al mattino, paghi alla consegna se ti è più comodo.
->
-> Se ti va di provare, link nel primo commento 👇
+```
+Chi ha voglia di uscire a prendere la colazione fresca con questo caldo? 😅
+
+Stiamo portando online i negozi veri di Piacenza: c'è Pane Quotidiano (Via Calzolai, bio dal '76) con kefir e freschi bio già ordinabili. Te li portiamo a casa al mattino, paghi alla consegna se ti è più comodo.
+
+Se ti va di provare, link nel primo commento 👇
+```
 
 **Prima del post servono da Nicola (due minuti):**
 1. **Link lista d'attesa** — incollalo e la macchina completa il primo commento
