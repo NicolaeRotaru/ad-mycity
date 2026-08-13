@@ -1,7 +1,7 @@
 import { readVaultFile, readVaultFileEsito } from "@/lib/vault";
 import { getMetriche } from "@/lib/marketplace-db";
 import { azioniDaSentinelle, PRICING_PITCH_DEFAULT, type PricingPitch } from "@/lib/sentinelle";
-import { parseAzioniAttesa } from "@/lib/azioni-attesa";
+import { ordinaCoda, parseAzioniAttesa } from "@/lib/azioni-attesa";
 import { livelloEffettivo } from "@/lib/livello-effettivo";
 
 // Logica condivisa della corsia "Azioni pronte": parsing del vault, unione con
@@ -12,6 +12,9 @@ export type StatoAzione = "" | "rifiutata" | "fatta" | "simulata" | "coda";
 export type Livello = "verde" | "giallo" | "rosso" | "?";
 export type Blocco = {
   id: string;
+  // 🔢 Numero fisso della card («41»), quello che Nicola legge e pronuncia. Vuoto per le
+  // azioni delle sentinelle e le card vecchie non numerate: lì la UI ripiega sul codice #A42.
+  cartellino: string;
   titolo: string;
   reparto: string;
   livello: Livello;
@@ -36,6 +39,7 @@ function bloccoDaAttesa(a: ReturnType<typeof parseAzioniAttesa>[number]): Blocco
     // (idSezione, sia per le righe-tabella sia per le sezioni), non il numero di riga posizionale:
     // così la chiave decisione `azione:<id>` resta agganciata all'azione giusta dopo un rinumero.
     id: a.numero,
+    cartellino: a.cartellino,
     titolo: a.azione,
     reparto: a.reparto,
     livello: a.livello,
@@ -99,16 +103,16 @@ export async function tutteLeAzioniConEsito(): Promise<{ azioni: Blocco[]; codaL
     : esito.stato === "auth"
       ? "il Pannello non è autorizzato a leggere la memoria (token scaduto o revocato)"
       : "non riesco a raggiungere la memoria su GitHub";
+  // Le card in ordine: numero più alto (= nata per ultima) in alto, come chiesto da Nicola (13/8).
   const vault = md
-    ? parseAzioniAttesa(md)
-        .filter((a) => a.inAttesa)
-        .map(bloccoDaAttesa)
+    ? ordinaCoda(parseAzioniAttesa(md).filter((a) => a.inAttesa)).map(bloccoDaAttesa)
     : [];
   let sentinelle: Blocco[] = [];
   try {
     const [m, pricing] = await Promise.all([getMetriche(), leggiPricingDaRegistro()]);
     sentinelle = azioniDaSentinelle(m, pricing).map((s) => ({
       ...s,
+      cartellino: "",
       fonte: "sentinella" as const,
       cambia: "",
       seguito: "",

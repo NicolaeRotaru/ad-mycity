@@ -1762,6 +1762,15 @@ Nicola ha chiesto di guardare gli organi (7 rotti · 8 non visti) e risolverli. 
 
 **Riconferma:** batteria completa 162 file / 1.673 asserzioni tutti verdi · visita completa da qui: 13 ✅ · 1 ❌ (solo il ponte VPS, che è la card) · 8 ⚪ dichiarati col motivo giusto.
 
+## 2026-08-13 18:50 — Le card della coda hanno un numero fisso, l'ordine e la data di nascita
+Nicola (chat, 13/8 ~18:20, confermato «esatto hai capito»): il codice davanti al titolo delle card
+diventa un numero semplice, le card vanno in ordine e ogni card mostra quando è stata creata.
+Deciso: numero assegnato per ordine di nascita (la più vecchia = #1, oggi 1→58), mai riusato;
+le pendenti si mostrano dalla più nuova; «ok 41» funziona in chat e nell'esecutore (campo dichiarato,
+mai ricerca nel titolo — lezione AR-271); lo slug resta nell'ancora per i riferimenti macchina.
+Nel riordino: chiusa la card della visita VPS (diagnosi corretta coi 4 screenshot di Nicola: timer
+vivo, era il push dei referti), collassate 101 intestazioni-archivio duplicate (bug dell'housekeeping
+curato alla radice), portato il testo del post kefir dentro la sua card. 🟡 in PR, firma di Nicola.
 ## 2026-08-13 18:16 — Lotto 37 del cantiere: 14 difetti riparati su 4 malattie, in 4 corsie parallele
 - 🟡 **Cosa:** riparati e provati AR-587/589/590/591 (sensori che raccontavano il falso), AR-597/633/642 (cancelli che davano verde a fonte sparita), AR-575/580/582/619 (contabilità del cantiere bucata), AR-629/632/634 (registro cadenze: ora legale scolpita e azzeramenti muti). Riparazioni dati applicate: 74 date di chiusura ricavate (69 dal git log, 5 da un campo col nome sbagliato, 0 stime), 4 lezioni rinumerate, 4 schede prioritizzate. 2 malattie censite a tetto 0 nella spazzata. 14 difetti nuovi registrati riparando (AR-646..655, più i 6 già contati): non entrano nel lotto, regola ②.
 - **Perché:** il tasso di chiusura di agosto era sotto 1 (dopo la riparazione dei libri: 0,55 — 95 chiusi su 174 aperti) → il giro non apre ricerche nuove, chiude. Scelta per malattia, non per conteggio; priorità a ciò che fa mentire Pannello e macchina a Nicola.

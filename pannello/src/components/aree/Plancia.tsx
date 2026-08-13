@@ -32,7 +32,7 @@ import Volano from "@/components/Volano";
 // cosa devi firmare, quali allarmi sono scattati, cosa devi fare, i KPI chiave,
 // e l'ultima analisi dell'AD in poche righe. Tutto da fonti reali già pronte.
 
-type Azione = { id: string; titolo: string; livello: string; reparto?: string; stato: string };
+type Azione = { id: string; cartellino?: string; titolo: string; livello: string; reparto?: string; stato: string };
 type Alert = { livello: "rosso" | "giallo"; titolo: string };
 type Todo = { id: string; testo: string; livello: string; fatto: boolean };
 type Mossa = { titolo: string; priorita?: "alta" | "media" | "bassa"; colore?: string };
@@ -239,7 +239,7 @@ export default function Plancia({
             {daFirmare.slice(0, 2).map((a) => (
               <div key={a.id} className="flex items-start gap-1 t-riga text-[12.5px]">
                 <span className={`mt-1.5 w-1.5 h-1.5 rounded-full shrink-0 ${dotCls(a.livello)}`} />
-                <span className="mt-0.5 shrink-0 font-mono text-[9px] font-bold text-brand tabular-nums" title="Codice casella">{codiceAzione(a.id)}</span>
+                <span className="mt-0.5 shrink-0 font-mono text-[9px] font-bold text-brand tabular-nums" title="Numero della card">{a.cartellino ? `#${a.cartellino}` : codiceAzione(a.id)}</span>
                 <FraseLista testo={pulisciTitolo(a.titolo)} />
               </div>
             ))}

@@ -131,13 +131,34 @@ export function leggiCard(testoFile) {
   const righe = String(testoFile || "").split("\n");
   const card = [];
   let corrente = null;
+  // Dal 13/8 il titolo porta il NUMERO della card («#41 — …») e lo slug vive nell'ancora
+  // `<!-- slug -->` subito sopra: l'id si prende da lì. Il match sul titolo resta come
+  // fallback per il formato vecchio («#ordine-test-pq — …»), che le fixture usano ancora.
+  let ancora = null;
   righe.forEach((l, i) => {
+    const mAncora = l.match(/^<!--\s*(\S+)\s*-->\s*$/);
+    if (mAncora) {
+      ancora = mAncora[1];
+      if (corrente) corrente.corpo.push(l);
+      return;
+    }
     if (/^###\s/.test(l)) {
       if (corrente) card.push(corrente);
-      const id = (l.match(/#([a-z0-9][a-z0-9-]*)/i) || [])[1] || null;
+      const nelTitolo = (l.match(/#([a-z0-9][a-z0-9-]*)/i) || [])[1] || null;
+      const id = /^\d+$/.test(nelTitolo || "") ? ancora || nelTitolo : nelTitolo || ancora;
+      ancora = null;
       corrente = { id, riga: i + 1, titolo: l, corpo: [] };
-    } else if (corrente) {
-      corrente.corpo.push(l);
+    } else if (/^##?\s/.test(l)) {
+      // Una sezione `##`/`#` CHIUDE la card: senza questo confine l'ultima card della coda si
+      // inghiottiva la sezione dopo (Supervisione, Archivio) — lo stesso difetto che faceva
+      // accumulare 101 intestazioni all'housekeeping.
+      if (corrente) card.push(corrente);
+      corrente = null;
+      ancora = null;
+    } else {
+      // L'ancora vale solo se resta attaccata alla card: una riga di contenuto in mezzo la spegne.
+      if (l.trim() && l.trim() !== "---") ancora = null;
+      if (corrente) corrente.corpo.push(l);
     }
   });
   if (corrente) card.push(corrente);
@@ -157,6 +178,21 @@ export function leggiCard(testoFile) {
       pausa,
     };
   });
+}
+
+/**
+ * Il numero per la PROSSIMA card della coda: il più alto mai usato + 1 (regola del 13/8,
+ * `cervello/azioni.md`). Su una coda senza numeri parte da 1. Casa unica: la usano tutti
+ * gli scrittori automatici di card (sensori-spenti-check, pausa-check), così nessuno
+ * ricalcola la regola per conto suo.
+ */
+export function prossimoNumero(testoFile) {
+  let max = 0;
+  for (const m of String(testoFile || "").matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) {
+    const n = Number(m[1]);
+    if (n > max) max = n;
+  }
+  return max + 1;
 }
 
 // ── ③ Dal valore del fatto al momento del risveglio ──────────────────────────
