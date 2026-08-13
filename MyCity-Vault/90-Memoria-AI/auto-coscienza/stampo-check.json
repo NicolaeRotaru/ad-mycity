@@ -1,20 +1,20 @@
 {
   "_cosa_e": "Guardiano stampo senior: legge il CONTENUTO di mansionario, kit e quaderno di ogni agente e lo confronta col debito dichiarato in cervello/stampo-baseline.json.",
   "_cosa_NON_prova": "Non prova che un kit sia BUONO né che un ESITO sia vero: misura spessore relativo, fotocopie, struttura e presenza di righe ESITO datate. Un kit lungo e originale può essere sbagliato, e una riga ESITO può contenere un numero inventato — quella parte la giudicano il direttore-creativo e la calibrazione, non questo controllo.",
-  "aggiornato": "2026-08-12 23:03",
+  "aggiornato": "2026-08-13 09:58",
   "totale_agenti": 120,
   "soglia_sottile_byte": 7025,
   "quaderni": {
-    "vivi": 36,
+    "vivi": 34,
     "vuoti": 72,
-    "fermi": 12,
+    "fermi": 14,
     "assenti": 0
   },
-  "con_difetti": 85,
-  "senza_difetti": 35,
+  "con_difetti": 87,
+  "senza_difetti": 33,
   "per_tipo": {
     "quaderno_vuoto": 72,
-    "quaderno_fermo": 12,
+    "quaderno_fermo": 14,
     "kit_sottile": 10,
     "kit_fotocopia": 10,
     "kit_struttura_rotta": 9
@@ -63,11 +63,19 @@
       "difetto": "quaderno_fermo"
     },
     {
+      "nome": "product-manager",
+      "difetto": "quaderno_fermo"
+    },
+    {
       "nome": "rider-fleet",
       "difetto": "quaderno_fermo"
     },
     {
       "nome": "supporto",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "ux-designer",
       "difetto": "quaderno_fermo"
     }
   ],
@@ -124,6 +132,11 @@
       "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
+      "nome": "product-manager",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-07-13, era 2026-07-13): a muoversi è stato il calendario"
+    },
+    {
       "nome": "rider-fleet",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
@@ -132,6 +145,11 @@
       "nome": "supporto",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "ux-designer",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-07-13, era 2026-07-13): a muoversi è stato il calendario"
     }
   ],
   "debito_riparato_da_togliere": [],

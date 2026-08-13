@@ -1,8 +1,21 @@
 ---
 tipo: stato
-aggiornato: 2026-08-12 22:43
+aggiornato: 2026-08-13 09:58
 fonte: AD digitale (chat)
 ---
+
+> 🩻 **13/8 09:58 — Radiografia totale consegnata: 71 schede nuove, e la contabilità di me stessa era bucata.**
+> La flotta di stanotte è morta col contenitore cloud. È una scheda nuova, e il rimedio è già montato:
+> promemoria di sopravvivenza a ogni lancio. Il primo giro l'ho salvato dal giornale di bordo. Le prove le
+> ho eseguite una a una: 31 comandi rossi, 16 da occhio umano. Due scoperte cambiano il quadro. Primo: il
+> voto di chiusura vero di agosto è **circa 0,92, non 0,23** — 71 chiusure dei primi dieci giorni sono senza
+> data e il contatore le perde. La riparazione è la card 18 in coda. Secondo: la radiografia dell'11/8 ha
+> raccontato 163 difetti e ne ha scritti 2. Gli altri **non esistono in nessun registro**, e ora c'è una
+> scheda anche per questo. Bloccante confermato: sei cadenze su sei ferme, il Piano del mattino manca dal
+> 30/7. Il worker da ieri sera ripubblica, ma i lavori a orologio muoiono: card 17, serve mano sul VPS.
+> Card 19: il sensore vede il sito spento da 103 controlli — dieci secondi dal telefono per dirimere.
+> Report: [[../consegne/audit/2026-08-13-radiografia-totale]]. Schede da AR-574 a AR-644. Giri 2 e 3:
+> debito dichiarato.
 
 > 🔁 **12/8 22:43 — Giro completo dopo il recupero: business ancora invariato, il cantiere è avanzato per davvero.**
 > Riparto dal guasto raccontato nella nota delle 21:00 qui sotto (il codice sul VPS staccato dal ramo principale):
