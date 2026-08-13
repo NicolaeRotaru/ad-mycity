@@ -62,6 +62,27 @@ function writeJson(path, data) {
   scriviJsonAtomico(path, data);
 }
 
+/**
+ * IL TIMBRO UNICO DI CHIUSURA (AR-575). Ogni strada che scrive `stato: "chiuso"` DEVE passare da
+ * qui: 74 schede sono finite in archivio chiuse ma senza data, e il voto mensile (tasso-chiusura)
+ * non le contava — il freno anti-ricerche ha strozzato la macchina su un contatore rotto (0,23
+ * dichiarato, ~0,92 vero). La lezione è AR-172: il timbro sta vicino al DATO, una funzione sola,
+ * non una copia per ogni comando — la porta a mano riparata e quella automatica lasciata aperta.
+ * `quando` porta SEMPRE l'ora (regola dell'orario, "AAAA-MM-GG HH:MM", fuso di Piacenza): Nicola
+ * deve poter sapere al minuto quando ogni scheda si è chiusa.
+ */
+export function timbraChiusura(d, { come, quando } = {}) {
+  if (!d) throw new Error("timbraChiusura: nessuna scheda");
+  const q = quando || nowPiacenza();
+  if (!/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}/.test(q)) {
+    throw new Error(`timbraChiusura: data di chiusura senza ora ("${q}") — serve "AAAA-MM-GG HH:MM"`);
+  }
+  d.stato = "chiuso";
+  d.chiuso_il = q;
+  if (come !== undefined) d.chiuso_come = come;
+  return d;
+}
+
 function ricalcolaMeta(cantiere) {
   const d = cantiere.difetti || [];
   cantiere.meta = {
@@ -309,9 +330,8 @@ async function cmdVerifica(cantiere) {
     return;
   }
   for (const { d, come } of daChiudere) {
-    d.stato = "chiuso";
-    d.chiuso_il = nowPiacenza();
-    d.chiuso_come = come;
+    // AR-575 — la chiusura passa dal timbro unico: stato+data(con l'ora)+come in un punto solo.
+    timbraChiusura(d, { come });
     // AR-429, clausola (b) — la chiusura porta scritto se la guardia ② l'ha davvero corroborata.
     // Senza questo campo una chiusura firmata al buio è indistinguibile da una controllata, e le
     // 183 già in archivio resterebbero «buone» per il solo fatto di essere lì. Marcarle è ciò che
@@ -348,9 +368,8 @@ function cmdChiudi(cantiere) {
     console.error(`   Se la decisione è cambiata, togli \`chiusura: "bloccata"\` dalla scheda (o --forza, che resta scritto).`);
     process.exit(1);
   }
-  d.stato = "chiuso";
-  d.chiuso_il = nowPiacenza();
-  d.chiuso_come = blocco.bloccata ? `${come} [FORZATA su una dichiarazione umana: ${blocco.motivo}]` : come;
+  // AR-575 — anche la porta A MANO passa dal timbro unico (lezione AR-172: mai due copie del timbro).
+  timbraChiusura(d, { come: blocco.bloccata ? `${come} [FORZATA su una dichiarazione umana: ${blocco.motivo}]` : come });
   ricalcolaMeta(cantiere);
   cantiere.aggiornato = nowPiacenza();
   writeJson(CANTIERE, cantiere);

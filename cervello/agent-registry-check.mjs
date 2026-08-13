@@ -60,6 +60,39 @@ function estraiDescription(testo) {
   return d ? d[1].replace(/\s+/g, " ").trim() : "";
 }
 
+/** Estrae `name:` dal frontmatter YAML di un mansionario. "" se manca. */
+export function estraiName(testo) {
+  const m = String(testo || "").match(/^---\s*[\r\n]([\s\S]*?)[\r\n]---/);
+  const fm = m ? m[1] : "";
+  const n = fm.match(/^name:\s*(.+?)\s*$/m);
+  return n ? n[1].replace(/^["']|["']$/g, "").trim() : "";
+}
+
+/**
+ * AR-619 — il nome DENTRO la scheda deve combaciare col nome del FILE. Il router dei subagenti
+ * instrada sul campo `name` del frontmatter, ma questo guardiano confrontava solo i nomi-file con
+ * gli elenchi umani: un rename interno (name ≠ filename), un `name` mancante o due schede con lo
+ * stesso `name` avrebbero rotto il routing delle deleghe col guardiano ancora verde e il conteggio
+ * 120=120 intatto. Pura: prende [{file, testo}] iniettabili, nessun I/O.
+ */
+export function analizzaNomi(schede = []) {
+  const senzaName = [];
+  const nomeDiverso = [];
+  const perName = new Map();
+  for (const { file, testo } of schede) {
+    const name = estraiName(testo);
+    if (!name) {
+      senzaName.push(file);
+      continue;
+    }
+    if (!perName.has(name)) perName.set(name, []);
+    perName.get(name).push(file);
+    if (name !== file) nomeDiverso.push({ file, name });
+  }
+  const nameDoppi = [...perName.entries()].filter(([, files]) => files.length > 1).map(([name, files]) => ({ name, files }));
+  return { senzaName, nomeDiverso, nameDoppi, problemi: senzaName.length + nomeDiverso.length + nameDoppi.length };
+}
+
 /** Normalizza un frammento in frase-trigger per confronto verbatim. */
 function normalizzaFraseTrigger(frag) {
   return frag
@@ -189,12 +222,16 @@ async function main() {
     nDichiaratoAgentiMd !== nReali + 1;
 
   // 6. AR-027: collisioni description (frasi-trigger verbatim + deferral verso vicini di dominio).
+  //    AR-619: dagli stessi file si legge anche `name:` — il campo su cui il router instrada davvero.
   const descriptions = new Map();
+  const schedePerNome = [];
   for (const nome of agentiReali) {
     const testo = readFileSync(join(AGENTS_DIR, `${nome}.md`), "utf8");
     descriptions.set(nome, estraiDescription(testo));
+    schedePerNome.push({ file: nome, testo });
   }
   const { collisioniCoppie, deferralMancante } = analizzaCollisioniDescription(descriptions);
+  const nomi = analizzaNomi(schedePerNome); // AR-619: name ≠ filename, name mancante, name doppio
   const nCollisioni = collisioniCoppie.length + deferralMancante.length;
 
   // 7. Copertura KPI: ogni agente deve possiedere un KPI in OKR-Squadra (o deroga esplicita).
@@ -237,7 +274,8 @@ async function main() {
     (conteggioIncoerente ? 1 : 0) +
     nCollisioni +
     senzaKpi.length +
-    conteggiSbagliati.length;
+    conteggiSbagliati.length +
+    nomi.problemi; // AR-619: un name incoerente rompe il routing anche con 120 file = 120 dichiarati
 
   await stampSegnale(
     "agent-registry",
@@ -259,6 +297,7 @@ async function main() {
           deferral_mancante: deferralMancante,
           senza_kpi_okr: senzaKpi,
           conteggi_sbagliati: conteggiSbagliati,
+          nomi_frontmatter: nomi, // AR-619
           drift_totale: driftTotale,
         },
         null,
@@ -326,6 +365,14 @@ async function main() {
         for (const n of senzaKpi.slice(0, 20)) console.log(`  • ${n}`);
         if (senzaKpi.length > 20) console.log(`  … e altri ${senzaKpi.length - 20}`);
       }
+
+      if (nomi.problemi) {
+        // AR-619: il router instrada sul `name` del frontmatter, non sul nome-file.
+        console.log(`\n🪪 ${nomi.problemi} problemi sul campo \`name\` del frontmatter (il router instrada su QUELLO):`);
+        for (const f of nomi.senzaName) console.log(`  • ${f}.md: name MANCANTE`);
+        for (const x of nomi.nomeDiverso) console.log(`  • ${x.file}.md: name "${x.name}" ≠ nome-file — la delega andrebbe a un senior che non esiste nel registro`);
+        for (const x of nomi.nameDoppi) console.log(`  • name "${x.name}" DOPPIO in: ${x.files.map((f) => `${f}.md`).join(", ")}`);
+      }
     }
     console.log(`\nDrift totale: ${driftTotale}`);
   }
@@ -333,12 +380,16 @@ async function main() {
   process.exit(driftTotale > 0 ? 1 : 0);
 }
 
-main().catch(async (e) => {
-  console.error("ERRORE agent-registry-check:", e.message || e);
-  await stampSegnale(
-    "agent-registry",
-    "errore",
-    `crash: ${(e.message || e).toString().slice(0, 200)}`
-  );
-  process.exit(1);
-});
+// Il CLI parte solo se questo file è LANCIATO: un test che importa estraiName/analizzaNomi non deve
+// far girare il guardiano intero né stampare segnali (malattia «programma-che-parte-importando»).
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch(async (e) => {
+    console.error("ERRORE agent-registry-check:", e.message || e);
+    await stampSegnale(
+      "agent-registry",
+      "errore",
+      `crash: ${(e.message || e).toString().slice(0, 200)}`
+    );
+    process.exit(1);
+  });
+}

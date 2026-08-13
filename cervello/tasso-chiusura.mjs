@@ -54,6 +54,46 @@ export function meseDi(data) {
 }
 
 /**
+ * La data di chiusura di una scheda, qualunque nome porti (AR-575).
+ * Il campo giusto è `chiuso_il`; 5 schede d'archivio la portavano nel campo sbagliato `chiuso`.
+ * Il conto non deve perdere una chiusura per un nome di campo: legge entrambi, preferendo il giusto.
+ */
+export function dataChiusura(d) {
+  return d?.chiuso_il || d?.chiuso || null;
+}
+
+/**
+ * Le chiusure SENZA data (AR-575): schede con stato "chiuso" ma nessuna data di chiusura.
+ * Non appartengono a nessun mese, quindi il voto mensile non le vede — 74 il 13/8, e il freno
+ * anti-ricerche ha strozzato la macchina su un contatore rotto. Un conteggio che le ignora in
+ * silenzio è una bugia: questa funzione le fa diventare un numero dichiarato.
+ */
+export function chiusiSenzaData(difetti = []) {
+  return difetti.filter((d) => d && d.stato === "chiuso" && !dataChiusura(d)).map((d) => d.id || "(senza id)");
+}
+
+/** Gli id usati più di una volta in un registro (cantiere o lezioni): ogni doppione falsa i conteggi. */
+export function idDoppi(voci = []) {
+  const visti = new Map();
+  for (const v of voci) {
+    if (!v || !v.id) continue;
+    visti.set(v.id, (visti.get(v.id) || 0) + 1);
+  }
+  return [...visti.entries()].filter(([, n]) => n > 1).map(([id]) => id);
+}
+
+/**
+ * Il verdetto del `--gate`, come funzione pura (AR-575): il freno scatta se il tasso è sotto
+ * obiettivo, MA ANCHE se i registri su cui il tasso è calcolato sono bucati — un voto contato su
+ * libri con buchi (chiusure senza data, id doppi) non è un voto: è il numero che ad agosto diceva
+ * 0,23 mentre la verità era ~0,92.
+ */
+export function gateBocciato(esito, registriBucati = {}) {
+  const buchi = Object.values(registriBucati).some((v) => Array.isArray(v) && v.length > 0);
+  return esito === "sotto" || buchi;
+}
+
+/**
  * Il conto del mese, come funzione pura: è la regola che decide se il giro si ferma, e va potuta
  * eseguire in un test senza toccare il disco.
  *
@@ -67,7 +107,7 @@ export function contaMese(difetti = [], mese) {
   for (const d of difetti) {
     if (!d) continue;
     if (meseDi(d.nato) === mese) nati++;
-    if (d.stato === "chiuso" && meseDi(d.chiuso_il) === mese) chiusi++;
+    if (d.stato === "chiuso" && meseDi(dataChiusura(d)) === mese) chiusi++;
   }
   return { nati, chiusi };
 }
@@ -102,7 +142,7 @@ export function perMese(difetti = []) {
     const n = tocca(meseDi(d.nato));
     if (n) n.nati++;
     if (d.stato === "chiuso") {
-      const c = tocca(meseDi(d.chiuso_il));
+      const c = tocca(meseDi(dataChiusura(d)));
       if (c) c.chiusi++;
     }
   }
@@ -135,7 +175,26 @@ function main() {
   const conto = contaMese(difetti, mese);
   const v = verdetto(conto);
   const storico = perMese(difetti);
-  const referto = { _cosa_e: "Quanti difetti la macchina chiude, diviso quanti ne apre. Obiettivo: almeno 1. Sotto 1 il giro chiude invece di cercare.", misurato: quando, mese, ...conto, tasso: v.tasso, esito: v.esito, detto: v.detto, obiettivo: OBIETTIVO, minimo_campione: MINIMO_CAMPIONE, per_mese: storico };
+
+  // AR-575 — i buchi nei registri con cui questo voto è calcolato, dichiarati invece che ingoiati:
+  // chiusure senza data (invisibili a ogni mese) e id doppi (contati due volte). Le lezioni entrano
+  // nello stesso controllo (AR-580): il guardiano d'unicità copriva solo il cantiere, e i doppioni
+  // nell'archivio da cui la macchina impara si accumulavano senza che nessuno li vedesse.
+  // ⚠️ Il punto di scrittura delle lezioni è fuori da ogni script (gli id L-… si coniano a mano in
+  // sessione): finché è così, questo è il guardiano di lettura che se ne accorge.
+  const APPRENDIMENTO = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json");
+  let lezioni = [];
+  try {
+    if (existsSync(APPRENDIMENTO)) lezioni = JSON.parse(readFileSync(APPRENDIMENTO, "utf8")).lezioni || [];
+  } catch { /* apprendimento illeggibile: i suoi buchi non si possono misurare qui, il cantiere sì */ }
+  const registriBucati = {
+    chiusi_senza_data: chiusiSenzaData(difetti),
+    id_doppi_cantiere: idDoppi(difetti),
+    id_doppi_lezioni: idDoppi(lezioni),
+  };
+  const nBuchi = Object.values(registriBucati).reduce((a, x) => a + x.length, 0);
+
+  const referto = { _cosa_e: "Quanti difetti la macchina chiude, diviso quanti ne apre. Obiettivo: almeno 1. Sotto 1 il giro chiude invece di cercare.", misurato: quando, mese, ...conto, tasso: v.tasso, esito: v.esito, detto: v.detto, obiettivo: OBIETTIVO, minimo_campione: MINIMO_CAMPIONE, registri_bucati: registriBucati, per_mese: storico };
   scriviJsonAtomico(REFERTO, referto);
 
   if (JSON_MODE) {
@@ -155,8 +214,17 @@ function main() {
       console.log("     Ogni radiografia in più, adesso, allunga la lista invece di accorciarla.\n");
     }
   }
-  // `--gate`: solo `sotto` ferma la ricerca. `piccolo` no — un campione magro non è una bocciatura.
-  process.exit(GATE && v.esito === "sotto" ? 1 : 0);
+  if (nBuchi > 0 && !JSON_MODE) {
+    console.log(`   ⚠️  REGISTRI BUCATI (${nBuchi}): questo voto è contato su libri con buchi.`);
+    if (registriBucati.chiusi_senza_data.length) console.log(`      · ${registriBucati.chiusi_senza_data.length} chiusure senza data (non appartengono a nessun mese): ${registriBucati.chiusi_senza_data.slice(0, 8).join(", ")}${registriBucati.chiusi_senza_data.length > 8 ? ", …" : ""}`);
+    if (registriBucati.id_doppi_cantiere.length) console.log(`      · id doppi nel cantiere: ${registriBucati.id_doppi_cantiere.join(", ")}`);
+    if (registriBucati.id_doppi_lezioni.length) console.log(`      · id doppi nelle lezioni: ${registriBucati.id_doppi_lezioni.join(", ")}`);
+    console.log("      Ripara i dati (backfill/dedup) prima di fidarti del tasso.\n");
+  }
+  // `--gate`: `sotto` ferma la ricerca, e la fermano anche i registri bucati — un voto contato su
+  // libri con buchi non decide niente (AR-575: 0,23 dichiarato, ~0,92 vero). `piccolo` no — un
+  // campione magro non è una bocciatura.
+  process.exit(GATE && gateBocciato(v.esito, registriBucati) ? 1 : 0);
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();
