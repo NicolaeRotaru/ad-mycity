@@ -1,8 +1,50 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 19:20
+aggiornato: 2026-08-13 21:05
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **13/8 21:05 — Giro richiesto in chat. Business invariato. Recuperate le scritture lasciate da un passaggio interrotto alle 20:46-20:58, PR aperta solo in parte.**
+> Riconfermato dal vivo con query SQL diretta su Supabase (non da memoria): 1 ordine (mai pagato, 24/6,
+> annullato), 0 pagati totali, 0 pagati negli ultimi 7 giorni, 1 solo venditore (ruolo `seller` su 7 profili),
+> 407 lead commercianti in pipeline (tutti `to_contact`, nessuno segnato come contattato nel DB — Nicola lavora
+> di persona, non passa da qui). North Star: stallo confermato, dentro la pausa concordata con Nicola fino al
+> 24/8-1/9. Non è un allarme.
+>
+> **Limite di sessione, verificato di nuovo e questa volta capito fino in fondo.** In questa sessione (headless,
+> stesso limite di ~35 passaggi precedenti oggi — [[feedback-bash-solo-script-esatti-in-allowlist]]) l'unico
+> `Bash` che gira senza approvazione è: `git status/log/fetch/remote/add/commit/checkout/rebase/stash`, `gh pr
+> create/list/view/auth` (questi ultimi però **negati comunque** quando provati — vedi sotto), `node
+> cervello/pulisci-coda.mjs`, `node cervello/git-pr.mjs`. Tutto il resto — `test-cervello.mjs`,
+> `north-star-check.mjs`, `tasso-chiusura.mjs`, `coerenza-fatti.mjs`, `gate-veri.mjs`, `chiusura-loop.mjs`,
+> persino `node -e` inline — è stato negato, non "in attesa": nessun box di conferma è comparso
+> ([[chat-pannello-non-mostra-box-permessi]]). **Novità di oggi:** anche `gh pr view 714` (esplicitamente
+> allowlistato) è stato negato — l'allowlist non basta da sola in questo tipo di sessione. E `git push origin
+> main` fallisce sempre con `could not read Username for 'https://github.com'`: questa sessione non ha
+> credenziali GitHub, punto. Non è un blocco del lavoro, è un blocco del canale — il push tocca a `giro.sh`/VPS.
+>
+> **Cosa ho chiuso lo stesso (tasso-di-chiusura: chiudere, non cercare).** All'apertura il repo aveva 34 file
+> scritti da un passaggio precedente (il check salute VPS delle 20:46 + sensori + un fix vero mai committato in
+> `censimento-macchina.mjs`/`guardia-viva-check.mjs`). Letto ogni diff per intero prima di muovere niente
+> ([[feedback-non-revertire-senza-diff]]): tutto legittimo, niente da scartare.
+> - **29 file di memoria/dati** (auto-coscienza, `AZIONI-IN-ATTESA.md`, un report salute VPS, uno di
+>   supervisione) committati diretti su `main` — commit `80a51ee50`.
+> - **5 file di codice** (`censimento-macchina.mjs` con le descrizioni delle ~60 skill del pack
+>   marketing/ingegneria arrivate l'11-13/8, `guardia-viva-check.mjs` con un fix vero — escludeva
+>   `.claude/worktrees/` dal censimento delle esecuzioni, altrimenti `permessi-check.mjs` risultava
+>   "fantasma" — più 3 JSON di sensori che il pre-commit hook AR-332 classifica come codice) spostati sul
+>   ramo `fix/recupero-sensori-mappa-macchina-13-8`, commit `10f7d7868`.
+> - **PR non aperta.** `git-pr.mjs` ha rifiutato: il ramo, confrontato con `origin/main` (fermo a 4 commit
+>   indietro perché nessuna sessione recente ha potuto pushare), si porta dietro anche il "diario" della
+>   macchina (`apprendimento.json`, `sentinella-dati.json`...) già committato su `main` ma mai pubblicato.
+>   Il guardiano ha ragione a bloccare: aprire lì la PR mescolerebbe il mio fix col diario di altri passaggi.
+>   Non ho forzato con `--anche-il-diario` (non è voluto). Il ramo resta pronto in locale: la PR si apre da
+>   sola al primo push, quando `origin/main` si riallinea.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. **Serve da Nicola/VPS:**
+> un push da un canale con credenziali GitHub porta online sia i 4 commit di memoria su `main` sia il ramo di
+> fix — dopo, `git-pr.mjs` può aprire la PR senza il falso allarme sul diario. Coda invariata: le card
+> `#17`-`#20` restano da firmare (vedi [[AZIONI-IN-ATTESA]]). Briefing: [[Briefing/2026-08-13]].
 
 > ⚪ **13/8 19:20 — Giro richiesto in chat, ~31ª volta oggi, 10 minuti dopo il passaggio delle 19:10. Nessuna novità.**
 > Riconfermato dal vivo con query SQL diretta: 1 ordine (mai pagato, 24/6, annullato), 0 pagati, 0 negli ultimi

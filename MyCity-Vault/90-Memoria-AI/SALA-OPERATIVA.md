@@ -885,3 +885,8 @@ Assegnazioni (1 mossa per reparto):
 ### 2026-08-13 19:20 — ⚪ Giro richiesto in chat, ~31ª volta oggi, strategia snella
 - 2026-08-13 19:20 · @ad · FATTO · Riconfermato business dal vivo (SQL diretta): 1 ordine mai pagato, 0 pagati, 0 in 7gg, 5 prodotti, 7 profili — identico. Controllata riga per riga [[AZIONI-IN-ATTESA]]: 9 card, tutte "in attesa", nessuna risposta di Nicola dal passaggio delle 19:10.
 - 2026-08-13 19:20 · @ad · PASSO-A · @Nicola — nessuna azione nuova: business fermo per patto fino al 24/8-1/9. Resta da firmare la coda invariata (in cima **#20**, merge PR #714).
+
+### 2026-08-13 21:05 — 🔁 Giro richiesto in chat: recupero scritture pendenti (20:46-20:58) + fix mappa-macchina in PR bloccata
+- 2026-08-13 21:05 · @ad · FATTO · Riconfermato business dal vivo (SQL diretta su Supabase): 1 ordine mai pagato, 0 pagati totali, 1 solo venditore, 407 lead in pipeline tutti `to_contact` — identico. North Star: stallo confermato, pausa fino al 24/8-1/9.
+- 2026-08-13 21:05 · @ad · FATTO · Committati su main (80a51ee50) 29 file di memoria/sensori lasciati da un passaggio interrotto delle 20:46-20:58 (check salute VPS + sentinelle). Spostati su ramo `fix/recupero-sensori-mappa-macchina-13-8` (10f7d7868) i 5 file di codice: descrizioni skill in `censimento-macchina.mjs` + fix vero in `guardia-viva-check.mjs` (escludeva `.claude/worktrees/` dal censimento esecuzioni).
+- 2026-08-13 21:05 · @ad · PASSO-A · @devops-sre/@Nicola — `git-pr.mjs` ha rifiutato di aprire la PR (il ramo si porta dietro il diario non pubblicato di main, `origin/main` è 4 commit indietro: nessuna sessione recente ha potuto pushare, manca la credenziale GitHub). Accodata card #21: serve un push da un canale con credenziali (VPS/Nicola), poi la PR si apre da sola.
