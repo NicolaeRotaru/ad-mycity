@@ -31,9 +31,21 @@ on:
       - "pannello/**"
   workflow_dispatch: {}
 
+# I tre limiti che questo file non aveva (AR-636), messi qui perché il prossimo workflow li copi.
+# `permissions` vuoto: questo job non tocca il repository, chiama solo un URL. Senza il blocco il
+# token della corsa eredita il default del repository — un potere che dal file non si vede è un
+# potere che nessuno toglie. Il gruppo di concorrenza serve perché due push a pannello/** ravvicinati
+# non facciano partire due deploy nella stessa quota Vercel: l'ultimo vince, ed è quello giusto.
+permissions: {}
+
+concurrency:
+  group: deploy-pannello
+  cancel-in-progress: true
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - name: Chiama il Deploy Hook di Vercel
         env:
@@ -43,7 +55,15 @@ jobs:
             echo "::error::Secret VERCEL_DEPLOY_HOOK_URL mancante. Crea il Deploy Hook su Vercel (Settings → Git → Deploy Hooks, branch main) e salvalo come secret del repo — istruzioni in testa a questo file."
             exit 1
           fi
-          code=$(curl -sS -X POST "$HOOK" -o /dev/null -w "%{http_code}")
+          # --max-time: se l'endpoint accetta la connessione e poi tace, senza scadenza la corsa
+          # resta viva fino al tetto del job e l'errore che arriva non dice cosa è successo.
+          # L'esito della curl si LEGGE (l'`if !`), non si butta in un `|| true`: con `bash -e` una
+          # curl scaduta farebbe morire il passo con un errore muto, e un deploy mancato senza
+          # messaggio è indistinguibile da un deploy riuscito finché non lo nota Nicola.
+          if ! code=$(curl -sS -X POST "$HOOK" --max-time 30 -o /dev/null -w "%{http_code}"); then
+            echo "::error::Il Deploy Hook non ha risposto entro 30 secondi (o la connessione è fallita): il deploy NON è partito."
+            exit 1
+          fi
           echo "Deploy Hook chiamato → HTTP $code"
           if [ "$code" -lt 200 ] || [ "$code" -ge 300 ]; then
             echo "::error::Il Deploy Hook ha risposto HTTP $code (quota Vercel esaurita? hook cancellato?)."

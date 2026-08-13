@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
  "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
- "aggiornato": "2026-08-13 17:57",
+ "aggiornato": "2026-08-13 22:10",
  "malattie": [
   {
    "id": "esito-in-una-pipe",
@@ -422,6 +422,53 @@
    ],
    "esenti": [],
    "nota_baseline": "0 misurato il 2026-08-13 17:57 dopo la cura del lotto 37 (AR-629/AR-634): le due istanze erano lib-cadenza.sh:363 e giro.sh:~1584. Il pattern richiede il codice eseguibile (new Date(...)), cosi il commento storico in registra-cadenza.mjs che DESCRIVE il bug non conta come istanza."
+  },
+  {
+   "id": "azione-agganciata-a-un-etichetta",
+   "nome": "Un'azione esterna agganciata a un'etichetta invece che a un commit",
+   "perche_e_grave": "Un tag si sposta, un commit no. Chi controlla (o compromette) il repository dell'azione decide il codice che gira sul runner — con i permessi di QUELLA corsa: nel battito esterno è `issues: write`, cioè il potere di chiudere proprio l'allarme «macchina ferma»; nel deploy è l'accesso al segreto del Deploy Hook. È il meccanismo dell'attacco alla supply chain di marzo 2025, tag ripuntati su un commit malevolo. AR-637: sei usi su sei erano a tag. Il difetto nasce sempre allo stesso modo — il workflow nuovo si copia da quello accanto — quindi la difesa deve stare sul FILE, non nella testa di chi scrive.",
+   "pattern": "uses:\\s*[\\\"']?[A-Za-z0-9_.-]+/[A-Za-z0-9_./-]+@(?![0-9a-fA-F]{40})[^\\s\\n\\\"'#]+",
+   "dove": [
+    ".github"
+   ],
+   "estensioni": [
+    ".yml",
+    ".yaml"
+   ],
+   "baseline": 0,
+   "file_noti": [],
+   "curati": [
+    "battito-esterno.yml · test-cervello.yml · cancello-lotto.yml — sei usi agganciati allo SHA di v4 (lotto 39)"
+   ],
+   "esenti": [],
+   "nota_baseline": "0 dal 2026-08-13 (AR-637). Il tetto qui non basta da solo: il contratto vero lo fa rispettare `node cervello/contratto-workflow.mjs` (regola azione-agganciata-al-commit), che oltre a questo guarda tetto di tempo, permessi, espressioni dentro run: e curl senza scadenza. Questa riga serve a far scattare la spazzata anche se qualcuno stacca quel controllo."
+  },
+  {
+   "id": "porta-laterale-senza-i-freni-della-principale",
+   "nome": "Una porta laterale rimette in gioco un atto che la porta principale protegge",
+   "perche_e_grave": "Il worker sa che un'azione reale interrotta non si riesegue mai da sola: potrebbe essere gia partita (email mandata, payout fatto) senza essere ancora marcata fatta, e rieseguirla vuol dire mandarla due volte a un negozio o a un cliente veri. La regola e scritta in tre posti che la rispettano. Poi esistevano due porte laterali — il bottone «recupera i lavori bloccati» del Pannello e cervello/vps/recupera-lavori-orfani.sh — che prendevano OGNI lavoro in_corso e lo rimettevano in attesa, senza guardare tipo, proprietario ne eta (AR-624). La radice e generale e vale per ogni canale nuovo che scrive nello stesso posto: il freno stava dentro il COMANDO invece che sul DATO, quindi non c'era niente da ereditare. Il pattern cerca chi riporta un lavoro in attesa senza passare dalla decisione condivisa.",
+   "pattern": "\"stato\":\\s*\"in_attesa\"",
+   "dove": [
+    "pannello/src/app",
+    "cervello/vps"
+   ],
+   "estensioni": [
+    ".ts",
+    ".sh"
+   ],
+   "baseline": 0,
+   "file_noti": [],
+   "curati": [
+    "pannello/src/app/api/lavori/recupera/route.ts — passa da decidiRecupero (lotto 39)",
+    "cervello/vps/recupera-lavori-orfani.sh — passa da _recupero_decisione (lotto 39)"
+   ],
+   "esenti": [
+    {
+     "file": "cervello/vps/recupera-lavori-orfani.sh",
+     "perche": "E la PATCH del ramo di DEFAULT del case, cioe l unico raggiunto quando la decisione condivisa ha gia detto «riaccoda». I due rami pericolosi — «riapprova» (azione reale) e «lascia» (lavoro vivo) — escono prima senza scrivere niente, e cervello/test/recupero-due-porte.test.mjs lo verifica leggendo il corpo del case, non la forma del file. Resta contata perche il pattern guarda la stringa, non chi decide: e la differenza fra una porta aperta e una porta con la serratura."
+    }
+   ],
+   "nota_baseline": "0 dal 2026-08-13 (AR-624). Le due porte scrivono ancora in_attesa, ma solo dentro il ramo di default della decisione condivisa, e il pattern non le prende perche il corpo JSON passa da una variabile. Se qualcuno riscrive la PATCH a mano con il corpo letterale, il tetto sale e la spazzata fallisce. Il contratto vero lo tiene cervello/test/recupero-due-porte.test.mjs, che passa la stessa tabella di casi alle due copie e pretende lo stesso verdetto."
   }
  ]
 }

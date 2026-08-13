@@ -288,6 +288,12 @@ ai_build_cmd() {
 # ═══════════════════════════════════════════════════════════════
 OLLAMA_MODEL="${OLLAMA_MODEL:-qwen2.5:3b-instruct}"
 
+# AR-627 — il codice con cui si dice «la quota è finita: qui non ho lavorato». 75 è per convenzione
+# il «riprova più tardi» (EX_TEMPFAIL): chi lo riceve sa che non è un guasto del lavoro ma una porta
+# chiusa che si riapre da sola. Serve un codice SUO e non un generico ≠0 perché il messaggio a Nicola
+# e la retry-policy devono poter distinguere «il motore si è rotto» da «il motore non c'era».
+AI_RC_QUOTA_FALLBACK=75
+
 # 🧼 LA RISPOSTA È LO STDOUT — LO STDERR È RUMORE, E VA NEL LOG (AR-562).
 #
 # Il difetto, visto da Nicola il 10/8 sul Pannello: molte analisi si aprivano con un muro di avvisi
@@ -327,8 +333,25 @@ ai_run_con_fallback_ollama() {
             err="$(cat "$errf" 2>/dev/null || true)"; rm -f "$errf" 2>/dev/null || true
             out="⚠️ [risposta da Ollama locale — motore premium in limite quota]
 $out"
+            # AR-627 — IL PUNTO. Fino al 13/8 qui si teneva l'rc di Ollama: se il modello locale
+            # rispondeva, rc=0, e worker.sh (riga 1523) chiudeva il lavoro «fatto». Ma questo modello
+            # gira SENZA MANI: non scrive file, non apre PR, non tocca il database. Ha chiacchierato,
+            # non ha lavorato. Lo stato «fatto» però guida la coda, la retry-policy e il Pannello — e
+            # il caso peggiore è il recupero delle cadenze: AR-024 riaccoda una cadenza saltata per
+            # quota, il worker la riprende con la quota ANCORA finita, esce «fatto» con una
+            # chiacchierata, e l'idempotenza non la riaccoda mai più. Il paracadute si brucia da solo.
+            # L'avviso qui sopra restava dentro il TESTO, dove nessun programma lo legge.
+            #
+            # Adesso torna un codice suo (75, il «riprova più tardi» di convenzione): la risposta si
+            # consegna lo stesso — è meglio di niente per chi legge — ma nessuno può chiamarla riuscita.
+            rc="$AI_RC_QUOTA_FALLBACK"
         else
             echo "[$(date '+%Y-%m-%d %H:%M:%S')] Motore $(ai_engine) in limite quota — Ollama non installato, nessun fallback." >&2
+            # Il fratello dello stesso difetto, nello stesso `if`: la CLI può uscire con rc=0 e il
+            # messaggio di quota dentro lo stdout. Senza questa riga il lavoro si chiuderebbe «fatto»
+            # portando come risultato l'avviso di quota — che è esattamente il caso di AR-627, solo
+            # senza Ollama di mezzo.
+            [ "$rc" -eq 0 ] && rc="$AI_RC_QUOTA_FALLBACK"
         fi
     fi
 

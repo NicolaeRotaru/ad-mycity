@@ -11820,12 +11820,10 @@
         "comando": "node -e 'const r=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json\");const ok=[\"confermato\",\"scelta_ragionata\",\"da_verificare\",\"scartato\"];const bad=(r.entita||[]).filter(e=>!ok.includes(e.stato));console.log(bad.length+\" stati fuori contratto: \"+bad.map(e=>e.nome+\"=\"+e.stato).join(\", \"));process.exit(bad.length?1:0)'"
       },
       "verifica": {
-        "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "7 stati fuori contratto: Casa Linda=demo, Tigellabella=escluso, Trattoria La Forchetta=escluso, Le Tre Ganasce da Andrea=escluso, Osteria Ca"
+        "comando": "node cervello/test/contratto-valori.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): le sette entità sono migrate a `scartato`, l'unico dei quattro stati ammessi che le descrive, col perché di ognuna conservato nella nota. La radice era un'altra e vale più della migrazione: `valida-contratti.mjs` controllava i NOMI dei campi e mai i VALORI, quindi nessun cancello poteva accorgersene — ora c'è `valoriFuoriContratto()` e il contratto dichiara l'elenco degli stati. Trovato riparando, e più grave della scheda: `allocazione-check.mjs` escludeva `demo` ma NON `escluso`, quindi i sei ristoranti che Nicola aveva escluso il 18/7 rientravano nel conteggio dei negozi candidabili a ogni giro. Non-vacuità: rimesso `escluso` su un'entità → test rosso."
     },
     {
       "id": "AR-578",
@@ -11864,9 +11862,10 @@
         "comando": "node -e 'const s=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json\").serie;const r=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json\");const ok=[\"completa\",\"sonda\"];const bad=s.filter(p=>!ok.includes(p.tipo)).length+(ok.includes(r.tipo)?0:1);console.log(bad+\" valori di tipo fuori contratto\");process.exit(bad?1:0)'"
       },
       "verifica": {
-        "tipo": "comando"
+        "comando": "node cervello/test/contratto-valori.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): qui ha comandato il codice, non la scheda. I valori in più non erano errori: `auto-fix.mjs` marca i punti di burn-down (che hanno `voto_riportato: true` e NON sono misure di salute) e `foto-radiografia.mjs` marca la radiografia totale — informazione vera che il contratto in prosa non prevedeva. Il contratto è stato allargato a ciò che i programmi scrivono davvero (serie: completa|sonda|auto-fix · radiografia: completa|sonda|radiografia-totale), in auto-coscienza.md e nel validatore, e una prova tiene allineati i due elenchi leggendo le righe `tipo:` dei tre programmi che scrivono. Il quinto valore inventato adesso lo ferma il cancello. Non-vacuità: ristretto il contratto → test rosso."
     },
     {
       "id": "AR-580",
@@ -12791,12 +12790,10 @@
         "comando": "bash -c 'S=$(mktemp -d); printf \"%s\\n\" \"#!/usr/bin/env bash\" \"p=0\" \"for a in \\\"\\$@\\\"; do case \\\"\\$a\\\" in *stato=eq.in_corso*) echo \\\"[{\\\\\\\"id\\\\\\\":\\\\\\\"AZ1\\\\\\\",\\\\\\\"tipo\\\\\\\":\\\\\\\"esegui-azione\\\\\\\",\\\\\\\"updated_at\\\\\\\":\\\\\\\"2026-08-12T00:00:00Z\\\\\\\"}]\\\"; exit 0;; PATCH) p=1;; esac; done\" \"[ \\\"\\$p\\\" = 1 ] && printf \\\"%s\\\\n\\\" \\\"\\$*\\\" >> \\\"\\$MOCKLOG\\\"\" \"echo \\\"[]\\\"\" > \"$S/curl\"; chmod +x \"$S/curl\"; : > \"$S/log\"; MOCKLOG=\"$S/log\" PATH=\"$S:$PATH\" REPO=\"$S\" SUPABASE_URL=http://mock SUPABASE_SERVICE_KEY=k bash /home/user/ad-mycity/cervello/vps/recupera-lavori-orfani.sh >/dev/null 2>&1; if grep -q in_attesa \"$S/log\"; then echo \"ROSSO: azione reale rimessa in coda senza nuova firma\"; exit 1; else echo verde; fi'"
       },
       "verifica": {
-        "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "ROSSO: azione reale rimessa in coda senza nuova firma"
+        "comando": "node cervello/test/recupero-due-porte.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): la decisione di chi si puo rimettere in coda vive adesso in un posto solo — pannello/src/lib/recupero-lavoro.ts (decidiRecupero) e la sua copia bash cervello/lib-recupero.sh — e le due porte laterali la chiamano entrambe. Tre esiti: «riapprova» per le azioni reali (esegui-azione, proposta: mai riaccodabili, potrebbero essere gia partite), «lascia» per i lavori con un proprietario e freschi (li sta eseguendo un worker: riaccodarli significa doppia esecuzione E l esito del vivo perso, perche la sua scrittura filtra su stato=in_corso), «riaccoda» per il resto. Cio che non tocca lo DICE, invece di saltarlo in silenzio: un bottone che sembra non funzionare insegna a sbloccare i lavori a mano, cioe ad aggirare il freno. Le due copie non possono divergere: il test passa la stessa tabella di casi a tutte e due e pretende lo stesso verdetto. Non-vacuita: tolto il ramo delle azioni reali (in TypeScript e in bash, due mutazioni) → test rosso."
     },
     {
       "id": "AR-625",
@@ -12813,12 +12810,10 @@
         "comando": "bash -c 'eval \"$(sed -n \"/^_orfano_decisione()/,/^}/p\" /home/user/ad-mycity/cervello/worker.sh)\"; if [ \"$(_orfano_decisione 1 all all 0 4 60)\" = procedi ]; then echo \"ROSSO: lavoro VIVO di 0 minuti della mia stessa corsia viene recuperato subito (host:pid ignorati, nessuna grazia)\"; exit 1; else echo verde; fi'"
       },
       "verifica": {
-        "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "ROSSO: lavoro VIVO di 0 minuti della mia stessa corsia viene recuperato subito (host:pid ignorati, nessuna grazia)"
+        "comando": "node cervello/test/recupero-due-porte.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): il recupero orfani riceve l owner INTERO (corsia:host:pid) invece della sola corsia, piu il verdetto di _gemello_vivo — che sullo stesso host chiede a kill -0 se quel processo esiste ancora. Stessa corsia e pid vivo → lascio stare (e il gemello, non un mio orfano); pid morto → procedo subito, senza far aspettare la coda; host diverso o riga vecchia senza pid → non lo posso sapere e vale la grazia per eta, dichiarata come stima. La prova di due-worker.bats che diceva «orfano della mia lane anche se freschissimo → PROCEDI» era il difetto scritto come regola: riscritta col perche. Non-vacuita: rotto il ramo del pid → test rosso. La prima stesura del test NON era rossa (a zero minuti la grazia salvava comunque il lavoro): il caso e stato rifatto a trenta minuti, oltre la grazia — trovato dalla mutazione, non da me."
     },
     {
       "id": "AR-626",
@@ -12854,12 +12849,10 @@
         "comando": "S=$(mktemp -d); printf '#!/bin/bash\\necho ok-locale\\nexit 0\\n' >\"$S/ollama\"; printf '#!/bin/bash\\necho \"usage limit reached\" >&2\\nexit 1\\n' >\"$S/cli-finta\"; chmod +x \"$S\"/*; cd /home/user/ad-mycity && PATH=\"$S:$PATH\" bash -c '. cervello/motore-ai.sh; ai_run_con_fallback_ollama 20 \"metabolizza e scrivi memoria\" cli-finta >/dev/null 2>&1; rc=$?; [ $rc -ne 0 ] || { echo \"ROSSO: quota finita ma rc=0 → worker.sh:1486 lo chiude FATTO senza esecuzione\"; exit 1; }; echo VERDE'"
       },
       "verifica": {
-        "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "ROSSO: quota finita ma rc=0 → worker.sh:1486 lo chiude FATTO senza esecuzione"
+        "comando": "node cervello/test/quota-e-patch-a-vuoto.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): ai_run_con_fallback_ollama torna 75 (il «riprova piu tardi» di convenzione) quando la quota e finita — sia col modello locale che risponde, sia senza Ollama quando la CLI esce 0 col messaggio di quota nello stdout (il fratello nello stesso if, non citato dalla scheda). La risposta si consegna comunque, ma nessuno puo chiamarla riuscita: worker.sh riconosce quel codice e chiude in errore con una frase che spiega che il modello locale parla ma non ha le mani. Cosi il recupero della cadenza non si brucia: resta riaccodabile. Non-vacuita: tolta la riga del codice → test rosso. La riproduzione della scheda ora esce verde."
     },
     {
       "id": "AR-628",
@@ -12876,9 +12869,10 @@
         "umano": "Sul VPS (o clone con remoto raggiungibile): mettersi a HEAD staccato (git checkout HEAD~0), modificare un file in MyCity-Vault/, lanciare bash cervello/ritmo.sh mattino con RITMO_FORCE=1, poi verificare: «git log --all --oneline | grep -c 'recupero: scritture pendenti'» deve trovarlo raggiungibile; se serve «git fsck --lost-found» per vedere il commit orfanato. Se il commit c'è solo tra i dangling, il difetto è confermato."
       },
       "verifica": {
-        "tipo": "umano"
+        "comando": "node cervello/test/testa-staccata-non-perde-memoria.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): il ramo «HEAD staccato» non ha piu un percorso suo in nessuna delle tre copie. Prima faceva checkout -B ramo FETCH_HEAD e orfanava il commit di recupero creato poche righe sopra; adesso si riaggancia a QUESTO HEAD — che quel commit ce l ha — e poi passa dalla stessa scala rebase → merge di tutti gli altri. Il caso staccato non e piu un caso a parte, quindi non puo piu essere dimenticato in una copia sola: era esattamente cosi che AR-028 aveva curato una porta su due. La prova gira su un repository git vero (remoto + locale, HEAD davvero staccato, un briefing da perdere) ed ESEGUE il blocco estratto dai tre script, non una sua riscrittura. Non-vacuita: rimesso FETCH_HEAD nel checkout di ritmo.sh → test rosso."
     },
     {
       "id": "AR-629",
@@ -12937,12 +12931,10 @@
         "comando": "bash -c 'S=$(mktemp -d) && mkdir -p \"$S/.git\" && cd \"$S\" && ts(){ date +%H:%M:%S; }; curl(){ return 0; }; AUTH=(); REPO=\"$S\"; SCRIPT_DIR=/home/user/ad-mycity/cervello; SUPABASE_URL=http://finto; . /home/user/ad-mycity/cervello/lib-esito-lavoro.sh; if scrivi_esito_lavoro 999 \"{\\\"stato\\\":\\\"fatto\\\"}\" 2>/dev/null && [ ! -f \"$S/.git/mycity-esito-ricovero/999.json\" ]; then echo \"ROSSO: esito dichiarato scritto, nessun ricovero, con 0 righe toccate\"; exit 1; else echo verde; fi' — lo stub curl che esce 0 modella il comportamento documentato di PostgREST (2xx anche a filtro vuoto). Eseguita ora: ROSSA."
       },
       "verifica": {
-        "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "/bin/sh: 1: Syntax error: \"(\" unexpected"
+        "comando": "node cervello/test/quota-e-patch-a-vuoto.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): la PATCH chiede Prefer: return=representation e il verdetto lo da patchConfermata() in esito-scrittura.mjs — lo stesso modulo puro che cura questa malattia negli altri tre punti. Senza quell intestazione il corpo e vuoto per contratto e «zero righe toccate» resterebbe indistinguibile da «scritto». Tre esiti invece di due: scritto · non arrivato (riprovabile) · zero righe (definitivo, si ricovera SUBITO senza bruciare quattordici secondi di ritentativi inutili — lo stato non torna in_corso da solo). Il banco di prova di AR-397 e stato aggiornato per rispondere come il vero. Non-vacuita: fatto tornare «confermata: true» sulle zero righe → test rosso."
     },
     {
       "id": "AR-632",
@@ -13028,9 +13020,10 @@
         "umano": "Un occhio umano apra i tre file con un job: in test-cervello.yml (riga 51) e cancello-lotto.yml (riga 46) c'è `timeout-minutes: 20`; nel job `battito` di battito-esterno.yml (righe 32-34) la riga non c'è. Controprova sul comportamento reale: su GitHub → Actions → una corsa di «Battito esterno» appesa mostrerebbe il limite di 360 minuti (default). Da questa sessione GitHub Actions non si può far girare, quindi la prova che gira non è scrivibile da qui: lo dichiaro."
       },
       "verifica": {
-        "tipo": "umano"
+        "comando": "node cervello/test/contratto-workflow.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): il job `battito` ha `timeout-minutes: 5` — cinque minuti bastano per una lettura di file e una chiamata a gh, e con `cancel-in-progress: false` un job appeso non tiene più in coda i controlli orari dopo di lui. La radice però non era la riga mancante: era che nessuno controllava i limiti di un workflow. Il contratto ora è codice — cervello/contratto-workflow.mjs, cinque regole (tetto di tempo, permessi, azioni al commit, espressioni dentro run:, scadenza sulla chiamata) — e il test le esegue sui file veri. Non-vacuità: tolto il tetto → test rosso."
     },
     {
       "id": "AR-636",
@@ -13046,9 +13039,10 @@
         "tipo": "grep"
       },
       "verifica": {
-        "tipo": "grep"
+        "comando": "node cervello/test/contratto-workflow.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): deploy-pannello.yml ha `permissions: {}` (non tocca il repository, chiama solo un URL), `timeout-minutes: 5`, un gruppo di concorrenza e `--max-time 30` sulla curl. L'esito della curl si LEGGE con un `if !` e dà un messaggio vero: con `bash -e` una curl scaduta faceva morire il passo in silenzio, e un deploy mancato senza messaggio è indistinguibile da uno riuscito. Le quattro clausole del difetto sono coperte una per una dal contratto eseguibile. Non-vacuità: tolto `permissions: {}` → test rosso."
     },
     {
       "id": "AR-637",
@@ -13064,9 +13058,10 @@
         "tipo": "grep"
       },
       "verifica": {
-        "tipo": "grep"
+        "comando": "node cervello/test/contratto-workflow.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): i sei usi di actions/checkout e actions/setup-node sono agganciati allo SHA di v4 (11d5960… e 49933ea…, risolti con git ls-remote), col tag in commento per sapere cosa aggiornare. La malattia è censita in cervello/malattie.json (`azione-agganciata-a-un-etichetta`, tetto 0, .github/**.yml): il settimo uso a tag fa fallire la spazzata. Non-vacuità: rimesso @v4 → test rosso."
     },
     {
       "id": "AR-638",
@@ -13083,9 +13078,10 @@
         "umano": "Un occhio umano guardi le righe 74, 88 e 100-101: gli output di step compaiono dentro `run:` via `${{ }}` invece di passare da `env:` (come fa correttamente `ISSUE_APERTA` alla riga 56). Una prova che gira richiederebbe di iniettare un titolo malevolo attraverso tutta la catena memoria→battito→issue su GitHub Actions, non eseguibile da qui."
       },
       "verifica": {
-        "tipo": "umano"
+        "comando": "node cervello/test/contratto-workflow.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): titolo e numero della issue passano da `env:` (TITOLO, NUMERO) e lo script legge $TITOLO / $NUMERO — `env:` non è uno script, quindi il valore non viene mai interpretato dalla shell. Coperte tutte e tre le righe (74, 88, 100-101), non solo quella citata per prima. La regola `dato-non-fidato-nel-terminale` distingue `env:` da `run:`, e il test lo prova nei due sensi. Non-vacuità: rimessa l'espressione dentro gh issue create → test rosso."
     },
     {
       "id": "AR-639",
@@ -13446,6 +13442,50 @@
       "chiuso_il": "2026-08-13 21:35",
       "chiuso_come": "node cervello/test/test-cervello.test.mjs → exit 0, e il fantasma creato davvero non entra nell'elenco",
       "corroborata": true
+    },
+    {
+      "id": "AR-659",
+      "titolo": "La lista di quali lavori sono «azioni vere» sta in cinque posti con quattro nomi diversi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 22:15",
+      "origine": "secondo giro del lotto 39 (riparando AR-624)",
+      "dove": "cervello/sentinella-lavori.mjs:31 (TIPI_AZIONE) · cervello/pulisci-coda.mjs:19 (TIPI_PROTETTI) · pannello/src/lib/recupero-lavoro.ts:23 (TIPI_AZIONE_REALE) · cervello/worker.sh:1031 e cervello/lib-recupero.sh:28 (case \" esegui-azione proposta \") · cervello/retry-policy.mjs:78 (TIPI_AZIONE_REALE, stesso nome MA contenuto diverso: solo esegui-azione)",
+      "descrizione": "«Quali tipi di lavoro sono azioni che toccano il mondo reale» è la domanda da cui dipende la difesa contro il doppio invio: se un tipo non è nella lista, quel lavoro torna riaccodabile da ogni porta. La risposta è scritta in cinque punti sotto quattro nomi, e due file portano lo stesso nome (TIPI_AZIONE_REALE) con contenuti diversi — in retry-policy la lista ha un elemento solo, e lì è voluto perché la domanda è un altra («quale tipo aziona davvero le mani»), ma il nome uguale rende la differenza invisibile a chi legge. Due delle cinque copie le ho aggiunte io nel lotto 39 riparando AR-624: erano il modo di far arrivare la regola alle due porte laterali, e il costo dichiarato è questo.",
+      "impatto": "Il giorno che nasce un sesto tipo di lavoro che manda qualcosa a un negozio o a un cliente, verrà aggiunto in uno o due posti su cinque — e dalle porte rimaste indietro tornerà riaccodabile da solo, cioè spedibile due volte senza la firma di Nicola. È lo stesso modo in cui AR-624 è nato.",
+      "causa_radice": "Non esiste un posto solo dove la macchina dica cosa è un atto verso il mondo reale: ogni file che ha avuto bisogno della risposta se l è riscritta. Manca il modulo condiviso (per JS/TS) e la sua controparte sourceabile per la shell, come è stato fatto per la decisione di recupero.",
+      "fix_proposto": "🟡 da firmare: un modulo solo (es. cervello/tipi-lavoro.mjs) che esporta TIPI_AZIONE_REALE e la sua copia bash generata o sourceabile; i cinque punti lo importano. retry-policy tiene la sua lista ma con un NOME diverso (es. TIPI_CON_LE_MANI) e il perché scritto. Nel frattempo le copie sono pinzate insieme da cervello/test/recupero-due-porte.test.mjs, che le legge tutte e pretende lo stesso contenuto.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node cervello/test/recupero-due-porte.test.mjs"
+      },
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Il pin (le copie non possono divergere) è già installato e provato. Quello che resta APERTO è la consolidazione vera in un modulo solo: finché sono cinque, la difesa dipende da una prova che le confronta invece che dal fatto che siano una. Si chiude quando i cinque punti importano lo stesso elenco."
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-660",
+      "titolo": "Ventisei prove scritte in bats non le esegue nessuno: né la suite, né il cancello, né i workflow",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 22:20",
+      "origine": "terzo giro del lotto 39 (modificando due-worker.bats per AR-625)",
+      "dove": "cervello/test/*.bats (26 file) · cervello/test-cervello.mjs (raccoglie solo *.test.mjs) · cervello/cancello-lotto.mjs:245 (accetta .bats come PERCORSO di una prova, ma non lo lancia) · .github/workflows/test-cervello.yml e cancello-lotto.yml (nessuno chiama bats)",
+      "descrizione": "Ventisei file .bats vivono in cervello/test/ e nessun cancello li esegue. La suite (test-cervello.mjs) raccoglie solo *.test.mjs; i due workflow lanciano la suite e il cancello; il cancello del lotto accetta un .bats come percorso valido dentro una verifica, ma non ha nessun motore che lo faccia girare — e infatti oggi ZERO difetti del cantiere hanno un .bats come prova. In questa immagine bats non e nemmeno installato. Misurato riparando AR-625: ho modificato due-worker.bats (tolta la prova che asseriva il comportamento sbagliato, aggiunte quattro nuove) e nessun cancello ha potuto dirmi se passassero — la copertura vera e arrivata riscrivendo gli stessi casi in un .test.mjs che shella in bash.",
+      "impatto": "E lo stesso modo di fallire che l asticella e nata per impedire, un piano piu in la: una prova che non gira non e una prova, e ventisei file danno la sensazione di una copertura che non esiste. Peggio: chi modifica uno script bash coperto SOLO da un .bats crede di avere una rete e non ce l ha — ed e la condizione in cui AR-397 e AR-399 erano sopravvissuti a piu radiografie.",
+      "causa_radice": "La suite e nata per Node e raccoglie per estensione (*.test.mjs). I .bats sono arrivati dopo, da lotti che avevano bisogno di provare la shell, e nessuno ha agganciato un esecutore: il collegamento fra «ho scritto la prova» e «qualcuno la fa girare» e rimasto implicito. Nessun guardiano misura quante prove esistono contro quante ne vengono eseguite, quindi la differenza puo crescere senza che si veda.",
+      "fix_proposto": "🟡 da firmare, due pezzi. ① Un esecutore: test-cervello.mjs raccoglie anche i .bats e li lancia se `bats` c e, dichiarando ⚪ (non verde) quando manca — e i due workflow lo installano con una riga. ② Un guardiano che conti prove-scritte contro prove-eseguite e fallisca se la differenza cresce, cosi la prossima famiglia di prove non agganciate si vede subito. Alternativa piu economica se bats non si vuole in CI: portare i .bats alla forma che gira gia — un .test.mjs che esegue blocchi bash veri, come fanno recupero-due-porte.test.mjs e testa-staccata-non-perde-memoria.test.mjs.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "bash -c 'cd /home/user/ad-mycity; n=$(ls cervello/test/*.bats 2>/dev/null | wc -l); e=$(grep -rlE \"bats +[^ ]+\\.bats|command -v bats\" cervello/test-cervello.mjs cervello/cancello-lotto.mjs .github/workflows/ 2>/dev/null | wc -l); echo \"$n prove bats, $e esecutori\"; [ \"$e\" -gt 0 ] || { echo \"ROSSO: nessun cancello le esegue\"; exit 1; }'"
+      },
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Non toccato dal lotto 39: e di famiglia diversa (copertura delle prove, non esito non confermato), e allargare il lotto a meta e il modo classico di non finirlo. Si chiude quando un cancello li esegue davvero — o quando i 26 file sono stati portati alla forma che gira."
+      },
+      "nato_come": "scoperta"
     }
   ],
   "meta": {

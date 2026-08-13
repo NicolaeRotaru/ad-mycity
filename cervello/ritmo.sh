@@ -113,21 +113,28 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
       sleep 2
     done
     if [ "$_fetch_ok" = 1 ]; then
-      if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo HEAD)" = "$branch" ]; then
-        if git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
-          echo "[$(ts)] Ritmo: allineato a origin/${branch} via rebase (scritture locali preservate)."
-        else
-          git rebase --abort 2>/dev/null || true
-          if git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
-            echo "[$(ts)] Ritmo: allineato a origin/${branch} via merge (rebase in conflitto)."
-          else
-            git merge --abort 2>/dev/null || true
-            echo "[$(ts)] WARN: rebase/merge su ${branch} in conflitto — continuo col locale, il push finale riproverà." >&2
-          fi
-        fi
+      # AR-628 — il ramo «HEAD staccato» era rimasto DISTRUTTIVO in tutte e tre le copie (qui, in
+      # giro.sh e in monitora.sh): faceva `checkout -B "$branch" FETCH_HEAD`, cioè spostava il ramo
+      # sul remoto ORFANANDO il commit di recupero creato dieci righe più sopra — nessun ref lo
+      # puntava più, e il log stampava «HEAD portato su main» come se fosse tutto a posto. Che HEAD
+      # staccato succeda davvero sul VPS lo racconta il repo stesso: trentuno ore con «## HEAD (no
+      # branch)» il 12/8. La cura di AR-028 copriva solo il ramo in cui HEAD era già su main.
+      # Adesso il caso staccato non ha più un percorso suo: si RIAGGANCIA a questo HEAD — che porta
+      # il commit di recupero — e poi passa dalla stessa scala rebase → merge di tutti gli altri.
+      if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo HEAD)" != "$branch" ]; then
+        git checkout -B "$branch" 2>/dev/null || true
+        echo "[$(ts)] Ritmo: HEAD era staccato → riagganciato a ${branch} tenendo i commit locali (AR-628)."
+      fi
+      if git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
+        echo "[$(ts)] Ritmo: allineato a origin/${branch} via rebase (scritture locali preservate)."
       else
-        git checkout -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -B "$branch" 2>/dev/null || true
-        echo "[$(ts)] Ritmo: HEAD portato su ${branch} da origin/${branch}."
+        git rebase --abort 2>/dev/null || true
+        if git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
+          echo "[$(ts)] Ritmo: allineato a origin/${branch} via merge (rebase in conflitto)."
+        else
+          git merge --abort 2>/dev/null || true
+          echo "[$(ts)] WARN: rebase/merge su ${branch} in conflitto — continuo col locale, il push finale riproverà." >&2
+        fi
       fi
     else
       echo "[$(ts)] WARN: fetch di ${branch} fallito — continuo col codice/memoria su disco." >&2

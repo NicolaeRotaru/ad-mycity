@@ -73,22 +73,23 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
       sleep 2
     done
     if [ "$_fetch_ok" = 1 ]; then
+      # AR-628 — vedi giro.sh: il ramo «HEAD staccato» orfanava il commit di recupero appena creato.
+      # Qui si riaggancia a QUESTO HEAD e poi si passa dalla stessa scala rebase → merge.
       _cur="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo HEAD)"
-      if [ "$_cur" = "$branch" ]; then
-        if git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
-          echo "[$(ts)] Ramo: allineato a origin/${branch} via rebase (commit locali preservati)."
-        else
-          git rebase --abort 2>/dev/null || true
-          if git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
-            echo "[$(ts)] Ramo: allineato a origin/${branch} via merge (rebase in conflitto)."
-          else
-            git merge --abort 2>/dev/null || true
-            echo "[$(ts)] WARN: rebase/merge su ${branch} in conflitto — continuo col locale." >&2
-          fi
-        fi
+      if [ "$_cur" != "$branch" ]; then
+        git checkout -B "$branch" 2>/dev/null || true
+        echo "[$(ts)] Ramo: HEAD era staccato → riagganciato a ${branch} tenendo i commit locali (AR-628)."
+      fi
+      if git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
+        echo "[$(ts)] Ramo: allineato a origin/${branch} via rebase (commit locali preservati)."
       else
-        git checkout -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -B "$branch" 2>/dev/null || true
-        echo "[$(ts)] Ramo: HEAD portato su ${branch} da origin/${branch}."
+        git rebase --abort 2>/dev/null || true
+        if git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
+          echo "[$(ts)] Ramo: allineato a origin/${branch} via merge (rebase in conflitto)."
+        else
+          git merge --abort 2>/dev/null || true
+          echo "[$(ts)] WARN: rebase/merge su ${branch} in conflitto — continuo col locale." >&2
+        fi
       fi
     else
       echo "[$(ts)] WARN: fetch di ${branch} fallito — continuo col codice/memoria sul disco." >&2

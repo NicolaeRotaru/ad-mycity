@@ -34,7 +34,7 @@ const DIR = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 
 // CONTRATTO: per ogni file, i campi obbligatori e i campi VIETATI (alias non canonici).
 // `salute` descrive lo schema canonico del blocco salute_macchina letto dal Pannello.
-const CONTRATTO = {
+export const CONTRATTO = {
   "auto-analisi.json": {
     obbligatori: ["data"],
     // AR-212 — gli alias che SPENGONO informazione nella Cabina. Il giro scriveva
@@ -65,17 +65,52 @@ const CONTRATTO = {
       vietati: ["supabase_marketplace", "supabase_memoria"], // AR-043: alias che spengono i tile
     },
   },
-  "storico-salute.json": { obbligatori: ["serie"] },
+  "storico-salute.json": {
+    obbligatori: ["serie"],
+    // AR-579 — il tipo di visita. Il contratto in prosa ne ammetteva due (`completa|sonda`) e i
+    // programmi ne scrivevano quattro: `auto-fix.mjs` marca i punti di burn-down dopo le chiusure,
+    // `foto-radiografia.mjs` marca la radiografia totale. Fra la prosa e il codice comanda il codice
+    // (i due valori in più sono informazione vera: un punto «auto-fix» NON è una misura di salute,
+    // ha `voto_riportato: true`, e chi disegna il trend deve poterlo distinguere). Quello che NON
+    // deve più succedere è il quinto valore inventato in silenzio: da qui in poi lo ferma il cancello.
+    valori: [{
+      campo: "serie[].tipo",
+      ammessi: ["completa", "sonda", "auto-fix"],
+      perche: "chi raggruppa la serie per tipo di visita perde i punti con un'etichetta che non conosce",
+    }],
+  },
   "cantiere-difetti.json": { obbligatori: ["difetti"] },
   // AR-213 — il contratto copriva TRE file su venticinque, e gli altri ventidue passavano in
   // silenzio (`if (!regola) continue`). È il motivo per cui AR-212 è arrivato fino alla Cabina: il
   // cancello che doveva intercettarlo non guardava quel campo, e nemmeno quel file.
   // Qui ci sono i file che il Pannello LEGGE DAVVERO — ricavati grepando pannello/src, non a memoria.
-  "auto-radiografia.json": { obbligatori: ["data", "dimensioni"] },
+  "auto-radiografia.json": {
+    obbligatori: ["data", "dimensioni"],
+    // AR-579, l'altra metà: la radiografia totale si firmava `radiografia-totale` mentre il contratto
+    // in prosa ammetteva solo `completa|sonda`. Stessa scelta: il valore vero entra nel contratto.
+    valori: [{
+      campo: "tipo",
+      ammessi: ["completa", "sonda", "radiografia-totale"],
+      perche: "il Pannello e il trend distinguono la visita profonda dalla sonda proprio da questo campo",
+    }],
+  },
   "apprendimento.json": { obbligatori: ["lezioni"], vietati: { insegnamenti: "lezioni", regole: "principi" } },
   "auto-miglioramento.json": { obbligatori: [] },
   "calibrazione.json": { obbligatori: ["registro"], vietati: { previsioni: "registro" } },
-  "registro-realta.json": { obbligatori: ["entita"], vietati: { entità: "entita", soggetti: "entita" } },
+  "registro-realta.json": {
+    obbligatori: ["entita"],
+    vietati: { entità: "entita", soggetti: "entita" },
+    // AR-577 — qui comanda il contratto, non il codice, e il motivo è il danno misurato: sette entità
+    // su ventisette portavano `demo` o `escluso`, valori che il registro anti-invenzione non prevede.
+    // `allocazione-check.mjs` conosceva `demo` ma NON `escluso`: i sei ristoranti che Nicola aveva
+    // escluso il 18/7 («i ristoranti non sono il nostro target») rientravano nel conteggio dei negozi
+    // candidabili a ogni giro. Una difesa nata contro i negozi inventati che ricontava gli scartati.
+    valori: [{
+      campo: "entita[].stato",
+      ammessi: ["confermato", "scelta_ragionata", "da_verificare", "scartato"],
+      perche: "il Pannello e il cancello di allocazione ragionano per stato: un valore fuori elenco esce da ogni filtro e da ogni conteggio",
+    }],
+  },
   "sensori-cecita.json": { obbligatori: ["sensori"] },
   "coerenza-fatti.json": { obbligatori: ["esito"] },
   "chiusura-loop.json": { obbligatori: [] },
@@ -120,8 +155,46 @@ export function correggiAlias(dati, regola) {
   return fatti;
 }
 
+/**
+ * AR-577 · AR-579 — il contratto controllava i NOMI dei campi e mai i VALORI.
+ *
+ * È la stessa malattia di AR-212 vista un piano sotto: lì un campo rinominato spegneva una sezione
+ * della Cabina; qui un VALORE inventato esce da ogni filtro che ragiona per stato — e non spegne
+ * niente, il che è peggio, perché non si vede. Il caso misurato: sei ristoranti che Nicola aveva
+ * escluso il 18/7 restavano dentro al conteggio dei negozi candidabili, perché `escluso` non era
+ * uno dei quattro stati che il cancello di allocazione conosce.
+ *
+ * Il percorso si scrive `campo` oppure `lista[].campo`: basta a coprire i contratti veri, e un
+ * risolutore generico qui sarebbe codice che nessun caso esercita.
+ *
+ * @param {any} dati il JSON già letto
+ * @param {{campo:string, ammessi:string[], perche:string}[]} regole
+ * @returns {string[]} un problema per ogni valore fuori elenco, già scritto per un umano
+ */
+export function valoriFuoriContratto(dati, regole) {
+  const problemi = [];
+  for (const r of regole || []) {
+    const [testa, coda] = r.campo.includes("[].") ? r.campo.split("[].") : [null, r.campo];
+    const voci = testa === null
+      ? [{ dove: r.campo, valore: dati?.[coda] }]
+      : (Array.isArray(dati?.[testa]) ? dati[testa] : []).map((v, i) => ({
+          dove: `${testa}[${i}]${v && v.nome ? ` (${v.nome})` : ""}.${coda}`,
+          valore: v?.[coda],
+        }));
+    for (const v of voci) {
+      if (v.valore === undefined) continue; // campo assente: se è obbligatorio lo dice `obbligatori`
+      if (r.ammessi.includes(v.valore)) continue;
+      problemi.push(
+        `${v.dove} = "${v.valore}" è fuori contratto (ammessi: ${r.ammessi.join(", ")}). ${r.perche}.`,
+      );
+    }
+  }
+  return problemi;
+}
+
 function valida(nomeFile, dati, regola) {
   const problemi = [];
+  problemi.push(...valoriFuoriContratto(dati, regola.valori));
   for (const req of regola.obbligatori || []) {
     if (!(req in dati)) problemi.push(`campo obbligatorio mancante: "${req}"`);
   }
