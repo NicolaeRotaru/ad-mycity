@@ -8844,7 +8844,7 @@
     "devops-sre"
    ],
    "reparto": "@AD",
-   "confidenza": 0.75,
+   "confidenza": 0.6,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -8852,7 +8852,7 @@
    "ultima_conferma": "2026-07-09 01:40",
    "_evidenza_2": "ESTENSIONE stessa notte (chat 9/7 ~01:40, tabella `conversazioni`): dopo che l'AD aveva detto «ti compare un permesso da approvare», Nicola chiede «vado io dentro azioni approvo, è questo che vuoi dirmi con il fare un click?» — pensa che il «click» sia entrare nella scheda **Azioni** del Pannello e approvare una card lì. Verità: il permesso `supabase-memoria` è un **prompt di sessione IN CHAT** (terza superficie), NON una card della coda «Azioni»/«Da approvare» del Pannello. Conferma il ROOT di questa lezione: Nicola assume che OGNI approvazione passi dalla coda del Pannello, mentre le superfici sono TRE distinte — ① card «Da approvare» = azioni sul mondo reale (email/DB/spesa); ② prompt permesso in-chat = autorizzare l'AD a eseguire un tool in questa sessione (MCP/Bash); ③ push su main = pubblicare il codice già committato. **Regola/fix riusabile generalizzato:** quando chiedo un OK dico SEMPRE, senza aspettare, DOVE appare — «non è nel Pannello: qui in chat ti esce una finestrella `<nome-permesso>` da approvare» vs «è una card in Azioni» vs «è solo il push». Non dire mai «approva» senza dire su quale delle tre superfici.",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0709-63",
@@ -8867,14 +8867,14 @@
     "frontend-dev"
    ],
    "reparto": "@AD",
-   "confidenza": 0.73,
+   "confidenza": 0.58,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-09",
    "ultima_conferma": "2026-07-09 01:05",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0709-62",
@@ -8889,14 +8889,14 @@
     "builder-automazioni"
    ],
    "reparto": "@AD",
-   "confidenza": 0.75,
+   "confidenza": 0.6,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-09",
    "ultima_conferma": "2026-07-09 01:05",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0709-61",
@@ -8961,14 +8961,14 @@
     "security"
    ],
    "reparto": "@AD",
-   "confidenza": 0.75,
+   "confidenza": 0.6,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-08",
    "ultima_conferma": "2026-07-08 23:17",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 00:05"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0707-58",
@@ -9182,14 +9182,14 @@
     "efficienza"
    ],
    "reparto": "@AD",
-   "confidenza": 0.7,
+   "confidenza": 0.5499999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-09 01:20",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0702-48",
@@ -9222,14 +9222,14 @@
     "automazione"
    ],
    "reparto": "@AD",
-   "confidenza": 0.5,
+   "confidenza": 0.35,
    "evidenze": 2,
    "fonte": "auto-radiografia",
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-02",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0702-02",
@@ -9406,14 +9406,14 @@
     "ordine-zombie"
    ],
    "reparto": "@operations",
-   "confidenza": 0.5199999999999999,
+   "confidenza": 0.3699999999999999,
    "evidenze": 1,
    "fonte": "giro",
    "caso_studio_nicola": false,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 20:18",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-39",
@@ -9427,14 +9427,14 @@
     "devops"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.58,
+   "confidenza": 0.42999999999999994,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 20:05",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-38",
@@ -9449,14 +9449,14 @@
     "consenso"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.63,
+   "confidenza": 0.48,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 20:05",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-37",
@@ -9470,14 +9470,14 @@
     "loop"
    ],
    "reparto": "@AD",
-   "confidenza": 0.5599999999999999,
+   "confidenza": 0.4099999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 17:06",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-36",
@@ -9514,14 +9514,14 @@
     "post-firma"
    ],
    "reparto": "@AD",
-   "confidenza": 0.62,
+   "confidenza": 0.47,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 11:29",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-34",
@@ -9537,14 +9537,14 @@
     "verifica"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.63,
+   "confidenza": 0.48,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 11:29",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-33",
@@ -9580,14 +9580,14 @@
     "vps"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.62,
+   "confidenza": 0.47,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 11:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-31",
@@ -9627,14 +9627,14 @@
     "approvazioni"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.63,
+   "confidenza": 0.48,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 10:36",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-29",
@@ -9649,14 +9649,14 @@
     "zombie"
    ],
    "reparto": "@AD",
-   "confidenza": 0.63,
+   "confidenza": 0.48,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 10:13",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-28",
@@ -9671,13 +9671,13 @@
     "approvazioni"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.57,
+   "confidenza": 0.41999999999999993,
    "evidenze": 1,
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 09:43",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-27",
@@ -9719,14 +9719,14 @@
     "pr"
    ],
    "reparto": "@tech",
-   "confidenza": 0.63,
+   "confidenza": 0.48,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 07:41",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-25",
@@ -9762,13 +9762,13 @@
     "chiarimento"
    ],
    "reparto": "@operations",
-   "confidenza": 0.48,
+   "confidenza": 0.32999999999999996,
    "evidenze": 1,
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-23",
@@ -9805,14 +9805,14 @@
     "worker"
    ],
    "reparto": "@builder-automazioni",
-   "confidenza": 0.62,
+   "confidenza": 0.47,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-21",
@@ -9827,13 +9827,13 @@
     "devops"
    ],
    "reparto": "@AD",
-   "confidenza": 0.5599999999999999,
+   "confidenza": 0.4099999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 17:06",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-20",
@@ -9846,13 +9846,13 @@
     "urgenza"
    ],
    "reparto": "@AD",
-   "confidenza": 0.5499999999999999,
+   "confidenza": 0.3999999999999999,
    "evidenze": 2,
    "fonte": "auto-analisi",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-19",
@@ -9866,13 +9866,13 @@
     "piano-mattino"
    ],
    "reparto": "@AD",
-   "confidenza": 0.58,
+   "confidenza": 0.42999999999999994,
    "evidenze": 2,
    "fonte": "auto-analisi",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 11:26",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-17",
@@ -9887,13 +9887,13 @@
     "stripe"
    ],
    "reparto": "@tech",
-   "confidenza": 0.58,
+   "confidenza": 0.42999999999999994,
    "evidenze": 1,
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-16",
@@ -9907,13 +9907,13 @@
     "chiusura"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.61,
+   "confidenza": 0.45999999999999996,
    "evidenze": 1,
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-15",
@@ -9947,13 +9947,13 @@
     "giro"
    ],
    "reparto": "@AD",
-   "confidenza": 0.57,
+   "confidenza": 0.41999999999999993,
    "evidenze": 2,
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-13",
@@ -9967,13 +9967,13 @@
     "intelligence"
    ],
    "reparto": "@AD",
-   "confidenza": 0.59,
+   "confidenza": 0.43999999999999995,
    "evidenze": 2,
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 01:38",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-12",
@@ -10009,13 +10009,13 @@
     "comunicazione"
    ],
    "reparto": "@AD",
-   "confidenza": 0.5599999999999999,
+   "confidenza": 0.4099999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-10",
@@ -10055,14 +10055,14 @@
     "devops"
    ],
    "reparto": "@AD",
-   "confidenza": 0.6399999999999999,
+   "confidenza": 0.4899999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-08",
@@ -10120,14 +10120,14 @@
     "comunicazione"
    ],
    "reparto": "@AD",
-   "confidenza": 0.5599999999999999,
+   "confidenza": 0.4099999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-05",
@@ -10140,14 +10140,14 @@
     "bandwidth"
    ],
    "reparto": "@onboarding-negozi",
-   "confidenza": 0.58,
+   "confidenza": 0.42999999999999994,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-04",
@@ -10188,43 +10188,6 @@
    "stato": "principio",
    "promosso_il": "2026-07-24 16:20",
    "cristallizzato_in": "memoria-persistente"
-  },
-  {
-   "id": "L-2026-0701-02",
-   "testo": "Quando il business è in stallo (= numeri identici tra giri) ma c'è un evento esterno NUOVO del giorno (es. allerta meteo oggi vs 'domani' ieri), il giro ha valore se produce artefatti operativi 🟢 (playbook, snapshot KPI) — non se ripete solo il digest. Altrimenti applicare L-2026-0629-03 (passaggio minimo).",
-   "tag": [
-    "giro",
-    "efficienza",
-    "meteo",
-    "artefatti"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3999999999999999,
-   "evidenze": 1,
-   "fonte": "auto-analisi",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
-  },
-  {
-   "id": "L-2026-0701-01",
-   "testo": "Da worker (chiavi in cervello/vps/.env) l'AD legge ENTRAMBI i Supabase via REST anche senza SUPABASE_ACCESS_TOKEN per MCP: marketplace clmpyfvpvfjgeviworth (sola lettura) e memoria Pannello xjljcsorpbqwttrejqte. Quando Nicola chiede «vedi i db?», rispondere con tabella progetti + conteggi live e distinguere: (a) sensori AD = OK; (b) Cabina Vercel = wiring env (#10 rifiutato 30/6), non assenza del DB.",
-   "tag": [
-    "sensori",
-    "supabase",
-    "memoria",
-    "pannello",
-    "nicola"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.44999999999999996,
-   "evidenze": 1,
-   "fonte": "chat",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
   },
   {
    "id": "L-2026-0630-06",
@@ -10299,32 +10262,13 @@
     "calibrazione"
    ],
    "reparto": "@AD",
-   "confidenza": 0.5,
+   "confidenza": 0.35,
    "evidenze": 1,
    "fonte": "auto-analisi",
    "nato": "2026-06-30",
    "ultima_conferma": "2026-06-30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
-  },
-  {
-   "id": "L-2026-0630-02",
-   "testo": "Una previsione del radar che si avvera è una vittoria di calibrazione da registrare: il 29/6 avevo previsto 'caldo in calo da martedì', il 30/6 si è verificato (pioggia, fine caldo). Quando un fattore esterno cambia, vale più aggiornare la GUIDA OPERATIVA (rilascio regola 'no freschi 12-18', leva pioggia) che accodare nuove azioni se la coda è già piena e pertinente.",
-   "tag": [
-    "radar",
-    "foresight",
-    "meteo",
-    "operativo",
-    "no-rumore"
-   ],
-   "reparto": "@intelligence",
-   "confidenza": 0.3999999999999999,
-   "evidenze": 1,
-   "fonte": "pattern",
-   "nato": "2026-06-30",
-   "ultima_conferma": "2026-06-30",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0629-03",
@@ -10421,13 +10365,13 @@
     "nicola"
    ],
    "reparto": "@AD",
-   "confidenza": 0.48,
+   "confidenza": 0.32999999999999996,
    "evidenze": 3,
    "fonte": "chat",
    "nato": "2026-06-28",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0629-01",
@@ -10474,13 +10418,13 @@
     "fesr"
    ],
    "reparto": "@vendite",
-   "confidenza": 0.5199999999999999,
+   "confidenza": 0.3699999999999999,
    "evidenze": 2,
    "fonte": "radar",
    "nato": "2026-06-29",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 06:21"
+   "decaduto_step_il": "2026-08-13 08:23"
   },
   {
    "id": "L-2026-0701-27",
@@ -13163,22 +13107,22 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 511,
+  "lezioni_attive": 508,
   "promosse_a_principio": 88,
-  "decadute": 0,
+  "decadute": 3,
   "tasso_applicazione": 0.18,
   "tasso_calcolato_il": "2026-08-12 23:07",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-12 23:07",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-12 23:07",
+  "cristallizzazione_ultima": "2026-08-13 08:23",
   "lezioni_totali": 517,
   "lezioni_per_stato": {
-   "attiva": 412,
+   "attiva": 409,
    "principio": 88,
    "in-prova": 5,
-   "decaduta": 0,
+   "decaduta": 3,
    "senza-stato": 11,
    "altro": 1
   },
