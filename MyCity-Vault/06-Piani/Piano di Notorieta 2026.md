@@ -9,7 +9,7 @@
 <!-- ⛔ AD-SMENTITE:START · lo riscrive `node cervello/piani-verita.mjs --scrivi`, non a mano -->
 > ⛔ **Attenzione: una frase di questo piano non è più vera.** Il registro dei fatti le smentisce, e il testo qui sotto è rimasto com'era. Correggerlo è una revisione del piano: la decide Nicola.
 > · **Il Bando Commercio ER è dato per aperto** (riga 138) — il registro dice: CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando. *(fesr.regione.emilia-romagna.it — verificato da agente intelligence 2026-07-11 11:40)*
-> *Misurato il 2026-08-13 10:43. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
+> *Misurato il 2026-08-13 11:43. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
 <!-- ⛔ AD-SMENTITE:END -->
 
 > Base dati: [[Clienti, Personas & Crescita]], [[Roadmap & Stato Prodotto]].

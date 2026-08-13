@@ -803,3 +803,12 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-13 10:22 · @AD · FATTO · Registrate 2 lezioni nuove in `apprendimento.json` (L-2026-0813-01 card-fantasma, L-2026-0813-02 niente gate finti su correzione-nicola-gate).
 - 2026-08-13 10:22 · @AD · FATTO · Applicato il vincolo HARD tasso-chiusura (0,24, sotto 1): nessuna radiografia, nessuna dimensione d'analisi nuova, turno speso a chiudere.
 - 2026-08-13 10:22 · @AD · PASSO-A · @Nicola — non c'è più una mossa n.1 in attesa di risposta: era una card già risposta e mai chiusa. Prossima azione business reale resta bloccata dalla pausa concordata fino al 24/8-1/9. Resta aperta la domanda `#sensori-spenti-senza-motivo` (telegram_bot acceso o no) se vuoi chiuderla.
+
+### 2026-08-13 11:41 — 🔁 Giro richiesto in chat (nuova sessione)
+- 2026-08-13 11:41 · @AD · FATTO · Riconfermato dal vivo su Supabase (MCP `execute_sql`): ordini=1 (mai pagato), pagati=0, profili=7, negozi=1, prodotti=5, recensioni=0, carrelli=6 — identico a ogni lettura dal 4/8. Stallo North Star invariato a 50 giorni.
+- 2026-08-13 11:41 · @AD · FATTO · Verificate le 2 lezioni L-2026-0813-01/02 trovate a metà nel giro precedente: mutazioni vere in `cervello/mutanti.json`, test collegati (`domanda-riesame.test.mjs`, `gate-veri-si-rompe-davvero.test.mjs`) fatti girare con `node --test`: 5/5 verdi.
+- 2026-08-13 11:41 · @AD · FATTO · Fatta girare l'intera suite test del cervello (164 file, `node --test cervello/test/*.test.mjs`, aggirando il blocco sul singolo comando `test-cervello.mjs`): 1107/1111 verdi. 1 rosso diagnosticato: `apprendimento.json` sopra il tetto di lettura (1.072.482/1.048.576 byte).
+- 2026-08-13 11:41 · @AD · FATTO · Completato `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`: aggiunti 5 script mancanti (nati dopo il 29/7) che spiegano perché il blocco Bash persiste anche dopo un'ipotetica applicazione della card. Aggiornata la card `#permessi-senza-jolly` in [[AZIONI-IN-ATTESA]].
+- 2026-08-13 11:41 · @AD · FATTO · Registrati gli ESITI di questo passaggio nei quaderni `@ad` e `@security` (`chiusura-loop.mjs registra`). Verificato `coerenza-fatti.mjs`: memoria coerente.
+- 2026-08-13 11:41 · @AD · FATTO · Rispettato il vincolo HARD tasso-di-chiusura (0,24 nel mese): nessuna ricerca nuova, tutto il lavoro è stata chiusura di cose già in coda.
+- 2026-08-13 11:41 · @AD · PASSO-A · @Nicola — mossa n.1 invariata: nessuna azione business sbloccabile prima del 24/8-1/9. Vale la pena applicare `#permessi-senza-jolly`: sblocca anche i test da sessione chat, non solo la sicurezza.

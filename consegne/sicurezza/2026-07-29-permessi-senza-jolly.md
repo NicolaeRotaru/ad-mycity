@@ -18,10 +18,19 @@ scrivere in quella cartella». E quella cartella la macchina la può scrivere. I
 la firma di Nicola, l'allowlist del destinatario — vivono DENTRO i singoli script: col jolly si
 arriva al risultato senza passare dallo script che contiene il freno.
 
+> ✏️ **Aggiornato 2026-08-13 11:34 (AD, giro in chat).** Il jolly non è solo un rischio di sicurezza:
+> è anche il motivo per cui, in ogni sessione chat headless da almeno il 4/8 (documentato ~16 volte in
+> [[STATO]]), `node cervello/test-cervello.mjs`, `gate-veri.mjs`, `pota-apprendimento.mjs` e altri
+> restano bloccati da un'approvazione che qui non arriva mai — nonostante il jolly `node cervello/*.mjs`
+> ci sia già. L'elenco esplicito, quando applicato, li sblocca **anche per questo**. Ho aggiunto le 5
+> righe mancanti (script nati dopo il 29/7): `correzione-nicola-gate.mjs`, `domanda-riesame-check.mjs`,
+> `gate-veri.mjs`, `mappa-macchina.mjs`, `pota-apprendimento.mjs`. Senza queste, anche dopo l'applicazione
+> resterebbero fuori.
+
 ## L'elenco che li sostituisce
 
-70 script `.mjs`, ottenuti misurando quali le cadenze e il worker invocano davvero — non
-tutti i 140 file presenti, solo quelli che qualcuno lancia.
+75 script `.mjs`, ottenuti misurando quali le cadenze e il worker invocano davvero — non
+tutti i 140+ file presenti, solo quelli che qualcuno lancia.
 Sostituisci la riga `"Bash(node cervello/*.mjs:*)"` con queste:
 
 ```json
@@ -39,9 +48,11 @@ Sostituisci la riga `"Bash(node cervello/*.mjs:*)"` con queste:
       "Bash(node cervello/coerenza-fatti.mjs:*)",
       "Bash(node cervello/coerenza-rischi.mjs:*)",
       "Bash(node cervello/contesto-lezioni.mjs:*)",
+      "Bash(node cervello/correzione-nicola-gate.mjs:*)",
       "Bash(node cervello/costo-ai.mjs:*)",
       "Bash(node cervello/cristallizza-apprendimento.mjs:*)",
       "Bash(node cervello/delta-gate.mjs:*)",
+      "Bash(node cervello/domanda-riesame-check.mjs:*)",
       "Bash(node cervello/esito-cadenza.mjs:*)",
       "Bash(node cervello/esperimenti-check.mjs:*)",
       "Bash(node cervello/firma-check.mjs:*)",
@@ -50,6 +61,7 @@ Sostituisci la riga `"Bash(node cervello/*.mjs:*)"` con queste:
       "Bash(node cervello/freschezza-checklist.mjs:*)",
       "Bash(node cervello/freschezza-okr.mjs:*)",
       "Bash(node cervello/freschezza-segnali.mjs:*)",
+      "Bash(node cervello/gate-veri.mjs:*)",
       "Bash(node cervello/guardiani-check.mjs:*)",
       "Bash(node cervello/guardiano-capacita.mjs:*)",
       "Bash(node cervello/guardiano-tempo.mjs:*)",
@@ -58,6 +70,7 @@ Sostituisci la riga `"Bash(node cervello/*.mjs:*)"` con queste:
       "Bash(node cervello/keyword-owner-check.mjs:*)",
       "Bash(node cervello/letargo.mjs:*)",
       "Bash(node cervello/macchina-del-tempo.mjs:*)",
+      "Bash(node cervello/mappa-macchina.mjs:*)",
       "Bash(node cervello/metabolismo.mjs:*)",
       "Bash(node cervello/midollo-spinale.mjs:*)",
       "Bash(node cervello/north-star-check.mjs:*)",
@@ -67,6 +80,7 @@ Sostituisci la riga `"Bash(node cervello/*.mjs:*)"` con queste:
       "Bash(node cervello/pausa-check.mjs:*)",
       "Bash(node cervello/percorsi-git.mjs:*)",
       "Bash(node cervello/peso-contesto.mjs:*)",
+      "Bash(node cervello/pota-apprendimento.mjs:*)",
       "Bash(node cervello/porte-check.mjs:*)",
       "Bash(node cervello/prove-oneste.mjs:*)",
       "Bash(node cervello/registro-scelte-check.mjs:*)",

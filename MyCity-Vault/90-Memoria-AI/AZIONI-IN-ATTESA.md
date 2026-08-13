@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-13 10:22** — Automatico: **65 aperte · 7 chiuse in archivio**. Chiusa `#ordine-test-dentro-o-fuori-dalla-pausa`: Nicola aveva già risposto il 28/7, ma la risposta non era mai stata applicata alla card (vedi [[feedback-domanda-gia-decisa-ricontrollare]]).
+> 🧹 **Housekeeping 2026-08-13 11:02** — Automatico: **65 aperte · 7 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -75,10 +75,10 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🟡 #permessi-senza-jolly — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50
+### 🟡 #permessi-senza-jolly — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50 · aggiornata 2026-08-13 11:34
 
-**Cosa cambia:** nel foglio dei permessi (`.claude/settings.json`) ci sono due righe col jolly: `node cervello/*.mjs` e `bash cervello/*.sh`. Queste righe non dicono «può lanciare questi programmi». Dicono «può lanciare qualunque programma finisca in quella cartella» — e quella cartella la scrive la macchina stessa. I freni veri (la pausa, la tua firma, il controllo su chi riceve un messaggio) stanno dentro ai singoli programmi. Con il jolly si può arrivare a un programma senza passare dal freno che contiene. Non sto dicendo che sia già successo. Sto dicendo che oggi nessuno lo impedirebbe.
-**Se va bene:** sostituisci le due righe con l'elenco esplicito che ti ho già preparato: 70 programmi, ricavati guardando quali il giro e il worker lanciano davvero, più i 12 script di avvio. La lista è in `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`, pronta da incollare. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, aggiungi il permesso a mano. Aggiungere una riga si vede. Il jolly no.
+**Cosa cambia:** nel foglio dei permessi (`.claude/settings.json`) ci sono due righe col jolly: `node cervello/*.mjs` e `bash cervello/*.sh`. Queste righe non dicono «può lanciare questi programmi». Dicono «può lanciare qualunque programma finisca in quella cartella» — e quella cartella la scrive la macchina stessa. I freni veri (la pausa, la tua firma, il controllo su chi riceve un messaggio) stanno dentro ai singoli programmi. Con il jolly si può arrivare a un programma senza passare dal freno che contiene. Non sto dicendo che sia già successo. Sto dicendo che oggi nessuno lo impedirebbe. **Novità 13/8:** il jolly non è solo un rischio — è anche il motivo per cui `test-cervello.mjs`, `gate-veri.mjs`, `pota-apprendimento.mjs` e altri restano bloccati da un'approvazione che in sessione chat non arriva mai (documentato ~16 volte in [[STATO]] dal 4/8). Applicare questa card li sblocca anche per questo.
+**Se va bene:** sostituisci le due righe con l'elenco esplicito che ti ho già preparato: 75 programmi (aggiornato oggi con 5 nati dopo il 29/7: `correzione-nicola-gate.mjs`, `domanda-riesame-check.mjs`, `gate-veri.mjs`, `mappa-macchina.mjs`, `pota-apprendimento.mjs`), ricavati guardando quali il giro e il worker lanciano davvero, più i 12 script di avvio. La lista è in `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`, pronta da incollare. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, aggiungi il permesso a mano. Aggiungere una riga si vede. Il jolly no.
 **Nota tecnica:** difetto AR-206, parte (a). Il lotto 33 ha verificato la parte (b). È la regola `no-jolly-su-cartella-scrivibile` in `cervello/permessi-check.mjs`. Esiste già e funziona: segnala correttamente entrambe le forme. La parte (a) non l'ho fatta io di proposito. `.claude/settings.json` è negato in scrittura alla macchina apposta (regola `no-auto-permessi`). Scavalcare quel confine per chiudere un difetto sul confine sarebbe stato assurdo. Restano fuori due parti, infrastrutturali, per un lotto a sé: il controllo di provenienza su ogni script, e le chiavi tenute fuori dall'ambiente del worker.
 - **Colore:** 🟡 (restringe i permessi della macchina: non manda niente a nessuno, ma va provato che il giro continui a girare)
 - **Reparto:** security + devops-sre
@@ -103,21 +103,6 @@ in scrittura alla macchina, ed è giusto così.
 - **Colore:** 🟡 (accende un controllo in sola lettura, non manda niente a nessuno)
 - **Reparto:** devops-sre
 - **Origine:** `{origine:auto-radiografia, difetti:AR-105+AR-108}`
-
----
-
-### ✅ #ordine-test-dentro-o-fuori-dalla-pausa — Risposto: resta dentro la pausa, collaudo a settembre · ⏳ accodata 2026-07-28 08:45 · ✅ chiusa 2026-08-13 10:22 (risposta già data il 28/7)
-
-**Cosa è successo.** Questa card chiedeva se l'ordine di prova su Pane Quotidiano dovesse restare in pausa insieme agli altri undici o partire subito come eccezione. **Nicola aveva già risposto il 28/7 alle 15:56** («Si l'ho rimandato a settembre») — registrato in [[DECISIONI]] alla stessa data/ora. La card però non è mai stata chiusa nel file, e per 16 giorni ogni giro l'ha ripresentata come "mossa n.1 ferma senza risposta", quando la risposta esisteva già. Errore riconosciuto: [[feedback-domanda-gia-decisa-ricontrollare]] — prima di riproporre una domanda-decisione, controllare `DECISIONI.md`.
-
-**Esito:** l'ordine di prova resta congelato fino al 24 agosto-1 settembre 2026 insieme al resto dei negozi ([[ripresa.lavoro-operativo|registro-fatti.json]]), nessuna eccezione. Il primo giorno di lavoro operativo sarà un giorno di collaudo (verifica pagamento→fornaio→consegna), non di vendita.
-- **Colore:** ✅ chiusa, nessuna azione da eseguire
-- **Reparto:** chief-of-staff + analista
-- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-157}` — chiusa da giro AD 2026-08-13 10:22
-
----
-
-<!-- macchina-ferma-da-quattro-giorni -->
 
 ---
 
@@ -521,7 +506,7 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ### 🟡 #ordine-test-pq — Fai un ordine su Pane Quotidiano per testare la macchina · ⏳ accodata 2026-07-18 06:30 · ⏸ in pausa (rinvio negozi, PQ compreso)
 
-- **⏸ Pausa:** rinvio negozi, PQ compreso · classe **validazione** · riprende con `ripresa.lavoro-operativo`
+- **⏸ Pausa:** rinvio negozi, PQ compreso · classe **validazione** · riprende con `ripresa.lavoro-operativo` · congelamento confermato da Nicola (28/7 15:56, [[DECISIONI]])
 
 **Contesto:** North Star è 0 da 24 giorni. Un ordine di test fatto da Nicola (anche piccolo: es. pane €3-5) verifica end-to-end il flusso checkout→pagamento→consegna e conta come primo ordine reale. Costo = il prezzo del prodotto.
 
@@ -1027,7 +1012,7 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 10:21)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 11:02)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-13-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1610,6 +1595,27 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-08-13 10:21 · 6 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 11:02 · 7 card totali
+
+### ✅ #ordine-test-dentro-o-fuori-dalla-pausa — Risposto: resta dentro la pausa, collaudo a settembre · ⏳ accodata 2026-07-28 08:45 · ✅ chiusa 2026-08-13 10:22 (risposta già data il 28/7)
+
+**Cosa è successo.** Questa card chiedeva a Nicola se l'ordine di prova su Pane Quotidiano dovesse restare **dentro o fuori** dalla pausa negozi — cioè se il collaudo (una pausa di validazione) dovesse seguire la stessa pausa di business decisa per le altre undici card. Era marcata `{congelamento-da-confermare: ordine-test-pq}` in [[AZIONI-IN-ATTESA]]. **Nicola aveva già risposto il 28/7 alle 15:56** («Si l'ho rimandato a settembre») — registrato in [[DECISIONI]] alla stessa data/ora. La card però non è mai stata chiusa nel file, e per 16 giorni ogni giro l'ha ripresentata come "mossa n.1 ferma senza risposta", quando la risposta esisteva già. Errore riconosciuto: [[feedback-domanda-gia-decisa-ricontrollare]] — prima di riproporre una domanda-decisione, controllare `DECISIONI.md`.
+
+**Esito:** l'ordine di prova resta congelato fino al 24 agosto-1 settembre 2026 insieme al resto dei negozi ([[ripresa.lavoro-operativo|registro-fatti.json]]), nessuna eccezione. Il primo giorno di lavoro operativo sarà un giorno di collaudo (verifica pagamento→fornaio→consegna), non di vendita.
+- **Colore:** ✅ chiusa, nessuna azione da eseguire
+- **Reparto:** chief-of-staff + analista
+- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-157}` — chiusa da giro AD 2026-08-13 10:22
+
+---
+
+<!-- macchina-ferma-da-quattro-giorni -->
+
+---
 
 ### ✅ #sensori-cancellati — Chiusa la falla che cancellava lo stato dei sensori. FATTO 2026-08-11 17:05, col tuo ok in chat
 

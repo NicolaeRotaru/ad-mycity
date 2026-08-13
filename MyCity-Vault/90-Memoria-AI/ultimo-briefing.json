@@ -1,7 +1,13 @@
 {
-  "data": "2026-08-13 10:22",
-  "situazione": "Business invariato, sensori appena rinfrescati da giro.sh (10:20): 1 ordine mai pagato, 0 pagati, 0 consegne, 7 profili, 1 negozio, 0 nuovi clienti in 7 giorni. Stallo North Star confermato, pausa concordata con Nicola fino al 24/8-1/9. L'anomalia git segnalata al passaggio delle 06:50 (modifiche non committate sul guardiano correzione-nicola-gate) non è più presente nell'albero di lavoro: verificato pulito su giro.sh/censimento-guardiani.mjs/correzione-nicola-gate.mjs, nessuna azione necessaria. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova aperta, turno speso a chiudere. Chiusa la card fantasma `#ordine-test-dentro-o-fuori-dalla-pausa`, ferma da 16 giorni ma già risposta da Nicola il 28/7 (mai chiusa nel file per un errore di processo). Non c'è più una mossa n.1 di business in attesa di risposta.",
+  "data": "2026-08-13 11:41",
+  "situazione": "Business invariato, riconfermato dal vivo su Supabase: 1 ordine mai pagato, 0 pagati, 7 profili, 1 negozio, 5 prodotti, 0 nuovi clienti in 7 giorni, stallo North Star 50 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9. Chiuso per davvero il debito su correzione-nicola-gate: le 2 lezioni di stamattina (L-2026-0813-01/02) hanno ora una mutazione vera in mutanti.json e un test che la verifica, fatto girare con esito 5/5 verdi. Fatta girare l'intera suite test del cervello (164 file, node --test): 1107/1111 verdi, 1 rosso concreto e diagnosticato (apprendimento.json sopra il tetto di lettura di GitHub). Trovato il collegamento diretto tra questo blocco e la card di permessi ferma dal 29/7 (#permessi-senza-jolly): le mancavano 5 script nati dopo quella data, completata ora. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova, tutto il lavoro di oggi è stato chiudere cose già in coda.",
   "opportunita": [
+    {
+      "titolo": "Applica l'elenco permessi senza jolly, sblocca anche i test",
+      "motivo": "La card ferma dal 29/7 non è solo un fix di sicurezza: applicarla sblocca test-cervello.mjs, gate-veri.mjs, pota-apprendimento.mjs e gli altri script che ogni sessione chat segnala bloccati da settimane — è la stessa causa",
+      "impatto": "alto",
+      "sforzo": "basso"
+    },
     {
       "titolo": "Fai completare al fornaio la pratica pagamenti",
       "motivo": "Dati mai inviati, incassi e versamenti disattivati dal 15/6: se un cliente pagasse oggi, il pagamento non partirebbe. Serve pronto per il collaudo di settembre",
@@ -11,15 +17,20 @@
   ],
   "azioni": [
     {
+      "titolo": "Applica l'elenco esplicito dei permessi (era già pronto, ora completo)",
+      "motivo": "consegne/sicurezza/2026-07-29-permessi-senza-jolly.md, 75 script — ferma da 15 giorni",
+      "livello": "giallo"
+    },
+    {
       "titolo": "Dimmi se telegram_bot lo vuoi acceso o spento",
-      "motivo": "Unica domanda aperta rimasta in coda dopo la chiusura della card fantasma di oggi — 163 giri senza risposta",
+      "motivo": "Unica domanda di business rimasta in coda senza risposta",
       "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo, pausa concordata fino al 24/8-1/9 (non churn)",
-    "Tasso di chiusura 0,24 nel mese (102 aperti/24 chiusi) — sotto soglia 1: questo giro non ha aperto ricerche nuove, ha chiuso una card fantasma",
-    "correzione-nicola-gate: 251 lezioni senza gate reale — niente gate finti assegnati oggi (serve una mutazione vera in mutanti.json, non solo citare uno script che passa), debito dichiarato",
-    "freschezza-cadenze: ritmo mattino/mezzogiorno/sera senza uscita da >30h — non ricalcolabile da questa sessione (script di scrittura bloccati)"
+    "North Star 0 — stallo 50 giorni, pausa concordata fino al 24/8-1/9 (non churn)",
+    "Tasso di chiusura 0,24 nel mese (102 aperti/24 chiusi) — sotto soglia 1: nessuna ricerca nuova aperta anche oggi",
+    "Test del cervello: 1107/1111 verdi — 1 rosso reale, apprendimento.json sopra il tetto di lettura (1.072.482/1.048.576 byte)",
+    "correzione-nicola-gate: da 0 a 2 lezioni con gate verificato davvero (mutazione + test), resta comunque sano:false (60/311, soglia 20)"
   ]
 }
