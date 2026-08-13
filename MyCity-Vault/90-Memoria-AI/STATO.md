@@ -1,8 +1,45 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 13:09
+aggiornato: 2026-08-13 14:23
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **13/8 14:23 — Giro richiesto in chat. Business invariato. La diagnosi CI delle 13:09 era sbagliata: tornata "colpa propria", mandati 3 fix in corso.**
+> Business riconfermato dal vivo con query SQL diretta: 1 ordine (mai pagato, 24/6), 0 pagati, 5 prodotti, 7 profili,
+> 0 ordini e 0 nuovi clienti negli ultimi 7 giorni. **Identico** a ogni lettura di oggi. North Star: stallo
+> **50 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme.
+>
+> **Prima cosa: pulito lo stato sporco trovato in apertura.** Il repo aveva 25 file già scritti dai sensori
+> deterministici di `giro.sh` (auto-coscienza, AZIONI-IN-ATTESA, supervisione) più 3 file toccati da una
+> scrittura concorrente del worker VPS mentre lavoravo — nessun conflitto, committati in due passaggi separati
+> direttamente su `main` (memoria, non codice).
+>
+> **La correzione vera di questo passaggio: la diagnosi CI del passaggio 13:09 era sbagliata.** Alle 13:09 avevo
+> scritto che `ci-stato.mjs` classificava le 3 PR rosse (#710/#709/#708) come "ereditate da `main`" — cioè non
+> colpa di quei branch. Rieseguendo lo stesso comando ora, il verdetto è tornato **"colpa propria"** per tutte e
+> tre: il guasto **è** nel lavoro portato da quei branch, non a monte. Non è stata una ricerca nuova — è la
+> stessa lettura del blocco vincoli già calcolato, solo ripetuta perché il valore visto alle 13:09 non tornava.
+>
+> **Cosa ho fatto: mandati 3 senior a chiudere il debito, non aperto altro.** Il vincolo tasso-chiusura (0,24 nel
+> mese) impone di chiudere quello che c'è già in coda, non di cercarne di nuovo. Le 3 PR rosse erano già
+> diagnosticate con i controlli esatti falliti da `ci-stato.mjs` — non è stato necessario aprire ricerca per
+> trovarle. Ho mandato 3 senior tech, ciascuno in un worktree isolato sul proprio branch, con la lista esatta dei
+> controlli rossi:
+> - **PR #710** (`fix/test-cervello-rossi-13-8`): 3 file con leggibilità peggiorata (STATO.md, un report salute,
+>   un report supervisione) — regressione del guardiano `si-capisce.mjs`.
+> - **PR #709** (`claude/organi-x-rossa-pallino-bianco-fbg0xh`): 2 file di test rotti per davvero
+>   (`mappa-in-bacheca.test.mjs`, `permessi-di-guardia.test.mjs`).
+> - **PR #708** (`fix/sensori-radar-13-8`): un verdetto senza lettore collegato, un lavoro committato senza riga
+>   di esito nel quaderno, più la stessa regressione di leggibilità su STATO.md.
+> Sono al lavoro in sfondo mentre scrivo: l'esito (chiuse o ancora aperte) arriva nel prossimo passaggio.
+>
+> **Non toccato, per lo stesso vincolo:** `auto-analisi.json` (12:59), `registro-realta.json` (10:22),
+> `ultimo-briefing.json` (13:09) restano quelli di oggi — dati di business identici, riscriverli ora sarebbe
+> l'ennesima passata sullo stesso stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113).
+>
+> **Mossa n.1, invariata:** nessuna azione business sbloccabile prima del 24/8-1/9. Resta da firmare
+> `#permessi-senza-jolly` e resta aperta `#sensori-spenti-senza-motivo` (telegram_bot). Nuovo: i 3 fix CI sono in
+> corso, non ancora confermati verdi. Briefing: [[Briefing/2026-08-13]].
 
 > ⚪ **13/8 13:09 — Nuovo passaggio, 10 minuti dopo quello delle 12:59. Nessuna novità di business.**
 > Business riconfermato invariato con query SQL diretta: 1 ordine (mai pagato), 0 pagati, 5 prodotti, 7 profili.
