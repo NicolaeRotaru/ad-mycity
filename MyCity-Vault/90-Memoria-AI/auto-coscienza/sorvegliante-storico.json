@@ -2,46 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-09T09:54:54.339Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T09:55:28.616Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:00:06.470Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T10:00:40.604Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-09T10:01:14.839Z",
       "scatti": 1651,
       "voci": 7,
@@ -1933,7 +1893,47 @@
         "difesa-rimossa": 6
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T04:35:04.591Z",
+      "scatti": 4959,
+      "voci": 9,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 6
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T04:35:40.361Z",
+      "scatti": 4963,
+      "voci": 9,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 6
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T04:49:31.121Z",
+      "scatti": 4998,
+      "voci": 9,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 6
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T05:03:22.036Z",
+      "scatti": 5019,
+      "voci": 9,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 6
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-13T02:04:16.435Z"
+  "aggiornato": "2026-08-13T05:03:22.037Z"
 }

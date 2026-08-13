@@ -1,8 +1,9 @@
 # 🕳️ Buchi di Mercato — 2026-08-10
 
 > Aggiornato: 2026-08-10 13:35 · fonte: query dal vivo Supabase marketplace (MCP `execute_sql`) + `registro-fatti.json`.
+> Il contesto macro in fondo alla pagina è stato rinfrescato il 13/8 alle 06:30 con la ricerca web di oggi. Il resto del file non è stato ricontrollato oggi. Catalogo e lista contatti restano quelli letti dal database il 10/8.
 > Precedente versione: 20 luglio 2026 (in git history).
-> Rifatto da zero sui dati reali, non solo confermato a memoria. Tabelle interrogate oggi: `profiles`, `products`, `categories`, `merchants_leads`.
+> Rifatto da zero sui dati reali, non solo confermato a memoria. Tabelle interrogate il 10/8: `profiles`, `products`, `categories`, `merchants_leads`.
 
 ---
 
@@ -78,11 +79,11 @@ Nessun dato di consegna reale su cui misurare zone (0 ordini pagati, 0 consegne)
 
 ---
 
-## Contesto macro (invariato da luglio, non ricontrollato oggi — vedi `radar-concorrenti.md` e `eventi-picchi.md` aggiornati oggi 10/8 per il quadro esterno più fresco)
+## Contesto macro — aggiornato 13/8 (web scan, dati DB sotto restano del 10/8)
 
-- Confcommercio: commercio al dettaglio Piacenza −22,1% (2012-2025); +19k attività ristorazione/alloggio a livello nazionale.
-- Desertificazione centro storico: 20+ negozi chiusi in 3 mesi su Corso Vittorio Emanuele (dato luglio, da riverificare se serve per un pitch).
-- Radar concorrenti aggiornato oggi: nessun movimento locale nuovo dei grandi (Glovo/JustEat/Deliveroo); Glovo e Deliveroo Italia sotto controllo giudiziario per caporalato algoritmico (fatto verificato, argomento di pitch pronto ma parcheggiato fino al 24/8-1/9).
+- **Nuovo dato 13/8 (Confesercenti/Liberta.it):** imprese attive a Piacenza scese a **24.768** al 30/6/2026, **-840 rispetto a un anno prima**. Confesercenti: calano i piccoli negozi, ma crescono le superfici di vendita (i grandi guadagnano terreno sui piccoli). Conferma il trend −22,1% (2012-2025) già noto, con un numero assoluto più recente da citare in un pitch.
+- **Nuovo dettaglio 13/8 (piacenzasera.it, dato luglio ma dettaglio più preciso oggi):** oltre a "20+ negozi chiusi in 3 mesi su Corso Vittorio Emanuele" (da riverificare sul posto), **via Taverna è scesa da 51 a meno di 40 negozi**, con altre chiusure attese. Due vie del centro con lo stesso segnale — rafforza l'argomento "botteghe a rischio" per @vendite, ancora da verificare di persona prima di un pitch nominale.
+- Radar concorrenti (10/8, non ricontrollato oggi — settimanale, prossimo controllo dovuto ≥17/8): nessun movimento locale nuovo dei grandi (Glovo/JustEat/Deliveroo); Glovo e Deliveroo Italia sotto controllo giudiziario per caporalato algoritmico (fatto verificato, argomento di pitch pronto ma parcheggiato fino al 24/8-1/9).
 
 ---
 
@@ -92,4 +93,4 @@ Con 0 negozi che possono incassare e la pausa concordata con Nicola fino al 24/8
 
 ---
 
-*Fonti: query dal vivo `mcp__supabase-marketplace__execute_sql` su `profiles`, `products`, `categories`, `merchants_leads` (10/8/2026 13:20-13:35) · `registro-fatti.json` (`negozio.faro`, `negozi.attesa-concordata`) · `Intelligence/radar-concorrenti.md` e `Intelligence/eventi-picchi.md` (10/8, aggiornati oggi da @intelligence) · versione precedente 20/7 (git history) per confronto.*
+*Fonti: query dal vivo `mcp__supabase-marketplace__execute_sql` su `profiles`, `products`, `categories`, `merchants_leads` (10/8/2026 13:20-13:35) · `registro-fatti.json` (`negozio.faro`, `negozi.attesa-concordata`) · `Intelligence/radar-concorrenti.md` e `Intelligence/eventi-picchi.md` (10/8, aggiornati oggi da @intelligence) · versione precedente 20/7 (git history) per confronto. Contesto macro 13/8: liberta.it (Confesercenti Piacenza, imprese attive 30/6/2026) · piacenzasera.it/2026/07/sempre-piu-serrande-abbassate-centro-storico-verso-la-desertificazione (via Taverna).*
