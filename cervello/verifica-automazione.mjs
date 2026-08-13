@@ -9,7 +9,8 @@
 //   node cervello/verifica-automazione.mjs            -> report leggibile
 //   node cervello/verifica-automazione.mjs --json     -> output JSON (per il worker/sentinelle)
 //
-// Exit code: 0 = tutto ok · 1 = almeno un controllo FALLITO (rosso).
+// Exit code (AR-370): 0 = tutto ok · 1 = almeno un controllo FALLITO · 2 = ci sono controlli che NON
+// HO POTUTO ESEGUIRE qui (systemd assente, chiavi assenti): il verde non copre quella parte.
 // Scrive l'esito complessivo in impostazioni (chiave automazione:verifica) se Supabase è configurato.
 
 import { execFileSync } from "node:child_process";
@@ -23,6 +24,7 @@ import {
   stampSegnale,
 } from "./git-github.mjs";
 import { resolveMarketplaceRepo } from "./marketplace-repo.mjs";
+import { verdettoCopertura, segnaleDa, CIECO, ROTTO } from "./misura-o-cieco.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const LIVE = process.env.AZIONI_LIVE === "1" || process.env.AZIONI_LIVE === "on";
@@ -44,8 +46,17 @@ const TIMER_CRITICI = new Set([
   "mycity-ritmo-settimana.timer",
 ]);
 const BATTITO_OCCHI_MAX_MIN = Number(process.env.VERIFICA_BATTITO_OCCHI_MIN || 10);
+/** Sono sul server, cioè nel posto dove queste cose DEVONO esserci? Fuori di lì, «manca» vuol dire «non l ho potuto guardare». */
+const SUL_VPS = existsSync("/opt/mycity/ad-mycity");
 
-/** @type {{nome: string, esito: 'ok'|'warn'|'fail', dettaglio: string}[]} */
+// AR-370 — «NON ESEGUIBILE QUI» NON È UN AVVISO: È UN BUCO.
+//
+// Fuori dal VPS non c'è systemd, quindi i controlli sui timer venivano saltati e registrati come
+// `warn` — un esito di MERITO, che dice «l'ho guardato e non mi piace del tutto». Il verdetto finale
+// contava solo i `fail`, quindi un giro lanciato dal cloud usciva 0: verde pieno su una macchina di
+// cui non aveva guardato né i timer né il worker. La cura non è promuovere il warn a errore (sarebbe
+// un rosso falso): è il TERZO esito, quello che esiste già nel contratto dei guardiani di casa.
+/** @type {{nome: string, esito: 'ok'|'warn'|'fail'|'cieco', dettaglio: string}[]} */
 const checks = [];
 
 function add(nome, esito, dettaglio) {
@@ -75,12 +86,17 @@ async function checkRepoToken(key) {
     cfg = resolveRepoConfig(key);
   } catch (e) {
     // Il clone assente è già coperto dal check dedicato: qui non è un problema di token.
+    // E fuori dal VPS la configurazione dei token semplicemente non c'è: è cecità, non guasto.
     const cloneAssente = /Clone marketplace assente/i.test(e.message || "");
-    add(`token ${key}`, cloneAssente ? "warn" : "fail", cloneAssente ? "non verificabile senza clone locale" : e.message);
+    const misurabile = SUL_VPS && !cloneAssente;
+    add(`token ${key}`, misurabile ? "fail" : "cieco", misurabile ? e.message : `${e.message} — non misurabile da qui, si prova dal VPS`);
     return null;
   }
   if (!cfg.token) {
-    add(`token ${key}`, key === "mycity" ? "warn" : "fail", "token assente nel .env");
+    // Un token che manca è un guasto SOLO dove doveva esserci. Da una sessione cloud il .env del
+    // VPS non esiste: chiamarlo ❌ è un rosso falso, e un rosso falso si impara a ignorare come un
+    // verde falso — con la differenza che consuma anche l attenzione di Nicola.
+    add(`token ${key}`, SUL_VPS && key !== "mycity" ? "fail" : "cieco", SUL_VPS ? "token assente nel .env del server" : "token assente qui: non ho potuto provare l accesso (si prova dal VPS)");
     return cfg;
   }
   try {
@@ -119,7 +135,7 @@ async function main() {
 
   // 3) Ramo del repo AD (RAMO UNICO Fase 2: sul VPS deve essere main; altrove è informativo)
   const branch = sh("git", ["rev-parse", "--abbrev-ref", "HEAD"], AD_ROOT);
-  const onVps = existsSync("/opt/mycity/ad-mycity");
+  const onVps = SUL_VPS;
   if (branch === "main") {
     add("ramo repo AD", "ok", "main (ramo unico) ✓");
   } else if (branch === "memoria-ad") {
@@ -131,7 +147,13 @@ async function main() {
   }
 
   // 4) Timer watch-main + worker (solo dove c'è systemd)
-  const hasSystemd = sh("sh", ["-c", "command -v systemctl"]) !== null;
+  //
+  // AR-370, la stessa malattia dall'altro lato. «Il binario systemctl esiste» non vuol dire «questa
+  // macchina è governata da systemd»: in un contenitore il binario c'è, nessuna unità è caricata, e
+  // ogni `is-active` torna vuoto — che qui veniva letto come «timer ASSENTE», cioè dodici ❌ falsi
+  // sparati da un posto che non poteva misurare niente. Misurato il 13/8 da una sessione cloud.
+  // La domanda giusta è quella canonica: il sistema è stato avviato con systemd? → /run/systemd/system.
+  const hasSystemd = sh("sh", ["-c", "command -v systemctl"]) !== null && existsSync("/run/systemd/system");
   if (hasSystemd) {
     const timer = sh("systemctl", ["is-active", "mycity-watch-main.timer"]);
     add(
@@ -170,8 +192,10 @@ async function main() {
     }
   } else {
     // AR-056
-    add("timer watch-main", "warn", "systemd assente (non-VPS): verifica sul server");
-    add("timer giro (battito 2h)", "warn", "systemd assente (non-VPS): verifica mycity-giro.timer sul server");
+    add("timer watch-main", "cieco", "systemd assente (non-VPS): non ho potuto guardare i timer del server");
+    add("timer giro (battito 2h)", "cieco", "systemd assente (non-VPS): non ho potuto guardare mycity-giro.timer");
+    // Il worker spariva del tutto dall'elenco: un controllo che non c'è è più invisibile di uno rosso.
+    add("worker", "cieco", "systemd assente (non-VPS): non ho potuto guardare se il worker gira");
   }
 
   // 4-bis) AR-167 — IL FUSO DELLE UNITÀ, controllato a occhi aperti e non a memoria.
@@ -230,7 +254,7 @@ async function main() {
         add("battito occhi (sentinella-dati:ultimo)", "ok", `fresco (${etaMin} min fa · ${battitoVal})`);
       }
     } catch (e) {
-      add("battito occhi (sentinella-dati:ultimo)", "warn", `non leggibile: ${e.message}`);
+      add("battito occhi (sentinella-dati:ultimo)", "cieco", `non leggibile: ${e.message}`);
     }
 
     try {
@@ -255,10 +279,10 @@ async function main() {
         }
       }
     } catch (e) {
-      add("segnali automazione", "warn", `Supabase non raggiungibile: ${e.message}`);
+      add("segnali automazione", "cieco", `Supabase non raggiungibile: ${e.message}`);
     }
   } else {
-    add("segnali automazione", "warn", "SUPABASE_URL/SERVICE_KEY assenti — i segnali non arrivano al Pannello");
+    add("segnali automazione", "cieco", "SUPABASE_URL/SERVICE_KEY assenti: non ho potuto leggere nessun segnale");
   }
 
   // 6) Gate di sicurezza
@@ -270,34 +294,54 @@ async function main() {
       : "dry-run (0) — merge simulati finché non metti AZIONI_LIVE=1"
   );
 
-  // Esito complessivo
+  // Esito complessivo — AR-370: il verdetto passa dal metro della copertura, non solo dai rossi.
   const fails = checks.filter((c) => c.esito === "fail");
   const warns = checks.filter((c) => c.esito === "warn");
-  const esito = fails.length > 0 ? "errore" : warns.length > 0 ? "warn" : "ok";
+  const nonEseguiti = checks.filter((c) => c.esito === "cieco");
+  const v = verdettoCopertura({
+    misurati: checks.length - nonEseguiti.length,
+    daMisurare: checks.length,
+    violazioni: fails.length,
+    nonMisurati: nonEseguiti.map((c) => `${c.nome}: ${c.dettaglio}`),
+  });
+  const esito = v.esito === ROTTO ? "errore" : v.esito === CIECO ? "cieco" : warns.length > 0 ? "warn" : "ok";
   const sintesi =
     fails.length > 0
       ? `${fails.length} FALLITI: ${fails.map((f) => f.nome).join(", ")}`
-      : warns.length > 0
-        ? `ok con ${warns.length} avvisi`
-        : "tutto verde";
+      : nonEseguiti.length > 0
+        ? `${nonEseguiti.length} controlli su ${checks.length} non li ho potuti eseguire: ${nonEseguiti.map((c) => c.nome).join(", ")}`
+        : warns.length > 0
+          ? `ok con ${warns.length} avvisi`
+          : "tutto verde";
 
-  await stampSegnale("verifica", esito === "errore" ? "errore" : "ok", `${sintesi} · ${nowPiacenza()}`);
+  // Il segnale che arriva al Pannello porta il terzo stato: fino a oggi «non ho guardato» ci
+  // arrivava come «ok», ed è la riga che Nicola legge per sapere se la macchina è viva.
+  await stampSegnale("verifica", segnaleDa(esito, { errore: "errore", cieco: "cieco", warn: "warn", ok: "ok" }), `${sintesi} · ${nowPiacenza()}`);
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ esito, sintesi, quando: nowPiacenza(), checks }, null, 2));
+    console.log(
+      JSON.stringify(
+        { esito, sintesi, quando: nowPiacenza(), controlli_non_eseguiti: nonEseguiti.map((c) => ({ nome: c.nome, perche: c.dettaglio })), checks },
+        null,
+        2,
+      ),
+    );
   } else {
     console.log(`\n🔎 VERIFICA AUTOMAZIONE — ${nowPiacenza()} (Europe/Rome)\n`);
-    const ICO = { ok: "✅", warn: "⚠️ ", fail: "❌" };
+    const ICO = { ok: "✅", warn: "⚠️ ", fail: "❌", cieco: "⚪" };
     for (const c of checks) {
-      console.log(`${ICO[c.esito]} ${c.nome.padEnd(22)} ${c.dettaglio}`);
+      console.log(`${ICO[c.esito] || "⚪"} ${c.nome.padEnd(22)} ${c.dettaglio}`);
     }
-    console.log(`\nESITO: ${esito === "ok" ? "✅ tutto verde" : esito === "warn" ? "⚠️  " + sintesi : "❌ " + sintesi}`);
+    console.log(`\nESITO: ${esito === "ok" ? "✅ tutto verde" : esito === "cieco" ? "⚪ " + sintesi : esito === "warn" ? "⚠️  " + sintesi : "❌ " + sintesi}`);
     if (fails.length > 0) {
       console.log("\nLa macchina NON è pienamente operativa: correggi i ❌ sopra.");
     }
+    if (nonEseguiti.length > 0) {
+      console.log("\nIl verde qui sopra NON copre i ⚪: quei controlli vanno rifatti da dove si possono eseguire (il VPS).");
+    }
   }
 
-  process.exit(fails.length > 0 ? 1 : 0);
+  process.exit(v.codice);
 }
 
 main().catch(async (e) => {

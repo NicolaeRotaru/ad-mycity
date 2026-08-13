@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { readVaultFile } from "@/lib/vault";
+import { statoCoerenza } from "@/lib/badge-coerenza";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -42,10 +43,13 @@ export async function GET() {
     }));
 
   // Verdetto del guardiano di coerenza (scritto da cervello/coerenza-fatti.mjs a ogni giro).
+  // AR-646 — la mappa degli esiti è ESAUSTIVA e fail-closed: sta in un modulo puro con la sua prova,
+  // perché la forma di prima (`=== "incoerenze" ? … : "ok"`) faceva del verde il ramo di default, e
+  // così «cieco» e «non_verificato» arrivavano a Nicola come lo scudo «Memoria coerente».
   const cf = await leggiJson("90-Memoria-AI/auto-coscienza/coerenza-fatti.json");
   const coerenza = cf
     ? {
-        esito: cf.esito === "incoerenze" ? "incoerenze" : "ok",
+        esito: statoCoerenza(cf.esito),
         incoerenze: Array.isArray(cf.incoerenze) ? cf.incoerenze.length : 0,
         cacce_aperte: Number(cf.cacce_aperte) || 0,
         data: String(cf.data || ""),

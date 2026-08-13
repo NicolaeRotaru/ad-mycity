@@ -118,6 +118,21 @@ export function gravitaDi(d) {
 const GRAVITA_MINORI = new Set(["minore", "basso", "bassa"]);
 
 /**
+ * AR-650 — i BLOCCANTI che nessun guardiano potrà mai chiudere.
+ *
+ * Era una riga in mezzo al programma (`voci.filter(v => v.gravita === "bloccante" && …)`), quindi
+ * nessun test poteva eseguirla senza far girare tutto lo script sul cantiere vero. Ed era cieca: le
+ * schede della generazione nuova portano `severita`, non `gravita`, così un bloccante senza prova
+ * non entrava nel conto — e il gate diceva «✅ ogni bloccante ha una prova» mentre AR-592 stava lì.
+ *
+ * Il conto è la cosa che deve scendere: se guarda il campo sbagliato non dice «non lo so», dice
+ * «va tutto bene». Pura: riceve le voci già classificate.
+ */
+export function bloccantiCiechi(voci = []) {
+  return voci.filter((v) => gravitaDi(v) === "bloccante" && !v.auto_chiudibile);
+}
+
+/**
  * AR-582 — le schede NON minori aperte a cui manca un campo del contratto: `impatto_crescita`
  * (il criterio con cui «i fix si chiudono per impatto sulla crescita» — senza, la coda per
  * priorità non sa dove metterle) o `nato` (senza, la scheda non entra nel conto mensile del
@@ -139,7 +154,12 @@ export function schedeIncomplete(difetti = []) {
 export function classifica(d) {
   const v = d.verifica;
   const eta = giorniDa(d.nato);
-  const base = { id: d.id, gravita: d.gravita, eta_giorni: eta, titolo: (d.titolo || "").slice(0, 110) };
+  // AR-650 — la gravità si legge dalla porta unica, non dal primo nome che le è stato dato.
+  // `classifica` era l'ultimo lettore rimasto a guardare solo `d.gravita`: le 48 schede nate dalla
+  // radiografia del 13/8 usano `severita`, quindi per lui erano tutte senza gravità — e il conto dei
+  // BLOCCANTI ciechi (che legge `v.gravita`) ne saltava uno vero, AR-592. Un guardiano che conta zero
+  // perché guarda il campo sbagliato non dice «non lo so»: dice «va tutto bene».
+  const base = { id: d.id, gravita: gravitaDi(d), eta_giorni: eta, titolo: (d.titolo || "").slice(0, 110) };
 
   // AR-344 — la forma di una prova la legge UN solo modulo (chiusura-dichiarata.mjs), non due lettori
   // indipendenti. Prima qui c'era `if (!v || !v.file || !v.pattern)`: tutto ciò che non fosse
@@ -228,7 +248,7 @@ const aperti = cantiere.difetti.filter((d) => d.stato !== "chiuso");
 const voci = aperti.map(classifica);
 
 const perClasse = voci.reduce((a, v) => ((a[v.classe] = (a[v.classe] || 0) + 1), a), {});
-const bloccantiCiechi = voci.filter((v) => v.gravita === "bloccante" && !v.auto_chiudibile);
+const bloccantiCiechiOra = bloccantiCiechi(voci);
 const nonChiudibili = voci.filter((v) => !v.auto_chiudibile);
 // AR-582 — le schede a cui manca un campo del contratto (impatto_crescita/nato sui non-minori):
 // senza quei campi la coda per priorità e il conto mensile non sanno dove metterle.
@@ -245,7 +265,7 @@ const report = {
   difetti_aperti: aperti.length,
   per_classe: perClasse,
   non_auto_chiudibili: nonChiudibili.length,
-  bloccanti_ciechi: bloccantiCiechi.map((v) => v.id),
+  bloccanti_ciechi: bloccantiCiechiOra.map((v) => v.id),
   // AR-582 — schede non-minori senza impatto_crescita e/o nato: fuori da ogni ordinamento per
   // priorità e (senza nato) fuori dal conto mensile. `--gate-campi` le rende un rosso.
   schede_incomplete: incomplete,
@@ -272,8 +292,8 @@ if (JSON_MODE) {
     console.log("");
   }
   console.log(
-    bloccantiCiechi.length
-      ? `❌ ${bloccantiCiechi.length} BLOCCANTI non verificabili (${bloccantiCiechi.map((v) => v.id).join(", ")}): gonfiano il conteggio senza che nessuno possa abbassarlo.`
+    bloccantiCiechiOra.length
+      ? `❌ ${bloccantiCiechiOra.length} BLOCCANTI non verificabili (${bloccantiCiechiOra.map((v) => v.id).join(", ")}): gonfiano il conteggio senza che nessuno possa abbassarlo.`
       : "✅ Ogni bloccante ha una prova che un guardiano può verificare.",
   );
   if (incomplete.length) {
@@ -286,11 +306,11 @@ if (JSON_MODE) {
 
 await stampSegnale(
   "cantiere-prove",
-  bloccantiCiechi.length ? "attenzione" : "ok",
-  `${nonChiudibili.length}/${aperti.length} non auto-chiudibili · ${bloccantiCiechi.length} bloccanti ciechi · ${incomplete.length} schede senza campi`,
+  bloccantiCiechiOra.length ? "attenzione" : "ok",
+  `${nonChiudibili.length}/${aperti.length} non auto-chiudibili · ${bloccantiCiechiOra.length} bloccanti ciechi · ${incomplete.length} schede senza campi`,
 ).catch((e) => console.error(`⚠️  segnale non stampato (il verdetto qui sopra resta valido): ${e.message || e}`));
 
-if (GATE && bloccantiCiechi.length) process.exit(1);
+if (GATE && bloccantiCiechiOra.length) process.exit(1);
 // AR-582 — freno separato dal `--gate` storico: rosso se una scheda non-minore è senza
 // impatto_crescita/nato. Separato apposta: il debito di oggi (45 schede il 13/8) non deve
 // far diventare rosso il giro che usa `--gate`, ma chi vuole il contratto duro ce l'ha.

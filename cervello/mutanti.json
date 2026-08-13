@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-13 22:05",
+ "aggiornato": "2026-08-13 22:55",
  "mutanti": [
   {
    "lotto": 30,
@@ -1497,8 +1497,8 @@
    "lezione": "L-2026-0803-550",
    "nome": "la forma dei JSON torna a guardare i commit del ramo: al commit il cancello non vede niente",
    "file": "cervello/forma-json.mjs",
-   "cerca": "  const base = STAGED ? \"HEAD\" : \"origin/main\";",
-   "sostituisci": "  const base = \"origin/main\";",
+   "cerca": "  if (STAGED) return { base: \"HEAD\", ramo: [\"diff\", \"--cached\", \"--name-only\"], workingTree: false, fuori: [] };",
+   "sostituisci": "  if (false) return { base: \"HEAD\", ramo: [\"diff\", \"--cached\", \"--name-only\"], workingTree: false, fuori: [] };",
    "test": "node --test cervello/test/campo-commit-e-turno.test.mjs"
   },
   {
@@ -2637,6 +2637,105 @@
    "cerca": "        git checkout -B \"$branch\" 2>/dev/null || true\n        echo \"[$(ts)] Ritmo: HEAD era staccato",
    "sostituisci": "        git checkout -B \"$branch\" FETCH_HEAD 2>/dev/null || true\n        echo \"[$(ts)] Ritmo: HEAD era staccato",
    "test": "cervello/test/testa-staccata-non-perde-memoria.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-473",
+   "nome": "la forma dei JSON smette di guardare il lavoro in corso: verde a metà lotto",
+   "file": "cervello/forma-json.mjs",
+   "cerca": "    const sporchi = rif.workingTree",
+   "sostituisci": "    const sporchi = false && rif.workingTree",
+   "test": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-473",
+   "nome": "il passo delle mutazioni torna a sparire in silenzio dal cancello",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "    if (muto) ciechiProve.push(muto);",
+   "sostituisci": "    if (false) ciechiProve.push(muto);",
+   "test": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-460",
+   "nome": "il clone superficiale smette di dichiarare cosa non ha confrontato",
+   "file": "cervello/forma-json.mjs",
+   "cerca": "    fuori: [\"origin/main non raggiungibile (clone superficiale): i JSON già committati sul ramo non li ho confrontati con nessuno\"],",
+   "sostituisci": "    fuori: [],",
+   "test": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-370",
+   "nome": "il guardiano dell automazione torna a contare solo i rossi: verde senza aver guardato",
+   "file": "cervello/verifica-automazione.mjs",
+   "cerca": "  process.exit(v.codice);",
+   "sostituisci": "  process.exit(fails.length > 0 ? 1 : 0);",
+   "test": "node cervello/test/automazione-verde-senza-guardare.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-650",
+   "nome": "la gravità torna a leggersi da un nome solo: 48 schede senza gravità",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "  const base = { id: d.id, gravita: gravitaDi(d), eta_giorni: eta,",
+   "sostituisci": "  const base = { id: d.id, gravita: d.gravita, eta_giorni: eta,",
+   "test": "node cervello/test/conto-che-guarda-il-campo-sbagliato.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-646",
+   "nome": "il badge della Cabina torna a fare del verde il ramo di default",
+   "file": "pannello/src/lib/badge-coerenza.ts",
+   "cerca": "  return (NOTI as string[]).includes(v) ? (v as StatoCoerenza) : \"sconosciuto\";",
+   "sostituisci": "  return v === \"incoerenze\" ? \"incoerenze\" : \"ok\";",
+   "test": "node cervello/test/badge-che-compra-il-verde.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-363",
+   "nome": "la sentinella smette di guardare da quanto i sensori non si rimisurano",
+   "file": "cervello/sentinella-dati.mjs",
+   "cerca": "  if (s.sensori_stantii && s.sensori_eta_min !== null) {",
+   "sostituisci": "  if (false && s.sensori_stantii && s.sensori_eta_min !== null) {",
+   "test": "node cervello/test/misura-che-non-scade-mai.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-364",
+   "nome": "un ok auto-dichiarato torna a non scadere mai",
+   "file": "cervello/lib-sensori-verdetto.mjs",
+   "cerca": "  if (!s.stantia) return { voce, decaduto: false };",
+   "sostituisci": "  if (true) return { voce, decaduto: false };",
+   "test": "node cervello/test/misura-che-non-scade-mai.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-378",
+   "nome": "la bacheca torna a scriversi solo col verde: foto vecchia che sembra fresca",
+   "file": "cervello/guardiani-check.mjs",
+   "cerca": "    const esito = aggiornaBacheca(readFileSync(BACHECA, \"utf8\"), bloccoBacheca(cens, nowPiacenza()));",
+   "sostituisci": "    const esito = rc === 0 ? aggiornaBacheca(readFileSync(BACHECA, \"utf8\"), bloccoBacheca(cens, nowPiacenza())) : { cambiato: false, testo: \"\" };",
+   "test": "node cervello/test/bacheca-congelata.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-378",
+   "nome": "la tabella incompleta smette di dire che è incompleta",
+   "file": "cervello/censimento-guardiani.mjs",
+   "cerca": "  if (incompleta.length) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/bacheca-congelata.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-661",
+   "nome": "la mappa degli esiti torna a regalare il ramo buono a una chiave che non conosce",
+   "file": "cervello/misura-o-cieco.mjs",
+   "cerca": "  return Object.hasOwn(mappa || {}, k) ? mappa[k] : seNonSo;",
+   "sostituisci": "  return Object.hasOwn(mappa || {}, k) ? mappa[k] : \"ok\";",
+   "test": "node cervello/test/misura-o-cieco.test.mjs"
   }
  ]
 }

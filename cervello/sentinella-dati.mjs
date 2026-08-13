@@ -49,7 +49,9 @@ import { execFileSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { giorniDa } from "./fonte-numero.mjs"; // AR-280: i giorni si contano da un timestamp, in un posto solo
+import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { misuraScaduta } from "./misura-o-cieco.mjs"; // AR-363: una misura ha una scadenza
 
 const LIVE = process.argv.includes("--live") || process.env.SENTINELLA_DATI_LIVE === "1";
 const JSON_MODE = process.argv.includes("--json");
@@ -67,6 +69,20 @@ const WORKER_MORTO_MIN = Number(process.env.SENTINELLA_DATI_WORKER_MORTO_MIN || 
 const SALUTE_MIN = Number(process.env.SENTINELLA_DATI_SALUTE_MIN || 60);
 const RADIOGRAFIA_MAX_GG = Number(process.env.SENTINELLA_DATI_RADIOGRAFIA_MAX_GG || 10);
 const VOLANO_MIN = Number(process.env.SENTINELLA_DATI_VOLANO_MIN || 0.05);
+/**
+ * AR-363 — DOPO QUANTO UNA MISURA DEI SENSORI SMETTE DI VALERE.
+ *
+ * `stato: "ok"` in sensori-cecita.json è l'esito dell'ULTIMA MISURA RIUSCITA, non dell'ultima misura.
+ * Nel modello dati un sensore aveva uno stato e nessuna scadenza: per ogni consumatore «non misurato
+ * da 36 ore» e «misurato adesso e va bene» erano lo stesso identico valore. È nato dentro il giro,
+ * dove il file era sempre appena riscritto e la freschezza la garantiva il contesto — ma la
+ * sentinella lo legge da un timer PROPRIO, che gira anche quando il giro è morto. Cioè proprio nel
+ * guasto che deve far vedere, questo registro le racconta la giornata di ieri.
+ *
+ * 180 minuti = una volta e mezza la cadenza del battito (2h): sotto quella soglia un ritardo è
+ * normale, sopra vuol dire che il giro non sta più riscrivendo niente.
+ */
+const SENSORI_STANTII_MIN = Number(process.env.SENTINELLA_DATI_SENSORI_STANTII_MIN || 180);
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 const STATE_PATH = join(VAULT, "sentinella-dati.json");
@@ -244,6 +260,10 @@ async function leggiStatoReale(state) {
   s.sensori_max_ciechi = Number(
     cecita.meta?.max_giri_ciechi_dati ?? cecita.meta?.max_giri_ciechi ?? 0
   );
+  // AR-363 — quanti minuti ha la misura. `null` quando il file non esiste: lì è un'altra storia
+  // (nessun sensore ha mai scritto), e M2-bis non deve accusare una macchina appena nata.
+  s.sensori_eta_min = cecita.aggiornato ? misuraScaduta(cecita.aggiornato, SENSORI_STANTII_MIN).eta_min : null;
+  s.sensori_stantii = Boolean(cecita.aggiornato) && misuraScaduta(cecita.aggiornato, SENSORI_STANTII_MIN).stantia;
 
   const storico = readJson(STORICO_PATH, {});
   const serie = Array.isArray(storico.serie) ? storico.serie : [];
@@ -291,7 +311,9 @@ async function leggiStatoReale(state) {
 
 // ---------- le REGOLE (soglie deterministiche → evento per il cervello) ----------
 // evento: { ambito, chiave, colore, reparto, titolo, firma, prompt, cooldownOre?, soloAllerta? }
-function valutaRegole(s, state) {
+// AR-445 — esportata perché una prova la possa ESEGUIRE: finché la decisione stava chiusa dentro il
+// programma, l unico modo di provarla era far girare la sentinella vera contro il database vero.
+export function valutaRegole(s, state) {
   const eventi = [];
 
   // ══════════ 🧠 MACCHINA (5) ══════════
@@ -318,6 +340,28 @@ function valutaRegole(s, state) {
       titolo: `Sensore dati cieco da ${s.sensori_max_ciechi} giri`,
       firma: "cieco",
       prompt: `Sentinella macchina 🧠 — SENSORE CIECO: almeno un sensore dati è cieco da ${s.sensori_max_ciechi} giri (sensori-cecita.json). Controlla il .env sul VPS e riprova la connessione. Finché è cieco NON scrivere numeri nuovi come fatti: usa la baseline di STATO + la sezione Gap.`,
+    });
+  }
+
+  // M2-bis — AR-363: i sensori non li ha PIÙ RIMISURATI nessuno.
+  //
+  // M2 qui sopra suona quando un sensore è cieco: cioè quando qualcuno ha provato e non ci è
+  // riuscito. Questo caso è l'opposto e nessuno lo copriva — non prova più nessuno, e l'ultimo `ok`
+  // resta scritto lì, vero per sempre. È l'assenza di misura letta come rassicurazione, applicata al
+  // tempo invece che al numero: e siccome il registro smette di aggiornarsi proprio quando il giro
+  // muore, il silenzio arriva esattamente nel guasto peggiore.
+  //
+  // La firma è la FASCIA d'età, non i minuti: coi minuti cambierebbe ogni volta e il dedup non
+  // scatterebbe mai — l'errore già pagato da M2 e da cassa_sconosciuta (AR-114).
+  if (s.sensori_stantii && s.sensori_eta_min !== null) {
+    const ore = Math.floor(s.sensori_eta_min / 60);
+    const fascia = ore < 6 ? "3-6h" : ore < 24 ? "6-24h" : ore < 72 ? "1-3gg" : "oltre 3gg";
+    eventi.push({
+      ambito: "macchina", chiave: "sensori_stantii", colore: "🔴", reparto: "devops-sre",
+      dedupPersistente: true,
+      titolo: `Nessuno controlla gli occhi della macchina da ${ore} ore`,
+      firma: fascia,
+      prompt: `Sentinella macchina 🧠 — SENSORI FERMI: il registro dei sensori (sensori-cecita.json) non viene riscritto da ${ore} ore, oltre il limite di ${Math.round(SENSORI_STANTII_MIN / 60)} ore. Il suo «ok» è l'esito dell'ULTIMA MISURA RIUSCITA, non dell'ultima misura: chi lo legge sta guardando una fotografia vecchia e la scambia per lo stato di adesso. Vuol dire che il giro non sta più girando, o che gira e non arriva a riscrivere. Controlla mycity-giro.timer e i log del worker sul VPS. Finché è così NON dare per buono nessun numero preso da quel registro.`,
     });
   }
 
@@ -725,6 +769,9 @@ async function main() {
   process.exit(0);
 }
 
+// AR-445 — il programma parte solo se lanciato, non al solo essere importato: chi importa questo file
+// per provarne una funzione non deve ritrovarsi la sentinella intera girata sul database vivo.
+if (import.meta.url === pathToFileURL(process.argv[1] || "").href)
 main().catch(async (e) => {
   console.error("ERRORE sentinella-dati:", e.message || e);
   await stampSegnale("sentinella-dati", "errore", `crash: ${(e.message || e).toString().slice(0, 160)}`);

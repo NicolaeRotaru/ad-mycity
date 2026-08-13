@@ -19,7 +19,17 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { scriviStatoSensore } from "./stato-sensori.mjs";
-import { eSpentoPerDecisione, istruzioniGiro, sintesiSensori, verdettoSensori } from "./lib-sensori-verdetto.mjs";
+import { decadiAutoDichiarato, eSpentoPerDecisione, istruzioniGiro, sintesiSensori, verdettoSensori } from "./lib-sensori-verdetto.mjs";
+import { misuraScaduta } from "./misura-o-cieco.mjs";
+
+/**
+ * AR-364 — dopo quanto un «ok» che si è dato la macchina da sola smette di valere.
+ *
+ * Default 12 ore = sei giri del battito da 2h. Non è una punizione: è la differenza fra «l'ho provato
+ * stamattina» e «l'ho provato undici giorni fa e da allora nessuno ci ha più guardato».
+ */
+const MCP_DECADENZA_MIN = Number(process.env.MCP_DECADENZA_MIN || 720);
+const scadutaMcp = (quando) => misuraScaduta(quando, MCP_DECADENZA_MIN);
 
 const JSON_MODE = process.argv.includes("--json");
 const RETRIES = 3;
@@ -548,13 +558,14 @@ async function main() {
       dettaglio: cecita.sensori.mcp_supabase.dettaglio,
       canale: "MCP",
     });
-  } else if (!cecita.sensori.mcp_supabase) {
-    cecita.sensori.mcp_supabase = {
-      stato: "non_verificato",
-      giri_ciechi: 0,
-      canale: "MCP Cursor/Claude",
-      dettaglio: "Non testabile da script: l'AD aggiorna con --mcp-supabase=ok|cieco in auto-analisi",
-    };
+  } else {
+    // AR-364 — il ramo di ripiego guarda l'ETÀ, non l'assenza.
+    //
+    // Prima era `else if (!cecita.sensori.mcp_supabase)`: una dichiarazione fatta una volta diventava
+    // un fatto permanente del registro, e quel registro è la base su cui si conta quanti occhi sono
+    // aperti. Misurato: due sensori «accesi» da undici giorni, mai più provati da nessuno.
+    const d = decadiAutoDichiarato(cecita.sensori.mcp_supabase, scadutaMcp, "--mcp-supabase=ok|cieco");
+    cecita.sensori.mcp_supabase = d.voce;
   }
 
   const mcpStripe = parseMcpFlag("stripe");
@@ -567,6 +578,11 @@ async function main() {
       ok ? "MCP Stripe raggiungibile" : "MCP Stripe cieco",
       "MCP Cursor/Claude"
     );
+  } else {
+    // Il ramo che a mcp_stripe mancava del tutto: senza, la sua voce non decadeva mai e nemmeno
+    // nasceva. Un sensore che non compare nel registro è più invisibile di uno dichiarato cieco.
+    const d = decadiAutoDichiarato(cecita.sensori.mcp_stripe, scadutaMcp, "--mcp-stripe=ok|cieco");
+    cecita.sensori.mcp_stripe = d.voce;
   }
 
   // AR-587: il verdetto passa dalla funzione pura. «ok» solo se almeno un sensore d'AMBIENTE

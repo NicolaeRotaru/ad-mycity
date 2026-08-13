@@ -1,12 +1,12 @@
 {
   "_cosa_e": "Quanti difetti la macchina chiude, diviso quanti ne apre. Obiettivo: almeno 1. Sotto 1 il giro chiude invece di cercare.",
-  "misurato": "2026-08-13 22:20",
+  "misurato": "2026-08-13 23:21",
   "mese": "2026-08",
-  "nati": 189,
+  "nati": 191,
   "chiusi": 125,
-  "tasso": 0.66,
+  "tasso": 0.65,
   "esito": "sotto",
-  "detto": "chiudo 125 e ne apro 189: ne apro più di quanti ne chiudo (0.66, obiettivo 1)",
+  "detto": "chiudo 125 e ne apro 191: ne apro più di quanti ne chiudo (0.65, obiettivo 1)",
   "obiettivo": 1,
   "minimo_campione": 5,
   "registri_bucati": {
@@ -29,9 +29,9 @@
     },
     {
       "mese": "2026-08",
-      "nati": 189,
+      "nati": 191,
       "chiusi": 125,
-      "tasso": 0.66
+      "tasso": 0.65
     }
   ]
 }
