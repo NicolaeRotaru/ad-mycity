@@ -1,8 +1,32 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 19:10
+aggiornato: 2026-08-13 19:20
 fonte: AD digitale (chat)
 ---
+
+> ⚪ **13/8 19:20 — Giro richiesto in chat, ~31ª volta oggi, 10 minuti dopo il passaggio delle 19:10. Nessuna novità.**
+> Riconfermato dal vivo con query SQL diretta: 1 ordine (mai pagato, 24/6, annullato), 0 pagati, 0 negli ultimi
+> 7 giorni, 7 profili, 5 prodotti. **Identico** a ogni lettura di oggi. North Star: stallo confermato, dentro
+> la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Coda invariata.** Controllata riga per riga in [[AZIONI-IN-ATTESA]]. Le 9 card ferme (#7, #8, #14-#20)
+> sono tutte ancora "in attesa". Tra queste c'è il nuovo **#20**, merge PR #714, aggiunto al passaggio delle
+> 18:59. Nessuna risposta di Nicola nel frattempo.
+>
+> **Rispettato il vincolo HARD tasso-chiusura** (0,6 nel mese, sotto la soglia di 1). Nessuna ricerca nuova.
+> Nessuna radiografia. Applicata la strategia snella ([[playbook-giro-pieno-ripetuto-strategia]]). Non
+> riscritti `auto-analisi.json`, `registro-realta.json`, `apprendimento.json`: dati di business identici a
+> stamattina, già freschi.
+>
+> **Controllato l'allarme del sorvegliante su `cantiere-prove.json`, era un falso allarme.** Il sorvegliante
+> segnalava la sparizione delle prove di 4 difetti (AR-416, AR-471, AR-480, AR-574) come possibile rimozione
+> di una difesa. Ho controllato `cantiere-difetti.json`, la fonte vera. Tutti e 4 risultano `"stato": "chiuso"`.
+> Due si sono chiusi oggi pomeriggio (AR-416 alle 18:20, durante un passaggio precedente di questa stessa
+> giornata). Il file `cantiere-prove.json` dichiara nella sua intestazione di tracciare solo i difetti
+> **non chiusi**. Quindi la loro sparizione è corretta, non un buco. Nessun fix necessario.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Briefing:
+> [[Briefing/2026-08-13]].
 
 > 🔁 **13/8 19:10 — Giro richiesto in chat (~30ª volta oggi), strategia snella: business invariato, chiuso lavoro pendente + un difetto vero trovato sul campo.**
 > Riconfermato dal vivo con query SQL diretta su Supabase: 1 ordine (mai pagato, 24/6, annullato), 0 pagati,

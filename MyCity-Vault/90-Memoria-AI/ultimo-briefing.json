@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-13 19:10",
-  "situazione": "Giro richiesto in chat (~30ª volta oggi): business invariato, riconfermato via SQL diretta (1 ordine mai pagato/annullato, 0 pagati, 5 prodotti, 7 profili, 0 ordini/clienti nuovi in 7gg). North Star fermo, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Tasso di chiusura sotto soglia: nessuna ricerca nuova. Chiuso lavoro pendente di un giro interrotto (mappa macchina + fix guardiani, 28 file), e mentre lo chiudevo ho trovato e riparato un difetto vero: uno script della macchina (git-pr.mjs) stava per committare le cartelle di lavoro di altri agenti come riferimenti orfani nel repo. Corretto alla radice, test suite rilanciata per intero (1134/1134 verdi), PR #714 aperta e in coda per la firma.",
+  "data": "2026-08-13 19:20",
+  "situazione": "Giro richiesto in chat (~31ª volta oggi, 10 minuti dopo il passaggio delle 19:10): business invariato, riconfermato via SQL diretta (1 ordine mai pagato/annullato, 0 pagati, 5 prodotti, 7 profili, 0 ordini/clienti nuovi in 7gg). North Star fermo, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Tasso di chiusura sotto soglia (0,6): nessuna ricerca nuova. Coda controllata riga per riga, tutte le 9 card ancora in attesa, nessuna risposta di Nicola. Segnalato ma non indagato: un diff ancora aperto su cantiere-prove.json (2 righe-prova rimosse, ereditato dal giro interrotto delle 19:18).",
   "opportunita": [
     {
       "titolo": "Applica l'elenco permessi senza jolly, sblocca anche i test",
