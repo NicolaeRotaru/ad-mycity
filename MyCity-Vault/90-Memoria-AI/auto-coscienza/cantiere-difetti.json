@@ -10316,12 +10316,13 @@
       "gravita": "minore",
       "impatto_crescita": "basso",
       "colore": "🟢",
-      "stato": "da-riverificare",
+      "stato": "aperto",
       "nato": "2026-08-03",
       "chiuso_il": "",
       "nascita": "scoperto",
       "provenienza": "Iscritto il 2026-08-03 da cantiere-integrita.mjs: era citato nel codice vivo della macchina e applicato come regola, ma non aveva nessuna scheda nel cantiere.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "aggiornamento_2026_08_13": "Radiografia 13/8: 12 difetti aperti risultano nati senza prova per chiudersi da soli — il campo obbligatorio resta non fatto rispettare. La scheda torna aperta con questa misura fresca."
     },
     {
       "id": "AR-100",
@@ -11596,6 +11597,1429 @@
         "comando": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
       },
       "nota_fix": "13/8 00:05 (sessione cloud, branch claude/organi-x-rossa-pallino-bianco-fbg0xh): CLAUDE.md riga ~344 tre→quattro blocchi; worker.sh contratto COME SCRIVI (chat) + riga risultato (lavori) con i quattro blocchi sulle risposte lunghe; prova nel test regola-scrittura-nei-senior.test.mjs (14/14 verdi) che diventa rossa se CLAUDE.md torna a «tre blocchi» o se un blocco sparisce dai prompt del worker. Da riverificare DOPO il merge: il contatore (conta-blocco-mancante) deve scendere sotto il tetto del 45% man mano che i messaggi nuovi del VPS entrano nella finestra dei 7 giorni — la quota è l'unico giudice; se fra una settimana è ancora sopra, la causa non era (solo) il mandato."
+    },
+    {
+      "id": "AR-575",
+      "titolo": "Settantaquattro difetti chiusi non hanno la data di chiusura, e il voto mensile non li conta",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json + cervello/tasso-chiusura.mjs riga 70",
+      "descrizione": "Nel cantiere 74 schede su 341 chiuse hanno stato 'chiuso' ma il campo chiuso_il vuoto (es. AR-465, AR-466, AR-471, AR-474, AR-478, AR-479, AR-480, AR-481 — quasi tutte recenti). Il motore del tasso di chiusura conta una chiusura solo se 'meseDi(d.chiuso_il) === mese' (riga 70): con la data vuota quelle 74 chiusure non appartengono a NESSUN mese. Il voto che la macchina si dà (chiusi ÷ aperti, obiettivo ≥ 1, il freno che sotto 1 vieta ricerche nuove) è quindi sottostimato: il commento nel motore dice 'agosto: 90 nati · 14 chiusi → 0,16', ma ogni chiusura recente senza data è invisibile a quel conto. Viola anche la regola dell'orario: Nicola non può sapere quando quelle schede si sono chiuse. — PROVA D'ARCHIVIO (13/8, storia git allungata al 25/7): al 31/7 le chiusure senza data erano 3; al 10/8 erano 74. Quindi 71 delle chiusure orfane sono avvenute tra l'1 e il 10 agosto: il mese vero conta ~94 chiusure su 102 aperture (tasso ~0,92), non 23 (0,23). Il freno anti-ricerche ha strozzato la macchina su un contatore rotto.",
+      "impatto": "Il voto con cui la macchina decide se può cercare è sbagliato di 4 volte: mostra 0,23 quando il vero è ~0,92. Ogni decisione presa col freno tirato (niente ricerche, solo chiusure) poggiava su un numero falso.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e 'const c=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json\");const n=c.difetti.filter(d=>d.stato===\"chiuso\"&&!d.chiuso_il);console.log(n.length+\" chiusi senza data, es: \"+n.slice(0,5).map(x=>x.id).join(\",\"));process.exit(n.length>0?1:0)'"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "74 chiusi senza data, es: AR-465,AR-466,AR-471,AR-474,AR-478"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-576",
+      "titolo": "Il termometro della salute crolla da 45 a 4 in un giorno, ma la macchina dichiara che non è cambiato niente",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json (serie) + auto-radiografia.json (campo trend)",
+      "descrizione": "La serie storica ha 88 punti su 90 fermi a voto 45 (dal 4/8 all'11/8), poi il 12/8 il voto scende a 4. Un salto di 41 punti su una scala 0-100. Eppure auto-radiografia.json dichiara trend '=' (uguale). Delle due l'una: o la salute è crollata davvero e il trend mente, o la radiografia totale dell'11/8 ha introdotto una formula di voto diversa (163 difetti trovati → 4/100) e la serie ora mischia due scale senza dichiararlo — il grafico del trend nel Pannello mostra comunque a Nicola un precipizio con sopra scritto 'stabile'.",
+      "impatto": "La domanda 'sto migliorando?' — l'unico scopo della serie storica — non ha più una risposta leggibile: Nicola vede un crollo verticale etichettato come stabilità, e ogni confronto futuro col passato (45 vs 4) è tra mele e pere.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e 'const s=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json\").serie;const u=s[s.length-1];const p=[...s].reverse().find(x=>x.data<u.data);const r=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json\");console.log(p.data+\"=\"+p.voto_salute+\" -> \"+u.data+\"=\"+u.voto_salute+\" trend:\"+r.trend);process.exit(Math.abs(p.voto_salute-u.voto_salute)>=20&&r.trend===\"=\"?1:0)'"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "2026-08-11=45 -> 2026-08-12=4 trend:="
+      },
+      "vedi": "AR-096 e AR-046 (altre due crepe dello stesso termometro)",
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-577",
+      "titolo": "Sette entità del registro della realtà hanno uno stato inventato che il contratto vieta per iscritto",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json vs contratto in cervello/auto-coscienza.md (righe 74-76 e 83)",
+      "descrizione": "Il contratto dice testualmente: lo stato di un'entità è SOLO uno di confermato|scelta_ragionata|da_verificare|scartato, e 'qualsiasi campo inventato è invisibile' al Pannello. Nel registro 7 entità su 27 (una su quattro) hanno stati fuori elenco: Casa Linda = 'demo', e Tigellabella, Trattoria La Forchetta, Le Tre Ganasce da Andrea, Osteria Carducci e altri 2 ristoranti = 'escluso'. Il Pannello e il cancello di allocazione conoscono solo i 4 stati ammessi: quelle 7 entità sono fuori da ogni filtro e conteggio.",
+      "impatto": "Il registro anti-invenzione — la difesa costruita dopo il caso dei negozi inventati — ha un quarto delle sue voci in uno stato che nessun consumatore del file sa leggere: un filtro sul Pannello o un cancello che ragiona per stato semplicemente non le vede.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e 'const r=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json\");const ok=[\"confermato\",\"scelta_ragionata\",\"da_verificare\",\"scartato\"];const bad=(r.entita||[]).filter(e=>!ok.includes(e.stato));console.log(bad.length+\" stati fuori contratto: \"+bad.map(e=>e.nome+\"=\"+e.stato).join(\", \"));process.exit(bad.length?1:0)'"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "7 stati fuori contratto: Casa Linda=demo, Tigellabella=escluso, Trattoria La Forchetta=escluso, Le Tre Ganasce da Andrea=escluso, Osteria Ca"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-578",
+      "titolo": "La memoria si aggiorna ogni sera, ma il referto del checkup è fermo da quasi due giorni",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/salute.json (data 2026-08-11 02:26, sezione vps vuota) vs coerenza-fatti.json (data 2026-08-12 23:04)",
+      "descrizione": "Il manuale dice che il checkup gira da solo sul VPS mattina e sera e pubblica il referto in salute.json, e che 'un referto vecchio è un rosso'. Il referto pubblicato è fermo alle 02:26 dell'11/8 — circa 45 ore fa — mentre altri file della stessa cartella si aggiornano regolarmente (coerenza-fatti.json è delle 23:04 del 12/8). Quindi non è il canale di pubblicazione a essere rotto: è proprio il checkup che non gira o non scrive. In più la sezione vps del referto è vuota ({}), cioè anche l'ultimo referto disponibile non portava il ponte verso il VPS.",
+      "impatto": "L'organo che dovrebbe accorgersi dei guasti è lui stesso spento senza che nulla lo segnali: se stanotte si ferma il worker o un sensore, il primo a saperlo sarà Nicola a occhio, non la macchina — esattamente il modo di fallire che il checkup doveva eliminare.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e 'const fs=require(\"fs\");const B=\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/\";const s=JSON.parse(fs.readFileSync(B+\"salute.json\"));const c=JSON.parse(fs.readFileSync(B+\"coerenza-fatti.json\"));const ore=(new Date(c.data.replace(\" \",\"T\"))-new Date(s.data.replace(\" \",\"T\")))/3.6e6;console.log(\"referto salute indietro di \"+ore.toFixed(0)+\" ore rispetto alla memoria viva\");process.exit(ore>24?1:0)'"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": " | Node.js v22.22.2"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-579",
+      "titolo": "Nella serie storica della salute compaiono tipi di visita che il contratto non prevede",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json (tipo 'auto-fix') e auto-radiografia.json (tipo 'radiografia-totale') vs contratto 'completa|sonda' in cervello/auto-coscienza.md",
+      "descrizione": "Il contratto ammette due tipi: 'completa' e 'sonda'. Nella serie storica c'è un punto con tipo 'auto-fix', e l'ultima radiografia dichiara tipo 'radiografia-totale'. In 90 punti di serie non esiste NEMMENO UN punto 'completa': le radiografie complete o non scrivono la serie o la scrivono con etichette proprie. Chi filtra o raggruppa per tipo (il Pannello, o un'analisi del trend) classifica male o perde questi punti.",
+      "impatto": "Piccole crepe di contratto che si accumulano: ogni consumatore del file deve indovinare i valori possibili invece di fidarsi dello schema.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e 'const s=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json\").serie;const r=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json\");const ok=[\"completa\",\"sonda\"];const bad=s.filter(p=>!ok.includes(p.tipo)).length+(ok.includes(r.tipo)?0:1);console.log(bad+\" valori di tipo fuori contratto\");process.exit(bad?1:0)'"
+      },
+      "verifica": {
+        "tipo": "comando"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-580",
+      "titolo": "Quattro lezioni imparate portano lo stesso numero di matricola di un'altra",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json (id L-2026-0804-02, L-2026-0710-71, L-2026-0710-72, L-2026-0701-27, ognuno presente 2 volte su 517 lezioni)",
+      "descrizione": "Quattro id di lezione esistono in doppia copia. È la stessa malattia già curata sul cantiere (due sessioni parallele coniano lo stesso numero — scheda AR-447, chiusa), ma il guardiano d'unicità costruito allora copre SOLO il cantiere: sull'archivio delle lezioni nessuno controlla, e i doppioni si accumulano. Un riferimento per id (es. lezione_id negli esperimenti) diventa ambiguo, e i conteggi del meta contano due volte la stessa lezione.",
+      "impatto": "Riferimenti ambigui e conteggi gonfiati nell'archivio da cui la macchina impara; oggi il danno è piccolo (4 su 517), ma senza guardiano cresce.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e 'const a=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json\");const m={};(a.lezioni||[]).forEach(l=>m[l.id]=(m[l.id]||0)+1);const d=Object.entries(m).filter(([k,v])=>v>1);console.log(d.length+\" id duplicati: \"+d.map(x=>x[0]).join(\",\"));process.exit(d.length?1:0)'"
+      },
+      "verifica": {
+        "tipo": "comando"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-581",
+      "titolo": "Il quaderno dei pezzi nuovi proposti è morto: nessun programma lo legge e nessuno lo aggiorna da cinque settimane",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-pezzi.json (aggiornato 2026-07-05, 14 proposte)",
+      "descrizione": "Il file contiene 14 proposte di pezzi nuovi della macchina (guardiani, sensori — es. il guardiano 'owner unico per keyword' sulle description). Nessun file di codice in cervello/, pannello/ o .claude/ lo legge (zero lettori), è fermo al 5 luglio, e il contratto attuale prevede che le proposte di pezzi nuovi vivano in auto-radiografia.json (campo proposte_nuovi_pezzi). Le 14 proposte non sono state né migrate né dichiarate archiviate: dormono in un file che nessun motore e nessuna pagina del Pannello vedrà mai.",
+      "impatto": "Quattordici idee di miglioramento della macchina — pensate, scritte e mai più guardate — più un file che inganna chi esplora la memoria facendosi passare per vivo.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "n=$(grep -rl \"cantiere-pezzi\" /home/user/ad-mycity/cervello /home/user/ad-mycity/pannello /home/user/ad-mycity/.claude 2>/dev/null | grep -v node_modules | wc -l); echo \"lettori nel codice: $n\"; if [ \"$n\" -eq 0 ]; then exit 1; else exit 0; fi"
+      },
+      "verifica": {
+        "tipo": "comando"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-582",
+      "titolo": "Quattro difetti aperti non dichiarano quanto frenano la crescita, e la coda per priorità non sa dove metterli",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json (AR-437, AR-438, AR-439, AR-440 senza impatto_crescita; AR-439 e AR-440 anche senza data di nascita)",
+      "descrizione": "Il contratto del cantiere prevede impatto_crescita (alto|medio|basso) su ogni scheda, ed è il criterio con cui 'i fix si chiudono per impatto sulla crescita'. Quattro schede aperte ne sono prive, e due non hanno nemmeno la data di nascita (nato) — quindi non entrano neanche nel conteggio dei nati del mese per il tasso di chiusura.",
+      "impatto": "Quattro schede fuori da ogni ordinamento per priorità e (due) fuori dal conto mensile: piccole, ma nel punto esatto dove si decide cosa riparare prima.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e 'const c=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json\");const n=c.difetti.filter(d=>d.stato!==\"chiuso\"&&!d.impatto_crescita);console.log(n.length+\" senza impatto_crescita: \"+n.map(x=>x.id).join(\",\"));process.exit(n.length?1:0)'"
+      },
+      "verifica": {
+        "tipo": "comando"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-583",
+      "titolo": "I due guardiani anti-doppione danno il verde mentre due senior si contendono il carrello abbandonato",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "cervello/agent-registry-check.mjs (righe 109-112 e 128-140) · cervello/keyword-owner-check.mjs (riga 58) · .claude/agents/cro.md · .claude/agents/crm-lifecycle.md",
+      "descrizione": "Misurato adesso: entrambi i guardiani del registro girano e riportano zero problemi (agent-registry-check: drift 0, collisioni_coppie 0; keyword-owner-check: conflitti 0). Nello stesso momento la description di cro reclama «tasso di abbandono carrello / ridurre l'abbandono» e quella di crm-lifecycle reclama «recupero carrelli abbandonati / carrello abbandonato», nessuna delle due rimanda all'altra, e cro non ha proprio nessun blocco di rimando «(→…)». La domanda «i clienti abbandonano il carrello, fai qualcosa» ha due owner e nessun confine — e il cancello che esiste apposta per accorgersene dice che va tutto bene. Nota: nel manuale dell'AD la riga di cro HA i rimandi (frontend-dev, ux-designer), ma nella scheda vera — quella che il router legge — non ci sono.",
+      "impatto": "Il recupero carrelli è una delle leve di ricavo più dirette: con due owner senza confine, o lavorano in doppio (due risposte diverse alla stessa domanda) o ognuno pensa che se ne occupi l'altro. E il cancello dell'owner-unico dichiara a ogni giro «nessun drift» a Nicola mentre non misura ciò che promette — stessa malattia della prova-grep: un controllo che non può fallire nel modo in cui fallisce la realtà.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "cd /home/user/ad-mycity && env -u SUPABASE_URL -u SUPABASE_SERVICE_KEY node -e 'const fs=require(\"fs\"),{execFileSync}=require(\"child_process\");const D=f=>fs.readFileSync(\".claude/agents/\"+f,\"utf8\").match(/^description:(.*)$/m)[1].toLowerCase();const cro=D(\"cro.md\"),crm=D(\"crm-lifecycle.md\");const both=cro.includes(\"abbandono carrello\")&&crm.includes(\"carrello abbandonato\");const cross=cro.includes(\"crm-lifecycle\")||/\\bcro\\b/.test(crm);let flagged=false;try{execFileSync(\"node\",[\"cervello/agent-registry-check.mjs\",\"--json\"])}catch(e){try{flagged=JSON.parse(e.stdout.toString()).collisioni_coppie.some(c=>[c.a,c.b].sort().join()===\"crm-lifecycle,cro\")}catch(_){}}process.exit(both&&!cross&&!flagged?1:0)' — esce 1 (rosso) finché i due si contendono il carrello senza rimando reciproco E il guardiano non vede la coppia; verde appena uno dei due rimanda all'altro o il guardiano la flagga. Verificato adesso: exit 1. (env -u disattiva stampSegnale: il run resta a sola lettura.)"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "/bin/sh: 1: Syntax error: \"(\" unexpected"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-584",
+      "titolo": "Tutti i centoventi mansionari lasciano ogni strumento in mano ai senior, anche a chi per contratto legge soltanto",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": ".claude/agents/*.md (frontmatter, 120 file su 120) — esempio: .claude/agents/qa.md",
+      "descrizione": "Misurato adesso: 0 file su 120 hanno il campo `tools:` nel frontmatter (e il frontmatter è l'unica parte che la piattaforma esegue: senza quel campo il subagente eredita TUTTI gli strumenti, compresi Write, Edit e Bash). Il manuale promette che qa lavora «in sola lettura su mycity-live», che l'analista legge i dati e basta, che il marketplace non si scrive mai — ma sono promesse scritte in prosa dentro il corpo del mansionario, che un modello può fraintendere o ignorare. Tecnicamente ognuno dei 120 senior può scrivere file, lanciare comandi e modificare la copia del marketplace o il vault.",
+      "impatto": "Un senior «di sola lettura» che scrive per sbaglio — un file del vault sovrascritto, un comando bash su marketplace/ — rompe esattamente la promessa «mai sorprese» su cui si regge la fiducia di Nicola. Oggi la garanzia esiste solo finché ogni modello, a ogni run, decide di rispettare la prosa.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e 'const t=require(\"fs\").readFileSync(\"/home/user/ad-mycity/.claude/agents/qa.md\",\"utf8\");const fm=(t.match(/^---[\\r\\n]([\\s\\S]*?)[\\r\\n]---/)||[,\"\"])[1];process.exit(/^tools:/m.test(fm)?0:1)' — esce 1 (rosso) finché il frontmatter di qa non dichiara i suoi strumenti; è un controllo sulla configurazione che la piattaforma esegue davvero, non su una parola di prosa. Verificato adesso: exit 1. Stesso esito su tutti i 120 (grep -l \"^tools:\" .claude/agents/*.md → 0 file)."
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "/bin/sh: 1: Syntax error: \"(\" unexpected"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-585",
+      "titolo": "Il canale WhatsApp del negoziante non ha nessun senior che lo reclami",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": ".claude/agents/ (le 120 description) · CONTESTO_BUSINESS.md · cervello/azioni.md (le «mani»: email, push, in-app — WhatsApp assente)",
+      "descrizione": "Il documento che dice PERCHÉ esiste MyCity ripete 13 volte che il negoziante lavora su WhatsApp («nessuna app nuova da imparare, si lavora su WhatsApp con l'anteprima da approvare»): è il paletto numero uno del modello. Misurato adesso sulle 120 schede: 0 description su 120 nominano WhatsApp — la superficie che instrada le richieste non ha nessun owner per il canale operativo principale — mentre 97 mansionari su 120 lo citano nel corpo, cioè quasi tutti se lo intestano un po' e nessuno ne risponde. La regola dell'owner unico per keyword è violata nel punto più importante del business: la domanda «chi costruisce e gestisce il flusso WhatsApp del fornaio?» oggi non è instradabile.",
+      "impatto": "Ogni lavoro sul flusso che fa incassare il primo negozio (ordine che arriva su WhatsApp, anteprima da approvare, risposta al cliente) oggi viene gestito a caso da chi capita: 97 senior che se lo intestano un po' significa risposte incoerenti e nessuno che porti il canale da «citato ovunque» a «mano collegata e funzionante». È il pezzo che tocca la cassa in 2-4 settimane, il metro che il business stesso si è dato.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "Test da occhio umano (una parola aggiunta in una description farebbe verde un grep senza creare l'owner — è esattamente la trappola già vista sulle contestazioni carta): dai all'AD la richiesta «il fornaio vuole ricevere gli ordini e approvare le anteprime su WhatsApp: chi se ne occupa e con quale mano?» e guarda cosa succede. Rosso se l'AD improvvisa, si tiene il lavoro, o lo smista a un senior la cui scheda non reclama il canale; verde solo se UN owner dichiarato lo prende e indica la «mano» WhatsApp in cervello/azioni.md. Numeri a supporto misurati adesso: 0/120 description, 97/120 corpi, 13 citazioni in CONTESTO_BUSINESS.md."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-586",
+      "titolo": "La scheda degli affari regolatori reclama l'inquadramento dei rider senza rimandare ai due che ne rispondono",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": ".claude/agents/public-policy.md (description) · .claude/agents/consulente-lavoro.md · .claude/agents/avvocato-lavoro.md",
+      "descrizione": "Tre description si contendono la stessa domanda — «che rischio corriamo con l'inquadramento dei rider?». consulente-lavoro la reclama («il corretto inquadramento dei rider», «i rider sono dipendenti o autonomi / rischio riqualificazione») e rimanda ad avvocato-lavoro; avvocato-lavoro la reclama («rischio di riqualificazione dei rider») e rimanda a consulente-lavoro: coppia a posto. Ma public-policy reclama anch'essa «inquadramento rider» e «i rider sono a rischio caporalato», e i suoi rimandi citano SOLO relazioni-istituzionali e avvocato-civile: verso i due owner veri del tema rider non c'è nessun confine. Il router che legge le tre schede non ha modo di sapere chi dei tre debba rispondere.",
+      "impatto": "La riqualificazione dei rider è il rischio legale più caro del modello consegne: se la domanda finisce al senior che monitora le norme invece che a chi calcola l'esposizione economica e prepara la difesa, Nicola riceve un'analisi di scenario dove servivano numeri e contromisure. Oggi l'impatto è contenuto (flotta rider non ancora operativa), ma il difetto morde esattamente quando si cresce.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e 'const d=require(\"fs\").readFileSync(\"/home/user/ad-mycity/.claude/agents/public-policy.md\",\"utf8\").match(/^description:(.*)$/m)[1].toLowerCase();process.exit(d.includes(\"inquadramento rider\")&&!d.includes(\"consulente-lavoro\")&&!d.includes(\"avvocato-lavoro\")?1:0)' — esce 1 (rosso) finché la description reclama l'inquadramento rider senza nominare nessuno dei due owner nei rimandi; verde appena il confine c'è o la rivendicazione sparisce. Verificato adesso: exit 1."
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "/bin/sh: 1: Syntax error: \"(\" unexpected"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-587",
+      "titolo": "Il controllo dei sensori esce verde anche quando non ha misurato nessun sensore",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/cervello/verifica-sensori.mjs righe 559-563 (voto del verdetto), 585-589 (istruzioni), 669 (exit) — consumato da /home/user/ad-mycity/cervello/salute.mjs righe 846-855",
+      "descrizione": "Lanciato da un ambiente senza nessuna chiave (provato adesso: env -i, file di stato dirottato su scratchpad), il guardiano dei sensori esce con EXIT=0 ed esito 'ok', sintesi '1/10 ok': l'unico check verde è la lettura del file battito-esterno.yml dentro il repo, che non misura nessun sensore. Il contratto in testa al file dice 'Exit: 0 = almeno un sensore dati ok'. In più le istruzioni per il giro stampano 'Stripe ok ma Supabase REST cieco' — Stripe non è mai stato misurato (non configurato): una frase letteralmente falsa prodotta dal ramo di fallback. La visita salute (sensori.vista) traduce quell'exit 0 in 'almeno un sensore dati vede il marketplace': basta che nell'ambiente ci sia una sola delle 4 chiavi (anche solo l'URL del sito, che è uptime, non dati) perché il referto dichiari verde la vista dati.",
+      "impatto": "Una sessione cloud o un ambiente parziale può leggere 'sensori ok' nei log e nel referto salute mentre non ha visto niente del marketplace; il freno 'niente numeri nuovi' regge solo perché passa da un flag separato (datiOrdiniCiechi). Cecità travestita da verde nel punto nato per denunciarla.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "cd /home/user/ad-mycity && env -i PATH=\"$PATH\" HOME=\"$HOME\" SENSORI_CECITA_FILE=/tmp/cecita-prova.json node cervello/verifica-sensori.mjs --json | node -e \"let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const o=JSON.parse(s);const misurati=o.checks.filter(c=>c.dipende_da_env!==false&&c.configurato!==false).length;if(o.esito==='ok'&&misurati===0){console.error('ROSSO: esito ok con ZERO sensori d ambiente misurati (unico verde: file nel repo); istruzioni: '+o.istruzioni_giro);process.exit(1)}console.log('verde')})\""
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "ROSSO: esito ok con ZERO sensori d ambiente misurati (unico verde: file nel repo); istruzioni: Stripe ok ma Supabase REST cieco: limita anal"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-588",
+      "titolo": "Il sito dei negozi non risponde da tredici giorni e nessun guardiano lo porta in coda",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json (sito_uptime, righe 47-54) · /home/user/ad-mycity/cervello/sentinella-dati.mjs righe 243-245 · /home/user/ad-mycity/cervello/sensori-spenti-check.mjs riga 103 · /home/user/ad-mycity/cervello/salute.mjs righe 841-873",
+      "descrizione": "Il sensore uptime della vetrina segna HTTP 503 su mycity-marketplace.com da 103 giri consecutivi (ultimo ok: 30/7 08:20; stato aggiornato dal VPS oggi 12/8 22:20). Nessuno lo escala: la sentinella cecità (M2) guarda solo max_giri_ciechi_dati, che per classe esclude l'uptime (vale 0); il guardiano dei sensori spenti dichiara testualmente che i ciechi 'li vede la sentinella cecità' (che non li vede); la visita salute chiede solo 'almeno un sensore dati vede' e il referto VPS del 10/8 dà l'organo sensori tutto verde (sensori.vista ok, sensori.spenti ok). Nella coda azioni non c'è nessuna card sul sito giù — ma ci sono card di campagne con link proprio a mycity-marketplace.com e un'azione 'Nicola apre mycity-marketplace.com e ordina'. Il rosso più vecchio della macchina non ha un proprietario.",
+      "impatto": "Se il sito è davvero giù, da 13 giorni nessun cliente può ordinare e le card in coda chiedono a Nicola di approvare campagne che mandano gente su una pagina 'servizio non disponibile'; se invece è cambiato il dominio, la macchina misura da 13 giorni una cosa morta senza dirlo. In entrambi i casi il checkup dichiara l'organo sensori sano.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e \"const c=require('/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json');const coda=require('fs').readFileSync('/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md','utf8');const orfani=Object.entries(c.sensori).filter(([k,v])=>v.stato==='cieco'&&(v.giri_ciechi||0)>=10&&!coda.includes(k)&&!/503|sito gi/i.test(coda));if(orfani.length){console.error('ROSSO: '+orfani.map(([k,v])=>k+' rosso da '+v.giri_ciechi+' giri e nessuna card in coda ne parla').join('; '));process.exit(1)}console.log('verde')\""
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "ROSSO: sito_uptime rosso da 103 giri e nessuna card in coda ne parla"
+      },
+      "vedi": "AR-067 (superata da questa: il sensore ora esiste — resta il buco dell escalation)",
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-589",
+      "titolo": "La modalità sopravvivenza scatta sul contatore sbagliato: conta il sito giù come cecità dei dati",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/cervello/letargo.mjs righe 52 e 67-68 (consumato da cervello/giro.sh e cervello/capacita.mjs)",
+      "descrizione": "Il regolatore del livello-energia legge meta.max_giri_ciechi (il massimo su TUTTE le classi di sensore) e con ≥5 scala a SOPRAVVIVENZA ('solo nucleo vitale, tutto il resto spento'). Oggi quel contatore vale 103 — interamente causato dal solo sensore uptime del sito (503) — mentre max_giri_ciechi_dati, il campo che il produttore espone apposta per distinguere, vale 0: i dati si vedono benissimo (ordini contati via REST, Stripe ok, memoria ok). Quindi ad ogni valutazione l'asse sensori vota SOPRAVVIVENZA col motivo '103 giri ciechi sui sensori', che contraddice il dettaglio dello stesso file di stato — lo stesso verifica-sensori stampa 'Infrastruttura cieca ma fonti dati ok — niente vincolo numeri'. Non ho potuto verificare dal repo se giro.sh sul VPS applica oggi quel livello (nessun letargo.json in auto-coscienza): il voto sbagliato però è deterministico dai file committati.",
+      "impatto": "Se il livello è rispettato, da 13 giorni la macchina si auto-spegne (contenuti, esperimenti, introspezione — cioè i motori di crescita) per una ragione falsa; se non è rispettato, il referto del letargo mente comunque sul motivo. In entrambi i casi il motivo mostrato a Nicola ('giri ciechi sui sensori') contraddice lo stato reale dei sensori dati.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e \"const src=require('fs').readFileSync('/home/user/ad-mycity/cervello/letargo.mjs','utf8');const m=require('/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json').meta;const leggeDati=/max_giri_ciechi_dati/.test(src);if(!leggeDati&&m.max_giri_ciechi>=5&&(m.max_giri_ciechi_dati||0)===0){console.error('ROSSO: il letargo vota SOPRAVVIVENZA per '+m.max_giri_ciechi+' giri ciechi che sono solo uptime (cecita dati: 0)');process.exit(1)}console.log('verde')\""
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "ROSSO: il letargo vota SOPRAVVIVENZA per 103 giri ciechi che sono solo uptime (cecita dati: 0)"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-590",
+      "titolo": "Un sensore spento per decisione del proprietario risulta acceso e nessuno se n'è accorto",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/cervello/verifica-sensori.mjs righe 222-232 · /home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json righe 30-38 · /home/user/ad-mycity/cervello/sensori-motivi.json",
+      "descrizione": "Nel codice la decisione è scolpita: 'PostHog SPENTO su decisione di Nicola (5/7) — riattivare solo su suo ok (POSTHOG_OFF=1)'. Ma lo stato scritto dal VPS oggi (12/8 22:20) dice posthog_api: ok, 'projects API ok' — quindi sul VPS la chiave c'è, POSTHOG_OFF non è impostato, e la macchina sorveglia attivamente un servizio che risulta spento per scelta. Il guardiano dei sensori spenti guarda una direzione sola (spenti senza motivo dichiarato) e non confronta mai gli ACCESI con le decisioni di spegnimento; nel registro motivi c'è solo telegram_bot, nessuna riga PostHog. O Nicola l'ha riacceso e la decisione nel codice è stantia, o è acceso contro la sua decisione: in entrambi i casi nessun controllo lo dice.",
+      "impatto": "Una decisione del proprietario non onorata (o non aggiornata) senza che nessun guardiano la reclami: il precedente che le decisioni registrate possono divergere in silenzio dal comportamento reale.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e \"const c=require('/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json');const src=require('fs').readFileSync('/home/user/ad-mycity/cervello/verifica-sensori.mjs','utf8');if(/PostHog SPENTO su decisione/.test(src)&&c.sensori.posthog_api?.stato==='ok'){console.error('ROSSO: decisione di spegnimento registrata nel codice ma il sensore sul VPS e acceso e ok');process.exit(1)}console.log('verde')\""
+      },
+      "verifica": {
+        "tipo": "comando"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-591",
+      "titolo": "Nel riassunto dei sensori gli spenti finiscono nel denominatore come se fossero rotti",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/cervello/verifica-sensori.mjs righe 630-632 (sintesi passata a stampSegnale)",
+      "descrizione": "La sintesi che finisce nei segnali è 'datiOk/checks.length ok': numeratore = solo i configurati che rispondono, denominatore = TUTTI i check inclusi i non configurati. Provato adesso da ambiente vuoto: sintesi '1/10 ok' quando i configurati erano 1 su 1. Sullo stato VPS di oggi il conto dà '8/10 ok' mentre il meta dello stesso file dice sensori_ok 8 su sensori_totali 9 (più 1 non configurato): chi legge il segnale vede due sensori 'non ok' quando uno è solo spento in attesa di risposta (Telegram). È la stessa frazione con due popolazioni diverse dentro.",
+      "impatto": "Il riassunto che arriva ai segnali del Pannello sottostima la salute reale e fa sembrare guasti dei sensori semplicemente mai accesi — l'esatto errore (spento≠rotto) che il resto del file corregge con cura.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "cd /home/user/ad-mycity && env -i PATH=\"$PATH\" HOME=\"$HOME\" SENSORI_CECITA_FILE=/tmp/cecita-prova2.json node cervello/verifica-sensori.mjs --json | node -e \"let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const o=JSON.parse(s);const den=Number((o.sintesi.match(/\\\\/(\\\\d+) ok/)||[])[1]);const conf=o.checks.filter(c=>c.configurato!==false).length;if(den&&den!==conf){console.error('ROSSO: la sintesi divide per '+den+' ma i sensori configurati sono '+conf+': gli spenti contati come rotti');process.exit(1)}console.log('verde')})\""
+      },
+      "verifica": {
+        "tipo": "comando"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-592",
+      "titolo": "Il battito è di nuovo fermo da tre giorni e la ricaduta non ha svegliato nessuno",
+      "severita": "bloccante",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-cadenze.json · /home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md (ultima card 2026-08-04) · timer sul VPS non visibili da qui",
+      "descrizione": "Tutte e sei le cadenze registrate hanno come ultimo esito un fallimento: piano del mattino, punto di mezzogiorno, report della sera e monitoraggio sono usciti l'ultima volta tra 57 e 75 ore fa (finestra massima: 30 ore), il giro di stanotte è morto a tempo scaduto (codice motore 124) senza pubblicare, la review della settimana del 7/8 è fallita col motore in errore. L'ultimo Piano del mattino pubblicato in RITMO.md è del 30 luglio: tredici giorni senza il battito quotidiano dichiarato in ritmo.md. Il punto nuovo: un guasto identico (31/7–4/8, quattro giorni fermi) era già stato accodato e chiuso il 4/8 con la frase «il server è tornato a pubblicare» — chiusura con una frase, nessun freno montato. Alla ricaduta di adesso, infatti, in coda azioni non è comparsa nessuna card nuova (le ultime sono del 4/8): Nicola non ha modo di saperlo dal Pannello.",
+      "impatto": "Senza battito la macchina non propone mosse, non aggiorna i numeri, non riempie la coda da firmare: l'azienda digitale è spenta e il proprietario non riceve nessun segnale che lo sia. È la seconda volta in dieci giorni.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node cervello/freschezza-cadenze.mjs"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "   ⛔ ritmo-sera (2026-08-09 18:27): è uscito saltando l'auto-analisi o l'apprendimento — rifalli PRIMA di altro |    ⛔ ritmo-settimana (2026"
+      },
+      "vedi": "AR-365 e AR-366 (il meccanismo per cui nessuno se ne accorge: allarme su canale spento, battito che dice vivo)",
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-593",
+      "titolo": "La review del venerdì è obbligatoria sulla carta ma non lascia i compiti da tre venerdì",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/cervello/ritmo.md (sezione REVIEW+RETROSPETTIVA) vs /home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json · calibrazione.json · LETTERA-A-NICOLA.md",
+      "descrizione": "ritmo.md dichiara la review del venerdì con passi marcati «OBBLIGATORIO ogni venerdì»: aggiornare il benchmark di auto-miglioramento, la peer review, la calibrazione, la lettera a Nicola. I prodotti reali: ultimo progresso benchmark 24 luglio (20 giorni fa), ultima peer review 24 luglio, ultima data in calibrazione 7 luglio, ultima lettera a Nicola 30 luglio. I venerdì 31/7 e 7/8 non hanno lasciato niente, e il 14/8 è domani. Nessun guardiano se n'è accorto, perché la freschezza si misura solo sull'ULTIMA RIGA di esito della corsa (la riga della settimana ha 5 giorni, sembra sana) e mai sui compiti che la corsa doveva lasciare — la stessa malattia già curata una volta («si controlla che la sveglia sia carica, mai che qualcuno si sia alzato»), tornata un piano più su: ora si controlla che si sia alzato, non che abbia fatto i compiti.",
+      "impatto": "Il consolidamento dell'apprendimento, la calibrazione dell'autonomia dei reparti e la lettera settimanale — i tre riti che fanno migliorare la macchina — sono fermi da tre settimane senza che nessun contatore lo dica.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e \"const am=require('./MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json');let last=0;const scan=o=>{if(Array.isArray(o))o.forEach(scan);else if(o&&typeof o==='object'){if(o.data&&o.punteggio!==undefined){const t=Date.parse(String(o.data).slice(0,10));if(t>last)last=t}Object.values(o).forEach(scan)}};scan(am);const gg=(Date.now()-last)/864e5;console.error('ultimo benchmark: '+gg.toFixed(0)+' giorni fa');process.exit(gg>9?1:0)\""
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "ultimo benchmark: 20 giorni fa"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-594",
+      "titolo": "Il referto di salute non ha la voce sul battito: sei cadenze rosse e la visita tace",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/salute.json (aggiornato 2026-08-11 02:26) · /home/user/ad-mycity/cervello/freschezza-cadenze.mjs (consumato solo da giro.sh, verifica-automazione.mjs, censimento-guardiani.mjs)",
+      "descrizione": "La visita di salute è il referto che Nicola apre per sapere «la macchina sta bene?». In questo momento la sveglia delle cadenze è rossa (quattro cadenze oltre la finestra, tre con passi saltati), ma salute.json non contiene NEMMENO UNA voce sulle cadenze: la parola non compare nel file. Chi legge il referto vede gli altri organi e nessun allarme sul battito fermo. In più il referto stesso è vecchio di ~44 ore, mentre il mansionario dice che si pubblica mattina e sera e che «un referto vecchio è un rosso». L'unico sbocco operativo della sveglia è il prompt del giro (come vincolo), e il giro di stanotte è partito carico di 12 vincoli ed è morto a tempo scaduto: tutti gli allarmi del volano sboccano nell'organo che sta fallendo.",
+      "impatto": "Il canale pensato per dire a Nicola «qualcosa è rotto» risponde «tutto nella norma» proprio mentre il battito è fermo: il guasto resta invisibile finché non lo nota un occhio umano, che è esattamente il modo di fallire che la macchina aveva promesso di eliminare.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e \"const {execSync}=require('node:child_process');let rosso=false;try{execSync('node cervello/freschezza-cadenze.mjs',{stdio:'ignore'})}catch{rosso=true}const s=JSON.stringify(require('./MyCity-Vault/90-Memoria-AI/auto-coscienza/salute.json'));process.exit(rosso&&!/cadenz|ritmo-mattino/i.test(s)?1:0)\""
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": ""
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-595",
+      "titolo": "I quaderni dei senior sono fermi quasi tutti: centocinque su centoventi senza una riga fresca, settantadue mai scritti",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/chiusura-loop.json (aggiornato 2026-08-12 22:22) · MyCity-Vault/90-Memoria-AI/memoria-squadra/",
+      "descrizione": "La sonda della chiusura del loop, aggiornata oggi, dice: 120 quaderni attesi, 105 fermi oltre la soglia di 7 giorni, 72 vuoti da sempre, solo 15 vivi. Il meccanismo «dopo ogni lavoro lascia una riga atteso→reale» — la forcing-function dichiarata dell'apprendimento dei 120 senior — è decorativo per l'87% del roster: sei senior su dieci non hanno MAI scritto un esito. Il segnale esiste (la sonda flagga), ma il suo consumatore è il giro, che è fermo: il numero gira a vuoto senza produrre né un recupero né una decisione (ad esempio: dichiarare dormienti i 72 ruoli mai attivati invece di contarli come malati ogni sera).",
+      "impatto": "La calibrazione atteso→reale — il modo in cui i senior imparano dai propri errori — non ha materia prima: la squadra non migliora perché non lascia tracce, e la sonda che lo misura parla a un ascoltatore spento.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e \"const c=require('./MyCity-Vault/90-Memoria-AI/auto-coscienza/chiusura-loop.json');console.error('fermi '+c.fermi+'/'+c.totale+', vuoti '+c.vuoti);process.exit(c.fermi>c.totale/2?1:0)\""
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "fermi 105/120, vuoti 72"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-596",
+      "titolo": "Un freno su tre è senza la prova che scatti: diciannove lezioni frenate non hanno la mutazione",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json (59 lezioni con gate) vs /home/user/ad-mycity/cervello/mutanti.json (100 mutanti con campo lezione)",
+      "descrizione": "Il contratto del mansionario è: lezione → gate che può fallire → mutazione in mutanti.json che prova che il gate scatta. Le 3 correzioni di Nicola tracciate come lezioni rispettano il contratto completo (gate + mutante). Ma 19 delle 59 lezioni con gate non hanno nessun mutante agganciato al loro id: il freno esiste e il file del test c'è (verificati tutti i 59 comandi: nessun file mancante), però manca la controprova che il freno morda davvero. Un gate mai visto fallire è una promessa, non un freno.",
+      "impatto": "Un terzo dei freni dell'apprendimento potrebbe non scattare mai e nessuno se ne accorgerebbe: è il difetto-fotocopia di quello che l'asticella è nata per impedire, spostato dentro il sistema che la fa rispettare.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e \"const l=require('./MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json').lezioni.filter(x=>x.gate);const raw=require('./cervello/mutanti.json');const arr=raw.mutanti||raw;const m=new Set((Array.isArray(arr)?arr:Object.values(arr).flat()).map(x=>x.lezione).filter(Boolean));const s=l.filter(x=>!m.has(x.id));console.error(s.length+' lezioni frenate senza mutante');process.exit(s.length?1:0)\""
+      },
+      "verifica": {
+        "tipo": "comando"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-597",
+      "titolo": "Il guardiano che protegge la verità dei numeri dà via libera quando il suo registro sparisce",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "cervello/coerenza-fatti.mjs (funzione leggiRegistro, riga ~96, e uscita riga 294) — consumato da cervello/giro.sh:572-575 e cervello/gate-pubblicazione.sh:119",
+      "descrizione": "Il guardiano della fonte-unica-verita (coerenza-fatti) esiste per FALLIRE quando una copia vecchia di un numero-chiave resta in un file vivo che il Pannello mostra a Nicola. Ma se il file registro-fatti.json manca, leggiRegistro ritorna un registro vuoto (fatti: []); con zero fatti non ci sono cacce da controllare, nessuna incoerenza, e il programma esce 0 (verde). A schermo stampa perfino 'NON VERIFICATO (AR-211: nessun file letto, nessun verde)' e subito sotto '✅ Memoria coerente' uscendo 0: il testo dice 'non verificato' ma il codice di uscita dice 'tutto a posto'. E sia giro.sh sia gate-pubblicazione.sh guardano SOLO il codice di uscita, non il testo. Quindi il fix AR-211 e' cosmetico: ha corretto il messaggio umano, non il numero che governa davvero il cancello.",
+      "impatto": "Quando registro-fatti.json si perde o si svuota (un rebase sbagliato, un git rm, un worktree nuovo, un conflitto di merge risolto male, un auto-fix maldestro), il gate coerenza-fatti esce verde, giro.sh NON impone il vincolo hard di coerenza, e gate-pubblicazione.sh pubblica la memoria come 'coerente'. Risultato: valori vecchi rimasti in STATO, coda, piani finiscono nel Pannello mostrati a Nicola come veri, senza nessun allarme. La rete di sicurezza della fonte-unica-verita si spegne in silenzio proprio quando il file centrale e' danneggiato — cioe' esattamente nel momento in cui serve.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "COERENZA_FATTI_REGISTRO=/nonexistent/x.json COERENZA_FATTI_REPORT=$(mktemp) node cervello/coerenza-fatti.mjs; test $? -ne 0"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "✅ Memoria coerente. |    report: ../../../tmp/tmp.WnZHBMqC3x"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-598",
+      "titolo": "Il freno che vieta nuove ricerche quando si apre più di quanto si chiude vale solo per il giro: le radiografie non lo guardano nemmeno",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "cervello/giro.sh riga 731 (unico punto che chiama il freno) · .claude/workflows/radiografia-totale.js, radiografia.js, auto-radiografia.js, audit-design.js, audit-pannello.js (zero riferimenti al freno)",
+      "descrizione": "La regola firmata da Nicola il 10/8 dice: sotto 1 non si aprono ricerche nuove — «niente radiografie». Il motore esiste (tasso-chiusura) e OGGI è rosso: agosto 0,23 — 102 difetti aperti contro 23 chiusi. Ma il freno è cablato in un solo ingresso, il giro quotidiano. I cinque workflow di ricerca — quelli che producono più difetti nuovi di tutti (una radiografia totale = 3 giri × 16 mandati) — non lo consultano mai e non riportano il suo verdetto nella lettera. Prova vivente: in questo preciso momento sta girando una radiografia totale col freno rosso, e nel suo output il semaforo del freno non compare da nessuna parte.",
+      "impatto": "Il cantiere è a 166 aperti + 57 da riverificare (223 in tutto su 564) e il rapporto di agosto è 0,23: ogni corsa di radiografia in queste condizioni allunga la lista invece di accorciarla, esattamente ciò che la regola voleva impedire. Ore-macchina che per la regola dovevano chiudere difetti (o lavorare per i negozi) vanno ad aprirne di nuovi.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "sh -c 'node cervello/tasso-chiusura.mjs --gate >/dev/null 2>&1; g=$?; if [ $g -ne 0 ] && ! grep -q tasso-chiusura .claude/workflows/radiografia-totale.js .claude/workflows/radiografia.js .claude/workflows/auto-radiografia.js 2>/dev/null; then echo \"ROSSO: freno scattato (rc=$g) ma le radiografie non lo consultano\"; exit 1; fi; echo VERDE'  — eseguito adesso: esce 1 (ROSSO). Diventa verde se il freno rientra sotto obiettivo O se i workflow lo consultano."
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "/bin/sh: 1: Syntax error: \"(\" unexpected"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-599",
+      "titolo": "Per la regola dei canali unire una richiesta su GitHub o scrivere sul sito è roba di casa: un verde scritto dalla macchina lì resta eseguibile da sola",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/lib/livello-effettivo.ts (lista IN_CASA include git, github, marketplace) · pannello/src/lib/rischio-contenuto.ts (nessun indicatore per merge/PR/deploy) · pannello/src/lib/mani.ts riga 91 (canale github → il Pannello accoda il merge al worker)",
+      "descrizione": "La regola nata per non fidarsi del colore auto-dichiarato («il canale alza il livello, il colore è solo una dichiarazione») elenca come canali interni — che non alzano mai il colore — anche git, github e marketplace. Ma per il mansionario il merge di una richiesta di unione è «l'azione più irreversibile della macchina» (sempre 🔴) e «niente si scrive sul sito senza il tuo ok» (🟡). Misurato adesso: autoEseguibile('verde','github') e autoEseguibile('verde','marketplace') rispondono entrambi vero. Quindi su una card che la macchina stessa ha scritto verde con canale github, l'autopilota passa il merge al worker; il filtro sul contenuto non ha nessun indicatore per merge o richieste di unione; l'interruttore github nell'allowlist è già aperto (true) e la tabella products pure. Oggi il merge reale muore solo all'ultimo strato — la firma «auto» che non è «nicola» — cioè l'azione col raggio di danno più alto è protetta da UN confronto di stringa, mentre la regola dei canali, nata apposta come secondo strato, la dichiara innocua.",
+      "impatto": "La difesa sul punto più irreversibile è a uno strato solo: se il confronto sulla firma regredisce (su cancelli simili è già successo tre volte, come annotato nel codice stesso), un verde di troppo scritto dalla macchina fa partire un merge o una scrittura sul catalogo senza occhi umani.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "cd pannello && node --experimental-strip-types -e \"import('./src/lib/livello-effettivo.ts').then(m=>process.exit((m.autoEseguibile('verde','github')||m.autoEseguibile('verde','marketplace'))?1:0))\"  — esce 1 (ROSSO) finché quei canali non alzano il colore; verificato adesso."
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "/bin/sh: 1: Syntax error: \"(\" unexpected"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-600",
+      "titolo": "Lo sblocco del ponte verso WhatsApp e i social è un interruttore unico: aperto una volta, vale per qualsiasi destinatario",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "cervello/consenso-azione.mjs (funzione destinatarioAmmesso, ramo n8n) · cervello/mani-allowlist.json",
+      "descrizione": "Per email e notifiche l'allowlist è per-destinatario: ogni indirizzo va autorizzato uno a uno. Per il ponte n8n — che instrada verso WhatsApp, social e Google, cioè i canali col raggio più ampio — lo sblocco è un solo booleano: con n8n a true, il controllo destinatario risponde ok per qualunque numero o canale scritto nel payload. Oggi è a false, quindi il rischio è latente; ma il giorno in cui servirà la prima automazione WhatsApp, l'unico modo di aprirla sarà aprire tutto il ponte.",
+      "impatto": "Una sola firma su una casella, col ponte aperto, autorizza l'invio al destinatario scritto nella card ma il controllo di allowlist non distingue più niente: la granularità «riga per riga» promessa dal cancello si perde proprio sul canale più ampio.",
+      "prova": {
+        "tipo": "grep"
+      },
+      "verifica": {
+        "tipo": "grep"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-601",
+      "titolo": "Nessun numero dice a Nicola quanta parte del lavoro della settimana è andata alla macchina e quanta ai negozi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md (148 card in coda) · MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json (166 aperti + 57 da riverificare su 564) · cervello/ (nessun motore trovato che calcoli la ripartizione)",
+      "descrizione": "La stella polare è far crescere ordini, negozi e margine; il rischio dichiarato dal mandato è che la macchina lavori soprattutto su sé stessa. Il tasso di chiusura misura solo i difetti (aperti contro chiusi), non dove va lo sforzo. Ho provato a misurare la ripartizione dalle 148 card in coda: 22 sono chiaramente lavoro della macchina su sé stessa, 18 chiaramente business, 108 non classificabili dal titolo — cioè nemmeno un occhio esterno riesce a calcolare la quota, perché nessuna card dichiara per chi lavora. Intanto il cantiere dei difetti-macchina tiene 223 voci aperte o da riverificare: la gravità del sistema tira verso l'interno e non c'è un metro che lo mostri.",
+      "impatto": "Il lavoro-macchina cresce senza contrappeso visibile: con agosto a 0,23 e 223 difetti interni aperti, la deriva verso l'auto-manutenzione è già in corso ma nessun cruscotto la mostra come numero, quindi nessuna regola può frenarla.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "Nicola apre il report della sera o la home del Pannello e cerca un numero che dica «questa settimana X per cento dello sforzo è andato ai negozi»: non esiste da nessuna parte."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-602",
+      "titolo": "La risposta di un lavoro aperto resta quella vecchia anche quando il lavoro è finito",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/components/LavoriCervello.tsx:225-247 (lavoroConDettaglio + caricaDettaglioLavoro) con pannello/src/lib/store.ts:418-427,490-499 (getLavoriPannello usa la select LIGHT senza richiesta/risultato)",
+      "descrizione": "Nell'area Lavori, quando apri un gruppo il dettaglio (richiesta+risultato) viene scaricato una volta e messo in cache `dettagliLavori`. La cache non si invalida MAI: il guard `if (dettagliLavori[id]?.richiesta) return` blocca ogni rilettura. Il polling della lista usa la select LIGHT (id, stato, tipo… senza risultato), quindi quando il lavoro passa a «fatto» il badge si aggiorna ma il corpo resta al testo di quando l'avevi aperto: la risposta parziale dello streaming, o niente se l'avevi aperto quando era in attesa. `lavoroConDettaglio` fa `risultato: d.risultato ?? lv.risultato` — il dato in cache (stantio) vince sempre sul fresco, che comunque non arriva. Anche la ChatCasella del gruppo viene seminata con questi lavori stantii (`g.lavori.map(lavoroConDettaglio)`), quindi il difetto si propaga alla chat.",
+      "impatto": "Nicola legge una risposta a metà (o nessuna risposta) sotto un badge che dice «Fatto» e giudica il lavoro della macchina su un dato falso, finché non gli viene in mente di ricaricare la pagina.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "Con worker attivo: apri il Pannello → area Lavori → espandi un gruppo il cui lavoro è «⚙️ In corso» (il corpo mostra la risposta parziale). SENZA ricaricare la pagina, aspetta che il badge diventi «✅ Fatto». ROSSO se il corpo «Risposta» resta al testo parziale di prima (o assente) mentre dopo un F5 della pagina mostra la risposta completa. (Da questa sessione il VPS/worker non è visibile: la prova va fatta sul Pannello vivo.)"
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-603",
+      "titolo": "Ricaricando la pagina l'archivio perde i titoli veri e il recupero delle risposte dai lavori gira a vuoto",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/lib/store.ts:419-420 (LAVORI_SELECT_LIGHT senza richiesta/risultato) → pannello/src/lib/lavori-gruppo.ts:50-65 (titoloLavoro → «Messaggio chat»), 76-108 (messaggiDaLavoro → 0 messaggi per un fatto senza testo), 149-152 (titolo gruppo) → pannello/src/app/page.tsx:1518-1543 e 1546-1585 (continuaConversazione/apriChatDaGruppo)",
+      "descrizione": "La lista lavori del polling non porta né richiesta né risultato. Dentro la stessa sessione il buco è mascherato: i lavori visti «in corso» vengono arricchiti via /api/lavori/dettagli e il merge `l.richiesta ?? old.richiesta` (page.tsx:2629-2636) conserva il testo. Dopo un RELOAD però nessuno riarricchisce i lavori già «fatto»: ① titoloLavoro senza richiesta degrada ogni gruppo chat a un messaggio al titolo generico «Messaggio chat» — la lista Archivio diventa una colonna di voci indistinguibili; ② messaggiDaLavoro per un «fatto» senza testo produce ZERO messaggi, quindi `daLavori` è vuoto e il «RECUPERO: una risposta persa riappare sempre dai lavori» dichiarato nel commento di continuaConversazione non recupera niente — la rete di sicurezza funziona solo finché non ricarichi, cioè mai nei casi per cui esiste (risposta arrivata a pagina chiusa).",
+      "impatto": "L'archivio diventa illeggibile a ogni riapertura del Pannello e il paracadute «la risposta persa riappare» è un paracadute che non si apre proprio quando serve: Nicola rimanda messaggi già risposti.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "Nel Pannello vivo: area Lavori, guarda l'Archivio e annota i titoli dei gruppi chat a 1 messaggio (mostrano la domanda vera). Premi F5. ROSSO se dopo il reload gli stessi gruppi sono tutti intitolati «Messaggio chat» e, aprendo dall'archivio una conversazione la cui risposta era arrivata a pagina chiusa, la risposta non viene ricostruita dai lavori."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-604",
+      "titolo": "La casella promette di ripescare la risposta alla riapertura, ma riaprirla non ripesca niente",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/components/ParlaCasella.tsx:91 (caricatoRef), 122-179 (effetto di caricamento con return anticipato su leggiUltimaChatUnificata prima di recuperaThreadDaLavori), 258-262 (ramo timeout che promette «la risposta vera verrà ripescata dai lavori alla prossima apertura»)",
+      "descrizione": "Quando l'attesa scade, la casella scrive a schermo che la risposta «verrà ripescata dai lavori alla prossima apertura». Ma: ① chiudere il box non smonta il componente (aperto=false rende solo il bottone), quindi `caricatoRef` resta true e alla riapertura l'effetto di caricamento esce subito — recuperaThreadDaLavori non gira; ② anche al vero remount (cambio sezione), se la chat unificata ricorda proprio questa casella, il percorso rapido `leggiUltimaChatUnificata` fa `return` PRIMA del passo 3 di recupero — di nuovo niente ripescaggio. I due percorsi insieme spengono il recupero esattamente nei casi promessi dal messaggio.",
+      "impatto": "La risposta esiste in Supabase ma la casella resta muta: Nicola rimanda la stessa domanda e il worker paga due volte lo stesso lavoro.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "Nel Pannello vivo con worker lento o spento: da una casella «Parla con questa casella» manda un messaggio e lascia scadere l'attesa (compare l'avviso di timeout). Fai ripartire il worker e attendi che il lavoro risulti fatto in Archivio. Chiudi il box della casella e riaprilo. ROSSO se la risposta non compare (mentre esiste nel lavoro in Archivio) e resta assente anche cambiando sezione e tornando, finché la chat unificata punta su questa casella."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-605",
+      "titolo": "Salvataggi e letture partono da dentro gli aggiornamenti di stato e possono partire doppi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/app/page.tsx:1214-1226 (persistConversazione dentro l'updater di setConversazioni) e 1233-1241 (persistConversazione dentro l'updater di setMessages); pannello/src/components/LavoriCervello.tsx:214-223 e 257-266 (caricaDettaglioLavoro dentro gli updater di setApertiGruppi/setChatAperta)",
+      "descrizione": "Tre punti lanciano effetti collaterali (POST /api/conversazioni, fetch dettagli) DENTRO la funzione updater di un setState. React può richiamare un updater più di una volta (StrictMode in dev, render concorrente): la stessa persistenza o la stessa lettura parte doppia. Il repo stesso ha già codificato la regola nel commento della cura AR-268 in ParlaCasella («un updater può essere richiamato più volte da React») ma questi tre punti la violano ancora. Danno contenuto: la POST è un upsert per id quindi il doppione è quasi sempre idempotente; il doppio fetch dettagli è solo spreco.",
+      "impatto": "Richieste doppie verso Supabase a ogni risposta instradata e a ogni apertura gruppo in modalità dev/concurrent; nessuna perdita dati nota, ma è la stessa classe di bug già pagata con AR-268.",
+      "prova": {
+        "tipo": "grep"
+      },
+      "verifica": {
+        "tipo": "grep"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-606",
+      "titolo": "Chiudere un pannello col tocco lascia il suo timbro nella cronologia e da lì il tasto indietro sbaglia strada",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/lib/useStrato.ts:68-82 · pannello/src/lib/strati.ts:86-90 · pannello/src/app/page.tsx:2099 e 2087 · pannello/src/lib/nav.ts:61-66",
+      "descrizione": "Aprire uno strato (menù mobile, cassetto conversazioni, cassetto del Worker) timbra una voce di cronologia con il marcatore `strato`. Ma chiuderlo col tocco (velo, X, Esc) toglie lo strato solo dalla pila interna: nessuno consuma o pulisce la voce timbrata — l'unico history.back() di tutto pannello/src è in chiudiWorker (page.tsx:1404) e vale solo per il marcatore `overlay`. Da lì due sintomi: (a) il primo Indietro dopo apri→chiudi-col-tocco è un clic a vuoto (consuma la voce fantasma senza cambiare nulla a video); (b) peggio: ogni pushState successiva (cambio area a page.tsx:2099, vaiSub a nav.ts:62) fonde l'INTERO history.state e copia il marcatore stantio nelle voci nuove — quando il menù viene riaperto, voceDaTimbrare vede il marcatore già presente e NON timbra (strati.ts:88), e al tasto Indietro stratoDaChiudere vede il marcatore ancora combaciante e NON chiude (strati.ts:72): il gestore centrale cambia l'AREA sotto il menù aperto. È esattamente la regressione del difetto che il contratto degli strati dichiara risolto («l'indietro cambia l'area sotto lasciando il pannello aperto sopra»). Stessa malattia sul marcatore `overlay`: sopravvive al ricaricamento (il mount a page.tsx:2087 lo fonde invece di spogliarlo), e chiudiWorker che fa history.back() su un marcatore ereditato può riportare alla pagina precedente fuori dal Pannello.",
+      "impatto": "Nicola usa il Pannello dal telefono, dove il gesto indietro è il tasto chiudi universale: un indietro che cambia pagina sotto un menù aperto o che fa clic a vuoto mina la fiducia nella Cabina a ogni sessione mobile.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "A mano, finestra sotto 1024px: ① apri il menù laterale ② chiudilo toccando il velo ③ tocca un link che cambia area (es. una card della Plancia verso Azioni) ④ riapri il menù ⑤ premi il tasto Indietro del browser. Il difetto c'è se l'area sotto cambia mentre il menù resta aperto sopra (variante corta: dopo ①-② un solo Indietro non produce alcun cambiamento visibile — clic a vuoto). Atteso: Indietro chiude il menù e basta."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-607",
+      "titolo": "La schermata di errore promette che il resto del Pannello funziona, ma quando compare è sparito tutto",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/app/error.tsx:28-31 (unico error boundary di tutto pannello/src, a livello radice)",
+      "descrizione": "error.tsx è l'UNICO boundary dell'app e sta alla radice: quando un qualsiasi componente di UNA card va in errore a runtime (una data non valida, un .map su un non-array), Next sostituisce l'intero segmento page.tsx — testata, menù laterale, tutte le aree, la chat — con la schermata 😕. Quella schermata però dice «Questa parte della Cabina non è riuscita a caricarsi» e «Il resto del Pannello funziona»: è falso, non resta nulla di usabile a parte lo sfondo del tema. Il commento in testa al file dichiara «se una sola scheda va in errore, non deve sparire tutta la Cabina», ma senza boundary annidati per area o per card la promessa non è mantenuta: è sparito lo schermo bianco, non il difetto. In più il pulsante «Torna alla Cabina» è un <a href=\"/\">, cioè un ricaricamento pieno che equivale al «Riprova»: due bottoni, una sola vera via d'uscita.",
+      "impatto": "Un dato malformato in una casella qualsiasi spegne l'intera Cabina e il messaggio dice a Nicola una cosa non vera su cosa sta funzionando: doppio danno, funzionale e di fiducia.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "A mano in sviluppo: forza un errore di render in UN solo componente (es. un throw temporaneo in una card della Plancia) e carica la pagina. Il difetto c'è se l'intera Cabina — menù e testata compresi — viene sostituita dalla schermata 😕 che intanto afferma «Il resto del Pannello funziona». Atteso: si spegne solo la casella guasta."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-608",
+      "titolo": "Senza rete i quaderni dei senior danno la colpa sbagliata e lasciano errori non gestiti ogni due minuti",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/components/QuaderniSenior.tsx:62-74 (carica) e 84-99 (apriQuaderno)",
+      "descrizione": "Entrambe le fetch del componente sono in try/finally SENZA catch: se la rete manca o la risposta non è JSON, la promise rifiuta non gestita — e il polling la ripete ogni 120 secondi. A video il fallimento diventa un messaggio sbagliato: cliccando un quaderno offline compare «Quaderno non trovato.» (dice che il quaderno non esiste, quando è la rete che è caduta, e non dice cosa fare); a lista vuota compare un messaggio che parla di variabili OBSIDIAN_* su Vercel — istruzioni da operatore, non un'azione per chi guarda la Cabina dal telefono.",
+      "impatto": "Su rete mobile instabile Nicola legge diagnosi false («non trovato», «servono variabili») e la console si riempie di promesse rifiutate: rumore che nasconde i guasti veri.",
+      "prova": {
+        "tipo": "grep"
+      },
+      "verifica": {
+        "tipo": "grep"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-609",
+      "titolo": "Il vecchio collegamento col cancelletto per l'auto-coscienza si apre solo se sei già sulla scheda giusta",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/components/AutoCoscienza.tsx:339-343 · pannello/src/app/page.tsx:2072-2089 (vista iniziale letta solo da localStorage)",
+      "descrizione": "Il componente legge l'hash #auto-coscienza solo al proprio montaggio per scrollare alla card. Ma al caricamento della pagina la vista iniziale viene SOLO da localStorage (mycity_vista): l'URL — hash compreso — non instrada da nessuna parte. Quindi aprire /#auto-coscienza da un link vecchio (lettere, note, cronologia) porta sull'ultima area visitata e il cancelletto muore in silenzio: il deep-link funziona solo se per caso l'ultima vista salvata era già quella che monta la card. Il commento nel file stesso ammette che serve «per chi era arrivato da un link col vecchio hash»: quel percorso oggi non funziona al primo caricamento.",
+      "impatto": "Link condivisi in passato (o salvati nelle note) approdano su un'area qualsiasi senza spiegazione: il destinatario crede che il collegamento sia rotto o che la card non esista più.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "A mano: con localStorage mycity_vista=\"plancia\", apri l'URL del Pannello con #auto-coscienza in fondo. Il difetto c'è se resti sulla Plancia senza alcuno scroll alla card. Atteso: atterri sulla scheda con la card in vista."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-610",
+      "titolo": "Un indirizzo sbagliato del Pannello finisce su una pagina inglese di errore senza una via per tornare alla Cabina",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/app/ (esiste solo page.tsx alla radice; manca not-found.tsx; middleware.ts copre solo /api)",
+      "descrizione": "L'app ha un'unica pagina («/»). Qualsiasi altro percorso digitato o salvato (es. /azioni, /lavori — nomi plausibili perché sono i nomi delle aree) mostra il 404 predefinito di Next: «404 | This page could not be found.», in inglese, senza logo, senza un solo link per tornare alla Cabina. Il messaggio non dice cosa fare — l'esatto contrario della regola di scrittura del progetto. Il middleware non c'entra: filtra solo /api.",
+      "impatto": "Chi arriva da un link storpiato (telefono che tronca, autocomplete) vede una pagina anonima in inglese e non capisce di essere a un passo dalla Cabina: per un ospite sembra un sito rotto.",
+      "prova": {
+        "tipo": "grep"
+      },
+      "verifica": {
+        "tipo": "grep"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-611",
+      "titolo": "Il pannello gira su librerie con quattro falle note di gravità alta, tutte già corrette a monte",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/package.json + pannello/package-lock.json (next 15.5.19, sharp, postcss, nanoid)",
+      "descrizione": "L'audit ufficiale delle dipendenze del Pannello segna rosso: 4 avvisi di gravità alta su 4 pacchetti (next sotto la 15.5.21 con 8 advisory tra cui richieste che possono farsi passare per il server e risposte che si mischiano tra una richiesta e l'altra; sharp con 4 falle ereditate da libvips; postcss con lettura di file arbitrari via commenti CSS; nanoid con loop infinito). Per tutti e 4 il fix esiste già: basta un aggiornamento di patch. Il Pannello è la cabina esposta su internet e il suo stesso middleware dichiara che l'autenticazione a monte è spenta: le falle del framework che serve le API delle firme di Nicola non sono teoriche.",
+      "impatto": "La cabina da cui Nicola firma azioni 🔴 (soldi, email, merge) gira su un framework con falle pubbliche note; in particolare la confusione di cache sulle risposte a richieste con corpo tocca esattamente il traffico del Pannello (POST continui su /api/*). Un incidente qui è un incidente sulla fiducia dell'unico utente che conta.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "cd /home/user/ad-mycity/pannello && npm audit --audit-level=high"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "To address all issues, run: |   npm audit fix"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-612",
+      "titolo": "Il bottone che porta all'azione da firmare lascia Nicola su una scheda chiusa o nel nulla",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/components/aree/Azioni.tsx righe 491-510 (funzione vaiAllAzione, usata da Mosse riga 779 e Sentinelle riga 931)",
+      "descrizione": "Dalle schede Mosse e Sentinelle il bottone «Vai all'azione da firmare» cerca l'azione collegata e prova a scorrerci sopra. Ma da quando le card sono tendine chiuse di default con tetto a 10 (coda-azioni.ts, TETTO_CODA=10), questo percorso non è stato aggiornato: apre lo stato sbagliato (setAperte, che comanda solo il toggle «Leggi il testo esatto», non l'apertura della card che dipende da scelteCard) e non srotola mai la lista (nessuna chiamata a setMostraTuttaCoda/serveSrotolare). Risultato: se l'azione è oltre la decima non è nemmeno nel DOM, getElementById torna null e non succede NIENTE — si resta fermi in cima come se il bottone fosse rotto; se è tra le prime 10 si atterra su una riga chiusa e muta. Il percorso gemello (onVai, righe 277-290) fa entrambe le cose giuste: il fix è stato applicato a un solo chiamante dei due.",
+      "impatto": "È il filo che collega «cosa devo fare» a «dove lo firmo», cioè il giro principale per cui il Pannello esiste: quando si spezza, Nicola crede che il collegamento non funzioni e l'azione resta non firmata — lavoro dei senior fermo in coda.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "Con una coda di più di 10 azioni da firmare: aprire il Pannello → Azioni → scheda Mosse (o Sentinelle) → premere «Vai all'azione da firmare» su una voce la cui azione collegata sta oltre la decima posizione. Rosso se: la pagina cambia scheda ma non scorre da nessuna parte e nessuna card si apre. Controprova col percorso sano: arrivando alla stessa azione dal link della Plancia la card si apre e la lista si srotola. Automatizzabile con la skill verify (Playwright headless)."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-613",
+      "titolo": "L'area dove si firma è invisibile ai lettori di schermo: zero etichette di accessibilità e bottoni dentro bottoni",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/components/aree/Azioni.tsx (summary righe 567-612, tab righe 733-754)",
+      "descrizione": "Nel file che disegna tutta l'area decisionale non c'è un solo attributo aria (conteggio verificato: 0). Le nove linguette non hanno ruolo di tab né stato selezionato annunciabile; i bottoni Approva/Rifiuta vivono ANNIDATI dentro il summary di una tendina (controllo interattivo dentro controllo interattivo, che i lettori di schermo annunciano come un blocco solo); il semaforo di livello è un pallino colorato con testo di supporto solo a volte; lo spinner di caricamento non annuncia nulla. In più le linguette hanno altezza ~34px, sotto il minimo di 44px raccomandato per il tocco su telefono (il summary invece il min-h-[44px] ce l'ha).",
+      "impatto": "Oggi l'utente è uno solo e vedente, quindi il danno immediato è basso; ma ogni card nuova eredita il pattern e il debito cresce a ogni giro.",
+      "prova": {
+        "tipo": "grep"
+      },
+      "verifica": {
+        "tipo": "grep"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-614",
+      "titolo": "In tema scuro i bordi e i badge colorati delle card restano quelli del tema chiaro",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/components/aree/Azioni.tsx righe 59-67 (mappe BORDO/PALLINO/badgeStato) e blocchi analoghi senza variante dark",
+      "descrizione": "Le mappe dei colori semantici delle card (bordo rosso/ambra/verde, badge di stato bg-green-50/bg-amber-50, testi text-black/55) sono stringhe statiche solo-chiaro, senza variante dark:. Nello stesso file i riquadri più recenti la variante ce l'hanno (es. riga 710: dark:border-amber-900/50 dark:bg-amber-950/20): il tema scuro esiste ed è gestito, ma le card della coda da firmare — la parte più usata — mostrano bordi pastello chiari e testi neri trasparenti su fondo scuro.",
+      "impatto": "Leggibilità ridotta di sera/telefono (contrasto sbagliato proprio sui segnali di rischio rosso/giallo), e incoerenza visiva dentro la stessa schermata.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "Aprire il Pannello in tema scuro (toggle in alto) → Azioni → Da approvare: confrontare il bordo/badge di una card 🔴 con il riquadro ambra della nota «tornata in Da approvare» (riga 710) che invece si adatta. Rosso se i due trattamenti divergono a video."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-615",
+      "titolo": "Il tasto Ignora di una proposta accetta il doppio tocco e spara due richieste",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/components/aree/Azioni.tsx righe 377-398 (ignoraProposta) e 872 (bottone senza disabled)",
+      "descrizione": "Approva proposta e le decisioni della coda hanno il busy-lock (propBusy / decidendo) che spegne il bottone mentre la richiesta è in volo; Ignora no: il bottone alla riga 872 non ha disabled e la funzione non controlla nessun lock, quindi un doppio tocco su telefono invia due POST a /api/proposta. Il danno reale è contenuto (la seconda scrittura sovrascrive la stessa decisione), ma è esattamente il buco che il commento «bug: nessun busy-lock» dichiara chiuso per gli altri percorsi.",
+      "impatto": "Doppie scritture inutili sulla memoria e possibilità di stati incoerenti se le due risposte tornano in ordine inverso; su rete mobile lenta il doppio tocco è la norma, non l'eccezione.",
+      "prova": {
+        "tipo": "grep"
+      },
+      "verifica": {
+        "tipo": "grep"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-616",
+      "titolo": "Il registro delle azioni mostra i titoli grezzi, saltando il filtro che pulisce sigle e percorsi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "pannello/src/components/aree/Azioni.tsx riga 1096 ({v.titolo}) + pannello/src/lib/store.ts righe 655-660 (logAzione salva il titolo com'è)",
+      "descrizione": "Ogni lista del Pannello passa i titoli da pulisciTitolo/testoPulito (card, mosse, sentinelle, proposte) per togliere sigle, ID e percorsi che Nicola non deve vedere. L'unica eccezione è il Registro: la riga stampa v.titolo nudo. Finché il titolo arriva dal parser della coda è già pulito, ma il registro conserva 200 voci storiche (logAzione le salva com'erano al momento della decisione): le voci scritte prima che il filtro esistesse, o scritte dall'autopilota/worker con un titolo diverso, riaffiorano con le targhe tecniche dentro. È una difesa mancante nel punto di uscita, non solo nel punto di ingresso.",
+      "impatto": "Targhe e sigle possono ricomparire davanti a Nicola nell'unica scheda che racconta lo storico — proprio dove va a verificare cosa è stato fatto.",
+      "prova": {
+        "tipo": "grep"
+      },
+      "verifica": {
+        "tipo": "grep"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-617",
+      "titolo": "Centoquattordici senior promettono di lavorare in sola lettura, ma nessun freno tecnico glielo impone",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/.claude/agents/ — frontmatter di tutti i 120 mansionari (es. qa.md, analista.md, tech.md, consulente-bancario.md)",
+      "descrizione": "114 mansionari su 120 dichiarano nel corpo un mandato in SOLA LETTURA (qa sul marketplace, analista sui dati, i professionali sui documenti), ma nessuno dei 120 frontmatter ha il campo `tools:` — l'unico meccanismo con cui il runtime dei subagenti limita davvero gli strumenti. Ogni senior eredita quindi TUTTI gli strumenti della sessione che lo lancia (Write, Edit, Bash): la sola-lettura vive soltanto nella prosa del mansionario, che un modello in allucinazione può ignorare. Verificato ora: 0 campi tools su 120 file, 114 dichiarazioni di sola lettura nel corpo.",
+      "impatto": "Un senior 'in sola lettura' (es. qa durante un audit, o analista sui dati) può in realtà modificare la copia locale del marketplace, riscrivere il vault o lanciare comandi. Sul VPS, dove i permessi di sessione del worker sono larghi, il cancello verde-giallo-rosso non ha nessun attuatore tecnico a livello di singolo agente: una svista di un subagente diventa una scrittura vera.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "cd /home/user/ad-mycity && node -e \"const fs=require('fs'),p='.claude/agents/';let bad=[];for(const f of fs.readdirSync(p).filter(f=>f.endsWith('.md'))){const t=fs.readFileSync(p+f,'utf8');const fm=(t.match(/^---\\r?\\n([\\s\\S]*?)\\r?\\n---/)||[])[1]||'';if(/SOLA LETTURA/i.test(t)&&!/^tools:/m.test(fm))bad.push(f)}console.log(bad.length+' senior dichiarano SOLA LETTURA senza campo tools nel frontmatter');process.exit(bad.length?1:0)\""
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "114 senior dichiarano SOLA LETTURA senza campo tools nel frontmatter"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-618",
+      "titolo": "Nessun senior ha un modello assegnato: anche i lavori semplici girano col motore più caro",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/.claude/agents/*.md — campo model assente in tutti e 120 i frontmatter",
+      "descrizione": "0 frontmatter su 120 hanno il campo `model:`. La regola di efficienza del manuale ('sforzo/modello giusto al compito — economico per i semplici') e la promessa dell'ai-copywriter ('testi in massa a basso costo') non hanno nessun attuatore nel punto esatto in cui il runtime sceglie il modello del subagente: ogni senior, dal copywriter allo scadenzario, gira sul modello di default della sessione. Complementa AR-082 (router costo banco-ai.mjs = codice morto, da-riverificare): questo è l'altro attuatore, mai collegato, della stessa regola.",
+      "impatto": "Ogni delega a un senior ad alto volume e basso rischio (copywriter, segreteria, scadenzario) costa come una delega all'analista strategico: sotto budget scarso — condizione che il manuale stesso prevede — il volume di lavoro possibile per turno si riduce senza motivo.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "cd /home/user/ad-mycity && node -e \"const fs=require('fs'),p='.claude/agents/';const n=fs.readdirSync(p).filter(f=>f.endsWith('.md')).filter(f=>/^model:/m.test(((fs.readFileSync(p+f,'utf8').match(/^---\\r?\\n([\\s\\S]*?)\\r?\\n---/)||[])[1]||''))).length;console.log(n+' mansionari su 120 dichiarano un modello');process.exit(n===0?1:0)\""
+      },
+      "verifica": {
+        "tipo": "comando"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-619",
+      "titolo": "Il guardiano del registro controlla i nomi dei file ma non il nome scritto dentro la scheda",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/cervello/agent-registry-check.mjs — la scansione usa i nomi-file (readdirSync) ed estrae dal frontmatter solo description; il campo name non è mai letto né confrontato",
+      "descrizione": "Oggi i 120 campi `name:` coincidono tutti col nome-file e non ci sono duplicati (verificato ora con uno script), ma è fortuna, non controllo: il guardiano confronta i nomi-FILE con gli elenchi umani (AGENTI.md, CLAUDE.md, COMANDI.md) e legge il frontmatter solo per le collisioni di description. Il router dei subagenti però instrada sul campo `name`: se un file venisse rinominato solo all'interno (name diverso dal filename) o due schede avessero lo stesso name, la delega andrebbe al senior sbagliato o nel vuoto, col guardiano ancora verde e il conteggio 120=120 intatto.",
+      "impatto": "Un rename interno o un copia-incolla di scheda (rischio concreto: i 78 nuovi senior sono nati da template) romperebbe il routing delle deleghe in silenzio: il lavoro finirebbe al senior sbagliato mentre tutti i cruscotti dicono che il registro è a posto.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "Un occhio umano su cervello/agent-registry-check.mjs: la lettura degli agenti reali avviene per nome-file; l'unica estrazione dal frontmatter è la funzione estraiDescription (riga ~56); nessuna riga legge, confronta o deduplica il campo name. Controprova comportamentale possibile solo scrivendo un fixture (vietato in questo giro): copiare gli agenti in una cartella di prova, cambiare un name interno, rilanciare il guardiano e vederlo restare verde."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-620",
+      "titolo": "Quando un senior passa il lavoro a un collega, nessuno lo raccoglie: sei passaggi su sette caduti nel vuoto",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md · cervello/chiusura-loop.mjs",
+      "descrizione": "Il canale di squadra prevede il passaggio di mano tra reparti (PASSO-A), ma nei fatti è un citofono verso Nicola: su 83 passaggi registrati, 75 vanno a Nicola e solo 7 a un collega vero. Di quei 7, 6 non hanno MAI una riga successiva del destinatario: cinque richieste di diagnosi dall'AD a devops-sre (23/7, sui giri automatici interrotti da 3 giorni) e una da security a devops-sre (29/7) sono cadute nel vuoto — devops-sre intanto lavorava (quaderno vivo fino al 12/8) ma in Sala tace dal 14/7. Un handoff lasciato cadere non diventa rosso da nessuna parte: non ha scadenza, non ha escalation, non ha un sensore che lo conti.",
+      "impatto": "Il coordinamento tra senior promesso dal mansionario non funziona nella pratica: ogni catena si spezza o converge su Nicola, che resta l'unico collo di bottiglia. Le 6 diagnosi tecniche mai raccolte riguardavano giri automatici fermi da 3 giorni — lavoro critico rimasto senza presa in carico visibile.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "cd /home/user/ad-mycity && python3 -c \"import re,sys; L=open('MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md').read().split(chr(10)); C=[(m.group(1),m.group(2).lower(),m.group(3),m.group(4)) for r in L for m in [re.match(r'^-\\s*(\\d{4}-\\d{2}-\\d{2})[^·]*·\\s*@([A-Za-z0-9-]+)\\s*·\\s*([A-Z-]+)\\s*·?\\s*(.*)',r)] if m]; orf=[(c[0],c[1],mm.group(1).lower()) for i,c in enumerate(C) if c[2]=='PASSO-A' for mm in [re.match(r'@([A-Za-z0-9-]+)',c[3].strip())] if mm and mm.group(1).lower()!='nicola' and not any(x[1]==mm.group(1).lower() for x in C[i+1:])]; print(len(orf),'handoff a colleghi mai raccolti:',orf); sys.exit(1 if orf else 0)\""
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "6 handoff a colleghi mai raccolti: [('2026-07-23', 'ad', 'devops-sre'), ('2026-07-23', 'ad', 'devops-sre'), ('2026-07-23', 'ad', 'devops-sre"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-621",
+      "titolo": "Chi lavora senza scrivere nel canale di squadra resta invisibile: ad agosto il canale è il monologo del direttore",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "cervello/chiusura-loop.mjs (funzione gate, righe 296-334) · MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md",
+      "descrizione": "Il freno che lega Sala e quaderni controlla una direzione sola: chi scrive FATTO in Sala oggi deve avere l'ESITO nel quaderno. La direzione opposta non esiste — chi chiude lavori pesanti senza passare dalla Sala non viene visto da nessun freno. È già successo: devops-sre ha 3 esiti importanti l'11-12/8 (macchina ferma due giorni, pubblicazione memoria bloccata 31 ore) registrati bene nel quaderno, ma la sua ultima riga in Sala è un FACCIO del 14/7 — quasi un mese prima. Risultato misurato: delle 71 righe di Sala di agosto, 67 sono dell'AD (94 su 100); gli altri 14 reparti coi quaderni vivi il 10/8 in Sala quel mese quasi non esistono. Il «canale sempre aperto dove la squadra si coordina» è di fatto il diario di un reparto solo, e chi legge la Sala prima di iniziare (come chiede la regola) non vede il lavoro più critico in corso.",
+      "impatto": "I senior non possono sfruttare il lavoro altrui (il motivo dichiarato del canale): il guasto più grave del mese — macchina ferma due giorni — è passato interamente fuori dal canale di coordinamento. Ogni promessa di team-play del mansionario poggia su un canale che l'87 per cento dei reparti attivi non usa più.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "cd /home/user/ad-mycity && python3 -c \"import re,os,sys,datetime; og=datetime.date.today(); gg=[str(og),str(og-datetime.timedelta(days=1))]; sala=open('MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md').read().split(chr(10)); muti=[f[:-3] for f in sorted(os.listdir('memoria-squadra')) if f.endswith('.md') and f!='README.md' and any(r.strip().startswith('- '+d) for d in gg for r in open('memoria-squadra/'+f)) and not any(re.match(r'^-\\s*('+d+r')[^·]*·\\s*@'+re.escape(f[:-3])+r'\\b', r, re.I) for d in gg for r in sala)]; print('reparti con ESITO fresco (oggi/ieri) ma muti in Sala:',muti); sys.exit(1 if muti else 0)\""
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "reparti con ESITO fresco (oggi/ieri) ma muti in Sala: ['devops-sre']"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-622",
+      "titolo": "La revisione tra pari esiste solo sulla carta: una sola richiesta in un mese e mezzo, rimasta senza risposta",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md · CLAUDE.md (sezione La squadra: peer review prima di consegnare)",
+      "descrizione": "Il mansionario promette «peer review prima di consegnare il lavoro importante» (numeri a finanza, claim a legale, sicurezza a security) e il canale di squadra ha un tipo apposta, RIVEDI. Nella realtà: 1 sola richiesta RIVEDI su 460 righe canoniche di Sala (il 29/7, dall'AD a finanza sul costo marginale per negozio) — e finanza non ha mai risposto: le sue ultime righe in Sala sono del 14 e 16 luglio, il suo quaderno non è tra i 15 vivi. Anche il chiedere aiuto tra colleghi non esiste: dei 59 SERVE, 52 sono rivolti a Nicola e 0 a un altro reparto. La contro-verifica di reparto sul lavoro importante, promessa come regola, non è mai avvenuta nel canale che dovrebbe ospitarla.",
+      "impatto": "Il lavoro importante esce senza la contro-verifica di reparto che il mansionario dichiara obbligatoria: i numeri non passano da finanza, i claim non passano da legale. Il rischio è consegnare a Nicola analisi non refutate spacciandole per lavoro di squadra.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "cd /home/user/ad-mycity && python3 -c \"import re,sys; L=open('MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md').read().split(chr(10)); C=[(m.group(1),m.group(2).lower(),m.group(3),m.group(4)) for r in L for m in [re.match(r'^-\\s*(\\d{4}-\\d{2}-\\d{2})[^·]*·\\s*@([A-Za-z0-9-]+)\\s*·\\s*([A-Z-]+)\\s*·?\\s*(.*)',r)] if m]; tot=0; ok=0\nfor i,c in enumerate(C):\n  if c[2]!='RIVEDI': continue\n  tot+=1\n  mm=re.search(r'@([A-Za-z0-9-]+)',c[3])\n  if mm and any(x[1]==mm.group(1).lower() for x in C[i+1:]): ok+=1\nprint('richieste di peer review:',tot,'· con risposta del destinatario:',ok); sys.exit(0 if ok>=1 else 1)\""
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "richieste di peer review: 1 · con risposta del destinatario: 0"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-623",
+      "titolo": "Il contatore dei quaderni vivi non conta il quaderno del direttore",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "cervello/chiusura-loop.mjs (rosterReparti, righe 34-41) · memoria-squadra/ad.md",
+      "descrizione": "La sonda dei quaderni prende il roster da .claude/agents/ (120 file), ma lì non esiste un agente 'ad': il quaderno più ricco di tutta la squadra (memoria-squadra/ad.md, 49 esiti, con la calibrazione atteso-reale fatta meglio di chiunque) e il suo gemello AD.md restano fuori dal conteggio. La foto pubblicata il 12/8 dice «15 quaderni vivi su 120» senza contare proprio il reparto che scrive di più: il numero che la Cabina mostra sottostima la parte più attiva del loop e ignora l'altra metà spaccata (già tracciata a parte nel cantiere come quaderno diviso dalla maiuscola). Nota: il gate invece il quaderno ad lo controlla, perché parte dalle righe di Sala e non dal roster — i due strumenti dello stesso file guardano insiemi diversi di reparti.",
+      "impatto": "Il numero di copertura del loop mostrato in Cabina è calcolato su un insieme che esclude il reparto più attivo: chi legge «15/120 vivi» non sta guardando la squadra vera.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "cd /home/user/ad-mycity && node cervello/chiusura-loop.mjs --lista | grep -qE \"@ad \" || (echo 'il quaderno ad (49 esiti) non è nel conteggio della sonda'; exit 1)"
+      },
+      "verifica": {
+        "tipo": "comando"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-624",
+      "titolo": "Il bottone che recupera i lavori bloccati rimette in coda anche le azioni reali interrotte: possono ripartire da sole senza nuova firma",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/pannello/src/app/api/lavori/recupera/route.ts (righe 26-42) e /home/user/ad-mycity/cervello/vps/recupera-lavori-orfani.sh (righe 16-29)",
+      "descrizione": "Il worker, al riavvio, tratta un'azione reale interrotta (esegui-azione/proposta) come intoccabile: la chiude in errore con «riapprova dal Pannello», mai riaccodata (worker.sh righe 996-1001, regola nata proprio per il rischio doppio invio). Ma esistono DUE porte laterali che fanno l'opposto: l'API del Pannello POST /api/lavori/recupera e lo script cervello/vps/recupera-lavori-orfani.sh prendono OGNI lavoro «in_corso» — senza guardare il tipo, il proprietario, l'età o se un worker lo sta ancora eseguendo — e lo rimettono in «in_attesa». Un'azione reale interrotta a metà (email magari già partita) torna prendibile e il primo claim la RIESEGUE, senza che Nicola l'abbia rifirmata. In più, un lavoro VIVO (un giro a metà) riaccodato così produce doppia esecuzione e la scrittura d'esito del worker vivo (filtrata su stato=in_corso) va persa. Prova eseguita adesso con un curl finto: lo script VPS ha rimesso in coda un esegui-azione interrotto (esito ROSSO).",
+      "impatto": "Un click su «recupera» (o un giro dello script VPS) mentre c'è un'azione reale interrotta la fa ripartire da sola: possibile email/invio DOPPIO a un negozio o cliente vero, senza firma di Nicola. Sui lavori vivi: doppia esecuzione e esiti persi.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "bash -c 'S=$(mktemp -d); printf \"%s\\n\" \"#!/usr/bin/env bash\" \"p=0\" \"for a in \\\"\\$@\\\"; do case \\\"\\$a\\\" in *stato=eq.in_corso*) echo \\\"[{\\\\\\\"id\\\\\\\":\\\\\\\"AZ1\\\\\\\",\\\\\\\"tipo\\\\\\\":\\\\\\\"esegui-azione\\\\\\\",\\\\\\\"updated_at\\\\\\\":\\\\\\\"2026-08-12T00:00:00Z\\\\\\\"}]\\\"; exit 0;; PATCH) p=1;; esac; done\" \"[ \\\"\\$p\\\" = 1 ] && printf \\\"%s\\\\n\\\" \\\"\\$*\\\" >> \\\"\\$MOCKLOG\\\"\" \"echo \\\"[]\\\"\" > \"$S/curl\"; chmod +x \"$S/curl\"; : > \"$S/log\"; MOCKLOG=\"$S/log\" PATH=\"$S:$PATH\" REPO=\"$S\" SUPABASE_URL=http://mock SUPABASE_SERVICE_KEY=k bash /home/user/ad-mycity/cervello/vps/recupera-lavori-orfani.sh >/dev/null 2>&1; if grep -q in_attesa \"$S/log\"; then echo \"ROSSO: azione reale rimessa in coda senza nuova firma\"; exit 1; else echo verde; fi'"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "ROSSO: azione reale rimessa in coda senza nuova firma"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-625",
+      "titolo": "Al riavvio, un worker considera suoi anche i lavori vivi di un gemello della stessa corsia e li recupera all'istante",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/cervello/worker.sh — _orfano_decisione (righe 938-948) e owner_lane (riga 964)",
+      "descrizione": "L'identità del worker è a tre pezzi — corsia:host:pid — messa lì apposta per distinguere «due processi della stessa corsia (improbabile ma non impossibile)» (worker.sh righe 381-382). Ma il recupero orfani butta via host e pid (owner_lane=\"${owner%%:*}\") e decide solo sulla corsia: se il proprietario è della MIA corsia → «procedi» subito, a zero minuti di età, senza nessuna grazia (la grazia di 4 minuti vale solo quando l'owner manca del tutto). Prova eseguita adesso: _orfano_decisione 1 all all 0 4 60 → «procedi». Scenario: il servizio (corsia «all») sta eseguendo un'azione reale; qualcuno lancia a mano un secondo worker.sh (debug, test, corsia di default «all») → al suo avvio quel lavoro VIVO viene subito chiuso in errore «riapprova» mentre magari l'invio è già partito → Nicola riapprova → doppio invio. Un giro o una chat vivi vengono invece riaccodati → doppia esecuzione. Nota: da qui il VPS non si vede; systemd garantisce una sola istanza per servizio, ma niente impedisce un lancio manuale accanto al servizio — ed è esattamente il caso per cui host:pid era stato aggiunto all'identità.",
+      "impatto": "Un secondo processo della stessa corsia (lancio manuale accanto al servizio) al suo avvio uccide o riaccoda lavori ancora in esecuzione: azione reale marcata «riapprova» mentre è già partita (→ doppio invio dopo la riapprovazione), giro/chat eseguiti due volte, esiti sovrascritti.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "bash -c 'eval \"$(sed -n \"/^_orfano_decisione()/,/^}/p\" /home/user/ad-mycity/cervello/worker.sh)\"; if [ \"$(_orfano_decisione 1 all all 0 4 60)\" = procedi ]; then echo \"ROSSO: lavoro VIVO di 0 minuti della mia stessa corsia viene recuperato subito (host:pid ignorati, nessuna grazia)\"; exit 1; else echo verde; fi'"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "ROSSO: lavoro VIVO di 0 minuti della mia stessa corsia viene recuperato subito (host:pid ignorati, nessuna grazia)"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-626",
+      "titolo": "Se la conferma della presa in carico si perde per strada, il lavoro resta segnato in corso per un'ora senza che nessuno lo esegua",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/cervello/worker.sh — claim (righe 1207-1214), recupero solo all'avvio (riga 1081)",
+      "descrizione": "Il claim è una PATCH condizionale con «|| true»: se la modifica arriva al database ma la RISPOSTA si perde (rete che cade nei 30 secondi di max-time), il worker legge una rappresentazione vuota, conclude «claim perso» e salta — ma il lavoro ormai è «in_corso», intestato a un worker VIVO. Da lì nessuno lo tocca: il recupero orfani interno gira solo all'avvio (riga 1081, non nel loop), l'altro worker lo lascia in pace perché l'owner è di un'altra corsia ed è recente, e la sentinella (timer ogni 3 minuti) interviene solo oltre la soglia oraria. Risultato: un lavoro — per una chat significa conversazione muta — resta fermo fino a ~60 minuti, finché una soglia o un riavvio lo sblocca. Si autoripara, ma lentamente.",
+      "impatto": "Sotto rete degradata una chat o un lavoro può congelarsi ~1 ora con lo stato «in corso» nel Pannello: Nicola vede la macchina che «ci sta lavorando» mentre nessuno lo sta eseguendo.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "Occhio umano su /home/user/ad-mycity/cervello/worker.sh: righe 1209-1214 — la PATCH di claim ha «2>/dev/null || true» e sulla rappresentazione vuota fa «continue» senza mai rileggere il lavoro (un GET su id per verificare se worker_owner è il proprio); riga 1081 — recupera_lavori_orfani è chiamata una volta sola, prima del loop, mai dentro. Riprodurre il taglio di rete tra PATCH applicata e risposta richiede fault-injection sul VPS, non fattibile da qui."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-627",
+      "titolo": "Con la quota finita, un lavoro mai eseguito viene chiuso come fatto",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "cervello/motore-ai.sh righe 310-348 (ai_run_con_fallback_ollama) + cervello/worker.sh righe 1478-1488",
+      "descrizione": "Quando il motore premium risponde con l'errore di quota (weekly/usage limit) e sul server c'è Ollama, la funzione di fallback fa rispondere un modello locale da 3 miliardi di parametri, SENZA mani (non scrive file, non apre PR, non tocca il DB), e ritorna il suo rc=0. Il worker, alla riga 1486-1487, vede rc=0 e chiude il lavoro con stato «fatto». Vale per TUTTA la corsia lavori (riga 1478): metabolizza, analisi, e soprattutto i lavori di RECUPERO cadenza che AR-024 ri-accoda proprio per quota — se quando il worker li riprende la quota è ancora finita, il recupero esce «fatto» con una chiacchierata del modello locale, non è più in_attesa, e l'idempotenza di cadenza_recupero non lo ri-accoda mai più: il paracadute si brucia da solo. L'avviso «⚠️ risposta da Ollama» resta solo dentro il testo; lo STATO che guida coda, retry-policy e Pannello dice successo pieno.",
+      "impatto": "Briefing, metabolizzazioni e recuperi di cadenza che risultano fatti ma non esistono; il Pannello mostra verde su lavoro mai eseguito; la retry-policy non scatta (scatta solo su stato=errore); il recupero-quota si autoannulla.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "S=$(mktemp -d); printf '#!/bin/bash\\necho ok-locale\\nexit 0\\n' >\"$S/ollama\"; printf '#!/bin/bash\\necho \"usage limit reached\" >&2\\nexit 1\\n' >\"$S/cli-finta\"; chmod +x \"$S\"/*; cd /home/user/ad-mycity && PATH=\"$S:$PATH\" bash -c '. cervello/motore-ai.sh; ai_run_con_fallback_ollama 20 \"metabolizza e scrivi memoria\" cli-finta >/dev/null 2>&1; rc=$?; [ $rc -ne 0 ] || { echo \"ROSSO: quota finita ma rc=0 → worker.sh:1486 lo chiude FATTO senza esecuzione\"; exit 1; }; echo VERDE'"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "ROSSO: quota finita ma rc=0 → worker.sh:1486 lo chiude FATTO senza esecuzione"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-628",
+      "titolo": "Ripartendo con la testa staccata dal ramo, l'allineamento butta via il commit di salvataggio appena creato",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "cervello/ritmo.sh riga 129 (dopo il commit di recupero alle righe 106-108), cervello/giro.sh riga 158, cervello/monitora.sh riga 90",
+      "descrizione": "Il blocco di allineamento prima COMMITTA le scritture pendenti («recupero: scritture pendenti da ritmo interrotto») su HEAD qualunque esso sia, poi controlla se HEAD è sul ramo main: se non lo è (HEAD staccato, es. processo ucciso a metà di un rebase, riavvio del server), esegue «git checkout -B main FETCH_HEAD», che sposta il ref main sul remoto e ORFANA il commit di recupero creato tre righe sopra — nessun ref lo punta più. Il log stampa «HEAD portato su main» come se fosse tutto a posto. La cura del rebase non distruttivo (AR-028, «scritture locali preservate») copre solo il ramo in cui HEAD è già su main; il ramo «detached/primo giro» è rimasto distruttivo in tutte e tre le copie. Che HEAD staccato succeda davvero sul VPS è documentato nel repo stesso: aggiorna-cervello.sh righe 210-217 racconta 31 ore con «## HEAD (no branch)» il 12/8. Da qui (sessione cloud) il VPS non si vede: lo scenario è verificabile solo lì o su un clone con remoto raggiungibile.",
+      "impatto": "Perdita silenziosa della memoria (briefing, righe FATTO di azioni, esiti) esattamente nello scenario per cui il commit di salvataggio esiste; rischio doppia esecuzione di azioni già fatte perché la traccia è sparita.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "Sul VPS (o clone con remoto raggiungibile): mettersi a HEAD staccato (git checkout HEAD~0), modificare un file in MyCity-Vault/, lanciare bash cervello/ritmo.sh mattino con RITMO_FORCE=1, poi verificare: «git log --all --oneline | grep -c 'recupero: scritture pendenti'» deve trovarlo raggiungibile; se serve «git fsck --lost-found» per vedere il commit orfanato. Se il commit c'è solo tra i dangling, il difetto è confermato."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-629",
+      "titolo": "D'inverno la macchina timbra gli esiti delle cadenze con un'ora avanti",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "cervello/lib-cadenza.sh riga 363 (cadenza_registra → esito-cadenze.json, campi quando/aggiornato) e cervello/giro.sh riga 1559",
+      "descrizione": "Il timestamp che dice quando ogni cadenza è uscita — quello per cui «la cadenza che non esce si vede, perché la sua riga invecchia» — è calcolato con un offset FISSO di +2 ore sull'UTC (Date.now()+2*3600*1000) invece che col fuso Europe/Rome. Da fine ottobre a fine marzo Piacenza è a +1: per cinque mesi l'anno ogni riga di esito-cadenze.json (e il timbro analogo nel giro) è scritta un'ora nel FUTURO. Un referto vecchio sembra più fresco di un'ora ai guardiani di freschezza e al Pannello, e la regola della casa «Nicola deve sapere al minuto quando è apparso ogni dato» è violata sistematicamente. La prova qui sotto è rossa oggi: eseguita ora, mostra che per il 1° dicembre la formula scrive le 12:00 quando a Piacenza sono le 11:00.",
+      "impatto": "Timestamp bugiardi per ~5 mesi/anno su tutti gli esiti cadenze e sul timbro del giro; i controlli di anzianità (riga che invecchia) sono sfalsati di un'ora — un ritardo reale di 50 minuti risulta invisibile.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "cd /home/user/ad-mycity && { ! grep -qE 'Date\\.now\\(\\)\\+2\\*3600\\*1000' cervello/lib-cadenza.sh cervello/giro.sh || node -e 's=new Date(\"2026-12-01T10:00:00Z\");f=new Date(s.getTime()+2*3600e3).toISOString().slice(0,16).replace(\"T\",\" \");v=s.toLocaleString(\"sv-SE\",{timeZone:\"Europe/Rome\"}).slice(0,16);if(f!==v){console.error(\"ROSSO: la formula timbra «\"+f+\"» ma a Piacenza sono le «\"+v+\"»\");process.exit(1)}'; }"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "ROSSO: la formula timbra «2026-12-01 12:00» ma a Piacenza sono le «2026-12-01 11:00»"
+      },
+      "vedi": "AR-414 (stessa malattia sul Pannello: orologi inchiodati all ora legale)",
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-630",
+      "titolo": "Quando la quota si libera tra ore, la cadenza riprova comunque dopo trenta secondi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "cervello/lib-cadenza.sh righe 169-180 (cadenza_ai_run) + cervello/esito-cadenza.mjs righe 276-287 (ritentaSecondoPolicy)",
+      "descrizione": "Il ciclo dei tentativi interroga la retry-policy (giusto), ma della risposta usa solo il sì/no: il campo quandoISO — l'istante in cui l'errore si sblocca, es. il reset di quota fra ore — viene riportato da ritentaSecondoPolicy e poi ignorato dal chiamante, che dorme sempre la pausa fissa di 30 secondi e riprova subito contro lo stesso muro. Il danno è contenuto (l'errore di quota risponde in fretta e il recupero via coda esiste), ma i tentativi 2 e 3 sono sempre bruciati a vuoto quando la classe è quota, e non esiste alcun backoff crescente per gli errori transitori di rete.",
+      "impatto": "Due tentativi a vuoto per ogni cadenza in quota (≈1 minuto e rumore nei log); nessun backoff sui transitori.",
+      "prova": {
+        "tipo": "grep"
+      },
+      "verifica": {
+        "tipo": "grep"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-631",
+      "titolo": "Il worker dichiara salvato un esito che il database non ha mai scritto",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/cervello/lib-esito-lavoro.sh riga 49 (funzione scrivi_esito_lavoro)",
+      "descrizione": "La PATCH che chiude un lavoro filtra su stato=eq.in_corso e giudica il successo SOLO dall'exit code di curl. PostgREST risponde 2xx anche quando il filtro non trova nessuna riga (nessuna intestazione Prefer con return/count viene passata, il corpo non viene mai letto). Caso reale: la sentinella chiude il lavoro in «errore» mentre l'azione vera è ancora in corso; quando il worker finisce e scrive l'esito, la PATCH tocca 0 righe, torna 2xx, la funzione ritorna 0, scarta l'eventuale ricovero e stampa «esito scritto». Il ramo di riparazione che ripubblica SENZA filtro stato (riga 131, «Qui NON si filtra su stato=in_corso») parte solo se curl FALLISCE — e qui curl riesce.",
+      "impatto": "L'esito di un'azione reale già eseguita va perso senza ricovero: la card resta «errore — potrebbe essere già partita, riapprova», Nicola riapprova e il messaggio/azione parte due volte. È esattamente lo scenario che questa funzione era nata per impedire.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "bash -c 'S=$(mktemp -d) && mkdir -p \"$S/.git\" && cd \"$S\" && ts(){ date +%H:%M:%S; }; curl(){ return 0; }; AUTH=(); REPO=\"$S\"; SCRIPT_DIR=/home/user/ad-mycity/cervello; SUPABASE_URL=http://finto; . /home/user/ad-mycity/cervello/lib-esito-lavoro.sh; if scrivi_esito_lavoro 999 \"{\\\"stato\\\":\\\"fatto\\\"}\" 2>/dev/null && [ ! -f \"$S/.git/mycity-esito-ricovero/999.json\" ]; then echo \"ROSSO: esito dichiarato scritto, nessun ricovero, con 0 righe toccate\"; exit 1; else echo verde; fi' — lo stub curl che esce 0 modella il comportamento documentato di PostgREST (2xx anche a filtro vuoto). Eseguita ora: ROSSA."
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "/bin/sh: 1: Syntax error: \"(\" unexpected"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-632",
+      "titolo": "Il registro di come sono uscite le cadenze si azzera da solo se una scrittura resta a metà",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/cervello/lib-cadenza.sh righe 357-371 (funzione cadenza_registra, file MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-cadenze.json)",
+      "descrizione": "Il file condiviso esito-cadenze.json è scritto con writeFileSync diretto, senza tmp+rename, da giro, ritmo e monitora — che PER DISEGNO possono girare in parallelo (il lucchetto è per-tipo, riga 29: «una cadenza non deve bloccare il giro»). Un lettore concorrente vede il file a metà scrittura, e un kill del watchdog a metà scrittura lo lascia troncato su disco. Alla registrazione successiva il try/catch degrada in silenzio a oggetto vuoto e riscrive il file con la SOLA riga corrente: le righe delle altre cadenze spariscono. La funzione gemella nello stesso lotto (esito_ricovera, lib-esito-lavoro.sh righe 74-82) fa tmp+mv proprio «perché un ricovero troncato è un ricovero che mente» — la regola esiste in casa e qui non è applicata.",
+      "impatto": "Il sensore anti-cadenza-morta si fonda su «la sua riga invecchia» (lo dice il _cosa_e del file stesso). Una riga cancellata non invecchia: sparisce, e una cadenza morta torna invisibile a Pannello e guardiani — la malattia che questo registro era nato per rendere visibile rientra dalla finestra.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "bash -c 'S=$(mktemp -d) && mkdir -p \"$S/MyCity-Vault/90-Memoria-AI/auto-coscienza\" && cd \"$S\" && printf %s \"{\\\"cadenze\\\":{\\\"ritmo-mattino\\\":{\\\"quando\\\":\\\"2026-08-12 08:00\\\",\\\"esito\\\":\\\"pulita\\\",\\\"codice\\\":0},\\\"monitoraggio\\\":{\\\"quando\\\":\\\"2026-08-12 06:30\\\",\\\"esito\\\":\\\"pulita\\\",\\\"codice\\\":0}}}\" > MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-cadenze.json && head -c 60 MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-cadenze.json > t && mv t MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-cadenze.json && ts(){ date +%H:%M:%S; }; REPO=\"$S\"; SCRIPT_DIR=/home/user/ad-mycity/cervello; . /home/user/ad-mycity/cervello/lib-cadenza.sh; cadenza_registra giro 0 pulita 0 1 1 0 2>/dev/null; node -e \"const s=require(process.argv[1]);process.exit((s.cadenze[\\\"ritmo-mattino\\\"]&&s.cadenze[\\\"monitoraggio\\\"])?0:1)\" \"$S/MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-cadenze.json\" || { echo \"ROSSO: le righe delle altre cadenze sono sparite\"; exit 1; }' — eseguita ora: ROSSA (le righe di ritmo-mattino e monitoraggio spariscono)."
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "/bin/sh: 1: Syntax error: \"(\" unexpected"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-633",
+      "titolo": "Il cancello di pubblicazione resta verde anche se uno dei suoi guardiani è sparito",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/cervello/gate-pubblicazione.sh riga 122",
+      "descrizione": "Il guardiano vault-sanita gira solo dietro un controllo di esistenza del file: se vault-sanita.mjs manca (cancellato, rinominato, checkout parziale), il suo rc resta 0 e il verdetto esce verde con un guardiano in meno, in silenzio. Va contro la policy dichiarata due volte nello stesso file: «un guardiano che non riesce a misurare vale come guardiano fallito» (node assente infatti blocca, riga 113-116); e gli altri due guardiani bloccano davvero se mancano, perché node esce con errore su modulo inesistente. Solo vault-sanita ha la corsia preferenziale.",
+      "impatto": "Basso finché il file esiste sul VPS; ma il giorno in cui un allineamento parziale lo perde, la memoria passa il cancello con un controllo di sanità in meno e nessuna riga lo dice.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "bash -c 'S=$(mktemp -d) && cd \"$S\" && git init -qb main . && printf \"process.exit(0)\\n\" > scan-segreti.mjs && cp scan-segreti.mjs coerenza-fatti.mjs && . /home/user/ad-mycity/cervello/gate-pubblicazione.sh && if gate_pubblicazione \"$S\" \"$S\" main 2>/dev/null; then echo \"ROSSO: cancello verde senza vault-sanita.mjs\"; exit 1; else echo verde; fi'"
+      },
+      "verifica": {
+        "tipo": "comando"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-634",
+      "titolo": "Le cadenze timbrano l'ora con l'ora legale fissa: d'inverno il registro sbaglierà di un'ora",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": "/home/user/ad-mycity/cervello/lib-cadenza.sh riga 363 (campo quando di esito-cadenze.json)",
+      "descrizione": "Il timestamp è calcolato come Date.now()+2 ore fisse, cioè UTC+2 cablato. Da fine ottobre a fine marzo Piacenza è UTC+1: ogni riga del registro risulterà un'ora nel futuro, e ogni confronto di freschezza («da quanto non esce questa cadenza?») sbaglierà di un'ora. È il parente stretto del difetto già a cantiere sui tre orologi del Pannello inchiodati all'ora legale, ma su un organo diverso — qui è il lato che SCRIVE, nel cervello: curare il Pannello non cura questo.",
+      "impatto": "Un'ora di errore su ogni misura di freschezza invernale del registro cadenze; rumore nei falsi allarmi/falsi verdi dei sensori che confrontano quel campo con l'orologio vero.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e 'const d=new Date(\"2026-01-15T10:00:00Z\");const scritto=new Date(d.getTime()+2*3600*1000).toISOString().slice(0,16).replace(\"T\",\" \");const vero=d.toLocaleString(\"sv-SE\",{timeZone:\"Europe/Rome\"}).slice(0,16);console.log(\"scritto:\",scritto,\"| vero:\",vero);process.exit(scritto===vero?0:1)' — esce rossa su una data invernale (scritto 12:00, vero 11:00)."
+      },
+      "verifica": {
+        "tipo": "comando"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-635",
+      "titolo": "Il guardiano esterno può restare appeso sei ore senza che nessuno lo fermi",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": ".github/workflows/battito-esterno.yml, job `battito` (righe 32-34), concurrency righe 28-30",
+      "descrizione": "Il battito esterno — l'unico controllo che gira FUORI dal VPS, nato per scoprire i blackout — è l'unico dei quattro workflow con un job SENZA tetto di tempo (`timeout-minutes`). Se una corsa si appende (una chiamata `gh` o di rete che non risponde), GitHub la lascia viva per il default di 360 minuti; il gruppo di concorrenza `battito-esterno` (una sola corsa alla volta, `cancel-in-progress: false`) tiene in coda i controlli orari successivi. Risultato: il guardiano dei blackout può restare cieco fino a sei ore, e in quella finestra nessun altro lo controlla — è lui l'ultima rete. Gli altri due workflow con job veri il tetto ce l'hanno (test-cervello.yml riga 51 e cancello-lotto.yml riga 46: 20 minuti).",
+      "impatto": "Durante un'appensione, un blackout del VPS non genera allarme per ore — esattamente lo scenario (quaranta ore di silenzio scoperte da Nicola, non dalla macchina) per cui questo workflow è stato costruito. In più la corsa appesa può morire a metà (allarme mezzo aperto: label creata, issue no).",
+      "prova": {
+        "tipo": "umano",
+        "umano": "Un occhio umano apra i tre file con un job: in test-cervello.yml (riga 51) e cancello-lotto.yml (riga 46) c'è `timeout-minutes: 20`; nel job `battito` di battito-esterno.yml (righe 32-34) la riga non c'è. Controprova sul comportamento reale: su GitHub → Actions → una corsa di «Battito esterno» appesa mostrerebbe il limite di 360 minuti (default). Da questa sessione GitHub Actions non si può far girare, quindi la prova che gira non è scrivibile da qui: lo dichiaro."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-636",
+      "titolo": "Il deploy del pannello gira senza permessi dichiarati, senza tetto di tempo e senza scadenza sulla chiamata",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": ".github/workflows/deploy-pannello.yml, job `deploy` (righe 34-52)",
+      "descrizione": "È l'unico dei quattro workflow senza blocco `permissions:` — il token GITHUB_TOKEN eredita il default del repository (che da qui non si vede: se è in scrittura, il job tiene poteri che non usa mai, visto che chiama solo il Deploy Hook di Vercel con curl). Il job non ha `timeout-minutes` (default 360 minuti) e la `curl` non ha `--max-time`: se l'endpoint di Vercel smette di rispondere senza chiudere la connessione, la corsa resta viva fino a 6 ore e il deploy resta fermo senza un errore visibile. Manca anche un gruppo di concorrenza (gli altri tre ce l'hanno).",
+      "impatto": "Token con poteri di default esposto a un job che non ne ha bisogno; in caso di hook morto, 6 ore di runner bruciate e un deploy mancato che non fallisce subito (l'errore chiaro promesso in testa al file arriva solo se il secret manca o l'HTTP risponde male, non se non risponde affatto).",
+      "prova": {
+        "tipo": "grep"
+      },
+      "verifica": {
+        "tipo": "grep"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-637",
+      "titolo": "Le azioni dei workflow sono agganciate a etichette spostabili, non a un commit preciso",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": ".github/workflows/battito-esterno.yml (righe 36, 38) · test-cervello.yml (righe 53, 66) · cancello-lotto.yml (righe 48, 54)",
+      "descrizione": "Sei usi di azioni esterne (`actions/checkout@v4`, `actions/setup-node@v4`) puntano a un tag, non a uno SHA di commit. Un tag si può spostare: chi controlla (o compromette) il repository dell'azione controlla il codice che gira sul runner — con `issues: write` nel battito e con l'accesso al secret del deploy hook nel workflow di deploy. È il meccanismo esatto dell'attacco alla supply chain di marzo 2025 su un'azione popolare (tag ripuntati su un commit malevolo). Sono azioni ufficiali GitHub, quindi il rischio è basso ma non zero — per questo minore e non grave.",
+      "impatto": "Un tag ripuntato da un attacco upstream esegue codice arbitrario con i permessi dei workflow: può aprire/chiudere issue (spegnere l'allarme del battito), leggere il repo e il secret del deploy hook.",
+      "prova": {
+        "tipo": "grep"
+      },
+      "verifica": {
+        "tipo": "grep"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-638",
+      "titolo": "Il titolo dell'allarme entra nel terminale senza protezione: la porta classica dell'iniezione di comandi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
+      "dove": ".github/workflows/battito-esterno.yml, righe 74, 88, 100-101 (`${{ steps.controllo.outputs.titolo }}` e `.numero` dentro blocchi `run:`)",
+      "descrizione": "Gli output dello step di controllo (titolo e numero della issue) vengono interpolati direttamente dentro lo script shell con `${{ }}`. È l'anti-pattern che la guida di security hardening di GitHub chiede esplicitamente di evitare: se il testo contiene `\"`, backtick o `$(...)`, quei caratteri diventano comandi eseguiti sul runner col token del workflow (`issues: write`). Oggi il titolo esce da `titoloUmano()` (cervello/battito-esterno.mjs riga 78), quindi è controllato — ma il workflow legge tracce che il worker scrive nel repo partendo anche da contenuti di chat: il giorno che una stringa derivata dalla memoria arriva nel titolo, la porta è aperta.",
+      "impatto": "In caso di iniezione: esecuzione di comandi arbitrari sul runner con la possibilità di manipolare le issue (incluso chiudere l'allarme «macchina ferma») e leggere il contenuto del repo.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "Un occhio umano guardi le righe 74, 88 e 100-101: gli output di step compaiono dentro `run:` via `${{ }}` invece di passare da `env:` (come fa correttamente `ISSUE_APERTA` alla riga 56). Una prova che gira richiederebbe di iniettare un titolo malevolo attraverso tutta la catena memoria→battito→issue su GitHub Actions, non eseguibile da qui."
+      },
+      "verifica": {
+        "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-639",
+      "titolo": "Gli strumenti di misura scrivono la memoria anche quando devono solo leggere, e l'archivio butta via storia vera",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "sessione 2026-08-13 (osservato due volte, diff salvato)",
+      "dove": "cervello/tasso-chiusura.mjs + il sorvegliante che scrive sorvegliante-storico.json",
+      "descrizione": "Durante la radiografia (dichiarata in sola lettura) due strumenti hanno scritto il proprio stato come effetto collaterale del girare: tasso-chiusura.mjs ha riscritto la sua ora di misura, e l'archivio lungo del sorvegliante ha accodato righe vuote della sessione cloud (scatti 176, voci 0) facendo ruotare fuori 3 righe di storia vera del 9 agosto. Ripristinate a mano; il diff completo è la prova documentale. Stessa famiglia del difetto già noto su verifica-sensori: misurare non deve mai modificare.",
+      "impatto": "Ogni lettura fatta da un ambiente cieco sporca la memoria che il Pannello e i guardiani leggono: la storia si accorcia e lo stato si falsifica da solo.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "git diff --quiet && node cervello/tasso-chiusura.mjs >/dev/null 2>&1; git diff --quiet || { echo 'ROSSO: misurare ha scritto'; git checkout -- .; exit 1; }"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "Osservato due volte in sessione: tasso-chiusura ha riscritto la sua ora a ogni run; il sorvegliante ha accodato scatti vuoti ruotando fuori 3 righe del 9/8 (ripristinate)."
+      },
+      "vedi": "AR-568 (capostipite della famiglia: verifica-sensori che riscrive la memoria dei sensi)",
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-640",
+      "titolo": "Il lavoro lungo lanciato dal cloud muore in silenzio quando il contenitore si addormenta, e nessuno se ne accorge",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "sessione 2026-08-13 (vissuto stanotte)",
+      "dove": "pratica di lancio dei workflow dalle sessioni cloud (radiografia-totale, radiografia, audit-design)",
+      "descrizione": "La flotta della radiografia è partita alle 00:20 ed è morta alle 01:12 col contenitore addormentato tra due turni: 15 squadre su 16 avevano consegnato, le ultime 2 sono sparite senza errore, la notifica di fine non è mai potuta arrivare e la macchina è rimasta in attesa passiva. Se ne è accorto Nicola alle 08:35, non un guardiano. Il giornale su disco ha permesso di salvare il lavoro pagato, ma solo perché qualcuno è andato a guardare.",
+      "impatto": "Ore perse e fiducia bruciata: un lavoro promesso che non arriva mai, senza allarme. Qualsiasi flotta lunga lanciata dal cloud ha lo stesso destino.",
+      "prova": {
+        "tipo": "umano",
+        "umano": "Guardare i tempi di stanotte: lancio 00:20, ultima scrittura del giornale 00:23, ultime squadre vive 01:12, primo accorgersi 08:35 (domanda di Nicola in chat). Freno da costruire: ogni lancio di flotta da sessione cloud si accompagna a un check-in programmato (send_later ~45 min) che controlla il giornale e rianima o salva."
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-641",
+      "titolo": "La radiografia di ieri ha raccontato 163 difetti e ne ha scritti 2: gli altri vivono solo nella lettera",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "sessione 2026-08-13 (scoperto durante la dedup)",
+      "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json (41 dimensioni, 0 difetti dentro) + cantiere-difetti.json (2 schede nate l 11/8) vs consegne/audit/2026-08-11-radiografia-totale.md (annuncia 163)",
+      "descrizione": "Il report dell 11/8 dice: «Sono nella foto della radiografia, e da lì li vedi in Cabina uno per uno, ognuno con la sua prova». La foto ha zero difetti dentro le sue 41 dimensioni, e nel cantiere quel giorno sono nate 2 schede. I 161 difetti restanti non esistono in nessun registro leggibile dalla Cabina: solo prosa. Conseguenze a catena: la Cabina non li mostra, nessun lotto può ripararli, il voto mensile non li conta come aperti — e la dedup di stanotte quasi non trovava collisioni proprio perché ieri non è stato scritto niente. La bilancia del voto perde da entrambi i piatti: 74 chiusure senza data da una parte, 161 aperture mai scritte dall altra.",
+      "impatto": "Un difetto non scritto è un difetto che nessuno riparerà: il lavoro di ieri (una giornata di flotta) è evaporato tra il racconto e il registro. E ogni promessa «lo vedi in Cabina» era falsa.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node -e 'const c=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json\");const f=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json\");const nate=c.difetti.filter(x=>(x.nato||\"\").startsWith(\"2026-08-11\")).length;const inFoto=(f.dimensioni||[]).reduce((a,x)=>a+((x.difetti||[]).length),0);console.log(nate+\" schede nate l 11/8 · \"+inFoto+\" difetti nella foto · 163 annunciati dal report\");process.exit((nate+inFoto)<20?1:0)'"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "Eseguita adesso: 2 schede nate l 11/8, 0 difetti nella foto, 163 annunciati → exit 1."
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-642",
+      "titolo": "Nella sessione cloud il cancello dello stop perde due controlli senza dire di essere cieco",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (mandato di recupero)",
+      "dove": "cervello/cancello-stop.mjs:1043 (radice: baseDelRamo 658-668, righeAggiunteNelle 769-775, testiToccati 844-853, messaggio cieco 999-1002)",
+      "descrizione": "Il clone cloud è superficiale: origin/main esiste come ref ma non ha base comune con HEAD. baseDelRamo() valida la base solo con rev-parse (che passa), poi ogni diff a tre punti muore con «fatal: no merge base». Da lì: il controllo sull'esito del lavoro consegnato viene dichiarato cieco ma con la causa sbagliata; il controllo sugli allarmi aggiunti alle consegne già committate riceve null e lo trasforma in lista vuota senza ⚪ (silenzio = «tutto bene»); il controllo sui testi committati sul ramo salta le basi in catch muto e misura solo i file sporchi. Il file stesso dichiara che «un silenzio è indistinguibile da un va-tutto-bene» — e qui lo ripete su due canali. Nessuna scheda del cantiere copre questo.",
+      "impatto": "A ogni chiusura di turno cloud un allarme aggiunto in fondo a una consegna esistente e un testo peggiorato già committato passano il cancello muti. Il freno risulta verde mentre due dei sei controlli non misurano mai.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "git rev-parse --verify --quiet origin/main && git diff origin/main...HEAD --name-only -- consegne 2>&1 | grep -q 'no merge base' && grep -q 'consegneModificate || \\[\\]' cervello/cancello-stop.mjs && { echo 'ROSSO: base valida per rev-parse ma diff senza merge base, e il null diventa lista vuota senza cieco'; exit 1; }; exit 0"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "esito": "riprodotto",
+        "quando": "2026-08-13",
+        "nota": "Riprodotto dalla squadra alle 08:40 (rev-parse ok + diff «no merge base»). Alle 08:55 la prova non scatta più in QUESTO clone: l allungamento della storia fatto per l indagine sul contatore ha creato la base per effetto collaterale. Su un clone cloud fresco (accorciato) riscatta: la scheda resta aperta per il fix nel codice (dichiarare cieco, non tacere)."
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-643",
+      "titolo": "Gli errori di git finiscono crudi nel verdetto di chiusura del turno",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (mandato di recupero)",
+      "dove": "cervello/percorsi-git.mjs:71 (usato da cancello-stop.mjs:718 e :846)",
+      "descrizione": "Il «fatal: origin/main...HEAD: no merge base» visto stanotte sopra il verdetto dello Stop non esce dal wrapper git() di cancello-stop (che pipa stderr apposta) ma da percorsi-git.mjs, che chiama execFileSync senza opzione stdio: stderr resta ereditato e va dritto nell'output dell'hook, 3-4 righe fatal a ogni chiusura di turno nel clone accorciato.",
+      "impatto": "Chi legge vede un guasto fantasma di git sopra il verdetto vero e può mettersi a inseguirlo; il rumore ripetuto uguale è il modo in cui un freno si impara a ignorare.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "grep -n 'execFileSync' cervello/percorsi-git.mjs | head -1 && ! grep -q 'stdio' cervello/percorsi-git.mjs && { echo 'ROSSO: execFileSync senza stdio, stderr ereditato finisce nell output dell hook'; exit 1; }; exit 0"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-644",
+      "titolo": "Se l'aggancio dei cancelli del commit fallisce all'avvio, la sessione parte scoperta e muta",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (mandato di recupero)",
+      "dove": ".claude/settings.json:92 + cervello/hooks-check.mjs:118",
+      "descrizione": "Il SessionStart lancia l'installazione degli hook buttando via ogni errore e proseguendo comunque; se core.hooksPath non si attiva, i commit girano senza nessun cancello (niente scan segreti, niente perimetro di main) e nessun organo lo dice. Il guardiano degli hook riconosce solo i comandi «node cervello/*.mjs»: il comando bash dell'installazione non viene verificato — se lo script si rompesse il guardiano direbbe verde.",
+      "impatto": "Finestra silenziosa tra l'avvio di una sessione e il primo giro: commit possibili senza freni, nessun avviso.",
+      "prova": {
+        "tipo": "grep"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-645",
+      "titolo": "Ogni blocco del commit insegna la scappatoia e nessuno conta chi la usa",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 08:50",
+      "origine": "radiografia-totale 2026-08-13 (mandato di recupero)",
+      "dove": ".githooks/pre-commit:46 (e altri 6 punti)",
+      "descrizione": "Tutti e sette i messaggi di blocco del pre-commit chiudono suggerendo il bypass consapevole col commit senza verifica — compreso il blocco sui segreti reali. Nessun sensore conta se e quanto il bypass viene usato: un commit passato saltando i cancelli è indistinguibile da uno controllato. Aggrava: l'hook di piattaforma di fine turno pretende commit+push di ogni modifica, quindi su un blocco i due freni spingono in direzioni opposte e l'unica uscita scritta è proprio il bypass.",
+      "impatto": "Il bypass è a costo zero e invisibile; un segreto committato col bypass è già nella storia remota quando la seconda rete lo vede.",
+      "prova": {
+        "tipo": "grep"
+      },
+      "nato_come": "scoperta"
     }
   ],
   "meta": {
