@@ -12,19 +12,23 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-12 23:57",
-      "esito": "non-pubblicato",
+      "quando": "2026-08-13 07:03",
+      "esito": "motore-fallito",
       "codice": 2,
-      "ai_rc": 0,
+      "ai_rc": 124,
       "push_ok": false,
-      "passi_ok": false,
-      "vincoli_attivi": 9,
+      "passi_ok": true,
+      "vincoli_attivi": 13,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
         "CHIUSURA",
+        "CI",
+        "FRESCHEZZA",
+        "LOOP",
         "MAPPA",
         "NORTH_STAR",
+        "OKR",
         "SCADENZE",
         "TASSO",
         "TEST",
@@ -32,11 +36,11 @@
       ]
     },
     "monitora": {
-      "quando": "2026-08-10 08:30",
-      "esito": "motore-fallito",
-      "codice": 0,
-      "ai_rc": 1,
-      "push_ok": true,
+      "quando": "2026-08-13 06:35",
+      "esito": "non-pubblicato",
+      "codice": 2,
+      "ai_rc": 0,
+      "push_ok": false,
       "passi_ok": true,
       "vincoli_attivi": 0,
       "vincoli": []
@@ -72,5 +76,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-12 23:57"
+  "aggiornato": "2026-08-13 07:03"
 }

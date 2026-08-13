@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-12 23:52",
-  "situazione": "Business invariato, riconfermato dal vivo su Supabase MCP: 1 ordine mai pagato, 0 pagati, 0 consegne, 7 profili, 1 negozio, 0 nuovi clienti in 7 giorni. Stallo North Star a 49 giorni, pausa concordata con Nicola fino al 24/8-1/9. Nessuna novità rispetto al passaggio delle 23:15 di stasera: stesso stato, stesso giorno. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova aperta in questo passaggio. `node cervello/*.mjs` bloccato in questa sessione (approvazione non arriva) — verdetti dei gate presi da giro.sh. Mossa n.1: nessuna azione business nuova, la pausa va rispettata. Resta la domanda sull'ordine di prova su Pane Quotidiano, ferma da 15 giorni.",
+  "data": "2026-08-13 06:50",
+  "situazione": "Business invariato, riconfermato dal vivo su Supabase MCP: 1 ordine mai pagato, 0 pagati, 0 consegne, 7 profili, 1 negozio, 0 nuovi clienti in 7 giorni. Stallo North Star a 50 giorni, pausa concordata con Nicola fino al 24/8-1/9. Trovata (non toccata) un'anomalia nel git: modifiche staged mai committate che tolgono il guardiano correzione-nicola-gate e riportano indietro tre fix di test già mergiati — segnalata a Nicola, non risolta da sola. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova aperta. `node cervello/*.mjs` bloccato in questa sessione (approvazione non arriva) — verdetti dei gate presi da giro.sh. Mossa n.1: la domanda sull'ordine di prova su Pane Quotidiano resta ferma, ora da 16 giorni.",
   "opportunita": [
     {
       "titolo": "Sblocca l'ordine di prova su Pane Quotidiano",
@@ -18,18 +18,19 @@
   "azioni": [
     {
       "titolo": "Rispondi: l'ordine di prova resta dentro la pausa o lo fai adesso",
-      "motivo": "È l'unica cosa in coda che dimostra che pagamento e consegna funzionano davvero, ferma da 15 giorni",
+      "motivo": "È l'unica cosa in coda che dimostra che pagamento e consegna funzionano davvero, ferma da 16 giorni",
       "livello": "rosso"
     },
     {
-      "titolo": "Mergia le PR di memoria/fix ferme in coda (#677, #679, #680, #681, #683)",
-      "motivo": "Non riverificabile da questa sessione: GitHub resta bloccato in chat headless",
-      "livello": "rosso"
+      "titolo": "Decidi cosa fare del lavoro a metà trovato nel git sul guardiano correzione-nicola-gate",
+      "motivo": "Modifiche staged non committate tolgono il guardiano e riportano indietro tre fix di test già mergiati — va deciso se finire di toglierlo o scartare le modifiche",
+      "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo 49 giorni (pausa concordata, non churn)",
+    "North Star 0 — stallo 50 giorni (pausa concordata, non churn)",
     "Tasso di chiusura 0,24 nel mese (102 aperti/24 chiusi) — sotto soglia 1: questo giro non ha aperto ricerche nuove",
-    "freschezza-cadenze: 4 cadenze (mattino/mezzogiorno/sera/monitora) senza uscita da >30h — non ricalcolabile da questa sessione"
+    "freschezza-cadenze: cadenze (mattino/mezzogiorno/sera/monitora) senza uscita da >30h — non ricalcolabile da questa sessione",
+    "CI: PR #707 rossa (colpa propria, non ereditata) — non indagabile da questa sessione senza node"
   ]
 }

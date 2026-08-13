@@ -1,7 +1,7 @@
 ---
 tipo: okr
 fonte: AD digitale
-aggiornato: 2026-08-12 22:43
+aggiornato: 2026-08-13 06:45
 ---
 
 # 🎯 OKR-Squadra — chi possiede quale numero
@@ -9,12 +9,12 @@ aggiornato: 2026-08-12 22:43
 > Ogni senior **possiede** un KPI, ha un target e un budget. Lo legge nella Carta del Dipendente (regola #3).
 > North Star dell'azienda: **ordini qualificati consegnati / settimana** (vedi [[Metriche & KPI]] e [[Piano d'Azione]] §7).
 > Fase attuale: **0→1 (primo passo)** — faro **Pane Quotidiano** (unico negozio reale, 5 prodotti). Budget spese reali = **🔴 sempre da firmare**; il "budget" qui è soprattutto tempo.
-> ⚠️ **North Star in stallo 49 giorni** (0 ordini pagati dal 24/6): non è abbandono — è la pausa che Nicola ha deciso fino al **24/8-1/9** (prima completa/perfeziona Pannello+AD+worker+marketplace, poi si concentra solo sul business — fatto `ripresa.lavoro-operativo`). Il vecchio target «entro sab 27/6» resta superato: il gate azionabile è `#ordine-test-dentro-o-fuori-dalla-pausa`, in coda dal 28/7 (15 giorni), volutamente non forzato.
+> ⚠️ **North Star in stallo 50 giorni** (0 ordini pagati dal 24/6): non è abbandono — è la pausa che Nicola ha deciso fino al **24/8-1/9** (prima completa/perfeziona Pannello+AD+worker+marketplace, poi si concentra solo sul business — fatto `ripresa.lavoro-operativo`). Il vecchio target «entro sab 27/6» resta superato: il gate azionabile è `#ordine-test-dentro-o-fuori-dalla-pausa`, in coda dal 28/7 (16 giorni), volutamente non forzato.
 
 | Senior | KPI che possiede | Target (fase 1 — gate, non scadenza fissa) | Budget |
 |---|---|---|---|
 | 🧠 AD | North Star: ordini pagati/consegnati | 1° ordine reale — **gate: Nicola chiude `#ordine-test-dentro-o-fuori-dalla-pausa`** (nessuna data fissa: in pausa concordata fino al 24/8-1/9) | — |
-| 🧠 AD (su sé stessa) | **Tasso di chiusura**: difetti chiusi ÷ difetti aperti nel mese | **≥ 1** — sotto, il giro chiude invece di cercare. Misura viva: `node cervello/tasso-chiusura.mjs`. Storia: lug 0,54 · ago **0,23** (23 chiusi ÷ 102 aperti, dato del pre-step di `giro.sh` del 12/8) | — |
+| 🧠 AD (su sé stessa) | **Tasso di chiusura**: difetti chiusi ÷ difetti aperti nel mese | **≥ 1** — sotto, il giro chiude invece di cercare. Misura viva: `node cervello/tasso-chiusura.mjs`. Storia: lug 0,54 · ago **0,24** (24 chiusi ÷ 102 aperti, dato del pre-step di `giro.sh` del 13/8) | — |
 | 🤝 vendite | Negozi LIVE nel cluster | +2 negozi LIVE | tempo · offerte 🔴 |
 | 📣 marketing | Iscritti lista d'attesa | 20 iscritti | €0 · ads 🔴 |
 | 🚀 growth-monetizzazione | € extra per esperimento | 1 esperimento partito | €0 · spesa 🔴 |

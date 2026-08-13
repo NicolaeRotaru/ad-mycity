@@ -1,7 +1,7 @@
 {
   "_cosa_e": "Stato della veglia sul motore AI. Quando il motore è in limite, questa è l'unica cosa che resta sveglia: controlla se il limite è caduto e rimette in moto le cadenze perse.",
-  "quando": "2026-08-12 23:08",
-  "ultima_sonda": "2026-08-12T21:07:47.647Z",
+  "quando": "2026-08-13 07:09",
+  "ultima_sonda": "2026-08-13T05:08:30.233Z",
   "motore_vivo": false,
   "stato": "ancora-in-limite",
   "motivo": "il reset dichiarato è passato: provo se il motore risponde"

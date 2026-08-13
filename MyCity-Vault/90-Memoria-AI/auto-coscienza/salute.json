@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-13 00:22",
+  "aggiornato": "2026-08-13 06:46",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -248,12 +248,12 @@
       ]
     },
     "vps": {
-      "quando": "2026-08-10 06:46",
-      "iso": "2026-08-10T04:46:31.963Z",
+      "quando": "2026-08-13 06:46",
+      "iso": "2026-08-13T04:46:58.687Z",
       "casa": "vps",
       "modo": "vps",
-      "ok": 18,
-      "rotti": 4,
+      "ok": 19,
+      "rotti": 3,
       "guasti": 0,
       "nonvisti": 1,
       "copertura": 0.96,
@@ -264,7 +264,7 @@
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
           "esito": "ok",
-          "detto": "ultima traccia 0 ore fa (sentinella-dati.json)",
+          "detto": "ultima traccia 0 ore fa (ultimo-briefing.json)",
           "prova": null,
           "regressione": false
         },
@@ -303,10 +303,10 @@
           "organo": "worker",
           "titolo": "Quello che il server scrive arriva su GitHub",
           "impatto": 2,
-          "esito": "rotto",
-          "detto": "54 commit scritti dal server non sono su GitHub",
+          "esito": "ok",
+          "detto": "8 commit in attesa di pubblicazione, sotto la soglia di 50",
           "prova": null,
-          "regressione": true
+          "regressione": false
         },
         {
           "id": "worker.automazione",
@@ -344,7 +344,7 @@
           "titolo": "I test del cervello passano",
           "impatto": 3,
           "esito": "rotto",
-          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-08-10 06:45  (2 corsie · 22 in fila perché scrivono sul dato vivo) · ✅ cervello/test/allineamento-esito.test.mjs  (18 passati)",
+          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-08-13 06:45  (2 corsie · 25 in fila perché scrivono sul dato vivo) · ✅ cervello/test/allineamento-esito.test.mjs  (22 passati)",
           "prova": "node cervello/test-cervello.mjs",
           "regressione": false
         },
@@ -364,7 +364,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 5481 min fa (2026-08-06T09:25:46.671Z) — 8 file guardati, 0 voci, 0 gravi.",
+          "detto": "✅ ultimo scatto 0 min fa (2026-08-13T04:46:39.566Z) — 28 file guardati, 6 voci, 0 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false
         },
@@ -374,7 +374,7 @@
           "titolo": "I guardiani del giro esistono tutti",
           "impatto": 3,
           "esito": "ok",
-          "detto": "58 guardiani del giro presenti",
+          "detto": "64 guardiani del giro presenti",
           "prova": null,
           "regressione": false
         },
@@ -384,7 +384,7 @@
           "titolo": "Il lavoro consegnato dice com'è andato",
           "impatto": 2,
           "esito": "ok",
-          "detto": "199 consegne su 237 degli ultimi 30 giorni senza una riga di esito (84%) · Cabina 0 giorni indietro (STATO al 2026-08-06 11:15)",
+          "detto": "143 consegne su 193 degli ultimi 30 giorni senza una riga di esito (74%) · Cabina 0 giorni indietro (STATO al 2026-08-13 06:50)",
           "prova": null,
           "regressione": false
         },
@@ -394,7 +394,7 @@
           "titolo": "Quando scrivo a Nicola, gli rispondo",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "«Cosa non ho verificato» mancato nel 100% dei 26 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
+          "detto": "«Cosa non ho verificato» mancato nel 97% dei 36 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
           "prova": null,
           "regressione": false
         },
@@ -424,7 +424,7 @@
           "titolo": "La Cabina risponde",
           "impatto": 1,
           "esito": "ok",
-          "detto": "risponde in 0.0s",
+          "detto": "risponde in 0.1s",
           "prova": null,
           "regressione": false
         },
@@ -434,7 +434,7 @@
           "titolo": "La Cabina è collegata alla memoria",
           "impatto": 2,
           "esito": "ok",
-          "detto": "collegata, ultimo battito 2026-08-06T11:23:06+02:00",
+          "detto": "collegata, ultimo battito 2026-08-13T00:01:58+02:00",
           "prova": null,
           "regressione": false
         },
@@ -464,7 +464,7 @@
           "titolo": "I senior chiudono il loop",
           "impatto": 3,
           "esito": "ok",
-          "detto": "11 senior con almeno un esito registrato",
+          "detto": "15 senior con almeno un esito registrato",
           "prova": null,
           "regressione": false
         },
@@ -931,6 +931,17 @@
       "guasti": 0,
       "nonvisti": 8,
       "copertura": 0.64
+    },
+    {
+      "quando": "2026-08-13 06:46",
+      "iso": "2026-08-13T04:46:58.687Z",
+      "casa": "vps",
+      "modo": "vps",
+      "ok": 19,
+      "rotti": 3,
+      "guasti": 0,
+      "nonvisti": 1,
+      "copertura": 0.96
     }
   ]
 }

@@ -1,8 +1,37 @@
 ---
 tipo: stato
-aggiornato: 2026-08-12 23:52
+aggiornato: 2026-08-13 06:50
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **13/8 06:50 — Giro richiesto in chat. Business invariato. Trovata un'anomalia nel git, non toccata.**
+> Riconfermato dal vivo su Supabase (MCP `execute_sql`): 1 ordine mai pagato (24/6, annullato), 0 pagati, 0
+> consegnati, 7 profili, 1 negozio, 5 prodotti, 0 recensioni, 3 carrelli abbandonati su 6, 0 nuovi clienti in 7
+> giorni, 407 lead negozi (0 nuovi). **Identico** al passaggio delle 23:52 di ieri notte e a ogni lettura dal
+> 4/8. North Star ricalcolato a **50 giorni** (+1, calendario). È la pausa concordata con Nicola fino al
+> 24/8-1/9, non un allarme.
+>
+> **La scoperta di questo passaggio.** All'apertura, il repo aveva già uno stato sporco non mio. C'erano file
+> staged ma mai committati. Tolgono il guardiano `correzione-nicola-gate` (nato il 12/8, commit `271fccfc6`/
+> `fd6ae7b23`) da `censimento-guardiani.mjs` e da `giro.sh`. Riportano indietro anche tre fix di test degli
+> stessi commit (`SENZA_SUPABASE` torna a `undefined` invece di `""`, `delete env[k]` invece di `env[k]=""`).
+> Il file `cervello/correzione-nicola-gate.mjs` esiste ancora: la rimozione è a metà. Nessuna traccia in Sala
+> Operativa o Decisioni che la spieghi. Ho guardato il diff invece di committarlo alla cieca
+> ([[feedback-non-revertire-senza-diff]]). **Non l'ho toccato**: né committato né scartato. Segnalato a Nicola
+> nel briefing.
+>
+> **Limite di sessione, stesso di ~15 volte prima:** `node cervello/*.mjs` chiede un'approvazione che qui non
+> arriva (riprovato su `test-cervello.mjs` e `node -e`). `git`, `date` e i tool Supabase MCP funzionano. I
+> verdetti HARD dei gate (test-cervello, chiusura-loop, coerenza-fatti, freschezza-cadenze, ecc.) restano
+> quelli calcolati da `giro.sh` prima di questo turno — non li ho potuti ricalcolare.
+>
+> **Fatto in questo passaggio:** aggiornate le date scadute in [[OKR-Squadra]] (stallo 49→50gg, tasso di
+> chiusura 0,23→0,24). Rispettato il vincolo HARD tasso-di-chiusura (0,24, sotto 1): nessuna ricerca nuova,
+> nessuna radiografia. Non riscritti `auto-analisi.json`/`registro-realta.json`/`apprendimento.json` (già
+> freschi, dati identici — [[playbook-giro-pieno-ripetuto-strategia]], AR-113).
+>
+> **Mossa n.1, invariata.** Ferma da **16 giorni** senza risposta:
+> [[AZIONI-IN-ATTESA|`#ordine-test-dentro-o-fuori-dalla-pausa`]]. Briefing: [[Briefing/2026-08-13]].
 
 > 🔁 **12/8 23:52 — Giro richiesto in chat: business riconfermato invariato dal vivo, nessuna novità rispetto al passaggio delle 23:15.**
 > Query diretta su Supabase MCP (`execute_sql`, non da memoria): 1 ordine (24/6, annullato, mai pagato), 0 pagati,

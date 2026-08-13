@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-12 23:48** — Automatico: **66 aperte · 6 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-13 07:59** — Automatico: **66 aperte · 6 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -83,7 +83,7 @@ Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un g
 
 ### 🟡 #permessi-push-e-supabase-da-rinominare — Nel foglio dei permessi del server sono comparse 5 righe nuove che nessuno ha ancora dichiarato · ⏳ accodata 2026-08-12 22:35
 
-**Cosa cambia:** il test che sorveglia i permessi (`permessi-di-guardia.test.mjs`) è diventato rosso perché in `.claude/settings.local.json` sono comparse tre righe che permettono `git push origin main/feature/fix` esplicito e due strumenti Supabase (`mcp__supabase-memoria__execute_sql`, `mcp__supabase-marketplace__execute_sql`) — quest'ultimi al posto del vecchio `mcp__Supabase__execute_sql` (il nome del server è cambiato). Nessuna di queste cinque righe aveva un perché scritto da nessuna parte: il guardiano le ha viste comparire e ha bloccato la prova, come deve fare.
+**Cosa cambia:** il test che sorveglia i permessi (`permessi-di-guardia.test.mjs`) è diventato rosso. In `.claude/settings.local.json` sono comparse cinque righe nuove. Tre permettono `git push origin main/feature/fix` esplicito. Due sono strumenti Supabase che scrivono: `mcp__supabase-memoria__execute_sql` e `mcp__supabase-marketplace__execute_sql`. Sostituiscono il vecchio `mcp__Supabase__execute_sql`, perché il nome del server è cambiato. Nessuna di queste cinque righe aveva un perché scritto da nessuna parte: il guardiano le ha viste comparire e ha bloccato la prova, come deve fare.
 
 **Se va bene:** io ho già scritto il "perché sono lì" nel registro del debito (`cervello/permessi-debito.json`), così il test torna verde senza fingere che il problema non esista. Ma la decisione vera resta tua: (1) il push diretto su `main`/branch a te va bene così com'è (il giro sul VPS lo fa già, dichiarato in CLAUDE.md) o va ristretto? (2) i due strumenti Supabase che SCRIVONO (`execute_sql`) servono davvero alla macchina o erano pensati solo per letture — nel qual caso vanno tolti o sostituiti con la versione sola-lettura?
 
@@ -1090,8 +1090,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-12 23:48)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-12-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 07:59)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-13-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1649,6 +1649,24 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-08-12 23:48 · 6 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 00:59 · 6 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 03:16 · 6 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 07:59 · 6 card totali
 
 ### ✅ #sensori-cancellati — Chiusa la falla che cancellava lo stato dei sensori. FATTO 2026-08-11 17:05, col tuo ok in chat
 
