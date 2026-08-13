@@ -1,7 +1,31 @@
 {
   "_cosa_e": "Ultimi guasti del motore AI, con le righe vere ripulite dai segreti. Esiste perché il journal di systemd vive solo sul VPS: senza questo file, da fuori si vede CHE una cadenza è fallita ma mai PERCHÉ.",
-  "aggiornato": "2026-08-13 11:43",
+  "aggiornato": "2026-08-13 11:49",
   "voci": [
+    {
+      "quando": "2026-08-13 11:49",
+      "cadenza": "sonda",
+      "rc": 1,
+      "classe": "altro",
+      "reset_dichiarato": null,
+      "reset_data": null,
+      "ritento_previsto": null,
+      "riparte_da_sola": false,
+      "spiegazione": "Il motore si è fermato per un motivo che non rientra nei casi noti. Serve leggere le righe qui sotto.",
+      "righe": [
+        "Permission allow rule (.claude/settings.local.json): Write(MyCity-Vault/90-Memoria-AI/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(MyCity-Vault/90-Memoria-AI/**) instead (Edit rules cover all file-editing tools).",
+        "Permission allow rule (.claude/settings.local.json): Write(consegne/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(consegne/**) instead (Edit rules cover all file-editing tools).",
+        "Permission allow rule (.claude/settings.local.json): Write(creativi/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(creativi/**) instead (Edit rules cover all file-editing tools).",
+        "Permission allow rule (.claude/settings.local.json): Write(cervello/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(cervello/**) instead (Edit rules cover all file-editing tools).",
+        "Permission allow rule (.claude/settings.local.json): Write(pannello/**) is not matched by file permission checks — only Edit(path) rules are. Use Edit(pannello/**) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(./cervello/vps/.env) is not matched by file permission checks — only Edit(path) rules are. Use Edit(./cervello/vps/.env) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(**/.env) is not matched by file permission checks — only Edit(path) rules are. Use Edit(**/.env) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(**/.env.*) is not matched by file permission checks — only Edit(path) rules are. Use Edit(**/.env.*) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(./.claude/settings.json) is not matched by file permission checks — only Edit(path) rules are. Use Edit(./.claude/settings.json) instead (Edit rules cover all file-editing tools).",
+        "Permission deny rule (.claude/settings.json): Write(./.claude/settings.local.json) is not matched by file permission checks — only Edit(path) rules are. Use Edit(./.claude/settings.local.json) instead (Edit rules cover all file-editing tools).",
+        "spawnSync claude ETIMEDOUT"
+      ]
+    },
     {
       "quando": "2026-08-13 11:43",
       "cadenza": "giro",
