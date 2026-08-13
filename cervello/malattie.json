@@ -384,7 +384,7 @@
    "id": "guardiano-dietro-la-porta-dell-esistenza",
    "nome": "Un guardiano invocato solo se il suo file esiste: sparito il file, il cancello resta verde",
    "perche_e_grave": "E la forma AR-633: [ -f guardiano.mjs ] && { node guardiano.mjs || rc=$?; } — se qualcuno cancella o rinomina il guardiano, rc resta 0 e il cancello passa con un metro in meno, in silenzio. La regola di casa (AR-322) dice il contrario: chi non puo misurare deve dirsi cieco. Il fratello .mjs e gia censito (cieco-che-torna-una-misura); questo copre gli script di shell, dove vivono i cancelli veri (pubblicazione, giro).",
-   "pattern": "\\[ -f \"[^\"]*\\.mjs\" \\] &&",
+   "pattern": "\\[ -f \"[^\"\\n]*\\.mjs\" \\] &&",
    "dove": [
     "cervello"
    ],

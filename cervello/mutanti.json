@@ -2382,11 +2382,11 @@
   {
    "lotto": 37,
    "difetto": "AR-634",
-   "nome": "Le cadenze timbrano l'ora con l'ora legale fissa: d'inverno il registro sbaglierà di un'ora",
+   "nome": "Le cadenze timbrano l'ora con l'ora legale fissa: d'inverno il registro sbaglier — uccisa dal censimento ora-legale-scolpita",
    "file": "cervello/giro.sh",
    "cerca": "      data:new Intl.DateTimeFormat(\"sv-SE\",{timeZone:\"Europe/Rome\",year:\"numeric\",month:\"2-digit\",day:\"2-digit\",hour:\"2-digit\",minute:\"2-digit\",hour12:false}).format(new Date()),",
    "sostituisci": "      data:new Date(Date.now()+2*3600*1000).toISOString().slice(0,16).replace(\"T\",\" \"),",
-   "test": "cervello/test/cadenza-registro.test.mjs"
+   "test": "cervello/spazzata-fratelli.mjs"
   },
   {
    "lotto": 37,

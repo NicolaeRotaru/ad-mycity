@@ -16,6 +16,20 @@ fonte: senior dell'AD
 ## Come approvare
 Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 
+---
+
+### 🟡 #posthog-off-vps — Spegni davvero il sensore PostHog sul server, come avevi deciso · ⏳ accodata 2026-08-13 18:15
+
+**Cosa cambia:** il 5 luglio hai deciso di spegnere PostHog. Nel codice lo spegnimento c'è, ma sul server manca l'interruttore: la chiave è ancora nel file di configurazione e il sensore gira davvero — oggi alle 14:14 risultava verde. Con questa azione il server smette di interrogare PostHog e la Cabina lo mostra come «spento per decisione», non come acceso.
+
+**Se va bene:** i sensori raccontano solo ciò che hai scelto di tenere acceso, e se un giorno vorrai riaccendere PostHog basterà togliere la riga.
+
+**Cosa fare.** Apri il terminale del VPS e aggiungi una riga al file di configurazione:
+```
+echo 'POSTHOG_OFF=1' >> /root/ad-mycity/.env
+```
+(la scheda tecnica è AR-653 nel cantiere)
+
 <!-- sensori-cancellati -->
 
 <!-- visita-vps-ferma -->

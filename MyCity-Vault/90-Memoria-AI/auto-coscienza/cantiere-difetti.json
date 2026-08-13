@@ -13184,7 +13184,7 @@
       },
       "stato": "aperto",
       "nato": "2026-08-13 17:56",
-      "nato_come": "scoperta in lotto di riparazione"
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-647",
@@ -13201,7 +13201,7 @@
       },
       "stato": "aperto",
       "nato": "2026-08-13 17:56",
-      "nato_come": "scoperta in lotto di riparazione"
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-648",
@@ -13218,7 +13218,7 @@
       },
       "stato": "aperto",
       "nato": "2026-08-13 17:56",
-      "nato_come": "scoperta in lotto di riparazione"
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-649",
@@ -13235,7 +13235,7 @@
       },
       "stato": "aperto",
       "nato": "2026-08-13 17:56",
-      "nato_come": "scoperta in lotto di riparazione"
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-650",
@@ -13252,7 +13252,7 @@
       },
       "stato": "aperto",
       "nato": "2026-08-13 17:56",
-      "nato_come": "scoperta in lotto di riparazione"
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-651",
@@ -13269,7 +13269,75 @@
       },
       "stato": "aperto",
       "nato": "2026-08-13 17:56",
-      "nato_come": "scoperta in lotto di riparazione"
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-652",
+      "titolo": "Un test bats dei placeholder n8n era verde solo grazie al verde finto dei sensori: in una sessione senza chiavi ora dice rosso",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "cervello/test/n8n-placeholder.bats presume l ambiente VPS (REST ok) senza dichiararlo: in un ambiente senza chiavi passava solo perché AR-587 faceva uscire exit 0 senza misure. Curato AR-587, il test lì esce onestamente rosso. Sul VPS resta verde (verificato con finto PostgREST).",
+      "fix_proposto": "Skip esplicito quando MARKETPLACE_SUPABASE_URL è assente.",
+      "origine": "corsia A1 del lotto 37 (13/8)",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "alla riparazione: eseguire il bats senza chiavi e vederlo skippare, con chiavi finte e vederlo girare"
+      },
+      "stato": "aperto",
+      "nato": "2026-08-13 18:14",
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-653",
+      "titolo": "Sul server il sensore PostHog gira e risulta verde nonostante la decisione di spegnerlo",
+      "dimensione": "sensori-e-cadenza",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "causa_radice": "Decisione di Nicola 5/7: PostHog spento. Ma sul VPS POSTHOG_API_KEY è presente e POSTHOG_OFF non è impostato: il check gira davvero (ultimo_ok 2026-08-13 14:14 in sensori-cecita.json). È configurazione d ambiente, non codice.",
+      "fix_proposto": "POSTHOG_OFF=1 nel .env del VPS (azione 🟡, serve la mano di Nicola o il worker con firma).",
+      "origine": "corsia A1 del lotto 37 (13/8)",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "dopo il cambio env: sensori-cecita.json deve mostrare posthog_api non_configurato/spento"
+      },
+      "stato": "aperto",
+      "nato": "2026-08-13 18:14",
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-654",
+      "titolo": "Il registro dei motivi dei sensori non sa che PostHog è spento per decisione",
+      "dimensione": "sensori-e-cadenza",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "causa_radice": "cervello/sensori-motivi.json ha solo telegram_bot: la decisione del 5/7 su PostHog vive solo nel codice del check (POSTHOG_OFF). Con la riga posthog_api {motivo: decisione} il fix AR-590 coprirebbe anche il caso chiave-assente-senza-POSTHOG_OFF da qualunque sessione.",
+      "fix_proposto": "Aggiungere la riga a cervello/sensori-motivi.json.",
+      "origine": "corsia A1 del lotto 37 (13/8)",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "alla riparazione: eSpentoPerDecisione deve riconoscere posthog_api anche senza env"
+      },
+      "stato": "aperto",
+      "nato": "2026-08-13 18:14",
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-655",
+      "titolo": "L allineatore delle radiografie chiude le schede con una data vuota: lo stesso buco delle 74 chiusure senza data, su un altro registro",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "causa_radice": "cervello/allinea-scan-cantiere.mjs righe ~141-154 scrive stato chiuso su auto-radiografia.json con f.chiuso_il = f.chiuso_il || d.chiuso_il || \"\" — la stringa vuota è la malattia di AR-575 sul registro delle radiografie, fuori dal timbro unico.",
+      "fix_proposto": "Fargli usare timbraChiusura (o almeno nowPiacenza) invece del fallback a stringa vuota.",
+      "origine": "corsia B del lotto 37 (13/8), segnalazione fuori territorio",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "alla riparazione: test che chiude una scheda via allineatore e pretende la data con l ora"
+      },
+      "stato": "aperto",
+      "nato": "2026-08-13 18:14",
+      "nato_come": "scoperta"
     }
   ],
   "meta": {
