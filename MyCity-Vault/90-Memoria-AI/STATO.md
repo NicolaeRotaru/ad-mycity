@@ -1,8 +1,20 @@
 ---
 tipo: stato
-aggiornato: 2026-08-12 23:52
+aggiornato: 2026-08-13 06:00
 fonte: AD digitale (chat)
 ---
+
+> ☀️ **13/8 06:00 — PIANO DEL MATTINO: business invariato. Tre parole ferme aspettano Nicola.**
+> Riconfermato dal vivo su Supabase (MCP `execute_sql`, query diretta). Numeri invariati: 1 ordine (24/6, annullato, mai pagato), 0 pagati, 0 consegnati, 7 profili, 1 negozio (Pane Quotidiano), 0 recensioni, 6 carrelli. **Identico** a ogni lettura dal 4/8. North Star ricalcolato a **50 giorni** (era 49 il 12/8). È la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Rispetto il vincolo HARD tasso-di-chiusura:** 0,24 questo mese, sotto la soglia di 1. Oggi non apro nessuna ricerca nuova, né una radiografia. Il turno lo spendo a tenere pronte le tre decisioni che aspettano solo una parola di Nicola. Sono ferme, non dimenticate.
+>
+> **Le tre in coda, invariate:**
+> ① `#ordine-test-dentro-o-fuori-dalla-pausa`. Ferma da **16 giorni**. È l'unica leva che smuove lo stallo.
+> ② `#permessi-push-e-supabase-da-rinominare`. Ferma da ieri sera. Due righe sui permessi del server, senza un perché scritto.
+> ③ `#piani-da-rivedere`. Ferma da 3 giorni. 48 frasi nei piani non sono più vere. Aspetta solo l'ordine con cui riscriverli.
+>
+> Dettaglio del turno: [[SALA-OPERATIVA]] (sezione 13/8 06:00). Piano completo per Nicola: [[RITMO]] (blocco "Piano del mattino · 2026-08-13 06:00").
 
 > 🔁 **12/8 23:52 — Giro richiesto in chat: business riconfermato invariato dal vivo, nessuna novità rispetto al passaggio delle 23:15.**
 > Query diretta su Supabase MCP (`execute_sql`, non da memoria): 1 ordine (24/6, annullato, mai pagato), 0 pagati,
@@ -1059,6 +1071,17 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (☀️ aggiornato 13/8 06:00 — piano del mattino)
+Business INVARIATO dal 24/6, riconfermato ora con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 7 profili, 1 ordine (CANCELED), 0 pagati, 0 recensioni, 6 carrelli — **stallo 50 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme. Tasso di chiusura del mese: 0,24, sotto la soglia di 1. Oggi il turno è dedicato a tenere pronte le decisioni ferme, non ad aprirne di nuove.
+
+1. [ ] 🟡 **Una parola: l'ordine di prova da Pane Quotidiano resta in pausa fino a settembre o lo fai ora?** Ferma da **16 giorni** — è l'unica leva che smuove lo stallo senza toccare la pausa sui nuovi negozi.
+2. [ ] 🟡 **Due parole sui permessi del server** — il push diretto su main/branch va bene così com'è? Le due chiavi Supabase che scrivono (`execute_sql`) servono davvero o erano pensate solo per leggere? Ferma da ieri sera.
+3. [ ] 🟡 **Da quale piano riscrivo per primo?** Dieci piani fermi da giugno, 48 frasi non più vere. Proposta: Piano Vendite → Piano Istituzionale → Piano Editoriale. Ferma da 3 giorni.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 50gg, atteso — negozi in pausa) · `salute_bassa` 🟡 (voto salute architettura 4, causa nota — vedi [[project-sentinella-radiografia-loop-9x-10-8]]) · `cassa_sconosciuta` (manca BURN_MENSILE_EUR) · Telegram assente · REST/MCP/Stripe/Sito/Pannello ✅ · cantiere: 166 aperti · 341 chiusi (12/8 22:43).
+
+---
 
 ## Prossime priorità (🕛 aggiornato 10/8 12:01 — punto di mezzogiorno)
 Business INVARIATO dal 24/6, riconfermato ora con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati, 0 recensioni, 6 carrelli (3 abbandonati) — **stallo 47 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. La scoperta di oggi cambia la priorità n.1: non è più solo "una parola sull'ordine di prova", è che il fornaio non può ancora incassare per davvero.

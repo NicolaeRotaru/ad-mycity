@@ -1120,3 +1120,19 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 **Serve da Nicola entro sera:**
 - 🔴 La pratica pagamenti del fornaio (riga #16) — è il vero blocco del negozio, non le richieste di unione.
 - 🟡 Le 7 richieste di unione ferme, la pulizia dei rami, e la domanda sull'ordine di prova — tutte invariate da prima.
+
+## Piano del mattino · 2026-08-13 06:00
+
+**In una riga:** il negozio è fermo come ieri. Oggi il lavoro è chiudere tre domande già pronte, non aprirne di nuove.
+
+**Le 3 cose di oggi**
+1. L'ordine di prova da Pane Quotidiano. Resta in pausa fino a settembre, o lo facciamo ora? È fermo da 16 giorni. È l'unica cosa che sposta lo stallo.
+2. Due parole sui permessi del server. Il push diretto va bene così com'è? Le due chiavi che scrivono su Supabase servono davvero, o dovevano essere di sola lettura?
+3. Dimmi da quale dei dieci piani parto a riscrivere. Sono fermi da giugno e dicono cose non più vere. Il mio ordine proposto: Vendite, poi Istituzionale, poi Editoriale.
+
+**Serve da te**
+- Rispondi alla domanda sull'ordine di prova (dentro o fuori dalla pausa)
+- Rispondi alle due domande sui permessi del server
+- Scegli da quale piano parto
+
+**Dettagli tecnici** — business confermato dal vivo su Supabase: 1 negozio, 1 ordine mai pagato, stallo 50 giorni. Tasso di chiusura del mese 0,24, sotto la soglia di 1: nessuna radiografia né ricerca nuova in questo passaggio. Card in coda: `#ordine-test-dentro-o-fuori-dalla-pausa`, `#permessi-push-e-supabase-da-rinominare`, `#piani-da-rivedere`.
