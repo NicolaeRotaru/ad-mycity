@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-13 21:55",
+  "aggiornato": "2026-08-13 22:16",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -11809,7 +11809,7 @@
       "id": "AR-577",
       "titolo": "Sette entità del registro della realtà hanno uno stato inventato che il contratto vieta per iscritto",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json vs contratto in cervello/auto-coscienza.md (righe 74-76 e 83)",
@@ -11823,7 +11823,10 @@
         "comando": "node cervello/test/contratto-valori.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "2026-08-13 (lotto 39): le sette entità sono migrate a `scartato`, l'unico dei quattro stati ammessi che le descrive, col perché di ognuna conservato nella nota. La radice era un'altra e vale più della migrazione: `valida-contratti.mjs` controllava i NOMI dei campi e mai i VALORI, quindi nessun cancello poteva accorgersene — ora c'è `valoriFuoriContratto()` e il contratto dichiara l'elenco degli stati. Trovato riparando, e più grave della scheda: `allocazione-check.mjs` escludeva `demo` ma NON `escluso`, quindi i sei ristoranti che Nicola aveva escluso il 18/7 rientravano nel conteggio dei negozi candidabili a ogni giro. Non-vacuità: rimesso `escluso` su un'entità → test rosso."
+      "nota_fix": "2026-08-13 (lotto 39): le sette entità sono migrate a `scartato`, l'unico dei quattro stati ammessi che le descrive, col perché di ognuna conservato nella nota. La radice era un'altra e vale più della migrazione: `valida-contratti.mjs` controllava i NOMI dei campi e mai i VALORI, quindi nessun cancello poteva accorgersene — ora c'è `valoriFuoriContratto()` e il contratto dichiara l'elenco degli stati. Trovato riparando, e più grave della scheda: `allocazione-check.mjs` escludeva `demo` ma NON `escluso`, quindi i sei ristoranti che Nicola aveva escluso il 18/7 rientravano nel conteggio dei negozi candidabili a ogni giro. Non-vacuità: rimesso `escluso` su un'entità → test rosso.",
+      "chiuso_il": "2026-08-13 22:16",
+      "chiuso_come": "node cervello/test/contratto-valori.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-578",
@@ -11851,7 +11854,7 @@
       "id": "AR-579",
       "titolo": "Nella serie storica della salute compaiono tipi di visita che il contratto non prevede",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json (tipo 'auto-fix') e auto-radiografia.json (tipo 'radiografia-totale') vs contratto 'completa|sonda' in cervello/auto-coscienza.md",
@@ -11865,7 +11868,10 @@
         "comando": "node cervello/test/contratto-valori.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "2026-08-13 (lotto 39): qui ha comandato il codice, non la scheda. I valori in più non erano errori: `auto-fix.mjs` marca i punti di burn-down (che hanno `voto_riportato: true` e NON sono misure di salute) e `foto-radiografia.mjs` marca la radiografia totale — informazione vera che il contratto in prosa non prevedeva. Il contratto è stato allargato a ciò che i programmi scrivono davvero (serie: completa|sonda|auto-fix · radiografia: completa|sonda|radiografia-totale), in auto-coscienza.md e nel validatore, e una prova tiene allineati i due elenchi leggendo le righe `tipo:` dei tre programmi che scrivono. Il quinto valore inventato adesso lo ferma il cancello. Non-vacuità: ristretto il contratto → test rosso."
+      "nota_fix": "2026-08-13 (lotto 39): qui ha comandato il codice, non la scheda. I valori in più non erano errori: `auto-fix.mjs` marca i punti di burn-down (che hanno `voto_riportato: true` e NON sono misure di salute) e `foto-radiografia.mjs` marca la radiografia totale — informazione vera che il contratto in prosa non prevedeva. Il contratto è stato allargato a ciò che i programmi scrivono davvero (serie: completa|sonda|auto-fix · radiografia: completa|sonda|radiografia-totale), in auto-coscienza.md e nel validatore, e una prova tiene allineati i due elenchi leggendo le righe `tipo:` dei tre programmi che scrivono. Il quinto valore inventato adesso lo ferma il cancello. Non-vacuità: ristretto il contratto → test rosso.",
+      "chiuso_il": "2026-08-13 22:16",
+      "chiuso_come": "node cervello/test/contratto-valori.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-580",
@@ -12779,7 +12785,7 @@
       "id": "AR-624",
       "titolo": "Il bottone che recupera i lavori bloccati rimette in coda anche le azioni reali interrotte: possono ripartire da sole senza nuova firma",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "/home/user/ad-mycity/pannello/src/app/api/lavori/recupera/route.ts (righe 26-42) e /home/user/ad-mycity/cervello/vps/recupera-lavori-orfani.sh (righe 16-29)",
@@ -12793,13 +12799,16 @@
         "comando": "node cervello/test/recupero-due-porte.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "2026-08-13 (lotto 39): la decisione di chi si puo rimettere in coda vive adesso in un posto solo — pannello/src/lib/recupero-lavoro.ts (decidiRecupero) e la sua copia bash cervello/lib-recupero.sh — e le due porte laterali la chiamano entrambe. Tre esiti: «riapprova» per le azioni reali (esegui-azione, proposta: mai riaccodabili, potrebbero essere gia partite), «lascia» per i lavori con un proprietario e freschi (li sta eseguendo un worker: riaccodarli significa doppia esecuzione E l esito del vivo perso, perche la sua scrittura filtra su stato=in_corso), «riaccoda» per il resto. Cio che non tocca lo DICE, invece di saltarlo in silenzio: un bottone che sembra non funzionare insegna a sbloccare i lavori a mano, cioe ad aggirare il freno. Le due copie non possono divergere: il test passa la stessa tabella di casi a tutte e due e pretende lo stesso verdetto. Non-vacuita: tolto il ramo delle azioni reali (in TypeScript e in bash, due mutazioni) → test rosso."
+      "nota_fix": "2026-08-13 (lotto 39): la decisione di chi si puo rimettere in coda vive adesso in un posto solo — pannello/src/lib/recupero-lavoro.ts (decidiRecupero) e la sua copia bash cervello/lib-recupero.sh — e le due porte laterali la chiamano entrambe. Tre esiti: «riapprova» per le azioni reali (esegui-azione, proposta: mai riaccodabili, potrebbero essere gia partite), «lascia» per i lavori con un proprietario e freschi (li sta eseguendo un worker: riaccodarli significa doppia esecuzione E l esito del vivo perso, perche la sua scrittura filtra su stato=in_corso), «riaccoda» per il resto. Cio che non tocca lo DICE, invece di saltarlo in silenzio: un bottone che sembra non funzionare insegna a sbloccare i lavori a mano, cioe ad aggirare il freno. Le due copie non possono divergere: il test passa la stessa tabella di casi a tutte e due e pretende lo stesso verdetto. Non-vacuita: tolto il ramo delle azioni reali (in TypeScript e in bash, due mutazioni) → test rosso.",
+      "chiuso_il": "2026-08-13 22:16",
+      "chiuso_come": "node cervello/test/recupero-due-porte.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-625",
       "titolo": "Al riavvio, un worker considera suoi anche i lavori vivi di un gemello della stessa corsia e li recupera all'istante",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "/home/user/ad-mycity/cervello/worker.sh — _orfano_decisione (righe 938-948) e owner_lane (riga 964)",
@@ -12813,7 +12822,10 @@
         "comando": "node cervello/test/recupero-due-porte.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "2026-08-13 (lotto 39): il recupero orfani riceve l owner INTERO (corsia:host:pid) invece della sola corsia, piu il verdetto di _gemello_vivo — che sullo stesso host chiede a kill -0 se quel processo esiste ancora. Stessa corsia e pid vivo → lascio stare (e il gemello, non un mio orfano); pid morto → procedo subito, senza far aspettare la coda; host diverso o riga vecchia senza pid → non lo posso sapere e vale la grazia per eta, dichiarata come stima. La prova di due-worker.bats che diceva «orfano della mia lane anche se freschissimo → PROCEDI» era il difetto scritto come regola: riscritta col perche. Non-vacuita: rotto il ramo del pid → test rosso. La prima stesura del test NON era rossa (a zero minuti la grazia salvava comunque il lavoro): il caso e stato rifatto a trenta minuti, oltre la grazia — trovato dalla mutazione, non da me."
+      "nota_fix": "2026-08-13 (lotto 39): il recupero orfani riceve l owner INTERO (corsia:host:pid) invece della sola corsia, piu il verdetto di _gemello_vivo — che sullo stesso host chiede a kill -0 se quel processo esiste ancora. Stessa corsia e pid vivo → lascio stare (e il gemello, non un mio orfano); pid morto → procedo subito, senza far aspettare la coda; host diverso o riga vecchia senza pid → non lo posso sapere e vale la grazia per eta, dichiarata come stima. La prova di due-worker.bats che diceva «orfano della mia lane anche se freschissimo → PROCEDI» era il difetto scritto come regola: riscritta col perche. Non-vacuita: rotto il ramo del pid → test rosso. La prima stesura del test NON era rossa (a zero minuti la grazia salvava comunque il lavoro): il caso e stato rifatto a trenta minuti, oltre la grazia — trovato dalla mutazione, non da me.",
+      "chiuso_il": "2026-08-13 22:16",
+      "chiuso_come": "node cervello/test/recupero-due-porte.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-626",
@@ -12838,7 +12850,7 @@
       "id": "AR-627",
       "titolo": "Con la quota finita, un lavoro mai eseguito viene chiuso come fatto",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "cervello/motore-ai.sh righe 310-348 (ai_run_con_fallback_ollama) + cervello/worker.sh righe 1478-1488",
@@ -12852,13 +12864,16 @@
         "comando": "node cervello/test/quota-e-patch-a-vuoto.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "2026-08-13 (lotto 39): ai_run_con_fallback_ollama torna 75 (il «riprova piu tardi» di convenzione) quando la quota e finita — sia col modello locale che risponde, sia senza Ollama quando la CLI esce 0 col messaggio di quota nello stdout (il fratello nello stesso if, non citato dalla scheda). La risposta si consegna comunque, ma nessuno puo chiamarla riuscita: worker.sh riconosce quel codice e chiude in errore con una frase che spiega che il modello locale parla ma non ha le mani. Cosi il recupero della cadenza non si brucia: resta riaccodabile. Non-vacuita: tolta la riga del codice → test rosso. La riproduzione della scheda ora esce verde."
+      "nota_fix": "2026-08-13 (lotto 39): ai_run_con_fallback_ollama torna 75 (il «riprova piu tardi» di convenzione) quando la quota e finita — sia col modello locale che risponde, sia senza Ollama quando la CLI esce 0 col messaggio di quota nello stdout (il fratello nello stesso if, non citato dalla scheda). La risposta si consegna comunque, ma nessuno puo chiamarla riuscita: worker.sh riconosce quel codice e chiude in errore con una frase che spiega che il modello locale parla ma non ha le mani. Cosi il recupero della cadenza non si brucia: resta riaccodabile. Non-vacuita: tolta la riga del codice → test rosso. La riproduzione della scheda ora esce verde.",
+      "chiuso_il": "2026-08-13 22:16",
+      "chiuso_come": "node cervello/test/quota-e-patch-a-vuoto.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-628",
       "titolo": "Ripartendo con la testa staccata dal ramo, l'allineamento butta via il commit di salvataggio appena creato",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "cervello/ritmo.sh riga 129 (dopo il commit di recupero alle righe 106-108), cervello/giro.sh riga 158, cervello/monitora.sh riga 90",
@@ -12872,7 +12887,10 @@
         "comando": "node cervello/test/testa-staccata-non-perde-memoria.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "2026-08-13 (lotto 39): il ramo «HEAD staccato» non ha piu un percorso suo in nessuna delle tre copie. Prima faceva checkout -B ramo FETCH_HEAD e orfanava il commit di recupero creato poche righe sopra; adesso si riaggancia a QUESTO HEAD — che quel commit ce l ha — e poi passa dalla stessa scala rebase → merge di tutti gli altri. Il caso staccato non e piu un caso a parte, quindi non puo piu essere dimenticato in una copia sola: era esattamente cosi che AR-028 aveva curato una porta su due. La prova gira su un repository git vero (remoto + locale, HEAD davvero staccato, un briefing da perdere) ed ESEGUE il blocco estratto dai tre script, non una sua riscrittura. Non-vacuita: rimesso FETCH_HEAD nel checkout di ritmo.sh → test rosso."
+      "nota_fix": "2026-08-13 (lotto 39): il ramo «HEAD staccato» non ha piu un percorso suo in nessuna delle tre copie. Prima faceva checkout -B ramo FETCH_HEAD e orfanava il commit di recupero creato poche righe sopra; adesso si riaggancia a QUESTO HEAD — che quel commit ce l ha — e poi passa dalla stessa scala rebase → merge di tutti gli altri. Il caso staccato non e piu un caso a parte, quindi non puo piu essere dimenticato in una copia sola: era esattamente cosi che AR-028 aveva curato una porta su due. La prova gira su un repository git vero (remoto + locale, HEAD davvero staccato, un briefing da perdere) ed ESEGUE il blocco estratto dai tre script, non una sua riscrittura. Non-vacuita: rimesso FETCH_HEAD nel checkout di ritmo.sh → test rosso.",
+      "chiuso_il": "2026-08-13 22:16",
+      "chiuso_come": "node cervello/test/testa-staccata-non-perde-memoria.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-629",
@@ -12920,7 +12938,7 @@
       "id": "AR-631",
       "titolo": "Il worker dichiara salvato un esito che il database non ha mai scritto",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "/home/user/ad-mycity/cervello/lib-esito-lavoro.sh riga 49 (funzione scrivi_esito_lavoro)",
@@ -12934,7 +12952,10 @@
         "comando": "node cervello/test/quota-e-patch-a-vuoto.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "2026-08-13 (lotto 39): la PATCH chiede Prefer: return=representation e il verdetto lo da patchConfermata() in esito-scrittura.mjs — lo stesso modulo puro che cura questa malattia negli altri tre punti. Senza quell intestazione il corpo e vuoto per contratto e «zero righe toccate» resterebbe indistinguibile da «scritto». Tre esiti invece di due: scritto · non arrivato (riprovabile) · zero righe (definitivo, si ricovera SUBITO senza bruciare quattordici secondi di ritentativi inutili — lo stato non torna in_corso da solo). Il banco di prova di AR-397 e stato aggiornato per rispondere come il vero. Non-vacuita: fatto tornare «confermata: true» sulle zero righe → test rosso."
+      "nota_fix": "2026-08-13 (lotto 39): la PATCH chiede Prefer: return=representation e il verdetto lo da patchConfermata() in esito-scrittura.mjs — lo stesso modulo puro che cura questa malattia negli altri tre punti. Senza quell intestazione il corpo e vuoto per contratto e «zero righe toccate» resterebbe indistinguibile da «scritto». Tre esiti invece di due: scritto · non arrivato (riprovabile) · zero righe (definitivo, si ricovera SUBITO senza bruciare quattordici secondi di ritentativi inutili — lo stato non torna in_corso da solo). Il banco di prova di AR-397 e stato aggiornato per rispondere come il vero. Non-vacuita: fatto tornare «confermata: true» sulle zero righe → test rosso.",
+      "chiuso_il": "2026-08-13 22:16",
+      "chiuso_come": "node cervello/test/quota-e-patch-a-vuoto.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-632",
@@ -13009,7 +13030,7 @@
       "id": "AR-635",
       "titolo": "Il guardiano esterno può restare appeso sei ore senza che nessuno lo fermi",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": ".github/workflows/battito-esterno.yml, job `battito` (righe 32-34), concurrency righe 28-30",
@@ -13023,13 +13044,16 @@
         "comando": "node cervello/test/contratto-workflow.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "2026-08-13 (lotto 39): il job `battito` ha `timeout-minutes: 5` — cinque minuti bastano per una lettura di file e una chiamata a gh, e con `cancel-in-progress: false` un job appeso non tiene più in coda i controlli orari dopo di lui. La radice però non era la riga mancante: era che nessuno controllava i limiti di un workflow. Il contratto ora è codice — cervello/contratto-workflow.mjs, cinque regole (tetto di tempo, permessi, azioni al commit, espressioni dentro run:, scadenza sulla chiamata) — e il test le esegue sui file veri. Non-vacuità: tolto il tetto → test rosso."
+      "nota_fix": "2026-08-13 (lotto 39): il job `battito` ha `timeout-minutes: 5` — cinque minuti bastano per una lettura di file e una chiamata a gh, e con `cancel-in-progress: false` un job appeso non tiene più in coda i controlli orari dopo di lui. La radice però non era la riga mancante: era che nessuno controllava i limiti di un workflow. Il contratto ora è codice — cervello/contratto-workflow.mjs, cinque regole (tetto di tempo, permessi, azioni al commit, espressioni dentro run:, scadenza sulla chiamata) — e il test le esegue sui file veri. Non-vacuità: tolto il tetto → test rosso.",
+      "chiuso_il": "2026-08-13 22:16",
+      "chiuso_come": "node cervello/test/contratto-workflow.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-636",
       "titolo": "Il deploy del pannello gira senza permessi dichiarati, senza tetto di tempo e senza scadenza sulla chiamata",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": ".github/workflows/deploy-pannello.yml, job `deploy` (righe 34-52)",
@@ -13042,13 +13066,16 @@
         "comando": "node cervello/test/contratto-workflow.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "2026-08-13 (lotto 39): deploy-pannello.yml ha `permissions: {}` (non tocca il repository, chiama solo un URL), `timeout-minutes: 5`, un gruppo di concorrenza e `--max-time 30` sulla curl. L'esito della curl si LEGGE con un `if !` e dà un messaggio vero: con `bash -e` una curl scaduta faceva morire il passo in silenzio, e un deploy mancato senza messaggio è indistinguibile da uno riuscito. Le quattro clausole del difetto sono coperte una per una dal contratto eseguibile. Non-vacuità: tolto `permissions: {}` → test rosso."
+      "nota_fix": "2026-08-13 (lotto 39): deploy-pannello.yml ha `permissions: {}` (non tocca il repository, chiama solo un URL), `timeout-minutes: 5`, un gruppo di concorrenza e `--max-time 30` sulla curl. L'esito della curl si LEGGE con un `if !` e dà un messaggio vero: con `bash -e` una curl scaduta faceva morire il passo in silenzio, e un deploy mancato senza messaggio è indistinguibile da uno riuscito. Le quattro clausole del difetto sono coperte una per una dal contratto eseguibile. Non-vacuità: tolto `permissions: {}` → test rosso.",
+      "chiuso_il": "2026-08-13 22:16",
+      "chiuso_come": "node cervello/test/contratto-workflow.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-637",
       "titolo": "Le azioni dei workflow sono agganciate a etichette spostabili, non a un commit preciso",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": ".github/workflows/battito-esterno.yml (righe 36, 38) · test-cervello.yml (righe 53, 66) · cancello-lotto.yml (righe 48, 54)",
@@ -13061,13 +13088,16 @@
         "comando": "node cervello/test/contratto-workflow.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "2026-08-13 (lotto 39): i sei usi di actions/checkout e actions/setup-node sono agganciati allo SHA di v4 (11d5960… e 49933ea…, risolti con git ls-remote), col tag in commento per sapere cosa aggiornare. La malattia è censita in cervello/malattie.json (`azione-agganciata-a-un-etichetta`, tetto 0, .github/**.yml): il settimo uso a tag fa fallire la spazzata. Non-vacuità: rimesso @v4 → test rosso."
+      "nota_fix": "2026-08-13 (lotto 39): i sei usi di actions/checkout e actions/setup-node sono agganciati allo SHA di v4 (11d5960… e 49933ea…, risolti con git ls-remote), col tag in commento per sapere cosa aggiornare. La malattia è censita in cervello/malattie.json (`azione-agganciata-a-un-etichetta`, tetto 0, .github/**.yml): il settimo uso a tag fa fallire la spazzata. Non-vacuità: rimesso @v4 → test rosso.",
+      "chiuso_il": "2026-08-13 22:16",
+      "chiuso_come": "node cervello/test/contratto-workflow.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-638",
       "titolo": "Il titolo dell'allarme entra nel terminale senza protezione: la porta classica dell'iniezione di comandi",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": ".github/workflows/battito-esterno.yml, righe 74, 88, 100-101 (`${{ steps.controllo.outputs.titolo }}` e `.numero` dentro blocchi `run:`)",
@@ -13081,7 +13111,10 @@
         "comando": "node cervello/test/contratto-workflow.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "2026-08-13 (lotto 39): titolo e numero della issue passano da `env:` (TITOLO, NUMERO) e lo script legge $TITOLO / $NUMERO — `env:` non è uno script, quindi il valore non viene mai interpretato dalla shell. Coperte tutte e tre le righe (74, 88, 100-101), non solo quella citata per prima. La regola `dato-non-fidato-nel-terminale` distingue `env:` da `run:`, e il test lo prova nei due sensi. Non-vacuità: rimessa l'espressione dentro gh issue create → test rosso."
+      "nota_fix": "2026-08-13 (lotto 39): titolo e numero della issue passano da `env:` (TITOLO, NUMERO) e lo script legge $TITOLO / $NUMERO — `env:` non è uno script, quindi il valore non viene mai interpretato dalla shell. Coperte tutte e tre le righe (74, 88, 100-101), non solo quella citata per prima. La regola `dato-non-fidato-nel-terminale` distingue `env:` da `run:`, e il test lo prova nei due sensi. Non-vacuità: rimessa l'espressione dentro gh issue create → test rosso.",
+      "chiuso_il": "2026-08-13 22:16",
+      "chiuso_come": "node cervello/test/contratto-workflow.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-639",
@@ -13489,8 +13522,8 @@
     }
   ],
   "meta": {
-    "aperti": 232,
+    "aperti": 223,
     "in_corso": 0,
-    "chiusi": 361
+    "chiusi": 372
   }
 }
