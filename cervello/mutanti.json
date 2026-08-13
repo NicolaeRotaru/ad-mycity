@@ -204,10 +204,10 @@
   {
    "lotto": 31,
    "difetto": "AR-164b",
-   "nome": "l'esito della cadenza non viene più scritto su disco",
+   "nome": "l'esito della cadenza non viene più scritto su disco (ripuntato lotto 36: la penna è migrata nel modulo registra-cadenza.mjs, la catena si acceca qui)",
    "file": "cervello/lib-cadenza.sh",
-   "cerca": "    fs.writeFileSync(p, JSON.stringify(s,null,2)+\"\\n\");",
-   "sostituisci": "    ;",
+   "cerca": "  node \"${SCRIPT_DIR:-cervello}/registra-cadenza.mjs\" \\",
+   "sostituisci": "  true \\",
    "test": "cervello/test/lib-cadenza.test.mjs"
   },
   {
@@ -2342,6 +2342,123 @@
    "cerca": "        regola: \"gate-mai-rotto\",",
    "sostituisci": "        regola: \"gate-mai-rotto-disattivato\",",
    "test": "node cervello/test/gate-che-non-puo-scattare.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-597",
+   "nome": "Il guardiano che protegge la verità dei numeri dà via libera quando il suo registro sparisce",
+   "file": "cervello/coerenza-fatti.mjs",
+   "cerca": "  return {\n    cieco: true,\n    exit: 2,",
+   "sostituisci": "  return {\n    cieco: false,\n    exit: 0,",
+   "test": "cervello/test/cancelli-ciechi-coerenza.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-633",
+   "nome": "Il cancello di pubblicazione resta verde anche se uno dei suoi guardiani è sparito",
+   "file": "cervello/gate-pubblicazione.sh",
+   "cerca": "guardiano_presente() {\n  [ -n \"${1:-}\" ] && [ -f \"$1\" ]\n}",
+   "sostituisci": "guardiano_presente() {\n  true\n}",
+   "test": "cervello/test/cancelli-ciechi-gate-pubblicazione.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-642",
+   "nome": "Nella sessione cloud il cancello dello stop perde due controlli senza dire di essere cieco",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "    if (consegneModificate === null) saltati.push(\"gli allarmi nelle consegne già committate\");\n    if (codaNelPerimetro === null) saltati.push(\"la coda già toccata nel perimetro\");",
+   "sostituisci": "    if (false) saltati.push(\"gli allarmi nelle consegne già committate\");\n    if (false) saltati.push(\"la coda già toccata nel perimetro\");",
+   "test": "cervello/test/cancelli-ciechi-cancello-stop.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-629",
+   "nome": "D'inverno la macchina timbra gli esiti delle cadenze con un'ora avanti",
+   "file": "cervello/registra-cadenza.mjs",
+   "cerca": "    timeZone: \"Europe/Rome\",",
+   "sostituisci": "    timeZone: \"UTC\",",
+   "test": "cervello/test/cadenza-registro.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-634",
+   "nome": "Le cadenze timbrano l'ora con l'ora legale fissa: d'inverno il registro sbaglierà di un'ora",
+   "file": "cervello/giro.sh",
+   "cerca": "      data:new Intl.DateTimeFormat(\"sv-SE\",{timeZone:\"Europe/Rome\",year:\"numeric\",month:\"2-digit\",day:\"2-digit\",hour:\"2-digit\",minute:\"2-digit\",hour12:false}).format(new Date()),",
+   "sostituisci": "      data:new Date(Date.now()+2*3600*1000).toISOString().slice(0,16).replace(\"T\",\" \"),",
+   "test": "cervello/test/cadenza-registro.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-632",
+   "nome": "Il registro di come sono uscite le cadenze si azzera da solo se una scrittura resta a metà",
+   "file": "cervello/registra-cadenza.mjs",
+   "cerca": "  const letto = interpretaRegistro(raw);",
+   "sostituisci": "  const letto = { stato: \"ok\", dati: interpretaRegistro(raw).dati || {} };",
+   "test": "cervello/test/cadenza-registro.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-575",
+   "nome": "senza il timbro della data, le chiusure tornano orfane di mese: contabilita-chiusure.test.mjs deve diventare rosso",
+   "file": "cervello/auto-fix.mjs",
+   "cerca": "  d.chiuso_il = q;",
+   "sostituisci": "  // d.chiuso_il = q;",
+   "test": "cervello/test/contabilita-chiusure.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-575",
+   "nome": "Settantaquattro difetti chiusi non hanno la data di chiusura, e il voto mensile non li conta",
+   "file": "cervello/tasso-chiusura.mjs",
+   "cerca": "return d?.chiuso_il || d?.chiuso || null;",
+   "sostituisci": "return d?.chiuso_il || null;",
+   "test": "cervello/test/contabilita-chiusure.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-575",
+   "nome": "Settantaquattro difetti chiusi non hanno la data di chiusura, e il voto mensile non li conta",
+   "file": "cervello/tasso-chiusura.mjs",
+   "cerca": "return esito === \"sotto\" || buchi;",
+   "sostituisci": "return esito === \"sotto\";",
+   "test": "cervello/test/contabilita-chiusure.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-580",
+   "nome": "un guardiano che vede i doppi solo dalla terza copia non è un guardiano: contabilita-lezioni.test.mjs deve diventare rosso",
+   "file": "cervello/tasso-chiusura.mjs",
+   "cerca": ".filter(([, n]) => n > 1)",
+   "sostituisci": ".filter(([, n]) => n > 2)",
+   "test": "cervello/test/contabilita-lezioni.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-582",
+   "nome": "un guardiano che legge solo il nome vecchio del campo è cieco su tutta la generazione nuova di schede: contabilita-schede.test.mjs deve dive",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "return d?.gravita ?? d?.severita ?? null;",
+   "sostituisci": "return d?.gravita ?? null;",
+   "test": "cervello/test/contabilita-schede.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-582",
+   "nome": "Quattro difetti aperti non dichiarano quanto frenano la crescita, e la coda per priorità non sa dove metterli",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "if (!d.impatto_crescita) manca.push(\"impatto_crescita\");",
+   "sostituisci": "if (false) manca.push(\"impatto_crescita\");",
+   "test": "cervello/test/contabilita-schede.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-619",
+   "nome": "se il confronto name/file si stacca, il rename interno torna invisibile: contabilita-registro-agenti.test.mjs deve diventare rosso",
+   "file": "cervello/agent-registry-check.mjs",
+   "cerca": "if (name !== file) nomeDiverso.push({ file, name });",
+   "sostituisci": "if (false) nomeDiverso.push({ file, name });",
+   "test": "cervello/test/contabilita-registro-agenti.test.mjs"
   }
  ]
 }

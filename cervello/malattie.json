@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
  "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
- "aggiornato": "2026-08-03",
+ "aggiornato": "2026-08-13 17:57",
  "malattie": [
   {
    "id": "esito-in-una-pipe",
@@ -64,8 +64,8 @@
     ".tsx",
     ".mjs"
    ],
-   "baseline": 66,
-   "nota_baseline": "66 dal 2026-07-29 (lotto 35, corsia C): il tetto scende di 8 perché 8 silenzi sono stati curati davvero, non perché il conteggio sia stato riletto. Le 8 stanno in Plancia.tsx (5→1), Bacheca.tsx e StatoMacchina.tsx (2→1): ogni fetch passa ora da leggiDato() in pannello/src/lib/verdetto-dato.ts, che controlla r.ok e distingue letto/assente/cieco invece di ingoiare con .catch(() => {}). Restano 66 istanze in 28 file: debito ereditato, misurato e non nascosto.",
+   "baseline": 65,
+   "nota_baseline": "66 dal 2026-07-29 (lotto 35, corsia C): il tetto scende di 8 perché 8 silenzi sono stati curati davvero, non perché il conteggio sia stato riletto. Le 8 stanno in Plancia.tsx (5→1), Bacheca.tsx e StatoMacchina.tsx (2→1): ogni fetch passa ora da leggiDato() in pannello/src/lib/verdetto-dato.ts, che controlla r.ok e distingue letto/assente/cieco invece di ingoiare con .catch(() => {}). Restano 66 istanze in 28 file: debito ereditato, misurato e non nascosto. · sceso a 65 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B)",
    "nota_onesta": "74 istanze in codice vero, misurate il 28/7 (erano 80 prima del lotto 11: curate Plancia, StellePolari e MacchinaHomeCard). Il conteggio esclude i commenti e i file di test: contarli faceva CRESCERE il numero proprio quando qualcuno scriveva la prova che vieta la malattia — il contrario di quello che serve. Verificato incrociando con grep. Qui non elenco i file: conta il tetto, e se domani diventano 75 qualcuno ha aggiunto un silenzio nuovo.",
    "curati": [
     "Plancia.tsx — la coda dice se è stata letta (AR-233)",
@@ -242,14 +242,14 @@
    "estensioni": [
     ".mjs"
    ],
-   "baseline": 70,
+   "baseline": 69,
    "curati": [
     "i file nati dopo AR-445 usano tutti la guardia `import.meta.url`",
     "guardiano-tempo.mjs (11/8): la guardia `import.meta.url` messa davvero. Prima era `main().catch(...)` senza guardia — importarlo eseguiva tutto, ma la forma non era piu quella che il rilevatore cerca: malattia nascosta invece che curata. L'ha presa la spazzata contando 70 contro un tetto di 71."
    ],
    "nota_onesta": "25 istanze storiche misurate il 3/8, non curate qui: toccarle tutte in questo lotto avrebbe voluto dire 25 file modificati per un lavoro che parlava d altro (e la deriva che il controllo ⑨ del sorvegliante esiste per chiedere). Il valore di censirla adesso e che la 26a viene fermata nel momento in cui la scrivo.",
    "esenti": [],
-   "nota_baseline": "71 dal 2026-08-03: numero MISURATO dalla spazzata su tutto cervello/ (il primo grep ne aveva contati 25 perche guardava solo il primo livello — la differenza e la ragione per cui i numeri si misurano con lo strumento che poi li verifica). file_noti omesso apposta: su una malattia larga elencare 71 file gonfia il registro senza aggiungere verita, e basta il tetto sul totale."
+   "nota_baseline": "71 dal 2026-08-03: numero MISURATO dalla spazzata su tutto cervello/ (il primo grep ne aveva contati 25 perche guardava solo il primo livello — la differenza e la ragione per cui i numeri si misurano con lo strumento che poi li verifica). file_noti omesso apposta: su una malattia larga elencare 71 file gonfia il registro senza aggiungere verita, e basta il tetto sul totale. · sceso a 69 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B)"
   },
   {
    "id": "data-senza-ora",
@@ -379,6 +379,49 @@
    "nota_onesta": "Il pattern chiede il COMANDO, non la parola: `git commit … --no-verify` oppure `git push … --force`. E salta le righe che contengono una regex (RegExp, .test(, .match(), perche un guardiano che CERCA il bypass — come cervello/pre-scrittura.mjs, che lo vieta — non lo sta facendo. Trovato il 4/8 unendo main: il mio stesso pattern accusava il guardiano nuovo che vieta quella cosa, ed e la quinta comparsa in un giorno di «menzione non e istanza». Il worker aveva curato lo stesso falso positivo con un ESENZIONE su quel file; stringendo il pattern l esenzione non corrisponde piu a niente ed e stata tolta — un residuo lasciato li nasconde il prossimo caso vero.",
    "esenti": [],
    "nota_baseline": "0 misurato il 2026-08-03 da spazzata-fratelli."
+  },
+  {
+   "id": "guardiano-dietro-la-porta-dell-esistenza",
+   "nome": "Un guardiano invocato solo se il suo file esiste: sparito il file, il cancello resta verde",
+   "perche_e_grave": "E la forma AR-633: [ -f guardiano.mjs ] && { node guardiano.mjs || rc=$?; } — se qualcuno cancella o rinomina il guardiano, rc resta 0 e il cancello passa con un metro in meno, in silenzio. La regola di casa (AR-322) dice il contrario: chi non puo misurare deve dirsi cieco. Il fratello .mjs e gia censito (cieco-che-torna-una-misura); questo copre gli script di shell, dove vivono i cancelli veri (pubblicazione, giro).",
+   "pattern": "\\[ -f \"[^\"]*\\.mjs\" \\] &&",
+   "dove": [
+    "cervello"
+   ],
+   "estensioni": [
+    ".sh"
+   ],
+   "baseline": 0,
+   "file_noti": [],
+   "curati": [
+    "cervello/gate-pubblicazione.sh"
+   ],
+   "esenti": [],
+   "nota_baseline": "0 misurato il 2026-08-13 17:57 dopo la cura del lotto 37 (AR-633): l'unica istanza era gate-pubblicazione.sh:122; ora i guardiani si contano PRIMA di misurarli e uno assente blocca."
+  },
+  {
+   "id": "ora-legale-scolpita",
+   "nome": "Un timbro orario costruito con l'offset fisso (+2h): d'inverno mente di un'ora",
+   "perche_e_grave": "E la forma AR-629/AR-634: new Date(Date.now()+2*3600*1000) da l'ora di Piacenza solo con l'ora legale; da fine ottobre ogni timbro sbaglia di un'ora, e la regola dell'orario esiste perche Nicola deve sapere al minuto quando e apparso un dato. La cura e una sola: Intl.DateTimeFormat con timeZone Europe/Rome (timbroOra in cervello/registra-cadenza.mjs, riusabile).",
+   "pattern": "new Date\\(Date\\.now\\(\\) ?\\+ ?[0-9]+ ?\\* ?3600",
+   "dove": [
+    "cervello",
+    "pannello/src"
+   ],
+   "estensioni": [
+    ".sh",
+    ".mjs",
+    ".ts",
+    ".tsx"
+   ],
+   "baseline": 0,
+   "file_noti": [],
+   "curati": [
+    "cervello/lib-cadenza.sh",
+    "cervello/giro.sh"
+   ],
+   "esenti": [],
+   "nota_baseline": "0 misurato il 2026-08-13 17:57 dopo la cura del lotto 37 (AR-629/AR-634): le due istanze erano lib-cadenza.sh:363 e giro.sh:~1584. Il pattern richiede il codice eseguibile (new Date(...)), cosi il commento storico in registra-cadenza.mjs che DESCRIVE il bug non conta come istanza."
   }
  ]
 }
