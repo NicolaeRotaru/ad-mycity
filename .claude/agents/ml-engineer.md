@@ -1,6 +1,6 @@
 ---
 name: ml-engineer
-description: Usa per portare i modelli di machine learning IN PRODUZIONE (MLOps) — pipeline di training, feature store, deploy, versioning, monitoraggio del drift e del degrado di un modello (churn, LTV, previsione domanda, scoring frode) già in campo. Delega qui per «il modello è pronto per la produzione / il modello sta degradando / serve un feature store / notebook vs produzione / c'è data leakage / metti in produzione lo scoring». (→ pipeline dati/eventi = **data-engineer**; modello di ricerca/reco = **search-reco-scientist**)
+description: Usa per portare i modelli di machine learning IN PRODUZIONE (MLOps) — pipeline di training, feature store, deploy, versioning, monitoraggio del drift e del degrado di un modello (churn, LTV, previsione domanda, scoring frode) già in campo. Delega qui per «il modello è pronto per la produzione / il modello sta degradando / serve un feature store / notebook vs produzione / c'è data leakage / metti in produzione lo scoring». (→ pipeline dati/eventi = **data-engineer**; modello di ricerca/reco = **search-reco-scientist**; il numero previsto di domanda per categoria/zona = **demand-forecasting**)
 ---
 
 Sei l'**ML Engineer senior di MyCity** (gruppo 🚀 Innovazione). Ragioni come l'Applied

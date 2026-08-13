@@ -19,8 +19,15 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(dirname "$SCRIPT_DIR")"
 cd "$REPO"
 
+# 🔒 AR-644 — i cancelli del commit vanno AGGANCIATI, non solo tentati. `>/dev/null 2>&1 || true`
+# buttava via sia l'output sia l'esito: se `core.hooksPath` non si attivava, il worker committava
+# senza scan dei segreti e senza perimetro di main, e nessuno lo diceva. Scoperto e muto insieme.
+# Non blocca l'avvio (il cancello del push resta, ed è quello che protegge main): ALZA LA VOCE.
 if [ -f "$SCRIPT_DIR/installa-hooks.sh" ]; then
-  bash "$SCRIPT_DIR/installa-hooks.sh" >/dev/null 2>&1 || true
+  _hook_out="$(bash "$SCRIPT_DIR/installa-hooks.sh" 2>&1)" || {
+    echo "⚠️  AR-644: i cancelli del commit NON si sono agganciati — questo worker committa senza scan dei segreti." >&2
+    printf '%s\n' "$_hook_out" | tail -3 >&2
+  }
 fi
 
 # 🔌 PARITY SKILL (fix 2026-07-16): le skill approvate vivono in .cursor/skills/ (fonte unica,
@@ -34,6 +41,11 @@ if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 
 # Motore AI condiviso (Cursor 'agent' di default, oppure Claude 'claude'). Vedi cervello/motore-ai.sh.
 . "$SCRIPT_DIR/motore-ai.sh"
+
+# 🛑 Kill-switch condiviso (AR-390): `pausa_verdetto` / `pausa_motivo`, la stessa testa che usano il
+# giro e le cadenze. Prima ogni script leggeva l'interruttore con la sua curl e la sua idea di cosa
+# fare quando la rete non risponde — quattro copie, due delle quali partivano lo stesso.
+. "$SCRIPT_DIR/kill-switch.sh"
 
 ts() { date '+%H:%M:%S'; }
 
@@ -264,7 +276,7 @@ sync_vault() {
   # lavoro, ~ogni 12 minuti) e finora era anche quella senza nessuno dei quattro controlli di verità:
   # la guardia ramo ce l'aveva già (è nata qui), il resto no. Additivo: il push resta com'è.
   . "$SCRIPT_DIR/gate-pubblicazione.sh"
-  if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO"; then
+  if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO" "$branch" 1; then
     echo "[$(ts)] Worker: memoria NON pubblicata, il cancello ha detto no — il lavoro resta locale e riparte al prossimo sync." >&2
     exec 9>&-
     return 1
@@ -1165,13 +1177,19 @@ while true; do
   # query impostazioni), NON prendere lavori in questo ciclo — meglio un ciclo saltato che eseguire
   # un'azione reale mentre Nicola crede di aver messo in PAUSA. Prima il `|| true` rendeva il worker
   # fail-OPEN proprio nel componente che tocca il mondo (esegui-azione).
+  # AR-390 — il verdetto lo dà `pausa_verdetto` (cervello/kill-switch.sh), la stessa testa che usano
+  # giro, ritmo e monitoraggio: 0 via libera · 1 in pausa · 2 non verificabile. Le mani restano qui
+  # perché questo ciclo gira ogni secondo e ha già la sua curl autenticata: quello che si condivide è
+  # la DECISIONE, che è il pezzo che nelle quattro copie era divergente.
   _pausa_rc=0
   pausa="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" "${AUTH[@]}" 2>/dev/null)" || _pausa_rc=$?
-  if [ "$_pausa_rc" -ne 0 ]; then
-    echo "[$(ts)] ⛔ PAUSA_FAIL_CLOSED: stato pausa non verificabile (rc=$_pausa_rc) — non prendo lavori in questo ciclo." >&2
+  _pausa_v=0
+  pausa_verdetto "$_pausa_rc" "$pausa" || _pausa_v=$?
+  if [ "$_pausa_v" = 2 ]; then
+    echo "[$(ts)] $(pausa_motivo 2 "worker (claim lavori)" "$_pausa_rc")" >&2
     sleep "$INTERVALLO"; continue
   fi
-  if printf '%s' "$pausa" | grep -q '"valore":"on"'; then
+  if [ "$_pausa_v" = 1 ]; then
     sleep "$INTERVALLO"; continue
   fi
 

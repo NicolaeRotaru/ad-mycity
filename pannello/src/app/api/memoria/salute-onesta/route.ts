@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { readVaultFile } from "@/lib/vault";
+import { leggiJsonVault } from "@/lib/vault";
+import { messaggioSenzaDato } from "@/lib/esito-lettura";
+import { contaDifetti, eChiuso, metaDerivata } from "@/lib/cantiere-snello";
 import { listaSicura } from "@/lib/memoria-json";
 import { serieSicura } from "@/lib/verdetto-dato";
 
@@ -14,30 +16,29 @@ export const revalidate = 0;
 
 const BASE = "90-Memoria-AI/auto-coscienza";
 
-async function leggiJson(rel: string): Promise<any | null> {
-  const raw = await readVaultFile(rel);
-  if (raw == null) return null;
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return null;
-  }
-}
-
 function giorno(iso: unknown): number | null {
   const t = Date.parse(String(iso || "").slice(0, 10));
   return Number.isNaN(t) ? null : t;
 }
 
 export async function GET() {
-  const [sj, cj] = await Promise.all([
-    leggiJson(`${BASE}/storico-salute.json`),
-    leggiJson(`${BASE}/cantiere-difetti.json`),
+  // AR-415 — il lettore condiviso, quello che porta il MOTIVO. Con `readVaultFile` un archivio troppo
+  // grande diventava `null`, e il messaggio qui sotto diceva a Nicola «ancora nessuno storico»: cioè
+  // «non è mai stato fatto» al posto di «non l'ho potuto leggere». Sono due lavori diversi.
+  const [sl, cl] = await Promise.all([
+    leggiJsonVault<any>(`${BASE}/storico-salute.json`),
+    leggiJsonVault<any>(`${BASE}/cantiere-difetti.json`),
   ]);
+  const sj = sl.dati;
+  const cj = cl.dati;
   if (!sj && !cj) {
+    const buco = [sl, cl].find((x) => !x.letto);
     return NextResponse.json({
       collegato: false,
-      messaggio: "Ancora nessuno storico di salute: la serie onesta cresce a ogni radiografia completa.",
+      ...messaggioSenzaDato(
+        buco ?? sl,
+        "Ancora nessuno storico di salute: la serie onesta cresce a ogni radiografia completa.",
+      ),
     });
   }
 
@@ -72,8 +73,16 @@ export async function GET() {
     .filter((x): x is number => x != null);
   const oraMs = dateNote.length ? Math.max(...dateNote) : null;
   const settimanaFaMs = oraMs != null ? oraMs - 7 * 86400000 : null;
-  const apertiOra = oraMs != null ? apertiAllaData(oraMs) : (cj?.meta?.aperti ?? null);
+  // AR-456 — quanti sono aperti ORA si CONTA sulla lista, non si legge dal riassunto e non si deduce
+  // dalle date. Il ripiego di prima era `cj.meta.aperti`, il totale scritto nel file: il 13/8 diceva
+  // 223 mentre i non chiusi erano 281. E il conteggio per data lascia fuori in silenzio ogni difetto
+  // senza `nato` — un difetto senza data di nascita non è un difetto risolto.
+  const conto = contaDifetti(cj?.difetti);
+  const apertiOra = cl.letto ? conto.da_fare : null;
   const apertiSettimanaFa = settimanaFaMs != null ? apertiAllaData(settimanaFaMs) : null;
+  // Quanti non si possono collocare nel tempo: senza `nato` non si sa se una settimana fa esistevano.
+  // Vanno DICHIARATI, non ignorati — altrimenti il burn-down sembra più bello di quanto sia.
+  const senzaNato = difetti.filter((d) => !eChiuso(d) && giorno(d.nato) == null).length;
   const burnDown =
     apertiOra != null && apertiSettimanaFa != null ? apertiSettimanaFa - apertiOra : null; // >0 = migliora
 
@@ -98,7 +107,11 @@ export async function GET() {
     cantiere_aperti_ora: apertiOra,
     cantiere_aperti_settimana_fa: apertiSettimanaFa,
     burn_down_settimana: burnDown,
-    cantiere_meta: cj?.meta ?? null,
+    // AR-456 — il meta servito è quello DERIVATO dalla lista, non quello scritto nel file. Porta con
+    // sé `scritto` e `divergenza`: se il totale del file torna a invecchiare, lo scarto è già a video.
+    cantiere_meta: cj ? metaDerivata(cj) : null,
+    cantiere_letto: cl.letto,
+    cantiere_senza_data_nascita: senzaNato,
     serie_onesta: serieOnesta,
   });
 }

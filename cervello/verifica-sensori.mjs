@@ -10,9 +10,15 @@
 //   node cervello/verifica-sensori.mjs            -> report leggibile
 //   node cervello/verifica-sensori.mjs --json     -> output JSON (per giro.sh / sentinelle)
 //   node cervello/verifica-sensori.mjs --mcp-supabase=ok|cieco  -> aggiorna contatore MCP da sessione AD
+//   node cervello/verifica-sensori.mjs --sola-lettura  -> stampa il verdetto e NON scrive niente
+//       (AR-568: è il modo giusto di diagnosticare i sensori da una sessione che non deve lasciare
+//        impronte nella memoria condivisa)
 //
-// Exit: 0 = almeno un sensore d'AMBIENTE misurato e ok · 1 = tutti ciechi O nessun sensore
-//       d'ambiente misurabile da qui (esito "non_misurato": lavora su memoria + Gap) — AR-587
+// Exit (contratto AR-322, tre codici — AR-662):
+//   0 = almeno un sensore d'AMBIENTE misurato e ok
+//   1 = i sensori d'ambiente c'erano e NESSUNO risponde (esito "cieco": guasto vero, misurato)
+//   2 = da qui non c'era niente da misurare, nessuna chiave (esito "non_misurato": lavora su
+//       memoria + Gap). NON è un guasto della macchina: è un buco nel punto d'osservazione.
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -20,7 +26,7 @@ import { fileURLToPath } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { scriviStatoSensore } from "./stato-sensori.mjs";
 import { decadiAutoDichiarato, eSpentoPerDecisione, istruzioniGiro, sintesiSensori, verdettoSensori } from "./lib-sensori-verdetto.mjs";
-import { misuraScaduta } from "./misura-o-cieco.mjs";
+import { codiceUscitaSensori, misuraScaduta, origineMisura } from "./misura-o-cieco.mjs";
 
 /**
  * AR-364 — dopo quanto un «ok» che si è dato la macchina da sola smette di valere.
@@ -32,6 +38,17 @@ const MCP_DECADENZA_MIN = Number(process.env.MCP_DECADENZA_MIN || 720);
 const scadutaMcp = (quando) => misuraScaduta(quando, MCP_DECADENZA_MIN);
 
 const JSON_MODE = process.argv.includes("--json");
+
+/**
+ * AR-568 (c) — «guarda ma non toccare».
+ *
+ * Il modo giusto di diagnosticare i sensori da fuori: stampa il verdetto e NON scrive niente nella
+ * memoria condivisa. Serve perché il gesto che ha causato il difetto era innocente — un comando di
+ * sola lettura lanciato da una sessione senza chiavi — e non aveva un modo di essere innocuo.
+ * La guardia d'ambiente (AR-035/573) protegge già dal caso comune; questo dà a chi indaga un
+ * interruttore esplicito che vale anche dal VPS, dove la guardia si aprirebbe.
+ */
+const SOLA_LETTURA = process.argv.includes("--sola-lettura");
 const RETRIES = 3;
 const RETRY_MS = 2000;
 const FETCH_TIMEOUT_MS = 8000;
@@ -613,6 +630,16 @@ async function main() {
   );
 
   cecita.aggiornato = quando;
+  // AR-568 (a) — DA DOVE viene questa misura, e QUANTO ha visto.
+  //
+  // Il difetto: i file di misura si scrivono come fatti della MACCHINA, senza registrare il punto
+  // d'osservazione. Così la misura di una sessione cloud — che è cieca per costruzione — prendeva il
+  // posto di quella del VPS, e nessuno poteva accorgersene guardando il file: una misura anonima non
+  // si può confrontare con nessun'altra. Il timbro non ferma niente da solo; è la riga senza la
+  // quale (b) «cieco non sovrascrive vedente» e (d) il cancello di pubblicazione non sono
+  // scrivibili, perché non c'è il numero da confrontare.
+  cecita.origine = origineMisura();
+  cecita.copertura = verdetto.misurati_ambiente;
   // AR-587: le istruzioni non affermano cose non misurate (il vecchio «Stripe ok ma Supabase
   // REST cieco» usciva anche quando Stripe non era stato misurato affatto).
   cecita.istruzioni_giro = istruzioniGiro(esito, sb.ok);
@@ -659,16 +686,22 @@ async function main() {
   }
   // AR-281: la guardia non vive più qui dentro come variabile locale — passa dalla porta condivisa,
   // la stessa che usano cassa, delta-gate e sentinella-fonti. Una regola di classe, un punto solo.
+  // AR-568 (c): `--sola-lettura` chiude la porta prima della guardia d'ambiente, non dopo. Chi
+  // diagnostica da fuori vede tutto il verdetto e non lascia impronte, anche là dove le chiavi ci sono.
   const esitoScrittura = scriviStatoSensore(CECITA_PATH, cecita, {
-    ambienteConfigurato: scriviStato,
-    motivo: "nessuna chiave sensore nell'ambiente e nessun aggiornamento MCP",
+    ambienteConfigurato: scriviStato && !SOLA_LETTURA,
+    motivo: SOLA_LETTURA
+      ? "--sola-lettura: guardo e non scrivo (AR-568)"
+      : "nessuna chiave sensore nell'ambiente e nessun aggiornamento MCP",
   });
 
   // AR-591: il denominatore sono i sensori CONFIGURATI, gli spenti si dichiarano a parte —
   // «7/11 ok» con 4 spenti faceva sembrare rotti 4 sensori che erano spenti apposta.
   const sintesi = sintesiSensori(verdetto, maxCecita);
 
-  if (scriviStato) {
+  // Il segnale è una scrittura come le altre: in sola lettura non parte, o il «guardo e non tocco»
+  // sarebbe vero solo per il file e falso per la memoria.
+  if (scriviStato && !SOLA_LETTURA) {
     await stampSegnale("sensori", esito === "ok" ? "ok" : "errore", `${sintesi} · ${quando}`);
   }
 
@@ -704,10 +737,23 @@ async function main() {
     }
   }
 
-  // AR-587: exit 0 SOLO se almeno un sensore d'ambiente è stato misurato ed è ok. Un giro senza
-  // chiavi esce 1 ("non_misurato"): giro.sh applica il vincolo baseline invece di fidarsi di un
-  // verde che non ha misurato niente.
-  process.exit(esito === "ok" ? 0 : 1);
+  // AR-587 + AR-662 — il contratto di casa ha TRE codici, non due (AR-322):
+  //   0 = ho misurato e va bene · 1 = ho misurato e ho trovato il guasto · 2 = NON HO POTUTO MISURARE.
+  // Prima erano due (`esito === "ok" ? 0 : 1`), e da una sessione senza chiavi questo comando usciva
+  // 1: stava dicendo «i sensori sono rotti» dove la verità era «da qui non li ho potuti guardare».
+  // Il verso dell'errore era prudente, ma un allarme falso si impara a zittire — e chi lo zittisce
+  // zittisce anche il rosso vero.
+  //
+  // Il codice lo decide una funzione pura (misura-o-cieco.mjs), non un ternario qui dentro: è la
+  // stessa mappa che il test può eseguire senza far partire tutto il programma.
+  //
+  // VERIFICATO PRIMA DI CAMBIARLO, perché il rischio era di spegnere un freno che funziona:
+  //   · `cervello/giro.sh:244` accende il vincolo «niente numeri nuovi» con `[ "$_sens_rc" -ne 0 ]`
+  //     → il 2 lo accende esattamente come l'1. Il freno resta acceso (prova: cieco-non-compra-il-verde);
+  //   · `cervello/salute.mjs` giudica questo comando con `rossoSe: (c) => c === 1` e senza `ciecoSe`
+  //     → per questo `cieco` (chiavi presenti, nessun sensore risponde) RESTA 1: è un guasto vero e
+  //     lassù deve continuare a diventare rosso. Solo `non_misurato` diventa 2.
+  process.exit(codiceUscitaSensori(esito));
 }
 
 main().catch(async (e) => {

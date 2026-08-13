@@ -1,7 +1,15 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { cimaDellaPila, conStrato, senzaStrato, stratoDaChiudere, voceDaTimbrare, type Strato } from "@/lib/strati";
+import {
+  cimaDellaPila,
+  conStrato,
+  deveTornareIndietro,
+  senzaStrato,
+  stratoDaChiudere,
+  voceDaTimbrare,
+  type Strato,
+} from "@/lib/strati";
 
 /**
  * AR-222 / AR-242 / AR-243 — la mano che applica le regole di `lib/strati.ts` al browser.
@@ -78,6 +86,22 @@ export function useStrato(nome: string, aperto: boolean, chiudi: () => void) {
     } catch {}
     return () => {
       pila = senzaStrato(pila, nome);
+      // AR-403 / AR-606 — il verso simmetrico: chiudendo col dito si RITIRA la voce timbrata
+      // all'apertura, come fa a mano `chiudiWorker` in page.tsx. Senza, resta in cronologia un
+      // gradino che non corrisponde a niente di visibile: il primo indietro lo consuma a vuoto.
+      //
+      // Il ritiro è differito di un giro perché la chiusura arriva spesso INSIEME a un'altra
+      // navigazione (dal menù si tocca un'altra area: stesso commit, `setVista` + `setNavAperta`).
+      // Al giro dopo la cronologia è ferma e la decisione — che sta tutta in `deveTornareIndietro`,
+      // eseguibile da un test — vede la verità: se nel frattempo è stata timbrata una voce nuova
+      // (spogliata dei marcatori da `voceDiNavigazione`) non c'è più niente da ritirare, e non si
+      // riporta Nicola sull'area da cui è appena uscito.
+      const daRitirare = nome;
+      setTimeout(() => {
+        try {
+          if (deveTornareIndietro(window.history.state, daRitirare, pila)) window.history.back();
+        } catch {}
+      }, 0);
     };
   }, [nome, aperto]);
 }

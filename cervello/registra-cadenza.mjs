@@ -34,6 +34,7 @@
 
 import { readFileSync, writeFileSync, renameSync, copyFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join, basename } from "node:path";
+import { timbroOra } from "./ora-piacenza.mjs";
 
 export const REGISTRO_DEFAULT = "MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-cadenze.json";
 
@@ -43,20 +44,14 @@ export const COSA_E =
 
 /**
  * L'ora di Piacenza, formato "AAAA-MM-GG HH:MM" — PURA: l'istante arriva da fuori.
- * `sv-SE` produce già "2026-12-01 13:00"; `Europe/Rome` decide da solo se è CET o CEST.
  * (AR-629/AR-634: la formula vecchia sommava +2h fisse e d'inverno timbrava un'ora avanti.)
+ *
+ * Dal lotto di AR-647/AR-648 il corpo vive in `cervello/ora-piacenza.mjs`, insieme al suo
+ * inverso `msDaTimbro`: la stessa regola stava scritta in quindici punti del cervello e ogni
+ * lezione ne raggiungeva uno solo. Qui resta la RIESPORTAZIONE, perché i chiamanti storici
+ * (`lib-cadenza.sh` → CLI, `cadenza-registro.test.mjs` → import) non devono cambiare riga.
  */
-export function timbroOra(quando = new Date()) {
-  return new Intl.DateTimeFormat("sv-SE", {
-    timeZone: "Europe/Rome",
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: false,
-  }).format(quando);
-}
+export { timbroOra };
 
 /**
  * Che cosa c'è scritto nel registro? PURA: prende il testo grezzo (o null se il file non c'è).

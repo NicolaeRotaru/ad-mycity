@@ -73,6 +73,62 @@ export function stratoDaChiudere(statoStoria: unknown, cima: Strato | null): Str
 }
 
 /**
+ * AR-403 / AR-606 — il verso mancante del contratto: «chiudi → indietro».
+ *
+ * `stratoDaChiudere` copre solo il verso «indietro → chiudi». Chiudendo col dito (X, velo, Esc) lo
+ * strato usciva dalla pila e basta: la voce timbrata all'apertura restava lì, senza corrispondere più
+ * a niente di visibile. Da lì i due sintomi che Nicola vedeva: il primo indietro era un colpo a vuoto
+ * (consumava la voce fantasma senza cambiare nulla a video) e, peggio, il marcatore stantio veniva
+ * copiato in ogni voce successiva — a quel punto riaprire lo strato non timbrava più niente
+ * (`voceDaTimbrare` lo vedeva già presente) e l'indietro non lo chiudeva più (`stratoDaChiudere` lo
+ * vedeva ancora combaciante): tornava esattamente il difetto che il contratto dichiara risolto, cioè
+ * l'area che cambia sotto un pannello rimasto aperto sopra.
+ *
+ * Vero solo quando la voce corrente porta ANCORA il marcatore di questo strato, e lo strato non è
+ * tornato in pila nel frattempo. Le tre volte in cui deve dire di no valgono quanto la volta in cui
+ * dice di sì:
+ *  · chiuso DAL gesto indietro → la voce corrente non porta più il marcatore → un altro `back()`
+ *    salterebbe due passi invece di uno;
+ *  · la cronologia è già andata avanti (dal menù si tocca un'altra area: la voce nuova è di
+ *    navigazione e non porta marcatori) → il `back()` riporterebbe all'area di prima, cioè il
+ *    contrario di quello che è stato appena chiesto;
+ *  · riaperto nello stesso istante (chiudi e riapri di scatto) → non c'è niente da ritirare.
+ */
+export function deveTornareIndietro(statoStoria: unknown, nome: string, pila: Strato[] = []): boolean {
+  if (!nome) return false;
+  const p = Array.isArray(pila) ? pila.filter(Boolean) : [];
+  if (p.some((s) => s?.nome === nome)) return false; // riaperto nel frattempo: la voce serve ancora
+  const st = statoStoria && typeof statoStoria === "object" ? (statoStoria as { strato?: unknown }) : null;
+  return st?.strato === nome;
+}
+
+/**
+ * I campi di `history.state` che dicono «c'è qualcosa aperto SOPRA la Cabina»: il marcatore degli
+ * strati (`strato`, questo file) e quello del Worker (`overlay`, lib/overlay-chiusura.ts).
+ */
+export const MARCATORI_DI_STRATO = ["strato", "overlay"] as const;
+
+/**
+ * AR-606 — la voce di cronologia da timbrare per una NAVIGAZIONE (cambio area, cambio scheda, voce
+ * iniziale al caricamento).
+ *
+ * Fonde con lo stato esistente per non cancellare gli internals di Next (`__NA`,
+ * `__PRIVATE_NEXTJS_INTERNALS_TREE`: cancellarli fa ricaricare la pagina al primo indietro), ma
+ * SPOGLIA i marcatori di strato. Il merge cieco `{...history.state, vista}` era la seconda metà del
+ * difetto: portava il marcatore di un pannello ormai chiuso dentro voci nuove che con quel pannello
+ * non c'entrano niente — e `history.state` sopravvive anche al ricaricamento della pagina, quindi il
+ * fantasma tornava pure dopo un F5.
+ *
+ * `campi` viene applicato DOPO lo spoglio: chi vuole timbrare davvero un marcatore (l'apertura del
+ * Worker) lo passa lì ed è servito.
+ */
+export function voceDiNavigazione(statoCorrente: unknown, campi: Record<string, unknown> = {}): Record<string, unknown> {
+  const st = statoCorrente && typeof statoCorrente === "object" ? { ...(statoCorrente as Record<string, unknown>) } : {};
+  for (const m of MARCATORI_DI_STRATO) delete st[m];
+  return { ...st, ...(campi || {}) };
+}
+
+/**
  * La voce di cronologia da timbrare quando uno strato si apre.
  *
  * Si FONDE con lo stato esistente e non lo sostituisce: Next tiene i suoi internals di routing dentro

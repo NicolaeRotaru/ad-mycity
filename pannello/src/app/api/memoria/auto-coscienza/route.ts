@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { apprendimentoSnello } from "@/lib/risposta-snella"; // AR-247/254: la logica sta dove un test la può eseguire
-import { readVaultFile, readVaultFileEsito } from "@/lib/vault"; // AR-254: distinguere «vuoto» da «non letto»
+import { leggiJsonVault, readVaultFile } from "@/lib/vault"; // AR-254/AR-415: distinguere «vuoto» da «non letto», con UN lettore solo
+import { oreDaDataVault } from "@/lib/format"; // AR-414: il fuso si calcola, non si scrive
 import { sanificaListe } from "@/lib/memoria-json";
 
 export const runtime = "nodejs";
@@ -16,13 +17,7 @@ export const revalidate = 0;
 const BASE = "90-Memoria-AI/auto-coscienza";
 
 async function leggiJson(rel: string): Promise<any | null> {
-  const raw = await readVaultFile(rel);
-  if (raw == null) return null;
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return null;
-  }
+  return (await leggiJsonVault<any>(rel)).dati;
 }
 
 /**
@@ -31,20 +26,15 @@ async function leggiJson(rel: string): Promise<any | null> {
  * `apprendimento.json` ha superato il tetto di lettura (1.111.673 caratteri contro 1.000.000):
  * finora veniva troncato a metà stringa, `JSON.parse` falliva, e la scheda restava vuota **per
  * sempre** senza che nessuno sapesse perché. Un `null` non è una spiegazione.
+ *
+ * AR-415 — la spiegazione però era scritta QUI, in una quarta copia privata: ogni rotta aveva la sua
+ * lista di motivi, e chi ne aggiungeva uno lo aggiungeva a una sola. Adesso la frase la decide
+ * `motivoLettura` in `esito-lettura.ts`, e vale per tutte. Resta `""` quando non c'è niente da
+ * spiegare (file letto, o guardato e assente): è la forma che la scheda si aspetta.
  */
 async function leggiJsonConMotivo(rel: string): Promise<{ dati: any | null; motivo: string }> {
-  const esito = await readVaultFileEsito(rel);
-  if (esito.stato === "troppo-grande") {
-    return { dati: null, motivo: esito.dettaglio || "archivio troppo grande per essere letto" };
-  }
-  if (esito.stato !== "ok" || esito.testo == null) {
-    return { dati: null, motivo: esito.stato === "assente" ? "" : "non riesco a raggiungere la memoria" };
-  }
-  try {
-    return { dati: JSON.parse(esito.testo), motivo: "" };
-  } catch {
-    return { dati: null, motivo: "l'archivio è arrivato incompleto (JSON non valido)" };
-  }
+  const l = await leggiJsonVault<any>(rel);
+  return { dati: l.dati, motivo: l.motivo ?? "" };
 }
 
 // 🛡️ Normalizzatore: il giro a volte scrive i JSON fuori dal contratto (nomi di campo o valori enum
@@ -173,14 +163,12 @@ function analisiAffidabile(a: any): boolean {
   return votoOk && sintesiOk;
 }
 
-function oreDaDataPiacenza(dataStr: unknown): number | null {
-  const m = String(dataStr ?? "").match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
-  if (!m) return null;
-  const [, y, mo, d, h = "12", mi = "00"] = m;
-  const t = new Date(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`).getTime();
-  if (Number.isNaN(t)) return null;
-  return (Date.now() - t) / 3600000;
-}
+// AR-414 — qui viveva la seconda delle tre copie di questo calcolo, con `+02:00` scritto a mano:
+// identica carattere per carattere a quella di auto-radiografia, perché era stata incollata. D'inverno
+// dava un'ora IN PIÙ (misurato: una data-vault del 15 gennaio alle 12:00 risultava vecchia di un'ora
+// appena scritta), e «dati_freschi» qui sotto — la soglia delle 3 ore — decide un semaforo: d'inverno
+// diventava rosso un'ora prima del dovuto. L'età la calcola `oreDaDataVault`, che il fuso lo chiede
+// a Europe/Rome per la data che sta leggendo.
 
 /** Sensori LIVE: salute e gap si aggiornano a ogni poll anche senza un giro completo. */
 function calcolaLive(analisi: any, sensori: any) {
@@ -188,8 +176,8 @@ function calcolaLive(analisi: any, sensori: any) {
   const s = sensori.sensori;
   const meta = sensori.meta || {};
   const aggSensori = sensori.aggiornato || null;
-  const oreSensori = oreDaDataPiacenza(aggSensori);
-  const oreAnalisi = oreDaDataPiacenza(analisi?.data);
+  const oreSensori = oreDaDataVault(aggSensori);
+  const oreAnalisi = oreDaDataVault(analisi?.data);
   const restOk = s.supabase_rest?.stato === "ok" && meta.dati_ordini_ciechi !== true;
   const mcpCieco = s.mcp_supabase?.stato === "cieco";
   const stripeStato = String(s.stripe_api?.stato || "");

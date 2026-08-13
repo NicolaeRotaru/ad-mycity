@@ -39,8 +39,26 @@ import { pathToFileURL } from "node:url";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { formaProva } from "./chiusura-dichiarata.mjs";
-import { comandoAmmesso, MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
+import { MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
 import { fileDelComando } from "./cancello-lotto.mjs";
+// 📇 IL CONTRATTO DELLA SCHEDA, in un posto solo (contratto-scheda.mjs). Prima ogni script se lo
+// rileggeva a modo suo: è per questo che i nomi dei campi divergevano e il registro non sapeva
+// leggere sé stesso. Qui si LEGGE il contratto, non lo si riscrive.
+import {
+  NON_MISURABILE,
+  aliasFuoriContratto,
+  gravitaDi,
+  proveNonMisurabili,
+  schedeIncomplete,
+  schedeSenzaProva,
+  timbriStorti,
+  verdettoProva,
+} from "./contratto-scheda.mjs";
+
+// I chiamanti storici (e i loro test) importavano queste due da qui: continuano a funzionare, ma
+// la definizione è UNA e sta nel contratto. Riesportare è il modo di spostare una regola senza
+// rompere chi la usava — l'alternativa, lasciarne una copia qui, è la malattia stessa.
+export { gravitaDi, schedeIncomplete };
 
 // ⚠️ Un modulo che ESEGUE il suo CLI al solo essere importato non e' testabile: chi lo importa per
 // provarne una funzione si ritrova il guardiano intero girato e un file di memoria riscritto sotto i
@@ -52,6 +70,7 @@ const DRY = process.argv.includes("--dry");
 const JSON_MODE = process.argv.includes("--json");
 const GATE = process.argv.includes("--gate");
 const GATE_CAMPI = process.argv.includes("--gate-campi");
+const GATE_PROVE = process.argv.includes("--gate-prove");
 const GIORNI_SOSPETTO = Number(process.env.CANTIERE_PROVE_GIORNI || 3);
 
 const AC = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
@@ -106,18 +125,6 @@ function provaCombacia(v) {
 }
 
 /**
- * La gravità di una scheda, qualunque nome porti: le schede vecchie usano `gravita`, quelle nate
- * dalla radiografia del 13/8 usano `severita`. Un guardiano che legge solo il primo nome è cieco
- * su tutta la generazione nuova.
- */
-export function gravitaDi(d) {
-  return d?.gravita ?? d?.severita ?? null;
-}
-
-/** Le gravità che contano come «minore»: su queste il contratto dei campi resta morbido. */
-const GRAVITA_MINORI = new Set(["minore", "basso", "bassa"]);
-
-/**
  * AR-650 — i BLOCCANTI che nessun guardiano potrà mai chiudere.
  *
  * Era una riga in mezzo al programma (`voci.filter(v => v.gravita === "bloccante" && …)`), quindi
@@ -130,25 +137,6 @@ const GRAVITA_MINORI = new Set(["minore", "basso", "bassa"]);
  */
 export function bloccantiCiechi(voci = []) {
   return voci.filter((v) => gravitaDi(v) === "bloccante" && !v.auto_chiudibile);
-}
-
-/**
- * AR-582 — le schede NON minori aperte a cui manca un campo del contratto: `impatto_crescita`
- * (il criterio con cui «i fix si chiudono per impatto sulla crescita» — senza, la coda per
- * priorità non sa dove metterle) o `nato` (senza, la scheda non entra nel conto mensile del
- * tasso di chiusura). Pura: dati iniettabili, nessun I/O.
- */
-export function schedeIncomplete(difetti = []) {
-  const out = [];
-  for (const d of difetti) {
-    if (!d || d.stato === "chiuso") continue;
-    if (GRAVITA_MINORI.has(String(gravitaDi(d)))) continue;
-    const manca = [];
-    if (!d.impatto_crescita) manca.push("impatto_crescita");
-    if (!d.nato) manca.push("nato");
-    if (manca.length) out.push({ id: d.id, gravita: gravitaDi(d), manca });
-  }
-  return out;
 }
 
 export function classifica(d) {
@@ -170,10 +158,18 @@ export function classifica(d) {
   // anche al secondo lettore: è che il lettore sia uno solo.
   const forma = formaProva(v);
   if (forma === "comando") {
-    if (!comandoAmmesso(v.comando)) {
+    // AR-559 — il verdetto sulla forma del comando lo emette il CONTRATTO, e a tre esiti: qui
+    // «non ammesso» non è più un rosso qualunque, è `codice 2 = NON HO POTUTO MISURARE`. La
+    // differenza non è di parole: 53 schede si sono chiuse perché «il motore non sa eseguirlo» e
+    // «nessuno deve mai chiuderlo a macchina» finivano nello stesso cassetto, marcati «manuale».
+    // (La copia locale del giudizio — `if (!comandoAmmesso(v.comando))` — è sparita apposta: era
+    // il terzo lettore indipendente della stessa regola, cioè la malattia di AR-344 al terzo giro.)
+    const vp = verdettoProva(v);
+    if (vp.codice === NON_MISURABILE) {
       return {
         ...base,
         classe: "auto-sospetta",
+        codice: NON_MISURABILE,
         perche: `comando di prova non ammesso: ${v.comando} — ${MOTIVO_COMANDO_NON_AMMESSO}`,
         auto_chiudibile: false,
       };
@@ -253,6 +249,28 @@ const nonChiudibili = voci.filter((v) => !v.auto_chiudibile);
 // AR-582 — le schede a cui manca un campo del contratto (impatto_crescita/nato sui non-minori):
 // senza quei campi la coda per priorità e il conto mensile non sanno dove metterle.
 const incomplete = schedeIncomplete(cantiere.difetti);
+// AR-023 — le schede non chiuse SENZA il campo `verifica`. Era obbligatorio nella prosa di
+// auto-coscienza.md e in nessun guardiano, cioè non era obbligatorio: qui diventa un numero.
+const senzaProva = schedeSenzaProva(cantiere.difetti);
+// AR-559 — le prove che il motore NON SA ESEGUIRE, su TUTTO il registro (chiuse comprese). È il
+// conto che conta: una scheda chiusa su una prova mai eseguita è un verde che non prova niente.
+// Si guardano anche le chiuse apposta — il controllo `prova-orfana` del cancello vede solo le
+// schede toccate dal lotto in corso, e fuori da lì nessuno contava.
+const nonMisurabiliTutte = proveNonMisurabili(cantiere.difetti);
+// Due debiti diversi sotto lo stesso codice 2, e vanno contati separati o nessuno dei due si vede
+// scendere: «il motore non sa eseguire questo comando» (AR-559) è un difetto di FORMA che si
+// ripara riscrivendo il comando; «da riverificare» è una scheda che aspetta qualcuno.
+const nonMisurabili = nonMisurabiliTutte.filter((v) => v.causa === "comando-non-eseguibile");
+const daRiverificare = nonMisurabiliTutte.filter((v) => v.causa === "da-riverificare");
+// AR-649 — i nomi di campo fuori contratto (`severita` dove il registro dice `gravita`). Il
+// registro non sapeva leggere sé stesso perché nessuno guardava il NOME: guardavano il valore, e
+// trovando `undefined` concludevano «nessuna gravità», che è un silenzio, non un errore.
+const alias = cantiere.difetti
+  .map((d) => ({ id: d.id, stato: d.stato, alias: aliasFuoriContratto(d) }))
+  .filter((x) => x.alias.length);
+// AR-655/AR-575 — le chiusure col timbro storto: oggi nessuna senza data, ma 24 con la data secca.
+// Il buco non è chiuso, si è spostato di un campo — e un timbro senza ora non entra nel mese.
+const timbriRotti = timbriStorti(cantiere.difetti);
 
 const report = {
   _cosa_e:
@@ -269,6 +287,14 @@ const report = {
   // AR-582 — schede non-minori senza impatto_crescita e/o nato: fuori da ogni ordinamento per
   // priorità e (senza nato) fuori dal conto mensile. `--gate-campi` le rende un rosso.
   schede_incomplete: incomplete,
+  // ── il contratto della scheda, i quattro numeri che prima non esistevano ──────────────────
+  // Stanno nel report SEMPRE, anche a zero: un numero che compare solo quando è brutto non si può
+  // guardare scendere, e questi devono scendere.
+  schede_senza_prova: senzaProva, // AR-023
+  prove_non_misurabili: nonMisurabili, // AR-559 — codice 2: non è verde, è cieco
+  da_riverificare: daRiverificare, // codice 2 dell'altro tipo: la scheda aspetta qualcuno
+  alias_fuori_contratto: alias, // AR-649 — `severita` dove il registro dice `gravita`
+  timbri_storti: timbriRotti, // AR-655 — chiuse con una data senza ora (o senza data)
   voci,
 };
 
@@ -301,20 +327,55 @@ if (JSON_MODE) {
     for (const s of incomplete.slice(0, 12)) console.log(`   · ${s.id} [${s.gravita}] — manca ${s.manca.join(" e ")}`);
     if (incomplete.length > 12) console.log(`   … e altre ${incomplete.length - 12}`);
   }
+  // ── il contratto della scheda: quattro conti che devono poter SCENDERE ────────────────────
+  // Si stampano anche a zero. Un numero che appare solo quando è brutto non si può guardare
+  // scendere: sparisce, e la sparizione somiglia a una guarigione.
+  console.log(
+    `\n📇 CONTRATTO DELLA SCHEDA — ${senzaProva.length} senza \`verifica\` (AR-023) · ${nonMisurabili.length} con una prova che il motore NON sa eseguire (AR-559) · ${daRiverificare.length} dichiarate da riverificare · ${alias.length} col nome di campo fuori contratto (AR-649) · ${timbriRotti.length} chiuse col timbro storto (AR-655)`,
+  );
+  if (nonMisurabili.length) {
+    const chiuse = nonMisurabili.filter((v) => v.stato === "chiuso");
+    console.log(
+      `   ⚠️  codice 2 = NON HO POTUTO MISURARE: ${chiuse.length} di quelle ${nonMisurabili.length} sono CHIUSE. Una scheda chiusa su una prova che nessuno sa eseguire è un verde che non prova niente.`,
+    );
+    for (const v of nonMisurabili.slice(0, 6)) console.log(`   · ${v.id} [${v.stato}] ${v.motivo}`);
+    if (nonMisurabili.length > 6) console.log(`   … e altre ${nonMisurabili.length - 6}`);
+  }
+  if (senzaProva.length) {
+    console.log(`   · senza \`verifica\`: ${senzaProva.slice(0, 10).map((s) => s.id).join(", ")}${senzaProva.length > 10 ? " …" : ""}`);
+  }
   if (!DRY) console.log(`   report: ${OUT_PATH.replace(`${AD_ROOT}/`, "")}\n`);
 }
 
 await stampSegnale(
   "cantiere-prove",
-  bloccantiCiechiOra.length ? "attenzione" : "ok",
-  `${nonChiudibili.length}/${aperti.length} non auto-chiudibili · ${bloccantiCiechiOra.length} bloccanti ciechi · ${incomplete.length} schede senza campi`,
+  bloccantiCiechiOra.length || nonMisurabili.length ? "attenzione" : "ok",
+  `${nonChiudibili.length}/${aperti.length} non auto-chiudibili · ${bloccantiCiechiOra.length} bloccanti ciechi · ${incomplete.length} schede senza campi · ${nonMisurabili.length} prove che il motore non sa eseguire · ${senzaProva.length} senza verifica`,
 ).catch((e) => console.error(`⚠️  segnale non stampato (il verdetto qui sopra resta valido): ${e.message || e}`));
 
-if (GATE && bloccantiCiechiOra.length) process.exit(1);
-// AR-582 — freno separato dal `--gate` storico: rosso se una scheda non-minore è senza
-// impatto_crescita/nato. Separato apposta: il debito di oggi (45 schede il 13/8) non deve
-// far diventare rosso il giro che usa `--gate`, ma chi vuole il contratto duro ce l'ha.
-if (GATE_CAMPI && incomplete.length) process.exit(1);
-process.exit(0);
+// ⚠️ `process.exitCode` E NON `process.exit()` — UN GUARDIANO CHE SI TRONCA IL REFERTO.
+//
+// Trovato qui il 13/8, allargando il report. Quando stdout è una PIPE (cioè sempre: `| head`,
+// `$(...)`, `spawnSync` di un test) le scritture di node sono ASINCRONE: `console.log` mette in
+// coda, il sistema ne accetta 64 KB e il resto aspetta. `process.exit()` non aspetta — butta via
+// la coda. Misurato: il referto `--json` è 166.684 byte su file e ne arrivavano 65.536 esatti su
+// pipe, tagliato a metà stringa. Il JSON troncato non si parsa: chi legge il guardiano riceve un
+// errore invece di un verdetto, e un guardiano che non consegna il referto è un guardiano spento.
+//
+// Non è colpa dell'ultima riga: era già così a 114.699 byte, cioè da prima di questo lotto — il
+// referto era sopra i 64 KB da un pezzo e il taglio dipendeva dal caso. Assegnare `exitCode`
+// lascia che node svuoti la coda e POI esca con lo stesso numero: il codice d'uscita è identico,
+// il referto arriva intero.
+if (GATE && bloccantiCiechiOra.length) process.exitCode = 1;
+// AR-582/AR-649/AR-023 — freno separato dal `--gate` storico: rosso se una scheda non-minore è
+// senza impatto_crescita/nato, se una scheda non chiusa è senza `verifica`, o se un nome di campo
+// sta fuori contratto. Separato apposta: il debito di oggi non deve far diventare rosso il giro
+// che usa `--gate`, ma chi vuole il contratto duro ce l'ha.
+if (GATE_CAMPI && (incomplete.length || senzaProva.length || alias.length)) process.exitCode = 1;
+// AR-559 — il freno delle prove cieche, di nuovo separato: `--gate-prove` è ROSSO finché esiste
+// una scheda (aperta O CHIUSA) la cui prova il motore non sa eseguire. Terzo flag e non un ramo
+// dei due esistenti perché è l'unico che guarda anche l'archivio, e mescolare i tre renderebbe
+// impossibile dire QUALE dei tre debiti sta scendendo.
+if (GATE_PROVE && nonMisurabili.length) process.exitCode = 1;
 
 } // fine E_CLI

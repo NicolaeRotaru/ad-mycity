@@ -68,12 +68,30 @@ export function percorsiDaGit(args, opts = {}) {
 
   // `-z` va subito dopo il sottocomando: `git log -z --name-only`, `git ls-files -z --cached`.
   const conZ = [args[0], "-z", ...args.slice(1)];
-  const uscita = execFileSync("git", conZ, {
-    cwd: opts.cwd || process.cwd(),
-    encoding: "utf8",
-    // AR-327: un diff grosso non deve far esplodere lo strumento proprio quando il lavoro è grosso.
-    maxBuffer: opts.maxBuffer || 64 * 1024 * 1024,
-  });
+  let uscita;
+  try {
+    uscita = execFileSync("git", conZ, {
+      cwd: opts.cwd || process.cwd(),
+      encoding: "utf8",
+      // AR-327: un diff grosso non deve far esplodere lo strumento proprio quando il lavoro è grosso.
+      maxBuffer: opts.maxBuffer || 64 * 1024 * 1024,
+      // AR-643 — lo stderr di git si CATTURA, non si eredita. Senza questo, un `fatal: …` di git
+      // finisce crudo dentro il verdetto che il turno mostra a Nicola: visto dal vivo in questo
+      // lotto, «fatal: origin/main...HEAD: no merge base» stampato tre volte sopra il referto, in
+      // inglese e senza dire di chi fosse. La riparazione sta QUI, alla porta, e non nei chiamanti:
+      // da questa funzione passano cancello-stop, salute, scan-segreti, sorvegliante, collaudo e
+      // forma-json — metterla in uno solo di loro lascerebbe gli altri sette a stampare il crudo.
+      stdio: ["ignore", "pipe", "pipe"],
+    });
+  } catch (e) {
+    // L'errore di git diventa un messaggio DI CASA: dice il comando e il motivo, in una riga sola.
+    // Il chiamante decide cosa farne — quello che non deve più succedere è che lo legga Nicola.
+    const motivo = String(e?.stderr || e?.message || "").trim().split("\n")[0] || "git non ha detto perché";
+    const errore = new Error(`git ${args.join(" ")}: ${motivo}`);
+    errore.causaGit = motivo;
+    errore.comando = ["git", ...args];
+    throw errore;
+  }
   return separaNul(uscita);
 }
 

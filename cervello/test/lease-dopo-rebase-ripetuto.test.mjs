@@ -27,7 +27,7 @@ import { mkdtempSync, mkdirSync, writeFileSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import assert from "node:assert/strict";
-import { rebasaSuRiferimento, remotoEDavveroVecchio } from "../git-pr.mjs";
+import { rebasaSuRiferimento, remotoEDavveroVecchio, esitoLeaseRifiutato } from "../git-pr.mjs";
 
 const casi = [];
 const prova = (nome, fn) => {
@@ -163,6 +163,67 @@ prova("un remoto che porta DAVVERO lavoro estraneo resta rifiutato con entrambi 
     false,
     "un commit mai visto da questa sessione non deve MAI passare per «solo vecchio in locale»"
   );
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-461 — IL PUNTO CHE CHIAMA, non solo la funzione.
+//
+// Tutto ciò che sta sopra esercita `remotoEDavveroVecchio` con i candidati passati A MANO. Bene, ma
+// non basta: il fix di AR-451 è il CABLAGGIO — che il punto malato le passi anche `preRebaseSha`.
+// Misurato con non-vacuita.mjs: togliendo `rebaseInfo.preRebaseSha` da quella riga, i quattro casi
+// qui sopra restavano tutti VERDI. Cioè il bug che è costato quattro PR ricreate nella notte del
+// 30/7 poteva tornare e nessun rosso l'avrebbe detto.
+//
+// Questi due casi chiamano `esitoLeaseRifiutato` — la funzione DENTRO cui vive quella riga, la
+// stessa che `main()` chiama quando il lease viene rifiutato — e non le passano nessun candidato:
+// se li deve trovare da sé, ed è esattamente ciò che il fix fa. `url` è il bare locale, quindi
+// `ls-remote` e `fetch` sono veri: niente rete, niente token, niente finti.
+// ─────────────────────────────────────────────────────────────────────────────
+
+prova("IL CABLAGGIO: dopo un secondo rebase il ramo si riconosce come nostro e si ripubblica", () => {
+  const { origin, lavoro, X } = scenaPubblicazioneRipetuta();
+  const cfg = { cwd: lavoro };
+  const info = zitto(() => rebasaSuRiferimento(cfg, "main", "fix/prova", "main"));
+
+  const esito = zitto(() => esitoLeaseRifiutato(cfg, origin, "fix/prova", info));
+  assert.equal(esito.shaRemoto, X, "il remoto letto deve essere la nostra pubblicazione precedente");
+  assert.equal(
+    esito.remotoAntenato,
+    true,
+    "il punto che chiama deve passare ANCHE preRebaseSha: senza, il ramo ribasato di nuovo sembra lavoro altrui e la PR viene ricreata"
+  );
+});
+
+prova("IL CABLAGGIO: e con lavoro DAVVERO estraneo sul remoto, lo stesso punto si ferma", () => {
+  // La metà che impedisce di «riparare» il caso qui sopra rispondendo sempre `true`: la difesa vale
+  // solo se sa ancora dire di no. Un fix che passa il primo caso e perde questo ha sostituito una PR
+  // ricreata con il lavoro di un'altra sessione sovrascritto — un danno peggiore di quello curato.
+  const { origin, lavoro } = scenaPubblicazioneRipetuta();
+  const cfg = { cwd: lavoro };
+  const info = zitto(() => rebasaSuRiferimento(cfg, "main", "fix/prova", "main"));
+
+  const altra = mkdtempSync(join(tmpdir(), "ad-lease-estranea-"));
+  temporanee.push(altra);
+  git(["clone", "-q", origin, altra], process.cwd());
+  git(["config", "user.email", "altra@mycity.local"], altra);
+  git(["config", "user.name", "Altra sessione"], altra);
+  git(["checkout", "-q", "fix/prova"], altra);
+  scrivi(altra, "pannello/Nuovo.tsx", "export const y = 999 // lavoro di un'altra sessione\n");
+  git(["add", "-A"], altra);
+  git(["commit", "-qm", "lavoro estraneo"], altra);
+  git(["push", "-q", "origin", "fix/prova"], altra);
+
+  const esito = zitto(() => esitoLeaseRifiutato(cfg, origin, "fix/prova", info));
+  assert.equal(esito.remotoAntenato, false, "un commit mai visto da questa sessione non deve mai risultare «solo vecchio in locale»");
+});
+
+prova("IL CABLAGGIO: un ramo mai pubblicato non ha remoto, e non si inventa un antenato", () => {
+  const { origin, lavoro } = scenaPubblicazioneRipetuta();
+  const cfg = { cwd: lavoro };
+  const info = zitto(() => rebasaSuRiferimento(cfg, "main", "fix/prova", "main"));
+  const esito = zitto(() => esitoLeaseRifiutato(cfg, origin, "fix/mai-pubblicato", info));
+  assert.equal(esito.shaRemoto, null, "quel ramo su origin non c'è");
+  assert.equal(esito.remotoAntenato, false, "senza remoto non c'è niente di cui essere antenato");
 });
 
 let falliti = 0;

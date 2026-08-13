@@ -16,7 +16,11 @@
 import fs from "node:fs";
 import { fileURLToPath } from "node:url";
 
-const CODA = fileURLToPath(new URL("../MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", import.meta.url));
+// Sovrascrivibile SOLO per provare il cancello su una coda finta (stessa ragione di
+// SENSORI_CECITA_FILE, AR-284: una coda illeggibile va DIMOSTRATA facendola accadere, e non si può
+// farla accadere sul file vero). Non allarga i permessi di nessuno: l'autorità che apre il cancello
+// resta la firma di Nicola registrata in Supabase, che da questo file non passa.
+const CODA = process.env.AZIONI_CODA_FILE || fileURLToPath(new URL("../MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", import.meta.url));
 const ALLOWLIST = fileURLToPath(new URL("./mani-allowlist.json", import.meta.url));
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -75,12 +79,57 @@ function parseHeading(heading) {
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Lettura + parsing della coda in blocchi ## / ###.
-export function leggiCoda() {
+// AR-443 — «CODA VUOTA» E «CODA ILLEGGIBILE» NON SONO LA STESSA COSA.
+//
+// Prima qui c'era `catch { return "" }`: qualunque motivo per cui il file non si legge — non c'è,
+// permessi, è una cartella, disco pieno — diventava una coda vuota. Da lì il cancello concludeva
+// «AZIONE_ID non trovato in AZIONI-IN-ATTESA.md → invio bloccato». La DIREZIONE era giusta (niente
+// parte, fail-closed), ma la MOTIVAZIONE era falsa: mandava chi indaga a cercare una card che magari
+// c'è, invece che a guardare perché il file non si legge. Un cancello che sbaglia il motivo insegna
+// a diffidare del motivo — e il giorno in cui il motivo è vero non lo crede più nessuno.
+//
+// Adesso: stringa = ho letto (anche se dentro non c'è niente) · null = NON ho potuto leggere.
+
+/** @returns {{md: string|null, perche: string}} `md: null` = non letta, e `perche` dice perché. */
+export function leggiCodaConMotivo() {
   try {
-    return fs.readFileSync(CODA, "utf8");
-  } catch {
-    return "";
+    return { md: fs.readFileSync(CODA, "utf8"), perche: "" };
+  } catch (e) {
+    return { md: null, perche: `${e.code || "errore"} su ${CODA}` };
   }
+}
+
+/** Il testo della coda, o `null` se non si è potuta leggere. */
+export function leggiCoda() {
+  return leggiCodaConMotivo().md;
+}
+
+/**
+ * Perché questa azione non si trova — la decisione, pura, che prima era annegata nel cancello.
+ *
+ * Tre esiti e non due, come il contratto dei codici d'uscita (AR-322): l'ho trovata · l'ho cercata
+ * e non c'è · non ho potuto cercarla. Il terzo è quello che mancava, ed è il solo in cui il posto
+ * dove guardare non è la coda ma il file.
+ *
+ * @param {string|null} md il testo della coda, o `null` se illeggibile.
+ * @param {string} azioneId
+ * @param {string} perche il motivo tecnico dell'illeggibilità, da mostrare a chi indaga.
+ * @returns {{blocco: object|null, leggibile: boolean, motivo: string}}
+ */
+export function cercaInCoda(md, azioneId, perche = "") {
+  const id = String(azioneId || "").trim();
+  if (md === null || md === undefined) {
+    return {
+      blocco: null,
+      leggibile: false,
+      motivo: `coda delle azioni NON leggibile (${perche || "motivo ignoto"}) → invio bloccato. Non sto dicendo che l'azione "${id}" non ci sia: sto dicendo che AZIONI-IN-ATTESA.md non si è potuto aprire — guarda il file, non la card.`,
+    };
+  }
+  const blocco = trovaAzione(md, id);
+  if (!blocco) {
+    return { blocco: null, leggibile: true, motivo: `AZIONE_ID "${id}" non trovato in AZIONI-IN-ATTESA.md → invio bloccato` };
+  }
+  return { blocco, leggibile: true, motivo: "" };
 }
 
 export function blocchiCoda(md) {
@@ -304,10 +353,14 @@ export async function consensoInvio({ azioneId, canale, destinatario }) {
   if (!id || /non collegat|non impostat|^\(/.test(id)) {
     return { live: false, motivo: "nessun AZIONE_ID: l'invio non è agganciato a una casella firmata (AZIONE_ID mancante)" };
   }
-  const md = leggiCoda();
-  const blk = trovaAzione(md, id);
+  // AR-443: la ricerca torna TRE esiti, non due — trovata · cercata e assente · non cercabile.
+  // Resta fail-closed in tutti e tre (niente parte), ma il motivo che arriva a chi legge è quello
+  // vero: nel terzo caso il posto dove guardare è il file, non la card.
+  const { md, perche } = leggiCodaConMotivo();
+  const ricerca = cercaInCoda(md, id, perche);
+  const blk = ricerca.blocco;
   if (!blk) {
-    return { live: false, motivo: `AZIONE_ID "${id}" non trovato in AZIONI-IN-ATTESA.md → invio bloccato` };
+    return { live: false, motivo: ricerca.motivo };
   }
   // AR-205 — LA FIRMA È UNA SOLA, E NON LA SCRIVE CHI ESEGUE.
   //

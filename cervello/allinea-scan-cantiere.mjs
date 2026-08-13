@@ -18,8 +18,14 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { pathToFileURL } from "node:url";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+// 📇 IL CONTRATTO DELLA SCHEDA, in un posto solo. Questo file chiude i findings delle radiografie:
+// è il SECONDO che scrive `stato: "chiuso"` nella macchina, e finché il timbro viveva dentro
+// auto-fix.mjs (irraggiungibile senza trascinarsi dietro una chiamata a git) se n'era scritto una
+// versione sua — `|| ""`. Ora chiama la stessa funzione dell'altro (AR-655).
+import { findingsFuoriContratto, timbraChiusura, timbroValido } from "./contratto-scheda.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
@@ -101,6 +107,33 @@ function verificaFinding(f) {
   };
 }
 
+/**
+ * AR-655 — CHIUDERE UN FINDING PERCHÉ IL SUO DIFETTO È CHIUSO NEL CANTIERE.
+ *
+ * QUI C'ERA `f.chiuso_il = f.chiuso_il || d.chiuso_il || ""`.
+ *
+ * La stringa vuota è la malattia esatta di AR-575 su un altro registro: una chiusura senza data
+ * non appartiene a nessun mese, e chi conta per mese non la vede. Il fallback sembrava innocuo
+ * perché copiava la data del cantiere «quando c'era» — ma il caso in cui NON c'era è esattamente
+ * quello che ha prodotto le 74 orfane. Un fallback a stringa vuota non è un valore di riserva: è
+ * un buco scritto in bella copia, e passa i controlli perché il campo esiste.
+ *
+ * Ora la data la mette il timbro unico, che pretende l'ora e sa sempre che ora è. E si eredita
+ * solo un timbro VALIDO: una data secca del cantiere («2026-08-04», 24 schede ce l'hanno) non si
+ * propaga qui dentro — si prende l'adesso, che l'ora ce l'ha.
+ *
+ * Pura e esportata apposta: era una riga in mezzo a due cicli annidati dentro una funzione che
+ * legge e riscrive due file di memoria, quindi nessun test poteva eseguirla senza far girare
+ * l'allineatore intero sul vault vero.
+ */
+export function chiudiFindingDalCantiere(f, d, ora) {
+  const ereditata = timbroValido(d?.chiuso_il) ? d.chiuso_il : null;
+  timbraChiusura(f, { quando: timbroValido(f?.chiuso_il) ? f.chiuso_il : ereditata || ora });
+  f.chiuso_da = "cantiere";
+  f.cantiere_id = d?.id;
+  return f;
+}
+
 function matchCantiere(finding, dimKey, difetti) {
   const ft = finding.titolo || "";
   const fid = arId(ft);
@@ -138,10 +171,7 @@ function allineaMacchina() {
       const prev = f.stato;
       if (d) {
         if (d.stato === "chiuso") {
-          f.stato = "chiuso";
-          f.chiuso_il = f.chiuso_il || d.chiuso_il || "";
-          f.chiuso_da = "cantiere";
-          f.cantiere_id = d.id;
+          chiudiFindingDalCantiere(f, d, ora);
         } else if (d.stato === "in-corso") {
           f.stato = "in-corso";
           f.cantiere_id = d.id;
@@ -151,9 +181,10 @@ function allineaMacchina() {
       } else if (f.stato !== "chiuso" && f.verifica) {
         const r = verificaFinding(f);
         if (r.esito === "risolto") {
-          f.stato = "chiuso";
-          f.chiuso_il = f.chiuso_il || ora;
-          f.chiuso_come = r.dettaglio;
+          // Anche questa strada passa dal timbro unico: erano DUE le chiusure in questo file, e
+          // ripararne una sola è l'errore già pagato (AR-172, «la porta a mano riparata e quella
+          // automatica lasciata aperta»).
+          timbraChiusura(f, { quando: timbroValido(f.chiuso_il) ? f.chiuso_il : ora, come: r.dettaglio });
           f.chiuso_da = "verifica-codice";
           chiusiVerifica++;
         }
@@ -168,9 +199,26 @@ function allineaMacchina() {
   // AR-105: NON sovrascrivere voto_salute_architettura (media 12 pilastri, scala radiografia completa)
   // con il voto_provvisorio della sonda (scala cantiere). Il voto viene aggiornato SOLO dalla radiografia completa.
 
+  // AR-360 — I FINDINGS CHE IL VOLANO NON SA INSTRADARE.
+  //
+  // Lo schema dei sotto-agenti (.claude/workflows/auto-radiografia.js) dichiara `genera` come enum
+  // obbligatorio. Ma è uno schema D'INGRESSO: chiede a chi scrive, e nessuno rilegge il file
+  // scritto. Questa è la causa di sistema che AR-360 mette a nudo — «i contratti della macchina
+  // sono dichiarati all'ingresso e mai riverificati all'uscita: un file scritto male entra in
+  // memoria e diventa la base del giro dopo». Misurato il 13/8: 163 findings su 286 (il 57%) non
+  // hanno `genera`, e il volano li lascia cadere in silenzio. La scheda diceva 45% — cioè il
+  // numero è PEGGIORATO mentre nessuno lo guardava.
+  //
+  // Qui non si boccia e non si riscrive niente: si CONTA, dentro il file che il Pannello legge,
+  // così il silenzio diventa un numero. Il rosso duro spetta a `valida-contratti.mjs`, che è la
+  // casa dei contratti di questi JSON — e non è di questa corsia (vedi `fuori_territorio`).
+  const nonInstradabili = findingsFuoriContratto(rad);
+
   rad.sync_scan = {
     aggiornato: nowPiacenza(),
     findings_aperti: aperti,
+    findings_non_instradabili: nonInstradabili.length,
+    findings_non_instradabili_ids: nonInstradabili.slice(0, 40).map((f) => f.titolo),
     findings_in_corso: inCorso,
     findings_chiusi: chiusi,
     findings_tot: aperti + inCorso + chiusi,
@@ -191,6 +239,7 @@ function allineaMacchina() {
     aperti,
     in_corso: inCorso,
     chiusi,
+    non_instradabili: nonInstradabili.length,
     cantiere: { aperti: rad.sync_scan.cantiere_aperti, in_corso: rad.sync_scan.cantiere_in_corso, chiusi: rad.sync_scan.cantiere_chiusi },
   };
 }
@@ -225,7 +274,7 @@ async function main() {
   const mkp = allineaMarketplace();
   const ok = mac.ok;
   const sintesi = mac.ok
-    ? `macchina: ${mac.aperti} aperti · ${mac.in_corso} in-corso · ${mac.chiusi} chiusi (${mac.aggiornati} aggiornati)`
+    ? `macchina: ${mac.aperti} aperti · ${mac.in_corso} in-corso · ${mac.chiusi} chiusi (${mac.aggiornati} aggiornati) · ${mac.non_instradabili} findings che il volano non sa instradare`
     : `macchina: ${mac.motivo}`;
 
   await stampSegnale("allinea-scan-cantiere", ok ? "ok" : "warn", sintesi);
@@ -236,8 +285,15 @@ async function main() {
   process.exit(ok ? 0 : 1);
 }
 
-main().catch(async (e) => {
-  await stampSegnale("allinea-scan-cantiere", "errore", (e.message || e).toString().slice(0, 160));
-  console.error("ERRORE allinea-scan-cantiere:", e.message || e);
-  process.exit(1);
-});
+// ⚠️ Il CLI parte solo se questo file è LANCIATO, non quando un test ne importa una funzione.
+// Prima di questa guardia, `import` di questo modulo faceva girare l'allineatore INTERO e
+// riscriveva due file di memoria sotto i piedi di chi voleva solo provare una riga — la stessa
+// forma già vista in `sonda-volano.mjs` e in `cantiere-prove.mjs`. Un modulo che non si può
+// importare non si può provare, e un fix che non si può provare non è un fix.
+if (import.meta.url === pathToFileURL(process.argv[1] || "").href) {
+  main().catch(async (e) => {
+    await stampSegnale("allinea-scan-cantiere", "errore", (e.message || e).toString().slice(0, 160));
+    console.error("ERRORE allinea-scan-cantiere:", e.message || e);
+    process.exit(1);
+  });
+}

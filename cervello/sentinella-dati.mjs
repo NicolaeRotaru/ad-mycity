@@ -51,7 +51,8 @@ import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { giorniDa } from "./fonte-numero.mjs"; // AR-280: i giorni si contano da un timestamp, in un posto solo
 import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
-import { misuraScaduta } from "./misura-o-cieco.mjs"; // AR-363: una misura ha una scadenza
+// AR-363: una misura ha una scadenza · AR-337: e chi non l'ha potuta prendere non la cancella
+import { conservaSeCieco, misuraScaduta } from "./misura-o-cieco.mjs";
 
 const LIVE = process.argv.includes("--live") || process.env.SENTINELLA_DATI_LIVE === "1";
 const JSON_MODE = process.argv.includes("--json");
@@ -85,7 +86,10 @@ const VOLANO_MIN = Number(process.env.SENTINELLA_DATI_VOLANO_MIN || 0.05);
 const SENSORI_STANTII_MIN = Number(process.env.SENTINELLA_DATI_SENSORI_STANTII_MIN || 180);
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
-const STATE_PATH = join(VAULT, "sentinella-dati.json");
+// Sovrascrivibile SOLO per provare la sentinella su uno stato finto (AR-284/AR-337: che una misura
+// cieca calpesti i numeri veri va DIMOSTRATO facendolo accadere, e non si può farlo accadere sullo
+// stato che il Pannello mostra a Nicola).
+const STATE_PATH = process.env.SENTINELLA_DATI_STATE_FILE || join(VAULT, "sentinella-dati.json");
 const CECITA_PATH = join(VAULT, "sensori-cecita.json");
 const STORICO_PATH = join(VAULT, "storico-salute.json");
 const RADIOGRAFIA_PATH = join(VAULT, "auto-radiografia.json");
@@ -713,13 +717,46 @@ async function main() {
   else if (!state.ultima_recensione_vista) state.ultima_recensione_vista = nowIso; // baseline primo giro
   state.tick = (state.tick || 0) + 1;
   state.aggiornato = quando;
-  state.ultimo_stato = {
-    quando, dati_leggibili: s.dati_leggibili,
-    ordini_tot: s.ordini_tot, ordini_24h: s.ordini_24h, pagati_senza_payout: s.pagati_senza_payout,
-    recensioni_basse: s.recensioni_basse, negozi_fermi: (s.negozi_fermi || []).length, carrelli: s.carrelli_da_recuperare,
-    worker_eta_min: s.worker_eta_min, sensori_max_ciechi: s.sensori_max_ciechi, salute_voto: s.salute_voto,
-    radiografia_gg: s.radiografia_ore != null ? Math.round(s.radiografia_ore / 24) : null, volano_tasso: s.volano_tasso,
-  };
+
+  // AR-337 — QUESTO FILE TIENE DUE GENERI DI STATO, E UNA GUARDIA SOLA NON PUÒ SERVIRLI ENTRAMBI.
+  //
+  // Dentro `sentinella-dati.json` convivono ① ciò che si MISURA DA FUORI (ordini, payout fermi,
+  // recensioni: si vede solo da dove ci sono MARKETPLACE_SUPABASE_URL/KEY) e ② ciò che la sentinella
+  // RICORDA DI SÉ (tick, cosa ha già accodato, storia: si sa sempre, ovunque). Prima l'intero
+  // `ultimo_stato` si riscriveva comunque: da una sessione senza chiavi i campi del business
+  // tornavano `null` e il file condiviso — quello che il Pannello mostra a Nicola — perdeva i numeri
+  // che il VPS aveva misurato davvero.
+  //
+  // La guardia secca «se sei cieco non scrivere niente» qui NON va bene, ed è il motivo per cui
+  // questo difetto non si è chiuso con AR-281: bloccando tutta la scrittura si perderebbe anche la
+  // memoria anti-doppione (`accodati_ts`, `regole`, `tick`), e la sentinella ri-accoderebbe le stesse
+  // card a ogni tick. Si curerebbe una bugia creandone una peggiore.
+  //
+  // Quindi il taglio passa DENTRO la scrittura: i campi misurati da fuori restano di chi li ha
+  // misurati (marcati `non_misurato_in_questo_ambiente`, così nessuno li legge come freschi), la
+  // memoria di sé continua a scriversi sempre. I campi macchina qui sotto — worker, sensori, salute,
+  // radiografia, volano — si leggono da file locali e restano veri anche senza chiavi: quelli si
+  // aggiornano comunque.
+  const CAMPI_DAL_MARKETPLACE = [
+    "dati_leggibili", "ordini_tot", "ordini_24h", "pagati_senza_payout",
+    "recensioni_basse", "negozi_fermi", "carrelli",
+  ];
+  state.ultimo_stato = conservaSeCieco(
+    state.ultimo_stato,
+    {
+      quando, dati_leggibili: s.dati_leggibili,
+      ordini_tot: s.ordini_tot, ordini_24h: s.ordini_24h, pagati_senza_payout: s.pagati_senza_payout,
+      recensioni_basse: s.recensioni_basse, negozi_fermi: (s.negozi_fermi || []).length, carrelli: s.carrelli_da_recuperare,
+      worker_eta_min: s.worker_eta_min, sensori_max_ciechi: s.sensori_max_ciechi, salute_voto: s.salute_voto,
+      radiografia_gg: s.radiografia_ore != null ? Math.round(s.radiografia_ore / 24) : null, volano_tasso: s.volano_tasso,
+    },
+    {
+      misurato: Boolean(MK_URL && MK_KEY),
+      campi: CAMPI_DAL_MARKETPLACE,
+      quando,
+      motivo: "MARKETPLACE_SUPABASE_URL/KEY assenti da questa sessione: i numeri del business non li ho potuti leggere da qui, questi sono di chi li ha misurati",
+    },
+  );
   state.storia = (state.storia || []).slice(-99);
   const nAccodati = accodati.filter((a) => a.job && a.job !== "(dry-run)").length;
   state.storia.push({ quando, eventi: eventi.length, accodati: nAccodati, allertati: allertati.length });

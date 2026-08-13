@@ -27,6 +27,7 @@ import { dirname, isAbsolute, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { MOTIVO, codiceUscita, motivoDi, quadroSpenti, serveNicola } from "./sensore-spento.mjs";
 import { prossimoNumero } from "./pausa-coda.mjs";
+import { timbroOra } from "./ora-piacenza.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..");
@@ -79,7 +80,7 @@ function main() {
 
   const rapporto = {
     ok: buchi.length === 0,
-    quando: new Date().toISOString().slice(0, 16).replace("T", " "),
+    quando: timbroOra(),
     fonte: `${CECITA} + ${MOTIVI}`,
     accesi: quadro.accesi,
     totale: quadro.totale,

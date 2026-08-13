@@ -7,6 +7,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { timbroOra } from "./ora-piacenza.mjs";
 
 const args = process.argv.slice(2);
 const RUN = args[0];
@@ -94,7 +95,7 @@ const NOMI = {
   worker: "Il worker e il server", github: "La repo su GitHub", codice: "Il mio codice",
 };
 
-const ora = new Date().toISOString().slice(0, 16).replace("T", " ");
+const ora = timbroOra();
 const L = [];
 L.push(`---\ndata: ${ora}\n---\n`);
 L.push(`# Radiografia di tutti gli organi\n`);

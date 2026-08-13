@@ -425,6 +425,39 @@ export function remotoEDavveroVecchio(cfg, shaRemoto, candidati) {
 }
 
 /**
+ * IL PUNTO CHE DECIDE quando il lease viene rifiutato: il remoto è nostro (si ripubblica) o è di un
+ * altro (ci si ferma)?
+ *
+ * AR-461 — PERCHÉ QUESTO BLOCCO È USCITO DA `main()`. Il fix di AR-451 sta in una riga sola: fra i
+ * candidati passati a `remotoEDavveroVecchio` ci va anche `rebaseInfo.preRebaseSha`, il ramo com'era
+ * un attimo prima che questa corsa lo ribasasse. La prova di AR-451 esercitava benissimo
+ * `remotoEDavveroVecchio` e `rebasaSuRiferimento` — ma non il punto che le chiama: togliendo
+ * `rebaseInfo.preRebaseSha` da quella riga, la prova restava VERDE (misurato con non-vacuita.mjs).
+ * Cioè il bug che è costato quattro PR ricreate in una notte poteva tornare senza che nessun rosso
+ * lo dicesse.
+ *
+ * Finché la riga viveva dentro `main()` — 200 righe che parlano di argomenti, token e API di GitHub —
+ * l'unico modo di provarla era cercarne il testo in un file, che in questa casa non è una prova.
+ * Estratta qui, il cablaggio si guida su due repo veri in una cartella temporanea: `url` accetta un
+ * percorso locale, quindi `ls-remote` e `fetch` funzionano davvero senza rete né token.
+ *
+ * NON decide il push: risponde alla domanda e basta. Chi chiama fa la mossa.
+ *
+ * @returns {{shaRemoto: string|null, shaLocale: string|null, remotoAntenato: boolean}}
+ */
+export function esitoLeaseRifiutato(cfg, url, branch, rebaseInfo = {}) {
+  const remoto = gitOrNull(["ls-remote", url, `refs/heads/${branch}`], cfg.cwd);
+  const shaRemoto = remoto ? remoto.split(/\s+/)[0] : null;
+  const shaLocale = gitOrNull(["rev-parse", `refs/heads/${branch}`], cfg.cwd);
+  let remotoAntenato = false;
+  if (shaRemoto && shaLocale) {
+    gitOrNull(["fetch", url, `refs/heads/${branch}`], cfg.cwd);
+    remotoAntenato = remotoEDavveroVecchio(cfg, shaRemoto, [shaLocale, rebaseInfo.preRebaseSha]);
+  }
+  return { shaRemoto, shaLocale, remotoAntenato };
+}
+
+/**
  * Il rebase vero, su un riferimento già risolto.
  *
  * AR-449 · AR-445 — PERCHÉ È SEPARATO DA `rebaseBranchOntoBase`: quella chiama `fetchBase`, che vuole rete e
@@ -802,14 +835,10 @@ async function main() {
       // prima che questa corsa lo ribasasse: se il remoto è antenato di quello, è la nostra stessa
       // pubblicazione precedente, non il lavoro di qualcun altro.
       if (rebaseInfo.baseRef) {
-        const remoto = gitOrNull(["ls-remote", url, `refs/heads/${branch}`], cfg.cwd);
-        const shaRemoto = remoto ? remoto.split(/\s+/)[0] : null;
-        const shaLocale = gitOrNull(["rev-parse", `refs/heads/${branch}`], cfg.cwd);
-        let remotoAntenato = false;
-        if (shaRemoto && shaLocale) {
-          gitOrNull(["fetch", url, `refs/heads/${branch}`], cfg.cwd);
-          remotoAntenato = remotoEDavveroVecchio(cfg, shaRemoto, [shaLocale, rebaseInfo.preRebaseSha]);
-        }
+        // AR-461 — la decisione sta in `esitoLeaseRifiutato`, qui sopra, e non più in queste righe.
+        // Non è ordine: è che dentro `main()` quella riga non la poteva provare nessuno, e infatti
+        // per mesi non l'ha provata nessuno. Fuori, si guida su due repo veri.
+        const { shaRemoto, remotoAntenato } = esitoLeaseRifiutato(cfg, url, branch, rebaseInfo);
         if (shaRemoto && remotoAntenato) {
           try {
             git(["push", `--force-with-lease=refs/heads/${branch}:${shaRemoto}`, url, ref], cfg.cwd);

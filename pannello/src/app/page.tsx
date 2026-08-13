@@ -138,7 +138,8 @@ import {
   type GruppoLavori,
 } from "@/lib/lavori-gruppo";
 import { accodaSyncConvMeta, caricaConvMeta, mergeLette } from "@/lib/conv-meta";
-import { ripristinaSub } from "@/lib/nav";
+import { destinazioneDaHash, ripristinaSub } from "@/lib/nav";
+import { voceDiNavigazione } from "@/lib/strati";
 import { deveChiudereOverlay, eTastoChiudi, overlayInCima, type StatoOverlay } from "@/lib/overlay-chiusura";
 import { useStrato } from "@/lib/useStrato";
 import { emitSync, emitSyncDaLavoriFiniti, usePanelSync } from "@/lib/panel-sync";
@@ -1064,8 +1065,12 @@ export default function Dashboard() {
     // Next tiene i suoi internals di routing lì dentro (stessa cautela di vaiSub in lib/nav.ts).
     if (!storia || typeof window === "undefined") return;
     try {
-      const st = window.history.state || {};
-      if (st.overlay !== "worker") {
+      const grezzo = window.history.state || {};
+      if (grezzo.overlay !== "worker") {
+        // AR-606 — prima di timbrare si spogliano i marcatori ereditati (il `strato` di un pannello
+        // già chiuso, che `history.state` si porta dietro anche dopo un ricaricamento): la voce nuova
+        // deve dire UNA cosa sola, «qui è aperto il Worker». Gli internals di Next restano dentro.
+        const st = voceDiNavigazione(grezzo);
         window.history.pushState({ ...st, overlay: "worker" }, "", window.location.pathname + window.location.search);
       }
     } catch {}
@@ -2090,13 +2095,30 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         iniz = v;
       }
     } catch {}
+    // AR-609 — l'INDIRIZZO comanda sull'ultima area salvata. Prima la vista iniziale veniva solo da
+    // localStorage: un vecchio link col cancelletto (`/#auto-coscienza`, che gira ancora in lettere e
+    // note) apriva l'ultima area visitata e il cancelletto moriva in silenzio — sembrava funzionare
+    // solo se per caso eri già sulla scheda giusta. Chi apre un link vuole quel posto, non l'ultimo.
+    try {
+      const d = destinazioneDaHash(window.location.hash);
+      if (d) {
+        applicaVistaSalvata(d.vista);
+        iniz = d.vista;
+        // La scheda interna arriva alle aree con lo stesso canale del tasto indietro; il timeout la
+        // fa trovare montata (le aree consumano anche il buffer di nav.ts al primo montaggio).
+        if (d.sub) setTimeout(() => ripristinaSub(d.vista, d.sub!), 0);
+      }
+    } catch {}
     // Semina la voce di cronologia iniziale con la vista di partenza: senza, la voce base ha
     // state=null e il tasto INDIETRO fa un clic a vuoto e poi esce dal Pannello.
     // MERGE con lo stato esistente: Next.js (App Router) tiene i suoi internals in history.state
     // (__NA, __PRIVATE_NEXTJS_INTERNALS_TREE). Sovrascrivere lo state li cancella → al primo INDIETRO
     // Next non riconosce la voce e fa un RELOAD dell'intera pagina (ti sbatte fuori dall'area). Fondendo
     // preserviamo gli internals e la navigazione resta client-side.
-    try { window.history.replaceState({ ...(window.history.state || {}), vista: iniz }, ""); } catch {}
+    // AR-606 — la voce base si SPOGLIA dei marcatori (`strato`, `overlay`): `history.state`
+    // sopravvive al ricaricamento, quindi senza questo un pannello chiuso ieri lasciava il suo
+    // timbro nella prima voce di oggi — e da lì l'indietro andava dove non doveva.
+    try { window.history.replaceState(voceDiNavigazione(window.history.state, { vista: iniz }), ""); } catch {}
     ultimaVistaStoria.current = iniz;
   }, []);
   useEffect(() => {
@@ -2108,7 +2130,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     if (ultimaVistaStoria.current !== vista) {
       // URL = pathname+search (niente hash): cambiando AREA non trasciniamo il residuo di hash
       // di una scheda interna precedente (era una fonte del "clic a vuoto" nel tasto INDIETRO).
-      try { window.history.pushState({ ...(window.history.state || {}), vista }, "", window.location.pathname + window.location.search); } catch {}
+      // AR-606 — voce di navigazione PULITA: cambiando area non ci si porta dietro il marcatore di
+      // un pannello che nel frattempo si è chiuso (era il fantasma che poi faceva sbagliare strada
+      // all'indietro, e che diceva al menù riaperto «sei già timbrato» impedendogli di chiudersi).
+      try { window.history.pushState(voceDiNavigazione(window.history.state, { vista }), "", window.location.pathname + window.location.search); } catch {}
       ultimaVistaStoria.current = vista;
     }
   }, [vista]);

@@ -5,6 +5,11 @@
 // (Azioni, Cervello) ascoltano lo stesso evento e aprono la scheda giusta.
 // Serve ai link bidirezionali "Da approvare" ⇄ origine: clicchi e arrivi alla casella esatta.
 
+// L'unico import: la voce di cronologia «pulita» vive in strati.ts perché è lì che nasce il
+// marcatore che va tolto. Percorso con estensione .ts (allowImportingTsExtensions, già usato da
+// selezione-autopilota.ts): così questo modulo resta eseguibile da un test Node, senza bundler.
+import { voceDiNavigazione } from "./strati.ts";
+
 export type VistaNav =
   | "plancia"
   | "azioni"
@@ -58,12 +63,31 @@ export function vaiArea(vista: VistaNav, anchor?: string, sub?: string) {
 export function vaiSub(vista: string, sub: string) {
   if (typeof window === "undefined") return;
   try {
-    window.history.pushState(
-      { ...(window.history.state || {}), vista, sub },
-      "",
-      window.location.pathname + window.location.search,
-    );
+    const voce = voceSubDaTimbrare(window.history.state, vista, sub);
+    if (!voce) return; // AR-245: niente è cambiato, niente da timbrare
+    window.history.pushState(voce, "", window.location.pathname + window.location.search);
   } catch {}
+}
+
+/**
+ * AR-245 — la voce da timbrare per un cambio di SCHEDA, o `null` se non c'è niente da timbrare.
+ *
+ * Il difetto: ritoccando la scheda su cui sei già (o toccandola due volte, cosa normalissima col
+ * pollice) si timbrava comunque un gradino di cronologia. Poi l'indietro lo consumava senza cambiare
+ * nulla a video: un colpo a vuoto, e sembra che il tasto sia rotto.
+ *
+ * La guardia esisteva già per il cambio di AREA (`if (ultimaVistaStoria.current !== vista)` in
+ * page.tsx) ma viveva LÌ, non nell'atto: le schede sono entrate in cronologia dopo e non potevano
+ * ereditarla. Qui sta dentro `vaiSub`, cioè al confine dell'atto, e vale per tutti e sei i chiamanti
+ * (Azioni, Lavori, Memoria, Storico, Macchina) senza toccarli uno per uno.
+ *
+ * `voceDiNavigazione` spoglia i marcatori degli strati: una scheda nuova non è un pannello aperto
+ * (AR-606).
+ */
+export function voceSubDaTimbrare(statoCorrente: unknown, vista: string, sub: string): Record<string, unknown> | null {
+  const st = statoCorrente && typeof statoCorrente === "object" ? (statoCorrente as { vista?: unknown; sub?: unknown }) : null;
+  if (st && st.vista === vista && st.sub === sub) return null;
+  return voceDiNavigazione(statoCorrente, { vista, sub });
 }
 
 // Ripristino di una sotto-scheda dopo il tasto INDIETRO: il popstate centrale lo emette,
@@ -105,4 +129,102 @@ export function consumaSubPendente(vista: string): string | null {
   const s = subPendente.sub;
   subPendente = null;
   return s;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// 🔗 I LINK PROFONDI (AR-609 / AR-610): un indirizzo scritto o salvato deve atterrare in un posto.
+//
+// Il Pannello è una pagina sola: l'area si sceglie con lo stato, e all'avvio veniva letta SOLO da
+// `localStorage`. Quindi l'indirizzo non instradava niente: un vecchio link col cancelletto
+// (`/#auto-coscienza`, finito in lettere e note) apriva l'ultima area visitata, e il cancelletto
+// moriva in silenzio — funzionava per caso, solo se eri già sulla scheda giusta. E un percorso
+// plausibile ma inesistente (`/azioni`: sono i nomi delle aree, è naturale digitarli) cadeva sul 404
+// inglese di Next, senza una riga in italiano né un link per rientrare.
+//
+// Qui c'è la decisione — dove porta un indirizzo — come funzione pura. Chi la applica è page.tsx
+// all'avvio (per il cancelletto) e not-found.tsx (per il percorso sbagliato).
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Le aree con il loro nome parlato: servono a instradare e a scriverlo in una pagina d'errore. */
+export const AREE_NOTE: Record<string, string> = {
+  plancia: "Plancia",
+  azioni: "Azioni",
+  lavori: "Lavori",
+  cervello: "Macchina",
+  "salute-sito": "Salute del sito",
+  "auto-coscienza": "Auto-coscienza",
+  numeri: "Numeri",
+  "analisi-report": "Analisi e report",
+  memoria: "Memoria",
+  persone: "Persone",
+  operazioni: "Operazioni",
+  mondo: "Mondo",
+  intelligence: "Intelligence",
+  assistente: "Worker",
+  contenuti: "Diretta contenuti",
+};
+
+export type Destinazione = { vista: VistaNav; sub?: string };
+
+/** Normalizza un pezzo d'indirizzo: via il cancelletto, via le barre, tutto minuscolo. */
+function ripulisci(pezzo: string | null | undefined): string {
+  return String(pezzo || "")
+    .trim()
+    .replace(/^[#/]+/, "")
+    .replace(/\/+$/, "")
+    .toLowerCase();
+}
+
+/**
+ * Dove porta un vecchio link col cancelletto. `null` se non porta da nessuna parte riconoscibile —
+ * e in quel caso chi chiama NON deve muovere niente (l'area salvata resta quella che era).
+ *
+ * Regge sia `#azioni` sia `#azioni/approvare` (area + scheda). `#auto-coscienza` è il caso storico:
+ * il link vecchio puntava alla card dell'auto-analisi, che oggi è la scheda «analisi» della sua area.
+ */
+export function destinazioneDaHash(hash: string | null | undefined): Destinazione | null {
+  const pulito = ripulisci(hash);
+  if (!pulito) return null;
+  const [area, ...resto] = pulito.split("/");
+  // Alias storici: viste vecchie che il Pannello sa già tradurre da sé (applicaVistaSalvata).
+  const LEGACY: Record<string, Destinazione> = {
+    "auto-coscienza": { vista: "auto-coscienza", sub: "analisi" },
+    autocoscienza: { vista: "auto-coscienza", sub: "analisi" },
+    report: { vista: "report" },
+    esplora: { vista: "esplora" },
+    storico: { vista: "storico" },
+  };
+  if (LEGACY[area] && !resto.length) return LEGACY[area];
+  if (!AREE_NOTE[area] && !LEGACY[area]) return null;
+  const sub = resto.join("/");
+  return sub ? { vista: area as VistaNav, sub } : { vista: area as VistaNav };
+}
+
+/**
+ * Dove voleva andare chi ha digitato un percorso che non esiste (`/azioni`, `/lavori/`). `null` se
+ * non somiglia a niente di nostro.
+ */
+export function destinazioneDaPercorso(pathname: string | null | undefined): Destinazione | null {
+  const pulito = ripulisci(pathname);
+  if (!pulito) return null;
+  return destinazioneDaHash(pulito);
+}
+
+/** Un link è una destinazione scritta come indirizzo: `/#azioni`, `/#azioni/approvare`. */
+export function linkDiDestinazione(d: Destinazione | null): string {
+  if (!d?.vista) return "/";
+  return d.sub ? `/#${d.vista}/${d.sub}` : `/#${d.vista}`;
+}
+
+/**
+ * AR-610 — le vie d'uscita da una pagina che non esiste. **Non è mai vuoto**: quello era il difetto —
+ * una schermata che dice solo «404» e ti lascia lì. La prima via è l'area che il percorso sbagliato
+ * lascia intendere (se si capisce), l'ultima è sempre la Cabina.
+ */
+export function viePerTornare(pathname: string | null | undefined): { testo: string; href: string }[] {
+  const vie: { testo: string; href: string }[] = [];
+  const d = destinazioneDaPercorso(pathname);
+  if (d && AREE_NOTE[d.vista]) vie.push({ testo: `Vai a ${AREE_NOTE[d.vista]}`, href: linkDiDestinazione(d) });
+  vie.push({ testo: "Torna alla Cabina", href: "/" });
+  return vie;
 }

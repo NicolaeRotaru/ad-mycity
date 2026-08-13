@@ -94,6 +94,38 @@ export function codiceUscita(esito) {
   return 2;
 }
 
+/**
+ * L'esito di `verdettoSensori` (lib-sensori-verdetto.mjs) tradotto nel contratto 0/1/2 — AR-662.
+ *
+ * Quel verdetto ha tre etichette e NON sono le tre di qui: vanno tradotte, non ricopiate.
+ *
+ *   · `ok`            → ho misurato l'ambiente e almeno un sensore risponde                    → 0
+ *   · `cieco`         → i sensori d'ambiente c'ERANO (chiavi presenti) e NESSUNO ha risposto.
+ *                       Il guardiano ha guardato e ha trovato il guasto: è una violazione vera  → 1
+ *   · `non_misurato`  → da questa sessione non c'era NIENTE di misurabile (nessuna chiave).
+ *                       Non è un guasto della macchina: è un buco nel punto d'osservazione      → 2
+ *
+ * PERCHÉ `cieco` NON diventa 2, contro quello che proponeva la scheda di AR-662. Due ragioni, e la
+ * seconda è quella che si paga:
+ *   ① di significato — «le chiavi ci sono e nessun sensore risponde» è una misura riuscita che ha
+ *      trovato una cosa storta, non una misura mancata;
+ *   ② di conseguenza — `cervello/salute.mjs` giudica questo comando con `rossoSe: (c) => c === 1` e
+ *      SENZA `ciecoSe`. Portando `cieco` a 2 quel controllo cadrebbe nel ramo buono e stamperebbe
+ *      «almeno un sensore dati vede il marketplace» proprio nel caso in cui le chiavi ci sono e non
+ *      vede niente nessuno. Cioè: curando il nome sbagliato di un rosso ci si comprerebbe un verde
+ *      falso — la stessa malattia, spostata di un file.
+ *
+ * Fail-closed sulle etichette: una che non conosco non compra il verde, esce 2.
+ */
+export function codiceUscitaSensori(esitoSensori) {
+  const tradotto = {
+    ok: OK,
+    cieco: ROTTO,
+    non_misurato: CIECO,
+  }[String(esitoSensori ?? "")];
+  return codiceUscita(tradotto ?? CIECO);
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // ② La misura ha una scadenza
 // ─────────────────────────────────────────────────────────────────────────────
@@ -210,4 +242,63 @@ export function oreUmane(minuti) {
 export function segnaleDa(stato, mappa, seNonSo = "warn") {
   const k = stato === null || stato === undefined ? "" : String(stato);
   return Object.hasOwn(mappa || {}, k) ? mappa[k] : seNonSo;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ④ Chi non ha potuto guardare non cancella chi aveva guardato
+// ─────────────────────────────────────────────────────────────────────────────
+//
+// La quarta forma, ed è quella che costa di più (AR-337, AR-568). Un file di stato condiviso tiene
+// insieme due generi che sembrano uno solo:
+//   · ciò che si MISURA DA FUORI  — ordini, incassi, sensori: si vede solo da dove ci sono le chiavi;
+//   · ciò che si RICORDA DI SÉ    — tick, cosa ho già accodato, storia: si sa sempre, ovunque.
+// Una guardia sola non può servirli entrambi. «Non scrivo niente» fa ri-accodare le stesse card a
+// ogni tick (si cura una bugia creandone una peggiore); «scrivo tutto» fa sì che una sessione senza
+// chiavi riscriva a `null` i numeri che il VPS aveva misurato davvero. La cura è separarli DENTRO la
+// scrittura: la memoria di sé va sempre, i campi misurati da fuori restano di chi li ha misurati.
+
+/** Il campo che dice, dentro il dato stesso, «questi valori non li ho misurati io». */
+export const MARCA_NON_MISURATO = "non_misurato_in_questo_ambiente";
+
+/**
+ * Fonde la misura nuova con quella già scritta, tenendo per sé SOLO ciò che ha potuto misurare.
+ *
+ * @param {object|null|undefined} prima  lo stato già sul disco (di chi le chiavi ce le aveva).
+ * @param {object} misura                i campi appena calcolati in questa esecuzione.
+ * @param {object} p
+ * @param {boolean} p.misurato   il dominio era davvero misurabile da qui (chiavi presenti)?
+ * @param {string[]} p.campi     i nomi dei campi che dipendono da quel dominio: gli unici che questa
+ *                               esecuzione ha il diritto di sovrascrivere, e solo se ha misurato.
+ * @param {string} p.quando      il timbro di questa esecuzione, per dire QUANDO si è stati ciechi.
+ * @param {string} p.motivo      che cosa mancava, in parole umane.
+ * @returns {object} il documento da scrivere.
+ */
+export function conservaSeCieco(prima, misura, { misurato, campi = [], quando = "", motivo = "" } = {}) {
+  const fuori = { ...(misura || {}) };
+  if (misurato) {
+    // Chi ha misurato davvero ripulisce anche la marca lasciata dai ciechi che sono passati prima.
+    delete fuori[MARCA_NON_MISURATO];
+    return fuori;
+  }
+  for (const c of campi) {
+    // `hasOwn` e non un `??`: un `null` misurato davvero (zero ordini letti come nulli) è un valore,
+    // e va conservato. Se il campo non c'era proprio, resta quello che la misura cieca ha messo —
+    // di solito `null`, che è la verità: nessuno l'ha mai visto.
+    if (prima && Object.hasOwn(prima, c)) fuori[c] = prima[c];
+  }
+  fuori[MARCA_NON_MISURATO] = `${quando}: ${motivo}`.trim();
+  return fuori;
+}
+
+/**
+ * Da DOVE è stata presa una misura. Serve a leggere un file di stato e sapere se chi l'ha scritto
+ * poteva vedere: `vps` (le chiavi ce le ha) · `cloud` (sessione dell'agente, quasi sempre cieca) ·
+ * `locale` (la macchina di casa). Senza questo campo una misura è anonima, e una misura anonima non
+ * si può confrontare con nessuna.
+ */
+export function origineMisura(env = process.env) {
+  if (env.MYCITY_ORIGINE) return String(env.MYCITY_ORIGINE);
+  if (env.VPS === "1" || env.MYCITY_VPS === "1") return "vps";
+  if (env.CLAUDE_CODE_REMOTE || env.CODESPACES || env.CI) return "cloud";
+  return "locale";
 }

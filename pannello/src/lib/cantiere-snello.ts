@@ -69,6 +69,71 @@ export function eChiuso(d: Difetto): boolean {
 }
 
 /**
+ * AR-456 — **IL RIASSUNTO PIÙ VECCHIO DELLA LISTA CHE RIASSUME.**
+ *
+ * In `cantiere-difetti.json` convivono due cose: la LISTA dei difetti e un totale SCRITTO in
+ * `meta.aperti`, che aggiorna chi passa. Al primo che aggiunge una scheda senza toccare il meta le due
+ * divergono, e il Pannello leggeva il riassunto. Misurato il 13/8/2026 sul file vero: `meta.aperti`
+ * diceva **223**, i difetti non chiusi erano **281** — 58 di scarto, e nessun guardiano che confrontasse
+ * il riassunto con ciò che riassume. È la stessa famiglia di AR-175: due numeri diversi alla stessa
+ * domanda, e vince quello comodo, cioè il più piccolo.
+ *
+ * Il conto qui si DERIVA dalla lista a ogni lettura: un numero derivato non può invecchiare.
+ *
+ * Due scelte che questa funzione fa apposta, ed è il motivo per cui è una funzione e non un `.filter`:
+ *
+ *   1. **`da_fare` è tutto ciò che NON è chiuso**, non «aperto + in-corso». Lo stesso 13/8 c'erano 225
+ *      `aperto`, 0 `in-corso` e **56 `da-riverificare`**: sommando solo i due stati previsti, 56 difetti
+ *      veri sparivano dal numero che Nicola guarda. Uno stato che non conosco non è un difetto risolto.
+ *   2. **`per_stato` è esaustivo**: qualunque etichetta appaia finisce lì dentro con il suo conto, così
+ *      una nuova non può nascondersi dentro un totale.
+ */
+export type ContoCantiere = {
+  totale: number;
+  chiusi: number;
+  da_fare: number;
+  per_stato: Record<string, number>;
+};
+
+export function contaDifetti(difetti: unknown): ContoCantiere {
+  const lista = Array.isArray(difetti) ? (difetti as Difetto[]).filter(Boolean) : [];
+  const per_stato: Record<string, number> = {};
+  let chiusi = 0;
+  for (const d of lista) {
+    const stato = String(d?.stato ?? "").trim() || "(senza stato)";
+    per_stato[stato] = (per_stato[stato] ?? 0) + 1;
+    if (eChiuso(d)) chiusi++;
+  }
+  return { totale: lista.length, chiusi, da_fare: lista.length - chiusi, per_stato };
+}
+
+/**
+ * Il `meta` da servire al Pannello: i totali sono DERIVATI dalla lista, mai quelli scritti nel file.
+ *
+ * Il totale scritto non si butta in silenzio — resta come `scritto`, e `divergenza` dice di quanto
+ * sbagliava. Serve a due cose: si vede a occhio quando il file ha smesso di aggiornarsi, e se un
+ * giorno qualcuno rimettesse il numero scritto al posto di questo, la differenza è già misurata.
+ *
+ * `aperti` qui significa **non chiuso**, la stessa definizione con cui la scheda filtra la lista che
+ * disegna. Prima ne giravano tre nella stessa risposta (223 dal meta scritto, 225 contando solo
+ * `aperto`, 281 contando i non chiusi): erano tre risposte alla stessa domanda, nella stessa pagina.
+ */
+export function metaDerivata(cantiere: { difetti?: unknown; meta?: unknown } | null | undefined): Record<string, unknown> {
+  const conto = contaDifetti(cantiere?.difetti);
+  const scritto = typeof cantiere?.meta === "object" && cantiere?.meta ? (cantiere.meta as Record<string, unknown>) : {};
+  const apertiScritti = Number(scritto.aperti);
+  return {
+    ...scritto,
+    aperti: conto.da_fare,
+    chiusi: conto.chiusi,
+    per_stato: conto.per_stato,
+    derivato_dalla_lista: true,
+    scritto: { aperti: Number.isFinite(apertiScritti) ? apertiScritti : null },
+    divergenza: Number.isFinite(apertiScritti) ? conto.da_fare - apertiScritti : null,
+  };
+}
+
+/**
  * Compone la risposta del cantiere invece di inoltrare il file.
  *
  * Dichiara sempre i totali VERI (`aperti`, `chiusi`) anche quando manda una finestra: un elenco
@@ -93,11 +158,10 @@ export function cantiereSnello(
       ...aperti.map((d) => soloCampi(d, CAMPI_APERTO)),
       ...mostrati.map((d) => ({ ...soloCampi(d, CAMPI_CHIUSO), stato: "chiuso" })),
     ],
-    meta: {
-      ...(typeof cantiere.meta === "object" && cantiere.meta ? (cantiere.meta as Record<string, unknown>) : {}),
-      aperti: aperti.length,
-      chiusi: chiusi.length,
-    },
+    // AR-456 — i totali li deriva `metaDerivata`, la stessa funzione che usa la rotta della salute
+    // onesta. Prima il conto era scritto a mano qui: due posti che contano la stessa cosa sono due
+    // posti che prima o poi rispondono in modo diverso.
+    meta: metaDerivata(cantiere),
     troncato: { chiusi_mostrati: mostrati.length, chiusi_totali: chiusi.length },
   };
 }

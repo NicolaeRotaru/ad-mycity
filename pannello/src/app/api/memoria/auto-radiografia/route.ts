@@ -1,9 +1,10 @@
 import { NextResponse } from "next/server";
-import { cantiereSnello } from "@/lib/cantiere-snello";
+import { cantiereSnello, contaDifetti } from "@/lib/cantiere-snello";
 import { radiografiaSnella } from "@/lib/radiografia-snella";
-import { readVaultFile, readVaultFileEsito } from "@/lib/vault";
-import { sanificaListe } from "@/lib/memoria-json";
+import { leggiJsonVault, readVaultFile } from "@/lib/vault";
+import { listaSicura, sanificaListe } from "@/lib/memoria-json";
 import { serieSicura } from "@/lib/verdetto-dato";
+import { oreDaDataVault } from "@/lib/format";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -16,34 +17,17 @@ export const revalidate = 0;
 const BASE = "90-Memoria-AI/auto-coscienza";
 
 /**
- * AR-449 — LETTURA CON ESITO. Prima questa funzione tornava `null` sia per «il file non c'è» sia
- * per «non sono riuscito a leggerlo», e chi la chiamava trattava il null come lista vuota. Il
- * 2026-07-30, quando `cantiere-difetti.json` ha passato il MiB, la catena ha prodotto la bugia
- * peggiore che questa macchina possa dire: «Nessun difetto aperto 👍» con 162 difetti aperti, per
- * dodici ore. Adesso l'esito viaggia col dato: chi legge sa se sta guardando un vuoto o un buco.
+ * AR-449 — LETTURA CON ESITO. Prima si tornava `null` sia per «il file non c'è» sia per «non sono
+ * riuscito a leggerlo», e chi leggeva trattava il null come lista vuota. Il 2026-07-30, quando
+ * `cantiere-difetti.json` ha passato il MiB, la catena ha prodotto la bugia peggiore che questa
+ * macchina possa dire: «Nessun difetto aperto 👍» con 162 difetti aperti, per dodici ore.
+ *
+ * AR-415 — questa rotta si era però scritta la SUA copia di quel lettore (`leggiJson` +
+ * `dettaglioEsito`), e le altre rotte della memoria continuavano a usare il `readVaultFile` che il
+ * motivo lo buttava via. Adesso il lettore è uno solo, `leggiJsonVault`, e la frase da mostrare a
+ * Nicola la decide `esito-lettura.ts`: chi ne aggiunge una nuova la aggiunge per tutti.
  */
-type Letto = { dati: any | null; letto: boolean; motivo?: string };
-
-async function leggiJson(rel: string): Promise<Letto> {
-  const esito = await readVaultFileEsito(rel);
-  if (esito.stato === "assente") return { dati: null, letto: true }; // il file davvero non c'è: è un'informazione
-  if (esito.stato !== "ok" || esito.testo == null) {
-    return { dati: null, letto: false, motivo: dettaglioEsito(esito) };
-  }
-  try {
-    return { dati: JSON.parse(esito.testo), letto: true };
-  } catch (e: any) {
-    // JSON rotto NON è un file vuoto: è un file che c'è e che non sappiamo leggere.
-    return { dati: null, letto: false, motivo: `JSON non valido (${String(e?.message || e).slice(0, 120)})` };
-  }
-}
-
-function dettaglioEsito(e: { stato: string; dettaglio?: string }): string {
-  if (e.stato === "troppo-grande") return `file troppo grande per essere servito${e.dettaglio ? ` — ${e.dettaglio}` : ""}`;
-  if (e.stato === "auth") return "GitHub ha rifiutato l'accesso (token o permessi)";
-  if (e.stato === "github-giu") return "GitHub non raggiungibile";
-  return e.dettaglio || e.stato;
-}
+const leggiJson = leggiJsonVault<any>;
 
 // 🧹 Come per l'auto-analisi: il giro a volte scrive un voto sporco o un'intera frase in `trend`.
 // Nel banner compatto della Plancia (badge shrink-0) quel testo lungo sfonda la card. Sanifichiamo
@@ -80,28 +64,32 @@ function sanificaRadiografia(r: any): void {
   }
 }
 
-function oreDaDataPiacenza(dataStr: unknown): number | null {
-  const m = String(dataStr ?? "").match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
-  if (!m) return null;
-  const [, y, mo, d, h = "12", mi = "00"] = m;
-  const t = new Date(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`).getTime();
-  if (Number.isNaN(t)) return null;
-  return (Date.now() - t) / 3600000;
-}
+// AR-414 — l'età di un dato la calcola `oreDaDataVault` (lib/format.ts), che chiede a Europe/Rome il
+// fuso di QUELLA data. Qui c'era una copia con `+02:00` scritto a mano, identica carattere per
+// carattere a quella di auto-coscienza. Misurato: d'inverno dava un'ora IN PIÙ (il dato sembrava più
+// vecchio di quanto fosse), e `scan_stale` — la soglia delle 48 ore, qui sotto — scattava un'ora prima.
 
 /** Numeri LIVE dal cantiere + sonda: la lista «Radiografia» è una foto dell'audit, il cantiere è il backlog vivo. */
 function calcolaLive(radiografia: any, cantiere: any, cantiereLetto = true) {
   const sonda = radiografia?.sonda || {};
-  const difetti = Array.isArray(cantiere?.difetti) ? cantiere.difetti : [];
   // AR-449 — se il cantiere NON è stato letto, i conteggi sono `null`, non 0. Zero è un fatto
   // («non ci sono difetti aperti»); null è l'assenza di un fatto («non lo so»). Confonderli è
   // esattamente ciò che ha fatto dire alla Cabina «Nessun difetto aperto 👍» con 162 aperti.
-  const conta = (stato: string) => (cantiereLetto ? difetti.filter((d: any) => d?.stato === stato).length : null);
-  const aperti = conta("aperto");
-  const in_corso = conta("in-corso");
-  const chiusi = conta("chiuso");
-  const oreScan = oreDaDataPiacenza(radiografia?.data);
-  const oreSonda = oreDaDataPiacenza(sonda.data);
+  //
+  // AR-456 — e i conteggi li fa la funzione condivisa. Qui `aperti` contava solo `stato === "aperto"`
+  // mentre la scheda, due riquadri più in là, disegnava tutti i non chiusi: il 13/8 uscivano 225 in
+  // una frase e 281 in un badge, nella stessa pagina. `da_fare` sommava «aperto + in-corso» e lasciava
+  // fuori i 56 `da-riverificare` — difetti veri, spariti dal numero, perché il loro stato non era
+  // nell'elenco previsto. Adesso il metro è uno: chiuso, oppure da fare.
+  // AR-253 — la lista si difende PRIMA di contarla: `Array.isArray` protegge dal tipo sbagliato ma
+  // non dai buchi DENTRO (un `null` fra i difetti, e il conteggio esplode). `listaSicura` fa entrambe.
+  const difetti = listaSicura<any>(cantiere?.difetti);
+  const conto = cantiereLetto ? contaDifetti(difetti) : null;
+  const aperti = conto ? conto.da_fare : null;
+  const in_corso = conto ? (conto.per_stato["in-corso"] ?? 0) : null;
+  const chiusi = conto ? conto.chiusi : null;
+  const oreScan = oreDaDataVault(radiografia?.data);
+  const oreSonda = oreDaDataVault(sonda.data);
   const votoSonda = typeof sonda.voto_provvisorio === "number" ? sonda.voto_provvisorio : null;
   const votoScan = Number(radiografia?.voto_salute_architettura);
   // Preferisci la sonda se è più fresca dello scan completo (tipico dopo fix mergiati).
@@ -116,7 +104,8 @@ function calcolaLive(radiografia: any, cantiere: any, cantiereLetto = true) {
     aperti,
     in_corso,
     chiusi,
-    da_fare: aperti == null || in_corso == null ? null : aperti + in_corso,
+    da_fare: aperti, // AR-456: «da fare» = tutto ciò che non è chiuso, compresi gli stati che questo file non conosce
+    per_stato: conto ? conto.per_stato : null,
     cantiere_letto: cantiereLetto,
     findings_aperti: typeof radiografia?.sync_scan?.findings_aperti === "number"
       ? radiografia.sync_scan.findings_aperti

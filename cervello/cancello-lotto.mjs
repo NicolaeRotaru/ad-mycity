@@ -28,6 +28,8 @@ import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { comandoAmmesso, MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
 import { storiaDelRepo } from "./storia-git.mjs";
 import { contaProveDeboli } from "./chiusura-dichiarata.mjs";
+import { verdettoConTetto, testDelLotto, idSospetti, testRossi } from "./tetto-guardiano.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VELOCE = process.argv.includes("--veloce");
@@ -392,6 +394,29 @@ function basePerConfronto() {
   return { spec: "HEAD", nota: `${storia.motivo} → confronto con l'ultimo commit locale (i pezzi già committati non risultano toccati)` };
 }
 
+/** Un comando git che risponde con la sua uscita, o `null` se non ha potuto rispondere. */
+function gitOrNull(args) {
+  const r = spawnSync("git", args, { cwd: AD_ROOT, encoding: "utf8", timeout: 30_000, maxBuffer: 32 * 1024 * 1024 });
+  return r.status === 0 ? r.stdout : null;
+}
+
+/**
+ * AR-339 — un ELENCO DI PERCORSI si chiede alla porta, non a git direttamente.
+ *
+ * `gitOrNull(...).split("\n")` sembra equivalente e non lo è: senza il `-z` che mette la porta, un
+ * nome con l'accento o con uno spazio torna citato o spezzato, e il perimetro del lotto ci perde
+ * dentro un file — cioè un file mio viene contato come non-mio, che è esattamente ciò che il tetto
+ * deve distinguere. Qui il fallimento NON è un errore: fuori da un clone git l'elenco è vuoto e il
+ * cancello prosegue (il caso lo copre già `base.spec`), quindi si torna `[]` e non si alza niente.
+ */
+function elencoTracciato(args) {
+  try {
+    return percorsiDaGit(args, { cwd: AD_ROOT });
+  } catch {
+    return [];
+  }
+}
+
 function gitShow(spec) {
   const r = spawnSync("git", ["show", spec], { cwd: AD_ROOT, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
   return r.status === 0 ? r.stdout : null;
@@ -490,7 +515,37 @@ function esegui(nome, cmd, args, opts = {}) {
     coda: ucciso ? [...righe.slice(-5), `⏱️ non ha finito in tempo (${opts.timeout || 300_000} ms): rosso, non cieco`] : righeMotivo(righe),
     fallito: codice !== 0 && codice !== 2,
     cieco: codice === 2,
+    // AR-437 — l'uscita INTERA, per chi deve contare le violazioni e non solo vederle. `righeMotivo`
+    // tiene sei righe: bastano a un umano che legge, non a un tetto che deve dire un numero.
+    uscita: uscita,
   };
+}
+
+/**
+ * AR-437 — applica al passo la regola del TETTO, che da qui in poi è del cancello e non del guardiano.
+ *
+ * Mutare il passo invece di restituirne un altro è voluto: il verdetto finale (`passiRotti`) e la
+ * stampa leggono `fallito`/`cieco`/`coda`, e una seconda forma di passo che le stesse righe devono
+ * saper leggere è il modo in cui due strade divergono al primo cambiamento.
+ */
+function applicaTetto(passo, { quanti, delLotto, tetto, avvisi, violazioni, regola }) {
+  const v = verdettoConTetto({ codice: passo.codice, quanti, tetto, delLotto });
+  if (v.esito === "ok" || v.esito === "cieco") return v;
+  if (v.esito === "violazione") {
+    // Resta rosso, ma adesso il motivo dice DI CHI è: «tuo» o «il debito si è allargato», che sono
+    // due mosse diverse per chi legge. Prima erano la stessa riga.
+    passo.coda = [`❌ ${regola}: ${v.motivo}`, ...passo.coda];
+    violazioni.push({ regola, ids: v.chi || [], motivo: `${passo.nome} — ${v.motivo}` });
+    return v;
+  }
+  // DEBITO: il guardiano è rosso su roba di altri e sotto il tetto. Il passo NON blocca più, e il
+  // numero resta in chiaro fra gli avvisi: sparire sarebbe barare, bloccare sarebbe il cancello
+  // sempre rosso che si impara ad aggirare.
+  passo.fallito = false;
+  passo.debito = true;
+  passo.coda = [`⚠️ ${regola}: ${v.motivo}`, ...passo.coda];
+  avvisi.push(`${passo.nome} — ${v.motivo}`);
+  return v;
 }
 
 function main() {
@@ -562,10 +617,20 @@ function main() {
     // «abbassa il tetto con --aggiorna-tetti» e quel comando quel tetto non lo toccava. Un guardiano
     // che suggerisce un rimedio che non funziona insegna a ignorare i suoi consigli.
     const debolliOra = contaProveDeboli(difetti).deboli;
+    // AR-437 — i due tetti nuovi si dichiarano da qui, e ci vogliono i loro guardiani: il numero non
+    // si indovina, si misura. Costa i secondi delle due corse, e si paga solo con `--aggiorna-tetti`.
+    const onesteOra = idSospetti(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]).uscita).length;
+    const rossiOra = testRossi(esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: 600_000 }).uscita);
+    if (rossiOra === null) {
+      console.error("cancello-lotto: non ho saputo leggere l'esito della suite → non dichiaro un tetto che non ho misurato");
+      process.exit(2);
+    }
     const nuovo = {
       prova_con_or: Math.min(conOr.length, tetti.prova_con_or ?? conOr.length),
       mutazione_mancante: Math.min(senzaMutazione.length, tetti.mutazione_mancante ?? senzaMutazione.length),
       prova_debole: Math.min(debolliOra, tetti.prova_debole ?? debolliOra),
+      prove_oneste: Math.min(onesteOra, tetti.prove_oneste ?? onesteOra),
+      test_cervello: Math.min(rossiOra.length, tetti.test_cervello ?? rossiOra.length),
     };
     // Si FONDE con quello che c'è già: la prima versione riscriveva il file da zero e cancellava
     // le note (fra cui il perché il tetto non è zero). Un guardiano che perde le sue spiegazioni
@@ -685,7 +750,22 @@ function main() {
     // guarda a monte, il CODICE che lo riscriverà: ogni `writeFileSync(X, JSON.stringify(…, null, N))`
     // dove N non è l'indentazione che X ha sul disco. Misurato: 12.953 righe di diff contro 3.
     passi.push(esegui("nessuno impone la forma ai JSON", "node", ["cervello/indentazione-guardia.mjs"]));
-    passi.push(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]));
+    // AR-437 — `prove-oneste` passa dal TETTO come `prova-con-or`: il debito ereditato si conta e
+    // scende, ciò che il lotto tocca adesso non entra comunque. Prima il cancello ne propagava
+    // l'uscita secca, quindi un lotto sano restava bloccato dalle prove disoneste di radiografie
+    // vecchie — e un cancello che non può diventare verde viene aggirato al secondo giro.
+    const pOneste = esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]);
+    const disonesti = idSospetti(pOneste.uscita);
+    applicaTetto(pOneste, {
+      regola: "prove-oneste",
+      // Rosso e zero id estratti = non ho saputo contare → `null`, e allora non si assolve niente.
+      quanti: disonesti.length || null,
+      delLotto: toccati ? disonesti.filter((id) => toccati.includes(id)) : null,
+      tetto: tetti.prove_oneste ?? null,
+      avvisi,
+      violazioni: violazioniProve,
+    });
+    passi.push(pOneste);
     passi.push(esegui("spazzata dei fratelli", "node", ["cervello/spazzata-fratelli.mjs"]));
     // La spazzata chiede «questa malattia si è allargata?». Questo chiede l'altra metà: «la forma che
     // è appena tornata ce l'ha, un nome?» — senza, il registro invecchia da fermo (AR-499).
@@ -750,7 +830,33 @@ function main() {
     //
     // Non è un cieco da dichiarare: è una misura fuori posto. Vive dove la sua fonte esiste — la
     // VISITA (`salute.mjs`, organo `cervello.scrittura`) e la sessione dove sto scrivendo.
-    passi.push(esegui("test del cervello", "node", ["cervello/test-cervello.mjs"], { timeout: 600_000 }));
+    // AR-437 — la suite passa dalla stessa regola. `--json` invece del report perché un tetto ha
+    // bisogno di un NUMERO e dei NOMI, e sei righe di coda non li danno: senza i nomi, «tre test
+    // rossi da prima» e «hai appena rotto tre test» sono lo stesso rosso, e chi legge non sa se il
+    // lavoro è suo. Il perimetro del blocco duro sono i test che questo lotto ha scritto o toccato.
+    const pTest = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: 600_000 });
+    const rossi = testRossi(pTest.uscita);
+    const miei = testDelLotto(
+      // AR-339 — ENTRAMBI gli elenchi passano dalla porta, che mette il `-z`: senza, un nome con
+      // l'accento o con uno spazio torna citato o spezzato, e il perimetro del lotto ci perde
+      // dentro un file — cioè un file MIO viene contato come non-mio, che è precisamente la
+      // distinzione su cui poggia il blocco duro. Il guardiano `segreto-in-un-nome-con-l-accento`
+      // le vedeva tutte e due: la prima era sfuggita perché «diff» non sembra un elenco di nomi.
+      elencoTracciato(["diff", "--name-only", base.spec]),
+      elencoTracciato(["ls-files", "--others", "--exclude-standard"]),
+    );
+    applicaTetto(pTest, {
+      regola: "test-del-cervello",
+      quanti: rossi ? rossi.length : null,
+      delLotto: rossi ? rossi.filter((f) => miei.includes(f)) : null,
+      tetto: tetti.test_cervello ?? null,
+      avvisi,
+      violazioni: violazioniProve,
+    });
+    // Con `--json` il report leggibile sparisce: i nomi dei rossi vanno rimessi a mano, altrimenti si
+    // curerebbe il verde bugiardo creando un rosso indiagnosticabile (AR-450, di nuovo).
+    if (rossi?.length) pTest.coda = [...pTest.coda, ...rossi.slice(0, 8).map((f) => `❌ ${f}`)];
+    passi.push(pTest);
 
     // AR-393 — LA PROVA CHE LE PROVE PROVINO, ESEGUITA INVECE CHE NOMINATA.
     //

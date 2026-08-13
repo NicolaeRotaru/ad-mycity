@@ -31,6 +31,7 @@ import { spawnSync } from "node:child_process";
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync } from "node:fs";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { GIRI_PER_CRONICO, dilloAVoce, quadroCronicita, statoAllarme } from "./cronicita-allarmi.mjs";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
 import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
@@ -255,6 +256,61 @@ export function giudicaTracce(tracce, adesso = Date.now(), soglie = SOGLIE) {
   return ok(`ultima traccia ${Math.round(ore)} ore fa (${piuFresca.file})`, dati);
 }
 
+/**
+ * Il battito del RITMO: piano del mattino, report della sera, review della settimana.
+ *
+ * AR-594 — il 13/8 la sveglia delle cadenze era rossa (quattro fuori finestra, tre uscite saltando
+ * dei passi) e la parola «cadenza» non compariva NEMMENO UNA VOLTA in salute.json. Cioè il referto
+ * che Nicola apre per chiedere «la macchina sta bene?» rispondeva sugli altri organi e taceva
+ * proprio sul battito fermo. L'esito del guardiano esisteva già: gli mancava un lettore in questo
+ * referto — è la stessa forma del freno muto di AR-465, un piano più su.
+ *
+ * PURA: prende l'uscita del guardiano (`{partito, code, out}`) e ne fa un verdetto. La prova gliela
+ * inietta, così si può provare il caso «sei cadenze rosse» senza aspettare che accada davvero.
+ */
+export function giudicaCadenze(r) {
+  const prova = "node cervello/freschezza-cadenze.mjs";
+  if (!r?.partito) return { ...guasto(r?.motivo ?? "il guardiano delle cadenze non è partito"), prova };
+  let d = null;
+  const i = String(r.out ?? "").indexOf("{");
+  if (i >= 0) {
+    try {
+      d = JSON.parse(String(r.out).slice(i));
+    } catch {
+      /* resta null → ⚪ qui sotto: un guardiano che non risponde non è «tutto a posto» */
+    }
+  }
+  if (r.code === 2 || d?.cieco)
+    return { ...nonVisto(`non ho potuto leggere gli esiti delle cadenze: ${primaRigaUtile(r.out)}`), prova };
+  if (!d || !Array.isArray(d.invecchiate))
+    return { ...nonVisto("il guardiano delle cadenze non ha risposto in modo leggibile: non so dire se il ritmo gira"), prova };
+
+  const ferme = d.invecchiate.map((x) => x.tipo);
+  const saltate = (d.passiSaltati || []).map((x) => x.tipo);
+  if (ferme.length || saltate.length) {
+    const pezzi = [];
+    if (ferme.length)
+      pezzi.push(
+        ferme.length === 1
+          ? `1 cadenza su ${d.totali} non si alza più (${ferme[0]})`
+          : `${ferme.length} cadenze su ${d.totali} non si alzano più (${ferme.join(", ")})`,
+      );
+    if (saltate.length)
+      pezzi.push(saltate.length === 1 ? `1 è uscita saltando dei passi (${saltate[0]})` : `${saltate.length} sono uscite saltando dei passi (${saltate.join(", ")})`);
+    return { ...rotto(`il ritmo della macchina si è fermato: ${pezzi.join(", e ")}`, { ferme, saltate, totali: d.totali }), prova };
+  }
+  const maiViste = (d.maiViste || []).length;
+  return {
+    ...ok(
+      maiViste
+        ? `le cadenze che hanno girato sono tutte dentro la loro finestra (${maiViste} non ha ancora mai girato)`
+        : `tutte le ${d.totali} cadenze si sono alzate dentro la loro finestra`,
+      { totali: d.totali, maiViste },
+    ),
+    prova,
+  };
+}
+
 /** La coda: non quanti lavori ci sono, ma da quanto sono lì. */
 export function giudicaCoda(righe, adesso = Date.now(), soglie = SOGLIE) {
   const eta = (x) => (adesso - Date.parse(x.aggiornato_il || x.creato_il)) / 60_000;
@@ -326,24 +382,57 @@ export function giudicaPubblicazione({ rinvii, ahead, cieco } = {}, soglie = SOG
 }
 
 /**
- * L'indirizzo della Cabina: l'ambiente vince, il file committato è il fallback.
+ * Il valore di un fatto-chiave nel registro. PURA: prende il registro già letto, così la prova la
+ * esegue su un registro finto invece di dipendere da com'è oggi quello vero.
+ */
+export function valoreFatto(registro, id) {
+  const fatti = Array.isArray(registro?.fatti) ? registro.fatti : [];
+  const f = fatti.find((x) => x?.id === id);
+  const v = f?.valore;
+  return typeof v === "string" && v.trim() ? v.trim() : null;
+}
+
+/**
+ * L'indirizzo della Cabina: l'ambiente vince, poi il registro dei fatti, poi il vecchio ponte.
  *
- * L'URL del Pannello non è un segreto (è la pagina pubblica che Nicola apre dal telefono), ma per
- * mesi è vissuto SOLO nelle env del VPS: ogni sessione cloud rispondeva «manca PANNELLO_URL» e i due
- * controlli cabina.* restavano ⚪ per una chiave che non era mai servita. Il fallback committato
- * (cervello/ponte-cabina.json) toglie la dipendenza dalla chiave; resta quella — vera — dalla rete.
+ * AR-438. L'URL del Pannello non è un segreto — è la pagina pubblica che Nicola apre dal telefono —
+ * ma per mesi è vissuto SOLO nelle env del VPS: ogni sessione cloud rispondeva «manca PANNELLO_URL»
+ * e i due controlli cabina.* restavano ⚪ per una chiave che non era mai servita. Il codice trattava
+ * uguale due cose diverse: i SEGRETI (che giustamente fuori dal VPS non ci sono) e gli INDIRIZZI
+ * PUBBLICI (che si possono sapere ovunque).
+ *
+ * DOVE VIVE IL VALORE, che è l'altra metà del difetto. I fatti-chiave hanno UNA casa sola —
+ * `registro-fatti.json` (AR-102) — e questa funzione la interroga per prima. `cervello/ponte-cabina.json`
+ * resta solo come rete finché il fatto `cabina.url` non è registrato lì: quando c'è, il ponte va
+ * cancellato, perché due case per lo stesso valore sono il modo con cui un indirizzo vecchio
+ * sopravvive in un file e la macchina mente senza accorgersene.
+ *
+ * L'ordine non è un dettaglio: se un giorno il Pannello cambia casa, l'ambiente del VPS lo corregge
+ * subito e il registro lo corregge per tutti, senza toccare una riga di codice.
  */
 export function urlCabina(env = process.env, root = AD_ROOT) {
+  const pulisci = (v, fonte) => ({ url: String(v).trim().replace(/\/$/, ""), fonte });
   const daEnv = env.PANNELLO_URL || env.CABINA_URL;
-  if (daEnv) return { url: String(daEnv).trim().replace(/\/$/, ""), fonte: "ambiente" };
+  if (daEnv) return pulisci(daEnv, "ambiente");
+  try {
+    const registro = JSON.parse(readFileSync(join(root, "MyCity-Vault/90-Memoria-AI/registro-fatti.json"), "utf8"));
+    const v = valoreFatto(registro, "cabina.url");
+    if (v) return pulisci(v, "registro-fatti.json (cabina.url)");
+  } catch {
+    /* il registro è la casa giusta, ma se manca si prova comunque il ponte qui sotto */
+  }
   try {
     const j = JSON.parse(readFileSync(join(root, "cervello/ponte-cabina.json"), "utf8"));
-    if (j.pannello_url) return { url: String(j.pannello_url).trim().replace(/\/$/, ""), fonte: "ponte-cabina.json" };
+    if (j.pannello_url) return pulisci(j.pannello_url, "ponte-cabina.json");
   } catch {
-    /* né env né file: si resta ⚪, e il ⚪ dice cosa manca */
+    /* né env, né registro, né ponte: si resta ⚪, e il ⚪ dice cosa manca */
   }
   return null;
 }
+
+/** Il ⚪ dell'indirizzo mancante, detto una volta sola per tutti e due i controlli della Cabina. */
+const SENZA_INDIRIZZO =
+  "non so a quale indirizzo sta la Cabina: manca PANNELLO_URL / CABINA_URL nell'ambiente, manca il fatto cabina.url nel registro e manca anche cervello/ponte-cabina.json";
 
 /**
  * La voce del PROXY non è la voce della Cabina.
@@ -359,9 +448,35 @@ export function reteChiusa(r) {
   return (r.status === 403 || r.status === 407) && /allowlist|egress|proxy/i.test(String(r.testo || ""));
 }
 
-/** La Cabina vista da fuori: risponde, risponde male, o risponde troppo tardi. */
+/**
+ * VIVA-ma-protetta. Il 401 non è un guasto: è qualcuno che risponde «e tu chi sei?».
+ *
+ * AR-438, la trappola che rovesciava il guadagno. Con Vercel Authentication accesa la Cabina
+ * risponde 401 a chi non ha la sessione: leggerlo come rosso trasformerebbe un servizio SANO in due
+ * ❌ falsi — e un referto che grida al lupo su una cosa che funziona è peggio del ⚪ che sostituisce.
+ * Chi risponde 401 è in piedi: il muro davanti alla porta è la prova che dietro c'è qualcuno.
+ *
+ * Il 403 vale solo con una firma esplicita nel corpo: un 403 generico è un rifiuto che va guardato,
+ * non una protezione da assolvere. E il 407 non è nemmeno la Cabina: è il proxy dell'ambiente.
+ */
+export function protettaDaLogin(r) {
+  if (!r || !r.ok) return false;
+  if (r.status === 401) return true;
+  return r.status === 403 && /_vercel_sso_nonce|vercel authentication|authentication required|\bsso\b/i.test(String(r.testo || ""));
+}
+
+/** La Cabina vista da fuori: risponde, risponde male, risponde troppo tardi, o risponde protetta. */
 export function giudicaCabina(r, soglie = SOGLIE) {
-  if (!r.ok) return rotto(`la Cabina non risponde: ${r.errore}`);
+  if (!r || !r.ok) return rotto(`la Cabina non risponde: ${r?.errore ?? "nessuna risposta"}`);
+  // Il proxy che chiede le credenziali A NOI non è la Cabina che risponde male: è questo ambiente
+  // che non arriva fin là. Non è un rosso e non è un verde — è un buco dichiarato.
+  if (r.status === 407) return nonVisto("la rete di questo ambiente chiede un'autenticazione al proxy: non ho parlato con la Cabina", { status: r.status });
+  if (protettaDaLogin(r))
+    return ok(`è viva e protetta da login (${r.status}): risponde in ${(r.ms / 1000).toFixed(1)}s, ma da qui non entro`, {
+      ms: r.ms,
+      status: r.status,
+      protetta: true,
+    });
   if (r.status >= 400) return rotto(`la Cabina risponde ${r.status}`, { status: r.status });
   // La lentezza è un guasto che sta nascendo: se aspetti che diventi un errore, l'hai scoperto tardi.
   if (r.ms > soglie.cabinaLentaMs) return rotto(`la Cabina risponde in ${(r.ms / 1000).toFixed(1)}s: troppo lenta da telefono`, { ms: r.ms });
@@ -410,6 +525,31 @@ export function marcaRegressioni(controlliPrecedenti, risultati) {
   return risultati;
 }
 
+/**
+ * AR-440 — da quante visite di fila questo rosso è rosso.
+ *
+ * La regressione (qui sopra) trova il rosso NUOVO; questa trova quello vecchio, che è il più
+ * pericoloso dei due: un allarme acceso da settimane si legge uguale a uno acceso da un minuto, e
+ * quindi diventa sfondo. Il conto sopravvive fra una visita e l'altra dentro salute.json — è
+ * esattamente lo «stato che manca fra un giro e l'altro» del quinto perché della scheda.
+ *
+ * Anche i miei controlli guasti (🔧) contano: un controllo che non parte da dieci visite è una
+ * difesa spenta di fatto, e va vista come tale.
+ */
+export function marcaCronicita(contoPrecedente, risultati, soglia = GIRI_PER_CRONICO) {
+  const accesi = risultati.filter((r) => r.esito === "rotto" || r.esito === "guasto").map((r) => r.id);
+  const quadro = quadroCronicita(contoPrecedente || {}, accesi, soglia);
+  for (const r of risultati) {
+    const giri = quadro.conto[r.id] || 0;
+    r.rossoDa = giri;
+    r.cronico = statoAllarme(giri, soglia).cronico;
+    // «visite», non «giri»: qui l'unità di misura è la visita, e ogni numero deve arrivare col suo
+    // metro — «12» da solo non dice se sono ore, giorni o controlli.
+    r.daQuanto = dilloAVoce(giri, soglia, "visite");
+  }
+  return quadro;
+}
+
 /** Quanta parte della macchina ho davvero guardato. ⚪ e 🔧 non contano come "visto". */
 export function coperturaDi(risultati) {
   if (!risultati.length) return 0;
@@ -428,7 +568,9 @@ export function codiceUscita({ rotti, guasti, copertura }, soglie = SOGLIE) {
 // Ognuno dichiara: quale organo, quanto pesa, dove può girare, e come si prova.
 // `soloSu` esiste perché un controllo eseguito dove non può vedere produce rumore, non conoscenza.
 
-const CONTROLLI = [
+// Esportata perché una prova possa ESEGUIRE i controlli con un guardiano finto invece di cercarne
+// il nome dentro il sorgente: è la differenza fra provare l'effetto e provare la forma.
+export const CONTROLLI = [
   // ══ WORKER — l'organo che esegue. Se si ferma lui, si ferma l'azienda.
   {
     id: "worker.ponte",
@@ -447,6 +589,18 @@ const CONTROLLI = [
     impatto: 1,
     async prova() {
       return giudicaTracce(leggiTracce());
+    },
+  },
+  {
+    // AR-594 — la voce che mancava. Il guardiano del ritmo esisteva già e finiva solo nel prompt del
+    // giro; qui entra nel referto, che è il posto dove Nicola guarda quando chiede «sta bene?».
+    // `esegui` si può iniettare: senza, la prova dovrebbe aspettare che le cadenze si fermino DAVVERO.
+    id: "worker.cadenze",
+    organo: "worker",
+    titolo: "Le cadenze si alzano davvero",
+    impatto: 2,
+    async prova({ esegui = eseguiNode } = {}) {
+      return giudicaCadenze(esegui("freschezza-cadenze.mjs", ["--json"], 60_000));
     },
   },
   {
@@ -797,13 +951,14 @@ const CONTROLLI = [
     impatto: 1,
     async prova() {
       const base = urlCabina();
-      if (!base) return nonVisto("manca PANNELLO_URL / CABINA_URL e manca anche cervello/ponte-cabina.json");
+      if (!base) return nonVisto(SENZA_INDIRIZZO);
       const r = await guarda(base.url);
       if (reteChiusa(r))
         return nonVisto(
           `la rete di QUESTO ambiente non arriva alla Cabina (${base.url}): aggiungi il host alla allowlist di rete dell'ambiente — non è la Cabina a essere giù`,
         );
-      return giudicaCabina(r);
+      const esito = giudicaCabina(r);
+      return { ...esito, detto: `${esito.detto} (indirizzo da ${base.fonte})` };
     },
   },
   {
@@ -813,11 +968,19 @@ const CONTROLLI = [
     impatto: 2,
     async prova() {
       const base = urlCabina();
-      if (!base) return nonVisto("manca PANNELLO_URL / CABINA_URL e manca anche cervello/ponte-cabina.json");
+      if (!base) return nonVisto(SENZA_INDIRIZZO);
       const r = await guarda(`${base.url}/api/cuore`);
       if (reteChiusa(r))
         return nonVisto(
           `la rete di QUESTO ambiente non arriva alla Cabina (${base.url}): aggiungi il host alla allowlist di rete dell'ambiente — non è la Cabina a essere giù`,
+        );
+      // AR-438 — dietro il login la risposta è una pagina di autenticazione, non il cuore. Passarla
+      // a giudicaCuore darebbe «non risponde in JSON», cioè un ❌ su una Cabina sana: qui il verdetto
+      // onesto è ⚪, e dice pure come toglierlo (una sessione, o l'Authentication spenta su Vercel).
+      if (protettaDaLogin(r))
+        return nonVisto(
+          `la Cabina è viva ma protetta da login (${r.status}): da qui non posso leggere il suo cuore. Per vederlo serve una sessione Vercel o spegnere Vercel Authentication sul progetto`,
+          { status: r.status },
         );
       if (!r.ok) return rotto(`il cuore della Cabina non risponde: ${r.errore}`);
       // «collegato: false» non è un guasto del Pannello: è il Pannello che dice la verità su una
@@ -988,6 +1151,7 @@ async function visita() {
   }
 
   marcaRegressioni(precedenteMia?.controlli, risultati);
+  const cronicita = marcaCronicita(precedenteMia?.cronicita, risultati);
 
   const rotti = risultati.filter((r) => r.esito === "rotto");
   const guasti = risultati.filter((r) => r.esito === "guasto");
@@ -995,7 +1159,7 @@ async function visita() {
   const buoni = risultati.filter((r) => r.esito === "ok");
   const copertura = coperturaDi(risultati);
 
-  return { risultati, rotti, guasti, nonVisti, buoni, copertura, precedente, mancantiAutotest: autotest() };
+  return { risultati, rotti, guasti, nonVisti, buoni, copertura, cronicita, precedente, mancantiAutotest: autotest() };
 }
 
 // ── Il referto ─────────────────────────────────────────────────────────────────
@@ -1046,6 +1210,17 @@ export function quattroRisposte(v) {
       ? `Guarda la card in coda per «${peggiore.titolo}». Il comando pronto è lì.`
       : "Niente.",
   );
+  // AR-440 — la riga che cambia il comportamento. Un rosso vecchio di dieci visite letto uguale a
+  // uno di stamattina è un rosso che si scorre; detto così, invece, si guarda.
+  const cronici = v.risultati.filter((r) => r.cronico);
+  if (cronici.length) {
+    righe.push("");
+    righe.push(cronici.length === 1 ? "E guarda anche questo, che suona da un pezzo:" : `E guarda anche questi ${cronici.length}, che suonano da un pezzo:`);
+    righe.push("");
+    // Qui il numero secco, in fondo la frase intera: la stessa cosa detta due volte uguale, a venti
+    // righe di distanza, non è un ripasso — è il testo che ricomincia da capo.
+    for (const r of cronici) righe.push(`- ${r.titolo}: ${r.rossoDa} visite di fila.`);
+  }
   righe.push("");
 
   righe.push("## Cosa non ho verificato");
@@ -1100,6 +1275,9 @@ export function referto(v) {
       // cioè la forma che il misuratore boccia («chi legge deve tenere in sospeso l'idea di partenza»).
       righe.push(`### ${r.titolo}`);
       righe.push(`Organo: ${ORGANI[r.organo]}. Quanto costa: ${IMPATTO[r.impatto]}.`);
+      // AR-440 — il rosso porta con sé la sua età. Senza, «da stamattina» e «da tre settimane»
+      // occupano la stessa riga e si leggono allo stesso modo: cioè non si leggono.
+      if (r.daQuanto) righe.push(`Da quanto: ${r.daQuanto}.`);
       righe.push("");
       righe.push(`${r.detto}`);
       if (r.prova) righe.push(`Prova: \`${r.prova}\``);
@@ -1169,7 +1347,12 @@ function scriviMemoria(v) {
           detto: r.detto,
           prova: r.prova ?? null,
           regressione: Boolean(r.regressione),
+          rosso_da: r.rossoDa ?? 0,
+          cronico: Boolean(r.cronico),
         })),
+        // AR-440 — LO STATO CHE MANCAVA. Senza questo conto salvato, alla visita dopo un allarme
+        // acceso da tre settimane e uno acceso adesso tornerebbero a leggersi uguali.
+        cronicita: v.cronicita?.conto ?? {},
       },
     },
     storico: [...prec.storico, riassunto].slice(-SOGLIE.storicoMax),
@@ -1223,6 +1406,8 @@ async function main() {
             guasti: v.guasti.length,
             nonvisti: v.nonVisti.length,
             regressioni: v.risultati.filter((r) => r.regressione).length,
+            // AR-440 — il numero che prima non esisteva: quanti di questi rossi sono lì da un pezzo.
+            cronici: v.risultati.filter((r) => r.cronico).length,
             controlli: v.risultati,
             referto: percorso,
           },
@@ -1239,7 +1424,8 @@ async function main() {
     } else {
       console.log(`🩺 VISITA — ${ts()} · da ${CASA} · copertura ${Math.round(v.copertura * 100)}%\n`);
       for (const r of [...v.rotti, ...v.guasti].sort((a, b) => (a.impatto ?? 9) - (b.impatto ?? 9))) {
-        console.log(`${SEGNO[r.esito]} ${r.titolo}${r.regressione ? " (PEGGIORATO da ieri)" : ""}`);
+        const eta = r.regressione ? " (PEGGIORATO da ieri)" : r.cronico ? ` (${r.daQuanto})` : "";
+        console.log(`${SEGNO[r.esito]} ${r.titolo}${eta}`);
         console.log(`   ${r.detto}`);
         if (r.prova) console.log(`   prova: ${r.prova}`);
       }

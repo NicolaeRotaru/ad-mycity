@@ -33,6 +33,31 @@ export function statoCoerenza(grezzo: unknown): StatoCoerenza {
   return (NOTI as string[]).includes(v) ? (v as StatoCoerenza) : "sconosciuto";
 }
 
+/**
+ * AR-646, secondo giro — **il badge che sparisce è un badge verde.**
+ *
+ * La mappa qui sopra era già fail-closed sull'ESITO, ma non sulla LETTURA: la rotta faceva
+ * `cf ? {…} : null`, e un `null` significava insieme «il guardiano non ha ancora girato» e «il suo
+ * verdetto non sono riuscito a leggerlo». Nel secondo caso il badge non veniva disegnato affatto, e
+ * una scheda senza badge si legge come «nessun problema» — la stessa bugia dello scudo verde, detta
+ * col silenzio invece che col colore. È la malattia di questa corsia vista da un'altra angolazione:
+ * ciò che non ho guardato non può uscire come «a posto», nemmeno tacendo.
+ *
+ * Tre uscite, come le tre della lettura:
+ *   · verdetto letto           → l'esito vero, passato dalla mappa esaustiva
+ *   · guardato e non c'era     → `null`: il guardiano non ha ancora girato, non c'è niente da dire
+ *   · non l'ho potuto leggere  → esito `sconosciuto` + il motivo: a video diventa il tono ⚪
+ *
+ * Pura: la prova la esegue senza rete, senza disco e senza montare la rotta.
+ */
+export function coerenzaSenzaVerdetto(l: {
+  letto?: boolean;
+  motivo?: string | null;
+}): { esito: StatoCoerenza; incoerenze: number; cacce_aperte: number; data: string; motivo: string | null } | null {
+  if (l?.letto) return null; // guardato e non c'era: il guardiano non ha ancora girato, niente da dire
+  return { esito: "sconosciuto", incoerenze: 0, cacce_aperte: 0, data: "", motivo: l?.motivo ?? null };
+}
+
 /** Il tono del badge: verde solo su `ok`, rosso su `incoerenze`, ⚪ su tutto ciò che non è misura. */
 export function tonoBadge(stato: StatoCoerenza): "verde" | "rosso" | "cieco" {
   if (stato === "ok") return "verde";

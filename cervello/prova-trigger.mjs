@@ -46,6 +46,7 @@ import { spawnSync, spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
+import { timbroOra } from "./ora-piacenza.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const arg = (nome, def) => {
@@ -281,7 +282,7 @@ async function main() {
       `${JSON.stringify(
         {
           _cosa_e: "🎯 L'ultima misura del trigger. La rifà `node cervello/prova-trigger.mjs`. Se l'impronta non è quella della description di adesso, quel verde parla di un altro testo.",
-          quando: new Date().toISOString().slice(0, 16).replace("T", " "),
+          quando: timbroOra(),
           modello: MODELLO,
           giri: GIRI,
           impronta_description: createHash("sha256").update(descrizione).digest("hex").slice(0, 12),
