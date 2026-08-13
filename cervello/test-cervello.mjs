@@ -44,9 +44,19 @@ const CARTELLA = "cervello/test";
 // Ogni file gira già nel suo processo: le corsie sono quanti processi tenere accesi insieme.
 const CORSIE = SERIALE ? 1 : Math.max(2, Math.min(8, cpus().length));
 
-/** Trova i test del cervello. Pura sulla lettura della cartella: il test la prova con una finta. */
+/**
+ * Trova i test del cervello. Pura sulla lettura della cartella: il test la prova con una finta.
+ *
+ * I file che iniziano con `_` NON sono test: sono roba di servizio, e la convenzione esiste già
+ * nel repo (`.gitignore` ha `_tmp_*`). Il caso vero è del 13/8 sera: sul VPS era rimasto un
+ * `_debug_ghost.test.mjs` — mai esistito in questo repo, lasciato lì da una sessione di debug —
+ * e il runner lo raccoglieva come test. Risultato: «0 passati», la suite del cervello rossa sul
+ * server, la visita della macchina rossa di conseguenza, e il Pannello che mostrava a Nicola un
+ * guasto del cervello che il cervello non aveva. Un file che nessuno ha scritto per essere una
+ * prova non deve poter bocciare tutte le prove.
+ */
 export function trovaTest(elenco = []) {
-  return elenco.filter((f) => f.endsWith(".test.mjs")).sort();
+  return elenco.filter((f) => f.endsWith(".test.mjs") && !f.startsWith("_")).sort();
 }
 
 /**
