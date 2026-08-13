@@ -4870,7 +4870,7 @@
     "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
   },
   "sync_scan": {
-    "aggiornato": "2026-08-13 22:22",
+    "aggiornato": "2026-08-14 01:51",
     "findings_aperti": 265,
     "findings_in_corso": 0,
     "findings_chiusi": 21,
@@ -4878,8 +4878,8 @@
     "cantiere_aperti": 223,
     "cantiere_in_corso": 0,
     "cantiere_chiusi": 372,
-    "match_aggiornati": 2,
-    "chiusi_verifica": 1,
+    "match_aggiornati": 0,
+    "chiusi_verifica": 0,
     "data_scan": "2026-08-11 13:37"
   },
   "sonda_meta": {
