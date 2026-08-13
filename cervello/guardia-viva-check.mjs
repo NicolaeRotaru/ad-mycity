@@ -59,10 +59,20 @@ const CANCELLO = join(REPO, "cervello/gate-pubblicazione.sh");
  * compare dentro una frase scritta per Nicola, mai dentro un comando che gira. Includerle
  * significherebbe dichiarare «di guardia» un guardiano perché un briefing lo ha nominato — che è
  * la forma esatta del difetto (il cartello scambiato per freno).
+ *
+ * `worktrees` ci è entrata il 13/8: sono le copie locali che `Agent(isolation:"worktree")` lascia
+ * sotto `.claude/worktrees/agent-…` mentre lavora, e ognuna è un intero secondo repo — con il suo
+ * `cervello/test/permessi-check.test.mjs`. Il percorso relativo di quel file non comincia più per
+ * `cervello/test/`, quindi il filtro che tiene i test fuori da `invocati` (riga ~130) non lo
+ * riconosce come test: lo conta come un'esecuzione vera, fuori da qualunque dichiarazione nel
+ * registro. Risultato misurato: `permessi-check.mjs`, già cablato e dichiarato, appariva come voce
+ * fantasma del registro solo perché tre worktree erano rimaste sul disco. Un difetto di questo
+ * guardiano, non del registro: si esclude la cartella, come le altre copie che non sono il repo.
  */
 const FUORI = new Set([
   "node_modules", ".git", ".next", "dist", "build",
   "MyCity-Vault", "consegne", "creativi", "memoria-squadra", "marketplace", "auto-coscienza",
+  "worktrees",
 ]);
 
 /** Estensioni che possono contenere un'esecuzione. */
