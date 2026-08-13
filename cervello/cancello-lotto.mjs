@@ -412,10 +412,21 @@ function gitOrNull(args) {
 function elencoTracciato(args) {
   try {
     return percorsiDaGit(args, { cwd: AD_ROOT });
-  } catch {
+  } catch (e) {
+    // Il `[]` non è mai una risposta: è l'assenza di risposta, e per chi legge somiglia a
+    // «nessun file», che è un verdetto opposto. Fuori da un clone git è legittimo e atteso;
+    // dentro un clone è git che ha detto no, e allora il perimetro del lotto è CIECO, non vuoto
+    // — con un perimetro vuoto il blocco duro non riconosce più nessun test come «mio» e smette
+    // di bloccare in silenzio. Lo si dichiara qui, dove il cancello lo può stampare.
+    if (existsSync(join(AD_ROOT, ".git"))) {
+      cieco.push(`perimetro del lotto: git non ha risposto (${e?.causaGit || e?.message || "motivo ignoto"})`);
+    }
     return [];
   }
 }
+
+/** I motivi per cui questo cancello NON ha potuto misurare qualcosa: si dichiarano, non si tacciono. */
+const cieco = [];
 
 function gitShow(spec) {
   const r = spawnSync("git", ["show", spec], { cwd: AD_ROOT, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });

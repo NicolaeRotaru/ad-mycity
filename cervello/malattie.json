@@ -219,17 +219,12 @@
      "perche": "E una scrittura di rete che restituisce «e andata a buon fine?»: su eccezione la risposta onesta e proprio `false`, perche l'invio davvero non e confermato. E la cura di «esito-di-scrittura-buttato», non la malattia."
     },
     {
-     "file": "cervello/consenso-azione.mjs",
-     "quale": "riga 74, leggiCoda -> \"\"",
-     "perche": "Fallisce CHIUSO: una coda illeggibile porta a `AZIONE_ID non trovato -> invio bloccato`, cioe nessuna azione reale parte. Resta imprecisa la MOTIVAZIONE mostrata (dice «non trovato» dove il vero motivo e «non ho potuto leggere la coda»): registrato come difetto nuovo, non curato qui per non allargare il lotto 34 a meta."
-    },
-    {
      "file": "cervello/guardiano-capacita.mjs",
      "quale": "riga 56, statSync(...).isDirectory() -> false in un filter",
      "perche": "Fallisce CHIUSO: una cartella che non si riesce a interrogare esce dal censimento, quindi il guardiano conta MENO capacita di quante ce ne siano — sottostima, non rassicurazione. Il verso pericoloso e l'opposto."
     }
    ],
-   "nota_baseline": "0 dal 2026-07-29 (lotto 34). ATTENZIONE al metro: questa regex prende la SINTASSI (un errore che diventa vuoto/zero), non la malattia. Ogni istanza va giudicata su una domanda sola — «il verdetto che ne esce fallisce APERTO o CHIUSO?». I cinque punti dichiarati esenti falliscono tutti chiusi (fanno di meno, non dicono che va bene). Il metro FINE per la meta git della malattia non e questa regex ma `node cervello/storia-git.mjs --check`, che ragiona per chiamata invece che per testo — nato verde il 29/7 dopo aver portato dentro i quattro punti che la scavalcavano."
+   "nota_baseline": "0 dal 2026-07-29 (lotto 34). ATTENZIONE al metro: questa regex prende la SINTASSI (un errore che diventa vuoto/zero), non la malattia. Ogni istanza va giudicata su una domanda sola — «il verdetto che ne esce fallisce APERTO o CHIUSO?». I cinque punti dichiarati esenti falliscono tutti chiusi (fanno di meno, non dicono che va bene). Il metro FINE per la meta git della malattia non e questa regex ma `node cervello/storia-git.mjs --check`, che ragiona per chiamata invece che per testo — nato verde il 29/7 dopo aver portato dentro i quattro punti che la scavalcavano. · lotto 40: TOLTA l'esenzione su cervello/consenso-azione.mjs (riga 74, leggiCoda -> \"\"). Non e' una difesa rimossa: e' un residuo. Quell'esenzione descriveva un difetto che AR-443 ha curato in questo stesso lotto — leggiCoda adesso distingue «coda vuota» da «coda illeggibile» e il cancello scrive il motivo vero. La spazzata la segnalava come «esenzione che non corrisponde piu' a niente», ed e' esatto: un'esenzione che non copre piu' nessuna istanza nasconde il prossimo caso vero che nascera' in quel file. La difesa di AR-443 vive nel CODICE e nella sua mutazione (cervello/mutanti.json, verificata unica sul file), non in questa riga."
   },
   {
    "id": "programma-che-parte-importando",
@@ -242,14 +237,14 @@
    "estensioni": [
     ".mjs"
    ],
-   "baseline": 69,
+   "baseline": 68,
    "curati": [
     "i file nati dopo AR-445 usano tutti la guardia `import.meta.url`",
     "guardiano-tempo.mjs (11/8): la guardia `import.meta.url` messa davvero. Prima era `main().catch(...)` senza guardia — importarlo eseguiva tutto, ma la forma non era piu quella che il rilevatore cerca: malattia nascosta invece che curata. L'ha presa la spazzata contando 70 contro un tetto di 71."
    ],
    "nota_onesta": "25 istanze storiche misurate il 3/8, non curate qui: toccarle tutte in questo lotto avrebbe voluto dire 25 file modificati per un lavoro che parlava d altro (e la deriva che il controllo ⑨ del sorvegliante esiste per chiedere). Il valore di censirla adesso e che la 26a viene fermata nel momento in cui la scrivo.",
    "esenti": [],
-   "nota_baseline": "71 dal 2026-08-03: numero MISURATO dalla spazzata su tutto cervello/ (il primo grep ne aveva contati 25 perche guardava solo il primo livello — la differenza e la ragione per cui i numeri si misurano con lo strumento che poi li verifica). file_noti omesso apposta: su una malattia larga elencare 71 file gonfia il registro senza aggiungere verita, e basta il tetto sul totale. · sceso a 69 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B)"
+   "nota_baseline": "71 dal 2026-08-03: numero MISURATO dalla spazzata su tutto cervello/ (il primo grep ne aveva contati 25 perche guardava solo il primo livello — la differenza e la ragione per cui i numeri si misurano con lo strumento che poi li verifica). file_noti omesso apposta: su una malattia larga elencare 71 file gonfia il registro senza aggiungere verita, e basta il tetto sul totale. · sceso a 69 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B) · sceso a 68 il 2026-08-13 (lotto 40: un altro main-guard, corsia E)"
   },
   {
    "id": "data-senza-ora",
