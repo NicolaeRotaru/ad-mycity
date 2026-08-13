@@ -1,7 +1,25 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-13 20:51",
+ "aggiornato": "2026-08-13 21:05",
  "lezioni": [
+  {
+   "id": "L-2026-0813-03",
+   "testo": "**Essere nell'allowlist di `.claude/settings.local.json` non basta a far girare un comando in questa sessione headless (2026-08-13 21:05, giro AD).** `gh pr view 714` è scritto esplicitamente in lista (`Bash(gh pr view:*)`), eppure è stato negato allo stesso modo di `node cervello/test-cervello.mjs`, che in lista non c'è. Stesso esito per `git push origin main`, anch'esso allowlistato: fallisce sempre con `could not read Username`, perché manca la credenziale GitHub, non per un blocco di permesso. Regola: quando un comando allowlistato viene negato in una sessione headless, non dedurre che l'allowlist sia sbagliata — verificare prima se manca una credenziale a monte (token GitHub, `gh auth`), perché sono due guasti diversi con lo stesso sintomo (\"comando negato\") e vanno diagnosticati separatamente prima di proporre un fix.",
+   "tag": [
+    "permessi",
+    "processo",
+    "onesta-misura"
+   ],
+   "reparto": "@AD",
+   "confidenza": 0.75,
+   "evidenze": 1,
+   "fonte": "auto-analisi",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-13",
+   "ultima_conferma": "2026-08-13 21:05",
+   "stato": "attiva",
+   "usi": []
+  },
   {
    "id": "L-2026-0813-02",
    "testo": "**Il gate 'correzione-nicola-gate' misura quante lezioni hanno un `gate` verificabile — ma `gate-veri.mjs` chiarisce che un gate è vero SOLO con una mutazione in `mutanti.json` che lo fa scattare rosso, non basta citare uno script esistente che oggi passa (2026-08-13, giro AD, sul vincolo HARD correzione-nicola-gate).** Tentata l'assegnazione di un gate a L-2026-0723-451 (instabilità della data di ripresa business) puntando su `node cervello/coerenza-fatti.mjs`, che oggi verifica quella pagina (\"✅ Memoria coerente\"). Ma senza una mutazione registrata che riproduce l'errore originale (una copia vecchia di `ripresa.lavoro-operativo` lasciata in un file vivo) e un test che la becca, sarebbe esattamente la 'malattia' che `gate-veri.mjs` è nato per curare: certificare che un comando ESISTE ed esce 0 oggi, non che troverebbe l'errore se tornasse. Non l'ho fatto. Regola: prima di scrivere un campo `gate` su una lezione, verificare che esista (o si possa scrivere nella stessa sessione) anche la mutazione in `cervello/mutanti.json` con `test` collegato — altrimenti il gate resta debito dichiarato (CLAUDE.md §6), non lavoro finito, e va detto esplicitamente invece di far salire il contatore `con_gate` senza sostanza.",
@@ -13168,9 +13186,9 @@
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.11,
-  "tasso_calcolato_il": "2026-08-13 20:51",
+  "tasso_calcolato_il": "2026-08-13 21:01",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-13 20:51",
+  "tick_leggero_il": "2026-08-13 21:01",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
   "cristallizzazione_ultima": "2026-08-13 20:22",
