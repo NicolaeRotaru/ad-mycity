@@ -23,12 +23,14 @@ import { fileURLToPath } from "node:url";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
-const { statoCoerenza, memoriaCoerente, tonoBadge, testoBadge } = await import(join(REPO, "pannello/src/lib/badge-coerenza.ts"));
+const { statoCoerenza, tonoBadge, testoBadge } = await import(join(REPO, "pannello/src/lib/badge-coerenza.ts"));
 
 test("solo «ok» compra lo scudo verde", () => {
-  assert.equal(memoriaCoerente(statoCoerenza("ok")), true);
+  // Si guarda `tonoBadge`, cioè la funzione che il componente chiama DAVVERO: una prova che passa da
+  // un aiuto che nessuno usa non protegge il pixel che Nicola vede (è la lezione di AR-461).
+  assert.equal(tonoBadge(statoCoerenza("ok")), "verde");
   for (const altro of ["incoerenze", "cieco", "non_verificato", "boh", "", undefined, null]) {
-    assert.equal(memoriaCoerente(statoCoerenza(altro)), false, `«${altro}» non ha misurato niente: non può essere verde`);
+    assert.notEqual(tonoBadge(statoCoerenza(altro)), "verde", `«${altro}» non ha misurato niente: non può essere verde`);
   }
 });
 

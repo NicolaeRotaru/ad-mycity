@@ -84,8 +84,8 @@ function esito(nome, perche, non_misurati) {
 /**
  * Il codice d'uscita del contratto 0/1/2.
  *
- * Un esito che non conosco NON diventa 0: diventa 2. La stessa regola fail-closed di
- * `esitoNoto`, applicata al codice — perché il modo più comodo di aggirare questo modulo sarebbe
+ * Un esito che non conosco NON diventa 0: diventa 2. La stessa regola fail-closed di `segnaleDa`,
+ * applicata al codice d'uscita — perché il modo più comodo di aggirare questo modulo sarebbe
  * passargli una stringa nuova e ritrovarsi il verde.
  */
 export function codiceUscita(esito) {
@@ -188,24 +188,9 @@ export function oreUmane(minuti) {
 // ③ Un'etichetta che non conosco non compra il verde
 // ─────────────────────────────────────────────────────────────────────────────
 
-/**
- * Normalizza l'esito letto da un registro contro l'elenco di quelli che si sanno leggere.
- *
- * `esito === "incoerenze" ? "incoerenze" : "ok"` è la forma malata: il ramo buono è il DEFAULT,
- * quindi ogni etichetta nuova ci finisce dentro senza che nessuno tocchi il codice. Qui il default
- * è `sconosciuto`, che chi legge deve mostrare come buco — mai come verde.
- *
- * @param {unknown} grezzo l'etichetta come sta scritta nel file.
- * @param {string[]} noti le etichette che chi chiama sa davvero interpretare.
- * @returns {string} una delle `noti`, oppure `"sconosciuto"`.
- */
-export function esitoNoto(grezzo, noti = []) {
-  const v = grezzo === null || grezzo === undefined ? "" : String(grezzo);
-  return noti.includes(v) ? v : SCONOSCIUTO;
-}
-
-/** L'etichetta che non si sa leggere. Non è un verde e non è un rosso: è «non lo so». */
-export const SCONOSCIUTO = "sconosciuto";
+// Il gemello di questa decisione per il Pannello sta in `pannello/src/lib/badge-coerenza.ts`: una
+// pagina Next non può importare un `.mjs` del cervello, quindi la regola vive due volte. È una
+// duplicazione DICHIARATA, non una svista — e ognuna delle due ha la sua prova.
 
 /**
  * Traduce uno stato in un segnale con una mappa ESAUSTIVA.

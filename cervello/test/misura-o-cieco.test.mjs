@@ -13,7 +13,7 @@ import { fileURLToPath } from "node:url";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const M = await import(join(QUI, "..", "misura-o-cieco.mjs"));
-const { verdettoCopertura, codiceUscita, etaMinuti, misuraScaduta, esitoNoto, OK, CIECO, ROTTO, SCONOSCIUTO } = M;
+const { verdettoCopertura, codiceUscita, etaMinuti, misuraScaduta, OK, CIECO, ROTTO } = M;
 
 // ── ① la copertura ───────────────────────────────────────────────────────────
 
@@ -94,18 +94,6 @@ test("sotto soglia è fresca, sopra soglia non lo è più per nessun consumatore
   const adesso = new Date("2026-08-13T20:16:00Z");
   assert.equal(misuraScaduta("2026-08-13 20:16", 180, adesso).stantia, false, "120 min < 180");
   assert.equal(misuraScaduta("2026-08-13 19:00", 180, adesso).stantia, true, "196 min > 180");
-});
-
-// ── ③ l'etichetta ────────────────────────────────────────────────────────────
-
-test("un esito che non sta nell'elenco non compra il verde", () => {
-  const noti = ["ok", "incoerenze"];
-  assert.equal(esitoNoto("ok", noti), "ok");
-  assert.equal(esitoNoto("incoerenze", noti), "incoerenze");
-  assert.equal(esitoNoto("cieco", noti), SCONOSCIUTO, "è il badge della Cabina (AR-646): «cieco» arrivava a Nicola come verde");
-  assert.equal(esitoNoto("non_verificato", noti), SCONOSCIUTO);
-  assert.equal(esitoNoto(undefined, noti), SCONOSCIUTO);
-  assert.equal(esitoNoto(null, noti), SCONOSCIUTO);
 });
 
 // ── il modulo non fa partire niente all'import (AR-445) ──────────────────────

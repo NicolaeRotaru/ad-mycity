@@ -33,11 +33,6 @@ export function statoCoerenza(grezzo: unknown): StatoCoerenza {
   return (NOTI as string[]).includes(v) ? (v as StatoCoerenza) : "sconosciuto";
 }
 
-/** Vero solo per l'unico stato che merita lo scudo verde. Nessun default generoso. */
-export function memoriaCoerente(stato: StatoCoerenza): boolean {
-  return stato === "ok";
-}
-
 /** Il tono del badge: verde solo su `ok`, rosso su `incoerenze`, ⚪ su tutto ciò che non è misura. */
 export function tonoBadge(stato: StatoCoerenza): "verde" | "rosso" | "cieco" {
   if (stato === "ok") return "verde";

@@ -13332,7 +13332,7 @@
       "stato": "aperto",
       "nato": "2026-08-13 17:56",
       "nato_come": "scoperta",
-      "nota_fix": "Lotto 38 (13/8). `classifica()` era l ultimo lettore rimasto a copiare `d.gravita`: ora usa `gravitaDi()`, e il conto dei bloccanti ciechi è una funzione pura esportata (`bloccantiCiechi`) che legge dalla stessa porta. ROSSO ATTESO E DICHIARATO: il conto sale da 5 a 6 perché AR-592 (severita=bloccante, prova senza comando) finalmente si vede. Non ferma il giro: giro.sh chiama cantiere-prove SENZA --gate. Sul cantiere vero le schede senza gravità sono passate da 48 a 0."
+      "nota_fix": "Lotto 38 (13/8). `classifica()` era l ultimo lettore rimasto a copiare `d.gravita`: ora usa `gravitaDi()`, e il conto dei bloccanti ciechi è una funzione pura esportata (`bloccantiCiechi`) che legge dalla stessa porta. ROSSO ATTESO E DICHIARATO: il conto dei bloccanti ciechi sale da 4 a 5 perché AR-592 (severita=bloccante, prova senza comando) finalmente si vede. Non ferma il giro: giro.sh chiama cantiere-prove SENZA --gate. Sul cantiere vero le schede senza gravità sono passate da 48 a 0. (misurato al secondo giro eseguendo il guardiano vecchio e quello nuovo sullo stesso cantiere: 4 → 5. Nel primo conteggio ne avevo scritti 5 → 6 perché ci era finito dentro AR-473, che in quel momento non aveva ancora la sua prova.)"
     },
     {
       "id": "AR-651",
