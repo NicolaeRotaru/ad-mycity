@@ -1,7 +1,49 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-13 08:40",
+ "aggiornato": "2026-08-13 11:41",
  "lezioni": [
+  {
+   "id": "L-2026-0813-02",
+   "testo": "**Il gate 'correzione-nicola-gate' misura quante lezioni hanno un `gate` verificabile — ma `gate-veri.mjs` chiarisce che un gate è vero SOLO con una mutazione in `mutanti.json` che lo fa scattare rosso, non basta citare uno script esistente che oggi passa (2026-08-13, giro AD, sul vincolo HARD correzione-nicola-gate).** Tentata l'assegnazione di un gate a L-2026-0723-451 (instabilità della data di ripresa business) puntando su `node cervello/coerenza-fatti.mjs`, che oggi verifica quella pagina (\"✅ Memoria coerente\"). Ma senza una mutazione registrata che riproduce l'errore originale (una copia vecchia di `ripresa.lavoro-operativo` lasciata in un file vivo) e un test che la becca, sarebbe esattamente la 'malattia' che `gate-veri.mjs` è nato per curare: certificare che un comando ESISTE ed esce 0 oggi, non che troverebbe l'errore se tornasse. Non l'ho fatto. Regola: prima di scrivere un campo `gate` su una lezione, verificare che esista (o si possa scrivere nella stessa sessione) anche la mutazione in `cervello/mutanti.json` con `test` collegato — altrimenti il gate resta debito dichiarato (CLAUDE.md §6), non lavoro finito, e va detto esplicitamente invece di far salire il contatore `con_gate` senza sostanza.",
+   "tag": [
+    "correzione-nicola",
+    "gate-veri",
+    "asticella",
+    "onesta-misura",
+    "processo"
+   ],
+   "reparto": "@AD",
+   "confidenza": 0.8,
+   "evidenze": 1,
+   "fonte": "auto-analisi",
+   "caso_studio_nicola": false,
+   "gate": "node cervello/gate-veri.mjs — deve trovare, per OGNI lezione con campo gate, una mutazione in cervello/mutanti.json col test collegato; se un domani un gate viene scritto senza mutazione, gate-veri.mjs esce rosso (script esistente, non nuovo)",
+   "nato": "2026-08-13",
+   "ultima_conferma": "2026-08-13 10:22",
+   "stato": "attiva",
+   "usi": []
+  },
+  {
+   "id": "L-2026-0813-01",
+   "testo": "**Una card-domanda in `AZIONI-IN-ATTESA.md` può restare 'aperta' e riproposta come mossa n.1 per settimane anche dopo che Nicola ha già risposto altrove — la card `#ordine-test-dentro-o-fuori-dalla-pausa` (accodata 28/7 08:45) è rimasta nel file come 🟡 in attesa fino al 13/8 10:22, benché Nicola avesse già risposto \"Si l'ho rimandato a settembre\" il 28/7 alle 15:56 (registrato in DECISIONI.md alla stessa data/ora, e già segnalato come pattern il 30/7 in [[feedback-domanda-gia-decisa-ricontrollare]]).** Per 16 giorni più giri hanno letto la card come blocco reale invece di controllare DECISIONI.md, perché rispondere alla domanda e chiudere la card nel file erano due passi distinti e il secondo non è mai scattato in automatico. Chiusa oggi a mano, spostata in archivio con riferimento alla decisione del 28/7. Regola riusabile: quando una card-domanda resta aperta per più di un paio di giri, prima di riproporla o contarla come blocco, grep `DECISIONI.md` per l'id/entità — se la risposta esiste già, la card va CHIUSA nello stesso passaggio in cui la si trova, non solo notata. Debito riconosciuto: manca ancora un guardiano automatico che incroci le domande aperte in coda con le decisioni già registrate (nessuna mutazione/test esistente per questo — vedi lezione gemella su gate-veri.mjs in questo stesso giro).",
+   "tag": [
+    "processo",
+    "housekeeping",
+    "coda",
+    "azioni-in-attesa",
+    "domanda-gia-decisa"
+   ],
+   "reparto": "@AD",
+   "confidenza": 0.9,
+   "evidenze": 1,
+   "fonte": "esiti",
+   "caso_studio_nicola": false,
+   "gate": "node cervello/domanda-riesame-check.mjs — deve trovare e segnalare (exit 1) ogni card 🟡/🔴 in AZIONI-IN-ATTESA.md più vecchia della soglia, prima di lasciarla ripresentare come mossa n.1 senza ricontrollo contro DECISIONI.md",
+   "nato": "2026-08-13",
+   "ultima_conferma": "2026-08-13 11:24",
+   "stato": "attiva",
+   "usi": []
+  },
   {
    "id": "L-2026-0804-02",
    "testo": "**Trovato bug reale in `cervello/worker.sh` (funzione `_estrai_stream`, ~riga 461-497): quando durante una risposta scatta il cancello di stop, il segmento nuovo viene incollato al precedente SENZA separatore — il testo risulta illeggibile (frasi diverse attaccate senza andare a capo), non 'mancante' (Nicola 4/8 19:44, casella Sala Operativa, 3ª segnalazione della stessa cosa: prima 'la casella parte troncata', poi 'non vedo la risposta dal telefono', infine 'No, non c'è, ristampa e risolvi').** 5 perché: (1) la 1ª diagnosi dell'AD ('è la cache del telefono che non sincronizza') era SBAGLIATA — plausibile ma non verificata a fondo, solo controllato che la riga esistesse nel DB, non che fosse leggibile; (2) Nicola ha rifiutato la diagnosi con un comando diretto ('ristampa e risolvi'), non una semplice ripetizione della domanda — segnale che la spiegazione precedente non tornava con quello che vedeva lui; (3) solo ririleggendo il contenuto ESATTO salvato nel DB (non il riassunto) si è visto il punto di giuntura '...ti rispondo su quello.Il cancello di stop ha bloccato...' senza spazio/a capo; (4) causa root = il cancello di stop interrompe lo streaming a metà e il worker riprende scrivendo, ma il join dei segmenti non separa i turni; (5) fix NON applicato in questa chat — file delicato condiviso da tutte le chat, rischio di peggiorare in fretta senza test; consegnato come lavoro pronto per @tech con causa già trovata. Regola: davanti a 'non vedo/manca la risposta', prima di dare la colpa a cache/sync, rileggere il CONTENUTO ESATTO salvato (non il riassunto) — un testo incollato senza separatore sembra 'sparito' su schermo piccolo ma è un bug di formattazione, non di sincronizzazione. Riga in coda: `#bug-risposte-incollate-cancello-stop`.",
@@ -9301,14 +9343,14 @@
     "esecuzione"
    ],
    "reparto": "@AD",
-   "confidenza": 0.5399999999999999,
+   "confidenza": 0.3899999999999999,
    "evidenze": 1,
    "fonte": "giro",
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-02 10:19",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 10:21"
+   "decaduto_step_il": "2026-08-13 10:22"
   },
   {
    "id": "L-2026-0702-44",
@@ -9321,14 +9363,14 @@
     "nicola"
    ],
    "reparto": "@AD",
-   "confidenza": 0.5599999999999999,
+   "confidenza": 0.4099999999999999,
    "evidenze": 2,
    "fonte": "giro",
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-02 08:36",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 10:21"
+   "decaduto_step_il": "2026-08-13 10:22"
   },
   {
    "id": "L-2026-0702-43",
@@ -9343,14 +9385,14 @@
     "github"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.59,
+   "confidenza": 0.43999999999999995,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-02 08:17",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 08:21"
+   "decaduto_step_il": "2026-08-13 10:22"
   },
   {
    "id": "L-2026-0702-41",
@@ -9366,14 +9408,14 @@
     "carrelli"
    ],
    "reparto": "@tech",
-   "confidenza": 0.61,
+   "confidenza": 0.45999999999999996,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-02 07:35",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 08:21"
+   "decaduto_step_il": "2026-08-13 10:22"
   },
   {
    "id": "L-2026-0702-42",
@@ -9386,14 +9428,14 @@
     "nicola"
    ],
    "reparto": "@crm-lifecycle",
-   "confidenza": 0.57,
+   "confidenza": 0.41999999999999993,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-02 07:35",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-06 08:21"
+   "decaduto_step_il": "2026-08-13 10:22"
   },
   {
    "id": "L-2026-0701-40",
@@ -13107,19 +13149,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 508,
+  "lezioni_attive": 510,
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.11,
-  "tasso_calcolato_il": "2026-08-13 08:40",
+  "tasso_calcolato_il": "2026-08-13 11:40",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-13 08:40",
+  "tick_leggero_il": "2026-08-13 11:40",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-13 09:33",
-  "lezioni_totali": 514,
+  "cristallizzazione_ultima": "2026-08-13 11:51",
+  "lezioni_totali": 516,
   "lezioni_per_stato": {
-   "attiva": 409,
+   "attiva": 411,
    "principio": 88,
    "in-prova": 5,
    "decaduta": 0,
