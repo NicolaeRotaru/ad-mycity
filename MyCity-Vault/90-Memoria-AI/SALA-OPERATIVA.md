@@ -812,3 +812,10 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-13 11:41 · @AD · FATTO · Registrati gli ESITI di questo passaggio nei quaderni `@ad` e `@security` (`chiusura-loop.mjs registra`). Verificato `coerenza-fatti.mjs`: memoria coerente.
 - 2026-08-13 11:41 · @AD · FATTO · Rispettato il vincolo HARD tasso-di-chiusura (0,24 nel mese): nessuna ricerca nuova, tutto il lavoro è stata chiusura di cose già in coda.
 - 2026-08-13 11:41 · @AD · PASSO-A · @Nicola — mossa n.1 invariata: nessuna azione business sbloccabile prima del 24/8-1/9. Vale la pena applicare `#permessi-senza-jolly`: sblocca anche i test da sessione chat, non solo la sicurezza.
+
+### 2026-08-13 12:00 — 🕛 PUNTO DI MEZZOGIORNO (AD)
+- 2026-08-13 12:00 · @AD · FATTO · Riconfermato dal vivo su Supabase (`execute_sql`): ordini=1 (mai pagato dal 24/6), pagati=0, consegnati=0, profili=7, negozi=1, prodotti=5, recensioni=0, carrelli=3 abbandonati, ordini_7g=0, nuovi_clienti_7g=0 — identico ai passaggi 06:50/09:30/10:22/11:41 di oggi. Stallo North Star invariato a 50 giorni.
+- 2026-08-13 12:00 · @AD · FATTO · Controllo di metà giornata sulle 3 priorità di stamattina: ✅ freno correzione-nicola-gate provato con test reali (5/5 verdi) · ✅ causa del blocco Bash trovata e lista `#permessi-senza-jolly` completata (75 script) · ⏸ North Star fermo per patto, non per blocco tecnico.
+- 2026-08-13 12:00 · @AD · FATTO · Nessuna correzione di rotta necessaria: rispettato il vincolo HARD tasso-di-chiusura (0,24 nel mese) — nessuna ricerca nuova, nessuna urgenza emersa a mezzogiorno.
+- 2026-08-13 12:00 · @AD · FATTO · Aggiornati [[RITMO]] (blocco «Punto di mezzogiorno · 2026-08-13 12:00») e [[STATO]] (frontmatter 12:00 + banner mezzogiorno).
+- 2026-08-13 12:00 · @AD · PASSO-A · @Nicola — invariato: applica `#permessi-senza-jolly` quando puoi (sblocca anche i test da chat). Nessuna urgenza business: pausa fino al 24/8-1/9.

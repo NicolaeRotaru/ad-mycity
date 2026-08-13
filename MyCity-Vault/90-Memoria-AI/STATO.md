@@ -1,8 +1,31 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 11:41
+aggiornato: 2026-08-13 12:00
 fonte: AD digitale (chat)
 ---
+
+> 🕛 **13/8 12:00 — Punto di mezzogiorno.**
+> Business invariato. Riconfermato dal vivo su Supabase: 1 ordine del 24/6, mai pagato. 0 pagati. 0
+> consegnati. 7 profili. 1 negozio. 5 prodotti. 0 recensioni. 3 carrelli abbandonati. 0 ordini e 0 nuovi
+> clienti negli ultimi 7 giorni. Uguale a ogni lettura di oggi: 06:50, 09:30, 10:22, 11:41. North Star:
+> stallo confermato a **50 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Le tre cose di stamattina, viste a mezzogiorno:**
+> 1. ✅ **Il freno sulle correzioni di ieri, provato per davvero.** Le due lezioni di ieri dicevano "gate
+>    collegato". Ma non c'era una prova che lo dimostrasse. L'ho verificato ora. Le mutazioni esistono
+>    davvero. I test scattano rosso se tolgo il fix. 5 su 5 verdi.
+> 2. ✅ **Trovato perché i test non partono da questa chat.** C'è già una proposta ferma dal 29/7, la card
+>    `#permessi-senza-jolly`. Sostituisce un permesso troppo largo con un elenco preciso di programmi. Le
+>    mancavano 5 programmi nati dopo quella data. Li ho aggiunti. Ora la lista è completa: 75 programmi,
+>    pronta da incollare.
+> 3. ⏸ **Il North Star resta fermo.** Per patto, non per un blocco tecnico. Fino al 24/8-1/9.
+>
+> **Nessuna correzione di rotta oggi.** Il tasso di chiusura del mese è 0,24, sotto la soglia di 1. La
+> regola dice: non aprire ricerche nuove, chiudere quello che c'è già in coda. Questo turno l'ha rispettata.
+>
+> **Serve da Nicola entro sera:** applica `#permessi-senza-jolly`. Sblocca anche i test da questa chat, non
+> solo la sicurezza. Nessuna urgenza di business: la pausa regge fino al 24/8-1/9. Briefing:
+> [[Briefing/2026-08-13]].
 
 > 🔁 **13/8 11:41 — Giro richiesto in chat. Business invariato (ordini=1, pagati=0 dal 24/6). Chiuso il debito su correzione-nicola-gate, completato l'elenco permessi.**
 > Riconfermato dal vivo su Supabase (`execute_sql`): identico al passaggio delle 10:22 e a ogni lettura dal
