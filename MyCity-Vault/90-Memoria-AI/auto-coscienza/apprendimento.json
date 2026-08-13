@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-13 21:05",
+ "aggiornato": "2026-08-13 21:11",
  "lezioni": [
   {
    "id": "L-2026-0813-03",
@@ -13182,19 +13182,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 510,
+  "lezioni_attive": 511,
   "promosse_a_principio": 88,
   "decadute": 0,
-  "tasso_applicazione": 0.11,
-  "tasso_calcolato_il": "2026-08-13 21:01",
+  "tasso_applicazione": 0.12,
+  "tasso_calcolato_il": "2026-08-13 21:11",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-13 21:01",
+  "tick_leggero_il": "2026-08-13 21:11",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
   "cristallizzazione_ultima": "2026-08-13 20:22",
-  "lezioni_totali": 516,
+  "lezioni_totali": 517,
   "lezioni_per_stato": {
-   "attiva": 411,
+   "attiva": 412,
    "principio": 88,
    "in-prova": 5,
    "decaduta": 0,
