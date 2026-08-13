@@ -1,8 +1,28 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 14:40
+aggiornato: 2026-08-13 18:01
 fonte: AD digitale (chat)
 ---
+
+> 🌙 **13/8 18:01 — Report della sera. Business fermo tutto il giorno, come da patto. Due dei tre fix CI di stamattina sono già a destinazione.**
+> Riconfermato dal vivo con query SQL diretta (non da memoria): 1 ordine (id `58094956…`, mai pagato/PENDING,
+> CANCELED, 24/6, €19,05), 0 pagati, 0 consegnati, 5 prodotti, 7 profili, 1 negozio, 0 ordini e 0 nuovi clienti
+> negli ultimi 7 giorni, 3 carrelli abbandonati. **Identico** a ogni lettura di oggi. North Star: stallo **50
+> giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme.
+>
+> **La cosa nuova di questo passaggio.** Il passaggio delle 14:40 aveva lasciato in sospeso se le PR #710/#709/#708
+> fossero davvero verdi: `ci-stato.mjs` le leggeva ancora rosse e `gh pr checks` è negato in questa sessione. Ho
+> controllato `git log` invece: **PR #709 e #711 sono già mergiate su `main`** (compaiono come commit squash con
+> il loro numero). PR #710 e #708 non ho trovato traccia di merge in locale — restano da confermare da un canale
+> con `gh` vero (VPS o Nicola). Non è un allarme: i test locali di tutte e tre restavano verdi (68/68, 68/68,
+> 19/19, 5/5) già alle 14:40.
+>
+> **Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese, ricalcolato ~0,92 dalla radiografia di stamattina —
+> vedi sotto):** nessuna ricerca nuova aperta in questo passaggio, solo verifica di lavoro già in coda.
+>
+> **Mossa n.1, invariata:** nessuna azione business sbloccabile prima del 24/8-1/9. Restano da firmare
+> `#permessi-senza-jolly`, `#visita-vps-ferma` e `#occhi-ambiente-cloud`. **Nuovo:** conferma da un canale `gh`
+> vero se PR #710/#708 sono verdi. Briefing: [[Briefing/2026-08-13]]. Blocco Report della sera: [[RITMO]].
 
 > ✅ **13/8 14:40 — Giro richiesto in chat: controllati per davvero i 3 fix CI mandati alle 14:23, non solo fidandomi del riepilogo.**
 > Business riconfermato invariato con query SQL diretta: 1 ordine (mai pagato, 24/6), 0 pagati, 5 prodotti, 7 profili,
