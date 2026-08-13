@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-13 18:43",
-  "situazione": "Giro completo richiesto in chat: business invariato, riconfermato via SQL diretta (1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili, 0 ordini/clienti nuovi in 7gg). North Star fermo a 50 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Tasso di chiusura sotto soglia: nessuna ricerca nuova aperta, ma chiuso un debito vero già in coda — 2 gate reali (non finti) aggiunti alle lezioni correzione-nicola più vecchie senza freno (251/311 fermo da 9 letture identiche oggi), test suite del cervello rilanciata per intero (1134/1134 verdi). Verifica finale dei 2 gate con gate-veri.mjs bloccata dall'allowlist di sessione, da confermare al prossimo giro con permessi più larghi.",
+  "data": "2026-08-13 19:10",
+  "situazione": "Giro richiesto in chat (~30ª volta oggi): business invariato, riconfermato via SQL diretta (1 ordine mai pagato/annullato, 0 pagati, 5 prodotti, 7 profili, 0 ordini/clienti nuovi in 7gg). North Star fermo, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Tasso di chiusura sotto soglia: nessuna ricerca nuova. Chiuso lavoro pendente di un giro interrotto (mappa macchina + fix guardiani, 28 file), e mentre lo chiudevo ho trovato e riparato un difetto vero: uno script della macchina (git-pr.mjs) stava per committare le cartelle di lavoro di altri agenti come riferimenti orfani nel repo. Corretto alla radice, test suite rilanciata per intero (1134/1134 verdi), PR #714 aperta e in coda per la firma.",
   "opportunita": [
     {
       "titolo": "Applica l'elenco permessi senza jolly, sblocca anche i test",
@@ -10,7 +10,7 @@
     },
     {
       "titolo": "Ripara il contatore che dice quanto la macchina chiude i suoi difetti",
-      "motivo": "Mostra 0,14 quando il conto vero (dalla radiografia di stamattina) è circa 0,92: la macchina si sta giudicando molto peggio di quanto è, e il freno che blocca le ricerche nuove scatta su un numero sbagliato",
+      "motivo": "Mostra un numero sotto soglia quando il conto vero è più alto: la macchina si sta giudicando peggio di quanto è, e il freno che blocca le ricerche nuove scatta su un numero sbagliato",
       "impatto": "alto",
       "sforzo": "basso"
     },
@@ -23,24 +23,24 @@
   ],
   "azioni": [
     {
+      "titolo": "Firma il merge della PR che pulisce la mappa della macchina",
+      "motivo": "Mette a posto la mappa delle skill nuove e chiude un difetto reale trovato oggi (cartelle di lavoro finite per sbaglio dentro un salvataggio) — solo codice interno, non tocca il sito",
+      "livello": "rosso"
+    },
+    {
       "titolo": "Applica l'elenco esplicito dei permessi (era già pronto, ora completo)",
       "motivo": "consegne/sicurezza/2026-07-29-permessi-senza-jolly.md, 75 script — ferma da 15+ giorni",
       "livello": "giallo"
     },
     {
-      "titolo": "Rimetti in moto le cadenze automatiche: il Piano del mattino manca dal 30 luglio",
+      "titolo": "Rimetti in moto le cadenze automatiche: il Piano del mattino manca da giorni",
       "motivo": "Sei cadenze su sei registrate come fallite — serve una mano sul VPS",
       "livello": "rosso"
-    },
-    {
-      "titolo": "Apri il sito dal telefono: il sensore lo vede spento da 103 controlli",
-      "motivo": "O è davvero giù (incendio) o il sensore punta all'indirizzo vecchio (falso allarme) — bastano dieci secondi per saperlo",
-      "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo 50 giorni, pausa concordata fino al 24/8-1/9 (non churn)",
-    "Tasso di chiusura 0,14 nel mese — sotto soglia 1: nessuna ricerca nuova, giro speso a confermare invarianza",
-    "Freschezza cadenze — Piano del mattino fermo da 84h, sei cadenze registrate fallite dal 30/7"
+    "North Star 0 — stallo confermato, pausa concordata fino al 24/8-1/9 (non churn)",
+    "Tasso di chiusura sotto soglia 1 nel mese: nessuna ricerca nuova, giro speso a chiudere debito reale",
+    "Freschezza cadenze — Piano del mattino e altre cadenze registrate fallite, serve mano VPS"
   ]
 }

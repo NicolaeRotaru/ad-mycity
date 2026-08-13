@@ -1,8 +1,33 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 18:43
+aggiornato: 2026-08-13 19:10
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **13/8 19:10 — Giro richiesto in chat (~30ª volta oggi), strategia snella: business invariato, chiuso lavoro pendente + un difetto vero trovato sul campo.**
+> Riconfermato dal vivo con query SQL diretta su Supabase: 1 ordine (mai pagato, 24/6, annullato), 0 pagati,
+> 0 negli ultimi 7 giorni, 5 prodotti, 1 venditore con catalogo, 7 profili, 3 carrelli abbandonati, 0
+> recensioni, 0 dispute. **Identico** a ogni lettura di oggi. North Star: stallo confermato, dentro la pausa
+> concordata con Nicola fino al 24/8-1/9. Non è un allarme. Non ho riaperto la query 15 volte: una sola
+> lettura basta a confermare "nulla di nuovo" ([[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Cosa ho chiuso in questo passaggio (tasso-di-chiusura, non nuova ricerca).** All'apertura il repo aveva
+> 28 file scritti da un giro interrotto (mappa macchina + fix guardiani, mai committati). Diff letto per
+> intero prima di committare ([[feedback-non-revertire-senza-diff]]): erano lavoro legittimo. Diviso in due
+> — memoria diretta su `main` (commit `195d8d3b1`), codice su branch + PR (regola AR-332, il pre-commit hook
+> lo impone). Mentre aprivo la PR ho scoperto un difetto vero: `git-pr.mjs` con `git add -A` aveva staged
+> `.claude/worktrees/` (checkout completi di altri agenti, ognuno un repo annidato) come **3 gitlink orfani**
+> — un commit che punta a un oggetto che non esiste su origin. Corretto alla radice: `.claude/worktrees/` ora
+> in `.gitignore`. **PR #714** aperta e accodata per il merge (azione #20).
+>
+> **Osservazione ripetuta, non indagata (vincolo tasso-chiusura, resta debito dichiarato):**
+> `coerenza-fatti.mjs` continua a dire "✅ Memoria coerente" con "0 file vivi scansionati" — un verde che non
+> ha guardato nulla. Già segnalato il 13/8 12:16, ancora presente. Non l'ho aperto: sarebbe ricerca nuova.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: da
+> firmare `#permessi-senza-jolly`, `#posthog-off-vps`, `#visita-vps-ferma`, `#occhi-ambiente-cloud`,
+> `#permessi-push-e-supabase-da-rinominare`, `#piani-da-rivedere`, ora anche **#20 (merge PR #714)**.
+> Briefing: [[Briefing/2026-08-13]].
 
 > 🔁 **13/8 18:43 — Giro completo richiesto in chat (`cervello/giro.md`), 35 minuti dopo il passaggio delle 18:08. Business invariato, chiuso debito vero sul gate correzione-nicola.**
 > Riconfermato dal vivo con query SQL diretta (non da memoria): 1 ordine (mai pagato, 24/6), 0 pagati, 0
