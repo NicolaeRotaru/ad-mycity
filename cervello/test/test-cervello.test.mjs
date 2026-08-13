@@ -18,6 +18,16 @@ test("trovaTest(): una cartella vuota non inventa test", () => {
   assert.deepEqual(trovaTest([]), []);
 });
 
+// Il caso vero, 13/8 sera: sul VPS era rimasto un `_debug_ghost.test.mjs` — mai esistito in
+// questo repo, lasciato da una sessione di debug. Il runner lo raccoglieva, lui usciva «0
+// passati», e da lì: suite del cervello rossa sul server → visita della macchina rossa → il
+// Pannello mostrava a Nicola un guasto del cervello che il cervello non aveva. Un file che
+// nessuno ha scritto per essere una prova non deve poter bocciare tutte le prove.
+test("trovaTest(): un file di servizio lasciato lì non diventa una prova", () => {
+  const dentro = trovaTest(["_debug_ghost.test.mjs", "vero.test.mjs", "_tmp_scratch.test.mjs"]);
+  assert.deepEqual(dentro, ["vero.test.mjs"], "i file che iniziano con _ sono roba di servizio, non test");
+});
+
 test("leggiTap(): legge i conteggi, e non inventa quando il TAP non c'è", () => {
   assert.deepEqual(leggiTap("# pass 17\n# fail 0\n"), { passati: 17, falliti: 0 });
   assert.deepEqual(leggiTap("boom, nessun TAP"), { passati: null, falliti: null });

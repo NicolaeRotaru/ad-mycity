@@ -13426,6 +13426,26 @@
       "chiuso_il": "2026-08-13 21:16",
       "chiuso_come": "node cervello/test/cancello-stop.test.mjs → exit 0 (guardiano soddisfatto)",
       "corroborata": true
+    },
+    {
+      "id": "AR-658",
+      "titolo": "Un file di servizio lasciato sul server viene raccolto come prova, e boccia tutte le prove",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "stato": "chiuso",
+      "nato": "2026-08-13 21:30",
+      "nato_come": "scoperta",
+      "causa_radice": "cervello/test-cervello.mjs, trovaTest(): raccoglieva OGNI file che finisse in .test.mjs dentro cervello/test. Sul VPS era rimasto un _debug_ghost.test.mjs — mai esistito in questo repo, lasciato da una sessione di debug e non coperto dal .gitignore (che aveva solo _tmp_*). Il runner lo eseguiva, lui usciva «0 passati», e da lì partiva la catena: suite del cervello rossa sul server → controllo «I test del cervello passano» rosso nella visita delle 20:46 → il Pannello mostrava a Nicola un guasto del cervello che il cervello non aveva. La CI restava verde perché il file non è nel repo: server e CI davano due verdetti diversi sulla stessa suite, e quello sbagliato era quello che Nicola vedeva.",
+      "fix_proposto": "trovaTest ignora i file che iniziano con _ (convenzione già viva nel repo: .gitignore ha _tmp_*), e il .gitignore copre anche _debug_*. Un file che nessuno ha scritto per essere una prova non deve poter bocciare tutte le prove.",
+      "origine": "visita del VPS 2026-08-13 20:46, controllo «I test del cervello passano»",
+      "verifica": {
+        "comando": "node cervello/test/test-cervello.test.mjs"
+      },
+      "nota_fix": "2026-08-13: filtro !f.startsWith(\"_\") in trovaTest + _debug_* nel .gitignore. Non-vacuita: tolto il filtro → test rosso (exit 1), rimesso → verde (15 pass). Provato anche sul vero: creato il fantasma nella cartella, la suite non lo raccoglie e conta 174 test veri.",
+      "chiuso_il": "2026-08-13 21:35",
+      "chiuso_come": "node cervello/test/test-cervello.test.mjs → exit 0, e il fantasma creato davvero non entra nell'elenco",
+      "corroborata": true
     }
   ],
   "meta": {

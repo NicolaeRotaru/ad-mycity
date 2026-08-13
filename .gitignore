@@ -33,6 +33,8 @@ cervello/vps/.giro-force
 # File temporanei lasciati dalle sessioni AI (script di prova, appunti): mai su main.
 # (Il 10/7 un _tmp_create_pr.mjs improvvisato da una chat era finito committato dallo spazzino del ritmo.)
 _tmp_*
+# File di servizio lasciati da una sessione: non sono test e non devono nemmeno finire in git.
+_debug_*
 **/_tmp_*
 # Screenshot e allegati chat scaricati dal worker (temporanei, mai committare)
 .allegati-chat/
