@@ -12,18 +12,17 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-13 01:14",
-      "esito": "non-pubblicato",
+      "quando": "2026-08-13 03:57",
+      "esito": "motore-fallito",
       "codice": 2,
-      "ai_rc": 0,
+      "ai_rc": 124,
       "push_ok": false,
-      "passi_ok": false,
-      "vincoli_attivi": 12,
+      "passi_ok": true,
+      "vincoli_attivi": 11,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
         "CHIUSURA",
-        "COSTO",
         "FRESCHEZZA",
         "MAPPA",
         "NORTH_STAR",
@@ -75,5 +74,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-13 01:14"
+  "aggiornato": "2026-08-13 03:57"
 }
