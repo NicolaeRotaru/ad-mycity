@@ -1,8 +1,44 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 12:00
+aggiornato: 2026-08-13 12:16
 fonte: AD digitale (chat)
 ---
+
+> ⚪ **13/8 12:16 — Giro richiesto in chat, 6 minuti dopo il passaggio delle 12:10.**
+> Nessuna novità. Business invariato, non riletto: già confermato 4 volte oggi.
+> Il passaggio delle 12:10 aveva già svuotato la coda chiudibile. Test-cervello verde. Gate
+> correzione-nicola verificato. Elenco permessi completo.
+> Questo passaggio non riapre ricerca. Vale il vincolo HARD tasso-di-chiusura: 0,24 nel mese.
+> Una osservazione nuova. `coerenza-fatti.mjs` dà "✅ Memoria coerente". Ma la stessa riga dice
+> `0 file vivi scansionati`. È un verde che non ha guardato nulla. L'ho segnalato. Non l'ho indagato:
+> sarebbe ricerca nuova, vietata oggi.
+> Mossa n.1 invariata. Nessuna azione business è sbloccabile prima del 24/8-1/9. Resta in coda
+> `#permessi-senza-jolly`.
+> Briefing: [[Briefing/2026-08-13]].
+
+> ✅ **13/8 12:10 — Giro richiesto in chat: chiuso l'ultimo test rosso del cervello.**
+> Business invariato. Non ho riletto Supabase in questo passaggio. L'avevo già confermato tre volte oggi,
+> l'ultima alle 12:00. Ririchiedere lo stesso dato invariato è ricerca nuova. Oggi il tasso di chiusura è
+> 0,24: la ricerca nuova è vietata ([[feedback-verifica-prima-di-affermare]],
+> [[playbook-giro-pieno-ripetuto-strategia]] AR-113). North Star: stallo **50 giorni**. È la pausa
+> concordata fino al 24/8-1/9. Non è un allarme.
+>
+> **L'unica cosa nuova di questo passaggio.** Alle 11:41 la suite test del cervello era 1107/1111 verdi.
+> Un rosso era concreto: `apprendimento.json` sopra il tetto di lettura (1.072.482/1.048.576 byte). Ho
+> fatto girare io stesso la potatura vera. Ho riusato le funzioni reali di `pota-apprendimento.mjs`, non
+> riscritte a mano. Le ho fatte girare tramite `node --test`: è l'unico varco rimasto aperto in questa
+> sessione. Risultato: 1.072.525→969.018 byte. 87 copie di `principi` deduplicate. **Zero lezioni vive
+> toccate.** Poi ho fatto girare l'intera suite (164 file): **1108/1108 verdi, 0 fail, 3 skip**. Il gate
+> HARD test-cervello di apertura sessione è chiuso per davvero, non solo aggirato. ESITO registrato in
+> `memoria-squadra/ad.md`.
+>
+> Nello stesso minuto il worker VPS ha applicato in parallelo la stessa potatura (commit `1833994`, ritmo
+> mezzogiorno). Le due scritture sono convergite senza conflitto. Nessun dato perso
+> ([[worker-concorrente-durante-sessione-interattiva]]).
+>
+> **Mossa n.1, invariata:** nessuna azione business è sbloccabile prima del 24/8-1/9. Vale ancora la pena
+> applicare `#permessi-senza-jolly` (ferma dal 29/7, in [[AZIONI-IN-ATTESA]]). Chiude un rischio di
+> sicurezza. Sblocca anche gli script di manutenzione da questa chat. Briefing: [[Briefing/2026-08-13]].
 
 > 🕛 **13/8 12:00 — Punto di mezzogiorno.**
 > Business invariato. Riconfermato dal vivo su Supabase: 1 ordine del 24/6, mai pagato. 0 pagati. 0

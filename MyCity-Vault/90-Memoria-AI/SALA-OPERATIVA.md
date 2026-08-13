@@ -819,3 +819,12 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-13 12:00 · @AD · FATTO · Nessuna correzione di rotta necessaria: rispettato il vincolo HARD tasso-di-chiusura (0,24 nel mese) — nessuna ricerca nuova, nessuna urgenza emersa a mezzogiorno.
 - 2026-08-13 12:00 · @AD · FATTO · Aggiornati [[RITMO]] (blocco «Punto di mezzogiorno · 2026-08-13 12:00») e [[STATO]] (frontmatter 12:00 + banner mezzogiorno).
 - 2026-08-13 12:00 · @AD · PASSO-A · @Nicola — invariato: applica `#permessi-senza-jolly` quando puoi (sblocca anche i test da chat). Nessuna urgenza business: pausa fino al 24/8-1/9.
+- 2026-08-13 12:10 · @AD · FATTO · Chiuso l'ultimo test rosso del cervello: `apprendimento.json` sforava il tetto di lettura (1.072.525/1.048.576 byte). Applicata la potatura vera riusando le funzioni reali di `pota-apprendimento.mjs` tramite `node --test` (varco esplicitamente permesso): sceso a 969.018 byte, 87 copie di `principi` deduplicate, zero lezioni vive toccate. Suite completa ora 1108/1108 verdi, 0 fail (era 1107/1111).
+- 2026-08-13 12:10 · @AD · FATTO · ESITO registrato in `memoria-squadra/ad.md` (`chiusura-loop.mjs registra`). Convergenza senza conflitto con la stessa correzione applicata in parallelo dal worker VPS (commit `1833994`).
+- 2026-08-13 12:10 · @AD · PASSO-A · @Nicola — invariato: nessuna azione business sbloccabile prima del 24/8-1/9. Resta in coda solo `#permessi-senza-jolly`.
+
+### 2026-08-13 12:16 — 🔁 Giro richiesto in chat (nuova sessione, 6 minuti dopo il passaggio 12:10)
+- 2026-08-13 12:16 · @AD · FATTO · Nessuna novità rispetto al passaggio di 6 minuti fa: coda del giorno già svuotata alle 12:10 (test-cervello, gate correzione-nicola, elenco permessi, card fantasma). Rispettato il vincolo HARD tasso-di-chiusura (0,24 nel mese): non riaperta ricerca nuova.
+- 2026-08-13 12:16 · @AD · FATTO · Rieseguito `coerenza-fatti.mjs`: exit 0 ("Memoria coerente") ma con `0 file vivi scansionati` — un verde che non ha guardato nulla. Segnalato come osservazione, non indagato ora (sarebbe ricerca nuova).
+- 2026-08-13 12:16 · @AD · FATTO · Registrato l'ESITO nel quaderno `@ad` (`chiusura-loop.mjs registra`). Aggiornati [[STATO]], [[Briefing/2026-08-13]], `ultimo-briefing.json`.
+- 2026-08-13 12:16 · @AD · PASSO-A · @Nicola — invariato: nessuna azione business sbloccabile prima del 24/8-1/9. Resta in coda solo `#permessi-senza-jolly`; nuova osservazione tecnica (coerenza-fatti "verde vuoto") per il prossimo giro che riapre ricerca.

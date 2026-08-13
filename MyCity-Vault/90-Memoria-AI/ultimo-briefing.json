@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-13 11:41",
-  "situazione": "Business invariato, riconfermato dal vivo su Supabase: 1 ordine mai pagato, 0 pagati, 7 profili, 1 negozio, 5 prodotti, 0 nuovi clienti in 7 giorni, stallo North Star 50 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9. Chiuso per davvero il debito su correzione-nicola-gate: le 2 lezioni di stamattina (L-2026-0813-01/02) hanno ora una mutazione vera in mutanti.json e un test che la verifica, fatto girare con esito 5/5 verdi. Fatta girare l'intera suite test del cervello (164 file, node --test): 1107/1111 verdi, 1 rosso concreto e diagnosticato (apprendimento.json sopra il tetto di lettura di GitHub). Trovato il collegamento diretto tra questo blocco e la card di permessi ferma dal 29/7 (#permessi-senza-jolly): le mancavano 5 script nati dopo quella data, completata ora. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova, tutto il lavoro di oggi è stato chiudere cose già in coda.",
+  "data": "2026-08-13 12:16",
+  "situazione": "Sesto passaggio della giornata, 6 minuti dopo quello delle 12:10: nessuna novità. Business invariato, non riletto (già confermato 4 volte oggi). Il passaggio delle 12:10 aveva già svuotato la coda chiudibile (test-cervello 1108/1108 verdi, gate correzione-nicola verificato, elenco permessi completato). Questo passaggio rispetta il vincolo HARD tasso-chiusura (0,24 nel mese): non riapre ricerca, si limita a registrare l'ESITO e allineare i timestamp. Unica osservazione nuova: coerenza-fatti.mjs risponde \"Memoria coerente\" ma con 0 file vivi scansionati — un verde vuoto, segnalato per il prossimo passaggio che riapre ricerca.",
   "opportunita": [
     {
       "titolo": "Applica l'elenco permessi senza jolly, sblocca anche i test",
@@ -29,8 +29,7 @@
   ],
   "sentinelle_scattate": [
     "North Star 0 — stallo 50 giorni, pausa concordata fino al 24/8-1/9 (non churn)",
-    "Tasso di chiusura 0,24 nel mese (102 aperti/24 chiusi) — sotto soglia 1: nessuna ricerca nuova aperta anche oggi",
-    "Test del cervello: 1107/1111 verdi — 1 rosso reale, apprendimento.json sopra il tetto di lettura (1.072.482/1.048.576 byte)",
-    "correzione-nicola-gate: da 0 a 2 lezioni con gate verificato davvero (mutazione + test), resta comunque sano:false (60/311, soglia 20)"
+    "Tasso di chiusura 0,24 nel mese (102 aperti/24 chiusi) — sotto soglia 1: nessuna ricerca nuova aperta anche in questo passaggio",
+    "coerenza-fatti.mjs: verde con 0 file vivi scansionati — da verificare, non indagato oggi per rispettare il vincolo tasso-chiusura"
   ]
 }
