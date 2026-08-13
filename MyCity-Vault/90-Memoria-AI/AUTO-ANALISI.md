@@ -35,9 +35,9 @@ dichiarato a vuoto.
 **Segnalato, non indagato (vincolo tasso-chiusura, 0,61 nel mese):** due lezioni compaiono due volte in
 `apprendimento.json` (`L-2026-0723-448`, `L-2026-0723-446`). Aprirlo sarebbe ricerca nuova.
 
-**Refutazione:** ho provato a smentire "il fix esiste ed è sicuro pubblicarlo" controllando i 3 rami uno
-per uno invece di fidarmi del commit message — sopravvive per 2 rami su 3, il terzo l'ho lasciato intatto
-proprio perché la verifica ha trovato lavoro non pubblicato lì dentro.
+**Refutazione:** ho provato a smentire «il fix esiste ed è sicuro pubblicarlo». Ho controllato i 3 rami uno
+per uno, invece di fidarmi del commit message. L'affermazione sopravvive per 2 rami su 3. Il terzo l'ho
+lasciato intatto, perché la verifica ha trovato lavoro non pubblicato lì dentro.
 
 ---
 
