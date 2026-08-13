@@ -1,36 +1,25 @@
 {
-  "data": "2026-08-13 06:50",
-  "situazione": "Business invariato, riconfermato dal vivo su Supabase MCP: 1 ordine mai pagato, 0 pagati, 0 consegne, 7 profili, 1 negozio, 0 nuovi clienti in 7 giorni. Stallo North Star a 50 giorni, pausa concordata con Nicola fino al 24/8-1/9. Trovata (non toccata) un'anomalia nel git: modifiche staged mai committate che tolgono il guardiano correzione-nicola-gate e riportano indietro tre fix di test già mergiati — segnalata a Nicola, non risolta da sola. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova aperta. `node cervello/*.mjs` bloccato in questa sessione (approvazione non arriva) — verdetti dei gate presi da giro.sh. Mossa n.1: la domanda sull'ordine di prova su Pane Quotidiano resta ferma, ora da 16 giorni.",
+  "data": "2026-08-13 10:22",
+  "situazione": "Business invariato, sensori appena rinfrescati da giro.sh (10:20): 1 ordine mai pagato, 0 pagati, 0 consegne, 7 profili, 1 negozio, 0 nuovi clienti in 7 giorni. Stallo North Star confermato, pausa concordata con Nicola fino al 24/8-1/9. L'anomalia git segnalata al passaggio delle 06:50 (modifiche non committate sul guardiano correzione-nicola-gate) non è più presente nell'albero di lavoro: verificato pulito su giro.sh/censimento-guardiani.mjs/correzione-nicola-gate.mjs, nessuna azione necessaria. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova aperta, turno speso a chiudere. Chiusa la card fantasma `#ordine-test-dentro-o-fuori-dalla-pausa`, ferma da 16 giorni ma già risposta da Nicola il 28/7 (mai chiusa nel file per un errore di processo). Non c'è più una mossa n.1 di business in attesa di risposta.",
   "opportunita": [
     {
-      "titolo": "Sblocca l'ordine di prova su Pane Quotidiano",
-      "motivo": "Unica azione che muoverebbe il North Star senza toccare la pausa sui nuovi negozi — costa 3-5€",
-      "impatto": "alto",
-      "sforzo": "basso"
-    },
-    {
       "titolo": "Fai completare al fornaio la pratica pagamenti",
-      "motivo": "Dati mai inviati, incassi e versamenti disattivati dal 15/6: se un cliente pagasse oggi, il pagamento non partirebbe",
+      "motivo": "Dati mai inviati, incassi e versamenti disattivati dal 15/6: se un cliente pagasse oggi, il pagamento non partirebbe. Serve pronto per il collaudo di settembre",
       "impatto": "alto",
       "sforzo": "medio"
     }
   ],
   "azioni": [
     {
-      "titolo": "Rispondi: l'ordine di prova resta dentro la pausa o lo fai adesso",
-      "motivo": "È l'unica cosa in coda che dimostra che pagamento e consegna funzionano davvero, ferma da 16 giorni",
-      "livello": "rosso"
-    },
-    {
-      "titolo": "Decidi cosa fare del lavoro a metà trovato nel git sul guardiano correzione-nicola-gate",
-      "motivo": "Modifiche staged non committate tolgono il guardiano e riportano indietro tre fix di test già mergiati — va deciso se finire di toglierlo o scartare le modifiche",
+      "titolo": "Dimmi se telegram_bot lo vuoi acceso o spento",
+      "motivo": "Unica domanda aperta rimasta in coda dopo la chiusura della card fantasma di oggi — 163 giri senza risposta",
       "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
-    "North Star 0 — stallo 50 giorni (pausa concordata, non churn)",
-    "Tasso di chiusura 0,24 nel mese (102 aperti/24 chiusi) — sotto soglia 1: questo giro non ha aperto ricerche nuove",
-    "freschezza-cadenze: cadenze (mattino/mezzogiorno/sera/monitora) senza uscita da >30h — non ricalcolabile da questa sessione",
-    "CI: PR #707 rossa (colpa propria, non ereditata) — non indagabile da questa sessione senza node"
+    "North Star 0 — stallo, pausa concordata fino al 24/8-1/9 (non churn)",
+    "Tasso di chiusura 0,24 nel mese (102 aperti/24 chiusi) — sotto soglia 1: questo giro non ha aperto ricerche nuove, ha chiuso una card fantasma",
+    "correzione-nicola-gate: 251 lezioni senza gate reale — niente gate finti assegnati oggi (serve una mutazione vera in mutanti.json, non solo citare uno script che passa), debito dichiarato",
+    "freschezza-cadenze: ritmo mattino/mezzogiorno/sera senza uscita da >30h — non ricalcolabile da questa sessione (script di scrittura bloccati)"
   ]
 }

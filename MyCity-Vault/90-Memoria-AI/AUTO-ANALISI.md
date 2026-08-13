@@ -1,10 +1,24 @@
-# 🔬 AUTO-ANALISI — 2026-08-12 22:43
+# 🔬 AUTO-ANALISI — 2026-08-13 10:22
+
+> Giro snello (vincolo HARD tasso-chiusura 0,24 sotto 1 → nessuna ricerca nuova, [[playbook-giro-pieno-ripetuto-strategia]]).
+> Dati riusati da giro.sh (10:20), non re-interrogati. Lavoro reale: chiusa una card fantasma in coda.
+
+## Voto di fiducia: **80/100** (↑2 da 78 del 12/8 22:43)
+Non per novità di business (identico da 7 settimane) ma per un lavoro di chiusura reale: la card
+`#ordine-test-dentro-o-fuori-dalla-pausa` era presentata da 16 giorni come "mossa n.1 senza risposta" quando
+Nicola aveva già risposto il 28/7 15:56 (verificato su [[DECISIONI]]). Chiusa e archiviata, con 2 lezioni nuove
+registrate. Sul vincolo correzione-nicola-gate: verificato che un gate vero richiede una mutazione in
+`mutanti.json`, non solo citare uno script che oggi passa — non ho gonfiato il numero con gate finti, resta
+debito dichiarato (251 lezioni senza gate reale). Il voto non sale di più perché gli script `node cervello/*.mjs`
+che SCRIVONO restano bloccati in questa sessione — limite già noto, non nuovo.
+
+## Passaggio precedente — 2026-08-12 22:43
 
 > Giro completo (`giro.md` per intero, richiesto in chat). Primo passaggio narrato dopo un guasto reale: il codice
 > sul VPS era rimasto staccato dal ramo principale ~31 ore (nota delle 21:00 di oggi in [[STATO]], PR #705),
 > risolto dal commit di recupero delle 22:20.
 
-## Voto di fiducia: **78/100** (↓2 da 80 del 10/8)
+### Voto di fiducia: **78/100** (↓2 da 80 del 10/8)
 Non per una regressione di business (identico da 7 settimane) ma perché tre vincoli HARD restano non chiudibili
 da questa sessione (test-cervello, apprendimento, guardiani CLI) — dichiarati come debito, non finti chiusi.
 

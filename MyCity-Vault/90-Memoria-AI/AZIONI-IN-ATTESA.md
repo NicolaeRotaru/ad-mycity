@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-13 07:59** — Automatico: **66 aperte · 6 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-13 10:22** — Automatico: **65 aperte · 7 chiuse in archivio**. Chiusa `#ordine-test-dentro-o-fuori-dalla-pausa` (risposta di Nicola del 28/7 mai applicata alla card — vedi [[feedback-domanda-gia-decisa-ricontrollare]]).
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -106,18 +106,14 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🟡 #ordine-test-dentro-o-fuori-dalla-pausa — Decidi l'ordine di prova: resta in pausa o lo fai adesso? · ⏳ accodata 2026-07-28 08:45
+### ✅ #ordine-test-dentro-o-fuori-dalla-pausa — Risposto: resta dentro la pausa, collaudo a settembre · ⏳ accodata 2026-07-28 08:45 · ✅ chiusa 2026-08-13 10:22 (risposta già data il 28/7)
 
-**Cosa cambia:** il 23 luglio hai rimandato l'inserimento dei negozi. In pausa sono finite dodici azioni. Fra queste c'è anche l'ordine di prova da Pane Quotidiano. Ma quell'ordine non è una spinta commerciale: è il collaudo. È l'unica cosa in tutta la coda che dimostra che un cliente paga, i soldi arrivano al fornaio e la consegna si chiude. Costa 3-5 euro di pane e lo fai dal telefono in due minuti. La pausa l'hai presa per avere il tempo di finire la macchina. Tenerci dentro anche la prova che la macchina funziona è l'unica cosa che stona. Non l'ho sbloccata da solo — decidi tu. Volevo solo che la vedessi separata dalle altre undici, invece che sepolta in mezzo.
+**Cosa è successo.** Questa card chiedeva se l'ordine di prova su Pane Quotidiano dovesse restare in pausa insieme agli altri undici o partire subito come eccezione. **Nicola aveva già risposto il 28/7 alle 15:56** («Si l'ho rimandato a settembre») — registrato in [[DECISIONI]] alla stessa data/ora. La card però non è mai stata chiusa nel file, e per 16 giorni ogni giro l'ha ripresentata come "mossa n.1 ferma senza risposta", quando la risposta esisteva già. Errore riconosciuto: [[feedback-domanda-gia-decisa-ricontrollare]] — prima di riproporre una domanda-decisione, controllare `DECISIONI.md`.
 
-**Se va bene:** se dici «dentro», la lascio ferma. Scrivo nel piano che il primo giorno di business sarà un giorno di collaudo, non di vendita — così nessuno lo dimentica a settembre. Se dici «fuori», la sblocco subito: resta da sola in coda, separata dalle altre, in attesa del tuo ordine.
-
-**Serve da te:** una parola sola, dentro o fuori.
-
-**Nota tecnica:** difetto AR-157. La coda adesso ha un campo `classe` per distinguere un’azione di business da una di validazione, e il guardiano `pausa-check.mjs` resta rosso finché questa domanda non è in coda: `{congelamento-da-confermare: ordine-test-pq}`. Il business è fermo dal 24 giugno (STATO, query diretta 27/7 18:00): 1 negozio, 0 ordini pagati.
-- **Colore:** 🟡 (rimette in lista un’azione che avevi messo in pausa, non manda niente a nessuno)
+**Esito:** l'ordine di prova resta congelato fino al 24 agosto-1 settembre 2026 insieme al resto dei negozi ([[ripresa.lavoro-operativo|registro-fatti.json]]), nessuna eccezione. Il primo giorno di lavoro operativo sarà un giorno di collaudo (verifica pagamento→fornaio→consegna), non di vendita.
+- **Colore:** ✅ chiusa, nessuna azione da eseguire
 - **Reparto:** chief-of-staff + analista
-- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-157}`
+- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-157}` — chiusa da giro AD 2026-08-13 10:22
 
 ---
 
@@ -1031,7 +1027,7 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 07:59)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 10:21)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-13-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1608,6 +1604,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-08-13 07:59 · 6 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 10:21 · 6 card totali
 
 ### ✅ #sensori-cancellati — Chiusa la falla che cancellava lo stato dei sensori. FATTO 2026-08-11 17:05, col tuo ok in chat
 

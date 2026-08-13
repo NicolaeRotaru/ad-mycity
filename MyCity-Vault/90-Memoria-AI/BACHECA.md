@@ -809,9 +809,9 @@ Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-incl
 
 ---
 
-## 🛡️ I guardiani della macchina · 2026-08-12 22:22
+## 🛡️ I guardiani della macchina · 2026-08-13 10:22
 
-A ogni giro, prima che l'AI scriva una riga, girano **80 controlli automatici**. **39** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
+A ogni giro, prima che l'AI scriva una riga, girano **81 controlli automatici**. **40** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
 
 Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato), **cieco** (non ha potuto misurare). Un guardiano cieco *non* vale come verde — è uno strumento rotto, e la macchina si ferma lo stesso: meglio memoria vecchia che memoria che mente.
 
@@ -861,6 +861,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | `calibrazione` | Costringe a dire prima cosa ci si aspetta, e poi a confrontarlo col reale: previsioni mai chiuse sono debito. | ⛔ ferma il giro |
 | `chiusura-loop` | Un reparto che dice FATTO deve lasciare l'esito nel suo quaderno: senza, il lavoro non ha insegnato niente. | ⛔ ferma il giro |
 | `contesto-lezioni` | Rimette in testa alla macchina, all'inizio di ogni sessione, i fatti-chiave e gli errori da non ripetere. | ℹ️ scrive e basta |
+| `correzione-nicola-gate` | Conta quante correzioni di Nicola sono ancora senza un freno automatico proprio (gate): l'area più ripetuta della memoria, resa un numero che il giro non può ignorare. | ⛔ ferma il giro |
 | `cristallizza-apprendimento` | Prende le lezioni mature e le trasforma in principi scritti nei mansionari, dove valgono sempre. | ℹ️ scrive e basta |
 | `macchina-del-tempo` | Ricostruisce la giornata della macchina in ordine: cosa è successo, quando, e perché è stato deciso. | ℹ️ scrive e basta |
 | `sonda-volano` | Controlla che l'anello impara→correggi giri davvero, invece di sembrare che giri. | ⛔ ferma il giro |
@@ -955,12 +956,12 @@ Questa sezione non è scritta a mano: i numeri li conta `cervello/mappa-macchina
 
 | # | Parte | In una frase | Quanto è grande |
 | --- | --- | --- | --- |
-| 1 | 🖥️ **Il Pannello — la faccia** | Quello che vedi e dove firmi. | 222 file · 31.773 righe · 15 aree · 76 rotte |
+| 1 | 🖥️ **Il Pannello — la faccia** | Quello che vedi e dove firmi. | 225 file · 32.159 righe · 15 aree · 77 rotte |
 | 2 | 🦾 **Il worker e il VPS — le braccia** | L'unico pezzo che esegue davvero, 24 ore su 24. | 1625 righe · 14 servizi · 12 timer |
-| 3 | 🧠 **L'AD — la testa** | Chi decide, delega e scrive in memoria. | mansionario di 480 righe · giro di 1606 righe · 18 manuali |
+| 3 | 🧠 **L'AD — la testa** | Chi decide, delega e scrive in memoria. | mansionario di 480 righe · giro di 1625 righe · 18 manuali |
 | 4 | 👥 **I senior — la squadra** | Gli specialisti a cui l'AD passa il lavoro invece di farlo tutto lei. | 120 senior · 124 quaderni di memoria |
-| 5 | 🛡️ **Guardiani e sensori — il sistema immunitario** | Quello che impedisce alla macchina di raccontarti una bugia. | 202 script · 11 sensori · 162 test + 26 prove bash |
-| 6 | 📚 **La memoria — quello che ricorda** | Dove vive tutto ciò che la macchina sa e ha deciso. | 9 cartelle · 38 fatti-chiave · 39 file di auto-coscienza |
+| 5 | 🛡️ **Guardiani e sensori — il sistema immunitario** | Quello che impedisce alla macchina di raccontarti una bugia. | 201 script · 11 sensori · 162 test + 26 prove bash |
+| 6 | 📚 **La memoria — quello che ricorda** | Dove vive tutto ciò che la macchina sa e ha deciso. | 9 cartelle · 38 fatti-chiave · 41 file di auto-coscienza |
 | 7 | ✋ **Mani e sensi — come tocca il mondo** | Come legge la realtà e come, quando glielo permetti, la cambia. | 5 mani · 13 modelli grafici |
 | 8 | 🔄 **I flussi — come le parti si parlano** | I cicli veri: qui non ci sono file nuovi, c'è il «come funziona». | 5 cicli |
 | 9 | 🧩 **Le estensioni — i moduli che si aggiungono** | Le capacità che si accendono quando servono, senza gonfiare il resto. | 72 skill · 6 workflow · 46 capacità |
@@ -971,8 +972,8 @@ Un'app web che **non decide niente**: mostra quello che la macchina ha scritto e
 
 - **1.1 Le aree (15)** — Le stanze in cui è divisa la Cabina — più 3 vecchie scorciatoie che oggi rimandano altrove. L'elenco qui sotto è letto dal codice, non scritto a mano.
 - **1.2 Le caselle (63 componenti)** — I riquadri dentro le aree: bacheca, cuore della macchina, chat, autopilota, quaderni, volano.
-- **1.3 Le rotte interne (76)** — Ogni casella ha la sua fonte: memoria, metriche, lavori, marketplace, controllo. Nessuna scrive sul sito dei negozi.
-- **1.4 La logica (88 moduli)** — Dove vivono le regole vere: firma di un'azione, chat unificata, autopilota, controllo di onestà, economia.
+- **1.3 Le rotte interne (77)** — Ogni casella ha la sua fonte: memoria, metriche, lavori, marketplace, controllo. Nessuna scrive sul sito dei negozi.
+- **1.4 La logica (91 moduli)** — Dove vivono le regole vere: firma di un'azione, chat unificata, autopilota, controllo di onestà, economia.
 - **1.5 Il contratto di navigazione** — La regola che fa funzionare il tasto INDIETRO sul telefono: ogni area, scheda e pannello sovrapposto è una tappa di cronologia, non un interruttore nascosto.
 - **1.6 Deploy e installazione** — Va online solo quando cambia `pannello/`, via Deploy Hook. È installabile sul telefono come un'app (PWA).
 - **1.7 Il database della Cabina (5 file SQL)** — Supabase **separato** da quello del marketplace: coda dei lavori, chat, diario, impostazioni, briefing. I dati dei negozi non si toccano da qui.
@@ -1000,7 +1001,7 @@ Un'app web che **non decide niente**: mostra quello che la macchina ha scritto e
 | `report` *(scorciatoia)* | Vecchia area dei report — resta come scorciatoia: oggi i report vivono in Memoria/Archivio. |
 | `storico` *(scorciatoia)* | Vecchia area dello storico — resta come scorciatoia: oggi lo storico vive dentro Memoria. |
 
-> 📁 Dove: `pannello/` — ospitato su Vercel · 📏 Quanto: 222 file · 31.773 righe · 15 aree · 76 rotte
+> 📁 Dove: `pannello/` — ospitato su Vercel · 📏 Quanto: 225 file · 32.159 righe · 15 aree · 77 rotte
 
 ### 2. 🦾 Il worker e il VPS — le braccia
 
@@ -1045,7 +1046,7 @@ L'AD non è un programma: è un **mansionario** che l'intelligenza artificiale r
 - **3.5 L'auto-coscienza** — Quattro manuali: verificare il proprio lavoro, analizzare sé stessa, confrontarsi coi migliori, estrarre le lezioni.
 - **3.6 I cancelli di qualità** — Nessun numero senza fonte · nessuna entità inventata · il titolo di un'azione deve suonare come lo diresti a voce, senza sigle.
 
-> 📁 Dove: `CLAUDE.md` + i documenti in `cervello/` · 📏 Quanto: mansionario di 480 righe · giro di 1606 righe · 18 manuali
+> 📁 Dove: `CLAUDE.md` + i documenti in `cervello/` · 📏 Quanto: mansionario di 480 righe · giro di 1625 righe · 18 manuali
 
 ### 4. 👥 I senior — la squadra
 
@@ -1088,7 +1089,7 @@ Sono controlli automatici che girano **prima** che il lavoro si chiuda. Non dann
 | `n8n_health` | Lo stato del motore delle automazioni: è lo strumento con cui i senior collegherebbero le mani ai servizi esterni. |
 | `mcp_supabase` | Il secondo canale verso i dati (comodità di sessione): utile quando c'è, mai la fonte di verità — quella resta il REST. |
 
-> 📁 Dove: `cervello/*.mjs` — girano prima che l'AI scriva una riga · 📏 Quanto: 202 script · 11 sensori · 162 test + 26 prove bash
+> 📁 Dove: `cervello/*.mjs` — girano prima che l'AI scriva una riga · 📏 Quanto: 201 script · 11 sensori · 162 test + 26 prove bash
 
 ### 6. 📚 La memoria — quello che ricorda
 
@@ -1097,11 +1098,11 @@ Le cartelle numerate sono **tue**: lì la macchina propone, non riscrive. La car
 - **6.1 Le tue cartelle** — Strategia, mercato, clienti, prodotto, soldi e rischi, piani, agenti. Sono tue: lì la macchina chiede prima di toccare.
 - **6.2 La memoria dell'AD** — Stato, decisioni (registro che non si riscrive mai), azioni in attesa, bacheca, sala operativa, lezioni, briefing archiviati.
 - **6.3 Il registro dei fatti (38)** — La fonte unica: prezzi, date concordate, negozio faro, obiettivi. Quello che leggi nella prima sezione di questa bacheca.
-- **6.4 L'auto-coscienza (39 file)** — Difetti, calibrazione, apprendimento, chi è reale e chi è una scelta ragionata, salute, costi, pagella.
+- **6.4 L'auto-coscienza (41 file)** — Difetti, calibrazione, apprendimento, chi è reale e chi è una scelta ragionata, salute, costi, pagella.
 - **6.5 La memoria viva** — Chat, diario e briefing anche a database, così il Pannello te li mostra da qualunque dispositivo.
 - **6.6 Le consegne** — Dove i senior depositano il lavoro finito, una cartella per reparto. Le grafiche stanno in `creativi/`.
 
-> 📁 Dove: `MyCity-Vault/` — più il database della Cabina · 📏 Quanto: 9 cartelle · 38 fatti-chiave · 39 file di auto-coscienza
+> 📁 Dove: `MyCity-Vault/` — più il database della Cabina · 📏 Quanto: 9 cartelle · 38 fatti-chiave · 41 file di auto-coscienza
 
 ### 7. ✋ Mani e sensi — come tocca il mondo
 
@@ -1149,78 +1150,78 @@ Tre cose diverse che spesso vengono confuse. Una **skill** è un mansionario che
 
 | Skill | Cosa fa |
 | --- | --- |
-| `ab-testing` | Skill di serie (marketing): pianifica A/B test ed esperimenti di crescita — non ancora usata su MyCity. |
-| `ad-creative` | Skill di serie (marketing): genera e itera copy pubblicitario in massa per le ads — non ancora usata su MyCity. |
-| `ads` | Skill di serie (marketing): strategia e ottimizzazione di campagne a pagamento (Google/Meta/LinkedIn) — sovrapposta al senior ads-performance. |
-| `ai-seo` | Skill di serie (marketing): ottimizza i contenuti per essere citati dai motori AI (ChatGPT, Perplexity) — non ancora usata su MyCity. |
-| `analytics` | Skill di serie (marketing): imposta e verifica il tracking (GA4, eventi, UTM) — sovrapposta al senior data-engineer. |
-| `aso` | Skill di serie (marketing): ottimizzazione della scheda su App Store/Google Play — non rilevante finché non c'è un'app. |
+| `ab-testing` | Pianifica ed esegue A/B test/esperimenti di crescita: ipotesi, varianti, durata, significatività. |
+| `ad-creative` | Genera e itera copy per ads a pagamento — headline, testo, varianti — su qualunque piattaforma. |
+| `ads` | Strategia e gestione di campagne a pagamento: targeting, budget, ROAS/CPA su Google/Meta/LinkedIn. |
+| `ai-seo` | Ottimizza i contenuti per farsi citare dai motori di ricerca AI (ChatGPT, Perplexity, AI Overviews). |
+| `analytics` | Imposta e verifica il tracking (GA4, eventi, UTM) per misurare se una cosa funziona davvero. |
+| `aso` | Audit e ottimizzazione della scheda App Store/Google Play: parole chiave, conversione, concorrenti. |
 | `cantiere` | La riparazione dei difetti che le radiografie hanno trovato: si sceglie per malattia, non per conteggio. |
-| `churn-prevention` | Skill di serie (marketing): flussi di cancellazione, offerte di salvataggio, recupero pagamenti falliti — sovrapposta al senior account-negozi. |
-| `co-marketing` | Skill di serie (marketing): trova partner e pianifica campagne congiunte — sovrapposta al senior influencer-partnership. |
-| `code-simplifier` | Skill di serie (dev): semplifica codice già scritto mantenendone il comportamento — di supporto a tech/frontend-dev/backend-dev. |
-| `codebase-design` | Skill di serie (dev): vocabolario per progettare moduli puliti e testabili — di supporto a chi tocca codice. |
-| `codebase-search` | Skill di serie (dev): esplora repository remote via Tabnine Context Engine — non collegata a un motore attivo qui. |
-| `cold-email` | Skill di serie (marketing): scrive email di prospecting B2B che ottengono risposte — sovrapposta al senior vendite. |
-| `community-marketing` | Skill di serie (marketing): costruire e far crescere community online (Discord/forum) — non rilevante per il modello MyCity. |
-| `competitor-profiling` | Skill di serie (marketing): profila i concorrenti a partire dai loro URL — sovrapposta al senior intelligence. |
-| `competitors` | Skill di serie (marketing): pagine di confronto/alternativa per SEO — non rilevante per un marketplace locale. |
-| `content-strategy` | Skill di serie (marketing): pianifica cosa scrivere e i temi editoriali — sovrapposta al senior content-social. |
-| `copy-editing` | Skill di serie (marketing): rilegge e rinfresca testi di marketing già scritti — di supporto ad ai-copywriter. |
-| `copywriting` | Skill di serie (marketing): scrive testi persuasivi per pagine web — sovrapposta al senior ai-copywriter. |
-| `cro` | Skill di serie (marketing): ottimizza la conversione di pagine e form — sovrapposta al senior cro. |
-| `customer-research` | Skill di serie (marketing): conduce e sintetizza ricerca sui clienti (interviste, recensioni) — sovrapposta al senior customer-success. |
-| `diagnosing-bugs` | Skill di serie (dev): metodo di diagnosi per bug difficili prima di proporre un fix — di supporto a tech. |
-| `differential-review` | Skill di serie (dev): revisione di sicurezza differenziale su PR/commit/diff — di supporto a security. |
-| `directory-submissions` | Skill di serie (marketing): invia il prodotto a directory di startup per backlink — non rilevante per un marketplace locale. |
-| `docx` | Skill di serie (documenti): crea e modifica documenti Word (.docx/.dotx) — di supporto generico, nessun reparto dedicato. |
-| `emails` | Skill di serie (marketing): sequenze email automatiche (drip, lifecycle) — sovrapposta al senior crm-lifecycle. |
-| `firecrawl` | Skill di serie (ricerca): cerca e scarica pagine web via Firecrawl CLI — alternativa a WebSearch/WebFetch, non collegata a una chiave qui. |
-| `free-tools` | Skill di serie (marketing): pianifica strumenti gratuiti per generare lead — non rilevante per un marketplace locale. |
-| `grilling` | Skill di serie (metodo): mette sotto torchio un piano o una decisione per stress-testarla — di supporto trasversale. |
-| `handoff` | Skill di serie (metodo): comprime la conversazione corrente in un documento di passaggio per un altro agente. |
-| `image` | Skill di serie (creativa): genera e ottimizza immagini di marketing — sovrapposta al senior ai-designer. |
-| `launch` | Skill di serie (marketing): pianifica il lancio di un prodotto o di una funzione — sovrapposta a product-manager/pr-stampa. |
-| `lead-magnets` | Skill di serie (marketing): contenuti scaricabili per catturare email — non rilevante per il modello MyCity (niente funnel lead-gen). |
-| `marketing-council` | Skill di serie (marketing): simula un consiglio di grandi marketer per un secondo parere — di supporto trasversale. |
-| `marketing-ideas` | Skill di serie (marketing): banca di idee di crescita per SaaS — sovrapposta al senior marketing/growth-monetizzazione. |
-| `marketing-loops` | Skill di serie (marketing): imposta workflow di marketing ricorrenti su cadenza — sovrapposto a cervello/ritmo.md. |
-| `marketing-plan` | Skill di serie (marketing): genera un piano di marketing completo stile SaaS — non calibrato sul modello MyCity (marketplace locale). |
-| `marketing-psychology` | Skill di serie (marketing): applica principi di psicologia e bias cognitivi al marketing — di supporto trasversale. |
-| `offers` | Skill di serie (marketing): costruisce l'offerta (bonus, garanzie, urgenza) — sovrapposta a pricing-scientist/growth-monetizzazione. |
-| `onboarding` | Skill di serie (marketing): ottimizza l'attivazione post-iscrizione di un prodotto SaaS — sovrapposta a onboarding-negozi/customer-success. |
-| `paywalls` | Skill di serie (marketing): schermate di upgrade e paywall in-app — non rilevante (MyCity non ha un paywall prodotto). |
-| `pdf` | Skill di serie (documenti): legge, crea e modifica file PDF — di supporto generico, nessun reparto dedicato. |
-| `ponytail` | Skill di serie (metodo): sui task che toccano codice, riduce la portata al minimo indispensabile. |
-| `popups` | Skill di serie (marketing): popup e overlay per la conversione — non rilevante per il modello MyCity. |
-| `pricing` | Skill di serie (marketing): decisioni di prezzo e packaging stile SaaS — sovrapposta al senior pricing-scientist. |
-| `product-marketing` | Skill di serie (marketing): documento di posizionamento/ICP di partenza per le altre skill di marketing. |
-| `programmatic-seo` | Skill di serie (marketing): pagine SEO a scala da template — non rilevante per un marketplace locale. |
-| `prospecting` | Skill di serie (marketing): costruisce liste di prospect qualificati — sovrapposta al senior vendite. |
-| `public-relations` | Skill di serie (marketing): comunicati stampa e contatti giornalisti — sovrapposta al senior pr-stampa. |
-| `react-best-practices` | Skill di serie (dev): linee guida di performance React/Next.js — di supporto a frontend-dev. |
-| `referrals` | Skill di serie (marketing): programmi di referral/affiliazione — non ancora attivo, potenziale leva futura. |
-| `revops` | Skill di serie (marketing): lead scoring, routing e passaggio marketing→vendite — sovrapposta al senior revops. |
-| `sales-enablement` | Skill di serie (marketing): materiali di vendita (deck, one-pager) — sovrapposta al senior vendite. |
+| `churn-prevention` | Riduce l'abbandono: flussi di cancellazione, offerte di recupero, pagamenti falliti, win-back. |
+| `co-marketing` | Trova partner e pianifica campagne congiunte con altre aziende. |
+| `code-simplifier` | Semplifica e pulisce codice già scritto mantenendo il comportamento invariato. |
+| `codebase-design` | Vocabolario condiviso per progettare moduli di codice profondi e ben incapsulati. |
+| `codebase-search` | Esplora repository remoti con un motore di ricerca sul contesto del codice. |
+| `cold-email` | Scrive email di primo contatto B2B e le sequenze di follow-up che ottengono risposte. |
+| `community-marketing` | Costruisce e sfrutta community online (Discord/forum) per crescita e passaparola. |
+| `competitor-profiling` | Profila i concorrenti a partire dai loro URL: ricerca e analisi competitiva. |
+| `competitors` | Crea pagine di confronto/alternative per SEO e supporto vendite contro i concorrenti. |
+| `content-strategy` | Pianifica cosa scrivere: temi, cluster, calendario editoriale. |
+| `copy-editing` | Rilegge e migliora testi di marketing già scritti, o li aggiorna se datati. |
+| `copywriting` | Scrive o riscrive testi di marketing per una pagina — home, landing, prezzi, prodotto. |
+| `cro` | Ottimizza la conversione di pagine e form del sito: funnel, A/B test, frizioni. |
+| `customer-research` | Conduce e sintetizza ricerca sui clienti: interviste, recensioni, ticket, persona. |
+| `diagnosing-bugs` | Ciclo di diagnosi guidato per bug difficili e regressioni di performance. |
+| `differential-review` | Revisione di sicurezza mirata su PR/commit/diff, con raggio d'impatto e copertura test. |
+| `directory-submissions` | Sottomette il prodotto a directory (startup/SaaS/AI) per backlink e scoperta. |
+| `docx` | Crea, legge e modifica documenti Word (.docx/.dotx). |
+| `emails` | Crea sequenze email automatiche — onboarding, drip, lifecycle. |
+| `firecrawl` | Cerca e legge il web via CLI: ricerca, scraping, pagine con login/click. |
+| `free-tools` | Valuta e progetta strumenti gratuiti (calcolatori, generatori) come leva di marketing. |
+| `grilling` | Mette sotto torchio un piano o un'idea per stress-testarla prima di partire. |
+| `handoff` | Prepara il passaggio di consegne di un lavoro tra sessioni o persone. |
+| `image` | Genera e ottimizza immagini per marketing: hero, grafiche social, mockup prodotto. |
+| `launch` | Pianifica il lancio di un prodotto o di una funzione: checklist, canali, annuncio. |
+| `lead-magnets` | Pianifica contenuti scaricabili (ebook, checklist, template) per raccogliere email. |
+| `marketing-council` | Consiglio simulato di grandi marketer per pareri multipli e in contrasto su una domanda. |
+| `marketing-ideas` | Genera idee e ispirazione di marketing per un prodotto, come punto di partenza. |
+| `marketing-loops` | Configura flussi di marketing ricorrenti che un agente esegue a cadenza fissa. |
+| `marketing-plan` | Scrive un piano di marketing completo (AARRR) per un'azienda o un cliente. |
+| `marketing-psychology` | Applica principi di psicologia e scienze comportamentali al marketing. |
+| `offers` | Costruisce l'offerta sotto il copy — bonus, garanzie, scarsità, naming. |
+| `onboarding` | Progetta l'attivazione post-iscrizione: primi passi, aha-moment, riduzione abbandono. |
+| `paywalls` | Progetta paywall e upsell dentro l'app. |
+| `pdf` | Crea e modifica documenti PDF. |
+| `ponytail` | Riduce al minimo indispensabile i task che toccano solo codice. |
+| `popups` | Progetta popup e modali per acquisizione lead o conversione. |
+| `pricing` | Definisce prezzi e piani, willingness-to-pay, test di prezzo. |
+| `product-marketing` | Posizionamento, ICP, messaging: il ponte tra prodotto e mercato. |
+| `programmatic-seo` | Genera pagine SEO su scala da un template più un dataset. |
+| `prospecting` | Trova e qualifica potenziali clienti da contattare. |
+| `public-relations` | Comunicati stampa, contatti con giornalisti, kit stampa. |
+| `react-best-practices` | Buone pratiche React per componenti e hook di qualità. |
+| `referrals` | Programmi di referral e passaparola tra clienti. |
+| `revops` | Revenue operations: funnel end-to-end, KPI condivisi, CRM, forecast di pipeline. |
+| `sales-enablement` | Materiali di supporto vendite: battle card, obiezioni, one-pager. |
 | `salute` | La visita: controlla i cinque organi vivi e distingue ✅ provato, ❌ rotto e ⚪ non l'ho potuto vedere da qui. |
-| `schema` | Skill di serie (marketing): dati strutturati/schema.org per rich snippet — sovrapposta al senior seo. |
+| `schema` | Implementa dati strutturati (schema.org) per la SEO. |
 | `senior` | La squadra dei 120 a fondo: chi è vivo, chi dorme, chi si sovrappone, chi non consegna nel formato giusto. |
-| `seo-audit` | Skill di serie (marketing): audit tecnico SEO di un sito — sovrapposta al senior seo. |
-| `signup` | Skill di serie (marketing): ottimizza il flusso di registrazione — non rilevante (MyCity non ha signup utente classico). |
-| `site-architecture` | Skill di serie (marketing): mappa la struttura di navigazione di un sito — di supporto a frontend-dev/ux-designer. |
-| `sms` | Skill di serie (marketing): campagne SMS/MMS — non ancora un canale attivo per MyCity. |
-| `social` | Skill di serie (marketing): contenuti social e social listening — sovrapposta al senior content-social. |
-| `supabase` | Skill di serie (dev): guida su ogni task che coinvolge Supabase (auth, RLS, migrazioni) — di supporto a backend-dev/security. |
-| `supabase-postgres-best-practices` | Skill di serie (dev): buone pratiche di performance Postgres — di supporto a backend-dev. |
-| `superpowers` | Skill di serie (metodo): impone di cercare e usare una skill prima di rispondere, a inizio conversazione. |
-| `systematic-debugging` | Skill di serie (dev): loop di debug sistematico prima di proporre un fix — di supporto a tech. |
-| `tdd` | Skill di serie (dev): sviluppo test-first (red-green-refactor) — di supporto a chi tocca codice. |
+| `seo-audit` | Audit tecnico e on-page della SEO. |
+| `signup` | Ottimizza il flusso di registrazione/iscrizione. |
+| `site-architecture` | Progetta l'architettura informativa e di navigazione del sito. |
+| `sms` | Scrive campagne e flussi via SMS. |
+| `social` | Pianifica e scrive contenuti social. |
+| `supabase` | Guida all'uso di Supabase (database, autenticazione, storage). |
+| `supabase-postgres-best-practices` | Buone pratiche Postgres quando si usa Supabase. |
+| `superpowers` | Meta-skill con capacità estese di supporto al lavoro di sviluppo. |
+| `systematic-debugging` | Metodo sistematico da seguire prima di proporre un fix su un bug. |
+| `tdd` | Sviluppo guidato dai test (scrivi il test prima del codice). |
 | `verify` | La prova sul campo: guida il Pannello vero con un browser e i test del worker, per dimostrare che un fix funziona. |
-| `video` | Skill di serie (creativa): produzione video con strumenti AI — sovrapposta al senior ai-video. |
-| `web-design-guidelines` | Skill di serie (dev): rivede il codice UI contro linee guida di interfaccia — di supporto a frontend-dev/ux-designer. |
-| `webapp-testing` | Skill di serie (dev): guida un browser Playwright per testare un'app web locale — è il motore della skill `verify`. |
+| `video` | Produzione di video e reel di marketing. |
+| `web-design-guidelines` | Linee guida di design per interfacce web. |
+| `webapp-testing` | Test end-to-end di applicazioni web. |
 | `worker` | Il worker e il VPS a fondo: code, servizi, lock, orfani, riavvii — quando qualcosa è fermo e serve la causa vera. |
-| `xlsx` | Skill di serie (documenti): legge, crea e sistema file Excel/CSV — di supporto generico, nessun reparto dedicato. |
+| `xlsx` | Crea e modifica fogli Excel (.xlsx). |
 
 **I workflow:**
 

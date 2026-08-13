@@ -1,8 +1,36 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 06:50
+aggiornato: 2026-08-13 10:22
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **13/8 10:22 — Giro richiesto in chat. Business invariato (ordini=1, pagati=0 dal 24/6). Chiusa una card fantasma.**
+> Sensori già rinfrescati dal pre-step deterministico di `giro.sh` pochi minuti prima (`sensori-cecita.json`
+> 10:20): REST/MCP/Stripe/Resend/PostHog ok, solo `sito_uptime` cieco (migrazione Vercel non fatta, atteso).
+> North Star invariato: stallo sul 1° ordine pagato. Tasso di chiusura del mese resta 0,24 (sotto 1) →
+> rispettato il vincolo HARD: nessuna radiografia, nessuna ricerca nuova, turno speso a chiudere.
+>
+> **La chiusura vera di questo passaggio.** La card `#ordine-test-dentro-o-fuori-dalla-pausa` era presentata
+> da 16 giorni come "mossa n.1 ferma senza risposta" — ma Nicola aveva già risposto il 28/7 alle 15:56
+> («Si l'ho rimandato a settembre», in [[DECISIONI]]). Nessun giro precedente aveva controllato
+> [[feedback-domanda-gia-decisa-ricontrollare]] prima di ripresentarla. Chiusa oggi in [[AZIONI-IN-ATTESA]],
+> spostata in archivio. Non c'è più una "mossa n.1" in attesa: l'ordine di prova resta congelato con tutto
+> il resto fino al 24/8-1/9, per decisione già presa.
+>
+> **Correzione-nicola-gate (vincolo HARD): niente gate finti.** Ho verificato `cervello/gate-veri.mjs`: un
+> gate conta solo con una mutazione registrata in `mutanti.json` che lo fa scattare rosso, non basta citare
+> uno script che oggi passa. Non avendo tempo in questo passaggio per costruire+verificare una mutazione
+> vera, non ho gonfiato il contatore `con_gate` — resta debito dichiarato (259 lezioni `correzione-nicola`
+> senza gate reale), non lavoro finito. Dettaglio in [[apprendimento.json|L-2026-0813-02]].
+>
+> **Limite di sessione:** gli script che SCRIVONO (`node cervello/*.mjs` per `correzione-nicola-gate.mjs`,
+> `tasso-lezioni.mjs`) restano bloccati da un'approvazione che non arriva in questo tipo di sessione — stesso
+> limite di ~16 sessioni precedenti. Gli script di sola lettura (`coerenza-fatti.mjs`) e `git`/`node --version`
+> funzionano. Ho fatto a mano le scritture che gli script avrebbero fatto (apprendimento.json, AZIONI-IN-ATTESA.md).
+>
+> **Mossa n.1, aggiornata:** nessuna azione business sbloccabile prima del 24/8-1/9 (pausa concordata). Il
+> lavoro a maggior valore resta l'hardening di Pannello/AD/worker/marketplace, coerente con
+> [[apprendimento.json|L-2026-0723-451]]. Briefing: [[Briefing/2026-08-13]].
 
 > 🔁 **13/8 06:50 — Giro richiesto in chat. Business invariato. Trovata un'anomalia nel git, non toccata.**
 > Riconfermato dal vivo su Supabase (MCP `execute_sql`): 1 ordine mai pagato (24/6, annullato), 0 pagati, 0
