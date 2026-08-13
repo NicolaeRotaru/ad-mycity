@@ -67,15 +67,26 @@ test("ciò che non si può eseguire qui è dichiarato, non contato come ok", { s
 });
 
 test(
-  "senza rossi ma con controlli non eseguiti il codice d'uscita è 2, mai 0",
+  "con controlli non eseguiti il codice d'uscita non è MAI 0",
   { skip: SUL_VPS ? "sul VPS i controlli si eseguono davvero" : false },
   () => {
+    // NOTA — questa prova è stata riscritta dopo che la CI l'ha bocciata, e la bocciatura era giusta.
+    // La prima versione pretendeva ZERO rossi: una cosa che dipende da DOVE gira (su un runner
+    // GitHub ci sono chiavi che qui non ci sono, e viceversa), non dal difetto. Una prova che
+    // fallisce per l'ambiente insegna a ignorarla — cioè il modo in cui muore un freno.
+    // Qui si guarda l'invariante, che vale ovunque: se c'è anche un solo controllo non eseguito, il
+    // verde non si può dare. E nel caso senza rossi il codice è esattamente 2.
     const { rc, j } = lancia();
+    assert.ok(j.controlli_non_eseguiti.length > 0, "senza token e senza systemd qualcosa NON si è potuto misurare");
+    assert.notEqual(rc, 0, "prima usciva 0: verde pieno su una macchina che non aveva guardato");
+
     const rossi = j.checks.filter((c) => c.esito === "fail");
-    assert.deepEqual(rossi, [], `qui non ci si aspettano rossi: ${JSON.stringify(rossi)}`);
-    assert.ok(j.controlli_non_eseguiti.length > 0);
-    assert.equal(rc, 2, "prima usciva 0: verde pieno su una macchina che non aveva guardato");
-    assert.equal(j.esito, "cieco", "anche il segnale scritto in memoria deve portare il terzo stato");
+    if (rossi.length === 0) {
+      assert.equal(rc, 2, "niente di rotto e qualcosa non misurato: è il ⚪, non il verde");
+      assert.equal(j.esito, "cieco", "anche il segnale scritto in memoria deve portare il terzo stato");
+    } else {
+      assert.equal(rc, 1, `c'è un rosso vero (${rossi.map((r) => r.nome).join(", ")}): il rosso vince sul ⚪`);
+    }
   },
 );
 
