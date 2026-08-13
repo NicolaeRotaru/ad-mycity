@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-13 19:20** — Automatico: **68 aperte · 7 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-13 20:22** — Automatico: **68 aperte · 7 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -1066,15 +1066,13 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 **Contenuto completo:** `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md` · anteprima [[AZIONI-PRONTE]] **A28**
 
-**Testo pronto (versione Gruppi Facebook) — da copiare così com'è:**
+**Testo pronto (versione Gruppi Facebook):**
 
-```
-Chi ha voglia di uscire a prendere la colazione fresca con questo caldo? 😅
-
-Stiamo portando online i negozi veri di Piacenza: c'è Pane Quotidiano (Via Calzolai, bio dal '76) con kefir e freschi bio già ordinabili. Te li portiamo a casa al mattino, paghi alla consegna se ti è più comodo.
-
-Se ti va di provare, link nel primo commento 👇
-```
+> Chi ha voglia di uscire a prendere la colazione fresca con questo caldo? 😅
+>
+> Stiamo portando online i negozi veri di Piacenza: c'è **Pane Quotidiano** (Via Calzolai, bio dal '76) con kefir e freschi bio già ordinabili. Te li portiamo a casa al mattino, paghi alla consegna se ti è più comodo.
+>
+> Se ti va di provare, link nel primo commento 👇
 
 **Prima del post servono da Nicola (due minuti):**
 1. **Link lista d'attesa** — incollalo e la macchina completa il primo commento
@@ -1090,7 +1088,7 @@ Se ti va di provare, link nel primo commento 👇
 
 ---
 
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 19:20)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 20:21)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-13-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1320,6 +1318,7 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 78 | 2026-08-13 09:45 | @tech | Ripara il contatore delle chiusure: ti mostra 0,23 quando il conto vero è 0,92 | 🟡 | Il contatore conta una chiusura solo se ha la data, e 74 chiusure sono rimaste senza: la storia dei file prova che 71 sono di agosto. Fix in un ramo, piccolo e reversibile: data di chiusura obbligatoria quando uno stato passa a «chiuso», più il recupero delle 74 date dalla storia di git. | github | in attesa | Il freno «cerca o chiudi» decide oggi su un numero sbagliato di quattro volte: con il conto vero la macchina può tornare a cercare senza violare la regola che hai approvato. | Dopo il tuo ok apro la richiesta di unione col fix e le 74 date recuperate; il voto mensile torna a dire la verità. |
 | 79 | 2026-08-13 09:45 | @qa | Apri il sito dal telefono: il sensore lo vede spento dal 30 luglio | 🟡 | Il sensore di raggiungibilità segna «servizio non disponibile» su mycity-marketplace.com da 103 controlli consecutivi, ultimo verde il 30 luglio — la data coincide con la migrazione da Render a Vercel. Da questa sessione la rete non arriva al dominio, quindi non posso dirimere io: aprilo tu dal telefono, bastano dieci secondi. | manuale | in attesa | Se non si apre è l'incendio numero uno: marketplace giù da tredici giorni, zero ordini possibili. Se si apre, il sensore punta all'indirizzo vecchio e ti mostra un rosso falso da tredici giorni. | Nel primo caso spegniamo l'incendio con devops; nel secondo correggo il sensore e monto l'allarme che stavolta è mancato. |
 | 81 | 2026-08-13 18:59 | @tech | Merge PR #714 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/714 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 82 | 2026-08-13 21:05 | @devops-sre | Fai un push da un posto con le credenziali di GitHub: main è avanti di 4 commit e non si vedono online | 🟡 | Questa sessione chat non può parlare con GitHub. `git push origin main` fallisce sempre, nessuna credenziale. Ha pronti 4 commit di memoria sul `main` locale: recupero sensori/salute più mappa macchina. Ha anche un ramo pronto, `fix/recupero-sensori-mappa-macchina-13-8`, con un fix vero. Un guardiano vedeva `permessi-check.mjs` come fantasma, per colpa di cartelle di lavoro lasciate in giro. Serve solo un `git push origin main`, dal VPS o dal tuo terminale. Poi la PR del ramo si apre da sola al prossimo giro. | manuale | in attesa | Finché non parte il push, il Pannello resta indietro di mezza giornata di lavoro della macchina — legge solo `main` pubblicato. Il fix del guardiano non entra mai in vigore. | Dopo il push confermo che il Pannello si è allineato. Poi apro io la PR del ramo di fix. |
 
 <!-- prevenzione-a-monte -->
 

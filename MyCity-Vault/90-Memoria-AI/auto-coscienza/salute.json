@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-08-13 06:46",
+  "aggiornato": "2026-08-13 20:46",
   "soglie": {
     "refertoVpsScadutoOre": 26,
     "memoriaFermaOre": 12,
@@ -248,8 +248,8 @@
       ]
     },
     "vps": {
-      "quando": "2026-08-13 06:46",
-      "iso": "2026-08-13T04:46:58.687Z",
+      "quando": "2026-08-13 20:46",
+      "iso": "2026-08-13T18:46:57.018Z",
       "casa": "vps",
       "modo": "vps",
       "ok": 19,
@@ -264,7 +264,7 @@
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
           "esito": "ok",
-          "detto": "ultima traccia 0 ore fa (ultimo-briefing.json)",
+          "detto": "ultima traccia 0 ore fa (sentinella-dati.json)",
           "prova": null,
           "regressione": false
         },
@@ -304,7 +304,7 @@
           "titolo": "Quello che il server scrive arriva su GitHub",
           "impatto": 2,
           "esito": "ok",
-          "detto": "8 commit in attesa di pubblicazione, sotto la soglia di 50",
+          "detto": "1 commit in attesa di pubblicazione, sotto la soglia di 50",
           "prova": null,
           "regressione": false
         },
@@ -344,7 +344,7 @@
           "titolo": "I test del cervello passano",
           "impatto": 3,
           "esito": "rotto",
-          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-08-13 06:45  (2 corsie · 25 in fila perché scrivono sul dato vivo) · ✅ cervello/test/allineamento-esito.test.mjs  (22 passati)",
+          "detto": "un test del cervello è rosso o non parte — 🧪 TEST DEL CERVELLO — 2026-08-13 20:45  (2 corsie · 26 in fila perché scrivono sul dato vivo) · ❌ cervello/test/_debug_ghost.test.mjs  (0 passati)",
           "prova": "node cervello/test-cervello.mjs",
           "regressione": false
         },
@@ -364,7 +364,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 0 min fa (2026-08-13T04:46:39.566Z) — 28 file guardati, 6 voci, 0 gravi.",
+          "detto": "✅ ultimo scatto 1 min fa (2026-08-13T18:46:08.092Z) — 32 file guardati, 2 voci, 0 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false
         },
@@ -374,7 +374,7 @@
           "titolo": "I guardiani del giro esistono tutti",
           "impatto": 3,
           "esito": "ok",
-          "detto": "64 guardiani del giro presenti",
+          "detto": "66 guardiani del giro presenti",
           "prova": null,
           "regressione": false
         },
@@ -384,7 +384,7 @@
           "titolo": "Il lavoro consegnato dice com'è andato",
           "impatto": 2,
           "esito": "ok",
-          "detto": "143 consegne su 193 degli ultimi 30 giorni senza una riga di esito (74%) · Cabina 0 giorni indietro (STATO al 2026-08-13 06:50)",
+          "detto": "138 consegne su 190 degli ultimi 30 giorni senza una riga di esito (73%) · Cabina 0 giorni indietro (STATO al 2026-08-13 19:20)",
           "prova": null,
           "regressione": false
         },
@@ -394,7 +394,7 @@
           "titolo": "Quando scrivo a Nicola, gli rispondo",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "«Cosa non ho verificato» mancato nel 97% dei 36 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
+          "detto": "«Cosa non ho verificato» mancato nel 98% dei 43 messaggi che lo pretendevano (ultimi 7 giorni) — sopra il tetto del 45%",
           "prova": null,
           "regressione": false
         },
@@ -434,7 +434,7 @@
           "titolo": "La Cabina è collegata alla memoria",
           "impatto": 2,
           "esito": "ok",
-          "detto": "collegata, ultimo battito 2026-08-13T00:01:58+02:00",
+          "detto": "collegata, ultimo battito 2026-08-13T19:28:36+02:00",
           "prova": null,
           "regressione": false
         },
@@ -464,7 +464,7 @@
           "titolo": "I senior chiudono il loop",
           "impatto": 3,
           "esito": "ok",
-          "detto": "15 senior con almeno un esito registrato",
+          "detto": "16 senior con almeno un esito registrato",
           "prova": null,
           "regressione": false
         },
@@ -935,6 +935,17 @@
     {
       "quando": "2026-08-13 06:46",
       "iso": "2026-08-13T04:46:58.687Z",
+      "casa": "vps",
+      "modo": "vps",
+      "ok": 19,
+      "rotti": 3,
+      "guasti": 0,
+      "nonvisti": 1,
+      "copertura": 0.96
+    },
+    {
+      "quando": "2026-08-13 20:46",
+      "iso": "2026-08-13T18:46:57.018Z",
       "casa": "vps",
       "modo": "vps",
       "ok": 19,

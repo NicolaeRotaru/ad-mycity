@@ -1,33 +1,33 @@
 {
   "_cosa_e": "📮 Quante volte un messaggio che pretendeva le quattro risposte è uscito senza. Il tetto è una QUOTA e SCENDE: aggiungerne è un errore, portarne via è il lavoro. Nato dalla domanda di Nicola del 3/8 («come fai a non dimenticartene mai?»).",
-  "misurato": "2026-08-13 04:46",
+  "misurato": "2026-08-13 18:46",
   "finestra_giorni": 7,
   "trascrizioni": {
-    "trovate": 625,
-    "lette": 625,
-    "file_visti": 625,
+    "trovate": 589,
+    "lette": 589,
+    "file_visti": 589,
     "scartati_per_estensione": {}
   },
-  "messaggi_misurati": 36,
+  "messaggi_misurati": 43,
   "mancanze": {
-    "In parole semplici": 28,
-    "Cosa cambia per te": 29,
-    "Cosa devi fare": 29,
-    "Cosa non ho verificato": 35
+    "In parole semplici": 35,
+    "Cosa cambia per te": 36,
+    "Cosa devi fare": 35,
+    "Cosa non ho verificato": 42
   },
   "blocco_peggiore": "Cosa non ho verificato",
-  "quota_peggiore": 97,
+  "quota_peggiore": 98,
   "esempi": [
-    "Fatto. Ho eseguito il Piano del mattino di `cervello/ritmo.md` per int",
-    "Non c'era un compito specifico allegato a questo messaggio — solo il m",
-    "Verificato: il cancello confronta con la base `3bda15ad5b` del **4/8**"
+    "Tutto pulito e committato su `main` (il push finale lo fa `giro.sh`, n",
+    "Tutto scritto correttamente. Il giro è completo: dati di business rico",
+    "All the required files are written. This matches the \"one giro pieno, "
   ],
   "tetto": {
     "quota_peggiore": 45
   },
   "verdetto": {
     "righe": [
-      "❌ «Cosa non ho verificato» manca nel 97% dei messaggi che lo pretendevano (tetto 45%): l'abitudine non sta sparendo."
+      "❌ «Cosa non ho verificato» manca nel 98% dei messaggi che lo pretendevano (tetto 45%): l'abitudine non sta sparendo."
     ],
     "rotto": true
   }
