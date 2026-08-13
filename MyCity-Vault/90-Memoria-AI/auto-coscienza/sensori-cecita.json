@@ -1,13 +1,13 @@
 {
   "_cosa_e": "Contatore giri-ciechi per ogni sensore dati. Aggiornato da verifica-sensori.mjs a ogni giro. Alimenta la sonda e le sentinelle.",
-  "aggiornato": "2026-08-13 11:07",
+  "aggiornato": "2026-08-13 11:58",
   "sensori": {
     "supabase_rest": {
       "stato": "ok",
       "giri_ciechi": 0,
       "canale": "REST marketplace",
       "dettaglio": "orders CONTATI via REST: 1 righe visibili con questa chiave",
-      "ultimo_ok": "2026-08-13 11:07",
+      "ultimo_ok": "2026-08-13 11:58",
       "ultimo_errore": "",
       "ultimo_conteggio": 1
     },
@@ -25,7 +25,7 @@
       "ultimo_errore": "",
       "canale": "Stripe API",
       "dettaglio": "balance API ok",
-      "ultimo_ok": "2026-08-13 11:07"
+      "ultimo_ok": "2026-08-13 11:58"
     },
     "posthog_api": {
       "giri_ciechi": 0,
@@ -34,18 +34,18 @@
       "dettaglio": "projects API ok",
       "ultimo_errore": "",
       "nota_riconciliazione": "2026-07-06 15:58 AD: contatore 27 era congelato al giro del 2026-07-04 16:20 (ultimo giro completo prima della pausa limiti Claude), quindi PRECEDE la decisione 5/7 di togliere PostHog. Riconciliato a mano alla verità; sarà riscritto dal prossimo verifica-sensori.mjs alla ripresa dei giri.",
-      "ultimo_ok": "2026-08-13 11:07"
+      "ultimo_ok": "2026-08-13 11:58"
     },
     "resend_api": {
       "giri_ciechi": 0,
       "stato": "ok",
       "canale": "Resend API",
       "dettaglio": "domains API ok",
-      "ultimo_ok": "2026-08-13 11:07",
+      "ultimo_ok": "2026-08-13 11:58",
       "ultimo_errore": ""
     },
     "sito_uptime": {
-      "giri_ciechi": 118,
+      "giri_ciechi": 119,
       "stato": "cieco",
       "canale": "storefront GET",
       "dettaglio": "HTTP 503 su https://mycity-marketplace.com (dopo 3 tentativi)",
@@ -55,7 +55,7 @@
     "supabase_memoria": {
       "giri_ciechi": 0,
       "stato": "ok",
-      "ultimo_ok": "2026-08-13 11:07",
+      "ultimo_ok": "2026-08-13 11:58",
       "ultimo_errore": "",
       "canale": "REST memoria",
       "dettaglio": "impostazioni leggibili via REST (DB memoria)"
@@ -65,7 +65,7 @@
       "stato": "ok",
       "canale": "Cabina GET",
       "dettaglio": "Pannello raggiungibile (HTTP 200)",
-      "ultimo_ok": "2026-08-13 11:07",
+      "ultimo_ok": "2026-08-13 11:58",
       "ultimo_errore": ""
     },
     "telegram_bot": {
@@ -73,7 +73,7 @@
       "stato": "non_configurato",
       "canale": "Telegram getMe",
       "dettaglio": "TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate",
-      "non_misurato_qui": "2026-08-13 11:07: TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate"
+      "non_misurato_qui": "2026-08-13 11:58: TELEGRAM_BOT_TOKEN assente — notifiche approvazione non monitorate"
     },
     "n8n_health": {
       "giri_ciechi": 0,
@@ -81,7 +81,7 @@
       "ultimo_errore": "",
       "canale": "n8n healthz",
       "dettaglio": "n8n health ok",
-      "ultimo_ok": "2026-08-13 11:07"
+      "ultimo_ok": "2026-08-13 11:58"
     },
     "mcp_stripe": {
       "giri_ciechi": 0,
@@ -94,7 +94,7 @@
     "watchdog_esterno": {
       "giri_ciechi": 0,
       "stato": "ok",
-      "ultimo_ok": "2026-08-13 11:07",
+      "ultimo_ok": "2026-08-13 11:58",
       "ultimo_errore": "",
       "canale": "battito-esterno.yml",
       "dettaglio": "guardiano esterno presente e schedulato (GitHub Actions, indipendente dal VPS)"
@@ -102,9 +102,9 @@
   },
   "istruzioni_giro": "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre.",
   "meta": {
-    "giri_totali": 548,
+    "giri_totali": 549,
     "sensori_ok": 8,
-    "max_giri_ciechi": 118,
+    "max_giri_ciechi": 119,
     "sensori_totali": 9,
     "almeno_un_dato": true,
     "sensori_non_configurati": 1,

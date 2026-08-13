@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-13 11:50",
+ "aggiornato": "2026-08-13 11:58",
  "lezioni": [
   {
    "id": "L-2026-0813-02",
@@ -13240,7 +13240,7 @@
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.11,
-  "tasso_calcolato_il": "2026-08-13 11:50",
+  "tasso_calcolato_il": "2026-08-13 11:58",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-13 11:50",
   "usi_marcati_il": "2026-07-17 07:00",
