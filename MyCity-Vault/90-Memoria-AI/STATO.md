@@ -1,8 +1,36 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 14:23
+aggiornato: 2026-08-13 14:40
 fonte: AD digitale (chat)
 ---
+
+> ✅ **13/8 14:40 — Giro richiesto in chat: controllati per davvero i 3 fix CI mandati alle 14:23, non solo fidandomi del riepilogo.**
+> Business riconfermato invariato con query SQL diretta: 1 ordine (mai pagato, 24/6), 0 pagati, 5 prodotti, 7 profili,
+> 0 ordini e 0 nuovi clienti negli ultimi 7 giorni. North Star: stallo **50 giorni**, dentro la pausa concordata
+> fino al 24/8-1/9. Non è un allarme.
+>
+> **Cosa ho verificato.** Sono entrato nei 3 worktree lasciati dai senior del passaggio precedente
+> (PR #710/#709/#708) e ho fatto girare io i test esatti che dovevano tornare verdi:
+> `si-capisce.test.mjs` (68/68, due volte, uno per worktree), `mappa-in-bacheca.test.mjs` (19/19) e
+> `permessi-di-guardia.test.mjs` (5/5). **Tutti passano.** Ho anche controllato che i 3 branch locali
+> siano identici a quelli già su GitHub (`git log origin/<branch>..<branch>`, nessuna riga): niente da
+> spingere, i fix sono già lì.
+>
+> **La cosa che non torna.** `node cervello/ci-stato.mjs`, rieseguito alle 14:31, continua a leggere
+> tutte e tre le PR come rosse per "colpa propria". Due spiegazioni possibili, e non ho modo di scegliere
+> tra le due da qui: o GitHub non ha ancora rieseguito i controlli sull'ultimo commit, oppure c'è qualcosa
+> che la CI vede e i miei test locali no. `gh pr checks` è negato in questa sessione (stesso limite di
+> sempre). Non ho dichiarato le PR "chiuse": ho scritto esattamente cosa ho provato e cosa resta da
+> confermare da un canale con accesso vero a GitHub.
+>
+> **Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese):** non ho riaperto ricerca su altro. Non ho
+> riscritto `auto-analisi.json` (13:00), `registro-realta.json`, `apprendimento.json` (14:30): già freschi
+> di oggi su dati identici.
+>
+> **Mossa n.1, invariata:** nessuna azione business sbloccabile prima del 24/8-1/9. Resta da firmare
+> `#permessi-senza-jolly` e resta aperta `#sensori-spenti-senza-motivo` (telegram_bot). **Nuovo:** serve un
+> paio di minuti da un posto con `gh`/GitHub (VPS o Nicola) per guardare i controlli veri delle PR
+> #710/#709/#708 e dire se sono davvero verdi. Briefing: [[Briefing/2026-08-13]].
 
 > 🔁 **13/8 14:23 — Giro richiesto in chat. Business invariato. La diagnosi CI delle 13:09 era sbagliata: tornata "colpa propria", mandati 3 fix in corso.**
 > Business riconfermato dal vivo con query SQL diretta: 1 ordine (mai pagato, 24/6), 0 pagati, 5 prodotti, 7 profili,

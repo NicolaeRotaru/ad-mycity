@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-13 14:23",
-  "situazione": "Business invariato, riconfermato via SQL diretta: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili, 0 ordini/clienti nuovi in 7gg. North Star fermo, dentro la pausa concordata fino al 24/8-1/9. La diagnosi CI del passaggio 13:09 ('ereditata da main') era sbagliata: ricalcolata, le 3 PR rosse (#710/#709/#708) sono di nuovo 'colpa propria'. Mandati 3 senior tech in sfondo a chiuderle sui rispettivi branch, coi controlli esatti già falliti in mano — chiusura di debito noto, non ricerca nuova (vincolo tasso-chiusura 0,24 rispettato).",
+  "data": "2026-08-13 14:40",
+  "situazione": "Business invariato, riconfermato via SQL diretta: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili, 0 ordini/clienti nuovi in 7gg. North Star fermo, dentro la pausa concordata fino al 24/8-1/9. Verificati in locale i 3 fix CI mandati alle 14:23 (PR #710/#709/#708): i test che dovevano tornare verdi tornano verdi (68/68, 19/19, 5/5) e i branch sono identici a GitHub. Ma ci-stato.mjs continua a leggerli rossi: serve un canale con accesso a GitHub per capire se è un ritardo dei controlli o un guasto che i test locali non coprono.",
   "opportunita": [
     {
       "titolo": "Applica l'elenco permessi senza jolly, sblocca anche i test",
@@ -35,7 +35,7 @@
   ],
   "sentinelle_scattate": [
     "North Star 0 — stallo 50 giorni, pausa concordata fino al 24/8-1/9 (non churn)",
-    "Tasso di chiusura 0,24 nel mese — sotto soglia 1: nessuna ricerca nuova, turno speso a chiudere le 3 PR rosse",
-    "CI: 3 PR rosse per colpa propria (corretta la diagnosi 'ereditata' del passaggio 13:09), 3 fix in corso in sfondo, 1 mai provata (#711)"
+    "Tasso di chiusura 0,24 nel mese — sotto soglia 1: nessuna ricerca nuova, turno speso a verificare la chiusura delle 3 PR rosse",
+    "CI: 3 PR rosse per ci-stato.mjs ma test locali tutti verdi — disallineamento da confermare da GitHub, 1 PR mai provata (#711)"
   ]
 }
