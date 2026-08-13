@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-12 23:48** — Automatico: **66 aperte · 6 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-13 06:22** — Automatico: **66 aperte · 6 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -1031,8 +1031,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-12 23:48)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-12-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 06:22)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-13-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1590,6 +1590,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-08-12 23:48 · 6 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 06:22 · 6 card totali
 
 ### ✅ #sensori-cancellati — Chiusa la falla che cancellava lo stato dei sensori. FATTO 2026-08-11 17:05, col tuo ok in chat
 
