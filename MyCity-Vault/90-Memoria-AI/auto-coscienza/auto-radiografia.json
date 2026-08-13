@@ -85,7 +85,11 @@
             "pattern": "return=representation",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-13 22:22",
+          "chiuso_come": "cervello/lib-esito-lavoro.sh contiene /return=representation/ → trovato",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Il timer della visita di salute viene copiato sul VPS ma non abilitato: il ponte che dovrebbe far vedere il server da fuori non è mai partito",
@@ -4244,7 +4248,10 @@
           "impatto_crescita": "basso",
           "prova": "cd /home/user/ad-mycity && node -e 'const fs=require(\"fs\");const rotti=[];for(const f of fs.readdirSync(\".github/workflows\")){const y=fs.readFileSync(\".github/workflows/\"+f,\"utf8\");const sez=y.split(/^jobs:$/m)[1]||\"\";const nomi=[...sez.matchAll(/^  ([A-Za-z0-9_-]+):$/gm)].map(m=>m[1]);for(const j of nomi){const corpo=sez.split(new RegExp(\"^  \"+j+\":$\",\"m\"))[1].split(/^  [A-Za-z0-9_-]+:$/m)[0];if(!/^\\s+timeout-minutes:/m.test(corpo))rotti.push(f+\" -> job \\\"\"+j+\"\\\"\");}}if(rotti.length){console.error(\"ROSSO: job senza tetto di tempo (default GitHub 6 ore): \"+rotti.join(\", \"));process.exit(1)}console.log(\"verde\")'   # lanciato ora: esce 1, battito-esterno -> job \"battito\", deploy-pannello -> job \"deploy\"",
           "prova_tipo": "comando",
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-13 22:16",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-635"
         },
         {
           "titolo": "Il lavoro che maneggia la chiave del rilascio è l'unico dei quattro senza un limite di poteri scritto",
@@ -4863,16 +4870,16 @@
     "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
   },
   "sync_scan": {
-    "aggiornato": "2026-08-13 21:30",
-    "findings_aperti": 267,
+    "aggiornato": "2026-08-13 22:22",
+    "findings_aperti": 265,
     "findings_in_corso": 0,
-    "findings_chiusi": 19,
+    "findings_chiusi": 21,
     "findings_tot": 286,
-    "cantiere_aperti": 232,
+    "cantiere_aperti": 223,
     "cantiere_in_corso": 0,
-    "cantiere_chiusi": 360,
-    "match_aggiornati": 0,
-    "chiusi_verifica": 0,
+    "cantiere_chiusi": 372,
+    "match_aggiornati": 2,
+    "chiusi_verifica": 1,
     "data_scan": "2026-08-11 13:37"
   },
   "sonda_meta": {
