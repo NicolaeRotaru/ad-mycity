@@ -2504,6 +2504,15 @@
    "cerca": "    for (let j = i + 1; j < righe.length && /^\\s*[·•-]\\s/.test(righe[j]); j++) scelte.add(j);",
    "sostituisci": "    for (let j = i + 1; j < 0; j++) scelte.add(j);",
    "test": "cervello/test/rosso-che-non-dice-perche.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-657",
+   "nome": "il perimetro del turno torna a prendersi il lavoro che la fusione ha portato dal ramo di base",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  const commessi = Array.isArray(sulRamo) ? nelTurno.filter((p) => sulRamo.includes(p)) : nelTurno;",
+   "sostituisci": "  const commessi = nelTurno;",
+   "test": "cervello/test/cancello-stop.test.mjs"
   }
  ]
 }
