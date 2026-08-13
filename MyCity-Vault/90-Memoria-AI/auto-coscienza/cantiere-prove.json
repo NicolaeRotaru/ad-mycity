@@ -1,17 +1,17 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-13 21:28",
+  "aggiornato": "2026-08-13 22:20",
   "giorni_sospetto": 3,
-  "difetti_aperti": 288,
+  "difetti_aperti": 279,
   "per_classe": {
-    "umana": 171,
+    "umana": 162,
     "auto-sospetta": 100,
     "auto-comando": 10,
     "auto-ok": 5,
     "auto-attesa": 2
   },
-  "non_auto_chiudibili": 271,
+  "non_auto_chiudibili": 262,
   "bloccanti_ciechi": [
     "AR-473",
     "AR-072",
@@ -22,13 +22,6 @@
   "schede_incomplete": [
     {
       "id": "AR-576",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-577",
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
@@ -196,48 +189,6 @@
       ]
     },
     {
-      "id": "AR-624",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-625",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-627",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-628",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-631",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-635",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
       "id": "AR-639",
       "gravita": "grave",
       "manca": [
@@ -253,6 +204,13 @@
     },
     {
       "id": "AR-641",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-660",
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
@@ -2258,25 +2216,9 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-577",
-      "eta_giorni": 0,
-      "titolo": "Sette entità del registro della realtà hanno uno stato inventato che il contratto vieta per iscritto",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-578",
       "eta_giorni": 0,
       "titolo": "La memoria si aggiorna ogni sera, ma il referto del checkup è fermo da quasi due giorni",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-579",
-      "eta_giorni": 0,
-      "titolo": "Nella serie storica della salute compaiono tipi di visita che il contratto non prevede",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
@@ -2570,22 +2512,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-624",
-      "eta_giorni": 0,
-      "titolo": "Il bottone che recupera i lavori bloccati rimette in coda anche le azioni reali interrotte: possono ripartire ",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-625",
-      "eta_giorni": 0,
-      "titolo": "Al riavvio, un worker considera suoi anche i lavori vivi di un gemello della stessa corsia e li recupera all'i",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-626",
       "eta_giorni": 0,
       "titolo": "Se la conferma della presa in carico si perde per strada, il lavoro resta segnato in corso per un'ora senza ch",
@@ -2594,65 +2520,9 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-627",
-      "eta_giorni": 0,
-      "titolo": "Con la quota finita, un lavoro mai eseguito viene chiuso come fatto",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-628",
-      "eta_giorni": 0,
-      "titolo": "Ripartendo con la testa staccata dal ramo, l'allineamento butta via il commit di salvataggio appena creato",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-630",
       "eta_giorni": 0,
       "titolo": "Quando la quota si libera tra ore, la cadenza riprova comunque dopo trenta secondi",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-631",
-      "eta_giorni": 0,
-      "titolo": "Il worker dichiara salvato un esito che il database non ha mai scritto",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-635",
-      "eta_giorni": 0,
-      "titolo": "Il guardiano esterno può restare appeso sei ore senza che nessuno lo fermi",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-636",
-      "eta_giorni": 0,
-      "titolo": "Il deploy del pannello gira senza permessi dichiarati, senza tetto di tempo e senza scadenza sulla chiamata",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-637",
-      "eta_giorni": 0,
-      "titolo": "Le azioni dei workflow sono agganciate a etichette spostabili, non a un commit preciso",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-638",
-      "eta_giorni": 0,
-      "titolo": "Il titolo dell'allarme entra nel terminale senza protezione: la porta classica dell'iniezione di comandi",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
@@ -2791,6 +2661,22 @@
       "gravita": "medio",
       "eta_giorni": 0,
       "titolo": "L allineatore delle radiografie chiude le schede con una data vuota: lo stesso buco delle 74 chiusure senza da",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-659",
+      "eta_giorni": 0,
+      "titolo": "La lista di quali lavori sono «azioni vere» sta in cinque posti con quattro nomi diversi",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-660",
+      "eta_giorni": 0,
+      "titolo": "Ventisei prove scritte in bats non le esegue nessuno: né la suite, né il cancello, né i workflow",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
