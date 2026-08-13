@@ -290,7 +290,9 @@ function parseTabella(md: string): AzioneAttesa[] {
     // L'id resta sul titolo GREZZO (così il codice-casella non cambia); il display è ripulito.
     out.push({
       numero: idSezione(data, reparto, azioneRaw),
-      cartellino: "",
+      // La prima colonna È il numero della card, nello stesso spazio dei blocchi `###`:
+      // due card diverse non possono portare lo stesso numero, o «ok 20» diventa ambiguo.
+      cartellino: rigaNum,
       data,
       reparto,
       azione: pulisciTitolo(azioneRaw),

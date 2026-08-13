@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-13 14:16** — Automatico: **65 aperte · 7 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-13 19:20** — Automatico: **68 aperte · 7 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -18,11 +18,27 @@ Ogni card ha un **numero fisso**, scritto prima del titolo (es. `#41`). Il numer
 Per dare il via scrivi all'AD: **«ok 41»** (o «ok a tutte le 🟡»). L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al titolo.
 
+<!-- posthog-off-vps -->
+
+---
+
+### 🟡 #80 — Spegni davvero il sensore PostHog sul server, come avevi deciso · ⏳ accodata 2026-08-13 18:15
+
+**Cosa cambia:** il 5 luglio hai deciso di spegnere PostHog. Nel codice lo spegnimento c'è, ma sul server manca l'interruttore: la chiave è ancora nel file di configurazione e il sensore gira davvero — oggi alle 14:14 risultava verde. Con questa azione il server smette di interrogare PostHog e la Cabina lo mostra come «spento per decisione», non come acceso.
+
+**Se va bene:** i sensori raccontano solo ciò che hai scelto di tenere acceso, e se un giorno vorrai riaccendere PostHog basterà togliere la riga.
+
+**Cosa fare.** Apri il terminale del VPS e aggiungi una riga al file di configurazione:
+```
+echo 'POSTHOG_OFF=1' >> /root/ad-mycity/.env
+```
+(la scheda tecnica è AR-653 nel cantiere)
+
 <!-- occhi-ambiente-cloud -->
 
 ---
 
-### 🟡 #58 — Apri gli occhi delle sessioni cloud su Cabina e marketplace · ⏳ accodata 2026-08-13 00:30
+### 🟡 #76 — Apri gli occhi delle sessioni cloud su Cabina e marketplace · ⏳ accodata 2026-08-13 00:30
 
 **Cosa cambia:** quando lavoro da una sessione cloud (come stasera), 7 controlli della visita restano pallini bianchi: «non l'ho potuto vedere da qui». Il motivo è doppio. L'ambiente cloud non ha la rete per raggiungere la Cabina e i database. E non ha le chiavi per leggerne i dati. La parte che non richiedeva niente da te l'ho già fatta: l'indirizzo della Cabina ora è scritto nel repo, la variabile non serve più. Restano due cose che può toccare solo il proprietario dell'ambiente, cioè tu. Si fanno dalle impostazioni dell'ambiente su claude.ai/code (rotellina dell'ambiente → rete e variabili):
 
@@ -50,7 +66,7 @@ Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un g
 
 ---
 
-### 🟡 #56 — 5 righe nuove nel foglio dei permessi del server, nessuno le ha ancora dichiarate · ⏳ accodata 2026-08-12 22:35
+### 🟡 #74 — 5 righe nuove nel foglio dei permessi del server, nessuno le ha ancora dichiarate · ⏳ accodata 2026-08-12 22:35
 
 **Cosa cambia:** il test che sorveglia i permessi è diventato rosso. Nel foglio dei permessi del server sono comparse cinque righe nuove. Tre permettono il push esplicito su main e sui rami. Due aprono gli strumenti Supabase che scrivono, coi nomi nuovi del server. Nessuna delle cinque aveva un perché scritto da nessuna parte. Il guardiano le ha viste comparire e ha bloccato la prova, come deve fare. I nomi esatti stanno qui sotto nella nota tecnica.
 
@@ -67,7 +83,7 @@ Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un g
 
 ---
 
-### 🟡 #52 — Togli le dieci righe che riempiono di avvisi ogni analisi · ⏳ accodata 2026-08-10 16:25
+### 🟡 #70 — Togli le dieci righe che riempiono di avvisi ogni analisi · ⏳ accodata 2026-08-10 16:25
 
 **Cosa cambia:** quel muro di scritte in inglese in cima a molte analisi non lo scrivo io. Lo scrive
 il programma che mi fa girare, appena parte. Dieci righe del foglio dei permessi sono in una forma
@@ -88,7 +104,7 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🟡 #51 — Dimmi quali piani riscrivo, e in che ordine · ⏳ accodata 2026-08-10 16:15
+### 🟡 #69 — Dimmi quali piani riscrivo, e in che ordine · ⏳ accodata 2026-08-10 16:15
 
 **Cosa cambia:** i tuoi dieci piani non vengono rivisti dal 24-25 giugno, e adesso so anche cosa dicono di sbagliato: **48 frasi smentite dai fatti**, su nove piani su dieci. Ho messo l'avviso in cima a ognuno, così quando lo apri lo vedi subito, ma **il testo non l'ho toccato**: riscrivere un tuo piano è una revisione tua. La più urgente è il **Piano Istituzionale**, che apre dicendo che il Bando Commercio ER è aperto fino al 21 luglio. Quel bando è chiuso dal 23 giugno — due giorni prima che tu scrivessi quel piano. E il **Piano Vendite** lo ha trasformato in una frase da dire al negoziante: «lo Stato rimborsa il 40%, ma chiude il 21 luglio». È l'unica di queste frasi che può uscire di casa e arrivare a un commerciante vero: se qualcuno la usa, promette soldi che non esistono più.
 **Se va bene:** dimmi da quale partire e li rifaccio io, uno per volta, portandoti ogni volta la versione nuova da leggere prima che sostituisca la vecchia. Il mio ordine sarebbe: **① Piano Vendite** (15 frasi, ed è quello che parla ai negozianti) · **② Piano Istituzionale** (8, e apre con la frase sbagliata) · **③ Piano Editoriale** (8, tutte sul negozio-faro) · poi gli altri. Se invece preferisci rivederli tu, l'avviso in cima ti dice riga per riga cosa correggere. Se non facciamo niente, l'avviso resta lì: non è un problema tecnico, è che i piani restano vecchi.
@@ -101,7 +117,7 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🟡 #48 — Dimmi se questi occhi della macchina li vuoi accesi o no · ⏳ accodata 2026-08-10 12:16
+### 🟡 #66 — Dimmi se questi occhi della macchina li vuoi accesi o no · ⏳ accodata 2026-08-10 12:16
 
 **Cosa cambia:** ci sono strumenti già costruiti che non stanno guardando niente: `telegram_bot`. Non sono rotti — non sono mai stati accesi, e non risulta che tu abbia deciso di lasciarli spenti: semplicemente nessuno te l'ha chiesto. È già successo: i controlli che dicono se il sito e il Pannello sono in piedi sono rimasti spenti per 163 giri di fila, e nessuna card te l'ha mai detto.
 
@@ -116,7 +132,7 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🟡 #47 — Il cancello di fine-turno accusa lavoro vecchio di 6 giorni come se fosse di oggi · ⏳ accodata 2026-08-10 11:35
+### 🟡 #65 — Il cancello di fine-turno accusa lavoro vecchio di 6 giorni come se fosse di oggi · ⏳ accodata 2026-08-10 11:35
 
 **Cosa cambia:** stasera il cancello di fine turno (`cervello/cancello-stop.mjs`) mi ha detto di aver «dimenticato» di accodare in questa pagina gli allarmi delle PR #675, #678, #679, #680, #681, #683. Ho controllato riga per riga: sono TUTTE già qui, alcune da sei giorni (righe 1636-1639 e i blocchi `#pr-675`/`#pr-678` più sopra). Il cancello non guarda «cosa ho fatto io in questo turno»: guarda tutto quello che è successo sul ramo dall'ultima volta che ha trovato la cartella di lavoro **completamente pulita** — e quel giorno è il 4/8, perché da allora alcuni file JSON dei sensori automatici (`sentinella-dati.json`, `coerenza-fatti.json`, `apprendimento.json`, `auto-miglioramento.json`, `cervello/routing.json`) cambiano da soli a ogni giro e non restano mai fermi abbastanza a lungo da farla apparire «pulita». Risultato: da 6 giorni ogni sessione si becca lo stesso elenco di 397 commit e 170 file come se fosse tutto suo, comprese cose già chiuse da altri.
 
@@ -132,7 +148,7 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🟡 #46 — Il controllo automatico grida al lupo su un referto che si aggiorna da solo · ⏳ accodata 2026-08-04 18:30
+### 🟡 #56 — Il controllo automatico grida al lupo su un referto che si aggiorna da solo · ⏳ accodata 2026-08-04 18:30
 
 **Cosa cambia:** ogni volta che la macchina salva `cantiere-prove.json` (il referto dei difetti aperti), il controllo di sicurezza accusa "hai tolto una difesa" anche quando il difetto è semplicemente chiuso e il referto si è aggiornato di conseguenza — è successo 153 volte in questa sola sessione. Non è un buco di sicurezza vero: l'ho verificato riga per riga (i test esistono ancora, girano ancora, 131/131 passano). Ma il rumore nasconde i controlli veri.
 
@@ -148,7 +164,7 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🟡 #45 — Mergia il rinforzo della lezione sul worker che scrive mentre lavoro io · ⏳ accodata 2026-08-04 18:20
+### 🟡 #55 — Mergia il rinforzo della lezione sul worker che scrive mentre lavoro io · ⏳ accodata 2026-08-04 18:20
 
 **Cosa cambia:** questa PR scrive più a fondo, nei quaderni di memoria, una lezione già imparata. Il worker sul VPS può muovere HEAD/branch mentre una sessione come questa lavora in parallelo: mai forzare sopra dati più freschi. Aggiunge anche in coda il comando per mergiare la PR #677, il fix vero del falso allarme ripetuto 3 volte.
 
@@ -165,7 +181,7 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🟡 #44 — PR #675 aperta da un'altra sessione, i controlli automatici sono rossi · ⏳ accodata 2026-08-04 17:30
+### 🟡 #52 — PR #675 aperta da un'altra sessione, i controlli automatici sono rossi · ⏳ accodata 2026-08-04 17:30
 
 **Cosa cambia:** un'altra sessione della macchina (parallela a questa) ha aperto una PR per costruire un test che in futuro accorge se `.claude/settings.json` si rompe come è successo oggi con l'incollaggio della card #prevenzione-a-monte. Non l'ho scritta io in questo turno, ma nessuno l'aveva ancora messa in coda — la metto ora perché non resti solo in uno screenshot.
 
@@ -215,16 +231,16 @@ in scrittura alla macchina, ed è giusto così.
 ---
 
 ❌ #vps-giro-fermo — ~~Fai ripartire il giro sul VPS: è fermo da due giorni~~ → RISOLTA DA SOLA, chiusa 2026-07-30 06:30. `git log` mostra commit del worker/giro con continuità dalle 04:43 alle 06:26 di stamattina (`ritmo AD (mattino)` 06:11, `Sentinella macchina` 06:20, più i "recupero: scritture pendenti" tipici di un giro che pubblica). Non serve nessun comando manuale sul VPS: il sintomo che la card descriveva non c'è più.
-| 1 | 2026-07-30 03:44 | @tech | Merge PR #630 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/630 | github | FATTO 2026-07-30 03:59 (mergiata da Nicola, confermato: Stato/OKR/Piani già dentro main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 2 | 2026-07-30 03:59 | @tech | Merge PR #631 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/631 | github | FATTO 2026-07-30 04:06 (mergiata da Nicola, confermato: commit 80d4fc819 in main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 3 | 2026-07-30 04:05 | @tech | Merge PR #632 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/632 | github | SUPERATA 2026-07-30 04:21 — non mergiare: il branch si è rotto sul solito bug del rebase (AR-449/L-10463), tutto il suo contenuto (+ il lavoro nuovo di stanotte) è confluito pulito nella PR #633. Chiudi questa senza merge. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Ignora questa riga: mergia solo la #633 sotto. |
-| 4 | 2026-07-30 04:21 | @tech | Merge PR #633 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/633 | github | PROBABILE SUPERATA 2026-07-30 06:37 — verificato via `git`: il commit del contenuto #633 (9012675a9) NON è antenato di `main`, lo stesso contenuto è invece dentro #634 (82dd0525a, quello sì antenato di main). Sembra lo stesso bug di rebase di #632→#633 (AR-451, ora corretto). Non confermato con `gh` (comando negato in questa sessione): controlla tu su GitHub prima di chiudere del tutto. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Se confermi che è superata: chiudila senza merge su GitHub. |
-| 5 | 2026-07-30 04:42 | @tech | Merge PR #634 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/634 | github | FATTO 2026-07-30 (verificato: commit 82dd0525a è antenato di HEAD su main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Già online: nessuna azione, riga tenuta solo per storico. |
-| 6 | 2026-07-30 11:09 | @tech | Merge PR #635 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/635 | github | FATTO. Verificato ora (2026-08-04 12:00) con `git merge-base --is-ancestor 595cf3cf0 HEAD`: il comando esce vero. Il commit `595cf3cf0` (il fix del lease dopo un rebase ripetuto) è su `main` dal 30/7 alle 13:26. Il suo test `cervello/test/lease-dopo-rebase-ripetuto.test.mjs` è lì con lui. La nota delle 11:09 del 30/7 diceva "vive solo sul branch, mai mergiato". Era vera in quel momento. Nessuno l'ha ricontrollata da allora. La card è rimasta aperta 5 giorni per un fatto già chiuso. | Il codice è già online. | Nessuna: chiudi la riga. Il gate della lezione L-2026-0730-530 torna vero. |
-| 7 | 2026-08-03 22:45 | @tech | Fai pulizia dei rami vecchi su GitHub: sono 447 e il loro lavoro è già dentro | 🔴 | Su GitHub ci sono 447 rami oltre a `main`. Quasi tutti hanno già la loro PR mergiata. Il lavoro è dentro `main`. Il ramo è solo il guscio rimasto lì. Sono questi rami a dare l'impressione di lavoro mai pubblicato. Il motivo è semplice. Quando una PR si chiude in squash, il commit cambia impronta. Da quel momento gli strumenti lo contano come «non pubblicato», anche se il lavoro c'è. Due rami però vanno tenuti, perché portano roba vera. Il primo è `fix/lotto-28-esenzione-che-non-conta`: la sua PR #598 è stata chiusa senza merge. Il suo file `cervello/test/esenzione-che-non-conta.test.mjs` su `main` non c'è. Il secondo gruppo sono i rami citati nella riga 8 qui sotto. | github | in attesa | GitHub torna leggibile. Si vede a colpo d'occhio cosa è davvero in lavorazione, invece di 447 nomi. E il lavoro della #598, oggi perso, torna dentro. | Dopo il tuo ok faccio due cose, in quest'ordine. Prima recupero la #598 in una PR nuova. Poi cancello solo i rami la cui PR risulta mergiata. Niente cancellazioni alla cieca. |
-| 8 | 2026-08-03 22:45 | @tech | Cambia come si chiudono le PR: così com'è, quando ne mergi una uccidi le sue sorelle | 🔴 | È la causa vera del tuo terzo problema. Le PR si chiudono in «squash». Tutti i commit di quella PR diventano uno solo, con un'impronta nuova. Le altre PR aperte sulla stessa base si ritrovano quel contenuto due volte, con due impronte diverse. GitHub le marca come in conflitto. Non si mergiano più e finiscono chiuse. È successo 12 volte sulle ultime 200 PR. La #653 lo racconta nel suo stesso testo: 401 righe e 13 prove, chiusa così. Quella l'ho recuperata a mano. La #598 no. Ci sono due strade. La (a) tiene lo squash e riallinea ogni PR aperta subito dopo ogni merge: posso farlo io in automatico. La (b) passa al merge normale, che non cambia le impronte e non crea il finto conflitto. | github | in attesa | Smetti di perdere lavoro già fatto e già provato. Oggi ogni merge mette a rischio le PR aperte in quel momento. | Dopo il tuo ok dipende da quale strada scegli. Con la (a) collego il riallineamento automatico dopo ogni merge. Con la (b) cambi tu l'impostazione su GitHub e io adeguo lo strumento che apre le PR. |
-| 14 | 2026-08-10 11:20 | @tech | La memoria delle lezioni è ricresciuta sopra il limite che blocca le PR — lo stesso problema di 6 giorni fa | 🟡 | Il 4/8 la memoria delle lezioni (`apprendimento.json`) era stata alleggerita da 1.049.294 a 947.517 byte perché sforava il tetto di lettura di GitHub (1 MiB) e rendeva rossa ogni PR aperta. Oggi è di nuovo a **1.052.950 byte**, sopra il tetto — ricresciuta in 6 giorni. Lo strumento che l'ha già sistemata una volta (`cervello/pota-apprendimento.mjs`) esiste e ha già funzionato: toglie le copie duplicate del principio dentro la lezione, non la memoria stessa. Non l'ho rilanciato da questa sessione: i comandi `node cervello/*.mjs` non sono nell'elenco dei permessi consentiti qui, quindi lo segnalo invece di provarci alla cieca su un file da un megabyte. | github | in attesa | Finché resta sopra il tetto, la prossima PR che tocca questo file (anche una innocua) rischia di uscire rossa su GitHub senza un motivo visibile nel diff. | Lancia `node cervello/pota-apprendimento.mjs` (o dammi il via a farlo in una sessione con i permessi giusti), poi apri/aggiorna la PR: lo stesso movimento del 4/8, questa volta vale la pena chiedersi perché è ricresciuto in 6 giorni invece di limitarsi a ripulirlo di nuovo. |
-| 15 | 2026-08-10 11:20 | @AD | La radiografia di te stessa è scaduta: sono passati 11 giorni, non 10 | 🟡 | La sonda che gira a ogni giro (`auto-radiografia.json`) misura da quanto tempo non faccio l'analisi profonda di me stessa — agenti, prompt, processi, sensori, memoria. Oggi dice **269 ore**, cioè più di 11 giorni: sopra la soglia di 10 che il mio stesso manuale mi impone. Non è un guasto: è solo che nessuno l'ha richiesta da un po', e i giri di questi giorni sono stati leggeri per via della pausa concordata sul business. | manuale | in attesa | Senza una radiografia fresca, il cantiere dei difetti (161 aperti/332 chiusi) invecchia: continua a chiudere quello che il codice risolve da solo, ma non trova più difetti nuovi. | Se dici «radiografia di te stessa» (o «analizzati da cima a fondo»), parte il workflow completo (12 dimensioni + benchmark) e torno con un report nuovo. Nessuna urgenza: il business è comunque in pausa fino al 24/8-1/9. |
+| 43 | 2026-07-30 03:44 | @tech | Merge PR #630 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/630 | github | FATTO 2026-07-30 03:59 (mergiata da Nicola, confermato: Stato/OKR/Piani già dentro main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 44 | 2026-07-30 03:59 | @tech | Merge PR #631 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/631 | github | FATTO 2026-07-30 04:06 (mergiata da Nicola, confermato: commit 80d4fc819 in main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 45 | 2026-07-30 04:05 | @tech | Merge PR #632 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/632 | github | SUPERATA 2026-07-30 04:21 — non mergiare: il branch si è rotto sul solito bug del rebase (AR-449/L-10463), tutto il suo contenuto (+ il lavoro nuovo di stanotte) è confluito pulito nella PR #633. Chiudi questa senza merge. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Ignora questa riga: mergia solo la #633 sotto. |
+| 46 | 2026-07-30 04:21 | @tech | Merge PR #633 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/633 | github | PROBABILE SUPERATA 2026-07-30 06:37 — verificato via `git`: il commit del contenuto #633 (9012675a9) NON è antenato di `main`, lo stesso contenuto è invece dentro #634 (82dd0525a, quello sì antenato di main). Sembra lo stesso bug di rebase di #632→#633 (AR-451, ora corretto). Non confermato con `gh` (comando negato in questa sessione): controlla tu su GitHub prima di chiudere del tutto. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Se confermi che è superata: chiudila senza merge su GitHub. |
+| 47 | 2026-07-30 04:42 | @tech | Merge PR #634 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/634 | github | FATTO 2026-07-30 (verificato: commit 82dd0525a è antenato di HEAD su main) | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Già online: nessuna azione, riga tenuta solo per storico. |
+| 48 | 2026-07-30 11:09 | @tech | Merge PR #635 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/635 | github | FATTO. Verificato ora (2026-08-04 12:00) con `git merge-base --is-ancestor 595cf3cf0 HEAD`: il comando esce vero. Il commit `595cf3cf0` (il fix del lease dopo un rebase ripetuto) è su `main` dal 30/7 alle 13:26. Il suo test `cervello/test/lease-dopo-rebase-ripetuto.test.mjs` è lì con lui. La nota delle 11:09 del 30/7 diceva "vive solo sul branch, mai mergiato". Era vera in quel momento. Nessuno l'ha ricontrollata da allora. La card è rimasta aperta 5 giorni per un fatto già chiuso. | Il codice è già online. | Nessuna: chiudi la riga. Il gate della lezione L-2026-0730-530 torna vero. |
+| 49 | 2026-08-03 22:45 | @tech | Fai pulizia dei rami vecchi su GitHub: sono 447 e il loro lavoro è già dentro | 🔴 | Su GitHub ci sono 447 rami oltre a `main`. Quasi tutti hanno già la loro PR mergiata. Il lavoro è dentro `main`. Il ramo è solo il guscio rimasto lì. Sono questi rami a dare l'impressione di lavoro mai pubblicato. Il motivo è semplice. Quando una PR si chiude in squash, il commit cambia impronta. Da quel momento gli strumenti lo contano come «non pubblicato», anche se il lavoro c'è. Due rami però vanno tenuti, perché portano roba vera. Il primo è `fix/lotto-28-esenzione-che-non-conta`: la sua PR #598 è stata chiusa senza merge. Il suo file `cervello/test/esenzione-che-non-conta.test.mjs` su `main` non c'è. Il secondo gruppo sono i rami citati nella riga 8 qui sotto. | github | in attesa | GitHub torna leggibile. Si vede a colpo d'occhio cosa è davvero in lavorazione, invece di 447 nomi. E il lavoro della #598, oggi perso, torna dentro. | Dopo il tuo ok faccio due cose, in quest'ordine. Prima recupero la #598 in una PR nuova. Poi cancello solo i rami la cui PR risulta mergiata. Niente cancellazioni alla cieca. |
+| 50 | 2026-08-03 22:45 | @tech | Cambia come si chiudono le PR: così com'è, quando ne mergi una uccidi le sue sorelle | 🔴 | È la causa vera del tuo terzo problema. Le PR si chiudono in «squash». Tutti i commit di quella PR diventano uno solo, con un'impronta nuova. Le altre PR aperte sulla stessa base si ritrovano quel contenuto due volte, con due impronte diverse. GitHub le marca come in conflitto. Non si mergiano più e finiscono chiuse. È successo 12 volte sulle ultime 200 PR. La #653 lo racconta nel suo stesso testo: 401 righe e 13 prove, chiusa così. Quella l'ho recuperata a mano. La #598 no. Ci sono due strade. La (a) tiene lo squash e riallinea ogni PR aperta subito dopo ogni merge: posso farlo io in automatico. La (b) passa al merge normale, che non cambia le impronte e non crea il finto conflitto. | github | in attesa | Smetti di perdere lavoro già fatto e già provato. Oggi ogni merge mette a rischio le PR aperte in quel momento. | Dopo il tuo ok dipende da quale strada scegli. Con la (a) collego il riallineamento automatico dopo ogni merge. Con la (b) cambi tu l'impostazione su GitHub e io adeguo lo strumento che apre le PR. |
+| 63 | 2026-08-10 11:20 | @tech | La memoria delle lezioni è ricresciuta sopra il limite che blocca le PR — lo stesso problema di 6 giorni fa | 🟡 | Il 4/8 la memoria delle lezioni (`apprendimento.json`) era stata alleggerita da 1.049.294 a 947.517 byte perché sforava il tetto di lettura di GitHub (1 MiB) e rendeva rossa ogni PR aperta. Oggi è di nuovo a **1.052.950 byte**, sopra il tetto — ricresciuta in 6 giorni. Lo strumento che l'ha già sistemata una volta (`cervello/pota-apprendimento.mjs`) esiste e ha già funzionato: toglie le copie duplicate del principio dentro la lezione, non la memoria stessa. Non l'ho rilanciato da questa sessione: i comandi `node cervello/*.mjs` non sono nell'elenco dei permessi consentiti qui, quindi lo segnalo invece di provarci alla cieca su un file da un megabyte. | github | in attesa | Finché resta sopra il tetto, la prossima PR che tocca questo file (anche una innocua) rischia di uscire rossa su GitHub senza un motivo visibile nel diff. | Lancia `node cervello/pota-apprendimento.mjs` (o dammi il via a farlo in una sessione con i permessi giusti), poi apri/aggiorna la PR: lo stesso movimento del 4/8, questa volta vale la pena chiedersi perché è ricresciuto in 6 giorni invece di limitarsi a ripulirlo di nuovo. |
+| 64 | 2026-08-10 11:20 | @AD | La radiografia di te stessa è scaduta: sono passati 11 giorni, non 10 | 🟡 | La sonda che gira a ogni giro (`auto-radiografia.json`) misura da quanto tempo non faccio l'analisi profonda di me stessa — agenti, prompt, processi, sensori, memoria. Oggi dice **269 ore**, cioè più di 11 giorni: sopra la soglia di 10 che il mio stesso manuale mi impone. Non è un guasto: è solo che nessuno l'ha richiesta da un po', e i giri di questi giorni sono stati leggeri per via della pausa concordata sul business. | manuale | in attesa | Senza una radiografia fresca, il cantiere dei difetti (161 aperti/332 chiusi) invecchia: continua a chiudere quello che il codice risolve da solo, ma non trova più difetti nuovi. | Se dici «radiografia di te stessa» (o «analizzati da cima a fondo»), parte il workflow completo (12 dimensioni + benchmark) e torno con un report nuovo. Nessuna urgenza: il business è comunque in pausa fino al 24/8-1/9. |
 
 <!-- radiografia-2026-07-29-anteprime-coi-segreti -->
 
@@ -1050,15 +1066,13 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 **Contenuto completo:** `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md` · anteprima [[AZIONI-PRONTE]] **A28**
 
-**Testo pronto (versione Gruppi Facebook) — da copiare così com'è:**
+**Testo pronto (versione Gruppi Facebook):**
 
-```
-Chi ha voglia di uscire a prendere la colazione fresca con questo caldo? 😅
-
-Stiamo portando online i negozi veri di Piacenza: c'è Pane Quotidiano (Via Calzolai, bio dal '76) con kefir e freschi bio già ordinabili. Te li portiamo a casa al mattino, paghi alla consegna se ti è più comodo.
-
-Se ti va di provare, link nel primo commento 👇
-```
+> Chi ha voglia di uscire a prendere la colazione fresca con questo caldo? 😅
+>
+> Stiamo portando online i negozi veri di Piacenza: c'è **Pane Quotidiano** (Via Calzolai, bio dal '76) con kefir e freschi bio già ordinabili. Te li portiamo a casa al mattino, paghi alla consegna se ti è più comodo.
+>
+> Se ti va di provare, link nel primo commento 👇
 
 **Prima del post servono da Nicola (due minuti):**
 1. **Link lista d'attesa** — incollalo e la macchina completa il primo commento
@@ -1074,7 +1088,7 @@ Se ti va di provare, link nel primo commento 👇
 
 ---
 
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 14:16)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 19:20)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-13-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1086,13 +1100,13 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-13 18:20 · 8 card totali
+> Ultima pulizia: 2026-08-13 20:45 · 8 card totali
 
 <!-- visita-vps-ferma -->
 
 ---
 
-### ✅ #57 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 18:20 (verificata coi 4 screenshot di Nicola)
+### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 
 **Cosa è successo.** Questa card ti chiedeva di riaccendere la visita del server. La diagnosi era sbagliata. L'hanno dimostrato i tuoi 4 screenshot del 13/8 alle 17:57. Il timer è acceso dal 31 luglio. La visita gira due volte al giorno, alle 6:45 e alle 20:45. L'ultima è delle 6:46 di stamattina. La prossima è stasera alle 20:45. I due comandi `sudo` proposti non servivano.
 
@@ -1103,24 +1117,11 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 - **Reparto:** devops-sre
 - **Origine:** `{origine:salute-2026-08-12, controllo:worker.ponte}` — chiusa dopo la verifica sul terminale di Nicola, 2026-08-13 17:57
 
-<!-- ordine-test-dentro-o-fuori-dalla-pausa -->
-
----
-
-### ✅ #35 — Risposto: resta dentro la pausa, collaudo a settembre · ⏳ accodata 2026-07-28 08:45 · ✅ chiusa 2026-08-13 10:22 (risposta già data il 28/7)
-
-**Cosa è successo.** Questa card chiedeva a Nicola se l'ordine di prova su Pane Quotidiano dovesse restare **dentro o fuori** dalla pausa negozi — cioè se il collaudo (una pausa di validazione) dovesse seguire la stessa pausa di business decisa per le altre undici card. Era marcata `{congelamento-da-confermare: ordine-test-pq}` in [[AZIONI-IN-ATTESA]]. **Nicola aveva già risposto il 28/7 alle 15:56** («Si l'ho rimandato a settembre») — registrato in [[DECISIONI]] alla stessa data/ora. La card però non è mai stata chiusa nel file, e per 16 giorni ogni giro l'ha ripresentata come "mossa n.1 ferma senza risposta", quando la risposta esisteva già. Errore riconosciuto: [[feedback-domanda-gia-decisa-ricontrollare]] — prima di riproporre una domanda-decisione, controllare `DECISIONI.md`.
-
-**Esito:** l'ordine di prova resta congelato fino al 24 agosto-1 settembre 2026 insieme al resto dei negozi ([[ripresa.lavoro-operativo|registro-fatti.json]]), nessuna eccezione. Il primo giorno di lavoro operativo sarà un giorno di collaudo (verifica pagamento→fornaio→consegna), non di vendita.
-- **Colore:** ✅ chiusa, nessuna azione da eseguire
-- **Reparto:** chief-of-staff + analista
-- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-157}` — chiusa da giro AD 2026-08-13 10:22
-
 <!-- sensori-cancellati -->
 
 ---
 
-### ✅ #55 — Chiusa la falla che cancellava lo stato dei sensori. FATTO 2026-08-11 17:05, col tuo ok in chat · ⏳ accodata 2026-08-11 16:54
+### ✅ #73 — Chiusa la falla che cancellava lo stato dei sensori. FATTO 2026-08-11 17:05, col tuo ok in chat · ⏳ accodata 2026-08-11 16:54
 
 **Cosa ho fatto.** Due mosse, come promesso. La prima: il voto che decide se si può scrivere ora conta solo i controlli che dipendono davvero dalle chiavi. Il guardiano esterno legge un file nel repo, non una chiave, e da solo faceva passare tutti gli altri. La seconda: il permesso vale per un sensore alla volta. Anche quando si scrive, un occhio che quell'esecuzione non ha potuto misurare tiene il valore di chi l'aveva guardato davvero.
 
@@ -1139,25 +1140,11 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 </details>
 
-<!-- cosa-vuol-dire-fatto -->
-
----
-
-### ✅ #53 — Alzata l'asticella di cosa vuol dire «riparato». FATTO 2026-08-11 00:20, col tuo ok in chat · ⏳ accodata 2026-08-11 01:32
-
-**Cosa cambia:** oggi un difetto su tre si chiude perché una parola compare in un file. Ti faccio l'esempio vero: il difetto AR-128 diceva «non esiste nessun sensore per le contestazioni carta». La sua prova era che la parola «chargeback» comparisse in un documento. Scrivere quella parola bastava a chiudere il difetto — e il sensore non c'era comunque. Sono 193 difetti su 552 messi così. **Questa è la ragione per cui gli errori li trovi tu e non io:** una ricerca di parole non può fallire nel modo in cui fallisce la realtà. Se dici sì cambiano due cose. Da domani un difetto grave o bloccante nasce con un comando che gira davvero, o non nasce. E i 193 vecchi li converto a lotti, partendo dai bloccanti.
-**Se va bene:** rispondi «ok asticella». Io scrivo la regola nel mansionario e la aggancio al cancello che ferma i lotti. Poi ti porto il primo lotto di conversione entro il giro seguente. Se preferisci di no, dimmelo lo stesso: chiudo il difetto come scelta tua e smetto di riproportelo. Se non decidiamo niente resta com'è, e continuerai a trovare tu quello che io ho dichiarato risolto.
-**Nota tecnica:** difetto AR-564, nato dalla radiografia della catena di lavoro del 10/8. Le due forme di prova stanno in `cervello/auto-fix.mjs:154-179`; la forma ammessa per i comandi in `cervello/forma-prova.mjs`. Conteggio: 193/552 forma testuale, 243/552 comportamentale, 28 umane, 30 senza prova. Fra i chiusi la testuale è 67/332 (20%).
-- **Colore:** 🟡 — cambia una regola di lavoro della macchina. Non tocca il marketplace e non manda niente a nessuno.
-- **Reparto:** AD + prompt-engineer
-- **Fatto:** regola in `CLAUDE.md` · cancello `asticella` in `cervello/cancello-lotto.mjs` · freno `cervello/test/asticella-prova-che-gira.test.mjs` (11 controlli, cade 3 volte se rompo il fix) · AR-564 chiuso.
-- **Origine:** `{origine:radiografia-catena-di-lavoro, difetto:AR-564, pr:697}`
-
 <!-- quanto-chiudo-e-il-mio-voto -->
 
 ---
 
-### ✅ #54 — Smetto di cercare quando riparo poco. FATTO 2026-08-11 00:20, col tuo ok in chat · ⏳ accodata 2026-08-11 01:32
+### ✅ #72 — Smetto di cercare quando riparo poco. FATTO 2026-08-11 00:20, col tuo ok in chat · ⏳ accodata 2026-08-11 01:32
 
 **Cosa cambia:** a luglio ho chiuso 244 difetti sui 455 che avevo trovato. Ad agosto, in dieci giorni, ne ho chiusi 14 su 90. Trovo circa tre volte più in fretta di quanto riparo, e il divario si allarga. Tu me l'hai detto con parole tue: «so già che dopo questo upgrade ti chiederò di rianalizzare e troverai un sacco di errori». **Hai ragione, e il motivo è questo numero, non la mia bravura.** Finché apro più di quanto chiudo, ogni radiografia che mi chiedi ti allunga la lista invece di accorciarla. Se dici sì, il mio voto su me stessa diventa uno solo: i difetti che chiudo nel mese diviso quelli che apro, obiettivo almeno 1. Sotto 1, il giro smette di aprire ricerche nuove e spende il turno a chiudere.
 **Se va bene:** rispondi «ok tasso di chiusura». Io lo scrivo negli obiettivi della squadra come numero mio e lo faccio calcolare a ogni giro. Poi cablo il freno che ferma le ricerche nuove quando scende sotto 1. Da lì in avanti la lista che ti riporto dopo una radiografia si accorcia, invece di allungarsi. Se preferisci che continui a cercare comunque, dimmelo: è una scelta legittima, ma allora la lista cresce e va accettato.
@@ -1167,35 +1154,25 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 - **Fatto:** motore `cervello/tasso-chiusura.mjs` · freno nel giro (`CHIUSURA_VINCOLO`) · numero in `OKR-Squadra.md` · prova `cervello/test/tasso-di-chiusura.test.mjs` (13 controlli, cade 3 volte se rompo il fix) · AR-566 chiuso. Misura di oggi: **0,18** — il freno è acceso.
 - **Origine:** `{origine:radiografia-catena-di-lavoro, difetto:AR-566, pr:697}`
 
-<!-- macchina-ferma-da-quattro-giorni -->
+<!-- cosa-vuol-dire-fatto -->
 
 ---
 
-### ✅ #43 — Il server è tornato a pubblicare: guasto dei quattro giorni chiuso · ⏳ accodata 2026-08-04 03:10 · ✅ chiusa 2026-08-04 12:20
+### ✅ #71 — Alzata l'asticella di cosa vuol dire «riparato». FATTO 2026-08-11 00:20, col tuo ok in chat · ⏳ accodata 2026-08-11 01:32
 
-**La prova:** alle 12:09 su `main` è arrivato il commit di un giro vero («giro 4/8 11:30 + collaudo»), alle 12:10 il recupero delle scritture rimaste in sospeso, alle 12:11 il riconcilia. E il giro delle 12:20 è già il secondo consecutivo pubblicato. La memoria scorre di nuovo dal server a GitHub e il Pannello legge dati di oggi — non serviva più niente da te su questa card.
-**Resta aperto, già a cantiere (non è un compito tuo):** il push del giro delle 11:30 in sé risultava fallito (`esito-giro` delle 11:42 con `push_ok: false`): quelle scritture sono uscite dalla corsia di recupero, non dal push diretto. La «via di fuga» perché la pubblicazione non dipenda dal rebase è la scheda AR-518/AR-521. Intanto il freno nuovo veglia: memoria ferma oltre 12 ore = banner rosso in home da solo (AR-544).
-- **Colore:** ✅ chiusa (era 🔴)
-- **Reparto:** devops-sre
-- **Origine:** `{origine:visita-salute-2026-08-04, difetti:[AR-518, AR-530, AR-544]}`
-
-<!-- prevenzione-a-monte -->
-
----
-
-### ✅ #49 — ~~Accendi gli ultimi due freni: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto~~ → FATTO 2026-08-04 17:26 · ⏳ accodata 2026-08-10 12:16
-
-**Esito:** Nicola ha incollato il blocco in `.claude/settings.json`. Due tentativi falliti prima del verde, entrambi diagnosticati e corretti nella stessa conversazione: ① comando di verifica lanciato dalla home (`~`) invece che da `/opt/mycity/ad-mycity` → "Cannot find module"; ② il JSON incollato a mano aveva il blocco `mano-fermata` annidato dentro l'array sbagliato + due virgole mancanti → `JSON.parse` falliva e `cablaggioPresente()` tornava tutto `false`. Alla terza prova, con il blocco `"hooks": {...}` sostituito per intero, `node cervello/mano-fermata.mjs --cablaggio` è uscito verde: «i due freni della prevenzione a monte sono cablati: mano-fermata (PreToolUse) e scheda su misura (UserPromptSubmit)». Prova indipendente nello stesso turno: l'hook `contesto-lezioni.mjs --richiesta` ha davvero iniettato 8 lezioni a tema in cima al prompt successivo di Nicola — non solo il comando di collaudo dice verde, il freno si è visto girare dal vivo. Difetto macchina AR-533 chiuso.
-
-- **Colore:** 🟡 (auto-modifica della macchina, firmata da Nicola)
-- **Reparto:** qa + prompt-engineer
-- **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-533}`
+**Cosa cambia:** oggi un difetto su tre si chiude perché una parola compare in un file. Ti faccio l'esempio vero: il difetto AR-128 diceva «non esiste nessun sensore per le contestazioni carta». La sua prova era che la parola «chargeback» comparisse in un documento. Scrivere quella parola bastava a chiudere il difetto — e il sensore non c'era comunque. Sono 193 difetti su 552 messi così. **Questa è la ragione per cui gli errori li trovi tu e non io:** una ricerca di parole non può fallire nel modo in cui fallisce la realtà. Se dici sì cambiano due cose. Da domani un difetto grave o bloccante nasce con un comando che gira davvero, o non nasce. E i 193 vecchi li converto a lotti, partendo dai bloccanti.
+**Se va bene:** rispondi «ok asticella». Io scrivo la regola nel mansionario e la aggancio al cancello che ferma i lotti. Poi ti porto il primo lotto di conversione entro il giro seguente. Se preferisci di no, dimmelo lo stesso: chiudo il difetto come scelta tua e smetto di riproportelo. Se non decidiamo niente resta com'è, e continuerai a trovare tu quello che io ho dichiarato risolto.
+**Nota tecnica:** difetto AR-564, nato dalla radiografia della catena di lavoro del 10/8. Le due forme di prova stanno in `cervello/auto-fix.mjs:154-179`; la forma ammessa per i comandi in `cervello/forma-prova.mjs`. Conteggio: 193/552 forma testuale, 243/552 comportamentale, 28 umane, 30 senza prova. Fra i chiusi la testuale è 67/332 (20%).
+- **Colore:** 🟡 — cambia una regola di lavoro della macchina. Non tocca il marketplace e non manda niente a nessuno.
+- **Reparto:** AD + prompt-engineer
+- **Fatto:** regola in `CLAUDE.md` · cancello `asticella` in `cervello/cancello-lotto.mjs` · freno `cervello/test/asticella-prova-che-gira.test.mjs` (11 controlli, cade 3 volte se rompo il fix) · AR-564 chiuso.
+- **Origine:** `{origine:radiografia-catena-di-lavoro, difetto:AR-564, pr:697}`
 
 <!-- accendi-i-quattro-controlli-nuovi -->
 
 ---
 
-### ✅ #50 — ~~Incolla il blocco che accende i quattro controlli nuovi della macchina~~ → FATTO 2026-08-04 05:20 · ⏳ accodata 2026-08-10 12:16
+### ✅ #68 — ~~Incolla il blocco che accende i quattro controlli nuovi della macchina~~ → FATTO 2026-08-04 05:20 · ⏳ accodata 2026-08-10 12:16
 
 **Esito:** Nicola ha incollato il blocco e l'ha committato su main. L'aggancio è MISURATO, non dichiarato: `node cervello/hooks-check.mjs --senza-attese` esce 0 con tutti e quattro fra i comandi attaccati, e lo stesso comando usciva 1 finché non c'erano. I quattro difetti sono chiusi (AR-522, AR-525, AR-527, AR-528) e le quattro attese sono state tolte dal registro, non aggiornate.
 
@@ -1329,14 +1306,52 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 ---
 
 <!-- prevenzione-a-monte -->
-| 9 | 2026-08-04 17:57 | @tech | Merge PR #677 ad-mycity → main — fix vero del cancello-di-stop (i falsi allarmi sul lavoro del worker, 3ª manifestazione worker-concorrente) | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/677 | github | ✅ CHIUSA 2026-08-10 17:20 — il fix vive su main, portato dalla PR #693. Il ramo vecchio era indietro di sei giorni. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 10 | 2026-08-04 18:00 | @tech | Merge PR #679 ad-mycity → main — porta online anche tutti i commit di memoria di questo turno (17:50-18:00), non solo il sync di routing.json: origin/main non accetta push diretto da questa sessione, la PR è il veicolo | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/679 · riepilogo `consegne/tech/pr-ad-mycity-679.md` | github | ✅ CHIUSA 2026-08-10 17:05 — non si poteva unire: avrebbe riportato indietro sette file di memoria. In cambio portava telemetria che il giro rifà da solo. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. Mergiare #677 PRIMA o dopo non importa, sono indipendenti. |
-| 11 | 2026-08-04 18:33 | @tech | Merge PR #680 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/680 · riepilogo `consegne/tech/pr-ad-mycity-680.md` | github | ✅ CHIUSA 2026-08-10 17:05 — era la memoria di un giro del 4 agosto, ormai superata dai giri dopo. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 12 | 2026-08-04 18:34 | @tech | Merge PR #681 ad-mycity → main — porta online la coda di PR #680 più una nota tecnica | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/681 | github | FATTO 2026-08-04 16:37 — mergiata da Nicola. Verificato dal vivo su GitHub il 2026-08-10 10:05: la richiesta risulta unita, 31 file. La riga chiedeva da sei giorni una cosa già fatta. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. Mergiare in ordine 677→679→680→681 evita conflitti, ma non è bloccante. |
-| 13 | 2026-08-04 20:15 | @tech | Merge PR #683 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/683 · riepilogo `consegne/tech/pr-ad-mycity-683.md` | github | ✅ CHIUSA 2026-08-10 17:20 — anche questo fix è su main, stessa PR #693. Niente da fare. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 14 | 2026-08-10 10:05 | @tech | Unisci la richiesta 675 — il freno vero sulla lezione del file dei permessi | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/675 · riepilogo `consegne/tech/pr-ad-mycity-675.md` | github | FATTO 2026-08-10 11:28 — mergiata da Nicola. Verificato dal vivo su GitHub (merged_by NicolaeRotaru). | È aperta dal 4 agosto e non era mai finita in questa lista: nessuno te l'aveva messa davanti. Porta il freno che impedisce di riaprire da sola una porta che avevi chiuso. | Dopo il tuo ok: unione e messa online del Pannello. Il server si allinea al controllo successivo. |
-| 15 | 2026-08-10 10:05 | @tech | Unisci la richiesta 678 — rinforza la lezione sul lavoro fatto in due allo stesso momento | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/678 · riepilogo `consegne/tech/pr-ad-mycity-678.md` | github | ✅ CHIUSA 2026-08-10 17:05 — la lezione che portava è già su main, arrivata per altra strada. | Aperta dal 4 agosto, anche questa mai messa in lista. È la lezione che ho appena ripagato oggi: due che scrivono la stessa cosa insieme e si pestano. | Dopo il tuo ok: unione. Solo memoria, non tocca il sito. |
-| 16 | 2026-08-10 10:05 | @onboarding-negozi | Fai finire a Pane Quotidiano la pratica dei pagamenti: oggi il negozio non può incassare | 🔴 | Il negozio è approvato e ha la vetrina con 5 prodotti e gli orari, ma il fascicolo dei pagamenti non è mai stato completato. Nel sistema dei pagamenti risultano tre semafori rossi: dati mai inviati, incassi disattivati, versamenti disattivati. Vuol dire che se domani un cliente mette qualcosa nel carrello e va a pagare, il pagamento non parte. L'unico ordine mai arrivato, il 24 giugno, è rimasto «in attesa di pagamento» e poi è stato annullato. Serve che il fornaio completi la pratica di Stripe con i suoi dati (documento, azienda, conto per l'accredito): sono suoi e non li posso mettere io. | manuale | in attesa | Il primo negozio del marketplace passa da «bello da vedere» a «può prendere soldi». Finché resta così, ogni euro speso per portare clienti sul sito è buttato. | Dopo il tuo ok ti preparo il messaggio pronto da mandare al fornaio, con il link e i tre documenti da avere sottomano, e ti dico quando risulta a posto. |
-| 17 | 2026-08-13 09:45 | @devops-sre | Rimetti in moto le cadenze: il Piano del mattino manca dal 30 luglio e tutte e sei risultano fallite | 🔴 | Il worker ieri sera ha ripreso a pubblicare la memoria (commit delle 23:03), ma i lavori a orologio muoiono: tutte e sei le cadenze registrate risultano fallite, il giro di stanotte è morto a tempo scaduto, e l'ultimo Piano del mattino pubblicato è del 30 luglio. Lo stesso guasto era già successo a fine luglio ed era stato chiuso scrivendo «il server è tornato a pubblicare», senza montare un freno: alla ricaduta nessuna card ti ha avvisato. Da questa sessione cloud il server non si vede: serve una mano sul VPS — apri una sessione lì e dì «visita il worker», oppure riavvia tu il servizio. | manuale | in attesa | Senza cadenze la macchina non propone mosse, non aggiorna i numeri e non riempie la coda: il battito è fermo da quattordici giorni anche se il worker respira, e dalla Cabina non si vede. | Al primo battito tornano Piano del mattino, numeri freschi e card nuove; e monto il freno che alla prossima ricaduta ti mette una card in coda da solo. |
-| 18 | 2026-08-13 09:45 | @tech | Ripara il contatore delle chiusure: ti mostra 0,23 quando il conto vero è 0,92 | 🟡 | Il contatore conta una chiusura solo se ha la data, e 74 chiusure sono rimaste senza: la storia dei file prova che 71 sono di agosto. Fix in un ramo, piccolo e reversibile: data di chiusura obbligatoria quando uno stato passa a «chiuso», più il recupero delle 74 date dalla storia di git. | github | in attesa | Il freno «cerca o chiudi» decide oggi su un numero sbagliato di quattro volte: con il conto vero la macchina può tornare a cercare senza violare la regola che hai approvato. | Dopo il tuo ok apro la richiesta di unione col fix e le 74 date recuperate; il voto mensile torna a dire la verità. |
-| 19 | 2026-08-13 09:45 | @qa | Apri il sito dal telefono: il sensore lo vede spento dal 30 luglio | 🟡 | Il sensore di raggiungibilità segna «servizio non disponibile» su mycity-marketplace.com da 103 controlli consecutivi, ultimo verde il 30 luglio — la data coincide con la migrazione da Render a Vercel. Da questa sessione la rete non arriva al dominio, quindi non posso dirimere io: aprilo tu dal telefono, bastano dieci secondi. | manuale | in attesa | Se non si apre è l'incendio numero uno: marketplace giù da tredici giorni, zero ordini possibili. Se si apre, il sensore punta all'indirizzo vecchio e ti mostra un rosso falso da tredici giorni. | Nel primo caso spegniamo l'incendio con devops; nel secondo correggo il sensore e monto l'allarme che stavolta è mancato. |
+| 53 | 2026-08-04 17:57 | @tech | Merge PR #677 ad-mycity → main — fix vero del cancello-di-stop (i falsi allarmi sul lavoro del worker, 3ª manifestazione worker-concorrente) | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/677 | github | ✅ CHIUSA 2026-08-10 17:20 — il fix vive su main, portato dalla PR #693. Il ramo vecchio era indietro di sei giorni. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 54 | 2026-08-04 18:00 | @tech | Merge PR #679 ad-mycity → main — porta online anche tutti i commit di memoria di questo turno (17:50-18:00), non solo il sync di routing.json: origin/main non accetta push diretto da questa sessione, la PR è il veicolo | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/679 · riepilogo `consegne/tech/pr-ad-mycity-679.md` | github | ✅ CHIUSA 2026-08-10 17:05 — non si poteva unire: avrebbe riportato indietro sette file di memoria. In cambio portava telemetria che il giro rifà da solo. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. Mergiare #677 PRIMA o dopo non importa, sono indipendenti. |
+| 57 | 2026-08-04 18:33 | @tech | Merge PR #680 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/680 · riepilogo `consegne/tech/pr-ad-mycity-680.md` | github | ✅ CHIUSA 2026-08-10 17:05 — era la memoria di un giro del 4 agosto, ormai superata dai giri dopo. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 58 | 2026-08-04 18:34 | @tech | Merge PR #681 ad-mycity → main — porta online la coda di PR #680 più una nota tecnica | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/681 | github | FATTO 2026-08-04 16:37 — mergiata da Nicola. Verificato dal vivo su GitHub il 2026-08-10 10:05: la richiesta risulta unita, 31 file. La riga chiedeva da sei giorni una cosa già fatta. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. Mergiare in ordine 677→679→680→681 evita conflitti, ma non è bloccante. |
+| 59 | 2026-08-04 20:15 | @tech | Merge PR #683 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/683 · riepilogo `consegne/tech/pr-ad-mycity-683.md` | github | ✅ CHIUSA 2026-08-10 17:20 — anche questo fix è su main, stessa PR #693. Niente da fare. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 60 | 2026-08-10 10:05 | @tech | Unisci la richiesta 675 — il freno vero sulla lezione del file dei permessi | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/675 · riepilogo `consegne/tech/pr-ad-mycity-675.md` | github | FATTO 2026-08-10 11:28 — mergiata da Nicola. Verificato dal vivo su GitHub (merged_by NicolaeRotaru). | È aperta dal 4 agosto e non era mai finita in questa lista: nessuno te l'aveva messa davanti. Porta il freno che impedisce di riaprire da sola una porta che avevi chiuso. | Dopo il tuo ok: unione e messa online del Pannello. Il server si allinea al controllo successivo. |
+| 61 | 2026-08-10 10:05 | @tech | Unisci la richiesta 678 — rinforza la lezione sul lavoro fatto in due allo stesso momento | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/678 · riepilogo `consegne/tech/pr-ad-mycity-678.md` | github | ✅ CHIUSA 2026-08-10 17:05 — la lezione che portava è già su main, arrivata per altra strada. | Aperta dal 4 agosto, anche questa mai messa in lista. È la lezione che ho appena ripagato oggi: due che scrivono la stessa cosa insieme e si pestano. | Dopo il tuo ok: unione. Solo memoria, non tocca il sito. |
+| 62 | 2026-08-10 10:05 | @onboarding-negozi | Fai finire a Pane Quotidiano la pratica dei pagamenti: oggi il negozio non può incassare | 🔴 | Il negozio è approvato e ha la vetrina con 5 prodotti e gli orari, ma il fascicolo dei pagamenti non è mai stato completato. Nel sistema dei pagamenti risultano tre semafori rossi: dati mai inviati, incassi disattivati, versamenti disattivati. Vuol dire che se domani un cliente mette qualcosa nel carrello e va a pagare, il pagamento non parte. L'unico ordine mai arrivato, il 24 giugno, è rimasto «in attesa di pagamento» e poi è stato annullato. Serve che il fornaio completi la pratica di Stripe con i suoi dati (documento, azienda, conto per l'accredito): sono suoi e non li posso mettere io. | manuale | in attesa | Il primo negozio del marketplace passa da «bello da vedere» a «può prendere soldi». Finché resta così, ogni euro speso per portare clienti sul sito è buttato. | Dopo il tuo ok ti preparo il messaggio pronto da mandare al fornaio, con il link e i tre documenti da avere sottomano, e ti dico quando risulta a posto. |
+| 77 | 2026-08-13 09:45 | @devops-sre | Rimetti in moto le cadenze: il Piano del mattino manca dal 30 luglio e tutte e sei risultano fallite | 🔴 | Il worker ieri sera ha ripreso a pubblicare la memoria (commit delle 23:03), ma i lavori a orologio muoiono: tutte e sei le cadenze registrate risultano fallite, il giro di stanotte è morto a tempo scaduto, e l'ultimo Piano del mattino pubblicato è del 30 luglio. Lo stesso guasto era già successo a fine luglio ed era stato chiuso scrivendo «il server è tornato a pubblicare», senza montare un freno: alla ricaduta nessuna card ti ha avvisato. Da questa sessione cloud il server non si vede: serve una mano sul VPS — apri una sessione lì e dì «visita il worker», oppure riavvia tu il servizio. | manuale | in attesa | Senza cadenze la macchina non propone mosse, non aggiorna i numeri e non riempie la coda: il battito è fermo da quattordici giorni anche se il worker respira, e dalla Cabina non si vede. | Al primo battito tornano Piano del mattino, numeri freschi e card nuove; e monto il freno che alla prossima ricaduta ti mette una card in coda da solo. |
+| 78 | 2026-08-13 09:45 | @tech | Ripara il contatore delle chiusure: ti mostra 0,23 quando il conto vero è 0,92 | 🟡 | Il contatore conta una chiusura solo se ha la data, e 74 chiusure sono rimaste senza: la storia dei file prova che 71 sono di agosto. Fix in un ramo, piccolo e reversibile: data di chiusura obbligatoria quando uno stato passa a «chiuso», più il recupero delle 74 date dalla storia di git. | github | in attesa | Il freno «cerca o chiudi» decide oggi su un numero sbagliato di quattro volte: con il conto vero la macchina può tornare a cercare senza violare la regola che hai approvato. | Dopo il tuo ok apro la richiesta di unione col fix e le 74 date recuperate; il voto mensile torna a dire la verità. |
+| 79 | 2026-08-13 09:45 | @qa | Apri il sito dal telefono: il sensore lo vede spento dal 30 luglio | 🟡 | Il sensore di raggiungibilità segna «servizio non disponibile» su mycity-marketplace.com da 103 controlli consecutivi, ultimo verde il 30 luglio — la data coincide con la migrazione da Render a Vercel. Da questa sessione la rete non arriva al dominio, quindi non posso dirimere io: aprilo tu dal telefono, bastano dieci secondi. | manuale | in attesa | Se non si apre è l'incendio numero uno: marketplace giù da tredici giorni, zero ordini possibili. Se si apre, il sensore punta all'indirizzo vecchio e ti mostra un rosso falso da tredici giorni. | Nel primo caso spegniamo l'incendio con devops; nel secondo correggo il sensore e monto l'allarme che stavolta è mancato. |
+| 81 | 2026-08-13 18:59 | @tech | Merge PR #714 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/714 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+
+<!-- prevenzione-a-monte -->
+
+---
+
+### ✅ #67 — ~~Accendi gli ultimi due freni: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto~~ → FATTO 2026-08-04 17:26 · ⏳ accodata 2026-08-10 12:16
+
+**Esito:** Nicola ha incollato il blocco in `.claude/settings.json`. Due tentativi falliti prima del verde, entrambi diagnosticati e corretti nella stessa conversazione: ① comando di verifica lanciato dalla home (`~`) invece che da `/opt/mycity/ad-mycity` → "Cannot find module"; ② il JSON incollato a mano aveva il blocco `mano-fermata` annidato dentro l'array sbagliato + due virgole mancanti → `JSON.parse` falliva e `cablaggioPresente()` tornava tutto `false`. Alla terza prova, con il blocco `"hooks": {...}` sostituito per intero, `node cervello/mano-fermata.mjs --cablaggio` è uscito verde: «i due freni della prevenzione a monte sono cablati: mano-fermata (PreToolUse) e scheda su misura (UserPromptSubmit)». Prova indipendente nello stesso turno: l'hook `contesto-lezioni.mjs --richiesta` ha davvero iniettato 8 lezioni a tema in cima al prompt successivo di Nicola — non solo il comando di collaudo dice verde, il freno si è visto girare dal vivo. Difetto macchina AR-533 chiuso.
+
+- **Colore:** 🟡 (auto-modifica della macchina, firmata da Nicola)
+- **Reparto:** qa + prompt-engineer
+- **Origine:** `{origine:richiesta-nicola-2026-08-04, difetto-macchina AR-533}`
+
+<!-- macchina-ferma-da-quattro-giorni -->
+
+---
+
+### ✅ #51 — Il server è tornato a pubblicare: guasto dei quattro giorni chiuso · ⏳ accodata 2026-08-04 03:10 · ✅ chiusa 2026-08-04 12:20
+
+**La prova:** alle 12:09 su `main` è arrivato il commit di un giro vero («giro 4/8 11:30 + collaudo»), alle 12:10 il recupero delle scritture rimaste in sospeso, alle 12:11 il riconcilia. E il giro delle 12:20 è già il secondo consecutivo pubblicato. La memoria scorre di nuovo dal server a GitHub e il Pannello legge dati di oggi — non serviva più niente da te su questa card.
+**Resta aperto, già a cantiere (non è un compito tuo):** il push del giro delle 11:30 in sé risultava fallito (`esito-giro` delle 11:42 con `push_ok: false`): quelle scritture sono uscite dalla corsia di recupero, non dal push diretto. La «via di fuga» perché la pubblicazione non dipenda dal rebase è la scheda AR-518/AR-521. Intanto il freno nuovo veglia: memoria ferma oltre 12 ore = banner rosso in home da solo (AR-544).
+- **Colore:** ✅ chiusa (era 🔴)
+- **Reparto:** devops-sre
+- **Origine:** `{origine:visita-salute-2026-08-04, difetti:[AR-518, AR-530, AR-544]}`
+
+<!-- ordine-test-dentro-o-fuori-dalla-pausa -->
+
+---
+
+### ✅ #35 — Risposto: resta dentro la pausa, collaudo a settembre · ⏳ accodata 2026-07-28 08:45 · ✅ chiusa 2026-08-13 10:22 (risposta già data il 28/7)
+
+**Cosa è successo.** Questa card chiedeva a Nicola se l'ordine di prova su Pane Quotidiano dovesse restare **dentro o fuori** dalla pausa negozi — cioè se il collaudo (una pausa di validazione) dovesse seguire la stessa pausa di business decisa per le altre undici card. Era marcata `{congelamento-da-confermare: ordine-test-pq}` in [[AZIONI-IN-ATTESA]]. **Nicola aveva già risposto il 28/7 alle 15:56** («Si l'ho rimandato a settembre») — registrato in [[DECISIONI]] alla stessa data/ora. La card però non è mai stata chiusa nel file, e per 16 giorni ogni giro l'ha ripresentata come "mossa n.1 ferma senza risposta", quando la risposta esisteva già. Errore riconosciuto: [[feedback-domanda-gia-decisa-ricontrollare]] — prima di riproporre una domanda-decisione, controllare `DECISIONI.md`.
+
+**Esito:** l'ordine di prova resta congelato fino al 24 agosto-1 settembre 2026 insieme al resto dei negozi ([[ripresa.lavoro-operativo|registro-fatti.json]]), nessuna eccezione. Il primo giorno di lavoro operativo sarà un giorno di collaudo (verifica pagamento→fornaio→consegna), non di vendita.
+- **Colore:** ✅ chiusa, nessuna azione da eseguire
+- **Reparto:** chief-of-staff + analista
+- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-157}` — chiusa da giro AD 2026-08-13 10:22

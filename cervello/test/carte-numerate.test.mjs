@@ -45,6 +45,8 @@ Scrivi «ok 41». (sezione-manuale, non un'azione)
 
 **Cosa cambia:** card d'epoca. In attesa di firma.
 - **Colore:** 🟡
+
+| 7 | 2026-07-30 03:44 | @tech | Merge PR #630 ad-mycity → main | 🔴 | https://x/pull/630 | github | in attesa |
 `;
 
 // ── 1) Il parser della Cabina ────────────────────────────────────────────────
@@ -67,11 +69,11 @@ test("la coda si ordina col numero più alto in alto", async () => {
   const ordinate = mod.ordinaCoda(l.parse(CODA_FINTA).filter((a) => a.inAttesa));
   assert.deepEqual(
     ordinate.map((a) => a.cartellino),
-    ["41", "12", ""],
-    "prima i numeri in ordine decrescente, poi le card senza numero"
+    ["41", "12", "7", ""],
+    "prima i numeri in ordine decrescente (righe-tabella comprese), poi le card senza numero"
   );
   assert.equal(mod.numeroCard(ordinate[0]), "#41");
-  assert.match(mod.numeroCard(ordinate[2]), /^#[A-Z]\d{2}$/, "senza numero si ripiega sul codice");
+  assert.match(mod.numeroCard(ordinate[3]), /^#[A-Z]\d{2}$/, "senza numero si ripiega sul codice");
 });
 
 // ── 2) L'esecutore: «ok 41» per campo, mai per coincidenza ───────────────────
@@ -85,6 +87,14 @@ test("trovaAzione risolve il numero come campo dichiarato", () => {
 test("AR-271: un numero che vive solo dentro un orario del titolo NON combacia", () => {
   // «23:40» sta nel titolo della card #12: chiedere «40» non deve agganciarla.
   assert.equal(trovaAzione(CODA_FINTA, "40"), null, "il 40 di «23:40» non è un identificatore");
+});
+
+test("anche le card del formato vecchio (righe-tabella) rispondono al loro numero", () => {
+  // Sono 22 nella coda vera e sono card VIVE: se «ok 7» non le trovasse, il numero mostrato
+  // dal Pannello aprirebbe il vuoto — o peggio, un'altra card.
+  const b7 = trovaAzione(CODA_FINTA, "7");
+  assert.ok(b7, "«7» deve trovare la riga-tabella numerata 7");
+  assert.match(b7.blocco, /Merge PR #630/);
 });
 
 test("i vecchi identificatori restano validi (id stabile e codice casella)", () => {
@@ -105,6 +115,12 @@ test("nel file vero ogni card ha il suo numero, unico, con la data di nascita", 
     assert.ok(m, `card senza numero fisso: ${h.slice(0, 80)}`);
     numeri.push(Number(m[1]));
     assert.match(h, /(?:accodat\w*|refresh)\s+\d{4}-\d{2}-\d{2}/, `card senza data di nascita: ${h.slice(0, 80)}`);
+  }
+  // Le righe-tabella sono card anche loro e vivono nello STESSO spazio di numeri: se un numero
+  // valesse due card, «ok 20» sarebbe una domanda senza risposta unica.
+  for (const r of md.split("\n")) {
+    const m = r.match(/^\|\s*(\d+)\s*\|/);
+    if (m) numeri.push(Number(m[1]));
   }
   assert.equal(new Set(numeri).size, numeri.length, "due card portano lo stesso numero");
 });

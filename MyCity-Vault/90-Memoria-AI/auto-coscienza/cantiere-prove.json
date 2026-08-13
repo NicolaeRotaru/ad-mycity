@@ -1,23 +1,263 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-13 14:14",
+  "aggiornato": "2026-08-13 19:18",
   "giorni_sospetto": 3,
-  "difetti_aperti": 222,
+  "difetti_aperti": 288,
   "per_classe": {
-    "umana": 104,
-    "auto-sospetta": 101,
+    "umana": 171,
+    "auto-sospetta": 100,
     "auto-comando": 10,
     "auto-ok": 5,
     "auto-attesa": 2
   },
-  "non_auto_chiudibili": 205,
+  "non_auto_chiudibili": 271,
   "bloccanti_ciechi": [
     "AR-473",
     "AR-072",
     "AR-518",
     "AR-521",
     "AR-568"
+  ],
+  "schede_incomplete": [
+    {
+      "id": "AR-576",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-577",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-578",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-583",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-584",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-585",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-586",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-588",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-592",
+      "gravita": "bloccante",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-593",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-594",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-595",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-598",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-599",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-602",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-603",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-604",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-606",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-607",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-611",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-612",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-617",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-620",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-621",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-622",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-624",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-625",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-627",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-628",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-631",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-635",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-639",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-640",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-641",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita"
+      ]
+    }
   ],
   "voci": [
     {
@@ -1164,15 +1404,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-416",
-      "gravita": "grave",
-      "eta_giorni": 15,
-      "titolo": "L'archivio delle lezioni è a trentaduemila byte dal muro, il potatore non toglierebbe niente e nessuno lo lanc",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 15 giorni (cervello/giro.sh ~ /pota-apprendimento/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-417",
       "gravita": "minore",
       "eta_giorni": 15,
@@ -1292,7 +1523,7 @@
     {
       "id": "AR-439",
       "gravita": "alto",
-      "eta_giorni": null,
+      "eta_giorni": 15,
       "titolo": "Il battito che i guardiani mandano non ha un tempo massimo: se la memoria risponde lenta, il giro si ferma lì",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -1301,7 +1532,7 @@
     {
       "id": "AR-440",
       "gravita": "alto",
-      "eta_giorni": null,
+      "eta_giorni": 15,
       "titolo": "Un allarme acceso da settimane e uno acceso da un minuto si leggono uguale, quindi il primo diventa sfondo",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
@@ -2014,6 +2245,552 @@
       "gravita": "bloccante",
       "eta_giorni": 3,
       "titolo": "Un comando di sola lettura lanciato da dove mancano le chiavi riscrive la memoria dei sensi con la propria cec",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-576",
+      "eta_giorni": 0,
+      "titolo": "Il termometro della salute crolla da 45 a 4 in un giorno, ma la macchina dichiara che non è cambiato niente",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-577",
+      "eta_giorni": 0,
+      "titolo": "Sette entità del registro della realtà hanno uno stato inventato che il contratto vieta per iscritto",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-578",
+      "eta_giorni": 0,
+      "titolo": "La memoria si aggiorna ogni sera, ma il referto del checkup è fermo da quasi due giorni",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-579",
+      "eta_giorni": 0,
+      "titolo": "Nella serie storica della salute compaiono tipi di visita che il contratto non prevede",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-581",
+      "eta_giorni": 0,
+      "titolo": "Il quaderno dei pezzi nuovi proposti è morto: nessun programma lo legge e nessuno lo aggiorna da cinque settim",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-583",
+      "eta_giorni": 0,
+      "titolo": "I due guardiani anti-doppione danno il verde mentre due senior si contendono il carrello abbandonato",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-584",
+      "eta_giorni": 0,
+      "titolo": "Tutti i centoventi mansionari lasciano ogni strumento in mano ai senior, anche a chi per contratto legge solta",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-585",
+      "eta_giorni": 0,
+      "titolo": "Il canale WhatsApp del negoziante non ha nessun senior che lo reclami",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-586",
+      "eta_giorni": 0,
+      "titolo": "La scheda degli affari regolatori reclama l'inquadramento dei rider senza rimandare ai due che ne rispondono",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-588",
+      "eta_giorni": 0,
+      "titolo": "Il sito dei negozi non risponde da tredici giorni e nessun guardiano lo porta in coda",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-592",
+      "eta_giorni": 0,
+      "titolo": "Il battito è di nuovo fermo da tre giorni e la ricaduta non ha svegliato nessuno",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-593",
+      "eta_giorni": 0,
+      "titolo": "La review del venerdì è obbligatoria sulla carta ma non lascia i compiti da tre venerdì",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-594",
+      "eta_giorni": 0,
+      "titolo": "Il referto di salute non ha la voce sul battito: sei cadenze rosse e la visita tace",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-595",
+      "eta_giorni": 0,
+      "titolo": "I quaderni dei senior sono fermi quasi tutti: centocinque su centoventi senza una riga fresca, settantadue mai",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-596",
+      "eta_giorni": 0,
+      "titolo": "Un freno su tre è senza la prova che scatti: diciannove lezioni frenate non hanno la mutazione",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-598",
+      "eta_giorni": 0,
+      "titolo": "Il freno che vieta nuove ricerche quando si apre più di quanto si chiude vale solo per il giro: le radiografie",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-599",
+      "eta_giorni": 0,
+      "titolo": "Per la regola dei canali unire una richiesta su GitHub o scrivere sul sito è roba di casa: un verde scritto da",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-600",
+      "eta_giorni": 0,
+      "titolo": "Lo sblocco del ponte verso WhatsApp e i social è un interruttore unico: aperto una volta, vale per qualsiasi d",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-601",
+      "eta_giorni": 0,
+      "titolo": "Nessun numero dice a Nicola quanta parte del lavoro della settimana è andata alla macchina e quanta ai negozi",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-602",
+      "eta_giorni": 0,
+      "titolo": "La risposta di un lavoro aperto resta quella vecchia anche quando il lavoro è finito",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-603",
+      "eta_giorni": 0,
+      "titolo": "Ricaricando la pagina l'archivio perde i titoli veri e il recupero delle risposte dai lavori gira a vuoto",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-604",
+      "eta_giorni": 0,
+      "titolo": "La casella promette di ripescare la risposta alla riapertura, ma riaprirla non ripesca niente",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-605",
+      "eta_giorni": 0,
+      "titolo": "Salvataggi e letture partono da dentro gli aggiornamenti di stato e possono partire doppi",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-606",
+      "eta_giorni": 0,
+      "titolo": "Chiudere un pannello col tocco lascia il suo timbro nella cronologia e da lì il tasto indietro sbaglia strada",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-607",
+      "eta_giorni": 0,
+      "titolo": "La schermata di errore promette che il resto del Pannello funziona, ma quando compare è sparito tutto",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-608",
+      "eta_giorni": 0,
+      "titolo": "Senza rete i quaderni dei senior danno la colpa sbagliata e lasciano errori non gestiti ogni due minuti",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-609",
+      "eta_giorni": 0,
+      "titolo": "Il vecchio collegamento col cancelletto per l'auto-coscienza si apre solo se sei già sulla scheda giusta",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-610",
+      "eta_giorni": 0,
+      "titolo": "Un indirizzo sbagliato del Pannello finisce su una pagina inglese di errore senza una via per tornare alla Cab",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-611",
+      "eta_giorni": 0,
+      "titolo": "Il pannello gira su librerie con quattro falle note di gravità alta, tutte già corrette a monte",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-612",
+      "eta_giorni": 0,
+      "titolo": "Il bottone che porta all'azione da firmare lascia Nicola su una scheda chiusa o nel nulla",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-613",
+      "eta_giorni": 0,
+      "titolo": "L'area dove si firma è invisibile ai lettori di schermo: zero etichette di accessibilità e bottoni dentro bott",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-614",
+      "eta_giorni": 0,
+      "titolo": "In tema scuro i bordi e i badge colorati delle card restano quelli del tema chiaro",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-615",
+      "eta_giorni": 0,
+      "titolo": "Il tasto Ignora di una proposta accetta il doppio tocco e spara due richieste",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-616",
+      "eta_giorni": 0,
+      "titolo": "Il registro delle azioni mostra i titoli grezzi, saltando il filtro che pulisce sigle e percorsi",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-617",
+      "eta_giorni": 0,
+      "titolo": "Centoquattordici senior promettono di lavorare in sola lettura, ma nessun freno tecnico glielo impone",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-618",
+      "eta_giorni": 0,
+      "titolo": "Nessun senior ha un modello assegnato: anche i lavori semplici girano col motore più caro",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-620",
+      "eta_giorni": 0,
+      "titolo": "Quando un senior passa il lavoro a un collega, nessuno lo raccoglie: sei passaggi su sette caduti nel vuoto",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-621",
+      "eta_giorni": 0,
+      "titolo": "Chi lavora senza scrivere nel canale di squadra resta invisibile: ad agosto il canale è il monologo del dirett",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-622",
+      "eta_giorni": 0,
+      "titolo": "La revisione tra pari esiste solo sulla carta: una sola richiesta in un mese e mezzo, rimasta senza risposta",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-623",
+      "eta_giorni": 0,
+      "titolo": "Il contatore dei quaderni vivi non conta il quaderno del direttore",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-624",
+      "eta_giorni": 0,
+      "titolo": "Il bottone che recupera i lavori bloccati rimette in coda anche le azioni reali interrotte: possono ripartire ",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-625",
+      "eta_giorni": 0,
+      "titolo": "Al riavvio, un worker considera suoi anche i lavori vivi di un gemello della stessa corsia e li recupera all'i",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-626",
+      "eta_giorni": 0,
+      "titolo": "Se la conferma della presa in carico si perde per strada, il lavoro resta segnato in corso per un'ora senza ch",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-627",
+      "eta_giorni": 0,
+      "titolo": "Con la quota finita, un lavoro mai eseguito viene chiuso come fatto",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-628",
+      "eta_giorni": 0,
+      "titolo": "Ripartendo con la testa staccata dal ramo, l'allineamento butta via il commit di salvataggio appena creato",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-630",
+      "eta_giorni": 0,
+      "titolo": "Quando la quota si libera tra ore, la cadenza riprova comunque dopo trenta secondi",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-631",
+      "eta_giorni": 0,
+      "titolo": "Il worker dichiara salvato un esito che il database non ha mai scritto",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-635",
+      "eta_giorni": 0,
+      "titolo": "Il guardiano esterno può restare appeso sei ore senza che nessuno lo fermi",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-636",
+      "eta_giorni": 0,
+      "titolo": "Il deploy del pannello gira senza permessi dichiarati, senza tetto di tempo e senza scadenza sulla chiamata",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-637",
+      "eta_giorni": 0,
+      "titolo": "Le azioni dei workflow sono agganciate a etichette spostabili, non a un commit preciso",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-638",
+      "eta_giorni": 0,
+      "titolo": "Il titolo dell'allarme entra nel terminale senza protezione: la porta classica dell'iniezione di comandi",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-639",
+      "eta_giorni": 0,
+      "titolo": "Gli strumenti di misura scrivono la memoria anche quando devono solo leggere, e l'archivio butta via storia ve",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-640",
+      "eta_giorni": 0,
+      "titolo": "Il lavoro lungo lanciato dal cloud muore in silenzio quando il contenitore si addormenta, e nessuno se ne acco",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-641",
+      "eta_giorni": 0,
+      "titolo": "La radiografia di ieri ha raccontato 163 difetti e ne ha scritti 2: gli altri vivono solo nella lettera",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-643",
+      "eta_giorni": 0,
+      "titolo": "Gli errori di git finiscono crudi nel verdetto di chiusura del turno",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-644",
+      "eta_giorni": 0,
+      "titolo": "Se l'aggancio dei cancelli del commit fallisce all'avvio, la sessione parte scoperta e muta",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-645",
+      "eta_giorni": 0,
+      "titolo": "Ogni blocco del commit insegna la scappatoia e nessuno conta chi la usa",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-646",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Il badge della coerenza in Cabina traduce ogni esito non-incoerenze in «ok»: anche «cieco» e «non_verificato» ",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-647",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "La freschezza delle cadenze legge il timbro senza fuso: su un server UTC ogni cadenza sembra più fresca di 1-2",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-648",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Quattordici registri del cervello timbrano in UTC nudo invece che con l ora di Piacenza",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-649",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Le 71 schede nate dalla radiografia del 13/8 non dichiarano la priorità di crescita e usano «severita» al post",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-650",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Un difetto bloccante di generazione nuova sfugge al conteggio dei bloccanti ciechi perché il guardiano legge s",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-651",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "titolo": "Le lezioni non hanno nessun punto di scrittura nel codice: gli id si coniano a mano in sessione, ed è la causa",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-652",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Un test bats dei placeholder n8n era verde solo grazie al verde finto dei sensori: in una sessione senza chiav",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-653",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "titolo": "Sul server il sensore PostHog gira e risulta verde nonostante la decisione di spegnerlo",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-654",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Il registro dei motivi dei sensori non sa che PostHog è spento per decisione",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-655",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "titolo": "L allineatore delle radiografie chiude le schede con una data vuota: lo stesso buco delle 74 chiusure senza da",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false

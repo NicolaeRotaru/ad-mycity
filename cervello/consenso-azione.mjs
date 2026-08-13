@@ -104,6 +104,19 @@ export function blocchiCoda(md) {
     }
   }
   chiudi();
+
+  // Le righe-tabella sono card del formato vecchio, e sono ancora VIVE nella coda (22 il 13/8):
+  // senza questo pezzo «ok 20» non le trovava, e il numero mostrato dal Pannello non apriva
+  // nessuna casella. La prima colonna è il numero, la quarta il titolo — stesse celle che legge
+  // `parseTabella` nel Pannello.
+  for (const r of righe) {
+    const m = r.match(/^\|\s*(\d+)\s*\|/);
+    if (!m) continue;
+    const celle = r.split("|").slice(1, -1).map((c) => c.trim());
+    if (celle.length < 8) continue;
+    const id = idSezione(celle[1], celle[2], celle[3]);
+    out.push({ heading: r, blocco: r, id, code: codiceAzione(id), cartellino: m[1] });
+  }
   return out;
 }
 

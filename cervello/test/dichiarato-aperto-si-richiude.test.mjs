@@ -96,7 +96,9 @@ test("anche la chiusura A MANO passa dalla dichiarazione, non solo `verifica --a
   const src = readFileSync(join(REPO, "cervello/auto-fix.mjs"), "utf8");
   const manuale = src.slice(src.indexOf('const come = arg("come"'));
   const guardia = manuale.indexOf("chiusuraBloccata(d)");
-  const scrittura = manuale.indexOf('d.stato = "chiuso"');
+  // AR-575: la scrittura di `stato: "chiuso"` ora passa dal timbro unico timbraChiusura(...)
+  // (stato + data con l'ora in un punto solo): il confine dell'atto e' la chiamata al timbro.
+  const scrittura = manuale.indexOf("timbraChiusura(d");
   assert.ok(guardia > 0, "la porta a mano non consulta la dichiarazione: e' la porta lasciata aperta");
   assert.ok(scrittura > guardia, "la guardia deve stare PRIMA della scrittura, non dopo");
 });

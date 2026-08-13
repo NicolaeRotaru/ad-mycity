@@ -51,6 +51,7 @@ const E_CLI = import.meta.url === pathToFileURL(process.argv[1] || "").href;
 const DRY = process.argv.includes("--dry");
 const JSON_MODE = process.argv.includes("--json");
 const GATE = process.argv.includes("--gate");
+const GATE_CAMPI = process.argv.includes("--gate-campi");
 const GIORNI_SOSPETTO = Number(process.env.CANTIERE_PROVE_GIORNI || 3);
 
 const AC = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
@@ -102,6 +103,37 @@ function provaCombacia(v) {
     return { combacia: false, fileAssente: false, patternRotto: true };
   }
   return { combacia: trovato === vuolePresente, fileAssente: false };
+}
+
+/**
+ * La gravità di una scheda, qualunque nome porti: le schede vecchie usano `gravita`, quelle nate
+ * dalla radiografia del 13/8 usano `severita`. Un guardiano che legge solo il primo nome è cieco
+ * su tutta la generazione nuova.
+ */
+export function gravitaDi(d) {
+  return d?.gravita ?? d?.severita ?? null;
+}
+
+/** Le gravità che contano come «minore»: su queste il contratto dei campi resta morbido. */
+const GRAVITA_MINORI = new Set(["minore", "basso", "bassa"]);
+
+/**
+ * AR-582 — le schede NON minori aperte a cui manca un campo del contratto: `impatto_crescita`
+ * (il criterio con cui «i fix si chiudono per impatto sulla crescita» — senza, la coda per
+ * priorità non sa dove metterle) o `nato` (senza, la scheda non entra nel conto mensile del
+ * tasso di chiusura). Pura: dati iniettabili, nessun I/O.
+ */
+export function schedeIncomplete(difetti = []) {
+  const out = [];
+  for (const d of difetti) {
+    if (!d || d.stato === "chiuso") continue;
+    if (GRAVITA_MINORI.has(String(gravitaDi(d)))) continue;
+    const manca = [];
+    if (!d.impatto_crescita) manca.push("impatto_crescita");
+    if (!d.nato) manca.push("nato");
+    if (manca.length) out.push({ id: d.id, gravita: gravitaDi(d), manca });
+  }
+  return out;
 }
 
 export function classifica(d) {
@@ -180,6 +212,11 @@ export function classifica(d) {
 }
 
 // ─────────────────────────── esecuzione ───────────────────────────
+// Tutta dentro la guardia E_CLI (la stessa malattia detta in testa al file): prima di AR-582 il
+// modulo LEGGEVA il cantiere vero e poteva fare process.exit(1) al solo essere importato — un test
+// che ne importa una funzione pura si ritrovava il guardiano girato sotto i piedi.
+
+if (E_CLI) {
 
 const cantiere = readJson(CANTIERE_PATH);
 if (!cantiere || !Array.isArray(cantiere.difetti)) {
@@ -193,6 +230,9 @@ const voci = aperti.map(classifica);
 const perClasse = voci.reduce((a, v) => ((a[v.classe] = (a[v.classe] || 0) + 1), a), {});
 const bloccantiCiechi = voci.filter((v) => v.gravita === "bloccante" && !v.auto_chiudibile);
 const nonChiudibili = voci.filter((v) => !v.auto_chiudibile);
+// AR-582 — le schede a cui manca un campo del contratto (impatto_crescita/nato sui non-minori):
+// senza quei campi la coda per priorità e il conto mensile non sanno dove metterle.
+const incomplete = schedeIncomplete(cantiere.difetti);
 
 const report = {
   _cosa_e:
@@ -206,6 +246,9 @@ const report = {
   per_classe: perClasse,
   non_auto_chiudibili: nonChiudibili.length,
   bloccanti_ciechi: bloccantiCiechi.map((v) => v.id),
+  // AR-582 — schede non-minori senza impatto_crescita e/o nato: fuori da ogni ordinamento per
+  // priorità e (senza nato) fuori dal conto mensile. `--gate-campi` le rende un rosso.
+  schede_incomplete: incomplete,
   voci,
 };
 
@@ -233,16 +276,25 @@ if (JSON_MODE) {
       ? `❌ ${bloccantiCiechi.length} BLOCCANTI non verificabili (${bloccantiCiechi.map((v) => v.id).join(", ")}): gonfiano il conteggio senza che nessuno possa abbassarlo.`
       : "✅ Ogni bloccante ha una prova che un guardiano può verificare.",
   );
+  if (incomplete.length) {
+    console.log(`\n📇 ${incomplete.length} schede NON minori senza i campi del contratto (la coda per priorità non sa dove metterle):`);
+    for (const s of incomplete.slice(0, 12)) console.log(`   · ${s.id} [${s.gravita}] — manca ${s.manca.join(" e ")}`);
+    if (incomplete.length > 12) console.log(`   … e altre ${incomplete.length - 12}`);
+  }
   if (!DRY) console.log(`   report: ${OUT_PATH.replace(`${AD_ROOT}/`, "")}\n`);
 }
 
-if (E_CLI) await stampSegnale(
+await stampSegnale(
   "cantiere-prove",
   bloccantiCiechi.length ? "attenzione" : "ok",
-  `${nonChiudibili.length}/${aperti.length} non auto-chiudibili · ${bloccantiCiechi.length} bloccanti ciechi`,
-).catch(() => {});
+  `${nonChiudibili.length}/${aperti.length} non auto-chiudibili · ${bloccantiCiechi.length} bloccanti ciechi · ${incomplete.length} schede senza campi`,
+).catch((e) => console.error(`⚠️  segnale non stampato (il verdetto qui sopra resta valido): ${e.message || e}`));
 
-if (E_CLI) {
-  if (GATE && bloccantiCiechi.length) process.exit(1);
-  process.exit(0);
-}
+if (GATE && bloccantiCiechi.length) process.exit(1);
+// AR-582 — freno separato dal `--gate` storico: rosso se una scheda non-minore è senza
+// impatto_crescita/nato. Separato apposta: il debito di oggi (45 schede il 13/8) non deve
+// far diventare rosso il giro che usa `--gate`, ma chi vuole il contratto duro ce l'ha.
+if (GATE_CAMPI && incomplete.length) process.exit(1);
+process.exit(0);
+
+} // fine E_CLI

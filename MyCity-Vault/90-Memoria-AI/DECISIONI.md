@@ -1771,3 +1771,7 @@ mai ricerca nel titolo — lezione AR-271); lo slug resta nell'ancora per i rife
 Nel riordino: chiusa la card della visita VPS (diagnosi corretta coi 4 screenshot di Nicola: timer
 vivo, era il push dei referti), collassate 101 intestazioni-archivio duplicate (bug dell'housekeeping
 curato alla radice), portato il testo del post kefir dentro la sua card. 🟡 in PR, firma di Nicola.
+## 2026-08-13 18:16 — Lotto 37 del cantiere: 14 difetti riparati su 4 malattie, in 4 corsie parallele
+- 🟡 **Cosa:** riparati e provati AR-587/589/590/591 (sensori che raccontavano il falso), AR-597/633/642 (cancelli che davano verde a fonte sparita), AR-575/580/582/619 (contabilità del cantiere bucata), AR-629/632/634 (registro cadenze: ora legale scolpita e azzeramenti muti). Riparazioni dati applicate: 74 date di chiusura ricavate (69 dal git log, 5 da un campo col nome sbagliato, 0 stime), 4 lezioni rinumerate, 4 schede prioritizzate. 2 malattie censite a tetto 0 nella spazzata. 14 difetti nuovi registrati riparando (AR-646..655, più i 6 già contati): non entrano nel lotto, regola ②.
+- **Perché:** il tasso di chiusura di agosto era sotto 1 (dopo la riparazione dei libri: 0,55 — 95 chiusi su 174 aperti) → il giro non apre ricerche nuove, chiude. Scelta per malattia, non per conteggio; priorità a ciò che fa mentire Pannello e macchina a Nicola.
+- **Stato:** PR aperta sul ramo claude/fix-multiple-bugs-o7nkhn, merge = firma di Nicola. Cancello del lotto 🟡 (unico ⚪: typecheck del Pannello, non toccato dal lotto). Azione accodata: #posthog-off-vps.

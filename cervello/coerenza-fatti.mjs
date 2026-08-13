@@ -92,6 +92,26 @@ function oraPiacenza() {
   }).format(new Date());
 }
 
+// AR-597 — LA DECISIONE, pura ed esportata perché una prova la ESEGUA invece di rileggerla.
+// Il buco: `leggiRegistro()` su registro ASSENTE tornava il default vuoto — zero fatti, zero cacce,
+// zero incoerenze, exit 0 — e chi consuma questo guardiano come metro di verità (giro.sh,
+// gate-pubblicazione.sh) leggeva un VERDE mentre la fonte della verità era sparita. La regola di
+// casa: un metro che non può misurare dev'essere CIECO (e dirlo), non verde.
+// La distinzione che conta: chi SCRIVE (`registra`) può legittimamente creare il registro la prima
+// volta — il default vuoto è suo. Chi VERIFICA (`check`) su un registro assente non ha misurato
+// niente: exit 2 («non ho potuto misurare», contratto AR-322), mai 0.
+export function verdettoRegistroAssente({ esiste = false, scopo = "controllo" } = {}) {
+  if (esiste || scopo === "scrittura") return { cieco: false, exit: 0, messaggio: null };
+  return {
+    cieco: true,
+    exit: 2,
+    messaggio:
+      "⛔ CIECO: registro-fatti.json ASSENTE — il guardiano della verità non ha la sua fonte, quindi non ha misurato NIENTE. Questo non è un verde (AR-597).\n" +
+      "   • Se il registro è stato spostato/cancellato: ripristinalo (MyCity-Vault/90-Memoria-AI/registro-fatti.json).\n" +
+      '   • Se è davvero la prima volta: crealo con `node cervello/coerenza-fatti.mjs registra <id> "<valore>" --nuovo`.',
+  };
+}
+
 function leggiRegistro() {
   if (!existsSync(REGISTRO)) return { versione: 1, aggiornato: null, fatti: [] };
   const raw = readFileSync(REGISTRO, "utf8");
@@ -181,6 +201,31 @@ function esente(relPath, esenzioniFatto) {
 
 // ---------- CHECK ----------
 async function check({ json = false } = {}) {
+  // AR-597: chi VERIFICA su un registro assente è CIECO, non verde. Prima di questo blocco il check
+  // passava dal default vuoto di `leggiRegistro()` e usciva 0 con «✅ Memoria coerente» a registro
+  // sparito — riprodotto dalla radiografia spostando il file. Il report resta scritto (esito
+  // «cieco») così il Pannello vede la stessa verità del terminale.
+  const assente = verdettoRegistroAssente({ esiste: existsSync(REGISTRO), scopo: "controllo" });
+  if (assente.cieco) {
+    const report = {
+      data: oraPiacenza(),
+      esito: "cieco",
+      copertura: 0,
+      fatti_totali: null,
+      cacce_aperte: null,
+      file_scansionati: 0,
+      incoerenze: [],
+      cacce: [],
+      istruzioni: assente.messaggio,
+    };
+    mkdirSync(dirname(REPORT), { recursive: true });
+    writeFileSync(REPORT, JSON.stringify(report, null, 2) + "\n", "utf8");
+    if (json) console.log(JSON.stringify(report, null, 2));
+    console.error(assente.messaggio);
+    await stampSegnale("coerenza-fatti", "warn", `CIECO: registro-fatti.json assente · ${nowPiacenza()}`);
+    process.exit(assente.exit);
+  }
+
   let registro;
   try {
     registro = leggiRegistro();
@@ -442,6 +487,9 @@ function rimuovi(argv) {
 }
 
 // ---------- MAIN ----------
+// Main-guard (AR-597): senza, il modulo PARTIVA importandolo e nessun test poteva eseguire la
+// decisione pura qui sopra — lo stesso pattern di cancello-stop.mjs.
+if (import.meta.url === `file://${process.argv[1]}`) {
 const argv = process.argv.slice(2);
 const cmd = argv[0];
 if (!cmd || cmd === "check" || cmd === "--json" || cmd === "--gate") {
@@ -470,4 +518,5 @@ Report:    MyCity-Vault/90-Memoria-AI/auto-coscienza/coerenza-fatti.json`);
 } else {
   console.error(`Comando sconosciuto: ${cmd} (usa --aiuto)`);
   process.exit(1);
+}
 }

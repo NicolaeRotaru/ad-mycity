@@ -654,6 +654,58 @@ function fileDelLavoro() {
   return { file, codaToccata };
 }
 
+/**
+ * AR-642 — QUALI controlli dichiarare ciechi quando un diff non è calcolabile. Pura ed esportata:
+ * un test la esegue passando i `null` che il catch di git produce davvero, invece di rileggerla.
+ *
+ * Il buco, in una sessione cloud (clone superficiale): la base `origin/main` ESISTE come riferimento,
+ * ma `git diff origin/main...HEAD` fallisce («no merge base»). Prima di questa funzione succedevano
+ * due cose sbagliate insieme: ① l'unico cieco dichiarato MENTIVA («non ho trovato un ramo con cui
+ * confrontarmi») mentre il ramo c'era — era il diff a non essere calcolabile; ② due controlli
+ * venivano SALTATI in silenzio, senza nemmeno un ⚪: l'allarme nelle consegne già committate
+ * (`consegneModificate` → allarmiSenzaCoda) e la coda già toccata nel perimetro
+ * (`codaNelPerimetro`). In più il controllo sui testi peggiorati ripiegava in silenzio sui soli file
+ * non committati. Un metro che non può misurare dev'essere CIECO (e dirlo), non tacere.
+ *
+ * `null` = «git non ha risposto» (è ciò che i catch tornano); un array — anche vuoto — = misurato.
+ */
+export function ciechiPerDiffNonCalcolabile({
+  base = null,
+  committati = null,
+  righeQuaderni = null,
+  perimetroDa = null,
+  consegneModificate = null,
+  codaNelPerimetro = null,
+  testiSoloDisco = false,
+} = {}) {
+  const ciechi = [];
+  if (!base) {
+    ciechi.push(
+      "non ho trovato un ramo con cui confrontarmi (né origin/main né main): il controllo sull'esito del lavoro consegnato NON ha misurato. Il verde qui sotto non copre quella parte.",
+    );
+  } else if (committati === null || righeQuaderni === null) {
+    ciechi.push(
+      `il diff con «${base}» non è calcolabile (clone superficiale senza merge base?): il controllo sull'esito del lavoro consegnato NON ha misurato. Il verde qui sotto non copre quella parte (AR-642).`,
+    );
+  }
+  if (perimetroDa) {
+    const saltati = [];
+    if (consegneModificate === null) saltati.push("gli allarmi nelle consegne già committate");
+    if (codaNelPerimetro === null) saltati.push("la coda già toccata nel perimetro");
+    if (saltati.length) {
+      ciechi.push(
+        `il diff con «${perimetroDa}» non è calcolabile: cieco su ${saltati.join(" e ")} — prima questi controlli venivano saltati in silenzio (AR-642).`,
+      );
+    }
+  }
+  if (testiSoloDisco) {
+    ciechi.push(
+      "nessuna base è diffabile da qui: il controllo sui testi che leggerà Nicola copre SOLO i file non ancora committati, non quelli già sul ramo (AR-642).",
+    );
+  }
+  return ciechi;
+}
+
 /** La base con cui confrontarsi. `null` = non l'ho trovata, e allora il controllo ④ è CIECO. */
 function baseDelRamo() {
   for (const base of ["origin/main", "main"]) {
@@ -841,11 +893,15 @@ function testiToccati(da = null) {
   // quindi i .md venivano presi da tutto il ramo A OGNI turno, non solo al primo. Il verdetto che ha
   // fermato la sessione del 3/8 elencava sei testi: BACHECA, GLOSSARIO, STATO e tre consegne, gli
   // ultimi tocchi datati 31/7 e 1/8, in commit di sessioni chiuse giorni prima.
+  // AR-642: se NESSUNA base è diffabile (clone superficiale), prima si ripiegava in silenzio sui
+  // soli file del disco. La perdita ora si dichiara: `soloDisco` finisce fra i ciechi del verdetto.
+  let baseLetta = null;
   for (const base of basiPerIlTesto(da)) {
     try {
       for (const p of percorsiDaGit(["diff", `${base}...HEAD`, "--name-only"], { cwd: REPO })) {
         if (p.endsWith(".md")) percorsi.add(p);
       }
+      baseLetta = base;
       break;
     } catch {
       // provo la base successiva
@@ -865,7 +921,7 @@ function testiToccati(da = null) {
       // illeggibile: taccio invece di accusare
     }
   }
-  return testi;
+  return { testi, soloDisco: baseLetta === null };
 }
 
 /**
@@ -994,13 +1050,27 @@ async function main() {
   const codaNelPerimetro = perimetro.da ? righeAggiunteNelle(perimetro.da, CODA, false) : null;
   const codaEraGiaToccata = codaToccataNelPerimetro(codaNelPerimetro);
 
+  // AR-642: i testi si raccolgono QUI (non inline nel verdetto) perché anche la loro eventuale
+  // cecità — nessuna base diffabile — deve entrare nell'elenco dei ciechi, non sparire.
+  const { testi: testiDelTurno, soloDisco: testiSoloDisco } = testiToccati(perimetro.da);
+
   const ciechi = [];
   const note = [];
-  if (!committati || !righeQuaderni) {
-    ciechi.push(
-      "non ho trovato un ramo con cui confrontarmi (né origin/main né main): il controllo sull'esito del lavoro consegnato NON ha misurato. Il verde qui sotto non copre quella parte.",
-    );
-  }
+  // AR-642: la decisione su COSA dichiarare cieco quando un diff non è calcolabile è una funzione
+  // pura esportata (`ciechiPerDiffNonCalcolabile`), così una prova la esegue coi `null` veri del
+  // catch di git. Prima qui c'era un solo cieco — col messaggio sbagliato («non ho trovato un
+  // ramo») anche quando il ramo c'era ed era il diff a fallire — e due controlli tacevano.
+  ciechi.push(
+    ...ciechiPerDiffNonCalcolabile({
+      base,
+      committati,
+      righeQuaderni,
+      perimetroDa: perimetro.da,
+      consegneModificate,
+      codaNelPerimetro,
+      testiSoloDisco,
+    }),
+  );
   // Perimetro largo = NOTA, non cieco (AR-506). Senza l'ancora ho comunque misurato: ho guardato un
   // SOVRAINSIEME del turno, non meno. Metterlo fra i ciechi faceva uscire 2 il cancello a ogni giro
   // in CI — dove l'ancora non può esistere, perché vive fuori da git — e una CI rossa per costruzione
@@ -1044,7 +1114,7 @@ async function main() {
     lezioni: lezioniSenzaGate(lezPrima, lezDopo),
     insistenti,
     collaudo: collaudo.righe,
-    illeggibili: testiIlleggibili(testiToccati(perimetro.da), parolePeggioNoteAGlossario(REPO)),
+    illeggibili: testiIlleggibili(testiDelTurno, parolePeggioNoteAGlossario(REPO)),
     // AR-507. `certa` è falsa solo dove l'accusa sarebbe personale e il perimetro no: dentro l'hook
     // `Stop` (sto chiudendo IL MIO turno) e senza ancora. Fuori dall'hook resta certa anche col
     // perimetro largo, perché lì chi chiede è la CI e l'unità di consegna è il ramo, non il turno.
