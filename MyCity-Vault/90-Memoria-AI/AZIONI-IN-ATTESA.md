@@ -28,7 +28,7 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 **Se va bene:** i semafori tornano freschi due volte al giorno. Una visita nuova ci dice anche se i due guasti del 10/8 sono rientrati (54 salvataggi non pubblicati, un controllo dell'automazione fallito). Dai salvataggi di oggi sembra di sì. Ma deve dirlo una visita, non un'impressione.
 
-**Cosa fare — dal terminale del VPS (copia e incolla, in ordine):**
+**Cosa fare.** Apri il terminale del VPS. Copia e incolla questi comandi, in ordine:
 ```
 systemctl list-timers --all | grep mycity-salute
 systemctl status mycity-salute.timer mycity-salute.service --no-pager
@@ -41,7 +41,7 @@ sudo systemctl start mycity-salute.service
 ```
 L'ultima riga fa partire una visita adesso: entro qualche minuto, in Cabina (Auto-coscienza → Gli organi), la data accanto alla copertura deve diventare di oggi. Se invece il timer era acceso e la visita risulta partita ma morta, incolla in chat le ultime righe del `journalctl` qui sopra: da lì capisco il perché.
 
-- **Colore:** 🟡 (riaccensione di un controllo di sola lettura sul VPS — la fai tu dal terminale)
+- **Colore:** 🟡 — riaccendi un controllo di sola lettura sul VPS. La fai tu dal terminale.
 - **Reparto:** devops-sre
 - **Origine:** `{origine:salute-2026-08-12, controllo:worker.ponte}`
 
@@ -71,7 +71,7 @@ Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un g
 
 **Serve da te:** i tre host in allowlist (2 minuti). Le variabili solo se vuoi anche la vista sui dati dal cloud.
 
-- **Colore:** 🟡 (impostazioni del TUO ambiente claude.ai — le tocchi solo tu; io non posso e non devo)
+- **Colore:** 🟡 — impostazioni del TUO ambiente claude.ai. Le tocchi solo tu: io non posso e non devo.
 - **Reparto:** devops-sre + security
 - **Origine:** `{origine:salute-2026-08-12, controlli:cabina.viva+cabina.cuore+sensori.vista+worker.coda+worker.battito}`
 

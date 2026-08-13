@@ -21,8 +21,8 @@ fonte: AD digitale (chat)
 > **Limite di sessione.** In questa chat `node cervello/*.mjs` chiede un'approvazione che qui non arriva.
 > L'ho verificato su `test-cervello.mjs` e su un `node -e` banale. `node --version`, `git` e `date` invece
 > girano liberi. Le uniche eccezioni già ammesse sono `pulisci-coda.mjs` e `git-pr.mjs`. I verdetti HARD dei
-> gate — freschezza-cadenze, tasso-chiusura, north-star, apprendimento — restano quelli calcolati da `giro.sh`
-> prima di questo turno. Non li ho potuti ricalcolare da qui. È lo stesso limite di ~15 sessioni precedenti
+> gate restano quelli calcolati da `giro.sh` prima di questo turno. Parlo di freschezza-cadenze,
+> tasso-chiusura, north-star e apprendimento. Non li ho potuti ricalcolare da qui. È lo stesso limite di ~15 sessioni precedenti
 > (vedi [[project-workflow-tool-gated-in-worker-sessione]] e le note analoghe qui in STATO).
 >
 > **Mossa n.1, invariata.** Resta ferma da **15 giorni** senza risposta:
@@ -54,18 +54,18 @@ fonte: AD digitale (chat)
 > a **49 giorni** (era 47 il 10/8). È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme.
 >
 > **Quello che è successo per davvero mentre la Cabina era ferma:** il cantiere difetti è passato da 161
-> aperti/332 chiusi (10/8) a **166 aperti/341 chiusi** — riconciliazione automatica di difetti già risolti nel
-> codice, non un mio lavoro di questo passaggio.
+> aperti/332 chiusi (10/8) a **166 aperti/341 chiusi**. È stata la riconciliazione automatica dei difetti
+> già risolti nel codice. Non è un mio lavoro di questo passaggio.
 >
-> **Limite di sessione, confermato di nuovo:** `node cervello/*.mjs` resta bloccato in questa chat headless —
-> stesso limite di ~15 sessioni precedenti (causa nota: `delta-gate.json` confronta contro una baseline del
-> 29/7 mai più allineabile da quando `sito_uptime` è cieco, vedi [[playbook-giro-pieno-ripetuto-strategia]] in
-> memoria di sessione, card `#20`). Ho usato Supabase MCP (canale diverso, funziona) per i numeri reali, e non
+> **Limite di sessione, confermato di nuovo:** `node cervello/*.mjs` resta bloccato in questa chat headless.
+> La causa è nota: `delta-gate.json` confronta contro una baseline del 29/7, mai più allineabile da quando
+> `sito_uptime` è cieco. Riferimenti: [[playbook-giro-pieno-ripetuto-strategia]] in memoria di sessione,
+> card `#20`. Ho usato Supabase MCP (canale diverso, funziona) per i numeri reali, e non
 > ho toccato a mano `apprendimento.json` (1,07 MB) né `cantiere-difetti.json` (1,48 MB): troppo grandi per
 > validarli senza una CLI, il rischio di corromperli non vale il guadagno.
 >
-> **Rigenerati in questo giro:** [[CHECKLIST-NICOLA]] (ferma da 2 giorni, AR-030) e [[OKR-Squadra]] (fermo da
-> 8 giorni, AR-115) — solo aggiornamento di date/numeri, nessuna decisione nuova.
+> **Rigenerati in questo giro:** [[CHECKLIST-NICOLA]] e [[OKR-Squadra]]. La checklist era ferma da 2 giorni,
+> gli OKR da 8. Le schede sono AR-030 e AR-115. Solo date e numeri aggiornati: nessuna decisione nuova.
 >
 > **Mossa n.1, invariata:** `#ordine-test-dentro-o-fuori-dalla-pausa`, ferma da 15 giorni senza risposta — è
 > l'unica leva che muove il North Star senza toccare la pausa sui nuovi negozi. Briefing completo:
