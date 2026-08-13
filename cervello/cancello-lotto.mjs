@@ -402,10 +402,24 @@ export function ambientePannello(esiste) {
  * la sua ragione ce l'aveva scritta dentro. La coda è una scelta comoda quando il comando parla per
  * ultimo; qui si sceglie invece per CONTENUTO: le righe che portano un marcatore di verdetto.
  * Se non ce n'è nessuna si torna alla coda — dichiarando così che il motivo non l'ho trovato.
+ *
+ * AR-656 — mezza riparazione, e la metà mancante è costata due indagini alla cieca il 13/8. Il
+ * sorvegliante annuncia la propria cecità con una riga che finisce in due punti («⚪ non ho potuto
+ * misurare:») e mette il perché nelle righe SOTTO, che sono elenchi puntati senza marcatore. Il
+ * filtro teneva l'annuncio e buttava via il contenuto: nel log restava un cieco che non diceva di
+ * cosa. Un'intestazione che promette un elenco vale solo insieme al suo elenco, quindi se la riga
+ * scelta finisce in «:» si porta dietro le righe puntate che la seguono.
  */
 export function righeMotivo(righe = []) {
   const MARCATORE = /(❌|⛔|⚪|CIECO|AssertionError|^\s*Error\b|^\s*Errore\b|^not ok\b)/;
-  const motivi = righe.filter((r) => MARCATORE.test(r));
+  const scelte = new Set();
+  righe.forEach((r, i) => {
+    if (!MARCATORE.test(r)) return;
+    scelte.add(i);
+    if (!/:\s*$/.test(r)) return;
+    for (let j = i + 1; j < righe.length && /^\s*[·•-]\s/.test(righe[j]); j++) scelte.add(j);
+  });
+  const motivi = righe.filter((_, i) => scelte.has(i));
   return motivi.length ? motivi.slice(-6) : righe.slice(-6);
 }
 

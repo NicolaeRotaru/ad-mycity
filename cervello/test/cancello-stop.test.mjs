@@ -670,3 +670,38 @@ test("un file che su main non esiste è tutto mio", () => {
   assert.ok(t, "un file che la copia pubblicata non ha è nato in questo lotto");
   assert.equal(t.contenutoPrima, null, "e parte da zero: ogni suo problema è nuovo");
 });
+
+// Le due difese qui sotto (AR-657, per FILE) e qui sopra (per CONTENUTO) sono complementari e
+// stanno insieme apposta: una toglie dal perimetro i file che la fusione ha portato sul ramo,
+// l'altra i file che nel mio albero sono identici alla copia pubblicata. Un file può sfuggire
+// alla prima (l'ho toccato e poi riportato uguale) e non alla seconda.
+
+// ── AR-657: la fusione del ramo di base non è lavoro mio ───────────────────────────────────────
+//
+// Il 13/8, PR #713: `main` si era mosso, ho fuso il ramo di base nel mio e da quel momento il
+// perimetro del turno (`ancora...HEAD`) conteneva anche i suoi file — i piani, la bacheca, lo STATO
+// riscritto dal giro delle 19:20. Il cancello mi ha accusato di aver «aggiunto 10 punti difficili»
+// a un file che non avevo toccato, e ha fermato la consegna. È AR-507 (accusare di cose non tue)
+// per la strada che quel fix non guardava: non l'ancora mancante, ma l'ancora che c'è e il ramo di
+// base che le è entrato dentro.
+
+import { testiMiei } from "../cancello-stop.mjs";
+
+test("un testo che arriva dalla fusione del ramo di base non è mio", () => {
+  const miei = testiMiei({
+    disco: [],
+    nelTurno: ["MyCity-Vault/90-Memoria-AI/STATO.md", "memoria-squadra/tech.md"],
+    sulRamo: ["memoria-squadra/tech.md"],
+  });
+  assert.deepEqual(miei, ["memoria-squadra/tech.md"], "STATO.md è entrato con la fusione: accusarmene ferma la consegna per il lavoro di un altro");
+});
+
+test("ciò che sto scrivendo adesso resta mio anche se non è ancora sul ramo", () => {
+  const miei = testiMiei({ disco: ["consegne/bozza.md"], nelTurno: [], sulRamo: [] });
+  assert.deepEqual(miei, ["consegne/bozza.md"], "l'albero di lavoro è mio per definizione: lì non c'è nessun altro");
+});
+
+test("se non so cosa c'è sul ramo non assolvo in silenzio", () => {
+  const miei = testiMiei({ disco: [], nelTurno: ["a.md", "b.md"], sulRamo: null });
+  assert.deepEqual(miei, ["a.md", "b.md"], "senza la misura del ramo si accusa troppo, non si tace: il cieco lo dichiara chi chiama");
+});
