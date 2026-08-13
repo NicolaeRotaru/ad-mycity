@@ -2,6 +2,8 @@
 
 > **2026-08-10 13:35** · @AD — riscritta da zero su `cervello/radar.json` (11 leve OUT + 7 catene indirette) incrociato con lo stato reale del business. La versione precedente (18-30/7) parlava di bandi CCIAA ormai tutti chiusi (PI26/BT26/BE26) — archiviata, non più vera.
 > Le azioni reali (stampa, istituzioni, sponsor) si accodano in [[AZIONI-IN-ATTESA]] per la firma di Nicola.
+>
+> **Confermato 2026-08-13 09:30** (recupero del giro delle 08:41, fallito per limite motore): ricontrollate le due fonti bandi dovute oggi — Camera Commercio Emilia e Unione Commercianti PC (check fatto stamattina alle 06:30, dettaglio completo in `eventi-picchi.md`). **Nessuna riapertura, nessun bando nuovo.** BI26/PI26/BE26/Bando Commercio ER restano tutti chiusi. Zero cambiamenti alla strategia sotto: resta valida così com'è.
 
 ## Il filtro che decide tutto, oggi
 

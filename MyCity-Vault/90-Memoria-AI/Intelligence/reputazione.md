@@ -1,12 +1,14 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
-> Aggiornato: **2026-08-10 13:35** · Fonte: WebSearch — "MyCity Piacenza marketplace negozi online" · "mycity-marketplace.com recensioni" · "MyCity Piacenza consegna negozi 2026" · "Pane Quotidiano Piacenza recensioni Google Maps" · "Piacenza gruppi Facebook quartiere MyCity marketplace consegna" · site:trustpilot.com mycity-marketplace.com · "mycity-marketplace" Libertà/TelLibertà/PiacenzaSera · "Pane Quotidiano" consegna a domicilio online
+> Aggiornato: **2026-08-13 09:30** — recupero del giro delle 08:41, fallito per limite motore. Fonte di oggi: WebFetch su liberta.it/territorio/citta/piacenza (la fonte dovuta "Libertà — Città di Piacenza", rimasta indietro dal giro delle 06:30), più WebSearch su "MyCity Piacenza marketplace negozi consegna recensioni" e "Pane Quotidiano Piacenza via Calzolai recensioni consegna". Precedente: 10/8/2026 13:35, fonti elencate sotto.
 
 ---
 
-## Stato attuale (10/8/2026)
+## Stato attuale (13/8/2026, invariato dal 10/8)
 
-Stesso esito di 23 giorni fa: **nessuna menzione esterna trovata**. Né positiva né negativa. È coerente con lo stallo: 47 giorni senza un ordine pagato. Il fascicolo pagamenti di Pane Quotidiano ha ancora incassi disattivati. Non c'è ancora niente da "reputare": la macchina non ha consegnato un solo ordine vero.
+Stesso esito di 26 giorni fa: **nessuna menzione esterna trovata**. Né positiva né negativa. È coerente con lo stallo: 47+ giorni senza un ordine pagato. Il fascicolo pagamenti di Pane Quotidiano ha ancora incassi disattivati. Non c'è ancora niente da "reputare": la macchina non ha consegnato un solo ordine vero.
+
+**Novità 13/8 da Libertà — Città di Piacenza:** nessuna menzione di MyCity o Pane Quotidiano. Le notizie del giorno sono di cronaca cittadina generale (degrado/restrizioni tra Lupa e Stradone, controlli e-bike/monopattini, furto al Parco Galleana, dibattito su Piazza Cittadella), senza legame diretto col marketplace. Le riporto invece in `eventi-picchi.md`, dove sono operativamente rilevanti per orari e zone. Nessuna azione per questo file.
 
 | Canale | Risultato |
 |--------|-----------|
@@ -52,4 +54,4 @@ Stesso esito di 23 giorni fa: **nessuna menzione esterna trovata**. Né positiva
 
 > 🟢 leggere/annotare = automatico · le risposte pubbliche e i contatti = 🟡/🔴 (firma di Nicola).
 
-**Giro precedente**: 2026-07-18 10:00 — nessuna menzione intercettata (Fase 0, coerente). Stesso esito oggi, 23 giorni dopo.
+**Giro precedente**: 2026-08-10 13:35 — nessuna menzione intercettata (Fase 0, coerente). Stesso esito oggi, 13/8, 3 giorni dopo (giro del 10/8 restava il più recente prima di questo recupero).

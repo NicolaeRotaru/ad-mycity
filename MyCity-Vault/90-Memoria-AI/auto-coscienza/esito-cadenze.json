@@ -12,13 +12,13 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-13 07:03",
+      "quando": "2026-08-13 08:41",
       "esito": "motore-fallito",
-      "codice": 2,
+      "codice": 3,
       "ai_rc": 124,
-      "push_ok": false,
+      "push_ok": true,
       "passi_ok": true,
-      "vincoli_attivi": 13,
+      "vincoli_attivi": 12,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
@@ -28,7 +28,6 @@
         "LOOP",
         "MAPPA",
         "NORTH_STAR",
-        "OKR",
         "SCADENZE",
         "TASSO",
         "TEST",
@@ -76,5 +75,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-13 07:03"
+  "aggiornato": "2026-08-13 08:41"
 }
