@@ -65,3 +65,10 @@ _tmp_*
 # memoria del giro (git add -A MyCity-Vault) li ricommitterebbe a ogni giro (~1MB di churn). La vera
 # reversibilità è la storia git dell'archivio stesso.
 *.bak
+
+# Worktree isolate create per il lavoro parallelo degli agenti (Agent tool, isolation:"worktree"):
+# ognuna è un checkout COMPLETO del repo con il proprio .git, quindi git la vede come repo annidato.
+# Senza questa riga un `git add -A`/commit "chore" automatico (es. git-pr.mjs) le stage come gitlink
+# (commit-entry senza contenuto): è successo il 13/8, un fix di due righe è finito in un commit con
+# 3 gitlink orfani puntati a niente su origin. Restano sul filesystem, mai in git.
+.claude/worktrees/
