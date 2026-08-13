@@ -26,7 +26,7 @@ Fonte: 3bmeteo.com/meteo/piacenza (consultata 13/8).
 
 | Evento | Date | Rilevanza |
 |--------|------|-----------|
-| Speciale Ferragosto — City Tour Piazza Cavalli (colazione + centro storico + Palazzo Gotico + Palazzo Farnese) | Sab 15/8, 10:00-12:30, ritrovo IAT-R Piazza Cavalli 7 | Bassa per MyCity — evento turistico, non un picco di domanda delivery. Utile solo come segnale che il 15/8 c'è comunque un po' di movimento in centro. |
+| Speciale Ferragosto: City Tour Piazza Cavalli. Il percorso tocca colazione, centro storico, Palazzo Gotico e Palazzo Farnese | Sab 15/8, 10:00-12:30, ritrovo IAT-R Piazza Cavalli 7 | Bassa per MyCity — evento turistico, non un picco di domanda delivery. Utile solo come segnale che il 15/8 c'è comunque un po' di movimento in centro. |
 | Restrizioni Piazzetta Barozzieri (alcolici, contenitori in vetro, orari esercizi) | Dal 11/8 | Bassa/operativa — zona specifica, nessun impatto su consegne cargo-bike se non si passa da lì la sera. |
 | Sportelli "Digitale Facile" del Comune — chiusura estiva | 10-22/8, riapertura 24/8 | Nessuna — non tocca il marketplace. |
 | ❌ ~~PI26 CCIAA~~ — CHIUSO | non applicabile | Invariato, confermato di nuovo oggi: nessun bando nuovo aperto (vedi sotto) |
@@ -35,7 +35,7 @@ Fonte: 3bmeteo.com/meteo/piacenza (consultata 13/8).
 
 **Nessun evento di massa nuovo in centro storico Piacenza questa settimana — invariato dal 10/8.**
 
-**Ferragosto 15/8 — nota operativa (invariata):** attesa chiusura ampia di negozi per consuetudine nazionale, nessun dato specifico Piacenza trovato. Impatto su MyCity oggi: nullo, unico negozio reale (Pane Quotidiano) non incassa ancora.
+**Ferragosto 15/8, nota operativa invariata:** attesa un'ampia chiusura di negozi per consuetudine nazionale. Nessun dato specifico su Piacenza trovato. Impatto su MyCity oggi: nullo. L'unico negozio reale, Pane Quotidiano, non incassa ancora.
 
 ---
 
@@ -60,7 +60,7 @@ Fonti: [liberta.it — "Nuova" piazza Cittadella, Legambiente: «Riaprire confro
 
 ## 💰 Bandi — riconfermato tutto chiuso, nessuna apertura nuova
 
-Ricontrollati oggi sia il sito CCIAA Emilia sia Unione Commercianti PC: **BI26 (chiuso 11/6), PI26 e BE26 (chiusi 30/7), Bando Commercio Emilia-Romagna (chiuso 21/7, limite 350 domande raggiunto)** — nessuno di questi ha riaperto, nessun bando nuovo per il commercio è comparso. Coerente con `registro-fatti.json` (`bandi.pi26.scadenza`, `bando.commercio-er.scadenza`). Zero azioni da questa fonte oggi.
+Ricontrollati oggi sia il sito CCIAA Emilia sia Unione Commercianti PC. Gli stati non cambiano: **BI26 chiuso l'11/6, PI26 e BE26 chiusi il 30/7, Bando Commercio Emilia-Romagna chiuso al limite delle 350 domande.** Nessuno di questi ha riaperto. Nessun bando nuovo per il commercio è comparso. Coerente con `registro-fatti.json` (`bandi.pi26.scadenza`, `bando.commercio-er.scadenza`). Zero azioni da questa fonte oggi.
 
 ---
 

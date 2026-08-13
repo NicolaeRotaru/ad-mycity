@@ -16,6 +16,7 @@ import { readdirSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
+import { BLOCCHI } from "../si-capisce.mjs";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const AGENTI = join(REPO, ".claude", "agents");
@@ -66,6 +67,29 @@ prova("la regola dice esplicitamente che i termini tecnici NON si tolgono", () =
 prova("la regola vale per ogni argomento, non solo per la macchina", () => {
   const senza = [...testi].filter(([, t]) => !/non solo la macchina/i.test(t)).map(([f]) => f);
   assert.equal(senza.length, 0, `${senza.length} mansionari non dichiarano il perimetro largo`);
+});
+
+// ── Il quarto blocco spariva perché il MANDATO insegnava tre blocchi mentre il metro (si-capisce)
+// ne misura quattro: l'11/8 «Cosa non ho verificato» mancava nel 100% dei 26 messaggi del VPS,
+// mentre gli altri tre c'erano quasi sempre. I 120 senior la regola ce l'avevano (le prove qui
+// sopra); a non averla erano CLAUDE.md (il mansionario dell'AD) e i prompt del worker — cioè
+// esattamente chi scrive i messaggi che il contatore misura. ──────────────────────────────────
+
+prova("il mansionario dell'AD (CLAUDE.md) insegna TUTTI e quattro i blocchi del metro", () => {
+  const t = readFileSync(join(REPO, "CLAUDE.md"), "utf8");
+  for (const b of BLOCCHI) assert.ok(t.includes(b), `CLAUDE.md non nomina «${b}»`);
+  assert.ok(
+    !t.includes("i **tre blocchi**"),
+    "CLAUDE.md insegna ancora «tre blocchi»: il quarto è proprio quello che sparisce",
+  );
+});
+
+prova("i prompt del worker (chat E lavori) pretendono i quattro blocchi sulle risposte lunghe", () => {
+  const t = readFileSync(join(REPO, "cervello", "worker.sh"), "utf8");
+  for (const b of BLOCCHI) {
+    const volte = t.split(b).length - 1;
+    assert.ok(volte >= 2, `«${b}» compare ${volte} volta/e in worker.sh: serve sia nel prompt della CHAT sia in quello dei LAVORI`);
+  }
 });
 
 const rotte = casi.filter((c) => !c.ok);

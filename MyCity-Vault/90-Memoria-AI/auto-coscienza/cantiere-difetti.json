@@ -7314,15 +7314,14 @@
       "causa_radice": "① Perché è a un soffio dal muro? Perché le lezioni si aggiungono e non si tolgono mai. ② Perché non si tolgono? Perché il potatore pota solo i morti, e per diventare morta una lezione deve passare dal decadimento, che oggi non ne ha marcata nessuna (0 su 476). ③ Perché nessuno se ne accorge? Perché il potatore non è agganciato a nessuna cadenza: è uno strumento scritto e mai messo in linea. ④ Perché non è stato agganciato? Perché il difetto risultava chiuso quando il file rientrava, e la chiusura ha misurato lo stato di quel giorno, non la traiettoria. ⑤ Radice di sistema: la macchina chiude i difetti su una fotografia invece che su una tendenza; un archivio che cresce in modo monotono ha bisogno di un tetto sorvegliato con margine e di una potatura periodica — e nessuno dei due esiste.",
       "fix_proposto": "🟡 (a) Agganciare pota-apprendimento a una cadenza vera (settimanale, dentro il giro) così che giri da solo. (b) Dargli un margine di allarme: fallire già all'85% del tetto, non al 101%. (c) Dargli qualcosa da potare davvero: portare nello storico (apprendimento-potato.json) le lezioni vive più vecchie di N giorni e mai applicate, invece di cancellarle. (d) Estendere la regola del margine a tutti gli archivi che il Pannello legge — cantiere-difetti.json (693.610 byte) e auto-radiografia.json (659.456) sono i prossimi.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "da-riverificare",
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json (1.016.072 byte misurati oggi contro il tetto di 1.048.576 in pannello/src/lib/obsidian.ts:12 — margine 32.504 byte, 3,1%) · cervello/pota-apprendimento.mjs:38 (TETTO) e :43-68 (pianoPotatura toglie solo lezioni «decaduta» e chiavi di servizio `_*`) · nessun riferimento a pota-apprendimento in cervello/giro.sh né in nessun altro file: le uniche occorrenze in tutta la repo sono lo script stesso e cervello/test/archivi-senza-tetto.test.mjs. Sintomo: Ho eseguito il potatore sul file vero: `node cervello/pota-apprendimento.mjs --json` risponde prima 1.016.071, dopo 1.016.071, chiavi_servizio 0, lezioni_decadute 0, lezioni_vive 476. Cioè: il file che contiene le 476 lezioni della macchina viaggia intero a ogni lettura ed è al 96,9% del limite oltre il quale GitHub smette di servirlo, e lo strumento scritto apposta per farlo rientrare oggi non toglierebbe un byte, perché rimuove solo i morti e di morti non ce n'è. E comunque non lo lancia nessuno: il suo nome non compare in nessun giro né in nessuna cadenza. A ~2.100 byte per lezione, il margine residuo vale una quindicina di lezioni nuove. L'allarme, quando arriverà, sarà un exit code che nessuno esegue, dopo che il muro è già stato preso.",
       "verifica": {
-        "file": "cervello/giro.sh",
-        "pattern": "pota-apprendimento",
-        "presente": true
+        "comando": "node cervello/test/archivi-senza-tetto.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "12/8 23:55 (sessione cloud, branch claude/organi-x-rossa-pallino-bianco-fbg0xh): il muro previsto e ARRIVATO l'11/8 (1.070.609 > 1.048.576 byte, test archivi-senza-tetto rosso in entrambe le case, scheda Apprendimento illeggibile). FATTO: (cura) potatura applicata — 87 copie di principi tolte, 99.741 caratteri liberati, file 1.070.609 → 967.102, 0 lezioni vive toccate, storico in apprendimento-potato.json. (a) CABLATO: giro.sh lancia `pota-apprendimento.mjs --se-serve` subito DOPO cristallizza-apprendimento (il passo che fa crescere il file). (b) fatta come POTATURA PREVENTIVA al 95% del tetto (serveOra()) invece dell'allarme all'85%: con la potatura automatica in linea, l'allarme E la potatura stessa — potare prima (85%) avrebbe riscritto il file quasi a ogni giro per niente; il cuscino del 5% (~52 KB, una ventina di lezioni) basta perche il giro passa 9 volte al giorno. (c) era gia fatta il 4/8 (dedup principi = qualcosa di vero da potare senza toccare il vivo). (d) NON fatta, debito dichiarato: cantiere-difetti.json e auto-radiografia.json restano archivi senza margine sorvegliato. PROVA COMPORTAMENTALE (sostituisce il grep, asticella): node cervello/test/archivi-senza-tetto.test.mjs — rosso se il file vero sfora il tetto, se --se-serve scrive sotto soglia, o se il cablaggio nel giro sparisce. Da riverificare dopo il merge della PR: rilanciare lo stesso test su main e vedere il potatore girare in un giro vero. SCOPERTA del collaudo (13/8 08:25): cristallizza-apprendimento RIMETTE le copie dei testi nei principi a ogni --applica (misurato: file 967.102 → 1.070.896 dopo una cristallizzazione con 0 promozioni; la potatura successiva li toglie di nuovo, 1.070.896 → 965.066). L'ordine cablato nel giro — cristallizza PRIMA, potatore DOPO — tiene l'invariante, ma il churn (~100 KB riscritti a giro) resta: la radice piu profonda e che cristallizza non dovrebbe ricopiare i testi. E il prossimo pezzo della (d)."
     },
     {
       "id": "AR-417",
@@ -11579,6 +11578,24 @@
       "chiuso_il": "2026-08-11 17:15",
       "chiuso_come": "riparato-con-freno",
       "nota": "Freno: cervello/test/sensori-non-calpestati.test.mjs (5 controlli, 2 eseguono il comando su una copia). Mutazioni in cervello/mutanti.json: rimettendo il difetto 3 controlli su 5 diventano rossi."
+    },
+    {
+      "id": "AR-574",
+      "titolo": "Il quarto blocco («Cosa non ho verificato») spariva dai messaggi perché il mandato insegnava tre blocchi mentre il metro ne misura quattro",
+      "dimensione": "scrittura-umana",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-13 00:05",
+      "nato_come": "scoperta",
+      "origine": "salute 12/8: cervello.scrittura rosso in entrambe le case — VPS: «Cosa non ho verificato» mancato nel 100% dei 26 messaggi (7 giorni); claude: 50% di 2. Gli altri tre blocchi: 0 mancanze.",
+      "causa_radice": "① Perché manca proprio e solo il quarto blocco? Perché i tre che ci sono sempre sono i tre che il mandato insegna. ② Dove si insegna? CLAUDE.md diceva «i tre blocchi — In parole semplici · Cosa cambia per te · Cosa devi fare», e i prompt del worker (chat e lavori) non nominavano nessun blocco. ③ Perché il metro ne pretende quattro? si-capisce.mjs/BLOCCHI include «Cosa non ho verificato» dal 3/8 (domanda di Nicola: di quanto fidarsi). ④ Perché il freno non bastava? Il cancello dello Stop corregge a valle, ma in chat streaming il testo è già partito verso il Pannello, e i 120 senior avevano la regola nei mansionari (AR-480) mentre l'AD — che scrive i messaggi misurati — no. ⑤ Radice di sistema: il metro è stato aggiornato senza aggiornare il mandato: un contatore che pretende ciò che il mansionario non insegna produce un rosso strutturale, non una distrazione.",
+      "fix_proposto": "🟡 Allineare il mandato al metro: CLAUDE.md passa a «quattro blocchi» (con Cosa non ho verificato spiegato), i prompt del worker (chat E lavori) pretendono i quattro blocchi sulle risposte lunghe (>~15 righe / risposte a domande numerate) e mai su quelle corte (AR-530). Freno: prova nel test regola-scrittura-nei-senior che legge CLAUDE.md e worker.sh coi titoli presi da si-capisce.BLOCCHI (un metro solo).",
+      "colore": "🟡",
+      "stato": "da-riverificare",
+      "verifica": {
+        "comando": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
+      },
+      "nota_fix": "13/8 00:05 (sessione cloud, branch claude/organi-x-rossa-pallino-bianco-fbg0xh): CLAUDE.md riga ~344 tre→quattro blocchi; worker.sh contratto COME SCRIVI (chat) + riga risultato (lavori) con i quattro blocchi sulle risposte lunghe; prova nel test regola-scrittura-nei-senior.test.mjs (14/14 verdi) che diventa rossa se CLAUDE.md torna a «tre blocchi» o se un blocco sparisce dai prompt del worker. Da riverificare DOPO il merge: il contatore (conta-blocco-mancante) deve scendere sotto il tetto del 45% man mano che i messaggi nuovi del VPS entrano nella finestra dei 7 giorni — la quota è l'unico giudice; se fra una settimana è ancora sopra, la causa non era (solo) il mandato."
     }
   ],
   "meta": {

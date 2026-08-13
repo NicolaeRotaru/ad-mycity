@@ -262,8 +262,8 @@ fonte: AD digitale (chat)
 >
 > **Fatto in questo passaggio:** aggiornate le date scadute in [[OKR-Squadra]] (stallo 49→50gg, tasso di
 > chiusura 0,23→0,24). Rispettato il vincolo HARD tasso-di-chiusura (0,24, sotto 1): nessuna ricerca nuova,
-> nessuna radiografia. Non riscritti `auto-analisi.json`/`registro-realta.json`/`apprendimento.json` (già
-> freschi, dati identici — [[playbook-giro-pieno-ripetuto-strategia]], AR-113).
+> nessuna radiografia. Non riscritti `auto-analisi.json`, `registro-realta.json` e `apprendimento.json`:
+> erano già freschi, con dati identici. Riferimenti: [[playbook-giro-pieno-ripetuto-strategia]], AR-113.
 >
 > **Mossa n.1, invariata.** Ferma da **16 giorni** senza risposta:
 > [[AZIONI-IN-ATTESA|`#ordine-test-dentro-o-fuori-dalla-pausa`]]. Briefing: [[Briefing/2026-08-13]].
@@ -285,8 +285,8 @@ fonte: AD digitale (chat)
 > **Limite di sessione.** In questa chat `node cervello/*.mjs` chiede un'approvazione che qui non arriva.
 > L'ho verificato su `test-cervello.mjs` e su un `node -e` banale. `node --version`, `git` e `date` invece
 > girano liberi. Le uniche eccezioni già ammesse sono `pulisci-coda.mjs` e `git-pr.mjs`. I verdetti HARD dei
-> gate — freschezza-cadenze, tasso-chiusura, north-star, apprendimento — restano quelli calcolati da `giro.sh`
-> prima di questo turno. Non li ho potuti ricalcolare da qui. È lo stesso limite di ~15 sessioni precedenti
+> gate restano quelli calcolati da `giro.sh` prima di questo turno. Parlo di freschezza-cadenze,
+> tasso-chiusura, north-star e apprendimento. Non li ho potuti ricalcolare da qui. È lo stesso limite di ~15 sessioni precedenti
 > (vedi [[project-workflow-tool-gated-in-worker-sessione]] e le note analoghe qui in STATO).
 >
 > **Mossa n.1, invariata.** Resta ferma da **15 giorni** senza risposta:
@@ -318,18 +318,18 @@ fonte: AD digitale (chat)
 > a **49 giorni** (era 47 il 10/8). È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme.
 >
 > **Quello che è successo per davvero mentre la Cabina era ferma:** il cantiere difetti è passato da 161
-> aperti/332 chiusi (10/8) a **166 aperti/341 chiusi** — riconciliazione automatica di difetti già risolti nel
-> codice, non un mio lavoro di questo passaggio.
+> aperti/332 chiusi (10/8) a **166 aperti/341 chiusi**. È stata la riconciliazione automatica dei difetti
+> già risolti nel codice. Non è un mio lavoro di questo passaggio.
 >
-> **Limite di sessione, confermato di nuovo:** `node cervello/*.mjs` resta bloccato in questa chat headless —
-> stesso limite di ~15 sessioni precedenti (causa nota: `delta-gate.json` confronta contro una baseline del
-> 29/7 mai più allineabile da quando `sito_uptime` è cieco, vedi [[playbook-giro-pieno-ripetuto-strategia]] in
-> memoria di sessione, card `#20`). Ho usato Supabase MCP (canale diverso, funziona) per i numeri reali, e non
+> **Limite di sessione, confermato di nuovo:** `node cervello/*.mjs` resta bloccato in questa chat headless.
+> La causa è nota: `delta-gate.json` confronta contro una baseline del 29/7, mai più allineabile da quando
+> `sito_uptime` è cieco. Riferimenti: [[playbook-giro-pieno-ripetuto-strategia]] in memoria di sessione,
+> card `#20`. Ho usato Supabase MCP (canale diverso, funziona) per i numeri reali, e non
 > ho toccato a mano `apprendimento.json` (1,07 MB) né `cantiere-difetti.json` (1,48 MB): troppo grandi per
 > validarli senza una CLI, il rischio di corromperli non vale il guadagno.
 >
-> **Rigenerati in questo giro:** [[CHECKLIST-NICOLA]] (ferma da 2 giorni, AR-030) e [[OKR-Squadra]] (fermo da
-> 8 giorni, AR-115) — solo aggiornamento di date/numeri, nessuna decisione nuova.
+> **Rigenerati in questo giro:** [[CHECKLIST-NICOLA]] e [[OKR-Squadra]]. La checklist era ferma da 2 giorni,
+> gli OKR da 8. Le schede sono AR-030 e AR-115. Solo date e numeri aggiornati: nessuna decisione nuova.
 >
 > **Mossa n.1, invariata:** `#ordine-test-dentro-o-fuori-dalla-pausa`, ferma da 15 giorni senza risposta — è
 > l'unica leva che muove il North Star senza toccare la pausa sui nuovi negozi. Briefing completo:
@@ -502,7 +502,7 @@ fonte: AD digitale (chat)
 >
 > Riconfermato dal vivo su Supabase (`execute_sql`): 1 ordine mai pagato, 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli. È identico a ogni lettura di oggi. Il North Star resta fermo a **41 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Niente 5ª riscrittura pesante a stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113).
 >
-> **L'unica cosa nuova di questo passaggio:** ho diagnosticato un falso positivo. Il sorvegliante ripeteva "difesa-rimossa" a ogni comando (oltre 140 volte in questo turno) su `cantiere-prove.json`, per 4 righe di test sparite (AR-447, AR-448, AR-450, il test del rebase). Ho verificato in `cantiere-difetti.json`: quei 3-4 difetti sono **chiusi**. La loro sparizione dal report generato è quindi corretta — il generatore filtra i difetti chiusi — non una difesa tolta davvero. Il sorvegliante non distingue "chiuso" da "difesa rimossa". Resta un difetto reale del guardiano stesso. Non l'ho riparato in questo giro (non sblocca una card business, sotto il vincolo North Star): l'ho solo diagnosticato, per non rifarlo da capo al prossimo passaggio.
+> **L'unica cosa nuova di questo passaggio:** ho diagnosticato un falso positivo. Il sorvegliante ripeteva "difesa-rimossa" a ogni comando (oltre 140 volte in questo turno) su `cantiere-prove.json`, per 4 righe di test sparite (AR-447, AR-448, AR-450, il test del rebase). Ho verificato in `cantiere-difetti.json`: quei 3-4 difetti sono **chiusi**. La loro sparizione dal report generato è quindi corretta: il generatore filtra i difetti chiusi. Non è una difesa tolta davvero. Il sorvegliante non distingue "chiuso" da "difesa rimossa". Resta un difetto reale del guardiano stesso. Non l'ho riparato in questo giro (non sblocca una card business, sotto il vincolo North Star): l'ho solo diagnosticato, per non rifarlo da capo al prossimo passaggio.
 >
 > Stessi 3 script bloccati da approvazione in questa sessione headless (`test-cervello.mjs`, `mappa-macchina.mjs`, `scadenzario-check.mjs`, `tasso-lezioni.mjs`, `north-star-check.mjs`) — `verifica-sensori.mjs` invece gira regolarmente, quindi non è un blocco totale. I verdetti HARD di questi gate erano già stati calcolati dal pre-step di `giro.sh` prima di questo turno e restano quelli.
 >
@@ -538,7 +538,7 @@ fonte: AD digitale (chat)
 > **Le 3 priorità di stamattina, a che punto sono:**
 > 1. ❌ **Riavvio del giro sul VPS** (card `#macchina-ferma-da-quattro-giorni`). Ancora nessuna conferma di Nicola. Segnale indiretto: il sorvegliante anti-silenzio e il cantiere hanno continuato a scrivere fino alle 11:34. Questo non prova però che sia ripartito il timer `mycity-giro.service` — potrebbero essere solo sessioni di chat. `systemctl`/`journalctl` restano bloccati da qui.
 > 2. ✅ **Merge PR #635 — GIÀ FATTO.** Era in coda come "in attesa" da 5 giorni per un fatto vecchio: verificato ora con `git merge-base --is-ancestor` che è su `main` dal 30/7 13:26. Corretto in [[AZIONI-IN-ATTESA]] e `CHECKLIST-NICOLA.md`.
-> 3. ❌ **Pulizia rami GitHub / modo di chiudere le PR** (righe #7/#8 in coda) — nessuna decisione di Nicola.
+> 3. ❌ **Pulizia rami GitHub / modo di chiudere le PR.** Sono le righe #7 e #8 in coda: nessuna decisione di Nicola.
 >
 > **Correzione di rotta:** trovata e chiusa una card-zombie (PR #635) — lavoro già fatto che la coda continuava a chiedere. Stesso pattern già visto su PI26/piano-squadra il 30/7: una riga scritta com'era vera in un momento, mai ricontrollata dopo.
 >

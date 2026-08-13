@@ -18,6 +18,65 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 <!-- sensori-cancellati -->
 
+<!-- visita-vps-ferma -->
+
+---
+
+### 🟡 #visita-vps-ferma — Il server non si controlla più da solo da tre giorni: riaccendi la visita · ⏳ accodata 2026-08-13 00:15
+
+**Cosa cambia:** il server si fa una visita di controllo due volte al giorno, alle 6:45 e alle 20:45. L'ultima riuscita è del 10 agosto alle 6:46: da allora ne ha saltate cinque. Il resto del server lavora — i suoi salvataggi arrivano su GitHub, l'ultimo stasera alle 23:42. Ma senza la visita, lassù nessuno controlla più worker, coda e sensori. E la Cabina ti mostra semafori vecchi di tre giorni: sono quelli che hai visto stasera. Da qui (sessione cloud) non posso né vedere né riavviare i servizi del server. Serve il tuo terminale.
+
+**Se va bene:** i semafori tornano freschi due volte al giorno. Una visita nuova ci dice anche se i due guasti del 10/8 sono rientrati (54 salvataggi non pubblicati, un controllo dell'automazione fallito). Dai salvataggi di oggi sembra di sì. Ma deve dirlo una visita, non un'impressione.
+
+**Cosa fare.** Apri il terminale del VPS. Copia e incolla questi comandi, in ordine:
+```
+systemctl list-timers --all | grep mycity-salute
+systemctl status mycity-salute.timer mycity-salute.service --no-pager
+journalctl -u mycity-salute.service -n 50 --no-pager
+```
+Se il timer risulta spento, assente o senza prossima esecuzione:
+```
+sudo systemctl enable --now mycity-salute.timer
+sudo systemctl start mycity-salute.service
+```
+L'ultima riga fa partire una visita adesso: entro qualche minuto, in Cabina (Auto-coscienza → Gli organi), la data accanto alla copertura deve diventare di oggi. Se invece il timer era acceso e la visita risulta partita ma morta, incolla in chat le ultime righe del `journalctl` qui sopra: da lì capisco il perché.
+
+- **Colore:** 🟡 — riaccendi un controllo di sola lettura sul VPS. La fai tu dal terminale.
+- **Reparto:** devops-sre
+- **Origine:** `{origine:salute-2026-08-12, controllo:worker.ponte}`
+
+---
+
+<!-- occhi-ambiente-cloud -->
+
+---
+
+### 🟡 #occhi-ambiente-cloud — Apri gli occhi delle sessioni cloud su Cabina e marketplace · ⏳ accodata 2026-08-13 00:30
+
+**Cosa cambia:** quando lavoro da una sessione cloud (come stasera), 7 controlli della visita restano pallini bianchi: «non l'ho potuto vedere da qui». Il motivo è doppio. L'ambiente cloud non ha la rete per raggiungere la Cabina e i database. E non ha le chiavi per leggerne i dati. La parte che non richiedeva niente da te l'ho già fatta: l'indirizzo della Cabina ora è scritto nel repo, la variabile non serve più. Restano due cose che può toccare solo il proprietario dell'ambiente, cioè tu. Si fanno dalle impostazioni dell'ambiente su claude.ai/code (rotellina dell'ambiente → rete e variabili):
+
+**1) Rete (allowlist di uscita).** Aggiungi questi tre host: servono alla visita per bussare alla Cabina e ai database. Ho misurato stasera: oggi il proxy risponde «Host not in allowlist».
+```
+ad-mycity.vercel.app
+clmpyfvpvfjgeviworth.supabase.co
+xjljcsorpbqwttrejqte.supabase.co
+```
+Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un giorno è giù davvero): l'indirizzo ora lo trova da sola.
+
+**2) Variabili d'ambiente — facoltativo, servono solo per la vista sui DATI.** Due livelli, scegli tu fin dove arrivare:
+- **Minimo (rischio basso):** `MARKETPLACE_SUPABASE_URL = https://clmpyfvpvfjgeviworth.supabase.co` e `MARKETPLACE_SUPABASE_KEY = <la chiave “anon/publishable” del progetto Mycity>`. La chiave la trovi su supabase.com → progetto Mycity → Project Settings → API Keys → anon. È la chiave PUBBLICA di sola lettura, la stessa che gira nel browser del sito. Accende il pallino «La macchina vede i dati veri».
+- **Completo (fidati di più):** anche `SUPABASE_URL = https://xjljcsorpbqwttrejqte.supabase.co` e `SUPABASE_SERVICE_KEY = <service key del progetto ad-mycity>`. Accende anche coda e battito del worker visti dal cloud. ⚠️ Questa però è una chiave PADRONA: scrive tutto. Darla alle sessioni cloud è una scelta di fiducia, non un dovere. Senza, quei controlli restano pallini dichiarati e li legge comunque il VPS.
+
+**Se va bene:** la prossima visita da una sessione cloud passa da copertura ~63% a ~85-100%. E i pallini spariscono per il motivo giusto: perché ho guardato davvero, non perché ho smesso di dichiararli.
+
+**Serve da te:** i tre host in allowlist (2 minuti). Le variabili solo se vuoi anche la vista sui dati dal cloud.
+
+- **Colore:** 🟡 — impostazioni del TUO ambiente claude.ai. Le tocchi solo tu: io non posso e non devo.
+- **Reparto:** devops-sre + security
+- **Origine:** `{origine:salute-2026-08-12, controlli:cabina.viva+cabina.cuore+sensori.vista+worker.coda+worker.battito}`
+
+---
+
 <!-- permessi-push-e-supabase-da-rinominare -->
 
 ---

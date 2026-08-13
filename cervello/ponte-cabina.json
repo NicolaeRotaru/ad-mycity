@@ -1,0 +1,5 @@
+{
+  "_cosa_e": "🌉 IL PONTE VERSO LA CABINA — l'indirizzo pubblico del Pannello, committato perché NON è un segreto: è la pagina che Nicola apre dal telefono. Serve alla visita (salute.mjs, controlli cabina.viva/cabina.cuore): le sessioni cloud non hanno PANNELLO_URL nell'ambiente e i due controlli restavano ⚪ per una chiave che non era mai servita — l'indirizzo si scrive qui una volta. PANNELLO_URL/CABINA_URL nell'ambiente vincono SEMPRE su questo file.",
+  "pannello_url": "https://ad-mycity.vercel.app",
+  "verificato": "2026-08-13 00:20 — Vercel, progetto ad-mycity: deployment production READY, dominio primario ad-mycity.vercel.app (l'esempio pannello-mycity.vercel.app che girava nei commenti non esiste)"
+}

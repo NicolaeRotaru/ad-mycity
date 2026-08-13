@@ -272,13 +272,42 @@ prova("ciò che è stato tolto resta consultabile: la potatura non è una spariz
   assert.ok(ultima.quando, "con la data");
 });
 
-let falliti = 0;
-for (const c of casi) {
-  console.log(`${c.ok ? "  ok" : "not ok"} - ${c.nome}${c.ok ? "" : `\n      ${c.err}`}`);
-  if (!c.ok) falliti++;
-}
-console.log(`# pass ${casi.length - falliti}\n# fail ${falliti}`);
-process.exit(falliti ? 1 : 0);
+// ── AR-416: il potatore adesso lo lancia il GIRO — e pota solo quando serve ──────────────────────
+//
+// La storia: il potatore esisteva, funzionava, e non lo chiamava nessuno («il suo nome non compare
+// in nessun giro né in nessuna cadenza» — la scheda lo diceva dal 29/7). L'11/8 il muro è arrivato:
+// 1.070.609 > 1.048.576, test rosso in entrambe le case, scheda Apprendimento illeggibile. La cura
+// non è la potatura di oggi: è che il giro poti da solo, PRIMA del muro.
+
+prova("AR-416: la soglia preventiva — sotto il 95% del tetto non si pota, sopra sì", () => {
+  assert.equal(P.serveOra(900_000, 1_000_000), false, "al 90% non serve: scrivere ogni giro sarebbe rumore");
+  assert.equal(P.serveOra(951_000, 1_000_000), true, "sopra il 95% serve: il cuscino esiste per potare PRIMA del muro");
+  assert.equal(P.serveOra(1_100_000, 1_000_000), true, "oltre il muro serve comunque");
+});
+
+prova("AR-416: --se-serve sotto soglia non scrive un byte (provato sul file vero)", () => {
+  const prima = leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json");
+  const storicoPrima = leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento-potato.json");
+  execFileSync("node", [join(REPO, "cervello/pota-apprendimento.mjs"), "--se-serve"], {
+    cwd: REPO,
+    encoding: "utf8",
+    env: { ...process.env, APPRENDIMENTO_TETTO: "999999999" },
+  });
+  assert.equal(leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json"), prima, "sotto soglia il file non si tocca");
+  assert.equal(
+    leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento-potato.json"),
+    storicoPrima,
+    "e lo storico non si sporca di potature vuote",
+  );
+});
+
+prova("AR-416: il cablaggio — il giro lancia il potatore dopo il passo che fa crescere l'archivio", () => {
+  const src = leggi("cervello/giro.sh");
+  const iCrist = src.indexOf('cristallizza-apprendimento.mjs" --applica');
+  const iPota = src.indexOf('pota-apprendimento.mjs" --se-serve');
+  assert.ok(iCrist > 0, "la cristallizzazione deve esserci");
+  assert.ok(iPota > iCrist, "il potatore deve girare DOPO la cristallizzazione, dov'è la crescita");
+});
 
 // ── LA COPIA, NON LA MEMORIA (4/8) ───────────────────────────────────────────
 //
@@ -286,6 +315,10 @@ process.exit(falliti ? 1 : 0);
 // (0 lezioni decadute su 509). Misurando il file invece di crederci: 86 dei 87 `principi`
 // ripetevano parola per parola il testo della lezione con lo stesso id — 98.006 caratteri, 137
 // volte lo sforamento. Si toglie il doppione e resta il riferimento: nessuna lezione si perde.
+//
+// ⚠️ 12/8: questo blocco viveva DOPO il `process.exit` del conteggio — non girava mai, e faceva
+// sembrare coperto ciò che non lo era (la frase in fondo a test-cervello, alla lettera). Il
+// conteggio ora sta all'ULTIMA riga del file, dopo ogni prova.
 
 const { principiSenzaCopia, pianoPotatura } = await import("../pota-apprendimento.mjs");
 
@@ -338,3 +371,11 @@ const { principiSenzaCopia, pianoPotatura } = await import("../pota-apprendiment
 }
 
 console.log("✅ la copia dei principi si toglie, la memoria no");
+
+let falliti = 0;
+for (const c of casi) {
+  console.log(`${c.ok ? "  ok" : "not ok"} - ${c.nome}${c.ok ? "" : `\n      ${c.err}`}`);
+  if (!c.ok) falliti++;
+}
+console.log(`# pass ${casi.length - falliti}\n# fail ${falliti}`);
+process.exit(falliti ? 1 : 0);
