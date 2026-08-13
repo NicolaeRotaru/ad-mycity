@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-13 10:22** — Automatico: **65 aperte · 7 chiuse in archivio**. Chiusa `#ordine-test-dentro-o-fuori-dalla-pausa` (risposta di Nicola del 28/7 mai applicata alla card — vedi [[feedback-domanda-gia-decisa-ricontrollare]]).
+> 🧹 **Housekeeping 2026-08-13 10:22** — Automatico: **65 aperte · 7 chiuse in archivio**. Chiusa `#ordine-test-dentro-o-fuori-dalla-pausa`: Nicola aveva già risposto il 28/7, ma la risposta non era mai stata applicata alla card (vedi [[feedback-domanda-gia-decisa-ricontrollare]]).
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -22,11 +22,11 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 ---
 
-### 🟡 #permessi-push-e-supabase-da-rinominare — Nel foglio dei permessi del server sono comparse 5 righe nuove che nessuno ha ancora dichiarato · ⏳ accodata 2026-08-12 22:35
+### 🟡 #permessi-push-e-supabase-da-rinominare — 5 righe nuove nel foglio dei permessi del server, nessuno le ha ancora dichiarate · ⏳ accodata 2026-08-12 22:35
 
-**Cosa cambia:** il test che sorveglia i permessi (`permessi-di-guardia.test.mjs`) è diventato rosso. In `.claude/settings.local.json` sono comparse cinque righe nuove. Tre permettono `git push origin main/feature/fix` esplicito. Due sono strumenti Supabase che scrivono: `mcp__supabase-memoria__execute_sql` e `mcp__supabase-marketplace__execute_sql`. Sostituiscono il vecchio `mcp__Supabase__execute_sql`, perché il nome del server è cambiato. Nessuna di queste cinque righe aveva un perché scritto da nessuna parte: il guardiano le ha viste comparire e ha bloccato la prova, come deve fare.
+**Cosa cambia:** il test che sorveglia i permessi (`permessi-di-guardia.test.mjs`) è diventato rosso. In `.claude/settings.local.json` sono comparse cinque righe nuove. Tre permettono `git push origin main/feature/fix` esplicito. Due sono strumenti Supabase che scrivono: `mcp__supabase-memoria__execute_sql` e `mcp__supabase-marketplace__execute_sql`. Sostituiscono il vecchio `mcp__Supabase__execute_sql`, perché il nome del server è cambiato. Nessuna di queste cinque righe aveva un perché scritto da nessuna parte. Il guardiano le ha viste comparire e ha bloccato la prova, come deve fare.
 
-**Se va bene:** io ho già scritto il "perché sono lì" nel registro del debito (`cervello/permessi-debito.json`), così il test torna verde senza fingere che il problema non esista. Ma la decisione vera resta tua: (1) il push diretto su `main`/branch a te va bene così com'è (il giro sul VPS lo fa già, dichiarato in CLAUDE.md) o va ristretto? (2) i due strumenti Supabase che SCRIVONO (`execute_sql`) servono davvero alla macchina o erano pensati solo per letture — nel qual caso vanno tolti o sostituiti con la versione sola-lettura?
+**Se va bene:** io ho già scritto il "perché sono lì" nel registro del debito (`cervello/permessi-debito.json`). Così il test torna verde, senza fingere che il problema non esista. La decisione vera resta tua, su due punti. (1) Il push diretto su `main`/branch va bene così com'è — il giro sul VPS lo fa già, dichiarato in CLAUDE.md — o va ristretto? (2) I due strumenti Supabase che SCRIVONO (`execute_sql`) servono davvero alla macchina, o erano pensati solo per letture? Nel secondo caso vanno tolti o sostituiti con la versione sola-lettura.
 
 **Serve da te:** una parola per ciascuno dei due punti; io non posso toccare `.claude/settings.json`/`settings.local.json` — sono negati in scrittura apposta.
 

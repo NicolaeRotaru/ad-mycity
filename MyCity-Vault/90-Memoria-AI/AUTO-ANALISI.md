@@ -4,13 +4,13 @@
 > Dati riusati da giro.sh (10:20), non re-interrogati. Lavoro reale: chiusa una card fantasma in coda.
 
 ## Voto di fiducia: **80/100** (↑2 da 78 del 12/8 22:43)
-Non per novità di business (identico da 7 settimane) ma per un lavoro di chiusura reale: la card
-`#ordine-test-dentro-o-fuori-dalla-pausa` era presentata da 16 giorni come "mossa n.1 senza risposta" quando
-Nicola aveva già risposto il 28/7 15:56 (verificato su [[DECISIONI]]). Chiusa e archiviata, con 2 lezioni nuove
-registrate. Sul vincolo correzione-nicola-gate: verificato che un gate vero richiede una mutazione in
-`mutanti.json`, non solo citare uno script che oggi passa — non ho gonfiato il numero con gate finti, resta
-debito dichiarato (251 lezioni senza gate reale). Il voto non sale di più perché gli script `node cervello/*.mjs`
-che SCRIVONO restano bloccati in questa sessione — limite già noto, non nuovo.
+Il voto non sale per novità di business: i numeri sono identici da 7 settimane. Sale per un lavoro di chiusura
+reale. La card `#ordine-test-dentro-o-fuori-dalla-pausa` era presentata da 16 giorni come "mossa n.1 senza
+risposta". Nicola aveva già risposto il 28/7 alle 15:56 (verificato su [[DECISIONI]]). Chiusa e archiviata, con
+2 lezioni nuove registrate. Sul vincolo correzione-nicola-gate: ho verificato che un gate vero richiede una
+mutazione in `mutanti.json`. Non basta citare uno script che oggi passa. Non ho gonfiato il numero con gate
+finti: resta debito dichiarato (251 lezioni senza gate reale). Il voto non sale di più per un motivo tecnico:
+gli script `node cervello/*.mjs` che SCRIVONO restano bloccati in questa sessione — limite già noto, non nuovo.
 
 ## Passaggio precedente — 2026-08-12 22:43
 
