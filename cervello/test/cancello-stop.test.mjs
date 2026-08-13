@@ -21,6 +21,7 @@ import {
   chiusuraLegittima,
   esitiScritti,
   testiIlleggibili,
+  testoDaMisurare,
   messaggioIlleggibile,
   ultimoTestoAssistente,
   testiAssistente,
@@ -631,4 +632,41 @@ test("fuori da una fusione non cambia niente: il secondo genitore non c'è", () 
   assert.equal(chiusiSenzaProva(statoDiPartenza(mio, null), suDisco).length, 1);
   assert.deepEqual(statoDiPartenza(mio, null), mio, "senza merge, «prima» resta esattamente HEAD");
   assert.deepEqual(statoDiPartenza(null, null), [], "e senza niente da leggere resta vuoto, non esplode");
+});
+
+// ── ⑥ il merge non mi fa il conto di ciò che ha scritto il worker (13/8) ──────
+//
+// Il caso vero: fusa `main` nel ramo per risolvere un conflitto sulla coda, il cancello ha
+// contestato STATO.md e RITMO.md — 13 e 5 punti «aggiunti da questo lavoro» — su due file che il
+// merge aveva portato dentro identici alla copia pubblicata. Il perimetro `ancora...HEAD` non
+// distingue «l'ho scritto io» da «l'ho fuso»; la copia su `origin/main` sì.
+
+test("un file identico alla copia pubblicata non è lavoro di questo lotto", () => {
+  const t = testoDaMisurare("MyCity-Vault/90-Memoria-AI/STATO.md", {
+    ora: () => "testo del worker",
+    pubblicato: () => "testo del worker",
+    prima: () => "versione vecchia, molto diversa",
+  });
+  assert.equal(t, null, "il merge non deve farmi il conto di un testo già pubblicato da altri");
+});
+
+test("un file che questo lotto ha davvero cambiato resta misurato", () => {
+  const t = testoDaMisurare("consegne/mia.md", {
+    ora: () => "testo mio, nuovo",
+    pubblicato: () => "testo del worker",
+    prima: () => "com'era prima",
+  });
+  assert.ok(t, "se il mio testo diverge dalla copia pubblicata, è mio e va misurato");
+  assert.equal(t.contenuto, "testo mio, nuovo");
+  assert.equal(t.contenutoPrima, "com'era prima");
+});
+
+test("un file che su main non esiste è tutto mio", () => {
+  const t = testoDaMisurare("consegne/nato-adesso.md", {
+    ora: () => "tutto nuovo",
+    pubblicato: () => null, // testoDiBase torna null quando il file non c'è nella base
+    prima: () => null,
+  });
+  assert.ok(t, "un file che la copia pubblicata non ha è nato in questo lotto");
+  assert.equal(t.contenutoPrima, null, "e parte da zero: ogni suo problema è nuovo");
 });

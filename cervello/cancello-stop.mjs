@@ -871,6 +871,30 @@ function testoDiBase(percorso, da = null) {
 }
 
 /**
+ * Un file da misurare, o `null` se non è lavoro di questo lotto.
+ *
+ * UN FILE IDENTICO A `origin/main` NON È LAVORO DI QUESTO TURNO, ED È IL CASO DEL MERGE.
+ *
+ * Il ramo fonde main a ogni giro del worker (la coda, lo STATO e il RITMO li riscrive lui): il
+ * merge porta dentro decine di file che non ho toccato, e il perimetro `ancora...HEAD` li vede
+ * come «cambiati adesso». Il 13/8 il verdetto diceva «questo lavoro gli ha aggiunto 13 punti
+ * difficili» su STATO.md e RITMO.md — identici a `origin/main` riga per riga, scritti dal worker,
+ * già pubblicati. È la stessa malattia dichiarata più sopra («un cancello che accusa di cose non
+ * tue»), curata lì per il perimetro incerto e rimasta aperta qui per il merge.
+ *
+ * Non è silenzio sul debito: quel debito resta, ed è del lotto che l'ha scritto. Qui si misura
+ * solo ciò che questo lotto consegna DI SUO — un file che su main non c'è, o che rispetto a main
+ * è cambiato, torna a essere misurato per intero.
+ *
+ * I tre lettori si passano da fuori perché la regola si possa provare senza un repo git.
+ */
+export function testoDaMisurare(file, { ora, pubblicato, prima }) {
+  const contenuto = ora();
+  if (contenuto === pubblicato()) return null;
+  return { file, contenuto, contenutoPrima: prima() };
+}
+
+/**
  * I testi che questo lavoro sta consegnando a Nicola: modificati nell'albero di lavoro OPPURE già
  * committati sul ramo. Servono entrambi — il primo prende il testo che sto scrivendo adesso, il
  * secondo quello che ho scritto tre commit fa e che uscirà lo stesso con la PR.
@@ -912,11 +936,12 @@ function testiToccati(da = null) {
     try {
       const abs = join(REPO, p);
       if (!existsSync(abs)) continue;
-      testi.push({
-        file: p,
-        contenuto: readFileSync(abs, "utf8").slice(0, 200_000),
-        contenutoPrima: testoDiBase(p, da),
+      const t = testoDaMisurare(p, {
+        ora: () => readFileSync(abs, "utf8").slice(0, 200_000),
+        pubblicato: () => testoDiBase(p, "origin/main"),
+        prima: () => testoDiBase(p, da),
       });
+      if (t) testi.push(t);
     } catch {
       // illeggibile: taccio invece di accusare
     }

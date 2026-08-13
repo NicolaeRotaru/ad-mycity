@@ -1066,13 +1066,15 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 
 **Contenuto completo:** `consegne/content/2026-07-14-post-del-giorno-kefir-caldo-PQ.md` · anteprima [[AZIONI-PRONTE]] **A28**
 
-**Testo pronto (versione Gruppi Facebook):**
+**Testo pronto (versione Gruppi Facebook) — da copiare così com'è:**
 
-> Chi ha voglia di uscire a prendere la colazione fresca con questo caldo? 😅
->
-> Stiamo portando online i negozi veri di Piacenza: c'è **Pane Quotidiano** (Via Calzolai, bio dal '76) con kefir e freschi bio già ordinabili. Te li portiamo a casa al mattino, paghi alla consegna se ti è più comodo.
->
-> Se ti va di provare, link nel primo commento 👇
+```
+Chi ha voglia di uscire a prendere la colazione fresca con questo caldo? 😅
+
+Stiamo portando online i negozi veri di Piacenza: c'è Pane Quotidiano (Via Calzolai, bio dal '76) con kefir e freschi bio già ordinabili. Te li portiamo a casa al mattino, paghi alla consegna se ti è più comodo.
+
+Se ti va di provare, link nel primo commento 👇
+```
 
 **Prima del post servono da Nicola (due minuti):**
 1. **Link lista d'attesa** — incollalo e la macchina completa il primo commento

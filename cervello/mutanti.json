@@ -2495,6 +2495,14 @@
    "cerca": "return `${v.ok_configurati}/${v.configurati} ok${spenti} · max cecità ${maxCecita} giri`;",
    "sostituisci": "return `${v.ok_configurati}/${v.totali} ok · max cecità ${maxCecita} giri`;",
    "test": "cervello/test/sensori-verita.test.mjs"
+  },
+  {
+   "difetto": "AR-478 merge-conta-lavoro-altrui",
+   "nome": "il cancello torna a misurare i file che il merge ha portato identici da main: accusa il lotto del debito del worker",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  if (contenuto === pubblicato()) return null;",
+   "sostituisci": "  if (false) return null;",
+   "test": "node cervello/test/cancello-stop.test.mjs"
   }
  ]
 }
