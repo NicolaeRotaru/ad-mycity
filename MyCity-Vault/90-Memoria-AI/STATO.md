@@ -10,27 +10,27 @@ fonte: AD digitale (chat)
 > fino al 24/8-1/9. Non è un allarme.
 >
 > **Cosa ho verificato.** Sono entrato nei 3 worktree lasciati dai senior del passaggio precedente
-> (PR #710/#709/#708) e ho fatto girare io i test esatti che dovevano tornare verdi:
-> `si-capisce.test.mjs` (68/68, due volte, uno per worktree), `mappa-in-bacheca.test.mjs` (19/19) e
-> `permessi-di-guardia.test.mjs` (5/5). **Tutti passano.** Ho anche controllato che i 3 branch locali
-> siano identici a quelli già su GitHub (`git log origin/<branch>..<branch>`, nessuna riga): niente da
-> spingere, i fix sono già lì.
+> (PR #710/#709/#708). Ho fatto girare io i test esatti che dovevano tornare verdi. Tre test, tre file:
+> `si-capisce.test.mjs`, `mappa-in-bacheca.test.mjs`, `permessi-di-guardia.test.mjs`. Il primo l'ho girato
+> due volte, una per ogni worktree che lo usa. Risultato: 68/68, 68/68, 19/19, 5/5. **Tutti verdi.** Ho
+> anche controllato che i 3 branch locali siano identici a quelli già su GitHub
+> (`git log origin/<branch>..<branch>`, nessuna riga di differenza). Niente da spingere: i fix sono già lì.
 >
-> **La cosa che non torna.** `node cervello/ci-stato.mjs`, rieseguito alle 14:31, continua a leggere
-> tutte e tre le PR come rosse per "colpa propria". Due spiegazioni possibili, e non ho modo di scegliere
-> tra le due da qui: o GitHub non ha ancora rieseguito i controlli sull'ultimo commit, oppure c'è qualcosa
-> che la CI vede e i miei test locali no. `gh pr checks` è negato in questa sessione (stesso limite di
-> sempre). Non ho dichiarato le PR "chiuse": ho scritto esattamente cosa ho provato e cosa resta da
-> confermare da un canale con accesso vero a GitHub.
+> **La cosa che non torna.** Ho rieseguito `node cervello/ci-stato.mjs` alle 14:31. Continua a leggere
+> tutte e tre le PR come rosse, "colpa propria". Vedo due spiegazioni possibili. O GitHub non ha ancora
+> rieseguito i controlli sull'ultimo commit. Oppure la CI vede un guasto che i miei test locali non
+> coprono. Da qui non posso scegliere tra le due: `gh pr checks` è negato in questa sessione, stesso
+> limite di sempre. Per questo non ho dichiarato le PR "chiuse". Ho scritto solo cosa ho provato, e cosa
+> resta da confermare da un canale con accesso vero a GitHub.
 >
-> **Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese):** non ho riaperto ricerca su altro. Non ho
-> riscritto `auto-analisi.json` (13:00), `registro-realta.json`, `apprendimento.json` (14:30): già freschi
-> di oggi su dati identici.
+> **Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese):** non ho riaperto ricerca su altro. Tre
+> file restano quelli di oggi, dati identici: `auto-analisi.json` (13:00), `registro-realta.json`,
+> `apprendimento.json` (14:30). Non li ho riscritti.
 >
 > **Mossa n.1, invariata:** nessuna azione business sbloccabile prima del 24/8-1/9. Resta da firmare
-> `#permessi-senza-jolly` e resta aperta `#sensori-spenti-senza-motivo` (telegram_bot). **Nuovo:** serve un
-> paio di minuti da un posto con `gh`/GitHub (VPS o Nicola) per guardare i controlli veri delle PR
-> #710/#709/#708 e dire se sono davvero verdi. Briefing: [[Briefing/2026-08-13]].
+> `#permessi-senza-jolly`. Resta aperta `#sensori-spenti-senza-motivo` (telegram_bot). **Nuovo:** serve un
+> canale con `gh`/GitHub — VPS o Nicola — per guardare i controlli veri delle PR #710/#709/#708. Solo così
+> si sa se sono davvero verdi. Briefing: [[Briefing/2026-08-13]].
 
 > 🔁 **13/8 14:23 — Giro richiesto in chat. Business invariato. La diagnosi CI delle 13:09 era sbagliata: tornata "colpa propria", mandati 3 fix in corso.**
 > Business riconfermato dal vivo con query SQL diretta: 1 ordine (mai pagato, 24/6), 0 pagati, 5 prodotti, 7 profili,
