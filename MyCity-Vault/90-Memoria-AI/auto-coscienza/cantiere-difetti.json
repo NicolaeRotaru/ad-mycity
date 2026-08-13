@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-13 23:00",
+  "aggiornato": "2026-08-13 23:30",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -13541,6 +13541,26 @@
       },
       "nota_fix": "Lotto 38 (13/8) — trovato e curato nello stesso lotto dalla spazzata dei fratelli. La malattia è censita in cervello/malattie.json come `verde-che-e-il-ramo-di-default` con baseline 0 sul codice di produzione: da qui in poi il primo che ricompare è un rosso.",
       "vedi": "AR-646 (stessa malattia, superficie Pannello) · AR-370 (stessa malattia, codice d uscita)"
+    },
+    {
+      "id": "AR-662",
+      "titolo": "Il guardiano dei sensori dice «rotto» quando la verità è «non ho potuto guardare»",
+      "dimensione": "sensori-e-cadenza",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "stato": "aperto",
+      "nato": "2026-08-13 23:30",
+      "nato_come": "scoperta",
+      "origine": "terzo giro di rilettura del lotto 38",
+      "causa_radice": "cervello/verifica-sensori.mjs ~riga 710: process.exit(esito === \"ok\" ? 0 : 1). Gli esiti che verdettoSensori può produrre sono tre — ok, cieco, non_misurato — e gli ultimi due escono entrambi 1, cioè «violazione», mentre il contratto di casa (AR-322) dice 0 passato · 1 violazione · 2 NON HO POTUTO MISURARE. Da una sessione senza chiavi l esito è non_misurato e lo script esce 1: sta dicendo «è rotto» dove la verità è «non l ho potuto guardare».",
+      "fix_proposto": "Far uscire il codice da `codiceUscita()` di cervello/misura-o-cieco.mjs con la mappa esplicita ok→0, cieco→2, non_misurato→2. ⚠️ DA VERIFICARE PRIMA: giro.sh legge questo rc per accendere il vincolo «niente numeri nuovi» e oggi tratta qualunque rc≠0 come cecità — quindi il COMPORTAMENTO oggi è giusto ed è solo il nome a essere sbagliato. Cambiare il codice senza guardare quel punto trasformerebbe un freno che funziona in un freno spento: prima si prova che giro.sh continua ad accendere il vincolo anche col 2, poi si cambia.",
+      "colore": "🟡",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "alla riparazione: un test che esegue verifica-sensori senza chiavi e pretende rc=2, PIÙ uno che prova che giro.sh accende il vincolo baseline anche con rc=2"
+      },
+      "nota_fix": "Trovato al terzo giro di rilettura del lotto 38, NON riparato lì: la strada che va toccata è un freno del giro, e allargare un lotto a metà è il modo classico di non finirlo. Il verso dell errore è quello prudente (dichiara rotto ciò che è cieco, non il contrario), quindi non c è un verde falso in giro.",
+      "vedi": "AR-370 (stessa famiglia, riparata nel lotto 38) · AR-322 (il contratto 0/1/2)"
     }
   ],
   "meta": {
