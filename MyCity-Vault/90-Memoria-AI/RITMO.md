@@ -1120,3 +1120,27 @@ La radiografia completa di me stessa (23/7 sera, 14 senior in parallelo) ha trov
 **Serve da Nicola entro sera:**
 - 🔴 La pratica pagamenti del fornaio (riga #16) — è il vero blocco del negozio, non le richieste di unione.
 - 🟡 Le 7 richieste di unione ferme, la pulizia dei rami, e la domanda sull'ordine di prova — tutte invariate da prima.
+
+## Punto di mezzogiorno · 2026-08-13 12:00
+
+**Contesto:** oggi non c'è stato un Piano del mattino a parte — quattro passaggi in chat (06:50, 09:30,
+10:22, 11:41) hanno fatto da piano, tutti a business invariato. Questo blocco è il controllo di metà
+giornata su quel lavoro, dentro la pausa concordata con Nicola fino al 24/8-1/9.
+
+**Stato delle priorità di stamattina:**
+1. ✅ **Provare per davvero il freno sulle correzioni di ieri.** Le due lezioni di ieri dicevano "gate
+   collegato". Ma non c'era una prova che lo dimostrasse. Verificato ora: le mutazioni esistono davvero.
+   I test scattano rosso se tolgo il fix. 5 su 5 verdi.
+2. ✅ **Trovare perché i test non partono da questa chat.** La lista che dovrebbe sostituire il permesso
+   troppo largo mancava di 5 programmi. Erano nati dopo il 29/7. Li ho aggiunti. Ora è pronta da applicare.
+3. ⏸ **Muovere il North Star.** Resta fermo per patto, non per un blocco tecnico. Fino al 24/8-1/9.
+
+**Correzioni di rotta:**
+- Nessuna nuova urgenza a mezzogiorno. Business riconfermato identico dal vivo su Supabase: 1 ordine mai
+  pagato dal 24/6, stallo 50 giorni. Invariato da tutta la mattina.
+- Rispettato il vincolo del mese: tasso di chiusura 0,24, sotto la soglia di 1. Niente ricerche nuove,
+  solo chiusura di lavoro già in coda.
+
+**Cosa serve da Nicola entro sera:**
+- 🟡 Applica `#permessi-senza-jolly`. Sblocca anche i test da questa chat, non solo la sicurezza.
+- 📌 Nessuna urgenza di business. La pausa regge fino al 24/8-1/9.

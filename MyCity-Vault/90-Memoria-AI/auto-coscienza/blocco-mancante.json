@@ -1,31 +1,33 @@
 {
   "_cosa_e": "📮 Quante volte un messaggio che pretendeva le quattro risposte è uscito senza. Il tetto è una QUOTA e SCENDE: aggiungerne è un errore, portarne via è il lavoro. Nato dalla domanda di Nicola del 3/8 («come fai a non dimenticartene mai?»).",
-  "misurato": "2026-08-11 00:26",
+  "misurato": "2026-08-13 04:46",
   "finestra_giorni": 7,
   "trascrizioni": {
-    "trovate": 1,
-    "lette": 1,
-    "file_visti": 1,
+    "trovate": 625,
+    "lette": 625,
+    "file_visti": 625,
     "scartati_per_estensione": {}
   },
-  "messaggi_misurati": 2,
+  "messaggi_misurati": 36,
   "mancanze": {
-    "In parole semplici": 0,
-    "Cosa cambia per te": 0,
-    "Cosa devi fare": 0,
-    "Cosa non ho verificato": 1
+    "In parole semplici": 28,
+    "Cosa cambia per te": 29,
+    "Cosa devi fare": 29,
+    "Cosa non ho verificato": 35
   },
   "blocco_peggiore": "Cosa non ho verificato",
-  "quota_peggiore": 50,
+  "quota_peggiore": 97,
   "esempi": [
-    "Il metro ora passa quasi pulito: da quattro difetti a uno (mi chiedeva"
+    "Fatto. Ho eseguito il Piano del mattino di `cervello/ritmo.md` per int",
+    "Non c'era un compito specifico allegato a questo messaggio — solo il m",
+    "Verificato: il cancello confronta con la base `3bda15ad5b` del **4/8**"
   ],
   "tetto": {
     "quota_peggiore": 45
   },
   "verdetto": {
     "righe": [
-      "❌ «Cosa non ho verificato» manca nel 50% dei messaggi che lo pretendevano (tetto 45%): l'abitudine non sta sparendo."
+      "❌ «Cosa non ho verificato» manca nel 97% dei messaggi che lo pretendevano (tetto 45%): l'abitudine non sta sparendo."
     ],
     "rotto": true
   }

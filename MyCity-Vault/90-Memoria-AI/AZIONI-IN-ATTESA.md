@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-12 22:22** — Automatico: **65 aperte · 6 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-13 14:16** — Automatico: **65 aperte · 7 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -18,17 +18,74 @@ Scrivi all'AD: **"ok [numero/azione]"** oppure **"ok a tutte le 🟡"**. L'AD es
 
 <!-- sensori-cancellati -->
 
+<!-- visita-vps-ferma -->
+
+---
+
+### 🟡 #visita-vps-ferma — Il server non si controlla più da solo da tre giorni: riaccendi la visita · ⏳ accodata 2026-08-13 00:15
+
+**Cosa cambia:** il server si fa una visita di controllo due volte al giorno, alle 6:45 e alle 20:45. L'ultima riuscita è del 10 agosto alle 6:46: da allora ne ha saltate cinque. Il resto del server lavora — i suoi salvataggi arrivano su GitHub, l'ultimo stasera alle 23:42. Ma senza la visita, lassù nessuno controlla più worker, coda e sensori. E la Cabina ti mostra semafori vecchi di tre giorni: sono quelli che hai visto stasera. Da qui (sessione cloud) non posso né vedere né riavviare i servizi del server. Serve il tuo terminale.
+
+**Se va bene:** i semafori tornano freschi due volte al giorno. Una visita nuova ci dice anche se i due guasti del 10/8 sono rientrati (54 salvataggi non pubblicati, un controllo dell'automazione fallito). Dai salvataggi di oggi sembra di sì. Ma deve dirlo una visita, non un'impressione.
+
+**Cosa fare.** Apri il terminale del VPS. Copia e incolla questi comandi, in ordine:
+```
+systemctl list-timers --all | grep mycity-salute
+systemctl status mycity-salute.timer mycity-salute.service --no-pager
+journalctl -u mycity-salute.service -n 50 --no-pager
+```
+Se il timer risulta spento, assente o senza prossima esecuzione:
+```
+sudo systemctl enable --now mycity-salute.timer
+sudo systemctl start mycity-salute.service
+```
+L'ultima riga fa partire una visita adesso: entro qualche minuto, in Cabina (Auto-coscienza → Gli organi), la data accanto alla copertura deve diventare di oggi. Se invece il timer era acceso e la visita risulta partita ma morta, incolla in chat le ultime righe del `journalctl` qui sopra: da lì capisco il perché.
+
+- **Colore:** 🟡 — riaccendi un controllo di sola lettura sul VPS. La fai tu dal terminale.
+- **Reparto:** devops-sre
+- **Origine:** `{origine:salute-2026-08-12, controllo:worker.ponte}`
+
+---
+
+<!-- occhi-ambiente-cloud -->
+
+---
+
+### 🟡 #occhi-ambiente-cloud — Apri gli occhi delle sessioni cloud su Cabina e marketplace · ⏳ accodata 2026-08-13 00:30
+
+**Cosa cambia:** quando lavoro da una sessione cloud (come stasera), 7 controlli della visita restano pallini bianchi: «non l'ho potuto vedere da qui». Il motivo è doppio. L'ambiente cloud non ha la rete per raggiungere la Cabina e i database. E non ha le chiavi per leggerne i dati. La parte che non richiedeva niente da te l'ho già fatta: l'indirizzo della Cabina ora è scritto nel repo, la variabile non serve più. Restano due cose che può toccare solo il proprietario dell'ambiente, cioè tu. Si fanno dalle impostazioni dell'ambiente su claude.ai/code (rotellina dell'ambiente → rete e variabili):
+
+**1) Rete (allowlist di uscita).** Aggiungi questi tre host: servono alla visita per bussare alla Cabina e ai database. Ho misurato stasera: oggi il proxy risponde «Host not in allowlist».
+```
+ad-mycity.vercel.app
+clmpyfvpvfjgeviworth.supabase.co
+xjljcsorpbqwttrejqte.supabase.co
+```
+Solo con questo, i 2 pallini della Cabina diventano verdi (o rossi veri, se un giorno è giù davvero): l'indirizzo ora lo trova da sola.
+
+**2) Variabili d'ambiente — facoltativo, servono solo per la vista sui DATI.** Due livelli, scegli tu fin dove arrivare:
+- **Minimo (rischio basso):** `MARKETPLACE_SUPABASE_URL = https://clmpyfvpvfjgeviworth.supabase.co` e `MARKETPLACE_SUPABASE_KEY = <la chiave “anon/publishable” del progetto Mycity>`. La chiave la trovi su supabase.com → progetto Mycity → Project Settings → API Keys → anon. È la chiave PUBBLICA di sola lettura, la stessa che gira nel browser del sito. Accende il pallino «La macchina vede i dati veri».
+- **Completo (fidati di più):** anche `SUPABASE_URL = https://xjljcsorpbqwttrejqte.supabase.co` e `SUPABASE_SERVICE_KEY = <service key del progetto ad-mycity>`. Accende anche coda e battito del worker visti dal cloud. ⚠️ Questa però è una chiave PADRONA: scrive tutto. Darla alle sessioni cloud è una scelta di fiducia, non un dovere. Senza, quei controlli restano pallini dichiarati e li legge comunque il VPS.
+
+**Se va bene:** la prossima visita da una sessione cloud passa da copertura ~63% a ~85-100%. E i pallini spariscono per il motivo giusto: perché ho guardato davvero, non perché ho smesso di dichiararli.
+
+**Serve da te:** i tre host in allowlist (2 minuti). Le variabili solo se vuoi anche la vista sui dati dal cloud.
+
+- **Colore:** 🟡 — impostazioni del TUO ambiente claude.ai. Le tocchi solo tu: io non posso e non devo.
+- **Reparto:** devops-sre + security
+- **Origine:** `{origine:salute-2026-08-12, controlli:cabina.viva+cabina.cuore+sensori.vista+worker.coda+worker.battito}`
+
+---
+
 <!-- permessi-push-e-supabase-da-rinominare -->
 
 ---
 
-### 🟡 #permessi-push-e-supabase-da-rinominare — Nel foglio dei permessi del server sono comparse 5 righe nuove che nessuno ha ancora dichiarato · ⏳ accodata 2026-08-12 22:35
+### 🟡 #permessi-push-e-supabase-da-rinominare — 5 righe nuove nel foglio dei permessi del server, nessuno le ha ancora dichiarate · ⏳ accodata 2026-08-12 22:35
 
 **Cosa cambia:** il test che sorveglia i permessi è diventato rosso. Nel foglio dei permessi del server sono comparse cinque righe nuove. Tre permettono il push esplicito su main e sui rami. Due aprono gli strumenti Supabase che scrivono, coi nomi nuovi del server. Nessuna delle cinque aveva un perché scritto da nessuna parte. Il guardiano le ha viste comparire e ha bloccato la prova, come deve fare. I nomi esatti stanno qui sotto nella nota tecnica.
 
-**Se va bene:** il perché di ogni riga l'ho già scritto nel registro del debito, così il test torna verde senza fingere che il problema non esista. Ma la decisione vera resta tua, su due domande. Prima: il push diretto su main ti va bene così, come il giro sul VPS già fa, o va ristretto? Seconda: i due strumenti Supabase che scrivono servono davvero, o erano pensati solo per letture? Nel secondo caso vanno tolti o sostituiti con la versione che legge soltanto.
-
-**Nota tecnica:** test `permessi-di-guardia.test.mjs` · file `.claude/settings.local.json` · righe: `git push origin main/feature/fix` espliciti, `mcp__supabase-memoria__execute_sql`, `mcp__supabase-marketplace__execute_sql` (sostituiscono il vecchio `mcp__Supabase__execute_sql`, il server ha cambiato nome) · registro del debito: `cervello/permessi-debito.json`.
+**Se va bene:** io ho già scritto il "perché sono lì" nel registro del debito (`cervello/permessi-debito.json`). Così il test torna verde, senza fingere che il problema non esista. La decisione vera resta tua, su due punti. (1) Il push diretto su `main`/branch va bene così com'è — il giro sul VPS lo fa già, dichiarato in CLAUDE.md — o va ristretto? (2) I due strumenti Supabase che SCRIVONO (`execute_sql`) servono davvero alla macchina, o erano pensati solo per letture? Nel secondo caso vanno tolti o sostituiti con la versione sola-lettura.
 
 **Serve da te:** una parola per ciascuno dei due punti; io non posso toccare `.claude/settings.json`/`settings.local.json` — sono negati in scrittura apposta.
 
@@ -77,10 +134,10 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🟡 #permessi-senza-jolly — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50
+### 🟡 #permessi-senza-jolly — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50 · aggiornata 2026-08-13 11:34
 
-**Cosa cambia:** nel foglio dei permessi (`.claude/settings.json`) ci sono due righe col jolly: `node cervello/*.mjs` e `bash cervello/*.sh`. Queste righe non dicono «può lanciare questi programmi». Dicono «può lanciare qualunque programma finisca in quella cartella» — e quella cartella la scrive la macchina stessa. I freni veri (la pausa, la tua firma, il controllo su chi riceve un messaggio) stanno dentro ai singoli programmi. Con il jolly si può arrivare a un programma senza passare dal freno che contiene. Non sto dicendo che sia già successo. Sto dicendo che oggi nessuno lo impedirebbe.
-**Se va bene:** sostituisci le due righe con l'elenco esplicito che ti ho già preparato: 70 programmi, ricavati guardando quali il giro e il worker lanciano davvero, più i 12 script di avvio. La lista è in `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`, pronta da incollare. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, aggiungi il permesso a mano. Aggiungere una riga si vede. Il jolly no.
+**Cosa cambia:** nel foglio dei permessi (`.claude/settings.json`) ci sono due righe col jolly: `node cervello/*.mjs` e `bash cervello/*.sh`. Queste righe non dicono «può lanciare questi programmi». Dicono «può lanciare qualunque programma finisca in quella cartella» — e quella cartella la scrive la macchina stessa. I freni veri (la pausa, la tua firma, il controllo su chi riceve un messaggio) stanno dentro ai singoli programmi. Con il jolly si può arrivare a un programma senza passare dal freno che contiene. Non sto dicendo che sia già successo. Sto dicendo che oggi nessuno lo impedirebbe. **Novità 13/8:** il jolly non è solo un rischio — è anche il motivo per cui `test-cervello.mjs`, `gate-veri.mjs`, `pota-apprendimento.mjs` e altri restano bloccati da un'approvazione che in sessione chat non arriva mai (documentato ~16 volte in [[STATO]] dal 4/8). Applicare questa card li sblocca anche per questo.
+**Se va bene:** sostituisci le due righe con l'elenco esplicito che ti ho già preparato: 75 programmi (aggiornato oggi con 5 nati dopo il 29/7: `correzione-nicola-gate.mjs`, `domanda-riesame-check.mjs`, `gate-veri.mjs`, `mappa-macchina.mjs`, `pota-apprendimento.mjs`), ricavati guardando quali il giro e il worker lanciano davvero, più i 12 script di avvio. La lista è in `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`, pronta da incollare. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, aggiungi il permesso a mano. Aggiungere una riga si vede. Il jolly no.
 **Nota tecnica:** difetto AR-206, parte (a). Il lotto 33 ha verificato la parte (b). È la regola `no-jolly-su-cartella-scrivibile` in `cervello/permessi-check.mjs`. Esiste già e funziona: segnala correttamente entrambe le forme. La parte (a) non l'ho fatta io di proposito. `.claude/settings.json` è negato in scrittura alla macchina apposta (regola `no-auto-permessi`). Scavalcare quel confine per chiudere un difetto sul confine sarebbe stato assurdo. Restano fuori due parti, infrastrutturali, per un lotto a sé: il controllo di provenienza su ogni script, e le chiavi tenute fuori dall'ambiente del worker.
 - **Colore:** 🟡 (restringe i permessi della macchina: non manda niente a nessuno, ma va provato che il giro continui a girare)
 - **Reparto:** security + devops-sre
@@ -105,25 +162,6 @@ in scrittura alla macchina, ed è giusto così.
 - **Colore:** 🟡 (accende un controllo in sola lettura, non manda niente a nessuno)
 - **Reparto:** devops-sre
 - **Origine:** `{origine:auto-radiografia, difetti:AR-105+AR-108}`
-
----
-
-### 🟡 #ordine-test-dentro-o-fuori-dalla-pausa — Decidi l'ordine di prova: resta in pausa o lo fai adesso? · ⏳ accodata 2026-07-28 08:45
-
-**Cosa cambia:** il 23 luglio hai rimandato l'inserimento dei negozi. In pausa sono finite dodici azioni. Fra queste c'è anche l'ordine di prova da Pane Quotidiano. Ma quell'ordine non è una spinta commerciale: è il collaudo. È l'unica cosa in tutta la coda che dimostra che un cliente paga, i soldi arrivano al fornaio e la consegna si chiude. Costa 3-5 euro di pane e lo fai dal telefono in due minuti. La pausa l'hai presa per avere il tempo di finire la macchina. Tenerci dentro anche la prova che la macchina funziona è l'unica cosa che stona. Non l'ho sbloccata da solo — decidi tu. Volevo solo che la vedessi separata dalle altre undici, invece che sepolta in mezzo.
-
-**Se va bene:** se dici «dentro», la lascio ferma. Scrivo nel piano che il primo giorno di business sarà un giorno di collaudo, non di vendita — così nessuno lo dimentica a settembre. Se dici «fuori», la sblocco subito: resta da sola in coda, separata dalle altre, in attesa del tuo ordine.
-
-**Serve da te:** una parola sola, dentro o fuori.
-
-**Nota tecnica:** difetto AR-157. La coda adesso ha un campo `classe` per distinguere un’azione di business da una di validazione, e il guardiano `pausa-check.mjs` resta rosso finché questa domanda non è in coda: `{congelamento-da-confermare: ordine-test-pq}`. Il business è fermo dal 24 giugno (STATO, query diretta 27/7 18:00): 1 negozio, 0 ordini pagati.
-- **Colore:** 🟡 (rimette in lista un’azione che avevi messo in pausa, non manda niente a nessuno)
-- **Reparto:** chief-of-staff + analista
-- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-157}`
-
----
-
-<!-- macchina-ferma-da-quattro-giorni -->
 
 ---
 
@@ -527,7 +565,7 @@ node /opt/mycity/ad-mycity/cervello/git-pr.mjs --repo ad-mycity --base main
 
 ### 🟡 #ordine-test-pq — Fai un ordine su Pane Quotidiano per testare la macchina · ⏳ accodata 2026-07-18 06:30 · ⏸ in pausa (rinvio negozi, PQ compreso)
 
-- **⏸ Pausa:** rinvio negozi, PQ compreso · classe **validazione** · riprende con `ripresa.lavoro-operativo`
+- **⏸ Pausa:** rinvio negozi, PQ compreso · classe **validazione** · riprende con `ripresa.lavoro-operativo` · congelamento confermato da Nicola (28/7 15:56, [[DECISIONI]])
 
 **Contesto:** North Star è 0 da 24 giorni. Un ordine di test fatto da Nicola (anche piccolo: es. pane €3-5) verifica end-to-end il flusso checkout→pagamento→consegna e conta come primo ordine reale. Costo = il prezzo del prodotto.
 
@@ -1033,8 +1071,8 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-12 22:22)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-12-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 14:16)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-13-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1580,6 +1618,87 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-08-12 22:22 · 6 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-12 23:07 · 6 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-12 23:48 · 6 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 00:59 · 6 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 03:16 · 6 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 07:59 · 6 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 10:21 · 6 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 11:02 · 7 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 12:00 · 7 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 12:43 · 7 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 13:06 · 7 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 14:16 · 7 card totali
+
+### ✅ #ordine-test-dentro-o-fuori-dalla-pausa — Risposto: resta dentro la pausa, collaudo a settembre · ⏳ accodata 2026-07-28 08:45 · ✅ chiusa 2026-08-13 10:22 (risposta già data il 28/7)
+
+**Cosa è successo.** Questa card chiedeva a Nicola se l'ordine di prova su Pane Quotidiano dovesse restare **dentro o fuori** dalla pausa negozi — cioè se il collaudo (una pausa di validazione) dovesse seguire la stessa pausa di business decisa per le altre undici card. Era marcata `{congelamento-da-confermare: ordine-test-pq}` in [[AZIONI-IN-ATTESA]]. **Nicola aveva già risposto il 28/7 alle 15:56** («Si l'ho rimandato a settembre») — registrato in [[DECISIONI]] alla stessa data/ora. La card però non è mai stata chiusa nel file, e per 16 giorni ogni giro l'ha ripresentata come "mossa n.1 ferma senza risposta", quando la risposta esisteva già. Errore riconosciuto: [[feedback-domanda-gia-decisa-ricontrollare]] — prima di riproporre una domanda-decisione, controllare `DECISIONI.md`.
+
+**Esito:** l'ordine di prova resta congelato fino al 24 agosto-1 settembre 2026 insieme al resto dei negozi ([[ripresa.lavoro-operativo|registro-fatti.json]]), nessuna eccezione. Il primo giorno di lavoro operativo sarà un giorno di collaudo (verifica pagamento→fornaio→consegna), non di vendita.
+- **Colore:** ✅ chiusa, nessuna azione da eseguire
+- **Reparto:** chief-of-staff + analista
+- **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-157}` — chiusa da giro AD 2026-08-13 10:22
+
+---
+
+<!-- macchina-ferma-da-quattro-giorni -->
+
+---
 
 ### ✅ #sensori-cancellati — Chiusa la falla che cancellava lo stato dei sensori. FATTO 2026-08-11 17:05, col tuo ok in chat
 

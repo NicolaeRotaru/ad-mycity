@@ -1,10 +1,41 @@
-# 🔬 AUTO-ANALISI — 2026-08-12 22:43
+# 🔬 AUTO-ANALISI — 2026-08-13 12:59
+
+> Nono passaggio della giornata, 5 minuti dopo l'ottavo (12:50). Applicata di nuovo
+> [[playbook-giro-pieno-ripetuto-strategia]]: numeri riconfermati via SQL diretta, nessun JSON pesante
+> riscritto da zero. Nessuna novità di business, nessun difetto nuovo aperto o chiuso in questi 5 minuti.
+
+## Voto di fiducia: **82/100** (→ invariato dal passaggio 12:50)
+Business identico cifra per cifra: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili, 3 carrelli
+abbandonati, 0 nuovi clienti in 7gg.
+
+Il debito noto resta lo stesso: PR #710/#709/#708 rosse per colpa propria, PR #711 mai provata. Nessuna
+delle due sblocca il 1° ordine pagato. Restano fuori scope, per il vincolo North Star (AR-113).
+
+Un'anomalia resta segnalata e non indagata: `coerenza-fatti.mjs` dice "0 file vivi scansionati". È un
+verde vuoto, non un verde provato. Indagarla ora sarebbe ricerca nuova. Il vincolo tasso-chiusura (0,24
+nel mese) la vieta oggi.
+
+## Passaggio precedente — 2026-08-13 10:22
+
+> Giro snello (vincolo HARD tasso-chiusura 0,24 sotto 1 → nessuna ricerca nuova, [[playbook-giro-pieno-ripetuto-strategia]]).
+> Dati riusati da giro.sh (10:20), non re-interrogati. Lavoro reale: chiusa una card fantasma in coda.
+
+### Voto di fiducia: **80/100** (↑2 da 78 del 12/8 22:43)
+Il voto non sale per novità di business: i numeri sono identici da 7 settimane. Sale per un lavoro di chiusura
+reale. La card `#ordine-test-dentro-o-fuori-dalla-pausa` era presentata da 16 giorni come "mossa n.1 senza
+risposta". Nicola aveva già risposto il 28/7 alle 15:56 (verificato su [[DECISIONI]]). Chiusa e archiviata, con
+2 lezioni nuove registrate. Sul vincolo correzione-nicola-gate: ho verificato che un gate vero richiede una
+mutazione in `mutanti.json`. Non basta citare uno script che oggi passa. Non ho gonfiato il numero con gate
+finti: resta debito dichiarato (251 lezioni senza gate reale). Il voto non sale di più per un motivo tecnico:
+gli script `node cervello/*.mjs` che SCRIVONO restano bloccati in questa sessione — limite già noto, non nuovo.
+
+## Passaggio precedente — 2026-08-12 22:43
 
 > Giro completo (`giro.md` per intero, richiesto in chat). Primo passaggio narrato dopo un guasto reale: il codice
 > sul VPS era rimasto staccato dal ramo principale ~31 ore (nota delle 21:00 di oggi in [[STATO]], PR #705),
 > risolto dal commit di recupero delle 22:20.
 
-## Voto di fiducia: **78/100** (↓2 da 80 del 10/8)
+### Voto di fiducia: **78/100** (↓2 da 80 del 10/8)
 Non per una regressione di business (identico da 7 settimane) ma perché tre vincoli HARD restano non chiudibili
 da questa sessione (test-cervello, apprendimento, guardiani CLI) — dichiarati come debito, non finti chiusi.
 

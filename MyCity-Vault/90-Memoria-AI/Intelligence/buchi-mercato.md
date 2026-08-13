@@ -1,8 +1,9 @@
 # 🕳️ Buchi di Mercato — 2026-08-10
 
 > Aggiornato: 2026-08-10 13:35 · fonte: query dal vivo Supabase marketplace (MCP `execute_sql`) + `registro-fatti.json`.
+> Il contesto macro in fondo alla pagina è stato rinfrescato il 13/8 alle 09:30. È il recupero del giro delle 08:41, fallito per limite motore. La fonte è IlPiacenza-Economia. Il fetch diretto ha dato HTTP 403, quindi l'ho recuperata via WebSearch. Il resto del file non è stato ricontrollato oggi. Catalogo e lista contatti restano quelli letti dal database il 10/8.
 > Precedente versione: 20 luglio 2026 (in git history).
-> Rifatto da zero sui dati reali, non solo confermato a memoria. Tabelle interrogate oggi: `profiles`, `products`, `categories`, `merchants_leads`.
+> Rifatto da zero sui dati reali, non solo confermato a memoria. Tabelle interrogate il 10/8: `profiles`, `products`, `categories`, `merchants_leads`.
 
 ---
 
@@ -11,7 +12,7 @@
 - **1 negozio reale**: Pane Quotidiano — Via Calzolai 25, Piacenza. Panificio/gastronomia bio.
 - **5 prodotti** in vendita: Pudding vaniglia bio, Hummus di ceci bio, Kefir di latte di capra bio, Pesto Genovese bio, Kefir Berchtesgadener Land bio. Non solo pane: linea bio/gastronomia.
 - **0 negozi possono ancora incassare**: `stripe_charges_enabled`/`stripe_payouts_enabled`/`stripe_details_submitted` tutti falsi anche per Pane Quotidiano (fatto `negozio.faro`, verificato 10/8 09:58). Nessun buco di mercato conta finché questo non si sblocca — è la vera priorità zero, non una categoria mancante.
-- **72 categorie** già pronte nella tassonomia del sito (tabella `categories`). Solo 1 di queste — Panificio, grazie a Pane Quotidiano — ha dentro un venditore reale.
+- **72 categorie** già pronte nella tassonomia del sito (tabella `categories`). Solo 1 di queste ha dentro un venditore reale: Panificio, grazie a Pane Quotidiano.
 - **407 contatti negozio** in archivio, tabella `merchants_leads`. Vengono da un solo scarico, fatto il 24/5/2026, mai aggiornato da allora. **Sono tutti ancora `to_contact`**: nessuno è stato davvero contattato. È una correzione rispetto alla versione precedente di questo file, che dava per contattati alcuni di questi nomi.
 
 ---
@@ -23,9 +24,9 @@ Il file di luglio elencava enoteca/pescheria/erboristeria/formaggi come "categor
 | Categoria nei 407 contatti | N. lead | Contattati davvero | Score medio | Nota |
 |---|---|---|---|---|
 | Abbigliamento (`clothes`) | 92 | 0 | 57,6 | Fuori perimetro attuale (non food/bottega di quartiere) |
-| Bar | 76 | 0 | 65,8 | Escluso insieme a ristoranti/osterie (decisione Nicola 18/7) — da rivedere: bar ≠ osteria |
+| Bar | 76 | 0 | 65,8 | Escluso insieme a ristoranti/osterie per decisione di Nicola del 18/7. Da rivedere: bar ≠ osteria |
 | Cafè | 43 | 0 | 50,0 | Stesso dubbio di "Bar": La Ragazzetta (vedi sotto) è proprio un caffè |
-| Supermercato | 42 | 0 | 71,4 | Catene (Conad/Esselunga/Lidl/Coop…) — non target da onboarding, ma segnala densità della zona |
+| Supermercato | 42 | 0 | 71,4 | Catene tipo Conad, Esselunga, Lidl e Coop: non target da onboarding, ma segnalano la densità della zona |
 | Ristorante | 27 | 0 | 87,0 | **Escluso** per decisione Nicola 18/7 |
 | Pizzeria | 22 | 0 | 95,5 | **Escluso** per decisione Nicola 18/7 |
 | Panificio (`bakery`) | 11 | 0 | 77,3 | Categoria del negozio faro — 11 concorrenti/prospect diretti mai contattati |
@@ -78,11 +79,13 @@ Nessun dato di consegna reale su cui misurare zone (0 ordini pagati, 0 consegne)
 
 ---
 
-## Contesto macro (invariato da luglio, non ricontrollato oggi — vedi `radar-concorrenti.md` e `eventi-picchi.md` aggiornati oggi 10/8 per il quadro esterno più fresco)
+## Contesto macro — aggiornato 13/8 (web scan, dati DB sotto restano del 10/8)
 
-- Confcommercio: commercio al dettaglio Piacenza −22,1% (2012-2025); +19k attività ristorazione/alloggio a livello nazionale.
-- Desertificazione centro storico: 20+ negozi chiusi in 3 mesi su Corso Vittorio Emanuele (dato luglio, da riverificare se serve per un pitch).
-- Radar concorrenti aggiornato oggi: nessun movimento locale nuovo dei grandi (Glovo/JustEat/Deliveroo); Glovo e Deliveroo Italia sotto controllo giudiziario per caporalato algoritmico (fatto verificato, argomento di pitch pronto ma parcheggiato fino al 24/8-1/9).
+- **Nuovo dato 13/8 (Confesercenti/Liberta.it):** imprese attive a Piacenza scese a **24.768** al 30/6/2026, **-840 rispetto a un anno prima**. Confesercenti: calano i piccoli negozi, ma crescono le superfici di vendita (i grandi guadagnano terreno sui piccoli). Conferma il trend −22,1% (2012-2025) già noto, con un numero assoluto più recente da citare in un pitch.
+- **Nuovo dettaglio 13/8 (piacenzasera.it, dato luglio ma dettaglio più preciso oggi):** oltre a "20+ negozi chiusi in 3 mesi su Corso Vittorio Emanuele" (da riverificare sul posto), **via Taverna è scesa da 51 a meno di 40 negozi**, con altre chiusure attese. Due vie del centro con lo stesso segnale — rafforza l'argomento "botteghe a rischio" per @vendite, ancora da verificare di persona prima di un pitch nominale.
+- **Nuovo dettaglio 13/8, recupero 09:30 (ilpiacenza.it via WebSearch):** il fetch diretto ha dato HTTP 403, quindi questa è una sintesi, non il testo integrale. Lo stesso -3,3% (-840 imprese) è **peggio sia della media nazionale (-0,9%) sia di quella regionale (-1,0%)**. Per settore: edilizia la più colpita (-10,7%, 4.085 imprese), poi **commercio -3,8% (4.734 imprese)**, manifatturiero -3,6% (2.296), alloggio/ristorazione -2,7% (1.850), agricoltura -2,6% (4.197). In controtendenza: servizi alle imprese +1,3% (+64, a quota 5.071). Fonte: [ilpiacenza.it — "Piacenza, imprese in calo del 3,3%: peggio della media nazionale e regionale"](https://www.ilpiacenza.it/economia/piacenza-imprese-calo-primo-semestre-2026.html) (sintesi via WebSearch, consultato 13/8). **Confidenza alta sul dato aggregato**, perché è la stessa fonte CCIAA del punto sopra, triangolata con Confesercenti. **Confidenza media sul dettaglio settoriale**, perché l'ho letto solo in sintesi, non nel testo integrale.
+- **Dato di contesto, non di oggi ma nuovo per questo file (Osservatorio Confcommercio demografia imprese 2025, ripreso da ilpiacenza.it a marzo 2026):** nel **centro storico** il commercio al dettaglio è sceso da 642 attività (2012) a 548 previste (2025), **-94**. Fuori dal centro il calo è più marcato: da 517 a 380, **-137**. In controtendenza, le "altre forme di alloggio" (B&B/case vacanza) in centro storico sono salite da 2 (2012) a 21 previste (2025), +19 (+147,5%). La fonte è datata marzo 2026 (dati Osservatorio 2025), quindi non è una notizia di oggi. La aggiungo perché dà, per la prima volta, un numero assoluto e verificabile al "buco di offerta" nel centro storico — più solido dei riferimenti sparsi già in questo file. Fonte: [ilpiacenza.it — "Metamorfosi Piacenza: meno negozi di abbigliamento, boom di B&B e ristorazione"](https://www.ilpiacenza.it/economia/metamorfosi-piacenza-meno-negozi-di-abbigliamento-boom-di-b-b-e-ristorazione.html) (sintesi via WebSearch, HTTP 403 sul full-text).
+- Radar concorrenti (10/8, non ricontrollato oggi — settimanale, prossimo controllo dovuto ≥17/8): nessun movimento locale nuovo dei grandi (Glovo/JustEat/Deliveroo); Glovo e Deliveroo Italia sotto controllo giudiziario per caporalato algoritmico (fatto verificato, argomento di pitch pronto ma parcheggiato fino al 24/8-1/9).
 
 ---
 
@@ -92,4 +95,4 @@ Con 0 negozi che possono incassare e la pausa concordata con Nicola fino al 24/8
 
 ---
 
-*Fonti: query dal vivo `mcp__supabase-marketplace__execute_sql` su `profiles`, `products`, `categories`, `merchants_leads` (10/8/2026 13:20-13:35) · `registro-fatti.json` (`negozio.faro`, `negozi.attesa-concordata`) · `Intelligence/radar-concorrenti.md` e `Intelligence/eventi-picchi.md` (10/8, aggiornati oggi da @intelligence) · versione precedente 20/7 (git history) per confronto.*
+*Fonti: query dal vivo `mcp__supabase-marketplace__execute_sql` su `profiles`, `products`, `categories`, `merchants_leads` (10/8/2026 13:20-13:35) · `registro-fatti.json` (`negozio.faro`, `negozi.attesa-concordata`) · `Intelligence/radar-concorrenti.md` e `Intelligence/eventi-picchi.md` (10/8, aggiornati oggi da @intelligence) · versione precedente 20/7 (git history) per confronto. Contesto macro 13/8: liberta.it (Confesercenti Piacenza, imprese attive 30/6/2026) · piacenzasera.it/2026/07/sempre-piu-serrande-abbassate-centro-storico-verso-la-desertificazione (via Taverna). Recupero 09:30 (giro 08:41 fallito): ilpiacenza.it/economia/piacenza-imprese-calo-primo-semestre-2026.html · ilpiacenza.it/economia/metamorfosi-piacenza-meno-negozi-di-abbigliamento-boom-di-b-b-e-ristorazione.html (entrambe lette via WebSearch, fetch diretto bloccato HTTP 403).*

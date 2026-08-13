@@ -377,6 +377,39 @@ export async function getLavoriByIds(ids: string[]): Promise<Lavoro[]> {
   return (await res.json()) as Lavoro[];
 }
 
+/**
+ * Solo quel che serve per NOMINARE un lavoro: id, tipo e richiesta. Niente `risultato`.
+ *
+ * La lista del Pannello gira leggera apposta (vedi LAVORI_SELECT_LIGHT): senza `richiesta` ogni
+ * casella finiva per chiamarsi come la sua specie — «analisi», «playbook». Rimettere `richiesta`
+ * nel poll non si può: sulle chat pesa 9,8 KB a riga (max 55 KB) e il poll gira ogni 8 secondi.
+ * Questa invece è una lettura sola, per le righe che si stanno guardando, e il nome che ne esce il
+ * browser se lo tiene: la richiesta di un lavoro non cambia più dopo la nascita della riga.
+ *
+ * Torna `letto` accanto alle righe, e non un elenco vuoto in entrambi i casi: «non ho trovato
+ * niente» e «non sono riuscita a leggere» sono due verdetti diversi. Confonderli farebbe dire al
+ * Pannello «questa casella non ha un nome» quando la verità è che il database non ha risposto — e
+ * il nome non lo chiederebbe mai più.
+ */
+export async function getRigheNome(
+  ids: string[],
+): Promise<{ letto: boolean; righe: { id: string; tipo: string; richiesta?: string }[] }> {
+  if (!memoryConnected()) return { letto: false, righe: [] };
+  const uuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const uniq = [...new Set(ids.map((x) => String(x).trim()).filter((x) => uuid.test(x)))].slice(0, 25);
+  if (uniq.length === 0) return { letto: true, righe: [] }; // niente da chiedere: letto per davvero
+  try {
+    const res = await sbGet(`${URL}/rest/v1/lavori?select=id,tipo,richiesta&id=in.(${uniq.join(",")})`, {
+      headers: headers(),
+      cache: "no-store",
+    });
+    if (!res.ok) return { letto: false, righe: [] };
+    return { letto: true, righe: (await res.json()) as { id: string; tipo: string; richiesta?: string }[] };
+  } catch {
+    return { letto: false, righe: [] };
+  }
+}
+
 /** Aggiorna stato/risultato di un lavoro. Torna true se riuscito. */
 export async function patchLavoro(id: string, patch: Partial<Pick<Lavoro, "stato" | "risultato">>): Promise<boolean> {
   if (!memoryConnected()) return false;

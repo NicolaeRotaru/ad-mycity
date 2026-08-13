@@ -1715,3 +1715,49 @@ prima (2 casi su 4), verde dopo.
 
 **Cosa resta aperto (non l'ho chiuso).** Il giro esce con i cancelli rossi — nove vincoli attivi —
 e per questo il briefing resta vecchio. È un'altra malattia, e va guardata a parte.
+
+---
+
+## 2026-08-12 23:17 — 🟡 Quattro caselle chiamate «analisi» e «playbook»: ora ognuna ha il suo nome
+
+**Cosa mi ha detto Nicola.** Lo screenshot dei Lavori, e una riga sola: «ogni playbook ed ogni
+analisi devono avere il loro nome». Nella lista si vedevano quattro caselle una sotto l'altra
+chiamate «analisi», «analisi», «playbook», «playbook». Non è un nome: è il nome della specie. Per
+sapere cosa contenevano bisognava aprirle una per una.
+
+**Perché succedeva.** La lista dei lavori gira leggera apposta: non porta la `richiesta`, cioè il
+testo da cui si capisce di che lavoro si tratta. Il motivo è buono e l'ho misurato sul database
+della memoria (3.033 righe): sulle chat la richiesta pesa 9,8 KB di media e arriva a 55 KB, e la
+lista si ricarica ogni 8 secondi. Senza quel testo il Pannello ripiegava sul campo `tipo` — la
+sigla tecnica — e la mostrava come titolo.
+
+**Cosa ho fatto.** Il nome ora lo calcola il server, una volta per casella, e il browser se lo
+tiene (la richiesta di un lavoro non cambia più dopo la nascita della riga). Ogni forma che la
+macchina scrive davvero diventa un nome proprio: i playbook prendono il nome dal catalogo
+dell'arsenale («🛒 Recupero carrelli abbandonati», «⭐ Caccia recensioni»), le sentinelle dicono
+cosa è successo e con quale dettaglio («🧠 Salute bassa: il voto salute dell'architettura è 45»),
+le riapprovazioni portano il nome dell'azione originale con 🔄 davanti. Anche una conversazione a
+più messaggi non si chiama più «Conversazione · 3 messaggi» ma col nome del messaggio che l'ha
+aperta. Se il nome non è ancora arrivato, il ripiego è italiano — «Analisi dell'AD» — mai la sigla.
+
+**Prova, nei due versi.** Un test nuovo (12 prove) costruito sulle richieste VERE lette dal
+database, non su esempi immaginati: verde col codice nuovo, e rimettendo il codice di prima
+diventa rosso in 4 prove su 12 — fra cui esattamente il caso dello screenshot. In più una prova a
+schermo: Chromium apre il Pannello vero, va sui Lavori e legge i titoli delle card.
+
+**Cosa resta vero.** La lista continua a girare leggera: non ho rimesso la richiesta nel giro di
+poll, che era la strada facile e avrebbe riportato i tempi morti che quella scelta evitava.
+
+## 2026-08-13 00:35 — 🟡 Gli organi rossi della Cabina: curati i tre guaribili da qui, incartati i due che servono a Nicola
+
+Nicola ha chiesto di guardare gli organi (7 rotti · 8 non visti) e risolverli. Visita fatta, cause trovate, riparato sul ramo `claude/organi-x-rossa-pallino-bianco-fbg0xh` (PR con base main, merge suo).
+
+**① Il test del cervello era rosso in entrambe le case** perché l'archivio delle lezioni aveva sfondato il muro di lettura (1.070.609 byte contro 1.048.576): la scheda Apprendimento non si leggeva più. Potatura applicata (87 copie di principi tolte, 99.741 caratteri, zero lezioni vive toccate) e — la causa vera, scheda AR-416 — il potatore ora lo lancia IL GIRO da solo (`--se-serve`, pota sopra il 95% del tetto, prima del muro). Prova: `node cervello/test/archivi-senza-tetto.test.mjs` (23/23, tre prove nuove). Scoperto e ripreso anche un blocco di prove che viveva DOPO il process.exit del test: non girava mai.
+
+**② «Cosa non ho verificato» mancava nel 100% dei 26 messaggi del VPS** (e negli altri tre blocchi zero mancanze): il metro (si-capisce) pretende quattro blocchi, ma CLAUDE.md ne insegnava tre e i prompt del worker nessuno. Mandato allineato al metro (CLAUDE.md + prompt chat e lavori del worker), scheda nuova AR-574, freno nel test `regola-scrittura-nei-senior.test.mjs` (14/14): diventa rosso se il quarto blocco sparisce di nuovo dal mandato.
+
+**③ I due pallini della Cabina** («manca PANNELLO_URL») erano una chiave mai servita: l'indirizzo del Pannello è pubblico. Ora vive committato in `cervello/ponte-cabina.json` (l'ambiente vince sempre sul file) e la visita distingue la voce del proxy («Host not in allowlist», misurata stasera) da una Cabina davvero giù: niente rossi falsi. Prova: `node cervello/test/occhi-sulla-cabina.test.mjs` (9/9).
+
+**④ Restano due cose che può fare solo Nicola**, incartate in coda: la visita del VPS è ferma dal 10/8 alle 06:46 (5 visite saltate; il resto del server pubblica regolarmente, ultimo push 12/8 23:42) → card #visita-vps-ferma con i comandi pronti; e l'ambiente cloud non ha né rete né chiavi verso Cabina e database → card #occhi-ambiente-cloud con i tre host e le variabili esatte.
+
+**Riconferma:** batteria completa 162 file / 1.673 asserzioni tutti verdi · visita completa da qui: 13 ✅ · 1 ❌ (solo il ponte VPS, che è la card) · 8 ⚪ dichiarati col motivo giusto.

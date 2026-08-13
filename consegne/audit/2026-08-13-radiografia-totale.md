@@ -71,7 +71,7 @@ La regola è sana: se apro più di quanto chiudo, smetto di cercare e chiudo. Ma
 
 **Dettagli tecnici**
 
-- Schede nuove: da `AR-574` a `AR-644` in `cantiere-difetti.json`, tutte con `nato: 2026-08-13` e `nato_come: scoperta`. Il cantiere resta la casa unica dei difetti. La foto `auto-radiografia.json` non è stata toccata: il suo ridisegno sta nella scheda sull'evaporazione di ieri.
+- Schede nuove: da `AR-575` a `AR-645` in `cantiere-difetti.json`, tutte con `nato: 2026-08-13` e `nato_come: scoperta`. Il cantiere resta la casa unica dei difetti. La foto `auto-radiografia.json` non è stata toccata: il suo ridisegno sta nella scheda sull'evaporazione di ieri.
 - Prove: runner con guardia anti-scrittura. Dopo ogni prova un controllo dell'albero git, e ripristino se sporco. Esiti scheda per scheda nel campo `verifica`.
 - Contatore chiusure: `cervello/tasso-chiusura.mjs`, funzione `contaMese`. Prova d'archivio: al 31 luglio 3 chiusure senza data, al 10 agosto 74. Storia allungata apposta con un fetch profondo.
 - Evaporazione di ieri: 2 schede nate l'11 agosto nel cantiere. Zero difetti nelle 41 dimensioni della foto. 163 annunciati dal report dell'11 agosto.

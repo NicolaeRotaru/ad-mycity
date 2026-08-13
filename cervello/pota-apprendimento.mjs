@@ -21,6 +21,15 @@
 //   node cervello/pota-apprendimento.mjs             -> cosa toglierebbe (nessuna scrittura)
 //   node cervello/pota-apprendimento.mjs --json      -> report JSON
 //   node cervello/pota-apprendimento.mjs --applica   -> pota davvero (🟡)
+//   node cervello/pota-apprendimento.mjs --se-serve  -> pota SOLO se l'archivio è vicino al muro
+//                                                       (sopra il 95% del tetto); sotto, non scrive.
+//                                                       È la forma per il giro (AR-416): il potatore
+//                                                       esisteva e non lo lanciava nessuno — l'11/8 il
+//                                                       muro è arrivato davvero (1.070.609 > 1.048.576)
+//                                                       e il test del cervello è diventato rosso in
+//                                                       entrambe le case. Potare PRIMA del muro evita
+//                                                       che la scheda Apprendimento smetta di leggersi
+//                                                       fra un giro e l'altro.
 //
 // Exit: 0 = sotto il tetto (o già a posto) · 1 = ancora sopra il tetto dopo la potatura · 2 = cieco
 
@@ -37,7 +46,19 @@ const STORICO = join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendime
 // della Contents API di GitHub. Due numeri diversi qui e là sarebbero due metri per la stessa cosa.
 const TETTO = Number(process.env.APPRENDIMENTO_TETTO || 1_048_576);
 const JSON_MODE = process.argv.includes("--json");
+const SE_SERVE = process.argv.includes("--se-serve");
 const APPLICA = process.argv.includes("--applica");
+
+/**
+ * La potatura preventiva scatta ORA? Sopra il 95% del tetto sì, sotto no.
+ *
+ * Il margine non è estetica: fra il momento in cui il file supera il muro e il giro successivo la
+ * Cabina non riesce più a leggere l'archivio (è successo l'11/8). Il 5% del tetto (~52 KB, una
+ * ventina di lezioni) è il cuscino perché la potatura arrivi sempre PRIMA del muro, mai dopo.
+ */
+export function serveOra(prima, tetto = TETTO) {
+  return Number(prima) > tetto * 0.95;
+}
 
 /**
  * L'indentazione VERA del file servito (AR-471).
@@ -145,11 +166,22 @@ function main() {
   const p = pianoPotatura(j, TETTO, indentazioneDi(grezzo));
   const fmt = (n) => n.toLocaleString("it");
 
+  // --se-serve: la strada del giro. Sotto la soglia non si scrive un byte e non si sporca lo
+  // storico; sopra, si pota come con --applica. Un ramo esplicito, non un default cambiato:
+  // chi chiama --applica a mano continua ad avere esattamente il comportamento di prima.
+  const applicaOra = APPLICA || (SE_SERVE && serveOra(p.prima, TETTO));
+  if (SE_SERVE && !applicaOra) {
+    console.log(
+      `🌿 POTATURA — non serve: ${fmt(p.prima)} byte, sotto la soglia del 95% del tetto (${fmt(Math.round(TETTO * 0.95))}). Nessuna scrittura.`,
+    );
+    process.exit(0);
+  }
+
   if (JSON_MODE) {
     const { nuovo, ...senzaDati } = p;
     console.log(JSON.stringify(senzaDati, null, 2));
   } else {
-    console.log(`🌿 POTATURA DELL'ARCHIVIO — ${APPLICA ? "APPLICO" : "cosa toglierei"}\n`);
+    console.log(`🌿 POTATURA DELL'ARCHIVIO — ${applicaOra ? "APPLICO" : "cosa toglierei"}\n`);
     console.log(`   Adesso:            ${fmt(p.prima)} byte   (tetto di lettura ${fmt(p.tetto)})`);
     console.log(`   Chiavi di servizio: ${p.chiavi_servizio} (note di metabolizzazione, gate, consolidamenti — nessuna schermata le mostra)`);
     console.log(`   Lezioni:            ${p.lezioni_totali} totali · ${p.lezioni_decadute} decadute (si tolgono) · ${p.lezioni_vive} vive (NON si toccano)`);
@@ -162,7 +194,7 @@ function main() {
     );
   }
 
-  if (APPLICA) {
+  if (applicaOra) {
     // La storia non si perde: ciò che tolgo finisce in un file suo, con la data.
     const precedente = existsSync(STORICO) ? JSON.parse(readFileSync(STORICO, "utf8")) : { potature: [] };
     precedente.potature = precedente.potature || [];

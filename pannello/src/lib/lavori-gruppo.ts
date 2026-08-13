@@ -1,6 +1,7 @@
 /** Raggruppamento lavori per conversazione (stesso gruppo = stesso contenitore collassabile). */
 
 import { userContentDaRichiesta } from "./chat-thread-merge";
+import { nomeLavoro } from "./nome-lavoro";
 
 export type LavoroBase = {
   id: string;
@@ -14,6 +15,12 @@ export type LavoroBase = {
   gruppo_id?: string | null;
   tentativi?: number;
   riprova_dopo?: string | null;
+  /**
+   * Il NOME già calcolato (da /api/lavori/nomi). Il poll della lista non porta `richiesta` — è
+   * troppo pesante: 9,8 KB di media a riga sulle chat — quindi il nome lo calcola il server sulle
+   * righe che servono e lo attacca qui. Se manca, `titoloLavoro` se lo ricava da sé.
+   */
+  titolo?: string;
 };
 
 export type GruppoLavori = {
@@ -47,21 +54,48 @@ export function salvaGruppoLavoroLocale(lavoroId: string, gruppoId: string) {
   }
 }
 
-/** Titolo breve per header gruppo / singolo lavoro. */
-export function titoloLavoro(lv: LavoroBase): string {
-  if (lv.tipo === "giro") return "Giro di perlustrazione";
-  const richiesta = lv.richiesta || "";
-  if (!richiesta.trim()) {
-    if (lv.tipo === "chat") return "Messaggio chat";
-    return lv.tipo || "Lavoro";
+// ── I NOMI GIÀ CHIESTI ──────────────────────────────────────────────────────────────────────
+// Il nome di un lavoro non cambia mai: la richiesta è scritta una volta, alla nascita della riga.
+// Quindi si chiede al server UNA volta sola e poi si tiene qui: senza questa memoria, ogni volta
+// che il Pannello si riapre ricomincerebbe a rileggere richieste da 9,8 KB per riscoprire nomi
+// che sapeva già.
+const NOMI_KEY = "mycity_lavori_nomi";
+const NOMI_MAX = 800;
+
+export function leggiNomiLavoriLocali(): Record<string, string> {
+  if (typeof window === "undefined") return {};
+  try {
+    const raw = localStorage.getItem(NOMI_KEY);
+    return raw ? (JSON.parse(raw) as Record<string, string>) : {};
+  } catch {
+    return {};
   }
-  // Chat da casella: mostra il titolo della casella (es. «Esperimento: …»), non l'ultimo messaggio di Nicola.
-  const casella = richiesta.match(/## Casella del Pannello:\s*(.+?)(?:\n|$)/);
-  if (casella?.[1]?.trim()) return casella[1].trim().slice(0, 100);
-  const nuovo = richiesta.match(/## Nuovo messaggio di Nicola\n([\s\S]*?)(?:\n\n## |\n*$)/);
-  if (nuovo?.[1]?.trim()) return nuovo[1].trim().slice(0, 100);
-  const prima = richiesta.split("\n").find((l) => l.trim() && !l.startsWith("#"));
-  return (prima || richiesta).trim().slice(0, 100);
+}
+
+export function salvaNomiLavoriLocali(nomi: Record<string, string>) {
+  if (typeof window === "undefined") return;
+  try {
+    const voci = Object.entries(nomi);
+    // Oltre il tetto si buttano i più vecchi (le chiavi restano in ordine di inserimento):
+    // la lista guarda l'archivio recente, i nomi di sei mesi fa si possono richiedere di nuovo.
+    const daSalvare = voci.length > NOMI_MAX ? Object.fromEntries(voci.slice(voci.length - NOMI_MAX)) : nomi;
+    localStorage.setItem(NOMI_KEY, JSON.stringify(daSalvare));
+  } catch {
+    /* quota */
+  }
+}
+
+/**
+ * Titolo breve per header gruppo / singolo lavoro.
+ *
+ * Prima qui, quando la richiesta non era stata caricata, si ripiegava su `lv.tipo`: ecco perché
+ * nella lista comparivano quattro caselle chiamate «analisi» e «playbook» (Nicola, 12/8). Ora il
+ * nome è uno solo e lo fa `nomeLavoro`: quello già calcolato dal server se c'è, altrimenti
+ * ricavato dalla richiesta, altrimenti l'etichetta italiana della specie.
+ */
+export function titoloLavoro(lv: LavoroBase): string {
+  if (lv.titolo?.trim()) return lv.titolo.trim();
+  return nomeLavoro(lv);
 }
 
 export type MsgChat = {
@@ -146,10 +180,10 @@ export function raggruppaLavori(lavori: LavoroBase[], mappa: Record<string, stri
       (max, l) => Math.max(max, new Date(l.updated_at || l.created_at).getTime()),
       0
     );
-    const titolo =
-      ordinati.length === 1
-        ? titoloLavoro(ordinati[0])
-        : `Conversazione · ${ordinati.length} messaggi`;
+    // Anche una conversazione a più messaggi ha il suo nome: quello del messaggio che l'ha
+    // aperta. «Conversazione · 3 messaggi» diceva solo quante volte si era parlato, non di cosa —
+    // e quante volte lo dice già il cartellino accanto («3 messaggi · stessa chat»).
+    const titolo = titoloLavoro(ordinati[0]);
 
     gruppi.push({
       id,

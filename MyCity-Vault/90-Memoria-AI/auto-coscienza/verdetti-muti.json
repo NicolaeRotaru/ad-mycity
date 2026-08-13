@@ -1,6 +1,6 @@
 {
   "_cosa_e": "📮 Quante volte ho consegnato un lavoro il cui esito non è arrivato dove Nicola legge (AR-474). Il tetto SCENDE e non risale: aggiungerne uno è un errore, portarne via è il lavoro.",
-  "misurato": "2026-08-13 07:56",
+  "misurato": "2026-08-13 04:46",
   "finestra_giorni": 30,
   "commit_esaminati": 350,
   "esclusi_worker": 157,
@@ -56,7 +56,7 @@
     "cervello/vps/.env"
   ],
   "cabina": {
-    "stato_aggiornato": "2026-08-13 09:58",
+    "stato_aggiornato": "2026-08-13 06:50",
     "ultima_consegna": "2026-08-12 23:42",
     "giorni_indietro": 0
   },

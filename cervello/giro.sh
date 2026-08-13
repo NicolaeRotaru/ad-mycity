@@ -203,6 +203,7 @@ ESP_VINCOLO=""        # AR-041/106: guardiano esperimenti (promosso a gate hard 
 NORTH_STAR_VINCOLO="" # AR-113: north-star → vincolo HARD di allocazione (non blocca il giro)
 KEYWORD_VINCOLO=""    # AR-009/027: guardiano owner-keyword (promosso a gate hard da || true)
 APPRENDIMENTO_VINCOLO="" # Lever 1: guardiano apprendimento (archivio malato / errori ricorrenti non cristallizzati)
+CORREZIONE_NICOLA_VINCOLO="" # AR-apprendimento (12/8): correzioni di Nicola senza gate proprio (numero, non promessa)
 CHIUSURA_VINCOLO=""   # AR-566: si aprono più difetti di quanti se ne chiudono → questo giro chiude, non cerca
 VERIFICA_VINCOLO=""      # Lever 2: verificatore avversariale (auto-analisi vuota) + validatore contratti come gate
 PROVE_VINCOLO=""         # AR-330: prove del cantiere già soddisfatte alla nascita (difetti che si chiudono da soli)
@@ -722,6 +723,18 @@ $_cad_out")"
 $_appr_ric"
     echo "[$(ts)] ⚠️  Lever 1: apprendimento malato → vincolo hard al motore." >&2
   fi
+  # ── AR-apprendimento — Correzione-Nicola-gate: l'area più ripetuta (18/26 lezioni) diventa un ──
+  # numero verificabile invece di restare "farò più attenzione". Nasce dal vincolo HARD del giro
+  # 2026-08-12 (Nicola: «promuovi... rendi la 1ª area ricorrente un GATE»). Sola lettura di
+  # apprendimento.json, non blocca — segnala se il conteggio di lezioni-senza-freno peggiora.
+  echo "[$(ts)] Guardiano correzione-Nicola-gate (l'area più ripetuta ha davvero un freno?)..."
+  _cngate_out="$(node "$SCRIPT_DIR/correzione-nicola-gate.mjs" --json 2>&1)"; _cngate_rc=$?
+  printf '%s\n' "$_cngate_out" | tail -8
+  if [ "$_cngate_rc" -ne 0 ]; then
+    CORREZIONE_NICOLA_VINCOLO="⛔ CORREZIONI DI NICOLA SENZA FRENO (correzione-nicola-gate.mjs rc=$_cngate_rc): l'area 'correzione-nicola' ha lezioni senza un gate proprio (comando/test che scatta), sopra soglia o peggiorata dal giro scorso. In QUESTO giro prendi 1-2 lezioni di quest'area con un 'gate:' scrivibile e verificale con node cervello/gate-veri.mjs — non limitarti a rileggerle.
+$_cngate_out"
+    echo "[$(ts)] ⚠️  Correzione-Nicola senza freno → vincolo al motore." >&2
+  fi
   # ── AR-566 — Tasso di chiusura: si chiude almeno quanto si apre? → vincolo hard «chiudi, non cercare». ──
   # Approvato da Nicola il 10/8 («ok tasso di chiusura»). È il voto della macchina su sé stessa: finché
   # apre più difetti di quanti ne chiude, ogni ricerca nuova allunga la lista invece di accorciarla —
@@ -740,6 +753,12 @@ $_chius_out"
   # ── Lever 3 — Cristallizzazione: promuovi le mature a principio + decadimento (meccanico, con backup). ──
   echo "[$(ts)] Cristallizzazione apprendimento (Lever 3: lezione→principio)..."
   node "$SCRIPT_DIR/cristallizza-apprendimento.mjs" --applica 2>&1 | esito_righe 4 || true
+  # ── AR-416 — Potatore dell'archivio: la cristallizzazione fa CRESCERE apprendimento.json a ogni
+  #    giro, e il potatore non lo lanciava nessuno — l'11/8 il file ha superato il tetto di lettura
+  #    (1.070.609 > 1.048.576) e la scheda Apprendimento della Cabina è tornata illeggibile.
+  #    --se-serve pota SOLO sopra il 95% del tetto (mai le lezioni vive), sotto non scrive un byte. ──
+  echo "[$(ts)] Potatore archivio apprendimento (AR-416: pota prima del muro)..."
+  node "$SCRIPT_DIR/pota-apprendimento.mjs" --se-serve 2>&1 | esito_righe 3 || true
   # ── Lever 2 — Verificatore avversariale: l'ultima auto-analisi era una refutazione VERA o un timbro? ──
   echo "[$(ts)] Verificatore avversariale (Lever 2: auto-verifica vera o timbro?)..."
   # AR-309 — due correzioni. (a) `2>&1` mescolava stderr nel testo del vincolo: una traccia d'errore
@@ -1036,6 +1055,12 @@ if [ -n "${APPRENDIMENTO_VINCOLO:-}" ]; then
 
 ## Vincolo apprendimento (HARD — Lever 1: la macchina deve imparare, non solo accumulare)
 $APPRENDIMENTO_VINCOLO"
+fi
+if [ -n "${CORREZIONE_NICOLA_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo correzione-Nicola-gate (l'area più ripetuta della memoria deve avere un freno vero)
+$CORREZIONE_NICOLA_VINCOLO"
 fi
 if [ -n "${CHIUSURA_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

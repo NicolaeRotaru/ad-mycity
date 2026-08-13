@@ -10,7 +10,7 @@
 > · **Il Bando Commercio ER è dato per aperto** (righe 149, 155, 202) — il registro dice: CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando. *(fesr.regione.emilia-romagna.it — verificato da agente intelligence 2026-07-11 11:40)*
 > · **La commissione al negozio è scritta 12%** (righe 46, 199) — il registro dice: 10% sul venduto tramite la piattaforma, e serve a pagare la consegna: non è un margine sullo scontrino che il negozio faceva già. Nicola, 11/8/2026. Regge insieme al paletto «zero… *(Nicola, chat 2026-08-11: «c'è il 10% sulle vendite tramite piattaforma, serve per pagare …)*
 > · **Una fotografia del 25/06/2026 è presentata come «oggi»** (riga 17) — I numeri della frase reggono ancora al 10/8; a mentire è la parola «oggi». *(letto dal vivo sul database del marketplace il 2026-08-10 09:58…)*
-> *Misurato il 2026-08-12 23:03. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
+> *Misurato il 2026-08-13 14:37. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
 <!-- ⛔ AD-SMENTITE:END -->
 
 > Base dati: [[Finanza & Unit Economics]] (fonte principale), [[Metriche & KPI]], [[Rischi & Compliance]]. Aggancia [[Piano di Notorieta 2026]] (domanda) e [[Bandi & Finanziamenti]] (capitale).
