@@ -351,24 +351,18 @@ cadenza_registra() {
   local tipo="${1:?serve il tipo}" codice="${2:-2}" etichetta="${3:-sconosciuto}" ai_rc="${4:-0}"
   local push_ok="${5:-1}" passi_ok="${6:-1}" vincoli="${7:-0}" elenco="${8:-}"
 
+  # AR-629/AR-632/AR-634: la penna del registro NON è più uno script inline qui dentro — è il
+  # modulo `registra-cadenza.mjs`, con le decisioni in funzioni pure provate dai test:
+  # ora nel fuso VERO di Piacenza (niente +2h fisse che d'inverno sbagliano di un'ora), scrittura
+  # atomica (tmp+rename), e un file corrotto che NON azzera la storia (copia .broken + backup .bak).
+  # Resta non-bloccante per la cadenza (|| …), ma il WARN dice la verità: la riga non è su disco
+  # e il Pannello continuerà a mostrare quella vecchia. stderr NON si ingoia più: se il registro
+  # era corrotto, il modulo lo dichiara lì e la riga deve arrivare nel log.
   CADENZA_TIPO="$tipo" CADENZA_ESITO="$etichetta" CADENZA_CODICE="$codice" \
   CADENZA_AI_RC="$ai_rc" CADENZA_PUSH_OK="$push_ok" CADENZA_PASSI_OK="$passi_ok" \
   CADENZA_VINCOLI="$vincoli" CADENZA_ELENCO="$elenco" \
-  node -e '
-    const fs=require("fs"), p="MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-cadenze.json";
-    let s={}; try{ s=JSON.parse(fs.readFileSync(p,"utf8")); }catch{}
-    s._cosa_e="Esito REALE dell ultima uscita di OGNI cadenza (AR-163/164/166/302/313). Prima ogni copione decideva da se se e come dire di essere andato male, e chi taceva risultava sano: monitora.sh usciva 0 anche col push fallito. Qui la cadenza che non esce si vede, perche la sua riga invecchia.";
-    s.cadenze=s.cadenze||{};
-    s.cadenze[process.env.CADENZA_TIPO]={
-      quando:new Date(Date.now()+2*3600*1000).toISOString().slice(0,16).replace("T"," "),
-      esito:process.env.CADENZA_ESITO, codice:+process.env.CADENZA_CODICE,
-      ai_rc:+process.env.CADENZA_AI_RC||0, push_ok:process.env.CADENZA_PUSH_OK==="1",
-      passi_ok:process.env.CADENZA_PASSI_OK==="1", vincoli_attivi:+process.env.CADENZA_VINCOLI||0,
-      vincoli:(process.env.CADENZA_ELENCO||"").split(" ").filter(Boolean)
-    };
-    s.aggiornato=s.cadenze[process.env.CADENZA_TIPO].quando;
-    fs.writeFileSync(p, JSON.stringify(s,null,2)+"\n");
-  ' 2>/dev/null || echo "[$(ts)] WARN: esito della cadenza «$tipo» non scritto su disco." >&2
+  node "${SCRIPT_DIR:-cervello}/registra-cadenza.mjs" \
+    || echo "[$(ts)] WARN: esito della cadenza «$tipo» NON registrato su disco (registra-cadenza.mjs rc=$?): il registro tiene ancora la riga vecchia." >&2
 
   # AR-313 — la traccia anche sul canale che il Pannello legge in tempo reale (`automazione:<nome>`
   # su Supabase), la stessa riga che lasciano git-pr e git-merge. Il file su disco arriva a Nicola
