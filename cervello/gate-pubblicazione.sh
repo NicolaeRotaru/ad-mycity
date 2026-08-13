@@ -76,6 +76,16 @@ gate_verdetto() {
   [ "$segreti" -eq 0 ] && [ "$fatti" -eq 0 ] && [ "$onesta" -eq 0 ] && [ "$sanita" -eq 0 ]
 }
 
+# Un guardiano SPARITO non è un guardiano verde (AR-633). La regola era già scritta due righe sopra
+# la chiamata: «su un server senza node il cancello dev'essere CIECO, non verde» — e vale identica
+# per il FILE del guardiano: `[ -f … ] && node …` lasciava l'rc a 0 quando vault-sanita.mjs non
+# c'era, cioè il pezzo mancante comprava il via libera. Un metro che non può misurare dev'essere
+# cieco (e dirlo), mai verde.
+#   0 = presente (si può misurare) · 1 = sparito (cieco → il cancello NON passa)
+guardiano_presente() {
+  [ -n "${1:-}" ] && [ -f "$1" ]
+}
+
 # Quanti secondi dare a un'operazione di rete prima di considerarla appesa.
 # AR-299: senza, il lucchetto resta in mano a una connessione morta e tutti gli altri aspettano dieci
 # minuti per niente. Il worker usa già questo valore; qui diventa il default di tutti.
@@ -114,12 +124,23 @@ gate_pubblicazione() {
     echo "[$_ts] ⛔ GATE: node non disponibile — non posso misurare, quindi NON pubblico (AR-322)." >&2
     return 1
   fi
+  # AR-633: PRIMA di misurare, i metri devono esserci. `[ -f … ] && { … }` su vault-sanita lasciava
+  # l'rc a 0 a file sparito — il cancello passava CON UN GUARDIANO IN MENO, in silenzio. Scan-segreti
+  # e coerenza-fatti erano coperti solo di riflesso (node esce ≠0 su un file assente): qui il
+  # controllo diventa esplicito e uguale per tutti e tre, col motivo scritto invece di un rc anonimo.
+  local _g
+  for _g in scan-segreti.mjs coerenza-fatti.mjs vault-sanita.mjs; do
+    if ! guardiano_presente "$dir/$_g"; then
+      echo "[$_ts] ⛔ GATE: guardiano $_g ASSENTE in $dir — un metro sparito non è un verde: CIECO, quindi NON pubblico (AR-633)." >&2
+      return 1
+    fi
+  done
   local rc_seg=0 rc_fat=0 rc_one=0 rc_san=0
   node "$dir/scan-segreti.mjs"   >/dev/null 2>&1 || rc_seg=$?
   node "$dir/coerenza-fatti.mjs" >/dev/null 2>&1 || rc_fat=$?
   # onesta-check vuole i file da controllare: sulla memoria interna ha falsi positivi noti (i log
   # append-only), quindi resta INFORMATIVO qui come già in giro.sh — non entra nel verdetto.
-  [ -f "$dir/vault-sanita.mjs" ] && { node "$dir/vault-sanita.mjs" >/dev/null 2>&1 || rc_san=$?; }
+  node "$dir/vault-sanita.mjs" >/dev/null 2>&1 || rc_san=$?
 
   if ! gate_verdetto "$rc_seg" "$rc_fat" "$rc_one" "$rc_san"; then
     echo "[$_ts] ⛔ GATE: memoria NON pubblicabile (scan-segreti=$rc_seg coerenza-fatti=$rc_fat vault-sanita=$rc_san) — risolvi prima di ripubblicare (AR-314)." >&2

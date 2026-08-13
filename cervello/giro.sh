@@ -1581,7 +1581,10 @@ if command -v node >/dev/null 2>&1; then
     const esito = process.env.ESITO || "pulito";
     fs.writeFileSync("MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-giro.json", JSON.stringify({
       _cosa_e:"Esito REALE dell ultimo giro (AR-300). Prima il giro stampava «Giro completato.» anche a controlli tutti rossi: questo file dice la verita, e il Pannello la puo leggere.",
-      data:new Date(Date.now()+2*3600*1000).toISOString().slice(0,16).replace("T"," "),
+      // AR-629/AR-634: l ora nel fuso VERO di Piacenza (Europe/Rome), non +2h fisse — l offset
+      // scolpito era quello estivo (CEST) e da fine ottobre a fine marzo timbrava un ora avanti.
+      // Stessa formula di timbroOra() in cervello/registra-cadenza.mjs (sv-SE → "AAAA-MM-GG HH:MM").
+      data:new Intl.DateTimeFormat("sv-SE",{timeZone:"Europe/Rome",year:"numeric",month:"2-digit",day:"2-digit",hour:"2-digit",minute:"2-digit",hour12:false}).format(new Date()),
       esito, pulito: esito==="pulito",
       gate_rossi:g, vincoli_attivi:(process.env.VINCOLI_ELENCO||"").split(" ").filter(Boolean),
       ai_rc:ai, push_ok:push, passi_11_12_ok:steps,
