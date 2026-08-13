@@ -105,6 +105,7 @@ export const DESCRIZIONI = {
   // ── La macchina impara o accumula? ────────────────────────────────────────
   "chiusura-loop": { famiglia: "apprendimento", cosa: "Un reparto che dice FATTO deve lasciare l'esito nel suo quaderno: senza, il lavoro non ha insegnato niente." },
   "apprendimento-guardiano": { famiglia: "apprendimento", cosa: "Misura se le lezioni diventano regole o restano un archivio: accumulare non è imparare." },
+  "correzione-nicola-gate": { famiglia: "apprendimento", cosa: "Conta quante correzioni di Nicola sono ancora senza un freno automatico proprio (gate): l'area più ripetuta della memoria, resa un numero che il giro non può ignorare." },
   "cristallizza-apprendimento": { famiglia: "apprendimento", cosa: "Prende le lezioni mature e le trasforma in principi scritti nei mansionari, dove valgono sempre." },
   "tasso-lezioni": { famiglia: "apprendimento", cosa: "Conta quante lezioni la macchina ha davvero applicato in questo giro, non quante ne ha in magazzino." },
   "tasso-chiusura": { famiglia: "apprendimento", cosa: "Il voto della macchina su sé stessa: quanti difetti chiude diviso quanti ne apre nel mese. Sotto 1 il giro smette di cercare e spende il turno a chiudere, perché ogni ricerca in più allungherebbe la lista invece di accorciarla." },

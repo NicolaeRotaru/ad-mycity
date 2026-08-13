@@ -144,13 +144,29 @@ prova("PI26 ha una casa sola: il registro dei fatti (AR-102)", () => {
 });
 
 prova("il guardiano gira e CALCOLA, non legge una frase", () => {
-  const r = esegui([join(REPO, "cervello/scadenzario-check.mjs"), "--json"]);
-  const j = JSON.parse(r.out);
-  assert.ok(j.scadenze.length > 0);
-  const pi26 = j.scadenze.find((s) => s.id === "pi26");
-  assert.ok(pi26, "PI26 dev'essere sorvegliato");
-  assert.ok(typeof pi26.ore === "number", "le ore devono essere un numero calcolato");
-  assert.equal(pi26.livello, S.livelloScadenza(pi26.ore), "il livello dev'essere coerente col calcolo");
+  // Non punta su PI26: era la scadenza vera del 28/7, ma il 29/7 Nicola l'ha chiusa (non idoneo) e
+  // il guardiano l'ha spostata in `chiuse` — giustamente. Una scadenza APERTA finta, iniettata via
+  // SCADENZARIO_REGISTRO, prova lo stesso comportamento (il calcolo) senza dipendere da un contenuto
+  // di business che può cambiare in qualunque momento (stessa lezione della prova "PI26 ha una casa sola").
+  const dir = mkdtempSync(join(tmpdir(), "mycity-scad-reg-"));
+  const registro = join(dir, "scadenzario-finto.json");
+  writeFileSync(registro, JSON.stringify({
+    scadenze: [{ id: "prova-calcolo", titolo: "Scadenza finta per il test", scade: "2099-01-01T00:00:00+01:00", fonte: "fixture del test scadenze-calcolate" }],
+    chiuse: [],
+  }));
+  try {
+    const r = execFileSync("node", [join(REPO, "cervello/scadenzario-check.mjs"), "--json"], {
+      cwd: REPO, encoding: "utf8", env: { ...process.env, SCADENZARIO_REGISTRO: registro },
+    }).toString();
+    const j = JSON.parse(r);
+    assert.ok(j.scadenze.length > 0);
+    const finta = j.scadenze.find((s) => s.id === "prova-calcolo");
+    assert.ok(finta, "la scadenza iniettata dev'essere sorvegliata");
+    assert.ok(typeof finta.ore === "number", "le ore devono essere un numero calcolato");
+    assert.equal(finta.livello, S.livelloScadenza(finta.ore), "il livello dev'essere coerente col calcolo");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });
 
 prova("una scadenza entro 72h vincola il giro, non passa inosservata", () => {
@@ -173,9 +189,16 @@ prova("il caso che ha rotto: il rilevatore VEDE un countdown stantio, provato su
   const dir = mkdtempSync(join(tmpdir(), "mycity-scad-"));
   const finto = join(dir, "CHECKLIST-FINTA.md");
   writeFileSync(finto, "- [ ] 🔴 Rispondi sul bando pi26 (scadenza 30/7) — mancano 9 giorni\n");
+  // La scadenza reale "pi26" non è più APERTA (chiusa il 29/7, non idoneo): senza un'apertura finta
+  // che condivida l'id, il rilevatore non avrebbe niente con cui confrontare la frase trascritta.
+  const registro = join(dir, "scadenzario-finto.json");
+  writeFileSync(registro, JSON.stringify({
+    scadenze: [{ id: "pi26", titolo: "Bando PI26 finto", scade: "2026-07-30T16:00:00+02:00", fonte: "fixture del test scadenze-calcolate" }],
+    chiuse: [],
+  }));
   try {
     const r = execFileSync("node", [join(REPO, "cervello/scadenzario-check.mjs"), "--json"], {
-      cwd: REPO, encoding: "utf8", env: { ...process.env, SCADENZARIO_FILE_VIVI: finto },
+      cwd: REPO, encoding: "utf8", env: { ...process.env, SCADENZARIO_FILE_VIVI: finto, SCADENZARIO_REGISTRO: registro },
     }).toString();
     const j = JSON.parse(r);
     assert.equal(j.stantii.length, 1, "un «mancano 9 giorni» su una scadenza a 2 giorni DEVE essere visto");

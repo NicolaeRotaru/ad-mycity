@@ -2,19 +2,8 @@
   "_cosa_e": "📅 LO SCADENZARIO — le scadenze esterne come DATI, non come racconto dentro i Report. Lo legge cervello/scadenzario-check.mjs a ogni giro, che CALCOLA quanto manca invece di leggere una frase. Nasce da AR-147 (l'agente `scadenzario` esisteva da sempre e non aveva mai prodotto un artefatto-dati) e da AR-214 (due schede della stessa pagina davano due countdown diversi).",
   "_perche_esiste": "Misurato il 28/7 alle 05:59: due file dicevano «mancano 3 giorni» per PI26, mentre ne mancavano 2,4. E non divergevano fra loro — concordavano, e sbagliavano tutti e due, il che è peggio perché sembra una conferma. Il numero era stato TRASCRITTO invece che calcolato: vero il giorno in cui è stato scritto, poi invecchiato in silenzio sembrando aggiornato. Nel vault la deriva si legge riga per riga: «mancano 4 giorni», «~2,5 residui», «~2,3», «~2,2», «mancano 3 giorni».",
   "_come_si_usa": "Ogni scadenza esterna con una conseguenza reale va qui, con la data come DATO (ISO col fuso) e la FONTE di quella data. Chi la mostra la calcola: nessuno la trascrive. Quando è passata si sposta in `chiuse` — la storia non si cancella.",
-  "aggiornato": "2026-07-28 06:05",
-  "scadenze": [
-    {
-      "id": "pi26",
-      "titolo": "Bando PI26 — 10.000€ a fondo perduto",
-      "scade": "2026-07-30T16:00:00+02:00",
-      "fonte": "registro-fatti.json → bandi.pi26.scadenza (registrato il 28/7). Prima viveva solo in prosa dentro CHECKLIST-NICOLA.md, intenzioni-nicola.json e vari Report — cioè in nessun posto.",
-      "colore": "🔴",
-      "chi": "Nicola",
-      "cosa_serve": "Tre risposte di ammissibilità prima dell'invio: ① Partita IVA / entità giuridica registrata? ② spese reali documentabili sopra la soglia minima (5.000€ dal 1° maggio — il burn da maggio è ~850€, molto sotto)? ③ firma digitale attiva?",
-      "perche_e_grave": "Sportello a esaurimento: dopo l'invio una domanda inammissibile NON si corregge. Un valutatore indipendente ha già bocciato la bozza attuale come «da sistemare»."
-    }
-  ],
+  "aggiornato": "2026-08-13 03:30",
+  "scadenze": [],
   "chiuse": [
     {
       "id": "bando-commercio-er",
@@ -22,6 +11,13 @@
       "scade": "2026-06-23T10:00:37+02:00",
       "esito": "CHIUSO al raggiungimento delle 350 domande, prima della scadenza formale del 21/7. Nessuna azione possibile.",
       "fonte": "registro-fatti.json → bando.commercio-er.scadenza"
+    },
+    {
+      "id": "pi26",
+      "titolo": "Bando PI26 — 10.000€ a fondo perduto",
+      "scade": "2026-07-30T16:00:00+02:00",
+      "esito": "NON idoneo, confermato da Nicola il 2026-07-29 00:10 — nessuna domanda inviata. Sportello CCIAA non più rilevante per MyCity. Rimasto per errore nella lista `scadenze` (attiva) 15 giorni dopo la decisione: scadenzario-check.mjs lo segnalava ancora come 🔴 scaduto/tocca-a-Nicola su una domanda che non sarebbe mai partita. Spostato qui in questo giro.",
+      "fonte": "registro-fatti.json → bandi.pi26.scadenza + bando.pi26.idoneita"
     }
   ]
 }

@@ -203,6 +203,7 @@ ESP_VINCOLO=""        # AR-041/106: guardiano esperimenti (promosso a gate hard 
 NORTH_STAR_VINCOLO="" # AR-113: north-star → vincolo HARD di allocazione (non blocca il giro)
 KEYWORD_VINCOLO=""    # AR-009/027: guardiano owner-keyword (promosso a gate hard da || true)
 APPRENDIMENTO_VINCOLO="" # Lever 1: guardiano apprendimento (archivio malato / errori ricorrenti non cristallizzati)
+CORREZIONE_NICOLA_VINCOLO="" # AR-apprendimento (12/8): correzioni di Nicola senza gate proprio (numero, non promessa)
 CHIUSURA_VINCOLO=""   # AR-566: si aprono più difetti di quanti se ne chiudono → questo giro chiude, non cerca
 VERIFICA_VINCOLO=""      # Lever 2: verificatore avversariale (auto-analisi vuota) + validatore contratti come gate
 PROVE_VINCOLO=""         # AR-330: prove del cantiere già soddisfatte alla nascita (difetti che si chiudono da soli)
@@ -722,6 +723,18 @@ $_cad_out")"
 $_appr_ric"
     echo "[$(ts)] ⚠️  Lever 1: apprendimento malato → vincolo hard al motore." >&2
   fi
+  # ── AR-apprendimento — Correzione-Nicola-gate: l'area più ripetuta (18/26 lezioni) diventa un ──
+  # numero verificabile invece di restare "farò più attenzione". Nasce dal vincolo HARD del giro
+  # 2026-08-12 (Nicola: «promuovi... rendi la 1ª area ricorrente un GATE»). Sola lettura di
+  # apprendimento.json, non blocca — segnala se il conteggio di lezioni-senza-freno peggiora.
+  echo "[$(ts)] Guardiano correzione-Nicola-gate (l'area più ripetuta ha davvero un freno?)..."
+  _cngate_out="$(node "$SCRIPT_DIR/correzione-nicola-gate.mjs" --json 2>&1)"; _cngate_rc=$?
+  printf '%s\n' "$_cngate_out" | tail -8
+  if [ "$_cngate_rc" -ne 0 ]; then
+    CORREZIONE_NICOLA_VINCOLO="⛔ CORREZIONI DI NICOLA SENZA FRENO (correzione-nicola-gate.mjs rc=$_cngate_rc): l'area 'correzione-nicola' ha lezioni senza un gate proprio (comando/test che scatta), sopra soglia o peggiorata dal giro scorso. In QUESTO giro prendi 1-2 lezioni di quest'area con un 'gate:' scrivibile e verificale con node cervello/gate-veri.mjs — non limitarti a rileggerle.
+$_cngate_out"
+    echo "[$(ts)] ⚠️  Correzione-Nicola senza freno → vincolo al motore." >&2
+  fi
   # ── AR-566 — Tasso di chiusura: si chiude almeno quanto si apre? → vincolo hard «chiudi, non cercare». ──
   # Approvato da Nicola il 10/8 («ok tasso di chiusura»). È il voto della macchina su sé stessa: finché
   # apre più difetti di quanti ne chiude, ogni ricerca nuova allunga la lista invece di accorciarla —
@@ -1036,6 +1049,12 @@ if [ -n "${APPRENDIMENTO_VINCOLO:-}" ]; then
 
 ## Vincolo apprendimento (HARD — Lever 1: la macchina deve imparare, non solo accumulare)
 $APPRENDIMENTO_VINCOLO"
+fi
+if [ -n "${CORREZIONE_NICOLA_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo correzione-Nicola-gate (l'area più ripetuta della memoria deve avere un freno vero)
+$CORREZIONE_NICOLA_VINCOLO"
 fi
 if [ -n "${CHIUSURA_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

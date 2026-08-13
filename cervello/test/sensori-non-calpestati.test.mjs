@@ -52,7 +52,13 @@ const CHIAVI = [
 /** Lancia la verifica con le chiavi spente, puntandola a una copia usa-e-getta. */
 function lanciaSenzaChiavi(copia) {
   const env = { ...process.env, SENSORI_CECITA_FILE: copia };
-  for (const k of CHIAVI) delete env[k];
+  // Stringa vuota, non `delete`: `git-github.mjs` carica `cervello/vps/.env` all'import e imposta
+  // SOLO le chiavi assenti dall'ambiente (`if (!(k in process.env))`). Su una macchina che ha quel
+  // file (il VPS, e qualunque checkout locale con le chiavi vere) `delete` fa sparire la chiave dal
+  // figlio un istante prima che quel caricamento la ripopoli dal file — il comando gira CON le
+  // chiavi mentre il test crede di averle spente. Una stringa vuota resta «presente» per quel
+  // controllo ma è falsy per ogni `if (process.env.X)`: spegne per davvero, anche col .env acceso.
+  for (const k of CHIAVI) env[k] = "";
   try {
     return execFileSync("node", [VERIFICA], { env, encoding: "utf8", timeout: 240000, stdio: ["ignore", "pipe", "pipe"] });
   } catch (e) {
