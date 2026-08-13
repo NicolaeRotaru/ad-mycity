@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-13 22:16",
+  "aggiornato": "2026-08-13 23:00",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -6287,11 +6287,10 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/verifica-sensori.mjs:540 (scrive `cecita.aggiornato`) e :140 (scrive `ultimo_ok`) · cervello/sentinella-dati.mjs:243-245 (legge solo `meta.max_giri_ciechi_dati`) · cervello/letargo.mjs:40+53 · cervello/delta-gate.mjs:48 · cervello/sonda-volano.mjs:22 · cervello/calibrazione.mjs:29 · pannello/src/app/api/memoria/auto-coscienza/route.ts:187 · MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json:3. Sintomo: VERIFICATO riga per riga. `verifica-sensori.mjs:540` scrive `cecita.aggiornato` e `aggiornaSensore` (riga 140) scrive `ultimo_ok`. Ho grepato tutti i lettori del file: `sentinella-dati.mjs:243`, `delta-gate.mjs:48`, `letargo.mjs:40`, `sonda-volano.mjs:22`, `calibrazione.mjs:29`, `sensori-spenti-check.mjs:37` — nessuno legge `aggiornato` né `ultimo_ok` (grep su `ultimo_ok` in tutto cervello/ e pannello/ trova SOLO le due righe che lo SCRIVONO, 115 e 140 di verifica-sensori). L'unico lettore è il Pannello (route.ts:187, `dati_freschi: oreSensori < 3`), che lo mostra come spunta nella card (AutoCoscienza.tsx:594) senza generare gap né allerta. Stato oggi 29/7: il file è fermo a `2026-07-27 22:20` e dichiara supabase_rest ok, stripe ok, resend ok, 8 sensori attivi, `max_giri_ciechi_dati` 0. La regola M2 (sentinella-dati.mjs:314) legge 0 e tace; `letargo.mjs:53` legge 0 giri ciechi e non alza nessun asse. Da 36 ore la macchina risponde «vedo tutto» su una fotografia di 36 ore fa.",
       "verifica": {
-        "file": "cervello/sentinella-dati.mjs",
-        "pattern": "SENSORI_STANTII_MIN",
-        "presente": true
+        "comando": "node cervello/test/misura-che-non-scade-mai.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Lotto 38 (13/8). Regola nuova M2-bis nella sentinella: `sensori_stantii` 🔴 quando sensori-cecita.json non viene riscritto da oltre SENSORI_STANTII_MIN (default 180 min = 1,5× la cadenza del giro). La firma è la FASCIA d età (3-6h, 6-24h, 1-3gg, oltre 3gg) e non i minuti: coi minuti il dedup non scatterebbe mai — l errore già pagato da M2 e da cassa_sconosciuta (AR-114). Il registro mai scritto NON accusa: è un altra storia. La freschezza la calcola `misuraScaduta()` del modulo condiviso, che legge il timbro nudo come ora di Piacenza e non nel fuso del server. Per rendere la decisione eseguibile da una prova, `valutaRegole` è esportata e `main()` non parte più al solo import (un pezzo di AR-445 in meno)."
     },
     {
       "id": "AR-364",
@@ -6306,11 +6305,10 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/verifica-sensori.mjs:478-500 (blocco mcp_supabase, ramo `else if (!cecita.sensori.mcp_supabase)` alla riga 492) e :502-513 (blocco mcp_stripe, SENZA alcun ramo else) · cervello/sensore-spento.mjs:86 (`accesi` = quante voci hanno stato === \"ok\") · cervello/giro.sh:214 (il commento che promette il contrario) · MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json:13-20 e :84-91. Sintomo: VERIFICATO. I due canali MCP si aggiornano solo se il giro passa `--mcp-supabase=` / `--mcp-stripe=` (verifica-sensori.mjs:478 e 502); giro.sh:210-212 li passa solo se `GIRO_MCP_*` è impostata. Per mcp_supabase il ramo di ripiego è `else if (!cecita.sensori.mcp_supabase)` (riga 492): scatta SOLO quando la voce non esiste — se esiste, il record vecchio sopravvive intatto. Per mcp_stripe non c'è nemmeno quel ramo: `if (mcpStripe) { … }` e basta. Nel file di oggi `mcp_supabase` è `stato: \"ok\"` con `ultimo_ok: 2026-07-23 11:36` (6 giorni) e `mcp_stripe` è `stato: \"ok\"` con `ultimo_ok: 2026-07-18 16:31` (11 giorni). Non sono voci innocue: `quadroSpenti` (sensore-spento.mjs:86) calcola `accesi` come «quante voci hanno stato === ok», quindi il guardiano dei sensori spenti conta fra gli occhi aperti due strumenti che nessuno prova da più di una settimana. Il commento a giro.sh:214 dice «resta 'non_verificato', NON conta come canale di verità» — ma il codice, senza flag, non riscrive niente.",
       "verifica": {
-        "file": "cervello/verifica-sensori.mjs",
-        "pattern": "MCP_DECADENZA_GIRI",
-        "presente": true
+        "comando": "node cervello/test/misura-che-non-scade-mai.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Lotto 38 (13/8). `decadiAutoDichiarato()` in lib-sensori-verdetto.mjs: un ok auto-dichiarato scade dopo MCP_DECADENZA_MIN (default 720 min = 12h = sei giri) e torna `non_verificato` col comando per ridichiararlo. Il ramo di ripiego guarda l ETÀ e non più l ASSENZA della voce, e ora esiste anche per mcp_stripe, che non ce l aveva. SCOSTAMENTO DALLA SCHEDA, dichiarato: la scheda proponeva `MCP_DECADENZA_GIRI` (a giri); ho scelto il tempo perché un contatore di giri si ferma quando si ferma la macchina — cioè proprio nel guasto che questo sensore deve far vedere — e un ok congelato resterebbe fresco per sempre. Fail-closed: un ok senza timbro è già scaduto."
     },
     {
       "id": "AR-365",
@@ -6418,11 +6416,10 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/verifica-automazione.mjs:126 (`const hasSystemd = sh(\"sh\", [\"-c\", \"command -v systemctl\"]) !== null`), :163-167 (ramo else con due soli `warn`), :266-268 (calcolo dell'esito) e :292 (`process.exit(fails.length > 0 ? 1 : 0)`). Sintomo: VERIFICATO. `verifica-automazione.mjs` è il controllo che dichiara se la macchina è operativa e sul VPS controlla watch-main, worker, il timer giro e tutti i `mycity-*.timer` della cartella `cervello/vps/` (righe 127-162). Se `command -v systemctl` fallisce — cioè in ogni sessione cloud, container o CI — l'intero blocco viene saltato e al suo posto vengono aggiunti due soli `warn` (righe 164-166). L'esito è `fails > 0 ? \"errore\" : warns > 0 ? \"warn\" : \"ok\"` (riga 267) e l'uscita è `process.exit(fails.length > 0 ? 1 : 0)` (riga 292): un `warn` esce 0. Quindi lo stesso guardiano, sugli stessi file, risponde «errore, la macchina non è operativa» sul VPS e «ok con avvisi» dal cloud — e da nessuna parte scrive QUANTI controlli non ha potuto eseguire, né quali. Il JSON di output (riga 279) porta `esito, sintesi, quando, checks` e nessun campo che distingua «non misurato» da «misurato e verde».",
       "verifica": {
-        "file": "cervello/verifica-automazione.mjs",
-        "pattern": "controlli_non_eseguiti",
-        "presente": true
+        "comando": "node cervello/test/automazione-verde-senza-guardare.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Lotto 38 (13/8). Terzo esito `cieco` accanto a ok/warn/fail: i controlli non eseguibili qui (systemd assente, token assente fuori dal VPS, Supabase non raggiungibile) finiscono in `controlli_non_eseguiti` (nome + perché) e il codice d uscita passa da `verdettoCopertura` → 2. TROVATO RIPARANDO: `command -v systemctl` risponde anche in un contenitore senza systemd avviato, e ogni `is-active` tornava vuoto = «timer assente» = dodici ❌ FALSI da un posto che non poteva misurare niente. Ora la domanda è quella canonica (/run/systemd/system). Misurato da questa sessione: 12 rossi falsi → 0, e 6 ⚪ onesti."
     },
     {
       "id": "AR-371",
@@ -6576,11 +6573,10 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/guardiani-check.mjs:92 (`if (rc === 0)` prima di riscrivere) · MyCity-Vault/90-Memoria-AI/BACHECA.md:483 e :487. Sintomo: VERIFICATO ed eseguito. `node cervello/guardiani-check.mjs` esce 1 perché `percorsi-git` gira senza descrizione; con rc≠0 lo script salta la riscrittura (scelta motivata nel commento: «meglio tenere l'elenco di ieri, completo»), ma nessuno marca il blocco come vecchio. La misura reale di adesso via --json è: totale 67, fermano 25, nonContati = [firma-check, pausa-check, percorsi-git, porte-check, sensori-spenti-check, stampo-check] (sei), senzaDescrizione = [percorsi-git]. La bacheca invece scrive «66 controlli automatici» e «⚠️ 5 allarmi si scrivono ma non si contano» elencandone cinque, e `percorsi-git` non compare in tutto il file (0 occorrenze). Nicola legge una foto vecchia senza saperlo.",
       "verifica": {
-        "file": "cervello/censimento-guardiani.mjs",
-        "pattern": "TABELLA INCOMPLETA",
-        "presente": true
+        "comando": "node cervello/test/bacheca-congelata.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Lotto 38 (13/8). Il blocco della bacheca si scrive SEMPRE, anche col censimento rosso, e quando è incompleto lo dice in cima («TABELLA INCOMPLETA: N controlli girano senza che nessuno abbia scritto cosa fanno», coi nomi) più una riga per i guardiani descritti che non girano più. La casella vuota del «cosa fa» diventa «❓ nessuno ha ancora scritto cosa controlla». Il codice d uscita NON cambia: il rosso resta rosso, ma non lascia più in bacheca la foto di ieri con la data di ieri."
     },
     {
       "id": "AR-379",
@@ -8089,7 +8085,11 @@
       "causa_radice": "① Come e passata una riscrittura completa di due JSON? Perche forma-json.mjs confronta con origin/main e in una sessione cloud il clone e superficiale: `fatal: origin/main...HEAD: no merge base` → exit 2, cieco. ② Perche e grave? Perche il guardiano c era, la regola c era, e il difetto e uscito comunque: l ho scritto io stesso con JSON.stringify(dati, null, 1) su file che stavano a 2 spazi, 1519 righe cambiate per aggiungerne 47. ③ Perche il ⚪ non basta? Perche «non ho potuto misurare» in una sessione su tre diventa, di fatto, «non misurato mai»: la CI lo prende dopo, quando la PR e gia aperta e il diff illeggibile e gia pubblico. E la stessa famiglia di AR-343 (i cancelli spenti nel clone), risolta per i cancelli del commit e non per questo. ④ La prova che la cura funziona: `git fetch --unshallow` in questa sessione ha reso il guardiano verde e ha confermato il fix in dieci secondi.",
       "fix_proposto": "🟡 (a) `git fetch --unshallow` (o `--deepen`) all avvio di sessione, dentro cervello/installa-hooks.sh che gia gira al SessionStart: costa una volta e accende forma-json, prove-oneste e ramo-pulito, tutti e tre oggi ciechi nel cloud. (b) In alternativa/aggiunta: forma-json confronta con il commit precedente del file (HEAD~1) quando origin/main non e raggiungibile, cosi misura sempre qualcosa. (c) I ⚪ del cancello vanno contati in una riga sola con la loro copertura: «3 controlli su 9 non hanno misurato» e un numero che deve scendere, non una decorazione.",
       "origine": "la CI ha bocciato una regressione di formato che in locale il guardiano non aveva potuto misurare",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "verifica": {
+        "comando": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
+      },
+      "nota_fix": "Lotto 38 (13/8). Quando `origin/main` non è raggiungibile (clone superficiale della sessione cloud) forma-json non si ferma e non finge: misura il lavoro non ancora committato e DICHIARA che i JSON già committati sul ramo non li ha confrontati con nessuno. Quel motivo passa da `verdettoCopertura`, quindi l uscita è 2 (⚪), mai 0. Se invece trova una violazione resta 1: aver visto poco non rende meno vero ciò che si è visto."
     },
     {
       "id": "AR-461",
@@ -8327,7 +8327,10 @@
       "titolo": "Il cancello dice verde su cio che non ha misurato: due passi cambiano riferimento e smettono di guardare, senza dirlo",
       "causa_radice": "Due passi del cancello prendono il loro riferimento dal diff di git, e in due situazioni opposte finiscono per non misurare NIENTE — uscendo 0 e venendo stampati come ✅. ① FORMA DEI JSON: `forma-json.mjs` confronta i JSON che il RAMO tocca (diff committato verso origin/main). A meta lavoro, col working tree sporco, stampa «nessun JSON toccato da questo ramo» ed esce 0 — cioe proprio quando lo si lancia. Provato il 1/8: avevo appena riformattato cantiere-difetti.json (+8235/-8217 per UNA scheda) e il passo era verde; dopo il commit lo stesso comando ha misurato davvero (4 file) ed e rimasto verde perche la forma era stata corretta. ② MUTAZIONI: il cancello esegue non-vacuita solo sui difetti che il lotto TOCCA. Su un clone superficiale, DOPO il commit, «i pezzi gia committati non risultano toccati» → zero difetti toccati → il passo delle mutazioni sparisce dall elenco e non viene eseguito, mentre il verdetto finale resta «SI PUO CONSEGNARE». Prima del commit girava (AR-472, AR-473 elencati). Il passo piu prezioso del metodo e quindi ON/OFF a seconda di quando lo lanci, e in nessuno dei due casi il cancello dice «non ho misurato». Mitigante da dichiarare: in CI entrambi i workflow fanno checkout con fetch-depth 0, quindi la storia c e e i due passi misurano; il buco morde in sessione locale/cloud, che e dove si lavora.",
       "fix_proposto": "La regola e una sola: un passo che non ha avuto niente da confrontare deve uscire 2 (cieco) e comparire come ⚪, mai come ✅ — e il verdetto finale deve dirlo, come gia fa per `prove oneste`. In concreto: ① `forma-json.mjs` misuri anche il working tree (git diff senza revisione + non tracciati), oppure esca 2 se ci sono JSON modificati sul disco e lui non ne ha confrontato nessuno; ② il cancello, quando l elenco dei difetti toccati e vuoto MA il lotto ha modificato dei file, non salti le mutazioni in silenzio: le esegua tutte, o esca 2 dichiarando che non sa quali toccare. Prova comportamentale attesa: (a) JSON riformattato nel solo working tree → quel passo NON deve essere verde; (b) lotto committato su clone superficiale → il passo delle mutazioni non deve sparire dall elenco.",
-      "nota_fix": "NON curato in questo lotto, di proposito: malattia diversa da AR-472, e allargare il lotto a meta e il modo classico di non finirlo. Trovato dal secondo giro del lotto 36 su sé stesso — la stessa domanda («la guardia frena davvero?») ha trovato due istanze indipendenti, ed e la ragione per cui questa scheda e bloccante e non grave: un cancello che decide di guardare in base a quando lo lanci non e un cancello. Nessuna `verifica` sulla scheda: un comando vuoto lo eseguirebbe auto-fix e potrebbe uscire 0, richiudendo da solo un difetto mai riparato."
+      "nota_fix": "Lotto 38 (13/8). Due strade, due fix. ① forma-json.mjs: il perimetro comprende ora il working tree (modificati non committati + non tracciati), quindi misura ciò che hai sotto le mani invece di rispondere «nessun JSON toccato dal ramo»; e se il riferimento non esiste esce 2 (⚪) invece di 0. VERIFICATO sul repo vero: la versione di prima, con due JSON modificati sul disco, stampava «nessun JSON toccato» ed usciva 0. ② cancello-lotto.mjs: il passo delle mutazioni non sparisce più in silenzio — `mutazioniNonGirate()` (pura, esportata) dice PERCHÉ non ha girato, e il motivo finisce in `ciechiProve`, che è la colonna che fa uscire 2. Prima finiva negli `avvisi`, che si stampano identici (⚠️) ma non toccano il verdetto.",
+      "verifica": {
+        "comando": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
+      }
     },
     {
       "id": "AR-474",
@@ -13256,12 +13259,12 @@
       "fix_proposto": "La mappa esiti del badge deve essere esaustiva e fail-closed: esiti non riconosciuti → stato «sconosciuto», mai «ok». Logica in funzione pura testabile (pannello/src/lib/), il route la chiama.",
       "origine": "corsia A2 del lotto 37 (13/8), scoperta durante il fix di AR-597",
       "verifica": {
-        "tipo": "umano",
-        "nota": "serve un test comportamentale sulla mappa esiti quando si ripara: il grep non basta (asticella)"
+        "comando": "node cervello/test/badge-che-compra-il-verde.test.mjs"
       },
       "stato": "aperto",
       "nato": "2026-08-13 17:56",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Lotto 38 (13/8). La mappa degli esiti sta in `pannello/src/lib/badge-coerenza.ts` (puro, con la sua prova) ed è esaustiva e fail-closed: `ok` è l unico che compra lo scudo verde, `cieco` e `non_verificato` hanno il loro tono ⚪ con un testo che spiega a Nicola cosa NON è stato guardato, e un etichetta mai vista diventa `sconosciuto` — mai «ok». Toccati anche il componente FattiChiave (terzo tono) e il tipo in lib/fatti.ts, che dichiarava solo due stati su quattro."
     },
     {
       "id": "AR-647",
@@ -13324,12 +13327,12 @@
       "fix_proposto": "Agganciare gravitaDi() a bloccantiCiechi in un momento deciso (insieme alla bonifica AR-649), dichiarando il rosso atteso.",
       "origine": "corsia B del lotto 37 (13/8)",
       "verifica": {
-        "tipo": "umano",
-        "nota": "alla riparazione: mutazione su gravitaDi in bloccantiCiechi + test"
+        "comando": "node cervello/test/conto-che-guarda-il-campo-sbagliato.test.mjs"
       },
       "stato": "aperto",
       "nato": "2026-08-13 17:56",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Lotto 38 (13/8). `classifica()` era l ultimo lettore rimasto a copiare `d.gravita`: ora usa `gravitaDi()`, e il conto dei bloccanti ciechi è una funzione pura esportata (`bloccantiCiechi`) che legge dalla stessa porta. ROSSO ATTESO E DICHIARATO: il conto sale da 5 a 6 perché AR-592 (severita=bloccante, prova senza comando) finalmente si vede. Non ferma il giro: giro.sh chiama cantiere-prove SENZA --gate. Sul cantiere vero le schede senza gravità sono passate da 48 a 0."
     },
     {
       "id": "AR-651",
@@ -13519,6 +13522,25 @@
         "nota": "Non toccato dal lotto 39: e di famiglia diversa (copertura delle prove, non esito non confermato), e allargare il lotto a meta e il modo classico di non finirlo. Si chiude quando un cancello li esegue davvero — o quando i 26 file sono stati portati alla forma che gira."
       },
       "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-661",
+      "titolo": "Il segnale della cassa dice «tutto ok» quando il runway scende sotto i sei mesi",
+      "dimensione": "salute-sensori-dati",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "stato": "aperto",
+      "nato": "2026-08-13 22:50",
+      "nato_come": "scoperta",
+      "origine": "spazzata dei fratelli del lotto 38 (malattia verde-che-e-il-ramo-di-default)",
+      "causa_radice": "cervello/sensore-cassa.mjs riga ~147: `stato === \"critico\" ? \"errore\" : stato === \"sconosciuto\" ? \"warn\" : \"ok\"`. Gli stati possibili sono quattro — sconosciuto, critico, attenzione, ok — e la catena ne nomina due: `attenzione` (runway sotto i sei mesi) cadeva nell ultimo ramo e arrivava al Pannello come «ok». Nessuno lo aveva scritto apposta: è la forma stessa della catena di ternari, dove il ramo buono è il default e ogni stato aggiunto dopo ci finisce dentro senza che nessuno tocchi il codice. Il rischio numero uno dichiarato di questa azienda — restare senza soldi — aveva quindi un segnale che nel suo stato di allerta diceva verde.",
+      "fix_proposto": "Mappa esaustiva `segnaleDa(stato, {critico:\"errore\", attenzione:\"warn\", sconosciuto:\"warn\", ok:\"ok\"})` da cervello/misura-o-cieco.mjs: una chiave che non c è nella mappa non prende il ramo buono.",
+      "colore": "🟡",
+      "verifica": {
+        "comando": "node cervello/test/misura-o-cieco.test.mjs"
+      },
+      "nota_fix": "Lotto 38 (13/8) — trovato e curato nello stesso lotto dalla spazzata dei fratelli. La malattia è censita in cervello/malattie.json come `verde-che-e-il-ramo-di-default` con baseline 0 sul codice di produzione: da qui in poi il primo che ricompare è un rosso.",
+      "vedi": "AR-646 (stessa malattia, superficie Pannello) · AR-370 (stessa malattia, codice d uscita)"
     }
   ],
   "meta": {

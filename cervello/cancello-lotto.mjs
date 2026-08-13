@@ -77,6 +77,36 @@ export function difettiToccati(cantiereOra, cantierePrima) {
 }
 
 /**
+ * AR-473 — PERCHÉ LA PROVA-CHE-LE-PROVE-PROVINO NON HA GIRATO, o `null` se ha girato.
+ *
+ * Il passo delle mutazioni è il più prezioso del metodo: è l'unico che misura se gli altri servono
+ * a qualcosa. Ed era ON/OFF a seconda di QUANDO lo si lanciava: su un clone superficiale, dopo il
+ * commit, «i pezzi già committati non risultano toccati» → zero difetti toccati → il passo spariva
+ * dall'elenco, e il verdetto finale restava «✅ SI PUÒ CONSEGNARE» senza dire che mancava.
+ *
+ * La riga che conta è la quarta: il cantiere è cambiato — questo lotto lavora sui difetti — ma il
+ * confronto non ne vede nessuno toccato. Non è «non c'era niente da provare»: è «non ho capito cosa
+ * c'era da provare», e sono due cose diverse.
+ *
+ * Pura: riceve ciò che si sa già e non chiede niente a git, così una prova può metterla nei quattro
+ * stati senza costruire quattro repo.
+ *
+ * @param {{mutantiLetti: boolean, toccati: string[]|null, quanteMutazioni: number, cantiereCambiato: boolean}} p
+ * @returns {string|null} il motivo da dichiarare come ⚪, oppure null.
+ */
+export function mutazioniNonGirate({ mutantiLetti = true, toccati = null, quanteMutazioni = 0, cantiereCambiato = false } = {}) {
+  if (quanteMutazioni > 0) return null; // ha girato: niente da dichiarare
+  if (!mutantiLetti) return "la prova che le prove provino non ha girato: mutanti.json non è leggibile";
+  if (toccati === null) {
+    return "la prova che le prove provino non ha girato: non so quali difetti tocca questo lotto (nessun ramo pubblicato con cui confrontarmi)";
+  }
+  if (toccati.length === 0 && cantiereCambiato) {
+    return "la prova che le prove provino non ha girato: il cantiere è cambiato ma il confronto non vede nessun difetto toccato (clone superficiale?)";
+  }
+  return null; // il lotto non lavora su difetti: non c'è nessuna mutazione da rompere, ed è vero
+}
+
+/**
  * Gli id che in questo lotto sono NATI: presenti adesso, assenti dal ramo pubblicato.
  *
  * Diverso da `difettiToccati`, che include anche le schede vecchie la cui prova è cambiata. Per
@@ -632,7 +662,10 @@ function main() {
     avvisi.push(`${senzaMutazione.length} prove ereditate mai rotte apposta (sotto il tetto): ${senzaMutazione.map((x) => x.id).join(", ")}`);
   }
 
-  if (toccati === null) avvisi.push("non ho potuto confrontare col ramo pubblicato: il controllo «prova nuova» non ha misurato");
+  // AR-473 — un controllo che non ha misurato va nella colonna dei CIECHI, non in quella degli
+  // avvisi. Le due colonne si stampano identiche (⚠️) ma solo la prima cambia il verdetto: finché
+  // questa riga diceva `avvisi`, «non ho misurato» finiva sotto un ✅ SI PUÒ CONSEGNARE.
+  if (toccati === null) ciechiProve.push("non ho potuto confrontare col ramo pubblicato: il controllo «prova nuova» non ha misurato");
   else if (base.spec === "HEAD") avvisi.push(base.nota);
 
   for (const c of condivise) violazioniProve.push({ regola: "prova-condivisa-cieca", ...c });
@@ -741,6 +774,16 @@ function main() {
     } else if (toccati && toccati.length) {
       avvisi.push("nessuna mutazione per i difetti di questo lotto: la prova che le prove provino non ha misurato niente");
     }
+    // AR-473 ② — e se il passo NON è girato per cecità (niente confronto, oppure il cantiere è
+    // cambiato ma il confronto non lo vede), lo si dichiara: sparire in silenzio dall'elenco è il
+    // modo in cui il controllo più prezioso diventava facoltativo senza che nessuno lo decidesse.
+    const muto = mutazioniNonGirate({
+      mutantiLetti: Boolean(mutanti),
+      toccati,
+      quanteMutazioni: mieMutazioni.length,
+      cantiereCambiato: primaTxt !== null && primaTxt !== readFileSync(CANTIERE, "utf8"),
+    });
+    if (muto) ciechiProve.push(muto);
     if (!VELOCE) {
       // AMBIENTE NON PRONTO ≠ CODICE ROTTO. In una sessione nuova `pannello/node_modules` non c'è
       // (il clone non li porta), e `tsc` esce 1 con «Cannot find name 'process'» e «Cannot find

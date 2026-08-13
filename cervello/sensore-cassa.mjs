@@ -13,6 +13,7 @@
 // Exit: 0 = ok/attenzione/sconosciuto · 1 = runway critico (< soglia)
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { segnaleDa } from "./misura-o-cieco.mjs"; // una mappa esaustiva: chi non è nominato non prende il verde
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { scriviStatoSensore } from "./stato-sensori.mjs";
@@ -144,7 +145,10 @@ async function main() {
   if (esitoScrittura.scritto) {
     await stampSegnale(
       "cassa-runway",
-      stato === "critico" ? "errore" : stato === "sconosciuto" ? "warn" : "ok",
+      // La catena di ternari mandava al Pannello «ok» per lo stato «attenzione» — cioè runway sotto
+      // i sei mesi, il rischio numero uno di questa azienda, letto come tutto a posto. La mappa qui
+      // sotto è esaustiva e chi non è nominato non prende il verde.
+      segnaleDa(stato, { critico: "errore", attenzione: "warn", sconosciuto: "warn", ok: "ok" }),
       `${sintesi} · ${quando}`
     ).catch(() => {});
   }

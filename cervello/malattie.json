@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
  "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
- "aggiornato": "2026-08-13 22:10",
+ "aggiornato": "2026-08-13 22:50",
  "malattie": [
   {
    "id": "esito-in-una-pipe",
@@ -469,6 +469,30 @@
     }
    ],
    "nota_baseline": "0 dal 2026-08-13 (AR-624). Le due porte scrivono ancora in_attesa, ma solo dentro il ramo di default della decisione condivisa, e il pattern non le prende perche il corpo JSON passa da una variabile. Se qualcuno riscrive la PATCH a mano con il corpo letterale, il tetto sale e la spazzata fallisce. Il contratto vero lo tiene cervello/test/recupero-due-porte.test.mjs, che passa la stessa tabella di casi alle due copie e pretende lo stesso verdetto."
+  },
+  {
+   "id": "verde-che-e-il-ramo-di-default",
+   "nome": "Un esito letto da un file cade nel ramo «ok» perché il verde è il DEFAULT",
+   "perche_e_grave": "È la forma sintattica della malattia più cara di questo cantiere: l assenza di misura letta come rassicurazione. `cf.esito === \"incoerenze\" ? \"incoerenze\" : \"ok\"` sembra completo e non lo è — chi scrive il file impara etichette nuove («cieco», «non_verificato», «attenzione») e ognuna cade nel ramo buono senza che nessuno tocchi il codice. Due casi veri misurati il 13/8: in Cabina il badge della memoria dava lo scudo verde proprio quando il registro dei fatti non era leggibile (AR-646), e il segnale della cassa mandava «ok» per lo stato «attenzione», cioè runway sotto i sei mesi — il rischio numero uno dell azienda. La cura non è un `else if` in più: è che il default sia il buco. `segnaleDa()` e `esitoNoto()` in cervello/misura-o-cieco.mjs fanno esattamente questo.",
+   "pattern": "===[ \\t]*\"[^\"\\n]+\"[ \\t]*\\?[ \\t]*\"[^\"\\n]+\"[ \\t]*:[ \\t]*\"(ok|verde|attivo|sano)\"",
+   "dove": [
+    "cervello",
+    "pannello/src"
+   ],
+   "estensioni": [
+    ".mjs",
+    ".ts",
+    ".tsx"
+   ],
+   "baseline": 0,
+   "file_noti": [],
+   "curati": [
+    "pannello/src/app/api/memoria/fatti/route.ts (AR-646)",
+    "cervello/sensore-cassa.mjs (AR-661)",
+    "cervello/verifica-automazione.mjs (AR-370)"
+   ],
+   "esenti": [],
+   "nota_baseline": "0 misurato il 2026-08-13 nel codice di produzione, dopo il lotto 38. Il pattern è STRETTO apposta: chiede il confronto con UNA etichetta (=== \"...\") e non un conteggio. `guasti.length ? \"fail\" : \"ok\"` è sano — lì l ok vuol dire «ho contato e non ho trovato niente» — e allargare il pattern lo renderebbe rumore da 20 falsi positivi, cioè un guardiano che si impara a ignorare. Nessuna esenzione: la spazzata non legge i commenti, quindi le tre citazioni della riga malata (il modulo, il badge, la prova) non contano — e un esenzione senza istanza è un residuo che nasconde il prossimo caso vero. La classe è [^\"\\n] e non [^\"]: senza il \\n il pattern attraversa gli a-capo e i due lettori del registro — la spazzata (file intero) e il sorvegliante (riga singola) — contano numeri diversi sulla stessa malattia. È AR-500, e me l ha trovato freni-senza-fonte.test.mjs."
   }
  ]
 }
