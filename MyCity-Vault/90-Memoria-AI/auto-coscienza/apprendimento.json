@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-13 21:21",
+ "aggiornato": "2026-08-13 21:41",
  "lezioni": [
   {
    "id": "L-2026-0813-03",
@@ -259,7 +259,9 @@
    "nato": "2026-07-23",
    "ultima_conferma": "2026-07-23 21:36",
    "stato": "attiva",
-   "usi": []
+   "usi": [],
+   "gate": "node cervello/coerenza-fatti.mjs",
+   "gate_perche": "la lezione dice che la data di ripresa (ripresa.lavoro-operativo) è un fatto instabile che va SEMPRE letto dal registro unico, mai da un piano scaduto — coerenza-fatti.mjs è il guardiano che fallisce (exit≠0) se una copia vecchia di quella data resta in un file vivo. Aggiunto 2026-08-13 21:xx nel giro di oggi, mutazione già presente in cervello/mutanti.json per registro-fatti.json."
   },
   {
    "id": "L-2026-0723-450",
@@ -5021,13 +5023,14 @@
     "workflow-sviluppo"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.95,
+   "confidenza": 0.7999999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 21:30",
-   "stato": "attiva"
+   "stato": "attiva",
+   "decaduto_step_il": "2026-08-13 21:30"
   },
   {
    "id": "L-2026-0716-235",
@@ -13186,12 +13189,12 @@
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.12,
-  "tasso_calcolato_il": "2026-08-13 21:21",
+  "tasso_calcolato_il": "2026-08-13 21:41",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-13 21:21",
+  "tick_leggero_il": "2026-08-13 21:41",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-13 20:22",
+  "cristallizzazione_ultima": "2026-08-13 21:30",
   "lezioni_totali": 517,
   "lezioni_per_stato": {
    "attiva": 412,

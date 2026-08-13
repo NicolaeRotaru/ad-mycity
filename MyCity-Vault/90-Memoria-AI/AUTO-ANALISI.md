@@ -1,3 +1,38 @@
+# 🔬 AUTO-ANALISI — 2026-08-13 21:36
+
+> Giro richiesto in chat. Business invariato (sensore diretto, 21:27). Trovato e diagnosticato a fondo
+> il test rosso HARD del cervello; chiuso un pezzo del debito su correzione-nicola-gate.
+
+## Voto di fiducia: **84/100** (↗ da 83)
+Business identico dal 24/6: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili, 3 carrelli abbandonati,
+0 nuovi clienti in 7gg. North Star: stallo confermato, pausa concordata fino al 24/8-1/9.
+
+**Il lavoro vero di questo passaggio: diagnosi completa del test rosso, non solo segnalazione.**
+`node --test cervello/test/*.test.mjs` mostra 1 rosso: `guardiano-mai-messo-di-guardia`. Ho letto il
+codice del guardiano (`guardia-viva.mjs`, `guardia-viva-check.mjs`) invece di fermarmi al messaggio
+d'errore. Causa: 3 cartelle `.claude/worktrees/agent-*`, lasciate da agenti di sessioni passate, non
+sono escluse dal censimento delle esecuzioni — fanno leggere una "voce fantasma" falsa sulla
+dichiarazione (corretta) di `permessi-check.mjs`. Il fix esiste già: commit `10f7d7868`, ramo
+`fix/recupero-sensori-mappa-macchina-13-8`, scritto in un passaggio precedente di oggi. Verificato con
+`git log origin/<ramo>..<ramo>` che 2 delle 3 cartelle sono rami già identici a GitHub (nessun lavoro a
+rischio); la terza ha 11 commit non pubblicati e non l'ho toccata. Tentato di sbloccare da qui
+(`git push`, `git worktree remove`): entrambi negati dall'allowlist di questa sessione. Non ripetuto un
+terzo tentativo alla cieca — lo strumento giusto è un canale con credenziali GitHub vere (VPS o Nicola).
+
+**Chiuso: 1 gate reale in più su correzione-nicola-gate.** `L-2026-0723-451` (la lezione sulla data di
+ripresa del business) aveva solo testo, nessun freno. Aggiunto `gate: node cervello/coerenza-fatti.mjs`
+dopo aver verificato in `cervello/mutanti.json` che quel file ha già mutazioni registrate — non un gate
+dichiarato a vuoto.
+
+**Segnalato, non indagato (vincolo tasso-chiusura, 0,61 nel mese):** due lezioni compaiono due volte in
+`apprendimento.json` (`L-2026-0723-448`, `L-2026-0723-446`). Aprirlo sarebbe ricerca nuova.
+
+**Refutazione:** ho provato a smentire "il fix esiste ed è sicuro pubblicarlo" controllando i 3 rami uno
+per uno invece di fidarmi del commit message — sopravvive per 2 rami su 3, il terzo l'ho lasciato intatto
+proprio perché la verifica ha trovato lavoro non pubblicato lì dentro.
+
+---
+
 # 🔬 AUTO-ANALISI — 2026-08-13 12:59
 
 > Nono passaggio della giornata, 5 minuti dopo l'ottavo (12:50). Applicata di nuovo
