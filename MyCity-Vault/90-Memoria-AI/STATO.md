@@ -1,8 +1,73 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 13:09
+aggiornato: 2026-08-13 14:40
 fonte: AD digitale (chat)
 ---
+
+> ✅ **13/8 14:40 — Giro richiesto in chat: controllati per davvero i 3 fix CI mandati alle 14:23, non solo fidandomi del riepilogo.**
+> Business riconfermato invariato con query SQL diretta: 1 ordine (mai pagato, 24/6), 0 pagati, 5 prodotti, 7 profili,
+> 0 ordini e 0 nuovi clienti negli ultimi 7 giorni. North Star: stallo **50 giorni**, dentro la pausa concordata
+> fino al 24/8-1/9. Non è un allarme.
+>
+> **Cosa ho verificato.** Sono entrato nei 3 worktree lasciati dai senior del passaggio precedente
+> (PR #710/#709/#708). Ho fatto girare io i test esatti che dovevano tornare verdi. Tre test, tre file:
+> `si-capisce.test.mjs`, `mappa-in-bacheca.test.mjs`, `permessi-di-guardia.test.mjs`. Il primo l'ho girato
+> due volte, una per ogni worktree che lo usa. Risultato: 68/68, 68/68, 19/19, 5/5. **Tutti verdi.** Ho
+> anche controllato che i 3 branch locali siano identici a quelli già su GitHub
+> (`git log origin/<branch>..<branch>`, nessuna riga di differenza). Niente da spingere: i fix sono già lì.
+>
+> **La cosa che non torna.** Ho rieseguito `node cervello/ci-stato.mjs` alle 14:31. Continua a leggere
+> tutte e tre le PR come rosse, "colpa propria". Vedo due spiegazioni possibili. O GitHub non ha ancora
+> rieseguito i controlli sull'ultimo commit. Oppure la CI vede un guasto che i miei test locali non
+> coprono. Da qui non posso scegliere tra le due: `gh pr checks` è negato in questa sessione, stesso
+> limite di sempre. Per questo non ho dichiarato le PR "chiuse". Ho scritto solo cosa ho provato, e cosa
+> resta da confermare da un canale con accesso vero a GitHub.
+>
+> **Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese):** non ho riaperto ricerca su altro. Tre
+> file restano quelli di oggi, dati identici: `auto-analisi.json` (13:00), `registro-realta.json`,
+> `apprendimento.json` (14:30). Non li ho riscritti.
+>
+> **Mossa n.1, invariata:** nessuna azione business sbloccabile prima del 24/8-1/9. Resta da firmare
+> `#permessi-senza-jolly`. Resta aperta `#sensori-spenti-senza-motivo` (telegram_bot). **Nuovo:** serve un
+> canale con `gh`/GitHub — VPS o Nicola — per guardare i controlli veri delle PR #710/#709/#708. Solo così
+> si sa se sono davvero verdi. Briefing: [[Briefing/2026-08-13]].
+
+> 🔁 **13/8 14:23 — Giro richiesto in chat. Business invariato. La diagnosi CI delle 13:09 era sbagliata: tornata "colpa propria", mandati 3 fix in corso.**
+> Business riconfermato dal vivo con query SQL diretta: 1 ordine (mai pagato, 24/6), 0 pagati, 5 prodotti, 7 profili,
+> 0 ordini e 0 nuovi clienti negli ultimi 7 giorni. **Identico** a ogni lettura di oggi. North Star: stallo
+> **50 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme.
+>
+> **Prima cosa: pulito lo stato sporco trovato in apertura.** Il repo aveva 25 file già scritti dai sensori
+> deterministici di `giro.sh` (auto-coscienza, AZIONI-IN-ATTESA, supervisione) più 3 file toccati da una
+> scrittura concorrente del worker VPS mentre lavoravo — nessun conflitto, committati in due passaggi separati
+> direttamente su `main` (memoria, non codice).
+>
+> **La correzione vera di questo passaggio.** Alle 13:09 avevo scritto una cosa sbagliata. Avevo detto che
+> `ci-stato.mjs` classificava le 3 PR rosse (#710/#709/#708) come "ereditate da `main`". Cioè: non colpa di quei
+> branch. Ho rieseguito lo stesso comando ora. Il verdetto è tornato **"colpa propria"** per tutte e tre. Il
+> guasto è nel lavoro portato da quei branch, non a monte. Non è stata una ricerca nuova. È la stessa lettura del
+> blocco vincoli già calcolato. L'ho solo ripetuta, perché il valore visto alle 13:09 non tornava.
+>
+> **Cosa ho fatto.** Ho mandato 3 senior a chiudere il debito. Non ho aperto altro. Il vincolo tasso-chiusura
+> (0,24 nel mese) dice questo: chiudi quello che c'è già in coda, non cercarne di nuovo. Le 3 PR rosse erano già
+> diagnosticate. `ci-stato.mjs` aveva già trovato i controlli esatti che falliscono. Non è servito aprire ricerca
+> per trovarle. Ho mandato 3 senior tech, uno per branch, ognuno in un worktree isolato. A ognuno ho dato la
+> lista esatta dei controlli rossi:
+> - **PR #710** (`fix/test-cervello-rossi-13-8`): 3 file con leggibilità peggiorata (STATO.md, un report salute,
+>   un report supervisione) — regressione del guardiano `si-capisce.mjs`.
+> - **PR #709** (`claude/organi-x-rossa-pallino-bianco-fbg0xh`): 2 file di test rotti per davvero
+>   (`mappa-in-bacheca.test.mjs`, `permessi-di-guardia.test.mjs`).
+> - **PR #708** (`fix/sensori-radar-13-8`): un verdetto senza lettore collegato, un lavoro committato senza riga
+>   di esito nel quaderno, più la stessa regressione di leggibilità su STATO.md.
+> Sono al lavoro in sfondo mentre scrivo: l'esito (chiuse o ancora aperte) arriva nel prossimo passaggio.
+>
+> **Non toccato, per lo stesso vincolo:** `auto-analisi.json` (12:59), `registro-realta.json` (10:22),
+> `ultimo-briefing.json` (13:09) restano quelli di oggi — dati di business identici, riscriverli ora sarebbe
+> l'ennesima passata sullo stesso stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113).
+>
+> **Mossa n.1, invariata:** nessuna azione business sbloccabile prima del 24/8-1/9. Resta da firmare
+> `#permessi-senza-jolly` e resta aperta `#sensori-spenti-senza-motivo` (telegram_bot). Nuovo: i 3 fix CI sono in
+> corso, non ancora confermati verdi. Briefing: [[Briefing/2026-08-13]].
 
 > ⚪ **13/8 13:09 — Nuovo passaggio, 10 minuti dopo quello delle 12:59. Nessuna novità di business.**
 > Business riconfermato invariato con query SQL diretta: 1 ordine (mai pagato), 0 pagati, 5 prodotti, 7 profili.

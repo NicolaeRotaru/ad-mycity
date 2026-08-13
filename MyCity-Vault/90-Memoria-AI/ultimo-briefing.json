@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-13 13:09",
-  "situazione": "Nuovo passaggio, 10 minuti dopo quello delle 12:59. Business invariato riconfermato via SQL diretta: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili. North Star fermo, dentro la pausa concordata fino al 24/8-1/9. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova. Unico dettaglio nuovo: la diagnosi CI sulle 3 PR rosse è cambiata da 'colpa propria' a 'ereditata da main' (già calcolata da ci-stato.mjs, nessuna query mia).",
+  "data": "2026-08-13 14:40",
+  "situazione": "Business invariato, riconfermato via SQL diretta: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili, 0 ordini/clienti nuovi in 7gg. North Star fermo, dentro la pausa concordata fino al 24/8-1/9. Verificati in locale i 3 fix CI mandati alle 14:23 (PR #710/#709/#708): i test che dovevano tornare verdi tornano verdi (68/68, 19/19, 5/5) e i branch sono identici a GitHub. Ma ci-stato.mjs continua a leggerli rossi: serve un canale con accesso a GitHub per capire se è un ritardo dei controlli o un guasto che i test locali non coprono.",
   "opportunita": [
     {
       "titolo": "Applica l'elenco permessi senza jolly, sblocca anche i test",
@@ -10,7 +10,7 @@
     },
     {
       "titolo": "Dai a questa sessione un modo di spingere il codice su GitHub",
-      "motivo": "Diversi commit di memoria e un ramo di codice pronto per la PR sono fermi in locale: senza token/credenziali GitHub in questa sessione, il lavoro fatto in chat resta invisibile finché qualcuno con accesso (VPS o Nicola) non lo spinge a mano",
+      "motivo": "Diversi commit di memoria e presto i 3 fix CI restano fermi in locale: senza token/credenziali GitHub in questa sessione, il lavoro fatto in chat resta invisibile finché qualcuno con accesso (VPS o Nicola) non lo spinge a mano",
       "impatto": "medio",
       "sforzo": "basso"
     },
@@ -24,7 +24,7 @@
   "azioni": [
     {
       "titolo": "Applica l'elenco esplicito dei permessi (era già pronto, ora completo)",
-      "motivo": "consegne/sicurezza/2026-07-29-permessi-senza-jolly.md, 75 script — ferma da 15 giorni",
+      "motivo": "consegne/sicurezza/2026-07-29-permessi-senza-jolly.md, 75 script — ferma da 15+ giorni",
       "livello": "giallo"
     },
     {
@@ -35,7 +35,7 @@
   ],
   "sentinelle_scattate": [
     "North Star 0 — stallo 50 giorni, pausa concordata fino al 24/8-1/9 (non churn)",
-    "Tasso di chiusura 0,24 nel mese — sotto soglia 1: nessuna ricerca nuova aperta anche in questo passaggio",
-    "CI: 3 PR rosse ora diagnosticate come ereditate da main (0 per colpa propria), 1 mai provata (#711) — debito noto, fuori scope oggi (non sblocca il North Star)"
+    "Tasso di chiusura 0,24 nel mese — sotto soglia 1: nessuna ricerca nuova, turno speso a verificare la chiusura delle 3 PR rosse",
+    "CI: 3 PR rosse per ci-stato.mjs ma test locali tutti verdi — disallineamento da confermare da GitHub, 1 PR mai provata (#711)"
   ]
 }
