@@ -11820,12 +11820,10 @@
         "comando": "node -e 'const r=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json\");const ok=[\"confermato\",\"scelta_ragionata\",\"da_verificare\",\"scartato\"];const bad=(r.entita||[]).filter(e=>!ok.includes(e.stato));console.log(bad.length+\" stati fuori contratto: \"+bad.map(e=>e.nome+\"=\"+e.stato).join(\", \"));process.exit(bad.length?1:0)'"
       },
       "verifica": {
-        "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "7 stati fuori contratto: Casa Linda=demo, Tigellabella=escluso, Trattoria La Forchetta=escluso, Le Tre Ganasce da Andrea=escluso, Osteria Ca"
+        "comando": "node cervello/test/contratto-valori.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): le sette entità sono migrate a `scartato`, l'unico dei quattro stati ammessi che le descrive, col perché di ognuna conservato nella nota. La radice era un'altra e vale più della migrazione: `valida-contratti.mjs` controllava i NOMI dei campi e mai i VALORI, quindi nessun cancello poteva accorgersene — ora c'è `valoriFuoriContratto()` e il contratto dichiara l'elenco degli stati. Trovato riparando, e più grave della scheda: `allocazione-check.mjs` escludeva `demo` ma NON `escluso`, quindi i sei ristoranti che Nicola aveva escluso il 18/7 rientravano nel conteggio dei negozi candidabili a ogni giro. Non-vacuità: rimesso `escluso` su un'entità → test rosso."
     },
     {
       "id": "AR-578",
@@ -11864,9 +11862,10 @@
         "comando": "node -e 'const s=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json\").serie;const r=require(\"/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json\");const ok=[\"completa\",\"sonda\"];const bad=s.filter(p=>!ok.includes(p.tipo)).length+(ok.includes(r.tipo)?0:1);console.log(bad+\" valori di tipo fuori contratto\");process.exit(bad?1:0)'"
       },
       "verifica": {
-        "tipo": "comando"
+        "comando": "node cervello/test/contratto-valori.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): qui ha comandato il codice, non la scheda. I valori in più non erano errori: `auto-fix.mjs` marca i punti di burn-down (che hanno `voto_riportato: true` e NON sono misure di salute) e `foto-radiografia.mjs` marca la radiografia totale — informazione vera che il contratto in prosa non prevedeva. Il contratto è stato allargato a ciò che i programmi scrivono davvero (serie: completa|sonda|auto-fix · radiografia: completa|sonda|radiografia-totale), in auto-coscienza.md e nel validatore, e una prova tiene allineati i due elenchi leggendo le righe `tipo:` dei tre programmi che scrivono. Il quinto valore inventato adesso lo ferma il cancello. Non-vacuità: ristretto il contratto → test rosso."
     },
     {
       "id": "AR-580",
@@ -13028,9 +13027,10 @@
         "umano": "Un occhio umano apra i tre file con un job: in test-cervello.yml (riga 51) e cancello-lotto.yml (riga 46) c'è `timeout-minutes: 20`; nel job `battito` di battito-esterno.yml (righe 32-34) la riga non c'è. Controprova sul comportamento reale: su GitHub → Actions → una corsa di «Battito esterno» appesa mostrerebbe il limite di 360 minuti (default). Da questa sessione GitHub Actions non si può far girare, quindi la prova che gira non è scrivibile da qui: lo dichiaro."
       },
       "verifica": {
-        "tipo": "umano"
+        "comando": "node cervello/test/contratto-workflow.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): il job `battito` ha `timeout-minutes: 5` — cinque minuti bastano per una lettura di file e una chiamata a gh, e con `cancel-in-progress: false` un job appeso non tiene più in coda i controlli orari dopo di lui. La radice però non era la riga mancante: era che nessuno controllava i limiti di un workflow. Il contratto ora è codice — cervello/contratto-workflow.mjs, cinque regole (tetto di tempo, permessi, azioni al commit, espressioni dentro run:, scadenza sulla chiamata) — e il test le esegue sui file veri. Non-vacuità: tolto il tetto → test rosso."
     },
     {
       "id": "AR-636",
@@ -13046,9 +13046,10 @@
         "tipo": "grep"
       },
       "verifica": {
-        "tipo": "grep"
+        "comando": "node cervello/test/contratto-workflow.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): deploy-pannello.yml ha `permissions: {}` (non tocca il repository, chiama solo un URL), `timeout-minutes: 5`, un gruppo di concorrenza e `--max-time 30` sulla curl. L'esito della curl si LEGGE con un `if !` e dà un messaggio vero: con `bash -e` una curl scaduta faceva morire il passo in silenzio, e un deploy mancato senza messaggio è indistinguibile da uno riuscito. Le quattro clausole del difetto sono coperte una per una dal contratto eseguibile. Non-vacuità: tolto `permissions: {}` → test rosso."
     },
     {
       "id": "AR-637",
@@ -13064,9 +13065,10 @@
         "tipo": "grep"
       },
       "verifica": {
-        "tipo": "grep"
+        "comando": "node cervello/test/contratto-workflow.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): i sei usi di actions/checkout e actions/setup-node sono agganciati allo SHA di v4 (11d5960… e 49933ea…, risolti con git ls-remote), col tag in commento per sapere cosa aggiornare. La malattia è censita in cervello/malattie.json (`azione-agganciata-a-un-etichetta`, tetto 0, .github/**.yml): il settimo uso a tag fa fallire la spazzata. Non-vacuità: rimesso @v4 → test rosso."
     },
     {
       "id": "AR-638",
@@ -13083,9 +13085,10 @@
         "umano": "Un occhio umano guardi le righe 74, 88 e 100-101: gli output di step compaiono dentro `run:` via `${{ }}` invece di passare da `env:` (come fa correttamente `ISSUE_APERTA` alla riga 56). Una prova che gira richiederebbe di iniettare un titolo malevolo attraverso tutta la catena memoria→battito→issue su GitHub Actions, non eseguibile da qui."
       },
       "verifica": {
-        "tipo": "umano"
+        "comando": "node cervello/test/contratto-workflow.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): titolo e numero della issue passano da `env:` (TITOLO, NUMERO) e lo script legge $TITOLO / $NUMERO — `env:` non è uno script, quindi il valore non viene mai interpretato dalla shell. Coperte tutte e tre le righe (74, 88, 100-101), non solo quella citata per prima. La regola `dato-non-fidato-nel-terminale` distingue `env:` da `run:`, e il test lo prova nei due sensi. Non-vacuità: rimessa l'espressione dentro gh issue create → test rosso."
     },
     {
       "id": "AR-639",

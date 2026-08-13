@@ -45,13 +45,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      # Agganciate al commit, non all'etichetta (AR-637): un tag si sposta, un commit no.
+      # Per aggiornarle: `git ls-remote --tags https://github.com/actions/checkout v4`.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           # Il cancello confronta il ramo con main per sapere quali difetti il lotto TOCCA: con un
           # clone superficiale quel confronto degrada e lo dice («repo shallow»). Qui la storia serve.
           fetch-depth: 0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '22'
 
