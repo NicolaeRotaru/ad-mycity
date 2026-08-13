@@ -44,12 +44,31 @@ esito_ricovero_dir() {
 # prossima strada che scrive un esito ripartirebbe senza rete.
 scrivi_esito_lavoro() {
   local id="${1:?serve id}" body="${2:?serve body}" etichetta="${3:-esito}"
-  local max="${ESITO_TENTATIVI:-4}" tent attesa
+  local max="${ESITO_TENTATIVI:-4}" tent attesa risposta rc_curl verdetto
   for (( tent = 1; tent <= max; tent++ )); do
-    if curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_corso" "${AUTH[@]}" -d "$body" >/dev/null 2>&1; then
+    # AR-631 — si guarda COSA TORNA, non il fatto che curl sia riuscito. Con il filtro
+    # `stato=eq.in_corso` PostgREST risponde 2xx anche quando non trova nessuna riga (un `[]` è una
+    # risposta perfettamente riuscita): senza `Prefer: return=representation` il corpo sarebbe vuoto
+    # per contratto e «zero righe toccate» sarebbe indistinguibile da «scritto». È il caso in cui la
+    # sentinella ha già chiuso il lavoro in errore mentre l'azione girava ancora: l'esito spariva, la
+    # card restava «riapprova», e il doppio invio lo causava la difesa nata per impedirlo.
+    risposta="$(curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_corso" \
+      "${AUTH[@]}" -H "Prefer: return=representation" -d "$body" 2>/dev/null)"; rc_curl=$?
+    verdetto="$(PATCH_CORPO="$risposta" node "${SCRIPT_DIR:-cervello}/esito-scrittura.mjs" patch-confermata --rc="$rc_curl" 2>/dev/null)"
+    if [ -n "$verdetto" ] && printf '%s' "$verdetto" | grep -q '"confermata":true'; then
       [ "$tent" -gt 1 ] && echo "[$(ts)] Lavoro $id: $etichetta scritto al tentativo $tent." >&2
       esito_ricovero_scarta "$id"
       return 0
+    fi
+    # Il verdetto vuoto (node assente/rotto) NON è un successo: cade nel ramo del ritentativo e, se
+    # non si riprende, nel ricovero. Cieco non è verde — vale anche qui.
+    echo "[$(ts)] Lavoro $id: $etichetta NON confermato — $(printf '%s' "${verdetto:-nessun verdetto: non ho potuto misurare la risposta}" | sed 's/.*"motivo":"\([^"]*\)".*/\1/')" >&2
+    # «Zero righe toccate» è definitivo: lo stato di questo lavoro l'ha già cambiato qualcun altro e
+    # non tornerà `in_corso` da solo. Ritentare sarebbe quattordici secondi di attese per arrivare
+    # allo stesso ricovero — e il ricovero è proprio ciò che serve, subito.
+    if printf '%s' "$verdetto" | grep -q '"riprovabile":false'; then
+      esito_ricovera "$id" "$body" "$etichetta"
+      return 1
     fi
     if [ "$tent" -lt "$max" ]; then
       attesa="$(node "${SCRIPT_DIR:-cervello}/esito-scrittura.mjs" attesa --tentativo="$tent" 2>/dev/null || echo 2)"

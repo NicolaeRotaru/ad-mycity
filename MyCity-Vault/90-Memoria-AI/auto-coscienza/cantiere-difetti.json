@@ -12790,12 +12790,10 @@
         "comando": "bash -c 'S=$(mktemp -d); printf \"%s\\n\" \"#!/usr/bin/env bash\" \"p=0\" \"for a in \\\"\\$@\\\"; do case \\\"\\$a\\\" in *stato=eq.in_corso*) echo \\\"[{\\\\\\\"id\\\\\\\":\\\\\\\"AZ1\\\\\\\",\\\\\\\"tipo\\\\\\\":\\\\\\\"esegui-azione\\\\\\\",\\\\\\\"updated_at\\\\\\\":\\\\\\\"2026-08-12T00:00:00Z\\\\\\\"}]\\\"; exit 0;; PATCH) p=1;; esac; done\" \"[ \\\"\\$p\\\" = 1 ] && printf \\\"%s\\\\n\\\" \\\"\\$*\\\" >> \\\"\\$MOCKLOG\\\"\" \"echo \\\"[]\\\"\" > \"$S/curl\"; chmod +x \"$S/curl\"; : > \"$S/log\"; MOCKLOG=\"$S/log\" PATH=\"$S:$PATH\" REPO=\"$S\" SUPABASE_URL=http://mock SUPABASE_SERVICE_KEY=k bash /home/user/ad-mycity/cervello/vps/recupera-lavori-orfani.sh >/dev/null 2>&1; if grep -q in_attesa \"$S/log\"; then echo \"ROSSO: azione reale rimessa in coda senza nuova firma\"; exit 1; else echo verde; fi'"
       },
       "verifica": {
-        "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "ROSSO: azione reale rimessa in coda senza nuova firma"
+        "comando": "node cervello/test/recupero-due-porte.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): la decisione di chi si puo rimettere in coda vive adesso in un posto solo — pannello/src/lib/recupero-lavoro.ts (decidiRecupero) e la sua copia bash cervello/lib-recupero.sh — e le due porte laterali la chiamano entrambe. Tre esiti: «riapprova» per le azioni reali (esegui-azione, proposta: mai riaccodabili, potrebbero essere gia partite), «lascia» per i lavori con un proprietario e freschi (li sta eseguendo un worker: riaccodarli significa doppia esecuzione E l esito del vivo perso, perche la sua scrittura filtra su stato=in_corso), «riaccoda» per il resto. Cio che non tocca lo DICE, invece di saltarlo in silenzio: un bottone che sembra non funzionare insegna a sbloccare i lavori a mano, cioe ad aggirare il freno. Le due copie non possono divergere: il test passa la stessa tabella di casi a tutte e due e pretende lo stesso verdetto. Non-vacuita: tolto il ramo delle azioni reali (in TypeScript e in bash, due mutazioni) → test rosso."
     },
     {
       "id": "AR-625",
@@ -12812,12 +12810,10 @@
         "comando": "bash -c 'eval \"$(sed -n \"/^_orfano_decisione()/,/^}/p\" /home/user/ad-mycity/cervello/worker.sh)\"; if [ \"$(_orfano_decisione 1 all all 0 4 60)\" = procedi ]; then echo \"ROSSO: lavoro VIVO di 0 minuti della mia stessa corsia viene recuperato subito (host:pid ignorati, nessuna grazia)\"; exit 1; else echo verde; fi'"
       },
       "verifica": {
-        "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "ROSSO: lavoro VIVO di 0 minuti della mia stessa corsia viene recuperato subito (host:pid ignorati, nessuna grazia)"
+        "comando": "node cervello/test/recupero-due-porte.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): il recupero orfani riceve l owner INTERO (corsia:host:pid) invece della sola corsia, piu il verdetto di _gemello_vivo — che sullo stesso host chiede a kill -0 se quel processo esiste ancora. Stessa corsia e pid vivo → lascio stare (e il gemello, non un mio orfano); pid morto → procedo subito, senza far aspettare la coda; host diverso o riga vecchia senza pid → non lo posso sapere e vale la grazia per eta, dichiarata come stima. La prova di due-worker.bats che diceva «orfano della mia lane anche se freschissimo → PROCEDI» era il difetto scritto come regola: riscritta col perche. Non-vacuita: rotto il ramo del pid → test rosso. La prima stesura del test NON era rossa (a zero minuti la grazia salvava comunque il lavoro): il caso e stato rifatto a trenta minuti, oltre la grazia — trovato dalla mutazione, non da me."
     },
     {
       "id": "AR-626",
@@ -12853,12 +12849,10 @@
         "comando": "S=$(mktemp -d); printf '#!/bin/bash\\necho ok-locale\\nexit 0\\n' >\"$S/ollama\"; printf '#!/bin/bash\\necho \"usage limit reached\" >&2\\nexit 1\\n' >\"$S/cli-finta\"; chmod +x \"$S\"/*; cd /home/user/ad-mycity && PATH=\"$S:$PATH\" bash -c '. cervello/motore-ai.sh; ai_run_con_fallback_ollama 20 \"metabolizza e scrivi memoria\" cli-finta >/dev/null 2>&1; rc=$?; [ $rc -ne 0 ] || { echo \"ROSSO: quota finita ma rc=0 → worker.sh:1486 lo chiude FATTO senza esecuzione\"; exit 1; }; echo VERDE'"
       },
       "verifica": {
-        "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "ROSSO: quota finita ma rc=0 → worker.sh:1486 lo chiude FATTO senza esecuzione"
+        "comando": "node cervello/test/quota-e-patch-a-vuoto.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): ai_run_con_fallback_ollama torna 75 (il «riprova piu tardi» di convenzione) quando la quota e finita — sia col modello locale che risponde, sia senza Ollama quando la CLI esce 0 col messaggio di quota nello stdout (il fratello nello stesso if, non citato dalla scheda). La risposta si consegna comunque, ma nessuno puo chiamarla riuscita: worker.sh riconosce quel codice e chiude in errore con una frase che spiega che il modello locale parla ma non ha le mani. Cosi il recupero della cadenza non si brucia: resta riaccodabile. Non-vacuita: tolta la riga del codice → test rosso. La riproduzione della scheda ora esce verde."
     },
     {
       "id": "AR-628",
@@ -12875,9 +12869,10 @@
         "umano": "Sul VPS (o clone con remoto raggiungibile): mettersi a HEAD staccato (git checkout HEAD~0), modificare un file in MyCity-Vault/, lanciare bash cervello/ritmo.sh mattino con RITMO_FORCE=1, poi verificare: «git log --all --oneline | grep -c 'recupero: scritture pendenti'» deve trovarlo raggiungibile; se serve «git fsck --lost-found» per vedere il commit orfanato. Se il commit c'è solo tra i dangling, il difetto è confermato."
       },
       "verifica": {
-        "tipo": "umano"
+        "comando": "node cervello/test/testa-staccata-non-perde-memoria.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): il ramo «HEAD staccato» non ha piu un percorso suo in nessuna delle tre copie. Prima faceva checkout -B ramo FETCH_HEAD e orfanava il commit di recupero creato poche righe sopra; adesso si riaggancia a QUESTO HEAD — che quel commit ce l ha — e poi passa dalla stessa scala rebase → merge di tutti gli altri. Il caso staccato non e piu un caso a parte, quindi non puo piu essere dimenticato in una copia sola: era esattamente cosi che AR-028 aveva curato una porta su due. La prova gira su un repository git vero (remoto + locale, HEAD davvero staccato, un briefing da perdere) ed ESEGUE il blocco estratto dai tre script, non una sua riscrittura. Non-vacuita: rimesso FETCH_HEAD nel checkout di ritmo.sh → test rosso."
     },
     {
       "id": "AR-629",
@@ -12936,12 +12931,10 @@
         "comando": "bash -c 'S=$(mktemp -d) && mkdir -p \"$S/.git\" && cd \"$S\" && ts(){ date +%H:%M:%S; }; curl(){ return 0; }; AUTH=(); REPO=\"$S\"; SCRIPT_DIR=/home/user/ad-mycity/cervello; SUPABASE_URL=http://finto; . /home/user/ad-mycity/cervello/lib-esito-lavoro.sh; if scrivi_esito_lavoro 999 \"{\\\"stato\\\":\\\"fatto\\\"}\" 2>/dev/null && [ ! -f \"$S/.git/mycity-esito-ricovero/999.json\" ]; then echo \"ROSSO: esito dichiarato scritto, nessun ricovero, con 0 righe toccate\"; exit 1; else echo verde; fi' — lo stub curl che esce 0 modella il comportamento documentato di PostgREST (2xx anche a filtro vuoto). Eseguita ora: ROSSA."
       },
       "verifica": {
-        "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "/bin/sh: 1: Syntax error: \"(\" unexpected"
+        "comando": "node cervello/test/quota-e-patch-a-vuoto.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 39): la PATCH chiede Prefer: return=representation e il verdetto lo da patchConfermata() in esito-scrittura.mjs — lo stesso modulo puro che cura questa malattia negli altri tre punti. Senza quell intestazione il corpo e vuoto per contratto e «zero righe toccate» resterebbe indistinguibile da «scritto». Tre esiti invece di due: scritto · non arrivato (riprovabile) · zero righe (definitivo, si ricovera SUBITO senza bruciare quattordici secondi di ritentativi inutili — lo stato non torna in_corso da solo). Il banco di prova di AR-397 e stato aggiornato per rispondere come il vero. Non-vacuita: fatto tornare «confermata: true» sulle zero righe → test rosso."
     },
     {
       "id": "AR-632",
