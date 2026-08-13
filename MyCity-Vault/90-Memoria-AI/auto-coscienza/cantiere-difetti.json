@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-13 18:20",
+  "aggiornato": "2026-08-13 21:16",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -13393,7 +13393,7 @@
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
       "impatto_crescita": "medio",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 20:31",
       "nato_come": "scoperta",
       "causa_radice": "cervello/cancello-lotto.mjs, righeMotivo (AR-491): sceglie le righe del figlio per CONTENUTO, tenendo quelle con un marcatore di verdetto. Il sorvegliante però annuncia la cecità con «⚪ non ho potuto misurare:» e mette i motivi nelle righe puntate SOTTO, che marcatore non ne hanno: il filtro teneva l intestazione e buttava l elenco. Risultato in CI il 13/8 (PR #713, run 31720248865 e il suo rerun): due volte exit 2 con un log che diceva CHE era cieco e non DI COSA. È AR-491 riparata a metà — la stessa forma che la casa chiama «un rosso che non dice perché».",
@@ -13402,7 +13402,10 @@
       "verifica": {
         "comando": "node cervello/test/rosso-che-non-dice-perche.test.mjs"
       },
-      "nota_fix": "2026-08-13 (lotto 38): righeMotivo raccoglie l elenco puntato che segue un intestazione con i due punti; ripuntata anche la mutazione di AR-491, il cui pezzo si era spostato. Non-vacuità: mutazione applicata (il ciclo che raccoglie l elenco non parte mai) → test rosso su 1 caso (10 pass/1 fail), ripristinato → 11 pass."
+      "nota_fix": "2026-08-13 (lotto 38): righeMotivo raccoglie l elenco puntato che segue un intestazione con i due punti; ripuntata anche la mutazione di AR-491, il cui pezzo si era spostato. Non-vacuità: mutazione applicata (il ciclo che raccoglie l elenco non parte mai) → test rosso su 1 caso (10 pass/1 fail), ripristinato → 11 pass.",
+      "chiuso_il": "2026-08-13 21:16",
+      "chiuso_come": "node cervello/test/rosso-che-non-dice-perche.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-657",
@@ -13410,7 +13413,7 @@
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
       "impatto_crescita": "medio",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 20:58",
       "nato_come": "scoperta",
       "causa_radice": "cervello/cancello-stop.mjs, testiToccati: il perimetro del turno è «ancora...HEAD». Quando durante il lavoro si fonde origin/main nel ramo — cosa obbligata su ogni PR lunga, perché main si muove — dentro quel perimetro entra anche tutto ciò che main ha portato. Il 13/8 sulla PR #713 il cancello ha accusato «STATO.md: questo lavoro gli ha aggiunto 10 punti difficili (era 488, adesso 498)» su un file che il mio diff verso main non contiene affatto, e ha bloccato la consegna. È la forma di AR-507 (accusare di cose non tue) per la strada che quel fix non guardava: non l ancora mancante, ma l ancora presente col ramo di base fuso dentro.",
@@ -13419,12 +13422,15 @@
       "verifica": {
         "comando": "node cervello/test/cancello-stop.test.mjs"
       },
-      "nota_fix": "2026-08-13 (lotto 38): testiMiei() esportata e pura, chiamata da testiToccati; l albero di lavoro resta mio per definizione, il perimetro committato passa dall intersezione col ramo. Non-vacuità: tolta l intersezione → test rosso (80 pass/1 fail), ripristinata → 81 pass."
+      "nota_fix": "2026-08-13 (lotto 38): testiMiei() esportata e pura, chiamata da testiToccati; l albero di lavoro resta mio per definizione, il perimetro committato passa dall intersezione col ramo. Non-vacuità: tolta l intersezione → test rosso (80 pass/1 fail), ripristinata → 81 pass.",
+      "chiuso_il": "2026-08-13 21:16",
+      "chiuso_come": "node cervello/test/cancello-stop.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     }
   ],
   "meta": {
     "aperti": 232,
     "in_corso": 0,
-    "chiusi": 358
+    "chiusi": 360
   }
 }
