@@ -11,13 +11,15 @@
 //   node cervello/verifica-sensori.mjs --json     -> output JSON (per giro.sh / sentinelle)
 //   node cervello/verifica-sensori.mjs --mcp-supabase=ok|cieco  -> aggiorna contatore MCP da sessione AD
 //
-// Exit: 0 = almeno un sensore dati ok · 1 = tutti ciechi (lavora su memoria + Gap)
+// Exit: 0 = almeno un sensore d'AMBIENTE misurato e ok · 1 = tutti ciechi O nessun sensore
+//       d'ambiente misurabile da qui (esito "non_misurato": lavora su memoria + Gap) — AR-587
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { scriviStatoSensore } from "./stato-sensori.mjs";
+import { eSpentoPerDecisione, istruzioniGiro, sintesiSensori, verdettoSensori } from "./lib-sensori-verdetto.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const RETRIES = 3;
@@ -89,6 +91,15 @@ function parseMcpFlag(name) {
   if (!arg) return null;
   const v = arg.slice(pref.length).trim();
   return v === "ok" || v === "cieco" ? v : null;
+}
+
+/** AR-590: i motivi degli spenti (cervello/sensori-motivi.json) — motivo "decisione" = spento apposta. */
+function leggiMotiviSensori() {
+  try {
+    return JSON.parse(readFileSync(join(dirname(fileURLToPath(import.meta.url)), "sensori-motivi.json"), "utf8"));
+  } catch {
+    return null;
+  }
 }
 
 function leggiCecita() {
@@ -223,7 +234,9 @@ async function checkPostHog() {
   // Decisione Nicola 2026-07-05 (chat "togli PostHog"): sensore SPENTO finché non lo riattiva lui.
   // POSTHOG_OFF=1 (o chiave assente) → non_configurato: niente check, niente rumore, niente card.
   if (process.env.POSTHOG_OFF === "1") {
-    return { ok: false, configurato: false, dettaglio: "PostHog SPENTO su decisione di Nicola (5/7) — riattivare solo su suo ok (POSTHOG_OFF=0 + Personal API key)" };
+    // AR-590: `spento: true` = spento per DECISIONE (non «chiave che da qui non vedo»): lo stato
+    // scritto deve dire "non_configurato", non conservare un vecchio "ok" di quando era acceso.
+    return { ok: false, configurato: false, spento: true, dettaglio: "PostHog SPENTO su decisione di Nicola (5/7) — riattivare solo su suo ok (POSTHOG_OFF=0 + Personal API key)" };
   }
   const key = process.env.POSTHOG_API_KEY?.trim() || process.env.POSTHOG_PERSONAL_API_KEY?.trim();
   const host = (process.env.POSTHOG_HOST?.trim() || "https://eu.posthog.com").replace(/\/$/, "");
@@ -556,11 +569,13 @@ async function main() {
     );
   }
 
-  const configurati = checks.filter((c) => c.configurato !== false);
-  const datiOk = configurati.filter((c) => c.ok);
-  // "tutti ciechi" = nessuna FONTE DATI CONFIGURATA è leggibile. I sensori spenti (senza chiave, es.
-  // Stripe/PostHog/Resend non collegati) NON contano come cecità: erano la causa della sentinella a vuoto.
-  const tuttiCiechi = configurati.length > 0 ? datiOk.length === 0 : true;
+  // AR-587: il verdetto passa dalla funzione pura. «ok» solo se almeno un sensore d'AMBIENTE
+  // (chiavi/rete) è stato misurato e risponde: il guardiano esterno — che legge un file nel repo
+  // ed è verde anche da una sessione cloud senza chiavi — non può più far uscire "ok" da solo.
+  // Se NESSUN sensore d'ambiente era misurabile, l'esito è "non_misurato": cecità dichiarata,
+  // non un verde finto. I sensori spenti (senza chiave) restano fuori dal conto dei ciechi.
+  const verdetto = verdettoSensori(checks);
+  const esito = verdetto.esito;
   // FIX gate-verità (AR-011): il freno "niente numeri inventati" NON deve dipendere da "almeno un sensore
   // qualsiasi vivo" (uptime/stripe/posthog possono essere ok mentre supabase_rest è cieco → ordini/clienti
   // sarebbero comunque ciechi). Esponiamo un segnale SPECIFICO sulla fonte-di-verità dei dati: se
@@ -582,18 +597,17 @@ async function main() {
   );
 
   cecita.aggiornato = quando;
-  cecita.istruzioni_giro = tuttiCiechi
-    ? "Tutti i sensori REST ciechi: NON inventare numeri. Usa baseline STATO + sezione Gap. Passaggio minimo se nulla è cambiato fuori."
-    : sb.ok
-      ? "Supabase REST ok: usa questi dati per i 7 numeri anche se MCP Supabase è cieco. Segnala nei Gap solo ciò che REST non copre."
-      : "Stripe ok ma Supabase REST cieco: limita analisi ordini; verifica MARKETPLACE_SUPABASE_* sul VPS.";
+  // AR-587: le istruzioni non affermano cose non misurate (il vecchio «Stripe ok ma Supabase
+  // REST cieco» usciva anche quando Stripe non era stato misurato affatto).
+  cecita.istruzioni_giro = istruzioniGiro(esito, sb.ok);
 
-  cecita.meta.sensori_ok = datiOk.length;
-  cecita.meta.sensori_totali = configurati.length;
-  cecita.meta.sensori_non_configurati = checks.length - configurati.length;
+  cecita.meta.sensori_ok = verdetto.ok_configurati;
+  cecita.meta.sensori_totali = verdetto.configurati;
+  cecita.meta.sensori_non_configurati = verdetto.non_configurati;
+  cecita.meta.sensori_ambiente_misurati = verdetto.misurati_ambiente;   // AR-587: 0 = cecità dichiarata
   cecita.meta.max_giri_ciechi = maxCecita;
   cecita.meta.max_giri_ciechi_dati = maxCecitaDati;
-  cecita.meta.almeno_un_dato = !tuttiCiechi;
+  cecita.meta.almeno_un_dato = esito === "ok";
   cecita.meta.dati_ordini_ciechi = datiOrdiniCiechi;   // FIX gate-verità: fonte-di-verità (supabase_rest) cieca?
 
   // AR-035: scrivi lo stato condiviso (quello che il Pannello mostra a Nicola) SOLO se questo è un vero
@@ -612,9 +626,16 @@ async function main() {
   // Anche quando si scrive, un sensore che questa esecuzione non ha potuto misurare non
   // si tocca: tiene il valore di chi l'aveva misurato davvero. Senza questo, bastava una
   // sola chiave presente per riscrivere a «non configurato» tutti gli altri.
+  // AR-590: la protezione qui sotto è per i sensori che QUESTA sessione non poteva vedere
+  // (chiave assente da qui, magari presente sul VPS). Un sensore spento per DECISIONE del
+  // proprietario (POSTHOG_OFF=1, o motivo "decisione" in sensori-motivi.json) non è in quella
+  // famiglia: il suo stato vero È "non_configurato", e ripristinare il vecchio "ok" lo faceva
+  // risultare acceso per sempre.
+  const motiviSensori = leggiMotiviSensori();
   if (scriviStato && esistente?.sensori) {
     for (const c of checks) {
       if (c.configurato !== false || c.dipende_da_env === false) continue;
+      if (eSpentoPerDecisione(c, motiviSensori)) continue;   // AR-590: spento apposta → resta "non_configurato"
       const prima = esistente.sensori[c.nome];
       if (!prima) continue;
       cecita.sensori[c.nome] = { ...prima, non_misurato_qui: `${quando}: ${c.dettaglio}` };
@@ -627,16 +648,16 @@ async function main() {
     motivo: "nessuna chiave sensore nell'ambiente e nessun aggiornamento MCP",
   });
 
-  const sintesi = tuttiCiechi
-    ? `TUTTI CIECHI · max ${maxCecita} giri consecutivi`
-    : `${datiOk.length}/${checks.length} ok · max cecità ${maxCecita} giri`;
+  // AR-591: il denominatore sono i sensori CONFIGURATI, gli spenti si dichiarano a parte —
+  // «7/11 ok» con 4 spenti faceva sembrare rotti 4 sensori che erano spenti apposta.
+  const sintesi = sintesiSensori(verdetto, maxCecita);
 
   if (scriviStato) {
-    await stampSegnale("sensori", tuttiCiechi ? "errore" : "ok", `${sintesi} · ${quando}`);
+    await stampSegnale("sensori", esito === "ok" ? "ok" : "errore", `${sintesi} · ${quando}`);
   }
 
   const out = {
-    esito: tuttiCiechi ? "cieco" : "ok",
+    esito,   // AR-587: "ok" | "cieco" | "non_misurato" (prima "non_misurato" usciva come "ok")
     quando,
     sintesi,
     checks,
@@ -647,6 +668,7 @@ async function main() {
     // FIX gate-verità: giro.sh legge questo flag (grep nel JSON) per il vincolo HARD indipendentemente
     // dall'exit-code (che è 0 se un QUALSIASI sensore configurato è vivo, anche solo l'uptime).
     datiOrdiniCiechi,
+    sensori_ambiente_misurati: verdetto.misurati_ambiente,   // AR-587: 0 = nessuna misura vera da qui
     stato_persistito: scriviStato,   // AR-035: false = ambiente non configurato, file del VPS preservato
   };
 
@@ -666,7 +688,10 @@ async function main() {
     }
   }
 
-  process.exit(tuttiCiechi ? 1 : 0);
+  // AR-587: exit 0 SOLO se almeno un sensore d'ambiente è stato misurato ed è ok. Un giro senza
+  // chiavi esce 1 ("non_misurato"): giro.sh applica il vincolo baseline invece di fidarsi di un
+  // verde che non ha misurato niente.
+  process.exit(esito === "ok" ? 0 : 1);
 }
 
 main().catch(async (e) => {
