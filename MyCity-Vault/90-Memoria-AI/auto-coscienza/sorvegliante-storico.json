@@ -2,86 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-09T15:11:30.860Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T15:16:36.449Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T15:16:40.383Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T15:31:46.839Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T15:31:50.524Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:00:04.803Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:00:38.750Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:01:12.500Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-09T16:03:18.732Z",
       "scatti": 1651,
       "voci": 7,
@@ -1951,7 +1871,120 @@
         "prova-accecata": 2
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T16:35:46.090Z",
+      "scatti": 5987,
+      "voci": 11,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 6,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T16:49:36.670Z",
+      "scatti": 6025,
+      "voci": 11,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 6,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T17:03:27.157Z",
+      "scatti": 6076,
+      "voci": 11,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 6,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T17:10:23.989Z",
+      "scatti": 6079,
+      "voci": 11,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 6,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T17:18:06.046Z",
+      "scatti": 6105,
+      "voci": 11,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 6,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T17:25:33.052Z",
+      "scatti": 6125,
+      "voci": 15,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 10,
+        "prova-accecata": 2
+      },
+      "mai_risolte": [
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/test/archivi-senza-tetto.test.mjs», che è la prova che deve diventare rossa per AR-471",
+          "ripetuta": 20
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «node cervello/test/archivi-senza-tetto.test.mjs», che è la prova che deve diventare rossa per AR-416",
+          "ripetuta": 20
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/test/regola-scrittura-nei-senior.test.mjs», che è la prova che deve diventare rossa per AR-480",
+          "ripetuta": 20
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «node cervello/test/regola-scrittura-nei-senior.test.mjs», che è la prova che deve diventare rossa per AR-574",
+          "ripetuta": 20
+        }
+      ]
+    },
+    {
+      "quando": "2026-08-13T17:27:43.675Z",
+      "scatti": 6132,
+      "voci": 15,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 10,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T17:28:32.178Z",
+      "scatti": 6133,
+      "voci": 15,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 10,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-13T16:14:51.931Z"
+  "aggiornato": "2026-08-13T17:28:32.178Z"
 }

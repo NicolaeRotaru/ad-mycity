@@ -189,7 +189,10 @@
             "presente": true
           },
           "confermato": true,
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-13 18:20",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-587"
         },
         {
           "titolo": "/api/stato risponde 200 OK con uno stato inventato quando la lettura è andata in errore — e così disattiva il guardiano che il chiamante ha installato apposta",
@@ -366,7 +369,11 @@
             "pattern": "Stripe ok ma Supabase REST cieco",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-13 18:22",
+          "chiuso_come": "cervello/verifica-sensori.mjs NON contiene /Stripe ok ma Supabase REST cieco/ → assente",
+          "chiuso_da": "verifica-codice"
         }
       ],
       "giro": "2026-07-30 05:09"
@@ -2515,7 +2522,10 @@
           "impatto_crescita": "medio",
           "prova": "cd /home/user/ad-mycity && node -e 'const D=require(\"./MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json\").difetti;const n=D.filter(d=>d.stato===\"chiuso\"&&!/^\\d{4}-\\d{2}/.test(String(d.chiuso_il||\"\")));if(n.length){console.error(n.length+\" chiusure senza data: \"+n.slice(0,3).map(d=>d.id).join(\",\"));process.exit(1)}'",
           "prova_tipo": "comando",
-          "stato": "aperto"
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-13 18:20",
+          "chiuso_da": "cantiere",
+          "cantiere_id": "AR-575"
         },
         {
           "titolo": "Cinque esperimenti di crescita sono fermi in uno stato che nessun controllo conosce, da ventiquattro giorni",
@@ -4770,13 +4780,13 @@
     }
   ],
   "sonda": {
-    "data": "2026-08-13 18:05",
+    "data": "2026-08-13 19:18",
     "loop_chiude": true,
     "tasso_applicazione": 0.11,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
-    "difetti_chiusi": 342,
-    "difetti_chiusi_recenti": 29,
+    "difetti_chiusi": 358,
+    "difetti_chiusi_recenti": 119,
     "calibrazione_piena": false,
     "loop_vivo": true,
     "intenzioni_aperte": 1,
@@ -4787,20 +4797,20 @@
     "esperimenti_misurati": true,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 52,
-    "ore_da_ultimo_briefing": 3,
-    "max_giri_ciechi_sensori": 124,
-    "giri_tasso_basso": 102,
+    "ore_da_ultima_completa": 54,
+    "ore_da_ultimo_briefing": 0,
+    "max_giri_ciechi_sensori": 126,
+    "giri_tasso_basso": 103,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
     "voto_pieno": 0,
     "pending_merge": 0,
-    "aperti_davvero": 246,
-    "bloccanti_umani": 48,
-    "salute_firma": "AR-023,AR-045,AR-046,AR-047,AR-048,AR-050,AR-051,AR-052,AR-053,AR-054,AR-055,AR-056,AR-057,AR-058,AR-059,AR-060,AR-061,AR-062,AR-063,AR-064,AR-065,AR-067,AR-068,AR-069,AR-070,AR-071,AR-072,AR-073,AR-074,AR-075,AR-076,AR-077,AR-078,AR-079,AR-080,AR-081,AR-082,AR-083,AR-084,AR-085,AR-086,AR-087,AR-088,AR-089,AR-091,AR-092,AR-093,AR-094,AR-095,AR-096,AR-100,AR-102,AR-103,AR-104,AR-126,AR-128,AR-130,AR-131,AR-133,AR-158,AR-160,AR-161,AR-174,AR-175,AR-181,AR-184,AR-185,AR-187,AR-188,AR-190,AR-191,AR-192,AR-193,AR-194,AR-197,AR-198,AR-200,AR-202,AR-203,AR-206,AR-208,AR-209,AR-210,AR-215,AR-220,AR-223,AR-224,AR-225,AR-234,AR-236,AR-241,AR-244,AR-245,AR-248,AR-249,AR-263,AR-274,AR-278,AR-282,AR-283,AR-285,AR-286,AR-288,AR-289,AR-290,AR-294,AR-295,AR-304,AR-306,AR-321,AR-323,AR-324,AR-327,AR-328,AR-329,AR-336,AR-337,AR-345,AR-347,AR-348,AR-349,AR-351,AR-352,AR-354,AR-355,AR-356,AR-359,AR-360,AR-363,AR-364,AR-365,AR-366,AR-367,AR-368,AR-369,AR-370,AR-378,AR-383,AR-384,AR-385,AR-386,AR-388,AR-390,AR-391,AR-392,AR-394,AR-395,AR-396,AR-398,AR-400,AR-402,AR-403,AR-404,AR-405,AR-408,AR-410,AR-411,AR-412,AR-413,AR-414,AR-415,AR-416,AR-417,AR-420,AR-421,AR-422,AR-423,AR-425,AR-428,AR-431,AR-433,AR-434,AR-435,AR-436,AR-445,AR-456,AR-458,AR-460,AR-461,AR-464,AR-473,AR-504,AR-518,AR-521,AR-556,AR-557,AR-559,AR-560,AR-561,AR-574,AR-575,AR-576,AR-577,AR-578,AR-579,AR-580,AR-581,AR-582,AR-583,AR-584,AR-586,AR-587,AR-588,AR-589,AR-590,AR-591,AR-592,AR-593,AR-594,AR-595,AR-596,AR-597,AR-598,AR-599,AR-600,AR-605,AR-608,AR-610,AR-611,AR-613,AR-615,AR-616,AR-617,AR-618,AR-620,AR-621,AR-622,AR-623,AR-624,AR-625,AR-627,AR-629,AR-630,AR-631,AR-632,AR-633,AR-634,AR-636,AR-637,AR-639,AR-640,AR-641,AR-642,AR-643,AR-644,AR-645",
+    "aperti_davvero": 231,
+    "bloccanti_umani": 57,
+    "salute_firma": "AR-023,AR-045,AR-046,AR-047,AR-048,AR-050,AR-051,AR-052,AR-053,AR-054,AR-055,AR-056,AR-057,AR-058,AR-059,AR-060,AR-061,AR-062,AR-063,AR-064,AR-065,AR-067,AR-068,AR-069,AR-070,AR-071,AR-072,AR-073,AR-074,AR-075,AR-076,AR-077,AR-078,AR-079,AR-080,AR-081,AR-082,AR-083,AR-084,AR-085,AR-086,AR-087,AR-088,AR-089,AR-091,AR-092,AR-093,AR-094,AR-095,AR-096,AR-100,AR-102,AR-103,AR-104,AR-126,AR-128,AR-130,AR-131,AR-133,AR-158,AR-160,AR-161,AR-174,AR-175,AR-181,AR-184,AR-185,AR-187,AR-188,AR-190,AR-191,AR-192,AR-193,AR-194,AR-197,AR-198,AR-200,AR-202,AR-203,AR-206,AR-208,AR-209,AR-210,AR-215,AR-220,AR-223,AR-224,AR-225,AR-234,AR-236,AR-241,AR-244,AR-245,AR-248,AR-249,AR-263,AR-274,AR-278,AR-282,AR-283,AR-285,AR-286,AR-288,AR-289,AR-290,AR-294,AR-295,AR-304,AR-306,AR-321,AR-323,AR-324,AR-327,AR-328,AR-329,AR-336,AR-337,AR-345,AR-347,AR-348,AR-349,AR-351,AR-352,AR-354,AR-355,AR-356,AR-359,AR-360,AR-363,AR-364,AR-365,AR-366,AR-367,AR-368,AR-369,AR-370,AR-378,AR-383,AR-384,AR-385,AR-386,AR-388,AR-390,AR-391,AR-392,AR-394,AR-395,AR-396,AR-398,AR-400,AR-402,AR-403,AR-404,AR-405,AR-408,AR-410,AR-411,AR-412,AR-413,AR-414,AR-415,AR-417,AR-420,AR-421,AR-422,AR-423,AR-425,AR-428,AR-431,AR-433,AR-434,AR-435,AR-436,AR-445,AR-456,AR-458,AR-460,AR-461,AR-464,AR-473,AR-504,AR-518,AR-521,AR-556,AR-557,AR-559,AR-560,AR-561,AR-576,AR-577,AR-578,AR-579,AR-581,AR-583,AR-584,AR-586,AR-588,AR-592,AR-593,AR-594,AR-595,AR-596,AR-598,AR-599,AR-600,AR-605,AR-608,AR-610,AR-611,AR-613,AR-615,AR-616,AR-617,AR-618,AR-620,AR-621,AR-622,AR-623,AR-624,AR-625,AR-627,AR-630,AR-631,AR-636,AR-637,AR-639,AR-640,AR-641,AR-643,AR-644,AR-645",
     "verdetto": "serve-completa",
-    "nota": "loop chiude (con prova) · briefing 3h fa · cecità sensori 124 giri · salute pending-merge 0/100 (floor 0): 246 aperti-davvero · 0 in attesa merge · 48 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)",
+    "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 126 giri · salute pending-merge 0/100 (floor 0): 231 aperti-davvero · 0 in attesa merge · 57 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)",
     "voto_salute": 4,
     "voto_salute_copertura": "radiografia",
     "voto_salute_parziale": false,
@@ -4853,21 +4863,21 @@
     "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
   },
   "sync_scan": {
-    "aggiornato": "2026-08-13 18:07",
-    "findings_aperti": 270,
+    "aggiornato": "2026-08-13 19:20",
+    "findings_aperti": 267,
     "findings_in_corso": 0,
-    "findings_chiusi": 16,
+    "findings_chiusi": 19,
     "findings_tot": 286,
-    "cantiere_aperti": 236,
+    "cantiere_aperti": 232,
     "cantiere_in_corso": 0,
-    "cantiere_chiusi": 342,
-    "match_aggiornati": 1,
+    "cantiere_chiusi": 358,
+    "match_aggiornati": 0,
     "chiusi_verifica": 0,
     "data_scan": "2026-08-11 13:37"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 102,
-    "aggiornato": "2026-08-13 18:05"
+    "giri_tasso_basso": 103,
+    "aggiornato": "2026-08-13 19:18"
   },
   "zone_non_viste": [
     "Il worker e il VPS: da questa sessione non si vedono. Non ho potuto verificare se lo script che scrive AZIONI-IN-ATTESA sul server si comporti come la copia locale che ho letto, né se là il file sia più grande o più piccolo.",
