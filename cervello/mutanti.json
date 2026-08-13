@@ -2333,6 +2333,15 @@
    "cerca": "«Cosa non ho verificato» (dichiara cosa NON hai potuto controllare da qui",
    "sostituisci": "",
    "test": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
+  },
+  {
+   "difetto": "L-2026-0813-02 gate-dichiarato-senza-mutazione",
+   "lezione": "L-2026-0813-02",
+   "nome": "la regola gate-mai-rotto cambia nome e nessuno boccia più un gate senza mutazione: il freno della lezione sparisce in silenzio",
+   "file": "cervello/gate-veri.mjs",
+   "cerca": "        regola: \"gate-mai-rotto\",",
+   "sostituisci": "        regola: \"gate-mai-rotto-disattivato\",",
+   "test": "node cervello/test/gate-che-non-puo-scattare.test.mjs"
   }
  ]
 }

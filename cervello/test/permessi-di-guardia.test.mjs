@@ -96,9 +96,14 @@ test("il debito senza una card resta sotto il suo tetto", () => {
 
 test("il registro del debito non tiene in vita scuse per violazioni sparite", () => {
   const registro = JSON.parse(readFileSync(DEBITO, "utf8"));
-  const dichiarate = Object.keys(registro.violazioni || {});
   const { violazioni } = analizza(settingsVeri());
   const vive = new Set(violazioni.map(chiaveDi));
+  // Una scusa si giudica morta solo dove il suo foglio si può leggere: le voci di
+  // settings.local.json esistono solo sulla macchina che le ha scritte (il VPS), e da un
+  // checkout senza quel file «sparita» e «invisibile da qui» avrebbero la stessa faccia.
+  const dichiarate = Object.entries(registro.violazioni || {})
+    .filter(([, v]) => existsSync(join(REPO, v.file || ".claude/settings.json")))
+    .map(([k]) => k);
   const morte = dichiarate.filter((k) => !vive.has(k));
   assert.deepEqual(
     morte,

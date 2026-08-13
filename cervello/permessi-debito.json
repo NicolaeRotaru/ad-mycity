@@ -17,14 +17,17 @@
    "card": "permessi-push-e-supabase-da-rinominare"
   },
   "no-push-diretto|Bash(git push origin main:*)": {
+   "file": ".claude/settings.local.json",
    "perche": "Manca il divieto esplicito di `git push` fra i deny. Dal VPS la macchina pubblica la memoria su `main` a ogni giro (ramo unico, dichiarato in CLAUDE.md/giro.md) — quel push diretto è per disegno. Da agente cloud invece la convenzione resta branch+PR anche se il permesso tecnico lo consentirebbe. La riga giusta (fermare il cloud, non il worker) la scrive Nicola in `.claude/settings*.json`, negato in scrittura alla macchina.",
    "card": "permessi-push-e-supabase-da-rinominare"
   },
   "no-push-diretto|Bash(git push origin feature/*:*)": {
+   "file": ".claude/settings.local.json",
    "perche": "Stessa riga della precedente, sul ramo `feature/*`: serve a `git-pr.mjs` per pubblicare il branch di lavoro prima di aprire la PR — il gate di merge resta la PR, non questo push. Decisione di Nicola.",
    "card": "permessi-push-e-supabase-da-rinominare"
   },
   "no-push-diretto|Bash(git push origin fix/*:*)": {
+   "file": ".claude/settings.local.json",
    "perche": "Stessa riga sul ramo `fix/*`: stesso uso (pubblicare il branch prima della PR), stessa decisione in sospeso presso Nicola.",
    "card": "permessi-push-e-supabase-da-rinominare"
   },
@@ -33,12 +36,15 @@
    "card": "permessi-push-e-supabase-da-rinominare"
   },
   "strumenti-di-scrittura-non-automatici|mcp__supabase-memoria__execute_sql": {
+   "file": ".claude/settings.local.json",
    "perche": "AR-273, riapparsa col nuovo nome del server MCP (prima `mcp__Supabase__execute_sql`, ora diviso in memoria/marketplace): `execute_sql` modifica lo stato di un sistema esterno ed è concesso senza chiedere. Sulla memoria (che la macchina PUÒ scrivere) è meno grave che sul marketplace, ma resta uno strumento di scrittura senza gate esplicito — o si giustifica per iscritto o si toglie: decisione di Nicola.",
    "card": "permessi-push-e-supabase-da-rinominare"
   },
   "strumenti-di-scrittura-non-automatici|mcp__supabase-marketplace__execute_sql": {
+   "file": ".claude/settings.local.json",
    "perche": "AR-273, stesso difetto sul marketplace: il marketplace è dichiarato in SOLA LETTURA per la macchina, quindi `execute_sql` (che scrive) o si toglie dal foglio dei permessi o si giustifica per iscritto in STRUMENTI_GIUSTIFICATI; entrambe le mosse sono di Nicola.",
    "card": "permessi-push-e-supabase-da-rinominare"
   }
- }
+ },
+ "_campo_file": "Ogni violazione può dichiarare in `file` il foglio dove vive (default: .claude/settings.json, che viaggia col repo). Le voci di `.claude/settings.local.json` esistono solo sulla macchina che le ha scritte (il VPS): la prova le giudica vive/morte SOLO dove quel foglio c'è — altrove non può vederle, e un «non visibile da qui» non è un «chiuso»."
 }
