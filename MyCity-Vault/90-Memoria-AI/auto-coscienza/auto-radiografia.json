@@ -188,7 +188,8 @@
             "pattern": "leggiDato<",
             "presente": true
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "aperto"
         },
         {
           "titolo": "/api/stato risponde 200 OK con uno stato inventato quando la lettura è andata in errore — e così disattiva il guardiano che il chiamante ha installato apposta",
@@ -4852,15 +4853,15 @@
     "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
   },
   "sync_scan": {
-    "aggiornato": "2026-08-13 14:16",
+    "aggiornato": "2026-08-13 18:07",
     "findings_aperti": 270,
     "findings_in_corso": 0,
     "findings_chiusi": 16,
     "findings_tot": 286,
-    "cantiere_aperti": 165,
+    "cantiere_aperti": 236,
     "cantiere_in_corso": 0,
     "cantiere_chiusi": 342,
-    "match_aggiornati": 0,
+    "match_aggiornati": 1,
     "chiusi_verifica": 0,
     "data_scan": "2026-08-11 13:37"
   },

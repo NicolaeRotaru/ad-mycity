@@ -809,9 +809,9 @@ Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-incl
 
 ---
 
-## 🛡️ I guardiani della macchina · 2026-08-13 10:22
+## 🛡️ I guardiani della macchina · 2026-08-13 18:07
 
-A ogni giro, prima che l'AI scriva una riga, girano **81 controlli automatici**. **40** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
+A ogni giro, prima che l'AI scriva una riga, girano **82 controlli automatici**. **40** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
 
 Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato), **cieco** (non ha potuto misurare). Un guardiano cieco *non* vale come verde — è uno strumento rotto, e la macchina si ferma lo stesso: meglio memoria vecchia che memoria che mente.
 
@@ -864,6 +864,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | `correzione-nicola-gate` | Conta quante correzioni di Nicola sono ancora senza un freno automatico proprio (gate): l'area più ripetuta della memoria, resa un numero che il giro non può ignorare. | ⛔ ferma il giro |
 | `cristallizza-apprendimento` | Prende le lezioni mature e le trasforma in principi scritti nei mansionari, dove valgono sempre. | ℹ️ scrive e basta |
 | `macchina-del-tempo` | Ricostruisce la giornata della macchina in ordine: cosa è successo, quando, e perché è stato deciso. | ℹ️ scrive e basta |
+| `pota-apprendimento` | Tiene l'archivio delle lezioni sotto il tetto di lettura potando SOLO copie e morti, mai le lezioni vive: senza, il file supera il muro e la scheda Apprendimento smette di leggersi (successo l'11/8). | ℹ️ scrive e basta |
 | `sonda-volano` | Controlla che l'anello impara→correggi giri davvero, invece di sembrare che giri. | ⛔ ferma il giro |
 | `tasso-chiusura` | Il voto della macchina su sé stessa: quanti difetti chiude diviso quanti ne apre nel mese. Sotto 1 il giro smette di cercare e spende il turno a chiudere, perché ogni ricerca in più allungherebbe la lista invece di accorciarla. | ⛔ ferma il giro |
 | `tasso-lezioni` | Conta quante lezioni la macchina ha davvero applicato in questo giro, non quante ne ha in magazzino. | ⛔ ferma il giro |

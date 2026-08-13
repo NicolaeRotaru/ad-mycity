@@ -1,8 +1,26 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 18:01
+aggiornato: 2026-08-13 18:08
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **13/8 18:08 — Giro richiesto in chat, 7 minuti dopo il Report della sera. Nessuna novità.**
+> Business riconfermato dal vivo con una query SQL diretta. 1 ordine, mai pagato, del 24/6. 0 pagati. 0 ordini
+> negli ultimi 7 giorni. 5 prodotti. 7 profili. 1 negozio. È identico a ogni lettura di oggi. È identico anche
+> alle letture dal 4/8. North Star: lo stallo è a **50 giorni**. È dentro la pausa concordata con Nicola fino
+> al 24/8-1/9. Non è un allarme.
+>
+> **Perché questo passaggio è corto.** Il tasso di chiusura del mese è 0,14. È ben sotto la soglia di 1. La
+> regola dice: non aprire ricerche nuove. Questo passaggio la rispetta.
+> Tre file pesanti sono già freschi di oggi, con dati identici: `auto-analisi.json`, `registro-realta.json` e
+> `apprendimento.json`. Non li ho riscritti. Ho applicato la stessa strategia di
+> [[playbook-giro-pieno-ripetuto-strategia]]. Sono passati solo 7 minuti dal passaggio precedente, e lo stato
+> è lo stesso. Ho aggiornato solo tre file: STATO, il Briefing, la Sala Operativa.
+>
+> **Mossa n.1, invariata.** Nessuna azione business è sbloccabile prima del 24/8-1/9. Restano da firmare
+> cinque card: `#permessi-senza-jolly`; `#17`, le cadenze automatiche ferme dal 30/7; `#18`, il contatore del
+> tasso di chiusura, che mostra 0,14 ma il conto vero è circa 0,92; `#19`, verifica dal telefono se il sito è
+> davvero giù; `#16`, la pratica pagamenti di Pane Quotidiano. Briefing: [[Briefing/2026-08-13]].
 
 > 🌙 **13/8 18:01 — Report della sera. Business fermo tutto il giorno, come da patto. Due dei tre fix CI di stamattina sono già a destinazione.**
 > Riconfermato dal vivo con query SQL diretta (non da memoria): 1 ordine (id `58094956…`, mai pagato/PENDING,

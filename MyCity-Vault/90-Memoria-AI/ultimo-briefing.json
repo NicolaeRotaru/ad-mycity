@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-13 14:40",
-  "situazione": "Business invariato, riconfermato via SQL diretta: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili, 0 ordini/clienti nuovi in 7gg. North Star fermo, dentro la pausa concordata fino al 24/8-1/9. Verificati in locale i 3 fix CI mandati alle 14:23 (PR #710/#709/#708): i test che dovevano tornare verdi tornano verdi (68/68, 19/19, 5/5) e i branch sono identici a GitHub. Ma ci-stato.mjs continua a leggerli rossi: serve un canale con accesso a GitHub per capire se è un ritardo dei controlli o un guasto che i test locali non coprono.",
+  "data": "2026-08-13 18:08",
+  "situazione": "Business invariato, riconfermato via SQL diretta 7 minuti dopo il Report della sera: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili, 1 negozio, 0 ordini/clienti nuovi in 7gg. North Star fermo, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Tasso di chiusura del mese 0,14, sotto la soglia 1: questo passaggio non ha aperto ricerca nuova, ha solo confermato lo stato con la strategia snella (niente JSON pesanti riscritti su dati identici).",
   "opportunita": [
     {
       "titolo": "Applica l'elenco permessi senza jolly, sblocca anche i test",
@@ -9,14 +9,14 @@
       "sforzo": "basso"
     },
     {
-      "titolo": "Dai a questa sessione un modo di spingere il codice su GitHub",
-      "motivo": "Diversi commit di memoria e presto i 3 fix CI restano fermi in locale: senza token/credenziali GitHub in questa sessione, il lavoro fatto in chat resta invisibile finché qualcuno con accesso (VPS o Nicola) non lo spinge a mano",
-      "impatto": "medio",
+      "titolo": "Ripara il contatore che dice quanto la macchina chiude i suoi difetti",
+      "motivo": "Mostra 0,14 quando il conto vero (dalla radiografia di stamattina) è circa 0,92: la macchina si sta giudicando molto peggio di quanto è, e il freno che blocca le ricerche nuove scatta su un numero sbagliato",
+      "impatto": "alto",
       "sforzo": "basso"
     },
     {
       "titolo": "Fai completare al fornaio la pratica pagamenti",
-      "motivo": "Dati mai inviati, incassi e versamenti disattivati dal 15/6: se un cliente pagasse oggi, il pagamento non partirebbe. Serve pronto per il collaudo di settembre",
+      "motivo": "Dati mai inviati, incassi e versamenti disattivati: se un cliente pagasse oggi, il pagamento non partirebbe. Serve pronto per il collaudo di settembre",
       "impatto": "alto",
       "sforzo": "medio"
     }
@@ -28,14 +28,19 @@
       "livello": "giallo"
     },
     {
-      "titolo": "Dimmi se telegram_bot lo vuoi acceso o spento",
-      "motivo": "Unica domanda di business rimasta in coda senza risposta",
+      "titolo": "Rimetti in moto le cadenze automatiche: il Piano del mattino manca dal 30 luglio",
+      "motivo": "Sei cadenze su sei registrate come fallite — serve una mano sul VPS",
+      "livello": "rosso"
+    },
+    {
+      "titolo": "Apri il sito dal telefono: il sensore lo vede spento da 103 controlli",
+      "motivo": "O è davvero giù (incendio) o il sensore punta all'indirizzo vecchio (falso allarme) — bastano dieci secondi per saperlo",
       "livello": "giallo"
     }
   ],
   "sentinelle_scattate": [
     "North Star 0 — stallo 50 giorni, pausa concordata fino al 24/8-1/9 (non churn)",
-    "Tasso di chiusura 0,24 nel mese — sotto soglia 1: nessuna ricerca nuova, turno speso a verificare la chiusura delle 3 PR rosse",
-    "CI: 3 PR rosse per ci-stato.mjs ma test locali tutti verdi — disallineamento da confermare da GitHub, 1 PR mai provata (#711)"
+    "Tasso di chiusura 0,14 nel mese — sotto soglia 1: nessuna ricerca nuova, giro speso a confermare invarianza",
+    "Freschezza cadenze — Piano del mattino fermo da 84h, sei cadenze registrate fallite dal 30/7"
   ]
 }

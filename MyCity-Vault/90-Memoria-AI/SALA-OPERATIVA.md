@@ -857,3 +857,9 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-13 18:01 · @ad · FATTO · Report della sera: business fermo tutto il giorno (query SQL diretta invariata: 1 ordine mai pagato/24-6, 0 pagati, 5 prodotti, 7 profili, 1 negozio, stallo 50gg). Aggiornati [[RITMO]] (blocco «Report della sera · 2026-08-13 18:01») + [[STATO]] (frontmatter 18:01 + entry sera).
 - 2026-08-13 18:01 · @ad · FATTO · Chiuso il dubbio lasciato dal passaggio 14:40: `git log` conferma PR #709 e #711 già mergiate su main. PR #710/#708 restano da confermare da un canale `gh` vero (test locali tutti verdi già alle 14:40).
 - 2026-08-13 18:01 · @ad · SERVE · Da Nicola: 🟡 `#permessi-senza-jolly` (sblocca anche i test da chat) · 🟡 `#visita-vps-ferma` (riaccendi il timer salute sul VPS) · 🟡 `#occhi-ambiente-cloud` (allowlist rete ambiente cloud) · 🔴 conferma da `gh` vero lo stato di PR #710/#708. Nessuna urgenza di business: pausa fino al 24/8-1/9.
+
+### 2026-08-13 18:08 — 🔁 Giro richiesto in chat (7 min dopo il Report della sera, business invariato — strategia snella)
+- 2026-08-13 18:08 · @ad · FATTO · Business riconfermato dal vivo via query SQL diretta: 1 ordine mai pagato, 0 negli ultimi 7gg, 5 prodotti, 7 profili, 1 negozio — identico a ogni lettura di oggi.
+- 2026-08-13 18:08 · @ad · FATTO · Applicata la strategia snella ([[playbook-giro-pieno-ripetuto-strategia]]): non rieseguite le 15 fasi di giro.md da zero, non riscritti i JSON pesanti già coerenti su dati invariati. Rispettato il vincolo HARD tasso-chiusura (0,14 nel mese).
+- 2026-08-13 18:08 · @ad · FATTO · Aggiornati [[STATO]], [[Briefing/2026-08-13]], `ultimo-briefing.json`.
+- 2026-08-13 18:08 · @ad · PASSO-A · @Nicola — invariato: nessuna azione business sbloccabile prima del 24/8-1/9. Restano in coda `#permessi-senza-jolly`, #17 (cadenze ferme), #18 (contatore tasso-chiusura sballato), #19 (verifica sito), #16 (pagamenti Pane Quotidiano).
