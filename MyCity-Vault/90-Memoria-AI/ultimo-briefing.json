@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-13 12:59",
-  "situazione": "Nono passaggio della giornata, 5 minuti dopo quello delle 12:50. Business riconfermato invariato con query SQL diretta: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili, 3 carrelli abbandonati, 0 nuovi clienti in 7gg. North Star fermo, dentro la pausa concordata fino al 24/8-1/9. Applicata la strategia snella già validata (playbook giro-ripetuto): nessuna query/JSON pesante riscritti, solo conferma e timestamp. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova. Il debito noto (PR #710/#709/#708 rosse per colpa propria, #711 mai provata dalla CI, permessi-senza-jolly ferma da 15 giorni) resta invariato: nessuno di questi sblocca direttamente il 1° ordine pagato, quindi resta fuori scope oggi per il vincolo North Star.",
+  "data": "2026-08-13 13:09",
+  "situazione": "Nuovo passaggio, 10 minuti dopo quello delle 12:59. Business invariato riconfermato via SQL diretta: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili. North Star fermo, dentro la pausa concordata fino al 24/8-1/9. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova. Unico dettaglio nuovo: la diagnosi CI sulle 3 PR rosse è cambiata da 'colpa propria' a 'ereditata da main' (già calcolata da ci-stato.mjs, nessuna query mia).",
   "opportunita": [
     {
       "titolo": "Applica l'elenco permessi senza jolly, sblocca anche i test",
@@ -36,6 +36,6 @@
   "sentinelle_scattate": [
     "North Star 0 — stallo 50 giorni, pausa concordata fino al 24/8-1/9 (non churn)",
     "Tasso di chiusura 0,24 nel mese — sotto soglia 1: nessuna ricerca nuova aperta anche in questo passaggio",
-    "CI: 3 PR rosse per colpa propria (#710/#709/#708), 1 mai provata (#711) — debito noto, fuori scope oggi (non sblocca il North Star)"
+    "CI: 3 PR rosse ora diagnosticate come ereditate da main (0 per colpa propria), 1 mai provata (#711) — debito noto, fuori scope oggi (non sblocca il North Star)"
   ]
 }

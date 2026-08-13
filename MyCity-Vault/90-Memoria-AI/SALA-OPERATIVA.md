@@ -835,3 +835,9 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-13 12:50 · @AD · FATTO · Verificato che `main` locale e `origin/main` NON sono divergenti (solo 6 commit avanti, nessun fork) — smentito il rischio ipotizzato.
 - 2026-08-13 12:50 · @AD · PASSO-A · @Nicola — la PR non può partire da questa sessione (`gh` negato, `git push` senza credenziali): serve un push da un posto con accesso (VPS o terminale di Nicola) per portare 7 commit + 1 ramo su GitHub. Nessuna azione business sbloccabile prima del 24/8-1/9.
 - 2026-08-13 12:59 · @ad · FATTO · nono passaggio della giornata (5 min dopo l'ottavo), business riconfermato invariato via SQL, nessuna novità — strategia snella applicata, nessuna ricerca nuova (tasso-chiusura 0,24)
+
+### 2026-08-13 13:09 — 🔁 Giro richiesto in chat (nuovo passaggio, 10 minuti dopo quello delle 12:59)
+- 2026-08-13 13:09 · @AD · FATTO · Business riconfermato invariato via SQL diretta: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili. Nessuna variazione rispetto al passaggio delle 12:59.
+- 2026-08-13 13:09 · @AD · FATTO · Segnalato un cambio di diagnosi già calcolato da `ci-stato.mjs`: le 3 PR rosse (#710/#709/#708) risultano ora "ereditate da main" (0 per colpa propria), non più "colpa propria" — nessuna query nuova mia, solo lettura del blocco vincoli.
+- 2026-08-13 13:09 · @AD · FATTO · Rispettato il vincolo HARD tasso-di-chiusura (0,24 nel mese): nessuna ricerca nuova aperta. Aggiornati [[STATO]], [[Briefing/2026-08-13]], `ultimo-briefing.json`.
+- 2026-08-13 13:09 · @AD · PASSO-A · @Nicola — invariato: nessuna azione business sbloccabile prima del 24/8-1/9. Resta in coda solo `#permessi-senza-jolly` e la domanda `#sensori-spenti-senza-motivo`.

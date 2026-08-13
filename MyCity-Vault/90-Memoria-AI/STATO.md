@@ -1,8 +1,20 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 12:59
+aggiornato: 2026-08-13 13:09
 fonte: AD digitale (chat)
 ---
+
+> ⚪ **13/8 13:09 — Nuovo passaggio, 10 minuti dopo quello delle 12:59. Nessuna novità di business.**
+> Business riconfermato invariato con query SQL diretta: 1 ordine (mai pagato), 0 pagati, 5 prodotti, 7 profili.
+> North Star: stallo **50 giorni**, dentro la pausa concordata fino al 24/8-1/9.
+>
+> **Un solo dettaglio nuovo, tecnico.** Il guardiano automatico della CI (`ci-stato.mjs`) prima diceva
+> "colpa propria" sulle 3 PR rosse #710/#709/#708. Adesso dice **"ereditate da `main`"**. In pratica: il
+> guasto non è nel codice di quelle 3 PR, è a monte, sul ramo principale. Chi lo riparerà dovrà farlo lì,
+> una volta sola — non su ogni PR separatamente. Questa informazione l'ha già calcolata `ci-stato.mjs`
+> prima che iniziassi: non ho aperto nessuna ricerca nuova per trovarla.
+>
+> Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese). Briefing: [[Briefing/2026-08-13]].
 
 > ⚪ **13/8 12:59 — Nono passaggio della giornata, 5 minuti dopo l'ottavo. Nessuna novità.**
 > Business riconfermato invariato con query SQL diretta: 1 ordine (mai pagato), 0 pagati, 5 prodotti, 7 profili, 3
