@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-13 12:43** — Automatico: **65 aperte · 7 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-13 13:06** — Automatico: **65 aperte · 7 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -1071,7 +1071,7 @@ Cerca la variabile `THINKING_BUDGET` (o equivalente) nel file `.env` del VPS e a
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 12:43)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 13:06)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-13-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1672,6 +1672,12 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ## 🗄️ Archivio — card chiuse
 
 > Ultima pulizia: 2026-08-13 12:43 · 7 card totali
+
+---
+
+## 🗄️ Archivio — card chiuse
+
+> Ultima pulizia: 2026-08-13 13:06 · 7 card totali
 
 ### ✅ #ordine-test-dentro-o-fuori-dalla-pausa — Risposto: resta dentro la pausa, collaudo a settembre · ⏳ accodata 2026-07-28 08:45 · ✅ chiusa 2026-08-13 10:22 (risposta già data il 28/7)
 
