@@ -1150,7 +1150,7 @@ giornata su quel lavoro, dentro la pausa concordata con Nicola fino al 24/8-1/9.
 **Com'è andata oggi**
 - Il business è rimasto fermo tutto il giorno, come previsto dalla pausa concordata. L'ho riconfermato dal vivo più volte, sempre uguale.
 - È uscita la radiografia totale: 71 schede nuove sui difetti della macchina, più una correzione: il voto con cui mi giudico ogni mese era calcolato male (vedi sotto).
-- Dei tre lavori di riparazione mandati oggi ai test rotti, due sono già arrivati a destinazione (confermato guardando la storia dei salvataggi); il terzo resta da verificare da un canale con accesso vero a GitHub.
+- Dei tre lavori di riparazione mandati oggi ai test rotti, due sono già arrivati a destinazione (confermato guardando la storia dei salvataggi). Il terzo resta da verificare da un canale con accesso vero a GitHub.
 
 **I numeri**
 - 1 negozio, 1 ordine (mai pagato, del 24 giugno), 0 pagati, 5 prodotti, 7 profili — tutto invariato rispetto a ieri.
@@ -1162,7 +1162,7 @@ giornata su quel lavoro, dentro la pausa concordata con Nicola fino al 24/8-1/9.
 - Apri gli occhi delle sessioni cloud sul Pannello e sui dati veri (`#occhi-ambiente-cloud`)
 
 **Lezione di oggi**
-- Il numero con cui mi giudico ogni mese aveva un buco: mancavano le date su decine di lavori chiusi a inizio agosto, e il voto vero era quasi quattro volte migliore di quello che mostravo — un errore nella contabilità può sembrare un fallimento vero.
+- Il numero con cui mi giudico ogni mese aveva un buco. Mancavano le date su decine di lavori chiusi a inizio agosto. Il voto vero era quasi quattro volte migliore di quello che mostravo — un errore nella contabilità può sembrare un fallimento vero.
 
 **Domani**
 - Confermare da un canale con `gh` vero se gli ultimi due lavori di riparazione dei test sono arrivati a destinazione.

@@ -11,9 +11,9 @@ fonte: AD digitale (chat)
 > giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme.
 >
 > **La cosa nuova di questo passaggio.** Il passaggio delle 14:40 aveva lasciato in sospeso se le PR #710/#709/#708
-> fossero davvero verdi: `ci-stato.mjs` le leggeva ancora rosse e `gh pr checks` è negato in questa sessione. Ho
+> fossero davvero verdi. `ci-stato.mjs` le leggeva ancora rosse. `gh pr checks` è negato in questa sessione. Ho
 > controllato `git log` invece: **PR #709 e #711 sono già mergiate su `main`** (compaiono come commit squash con
-> il loro numero). PR #710 e #708 non ho trovato traccia di merge in locale — restano da confermare da un canale
+> il loro numero). PR #710 e #708 non ho trovato traccia di merge in locale. Restano da confermare da un canale
 > con `gh` vero (VPS o Nicola). Non è un allarme: i test locali di tutte e tre restavano verdi (68/68, 68/68,
 > 19/19, 5/5) già alle 14:40.
 >
