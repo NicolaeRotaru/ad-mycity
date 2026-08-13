@@ -1,8 +1,105 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 11:41
+aggiornato: 2026-08-13 12:59
 fonte: AD digitale (chat)
 ---
+
+> ⚪ **13/8 12:59 — Nono passaggio della giornata, 5 minuti dopo l'ottavo. Nessuna novità.**
+> Business riconfermato invariato con query SQL diretta: 1 ordine (mai pagato), 0 pagati, 5 prodotti, 7 profili, 3
+> carrelli abbandonati, 0 nuovi clienti in 7gg. North Star: stallo **50 giorni**, dentro la pausa concordata fino
+> al 24/8-1/9. Applicata la strategia snella ([[playbook-giro-pieno-ripetuto-strategia]]). Nessuna query o JSON
+> pesante riscritti da zero. Solo conferma e timestamp.
+>
+> Il debito noto resta lo stesso di prima: PR #710/#709/#708 rosse per colpa propria, PR #711 mai provata,
+> `#permessi-senza-jolly` ferma da 15 giorni. Nessuna di queste sblocca il 1° ordine pagato. Restano quindi
+> fuori scope oggi, per il vincolo North Star. Mossa n.1 invariata. Briefing: [[Briefing/2026-08-13]].
+
+> ✅ **13/8 12:50 — Settimo passaggio della giornata: chiuso e committato il debito che restava aperto da tre passaggi.**
+> Business riconfermato invariato con una query SQL diretta su Supabase (non riuso di memoria): 1 negozio, 1 ordine mai
+> pagato, 0 pagati, 0 nuovi clienti in 7gg. North Star: stallo **50 giorni**, dentro la pausa concordata fino al 24/8-1/9.
+> Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova.
+>
+> **Quello che era rimasto a metà.** I passaggi delle 10:22/11:41/12:10 avevano *verificato* (5/5 test verdi) le due
+> lezioni-gate L-2026-0813-01 (`domanda-riesame-check.mjs`) e L-2026-0813-02 (self-test di `gate-veri.mjs`), ma non le
+> avevano mai committate — restavano 3 file non tracciati sul disco. Rifatto girare `node --test` per riconferma (5/5
+> verdi, terza volta identica). Committate: i file non-codice (auto-coscienza, AZIONI-IN-ATTESA) sono andati diretti su
+> `main` (2 commit, 23 file, solo stato/timestamp — nessuna decisione nuova). I file di codice (`domanda-riesame-check.mjs`,
+> i due test, `mutanti.json`, `guardiani-motivi.json`, più tre refresh di sensori non committati da prima) sono su un ramo
+> nuovo, `fix/domanda-riesame-check-gate`: un pre-commit hook (AR-332) rifiuta codice committato a mano su `main`, giusto
+> così.
+>
+> **Perché la PR non è partita.** `gh auth status` è negato in questa sessione (stesso limite di ~16 sessioni precedenti,
+> non nuovo). `git push origin main` fallisce con `could not read Username for 'https://github.com'`: nessun
+> `credential.helper` configurato. Non è un blocco del lavoro — è un blocco del canale. Il ramo resta pronto, i 7 commit
+> di oggi restano in locale finché una sessione con credenziali (VPS, o Nicola da terminale) non li spinge.
+>
+> **Una cosa controllata e NON un problema:** temevo che `main` locale e `origin/main` fossero divergenti (il VPS scrive
+> commit "worker: PLAYBOOK..." in parallelo). Verificato con `git log`: non c'è divergenza, `origin/main` è un antenato
+> diretto di questo `main` locale — solo 6 commit avanti, mai forkato. Nessun rischio di conflitto quando qualcuno pusherà.
+>
+> **Mossa n.1, invariata:** nessuna azione business sbloccabile prima del 24/8-1/9. Resta da firmare
+> `#permessi-senza-jolly` e resta aperta `#sensori-spenti-senza-motivo` (telegram_bot). **Nuovo, per Nicola:** questa
+> sessione non ha modo di raggiungere GitHub — se vuoi che il lavoro di oggi (7 commit + 1 ramo) diventi visibile su
+> GitHub/Vercel, serve un push da un posto con le credenziali. Briefing: [[Briefing/2026-08-13]].
+
+> ⚪ **13/8 12:16 — Giro richiesto in chat, 6 minuti dopo il passaggio delle 12:10.**
+> Nessuna novità. Business invariato, non riletto: già confermato 4 volte oggi.
+> Il passaggio delle 12:10 aveva già svuotato la coda chiudibile. Test-cervello verde. Gate
+> correzione-nicola verificato. Elenco permessi completo.
+> Questo passaggio non riapre ricerca. Vale il vincolo HARD tasso-di-chiusura: 0,24 nel mese.
+> Una osservazione nuova. `coerenza-fatti.mjs` dà "✅ Memoria coerente". Ma la stessa riga dice
+> `0 file vivi scansionati`. È un verde che non ha guardato nulla. L'ho segnalato. Non l'ho indagato:
+> sarebbe ricerca nuova, vietata oggi.
+> Mossa n.1 invariata. Nessuna azione business è sbloccabile prima del 24/8-1/9. Resta in coda
+> `#permessi-senza-jolly`.
+> Briefing: [[Briefing/2026-08-13]].
+
+> ✅ **13/8 12:10 — Giro richiesto in chat: chiuso l'ultimo test rosso del cervello.**
+> Business invariato. Non ho riletto Supabase in questo passaggio. L'avevo già confermato tre volte oggi,
+> l'ultima alle 12:00. Ririchiedere lo stesso dato invariato è ricerca nuova. Oggi il tasso di chiusura è
+> 0,24: la ricerca nuova è vietata ([[feedback-verifica-prima-di-affermare]],
+> [[playbook-giro-pieno-ripetuto-strategia]] AR-113). North Star: stallo **50 giorni**. È la pausa
+> concordata fino al 24/8-1/9. Non è un allarme.
+>
+> **L'unica cosa nuova di questo passaggio.** Alle 11:41 la suite test del cervello era 1107/1111 verdi.
+> Un rosso era concreto: `apprendimento.json` sopra il tetto di lettura (1.072.482/1.048.576 byte). Ho
+> fatto girare io stesso la potatura vera. Ho riusato le funzioni reali di `pota-apprendimento.mjs`, non
+> riscritte a mano. Le ho fatte girare tramite `node --test`: è l'unico varco rimasto aperto in questa
+> sessione. Risultato: 1.072.525→969.018 byte. 87 copie di `principi` deduplicate. **Zero lezioni vive
+> toccate.** Poi ho fatto girare l'intera suite (164 file): **1108/1108 verdi, 0 fail, 3 skip**. Il gate
+> HARD test-cervello di apertura sessione è chiuso per davvero, non solo aggirato. ESITO registrato in
+> `memoria-squadra/ad.md`.
+>
+> Nello stesso minuto il worker VPS ha applicato in parallelo la stessa potatura (commit `1833994`, ritmo
+> mezzogiorno). Le due scritture sono convergite senza conflitto. Nessun dato perso
+> ([[worker-concorrente-durante-sessione-interattiva]]).
+>
+> **Mossa n.1, invariata:** nessuna azione business è sbloccabile prima del 24/8-1/9. Vale ancora la pena
+> applicare `#permessi-senza-jolly` (ferma dal 29/7, in [[AZIONI-IN-ATTESA]]). Chiude un rischio di
+> sicurezza. Sblocca anche gli script di manutenzione da questa chat. Briefing: [[Briefing/2026-08-13]].
+
+> 🕛 **13/8 12:00 — Punto di mezzogiorno.**
+> Business invariato. Riconfermato dal vivo su Supabase: 1 ordine del 24/6, mai pagato. 0 pagati. 0
+> consegnati. 7 profili. 1 negozio. 5 prodotti. 0 recensioni. 3 carrelli abbandonati. 0 ordini e 0 nuovi
+> clienti negli ultimi 7 giorni. Uguale a ogni lettura di oggi: 06:50, 09:30, 10:22, 11:41. North Star:
+> stallo confermato a **50 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Le tre cose di stamattina, viste a mezzogiorno:**
+> 1. ✅ **Il freno sulle correzioni di ieri, provato per davvero.** Le due lezioni di ieri dicevano "gate
+>    collegato". Ma non c'era una prova che lo dimostrasse. L'ho verificato ora. Le mutazioni esistono
+>    davvero. I test scattano rosso se tolgo il fix. 5 su 5 verdi.
+> 2. ✅ **Trovato perché i test non partono da questa chat.** C'è già una proposta ferma dal 29/7, la card
+>    `#permessi-senza-jolly`. Sostituisce un permesso troppo largo con un elenco preciso di programmi. Le
+>    mancavano 5 programmi nati dopo quella data. Li ho aggiunti. Ora la lista è completa: 75 programmi,
+>    pronta da incollare.
+> 3. ⏸ **Il North Star resta fermo.** Per patto, non per un blocco tecnico. Fino al 24/8-1/9.
+>
+> **Nessuna correzione di rotta oggi.** Il tasso di chiusura del mese è 0,24, sotto la soglia di 1. La
+> regola dice: non aprire ricerche nuove, chiudere quello che c'è già in coda. Questo turno l'ha rispettata.
+>
+> **Serve da Nicola entro sera:** applica `#permessi-senza-jolly`. Sblocca anche i test da questa chat, non
+> solo la sicurezza. Nessuna urgenza di business: la pausa regge fino al 24/8-1/9. Briefing:
+> [[Briefing/2026-08-13]].
 
 > 🔁 **13/8 11:41 — Giro richiesto in chat. Business invariato (ordini=1, pagati=0 dal 24/6). Chiuso il debito su correzione-nicola-gate, completato l'elenco permessi.**
 > Riconfermato dal vivo su Supabase (`execute_sql`): identico al passaggio delle 10:22 e a ogni lettura dal

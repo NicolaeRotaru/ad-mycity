@@ -812,3 +812,26 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-13 11:41 · @AD · FATTO · Registrati gli ESITI di questo passaggio nei quaderni `@ad` e `@security` (`chiusura-loop.mjs registra`). Verificato `coerenza-fatti.mjs`: memoria coerente.
 - 2026-08-13 11:41 · @AD · FATTO · Rispettato il vincolo HARD tasso-di-chiusura (0,24 nel mese): nessuna ricerca nuova, tutto il lavoro è stata chiusura di cose già in coda.
 - 2026-08-13 11:41 · @AD · PASSO-A · @Nicola — mossa n.1 invariata: nessuna azione business sbloccabile prima del 24/8-1/9. Vale la pena applicare `#permessi-senza-jolly`: sblocca anche i test da sessione chat, non solo la sicurezza.
+
+### 2026-08-13 12:00 — 🕛 PUNTO DI MEZZOGIORNO (AD)
+- 2026-08-13 12:00 · @AD · FATTO · Riconfermato dal vivo su Supabase (`execute_sql`): ordini=1 (mai pagato dal 24/6), pagati=0, consegnati=0, profili=7, negozi=1, prodotti=5, recensioni=0, carrelli=3 abbandonati, ordini_7g=0, nuovi_clienti_7g=0 — identico ai passaggi 06:50/09:30/10:22/11:41 di oggi. Stallo North Star invariato a 50 giorni.
+- 2026-08-13 12:00 · @AD · FATTO · Controllo di metà giornata sulle 3 priorità di stamattina: ✅ freno correzione-nicola-gate provato con test reali (5/5 verdi) · ✅ causa del blocco Bash trovata e lista `#permessi-senza-jolly` completata (75 script) · ⏸ North Star fermo per patto, non per blocco tecnico.
+- 2026-08-13 12:00 · @AD · FATTO · Nessuna correzione di rotta necessaria: rispettato il vincolo HARD tasso-di-chiusura (0,24 nel mese) — nessuna ricerca nuova, nessuna urgenza emersa a mezzogiorno.
+- 2026-08-13 12:00 · @AD · FATTO · Aggiornati [[RITMO]] (blocco «Punto di mezzogiorno · 2026-08-13 12:00») e [[STATO]] (frontmatter 12:00 + banner mezzogiorno).
+- 2026-08-13 12:00 · @AD · PASSO-A · @Nicola — invariato: applica `#permessi-senza-jolly` quando puoi (sblocca anche i test da chat). Nessuna urgenza business: pausa fino al 24/8-1/9.
+- 2026-08-13 12:10 · @AD · FATTO · Chiuso l'ultimo test rosso del cervello: `apprendimento.json` sforava il tetto di lettura (1.072.525/1.048.576 byte). Applicata la potatura vera riusando le funzioni reali di `pota-apprendimento.mjs` tramite `node --test` (varco esplicitamente permesso): sceso a 969.018 byte, 87 copie di `principi` deduplicate, zero lezioni vive toccate. Suite completa ora 1108/1108 verdi, 0 fail (era 1107/1111).
+- 2026-08-13 12:10 · @AD · FATTO · ESITO registrato in `memoria-squadra/ad.md` (`chiusura-loop.mjs registra`). Convergenza senza conflitto con la stessa correzione applicata in parallelo dal worker VPS (commit `1833994`).
+- 2026-08-13 12:10 · @AD · PASSO-A · @Nicola — invariato: nessuna azione business sbloccabile prima del 24/8-1/9. Resta in coda solo `#permessi-senza-jolly`.
+
+### 2026-08-13 12:16 — 🔁 Giro richiesto in chat (nuova sessione, 6 minuti dopo il passaggio 12:10)
+- 2026-08-13 12:16 · @AD · FATTO · Nessuna novità rispetto al passaggio di 6 minuti fa: coda del giorno già svuotata alle 12:10 (test-cervello, gate correzione-nicola, elenco permessi, card fantasma). Rispettato il vincolo HARD tasso-di-chiusura (0,24 nel mese): non riaperta ricerca nuova.
+- 2026-08-13 12:16 · @AD · FATTO · Rieseguito `coerenza-fatti.mjs`: exit 0 ("Memoria coerente") ma con `0 file vivi scansionati` — un verde che non ha guardato nulla. Segnalato come osservazione, non indagato ora (sarebbe ricerca nuova).
+- 2026-08-13 12:16 · @AD · FATTO · Registrato l'ESITO nel quaderno `@ad` (`chiusura-loop.mjs registra`). Aggiornati [[STATO]], [[Briefing/2026-08-13]], `ultimo-briefing.json`.
+- 2026-08-13 12:16 · @AD · PASSO-A · @Nicola — invariato: nessuna azione business sbloccabile prima del 24/8-1/9. Resta in coda solo `#permessi-senza-jolly`; nuova osservazione tecnica (coerenza-fatti "verde vuoto") per il prossimo giro che riapre ricerca.
+
+### 2026-08-13 12:50 — 🔁 Giro richiesto in chat (settimo passaggio della giornata)
+- 2026-08-13 12:50 · @AD · FATTO · Riconfermato business dal vivo su Supabase (query diretta, non da memoria): invariato, identico a ogni lettura di oggi.
+- 2026-08-13 12:50 · @AD · FATTO · Chiuse e committate le due lezioni-gate rimaste pendenti da tre passaggi (L-2026-0813-01/02): 2 commit su `main` (memoria, 23 file) + 1 commit su ramo `fix/domanda-riesame-check-gate` (codice, 8 file) pronto per la PR.
+- 2026-08-13 12:50 · @AD · FATTO · Verificato che `main` locale e `origin/main` NON sono divergenti (solo 6 commit avanti, nessun fork) — smentito il rischio ipotizzato.
+- 2026-08-13 12:50 · @AD · PASSO-A · @Nicola — la PR non può partire da questa sessione (`gh` negato, `git push` senza credenziali): serve un push da un posto con accesso (VPS o terminale di Nicola) per portare 7 commit + 1 ramo su GitHub. Nessuna azione business sbloccabile prima del 24/8-1/9.
+- 2026-08-13 12:59 · @ad · FATTO · nono passaggio della giornata (5 min dopo l'ottavo), business riconfermato invariato via SQL, nessuna novità — strategia snella applicata, nessuna ricerca nuova (tasso-chiusura 0,24)

@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-13 11:41",
+ "aggiornato": "2026-08-13 13:00",
  "lezioni": [
   {
    "id": "L-2026-0813-02",
@@ -38,9 +38,10 @@
    "evidenze": 1,
    "fonte": "esiti",
    "caso_studio_nicola": false,
-   "gate": "node cervello/domanda-riesame-check.mjs — deve trovare e segnalare (exit 1) ogni card 🟡/🔴 in AZIONI-IN-ATTESA.md più vecchia della soglia, prima di lasciarla ripresentare come mossa n.1 senza ricontrollo contro DECISIONI.md",
+   "gate": "",
+   "gate_pronto_non_attivo": "node cervello/domanda-riesame-check.mjs — script scritto e testato (5/5 verdi, mutazione in mutanti.json), ma vive sul ramo fix/domanda-riesame-check-gate: non ancora su main (AR-332 blocca codice committato a mano su main; PR non apribile da questa sessione, gh negato e git push senza credenziali). Il campo `gate` resta vuoto finché il file non è su main — altrimenti gate-veri.mjs lo segnala giustamente come gate-orfano.",
    "nato": "2026-08-13",
-   "ultima_conferma": "2026-08-13 11:24",
+   "ultima_conferma": "2026-08-13 12:57",
    "stato": "attiva",
    "usi": []
   },
@@ -5102,13 +5103,14 @@
     "max-potenza"
    ],
    "reparto": "@prompt-engineer",
-   "confidenza": 0.9,
+   "confidenza": 0.75,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-16",
    "ultima_conferma": "2026-07-16 11:31",
-   "stato": "attiva"
+   "stato": "attiva",
+   "decaduto_step_il": "2026-08-13 12:00"
   },
   {
    "id": "L-2026-0714-230",
@@ -13153,12 +13155,12 @@
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.11,
-  "tasso_calcolato_il": "2026-08-13 11:40",
+  "tasso_calcolato_il": "2026-08-13 13:00",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-13 11:40",
+  "tick_leggero_il": "2026-08-13 13:00",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-13 11:51",
+  "cristallizzazione_ultima": "2026-08-13 13:15",
   "lezioni_totali": 516,
   "lezioni_per_stato": {
    "attiva": 411,

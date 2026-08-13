@@ -1,11 +1,17 @@
 {
-  "data": "2026-08-13 11:41",
-  "situazione": "Business invariato, riconfermato dal vivo su Supabase: 1 ordine mai pagato, 0 pagati, 7 profili, 1 negozio, 5 prodotti, 0 nuovi clienti in 7 giorni, stallo North Star 50 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9. Chiuso per davvero il debito su correzione-nicola-gate: le 2 lezioni di stamattina (L-2026-0813-01/02) hanno ora una mutazione vera in mutanti.json e un test che la verifica, fatto girare con esito 5/5 verdi. Fatta girare l'intera suite test del cervello (164 file, node --test): 1107/1111 verdi, 1 rosso concreto e diagnosticato (apprendimento.json sopra il tetto di lettura di GitHub). Trovato il collegamento diretto tra questo blocco e la card di permessi ferma dal 29/7 (#permessi-senza-jolly): le mancavano 5 script nati dopo quella data, completata ora. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova, tutto il lavoro di oggi è stato chiudere cose già in coda.",
+  "data": "2026-08-13 12:59",
+  "situazione": "Nono passaggio della giornata, 5 minuti dopo quello delle 12:50. Business riconfermato invariato con query SQL diretta: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili, 3 carrelli abbandonati, 0 nuovi clienti in 7gg. North Star fermo, dentro la pausa concordata fino al 24/8-1/9. Applicata la strategia snella già validata (playbook giro-ripetuto): nessuna query/JSON pesante riscritti, solo conferma e timestamp. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova. Il debito noto (PR #710/#709/#708 rosse per colpa propria, #711 mai provata dalla CI, permessi-senza-jolly ferma da 15 giorni) resta invariato: nessuno di questi sblocca direttamente il 1° ordine pagato, quindi resta fuori scope oggi per il vincolo North Star.",
   "opportunita": [
     {
       "titolo": "Applica l'elenco permessi senza jolly, sblocca anche i test",
       "motivo": "La card ferma dal 29/7 non è solo un fix di sicurezza: applicarla sblocca test-cervello.mjs, gate-veri.mjs, pota-apprendimento.mjs e gli altri script che ogni sessione chat segnala bloccati da settimane — è la stessa causa",
       "impatto": "alto",
+      "sforzo": "basso"
+    },
+    {
+      "titolo": "Dai a questa sessione un modo di spingere il codice su GitHub",
+      "motivo": "Diversi commit di memoria e un ramo di codice pronto per la PR sono fermi in locale: senza token/credenziali GitHub in questa sessione, il lavoro fatto in chat resta invisibile finché qualcuno con accesso (VPS o Nicola) non lo spinge a mano",
+      "impatto": "medio",
       "sforzo": "basso"
     },
     {
@@ -29,8 +35,7 @@
   ],
   "sentinelle_scattate": [
     "North Star 0 — stallo 50 giorni, pausa concordata fino al 24/8-1/9 (non churn)",
-    "Tasso di chiusura 0,24 nel mese (102 aperti/24 chiusi) — sotto soglia 1: nessuna ricerca nuova aperta anche oggi",
-    "Test del cervello: 1107/1111 verdi — 1 rosso reale, apprendimento.json sopra il tetto di lettura (1.072.482/1.048.576 byte)",
-    "correzione-nicola-gate: da 0 a 2 lezioni con gate verificato davvero (mutazione + test), resta comunque sano:false (60/311, soglia 20)"
+    "Tasso di chiusura 0,24 nel mese — sotto soglia 1: nessuna ricerca nuova aperta anche in questo passaggio",
+    "CI: 3 PR rosse per colpa propria (#710/#709/#708), 1 mai provata (#711) — debito noto, fuori scope oggi (non sblocca il North Star)"
   ]
 }
