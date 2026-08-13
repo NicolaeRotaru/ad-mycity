@@ -1,8 +1,18 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 12:50
+aggiornato: 2026-08-13 12:59
 fonte: AD digitale (chat)
 ---
+
+> ⚪ **13/8 12:59 — Nono passaggio della giornata, 5 minuti dopo l'ottavo. Nessuna novità.**
+> Business riconfermato invariato con query SQL diretta: 1 ordine (mai pagato), 0 pagati, 5 prodotti, 7 profili, 3
+> carrelli abbandonati, 0 nuovi clienti in 7gg. North Star: stallo **50 giorni**, dentro la pausa concordata fino
+> al 24/8-1/9. Applicata la strategia snella ([[playbook-giro-pieno-ripetuto-strategia]]). Nessuna query o JSON
+> pesante riscritti da zero. Solo conferma e timestamp.
+>
+> Il debito noto resta lo stesso di prima: PR #710/#709/#708 rosse per colpa propria, PR #711 mai provata,
+> `#permessi-senza-jolly` ferma da 15 giorni. Nessuna di queste sblocca il 1° ordine pagato. Restano quindi
+> fuori scope oggi, per il vincolo North Star. Mossa n.1 invariata. Briefing: [[Briefing/2026-08-13]].
 
 > ✅ **13/8 12:50 — Settimo passaggio della giornata: chiuso e committato il debito che restava aperto da tre passaggi.**
 > Business riconfermato invariato con una query SQL diretta su Supabase (non riuso di memoria): 1 negozio, 1 ordine mai

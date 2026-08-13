@@ -834,3 +834,4 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-13 12:50 · @AD · FATTO · Chiuse e committate le due lezioni-gate rimaste pendenti da tre passaggi (L-2026-0813-01/02): 2 commit su `main` (memoria, 23 file) + 1 commit su ramo `fix/domanda-riesame-check-gate` (codice, 8 file) pronto per la PR.
 - 2026-08-13 12:50 · @AD · FATTO · Verificato che `main` locale e `origin/main` NON sono divergenti (solo 6 commit avanti, nessun fork) — smentito il rischio ipotizzato.
 - 2026-08-13 12:50 · @AD · PASSO-A · @Nicola — la PR non può partire da questa sessione (`gh` negato, `git push` senza credenziali): serve un push da un posto con accesso (VPS o terminale di Nicola) per portare 7 commit + 1 ramo su GitHub. Nessuna azione business sbloccabile prima del 24/8-1/9.
+- 2026-08-13 12:59 · @ad · FATTO · nono passaggio della giornata (5 min dopo l'ottavo), business riconfermato invariato via SQL, nessuna novità — strategia snella applicata, nessuna ricerca nuova (tasso-chiusura 0,24)

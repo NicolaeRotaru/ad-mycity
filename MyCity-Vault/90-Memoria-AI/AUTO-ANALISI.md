@@ -1,9 +1,26 @@
-# 🔬 AUTO-ANALISI — 2026-08-13 10:22
+# 🔬 AUTO-ANALISI — 2026-08-13 12:59
+
+> Nono passaggio della giornata, 5 minuti dopo l'ottavo (12:50). Applicata di nuovo
+> [[playbook-giro-pieno-ripetuto-strategia]]: numeri riconfermati via SQL diretta, nessun JSON pesante
+> riscritto da zero. Nessuna novità di business, nessun difetto nuovo aperto o chiuso in questi 5 minuti.
+
+## Voto di fiducia: **82/100** (→ invariato dal passaggio 12:50)
+Business identico cifra per cifra: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili, 3 carrelli
+abbandonati, 0 nuovi clienti in 7gg.
+
+Il debito noto resta lo stesso: PR #710/#709/#708 rosse per colpa propria, PR #711 mai provata. Nessuna
+delle due sblocca il 1° ordine pagato. Restano fuori scope, per il vincolo North Star (AR-113).
+
+Un'anomalia resta segnalata e non indagata: `coerenza-fatti.mjs` dice "0 file vivi scansionati". È un
+verde vuoto, non un verde provato. Indagarla ora sarebbe ricerca nuova. Il vincolo tasso-chiusura (0,24
+nel mese) la vieta oggi.
+
+## Passaggio precedente — 2026-08-13 10:22
 
 > Giro snello (vincolo HARD tasso-chiusura 0,24 sotto 1 → nessuna ricerca nuova, [[playbook-giro-pieno-ripetuto-strategia]]).
 > Dati riusati da giro.sh (10:20), non re-interrogati. Lavoro reale: chiusa una card fantasma in coda.
 
-## Voto di fiducia: **80/100** (↑2 da 78 del 12/8 22:43)
+### Voto di fiducia: **80/100** (↑2 da 78 del 12/8 22:43)
 Il voto non sale per novità di business: i numeri sono identici da 7 settimane. Sale per un lavoro di chiusura
 reale. La card `#ordine-test-dentro-o-fuori-dalla-pausa` era presentata da 16 giorni come "mossa n.1 senza
 risposta". Nicola aveva già risposto il 28/7 alle 15:56 (verificato su [[DECISIONI]]). Chiusa e archiviata, con

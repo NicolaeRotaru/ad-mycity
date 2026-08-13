@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-13 12:50",
-  "situazione": "Settimo passaggio della giornata, 34 minuti dopo quello delle 12:16: business riconfermato invariato con una query diretta su Supabase (non riuso della memoria). 1 negozio, 1 ordine mai pagato, 0 pagati, 0 nuovi clienti in 7gg. North Star fermo, dentro la pausa concordata fino al 24/8-1/9. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova. La chiusura vera di questo passaggio: le due lezioni gate (L-2026-0813-01/02, domanda-riesame-check.mjs + gate-veri self-test) erano verificate ma mai committate da tre passaggi — ora sono su un ramo (fix/domanda-riesame-check-gate) pronto per la PR. La PR non è partita: in questa sessione gh è negato e git push fallisce per mancanza di credenziali GitHub (nessun credential.helper configurato) — limite di sessione noto, non nuovo. Committati direttamente su main 2 giri di refresh memoria (23 file, solo timestamp/stato, nessuna decisione nuova).",
+  "data": "2026-08-13 12:59",
+  "situazione": "Nono passaggio della giornata, 5 minuti dopo quello delle 12:50. Business riconfermato invariato con query SQL diretta: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili, 3 carrelli abbandonati, 0 nuovi clienti in 7gg. North Star fermo, dentro la pausa concordata fino al 24/8-1/9. Applicata la strategia snella già validata (playbook giro-ripetuto): nessuna query/JSON pesante riscritti, solo conferma e timestamp. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova. Il debito noto (PR #710/#709/#708 rosse per colpa propria, #711 mai provata dalla CI, permessi-senza-jolly ferma da 15 giorni) resta invariato: nessuno di questi sblocca direttamente il 1° ordine pagato, quindi resta fuori scope oggi per il vincolo North Star.",
   "opportunita": [
     {
       "titolo": "Applica l'elenco permessi senza jolly, sblocca anche i test",
@@ -10,7 +10,7 @@
     },
     {
       "titolo": "Dai a questa sessione un modo di spingere il codice su GitHub",
-      "motivo": "7 commit di memoria e 1 ramo di codice pronto per la PR sono fermi in locale: senza token/credenziali GitHub in questa sessione, tutto il lavoro di oggi in chat resta invisibile a GitHub finché qualcuno con accesso (VPS o Nicola) non lo spinge a mano",
+      "motivo": "Diversi commit di memoria e un ramo di codice pronto per la PR sono fermi in locale: senza token/credenziali GitHub in questa sessione, il lavoro fatto in chat resta invisibile finché qualcuno con accesso (VPS o Nicola) non lo spinge a mano",
       "impatto": "medio",
       "sforzo": "basso"
     },
@@ -35,7 +35,7 @@
   ],
   "sentinelle_scattate": [
     "North Star 0 — stallo 50 giorni, pausa concordata fino al 24/8-1/9 (non churn)",
-    "Tasso di chiusura 0,24 nel mese (102 aperti/24 chiusi) — sotto soglia 1: nessuna ricerca nuova aperta anche in questo passaggio",
-    "correzione-nicola-gate: le due lezioni di oggi ora hanno un gate provato E committato (non più solo verificato in sessione) — il contatore con_gate del guardiano resta da ricalcolare, lo script che lo fa (correzione-nicola-gate.mjs) è tra quelli bloccati da questa sessione"
+    "Tasso di chiusura 0,24 nel mese — sotto soglia 1: nessuna ricerca nuova aperta anche in questo passaggio",
+    "CI: 3 PR rosse per colpa propria (#710/#709/#708), 1 mai provata (#711) — debito noto, fuori scope oggi (non sblocca il North Star)"
   ]
 }
