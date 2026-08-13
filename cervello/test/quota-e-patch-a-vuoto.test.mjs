@@ -29,6 +29,7 @@ import assert from "node:assert/strict";
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
 const { patchConfermata } = await import(join(REPO, "cervello/esito-scrittura.mjs"));
+const classifica = await import(join(REPO, "cervello/retry-policy.mjs"));
 
 const casi = [];
 const prova = (nome, fn) => {
@@ -98,6 +99,23 @@ prova("AR-627: il worker traduce quel codice in un messaggio che si capisce, non
   assert.match(ramo, /stato="errore"/, "il lavoro in quota si chiude ancora «fatto»");
   assert.match(ramo, /non ha le mani|NON è stato eseguito/,
     "il messaggio non dice a Nicola cosa è successo davvero");
+});
+
+prova("AR-627: il messaggio che scrivo arriva alla retry-policy come «quota», non come guasto", () => {
+  // Il terzo giro del lotto: chiudere in errore serve solo se qualcuno di quell'errore fa qualcosa.
+  // La retry-policy classifica dal TESTO, non dal codice: se il mio messaggio non contenesse le
+  // parole giuste finirebbe in «altro» — ritentato pochi minuti dopo con la quota ancora finita,
+  // oppure lasciato lì. Con «quota» il rinvio è di ore e i tentativi sono sei, che è il senso di
+  // AR-627: il lavoro riparte da solo quando la porta si riapre.
+  const messaggio = String(readFileSync(join(REPO, "cervello/worker.sh"), "utf8")
+    .match(/\[worker\] Il motore principale era in limite di quota[^"]*/)?.[0] || "");
+  assert.ok(messaggio, "il messaggio della quota non esiste più in worker.sh");
+  const { classificaErrore } = classifica;
+  const c = classificaErrore(messaggio);
+  assert.equal(c.classe, "quota",
+    `il messaggio della quota viene classificato «${c.classe}»: la retry-policy lo tratterebbe come un guasto qualsiasi`);
+  // E la stessa cosa per la risposta del modello locale, che è l'altro testo che può finire lì.
+  assert.equal(classificaErrore("⚠️ [risposta da Ollama locale — motore premium in limite quota]").classe, "quota");
 });
 
 // ─────────────────── AR-631: 2xx con zero righe non è una scrittura ───────────────────

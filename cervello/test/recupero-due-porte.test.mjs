@@ -148,6 +148,37 @@ prova("AR-625: la decisione orfani del worker guarda host e pid, non la sola cor
   assert.equal(vivo("all:altra-macchina:1", `all:${host()}:${process.pid}`), "", "da un altro host non si inventa un verdetto");
 });
 
+prova("AR-659: le cinque copie della lista «azione reale» dicono tutte la stessa cosa", () => {
+  // Trovato nel secondo giro di questo lotto, e in parte l'ho aggiunto io: «quali tipi sono azioni
+  // reali» vive in CINQUE posti con QUATTRO nomi diversi (TIPI_AZIONE, TIPI_PROTETTI,
+  // TIPI_AZIONE_REALE, più due `case` in bash). Unificarli è un lavoro suo — è registrato come
+  // AR-659 — ma finché sono cinque, almeno non possono divergere in silenzio: qui si leggono tutti
+  // e si pretende lo stesso contenuto. Se qualcuno aggiunge un sesto tipo di azione reale in un
+  // posto solo, questa riga diventa rossa prima che quel tipo torni riaccodabile da una porta.
+  const atteso = ["esegui-azione", "proposta"];
+  const copie = {
+    "pannello/src/lib/recupero-lavoro.ts": /TIPI_AZIONE_REALE = \[([^\]]+)\]/,
+    "cervello/sentinella-lavori.mjs": /const TIPI_AZIONE = \[([^\]]+)\]/,
+    "cervello/pulisci-coda.mjs": /const TIPI_PROTETTI = \[([^\]]+)\]/,
+  };
+  for (const [file, re] of Object.entries(copie)) {
+    const m = leggi(file).match(re);
+    assert.ok(m, `${file}: la lista dei tipi di azione reale non si trova più`);
+    const tipi = [...m[1].matchAll(/"([^"]+)"/g)].map((x) => x[1]).sort();
+    assert.deepEqual(tipi, atteso, `${file} elenca ${tipi.join(", ")} invece di ${atteso.join(", ")}`);
+  }
+  // Le due copie in bash, che sono `case` e non array.
+  for (const file of ["cervello/lib-recupero.sh", "cervello/worker.sh"]) {
+    assert.match(leggi(file), /case " esegui-azione proposta " in/,
+      `${file}: il filtro sui tipi di azione reale è cambiato o sparito`);
+  }
+  // `retry-policy.mjs` ha lo stesso NOME con un contenuto diverso, ed è voluto: lì la domanda è
+  // «quale tipo aziona davvero le mani», non «quale non si riaccoda». Pinzata perché quella
+  // differenza resti una scelta e non diventi una svista.
+  assert.match(leggi("cervello/retry-policy.mjs"), /TIPI_AZIONE_REALE = new Set\(\["esegui-azione"\]\)/,
+    "retry-policy: la lista con lo stesso nome e contenuto diverso è cambiata — è voluta, ma va vista");
+});
+
 prova("AR-625: il worker passa l'owner intero e il verdetto del pid alla decisione", () => {
   const w = leggi("cervello/worker.sh");
   assert.match(w, /_orfano_decisione "\$\{HAS_OWNER_COL:-0\}" "\$owner" "\$WORKER_ID"/,

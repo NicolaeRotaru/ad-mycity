@@ -13422,6 +13422,50 @@
       "chiuso_il": "2026-08-13 21:16",
       "chiuso_come": "node cervello/test/cancello-stop.test.mjs → exit 0 (guardiano soddisfatto)",
       "corroborata": true
+    },
+    {
+      "id": "AR-659",
+      "titolo": "La lista di quali lavori sono «azioni vere» sta in cinque posti con quattro nomi diversi",
+      "severita": "minore",
+      "stato": "aperto",
+      "nato": "2026-08-13 22:15",
+      "origine": "secondo giro del lotto 39 (riparando AR-624)",
+      "dove": "cervello/sentinella-lavori.mjs:31 (TIPI_AZIONE) · cervello/pulisci-coda.mjs:19 (TIPI_PROTETTI) · pannello/src/lib/recupero-lavoro.ts:23 (TIPI_AZIONE_REALE) · cervello/worker.sh:1031 e cervello/lib-recupero.sh:28 (case \" esegui-azione proposta \") · cervello/retry-policy.mjs:78 (TIPI_AZIONE_REALE, stesso nome MA contenuto diverso: solo esegui-azione)",
+      "descrizione": "«Quali tipi di lavoro sono azioni che toccano il mondo reale» è la domanda da cui dipende la difesa contro il doppio invio: se un tipo non è nella lista, quel lavoro torna riaccodabile da ogni porta. La risposta è scritta in cinque punti sotto quattro nomi, e due file portano lo stesso nome (TIPI_AZIONE_REALE) con contenuti diversi — in retry-policy la lista ha un elemento solo, e lì è voluto perché la domanda è un altra («quale tipo aziona davvero le mani»), ma il nome uguale rende la differenza invisibile a chi legge. Due delle cinque copie le ho aggiunte io nel lotto 39 riparando AR-624: erano il modo di far arrivare la regola alle due porte laterali, e il costo dichiarato è questo.",
+      "impatto": "Il giorno che nasce un sesto tipo di lavoro che manda qualcosa a un negozio o a un cliente, verrà aggiunto in uno o due posti su cinque — e dalle porte rimaste indietro tornerà riaccodabile da solo, cioè spedibile due volte senza la firma di Nicola. È lo stesso modo in cui AR-624 è nato.",
+      "causa_radice": "Non esiste un posto solo dove la macchina dica cosa è un atto verso il mondo reale: ogni file che ha avuto bisogno della risposta se l è riscritta. Manca il modulo condiviso (per JS/TS) e la sua controparte sourceabile per la shell, come è stato fatto per la decisione di recupero.",
+      "fix_proposto": "🟡 da firmare: un modulo solo (es. cervello/tipi-lavoro.mjs) che esporta TIPI_AZIONE_REALE e la sua copia bash generata o sourceabile; i cinque punti lo importano. retry-policy tiene la sua lista ma con un NOME diverso (es. TIPI_CON_LE_MANI) e il perché scritto. Nel frattempo le copie sono pinzate insieme da cervello/test/recupero-due-porte.test.mjs, che le legge tutte e pretende lo stesso contenuto.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "node cervello/test/recupero-due-porte.test.mjs"
+      },
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Il pin (le copie non possono divergere) è già installato e provato. Quello che resta APERTO è la consolidazione vera in un modulo solo: finché sono cinque, la difesa dipende da una prova che le confronta invece che dal fatto che siano una. Si chiude quando i cinque punti importano lo stesso elenco."
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-660",
+      "titolo": "Ventisei prove scritte in bats non le esegue nessuno: né la suite, né il cancello, né i workflow",
+      "severita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-13 22:20",
+      "origine": "terzo giro del lotto 39 (modificando due-worker.bats per AR-625)",
+      "dove": "cervello/test/*.bats (26 file) · cervello/test-cervello.mjs (raccoglie solo *.test.mjs) · cervello/cancello-lotto.mjs:245 (accetta .bats come PERCORSO di una prova, ma non lo lancia) · .github/workflows/test-cervello.yml e cancello-lotto.yml (nessuno chiama bats)",
+      "descrizione": "Ventisei file .bats vivono in cervello/test/ e nessun cancello li esegue. La suite (test-cervello.mjs) raccoglie solo *.test.mjs; i due workflow lanciano la suite e il cancello; il cancello del lotto accetta un .bats come percorso valido dentro una verifica, ma non ha nessun motore che lo faccia girare — e infatti oggi ZERO difetti del cantiere hanno un .bats come prova. In questa immagine bats non e nemmeno installato. Misurato riparando AR-625: ho modificato due-worker.bats (tolta la prova che asseriva il comportamento sbagliato, aggiunte quattro nuove) e nessun cancello ha potuto dirmi se passassero — la copertura vera e arrivata riscrivendo gli stessi casi in un .test.mjs che shella in bash.",
+      "impatto": "E lo stesso modo di fallire che l asticella e nata per impedire, un piano piu in la: una prova che non gira non e una prova, e ventisei file danno la sensazione di una copertura che non esiste. Peggio: chi modifica uno script bash coperto SOLO da un .bats crede di avere una rete e non ce l ha — ed e la condizione in cui AR-397 e AR-399 erano sopravvissuti a piu radiografie.",
+      "causa_radice": "La suite e nata per Node e raccoglie per estensione (*.test.mjs). I .bats sono arrivati dopo, da lotti che avevano bisogno di provare la shell, e nessuno ha agganciato un esecutore: il collegamento fra «ho scritto la prova» e «qualcuno la fa girare» e rimasto implicito. Nessun guardiano misura quante prove esistono contro quante ne vengono eseguite, quindi la differenza puo crescere senza che si veda.",
+      "fix_proposto": "🟡 da firmare, due pezzi. ① Un esecutore: test-cervello.mjs raccoglie anche i .bats e li lancia se `bats` c e, dichiarando ⚪ (non verde) quando manca — e i due workflow lo installano con una riga. ② Un guardiano che conti prove-scritte contro prove-eseguite e fallisca se la differenza cresce, cosi la prossima famiglia di prove non agganciate si vede subito. Alternativa piu economica se bats non si vuole in CI: portare i .bats alla forma che gira gia — un .test.mjs che esegue blocchi bash veri, come fanno recupero-due-porte.test.mjs e testa-staccata-non-perde-memoria.test.mjs.",
+      "prova": {
+        "tipo": "comando",
+        "comando": "bash -c 'cd /home/user/ad-mycity; n=$(ls cervello/test/*.bats 2>/dev/null | wc -l); e=$(grep -rlE \"bats +[^ ]+\\.bats|command -v bats\" cervello/test-cervello.mjs cervello/cancello-lotto.mjs .github/workflows/ 2>/dev/null | wc -l); echo \"$n prove bats, $e esecutori\"; [ \"$e\" -gt 0 ] || { echo \"ROSSO: nessun cancello le esegue\"; exit 1; }'"
+      },
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Non toccato dal lotto 39: e di famiglia diversa (copertura delle prove, non esito non confermato), e allargare il lotto a meta e il modo classico di non finirlo. Si chiude quando un cancello li esegue davvero — o quando i 26 file sono stati portati alla forma che gira."
+      },
+      "nato_come": "scoperta"
     }
   ],
   "meta": {
