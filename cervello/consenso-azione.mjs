@@ -51,6 +51,11 @@ function parseHeading(heading) {
   for (const p of parti) {
     if (!data && DATA_RE.test(p) && /^\d{4}-\d{2}-\d{2}/.test(p)) {
       data = (p.match(DATA_RE) || [""])[0];
+    } else if (!data && /(?:accodat|refresh)/i.test(p) && DATA_RE.test(p)) {
+      // «⏳ accodata …»: data di nascita in un pezzo etichettato (mirror 1:1 del Pannello —
+      // se questa riga divergesse, l'id calcolato qui non troverebbe più la firma del Pannello).
+      data = (p.match(DATA_RE) || [""])[0];
+      resto.push(p);
     } else if (!reparto && p.startsWith("@")) {
       reparto = p.replace(/^@/, "");
     } else {
@@ -62,8 +67,10 @@ function parseHeading(heading) {
     const m = titolo.match(/@([a-z0-9-]+)/i) || titolo.match(/\(@?([a-z]+-[a-z]+)\)/);
     if (m) reparto = m[1];
   }
-  titolo = titolo.replace(/^[🟢🟡🔴]\s*/, "").trim();
-  return { data, reparto, titolo };
+  titolo = titolo.replace(/^[🟢🟡🔴⚠️✅❌️]+\s*/u, "").trim();
+  // Il numero fisso della card («#41 — …»): letto senza toglierlo dal titolo (mirror del Pannello).
+  const mNum = titolo.match(/^#(\d+)\s*[—–-]\s/);
+  return { data, reparto, titolo, cartellino: mNum ? mNum[1] : "" };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -83,9 +90,9 @@ export function blocchiCoda(md) {
   const chiudi = () => {
     if (!cur) return;
     const blocco = cur.heading + "\n" + cur.corpo.join("\n");
-    const { data, reparto, titolo } = parseHeading(cur.heading);
+    const { data, reparto, titolo, cartellino } = parseHeading(cur.heading);
     const id = idSezione(data, reparto, titolo);
-    out.push({ heading: cur.heading, blocco, id, code: codiceAzione(id) });
+    out.push({ heading: cur.heading, blocco, id, code: codiceAzione(id), cartellino });
     cur = null;
   };
   for (const r of righe) {
@@ -97,6 +104,19 @@ export function blocchiCoda(md) {
     }
   }
   chiudi();
+
+  // Le righe-tabella sono card del formato vecchio, e sono ancora VIVE nella coda (22 il 13/8):
+  // senza questo pezzo «ok 20» non le trovava, e il numero mostrato dal Pannello non apriva
+  // nessuna casella. La prima colonna è il numero, la quarta il titolo — stesse celle che legge
+  // `parseTabella` nel Pannello.
+  for (const r of righe) {
+    const m = r.match(/^\|\s*(\d+)\s*\|/);
+    if (!m) continue;
+    const celle = r.split("|").slice(1, -1).map((c) => c.trim());
+    if (celle.length < 8) continue;
+    const id = idSezione(celle[1], celle[2], celle[3]);
+    out.push({ heading: r, blocco: r, id, code: codiceAzione(id), cartellino: m[1] });
+  }
   return out;
 }
 
@@ -112,7 +132,9 @@ function escapeRe(s) {
 
 // Trova il blocco dell'azione dato un AZIONE_ID. Si accettano SOLO identificatori stabili:
 //  1) id stabile "S<hash>" identico;
-//  2) codice casella "#A42" (identico a quello del Pannello).
+//  2) codice casella "#A42" (identico a quello del Pannello);
+//  3) il numero fisso della card ("41" / "#41"), confrontato col CAMPO cartellino parsato
+//     dall'intestazione — mai cercato come testo dentro il titolo.
 // Ritorna il blocco o null. Fail-closed: nessun match → null → invio bloccato.
 //
 // AR-271 — QUI C'ERA UN TERZO TENTATIVO, ED È STATO TOLTO.
@@ -120,18 +142,21 @@ function escapeRe(s) {
 // ma il titolo contiene anche gli orari: provato sulla coda vera, l'id «40» agganciava un blocco del
 // 26 giugno solo perché il titolo conteneva «23:40» — e quel blocco risultava già firmato. Cioè: una
 // firma data per un'azione poteva autorizzarne un'altra, scelta da una coincidenza tipografica.
-// Un identificatore che combacia per caso non è un identificatore. Chi chiama deve passare l'id
-// stabile o il codice-casella (è ciò che il Pannello registra al clic di Nicola); tutto il resto è
-// un rifiuto motivato, non un tentativo di indovinare.
+// Un identificatore che combacia per caso non è un identificatore. Il numero fisso di oggi NON è
+// quel fallback che ritorna: è un campo dichiarato nell'intestazione («#41 — …»), parsato una volta
+// e confrontato per uguaglianza esatta. Un «40» che vive dentro un orario del titolo non ha mai
+// la forma `#40 — ` in testa all'intestazione, quindi non può combaciare per caso.
 export function trovaAzione(md, azioneId) {
   const blocchi = blocchiCoda(md);
   const raw = String(azioneId || "").trim();
   if (!raw) return null;
   const nc = normCode(raw);
+  const num = /^#?\d+$/.test(raw) ? raw.replace(/^#/, "") : "";
 
   for (const b of blocchi) {
     if (raw === b.id) return b;
     if (nc === normCode(b.code)) return b;
+    if (num && b.cartellino && num === b.cartellino) return b;
   }
   return null;
 }

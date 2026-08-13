@@ -12,6 +12,10 @@ import { comeTesto } from "./format";
 
 export type AzioneAttesa = {
   numero: string;
+  // 🔢 Il numero FISSO della card, chiesto da Nicola (13/8): scritto nel file come «#41 — Titolo»,
+  // assegnato per ordine di nascita e mai riusato. È l'identificatore che Nicola legge e pronuncia
+  // («ok 41»). Vuoto per le card vecchie non ancora numerate: lì la UI ripiega sul codice #A42.
+  cartellino: string;
   data: string;
   reparto: string;
   azione: string;
@@ -160,6 +164,26 @@ export function etichettaCasella(id: string, nome: string): string {
   return `${codiceAzione(id)} — ${nome}`.trim();
 }
 
+// 🔢 Il numero che Nicola VEDE sulla card (13/8: «cambia il codice con il numero semplice»).
+// Le card numerate mostrano il loro «#41»; le poche senza numero ripiegano sul codice #A42,
+// così nessuna casella resta senza nome pronunciabile.
+export function numeroCard(a: Pick<AzioneAttesa, "cartellino" | "numero">): string {
+  return a.cartellino ? `#${a.cartellino}` : codiceAzione(a.numero);
+}
+
+// 📅 Le card in ordine: numero più alto (= più recente) in alto. Le card senza numero scendono
+// sotto, ordinate per data quando c'è. Copia ordinata, non muta l'input.
+export function ordinaCoda<T extends Pick<AzioneAttesa, "cartellino" | "data">>(azioni: T[]): T[] {
+  return [...azioni].sort((a, b) => {
+    const na = a.cartellino ? Number(a.cartellino) : NaN;
+    const nb = b.cartellino ? Number(b.cartellino) : NaN;
+    if (!Number.isNaN(na) && !Number.isNaN(nb)) return nb - na;
+    if (!Number.isNaN(na)) return -1;
+    if (!Number.isNaN(nb)) return 1;
+    return (b.data || "").localeCompare(a.data || "");
+  });
+}
+
 // Una heading `##`/`###` è PURA DOCUMENTAZIONE (NON un'azione) se non porta alcun segnale d'azione:
 //   • nell'heading: una data, un @reparto o un semaforo 🟢🟡🔴, OPPURE
 //   • nel corpo: un campo Stato:/Colore:, "in attesa", "via libera", "data proposta", "pronto"
@@ -190,7 +214,7 @@ function inAttesaSezione(blocco: string): boolean {
 }
 
 // Dal titolo di una sezione "AAAA-MM-GG · @reparto · titolo" (o varianti) estrae i campi.
-function parseHeading(heading: string): { data: string; reparto: string; titolo: string } {
+function parseHeading(heading: string): { data: string; reparto: string; titolo: string; cartellino: string } {
   // togli i marcatori # iniziali
   const h = heading.replace(/^#{2,3}\s+/, "").trim();
   const parti = h.split("·").map((p) => p.trim());
@@ -200,6 +224,11 @@ function parseHeading(heading: string): { data: string; reparto: string; titolo:
   for (const p of parti) {
     if (!data && DATA_RE.test(p) && /^\d{4}-\d{2}-\d{2}/.test(p)) {
       data = (p.match(DATA_RE) || [""])[0];
+    } else if (!data && /(?:accodat|refresh)/i.test(p) && DATA_RE.test(p)) {
+      // «⏳ accodata 2026-08-13 00:15» — la data di nascita vive in un pezzo etichettato,
+      // non in testa: prima veniva scartata col meta e la card restava senza data.
+      data = (p.match(DATA_RE) || [""])[0];
+      resto.push(p);
     } else if (!reparto && p.startsWith("@")) {
       reparto = p.replace(/^@/, "");
     } else {
@@ -220,8 +249,11 @@ function parseHeading(heading: string): { data: string; reparto: string; titolo:
   // seconda orfana in testa al titolo. Ogni card a sezione arrivava in Cabina come «▯ — Dimmi quali
   // piani riscrivo», con un carattere rotto e un trattino appeso al nulla. La riga gemella in
   // `pulisciTitolo` il flag ce l'ha da sempre, ed è per questo che lì lo stesso titolo usciva pulito.
-  titolo = titolo.replace(/^[🟢🟡🔴]\s*/u, "").trim();
-  return { data, reparto, titolo };
+  titolo = titolo.replace(/^[🟢🟡🔴⚠️✅❌️]+\s*/u, "").trim();
+  // Il numero fisso della card («#41 — …»): si LEGGE senza toglierlo dal titolo grezzo,
+  // così l'id stabile non dipende da questa estrazione. Al display ci pensa pulisciTitolo.
+  const mNum = titolo.match(/^#(\d+)\s*[—–-]\s/);
+  return { data, reparto, titolo, cartellino: mNum ? mNum[1] : "" };
 }
 
 // Estrae da un blocco-sezione il valore di un campo etichettato (es. "Cosa cambia: ...").
@@ -258,6 +290,9 @@ function parseTabella(md: string): AzioneAttesa[] {
     // L'id resta sul titolo GREZZO (così il codice-casella non cambia); il display è ripulito.
     out.push({
       numero: idSezione(data, reparto, azioneRaw),
+      // La prima colonna È il numero della card, nello stesso spazio dei blocchi `###`:
+      // due card diverse non possono portare lo stesso numero, o «ok 20» diventa ambiguo.
+      cartellino: rigaNum,
       data,
       reparto,
       azione: pulisciTitolo(azioneRaw),
@@ -284,11 +319,12 @@ function parseSezioni(md: string): AzioneAttesa[] {
     if (!cur) return;
     const blocco = cur.heading + "\n" + cur.corpo.join("\n");
     if (inAttesaSezione(blocco) && !isSezioneDocumentazione(cur.heading, blocco)) {
-      const { data, reparto, titolo } = parseHeading(cur.heading);
+      const { data, reparto, titolo, cartellino } = parseHeading(cur.heading);
       const colore = /🔴/.test(blocco) ? "🔴" : "🟡";
       const origine = estraiOrigine(blocco) || campo(blocco, ["origine", "nato da"]);
       out.push({
         numero: idSezione(data, reparto, titolo),
+        cartellino,
         data,
         reparto,
         azione: pulisciTitolo(senzaOrigine(titolo)),

@@ -147,14 +147,14 @@ prova("il caso che ha rotto: passata la data, la card viene svegliata DAVVERO", 
     assert.doesNotMatch(dopo.split("\n").find((l) => l.includes("#prova-sveglia — Fai la cosa")), /⏸/,
       "il ⏸ dev'essere sparito dal titolo: è quello che Nicola vede");
     assert.match(dopo, /▶️ Pausa finita/, "la riga resta come storia, ma dice che è finita");
-    assert.match(dopo, /#pausa-scaduta-risveglio/, "e deve esserci UNA card che glielo dice, non N card mute");
+    assert.match(dopo, /<!-- pausa-scaduta-risveglio -->/, "e deve esserci UNA card che glielo dice, non N card mute");
     assert.match(dopo, /`#prova-sveglia`/, "la card nuova deve elencare quali sono tornate vive");
     assert.ok(sveglia.out.length > 0);
 
     // Idempotenza: rigirando, non risveglia due volte e non riaccoda la card.
     const ancora = guardiano(["--risveglia", "--adesso", "2026-07-21T08:00"], env);
     const finale = readFileSync(coda, "utf8");
-    assert.equal((finale.match(/#pausa-scaduta-risveglio/g) || []).length, 1, "la card del risveglio non si duplica a ogni giro");
+    assert.equal((finale.match(/<!-- pausa-scaduta-risveglio -->/g) || []).length, 1, "la card del risveglio non si duplica a ogni giro");
     assert.equal(ancora.rc, 0, "dopo il risveglio non c'è più niente in violazione");
   } finally {
     rmSync(dir, { recursive: true, force: true });

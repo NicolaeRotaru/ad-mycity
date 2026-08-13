@@ -2497,6 +2497,14 @@
    "test": "cervello/test/sensori-verita.test.mjs"
   },
   {
+   "difetto": "AR-478 merge-conta-lavoro-altrui",
+   "nome": "il cancello torna a misurare i file che il merge ha portato identici da main: accusa il lotto del debito del worker",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  if (contenuto === pubblicato()) return null;",
+   "sostituisci": "  if (false) return null;",
+   "test": "node cervello/test/cancello-stop.test.mjs"
+  },
+  {
    "lotto": 38,
    "difetto": "AR-656",
    "nome": "l intestazione della cecità arriva senza il suo elenco: il log dice «non ho potuto misurare» e non dice cosa",

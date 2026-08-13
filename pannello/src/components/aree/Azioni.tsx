@@ -38,7 +38,7 @@ type Tab = "mosse" | "proposte" | "dafare" | "sentinelle" | "avvisi" | "approvar
 type Livello = "verde" | "giallo" | "rosso" | "?";
 type Stato = "" | "rifiutata" | "fatta" | "simulata" | "coda";
 type Azione = {
-  id: string; titolo: string; reparto: string; livello: Livello;
+  id: string; cartellino?: string; titolo: string; reparto: string; livello: Livello;
   canale: string; destinatario: string; perche: string; preparato: string; testo: string;
   fonte: "vault" | "sentinella"; stato: Stato; esito: string;
   cambia?: string; seguito?: string; origine?: string;
@@ -59,6 +59,14 @@ type SchedaDoc = { loading: boolean; testo?: string; err?: string };
 const BORDO: Record<string, string> = { rosso: "border-red-200", giallo: "border-amber-200", verde: "border-green-200", "?": "border-black/[0.08]" };
 const PALLINO: Record<string, string> = { rosso: "bg-red-500", giallo: "bg-amber-500", verde: "bg-green-500", "?": "bg-black/30" };
 const ETICHETTA: Record<string, string> = { rosso: "🔴 serve la tua firma", giallo: "🟡 un tocco", verde: "🟢 sicura", "?": "" };
+
+// «2026-08-13 00:15» → «13/08 00:15»: la data di nascita della card, in piccolo sulla card
+// (richiesta di Nicola, 13/8: ogni card dice quando è stata fatta).
+function dataBreve(d: string): string {
+  const m = (d || "").match(/^(\d{4})-(\d{2})-(\d{2})(?:\s+(\d{2}:\d{2}))?/);
+  if (!m) return "";
+  return `${m[3]}/${m[2]}${m[4] ? ` ${m[4]}` : ""}`;
+}
 
 function badgeStato(s: string): { txt: string; cls: string } | null {
   if (s === "fatta") return { txt: "✅ Inviata", cls: "bg-green-50 text-green-700" };
@@ -568,24 +576,27 @@ export default function Azioni() {
         <div className="flex items-start gap-2.5">
           <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO[a.livello]}`} />
           <div className="min-w-0 flex-1">
-            {/* 🔖 Etichetta «#codice — nome» (richiesta di Nicola): codice STABILE e
-                pronunciabile (es. "#A42") SEMPRE insieme al titolo, sulla stessa riga.
-                Il codice resta lo stesso finché l'azione è in coda, così Nicola e l'AD
-                parlano della stessa card. testoPulito: via gli ** del markdown e
-                l'emoji di livello iniziale. */}
+            {/* 🔖 Etichetta «#numero — nome» (richiesta di Nicola, 13/8): il numero FISSO della
+                card (es. "#41") SEMPRE insieme al titolo, sulla stessa riga. Il numero non cambia
+                mai — per approvare basta dire «ok 41». Le rare card senza numero (sentinelle,
+                formati vecchi) mostrano il codice #A42 di prima. testoPulito: via gli ** del
+                markdown e l'emoji di livello iniziale. */}
             <div className="t-sez leading-snug">
               <span className="text-black/35 group-open:rotate-90 transition-transform inline-block mr-1.5">▸</span>
               <span
                 className="font-mono text-[12px] font-bold tracking-wide text-brand select-all mr-1"
-                title="Codice fisso di questa casella — citalo in chat per indicarla"
+                title="Numero fisso di questa card — per approvarla scrivi «ok» e il numero"
               >
-                {codiceAzione(a.id)}
+                {a.cartellino ? `#${a.cartellino}` : codiceAzione(a.id)}
               </span>
               <span className="text-black/30 mr-1">—</span>
               {pulisciTitolo(testoPulito(a.titolo))}
             </div>
             <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
               <span className="badge badge-off" title={a.reparto}>{nomeReparto(a.reparto)}</span>
+              {dataBreve(a.preparato) && (
+                <span className="t-eti" title={`Card creata il ${a.preparato}`}>🗓 {dataBreve(a.preparato)}</span>
+              )}
               {ETICHETTA[a.livello] && <span className="t-eti">{ETICHETTA[a.livello]}</span>}
               {a.fonte === "sentinella" && <span className="badge badge-on">🛡️ da sentinella</span>}
               {a.qualita?.voto === "rivedere" && <span className="badge bg-amber-50 text-amber-700" title={a.qualita.problemi.join(" · ")}>⚠️ qualità: da rivedere</span>}

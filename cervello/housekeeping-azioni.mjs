@@ -51,33 +51,49 @@ const headerLines = lines.slice(0, headerEnd);
 const bodyLines = lines.slice(headerEnd);
 
 // --- Splitta in blocchi (ogni blocco = una card + il suo separatore ---) ---
+// Confini: una card (### emoji) O una sezione (## …). Senza il confine `## `, l'intestazione
+// dell'archivio veniva assorbita nella coda della card precedente e a ogni giro ne rinasceva
+// una copia: contate il 13/8, erano 101 identiche. L'ancora `<!-- slug -->` che precede una
+// card viaggia CON la card (tenuta in un buffer), non con la coda del blocco prima.
 const rawBlocks = [];
 let cur = [];
+let ancora = []; // righe `<!-- … -->` (e vuote) in attesa della card a cui appartengono
 for (const line of bodyLines) {
-  if (CARD_START.test(line) && cur.length > 0) {
+  if (/^<!--.*-->\s*$/.test(line)) {
+    ancora.push(line);
+    continue;
+  }
+  if (!line.trim() && ancora.length > 0) {
+    ancora.push(line);
+    continue;
+  }
+  if ((CARD_START.test(line) || /^## /.test(line)) && cur.length > 0) {
     rawBlocks.push(cur.join('\n'));
     cur = [];
   }
+  if (ancora.length > 0) {
+    cur.push(...ancora);
+    ancora = [];
+  }
   cur.push(line);
 }
+if (ancora.length > 0) cur.push(...ancora);
 if (cur.length > 0) rawBlocks.push(cur.join('\n'));
 
 // --- Classifica ---
 const openBlocks = [];
 const closedBlocks = [];
-// Sezione archivio già presente (non va rielaborata)
-let archivoSection = null;
 
 for (const raw of rawBlocks) {
   const trimmed = raw.trim();
   if (!trimmed) continue;
-  const firstLine = trimmed.split('\n')[0];
+  // La prima riga UTILE: un blocco può aprirsi con la sua ancora `<!-- slug -->`,
+  // che è un'etichetta, non il titolo.
+  const firstLine = trimmed.split('\n').find((l) => l.trim() && !/^<!--.*-->\s*$/.test(l.trim())) || '';
 
-  // Se è l'intestazione dell'archivio esistente, conservala separatamente
-  if (firstLine.startsWith('## 🗄️ Archivio')) {
-    archivoSection = trimmed;
-    continue;
-  }
+  // L'intestazione dell'archivio non si conserva: si rigenera sotto, UNA sola.
+  // (Tenere la vecchia era il meccanismo con cui le copie si accumulavano.)
+  if (firstLine.startsWith('## 🗄️ Archivio')) continue;
 
   // Rimuovi il separatore --- finale dal testo del blocco (lo riaggiungiamo noi)
   const blockClean = trimmed.endsWith('\n---')
@@ -86,15 +102,17 @@ for (const raw of rawBlocks) {
 
   if (CARD_CHIUSA.test(firstLine)) {
     closedBlocks.push(blockClean);
+  } else if (firstLine.startsWith('## ')) {
+    // Le altre sezioni `##` (es. Supervisione negozi) restano al loro posto tra le aperte.
+    openBlocks.push(blockClean);
   } else if (CARD_START.test(firstLine) || CARD_APERTA_BARE.test(firstLine)) {
     openBlocks.push(blockClean);
   }
 }
 
-// Conta quante card chiuse erano già in archivio (se esiste)
-const archivedAlready = archivoSection
-  ? (archivoSection.match(/^### (✅|❌)/gm) || []).length
-  : 0;
+// Con le intestazioni-archivio scartate, le card già archiviate arrivano come blocchi chiusi
+// normali: il conteggio è unico, niente doppia contabilità.
+const archivedAlready = 0;
 
 // Dry-run: stampa solo il sommario
 if (DRY_RUN) {
@@ -123,15 +141,8 @@ const newHeaderLines = headerLines.map(l =>
   l.startsWith('> 🧹 **Housekeeping') ? newBanner : l
 );
 
-// --- Ricostruisci le sezioni archivio (vecchie + nuove card chiuse) ---
-const archivedCards = archivoSection
-  ? archivoSection
-      .split(/\n(?=### (✅|❌))/)
-      .map(b => b.trim())
-      .filter(b => b.match(/^### (✅|❌)/))
-  : [];
-
-const allClosedBlocks = [...closedBlocks, ...archivedCards];
+// --- Ricostruisci la sezione archivio (tutte le card chiuse, sotto UNA intestazione) ---
+const allClosedBlocks = [...closedBlocks];
 const archivedSection = [
   '## 🗄️ Archivio — card chiuse',
   '',
