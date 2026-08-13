@@ -12018,12 +12018,10 @@
         "comando": "cd /home/user/ad-mycity && env -i PATH=\"$PATH\" HOME=\"$HOME\" SENSORI_CECITA_FILE=/tmp/cecita-prova.json node cervello/verifica-sensori.mjs --json | node -e \"let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const o=JSON.parse(s);const misurati=o.checks.filter(c=>c.dipende_da_env!==false&&c.configurato!==false).length;if(o.esito==='ok'&&misurati===0){console.error('ROSSO: esito ok con ZERO sensori d ambiente misurati (unico verde: file nel repo); istruzioni: '+o.istruzioni_giro);process.exit(1)}console.log('verde')})\""
       },
       "verifica": {
-        "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "ROSSO: esito ok con ZERO sensori d ambiente misurati (unico verde: file nel repo); istruzioni: Stripe ok ma Supabase REST cieco: limita anal"
+        "comando": "node cervello/test/sensori-verita.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 37, sessione cloud, branch claude/fix-multiple-bugs-o7nkhn): Il verdetto ora passa da una funzione pura (verdettoSensori in cervello/lib-sensori-verdetto.mjs, nuovo modulo nel territorio): esce 'ok' SOLO se almeno un sensore d'AMBIENTE (dipende_da_env !== false E configurato) è stato misurato e risponde; se nessuno era misurabile l'esito è il nuovo 'non_misurato' (cecità dichiarata), exit 1, campo sensori_ambiente_misurati nel JSON e in meta. Le istruzioni_giro passano da istruzioniGiro(): il testo 'Stripe ok ma Supabase REST cieco' — che affermava Stripe ok senza averlo misurato — è sostituito da un testo che non afferma nulla di non misurato. Differenze scheda-codice: le righe reali erano 559-563/585-589/630-632/669 come da scheda; consumatori verificati e preservati: giro.sh legge rc + grep datiOrdiniCiechi (campo invariato, e rc=1 in sessione senza chiavi ATTIVA correttamente il vincolo baseline); salute.mjs (sensori.vista, ~888-899) lancia il comando solo se una chiave c'è, quindi non vede mai 'non_misurato'; i due mutanti esistenti di AR-573 su questo file hanno i loro 'cerca' intatti (verificato) e il test sensori-non-calpestati.test.mjs resta verde. Verificato anche il percorso VPS-like (finto PostgREST): exit 0, esito ok. · Non-vacuità: Ho sostituito la riga del verdetto nella lib con la vecchia logica (voto su tutti i configurati, watchdog incluso): sensori-verita.test.mjs è diventato rosso su 3 casi — 'not ok 1 - AR-587 (pura): solo il guardiano-file verde... NON è ok', 'not ok 2 - ... misurati ma tutti rotti → cieco', 'not ok 3 - AR-587 (comando vero): senza chiavi l'esito è non_misurato e l'exit non è 0' (# fail 3). Ripristinato, tutto verde."
     },
     {
       "id": "AR-588",
@@ -12063,12 +12061,10 @@
         "comando": "node -e \"const src=require('fs').readFileSync('/home/user/ad-mycity/cervello/letargo.mjs','utf8');const m=require('/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json').meta;const leggeDati=/max_giri_ciechi_dati/.test(src);if(!leggeDati&&m.max_giri_ciechi>=5&&(m.max_giri_ciechi_dati||0)===0){console.error('ROSSO: il letargo vota SOPRAVVIVENZA per '+m.max_giri_ciechi+' giri ciechi che sono solo uptime (cecita dati: 0)');process.exit(1)}console.log('verde')\""
       },
       "verifica": {
-        "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "ROSSO: il letargo vota SOPRAVVIVENZA per 103 giri ciechi che sono solo uptime (cecita dati: 0)"
+        "comando": "node cervello/test/letargo-dati.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 37, sessione cloud, branch claude/fix-multiple-bugs-o7nkhn): cervello/letargo.mjs ora fa scattare RISPARMIO/SOPRAVVIVENZA su meta.max_giri_ciechi_dati (solo fonti dati), non più su meta.max_giri_ciechi (max su tutti, uptime incluso). La decisione è estratta nella funzione pura esportata livelloLetargo() con main-guard (prima main() partiva anche all'import: malattia programma-che-parte-importando); aggiunto LETARGO_AC_DIR (solo test) per iniettare la cartella auto-coscienza, stesso schema di SENSORI_CECITA_FILE. Il sito giù NON sparisce: resta nel campo informativo assi.sensori_giri_ciechi_totale e in una cautela esplicita ('guasto vero ma NON cecità dei dati — AR-588'). Compatibilità: assi.sensori_giri_ciechi mantiene il nome ma ora vale la cecità DATI; giro.sh invoca letargo.mjs come prima (riga invariata, il censimento guardiani la trova). Prova sul vivo: col vault reale (sito_uptime cieco 123 giri, dati 0) il livello è RISPARMIO per quota AI 69.5% e salute 4 — prima quei 123 giri da soli avrebbero votato SOPRAVVIVENZA. · Non-vacuità: Ho rimesso il contatore vecchio (max_giri_ciechi al posto di max_giri_ciechi_dati): letargo-dati.test.mjs è diventato rosso — 'not ok 3 - AR-589 (comando vero): 103 giri ciechi di SOLO uptime, cecità-dati 0 → NORMALE, exit 0' (# fail 1, il comando votava SOPRAVVIVENZA). Ripristinato, di nuovo verde (exit 0)."
     },
     {
       "id": "AR-590",
@@ -12085,9 +12081,10 @@
         "comando": "node -e \"const c=require('/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json');const src=require('fs').readFileSync('/home/user/ad-mycity/cervello/verifica-sensori.mjs','utf8');if(/PostHog SPENTO su decisione/.test(src)&&c.sensori.posthog_api?.stato==='ok'){console.error('ROSSO: decisione di spegnimento registrata nel codice ma il sensore sul VPS e acceso e ok');process.exit(1)}console.log('verde')\""
       },
       "verifica": {
-        "tipo": "comando"
+        "comando": "node cervello/test/sensori-verita.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 37, sessione cloud, branch claude/fix-multiple-bugs-o7nkhn): DIFFERENZA SCHEDA-CODICE (comanda il codice): la causa NON è in aggiornaSensore (~222-232), che scrive già correttamente stato 'non_configurato' quando configurato:false. La causa vera è la protezione anti-calpestamento AR-573 (~615-621): con la porta di scrittura aperta, per OGNI check configurato:false ripristinava lo stato vecchio dal file — quindi un PostHog spento per decisione (POSTHOG_OFF=1) tornava 'ok' per sempre (è quello che si vede in sensori-cecita.json: posthog_api 'ok'). Cura: il check POSTHOG_OFF=1 ora torna spento:true, e il ripristino salta i sensori 'spenti per DECISIONE' (eSpentoPerDecisione nella lib: spento:true del check OPPURE motivo 'decisione' in cervello/sensori-motivi.json, letto e mai scritto) — per loro resta il 'non_configurato' scritto da aggiornaSensore. La sola chiave assente NON conta come decisione (resta protetta da AR-573: il valore misurato dal VPS si conserva — coperto da un caso di test anti-regressione dedicato). Limite dichiarato: un VPS senza chiave PostHog e senza POSTHOG_OFF resta indistinguibile da 'non vedo da qui'; la riga 'decisione' in sensori-motivi.json chiuderebbe anche quel caso, ma il file è fuori territorio (vedi fuori_territorio). · Non-vacuità: Ho tolto la riga di skip dal ripristino AR-573: sensori-verita.test.mjs è diventato rosso — 'not ok 6 - AR-590 (comando vero): PostHog spento su decisione NON resta ok nello stato scritto' (# fail 1; il test esegue il comando vero con POSTHOG_OFF=1, un finto sito locale che apre la porta di scrittura e un file di stato usa-e-getta con posthog 'ok': lo stato restava 'ok'). Ripristinata la riga, verde."
     },
     {
       "id": "AR-591",
@@ -12104,9 +12101,10 @@
         "comando": "cd /home/user/ad-mycity && env -i PATH=\"$PATH\" HOME=\"$HOME\" SENSORI_CECITA_FILE=/tmp/cecita-prova2.json node cervello/verifica-sensori.mjs --json | node -e \"let s='';process.stdin.on('data',d=>s+=d).on('end',()=>{const o=JSON.parse(s);const den=Number((o.sintesi.match(/\\\\/(\\\\d+) ok/)||[])[1]);const conf=o.checks.filter(c=>c.configurato!==false).length;if(den&&den!==conf){console.error('ROSSO: la sintesi divide per '+den+' ma i sensori configurati sono '+conf+': gli spenti contati come rotti');process.exit(1)}console.log('verde')})\""
       },
       "verifica": {
-        "tipo": "comando"
+        "comando": "node cervello/test/sensori-verita.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "2026-08-13 (lotto 37, sessione cloud, branch claude/fix-multiple-bugs-o7nkhn): La sintesi passa da sintesiSensori() nella lib: denominatore = sensori CONFIGURATI (verdetto.configurati), non più checks.length; gli spenti sono dichiarati a parte ('· N spenti'). Esempio misurato nel test col comando vero: prima '2/10 ok', ora '2/2 ok · 8 spenti'. La riga era a ~630-632 come da scheda. Il numero di spenti dichiarato è verificato contro checks.length - configurati sulla corsa vera. · Non-vacuità: Ho rimesso il denominatore vecchio (totali al posto di configurati, senza il conteggio spenti): sensori-verita.test.mjs è diventato rosso su 2 casi — 'not ok 8 - AR-591 (pura): denominatore = configurati, spenti dichiarati a parte' e 'not ok 6' (che sulla corsa vera pretende '2/2 ok · 8 spenti') (# fail 2). Ripristinato, verde."
     },
     {
       "id": "AR-592",

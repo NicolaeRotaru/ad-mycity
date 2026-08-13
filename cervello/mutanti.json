@@ -2459,6 +2459,42 @@
    "cerca": "if (name !== file) nomeDiverso.push({ file, name });",
    "sostituisci": "if (false) nomeDiverso.push({ file, name });",
    "test": "cervello/test/contabilita-registro-agenti.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-587",
+   "nome": "Il controllo dei sensori esce verde anche quando non ha misurato nessun sensore",
+   "file": "cervello/lib-sensori-verdetto.mjs",
+   "cerca": "const esito = misuratiAmbiente.length === 0 ? \"non_misurato\" : okAmbiente.length === 0 ? \"cieco\" : \"ok\";",
+   "sostituisci": "const esito = okConfigurati.length === 0 ? \"cieco\" : \"ok\";",
+   "test": "cervello/test/sensori-verita.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-589",
+   "nome": "La modalità sopravvivenza scatta sul contatore sbagliato: conta il sito giù come cecità dei dati",
+   "file": "cervello/letargo.mjs",
+   "cerca": "const cecitaDati = sensori?.meta?.max_giri_ciechi_dati ?? 0;",
+   "sostituisci": "const cecitaDati = sensori?.meta?.max_giri_ciechi ?? 0;",
+   "test": "cervello/test/letargo-dati.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-590",
+   "nome": "Un sensore spento per decisione del proprietario risulta acceso e nessuno se n'è accorto",
+   "file": "cervello/verifica-sensori.mjs",
+   "cerca": "      if (eSpentoPerDecisione(c, motiviSensori)) continue;   // AR-590: spento apposta → resta \"non_configurato\"",
+   "sostituisci": "      if (false) continue;   // AR-590: spento apposta → resta \"non_configurato\"",
+   "test": "cervello/test/sensori-verita.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-591",
+   "nome": "Nel riassunto dei sensori gli spenti finiscono nel denominatore come se fossero rotti",
+   "file": "cervello/lib-sensori-verdetto.mjs",
+   "cerca": "return `${v.ok_configurati}/${v.configurati} ok${spenti} · max cecità ${maxCecita} giri`;",
+   "sostituisci": "return `${v.ok_configurati}/${v.totali} ok · max cecità ${maxCecita} giri`;",
+   "test": "cervello/test/sensori-verita.test.mjs"
   }
  ]
 }
