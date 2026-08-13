@@ -1761,3 +1761,13 @@ Nicola ha chiesto di guardare gli organi (7 rotti · 8 non visti) e risolverli. 
 **④ Restano due cose che può fare solo Nicola**, incartate in coda: la visita del VPS è ferma dal 10/8 alle 06:46 (5 visite saltate; il resto del server pubblica regolarmente, ultimo push 12/8 23:42) → card #visita-vps-ferma con i comandi pronti; e l'ambiente cloud non ha né rete né chiavi verso Cabina e database → card #occhi-ambiente-cloud con i tre host e le variabili esatte.
 
 **Riconferma:** batteria completa 162 file / 1.673 asserzioni tutti verdi · visita completa da qui: 13 ✅ · 1 ❌ (solo il ponte VPS, che è la card) · 8 ⚪ dichiarati col motivo giusto.
+
+## 2026-08-13 18:50 — Le card della coda hanno un numero fisso, l'ordine e la data di nascita
+Nicola (chat, 13/8 ~18:20, confermato «esatto hai capito»): il codice davanti al titolo delle card
+diventa un numero semplice, le card vanno in ordine e ogni card mostra quando è stata creata.
+Deciso: numero assegnato per ordine di nascita (la più vecchia = #1, oggi 1→58), mai riusato;
+le pendenti si mostrano dalla più nuova; «ok 41» funziona in chat e nell'esecutore (campo dichiarato,
+mai ricerca nel titolo — lezione AR-271); lo slug resta nell'ancora per i riferimenti macchina.
+Nel riordino: chiusa la card della visita VPS (diagnosi corretta coi 4 screenshot di Nicola: timer
+vivo, era il push dei referti), collassate 101 intestazioni-archivio duplicate (bug dell'housekeeping
+curato alla radice), portato il testo del post kefir dentro la sua card. 🟡 in PR, firma di Nicola.

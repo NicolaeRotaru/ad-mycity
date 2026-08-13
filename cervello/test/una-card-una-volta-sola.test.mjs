@@ -91,13 +91,15 @@ prova("la card si accoda UNA volta, e rigirando non se ne accoda un'altra", () =
     const primo = m.gira(["--accoda"]);
     assert.equal(primo.rc, 0, "dopo aver chiesto non resta un problema aperto: la palla è di Nicola");
     const dopo1 = m.coda();
-    assert.match(dopo1, /#sensori-spenti-senza-motivo/, "la card dev'essere stata scritta");
+    assert.match(dopo1, /<!-- sensori-spenti-senza-motivo -->/, "la card dev'essere stata scritta (ancora)");
+    assert.match(dopo1, /^### 🟡 #\d+ — Dimmi se questi occhi/m, "col numero fisso nel titolo (formato 13/8)");
+    assert.match(dopo1, /⏳ accodata \d{4}-\d{2}-\d{2}/, "e la data di nascita");
     assert.match(dopo1, /sito_uptime/, "e dire di QUALE sensore parla");
 
     m.gira(["--accoda"]);
     m.gira(["--accoda"]);
     const dopo3 = m.coda();
-    assert.equal((dopo3.match(/^### .*#sensori-spenti-senza-motivo/gm) || []).length, 1, "tre giri, una card sola");
+    assert.equal((dopo3.match(/^<!-- sensori-spenti-senza-motivo -->$/gm) || []).length, 1, "tre giri, una card sola");
   } finally { m.pulisci(); }
 });
 
@@ -139,7 +141,8 @@ prova("sul mondo VERO il guardiano è verde, e la card è in coda una volta sola
   const r = spawnSync("node", [GUARDIANO], { cwd: REPO, encoding: "utf8" });
   assert.equal(r.status, 0, `atteso verde:\n${r.stdout || ""}${r.stderr || ""}`);
   const coda = readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md"), "utf8");
-  assert.equal((coda.match(/^### .*#sensori-spenti-senza-motivo/gm) || []).length, 1);
+  // Dal 13/8 lo slug vive nell'ancora `<!-- … -->` (il titolo porta il numero): si conta quella.
+  assert.equal((coda.match(/^<!-- sensori-spenti-senza-motivo -->$/gm) || []).length, 1);
 });
 
 let falliti = 0;

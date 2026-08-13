@@ -36,6 +36,7 @@ import {
   codiceUscita,
   congelamentoLegittimo,
   leggiCard,
+  prossimoNumero,
   ricopiaDelFatto,
   risolviRipresa,
   statoPausa,
@@ -262,11 +263,12 @@ function risveglia(testoCoda, daRisvegliare) {
     }
   }
   const elenco = daRisvegliare.map((r) => `\`#${r.card}\``).join(", ");
+  const adesso = new Date().toLocaleString("sv-SE", { timeZone: "Europe/Rome" }).slice(0, 16);
   const card = [
     "",
     `<!-- pausa-scaduta-risveglio -->`,
     "",
-    `### 🟡 #pausa-scaduta-risveglio — La pausa sui negozi è finita: ${daRisvegliare.length} azioni sono tornate vive`,
+    `### 🟡 #${prossimoNumero(righe.join("\n"))} — La pausa sui negozi è finita: ${daRisvegliare.length} azioni sono tornate vive · ⏳ accodata ${adesso}`,
     "",
     `**Cosa cambia:** il giorno che avevi indicato è passato, quindi le azioni che avevi messo da parte sono di nuovo in lista: ${elenco}. Non sono partite: sono solo tornate visibili, e aspettano il tuo via come prima.`,
     "",

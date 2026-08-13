@@ -52,6 +52,25 @@ Google Sheets/Forms/Business · Browser · WebSearch · chiave **scrittura marke
 
 ---
 
+## 🔢 CARD NUMERATE — il formato della coda (deciso da Nicola il 13/8/2026)
+Ogni card di `AZIONI-IN-ATTESA.md` ha un **numero fisso**, scritto prima del titolo. Il numero è
+l'identificatore che Nicola legge e pronuncia («ok 41»). Regole per chi accoda:
+
+- **Formato del blocco** (ancora + separatore + intestazione):
+  ```
+  <!-- slug-della-card -->
+
+  ---
+
+  ### 🟡 #41 — Titolo umano che si capisce a voce · ⏳ accodata AAAA-MM-GG HH:MM
+  ```
+- **Numero nuovo = il più alto mai usato + 1.** Mai riusare un numero, mai rinumerare le card
+  esistenti: «ok 41» deve indicare la stessa card oggi e fra un mese.
+- **Le card nuove vanno IN ALTO** (subito dopo «Come approvare»): la coda si legge dalla più recente.
+- **La data di nascita è obbligatoria** («⏳ accodata …», con l'ora — regola dell'orario).
+- **Lo slug resta nell'ancora** `<!-- slug -->`: i riferimenti macchina (es. `permessi-debito.json`,
+  campo `card`) puntano lì, non al titolo.
+
 ## 🔗 TAG `origine` — collega ogni azione alla casella da cui è nata (Pannello)
 Quando accodi un'azione in `AZIONI-IN-ATTESA.md` **nata da una casella precisa** del Pannello (un difetto della
 radiografia, una domanda dell'auto-analisi, una sentinella, una mossa), aggiungi nel testo dell'azione il tag

@@ -26,6 +26,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, isAbsolute, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { MOTIVO, codiceUscita, motivoDi, quadroSpenti, serveNicola } from "./sensore-spento.mjs";
+import { prossimoNumero } from "./pausa-coda.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..");
@@ -66,7 +67,9 @@ function main() {
     const card = registro[nome]?.card;
     // Una card «già chiesta» vale solo se esiste DAVVERO nella coda: altrimenti il registro
     // dichiarerebbe una domanda che nessuno vede, che è il silenzio di prima con un'etichetta sopra.
-    const cardInCoda = Boolean(card && testoCoda.includes(card));
+    // Il registro scrive «#slug»; dal 13/8 lo slug vive nell'ancora `<!-- slug -->` (il titolo
+    // porta il numero), quindi si cerca lo slug nudo: prende l'ancora nuova e il titolo vecchio.
+    const cardInCoda = Boolean(card && testoCoda.includes(String(card).replace(/^#/, "")));
     const g = serveNicola({ stato: sensori[nome]?.stato, motivo, cardInCoda });
     if (g.serve) buchi.push({ sensore: nome, motivo, perche: g.perche });
     else if (motivo === MOTIVO.DA_CHIEDERE && !cardInCoda) {
@@ -120,11 +123,12 @@ function accoda(testoCoda, buchi) {
   const marca = "<!-- sensori-spenti-senza-motivo -->";
   if (testoCoda.includes(marca)) return [];
   const elenco = buchi.map((b) => `\`${b.sensore}\``).join(", ");
+  const adesso = new Date().toLocaleString("sv-SE", { timeZone: "Europe/Rome" }).slice(0, 16);
   const card = [
     "",
     marca,
     "",
-    `### 🟡 #sensori-spenti-senza-motivo — Dimmi se questi occhi della macchina li vuoi accesi o no`,
+    `### 🟡 #${prossimoNumero(testoCoda)} — Dimmi se questi occhi della macchina li vuoi accesi o no · ⏳ accodata ${adesso}`,
     "",
     `**Cosa cambia:** ci sono strumenti già costruiti che non stanno guardando niente: ${elenco}. Non sono rotti — non sono mai stati accesi, e non risulta che tu abbia deciso di lasciarli spenti: semplicemente nessuno te l'ha chiesto. È già successo: i controlli che dicono se il sito e il Pannello sono in piedi sono rimasti spenti per 163 giri di fila, e nessuna card te l'ha mai detto.`,
     "",
