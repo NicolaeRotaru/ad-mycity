@@ -303,7 +303,7 @@ fonte: AD digitale (chat)
 > **Le 3 priorità di stamattina, a che punto sono:**
 > 1. ❌ **Riavvio del giro sul VPS** (card `#macchina-ferma-da-quattro-giorni`). Ancora nessuna conferma di Nicola. Segnale indiretto: il sorvegliante anti-silenzio e il cantiere hanno continuato a scrivere fino alle 11:34. Questo non prova però che sia ripartito il timer `mycity-giro.service` — potrebbero essere solo sessioni di chat. `systemctl`/`journalctl` restano bloccati da qui.
 > 2. ✅ **Merge PR #635 — GIÀ FATTO.** Era in coda come "in attesa" da 5 giorni per un fatto vecchio: verificato ora con `git merge-base --is-ancestor` che è su `main` dal 30/7 13:26. Corretto in [[AZIONI-IN-ATTESA]] e `CHECKLIST-NICOLA.md`.
-> 3. ❌ **Pulizia rami GitHub / modo di chiudere le PR** (righe #7/#8 in coda) — nessuna decisione di Nicola.
+> 3. ❌ **Pulizia rami GitHub / modo di chiudere le PR.** Sono le righe #7 e #8 in coda: nessuna decisione di Nicola.
 >
 > **Correzione di rotta:** trovata e chiusa una card-zombie (PR #635) — lavoro già fatto che la coda continuava a chiedere. Stesso pattern già visto su PI26/piano-squadra il 30/7: una riga scritta com'era vera in un momento, mai ricontrollata dopo.
 >
