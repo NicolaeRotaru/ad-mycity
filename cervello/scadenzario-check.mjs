@@ -30,14 +30,7 @@ import { codiceUscita, countdownNelTesto, countdownStantio, livelloScadenza, qua
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..");
-// SCADENZARIO_REGISTRO: serve al test. Senza una scadenza APERTA vera da puntare, l'unico modo di
-// provare "il guardiano calcola davvero" o "il rilevatore vede un countdown stantio" sarebbe
-// sporcare cervello/scadenzario.json con una scadenza finta — e quando le scadenze vere si chiudono
-// (es. PI26, spostato in `chiuse` il 29/7), la prova resterebbe rossa per un motivo che non è un bug.
-const REGISTRO_OVERRIDE = process.env.SCADENZARIO_REGISTRO;
-const REGISTRO = REGISTRO_OVERRIDE
-  ? (isAbsolute(REGISTRO_OVERRIDE) ? REGISTRO_OVERRIDE : join(REPO, REGISTRO_OVERRIDE))
-  : join(QUI, "scadenzario.json");
+const REGISTRO = join(QUI, "scadenzario.json");
 const JSON_MODE = process.argv.includes("--json");
 
 // I file VIVI che Nicola legge e in cui un countdown trascritto fa danno. La storia (Briefing,

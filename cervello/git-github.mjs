@@ -18,6 +18,10 @@ const API = "https://api.github.com";
 // worker/systemd, che il .env lo iniettano già) trovano comunque i segreti.
 // Le variabili GIÀ presenti nell'ambiente vincono: `AZIONI_LIVE=1 node ...` resta rispettato.
 function loadVpsEnv() {
+  // AR-372/AR-374: un test che vuole simulare «macchina senza Supabase» cancellando le due
+  // variabili dall'ambiente del figlio non ci riusciva su questa VPS, perché qui sotto ricaricava
+  // le stesse credenziali da cervello/vps/.env un attimo dopo — il cieco non si poteva più produrre.
+  if (process.env.AD_SKIP_VPS_ENV) return;
   const envPath = join(AD_ROOT, "cervello", "vps", ".env");
   let raw;
   try {

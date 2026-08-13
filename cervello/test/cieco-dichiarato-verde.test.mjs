@@ -47,12 +47,10 @@ function esegui(script, env = {}) {
   return { rc: r.status, out: `${r.stdout || ""}${r.stderr || ""}` };
 }
 
-// Stringa vuota, non `undefined`: `git-github.mjs` carica `cervello/vps/.env` all'import e imposta
-// SOLO le chiavi assenti dall'ambiente (`if (!(k in process.env))`). Con `undefined` la chiave sparisce
-// dall'ambiente del figlio e quel caricamento la ripopola dal .env vero prima che il guardiano guardi —
-// il test tornava a misurare un ambiente CON Supabase mentre credeva di averla tolta. Una stringa vuota
-// resta «presente» per quel controllo ma è falsy per `?.trim()`, quindi blinda per davvero.
-const SENZA_SUPABASE = { SUPABASE_URL: "", SUPABASE_SERVICE_KEY: "" };
+// AD_SKIP_VPS_ENV: senza, git-github.mjs ricarica SUPABASE_URL/KEY da cervello/vps/.env un
+// attimo dopo averle tolte qui sotto — su una VPS con quel file il «senza Supabase» non si
+// produceva mai davvero.
+const SENZA_SUPABASE = { SUPABASE_URL: undefined, SUPABASE_SERVICE_KEY: undefined, AD_SKIP_VPS_ENV: "1" };
 
 prova("AR-372/AR-374 — senza Supabase il guardiano dei battiti esce 2 (cieco), non 0", () => {
   const { rc, out } = esegui("freschezza-segnali.mjs", SENZA_SUPABASE);

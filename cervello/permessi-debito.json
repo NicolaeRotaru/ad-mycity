@@ -1,8 +1,8 @@
 {
  "_cosa_e": "🔐 LE VIOLAZIONI DEI PERMESSI CHE SONO ANCORA LÌ, E PERCHÉ. Lo legge cervello/test/permessi-di-guardia.test.mjs, che è ciò che mette di guardia permessi-check.mjs (AR-376): fino al 29/7 quel guardiano usciva 1 con quattro violazioni vere e non lo lanciava nessuno. Regola: una violazione non dichiarata qui fa FALLIRE la prova. Chi è dichiarato deve dire il perché per esteso e, se la palla è di Nicola, nominare la card che gliel'ha chiesto — e quella card deve esistere davvero nella coda, altrimenti la domanda non esiste.",
  "_perche_non_le_ripariamo_qui": "`.claude/settings.json` è negato in Edit/Write alla macchina apposta (regola `no-auto-permessi` dello stesso guardiano). Scavalcare quel confine per chiudere un difetto SUL confine sarebbe assurdo: la macchina non si allarga i permessi da sola. Quindi le correzioni le fa Nicola, e il compito della macchina è che il no del guardiano si SENTA invece di restare in un file che nessuno esegue.",
- "tetto_senza_card": 2,
- "_tetto_perche": "Oggi tutte le violazioni dichiarate hanno una card in coda (0 senza). Il tetto resta a 2 come margine: una violazione in più senza domanda a Nicola non passa la prova, anche se qualcuno le scrivesse un perché.",
+ "tetto_senza_card": 0,
+ "_tetto_perche": "Dal 13/8 tutte le violazioni vive hanno una card in coda (`permessi-push-e-supabase-da-rinominare`, che copre sia le due storiche sia le cinque comparse il 12/8). Il tetto è assoluto e scende: zero significa che una violazione nuova senza domanda a Nicola non passa più la prova, nemmeno una sola.",
  "violazioni": {
   "no-jolly-su-cartella-scrivibile|Bash(node cervello/*.mjs:*)": {
    "perche": "AR-206 parte (a): il jolly su una cartella che la macchina stessa scrive non è un permesso su un elenco di programmi, è un permesso su qualunque programma decida di scriverci. L'elenco esplicito che lo sostituisce è già pronto in consegne/sicurezza/2026-07-29-permessi-senza-jolly.md; la riga la cambia Nicola.",
@@ -13,31 +13,31 @@
    "card": "permessi-senza-jolly"
   },
   "no-push-diretto|/^Bash\\(git push/": {
-   "perche": "AR-376: manca in deny un divieto GENERICO che copra `/^Bash\\(git push/` — le tre righe specifiche qui sotto (main/feature/fix) sono l'allow-troppo-largo su CIASCUNA di quelle voci, ma questa è una violazione distinta: la regola chiede anche che l'unione dei deny neghi la forma generica, e oggi nessun file lo fa. Stessa decisione di Nicola delle tre voci sotto: la riga di deny va scritta in modo da fermare il cloud, non il worker sul VPS.",
-   "card": "permessi-push-e-supabase-da-rinominare"
-  },
-  "no-push-diretto|Bash(git push origin main:*)": {
-   "perche": "Manca il divieto esplicito di `git push` fra i deny. Dal VPS la macchina pubblica la memoria su `main` a ogni giro (ramo unico, dichiarato in CLAUDE.md/giro.md) — quel push diretto è per disegno. Da agente cloud invece la convenzione resta branch+PR anche se il permesso tecnico lo consentirebbe. La riga giusta (fermare il cloud, non il worker) la scrive Nicola in `.claude/settings*.json`, negato in scrittura alla macchina.",
-   "card": "permessi-push-e-supabase-da-rinominare"
-  },
-  "no-push-diretto|Bash(git push origin feature/*:*)": {
-   "perche": "Stessa riga della precedente, sul ramo `feature/*`: serve a `git-pr.mjs` per pubblicare il branch di lavoro prima di aprire la PR — il gate di merge resta la PR, non questo push. Decisione di Nicola.",
-   "card": "permessi-push-e-supabase-da-rinominare"
-  },
-  "no-push-diretto|Bash(git push origin fix/*:*)": {
-   "perche": "Stessa riga sul ramo `fix/*`: stesso uso (pubblicare il branch prima della PR), stessa decisione in sospeso presso Nicola.",
+   "perche": "Manca il divieto esplicito di `git push` fra i deny. Da agente cloud si lavora in branch e si apre PR — mai push diretto — ma dal VPS la macchina pubblica la memoria su main a ogni giro: il divieto va scritto in modo che fermi l'agente e non il worker, e quella riga sta in un file che è di Nicola.",
    "card": "permessi-push-e-supabase-da-rinominare"
   },
   "strumenti-di-scrittura-non-automatici|mcp__Supabase__execute_sql": {
-   "perche": "AR-273: il nome VECCHIO del server (`mcp__Supabase__execute_sql`, in `.claude/settings.json` riga 51) è ancora concesso ed è rimasto scoperto da questa dichiarazione fino ad oggi — il lavoro che ha aggiunto le due voci col nome nuovo sotto ha rinominato la chiave invece di aggiungerne una in più, e la voce vecchia (ancora viva sul file vero) è rimasta senza perché scritto. `execute_sql` modifica lo stato di un sistema esterno ed è concesso senza chiedere: o si toglie da `.claude/settings.json` (il file col nome vecchio) o si giustifica per iscritto in STRUMENTI_GIUSTIFICATI — decisione di Nicola, non della macchina.",
+   "perche": "AR-273: `execute_sql` modifica lo stato di un sistema esterno ed è concesso senza chiedere. Il marketplace è dichiarato in SOLA LETTURA per la macchina, quindi o si toglie dal foglio dei permessi o si giustifica per iscritto in STRUMENTI_GIUSTIFICATI; entrambe le mosse sono di Nicola.",
+   "card": "permessi-push-e-supabase-da-rinominare"
+  },
+  "no-push-diretto|Bash(git push origin main:*)": {
+   "perche": "Comparsa il 12/8 in `.claude/settings.local.json`: permette il push diretto su main esplicitamente, oltre al generico `git push` già segnalato sopra. CLAUDE.md dice che da agente cloud si lavora in branch e si apre PR — dal VPS il push su main è dichiarato (giro/worker), ma quello lo fanno gli SCRIPT bash via cron, non questa allowlist di sessione: la riga va confermata o ristretta da Nicola.",
+   "card": "permessi-push-e-supabase-da-rinominare"
+  },
+  "no-push-diretto|Bash(git push origin feature/*:*)": {
+   "perche": "Stessa comparsa del 12/8, variante branch `feature/*`: consente il push diretto senza passare da `git-pr.mjs`. Da confermare o restringere insieme alla riga `main`.",
+   "card": "permessi-push-e-supabase-da-rinominare"
+  },
+  "no-push-diretto|Bash(git push origin fix/*:*)": {
+   "perche": "Stessa comparsa del 12/8, variante branch `fix/*`: consente il push diretto senza passare da `git-pr.mjs`. Da confermare o restringere insieme alla riga `main`.",
    "card": "permessi-push-e-supabase-da-rinominare"
   },
   "strumenti-di-scrittura-non-automatici|mcp__supabase-memoria__execute_sql": {
-   "perche": "AR-273, riapparsa col nuovo nome del server MCP (prima `mcp__Supabase__execute_sql`, ora diviso in memoria/marketplace): `execute_sql` modifica lo stato di un sistema esterno ed è concesso senza chiedere. Sulla memoria (che la macchina PUÒ scrivere) è meno grave che sul marketplace, ma resta uno strumento di scrittura senza gate esplicito — o si giustifica per iscritto o si toglie: decisione di Nicola.",
+   "perche": "AR-273, comparso il 12/8: il server MCP è cambiato nome (`supabase-memoria` al posto di `Supabase`) e la riga vecchia non copre più questa. `execute_sql` scrive; la memoria (Obsidian/vault) non passa da Supabase per lettura/scrittura di norma, quindi va capito a cosa serve davvero o tolta.",
    "card": "permessi-push-e-supabase-da-rinominare"
   },
   "strumenti-di-scrittura-non-automatici|mcp__supabase-marketplace__execute_sql": {
-   "perche": "AR-273, stesso difetto sul marketplace: il marketplace è dichiarato in SOLA LETTURA per la macchina, quindi `execute_sql` (che scrive) o si toglie dal foglio dei permessi o si giustifica per iscritto in STRUMENTI_GIUSTIFICATI; entrambe le mosse sono di Nicola.",
+   "perche": "AR-273, comparso il 12/8: stesso caso della riga sopra ma sul progetto marketplace, che è dichiarato SOLA LETTURA per la macchina (CLAUDE.md). Uno strumento che scrive concesso senza chiedere su un sistema dichiarato di sola lettura è la violazione più netta delle cinque: priorità alta nella domanda a Nicola.",
    "card": "permessi-push-e-supabase-da-rinominare"
   }
  }
