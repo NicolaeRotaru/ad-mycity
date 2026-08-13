@@ -853,6 +853,24 @@ export function basiPerIlTesto(da = null) {
 }
 
 /**
+ * Quali testi del perimetro del turno sono DAVVERO miei (AR-657).
+ *
+ * Il perimetro del turno è `ancora...HEAD`. Se in mezzo ho fuso il ramo di base — cosa che capita a
+ * ogni PR lunga, perché `main` si muove — dentro quel perimetro finisce anche tutto ciò che main ha
+ * portato: il 13/8 erano i piani, la bacheca e lo STATO riscritto dal giro delle 19:20, e il cancello
+ * me ne ha accusato («questo lavoro gli ha aggiunto 10 punti difficili») bloccando la consegna.
+ * È la forma di AR-507 — accusare di cose non tue — per la strada che quel fix non guardava.
+ *
+ * La cura è un'intersezione: mio = nel turno E non già dentro il ramo di base. Se ciò che c'è sul
+ * ramo non è calcolabile, NON si filtra (meglio accusare troppo che assolvere in silenzio) e chi
+ * chiama lo dichiara fra i ciechi.
+ */
+export function testiMiei({ disco = [], nelTurno = [], sulRamo = null } = {}) {
+  const commessi = Array.isArray(sulRamo) ? nelTurno.filter((p) => sulRamo.includes(p)) : nelTurno;
+  return [...new Set([...disco, ...commessi])];
+}
+
+/**
  * Il testo com'era prima. `null` = non c'era, quindi è tutto nuovo.
  *
  * `da` è l'ancora del turno quando c'è (AR-507): senza, il «prima» era sempre la punta di main, e il
@@ -896,10 +914,11 @@ function testiToccati(da = null) {
   // AR-642: se NESSUNA base è diffabile (clone superficiale), prima si ripiegava in silenzio sui
   // soli file del disco. La perdita ora si dichiara: `soloDisco` finisce fra i ciechi del verdetto.
   let baseLetta = null;
+  const nelTurno = [];
   for (const base of basiPerIlTesto(da)) {
     try {
       for (const p of percorsiDaGit(["diff", `${base}...HEAD`, "--name-only"], { cwd: REPO })) {
-        if (p.endsWith(".md")) percorsi.add(p);
+        if (p.endsWith(".md")) nelTurno.push(p);
       }
       baseLetta = base;
       break;
@@ -907,6 +926,21 @@ function testiToccati(da = null) {
       // provo la base successiva
     }
   }
+  // AR-657: se il perimetro viene dall'ancora del turno, va intersecato con ciò che il ramo aggiunge
+  // a `main` — altrimenti una fusione del ramo di base mi fa carico dei suoi file. Quando il
+  // perimetro è già il ramo (baseLetta è una delle basi), l'intersezione non serve.
+  let sulRamo = null;
+  if (baseLetta && !["origin/main", "main"].includes(baseLetta)) {
+    for (const b of ["origin/main", "main"]) {
+      try {
+        sulRamo = percorsiDaGit(["diff", `${b}...HEAD`, "--name-only"], { cwd: REPO });
+        break;
+      } catch {
+        // provo l'altra base: senza, `sulRamo` resta null e non si filtra niente
+      }
+    }
+  }
+  for (const p of testiMiei({ disco: [...percorsi], nelTurno, sulRamo })) percorsi.add(p);
   const testi = [];
   for (const p of percorsi) {
     try {

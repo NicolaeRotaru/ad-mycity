@@ -1177,7 +1177,7 @@
    "difetto": "AR-491",
    "nome": "il cancello torna a scegliere le righe per posizione: il rosso mostra le graffe invece del motivo",
    "file": "cervello/cancello-lotto.mjs",
-   "cerca": "  const motivi = righe.filter((r) => MARCATORE.test(r));",
+   "cerca": "  const motivi = righe.filter((_, i) => scelte.has(i));",
    "sostituisci": "  const motivi = [];",
    "test": "cervello/test/rosso-che-non-dice-perche.test.mjs"
   },
@@ -2495,6 +2495,24 @@
    "cerca": "return `${v.ok_configurati}/${v.configurati} ok${spenti} · max cecità ${maxCecita} giri`;",
    "sostituisci": "return `${v.ok_configurati}/${v.totali} ok · max cecità ${maxCecita} giri`;",
    "test": "cervello/test/sensori-verita.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-656",
+   "nome": "l intestazione della cecità arriva senza il suo elenco: il log dice «non ho potuto misurare» e non dice cosa",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "    for (let j = i + 1; j < righe.length && /^\\s*[·•-]\\s/.test(righe[j]); j++) scelte.add(j);",
+   "sostituisci": "    for (let j = i + 1; j < 0; j++) scelte.add(j);",
+   "test": "cervello/test/rosso-che-non-dice-perche.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-657",
+   "nome": "il perimetro del turno torna a prendersi il lavoro che la fusione ha portato dal ramo di base",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  const commessi = Array.isArray(sulRamo) ? nelTurno.filter((p) => sulRamo.includes(p)) : nelTurno;",
+   "sostituisci": "  const commessi = nelTurno;",
+   "test": "cervello/test/cancello-stop.test.mjs"
   }
  ]
 }

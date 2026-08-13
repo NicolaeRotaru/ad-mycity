@@ -77,6 +77,40 @@ test("un cieco dichiarato è un motivo: ⚪ non si perde per strada", () => {
   ]);
 });
 
+// ── AR-656: l'intestazione senza il suo elenco ────────────────────────────────────────────────
+//
+// Il 13/8 il cancello in CI è uscito cieco due volte di fila e nel log c'erano solo queste due righe:
+// «⚪ non ho potuto misurare:» e «⚪ nessuna voce grave, ma la misura è incompleta». Il perché il
+// sorvegliante lo aveva scritto — nelle righe puntate SOTTO l'intestazione, che non portano nessun
+// marcatore e finivano quindi nel cestino del filtro. Due indagini alla cieca su un guardiano che
+// la sua ragione ce l'aveva scritta dentro: la stessa forma di AR-491, mezza riparata.
+
+test("un'intestazione che finisce in due punti si porta dietro il suo elenco", () => {
+  const uscita = [
+    "👁️ SORVEGLIANTE — 0 file toccati nel delta",
+    "⚪ non ho potuto misurare:",
+    "   · confronto con «HEAD» a mani vuote: nessun file nel perimetro, quindi non ho misurato niente",
+    "   · registro mutanti vuoto: non posso sapere se ho accecato una prova",
+    "",
+    "⚪ nessuna voce grave, ma la misura è incompleta: cieco non è verde.",
+  ];
+  const mostrate = righeMotivo(uscita);
+  assert.ok(
+    mostrate.some((r) => r.includes("a mani vuote")),
+    "senza le righe puntate il log dice CHE è cieco e non DI COSA: è l'indagine alla cieca che AR-491 doveva chiudere",
+  );
+  assert.ok(mostrate.some((r) => r.includes("registro mutanti vuoto")), "l'elenco va preso intero, non solo la prima voce");
+});
+
+test("le righe puntate lontane dall'intestazione non vengono raccolte", () => {
+  const uscita = [
+    "❌ un rosso qualsiasi, senza elenco",
+    "   testo normale",
+    "   · questa voce non appartiene a nessuna intestazione",
+  ];
+  assert.deepEqual(righeMotivo(uscita), ["❌ un rosso qualsiasi, senza elenco"], "solo un'intestazione con i due punti apre un elenco");
+});
+
 test("quando il motivo non c'è si torna alla coda, non a un elenco vuoto", () => {
   const uscita = ["riga 1", "riga 2", "riga 3"];
   assert.deepEqual(righeMotivo(uscita), ["riga 1", "riga 2", "riga 3"]);
