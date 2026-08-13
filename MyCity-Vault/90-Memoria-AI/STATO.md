@@ -1,8 +1,36 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 12:16
+aggiornato: 2026-08-13 12:50
 fonte: AD digitale (chat)
 ---
+
+> ✅ **13/8 12:50 — Settimo passaggio della giornata: chiuso e committato il debito che restava aperto da tre passaggi.**
+> Business riconfermato invariato con una query SQL diretta su Supabase (non riuso di memoria): 1 negozio, 1 ordine mai
+> pagato, 0 pagati, 0 nuovi clienti in 7gg. North Star: stallo **50 giorni**, dentro la pausa concordata fino al 24/8-1/9.
+> Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova.
+>
+> **Quello che era rimasto a metà.** I passaggi delle 10:22/11:41/12:10 avevano *verificato* (5/5 test verdi) le due
+> lezioni-gate L-2026-0813-01 (`domanda-riesame-check.mjs`) e L-2026-0813-02 (self-test di `gate-veri.mjs`), ma non le
+> avevano mai committate — restavano 3 file non tracciati sul disco. Rifatto girare `node --test` per riconferma (5/5
+> verdi, terza volta identica). Committate: i file non-codice (auto-coscienza, AZIONI-IN-ATTESA) sono andati diretti su
+> `main` (2 commit, 23 file, solo stato/timestamp — nessuna decisione nuova). I file di codice (`domanda-riesame-check.mjs`,
+> i due test, `mutanti.json`, `guardiani-motivi.json`, più tre refresh di sensori non committati da prima) sono su un ramo
+> nuovo, `fix/domanda-riesame-check-gate`: un pre-commit hook (AR-332) rifiuta codice committato a mano su `main`, giusto
+> così.
+>
+> **Perché la PR non è partita.** `gh auth status` è negato in questa sessione (stesso limite di ~16 sessioni precedenti,
+> non nuovo). `git push origin main` fallisce con `could not read Username for 'https://github.com'`: nessun
+> `credential.helper` configurato. Non è un blocco del lavoro — è un blocco del canale. Il ramo resta pronto, i 7 commit
+> di oggi restano in locale finché una sessione con credenziali (VPS, o Nicola da terminale) non li spinge.
+>
+> **Una cosa controllata e NON un problema:** temevo che `main` locale e `origin/main` fossero divergenti (il VPS scrive
+> commit "worker: PLAYBOOK..." in parallelo). Verificato con `git log`: non c'è divergenza, `origin/main` è un antenato
+> diretto di questo `main` locale — solo 6 commit avanti, mai forkato. Nessun rischio di conflitto quando qualcuno pusherà.
+>
+> **Mossa n.1, invariata:** nessuna azione business sbloccabile prima del 24/8-1/9. Resta da firmare
+> `#permessi-senza-jolly` e resta aperta `#sensori-spenti-senza-motivo` (telegram_bot). **Nuovo, per Nicola:** questa
+> sessione non ha modo di raggiungere GitHub — se vuoi che il lavoro di oggi (7 commit + 1 ramo) diventi visibile su
+> GitHub/Vercel, serve un push da un posto con le credenziali. Briefing: [[Briefing/2026-08-13]].
 
 > ⚪ **13/8 12:16 — Giro richiesto in chat, 6 minuti dopo il passaggio delle 12:10.**
 > Nessuna novità. Business invariato, non riletto: già confermato 4 volte oggi.

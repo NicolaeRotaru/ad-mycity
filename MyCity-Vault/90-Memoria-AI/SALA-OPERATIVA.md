@@ -828,3 +828,9 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-13 12:16 · @AD · FATTO · Rieseguito `coerenza-fatti.mjs`: exit 0 ("Memoria coerente") ma con `0 file vivi scansionati` — un verde che non ha guardato nulla. Segnalato come osservazione, non indagato ora (sarebbe ricerca nuova).
 - 2026-08-13 12:16 · @AD · FATTO · Registrato l'ESITO nel quaderno `@ad` (`chiusura-loop.mjs registra`). Aggiornati [[STATO]], [[Briefing/2026-08-13]], `ultimo-briefing.json`.
 - 2026-08-13 12:16 · @AD · PASSO-A · @Nicola — invariato: nessuna azione business sbloccabile prima del 24/8-1/9. Resta in coda solo `#permessi-senza-jolly`; nuova osservazione tecnica (coerenza-fatti "verde vuoto") per il prossimo giro che riapre ricerca.
+
+### 2026-08-13 12:50 — 🔁 Giro richiesto in chat (settimo passaggio della giornata)
+- 2026-08-13 12:50 · @AD · FATTO · Riconfermato business dal vivo su Supabase (query diretta, non da memoria): invariato, identico a ogni lettura di oggi.
+- 2026-08-13 12:50 · @AD · FATTO · Chiuse e committate le due lezioni-gate rimaste pendenti da tre passaggi (L-2026-0813-01/02): 2 commit su `main` (memoria, 23 file) + 1 commit su ramo `fix/domanda-riesame-check-gate` (codice, 8 file) pronto per la PR.
+- 2026-08-13 12:50 · @AD · FATTO · Verificato che `main` locale e `origin/main` NON sono divergenti (solo 6 commit avanti, nessun fork) — smentito il rischio ipotizzato.
+- 2026-08-13 12:50 · @AD · PASSO-A · @Nicola — la PR non può partire da questa sessione (`gh` negato, `git push` senza credenziali): serve un push da un posto con accesso (VPS o terminale di Nicola) per portare 7 commit + 1 ramo su GitHub. Nessuna azione business sbloccabile prima del 24/8-1/9.

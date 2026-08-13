@@ -1,11 +1,17 @@
 {
-  "data": "2026-08-13 12:16",
-  "situazione": "Sesto passaggio della giornata, 6 minuti dopo quello delle 12:10: nessuna novità. Business invariato, non riletto (già confermato 4 volte oggi). Il passaggio delle 12:10 aveva già svuotato la coda chiudibile (test-cervello 1108/1108 verdi, gate correzione-nicola verificato, elenco permessi completato). Questo passaggio rispetta il vincolo HARD tasso-chiusura (0,24 nel mese): non riapre ricerca, si limita a registrare l'ESITO e allineare i timestamp. Unica osservazione nuova: coerenza-fatti.mjs risponde \"Memoria coerente\" ma con 0 file vivi scansionati — un verde vuoto, segnalato per il prossimo passaggio che riapre ricerca.",
+  "data": "2026-08-13 12:50",
+  "situazione": "Settimo passaggio della giornata, 34 minuti dopo quello delle 12:16: business riconfermato invariato con una query diretta su Supabase (non riuso della memoria). 1 negozio, 1 ordine mai pagato, 0 pagati, 0 nuovi clienti in 7gg. North Star fermo, dentro la pausa concordata fino al 24/8-1/9. Rispettato il vincolo HARD tasso-chiusura (0,24 nel mese): nessuna ricerca nuova. La chiusura vera di questo passaggio: le due lezioni gate (L-2026-0813-01/02, domanda-riesame-check.mjs + gate-veri self-test) erano verificate ma mai committate da tre passaggi — ora sono su un ramo (fix/domanda-riesame-check-gate) pronto per la PR. La PR non è partita: in questa sessione gh è negato e git push fallisce per mancanza di credenziali GitHub (nessun credential.helper configurato) — limite di sessione noto, non nuovo. Committati direttamente su main 2 giri di refresh memoria (23 file, solo timestamp/stato, nessuna decisione nuova).",
   "opportunita": [
     {
       "titolo": "Applica l'elenco permessi senza jolly, sblocca anche i test",
       "motivo": "La card ferma dal 29/7 non è solo un fix di sicurezza: applicarla sblocca test-cervello.mjs, gate-veri.mjs, pota-apprendimento.mjs e gli altri script che ogni sessione chat segnala bloccati da settimane — è la stessa causa",
       "impatto": "alto",
+      "sforzo": "basso"
+    },
+    {
+      "titolo": "Dai a questa sessione un modo di spingere il codice su GitHub",
+      "motivo": "7 commit di memoria e 1 ramo di codice pronto per la PR sono fermi in locale: senza token/credenziali GitHub in questa sessione, tutto il lavoro di oggi in chat resta invisibile a GitHub finché qualcuno con accesso (VPS o Nicola) non lo spinge a mano",
+      "impatto": "medio",
       "sforzo": "basso"
     },
     {
@@ -30,6 +36,6 @@
   "sentinelle_scattate": [
     "North Star 0 — stallo 50 giorni, pausa concordata fino al 24/8-1/9 (non churn)",
     "Tasso di chiusura 0,24 nel mese (102 aperti/24 chiusi) — sotto soglia 1: nessuna ricerca nuova aperta anche in questo passaggio",
-    "coerenza-fatti.mjs: verde con 0 file vivi scansionati — da verificare, non indagato oggi per rispettare il vincolo tasso-chiusura"
+    "correzione-nicola-gate: le due lezioni di oggi ora hanno un gate provato E committato (non più solo verificato in sessione) — il contatore con_gate del guardiano resta da ricalcolare, lo script che lo fa (correzione-nicola-gate.mjs) è tra quelli bloccati da questa sessione"
   ]
 }
