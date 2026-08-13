@@ -14,17 +14,17 @@ fonte: AD digitale (chat)
 > scrittura concorrente del worker VPS mentre lavoravo — nessun conflitto, committati in due passaggi separati
 > direttamente su `main` (memoria, non codice).
 >
-> **La correzione vera di questo passaggio: la diagnosi CI del passaggio 13:09 era sbagliata.** Alle 13:09 avevo
-> scritto che `ci-stato.mjs` classificava le 3 PR rosse (#710/#709/#708) come "ereditate da `main`" — cioè non
-> colpa di quei branch. Rieseguendo lo stesso comando ora, il verdetto è tornato **"colpa propria"** per tutte e
-> tre: il guasto **è** nel lavoro portato da quei branch, non a monte. Non è stata una ricerca nuova — è la
-> stessa lettura del blocco vincoli già calcolato, solo ripetuta perché il valore visto alle 13:09 non tornava.
+> **La correzione vera di questo passaggio.** Alle 13:09 avevo scritto una cosa sbagliata. Avevo detto che
+> `ci-stato.mjs` classificava le 3 PR rosse (#710/#709/#708) come "ereditate da `main`". Cioè: non colpa di quei
+> branch. Ho rieseguito lo stesso comando ora. Il verdetto è tornato **"colpa propria"** per tutte e tre. Il
+> guasto è nel lavoro portato da quei branch, non a monte. Non è stata una ricerca nuova. È la stessa lettura del
+> blocco vincoli già calcolato. L'ho solo ripetuta, perché il valore visto alle 13:09 non tornava.
 >
-> **Cosa ho fatto: mandati 3 senior a chiudere il debito, non aperto altro.** Il vincolo tasso-chiusura (0,24 nel
-> mese) impone di chiudere quello che c'è già in coda, non di cercarne di nuovo. Le 3 PR rosse erano già
-> diagnosticate con i controlli esatti falliti da `ci-stato.mjs` — non è stato necessario aprire ricerca per
-> trovarle. Ho mandato 3 senior tech, ciascuno in un worktree isolato sul proprio branch, con la lista esatta dei
-> controlli rossi:
+> **Cosa ho fatto.** Ho mandato 3 senior a chiudere il debito. Non ho aperto altro. Il vincolo tasso-chiusura
+> (0,24 nel mese) dice questo: chiudi quello che c'è già in coda, non cercarne di nuovo. Le 3 PR rosse erano già
+> diagnosticate. `ci-stato.mjs` aveva già trovato i controlli esatti che falliscono. Non è servito aprire ricerca
+> per trovarle. Ho mandato 3 senior tech, uno per branch, ognuno in un worktree isolato. A ognuno ho dato la
+> lista esatta dei controlli rossi:
 > - **PR #710** (`fix/test-cervello-rossi-13-8`): 3 file con leggibilità peggiorata (STATO.md, un report salute,
 >   un report supervisione) — regressione del guardiano `si-capisce.mjs`.
 > - **PR #709** (`claude/organi-x-rossa-pallino-bianco-fbg0xh`): 2 file di test rotti per davvero
