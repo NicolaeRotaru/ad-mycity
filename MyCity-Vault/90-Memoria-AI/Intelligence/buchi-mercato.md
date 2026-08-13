@@ -12,7 +12,7 @@
 - **1 negozio reale**: Pane Quotidiano — Via Calzolai 25, Piacenza. Panificio/gastronomia bio.
 - **5 prodotti** in vendita: Pudding vaniglia bio, Hummus di ceci bio, Kefir di latte di capra bio, Pesto Genovese bio, Kefir Berchtesgadener Land bio. Non solo pane: linea bio/gastronomia.
 - **0 negozi possono ancora incassare**: `stripe_charges_enabled`/`stripe_payouts_enabled`/`stripe_details_submitted` tutti falsi anche per Pane Quotidiano (fatto `negozio.faro`, verificato 10/8 09:58). Nessun buco di mercato conta finché questo non si sblocca — è la vera priorità zero, non una categoria mancante.
-- **72 categorie** già pronte nella tassonomia del sito (tabella `categories`). Solo 1 di queste — Panificio, grazie a Pane Quotidiano — ha dentro un venditore reale.
+- **72 categorie** già pronte nella tassonomia del sito (tabella `categories`). Solo 1 di queste ha dentro un venditore reale: Panificio, grazie a Pane Quotidiano.
 - **407 contatti negozio** in archivio, tabella `merchants_leads`. Vengono da un solo scarico, fatto il 24/5/2026, mai aggiornato da allora. **Sono tutti ancora `to_contact`**: nessuno è stato davvero contattato. È una correzione rispetto alla versione precedente di questo file, che dava per contattati alcuni di questi nomi.
 
 ---
@@ -24,9 +24,9 @@ Il file di luglio elencava enoteca/pescheria/erboristeria/formaggi come "categor
 | Categoria nei 407 contatti | N. lead | Contattati davvero | Score medio | Nota |
 |---|---|---|---|---|
 | Abbigliamento (`clothes`) | 92 | 0 | 57,6 | Fuori perimetro attuale (non food/bottega di quartiere) |
-| Bar | 76 | 0 | 65,8 | Escluso insieme a ristoranti/osterie (decisione Nicola 18/7) — da rivedere: bar ≠ osteria |
+| Bar | 76 | 0 | 65,8 | Escluso insieme a ristoranti/osterie per decisione di Nicola del 18/7. Da rivedere: bar ≠ osteria |
 | Cafè | 43 | 0 | 50,0 | Stesso dubbio di "Bar": La Ragazzetta (vedi sotto) è proprio un caffè |
-| Supermercato | 42 | 0 | 71,4 | Catene (Conad/Esselunga/Lidl/Coop…) — non target da onboarding, ma segnala densità della zona |
+| Supermercato | 42 | 0 | 71,4 | Catene tipo Conad, Esselunga, Lidl e Coop: non target da onboarding, ma segnalano la densità della zona |
 | Ristorante | 27 | 0 | 87,0 | **Escluso** per decisione Nicola 18/7 |
 | Pizzeria | 22 | 0 | 95,5 | **Escluso** per decisione Nicola 18/7 |
 | Panificio (`bakery`) | 11 | 0 | 77,3 | Categoria del negozio faro — 11 concorrenti/prospect diretti mai contattati |

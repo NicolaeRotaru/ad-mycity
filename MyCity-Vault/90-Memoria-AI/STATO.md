@@ -27,8 +27,8 @@ fonte: AD digitale (chat)
 >
 > **Fatto in questo passaggio:** aggiornate le date scadute in [[OKR-Squadra]] (stallo 49→50gg, tasso di
 > chiusura 0,23→0,24). Rispettato il vincolo HARD tasso-di-chiusura (0,24, sotto 1): nessuna ricerca nuova,
-> nessuna radiografia. Non riscritti `auto-analisi.json`/`registro-realta.json`/`apprendimento.json` (già
-> freschi, dati identici — [[playbook-giro-pieno-ripetuto-strategia]], AR-113).
+> nessuna radiografia. Non riscritti `auto-analisi.json`, `registro-realta.json` e `apprendimento.json`:
+> erano già freschi, con dati identici. Riferimenti: [[playbook-giro-pieno-ripetuto-strategia]], AR-113.
 >
 > **Mossa n.1, invariata.** Ferma da **16 giorni** senza risposta:
 > [[AZIONI-IN-ATTESA|`#ordine-test-dentro-o-fuori-dalla-pausa`]]. Briefing: [[Briefing/2026-08-13]].
@@ -267,7 +267,7 @@ fonte: AD digitale (chat)
 >
 > Riconfermato dal vivo su Supabase (`execute_sql`): 1 ordine mai pagato, 0 pagati, 0 consegnati, 7 profili, 5 prodotti, 0 recensioni, 3 carrelli. È identico a ogni lettura di oggi. Il North Star resta fermo a **41 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Niente 5ª riscrittura pesante a stato invariato ([[playbook-giro-pieno-ripetuto-strategia]], AR-113).
 >
-> **L'unica cosa nuova di questo passaggio:** ho diagnosticato un falso positivo. Il sorvegliante ripeteva "difesa-rimossa" a ogni comando (oltre 140 volte in questo turno) su `cantiere-prove.json`, per 4 righe di test sparite (AR-447, AR-448, AR-450, il test del rebase). Ho verificato in `cantiere-difetti.json`: quei 3-4 difetti sono **chiusi**. La loro sparizione dal report generato è quindi corretta — il generatore filtra i difetti chiusi — non una difesa tolta davvero. Il sorvegliante non distingue "chiuso" da "difesa rimossa". Resta un difetto reale del guardiano stesso. Non l'ho riparato in questo giro (non sblocca una card business, sotto il vincolo North Star): l'ho solo diagnosticato, per non rifarlo da capo al prossimo passaggio.
+> **L'unica cosa nuova di questo passaggio:** ho diagnosticato un falso positivo. Il sorvegliante ripeteva "difesa-rimossa" a ogni comando (oltre 140 volte in questo turno) su `cantiere-prove.json`, per 4 righe di test sparite (AR-447, AR-448, AR-450, il test del rebase). Ho verificato in `cantiere-difetti.json`: quei 3-4 difetti sono **chiusi**. La loro sparizione dal report generato è quindi corretta: il generatore filtra i difetti chiusi. Non è una difesa tolta davvero. Il sorvegliante non distingue "chiuso" da "difesa rimossa". Resta un difetto reale del guardiano stesso. Non l'ho riparato in questo giro (non sblocca una card business, sotto il vincolo North Star): l'ho solo diagnosticato, per non rifarlo da capo al prossimo passaggio.
 >
 > Stessi 3 script bloccati da approvazione in questa sessione headless (`test-cervello.mjs`, `mappa-macchina.mjs`, `scadenzario-check.mjs`, `tasso-lezioni.mjs`, `north-star-check.mjs`) — `verifica-sensori.mjs` invece gira regolarmente, quindi non è un blocco totale. I verdetti HARD di questi gate erano già stati calcolati dal pre-step di `giro.sh` prima di questo turno e restano quelli.
 >
