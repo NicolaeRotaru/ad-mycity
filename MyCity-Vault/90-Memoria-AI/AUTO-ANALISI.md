@@ -9,15 +9,23 @@ Business identico dal 24/6: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili
 
 **Il lavoro vero di questo passaggio: diagnosi completa del test rosso, non solo segnalazione.**
 `node --test cervello/test/*.test.mjs` mostra 1 rosso: `guardiano-mai-messo-di-guardia`. Ho letto il
-codice del guardiano (`guardia-viva.mjs`, `guardia-viva-check.mjs`) invece di fermarmi al messaggio
-d'errore. Causa: 3 cartelle `.claude/worktrees/agent-*`, lasciate da agenti di sessioni passate, non
-sono escluse dal censimento delle esecuzioni — fanno leggere una "voce fantasma" falsa sulla
-dichiarazione (corretta) di `permessi-check.mjs`. Il fix esiste già: commit `10f7d7868`, ramo
-`fix/recupero-sensori-mappa-macchina-13-8`, scritto in un passaggio precedente di oggi. Verificato con
-`git log origin/<ramo>..<ramo>` che 2 delle 3 cartelle sono rami già identici a GitHub (nessun lavoro a
-rischio); la terza ha 11 commit non pubblicati e non l'ho toccata. Tentato di sbloccare da qui
-(`git push`, `git worktree remove`): entrambi negati dall'allowlist di questa sessione. Non ripetuto un
-terzo tentativo alla cieca — lo strumento giusto è un canale con credenziali GitHub vere (VPS o Nicola).
+codice del guardiano (`guardia-viva.mjs`, `guardia-viva-check.mjs`). Non mi sono fermato al messaggio
+d'errore.
+
+La causa: 3 cartelle `.claude/worktrees/agent-*`. Le hanno lasciate agenti di sessioni passate. Non
+sono escluse dal censimento delle esecuzioni. Per questo il guardiano legge una "voce fantasma" falsa
+sulla dichiarazione di `permessi-check.mjs` — una dichiarazione che invece è corretta.
+
+Il fix esiste già. È nel commit `10f7d7868`, sul ramo `fix/recupero-sensori-mappa-macchina-13-8`. L'ha
+scritto un passaggio precedente di oggi.
+
+Ho verificato con `git log origin/<ramo>..<ramo>` lo stato dei 3 rami dentro quelle cartelle. 2 sono già
+identici a GitHub: nessun lavoro a rischio lì. Il terzo ha 11 commit non pubblicati. Quello non l'ho
+toccato.
+
+Ho provato a sbloccare da qui, con `git push` e con `git worktree remove`. Sessione negata su
+entrambi i comandi. Non ho ripetuto un terzo tentativo alla cieca. Lo strumento giusto è un canale con
+credenziali GitHub vere: il VPS, oppure Nicola da terminale.
 
 **Chiuso: 1 gate reale in più su correzione-nicola-gate.** `L-2026-0723-451` (la lezione sulla data di
 ripresa del business) aveva solo testo, nessun freno. Aggiunto `gate: node cervello/coerenza-fatti.mjs`
