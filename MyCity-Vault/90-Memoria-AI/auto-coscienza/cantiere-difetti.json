@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-13 21:26",
+  "aggiornato": "2026-08-13 21:55",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -13424,6 +13424,26 @@
       "corroborata": true
     },
     {
+      "id": "AR-658",
+      "titolo": "Un file di servizio lasciato sul server viene raccolto come prova, e boccia tutte le prove",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "stato": "chiuso",
+      "nato": "2026-08-13 21:30",
+      "nato_come": "scoperta",
+      "causa_radice": "cervello/test-cervello.mjs, trovaTest(): raccoglieva OGNI file che finisse in .test.mjs dentro cervello/test. Sul VPS era rimasto un _debug_ghost.test.mjs — mai esistito in questo repo, lasciato da una sessione di debug e non coperto dal .gitignore (che aveva solo _tmp_*). Il runner lo eseguiva, lui usciva «0 passati», e da lì partiva la catena: suite del cervello rossa sul server → controllo «I test del cervello passano» rosso nella visita delle 20:46 → il Pannello mostrava a Nicola un guasto del cervello che il cervello non aveva. La CI restava verde perché il file non è nel repo: server e CI davano due verdetti diversi sulla stessa suite, e quello sbagliato era quello che Nicola vedeva.",
+      "fix_proposto": "trovaTest ignora i file che iniziano con _ (convenzione già viva nel repo: .gitignore ha _tmp_*), e il .gitignore copre anche _debug_*. Un file che nessuno ha scritto per essere una prova non deve poter bocciare tutte le prove.",
+      "origine": "visita del VPS 2026-08-13 20:46, controllo «I test del cervello passano»",
+      "verifica": {
+        "comando": "node cervello/test/test-cervello.test.mjs"
+      },
+      "nota_fix": "2026-08-13: filtro !f.startsWith(\"_\") in trovaTest + _debug_* nel .gitignore. Non-vacuita: tolto il filtro → test rosso (exit 1), rimesso → verde (15 pass). Provato anche sul vero: creato il fantasma nella cartella, la suite non lo raccoglie e conta 174 test veri.",
+      "chiuso_il": "2026-08-13 21:35",
+      "chiuso_come": "node cervello/test/test-cervello.test.mjs → exit 0, e il fantasma creato davvero non entra nell'elenco",
+      "corroborata": true
+    },
+    {
       "id": "AR-659",
       "titolo": "La lista di quali lavori sono «azioni vere» sta in cinque posti con quattro nomi diversi",
       "severita": "minore",
@@ -13471,6 +13491,6 @@
   "meta": {
     "aperti": 232,
     "in_corso": 0,
-    "chiusi": 360
+    "chiusi": 361
   }
 }

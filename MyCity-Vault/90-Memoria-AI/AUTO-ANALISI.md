@@ -1,3 +1,46 @@
+# 🔬 AUTO-ANALISI — 2026-08-13 21:36
+
+> Giro richiesto in chat. Business invariato (sensore diretto, 21:27). Trovato e diagnosticato a fondo
+> il test rosso HARD del cervello; chiuso un pezzo del debito su correzione-nicola-gate.
+
+## Voto di fiducia: **84/100** (↗ da 83)
+Business identico dal 24/6: 1 ordine mai pagato, 0 pagati, 5 prodotti, 7 profili, 3 carrelli abbandonati,
+0 nuovi clienti in 7gg. North Star: stallo confermato, pausa concordata fino al 24/8-1/9.
+
+**Il lavoro vero di questo passaggio: diagnosi completa del test rosso, non solo segnalazione.**
+`node --test cervello/test/*.test.mjs` mostra 1 rosso: `guardiano-mai-messo-di-guardia`. Ho letto il
+codice del guardiano (`guardia-viva.mjs`, `guardia-viva-check.mjs`). Non mi sono fermato al messaggio
+d'errore.
+
+La causa: 3 cartelle `.claude/worktrees/agent-*`. Le hanno lasciate agenti di sessioni passate. Non
+sono escluse dal censimento delle esecuzioni. Per questo il guardiano legge una "voce fantasma" falsa
+sulla dichiarazione di `permessi-check.mjs` — una dichiarazione che invece è corretta.
+
+Il fix esiste già. È nel commit `10f7d7868`, sul ramo `fix/recupero-sensori-mappa-macchina-13-8`. L'ha
+scritto un passaggio precedente di oggi.
+
+Ho verificato con `git log origin/<ramo>..<ramo>` lo stato dei 3 rami dentro quelle cartelle. 2 sono già
+identici a GitHub: nessun lavoro a rischio lì. Il terzo ha 11 commit non pubblicati. Quello non l'ho
+toccato.
+
+Ho provato a sbloccare da qui, con `git push` e con `git worktree remove`. Sessione negata su
+entrambi i comandi. Non ho ripetuto un terzo tentativo alla cieca. Lo strumento giusto è un canale con
+credenziali GitHub vere: il VPS, oppure Nicola da terminale.
+
+**Chiuso: 1 gate reale in più su correzione-nicola-gate.** `L-2026-0723-451` (la lezione sulla data di
+ripresa del business) aveva solo testo, nessun freno. Aggiunto `gate: node cervello/coerenza-fatti.mjs`
+dopo aver verificato in `cervello/mutanti.json` che quel file ha già mutazioni registrate — non un gate
+dichiarato a vuoto.
+
+**Segnalato, non indagato (vincolo tasso-chiusura, 0,61 nel mese):** due lezioni compaiono due volte in
+`apprendimento.json` (`L-2026-0723-448`, `L-2026-0723-446`). Aprirlo sarebbe ricerca nuova.
+
+**Refutazione:** ho provato a smentire «il fix esiste ed è sicuro pubblicarlo». Ho controllato i 3 rami uno
+per uno, invece di fidarmi del commit message. L'affermazione sopravvive per 2 rami su 3. Il terzo l'ho
+lasciato intatto, perché la verifica ha trovato lavoro non pubblicato lì dentro.
+
+---
+
 # 🔬 AUTO-ANALISI — 2026-08-13 12:59
 
 > Nono passaggio della giornata, 5 minuti dopo l'ottavo (12:50). Applicata di nuovo

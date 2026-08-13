@@ -2,26 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-09T16:09:34.838Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:10:08.187Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-09T16:10:41.949Z",
       "scatti": 1651,
       "voci": 7,
@@ -1994,7 +1974,29 @@
         "prova-accecata": 2
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T19:43:31.879Z",
+      "scatti": 6297,
+      "voci": 17,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 12,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T19:48:57.522Z",
+      "scatti": 6315,
+      "voci": 17,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 12,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-13T19:03:22.831Z"
+  "aggiornato": "2026-08-13T19:48:57.523Z"
 }

@@ -2523,6 +2523,14 @@
    "test": "cervello/test/cancello-stop.test.mjs"
   },
   {
+   "difetto": "AR-658 file-di-servizio-bocciato-tutte-le-prove",
+   "nome": "il runner torna a raccogliere i file _*.test.mjs: un file di debug lasciato sul server rende rossa tutta la suite, e con lei la visita e il Pannello",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "  return elenco.filter((f) => f.endsWith(\".test.mjs\") && !f.startsWith(\"_\")).sort();",
+   "sostituisci": "  return elenco.filter((f) => f.endsWith(\".test.mjs\")).sort();",
+   "test": "node cervello/test/test-cervello.test.mjs"
+  },
+  {
    "lotto": 39,
    "difetto": "AR-635",
    "nome": "il guardiano esterno torna senza tetto di tempo: appeso, resta cieco sei ore",

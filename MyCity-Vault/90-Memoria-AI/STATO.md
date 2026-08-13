@@ -1,8 +1,45 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 21:05
+aggiornato: 2026-08-13 21:36
 fonte: AD digitale (chat)
 ---
+
+> 🔬 **13/8 21:36 — Giro richiesto in chat. Business invariato. Trovata e diagnosticata a fondo la causa del test rosso; chiuso un altro pezzo del debito sulle correzioni di Nicola.**
+> Riconfermato dal sensore diretto sul marketplace (`supabase_rest`, 21:27): 1 ordine, mai pagato, del 24/6, annullato.
+> 0 pagati in totale. 0 pagati negli ultimi 7 giorni. 5 prodotti, 7 profili, 1 negozio — identico dal 24/6. North
+> Star: stallo confermato, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Il test rosso, diagnosticato fino in fondo.** `node --test cervello/test/*.test.mjs` mostra un solo rosso vero:
+> `guardiano-mai-messo-di-guardia` dentro `mappa-in-bacheca.test.mjs`. Letto il codice riga per riga
+> (`guardia-viva.mjs`, `guardia-viva-check.mjs`): il guardiano misura chi esegue davvero ogni strumento
+> guardando tutti i file del repo, ma non esclude `.claude/worktrees/` — le cartelle di lavoro che restano sul
+> disco dopo un `Agent(isolation:"worktree")`. Tre ce n'erano, di sessioni passate: due sui rami
+> `fix/test-cervello-rossi-13-8` e `fix/sensori-radar-13-8` (già identici a GitHub, verificato con `git log
+> origin/<ramo>..<ramo>` — vuoto, nessun lavoro a rischio), una sul ramo `claude/organi-x-rossa-pallino-bianco-fbg0xh`
+> (11 commit non ancora su GitHub — non toccata, per prudenza). Quelle tre copie fanno leggere al guardiano una
+> falsa "voce fantasma" sulla dichiarazione corretta di `permessi-check.mjs`. **Il fix esiste già**: commit
+> `10f7d7868`, scritto in un passaggio precedente di oggi, sul ramo `fix/recupero-sensori-mappa-macchina-13-8` —
+> mai pubblicato (`git branch -r --contains 10f7d7868` non trova niente su `origin`). Ho provato a pubblicarlo
+> (`git push`) e a rimuovere le tre cartelle (`git worktree remove`): entrambi i comandi negati da questa
+> sessione, stesso limite di sempre ([[feedback-bash-solo-script-esatti-in-allowlist]]). Non ho insistito una
+> terza volta alla cieca ([[worker-concorrente-durante-sessione-interattiva]] insegna a non forzare quando lo
+> strumento giusto è altrove). Resta un difetto reale e diagnosticato, non un allarme nuovo: la causa e il fix
+> sono entrambi scritti, manca solo un canale con credenziali GitHub per pubblicarli.
+>
+> **Chiuso un pezzo del debito su correzione-nicola-gate.** L'area restava a 249/311 lezioni senza un freno
+> vero. Ho preso `L-2026-0723-451` (la lezione sulla data di ripresa del business, la quarta volta che Nicola
+> l'ha spostata) e le ho dato un gate reale: `node cervello/coerenza-fatti.mjs`, lo stesso guardiano che
+> verifica che `registro-fatti.json` (`ripresa.lavoro-operativo`) non resti vecchio in un file vivo. Verificato
+> prima in `cervello/mutanti.json` che quel file ha già mutazioni registrate — il gate non è inventato.
+>
+> **Trovato ma non indagato (tasso-chiusura, 0,61 nel mese — sotto soglia 1, niente ricerche nuove):** due
+> lezioni (`L-2026-0723-448` e `L-2026-0723-446`) compaiono due volte dentro `apprendimento.json`. Segnalato nel
+> briefing, non aperto.
+>
+> **Mossa n.1, invariata.** Nessuna azione business è sbloccabile prima del 24/8-1/9. **Serve da Nicola:** un
+> push da un canale con credenziali GitHub (VPS o terminale) — porta online sia il fix del test rosso sia il
+> lavoro di memoria di questo passaggio. Coda invariata: 69 card in [[AZIONI-IN-ATTESA]]. Briefing:
+> [[Briefing/2026-08-13]].
 
 > 🔁 **13/8 21:05 — Giro richiesto in chat. Business invariato. Recuperate le scritture di un passaggio interrotto. PR aperta solo in parte.**
 > Riconfermato dal vivo con una query diretta su Supabase, non da memoria. 1 ordine, mai pagato, del 24/6,
