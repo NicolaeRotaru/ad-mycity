@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-12 23:07",
+ "aggiornato": "2026-08-12 23:53",
  "lezioni": [
   {
    "id": "L-2026-0804-02",
@@ -8852,7 +8852,7 @@
    "ultima_conferma": "2026-07-09 01:40",
    "_evidenza_2": "ESTENSIONE stessa notte (chat 9/7 ~01:40, tabella `conversazioni`): dopo che l'AD aveva detto «ti compare un permesso da approvare», Nicola chiede «vado io dentro azioni approvo, è questo che vuoi dirmi con il fare un click?» — pensa che il «click» sia entrare nella scheda **Azioni** del Pannello e approvare una card lì. Verità: il permesso `supabase-memoria` è un **prompt di sessione IN CHAT** (terza superficie), NON una card della coda «Azioni»/«Da approvare» del Pannello. Conferma il ROOT di questa lezione: Nicola assume che OGNI approvazione passi dalla coda del Pannello, mentre le superfici sono TRE distinte — ① card «Da approvare» = azioni sul mondo reale (email/DB/spesa); ② prompt permesso in-chat = autorizzare l'AD a eseguire un tool in questa sessione (MCP/Bash); ③ push su main = pubblicare il codice già committato. **Regola/fix riusabile generalizzato:** quando chiedo un OK dico SEMPRE, senza aspettare, DOVE appare — «non è nel Pannello: qui in chat ti esce una finestrella `<nome-permesso>` da approvare» vs «è una card in Azioni» vs «è solo il push». Non dire mai «approva» senza dire su quale delle tre superfici.",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0709-63",
@@ -8874,7 +8874,7 @@
    "nato": "2026-07-09",
    "ultima_conferma": "2026-07-09 01:05",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0709-62",
@@ -8896,7 +8896,7 @@
    "nato": "2026-07-09",
    "ultima_conferma": "2026-07-09 01:05",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0709-61",
@@ -8968,7 +8968,7 @@
    "nato": "2026-07-08",
    "ultima_conferma": "2026-07-08 23:17",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0707-58",
@@ -9189,7 +9189,7 @@
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-09 01:20",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0702-48",
@@ -9229,7 +9229,7 @@
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-02",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0702-02",
@@ -9413,7 +9413,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 20:18",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-39",
@@ -9434,7 +9434,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 20:05",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-38",
@@ -9456,7 +9456,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 20:05",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-37",
@@ -9477,7 +9477,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 17:06",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-36",
@@ -9521,7 +9521,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 11:29",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-34",
@@ -9544,7 +9544,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 11:29",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-33",
@@ -9587,7 +9587,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 11:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-31",
@@ -9634,7 +9634,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 10:36",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-29",
@@ -9656,7 +9656,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 10:13",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-28",
@@ -9677,7 +9677,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 09:43",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-27",
@@ -9726,7 +9726,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 07:41",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-25",
@@ -9768,7 +9768,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-23",
@@ -9812,7 +9812,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-21",
@@ -9833,7 +9833,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 17:06",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-20",
@@ -9852,7 +9852,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-19",
@@ -9872,7 +9872,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 11:26",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-17",
@@ -9893,7 +9893,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-16",
@@ -9913,7 +9913,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-15",
@@ -9953,7 +9953,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-13",
@@ -9973,7 +9973,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 01:38",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-12",
@@ -10015,7 +10015,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-10",
@@ -10062,7 +10062,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-08",
@@ -10127,7 +10127,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-05",
@@ -10147,7 +10147,7 @@
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-04",
@@ -10268,7 +10268,7 @@
    "nato": "2026-06-30",
    "ultima_conferma": "2026-06-30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0629-03",
@@ -10371,7 +10371,7 @@
    "nato": "2026-06-28",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0629-01",
@@ -10424,7 +10424,7 @@
    "nato": "2026-06-29",
    "ultima_conferma": "2026-07-01",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:23"
+   "decaduto_step_il": "2026-08-13 08:30"
   },
   {
    "id": "L-2026-0701-27",
@@ -13111,12 +13111,12 @@
   "promosse_a_principio": 88,
   "decadute": 3,
   "tasso_applicazione": 0.18,
-  "tasso_calcolato_il": "2026-08-12 23:07",
+  "tasso_calcolato_il": "2026-08-12 23:53",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-12 23:07",
+  "tick_leggero_il": "2026-08-12 23:53",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-13 08:23",
+  "cristallizzazione_ultima": "2026-08-13 08:30",
   "lezioni_totali": 517,
   "lezioni_per_stato": {
    "attiva": 409,

@@ -1,6 +1,29 @@
 {
   "potature": [
     {
+      "quando": "2026-08-13 06:30",
+      "byte_prima": 1070895,
+      "byte_dopo": 965066,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0701-02",
+            "testo": "Quando il business è in stallo (= numeri identici tra giri) ma c'è un evento esterno NUOVO"
+          },
+          {
+            "id": "L-2026-0701-01",
+            "testo": "Da worker (chiavi in cervello/vps/.env) l'AD legge ENTRAMBI i Supabase via REST anche senz"
+          },
+          {
+            "id": "L-2026-0630-02",
+            "testo": "Una previsione del radar che si avvera è una vittoria di calibrazione da registrare: il 29"
+          }
+        ],
+        "copie_di_principi": 87
+      }
+    },
+    {
       "quando": "2026-08-13 06:23",
       "byte_prima": 1070895,
       "byte_dopo": 965066,
