@@ -7,7 +7,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Folder, FileText, ChevronRight, ArrowUp, RefreshCw, FolderTree } from "lucide-react";
-import { usePanelSync } from "@/lib/panel-sync";
+import { usePanelRefresh } from "@/lib/panel-sync";
+import { intervalloRipasso } from "@/lib/casella-ricarica";
 
 type Voce = { name: string; type: "file" | "dir"; size?: number; path: string };
 type Risp =
@@ -39,11 +40,12 @@ export default function EsploraGitHub({ embedded = false }: { embedded?: boolean
     }
   }, []);
 
-  useEffect(() => {
-    void carica(path);
-  }, [path, carica]);
+  // AR-236 — ricarica memoizzata sul percorso corrente: segnale + tempo + ritorno sulla scheda.
+  const ricarica = useCallback(() => { void carica(path); }, [carica, path]);
 
-  usePanelSync(["memoria", "all"], () => { void carica(path); });
+  useEffect(() => { ricarica(); }, [ricarica]);
+
+  usePanelRefresh(["memoria", "all"], ricarica, intervalloRipasso());
 
   const segmenti = path ? path.split("/") : [];
   const vaiSu = () => setPath(segmenti.slice(0, -1).join("/"));

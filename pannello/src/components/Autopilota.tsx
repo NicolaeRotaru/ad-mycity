@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Bot, Loader2 } from "lucide-react";
-import { emitSync, usePanelSync } from "@/lib/panel-sync";
+import { emitSync, usePanelRefresh } from "@/lib/panel-sync";
+import { intervalloRipasso } from "@/lib/casella-ricarica";
 
 // 🤖 Autopilota — controllo unico, spostato QUI nella Plancia (fix #4: prima stava
 // nascosto dentro la scheda "Da approvare"). Quando è ON, la macchina esegue DA SOLA
@@ -33,7 +34,8 @@ export default function Autopilota() {
   }, []);
 
   useEffect(() => { carica(); }, [carica]);
-  usePanelSync(["azioni", "memoria", "all"], carica);
+  // AR-236 — la casella non aspetta solo il segnale del worker: ripassa a tempo e al ritorno sulla scheda.
+  usePanelRefresh(["azioni", "memoria", "all"], carica, intervalloRipasso());
 
   async function toggle() {
     if (busy) return;

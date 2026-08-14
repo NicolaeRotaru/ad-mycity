@@ -15,7 +15,8 @@
 
 import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   AD_ROOT,
   githubRequest,
@@ -25,6 +26,7 @@ import {
 } from "./git-github.mjs";
 import { resolveMarketplaceRepo } from "./marketplace-repo.mjs";
 import { verdettoCopertura, segnaleDa, CIECO, ROTTO } from "./misura-o-cieco.mjs";
+import { oreDaTimbroDiReferto } from "./eta-referto.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const LIVE = process.env.AZIONI_LIVE === "1" || process.env.AZIONI_LIVE === "on";
@@ -71,13 +73,19 @@ function sh(cmd, args, cwd) {
   }
 }
 
-/** Minuti trascorsi da un timestamp Piacenza "AAAA-MM-GG HH:MM". */
+/**
+ * Minuti trascorsi da un timbro di Piacenza "AAAA-MM-GG HH:MM". `null` se non si legge — perché
+ * «non l'ho potuto leggere» e «zero minuti fa» sono opposti.
+ *
+ * L'offset era scritto a mano (`+02:00`): giusto d'estate, falso di un'ora tutto l'inverno — la
+ * malattia censita `ora-legale-scolpita`. Da novembre a marzo questo controllo diceva che il battito
+ * degli occhi era 60 minuti più vecchio del vero e faceva scattare un ❌ su una macchina sana: un
+ * rosso falso si impara a ignorare esattamente come un verde falso. Adesso il conto passa
+ * dall'orologio di casa, che sa da solo quando scatta il cambio d'ora.
+ */
 function etaMinutiPiacenza(valore) {
-  const m = String(valore ?? "").match(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})/);
-  if (!m) return null;
-  const t = new Date(`${m[1]}-${m[2]}-${m[3]}T${m[4]}:${m[5]}:00+02:00`).getTime();
-  if (Number.isNaN(t)) return null;
-  return Math.round((Date.now() - t) / 60000);
+  const ore = oreDaTimbroDiReferto(valore, Date.now());
+  return ore === null ? null : Math.round(ore * 60);
 }
 
 async function checkRepoToken(key) {
@@ -344,8 +352,14 @@ async function main() {
   process.exit(v.codice);
 }
 
-main().catch(async (e) => {
-  console.error("ERRORE verifica:", e.message || e);
-  await stampSegnale("verifica", "errore", `crash: ${(e.message || e).toString().slice(0, 200)}`);
-  process.exit(1);
-});
+// Il programma parte SOLO se qualcuno lancia questo file. Qui pesa più che altrove: `main()` scrive
+// un segnale, quindi importare il modulo per provarne una funzione lasciava una traccia nella
+// memoria vera. Un modulo che si esegue all'import non è provabile senza sporcare.
+const lanciatoDaRigaDiComando = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (lanciatoDaRigaDiComando) {
+  main().catch(async (e) => {
+    console.error("ERRORE verifica:", e.message || e);
+    await stampSegnale("verifica", "errore", `crash: ${(e.message || e).toString().slice(0, 200)}`);
+    process.exit(1);
+  });
+}

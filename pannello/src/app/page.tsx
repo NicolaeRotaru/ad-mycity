@@ -138,7 +138,16 @@ import {
   type GruppoLavori,
 } from "@/lib/lavori-gruppo";
 import { accodaSyncConvMeta, caricaConvMeta, mergeLette } from "@/lib/conv-meta";
-import { destinazioneDaHash, ripristinaSub } from "@/lib/nav";
+import { parcheggiaSubDaIndirizzo, ripristinaSub } from "@/lib/nav";
+import {
+  destinazioneDaIndirizzo,
+  indirizzoDopoCambioArea,
+  esitoSalvataggioConversazione,
+  indiceRicercaConversazioni,
+  righeCassetto,
+  RITARDO_RICERCA_MS,
+  type EsitoSalvataggio,
+} from "@/lib/pagina-stato";
 import { voceDiNavigazione } from "@/lib/strati";
 import { deveChiudereOverlay, eTastoChiudi, overlayInCima, type StatoOverlay } from "@/lib/overlay-chiusura";
 import { useStrato } from "@/lib/useStrato";
@@ -207,6 +216,47 @@ function ordinaConversazioni(list: Conversazione[], pinnate: Set<string>): Conve
     return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
   });
 }
+
+/**
+ * AR-249 — la casella «cerca nelle conversazioni», con il suo stato addosso.
+ *
+ * Il difetto: la stringa di ricerca viveva nel componente-pagina (3.800 righe) e la casella la
+ * aggiornava a ogni battuta. Scrivere «garetti» voleva dire sette ridisegni dell'intera Cabina, e
+ * ogni ridisegno rileggeva il testo di ogni messaggio di ogni conversazione.
+ *
+ * Adesso quello che si sta scrivendo resta QUI: la pagina lo riceve solo quando le dita si fermano
+ * (una pausa di battuta, `RITARDO_RICERCA_MS`). Il componente è `memo`: finché la pagina si
+ * ridisegna per altri motivi, questa casella non si tocca e non perde il cursore.
+ */
+const CasellaRicercaConv = memo(function CasellaRicercaConv({
+  onRicerca,
+}: {
+  onRicerca: (q: string) => void;
+}) {
+  const [testo, setTesto] = useState("");
+  const onRicercaRef = useRef(onRicerca);
+  onRicercaRef.current = onRicerca;
+  useEffect(() => {
+    const t = setTimeout(() => onRicercaRef.current(testo), RITARDO_RICERCA_MS);
+    return () => clearTimeout(t);
+  }, [testo]);
+  return (
+    <>
+      <Search size={13} style={{ color: "var(--text-faint)" }} className="shrink-0" />
+      <input
+        value={testo}
+        onChange={(e) => setTesto(e.target.value)}
+        placeholder="Cerca nelle conversazioni…"
+        className="input-soft flex-1 border-0 bg-transparent px-0 py-0 focus:ring-0 text-[12.5px]"
+      />
+      {testo && (
+        <button onClick={() => setTesto("")} className="shrink-0 text-black/30 hover:text-black/60" aria-label="Pulisci la ricerca">
+          <X size={13} />
+        </button>
+      )}
+    </>
+  );
+});
 
 function tsMaxIso(a: string, b: string): string {
   return new Date(a).getTime() >= new Date(b).getTime() ? a : b;
@@ -905,6 +955,10 @@ export default function Dashboard() {
   const [conversazioni, setConversazioni] = useState<Conversazione[]>([]);
   const [convId, setConvId] = useState<string | null>(null);
   const [convServer, setConvServer] = useState(false);
+  // AR-400 — l'ultimo salvataggio della chat è finito sul server? `true` = no, vive solo qui.
+  // Non è la stessa cosa di `convServer` (che dice se la memoria è collegata): un POST può fallire
+  // con la memoria collegata, ed era esattamente il caso in cui il Pannello diceva «salvata».
+  const [chatSoloLocale, setChatSoloLocale] = useState(false);
   const [convSel, setConvSel] = useState<string[]>([]);
   // Pin (graffetta): ID delle conversazioni fissate in cima — localStorage
   const [convPinnate, setConvPinnate] = useState<Set<string>>(() => {
@@ -1078,8 +1132,11 @@ export default function Dashboard() {
   // 🔊 Live voce (senza API): il worker legge ad alta voce le risposte (sintesi vocale del browser).
   const [voceWorker, setVoceWorker] = useState(false);
   const ultimoParlatoRef = useRef<string | null>(null);
-  // 🔍 Ricerca nel cassetto conversazioni
-  const [convRicerca, setConvRicerca] = useState("");
+  // 🔍 Ricerca nel cassetto conversazioni.
+  // AR-249 — qui vive SOLO la ricerca «attiva», cioè quella che ha già filtrato. La stringa che si
+  // sta scrivendo sta dentro la casella (`CasellaRicercaConv`), che ha il suo stato e aspetta una
+  // pausa di battuta prima di consegnarla: prima ogni singola lettera ridisegnava tutta la pagina.
+  const [convRicercaAttiva, setConvRicercaAttiva] = useState("");
   // ⚡ Finestra "Skill & comandi" dentro la chat (condivisa: chat intera e fluttuante non sono mai visibili insieme).
   // Worker popup: elenco conv in cassetto sopra la chat (icona ☰ in testata, mobile e desktop).
   const [workerConvAperto, setWorkerConvAperto] = useState(false);
@@ -1142,7 +1199,7 @@ export default function Dashboard() {
   // reali con lo stesso primo messaggio (la "chat fantasma" segnalata più volte da Nicola). Questo
   // ref tiene la Promise della creazione in corso: chi arriva mentre è in volo aspetta la STESSA
   // creazione invece di aprirne una seconda.
-  const creazioneConvInCorsoRef = useRef<Promise<string | null> | null>(null);
+  const creazioneConvInCorsoRef = useRef<Promise<EsitoSalvataggio> | null>(null);
   const PENDING_CHAT_KEY = "mycity_pending_lavoro";
 
   // Mirror SINCRONI (assegnati in render, non in useEffect): un useEffect aggiorna il ref DOPO il commit,
@@ -1161,6 +1218,10 @@ export default function Dashboard() {
     for (const g of raggruppaLavori(lavori, m)) map.set(g.id, g);
     return map;
   }, [lavori]);
+
+  // AR-249 — l'indice di ricerca: titolo + messaggi già in minuscolo, UNA volta per elenco.
+  // Prima la minuscola si rifaceva per ogni messaggio di ogni conversazione a ogni battuta.
+  const indiceConvRicerca = useMemo(() => indiceRicercaConversazioni(conversazioni), [conversazioni]);
 
   function persistPendings() {
     try {
@@ -1453,9 +1514,16 @@ export default function Dashboard() {
   // Non cambia la conversazione "attiva": restituisce solo l'id salvato.
   // ANTI-RACE: prima di salvare, fonde con la versione già in memoria — uno snapshot
   // vecchio (es. al cambio chat) non può più sovrascrivere una risposta arrivata dopo.
-  async function persistConversazione(id: string | null, msgs: Msg[]): Promise<string | null> {
+  //
+  // AR-400 — «salvata» si dice SOLO se il server l'ha presa. Prima questa funzione restituiva un id
+  // anche quando non aveva salvato niente: il ripiego locale `loc_…` tornava con lo stesso tipo del
+  // successo, quindi nessuno dei chiamanti poteva distinguerli — la chat diceva «salvata» e cambiando
+  // dispositivo non c'era. Ora torna `{id, suServer}` (come la gemella di parla.ts) e la decisione
+  // «è confermata?» sta in `esitoSalvataggioConversazione`, che passa da `scritturaConfermata`:
+  // trasporto E corpo, così un `{ok:false}` servito con HTTP 200 non passa più per un successo.
+  async function persistConversazione(id: string | null, msgs: Msg[]): Promise<EsitoSalvataggio> {
     let reali = messaggiConversazioneSalvabili(msgs);
-    if (reali.length === 0) return id;
+    if (reali.length === 0) return { id, suServer: false };
     let esistente: Conversazione | undefined;
     if (id) {
       esistente = conversazioniRef.current.find((c) => c.id === id);
@@ -1463,24 +1531,34 @@ export default function Dashboard() {
     }
     const titolo =
       esistente?.titolo?.startsWith("💬 ") ? esistente.titolo : titoloDa(reali);
-    let newId = id;
+    // Il ripiego locale si prepara sempre: «meglio che perdere tutto» resta giusto — quello che era
+    // sbagliato è restituirlo travestito da successo.
+    const idDiRipiego = "loc_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+    let risposta: Response | null = null;
+    let corpo: unknown = undefined;
     if (convServer) {
       try {
-        const res = await fetch("/api/conversazioni", {
+        risposta = await fetch("/api/conversazioni", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id, titolo, messaggi: reali }),
         });
-        const d = await res.json();
-        if (d?.id) newId = d.id;
-      } catch {}
-      // Fallback: se il server non ha restituito un ID (rete caduta, errore), salva localmente
-      // così la conversazione appare sempre nella lista anche offline.
-      if (!newId) newId = "loc_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
-    } else {
-      newId = id || "loc_" + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+        corpo = await risposta.json();
+      } catch {
+        // Rete caduta: `risposta` resta null → per `esitoSalvataggioConversazione` è un NO.
+      }
     }
-    if (!newId) return null;
+    const esito = esitoSalvataggioConversazione({
+      idCorrente: id,
+      memoriaCollegata: convServer,
+      risposta,
+      corpo,
+      idDiRipiego,
+    });
+    // L'avviso a schermo: se non è sul server, Nicola lo deve vedere PRIMA di cambiare dispositivo.
+    setChatSoloLocale(!esito.suServer);
+    const newId = esito.id;
+    if (!newId) return { id: null, suServer: false };
     setConversazioni((list) => {
       const esiste = list.find((c) => c.id === newId);
       const created_at = esiste?.created_at || new Date().toISOString();
@@ -1506,7 +1584,7 @@ export default function Dashboard() {
       scriviConvLocali(nuova);
       return nuova;
     });
-    return newId;
+    return esito;
   }
 
   // Salva quella attuale e apre una chat nuova e vuota. NON fa partire risposte.
@@ -1588,7 +1666,7 @@ export default function Dashboard() {
       return;
     }
 
-    const salvato = await persistConversazione(gruppoId, daLavori);
+    const salvato = (await persistConversazione(gruppoId, daLavori)).id;
     forzaScrollRef.current = true;
     setMessages(daLavori);
     setConvId(salvato || gruppoId);
@@ -1774,21 +1852,24 @@ export default function Dashboard() {
       setConversazioni((list) => integraConversazioneAttiva(list, gruppoId, msgsOptimistic));
       const idPersist =
         convId && !convId.startsWith("sess_") && !convId.startsWith("loc_") ? convId : null;
-      let savedConv: string | null;
+      let esitoConv: EsitoSalvataggio;
       if (idPersist) {
-        savedConv = await persistConversazione(idPersist, msgsOptimistic);
+        esitoConv = await persistConversazione(idPersist, msgsOptimistic);
       } else if (creazioneConvInCorsoRef.current) {
         // Un'altra chiamata sta già creando questa stessa chat nuova: aspetto il suo risultato.
-        savedConv = await creazioneConvInCorsoRef.current;
+        esitoConv = await creazioneConvInCorsoRef.current;
       } else {
         const creazione = persistConversazione(null, msgsOptimistic);
         creazioneConvInCorsoRef.current = creazione;
         try {
-          savedConv = await creazione;
+          esitoConv = await creazione;
         } finally {
           creazioneConvInCorsoRef.current = null;
         }
       }
+      // AR-400 — l'id c'è comunque (il ripiego locale non si butta), ma adesso sappiamo se è finito
+      // sul server: `esitoConv.suServer` è ciò che accende l'avviso ambra sotto la chat.
+      const savedConv = esitoConv.id;
       if (savedConv && savedConv !== gruppoId) {
         setConversazioni((list) => {
           const idx = list.findIndex((c) => c.id === gruppoId);
@@ -2099,14 +2180,25 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     // localStorage: un vecchio link col cancelletto (`/#auto-coscienza`, che gira ancora in lettere e
     // note) apriva l'ultima area visitata e il cancelletto moriva in silenzio — sembrava funzionare
     // solo se per caso eri già sulla scheda giusta. Chi apre un link vuole quel posto, non l'ultimo.
+    // AR-244 — e ora l'indirizzo lo sa DIRE, non solo il cancelletto: `?a=azioni&s=approvare`.
+    // I parametri vincono su `localStorage` esattamente come il cancelletto: chi apre un link vuole
+    // quel posto, non l'ultimo visitato. Il cancelletto vecchio continua a funzionare (AR-609).
     try {
-      const d = destinazioneDaHash(window.location.hash);
+      const d = destinazioneDaIndirizzo(window.location.search, window.location.hash);
       if (d) {
         applicaVistaSalvata(d.vista);
         iniz = d.vista;
         // La scheda interna arriva alle aree con lo stesso canale del tasto indietro; il timeout la
         // fa trovare montata (le aree consumano anche il buffer di nav.ts al primo montaggio).
-        if (d.sub) setTimeout(() => ripristinaSub(d.vista, d.sub!), 0);
+        // AR-244 — il parcheggio SENZA scadenza è la parte che mancava: le aree si caricano quando
+        // servono e possono comparire parecchi secondi dopo, cioè quando l'evento è già passato e
+        // la finestra di freschezza da tre secondi è chiusa. Provato guidando il Pannello: senza
+        // questo, `?a=azioni&s=approvare` (e anche il vecchio `#azioni/approvare`) atterrava
+        // sull'area giusta ma sulla scheda di default.
+        if (d.sub) {
+          parcheggiaSubDaIndirizzo(d.vista, d.sub);
+          setTimeout(() => ripristinaSub(d.vista, d.sub!), 0);
+        }
       }
     } catch {}
     // Semina la voce di cronologia iniziale con la vista di partenza: senza, la voce base ha
@@ -2133,7 +2225,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       // AR-606 — voce di navigazione PULITA: cambiando area non ci si porta dietro il marcatore di
       // un pannello che nel frattempo si è chiuso (era il fantasma che poi faceva sbagliare strada
       // all'indietro, e che diceva al menù riaperto «sei già timbrato» impedendogli di chiudersi).
-      try { window.history.pushState(voceDiNavigazione(window.history.state, { vista }), "", window.location.pathname + window.location.search); } catch {}
+      // AR-244 — l'indirizzo NOMINA l'area: `?a=<area>`. Prima qui si riscriveva
+      // `pathname + search`, cioè l'indirizzo restava quello di prima e da fuori non si poteva
+      // arrivare da nessuna parte. La scheda si porta dietro SOLO se l'indirizzo nominava già
+      // quest'area: era il modo in cui un link `?a=azioni&s=approvare` si cancellava da solo un
+      // istante dopo essere atterrato (il passaggio Plancia→Azioni timbrava la sola area).
+      try { window.history.pushState(voceDiNavigazione(window.history.state, { vista }), "", indirizzoDopoCambioArea(window.location.search, vista, window.location.pathname)); } catch {}
       ultimaVistaStoria.current = vista;
     }
   }, [vista]);
@@ -3221,6 +3318,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             <div ref={endRef} />
           </div>
           <div className="shrink-0">
+          {/* AR-400 — l'avviso che prima non c'era: se l'ultimo salvataggio non è arrivato al
+              server, questa chat vive solo su questo dispositivo e cambiando telefono sparisce.
+              Stesso avviso ambra già in uso nella casella «parla» (ParlaCasella). */}
+          {chatSoloLocale && (
+            <div
+              className="mx-3 mb-1.5 flex items-start gap-1.5 rounded-lg border border-amber-300/60 bg-amber-50 px-2.5 py-1.5 text-[11.5px] leading-snug text-amber-700 dark:bg-amber-950/25"
+              role="status"
+              data-test="chat-solo-locale"
+            >
+              <AlertTriangle size={13} className="shrink-0 mt-px" />
+              <span>
+                Salvata solo su questo dispositivo: il server non ha confermato. Se cambi telefono
+                questa conversazione non la ritrovi.
+              </span>
+            </div>
+          )}
           <BarraScritturaChat
             ref={chatInputRef}
             variant="assistente"
@@ -3257,6 +3370,12 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             style={{ borderColor: "var(--border)", background: "var(--bg-surface)" }}
             aria-hidden={!convDrawerAperto}
           >
+            {/* AR-248 — quello che non si vede NON si disegna. Prima il cassetto era solo spinto
+                fuori schermo (`-translate-x-full` + `aria-hidden`): per React restava montato, e
+                ogni ridisegno della pagina attraversava tutte le righe invisibili ricucendo tre
+                volte il thread di ognuna. L'`<aside>` resta (è lui che scorre), il contenuto no. */}
+            {convDrawerAperto && (
+            <>
             <div className="px-4 py-3 flex items-center justify-between border-b gap-2 shrink-0" style={{ borderColor: "var(--border)" }}>
               <div className="flex items-center gap-2 min-w-0">
                 <span className="sez-ico"><MessagesSquare size={15} /></span>
@@ -3287,18 +3406,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             </div>
             {conversazioni.length > 0 && (
               <div className="px-3 py-2 border-b shrink-0 flex items-center gap-2" style={{ borderColor: "var(--border)" }}>
-                <Search size={13} style={{ color: "var(--text-faint)" }} className="shrink-0" />
-                <input
-                  value={convRicerca}
-                  onChange={(e) => setConvRicerca(e.target.value)}
-                  placeholder="Cerca nelle conversazioni…"
-                  className="input-soft flex-1 border-0 bg-transparent px-0 py-0 focus:ring-0 text-[12.5px]"
-                />
-                {convRicerca && (
-                  <button onClick={() => setConvRicerca("")} className="shrink-0 text-black/30 hover:text-black/60">
-                    <X size={13} />
-                  </button>
-                )}
+                <CasellaRicercaConv onRicerca={setConvRicercaAttiva} />
               </div>
             )}
             {convSel.length > 0 && (
@@ -3322,11 +3430,15 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2.5 space-y-1.5">
-                {/* Ordine: fissate in cima → create più di recente */}
-                {ordinaConversazioni(conversazioni, convPinnate).filter((c) => {
-                  if (!convRicerca.trim()) return true;
-                  const q = convRicerca.toLowerCase();
-                  return c.titolo.toLowerCase().includes(q) || c.messaggi.some((m) => m.content.toLowerCase().includes(q));
+                {/* Ordine: fissate in cima → create più di recente.
+                    AR-248/AR-249 — QUALI righe esistono lo decide `righeCassetto` (modulo puro):
+                    cassetto chiuso ⇒ nessuna riga, e il filtro usa l'indice già in minuscolo invece
+                    di riscandire il testo di ogni messaggio a ogni battuta. */}
+                {righeCassetto({
+                  aperto: convDrawerAperto,
+                  conversazioni: ordinaConversazioni(conversazioni, convPinnate),
+                  ricerca: convRicercaAttiva,
+                  indice: indiceConvRicerca,
                 }).map((c) => {
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
@@ -3377,10 +3489,14 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               </div>
             )}
             <p className="t-eti text-[10.5px] px-3 py-2 border-t leading-relaxed shrink-0" style={{ borderColor: "var(--border)" }}>
-              {convServer
+              {/* AR-400 — questa riga diceva «nel database» guardando solo se la memoria È
+                  collegata, non se l'ultimo salvataggio è ANDATO. Ora guarda l'esito. */}
+              {convServer && !chatSoloLocale
                 ? "💾 Salvate nel database: le ritrovi da ogni dispositivo."
                 : "💾 Salvate su questo dispositivo."}
             </p>
+            </>
+            )}
           </aside>
           </section>
         )}
@@ -3480,6 +3596,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
             style={{ borderColor: "var(--border)", background: "var(--bg-surface-2)" }}
             aria-hidden={!workerConvAperto}
           >
+            {/* AR-248 — stesso cassetto, stessa regola: chiuso ⇒ smontato. Era il secondo posto
+                dove le righe invisibili si ridisegnavano (il fix a una copia sola è la forma di
+                errore che questo lotto ha già pagato più volte). */}
+            {workerConvAperto && (
+            <>
             <div className="px-3 py-2.5 flex items-center gap-2 border-b shrink-0" style={{ borderColor: "var(--border)" }}>
               <MessagesSquare size={14} className="text-brand shrink-0" />
               <span className="t-sez text-[13px] truncate">Conversazioni</span>
@@ -3494,10 +3615,11 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
               <p className="t-eti text-[11px] px-2 py-3 text-center">Ancora nessuna chat.</p>
             ) : (
               <div className="scroll-soft flex-1 overflow-y-auto p-2 space-y-1 min-h-0">
-                {ordinaConversazioni(conversazioni, convPinnate).filter((c) => {
-                  if (!convRicerca.trim()) return true;
-                  const q = convRicerca.toLowerCase();
-                  return c.titolo.toLowerCase().includes(q) || c.messaggi.some((m) => m.content.toLowerCase().includes(q));
+                {righeCassetto({
+                  aperto: workerConvAperto,
+                  conversazioni: ordinaConversazioni(conversazioni, convPinnate),
+                  ricerca: convRicercaAttiva,
+                  indice: indiceConvRicerca,
                 }).map((c) => {
                   const pinnata = convPinnate.has(c.id);
                   const gruppo = gruppiConvById.get(c.id);
@@ -3542,6 +3664,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   );
                 })}
               </div>
+            )}
+            </>
             )}
           </aside>
           <div className="flex flex-col flex-1 min-h-0 min-w-0">
@@ -3743,8 +3867,63 @@ function CorpoTabella({ kpis, metriche }: { kpis: Kpi[]; metriche: Record<string
     const v = present ? formatta(metriche![chiave!], tipo) : "—";
     return { on: v !== "—", v };
   };
+  // AR-225 — le tre finestre di un KPI, calcolate una volta e usate da entrambe le forme (schede
+  // sul telefono, tabella da tablet in su).
+  const finestre = (k: Kpi) => {
+    const soloValore = !k.oggi && !k.sett && !k.mese && Boolean(k.valore);
+    const celle = [cella(k.oggi, k.tipo), cella(k.sett, k.tipo), cella(k.mese, k.tipo)];
+    const cellaValore = cella(k.valore, k.tipo);
+    const acceso = soloValore ? cellaValore.on : celle.some((c) => c.on);
+    return { soloValore, celle, cellaValore, acceso };
+  };
   return (
-    <div className="overflow-x-auto -mx-1 px-1">
+    <>
+      {/* ═══ SOTTO sm: UNA SCHEDA PER KPI ═══
+          AR-225 — la tabella a quattro colonne ha `min-w-[420px]`: su un telefono da 375 punti la
+          colonna «30 giorni» finiva fuori dallo schermo, dentro uno scorrimento laterale che non si
+          vedeva nemmeno (su telefono la barra orizzontale non si disegna). Il dato c'era e non si
+          vedeva. Qui i tre numeri stanno uno accanto all'altro con la loro etichetta sopra, e il
+          nome del KPI non è più troncato: nessuno scorrimento di lato, niente colonne fuori. */}
+      <div className="sm:hidden space-y-1.5" data-test="numeri-schede">
+        {kpis.map((k) => {
+          const { soloValore, celle, cellaValore, acceso } = finestre(k);
+          return (
+            <div key={k.label} className="rounded-xl border border-black/[0.06] bg-paper/40 px-2.5 py-2">
+              <div className="flex items-center gap-2">
+                <span className={`grid place-items-center w-7 h-7 rounded-lg shrink-0 ${acceso ? "bg-brand-50 text-brand" : "bg-black/[0.04] text-black/30"}`}>
+                  {k.icon}
+                </span>
+                <span className="min-w-0">
+                  <span className="block text-[13px] font-medium text-ink/85 leading-tight">{k.label}</span>
+                  <span className="block text-[10px] uppercase tracking-wide text-black/30 leading-tight">
+                    {acceso ? k.fonte : `da collegare · ${k.fonte}`}
+                  </span>
+                </span>
+              </div>
+              {soloValore ? (
+                <div className="mt-1.5 text-right tabular-nums">
+                  <span className={`text-[15px] font-semibold tracking-tight ${cellaValore.on ? "text-ink" : "text-black/20"}`}>{cellaValore.v}</span>
+                  {cellaValore.on && <span className="ml-1.5 text-[9px] uppercase tracking-wide text-black/30 align-middle">adesso</span>}
+                </div>
+              ) : (
+                <div className="mt-1.5 grid grid-cols-3 gap-1.5">
+                  {(["Oggi", "7 giorni", "30 giorni"] as const).map((eti, i) => (
+                    <div key={eti} className="rounded-lg bg-black/[0.02] px-1.5 py-1 text-center">
+                      <span className="block text-[9px] uppercase tracking-wide text-black/35 leading-tight">{eti}</span>
+                      <span className={`block text-[14px] font-semibold tracking-tight tabular-nums ${celle[i].on ? "text-ink" : "text-black/20"}`}>
+                        {celle[i].v}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+
+      {/* ═══ DA sm IN SU: la tabella di sempre ═══ */}
+      <div className="hidden sm:block overflow-x-auto -mx-1 px-1">
       <table className="w-full border-separate border-spacing-y-1.5 min-w-[420px]">
         <thead>
           <tr className="text-[10px] uppercase tracking-wide text-black/35">
@@ -3761,10 +3940,7 @@ function CorpoTabella({ kpis, metriche }: { kpis: Kpi[]; metriche: Record<string
             // `valore` e prima restavano "—" perché la tabella leggeva SOLO oggi/sett/mese: dati
             // reali già calcolati dal server che non venivano mostrati. Ora li accendiamo come
             // una cifra unica che occupa le tre colonne, etichettata "adesso". (fix dati-spenti)
-            const soloValore = !k.oggi && !k.sett && !k.mese && Boolean(k.valore);
-            const celle = [cella(k.oggi, k.tipo), cella(k.sett, k.tipo), cella(k.mese, k.tipo)];
-            const cellaValore = cella(k.valore, k.tipo);
-            const acceso = soloValore ? cellaValore.on : celle.some((c) => c.on);
+            const { soloValore, celle, cellaValore, acceso } = finestre(k);
             return (
               <tr key={k.label} className="bg-paper/40 hover:bg-brand-50/30 transition">
                 <td className="rounded-l-xl border-y border-l border-black/[0.06] py-2 pl-2.5">
@@ -3800,7 +3976,8 @@ function CorpoTabella({ kpis, metriche }: { kpis: Kpi[]; metriche: Record<string
           })}
         </tbody>
       </table>
-    </div>
+      </div>
+    </>
   );
 }
 

@@ -161,6 +161,8 @@ export const DESCRIZIONI = {
   "housekeeping-azioni": { famiglia: "tempo", cosa: "Sposta in archivio le azioni già fatte o rifiutate, così la coda da firmare resta corta e vera." },
   "guardiano-tempo": { famiglia: "tempo", cosa: "Misura quanto lavoro sta aspettando la firma di Nicola e da quanti giorni: la coda è un costo." },
   letargo: { famiglia: "tempo", cosa: "Se quota, cassa o sensori calano, spegne il superfluo in ordine e tiene vivo solo il nucleo." },
+  "freschezza-rischi": { famiglia: "tempo", cosa: "Controlla che i rischi gravi dell'azienda siano stati riguardati di recente, invece di restare fermi per mesi." },
+  "c4-cancelli": { famiglia: "guardrail", cosa: "Tiene in un posto solo le decisioni che prima erano incollate dentro gli script: quando si può saltare il tetto di spesa, con quali soglie è girato il giro, chi rimisura quale vincolo, dove un segreto sta ancora negli argomenti di un comando." },
   "midollo-spinale": { famiglia: "tempo", cosa: "I riflessi rapidi: per ogni allarme delle sentinelle propone la reazione pronta, con il suo limite." },
   "delta-gate": { famiglia: "tempo", cosa: "Se dall'ultimo giro non è cambiato niente, evita di svegliare l'AI per riscrivere le stesse righe." },
 

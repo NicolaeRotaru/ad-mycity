@@ -3,7 +3,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { Swords } from "lucide-react";
 import { istante } from "@/lib/format";
-import { usePanelSync } from "@/lib/panel-sync";
+import { usePanelRefresh } from "@/lib/panel-sync";
+import { intervalloRipasso } from "@/lib/casella-ricarica";
 
 type PB = {
   id: string;
@@ -29,7 +30,8 @@ export default function Arsenale() {
   }, []);
 
   useEffect(() => { carica(); }, [carica]);
-  usePanelSync(["memoria", "azioni", "all"], carica);
+  // AR-236 — la casella non aspetta solo il segnale del worker: ripassa a tempo e al ritorno sulla scheda.
+  usePanelRefresh(["memoria", "azioni", "all"], carica, intervalloRipasso());
   if (!pb) return null;
   const partitiOggi = pb.filter((p) => p.oggi).length;
   // Raggruppa per FORMA DI DOMINIO, mantenendo l'ordine di comparsa.

@@ -153,6 +153,7 @@ export default function RadiografiaMarketplace() {
                             impatto={f.impatto}
                             fix={f.fix}
                             dove={f.dove}
+                            parlaId={`problema-sito:${dim.key || ""}|${f.titolo || ""}`}
                             parlaTitolo={`Problema sito: ${(f.titolo || "").slice(0, 60)}`}
                             parlaContesto={[
                               dim.key && `Area: ${dimensioneLeggibile(dim.key || "")}`,
@@ -164,7 +165,7 @@ export default function RadiografiaMarketplace() {
                           />
                         );
                       })}
-                      <ParlaCasella titolo={`Sito: ${dimensioneLeggibile(dim.key || "")}`} contesto={`Area «${dimensioneLeggibile(dim.key || "")}» della radiografia sito del ${d.data}: ${findings.length} problemi (${nBlocc} bloccanti, ${nGravi} gravi).`} />
+                      <ParlaCasella idCasella={`sito:${dim.key || ""}`} titolo={`Sito: ${dimensioneLeggibile(dim.key || "")}`} contesto={`Area «${dimensioneLeggibile(dim.key || "")}» della radiografia sito del ${d.data}: ${findings.length} problemi (${nBlocc} bloccanti, ${nGravi} gravi).`} />
                     </div>
                   )}
                 </div>

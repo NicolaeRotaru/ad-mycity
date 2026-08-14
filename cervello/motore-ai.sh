@@ -370,6 +370,85 @@ $out"
     return $rc
 }
 
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+# 🚪 ai_run — L'UNICA PORTA PER ACCENDERE IL MOTORE (AR-391 · AR-422 · AR-197)
+#
+# ── Cosa era rotto ──────────────────────────────────────────────────────────────────────────────
+# Il freno sulla spesa (`freno-costi.mjs`) era consultato in UN punto solo di tutta la macchina:
+# dentro `giro.sh`, prima di accendere il motore del giro. Le altre tre corsie — la chat e i lavori
+# del worker (la più cara: modello premium, memoria di sessione, lavori fino a 45 minuti), le
+# quattro cadenze del ritmo, il monitoraggio — accendevano lo stesso motore senza chiedere niente a
+# nessuno. Il tetto giornaliero copriva così una frazione della spesa, e non la parte che cresce
+# con l'uso.
+# Stessa storia, gemella, per la REGISTRAZIONE del costo: `worker.sh` non nominava `costo-ai.mjs`
+# da nessuna parte, quindi chat, riassunti, lavori e radiografie non lasciavano nessuna traccia nel
+# registro dei costi — e il «quanto consumo?» del Pannello era strutturalmente parziale proprio sul
+# candidato numero uno.
+#
+# ── La causa, che è la stessa delle due ─────────────────────────────────────────────────────────
+# Una regola nuova viene installata nel punto dove è stata SCOPERTA, non nel punto per cui VALE. Il
+# freno è nato dentro il giro perché lì si era visto il danno; la misura è nata nel chiamante perché
+# lì c'era il cronometro. Ogni organo nuovo nasce quindi cieco per default e va ricablato a mano —
+# e chi lo dimentica non se ne accorge mai.
+#
+# ── La cura ─────────────────────────────────────────────────────────────────────────────────────
+# Il cancello si sposta sul DATO: le due decisioni — «si può spendere?» e «quanto è costato?» —
+# escono dai chiamanti e vivono QUI, in due funzioni che chiunque accenda il motore può chiamare, e
+# che un test può eseguire davvero.
+#   · `ai_freno_verdetto`  → 0 via libera · 1 frena · 2 cieco (non so quanto si è speso oggi)
+#   · `ai_registra_costo`  → una riga in costo-ai.json con corsia, durata e modello
+#
+# ⚠️ PERCHÉ NON C'È UNA `ai_run` CHE AVVOLGE L'ESECUZIONE, come chiedeva la scheda di AR-422.
+# Ci ho provato ed era un cartello mio: la corsia più grossa del worker — la chat in streaming —
+# NON passa da una funzione che esegue e restituisce, perché mentre il modello genera scrive i
+# parziali sul Pannello. Un involucro attorno all'esecuzione l'avrebbe saltata, cioè avrebbe lasciato
+# scoperta proprio quella che consuma di più: la stessa forma del difetto, con un nome nuovo.
+# Il punto per cui le corsie del worker passano TUTTE è un altro — prendere in carico un lavoro — e
+# il freno sta lì (cervello/worker.sh, subito dopo il claim). Queste due funzioni sono la testa che
+# decide; il worker è la porta. Le cadenze del ritmo e il monitoraggio, che hanno un timer proprio e
+# non passano dal worker, restano da agganciare: una riga `ai_freno_verdetto` prima del motore, ma i
+# loro file non sono di questa corsia e non li tocco senza dirlo.
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+
+# AR-423 — il tetto si salta SOLO con l'interruttore dichiarato per l'emergenza (BUDGET_FORCE), mai
+# con quello che serve a saltare la coda. La decisione non sta in una condizione di bash: sta in
+# `c4-cancelli.mjs`, che un test può eseguire davvero.
+AI_RC_FRENO=76   # «il tetto di spesa ha fermato il motore»: non è un guasto del lavoro, è una porta chiusa.
+
+# Verdetto del freno: 0 = via libera · 1 = frena · 2 = cieco (non so quanto è stato speso).
+# Se il freno non è installabile (niente node, niente file) NON blocchiamo: un tetto che non sa
+# misurare non può fermare la macchina — ma lo dice, e il «cieco» non si travestirà da verde.
+ai_freno_verdetto() {
+  local dir out rc
+  dir="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+  command -v node >/dev/null 2>&1 || { echo "cieco	node non disponibile: il tetto di spesa non è verificabile"; return 2; }
+  # ① si può saltare il tetto? (AR-423: solo BUDGET_FORCE, non DELTA_GATE_FORCE/GIRO_FORCE)
+  out="$(node "$dir/c4-cancelli.mjs" tetto-budget 2>/dev/null)"; rc=$?
+  if [ "$rc" = 10 ]; then
+    printf '%s\n' "$out" >&2
+    return 0
+  fi
+  # ② quanto abbiamo speso oggi
+  node "$dir/costo-ai.mjs" --json >/dev/null 2>&1 || true   # rinfresca token_per_gate nel file
+  out="$(node "$dir/freno-costi.mjs" 2>/dev/null)"; rc=$?
+  printf '%s\n' "$out"
+  return $rc
+}
+
+# Registra il consumo di UNA accensione del motore. Non fallisce mai: una registrazione persa non
+# deve poter far fallire il lavoro — ma il lavoro non registrato non deve poter esistere.
+ai_registra_costo() {
+  local corsia="$1" start="$2" prompt="$3" output="$4"
+  local dir tok
+  dir="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+  command -v node >/dev/null 2>&1 || return 0
+  tok="$(ai_stima_token "$start" "$prompt" "$output")"
+  node "$dir/costo-ai.mjs" --tipo="$corsia" \
+    --durata-sec="$(( $(date +%s) - start ))" --token="$tok" --stima \
+    --modello="$(ai_engine)" >/dev/null 2>&1 || true
+  return 0
+}
+
 # AR-043 / efficienza-costo: stima token da durata+testo quando la CLI non espone usage strutturato.
 # Resta STIMA (non misura): i gate che contano sul serio devono leggere --stima e non fidarsi ciecamente.
 ai_stima_token() {

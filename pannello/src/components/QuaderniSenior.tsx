@@ -9,6 +9,8 @@ import { usePanelSync } from "@/lib/panel-sync";
 import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
 import { dataVault } from "@/lib/format";
+import { cosaMostrare } from "@/lib/casella-ricarica";
+import { classeCampo, classeComando, classeComandoSommario, classeListaScorrevole } from "@/lib/tocco-bersaglio";
 
 type Esito = { data: string; testo: string };
 type Quaderno = {
@@ -58,16 +60,26 @@ export default function QuaderniSenior() {
   const [caricaDett, setCaricaDett] = useState(false);
   const [filtro, setFiltro] = useState("");
   const [aggAt, setAggAt] = useState<number | null>(null);
+  // AR-263 — il terzo stato che non esisteva: caricamento / dato / ERRORE. Senza, una lettura
+  // fallita restava `null` e `null` a video è «niente»: identico a «questo senior non ha scritto
+  // nulla». Sono due notizie opposte e Nicola non aveva modo di distinguerle.
+  const [errElenco, setErrElenco] = useState<string | null>(null);
+  const [errDettaglio, setErrDettaglio] = useState<string | null>(null);
 
   const carica = useCallback(async (silenzioso = false) => {
     if (!silenzioso) setLoading(true);
     try {
       const r = await fetch("/api/memoria/quaderni", { cache: "no-store" });
+      // `res.ok` va guardato: una 500 arriva col suo corpo e non fa scattare nessun catch.
+      if (!r.ok) throw new Error(`il server ha risposto ${r.status}`);
       const d = await r.json();
       setQuaderni(d.quaderni || []);
       setCollegato(Boolean(d.collegato));
       setRamo(d.ramo || null);
       setAggAt(Date.now());
+      setErrElenco(null);
+    } catch (e: any) {
+      setErrElenco(e?.message || "rete non disponibile");
     } finally {
       setLoading(false);
     }
@@ -89,10 +101,17 @@ export default function QuaderniSenior() {
     }
     setAperto(senior);
     setCaricaDett(true);
+    setErrDettaglio(null);
     try {
       const r = await fetch(`/api/memoria/quaderni?senior=${encodeURIComponent(senior)}`, { cache: "no-store" });
+      if (!r.ok) throw new Error(`il server ha risposto ${r.status}`);
       const d = await r.json();
       setDettaglio(d.quaderno || null);
+    } catch (e: any) {
+      // AR-263: prima qui non c'era nessun catch — la rotellina si spegneva, `dettaglio` restava
+      // `null` e il riquadro si apriva vuoto, senza che nessuno sapesse che era saltata la rete.
+      setDettaglio(null);
+      setErrDettaglio(e?.message || "rete non disponibile");
     } finally {
       setCaricaDett(false);
     }
@@ -108,6 +127,23 @@ export default function QuaderniSenior() {
         (x.ultimoEsito?.testo || "").toLowerCase().includes(q),
     );
   }, [quaderni, filtro]);
+
+  // La decisione «cosa si vede adesso» sta nel modulo condiviso, non qui: elenco e dettaglio la
+  // fanno con la stessa funzione, quindi non possono più divergere.
+  const vistaElenco = cosaMostrare({
+    caricando: loading && quaderni.length === 0,
+    letto: errElenco == null,
+    vuoto: visibili.length === 0,
+    motivo: errElenco,
+    testoVuoto: filtro.trim() ? "Nessun quaderno corrisponde alla ricerca." : "Nessun quaderno ancora.",
+  });
+  const vistaDettaglio = cosaMostrare({
+    caricando: caricaDett,
+    letto: errDettaglio == null,
+    vuoto: dettaglio == null,
+    motivo: errDettaglio,
+    testoVuoto: "Quaderno non trovato.",
+  });
 
   return (
     <section className="card p-4">
@@ -128,7 +164,7 @@ export default function QuaderniSenior() {
         <button
           onClick={() => carica()}
           disabled={loading}
-          className="inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50"
+          className={classeComando("inline-flex items-center gap-1.5 text-xs text-black/55 hover:text-black px-2.5 py-1.5 rounded-lg hover:bg-black/[0.04] transition disabled:opacity-50")}
         >
           {loading ? <Loader2 size={14} className="animate-spin" /> : <RefreshCw size={14} />}
           Aggiorna
@@ -142,13 +178,19 @@ export default function QuaderniSenior() {
           value={filtro}
           onChange={(e) => setFiltro(e.target.value)}
           placeholder="Cerca senior, reparto o lezione…"
-          className="w-full pl-9 pr-3 py-2 text-[13px] rounded-lg border border-black/[0.08] bg-paper/40 focus:outline-none focus:border-brand/40"
+          // AR-220 — 16px sul telefono: sotto, iOS Safari ingrandisce la pagina appena tocchi il campo.
+          className={classeCampo("w-full pl-9 pr-3 py-2 text-[13px] rounded-lg border border-black/[0.08] bg-paper/40 focus:outline-none focus:border-brand/40")}
         />
       </div>
 
-      {loading && quaderni.length === 0 ? (
+      {vistaElenco.stato === "carico" ? (
         <div className="text-center text-black/45 py-8 text-sm flex items-center justify-center gap-2">
           <Loader2 size={16} className="animate-spin" /> Carico i quaderni…
+        </div>
+      ) : vistaElenco.stato === "non-letto" ? (
+        <div className="text-center py-8 text-sm max-w-lg mx-auto">
+          <p className="text-[13px] font-medium text-amber-700">{vistaElenco.messaggio}</p>
+          <p className="t-eti mt-1">I quaderni possono esserci tutti: quello che manca è la lettura, non il dato.</p>
         </div>
       ) : !collegato && quaderni.length === 0 ? (
         <div className="text-center text-black/50 py-8 text-sm max-w-lg mx-auto">
@@ -160,7 +202,7 @@ export default function QuaderniSenior() {
           </p>
         </div>
       ) : visibili.length === 0 ? (
-        <p className="text-sm text-black/45 py-6 text-center">Nessun quaderno corrisponde alla ricerca.</p>
+        <p className="text-sm text-black/45 py-6 text-center">{vistaElenco.messaggio}</p>
       ) : (
         <div className="space-y-2">
           <p className="text-[11px] text-black/45 mb-1">
@@ -201,9 +243,21 @@ export default function QuaderniSenior() {
 
                 {esp && (
                   <div className="border-t border-black/[0.06] px-3.5 pb-3.5 pt-2 bg-paper/20">
-                    {caricaDett ? (
+                    {vistaDettaglio.stato === "carico" ? (
                       <div className="flex items-center gap-2 text-sm text-black/45 py-4 justify-center">
                         <Loader2 size={14} className="animate-spin" /> Apro il quaderno…
+                      </div>
+                    ) : vistaDettaglio.stato === "non-letto" ? (
+                      // AR-263 — qui prima si vedeva il riquadro vuoto: adesso si vede il motivo.
+                      <div className="py-3">
+                        <p className="text-[13px] font-medium text-amber-700">{vistaDettaglio.messaggio}</p>
+                        <button
+                          type="button"
+                          onClick={() => { setAperto(null); void apriQuaderno(q.senior); }}
+                          className="mt-1 inline-flex items-center gap-1 min-h-[44px] py-2 -my-1 text-[12px] font-medium text-brand hover:underline"
+                        >
+                          <RefreshCw size={13} /> Riprova
+                        </button>
                       </div>
                     ) : dettaglio ? (
                       <div className="space-y-3">
@@ -217,13 +271,14 @@ export default function QuaderniSenior() {
                         </div>
                         {dettaglio.testo && (
                           <details className="rounded-lg border border-black/[0.06] p-2.5">
-                            <summary className="text-[12px] font-medium cursor-pointer text-black/55">Markdown completo</summary>
-                            <div className="mt-2 max-h-64 overflow-y-auto pr-1">
+                            <summary className={classeComandoSommario("text-[12px] font-medium cursor-pointer text-black/55")}>Markdown completo</summary>
+                            <div className={classeListaScorrevole("mt-2 max-h-64 overflow-y-auto pr-1")}>
                               <Markdown>{dettaglio.testo}</Markdown>
                             </div>
                           </details>
                         )}
                         <ParlaCasella
+                          idCasella={`quaderno:${q.senior}`}
                           titolo={`Quaderno @${q.reparto}`}
                           contesto={dettaglio.esiti
                             .slice(0, 3)
@@ -232,7 +287,7 @@ export default function QuaderniSenior() {
                         />
                       </div>
                     ) : (
-                      <p className="text-sm text-black/45 py-2">Quaderno non trovato.</p>
+                      <p className="text-sm text-black/45 py-2">{vistaDettaglio.messaggio}</p>
                     )}
                   </div>
                 )}

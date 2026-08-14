@@ -6,6 +6,7 @@ import GovernoAD from "@/components/GovernoAD";
 import ParlaCasella from "@/components/ParlaCasella";
 import { Trash2 } from "lucide-react";
 import { EVENTO_VAI, EVENTO_SUB, vaiSub, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
+import { classeListaScorrevole } from "@/lib/tocco-bersaglio";
 
 type Tab = "governo" | "diario";
 
@@ -113,7 +114,7 @@ export default function Storico({ diario, memoria, onSvuotaDiario, fa }: Props) 
               Ancora niente. Qui resta salvato ogni messaggio della chat, ogni giro e ogni azione.
             </p>
           ) : (
-            <div className="scroll-soft space-y-2 max-h-[520px] overflow-y-auto pr-1">
+            <div className={classeListaScorrevole("scroll-soft space-y-2 max-h-[520px] overflow-y-auto pr-1")}>
               {diario.map((v) => (
                 <div key={v.id} className="border border-black/[0.07] dark:border-white/10 rounded-xl p-3.5 hover:border-black/10 dark:hover:border-white/15 hover:bg-paper/40 dark:hover:bg-white/[0.03] transition">
                   <div className="flex items-center gap-2 text-xs text-black/40 dark:text-white/40 mb-1.5">
@@ -124,7 +125,7 @@ export default function Storico({ diario, memoria, onSvuotaDiario, fa }: Props) 
                     <span className="ml-auto shrink-0">{fa(v.at)}</span>
                   </div>
                   <div className="text-sm text-ink/85 dark:text-white/85 whitespace-pre-wrap leading-relaxed">{v.testo}</div>
-                  <ParlaCasella titolo={`Diario: ${v.titolo}`} contesto={(v.testo || "").slice(0, 500)} />
+                  <ParlaCasella idCasella={`diario:${v.id}`} titolo={`Diario: ${v.titolo}`} contesto={(v.testo || "").slice(0, 500)} />
                 </div>
               ))}
             </div>

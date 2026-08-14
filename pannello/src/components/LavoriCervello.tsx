@@ -7,6 +7,7 @@ import remarkGfm from "remark-gfm";
 import { faRelativo } from "@/lib/format";
 import ChatCasella from "@/components/ChatCasella";
 import { emitSync } from "@/lib/panel-sync";
+import { classeListaScorrevole } from "@/lib/tocco-bersaglio";
 import {
   type LavoroBase,
   leggiMappaGruppiLocali,
@@ -388,7 +389,7 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
       {gruppi.length === 0 ? (
         <p className="text-sm text-black/40 dark:text-white/40">Nessun lavoro in questa vista.</p>
       ) : (
-        <div className="scroll-soft space-y-2 max-h-[620px] overflow-y-auto pr-1">
+        <div className={classeListaScorrevole("scroll-soft space-y-2 max-h-[620px] overflow-y-auto pr-1")}>
           {gruppi.map((g) => {
             const gruppoAperto = apertiGruppi[g.id] === true;
             const multi = g.lavori.length > 1;

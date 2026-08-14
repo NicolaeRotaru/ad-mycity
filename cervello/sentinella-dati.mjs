@@ -53,6 +53,16 @@ import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 // AR-363: una misura ha una scadenza · AR-337: e chi non l'ha potuta prendere non la cancella
 import { conservaSeCieco, misuraScaduta } from "./misura-o-cieco.mjs";
+// AR-215/286/578/592/595: quanto è vecchio un referto, e a che età smette di valere
+import {
+  STANTIO,
+  etaReferto,
+  giriConsecutivi,
+  oreDaTimbroDiReferto,
+  timbraReferto,
+  verdettoBattito,
+  verdettoSquadra,
+} from "./eta-referto.mjs";
 
 const LIVE = process.argv.includes("--live") || process.env.SENTINELLA_DATI_LIVE === "1";
 const JSON_MODE = process.argv.includes("--json");
@@ -98,6 +108,14 @@ const CASSA_RUNWAY_PATH = join(VAULT, "cassa-runway.json"); // AR-035: la sentin
 const FONTI_SALUTE_PATH = join(AD_ROOT, "cervello/fonti-salute.json"); // AR-036: consumatore fonti web
 const REGISTRO_FATTI_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/registro-fatti.json"); // AR-102: fonte unica
 const CASSA_SCONOSCIUTO_GIRI = Number(process.env.SENTINELLA_DATI_CASSA_SCONOSCIUTO_GIRI || 5);
+// AR-578 · AR-592 · AR-594/AR-195 — i referti di cui questi occhi guardano l'ETÀ, non il contenuto.
+const SALUTE_PATH = join(VAULT, "salute.json");
+const CADENZE_PATH = join(VAULT, "esito-cadenze.json");
+const CHIUSURA_LOOP_PATH = join(VAULT, "chiusura-loop.json");
+/** Il checkup gira mattina e sera: 26 ore sono un giro saltato, non un ritardo. */
+const CHECKUP_SCADUTO_ORE = Number(process.env.SENTINELLA_DATI_CHECKUP_ORE || 26);
+/** La cadenza più lenta del ritmo è settimanale, ma le quotidiane devono uscire ogni giorno: 30h. */
+const CADENZE_FINESTRA_ORE = Number(process.env.SENTINELLA_DATI_CADENZE_ORE || 30);
 
 // ---------- util ----------
 function readJson(path, fallback = {}) {
@@ -124,14 +142,19 @@ function negoziAttesaConcordataIds() {
   return new Set(ids.map((id) => id.toLowerCase()));
 }
 
-// ore trascorse da una data "AAAA-MM-DD HH:MM" (fuso Piacenza) o ISO.
+// Ore trascorse da una data "AAAA-MM-GG HH:MM" (fuso Piacenza) o ISO.
+//
+// L'offset era scritto a mano (`+02:00`): vero da fine marzo a fine ottobre, falso di un'ora tutto
+// l'inverno — la malattia censita `ora-legale-scolpita`. Chi l'ha scritto stava lavorando d'estate,
+// e d'estate non poteva accorgersene. Adesso il conto passa dall'orologio di casa
+// (`ora-piacenza.mjs`), che sa da solo quando scatta il cambio d'ora.
+//
+// `Infinity` quando la data non si legge: qui vuol dire «vecchissima», e ogni chiamante lo usa per
+// far scattare la guardia — mai per dire che va bene.
 function oreDa(dataStr) {
   if (!dataStr) return Infinity;
-  const m = String(dataStr).match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
-  if (!m) return Infinity;
-  const [, y, mo, d, h = "12", mi = "00"] = m;
-  const t = new Date(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`).getTime();
-  return Number.isNaN(t) ? Infinity : (Date.now() - t) / 3600000;
+  const ore = oreDaTimbroDiReferto(dataStr, Date.now());
+  return ore === null ? Infinity : ore;
 }
 
 function memHeaders() {
@@ -174,7 +197,10 @@ async function leggiImpostazione(chiave) {
 }
 
 // ---------- lettura stato reale (0 token) ----------
-async function leggiStatoReale(state) {
+// Esportata per la stessa ragione di `valutaRegole` (AR-445): una prova deve poter ESEGUIRE la
+// lettura vera dei referti su disco. Senza chiavi la parte marketplace resta a `null` — è cieca e lo
+// dice — mentre la parte macchina (età dei referti, cadenze, quaderni) si legge sempre, ovunque.
+export async function leggiStatoReale(state) {
   const s = {
     // business
     ordini_tot: null, ultimo_ordine: null, ordini_24h: null, ordini_prev7d: null,
@@ -309,6 +335,63 @@ async function leggiStatoReale(state) {
   s.fonti_allerta_critico = Array.isArray(fonti.allerta_peso_critico) && fonti.allerta_peso_critico.length
     ? fonti.allerta_peso_critico
     : null;
+
+  // ═══ L'ETÀ DEI REFERTI (AR-578 · AR-592 · AR-594 · AR-195) ═══
+  // Gli occhi guardano ogni minuto e finora non guardavano MAI l'orologio dei file che leggono.
+  // Da qui in giù non si legge cosa c'è scritto dentro un referto: si legge DA QUANTO c'è scritto.
+  const adessoMs = Date.now();
+
+  // AR-578 — il referto del checkup. È l'organo che dovrebbe accorgersi dei guasti: se si ferma lui,
+  // il primo a saperlo è Nicola a occhio. Misurato il 13/8: fermo da 45 ore mentre gli altri file
+  // della stessa cartella si aggiornavano ogni sera — quindi non è il canale di pubblicazione, è
+  // proprio il checkup che non gira. Il verdetto arriva dal modulo: fresco · stantio · non visto.
+  const checkup = etaReferto({
+    dato: readJson(SALUTE_PATH, null),
+    scadenzaOre: CHECKUP_SCADUTO_ORE,
+    adessoMs,
+    nome: "Il referto del checkup",
+  });
+  s.checkup_stato = checkup.stato;
+  s.checkup_ore = checkup.eta_ore;
+  s.checkup_perche = checkup.perche;
+  // Il PONTE verso il VPS: un referto che c'è ma non porta la sezione del server è un referto che
+  // da lassù non ha mai visto niente. Vuoto ≠ assente, e nessuno dei due è un verde.
+  const saluteDoc = readJson(SALUTE_PATH, {});
+  s.checkup_ponte_vps = Boolean(saluteDoc?.ultime?.vps && Object.keys(saluteDoc.ultime.vps).length);
+
+  // AR-592 — il battito delle cadenze. Non «la sveglia è carica» ma «qualcuno si è alzato».
+  const cadenze = readJson(CADENZE_PATH, {});
+  const battito = verdettoBattito(cadenze.cadenze, { adessoMs, finestraOre: CADENZE_FINESTRA_ORE });
+  s.battito_stato = battito.stato;
+  s.battito_perche = battito.perche;
+  s.battito_firma = battito.firma;
+  s.battito_ferme = (battito.ferme || []).map((r) => r.nome);
+  s.battito_fallite = (battito.fallite || []).map((r) => r.nome);
+  s.battito_ore = battito.ore_fermo ?? null;
+
+  // AR-194 e AR-595 — la squadra come numero. La sonda dei quaderni scrive da mesi che 72 senior su
+  // 120 non hanno mai consegnato niente: il dato era esposto e nessuna soglia lo guardava, perché la
+  // macchina sorveglia i suoi organi e i suoi numeri ma non la propria forza-lavoro.
+  const quaderni = readJson(CHIUSURA_LOOP_PATH, null);
+  s.quaderni_stato = etaReferto({ dato: quaderni, scadenzaOre: 48, adessoMs, nome: "I quaderni dei senior" }).stato;
+  // Il contatore dei giri consecutivi vive nello stato della sentinella e si calcola PRIMA del
+  // verdetto: una soglia che scatta al primo giro storto si impara a ignorare, tre di fila sono una
+  // tendenza. Si azzera da solo appena l'utilizzo rientra — così un recupero non resta «in castigo».
+  const primaLettura = verdettoSquadra({ totale: quaderni?.totale, vuoti: quaderni?.vuoti, fermi: quaderni?.fermi });
+  s.senior_giri_sotto = giriConsecutivi(state?.senior_giri_sotto, primaLettura.utilizzo !== null && primaLettura.utilizzo < 0.5);
+  const squadra = verdettoSquadra({
+    totale: quaderni?.totale,
+    vuoti: quaderni?.vuoti,
+    fermi: quaderni?.fermi,
+    sottoDaGiri: s.senior_giri_sotto,
+  });
+  s.senior_totale = squadra.totale;
+  s.senior_mai_usati = squadra.maiUsati;
+  s.senior_fermi = squadra.fermi;
+  s.senior_utilizzo = squadra.utilizzo;
+  s.senior_quota_fermi = squadra.quotaFermi;
+  s.senior_scatta = squadra.scattaUtilizzo;
+  s.senior_perche = squadra.perche;
 
   return s;
 }
@@ -466,6 +549,89 @@ export function valutaRegole(s, state) {
       titolo: "REST marketplace cieco ORA (credenziali presenti, letture fallite)",
       firma: giornoDa(new Date().toISOString()) + "H" + new Date().getHours(),
       prompt: `Sentinella macchina 🧠 — REST CIECO ORA: MARKETPLACE_SUPABASE_URL/KEY sono configurate ma le letture REST del marketplace falliscono in questo momento (dati_leggibili=false). Gli occhi sono ciechi sul business proprio ora. Controlla subito connettività/credenziali/rate-limit del Supabase marketplace. Finché è cieco NON scrivere numeri nuovi come fatti (usa baseline STATO + Gap).`,
+    });
+  }
+
+  // M9 — AR-578: IL REFERTO DEL CHECKUP È FERMO.
+  //
+  // Il manuale dice che il checkup gira da solo sul VPS mattina e sera e che «un referto vecchio è
+  // un rosso». Il 13/8 il referto pubblicato era fermo da 45 ore mentre `coerenza-fatti.json`, nella
+  // stessa cartella, era di poche ore prima: quindi non è il canale di pubblicazione a essere rotto,
+  // è proprio il checkup che non gira o non scrive. L'organo che dovrebbe accorgersi dei guasti era
+  // spento e nulla lo segnalava — cioè il modo di fallire che il checkup doveva eliminare.
+  //
+  // La firma è la FASCIA in giorni e non le ore (AR-114: coi minuti il dedup non scatterebbe mai).
+  if (s.checkup_stato === STANTIO || s.checkup_stato === "non_visto") {
+    const gg = s.checkup_ore != null ? Math.floor(s.checkup_ore / 24) : null;
+    eventi.push({
+      ambito: "macchina", chiave: "checkup_fermo", colore: "🔴", reparto: "devops-sre", cooldownOre: 12,
+      dedupPersistente: true,
+      titolo: s.checkup_ore != null
+        ? `Nessuno visita la macchina da ${Math.round(s.checkup_ore)} ore`
+        : "Il referto della visita non c'è o non si legge",
+      firma: `checkup-${gg ?? "assente"}`,
+      prompt: `Sentinella macchina 🧠 — CHECKUP FERMO: ${s.checkup_perche}. Il checkup dovrebbe girare da solo sul VPS mattina e sera e pubblicare il referto in auto-coscienza/salute.json${s.checkup_ponte_vps ? "" : ", e la sezione del VPS è vuota: da lassù non si sta visitando nessuno"}. Controlla mycity-salute (timer e servizio) sul VPS e rilancia \`node cervello/salute.mjs --vps\`. Finché è fermo, nessun verde di quel referto vale: è la fotografia di ieri.`,
+    });
+  }
+
+  // M10 — AR-592: IL BATTITO È FERMO, E QUESTA È UNA RICADUTA.
+  //
+  // Sei cadenze su sei uscite male, la più vecchia da tre giorni, e in coda azioni nessuna card
+  // nuova: Nicola non aveva modo di saperlo dal Pannello. Un guasto identico (31/7–4/8) era già
+  // stato chiuso il 4/8 con la frase «il server è tornato a pubblicare» — chiusura con una frase,
+  // nessun freno montato. Questa regola È il freno che mancava.
+  //
+  // E la firma porta dentro l'EPISODIO (da quando dura), non solo la gravità: senza, l'anti-spam di
+  // casa avrebbe zittito proprio la ricaduta, perché uno stesso guasto che torna produce la stessa
+  // firma di prima. La difesa contro l'alert-fatigue non deve diventare il modo in cui una ricaduta
+  // resta muta.
+  if (s.battito_stato === STANTIO) {
+    const fermi = [...(s.battito_ferme || []), ...(s.battito_fallite || [])];
+    eventi.push({
+      ambito: "macchina", chiave: "battito_fermo", colore: "🔴", reparto: "devops-sre", cooldownOre: 6,
+      dedupPersistente: true,
+      titolo: s.battito_ore
+        ? `Il ritmo della macchina è fermo da ${Math.round(s.battito_ore / 24)} giorni`
+        : "Le cadenze escono male: il ritmo della macchina si sta rompendo",
+      firma: String(s.battito_firma ?? "battito"),
+      prompt: `Sentinella macchina 🧠 — BATTITO FERMO: ${s.battito_perche}. Senza battito la macchina non propone mosse, non aggiorna i numeri e non riempie la coda da firmare: l'azienda digitale è spenta e il proprietario non riceve nessun segnale che lo sia. Cadenze coinvolte: ${fermi.join(", ") || "—"}. Controlla i timer del ritmo sul VPS (mycity-ritmo-*.timer, mycity-giro.timer) e i log del worker, poi porta a Nicola in AZIONI-IN-ATTESA una card che dica da quando è fermo e cosa l'ha fermato. ⚠️ È già successo dal 31/7 al 4/8 e fu chiuso con una frase: questa volta la chiusura vale solo con un freno che possa diventare rosso da solo.`,
+    });
+  }
+
+  // M11 — AR-194: TRE QUINTI DELL'ORGANIGRAMMA NON HA MAI CONSEGNATO NIENTE.
+  //
+  // Il dato esisteva (utilizzo reale 0,4) ed era solo ESPOSTO, mai collegato a una soglia: la
+  // macchina sorveglia i suoi organi e i suoi numeri, ma non la propria forza-lavoro. 73 mandati con
+  // un owner che non ha mai lavorato una volta danno l'illusione della copertura — la mappa dice che
+  // ogni mandato ha un responsabile, e per tre quinti nessuno sa se quel responsabile funziona.
+  //
+  // Non scatta al primo giro: tre giri consecutivi sotto il 50%. E resta 🟡 con la proposta a
+  // Nicola, perché l'organigramma non si tocca da soli.
+  if (s.senior_scatta) {
+    eventi.push({
+      ambito: "macchina", chiave: "senior_mai_usati", colore: "🟡", reparto: "people-talent", cooldownOre: 48,
+      dedupPersistente: true,
+      titolo: `${s.senior_mai_usati} senior su ${s.senior_totale} non hanno mai consegnato niente`,
+      firma: `utilizzo-${Math.round((s.senior_utilizzo ?? 0) * 20)}`, // fascia del 5%: il rumore non ri-sveglia
+      prompt: `Sentinella macchina 🧠 — SQUADRA FERMA: ${s.senior_perche}, e siamo sotto la soglia da ${s.senior_giri_sotto} giri di fila. Con prompt-engineer prepara UNA proposta 🟡 per Nicola che scelga fra due strade: (a) attivare i 5 mandati più vicini al primo ordine pagato, con un lavoro vero ciascuno entro la settimana; (b) mettere in letargo dichiarato quelli fuori fase, con la data di risveglio scritta. Non toccare l'organigramma da sola: la firma è di Nicola.`,
+    });
+  }
+
+  // M12 — AR-595: I QUADERNI DEI SENIOR SONO FERMI QUASI TUTTI.
+  //
+  // Diverso da M11 e va detto: M11 conta chi non ha MAI consegnato, questo conta chi non lascia una
+  // riga da più di una settimana — 105 su 120, con 72 mai scritti. La forcing-function
+  // dell'apprendimento («dopo ogni lavoro lascia una riga atteso→reale») è decorativa per l'87% del
+  // roster. Il segnale esisteva già: il suo consumatore era il giro, che era fermo. Qui il
+  // consumatore è la sentinella, che gira col suo timer anche quando il giro è morto.
+  if (s.senior_quota_fermi !== null && s.senior_quota_fermi > 0.5) {
+    const fascia = Math.round(s.senior_quota_fermi * 10) / 10;
+    eventi.push({
+      ambito: "macchina", chiave: "quaderni_fermi", colore: "🟡", reparto: "AD", cooldownOre: 48,
+      dedupPersistente: true,
+      titolo: `${s.senior_fermi} quaderni su ${s.senior_totale} senza una riga fresca`,
+      firma: `fermi-${fascia}${s.quaderni_stato === STANTIO ? "-sonda-vecchia" : ""}`,
+      prompt: `Sentinella macchina 🧠 — LOOP APERTO: ${s.senior_fermi} quaderni su ${s.senior_totale} non hanno una riga di esito da oltre una settimana e ${s.senior_mai_usati} non ne hanno mai avuta una. La calibrazione atteso→reale — il modo in cui i senior imparano dai propri errori — non ha materia prima. Due mosse concrete: ① dichiara dormienti i ruoli mai attivati invece di contarli malati ogni sera (\`node cervello/letargo.mjs\`), ② per i reparti che hanno davvero lavorato, chiudi il loro loop con \`node cervello/chiusura-loop.mjs registra …\`.${s.quaderni_stato === STANTIO ? " ⚠️ E la sonda che misura tutto questo è a sua volta vecchia: prima rilanciala, poi decidi." : ""}`,
     });
   }
 
@@ -717,6 +883,21 @@ async function main() {
   else if (!state.ultima_recensione_vista) state.ultima_recensione_vista = nowIso; // baseline primo giro
   state.tick = (state.tick || 0) + 1;
   state.aggiornato = quando;
+  // AR-286 — DA QUALE COMPUTER VIENE QUESTA MISURA. Il file lo leggono la visita, il Pannello e la
+  // prossima sessione: senza il timbro, una misura scritta da una sessione cloud (che il marketplace
+  // non lo vede affatto) e una scritta dal VPS sono indistinguibili anche a posteriori — non si può
+  // fare un post-mortem né dire da quando uno stato è falso. Nel timbro finiscono i NOMI delle chiavi
+  // presenti, mai i valori, e la SCADENZA sta accanto al dato: chi legge non deve più sapersela.
+  state.timbro = timbraReferto({
+    quando,
+    scadenzaOre: SENSORI_STANTII_MIN / 60,
+    scrittoDa: "cervello/sentinella-dati.mjs",
+    env: process.env,
+    chiavi: ["SUPABASE_URL", "SUPABASE_SERVICE_KEY", "MARKETPLACE_SUPABASE_URL", "MARKETPLACE_SUPABASE_KEY"],
+  });
+  // Il contatore dei giri sotto soglia sull'utilizzo dei senior (AR-194): vive qui perché una
+  // tendenza si misura solo se qualcuno si ricorda dei giri prima.
+  state.senior_giri_sotto = s.senior_giri_sotto ?? 0;
 
   // AR-337 — QUESTO FILE TIENE DUE GENERI DI STATO, E UNA GUARDIA SOLA NON PUÒ SERVIRLI ENTRAMBI.
   //

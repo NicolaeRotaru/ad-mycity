@@ -39,6 +39,16 @@ if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 # Motore AI condiviso (Claude 'claude' principale, Cursor 'agent' su richiesta). Vedi cervello/motore-ai.sh.
 . "$SCRIPT_DIR/motore-ai.sh"
 
+# 🔑 AR-278 / AR-428 — I SEGRETI ESCONO DAGLI ARGOMENTI DEI COMANDI.
+# Il token di GitHub viaggiava dentro l'indirizzo del repo e la chiave di servizio dentro le
+# intestazioni di curl: due argomenti, e su Linux gli argomenti di un processo li legge chiunque
+# giri sulla macchina. Da qui in avanti il token lo dà l'ambiente al programma askpass di git, e le
+# intestazioni arrivano a curl da un file di configurazione leggibile solo da noi.
+. "$SCRIPT_DIR/c4-segreti.sh"
+c4_git_prepara
+c4_curl_prepara || true   # senza chiave le chiamate autenticate non partono: lo dice chi le usa
+trap 'c4_curl_chiudi' EXIT
+
 # 🔌 Parity skill: specchio .cursor/skills → .claude/skills prima di lanciare la CLI (best-effort).
 node "$SCRIPT_DIR/sync-worker-plugins.mjs" --specchia >/dev/null 2>&1 || true
 
@@ -49,6 +59,30 @@ ts() { date '+%Y-%m-%d %H:%M'; }
 # secondo, quando prima aveva già fatto girare una cinquantina di processi node. Un numero che dice
 # «costo zero» su un lavoro che è costato davvero è peggio di nessun numero: ci si decide sopra.
 GIRO_START_TOT="$(date +%s)"
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+# 🎚️ AR-324 — LE SOGLIE CON CUI GIRA QUESTO GIRO SI SCRIVONO, ALTRIMENTI IL VERDE È AMBIGUO
+#
+# Le soglie dei cancelli si allentano o si spengono da `cervello/vps/.env`, e il registro del giro
+# non le scriveva da nessuna parte: a posteriori nessuno poteva ricostruire con quali soglie fosse
+# girato. Un verde diventa così ambiguo — può voler dire «ho verificato e va bene» oppure «mi hanno
+# alzato la soglia sopra il caso peggiore» — e un controllo che non si può ricostruire non è un
+# controllo, è una dichiarazione. Su un percorso che porta a pubblicare la memoria che Nicola legge,
+# è una lacuna di tracciabilità.
+# La riga esce SEMPRE nel log; quando una manopola che allenta un cancello non è quella di fabbrica,
+# il motore riceve anche un vincolo che gli chiede di dichiararla in coda come scelta 🟡 con motivo
+# e scadenza — così una soglia allentata scade invece di restare per sempre.
+SOGLIE_VINCOLO=""
+if command -v node >/dev/null 2>&1; then
+  _forza_disco=()
+  [ -f "$SCRIPT_DIR/vps/.giro-force" ] && _forza_disco+=("cervello/vps/.giro-force (giro forzato a mano)")
+  _soglie_out="$(node "$SCRIPT_DIR/c4-cancelli.mjs" soglie --vincolo "${_forza_disco[@]}" 2>/dev/null)"; _soglie_rc=$?
+  printf '[%s] %s\n' "$(ts)" "$(printf '%s' "$_soglie_out" | head -1)"
+  if [ "$_soglie_rc" = 7 ]; then
+    SOGLIE_VINCOLO="$_soglie_out"
+    echo "[$(ts)] ⚠️  AR-324: questo giro NON gira con le soglie di fabbrica → vincolo al motore (dichiarale in coda)." >&2
+  fi
+fi
 
 # ─────────────────────────────────────────────────────────────────────────────
 # AR-307 — mostra l'ESITO di un guardiano senza perdere la riga che conta.
@@ -114,7 +148,7 @@ LOCK="$REPO/.git/mycity-sync.lock"           # serializza le operazioni git tra 
 # AR-044: perimetro-memoria — solo queste cartelle entrano in git (il codice non si auto-modifica).
 MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
 if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
-  url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
+  url="$(c4_git_url)"   # AR-278: nessun token nell'indirizzo — lo dà l'ambiente ad askpass
   (
     flock -w 600 9 || exit 0   # Fix A: timeout sul lock — niente hang se un altro processo resta appeso
     # Fix B (PRESERVATA): se un giro precedente è morto lasciando scritture del vault NON committate,
@@ -130,7 +164,7 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
     _fetch_ok=0
     _fetch_err=""
     for _mf in 1 2 3; do
-      if _fetch_err="$(git fetch "$url" "$branch" 2>&1)"; then _fetch_ok=1; break; fi
+      if _fetch_err="$(git "${C4_GIT_OPZ[@]}" fetch "$url" "$branch" 2>&1)"; then _fetch_ok=1; break; fi
       sleep 2
     done
     if [ "$_fetch_ok" = 1 ]; then
@@ -190,6 +224,7 @@ TEST_VINCOLO=""       # 25/7: test del cervello rossi o ineseguibili (prima non 
 DEBITO_VINCOLO=""     # 25/7: previsioni fatte e mai confrontate col reale (voce 2)
 FATTI_VINCOLO=""      # AR-102: vincolo del gate coerenza-fatti (copie vecchie di un fatto in file vivi)
 CHECKLIST_VINCOLO=""  # AR-030: vincolo freschezza checklist Nicola (stantia se > 2 giorni)
+RISCHI_VINCOLO=""     # AR-431: vincolo freschezza mappa dei rischi (guardiano che nessuno eseguiva)
 CADENZE_VINCOLO=""    # AR-164: una cadenza (giro/ritmo/monitora) ha smesso di uscire
 CI_VINCOLO=""         # 4/8: una PR aperta non passa i controlli, e il rosso è suo (non ereditato da main)
 OKR_VINCOLO=""        # AR-115: vincolo freschezza OKR-Squadra (target scaduti o doc stantio)
@@ -529,6 +564,17 @@ $_ci_out"
     CHECKLIST_VINCOLO="$(printf '%s\n' "$_checklist_out" | head -1)"
     echo "[$(ts)] ⚠️  AR-030: checklist stantia → vincolo hard al motore." >&2
   fi
+  # AR-431: freschezza della MAPPA DEI RISCHI. Il guardiano esisteva e non lo eseguiva nessuno —
+  # cioè era esattamente la malattia che doveva sorvegliare. Cablarlo qui è la clausola del
+  # fix_proposto che era rimasta fuori: «come gli altri tre».
+  echo "[$(ts)] Freschezza della mappa dei rischi (AR-431)..."
+  _rischi_out="$(node "$SCRIPT_DIR/freschezza-rischi.mjs" 2>&1)"; _rischi_rc=$?
+  printf '%s\n' "$_rischi_out" | tail -3
+  if [ "$_rischi_rc" -ne 0 ]; then
+    RISCHI_VINCOLO="$(vincolo_da_rc "freschezza-rischi" "$_rischi_rc" "⛔ MAPPA DEI RISCHI STANTIA (freschezza-rischi.mjs rc=$_rischi_rc, AR-431): i rischi gravi dell'azienda non li riguarda nessuno da mesi, mentre la checklist ha il suo controllo di freschezza da luglio. Guarda chi è l'owner e da quanti giorni: node cervello/freschezza-rischi.mjs
+$_rischi_out")"
+    echo "[$(ts)] ⚠️  AR-431: mappa dei rischi stantia → vincolo hard al motore." >&2
+  fi
   # AR-164: freschezza delle CADENZE — non «la sveglia è carica?» (i timer, già guardati da
   # verifica-automazione) ma «qualcuno si è alzato?». Un timer attivo che lancia uno script che esce
   # subito è verde da entrambe le parti e non produce niente: se il Piano del mattino smette di
@@ -561,11 +607,25 @@ $_cad_out")"
   # PZ-010: sweep esperimenti — chiude a scadenza gli esperimenti aperti di auto-miglioramento.json
   # (AR-054: nessun esperimento resta aperto all'infinito; la misura non è delegata alla memoria dell'LLM).
   echo "[$(ts)] Sweep esperimenti in scadenza (AR-054/AR-041/AR-106 — gate hard)..."
-  _esp_out="$(node "$SCRIPT_DIR/esperimenti-check.mjs" 2>&1)"; _esp_rc=$?
+  # 🧪 AR-323 — IL TESTO DEL VINCOLO LO PRODUCE IL GUARDIANO, NON IL GIRO.
+  # Qui c'era una frase fissa scritta a mano: «NESSUN ESPERIMENTO APERTO … aprine uno». Ma il
+  # guardiano esce 1 per DUE motivi opposti — «non c'è nessun esperimento aperto» e «ce ne sono di
+  # scaduti che nessuno ha misurato» — e sa distinguerli, lo scrive nel suo output. Il giro lo
+  # buttava via e dava sempre lo stesso ordine: apri un esperimento nuovo. Anche quando il problema
+  # era esattamente l'opposto: misurare quelli vecchi. Così il volano accumulava esperimenti aperti
+  # e non ne chiudeva nessuno, restando formalmente in regola — e la calibrazione, che è il modo in
+  # cui l'azienda impara, restava ferma proprio mentre i controlli dicevano che girava.
+  # La condizione era cambiata dentro il .mjs, il testo viveva in un altro file: due case per una
+  # cosa sola. Adesso il giro RIPORTA quello che ha detto il guardiano, come fa già per la checklist
+  # e per gli OKR. (stderr fuori dal vincolo: AR-309 — una traccia d'errore nel prompt si travestirebbe
+  # da regola da rispettare.)
+  _esp_out="$(node "$SCRIPT_DIR/esperimenti-check.mjs" 2>/dev/null)"; _esp_rc=$?
   printf '%s\n' "$_esp_out" | tail -4
   if [ "$_esp_rc" -ne 0 ]; then
-    ESP_VINCOLO="⛔ NESSUN ESPERIMENTO APERTO (esperimenti-check.mjs rc=$_esp_rc, AR-041/AR-106): il volano non misura esiti senza ≥1 esperimento aperto. Apri subito: node cervello/esperimenti-check.mjs --apri --ambito=<divario più alto> --metrica=<KPI> --atteso=1 --giorni=7"
-    echo "[$(ts)] ⚠️  AR-041/106: esperimenti-check FALLITO (rc=$_esp_rc) → vincolo hard al motore." >&2
+    ESP_VINCOLO="⛔ VOLANO DEGLI ESPERIMENTI (esperimenti-check.mjs rc=$_esp_rc, AR-041/AR-106/AR-323) — quello che ha misurato il guardiano, parola per parola:
+$_esp_out
+Fai quello che ti dice QUI SOPRA: se dice che ce ne sono da MISURARE, misura quelli (scrivi delta e stato in auto-miglioramento.json) — non aprirne uno nuovo. Se dice che non ce n'è nessuno aperto, aprilo: node cervello/esperimenti-check.mjs --apri --ambito=<divario più alto> --metrica=<KPI> --atteso=1 --giorni=7"
+    echo "[$(ts)] ⚠️  AR-041/106: esperimenti-check FALLITO (rc=$_esp_rc) → vincolo hard al motore, col testo del guardiano." >&2
   fi
   # AR-102: GATE COERENZA-FATTI — fonte unica della verità + propagazione a cascata. Ogni fatto-chiave
   # vive in registro-fatti.json; quando cambia, il valore VECCHIO entra in "caccia" e questo gate
@@ -840,7 +900,24 @@ fi
 # restano attivi: sotto budget si taglia il VOLUME, non la sicurezza.
 # GATE-BUDGET non bypassa GIRO_FORCE: il delta-gate sì (throttle), la sicurezza-quota no.
 # BUDGET_FORCE=1 solo emergenza rarissima (Nicola): salta il tetto token.
-if [ "${RUN_AI:-1}" = 1 ] && [ "${DELTA_GATE_FORCE:-0}" != 1 ] && [ "${BUDGET_FORCE:-0}" != 1 ] && command -v node >/dev/null 2>&1; then
+#
+# 🔓 AR-423 — QUI IL COMMENTO E LA RIGA DICEVANO IL CONTRARIO, PER SETTIMANE.
+# La condizione era:
+#     [ "${RUN_AI:-1}" = 1 ] && [ "${DELTA_GATE_FORCE:-0}" != 1 ] && [ "${BUDGET_FORCE:-0}" != 1 ]
+# cioè chi lanciava un giro con `DELTA_GATE_FORCE=1` — documentato venti righe sopra come sinonimo di
+# GIRO_FORCE per i giri a mano e per quelli chiesti dal Pannello — saltava ANCHE il tetto sui token,
+# in silenzio: nessun ramo del `case` sotto poteva loggare «freno non eseguito», perché non ci si
+# arrivava proprio. Due interruttori documentati come sinonimi avevano effetti di sicurezza opposti.
+# Sono due cose diverse incollate nella stessa riga: «salta il risparmio» e «salta la sicurezza».
+# Adesso la decisione non è più una stringa di bash che nessun test esegue: la prende
+# `c4-cancelli.mjs tetto-budget` (esce 0 = consulta il freno, 10 = saltato con BUDGET_FORCE), e un
+# freno spento a mano lascia una riga esplicita nel log invece di sparire.
+_tetto_out="$(RUN_AI="${RUN_AI:-1}" node "$SCRIPT_DIR/c4-cancelli.mjs" tetto-budget 2>/dev/null)"; _tetto_rc=$?
+if [ "$_tetto_rc" = 10 ]; then
+  printf '%s\n' "$_tetto_out" >&2
+  echo "[$(ts)] ⚠️  GATE-BUDGET SALTATO A MANO (AR-423): il tetto sui token non frena questo giro." >&2
+fi
+if [ "$_tetto_rc" = 0 ] && command -v node >/dev/null 2>&1; then
   # AR-196 — tre buchi nello stesso punto, tutti e tre «assenza letta come rassicurazione»:
   #   ① si leggeva `.oggi.token_totali`, che è 0 per costruzione (ogni registrazione passa con --stima,
   #      AR-043): il freno confrontava 0 con 2.000.000 e non poteva scattare. Misurato il 27/7: 0 reali
@@ -976,6 +1053,15 @@ if [ -n "${CHECKLIST_VINCOLO:-}" ]; then
 
 ## Vincolo checklist Nicola (HARD — AR-030: stantia oltre 2 giorni)
 $CHECKLIST_VINCOLO"
+fi
+if [ -n "${RISCHI_VINCOLO:-}" ]; then
+  # AR-431: la mappa dei rischi è ferma da mesi — il motore deve riguardarla in questo giro, non
+  # lasciare che un rischio ALTA invecchi in silenzio. Il vincolo si CONSUMA qui: calcolarlo e non
+  # usarlo sarebbe la stessa malattia del lotto (un verdetto prodotto e buttato via).
+  PROMPT="$PROMPT
+
+## Vincolo mappa dei rischi (HARD — AR-431: stantia)
+$RISCHI_VINCOLO"
 fi
 if [ -n "${CADENZE_VINCOLO:-}" ]; then
   # AR-164: una cadenza ha smesso di uscire — il motore deve dirlo a Nicola, non lasciarlo su stderr.
@@ -1159,6 +1245,14 @@ if [ -n "${MAPPA_VINCOLO:-}" ]; then
 
 ## Vincolo mappa della macchina (HARD — 29/7: la bacheca spiega di cosa è fatta la macchina, e deve restare vera)
 $MAPPA_VINCOLO"
+fi
+if [ -n "${SOGLIE_VINCOLO:-}" ]; then
+  # AR-324: se una manopola che allenta un cancello non è quella di fabbrica, il motore lo deve
+  # SAPERE e Nicola lo deve LEGGERE. Un vincolo che resta nel log è un vincolo che non è arrivato.
+  PROMPT="$PROMPT
+
+## Vincolo soglie in vigore (AR-324: questo giro non gira con le soglie di fabbrica)
+$SOGLIE_VINCOLO"
 fi
 PROMPT="$PROMPT
 
@@ -1431,6 +1525,61 @@ else
   _gate_motivi="${_gate_motivi}node non disponibile: impossibile verificare coerenza/sanità (fail-closed); "
   echo "[$(ts)] ⛔ GATE MEMORIA (pre-push): node non disponibile — sync BLOCCATA (fail-closed)." >&2
 fi
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+# 🔁 RIVERIFICA VINCOLI — AR-321: un cancello che non si rimisura è un cartello
+#
+# Il giro alza fino a una quarantina di vincoli, li scrive nel prompt e non li guarda più. Uno solo
+# veniva rimisurato dopo il motore — la coerenza dei fatti, qui sopra (AR-104) — e infatti è l'unico
+# che blocca davvero la pubblicazione. Per tutti gli altri il motore poteva ignorarli e il giro
+# chiudeva lo stesso: un vincolo NON rispettato era indistinguibile, per Nicola e per il log, da un
+# vincolo rispettato. La macchina poteva dichiarare tredici volte «⛔ HARD» e chiudere in verde
+# tredici volte — che è il modo esatto in cui un cancello diventa rumore da ignorare.
+#
+# La causa non era la pigrizia: era la DEFINIZIONE. «Vincolo» voleva dire testo nel prompt, non
+# condizione da soddisfare. Un'istruzione non si verifica; una condizione sì.
+#
+# Adesso: ogni vincolo che era rosso PRIMA del motore viene rimisurato ADESSO, eseguendo di nuovo il
+# guardiano che l'aveva alzato. Chi rimisura cosa lo dice la tabella in cervello/c4-cancelli.mjs, e
+# il verdetto lo decide la stessa (funzione pura, quindi provabile con casi finti):
+#   · resta rosso e tocca ciò che il Pannello mostra  → NON si pubblica, come già fa AR-104;
+#   · resta rosso e riguarda il resto                 → il giro esce 3, non è pulito;
+#   · non è rimisurabile qui                          → si dichiara, e resta contato: ⚪ non è verde;
+#   · è tornato verde                                 → il motore ha obbedito, e il giro può essere pulito.
+# Questa è anche la metà mancante del conto: prima GATE_ROSSI restava quello di PRIMA del motore, e
+# un giro in cui l'AD aveva sistemato tutto veniva marcato «non pulito» lo stesso.
+if [ "${RUN_AI:-1}" = 1 ] && [ "${GATE_ROSSI:-0}" -gt 0 ] && command -v node >/dev/null 2>&1; then
+  echo "[$(ts)] 🔁 RIVERIFICA VINCOLI (AR-321): rimisuro i ${GATE_ROSSI} cancelli che erano rossi prima del motore..."
+  RIV_RIMASTI=(); RIV_RISOLTI=(); RIV_NONRIM=()
+  while IFS="$(printf '\t')" read -r _rnome _rclasse _rcomando; do
+    [ -z "${_rnome:-}" ] && continue
+    if [ "$_rclasse" = "non-rimisurabile" ]; then
+      RIV_NONRIM+=("$_rnome")
+      echo "[$(ts)]   ⚪ $_rnome — da qui non lo posso rimisurare: $_rcomando" >&2
+      continue
+    fi
+    # shellcheck disable=SC2086
+    if timeout 120 node "$SCRIPT_DIR"/$_rcomando >/dev/null 2>&1; then
+      RIV_RISOLTI+=("$_rnome")
+    else
+      RIV_RIMASTI+=("$_rnome")
+      echo "[$(ts)]   ⛔ $_rnome — il vincolo era stato consegnato al motore e il guardiano dice ANCORA no." >&2
+    fi
+  done < <(node "$SCRIPT_DIR/c4-cancelli.mjs" riverifica-elenco "${VINCOLI_ATTIVI[@]}" 2>/dev/null)
+  _riv_out="$(node "$SCRIPT_DIR/c4-cancelli.mjs" riverifica-esito \
+    --rimasti="${RIV_RIMASTI[*]:-}" --risolti="${RIV_RISOLTI[*]:-}" --non-rimisurabili="${RIV_NONRIM[*]:-}" 2>/dev/null)"
+  _riv_rc=$?
+  printf '%s\n' "$_riv_out"
+  # Il conto dei cancelli rossi diventa quello di ADESSO: quelli ancora rossi più quelli che non ho
+  # potuto rimisurare (prudenza — «non l'ho potuto vedere» non è mai un verde).
+  VINCOLI_ATTIVI=("${RIV_RIMASTI[@]}" "${RIV_NONRIM[@]}")
+  GATE_ROSSI="${#VINCOLI_ATTIVI[@]}"
+  if [ "$_riv_rc" = 2 ]; then
+    MEMORIA_INCOERENTE=1
+    _gate_motivi="${_gate_motivi}AR-321: vincoli consegnati al motore e NON soddisfatti su ciò che il Pannello mostra (${RIV_RIMASTI[*]}); "
+    echo "[$(ts)] ⛔ AR-321: il motore non ha soddisfatto un vincolo che tocca quello che Nicola legge — sync BLOCCATA." >&2
+  fi
+fi
+
 # Avviso a Nicola SUBITO (Telegram, stesso canale di notifica-approvazioni; senza chiavi = dry-run).
 if [ "$MEMORIA_INCOERENTE" = 1 ] && command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/avviso-telegram.mjs" \
@@ -1480,7 +1629,7 @@ elif flock -w 600 9; then
     else
     git "${GIT_ID[@]}" commit -q -m "giro AD: aggiorna memoria ($(ts))" || true
     if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
-      url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
+      url="$(c4_git_url)"   # AR-278: nessun token nell'indirizzo — lo dà l'ambiente ad askpass
       # AR-297/AR-299 — un solo loop di pubblicazione per tutti (gate-pubblicazione.sh): controlla il
       # ramo un'ultima volta prima del push e mette il timeout di rete su fetch e push, che qui non
       # c'era. Prima erano tre copie identiche della stessa sequenza, e il timeout ce l'aveva solo il
@@ -1503,7 +1652,7 @@ elif flock -w 600 9; then
             _chiave="${_pair%%|*}"
             _valore="${_pair#*|}"
             curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" \
-              -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
+              "${C4_CURL_AUTH[@]}" \
               -H "Content-Type: application/json" -H "Prefer: resolution=merge-duplicates,return=minimal" \
               -d "{\"chiave\":\"$_chiave\",\"valore\":\"$_valore\",\"updated_at\":\"$_now_iso\"}" \
               >/dev/null 2>&1 || true

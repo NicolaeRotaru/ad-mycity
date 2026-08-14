@@ -27,6 +27,7 @@ import Bacheca from "@/components/Bacheca";
 import HomeSezione from "@/components/HomeSezione";
 import ListaProspectHome from "@/components/ListaProspectHome";
 import Volano from "@/components/Volano";
+import { classeComando, classeComandoSommario } from "@/lib/tocco-bersaglio";
 
 // "Cosa conta ora": la home del pannello. A colpo d'occhio, senza aprire nulla:
 // cosa devi firmare, quali allarmi sono scattati, cosa devi fare, i KPI chiave,
@@ -99,6 +100,7 @@ function RitmoVocePieghevole({ emoji, label, voce, parlaTitolo }: { emoji: strin
         <RitmoTesto testo={voce.testo} />
         {aperto && (
           <ParlaCasella
+            idCasella={`ritmo:${parlaTitolo}`}
             titolo={parlaTitolo}
             contesto={[voce.data && `Data: ${voce.data}`, voce.testo].filter(Boolean).join("\n")}
           />
@@ -421,7 +423,7 @@ export default function Plancia({
         }
       >
         <div className="flex items-center justify-end mb-2">
-          <button onClick={() => vaiArea("memoria", undefined, "archivio")} className="t-eti hover:text-brand transition text-[12px]">tutti i documenti →</button>
+          <button onClick={() => vaiArea("memoria", undefined, "archivio")} className={classeComando("t-eti hover:text-brand transition text-[12px]")}>tutti i documenti →</button>
         </div>
         {documenti.length === 0 ? (
           <p className={`t-eti ${v("consegne").misurato ? "" : "text-amber-600"}`}>

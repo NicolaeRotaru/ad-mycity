@@ -22,6 +22,11 @@
 // la sentinella gira sotto un altro fuso.
 process.env.TZ = process.env.TZ || "Europe/Rome";
 
+// AR-294 — la lettura del canale dichiarato sta in `finestra-misura.mjs` (modulo puro): «da quale
+// fetta di testo mi è concesso ricavare questo segnale» è la stessa domanda che lì si fa sul tempo
+// e sul perimetro.
+import { segnaleDichiarato } from "./finestra-misura.mjs";
+
 // Quante volte insistere PRIMA di fermarsi e chiedere a Nicola.
 export const MAX_TENTATIVI_QUOTA = 6; // la quota si resetta da sola: vale la pena insistere.
 export const MAX_TENTATIVI_ALTRO = 3; // timeout/transitori: qualche colpo, poi fermati.
@@ -77,11 +82,46 @@ export const TIPI_PRE_ESECUZIONE = new Set([
 // ritenta SOLO se è provato che non è partito (errore di quota). Tutto il resto → manuale.
 const TIPI_AZIONE_REALE = new Set(["esegui-azione"]);
 
-// Riconosce la CLASSE dell'errore dal testo lasciato dal worker.
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-294 — UN ERRORE SI CLASSIFICA DAL SEGNALE, NON DALLA PROSA
+// ─────────────────────────────────────────────────────────────────────────────
+// Il worker salva in UN campo solo tutto l'output del processo: la relazione italiana dell'AD e il
+// messaggio d'errore del motore finiscono nello stesso posto. La classificazione cercava la PAROLA
+// `quota` dentro quel testo — così una relazione che parlava di «quota di mercato» convinceva la
+// macchina di aver sbattuto contro il limite del motore, e partivano sei ritentativi con attese di
+// ore. Finché il canale della diagnosi è lo stesso del contenuto, ogni parola scritta dall'AD può
+// cambiare il comportamento della macchina: è la stessa famiglia di rischio di un'istruzione
+// nascosta in un testo.
+//
+// Due mosse, nell'ordine:
+//   ① si legge PRIMA il canale dichiarato — una riga `[classe] quota` che lo script emette apposta.
+//      Un segnale che la macchina produce per sé non può essere imitato per sbaglio da una frase.
+//   ② se quella riga non c'è si ripiega sulla prosa, ma con un vocabolario STRETTO: sono sparite la
+//      parola `quota` nuda e ogni forma che possa comparire in un discorso di business. Restano le
+//      forme inequivocabili del motore e le due frasi che la macchina stessa scrive in italiano
+//      («limite di quota», «quota esaurita»), che nessuna relazione di mercato produce.
+/** Le classi che il canale dichiarato può nominare. Un valore fuori elenco non è una dichiarazione. */
+export const CLASSI_ERRORE = new Set(["auth", "quota", "quota_settimanale", "timeout", "altro"]);
+
 export function classificaErrore(risultato = "") {
   const t = String(risultato);
+
+  // ① Il canale dichiarato dallo script: `[classe] quota` (l'ultima riga marcata vince).
+  const dichiarata = segnaleDichiarato(t, "classe");
+  const classeDichiarata = dichiarata.dichiarato ? dichiarata.valore.trim().toLowerCase() : null;
+  if (classeDichiarata && CLASSI_ERRORE.has(classeDichiarata)) {
+    const mD = t.match(/resets?\s+([0-9]{1,2}(?::[0-9]{2})?\s*(?:am|pm)?)/i);
+    return {
+      classe: classeDichiarata,
+      resetHint: mD ? mD[1].trim() : null,
+      resetData: classeDichiarata === "quota" || classeDichiarata === "quota_settimanale" ? dataDaTesto(t) : null,
+      fonte_classe: "dichiarata", // AR-294: da una riga emessa apposta, non da una frase
+    };
+  }
+
+  // ② Ripiego sulla prosa, con il vocabolario stretto.
   const quota =
-    /session limit|hit your (usage|session) limit|out of usage|you'?re out of usage|rate[ _-]?limit|too many requests|\b429\b|overloaded|actionrequirederror|increase (your )?limits?|insufficient_quota|quota|credit balance|billing/i.test(
+    /session limit|hit your (usage|session) limit|out of usage|you'?re out of usage|rate[ _-]?limit|too many requests|\b429\b|overloaded|actionrequirederror|increase (your )?limits?|insufficient_quota|quota exceeded|exceeded your quota|limite di quota|limite quota|quota esaurita|credit balance|billing/i.test(
       t
     );
   // 🪪 AUTH (fix parity 2026-07-16): credenziali del motore scadute/mancanti — Claude («Invalid API
@@ -103,6 +143,7 @@ export function classificaErrore(risultato = "") {
     classe: auth ? "auth" : settimanale ? "quota_settimanale" : quota ? "quota" : timeout ? "timeout" : "altro",
     resetHint: m ? m[1].trim() : null,
     resetData: quota || settimanale ? dataDaTesto(t) : null,
+    fonte_classe: "prosa", // AR-294: letta dal testo — è il ripiego, non il canale
   };
 }
 

@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getImpostazione, memoryConnected } from "@/lib/store";
 import { getBudget, setTetto } from "@/lib/ai-budget";
+import { chiusuraAtto } from "@/lib/cancello-atto";
 import { aiConfigurato } from "@/lib/ai";
 import { demoAttivo, cuoreDemo } from "@/lib/demo";
 import { macchinaViva, oreDaQuando, raccogliSegnaliBattito } from "@/lib/battito";
@@ -66,6 +67,16 @@ export async function POST(req: Request) {
     body = {};
   }
   const n = Number(body?.tetto);
-  if (!Number.isNaN(n) && n >= 0) await setTetto(n);
+  // AR-383, stessa malattia della corsia: `await setTetto(n)` senza guardare l'esito rispondeva
+  // ok:true anche quando il tetto non era stato salvato — e al refresh tornava quello di prima.
+  if (!Number.isNaN(n) && n >= 0) {
+    const c = chiusuraAtto({ scritture: [{ nome: "tetto di spesa", ok: await setTetto(n) }], attoEseguito: false });
+    if (!c.ok) {
+      return NextResponse.json(
+        { ok: false, error: c.messaggio, budget: await getBudget().catch(() => null) },
+        { status: c.status },
+      );
+    }
+  }
   return NextResponse.json({ ok: true, budget: await getBudget().catch(() => null) });
 }

@@ -28,6 +28,7 @@ import CasellaAnteprima, { anteprimaTesto } from "@/components/CasellaAnteprima"
 import { TestoUmano } from "@/components/TestoUmano";
 import { humanizzaErrore, traduciTestoCompleto } from "@/lib/radiografia-umana";
 import { listaSicura } from "@/lib/memoria-json";
+import { classeCampo, classeComando, classeComandoSommario } from "@/lib/tocco-bersaglio";
 import {
   autonomiaLeggibile,
   contestoBenchmark,
@@ -114,7 +115,7 @@ function RispostaBox({
             rows={2}
             autoFocus
             placeholder="Scrivi la tua risposta… arriva al cervello e chiude la domanda."
-            className="input-soft w-full text-[12.5px] resize-y"
+            className={classeCampo("input-soft w-full text-[12.5px] resize-y")}
           />
           <div className="flex items-center gap-2 flex-wrap">
             <button
@@ -124,7 +125,7 @@ function RispostaBox({
             >
               {inviando ? <Loader2 size={13} className="animate-spin" /> : <Send size={13} />} Invia al cervello
             </button>
-            <button onClick={() => { setAperto(false); setBozza(""); setErr(""); }} className="t-eti hover:text-brand">annulla</button>
+            <button onClick={() => { setAperto(false); setBozza(""); setErr(""); }} className={classeComando("t-eti hover:text-brand")}>annulla</button>
             {err && <span className="t-eti text-red-600">{err}</span>}
           </div>
         </div>
@@ -552,7 +553,7 @@ export default function AutoCoscienza({
                             <TestoUmano testo={e.note} className="text-[12px] text-black/60 mt-0.5" />
                           </div>
                         )}
-                        <ParlaCasella titolo={`Scelta ragionata: ${e.nome}`} contesto={[e.fonte_ragionamento && `Perché: ${e.fonte_ragionamento}`, ...(e.evidenze || []), e.note].filter(Boolean).join(" · ")} />
+                        <ParlaCasella idCasella={`entita:${e.nome}`} titolo={`Scelta ragionata: ${e.nome}`} contesto={[e.fonte_ragionamento && `Perché: ${e.fonte_ragionamento}`, ...(e.evidenze || []), e.note].filter(Boolean).join(" · ")} />
                       </CasellaAnteprima>
                     ))}
                   </div>
@@ -593,7 +594,7 @@ export default function AutoCoscienza({
                               <ArrowRight size={12} /> Vai all'azione collegata
                             </button>
                           )}
-                          <ParlaCasella titolo={`Entità: ${e.nome}`} contesto={[e.note, e.domanda_per_nicola].filter(Boolean).join(" · ")} />
+                          <ParlaCasella idCasella={`entita:${idE}`} titolo={`Entità: ${e.nome}`} contesto={[e.note, e.domanda_per_nicola].filter(Boolean).join(" · ")} />
                         </div>
                       );
                     })}
@@ -695,13 +696,13 @@ export default function AutoCoscienza({
                           )}
                           {umano.tecnici && (
                             <details className="mt-2 group">
-                              <summary className="text-[11px] font-medium text-black/45 cursor-pointer select-none hover:text-brand list-none flex items-center gap-1">
+                              <summary className={classeComandoSommario("text-[11px] font-medium text-black/45 cursor-pointer select-none hover:text-brand list-none flex items-center gap-1")}>
                                 <span className="group-open:rotate-90 transition-transform inline-block">▸</span> Dettagli tecnici
                               </summary>
                               <div className="text-[11px] text-black/50 mt-1.5 whitespace-pre-wrap break-words font-mono leading-relaxed">{umano.tecnici}</div>
                             </details>
                           )}
-                          <ParlaCasella titolo={`Errore: ${umano.titolo}`} contesto={[umano.cosaSuccede, err.riguarda && `Riguarda: ${err.riguarda}`].filter(Boolean).join(" · ")} />
+                          <ParlaCasella idCasella={`errore:${err.riguarda || umano.titolo}`} titolo={`Errore: ${umano.titolo}`} contesto={[umano.cosaSuccede, err.riguarda && `Riguarda: ${err.riguarda}`].filter(Boolean).join(" · ")} />
                         </div>
                       );
                     })}
@@ -747,7 +748,7 @@ export default function AutoCoscienza({
                               <ArrowRight size={12} /> Vai alle Azioni da firmare
                             </button>
                           )}
-                          <ParlaCasella titolo={`Domanda: ${testo.slice(0, 60)}`} contesto={[testo, perche && `Perché serve: ${perche}`].filter(Boolean).join(" · ")} />
+                          <ParlaCasella idCasella={`domanda:${id}`} titolo={`Domanda: ${testo.slice(0, 60)}`} contesto={[testo, perche && `Perché serve: ${perche}`].filter(Boolean).join(" · ")} />
                         </div>
                       );
                     })}
@@ -814,7 +815,7 @@ export default function AutoCoscienza({
                           {l.evidenze != null && <span className="t-eti">· {l.evidenze} conferme</span>}
                           <span className="ml-auto flex items-center gap-1.5">{barra(l.confidenza)}<span className="t-eti tabular-nums">{Math.round((l.confidenza ?? 0) * 100)}%</span></span>
                         </div>
-                        <ParlaCasella titolo={`Lezione: ${(l.testo || "").slice(0, 50)}`} contesto={l.testo} />
+                        <ParlaCasella idCasella={`lezione:${l.id || l.testo}`} titolo={`Lezione: ${(l.testo || "").slice(0, 50)}`} contesto={l.testo} />
                       </div>
                     ))}
                   </div>
@@ -920,7 +921,7 @@ export default function AutoCoscienza({
                             ))}
                           </div>
                         )}
-                        <ParlaCasella titolo={`Confronto: ${titolo}`} contesto={contesto} />
+                        <ParlaCasella idCasella={`confronto:${titolo}`} titolo={`Confronto: ${titolo}`} contesto={contesto} />
                       </CasellaAnteprima>
                     );})}
                   </div>
@@ -951,7 +952,7 @@ export default function AutoCoscienza({
                             <TestoUmano testo={e.esito} className="text-[12px] text-black/60 mt-0.5" />
                           </div>
                         )}
-                        <ParlaCasella titolo={`Esperimento: ${(e.ipotesi || "").slice(0, 50)}`} contesto={[e.ipotesi, e.esito].filter(Boolean).join(" · ")} />
+                        <ParlaCasella idCasella={`esperimento:${e.id || e.ipotesi}`} titolo={`Esperimento: ${(e.ipotesi || "").slice(0, 50)}`} contesto={[e.ipotesi, e.esito].filter(Boolean).join(" · ")} />
                       </CasellaAnteprima>
                     ))}
                   </div>
@@ -1018,7 +1019,7 @@ export default function AutoCoscienza({
                               <TestoUmano testo={p.dopo} className="text-[11.5px] text-black/55 mt-0.5" />
                             </div>
                           )}
-                          <ParlaCasella titolo={`Revisione: ${p.lavoro}`} contesto={[p.lavoro, p.raccomandazione || p.guadagno].filter(Boolean).join(" · ")} />
+                          <ParlaCasella idCasella={`revisione:${p.lavoro}`} titolo={`Revisione: ${p.lavoro}`} contesto={[p.lavoro, p.raccomandazione || p.guadagno].filter(Boolean).join(" · ")} />
                         </CasellaAnteprima>
                       );
                     })}
@@ -1051,7 +1052,7 @@ export default function AutoCoscienza({
                             <TestoUmano testo={p.dove} className="text-[12px] text-black/55 mt-0.5" />
                           </div>
                         )}
-                        <ParlaCasella titolo={`Proposta: ${(p.cosa || "").slice(0, 50)}`} contesto={[p.cosa, p.perche, p.dove].filter(Boolean).join(" · ")} />
+                        <ParlaCasella idCasella={`proposta:${p.cosa}`} titolo={`Proposta: ${(p.cosa || "").slice(0, 50)}`} contesto={[p.cosa, p.perche, p.dove].filter(Boolean).join(" · ")} />
                       </CasellaAnteprima>
                     ))}
                   </div>

@@ -36,19 +36,29 @@ function stHeaders(extra: Record<string, string> = {}) {
   };
 }
 
-// Crea il bucket privato se non esiste (idempotente: se c'è già, l'errore si ignora).
-// Così la funzione parte da sola senza passaggi manuali sul database.
-async function assicuraBucket(): Promise<void> {
-  await fetch(`${URL_BASE}/storage/v1/bucket`, {
-    method: "POST",
-    headers: stHeaders({ "Content-Type": "application/json" }),
-    body: JSON.stringify({
-      id: BUCKET,
-      name: BUCKET,
-      public: false,
-      file_size_limit: MAX_BYTES,
-    }),
-  }).catch(() => {});
+// Crea il bucket privato se non esiste. Così la funzione parte da sola senza passaggi manuali sul
+// database.
+//
+// L'esito NON si butta più via: se il bucket non c'è e non si riesce a crearlo, il caricamento che
+// segue fallirà comunque, ma con un errore che parla di un'altra cosa. Torna `true` anche quando il
+// bucket esisteva già (409): «c'era già» è un successo, non un errore — la distinzione che il
+// `catch` vuoto cancellava insieme a tutte le altre.
+async function assicuraBucket(): Promise<boolean> {
+  try {
+    const res = await fetch(`${URL_BASE}/storage/v1/bucket`, {
+      method: "POST",
+      headers: stHeaders({ "Content-Type": "application/json" }),
+      body: JSON.stringify({
+        id: BUCKET,
+        name: BUCKET,
+        public: false,
+        file_size_limit: MAX_BYTES,
+      }),
+    });
+    return res.ok || res.status === 409;
+  } catch {
+    return false;
+  }
 }
 
 // Nome file pulito e sicuro (niente path traversal, niente caratteri strani nel percorso storage).
@@ -96,7 +106,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: "Massimo 6 allegati per messaggio." }, { status: 400 });
     }
 
-    await assicuraBucket();
+    // Se il magazzino non c'è e non si riesce a crearlo, si dice QUI: altrimenti l'errore arriva
+    // dopo, dal caricamento del primo file, e parla di tutt'altro.
+    if (!(await assicuraBucket())) {
+      return NextResponse.json(
+        { ok: false, error: "Non riesco a preparare l'archivio degli allegati su Supabase: il file non è stato caricato." },
+        { status: 503 },
+      );
+    }
 
     const stamp = Date.now();
     const caricati: Array<{ nome: string; tipo: string; percorso: string; dimensione: number }> = [];

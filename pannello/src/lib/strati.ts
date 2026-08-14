@@ -128,6 +128,49 @@ export function voceDiNavigazione(statoCorrente: unknown, campi: Record<string, 
   return { ...st, ...(campi || {}) };
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-402 — IL CENSIMENTO: «chiuso» non può voler dire «scritto»
+// ─────────────────────────────────────────────────────────────────────────────
+//
+// AR-243 risultava chiuso con `strati.test.mjs` verde, e nel frattempo due riquadri a schermo intero
+// — la fotocamera dentro la chat e la lettera dell'AD — restavano governati da un booleano solo,
+// fuori da questa pila: col dito indietro cambiavano l'AREA sotto invece di chiudersi. La prova
+// cercava l'ESISTENZA della libreria, non l'INSTALLAZIONE del comportamento, e su un pattern
+// condiviso quelle due cose non coincidono mai da sole.
+//
+// La regola che ne esce, valida per ogni pattern condiviso: quando un difetto nomina N punti da
+// convertire, la prova di chiusura deve contare N — non 1. Questa funzione conta.
+
+/** Sopra questo livello un riquadro copre la Cabina: è uno strato, e deve stare nella pila. */
+export const Z_DI_STRATO = 40;
+
+/**
+ * I riquadri a schermo intero che NON sono registrati nella pila degli strati.
+ *
+ * Cerca ogni `fixed inset-0` con uno `z-` alto e guarda se nel suo file compare `useStrato`. Il
+ * controllo è per file e non per riga perché un file può governare più strati con un hook per
+ * ciascuno (è il caso dell'Archivio): quello che non deve MAI succedere è un riquadro a schermo
+ * intero in un file che la pila non la conosce affatto.
+ */
+export function stratiFuoriContratto(files: { percorso: string; sorgente: string }[]): string[] {
+  const fuori: string[] = [];
+  for (const f of files || []) {
+    const src = String(f?.sorgente || "");
+    if (/useStrato\s*\(/.test(src)) continue;
+    const righe = src.split("\n");
+    const scoperto = righe.some((r) => {
+      if (!/fixed\s+inset-0/.test(r)) return false;
+      // Niente `\b` in coda: dopo `z-[100]` c'è una parentesi quadra, che un confine di parola non
+      // vede — ed è così che un riquadro `z-[100]` sfuggiva proprio al censimento scritto per lui.
+      const z = r.match(/\bz-(?:\[(\d+)\]|(\d+))(?!\d)/);
+      if (!z) return false;
+      return Number(z[1] ?? z[2]) >= Z_DI_STRATO;
+    });
+    if (scoperto) fuori.push(f.percorso);
+  }
+  return fuori;
+}
+
 /**
  * La voce di cronologia da timbrare quando uno strato si apre.
  *

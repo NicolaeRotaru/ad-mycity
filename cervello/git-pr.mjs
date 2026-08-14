@@ -18,6 +18,7 @@ import {
   AD_ROOT,
   findOpenPrForBranch,
   gitAuthUrl,
+  gitEsegui,
   githubRequest,
   nowPiacenza,
   resolveRepoConfig,
@@ -132,14 +133,12 @@ function parseArgs(argv) {
   return o;
 }
 
-function git(args, cwd, env = {}) {
-  return execFileSync("git", args, {
-    cwd,
-    encoding: "utf8",
-    stdio: ["ignore", "pipe", "pipe"],
-    env: { ...process.env, ...env },
-  }).trim();
-}
+// AR-327, seconda porta. Qui c'era una copia dell'esecuzione di git, senza il tetto di `maxBuffer`:
+// un rebase o un diff sopra il megabyte faceva morire con ENOBUFS proprio lo strumento che pubblica
+// il lavoro, e proprio quando il lavoro è grosso. Non è stato allineato il tetto — è stata tolta la
+// copia: adesso esiste UN solo posto in cui il cervello esegue git, e una porta nuova non può
+// nascere senza il tetto perché non c'è più niente da ricopiare.
+const git = gitEsegui;
 
 function gitOrNull(args, cwd) {
   try {

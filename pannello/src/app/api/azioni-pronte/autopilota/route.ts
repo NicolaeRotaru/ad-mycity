@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { setImpostazione } from "@/lib/store";
 import { eseguiAutopilota } from "@/lib/autopilota";
+import { chiusuraAtto } from "@/lib/cancello-atto";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -19,10 +20,24 @@ export async function POST(req: Request) {
   }
 
   // Se il body indica "attiva", aggiorna l'interruttore.
+  // L'esito si guarda: un interruttore che dice «acceso» e non si è scritto torna indietro da solo
+  // al primo ricarico, e questo è l'interruttore che decide se la macchina agisce da sola.
   if (typeof body?.attiva === "boolean") {
-    await setImpostazione("autopilota", body.attiva ? "on" : "off");
+    const c = chiusuraAtto({
+      scritture: [{ nome: "interruttore autopilota", ok: await setImpostazione("autopilota", body.attiva ? "on" : "off") }],
+      attoEseguito: false,
+    });
+    if (!c.ok) return NextResponse.json({ ok: false, error: c.messaggio }, { status: c.status });
   }
 
   const r = await eseguiAutopilota();
-  return NextResponse.json({ ok: true, attivo: r.attivo, eseguite: r.eseguite, in_pausa: r.in_pausa === true });
+  return NextResponse.json({
+    ok: true,
+    attivo: r.attivo,
+    eseguite: r.eseguite,
+    in_pausa: r.in_pausa === true,
+    ...(r.gia_in_corso ? { gia_in_corso: true } : {}),
+    ...(r.cieco ? { cieco: true } : {}),
+    ...(r.fermato ? { fermato: r.fermato } : {}),
+  });
 }

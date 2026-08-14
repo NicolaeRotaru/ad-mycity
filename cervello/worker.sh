@@ -42,6 +42,16 @@ if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 # Motore AI condiviso (Cursor 'agent' di default, oppure Claude 'claude'). Vedi cervello/motore-ai.sh.
 . "$SCRIPT_DIR/motore-ai.sh"
 
+# 🔑 AR-278 / AR-428 — I SEGRETI ESCONO DAGLI ARGOMENTI DEI COMANDI.
+# Sei intestazioni curl con la chiave di servizio e tre indirizzi git col token di GitHub vivevano
+# dentro la riga di comando, dove qualsiasi processo della macchina li poteva leggere con `ps`. Qui
+# si prepara il canale giusto: il token va a git dall'ambiente (programma askpass), le intestazioni
+# vanno a curl da un file di configurazione leggibile solo da noi. Vedi cervello/c4-segreti.sh.
+. "$SCRIPT_DIR/c4-segreti.sh"
+c4_git_prepara
+c4_curl_prepara || echo "[$(date '+%H:%M:%S')] ⚠️  Chiave della memoria assente: le chiamate autenticate non partiranno." >&2
+trap 'c4_curl_chiudi' EXIT
+
 # 🛑 Kill-switch condiviso (AR-390): `pausa_verdetto` / `pausa_motivo`, la stessa testa che usano il
 # giro e le cadenze. Prima ogni script leggeva l'interruttore con la sua curl e la sua idea di cosa
 # fare quando la rete non risponde — quattro copie, due delle quali partivano lo stesso.
@@ -228,7 +238,8 @@ sync_vault() {
     echo "[$(ts)] ERRORE: GIT_PUSH_TOKEN/GIT_REPO mancanti nel .env — memoria NON pubblicata su GitHub." >&2
     return 3
   fi
-  local url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
+  # AR-278: l'indirizzo non porta più il token — la password la dà l'ambiente al programma askpass.
+  local url; url="$(c4_git_url)"
   local sync_rc=0
   exec 9>"$LOCK"
   if ! flock -w 120 9; then
@@ -305,7 +316,7 @@ sync_vault() {
   local _gt="${GIT_NET_TIMEOUT:-60}"
   local ok=0
   for a in 1 2 3; do
-    if timeout "$_gt" git fetch "$url" "$branch" 2>/dev/null; then
+    if timeout "$_gt" git "${C4_GIT_OPZ[@]}" fetch "$url" "$branch" 2>/dev/null; then
       if ! git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
         # AR-099: niente risoluzione cieca a favore del remoto. Prima, su conflitto, il worker prendeva
         # SEMPRE la versione remota e cancellava il 'FATTO' appena scritto → l'azione risultava non-eseguita,
@@ -322,14 +333,14 @@ sync_vault() {
         fi
       fi
     fi
-    if timeout "$_gt" git push "$url" "HEAD:${branch}" 2>/dev/null; then ok=1; break; fi
+    if timeout "$_gt" git "${C4_GIT_OPZ[@]}" push "$url" "HEAD:${branch}" 2>/dev/null; then ok=1; break; fi
     sleep 2
   done
   exec 9>&-
   if [ "$ok" = 1 ]; then
     if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
       curl -fsS --connect-timeout 10 --max-time 30 -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" \
-        -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
+        "${C4_CURL_AUTH[@]}" \
         -H "Content-Type: application/json" -H "Prefer: resolution=merge-duplicates,return=minimal" \
         -d "{\"chiave\":\"memoria-ad:ultimo_push\",\"valore\":\"$(date -Iseconds)\",\"updated_at\":\"$(date -Iseconds)\"}" \
         >/dev/null 2>&1 || true
@@ -356,7 +367,7 @@ fi
 
 # Sanity check: SUPABASE_URL deve essere il progetto MEMORIA (ha tabella impostazioni), NON il marketplace.
 _mem_check="$(curl -fsS --connect-timeout 10 --max-time 30 "$SUPABASE_URL/rest/v1/impostazioni?select=chiave&limit=1" \
-  -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" 2>&1 || true)"
+  "${C4_CURL_AUTH[@]}" 2>&1 || true)"
 if printf '%s' "$_mem_check" | grep -q 'PGRST205\|impostazioni.*not found\|Could not find the table'; then
   echo "[$(ts)] ERRORE: SUPABASE_URL punta al DB sbagliato (marketplace?)." >&2
   echo "[$(ts)]   URL attuale: $SUPABASE_URL" >&2
@@ -375,7 +386,12 @@ INTERVALLO="${WORKER_INTERVALLO:-1}"   # secondi tra un controllo e l'altro (bas
 # chiamate autenticate (curl accetta opzioni e URL in qualsiasi ordine); le 2 curl senza AUTH
 # (sanity-check memoria e stamp del push) le fisso a mano.
 CURL_TIMEOUT=(--connect-timeout 10 --max-time 30)
-AUTH=("${CURL_TIMEOUT[@]}" -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" -H "Content-Type: application/json")
+# 🔑 AR-428 — le due intestazioni con la chiave di servizio NON stanno più qui dentro: `ps` mostra
+# gli argomenti di ogni processo a chiunque, e questa non è una chiave di lettura — è quella con cui
+# si scrive la tabella `impostazioni`, dove vive il kill-switch della pausa. Ora arrivano a curl da
+# un file di configurazione con permessi 600 (c4_curl_prepara, cervello/c4-segreti.sh): il resto
+# dell'array — timeout e Content-Type — non è segreto e resta dov'era.
+AUTH=("${CURL_TIMEOUT[@]}" "${C4_CURL_AUTH[@]}" -H "Content-Type: application/json")
 
 # CORSIA del worker (Strada A, step 2). Due valori:
 #   all  (default) → il worker fa tutto: chat, giro, ritmo, metabolizza, azioni.
@@ -398,7 +414,7 @@ if [ -z "${GIT_PUSH_TOKEN:-}" ] || [ -z "${GIT_REPO:-}" ]; then
   echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN/GIT_REPO mancanti: i giri NON potranno pubblicare la memoria su GitHub." >&2
 else
   # Test rapido autenticazione GitHub (sola lettura).
-  _git_test="$(timeout "${GIT_NET_TIMEOUT:-60}" git ls-remote "https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git" HEAD 2>&1 | head -1 || true)"
+  _git_test="$(timeout "${GIT_NET_TIMEOUT:-60}" git "${C4_GIT_OPZ[@]}" ls-remote "$(c4_git_url)" HEAD 2>&1 | head -1 || true)"
   if [ -z "$_git_test" ]; then
     echo "[$(ts)] ⚠️  GIT_PUSH_TOKEN non valido o scaduto — il push della memoria fallirà." >&2
   fi
@@ -610,7 +626,7 @@ prepara_allegati_chat() {
     n=$((n + 1))
     local_path="$dir/${n}-${base}"
     if curl -fsS "${CURL_TIMEOUT[@]}" "$SUPABASE_URL/storage/v1/object/$percorso" \
-      -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" \
+      "${C4_CURL_AUTH[@]}" \
       -o "$local_path" 2>/dev/null; then
       out_block="$out_block
 - $local_path  (${tipo:-file})"
@@ -683,7 +699,7 @@ contesto_macchina_chat() {
   # la chat sa che i suoi refs possono essere vecchi e non conclude «non è su GitHub».
   origine_riga=""
   if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
-    if timeout 20s git fetch "https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git" "+main:refs/remotes/origin/main" 2>/dev/null; then
+    if timeout 20s git "${C4_GIT_OPZ[@]}" fetch "$(c4_git_url)" "+main:refs/remotes/origin/main" 2>/dev/null; then
       origine_riga="- origin/main aggiornato ADESSO dal worker: $(git log -1 --format='%h · %s' refs/remotes/origin/main 2>/dev/null | head -c 110)"
     else
       origine_riga="- ⚠️ origin/main NON aggiornabile in questo momento (fetch fallito): i refs remoti locali possono essere VECCHI — vietato concludere «non è su GitHub» o «main è fermo»; dillo a Nicola."
@@ -695,11 +711,11 @@ contesto_macchina_chat() {
   if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
     coda="$(curl -fsS --connect-timeout 8 --max-time 20 \
       "$SUPABASE_URL/rest/v1/lavori?select=stato&created_at=gte.$(date -u -d '-24 hours' +%Y-%m-%dT%H:%M:%SZ)" \
-      -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" 2>/dev/null \
+      "${C4_CURL_AUTH[@]}" 2>/dev/null \
       | jq -r 'group_by(.stato) | map("\(.[0].stato) \(length)") | join(" · ")' 2>/dev/null || true)"
     segnali="$(curl -fsS --connect-timeout 8 --max-time 20 \
       "$SUPABASE_URL/rest/v1/impostazioni?select=chiave,valore&chiave=like.automazione:*&order=updated_at.desc&limit=15" \
-      -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" 2>/dev/null \
+      "${C4_CURL_AUTH[@]}" 2>/dev/null \
       | jq -r '.[] | select(.valore | test("^(errore|warn)")) | "  - \(.chiave | sub("automazione:";"")): \(.valore[0:90])"' 2>/dev/null \
       | head -4 || true)"
   fi
@@ -1245,6 +1261,22 @@ while true; do
   out=""
   ROUTER_COMPITO_JOB=""   # AR-089: reset per-lavoro del compito-router (default = ragionamento/premium)
   gruppo_id=""; CHAT_RESUME_SID=""; CHAT_NUOVA_SESSIONE=""   # 🧵 reset memoria di sessione per-lavoro
+  # 🧼 AR-304 — IGIENE PER-LAVORO. Il giro ragionava o non ragionava a seconda di che lavoro c'era
+  # PRIMA in coda. `AI_THINKING` viene esportato dentro questo ciclo (una metabolizzazione lo mette a
+  # 0 perché riassumere è volume, non ragionamento) e un `export` sopravvive al lavoro che l'ha
+  # creato: il reset esisteva, ma stava dentro il ramo «costruisci il prompt», più in basso — e giro
+  # e ritmo lanciano il loro script PRIMA di arrivarci, poi si escludono con skip_sync=1. Risultato:
+  # metabolizza → giro faceva girare il giro senza budget di pensiero, e nel log non c'era una riga
+  # che lo dicesse. Un briefing povero si legge come «poco da dire», non come «ha girato senza pensare».
+  # Il reset sta QUI, nel punto per cui vale: prima della biforcazione, quindi su OGNI strada.
+  # Quali variabili sono «di questo lavoro e non del prossimo» lo dice cervello/c4-cancelli.mjs
+  # (VARIABILI_PER_LAVORO): un elenco che un test può leggere ed eseguire, non una memoria da tenere.
+  _igiene="$(node "$SCRIPT_DIR/c4-cancelli.mjs" igiene-lavoro 2>/dev/null)"
+  # Cintura: se node non risponde l'igiene si fa lo stesso — un lavoro non deve poter ereditare
+  # l'ambiente del precedente perché un guardiano era muto.
+  [ -n "$_igiene" ] || _igiene="AI_THINKING AI_ALLOW_ACTIONS GIRO_EXTRA_INSTRUCTION"
+  # shellcheck disable=SC2086
+  unset $_igiene
 
   # 1) CLAIM ATOMICO (compare-and-set): prendi il lavoro SOLO se è ANCORA in_attesa. Con
   #    return=representation la PATCH torna la riga solo se l'ha aggiornata QUESTO worker; se un altro
@@ -1264,6 +1296,33 @@ while true; do
   if [ -z "$(printf '%s' "$claimed" | jq -r '.[0].id // empty' 2>/dev/null)" ]; then
     echo "[$(ts)] Lavoro $id: claim perso (già preso da un altro worker o non più in_attesa) — salto." >&2
     continue
+  fi
+
+  # 💸 AR-391 / AR-422 — IL TETTO DI SPESA VALE ANCHE QUI, NON SOLO NEL GIRO.
+  # Il freno (`freno-costi.mjs`) era consultato in UN punto solo di tutta la macchina: dentro
+  # giro.sh. Il worker — chat e lavori, la corsia che consuma di più: modello premium, memoria di
+  # sessione, lavori fino a 45 minuti — non lo nominava da nessuna parte, e nemmeno le cadenze né il
+  # monitoraggio. Il tetto giornaliero copriva così una frazione della spesa, e non la parte che
+  # cresce con l'uso.
+  # Sta QUI, subito dopo aver preso il lavoro e PRIMA della biforcazione per tipo, perché è l'unico
+  # punto da cui passano tutte le corsie del worker: chat, analisi, giro, ritmo, metabolizza, azioni.
+  # La decisione non è scritta in questa riga: la prende `ai_freno_verdetto` in cervello/motore-ai.sh,
+  # che chiede a c4-cancelli (si può saltare il tetto? solo con BUDGET_FORCE) e poi a freno-costi.
+  # Regola di CLAUDE.md rispettata alla lettera: sotto budget si taglia il VOLUME, non i controlli —
+  # il lavoro viene RIMANDATO con una spiegazione, non eseguito a metà né chiuso di nascosto.
+  _lav_start="$(date +%s)"
+  _freno_out="$(ai_freno_verdetto)"; _freno_rc=$?
+  if [ "$_freno_rc" = 1 ]; then
+    echo "[$(ts)] ⛔ Lavoro $id ($tipo): TETTO DI SPESA raggiunto — non lo eseguo. ${_freno_out#*	}" >&2
+    _dead_letter "$id" "⛔ Il tetto di spesa di oggi è stato raggiunto: questo lavoro NON è partito — non è un guasto, è un freno.
+
+${_freno_out#*	}
+
+Cosa devi fare: aspetta il giorno nuovo (il contatore si azzera) e rilancialo dal Pannello con «Riprova», oppure dimmi di farlo partire lo stesso e lo riparto con il tetto disattivato a mano.
+Cosa non ho verificato: quanto manca esattamente al reset — il contatore lo tiene il registro dei costi, non l'orologio del server."
+    continue
+  elif [ "$_freno_rc" = 2 ]; then
+    echo "[$(ts)] ⚠️  Lavoro $id ($tipo): tetto di spesa CIECO — ${_freno_out#*	}. Parto lo stesso, ma questo non è un verde." >&2
   fi
 
   # 📸 IMPRONTA-VERITÀ: fotografa lo stato del repo PRIMA del lavoro. A fine turno, se il repo è
@@ -1546,6 +1605,20 @@ $richiesta"
     else
       stato="fatto"
     fi
+  fi
+
+  # 🪙 AR-197 — CHAT, RIASSUNTI, LAVORI E RADIOGRAFIE LASCIANO UNA TRACCIA NEL REGISTRO DEI COSTI.
+  # worker.sh, 1.700 righe, non nominava `costo-ai.mjs` da nessuna parte: registravano solo il giro,
+  # il ritmo e il monitoraggio. Il «quanto consumo?» del Pannello e il metabolismo per-organo erano
+  # quindi parziali proprio sul candidato numero uno — la chat, che gira sul modello premium con
+  # memoria di sessione, due esecuzioni per conversazione (risposta + metabolizzazione).
+  # Anche questa registrazione sta in UN punto solo, dopo l'esecuzione e prima della scrittura
+  # dell'esito, così vale per tutte le strade del worker (streaming, json, ollama, economico) senza
+  # che nessuna se ne debba ricordare. La misura vera la fa `ai_registra_costo` in motore-ai.sh.
+  # Le corsie con skip_sync=1 (giro, ritmo) NON si registrano qui: hanno una pipeline propria che
+  # scrive già la sua riga — registrarle due volte gonfierebbe il conto invece di completarlo.
+  if [ "${skip_sync:-0}" != 1 ]; then
+    ai_registra_costo "worker-$tipo" "${_lav_start:-$(date +%s)}" "${prompt:-}" "${out:-}"
   fi
 
   # 3a-bis) 📸 IMPRONTA-VERITÀ: se in questo lavoro il repo è cambiato (commit nuovo o file

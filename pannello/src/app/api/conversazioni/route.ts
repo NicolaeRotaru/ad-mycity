@@ -27,7 +27,15 @@ export async function POST(req: NextRequest) {
       titolo: String(titolo || "Conversazione"),
       messaggi: messaggi ?? [],
     });
-    return NextResponse.json({ ok: Boolean(nuovoId), id: nuovoId });
+    // AR-400, lettera d: se la memoria non ha preso la conversazione, il codice HTTP deve dirlo.
+    // Un `{ok:false}` servito con 200 non fa scattare nessun `catch` e nessun `res.ok`: chi chiama
+    // vede una risposta riuscita e disegna «salvata». Il cliente ha già la sua difesa (guarda il
+    // corpo, non il fatto che la chiamata sia tornata), ma una porta che mente sul proprio esito
+    // resta una porta che mente — e la prossima che la chiama non erediterà quella difesa.
+    if (!nuovoId) {
+      return NextResponse.json({ ok: false, error: "memoria non raggiungibile" }, { status: 503 });
+    }
+    return NextResponse.json({ ok: true, id: nuovoId });
   } catch (e: any) {
     return NextResponse.json({ ok: false, error: e.message }, { status: 500 });
   }
