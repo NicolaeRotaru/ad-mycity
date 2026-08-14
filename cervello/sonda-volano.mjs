@@ -15,6 +15,7 @@ import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { loopChiude as loopChiudeRegola, loopVivo, previsioneValida, provaBusiness as calcolaProvaBusiness } from "./volano-regole.mjs";
 import { provaSoddisfatta } from "./prove-regole.mjs";
 import { mediaCoperta, perLoStorico } from "./misura-parziale.mjs";
+import { msDaTimbro } from "./ora-piacenza.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
@@ -149,16 +150,26 @@ export function votoPerLoStorico(rad, serie = []) {
   };
 }
 
-/** @param {string} dataStr "AAAA-MM-DD HH:MM" */
+/**
+ * Da un timbro di Piacenza all'istante vero. `null` se non si legge.
+ *
+ * L'offset era scritto a mano (`+02:00`): l'ora legale, vera da fine marzo a fine ottobre e falsa
+ * di un'ora negli altri cinque mesi. Sopra questo numero stanno le soglie di freschezza della sonda
+ * del volano: d'inverno ogni misura risultava più vecchia di un'ora del vero. Adesso l'offset lo
+ * chiede al fuso l'orologio di casa, che sa da solo quando scatta il cambio d'ora.
+ *
+ * @param {string} dataStr "AAAA-MM-DD HH:MM"
+ */
 function parsePiacenza(dataStr) {
   if (!dataStr) return null;
   const m = String(dataStr).match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
   if (!m) return null;
   const [, y, mo, d, h = "12", mi = "00"] = m;
-  return new Date(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`);
+  const t = msDaTimbro(`${y}-${mo}-${d} ${h}:${mi}`);
+  return Number.isFinite(t) ? new Date(t) : null;
 }
 
-function oreFa(dataStr) {
+export function oreFa(dataStr) {
   const d = parsePiacenza(dataStr);
   if (!d || Number.isNaN(d.getTime())) return Infinity;
   return (Date.now() - d.getTime()) / 3600000;

@@ -15,6 +15,11 @@ import { usePanelSync } from "@/lib/panel-sync";
 import { dimensioneLeggibile, humanizzaDifetto } from "@/lib/radiografia-umana";
 import { listaSicura } from "@/lib/memoria-json";
 import { serieSicura } from "@/lib/verdetto-dato";
+// AR-670 — «aperto» ha un padrone solo. Prima questo componente rifaceva il filtro a mano
+// (`stato !== "chiuso"`) mentre la rotta contava `stato === "aperto"`: la STESSA pagina mostrava
+// 225 difetti in una frase e 281 in un badge. Non è un totale che invecchia — è che la parola non
+// aveva un proprietario, quindi ogni lettore se la definiva da sé.
+import { contaDifetti, eChiuso } from "@/lib/cantiere-snello";
 import { classeComando, classeComandoSommario } from "@/lib/tocco-bersaglio";
 
 // 🧠 CERVELLO — l'area dove Nicola vede la macchina pensare su sé stessa: salute, auto-analisi del lavoro,
@@ -123,18 +128,21 @@ export default function RadiografiaDiSe() {
   // un solo `null` fra i difetti e `x.stato` porta via tutta la pagina del Cervello. La stessa lista
   // era già indurita lato server e nuda lato browser — qui si legge una volta, con la difesa giusta.
   const difetti = listaSicura<Difetto>(cantiere?.difetti);
+  // AR-670 — il conto lo fa la definizione unica, la stessa che usa la rotta. Prima qui c'erano tre
+  // `.filter()` scritti a mano, e ognuno decideva da sé cosa vuol dire «chiuso».
+  const conto = contaDifetti(difetti);
   // Il totale dei chiusi viene dai META, non dalla lista: la lista è una finestra sui più recenti
   // (il server ne manda 40), e contare le righe ricevute farebbe dire «40 chiusi» quando sono 135.
-  const chiusiTotali = typeof cantiere?.meta?.chiusi === "number" ? cantiere.meta.chiusi : difetti.filter((x) => x.stato === "chiuso").length;
+  const chiusiTotali = typeof cantiere?.meta?.chiusi === "number" ? cantiere.meta.chiusi : conto.chiusi;
   // AR-252 — stessa difesa per i campi della radiografia che il giro a volte scrive come frase invece
   // che come elenco: `?.length` è vero anche sulle stringhe, `.map` no.
   const proposte = listaSicura<{ cosa?: string; perche?: string }>(r?.proposte_nuovi_pezzi);
   const domande = listaSicura<{ domanda?: string; perche_serve?: string } | string>(r?.domande_per_nicola);
-  const aperti = difetti.filter((x) => x.stato !== "chiuso");
+  const aperti = difetti.filter((x) => !eChiuso(x));
   // Più recenti prima: senza questo i nuovi chiusi finiscono in fondo a una lista di 70+ righe
   // (ordine file = ordine inserimento, quasi sempre vecchio) e sembrano "spariti" a chi scorre dall'alto.
   const chiusi = difetti
-    .filter((x) => x.stato === "chiuso")
+    .filter((x) => eChiuso(x))
     .sort((a, b) => String(b?.chiuso_il || "").localeCompare(String(a?.chiuso_il || "")));
   // AR-255 — `|| []` non difende dalla FORMA: se `serie` arriva come oggetto, il `for (const s of
   // serie)` qui sotto lancia in pieno render e porta via la pagina del Cervello. Stessa funzione del
@@ -156,7 +164,9 @@ export default function RadiografiaDiSe() {
   // restano `null` e ogni casella che li mostra passa al grigio invece di disegnare uno zero verde.
   const cantiereLetto = live?.cantiere_letto;
   const nonLettoCantiere = (d?.non_letti || []).find((x) => x?.file === "cantiere-difetti.json");
-  const daFare = cantiereLetto === false ? null : (live?.da_fare ?? aperti.length);
+  // AR-670 — il numero di ripiego, se il server non lo manda, esce dalla stessa porta del server:
+  // `conto.da_fare` è «tutto ciò che non è chiuso», compresi gli stati che questo file non conosce.
+  const daFare = cantiereLetto === false ? null : (live?.da_fare ?? conto.da_fare);
   const findingsAperti = live?.findings_aperti;
 
   const TABS: { id: Tab; label: string; icon: React.ReactNode; badge?: number }[] = [

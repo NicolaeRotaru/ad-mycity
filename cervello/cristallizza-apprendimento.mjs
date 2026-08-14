@@ -29,7 +29,8 @@
 
 import { readFileSync, existsSync, rmSync } from "node:fs";
 import { scriviJsonAtomico } from "./scrivi-json.mjs"; // AR-558: l'indentazione la legge il file
-import { passoDovuto, tettoDecadutePerGiro } from "./tetti-archivio.mjs"; // AR-182: il tempo si misura in tempo
+import { giorniDa, passoDovuto, tettoDecadutePerGiro } from "./tetti-archivio.mjs"; // AR-182: il tempo si misura in tempo
+import { timbroOra } from "./ora-piacenza.mjs"; // AR-666: l'ora di casa da un posto solo
 import { lezioniVive } from "./misura-parziale.mjs"; // AR-362: una sola definizione di «lezione viva»
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -51,23 +52,19 @@ const DECAY_OGNI_GG = 7; // AR-182: un passo al massimo ogni 7 giorni. Il tempo 
 const DECAY_MAX_PER_GIRO = 5; // AR-182: quante lezioni possono morire in un giro solo
 const CONF_MORTE = 0.3; // sotto = decaduta
 
-function oraRoma() {
-  // formato AAAA-MM-GG HH:MM, fuso Europe/Rome
-  const d = new Date();
-  const p = new Intl.DateTimeFormat("sv-SE", {
-    timeZone: "Europe/Rome",
-    year: "numeric", month: "2-digit", day: "2-digit",
-    hour: "2-digit", minute: "2-digit", hour12: false,
-  }).format(d);
-  return p.replace("T", " ").slice(0, 16);
-}
+// AR-666 — qui vivevano due copie di roba che esiste già altrove, e la seconda era rotta.
+//
+//   · `oraRoma()` era l'orologio di casa riscritto a mano: stesso identico formatter di `timbroOra`,
+//     in un file che non lo importava. Adesso lo importa.
+//   · `giorniDa()` era la gemella di quella di `tetti-archivio.mjs` — che questo file importava già
+//     per il decadimento — ma leggeva il timbro col `Date.parse` nudo. Una stringa senza fuso, per
+//     lo standard, è ora LOCALE del processo: sul portatile italiano tornava giusta, sul server in
+//     UTC tornava spostata di una o due ore, e ogni lezione risultava più giovane del vero. Sopra
+//     quel numero sta la soglia dei 28 giorni che decide se una lezione decade: due copie della
+//     stessa domanda, e quella sbagliata era proprio quella che girava in produzione.
 
-function giorniDa(iso) {
-  if (!iso) return Infinity;
-  const t = Date.parse(String(iso).replace(" ", "T"));
-  if (Number.isNaN(t)) return Infinity;
-  return (Date.now() - t) / 86400000;
-}
+/** L'ora di Piacenza, «AAAA-MM-GG HH:MM» — dall'orologio di casa, non da una copia locale. */
+const oraRoma = () => timbroOra();
 
 function fine(payload, exit = 0) {
   if (JSON_OUT) process.stdout.write(JSON.stringify(payload, null, 2));

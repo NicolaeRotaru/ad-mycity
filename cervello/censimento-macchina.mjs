@@ -29,6 +29,10 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
+// AR-700 — la porta unica per elencare i file di un ramo, RICORSIVAMENTE. Non è un'importazione di
+// comodo: è il punto del difetto. Il censimento aveva la sua funzione, che leggeva una cartella sola.
+import { elencaFile } from "./perimetro.mjs";
+
 /** Il titolo del blocco in bacheca. Fisso: è la chiave con cui il blocco si ritrova e si sostituisce. */
 export const TITOLO_BACHECA = "🗺️ Com'è fatta la macchina";
 

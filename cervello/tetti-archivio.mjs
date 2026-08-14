@@ -24,14 +24,31 @@
 //   ② **Un archivio senza tetto non è una memoria, è una perdita.** O si rompe (AR-254), o rallenta
 //      (AR-199), o butta via la cosa sbagliata (AR-182).
 //
-// Nessun import: si esegue in un test senza toccare disco, rete o vault.
+// Un import solo, verso l'orologio di casa — che è puro a sua volta: si esegue in un test senza
+// toccare disco, rete o vault.
+
+import { msDaTimbro } from "./ora-piacenza.mjs";
 
 /** Millisecondi in un giorno. */
 const GIORNO = 86_400_000;
 
-/** Parsing tollerante delle date della memoria («AAAA-MM-GG HH:MM» o ISO). `null` se illeggibile. */
+/**
+ * Parsing tollerante delle date della memoria («AAAA-MM-GG HH:MM», «AAAA-MM-GG» o ISO col fuso).
+ * `null` se illeggibile — perché «non l'ho potuto leggere» e «vecchissima» non sono la stessa cosa.
+ *
+ * AR-666 — qui c'era `Date.parse(stringa.replace(" ", "T"))`. Una stringa senza fuso, per lo
+ * standard, è ora LOCALE del processo: sul portatile italiano tornava l'istante giusto, sul server
+ * in UTC tornava spostato di un'ora d'inverno e di due d'estate. E un giorno nudo («2026-08-14»),
+ * sempre per lo standard, veniva letto come mezzanotte di Greenwich — cioè le due del mattino a
+ * Piacenza. Sopra questi numeri sta la soglia dei 28 giorni che decide se una lezione decade: un
+ * archivio che si svuota prima del tempo perde pezzi, e li perde in silenzio.
+ *
+ * Le due convenzioni di casa, dichiarate: il timbro porta l'ora di PIACENZA, e un giorno senza ora
+ * vale mezzogiorno (lo stesso che fanno il Pannello e il resto del cervello).
+ */
 export function istante(d) {
-  const t = Date.parse(String(d ?? "").replace(" ", "T"));
+  const s = String(d ?? "").trim();
+  const t = msDaTimbro(/^\d{4}-\d{2}-\d{2}$/.test(s) ? `${s} 12:00` : s);
   return Number.isFinite(t) ? t : null;
 }
 

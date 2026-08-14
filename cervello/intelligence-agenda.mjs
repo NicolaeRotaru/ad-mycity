@@ -31,11 +31,20 @@ function parseIsoFromText(text) {
   return m ? m[1] : null;
 }
 
-function giorniDa(iso) {
+/**
+ * Da quanti giorni una scheda non viene aggiornata, contati da mezzogiorno a mezzogiorno.
+ *
+ * Le due date avevano `+02:00` scritto a mano: l'ora legale, vera cinque mesi su dodici. Quando
+ * l'intervallo scavalca il cambio d'ora le due sponde hanno offset diversi, il cablato ne perde uno
+ * e `Math.floor` regala un giorno intero. Sopra questo numero sta `dovutaOggi`, cioè la decisione di
+ * mandare o no una fonte a controllare: un giorno in più fa partire lavoro che non serviva.
+ */
+export function giorniDa(iso) {
   if (!iso) return 999;
-  const t = Date.parse(`${iso}T12:00:00+02:00`);
-  if (Number.isNaN(t)) return 999;
-  const oggi = Date.parse(`${nowPiacenza().slice(0, 10)}T12:00:00+02:00`);
+  const t = msDaTimbro(`${iso} 12:00`);
+  if (!Number.isFinite(t)) return 999;
+  const oggi = msDaTimbro(`${nowPiacenza().slice(0, 10)} 12:00`);
+  if (!Number.isFinite(oggi)) return 999;
   return Math.floor((oggi - t) / 86400000);
 }
 
@@ -146,4 +155,8 @@ function main() {
   process.exit(0);
 }
 
-main();
+// Gira solo se lanciato direttamente. Prima `main()` partiva anche su import: chi voleva PROVARE
+// `giorniDa` si ritrovava l'agenda riscritta su disco e un `process.exit(0)` a metà test. È la
+// stessa trappola già annotata in sonda-volano.mjs — una decisione che non si può provare senza
+// sporcare la memoria non viene provata, ed è per questo che l'ora scritta a mano è rimasta qui.
+if (import.meta.url === `file://${process.argv[1]}`) main();
