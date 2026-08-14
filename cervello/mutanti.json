@@ -188,7 +188,7 @@
    "difetto": "AR-317",
    "nome": "il motore torna in primo piano e le trap restano in sospeso",
    "file": "cervello/lib-cadenza.sh",
-   "cerca": "    \"${T[@]}\" \"${AI_CMD[@]}\" \"$prompt\" >\"$_tmp\" 2>&1 &\n    CADENZA_AI_PID=$!\n    wait \"$CADENZA_AI_PID\" || CADENZA_AI_RC=$?",
+   "cerca": "    \"${T[@]}\" \"${AI_CMD[@]}\" \"$prompt\" >\"$_tmp\" 2>&1 8>&- 9>&- &\n    CADENZA_AI_PID=$!\n    wait \"$CADENZA_AI_PID\" || CADENZA_AI_RC=$?",
    "sostituisci": "    \"${T[@]}\" \"${AI_CMD[@]}\" \"$prompt\" >\"$_tmp\" 2>&1 || CADENZA_AI_RC=$?",
    "test": "cervello/test/lib-cadenza.test.mjs"
   },
@@ -2529,6 +2529,22 @@
    "cerca": "  return elenco.filter((f) => f.endsWith(\".test.mjs\") && !f.startsWith(\"_\")).sort();",
    "sostituisci": "  return elenco.filter((f) => f.endsWith(\".test.mjs\")).sort();",
    "test": "node cervello/test/test-cervello.test.mjs"
+  },
+  {
+   "difetto": "AR-663 lucchetto-ereditato-blocca-tutto",
+   "nome": "il motore torna a ereditare il lucchetto: un figlio appeso ferma ogni cadenza per sempre, in silenzio",
+   "file": "cervello/lib-cadenza.sh",
+   "cerca": "2>&1 8>&- 9>&- &",
+   "sostituisci": "2>&1 &",
+   "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
+  },
+  {
+   "difetto": "AR-663 eta-del-lucchetto-persa",
+   "nome": "l'eta del lucchetto torna a leggersi DOPO l'apertura, che lo tronca: il verdetto non sa piu da quanto e bloccato",
+   "file": "cervello/lib-cadenza.sh",
+   "cerca": "[ -n \"$eta_min\" ] && [ \"$eta_min\" -ge 120 ]",
+   "sostituisci": "[ -n \"$eta_min\" ] && [ \"$eta_min\" -ge 999999 ]",
+   "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
   }
  ]
 }
