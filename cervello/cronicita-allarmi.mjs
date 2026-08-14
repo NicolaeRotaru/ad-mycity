@@ -17,6 +17,16 @@
 // TUTTO PURO: entrano il conto di prima e i nomi accesi adesso, esce il conto nuovo. Nessun disco,
 // nessun orologio interno, nessuna rete — così una prova può far scorrere venti giri in un
 // millisecondo invece di aspettare venti giorni per vedere cosa succede.
+//
+// ── AR-687 — LA METÀ CHE MANCAVA: il GIRO ────────────────────────────────────────────────────────
+// AR-440 è stato chiuso dove lo stato fra un giro e l'altro già esisteva (la visita di salute). Nel
+// giro invece ogni vincolo era una stringa vuota o piena, senza storia: **un guardiano rosso da tre
+// settimane occupava il prompt esattamente come uno rosso da un minuto.** Il modulo c'era già ed
+// esponeva quello che serve — mancava l'aggancio. Sta in fondo a questo file, come riga di comando
+// (`cronicita-allarmi.mjs giro --attivi=…`), perché il chiamante è `cervello/giro.sh` e la shell non
+// può importare un modulo. Il disco lo tocca SOLO la riga di comando; il giudizio resta puro.
+
+import { existsSync, readFileSync, writeFileSync } from "node:fs";
 
 /** Oltre questi giri di fila lo stesso allarme non è più una notizia: è una condizione. */
 export const GIRI_PER_CRONICO = 3;
@@ -90,4 +100,111 @@ export function quadroCronicita(prima = {}, accesiOra = [], soglia = GIRI_PER_CR
   }
   const spenti = Object.keys(prima || {}).filter((id) => !(id in dopo));
   return { conto: dopo, nuovi, cronici, spenti, daPortareANicola };
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// L'AGGANCIO AL GIRO (AR-687) — l'unico pezzo che tocca il disco
+// ═══════════════════════════════════════════════════════════════════════════
+
+/**
+ * Dove vive il conto fra un giro e l'altro: dentro `.git/`, come già fanno il lucchetto e il
+ * ricovero degli esiti. Non è memoria da difendere — è lo stato di una macchina, e non va committato.
+ * Si può spostare da fuori (`CRONICITA_STATO`) così una prova non scrive mai nel repo vero.
+ */
+export function fileStatoGiro(repo = ".", env = {}) {
+  return env.CRONICITA_STATO || `${repo}/.git/mycity-cronicita-giro.json`;
+}
+
+/**
+ * IL CONTO DI PRIMA, con l'esito della lettura attaccato.
+ *
+ * ⚠️ Qui `catch { return {} }` sarebbe la malattia «una fonte letta a metà produce un verdetto
+ * intero»: un file di stato corrotto diventerebbe «nessun allarme è mai stato cronico», cioè la
+ * risposta più comoda possibile. Le due assenze sono diverse e vanno separate:
+ *   · il file NON C'È → è il primo giro, ed è un fatto: memoria vuota, lettura riuscita
+ *   · il file C'È ma non si legge → non lo so, e il giro non deve fidarsi di questo conto
+ */
+export function leggiConto(percorso, io = {}) {
+  const esiste = io.esiste || existsSync;
+  const leggiTesto = io.leggiTesto || ((p) => readFileSync(p, "utf8"));
+  if (!esiste(percorso)) return { conto: {}, letto: true, motivo: "primo giro: il conto non c'era ancora" };
+  try {
+    const j = JSON.parse(leggiTesto(percorso));
+    if (!j || typeof j !== "object" || Array.isArray(j)) {
+      return { conto: {}, letto: false, motivo: `il conto in ${percorso} non ha la forma attesa` };
+    }
+    return { conto: j, letto: true, motivo: null };
+  } catch (e) {
+    return { conto: {}, letto: false, motivo: `non sono riuscito a leggere ${percorso}: ${e?.code || e?.message || e}` };
+  }
+}
+
+/**
+ * UN GIRO DI CRONICITÀ, dal conto vecchio a quello nuovo.
+ *
+ * `io` arriva da fuori: senza, tocca il disco; con, una prova fa scorrere venti giri in memoria.
+ * Il giudizio non è qui — è in `quadroCronicita`, che resta puro.
+ *
+ * `affidabile` è il campo che conta: è `false` quando il conto di prima non si è potuto leggere o
+ * quello nuovo non si è potuto salvare. In quel caso il giro NON deve togliere niente dal prompt —
+ * nascondere un rosso perché «tanto è vecchio» quando non si sa nemmeno se sia vecchio è il modo
+ * peggiore di sbagliare, e va sbagliato dalla parte che ripete di troppo.
+ */
+export function giroCronicita(percorso, accesiOra = [], io = {}, soglia = GIRI_PER_CRONICO) {
+  // Il salvataggio torna un ESITO, non un booleano nudo: il motivo del guasto deve arrivare fino a
+  // chi decide. Un `catch → false` qui butterebbe via proprio la frase che spiega perché il conto
+  // del prossimo giro ripartirà da zero.
+  const scrivi = io.scrivi || ((p, dati) => {
+    let esito = { ok: true, motivo: null };
+    try {
+      writeFileSync(p, JSON.stringify(dati, null, 2));
+    } catch (e) {
+      esito = { ok: false, motivo: `non sono riuscito a salvare il conto in ${p}: ${e?.code || e?.message || e}` };
+    }
+    return esito;
+  });
+  const prima = io.leggiConto ? io.leggiConto(percorso) : leggiConto(percorso, io);
+  const q = quadroCronicita(prima.conto, accesiOra, soglia);
+  const salvato = scrivi(percorso, q.conto);
+  const motivi = [prima.motivo, salvato?.motivo].filter(Boolean);
+  return {
+    ...q,
+    memoria_letta: prima.letto,
+    memoria_salvata: salvato?.ok !== false,
+    motivo: motivi.length ? motivi.join(" · ") : null,
+    affidabile: prima.letto === true && salvato?.ok === true,
+  };
+}
+
+/**
+ * Le righe che `giro.sh` legge. Formato piatto apposta: la shell non ha un lettore di JSON, e
+ * passare da `jq` vorrebbe dire dipendere da un programma che sul VPS può non esserci.
+ *
+ *   AFFIDABILE=si|no       → «no» = il conto non regge, e il giro non toglie NIENTE dal prompt
+ *   CRONICI=a b            → dicono no da almeno 3 giri: ripeterli è già stato inutile tre volte
+ *   NUOVI_CRONICI=a        → hanno appena tagliato la soglia: si portano a Nicola UNA volta sola
+ *   DETTO|a|frase          → la frase da mettere davanti agli occhi, col suo metro
+ *   MOTIVO=…               → perché il conto non è affidabile, quando non lo è
+ */
+export function righePerLaShell(q) {
+  const righe = [
+    `AFFIDABILE=${q.affidabile === false ? "no" : "si"}`,
+    `CRONICI=${q.affidabile === false ? "" : q.cronici.map((c) => c.id).join(" ")}`,
+    `NUOVI_CRONICI=${q.affidabile === false ? "" : q.daPortareANicola.map((c) => c.id).join(" ")}`,
+  ];
+  if (q.affidabile !== false) for (const c of q.cronici) righe.push(`DETTO|${c.id}|${c.detto}`);
+  if (q.motivo) righe.push(`MOTIVO=${String(q.motivo).replace(/\n/g, " ")}`);
+  return righe;
+}
+
+if (process.argv[1] && process.argv[1].endsWith("cronicita-allarmi.mjs")) {
+  const arg = (nome) => {
+    const v = process.argv.find((a) => a.startsWith(`--${nome}=`));
+    return v ? v.slice(nome.length + 3) : "";
+  };
+  const attivi = arg("attivi").split(/[\s,]+/).filter(Boolean);
+  const percorso = arg("stato") || fileStatoGiro(process.env.REPO || ".", process.env);
+  const q = giroCronicita(percorso, attivi);
+  if (process.argv.includes("--json")) console.log(JSON.stringify(q, null, 2));
+  else for (const r of righePerLaShell(q)) console.log(r);
 }

@@ -1,9 +1,66 @@
 {
   "corsia": "D — Una parola senza padrone: ogni lettore se la definisce da sé.",
   "modulo_condiviso": "cervello/atti-veri.mjs",
-  "stato_lavoro": "IN CORSO — esplorazione territorio",
-  "difetti": [],
-  "file_toccati": [],
+  "stato_lavoro": "IN CORSO — fatti AR-684, AR-671, AR-670, AR-700. Restano AR-687, AR-659, AR-688, AR-623, AR-651.",
+  "difetti": [
+    {
+      "id": "AR-684",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/parola-senza-padrone.test.mjs",
+      "nota_fix": "La scheda diceva «595 su 653»: numeri vecchi. Oggi il cantiere ha 693 schede — 473 chiuse e 220 da fare, di cui 56 nel terzo stato «da riverificare». Il conto adesso lo fa una porta sola in cervello/atti-veri.mjs, con una regola che si controlla da sola: la somma dei rami deve fare il totale. Uno stato che la macchina non sa nominare finisce in un ramo suo e resta contato, invece di sparire.",
+      "mutante": {
+        "file": "cervello/atti-veri.mjs",
+        "cerca": "    da_fare: lista.length - chiusi,",
+        "sostituisci": "    da_fare: aperti + in_corso,"
+      },
+      "non_vacuita": "rimettendo «da fare = aperto + in corso» diventano rossi tre casi (la somma sul cantiere vero, lo stato mai visto prima, l'accordo con il Pannello) — verificato lanciando il test"
+    },
+    {
+      "id": "AR-671",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/parola-senza-padrone.test.mjs",
+      "nota_fix": "La scheda puntava alla rotta del Pannello; il ramo malato vero era in cervello/salute-onesta.mjs. Un difetto senza data di nascita usciva in silenzio dal conto storico. Adesso quei difetti si chiamano ignoti e il confronto con la settimana scorsa dichiara di quanto può sbagliare. Il numero di adesso non passa più dalle date: si conta sulla lista. Effetto misurato: prima diceva 207 difetti aperti e «il cantiere cala», adesso dice 220 e «il cantiere cresce» — il verdetto era rovesciato.",
+      "mutante": {
+        "file": "cervello/atti-veri.mjs",
+        "cerca": "      if (!giaChiuso) ignoti++;",
+        "sostituisci": "      if (false) ignoti++;"
+      },
+      "non_vacuita": "togliendo il conteggio degli ignoti diventano rossi due casi (il caso a tavolino e il referto vero della salute onesta) — verificato lanciando il test"
+    },
+    {
+      "id": "AR-670",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/parola-senza-padrone.test.mjs",
+      "nota_fix": "Il componente della Cabina rifaceva tre filtri a mano. Adesso chiama la definizione unica del Pannello (contaDifetti ed eChiuso). Cercando l'atto e non solo il mio pezzo ho trovato altri due punti che contano ancora a mano: la card della Plancia, che non è di questa corsia, e il filtro sui reperti della radiografia, che risponde a un'altra domanda ed è inchiodato riga per riga da un altro test. Sono dichiarati dentro la prova, così un terzo punto nuovo diventa rosso.",
+      "mutante": {
+        "file": "pannello/src/components/cervello/RadiografiaDiSe.tsx",
+        "cerca": "  const aperti = difetti.filter((x) => !eChiuso(x));",
+        "sostituisci": "  const aperti = difetti.filter((x) => x.stato !== \"chiuso\");"
+      },
+      "non_vacuita": "rimettendo il filtro a mano diventano rossi due casi (il componente passa dalla porta unica · nessun punto nuovo conta a mano) — verificato lanciando il test"
+    },
+    {
+      "id": "AR-700",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/censimento-che-non-scende.test.mjs",
+      "nota_fix": "Il censimento contava i moduli del cervello leggendo una cartella sola. Misurato oggi sul repo vero: 229 dichiarati, 308 veri — restavano fuori cinque sottocartelle intere. Adesso passa dalla stessa porta che il cancello usa già, invece di tenere due funzioni che elencano gli stessi file in due modi. I test restano fuori dal conto perché hanno già il loro numero nella stessa riga. Se la cartella non si lascia leggere il numero è vuoto e lo dice a parole, non è uno zero.",
+      "mutante": {
+        "file": "cervello/censimento-macchina.mjs",
+        "cerca": "  const cervelloScript = sottoAlbero(p(\"cervello\"), [\".mjs\", \".sh\"], [\"test\"]);",
+        "sostituisci": "  const cervelloScript = [...fileCon(p(\"cervello\"), \".mjs\"), ...fileCon(p(\"cervello\"), \".sh\")];"
+      },
+      "non_vacuita": "rimettendo la lettura a un livello solo diventano rossi 6 casi su 7 — verificato lanciando il test"
+    }
+  ],
+  "file_toccati": [
+    "cervello/atti-veri.mjs",
+    "cervello/atti-veri.sh",
+    "cervello/salute-onesta.mjs",
+    "cervello/censimento-macchina.mjs",
+    "pannello/src/components/cervello/RadiografiaDiSe.tsx",
+    "cervello/test/parola-senza-padrone.test.mjs",
+    "cervello/test/censimento-che-non-scende.test.mjs"
+  ],
   "fuori_territorio": [],
   "difetti_nuovi": [],
   "mutanti_da_correggere": [],

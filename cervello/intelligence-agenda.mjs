@@ -39,12 +39,11 @@ function parseIsoFromText(text) {
  * e `Math.floor` regala un giorno intero. Sopra questo numero sta `dovutaOggi`, cioè la decisione di
  * mandare o no una fonte a controllare: un giorno in più fa partire lavoro che non serviva.
  */
-export function giorniDa(iso) {
+export function giorniDa(iso, oggiIso = nowPiacenza().slice(0, 10)) {
   if (!iso) return 999;
   const t = msDaTimbro(`${iso} 12:00`);
-  if (!Number.isFinite(t)) return 999;
-  const oggi = msDaTimbro(`${nowPiacenza().slice(0, 10)} 12:00`);
-  if (!Number.isFinite(oggi)) return 999;
+  const oggi = msDaTimbro(`${oggiIso} 12:00`);
+  if (!Number.isFinite(t) || !Number.isFinite(oggi)) return 999;
   return Math.floor((oggi - t) / 86400000);
 }
 

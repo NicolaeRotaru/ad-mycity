@@ -31,6 +31,10 @@
 // finti e vede la risposta vera.
 //
 // 🟢 Modulo PURO. L'unico I/O è la CLI in fondo, che è il modo in cui i copioni bash chiedono.
+// L'unico import è l'orologio di casa (`ora-piacenza.mjs`), puro a sua volta: l'ora di Piacenza si
+// chiede al fuso in un posto solo, non si ricostruisce qui.
+
+import { msDaTimbro } from "./ora-piacenza.mjs";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // ① AR-389 — L'ANNUNCIO CHE NON È STATO GUADAGNATO
@@ -161,7 +165,11 @@ export function esitoSync({ rcSync = 0, tipo = "" } = {}) {
 // «un passo interno rimandato non diventa mai un elemento di coda con la sua ora di ripresa» (⑤).
 export function ripresaPubblicazione({ marcatore = null, adessoMs = 0, cooldownSec = 300, allarmeOre = 6 } = {}) {
   if (!marcatore || !marcatore.quando) return { riprova: false, allarme: false, motivo: "nessuna pubblicazione pendente" };
-  const t = typeof marcatore.quando === "number" ? marcatore.quando : Date.parse(String(marcatore.quando).replace(" ", "T"));
+  // AR-666 — il ramo stringa faceva `Date.parse(timbro.replace(" ", "T"))`: senza fuso scritto,
+  // lo standard dice ora LOCALE del processo. Sul VPS in UTC il marcatore risultava di una o due
+  // ore più giovane del vero, e da qui esce l'allarme «la memoria non esce da troppo»: un allarme
+  // che si sveglia in ritardo è un allarme che non c'è nelle ore in cui serviva.
+  const t = typeof marcatore.quando === "number" ? marcatore.quando : msDaTimbro(marcatore.quando);
   if (!Number.isFinite(t)) {
     // Marcatore illeggibile: meglio riprovare una volta di troppo che tenersi la memoria in casa.
     return { riprova: true, allarme: false, motivo: "marcatore illeggibile — riprovo comunque" };

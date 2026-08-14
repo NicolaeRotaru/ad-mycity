@@ -15,8 +15,31 @@ import { isCanaleGithub } from "@/lib/github-pr-merge";
 import { emitSync, fetchBriefingVivo, usePanelSync } from "@/lib/panel-sync";
 import ParlaCasella from "@/components/ParlaCasella";
 import { contestoAvviso, descrizioneAvviso } from "@/lib/descrizione-avviso";
-import { azioniVisibili, cardAperta, idDaAncora, quanteNascoste, serveSrotolare } from "@/lib/coda-azioni";
+import { azioniVisibili, idDaAncora, quanteNascoste, serveSrotolare } from "@/lib/coda-azioni";
 import { saltoAllAzione } from "@/lib/salto-azione";
+// 🃏 Le decisioni della casella, fuori da React (lotto 42, corsia E): uno stato solo per card,
+// un antirimbalzo solo per tutti i bottoni, un filtro solo per i titoli, i colori con la gemella
+// del tema scuro, e la promessa che una schermata di guasto può fare. Provate in
+// cervello/test/c4-decisione-fuori-da-react.test.mjs.
+import {
+  NESSUNA_CARTA,
+  NESSUNO_PREMUTO,
+  apriPerAtterraggio,
+  cardAperta,
+  classiBadge,
+  classiBordo,
+  classiPallino,
+  giaPremuto,
+  giraTesto,
+  liberaPremuto,
+  schedaDopoTasto,
+  segnaCard,
+  segnaPremuto,
+  testoAperto,
+  titoloDaMostrare,
+  type Premuti,
+  type StatoCarte,
+} from "@/lib/stato-card";
 import { classeComando, classeComandoSommario, classeListaScorrevole } from "@/lib/tocco-bersaglio";
 import {
   etichettaScelta,
@@ -58,8 +81,13 @@ type Intenzioni = { collegato: boolean; data?: string; sintesi?: string; prossim
 type TodoItem = { id: string; testo: string; livello: Livello; sezione: string; fatto: boolean };
 type SchedaDoc = { loading: boolean; testo?: string; err?: string };
 
-const BORDO: Record<string, string> = { rosso: "border-red-200", giallo: "border-amber-200", verde: "border-green-200", "?": "border-black/[0.08]" };
-const PALLINO: Record<string, string> = { rosso: "bg-red-500", giallo: "bg-amber-500", verde: "bg-green-500", "?": "bg-black/30" };
+// AR-614 — i colori NON si scrivono più qui a mano. Erano tre mappe di stringhe pensate solo per il
+// tema chiaro: in tema scuro le card della coda da firmare — la parte più usata del Pannello —
+// mostravano bordi pastello chiari sul fondo scuro, proprio sui segnali di rischio. Adesso li dà
+// lib/stato-card.ts, dove ogni tinta nasce con la sua gemella `dark:` e una prova lo verifica a ogni
+// giro. Qui restano solo gli alias, così le righe che li usano non cambiano forma.
+const BORDO = classiBordo;
+const PALLINO = classiPallino;
 const ETICHETTA: Record<string, string> = { rosso: "🔴 serve la tua firma", giallo: "🟡 un tocco", verde: "🟢 sicura", "?": "" };
 
 // «2026-08-13 00:15» → «13/08 00:15»: la data di nascita della card, in piccolo sulla card
@@ -71,10 +99,12 @@ function dataBreve(d: string): string {
 }
 
 function badgeStato(s: string): { txt: string; cls: string } | null {
-  if (s === "fatta") return { txt: "✅ Inviata", cls: "bg-green-50 text-green-700" };
-  if (s === "simulata") return { txt: "🧪 Simulata (test)", cls: "bg-amber-50 text-amber-700" };
-  if (s === "coda") return { txt: "⏳ In coda", cls: "bg-black/[0.05] text-black/55" };
-  if (s === "rifiutata") return { txt: "✕ rifiutata", cls: "bg-black/[0.05] text-black/50" };
+  // AR-614 — le tinte le dà classiBadge: fondo e testo arrivano già con la gemella del tema scuro.
+  // («spento» usa black/ink, che sono variabili di tema e si ribaltano da sole: là non serve.)
+  if (s === "fatta") return { txt: "✅ Inviata", cls: classiBadge("verde") };
+  if (s === "simulata") return { txt: "🧪 Simulata (test)", cls: classiBadge("ambra") };
+  if (s === "coda") return { txt: "⏳ In coda", cls: classiBadge("spento") };
+  if (s === "rifiutata") return { txt: "✕ rifiutata", cls: classiBadge("spento") };
   return null;
 }
 
@@ -581,11 +611,11 @@ export default function Azioni() {
           const ap = (e.currentTarget as HTMLDetailsElement).open;
           setScelteCard((s) => (s[a.id] === ap ? s : { ...s, [a.id]: ap }));
         }}
-        className={`card border ${BORDO[a.livello]} p-4 scroll-mt-24 group ${decisa ? "opacity-80" : ""}`}
+        className={`card border ${BORDO(a.livello)} p-4 scroll-mt-24 group ${decisa ? "opacity-80" : ""}`}
       >
         <summary className="list-none cursor-pointer select-none min-h-[44px]">
         <div className="flex items-start gap-2.5">
-          <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO[a.livello]}`} />
+          <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO(a.livello)}`} />
           <div className="min-w-0 flex-1">
             {/* 🔖 Etichetta «#numero — nome» (richiesta di Nicola, 13/8): il numero FISSO della
                 card (es. "#41") SEMPRE insieme al titolo, sulla stessa riga. Il numero non cambia
@@ -839,9 +869,9 @@ export default function Azioni() {
             const decSalvata = sceltaId ? scelteDecisioni[sceltaId] : undefined;
             const sceltaRegistrata = decSalvata?.scelta;
             return (
-              <div key={i} className={`card border ${BORDO[p.livello]} p-4 ${decisa ? "opacity-80" : ""}`}>
+              <div key={i} className={`card border ${BORDO(p.livello)} p-4 ${decisa ? "opacity-80" : ""}`}>
                 <div className="flex items-start gap-2.5">
-                  <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO[p.livello]}`} />
+                  <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO(p.livello)}`} />
                   <div className="min-w-0 flex-1">
                     <div className="t-sez leading-snug">{pulisciTitolo(p.titolo)}</div>
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
@@ -1127,7 +1157,7 @@ export default function Azioni() {
                     const b = badgeStato(v.stato);
                     return (
                       <div key={i} className="flex items-center gap-2 rounded-xl border border-black/[0.06] bg-paper/40 px-2.5 py-2">
-                        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${PALLINO[v.livello] || "bg-black/30"}`} />
+                        <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${PALLINO(v.livello)}`} />
                         <span className="text-[12.5px] text-ink/85 truncate flex-1">{v.auto && "🤖 "}{v.titolo}</span>
                         {v.reparto && <span className="badge badge-off shrink-0">{v.reparto}</span>}
                         {b && <span className={`badge shrink-0 ${b.cls}`}>{b.txt}</span>}

@@ -43,6 +43,38 @@ numero da tenere: **se dopo il lotto ne risultano di più, la differenza è nost
 La corsia C sta lavorando proprio questo difetto, e sa che installando `bats` sullo stesso commit i
 rossi veri diventano 11. Quei dieci non sono nostri: erano lì e nessuno poteva vederli.
 
+## Il rischio della firma: quanti difetti si richiuderebbero DA SOLI al merge
+
+Dopo il merge gira `auto-fix.mjs verifica --applica`, che guarda la prova sulla scheda e NON la
+volontà di chi ha lavorato il difetto. Un difetto aperto la cui prova a pattern risulta soddisfatta
+si richiude da solo — e smentisce ciò su cui Nicola ha messo la firma. È già successo: il 29/7 il
+conteggio disse «✅ Chiusi 20» ed era verde, ma uno dei venti non doveva esserci.
+
+Quindi la domanda va **misurata**, non temuta. Misurata il 2026-08-14 alle 22:05, su tutti i
+difetti aperti:
+
+```
+APERTI con prova a pattern: 38
+  · prova GIÀ SODDISFATTA → si richiuderebbero da soli:  0
+  · prova non soddisfatta (restano aperti):             38
+  · cieche (file o pattern illeggibile):                 0
+```
+
+**Zero.** Nessuno dei trentotto si richiude da solo con il codice com'è adesso. Il rischio esiste
+come classe — quelle trentotto prove restano deboli e andranno rifatte — ma stanotte non morde.
+
+I due difetti che le corsie hanno dichiarato APERTI (AR-375 e AR-682) sono già a `tipo: umano`,
+quindi fuori dal rischio per costruzione. Sul primo la scheda porta il racconto della volta in cui
+la trappola scattò davvero: la sua vecchia prova cercava `esito_righe` in `malattie.json`, cioè
+**il nome del tubo che il difetto stesso denuncia** — una stringa già presente il giorno in cui il
+difetto è nato. Descriveva il bug, non il fix.
+
+Il conto va rifatto **dopo la ricucitura e prima del merge**, perché la ricucitura cambia le prove:
+
+```bash
+node -e "…"   # lo script sta nel corpo della richiesta di unione del lotto 42
+```
+
 ## Come si rilegge questa misura
 
 Il worktree pulito è ancora montato:

@@ -1,8 +1,23 @@
 {
   "corsia": "E — la decisione sepolta dentro il componente React, dove nessun test la può eseguire",
-  "modulo_condiviso": "pannello/src/lib/stato-card.ts (in corso)",
-  "stato_lavoro": "IN CORSO — appena partita, sto verificando i difetti sul codice vero",
-  "difetti": [],
+  "modulo_condiviso": "pannello/src/lib/stato-card.ts (in scrittura)",
+  "stato_lavoro": "IN CORSO — il Pannello risponde e i sei casi di c2-schermo sono verdi. Sto scrivendo il modulo.",
+  "notizia_grossa": "Il file di prova c2-schermo.test.mjs è passato da 0 casi su 6 a 6 su 6. Alla partenza del lotto era cieco: mancavano le librerie del Pannello, quindi il sito non si accendeva e nessuno poteva guardare. Ho installato le librerie (npm install dentro pannello/, cartella ignorata da git) e acceso il Pannello sulla porta 3939. Ora i sei casi guardano davvero e passano tutti.",
+  "difetti": [
+    {
+      "id": "AR-225",
+      "esito": "gia-riparato",
+      "verifica_comando": "node cervello/test/c2-schermo.test.mjs",
+      "nota_fix": "Il rimedio era già nel codice dal lotto 41: sotto la soglia tablet c'è una scheda per KPI e la tabella a quattro colonne resta da tablet in su. Mancava solo la prova: il Pannello non partiva su questa macchina, quindi il caso risultava rosso senza aver guardato niente. Acceso il Pannello, il caso è verde e con lui gli altri cinque dello stesso file.",
+      "mutante": {
+        "file": "pannello/src/app/page.tsx",
+        "cerca": "<div className=\"sm:hidden space-y-1.5\" data-test=\"numeri-schede\">",
+        "sostituisci": "<div className=\"hidden sm:hidden space-y-1.5\" data-test=\"numeri-schede\">",
+        "nota": "è il mutante già registrato dal lotto 41: da verificare a fine lavoro"
+      },
+      "non_vacuita": "da verificare a fine lavoro"
+    }
+  ],
   "file_toccati": [],
   "fuori_territorio": [],
   "difetti_nuovi": [],

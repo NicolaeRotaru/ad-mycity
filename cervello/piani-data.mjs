@@ -38,6 +38,7 @@ import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { storiaDelRepo } from "./storia-git.mjs";
+import { msDaTimbro } from "./ora-piacenza.mjs";
 
 const CARTELLA = "MyCity-Vault/06-Piani";
 const JSON_MODE = process.argv.includes("--json");
@@ -107,10 +108,21 @@ export function dichiarato(testo) {
   }
 }
 
-/** Giorni interi fra due istanti `AAAA-MM-GG HH:MM` (ora di Piacenza per costruzione). */
+/**
+ * Giorni interi fra due istanti `AAAA-MM-GG HH:MM` (ora di Piacenza per costruzione).
+ *
+ * AR-666 — qui c'era `new Date("2026-12-01T13:00:00")`, cioè una stringa senza fuso: per lo
+ * standard è ora LOCALE del processo. Sul portatile italiano tornava l'istante giusto, sul VPS in
+ * UTC tornava spostato — e siccome i due timbri hanno la stessa provenienza lo scarto si annullava
+ * quasi sempre, tranne quando l'intervallo scavalca il cambio d'ora: lì restava un'ora orfana che
+ * `Math.floor` può trasformare in un giorno intero. Sotto sta la riga che Nicola legge in cima al
+ * piano, cioè da quanto quel piano non viene rivisto.
+ */
 export function giorniFra(da, a) {
-  const ms = new Date(`${a.replace(" ", "T")}:00`) - new Date(`${da.replace(" ", "T")}:00`);
-  return Math.max(0, Math.floor(ms / 86_400_000));
+  const fine = msDaTimbro(a);
+  const inizio = msDaTimbro(da);
+  if (!Number.isFinite(fine) || !Number.isFinite(inizio)) return 0;
+  return Math.max(0, Math.floor((fine - inizio) / 86_400_000));
 }
 
 /**
