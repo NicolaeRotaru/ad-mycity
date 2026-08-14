@@ -68,9 +68,8 @@ _debug_*
 # reversibilità è la storia git dell'archivio stesso.
 *.bak
 
-# Worktree isolate create per il lavoro parallelo degli agenti (Agent tool, isolation:"worktree"):
-# ognuna è un checkout COMPLETO del repo con il proprio .git, quindi git la vede come repo annidato.
-# Senza questa riga un `git add -A`/commit "chore" automatico (es. git-pr.mjs) le stage come gitlink
-# (commit-entry senza contenuto): è successo il 13/8, un fix di due righe è finito in un commit con
-# 3 gitlink orfani puntati a niente su origin. Restano sul filesystem, mai in git.
+# Worktree temporanei degli agenti (EnterWorktree/cloud agent): repo Git annidati, mai da tracciare
+# come sottomodulo nel repo principale. Senza questa riga un `git add -A` li committa come gitlink
+# (mode 160000) — successo il 14/8 con git-pr.mjs, quattro cartelle .claude/worktrees/agent-* finite
+# in un commit come riferimenti a repo estranei.
 .claude/worktrees/

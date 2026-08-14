@@ -1,7 +1,28 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-14 11:57",
+ "aggiornato": "2026-08-14 20:19",
  "lezioni": [
+  {
+   "id": "L-2026-0814-001",
+   "testo": "**Un rosso trovato nella suite completa (`node --test cervello/test/**/*.test.mjs`) non è per forza un difetto nuovo — rilancia la suite intera una seconda volta prima di aprire un cantiere (2026-08-14 20:09-20:15, giro AD).** Passaggio delle 20:09: la suite intera segnava 3 rossi (1428 pass/3 fail), tra cui `registri-ora-di-piacenza.test.mjs` — mai visto rosso nei passaggi precedenti di oggi (solo `guardiano-mai-messo-di-guardia` e `mappa-in-bacheca` erano debito noto). Prima di dichiararlo un difetto nuovo: (1) rilanciato QUEL SOLO file da solo → verde, 5/5 passati; (2) rilanciata la suite INTERA una seconda volta → verde anche lì, restano solo i 2 rossi noti. Causa più probabile: il test runner di Node esegue i file in parallelo, e `registri-ora-di-piacenza.test.mjs` verifica timbri scritti da script (`pausa-check.mjs`, `sensori-spenti-check.mjs`) che altri file della stessa suite possono rieseguire in contemporanea sugli stessi file di output — una corsa (race), non una regressione di codice. Regola riusabile: un rosso isolato (1 file su centinaia, mai visto prima, verde da solo) merita UN rilancio completo di conferma prima di aprire un cantiere/scheda — il costo di un rilancio (~3 minuti) è molto più basso del costo di inseguire un fantasma. Se il rosso si ripete su rilanci successivi, allora è reale e va trattato come tale (causa radice, non un grep).",
+   "tag": [
+    "test-cervello",
+    "flakiness",
+    "verifica-prima-di-agire",
+    "node-test-runner",
+    "asticella"
+   ],
+   "reparto": "@ad",
+   "confidenza": 0.75,
+   "evidenze": 1,
+   "fonte": "giro",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-14",
+   "ultima_conferma": "2026-08-14 20:15",
+   "stato": "attiva",
+   "usi": [],
+   "gate": "node cervello/test/registri-ora-di-piacenza.test.mjs"
+  },
   {
    "id": "L-2026-0813-03",
    "testo": "**Essere nell'allowlist di `.claude/settings.local.json` non basta a far girare un comando in questa sessione headless (2026-08-13 21:05, giro AD).** `gh pr view 714` è scritto esplicitamente in lista (`Bash(gh pr view:*)`), eppure è stato negato allo stesso modo di `node cervello/test-cervello.mjs`, che in lista non c'è. Stesso esito per `git push origin main`, anch'esso allowlistato: fallisce sempre con `could not read Username`, perché manca la credenziale GitHub, non per un blocco di permesso. Regola: quando un comando allowlistato viene negato in una sessione headless, non dedurre che l'allowlist sia sbagliata — verificare prima se manca una credenziale a monte (token GitHub, `gh auth`), perché sono due guasti diversi con lo stesso sintomo (\"comando negato\") e vanno diagnosticati separatamente prima di proporre un fix.",
@@ -406,6 +427,7 @@
   },
   {
    "id": "L-2026-0721-443",
+   "gate": "node cervello/coerenza-fatti.mjs — verifica che registro-fatti.json:finanza.costi_infrastruttura resti la casa unica delle voci di costo (già scritto \"stime 📊 su tutte le voci — zero ? vuoti\"); una copia vecchia/incompleta in un file vivo fa fallire il guardiano.",
    "testo": "**Costi — «prezzo su tutti» = stima 📊 su ogni riga Bacheca, zero `?` vuoti (Nicola 21/7 ~00:37, correzione).** «**Metti un prezzo reale o ipotetico ma che si avvicina al reale su tutti i costi**» — follow-up dopo L-442 (admin/ops proposti in chat ma Bacheca ancora con **`?`**). 5 perché: (1) Nicola **non accetta placeholder** — vuole **numero leggibile** su ogni voce, anche se orientativo; (2) distinzione obbligatoria **✅ confermato** (solo cifre sue: burn **~302 €/m**) vs **📊 stima** (commercialista, PEC, volantini, bici, rider, ads…); (3) «ipotetico ma realistica» ≠ inventare — range da vault/listini/DECISIONI, etichetta chiara; (4) L-433 diceva «non inventare cifre pro» — resta valido: stima **marcata**, pro = «da preventivo»; (5) completare **in Bacheca**, non solo elenco chat. Regola: lista costi consegnata = **zero `?`** · ogni riga ha € · scenari opzionali in fondo (minimo oggi → con ads). Vedi L-433, L-442, L-440.",
    "tag": [
     "finanza",
@@ -470,6 +492,7 @@
   },
   {
    "id": "L-2026-0721-440",
+   "gate": "node cervello/coerenza-fatti.mjs — stessa casa unica di L-443 (registro-fatti.json:finanza.costi_infrastruttura), che oggi include già il blocco materiali fisici/stampa; un costo ricorrente dimenticato torna a essere una copia vecchia che il guardiano vede.",
    "testo": "**Costi «tutti che verranno» — volantini/stampa fisica obbligatori, fuori burn (Nicola 21/7 ~00:31, correzione).** «**I costi dei volantini non li hai messi. Metti tutti i costi che verranno**» — follow-up Bacheca costi dopo L-433/L-434. 5 perché: (1) AD aveva coperto **SaaS/fissi** (~302 €/m) ma **saltato materiali fisici** — volantini, kit negozio, locandine; (2) «**tutti i costi che verranno**» per Nicola = **ricorrenti + one-shot + scaling**, non solo abbonamenti digitali; (3) le cifre volantini **esistevano già** in playbook capillarità 20/7 e DECISIONI 24/6 — non cercare solo nella chat, **grep vault** prima di consegnare; (4) sezione dedicata **«Materiali fisici, volantini e stampa»** — **fuori** burn mensile, 🔴 alla firma tipografia, gate **ordine test PQ** prima QR vetrina; (5) AD aveva tentato cifre non documentate → **corretto** legandole a fonti (kit **~80–150 €**, primo lotto **~150–300 €**, volantini **da preventivo**). Regola: lista costi Bacheca = **3 blocchi** (fissi · fisici/stampa · scaling); completare sempre il blocco fisico se capillarità/lancio attivi. Vedi L-433, L-437, L-434.",
    "tag": [
     "finanza",
@@ -4576,14 +4599,15 @@
     "workaround"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.9,
+   "confidenza": 0.75,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-17",
    "ultima_conferma": "2026-07-17 12:45",
    "stato": "attiva",
-   "usi": []
+   "usi": [],
+   "decaduto_step_il": "2026-08-14 19:53"
   },
   {
    "id": "L-2026-0717-254",
@@ -4598,14 +4622,15 @@
     "pulisci-coda"
    ],
    "reparto": "@builder-automazioni",
-   "confidenza": 0.95,
+   "confidenza": 0.7999999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-17",
    "ultima_conferma": "2026-07-17 13:00",
    "stato": "attiva",
-   "usi": []
+   "usi": [],
+   "decaduto_step_il": "2026-08-14 19:53"
   },
   {
    "id": "L-2026-0717-253",
@@ -4621,14 +4646,15 @@
     "arricchimento-catalogo"
    ],
    "reparto": "@builder-automazioni",
-   "confidenza": 0.95,
+   "confidenza": 0.7999999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-17",
    "ultima_conferma": "2026-07-17 12:40",
    "stato": "attiva",
-   "usi": []
+   "usi": [],
+   "decaduto_step_il": "2026-08-14 19:53"
   },
   {
    "id": "L-2026-0717-252",
@@ -8427,14 +8453,14 @@
     "preferenza-nicola"
    ],
    "reparto": "@AD",
-   "confidenza": 0.84,
+   "confidenza": 0.69,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:55",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-07 19:03"
+   "decaduto_step_il": "2026-08-14 19:53"
   },
   {
    "id": "L-2026-0710-84",
@@ -8450,14 +8476,14 @@
     "commit-trigger"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.84,
+   "confidenza": 0.69,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 19:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-07 19:03"
+   "decaduto_step_il": "2026-08-14 19:53"
   },
   {
    "id": "L-2026-0710-83",
@@ -8473,14 +8499,14 @@
     "pannello"
    ],
    "reparto": "@AD",
-   "confidenza": 0.7999999999999999,
+   "confidenza": 0.6499999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:45",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-07 19:03"
+   "decaduto_step_il": "2026-08-14 19:53"
   },
   {
    "id": "L-2026-0710-82",
@@ -8517,14 +8543,14 @@
     "git-pr.mjs"
    ],
    "reparto": "@AD",
-   "confidenza": 0.84,
+   "confidenza": 0.69,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-07 19:03"
+   "decaduto_step_il": "2026-08-14 19:53"
   },
   {
    "id": "L-2026-0710-80",
@@ -8540,14 +8566,14 @@
     "errore"
    ],
    "reparto": "@AD",
-   "confidenza": 0.84,
+   "confidenza": 0.69,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:24",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-07 19:03"
+   "decaduto_step_il": "2026-08-14 19:53"
   },
   {
    "id": "L-2026-0710-79",
@@ -8586,14 +8612,14 @@
     "AD"
    ],
    "reparto": "@AD",
-   "confidenza": 0.82,
+   "confidenza": 0.6699999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-07 18:21"
+   "decaduto_step_il": "2026-08-14 19:53"
   },
   {
    "id": "L-2026-0710-77",
@@ -8705,14 +8731,14 @@
     "pannello"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.7999999999999999,
+   "confidenza": 0.6499999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 17:03",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-07 18:21"
+   "decaduto_step_il": "2026-08-14 19:53"
   },
   {
    "id": "L-2026-0710-71",
@@ -8775,14 +8801,14 @@
     "pannello"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.77,
+   "confidenza": 0.62,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-07 19:03"
+   "decaduto_step_il": "2026-08-14 19:53"
   },
   {
    "id": "L-2026-0709-69",
@@ -10573,14 +10599,14 @@
     "devops-sre"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.82,
+   "confidenza": 0.6699999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-07 18:21",
+   "decaduto_step_il": "2026-08-14 19:53",
    "id_precedente": "L-2026-0710-71",
    "nota_rinumero": "rinumerata da L-2026-0710-71 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)"
   },
@@ -10596,14 +10622,14 @@
     "devops-sre"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.75,
+   "confidenza": 0.6,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-07 18:21",
+   "decaduto_step_il": "2026-08-14 19:53",
    "id_precedente": "L-2026-0710-72",
    "nota_rinumero": "rinumerata da L-2026-0710-72 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)"
   },
@@ -13199,19 +13225,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 511,
+  "lezioni_attive": 512,
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.12,
-  "tasso_calcolato_il": "2026-08-14 11:57",
+  "tasso_calcolato_il": "2026-08-14 20:19",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-14 11:57",
+  "tick_leggero_il": "2026-08-14 20:19",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-14 11:57",
-  "lezioni_totali": 517,
+  "cristallizzazione_ultima": "2026-08-14 19:53",
+  "lezioni_totali": 518,
   "lezioni_per_stato": {
-   "attiva": 412,
+   "attiva": 413,
    "principio": 88,
    "in-prova": 5,
    "decaduta": 0,

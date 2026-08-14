@@ -1,9 +1,8 @@
 {
-  "data": "2026-08-14 11:17",
-  "situazione": "Quarto giro richiesto in meno di 3 ore (dopo 11:02/11:11/11:13): business invariato (1 ordine mai pagato/annullato, 0 pagati, 5 prodotti, 7 profili). North Star fermo a 51 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Le stesse 5 PR restano rosse (#722/#721/#714/#710/#708). Il rischio dei 34 file di codice non committati (dalle 06:30) persiste invariato — ancora da salvare in un branch+PR.",
+  "data": "2026-08-14 20:22",
+  "situazione": "Business invariato, riverificato con query diretta su Supabase (non ereditata): 1 ordine mai pagato/annullato del 24/6, 0 pagati, 5 prodotti, 7 profili, 1 negozio, 407 lead commercianti. North Star fermo a 51 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Buona notizia: il rischio dei 34 file di codice non committati (aperto dalle 06:30 di stamattina) è chiuso, messo in sicurezza da un passaggio successivo. Un presunto terzo test rosso si è rivelato un fantasma di parallelismo tra test, non un difetto nuovo. Restano rosse 5 PR su 6 aperte per colpa propria (una nuova, #728, oltre alle 4 note) e 1 mai provata.",
   "opportunita": [],
   "azioni": [
-    {"titolo": "Salva in un branch il codice non ancora committato prima che si perda", "motivo": "34 file (script di misura/badge di coerenza + relativi test) sono modificati sul disco dalle 06:30 e mai salvati in un commit — rischio reale se qualcuno pulisce l'albero di lavoro", "livello": "giallo"},
-    {"titolo": "La riparazione dei test rossi ha lasciato un guasto sullo stesso ramo, va ripresa da tech", "motivo": "PR #722, ancora rossa su 2 controlli CI, invariata dalle 06:39", "livello": "giallo"}
+    {"titolo": "Riprendi la PR che ripara i due test rossi rimasti, prima di guardare le altre", "motivo": "il fix dei 2 debiti noti (guardiano dei motivi, mappa della macchina) vive già sul ramo della PR #722, ma quella PR è a sua volta rossa su altri controlli — le altre 3-4 PR aperte probabilmente coprono lo stesso tema e conviene chiuderle dopo, non prima", "livello": "giallo"}
   ]
 }
