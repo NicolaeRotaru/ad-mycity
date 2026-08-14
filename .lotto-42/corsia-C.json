@@ -1,0 +1,12 @@
+{
+  "corsia": "C — la prova che non può fallire: il metro stesso è rotto",
+  "modulo_condiviso": "cervello/contratto-prova.mjs",
+  "stato": "IN CORSO — appena partita, nessun difetto ancora chiuso",
+  "difetti": [],
+  "file_toccati": [],
+  "fuori_territorio": [],
+  "difetti_nuovi": [],
+  "mutanti_da_correggere": [],
+  "bats_rosse_trovate": [],
+  "spazzata": "da compilare"
+}
