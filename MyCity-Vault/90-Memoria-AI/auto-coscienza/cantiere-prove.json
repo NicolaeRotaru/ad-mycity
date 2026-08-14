@@ -1,23 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-14 06:20",
+  "aggiornato": "2026-08-14 08:20",
   "giorni_sospetto": 3,
   "difetti_aperti": 279,
   "per_classe": {
     "umana": 162,
-    "auto-sospetta": 100,
+    "auto-sospetta": 97,
     "auto-comando": 10,
-    "auto-ok": 5,
+    "auto-ok": 8,
     "auto-attesa": 2
   },
-  "non_auto_chiudibili": 262,
+  "non_auto_chiudibili": 259,
   "bloccanti_ciechi": [
     "AR-473",
     "AR-072",
     "AR-518",
     "AR-521",
-    "AR-568"
+    "AR-568",
+    "AR-592"
   ],
   "schede_incomplete": [
     {
@@ -1051,9 +1052,9 @@
       "gravita": "grave",
       "eta_giorni": 16,
       "titolo": "I sensori scrivono «tutto a posto» e nessuno guarda mai da quanto tempo l'hanno scritto",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 16 giorni (cervello/sentinella-dati.mjs ~ /SENSORI_STANTII_MIN/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
+      "classe": "auto-ok",
+      "perche": "prova soddisfatta ora (cervello/sentinella-dati.mjs ~ /SENSORI_STANTII_MIN/): auto-fix lo chiuderà",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-364",
@@ -1114,9 +1115,9 @@
       "gravita": "grave",
       "eta_giorni": 16,
       "titolo": "Il guardiano dell'automazione diventa verde appena lo lanci da dove i timer non esistono",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 16 giorni (cervello/verifica-automazione.mjs ~ /controlli_non_eseguiti/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
+      "classe": "auto-ok",
+      "perche": "prova soddisfatta ora (cervello/verifica-automazione.mjs ~ /controlli_non_eseguiti/): auto-fix lo chiuderà",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-375",
@@ -1132,9 +1133,9 @@
       "gravita": "grave",
       "eta_giorni": 16,
       "titolo": "Quando l'elenco dei guardiani è rotto, la bacheca resta congelata a ieri e promette più protezione di quella c",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 16 giorni (cervello/censimento-guardiani.mjs ~ /TABELLA INCOMPLETA/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
+      "classe": "auto-ok",
+      "perche": "prova soddisfatta ora (cervello/censimento-guardiani.mjs ~ /TABELLA INCOMPLETA/): auto-fix lo chiuderà",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-383",
@@ -2209,6 +2210,7 @@
     },
     {
       "id": "AR-576",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Il termometro della salute crolla da 45 a 4 in un giorno, ma la macchina dichiara che non è cambiato niente",
       "classe": "umana",
@@ -2217,6 +2219,7 @@
     },
     {
       "id": "AR-578",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "La memoria si aggiorna ogni sera, ma il referto del checkup è fermo da quasi due giorni",
       "classe": "umana",
@@ -2225,6 +2228,7 @@
     },
     {
       "id": "AR-581",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Il quaderno dei pezzi nuovi proposti è morto: nessun programma lo legge e nessuno lo aggiorna da cinque settim",
       "classe": "umana",
@@ -2233,6 +2237,7 @@
     },
     {
       "id": "AR-583",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "I due guardiani anti-doppione danno il verde mentre due senior si contendono il carrello abbandonato",
       "classe": "umana",
@@ -2241,6 +2246,7 @@
     },
     {
       "id": "AR-584",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Tutti i centoventi mansionari lasciano ogni strumento in mano ai senior, anche a chi per contratto legge solta",
       "classe": "umana",
@@ -2249,6 +2255,7 @@
     },
     {
       "id": "AR-585",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Il canale WhatsApp del negoziante non ha nessun senior che lo reclami",
       "classe": "umana",
@@ -2257,6 +2264,7 @@
     },
     {
       "id": "AR-586",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "La scheda degli affari regolatori reclama l'inquadramento dei rider senza rimandare ai due che ne rispondono",
       "classe": "umana",
@@ -2265,6 +2273,7 @@
     },
     {
       "id": "AR-588",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Il sito dei negozi non risponde da tredici giorni e nessun guardiano lo porta in coda",
       "classe": "umana",
@@ -2273,6 +2282,7 @@
     },
     {
       "id": "AR-592",
+      "gravita": "bloccante",
       "eta_giorni": 1,
       "titolo": "Il battito è di nuovo fermo da tre giorni e la ricaduta non ha svegliato nessuno",
       "classe": "umana",
@@ -2281,6 +2291,7 @@
     },
     {
       "id": "AR-593",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "La review del venerdì è obbligatoria sulla carta ma non lascia i compiti da tre venerdì",
       "classe": "umana",
@@ -2289,6 +2300,7 @@
     },
     {
       "id": "AR-594",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Il referto di salute non ha la voce sul battito: sei cadenze rosse e la visita tace",
       "classe": "umana",
@@ -2297,6 +2309,7 @@
     },
     {
       "id": "AR-595",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "I quaderni dei senior sono fermi quasi tutti: centocinque su centoventi senza una riga fresca, settantadue mai",
       "classe": "umana",
@@ -2305,6 +2318,7 @@
     },
     {
       "id": "AR-596",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Un freno su tre è senza la prova che scatti: diciannove lezioni frenate non hanno la mutazione",
       "classe": "umana",
@@ -2313,6 +2327,7 @@
     },
     {
       "id": "AR-598",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Il freno che vieta nuove ricerche quando si apre più di quanto si chiude vale solo per il giro: le radiografie",
       "classe": "umana",
@@ -2321,6 +2336,7 @@
     },
     {
       "id": "AR-599",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Per la regola dei canali unire una richiesta su GitHub o scrivere sul sito è roba di casa: un verde scritto da",
       "classe": "umana",
@@ -2329,6 +2345,7 @@
     },
     {
       "id": "AR-600",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Lo sblocco del ponte verso WhatsApp e i social è un interruttore unico: aperto una volta, vale per qualsiasi d",
       "classe": "umana",
@@ -2337,6 +2354,7 @@
     },
     {
       "id": "AR-601",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Nessun numero dice a Nicola quanta parte del lavoro della settimana è andata alla macchina e quanta ai negozi",
       "classe": "umana",
@@ -2345,6 +2363,7 @@
     },
     {
       "id": "AR-602",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "La risposta di un lavoro aperto resta quella vecchia anche quando il lavoro è finito",
       "classe": "umana",
@@ -2353,6 +2372,7 @@
     },
     {
       "id": "AR-603",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Ricaricando la pagina l'archivio perde i titoli veri e il recupero delle risposte dai lavori gira a vuoto",
       "classe": "umana",
@@ -2361,6 +2381,7 @@
     },
     {
       "id": "AR-604",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "La casella promette di ripescare la risposta alla riapertura, ma riaprirla non ripesca niente",
       "classe": "umana",
@@ -2369,6 +2390,7 @@
     },
     {
       "id": "AR-605",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Salvataggi e letture partono da dentro gli aggiornamenti di stato e possono partire doppi",
       "classe": "umana",
@@ -2377,6 +2399,7 @@
     },
     {
       "id": "AR-606",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Chiudere un pannello col tocco lascia il suo timbro nella cronologia e da lì il tasto indietro sbaglia strada",
       "classe": "umana",
@@ -2385,6 +2408,7 @@
     },
     {
       "id": "AR-607",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "La schermata di errore promette che il resto del Pannello funziona, ma quando compare è sparito tutto",
       "classe": "umana",
@@ -2393,6 +2417,7 @@
     },
     {
       "id": "AR-608",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Senza rete i quaderni dei senior danno la colpa sbagliata e lasciano errori non gestiti ogni due minuti",
       "classe": "umana",
@@ -2401,6 +2426,7 @@
     },
     {
       "id": "AR-609",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Il vecchio collegamento col cancelletto per l'auto-coscienza si apre solo se sei già sulla scheda giusta",
       "classe": "umana",
@@ -2409,6 +2435,7 @@
     },
     {
       "id": "AR-610",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Un indirizzo sbagliato del Pannello finisce su una pagina inglese di errore senza una via per tornare alla Cab",
       "classe": "umana",
@@ -2417,6 +2444,7 @@
     },
     {
       "id": "AR-611",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Il pannello gira su librerie con quattro falle note di gravità alta, tutte già corrette a monte",
       "classe": "umana",
@@ -2425,6 +2453,7 @@
     },
     {
       "id": "AR-612",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Il bottone che porta all'azione da firmare lascia Nicola su una scheda chiusa o nel nulla",
       "classe": "umana",
@@ -2433,6 +2462,7 @@
     },
     {
       "id": "AR-613",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "L'area dove si firma è invisibile ai lettori di schermo: zero etichette di accessibilità e bottoni dentro bott",
       "classe": "umana",
@@ -2441,6 +2471,7 @@
     },
     {
       "id": "AR-614",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "In tema scuro i bordi e i badge colorati delle card restano quelli del tema chiaro",
       "classe": "umana",
@@ -2449,6 +2480,7 @@
     },
     {
       "id": "AR-615",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Il tasto Ignora di una proposta accetta il doppio tocco e spara due richieste",
       "classe": "umana",
@@ -2457,6 +2489,7 @@
     },
     {
       "id": "AR-616",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Il registro delle azioni mostra i titoli grezzi, saltando il filtro che pulisce sigle e percorsi",
       "classe": "umana",
@@ -2465,6 +2498,7 @@
     },
     {
       "id": "AR-617",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Centoquattordici senior promettono di lavorare in sola lettura, ma nessun freno tecnico glielo impone",
       "classe": "umana",
@@ -2473,6 +2507,7 @@
     },
     {
       "id": "AR-618",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Nessun senior ha un modello assegnato: anche i lavori semplici girano col motore più caro",
       "classe": "umana",
@@ -2481,6 +2516,7 @@
     },
     {
       "id": "AR-620",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Quando un senior passa il lavoro a un collega, nessuno lo raccoglie: sei passaggi su sette caduti nel vuoto",
       "classe": "umana",
@@ -2489,6 +2525,7 @@
     },
     {
       "id": "AR-621",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Chi lavora senza scrivere nel canale di squadra resta invisibile: ad agosto il canale è il monologo del dirett",
       "classe": "umana",
@@ -2497,6 +2534,7 @@
     },
     {
       "id": "AR-622",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "La revisione tra pari esiste solo sulla carta: una sola richiesta in un mese e mezzo, rimasta senza risposta",
       "classe": "umana",
@@ -2505,6 +2543,7 @@
     },
     {
       "id": "AR-623",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Il contatore dei quaderni vivi non conta il quaderno del direttore",
       "classe": "umana",
@@ -2513,6 +2552,7 @@
     },
     {
       "id": "AR-626",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Se la conferma della presa in carico si perde per strada, il lavoro resta segnato in corso per un'ora senza ch",
       "classe": "umana",
@@ -2521,6 +2561,7 @@
     },
     {
       "id": "AR-630",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Quando la quota si libera tra ore, la cadenza riprova comunque dopo trenta secondi",
       "classe": "umana",
@@ -2529,6 +2570,7 @@
     },
     {
       "id": "AR-639",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Gli strumenti di misura scrivono la memoria anche quando devono solo leggere, e l'archivio butta via storia ve",
       "classe": "umana",
@@ -2537,6 +2579,7 @@
     },
     {
       "id": "AR-640",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Il lavoro lungo lanciato dal cloud muore in silenzio quando il contenitore si addormenta, e nessuno se ne acco",
       "classe": "umana",
@@ -2545,6 +2588,7 @@
     },
     {
       "id": "AR-641",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "La radiografia di ieri ha raccontato 163 difetti e ne ha scritti 2: gli altri vivono solo nella lettera",
       "classe": "umana",
@@ -2553,6 +2597,7 @@
     },
     {
       "id": "AR-643",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Gli errori di git finiscono crudi nel verdetto di chiusura del turno",
       "classe": "umana",
@@ -2561,6 +2606,7 @@
     },
     {
       "id": "AR-644",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Se l'aggancio dei cancelli del commit fallisce all'avvio, la sessione parte scoperta e muta",
       "classe": "umana",
@@ -2569,6 +2615,7 @@
     },
     {
       "id": "AR-645",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Ogni blocco del commit insegna la scappatoia e nessuno conta chi la usa",
       "classe": "umana",
@@ -2667,6 +2714,7 @@
     },
     {
       "id": "AR-659",
+      "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "La lista di quali lavori sono «azioni vere» sta in cinque posti con quattro nomi diversi",
       "classe": "umana",
@@ -2675,6 +2723,7 @@
     },
     {
       "id": "AR-660",
+      "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Ventisei prove scritte in bats non le esegue nessuno: né la suite, né il cancello, né i workflow",
       "classe": "umana",
