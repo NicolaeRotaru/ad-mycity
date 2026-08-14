@@ -137,6 +137,39 @@ const primaRigaUtile = (testo, quante = 2) =>
     .join(" · ")
     .slice(0, 240);
 
+/**
+ * Il MOTIVO di un guasto, preso da dove il guardiano l'ha scritto.
+ *
+ * IL CASO VERO, 13→14 agosto. Il referto diceva a Nicola: «Token, push e allineamento git —
+ * l'automazione ha un controllo fallito — { · "esito": "errore",». Cioè il motivo era una parentesi
+ * graffa. Sei guardiani della visita rispondono in JSON (`--json`), e di quel JSON si stampavano le
+ * prime due righe: `{` e `"esito": "errore",` — le uniche due che non dicono niente. Il riassunto
+ * vero stava tre righe sotto, nel campo `sintesi`: «1 FALLITI: token ad-mycity».
+ *
+ * Il danno non è estetico. Chi legge il referto deve poter AGIRE: «un controllo fallito» manda a
+ * cercare quale, e per due giorni quel rosso è rimasto lì senza che nessuno sapesse cosa riparare.
+ * Un verdetto che non nomina la cosa rotta costa quanto un verdetto assente.
+ *
+ * Pura apposta: entra il testo, esce la frase. I nomi dei campi sono quelli che i guardiani di
+ * questa macchina usano già — `sintesi` è la convenzione, gli altri sono la rete.
+ */
+export function motivoDelGuasto(out, quante = 2) {
+  const testo = String(out || "").trim();
+  if (testo.startsWith("{") || testo.startsWith("[")) {
+    try {
+      const j = JSON.parse(testo);
+      const dentro = Array.isArray(j) ? j[0] : j;
+      for (const campo of ["sintesi", "motivo", "perche", "errore", "dettaglio"]) {
+        const v = dentro?.[campo];
+        if (typeof v === "string" && v.trim()) return v.trim().slice(0, 240);
+      }
+    } catch {
+      // JSON troncato o non valido: meglio le prime righe che niente — ma lo dice il fallback.
+    }
+  }
+  return primaRigaUtile(testo, quante);
+}
+
 // Le scorciatoie per comporre un esito. `detto` è la frase che leggerà Nicola: si scrive a voce.
 const ok = (detto, dati) => ({ esito: "ok", detto, dati });
 const rotto = (detto, dati) => ({ esito: "rotto", detto, dati });
@@ -152,9 +185,9 @@ function seServonoChiavi(chiavi) {
 /** Traduce un guardiano già esistente in un esito, senza reinterpretare i suoi codici d'uscita. */
 function daGuardiano(r, { comando, rossoSe = (c) => c !== 0, dettoOk, dettoRotto, ciecoSe = () => false }) {
   if (!r.partito) return { ...guasto(r.motivo), prova: comando };
-  if (ciecoSe(r.code)) return { ...nonVisto(`il controllo non ha potuto misurare: ${primaRigaUtile(r.out)}`), prova: comando, ms: r.ms };
+  if (ciecoSe(r.code)) return { ...nonVisto(`il controllo non ha potuto misurare: ${motivoDelGuasto(r.out)}`), prova: comando, ms: r.ms };
   const esito = rossoSe(r.code)
-    ? rotto(`${dettoRotto} — ${primaRigaUtile(r.out)}`, { uscita: r.code })
+    ? rotto(`${dettoRotto} — ${motivoDelGuasto(r.out)}`, { uscita: r.code })
     : ok(dettoOk, { uscita: r.code });
   return { ...esito, prova: comando, ms: r.ms };
 }

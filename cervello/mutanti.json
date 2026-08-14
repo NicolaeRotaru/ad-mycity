@@ -3223,6 +3223,14 @@
    "cerca": "  d.chiuso_il = q;",
    "sostituisci": "  d.chiuso_il = \"\";",
    "test": "node cervello/test/contabilita-chiusure.test.mjs"
+  },
+  {
+   "difetto": "AR-692",
+   "nome": "il referto torna a mostrare la prima riga del JSON invece del riassunto: il motivo del guasto ridiventa una parentesi graffa",
+   "file": "cervello/salute.mjs",
+   "cerca": "  if (testo.startsWith(\"{\") || testo.startsWith(\"[\")) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/motivo-che-non-dice-niente.test.mjs"
   }
  ]
 }
