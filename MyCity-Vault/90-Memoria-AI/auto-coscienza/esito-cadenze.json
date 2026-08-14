@@ -12,24 +12,22 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-14 02:26",
+      "quando": "2026-08-14 06:44",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
       "push_ok": false,
       "passi_ok": true,
-      "vincoli_attivi": 13,
+      "vincoli_attivi": 11,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
         "CHIUSURA",
         "CI",
         "CORREZIONE_NICOLA",
-        "COSTO",
         "FRESCHEZZA",
         "MAPPA",
         "NORTH_STAR",
-        "OKR",
         "TASSO",
         "TEST",
         "VOLANO"
@@ -76,5 +74,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-14 06:40"
+  "aggiornato": "2026-08-14 06:44"
 }
