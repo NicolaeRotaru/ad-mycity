@@ -30,6 +30,8 @@ import { storiaDelRepo } from "./storia-git.mjs";
 import { contaProveDeboli } from "./chiusura-dichiarata.mjs";
 import { verdettoConTetto, testDelLotto, idSospetti, testRossi } from "./tetto-guardiano.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
+// 📏 Il contratto della prova (contratto-prova.mjs): quanto vale una prova lo dice UN posto solo.
+import { debitoDiMutazione } from "./contratto-prova.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VELOCE = process.argv.includes("--veloce");
@@ -718,7 +720,34 @@ function main() {
   // `mutazione-mancante`: stesso trattamento. Il debito ereditato ha un tetto che scende; un difetto
   // che il lotto tocca ADESSO senza la sua mutazione non si consegna, punto — anche sotto il tetto.
   const tettoMut = tetti.mutazione_mancante ?? 0;
-  const mutNelLotto = toccati ? senzaMutazione.filter((x) => toccati.includes(x.id)) : [];
+  // AR-692 — RIAPRIRE ONESTAMENTE UN DIFETTO NON È AGGIUNGERE DEBITO.
+  //
+  // Il conto qui sotto ha tetto 0 e prende i difetti APERTI con prova a comando e senza mutazione.
+  // Riaprirne due veri lo portava da 0 a 2 e faceva scattare l'allarme: il metro leggeva «il debito
+  // si è allargato» dove il fatto è l'opposto — quel debito c'era già, dentro una scheda marcata
+  // chiusa, e riaprirla lo ha reso VISIBILE. In un cantiere che vive di onestà è l'incentivo
+  // esattamente rovesciato: la strada comoda diventa lasciare la scheda chiusa.
+  //
+  // La radice, più a fondo: la mutazione di un difetto RIPARATO risponde a «e se il fix tornasse
+  // indietro?» — si rompe il fix e si pretende il rosso. Su un difetto riaperto non c'è nessun fix
+  // da rompere, la prova è già rossa: è un'altra domanda, non la stessa più debole. Il contratto
+  // (contratto-prova.mjs) separa le due, e chi è stato riaperto ADESSO esce dal conto del debito.
+  //
+  // ⚠️ Il blocco duro NON si allarga né si allenta: un difetto che il lotto tocca e dichiara
+  // riparato senza mutazione resta una violazione. Cade solo per chi è stato appena riaperto.
+  const eraChiuso = new Set(
+    (cantierePrima?.difetti || []).filter((d) => String(d?.stato || "").toLowerCase() === "chiuso").map((d) => d?.id),
+  );
+  const riapertoAdesso = (id) => eraChiuso.has(id);
+  // La stessa misura di `senzaMutazione`, fatta su TUTTO il registro invece che sui soli aperti:
+  // senza le chiuse non si vede la metà del debito che conta di più — quella che si è già
+  // dichiarata riparata. Una domanda sola, fatta a due popolazioni diverse, non due domande.
+  const senzaMutazioneTutti = mutanti ? new Set(mutazioniMancanti(difetti, mutanti, leggi).map((x) => x.id)) : null;
+  const debito = senzaMutazioneTutti
+    ? debitoDiMutazione(difetti, (id) => !senzaMutazioneTutti.has(id), riapertoAdesso)
+    : { riparati: [], aperti: [], riaperti: [], senzaProvaAComando: 0 };
+  const senzaMutazioneContati = senzaMutazione.filter((x) => !riapertoAdesso(x.id));
+  const mutNelLotto = toccati ? senzaMutazioneContati.filter((x) => toccati.includes(x.id)) : [];
   for (const x of mutNelLotto) {
     violazioniProve.push({
       regola: "mutazione-mancante",
@@ -726,16 +755,32 @@ function main() {
       motivo: `${x.motivo} — rompi il fix in mutanti.json e pretendi il rosso (node cervello/non-vacuita.mjs)`,
     });
   }
-  if (senzaMutazione.length > tettoMut) {
+  if (senzaMutazioneContati.length > tettoMut) {
     violazioniProve.push({
       regola: "mutazione-mancante-oltre-il-tetto",
-      ids: senzaMutazione.map((x) => x.id),
-      motivo: `${senzaMutazione.length} prove mai rotte apposta contro un tetto di ${tettoMut}: il debito si è allargato`,
+      ids: senzaMutazioneContati.map((x) => x.id),
+      motivo: `${senzaMutazioneContati.length} prove mai rotte apposta contro un tetto di ${tettoMut}: il debito si è allargato`,
     });
-  } else if (senzaMutazione.length < tettoMut) {
-    avvisi.push(`prove senza mutazione scese da ${tettoMut} a ${senzaMutazione.length}: abbassa il tetto con --aggiorna-tetti`);
-  } else if (senzaMutazione.length) {
-    avvisi.push(`${senzaMutazione.length} prove ereditate mai rotte apposta (sotto il tetto): ${senzaMutazione.map((x) => x.id).join(", ")}`);
+  } else if (senzaMutazioneContati.length < tettoMut) {
+    avvisi.push(`prove senza mutazione scese da ${tettoMut} a ${senzaMutazioneContati.length}: abbassa il tetto con --aggiorna-tetti`);
+  } else if (senzaMutazioneContati.length) {
+    avvisi.push(`${senzaMutazioneContati.length} prove ereditate mai rotte apposta (sotto il tetto): ${senzaMutazioneContati.map((x) => x.id).join(", ")}`);
+  }
+  if (debito.riaperti.length) {
+    avvisi.push(
+      `${debito.riaperti.length} difetti RIAPERTI in questo lotto senza mutazione (${debito.riaperti.map((x) => x.id).join(", ")}): ` +
+        "debito ereditato reso visibile, non debito nuovo — non conta nel tetto, e va dichiarato nella PR (AR-692)",
+    );
+  }
+  // IL DEBITO CHE NESSUNO CONTAVA, e che sta dall'altra parte: le schede DICHIARATE RIPARATE la cui
+  // prova non è mai stata rotta apposta. Misurate il 14/8: 98. Non blocca — bloccare novantotto
+  // schede vecchie renderebbe il cancello rosso per sempre, e un cancello sempre rosso si impara ad
+  // aggirare — ma senza questa riga il numero non lo vedeva nessuno, ed è quello che deve scendere.
+  if (debito.riparati.length) {
+    avvisi.push(
+      `${debito.riparati.length} schede dichiarate RIPARATE la cui prova non è mai stata rotta apposta: ` +
+        "è il debito vero (una chiusura che nessuno ha mai visto diventare rossa), e sta tutto dentro schede già chiuse",
+    );
   }
 
   // AR-473 — un controllo che non ha misurato va nella colonna dei CIECHI, non in quella degli

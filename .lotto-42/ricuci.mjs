@@ -27,7 +27,23 @@ const APPLICA = process.argv.includes("--applica");
 const LOTTO_N = 42;
 
 const leggi = (p) => JSON.parse(readFileSync(p, "utf8"));
-const scrivi = (p, o) => writeFileSync(p, JSON.stringify(o, null, 2) + "\n");
+
+/**
+ * Con quanti spazi era indentato il file? Si legge dalla PRIMA riga rientrata, non si indovina.
+ *
+ * Pagato sul campo in questo stesso lotto: ho riscritto `mutanti.json` con `JSON.stringify(…, 2)`
+ * per cambiarci due voci, e il guardiano del commit mi ha fermato — il file era a 1 spazio, quindi
+ * il diff diventava 3.714 righe cambiate su 3.714. Il contenuto era giusto: era la FORMA a rendere
+ * la richiesta di unione illeggibile e il conflitto totale per chiunque altro tocchi quel file.
+ */
+const rientroDi = (testo, difetto = 2) => {
+  const m = testo.match(/^\{\r?\n( +)"/);
+  return m ? m[1].length : difetto;
+};
+
+/** Riscrive un JSON tenendo il rientro che aveva: si cambia il contenuto, non la forma. */
+const scrivi = (p, o, testoOriginale) =>
+  writeFileSync(p, JSON.stringify(o, null, rientroDi(testoOriginale)) + "\n");
 
 // ── i frammenti ─────────────────────────────────────────────────────────────
 const frammenti = readdirSync(LOTTO)
@@ -39,8 +55,10 @@ if (!frammenti.length) {
   process.exit(1);
 }
 
-const cantiere = leggi(CANTIERE);
-const mutanti = leggi(MUTANTI);
+const testoCantiere = readFileSync(CANTIERE, "utf8");
+const testoMutanti = readFileSync(MUTANTI, "utf8");
+const cantiere = JSON.parse(testoCantiere);
+const mutanti = JSON.parse(testoMutanti);
 const perId = new Map(cantiere.difetti.map((d) => [d.id, d]));
 
 const esiti = { riparato: [], aperto: [], "gia-riparato": [], ignoto: [] };
@@ -152,8 +170,8 @@ if (!APPLICA) {
 
 mutanti.mutanti = [...(mutanti.mutanti || []), ...daAggiungere];
 mutanti.aggiornato = new Date().toISOString();
-scrivi(CANTIERE, cantiere);
-scrivi(MUTANTI, mutanti);
+scrivi(CANTIERE, cantiere, testoCantiere);
+scrivi(MUTANTI, mutanti, testoMutanti);
 console.log(`\n✅ scritti: cantiere-difetti.json · mutanti.json`);
 console.log("   Lo STATO non e stato toccato: le chiusure le applica auto-fix DOPO il merge.");
 process.exit(problemi.length ? 1 : 0);

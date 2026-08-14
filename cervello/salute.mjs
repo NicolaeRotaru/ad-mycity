@@ -32,6 +32,7 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync } fr
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { GIRI_PER_CRONICO, dilloAVoce, quadroCronicita, statoAllarme } from "./cronicita-allarmi.mjs";
+import { leggiEsito } from "./esito-guardiano.mjs";
 import {
   COMPITI_DELLA_REVIEW,
   NON_VISTO,
@@ -158,13 +159,28 @@ function seServonoChiavi(chiavi) {
   return mancanti.length ? nonVisto(`manca ${mancanti.join(" / ")} in questo ambiente`) : null;
 }
 
-/** Traduce un guardiano già esistente in un esito, senza reinterpretare i suoi codici d'uscita. */
-function daGuardiano(r, { comando, rossoSe = (c) => c !== 0, dettoOk, dettoRotto, ciecoSe = () => false }) {
+/**
+ * Traduce un guardiano già esistente in un esito, senza reinterpretare i suoi codici d'uscita.
+ *
+ * AR-667 — QUI DENTRO C'ERA LA PORTA APERTA. La riga era `rossoSe(code) ? rotto : ok`, con
+ * `ciecoSe` che valeva `() => false` per chi non lo dichiarava. Bastava un controllo tarato su un
+ * codice preciso — «rosso se è 1» — perché ogni ALTRO codice, il 2 compreso, cadesse nel ramo `ok` e
+ * stampasse la frase rassicurante. Nel contratto di casa (AR-322) il 2 vuol dire «non ho potuto
+ * misurare», che è la cosa più lontana da un verde che ci sia.
+ *
+ * Adesso la decisione non abita più qui: la prende `leggiEsito` in `cervello/esito-guardiano.mjs`,
+ * dove una prova la può ESEGUIRE su un numero finto invece di cercarne la forma in questo file. E il
+ * patto è che un chiamante possa stringere le regole ma non far sparire il cieco.
+ */
+export function daGuardiano(r, { comando, rossoSe, dettoOk, dettoRotto, ciecoSe }) {
   if (!r.partito) return { ...guasto(r.motivo), prova: comando };
-  if (ciecoSe(r.code)) return { ...nonVisto(`il controllo non ha potuto misurare: ${primaRigaUtile(r.out)}`), prova: comando, ms: r.ms };
-  const esito = rossoSe(r.code)
-    ? rotto(`${dettoRotto} — ${primaRigaUtile(r.out)}`, { uscita: r.code })
-    : ok(dettoOk, { uscita: r.code });
+  const v = leggiEsito(r.code, { rossoSe, ciecoSe, partito: r.partito });
+  if (v.stato === "cieco")
+    return { ...nonVisto(`il controllo non ha potuto misurare: ${primaRigaUtile(r.out) || v.motivo}`), prova: comando, ms: r.ms };
+  const esito =
+    v.stato === "rosso"
+      ? rotto(`${dettoRotto} — ${primaRigaUtile(r.out)}`, { uscita: r.code })
+      : ok(dettoOk, { uscita: r.code });
   return { ...esito, prova: comando, ms: r.ms };
 }
 
@@ -848,8 +864,7 @@ export const CONTROLLI = [
       const r = eseguiNode("scan-segreti.mjs", [], 60_000);
       return daGuardiano(r, {
         comando: "node cervello/scan-segreti.mjs",
-        rossoSe: (c) => c === 1,
-        ciecoSe: (c) => c === 2, // errore interno dello scanner: cieco, non pulito
+        // Il 2 dello scanner (errore interno) è cieco per contratto di casa: non serve dirlo qui.
         dettoOk: "nessuna chiave o segreto committato",
         dettoRotto: "trovato un segreto nel repo",
       });
@@ -1177,9 +1192,12 @@ export const CONTROLLI = [
       if (!chiaviSensori.some((k) => process.env[k]))
         return nonVisto("nessuna chiave dei sensori in questo ambiente: da qui la macchina non può vedere il marketplace");
       const r = eseguiNode("verifica-sensori.mjs", [], 120_000);
+      // Qui c'era `rossoSe: (c) => c === 1` — «1 = tutti ciechi, e le chiavi ci sono: guasto vero».
+      // Era anche la porta di AR-667: dicendo quale codice è rosso, tutti gli altri diventavano
+      // verdi, e fra quelli c'era il 2, cioè «non ho potuto misurare». Adesso la regola di casa vale
+      // da sola — 0 verde, 2 cieco, il resto rosso — e non serve più dichiararla qui.
       return daGuardiano(r, {
         comando: "node cervello/verifica-sensori.mjs",
-        rossoSe: (c) => c === 1, // 1 = tutti ciechi, e qui le chiavi CI SONO: allora è un guasto vero
         dettoOk: "almeno un sensore dati vede il marketplace",
         dettoRotto: "tutti i sensori sono ciechi pur avendo le chiavi",
       });
@@ -1194,8 +1212,6 @@ export const CONTROLLI = [
       const r = eseguiNode("sensori-spenti-check.mjs", [], 60_000);
       return daGuardiano(r, {
         comando: "node cervello/sensori-spenti-check.mjs",
-        rossoSe: (c) => c === 1,
-        ciecoSe: (c) => c === 2,
         dettoOk: "ogni sensore spento dice perché è spento",
         dettoRotto: "un sensore è spento e nessuno sa perché (buco, non decisione)",
       });

@@ -23,6 +23,15 @@ const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
 const DENTRO_CANTIERE = "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json";
 
+// AR-694 — I MODULI SI CARICANO QUI, non dentro i casi. Il banco qui sotto lancia i casi con `fn()`
+// secco: un caso scritto `async` per poter fare `await import(...)` restituisce una promessa che
+// nessuno raccoglie, l'asserzione gira dopo che il conteggio è già stampato, e un `1 = 2` esce
+// «passato». Due casi di questo file erano esattamente così. L'import in cima è `await` di modulo —
+// legittimo, atteso da Node prima di eseguire una riga di test — e rende i casi sincroni per davvero.
+// (Caricare `cancello-lotto.mjs` non lo fa girare: ha la guardia dell'entrypoint.)
+const { fileDelComando, proveOrfane } = await import(join(QUI, "..", "cancello-lotto.mjs"));
+const { comandoAmmesso } = await import(join(QUI, "..", "forma-prova.mjs"));
+
 const casi = [];
 const prova = (nome, fn) => {
   try {
@@ -168,8 +177,7 @@ prova("--aggiorna-tetti non abbassa un tetto che non ha potuto misurare", () => 
   assert.equal(JSON.parse(readFileSync(join(dir, "cervello/tetti-lotto.json"), "utf8")).mutazione_mancante, 5, "il tetto resta quello di prima");
 });
 
-prova("il file del test si riconosce anche quando il comando porta un caricatore (lotto 33)", async () => {
-  const { fileDelComando } = await import(join(QUI, "..", "cancello-lotto.mjs"));
+prova("il file del test si riconosce anche quando il comando porta un caricatore (lotto 33)", () => {
   // Il caso che ha rotto: la regola era «il primo token che sembra un file», e con
   // `--import ./cervello/test/hook-ts.mjs` quel token è il RISOLUTORE, non il test. Il cancello
   // leggeva il file sbagliato e accusava una prova condivisa di non nominare i suoi difetti mentre
@@ -186,10 +194,7 @@ prova("il file del test si riconosce anche quando il comando porta un caricatore
   assert.equal(fileDelComando("echo niente"), null, "senza file deve dire null, non indovinare");
 });
 
-prova("una prova che auto-fix non sa eseguire non passa il cancello (lotto 33)", async () => {
-  const { proveOrfane } = await import(join(QUI, "..", "cancello-lotto.mjs"));
-  const { comandoAmmesso } = await import(join(QUI, "..", "forma-prova.mjs"));
-
+prova("una prova che auto-fix non sa eseguire non passa il cancello (lotto 33)", () => {
   // Il caso che ha rotto, e che è costato due difetti: AR-409 e AR-226 sono stati consegnati con
   // `node --import ./cervello/test/hook-ts.mjs --test …`. Il cancello l'ha accettato — il file
   // esisteva — ma `auto-fix`, che chiude i difetti DOPO il merge, esegue solo

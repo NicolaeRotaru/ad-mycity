@@ -1,8 +1,85 @@
 {
   "corsia": "B — il cieco venduto per verde: un guardiano che non ha potuto guardare stampa la frase rassicurante",
   "modulo_condiviso": "cervello/esito-guardiano.mjs",
-  "difetti": [],
-  "file_toccati": [],
+  "difetti": [
+    {
+      "id": "AR-667",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/cieco-venduto-per-verde.test.mjs",
+      "nota_fix": "La traduzione da codice d'uscita a verdetto è uscita da salute.mjs ed è diventata un modulo puro che un test può eseguire. La regola di casa adesso vale da sola: zero è verde, due è cieco, tutto il resto è rosso. Chi chiama può aggiungere codici al rosso o al cieco, non può togliere il due dal cieco. Ho tolto le tre dichiarazioni «rosso solo se è uno» dai controlli della visita: erano proprio la porta da cui il due passava per verde.",
+      "mutante": {
+        "file": "cervello/esito-guardiano.mjs",
+        "cerca": "  if (code === CODICE.cieco) return cieco(\"il controllo si è dichiarato cieco (uscita 2): non ha potuto misurare\");",
+        "sostituisci": "  if (false) return cieco(\"il controllo si è dichiarato cieco (uscita 2): non ha potuto misurare\");"
+      },
+      "non_vacuita": "spegnendo la riga del cieco di casa diventano rossi 4 casi su 17, fra cui ① e ⑤ — verificato applicando la mutazione e lanciando il test"
+    },
+    {
+      "id": "AR-664",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/cieco-venduto-per-verde.test.mjs",
+      "nota_fix": "Il guardiano delle pause controlla la FORMA del registro prima di scorrerlo. La scheda diceva riga 94: il try copriva solo la lettura del JSON, quindi un registro valido ma di forma diversa moriva una riga più giù con lo stack trace. Adesso esce due e dice cosa non ha potuto leggere, in una forma sola per tutti i casi ciechi del file.",
+      "mutante": {
+        "file": "cervello/pausa-check.mjs",
+        "cerca": "  if (!Array.isArray(fatti)) {",
+        "sostituisci": "  if (false) {"
+      },
+      "non_vacuita": "togliendo il controllo di forma il caso ⑥ torna rosso: uscita 1 con «TypeError: fatti.map is not a function» invece di uscita 2 — verificato"
+    },
+    {
+      "id": "AR-556",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/sorvegliante.test.mjs",
+      "nota_fix": "L'elenco di un file solo è diventato un riconoscimento in tre strade. Prima: i quattro registri dove le difese vivono davvero non sono mai referti, e questa eccezione batte tutto il resto. Poi la mappa che la casa dichiara già in un altro file, invece di ricopiarla qui. Infine il riconoscimento vero: un referto è un file di dati che dichiara al suo interno quale script della macchina lo riscrive. Le prove toccano due referti diversi più il caso di controllo che sporca il cantiere e pretende l'accusa.",
+      "mutante": {
+        "file": "cervello/sorvegliante.mjs",
+        "cerca": "  return typeof contenuto === \"string\" && DICHIARA_GENERATORE.test(contenuto);",
+        "sostituisci": "  return false;"
+      },
+      "non_vacuita": "spegnendo il riconoscimento il secondo referto torna accusato; spegnendo l'eccezione all'esenzione il caso di controllo sul cantiere diventa rosso — verificati tutti e due a mano",
+      "nota_scheda_vs_codice": "La scheda proponeva il campo _cosa_e con «Scritto da cervello/…». Sul disco solo 7 referti su 40 lo scrivono in quella forma: da solo il riconoscimento avrebbe coperto meno di un quinto. Per questo la prima strada è la mappa già dichiarata in cervello/file-della-macchina.mjs (REFERTI_RIGENERATI), che copre gli altri cinque più usati, salute e coerenza-fatti compresi."
+    },
+    {
+      "id": "AR-557",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/sorvegliante.test.mjs",
+      "nota_fix": "La scheda indicava la mutazione sbagliata. Misurate tutte e cinque le mutazioni di AR-495: quella sui file cancellati uccide il test da sola (tre casi rossi), e la sopravvissuta era un'altra — «spostare un guardiano viene punito come toglierlo». Il motivo vero: la domanda «l'ho rimesso in questo stesso file?» era diventata un doppione della domanda «l'ho rimesso in un file qualsiasi del delta», aggiunta dopo. Spegnere la prima non cambiava niente. Ora la seconda guarda solo gli ALTRI file, e le due domande hanno una prova ciascuna, più un caso di controllo che pretende l'accusa quando la chiamata non ricompare da nessuna parte.",
+      "mutante": {
+        "file": "cervello/sorvegliante.mjs",
+        "cerca": "          if (testoAggiunto.includes(p)) continue;",
+        "sostituisci": "          if (false) continue;"
+      },
+      "non_vacuita": "è la mutazione di AR-495 che prima sopravviveva: adesso applicata fa diventare rosso il caso «sposto un guardiano dentro lo stesso file» — verificato prima (verde) e dopo (rosso). Tutte e cinque le mutazioni di AR-495 adesso uccidono."
+    }
+  ],
+  "mutanti_da_correggere": [
+    {
+      "difetto": "AR-543",
+      "file": "cervello/sorvegliante.mjs",
+      "vecchio_cerca": "const eReferto = (file) => REFERTI.includes(file);",
+      "nuovo_cerca": "export function eReferto(file, contenuto = null) {",
+      "nuovo_sostituisci": "export function eReferto(file, contenuto = null) { return false;",
+      "perche": "SPOSTATO, non rimosso: il comportamento vive nella stessa funzione, che adesso riconosce il referto invece di cercarlo in un elenco. Verificata: applicata, il test va rosso su 4 casi.",
+      "verificato": "node cervello/test/sorvegliante.test.mjs → exit 1"
+    },
+    {
+      "difetto": "AR-503",
+      "file": "cervello/sorvegliante.mjs",
+      "vecchio_cerca": "    if (!eFixture(file) && !ePROSA(file) && !eReferto(file)) {",
+      "nuovo_cerca": "    if (!eFixture(file) && !ePROSA(file) && !eReferto(file, perNome.get(file)?.contenuto ?? null)) {",
+      "nuovo_sostituisci": "    if (true) {",
+      "perche": "SPOSTATO, non rimosso: è la stessa riga, con in più il contenuto del file che serve al riconoscimento del referto. Verificata: applicata, il test va rosso, compreso il caso della prosa di AR-503.",
+      "verificato": "node cervello/test/sorvegliante.test.mjs → exit 1"
+    }
+  ],
+  "file_toccati": [
+    "cervello/esito-guardiano.mjs",
+    "cervello/salute.mjs",
+    "cervello/pausa-check.mjs",
+    "cervello/sorvegliante.mjs",
+    "cervello/test/cieco-venduto-per-verde.test.mjs",
+    "cervello/test/sorvegliante.test.mjs"
+  ],
   "fuori_territorio": [],
   "difetti_nuovi": [],
   "spazzata": "in corso"

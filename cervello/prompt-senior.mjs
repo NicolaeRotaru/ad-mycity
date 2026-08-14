@@ -31,6 +31,7 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { ciecoPerDatoIllegibile, ciecoSeNienteMisurato, codiceDiUscita } from "./esito-guardiano.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 
@@ -313,9 +314,10 @@ export const ESENZIONI_PORTA = {};
  * @returns {{id:string, pattern:string}[]}
  */
 export function cacciaAperta(radice = radiceRepo()) {
+  // Registro illeggibile = questa regola non si può misurare. L'elenco resta vuoto perché è la forma
+  // che chi chiama si aspetta, ma il verdetto NON lo dà questa funzione: lo dà `verdettoPorta`, che
+  // riceve anche se il registro si è letto. Un elenco vuoto da solo sarebbe un verde comprato.
   const r = leggiRegistroFatti(radice);
-  // Registro illeggibile = questa regola non si può misurare. Chi chiama lo sa da `leggiRegistroFatti`
-  // e lo dichiara cieco (il CLI esce 2): un elenco vuoto qui sarebbe un verde comprato.
   if (!r.ok) return [];
   const fuori = [];
   for (const f of r.fatti) {
@@ -324,6 +326,33 @@ export function cacciaAperta(radice = radiceRepo()) {
     }
   }
   return fuori;
+}
+
+/**
+ * IL VERDETTO DELLA PORTA, tirato fuori dal CLI perché una prova lo possa ESEGUIRE (AR-681).
+ *
+ * PERCHÉ. Il guardiano stampava «✅ porta dei senior: N file-pilota, tutti passano di qui» PRIMA di
+ * accorgersi che il registro dei fatti non si era letto — la riga ⚪ arrivava dopo, e chi legge un
+ * log si ferma alla spunta verde. Peggio: `leggiPiloti()` torna un elenco vuoto anche quando la
+ * cartella dei file-pilota non c'è, e zero file guardati produceva la stessa spunta verde con
+ * uscita 0. Cioè un guardiano che non ha guardato niente si dichiarava pulito.
+ *
+ * Le tre risposte sono quelle di casa: verde · rosso · ⚪ non l'ho potuto misurare (uscita 2).
+ *
+ * @param {{piloti:number, violazioni:number, registroLetto:boolean, motivoRegistro?:string}} m
+ */
+export function verdettoPorta({ piloti = 0, violazioni = 0, registroLetto = true, motivoRegistro = "" } = {}) {
+  // Un passaggio fuori porta trovato è una cosa vista: vale più di una regola non misurata.
+  if (violazioni > 0) return { stato: "rosso", motivo: `${violazioni} passaggi fuori porta su ${piloti} file`, codice: 1 };
+  // Nessuna violazione trovata, ma una delle quattro regole non si è potuta applicare: non è un verde.
+  if (!registroLetto)
+    return ciecoPerDatoIllegibile(motivoRegistro || "registro dei fatti non letto", {
+      cosa: "la regola sui valori superati NON è stata misurata",
+    });
+  // E zero file guardati non è zero problemi: è un guardiano che non ha aperto niente.
+  const nienteDaGuardare = ciecoSeNienteMisurato(piloti, "file-pilota");
+  if (nienteDaGuardare) return nienteDaGuardare;
+  return { stato: "verde", motivo: `${piloti} file-pilota, tutti passano di qui`, codice: 0 };
 }
 
 /** I percorsi assoluti scritti a mano in un testo: veri qui, falsi sul VPS (AR-435). */
@@ -427,21 +456,26 @@ if (process.argv[1] && process.argv[1].endsWith("prompt-senior.mjs")) {
     const piloti = leggiPiloti();
     const registro = leggiRegistroFatti(radice);
     const fuori = violazioniPorta(piloti, { senior: elencoSenior(radice), caccia: cacciaAperta(radice) });
+    // AR-681 — il verdetto si decide PRIMA di stamparlo. Prima la spunta verde usciva per prima e la
+    // riga ⚪ dopo: chi legge un log si ferma alla spunta, e un guardiano che non ha misurato niente
+    // (zero file-pilota, o registro illeggibile) si dichiarava pulito lo stesso.
+    const v = verdettoPorta({
+      piloti: piloti.length,
+      violazioni: fuori.length,
+      registroLetto: registro.ok,
+      motivoRegistro: registro.motivo,
+    });
     if (argv.includes("--json")) {
-      console.log(JSON.stringify({ controllati: piloti.length, registro_letto: registro.ok, violazioni: fuori }, null, 2));
-    } else if (!fuori.length) {
-      console.log(`✅ porta dei senior: ${piloti.length} file-pilota, tutti passano di qui.`);
+      console.log(JSON.stringify({ controllati: piloti.length, registro_letto: registro.ok, verdetto: v, violazioni: fuori }, null, 2));
+    } else if (v.stato === "verde") {
+      console.log(`✅ porta dei senior: ${v.motivo}.`);
+    } else if (v.stato === "cieco") {
+      console.log(`⚪ ${v.motivo}`);
     } else {
-      console.log(`⛔ porta dei senior: ${fuori.length} passaggi fuori porta su ${piloti.length} file\n`);
-      for (const v of fuori) console.log(`   · ${v.file} — ${v.regola} (${v.dove})\n     ${v.perche}`);
+      console.log(`⛔ porta dei senior: ${v.motivo}\n`);
+      for (const x of fuori) console.log(`   · ${x.file} — ${x.regola} (${x.dove})\n     ${x.perche}`);
     }
-    if (fuori.length) process.exit(1);
-    // Il registro illeggibile non è un verde: la regola sui valori superati non si è potuta misurare.
-    if (!registro.ok) {
-      console.log(`⚪ la regola sui valori superati NON è stata misurata: ${registro.motivo}`);
-      process.exit(2);
-    }
-    process.exit(0);
+    process.exit(codiceDiUscita(v));
   }
   const nome = argv.find((a) => !a.startsWith("-"));
   if (!nome) {

@@ -44,6 +44,9 @@ import { fileDelComando } from "./cancello-lotto.mjs";
 // 📇 IL CONTRATTO DELLA SCHEDA, in un posto solo (contratto-scheda.mjs). Prima ogni script se lo
 // rileggeva a modo suo: è per questo che i nomi dei campi divergevano e il registro non sapeva
 // leggere sé stesso. Qui si LEGGE il contratto, non lo si riscrive.
+// 📏 E il contratto della PROVA (contratto-prova.mjs): «questa prova vale?» ha una risposta sola,
+// e non la riscrive ogni file che se la chiede — è la malattia della corsia C del lotto 42.
+import { classificaProva } from "./contratto-prova.mjs";
 import {
   NON_MISURABILE,
   aliasFuoriContratto,
@@ -205,16 +208,24 @@ export function classifica(d) {
   if (r.illeggibile) {
     return { ...base, classe: "auto-sospetta", perche: `file illeggibile: ${v.file}`, auto_chiudibile: false };
   }
+  // AR-686 — IL PUNTATORE ROTTO VIENE PRIMA DEL «COMBACIA», e l'ordine è tutto il difetto.
+  //
+  // Con `presente:false` una prova su un file INESISTENTE «combacia» sempre: il pattern non c'è
+  // perché non c'è il file. La riga qui sopra la classificava `auto-ok — auto-fix lo chiuderà`, cioè
+  // il difetto si sarebbe chiuso perché il suo file è SPARITO. Con `presente:true` finiva invece in
+  // `auto-attesa`, contata fra i fix in arrivo: un puntatore rotto travestito da lavoro in corso.
+  // Due travestimenti diversi, la stessa causa — nessuno chiedeva se il file esistesse PRIMA di
+  // giudicare il pattern. La domanda adesso la fa il contratto, e la risposta è una per tutti.
+  //
+  // (auto-fix.mjs qui non chiude: su file assente dice «aperto». Erano due metri sullo stesso caso —
+  // questo diceva «lo chiuderà», quello non lo chiudeva — e un metro che promette una chiusura che
+  // non arriva è come si costruisce un numero di cui nessuno si fida.)
+  const c = classificaProva(v, { fileEsiste: (f) => existsSync(join(AD_ROOT, f)) });
+  if (c.tipo === "orfana") {
+    return { ...base, classe: "prova-orfana", perche: c.motivo, auto_chiudibile: false };
+  }
   if (r.combacia) {
     return { ...base, classe: "auto-ok", perche: `prova soddisfatta ora (${dove}): auto-fix lo chiuderà`, auto_chiudibile: true };
-  }
-  if (r.fileAssente) {
-    return {
-      ...base,
-      classe: "auto-attesa",
-      perche: `il fix consiste nel creare ${v.file}, non ancora presente`,
-      auto_chiudibile: true,
-    };
   }
   if (eta !== null && eta > GIORNI_SOSPETTO) {
     return {

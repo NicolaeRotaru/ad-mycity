@@ -1,12 +1,35 @@
 {
   "corsia": "C — la prova che non può fallire: il metro stesso è rotto",
   "modulo_condiviso": "cervello/contratto-prova.mjs",
-  "stato": "IN CORSO — appena partita, nessun difetto ancora chiuso",
-  "difetti": [],
-  "file_toccati": [],
+  "stato": "IN CORSO — 3 difetti lavorati su 11 (AR-694, AR-693 misurato, AR-683)",
+  "difetti": [
+    {
+      "id": "AR-694",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/casi-che-non-possono-fallire.test.mjs",
+      "nota_fix": "PARZIALE — test e mutazione ancora da scrivere. I cinque casi asincroni sono stati resi sincroni (lib-cadenza 1, mutazione-mancante 2, perimetro-main 2) e il guardiano `casiSpenti` in contratto-prova.mjs li trova: misura 5 prima del fix, 0 dopo, e zero falsi positivi sulle tre forme sane (banco che aspetta, banco che rinvia in coda, banco che registra). Il banco lo chiama a ogni corsa."
+    }
+  ],
+  "file_toccati": [
+    "cervello/contratto-prova.mjs",
+    "cervello/test-cervello.mjs",
+    "cervello/test/lib-cadenza.test.mjs",
+    "cervello/test/mutazione-mancante.test.mjs",
+    "cervello/test/perimetro-main.test.mjs"
+  ],
   "fuori_territorio": [],
   "difetti_nuovi": [],
   "mutanti_da_correggere": [],
-  "bats_rosse_trovate": [],
+  "bats_rosse_trovate": [
+    "cervello/test/estrai-stream.bats (1)",
+    "cervello/test/gate-coerenza-vault-pre-push.bats (1)",
+    "cervello/test/irrobustimenti.bats (4)",
+    "cervello/test/n8n-placeholder.bats (2)",
+    "cervello/test/permessi-guardrail.bats (1)",
+    "cervello/test/sensori-non-clobber.bats (1)",
+    "cervello/test/worker-claim-pausa.bats (1)",
+    "cervello/test/worker-doppio-invio.bats (2)",
+    "cervello/test/worker-titolo-commit.bats (6)"
+  ],
   "spazzata": "da compilare"
 }

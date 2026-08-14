@@ -42,6 +42,7 @@ import {
   statoPausa,
 } from "./pausa-coda.mjs";
 import { timbroOra } from "./ora-piacenza.mjs";
+import { ciecoPerDatoIllegibile, codiceDiUscita } from "./esito-guardiano.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..");
@@ -61,6 +62,19 @@ function percorso(p) {
   return isAbsolute(p) ? p : join(REPO, p);
 }
 
+/**
+ * Esce dichiarando la cecità, in una forma sola per tutti i casi (AR-664).
+ *
+ * Il codice viene da `codiceDiUscita`, non da un 2 ricopiato: se un giorno il contratto cambia, cambia
+ * in una casa sola. E in modalità `--json` chi legge il rapporto trova scritto PERCHÉ non si è visto,
+ * invece di un elenco vuoto che ha la stessa faccia di «nessuna pausa da segnalare».
+ */
+function esciCieco(verdetto) {
+  if (JSON_MODE) console.log(JSON.stringify({ ok: false, cieco: true, motivo: verdetto.motivo }, null, 2));
+  else console.error(`⚠️  GUARDIANO CIECO: ${verdetto.motivo}`);
+  process.exit(codiceDiUscita(verdetto));
+}
+
 function adesso() {
   const i = process.argv.indexOf("--adesso");
   if (i > 0 && process.argv[i + 1]) {
@@ -75,23 +89,33 @@ function main() {
   const nowMs = now.getTime();
 
   if (!existsSync(percorso(CODA))) {
-    console.error(`⚠️  GUARDIANO CIECO: manca ${CODA} — non so quali pause sorvegliare.`);
-    process.exit(2);
+    esciCieco(ciecoPerDatoIllegibile("non so quali pause sorvegliare", { cosa: `manca ${CODA}` }));
   }
   if (!existsSync(percorso(REGISTRO))) {
-    console.error(`⚠️  GUARDIANO CIECO: manca ${REGISTRO} — senza il registro non so quando finiscono le pause.`);
-    process.exit(2);
+    esciCieco(ciecoPerDatoIllegibile("senza il registro non so quando finiscono le pause", { cosa: `manca ${REGISTRO}` }));
   }
 
   const testoCoda = readFileSync(percorso(CODA), "utf8");
+  // AR-664 — QUI SI MORIVA CON LO STACK TRACE. Il `try` copriva solo `JSON.parse`: se il registro era
+  // JSON valido ma di forma diversa (`fatti` oggetto invece che elenco, o campo con un altro nome),
+  // `fatti.map(...)` due righe più giù usciva con «TypeError: fatti.map is not a function» e sei
+  // righe di Node su stderr. Un dato d'ingresso illeggibile non è un guasto del guardiano: è una
+  // cecità da dichiarare, cioè uscita 2 (contratto AR-322). La forma la si controlla PRIMA di usarla.
   let fatti = [];
   try {
-    fatti = JSON.parse(readFileSync(percorso(REGISTRO), "utf8")).fatti || [];
+    const dati = JSON.parse(readFileSync(percorso(REGISTRO), "utf8"));
+    fatti = dati?.fatti ?? [];
   } catch (e) {
-    console.error(`⚠️  GUARDIANO CIECO: registro dei fatti illeggibile (${e.message}).`);
-    process.exit(2);
+    esciCieco(ciecoPerDatoIllegibile(e, { cosa: "registro dei fatti illeggibile" }));
   }
-  const fattoPerId = new Map(fatti.map((f) => [f.id, f]));
+  if (!Array.isArray(fatti)) {
+    esciCieco(
+      ciecoPerDatoIllegibile(`il campo «fatti» non è un elenco ma ${typeof fatti} — non so scorrere i fatti`, {
+        cosa: "registro dei fatti di forma inattesa",
+      }),
+    );
+  }
+  const fattoPerId = new Map(fatti.map((f) => [f?.id, f]));
 
   const card = leggiCard(testoCoda);
   const inPausa = card.filter((c) => c.inPausa);

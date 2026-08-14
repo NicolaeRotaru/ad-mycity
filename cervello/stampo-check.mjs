@@ -15,9 +15,16 @@
 //
 // 🟢 Sola lettura + scrittura su auto-coscienza/stampo-check.json
 //
+// AR-464 — VERIFICARE NON DEVE COSTARE UN DIFF. Questo guardiano riscriveva il suo stato a ogni
+// esecuzione, anche quando l'unica riga diversa era `aggiornato`. Chi lo lanciava per controllare il
+// proprio lavoro si ritrovava un file modificato che non era suo, e da lì impara a non lanciarlo: un
+// controllo che costa un diff si smette di fare, e un controllo che si smette di fare è spento.
+// `--sola-lettura` calcola e stampa il verdetto vero senza toccare né il file né il segnale.
+//
 // Uso:
 //   node cervello/stampo-check.mjs           -> report leggibile
 //   node cervello/stampo-check.mjs --json    -> output JSON (gate / sentinelle)
+//   node cervello/stampo-check.mjs --sola-lettura -> guarda e non tocca niente
 //
 // Exit (AR-322): 0 = niente di nuovo · 1 = un difetto NUOVO rispetto al debito dichiarato · 2 = cieco.
 
@@ -37,8 +44,11 @@ import {
   sogliaSottile,
   statoQuaderno,
 } from "./stampo-metro.mjs";
+import { decidiScrittura, timbroProvenienza } from "./scrittura-misura.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
+/** AR-464 — «guarda ma non toccare»: chi verifica non lascia impronte nella memoria condivisa. */
+const SOLA_LETTURA = process.argv.includes("--sola-lettura");
 // Le prove misurano parchi FINTI (una cartella temporanea con due agenti) per verificare che il
 // guardiano sappia dire di no. In quel caso non si scrive la misura vera in auto-coscienza e non si
 // stampa il segnale: un parco di prova non deve poter sporcare la fotografia che il Pannello mostra.
@@ -151,6 +161,11 @@ async function main() {
     _cosa_NON_prova:
       "Non prova che un kit sia BUONO né che un ESITO sia vero: misura spessore relativo, fotocopie, struttura e presenza di righe ESITO datate. Un kit lungo e originale può essere sbagliato, e una riga ESITO può contenere un numero inventato — quella parte la giudicano il direttore-creativo e la calibrazione, non questo controllo.",
     aggiornato: quando,
+    // AR-568 (a) · AR-286 — DA DOVE viene la misura e QUANTI agenti ha davvero letto. Un parco di
+    // prova con due agenti e il parco vero con centoventi producevano finora lo stesso genere di
+    // documento: senza la copertura non c'era modo di accorgersi che il secondo era stato
+    // sostituito dal primo.
+    ...timbroProvenienza({ env: process.env, copertura: roster.length, scrittoDa: "stampo-check.mjs" }),
     totale_agenti: roster.length,
     soglia_sottile_byte: soglia,
     quaderni,
@@ -172,7 +187,19 @@ async function main() {
     ? `${regressioni.length} regressioni oltre il debito dichiarato`
     : `nessuna regressione · ${invecchiati.length} invecchiati · debito noto: ${Object.keys(quadro).length}/${roster.length} agenti`;
 
-  if (!PARCO_FINTO) {
+  // AR-464 · AR-568 — la scrittura passa dalla decisione condivisa: `--sola-lettura` chiude la
+  // porta, e una misura più povera presa da un altro punto d'osservazione non prende il posto di
+  // una più ricca. Il segnale è una scrittura come le altre e segue la stessa porta.
+  let precedente = null;
+  let leggibile = true;
+  // Un errore di lettura NON diventa «non c'era niente prima»: si dichiara.
+  try {
+    if (!PARCO_FINTO && existsSync(STATE_PATH)) precedente = JSON.parse(readFileSync(STATE_PATH, "utf8"));
+  } catch {
+    leggibile = false;
+  }
+  const scelta = decidiScrittura({ solaLettura: PARCO_FINTO || SOLA_LETTURA, misuraNuova: state, misuraVecchia: precedente, vecchiaLeggibile: leggibile });
+  if (scelta.scrivi) {
     mkdirSync(join(STATE_PATH, ".."), { recursive: true });
     writeFileSync(STATE_PATH, JSON.stringify(state, null, 2) + "\n", "utf8");
     await stampSegnale("stampo-check", rc === 0 ? "ok" : "warn", `${sintesi} · ${quando}`);

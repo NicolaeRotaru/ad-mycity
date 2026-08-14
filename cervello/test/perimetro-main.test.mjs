@@ -15,7 +15,11 @@
 // un cancello camminandoci dentro è il modo di non provarlo affatto.
 
 import { execFileSync } from "node:child_process";
-import { cpSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
+// AR-694 — `existsSync` e `readFileSync` si importano QUI, non dentro i casi. Il banco qui sotto
+// lancia i casi con `fn()` secco: un caso scritto `async` solo per poter fare `await import("node:fs")`
+// restituisce una promessa che nessuno raccoglie, e l'asserzione gira dopo che il conteggio è già
+// stampato — un `1 = 2` là dentro esce «passato». Due casi di questo file erano così.
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
@@ -135,8 +139,7 @@ prova("su un ramo di lavoro passa anche codice + memoria insieme", () =>
   }));
 
 // ── la regola è una sola ────────────────────────────────────────────────────
-prova("l'hook IMPORTA la regola invece di ricopiarla", async () => {
-  const { readFileSync } = await import("node:fs");
+prova("l'hook IMPORTA la regola invece di ricopiarla", () => {
   const hook = readFileSync(join(REPO, ".githooks/pre-commit"), "utf8");
   assert.match(hook, /\.\s+"\$ROOT\/cervello\/gate-pubblicazione\.sh"/, "deve caricare il gate condiviso");
   assert.match(hook, /perimetro_ok "\$_staged"/, "deve usare la funzione, non una regex ricopiata");
@@ -145,11 +148,10 @@ prova("l'hook IMPORTA la regola invece di ricopiarla", async () => {
   assert.ok(copie <= 1, `il perimetro è scritto ${copie} volte nell'hook: una per il messaggio, non di più`);
 });
 
-prova("il cancello non si spegne se manca il file della regola", async () => {
+prova("il cancello non si spegne se manca il file della regola", () => {
   // Un cancello che si disattiva quando uno strumento manca non è un cancello (AR-322). Qui la
   // condizione è esplicita nell'hook: senza gate-pubblicazione.sh il perimetro non gira — e allora
   // il file DEVE esistere ed essere versionato.
-  const { existsSync } = await import("node:fs");
   assert.ok(existsSync(join(REPO, "cervello/gate-pubblicazione.sh")), "il gate dev'essere versionato, non locale");
   const tracciato = execFileSync("git", ["ls-files", "cervello/gate-pubblicazione.sh"], { cwd: REPO, encoding: "utf8" });
   assert.ok(tracciato.trim().length > 0, "il gate dev'essere in git, altrimenti su un clone nuovo il cancello è muto");

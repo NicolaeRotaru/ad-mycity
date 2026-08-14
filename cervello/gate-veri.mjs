@@ -36,8 +36,20 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { fileDelComando } from "./cancello-lotto.mjs";
+// 📏 UNA DEFINIZIONE SOLA di «freno vero» (contratto-prova.mjs) — AR-565.
+//
+// Qui c'era una copia della regola, e da qualche parte ce n'era un'altra: due guardiani guardavano
+// lo stesso mucchio di lezioni e ne davano verdetti opposti nello stesso giorno. Quando due numeri
+// rispondono alla stessa domanda vince quello che finisce nella riga di riassunto, e in questa casa
+// il verde vince sempre. La definizione adesso sta nel contratto; qui si CHIAMA.
+import { misuraFreni } from "./contratto-prova.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
+// AR-596 — il freno stretto, quello che pretende la mutazione DELLA LEZIONE. Non è acceso di
+// default e la ragione è la solita: 24 lezioni su 65 non ce l'hanno, e un cancello che non può
+// diventare verde viene aggirato al secondo giro. Con questo flag il numero diventa un'uscita 1,
+// per chi vuole vedere il debito bloccare invece che solo comparire.
+const SOLO_PROPRIE = process.argv.includes("--proprie");
 const APPRENDIMENTO = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json");
 const MUTANTI = join(AD_ROOT, "cervello/mutanti.json");
 

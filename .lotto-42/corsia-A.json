@@ -1,8 +1,33 @@
 {
   "corsia": "A — uno strumento dichiarato di sola lettura che invece scrive nella memoria condivisa",
   "modulo_condiviso": "cervello/scrittura-misura.mjs",
-  "difetti": [],
-  "file_toccati": [],
+  "difetti": [
+    {
+      "id": "AR-663",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
+      "nota_fix": "IN CORSO — referto deviabile con BLOCCO_MANCANTE_FILE, --sola-lettura, --json non scrive piu."
+    },
+    {
+      "id": "AR-639",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
+      "nota_fix": "IN CORSO — il referto si riscrive solo se cambia qualcosa oltre l'ora."
+    },
+    {
+      "id": "AR-464",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
+      "nota_fix": "IN CORSO — --sola-lettura su coerenza-fatti e stampo-check."
+    }
+  ],
+  "file_toccati": [
+    "cervello/scrittura-misura.mjs",
+    "cervello/conta-blocco-mancante.mjs",
+    "cervello/tasso-chiusura.mjs",
+    "cervello/coerenza-fatti.mjs",
+    "cervello/stampo-check.mjs"
+  ],
   "fuori_territorio": [],
   "difetti_nuovi": [],
   "spazzata": "in corso"
