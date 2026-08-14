@@ -1,21 +1,20 @@
 {
   "_cosa_e": "Esito REALE dell ultimo giro (AR-300). Prima il giro stampava «Giro completato.» anche a controlli tutti rossi: questo file dice la verita, e il Pannello la puo leggere.",
-  "data": "2026-08-14 20:26",
+  "data": "2026-08-14 22:39",
   "esito": "non-pubblicato",
   "pulito": false,
-  "gate_rossi": 11,
+  "gate_rossi": 10,
   "vincoli_attivi": [
     "APPRENDIMENTO",
     "CADENZE",
-    "CHIUSURA",
-    "CI",
     "CORREZIONE_NICOLA",
     "FRESCHEZZA",
     "MAPPA",
-    "NORTH_STAR",
     "TASSO",
     "TEST",
-    "VOLANO"
+    "VOLANO",
+    "NORTH_STAR",
+    "RISCHI"
   ],
   "ai_rc": 0,
   "push_ok": false,
