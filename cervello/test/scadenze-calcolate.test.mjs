@@ -227,19 +227,20 @@ prova("il caso che ha rotto: le domande stanno nel campo che la Cabina LEGGE", (
   // tre domande sotto l'alias — una sul bando da 10.000€ in scadenza fra due giorni.
   const a = JSON.parse(leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json"));
   assert.equal((a.domande_bloccanti || []).length, 0, "l'alias non deve più contenere niente");
-  assert.ok(Array.isArray(a.domande_per_nicola), "il campo canonico dev'esserci: è quello che la Cabina legge");
+  assert.ok(Array.isArray(a.domande_per_nicola), "il campo canonico dev'esserci, come elenco");
   // Qui c'era `includes("PI26")`: il contenuto di business del giorno in cui la prova è nata, usato
   // come prova di una regola STRUTTURALE (l'alias si sposta nel campo canonico). PI26 è stato chiuso
   // il 29/7 — «non idoneo, confermato da Nicola» — quindi quella domanda è giustamente sparita e la
   // prova è diventata rossa mentre la regola che difende funzionava. Il comportamento vero lo prova
   // già la prova qui sotto, che ESEGUE `correggiAlias` su un input finto: è quella la rete.
   //
-  // 14/8: ed è successo di nuovo, allo stesso modo. Restava `domande_per_nicola.length >= 3`, che è
-  // lo STESSO errore un gradino più in là: non nomina un contenuto, ma ne conta uno. Il giro delle
-  // 20:26 aveva 2 domande aperte invece di 3 — una macchina con meno dubbi, non una difesa rotta — e
-  // la suite è diventata rossa per quello. Quante domande ci sono oggi è business che cambia ogni
-  // giro; la regola difesa è che l'alias si svuoti DENTRO il campo canonico, e quella si misura
-  // sulla forma. Il conto è tornato a essere ciò che è: un dato, non una garanzia.
+  // 14/8 20:50 — ED È SUCCESSO DI NUOVO, per la stessa ragione, un pezzo più in là. Al posto di
+  // `includes("PI26")` era rimasto `length >= 3`: sempre il contenuto del giorno usato come prova
+  // di una regola strutturale. Oggi la macchina ha DUE domande aperte invece di tre (il bando è
+  // chiuso, la coda si è svuotata) e questa riga è tornata rossa — mentre l'alias era a zero, cioè
+  // mentre la difesa funzionava. Il conto delle domande non è una regola: sale e scende ogni giorno.
+  // Quello che dev'essere sempre vero è che l'alias resti vuoto e il canonico esista: è ciò che
+  // resta qui. La rete sul comportamento non si tocca, ed è la prova qui sotto.
 });
 
 prova("la correzione è DETERMINISTICA: eseguita su un input finto, sposta il campo", () => {

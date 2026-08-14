@@ -22,7 +22,8 @@
    "stato": "attiva",
    "usi": [],
    "gate": "node cervello/test/rosso-confermato-prima-di-crederci.test.mjs",
-   "nota_gate": "Il gate dichiarato al momento della scoperta era `node cervello/test/registri-ora-di-piacenza.test.mjs`, cioe il test che era andato in corsa: verifica i timbri, non la regola, e sarebbe potuto restare verde per sempre con la regola mai applicata. Il freno vero e il rilancio di conferma fatto DALLA MACCHINA (confermaIRossi in test-cervello.mjs), che non dipende da chi si ricorda di rilanciare."
+   "nota_gate": "Il gate dichiarato al momento della scoperta era `node cervello/test/registri-ora-di-piacenza.test.mjs`, cioe il test che era andato in corsa: verifica i timbri, non la regola, e sarebbe potuto restare verde per sempre con la regola mai applicata. Il freno vero e il rilancio di conferma fatto DALLA MACCHINA (confermaIRossi in test-cervello.mjs), che non dipende da chi si ricorda di rilanciare.",
+   "nota_gate_2": "2026-08-14 21:05, fusione di due strade sulla stessa lezione. Su main era arrivata la mia dichiarazione `freno_non_scrivibile`: avevo tolto il gate sbagliato scrivendo che il freno vero non esisteva. Nello stesso momento questo ramo lo stava COSTRUENDO. Vince la difesa costruita: la dichiarazione di debito era la seconda scelta, buona finche nessuno fa la prima. Tolta, perche adesso e falsa — e un debito dichiarato che resta scritto dopo essere stato pagato racconta un buco che non c'e piu."
   },
   {
    "id": "L-2026-0813-03",
