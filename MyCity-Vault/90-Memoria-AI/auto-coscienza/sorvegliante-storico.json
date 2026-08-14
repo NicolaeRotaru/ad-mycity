@@ -2041,6 +2041,39 @@
         "prova-accecata": 2
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T04:35:44.900Z",
+      "scatti": 6566,
+      "voci": 19,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 14,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T04:40:14.218Z",
+      "scatti": 6585,
+      "voci": 19,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 14,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T04:44:36.113Z",
+      "scatti": 6599,
+      "voci": 19,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 14,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
     }
   ],
   "aggiornato": "2026-08-14T00:37:17.876Z"

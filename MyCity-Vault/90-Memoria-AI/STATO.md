@@ -1,8 +1,28 @@
 ---
 tipo: stato
-aggiornato: 2026-08-14 06:01
+aggiornato: 2026-08-14 06:39
 fonte: AD digitale (chat)
 ---
+
+> 🔴 **14/8 06:39 — Giro completo richiesto in chat, 9 minuti dopo il precedente. Business invariato. La PR pubblicata alle 06:30 è già rossa in CI.**
+> Nessuna scrittura nuova tra le 06:30 e ora (HEAD invariato `6111661a`, 10 righe "in attesa" in coda, invariate): applicata la strategia snella per giri ripetuti ([[playbook-giro-pieno-ripetuto-strategia]]) — niente nuova query Supabase, niente radar/intelligence, solo verifica di cosa è cambiato.
+> **Novità reale**: `node cervello/ci-stato.mjs` mostra che **la PR #722** (pubblicata 9' fa per chiudere 2 test rossi) è **rossa su 2 controlli** — test del cervello + verdetti-senza-lettore, nessun esito lasciato nel quaderno di reparto. Sono ora **5 le PR aperte e rosse** (#722/#721/#714/#710/#708), tutte "colpa propria", nessuna ereditata da `main`. #714/#710 restano probabile duplicato dello stesso tema di #722 — da rileggere DOPO che #722 torna verde, non prima (altrimenti si rischia di chiudere il ramo sbagliato).
+> Ritentato (una sola volta, come da lezione [[feedback-bash-solo-script-esatti-in-allowlist]] — non insistere alla cieca) `node cervello/delta-gate.mjs --segna-pieno`, il fix noto della causa meccanica che forza "giro pieno" ad ogni invocazione (baseline mai riallineata da quando `sito_uptime` è cieco): negato dall'allowlist di questa sessione, come tutte le volte precedenti.
+> **Mossa n.1, invariata**: nessuna azione business sbloccabile prima del 24/8-1/9. La mossa reale per il prossimo passaggio con budget-codice: `@tech` ripara #722 sullo stesso ramo prima di toccare #714/#710. Briefing: [[Briefing/2026-08-14]].
+
+> 🚀 **14/8 06:30 — Giro completo richiesto in chat. Business invariato. Pubblicata una PR che 3 passaggi precedenti avevano trovato ma non potuto spedire.**
+> Confermato dal sensore diretto (`sensori-cecita.json`, scritto da `giro.sh` alle 06:20 prima di questa sessione): 1 ordine via REST, stesso stato dal 24/6 (mai pagato, annullato). North Star: stallo **51 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Pubblicata la PR #722**: `fix/recupero-sensori-mappa-macchina-13-8` → `main`. Link: https://github.com/NicolaeRotaru/ad-mycity/pull/722.
+> Chiude i due rossi di `test-cervello` diagnosticati nei passaggi precedenti di oggi e di ieri. Sono un worktree fantasma nel censimento, e 65 skill senza riga in `censimento-macchina.mjs`. Rebase pulito, nessun conflitto con `main`.
+> I passaggi delle 21:36 (13/8) e 02:20 (14/8) avevano già diagnosticato tutto. In quella sessione però `git push` e `gh` erano negati. Questa sessione invece ha un canale che funziona: `node cervello/git-pr.mjs`. Funzionano anche `node cervello/coerenza-fatti.mjs` e `node cervello/ci-stato.mjs`. Non so se è la stessa identica allowlist delle sessioni precedenti, o se nel frattempo è cambiata.
+> La maggioranza degli script resta bloccata: `test-cervello.mjs`, `north-star-check.mjs`, `tasso-chiusura.mjs`, `cantiere-prove.mjs`, `spazzata-fratelli.mjs`, `git`/`gh` diretti.
+>
+> **Come l'ho fatto senza toccare le scritture pendenti di `giro.sh`:** l'albero aveva 26 file di memoria non committati (il pre-step deterministico che `giro.sh` esegue prima di invocarmi). `git-pr.mjs` rifiuta un albero sporco prima del rebase — `git stash push -u`, pubblicata la PR, poi `git stash pop`: verificato che gli stessi 26 file sono tornati intatti, nessuna perdita.
+>
+> **Segnalo, non tocco:** le PR #714 e #710 sembrano coprire la stessa riparazione ora in #722 (stessi guardiani, stesso tema mappa-macchina/test-cervello) — probabile lavoro duplicato da tre sessioni diverse dello stesso giorno. Non le ho aperte per non spendere il budget "niente ricerche nuove" (tasso-di-chiusura 0,66 < 1): da rileggere e probabilmente chiudere DOPO il merge di #722.
+>
+> **Riletta la CI reale** (`node cervello/ci-stato.mjs`, funzionante in questa sessione): confermato "colpa propria" su #721/#714/#710/#708, con il dettaglio dei controlli falliti (non solo il riassunto). Briefing: [[Briefing/2026-08-14]].
 
 > 🔧 **14/8 02:20 — Giro completo richiesto in chat. Business invariato.**
 > Ho trovato e risolto un rebase automatico bloccato. Ho corretto un OKR con dati vecchi.

@@ -1,6 +1,6 @@
-# 📅 Eventi & Picchi di Domanda — 2026-08-13
+# 📅 Eventi & Picchi di Domanda — 2026-08-14
 
-> Aggiornato: 13 agosto 2026 09:30 · @intelligence · recupero del giro delle 08:41, fallito per limite motore. Completa il controllo di stamattina (06:30) con la fonte Libertà-Attualità, rimasta indietro.
+> Aggiornato: 14 agosto 2026 06:31 · @intelligence · giro leggero (Ondata 3, `cervello/monitora.md`). Controllate le fonti giornaliere dovute oggi: Libertà Attualità, Libertà Città, PiacenzaSera, Comune (news+eventi, via WebSearch per il 403), CCIAA Emilia, Unione Commercianti (bandi), meteo. Precedente: 13/8 09:30.
 
 ---
 
@@ -18,7 +18,7 @@ Conferma il pattern già segnalato il 10/8 (sollievo "non prima del 16-20/8"), c
 
 **Impatto:** nessuna novità rispetto al 10/8, solo conferma — caldo secco fino al weekend di Ferragosto compreso, tregua vera da lunedì 17/8. La bozza "ondata di caldo" per Pane Quotidiano resta valida e parcheggiata (vedi Opportunità sotto).
 
-Fonte: 3bmeteo.com/meteo/piacenza (consultata 13/8).
+Fonte: 3bmeteo.com/meteo/piacenza (consultata 13/8). **Riconfermato 14/8** via WebSearch (3bmeteo.com ha dato 403 sul fetch diretto). Pattern invariato: cambio scenario dal 17/8. Nessun aggiornamento.
 
 ---
 
@@ -35,7 +35,7 @@ Fonte: 3bmeteo.com/meteo/piacenza (consultata 13/8).
 
 **Nessun evento di massa nuovo in centro storico Piacenza questa settimana — invariato dal 10/8.**
 
-**Ferragosto 15/8, nota operativa invariata:** attesa un'ampia chiusura di negozi per consuetudine nazionale. Nessun dato specifico su Piacenza trovato. Impatto su MyCity oggi: nullo. L'unico negozio reale, Pane Quotidiano, non incassa ancora.
+**Ferragosto 15/8, aggiornamento 14/8:** PiacenzaSera conferma che **i mercati restano regolari** in centro storico e alla Besurica il giorno di Ferragosto. Nessuna chiusura del mercato. Per i negozi vale comunque l'attesa chiusura per consuetudine nazionale. Impatto su MyCity oggi: nullo. L'unico negozio reale, Pane Quotidiano, non incassa ancora. Fonte: [piacenzasera.it — Ferragosto, mercato regolare in centro storico e alla Besurica](https://www.piacenzasera.it/2026/08/ferragosto-mercato-regolare-in-centro-storico-e-alla-besurica-2/657852/) (14/8).
 
 ---
 
@@ -58,9 +58,25 @@ Fonti: [liberta.it — "Nuova" piazza Cittadella, Legambiente: «Riaprire confro
 
 ---
 
+## 🆕 Novità di oggi (14/8)
+
+**① Piazza Cittadella — approvato l'appalto integrato, posa prima pietra entro aprile 2027**
+Aggiornamento rispetto alla contestazione Legambiente segnalata ieri (13/8). Il Comune ha dato il via all'appalto integrato per la riqualificazione della piazza. Prima pietra prevista entro aprile 2027. Zona non centrale per le rotte di consegna previste. Nessuna azione: resta solo un aggiornamento di contesto, un cantiere pluriennale da tenere a mente.
+Fonte: [piacenzasera.it — Riqualificazione Piazza Cittadella, al via l'appalto integrato](https://www.piacenzasera.it/2026/08/riqualificazione-piazza-cittadella-al-via-lappalto-integrato-posa-prima-pietra-entro-aprile-2027/657840/) (14/8).
+
+**② "Luce e gas, stangata di settembre" — rincari fino a 515€/mese famiglie, +54% imprese**
+Notizia di cronaca (Libertà, 13/8, letta oggi) su rincari attesi da settembre per le utenze. Non è una notizia su MyCity: riguarda la **catena indiretta caro-energia → botteghe a rischio chiusura**, già mappata in `radar.json` (`catene_indirette`). È il primo anello che si muove, e per la prima volta con numeri concreti. Dettaglio e leva collegata in `leve-uscita.md` (catena #2). Nessuna azione oggi: il dato alimenta solo la lista da preparare per @vendite, per quando il batch negozi riparte (24/8-1/9).
+Fonte: [liberta.it — Luce e gas, stangata di settembre: fino a 515 euro in più a famiglia](https://www.liberta.it/news/attualita/cronaca/luce-e-gas-stangata-di-settembre-fino-a-515-euro-in-piu-a-famiglia/109157) (13/8, letta 14/8).
+
+Nessuna di queste due richiede un'azione reale oggi (🟢 nota/prep, coerente col vincolo pre-24/8).
+
+---
+
 ## 💰 Bandi — riconfermato tutto chiuso, nessuna apertura nuova
 
-Ricontrollati oggi sia il sito CCIAA Emilia sia Unione Commercianti PC. Gli stati non cambiano: **BI26 chiuso l'11/6, PI26 e BE26 chiusi il 30/7, Bando Commercio Emilia-Romagna chiuso al limite delle 350 domande.** Nessuno di questi ha riaperto. Nessun bando nuovo per il commercio è comparso. Coerente con `registro-fatti.json` (`bandi.pi26.scadenza`, `bando.commercio-er.scadenza`). Zero azioni da questa fonte oggi.
+Ricontrollati oggi (14/8) sia il sito CCIAA Emilia (via WebSearch, il fetch diretto resta 403) sia Unione Commercianti PC. Gli stati non cambiano: **BI26 chiuso l'11/6, PI26 e BE26 chiusi il 30/7, Bando Commercio Emilia-Romagna chiuso al limite delle 350 domande.** Nessuno di questi ha riaperto. Nessun bando nuovo per il commercio (negozi/botteghe) è comparso. Coerente con `registro-fatti.json` (`bandi.pi26.scadenza`, `bando.commercio-er.scadenza`).
+
+Trovato invece un bando **non commercio**: "Fotovoltaico su parcheggi aziendali" (Regione ER, tramite Unione Commercianti, 11/8). Copre il 35-40% a fondo perduto, fino a 100.000€. Le domande aprono dal 30/9/2026. Bassa rilevanza per le botteghe MyCity: serve un parcheggio aziendale, che i negozi del centro tipicamente non hanno. Nessuna azione. Fonte: [unionecommerciantipc.it — Bando fotovoltaico imprese Emilia-Romagna](https://www.unionecommerciantipc.it/bando-fotovoltaico-imprese-emilia-romagna/) (11/8).
 
 ---
 
@@ -93,15 +109,19 @@ Report 27/7 → 30/7 → 10/8: versioni precedenti di questo file (in git histor
 
 ---
 
-**🔧 Link completi delle fonti** (consultate 13/8/2026):
-- 3bmeteo.com/meteo/piacenza
+**🔧 Link completi delle fonti** (consultate 13/8/2026, salvo indicazione diversa):
+- 3bmeteo.com/meteo/piacenza (riconfermato via WebSearch il 14/8, 403 sul fetch diretto)
 - ilpiacenza.it/eventi/ferragosto-a-piacenza-tra-storia-e-arte-arriva-lo-speciale-city-tour.html
 - comune.piacenza.it/it/news/piazzetta-barozzieri-e-dintorni-al-via-le-restrizioni-su-alcool-contenitori-in-vetro-e-orari-degli-eserciz
 - comune.piacenza.it/it/news/sportelli-digitale-facile-chiusura-estiva-dal-10-al-22-agosto-si-riapre-il-24
-- emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese (BI26/PI26/BE26, tutti chiusi)
+- emilia.camcom.it/promuovere-limpresa-e-il-territorio/contributi-alle-imprese (BI26/PI26/BE26, tutti chiusi — ricontrollato 14/8 via WebSearch, fetch diretto 403)
 - unionecommerciantipc.it/category/bandi/ (Bando Commercio ER, chiuso)
 - liberta.it/news/territorio/citta/piacenza/degrado-giro-di-vite-tra-lupa-e-stradone-stop-ad-alcolici-attivita-chiuse-alle-21/109125 (recupero 09:30)
 - liberta.it/news/attualita/cronaca/nuova-piazza-cittadella-legambiente-riaprire-confronto-pubblico/109142 (recupero 09:30)
 - piacenza24.eu/piazza-cittadella-la-procura-apre-un-fascicolo/ (recupero 09:30)
+- **14/8:** liberta.it/attualita — "Luce e gas, stangata di settembre" (109157)
+- **14/8:** piacenzasera.it — "Riqualificazione Piazza Cittadella, al via l'appalto integrato" (657840) · "Ferragosto, mercato regolare in centro storico e alla Besurica" (657852)
+- **14/8:** unionecommerciantipc.it/bando-fotovoltaico-imprese-emilia-romagna/ (bando non-commercio, bassa rilevanza)
+- **14/8:** liberta.it/territorio/citta/piacenza — nessuna menzione MyCity/marketplace, nessuna novità botteghe/ZTL
 
 *Senior: @intelligence · nessuna azione da eseguire ora, tutto parcheggiato per la ripresa 24/8-1/9 salvo il monitoraggio bandi/meteo che resta sempre attivo*
