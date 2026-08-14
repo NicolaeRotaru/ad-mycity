@@ -1,4 +1,50 @@
-# 🔬 AUTO-ANALISI — 2026-08-13 21:36
+# 🔬 AUTO-ANALISI — 2026-08-14 02:21
+
+> Giro completo richiesto in chat. Business invariato (sensore diretto, 02:21).
+> Ho sbloccato un rebase automatico rimasto bloccato in apertura sessione.
+> Ho corretto un OKR con un dato vecchio di un giorno.
+> Ho chiuso il gap del cancello di serietà su questo stesso file (era rimasto fermo al passaggio delle 21:36 di ieri).
+
+## Voto di fiducia: **84/100** (→ invariato)
+Business identico dal 24/6: 1 ordine mai pagato, 0 pagati. Stallo North Star **51 giorni**. Siamo
+dentro la pausa concordata con Nicola fino al 24/8-1/9.
+
+**Il lavoro vero di questo passaggio: sbloccare un guasto tecnico reale. Poi chiudere il cancello di
+serietà su sé stesso.**
+All'apertura, `.git` aveva un rebase interattivo bloccato. Verosimilmente era `giro.sh`, che stava
+pubblicando la memoria su `main`. Il conflitto era su 3 file: `coerenza-fatti.json`,
+`stampo-check.json`, `tasso-chiusura.json`. In ognuno l'unica differenza era il timestamp — tutto il
+resto era identico byte-per-byte. Ho tenuto la versione più recente (HEAD). Ho validato ogni JSON con
+`jq empty`. Poi ho lanciato `git rebase --abort`. È esattamente il comportamento che `cervello/giro.sh`
+(riga 158) applica già da solo su conflitto: "abortisci e resta sul locale, il push finale riprova,
+niente si perde". Verificato dopo: `git status` pulito, nessuna scrittura persa.
+
+**Corretto `OKR-Squadra.md`.** La riga sul tasso di chiusura citava ancora il dato di ieri (0,24 =
+24/102). Il dato vero di oggi è **0,66** (125 chiusi ÷ 189 aperti nel mese). L'ho sostituito, insieme
+alla data del frontmatter.
+
+**Chiuso il gap del cancello di serietà.** Il briefing, STATO e OKR delle 02:20 erano già scritti
+quando questa sessione è ripartita. Ma questo file e `auto-analisi.json`/`registro-realta.json` erano
+rimasti fermi al passaggio delle 21:36 di ieri. Il gate obbligatorio dello step 11 non era stato
+eseguito. L'ho riparato ora, prima di dichiarare chiuso il giro — la regola del giro è chiara: se
+`auto-coscienza/auto-analisi.json` non è aggiornato a fine giro, il giro è FALLITO.
+
+**Rispettato il vincolo HARD tasso-di-chiusura** (0,66 nel mese, ancora sotto 1). Nessuna radiografia
+in questo giro. Nessun radar nuovo aperto. Solo chiusura e manutenzione.
+
+**Strada alternativa considerata e scartata.** Potevo rifare tutto `giro.md` da zero (business,
+sentinelle, radar, opportunità). L'ho scartata: i dati erano già verificati 1 minuto prima dal sensore
+diretto, il briefing/STATO/OKR delle 02:20 erano già scritti e coerenti, e il vincolo tasso-chiusura
+vieta esplicitamente di aprire ricerche nuove questo giro. Rifare tutto avrebbe sprecato query su uno
+stato che non poteva essere cambiato in 1 minuto, e avrebbe violato il vincolo invece di rispettarlo.
+Ho scelto la strada minima e verificabile: completare solo il pezzo mancante (il cancello di serietà),
+lasciando intatto il lavoro già fatto e già corretto.
+
+**Refutazione:** ho provato a smentire «il rebase abortito non ha perso niente». Confrontato
+`git log` prima/dopo l'abort e riletto i 3 JSON in conflitto con `jq`: contenuto identico a parte il
+timestamp, nessun commit del ciclo precedente mancante su `main`. **Sopravvive.**
+
+## Passaggio precedente — 2026-08-13 21:36
 
 > Giro richiesto in chat. Business invariato (sensore diretto, 21:27). Trovato e diagnosticato a fondo
 > il test rosso HARD del cervello; chiuso un pezzo del debito su correzione-nicola-gate.

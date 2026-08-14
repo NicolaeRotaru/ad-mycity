@@ -1,8 +1,24 @@
 ---
 tipo: stato
-aggiornato: 2026-08-13 21:36
+aggiornato: 2026-08-14 02:20
 fonte: AD digitale (chat)
 ---
+
+> 🔧 **14/8 02:20 — Giro completo richiesto in chat. Business invariato.**
+> Ho trovato e risolto un rebase automatico bloccato. Ho corretto un OKR con dati vecchi.
+> Riconfermato dal sensore diretto (`verifica-sensori.mjs`, 02:09): 1 ordine via REST, coerente con la baseline invariata dal 24/6 (mai pagato, annullato). 0 pagati, 0 negli ultimi 7 giorni, 5 prodotti, 7 profili, 1 negozio, 3 carrelli abbandonati. North Star: stallo **51 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Il guasto tecnico di apertura sessione.** All'apertura, `.git` aveva un rebase interattivo bloccato. Era partito 1 minuto prima, nessun processo attivo dietro: verosimilmente `giro.sh`, che stava pushando la memoria su `main`. Il conflitto era su 3 file: `coerenza-fatti.json`, `stampo-check.json`, `tasso-chiusura.json`. In ognuno l'unica differenza tra le due versioni era il timestamp — tutto il resto era identico byte-per-byte. Ho tenuto la versione più recente (HEAD, 23:21-23:22 del 13/8). Ho validato ogni JSON con `jq empty`. Poi ho lanciato `git rebase --abort`: è esattamente il comportamento che `cervello/giro.sh` (riga 158) applica già da solo in caso di conflitto — "abortisci e resta sul locale, il push finale riprova, niente si perde". Verificato dopo: `git status` pulito, branch `main`, nessuna scrittura persa (i commit del ciclo precedente restano su `main`).
+>
+> **Corretto `OKR-Squadra.md`.** La riga sul tasso di chiusura (posseduta dall'AD su sé stessa) citava ancora il dato del 13/8 (0,24 = 24/102). Il dato vero di oggi è **0,66** (125 chiusi ÷ 189 aperti nel mese) — sostituito, insieme alla data del frontmatter.
+>
+> **Correzione-nicola-gate: cercato ma non forzato un nuovo gate.** L'area resta a 248/311 lezioni senza freno. Ho controllato i 5 esempi segnalati dal guardiano contro `cervello/mutanti.json`: nessuno ha già una mutazione pronta da collegare. Inventare un gate senza una mutazione/test reale sarebbe esattamente il difetto che l'asticella vieta (AR-128). Resta debito dichiarato onestamente, non chiuso per finta.
+>
+> **Test del cervello: girato `node --test cervello/test/*.test.mjs` (sostituto allowlistato di `test-cervello.mjs`).** 1154/1159 verdi, 2 rossi, 3 skip. Entrambi i rossi sono lo stesso debito già diagnosticato a fondo nei giri precedenti, non una scoperta nuova: `guardiano-mai-messo-di-guardia` (le 3 cartelle `.claude/worktrees/agent-*` non escluse dal censimento) e `mappa-in-bacheca` (65 skill marketing/ingegneria arrivate l'11-13/8 senza riga in `censimento-macchina.mjs` — confermato 0 voci `skill/` su `main`). Il fix di entrambi esiste già sul ramo `fix/recupero-sensori-mappa-macchina-13-8` (commit `10f7d7868`), mai pubblicato: manca solo un push da un canale con credenziali GitHub. Non l'ho rifatto da capo — sarebbe lavoro duplicato bloccato dallo stesso canale.
+>
+> **Rispettato il vincolo HARD tasso-di-chiusura (0,66, sotto soglia 1):** nessuna ricerca nuova aperta, niente scan radar/intelligence, niente radiografia.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Restano aperte: le 4 PR rosse per colpa propria (#721/#714/#710/#708, serve un canale con push/gh reali) e `ritmo-mattino` fermo da 91h (verificare il timer sul VPS). Coda: solo 10 righe "in attesa" in [[AZIONI-IN-ATTESA]] (nessuna nuova da questo giro). Dichiarato esente da questo giro (codice, non memoria, già committato prima di stasera): `cervello/vps/recupera-lavori-orfani.sh:51`, una scrittura diretta che salta i controlli del worker principale — serve `tech` in una sessione dedicata al codice. Briefing: [[Briefing/2026-08-14]].
 
 > 🔬 **13/8 21:36 — Giro richiesto in chat. Business invariato. Trovata e diagnosticata a fondo la causa del test rosso; chiuso un altro pezzo del debito sulle correzioni di Nicola.**
 > Riconfermato dal sensore diretto sul marketplace (`supabase_rest`, 21:27): 1 ordine, mai pagato, del 24/6, annullato.
