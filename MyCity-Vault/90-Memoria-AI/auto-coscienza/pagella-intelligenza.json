@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
   "_cosa_NON_prova": "Non prova che la macchina sappia fare il mestiere: misura cinque proprietà della macchina stessa (difetti chiusi, prove, sensori, loop), tutte interne. Nessuno di questi cinque numeri sale perché è arrivato un ordine o è entrato un negozio — la pagella può dirsi pronta con il business fermo, e il 28/7 è esattamente così.",
-  "aggiornato": "2026-08-14 19:50",
+  "aggiornato": "2026-08-14 22:20",
   "pronta": false,
   "voci_superate": 0,
   "voci_totali": 5,
   "voci_cieche": 1,
-  "migliorate": 0,
-  "peggiorate": 1,
+  "migliorate": 1,
+  "peggiorate": 0,
   "soglie": {
     "lezioni_tasso_min": 0.7,
     "calibrazione_reparti_min": 5,
@@ -38,8 +38,8 @@
       },
       "gate": {
         "correzioni": 156,
-        "con_gate": 32,
-        "quota": 0.21
+        "con_gate": 34,
+        "quota": 0.22
       },
       "precedente": 0.14,
       "movimento": "ferma"
@@ -61,8 +61,8 @@
     {
       "id": "freni",
       "titolo": "Freni di sicurezza rotti",
-      "valore": 10,
-      "etichetta": "10 bloccanti aperti",
+      "valore": 9,
+      "etichetta": "9 bloccanti aperti",
       "soglia": "0",
       "ok": false,
       "cieco": false,
@@ -73,7 +73,6 @@
         "AR-365",
         "AR-366",
         "AR-388",
-        "AR-412",
         "AR-072",
         "AR-518",
         "AR-521",
@@ -81,8 +80,8 @@
       ],
       "fonte": "auto-coscienza/cantiere-difetti.json",
       "come_si_alza": "chiudere i bloccanti aperti: i fix sono già scritti, aspettano il merge di Nicola",
-      "precedente": 9,
-      "movimento": "peggiorata"
+      "precedente": 10,
+      "movimento": "migliorata"
     },
     {
       "id": "quaderni",
@@ -2160,6 +2159,18 @@
         "lezioni": 0.14,
         "calibrazione": null,
         "freni": 10,
+        "quaderni": 0.14166666666666666,
+        "salute": 4
+      }
+    },
+    {
+      "data": "2026-08-14 22:20",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.14,
+        "calibrazione": null,
+        "freni": 9,
         "quaderni": 0.14166666666666666,
         "salute": 4
       }

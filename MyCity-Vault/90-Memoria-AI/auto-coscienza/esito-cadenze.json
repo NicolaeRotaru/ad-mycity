@@ -12,25 +12,24 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-14 20:26",
+      "quando": "2026-08-14 22:39",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
       "push_ok": false,
       "passi_ok": true,
-      "vincoli_attivi": 11,
+      "vincoli_attivi": 10,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
-        "CHIUSURA",
-        "CI",
         "CORREZIONE_NICOLA",
         "FRESCHEZZA",
         "MAPPA",
-        "NORTH_STAR",
         "TASSO",
         "TEST",
-        "VOLANO"
+        "VOLANO",
+        "NORTH_STAR",
+        "RISCHI"
       ]
     },
     "monitora": {
@@ -74,5 +73,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-14 20:26"
+  "aggiornato": "2026-08-14 22:39"
 }
