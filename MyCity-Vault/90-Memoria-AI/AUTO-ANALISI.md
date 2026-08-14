@@ -1,13 +1,14 @@
 # 🔬 AUTO-ANALISI — 2026-08-14 08:41
 
 > Giro completo richiesto in chat, 2h dopo il precedente (06:39). Business invariato. Il numero viene dal sensore di `giro.sh` delle 08:20. Non ho rifatto la query: rispetta il vincolo tasso-di-chiusura.
-> Riverificato dal vivo due cose: `ci-stato.mjs` (stesse 5 PR rosse) e `coerenza-fatti.mjs` (memoria coerente).
+> Riverificato dal vivo due cose. `ci-stato.mjs` conferma le stesse 5 PR rosse di prima. `coerenza-fatti.mjs` conferma che la memoria è coerente.
 > **Trovata una cosa nuova.** 34 file di codice, non memoria, risultano modificati o nuovi sul disco dalle 06:30. Nessuno è stato committato. Sembra il lavoro reale di una sessione di codice interrotta prima di salvare. Non l'ho toccato: il codice va sempre su branch+PR. Segnalato, non risolto in questo giro.
 
-## Voto di fiducia: **83/100** (↓ lieve, da 84)
-Non per una regressione di business — nulla è cambiato — ma perché il rischio nuovo (34 file di codice
-potenzialmente 2+ ore di lavoro non salvato) resta aperto a fine giro, non chiuso nello stesso passaggio
-come era successo al gap delle 02:21.
+## Voto di fiducia: 83/100 (↓ lieve, da 84)
+
+Non è una regressione di business: lì nulla è cambiato. Il voto scende perché a fine giro è rimasto
+aperto un rischio nuovo — 34 file di codice, forse 2 o più ore di lavoro, non ancora salvati. Al gap
+delle 02:21 era andata diversamente: era stato chiuso nello stesso passaggio in cui era emerso.
 
 **Il lavoro vero di questo passaggio: verificare cosa è cambiato dalle 06:39, e trovare un rischio
 tecnico non di business.** `git status --short` mostra 34 file: 20 esistenti (`cervello/cancello-lotto.mjs`,
