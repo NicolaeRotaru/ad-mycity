@@ -22,6 +22,10 @@ e agenda, non logica di programma. E che nessun altro file è toccato.
 - Causa: `cervello/routing.json`, `cervello/fonti-salute.json`, `cervello/intelligence-agenda.json`
   sono classificati come "codice" dall'hook pre-commit. Regola AR-332: su `main` il codice passa
   da PR, non da commit diretto. Vale anche se il loro contenuto è log/stato auto-generato.
+  Per esempio: `cervello/routing.json` è stato riscritto due volte oggi dal worker sul server (giro
+  delle 22:39 e giro delle 23:22), ma nessuna delle due riscritture è mai arrivata su GitHub finché
+  non ho aperto questa PR — è esattamente il caso che la regola vuole evitare: log tecnico rimasto
+  solo sul server, invisibile a Nicola dal Pannello.
 - I file di memoria pura (8 file sotto `MyCity-Vault/90-Memoria-AI/auto-coscienza/`) sono già
   su `main`. Committati e pushati diretti, commit `bb619f2a6`, come da regola memoria-diretta.
 - Questa PR contiene SOLO l'aggiornamento di stato/log dei tre file `cervello/*.json` sopra.
