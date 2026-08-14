@@ -69,14 +69,22 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Test del cervello
-        run: node cervello/test-cervello.mjs
-
       # Le dipendenze servono al typecheck: senza, `tsc` non parte e il passo uscirebbe cieco.
       # Cieco non è verde — è la regola che questa macchina applica a ogni guardiano (AR-322), e
       # vale anche qui: un passo saltato non va raccontato come un passo superato.
+      #
+      # E servono PRIMA della suite, non solo al typecheck. Il 14/8 questo passo stava sotto, e
+      # `c1-atto-una-volta-sola.test.mjs` usciva 🚫 «import non risolvibile»: quel test carica
+      # `pannello/src/app/api/azioni-pronte/route.ts`, che importa `next`, che senza `npm ci` non
+      # esiste. Una prova sana veniva contata come rotta perché nessuno aveva ancora installato ciò
+      # che le serve — e il cancello del lotto, che le dipendenze le installa per primo, restava
+      # verde sulla stessa riga di codice. Due workflow con lo stesso compito e due verdetti opposti:
+      # il rosso non stava nel codice, stava nell'ordine dei passi.
       - name: Dipendenze del Pannello
         run: npm --prefix pannello ci
+
+      - name: Test del cervello
+        run: node cervello/test-cervello.mjs
 
       - name: Typecheck del Pannello
         run: npx --prefix pannello tsc --noEmit --project pannello/tsconfig.json

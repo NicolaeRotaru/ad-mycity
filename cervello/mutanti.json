@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-14 20:45",
+ "aggiornato": "2026-08-14 23:10",
  "mutanti": [
   {
    "lotto": 30,
@@ -3726,6 +3726,15 @@
    "cerca": "_rischi_out=\"$(node \"$SCRIPT_DIR/freschezza-rischi.mjs\" 2>&1)\"; _rischi_rc=$?",
    "sostituisci": "_rischi_out=\"\"; _rischi_rc=0",
    "test": "node cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+  },
+  {
+   "difetto": "AR-697",
+   "lezione": "L-2026-0814-002",
+   "nome": "i passi tornano nell ordine di prima: la suite gira senza le dipendenze del Pannello, e una prova sana esce «import non risolvibile»",
+   "file": ".github/workflows/test-cervello.yml",
+   "cerca": "      - name: Dipendenze del Pannello\n        run: npm --prefix pannello ci\n\n      - name: Test del cervello\n        run: node cervello/test-cervello.mjs",
+   "sostituisci": "      - name: Test del cervello\n        run: node cervello/test-cervello.mjs\n\n      - name: Dipendenze del Pannello\n        run: npm --prefix pannello ci",
+   "test": "node cervello/test/dipendenze-prima-delle-prove.test.mjs"
   }
  ]
 }
