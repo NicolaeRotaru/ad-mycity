@@ -154,17 +154,20 @@
     {
       "titolo": "Tre difetti chiusi si appoggiano a una prova che in questo ambiente non parte, e il banco la chiama «rossa» invece che «non l'ho potuta guardare»",
       "causa_radice": "cervello/test/c1-atto-una-volta-sola.test.mjs importa una route del Pannello che richiede `next`, e `pannello/node_modules` non esiste in una sessione appena aperta. Il banco lo classifica `ineseguibile`, che conta come rosso: è la stessa confusione fra «rotto» e «ambiente incompleto» che AR-693 cura per le prove in bash, sul lato Node. Andrebbe dichiarato ⚪ come i .bats senza bats, altrimenti il tetto `test_cervello` porta per sempre due rossi che non sono rossi.",
-      "visto_in": "cervello/test-cervello.mjs (verdetto `ineseguibile`) + AR-385/AR-412/AR-413 nel cantiere"
+      "visto_in": "cervello/test-cervello.mjs (verdetto `ineseguibile`) + AR-385/AR-412/AR-413 nel cantiere",
+      "registrato_come": "AR-696"
     },
     {
       "titolo": "Novantotto schede dichiarate riparate hanno una prova che nessuno ha mai rotto apposta",
       "causa_radice": "Il conto `mutazione-mancante` guardava solo i difetti APERTI, e i difetti riparati escono dalla lista degli aperti nel momento stesso in cui vengono chiusi: il debito si accumulava esattamente dove nessuno lo misurava. Adesso il numero si vede fra gli avvisi del cancello, ma non blocca — e nessuno lo sta facendo scendere.",
-      "visto_in": "cervello/cancello-lotto.mjs, avviso «schede dichiarate RIPARATE la cui prova non è mai stata rotta apposta»"
+      "visto_in": "cervello/cancello-lotto.mjs, avviso «schede dichiarate RIPARATE la cui prova non è mai stata rotta apposta»",
+      "registrato_come": "AR-697"
     },
     {
       "titolo": "Una prova comportamentale può restare verde col fix disfatto se legge l'uscita nel modo sbagliato",
       "causa_radice": "La prima versione della prova di AR-685 leggeva il referto con `spawnSync` diretto e restava verde anche rimettendo `process.exit()`: il taglio a 64 KB si vede solo da una pipe di SHELL. Cioè il canale con cui la prova osserva cambia il verdetto, e il canale sbagliato è quello comodo. È una forma nuova della malattia di questa corsia e non ha oggi nessun guardiano: si scopre solo applicando la mutazione, mai deducendola.",
-      "visto_in": "cervello/test/prova-che-non-puo-fallire.test.mjs, caso AR-685 (prima versione)"
+      "visto_in": "cervello/test/prova-che-non-puo-fallire.test.mjs, caso AR-685 (prima versione)",
+      "registrato_come": "AR-698"
     }
   ],
   "mutanti_da_correggere": [

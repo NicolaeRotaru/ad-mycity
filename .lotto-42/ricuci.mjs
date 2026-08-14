@@ -147,18 +147,45 @@ if (problemi.length) {
   for (const p of problemi) R.push(`     · ${p}`);
 }
 
-// i difetti nuovi trovati dalle corsie: qui NON si scrivono, si elencano.
+// I difetti nuovi trovati dalle corsie: qui NON si scrivono, si elencano — e si dice quali
+// sono GIÀ nel cantiere, perché «da registrare» ripetuto su uno già registrato fa perdere la
+// fiducia nell'elenco, e un elenco di cui non ci si fida è un elenco che non si legge.
 const nuovi = frammenti.flatMap(({ file, dati }) => (dati.difetti_nuovi || []).map((n) => ({ ...n, file })));
+/**
+ * È già nel cantiere? Prima si chiede alla SCHEDA (`registrato_come`), poi si ripiega sul titolo.
+ *
+ * Il ripiego da solo non basta e l'ho imparato qui: registrando le scoperte ne ho riscritti i
+ * titoli — è il mio mestiere, un titolo va reso leggibile — e il confronto per prefisso ha
+ * dichiarato «5 da registrare» quando erano zero. Un elenco che grida al lupo su cose già fatte
+ * smette di essere letto, ed è lo stesso modo in cui muoiono i guardiani veri.
+ */
+const giaNelCantiere = (n) => {
+  if (n?.registrato_come && perId.has(n.registrato_come)) return true;
+  const chiave = String(n?.titolo || "").slice(0, 40);
+  return Boolean(chiave) && JSON.stringify(cantiere.difetti).includes(chiave);
+};
 if (nuovi.length) {
+  const daFare = nuovi.filter((n) => !giaNelCantiere(n));
   R.push("");
-  R.push(`  🆕 ${nuovi.length} difetti NUOVI trovati riparando (da registrare a mano con id da origin/main):`);
-  for (const n of nuovi) R.push(`     · [${n.file}] ${n.titolo}`);
+  R.push(`  🆕 ${nuovi.length} difetti NUOVI trovati riparando — ${nuovi.length - daFare.length} già registrati, ${daFare.length} da registrare:`);
+  for (const n of nuovi) R.push(`     ${giaNelCantiere(n) ? "·" : "❗"} [${n.file}] ${String(n.titolo).slice(0, 95)}`);
 }
+
+/** Un pezzo fermato al confine può arrivare come frase o come scheda: qui si legge comunque. */
+const dilloAParole = (f) => {
+  if (typeof f === "string") return f;
+  if (f && typeof f === "object") {
+    const testa = [f.difetto, f.file].filter(Boolean).join(" → ");
+    const corpo = f.cosa_serve || f.motivo || f.perche || JSON.stringify(f);
+    return `${testa}${testa ? ": " : ""}${corpo}`;
+  }
+  return String(f);
+};
 const fuori = frammenti.flatMap(({ dati }) => dati.fuori_territorio || []);
 if (fuori.length) {
   R.push("");
   R.push(`  🚧 ${fuori.length} pezzi fermati al confine del territorio:`);
-  for (const f of fuori) R.push(`     · ${f}`);
+  for (const f of fuori) R.push(`     · ${dilloAParole(f).slice(0, 300)}`);
 }
 
 console.log(R.join("\n"));

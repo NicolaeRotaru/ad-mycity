@@ -206,22 +206,26 @@
     {
       "titolo": "Il censimento della macchina conta i moduli del cervello solo al primo livello: 210 invece di 277",
       "causa_radice": "La funzione che elenca i file legge una cartella sola e non scende nelle sottocartelle. È l'altra metà di AR-677: quel difetto è stato curato dove il conto serviva a un cancello, e lasciato dove serve a raccontare la macchina a Nicola. Il numero finisce nel censimento e nella mappa, quindi il quadro che lui legge dichiara un terzo di macchina in meno di quella che c'è.",
-      "visto_in": "cervello/censimento-macchina.mjs, la voce «immunitario.script» e le altre che passano dallo stesso elenco. Misurato adesso: 210 al primo livello, 277 contando le sottocartelle."
+      "visto_in": "cervello/censimento-macchina.mjs, la voce «immunitario.script» e le altre che passano dallo stesso elenco. Misurato adesso: 210 al primo livello, 277 contando le sottocartelle.",
+      "registrato_come": "AR-700"
     },
     {
       "titolo": "Il guardiano delle capacità conta le skill che l'ambiente lascia nella cartella, non quelle della macchina",
       "causa_radice": "Elenca le sottocartelle di .claude/skills sul disco. In questa sessione l'ambiente ne ha depositate 67 che non appartengono al repo (le tracciate sono 5 su 72), e il drift è passato da 2 a 55. Il verdetto dipende da dove gira invece che da com'è la macchina: su una postazione è rosso, sul server è verde, e nessuno dei due sa perché.",
-      "visto_in": "cervello/guardiano-capacita.mjs, elencaSkill. Misurato: 72 cartelle sul disco, 5 nel repo, drift 55 contro i 2 di inizio sessione."
+      "visto_in": "cervello/guardiano-capacita.mjs, elencaSkill. Misurato: 72 cartelle sul disco, 5 nel repo, drift 55 contro i 2 di inizio sessione.",
+      "registrato_come": "AR-701"
     },
     {
       "titolo": "La lista delle cacce aperte torna vuota quando il registro dei fatti non si legge",
       "causa_radice": "La funzione non distingue «non c'è nessuna caccia» da «non ho potuto leggere il registro»: torna un elenco vuoto in tutti e due i casi, e la cecità la dichiara solo chi la chiama dalla riga di comando. Oggi quel chiamante è uno solo e lo fa bene, ma il prossimo che userà la funzione riceverà un vuoto rassicurante. Non l'ho cambiata perché una prova di casa fissa quella forma, e quel file non è nel mio territorio.",
-      "visto_in": "cervello/prompt-senior.mjs, cacciaAperta · la prova che ne fissa la forma è cervello/test/porta-dei-senior.test.mjs"
+      "visto_in": "cervello/prompt-senior.mjs, cacciaAperta · la prova che ne fissa la forma è cervello/test/porta-dei-senior.test.mjs",
+      "registrato_come": "AR-702"
     },
     {
       "titolo": "Un'estrazione lascia indietro i puntatori delle prove, e nessuno grida se la prova non era registrata",
       "causa_radice": "Riscrivendo una funzione, due mutazioni hanno perso il pezzo che cercavano. Il guardiano in tempo reale le ha viste perché erano registrate. Un comportamento chiuso con una prova a pattern, o senza mutazione, sarebbe sparito in silenzio: il guardiano vede solo ciò che qualcuno ha dichiarato. È la stessa malattia che un'altra corsia sta curando in questo lotto, capitata addosso mentre la curavamo.",
-      "visto_in": "cervello/sorvegliante.mjs, le mutazioni di AR-503 e AR-543 durante la riparazione di AR-556"
+      "visto_in": "cervello/sorvegliante.mjs, le mutazioni di AR-503 e AR-543 durante la riparazione di AR-556",
+      "registrato_come": "AR-699"
     }
   ],
   "spazzata": "La malattia è censita in due forme e nessuna delle due copre il caso che ho riparato. «cieco-che-torna-una-misura» — un errore che diventa una misura — resta a 1 istanza, invariata; una l'avevo appena creata io nel modulo nuovo e l'ho tolta prima di consegnare, dopo la regola che mi hai mandato. «verde-che-e-il-ramo-di-default» resta a 0, ma il suo pattern guarda solo il confronto fra stringhe: la forma dei codici d'uscita, che è quella di AR-667, non l'ha mai contata nessuno. La voce nuova che la coprirebbe è scritta in fuori_territorio, e nascerebbe verde. Il guardiano della spazzata, dopo il mio lavoro, ha un solo rosso: «esito-in-una-pipe», che è AR-375 e si spegne con la patch al registro."

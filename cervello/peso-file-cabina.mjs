@@ -23,6 +23,7 @@
 import { existsSync, readFileSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { timbroOra } from "./ora-piacenza.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const ROOT = join(QUI, "..");
