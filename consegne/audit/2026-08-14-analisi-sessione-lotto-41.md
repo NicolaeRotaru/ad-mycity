@@ -7,16 +7,18 @@ pr: NicolaeRotaru/ad-mycity#731
 
 # Analisi della sessione — il lotto 41, e cosa ha rivelato sul metro
 
+> **In due righe.** Sono stati riparati 52 difetti su 53. Ma la scoperta vera è un'altra:
+> gli strumenti che dovevano trovarli erano rotti in sei modi, e ogni volta dicevano verde.
+
 ## In parole semplici
 
 Mi hai chiesto di riparare cinquanta difetti della macchina usando squadre in parallelo. Ne sono stati
 lavorati 53 e riparati 52. Ma la cosa che conta di più non è quel numero.
 
 **Quasi tutte le scoperte serie della sessione riguardano gli strumenti che misurano, non il codice
-misurato.** Il metro diceva «due» dove ce n'erano diciannove. Il banco delle prove chiamava «verde» un
-controllo che non aveva guardato niente. Un guardiano aveva smesso di vedere la porta più usata verso
-la pubblicazione. Due casi di prova non potevano fallire nemmeno scrivendoci dentro un errore
-volontario. Nove prove non giravano da mesi perché manca uno strumento che nessuno installa.
+misurato.** Il metro diceva «due» dove ce n'erano diciannove. Il banco delle prove chiamava «verde»
+un controllo che non aveva guardato niente. Le altre quattro stanno nel capitolo «Il vero risultato»,
+una per una, con la misura che le ha fatte saltare fuori.
 
 Il codice della macchina era rotto in 52 punti, ed è stato riparato. Ma **gli strumenti che dovevano
 accorgersi di quei punti erano rotti in almeno sei modi diversi**, e ogni volta il sintomo era lo
@@ -31,9 +33,9 @@ Due comportamenti cambiano davvero, e li vedrai appena unisci:
 - Approvare un'azione con la memoria giù **non la esegue più**. Prima la eseguiva, poi diceva
   «riprova», e riprovare la mandava una seconda volta.
 
-Sul telefono: i campi di scrittura non fanno più ingrandire la pagina su iPhone, i bottoni piccoli
-sono abbastanza grandi per il dito, e il link che ti arriva su Telegram porta dritto sulle azioni da
-firmare.
+Sul telefono cambiano tre cose. I campi di scrittura non fanno più ingrandire la pagina su iPhone.
+I bottoni piccoli sono diventati abbastanza grandi per il dito. Il link che ti arriva su Telegram
+porta dritto sulle azioni da firmare.
 
 ⚠️ **La richiesta di unione tocca il Pannello: unirla vuol dire pubblicarla.**
 
@@ -46,18 +48,18 @@ scoperta che vale più dei 52 difetti.
 
 ## Cosa non ho verificato
 
-- **Il VPS.** La macchina passa i segreti a git in un modo nuovo, fuori dalla riga di comando. Ho
-  provato che il segreto non compare più fra gli argomenti, e la pubblicazione di questo ramo è
-  passata da qui — ma un invio dal VPS si vede solo da lassù.
+- **Il VPS.** La macchina passa i segreti a git in un modo nuovo, fuori dalla riga di comando.
+  Ho provato che il segreto non compare più fra gli argomenti. Ho anche pubblicato questo ramo da
+  qui, e ha funzionato. Ma un invio dal VPS si vede solo da lassù.
 - **Il vetro dell'iPhone.** Il browser guidato prova la regola (misura del carattere, dimensione del
   bersaglio, dichiarazione della safe-area). Che il telefono si comporti davvero così serve un
   telefono.
 - **Un controllo automatico su GitHub resta rosso, e non è mio.** La prova `mappa-in-bacheca`
-  fallisce anche sul commit di partenza, in un albero separato che non ha mai visto questo lavoro:
-  è rossa su `main` da prima. Verificata nei due punti, non dedotta.
-- **Le nove prove in bash restano rosse** dove `bats` è installato, e non le ho toccate: sono debito
-  ereditato, registrato come difetto AR-693. Dove `bats` manca — cioè sui controlli automatici — ora
-  sono dichiarate ⚪ una per una invece di sparire in un conteggio.
+  fallisce anche sul commit di partenza. L'ho misurata in un albero separato, che non ha mai visto
+  questo lavoro. È rossa su `main` da prima: verificata nei due punti, non dedotta.
+- **Le nove prove in bash restano rosse** dove `bats` è installato, e non le ho toccate. Sono debito
+  ereditato, registrato come difetto AR-693. Sui controlli automatici `bats` manca: lì adesso sono
+  dichiarate ⚪ una per una, invece di sparire dentro un conteggio.
 
 ---
 
@@ -107,9 +109,9 @@ come verde.
 
 ### 4. Il guardiano delle porte aveva smesso di vedere la porta più usata
 
-Il lotto ha cambiato il modo in cui il worker chiama git — da `git push` a una forma con le opzioni in
-mezzo. Il guardiano che conta le porte verso la pubblicazione cercava le due parole attaccate, quindi
-ha smesso di contare **la porta da cui la memoria esce a ogni lavoro, circa ogni dodici minuti**.
+Il lotto ha cambiato il modo in cui il worker chiama git: da `git push` a una forma con le opzioni in
+mezzo. Il guardiano che conta le porte cercava le due parole attaccate. Così ha smesso di contare
+**la porta da cui la memoria esce a ogni lavoro, circa ogni dodici minuti**.
 
 Il freno davanti a quella porta c'era ancora: il pericolo era la cecità, non l'apertura. Verificato
 ricostruendo il repo com'era prima: otto porte allora, otto adesso, tutte protette.
@@ -180,7 +182,7 @@ Poi due corsie in più sugli otto rossi emersi dal cancello.
 da dove nessuno la poteva eseguire e messa dove un test la esegue davvero. È la ragione per cui i
 tetti sono scesi: una toppa ripara un punto, un modulo chiude una forma.
 
-**I territori disgiunti.** Zero conflitti fra corsie in tutta la sessione. L'unica collisione è stata
+**Nessuna corsia ha pestato i piedi a un'altra.** Zero conflitti in tutta la sessione. L'unica collisione è stata
 un falso allarme — la corsia 1 ha letto due file mentre la corsia 3 li stava riscrivendo, e ha
 riportato errori che non esistevano più. È esattamente la trappola che il mansionario segnala, e la
 regola «nessuna corsia misura l'albero» l'ha contenuta.
@@ -188,11 +190,11 @@ regola «nessuna corsia misura l'albero» l'ha contenuta.
 **La prova di non-vacuità.** 52 mutazioni su 52 rendono rossa la loro prova. Senza questo passo,
 alcune di quelle prove sarebbero state decorative e non l'avrebbe saputo nessuno.
 
-## Cosa NON ha funzionato come previsto
+## Cosa è costato più del previsto
 
 **Il collo di bottiglia non erano le corsie: era la ricucitura.** Le sei corsie hanno lavorato in
-parallelo per circa cinquanta minuti. La ricucitura — registri condivisi, tetti, cancello, otto rossi
-emersi dopo — è durata di più. Il mansionario lo dice già («dieci lotti pronti e non mergiati valgono
+parallelo per circa cinquanta minuti. La ricucitura è durata di più: registri condivisi, tetti,
+cancello, e gli otto rossi emersi solo dopo. Il mansionario lo dice già («dieci lotti pronti e non mergiati valgono
 meno di tre mergiati»), e questa sessione lo conferma con i tempi.
 
 **Cinquanta difetti sono oltre la misura consigliata.** Il mansionario dice di spezzare sopra i
@@ -256,9 +258,8 @@ separato prima di cominciare.
 
 In ordine di ritorno, non di comodità.
 
-1. **Installare `bats` dove il banco gira davvero** (avvio sessione, controlli automatici, server).
-   Costa una riga e restituisce 29 prove che oggi sono decorative. È il buco di copertura più grande
-   che questa sessione abbia trovato.
+1. **Installare `bats` dove il banco gira davvero.** Costa una riga e restituisce 29 prove che oggi
+   sono decorative. È il buco di copertura più grande che questa sessione abbia trovato.
 
 2. **Chiudere i cinque casi di prova che non possono fallire.** Sono cinque punti in cui la macchina
    crede di essere protetta e non lo è.
