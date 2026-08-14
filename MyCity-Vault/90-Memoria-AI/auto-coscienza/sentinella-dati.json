@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-08-14 22:05",
+  "aggiornato": "2026-08-14 22:07",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "84",
@@ -73,14 +73,21 @@
       "ultimo_job": "797f9f7c-309e-4194-a3a4-071517af3903",
       "colore": "🟡",
       "ambito": "macchina"
+    },
+    "senior_mai_usati": {
+      "ultima_firma": "utilizzo-8",
+      "ultimo_accodato": "2026-08-14 22:06",
+      "ultimo_accodato_iso": "2026-08-14T20:06:24.461Z",
+      "ultimo_job": "8a474337-c795-4f15-bfca-6ad95085a059",
+      "colore": "🟡",
+      "ambito": "macchina"
     }
   },
   "accodati_giorno": {
     "giorno": "2026-08-14",
-    "n": 5
+    "n": 6
   },
   "accodati_ts": [
-    "2026-07-20T22:00:45.831Z",
     "2026-07-21T04:20:29.881Z",
     "2026-07-21T16:07:28.962Z",
     "2026-07-21T22:01:08.368Z",
@@ -129,23 +136,12 @@
     "2026-08-14T09:55:56.796Z",
     "2026-08-14T17:51:24.491Z",
     "2026-08-14T20:04:23.280Z",
-    "2026-08-14T20:04:23.280Z"
+    "2026-08-14T20:04:23.280Z",
+    "2026-08-14T20:06:24.461Z"
   ],
   "ultima_recensione_vista": "2026-07-18T11:28:59.844Z",
-  "tick": 25135,
+  "tick": 25137,
   "storia": [
-    {
-      "quando": "2026-08-14 19:53",
-      "eventi": 3,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-08-14 19:54",
-      "eventi": 3,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-08-14 19:55",
       "eventi": 3,
@@ -733,10 +729,22 @@
       "eventi": 5,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-08-14 22:06",
+      "eventi": 6,
+      "accodati": 1,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-14 22:07",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-08-14 22:05",
+    "quando": "2026-08-14 22:07",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -751,7 +759,7 @@
     "volano_tasso": 0.12
   },
   "timbro": {
-    "quando": "2026-08-14 22:05",
+    "quando": "2026-08-14 22:07",
     "scade_dopo_ore": 3,
     "ambiente": "locale",
     "scritto_da": "cervello/sentinella-dati.mjs",
@@ -762,5 +770,5 @@
       "MARKETPLACE_SUPABASE_KEY"
     ]
   },
-  "senior_giri_sotto": 2
+  "senior_giri_sotto": 4
 }
