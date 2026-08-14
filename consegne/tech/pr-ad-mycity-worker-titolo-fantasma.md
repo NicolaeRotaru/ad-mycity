@@ -1,9 +1,11 @@
 ## In parole semplici
-Il worker è il programma che gira giorno e notte sul computer di MyCity ed esegue i lavori
-in coda. Ogni tanto scrive su `main` un commit con scritto sopra "Sentinella macchina —
-SENSORI FERMI". Ma dentro quel commit non c'è nessun allarme vero. Tocca solo file di sincronizzazione di
-routine. È un'etichetta sbagliata, non un allarme che si ripete ogni minuto. Il vero allarme
-è successo solo 2 volte in 7 minuti, come doveva.
+Il worker è il programma che gira giorno e notte sul VPS (il computer sempre acceso di
+MyCity) ed esegue i lavori in coda. Ogni tanto scrive su `main` un commit con scritto sopra
+"Sentinella macchina — SENSORI FERMI". Ma dentro quel commit non c'è nessun allarme vero.
+Tocca solo file di sincronizzazione di routine. È un'etichetta sbagliata, non un allarme che
+si ripete ogni minuto. Esempio concreto: il 14/8 tra le 18:30 e le 18:36 sono usciti 6 commit
+con quel titolo, ma il vero allarme "SENSORI FERMI" è successo solo 2 volte in quei 7 minuti,
+come doveva — gli altri 4 erano etichette riciclate.
 
 ## Cosa cambia per te
 Da oggi cambia un'etichetta nei commit del worker su `main`. Ogni 60 secondi, se non è
