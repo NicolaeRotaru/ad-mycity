@@ -144,7 +144,7 @@ in scrittura alla macchina, ed è giusto così.
 - **Reparto:** tech
 - **Origine:** `{origine:sessione-2026-08-10-vittoria-winback, ancora:3bda15ad5b5b0be5c920fe926341c08b1a0cc8e9, commit-non-contati:397}`
 
-🔧 Dettagli tecnici: `ancoraDelTurno()`/`piantaAncora()` in `cervello/cancello-stop.mjs` (righe ~661-701): l'ancora avanza solo su turni con `git status --porcelain` vuoto (`alberoSporco()`). Verificato ora: `git rev-list --count 3bda15ad..HEAD` = 397, ultimo commit reale del ramo `f13968f22` (11:24:38), ancora ferma al `3bda15ad` del 2026-08-04 00:11. Le 6 PR citate dal cancello risultano già in coda: righe 1636-1639 (679/680/681/683) + blocchi `#pr-675`/`#pr-678` sopra.
+🔧 Dettagli tecnici: `ancoraDelTurno()`/`piantaAncora()` in `cervello/cancello-stop.mjs`, righe ~661-701. L'ancora avanza solo su turni con `git status --porcelain` vuoto (`alberoSporco()`). Verificato ora: `git rev-list --count 3bda15ad..HEAD` = 397. L'ultimo commit reale del ramo è `f13968f22` (11:24:38). L'ancora resta ferma al `3bda15ad` del 2026-08-04 00:11. Le 6 PR citate dal cancello risultano già in coda: righe 1636-1639 (679/680/681/683) più i blocchi `#pr-675`/`#pr-678` sopra.
 
 <!-- sorvegliante-esenzione-vault -->
 
@@ -152,7 +152,7 @@ in scrittura alla macchina, ed è giusto così.
 
 ### 🟡 #56 — Il controllo automatico grida al lupo su un referto che si aggiorna da solo · ⏳ accodata 2026-08-04 18:30
 
-**Cosa cambia:** ogni volta che la macchina salva `cantiere-prove.json` (il referto dei difetti aperti), il controllo di sicurezza accusa "hai tolto una difesa" anche quando il difetto è semplicemente chiuso e il referto si è aggiornato di conseguenza — è successo 153 volte in questa sola sessione. Non è un buco di sicurezza vero: l'ho verificato riga per riga (i test esistono ancora, girano ancora, 131/131 passano). Ma il rumore nasconde i controlli veri.
+**Cosa cambia:** `cantiere-prove.json` è il referto dei difetti aperti. Ogni volta che la macchina lo salva, il controllo di sicurezza accusa "hai tolto una difesa" — anche quando il difetto è semplicemente chiuso e il referto si è aggiornato di conseguenza. È successo 153 volte in questa sola sessione. Non è un buco di sicurezza vero: l'ho verificato riga per riga, i test esistono ancora, girano ancora, 131/131 passano. Ma il rumore nasconde i controlli veri.
 
 **Se va bene:** un tecnico decide una delle due cure proposte nel dettaglio e la porta in un branch con la prova che il fix non spalanca la porta ad accuse vere. Non urgente: per ora la macchina lavora attorno al problema (esclude il file dal commit quando serve).
 

@@ -8,7 +8,7 @@ aggiornato: 2026-08-15 00:40
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata perché era ferma al 12/8 22:43 — oltre i 2 giorni (AR-030).
+> Rigenerata perché era ferma al 12/8 22:43. Sono oltre i 2 giorni di regola (AR-030).
 > Business ancora **invariato**: 1 ordine totale (mai pagato, 24/6), 0 pagati, stallo **52 giorni**
 > — dentro la pausa concordata con te fino al 24/8-1/9, non è churn.
 
@@ -16,10 +16,10 @@ aggiornato: 2026-08-15 00:40
 
 ## 🔴 DECISIONI TECNICHE A PIÙ ALTO IMPATTO (dal marketplace vero, ferme dal 29/7)
 
-- [ ] 🔴 **Tappa i 5 punti dove il marketplace perde soldi da solo** (doppia vendita dopo checkout scaduto, coupon che si esauriscono sui tentativi non sugli ordini, il rider può decidersi lo stipendio, il rider non viene mai pagato sulla spedizione gratis, un reclamo blocca il negozio per sempre) — bastano poche righe per i primi due, una migration per gli altri.
+- [ ] 🔴 **Tappa i 5 punti dove il marketplace perde soldi da solo.** Doppia vendita dopo checkout scaduto, coupon che si esauriscono sui tentativi e non sugli ordini, il rider che può decidersi lo stipendio da solo, il rider mai pagato sulla spedizione gratis, un reclamo che blocca il negozio per sempre. Bastano poche righe per i primi due, una migration per gli altri.
   → Card `#38` in [[AZIONI-IN-ATTESA]]
 
-- [ ] 🔴 **Chiudi le 4 porte aperte su dati di negozi e clienti** (liste negozi scrivibili senza login, indirizzi clienti leggibili senza login, venditori/rider auto-approvati alla registrazione, dati di consegna modificabili senza login) — verificate una per una sul database vero.
+- [ ] 🔴 **Chiudi le 4 porte aperte su dati di negozi e clienti.** Liste negozi scrivibili senza login, indirizzi clienti leggibili senza login, venditori e rider auto-approvati alla registrazione, dati di consegna modificabili senza login. Verificate una per una sul database vero.
   → Card `#37` in [[AZIONI-IN-ATTESA]]
 
 - [ ] 🔴 **Ripara il pulsante che negozio e rider usano per far avanzare un ordine** — oggi dà errore sempre, per un campo cancellato a giugno che un controllo di sicurezza cerca ancora. Al primo ordine vero il negoziante non riesce ad accettarlo.
@@ -44,7 +44,7 @@ aggiornato: 2026-08-15 00:40
 - [ ] 🟡 **Telegram lo vuoi acceso o lasciamolo spento?** Oggi è spento e basta, nessuno te l'ha mai chiesto.
   → Card `#66` in [[AZIONI-IN-ATTESA]]
 
-- [ ] 🟡 **Il permesso "jolly" nei permessi della macchina va tolto?** Oggi può eseguire qualunque programma finisca nella sua cartella `cervello/`. L'elenco esplicito di 75 programmi veri è già pronto da incollare — e sbloccherebbe anche i comandi di controllo (`test-cervello`, `gate-veri`, ecc.) oggi bloccati in sessione chat.
+- [ ] 🟡 **Il permesso "jolly" nei permessi della macchina va tolto?** Oggi può eseguire qualunque programma finisca nella sua cartella `cervello/`. L'elenco esplicito di 75 programmi veri è già pronto da incollare. Sbloccherebbe anche i comandi di controllo (`test-cervello`, `gate-veri`, ecc.), oggi bloccati in sessione chat.
   → Card `#42` in [[AZIONI-IN-ATTESA]]
 
 - [ ] 🟡 **Metti la partita IVA vera nell'informativa privacy** (oggi c'è un segnaposto `IT00000000000`) — l'unico dato che non posso dedurre da solo; il resto (cancellazione documenti, dati visti dal rider) lo preparo io in branch.
