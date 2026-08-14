@@ -14218,6 +14218,26 @@
       "chiuso_il": "2026-08-14 07:45",
       "chiuso_come": "node cervello/test/lucchetto-che-non-si-libera.test.mjs -> 5 pass / 0 fail",
       "corroborata": true
+    },
+    {
+      "id": "AR-692",
+      "titolo": "Il referto della visita non nomina la cosa rotta: come motivo mostra una parentesi graffa",
+      "dimensione": "sensori-e-verita",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "stato": "chiuso",
+      "nato": "2026-08-14 16:55",
+      "nato_come": "scoperta",
+      "causa_radice": "cervello/salute.mjs, daGuardiano(): il motivo del guasto si prendeva con primaRigaUtile(r.out), cioe le prime due righe non vuote dell'output. Sei controlli della visita interrogano il loro guardiano con --json, e le prime due righe di un JSON indentato sono `{` e `\"esito\": \"errore\",`: le uniche due che non dicono niente. Il riassunto vero sta nel campo `sintesi` («1 FALLITI: token ad-mycity»). Per due giorni il referto ha detto a Nicola «Token, push e allineamento git — l'automazione ha un controllo fallito — { · \"esito\": \"errore\",»: un rosso che non dice cosa riparare, rimasto aperto proprio per questo.",
+      "fix_proposto": "motivoDelGuasto(): se l'output e JSON legge il campo che riassume (sintesi, poi motivo/perche/errore/dettaglio); altrimenti ripiega sulle prime righe come prima. Pura ed esportata, cosi la prova esegue la decisione invece di cercarne la forma.",
+      "origine": "check-in del 14/8: il controllo era rosso dal 13/8 sera e il referto non permetteva di sapere quale",
+      "verifica": {
+        "comando": "node cervello/test/motivo-che-non-dice-niente.test.mjs"
+      },
+      "nota_fix": "2026-08-14: 5 prove (JSON con sintesi · campi alternativi e liste · testo normale invariato · JSON troncato che non resta muto · il verdetto vero che non contiene piu la graffa). Non-vacuita: tolto il ramo JSON -> test rosso, rimesso -> verde.",
+      "chiuso_il": "2026-08-14 17:00",
+      "chiuso_come": "node cervello/test/motivo-che-non-dice-niente.test.mjs → 5 pass / 0 fail",
+      "corroborata": true
     }
   ],
   "meta": {
