@@ -6,19 +6,37 @@
       "id": "AR-663",
       "esito": "riparato",
       "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
-      "nota_fix": "IN CORSO — referto deviabile con BLOCCO_MANCANTE_FILE, --sola-lettura, --json non scrive piu."
+      "nota_fix": "Il referto è deviabile con `BLOCCO_MANCANTE_FILE` e con `--json` non si scrive più. Prima il percorso era fisso: chiunque lo interrogasse per sapere lo stato lo peggiorava, e una prova su questa famiglia sporcava la memoria vera.",
+      "mutante": {
+        "file": "cervello/conta-blocco-mancante.mjs",
+        "cerca": "const REFERTO = process.env.BLOCCO_MANCANTE_FILE || join",
+        "sostituisci": "const REFERTO = join"
+      },
+      "non_vacuita": "rimettendo il referto su un percorso fisso diventano rossi 2 casi (⑩⑪) — applicata, lanciata, vista rossa, rimessa"
     },
     {
       "id": "AR-639",
       "esito": "riparato",
       "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
-      "nota_fix": "IN CORSO — il referto si riscrive solo se cambia qualcosa oltre l'ora."
+      "nota_fix": "Il referto si riscrive solo se è cambiato qualcosa oltre l’ora: `contenutoSostanziale` toglie i campi-timbro e confronta il resto. Due esecuzioni identiche lasciano il file uguale byte per byte.",
+      "mutante": {
+        "file": "cervello/scrittura-misura.mjs",
+        "cerca": "  if (stessoContenuto(misuraNuova, misuraVecchia, campiTimbro)) {",
+        "sostituisci": "  if (false) {"
+      },
+      "non_vacuita": "facendo riscrivere anche quando cambia solo l’ora diventa rosso il caso ② — applicata, lanciata, vista rossa, rimessa"
     },
     {
       "id": "AR-464",
       "esito": "riparato",
       "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
-      "nota_fix": "IN CORSO — --sola-lettura su coerenza-fatti e stampo-check."
+      "nota_fix": "`--sola-lettura` su coerenza-fatti e stampo-check: la scrittura passa da `decidiScrittura`, che con quel flag non scrive niente. La prova è quella chiesta dalla scheda alla lettera — due guardiani lanciati di fila e `git status` che resta vuoto. AD: la corsia aveva scritto il codice ma NON la prova che dichiarava; l’ho scritta io e verificata rompendo il fix.",
+      "mutante": {
+        "file": "cervello/scrittura-misura.mjs",
+        "cerca": "  if (solaLettura) {",
+        "sostituisci": "  if (false) {"
+      },
+      "non_vacuita": "togliendo il freno della sola-lettura diventano rossi 3 casi (①⑫⑬) — applicata, lanciata, vista rossa, rimessa"
     }
   ],
   "file_toccati": [
@@ -26,9 +44,14 @@
     "cervello/conta-blocco-mancante.mjs",
     "cervello/tasso-chiusura.mjs",
     "cervello/coerenza-fatti.mjs",
-    "cervello/stampo-check.mjs"
+    "cervello/stampo-check.mjs",
+    "cervello/verifica-sensori.mjs",
+    "cervello/chiusura-loop.mjs",
+    "cervello/tick-auto-coscienza-leggero.mjs",
+    "cervello/test/misura-che-non-sporca.test.mjs"
   ],
   "fuori_territorio": [],
   "difetti_nuovi": [],
-  "spazzata": "in corso"
+  "spazzata": "in corso",
+  "nota_ad": "La corsia si è fermata a 3 difetti su 9 e il contenitore l’ha uccisa. Il codice che aveva scritto era buono (476 righe, 6 file) ma la prova che dichiarava NON ESISTEVA: una prova orfana, cioè esattamente la classe che questo lotto cura. L’ho scritta io, 13 casi, e ho verificato le tre mutazioni rompendo il fix davvero. Ho anche fatto i due punti dell’ora che bloccavano AR-666 della corsia F."
 }

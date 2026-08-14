@@ -16,6 +16,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { scriviJsonAtomico } from "./scrivi-json.mjs"; // AR-558: l'indentazione la legge il file
+import { msDaTimbro } from "./ora-piacenza.mjs";
 
 const FORZA = process.argv.includes("--forza");
 const JSON_MODE = process.argv.includes("--json");
@@ -28,7 +29,10 @@ function parsePiacenza(dataStr) {
   const m = String(dataStr).match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
   if (!m) return null;
   const [, y, mo, d, h = "12", mi = "00"] = m;
-  return new Date(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`);
+  // AR-666 — l'offset era scritto a mano (`+02:00`): giusto d'estate, falso di un'ora tutto
+  // l'inverno. Qui decide se il tick è già passato, quindi l'ora sbagliata salta o ripete un giro.
+  const ms = msDaTimbro(`${y}-${mo}-${d} ${h}:${mi}`);
+  return ms === null ? null : new Date(ms);
 }
 
 function minutiDa(dataStr) {
