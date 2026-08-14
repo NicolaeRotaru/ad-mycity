@@ -1,9 +1,25 @@
 {
   "corsia": "F — l'ora scritta a mano invece di calcolata (offset +02:00 cablato e parse nel fuso del server)",
   "modulo_condiviso": "cervello/ora-piacenza.mjs",
-  "stato": "IN CORSO — appena partita, nessun difetto ancora chiuso",
-  "difetti": [],
-  "file_toccati": [],
+  "stato": "IN CORSO — AR-665 chiuso, AR-666 in lavorazione, AR-672 da verificare",
+  "difetti": [
+    {
+      "id": "AR-665",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/peso-file-cabina.test.mjs",
+      "nota_fix": "La prova del guardiano del peso costruiva un albero finto e ci copiava dentro un file solo. Chi lo eseguiva lì dentro doveva bastare a sé stesso: bastava un import e sei casi morivano su «cannot find module». Era quella regola a tenere in vita l'ora scritta a mano, perché uno script che deve bastare a sé stesso l'orologio se lo riscrive per forza. Adesso la copia segue la catena degli import, come fa già la prova delle mutazioni mancanti, e il guardiano timbra col'ora di casa.",
+      "mutante": {
+        "file": "cervello/test/peso-file-cabina.test.mjs",
+        "cerca": "  copiaConModuli(GUARDIANO, dir);",
+        "sostituisci": "  cpSync(GUARDIANO, join(dir, \"cervello/peso-file-cabina.mjs\"));"
+      },
+      "non_vacuita": "rimettendo la copia di un file solo, 8 casi su 10 diventano rossi (fra cui i due nuovi) — verificato lanciando il test"
+    }
+  ],
+  "file_toccati": [
+    "cervello/test/peso-file-cabina.test.mjs",
+    "cervello/peso-file-cabina.mjs"
+  ],
   "fuori_territorio": [],
   "difetti_nuovi": [],
   "punti_ora_residui": null,

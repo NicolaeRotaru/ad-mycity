@@ -10,6 +10,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { msDaTimbro } from "./ora-piacenza.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const RADAR = join(AD_ROOT, "cervello/radar-fonti.json");

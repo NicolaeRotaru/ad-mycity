@@ -121,8 +121,16 @@ for (const f of readdirSync(LOTTO).filter((x) => /^corsia-[A-Z]\.json$/.test(x))
   try { dati = JSON.parse(readFileSync(join(LOTTO, f), "utf8")); }
   catch (e) { salti.push(`${f}: frammento illeggibile (${e.message})`); continue; }
   for (const n of dati.difetti_nuovi || []) {
+    // Prima si chiede alla SCHEDA, poi si ripiega sul titolo. Il ripiego da solo mente: chi
+    // registra una scoperta ne riscrive il titolo — è il mestiere, un titolo va reso leggibile —
+    // e il confronto per prefisso grida al lupo su cinque cose già fatte.
+    //
+    // ⚠️ Questa correzione era GIÀ stata fatta in `ricuci.mjs` e non era arrivata qui: due porte
+    // sullo stesso atto, una riparata e una no. È il difetto che questo lotto cura, ricapitato a
+    // me mentre lo curavo — e l'ha trovato questo script, non io.
+    const registrata = n.registrato_come && cant.includes(`"${n.registrato_come}"`);
     const chiave = (n.titolo || "").slice(0, 40);
-    if (chiave && !cant.includes(chiave)) {
+    if (!registrata && chiave && !cant.includes(chiave)) {
       problemi.push(`   ❌ [${f}] difetto nuovo mai registrato: «${n.titolo}»`);
       nuoviFuori++;
     }

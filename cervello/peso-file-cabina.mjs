@@ -85,12 +85,13 @@ const oltreInline = misure.filter((m) => m.stato === "oltre-inline");
 const codice = !muro.ok || ciechi > 0 ? 2 : oltreMuro.length ? 1 : 0;
 
 const report = {
-  // ⚠️ AR-648 NON riparato qui, e il motivo è dichiarato: cervello/test/peso-file-cabina.test.mjs
-  // copia QUESTO file da solo in una cartella temporanea e lo esegue lì. Con un import di
-  // ./ora-piacenza.mjs il processo muore («cannot find module») e sei casi diventano rossi. Per
-  // chiudere servono due righe insieme: il cpSync del modulo nella sabbiera del test, e qui
-  // timbroOra(). Il test è fuori dal territorio di questa corsia — vedi fuori_territorio nel rapporto.
-  data: new Date().toISOString().slice(0, 16).replace("T", " "),
+  // AR-648 · AR-665 — qui c'era `new Date().toISOString()`: la forma giusta con dentro l'ora di
+  // Greenwich, cioè un timbro che la Cabina mostrava come ora di casa essendo indietro di una o due
+  // ore. Non si riparava perché la sua prova copiava questo file DA SOLO in una cartella
+  // temporanea, dove un import non si risolve: la sabbiera obbligava lo script a bastare a sé
+  // stesso, e uno script che deve bastare a sé stesso l'orologio se lo riscrive per forza. Adesso
+  // la sabbiera segue la catena degli import e l'ora arriva da un posto solo.
+  data: timbroOra(),
   tetto_inline: TETTO_INLINE,
   muro: muro.ok ? muro.muro : null,
   muro_motivo: muro.ok ? null : muro.motivo,

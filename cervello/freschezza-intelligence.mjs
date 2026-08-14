@@ -22,6 +22,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { msDaTimbro } from "./ora-piacenza.mjs";
 
 const RADAR = join(AD_ROOT, "cervello/radar-fonti.json");
 const INTEL_DIR = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/Intelligence");
@@ -58,12 +59,26 @@ export function dataDaIntestazione(testo = "") {
   return null;
 }
 
-/** Giorni interi fra due date ISO (aaaa-mm-gg). PURA. */
+/**
+ * Giorni interi fra due date ISO (aaaa-mm-gg), contati da mezzogiorno a mezzogiorno. PURA.
+ *
+ * Qui c'era `+02:00` scritto a mano su tutte e due le date. Sembra innocuo perché il conto si fa a
+ * mezzogiorno e un'ora di scarto non attraversa la mezzanotte — ma l'errore non sta DENTRO la
+ * giornata: sta sul confine dell'ora legale. Quando l'intervallo lo scavalca, le due date hanno
+ * offset veri diversi (+01:00 e +02:00), il cablato ne perde uno e `Math.floor` trasforma l'ora
+ * mancante in un giorno intero. Dal 15 gennaio al 15 luglio diceva 181 invece di 180. Sopra questo
+ * numero stanno le soglie di scadenza delle schede: un giorno regalato fa scadere una card che
+ * ancora fresca, e un avviso che parte da solo si impara a ignorare.
+ *
+ * Stessa cura, stesso conto e stessi numeri del gemello nel Pannello
+ * (`pannello/src/lib/freschezza-intelligence.ts`, AR-414): l'offset lo si chiede al fuso per QUELLA
+ * data, non lo si scrive.
+ */
 export function giorniFra(isoVecchia, isoOggi) {
   if (!isoVecchia) return null;
-  const a = Date.parse(`${isoVecchia}T12:00:00+02:00`);
-  const b = Date.parse(`${isoOggi}T12:00:00+02:00`);
-  if (Number.isNaN(a) || Number.isNaN(b)) return null;
+  const a = msDaTimbro(`${isoVecchia} 12:00`);
+  const b = msDaTimbro(`${isoOggi} 12:00`);
+  if (!Number.isFinite(a) || !Number.isFinite(b)) return null;
   return Math.floor((b - a) / 86400000);
 }
 
