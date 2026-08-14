@@ -21,7 +21,7 @@
    "ultima_conferma": "2026-08-14 20:15",
    "stato": "attiva",
    "usi": [],
-   "gate": "node cervello/test/registri-ora-di-piacenza.test.mjs"
+   "freno_non_scrivibile": "2026-08-14 20:40: il campo gate indicava `cervello/test/registri-ora-di-piacenza.test.mjs`, che NON e il freno di questa lezione: quel test prova che i registri timbrano con l'ora di Piacenza, mentre qui la regola e di metodo (rilancia la suite prima di aprire una scheda). Rompere quel test non direbbe niente su questa lezione, e aggiungergli una mutazione avrebbe comprato il verde senza costruire nessuna difesa. Tolto il campo: il freno vero sarebbe un guardiano che rifiuta l'apertura di una scheda su un rosso non riconfermato, e oggi non esiste. Debito dichiarato, non lavoro finito."
   },
   {
    "id": "L-2026-0813-03",
