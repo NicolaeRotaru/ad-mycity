@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-14 02:20
+aggiornato: 2026-08-14 06:01
 fonte: AD digitale (chat)
 ---
 
@@ -1555,6 +1555,19 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (☀️ aggiornato 14/8 06:01 — piano del mattino)
+Business INVARIATO dal 24/6, confermato dalla sentinella diretta delle 06:00, zero numeri inventati. 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine mai pagato (CANCELED), 0 pagati, 0 eventi nuovi nell'ultima ora. **Stallo 51 giorni.** È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Il tasso di chiusura del mese resta sotto soglia (0,66 su 1). Oggi il lavoro chiude la coda già aperta, non ne cerca di nuova.
+
+1. [ ] 🟢 **Tieni pulita la coda delle azioni in attesa** (AD). 71 card aperte, alcune ferme dal 27/7. Segnalate a Nicola le tre più veloci da chiudere con una risposta breve.
+2. [ ] 🟡 **Tre firme corte di Nicola sbloccano quattro card.** `#80` spegni PostHog sul server, un comando solo. `#66` un sensore mai acceso: dici acceso o spento? `#69` l'ordine in cui riscrivere i suoi dieci piani.
+3. [ ] 🟡 **Capire perché il ritmo automatico non è partito da solo** (devops-sre). Il Piano del mattino di oggi l'ho rifatto a mano in chat. Verificare sul VPS il timer installato da `install-ritmo-timers.sh`.
+
+**Non dimenticare, senza fretta:** due falle di sicurezza sul sito (`#37`/`#36`) sono pronte in branch dal 29/7, 16 giorni fa. Riguardano i negozi modificabili senza account e i dati clienti visibili senza login. Aspettano solo il via di Nicola per andare in anteprima.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 51gg, atteso — negozi in pausa) · `cassa_sconosciuta` cieco · `nessun_ordine` (scalino-30) · `radiografia_vecchia` (11) — nessun evento nuovo accodato/allertato nell'ultima ora (sentinella-dati.json, 06:00) · REST ✅.
+
+---
 
 ## Prossime priorità (🕛 aggiornato 10/8 12:01 — punto di mezzogiorno)
 Business INVARIATO dal 24/6, riconfermato ora con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (CANCELED), 0 pagati, 0 recensioni, 6 carrelli (3 abbandonati) — **stallo 47 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. La scoperta di oggi cambia la priorità n.1: non è più solo "una parola sull'ordine di prova", è che il fornaio non può ancora incassare per davvero.
