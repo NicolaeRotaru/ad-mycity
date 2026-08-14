@@ -190,8 +190,12 @@ export const FAMIGLIE = [
   ["soldi-macchina", "💶 Quanto costa tenerla accesa"],
   ["tempo", "⏰ Tempo, code e scadenze"],
   ["test", "🧪 Il codice regge?"],
+  ["guardrail", "🚦 Le regole scritte in un posto solo"],
   ["mani", "📲 Le mani (non giudicano: agiscono)"],
 ];
+
+/** Le famiglie che esistono davvero: una descrizione che ne nomina un'altra sparisce dalla tabella. */
+const FAMIGLIE_NOTE = new Set(FAMIGLIE.map(([chiave]) => chiave));
 
 /**
  * Chi gira nel giro, come è cablato, e cosa succede DAVVERO quando dice no.
@@ -330,6 +334,13 @@ export function censimento(testoGiro = "", { descrizioni = DESCRIZIONI, testoGat
     nonContati: elenco.filter((g) => g.effetti.includes("non-contato")).map((g) => g.nome),
     senzaDescrizione: elenco.filter((g) => !g.cosa).map((g) => g.nome),
     fantasmi: Object.keys(descrizioni).filter((n) => !nomi.has(n)),
+    // La terza direzione in cui l'elenco si stacca dalla realtà, scoperta col lotto 41: `c4-cancelli`
+    // era descritto (quindi non «senza descrizione») e girava davvero (quindi non un fantasma), ma
+    // la sua famiglia — `guardrail` — non esisteva fra quelle stampate. La bacheca raggruppa per
+    // famiglia e salta i gruppi vuoti: il guardiano è **sparito dalla tabella in silenzio**, e il
+    // controllo usciva verde lo stesso. È esattamente il difetto che questo file esiste per
+    // impedire — un controllo che protegge senza comparire — quindi ora conta come rosso.
+    famiglieOrfane: elenco.filter((g) => g.cosa && !FAMIGLIE_NOTE.has(g.famiglia)).map((g) => g.nome),
   };
 }
 
@@ -366,7 +377,11 @@ export const EFFETTI = {
  * Un difetto raccontato bene non è un difetto chiuso: finché il numero non entra in un'uscita,
  * nessun cancello lo può usare, e resta una riga che si impara a scorrere.
  */
-export function codiceUscita({ senzaDescrizione = [], fantasmi = [], nonContati = [] } = {}) {
+export function codiceUscita({ senzaDescrizione = [], fantasmi = [], nonContati = [], famiglieOrfane = [] } = {}) {
+  // Su una riga a parte apposta: la riga sotto è il pezzo che la mutazione di AR-387 va a cercare
+  // per verificare che il freno sugli allarmi non contati sia ancora vivo. Impastarci dentro un
+  // quarto controllo la renderebbe irriconoscibile, e quella prova smetterebbe di misurare.
+  if (famiglieOrfane.length) return 1;
   return senzaDescrizione.length || fantasmi.length || nonContati.length ? 1 : 0;
 }
 

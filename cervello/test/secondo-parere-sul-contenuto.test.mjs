@@ -143,11 +143,25 @@ prova("l'esecutore esegue SOLO quello che la selezione gli passa", () => {
   // L'unica assertion strutturale che resta, e serve: la funzione pura può essere giustissima e
   // l'esecutore ignorarla. `eseguiAzione` dev'essere chiamata una volta sola, dentro il ciclo sulla
   // lista selezionata.
+  //
+  // ⚠️ IL METRO ERA TARATO SU UNA FORMA VECCHIA (lotto 41). Cercava alla lettera
+  // `await eseguiAzione(`, e col fix di AR-385 quella forma non esiste più: la chiamata è diventata
+  // il campo `atto:` di `attoUnaVoltaSola`, che prenota il posto PRIMA di toccare il mondo. Il
+  // codice era migliorato e la prova diventata rossa — cioè il metro misurava la forma della riga,
+  // non la cosa che doveva restare vera. Qui la cosa vera è «una sola strada verso l'invio», e si
+  // misura sulla chiamata, non sulla parola `await` che le sta davanti.
+  //
+  // La copertura non cala, sale: si continua a pretendere una sola chiamata dentro il ciclo, e in
+  // più che passi dal cancello dell'atto unico. Se qualcuno rimettesse un invio diretto fuori dal
+  // cancello, il conteggio andrebbe a due e questo caso tornerebbe rosso.
   const a = readFileSync(join(REPO, "pannello/src/lib/autopilota.ts"), "utf8");
-  assert.equal((a.match(/await eseguiAzione\(/g) || []).length, 1, "una sola strada verso l'invio");
+  assert.equal((a.match(/eseguiAzione\(/g) || []).length, 1, "una sola strada verso l'invio");
   const iCiclo = a.indexOf("for (const a of selezione.esegui)");
-  const iEsegui = a.indexOf("await eseguiAzione(");
+  const iCancello = a.indexOf("await attoUnaVoltaSola(");
+  const iEsegui = a.indexOf("eseguiAzione(");
   assert.ok(iCiclo > 0 && iCiclo < iEsegui, "e passa dal ciclo sulla lista selezionata");
+  assert.ok(iCancello > iCiclo && iCancello < iEsegui, "e l'invio sta dentro il cancello dell'atto unico, non prima");
+  assert.match(a, /atto: \(\) => eseguiAzione\(/, "la mano è l'atto del cancello: la prenotazione viene prima");
   assert.doesNotMatch(a, /blocchi\.filter\(\(b\) => b\.livello/, "nessun filtro sul colore rimasto qui dentro");
 });
 

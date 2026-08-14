@@ -121,6 +121,11 @@ function main() {
     console.log(`\n   👻 ${cens.fantasmi.length} descritti ma non più nel giro: ${cens.fantasmi.join(", ")}`);
     console.log("      O li ricabli in giro.sh, o togli la descrizione: la bacheca non deve promettere una protezione che non c'è.");
   }
+  if (cens.famiglieOrfane?.length) {
+    console.log(`\n   🚫 ${cens.famiglieOrfane.length} descritti ma raggruppati sotto una famiglia che non esiste: ${cens.famiglieOrfane.join(", ")}`);
+    console.log("      La bacheca stampa un gruppo per volta e salta quelli vuoti: così questi girano davvero ma dalla tabella spariscono, in silenzio.");
+    console.log("      Rimedio: metti la famiglia in FAMIGLIE (cervello/censimento-guardiani.mjs) o spostali in una che c'è già.");
+  }
   if (scritto === true) console.log(`\n   📌 Bacheca aggiornata: ${BACHECA}`);
   else if (scritto === false) console.log("\n   📌 Bacheca già allineata — nessuna riscrittura (la data si muove solo se cambia qualcosa).");
   if (rc === 0 && !cens.fantasmi.length) console.log("\n   ✅ L'elenco in bacheca combacia con quello che gira davvero.");

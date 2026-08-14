@@ -92,6 +92,24 @@ prova("AR-382 — un push scritto in JavaScript conta come porta quanto uno scri
   assert.equal(porteDi(` * execSync("git push origin main")`, "x.mjs").length, 0);
 });
 
+prova("AR-382 — le opzioni di git in mezzo non fanno sparire la porta", async () => {
+  const { porteDi } = await import(join(REPO, "cervello/porte-pubblicazione.mjs"));
+  // Il caso vero, non uno inventato: il 14/8 il worker è passato da `git push` a
+  // `git "${C4_GIT_OPZ[@]}" push`, e il guardiano è sceso da 8 porte a 7 — proprio quella del worker,
+  // la più usata (una a ogni lavoro). Il cancello sopra c'era ancora: era il metro a leggere la forma
+  // vecchia. Una porta che sparisce dal conteggio è peggio di una porta scoperta: non la vede nessuno.
+  assert.equal(
+    porteDi(`    if timeout "$_gt" git "\${C4_GIT_OPZ[@]}" push "$url" "HEAD:\${branch}"; then ok=1; fi`, "worker.sh").length,
+    1,
+    "un array di opzioni fra git e push nasconde la porta",
+  );
+  assert.equal(porteDi(`  git -c user.name=x push "$url" main`, "x.sh").length, 1);
+  assert.equal(porteDi(`  git --no-pager push "$url" main`, "x.sh").length, 1);
+  // …e non deve diventare un metro che vede push dappertutto: le altre sottochiamate di git restano fuori.
+  assert.equal(porteDi(`  git "\${GIT_ID[@]}" commit -q -m "x"`, "x.sh").length, 0);
+  assert.equal(porteDi(`  git -c user.name=x fetch "$url" main`, "x.sh").length, 0);
+});
+
 // ───────────────────────── AR-381 — le uscite verso il mondo ─────────────────────────
 
 prova("AR-381 — le otto mani dei publisher sono contate come mani", () => {

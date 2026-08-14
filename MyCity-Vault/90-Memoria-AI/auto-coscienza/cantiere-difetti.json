@@ -14202,6 +14202,52 @@
         "tipo": "umano",
         "nota": "alla riparazione: un test che riapre un difetto finto e pretende che il cancello NON lo conti come debito nuovo"
       }
+    },
+    {
+      "id": "AR-693",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "scoperto": "2026-08-14 20:55",
+      "lotto_scoperta": 41,
+      "gravita": "grave",
+      "titolo": "Ventinove prove scritte in bash non le esegue nessuno, e nove sono rosse da mesi",
+      "causa_radice": "Le prove in bash girano solo se `bats` è installato sulla macchina. Non lo installa nessuno: né la CI, né il VPS, né il primo avvio di una sessione — in tutto il repo l'unica traccia è un permesso `npx bats` in .claude/settings.json. Senza, il banco le dichiara ⚪ «la prova esiste e nessuno l'ha fatta girare» e il conteggio finale dice 1 rosso su 243. Installandolo, sullo STESSO commit i rossi diventano 11. Dieci fallimenti veri erano invisibili — non perché qualcuno mentisse, ma perché la macchina che misura non aveva lo strumento per guardare. È la forma che il lotto 41 cura, dentro il metro stesso: un metro che non misura una strada non la dichiara scoperta, dice verde.",
+      "fix_proposto": "① installare bats dove il banco gira davvero (avvio di sessione + CI + VPS), così le 29 prove smettono di essere decorative; ② finché non c'è, il banco deve DICHIARARE il buco come tetto che scende — «29 prove non misurate» è un numero, ⚪ sparso in fondo a un elenco lungo non lo è; ③ poi chiudere i 9 rossi, che sono debito ereditato e vanno contati a parte da quelli in Node.",
+      "prova_partenza": "worktree su 54f2fb4, senza bats: 1 rosso su 243. Stesso commit, con bats: 11 rossi.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nessuna prova automatica finché il pezzo non esiste: sarebbe il banco che certifica sé stesso senza lo strumento."
+      }
+    },
+    {
+      "id": "AR-694",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "scoperto": "2026-08-14 20:55",
+      "lotto_scoperta": 41,
+      "gravita": "grave",
+      "titolo": "Sette casi di prova sono scritti in modo che non possano fallire: passano qualunque cosa affermino",
+      "causa_radice": "In alcuni banchi i casi sono scritti in forma asincrona ma il banco li lancia senza aspettarli: l'asserzione gira dopo che il conteggio è già stato stampato, quindi un `1 = 2` dentro il caso lascia «# pass N · # fail 0». Verificato a mano: due in errore-ingoiato.test.mjs (riparati nel lotto 41), altri cinque in lib-cadenza.test.mjs, mutazione-mancante.test.mjs, perimetro-main.test.mjs. È la stessa malattia del cantiere — una prova che non può fallire — ma dentro le prove, dove nessun guardiano la cerca.",
+      "fix_proposto": "Un guardiano che pretende che ogni caso asincrono sia atteso, e la mutazione che lo dimostra (mettere un'asserzione falsa in un caso e pretendere il rosso). NON un pattern su una riga: non distingue un caso async legittimo da uno spento — serve guardare se il valore restituito viene atteso.",
+      "prova_partenza": "misurato il 2026-08-14: 7 casi, di cui 2 riparati dal lotto 41 e 5 ancora aperti in tre file.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "da convertire in comando quando il guardiano esiste."
+      }
+    },
+    {
+      "id": "AR-695",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "scoperto": "2026-08-14 20:55",
+      "lotto_scoperta": 41,
+      "gravita": "medio",
+      "titolo": "Tutti e venti i tetti della spazzata sono a margine zero: una riga malata di chiunque fa rosso a chi non c'entra",
+      "causa_radice": "Dopo il lotto 41 ogni tetto coincide con la misura di adesso (56 su 56, 66 su 66…). Le prove che fanno girare la spazzata sul repo vero diventano rosse appena un'altra corsia scrive una riga con la malattia, anche se il difetto non è nel loro perimetro. Un rosso che non appartiene a chi lo vede è il modo più veloce per imparare a ignorarlo.",
+      "fix_proposto": "Distinguere «il tetto è stato superato» (regressione, rossa per chi l'ha causata) da «il tetto è esattamente pieno» (stato normale dopo una cura). Oppure attribuire la riga nuova a chi l'ha scritta, come fa già il sorvegliante del delta.",
+      "verifica": {
+        "tipo": "umano"
+      }
     }
   ],
   "meta": {

@@ -809,9 +809,9 @@ Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-incl
 
 ---
 
-## 🛡️ I guardiani della macchina · 2026-08-13 18:07
+## 🛡️ I guardiani della macchina · 2026-08-14 20:50
 
-A ogni giro, prima che l'AI scriva una riga, girano **82 controlli automatici**. **40** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
+A ogni giro, prima che l'AI scriva una riga, girano **84 controlli automatici**. **42** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
 
 Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato), **cieco** (non ha potuto misurare). Un guardiano cieco *non* vale come verde — è uno strumento rotto, e la macchina si ferma lo stesso: meglio memoria vecchia che memoria che mente.
 
@@ -922,6 +922,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | Controllo | Cosa guarda | Se dice no |
 | --- | --- | --- |
 | `delta-gate` | Se dall'ultimo giro non è cambiato niente, evita di svegliare l'AI per riscrivere le stesse righe. | ⏭️ spegne il motore AI |
+| `freschezza-rischi` | Controlla che i rischi gravi dell'azienda siano stati riguardati di recente, invece di restare fermi per mesi. | ⛔ ferma il giro |
 | `guardiano-tempo` | Misura quanto lavoro sta aspettando la firma di Nicola e da quanti giorni: la coda è un costo. | ℹ️ scrive e basta |
 | `housekeeping-azioni` | Sposta in archivio le azioni già fatte o rifiutate, così la coda da firmare resta corta e vera. | ℹ️ scrive e basta |
 | `letargo` | Se quota, cassa o sensori calano, spegne il superfluo in ordine e tiene vivo solo il nucleo. | ℹ️ scrive e basta |
@@ -937,6 +938,12 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | `test-cervello` | Lancia tutti i test del cervello a ogni giro: un test che nessuno esegue non è una rete, è un file. | ⛔ ferma il giro |
 | `test-pannello` | Lo stesso per i test del Pannello, la parte che Nicola guarda davvero. | ℹ️ scrive e basta |
 | `verifica-avversariale` | Smaschera l'auto-verifica finta: se il lavoro dice «verificato» senza che nessuno abbia provato a smontarlo, non vale. | ⛔ ferma il giro |
+
+### 🚦 Le regole scritte in un posto solo
+
+| Controllo | Cosa guarda | Se dice no |
+| --- | --- | --- |
+| `c4-cancelli` | Tiene in un posto solo le decisioni che prima erano incollate dentro gli script: quando si può saltare il tetto di spesa, con quali soglie è girato il giro, chi rimisura quale vincolo, dove un segreto sta ancora negli argomenti di un comando. | ⛔ ferma il giro |
 
 ### 📲 Le mani (non giudicano: agiscono)
 
