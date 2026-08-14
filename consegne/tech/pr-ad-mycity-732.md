@@ -3,7 +3,7 @@
 - **Repo:** NicolaeRotaru/ad-mycity
 - **Branch:** `fix/recupero-log-cervello-23-22` → `main`
 - **URL:** https://github.com/NicolaeRotaru/ad-mycity/pull/732
-- **Titolo:** coda: rimuovi la riga doppia di merge PR #732 (nata dal secondo aggiornamento della stessa PR)
+- **Titolo:** coda: rimuovi di nuovo la riga doppia di merge PR #732 (evita --accoda questa volta)
 - **Creato:** 2026-08-15 00:26 (Europe/Rome)
 
 ## Merge
