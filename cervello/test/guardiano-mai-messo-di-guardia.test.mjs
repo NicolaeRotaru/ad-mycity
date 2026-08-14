@@ -105,11 +105,20 @@ test("AR-394 — il verdetto morto del cancello di pubblicazione è misurato, no
   const gate = join(REPO, "cervello/gate-pubblicazione.sh");
   assert.ok(existsSync(gate), "manca il cancello di pubblicazione: non posso misurare");
   const morti = verdettiMorti(readFileSync(gate, "utf8"));
-  // Non si pretende che rc_one sia sparito (toglierlo richiede di modificare quel file .sh): si
-  // pretende che il rilevatore lo VEDA, perché è quello a rendere impossibile un secondo caso.
-  assert.ok(
-    morti.some((m) => m.variabile === "rc_one"),
-    "il rilevatore non vede più rc_one: se il difetto è stato riparato togli anche la sua voce da guardiani-motivi.json, se no il metro è cieco",
+  // ⟲ AGGIORNATO DAL LOTTO 40. Fin qui si pretendeva che il rilevatore VEDESSE `rc_one`, con la
+  // motivazione scritta accanto: «toglierlo richiede di modificare quel file .sh», che era fuori
+  // dal territorio di chi scrisse la prova. Quel file è stato modificato: AR-394 è riparato, la
+  // variabile dell'onestà adesso viene riempita davvero, e i quattro guardiani promessi dal cancello
+  // di pubblicazione sono quattro eseguiti invece di tre.
+  //
+  // Quindi l'asserzione si gira e diventa più stretta: quel file non deve avere NESSUN verdetto
+  // morto. La domanda «il rilevatore sa ancora vedere?» non è stata persa — è il caso finto qui
+  // sotto a rispondere, e lo fa meglio, perché non dipende dal fatto che un difetto vero resti
+  // aperto in produzione per tenere in vita il suo metro.
+  assert.deepEqual(
+    morti.map((m) => m.variabile),
+    [],
+    "un verdetto morto NUOVO nel cancello di pubblicazione: una variabile passata a gate_verdetto e mai riempita è un guardiano promesso e non eseguito",
   );
   const finto = [
     "gate_verdetto() {",

@@ -170,7 +170,7 @@ Non gestisci i turni di oggi (quello è @rider-fleet) né il singolo giro (quell
 - **Output di @demand-forecasting** → previsione domanda per categoria/zona, MAPE, confidenza.
 - **Pipeline reale di @vendite/@onboarding-negozi** → negozi firmati/in arrivo, zona, data prevista live.
 - **WebSearch/WebFetch** → calendario eventi, festività, fiere di Piacenza con largo anticipo.
-- Vault: `MyCity-Vault/02-Aree/Area - Consegna.md`, `Area - Ops.md`, `05-Soldi-Rischi/OKR-Squadra.md` (target crescita).
+- Vault: `MyCity-Vault/04-Prodotto-Ops/Aree/Area - Consegna.md`, `MyCity-Vault/04-Prodotto-Ops/Aree/Area - Ops.md`, `MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md` (target crescita).
 
 ## Regole 🟢🟡🔴
 - Ogni scenario = orizzonte + fabbisogno per fascia/zona + vincolo identificato + lead time + colore.

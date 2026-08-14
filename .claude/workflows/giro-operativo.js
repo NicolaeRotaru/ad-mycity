@@ -1,3 +1,19 @@
+// Il giro operativo: la flotta di senior che ogni giro propone le mosse a più alto ritorno.
+//
+// Cosa è cambiato qui (lotto corsia G — AR-434, AR-435, AR-187, AR-126, AR-620) e perché:
+//  · i senior NON si scrivono più a mano. Il prompt di ognuno lo compone `cervello/prompt-senior.mjs`
+//    dal suo mansionario vero in .claude/agents/: prima arrivava al modello una riga di focus al
+//    posto di 20 KB di mestiere, e i 120 mansionari non li leggeva nessuno.
+//  · CHI lavora non è più un elenco di sei nomi cablati qui dentro (l'organigramma è passato a 120 e
+//    quella riga non fu mai riaperta): lo decide `cervello/turno-senior.mjs` dai dati — passaggi fra
+//    colleghi non raccolti, motori di soldi dell'organigramma, rotazione fra chi è fermo da più tempo.
+//  · il focus non nomina più entità: le entità (negozio faro, stato degli ordini) si citano dal
+//    registro-fatti, che è la loro unica casa. Prima erano scritte qui e restavano vecchie per mesi.
+//  · il percorso del repo non è più scritto a mano: si risolve a runtime, perché quello scritto era
+//    vero nella sessione cloud e falso sul VPS.
+import { FATTI_DEL_GIRO, fattiVivi, promptSenior, radiceRepo } from '../../cervello/prompt-senior.mjs'
+import { turnoDelGiro } from '../../cervello/turno-senior.mjs'
+
 export const meta = {
   name: 'giro-operativo',
   description: 'Il giro operativo quotidiano come FLOTTA di senior in parallelo (upgrade U18): ogni motore di soldi propone le mosse a piu alto ritorno sui dati reali, verifica avversariale, poi l\'AD le ordina in una coda pronta da firmare',
@@ -35,37 +51,43 @@ const MOSSE = {
   required: ['reparto', 'mosse'],
 }
 
-const REPO = '/home/user/ad-mycity'
+const REPO = radiceRepo()
+const FATTI = fattiVivi(FATTI_DEL_GIRO, REPO)
 
-// I motori di soldi & crescita (CLAUDE.md) + i cacciatori di opportunita. Ognuno con il suo focus operativo.
-const MOTORI = [
-  { key: 'vendite', focus: 'negozi: portare LIVE un negozio (Casa Linda payout-ready), coprire categorie mancanti, partire dai 407 lead merchants_leads' },
-  { key: 'crm-lifecycle', focus: 'retention: 4 carrelli abbandonati da recuperare, win-back dei buyer dormienti, richiesta recensione post-consegna (reviews=0)' },
-  { key: 'growth-monetizzazione', focus: 'ricavo: leva a piu alto ROI oggi (soglia free-shipping, upsell, recupero carrelli), esperimento misurabile' },
-  { key: 'marketing', focus: 'acquisizione a costo ~0: SEO locale, contenuto, presidio eventi (Venerdi Piacentini), gruppi locali' },
-  { key: 'operations', focus: 'ordini/consegne: sbloccare l\'ordine zombie €19,05, tempi, rider, nessun ordine fermo' },
-  { key: 'analista', focus: 'i 7 numeri reali: dov\'e il collo di bottiglia oggi e quale singola mossa lo sblocca (North Star = ordine pagato+consegnato)' },
-]
+// Un avviso che non può far cadere il giro: `log` è una globale del motore dei workflow, e questa
+// riga gira PRIMA della prima fase. Se un domani non ci fosse, il messaggio esce lo stesso.
+const avvisa = (m) => (typeof log === 'function' ? log(m) : console.log(m))
+
+// CHI va in turno oggi: dai dati, non da un elenco scritto qui.
+const { turno, copertura } = turnoDelGiro({ radice: REPO })
+avvisa(`In turno ${turno.length} senior su ${copertura.senior} (tutti passano in ${copertura.giriPerPassareTutti} giri) · ${copertura.passaggiPendenti} passaggi fra colleghi da raccogliere`)
+
+const COMPITO_PROPOSTE = `Leggi i DATI REALI del marketplace col Supabase MCP in SOLA LETTURA (progetto clmpyfvpvfjgeviworth: tabelle orders, products, profiles, abandoned_carts, merchants_leads, reviews, ...) e la memoria in \`MyCity-Vault/90-Memoria-AI/\` (STATO.md, registro-realta.json). NON scrivere nulla sul DB.
+Proponi 1-3 MOSSE a piu alto ritorno per far crescere l'azienda ORA. Per ognuna:
+- titolo · perche FONDATO sui dati (cita il numero reale + la fonte: mai cifre orfane) · metrica che si muove · valore atteso entro una data (serve alla calibrazione) · colore 🟢/🟡/🔴 (🔴 = soldi/messaggi a clienti reali/deploy/prezzi) · primo passo concreto · sforzo.
+Regola d'oro: preferisci la mossa che muove la NORTH STAR (ordine pagato+consegnato / negozio live), non attivita a basso ritorno. Se un dato manca, dillo (non inventarlo).`
 
 phase('Proposte')
 const proposte = await pipeline(
-  MOTORI,
+  turno,
   (m) => agent(
-    `Sei il senior @${m.key} del MyCity OS (marketplace botteghe di Piacenza). Focus: ${m.focus}.
-Leggi i DATI REALI del marketplace col Supabase MCP in SOLA LETTURA (progetto clmpyfvpvfjgeviworth: tabelle orders, products, profiles, abandoned_carts, merchants_leads, reviews, ...) e la memoria in \`${REPO}/MyCity-Vault/90-Memoria-AI/\` (STATO.md, registro-realta.json). NON scrivere nulla sul DB.
-Proponi 1-3 MOSSE a piu alto ritorno per far crescere l'azienda ORA. Per ognuna:
-- titolo · perche FONDATO sui dati (cita il numero reale + la fonte: mai cifre orfane) · metrica che si muove · valore atteso entro una data (serve alla calibrazione) · colore 🟢/🟡/🔴 (🔴 = soldi/messaggi a clienti reali/deploy/prezzi) · primo passo concreto · sforzo.
-Regola d'oro: preferisci la mossa che muove la NORTH STAR (ordine pagato+consegnato / negozio live), non attivita a basso ritorno. Se un dato manca, dillo (non inventarlo).`,
+    promptSenior(m.key, { focus: m.focus, compito: COMPITO_PROPOSTE, radice: REPO, fatti: FATTI }),
     { label: `propone:${m.key}`, phase: 'Proposte', schema: MOSSE }
   ),
+  // Chi propone non si verifica da solo: il controllo interno è un mestiere, e ha il suo mansionario.
   (prop, m) => agent(
-    `Sei un VERIFICATORE avversariale e scettico. Ecco le mosse proposte da @${m.key}:
+    promptSenior('internal-audit', {
+      radice: REPO,
+      fatti: FATTI,
+      focus: `Verifica avversariale delle mosse che il collega @${m.key} propone di mettere in coda oggi.`,
+      compito: `Ecco le mosse proposte:
 ${JSON.stringify(prop?.mosse || [], null, 2)}
-Per CIASCUNA verifica nei dati reali (Supabase MCP sola lettura) e nella memoria (\`${REPO}\`):
+Per CIASCUNA verifica nei dati reali (Supabase MCP sola lettura) e nella memoria del repo:
 1) il "perche" e davvero fondato su un numero reale con fonte? (se e un'ipotesi spacciata per fatto → scarta o declassa)
 2) il colore e giusto? (soldi/clienti reali/deploy/prezzi = 🔴, mai 🟢 travestito)
 3) l'impatto atteso e realistico dato lo stato (0-1 ordini, catalogo seed)? correggi 'atteso' se gonfiato.
 Tieni SOLO le mosse solide. Restituisci {reparto:"${m.key}", mosse:[...solo quelle confermate, corrette...]}.`,
+    }),
     { label: `verifica:${m.key}`, phase: 'Verifica', schema: MOSSE }
   )
 )
@@ -74,7 +96,7 @@ Tieni SOLO le mosse solide. Restituisci {reparto:"${m.key}", mosse:[...solo quel
 phase('Sintesi AD')
 const tutte = proposte.filter(Boolean).flatMap((p) => (p.mosse || []).map((x) => ({ ...x, reparto: p.reparto })))
 const sintesi = await agent(
-  `Sei l'AD digitale di MyCity. Ecco tutte le mosse verificate dei senior:
+  `Sei l'AD digitale di MyCity (il tuo manuale operativo è CLAUDE.md, nella radice del repo). Ecco tutte le mosse verificate dei reparti:
 ${JSON.stringify(tutte, null, 2)}
 Componi il PIANO del giro: ordina le mosse per (impatto sulla North Star ÷ sforzo), togli i doppioni, e per le prime scegli la sequenza giusta (cosa sblocca cosa).
 Separa: (a) 🟢 che l'AD puo eseguire da solo ora; (b) 🟡/🔴 da mettere in coda AZIONI-IN-ATTESA con "cosa cambia" e "se va bene".
@@ -102,4 +124,6 @@ return {
   da_firmare: sintesi?.da_firmare || [],
   mosse_verificate: tutte.length,
   reparti: proposte.filter(Boolean).map((p) => p.reparto),
+  turno: turno.map((m) => ({ reparto: m.key, motivo: m.motivo })),
+  copertura,
 }

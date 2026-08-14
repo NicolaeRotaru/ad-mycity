@@ -97,7 +97,7 @@ impara (③) e si migliora (④). Più gira, più diventa accurata, calibrata e 
 
 ### `auto-radiografia.json` (asse ②)
 ```json
-{ "data":"…","tipo":"completa|sonda","voto_salute_architettura":0,"trend":"▲|▼|=","sintesi":"…",
+{ "data":"…","tipo":"completa|sonda|radiografia-totale","voto_salute_architettura":0,"trend":"▲|▼|=","sintesi":"…",
   "dimensioni":[{"key":"coerenza-agenti","voto":0,"stato":"ok|attenzione|critico","sintesi":"…",
     "findings":[{"titolo":"…","dove":"file:riga","severita":"bloccante|grave|minore","descrizione":"…",
       "impatto":"…","causa_radice":"…(5 perché)","fix":"…","impatto_crescita":"alto|medio|basso",
@@ -137,7 +137,7 @@ impara (③) e si migliora (④). Più gira, più diventa accurata, calibrata e 
 > Nicola. Un difetto senza `verifica` non si chiuderà mai da solo — è l'anello rotto che teneva AR-009/019 «in-corso».
 
 ```json
-{ "serie":[{"data":"AAAA-MM-GG","voto_salute":0,"difetti_aperti":0,"difetti_chiusi":0,"tipo":"completa|sonda",
+{ "serie":[{"data":"AAAA-MM-GG","voto_salute":0,"difetti_aperti":0,"difetti_chiusi":0,"tipo":"completa|sonda|auto-fix",
   "voto_provvisorio":0,"voto_pieno":0,"firma":"AR-…,AR-…","pending_merge":0,"aperti_davvero":0,"bloccanti_umani":0}] }
 ```
 > **`voto_salute` resta la scala del voto completa (media dei 12 pilastri)** per coerenza della serie; il

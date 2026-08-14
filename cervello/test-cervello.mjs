@@ -27,11 +27,28 @@
 //   node cervello/test-cervello.mjs --seriale -> uno alla volta (per isolare un test che disturba)
 //   node cervello/test-cervello.mjs --solo x  -> solo i file il cui nome contiene «x»
 // Exit: 0 = tutti girano e passano · 1 = almeno uno rotto o ineseguibile
+//
+// AR-660 — E LE PROVE SCRITTE IN BATS, CHE NON ESEGUIVA NESSUNO. Ventisei file `.bats` vivevano in
+// questa cartella senza che una riga di codice li lanciasse: non questo runner (raccoglieva per
+// estensione `.test.mjs`), non la CI, non il giro. Erano nati da lotti che avevano bisogno di
+// provare la shell — worker, watch-main, motore-ai — e il collegamento fra «ho scritto la prova» e
+// «qualcuno la fa girare» è rimasto implicito. Due file di questa cartella lo dicono a chiare
+// lettere in cima a sé stessi («i .bats non li lancia nessun processo ricorrente»): la casa lo
+// SAPEVA e nessun numero lo misurava, che è la definizione di un buco che cresce.
+//
+// Da qui in poi i `.bats` li esegue questo runner, se sul computer c'è `bats`. Se non c'è, escono
+// come ⚪ NON ESEGUITI — dichiarati uno per uno, mai contati come verdi — e l'uscita del comando NON
+// cambia: `bats` assente è un ambiente incompleto, non un test rotto, e far diventare rossa la CI
+// (o il vincolo hard del giro) su una dipendenza mancante è il modo in cui un cancello si impara a
+// saltare. Il numero delle prove senza esecutore lo sorveglia `cervello/prove-non-eseguite.mjs`,
+// che chiede a QUESTO file quali famiglie dice di eseguire: così il guardiano e il runner non
+// possono divergere in silenzio.
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
-import { spawn } from "node:child_process";
+import { spawn, spawnSync } from "node:child_process";
 import { cpus } from "node:os";
+import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
@@ -57,6 +74,112 @@ const CORSIE = SERIALE ? 1 : Math.max(2, Math.min(8, cpus().length));
  */
 export function trovaTest(elenco = []) {
   return elenco.filter((f) => f.endsWith(".test.mjs") && !f.startsWith("_")).sort();
+}
+
+/**
+ * Le famiglie di prove che QUESTO runner dichiara di eseguire (AR-660).
+ *
+ * Non è documentazione: è la risposta che `prove-non-eseguite.mjs` viene a chiedere qui per sapere
+ * quali file della cartella hanno un esecutore e quali no. Tenuta in un posto solo, perché la
+ * malattia da cui nasce è esattamente due elenchi che si allontanano — uno di prove scritte, uno di
+ * prove eseguite — senza che nessuno misuri la distanza.
+ *
+ * Togliere `.bats` da qui non è un ritocco cosmetico: rimette i ventisei file fuori da ogni corsa e
+ * il guardiano lo dice subito (exit 1). È la mutazione con cui questa difesa si prova.
+ */
+export const SUFFISSI_ESEGUITI = [".test.mjs", ".bats"];
+
+/** Le prove in bash. Stessa convenzione dei `.test.mjs`: il prefisso `_` è roba di servizio. */
+export function trovaBats(elenco = []) {
+  return elenco.filter((f) => f.endsWith(".bats") && !f.startsWith("_")).sort();
+}
+
+/**
+ * Il binario `bats` da usare, o `null` se su questa macchina non c'è.
+ *
+ * `BATS_BIN` è la porta d'ingresso: la CI ci mette il percorso di quello che ha installato, e la
+ * prova di questo runner ci mette un finto che stampa TAP — l'unico modo di dimostrare che il
+ * cablaggio (scoperta → esecuzione → verdetto → uscita) funziona su una macchina dove `bats` non
+ * è installato, che è il caso di quasi ogni sessione.
+ *
+ * Il PATH si scorre a mano invece di chiedere a una shell: `command -v` dentro `bash -lc` carica il
+ * profilo dell'utente, cioè fa dipendere un guardiano da com'è configurato il computer di chi lo
+ * lancia. Qui la risposta dipende solo dal PATH che il processo ha davvero.
+ */
+export function binarioBats(env = process.env, ceE = existsSync) {
+  if (env.BATS_BIN) return ceE(env.BATS_BIN) ? env.BATS_BIN : null;
+  const locale = join(AD_ROOT, "node_modules/.bin/bats");
+  if (ceE(locale)) return locale;
+  for (const d of String(env.PATH || "").split(":")) {
+    if (!d) continue;
+    const p = join(d, "bats");
+    try {
+      if (ceE(p)) return p;
+    } catch {
+      /* una voce di PATH illeggibile non è un bats trovato */
+    }
+  }
+  return null;
+}
+
+/**
+ * Il TAP di `bats --tap`, che NON è quello di `node --test`.
+ *
+ * bats non stampa nessun `# pass N`: stampa il piano (`1..12`) e una riga per caso (`ok 3 nome`,
+ * `not ok 4 nome`, senza il trattino che node ci mette). Passare la sua uscita a `leggiTap` darebbe
+ * `{passati: null}` su ogni file, cioè «ineseguibile» su ventisei prove sane — un rosso inventato,
+ * che è il modo peggiore di agganciare una famiglia nuova.
+ *
+ * Pura: la prova la esercita su uscite finte, comprese quelle che nessun bats ha ancora prodotto.
+ */
+export function leggiTapBats(out = "") {
+  let passati = 0;
+  let falliti = 0;
+  let piano = false;
+  for (const r of String(out).split("\n")) {
+    const t = r.trimEnd();
+    if (/^\d+\.\.\d+\s*$/.test(t.trim())) {
+      piano = true;
+      continue;
+    }
+    if (/^not ok\b/.test(t)) falliti++;
+    else if (/^ok\b/.test(t)) passati++;
+  }
+  if (!piano && !passati && !falliti) return { passati: null, falliti: null };
+  return { passati, falliti };
+}
+
+/** QUALE caso bats è caduto, col suo perché — l'equivalente di `righeRosse` per il TAP di bats. */
+export function righeRosseBats(out = "", max = 8) {
+  const righe = String(out).split("\n");
+  const rosse = [];
+  for (let i = 0; i < righe.length; i++) {
+    const m = /^not ok\s+\d+\s+(.*)$/.exec(righe[i].trimEnd());
+    if (!m) continue;
+    let riga = m[1].trim();
+    // bats mette il perché nelle righe di commento subito sotto (`# (in test file ...)`, `# ...`).
+    for (let k = i + 1; k < righe.length && k <= i + 6; k++) {
+      if (/^(not )?ok\b/.test(righe[k]) || /^\d+\.\.\d+/.test(righe[k])) break;
+      const c = righe[k].replace(/^#\s?/, "").trim();
+      if (c) {
+        riga += ` → ${c}`;
+        break;
+      }
+    }
+    rosse.push(riga);
+    if (rosse.length >= max) break;
+  }
+  return rosse;
+}
+
+/** Verdetto su un file `.bats`, con la stessa grammatica usata per i `.test.mjs`. */
+export function verdettoBats(status, out) {
+  const { passati, falliti } = leggiTapBats(out);
+  if (passati === null) {
+    return { esito: "ineseguibile", motivo: "nessun TAP da bats: il file non è nemmeno partito", passati, falliti };
+  }
+  if (status === 0 && !falliti) return { esito: "ok", motivo: "", passati, falliti };
+  return { esito: "rosso", motivo: `${falliti || "?"} casi falliti`, passati, falliti, rosse: righeRosseBats(out) };
 }
 
 /**
@@ -179,6 +302,26 @@ function eseguiTest(dir, f) {
 }
 
 /**
+ * Lancia UN file `.bats` col binario trovato.
+ *
+ * IN FILA, non a corsie, e la ragione è la stessa di AR-446 un piano più sotto: queste prove
+ * guidano il worker, `watch-main`, il motore AI — cose che usano lock, flag e cartelle condivise.
+ * Non ho potuto verificare da qui che reggano il parallelo, e mettere ventisei prove mai eseguite
+ * direttamente in corsia significherebbe consegnare insieme il primo rosso e il primo dubbio su
+ * quanto sia vero. Se un giorno si misura che sono isolate, si alza il numero di corsie.
+ */
+function eseguiBats(bin, dir, f) {
+  return new Promise((risolvi) => {
+    const p = spawn(bin, ["--tap", join(dir, f)], { cwd: AD_ROOT });
+    let uscita = "";
+    p.stdout.on("data", (d) => (uscita += d));
+    p.stderr.on("data", (d) => (uscita += d));
+    p.on("error", (e) => risolvi({ file: `${CARTELLA}/${f}`, ...verdettoBats(1, `${uscita}\n${e.message}`) }));
+    p.on("close", (code) => risolvi({ file: `${CARTELLA}/${f}`, ...verdettoBats(code, uscita) }));
+  });
+}
+
+/**
  * Dice se un test SCRIVE sul dato vivo della macchina (memoria del vault o JSON del cervello).
  *
  * Non è un elenco di nomi: un elenco si dimentica al primo test nuovo, ed è la malattia che questo
@@ -220,13 +363,21 @@ async function main() {
     console.error(`❌ cartella non trovata: ${CARTELLA}`);
     process.exit(1);
   }
-  let file = trovaTest(readdirSync(dir));
-  if (SOLO) file = file.filter((f) => f.includes(SOLO));
-  if (!file.length) {
+  const nella = readdirSync(dir);
+  let file = trovaTest(nella);
+  // I `.bats` si scelgono QUI, insieme ai `.test.mjs`, e non più giù: il filtro `--solo` può
+  // benissimo indicare una prova che esiste solo in bash (`--solo due-worker`), e uscire con
+  // «nessun test .test.mjs» significherebbe dire «non c'è niente» avendo guardato una famiglia sola.
+  let bats = trovaBats(nella);
+  if (SOLO) {
+    file = file.filter((f) => f.includes(SOLO));
+    bats = bats.filter((f) => f.includes(SOLO));
+  }
+  if (!file.length && !bats.length) {
     console.error(
       SOLO
-        ? `❌ nessun test .test.mjs contiene «${SOLO}»: il filtro non ha misurato niente.`
-        : `❌ nessun test .test.mjs in ${CARTELLA}: il cervello non ha rete.`,
+        ? `❌ nessuna prova contiene «${SOLO}» (né .test.mjs né .bats): il filtro non ha misurato niente.`
+        : `❌ nessuna prova in ${CARTELLA}: il cervello non ha rete.`,
     );
     process.exit(1);
   }
@@ -260,13 +411,46 @@ async function main() {
     ...(await aCorsie(liberi, CORSIE, (f) => eseguiTest(dir, f))),
     ...(await aCorsie(inFila, 1, (f) => eseguiTest(dir, f))),
   ].sort((a, b) => a.file.localeCompare(b.file));
-  const rotti = righe.filter((x) => x.esito !== "ok");
-  const totale = righe.reduce((n, x) => n + (x.passati || 0), 0);
+
+  // AR-660 — le prove in bash, che fino a oggi non lanciava nessuno.
+  const bin = bats.length ? binarioBats() : null;
+  const righeBats = bats.length
+    ? bin
+      ? await aCorsie(bats, 1, (f) => eseguiBats(bin, dir, f))
+      : bats.map((f) => ({
+          file: `${CARTELLA}/${f}`,
+          esito: "non-eseguito",
+          motivo: "bats non è installato su questa macchina: la prova esiste e nessuno l'ha fatta girare",
+          passati: null,
+          falliti: null,
+        }))
+    : [];
+  const nonEseguiti = righeBats.filter((x) => x.esito === "non-eseguito");
+
+  // «Non eseguito» NON entra fra i rotti, e la riga qui sotto è tutta la differenza. Un ambiente
+  // senza `bats` è un ambiente incompleto, non un test che fallisce: contarlo come rosso renderebbe
+  // rossa la CI, il vincolo hard del giro e la visita della macchina su una dipendenza mancante — e
+  // un cancello che non può diventare verde si impara a saltare (è la lezione in cima a
+  // cancello-lotto.mjs, e vale identica qui). Resta ⚪, dichiarato uno per uno, mai spacciato per ✅.
+  const tutte = [...righe, ...righeBats];
+  const rotti = tutte.filter((x) => x.esito !== "ok" && x.esito !== "non-eseguito");
+  const totale = tutte.reduce((n, x) => n + (x.passati || 0), 0);
 
   if (JSON_MODE) {
     console.log(
       JSON.stringify(
-        { esito: rotti.length ? "rotti" : "ok", quando, asserzioni: totale, corsie: CORSIE, in_fila: inFila, illeggibili, test: righe },
+        {
+          esito: rotti.length ? "rotti" : "ok",
+          quando,
+          asserzioni: totale,
+          corsie: CORSIE,
+          in_fila: inFila,
+          illeggibili,
+          test: righe,
+          bats: righeBats,
+          bats_non_eseguiti: nonEseguiti.length,
+          bats_binario: bin,
+        },
         null,
         2,
       ),
@@ -277,22 +461,36 @@ async function main() {
 
   console.log(`\n🧪 TEST DEL CERVELLO — ${quando}  (${CORSIE} corsie · ${inFila.length} in fila perché scrivono sul dato vivo)\n`);
   for (const m of illeggibili) console.log(`  ⚠️  ${m}`);
-  for (const x of righe) {
-    const icona = x.esito === "ok" ? "✅" : x.esito === "ineseguibile" ? "🚫" : "❌";
+  for (const x of [...righe, ...righeBats]) {
+    const icona = x.esito === "ok" ? "✅" : x.esito === "non-eseguito" ? "⚪" : x.esito === "ineseguibile" ? "🚫" : "❌";
     console.log(`  ${icona} ${x.file}${x.passati != null ? `  (${x.passati} passati)` : ""}`);
     if (x.motivo) console.log(`      ${x.motivo}`);
     // QUALE asserzione, non solo quante (AR-450): è la riga che rende un rosso in CI diagnosticabile
     // senza ripubblicare a tentativi.
     for (const r of x.rosse || []) console.log(`      ✗ ${r}`);
   }
+  // Il ⚪ va detto anche in fondo, dove si legge il verdetto: un elenco lungo si scorre, la riga
+  // finale no. «Passano tutti» senza questa riga sarebbe vero sui file eseguiti e falso su ciò che
+  // il lettore capisce — cioè la forma esatta di verde bugiardo che AR-660 racconta.
+  if (nonEseguiti.length) {
+    console.log(
+      `\n⚪ ${nonEseguiti.length} prove in bash NON eseguite: manca \`bats\` su questa macchina.` +
+        `\n   Installalo (\`sudo apt-get install -y bats\`, oppure \`npm i -g bats\` e poi BATS_BIN=$(command -v bats)) e rilancia: sono prove vere, oggi nessuno le fa.`,
+    );
+  }
   if (!rotti.length) {
-    console.log(`\n✅ ${righe.length} file, ${totale} asserzioni: girano tutti e passano tutti.`);
+    const copertura = nonEseguiti.length ? ` — il verde NON copre ${nonEseguiti.length} prove in bash` : "";
+    console.log(`\n✅ ${righe.length + (righeBats.length - nonEseguiti.length)} file, ${totale} asserzioni: girano tutti e passano tutti${copertura}.`);
     process.exitCode = 0;
     return;
   }
-  console.log(`\n❌ ${rotti.length} su ${righe.length} non danno garanzie.`);
+  console.log(`\n❌ ${rotti.length} su ${righe.length + righeBats.length} non danno garanzie.`);
   console.log(`   Un test che non gira non è una rete: è un file che fa sembrare coperto ciò che non lo è.`);
   process.exitCode = 1;
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) main();
+// AR-445 — la guardia dell'entrypoint nella forma che regge anche i percorsi strani. Il confronto
+// con `file://${process.argv[1]}` sbaglia appena il percorso contiene uno spazio o un accento (la
+// forma giusta li codifica: `file:///home/a%20b/...`), e sbagliando esegue `main()` DENTRO chi ha
+// solo importato una funzione. `pathToFileURL` è la stessa domanda, fatta bene.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

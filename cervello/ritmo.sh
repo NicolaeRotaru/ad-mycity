@@ -75,14 +75,13 @@ if [ -f "$REPO/.git/config" ] && ! test -w "$REPO/.git/config" 2>/dev/null; then
   exit 1
 fi
 
-if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
-  pausa="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" \
-    -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" 2>/dev/null || true)"
-  if printf '%s' "$pausa" | grep -q '"valore":"on"'; then
-    echo "[$(ts)] AD in PAUSA (kill-switch): ritmo $RITMO_TIPO saltato."
-    exit 0
-  fi
-fi
+# 🛑 AR-390 — il kill-switch di Nicola, dalla funzione condivisa (cervello/kill-switch.sh).
+# Qui c'era una copia della curl col `|| true` in coda: l'errore di rete veniva ingoiato, la risposta
+# vuota non conteneva `"valore":"on"`, e la cadenza del mattino PARTIVA mentre l'AD era in pausa.
+# Il fail-closed esisteva già nel giro e nel worker e non era mai arrivato qui, perché AR-038 e
+# AR-100 sono stati chiusi misurando il file curato, non la famiglia. Ora la copia è una sola.
+. "$SCRIPT_DIR/kill-switch.sh"
+pausa_consenti_partenza "ritmo $RITMO_TIPO" || exit 0
 
 branch="${GIT_BRANCH:-main}"
 GIT_AUTHOR_EMAIL="${GIT_AUTHOR_EMAIL:-98592323+NicolaeRotaru@users.noreply.github.com}"
@@ -113,21 +112,28 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
       sleep 2
     done
     if [ "$_fetch_ok" = 1 ]; then
-      if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo HEAD)" = "$branch" ]; then
-        if git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
-          echo "[$(ts)] Ritmo: allineato a origin/${branch} via rebase (scritture locali preservate)."
-        else
-          git rebase --abort 2>/dev/null || true
-          if git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
-            echo "[$(ts)] Ritmo: allineato a origin/${branch} via merge (rebase in conflitto)."
-          else
-            git merge --abort 2>/dev/null || true
-            echo "[$(ts)] WARN: rebase/merge su ${branch} in conflitto — continuo col locale, il push finale riproverà." >&2
-          fi
-        fi
+      # AR-628 — il ramo «HEAD staccato» era rimasto DISTRUTTIVO in tutte e tre le copie (qui, in
+      # giro.sh e in monitora.sh): faceva `checkout -B "$branch" FETCH_HEAD`, cioè spostava il ramo
+      # sul remoto ORFANANDO il commit di recupero creato dieci righe più sopra — nessun ref lo
+      # puntava più, e il log stampava «HEAD portato su main» come se fosse tutto a posto. Che HEAD
+      # staccato succeda davvero sul VPS lo racconta il repo stesso: trentuno ore con «## HEAD (no
+      # branch)» il 12/8. La cura di AR-028 copriva solo il ramo in cui HEAD era già su main.
+      # Adesso il caso staccato non ha più un percorso suo: si RIAGGANCIA a questo HEAD — che porta
+      # il commit di recupero — e poi passa dalla stessa scala rebase → merge di tutti gli altri.
+      if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo HEAD)" != "$branch" ]; then
+        git checkout -B "$branch" 2>/dev/null || true
+        echo "[$(ts)] Ritmo: HEAD era staccato → riagganciato a ${branch} tenendo i commit locali (AR-628)."
+      fi
+      if git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
+        echo "[$(ts)] Ritmo: allineato a origin/${branch} via rebase (scritture locali preservate)."
       else
-        git checkout -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -B "$branch" 2>/dev/null || true
-        echo "[$(ts)] Ritmo: HEAD portato su ${branch} da origin/${branch}."
+        git rebase --abort 2>/dev/null || true
+        if git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
+          echo "[$(ts)] Ritmo: allineato a origin/${branch} via merge (rebase in conflitto)."
+        else
+          git merge --abort 2>/dev/null || true
+          echo "[$(ts)] WARN: rebase/merge su ${branch} in conflitto — continuo col locale, il push finale riproverà." >&2
+        fi
       fi
     else
       echo "[$(ts)] WARN: fetch di ${branch} fallito — continuo col codice/memoria su disco." >&2
@@ -276,7 +282,7 @@ if flock -w 600 9; then
     # il 27/7: scan-segreti girava in 1 pubblicatore su 5, e `ritmo.sh` era quasi riga per riga il
     # blocco di `giro.sh` meno il cancello. Additivo: non tocca il push, aggiunge il controllo prima.
     . "$SCRIPT_DIR/gate-pubblicazione.sh"
-    if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO"; then
+    if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO" "$branch" 1; then
       RITMO_PUSH_OK=0
       echo "[$(ts)] Memoria NON pubblicata: il cancello ha detto no (vedi sopra) — nessun commit." >&2
     elif [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then

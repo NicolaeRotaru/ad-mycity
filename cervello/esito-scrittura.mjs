@@ -193,6 +193,60 @@ export function attesaRitentativo({ tentativo = 1, baseSec = 2, capSec = 30 } = 
 }
 
 /**
+ * AR-631 — LA PATCH CHE RIESCE SENZA TOCCARE NIENTE.
+ *
+ * La stessa malattia di questo file, un piano più sotto: la PATCH che chiude un lavoro filtra su
+ * `stato=eq.in_corso` e giudicava il successo SOLO dal codice d'uscita di curl. PostgREST risponde
+ * 2xx anche quando il filtro non trova NESSUNA riga — un `[]` è una risposta perfettamente riuscita.
+ *
+ * Il caso vero, e non è teorico: la sentinella chiude il lavoro in «errore» credendo che l'azione non
+ * sia partita, mentre invece sta ancora girando. Quando il worker finisce e scrive l'esito, il filtro
+ * `stato=eq.in_corso` non trova più niente, la risposta è 2xx, la funzione ritorna 0, il ricovero
+ * viene SCARTATO e sul log compare «esito scritto». L'esito di un'azione già eseguita sparisce, la
+ * card resta «riapprova», Nicola riapprova, e parte due volte. È esattamente lo scenario che il
+ * ricovero era nato per impedire — mancava solo di guardare cosa tornava.
+ *
+ * Serve `Prefer: return=representation` sulla chiamata: senza, il corpo è vuoto per contratto e
+ * questa funzione non può distinguere «zero righe» da «non me l'hanno detto» — e nel dubbio dice di no,
+ * perché dichiarare scritto ciò che non si è visto è la malattia stessa.
+ *
+ * `riprovabile` separa i due modi di fallire, e la differenza è tempo vero: una richiesta che non è
+ * arrivata può arrivare al tentativo dopo, mentre «zero righe toccate» è definitivo — lo stato di
+ * quel lavoro l'ha già cambiato qualcun altro e non tornerà `in_corso` da solo. Ritentare quel caso
+ * quattro volte significa quattordici secondi di attese per arrivare allo stesso ricovero.
+ *
+ * @param {{rcCurl?:number, corpo?:string}} p rc di curl e corpo grezzo della risposta
+ * @returns {{confermata:boolean, righe:number, riprovabile:boolean, motivo:string}}
+ */
+export function patchConfermata({ rcCurl = 0, corpo = "" } = {}) {
+  const rc = Number(rcCurl) || 0;
+  if (rc !== 0) {
+    return { confermata: false, righe: 0, riprovabile: true, motivo: `curl uscito con rc=${rc}: la richiesta non è arrivata` };
+  }
+  const testo = String(corpo == null ? "" : corpo).trim();
+  if (!testo) {
+    return {
+      confermata: false, righe: 0, riprovabile: true,
+      motivo: "risposta vuota: senza Prefer return=representation non so quante righe ho toccato",
+    };
+  }
+  let dati;
+  try { dati = JSON.parse(testo); } catch {
+    return { confermata: false, righe: 0, riprovabile: true, motivo: "risposta non leggibile: non posso dire di aver scritto" };
+  }
+  const righe = Array.isArray(dati) ? dati.length : dati && typeof dati === "object" ? 1 : 0;
+  if (righe === 0) {
+    return {
+      confermata: false,
+      righe: 0,
+      riprovabile: false,
+      motivo: "la PATCH è riuscita ma non ha toccato nessuna riga: qualcun altro ha già cambiato lo stato di questo lavoro",
+    };
+  }
+  return { confermata: true, righe, riprovabile: false, motivo: `${righe} riga/e aggiornata/e` };
+}
+
+/**
  * L'esito è stato ricoverato su disco: quando il worker lo ritrova, che ne fa?
  * `statoAttuale` è quello che il database dice ADESSO di quel lavoro.
  *   scrivi  = la riga è ancora nostra (in_corso) o è stata chiusa in errore dalla sentinella
@@ -295,6 +349,13 @@ if (isMain) {
     process.exit(r.riprova ? 0 : 10);
   } else if (cmd === "attesa") {
     process.stdout.write(String(attesaRitentativo({ tentativo: Number(arg("tentativo", "1")) })) + "\n");
+  } else if (cmd === "patch-confermata") {
+    // Il corpo arriva da una VARIABILE D'AMBIENTE, non da un argomento: una risposta REST può
+    // contenere qualunque cosa, e passarla sulla riga di comando la esporrebbe alla shell — la
+    // stessa porta di AR-638, un piano più in là. Stessa forma che `esito_ricovera` usa già.
+    const r = patchConfermata({ rcCurl: Number(arg("rc", "0")), corpo: process.env.PATCH_CORPO || "" });
+    process.stdout.write(JSON.stringify(r) + "\n");
+    process.exit(r.confermata ? 0 : 10);
   } else if (cmd === "ripubblica") {
     const r = decidiRipubblicazione({ statoAttuale: arg("stato", ""), statoRicoverato: arg("ricoverato", "") });
     process.stdout.write(JSON.stringify(r) + "\n");

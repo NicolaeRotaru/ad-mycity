@@ -45,6 +45,7 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
+import { timbroOra } from "./ora-piacenza.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -170,7 +171,7 @@ function main() {
   const v = tettoSforato(fuori.length, tetto);
 
   if (argv.includes("--aggiorna-tetto")) {
-    writeFileSync(join(REPO, TETTO), `${JSON.stringify({ tetto: fuori.length, misurato: new Date().toISOString().slice(0, 16).replace("T", " "), _perche: "Card che chiedono a Nicola un gesto di copia senza portare il materiale. Scende e non risale (AR-524)." }, null, 2)}\n`);
+    writeFileSync(join(REPO, TETTO), `${JSON.stringify({ tetto: fuori.length, misurato: timbroOra(), _perche: "Card che chiedono a Nicola un gesto di copia senza portare il materiale. Scende e non risale (AR-524)." }, null, 2)}\n`);
     console.log(`✋📄 tetto aggiornato a ${fuori.length}.`);
     process.exit(0);
   }

@@ -19,8 +19,15 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(dirname "$SCRIPT_DIR")"
 cd "$REPO"
 
+# 🔒 AR-644 — i cancelli del commit vanno AGGANCIATI, non solo tentati. `>/dev/null 2>&1 || true`
+# buttava via sia l'output sia l'esito: se `core.hooksPath` non si attivava, il worker committava
+# senza scan dei segreti e senza perimetro di main, e nessuno lo diceva. Scoperto e muto insieme.
+# Non blocca l'avvio (il cancello del push resta, ed è quello che protegge main): ALZA LA VOCE.
 if [ -f "$SCRIPT_DIR/installa-hooks.sh" ]; then
-  bash "$SCRIPT_DIR/installa-hooks.sh" >/dev/null 2>&1 || true
+  _hook_out="$(bash "$SCRIPT_DIR/installa-hooks.sh" 2>&1)" || {
+    echo "⚠️  AR-644: i cancelli del commit NON si sono agganciati — questo worker committa senza scan dei segreti." >&2
+    printf '%s\n' "$_hook_out" | tail -3 >&2
+  }
 fi
 
 # 🔌 PARITY SKILL (fix 2026-07-16): le skill approvate vivono in .cursor/skills/ (fonte unica,
@@ -34,6 +41,11 @@ if [ -f "$ENV_FILE" ]; then set -a; . "$ENV_FILE"; set +a; fi
 
 # Motore AI condiviso (Cursor 'agent' di default, oppure Claude 'claude'). Vedi cervello/motore-ai.sh.
 . "$SCRIPT_DIR/motore-ai.sh"
+
+# 🛑 Kill-switch condiviso (AR-390): `pausa_verdetto` / `pausa_motivo`, la stessa testa che usano il
+# giro e le cadenze. Prima ogni script leggeva l'interruttore con la sua curl e la sua idea di cosa
+# fare quando la rete non risponde — quattro copie, due delle quali partivano lo stesso.
+. "$SCRIPT_DIR/kill-switch.sh"
 
 ts() { date '+%H:%M:%S'; }
 
@@ -264,7 +276,7 @@ sync_vault() {
   # lavoro, ~ogni 12 minuti) e finora era anche quella senza nessuno dei quattro controlli di verità:
   # la guardia ramo ce l'aveva già (è nata qui), il resto no. Additivo: il push resta com'è.
   . "$SCRIPT_DIR/gate-pubblicazione.sh"
-  if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO"; then
+  if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO" "$branch" 1; then
     echo "[$(ts)] Worker: memoria NON pubblicata, il cancello ha detto no — il lavoro resta locale e riparte al prossimo sync." >&2
     exec 9>&-
     return 1
@@ -932,14 +944,48 @@ _dead_letter() {
   curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id" "${AUTH[@]}" -d "$body" >/dev/null 2>&1 || true
 }
 
+# Il gemello è VIVO? Torna 1 (sì), 0 (no) o "" (da qui non lo posso sapere).
+#
+# AR-625 — l'identità del worker è a tre pezzi, `corsia:host:pid`, messa lì apposta per distinguere
+# «due processi della stessa corsia (improbabile ma non impossibile)». Il recupero orfani però
+# buttava via host e pid e decideva solo sulla corsia: proprietario della mia corsia → recupero
+# subito, a zero minuti di età. Scenario reale: il servizio (corsia «all») sta eseguendo un'azione
+# vera; qualcuno lancia a mano un secondo worker.sh per debug — corsia «all» anche lui — e al suo
+# avvio quel lavoro VIVO viene chiuso in errore «riapprova» mentre magari l'invio è già partito.
+# Nicola riapprova → doppio invio. Un giro o una chat vivi venivano invece riaccodati → doppia
+# esecuzione ed esito perso.
+#
+# Il pid è il discriminante che c'era già e nessuno guardava: sullo STESSO host un `kill -0` dice in
+# un attimo se quel processo esiste ancora. Da un altro host non si può sapere, e allora si torna
+# alla grazia per età — che è una stima, e resta dichiarata come tale.
+_gemello_vivo() {
+  local owner="$1" mio="$2" ohost opid myhost mypid
+  ohost="$(printf '%s' "$owner" | cut -d: -f2)"; opid="$(printf '%s' "$owner" | cut -d: -f3)"
+  myhost="$(printf '%s' "$mio" | cut -d: -f2)"; mypid="$(printf '%s' "$mio" | cut -d: -f3)"
+  if [ -z "$ohost" ] || [ -z "$opid" ]; then echo ""; return; fi   # riga vecchia, senza host:pid
+  if [ "$ohost" != "$myhost" ]; then echo ""; return; fi            # altra macchina: non lo posso vedere
+  if [ "$opid" = "$mypid" ]; then echo 0; return; fi                # sono io, stessa vita: non è «altrove»
+  if kill -0 "$opid" 2>/dev/null; then echo 1; else echo 0; fi
+}
+
 # Decisione PURA per il recupero orfani (fix due-worker). Torna "lascia" (non toccare: vivo altrove o
 # entro la grazia) o "procedi" (recuperalo). Estratta per essere testabile in isolamento.
-# Args: has_owner(0/1) owner_lane my_lane eta_min grace_min soglia_orfano_min
+# Args: has_owner(0/1) owner my_owner eta_min grace_min soglia_orfano_min [gemello_vivo(1|0|"")]
+#   owner/my_owner sono nella forma "corsia:host:pid"; una riga vecchia può portare la sola corsia.
 _orfano_decisione() {
-  local has="$1" olane="$2" mylane="$3" eta="$4" grace="$5" soglia="$6"
-  if [ "$has" = 1 ] && [ -n "$olane" ]; then
-    # DB migrato + owner noto: lascia solo se è di un'ALTRA lane ed è ancora recente (vivo/si auto-recupera).
-    if [ "$olane" != "$mylane" ] && [ "$eta" -lt "$soglia" ]; then echo lascia; return; fi
+  local has="$1" owner="$2" mio="$3" eta="$4" grace="$5" soglia="$6" vivo="${7:-}"
+  local olane="${owner%%:*}" mylane="${mio%%:*}"
+  if [ "$has" = 1 ] && [ -n "$owner" ]; then
+    # ALTRA corsia: lascia finché è recente (vivo sull'altro worker o si auto-recupererà al suo riavvio).
+    if [ "$olane" != "$mylane" ]; then
+      if [ "$eta" -lt "$soglia" ]; then echo lascia; return; fi
+      echo procedi; return
+    fi
+    # STESSA corsia — e qui prima si concludeva «è mio, procedi» senza altro. AR-625: potrebbe essere
+    # un gemello VIVO. Se il pid me lo dice, comanda il pid; se non me lo dice nessuno, la grazia.
+    if [ "$vivo" = 1 ]; then echo lascia; return; fi
+    if [ "$vivo" = 0 ]; then echo procedi; return; fi
+    if [ "$eta" -lt "$grace" ]; then echo lascia; return; fi
     echo procedi; return
   fi
   # DB non migrato o owner assente: sola grazia-per-età (fresco → lascia in pace).
@@ -979,7 +1025,8 @@ recupera_lavori_orfani() {
     #         worker è morto per davvero) → sblocco la coda.
     #   • DB non migrato (owner assente): torno alla sola grazia-per-età (fresco → lascio in pace).
     # Va PRIMA del ramo azione: nemmeno un'azione reale freschissima va marcata «riapprova» se gira altrove.
-    if [ "$(_orfano_decisione "${HAS_OWNER_COL:-0}" "$owner_lane" "$WORKER_LANE" "$eta" "$SOGLIA_ORFANO_GRACE_MIN" "$SOGLIA_ORFANO_MIN")" = lascia ]; then
+    # AR-625: si passa l'owner INTERO (corsia:host:pid), non la sola corsia, più il verdetto del pid.
+    if [ "$(_orfano_decisione "${HAS_OWNER_COL:-0}" "$owner" "$WORKER_ID" "$eta" "$SOGLIA_ORFANO_GRACE_MIN" "$SOGLIA_ORFANO_MIN" "$(_gemello_vivo "$owner" "$WORKER_ID")")" = lascia ]; then
       echo "[$(ts)] Orfano $id ($tipo, ${eta}min, owner='${owner_lane:-—}'): LASCIO in_corso — vivo altrove o entro la grazia." >&2
       continue
     fi
@@ -1130,13 +1177,19 @@ while true; do
   # query impostazioni), NON prendere lavori in questo ciclo — meglio un ciclo saltato che eseguire
   # un'azione reale mentre Nicola crede di aver messo in PAUSA. Prima il `|| true` rendeva il worker
   # fail-OPEN proprio nel componente che tocca il mondo (esegui-azione).
+  # AR-390 — il verdetto lo dà `pausa_verdetto` (cervello/kill-switch.sh), la stessa testa che usano
+  # giro, ritmo e monitoraggio: 0 via libera · 1 in pausa · 2 non verificabile. Le mani restano qui
+  # perché questo ciclo gira ogni secondo e ha già la sua curl autenticata: quello che si condivide è
+  # la DECISIONE, che è il pezzo che nelle quattro copie era divergente.
   _pausa_rc=0
   pausa="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" "${AUTH[@]}" 2>/dev/null)" || _pausa_rc=$?
-  if [ "$_pausa_rc" -ne 0 ]; then
-    echo "[$(ts)] ⛔ PAUSA_FAIL_CLOSED: stato pausa non verificabile (rc=$_pausa_rc) — non prendo lavori in questo ciclo." >&2
+  _pausa_v=0
+  pausa_verdetto "$_pausa_rc" "$pausa" || _pausa_v=$?
+  if [ "$_pausa_v" = 2 ]; then
+    echo "[$(ts)] $(pausa_motivo 2 "worker (claim lavori)" "$_pausa_rc")" >&2
     sleep "$INTERVALLO"; continue
   fi
-  if printf '%s' "$pausa" | grep -q '"valore":"on"'; then
+  if [ "$_pausa_v" = 1 ]; then
     sleep "$INTERVALLO"; continue
   fi
 
@@ -1481,6 +1534,12 @@ $richiesta"
     if [ "$rc" -eq 124 ] || [ "$rc" -eq 137 ]; then
       stato="errore"; out="$out
 [worker] TIMEOUT dopo ${to}s — lavoro interrotto."
+    elif [ "$rc" -eq "${AI_RC_QUOTA_FALLBACK:-75}" ]; then
+      # AR-627 — la quota era finita: qui NON è stato fatto il lavoro. Se sopra ha risposto il
+      # modello locale, ha risposto senza mani (niente file, niente PR, niente database): tenerlo
+      # per «fatto» significa bruciare il recupero della cadenza, che non verrà mai riaccodata.
+      stato="errore"; out="$out
+[worker] Il motore principale era in limite di quota: questo lavoro NON è stato eseguito. Quello che leggi sopra, se c'è, è la risposta del modello locale — che parla ma non ha le mani (non scrive file, non apre richieste di unione, non tocca il database). Riparte da solo quando la quota si libera."
     elif [ "$rc" -ne 0 ]; then
       stato="errore"; out="$out
 [worker] motore $(ai_engine) ($(ai_cli_name)) uscito con rc=$rc."

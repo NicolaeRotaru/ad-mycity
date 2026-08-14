@@ -1,7 +1,44 @@
 "use client";
 
-import { ShieldCheck, AlertTriangle } from "lucide-react";
+import { ShieldCheck, AlertTriangle, HelpCircle } from "lucide-react";
 import { useFatti } from "@/lib/fatti";
+import { statoCoerenza, testoBadge, tonoBadge } from "@/lib/badge-coerenza";
+
+// AR-646 — TRE TONI, NON DUE. Prima il badge aveva un ramo rosso e un ramo verde, e il verde era il
+// DEFAULT: ogni esito che il guardiano ha imparato a scrivere dopo — «cieco», «non_verificato» —
+// finiva sotto lo scudo «Memoria coerente». Cioè la Cabina diceva a Nicola che la memoria era a
+// posto proprio nei due casi in cui nessuno l'aveva guardata. Il terzo tono è ⚪: né accusa né
+// assoluzione, «non l'ho potuto misurare».
+function BadgeCoerenza({ esito, incoerenze }: { esito: unknown; incoerenze: number }) {
+  const stato = statoCoerenza(esito);
+  const tono = tonoBadge(stato);
+  const testo = testoBadge(stato, incoerenze);
+
+  if (tono === "rosso") {
+    return (
+      <div className="mb-3 flex items-start gap-2 rounded-xl border border-red-500/30 bg-red-500/[0.06] p-3 text-sm text-red-700">
+        <AlertTriangle size={16} className="shrink-0 mt-0.5" />
+        <span>
+          {testo} Vanno bonificate (l&apos;AD lo fa col guardiano coerenza-fatti).
+        </span>
+      </div>
+    );
+  }
+  if (tono === "cieco") {
+    return (
+      <div className="mb-3 flex items-start gap-2 rounded-xl border border-amber-500/30 bg-amber-500/[0.06] p-3 text-sm text-amber-800">
+        <HelpCircle size={16} className="shrink-0 mt-0.5" />
+        <span>{testo}</span>
+      </div>
+    );
+  }
+  return (
+    <div className="mb-3 flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/[0.06] p-2.5 text-sm text-emerald-700">
+      <ShieldCheck size={16} className="shrink-0" />
+      <span>{testo}</span>
+    </div>
+  );
+}
 
 // 🧭 La FONTE UNICA DELLA VERITÀ a schermo: mostra i fatti-chiave DECISI leggendoli da
 // registro-fatti.json (una casa sola), col badge del guardiano di coerenza. È la scheda che
@@ -23,24 +60,7 @@ export default function FattiChiave() {
         </div>
       </div>
 
-      {coerenza &&
-        (coerenza.esito === "incoerenze" ? (
-          <div className="mb-3 flex items-start gap-2 rounded-xl border border-red-500/30 bg-red-500/[0.06] p-3 text-sm text-red-700">
-            <AlertTriangle size={16} className="shrink-0 mt-0.5" />
-            <span>
-              <b>
-                {coerenza.incoerenze} {coerenza.incoerenze === 1 ? "copia vecchia" : "copie vecchie"}
-              </b>{" "}
-              di un fatto ancora in giro nei file: la memoria sta divergendo. Vanno bonificate
-              (l&apos;AD lo fa col guardiano coerenza-fatti).
-            </span>
-          </div>
-        ) : (
-          <div className="mb-3 flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/[0.06] p-2.5 text-sm text-emerald-700">
-            <ShieldCheck size={16} className="shrink-0" />
-            <span>Memoria coerente — nessuna copia vecchia in giro nei file.</span>
-          </div>
-        ))}
+      {coerenza && <BadgeCoerenza esito={coerenza.esito} incoerenze={coerenza.incoerenze} />}
 
       {!caricato ? (
         <div className="text-center text-black/40 py-6 text-sm">Carico i fatti…</div>

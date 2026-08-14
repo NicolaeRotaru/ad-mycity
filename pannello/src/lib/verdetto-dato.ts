@@ -33,6 +33,10 @@
 //        freschezza-che-mente.test.mjs · storico-due-lettori.test.mjs
 
 /** Quattro esiti possibili per un dato che si voleva mostrare. `cieco` e `stale` NON rassicurano. */
+// Estensione esplicita: questo modulo lo esegue ANCHE il cervello con Node, che pretende il
+// percorso completo (il tsconfig porta `allowImportingTsExtensions` per questo — AR-232).
+import { vaultToIso } from "./format.ts";
+
 export type StatoDato = "ok" | "vuoto" | "cieco" | "stale";
 
 export type Semaforo = "verde" | "giallo" | "rosso" | "grigio";
@@ -218,8 +222,12 @@ export function quandoMs(x: unknown): number | null {
   const conFuso = /(?:Z|[+-]\d{2}:?\d{2})$/i.test(s);
   const m = conFuso ? null : s.match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
   if (m) {
+    // AR-414 — qui c'era `+02:00` scritto a mano. `+02:00` è l'ora legale: da fine ottobre a fine
+    // marzo sbagliava di un'ora piena, sempre nella stessa direzione, e l'età che ne esce si
+    // confronta con soglie misurate IN ORE. Il fuso si calcola per la data che si sta leggendo
+    // (`vaultToIso` interroga Europe/Rome), non si scrive.
     const [, y, mo, d, h = "12", mi = "00"] = m;
-    const t = Date.parse(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`);
+    const t = Date.parse(vaultToIso(`${y}-${mo}-${d} ${h}:${mi}`));
     return Number.isNaN(t) ? null : t;
   }
   const t = Date.parse(s);

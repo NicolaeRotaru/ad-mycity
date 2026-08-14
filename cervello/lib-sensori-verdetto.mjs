@@ -87,3 +87,46 @@ export function eSpentoPerDecisione(check, motivi) {
   if (check?.spento === true) return true;
   return motivi?.motivi?.[check?.nome]?.motivo === "decisione";
 }
+
+/**
+ * AR-364 — UN «OK» AUTO-DICHIARATO SCADE.
+ *
+ * I due sensori MCP non li può provare uno script: li dichiara l'AD in sessione, col flag
+ * `--mcp-supabase=ok`. Il ramo di ripiego però era condizionato all'ASSENZA della voce, non alla sua
+ * ETÀ: bastava una dichiarazione una volta sola e quel sensore restava `ok` per sempre. Misurato: due
+ * sensori «accesi» da undici giorni senza che nessuno li avesse più provati, contati come occhi
+ * aperti nel quadro che dice quanti ne abbiamo.
+ *
+ * SCADENZA A TEMPO, non a giri. La scheda proponeva «N giri senza flag»: un contatore di giri però
+ * si ferma quando si ferma la macchina — cioè proprio nel guasto che questo sensore dovrebbe far
+ * vedere — e un ok congelato resterebbe fresco per sempre. Il tempo non si ferma mai.
+ *
+ * Fail-closed: una voce `ok` senza `ultimo_ok` non si può dimostrare fresca, quindi è scaduta.
+ *
+ * @param {{stato?: string, ultimo_ok?: string, dettaglio?: string}|null|undefined} voce
+ * @param {(quando: string|null|undefined) => {stantia: boolean, eta_min: number|null, perche: string}} scaduta
+ *        il metro della freschezza (iniettato: così la prova non dipende dall'orologio vero).
+ * @param {string} comeSiRinfresca il comando da dare a chi legge, per riaccenderlo.
+ * @returns {{voce: object, decaduto: boolean}}
+ */
+export function decadiAutoDichiarato(voce, scaduta, comeSiRinfresca = "") {
+  const partenza = {
+    stato: "non_verificato",
+    giri_ciechi: 0,
+    canale: "MCP Cursor/Claude",
+    dettaglio: `Non testabile da script: l'AD lo dichiara con ${comeSiRinfresca} in auto-analisi`,
+  };
+  if (!voce) return { voce: partenza, decaduto: false };
+  if (voce.stato !== "ok") return { voce, decaduto: false };
+
+  const s = scaduta(voce.ultimo_ok);
+  if (!s.stantia) return { voce, decaduto: false };
+  return {
+    voce: {
+      ...voce,
+      stato: "non_verificato",
+      dettaglio: `dichiarato ok ma ${s.perche}: nessuno l'ha più provato — ridichiaralo con ${comeSiRinfresca}`,
+    },
+    decaduto: true,
+  };
+}

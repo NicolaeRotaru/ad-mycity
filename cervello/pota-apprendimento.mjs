@@ -37,6 +37,7 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
+import { timbroOra } from "./ora-piacenza.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..");
@@ -199,7 +200,7 @@ function main() {
     const precedente = existsSync(STORICO) ? JSON.parse(readFileSync(STORICO, "utf8")) : { potature: [] };
     precedente.potature = precedente.potature || [];
     precedente.potature.unshift({
-      quando: new Date().toISOString().slice(0, 16).replace("T", " "),
+      quando: timbroOra(),
       byte_prima: p.prima,
       byte_dopo: p.dopo,
       tolte: p.tolte,

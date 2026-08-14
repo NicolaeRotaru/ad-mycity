@@ -8,8 +8,10 @@ WORKER="${BATS_TEST_DIRNAME}/../worker.sh"
 
 setup() {
   FN="$BATS_TEST_TMPDIR/fn.sh"
-  sed -n '/^_orfano_decisione() {/,/^}/p' "$WORKER" > "$FN"
+  sed -n '/^_gemello_vivo() {/,/^}/p' "$WORKER" > "$FN"
+  sed -n '/^_orfano_decisione() {/,/^}/p' "$WORKER" >> "$FN"
   grep -q '_orfano_decisione()' "$FN"
+  grep -q '_gemello_vivo()' "$FN"
   source "$FN"
 }
 
@@ -18,14 +20,15 @@ setup() {
 }
 
 # ── DECISIONE ORFANI (DB migrato: owner presente) ───────────────────────────────────────────────
-# Args: has_owner owner_lane my_lane eta grace soglia
+# Args: has_owner owner my_owner eta grace soglia [gemello_vivo]
+# L'owner è nella forma "corsia:host:pid"; le righe vecchie possono portare la sola corsia.
 @test "orfano di UN'ALTRA lane, recente → LASCIA (vivo altrove)" {
   run _orfano_decisione 1 all chat 5 4 60
   [ "$output" = lascia ]
 }
 
-@test "orfano della MIA lane → PROCEDI (mio orfano da riavvio, lo recupero subito)" {
-  run _orfano_decisione 1 chat chat 5 4 60
+@test "orfano della MIA lane con il pid MORTO → PROCEDI (mio orfano da riavvio, lo recupero subito)" {
+  run _orfano_decisione 1 chat:vps:111 chat:vps:222 5 4 60 0
   [ "$output" = procedi ]
 }
 
@@ -34,9 +37,40 @@ setup() {
   [ "$output" = procedi ]
 }
 
-@test "orfano della mia lane anche se freschissimo → PROCEDI (niente grazia sui miei)" {
+# AR-625 — questa prova diceva il CONTRARIO fino al 13/8: «orfano della mia lane anche se freschissimo
+# → PROCEDI (niente grazia sui miei)». Era il difetto scritto come regola. Un secondo worker.sh lanciato
+# a mano accanto al servizio (stessa corsia «all») trovava i lavori VIVI del servizio e li recuperava a
+# zero minuti: un'azione reale in corso veniva chiusa «riapprova» mentre l'invio era magari già partito,
+# Nicola riapprovava, e partiva due volte. Host e pid erano nell'identità apposta per questo, e nessuno
+# li guardava.
+@test "AR-625: gemello VIVO della mia stessa lane → LASCIA (il pid esiste ancora)" {
+  run _orfano_decisione 1 all:vps:111 all:vps:222 0 4 60 1
+  [ "$output" = lascia ]
+}
+
+@test "AR-625: stessa lane ma non so se è vivo (altro host / riga vecchia) → vale la grazia per età" {
   run _orfano_decisione 1 all all 1 4 60
+  [ "$output" = lascia ]
+  run _orfano_decisione 1 all all 10 4 60
   [ "$output" = procedi ]
+}
+
+@test "AR-625: _gemello_vivo dice 1 sul MIO pid vivo, 0 su un pid morto, vuoto da un altro host" {
+  run _gemello_vivo "all:$(hostname):$$" "all:$(hostname):999999"
+  [ "$output" = 1 ]                                    # il pid di questo processo esiste davvero
+  run _gemello_vivo "all:$(hostname):999999" "all:$(hostname):$$"
+  [ "$output" = 0 ]                                    # pid inesistente = worker morto
+  run _gemello_vivo "all:altra-macchina:111" "all:$(hostname):$$"
+  [ -z "$output" ]                                     # da qui non lo posso sapere: non lo invento
+  run _gemello_vivo "all" "all:$(hostname):$$"
+  [ -z "$output" ]                                     # riga vecchia senza host:pid
+}
+
+@test "AR-625: il worker passa l'owner INTERO e il verdetto del pid, non la sola corsia" {
+  # La domanda ④ del secondo giro: il codice che ho aggiunto è USATO? Un discriminante calcolato e
+  # mai passato somiglia moltissimo a una difesa attiva.
+  grep -q '_orfano_decisione "${HAS_OWNER_COL:-0}" "$owner" "$WORKER_ID"' "$WORKER"
+  grep -q '_gemello_vivo "$owner" "$WORKER_ID"' "$WORKER"
 }
 
 # ── DECISIONE ORFANI (DB NON migrato: owner assente → sola grazia-per-età) ───────────────────────

@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-13",
+ "aggiornato": "2026-08-13 22:55",
  "mutanti": [
   {
    "lotto": 30,
@@ -188,7 +188,7 @@
    "difetto": "AR-317",
    "nome": "il motore torna in primo piano e le trap restano in sospeso",
    "file": "cervello/lib-cadenza.sh",
-   "cerca": "    \"${T[@]}\" \"${AI_CMD[@]}\" \"$prompt\" >\"$_tmp\" 2>&1 8>&- 9>&- &\n    CADENZA_AI_PID=$!\n    wait \"$CADENZA_AI_PID\" || CADENZA_AI_RC=$?",
+   "cerca": "    \"${T[@]}\" \"${AI_CMD[@]}\" \"$prompt\" >\"$_tmp\" 2>&1 &\n    CADENZA_AI_PID=$!\n    wait \"$CADENZA_AI_PID\" || CADENZA_AI_RC=$?",
    "sostituisci": "    \"${T[@]}\" \"${AI_CMD[@]}\" \"$prompt\" >\"$_tmp\" 2>&1 || CADENZA_AI_RC=$?",
    "test": "cervello/test/lib-cadenza.test.mjs"
   },
@@ -1497,8 +1497,8 @@
    "lezione": "L-2026-0803-550",
    "nome": "la forma dei JSON torna a guardare i commit del ramo: al commit il cancello non vede niente",
    "file": "cervello/forma-json.mjs",
-   "cerca": "  const base = STAGED ? \"HEAD\" : \"origin/main\";",
-   "sostituisci": "  const base = \"origin/main\";",
+   "cerca": "  if (STAGED) return { base: \"HEAD\", ramo: [\"diff\", \"--cached\", \"--name-only\"], workingTree: false, fuori: [] };",
+   "sostituisci": "  if (false) return { base: \"HEAD\", ramo: [\"diff\", \"--cached\", \"--name-only\"], workingTree: false, fuori: [] };",
    "test": "node --test cervello/test/campo-commit-e-turno.test.mjs"
   },
   {
@@ -2374,10 +2374,11 @@
    "lotto": 37,
    "difetto": "AR-629",
    "nome": "D'inverno la macchina timbra gli esiti delle cadenze con un'ora avanti",
-   "file": "cervello/registra-cadenza.mjs",
-   "cerca": "    timeZone: \"Europe/Rome\",",
-   "sostituisci": "    timeZone: \"UTC\",",
-   "test": "cervello/test/cadenza-registro.test.mjs"
+   "file": "cervello/ora-piacenza.mjs",
+   "cerca": "export const FUSO = \"Europe/Rome\";",
+   "sostituisci": "export const FUSO = \"UTC\";",
+   "test": "cervello/test/cadenza-registro.test.mjs",
+   "nota": "Lotto 40: timbroOra e il fuso sono usciti da registra-cadenza.mjs (che ora li riesporta) verso cervello/ora-piacenza.mjs. La mutazione segue il CUORE: rompendo FUSO ogni timbro della memoria torna UTC."
   },
   {
    "lotto": 37,
@@ -2401,10 +2402,11 @@
    "lotto": 37,
    "difetto": "AR-575",
    "nome": "senza il timbro della data, le chiusure tornano orfane di mese: contabilita-chiusure.test.mjs deve diventare rosso",
-   "file": "cervello/auto-fix.mjs",
+   "file": "cervello/contratto-scheda.mjs",
    "cerca": "  d.chiuso_il = q;",
-   "sostituisci": "  // d.chiuso_il = q;",
-   "test": "cervello/test/contabilita-chiusure.test.mjs"
+   "sostituisci": "  d.chiuso_il = \"\";",
+   "test": "cervello/test/contabilita-chiusure.test.mjs",
+   "nota": "Lotto 40: il contratto delle schede è uscito da auto-fix/cantiere-prove verso cervello/contratto-scheda.mjs. Puntatore spostato sul cuore, non sul vecchio indirizzo. Pezzo SPOSTATO, non rimosso: il difetto non è stato disfatto."
   },
   {
    "lotto": 37,
@@ -2437,19 +2439,21 @@
    "lotto": 37,
    "difetto": "AR-582",
    "nome": "un guardiano che legge solo il nome vecchio del campo è cieco su tutta la generazione nuova di schede: contabilita-schede.test.mjs deve dive",
-   "file": "cervello/cantiere-prove.mjs",
+   "file": "cervello/contratto-scheda.mjs",
    "cerca": "return d?.gravita ?? d?.severita ?? null;",
    "sostituisci": "return d?.gravita ?? null;",
-   "test": "cervello/test/contabilita-schede.test.mjs"
+   "test": "cervello/test/contabilita-schede.test.mjs",
+   "nota": "Lotto 40: il contratto delle schede è uscito da auto-fix/cantiere-prove verso cervello/contratto-scheda.mjs. Puntatore spostato sul cuore, non sul vecchio indirizzo. Pezzo SPOSTATO, non rimosso: il difetto non è stato disfatto."
   },
   {
    "lotto": 37,
    "difetto": "AR-582",
    "nome": "Quattro difetti aperti non dichiarano quanto frenano la crescita, e la coda per priorità non sa dove metterli",
-   "file": "cervello/cantiere-prove.mjs",
-   "cerca": "if (!d.impatto_crescita) manca.push(\"impatto_crescita\");",
-   "sostituisci": "if (false) manca.push(\"impatto_crescita\");",
-   "test": "cervello/test/contabilita-schede.test.mjs"
+   "file": "cervello/contratto-scheda.mjs",
+   "cerca": "  const manca = campiMancanti(d, [\"impatto_crescita\", \"nato\"]);",
+   "sostituisci": "  const manca = [];",
+   "test": "cervello/test/contabilita-schede.test.mjs",
+   "nota": "Lotto 40: il contratto delle schede è uscito da auto-fix/cantiere-prove verso cervello/contratto-scheda.mjs. Puntatore spostato sul cuore, non sul vecchio indirizzo. Pezzo SPOSTATO, non rimosso: il difetto non è stato disfatto."
   },
   {
    "lotto": 37,
@@ -2531,7 +2535,727 @@
    "test": "node cervello/test/test-cervello.test.mjs"
   },
   {
-   "difetto": "AR-663 lucchetto-ereditato-blocca-tutto",
+   "lotto": 39,
+   "difetto": "AR-635",
+   "nome": "il guardiano esterno torna senza tetto di tempo: appeso, resta cieco sei ore",
+   "file": ".github/workflows/battito-esterno.yml",
+   "cerca": "    timeout-minutes: 5\n    steps:",
+   "sostituisci": "    steps:",
+   "test": "cervello/test/contratto-workflow.test.mjs"
+  },
+  {
+   "lotto": 39,
+   "difetto": "AR-636",
+   "nome": "il deploy del Pannello torna senza permessi dichiarati: il token eredita il default del repo",
+   "file": ".github/workflows/deploy-pannello.yml",
+   "cerca": "permissions: {}",
+   "sostituisci": "",
+   "test": "cervello/test/contratto-workflow.test.mjs"
+  },
+  {
+   "lotto": 39,
+   "difetto": "AR-637",
+   "nome": "le azioni tornano agganciate a un'etichetta spostabile invece che al commit",
+   "file": ".github/workflows/battito-esterno.yml",
+   "cerca": "actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020",
+   "sostituisci": "actions/setup-node@v4",
+   "test": "cervello/test/contratto-workflow.test.mjs"
+  },
+  {
+   "lotto": 39,
+   "difetto": "AR-638",
+   "nome": "il titolo dell'allarme torna dentro lo script: apici e $(...) diventano comandi sul runner",
+   "file": ".github/workflows/battito-esterno.yml",
+   "cerca": "--title \"$TITOLO\"",
+   "sostituisci": "--title \"${{ steps.controllo.outputs.titolo }}\"",
+   "test": "cervello/test/contratto-workflow.test.mjs"
+  },
+  {
+   "lotto": 39,
+   "difetto": "AR-577",
+   "nome": "i sei ristoranti esclusi da Nicola tornano a uno stato che nessun filtro conosce",
+   "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-realta.json",
+   "cerca": "\"stato\": \"scartato\",\n      \"fonte\": \"Nicola 18/7\"",
+   "sostituisci": "\"stato\": \"escluso\",\n      \"fonte\": \"Nicola 18/7\"",
+   "test": "cervello/test/contratto-valori.test.mjs"
+  },
+  {
+   "lotto": 39,
+   "difetto": "AR-579",
+   "nome": "il contratto torna piu stretto di chi scrive: i punti auto-fix della serie escono di nuovo dall'elenco",
+   "file": "cervello/valida-contratti.mjs",
+   "cerca": "ammessi: [\"completa\", \"sonda\", \"auto-fix\"]",
+   "sostituisci": "ammessi: [\"completa\", \"sonda\"]",
+   "test": "cervello/test/contratto-valori.test.mjs"
+  },
+  {
+   "lotto": 39,
+   "difetto": "AR-624",
+   "nome": "il bottone del Pannello torna a rimettere in coda ogni lavoro, azioni reali comprese",
+   "file": "pannello/src/app/api/lavori/recupera/route.ts",
+   "cerca": "if (azione === \"riapprova\") { daRiapprovare.push(String(row.tipo || \"azione\")); continue; }",
+   "sostituisci": "if (false) { daRiapprovare.push(String(row.tipo || \"azione\")); continue; }",
+   "test": "cervello/test/recupero-due-porte.test.mjs"
+  },
+  {
+   "lotto": 39,
+   "difetto": "AR-624",
+   "nome": "lo script del VPS torna a non distinguere le azioni reali",
+   "file": "cervello/lib-recupero.sh",
+   "cerca": "    *\" $tipo \"*) echo riapprova; return ;;",
+   "sostituisci": "    *\"nessun-tipo\"*) echo riapprova; return ;;",
+   "test": "cervello/test/recupero-due-porte.test.mjs"
+  },
+  {
+   "lotto": 39,
+   "difetto": "AR-625",
+   "nome": "il recupero orfani torna a decidere sulla sola corsia, ignorando host e pid",
+   "file": "cervello/worker.sh",
+   "cerca": "    if [ \"$vivo\" = 1 ]; then echo lascia; return; fi",
+   "sostituisci": "    if [ \"$vivo\" = 99 ]; then echo lascia; return; fi",
+   "test": "cervello/test/recupero-due-porte.test.mjs"
+  },
+  {
+   "lotto": 39,
+   "difetto": "AR-627",
+   "nome": "la quota finita torna a essere un lavoro riuscito (rc=0 → stato fatto)",
+   "file": "cervello/motore-ai.sh",
+   "cerca": "            rc=\"$AI_RC_QUOTA_FALLBACK\"",
+   "sostituisci": "            : # rc invariato: la risposta locale passa per successo",
+   "test": "cervello/test/quota-e-patch-a-vuoto.test.mjs"
+  },
+  {
+   "lotto": 39,
+   "difetto": "AR-631",
+   "nome": "la PATCH torna a essere giudicata dal solo codice di uscita di curl",
+   "file": "cervello/esito-scrittura.mjs",
+   "cerca": "  if (righe === 0) {\n    return {\n      confermata: false,\n      righe: 0,\n      riprovabile: false,",
+   "sostituisci": "  if (righe === 0) {\n    return {\n      confermata: true,\n      righe: 0,\n      riprovabile: false,",
+   "test": "cervello/test/quota-e-patch-a-vuoto.test.mjs"
+  },
+  {
+   "lotto": 39,
+   "difetto": "AR-628",
+   "nome": "l allineamento torna a spostare il ramo sul remoto, orfanando il commit di recupero",
+   "file": "cervello/ritmo.sh",
+   "cerca": "        git checkout -B \"$branch\" 2>/dev/null || true\n        echo \"[$(ts)] Ritmo: HEAD era staccato",
+   "sostituisci": "        git checkout -B \"$branch\" FETCH_HEAD 2>/dev/null || true\n        echo \"[$(ts)] Ritmo: HEAD era staccato",
+   "test": "cervello/test/testa-staccata-non-perde-memoria.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-473",
+   "nome": "la forma dei JSON smette di guardare il lavoro in corso: verde a metà lotto",
+   "file": "cervello/forma-json.mjs",
+   "cerca": "    const sporchi = rif.workingTree",
+   "sostituisci": "    const sporchi = false && rif.workingTree",
+   "test": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-473",
+   "nome": "il passo delle mutazioni torna a sparire in silenzio dal cancello",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "    if (muto) ciechiProve.push(muto);",
+   "sostituisci": "    if (false) ciechiProve.push(muto);",
+   "test": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-460",
+   "nome": "il clone superficiale smette di dichiarare cosa non ha confrontato",
+   "file": "cervello/forma-json.mjs",
+   "cerca": "    fuori: [\"origin/main non raggiungibile (clone superficiale): i JSON già committati sul ramo non li ho confrontati con nessuno\"],",
+   "sostituisci": "    fuori: [],",
+   "test": "node cervello/test/cancello-verde-senza-misurare.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-370",
+   "nome": "il guardiano dell automazione torna a contare solo i rossi: verde senza aver guardato",
+   "file": "cervello/verifica-automazione.mjs",
+   "cerca": "  process.exit(v.codice);",
+   "sostituisci": "  process.exit(fails.length > 0 ? 1 : 0);",
+   "test": "node cervello/test/automazione-verde-senza-guardare.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-650",
+   "nome": "la gravità torna a leggersi da un nome solo: 48 schede senza gravità",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "  const base = { id: d.id, gravita: gravitaDi(d), eta_giorni: eta,",
+   "sostituisci": "  const base = { id: d.id, gravita: d.gravita, eta_giorni: eta,",
+   "test": "node cervello/test/conto-che-guarda-il-campo-sbagliato.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-646",
+   "nome": "il badge della Cabina torna a fare del verde il ramo di default",
+   "file": "pannello/src/lib/badge-coerenza.ts",
+   "cerca": "  return (NOTI as string[]).includes(v) ? (v as StatoCoerenza) : \"sconosciuto\";",
+   "sostituisci": "  return v === \"incoerenze\" ? \"incoerenze\" : \"ok\";",
+   "test": "node cervello/test/badge-che-compra-il-verde.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-363",
+   "nome": "la sentinella smette di guardare da quanto i sensori non si rimisurano",
+   "file": "cervello/sentinella-dati.mjs",
+   "cerca": "  if (s.sensori_stantii && s.sensori_eta_min !== null) {",
+   "sostituisci": "  if (false && s.sensori_stantii && s.sensori_eta_min !== null) {",
+   "test": "node cervello/test/misura-che-non-scade-mai.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-364",
+   "nome": "un ok auto-dichiarato torna a non scadere mai",
+   "file": "cervello/lib-sensori-verdetto.mjs",
+   "cerca": "  if (!s.stantia) return { voce, decaduto: false };",
+   "sostituisci": "  if (true) return { voce, decaduto: false };",
+   "test": "node cervello/test/misura-che-non-scade-mai.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-378",
+   "nome": "la bacheca torna a scriversi solo col verde: foto vecchia che sembra fresca",
+   "file": "cervello/guardiani-check.mjs",
+   "cerca": "    const esito = aggiornaBacheca(readFileSync(BACHECA, \"utf8\"), bloccoBacheca(cens, nowPiacenza()));",
+   "sostituisci": "    const esito = rc === 0 ? aggiornaBacheca(readFileSync(BACHECA, \"utf8\"), bloccoBacheca(cens, nowPiacenza())) : { cambiato: false, testo: \"\" };",
+   "test": "node cervello/test/bacheca-congelata.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-378",
+   "nome": "la tabella incompleta smette di dire che è incompleta",
+   "file": "cervello/censimento-guardiani.mjs",
+   "cerca": "  if (incompleta.length) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/bacheca-congelata.test.mjs"
+  },
+  {
+   "lotto": 38,
+   "difetto": "AR-661",
+   "nome": "la mappa degli esiti torna a regalare il ramo buono a una chiave che non conosce",
+   "file": "cervello/misura-o-cieco.mjs",
+   "cerca": "  return Object.hasOwn(mappa || {}, k) ? mappa[k] : seNonSo;",
+   "sostituisci": "  return Object.hasOwn(mappa || {}, k) ? mappa[k] : \"ok\";",
+   "test": "node cervello/test/misura-o-cieco.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-414",
+   "nome": "giorniFra torna al fuso cablato e regala un giorno quando l intervallo scavalca il cambio d ora",
+   "file": "pannello/src/lib/freschezza-intelligence.ts",
+   "cerca": "  const a = Date.parse(vaultToIso(`${isoVecchia} 12:00`));",
+   "sostituisci": "  const a = Date.parse(`${isoVecchia}T12:00:00+02:00`);",
+   "test": "node cervello/test/orologi-inchiodati-allora-legale.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-414",
+   "nome": "quandoMs torna a leggere ogni data invernale con l ora legale: un ora di eta inventata sotto soglie misurate in ore",
+   "file": "pannello/src/lib/verdetto-dato.ts",
+   "cerca": "    const t = Date.parse(vaultToIso(`${y}-${mo}-${d} ${h}:${mi}`));",
+   "sostituisci": "    const t = Date.parse(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`);",
+   "test": "node cervello/test/orologi-inchiodati-allora-legale.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-647",
+   "nome": "Ho estratto l'orologio in un modulo suo, cervello/ora-piacenza.mjs (puro: solo Intl, nessun file, nessun env),",
+   "file": "cervello/esito-cadenza.mjs",
+   "cerca": "    const t = msDaTimbro(voce.quando);",
+   "sostituisci": "    const t = Date.parse(String(voce.quando).replace(\" \", \"T\"));",
+   "test": "node cervello/test/ora-di-piacenza.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-648",
+   "nome": "Sostituito `new Date().toISOString().slice(0,16).replace('T',' ')` con `timbroOra()` importato dal modulo unic",
+   "file": "cervello/sensori-spenti-check.mjs",
+   "cerca": "    quando: timbroOra(),",
+   "sostituisci": "    quando: new Date().toISOString().slice(0, 16).replace(\"T\", \" \"),",
+   "test": "node cervello/test/registri-ora-di-piacenza.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-442",
+   "nome": "APERTO A META', e la meta' aperta e' il cuore. RIPARATO in cervello/costo-ai.mjs, tutto dentro il mio territor",
+   "file": "cervello/costo-ai.mjs",
+   "cerca": "  const dentro = finestraContinua(tutte, oraMs, minuti);",
+   "sostituisci": "  const g = new Intl.DateTimeFormat(\"sv-SE\", { timeZone: \"Europe/Rome\" }).format(new Date(oraMs));\n  const dentro = tutte.filter((v) => String(v?.quando).slice(0, 10) === g);",
+   "test": "node cervello/test/ora-di-piacenza.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-662",
+   "nome": "La scheda diceva «ok→0, cieco→2, non_misurato→2». HO SEGUITO IL CODICE E HO FATTO DIVERSAMENTE: solo `non_misu",
+   "file": "cervello/verifica-sensori.mjs",
+   "cerca": "process.exit(codiceUscitaSensori(esito));",
+   "sostituisci": "process.exit(esito === \"ok\" ? 0 : 1);",
+   "test": "node cervello/test/non-misurato-non-e-rotto.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-443",
+   "nome": "`leggiCoda()` aveva `catch { return \"\" }`: ogni motivo di illeggibilità (ENOENT, EACCES, EISDIR) diventava una",
+   "file": "cervello/consenso-azione.mjs",
+   "cerca": "return { md: null, perche: `${e.code || \"errore\"} su ${CODA}` };",
+   "sostituisci": "return { md: \"\", perche: \"\" };",
+   "test": "node cervello/test/coda-illeggibile-non-e-assente.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-337",
+   "nome": "La scheda indicava sentinella-dati.mjs:682: nel codice vero la scrittura di `ultimo_stato` è a riga 716 (ora ~",
+   "file": "cervello/sentinella-dati.mjs",
+   "cerca": "misurato: Boolean(MK_URL && MK_KEY),",
+   "sostituisci": "misurato: true,",
+   "test": "node cervello/test/memoria-di-se-e-misura-di-fuori.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-568",
+   "nome": "LASCIATO APERTO DELIBERATAMENTE, con due delle quattro parti portate a casa e provate. Il difetto chiede: (a) ",
+   "file": "cervello/verifica-sensori.mjs",
+   "cerca": "ambienteConfigurato: scriviStato && !SOLA_LETTURA,",
+   "sostituisci": "ambienteConfigurato: scriviStato,",
+   "test": "node cervello/test/misura-firmata-e-sola-lettura.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-646",
+   "nome": "DIFFERENZA SCHEDA/CODICE, la più importante di questa corsia: la scheda è «aperto», ma la mappa degli esiti er",
+   "file": "pannello/src/lib/badge-coerenza.ts",
+   "cerca": "return { esito: \"sconosciuto\", incoerenze: 0, cacce_aperte: 0, data: \"\", motivo: l?.motivo ?? null };",
+   "sostituisci": "return null;",
+   "test": "node cervello/test/lettore-che-dice-mai-fatto.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-415",
+   "nome": "La scheda inchioda la causa al punto ⑤ («si ripara alla profondità del sintomo osservato»), e il codice le dà ",
+   "file": "pannello/src/lib/esito-lettura.ts",
+   "cerca": "return con(`non so perché la lettura non è riuscita (stato «${stato || \"vuoto\"}»)`);",
+   "sostituisci": "return null;",
+   "test": "node cervello/test/lettore-che-dice-mai-fatto.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-414",
+   "nome": "DIFFERENZA SCHEDA/CODICE sulla DIREZIONE dell'errore, misurata e non dedotta. La scheda («ogni quanto è fresco",
+   "file": "pannello/src/lib/format.ts",
+   "cerca": "iso = vaultToIso(`${y}-${mo}-${d} ${hh ?? hDef}:${mi ?? miDef}`);",
+   "sostituisci": "iso = `${y}-${mo}-${d}T${hh ?? hDef}:${mi ?? miDef}:00+02:00`;",
+   "test": "node cervello/test/orologi-inchiodati-allora-legale.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-456",
+   "nome": "DIFFERENZA SCHEDA/CODICE: la scheda dice «150 contro 155». Misurato sul file vero il 13/8/2026 è peggio, e son",
+   "file": "pannello/src/lib/cantiere-snello.ts",
+   "cerca": "    aperti: conto.da_fare,\n    chiusi: conto.chiusi,",
+   "sostituisci": "    aperti: Number.isFinite(apertiScritti) ? apertiScritti : conto.da_fare,\n    chiusi: conto.chiusi,",
+   "test": "node cervello/test/contatore-piu-vecchio-dei-difetti.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-245",
+   "nome": "La scheda diceva il vero. Ho messo la guardia DENTRO l'atto, non nei chiamanti: nuova funzione pura `voceSubDa",
+   "file": "pannello/src/lib/nav.ts",
+   "cerca": "if (st && st.vista === vista && st.sub === sub) return null;",
+   "sostituisci": "if (false) return null;",
+   "test": "node cervello/test/scheda-gia-aperta-non-timbra.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-403",
+   "nome": "Scheda confermata dal codice: `strati.ts` aveva solo il verso «indietro -> chiudi» (stratoDaChiudere) e non il",
+   "file": "pannello/src/lib/strati.ts",
+   "cerca": "return st?.strato === nome;",
+   "sostituisci": "return false;",
+   "test": "node cervello/test/indietro-dopo-chiusura-col-dito.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-606",
+   "nome": "CAUSA VERA (la scheda aveva solo il titolo; la descrizione del cantiere l'aveva intuita e il codice l'ha confe",
+   "file": "pannello/src/lib/strati.ts",
+   "cerca": "for (const m of MARCATORI_DI_STRATO) delete st[m];",
+   "sostituisci": "void MARCATORI_DI_STRATO;",
+   "test": "node cervello/test/indietro-dopo-chiusura-col-dito.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-609",
+   "nome": "CAUSA VERA (scheda senza causa_radice, trovata nel codice): all'avvio page.tsx sceglieva l'area SOLO da localS",
+   "file": "pannello/src/lib/nav.ts",
+   "cerca": "if (LEGACY[area] && !resto.length) return LEGACY[area];",
+   "sostituisci": "if (false) return null;",
+   "test": "node cervello/test/link-che-atterra.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-610",
+   "nome": "CAUSA VERA (scheda senza causa_radice): in pannello/src/app/ esistono page.tsx ed error.tsx ma NON not-found.t",
+   "file": "pannello/src/lib/nav.ts",
+   "cerca": "vie.push({ testo: \"Torna alla Cabina\", href: \"/\" });",
+   "sostituisci": "void vie;",
+   "test": "node cervello/test/link-che-atterra.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-612",
+   "nome": "CAUSA VERA (scheda senza causa_radice, verificata riga per riga in Azioni.tsx): `vaiAllAzione` (ex righe 499-5",
+   "file": "pannello/src/lib/salto-azione.ts",
+   "cerca": "srotola: serveSrotolare(id, daFirmare, mostraTutte, tetto),",
+   "sostituisci": "srotola: false,",
+   "test": "node cervello/test/salto-all-azione-da-firmare.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-660",
+   "nome": "DUE PEZZI, tutti e due in territorio. ① ESECUTORE: `test-cervello.mjs` adesso scopre anche i `.bats` (`trovaBa",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "export const SUFFISSI_ESEGUITI = [\".test.mjs\", \".bats\"];",
+   "sostituisci": "export const SUFFISSI_ESEGUITI = [\".test.mjs\"];",
+   "test": "node cervello/test/prove-che-nessuno-esegue.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-461",
+   "nome": "IL PUNTO CHE CHIAMA, non piu solo la funzione. Il fix di AR-451 e una riga sola — fra i candidati passati a `r",
+   "file": "cervello/git-pr.mjs",
+   "cerca": "[shaLocale, rebaseInfo.preRebaseSha]",
+   "sostituisci": "[shaLocale]",
+   "test": "node cervello/test/lease-dopo-rebase-ripetuto.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-437",
+   "nome": "MECCANISMO CONSEGNATO E PROVATO, NUMERO NON DICHIARABILE DA QUI. Lo lascio aperto apposta.\n\nSCHEDA vs CODICE —",
+   "file": "cervello/tetto-guardiano.mjs",
+   "cerca": "if (Array.isArray(delLotto) && delLotto.length) {",
+   "sostituisci": "if (false) {",
+   "test": "node cervello/test/cancello-rosso-per-costruzione.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-445",
+   "nome": "SCHEDA vs CODICE, due scarti misurati. ① I due moduli che la scheda nomina come colpevoli — `sonda-volano.mjs`",
+   "file": "cervello/import-che-esegue.mjs",
+   "cerca": "escludi: Object.keys(ESCLUSI) });",
+   "sostituisci": "escludi: [...Object.keys(ESCLUSI), \"capacita\"] });",
+   "test": "node cervello/test/import-che-esegue.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-185",
+   "nome": "La scheda diceva il vero, ma solo a meta. Il codice: keyword-owner-check.mjs faceva DUE tagli, non uno. (1) `d",
+   "file": "cervello/mandato-owner.mjs",
+   "cerca": "const mandato = (iDomande >= 0 ? resto.slice(0, iDomande) : resto)",
+   "sostituisci": "const mandato = (iDomande >= 0 ? resto.slice(iDomande) : resto)",
+   "test": "node cervello/test/mandato-senza-padrone.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-583",
+   "nome": "Confermata l ipotesi della corsia: e AR-185 visto dall altro lato, stessa causa e stesso modulo. I due che si ",
+   "file": "cervello/mandato-owner.mjs",
+   "cerca": "if (!condivise.some(specifica)) continue;",
+   "sostituisci": "if (true) continue;",
+   "test": "node cervello/test/mandato-senza-padrone.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-586",
+   "nome": "Causa vera (scheda senza causa_radice): public-policy rivendica «inquadramento rider» dentro il proprio mandat",
+   "file": "cervello/mandato-owner.mjs",
+   "cerca": "if (fb.radici.length - condivise.length > MAX_RADICI_ESTRANEE) continue;",
+   "sostituisci": "if (true) continue;",
+   "test": "node cervello/test/mandato-senza-padrone.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-130",
+   "nome": "Misurato sul codice, non sulla scheda: gli 8 generalisti citati erano solo una parte. Con agentiRichiamati sui",
+   "file": "cervello/mandato-owner.mjs",
+   "cerca": "return nomi.filter((n) => rimanda.get(n).size === 0 && ricevuti.get(n) >= soglia);",
+   "sostituisci": "return nomi.filter((n) => false && ricevuti.get(n) >= soglia);",
+   "test": "node cervello/test/mansionario-percorsi-e-canali.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-349",
+   "nome": "La scheda diceva 8 riferimenti in 7 mansionari: misurati sul disco erano 15 percorsi morti in 12 schede. Oltre",
+   "file": "cervello/mandato-owner.mjs",
+   "cerca": "for (const p of percorsiCitati(testo)) if (!risolvi(p)) out.push({ agente: nome, percorso: p });",
+   "sostituisci": "for (const p of percorsiCitati(testo)) if (false) out.push({ agente: nome, percorso: p });",
+   "test": "node cervello/test/mansionario-percorsi-e-canali.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-188",
+   "nome": "Verificato col grep sulle 120 description: nessuna nominava SPF/DKIM/DMARC/deliverability/spam — mandato scope",
+   "file": "cervello/mandato-owner.mjs",
+   "cerca": "if (!/client|negozian/.test(aCosaServe)) continue;",
+   "sostituisci": "if (true) continue;",
+   "test": "node cervello/test/mansionario-percorsi-e-canali.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-585",
+   "nome": "Causa vera (scheda senza causa_radice, verifica umana): WhatsApp e nel corpo di 97 mansionari ma in NESSUNA de",
+   "file": "cervello/mandato-owner.mjs",
+   "cerca": "if (owner.length === 0) out.push({ canale: c.mano, chiave: c.chiave });",
+   "sostituisci": "if (false) out.push({ canale: c.mano, chiave: c.chiave });",
+   "test": "node cervello/test/mansionario-percorsi-e-canali.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-434",
+   "nome": "Ho installato la PORTA UNICA `cervello/prompt-senior.mjs`: da un nome-reparto al prompt, composto dal mansiona",
+   "file": "cervello/prompt-senior.mjs",
+   "cerca": "    s.testo.trim(),",
+   "sostituisci": "    s.descrizione,",
+   "test": "node cervello/test/porta-dei-senior.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-435",
+   "nome": "La scheda dice TRE workflow: il codice ne diceva QUATTRO con `/home/user/ad-mycity` (giro-operativo, auto-radi",
+   "file": ".claude/workflows/giro-operativo.js",
+   "cerca": "const REPO = radiceRepo()",
+   "sostituisci": "const REPO = '/home/user/ad-mycity'",
+   "test": "node cervello/test/porta-dei-senior.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-126",
+   "nome": "Verificato prima nei fatti-chiave, in sola lettura: `negozio.faro` = «Pane Quotidiano (unico negozio reale; la",
+   "file": ".claude/workflows/giro-operativo.js",
+   "cerca": "const FATTI = fattiVivi(FATTI_DEL_GIRO, REPO)",
+   "sostituisci": "const FATTI = [{ id: 'negozio.faro', nome: 'Negozio faro', valore: 'Casa Linda payout-ready', aggiornato: '' }]",
+   "test": "node cervello/test/porta-dei-senior.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-620",
+   "nome": "La scheda non aveva causa_radice né fix_proposto, solo la riproduzione (6 passaggi @ad→@devops-sre del 23/7 ma",
+   "file": "cervello/turno-senior.mjs",
+   "cerca": "    return !voci.some((v) => v.autore === h.a && v.data >= h.data);",
+   "sostituisci": "    return false;",
+   "test": "node cervello/test/chi-va-in-turno.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-649",
+   "nome": "SCHEDA vs CODICE — la scheda diceva «71 schede (AR-575..AR-645)». Il codice e i dati dicono 73 (AR-575..AR-645",
+   "file": "cervello/contratto-scheda.mjs",
+   "cerca": "    if (d?.[alias] === undefined) continue;",
+   "sostituisci": "    if (true) continue;",
+   "test": "node cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-655",
+   "nome": "SCHEDA vs CODICE — la scheda indicava «righe ~141-154»: la riga vera era una sola, `f.chiuso_il = f.chiuso_il ",
+   "file": "cervello/allinea-scan-cantiere.mjs",
+   "cerca": "  timbraChiusura(f, { quando: timbroValido(f?.chiuso_il) ? f.chiuso_il : ereditata || ora });",
+   "sostituisci": "  f.stato = \"chiuso\"; f.chiuso_il = f.chiuso_il || d?.chiuso_il || \"\";",
+   "test": "node cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-559",
+   "nome": "SCHEDA vs CODICE — la scheda dice 48 su 241; misurato oggi: 53 su 299, e sono chiuse tutte e 53. La scomposizi",
+   "file": "cervello/contratto-scheda.mjs",
+   "cerca": "    if (!FORMA_COMANDO_PROVA.test(c)) {\n      return {\n        codice: NON_MISURABILE,",
+   "sostituisci": "    if (!FORMA_COMANDO_PROVA.test(c)) {\n      return {\n        codice: PASSATO,",
+   "test": "node cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-023",
+   "nome": "La scheda diceva il vero e diceva anche la cosa giusta da fare: «il freno vero è un guardiano». Non lo era: `c",
+   "file": "cervello/contratto-scheda.mjs",
+   "cerca": "return { codice: VIOLAZIONE, causa: \"senza-verifica\", forma, eseguibile: false, debole: false, motivo: \"nessun campo `verifica`",
+   "sostituisci": "return { codice: PASSATO, causa: \"senza-verifica\", forma, eseguibile: false, debole: false, motivo: \"nessun campo `verifica`",
+   "test": "node cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-336",
+   "nome": "SCHEDA vs CODICE — la scheda si era già auto-corretta una volta («la misura smentisce la parte allarmante») e ",
+   "file": "cervello/contratto-scheda.mjs",
+   "cerca": "      (nellaSuite(file) ? g.suite : g.fuori_suite).push(voce);",
+   "sostituisci": "      g.suite.push(voce);",
+   "test": "node cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-360",
+   "nome": "SCHEDA vs CODICE — la scheda dice «il 45% non viene instradato»; misurato oggi sulla radiografia vera: 163 fin",
+   "file": "cervello/contratto-scheda.mjs",
+   "cerca": "    return { codice: VIOLAZIONE, genera: null, normalizzato: \"solo-report\", motivo: \"`genera` mancante",
+   "sostituisci": "    return { codice: PASSATO, genera: null, normalizzato: \"solo-report\", motivo: \"`genera` mancante",
+   "test": "node cervello/test/scheda-mal-formata-chiude-da-sola.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-438",
+   "nome": "SCHEDA vs CODICE: la scheda dice che salute.mjs «pretende PANNELLO_URL o CABINA_URL dall'ambiente ed esce subi",
+   "file": "cervello/salute.mjs",
+   "cerca": "  if (protettaDaLogin(r))\n    return ok(",
+   "sostituisci": "  if (false)\n    return ok(",
+   "test": "node cervello/test/cabina-indirizzo.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-441",
+   "nome": "SCHEDA vs CODICE: il territorio parlava di cervello/segreti-check.mjs — quel file NON ESISTE. Lo scanner vero ",
+   "file": "cervello/scan-segreti.mjs",
+   "cerca": "trovati.push(...trovaInPezzi(rel, pezziDiFile(abs)));",
+   "sostituisci": "nonRaggiunti.push(rel);",
+   "test": "node cervello/test/segreti-file-grosso.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-594",
+   "nome": "La scheda regge in pieno e il codice l'ha confermata: in cervello/salute.mjs la parola «cadenza» non compariva",
+   "file": "cervello/salute.mjs",
+   "cerca": "    id: \"worker.cadenze\",",
+   "sostituisci": "    id: \"worker.zitto\",",
+   "test": "node cervello/test/salute-voce-cadenze.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-440",
+   "nome": "PARZIALE E DICHIARATO — leggere fino in fondo. La radice della scheda («la macchina non ha NESSUN modo di misu",
+   "file": "cervello/cronicita-allarmi.mjs",
+   "cerca": "    dopo[id] = (Number.isFinite(n) && n > 0 ? n : 0) + 1;",
+   "sostituisci": "    dopo[id] = 1;",
+   "test": "node cervello/test/allarme-cronico.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-395",
+   "nome": "Confermato sul codice: in giro.sh il `git commit -q -m \"giro AD: aggiorna memoria\"` precedeva la chiamata a ga",
+   "file": "cervello/giro.sh",
+   "cerca": "    . \"$SCRIPT_DIR/gate-pubblicazione.sh\"\n    if ! gate_pubblicazione \"$SCRIPT_DIR\" \"$REPO\" \"$branch\" 1; then",
+   "sostituisci": "    git \"${GIT_ID[@]}\" commit -q -m \"giro AD: aggiorna memoria ($(ts))\" || true\n    . \"$SCRIPT_DIR/gate-pubblicazione.sh\"\n    if ! gate_pubblicazione \"$SCRIPT_DIR\" \"$REPO\" \"$branch\" 1; then",
+   "test": "node cervello/prove-difetti.mjs --ar-395 && npx bats cervello/test/cancello-nell-istante-giusto.bats && node cervello/test/istante-cancello.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-396",
+   "nome": "Il CODICE era già giusto (lotto 35 aveva spostato `ramo_ammesso` dentro il ciclo di `pubblica_memoria`, prima ",
+   "file": "cervello/gate-pubblicazione.sh",
+   "cerca": "      echo \"[$_ts] ⛔ PUSH ANNULLATO: dopo il rebase HEAD è su «${ramo:-?}», non su «$branch» (AR-396).\" >&2\n      return 1",
+   "sostituisci": "      echo \"[$_ts] (mutante) ignoro il ramo staccato\" >&2",
+   "test": "npx bats cervello/test/ramo-staccato-dopo-il-controllo.bats"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-394",
+   "nome": "Confermato: `local rc_seg=0 rc_fat=0 rc_one=0 rc_san=0` e poi `gate_verdetto \"$rc_seg\" \"$rc_fat\" \"$rc_one\" \"$r",
+   "file": "cervello/gate-pubblicazione.sh",
+   "cerca": "      rc_one=\"$(printf '%s' \"$_onesta_json\" | sed -n 's/.*\"rcVerdetto\":\\([0-9]*\\).*/\\1/p')\"",
+   "sostituisci": "      rc_one=0",
+   "test": "npx bats cervello/test/cancello-nell-istante-giusto.bats && node cervello/test/istante-cancello.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-390",
+   "nome": "Confermato sul codice, e la scheda era esatta: quattro copie del controllo pausa, due fail-closed (giro.sh rig",
+   "file": "cervello/kill-switch.sh",
+   "cerca": "  if ! [ \"$rc\" -eq 0 ] 2>/dev/null; then return 2; fi",
+   "sostituisci": "  : # mutante: rc ignorato, come il vecchio || true",
+   "test": "npx bats cervello/test/pausa-fail-closed.bats"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-644",
+   "nome": "La scheda punta a `.claude/settings.json:92` + `cervello/hooks-check.mjs:118`, entrambi FUORI dal mio territor",
+   "file": "cervello/installa-hooks.sh",
+   "cerca": "    --rc=\"$_rc\" --hooks-path=\"$LETTO\" --atteso=\"$ATTESO\" --pre-commit-eseguibile=\"$ESEGUIBILE\"",
+   "sostituisci": "    --rc=\"$_rc\" --hooks-path=\"$LETTO\" --atteso=\"$ATTESO\" --pre-commit-eseguibile=1",
+   "test": "node cervello/test/istante-cancello.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-187",
+   "nome": "il turno torna a un elenco di senior cablato invece di leggere i 120 mansionari veri",
+   "file": "cervello/prompt-senior.mjs",
+   "cerca": "  const dir = join(radice, \".claude\", \"agents\");",
+   "sostituisci": "  const dir = join(radice, \".claude\", \"agents-che-non-esistono\");",
+   "test": "node cervello/test/chi-va-in-turno.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-643",
+   "nome": "lo stderr di git torna a ereditare il terminale: il fatal riappare crudo nel referto",
+   "file": "cervello/percorsi-git.mjs",
+   "cerca": "      stdio: [\"ignore\", \"pipe\", \"pipe\"],",
+   "sostituisci": "      stdio: [\"ignore\", \"pipe\", \"inherit\"],",
+   "test": "node cervello/test/errore-di-git-crudo-nel-verdetto.test.mjs"
+  },
+  {
+   "lotto": 31,
+   "difetto": "AR-317",
+   "nome": "il motore torna in primo piano e le trap restano in sospeso",
+   "file": "cervello/lib-cadenza.sh",
+   "cerca": "    \"${T[@]}\" \"${AI_CMD[@]}\" \"$prompt\" >\"$_tmp\" 2>&1 8>&- 9>&- &\n    CADENZA_AI_PID=$!\n    wait \"$CADENZA_AI_PID\" || CADENZA_AI_RC=$?",
+   "sostituisci": "    \"${T[@]}\" \"${AI_CMD[@]}\" \"$prompt\" >\"$_tmp\" 2>&1 || CADENZA_AI_RC=$?",
+   "test": "cervello/test/lib-cadenza.test.mjs"
+  },
+  {
+   "difetto": "AR-511",
+   "lezione": "L-2026-0803-550",
+   "nome": "la forma dei JSON torna a guardare i commit del ramo: al commit il cancello non vede niente",
+   "file": "cervello/forma-json.mjs",
+   "cerca": "  const base = STAGED ? \"HEAD\" : \"origin/main\";",
+   "sostituisci": "  const base = \"origin/main\";",
+   "test": "node --test cervello/test/campo-commit-e-turno.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-629",
+   "nome": "D'inverno la macchina timbra gli esiti delle cadenze con un'ora avanti",
+   "file": "cervello/registra-cadenza.mjs",
+   "cerca": "    timeZone: \"Europe/Rome\",",
+   "sostituisci": "    timeZone: \"UTC\",",
+   "test": "cervello/test/cadenza-registro.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-575",
+   "nome": "senza il timbro della data, le chiusure tornano orfane di mese: contabilita-chiusure.test.mjs deve diventare rosso",
+   "file": "cervello/auto-fix.mjs",
+   "cerca": "  d.chiuso_il = q;",
+   "sostituisci": "  // d.chiuso_il = q;",
+   "test": "cervello/test/contabilita-chiusure.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-582",
+   "nome": "un guardiano che legge solo il nome vecchio del campo è cieco su tutta la generazione nuova di schede: contabilita-schede.test.mjs deve dive",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "return d?.gravita ?? d?.severita ?? null;",
+   "sostituisci": "return d?.gravita ?? null;",
+   "test": "cervello/test/contabilita-schede.test.mjs"
+  },
+  {
+   "lotto": 37,
+   "difetto": "AR-582",
+   "nome": "Quattro difetti aperti non dichiarano quanto frenano la crescita, e la coda per priorità non sa dove metterli",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "if (!d.impatto_crescita) manca.push(\"impatto_crescita\");",
+   "sostituisci": "if (false) manca.push(\"impatto_crescita\");",
+   "test": "cervello/test/contabilita-schede.test.mjs"
+  },
+  {
+   "difetto": "AR-691 lucchetto-ereditato-blocca-tutto",
    "nome": "il motore torna a ereditare il lucchetto: un figlio appeso ferma ogni cadenza per sempre, in silenzio",
    "file": "cervello/lib-cadenza.sh",
    "cerca": "2>&1 8>&- 9>&- &",
@@ -2539,7 +3263,7 @@
    "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
   },
   {
-   "difetto": "AR-663 eta-del-lucchetto-persa",
+   "difetto": "AR-691 eta-del-lucchetto-persa",
    "nome": "l'eta del lucchetto torna a leggersi DOPO l'apertura, che lo tronca: il verdetto non sa piu da quanto e bloccato",
    "file": "cervello/lib-cadenza.sh",
    "cerca": "[ -n \"$eta_min\" ] && [ \"$eta_min\" -ge 120 ]",

@@ -87,13 +87,16 @@ function main() {
       console.error(`⚠️  GUARDIANO CIECO: manca ${BACHECA} — non ho dove appuntare l'elenco.`);
       process.exit(2);
     }
-    // Con una descrizione mancante il blocco avrebbe una riga vuota al posto del «cosa fa»: meglio
-    // tenere in bacheca l'elenco di ieri, completo, e far sistemare il buco in questo giro.
-    if (rc === 0) {
-      const esito = aggiornaBacheca(readFileSync(BACHECA, "utf8"), bloccoBacheca(cens, nowPiacenza()));
-      if (esito.cambiato) scriviTestoAtomico(BACHECA, esito.testo);
-      scritto = esito.cambiato;
-    }
+    // AR-378 — SI SCRIVE SEMPRE, anche quando il censimento è rosso.
+    //
+    // Prima si scriveva solo col verde, per non lasciare in bacheca una casella vuota al posto del
+    // «cosa fa». Il rimedio era peggiore del male: senza riscrittura restava la foto di ieri, con la
+    // data di ieri, che prometteva più protezione di quella che c'era — e un buco che non si vede non
+    // lo sistema nessuno. Ora il blocco porta in cima la riga «TABELLA INCOMPLETA» coi nomi, quindi
+    // la bacheca non può più essere vecchia E sembrare fresca. Il rosso resta rosso: `rc` non cambia.
+    const esito = aggiornaBacheca(readFileSync(BACHECA, "utf8"), bloccoBacheca(cens, nowPiacenza()));
+    if (esito.cambiato) scriviTestoAtomico(BACHECA, esito.testo);
+    scritto = esito.cambiato;
   }
 
   if (JSON_MODE) {

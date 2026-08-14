@@ -37,7 +37,15 @@ const prova = (nome, fn) => {
  * volta se riuscire o fallire, e un registro delle chiamate — così si vede DAVVERO quante volte
  * l'esito è stato ritentato e con quale corpo.
  */
-function banco({ falliPrimi = 0, rispostaGet = "" } = {}) {
+/**
+ * @param falliPrimi   quante PATCH falliscono prima di riuscire (curl esce ≠0: la richiesta non arriva)
+ * @param rispostaGet  il JSON con cui rispondono le GET ("" = illeggibile, cioè «non ho potuto guardare»)
+ * @param righeToccate AR-631 — quante righe la PATCH dichiara di aver aggiornato quando riesce.
+ *        0 = il caso vero del difetto: 2xx con `[]` perché il filtro `stato=eq.in_corso` non trova
+ *        più niente (la sentinella ha già chiuso il lavoro mentre l'azione girava). Prima del 13/8
+ *        quel caso era indistinguibile da un successo.
+ */
+function banco({ falliPrimi = 0, rispostaGet = "", righeToccate = 1 } = {}) {
   const dir = mkdtempSync(join(tmpdir(), "esito-lavoro-"));
   mkdirSync(join(dir, "repo/.git"), { recursive: true });
   mkdirSync(join(dir, "bin"), { recursive: true });
@@ -54,6 +62,9 @@ if printf '%s' "$*" | grep -q -- "-X PATCH"; then
   n=$(( $(cat "${contatore}") + 1 ))
   echo "$n" > "${contatore}"
   if [ "$n" -le ${falliPrimi} ]; then exit 22; fi
+  # AR-631: con Prefer return=representation PostgREST risponde con le righe toccate. Il finto
+  # deve dire la stessa cosa, o il banco proverebbe un contratto che il vero non ha.
+  printf '%s' '${righeToccate > 0 ? JSON.stringify(Array.from({ length: righeToccate }, (_, i) => ({ id: `r${i}` }))) : "[]"}'
   exit 0
 fi
 printf '%s' '${rispostaGet}'

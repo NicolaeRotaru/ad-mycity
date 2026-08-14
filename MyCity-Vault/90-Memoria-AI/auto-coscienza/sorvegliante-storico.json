@@ -2,46 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-09T16:10:41.949Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:21:52.729Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:22:26.072Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-09T16:23:00.040Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-09T16:25:50.307Z",
       "scatti": 1651,
       "voci": 7,
@@ -1996,7 +1956,48 @@
         "prova-accecata": 2
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T20:21:48.599Z",
+      "scatti": 6316,
+      "voci": 17,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 12,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T22:57:11.348Z",
+      "scatti": 1185,
+      "voci": 13,
+      "per_classe": {
+        "difesa-rimossa": 9,
+        "prova-accecata": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-13T23:37:39.740Z",
+      "scatti": 1196,
+      "voci": 13,
+      "per_classe": {
+        "difesa-rimossa": 9,
+        "prova-accecata": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T00:37:17.875Z",
+      "scatti": 1205,
+      "voci": 13,
+      "per_classe": {
+        "difesa-rimossa": 9,
+        "prova-accecata": 4
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-13T19:48:57.523Z"
+  "aggiornato": "2026-08-14T00:37:17.876Z"
 }

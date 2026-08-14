@@ -381,6 +381,31 @@ export function bloccoBacheca(cens, quando = "") {
   const r = [];
   r.push(`## ${TITOLO_BACHECA} · ${quando}`);
   r.push("");
+  // AR-378 — MANCAVA IL TERZO STATO, e la bacheca è la superficie che Nicola guarda.
+  //
+  // Il pensiero era binario: censimento verde → riscrivo · censimento rosso → non riscrivo. Ma «non
+  // riscrivo» non lascia traccia: in bacheca resta la foto di ieri, con la sua data di ieri, e
+  // promette una protezione più grande di quella che c'è. Fra un buco visibile e una foto vecchia
+  // che sembra fresca era stata scelta la seconda — la scelta che non si vede.
+  // Ora il blocco si scrive SEMPRE e, quando è incompleto, lo dice in cima con i nomi.
+  const incompleta = [...(cens.senzaDescrizione || []), ...(cens.fantasmi || [])];
+  if (incompleta.length) {
+    if (cens.senzaDescrizione?.length) {
+      r.push(
+        `> ⛔ **TABELLA INCOMPLETA: ${cens.senzaDescrizione.length} controlli girano senza che nessuno abbia scritto cosa fanno** ` +
+          `(${cens.senzaDescrizione.map((n) => `\`${n}\``).join(", ")}). Sotto li trovi con la casella vuota: ` +
+          "girano davvero, ma questa tabella non sa ancora dire cosa ti proteggono.",
+      );
+      r.push("");
+    }
+    if (cens.fantasmi?.length) {
+      r.push(
+        `> ⛔ **${cens.fantasmi.length} controlli descritti qui NON girano più** ` +
+          `(${cens.fantasmi.map((n) => `\`${n}\``).join(", ")}): la riga che li riguarda promette una protezione che non c'è.`,
+      );
+      r.push("");
+    }
+  }
   r.push(
     `A ogni giro, prima che l'AI scriva una riga, girano **${cens.totale} controlli automatici**. ` +
       `**${cens.fermano}** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude ` +
@@ -411,7 +436,9 @@ export function bloccoBacheca(cens, quando = "") {
     r.push("| --- | --- | --- |");
     for (const g of gruppo) {
       const effetto = g.mano ? "—" : g.effetti.map((e) => EFFETTI[e]).join(" · ");
-      r.push(`| \`${g.nome}\` | ${escapePipe(g.cosa)} | ${escapePipe(effetto)} |`);
+      // Una casella vuota si legge come «niente da dire». Il buco va nominato, o sparisce.
+      const cosa = g.cosa ? escapePipe(g.cosa) : "❓ **nessuno ha ancora scritto cosa controlla**";
+      r.push(`| \`${g.nome}\` | ${cosa} | ${escapePipe(effetto)} |`);
     }
     r.push("");
   }

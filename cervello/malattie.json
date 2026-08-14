@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
  "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
- "aggiornato": "2026-08-13 17:57",
+ "aggiornato": "2026-08-13 22:50",
  "malattie": [
   {
    "id": "esito-in-una-pipe",
@@ -219,17 +219,12 @@
      "perche": "E una scrittura di rete che restituisce «e andata a buon fine?»: su eccezione la risposta onesta e proprio `false`, perche l'invio davvero non e confermato. E la cura di «esito-di-scrittura-buttato», non la malattia."
     },
     {
-     "file": "cervello/consenso-azione.mjs",
-     "quale": "riga 74, leggiCoda -> \"\"",
-     "perche": "Fallisce CHIUSO: una coda illeggibile porta a `AZIONE_ID non trovato -> invio bloccato`, cioe nessuna azione reale parte. Resta imprecisa la MOTIVAZIONE mostrata (dice «non trovato» dove il vero motivo e «non ho potuto leggere la coda»): registrato come difetto nuovo, non curato qui per non allargare il lotto 34 a meta."
-    },
-    {
      "file": "cervello/guardiano-capacita.mjs",
      "quale": "riga 56, statSync(...).isDirectory() -> false in un filter",
      "perche": "Fallisce CHIUSO: una cartella che non si riesce a interrogare esce dal censimento, quindi il guardiano conta MENO capacita di quante ce ne siano — sottostima, non rassicurazione. Il verso pericoloso e l'opposto."
     }
    ],
-   "nota_baseline": "0 dal 2026-07-29 (lotto 34). ATTENZIONE al metro: questa regex prende la SINTASSI (un errore che diventa vuoto/zero), non la malattia. Ogni istanza va giudicata su una domanda sola — «il verdetto che ne esce fallisce APERTO o CHIUSO?». I cinque punti dichiarati esenti falliscono tutti chiusi (fanno di meno, non dicono che va bene). Il metro FINE per la meta git della malattia non e questa regex ma `node cervello/storia-git.mjs --check`, che ragiona per chiamata invece che per testo — nato verde il 29/7 dopo aver portato dentro i quattro punti che la scavalcavano."
+   "nota_baseline": "0 dal 2026-07-29 (lotto 34). ATTENZIONE al metro: questa regex prende la SINTASSI (un errore che diventa vuoto/zero), non la malattia. Ogni istanza va giudicata su una domanda sola — «il verdetto che ne esce fallisce APERTO o CHIUSO?». I cinque punti dichiarati esenti falliscono tutti chiusi (fanno di meno, non dicono che va bene). Il metro FINE per la meta git della malattia non e questa regex ma `node cervello/storia-git.mjs --check`, che ragiona per chiamata invece che per testo — nato verde il 29/7 dopo aver portato dentro i quattro punti che la scavalcavano. · lotto 40: TOLTA l'esenzione su cervello/consenso-azione.mjs (riga 74, leggiCoda -> \"\"). Non e' una difesa rimossa: e' un residuo. Quell'esenzione descriveva un difetto che AR-443 ha curato in questo stesso lotto — leggiCoda adesso distingue «coda vuota» da «coda illeggibile» e il cancello scrive il motivo vero. La spazzata la segnalava come «esenzione che non corrisponde piu' a niente», ed e' esatto: un'esenzione che non copre piu' nessuna istanza nasconde il prossimo caso vero che nascera' in quel file. La difesa di AR-443 vive nel CODICE e nella sua mutazione (cervello/mutanti.json, verificata unica sul file), non in questa riga."
   },
   {
    "id": "programma-che-parte-importando",
@@ -242,14 +237,14 @@
    "estensioni": [
     ".mjs"
    ],
-   "baseline": 69,
+   "baseline": 68,
    "curati": [
     "i file nati dopo AR-445 usano tutti la guardia `import.meta.url`",
     "guardiano-tempo.mjs (11/8): la guardia `import.meta.url` messa davvero. Prima era `main().catch(...)` senza guardia — importarlo eseguiva tutto, ma la forma non era piu quella che il rilevatore cerca: malattia nascosta invece che curata. L'ha presa la spazzata contando 70 contro un tetto di 71."
    ],
    "nota_onesta": "25 istanze storiche misurate il 3/8, non curate qui: toccarle tutte in questo lotto avrebbe voluto dire 25 file modificati per un lavoro che parlava d altro (e la deriva che il controllo ⑨ del sorvegliante esiste per chiedere). Il valore di censirla adesso e che la 26a viene fermata nel momento in cui la scrivo.",
    "esenti": [],
-   "nota_baseline": "71 dal 2026-08-03: numero MISURATO dalla spazzata su tutto cervello/ (il primo grep ne aveva contati 25 perche guardava solo il primo livello — la differenza e la ragione per cui i numeri si misurano con lo strumento che poi li verifica). file_noti omesso apposta: su una malattia larga elencare 71 file gonfia il registro senza aggiungere verita, e basta il tetto sul totale. · sceso a 69 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B)"
+   "nota_baseline": "71 dal 2026-08-03: numero MISURATO dalla spazzata su tutto cervello/ (il primo grep ne aveva contati 25 perche guardava solo il primo livello — la differenza e la ragione per cui i numeri si misurano con lo strumento che poi li verifica). file_noti omesso apposta: su una malattia larga elencare 71 file gonfia il registro senza aggiungere verita, e basta il tetto sul totale. · sceso a 69 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B) · sceso a 68 il 2026-08-13 (lotto 40: un altro main-guard, corsia E)"
   },
   {
    "id": "data-senza-ora",
@@ -422,6 +417,77 @@
    ],
    "esenti": [],
    "nota_baseline": "0 misurato il 2026-08-13 17:57 dopo la cura del lotto 37 (AR-629/AR-634): le due istanze erano lib-cadenza.sh:363 e giro.sh:~1584. Il pattern richiede il codice eseguibile (new Date(...)), cosi il commento storico in registra-cadenza.mjs che DESCRIVE il bug non conta come istanza."
+  },
+  {
+   "id": "azione-agganciata-a-un-etichetta",
+   "nome": "Un'azione esterna agganciata a un'etichetta invece che a un commit",
+   "perche_e_grave": "Un tag si sposta, un commit no. Chi controlla (o compromette) il repository dell'azione decide il codice che gira sul runner — con i permessi di QUELLA corsa: nel battito esterno è `issues: write`, cioè il potere di chiudere proprio l'allarme «macchina ferma»; nel deploy è l'accesso al segreto del Deploy Hook. È il meccanismo dell'attacco alla supply chain di marzo 2025, tag ripuntati su un commit malevolo. AR-637: sei usi su sei erano a tag. Il difetto nasce sempre allo stesso modo — il workflow nuovo si copia da quello accanto — quindi la difesa deve stare sul FILE, non nella testa di chi scrive.",
+   "pattern": "uses:\\s*[\\\"']?[A-Za-z0-9_.-]+/[A-Za-z0-9_./-]+@(?![0-9a-fA-F]{40})[^\\s\\n\\\"'#]+",
+   "dove": [
+    ".github"
+   ],
+   "estensioni": [
+    ".yml",
+    ".yaml"
+   ],
+   "baseline": 0,
+   "file_noti": [],
+   "curati": [
+    "battito-esterno.yml · test-cervello.yml · cancello-lotto.yml — sei usi agganciati allo SHA di v4 (lotto 39)"
+   ],
+   "esenti": [],
+   "nota_baseline": "0 dal 2026-08-13 (AR-637). Il tetto qui non basta da solo: il contratto vero lo fa rispettare `node cervello/contratto-workflow.mjs` (regola azione-agganciata-al-commit), che oltre a questo guarda tetto di tempo, permessi, espressioni dentro run: e curl senza scadenza. Questa riga serve a far scattare la spazzata anche se qualcuno stacca quel controllo."
+  },
+  {
+   "id": "porta-laterale-senza-i-freni-della-principale",
+   "nome": "Una porta laterale rimette in gioco un atto che la porta principale protegge",
+   "perche_e_grave": "Il worker sa che un'azione reale interrotta non si riesegue mai da sola: potrebbe essere gia partita (email mandata, payout fatto) senza essere ancora marcata fatta, e rieseguirla vuol dire mandarla due volte a un negozio o a un cliente veri. La regola e scritta in tre posti che la rispettano. Poi esistevano due porte laterali — il bottone «recupera i lavori bloccati» del Pannello e cervello/vps/recupera-lavori-orfani.sh — che prendevano OGNI lavoro in_corso e lo rimettevano in attesa, senza guardare tipo, proprietario ne eta (AR-624). La radice e generale e vale per ogni canale nuovo che scrive nello stesso posto: il freno stava dentro il COMANDO invece che sul DATO, quindi non c'era niente da ereditare. Il pattern cerca chi riporta un lavoro in attesa senza passare dalla decisione condivisa.",
+   "pattern": "\"stato\":\\s*\"in_attesa\"",
+   "dove": [
+    "pannello/src/app",
+    "cervello/vps"
+   ],
+   "estensioni": [
+    ".ts",
+    ".sh"
+   ],
+   "baseline": 0,
+   "file_noti": [],
+   "curati": [
+    "pannello/src/app/api/lavori/recupera/route.ts — passa da decidiRecupero (lotto 39)",
+    "cervello/vps/recupera-lavori-orfani.sh — passa da _recupero_decisione (lotto 39)"
+   ],
+   "esenti": [
+    {
+     "file": "cervello/vps/recupera-lavori-orfani.sh",
+     "perche": "E la PATCH del ramo di DEFAULT del case, cioe l unico raggiunto quando la decisione condivisa ha gia detto «riaccoda». I due rami pericolosi — «riapprova» (azione reale) e «lascia» (lavoro vivo) — escono prima senza scrivere niente, e cervello/test/recupero-due-porte.test.mjs lo verifica leggendo il corpo del case, non la forma del file. Resta contata perche il pattern guarda la stringa, non chi decide: e la differenza fra una porta aperta e una porta con la serratura."
+    }
+   ],
+   "nota_baseline": "0 dal 2026-08-13 (AR-624). Le due porte scrivono ancora in_attesa, ma solo dentro il ramo di default della decisione condivisa, e il pattern non le prende perche il corpo JSON passa da una variabile. Se qualcuno riscrive la PATCH a mano con il corpo letterale, il tetto sale e la spazzata fallisce. Il contratto vero lo tiene cervello/test/recupero-due-porte.test.mjs, che passa la stessa tabella di casi alle due copie e pretende lo stesso verdetto."
+  },
+  {
+   "id": "verde-che-e-il-ramo-di-default",
+   "nome": "Un esito letto da un file cade nel ramo «ok» perché il verde è il DEFAULT",
+   "perche_e_grave": "È la forma sintattica della malattia più cara di questo cantiere: l assenza di misura letta come rassicurazione. `cf.esito === \"incoerenze\" ? \"incoerenze\" : \"ok\"` sembra completo e non lo è — chi scrive il file impara etichette nuove («cieco», «non_verificato», «attenzione») e ognuna cade nel ramo buono senza che nessuno tocchi il codice. Due casi veri misurati il 13/8: in Cabina il badge della memoria dava lo scudo verde proprio quando il registro dei fatti non era leggibile (AR-646), e il segnale della cassa mandava «ok» per lo stato «attenzione», cioè runway sotto i sei mesi — il rischio numero uno dell azienda. La cura non è un `else if` in più: è che il default sia il buco. `segnaleDa()` e `esitoNoto()` in cervello/misura-o-cieco.mjs fanno esattamente questo.",
+   "pattern": "===[ \\t]*\"[^\"\\n]+\"[ \\t]*\\?[ \\t]*\"[^\"\\n]+\"[ \\t]*:[ \\t]*\"(ok|verde|attivo|sano)\"",
+   "dove": [
+    "cervello",
+    "pannello/src"
+   ],
+   "estensioni": [
+    ".mjs",
+    ".ts",
+    ".tsx"
+   ],
+   "baseline": 0,
+   "file_noti": [],
+   "curati": [
+    "pannello/src/app/api/memoria/fatti/route.ts (AR-646)",
+    "cervello/sensore-cassa.mjs (AR-661)",
+    "cervello/verifica-automazione.mjs (AR-370)"
+   ],
+   "esenti": [],
+   "nota_baseline": "0 misurato il 2026-08-13 nel codice di produzione, dopo il lotto 38. Il pattern è STRETTO apposta: chiede il confronto con UNA etichetta (=== \"...\") e non un conteggio. `guasti.length ? \"fail\" : \"ok\"` è sano — lì l ok vuol dire «ho contato e non ho trovato niente» — e allargare il pattern lo renderebbe rumore da 20 falsi positivi, cioè un guardiano che si impara a ignorare. Nessuna esenzione: la spazzata non legge i commenti, quindi le tre citazioni della riga malata (il modulo, il badge, la prova) non contano — e un esenzione senza istanza è un residuo che nasconde il prossimo caso vero. La classe è [^\"\\n] e non [^\"]: senza il \\n il pattern attraversa gli a-capo e i due lettori del registro — la spazzata (file intero) e il sorvegliante (riga singola) — contano numeri diversi sulla stessa malattia. È AR-500, e me l ha trovato freni-senza-fonte.test.mjs."
   }
  ]
 }

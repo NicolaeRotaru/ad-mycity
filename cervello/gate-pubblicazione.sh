@@ -71,6 +71,14 @@ perimetro_ok() {
 #   0 = si pubblica · 1 = NON si pubblica
 # Fail-closed di proposito: un guardiano che non riesce a misurare vale come guardiano fallito
 # (AR-322). Meglio memoria vecchia sul Pannello che memoria che mente.
+#
+# ⚠️ AR-394 — il terzo posto (`onesta`) è stato per mesi un PARAMETRO MORTO: chi chiamava passava una
+# variabile inizializzata a 0 e mai più toccata, perché quel guardiano non veniva eseguito. Per il
+# verdetto uno zero mai scritto e un guardiano passato sono identici, quindi il cancello prometteva
+# quattro controlli e ne faceva tre — e la firma di questa funzione continuava a rassicurare chi
+# legge molto dopo che la sostanza era sparita. Adesso quel posto riceve `$rc_one`, che viene da una
+# misura vera (vedi `gate_pubblicazione` più sotto). La firma non è cambiata: è cambiato che ora
+# qualcuno la riempie davvero.
 gate_verdetto() {
   local segreti="${1:-0}" fatti="${2:-0}" onesta="${3:-0}" sanita="${4:-0}"
   [ "$segreti" -eq 0 ] && [ "$fatti" -eq 0 ] && [ "$onesta" -eq 0 ] && [ "$sanita" -eq 0 ]
@@ -97,10 +105,14 @@ gate_timeout_rete() {
 # ESECUZIONE (I/O)
 # ─────────────────────────────────────────────────────────────────────────────
 
-# gate_pubblicazione <SCRIPT_DIR> <REPO> [ramo-atteso]
+# gate_pubblicazione <SCRIPT_DIR> <REPO> [ramo-atteso] [lavoro-atteso]
 # Torna 0 se si può pubblicare, 1 altrimenti. Stampa su stderr il motivo del rifiuto.
+#
+# `lavoro-atteso` (0/1, default 0) è la dichiarazione del chiamante: «sto chiamandoti perché ho del
+# lavoro da pubblicare». Serve per AR-395 — vedi il passo ②. Chi non lo passa ha il comportamento
+# di prima, così il `.githooks/pre-commit` e gli usi occasionali non cambiano.
 gate_pubblicazione() {
-  local dir="${1:?serve SCRIPT_DIR}" repo="${2:?serve REPO}" atteso="${3:-main}"
+  local dir="${1:?serve SCRIPT_DIR}" repo="${2:?serve REPO}" atteso="${3:-main}" lavoro_atteso="${4:-0}"
   local _ts; _ts="$(date '+%Y-%m-%d %H:%M')"
 
   # ① IL RAMO. Prima di tutto: se siamo sul ramo sbagliato non c'è niente da controllare, si esce.
@@ -111,10 +123,25 @@ gate_pubblicazione() {
   fi
 
   # ② IL PERIMETRO. Solo memoria nello stage, mai codice.
+  #
+  # 🕐 AR-395 — IL CANCELLO MONTATO NEL PUNTO SBAGLIATO DEL TEMPO. In `giro.sh` questa funzione veniva
+  # chiamata DOPO il `git commit`. Il commit svuota lo stage, quindi qui arrivava un insieme vuoto e
+  # `perimetro_ok ""` rispondeva «nessun codice, si passa»: verde. Per il pubblicatore più frequente
+  # dopo il worker, il controllo del perimetro non ha guardato niente per mesi — e uno zero che vuol
+  # dire «non c'era niente da guardare» è indistinguibile da uno che vuol dire «ho guardato e va bene».
+  # La riparazione vera è stata spostare la chiamata prima del commit (giro.sh). Questa qui è la
+  # seconda difesa, quella che impedisce al difetto di tornare in SILENZIO: se il chiamante dichiara
+  # di avere lavoro da pubblicare e lo stage è vuoto, il controllo è CIECO — e cieco non è verde
+  # (stesso contratto dei guardiani in node, AR-322).
   local staged; staged="$(git -C "$repo" diff --cached --name-only 2>/dev/null || true)"
   if ! perimetro_ok "$staged"; then
     echo "[$_ts] ⛔ GATE: file di CODICE nello stage — NON pubblico (AR-310/AR-044):" >&2
     printf '%s\n' "$staged" | grep -vE '^(MyCity-Vault|consegne|creativi|memoria-squadra)/' | head -5 >&2
+    return 1
+  fi
+  if [ "$lavoro_atteso" = 1 ] && [ -z "$(printf '%s' "$staged" | tr -d '[:space:]')" ]; then
+    echo "[$_ts] ⛔ GATE: lo stage è VUOTO ma c'è lavoro da pubblicare — il controllo del perimetro non ha guardato NIENTE (AR-395)." >&2
+    echo "[$_ts]   Vuol dire che il cancello sta girando DOPO il commit invece che prima: spostalo prima, o non sto misurando nulla." >&2
     return 1
   fi
 
@@ -138,12 +165,59 @@ gate_pubblicazione() {
   local rc_seg=0 rc_fat=0 rc_one=0 rc_san=0
   node "$dir/scan-segreti.mjs"   >/dev/null 2>&1 || rc_seg=$?
   node "$dir/coerenza-fatti.mjs" >/dev/null 2>&1 || rc_fat=$?
-  # onesta-check vuole i file da controllare: sulla memoria interna ha falsi positivi noti (i log
-  # append-only), quindi resta INFORMATIVO qui come già in giro.sh — non entra nel verdetto.
   node "$dir/vault-sanita.mjs" >/dev/null 2>&1 || rc_san=$?
 
+  # ④ L'ONESTÀ — il quarto posto del verdetto, che fino a qui era una PROMESSA SCRITTA (AR-394).
+  # `rc_one` nasceva a 0 e non veniva toccato mai più: il verdetto leggeva uno zero e lo contava come
+  # «guardiano passato», quindi il cancello prometteva quattro controlli e ne faceva tre. Toglierlo
+  # avrebbe reso visibile che i guardiani di verità erano tre; lasciarlo lì rassicurava chi leggeva.
+  #
+  # Perché non bastava collegarlo e basta: `onesta-check.mjs` sul DIARIO append-only della memoria
+  # (le righe `> …` di STATO.md, che per contratto non si riscrivono mai) legge uno snippet di bash
+  # fra parentesi quadre come segnaposto e una data come numero senza fonte. Collegarlo com'era
+  # avrebbe bloccato la pubblicazione dal primo giro — memoria ferma sul server, Cabina congelata.
+  # Due riparazioni insieme, nessuna delle due sufficiente da sola:
+  #   · l'AMBITO si restringe alla parte VIVA (`parteViva()` in cervello/istante-cancello.mjs): si
+  #     giudica ciò che il giro riscrive ADESSO, non la storia che non può più cambiare;
+  #   · il MODO è dichiarato e stampato — `GATE_ONESTA=blocca` lo fa entrare nel verdetto, `avvisa`
+  #     (default, oggi) no. In tutti e due i casi il valore viene MISURATO e DETTO: il terzo caso,
+  #     quello del posto che nessuno riempie, non esiste più.
+  #
+  # ⚠️ Il metro dell'onestà e la testa che lo classifica NON stanno nell'elenco dei guardiani
+  # obbligatori qui sopra, e non è una dimenticanza: quei tre proteggono la memoria in ogni clone,
+  # questi due sono un'aggiunta che un clone parziale può non avere. Se mancano, l'onestà è CIECA —
+  # e cieco vale come vale sempre: in modo `blocca` ferma (AR-322), in modo `avvisa` si dice e si va
+  # avanti. Un pezzo mancante non compra il via libera, ma nemmeno spegne gli altri tre.
+  local _modo_onesta="${GATE_ONESTA:-avvisa}" _rc_grezzo=0 _rc_testa=0 _file _viva _onesta_json
+  if guardiano_presente "$dir/onesta-check.mjs" && guardiano_presente "$dir/istante-cancello.mjs"; then
+    for _file in "MyCity-Vault/90-Memoria-AI/STATO.md" "$(ls -t "$repo"/MyCity-Vault/90-Memoria-AI/Briefing/*.md 2>/dev/null | head -1)"; do
+      [ -n "$_file" ] || continue
+      case "$_file" in /*) : ;; *) _file="$repo/$_file" ;; esac
+      [ -f "$_file" ] || continue
+      _viva="$(node "$dir/istante-cancello.mjs" parte-viva < "$_file" 2>/dev/null)"
+      printf '%s' "$_viva" | node "$dir/onesta-check.mjs" --stdin >/dev/null 2>&1 || _rc_grezzo=$?
+    done
+    # L'esito della testa si LEGGE (niente `|| true`: sarebbe il difetto di partenza un piano più in
+    # là). `onesta` esce 0 quando lascia passare e 10 quando blocca: qualunque altro codice vuol dire
+    # che non ha classificato, e allora il posto nel verdetto vale CIECO.
+    _onesta_json="$(node "$dir/istante-cancello.mjs" onesta --rc="$_rc_grezzo" --modo="$_modo_onesta" 2>/dev/null)" || _rc_testa=$?
+    if [ "$_rc_testa" = 0 ] || [ "$_rc_testa" = 10 ]; then
+      rc_one="$(printf '%s' "$_onesta_json" | sed -n 's/.*"rcVerdetto":\([0-9]*\).*/\1/p')"
+    fi
+    [ -n "$rc_one" ] || rc_one=2
+  else
+    # Metro assente: l'unica riga di questo blocco che decide da sé, e decide una cosa sola — che un
+    # metro che non c'è non è un verde. Il MOTIVO lo classifica sempre la funzione pura, quando c'è.
+    _rc_grezzo=2
+    if [ "$_modo_onesta" = blocca ]; then rc_one=2; else rc_one=0; fi
+    _onesta_json='{"frase":"onestà: metro assente in questo clone (onesta-check.mjs / istante-cancello.mjs) — CIECO"}'
+  fi
+  if [ "$_rc_grezzo" -ne 0 ] || [ "$rc_one" -ne 0 ]; then
+    echo "[$_ts] ⚠️  GATE $(printf '%s' "$_onesta_json" | sed -n 's/.*"frase":"\([^"]*\)".*/\1/p')" >&2
+  fi
+
   if ! gate_verdetto "$rc_seg" "$rc_fat" "$rc_one" "$rc_san"; then
-    echo "[$_ts] ⛔ GATE: memoria NON pubblicabile (scan-segreti=$rc_seg coerenza-fatti=$rc_fat vault-sanita=$rc_san) — risolvi prima di ripubblicare (AR-314)." >&2
+    echo "[$_ts] ⛔ GATE: memoria NON pubblicabile (scan-segreti=$rc_seg coerenza-fatti=$rc_fat onestà=$rc_one[modo=$_modo_onesta] vault-sanita=$rc_san) — risolvi prima di ripubblicare (AR-314/AR-394)." >&2
     return 1
   fi
   return 0

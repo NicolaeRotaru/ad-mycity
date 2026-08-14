@@ -43,6 +43,7 @@ import {
   indiceDellaPrimaRispostaNumerata,
 } from "./si-capisce.mjs";
 import { testiAssistente } from "./cancello-stop.mjs";
+import { timbroOra } from "./ora-piacenza.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -221,7 +222,7 @@ function main() {
   const referto = {
     _cosa_e:
       "📮 Quante volte un messaggio che pretendeva le quattro risposte è uscito senza. Il tetto è una QUOTA e SCENDE: aggiungerne è un errore, portarne via è il lavoro. Nato dalla domanda di Nicola del 3/8 («come fai a non dimenticartene mai?»).",
-    misurato: new Date().toISOString().slice(0, 16).replace("T", " "),
+    misurato: timbroOra(),
     finestra_giorni: GIORNI,
     trascrizioni: { trovate: file.length, lette: letti, file_visti: trovate.visti, scartati_per_estensione: trovate.scartati },
     messaggi_misurati: conto.misurati,

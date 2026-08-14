@@ -21,12 +21,22 @@ import { decidiFrenoCosto, FONTI, gateAmmesso, tokenPerGate } from "../fonte-num
 
 // ── AR-427: lo scanner dei segreti ──────────────────────────────────────────
 
-test("AR-427: il CASO REALE — un file oltre il tetto viene marcato NON LETTO, non ignorato", () => {
+test("AR-427: il CASO REALE — un file oltre il tetto viene LETTO A BLOCCHI, non ignorato", () => {
   // Il cuore del fix, eseguito. Prima questo caso spariva in un `continue` muto insieme alle
   // cartelle: due cose diverse trattate uguale, e una delle due era un buco nella difesa.
+  //
+  // **Aggiornato dal lotto 40 (AR-441).** Fino a ieri la risposta giusta era `non-letto`: il file
+  // grosso finiva fra i non raggiunti e il verdetto diventava CIECO. Era onesto ma non era la cura —
+  // e AR-441 ha misurato dove stava andando a finire: `cantiere-difetti.json` è a 1,70 MB, l'85% del
+  // tetto, e cresce a ogni giro. Il giorno in cui lo superava, lo scanner avrebbe smesso di guardare
+  // proprio il file più grosso, suonando a ogni giro finché qualcuno non lo zittiva. Ora si legge
+  // per davvero, a blocchi, con una coda che tiene intera una chiave spezzata a cavallo del taglio.
+  //
+  // Ciò che AR-427 difendeva resta intatto ed è quello che conta: un file oltre il tetto non può
+  // MAI essere spacciato per pulito. Prima lo si diceva col ⚪, ora lo si risolve leggendolo.
   const grosso = classificaPerDimensione({ isFile: true, size: 3_000_000 });
-  assert.equal(grosso.azione, "non-letto");
-  assert.match(grosso.motivo, /oltre il tetto/);
+  assert.equal(grosso.azione, "leggi-a-blocchi");
+  assert.notEqual(grosso.azione, "ignora", "un file grosso non torna mai a sparire in un continue muto");
   assert.match(grosso.motivo, /3000 kB/, "deve dire QUANTO era grande, non solo che era grande");
 
   // Un file normale si legge, come sempre: il fix non ha reso lo scanner cieco.
@@ -43,7 +53,7 @@ test("AR-427: classificaPerDimensione accetta anche un vero statSync", () => {
   const { statSync } = require_fs();
   const st = statSync(new URL("../scan-segreti.mjs", import.meta.url));
   assert.equal(classificaPerDimensione(st).azione, "leggi");
-  assert.equal(classificaPerDimensione(st, 10).azione, "non-letto", "con un tetto di 10 byte è troppo grande");
+  assert.equal(classificaPerDimensione(st, 10).azione, "leggi-a-blocchi", "con un tetto di 10 byte si passa alla lettura a blocchi (AR-441), non si rinuncia");
 });
 
 test("AR-427: un file non letto rende il verdetto CIECO, non «pulito»", () => {
@@ -61,7 +71,7 @@ test("AR-427: il verdetto NOMINA il motivo per cui non ha letto", () => {
   // Senza il motivo, «cieco» costringe chi legge a indovinare se è un percorso rotto o una scelta
   // nostra — e sono due azioni diverse (aggiustare la porta, oppure scansionare a blocchi).
   const v = verdetto({ letti: 10, nonRaggiunti: ["grosso.json (2400 kB: oltre il tetto di lettura)"], trovati: [] });
-  assert.match(v.sintesi, /NON ho letto/);
+  assert.match(v.sintesi, /NON sono riuscito ad aprire/);
   assert.match(v.sintesi, /oltre il tetto/);
 });
 

@@ -32,10 +32,20 @@ concurrency:
 jobs:
   battito:
     runs-on: ubuntu-latest
+    # Il tetto di tempo NON è igiene (AR-635): questo è l'ultimo guardiano, quello che nessun altro
+    # controlla. Con `cancel-in-progress: false` una corsa appesa tiene in coda i controlli orari
+    # successivi — senza tetto, GitHub la lascia viva sei ore e in quelle sei ore il blackout che
+    # questo workflow esiste per scoprire passa sotto di lui. Cinque minuti bastano e avanzano:
+    # il lavoro vero è una lettura di file e una chiamata a `gh`.
+    timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      # Azioni agganciate al COMMIT e non all'etichetta (AR-637): un tag si sposta, un commit no.
+      # Chi sposta il tag esegue codice suo su questo runner, che qui ha `issues: write` — cioè può
+      # chiudere proprio l'allarme «macchina ferma». Gli SHA sono actions/checkout v4 e
+      # actions/setup-node v4; per aggiornarli: `git ls-remote --tags https://github.com/actions/<x> v4`.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "22"
 
@@ -69,9 +79,15 @@ jobs:
         if: steps.controllo.outputs.azione == 'apri'
         env:
           GH_TOKEN: ${{ github.token }}
+          # Il titolo passa da una VARIABILE, non da `${{ }}` dentro lo script (AR-638). La differenza
+          # è che `${{ }}` viene sostituito PRIMA che la shell veda la riga: un apice o un `$(...)` nel
+          # titolo diventerebbe un comando eseguito qui, col token che può chiudere l'allarme. Oggi il
+          # titolo lo scrive `titoloUmano()`, ma il giorno che una stringa derivata dalla memoria ci
+          # arriva dentro, questa riga è l'unica cosa fra quel testo e il runner.
+          TITOLO: ${{ steps.controllo.outputs.titolo }}
         run: |
           gh label create "macchina-ferma" --color B60205 --description "La macchina non lascia più tracce" --force
-          url=$(gh issue create --title "${{ steps.controllo.outputs.titolo }}" --body-file /tmp/corpo.md --label "macchina-ferma")
+          url=$(gh issue create --title "$TITOLO" --body-file /tmp/corpo.md --label "macchina-ferma")
           # Si guarda cosa TORNA, non il fatto che il comando sia partito: dichiarare consegnato ciò
           # che nessuno ha ricevuto è il difetto che ha reso muto l'allarme di Telegram (AR-365).
           if [ -z "$url" ]; then
@@ -84,8 +100,9 @@ jobs:
         if: steps.controllo.outputs.azione == 'commenta'
         env:
           GH_TOKEN: ${{ github.token }}
+          NUMERO: ${{ steps.controllo.outputs.numero }}
         run: |
-          url=$(gh issue comment "${{ steps.controllo.outputs.numero }}" --body-file /tmp/corpo.md)
+          url=$(gh issue comment "$NUMERO" --body-file /tmp/corpo.md)
           if [ -z "$url" ]; then
             echo "::error::Il commento non è stato scritto: l'aggiornamento non è arrivato a nessuno."
             exit 1
@@ -96,9 +113,10 @@ jobs:
         if: steps.controllo.outputs.azione == 'chiudi'
         env:
           GH_TOKEN: ${{ github.token }}
+          NUMERO: ${{ steps.controllo.outputs.numero }}
         run: |
-          gh issue close "${{ steps.controllo.outputs.numero }}" --comment "$(cat /tmp/corpo.md)"
-          stato=$(gh issue view "${{ steps.controllo.outputs.numero }}" --json state --jq .state)
+          gh issue close "$NUMERO" --comment "$(cat /tmp/corpo.md)"
+          stato=$(gh issue view "$NUMERO" --json state --jq .state)
           if [ "$stato" != "CLOSED" ]; then
             echo "::error::L'allarme risulta ancora $stato: non posso dire di averlo spento."
             exit 1

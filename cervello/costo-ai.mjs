@@ -15,33 +15,62 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { tokenPerGate } from "./fonte-numero.mjs";
+import { msDaTimbro } from "./ora-piacenza.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const OUT_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/costo-ai.json");
 const SOGLIA_DEFAULT = 2_000_000;
 // Finestra rolling sessione Max/Cursor (~5h) — allineata a retry-policy.mjs MAX_ATTESA_QUOTA_MIN.
-const SESSIONE_ROLLING_MIN = Number(process.env.COSTO_SESSIONE_ROLLING_MIN || 360);
+export const SESSIONE_ROLLING_MIN = Number(process.env.COSTO_SESSIONE_ROLLING_MIN || 360);
 
-function parseQuando(s) {
-  const m = String(s || "").match(/^(\d{4}-\d{2}-\d{2}) (\d{2}):(\d{2})/);
-  if (!m) return null;
-  const d = new Date(`${m[1]}T${m[2]}:${m[3]}:00+02:00`);
-  return Number.isNaN(d.getTime()) ? null : d.getTime();
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-442 — LA FINESTRA SCORREVOLE NON È IL GIORNO SOLARE
+// ─────────────────────────────────────────────────────────────────────────────
+// Il muro vero della quota è una finestra di ~6 ore che scorre, non la mezzanotte. Ma le voci su
+// cui la finestra si calcolava vivevano dentro `oggi.voci`, e a mezzanotte `oggi` viene azzerato:
+// alle 00:10 la macchina poteva aver bruciato l'intera quota fra le 18 e le 24 e il conto della
+// finestra ripartiva da zero. Non è un errore di misura, è un errore di CONTENITORE — il numero
+// giusto stava in un cassetto che si svuota da solo ogni notte.
+//
+// La cura è una coda CONTINUA (`voci_recenti`), potata dalla finestra e non dal calendario. Non
+// sostituisce `oggi.voci` (che serve al conto giornaliero e al Pannello): le sta accanto e
+// attraversa la mezzanotte.
+//
+// Le due funzioni sotto sono PURE ed esportate: l'istante arriva da fuori, così un test può
+// metterlo alle 00:10 senza spostare l'orologio del computer. Era l'altra metà del difetto —
+// una regola che si può eseguire solo facendo passare la mezzanotte non la prova nessuno.
+
+/**
+ * Le voci che cadono ancora dentro la finestra, da qualunque giorno vengano.
+ * Una voce col timbro illeggibile ESCE dal conto — ma il chiamante lo viene a sapere
+ * (`tokenSessioneRolling` la conta fra le `illeggibili`): un buco che abbassa la spesa in silenzio
+ * è esattamente il modo in cui un freno smette di frenare.
+ */
+export function finestraContinua(voci, oraMs, minuti = SESSIONE_ROLLING_MIN) {
+  const ora = Number(oraMs);
+  const durata = Math.max(1, Number(minuti) || SESSIONE_ROLLING_MIN);
+  if (!Number.isFinite(ora)) return [];
+  const cutoff = ora - durata * 60 * 1000;
+  return (voci || []).filter((v) => {
+    const t = msDaTimbro(v?.quando);
+    return Number.isFinite(t) && t >= cutoff;
+  });
 }
 
-/** Token stimati/misurati nella finestra rolling (il vero muro è la sessione, non il giorno). */
-function tokenSessioneRolling(voci, oraMs) {
-  const cutoff = oraMs - SESSIONE_ROLLING_MIN * 60 * 1000;
-  let tot = 0;
-  let runs = 0;
-  for (const v of voci || []) {
-    const t = parseQuando(v.quando);
-    if (t == null || t < cutoff) continue;
-    if (typeof v.token === "number" && !v.stima_grezza) tot += v.token;
-    else if (typeof v.token === "number" && v.stima_grezza) tot += v.token; // stima conta per onestà sessione
-    runs++;
-  }
-  return { token_sessione_rolling: tot, runs_sessione: runs, finestra_min: SESSIONE_ROLLING_MIN };
+/** Token (misurati + stimati) nella finestra rolling: il vero muro è la sessione, non il giorno. */
+export function tokenSessioneRolling(voci, oraMs, minuti = SESSIONE_ROLLING_MIN) {
+  const tutte = voci || [];
+  const dentro = finestraContinua(tutte, oraMs, minuti);
+  // Le stime contano quanto le misure: sulla quota-sessione un numero approssimato dichiarato è
+  // più onesto di uno zero (AR-144).
+  const tot = dentro.reduce((s, v) => (typeof v.token === "number" && Number.isFinite(v.token) ? s + v.token : s), 0);
+  const illeggibili = tutte.filter((v) => !Number.isFinite(msDaTimbro(v?.quando))).length;
+  return {
+    token_sessione_rolling: tot,
+    runs_sessione: dentro.length,
+    finestra_min: Math.max(1, Number(minuti) || SESSIONE_ROLLING_MIN),
+    voci_illeggibili: illeggibili,
+  };
 }
 
 function getFlag(name) {
@@ -83,7 +112,14 @@ function main() {
   if (!stato.modello_quota) stato.modello_quota = "sessione-rolling";
   if (!stato.sessione_rolling_min) stato.sessione_rolling_min = SESSIONE_ROLLING_MIN;
 
+  // AR-442 — la coda continua nasce, la prima volta, dalle voci di oggi: nel passaggio non si
+  // perde nessuna misura. Va fatto QUI, prima del cambio giorno, che azzera `oggi.voci`.
+  if (!Array.isArray(stato.voci_recenti)) stato.voci_recenti = [...(stato.oggi.voci || [])];
+
   // Cambio giorno: archivia il vecchio "oggi" e resetta.
+  // NOTA AR-442: qui si azzera il conto del GIORNO. `voci_recenti` non si tocca — è l'unico posto
+  // dove la spesa delle ultime ore sopravvive alla mezzanotte, ed è quello che il freno deve
+  // guardare per non dare via libera alle 00:10 su una quota bruciata alle 23:50.
   if (stato.oggi.data && stato.oggi.data !== oggiData) {
     // AR-196 — trovato applicando il fix: l'archivio di fine giornata copiava SOLO `token_totali`,
     // cioè lo zero, e buttava via `token_stimati` — l'unico numero che esiste davvero. Per questo lo
@@ -115,6 +151,7 @@ function main() {
     const voce = { quando, tipo, durata_sec: durata, token, modello: modello || null };
     if (isStima) voce.stima_grezza = true;
     stato.oggi.voci.push(voce);
+    stato.voci_recenti.push(voce); // AR-442: la stessa voce entra anche nella coda che scorre
     stato.oggi.runs += 1;
     stato.oggi.durata_sec_totale += durata;
     if (token != null && !isStima) stato.oggi.token_totali += token;
@@ -140,8 +177,14 @@ function main() {
   stato.oggi.token_per_gate = perGate.valore ?? 0;
   stato.oggi.token_fonte = perGate.fonte;
   const superata = perGate.valore != null && perGate.valore > stato.soglia_giornaliera_token;
-  const oraMs = parseQuando(quando) || Date.now();
-  const sessione = tokenSessioneRolling(stato.oggi.voci, oraMs);
+  // AR-442 — l'istante di adesso letto dal timbro di Piacenza (prima l'offset era +02:00 scritto a
+  // mano: d'inverno la finestra si spostava di un'ora, sempre nel verso che perdona la spesa).
+  const daTimbro = msDaTimbro(quando);
+  const oraMs = Number.isFinite(daTimbro) ? daTimbro : Date.now();
+  // La finestra si pota sulla coda CONTINUA, non su `oggi.voci`: è la riga che fa attraversare la
+  // mezzanotte al conto delle ultime sei ore.
+  stato.voci_recenti = finestraContinua(stato.voci_recenti, oraMs, SESSIONE_ROLLING_MIN);
+  const sessione = tokenSessioneRolling(stato.voci_recenti, oraMs, SESSIONE_ROLLING_MIN);
   stato.sessione_rolling = { ...sessione, aggiornato: quando };
 
   mkdirSync(dirname(OUT_PATH), { recursive: true });
@@ -166,9 +209,16 @@ function main() {
   process.exit(0);
 }
 
-try {
-  main();
-} catch (e) {
-  console.error("ERRORE costo-ai:", e.message || e);
-  process.exit(1);
+// AR-442 — `main()` gira solo da CLI. Prima partiva anche al semplice `import`, e un file che
+// SCRIVE il contatore della spesa appena qualcuno lo importa non è testabile: l'unico modo di
+// provare la finestra sarebbe stato aspettare la mezzanotte vera. Ora le funzioni pure sopra si
+// importano senza effetti, e il comportamento da CLI non cambia di una riga.
+const isMain = import.meta.url === `file://${process.argv[1]}`;
+if (isMain) {
+  try {
+    main();
+  } catch (e) {
+    console.error("ERRORE costo-ai:", e.message || e);
+    process.exit(1);
+  }
 }

@@ -41,6 +41,7 @@ import {
   risolviRipresa,
   statoPausa,
 } from "./pausa-coda.mjs";
+import { timbroOra } from "./ora-piacenza.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..");
@@ -189,7 +190,7 @@ function main() {
 
   const rapporto = {
     ok: violazioni.length === 0 && ciechi.length === 0,
-    quando: now.toISOString().slice(0, 16).replace("T", " "),
+    quando: timbroOra(now),
     fonte: `${CODA} + ${REGISTRO} (nessuna data indovinata: tutte risolte dal registro)`,
     card_in_pausa: inPausa.length,
     righe_tabella_escluse: righeTabella,

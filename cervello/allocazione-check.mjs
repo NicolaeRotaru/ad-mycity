@@ -449,11 +449,18 @@ async function main() {
     process.exit(1);
   }
 
-  // Solo i negozi VERI candidabili a produzione. Escluse le entità NON presidiabili: le demo/fixture
-  // del marketplace (stato "demo") e i negozi SCARTATI (stato "scartato", es. Casa Linda dopo la
-  // decisione di Nicola del 3/7 che ha eletto Pane Quotidiano a faro). Uno scartato non è né un target
-  // valido né un prospect: non deve entrare nel conteggio dell'allocazione.
-  const ESCLUSI = new Set(["demo", "scartato"]);
+  // Solo i negozi VERI candidabili a produzione. Uno scartato non è né un target valido né un
+  // prospect: non deve entrare nel conteggio dell'allocazione.
+  //
+  // AR-577 — questa riga era il danno, non la difesa. Fino al 13/8 diceva `["demo", "scartato"]`:
+  // conosceva lo stato inventato «demo» (Casa Linda) ma non «escluso», e i SEI ristoranti che Nicola
+  // aveva escluso il 18/7 («i ristoranti non sono il nostro target») rientravano nel conteggio dei
+  // negozi candidabili a ogni giro. Adesso il registro non può più portare quei valori — lo ferma
+  // `valida-contratti.mjs` — e i sette sono migrati a «scartato».
+  // I due nomi vecchi restano qui apposta: se una copia del registro precedente alla migrazione
+  // tornasse da un backup o da un merge, non deve rientrare in silenzio nel conteggio prima che il
+  // contratto se ne accorga. Costano una riga e coprono la finestra fra le due difese.
+  const ESCLUSI = new Set(["scartato", "demo", "escluso"]);
   const negozi = registro.entita.filter((e) => e.tipo === "negozio" && !ESCLUSI.has(e.stato));
   const { conteggio, totaleFile } = contaAssetPerEntita(negozi);
 

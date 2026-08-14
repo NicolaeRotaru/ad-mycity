@@ -21,8 +21,15 @@ REPO="$(dirname "$SCRIPT_DIR")"
 cd "$REPO"
 
 # Hook git versionati (scan-segreti al commit) — idempotente, attiva core.hooksPath su ogni clone.
+# 🔒 AR-644 — l'esito NON si butta più via. `>/dev/null 2>&1 || true` rendeva l'aggancio riuscito e
+# l'aggancio fallito la stessa identica cosa da fuori: il giro proseguiva e committava senza cancelli,
+# in silenzio. L'istante della chiamata era giusto (all'avvio, prima di ogni commit); a mancare era
+# la lettura del risultato. Non blocca il giro — il cancello del push resta — ma lo DICE.
 if [ -f "$SCRIPT_DIR/installa-hooks.sh" ]; then
-  bash "$SCRIPT_DIR/installa-hooks.sh" >/dev/null 2>&1 || true
+  _hook_out="$(bash "$SCRIPT_DIR/installa-hooks.sh" 2>&1)" || {
+    echo "⚠️  AR-644: i cancelli del commit NON si sono agganciati — questo giro committa senza scan dei segreti." >&2
+    printf '%s\n' "$_hook_out" | tail -3 >&2
+  }
 fi
 
 # Carica i segreti del server (se presenti). Su systemd arrivano anche da EnvironmentFile.
@@ -87,22 +94,12 @@ if [ -f "$REPO/.git/config" ] && ! test -w "$REPO/.git/config" 2>/dev/null; then
   exit 1
 fi
 
-# Kill-switch: se il Pannello ha messo l'AD in PAUSA (impostazioni.pausa = on), non girare.
-# AR-100: il controllo PAUSA è FAIL-CLOSED. Se lo stato pausa NON è leggibile (curl fallisce / HTTP≠2xx),
-# NON proseguiamo al buio: meglio un giro saltato che un giro che parte mentre Nicola ha messo PAUSA.
-if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
-  pausa="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" \
-    -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" 2>/dev/null)"; _pausa_rc=$?
-  if [ "$_pausa_rc" -ne 0 ]; then
-    # AR-100: PAUSA_FAIL_CLOSED — pausa non verificabile → fermati (non girare al buio).
-    echo "[$(ts)] ⛔ PAUSA_FAIL_CLOSED: stato pausa non verificabile (curl rc=$_pausa_rc) — giro FERMATO per sicurezza (pausa non verificabile)." >&2
-    exit 0
-  fi
-  if printf '%s' "$pausa" | grep -q '"valore":"on"'; then
-    echo "[$(ts)] AD in PAUSA (kill-switch): giro saltato."
-    exit 0
-  fi
-fi
+# 🛑 Kill-switch: se il Pannello ha messo l'AD in PAUSA (impostazioni.pausa = on), non girare.
+# AR-100 il fail-closed era già giusto QUI; AR-390 lo porta nella funzione condivisa
+# (cervello/kill-switch.sh) perché le altre tre copie non ce l'avevano. Stesso comportamento di
+# prima, un posto solo: quando la difesa vive in quattro copie, tre restano indietro.
+. "$SCRIPT_DIR/kill-switch.sh"
+pausa_consenti_partenza "giro" || exit 0
 
 # --- RAMO UNICO: allinea codice+memoria all'ultimo remoto (PRIMA del giro), in modo NON distruttivo ---
 # Modello a ramo unico (Fase 2): codice E memoria vivono su UN SOLO ramo = 'main' (OBSIDIAN_BRANCH=main,
@@ -137,26 +134,31 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
       sleep 2
     done
     if [ "$_fetch_ok" = 1 ]; then
+      # AR-628 — il ramo «HEAD staccato» era rimasto DISTRUTTIVO in tutte e tre le copie (qui, in
+      # ritmo.sh e in monitora.sh): `checkout -B "$branch" FETCH_HEAD` spostava il ramo sul remoto
+      # ORFANANDO il commit di recupero creato poche righe sopra — nessun ref lo puntava più, e il
+      # log stampava «HEAD portato su main» come se fosse tutto a posto. La cura di AR-028 copriva
+      # solo il ramo in cui HEAD era già sul ramo. Adesso il caso staccato non ha più un percorso
+      # suo: si riaggancia a QUESTO HEAD (che porta il commit di recupero) e poi passa dalla stessa
+      # scala rebase → merge di tutti gli altri.
       _cur="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo HEAD)"
-      if [ "$_cur" = "$branch" ]; then
-        # Siamo sul ramo: rebase dei commit locali sopra l'ultimo remoto. Se il rebase entra in conflitto
-        # (snapshot toccato da due parti) abortisci e prova un merge non distruttivo; se anche il merge
-        # confligge abortisci e resta sul locale — il push finale (rebase-retry) riproverà, niente si perde.
-        if git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
-          echo "[$(ts)] Ramo unico: allineato a origin/${branch} via rebase (scritture locali preservate)."
-        else
-          git rebase --abort 2>/dev/null || true
-          if git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
-            echo "[$(ts)] Ramo unico: allineato a origin/${branch} via merge (rebase in conflitto)."
-          else
-            git merge --abort 2>/dev/null || true
-            echo "[$(ts)] WARN: rebase/merge su ${branch} in conflitto — continuo col locale, il push finale riproverà." >&2
-          fi
-        fi
+      if [ "$_cur" != "$branch" ]; then
+        git checkout -B "$branch" 2>/dev/null || true
+        echo "[$(ts)] Ramo unico: HEAD era staccato → riagganciato a ${branch} tenendo i commit locali (AR-628)."
+      fi
+      # Rebase dei commit locali sopra l'ultimo remoto. Se il rebase entra in conflitto (snapshot
+      # toccato da due parti) abortisci e prova un merge non distruttivo; se anche il merge confligge
+      # abortisci e resta sul locale — il push finale (rebase-retry) riproverà, niente si perde.
+      if git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
+        echo "[$(ts)] Ramo unico: allineato a origin/${branch} via rebase (scritture locali preservate)."
       else
-        # Detached/primo giro: portati sul ramo dall'accumulato remoto.
-        git checkout -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -B "$branch" 2>/dev/null || true
-        echo "[$(ts)] Ramo unico: HEAD portato su ${branch} da origin/${branch}."
+        git rebase --abort 2>/dev/null || true
+        if git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
+          echo "[$(ts)] Ramo unico: allineato a origin/${branch} via merge (rebase in conflitto)."
+        else
+          git merge --abort 2>/dev/null || true
+          echo "[$(ts)] WARN: rebase/merge su ${branch} in conflitto — continuo col locale, il push finale riproverà." >&2
+        fi
       fi
     else
       echo "[$(ts)] WARN: fetch di ${branch} fallito dopo 3 tentativi — continuo col codice/memoria già sul disco." >&2
@@ -1458,18 +1460,26 @@ elif flock -w 600 9; then
     echo "[$(ts)] Nessuna modifica al vault da inviare."
   else
     GIRO_HAD_CHANGES=1
+    # AR-127 — il motore principale usava una copia SCRITTA A MANO del cancello: aveva il perimetro
+    # (AR-044) ma non il controllo del ramo, e i guardiani di verità li eseguiva prima, come vincoli
+    # al motore, non come cancello davanti al push. Due implementazioni della stessa regola: quando
+    # una si rafforza, l'altra non lo sa. Ora è la stessa che usano ritmo, monitora e worker.
+    #
+    # 🕐 AR-395 — E STA QUI, PRIMA DEL COMMIT, come negli altri tre. Prima veniva chiamato DOPO
+    # `git commit`: il commit svuota lo stage, quindi il controllo del perimetro guardava un insieme
+    # vuoto e rispondeva verde — «nessun file di codice» quando in realtà non c'era più niente da
+    # vedere. Il cancello era stato inserito nel punto in cui c'era il push, non nel punto in cui
+    # c'era il rischio, e uno 0 tornato da un metro che non ha misurato somiglia in tutto a un 0 che
+    # ha misurato. Il quarto argomento (`1`) dichiara «ho del lavoro da pubblicare»: se lo stage
+    # risultasse vuoto adesso, il cancello lo direbbe invece di lasciar passare.
+    . "$SCRIPT_DIR/gate-pubblicazione.sh"
+    if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO" "$branch" 1; then
+      echo "[$(ts)] ⛔ Memoria NON pubblicata: il cancello ha detto no — nessun commit, il lavoro resta nel worktree." >&2
+      GIRO_PUSH_BLOCCATO=1
+      GIRO_PUSH_OK=0
+    else
     git "${GIT_ID[@]}" commit -q -m "giro AD: aggiorna memoria ($(ts))" || true
     if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
-      # AR-127 — il motore principale usava una copia SCRITTA A MANO del cancello: aveva il perimetro
-      # (AR-044) ma non il controllo del ramo, e i guardiani di verità li eseguiva prima, come vincoli
-      # al motore, non come cancello davanti al push. Due implementazioni della stessa regola: quando
-      # una si rafforza, l'altra non lo sa. Ora è la stessa che usano ritmo, monitora e worker.
-      . "$SCRIPT_DIR/gate-pubblicazione.sh"
-      if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO" "$branch"; then
-        echo "[$(ts)] ⛔ Memoria NON pubblicata: il cancello ha detto no. Il commit resta in locale." >&2
-        GIRO_PUSH_BLOCCATO=1
-        GIRO_PUSH_OK=0
-      else
       url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"   # token al volo, non salvato
       # AR-297/AR-299 — un solo loop di pubblicazione per tutti (gate-pubblicazione.sh): controlla il
       # ramo un'ultima volta prima del push e mette il timeout di rete su fetch e push, che qui non
@@ -1503,11 +1513,11 @@ elif flock -w 600 9; then
         GIRO_PUSH_OK=0
         echo "[$(ts)] ERRORE: push della memoria fallito dopo 3 tentativi." >&2
       fi
-      fi   # AR-127: chiude il ramo «cancello passato»
     else
       echo "[$(ts)] GIT_PUSH_TOKEN/GIT_REPO non impostati: salto il push (la memoria resta solo sul server)." >&2
       GIRO_PUSH_OK=0
     fi
+    fi   # AR-127/AR-395: chiude il ramo «cancello passato» (il cancello ora sta PRIMA del commit)
   fi
 else
   GIRO_PUSH_OK=0

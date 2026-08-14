@@ -7,9 +7,12 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { usePanelRefresh } from "@/lib/panel-sync";
+import type { StatoCoerenza } from "@/lib/badge-coerenza";
 
 export type Fatto = { id: string; nome: string; valore: string; fonte: string; aggiornato: string };
-export type CoerenzaFatti = { esito: "ok" | "incoerenze"; incoerenze: number; cacce_aperte: number; data: string };
+// AR-646 — il tipo dichiara TUTTI gli stati che il guardiano sa scrivere, «sconosciuto» compreso.
+// Finché diceva `"ok" | "incoerenze"`, anche il tipo raccontava che gli altri due non esistevano.
+export type CoerenzaFatti = { esito: StatoCoerenza; incoerenze: number; cacce_aperte: number; data: string };
 export type FattiData = { collegato: boolean; aggiornato: string; fatti: Fatto[]; coerenza: CoerenzaFatti | null };
 
 const VUOTO: FattiData = { collegato: false, aggiornato: "", fatti: [], coerenza: null };

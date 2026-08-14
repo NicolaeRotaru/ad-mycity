@@ -29,15 +29,11 @@ cadenza_lock monitora || exit 0
 
 ai_check || { echo "[$(ts)] Motore AI non disponibile. Vedi cervello/vps/setup.sh." >&2; exit 1; }
 
-# Kill-switch: se il Pannello ha messo l'AD in PAUSA, non monitorare.
-if [ -n "${SUPABASE_URL:-}" ] && [ -n "${SUPABASE_SERVICE_KEY:-}" ]; then
-  pausa="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?select=valore&chiave=eq.pausa&limit=1" \
-    -H "apikey: $SUPABASE_SERVICE_KEY" -H "Authorization: Bearer $SUPABASE_SERVICE_KEY" 2>/dev/null || true)"
-  if printf '%s' "$pausa" | grep -q '"valore":"on"'; then
-    echo "[$(ts)] AD in PAUSA (kill-switch): monitoraggio saltato."
-    exit 0
-  fi
-fi
+# 🛑 AR-390 — il kill-switch di Nicola, dalla funzione condivisa (cervello/kill-switch.sh).
+# Come in ritmo.sh: la copia locale aveva `|| true` sulla curl, cioè partiva lo stesso se la rete
+# non rispondeva. Un interruttore che non risponde non è un interruttore spento.
+. "$SCRIPT_DIR/kill-switch.sh"
+pausa_consenti_partenza "monitoraggio" || exit 0
 
 # --- Prepara il ramo della memoria e ALLINEA IL CODICE a main (come giro.sh) ---
 branch="${GIT_BRANCH:-main}"
@@ -55,16 +51,17 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
     if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(git status --porcelain 2>/dev/null)" ]; then
       git add -A "${MEM_DIRS[@]}" 2>/dev/null || true
       git restore --staged pannello/ cervello/ 2>/dev/null || true
-      git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti da un run interrotto ($(ts))" 2>/dev/null || true
-      # AR-127 — anche il RECUPERO passa dal cancello, e qui più che altrove: questo ramo scatta
-      # quando un run precedente è morto a metà scrittura, cioè esattamente quando la memoria ha più
-      # probabilità di essere incoerente. Prima pubblicava e basta — negli ultimi 60 commit del VPS
-      # «recupero: scritture pendenti» compare 6 volte, tutte senza un controllo davanti.
+      # AR-127 — anche il commit «recupero: scritture pendenti» passa dal cancello: scatta quando un
+      # run è morto a metà scrittura, cioè quando la memoria è più a rischio.
+      # 🕐 AR-395 (secondo punto, trovato riparando il primo) — e il cancello sta PRIMA del commit:
+      # stava dopo, e guardava uno stage già svuotato. Qui fa più male che altrove, perché il
+      # `git restore --staged` di due righe sopra esiste proprio perché qui il codice ci finisce.
       . "$SCRIPT_DIR/gate-pubblicazione.sh"
-      if gate_pubblicazione "$SCRIPT_DIR" "$REPO"; then
+      if gate_pubblicazione "$SCRIPT_DIR" "$REPO" "$branch" 1; then
+        git "${GIT_ID[@]}" commit -q -m "recupero: scritture pendenti da un run interrotto ($(ts))" 2>/dev/null || true
         git push "$url" "HEAD:${branch}" 2>/dev/null && echo "[$(ts)] Recuperate scritture pendenti di un run precedente." || true
       else
-        echo "[$(ts)] ⛔ Recupero NON pubblicato: il cancello ha detto no. Le scritture restano committate in locale." >&2
+        echo "[$(ts)] ⛔ Recupero NON pubblicato: il cancello ha detto no — nessun commit, le scritture restano nel worktree." >&2
       fi
     fi
     _fetch_ok=0
@@ -73,22 +70,23 @@ if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
       sleep 2
     done
     if [ "$_fetch_ok" = 1 ]; then
+      # AR-628 — vedi giro.sh: il ramo «HEAD staccato» orfanava il commit di recupero appena creato.
+      # Qui si riaggancia a QUESTO HEAD e poi si passa dalla stessa scala rebase → merge.
       _cur="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo HEAD)"
-      if [ "$_cur" = "$branch" ]; then
-        if git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
-          echo "[$(ts)] Ramo: allineato a origin/${branch} via rebase (commit locali preservati)."
-        else
-          git rebase --abort 2>/dev/null || true
-          if git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
-            echo "[$(ts)] Ramo: allineato a origin/${branch} via merge (rebase in conflitto)."
-          else
-            git merge --abort 2>/dev/null || true
-            echo "[$(ts)] WARN: rebase/merge su ${branch} in conflitto — continuo col locale." >&2
-          fi
-        fi
+      if [ "$_cur" != "$branch" ]; then
+        git checkout -B "$branch" 2>/dev/null || true
+        echo "[$(ts)] Ramo: HEAD era staccato → riagganciato a ${branch} tenendo i commit locali (AR-628)."
+      fi
+      if git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null; then
+        echo "[$(ts)] Ramo: allineato a origin/${branch} via rebase (commit locali preservati)."
       else
-        git checkout -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -B "$branch" 2>/dev/null || true
-        echo "[$(ts)] Ramo: HEAD portato su ${branch} da origin/${branch}."
+        git rebase --abort 2>/dev/null || true
+        if git "${GIT_ID[@]}" merge --no-edit FETCH_HEAD 2>/dev/null; then
+          echo "[$(ts)] Ramo: allineato a origin/${branch} via merge (rebase in conflitto)."
+        else
+          git merge --abort 2>/dev/null || true
+          echo "[$(ts)] WARN: rebase/merge su ${branch} in conflitto — continuo col locale." >&2
+        fi
       fi
     else
       echo "[$(ts)] WARN: fetch di ${branch} fallito — continuo col codice/memoria sul disco." >&2
@@ -184,7 +182,7 @@ if flock -w 600 9; then
     # AR-314 — anche il monitoraggio passa dal cancello: pubblica sulla stessa main del giro, e finora
     # lo faceva senza nessuno dei quattro controlli di verità. Additivo: il push resta com'è.
     . "$SCRIPT_DIR/gate-pubblicazione.sh"
-    if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO"; then
+    if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO" "$branch" 1; then
       MONITORA_PUSH_OK=0
       echo "[$(ts)] Intelligence NON pubblicata: il cancello ha detto no (vedi sopra) — nessun commit." >&2
     elif [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then

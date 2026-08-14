@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
-import { readVaultFile } from "@/lib/vault";
+import { leggiJsonVault } from "@/lib/vault";
+import { messaggioSenzaDato } from "@/lib/esito-lettura";
+import { coerenzaSenzaVerdetto, statoCoerenza } from "@/lib/badge-coerenza";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -15,20 +17,19 @@ export const revalidate = 0;
 type FattoRaw = { id?: string; nome?: string; valore?: string; fonte?: string; aggiornato?: string };
 type Fatto = { id: string; nome: string; valore: string; fonte: string; aggiornato: string };
 
-async function leggiJson(rel: string): Promise<any | null> {
-  const raw = await readVaultFile(rel);
-  if (raw == null) return null;
-  try {
-    return JSON.parse(raw);
-  } catch {
-    return null;
-  }
-}
-
 export async function GET() {
-  const registro = await leggiJson("90-Memoria-AI/registro-fatti.json");
+  // AR-415 — anche qui il lettore condiviso: un `collegato: false` muto non dice se il registro non
+  // esiste o se non l'ho potuto aprire, e la scheda scrive «Nessun fatto-chiave registrato ancora».
+  const rl = await leggiJsonVault<any>("90-Memoria-AI/registro-fatti.json");
+  const registro = rl.dati;
   if (!registro || !Array.isArray(registro.fatti)) {
-    return NextResponse.json({ collegato: false, aggiornato: "", fatti: [], coerenza: null });
+    return NextResponse.json({
+      collegato: false,
+      aggiornato: "",
+      fatti: [],
+      coerenza: null,
+      ...messaggioSenzaDato(rl, "Nessun fatto-chiave registrato ancora."),
+    });
   }
 
   const fatti: Fatto[] = registro.fatti
@@ -42,15 +43,25 @@ export async function GET() {
     }));
 
   // Verdetto del guardiano di coerenza (scritto da cervello/coerenza-fatti.mjs a ogni giro).
-  const cf = await leggiJson("90-Memoria-AI/auto-coscienza/coerenza-fatti.json");
+  // AR-646 — la mappa degli esiti è ESAUSTIVA e fail-closed: sta in un modulo puro con la sua prova,
+  // perché la forma di prima (`=== "incoerenze" ? … : "ok"`) faceva del verde il ramo di default, e
+  // così «cieco» e «non_verificato» arrivavano a Nicola come lo scudo «Memoria coerente».
+  //
+  // AR-646, secondo giro — la mappa era fail-closed, la LETTURA no. Se il verdetto non si riusciva a
+  // leggere (archivio oltre il muro, GitHub giù), `coerenza` diventava `null` e il badge spariva del
+  // tutto: una scheda senza badge si legge come «nessun problema», cioè la stessa bugia del verde
+  // detta col silenzio. Adesso una lettura fallita ha il suo esito — «sconosciuto», a video il tono
+  // ⚪ — e `null` resta solo per il caso vero: il guardiano non ha ancora scritto niente.
+  const cl = await leggiJsonVault<any>("90-Memoria-AI/auto-coscienza/coerenza-fatti.json");
+  const cf = cl.dati;
   const coerenza = cf
     ? {
-        esito: cf.esito === "incoerenze" ? "incoerenze" : "ok",
+        esito: statoCoerenza(cf.esito),
         incoerenze: Array.isArray(cf.incoerenze) ? cf.incoerenze.length : 0,
         cacce_aperte: Number(cf.cacce_aperte) || 0,
         data: String(cf.data || ""),
       }
-    : null;
+    : coerenzaSenzaVerdetto(cl);
 
   return NextResponse.json({ collegato: true, aggiornato: String(registro.aggiornato || ""), fatti, coerenza });
 }
