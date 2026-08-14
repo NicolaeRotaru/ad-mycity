@@ -1,9 +1,9 @@
 {
-  "data": "2026-08-14 06:39",
-  "situazione": "Giro richiesto in chat 9 minuti dopo il precedente: business invariato (1 ordine mai pagato/annullato, 0 pagati, 5 prodotti, 7 profili, 0 ordini/clienti nuovi in 7gg). North Star fermo a 51 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Novità reale: la PR #722, pubblicata alle 06:30 per chiudere 2 test rossi, è arrivata rossa anche lei in CI (test del cervello + verdetti senza lettore) — ora sono 5 le PR aperte e rosse, non più 4.",
+  "data": "2026-08-14 08:41",
+  "situazione": "Giro richiesto in chat, 2h dopo il precedente: business invariato (1 ordine mai pagato/annullato, 0 pagati, 5 prodotti, 7 profili). North Star fermo a 51 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Le stesse 5 PR restano rosse (#722/#721/#714/#710/#708), nessuna novità. Trovato invece un rischio nuovo, non di business: 34 file di codice (script cervello + pannello) risultano modificati sul disco e mai committati, timestamp fermo alle 06:30 — sembra il lavoro reale di una sessione di codice interrotta prima di salvare, mai recuperato dallo script di recupero automatico (che salva solo memoria, non codice).",
   "opportunita": [],
   "azioni": [
-    {"titolo": "La riparazione dei test rossi ha lasciato un guasto nuovo sullo stesso ramo, va ripresa da tech", "motivo": "PR #722 pubblicata 06:30, già rossa su 2 controlli CI (ci-stato.mjs, 06:39): il fix di un debito ne ha aperto un altro", "livello": "giallo"},
-    {"titolo": "Le PR #714 e #710 vanno riguardate solo dopo che la #722 torna verde, non prima", "motivo": "probabile duplicato dello stesso tema, ma #722 è il ramo più recente e ora ha un guasto proprio da chiudere per primo", "livello": "giallo"}
+    {"titolo": "Salva in un branch il codice non ancora committato prima che si perda", "motivo": "34 file (script di misura/badge di coerenza + relativi test) sono modificati sul disco dalle 06:30 e mai salvati in un commit — rischio reale se qualcuno pulisce l'albero di lavoro", "livello": "giallo"},
+    {"titolo": "La riparazione dei test rossi ha lasciato un guasto sullo stesso ramo, va ripresa da tech", "motivo": "PR #722, ancora rossa su 2 controlli CI, invariata dalle 06:39", "livello": "giallo"}
   ]
 }

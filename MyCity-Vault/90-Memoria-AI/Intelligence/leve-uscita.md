@@ -1,9 +1,9 @@
 # 📤 Leve in uscita — cosa MyCity può spingere ADESSO
 
-> **2026-08-10 13:35** · @AD — riscritta da zero su `cervello/radar.json` (11 leve OUT + 7 catene indirette) incrociato con lo stato reale del business. La versione precedente (18-30/7) parlava di bandi CCIAA ormai tutti chiusi (PI26/BT26/BE26) — archiviata, non più vera.
+> **2026-08-10 13:35** · @AD. Riscritta da zero su `cervello/radar.json`: 11 leve OUT + 7 catene indirette, incrociate con lo stato reale del business. La versione precedente (18-30/7) parlava di bandi CCIAA ormai tutti chiusi (PI26/BT26/BE26) — archiviata, non più vera.
 > Le azioni reali (stampa, istituzioni, sponsor) si accodano in [[AZIONI-IN-ATTESA]] per la firma di Nicola.
 >
-> **Confermato 2026-08-13 09:30** (recupero del giro delle 08:41, fallito per limite motore): ricontrollate le due fonti bandi dovute oggi — Camera Commercio Emilia e Unione Commercianti PC (check fatto stamattina alle 06:30, dettaglio completo in `eventi-picchi.md`). **Nessuna riapertura, nessun bando nuovo.** BI26/PI26/BE26/Bando Commercio ER restano tutti chiusi. Zero cambiamenti alla strategia sotto: resta valida così com'è.
+> **Confermato 2026-08-13 09:30** (recupero del giro delle 08:41, fallito per limite motore). Ricontrollate le due fonti bandi dovute oggi: Camera Commercio Emilia e Unione Commercianti PC. Check fatto stamattina alle 06:30, dettaglio completo in `eventi-picchi.md`. **Nessuna riapertura, nessun bando nuovo.** BI26/PI26/BE26/Bando Commercio ER restano tutti chiusi. Zero cambiamenti alla strategia sotto: resta valida così com'è.
 >
 > **Confermato 2026-08-14 06:31** (giro leggero `cervello/monitora.md`). Stessi due bandi ricontrollati, stesso esito: tutto chiuso, nessuna apertura. Trovato un dato nuovo per la **catena #2 sotto (caro-energia)** — vedi la voce aggiornata.
 

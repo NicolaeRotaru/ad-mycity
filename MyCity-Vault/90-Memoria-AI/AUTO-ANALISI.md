@@ -1,4 +1,31 @@
-# 🔬 AUTO-ANALISI — 2026-08-14 02:21
+# 🔬 AUTO-ANALISI — 2026-08-14 08:41
+
+> Giro completo richiesto in chat, 2h dopo il precedente (06:39). Business invariato. Il numero viene dal sensore di `giro.sh` delle 08:20. Non ho rifatto la query: rispetta il vincolo tasso-di-chiusura.
+> Riverificato dal vivo due cose: `ci-stato.mjs` (stesse 5 PR rosse) e `coerenza-fatti.mjs` (memoria coerente).
+> **Trovata una cosa nuova.** 34 file di codice, non memoria, risultano modificati o nuovi sul disco dalle 06:30. Nessuno è stato committato. Sembra il lavoro reale di una sessione di codice interrotta prima di salvare. Non l'ho toccato: il codice va sempre su branch+PR. Segnalato, non risolto in questo giro.
+
+## Voto di fiducia: **83/100** (↓ lieve, da 84)
+Non per una regressione di business — nulla è cambiato — ma perché il rischio nuovo (34 file di codice
+potenzialmente 2+ ore di lavoro non salvato) resta aperto a fine giro, non chiuso nello stesso passaggio
+come era successo al gap delle 02:21.
+
+**Il lavoro vero di questo passaggio: verificare cosa è cambiato dalle 06:39, e trovare un rischio
+tecnico non di business.** `git status --short` mostra 34 file: 20 esistenti (`cervello/cancello-lotto.mjs`,
+`verifica-sensori.mjs`, `sentinella-dati.mjs`, componenti del Pannello) + 14 nuovi (`cervello/misura-o-cieco.mjs`
+e 7 test collegati, `pannello/src/lib/badge-coerenza.ts`), tutti i nuovi con lo stesso timestamp esatto
+06:30:04. Coincide col momento in cui un'altra sessione ha pubblicato la PR #722 (commit `6111661ae`), ma
+quel commit ha salvato solo 26 file di memoria — questi 34 di codice sono rimasti fuori. Non li ho committati:
+il codice va sempre su un branch + PR, mai un commit diretto su `main` da un giro di memoria
+([[codice-solo-pr-mai-merge]]). Segnalato in Rischi/Serve-da-Nicola nel briefing e in STATO.md.
+
+**Gate correzione-nicola: confermati invariati, non toccati.** `cervello/ramo-pulito.mjs` (L-2026-0730-01),
+`cervello/coerenza-fatti.mjs` (L-2026-0726-02, riverificato dal vivo — passa), e i test/mutazioni collegati
+ad AR-394/AR-450/AR-471 restano esattamente come nei passaggi precedenti: nessuna loro config è stata toccata
+in questo giro.
+
+## Passaggi precedenti
+
+### 🔬 AUTO-ANALISI — 2026-08-14 02:21
 
 > Giro completo richiesto in chat. Business invariato (sensore diretto, 02:21).
 > Ho sbloccato un rebase automatico rimasto bloccato in apertura sessione.

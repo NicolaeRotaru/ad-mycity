@@ -35,14 +35,16 @@ Fonte: 3bmeteo.com/meteo/piacenza (consultata 13/8). **Riconfermato 14/8** via W
 
 **Nessun evento di massa nuovo in centro storico Piacenza questa settimana — invariato dal 10/8.**
 
-**Ferragosto 15/8, aggiornamento 14/8:** PiacenzaSera conferma che **i mercati restano regolari** in centro storico e alla Besurica il giorno di Ferragosto. Nessuna chiusura del mercato. Per i negozi vale comunque l'attesa chiusura per consuetudine nazionale. Impatto su MyCity oggi: nullo. L'unico negozio reale, Pane Quotidiano, non incassa ancora. Fonte: [piacenzasera.it — Ferragosto, mercato regolare in centro storico e alla Besurica](https://www.piacenzasera.it/2026/08/ferragosto-mercato-regolare-in-centro-storico-e-alla-besurica-2/657852/) (14/8).
+**Ferragosto 15/8, aggiornamento 14/8:** PiacenzaSera conferma che **i mercati restano regolari** in centro storico e alla Besurica il giorno di Ferragosto. Nessuna chiusura del mercato. Per i negozi vale comunque l'attesa chiusura per consuetudine nazionale. Impatto su MyCity oggi: nullo. L'unico negozio reale, Pane Quotidiano, non incassa ancora.
+Fonte: [piacenzasera.it — Ferragosto, mercato regolare in centro storico e alla Besurica](https://www.piacenzasera.it/2026/08/ferragosto-mercato-regolare-in-centro-storico-e-alla-besurica-2/657852/) (14/8).
 
 ---
 
-## 🆕 Novità di oggi da Libertà — Attualità (fonte rimasta indietro nel giro delle 06:30)
+## 🆕 Novità di oggi da Libertà — Attualità
+Fonte rimasta indietro nel giro delle 06:30, recuperata ora.
 
-**① Restrizione alcolici/vetro estesa anche a vicolo Barozzieri, vicolo Moroni e viale Pubblico Passeggio (tratto piazzale Roma-Stradone Farnese) — attività chiuse alle 21**
-Non è una misura nuova: è l'estensione di quella già registrata l'11/8 a Piazzetta Barozzieri. Il Comune ha allargato l'art. 18 del Regolamento di Polizia Urbana, nato nel 2018 per la zona Roma/stazione, a queste tre nuove aree. Divieto di vendita/consumo alcolici e contenitori in vetro dalle 24 alle 7, esercizi commerciali/artigianali chiusi alle 21 in quelle vie. Sanzione 500€, sospensione dell'attività in caso di recidiva/gravità.
+**① Restrizione alcolici/vetro estesa a tre zone nuove — attività chiuse alle 21**
+Le zone nuove: vicolo Barozzieri, vicolo Moroni, viale Pubblico Passeggio (tratto piazzale Roma-Stradone Farnese). Non è una misura nuova: è l'estensione di quella già registrata l'11/8 a Piazzetta Barozzieri. Il Comune ha allargato l'art. 18 del Regolamento di Polizia Urbana, nato nel 2018 per la zona Roma/stazione, a queste tre nuove aree. Divieto di vendita/consumo alcolici e contenitori in vetro dalle 24 alle 7. Esercizi commerciali/artigianali chiusi alle 21 in quelle vie. Sanzione 500€, sospensione dell'attività in caso di recidiva/gravità.
 **Impatto operativo:** se in futuro si consegna in quella fascia (centro, zona stazione/Roma), le consegne serali dopo le 21 in quelle vie specifiche non troveranno esercizi aperti. Oggi è irrilevante, 0 consegne attive — da tenere a mente quando riparte la logistica.
 Fonte: [liberta.it — "Degrado, giro di vite tra Lupa e Stradone: stop ad alcolici, attività chiuse alle 21"](https://liberta.it/news/territorio/citta/piacenza/degrado-giro-di-vite-tra-lupa-e-stradone-stop-ad-alcolici-attivita-chiuse-alle-21/109125) (consultato 13/8, articolo ~1 giorno).
 
