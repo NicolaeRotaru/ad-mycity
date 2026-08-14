@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-13 22:55",
+ "aggiornato": "2026-08-14 20:45",
  "mutanti": [
   {
    "lotto": 30,
@@ -3249,6 +3249,15 @@
    "cerca": "const TETTI = process.env.PESO_TETTI || join(QUI, \"peso-contesto.json\");",
    "sostituisci": "const TETTI = process.env.PESO_TETTI || join(QUI, \"peso-contesto-inesistente.json\");",
    "test": "node cervello/peso-contesto.mjs"
+  },
+  {
+   "difetto": "rilancio-di-conferma-spento",
+   "lezione": "L-2026-0814-001",
+   "nome": "la macchina smette di rilanciare un rosso prima di crederci: una corsa fra prove parallele torna a passare per una regressione e blocca la CI",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "  const daRilanciare = righe.filter((x) => x.esito === \"rosso\");",
+   "sostituisci": "  const daRilanciare = []; // MUTANTE: nessuno rilancia, il primo rosso e definitivo",
+   "test": "node cervello/test/rosso-confermato-prima-di-crederci.test.mjs"
   }
  ]
 }

@@ -21,7 +21,8 @@
    "ultima_conferma": "2026-08-14 20:15",
    "stato": "attiva",
    "usi": [],
-   "gate": "node cervello/test/registri-ora-di-piacenza.test.mjs"
+   "gate": "node cervello/test/rosso-confermato-prima-di-crederci.test.mjs",
+   "nota_gate": "Il gate dichiarato al momento della scoperta era `node cervello/test/registri-ora-di-piacenza.test.mjs`, cioe il test che era andato in corsa: verifica i timbri, non la regola, e sarebbe potuto restare verde per sempre con la regola mai applicata. Il freno vero e il rilancio di conferma fatto DALLA MACCHINA (confermaIRossi in test-cervello.mjs), che non dipende da chi si ricorda di rilanciare."
   },
   {
    "id": "L-2026-0813-03",

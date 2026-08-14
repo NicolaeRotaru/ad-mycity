@@ -45,7 +45,7 @@
 // possono divergere in silenzio.
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { cpus } from "node:os";
 import { pathToFileURL } from "node:url";
@@ -302,6 +302,53 @@ function eseguiTest(dir, f) {
 }
 
 /**
+ * 🔁 LA CONFERMA — un rosso solo non basta per crederci.
+ *
+ * IL CASO VERO, 14 agosto 2026. La suite intera segna 3 rossi; uno di quei tre
+ * (`registri-ora-di-piacenza.test.mjs`) non era mai stato rosso prima. Rilanciato da solo: verde,
+ * 5 su 5. Rilanciata la suite intera una seconda volta: verde anche lì. Non era una regressione —
+ * era una CORSA. Quel test legge timbri che altri file della stessa suite riscrivono nello stesso
+ * istante, e le corsie parallele glieli cambiavano sotto.
+ *
+ * PERCHÉ È CODICE E NON UN PROMEMORIA. La lezione registrata quel giorno diceva a chi legge:
+ * «rilancia prima di aprire un cantiere». Ma una regola che vive in un file di lezioni è un
+ * promemoria — e questa casa ha il conto di quanto valgono: 269 correzioni, zero freni. Il rilancio
+ * lo fa la macchina, sempre, senza che nessuno debba ricordarsene.
+ *
+ * COME. I rossi si rilanciano UNA volta sola e IN FILA, uno per volta: da soli la corsa non si
+ * riproduce, ed è esattamente questa la domanda. Chi fallisce di nuovo è rosso davvero e resta
+ * rosso. Chi passa diventa `instabile`: NON verde (un test che dipende dall'ordine è un difetto,
+ * e va detto per nome), NON rosso (bloccare la CI su un fantasma insegna a saltare la CI).
+ *
+ * Non si rilancia un `ineseguibile`: quello non è nemmeno partito, e un file che non parte non
+ * parte anche la seconda volta — rilanciarlo sarebbe solo tempo speso per confermare l'ovvio.
+ *
+ * @param righe     i verdetti della prima passata
+ * @param rilancia  (riga) => Promise<verdetto>, la seconda corsa dello stesso file
+ */
+export async function confermaIRossi(righe = [], rilancia) {
+  const daRilanciare = righe.filter((x) => x.esito === "rosso");
+  if (!daRilanciare.length) return righe;
+
+  const seconda = new Map();
+  for (const x of daRilanciare) seconda.set(x.file, await rilancia(x)); // in fila: da soli, non in corsia
+
+  return righe.map((x) => {
+    const due = seconda.get(x.file);
+    if (!due) return x;
+    if (due.esito !== "ok") return { ...x, ...due, file: x.file, confermato: true };
+    return {
+      ...x,
+      esito: "instabile",
+      passati: due.passati,
+      falliti: 0,
+      rosse: [],
+      motivo: `rosso nella suite, verde da solo al rilancio: è una corsa fra prove parallele, non una regressione (prima passata: ${x.motivo || "rosso"})`,
+    };
+  });
+}
+
+/**
  * Lancia UN file `.bats` col binario trovato.
  *
  * IN FILA, non a corsie, e la ragione è la stessa di AR-446 un piano più sotto: queste prove
@@ -407,10 +454,13 @@ async function main() {
   };
   const inFila = file.filter(vaInFila);
   const liberi = file.filter((f) => !inFila.includes(f));
-  const righe = [
+  const primaPassata = [
     ...(await aCorsie(liberi, CORSIE, (f) => eseguiTest(dir, f))),
     ...(await aCorsie(inFila, 1, (f) => eseguiTest(dir, f))),
   ].sort((a, b) => a.file.localeCompare(b.file));
+  // Ogni rosso si rilancia una volta, da solo, prima di essere creduto (L-2026-0814-001).
+  const righe = await confermaIRossi(primaPassata, (x) => eseguiTest(dir, basename(x.file)));
+  const instabili = righe.filter((x) => x.esito === "instabile");
 
   // AR-660 — le prove in bash, che fino a oggi non lanciava nessuno.
   const bin = bats.length ? binarioBats() : null;
@@ -432,8 +482,12 @@ async function main() {
   // rossa la CI, il vincolo hard del giro e la visita della macchina su una dipendenza mancante — e
   // un cancello che non può diventare verde si impara a saltare (è la lezione in cima a
   // cancello-lotto.mjs, e vale identica qui). Resta ⚪, dichiarato uno per uno, mai spacciato per ✅.
+  // `instabile` sta accanto a `non-eseguito` per la stessa ragione: non è un test che fallisce, ed è
+  // già stato guardato due volte. Contarlo rosso renderebbe rossa la CI su una corsa fra processi —
+  // e un cancello che diventa rosso per motivi che non c'entrano col codice si impara a saltare.
+  // Resta ⚠️, dichiarato per nome in fondo, mai spacciato per ✅.
   const tutte = [...righe, ...righeBats];
-  const rotti = tutte.filter((x) => x.esito !== "ok" && x.esito !== "non-eseguito");
+  const rotti = tutte.filter((x) => x.esito !== "ok" && x.esito !== "non-eseguito" && x.esito !== "instabile");
   const totale = tutte.reduce((n, x) => n + (x.passati || 0), 0);
 
   if (JSON_MODE) {
@@ -462,7 +516,8 @@ async function main() {
   console.log(`\n🧪 TEST DEL CERVELLO — ${quando}  (${CORSIE} corsie · ${inFila.length} in fila perché scrivono sul dato vivo)\n`);
   for (const m of illeggibili) console.log(`  ⚠️  ${m}`);
   for (const x of [...righe, ...righeBats]) {
-    const icona = x.esito === "ok" ? "✅" : x.esito === "non-eseguito" ? "⚪" : x.esito === "ineseguibile" ? "🚫" : "❌";
+    const icona =
+      x.esito === "ok" ? "✅" : x.esito === "non-eseguito" ? "⚪" : x.esito === "instabile" ? "⚠️" : x.esito === "ineseguibile" ? "🚫" : "❌";
     console.log(`  ${icona} ${x.file}${x.passati != null ? `  (${x.passati} passati)` : ""}`);
     if (x.motivo) console.log(`      ${x.motivo}`);
     // QUALE asserzione, non solo quante (AR-450): è la riga che rende un rosso in CI diagnosticabile
@@ -477,6 +532,13 @@ async function main() {
       `\n⚪ ${nonEseguiti.length} prove in bash NON eseguite: manca \`bats\` su questa macchina.` +
         `\n   Installalo (\`sudo apt-get install -y bats\`, oppure \`npm i -g bats\` e poi BATS_BIN=$(command -v bats)) e rilancia: sono prove vere, oggi nessuno le fa.`,
     );
+  }
+  // Un instabile è un difetto vero (una prova che dipende dall'ordine non è una rete), solo non di
+  // quelli che si riparano rilanciando. Va a finire qui, dove si legge il verdetto, con il nome.
+  if (instabili.length) {
+    console.log(`\n⚠️  ${instabili.length} prove INSTABILI: rosse nella suite, verdi rilanciate da sole.`);
+    for (const x of instabili) console.log(`   · ${x.file}`);
+    console.log(`   Non è una regressione (il codice passa), ma è una prova che dipende da chi gira insieme: va isolata.`);
   }
   if (!rotti.length) {
     const copertura = nonEseguiti.length ? ` — il verde NON copre ${nonEseguiti.length} prove in bash` : "";
