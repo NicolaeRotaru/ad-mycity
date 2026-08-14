@@ -159,10 +159,12 @@ export default function Azioni() {
   const [salvataggio, setSalvataggio] = useState(false);
   const [collegato, setCollegato] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [aperte, setAperte] = useState<Set<string>>(new Set());
-  // AR-219 — la memoria di cosa Nicola ha aperto o chiuso (id → aperta?) e se ha chiesto di vedere
-  // tutta la coda. Un id assente = non ha ancora deciso lui: vale la regola (solo la prima aperta).
-  const [scelteCard, setScelteCard] = useState<Record<string, boolean>>({});
+  // AR-675 — UNA memoria sola per casella. Prima erano due, `aperte` (un Set, per il testo esatto
+  // dentro la card) e `scelteCard` (un Record, per la scheda): due nomi quasi uguali per due cose
+  // diverse, ed è lì che è nato AR-612 — chi ha scritto il salto ha aperto quello sbagliato, in
+  // buona fede. Adesso c'è un contenitore solo e le regole stanno in lib/stato-card.ts, dove un test
+  // le esegue. Un id assente = Nicola non ha ancora deciso: vale «resta aperta solo la prima».
+  const [carte, setCarte] = useState<StatoCarte>(NESSUNA_CARTA);
   const [mostraTuttaCoda, setMostraTuttaCoda] = useState(false);
   const [mostraTutteFerme, setMostraTutteFerme] = useState(false);
   // AR-612 — cosa dire quando «Vai all'azione da firmare» non trova niente da mostrare. Prima non si
@@ -640,8 +642,8 @@ export default function Azioni() {
               )}
               {ETICHETTA[a.livello] && <span className="t-eti">{ETICHETTA[a.livello]}</span>}
               {a.fonte === "sentinella" && <span className="badge badge-on">🛡️ da sentinella</span>}
-              {a.qualita?.voto === "rivedere" && <span className="badge bg-amber-50 text-amber-700" title={a.qualita.problemi.join(" · ")}>⚠️ qualità: da rivedere</span>}
-              {a.qualita?.voto === "ok" && !decisa && <span className="badge bg-green-50 text-green-700">✅ qualità ok</span>}
+              {a.qualita?.voto === "rivedere" && <span className={`badge ${classiBadge("ambra")}`} title={a.qualita.problemi.join(" · ")}>⚠️ qualità: da rivedere</span>}
+              {a.qualita?.voto === "ok" && !decisa && <span className={`badge ${classiBadge("verde")}`}>✅ qualità ok</span>}
             </div>
             {/* I due bottoni stanno QUI, nella parte sempre visibile: si firma senza aprire la scheda. */}
             <div className="flex flex-wrap items-center gap-2 mt-2.5">
@@ -708,7 +710,7 @@ export default function Azioni() {
         })()}
 
         {a.qualita?.voto === "rivedere" && a.qualita.problemi.length > 0 && (
-          <div className="mt-2 text-[12px] text-amber-800 bg-amber-50 border border-amber-200 rounded-lg px-2.5 py-1.5">⚠️ Da sistemare prima di inviare: {a.qualita.problemi.join(" · ")}</div>
+          <div className="mt-2 text-[12px] text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-900/50 rounded-lg px-2.5 py-1.5">⚠️ Da sistemare prima di inviare: {a.qualita.problemi.join(" · ")}</div>
         )}
 
         {/* 📄 Il testo VERO che verrà inviato (il percorso tecnico del file resta nascosto). */}
@@ -718,7 +720,7 @@ export default function Azioni() {
               <FileText size={13} /> Leggi il testo esatto che verrà inviato
             </button>
             {sch?.loading && <p className="t-eti mt-1 flex items-center gap-1"><Loader2 size={12} className="animate-spin" /> apro il testo…</p>}
-            {sch?.err && <p className="t-eti mt-1 text-amber-700">Testo non disponibile ({sch.err}). Serve la memoria collegata.</p>}
+            {sch?.err && <p className="t-eti mt-1 text-amber-700 dark:text-amber-300">Testo non disponibile ({sch.err}). Serve la memoria collegata.</p>}
             {sch?.testo && (
               <pre className="mt-1.5 whitespace-pre-wrap font-sans text-[12.5px] text-ink/85 leading-relaxed border-l-2 border-brand/30 pl-3 bg-paper/50 rounded-r-lg py-2 max-h-96 overflow-y-auto">{sch.testo}</pre>
             )}
@@ -814,7 +816,7 @@ export default function Azioni() {
               {intenzioni.data && <p className="t-eti">🕗 Letto dai Piani · {intenzioni.data}</p>}
               {intenzioni.sintesi && <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 text-[13px] text-ink/90">{intenzioni.sintesi}</div>}
               {mosse.map((m, i) => {
-                const c = m.priorita === "alta" ? "border-red-200 bg-red-50/40" : m.priorita === "media" ? "border-amber-200 bg-amber-50/40" : "border-black/[0.07] bg-paper/40";
+                const c = m.priorita === "alta" ? "border-red-200 dark:border-red-900/50 bg-red-50/40 dark:bg-red-950/20" : m.priorita === "media" ? "border-amber-200 dark:border-amber-900/50 bg-amber-50/40 dark:bg-amber-950/20" : "border-black/[0.07] bg-paper/40";
                 return (
                   <div id={`mossa-${i + 1}`} key={i} className={`rounded-xl border p-3 scroll-mt-24 ${c}`}>
                     <div className="flex items-start gap-2">
@@ -876,7 +878,7 @@ export default function Azioni() {
                     <div className="t-sez leading-snug">{pulisciTitolo(p.titolo)}</div>
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
                       <span className="badge badge-on">💡 dal giro</span>
-                      {ab && <span className="badge bg-red-50 text-red-700">A / B</span>}
+                      {ab && <span className={`badge ${classiBadge("rosso")}`}>A / B</span>}
                       {ETICHETTA[p.livello] && <span className="t-eti">{ETICHETTA[p.livello]}</span>}
                     </div>
                     <p className="t-corpo mt-2">{p.motivo}</p>
@@ -886,7 +888,7 @@ export default function Azioni() {
                   </div>
                 </div>
                 {sceltaRegistrata && config && !e && (
-                  <p className="t-eti mt-2 text-green-700">
+                  <p className="t-eti mt-2 text-green-700 dark:text-green-300">
                     ✅ Decisione {etichettaScelta(config, sceltaRegistrata)}
                   </p>
                 )}
@@ -910,7 +912,7 @@ export default function Azioni() {
                     <button
                       onClick={() => decidiSceltaAB(i, p, "B")}
                       disabled={sceltaBusy || propBusy === pid}
-                      className="inline-flex items-center justify-center gap-1.5 text-[13px] font-medium px-3.5 py-2 rounded-xl border border-red-200 bg-red-50 text-red-800 hover:bg-red-100 active:scale-[0.98] transition disabled:opacity-50"
+                      className="inline-flex items-center justify-center gap-1.5 text-[13px] font-medium px-3.5 py-2 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/30 text-red-800 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-950/50 active:scale-[0.98] transition disabled:opacity-50"
                     >
                       <XCircle size={15} /> B — {config.opzione_b}
                     </button>
@@ -937,7 +939,7 @@ export default function Azioni() {
       {tab === "dafare" && (
         <div className="space-y-3">
           {!todoSalva && todo.length > 0 && (
-            <p className="text-[11px] text-amber-700 bg-amber-50 rounded-lg px-2.5 py-1.5">⚠️ Le spunte non si salvano ancora: collega la memoria («impostazioni») e resteranno su ogni dispositivo.</p>
+            <p className="text-[11px] text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 rounded-lg px-2.5 py-1.5">⚠️ Le spunte non si salvano ancora: collega la memoria («impostazioni») e resteranno su ogni dispositivo.</p>
           )}
           {todo.length === 0 && <p className="text-[13px] text-black/55 py-4 text-center">Nessuna cosa da fare. L'AD scrive l'elenco in CHECKLIST-NICOLA.md.</p>}
           {Array.from(new Set(todo.map((t) => t.sezione))).map((sez) => (
@@ -945,7 +947,7 @@ export default function Azioni() {
               {sez && <div className="t-micro mb-1.5">{sez}</div>}
               <div className="space-y-1.5">
                 {todo.filter((t) => t.sezione === sez).map((item) => {
-                  const c = item.livello === "rosso" ? "border-red-200 bg-red-50/60" : item.livello === "giallo" ? "border-amber-200 bg-amber-50/60" : "border-green-200 bg-green-50/50";
+                  const c = item.livello === "rosso" ? "border-red-200 dark:border-red-900/50 bg-red-50/60 dark:bg-red-950/20" : item.livello === "giallo" ? "border-amber-200 dark:border-amber-900/50 bg-amber-50/60 dark:bg-amber-950/20" : "border-green-200 dark:border-green-900/50 bg-green-50/50 dark:bg-green-950/20";
                   return (
                     <button key={item.id} onClick={() => spunta(item)} className={`w-full text-left flex items-start gap-2.5 rounded-xl border p-2.5 transition active:scale-[0.99] ${item.fatto ? "border-black/[0.06] bg-black/[0.02] opacity-60" : c}`}>
                       <span className={`mt-0.5 grid place-items-center w-5 h-5 rounded-md border shrink-0 ${item.fatto ? "bg-brand border-brand text-white" : "border-black/25 bg-white"}`}>
@@ -953,7 +955,7 @@ export default function Azioni() {
                       </span>
                       <span className={`text-[13px] leading-snug ${item.fatto ? "line-through text-black/45" : "text-ink/90"}`}>
                         {testoPulito(item.testo)}
-                        {todoErr[item.id] && <span className="block text-[11.5px] font-medium text-red-700">⚠️ {todoErr[item.id]}</span>}
+                        {todoErr[item.id] && <span className="block text-[11.5px] font-medium text-red-700 dark:text-red-300">⚠️ {todoErr[item.id]}</span>}
                       </span>
                     </button>
                   );
@@ -969,11 +971,11 @@ export default function Azioni() {
       {tab === "sentinelle" && (
         <div className="space-y-2.5">
           <p className="t-eti">Allarmi sui dati reali del marketplace. Per ognuno, l'AD ha già capito la mossa: il link ti porta all'azione da firmare.</p>
-          {alerts.length === 0 && <p className="text-[13px] text-green-700 py-4 text-center flex items-center justify-center gap-1.5"><CheckCircle2 size={15} /> Nessun allarme attivo: tutto sotto controllo.</p>}
+          {alerts.length === 0 && <p className="text-[13px] text-green-700 dark:text-green-300 py-4 text-center flex items-center justify-center gap-1.5"><CheckCircle2 size={15} /> Nessun allarme attivo: tutto sotto controllo.</p>}
           {alerts.map((al, i) => {
             const rosso = al.livello === "rosso";
             return (
-              <div id={al.id ? `alert-${al.id}` : undefined} key={i} className={`rounded-xl border p-3 scroll-mt-24 ${rosso ? "border-red-200 bg-red-50/60" : "border-amber-200 bg-amber-50/60"}`}>
+              <div id={al.id ? `alert-${al.id}` : undefined} key={i} className={`rounded-xl border p-3 scroll-mt-24 ${rosso ? "border-red-200 dark:border-red-900/50 bg-red-50/60 dark:bg-red-950/20" : "border-amber-200 dark:border-amber-900/50 bg-amber-50/60 dark:bg-amber-950/20"}`}>
                 <div className="flex items-start gap-2">
                   <ShieldAlert size={15} className={`mt-0.5 shrink-0 ${rosso ? "text-red-600" : "text-amber-600"}`} />
                   <div className="min-w-0 flex-1">
@@ -1000,12 +1002,12 @@ export default function Azioni() {
             <span>La <b>casella</b> dove la macchina ti lascia i suoi avvisi (es. «memoria incoerente, giro non pubblicato»). Quando collegheremo <b>Telegram</b> gli stessi messaggi ti arriveranno anche sul telefono — per ora restano qui, così non se ne perde nessuno.</span>
           </div>
           {avvisi.length === 0 && (
-            <p className="text-[13px] text-green-700 py-4 text-center flex items-center justify-center gap-1.5">
+            <p className="text-[13px] text-green-700 dark:text-green-300 py-4 text-center flex items-center justify-center gap-1.5">
               <CheckCircle2 size={15} /> Nessun avviso. Quando la macchina ha qualcosa da dirti, compare qui.
             </p>
           )}
           {avvisi.map((av, i) => (
-            <div key={i} className="rounded-xl border border-amber-200 bg-amber-50/60 p-3">
+            <div key={i} className="rounded-xl border border-amber-200 dark:border-amber-900/50 bg-amber-50/60 dark:bg-amber-950/20 p-3">
               <div className="flex items-start gap-2">
                 <Megaphone size={15} className="mt-0.5 shrink-0 text-amber-600" />
                 <div className="min-w-0 flex-1">
@@ -1054,7 +1056,7 @@ export default function Azioni() {
           {/* AR-612 — «Vai all'azione da firmare» che non trova niente lo DICE, invece di lasciare
               Nicola su una lista qualunque a chiedersi se il bottone abbia funzionato. */}
           {avvisoSalto && (
-            <div className="card border border-amber-200 bg-amber-50/50 p-3 flex items-start gap-2">
+            <div className="card border border-amber-200 dark:border-amber-900/50 bg-amber-50/50 dark:bg-amber-950/20 p-3 flex items-start gap-2">
               <span className="text-[15px] leading-none mt-0.5">🔎</span>
               <p className="text-[13px] text-ink/85 flex-1">{avvisoSalto}</p>
               <button onClick={() => setAvvisoSalto(null)} className={classeComando("t-eti hover:text-brand transition shrink-0")} aria-label="Chiudi l'avviso">
@@ -1071,7 +1073,7 @@ export default function Azioni() {
               </div>
 
               {lezioni.length > 0 && (
-                <div className="card border border-amber-200 bg-amber-50/40 p-3.5">
+                <div className="card border border-amber-200 dark:border-amber-900/50 bg-amber-50/40 dark:bg-amber-950/20 p-3.5">
                   <div className="flex items-center gap-2"><span className="text-[15px]">📚</span><span className="t-sez">Lezioni apprese <span className="t-eti">(auto-miglioramento)</span></span></div>
                   <div className="mt-2 space-y-1">{lezioni.map(([p, n]) => <div key={p} className="flex items-center gap-2 text-[12.5px] text-ink/85"><span className="badge badge-off shrink-0">{n}×</span><span>{p}</span></div>)}</div>
                 </div>
