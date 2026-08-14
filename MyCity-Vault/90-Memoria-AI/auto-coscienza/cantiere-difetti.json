@@ -14217,7 +14217,8 @@
       "verifica": {
         "tipo": "umano",
         "nota": "nessuna prova automatica finché il pezzo non esiste: sarebbe il banco che certifica sé stesso senza lo strumento."
-      }
+      },
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-694",
@@ -14233,7 +14234,8 @@
       "verifica": {
         "tipo": "umano",
         "nota": "da convertire in comando quando il guardiano esiste."
-      }
+      },
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-695",
@@ -14247,7 +14249,8 @@
       "fix_proposto": "Distinguere «il tetto è stato superato» (regressione, rossa per chi l'ha causata) da «il tetto è esattamente pieno» (stato normale dopo una cura). Oppure attribuire la riga nuova a chi l'ha scritta, come fa già il sorvegliante del delta.",
       "verifica": {
         "tipo": "umano"
-      }
+      },
+      "nato_come": "scoperta"
     }
   ],
   "meta": {
