@@ -1398,3 +1398,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 - **Colore:** ✅ chiusa, nessuna azione da eseguire
 - **Reparto:** chief-of-staff + analista
 - **Origine:** `{origine:auto-radiografia-2026-07-27, difetto:AR-157}` — chiusa da giro AD 2026-08-13 10:22
+| 83 | 2026-08-14 06:39 | @tech | Finisci di riparare i test rossi: il primo tentativo ne ha lasciato un altro aperto sullo stesso ramo | 🟡 | https://github.com/NicolaeRotaru/ad-mycity/pull/722 — 2 controlli CI falliti (test del cervello, verdetti senza lettore), nessun esito lasciato nel quaderno di reparto (AR-009). Da riparare sullo stesso ramo `fix/recupero-sensori-mappa-macchina-13-8`, non un altro. | github | in attesa | Finché resta rossa, sale a 5 il numero di PR aperte e rosse, e le altre due PR sullo stesso tema (probabile duplicato) non si possono chiudere con sicurezza. | Dopo il fix la CI torna verde, e posso rileggere le PR duplicate per capire se vanno chiuse. |

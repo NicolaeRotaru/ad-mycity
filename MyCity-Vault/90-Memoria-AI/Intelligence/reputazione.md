@@ -1,6 +1,6 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
-> Aggiornato: **2026-08-13 09:30** — recupero del giro delle 08:41, fallito per limite motore. Fonte di oggi: WebFetch su liberta.it/territorio/citta/piacenza (la fonte dovuta "Libertà — Città di Piacenza", rimasta indietro dal giro delle 06:30), più WebSearch su "MyCity Piacenza marketplace negozi consegna recensioni" e "Pane Quotidiano Piacenza via Calzolai recensioni consegna". Precedente: 10/8/2026 13:35, fonti elencate sotto.
+> Aggiornato: **2026-08-14 06:31** — giro leggero (`cervello/monitora.md`). Fonte dovuta oggi: WebFetch su liberta.it/territorio/citta/piacenza (fonte giornaliera "Libertà — Città di Piacenza"). **Nessuna menzione MyCity/marketplace/Pane Quotidiano.** Nessuna novità su botteghe/ZTL rispetto a ieri: le notizie del giorno restano di viabilità/urbanistica (Piazza Cittadella, lavori Via Benedettine), riportate in `eventi-picchi.md`. La fonte settimanale "Reputazione MyCity (ricerca aperta)" non è dovuta oggi: ultimo controllo 10/8, sotto i 7 giorni. Non ripetuta, per non sprecare il Max. Precedente: 13/8/2026 09:30, fonti elencate sotto.
 
 ---
 
