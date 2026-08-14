@@ -4803,13 +4803,13 @@
     }
   ],
   "sonda": {
-    "data": "2026-08-14 22:39",
+    "data": "2026-08-15 00:46",
     "loop_chiude": true,
     "tasso_applicazione": 0.12,
     "prova_chiusura": true,
     "finestra_recency_gg": 14,
-    "difetti_chiusi": 473,
-    "difetti_chiusi_recenti": 230,
+    "difetti_chiusi": 474,
+    "difetti_chiusi_recenti": 229,
     "calibrazione_piena": false,
     "loop_vivo": true,
     "intenzioni_aperte": 1,
@@ -4820,20 +4820,20 @@
     "esperimenti_misurati": true,
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 81,
+    "ore_da_ultima_completa": 83,
     "ore_da_ultimo_briefing": 0,
     "max_giri_ciechi_sensori": 146,
-    "giri_tasso_basso": 112,
+    "giri_tasso_basso": 113,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
     "voto_pieno": 0,
     "pending_merge": 0,
-    "aperti_davvero": 136,
+    "aperti_davvero": 135,
     "bloccanti_umani": 77,
-    "salute_firma": "AR-045,AR-046,AR-047,AR-048,AR-050,AR-051,AR-052,AR-053,AR-054,AR-055,AR-056,AR-057,AR-058,AR-059,AR-060,AR-061,AR-062,AR-063,AR-064,AR-065,AR-067,AR-068,AR-069,AR-070,AR-071,AR-072,AR-073,AR-074,AR-075,AR-076,AR-077,AR-078,AR-079,AR-080,AR-081,AR-082,AR-083,AR-084,AR-085,AR-086,AR-087,AR-088,AR-089,AR-091,AR-092,AR-093,AR-094,AR-095,AR-096,AR-100,AR-102,AR-103,AR-104,AR-128,AR-131,AR-133,AR-142,AR-158,AR-160,AR-161,AR-174,AR-175,AR-181,AR-184,AR-190,AR-191,AR-192,AR-193,AR-198,AR-199,AR-200,AR-202,AR-203,AR-206,AR-208,AR-209,AR-210,AR-225,AR-274,AR-282,AR-283,AR-285,AR-288,AR-289,AR-290,AR-295,AR-329,AR-345,AR-347,AR-351,AR-352,AR-354,AR-355,AR-356,AR-365,AR-366,AR-386,AR-388,AR-392,AR-394,AR-398,AR-411,AR-431,AR-436,AR-458,AR-464,AR-504,AR-518,AR-521,AR-556,AR-557,AR-560,AR-561,AR-576,AR-584,AR-588,AR-596,AR-598,AR-599,AR-600,AR-605,AR-608,AR-611,AR-613,AR-615,AR-616,AR-617,AR-618,AR-621,AR-622,AR-623,AR-630,AR-639,AR-640,AR-641,AR-645",
+    "salute_firma": "AR-045,AR-046,AR-047,AR-048,AR-050,AR-051,AR-052,AR-053,AR-054,AR-055,AR-056,AR-057,AR-058,AR-059,AR-060,AR-061,AR-062,AR-063,AR-064,AR-065,AR-067,AR-068,AR-069,AR-070,AR-071,AR-072,AR-073,AR-074,AR-075,AR-076,AR-077,AR-078,AR-079,AR-080,AR-081,AR-082,AR-083,AR-084,AR-085,AR-086,AR-087,AR-088,AR-089,AR-091,AR-092,AR-093,AR-094,AR-095,AR-096,AR-100,AR-102,AR-103,AR-104,AR-128,AR-131,AR-133,AR-142,AR-158,AR-160,AR-161,AR-174,AR-175,AR-181,AR-184,AR-190,AR-191,AR-192,AR-193,AR-198,AR-199,AR-200,AR-202,AR-203,AR-206,AR-208,AR-209,AR-210,AR-274,AR-282,AR-283,AR-285,AR-288,AR-289,AR-290,AR-295,AR-329,AR-345,AR-347,AR-351,AR-352,AR-354,AR-355,AR-356,AR-365,AR-366,AR-386,AR-388,AR-392,AR-394,AR-398,AR-411,AR-431,AR-436,AR-458,AR-464,AR-504,AR-518,AR-521,AR-556,AR-557,AR-560,AR-561,AR-576,AR-584,AR-588,AR-596,AR-598,AR-599,AR-600,AR-605,AR-608,AR-611,AR-613,AR-615,AR-616,AR-617,AR-618,AR-621,AR-622,AR-623,AR-630,AR-639,AR-640,AR-641,AR-645",
     "verdetto": "serve-completa",
-    "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 146 giri · salute pending-merge 0/100 (floor 0): 136 aperti-davvero · 0 in attesa merge · 77 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)",
+    "nota": "loop chiude (con prova) · briefing 0h fa · cecità sensori 146 giri · salute pending-merge 0/100 (floor 0): 135 aperti-davvero · 0 in attesa merge · 77 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)",
     "voto_salute": 4,
     "voto_salute_copertura": "radiografia",
     "voto_salute_parziale": false,
@@ -4942,8 +4942,8 @@
     "data_scan": "2026-08-11 13:37"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 112,
-    "aggiornato": "2026-08-14 22:39"
+    "giri_tasso_basso": 113,
+    "aggiornato": "2026-08-15 00:46"
   },
   "zone_non_viste": [
     "Il worker e il VPS: da questa sessione non si vedono. Non ho potuto verificare se lo script che scrive AZIONI-IN-ATTESA sul server si comporti come la copia locale che ho letto, né se là il file sia più grande o più piccolo.",
