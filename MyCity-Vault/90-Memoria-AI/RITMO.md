@@ -1169,3 +1169,20 @@ giornata su quel lavoro, dentro la pausa concordata con Nicola fino al 24/8-1/9.
 
 **Dettagli tecnici** (opzionale)
 PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non verificabile da questa sessione (`gh auth` negato) — test locali tutti verdi (68/68, 68/68, 19/19, 5/5). Radiografia: `consegne/audit/2026-08-13-radiografia-totale.md`, schede AR-575→AR-645.
+
+## Piano del mattino · 2026-08-14 06:01
+
+**In una riga:** Il business resta fermo per la pausa concordata fino a fine agosto. Oggi il lavoro è chiudere la coda già aperta, non aprirne di nuova.
+
+**Le 3 cose di oggi**
+1. Ripasso le azioni ferme da più tempo in coda. Alcune aspettano dalla metà di luglio. Segnalo quali si chiudono con una tua risposta breve.
+2. Ti segnalo le tre firme più veloci di oggi. Bastano poche parole, non un lavoro lungo.
+3. Chiedo a chi si occupa del server di controllare perché il promemoria automatico di stamattina non è partito da solo. Questo di oggi l'ho scritto io a mano in chat.
+
+**Serve da te**
+- Spegni per davvero il sensore che avevi già deciso di spegnere. Il comando è pronto, basta incollarlo sul server.
+- Dimmi se un sensore mai acceso lo tieni spento o lo accendi.
+- Dimmi in che ordine vuoi che ti riscriva i tuoi dieci piani, ormai vecchi di un mese.
+- Senza fretta: due falle di sicurezza sul sito aspettano il tuo ok da 16 giorni. Sono già pronte da vedere in anteprima. Riguardano i negozi modificabili senza account e i dati dei clienti visibili senza login.
+
+**Dettagli tecnici** (PostHog `#80` · sensore `#66` · piani `#69` · sicurezza `#37`/`#36` · dati confermati da `sentinella-dati.json` 06:00, 0 eventi nuovi nell'ultima ora)
