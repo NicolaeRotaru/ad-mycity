@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-14 08:22** — Automatico: **73 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-14 11:15** — Automatico: **69 aperte · 8 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -1096,8 +1096,11 @@ Se ti va di provare, link nel primo commento 👇
 
 > *Nota AD 14/8 08:41: questo banner era ripetuto 6 volte identiche (13/8 20:21, 21:29, 22:21 · 14/8 01:51, 06:21, 08:22), residuo di più giri consecutivi che non hanno trovato nulla di nuovo da proporre. Stesso pattern già visto e corretto una volta l'11/8. Unificato di nuovo in uno solo, tenuta la versione più recente.*
 
+---
+
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-Aggiornato 2026-08-14 08:22 — nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-14-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-14 11:15)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-14-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1108,7 +1111,7 @@ Aggiornato 2026-08-14 08:22 — nessuna proposta di riempimento automatico in qu
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-14 08:22 · 8 card totali
+> Ultima pulizia: 2026-08-14 11:15 · 8 card totali
 
 ### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 
