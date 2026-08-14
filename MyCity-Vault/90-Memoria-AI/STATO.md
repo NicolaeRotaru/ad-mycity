@@ -1,8 +1,15 @@
 ---
 tipo: stato
-aggiornato: 2026-08-14 06:39
+aggiornato: 2026-08-14 08:41
 fonte: AD digitale (chat)
 ---
+
+> 🟡 **14/8 08:41 — Giro completo richiesto in chat, 2h dopo il precedente. Business invariato. Trovati 34 file di codice non committati (rischio nuovo, non di business).**
+> Confermato invariato dal sensore diretto (`sensori-cecita.json`, scritto da `giro.sh` alle 08:20): 1 ordine via REST, stesso stato dal 24/6. `node cervello/ci-stato.mjs` conferma le stesse 5 PR rosse di 06:39 (#722/#721/#714/#710/#708), nessuna variazione. `node cervello/coerenza-fatti.mjs` passa pulito.
+> **Novità reale, non di business**: `git status --short` mostra 34 file di codice modificati/nuovi mai committati (20 esistenti + 14 nuovi, tra cui `cervello/misura-o-cieco.mjs` e 7 test collegati, `pannello/src/lib/badge-coerenza.ts`), tutti con timestamp 06:30:04 — sembra il lavoro reale di una sessione di codice interrotta prima di un commit, mai recuperato dallo script "recupero: scritture pendenti" (che salva solo memoria, non codice). Non l'ho toccato: regola del repo, codice va sempre su branch+PR, mai commit diretto su `main` da un giro di memoria. Segnalato come rischio nuovo in Rischi/Serve-da-Nicola — va salvato da `@tech` prima che si perda.
+> Confermato un worker VPS attivo in parallelo (5 commit automatici 08:30-08:37, sentinella salute + refresh sensori): normale, non una scoperta di business.
+> Riprovati (una sola volta ciascuno, non insistito) `north-star-check.mjs --gate`, `gate-veri.mjs`, `sonda-volano.mjs`, `freschezza-intelligence.mjs`: tutti bloccati dall'allowlist, come nei passaggi precedenti.
+> **Mossa n.1, invariata**: nessuna azione business sbloccabile prima del 24/8-1/9. Prossima mossa reale con budget-codice: `@tech` recupera i 34 file dirty in un branch+PR, poi ripara #722. Briefing: [[Briefing/2026-08-14]].
 
 > 🔴 **14/8 06:39 — Giro completo richiesto in chat, 9 minuti dopo il precedente. Business invariato. La PR pubblicata alle 06:30 è già rossa in CI.**
 > Nessuna scrittura nuova tra le 06:30 e ora (HEAD invariato `6111661a`, 10 righe "in attesa" in coda, invariate): applicata la strategia snella per giri ripetuti ([[playbook-giro-pieno-ripetuto-strategia]]) — niente nuova query Supabase, niente radar/intelligence, solo verifica di cosa è cambiato.

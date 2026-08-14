@@ -136,7 +136,9 @@ in scrittura alla macchina, ed è giusto così.
 
 **Cosa cambia:** stasera il cancello di fine turno (`cervello/cancello-stop.mjs`) mi ha detto di aver «dimenticato» di accodare in questa pagina gli allarmi delle PR #675, #678, #679, #680, #681, #683. Ho controllato riga per riga: sono TUTTE già qui, alcune da sei giorni (righe 1636-1639 e i blocchi `#pr-675`/`#pr-678` più sopra). Il cancello non guarda «cosa ho fatto io in questo turno». Guarda tutto quello che è successo sul ramo dall'ultima volta che ha trovato la cartella di lavoro **completamente pulita**. Quel giorno è il 4/8. Da allora alcuni file JSON dei sensori automatici (`sentinella-dati.json`, `coerenza-fatti.json`, `apprendimento.json`, `auto-miglioramento.json`, `cervello/routing.json`) cambiano da soli a ogni giro. Non restano mai fermi abbastanza a lungo da farla apparire «pulita». Risultato: da 6 giorni ogni sessione si becca lo stesso elenco di 397 commit e 170 file come se fosse tutto suo, comprese cose già chiuse da altri.
 
-**Se va bene:** un tecnico decide una delle due cure — (a) il punto di riferimento del cancello si pianta anche quando restano sporchi solo i file dei sensori automatici (una lista di eccezioni nota), oppure (b) il punto di riferimento avanza da solo a ogni commit pubblicato, non solo quando l'albero è vuoto. Non urgente: per ora ogni sessione deve verificare a mano (come ho fatto io) prima di rifare lavoro già fatto.
+**Se va bene:** un tecnico decide una delle due cure. (a) Il punto di riferimento del cancello si pianta anche quando restano sporchi solo i file dei sensori automatici — una lista di eccezioni nota. (b) Il punto di riferimento avanza da solo a ogni commit pubblicato, non solo quando l'albero è vuoto. Non è urgente: per ora ogni sessione deve verificare a mano, come ho fatto io, prima di rifare lavoro già fatto.
+
+**Conferma 14/8 08:41 — stesso bug, con un worker VPS attivo in parallelo alla sessione.** Il cancello di fine-turno ha rimproverato questa stessa sessione per readability peggiorata su file mai toccati (`Intelligence/eventi-picchi.md`, `Intelligence/leve-uscita.md`) — riscritti nel frattempo da un giro leggero del worker VPS (`cervello/monitora.md`), non da questa sessione di chat. Stessa causa già diagnosticata sopra: il punto di riferimento del cancello resta al 4/8 perché i file dei sensori non stanno mai fermi. Con un worker concorrente attivo, il problema si aggrava: ora il cancello attribuisce a una sessione anche il lavoro di un processo automatico indipendente. Non ho aperto un fix di codice (fuori dal vincolo tasso-di-chiusura, che vieta ricerche nuove in questo giro); ho solo corretto la leggibilità dei paragrafi segnalati, mio e altrui, per superare il cancello senza intaccare la sostanza.
 
 - **Colore:** 🟡 (fix di codice in `cervello/cancello-stop.mjs`, serve branch+PR)
 - **Reparto:** tech
@@ -1090,63 +1092,12 @@ Se ti va di provare, link nel primo commento 👇
 
 ---
 
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 20:21)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-13-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento
 
-> ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
-> è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
-> la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
-<!-- SUPERVISIONE-NEGOZI:FINE -->
-
----
+> *Nota AD 14/8 08:41: questo banner era ripetuto 6 volte identiche (13/8 20:21, 21:29, 22:21 · 14/8 01:51, 06:21, 08:22), residuo di più giri consecutivi che non hanno trovato nulla di nuovo da proporre. Stesso pattern già visto e corretto una volta l'11/8. Unificato di nuovo in uno solo, tenuta la versione più recente.*
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-14 08:22)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-14-supervisione.md]].
-
-> ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
-> è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
-> la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
-<!-- SUPERVISIONE-NEGOZI:FINE -->
-
----
-
-<!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-14 06:21)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-14-supervisione.md]].
-
-> ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
-> è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
-> la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
-<!-- SUPERVISIONE-NEGOZI:FINE -->
-
----
-
-<!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-14 01:51)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-14-supervisione.md]].
-
-> ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
-> è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
-> la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
-<!-- SUPERVISIONE-NEGOZI:FINE -->
-
----
-
-<!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 22:21)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-13-supervisione.md]].
-
-> ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
-> è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
-> la conferma del dato dal negozio (restano «da procurare», non li scrive nessun autofill).
-<!-- SUPERVISIONE-NEGOZI:FINE -->
-
----
-
-<!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-13 21:29)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-13-supervisione.md]].
+Aggiornato 2026-08-14 08:22 — nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-14-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima

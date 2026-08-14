@@ -2096,6 +2096,17 @@
         "prova-accecata": 2
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T06:49:36.948Z",
+      "scatti": 6699,
+      "voci": 22,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 17,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
     }
   ],
   "aggiornato": "2026-08-14T00:37:17.876Z"
