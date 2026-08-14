@@ -185,7 +185,17 @@ export function verdetto({ letti = 0, nonRaggiunti = [], trovati = [] } = {}) {
       // AR-441: qui resta SOLO il file che non si è riusciti ad aprire davvero. Il file grosso non
       // passa più di qui — si legge a blocchi — e per questo la frase non parla più di un tetto:
       // dire «cieco» per una dimensione era il modo di suonare per sempre su un file che cresce.
-      sintesi: `${nonRaggiunti.length} file elencati da git che NON sono riuscito ad aprire: su ${letti} letti non posso dire «pulito»`,
+      //
+      // AR-427, la metà che stava per perdersi: la sintesi deve NOMINARE il motivo, perché «non ho
+      // letto» manda chi indaga a indovinare fra una porta rotta e una scelta nostra — due azioni
+      // diverse. Il motivo c'è già, scritto dentro ogni voce di `nonRaggiunti`: il difetto era che
+      // si fermava lì, e chi legge il verdetto vede solo la sintesi. Quindi si CITA il primo caso
+      // invece di cablare un motivo fisso — così la frase resta vera qualunque cosa impedisca la
+      // lettura domani, e non torna a parlare di un tetto che non esiste più.
+      sintesi:
+        `${nonRaggiunti.length} file elencati da git che NON sono riuscito ad aprire ` +
+        `(${nonRaggiunti[0]}${nonRaggiunti.length > 1 ? `, e altri ${nonRaggiunti.length - 1}` : ""}): ` +
+        `su ${letti} letti non posso dire «pulito»`,
     };
   }
   return { esito: "pulito", codice: 0, sintesi: `nessun segreto in ${letti} file versionabili` };

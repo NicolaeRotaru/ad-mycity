@@ -778,6 +778,14 @@ function main() {
     });
     passi.push(pOneste);
     passi.push(esegui("spazzata dei fratelli", "node", ["cervello/spazzata-fratelli.mjs"]));
+    // I due guardiani del lotto 40, cablati QUI e non lasciati sullo scaffale. Erano nati con la
+    // stessa malattia che curano — costruiti e mai messi di guardia — e `guardiano-mai-messo-di-
+    // guardia` li ha presi entrambi il giorno stesso: uno strumento che emette un verdetto e non lo
+    // esegue nessuno non è una difesa, è un file. Stanno accanto alla spazzata perché fanno la sua
+    // stessa domanda su due superfici diverse: quanti moduli partono da soli al solo essere
+    // importati (AR-445), e quante prove esistono senza che nessuno le faccia girare (AR-660).
+    passi.push(esegui("nessun modulo parte da solo se lo importi", "node", ["cervello/import-che-esegue.mjs"]));
+    passi.push(esegui("nessuna prova scritta e mai eseguita", "node", ["cervello/prove-non-eseguite.mjs"]));
     // La spazzata chiede «questa malattia si è allargata?». Questo chiede l'altra metà: «la forma che
     // è appena tornata ce l'ha, un nome?» — senza, il registro invecchia da fermo (AR-499).
     passi.push(esegui("le malattie che mancano", "node", ["cervello/malattie-mancanti.mjs"]));

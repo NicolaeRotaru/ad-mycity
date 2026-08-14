@@ -73,6 +73,31 @@ function siRibalta({ flag, file, cerca, sostituisci, extra = [] }) {
   assert.equal(dopo.codice, 0, `${flag} non si accorge del fix: resta inchiodata sul rosso. Detto: ${dopo.detto}`);
 }
 
+/**
+ * Lo stesso metro, per un difetto GIÀ RIPARATO nel codice vero.
+ *
+ * `siRibalta` parte dal rosso e applica il fix. Quando il difetto viene riparato per davvero quel
+ * verso non è più percorribile — il codice di oggi è verde — e la prova comincia a fallire proprio
+ * *perché* il lavoro è stato fatto. La tentazione, a quel punto, è cancellarla: ed è così che si
+ * perde il rilevatore, che resta l'unica cosa capace di accorgersi se il difetto torna.
+ *
+ * Quindi il verso si gira: si parte dal codice riparato, si RIMETTE il difetto, e si pretende che il
+ * rilevatore lo veda ancora. Ciò che si prova è identico — la prova sa dire sì E sa dire no — solo
+ * letto dal lato in cui il codice si trova adesso.
+ */
+function siRibaltaAlContrario({ flag, file, cerca, sostituisci, extra = [] }) {
+  const percorsi = [file, ...extra];
+
+  const oggi = copiaParziale(percorsi);
+  const prima = eseguiProva(flag, oggi);
+  assert.equal(prima.codice, 0, `${flag} doveva dire «il difetto NON c'è» sul codice riparato di oggi, invece: ${prima.detto}`);
+
+  const rotto = copiaParziale(percorsi);
+  simulaFix(rotto, file, cerca, sostituisci); // qui «il fix» è la rottura: la mutazione al contrario
+  const dopo = eseguiProva(flag, rotto);
+  assert.equal(dopo.codice, 1, `${flag} NON vede più il difetto quando torna: il rilevatore è cieco. Detto: ${dopo.detto}`);
+}
+
 // ── Le cinque del primo lotto ────────────────────────────────────────────────
 
 test("AR-366 — il battito: rossa oggi, verde se il timbro arriva solo dopo un lavoro riuscito", () => {
@@ -157,20 +182,26 @@ test("AR-158 — la North Star: rossa oggi, verde se il vincolo riporta la misur
   });
 });
 
-test("AR-395 — il cancello di pubblicazione: rossa oggi, verde se decide PRIMA che il commit svuoti lo stage", () => {
-  siRibalta({
+test("AR-395 — il cancello di pubblicazione: RIPARATO, e la prova se ne accorge se torna indietro", () => {
+  // ⟲ VERSO GIRATO (lotto 40). Il difetto è stato riparato per davvero: la corsia J ha spostato la
+  // chiamata a `gate_pubblicazione` PRIMA del commit e le ha passato il quarto argomento `1` («ho
+  // del lavoro da pubblicare»), così uno stage vuoto adesso viene DETTO invece che scambiato per
+  // «nessun file di codice». Il verso originale — parti dal rotto, applica il fix — non è più
+  // percorribile su un codice che è verde.
+  //
+  // Non si cancella: si gira. Si rimette il difetto e si pretende che il rilevatore lo veda. Il
+  // difetto vero non era «manca la chiamata» ma «la chiamata guarda troppo TARDI» — e il rilevatore
+  // misura esattamente quello: quanti file restano nello stage nell'istante in cui il cancello
+  // decide. Quindi la rottura fedele non è togliere un argomento (il rilevatore non lo guarda): è
+  // rimettere un commit davanti alla chiamata, così lo stage risulta svuotato quando il cancello
+  // arriva a guardarlo. È il difetto originale, riprodotto nella sua forma vera.
+  siRibaltaAlContrario({
     flag: "--ar-395",
     file: "cervello/giro.sh",
-    // Il fix vero è spostare la chiamata prima del commit, come già fanno ritmo, monitora e worker.
-    // Qui basta anticiparne una: la prova prende la PRIMA chiamata al cancello dopo il blocco, quindi
-    // se il fix la mette prima del commit, la fotografia dello stage la trova ancora piena.
-    cerca: "    GIRO_HAD_CHANGES=1",
+    cerca: '    . "$SCRIPT_DIR/gate-pubblicazione.sh"',
     sostituisci:
-      "    GIRO_HAD_CHANGES=1\n" +
-      '    . "$SCRIPT_DIR/gate-pubblicazione.sh"\n' +
-      '    if ! gate_pubblicazione "$SCRIPT_DIR" "$REPO" "$branch"; then\n' +
-      '      echo "cancello: no" >&2\n' +
-      "    fi",
+      '    git commit -m "il commit che svuota lo stage (AR-395 rimesso apposta)" >/dev/null 2>&1 || true\n' +
+      '    . "$SCRIPT_DIR/gate-pubblicazione.sh"',
   });
 });
 
