@@ -13589,7 +13589,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia A del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia A del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-664",
@@ -13605,7 +13606,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia A del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia A del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-665",
@@ -13621,7 +13623,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia A del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia A del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-666",
@@ -13637,7 +13640,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia A del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia A del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-667",
@@ -13653,7 +13657,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia B del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia B del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-668",
@@ -13669,7 +13674,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia B del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia B del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-669",
@@ -13685,7 +13691,11 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia B del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia B del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "regressione",
+      "nato_da": "AR-648 (lotto 40, corsia A): timbroOra estratto in cervello/ora-piacenza.mjs, i puntatori di mutanti.json sono rimasti sul vecchio file",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma è «estraggo del codice in un modulo nuovo e lascio indietro i puntatori che ci poggiavano sopra». Non è un pattern nel testo: dipende dalla relazione fra mutanti.json e il file spostato, che cambia a ogni estrazione. La copre già il SORVEGLIANTE (cervello/sorvegliante.mjs, regola prova-accecata), che confronta ogni mutazione col codice vero a ogni modifica e dice «non trova più il suo pezzo» — in questo lotto me l'ha segnalata prima che la CI la vedesse."
     },
     {
       "id": "AR-670",
@@ -13701,7 +13711,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia C del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia C del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-671",
@@ -13717,7 +13728,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia C del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia C del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "nuovo-lavoro"
     },
     {
       "id": "AR-672",
@@ -13733,7 +13745,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia C del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia C del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-673",
@@ -13749,7 +13762,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia D del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia D del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-674",
@@ -13765,7 +13779,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia D del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia D del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-675",
@@ -13781,7 +13796,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia D del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia D del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-676",
@@ -13797,7 +13813,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia E del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia E del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "nuovo-lavoro"
     },
     {
       "id": "AR-677",
@@ -13813,7 +13830,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia E del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia E del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-678",
@@ -13829,7 +13847,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia E del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia E del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-679",
@@ -13845,7 +13864,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia F del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia F del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-680",
@@ -13861,7 +13881,10 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia F del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia F del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "regressione",
+      "nato_da": "AR-185 (lotto 40, corsia F): il guardiano del mandato unico è stato reso importabile, ma senza la guardia dell entrypoint partiva da solo",
+      "malattia": "programma-che-parte-importando"
     },
     {
       "id": "AR-681",
@@ -13877,7 +13900,10 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia G del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia G del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "regressione",
+      "nato_da": "lotto 40, ricucitura AD: elencoTracciato in cancello-lotto.mjs ingoiava l errore di git e tornava [] — vuoto e assente sono verdetti opposti",
+      "malattia": "cieco-che-torna-una-misura"
     },
     {
       "id": "AR-682",
@@ -13893,7 +13919,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia G del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia G del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-683",
@@ -13909,7 +13936,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia H del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia H del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-684",
@@ -13925,7 +13953,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia H del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia H del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-685",
@@ -13941,7 +13970,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia H del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia H del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-686",
@@ -13957,7 +13987,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia H del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia H del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-687",
@@ -13973,7 +14004,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia I del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia I del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "scoperta"
     },
     {
       "id": "AR-688",
@@ -13989,7 +14021,8 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia I del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia I del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "nuovo-lavoro"
     },
     {
       "id": "AR-689",
@@ -14005,7 +14038,10 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia I del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia I del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "regressione",
+      "nato_da": "AR-643 (lotto 40): agent-registry-check.mjs e cancello-lotto.mjs hanno chiamato git ls-files fuori dalla porta di percorsi-git.mjs",
+      "malattia": "porta-laterale-senza-i-freni-della-principale"
     },
     {
       "id": "AR-690",
@@ -14021,7 +14057,11 @@
         "tipo": "umano",
         "nota": "nato nel lotto 40 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nota_fix": "Trovato dalla corsia J del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo)."
+      "nota_fix": "Trovato dalla corsia J del lotto 40, registrato subito e NON aggiunto al lotto in corso (allargarlo a meta e il modo classico di non finirlo).",
+      "nato_come": "regressione",
+      "nato_da": "AR-395 (lotto 40, corsia J): il cancello è stato spostato prima del commit nel giro, ma non nel recupero del monitoraggio",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma è «il cancello gira nell'istante sbagliato», e l'istante non si vede in una riga: si vede nell'ORDINE fra la chiamata e il commit, che una ricerca testuale non sa leggere. La copre cervello/istante-cancello.mjs, nato in questo lotto apposta (AR-395), più la prova a due versi che rimette il commit davanti alla chiamata e pretende che il rilevatore lo veda."
     }
   ],
   "meta": {
