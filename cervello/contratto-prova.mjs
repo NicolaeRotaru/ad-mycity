@@ -233,13 +233,17 @@ export function bancoLocale(sorgente = "", nome = "") {
   const caso = parametri[1] || parametri[0];
   if (!caso) return null;
   const corpo = src.slice(def.index, def.index + 1200);
-  const chiamaSubito = new RegExp(`(?<!await\\s{0,4})\\b${caso}\\s*\\(`).test(corpo.replace(new RegExp(`await\\s+${caso}\\s*\\(`, "g"), "@@"));
+  const eAsync = Boolean(def[1]) || /^\s*async\s/.test(src.slice(def.index).replace(/^(?:const|let|var)\s+\S+\s*=\s*/, ""));
+  const invoca = new RegExp(`\\b${caso}\\s*\\(`).test(corpo);
   const attende = new RegExp(`await\\s+${caso}\\s*\\(`).test(corpo);
   // ② e ③: il banco non esegue il caso, lo consegna a qualcun altro — o dentro una chiusura
   // asincrona messa in coda, o come dato in un elenco. In tutt'e due i modi chi lo eseguirà è un
   // ciclo che può aspettarlo, e questo file non è il posto dove dirlo.
-  const rinvia = (attende && !def[1]) || (!chiamaSubito && !attende && new RegExp(`\\b${caso}\\b`).test(corpo));
-  return { caso, chiamaSubito, attende, rinvia };
+  //
+  // Il segnale che distingue ② da un banco che il caso lo chiama davvero: un `await` dentro un corpo
+  // NON asincrono non può stare al primo livello — sta per forza in una chiusura, cioè in coda.
+  const rinvia = (attende && !eAsync) || (!invoca && new RegExp(`\\b${caso}\\b`).test(corpo));
+  return { caso, chiamaSubito: invoca && !rinvia, attende, rinvia };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

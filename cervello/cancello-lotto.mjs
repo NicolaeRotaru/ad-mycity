@@ -28,7 +28,7 @@ import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { comandoAmmesso, MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
 import { storiaDelRepo } from "./storia-git.mjs";
 import { contaProveDeboli } from "./chiusura-dichiarata.mjs";
-import { verdettoConTetto, testDelLotto, idSospetti, testRossi } from "./tetto-guardiano.mjs";
+import { verdettoConTetto, testDelLotto, idSospetti, testRossi, perimetroDichiarato } from "./tetto-guardiano.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
 // 📏 Il contratto della prova (contratto-prova.mjs): quanto vale una prova lo dice UN posto solo.
 import { debitoDiMutazione } from "./contratto-prova.mjs";
@@ -755,6 +755,30 @@ function main() {
       motivo: `${x.motivo} — rompi il fix in mutanti.json e pretendi il rosso (node cervello/non-vacuita.mjs)`,
     });
   }
+  // …E LA PORTA DI SERVIZIO, che era aperta da sempre: una scheda CHIUSA in questo lotto senza
+  // toccarne la `verifica` non risultava «toccata» (il confronto guarda solo quel campo) e non
+  // risultava fra le aperte (il conto guarda solo quelle): usciva dal blocco duro da tutt'e due i
+  // lati. Cioè il modo più comodo di consegnare un fix mai provato era dichiararlo riparato. Adesso
+  // «l'ho chiuso io in questo lotto» conta come toccato — è la definizione stessa di riparato.
+  //
+  // Il debito vecchio non entra: chi era già chiuso sul ramo pubblicato resta nel conto informativo
+  // qui sotto (98 schede), che si vede e deve scendere, ma non blocca nessuno.
+  const chiusiInQuestoLotto = cantierePrima
+    ? difetti
+        .filter((d) => String(d?.stato || "").toLowerCase() === "chiuso" && !eraChiuso.has(d?.id))
+        .map((d) => d.id)
+        .filter((id) => senzaMutazioneTutti?.has(id))
+    : [];
+  for (const id of chiusiInQuestoLotto) {
+    if (mutNelLotto.some((x) => x.id === id)) continue; // già nominato dal ramo qui sopra
+    violazioniProve.push({
+      regola: "mutazione-mancante",
+      ids: [id],
+      motivo:
+        `${id} viene dichiarato CHIUSO in questo lotto e nessuna mutazione rompe il suo fix: ` +
+        "una riparazione che nessuno ha mai visto diventare rossa non si consegna — rompi il fix in mutanti.json e pretendi il rosso (node cervello/non-vacuita.mjs)",
+    });
+  }
   if (senzaMutazioneContati.length > tettoMut) {
     violazioniProve.push({
       regola: "mutazione-mancante-oltre-il-tetto",
@@ -908,6 +932,10 @@ function main() {
       // le vedeva tutte e due: la prima era sfuggita perché «diff» non sembra un elenco di nomi.
       elencoTracciato(["diff", "--name-only", base.spec]),
       elencoTracciato(["ls-files", "--others", "--exclude-standard"]),
+      "cervello/test/",
+      // AR-678 — con più corsie sullo stesso tronco git risponde a «cosa è cambiato», non a «cosa ho
+      // toccato IO»: chi dichiara il proprio perimetro (LOTTO_PERIMETRO) viene giudicato su quello.
+      perimetroDichiarato(process.env.LOTTO_PERIMETRO),
     );
     applicaTetto(pTest, {
       regola: "test-del-cervello",

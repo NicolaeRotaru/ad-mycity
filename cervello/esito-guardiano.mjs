@@ -59,13 +59,17 @@ export function leggiEsito(code, { rossoSe, ciecoSe, partito = true, motivoNonPa
   //    qualcuno dichiarasse rosso anche il 2, il cieco sparirebbe — ed è esattamente ciò che questo
   //    file esiste per impedire.
   if (code === CODICE.cieco) return cieco("il controllo si è dichiarato cieco (uscita 2): non ha potuto misurare");
-  if (chiama(ciecoSe, code)) return cieco(`chi ha chiamato il controllo dichiara cieca l'uscita ${code}`);
+  const cSe = chiama(ciecoSe, code);
+  if (cSe.rotta) return cieco(`la regola «cieco se» di chi ha chiamato è esplosa (${cSe.rotta}): non l'ho potuta applicare`);
+  if (cSe.vale) return cieco(`chi ha chiamato il controllo dichiara cieca l'uscita ${code}`);
 
   // ④ Il rosso di casa (tutto ciò che non è 0), più quello che il chiamante aggiunge. `rossoSe` può
   //    solo ALLARGARE il rosso: una regola stretta — «rosso solo se è 1» — non promuove più a verde
   //    il 3 e il 7, che è il buco da cui questa malattia entrava.
   if (code !== CODICE.verde) return { stato: "rosso", motivo: `il controllo è uscito ${code}`, codice: CODICE.rosso };
-  if (chiama(rossoSe, code)) return { stato: "rosso", motivo: `chi ha chiamato il controllo dichiara rossa l'uscita ${code}`, codice: CODICE.rosso };
+  const rSe = chiama(rossoSe, code);
+  if (rSe.rotta) return cieco(`la regola «rosso se» di chi ha chiamato è esplosa (${rSe.rotta}): non l'ho potuta applicare`);
+  if (rSe.vale) return { stato: "rosso", motivo: `chi ha chiamato il controllo dichiara rossa l'uscita ${code}`, codice: CODICE.rosso };
 
   return { stato: "verde", motivo: "il controllo è uscito 0: non ha trovato niente da riparare", codice: CODICE.verde };
 }
@@ -101,12 +105,18 @@ export function ciecoSeNienteMisurato(quanti, cosa) {
 
 const cieco = (motivo) => ({ stato: "cieco", motivo, codice: CODICE.cieco });
 const descrivi = (v) => (v === null ? "null" : v === undefined ? "assente" : `${typeof v} ${String(v)}`);
+/**
+ * Applica una regola del chiamante e dice ANCHE se non ci è riuscita.
+ *
+ * Il `catch` NON torna `false`: una regola che esplode non è una regola che ha detto no. Ingoiarla
+ * darebbe un verdetto calcolato su una misura in meno, con la faccia di uno completo — è la malattia
+ * «una fonte letta a metà produce un verdetto intero», e su questo file sarebbe la beffa perfetta.
+ */
 const chiama = (fn, code) => {
-  if (typeof fn !== "function") return false;
+  if (typeof fn !== "function") return { vale: false };
   try {
-    return fn(code) === true;
-  } catch {
-    // Una regola del chiamante che esplode non può assolvere: se non so applicarla, non l'ho applicata.
-    return false;
+    return { vale: fn(code) === true };
+  } catch (e) {
+    return { rotta: (e?.message || String(e)).split("\n")[0] };
   }
 };

@@ -1,24 +1,25 @@
 {
-  "corsia": "B — il cieco venduto per verde: un guardiano che non ha potuto guardare stampa la frase rassicurante",
+  "corsia": "B — il cieco venduto per verde: un guardiano che non ha potuto guardare stampa la frase rassicurante invece di dichiararsi cieco",
   "modulo_condiviso": "cervello/esito-guardiano.mjs",
+  "avviso_all_ad": "La riparazione di AR-375 rende ROSSO «node cervello/spazzata-fratelli.mjs» finché non applichi la modifica a cervello/malattie.json che trovi in fuori_territorio. Non è un guasto nuovo: è il rosso vero che quel difetto denuncia da due settimane, e finora nessuno lo vedeva perché il metro non guardava più lì. Il cancello del lotto lancia la spazzata, quindi le due cose vanno insieme.",
   "difetti": [
     {
       "id": "AR-667",
       "esito": "riparato",
       "verifica_comando": "node cervello/test/cieco-venduto-per-verde.test.mjs",
-      "nota_fix": "La traduzione da codice d'uscita a verdetto è uscita da salute.mjs ed è diventata un modulo puro che un test può eseguire. La regola di casa adesso vale da sola: zero è verde, due è cieco, tutto il resto è rosso. Chi chiama può aggiungere codici al rosso o al cieco, non può togliere il due dal cieco. Ho tolto le tre dichiarazioni «rosso solo se è uno» dai controlli della visita: erano proprio la porta da cui il due passava per verde.",
+      "nota_fix": "La traduzione da codice d'uscita a verdetto è uscita dalla visita ed è diventata un modulo puro che un test può eseguire. La regola di casa adesso vale da sola: zero è verde, due è cieco, tutto il resto è rosso. Chi chiama può aggiungere codici al rosso o al cieco, non può togliere il due dal cieco. Ho tolto le tre dichiarazioni «rosso solo se è uno» dai controlli della visita: erano proprio la porta da cui il due passava per verde. Aggiunti due casi che la scheda non nominava e che finivano anche loro nel ramo buono: un guardiano che non è mai partito, e un codice che non è un numero.",
       "mutante": {
         "file": "cervello/esito-guardiano.mjs",
         "cerca": "  if (code === CODICE.cieco) return cieco(\"il controllo si è dichiarato cieco (uscita 2): non ha potuto misurare\");",
         "sostituisci": "  if (false) return cieco(\"il controllo si è dichiarato cieco (uscita 2): non ha potuto misurare\");"
       },
-      "non_vacuita": "spegnendo la riga del cieco di casa diventano rossi 4 casi su 17, fra cui ① e ⑤ — verificato applicando la mutazione e lanciando il test"
+      "non_vacuita": "spegnendo la riga del cieco di casa diventano rossi 4 casi su 17, fra cui ① (il caso esposto di sensori.vista) e ⑤ (dentro la visita vera) — verificato applicando la mutazione, lanciando il test e rimettendo a posto"
     },
     {
       "id": "AR-664",
       "esito": "riparato",
       "verifica_comando": "node cervello/test/cieco-venduto-per-verde.test.mjs",
-      "nota_fix": "Il guardiano delle pause controlla la FORMA del registro prima di scorrerlo. La scheda diceva riga 94: il try copriva solo la lettura del JSON, quindi un registro valido ma di forma diversa moriva una riga più giù con lo stack trace. Adesso esce due e dice cosa non ha potuto leggere, in una forma sola per tutti i casi ciechi del file.",
+      "nota_fix": "Il guardiano delle pause controlla la forma del registro prima di scorrerlo. La scheda diceva riga 94 ed è giusta: il controllo sulla lettura copriva solo il caso del JSON rotto, quindi un registro valido ma di forma diversa moriva una riga più giù con lo stack trace. Adesso esce due e dice cosa non ha potuto leggere, in una forma sola per tutti i casi ciechi del file.",
       "mutante": {
         "file": "cervello/pausa-check.mjs",
         "cerca": "  if (!Array.isArray(fatti)) {",
@@ -30,26 +31,103 @@
       "id": "AR-556",
       "esito": "riparato",
       "verifica_comando": "node cervello/test/sorvegliante.test.mjs",
-      "nota_fix": "L'elenco di un file solo è diventato un riconoscimento in tre strade. Prima: i quattro registri dove le difese vivono davvero non sono mai referti, e questa eccezione batte tutto il resto. Poi la mappa che la casa dichiara già in un altro file, invece di ricopiarla qui. Infine il riconoscimento vero: un referto è un file di dati che dichiara al suo interno quale script della macchina lo riscrive. Le prove toccano due referti diversi più il caso di controllo che sporca il cantiere e pretende l'accusa.",
+      "nota_fix": "L'elenco di un file solo è diventato un riconoscimento in tre strade. Prima: i quattro registri dove le difese vivono davvero non sono mai referti, e questa eccezione batte tutto il resto. Poi la mappa che la casa dichiara già in un altro file, invece di ricopiarla qui. Infine il riconoscimento vero: è un referto il file di dati che dichiara al suo interno quale script della macchina lo riscrive. Le prove toccano due referti diversi, più il caso di controllo che sporca il cantiere e pretende l'accusa, più un JSON che non dichiara nessuno e resta guardato come prima.",
       "mutante": {
         "file": "cervello/sorvegliante.mjs",
         "cerca": "  return typeof contenuto === \"string\" && DICHIARA_GENERATORE.test(contenuto);",
         "sostituisci": "  return false;"
       },
-      "non_vacuita": "spegnendo il riconoscimento il secondo referto torna accusato; spegnendo l'eccezione all'esenzione il caso di controllo sul cantiere diventa rosso — verificati tutti e due a mano",
-      "nota_scheda_vs_codice": "La scheda proponeva il campo _cosa_e con «Scritto da cervello/…». Sul disco solo 7 referti su 40 lo scrivono in quella forma: da solo il riconoscimento avrebbe coperto meno di un quinto. Per questo la prima strada è la mappa già dichiarata in cervello/file-della-macchina.mjs (REFERTI_RIGENERATI), che copre gli altri cinque più usati, salute e coerenza-fatti compresi."
+      "non_vacuita": "spegnendo il riconoscimento il secondo referto torna accusato; spegnendo l'eccezione all'esenzione (la riga di MAI_REFERTO) il caso di controllo sul cantiere diventa rosso — verificati tutti e due a mano applicando la mutazione e lanciando il test",
+      "scheda_vs_codice": "La scheda proponeva il campo di intestazione con la frase «Scritto da cervello/…». Sul disco solo 7 referti su 40 la scrivono: da solo il riconoscimento avrebbe coperto meno di un quinto della cartella. Per questo la seconda strada è la mappa già dichiarata in cervello/file-della-macchina.mjs, che porta dentro anche salute, storico-salute, coerenza-fatti e stampo-check."
     },
     {
       "id": "AR-557",
       "esito": "riparato",
       "verifica_comando": "node cervello/test/sorvegliante.test.mjs",
-      "nota_fix": "La scheda indicava la mutazione sbagliata. Misurate tutte e cinque le mutazioni di AR-495: quella sui file cancellati uccide il test da sola (tre casi rossi), e la sopravvissuta era un'altra — «spostare un guardiano viene punito come toglierlo». Il motivo vero: la domanda «l'ho rimesso in questo stesso file?» era diventata un doppione della domanda «l'ho rimesso in un file qualsiasi del delta», aggiunta dopo. Spegnere la prima non cambiava niente. Ora la seconda guarda solo gli ALTRI file, e le due domande hanno una prova ciascuna, più un caso di controllo che pretende l'accusa quando la chiamata non ricompare da nessuna parte.",
+      "nota_fix": "La scheda indicava la mutazione sbagliata. Misurate tutte e cinque quelle di AR-495: quella sui file cancellati uccide il test da sola, con tre casi rossi. La sopravvissuta era un'altra, «spostare un guardiano viene punito come toglierlo». Il motivo vero: la domanda «l'ho rimesso in questo stesso file?» era diventata un doppione della domanda «l'ho rimesso in un file qualsiasi della modifica», aggiunta dopo — quindi spegnere la prima non cambiava niente. Adesso la seconda guarda solo gli altri file, e le due domande hanno una prova ciascuna, più un caso di controllo che pretende l'accusa quando la chiamata non ricompare da nessuna parte.",
       "mutante": {
         "file": "cervello/sorvegliante.mjs",
         "cerca": "          if (testoAggiunto.includes(p)) continue;",
         "sostituisci": "          if (false) continue;"
       },
-      "non_vacuita": "è la mutazione di AR-495 che prima sopravviveva: adesso applicata fa diventare rosso il caso «sposto un guardiano dentro lo stesso file» — verificato prima (verde) e dopo (rosso). Tutte e cinque le mutazioni di AR-495 adesso uccidono."
+      "non_vacuita": "è la mutazione di AR-495 che prima sopravviveva: misurata verde prima del fix, misurata rossa dopo (caso «sposto un guardiano dentro lo stesso file»). Tutte e cinque le mutazioni di AR-495 adesso uccidono, e uccidono anche quelle di AR-516 e AR-536 che passano dallo stesso punto.",
+      "resta_fuori": "La seconda metà della scheda — far girare node cervello/non-vacuita.mjs dentro il cancello del lotto, così una prova che perde i denti lo dichiari da sola — tocca due file di altre corsie. Vedi fuori_territorio."
+    },
+    {
+      "id": "AR-681",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/verde-comprato-senza-guardare.test.mjs",
+      "nota_fix": "Il verdetto della porta dei senior adesso si decide prima di stamparlo, in una funzione pura. Prima la spunta verde usciva per prima e la riga «non l'ho misurato» arrivava sotto: chi legge un log si ferma alla spunta. E c'era un buco più grosso che la scheda non nominava: la lettura dei file-pilota torna un elenco vuoto anche quando la cartella non c'è, quindi zero file guardati davano la stessa spunta verde con uscita zero. Un guardiano che non ha aperto niente si dichiarava pulito.",
+      "mutante": {
+        "file": "cervello/prompt-senior.mjs",
+        "cerca": "  const nienteDaGuardare = ciecoSeNienteMisurato(piloti, \"file-pilota\");",
+        "sostituisci": "  const nienteDaGuardare = null;"
+      },
+      "non_vacuita": "togliendo il controllo «zero cose guardate» i casi ① e ⑤ diventano rossi: il guardiano vero, lanciato su una casa senza file-pilota, torna a stampare la spunta e a uscire 0 — verificato",
+      "scheda_vs_codice": "La scheda nominava due funzioni. Una delle due era già a posto: quando il registro non si legge, il blocco dei fatti-chiave finisce nel prompt con scritto che non sono stati letti. L'altra torna ancora un elenco vuoto, ma la cecità la dichiara chi la usa, ed è una scelta che una prova di casa fissa apposta (cervello/test/porta-dei-senior.test.mjs). L'ho rispettata e ho spostato il freno sul punto dove il verdetto si vende."
+    },
+    {
+      "id": "AR-679",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/deferral-non-e-una-collisione.test.mjs",
+      "nota_fix": "Il codice era già curato: i blocchi di rimando vengono tolti prima di confrontare due schede, quindi il guardiano non punisce più il deferral con cui il doppione si risolve. Mancava la difesa: la funzione che applica la cura non era esportata, e nessun test poteva eseguirla. Il fix c'era, il freno no — che è la stessa forma del verde che vale zero. Adesso è esportata e ha tre casi: due schede che si nominano solo nel rimando non fanno collisione, due che se lo contendono nel mandato sì, e chi collide senza scrivere nessun rimando viene nominato.",
+      "mutante": {
+        "file": "cervello/agent-registry-check.mjs",
+        "cerca": "    descNorm.set(nome, normalizzaFraseTrigger(`${mandato} ${domande}`));",
+        "sostituisci": "    descNorm.set(nome, normalizzaFraseTrigger(desc));"
+      },
+      "non_vacuita": "tornando a confrontare la scheda intera il caso ① diventa rosso: due senior che si rimandano il lavoro a vicenda vengono accusati di contenderselo — verificato"
+    },
+    {
+      "id": "AR-690",
+      "esito": "gia-riparato",
+      "verifica_comando": "node cervello/test/recupero-cancello-prima-del-commit.test.mjs",
+      "nota_fix": "Il codice era già stato raddrizzato nello stesso lotto che ha registrato la scheda: nel ramo del recupero il cancello sta prima del commit, e anche nel secondo punto del file (la pubblicazione dell'Intelligence) l'ordine è giusto. Quello che mancava era la prova: la prova a due versi esisteva solo per il giro, non per il monitoraggio. Adesso c'è, e non cerca parole: estrae le righe vere del ramo dal file, le manda in bash con git e il cancello finti, e guarda in che ORDINE sono stati chiamati.",
+      "mutante": {
+        "file": "cervello/monitora.sh",
+        "cerca": "      if gate_pubblicazione \"$SCRIPT_DIR\" \"$REPO\" \"$branch\" 1; then",
+        "sostituisci": "      git \"${GIT_ID[@]}\" commit -q -m \"recupero\" 2>/dev/null || true\n      if gate_pubblicazione \"$SCRIPT_DIR\" \"$REPO\" \"$branch\" 1; then"
+      },
+      "non_vacuita": "rimettendo la chiamata al cancello DOPO il commit i casi ① e ② diventano rossi — verificato scambiando davvero le due righe nel file e rimettendole a posto"
+    },
+    {
+      "id": "AR-677",
+      "esito": "gia-riparato",
+      "verifica_comando": "node cervello/test/import-che-esegue.test.mjs",
+      "nota_fix": "Chi fa il conto è cervello/import-che-esegue.mjs, e il perimetro è già quello vero: misura 277 moduli su tutto l'albero, sottocartelle comprese, con le due esclusioni scritte e motivate. Il file racconta lui stesso l'errore che la scheda descrive («la prima misura diceva 60 su 192, perché guardavo solo il primo livello»). La difesa esiste e morde: la prova ricalcola il perimetro per conto suo e lo confronta col denominatore del guardiano, e la mutazione registrata la fa diventare rossa. Verificato lanciandola.",
+      "mutante": {
+        "file": "cervello/import-che-esegue.mjs",
+        "cerca": "escludi: Object.keys(ESCLUSI) });",
+        "sostituisci": "escludi: [...Object.keys(ESCLUSI), \"capacita\"] });"
+      },
+      "non_vacuita": "è la mutazione già registrata per quel file: applicata, cervello/test/import-che-esegue.test.mjs diventa rosso — verificato adesso, non dedotto",
+      "resta_fuori": "Un secondo contatore conta ancora solo il primo livello: 210 moduli invece di 277. È in un file di un'altra corsia, dettagli in difetti_nuovi."
+    },
+    {
+      "id": "AR-375",
+      "esito": "aperto",
+      "motivo_se_aperto": "La scheda chiede tre cose e due vivono in cervello/malattie.json, che non è mio. La terza — la parte che tocca a me — è fatta e provata: il guardiano adesso RIFIUTA un calo che nessuno ha dimostrato. Il difetto si chiude nel momento in cui applichi la modifica al registro che trovo in fuori_territorio: sono un pattern e due numeri.",
+      "verifica_comando": "node cervello/test/calo-non-e-guarigione.test.mjs",
+      "nota_fix": "Verificato sul codice: il rilevatore cerca la parola «tail» accanto alla chiamata di un guardiano, e da quando quel pezzo è stato rinominato non trova più niente. Il registro dice zero istanze; nello stesso registro, in un altro campo, c'è scritto che trentacinque sono ancora vive. Ho aggiunto al guardiano tre domande che nessuno faceva mai: il registro si contraddice? il calo è spiegato col metro invece che con una cura? chi dichiara una controprova, la mantiene? Con una via d'uscita legittima e dichiarata: se il conteggio è zero perché il pattern non arriva lì, si NOMINA cosa regge il contratto al posto suo — un test, un guardiano — e allora passa. Senza quella via il guardiano diventerebbe rumore, e il rumore spegne i freni.",
+      "mutante": {
+        "file": "cervello/spazzata-fratelli.mjs",
+        "cerca": "    const calo = caloNonProvato(m, totaleNetto);",
+        "sostituisci": "    const calo = null;"
+      },
+      "non_vacuita": "facendo tornare null al giudizio, il caso ⑥ diventa rosso: la malattia torna a risultare guarita e il guardiano torna verde — verificato"
+    },
+    {
+      "id": "AR-682",
+      "esito": "aperto",
+      "motivo_se_aperto": "Il difetto è vero e verificato: il workflow «radiografia-totale» non è evocato da nessun comando, e la skill «verify» non è citata nei due registri. Ma la riparazione si scrive in COMANDI.md e CLAUDE.md, che non sono nel mio territorio. Il testo esatto da aggiungere è in fuori_territorio: sono due righe. Il guardiano invece l'ho curato dalla parte che è mia — vedi sotto.",
+      "verifica_comando": "node cervello/test/capacita-non-guardate-non-sono-verdi.test.mjs",
+      "nota_fix": "Misurato all'inizio della sessione: drift 2, esattamente come dice la scheda. Riparando ho trovato che il guardiano vendeva il cieco per verde in tre punti: zero workflow trovati (anche quando la cartella non esiste) davano «nessun drift» con uscita zero; se i due registri non si leggono, «nessun comando lo evoca» diventa vero per costruzione su tutte le capacità; e un crash usciva 1, cioè finiva nella stessa casella di «ho trovato del drift». Adesso il verdetto è una funzione pura con tre risposte e i tre codici d'uscita di casa.",
+      "mutante": {
+        "file": "cervello/guardiano-capacita.mjs",
+        "cerca": "  const nienteDaGuardare = ciecoSeNienteMisurato(workflow, \"workflow\");",
+        "sostituisci": "  const nienteDaGuardare = null;"
+      },
+      "non_vacuita": "togliendo il controllo «zero cose guardate» i casi ① e ④ diventano rossi — verificato"
     }
   ],
   "mutanti_da_correggere": [
@@ -57,19 +135,19 @@
       "difetto": "AR-543",
       "file": "cervello/sorvegliante.mjs",
       "vecchio_cerca": "const eReferto = (file) => REFERTI.includes(file);",
-      "nuovo_cerca": "export function eReferto(file, contenuto = null) {",
-      "nuovo_sostituisci": "export function eReferto(file, contenuto = null) { return false;",
-      "perche": "SPOSTATO, non rimosso: il comportamento vive nella stessa funzione, che adesso riconosce il referto invece di cercarlo in un elenco. Verificata: applicata, il test va rosso su 4 casi.",
-      "verificato": "node cervello/test/sorvegliante.test.mjs → exit 1"
+      "nuovo_cerca": "  if (REFERTI.includes(nome)) return true;",
+      "nuovo_sostituisci": "  if (false) return true;",
+      "risposta": "SPOSTATO, non rimosso. Il comportamento vive nella stessa funzione, che adesso riconosce il referto invece di cercarlo in un elenco.",
+      "esito_verifica": "MORDE — applicata la versione dell'AD, node cervello/test/sorvegliante.test.mjs esce 1 con due casi rossi, fra cui «il diario del sorvegliante non dichiara difese»"
     },
     {
       "difetto": "AR-503",
       "file": "cervello/sorvegliante.mjs",
       "vecchio_cerca": "    if (!eFixture(file) && !ePROSA(file) && !eReferto(file)) {",
       "nuovo_cerca": "    if (!eFixture(file) && !ePROSA(file) && !eReferto(file, perNome.get(file)?.contenuto ?? null)) {",
-      "nuovo_sostituisci": "    if (true) {",
-      "perche": "SPOSTATO, non rimosso: è la stessa riga, con in più il contenuto del file che serve al riconoscimento del referto. Verificata: applicata, il test va rosso, compreso il caso della prosa di AR-503.",
-      "verificato": "node cervello/test/sorvegliante.test.mjs → exit 1"
+      "nuovo_sostituisci": "    if (!eFixture(file) && !eReferto(file, perNome.get(file)?.contenuto ?? null)) {",
+      "risposta": "SPOSTATO, non rimosso. È la stessa riga, con in più il contenuto del file che serve al riconoscimento del referto.",
+      "esito_verifica": "MORDE — applicata la versione dell'AD, node cervello/test/sorvegliante.test.mjs esce 1 sul caso della prosa"
     }
   ],
   "file_toccati": [
@@ -77,10 +155,73 @@
     "cervello/salute.mjs",
     "cervello/pausa-check.mjs",
     "cervello/sorvegliante.mjs",
+    "cervello/prompt-senior.mjs",
+    "cervello/agent-registry-check.mjs",
+    "cervello/spazzata-fratelli.mjs",
+    "cervello/guardiano-capacita.mjs",
     "cervello/test/cieco-venduto-per-verde.test.mjs",
+    "cervello/test/verde-comprato-senza-guardare.test.mjs",
+    "cervello/test/calo-non-e-guarigione.test.mjs",
+    "cervello/test/deferral-non-e-una-collisione.test.mjs",
+    "cervello/test/recupero-cancello-prima-del-commit.test.mjs",
+    "cervello/test/capacita-non-guardate-non-sono-verdi.test.mjs",
     "cervello/test/sorvegliante.test.mjs"
   ],
-  "fuori_territorio": [],
-  "difetti_nuovi": [],
-  "spazzata": "in corso"
+  "fuori_territorio": [
+    {
+      "difetto": "AR-375",
+      "file": "cervello/malattie.json",
+      "cosa_serve": "Riscrivere la voce «esito-in-una-pipe» sul COMPORTAMENTO invece che sulla sintassi di ieri, e rimettere la partenza sul numero vero. Tre campi, da sostituire così com'è:",
+      "pattern": "node \"\\$SCRIPT_DIR/[^\"\\n]+\\.mjs\"[^|\\n]*(\\|[^|\\n]*(tail|head|esito_righe)|\\|\\|[ \\t]*true)",
+      "baseline": 34,
+      "nota_baseline": "34 misurato il 2026-08-14 sulla forma VIVA: `node \"$SCRIPT_DIR/X.mjs\" … | esito_righe N || true` in giro.sh. La partenza precedente diceva 0 e spiegava il calo con un rinominamento: era il difetto AR-375, non una guarigione. Il triage «rapporto informativo vs cancello» va fatto voce per voce e dichiarato negli esenti: finché non è fatto, il numero resta 34 e scende solo quando qualcuno cura.",
+      "controprova": "node \"$SCRIPT_DIR/sonda-volano.mjs\" --json | esito_righe 3 || true",
+      "perche": "La controprova è il campo nuovo che il guardiano legge: un testo che il pattern DEVE trovare. Se un domani il metro smette di guardare lì, il guardiano lo dice invece di stampare zero. Con questi tre campi «node cervello/spazzata-fratelli.mjs» torna verde su questa voce."
+    },
+    {
+      "difetto": "AR-682",
+      "file": "COMANDI.md",
+      "cosa_serve": "Due righe da aggiungere nella sezione delle radiografie, perché due capacità reali non hanno nessuna porta d'ingresso.",
+      "riga_1": "- **\"radiografia totale\"** (alias: *\"analizza tutti gli organi\"*, *\"radiografia completa della macchina\"*) → la radiografia più profonda: tutti gli organi insieme in tre giri con angoli diversi, dove ogni giro cerca ciò che il precedente non ha visto, più un critico di completezza alla fine. Workflow `.claude/workflows/radiografia-totale.js`. 🟢 *(lunghissima; le correzioni restano 🟡 da firmare)*",
+      "riga_2": "- **\"provalo davvero\"** (alias: *\"guidalo tu\"*, *\"aprilo e verifica\"*) → verifica end-to-end guidando le superfici vere: il Pannello con un browser senza finestra e gli script del worker su un banco di prova, senza VPS. Skill `verify`. 🟢",
+      "perche": "Il guardiano cerca il nome della capacità dentro COMANDI.md e CLAUDE.md. Oggi «radiografia-totale» compare nella mappa della macchina e in bacheca, ma nessuna frase permette a Nicola di chiamarlo: è un senior che nessuno sa chiamare."
+    },
+    {
+      "difetto": "AR-375 · seconda proposta",
+      "file": "cervello/malattie.json",
+      "cosa_serve": "La malattia della mia corsia è censita in due forme e nessuna delle due copre il caso dei codici d'uscita. «verde-che-e-il-ramo-di-default» cerca solo il confronto fra stringhe (=== \"x\" ? \"y\" : \"ok\"), quindi AR-667 — dove il verde arrivava da rossoSe(code) ? rotto : ok — non è mai stato contato. Se vuoi il metro anche su questa forma, la voce nuova è:",
+      "id_proposto": "codice-uscita-che-compra-il-verde",
+      "pattern_proposto": "\\brossoSe\\s*\\([^)\\n]*\\)\\s*\\?[^:\\n]*:\\s*ok\\b|===\\s*1\\s*\\?[^:\\n]*:\\s*ok\\b",
+      "perche": "Oggi zero istanze (l'ho appena curata). Nasce verde per costruzione ed è il modo per accorgersi del prossimo che la riscrive."
+    },
+    {
+      "difetto": "AR-557 · seconda metà",
+      "file": "cervello/cancello-lotto.mjs + cervello/non-vacuita.mjs",
+      "cosa_serve": "La scheda chiede anche che la non-vacuità giri dentro il cancello del lotto, almeno sui difetti toccati: oggi una prova che perde i denti non lo dichiara a nessuno finché qualcuno non la lancia a mano. Tutti e due i file sono di altre corsie e la consegna li nomina fra quelli da non toccare.",
+      "prova_del_costo": "Le cinque mutazioni di AR-495 costano 0,5 secondi in tutto sul mio banco: il costo non è la ragione per cui non gira."
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Il censimento della macchina conta i moduli del cervello solo al primo livello: 210 invece di 277",
+      "causa_radice": "La funzione che elenca i file legge una cartella sola e non scende nelle sottocartelle. È l'altra metà di AR-677: quel difetto è stato curato dove il conto serviva a un cancello, e lasciato dove serve a raccontare la macchina a Nicola. Il numero finisce nel censimento e nella mappa, quindi il quadro che lui legge dichiara un terzo di macchina in meno di quella che c'è.",
+      "visto_in": "cervello/censimento-macchina.mjs, la voce «immunitario.script» e le altre che passano dallo stesso elenco. Misurato adesso: 210 al primo livello, 277 contando le sottocartelle."
+    },
+    {
+      "titolo": "Il guardiano delle capacità conta le skill che l'ambiente lascia nella cartella, non quelle della macchina",
+      "causa_radice": "Elenca le sottocartelle di .claude/skills sul disco. In questa sessione l'ambiente ne ha depositate 67 che non appartengono al repo (le tracciate sono 5 su 72), e il drift è passato da 2 a 55. Il verdetto dipende da dove gira invece che da com'è la macchina: su una postazione è rosso, sul server è verde, e nessuno dei due sa perché.",
+      "visto_in": "cervello/guardiano-capacita.mjs, elencaSkill. Misurato: 72 cartelle sul disco, 5 nel repo, drift 55 contro i 2 di inizio sessione."
+    },
+    {
+      "titolo": "La lista delle cacce aperte torna vuota quando il registro dei fatti non si legge",
+      "causa_radice": "La funzione non distingue «non c'è nessuna caccia» da «non ho potuto leggere il registro»: torna un elenco vuoto in tutti e due i casi, e la cecità la dichiara solo chi la chiama dalla riga di comando. Oggi quel chiamante è uno solo e lo fa bene, ma il prossimo che userà la funzione riceverà un vuoto rassicurante. Non l'ho cambiata perché una prova di casa fissa quella forma, e quel file non è nel mio territorio.",
+      "visto_in": "cervello/prompt-senior.mjs, cacciaAperta · la prova che ne fissa la forma è cervello/test/porta-dei-senior.test.mjs"
+    },
+    {
+      "titolo": "Un'estrazione lascia indietro i puntatori delle prove, e nessuno grida se la prova non era registrata",
+      "causa_radice": "Riscrivendo una funzione, due mutazioni hanno perso il pezzo che cercavano. Il guardiano in tempo reale le ha viste perché erano registrate. Un comportamento chiuso con una prova a pattern, o senza mutazione, sarebbe sparito in silenzio: il guardiano vede solo ciò che qualcuno ha dichiarato. È la stessa malattia che un'altra corsia sta curando in questo lotto, capitata addosso mentre la curavamo.",
+      "visto_in": "cervello/sorvegliante.mjs, le mutazioni di AR-503 e AR-543 durante la riparazione di AR-556"
+    }
+  ],
+  "spazzata": "La malattia è censita in due forme e nessuna delle due copre il caso che ho riparato. «cieco-che-torna-una-misura» — un errore che diventa una misura — resta a 1 istanza, invariata; una l'avevo appena creata io nel modulo nuovo e l'ho tolta prima di consegnare, dopo la regola che mi hai mandato. «verde-che-e-il-ramo-di-default» resta a 0, ma il suo pattern guarda solo il confronto fra stringhe: la forma dei codici d'uscita, che è quella di AR-667, non l'ha mai contata nessuno. La voce nuova che la coprirebbe è scritta in fuori_territorio, e nascerebbe verde. Il guardiano della spazzata, dopo il mio lavoro, ha un solo rosso: «esito-in-una-pipe», che è AR-375 e si spegne con la patch al registro."
 }

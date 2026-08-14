@@ -2333,10 +2333,11 @@
    "difetto": "L-2026-0813-02 gate-dichiarato-senza-mutazione",
    "lezione": "L-2026-0813-02",
    "nome": "la regola gate-mai-rotto cambia nome e nessuno boccia più un gate senza mutazione: il freno della lezione sparisce in silenzio",
-   "file": "cervello/gate-veri.mjs",
-   "cerca": "        regola: \"gate-mai-rotto\",",
-   "sostituisci": "        regola: \"gate-mai-rotto-disattivato\",",
-   "test": "node cervello/test/gate-che-non-puo-scattare.test.mjs"
+   "file": "cervello/contratto-prova.mjs",
+   "cerca": "      violazioni.push({ regola: \"gate-mai-rotto\", lezione: l.id,",
+   "sostituisci": "      violazioni.push({ regola: \"gate-mai-rotto-disattivato\", lezione: l.id,",
+   "test": "node cervello/test/gate-che-non-puo-scattare.test.mjs",
+   "nota_riaggancio": "AR-565 ha spostato la definizione unica dei freni in contratto-prova.mjs: la regola vive li (lotto 42)."
   },
   {
    "lotto": 37,

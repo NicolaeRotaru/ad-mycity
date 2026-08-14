@@ -64,7 +64,7 @@ function copiaDipendenze(dir, entry, gia = new Set(), stub = new Set(["./git-git
   return gia;
 }
 
-function repoFinto({ verificaPrima, verificaOra, mutanti, tetti, cerca = "if (scaduto) return false;" }) {
+function repoFinto({ verificaPrima, verificaOra, mutanti, tetti, cerca = "if (scaduto) return false;", statoPrima = "aperto", statoOra = "aperto" }) {
   const dir = mkdtempSync(join(tmpdir(), "mut-mancante-"));
   mkdirSync(join(dir, "cervello"), { recursive: true });
   mkdirSync(join(dir, "finto"), { recursive: true });
@@ -92,19 +92,19 @@ function repoFinto({ verificaPrima, verificaOra, mutanti, tetti, cerca = "if (sc
   writeFileSync(join(dir, "cervello/mutanti.json"), typeof mutanti === "string" ? mutanti : JSON.stringify({ mutanti }));
   writeFileSync(join(dir, "cervello/tetti-lotto.json"), JSON.stringify(tetti ?? { prova_con_or: 0, mutazione_mancante: 0 }));
 
-  const scriviCantiere = (verifica) =>
+  const scriviCantiere = (verifica, stato) =>
     writeFileSync(
       join(dir, DENTRO_CANTIERE),
-      JSON.stringify({ difetti: [{ id: "AR-900", stato: "aperto", verifica }] }, null, 1),
+      JSON.stringify({ difetti: [{ id: "AR-900", stato, verifica }] }, null, 1),
     );
 
   execFileSync("git", ["init", "-q", "."], { cwd: dir });
   execFileSync("git", ["config", "user.email", "t@t"], { cwd: dir });
   execFileSync("git", ["config", "user.name", "t"], { cwd: dir });
-  scriviCantiere(verificaPrima);
+  scriviCantiere(verificaPrima, statoPrima);
   execFileSync("git", ["add", "-A"], { cwd: dir });
   execFileSync("git", ["commit", "-q", "-m", "prima", "--no-verify"], { cwd: dir });
-  scriviCantiere(verificaOra); // ← quello che il lotto sta per consegnare, non ancora committato
+  scriviCantiere(verificaOra, statoOra); // ← quello che il lotto sta per consegnare, non ancora committato
   return dir;
 }
 
@@ -175,6 +175,54 @@ prova("--aggiorna-tetti non abbassa un tetto che non ha potuto misurare", () => 
   const r = spawnSync("node", [join(dir, "cervello/cancello-lotto.mjs"), "--aggiorna-tetti"], { cwd: dir, encoding: "utf8" });
   assert.equal(r.status, 2, "deve rifiutarsi, non scrivere un tetto inventato");
   assert.equal(JSON.parse(readFileSync(join(dir, "cervello/tetti-lotto.json"), "utf8")).mutazione_mancante, 5, "il tetto resta quello di prima");
+});
+
+// ── AR-692 — i due casi che vanno tenuti separati ────────────────────────────
+// Riaprire onestamente un difetto faceva scattare l'allarme del debito, come se il debito l'avesse
+// aggiunto chi riapre. Curarlo ha un rischio preciso, ed è la ragione per cui questi due casi stanno
+// scritti uno accanto all'altro: allentare il conto del debito NON deve allentare il blocco duro.
+
+prova("AR-692 ①: un difetto RIPARATO in questo lotto senza mutazione resta FERMATO", () => {
+  // «Riparato dal lotto» nel linguaggio del cantiere = la sua prova è cambiata adesso. Era aperto
+  // prima ed è aperto adesso: nessuna riapertura, nessuna esenzione.
+  const dir = repoFinto({ verificaPrima: PATTERN, verificaOra: COMANDO, mutanti: [], tetti: { mutazione_mancante: 9 } });
+  const { codice, uscita } = cancello(dir);
+  assert.equal(codice, 1, `il blocco duro doveva fermarlo anche col tetto largo, invece è uscito ${codice}:\n${uscita}`);
+  assert.match(uscita, /mutazione-mancante/, "e deve dire quale regola");
+});
+
+prova("AR-692 ①bis: dichiararlo CHIUSO non è la porta di servizio per saltare la mutazione", () => {
+  // Il modo più comodo di consegnare un fix mai provato era chiudere la scheda senza toccarne la
+  // prova: non risultava «toccata» (il confronto guarda solo `verifica`) e non risultava fra le
+  // aperte (il conto guarda solo quelle). Usciva dal blocco duro da tutt'e due i lati.
+  const dir = repoFinto({
+    verificaPrima: COMANDO,
+    verificaOra: COMANDO,
+    statoPrima: "aperto",
+    statoOra: "chiuso",
+    mutanti: [],
+    tetti: { mutazione_mancante: 9 },
+  });
+  const { codice, uscita } = cancello(dir);
+  assert.equal(codice, 1, `chiudere una scheda senza mutazione non si consegna, invece è uscito ${codice}:\n${uscita}`);
+  assert.match(uscita, /CHIUSO in questo lotto/, "e deve dire perché");
+});
+
+prova("AR-692 ②: RIAPRIRE un difetto senza mutazione NON fa scattare l'allarme del debito", () => {
+  // Il caso vero: due difetti riaperti su richiesta di Nicola portavano `senzaMutazione` da 0 a 2 e
+  // il cancello leggeva «il debito si è allargato». Il debito c'era già, dentro una scheda marcata
+  // chiusa: riaprirla lo ha reso visibile. Punire chi riapre è l'incentivo rovesciato.
+  const dir = repoFinto({
+    verificaPrima: COMANDO,
+    verificaOra: COMANDO,
+    statoPrima: "chiuso",
+    statoOra: "aperto",
+    mutanti: [],
+    tetti: { mutazione_mancante: 0 },
+  });
+  const { codice, uscita } = cancello(dir);
+  assert.equal(codice, 0, `riaprire onestamente non è debito nuovo, invece è uscito ${codice}:\n${uscita}`);
+  assert.match(uscita, /RIAPERT/i, "e il numero non sparisce: resta detto come debito ereditato reso visibile");
 });
 
 prova("il file del test si riconosce anche quando il comando porta un caricatore (lotto 33)", () => {

@@ -70,22 +70,14 @@ prova("⬇️ …ma non può togliere il 2 dal cieco dichiarandolo rosso", () =>
   assert.equal(v.stato, "cieco", "se bastasse una regola del chiamante a coprirlo, il cieco non esisterebbe");
 });
 
-prova("una regola del chiamante che esplode non assolve nessuno", () => {
-  const v = leggiEsito(0, {
-    rossoSe: () => {
-      throw new Error("regola rotta");
-    },
-  });
-  assert.equal(v.stato, "verde", "il codice 0 resta verde: quello che non deve succedere è che la regola rotta lo renda tale per caso");
-  assert.equal(
-    leggiEsito(3, {
-      ciecoSe: () => {
-        throw new Error("regola rotta");
-      },
-    }).stato,
-    "rosso",
-    "una regola che non so applicare non l'ho applicata: il 3 resta rosso di casa",
-  );
+prova("⬇️ una regola del chiamante che esplode rende il verdetto cieco, non comodo", () => {
+  const rotta = () => {
+    throw new Error("regola rotta");
+  };
+  const v = leggiEsito(0, { rossoSe: rotta });
+  assert.equal(v.stato, "cieco", "una regola che esplode non ha detto no: ingoiarla darebbe un verdetto con una misura in meno");
+  assert.match(v.motivo, /regola rotta/, "e dice quale regola non ha potuto applicare");
+  assert.equal(leggiEsito(3, { ciecoSe: rotta }).stato, "cieco");
 });
 
 // ── ③ Un codice sconosciuto non compra il verde ─────────────────────────────
