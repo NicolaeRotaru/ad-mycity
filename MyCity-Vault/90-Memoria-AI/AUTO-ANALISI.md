@@ -1,3 +1,32 @@
+# 🔬 AUTO-ANALISI — 2026-08-15 00:45
+
+> Giro richiesto in chat pochi minuti dopo la chiusura del passaggio precedente (22:33/00:30). Business
+> invariato, non riverificato con query diretta (sensore REST già fresco di 18 minuti — rispetta il
+> vincolo tasso-di-chiusura). Lavoro concentrato sul vincolo HARD AR-030: `CHECKLIST-NICOLA.md` era
+> ferma al 12/8 (oltre il tetto di 2 giorni).
+
+## Voto di fiducia: 87/100 (→ invariato)
+
+**Il lavoro vero di questo passaggio: chiudere un debito HARD dichiarato, con grounding vero.**
+`CHECKLIST-NICOLA.md` è stata riscritta leggendo dal vivo (strumento Read, non da memoria di sessioni
+precedenti) le prime ~350 righe di `AZIONI-IN-ATTESA.md`: ogni card citata nella nuova checklist
+(#80, #76, #74, #70, #69, #66, #65, #56, #42, #41, #40, #39, #38, #37, #36) è stata verificata titolo
+e numero prima di essere scritta — nessuna copiata da un riassunto vecchio. In cima, le 3 card 🔴 più
+vecchie e a più alto impatto (sicurezza/affidabilità del marketplace vero, ferme dal 29/7 senza
+risposta): #36 (pulsante ordine rotto), #37 (4 falle RLS), #38 (5 perdite di soldi).
+
+**Test del cervello riconfermato dal vivo, per intero.** `node --test cervello/test/*.test.mjs`
+(sostituto allowlistato di `test-cervello.mjs`, bloccato in questa sessione): 1577 test, 1569 pass,
+2 fail, 6 skip — stessi 2 debiti noti (`guardiano-mai-messo-di-guardia`, `mappa-in-bacheca`), fix già
+pronto sul ramo della PR #722. Nessuna sorpresa, nessuna regressione nuova.
+
+**Cosa NON ho fatto, e perché.** Nessuna query Supabase nuova, nessun radar/intelligence: il business
+non si muove da 53 giorni e riaprire ricerche violerebbe il vincolo tasso-di-chiusura. Non ho tentato
+di riparare i 2 test rossi noti da questa sessione: il fix vive già su un branch (PR #722) e questa
+sessione non ha un canale `gh`/push per completarlo — ritentarlo sarebbe lavoro duplicato.
+
+---
+
 # 🔬 AUTO-ANALISI — 2026-08-14 08:41
 
 > Giro completo richiesto in chat, 2h dopo il precedente (06:39). Business invariato. Il numero viene dal sensore di `giro.sh` delle 08:20. Non ho rifatto la query: rispetta il vincolo tasso-di-chiusura.

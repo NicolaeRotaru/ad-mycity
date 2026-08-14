@@ -2,80 +2,71 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-08-12 22:43
+aggiornato: 2026-08-15 00:40
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata dopo 2 giorni ferma (era al 10/8 11:20 — al limite della regola dei 2 giorni, AR-030).
-> Business ancora **invariato**: 1 ordine totale (mai pagato, 24/6), 0 pagati, stallo **49 giorni**
-> — pausa concordata con te fino al 24/8-1/9, non è churn. Riverificato dal vivo su Supabase adesso.
-> Nel frattempo il VPS ha avuto un guasto di allineamento git (due giorni fermo) — risolto stasera,
-> non richiede più nulla da te su questo punto specifico.
+> Rigenerata perché era ferma al 12/8 22:43 — oltre i 2 giorni (AR-030).
+> Business ancora **invariato**: 1 ordine totale (mai pagato, 24/6), 0 pagati, stallo **52 giorni**
+> — dentro la pausa concordata con te fino al 24/8-1/9, non è churn.
 
 ---
 
-## 🔴 DECISIONE PIÙ VECCHIA E A PIÙ ALTO RITORNO
+## 🔴 DECISIONI TECNICHE A PIÙ ALTO IMPATTO (dal marketplace vero, ferme dal 29/7)
 
-- [ ] 🔴 **Ordine di prova su Pane Quotidiano: resta "dentro" la pausa fino a settembre, o lo fai "fuori" adesso?** Costa 3-5€ di pane, due minuti dal telefono — è l'unica cosa che dimostra che il pagamento e la consegna funzionano davvero. Ferma da **15 giorni** senza risposta.
-  → Card: `#ordine-test-dentro-o-fuori-dalla-pausa`
+- [ ] 🔴 **Tappa i 5 punti dove il marketplace perde soldi da solo** (doppia vendita dopo checkout scaduto, coupon che si esauriscono sui tentativi non sugli ordini, il rider può decidersi lo stipendio, il rider non viene mai pagato sulla spedizione gratis, un reclamo blocca il negozio per sempre) — bastano poche righe per i primi due, una migration per gli altri.
+  → Card `#38` in [[AZIONI-IN-ATTESA]]
 
----
+- [ ] 🔴 **Chiudi le 4 porte aperte su dati di negozi e clienti** (liste negozi scrivibili senza login, indirizzi clienti leggibili senza login, venditori/rider auto-approvati alla registrazione, dati di consegna modificabili senza login) — verificate una per una sul database vero.
+  → Card `#37` in [[AZIONI-IN-ATTESA]]
 
-## 🟡 DECISIONI TECNICHE (GitHub)
-
-- [ ] 🔴 **Pulizia dei 447 rami vecchi su GitHub** — quasi tutti hanno già la loro PR mergiata, sono solo rumore; due vanno recuperati prima di cancellare il resto
-  → Riga #7 nella tabella di [[AZIONI-IN-ATTESA]]
-
-- [ ] 🔴 **Come chiudere le PR: squash con riallineamento automatico, o merge normale?** Oggi il merge in squash a volte fa "morire" le altre PR aperte sulla stessa base
-  → Riga #8 nella tabella di [[AZIONI-IN-ATTESA]]
-
-- [ ] 🟡 Chiudi **PR #422** su GitHub (vecchia, con conflitti — non serve più)
-  → Card `#chiudi-pr-422`
-
-- [ ] 🔴 Mergia (se non l'hai già fatto) le PR di memoria/fix ferme: **#677, #679, #680, #681, #683** — non riverificabile da questa sessione (GitHub bloccato in chat).
+- [ ] 🔴 **Ripara il pulsante che negozio e rider usano per far avanzare un ordine** — oggi dà errore sempre, per un campo cancellato a giugno che un controllo di sicurezza cerca ancora. Al primo ordine vero il negoziante non riesce ad accettarlo.
+  → Card `#36` in [[AZIONI-IN-ATTESA]]
 
 ---
 
-## 🟡 DECISIONI RAPIDE (una parola basta)
+## 🟡 DECISIONI RAPIDE (una parola/un click bastano)
 
-- [ ] 🟡 **Il permesso "jolly" nei permessi della macchina va tolto?** Oggi la macchina può eseguire *qualunque* programma finisca nella sua cartella `cervello/`. L'elenco esplicito dei 70 programmi veri è già pronto (`consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`). Dimmi «fatto» quando l'hai incollato.
-  → Card: `#permessi-senza-jolly`
+- [ ] 🟡 **Spegni davvero PostHog sul server** — nel codice l'hai già deciso il 5/7, ma sul VPS la chiave è ancora accesa. Un comando da incollare nel terminale.
+  → Card `#80` in [[AZIONI-IN-ATTESA]]
 
-- [ ] 🟡 **Telegram lo vuoi acceso o lasciamolo spento?** Oggi è spento e basta.
-  → Card: `#sensori-spenti-senza-motivo`
+- [ ] 🟡 **Apri gli occhi delle sessioni cloud sulla Cabina e sul marketplace** — 3 host da aggiungere all'allowlist di rete dell'ambiente claude.ai/code (2 minuti), più due variabili facoltative se vuoi che vedano anche i dati.
+  → Card `#76` in [[AZIONI-IN-ATTESA]]
 
-- [ ] 🔴 **Apri il Pannello in una finestra in incognito, senza login, e dimmi cosa vedi (30 secondi).** Se si apre senza chiederti nulla, c'è una falla di sicurezza vera.
-  → Card: `#radiografia-serratura-pannello`
+- [ ] 🟡 **Due domande su 5 righe nuove nel foglio dei permessi del server** (push diretto su main va bene così? i due strumenti Supabase che scrivono servono davvero?) — una parola per ciascuna basta.
+  → Card `#74` in [[AZIONI-IN-ATTESA]]
 
-- [ ] 🟡 **Da quale piano rivedo prima?** Nove dei tuoi dieci piani hanno frasi smentite dai fatti (bando chiuso dato per aperto, negozio-faro sbagliato, commissione 12% invece di 10%). Ordine proposto: ① Piano Vendite ② Piano Istituzionale ③ Piano Editoriale.
-  → Card: `#piani-da-rivedere`
+- [ ] 🟡 **Da quale piano rivedo prima?** 9 dei tuoi 10 piani hanno frasi smentite dai fatti (bando chiuso dato per aperto, negozio-faro sbagliato, commissione 12% invece di 10%). Ordine proposto: ① Piano Vendite ② Piano Istituzionale ③ Piano Editoriale.
+  → Card `#69` in [[AZIONI-IN-ATTESA]]
 
-- [ ] 🟡 **Due comandi da lanciare sul server** per togliere dieci avvisi in inglese che compaiono in cima alle analisi (foglio permessi in forma vecchia). Comandi pronti in `consegne/sicurezza/2026-08-10-avvisi-permessi.md`.
-  → Card: `#avvisi-permessi-nelle-analisi`
+- [ ] 🟡 **Telegram lo vuoi acceso o lasciamolo spento?** Oggi è spento e basta, nessuno te l'ha mai chiesto.
+  → Card `#66` in [[AZIONI-IN-ATTESA]]
 
----
+- [ ] 🟡 **Il permesso "jolly" nei permessi della macchina va tolto?** Oggi può eseguire qualunque programma finisca nella sua cartella `cervello/`. L'elenco esplicito di 75 programmi veri è già pronto da incollare — e sbloccherebbe anche i comandi di controllo (`test-cervello`, `gate-veri`, ecc.) oggi bloccati in sessione chat.
+  → Card `#42` in [[AZIONI-IN-ATTESA]]
 
-## 🟡 ENV & INFRA (sblocchi macchina, 5 minuti ciascuno)
+- [ ] 🟡 **Metti la partita IVA vera nell'informativa privacy** (oggi c'è un segnaposto `IT00000000000`) — l'unico dato che non posso dedurre da solo; il resto (cancellazione documenti, dati visti dal rider) lo preparo io in branch.
+  → Card `#39` in [[AZIONI-IN-ATTESA]]
 
-- [ ] 🟡 **Aggiungi `BURN_MENSILE_EUR=302` in `cervello/vps/.env`** → riavvia il worker. Sblocca il calcolo del runway.
-  ```bash
-  echo "BURN_MENSILE_EUR=302" >> /opt/mycity/ad-mycity/cervello/vps/.env && sudo systemctl restart mycity-worker-chat.service
-  ```
-  → Card: `#burn-mensile-env`
-
-- [ ] 🔴 **Ruota i 2 token GitHub trovati in chiaro nel config git del VPS.**
-  → Card: `#ruota-pat-github`
+- [ ] 🟡 **Metti in sicurezza le anteprime del codice** (oggi usano le chiavi vere di Stripe e del database) prima che un fix ancora da approvare tocchi soldi o dati veri.
+  → Card `#40` in [[AZIONI-IN-ATTESA]]
 
 ---
 
 ## 🟡 Da valutare quando hai un minuto (non bloccanti)
 
-- [ ] 🔴 **Accendi la sveglia intelligence** (bandi ore 7 + Telegram) — playbook e PR già pronti.
-  → Card: `#accendi-intelligence-sveglia`
+- [ ] 🟡 **Il cancello di fine-turno accusa lavoro vecchio come se fosse di oggi** (bug tecnico noto, non urgente) — un tecnico deve scegliere tra due cure.
+  → Card `#65` in [[AZIONI-IN-ATTESA]]
 
-- [ ] 🟡 **Triage cantiere difetti** — 166 aperti, 341 chiusi: scegli fra tenerli tutti aperti, marcare i minori come "accettati", o tenerne un numero fisso alla volta.
-  → Card: `#radiografia-triage-cantiere`
+- [ ] 🟡 **Rimetti in funzione il comando "radiografia"** prima che ti serva davvero — oggi è rotto in due punti, riparabile in un branch.
+  → Card `#41` in [[AZIONI-IN-ATTESA]]
 
-> ⚠️ **Restano altre righe tecniche in coda** (fix di codice interno, PR da aprire lato AD, cure alla memoria) che non richiedono una TUA decisione — sono lavoro che porto avanti io o i senior. Elenco completo, sempre aggiornato: [[AZIONI-IN-ATTESA]].
+- [ ] 🟡 **Radiografia di te stessa scaduta** (oltre 11 giorni, soglia 10) — di' «radiografia di te stessa» quando vuoi che riparta. Nessuna urgenza, il business è comunque in pausa.
+  → Riga `64` in [[AZIONI-IN-ATTESA]]
+
+- [ ] 🟡 **`apprendimento.json` ricresciuto sopra il tetto che blocca le PR su GitHub** (di nuovo, come 6 giorni fa) — serve solo il tuo via libera a rilanciare lo strumento che lo alleggerisce.
+  → Riga `63` in [[AZIONI-IN-ATTESA]]
+
+> ⚠️ **Restano altre righe tecniche in coda** (fix di codice interno, PR da aprire/mergiare lato AD, cure alla memoria) che non richiedono una TUA decisione — sono lavoro che porto avanti io o i senior, oppure PR che aspettano solo il click di merge quando vuoi. Elenco completo, sempre aggiornato: [[AZIONI-IN-ATTESA]] (69 righe aperte al 15/8 00:32).
