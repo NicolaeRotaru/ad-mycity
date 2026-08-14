@@ -37,14 +37,24 @@ const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
 const leggi = (f) => readFileSync(join(REPO, f), "utf8");
 
+// ⚠️ Il metro deve poter FALLIRE anche sui casi asincroni — e qui non poteva.
+// Due casi sono scritti `async` (la risposta 500 e la coppia letto/assente), ma questa funzione
+// chiamava `fn()` senza aspettarlo: la promessa tornava indietro, il try/catch non ne vedeva mai il
+// rifiuto, e i due casi risultavano PASSATI qualunque cosa asserissero. Provato mutando il primo dei
+// due con un `assert.equal(1, 2)`: restava «# pass 19 · # fail 0», uscita 0. Il rifiuto rimasto in
+// coda usciva poi come uscita 1 con «# fail 0» in fondo — un rosso che il conteggio smentiva.
+// Ora i casi si accodano e si aspettano uno per uno, come in perimetro-applicato.test.mjs.
 const casi = [];
+const daFare = [];
 const prova = (nome, fn) => {
-  try {
-    fn();
-    casi.push({ nome, ok: true });
-  } catch (e) {
-    casi.push({ nome, ok: false, err: (e.message || String(e)).split("\n")[0] });
-  }
+  daFare.push(async () => {
+    try {
+      await fn();
+      casi.push({ nome, ok: true });
+    } catch (e) {
+      casi.push({ nome, ok: false, err: (e.message || String(e)).split("\n")[0] });
+    }
+  });
 };
 
 // node --experimental-strip-types importa il .ts senza build (il modulo non ha dipendenze apposta).
@@ -231,6 +241,8 @@ prova("la spazzata dei fratelli è verde e il tetto è sceso", () => {
   const ing = j.malattie.find((m) => m.id === "errore-ingoiato");
   assert.ok(ing.baseline <= 80, `il tetto degli errori ingoiati non può salire: è ${ing.baseline}`);
 });
+
+for (const eseguo of daFare) await eseguo();
 
 let falliti = 0;
 for (const c of casi) {

@@ -122,7 +122,10 @@ export function componiMessaggio(nuove, totaleInCoda) {
     righe.push(`…e altre ${nuove.length - MAX_PER_MESSAGGIO} in coda.`);
   }
   righe.push("");
-  righe.push(PANNELLO ? `Approva dal Pannello: ${PANNELLO}` : `Approva dal Pannello, o scrivi all'AD "ok <numero>".`);
+  // AR-244, l'altra metà: il Pannello adesso SA ricevere un indirizzo che nomina area e scheda, ma
+  // finché il messaggio manda l'indirizzo nudo nessuno gliene manda mai uno. Il link porta dritto
+  // sulla coda da firmare invece che sulla Plancia, da cui poi bisogna cercarsela.
+  righe.push(PANNELLO ? `Approva dal Pannello: ${PANNELLO}?a=azioni&s=approvare` : `Approva dal Pannello, o scrivi all'AD "ok <numero>".`);
   return righe.join("\n");
 }
 

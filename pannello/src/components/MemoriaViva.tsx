@@ -9,6 +9,7 @@ import { dataVault } from "@/lib/format";
 import { usePanelSync } from "@/lib/panel-sync";
 import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
+import { classeListaScorrevole } from "@/lib/tocco-bersaglio";
 
 type Attivita = {
   collegato: boolean;
@@ -106,10 +107,10 @@ export function SezioneBriefing() {
       ) : attivita?.briefing ? (
         <div>
           <p className="t-eti mb-2">{dataVault(attivita.briefing.data || attivita.briefing.nome)}</p>
-          <div className="max-h-[28rem] overflow-y-auto pr-1 rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
+          <div className={classeListaScorrevole("max-h-[28rem] overflow-y-auto pr-1 rounded-xl border border-black/[0.07] bg-paper/30 p-3.5")}>
             <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={Markdown}>{attivita.briefing.testo}</ReactMarkdown>
           </div>
-          <ParlaCasella titolo="Ultimo briefing" contesto={(attivita.briefing.testo || "").slice(0, 800)} />
+          <ParlaCasella idCasella="briefing-ultimo" titolo="Ultimo briefing" contesto={(attivita.briefing.testo || "").slice(0, 800)} />
         </div>
       ) : (
         <p className="text-sm text-black/45 py-4 text-center">Nessun briefing ancora.</p>
@@ -135,10 +136,10 @@ export function SezioneSalaOperativa() {
         </div>
       ) : attivita?.salaOperativa ? (
         <div>
-          <div className="max-h-[28rem] overflow-y-auto pr-1 rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
+          <div className={classeListaScorrevole("max-h-[28rem] overflow-y-auto pr-1 rounded-xl border border-black/[0.07] bg-paper/30 p-3.5")}>
             <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={Markdown}>{attivita.salaOperativa}</ReactMarkdown>
           </div>
-          <ParlaCasella titolo="Sala Operativa" contesto={(attivita.salaOperativa || "").slice(0, 800)} />
+          <ParlaCasella idCasella="sala-operativa" titolo="Sala Operativa" contesto={(attivita.salaOperativa || "").slice(0, 800)} />
         </div>
       ) : (
         <p className="text-sm text-black/45 py-4 text-center">Nessuna sala operativa ancora.</p>

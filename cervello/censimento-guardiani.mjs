@@ -161,6 +161,8 @@ export const DESCRIZIONI = {
   "housekeeping-azioni": { famiglia: "tempo", cosa: "Sposta in archivio le azioni già fatte o rifiutate, così la coda da firmare resta corta e vera." },
   "guardiano-tempo": { famiglia: "tempo", cosa: "Misura quanto lavoro sta aspettando la firma di Nicola e da quanti giorni: la coda è un costo." },
   letargo: { famiglia: "tempo", cosa: "Se quota, cassa o sensori calano, spegne il superfluo in ordine e tiene vivo solo il nucleo." },
+  "freschezza-rischi": { famiglia: "tempo", cosa: "Controlla che i rischi gravi dell'azienda siano stati riguardati di recente, invece di restare fermi per mesi." },
+  "c4-cancelli": { famiglia: "guardrail", cosa: "Tiene in un posto solo le decisioni che prima erano incollate dentro gli script: quando si può saltare il tetto di spesa, con quali soglie è girato il giro, chi rimisura quale vincolo, dove un segreto sta ancora negli argomenti di un comando." },
   "midollo-spinale": { famiglia: "tempo", cosa: "I riflessi rapidi: per ogni allarme delle sentinelle propone la reazione pronta, con il suo limite." },
   "delta-gate": { famiglia: "tempo", cosa: "Se dall'ultimo giro non è cambiato niente, evita di svegliare l'AI per riscrivere le stesse righe." },
 
@@ -188,8 +190,12 @@ export const FAMIGLIE = [
   ["soldi-macchina", "💶 Quanto costa tenerla accesa"],
   ["tempo", "⏰ Tempo, code e scadenze"],
   ["test", "🧪 Il codice regge?"],
+  ["guardrail", "🚦 Le regole scritte in un posto solo"],
   ["mani", "📲 Le mani (non giudicano: agiscono)"],
 ];
+
+/** Le famiglie che esistono davvero: una descrizione che ne nomina un'altra sparisce dalla tabella. */
+const FAMIGLIE_NOTE = new Set(FAMIGLIE.map(([chiave]) => chiave));
 
 /**
  * Chi gira nel giro, come è cablato, e cosa succede DAVVERO quando dice no.
@@ -328,6 +334,13 @@ export function censimento(testoGiro = "", { descrizioni = DESCRIZIONI, testoGat
     nonContati: elenco.filter((g) => g.effetti.includes("non-contato")).map((g) => g.nome),
     senzaDescrizione: elenco.filter((g) => !g.cosa).map((g) => g.nome),
     fantasmi: Object.keys(descrizioni).filter((n) => !nomi.has(n)),
+    // La terza direzione in cui l'elenco si stacca dalla realtà, scoperta col lotto 41: `c4-cancelli`
+    // era descritto (quindi non «senza descrizione») e girava davvero (quindi non un fantasma), ma
+    // la sua famiglia — `guardrail` — non esisteva fra quelle stampate. La bacheca raggruppa per
+    // famiglia e salta i gruppi vuoti: il guardiano è **sparito dalla tabella in silenzio**, e il
+    // controllo usciva verde lo stesso. È esattamente il difetto che questo file esiste per
+    // impedire — un controllo che protegge senza comparire — quindi ora conta come rosso.
+    famiglieOrfane: elenco.filter((g) => g.cosa && !FAMIGLIE_NOTE.has(g.famiglia)).map((g) => g.nome),
   };
 }
 
@@ -364,7 +377,11 @@ export const EFFETTI = {
  * Un difetto raccontato bene non è un difetto chiuso: finché il numero non entra in un'uscita,
  * nessun cancello lo può usare, e resta una riga che si impara a scorrere.
  */
-export function codiceUscita({ senzaDescrizione = [], fantasmi = [], nonContati = [] } = {}) {
+export function codiceUscita({ senzaDescrizione = [], fantasmi = [], nonContati = [], famiglieOrfane = [] } = {}) {
+  // Su una riga a parte apposta: la riga sotto è il pezzo che la mutazione di AR-387 va a cercare
+  // per verificare che il freno sugli allarmi non contati sia ancora vivo. Impastarci dentro un
+  // quarto controllo la renderebbe irriconoscibile, e quella prova smetterebbe di misurare.
+  if (famiglieOrfane.length) return 1;
   return senzaDescrizione.length || fantasmi.length || nonContati.length ? 1 : 0;
 }
 

@@ -132,9 +132,14 @@ test("AR-412 — il doppio clic: rossa oggi, verde se la prenotazione esiste ed 
 
 // ── Il secondo lotto: i quattro verdetti buttati via + il cancello cieco ─────
 //
-// Tutti e cinque leggono `cervello/giro.sh`, e tutti e cinque nascono rossi. Il finto fix è ogni
-// volta la stessa mossa — prendere quello che il guardiano ha detto e portarlo al motore — perché
-// la malattia è una sola in cinque punti diversi.
+// Tutti e cinque leggono `cervello/giro.sh` e sono nati rossi. Il finto fix è ogni volta la stessa
+// mossa — prendere quello che il guardiano ha detto e portarlo al motore — perché la malattia è una
+// sola in cinque punti diversi.
+//
+// Due sono nel frattempo stati riparati sul serio (AR-395 col lotto 40, AR-323 col lotto 41) e il
+// loro caso è girato al contrario: si parte dal codice verde e si rimette il difetto. La lista qui
+// sotto quindi non è più tutta rossa, ed è la direzione giusta — il giorno in cui lo saranno tutti
+// e cinque al contrario vorrà dire che questa famiglia di difetti è chiusa.
 
 test("AR-208 — il budget: rossa oggi, verde se il rc esce dalla pipe e diventa vincolo", () => {
   siRibalta({
@@ -164,12 +169,23 @@ test("AR-392 — il letargo: rossa oggi, verde se il livello dichiarato diventa 
   });
 });
 
-test("AR-323 — gli esperimenti: rossa oggi, verde se il testo lo produce il guardiano e non il giro", () => {
-  siRibalta({
+test("AR-323 — gli esperimenti: RIPARATO, e la prova se ne accorge se il testo torna scritto a mano", () => {
+  // ⟲ VERSO GIRATO (lotto 41), per la stessa ragione di AR-395 qui sotto: il difetto è stato
+  // riparato per davvero. Il giro non scrive più la frase fissa «⛔ NESSUN ESPERIMENTO APERTO» —
+  // adesso cattura l'uscita del guardiano (`_esp_out`) e la infila dentro il vincolo, così due
+  // problemi opposti (misurare i vecchi / aprirne uno) arrivano al motore con parole diverse.
+  // Il verso originale — parti dal rotto, applica il fix — non è più percorribile: oggi è verde.
+  //
+  // Non si cancella il caso: si gira. La rottura fedele è rimettere la malattia nella sua forma
+  // vera, cioè un testo che il GIRO scrive a mano invece di riportare quello che ha detto il
+  // guardiano. La sostituzione qui sotto toglie sia `$_esp_out` sia `$_esp_rc` dal vincolo: quello
+  // che resta è identico a qualunque cosa il guardiano abbia misurato — che è esattamente AR-323.
+  siRibaltaAlContrario({
     flag: "--ar-323",
     file: "cervello/giro.sh",
-    cerca: '    ESP_VINCOLO="⛔ NESSUN ESPERIMENTO APERTO',
-    sostituisci: "    ESP_VINCOLO=\"$(printf '%s\\n' \"$_esp_out\" | head -1)\" # era: ⛔ NESSUN ESPERIMENTO APERTO",
+    cerca:
+      '    ESP_VINCOLO="⛔ VOLANO DEGLI ESPERIMENTI (esperimenti-check.mjs rc=$_esp_rc, AR-041/AR-106/AR-323) — quello che ha misurato il guardiano, parola per parola:\n$_esp_out',
+    sostituisci: '    ESP_VINCOLO="⛔ NESSUN ESPERIMENTO APERTO: il volano non misura niente, aprine uno subito',
   });
 });
 

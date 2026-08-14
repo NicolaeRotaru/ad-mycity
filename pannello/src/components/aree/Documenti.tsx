@@ -7,7 +7,9 @@ import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { EVENTO_VAI, EVENTO_SUB } from "@/lib/nav";
-import { usePanelSync } from "@/lib/panel-sync";
+import { usePanelRefresh } from "@/lib/panel-sync";
+import { intervalloRipasso } from "@/lib/casella-ricarica";
+import { classeCampo } from "@/lib/tocco-bersaglio";
 
 // 📄 Archivio: navigatore ad albero per tutto ciò che l'AD produce in consegne/
 // Livello 1 → cartelle (strategia, marketing, audit…)
@@ -83,7 +85,8 @@ export default function Documenti({ embedded = false }: { embedded?: boolean }) 
   }, []);
 
   useEffect(() => { caricaElenco(); }, [caricaElenco]);
-  usePanelSync(["memoria", "azioni", "all"], caricaElenco);
+  // AR-236 — l elenco dell Archivio ripassa anche a tempo e al ritorno sulla scheda.
+  usePanelRefresh(["memoria", "azioni", "all"], caricaElenco, intervalloRipasso());
 
   const apri = useCallback((doc: Doc) => {
     setSel(doc);
@@ -234,7 +237,7 @@ export default function Documenti({ embedded = false }: { embedded?: boolean }) 
               value={filtro}
               onChange={(e) => { setFiltro(e.target.value); if (e.target.value) setCartella(null); }}
               placeholder={`Cerca tra ${totale} documenti… (es. "piano", "audit")`}
-              className="w-full pl-9 pr-3 py-2.5 rounded-xl text-sm bg-black/[0.03] border border-black/10 focus:border-brand/40 focus:outline-none"
+              className={classeCampo("w-full pl-9 pr-3 py-2.5 rounded-xl text-sm bg-black/[0.03] border border-black/10 focus:border-brand/40 focus:outline-none")}
             />
           </div>
 

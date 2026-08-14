@@ -259,6 +259,27 @@ export function righeRosse(out = "", max = 8) {
  */
 export function verdetto(status, out) {
   const { passati, falliti } = leggiTap(out);
+
+  // ⚪ «NON HO POTUTO GUARDARE» — il terzo esito, che qui mancava. Le prove in bash lo sapevano già
+  // dire (manca `bats` → ⚪, dichiarato uno per uno); quelle in Node no, e uno `# SKIP` usciva ✅.
+  // Misurato il 14/8 con un file finto che dichiarava solo `1..0 # SKIP`: il banco stampava
+  // «✅ 1 passati». Una prova che dichiara di non aver potuto guardare non è un verde — è la stessa
+  // bugia che questo repo cura, con l'aggravante di stare nel metro.
+  //
+  // Serve per le prove che guidano un browser vero: in CI non c'è né Playwright né il Pannello
+  // acceso, e lì la risposta onesta non è «rotto» (manda a cercare un bug che non c'è) né «a posto»
+  // (dichiara provato ciò che nessuno ha visto). È «non l'ho potuto vedere», e va contata a parte.
+  const testoTap = String(out || "");
+  const salto = /^\s*1\.\.0(\s+#\s*SKIP\b(.*))?\s*$/m.exec(testoTap);
+  if (salto) {
+    return {
+      esito: "non-eseguito",
+      motivo: (salto[2] || "").trim() || "la prova ha dichiarato di non aver potuto girare qui",
+      passati,
+      falliti,
+    };
+  }
+
   if (status === 0 && passati !== null) return { esito: "ok", motivo: "", passati, falliti };
   // ⚠️ L'ordine di questi due controlli è il difetto che la controprova mi ha trovato addosso il
   // 25/7. `node --test` su un file che non si CARICA lo riporta lo stesso in TAP, come «1 test, 1

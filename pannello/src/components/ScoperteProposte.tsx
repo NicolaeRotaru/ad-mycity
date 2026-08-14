@@ -40,7 +40,7 @@ export default function ScoperteProposte() {
                       <span className="px-1.5 py-0.5 rounded bg-black/5">impatto {o.impatto}</span>
                       <span className="px-1.5 py-0.5 rounded bg-black/5">sforzo {o.sforzo}</span>
                     </div>
-                    <ParlaCasella titolo={`Opportunità: ${o.titolo}`} contesto={contestoOpportunita(o)} />
+                    <ParlaCasella idCasella={`opportunita:${o.titolo}`} titolo={`Opportunità: ${o.titolo}`} contesto={contestoOpportunita(o)} />
                   </div>
                 ))}
               </div>

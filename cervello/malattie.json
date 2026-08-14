@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
  "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
- "aggiornato": "2026-08-13 22:50",
+ "aggiornato": "2026-08-14",
  "malattie": [
   {
    "id": "esito-in-una-pipe",
@@ -64,8 +64,8 @@
     ".tsx",
     ".mjs"
    ],
-   "baseline": 65,
-   "nota_baseline": "66 dal 2026-07-29 (lotto 35, corsia C): il tetto scende di 8 perché 8 silenzi sono stati curati davvero, non perché il conteggio sia stato riletto. Le 8 stanno in Plancia.tsx (5→1), Bacheca.tsx e StatoMacchina.tsx (2→1): ogni fetch passa ora da leggiDato() in pannello/src/lib/verdetto-dato.ts, che controlla r.ok e distingue letto/assente/cieco invece di ingoiare con .catch(() => {}). Restano 66 istanze in 28 file: debito ereditato, misurato e non nascosto. · sceso a 65 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B)",
+   "baseline": 56,
+   "nota_baseline": "56 misurate il 2026-08-14 da spazzata-fratelli dopo il lotto 41 (prec. → 56). 66 dal 2026-07-29 (lotto 35, corsia C): il tetto scende di 8 perché 8 silenzi sono stati curati davvero, non perché il conteggio sia stato riletto. Le 8 stanno in Plancia.tsx (5→1), Bacheca.tsx e StatoMacchina.tsx (2→1): ogni fetch passa ora da leggiDato() in pannello/src/lib/verdetto-dato.ts, che controlla r.ok e distingue letto/assente/cieco invece di ingoiare con .catch(() => {}). Restano 66 istanze in 28 file: debito ereditato, misurato e non nascosto. · sceso a 65 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B)",
    "nota_onesta": "74 istanze in codice vero, misurate il 28/7 (erano 80 prima del lotto 11: curate Plancia, StellePolari e MacchinaHomeCard). Il conteggio esclude i commenti e i file di test: contarli faceva CRESCERE il numero proprio quando qualcuno scriveva la prova che vieta la malattia — il contrario di quello che serve. Verificato incrociando con grep. Qui non elenco i file: conta il tetto, e se domani diventano 75 qualcuno ha aggiunto un silenzio nuovo.",
    "curati": [
     "Plancia.tsx — la coda dice se è stata letta (AR-233)",
@@ -85,7 +85,7 @@
     ".ts",
     ".tsx"
    ],
-   "baseline": 22,
+   "baseline": 8,
    "file_noti": [
     "pannello/src/app/api/azioni-pronte/autopilota/route.ts",
     "pannello/src/app/api/azioni-pronte/route.ts",
@@ -108,7 +108,7 @@
    ],
    "nota_onesta": "22 istanze restano, misurate il 29/7 DOPO il lotto 29. NON sono tutte difetti: alcune sono fallimenti accettati di proposito (il dedup giornaliero dei playbook, il battito del cuore) dove non esiste una conseguenza da mostrare a Nicola. Ma la differenza va DECISA una per una, non lasciata al caso: finché il triage non è fatto, il numero resta scritto qui. La radice — una funzione `scritturaConfermata`/`esitoScritture` che rende la scelta esplicita invece che implicita in un `await` — è installata in pannello/src/lib/esito-scrittura.ts.",
    "esenti": [],
-   "nota_baseline": "22 dal 2026-07-29 (lotto 29): linea di partenza misurata dopo la cura dei cinque punti che facevano danno visibile. Scende a ogni triage, non si alza mai."
+   "nota_baseline": "8 misurate il 2026-08-14 da spazzata-fratelli dopo il lotto 41 (prec. → 8). 22 dal 2026-07-29 (lotto 29): linea di partenza misurata dopo la cura dei cinque punti che facevano danno visibile. Scende a ogni triage, non si alza mai."
   },
   {
    "id": "cadenza-copiata-a-mano",
@@ -237,14 +237,14 @@
    "estensioni": [
     ".mjs"
    ],
-   "baseline": 68,
+   "baseline": 66,
    "curati": [
     "i file nati dopo AR-445 usano tutti la guardia `import.meta.url`",
     "guardiano-tempo.mjs (11/8): la guardia `import.meta.url` messa davvero. Prima era `main().catch(...)` senza guardia — importarlo eseguiva tutto, ma la forma non era piu quella che il rilevatore cerca: malattia nascosta invece che curata. L'ha presa la spazzata contando 70 contro un tetto di 71."
    ],
    "nota_onesta": "25 istanze storiche misurate il 3/8, non curate qui: toccarle tutte in questo lotto avrebbe voluto dire 25 file modificati per un lavoro che parlava d altro (e la deriva che il controllo ⑨ del sorvegliante esiste per chiedere). Il valore di censirla adesso e che la 26a viene fermata nel momento in cui la scrivo.",
    "esenti": [],
-   "nota_baseline": "71 dal 2026-08-03: numero MISURATO dalla spazzata su tutto cervello/ (il primo grep ne aveva contati 25 perche guardava solo il primo livello — la differenza e la ragione per cui i numeri si misurano con lo strumento che poi li verifica). file_noti omesso apposta: su una malattia larga elencare 71 file gonfia il registro senza aggiungere verita, e basta il tetto sul totale. · sceso a 69 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B) · sceso a 68 il 2026-08-13 (lotto 40: un altro main-guard, corsia E)"
+   "nota_baseline": "67 misurate il 2026-08-14 da spazzata-fratelli dopo il lotto 41 (prec. → 67). 71 dal 2026-08-03: numero MISURATO dalla spazzata su tutto cervello/ (il primo grep ne aveva contati 25 perche guardava solo il primo livello — la differenza e la ragione per cui i numeri si misurano con lo strumento che poi li verifica). file_noti omesso apposta: su una malattia larga elencare 71 file gonfia il registro senza aggiungere verita, e basta il tetto sul totale. · sceso a 69 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B) · sceso a 68 il 2026-08-13 (lotto 40: un altro main-guard, corsia E)"
   },
   {
    "id": "data-senza-ora",
@@ -488,6 +488,50 @@
    ],
    "esenti": [],
    "nota_baseline": "0 misurato il 2026-08-13 nel codice di produzione, dopo il lotto 38. Il pattern è STRETTO apposta: chiede il confronto con UNA etichetta (=== \"...\") e non un conteggio. `guasti.length ? \"fail\" : \"ok\"` è sano — lì l ok vuol dire «ho contato e non ho trovato niente» — e allargare il pattern lo renderebbe rumore da 20 falsi positivi, cioè un guardiano che si impara a ignorare. Nessuna esenzione: la spazzata non legge i commenti, quindi le tre citazioni della riga malata (il modulo, il badge, la prova) non contano — e un esenzione senza istanza è un residuo che nasconde il prossimo caso vero. La classe è [^\"\\n] e non [^\"]: senza il \\n il pattern attraversa gli a-capo e i due lettori del registro — la spazzata (file intero) e il sorvegliante (riga singola) — contano numeri diversi sulla stessa malattia. È AR-500, e me l ha trovato freni-senza-fonte.test.mjs."
+  },
+  {
+   "id": "git-letto-senza-tetto",
+   "nome": "Un comando git eseguito senza tetto: si rompe PROPRIO quando il lavoro è grosso",
+   "perche_e_grave": "execFileSync senza maxBuffer eredita il limite di 1 MB di Node sullo stdout e muore con ENOBUFS. I giri ordinari sono piccoli e non ci arrivano mai, quindi il difetto è invisibile finché non conta: si manifesta sul rebase di un lotto grande, cioè nel momento esatto in cui lo strumento che pubblica il lavoro deve funzionare. Non è teorico — cantiere-difetti.json pesa 1,79 MB OGGI, quindi un lettore senza tetto che faccia `git show HEAD:<quel file>` muore adesso. AR-327 era descritto su una porta sola (git-github.mjs) e ce n'erano sette: la cura non è allineare i tetti uno per uno, è avere UN solo esecutore (gitEsegui) e contare chi ancora non lo usa.",
+   "pattern": "execFileSync\\(\\s*[\"']git[\"']",
+   "dove": [
+    "cervello"
+   ],
+   "estensioni": [
+    ".mjs"
+   ],
+   "baseline": 18,
+   "file_noti": [
+    "cervello/cancello-senior.mjs",
+    "cervello/cancello-stop.mjs",
+    "cervello/collaudo.mjs",
+    "cervello/collega-marketplace.mjs",
+    "cervello/conta-verdetti-muti.mjs",
+    "cervello/git-github.mjs",
+    "cervello/intento-turno.mjs",
+    "cervello/lucchetto-git.mjs",
+    "cervello/percorsi-git.mjs",
+    "cervello/piani-data.mjs",
+    "cervello/porte-pubblicazione.mjs",
+    "cervello/pre-scrittura.mjs",
+    "cervello/prossimo-ar.mjs",
+    "cervello/sistema-immunitario.mjs",
+    "cervello/sorvegliante.mjs",
+    "cervello/storia-git.mjs"
+   ],
+   "curati": [
+    "cervello/git-github.mjs",
+    "cervello/git-pr.mjs"
+   ],
+   "esenti": [
+    {
+     "file": "cervello/git-github.mjs",
+     "quale": "gitEsegui",
+     "perche": "È l'esecutore unico in persona: la riga che porta il tetto di maxBuffer e da cui passano tutti gli altri. Curarla vorrebbe dire togliere l'unico posto in cui il cervello esegue git. Ogni altra occorrenza nel repo è una porta laterale e resta contata."
+    }
+   ],
+   "nota_onesta": "Il pattern conta OGNI esecuzione diretta di git, compresa quella dentro gitEsegui: è voluto, perché l'esecutore unico è una riga sola e tutto il resto è una porta laterale. Il tetto scende quando un chiamante passa all'esecutore unico, e non risale: è l'unica cosa che impedisce all'ottava porta di nascere in silenzio.",
+   "nota_baseline": "18 istanze nette (19 trovate − 1 esente) in 14 file, misurate il 2026-08-14 da spazzata-fratelli sul repo vero. La scheda di AR-327 ne nominava DUE: era nove volte più stretta del vero, ed è il motivo per cui la regola dice che comanda il codice e non la scheda. I file elencati in file_noti sono la LINEA DI PARTENZA, non un'assoluzione: portarli tutti all'esecutore unico è il lavoro di un lotto suo (registrato come difetto nuovo), e finché non è fatto il tetto tiene fermo il numero."
   }
  ]
 }

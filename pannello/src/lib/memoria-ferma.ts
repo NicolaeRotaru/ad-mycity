@@ -43,6 +43,103 @@ export function verdettoMemoriaFerma({
   return { ferma: orePush > tettoOre, oreFerma: orePush, maiVisto: false, macchinaLavora };
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-367 — COM'È ANDATO L'ULTIMO GIRO, e perché il Pannello non lo sapeva
+// ─────────────────────────────────────────────────────────────────────────────
+//
+// Il giro scrive `auto-coscienza/esito-giro.json` a ogni uscita, e quel file si autodescrive così:
+// «questo file dice la verita, e il Pannello la puo leggere». Il Pannello non lo apriva. Zero
+// occorrenze di `esito-giro` in tutto `pannello/src`: l'unico lettore reale era una persona che
+// apriva il JSON a mano. Per due giorni il file ha detto `pulito: false, gate_rossi: 2` e la home ha
+// continuato a mostrare 🟢 Viva.
+//
+// La causa è più larga del file: il difetto era stato chiuso quando l'esito veniva SCRITTO, non
+// quando veniva CONSUMATO — la macchina considera un fatto «reso disponibile» equivalente a
+// «usato». Scrivere una misura costa poco; non usarla non costa niente.
+//
+// `macchinaViva` guardava SE un giro era avvenuto, mai se fosse andato a buon fine. Da qui in poi
+// sono due domande separate: il giro è recente? e il giro è finito pulito? Un giro recente ma con
+// dei cancelli rossi NON è una macchina viva — è una macchina che gira a vuoto, ed è la cosa che
+// Nicola deve leggere sulla home invece di un pallino verde.
+//
+// Questo modulo è il gemello lato Pannello di `cervello/eta-referto.mjs` (tre esiti: fresco ·
+// stantio · non l'ho potuto vedere). Sono due perché vivono in due runtime diversi — una pagina
+// Next non può importare un `.mjs` del cervello — ed è una duplicazione DICHIARATA, con la sua
+// prova, non una svista. Stessa scelta già fatta per `badge-coerenza.ts` e `freschezza-intelligence.ts`.
+
+/** Quanto può essere vecchio l'esito dell'ultimo giro prima che smetta di dire qualcosa su adesso. */
+export const GIRO_SCADUTO_ORE = 26;
+
+export type SegnaleGiro = {
+  /** Il timbro scritto dentro il file, non la data del file: un checkout riscrive la seconda. */
+  quando: string | null;
+  /** L'ultimo giro è uscito senza cancelli rossi? `null` = il file non lo dice. */
+  pulito: boolean | null;
+  /** Quanti cancelli erano rossi all'uscita. */
+  gateRossi: number | null;
+  /** L'etichetta del giro («non-pubblicato», «vincoli-attivi», «ok»…). */
+  esito: string | null;
+};
+
+/**
+ * Legge `esito-giro.json` da testo. Torna `null` quando il file non c'è o non si parsa: null è
+ * «non l'ho potuto vedere», che non è «è andato bene».
+ */
+export function segnaleGiroDaJson(testo: string | null | undefined): SegnaleGiro | null {
+  if (!testo?.trim()) return null;
+  try {
+    const d = JSON.parse(testo) as Record<string, unknown>;
+    if (!d || typeof d !== "object") return null;
+    return {
+      quando: typeof d.data === "string" ? d.data : null,
+      pulito: typeof d.pulito === "boolean" ? d.pulito : null,
+      gateRossi: typeof d.gate_rossi === "number" ? d.gate_rossi : null,
+      esito: typeof d.esito === "string" ? d.esito : null,
+    };
+  } catch {
+    return null;
+  }
+}
+
+export type VerdettoGiro = {
+  /** "fresco" = recente e pulito · "stantio" = vecchio o finito male · "non_visto" = non lo so. */
+  stato: "fresco" | "stantio" | "non_visto";
+  /** L'unico verde possibile. ⚪ non è mai un verde: con due soli esiti finirebbe nel primo. */
+  verde: boolean;
+  /** La frase da mostrare, scritta come la direbbe una persona. */
+  frase: string;
+};
+
+/**
+ * Il verdetto sull'ultimo giro: recente E pulito.
+ *
+ * @param oreGiro   ore dall'ultimo giro (null = non lo so).
+ * @param segnale   quello che dice `esito-giro.json` (null = non l'ho potuto leggere).
+ */
+export function verdettoUltimoGiro(
+  oreGiro: number | null,
+  segnale: SegnaleGiro | null,
+  tettoOre = GIRO_SCADUTO_ORE,
+): VerdettoGiro {
+  if (oreGiro == null) return { stato: "non_visto", verde: false, frase: "non risulta nessun giro: da qui non so se la macchina abbia girato" };
+  if (oreGiro > tettoOre)
+    return { stato: "stantio", verde: false, frase: `l'ultimo giro è di ${etaTesto(oreGiro)} fa: quello che vedi qui è di allora` };
+  if (!segnale) return { stato: "non_visto", verde: false, frase: "c'è stato un giro ma non trovo com'è andato: non posso dire che sia andato bene" };
+  if (segnale.pulito === null) return { stato: "non_visto", verde: false, frase: "l'ultimo giro non dice se è uscito pulito: non lo do per buono" };
+  if (!segnale.pulito) {
+    const quanti = segnale.gateRossi ?? 0;
+    return {
+      stato: "stantio",
+      verde: false,
+      frase:
+        quanti > 0
+          ? `l'ultimo giro è finito con ${quanti} ${quanti === 1 ? "cancello rosso" : "cancelli rossi"}: ha girato ma non ha consegnato`
+          : "l'ultimo giro non è uscito pulito: ha girato ma non ha consegnato",
+    };
+  }
+  return { stato: "fresco", verde: true, frase: `ultimo giro ${etaTesto(oreGiro)} fa, uscito pulito` };
+}
+
 /** «114» → «4 giorni e 18 ore»: l'età si legge a voce, non si calcola a mente. */
 export function etaTesto(ore: number): string {
   if (ore < 1) return `${Math.round(ore * 60)} minuti`;

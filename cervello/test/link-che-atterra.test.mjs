@@ -23,6 +23,9 @@ const REPO = join(QUI, "..", "..");
 const { destinazioneDaHash, destinazioneDaPercorso, viePerTornare, linkDiDestinazione, AREE_NOTE } = await import(
   join(REPO, "pannello/src/lib/nav.ts")
 );
+// La decisione «dove porta questo indirizzo» è uscita dal componente-pagina col lotto 41: si esegue
+// da qui, invece di cercarne il nome dentro 3.800 righe di JSX.
+const { destinazioneDaIndirizzo } = await import(join(REPO, "pannello/src/lib/pagina-stato.ts"));
 
 // ── AR-609: il cancelletto ───────────────────────────────────────────────────
 test("il caso storico: /#auto-coscienza porta all'auto-coscienza, non all'ultima area visitata", () => {
@@ -86,8 +89,36 @@ test("una destinazione si scrive come indirizzo", () => {
 
 // ── il cablaggio: la decisione dev'essere COLLEGATA ──────────────────────────
 test("all'avvio il Pannello guarda l'indirizzo, non solo la memoria del browser", () => {
+  // ⚠️ IL METRO ERA TARATO SU UN NOME (lotto 41). Cercava la parola `destinazioneDaHash(` dentro
+  // page.tsx. Col lotto 41 quella decisione è uscita dal componente ed è finita in
+  // `lib/pagina-stato.ts`, dietro un nome più grande — `destinazioneDaIndirizzo` — che guarda PRIMA
+  // i parametri (`?a=azioni&s=approvare`) e POI il vecchio cancelletto. La pagina leggeva
+  // l'indirizzo più di prima e la prova diceva di no: cercava un nome, non un comportamento.
+  //
+  // Adesso il caso misura la cosa vera in tre punti, e copre più di prima:
+  //   ① la pagina, al caricamento, passa alla decisione SIA i parametri SIA il cancelletto;
+  //   ② la decisione, eseguita per davvero, fa atterrare i parametri nuovi…
+  //   ③ …senza aver perso il cancelletto vecchio, che è AR-609 e gira ancora nelle lettere.
   const page = readFileSync(join(REPO, "pannello/src/app/page.tsx"), "utf8");
-  assert.match(page, /destinazioneDaHash\(/, "page.tsx deve leggere l'indirizzo al primo caricamento");
+  assert.match(
+    page,
+    /destinazioneDaIndirizzo\(window\.location\.search,\s*window\.location\.hash\)/,
+    "page.tsx deve leggere l'indirizzo — parametri E cancelletto — al primo caricamento",
+  );
+  assert.deepEqual(destinazioneDaIndirizzo("?a=azioni&s=approvare", ""), { vista: "azioni", sub: "approvare" });
+  assert.equal(destinazioneDaIndirizzo("", "#auto-coscienza")?.vista, "auto-coscienza", "il link vecchio non si è perso");
+  assert.equal(destinazioneDaIndirizzo("", ""), null, "un indirizzo che non dice niente non muove l'area salvata");
+});
+
+test("il link che l'avviso manda a Nicola atterra davvero sulla coda da firmare", () => {
+  // La chiusura del giro: la prova prende l'indirizzo COM'È SCRITTO nell'avviso e lo dà da leggere
+  // alla funzione che il Pannello esegue all'avvio. Finché queste due metà si scrivevano a mano in
+  // due file diversi, un refuso in una delle due non lo vedeva nessuno — e il messaggio «approva
+  // dal Pannello» apriva l'ultima area visitata invece della coda.
+  const avviso = readFileSync(join(REPO, "cervello/notifica-approvazioni.mjs"), "utf8");
+  const m = avviso.match(/\$\{PANNELLO\}(\?[a-z0-9=&]+)/i);
+  assert.ok(m, "l'avviso deve portare un indirizzo che nomina dove andare, non la sola home");
+  assert.deepEqual(destinazioneDaIndirizzo(m[1], ""), { vista: "azioni", sub: "approvare" }, `l'indirizzo «${m?.[1]}» non atterra sulla coda da firmare`);
 });
 
 test("la pagina dell'indirizzo sbagliato esiste, è in italiano e ha le sue uscite", () => {

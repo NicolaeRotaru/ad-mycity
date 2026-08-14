@@ -15,9 +15,11 @@
 // Exit: 0 = nessuna fonte pesante morta · 1 = almeno una fonte peso≥4 morta (gate 🟡 nel giro)
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { scriviStatoSensore } from "./stato-sensori.mjs";
+import { timbraReferto } from "./eta-referto.mjs"; // AR-286: chi ha scritto questa misura, e da dove
 
 const JSON_MODE = process.argv.includes("--json");
 
@@ -106,6 +108,16 @@ async function main() {
   const out = {
     ok: morteCritiche.length === 0,
     quando,
+    // AR-286 — «fonte morta» detto da una macchina senza rete e detto dal VPS sono due notizie
+    // diverse, e fino a oggi il file le scriveva uguali. Il timbro dice da dove viene la misura e
+    // per quanto vale; i nomi delle chiavi, mai i valori.
+    timbro: timbraReferto({
+      quando,
+      scadenzaOre: 24,
+      scrittoDa: "cervello/sentinella-fonti.mjs",
+      env: process.env,
+      chiavi: ["SUPABASE_URL", "MARKETPLACE_SUPABASE_URL"],
+    }),
     radar: file.replace(AD_ROOT + "/", ""),
     fonti_totali: risultati.length,
     vive: risultati.filter((x) => x.viva).length,
@@ -135,4 +147,7 @@ async function main() {
   process.exit(out.ok ? 0 : 1);
 }
 
-main();
+// Il programma parte SOLO se qualcuno lancia questo file: importarlo per usarne una funzione non
+// deve far girare la sentinella intera. Un modulo che si esegue all'import non e provabile.
+const lanciatoDaRigaDiComando = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (lanciatoDaRigaDiComando) main();

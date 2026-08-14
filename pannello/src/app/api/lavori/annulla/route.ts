@@ -7,7 +7,9 @@ import {
   type Lavoro,
 } from "@/lib/store";
 import { tutteLeAzioni } from "@/lib/azioni-pronte";
-import { revocaFirma } from "@/lib/firma-azione";
+import { revocaFirmaObbligatoria, FirmaNonScritta } from "@/lib/firma-azione";
+import { scrivereInOrdine } from "@/lib/cancello-atto";
+import { liberaAzione } from "@/lib/prenotazione-atto";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -37,23 +39,69 @@ function oraRoma(): string {
 // non era ancora realmente partita (stato salvato "" | "rifiutata" | "coda"). "coda" = era solo
 // accodata al worker, e siccome il lavoro era in_attesa (garantito dal chiamante) nulla è stato
 // eseguito → ripristino sicuro. "fatta"/"simulata" = già toccato il mondo reale → NON si ripristina.
-async function rimettiAzioneInApprovazione(lv: Lavoro, ora: string): Promise<boolean> {
+type EsitoRipristino = {
+  /** L'azione è davvero tornata in «Da approvare»? */
+  tornata: boolean;
+  /** La firma di Nicola è ancora addosso all'azione? (allora il worker potrebbe ancora eseguirla) */
+  firmaAncoraViva: boolean;
+  /** Cosa dire a Nicola se qualcosa non è passato (vuoto se è filato tutto). */
+  avviso: string;
+};
+
+async function rimettiAzioneInApprovazione(lv: Lavoro, ora: string): Promise<EsitoRipristino> {
+  const nulla: EsitoRipristino = { tornata: false, firmaAncoraViva: false, avviso: "" };
   const m = (lv.richiesta || "").match(/l'azione\s+"([^"]+)"/i);
   const titolo = m?.[1]?.trim();
-  if (!titolo) return false;
+  if (!titolo) return nulla;
   const az = (await tutteLeAzioni()).find((a) => a.titolo === titolo);
-  if (!az) return false;
+  if (!az) return nulla;
   const { valori } = await getImpostazioni();
   const cur = valori[`azione:${az.id}`] || "";
-  if (cur === "fatta" || cur === "simulata") return false;
+  if (cur === "fatta" || cur === "simulata") return nulla;
+
   // AR-110: l'azione torna "da approvare", quindi la firma di Nicola va revocata. Se restasse,
   // il worker che riprende in mano il lavoro la troverebbe ancora firmata e potrebbe inviare
   // davvero un'azione che Nicola ha appena annullato.
-  await revocaFirma(az.id);
-  const okStato = await setImpostazione(`azione:${az.id}`, "");
+  //
+  // AR-384: la revoca è la scrittura che PROTEGGE, e prima il suo esito veniva buttato via — mentre
+  // le due scritture successive, meno critiche, l'esito lo controllavano. Ora l'ordine è vincolato
+  // dal modulo condiviso: se la firma non se ne va, lo stato NON si azzera. Meglio una card che
+  // resta ferma di una card che torna «da approvare» con la firma ancora viva sotto.
   const nota = `↩️ Tornata in Da approvare perché annullata da Nicola dal Pannello (Lavori) il ${ora}. Non era ancora partita: nulla è stato inviato. Riapprovala se la vuoi eseguire.`;
-  const okNota = await setImpostazione(`azione:${az.id}:nota`, nota);
-  return okStato && okNota;
+  const esito = await scrivereInOrdine({
+    sicurezza: {
+      nome: "revoca della firma",
+      esegui: async () => {
+        try {
+          await revocaFirmaObbligatoria(az.id);
+          return true;
+        } catch (e) {
+          // Il tipo che lancia costringe a decidere QUI, e la decisione è: fermarsi.
+          // Tutto ciò che non è una firma non scritta è un errore vero e deve restare visibile.
+          if (!(e instanceof FirmaNonScritta)) throw e;
+          return false;
+        }
+      },
+    },
+    poi: async () => {
+      // Il posto preso al momento dell'approvazione va liberato: senza, l'azione resterebbe
+      // «già in corso» per sempre e Nicola non potrebbe più riapprovarla.
+      await liberaAzione(az.id);
+      return [
+        { nome: "stato", ok: await setImpostazione(`azione:${az.id}`, "") },
+        { nome: "nota", ok: await setImpostazione(`azione:${az.id}:nota`, nota) },
+      ];
+    },
+  });
+
+  if (esito.bloccataSullaSicurezza) {
+    return {
+      tornata: false,
+      firmaAncoraViva: true,
+      avviso: `Il lavoro è annullato, ma NON sono riuscito a togliere la firma dall'azione «${az.titolo}»: resta firmata e il cervello potrebbe ancora eseguirla. Non l'ho rimessa in «Da approvare». Metti la pausa dal Pannello e riprova fra poco.`,
+    };
+  }
+  return { tornata: esito.ok, firmaAncoraViva: false, avviso: esito.ok ? "" : esito.messaggio };
 }
 
 export async function POST(req: NextRequest) {
@@ -94,12 +142,23 @@ export async function POST(req: NextRequest) {
     }
 
     // Se il lavoro era un'azione APPROVATA (e mai partita, perché era in_attesa): rimettila in Da approvare.
-    let tornataInApprovazione = false;
+    let ripristino: EsitoRipristino = { tornata: false, firmaAncoraViva: false, avviso: "" };
     if (lv.tipo === "esegui-azione" && lv.stato === "in_attesa") {
-      tornataInApprovazione = await rimettiAzioneInApprovazione(lv, ora);
+      ripristino = await rimettiAzioneInApprovazione(lv, ora);
     }
 
-    return NextResponse.json({ ok: true, stato: "annullato", tipo: lv.tipo, tornataInApprovazione });
+    // AR-384: `tornataInApprovazione` dice la verità anche quando la revoca non è passata, e
+    // l'avviso arriva a Nicola invece di restare nel nulla. Il lavoro È annullato (la scrittura sui
+    // lavori ha confermato), quindi `ok` resta true: quello che può essere rimasto indietro è la
+    // firma, e per quella c'è un campo suo.
+    return NextResponse.json({
+      ok: true,
+      stato: "annullato",
+      tipo: lv.tipo,
+      tornataInApprovazione: ripristino.tornata,
+      firmaAncoraViva: ripristino.firmaAncoraViva,
+      ...(ripristino.avviso ? { avviso: ripristino.avviso, error: ripristino.avviso } : {}),
+    });
   } catch (e: any) {
     return NextResponse.json({ ok: false, error: e.message }, { status: 500 });
   }

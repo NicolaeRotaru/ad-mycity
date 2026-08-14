@@ -24,7 +24,11 @@
 //     ma nemmeno dice «sotto soglia»: dichiara di non vedere, e il giro riceve un vincolo visibile.
 //     È il contratto del guardiano cieco già in casa (AR-322: 0 passato · 1 bocciato · 2 cieco).
 //
-// Nessun import: si esegue in un test senza toccare disco, rete o vault.
+// Nessun accesso a disco, rete o vault: si esegue in un test senza preparare niente. L'unico import
+// è `finestra-misura.mjs` (a sua volta puro), che risponde alla domanda gemella di questa: qui si
+// dichiara DA DOVE viene un numero, lì DI QUANDO è e DI QUANTO parla.
+
+import { bucketScaduto, FINESTRA } from "./finestra-misura.mjs";
 
 /** Le provenienze possibili di un numero su cui si decide. */
 export const FONTI = {
@@ -85,9 +89,43 @@ export function tokenPerGate(oggi, dataDiOggi = null) {
   // consumo basso, è nessuna informazione sul consumo di adesso.
   // Il confronto si fa solo se chi chiama dichiara la data di oggi: la funzione resta pura e i test
   // possono metterla in entrambe le condizioni senza dipendere dall'orologio.
+  //
+  // AR-368 — la domanda «di che giorno è questo secchio?» adesso ha UNA casa sola
+  // (`finestra-misura.mjs → bucketScaduto`), perché non è una domanda del solo freno sui costi: ogni
+  // altro consumatore dello stesso secchio (il letargo, il Pannello) se la riscriveva a modo suo, e
+  // chi se la dimenticava leggeva ieri credendo di leggere oggi.
+  //
+  // ⚠️ La riga della condizione resta scritta per esteso di proposito: è l'ancora della mutazione di
+  // AR-424 in `mutanti.json` («il freno torna a non guardare di che giorno è il contatore»).
+  // Riscriverla come `if (finestra.scaduto)` spegnerebbe quel freno senza che nessuno se ne accorga.
   const suo = String(oggi?.data ?? "").trim();
+  const finestra = bucketScaduto(oggi, dataDiOggi);
   if (dataDiOggi && suo && suo !== String(dataDiOggi).trim()) {
-    return { valore: null, fonte: FONTI.SCADUTA, reali: null, stimati: null, giorno: suo, atteso: String(dataDiOggi) };
+    return {
+      valore: null,
+      fonte: FONTI.SCADUTA,
+      reali: null,
+      stimati: null,
+      giorno: finestra.giorno,
+      atteso: finestra.atteso,
+      motivo_finestra: finestra.motivo,
+    };
+  }
+
+  // AR-368 (b) — IL SECCHIO SENZA DATA. Il caso che mancava: se chi chiama dichiara che giorno è
+  // oggi e il secchio non dice di quando è, prima si tirava dritto e il numero veniva usato come se
+  // fosse di adesso. Un contatore che non sa dichiarare il proprio giorno non è un contatore basso:
+  // è un contatore di cui non so niente, e vale la stessa risposta del buco (AR-322: cieco, non 0).
+  if (dataDiOggi && finestra.esito === FINESTRA.ASSENTE) {
+    return {
+      valore: null,
+      fonte: FONTI.ASSENTE,
+      reali: null,
+      stimati: null,
+      giorno: finestra.giorno,
+      atteso: finestra.atteso,
+      motivo_finestra: finestra.motivo,
+    };
   }
 
   const r = reali.valore ?? 0;

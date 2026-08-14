@@ -7,7 +7,9 @@ import remarkGfm from "remark-gfm";
 import remarkBreaks from "remark-breaks";
 import { dataVault } from "@/lib/format";
 import Aggiornato from "@/components/Aggiornato";
-import { usePanelSync } from "@/lib/panel-sync";
+import { usePanelRefresh } from "@/lib/panel-sync";
+import { intervalloRipasso } from "@/lib/casella-ricarica";
+import { classeComando, classeComandoSommario, classeListaScorrevole } from "@/lib/tocco-bersaglio";
 
 type Tab = "trend" | "retention" | "acquisizione" | "pattern" | "negozi" | "funnel" | "catalogo" | "unit" | "cassa" | "payout" | "report";
 type Punto = { giorno: string; ordini: number; incasso: number };
@@ -78,11 +80,13 @@ export default function NumeriReport() {
     }
   }, []);
 
-  useEffect(() => {
-    carica(tab);
-  }, [tab, carica]);
+  // AR-236 — un solo punto di ricarica, memoizzato: così il ripasso a tempo non si ricrea a ogni
+  // render (un intervallo ricreato di continuo non scatta mai) e cambia solo quando cambia scheda.
+  const ricarica = useCallback(() => { void carica(tab); }, [carica, tab]);
 
-  usePanelSync(["memoria", "all"], () => carica(tab));
+  useEffect(() => { ricarica(); }, [ricarica]);
+
+  usePanelRefresh(["memoria", "all"], ricarica, intervalloRipasso());
 
   async function generaReport(tipo: string) {
     // BUG-radiografia (riga 46): blocca i bottoni durante l'invio per evitare la doppia accodatura.
@@ -441,7 +445,7 @@ export default function NumeriReport() {
               )}
               {catalogo.mai_venduti?.length > 0 && (
                 <details className="rounded-xl border border-amber-200 bg-amber-50/40 p-2.5">
-                  <summary className="text-[12px] font-semibold text-amber-800 cursor-pointer">Prodotti mai venduti ({catalogo.riepilogo.mai_venduti}) — da rilanciare o togliere</summary>
+                  <summary className={classeComandoSommario("text-[12px] font-semibold text-amber-800 cursor-pointer")}>Prodotti mai venduti ({catalogo.riepilogo.mai_venduti}) — da rilanciare o togliere</summary>
                   <div className="mt-1.5 space-y-0.5">
                     {catalogo.mai_venduti.map((p: any) => (
                       <div key={p.id} className="text-[12px] text-ink/75 flex items-center gap-2">
@@ -604,7 +608,7 @@ export default function NumeriReport() {
               {payout.anomalie?.length === 0 && <p className="text-[13px] text-green-700">✅ Nessuna anomalia: payout e rimborsi in ordine.</p>}
               {payout.righe?.length > 0 && (
                 <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-2.5">
-                  <summary className="text-[12px] font-semibold cursor-pointer">Ordini da riconciliare ({payout.righe.length})</summary>
+                  <summary className={classeComandoSommario("text-[12px] font-semibold cursor-pointer")}>Ordini da riconciliare ({payout.righe.length})</summary>
                   <div className="mt-1.5 space-y-0.5">
                     {payout.righe.map((r: any, i: number) => (
                       <div key={i} className="text-[12px] flex items-center gap-2">
@@ -652,8 +656,8 @@ export default function NumeriReport() {
 
           {report?.ultimo ? (
             <details className="rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
-              <summary className="text-[13px] font-semibold cursor-pointer">Ultimo report · {dataVault(report.ultimo.data || report.ultimo.nome)}</summary>
-              <div className="mt-2 max-h-96 overflow-y-auto pr-1 text-[13px] leading-relaxed">
+              <summary className={classeComandoSommario("text-[13px] font-semibold cursor-pointer")}>Ultimo report · {dataVault(report.ultimo.data || report.ultimo.nome)}</summary>
+              <div className={classeListaScorrevole("mt-2 max-h-96 overflow-y-auto pr-1 text-[13px] leading-relaxed")}>
                 <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]}>{report.ultimo.testo}</ReactMarkdown>
               </div>
             </details>

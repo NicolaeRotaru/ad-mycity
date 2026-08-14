@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-13 22:55",
+ "aggiornato": "2026-08-14",
  "mutanti": [
   {
    "lotto": 30,
@@ -3241,6 +3241,474 @@
    "cerca": "const TETTI = process.env.PESO_TETTI || join(QUI, \"peso-contesto.json\");",
    "sostituisci": "const TETTI = process.env.PESO_TETTI || join(QUI, \"peso-contesto-inesistente.json\");",
    "test": "node cervello/peso-contesto.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-383",
+   "nome": "il cieco torna a essere uno zero: la guardia del budget non distingue più «non lo so» da «non ho speso niente»",
+   "file": "pannello/src/lib/ai-budget.ts",
+   "cerca": "  const cieco = !tabella || contoRotto;",
+   "sostituisci": "  const cieco = false;",
+   "test": "node cervello/test/c1-lettura-cieca-non-e-zero.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-384",
+   "nome": "la scrittura di sicurezza fallita non ferma più quelle che la seguono: la card torna «da approvare» con la firma ancora viva",
+   "file": "pannello/src/lib/cancello-atto.ts",
+   "cerca": "  if (!okSicurezza) {",
+   "sostituisci": "  if (false && !okSicurezza) {",
+   "test": "node cervello/test/c1-firma-revocata-davvero.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-385",
+   "nome": "l'ordine si inverte: l'atto parte senza prendere il posto, e al battito dopo l'azione riparte",
+   "file": "pannello/src/lib/cancello-atto.ts",
+   "cerca": "  const posto = await p.prenota();",
+   "sostituisci": "  const posto: Prenotazione = \"mia\"; await p.prenota();",
+   "test": "node cervello/test/c1-atto-una-volta-sola.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-410",
+   "nome": "senza chiave configurata la porta del battito torna ad aprirsi a chiunque",
+   "file": "pannello/src/lib/serratura.ts",
+   "cerca": "  if (!segreto) {\n    return {\n      ammessa: false,\n      status: 503,",
+   "sostituisci": "  if (!segreto) {\n    return {\n      ammessa: true as any,\n      status: 503,",
+   "test": "node cervello/test/c1-porta-aperta-per-default.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-412",
+   "nome": "il conflitto sulla chiave unica smette di significare «il posto era già preso»: due clic tornano a mandare due volte",
+   "file": "pannello/src/lib/cancello-atto.ts",
+   "cerca": "if (res.status === 409) return \"gia-presa\";",
+   "sostituisci": "if (res.status === 409) return \"mia\";",
+   "test": "node cervello/test/c1-atto-una-volta-sola.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-413",
+   "nome": "dopo un atto già avvenuto il Pannello torna a consigliare «riprova», cioè a far rimandare l'azione una seconda volta",
+   "file": "pannello/src/lib/cancello-atto.ts",
+   "cerca": "  const chiusura = chiusuraAtto({ scritture: await p.registra(risultato), attoEseguito: true });",
+   "sostituisci": "  const chiusura = chiusuraAtto({ scritture: await p.registra(risultato), attoEseguito: false });",
+   "test": "node cervello/test/c1-atto-una-volta-sola.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-234",
+   "nome": "la serratura lascia entrare tutti: qualunque porta che muta lo stato torna raggiungibile da uno sconosciuto",
+   "file": "pannello/src/lib/serratura.ts",
+   "cerca": "  if (esente(r.percorso)) return { ammessa: true };",
+   "sostituisci": "  if (true || esente(r.percorso)) return { ammessa: true };",
+   "test": "node cervello/test/c1-porta-aperta-per-default.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-244",
+   "nome": "l'indirizzo torna a non essere letto: i parametri a/s vengono ignorati e ogni link ricade sull'ultima area salvata",
+   "file": "pannello/src/lib/pagina-stato.ts",
+   "cerca": "  if (a) {",
+   "sostituisci": "  if (!a) {",
+   "test": "node cervello/test/c2-indirizzo.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-248",
+   "nome": "il cassetto chiuso torna a disegnare tutte le righe invisibili",
+   "file": "pannello/src/lib/pagina-stato.ts",
+   "cerca": "if (!args?.aperto) return [];",
+   "sostituisci": "if (false) return [];",
+   "test": "node cervello/test/c2-cassetto.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-249",
+   "nome": "il filtro torna a riscandire il testo grezzo invece di usare l'indice già pronto",
+   "file": "pannello/src/lib/pagina-stato.ts",
+   "cerca": "(indice && indice.get(id)) ??",
+   "sostituisci": "(false && indice?.get(id)) ??",
+   "test": "node cervello/test/c2-cassetto.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-400",
+   "nome": "si torna a dare per confermata ogni scrittura, anche un «non salvato» servito con codice di successo",
+   "file": "pannello/src/lib/pagina-stato.ts",
+   "cerca": "const confermata = scritturaConfermata(args.risposta, args.corpo);",
+   "sostituisci": "const confermata = true;",
+   "test": "node cervello/test/c2-salvataggio-chat.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-225",
+   "nome": "sul telefono spariscono le schede e torna a comandare la tabella da 420 punti",
+   "file": "pannello/src/app/page.tsx",
+   "cerca": "<div className=\"sm:hidden space-y-1.5\" data-test=\"numeri-schede\">",
+   "sostituisci": "<div className=\"hidden sm:hidden space-y-1.5\" data-test=\"numeri-schede\">",
+   "test": "node cervello/test/c2-schermo.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-417",
+   "nome": "la pagina torna a non dichiarare viewport-fit=cover e su iPhone lo spazio per la barra del gesto torna a valere zero",
+   "file": "pannello/src/lib/pagina-stato.ts",
+   "cerca": "  viewportFit: \"cover\" as const,\n",
+   "sostituisci": "",
+   "test": "node cervello/test/c2-schermo.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-220",
+   "nome": "la soglia dei 16 pixel non conta più: i campi tornano a far zoomare l'iPhone",
+   "file": "pannello/src/lib/tocco-bersaglio.ts",
+   "cerca": "export const CAMPO_MIN_PX = 16;",
+   "sostituisci": "export const CAMPO_MIN_PX = 0;",
+   "test": "node cervello/test/c3-tocco-bersaglio.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-223",
+   "nome": "il bersaglio comodo scende a 1 pixel: ogni comando risulta già abbastanza grande",
+   "file": "pannello/src/lib/tocco-bersaglio.ts",
+   "cerca": "export const BERSAGLIO_MIN_PX = 44;",
+   "sostituisci": "export const BERSAGLIO_MIN_PX = 1;",
+   "test": "node cervello/test/c3-tocco-bersaglio.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-224",
+   "nome": "il tetto fisso resta anche sul telefono: la lista si riprende il gesto del dito",
+   "file": "pannello/src/lib/tocco-bersaglio.ts",
+   "cerca": "      fuori.push(TETTO_RESPONSIVO[t] || \"max-h-none\");",
+   "sostituisci": "      fuori.push(t);",
+   "test": "node cervello/test/c3-tocco-bersaglio.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-236",
+   "nome": "una delle dieci caselle torna al solo segnale, senza ripasso a tempo",
+   "file": "pannello/src/components/Bacheca.tsx",
+   "cerca": "usePanelRefresh([\"memoria\", \"all\"], carica, intervalloRipasso());",
+   "sostituisci": "usePanelSync([\"memoria\", \"all\"], carica);",
+   "test": "node cervello/test/c3-casella-ricarica.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-263",
+   "nome": "«non ho potuto leggere» torna a dire la stessa frase di «non c'è niente»",
+   "file": "pannello/src/lib/casella-ricarica.ts",
+   "cerca": "      messaggio: motivo\n        ? `⚠️ Non sono riuscito a leggere: ${motivo}. Riprova fra un momento.`\n        : \"⚠️ Non sono riuscito a leggere questo dato. Riprova fra un momento.\",",
+   "sostituisci": "      messaggio: p.testoVuoto || \"Non c'è ancora niente qui.\",",
+   "test": "node cervello/test/c3-casella-ricarica.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-402",
+   "nome": "la fotocamera esce dalla pila degli strati: il dito indietro cambia pagina sotto",
+   "file": "pannello/src/components/BottoneFotoChat.tsx",
+   "cerca": "  useStrato(\"foto-visore\", aperto, chiudi);",
+   "sostituisci": "",
+   "test": "node cervello/test/c3-strati-censimento.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-404",
+   "nome": "l'aggiornamento in arrivo torna a SOSTITUIRE il filo invece di fonderlo",
+   "file": "pannello/src/lib/casella-conversazione.ts",
+   "cerca": "  return fondiConservandoVivi<T>(correnti || [], dallEvento || [], (a, b) => mergeThreadMsgs<T>(a, b));",
+   "sostituisci": "  return dallEvento || [];",
+   "test": "node cervello/test/c3-casella-conversazione.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-405",
+   "nome": "la chiave torna a essere il solo testo mostrato: se cambia, la chat si perde",
+   "file": "pannello/src/lib/casella-conversazione.ts",
+   "cerca": "  return `${PREFISSO_CASELLA}${testo} ${APRE}${id}${CHIUDE}`;",
+   "sostituisci": "  return `${PREFISSO_CASELLA}${testo}`;",
+   "test": "node cervello/test/c3-casella-conversazione.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-408",
+   "nome": "sparisce la guardia del primo controllo: si ricarica anche alla prima visita",
+   "file": "pannello/src/lib/casella-ricarica.ts",
+   "cerca": "  if (!p.controllerPrima) {\n    return { azione: \"niente\", motivo: \"primo controllo del service worker: non è un aggiornamento\" };\n  }",
+   "sostituisci": "",
+   "test": "node cervello/test/c3-casella-ricarica.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-321",
+   "nome": "il giro rimisura i vincoli ma non fa niente del verdetto: la memoria esce lo stesso",
+   "file": "cervello/giro.sh",
+   "cerca": "if [ \"$_riv_rc\" = 2 ]; then",
+   "sostituisci": "if [ \"$_riv_rc\" = 99 ]; then",
+   "test": "node cervello/test/c4-riverifica-vincoli.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-323",
+   "nome": "il vincolo torna a essere una frase fissa scritta nel giro invece delle parole del guardiano",
+   "file": "cervello/giro.sh",
+   "cerca": "$_esp_out\nFai quello che ti dice",
+   "sostituisci": "NESSUN ESPERIMENTO APERTO: aprine uno\nFai quello che ti dice",
+   "test": "node cervello/test/c4-vincolo-esperimenti.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-324",
+   "nome": "la riga delle soglie esce ma il motore non riceve nessun vincolo quando una manopola è allentata",
+   "file": "cervello/giro.sh",
+   "cerca": "if [ \"$_soglie_rc\" = 7 ]; then",
+   "sostituisci": "if [ \"$_soglie_rc\" = 99 ]; then",
+   "test": "node cervello/test/c4-soglie-in-vigore.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-423",
+   "nome": "l'interruttore della coda torna a spegnere anche il tetto di spesa",
+   "file": "cervello/c4-cancelli.mjs",
+   "cerca": "if (v(\"BUDGET_FORCE\") === \"1\") {",
+   "sostituisci": "if (v(\"BUDGET_FORCE\") === \"1\" || v(\"DELTA_GATE_FORCE\") === \"1\") {",
+   "test": "node cervello/test/c4-tetto-non-si-spegne-con-la-coda.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-391",
+   "nome": "il worker torna a eseguire i lavori senza chiedere se si può spendere",
+   "file": "cervello/worker.sh",
+   "cerca": "if [ \"$_freno_rc\" = 1 ]; then",
+   "sostituisci": "if [ \"$_freno_rc\" = 99 ]; then",
+   "test": "node cervello/test/c4-freno-su-ogni-corsia.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-422",
+   "nome": "il verdetto del freno viene inventato invece che chiesto al freno vero",
+   "file": "cervello/motore-ai.sh",
+   "cerca": "  out=\"$(node \"$dir/freno-costi.mjs\" 2>/dev/null)\"; rc=$?",
+   "sostituisci": "  out=\"lascia\\tfinto\"; rc=0",
+   "test": "node cervello/test/c4-freno-su-ogni-corsia.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-197",
+   "nome": "il worker torna a non lasciare nessuna traccia nel registro dei costi",
+   "file": "cervello/worker.sh",
+   "cerca": "    ai_registra_costo \"worker-$tipo\"",
+   "sostituisci": "    : # ai_registra_costo \"worker-$tipo\"",
+   "test": "node cervello/test/c4-freno-su-ogni-corsia.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-304",
+   "nome": "il lavoro nuovo torna a ereditare l'ambiente di quello prima",
+   "file": "cervello/worker.sh",
+   "cerca": "  unset $_igiene",
+   "sostituisci": "  : # igiene disattivata",
+   "test": "node cervello/test/c4-igiene-per-lavoro.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-306",
+   "nome": "qualcuno rimette in servizio il worker Windows così com'è",
+   "file": "cervello/worker.ps1",
+   "cerca": "if (-not $env:MYCITY_WORKER_PS1) {",
+   "sostituisci": "if ($false) {",
+   "test": "node cervello/test/c4-parita-worker-windows.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-278",
+   "nome": "il token torna dentro l'indirizzo del repo",
+   "file": "cervello/c4-segreti.sh",
+   "cerca": "  printf 'https://github.com/%s.git' \"${GIT_REPO:-}\"",
+   "sostituisci": "  printf 'https://x-access-token:%s@github.com/%s.git' \"${GIT_PUSH_TOKEN:-}\" \"${GIT_REPO:-}\"",
+   "test": "node cervello/test/c4-segreti-fuori-dagli-argomenti.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-428",
+   "nome": "la chiave torna dentro gli argomenti di curl",
+   "file": "cervello/c4-segreti.sh",
+   "cerca": "  C4_CURL_AUTH=(--config \"$C4_CURL_CFG\")",
+   "sostituisci": "  C4_CURL_AUTH=(-H \"apikey: $SUPABASE_SERVICE_KEY\" -H \"Authorization: Bearer $SUPABASE_SERVICE_KEY\")",
+   "test": "node cervello/test/c4-segreti-fuori-dagli-argomenti.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-368",
+   "nome": "il freno torna a usare un numero di cui non sa il giorno",
+   "file": "cervello/fonte-numero.mjs",
+   "cerca": "if (dataDiOggi && finestra.esito === FINESTRA.ASSENTE) {",
+   "sostituisci": "if (false) {",
+   "test": "node cervello/test/c5-finestra-del-numero.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-369",
+   "nome": "la finestra scaduta torna a produrre una percentuale rassicurante",
+   "file": "cervello/letargo.mjs",
+   "cerca": "  if (stato.esito !== FINESTRA.VIVA)",
+   "sostituisci": "  if (false)",
+   "test": "node cervello/test/c5-finestra-del-numero.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-425",
+   "nome": "il perimetro torna a essere l'elenco dei tetti, e i file grossi tornano invisibili",
+   "file": "cervello/peso-contesto.mjs",
+   "cerca": "  const tutti = [...new Set([...perimetro, ...daTetti])].sort();",
+   "sostituisci": "  const tutti = [...daTetti].sort();",
+   "test": "node cervello/test/c5-perimetro-e-ritmo.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-421",
+   "nome": "un negozio confermato senza asset nuovi torna a non fare rumore",
+   "file": "cervello/finestra-misura.mjs",
+   "cerca": "  if (rec === 0)",
+   "sostituisci": "  if (false)",
+   "test": "node cervello/test/c5-perimetro-e-ritmo.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-420",
+   "nome": "torna l'esenzione a mano che trasformava il buco in un verde",
+   "file": "cervello/north-star-check.mjs",
+   "cerca": "    .filter(([, v]) => v.valore === null)",
+   "sostituisci": "    .filter(([k, v]) => v.valore === null && k !== \"margine\")",
+   "test": "node cervello/test/c5-metro-che-boccia-tutto.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-433",
+   "nome": "i riferimenti a codice tornano a contare come numeri senza fonte",
+   "file": "cervello/onesta-check.mjs",
+   "cerca": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(testo) : \"\";",
+   "sostituisci": "  const testoNumeri = regole.numeri ? testo : \"\";",
+   "test": "node cervello/test/c5-metro-che-boccia-tutto.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-294",
+   "nome": "torna la parola «quota» nuda, e una relazione di mercato ferma di nuovo la macchina",
+   "file": "cervello/retry-policy.mjs",
+   "cerca": "limite di quota|limite quota|quota esaurita",
+   "sostituisci": "quota",
+   "test": "node cervello/test/c5-canale-dichiarato.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-328",
+   "nome": "sparisce il ripiego su origin e la sessione cloud torna a non poter pubblicare",
+   "file": "cervello/git-github.mjs",
+   "cerca": "  if (o) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/c5-canale-di-pubblicazione.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-348",
+   "nome": "la normalizzazione salta e «AD» torna a farsi un quaderno tutto suo",
+   "file": "cervello/finestra-misura.mjs",
+   "cerca": "  const trovato = lista.find((r) => chiaveNormalizzata(r) === norm);",
+   "sostituisci": "  const trovato = lista.find((r) => r === chiesto);",
+   "test": "node cervello/test/c5-canale-dichiarato.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-215",
+   "nome": "⚪ «non l'ho potuto vedere» torna a comprare il verde, e un referto senza timbro passa per sano",
+   "file": "cervello/eta-referto.mjs",
+   "cerca": "    verde: stato === FRESCO,",
+   "sostituisci": "    verde: stato !== STANTIO,",
+   "test": "node cervello/test/c6-referto-vecchio-non-e-verde.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-367",
+   "nome": "macchinaViva torna a guardare solo l'orologio: un giro andato male ridiventa una macchina viva",
+   "file": "pannello/src/lib/battito.ts",
+   "cerca": "  return verdettoUltimoGiro(oreDaQuando(segnali.ultimoGiro?.quando), segnali.esitoGiro ?? null).verde;",
+   "sostituisci": "  const o = oreDaQuando(segnali.ultimoGiro?.quando);\n  return o != null && o <= 26;",
+   "test": "node cervello/test/c6-giro-andato-male.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-194",
+   "nome": "la soglia sull'utilizzo dei senior non scatta più: il 40% torna a essere uno stato accettabile",
+   "file": "cervello/eta-referto.mjs",
+   "cerca": "sogliaUtilizzo = 0.5, sogliaFermi = 0.5 } = {}",
+   "sostituisci": "sogliaUtilizzo = 0.05, sogliaFermi = 0.5 } = {}",
+   "test": "node cervello/test/c6-senior-mai-usati.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-578",
+   "nome": "nessuno guarda più l'età del referto del checkup: torna a poter restare fermo giorni in silenzio",
+   "file": "cervello/sentinella-dati.mjs",
+   "cerca": "  if (s.checkup_stato === STANTIO || s.checkup_stato === \"non_visto\") {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/c6-checkup-fermo.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-592",
+   "nome": "la firma perde l'episodio: alla prossima ricaduta l'allarme resta muto come il 13/8",
+   "file": "cervello/eta-referto.mjs",
+   "cerca": "  return `${String(scalino)}@${String(inizio ?? \"inizio-sconosciuto\")}`;",
+   "sostituisci": "  return `${String(scalino)}`;",
+   "test": "node cervello/test/c6-battito-ricaduta.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-595",
+   "nome": "la soglia sui quaderni fermi non scatta mai: l'87% del roster senza tracce torna a essere normale",
+   "file": "cervello/sentinella-dati.mjs",
+   "cerca": "  if (s.senior_quota_fermi !== null && s.senior_quota_fermi > 0.5) {",
+   "sostituisci": "  if (s.senior_quota_fermi !== null && s.senior_quota_fermi > 5) {",
+   "test": "node cervello/test/c6-quaderni-fermi.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-593",
+   "nome": "la freschezza torna a leggersi sulla copertina del file: il benchmark di tre settimane fa ridiventa fresco",
+   "file": "cervello/salute.mjs",
+   "cerca": "    return etaReferto({ dato, scadenzaOre: c.scadenzaOre, adessoMs, nome: c.nome, dentro: c.dentro });",
+   "sostituisci": "    return etaReferto({ dato, scadenzaOre: c.scadenzaOre, adessoMs, nome: c.nome });",
+   "test": "node cervello/test/c6-compiti-del-venerdi.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-581",
+   "nome": "il quaderno torna a non essere letto da nessuno: le 14 proposte spariscono di nuovo",
+   "file": "cervello/sincronizza-proposte.mjs",
+   "cerca": "  const lista = Array.isArray(pezzi) ? pezzi : [];",
+   "sostituisci": "  const lista = [];",
+   "test": "node cervello/test/c6-pezzi-senza-lettore.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-327",
+   "nome": "senza il tetto, il lettore di git muore su un'uscita oltre il megabyte — e muore proprio nel momento in cui pubblicare conta",
+   "file": "cervello/git-github.mjs",
+   "cerca": "export const MAX_BUFFER_GIT = 64 * 1024 * 1024;",
+   "sostituisci": "export const MAX_BUFFER_GIT = 1024;",
+   "test": "node cervello/test/c5-canale-di-pubblicazione.test.mjs"
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-431",
+   "nome": "tolto il cablaggio nel giro, il guardiano dei rischi torna a esistere senza che nessuno lo esegua",
+   "file": "cervello/giro.sh",
+   "cerca": "_rischi_out=\"$(node \"$SCRIPT_DIR/freschezza-rischi.mjs\" 2>&1)\"; _rischi_rc=$?",
+   "sostituisci": "_rischi_out=\"\"; _rischi_rc=0",
+   "test": "node cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
   }
  ]
 }

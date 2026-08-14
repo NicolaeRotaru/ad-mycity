@@ -9,6 +9,11 @@
 // marcatore che va tolto. Percorso con estensione .ts (allowImportingTsExtensions, già usato da
 // selezione-autopilota.ts): così questo modulo resta eseguibile da un test Node, senza bundler.
 import { voceDiNavigazione } from "./strati.ts";
+// AR-244 — come si scrive un indirizzo che nomina area e scheda. Vive in `pagina-stato.ts` con il
+// resto delle decisioni della pagina; quel modulo a sua volta chiama `destinazioneDaHash` di qui per
+// LEGGERE un indirizzo. I due si citano a vicenda, ma solo DENTRO le funzioni (niente si esegue al
+// caricamento): è il caso che ESM regge senza problemi, ed è meglio di due tabelle delle aree.
+import { indirizzoDestinazione } from "./pagina-stato.ts";
 
 export type VistaNav =
   | "plancia"
@@ -60,12 +65,17 @@ export function vaiArea(vista: VistaNav, anchor?: string, sub?: string) {
 // Se qui sovrascrivessimo lo state con un oggetto pulito {vista, sub}, cancelleremmo quegli
 // internals: al primo INDIETRO Next non riconosce più la voce e fa un RELOAD/salto di pagina.
 // Perciò FONDIAMO con lo state esistente, esattamente come fa page.tsx per il cambio area.
+//
+// AR-244 — l'INDIRIZZO ora nomina area e scheda. Prima questo timbro riscriveva l'indirizzo come
+// `pathname + search`, cioè lo lasciava com'era: la scheda su cui eri viveva solo dentro React e
+// nella memoria del browser, due posti che un link non può trasportare. Adesso scrive
+// `?a=<area>&s=<scheda>` — l'indirizzo che si può incollare in un messaggio e che riporta lì.
 export function vaiSub(vista: string, sub: string) {
   if (typeof window === "undefined") return;
   try {
     const voce = voceSubDaTimbrare(window.history.state, vista, sub);
     if (!voce) return; // AR-245: niente è cambiato, niente da timbrare
-    window.history.pushState(voce, "", window.location.pathname + window.location.search);
+    window.history.pushState(voce, "", indirizzoDestinazione({ vista, sub }, window.location.pathname));
   } catch {}
 }
 
@@ -109,11 +119,15 @@ export function ripristinaSub(vista: string, sub: string) {
 // mount). Così un cambio-area dal MENU (setVista diretto, senza sub) NON riapre una scheda vecchia
 // rimasta nel buffer: il valore stantio è scaduto → l'area parte dal suo default.
 const SUB_TTL_MS = 3000;
-let subPendente: { vista: string; sub: string; at: number } | null = null;
+let subPendente: { vista: string; sub: string; at: number; daIndirizzo?: boolean } | null = null;
 if (typeof window !== "undefined") {
   const cattura = (e: Event) => {
     const det = (e as CustomEvent).detail as { vista?: string; sub?: string } | undefined;
-    if (det?.vista && det.sub) subPendente = { vista: det.vista, sub: det.sub, at: Date.now() };
+    if (!det?.vista || !det.sub) return;
+    // Se quello che sta passando è LO STESSO sub già parcheggiato da un indirizzo, non gli si
+    // toglie il salvacondotto (vedi `parcheggiaSubDaIndirizzo`): è lo stesso intento, non uno nuovo.
+    const daIndirizzo = Boolean(subPendente?.daIndirizzo && subPendente.vista === det.vista && subPendente.sub === det.sub);
+    subPendente = { vista: det.vista, sub: det.sub, at: Date.now(), daIndirizzo };
   };
   window.addEventListener(EVENTO_VAI, cattura);
   window.addEventListener(EVENTO_SUB, cattura);
@@ -125,10 +139,29 @@ if (typeof window !== "undefined") {
  */
 export function consumaSubPendente(vista: string): string | null {
   if (!subPendente || subPendente.vista !== vista) return null;
-  if (Date.now() - subPendente.at > SUB_TTL_MS) return null;
+  // Un sub arrivato da un INDIRIZZO non scade: chi ha aperto quel link vuole quella scheda anche se
+  // l'area ci mette qualche secondo a comparire (AR-244).
+  if (!subPendente.daIndirizzo && Date.now() - subPendente.at > SUB_TTL_MS) return null;
   const s = subPendente.sub;
   subPendente = null;
   return s;
+}
+
+/**
+ * AR-244 — parcheggia la scheda chiesta da un INDIRIZZO (`?a=azioni&s=approvare`), senza scadenza.
+ *
+ * Il difetto visto a schermo: aprendo quel link il Pannello arrivava sull'area giusta ma sulla
+ * scheda di default. L'evento che porta la scheda partiva subito dopo il caricamento, mentre l'area
+ * — che si carica quando serve — compariva parecchio dopo: nessuno era ancora in ascolto, e la
+ * finestra di freschezza di tre secondi (giusta per un salto fatto col dito) era già chiusa.
+ * Un link non «invecchia» come un tocco: qui resta parcheggiato finché l'area lo viene a prendere.
+ *
+ * Restava rotto anche col vecchio cancelletto `#azioni/approvare`: verificato guidando il Pannello
+ * prima del fix, sia sul codice di partenza sia su questo.
+ */
+export function parcheggiaSubDaIndirizzo(vista: string, sub: string) {
+  if (!vista || !sub) return;
+  subPendente = { vista, sub, at: Date.now(), daIndirizzo: true };
 }
 
 // ─────────────────────────────────────────────────────────────────────────────

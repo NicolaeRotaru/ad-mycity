@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Camera, Video, X, RefreshCw, Check, Loader2, SwitchCamera, Mic, Send, ScreenShare } from "lucide-react";
 import { puoInviareChat } from "@/lib/atto-unico";
+import { useStrato } from "@/lib/useStrato";
+import { classeCampo } from "@/lib/tocco-bersaglio";
 
 // 📷/📹/🖥️ Telecamera o schermo DENTRO la chat. Tre modalità, stessa base:
 //  - variante FOTO (default): modalino compatto, scatti UNA foto e si chiude.
@@ -76,6 +78,13 @@ export default function BottoneFotoChat({
     setScattate(0);
     setBozza("");
   }, [stopCamera]);
+
+  // AR-402 — il visore è un riquadro a schermo intero (`fixed inset-0 z-[100]`): sul telefono il
+  // gesto indietro DEVE chiuderlo. Senza questa riga il gesto non lo vedeva, il gestore centrale
+  // cambiava l'area sotto e la telecamera restava aperta sopra un'altra schermata — con lo stream
+  // ancora acceso. AR-243 dichiarava chiuso proprio questo punto e non lo era: la sua prova contava
+  // la libreria, non gli strati registrati. Ora li conta `stratiFuoriContratto` (lib/strati.ts).
+  useStrato("foto-visore", aperto, chiudi);
 
   useEffect(() => () => stopCamera(), [stopCamera]);
 
@@ -379,7 +388,7 @@ export default function BottoneFotoChat({
                       }}
                       rows={2}
                       placeholder="Scrivi al worker… (Invio = invia)"
-                      className="w-full rounded-xl px-3 py-2 text-[12.5px] resize-none outline-none border"
+                      className={classeCampo("w-full rounded-xl px-3 py-2 text-[12.5px] resize-none outline-none border")}
                       style={{
                         background: "#111",
                         borderColor: "rgba(255,255,255,0.18)",

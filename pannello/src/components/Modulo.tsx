@@ -7,6 +7,7 @@ import type { ModuloDef, RigaLista } from "@/lib/moduli";
 import { usePanelSync } from "@/lib/panel-sync";
 import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
+import { classeComando, classeComandoSommario } from "@/lib/tocco-bersaglio";
 
 function dotCls(c?: string) {
   return c === "rosso" ? "bg-red-500" : c === "giallo" ? "bg-amber-500" : c === "verde" ? "bg-green-500" : "bg-black/25";
@@ -119,7 +120,7 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
                     </div>
                   ))}
                   {righe.length > 8 && (
-                    <button onClick={() => setMostraTutte((v) => !v)} className="t-eti hover:text-brand transition pt-1">
+                    <button onClick={() => setMostraTutte((v) => !v)} className={classeComando("t-eti hover:text-brand transition pt-1")}>
                       {mostraTutte ? "mostra meno" : `mostra altri ${righe.length - 8}`}
                     </button>
                   )}
@@ -148,7 +149,7 @@ export default function Modulo({ def, metriche }: { def: ModuloDef; metriche: Re
               <span className="text-black/70">{def.fonte}</span>
             </p>
           )}
-          <ParlaCasella titolo={`Modulo: ${def.titolo}`} contesto={def.descrizione} />
+          <ParlaCasella idCasella={`modulo:${def.area}|${def.titolo}`} titolo={`Modulo: ${def.titolo}`} contesto={def.descrizione} />
         </div>
       )}
     </div>
