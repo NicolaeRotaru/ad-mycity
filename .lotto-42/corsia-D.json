@@ -1,7 +1,10 @@
 {
   "corsia": "D — Una parola senza padrone: ogni lettore se la definisce da sé.",
   "modulo_condiviso": "cervello/atti-veri.mjs",
-  "stato_lavoro": "IN CORSO — fatti AR-684, AR-671, AR-670, AR-700. Restano AR-687, AR-659, AR-688, AR-623, AR-651.",
+  "moduli_in_piu_dichiarati": [
+    "cervello/lezione-nuova.mjs — la porta da cui entra una lezione (AR-651). È un secondo modulo, e lo dichiaro: «quanti difetti ci sono» e «come nasce una lezione» non sono la stessa malattia, e infilarle nello stesso file sarebbe stato il difetto che questa corsia cura."
+  ],
+  "stato_lavoro": "FINITA — 6 difetti riparati con la prova e la mutazione verificata (AR-684, AR-671, AR-670, AR-700, AR-687, AR-651). 3 dichiarati aperti col motivo (AR-688, AR-659, AR-623): tutti e tre finiscono in un file di un'altra corsia.",
   "difetti": [
     {
       "id": "AR-684",
@@ -50,19 +53,100 @@
         "sostituisci": "  const cervelloScript = [...fileCon(p(\"cervello\"), \".mjs\"), ...fileCon(p(\"cervello\"), \".sh\")];"
       },
       "non_vacuita": "rimettendo la lettura a un livello solo diventano rossi 6 casi su 7 — verificato lanciando il test"
+    },
+    {
+      "id": "AR-687",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/vincolo-cronico.test.mjs",
+      "nota_fix": "Il modo di misurare da quanti giri un controllo dice no esisteva già, ma nel giro non lo chiamava nessuno. Adesso il giro glielo chiede, e sopra ai vincoli compare la loro età: «acceso in 21 giri di fila e nessuno l'ha risolto». Quando un controllo taglia i tre giri, il giro riceve l'ordine di portarlo a Nicola una volta sola. La frase la decide una funzione che un test può eseguire, non lo script di shell: la shell la incolla e basta. Se lo strumento non parte, il prompt dice di non sapere e ordina di ripetere tutto — un errore non diventa un «nessuno è cronico». SCHEDA vs CODICE: la scheda chiedeva anche di togliere dal prompt il vincolo diventato cronico, e non l'ho fatto. Togliere «non inventare numeri» solo perché lo ripetiamo da tre giri spegnerebbe una difesa proprio quando serve di più: si toglie il silenzio sull'età, non la difesa. Il blocco non porta il nome degli altri vincoli, apposta: non è un cancello nuovo, è l'età di quelli già contati, e chiamarlo vincolo li conterebbe due volte.",
+      "mutante": {
+        "file": "cervello/giro.sh",
+        "cerca": "  CRONICITA_BLOCCO=\"$_cron_out\"",
+        "sostituisci": "  CRONICITA_BLOCCO=\"\""
+      },
+      "non_vacuita": "staccando l'aggancio nel giro diventano rossi due casi (l'età dentro il prompt · il vincolo che resta ma invecchiato) — verificato applicando la mutazione, lanciando il test e rimettendo a posto. Provata anche l'altra metà: togliendo il ramo «non lo so» dal modulo diventano rossi altri due casi",
+      "attenzione_per_l_ad": "questo fix fa nascere un guardiano che PRIMA non girava: adesso il giro esegue cronicita-allarmi, quindi guardiani-check chiede la sua riga di descrizione. Il testo pronto è in fuori_territorio: senza quella riga la prova guardiani-in-bacheca resta rossa, ed è rossa per questo, non per un altro guasto."
+    },
+    {
+      "id": "AR-651",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/porta-delle-lezioni.test.mjs",
+      "nota_fix": "Verificato: cercando la scrittura delle lezioni nel codice non si trova niente. 518 lezioni scritte e nessuno script che ne scriva una — il numero lo sceglieva a mano chi stava lavorando, e da lì nascono i doppioni. Adesso c'è la porta: cervello/lezione-nuova.mjs conia il numero guardando il PIÙ ALTO del giorno (non quante lezioni ci sono: è quello il calcolo che riusa un numero già preso quando una sessione ne salta uno) e controlla il numero coniato contro tutti quelli esistenti prima di scrivere. Rifiuta una lezione senza fonte, testo o regola; rifiuta un numero già usato invece di scriverci sopra; e su un archivio che non si lascia leggere non scrive niente ed esce dicendo che non sa — scrivere lì vorrebbe dire coniare il numero uno, cioè quello più sicuramente già preso. Scrive in modo atomico e conserva l'indentazione del file, che qui è di uno spazio solo: riscriverlo a due lo riscrive tutto, ed è già costato quattro giorni di macchina ferma. Nel giro, il vincolo dell'apprendimento adesso dice di passare dalla porta invece di aprire il file.",
+      "mutante": {
+        "file": "cervello/lezione-nuova.mjs",
+        "cerca": "    if (Number.isFinite(n) && n > massimo) massimo = n;",
+        "sostituisci": "    if (false) massimo = n;"
+      },
+      "non_vacuita": "rimettendo il calcolo che ignora il numero più alto del giorno diventano rossi tre casi (il buco nella numerazione, la lista in disordine, e le due scritture di fila sulla copia dell'archivio vero che tornano a partire da uno) — verificato applicando la mutazione, lanciando il test e rimettendo a posto"
+    },
+    {
+      "id": "AR-688",
+      "esito": "aperto",
+      "verifica_comando": "node cervello/test/ponte-che-diventa-copia.test.mjs",
+      "nota_fix": "SCHEDA vs CODICE, e la differenza cambia tutto: la scheda parte da «adesso quell'indirizzo ha una casa vera nel registro». Contati oggi, nel registro ci sono 37 fatti e nessuno si chiama così. Quindi il ponte non è ancora una copia: è l'unica risposta che ha una sessione fuori dal server, e cancellarlo adesso spegnerebbe due controlli della visita invece di ripulire qualcosa. Il difetto vero non è il file di troppo: è che il giorno in cui il fatto arriva non lo saprebbe nessuno. Ho messo la tagliola, e da adesso quella doppia casa non può nascere in silenzio: chi registra l'indirizzo nel posto giusto trova subito un rosso che gli dice quale file cancellare, e chi cancella il ponte troppo presto trova il rosso opposto.",
+      "motivo_se_aperto": "la cancellazione vera non si può fare da qui per due motivi insieme: il fatto non esiste ancora nel registro, e questo lotto mi vieta di scriverci; e i due file che leggono il ponte non sono della mia corsia. Si chiude in un lavoro solo: registrare il fatto, cancellare il ponte, togliere il terzo ramo dalla funzione che cerca l'indirizzo.",
+      "mutante": null,
+      "non_vacuita": "la tagliola è provata in tutte e due le direzioni, non dedotta: con un registro finto che contiene il fatto il caso ② diventa rosso e dice cosa cancellare; puntando il ponte su un file che non c'è il caso ③ diventa rosso e dice cosa si romperebbe. Senza nessuna variabile, sul repo vero, 5 casi verdi"
+    },
+    {
+      "id": "AR-659",
+      "esito": "aperto",
+      "verifica_comando": "node cervello/test/parola-senza-padrone.test.mjs",
+      "nota_fix": "La casa unica adesso c'è: cervello/atti-veri.mjs dice cosa è un lavoro che tocca il mondo, e la copia per la shell non è più scritta a mano — si stampa da lì (cervello/atti-veri.sh). La prova esegue la funzione bash sulla stessa tabella di casi della funzione in JavaScript e pretende la stessa risposta, e confronta tutte e cinque le liste sparse con quella del modulo. Ho anche separato il nome che rendeva invisibile la differenza: la lista corta della politica dei tentativi risponde a un'altra domanda — quale tipo aziona davvero le mani — e adesso ha un altro nome, col perché scritto accanto.",
+      "motivo_se_aperto": "la scheda si chiude quando i cinque punti IMPORTANO la lista invece di dichiararla. Quei cinque file non sono della mia corsia e riscriverli qui cancellerebbe il lavoro di un'altra. Finché sono cinque, la difesa poggia su una prova che li confronta invece che sul fatto che siano una cosa sola: molto meno fragile di prima, non ancora chiuso.",
+      "mutante": {
+        "file": "cervello/atti-veri.mjs",
+        "cerca": "export const ATTI_VERI = Object.freeze([\"esegui-azione\", \"proposta\"]);",
+        "sostituisci": "export const ATTI_VERI = Object.freeze([\"esegui-azione\"]);"
+      },
+      "non_vacuita": "togliendo un tipo dalla lista del modulo diventano rossi 6 casi su 18 (la copia per la shell che non è più uguale, la funzione bash sui casi veri, i tre elenchi in JavaScript e i due in bash) — verificato applicando la mutazione, lanciando il test e rimettendo a posto"
+    },
+    {
+      "id": "AR-623",
+      "esito": "aperto",
+      "verifica_comando": null,
+      "nota_fix": "Verificato sul codice: il conto dei quaderni vivi nasce tutto dentro un file solo, quello della chiusura del loop, dove l'elenco dei reparti si costruisce dai 120 file degli agenti — e un agente «ad» lì non esiste. Ho controllato se lo stesso numero nascesse anche nella mia zona: il censimento della macchina conta i quaderni come file e quello del direttore lo conta già; nella scheda della Cabina e nella sua rotta quel numero non passa proprio.",
+      "motivo_se_aperto": "il file da correggere è nella lista di quelli che non devo toccare in questo lotto. Nella mia zona non c'è niente da riparare: correggerlo qui vorrebbe dire scriverlo là.",
+      "mutante": null,
+      "non_vacuita": null
     }
   ],
   "file_toccati": [
+    "cervello/giro.sh",
+    "cervello/cronicita-allarmi.mjs",
+    "cervello/lezione-nuova.mjs",
     "cervello/atti-veri.mjs",
     "cervello/atti-veri.sh",
     "cervello/salute-onesta.mjs",
     "cervello/censimento-macchina.mjs",
     "pannello/src/components/cervello/RadiografiaDiSe.tsx",
     "cervello/test/parola-senza-padrone.test.mjs",
-    "cervello/test/censimento-che-non-scende.test.mjs"
+    "cervello/test/censimento-che-non-scende.test.mjs",
+    "cervello/test/vincolo-cronico.test.mjs",
+    "cervello/test/ponte-che-diventa-copia.test.mjs",
+    "cervello/test/porta-delle-lezioni.test.mjs"
   ],
-  "fuori_territorio": [],
-  "difetti_nuovi": [],
+  "fuori_territorio": [
+    "AR-687 — SERVE UNA RIGA, altrimenti la prova guardiani-in-bacheca resta rossa e il rosso è mio. Il giro adesso esegue davvero cronicita-allarmi, quindi quel guardiano vuole la sua descrizione in cervello/censimento-guardiani.mjs (DESCRIZIONI), che non è della mia corsia. Testo pronto: \"cronicita-allarmi\": \"Dice da quanti giri di fila un controllo sta dicendo no: uno rosso da tre settimane non deve più leggersi come uno rosso da un minuto.\". Misurato: senza la mia invocazione quella prova è verde, con la mia è rossa solo per questa riga mancante.",
+    "AR-651 — la porta nuova risulta «costruita e mai messa di guardia» finché non è dichiarata in cervello/guardiani-motivi.json, che non è della mia corsia. Voce pronta, motivo «cablato»: \"lezione-nuova.mjs\": { \"motivo\": \"cablato\", \"dove\": \"cervello/test/porta-delle-lezioni.test.mjs\", \"perche\": \"AR-651: la porta da cui entra una lezione. La prova la esegue sul serio — due scritture di fila su una copia dell'archivio vero, il rifiuto di un id già usato e l'uscita cieca su un archivio illeggibile — e gira a ogni giro con la suite.\" }",
+    "AR-659 — per chiudere davvero servirebbe far importare la lista unica ai cinque punti: cervello/sentinella-lavori.mjs, cervello/pulisci-coda.mjs, pannello/src/lib/recupero-lavoro.ts, cervello/worker.sh, cervello/lib-recupero.sh. Nessuno dei cinque è mio. Il modulo e la copia per la shell sono pronti e li aspettano: si aggancia in un lavoro solo.",
+    "AR-688 — la cancellazione vera vorrebbe cervello/salute.mjs (il terzo ramo della funzione che cerca l'indirizzo), cervello/test/cabina-indirizzo.test.mjs (il caso che oggi lo copre) e la registrazione del fatto nel registro, che questo lotto mi vieta.",
+    "AR-623 — il contatore dei quaderni vivi è dentro cervello/chiusura-loop.mjs, che è nella lista dei file da non toccare."
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Uno strumento che misura se la macchina sta migliorando non lo esegue nessuno, e non lo ha dichiarato nessuno",
+      "causa_radice": "salute-onesta.mjs ha lo shebang, il contratto d'uscita e il process.exit, quindi la macchina lo riconosce come guardiano; ma nessun processo lo lancia e non c'è la sua voce fra i motivi dichiarati. Non è un difetto mio: l'ho misurato togliendo di mezzo i miei file nuovi e la segnalazione resta identica. È il numero con cui si risponde a «sto migliorando?»: se non lo esegue nessuno, quella domanda non ha risposta.",
+      "visto_in": "node cervello/guardia-viva-check.mjs --json → senza_guardia: [\"salute-onesta.mjs\"] · la prova guardiano-mai-messo-di-guardia era già rossa per questo prima che io scrivessi qualsiasi file"
+    },
+    {
+      "titolo": "La malattia «una parola senza padrone» non ha un nome nel censimento delle malattie",
+      "causa_radice": "in cervello/malattie.json ci sono 21 forme di difetto e nessuna dice «la stessa parola è definita in due posti diversi». Senza il nome, la spazzata che cerca i fratelli di una malattia nota non può cercarne le altre istanze: ogni copia nuova va trovata a mano, cioè per caso. È la ragione per cui questa corsia esiste ed è composta da nove difetti che sono la stessa cosa nove volte.",
+      "visto_in": "cervello/malattie.json — nessuna voce fra le 21 corrisponde; le istanze note oggi sono le cinque liste degli «atti veri», i due conti dei quaderni vivi dentro lo stesso file, e i due punti del Pannello che contano ancora i difetti a mano"
+    }
+  ],
   "mutanti_da_correggere": [],
-  "spazzata": "da compilare"
+  "guardie_verificate": "controllate a mano tutte e 18 le voci di cervello/mutanti.json che puntano ai file che ho toccato (giro.sh, cronicita-allarmi, contratto-scheda, atti-veri, salute-onesta, censimento-macchina, la scheda del Pannello): ogni riga cercata è ancora presente dopo le mie modifiche, zero staccate.",
+  "prove_lanciate": "tutte lanciate davvero, nessuna dichiarata a memoria: parola-senza-padrone 18/18 · censimento-che-non-scende 7/7 · vincolo-cronico 13/13 · ponte-che-diventa-copia 5/5 · porta-delle-lezioni 13/13. In più, per non consegnare un rosso di rimbalzo, ho rilanciato le 46 prove che nominano il giro: 43 verdi e 3 rosse, e tutte e 3 erano già rosse prima che toccassi qualcosa (misurato togliendo di mezzo i miei file). Di quelle 3, una torna verde con la riga di descrizione che ho lasciato qui sopra.",
+  "spazzata": "NO: questa malattia non è censita in cervello/malattie.json — 21 forme, nessuna dice «la stessa parola definita in due posti». L'ho registrata come difetto nuovo, senza scrivere nel file (è vietato in questo lotto). Il nome che propongo: parola-senza-padrone. Istanze che restano dopo questo lavoro, contate: cinque liste per «azione vera» (adesso inchiodate insieme da una prova, non ancora una sola) · due definizioni di «quaderno vivo» dentro lo stesso file della chiusura del loop · due punti del Pannello che contano ancora i difetti a mano, tutti e due dichiarati dentro la prova, così un terzo diventa rosso da solo."
 }

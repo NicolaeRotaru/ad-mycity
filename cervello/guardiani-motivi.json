@@ -48,6 +48,15 @@
   "tasso-regole.mjs": {
    "motivo": "da-cablare",
    "perche": "Misura quante correzioni di Nicola sono diventate una regola, e sostituisce la voce 1 della pagella. Nessun processo lo esegue: la pagella continua a leggere il vecchio contatore. Buco vero, fuori dalla malattia di questa corsia."
+  },
+  "lezione-nuova.mjs": {
+   "motivo": "cablato",
+   "dove": "cervello/test/porta-delle-lezioni.test.mjs",
+   "perche": "AR-651: la porta da cui entra una lezione. Prima non esisteva nessun punto di scrittura nel codice — gli id si coniavano a mano in sessione, ed è la causa radice dei doppioni. La prova la esegue sul serio: due scritture di fila su una copia dell'archivio vero, il rifiuto di un id già usato, e l'uscita cieca su un archivio illeggibile. Gira a ogni giro con la suite."
+  },
+  "salute-onesta.mjs": {
+   "motivo": "da-cablare",
+   "perche": "AR-671 e il difetto nuovo registrato nel lotto 42: calcola il burn-down onesto del cantiere (quanti difetti erano aperti a una certa data) e nessun processo lo esegue. Il numero che il Pannello mostra viene da un'altra strada, quindi oggi il suo verdetto non lo legge nessuno. Buco vero, dichiarato: la corsia che l'ha toccato ha curato il meccanismo per sbagliare in direzione ottimista, non l'ha cablato — quello e un lavoro suo."
   }
  },
  "verdetti_morti_dichiarati": {}

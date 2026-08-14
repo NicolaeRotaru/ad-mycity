@@ -434,7 +434,22 @@ prova("la spazzata gira davvero e sa dire di no", () => {
   const pipe = j.malattie.find((m) => m.id === "esito-in-una-pipe");
   const regPipe = JSON.parse(leggi("cervello/malattie.json")).malattie.find((x) => x.id === "esito-in-una-pipe");
   assert.match('  node "$SCRIPT_DIR/guardiano.mjs" 2>&1 | tail -4', new RegExp(regPipe.pattern), "il pattern deve ancora riconoscere la malattia se torna");
-  assert.equal(pipe.totale, 0, "curata il 28/7 (AR-307): se torna sopra zero, qualcuno ha rimesso una pipe che ingoia l'esito");
+  // ⚠️ QUI C'ERA `assert.equal(pipe.totale, 0)`, e quello zero era FALSO.
+  //
+  // Il 28/7 le pipe di `giro.sh` non erano sparite: era il pattern a cercare solo `| tail` mentre il
+  // codice era passato a `esito_righe`. La malattia risultava guarita perché avevamo cambiato nome al
+  // tubo (AR-375), e per due settimane le cinquanta istanze vive non le ha viste nessuno.
+  //
+  // Il punto che costa: questa riga **teneva in piedi la bugia**. Chiedeva zero, quindi qualunque
+  // misura corretta la faceva diventare rossa — cioè chi riparava il metro rompeva la prova. Due
+  // guardiani d'accordo su un numero sbagliato si coprono a vicenda, e nessuno dei due mente.
+  //
+  // L'invariante vera non è «zero»: è che il conto non superi il tetto dichiarato, e che il tetto
+  // scenda e non risalga. Lo zero di una malattia curata lo dice il tetto, non una costante scritta
+  // a mano dentro una prova.
+  assert.ok(pipe.totale <= regPipe.baseline,
+    `le istanze sono ${pipe.totale} contro un tetto di ${regPipe.baseline}: qualcuno ha rimesso una pipe che ingoia l'esito`);
+  assert.equal(pipe.cresciuta, false, "la malattia si è allargata rispetto alla sua linea di partenza");
 });
 
 prova("la spazzata è agganciata al giro come cancello", () => {

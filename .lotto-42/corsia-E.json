@@ -1,9 +1,61 @@
 {
   "corsia": "E — la decisione sepolta dentro il componente React, dove nessun test la può eseguire",
-  "modulo_condiviso": "pannello/src/lib/stato-card.ts (in scrittura)",
-  "stato_lavoro": "IN CORSO — il Pannello risponde e i sei casi di c2-schermo sono verdi. Sto scrivendo il modulo.",
-  "notizia_grossa": "Il file di prova c2-schermo.test.mjs è passato da 0 casi su 6 a 6 su 6. Alla partenza del lotto era cieco: mancavano le librerie del Pannello, quindi il sito non si accendeva e nessuno poteva guardare. Ho installato le librerie (npm install dentro pannello/, cartella ignorata da git) e acceso il Pannello sulla porta 3939. Ora i sei casi guardano davvero e passano tutti.",
+  "modulo_condiviso": "pannello/src/lib/stato-card.ts",
+  "stato_lavoro": "IN CORSO. Modulo puro scritto e provato: 26 casi verdi, 7 mutanti verificati uno per uno. Restano da applicare AR-607 (page.tsx) e la prova a runtime dei difetti visivi.",
+  "avviso_pubblicazione": "in scrittura",
   "difetti": [
+    {
+      "id": "AR-675",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "Una card della coda aveva due memorie di «sono aperta» con nomi quasi uguali: un insieme per il testo dentro la scheda, una tabella per la scheda stessa. Adesso ne ha una sola, e le regole stanno fuori da React dove un test le esegue. Chi salta a un'azione chiama una funzione sola che apre tutte e due le cose: non c'è più uno stato sbagliato da scegliere. Trovato a metà: la sessione precedente aveva iniziato la conversione ed era stata interrotta, lasciando l'area che non compilava.",
+      "mutante": {
+        "file": "pannello/src/lib/stato-card.ts",
+        "cerca": "  return conCasella(stato, id, { card: true, testo: true });",
+        "sostituisci": "  return conCasella(stato, id, { card: true });"
+      },
+      "non_vacuita": "togliendo l'apertura del testo dall'atterraggio, 3 casi su 26 diventano rossi — verificato lanciando il test"
+    },
+    {
+      "id": "AR-615",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "Il tasto «Ignora» non si spegneva e la funzione non guardava nessun freno: due tocchi, due richieste. La radice non era quel bottone, erano i tre freni diversi scritti a mano uno per bottone — chi ne aggiungeva uno doveva ricordarsi di scriverne un quarto. Adesso il freno è uno solo per tutti, e il turno si prende su un riferimento letto e scritto nello stesso istante: due tocchi nello stesso fotogramma non leggono più lo stesso valore vecchio.",
+      "mutante": {
+        "file": "pannello/src/lib/stato-card.ts",
+        "cerca": "  return Boolean((stato || NESSUNO_PREMUTO)[id]);",
+        "sostituisci": "  return false;"
+      },
+      "non_vacuita": "facendo dire al freno «non è premuto nulla», 2 casi diventano rossi, fra cui la simulazione del doppio dito — verificato"
+    },
+    {
+      "id": "AR-616",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "Il Registro stampava il titolo nudo. Guardando il file ho trovato che non era l'unico punto: altre tre liste passavano da mezzo filtro (quello delle sigle sì, quello degli asterischi no) — la scheda parlava solo del Registro. Adesso c'è una porta d'uscita sola, e il filtro a mano non è più raggiungibile da quel file: nove punti convertiti, zero rimasti.",
+      "mutante": {
+        "file": "pannello/src/lib/stato-card.ts",
+        "cerca": "  return pulisciTitolo(testoPulito(grezzo));",
+        "sostituisci": "  return String(grezzo || \"\");"
+      },
+      "non_vacuita": "togliendo il filtro dalla porta unica, il caso del titolo storico con sigla e percorso diventa rosso — verificato"
+    },
+    {
+      "id": "AR-613",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "In corso di verifica a runtime.",
+      "mutante": {},
+      "non_vacuita": "in corso"
+    },
+    {
+      "id": "AR-673",
+      "esito": "riparato",
+      "verifica_comando": "in scrittura",
+      "nota_fix": "In corso di verifica a runtime.",
+      "mutante": {},
+      "non_vacuita": "in corso"
+    },
     {
       "id": "AR-225",
       "esito": "gia-riparato",
@@ -12,14 +64,34 @@
       "mutante": {
         "file": "pannello/src/app/page.tsx",
         "cerca": "<div className=\"sm:hidden space-y-1.5\" data-test=\"numeri-schede\">",
-        "sostituisci": "<div className=\"hidden sm:hidden space-y-1.5\" data-test=\"numeri-schede\">",
-        "nota": "è il mutante già registrato dal lotto 41: da verificare a fine lavoro"
+        "sostituisci": "<div className=\"hidden sm:hidden space-y-1.5\" data-test=\"numeri-schede\">"
       },
       "non_vacuita": "da verificare a fine lavoro"
+    },
+    {
+      "id": "AR-602",
+      "esito": "aperto",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "La decisione è scritta e provata (sei casi verdi): quando il lavoro si è mosso, la copia messa da parte non vince più e si va a rileggere la risposta vera. Ma il punto malato è in un file che non è di questa corsia, quindi il collegamento non l'ho fatto.",
+      "motivo_se_aperto": "il punto da cambiare è pannello/src/components/LavoriCervello.tsx (riga 229), fuori dal territorio assegnato"
     }
   ],
-  "file_toccati": [],
-  "fuori_territorio": [],
-  "difetti_nuovi": [],
+  "file_toccati": [
+    "pannello/src/lib/stato-card.ts",
+    "pannello/src/lib/azioni-attesa.ts",
+    "pannello/src/components/aree/Azioni.tsx",
+    "pannello/src/components/AutoCoscienza.tsx",
+    "cervello/test/c4-decisione-fuori-da-react.test.mjs"
+  ],
+  "fuori_territorio": [
+    "AR-602: il punto malato è pannello/src/components/LavoriCervello.tsx, non assegnato a questa corsia. Le funzioni pure sono pronte e provate: chi lo raccoglie deve solo chiamarle."
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "L'area dove Nicola firma non compilava: era rimasta rotta a metà conversione",
+      "causa_radice": "La sessione precedente di questa corsia è stata interrotta a metà di una sostituzione di stato. Sono rimasti quattro riferimenti a nomi che non esistevano più: tredici errori. Nessuno se n'era accorto perché il server di sviluppo compila solo la pagina che gli chiedi, e quell'area non era stata aperta.",
+      "visto_in": "pannello/src/components/aree/Azioni.tsx, misurato con il controllo dei tipi: 13 errori prima, 0 dopo"
+    }
+  ],
   "spazzata": "da compilare"
 }

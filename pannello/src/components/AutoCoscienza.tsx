@@ -20,7 +20,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 import { dataVault, dataVaultRecente } from "@/lib/format";
-import { vaiArea } from "@/lib/nav";
+import { ancoraChiesta, vaiArea } from "@/lib/nav";
 import { usePanelSync } from "@/lib/panel-sync";
 import { fondiLocaliSuServer } from "@/lib/stato-vivo";
 import ParlaCasella from "@/components/ParlaCasella";
@@ -262,6 +262,9 @@ export default function AutoCoscienza({
   hideSwitcher?: boolean;
 } = {}) {
   const [d, setD] = useState<Dati | null>(null);
+  // Il riquadro di questa casella. Serve al salto del deep-link (AR-673): si punta al nodo, non a
+  // un nome da cercare in giro per la pagina.
+  const riquadroRef = useRef<HTMLElement | null>(null);
   const [tabInterno, setTabInterno] = useState<Tab>("analisi");
   const tab = fixedTab ?? tabInterno;
   const setTab = fixedTab ? () => {} : setTabInterno;
@@ -337,11 +340,37 @@ export default function AutoCoscienza({
   // identico: l'effetto ripartiva e la pagina saltava da sola sulla scheda ogni mezzo minuto, per
   // chi era arrivato da un link col vecchio hash. «Scorri quando i dati sono pronti» è vero una
   // volta sola — al montaggio — non a ogni ripasso.
+  // AR-673: cercava il posto dove scorrere con `document.getElementById("auto-coscienza")`, cioè per
+  // NOME, in tutta la pagina. Quel nome però la sezione ce l'ha solo mentre è aperta la scheda
+  // Analisi — quando questa casella viene montata su un'altra scheda (succede: chi la monta può
+  // fissargliela da fuori) il nome non c'è, la ricerca torna a mani vuote e il salto non avviene.
+  // Nessun errore, nessun segnale: l'effetto gira, non trova niente e non fa niente. È il modo in
+  // cui un pezzo di codice smette di funzionare senza che nessuno se ne accorga.
+  //
+  // Adesso la casella tiene il RIFERIMENTO al proprio riquadro. Un riferimento non può scollegarsi
+  // da solo: se il riquadro è a schermo si scorre, e se non c'è non c'era niente da guardare.
+  //
+  // E il cancelletto non si legge più dalla barra: quando questa casella si sveglia lì non c'è già
+  // più — il Pannello lo ha tradotto nel nuovo indirizzo mezzo secondo prima. Adesso si chiede a chi
+  // l'ha ricevuto, che lo tiene da parte finché qualcuno lo viene a prendere (`ancoraChiesta`).
+  // Il cancelletto si raccoglie al risveglio — è lì che c'è, e va preso prima che qualcun altro lo
+  // consumi — ma il salto si fa quando c'è QUALCOSA DA GUARDARE. Al risveglio la casella è ancora
+  // vuota e la pagina è corta: saltare lì è saltare su una pagina che non è ancora cresciuta, e
+  // infatti non si muoveva niente. Quando i dati arrivano la pagina si allunga, e allora si salta.
+  const chiesta = useRef(false);
+  const saltoFatto = useRef(false);
   useEffect(() => {
-    if (typeof window !== "undefined" && window.location.hash.replace("#", "") === "auto-coscienza") {
-      setTimeout(() => document.getElementById("auto-coscienza")?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
-    }
+    if (typeof window === "undefined") return;
+    if (ancoraChiesta("auto-coscienza")) chiesta.current = true;
   }, []);
+  // UNA volta sola: `saltoFatto` è il freno di AR-257 — `carica()` gira ogni 30 secondi e mette
+  // sempre un oggetto nuovo, quindi senza freno la pagina salterebbe da sola ogni mezzo minuto.
+  useEffect(() => {
+    if (!chiesta.current || saltoFatto.current || !d) return;
+    saltoFatto.current = true;
+    const t = setTimeout(() => riquadroRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
+    return () => clearTimeout(t);
+  }, [d]);
 
   const a = d?.analisi;
   const live = d?.live;
@@ -400,7 +429,7 @@ export default function AutoCoscienza({
         : "Si controlla prima di consegnare — errori, domande, entità.";
 
   return (
-    <section id={tab === "analisi" ? "auto-coscienza" : undefined} className="card p-4 border-brand/20 scroll-mt-24">
+    <section ref={riquadroRef} data-test="riquadro-auto-coscienza" id={tab === "analisi" ? "auto-coscienza" : undefined} className="card p-4 border-brand/20 scroll-mt-24">
       <div className="flex items-start justify-between gap-3 mb-3">
         <div className="flex items-center gap-2 min-w-0">
           <span className="sez-ico"><Microscope size={16} /></span>

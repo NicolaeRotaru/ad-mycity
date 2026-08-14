@@ -9,7 +9,10 @@ import Aggiornato from "@/components/Aggiornato";
 import { vaiArea, vaiSub, EVENTO_VAI, EVENTO_SUB, consumaSubPendente, type DettaglioVai, type DettaglioSub } from "@/lib/nav";
 import { risolviOrigine } from "@/lib/origine";
 import { scritturaConfermata } from "@/lib/esito-scrittura";
-import { anteprimaAzione, codiceAzione, pulisciTitolo } from "@/lib/azioni-attesa";
+// AR-616 — `pulisciTitolo` non si chiama più da qui: chi stampa un titolo passa da
+// `titoloDaMostrare` (lib/stato-card.ts), che è la porta unica. Toglierlo di mezzo è metà della
+// cura: finché il filtro a mano resta a portata, il prossimo titolo lo userà a metà come prima.
+import { anteprimaAzione, codiceAzione } from "@/lib/azioni-attesa";
 import { quadroAzione } from "@/lib/azione-umana";
 import { isCanaleGithub } from "@/lib/github-pr-merge";
 import { emitSync, fetchBriefingVivo, usePanelSync } from "@/lib/panel-sync";
@@ -174,9 +177,31 @@ export default function Azioni() {
   const [registro, setRegistro] = useState<Registro | null>(null);
   const [proposteGiro, setProposteGiro] = useState<Proposta[]>([]);
   const [aggAt, setAggAt] = useState<number | null>(null);
-  // Busy-lock: id delle azioni con una decisione (approva/rifiuta/annulla) in volo → evita
-  // doppi click e doppie POST mentre la richiesta è in corso. (bug: nessun busy-lock)
-  const [decidendo, setDecidendo] = useState<Set<string>>(new Set());
+  // AR-615 — L'ANTIRIMBALZO DEL DOPPIO TOCCO, UNO SOLO PER TUTTI I BOTTONI.
+  //
+  // Prima ce n'erano tre, scritti a mano uno per bottone: un insieme per le azioni della coda, una
+  // stringa per le proposte, un booleano per la scelta A/B. Chi aggiungeva un bottone doveva
+  // ricordarsi di scriverne un quarto, e su «Ignora» nessuno se l'era ricordato: due tocchi
+  // mandavano due richieste. Su telefono con rete lenta il doppio tocco è la norma.
+  //
+  // Il turno si prende sul `ref`, non sullo stato: la lettura e la scrittura avvengono nello stesso
+  // istante, quindi due tocchi nello stesso fotogramma non leggono lo stesso valore vecchio. Lo
+  // stato serve solo a spegnere il bottone a schermo — da solo arriverebbe un render troppo tardi.
+  // Le regole (chi è in volo, come si segna, come si libera) stanno in lib/stato-card.ts, provate.
+  const [premuti, setPremuti] = useState<Premuti>(NESSUNO_PREMUTO);
+  const premutiRef = useRef<Premuti>(NESSUNO_PREMUTO);
+  /** Prende il turno per `id`. Torna false se una richiesta è già in volo: il secondo tocco si butta. */
+  const prendiTurno = useCallback((id: string) => {
+    if (giaPremuto(premutiRef.current, id)) return false;
+    premutiRef.current = segnaPremuto(premutiRef.current, id);
+    setPremuti(premutiRef.current);
+    return true;
+  }, []);
+  /** La richiesta è tornata, bene o male: il turno si libera SEMPRE, anche dopo un errore. */
+  const lasciaTurno = useCallback((id: string) => {
+    premutiRef.current = liberaPremuto(premutiRef.current, id);
+    setPremuti(premutiRef.current);
+  }, []);
   // Decisioni/spunte LOCALI (ottimistiche) da riapplicare quando l'auto-refresh a 60s ricarica
   // dal server: senza memoria collegata il server non le persiste e le sovrascriverebbe. Si
   // auto-puliscono appena il server conferma lo stesso stato. (bug #7: merge, non overwrite)
@@ -193,14 +218,12 @@ export default function Azioni() {
 
   // Stato effimero delle proposte per ID STABILE (idProposta), non per indice: così dopo un nuovo
   // giro una proposta fresca alla stessa posizione NON eredita lo stato "decisa" di quella vecchia.
-  const [propBusy, setPropBusy] = useState<string | null>(null);
   const [propEsito, setPropEsito] = useState<Record<string, { ok: boolean; msg: string }>>({});
   const [propDecise, setPropDecise] = useState<Set<string>>(new Set());
   // Decisioni PERSISTENTI sulle proposte (Supabase impostazioni proposta:{id}):
   // sopravvivono a refresh e ai giri successivi — la card non torna più "vergine".
   const [propDecisioni, setPropDecisioni] = useState<Record<string, { decisione: string; at?: string }>>({});
   const [scelteDecisioni, setScelteDecisioni] = useState<Record<string, DecisioneSceltaSalvata>>({});
-  const [sceltaBusy, setSceltaBusy] = useState(false);
 
   const carica = useCallback(async () => {
     const d = await fetch("/api/azioni-pronte", { cache: "no-store" }).then((r) => r.json()).catch(() => null);
@@ -351,8 +374,8 @@ export default function Azioni() {
     else decisiLocaliRef.current.set(id, { stato, esito });
   }
   async function decidi(id: string, dec: "approva" | "rifiuta" | "annulla") {
-    // Busy-lock: se c'è già una decisione in volo per questa azione, ignora il click. (bug: no busy-lock)
-    if (decidendo.has(id)) return;
+    // Se c'è già una decisione in volo per questa azione, il tocco si butta via.
+    if (!prendiTurno(id)) return;
     const prev = azioni.find((a) => a.id === id);
     const prevStato: Stato = prev?.stato ?? "";
     const prevEsito = prev?.esito ?? "";
@@ -360,7 +383,6 @@ export default function Azioni() {
       dec === "approva" ? { stato: "coda", esito: "Invio in corso…" }
       : dec === "rifiuta" ? { stato: "rifiutata", esito: "" }
       : { stato: "", esito: "" };
-    setDecidendo((s) => new Set(s).add(id));
     patch(id, target);            // update ottimistico
     ricordaLocale(id, target.stato, target.esito);
     try {
@@ -383,7 +405,7 @@ export default function Azioni() {
       patch(id, { stato: prevStato, esito: "⚠️ Non riuscito, riprova." });
       ricordaLocale(id, prevStato, prevEsito);
     } finally {
-      setDecidendo((s) => { const n = new Set(s); n.delete(id); return n; });
+      lasciaTurno(id);
     }
   }
   // Approva → il CERVELLO (worker AD) la trasforma in azione concreta; la decisione è
@@ -391,7 +413,7 @@ export default function Azioni() {
   // (Prima passava da /api/esegui → n8n: binario morto senza n8n e zero persistenza.)
   async function approvaProposta(_i: number, p: Proposta) {
     const pid = idProposta(p);
-    setPropBusy(pid);
+    if (!prendiTurno(pid)) return;
     try {
       const r = await fetch("/api/proposta", {
         method: "POST",
@@ -413,11 +435,13 @@ export default function Azioni() {
     } catch {
       setPropEsito((s) => ({ ...s, [pid]: { ok: false, msg: "Errore di rete." } }));
     } finally {
-      setPropBusy(null);
+      lasciaTurno(pid);
     }
   }
   async function ignoraProposta(_i: number, p: Proposta) {
     const pid = idProposta(p);
+    // AR-615 — anche qui. Prima era l'unico bottone senza freno: due tocchi, due richieste.
+    if (!prendiTurno(pid)) return;
     // Ottimistico: nascondi subito la card…
     setPropDecise((s) => new Set(s).add(pid));
     setPropDecisioni((s) => ({ ...s, [pid]: { decisione: "ignora", at: new Date().toISOString() } }));
@@ -436,13 +460,14 @@ export default function Azioni() {
       setPropDecise((s) => { const n = new Set(s); n.delete(pid); return n; });
       setPropDecisioni((s) => { const n = { ...s }; delete n[pid]; return n; });
       setPropEsito((s) => ({ ...s, [pid]: { ok: false, msg: `⚠️ Ignora non salvato (${e?.message === "non salvato" ? "memoria non collegata" : "errore di rete"}). Riprova.` } }));
+    } finally {
+      lasciaTurno(pid);
     }
   }
   async function decidiSceltaAB(_i: number, p: Proposta, scelta: SceltaAB) {
     const config = normalizzaPropostaSceltaAB(p);
     const pid = idProposta(p);
-    setSceltaBusy(true);
-    setPropBusy(pid);
+    if (!prendiTurno(pid)) return;
     try {
       const r = await fetch("/api/scelta-ab", {
         method: "POST",
@@ -480,8 +505,7 @@ export default function Azioni() {
     } catch {
       setPropEsito((s) => ({ ...s, [pid]: { ok: false, msg: "Errore di rete." } }));
     } finally {
-      setSceltaBusy(false);
-      setPropBusy(null);
+      lasciaTurno(pid);
     }
   }
   async function spunta(item: TodoItem) {
@@ -594,23 +618,33 @@ export default function Azioni() {
     const b = badgeStato(a.stato);
     const path = estraiPath(a.testo) || estraiPath(a.perche);
     const sch = schede[a.id];
-    // I bottoni vivono dentro il <summary>: senza questo, ogni clic su Approva aprirebbe/chiuderebbe
-    // anche la scheda (il toggle è l'azione predefinita del clic sul summary, e il clic risale).
-    const senzaAprire = (fn: () => void) => (e: React.MouseEvent) => { e.preventDefault(); e.stopPropagation(); fn(); };
+    // AR-613 — I DUE BOTTONI NON STANNO PIÙ DENTRO IL <summary>.
+    //
+    // Il summary è già un comando (si apre e si chiude), e i bottoni gli vivevano dentro: un comando
+    // dentro un comando. Un lettore di schermo lo legge come un blocco solo — «Approva» e «Rifiuta»
+    // sparivano dentro il titolo — e il clic aveva bisogno di due puntelli per non aprire la scheda
+    // per sbaglio. Adesso la card è una scatola con dentro due fratelli: la tendina, e sotto la riga
+    // dei bottoni. Restano visibili a scheda chiusa (è il motivo per cui si apre il Pannello: si
+    // firma senza aprire niente), ma nessuno dei due è più annidato nell'altro.
     return (
-      <details
+      <div
         id={`azione-${a.id}`}
         key={a.id}
+        className={`card border ${BORDO(a.livello)} p-4 scroll-mt-24 ${decisa ? "opacity-80" : ""}`}
+      >
+      <details
         open={cardAperta(carte, a.id, indice)}
         onToggle={(e) => {
           const ap = (e.currentTarget as HTMLDetailsElement).open;
           setCarte((s) => segnaCard(s, a.id, ap));
         }}
-        className={`card border ${BORDO(a.livello)} p-4 scroll-mt-24 group ${decisa ? "opacity-80" : ""}`}
+        className="group"
       >
         <summary className="list-none cursor-pointer select-none min-h-[44px]">
         <div className="flex items-start gap-2.5">
-          <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO(a.livello)}`} />
+          {/* Il pallino è decorativo: il livello è già scritto a parole nell'etichetta accanto.
+              Senza questo, un lettore di schermo annuncia un elemento vuoto in mezzo al titolo. */}
+          <span aria-hidden="true" className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO(a.livello)}`} />
           <div className="min-w-0 flex-1">
             {/* 🔖 Etichetta «#numero — nome» (richiesta di Nicola, 13/8): il numero FISSO della
                 card (es. "#41") SEMPRE insieme al titolo, sulla stessa riga. Il numero non cambia
@@ -626,7 +660,7 @@ export default function Azioni() {
                 {a.cartellino ? `#${a.cartellino}` : codiceAzione(a.id)}
               </span>
               <span className="text-black/30 mr-1">—</span>
-              {pulisciTitolo(testoPulito(a.titolo))}
+              {titoloDaMostrare(a.titolo)}
             </div>
             <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
               <span className="badge badge-off" title={a.reparto}>{nomeReparto(a.reparto)}</span>
@@ -637,21 +671,6 @@ export default function Azioni() {
               {a.fonte === "sentinella" && <span className="badge badge-on">🛡️ da sentinella</span>}
               {a.qualita?.voto === "rivedere" && <span className={`badge ${classiBadge("ambra")}`} title={a.qualita.problemi.join(" · ")}>⚠️ qualità: da rivedere</span>}
               {a.qualita?.voto === "ok" && !decisa && <span className={`badge ${classiBadge("verde")}`}>✅ qualità ok</span>}
-            </div>
-            {/* I due bottoni stanno QUI, nella parte sempre visibile: si firma senza aprire la scheda. */}
-            <div className="flex flex-wrap items-center gap-2 mt-2.5">
-              {!decisa ? (
-                <>
-                  <button onClick={senzaAprire(() => decidi(a.id, "approva"))} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100">
-                    {decidendo.has(a.id) ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} {etichettaApprova(a.canale)}
-                  </button>
-                  <button onClick={senzaAprire(() => decidi(a.id, "rifiuta"))} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100">
-                    <XCircle size={15} /> Rifiuta
-                  </button>
-                </>
-              ) : (
-                <button onClick={senzaAprire(() => decidi(a.id, "annulla"))} disabled={decidendo.has(a.id)} className={classeComando("inline-flex items-center gap-1.5 t-eti hover:text-brand transition disabled:opacity-50")}><RotateCcw size={13} /> annulla</button>
-              )}
             </div>
           </div>
           {b && <span className={`badge shrink-0 ${b.cls}`}>{b.txt}</span>}
@@ -712,7 +731,7 @@ export default function Azioni() {
             <button onClick={() => apriScheda(a.id, path)} className={classeComando("inline-flex items-center gap-1.5 text-[12px] font-medium text-brand hover:underline")}>
               <FileText size={13} /> Leggi il testo esatto che verrà inviato
             </button>
-            {sch?.loading && <p className="t-eti mt-1 flex items-center gap-1"><Loader2 size={12} className="animate-spin" /> apro il testo…</p>}
+            {sch?.loading && <p role="status" className="t-eti mt-1 flex items-center gap-1"><Loader2 size={12} className="animate-spin" aria-hidden="true" /> apro il testo…</p>}
             {sch?.err && <p className="t-eti mt-1 text-amber-700 dark:text-amber-300">Testo non disponibile ({sch.err}). Serve la memoria collegata.</p>}
             {sch?.testo && (
               <pre className="mt-1.5 whitespace-pre-wrap font-sans text-[12.5px] text-ink/85 leading-relaxed border-l-2 border-brand/30 pl-3 bg-paper/50 rounded-r-lg py-2 max-h-96 overflow-y-auto">{sch.testo}</pre>
@@ -759,10 +778,49 @@ export default function Azioni() {
           </div>
         )}
 
-        {/* I bottoni Approva/Rifiuta non stanno più qui in fondo ma nel <summary>, sempre visibili:
-            con la scheda chiusa si firma lo stesso, che è il motivo per cui si apre il Pannello. */}
-        <ParlaCasella idCasella={`azione:${a.id}`} titolo={`Azione: ${pulisciTitolo(testoPulito(a.titolo))}`} contesto={[a.perche, a.reparto && `Reparto: ${a.reparto}`, a.canale && `Canale: ${a.canale}`].filter(Boolean).join(" · ")} />
+        <ParlaCasella idCasella={`azione:${a.id}`} titolo={`Azione: ${titoloDaMostrare(a.titolo)}`} contesto={[a.perche, a.reparto && `Reparto: ${a.reparto}`, a.canale && `Canale: ${a.canale}`].filter(Boolean).join(" · ")} />
       </details>
+
+      {/* La riga dove si firma: FUORI dalla tendina, quindi visibile anche a scheda chiusa e non più
+          annidata dentro un altro comando. Ogni bottone dice a voce su cosa agisce, perché «Approva»
+          da solo, letto fuori dal titolo, non basta a capire cosa si sta approvando. */}
+      <div className="flex flex-wrap items-center gap-2 mt-2.5" data-test="riga-firma">
+        {!decisa ? (
+          <>
+            <button
+              onClick={() => decidi(a.id, "approva")}
+              disabled={giaPremuto(premuti, a.id)}
+              aria-label={`${etichettaApprova(a.canale)}: ${titoloDaMostrare(a.titolo)}`}
+              className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100"
+            >
+              {giaPremuto(premuti, a.id) ? <Loader2 size={15} className="animate-spin" aria-hidden="true" /> : <CheckCircle2 size={15} aria-hidden="true" />} {etichettaApprova(a.canale)}
+            </button>
+            <button
+              onClick={() => decidi(a.id, "rifiuta")}
+              disabled={giaPremuto(premuti, a.id)}
+              aria-label={`Rifiuta: ${titoloDaMostrare(a.titolo)}`}
+              className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100"
+            >
+              <XCircle size={15} aria-hidden="true" /> Rifiuta
+            </button>
+          </>
+        ) : (
+          <button
+            onClick={() => decidi(a.id, "annulla")}
+            disabled={giaPremuto(premuti, a.id)}
+            aria-label={`Annulla la decisione: ${titoloDaMostrare(a.titolo)}`}
+            className={classeComando("inline-flex items-center gap-1.5 t-eti hover:text-brand transition disabled:opacity-50")}
+          >
+            <RotateCcw size={13} aria-hidden="true" /> annulla
+          </button>
+        )}
+        {/* Mentre una decisione è in volo il bottone si spegne: senza questa riga chi non vede lo
+            schermo non ha modo di sapere che sta succedendo qualcosa. */}
+        <span role="status" aria-live="polite" className="sr-only">
+          {giaPremuto(premuti, a.id) ? "Invio della decisione in corso, attendi." : ""}
+        </span>
+      </div>
+      </div>
     );
   };
 
@@ -776,25 +834,45 @@ export default function Azioni() {
         <Aggiornato at={aggAt} className="mt-1 shrink-0" />
       </div>
 
-      {/* tab */}
-      <div className="flex flex-wrap gap-1.5">
+      {/* Le nove linguette. AR-613 — prima erano nove bottoni muti: chi usa un lettore di schermo
+          sentiva «pulsante Proposte» senza sapere che sono un gruppo di schede né quale è aperta, e
+          con le frecce non ci si spostava. Adesso sono un gruppo di schede dichiarato: ruolo, quale
+          è selezionata, e le frecce che portano da una all'altra (la regola di QUALE scheda tocca
+          sta in lib/stato-card.ts, dove un test la esegue). Alte 44 punti: prima erano 34, sotto la
+          misura del pollice. */}
+      <div role="tablist" aria-label="Schede dell'area Azioni" className="flex flex-wrap gap-1.5">
         {tabs.map((t) => (
           <button
             key={t.id}
+            role="tab"
+            id={`tab-${t.id}`}
+            aria-selected={tab === t.id}
+            aria-controls={`pannello-${t.id}`}
+            tabIndex={tab === t.id ? 0 : -1}
+            onKeyDown={(e) => {
+              const dopo = schedaDopoTasto(tabs.map((x) => x.id), tab, e.key);
+              if (!dopo) return;
+              e.preventDefault();
+              setTab(dopo as Tab);
+              vaiSub("azioni", dopo);
+              document.getElementById(`tab-${dopo}`)?.focus();
+            }}
             onClick={() => {
               setTab(t.id);
               // Timbra una voce di cronologia per la scheda (pushState, non più hash): il tasto
               // INDIETRO torna alla scheda precedente invece di saltare alla Plancia. (contratto nav)
               vaiSub("azioni", t.id);
             }}
-            className={`inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
+            className={`inline-flex items-center gap-1.5 min-h-[44px] text-[13px] font-medium px-3 py-1.5 rounded-lg transition ${
               tab === t.id ? "bg-brand text-white shadow-card" : "bg-paper/60 text-black/60 hover:bg-black/[0.05]"
             }`}
           >
-            {t.icon}
+            <span aria-hidden="true">{t.icon}</span>
             {t.label}
             {t.badge != null && (
-              <span className={`ml-0.5 text-[11px] px-1.5 rounded-full ${tab === t.id ? "bg-white/25" : "bg-amber-100 text-amber-700"}`}>{t.badge}</span>
+              <span className={`ml-0.5 text-[11px] px-1.5 rounded-full ${tab === t.id ? "bg-white/25" : "bg-amber-100 text-amber-700 dark:bg-amber-950/40 dark:text-amber-300"}`}>
+                {t.badge}<span className="sr-only"> da vedere</span>
+              </span>
             )}
           </button>
         ))}
@@ -802,7 +880,7 @@ export default function Azioni() {
 
       {/* ===== MOSSE DI NICOLA ===== */}
       {tab === "mosse" && (
-        <div className="space-y-3">
+        <div role="tabpanel" id="pannello-mosse" aria-labelledby="tab-mosse" className="space-y-3">
           {!intenzioni?.collegato && <p className="text-[13px] text-black/55 py-4 text-center">L'AD non ha ancora letto i tuoi Piani. Lancia un giro e qui compaiono le tue prossime mosse.</p>}
           {intenzioni?.collegato && (
             <>
@@ -815,7 +893,7 @@ export default function Azioni() {
                     <div className="flex items-start gap-2">
                       <span className="text-[12px] font-mono text-black/40 mt-0.5 shrink-0">{i + 1}.</span>
                       <div className="min-w-0 flex-1">
-                        <div className="text-[13px] font-semibold text-ink/90">{m.colore ? `${m.colore} ` : ""}{pulisciTitolo(m.titolo)}</div>
+                        <div className="text-[13px] font-semibold text-ink/90">{m.colore ? `${m.colore} ` : ""}{titoloDaMostrare(m.titolo)}</div>
                         <div className="flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] text-black/50 mt-0.5">
                           {m.quando && <span>🗓️ {m.quando}</span>}
                           {m.senior && <span className="text-brand">{m.senior}</span>}
@@ -826,7 +904,7 @@ export default function Azioni() {
                         <button onClick={() => vaiAllAzione(m.titolo)} className={classeComando("mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-brand hover:underline")}>
                           <ArrowRight size={13} /> Vai all'azione da firmare
                         </button>
-                        <ParlaCasella idCasella={`mossa:${m.titolo}`} titolo={`Mossa: ${pulisciTitolo(testoPulito(m.titolo))}`} contesto={[m.come && `Come: ${m.come}`, m.quando && `Quando: ${m.quando}`, m.ad_prepara && `L'AD prepara: ${m.ad_prepara}`].filter(Boolean).join(" · ")} />
+                        <ParlaCasella idCasella={`mossa:${m.titolo}`} titolo={`Mossa: ${titoloDaMostrare(m.titolo)}`} contesto={[m.come && `Come: ${m.come}`, m.quando && `Quando: ${m.quando}`, m.ad_prepara && `L'AD prepara: ${m.ad_prepara}`].filter(Boolean).join(" · ")} />
                       </div>
                     </div>
                   </div>
@@ -850,7 +928,7 @@ export default function Azioni() {
 
       {/* ===== PROPOSTE DAL GIRO ===== */}
       {tab === "proposte" && (
-        <div className="space-y-2">
+        <div role="tabpanel" id="pannello-proposte" aria-labelledby="tab-proposte" className="space-y-2">
           <p className="t-eti">Idee appena scoperte dall'AD nell'analisi oraria. Approvarle le trasforma in azioni concrete.</p>
           {proposteGiro.length === 0 && <p className="text-[13px] text-black/55 py-4 text-center">Nessuna proposta fresca adesso. Compaiono dopo ogni giro dell'AD.</p>}
           {proposteGiro.map((p, i) => {
@@ -868,7 +946,7 @@ export default function Azioni() {
                 <div className="flex items-start gap-2.5">
                   <span className={`mt-1.5 w-2 h-2 rounded-full shrink-0 ${PALLINO(p.livello)}`} />
                   <div className="min-w-0 flex-1">
-                    <div className="t-sez leading-snug">{pulisciTitolo(p.titolo)}</div>
+                    <div className="t-sez leading-snug">{titoloDaMostrare(p.titolo)}</div>
                     <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
                       <span className="badge badge-on">💡 dal giro</span>
                       {ab && <span className={`badge ${classiBadge("rosso")}`}>A / B</span>}
@@ -897,14 +975,14 @@ export default function Azioni() {
                   <div className="mt-3 flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2">
                     <button
                       onClick={() => decidiSceltaAB(i, p, "A")}
-                      disabled={sceltaBusy || propBusy === pid}
+                      disabled={giaPremuto(premuti, pid)}
                       className="inline-flex items-center justify-center gap-1.5 bg-green-600 text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-green-700 active:scale-[0.98] transition disabled:opacity-50"
                     >
-                      {propBusy === pid ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} A — {config.opzione_a}
+                      {giaPremuto(premuti, pid) ? <Loader2 size={15} className="animate-spin" aria-hidden="true" /> : <CheckCircle2 size={15} />} A — {config.opzione_a}
                     </button>
                     <button
                       onClick={() => decidiSceltaAB(i, p, "B")}
-                      disabled={sceltaBusy || propBusy === pid}
+                      disabled={giaPremuto(premuti, pid)}
                       className="inline-flex items-center justify-center gap-1.5 text-[13px] font-medium px-3.5 py-2 rounded-xl border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/30 text-red-800 dark:text-red-300 hover:bg-red-100 dark:hover:bg-red-950/50 active:scale-[0.98] transition disabled:opacity-50"
                     >
                       <XCircle size={15} /> B — {config.opzione_b}
@@ -913,15 +991,15 @@ export default function Azioni() {
                 )}
                 {!decisa && !ab && (
                   <div className="mt-3 flex flex-wrap items-center gap-2">
-                    <button onClick={() => approvaProposta(i, p)} disabled={propBusy === pid} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50">
-                      {propBusy === pid ? <Loader2 size={15} className="animate-spin" /> : <CheckCircle2 size={15} />} Approva
+                    <button onClick={() => approvaProposta(i, p)} disabled={giaPremuto(premuti, pid)} className="inline-flex items-center gap-1.5 bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark active:scale-[0.98] transition disabled:opacity-50">
+                      {giaPremuto(premuti, pid) ? <Loader2 size={15} className="animate-spin" aria-hidden="true" /> : <CheckCircle2 size={15} />} Approva
                     </button>
-                    <button onClick={() => ignoraProposta(i, p)} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition">
-                      <XCircle size={15} /> Ignora
+                    <button onClick={() => ignoraProposta(i, p)} disabled={giaPremuto(premuti, pid)} className="inline-flex items-center gap-1.5 text-[13px] font-medium px-3 py-2 rounded-xl border border-black/10 text-black/60 hover:bg-black/[0.04] active:scale-[0.98] transition disabled:opacity-50 disabled:active:scale-100">
+                      {giaPremuto(premuti, pid) ? <Loader2 size={15} className="animate-spin" aria-hidden="true" /> : <XCircle size={15} />} Ignora
                     </button>
                   </div>
                 )}
-                <ParlaCasella idCasella={`proposta:${p.titolo}`} titolo={`Proposta: ${pulisciTitolo(testoPulito(p.titolo))}`} contesto={p.motivo} />
+                <ParlaCasella idCasella={`proposta:${p.titolo}`} titolo={`Proposta: ${titoloDaMostrare(p.titolo)}`} contesto={p.motivo} />
               </div>
             );
           })}
@@ -930,7 +1008,7 @@ export default function Azioni() {
 
       {/* ===== COSE DA FARE (checklist) ===== */}
       {tab === "dafare" && (
-        <div className="space-y-3">
+        <div role="tabpanel" id="pannello-dafare" aria-labelledby="tab-dafare" className="space-y-3">
           {!todoSalva && todo.length > 0 && (
             <p className="text-[11px] text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 rounded-lg px-2.5 py-1.5">⚠️ Le spunte non si salvano ancora: collega la memoria («impostazioni») e resteranno su ogni dispositivo.</p>
           )}
@@ -962,7 +1040,7 @@ export default function Azioni() {
 
       {/* ===== SENTINELLE (allarmi → azione preparata) ===== */}
       {tab === "sentinelle" && (
-        <div className="space-y-2.5">
+        <div role="tabpanel" id="pannello-sentinelle" aria-labelledby="tab-sentinelle" className="space-y-2.5">
           <p className="t-eti">Allarmi sui dati reali del marketplace. Per ognuno, l'AD ha già capito la mossa: il link ti porta all'azione da firmare.</p>
           {alerts.length === 0 && <p className="text-[13px] text-green-700 dark:text-green-300 py-4 text-center flex items-center justify-center gap-1.5"><CheckCircle2 size={15} /> Nessun allarme attivo: tutto sotto controllo.</p>}
           {alerts.map((al, i) => {
@@ -972,13 +1050,13 @@ export default function Azioni() {
                 <div className="flex items-start gap-2">
                   <ShieldAlert size={15} className={`mt-0.5 shrink-0 ${rosso ? "text-red-600" : "text-amber-600"}`} />
                   <div className="min-w-0 flex-1">
-                    <div className="text-[13px] font-semibold text-ink/90">{rosso ? "🔴" : "🟡"} {pulisciTitolo(al.titolo)}</div>
+                    <div className="text-[13px] font-semibold text-ink/90">{rosso ? "🔴" : "🟡"} {titoloDaMostrare(al.titolo)}</div>
                     <div className="text-[12px] text-black/60 mt-0.5">{al.perche}</div>
                     <div className="text-[12px] text-ink/80 mt-1">→ {al.cosaFare}</div>
                     <button onClick={() => vaiAllAzione(al.titolo)} className={classeComando("mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-brand hover:underline")}>
                       <ArrowRight size={13} /> Vai all'azione da firmare
                     </button>
-                    <ParlaCasella idCasella={`sentinella:${al.titolo}`} titolo={`Sentinella: ${pulisciTitolo(testoPulito(al.titolo))}`} contesto={[al.perche, al.cosaFare && `Cosa fare: ${al.cosaFare}`].filter(Boolean).join(" · ")} />
+                    <ParlaCasella idCasella={`sentinella:${al.titolo}`} titolo={`Sentinella: ${titoloDaMostrare(al.titolo)}`} contesto={[al.perche, al.cosaFare && `Cosa fare: ${al.cosaFare}`].filter(Boolean).join(" · ")} />
                   </div>
                 </div>
               </div>
@@ -989,7 +1067,7 @@ export default function Azioni() {
 
       {/* ===== AVVISI (casella della macchina — futuri messaggi Telegram) ===== */}
       {tab === "avvisi" && (
-        <div className="space-y-2.5">
+        <div role="tabpanel" id="pannello-avvisi" aria-labelledby="tab-avvisi" className="space-y-2.5">
           <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 text-[12.5px] text-ink/85 flex items-start gap-2">
             <Megaphone size={15} className="text-brand mt-0.5 shrink-0" />
             <span>La <b>casella</b> dove la macchina ti lascia i suoi avvisi (es. «memoria incoerente, giro non pubblicato»). Quando collegheremo <b>Telegram</b> gli stessi messaggi ti arriveranno anche sul telefono — per ora restano qui, così non se ne perde nessuno.</span>
@@ -1029,13 +1107,13 @@ export default function Azioni() {
 
       {/* ===== DA APPROVARE (coda) ===== */}
       {tab === "approvare" && (
-        <>
+        <div role="tabpanel" id="pannello-approvare" aria-labelledby="tab-approvare" className="space-y-3">
           <div className="rounded-xl border border-brand/20 bg-brand-50/40 p-3 text-[12.5px] text-ink/85 flex items-start gap-2">
             <Zap size={15} className="text-brand mt-0.5 shrink-0" />
             <span>Quando approvi, l'azione parte dalle «mani»: invia <b>davvero</b> solo con la chiave e l'interruttore attivi; altrimenti la <b>simula</b> o resta <b>in coda</b>. <b>Mai invii per sbaglio.</b> <span className="text-ink/60">(L&apos;autopilota per le mosse sicure 🟢 ora è nella Plancia.)</span></span>
           </div>
 
-          {loading && <div className="flex items-center gap-2 text-black/45 text-sm py-4"><Loader2 size={16} className="animate-spin" /> Carico le azioni…</div>}
+          {loading && <div role="status" className="flex items-center gap-2 text-black/45 text-sm py-4"><Loader2 size={16} className="animate-spin" aria-hidden="true" /> Carico le azioni…</div>}
           {!loading && !collegato && azioni.length === 0 && (
             <div className="card p-4 text-sm text-black/55">Le azioni le accoda l'AD in <code className="bg-black/[0.06] px-1 rounded">90-Memoria-AI/AZIONI-IN-ATTESA.md</code>. Memoria non raggiungibile ora.</div>
           )}
@@ -1086,18 +1164,18 @@ export default function Azioni() {
               {!salvataggio && <p className="t-eti">⚠️ Le decisioni non si salvano ancora: collega la memoria (tabella «impostazioni») e resteranno anche dopo il refresh e su ogni dispositivo.</p>}
             </>
           )}
-        </>
+        </div>
       )}
 
       {/* ===== IN CODA (azioni ferme, già decise, in attesa del canale) ===== */}
       {tab === "incoda" && (
-        <>
+        <div role="tabpanel" id="pannello-incoda" aria-labelledby="tab-incoda" className="space-y-3">
           <div className="rounded-xl border border-amber-200/70 bg-amber-50/50 dark:border-amber-900/40 dark:bg-amber-950/20 p-3 text-[12.5px] text-ink/85 flex items-start gap-2">
             <Clock size={15} className="text-amber-600 mt-0.5 shrink-0" />
             <span>Azioni <b>già decise</b> ma <b>ferme</b>: aspettano che il canale/le «mani» siano collegati (o il worker acceso). Non servono più tra quelle da firmare — partono da sole appena il canale è pronto. Puoi <b>annullarle</b> da qui.</span>
           </div>
 
-          {loading && <div className="flex items-center gap-2 text-black/45 text-sm py-4"><Loader2 size={16} className="animate-spin" /> Carico le azioni…</div>}
+          {loading && <div role="status" className="flex items-center gap-2 text-black/45 text-sm py-4"><Loader2 size={16} className="animate-spin" aria-hidden="true" /> Carico le azioni…</div>}
           {!loading && ferme.length === 0 && (
             <div className="card p-4 text-sm text-black/55 flex items-center gap-2"><CheckCircle2 size={15} className="text-green-600" /> Nessuna azione ferma. Quando ne approvi una e il canale non è ancora collegato, la trovi qui.</div>
           )}
@@ -1114,13 +1192,13 @@ export default function Azioni() {
               )}
             </>
           )}
-        </>
+        </div>
       )}
 
       {/* ===== REGISTRO & RISULTATI ===== */}
       {tab === "registro" && (
-        <>
-          {!registro && <div className="flex items-center gap-2 text-black/45 text-sm py-4"><Loader2 size={16} className="animate-spin" /> Carico il registro…</div>}
+        <div role="tabpanel" id="pannello-registro" aria-labelledby="tab-registro" className="space-y-3">
+          {!registro && <div role="status" className="flex items-center gap-2 text-black/45 text-sm py-4"><Loader2 size={16} className="animate-spin" aria-hidden="true" /> Carico il registro…</div>}
           {registro && (
             <>
               <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
@@ -1153,7 +1231,7 @@ export default function Azioni() {
                     return (
                       <div key={i} className="flex items-center gap-2 rounded-xl border border-black/[0.06] bg-paper/40 px-2.5 py-2">
                         <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${PALLINO(v.livello)}`} />
-                        <span className="text-[12.5px] text-ink/85 truncate flex-1">{v.auto && "🤖 "}{v.titolo}</span>
+                        <span className="text-[12.5px] text-ink/85 truncate flex-1">{v.auto && "🤖 "}{titoloDaMostrare(v.titolo)}</span>
                         {v.reparto && <span className="badge badge-off shrink-0">{v.reparto}</span>}
                         {b && <span className={`badge shrink-0 ${b.cls}`}>{b.txt}</span>}
                         <span className="t-eti shrink-0">{quando(v.at)}</span>
@@ -1164,10 +1242,12 @@ export default function Azioni() {
               )}
             </>
           )}
-        </>
+        </div>
       )}
 
-      {tab === "arsenale" && <Arsenale />}
+      {tab === "arsenale" && (
+        <div role="tabpanel" id="pannello-arsenale" aria-labelledby="tab-arsenale"><Arsenale /></div>
+      )}
     </div>
   );
 }

@@ -165,6 +165,7 @@ export const DESCRIZIONI = {
   "c4-cancelli": { famiglia: "guardrail", cosa: "Tiene in un posto solo le decisioni che prima erano incollate dentro gli script: quando si può saltare il tetto di spesa, con quali soglie è girato il giro, chi rimisura quale vincolo, dove un segreto sta ancora negli argomenti di un comando." },
   "midollo-spinale": { famiglia: "tempo", cosa: "I riflessi rapidi: per ogni allarme delle sentinelle propone la reazione pronta, con il suo limite." },
   "delta-gate": { famiglia: "tempo", cosa: "Se dall'ultimo giro non è cambiato niente, evita di svegliare l'AI per riscrivere le stesse righe." },
+  "cronicita-allarmi": { famiglia: "tempo", cosa: "Dice da quanti giri di fila un controllo sta dicendo no: uno rosso da tre settimane non deve più leggersi come uno rosso da un minuto." },
 
   // ── Il codice regge? ──────────────────────────────────────────────────────
   "test-cervello": { famiglia: "test", cosa: "Lancia tutti i test del cervello a ogni giro: un test che nessuno esegue non è una rete, è un file." },

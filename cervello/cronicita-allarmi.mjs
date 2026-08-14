@@ -186,6 +186,54 @@ export function giroCronicita(percorso, accesiOra = [], io = {}, soglia = GIRI_P
  *   DETTO|a|frase          → la frase da mettere davanti agli occhi, col suo metro
  *   MOTIVO=…               → perché il conto non è affidabile, quando non lo è
  */
+/**
+ * IL TESTO CHE ARRIVA AL MOTORE DEL GIRO (AR-687) — puro, così un test lo può leggere parola per parola.
+ *
+ * Sta qui e non dentro `giro.sh` per la ragione di sempre: una decisione scritta in bash si può
+ * provare solo cercandone la forma in un file, e una ricerca di parole non fallisce nel modo in cui
+ * fallisce la realtà. Qui entra il quadro ed esce la frase; la shell la incolla e basta.
+ *
+ * Tre uscite, e la differenza fra loro è tutto il difetto:
+ *   · **non affidabile** → il conto fra un giro e l'altro non regge. Non si dice «nessuno è cronico»:
+ *     si dice che non lo so. Sbagliare qui vuol dire nascondere un rosso vecchio credendo di saperlo
+ *     vecchio, ed è il modo peggiore di sbagliare, quindi si sbaglia ripetendo di troppo.
+ *   · **niente di cronico** → stringa vuota: nessuna riga in più nel prompt. Un blocco che compare a
+ *     ogni giro per dire «tutto bene» è rumore, e il rumore è la malattia che questo file cura.
+ *   · **qualcosa di cronico** → l'elenco con la sua età, e per chi ha appena tagliato la soglia
+ *     l'obbligo di portarlo a Nicola UNA volta. Il vincolo NON si toglie dal prompt: la scheda lo
+ *     proponeva, ma togliere «non inventare numeri» perché lo ripetiamo da tre giri spegnerebbe una
+ *     difesa proprio quando è più necessaria. Si toglie il silenzio sull'età, non il vincolo.
+ */
+export function bloccoPerIlGiro(q, soglia = GIRI_PER_CRONICO) {
+  if (!q || q.affidabile === false) {
+    const perche = q?.motivo ? ` (${q.motivo})` : "";
+    return (
+      `⚠️ NON SO DA QUANTI GIRI questi controlli dicono no: il conto che tiene la storia fra un giro ` +
+      `e l'altro non regge${perche}. Tratta OGNI vincolo qui sopra come se fosse nuovo e ripetilo per ` +
+      `intero. Non saltarne nessuno perché «tanto è vecchio»: in questo giro non so se sia vecchio.`
+    );
+  }
+  const cronici = Array.isArray(q.cronici) ? q.cronici : [];
+  if (cronici.length === 0) return "";
+  const righe = [
+    `Questi controlli dicono no da almeno ${soglia} giri di fila. Ripeterli uguale è già stato inutile ` +
+      `${soglia} volte: in QUESTO giro o li ripari, o scrivi a Nicola perché non si possono riparare.`,
+    "",
+    ...cronici.map((c) => `- **${c.id}** — ${c.detto}`),
+  ];
+  const nuovi = Array.isArray(q.daPortareANicola) ? q.daPortareANicola : [];
+  if (nuovi.length > 0) {
+    righe.push(
+      "",
+      `⛔ APPENA DIVENTATI CRONICI: ${nuovi.map((c) => c.id).join(", ")}. Prima di chiudere questo giro ` +
+        `accoda in MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md UNA card per ognuno — «questo ` +
+        `controllo dice no da ${soglia} giri e nessuno l'ha risolto», con cosa cambia e cosa serve da ` +
+        `Nicola. Una volta sola, adesso: dal prossimo giro non si ripete.`
+    );
+  }
+  return righe.join("\n");
+}
+
 export function righePerLaShell(q) {
   const righe = [
     `AFFIDABILE=${q.affidabile === false ? "no" : "si"}`,
@@ -206,5 +254,11 @@ if (process.argv[1] && process.argv[1].endsWith("cronicita-allarmi.mjs")) {
   const percorso = arg("stato") || fileStatoGiro(process.env.REPO || ".", process.env);
   const q = giroCronicita(percorso, attivi);
   if (process.argv.includes("--json")) console.log(JSON.stringify(q, null, 2));
-  else for (const r of righePerLaShell(q)) console.log(r);
+  // `--blocco` è la porta che usa `cervello/giro.sh`: stampa il testo già pronto per il prompt.
+  // Può stampare NIENTE, e vuol dire «non c'è niente di cronico». Se il comando non parte affatto
+  // esce con un codice ≠ 0, e la shell distingue le due cose: vuoto-perché-tutto-bene ≠ non-misurato.
+  else if (process.argv.includes("--blocco")) {
+    const t = bloccoPerIlGiro(q);
+    if (t) console.log(t);
+  } else for (const r of righePerLaShell(q)) console.log(r);
 }
