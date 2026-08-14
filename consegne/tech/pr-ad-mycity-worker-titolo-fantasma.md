@@ -1,15 +1,16 @@
 ## In parole semplici
-Il worker (il programma che gira 24/7 sul VPS ed esegue i lavori in coda) ogni tanto scrive
-su `main` un commit con scritto sopra "Sentinella macchina — SENSORI FERMI" ma dentro non c'è
-scritto niente su quello. Il commit tocca solo file di sincronizzazione di routine. Non è un
-allarme vero ripetuto ogni minuto: è un'etichetta sbagliata, il vero allarme è successo solo
-2 volte in 7 minuti, come doveva.
+Il worker è il programma che gira giorno e notte sul computer di MyCity ed esegue i lavori
+in coda. Ogni tanto scrive su `main` un commit con scritto sopra "Sentinella macchina —
+SENSORI FERMI". Ma dentro quel commit non c'è nessun allarme vero. Tocca solo file di sincronizzazione di
+routine. È un'etichetta sbagliata, non un allarme che si ripete ogni minuto. Il vero allarme
+è successo solo 2 volte in 7 minuti, come doveva.
 
 ## Cosa cambia per te
-Da oggi, quando apri i commit del worker su `main`, i commit "vuoti" di sincronizzazione
-periodica (il ripescaggio, ogni 60 secondi se non è arrivato niente di nuovo) si chiamano
-"worker: lavoro ?" invece di riciclare il titolo dell'ultimo lavoro vero già chiuso. Meno
-falsi allarmi da controllare nella cronologia.
+Da oggi cambia un'etichetta nei commit del worker su `main`. Ogni 60 secondi, se non è
+arrivato nessun lavoro nuovo, il worker fa comunque un controllo di routine. Prima quel
+controllo riciclava il titolo dell'ultimo lavoro vero già chiuso. Sembrava quindi un allarme
+ripetuto. Ora quel commit si chiama semplicemente "worker: lavoro ?". Nella cronologia
+troverai meno falsi allarmi da controllare.
 
 ## Cosa devi fare
 Niente subito: è un fix di etichetta nel codice del worker, non tocca la logica di

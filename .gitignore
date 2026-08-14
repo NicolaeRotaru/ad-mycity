@@ -67,3 +67,9 @@ _debug_*
 # memoria del giro (git add -A MyCity-Vault) li ricommitterebbe a ogni giro (~1MB di churn). La vera
 # reversibilità è la storia git dell'archivio stesso.
 *.bak
+
+# Worktree temporanei degli agenti (EnterWorktree/cloud agent): repo Git annidati, mai da tracciare
+# come sottomodulo nel repo principale. Senza questa riga un `git add -A` li committa come gitlink
+# (mode 160000) — successo il 14/8 con git-pr.mjs, quattro cartelle .claude/worktrees/agent-* finite
+# in un commit come riferimenti a repo estranei.
+.claude/worktrees/
