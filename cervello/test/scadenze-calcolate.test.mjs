@@ -222,17 +222,25 @@ prova("il guardiano è agganciato al giro come cancello", () => {
 });
 
 // ── AR-212: correggere è meglio che chiedere ─────────────────────────────────
-prova("il caso che ha rotto: le 3 domande sono nel campo che la Cabina LEGGE", () => {
+prova("il caso che ha rotto: le domande stanno nel campo che la Cabina LEGGE", () => {
   // Il cancello del lotto 9 CHIEDEVA di scrivere il nome giusto. Giorni dopo il file aveva ancora
   // tre domande sotto l'alias — una sul bando da 10.000€ in scadenza fra due giorni.
   const a = JSON.parse(leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json"));
   assert.equal((a.domande_bloccanti || []).length, 0, "l'alias non deve più contenere niente");
-  assert.ok((a.domande_per_nicola || []).length >= 3, "le domande devono stare nel campo canonico");
+  assert.ok(Array.isArray(a.domande_per_nicola), "il campo canonico dev'esserci, come elenco");
   // Qui c'era `includes("PI26")`: il contenuto di business del giorno in cui la prova è nata, usato
   // come prova di una regola STRUTTURALE (l'alias si sposta nel campo canonico). PI26 è stato chiuso
   // il 29/7 — «non idoneo, confermato da Nicola» — quindi quella domanda è giustamente sparita e la
   // prova è diventata rossa mentre la regola che difende funzionava. Il comportamento vero lo prova
   // già la prova qui sotto, che ESEGUE `correggiAlias` su un input finto: è quella la rete.
+  //
+  // 14/8 20:50 — ED È SUCCESSO DI NUOVO, per la stessa ragione, un pezzo più in là. Al posto di
+  // `includes("PI26")` era rimasto `length >= 3`: sempre il contenuto del giorno usato come prova
+  // di una regola strutturale. Oggi la macchina ha DUE domande aperte invece di tre (il bando è
+  // chiuso, la coda si è svuotata) e questa riga è tornata rossa — mentre l'alias era a zero, cioè
+  // mentre la difesa funzionava. Il conto delle domande non è una regola: sale e scende ogni giorno.
+  // Quello che dev'essere sempre vero è che l'alias resti vuoto e il canonico esista: è ciò che
+  // resta qui. La rete sul comportamento non si tocca, ed è la prova qui sotto.
 });
 
 prova("la correzione è DETERMINISTICA: eseguita su un input finto, sposta il campo", () => {
