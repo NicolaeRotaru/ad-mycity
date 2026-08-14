@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-14 08:41",
-  "situazione": "Giro richiesto in chat, 2h dopo il precedente: business invariato (1 ordine mai pagato/annullato, 0 pagati, 5 prodotti, 7 profili). North Star fermo a 51 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Le stesse 5 PR restano rosse (#722/#721/#714/#710/#708), nessuna novità. Trovato invece un rischio nuovo, non di business: 34 file di codice (script cervello + pannello) risultano modificati sul disco e mai committati, timestamp fermo alle 06:30 — sembra il lavoro reale di una sessione di codice interrotta prima di salvare, mai recuperato dallo script di recupero automatico (che salva solo memoria, non codice).",
+  "data": "2026-08-14 11:17",
+  "situazione": "Quarto giro richiesto in meno di 3 ore (dopo 11:02/11:11/11:13): business invariato (1 ordine mai pagato/annullato, 0 pagati, 5 prodotti, 7 profili). North Star fermo a 51 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Le stesse 5 PR restano rosse (#722/#721/#714/#710/#708). Il rischio dei 34 file di codice non committati (dalle 06:30) persiste invariato — ancora da salvare in un branch+PR.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Salva in un branch il codice non ancora committato prima che si perda", "motivo": "34 file (script di misura/badge di coerenza + relativi test) sono modificati sul disco dalle 06:30 e mai salvati in un commit — rischio reale se qualcuno pulisce l'albero di lavoro", "livello": "giallo"},

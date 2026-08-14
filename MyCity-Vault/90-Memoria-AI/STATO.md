@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-08-14 08:41
+aggiornato: 2026-08-14 11:17
 fonte: AD digitale (chat)
 ---
+
+> 🟡 **14/8 11:17 — Quarto giro richiesto in meno di 3 ore (dopo 11:02/11:11/11:13). Business invariato, nessuna novità.** Strategia snella applicata di nuovo ([[playbook-giro-pieno-ripetuto-strategia]]): `git log -1` = commit `5374f3440` (11:13, VPS, solo bookkeeping), `delta-gate.json` stessa firma di sempre. Il rischio dei 34 file di codice non committati (vedi banner 08:41 sotto) persiste invariato — ancora da recuperare in un branch+PR. Le 3 cartelle `.claude/worktrees/agent-*` sono vecchie di 21 ore, non lavoro in corso. Nessuna azione business sbloccabile prima del 24/8-1/9. Briefing: [[Briefing/2026-08-14]].
 
 > 🟡 **14/8 08:41 — Giro completo richiesto in chat, 2h dopo il precedente. Business invariato. Trovati 34 file di codice non committati (rischio nuovo, non di business).**
 > Confermato invariato dal sensore diretto (`sensori-cecita.json`, scritto da `giro.sh` alle 08:20): 1 ordine via REST, stesso stato dal 24/6. `node cervello/ci-stato.mjs` conferma le stesse 5 PR rosse di 06:39 (#722/#721/#714/#710/#708), nessuna variazione. `node cervello/coerenza-fatti.mjs` passa pulito.
