@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Activity } from "lucide-react";
-import { usePanelSync } from "@/lib/panel-sync";
+import { usePanelRefresh } from "@/lib/panel-sync";
+import { intervalloRipasso } from "@/lib/casella-ricarica";
 import { leggiDato, collegatoFalso, organo, migliore, VERDETTO_INIZIALE, type Verdetto, type Organo } from "@/lib/verdetto-dato";
 
 type Cuore = {
@@ -58,7 +59,8 @@ export default function StatoMacchina() {
   }, []);
 
   useEffect(() => { carica(); }, [carica]);
-  usePanelSync(["memoria", "all"], carica);
+  // AR-236 — la casella non aspetta solo il segnale del worker: ripassa a tempo e al ritorno sulla scheda.
+  usePanelRefresh(["memoria", "all"], carica, intervalloRipasso());
 
   const demo = !!c?.demo;
   // In demo la macchina si mostra "tutta accesa" (di esempio): la nota lo dichiara sempre.

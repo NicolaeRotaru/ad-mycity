@@ -1,12 +1,14 @@
 import { NextResponse } from "next/server";
-import { getImpostazioni, setImpostazione, logAzione } from "@/lib/store";
+import { getImpostazioni, setImpostazione, logAzione, memoryConnected } from "@/lib/store";
 import { eseguiAzione } from "@/lib/mani";
 import { tutteLeAzioni, tutteLeAzioniConEsito, statoDa } from "@/lib/azioni-pronte";
 import { verificaQualita } from "@/lib/qualita";
 import { chiudiAzioniMergeCompletate, estraiMergePr, isCanaleGithub, prGiaMergiata } from "@/lib/github-pr-merge";
-import { registraFirma, revocaFirma } from "@/lib/firma-azione";
+import { registraFirmaObbligatoria, revocaFirma, FirmaNonScritta } from "@/lib/firma-azione";
 import { attoGiaAvviato } from "@/lib/atto-unico";
 import { esitoScritture, STATUS_SCRITTURA_FALLITA } from "@/lib/esito-scrittura";
+import { attoUnaVoltaSola, chiusuraAtto } from "@/lib/cancello-atto";
+import { prenotaAzione, sigillaAzione, chiavePostoAzione } from "@/lib/prenotazione-atto";
 import { piuRecente } from "@/lib/verdetto-dato";
 
 export const runtime = "nodejs";
@@ -28,13 +30,22 @@ export async function GET() {
   // AR-233: serve sapere se la coda è stata LETTA, non solo quante card contiene.
   const { azioni: blocchi, codaLeggibile, motivoCoda } = await tutteLeAzioniConEsito();
   const { tabella, valori } = await getImpostazioni();
+  // Le chiusure automatiche che non sono state salvate: la lettura le riproverà al giro dopo, ma
+  // dirlo evita che la Cabina mostri come «chiusa» una card che al ricarico torna aperta.
+  const chiusureNonSalvate: string[] = [];
   const conStato = await chiudiAzioniMergeCompletate(
     blocchi,
     valori,
     async (id, nota) => {
       const az = blocchi.find((b) => b.id === id);
-      await setImpostazione(`azione:${id}`, "fatta");
-      await setImpostazione(`azione:${id}:nota`, nota);
+      const c = chiusuraAtto({
+        scritture: [
+          { nome: "stato", ok: await setImpostazione(`azione:${id}`, "fatta") },
+          { nome: "nota", ok: await setImpostazione(`azione:${id}:nota`, nota) },
+        ],
+        attoEseguito: false,
+      });
+      if (!c.ok) chiusureNonSalvate.push(id);
       if (az) {
         await logAzione({
           id,
@@ -63,6 +74,7 @@ export async function GET() {
     dato_al: codaLeggibile ? piuRecente(azioni.map((a) => a.preparato)) : null,
     coda_leggibile: codaLeggibile,
     motivo_coda: motivoCoda,
+    ...(chiusureNonSalvate.length ? { chiusure_non_salvate: chiusureNonSalvate } : {}),
     salvataggio: tabella,
     autopilota: valori["autopilota"] === "on",
     azioni,
@@ -81,6 +93,23 @@ export async function POST(req: Request) {
   const dec = String(body?.decisione || "").trim();
   if (!id) return NextResponse.json({ ok: false, error: "Manca l'id." }, { status: 400 });
 
+  // AR-413 — PRIMA DI TOCCARE IL MONDO, VERIFICA DI POTER REGISTRARE QUELLO CHE STAI PER FARE.
+  // Questa era l'unica rotta che muta e non chiedeva mai se la memoria fosse collegata (la parola
+  // `memoryConnected` non compariva proprio nel file), mentre tre rotte innocue lo chiedevano. Senza
+  // memoria `getImpostazioni()` torna una mappa vuota: lo stato salvato risulta vuoto per OGNI
+  // azione, la guardia «già fatta» non scatta mai, la firma non si scrive, le mani partono davvero e
+  // poi la risposta diceva «riprova» — e riprovare mandava l'azione una seconda volta.
+  if (!memoryConnected()) {
+    return NextResponse.json(
+      {
+        ok: false,
+        error:
+          "Memoria non collegata: non posso registrare questa decisione, quindi non la eseguo. Collega la memoria (SUPABASE_URL + SUPABASE_SERVICE_KEY) e riprova — non è partito niente.",
+      },
+      { status: 503 },
+    );
+  }
+
   const azione = (await tutteLeAzioni()).find((a) => a.id === id);
 
   if (dec === "rifiuta" || dec === "annulla") {
@@ -92,11 +121,23 @@ export async function POST(req: Request) {
     // strada approva → RIFIUTA → approva restava aperta: il rifiuto riscriveva lo stato in
     // "rifiutata", che il ramo approva considera riapprovabile, e le mani partivano una seconda
     // volta davvero. Ora la guardia sta su TUTTE le decisioni che riscrivono lo stato.
-    const { valori: valoriPre } = await getImpostazioni();
+    const { tabella: tabellaPre, valori: valoriPre } = await getImpostazioni();
     const statoPre = valoriPre[`azione:${id}`] || "";
-    if (attoGiaAvviato(statoPre)) {
+    // AR-413: se non ho potuto LEGGERE lo stato, «vuoto» non vuol dire «mai partita». Rifiutare qui
+    // significherebbe rimettere in circolo un'azione che magari è già stata eseguita.
+    if (!tabellaPre) {
       return NextResponse.json(
-        { ok: false, giaEseguita: true, stato: statoDa(statoPre), error: "Azione già eseguita: non è più annullabile né rifiutabile (eviterebbe un doppio invio reale)." },
+        { ok: false, error: "Non riesco a leggere lo stato delle azioni: non decido al buio. Riprova fra poco — non è cambiato niente." },
+        { status: STATUS_SCRITTURA_FALLITA },
+      );
+    }
+    // AR-412: il posto preso è un fatto più affidabile dello stato, perché viene scritto PRIMA
+    // dell'atto. Se c'è, qualcuno sta eseguendo (o ha eseguito) questa azione anche quando lo stato
+    // è rimasto indietro — ed è proprio il caso in cui il rifiuto farebbe il danno peggiore.
+    const postoPreso = (valoriPre[chiavePostoAzione(id)] || "").trim();
+    if (attoGiaAvviato(statoPre) || postoPreso) {
+      return NextResponse.json(
+        { ok: false, giaEseguita: true, stato: statoDa(statoPre), error: "Azione già eseguita o in corso: non è più annullabile né rifiutabile (eviterebbe un doppio invio reale)." },
         { status: 409 },
       );
     }
@@ -134,9 +175,14 @@ export async function POST(req: Request) {
   // 🔴 Idempotenza: se l'azione è GIÀ stata approvata/eseguita (stato salvato ≠ "" e ≠ "rifiutata"),
   // NON rieseguire le "mani" — un doppio clic o una ri-approvazione dopo refresh manderebbe l'azione
   // reale (email/payout/notifica) una seconda volta.
-  const { valori: valoriPre } = await getImpostazioni();
+  //
+  // ⚠️ Questo controllo da solo NON basta, ed è AR-412: è un «leggi lo stato, se è vuoto procedi»
+  // seguito, secondi dopo, da «scrivi lo stato», con in mezzo la chiamata che manda davvero. Due
+  // richieste ravvicinate leggono entrambe vuoto e partono entrambe. Serve, ma come filtro gentile:
+  // la corsa vera la chiude la PRENOTAZIONE qui sotto, che sta sul dato e non sul bottone.
+  const { tabella, valori: valoriPre } = await getImpostazioni();
   const statoPre = valoriPre[`azione:${id}`] || "";
-  if (statoPre && statoPre !== "rifiutata") {
+  if (attoGiaAvviato(statoPre)) {
     return NextResponse.json({
       ok: true,
       stato: statoDa(statoPre),
@@ -150,16 +196,35 @@ export async function POST(req: Request) {
   // cancello di cervello/consenso-azione.mjs: quel cancello deve trovare la firma già scritta,
   // altrimenti l'azione che Nicola ha appena approvato gli arriva come "non firmata" e muore in
   // DRY-RUN. È esattamente il punto in cui il percorso firma→esecuzione si spezzava.
-  await registraFirma(id, "nicola");
+  //
+  // AR-413(b): l'esito della firma è BLOCCANTE. Prima era `await registraFirma(id, "nicola");` col
+  // booleano buttato via: con la memoria che non risponde l'azione partiva senza firma scritta.
+  try {
+    await registraFirmaObbligatoria(id, "nicola");
+  } catch (e) {
+    if (!(e instanceof FirmaNonScritta)) throw e;
+    return NextResponse.json(
+      { ok: false, error: `${e.message} Non è partito niente: riprova fra poco.` },
+      { status: STATUS_SCRITTURA_FALLITA },
+    );
+  }
 
   // Merge PR già chiusa su GitHub → chiudi subito senza ri-accodare il worker.
   if (isCanaleGithub(azione.canale)) {
     const ref = estraiMergePr(azione.titolo, azione.testo || azione.perche || "");
     if (ref && (await prGiaMergiata(ref))) {
       const nota = `✓ PR #${ref.pr} già mergiata — tolta dalla coda`;
-      const salv =
-        (await setImpostazione(`azione:${id}`, "fatta")) &&
-        (await setImpostazione(`azione:${id}:nota`, nota));
+      // Le due scritture si raccolgono TUTTE: `&&` cortocircuita, quindi se la prima falliva la
+      // seconda non partiva nemmeno e lo stato restava a metà senza che nessuno lo sapesse.
+      // Qui il mondo non è stato toccato (la PR era già mergiata da altri), quindi «riprova» è il
+      // consiglio giusto — ed è `chiusuraAtto` a saperlo, non questa riga.
+      const chiusura = chiusuraAtto({
+        scritture: [
+          { nome: "stato", ok: await setImpostazione(`azione:${id}`, "fatta") },
+          { nome: "nota", ok: await setImpostazione(`azione:${id}:nota`, nota) },
+        ],
+        attoEseguito: false,
+      });
       await logAzione({
         id,
         titolo: azione.titolo,
@@ -169,26 +234,79 @@ export async function POST(req: Request) {
         esito: nota,
         auto: true,
       });
-      if (!salv) {
+      if (!chiusura.ok) {
         return NextResponse.json(
-          { ok: false, stato: "fatta", esito: nota, salvataggio: false, error: "Salvataggio stato fallito — riprova." },
-          { status: 503 }
+          { ok: false, stato: "fatta", esito: nota, salvataggio: false, error: chiusura.messaggio },
+          { status: chiusura.status }
         );
       }
-      return NextResponse.json({ ok: true, stato: "fatta", esito: nota, salvataggio: salv });
+      return NextResponse.json({ ok: true, stato: "fatta", esito: nota, salvataggio: true });
     }
   }
 
-  const esito = await eseguiAzione({ titolo: azione.titolo, canale: azione.canale, destinatario: azione.destinatario, testo: azione.testo });
-  const salv = (await setImpostazione(`azione:${id}`, esito.stato)) && (await setImpostazione(`azione:${id}:nota`, esito.dettaglio));
-  await logAzione({ id, titolo: azione.titolo, reparto: azione.reparto, livello: azione.livello, stato: esito.stato, esito: esito.dettaglio, auto: false });
-  // AR-034: se il salvataggio Supabase fallisce, ok:false → il client fa rollback invece di mostrare
-  // "ok" su una card che al refresh torna vergine (rischio doppio invio con AZIONI_LIVE=1).
-  if (!salv) {
+  // AR-412 + AR-413 + AR-385 — L'ATTO, NELL'ORDINE CHE NON SI PUÒ INVERTIRE.
+  //
+  // `attoUnaVoltaSola` (lib/cancello-atto.ts) impone la sequenza: letture vive → prendo il posto →
+  // atto → registro → dico com'è andata. L'ordine sta nel modulo condiviso e non qui, perché il
+  // difetto non era un cancello mancante: era la SEQUENZA (atto prima, segnaposto dopo), e una
+  // sequenza scritta a mano nella route si può reinvertire al primo ritocco.
+  //
+  // Il posto lo prende `prenotaAzione`: un INSERT nudo sulla chiave unica `azione:<id>:in-corso`.
+  // È l'unica scrittura del Pannello che sa dire «c'ero prima io» — `setImpostazione` è un upsert e
+  // scrive sempre. Su Vercel il pulsante, il cron e il componente sono processi diversi: nessun
+  // lucchetto tenuto in memoria può vederli tutti, la corsa si chiude solo sul dato.
+  const svolgimento = await attoUnaVoltaSola({
+    letture: [{ nome: "lo stato salvato delle azioni", vivo: tabella }],
+    prenota: () => prenotaAzione(id, "nicola"),
+    atto: () => eseguiAzione({ titolo: azione.titolo, canale: azione.canale, destinatario: azione.destinatario, testo: azione.testo }),
+    registra: async (esito) => [
+      // Il sigillo per primo: dichiara che l'atto È avvenuto anche se le due scritture qui sotto
+      // falliscono. Senza, un atto eseguito con lo stato non salvato tornerebbe eseguibile appena
+      // scade la prenotazione — cioè il doppio invio con dieci minuti di ritardo.
+      { nome: "sigillo dell'atto", ok: await sigillaAzione(id, esito.stato) },
+      { nome: "stato", ok: await setImpostazione(`azione:${id}`, esito.stato) },
+      { nome: "nota", ok: await setImpostazione(`azione:${id}:nota`, esito.dettaglio) },
+    ],
+  });
+
+  if (!svolgimento.eseguito) {
+    // Niente è partito: la firma appena scritta va tolta, altrimenti resta addosso a un'azione che
+    // nessuno ha eseguito e il worker potrebbe raccoglierla. Se nemmeno la revoca passa, Nicola
+    // deve saperlo: è la stessa cosa che AR-384 nascondeva nella rotta di annullamento.
+    const firmaTolta = await revocaFirma(id);
     return NextResponse.json(
-      { ok: false, stato: esito.stato, esito: esito.dettaglio, salvataggio: false, error: "Salvataggio stato fallito — riprova." },
-      { status: 503 }
+      {
+        ok: false,
+        firmaAncoraViva: !firmaTolta,
+        error: firmaTolta
+          ? svolgimento.messaggio
+          : `${svolgimento.messaggio} In più non sono riuscito a togliere la firma: l'azione resta firmata anche se non è partita. Metti la pausa dal Pannello.`,
+        motivo: svolgimento.motivo,
+        giaInCorso: svolgimento.motivo === "gia-in-corso",
+        salvataggio: false,
+      },
+      { status: svolgimento.status },
     );
   }
-  return NextResponse.json({ ok: true, stato: esito.stato, esito: esito.dettaglio, salvataggio: salv });
+
+  const esito = svolgimento.risultato;
+  await logAzione({ id, titolo: azione.titolo, reparto: azione.reparto, livello: azione.livello, stato: esito.stato, esito: esito.dettaglio, auto: false });
+  // AR-034 + AR-413(c): se il salvataggio Supabase fallisce, ok:false → il client fa rollback invece
+  // di mostrare "ok" su una card che al refresh torna vergine. Ma il messaggio NON dice più
+  // «riprova»: l'azione è già partita, e riprovare la manderebbe una seconda volta. Lo decide
+  // `chiusuraAtto`, che sa se il mondo è già stato toccato.
+  if (!svolgimento.registrato) {
+    return NextResponse.json(
+      {
+        ok: false,
+        stato: esito.stato,
+        esito: esito.dettaglio,
+        salvataggio: false,
+        nonRiprovare: true,
+        error: svolgimento.messaggio,
+      },
+      { status: svolgimento.status },
+    );
+  }
+  return NextResponse.json({ ok: true, stato: esito.stato, esito: esito.dettaglio, salvataggio: true });
 }

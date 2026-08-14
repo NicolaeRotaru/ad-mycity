@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Search, Loader2, FileText } from "lucide-react";
+import { classeCampo, classeListaScorrevole } from "@/lib/tocco-bersaglio";
 
 type Risultato = { file: string; riga: string };
 
@@ -47,14 +48,14 @@ export default function RicercaGlobale({ inHeader }: { inHeader?: boolean } = {}
           value={q}
           onChange={(e) => setQ(e.target.value)}
           placeholder={inHeader ? "Cerca nella memoria…" : "Cerca in tutta la memoria e la conoscenza (MyCity + AD MyCity)…"}
-          className={`input-soft flex-1 border-0 bg-transparent px-0 py-0 focus:ring-0 ${inHeader ? "text-sm" : ""}`}
+          className={classeCampo(`input-soft flex-1 border-0 bg-transparent px-0 py-0 focus:ring-0 ${inHeader ? "text-sm" : ""}`)}
         />
         {loading && <Loader2 size={14} className="animate-spin shrink-0" style={{ color: "var(--text-faint)" }} />}
       </div>
 
       {aperto && (
         <div
-          className={`${inHeader ? "absolute left-0 right-0 top-full mt-1 z-50 rounded-xl border shadow-2xl" : "mt-3 border-t pt-3"} space-y-1.5 max-h-80 overflow-y-auto scroll-soft`}
+          className={classeListaScorrevole(`${inHeader ? "absolute left-0 right-0 top-full mt-1 z-50 rounded-xl border shadow-2xl" : "mt-3 border-t pt-3"} space-y-1.5 max-h-80 overflow-y-auto scroll-soft`)}
           style={inHeader ? { borderColor: "var(--border)", background: "var(--bg-surface)" } : { borderColor: "var(--border)" }}
         >
           <div className={inHeader ? "p-2" : ""}>

@@ -27,6 +27,10 @@ import { basename, join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+// AR-348 — la normalizzazione del nome sta nel modulo puro della corsia: «due nomi che indicano la
+// stessa cosa devono cadere nello stesso secchio» è la stessa domanda che lì si fa sul tempo e sul
+// perimetro, applicata all'identità.
+import { chiaviDoppie, chiaveCanonica, chiaveNormalizzata } from "./finestra-misura.mjs";
 
 const SQUADRA_DIR = join(AD_ROOT, "memoria-squadra");
 const AGENTS_DIR = join(AD_ROOT, ".claude/agents");
@@ -62,9 +66,68 @@ function writeJson(path, data) {
   scriviJsonAtomico(path, data);
 }
 
-function quadernoPath(reparto) {
-  const nome = String(reparto || "").replace(/^@/, "").trim();
-  return { nome, path: join(SQUADRA_DIR, `${nome}.md`) };
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-348 — DUE QUADERNI PER L'AD, SPACCATI DA UNA MAIUSCOLA
+// ─────────────────────────────────────────────────────────────────────────────
+// `registra` accettava qualunque nome e ne ricavava un percorso: `AD` → `memoria-squadra/AD.md`,
+// `ad` → `memoria-squadra/ad.md`. Due file, due storie, e il lavoro più grosso finito nella metà
+// che nessun lettore apre — perché tutti i lettori a valle partono dal roster, e un file in più
+// non fa rumore da nessuna parte. Un dato scritto col nome sbagliato non è un dato mancante: è un
+// dato che esiste, sembra vero e non troverà mai nessuno.
+//
+// La causa di sistema: qui si validano le USCITE (contratti JSON, guardiani, gate) e mai gli
+// INGRESSI che la macchina scrive da sé. La cura è NORMALIZZARE ALL'INGRESSO — non aggiungere un
+// alias in fondo, che lascerebbe in piedi la possibilità di crearne un terzo.
+//
+// Deroghe dichiarate: nomi legittimi che non sono file in `.claude/agents/`.
+//   · `ad` — l'AD non è un agente, è il direttore: il suo quaderno esiste ma non ha un mansionario.
+//   · `supervisione` — quaderno di processo già in uso, nato prima del roster.
+export const DEROGHE_REPARTO = ["ad", "supervisione"];
+// Le fixture delle prove: `prova-…` non è un reparto ed è riconoscibile a colpo d'occhio. Serve
+// perché le prove del ciclo previsione→esito lavorano su un reparto finto e devono poterlo fare
+// senza disattivare il cancello vero (stesso schema di `LETARGO_AC_DIR`, che esiste solo per i test).
+// La sonda le elenca comunque fra i quaderni fuori roster: sono ammesse, non invisibili.
+const PREFISSO_FIXTURE = /^prova-/;
+
+/**
+ * I quaderni che stanno DAVVERO sul disco. Chi è un quaderno lo dichiara il file stesso nel suo
+ * frontmatter (`tipo: quaderno-memoria`), non un elenco di nomi da saltare: un perimetro scritto a
+ * mano non può accorgersi di ciò che è fuori (è la malattia «perimetro dedotto», lotto 33).
+ */
+function quaderniSulDisco(dir = SQUADRA_DIR) {
+  if (!existsSync(dir)) return [];
+  const out = [];
+  for (const f of readdirSync(dir)) {
+    if (!f.endsWith(".md")) continue;
+    let testa = "";
+    try {
+      testa = readFileSync(join(dir, f), "utf8").slice(0, 400);
+    } catch {
+      continue;
+    }
+    if (/^tipo:\s*quaderno-memoria\s*$/m.test(testa) || /^##\s*Esiti/m.test(testa)) out.push(basename(f, ".md"));
+  }
+  return out;
+}
+
+/**
+ * Il quaderno di un reparto, con il nome riportato alla sua forma canonica.
+ * `ok:false` = nome fuori dal roster: chi chiama deve rifiutare, non creare un file nuovo.
+ */
+function quadernoPath(reparto, roster = rosterReparti()) {
+  const scelta = chiaveCanonica(reparto, roster, DEROGHE_REPARTO);
+  const fixture = !scelta.ok && PREFISSO_FIXTURE.test(chiaveNormalizzata(reparto));
+  // Anche una fixture passa dalla NORMALIZZAZIONE: il nome sul disco è sempre quello minuscolo.
+  const nome = scelta.canonico || (fixture ? chiaveNormalizzata(reparto) : String(reparto || "").replace(/^@/, "").trim());
+  return {
+    nome,
+    path: join(SQUADRA_DIR, `${nome}.md`),
+    ok: scelta.ok || fixture,
+    fixture,
+    simili: scelta.simili,
+    motivo: scelta.motivo,
+    deroga: scelta.deroga,
+  };
 }
 
 // Data (AAAA-MM-GG, con o senza ora) → giorni fa. Infinity se non parsabile.
@@ -104,7 +167,16 @@ function registra(args) {
     );
     process.exit(2);
   }
-  const { nome, path } = quadernoPath(reparto);
+  // AR-348 — il cancello all'INGRESSO: un nome fuori dal roster non crea più un quaderno nuovo.
+  const q = quadernoPath(reparto);
+  if (!q.ok) {
+    console.error(`⛔ AR-348: «${reparto}» non è un reparto: ${q.motivo}.`);
+    if (q.simili.length) console.error(`   Forse intendevi: ${q.simili.join(" · ")}`);
+    console.error(`   (I nomi validi sono i 120 file di .claude/agents/, più le deroghe dichiarate: ${DEROGHE_REPARTO.join(", ")}.)`);
+    console.error("   Un ESITO scritto col nome sbagliato non è un ESITO mancante: è un ESITO che esiste e che nessuno leggerà.");
+    process.exit(2);
+  }
+  const { nome, path } = q;
   const quando = nowPiacenza();
 
   // Riga canonica (formato memoria-squadra/README): data · contesto · scorecard · atteso→reale · #tag
@@ -234,6 +306,18 @@ async function sonda() {
   const mancanti = quaderni.filter((q) => q.mancante);
   const totale = quaderni.length;
 
+  // AR-348 (c) — DUE QUADERNI CHE IN MINUSCOLO COINCIDONO SONO LO STESSO QUADERNO IN DUE CASE.
+  // La sonda partiva dal roster, quindi un file in più non faceva rumore da nessuna parte: `AD.md`
+  // conteneva sette esiti, fra cui la radiografia degli organi, e non lo leggeva nessuno. Il metro
+  // di AR-342 valeva fra cartelle diverse; qui vale anche dentro la stessa cartella.
+  // Chi è un quaderno lo dice il CONTENUTO (`tipo: quaderno-memoria`), non un elenco di nomi da
+  // escludere a mano: un perimetro scritto a mano nasce verde e resta verde su ciò che è fuori.
+  const fileQuaderni = quaderniSulDisco();
+  const doppi = chiaviDoppie(fileQuaderni);
+  const fuoriRoster = fileQuaderni.filter(
+    (n) => !reparti.some((r) => chiaveNormalizzata(r) === chiaveNormalizzata(n)) && !DEROGHE_REPARTO.includes(chiaveNormalizzata(n))
+  );
+
   const state = {
     _cosa_e:
       "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
@@ -248,6 +332,11 @@ async function sonda() {
     fermi: fermi.length,
     vivi: totale - fermi.length,
     reparti_fermi: fermi.map((q) => q.reparto),
+    // AR-348: quaderni che nessun lettore apre — perché sono lo stesso nome in due case, o perché
+    // non corrispondono a nessun reparto. Non sono file mancanti: sono file che esistono, sembrano
+    // veri e non troveranno nessuno.
+    quaderni_doppi: doppi,
+    quaderni_fuori_roster: fuoriRoster,
     quaderni,
   };
   writeJson(STATE_PATH, state);
@@ -271,6 +360,14 @@ async function sonda() {
       );
     } else {
       console.log("   ✅ Tutti i quaderni sono vivi.");
+    }
+    if (doppi.length) {
+      console.log(`\n   🪞 STESSO QUADERNO IN DUE CASE (AR-348) — metà degli esiti finisce dove non guarda nessuno:`);
+      for (const d of doppi) console.log(`   • ${d.varianti.join("  ↔  ")}  →  vale «${d.normalizzato}»`);
+      console.log(`     Vanno fusi a mano conservando date e testo (la storia non si riscrive), lasciando un rimando nel file vecchio.`);
+    }
+    if (fuoriRoster.length) {
+      console.log(`\n   ❓ quaderni che non corrispondono a nessun reparto: ${fuoriRoster.join(", ")}`);
     }
   }
   // Exit 0 sempre (la sonda informa, non blocca il giro).

@@ -19,6 +19,14 @@ import {
 } from "@/lib/parla";
 import { gestisciInvioChat, hintInvioChat } from "@/lib/chat-input";
 import {
+  accettaEventoBus,
+  chiaveConversazione,
+  fondiThreadCasella,
+  stessaCasella,
+  trovaConversazione,
+} from "@/lib/casella-conversazione";
+import { classeCampo } from "@/lib/tocco-bersaglio";
+import {
   ascoltaChatUnificata,
   leggiUltimaChatUnificata,
   pubblicaChatUnificata,
@@ -51,7 +59,23 @@ async function fetchConversazioniCondiviso() {
 // casella) a Claude Max nello stesso gruppo, mostra la risposta sul posto e completa il
 // thread salvato. Se la pagina si chiude prima della risposta, il thread resta in lista
 // e la risposta si ripesca dai lavori alla prossima apertura.
-export default function ParlaCasella({ titolo, contesto }: { titolo: string; contesto?: string }) {
+export default function ParlaCasella({
+  titolo,
+  contesto,
+  idCasella,
+}: {
+  titolo: string;
+  contesto?: string;
+  /**
+   * AR-405 — l'identità della conversazione, che NON è il testo mostrato.
+   *
+   * Il `titolo` arriva dai punti di innesto come testo tagliato di quello che si vede
+   * (`Difetto: ${umano.titolo}`, `Domanda: ${testo.slice(0, 60)}`): quando l'AD lo riscrive — cosa
+   * che fa a ogni radiografia — la chiave cambiava e la chat avuta lì spariva. Qui passa l'id
+   * stabile della voce (id difetto, id azione, id lezione): il titolo resta solo intestazione.
+   */
+  idCasella?: string;
+}) {
   const [aperto, setAperto] = useState(false);
   const [bozza, setBozza] = useState("");
   const [inviando, setInviando] = useState(false);
@@ -91,7 +115,8 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   const caricatoRef = useRef(false);
   useEffect(() => setHintInvio(hintInvioChat()), []);
 
-  const chiaveTitolo = `💬 ${titolo}`;
+  // AR-405 — la chiave del thread: presentazione + targhetta di identità. Non è più il solo testo.
+  const chiaveTitolo = chiaveConversazione(idCasella, titolo);
 
   // Allinea con Assistente / chat fluttuante: stesso thread ovunque si apra.
   useEffect(() => {
@@ -103,10 +128,19 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
     pubblicaChatUnificata({ convId, titolo: chiaveTitolo, messaggi: pub }, "casella");
   }, [aperto, convId, chiaveTitolo, msgs, inviando]);
 
+  // AR-404 — chi ascolta il bus FONDE, non sostituisce.
+  // Prima: `if (det.titolo !== chiaveTitolo) return;` e poi `setMsgs(det.messaggi)` — sostituzione
+  // integrale. Bastava che l'Assistente ripubblicasse lo stesso thread più corto (lo fa a ogni
+  // cambio dei suoi `messages`) perché la casella perdesse i messaggi sotto e la bolla «💭 Sto
+  // elaborando la risposta…», che non esiste da nessun'altra parte e che nessuna rilettura
+  // ricostruisce. Le due decisioni — «è mio?» e «come lo applico?» — stanno nel modulo condiviso,
+  // dove l'Assistente le ha già (`aggiornamentoPertinente` + `fondiConservandoVivi`).
+  const convIdRef = useRef<string | null>(convId);
+  convIdRef.current = convId;
   useEffect(() => {
     return ascoltaChatUnificata("casella", (det) => {
-      if (det.titolo !== chiaveTitolo) return;
-      setMsgs(det.messaggi as ParlaMsg[]);
+      if (!accettaEventoBus({ chiaveMia: chiaveTitolo, convIdMio: convIdRef.current, evento: det })) return;
+      setMsgs((cur) => fondiThreadCasella(cur, det.messaggi as ParlaMsg[]));
       if (det.convId) setConvId(det.convId);
     });
   }, [chiaveTitolo]);
@@ -122,9 +156,9 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
   useEffect(() => {
     if (!aperto || caricatoRef.current) return;
     let annullato = false;
-    const chiave = chiaveTitolo; // id thread stabile dal titolo
+    const chiave = chiaveTitolo; // AR-405: identità stabile, non il testo mostrato
     const giaAttiva = leggiUltimaChatUnificata();
-    if (giaAttiva?.titolo === chiave && giaAttiva.messaggi.length) {
+    if (stessaCasella(giaAttiva?.titolo, chiave) && giaAttiva?.messaggi.length) {
       caricatoRef.current = true;
       setMsgs(giaAttiva.messaggi as ParlaMsg[]);
       if (giaAttiva.convId) setConvId(giaAttiva.convId);
@@ -133,13 +167,17 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
     (async () => {
       let salvati: ParlaMsg[] = [];
       let cid: string | null = null;
+      // AR-405 (b) — MIGRAZIONE: se col titolo nuovo non c'è niente si cerca la conversazione col
+      // vecchio titolo esatto e la si rinomina, così le chat già avute non si perdono per strada.
+      let daMigrare = false;
       // 1) server (lista condivisa, cache + dedup)
       try {
         const arr = await fetchConversazioniCondiviso();
-        const c = arr.find((x) => x.titolo === chiave);
+        const c = trovaConversazione(arr, idCasella, titolo);
         if (c) {
           salvati = Array.isArray(c.messaggi) ? (c.messaggi as ParlaMsg[]) : [];
-          cid = c.id != null ? String(c.id) : null;
+          cid = c.convId;
+          daMigrare = c.daMigrare;
         }
       } catch {
         /* rete instabile: passo al locale */
@@ -148,10 +186,11 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
       if (!cid && salvati.length === 0) {
         try {
           const list = JSON.parse(localStorage.getItem("mycity_conversazioni") || "[]");
-          const c = Array.isArray(list) ? list.find((x: any) => x.titolo === chiave) : null;
+          const c = trovaConversazione(Array.isArray(list) ? list : [], idCasella, titolo);
           if (c) {
             salvati = Array.isArray(c.messaggi) ? (c.messaggi as ParlaMsg[]) : [];
-            cid = c.id != null ? String(c.id) : null;
+            cid = c.convId;
+            daMigrare = c.daMigrare;
           }
         } catch {
           /* localStorage non disponibile */
@@ -162,6 +201,12 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
       if (salvati.length || cid) {
         setMsgs(salvati);
         setConvId(cid);
+      }
+      if (daMigrare && salvati.length) {
+        // Stesso `convId`, titolo nuovo: da qui in poi la conversazione ha un'identità e sopravvive
+        // alla prossima riscrittura del testo.
+        const { id } = await salvaConversazioneCasella(cid, chiave, salvati);
+        if (!annullato && id) setConvId(id);
       }
       // 3) 🩹 RECUPERO: risposta arrivata quando la pagina era chiusa → vive solo nei lavori
       //    (stesso gruppo_id, o stessa casella per i lavori nati prima del collegamento).
@@ -176,7 +221,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
     return () => {
       annullato = true;
     };
-  }, [aperto, titolo, chiaveTitolo]);
+  }, [aperto, titolo, idCasella, chiaveTitolo]);
 
   // Scroll al fondo quando si apre la chat (mostra gli ultimi messaggi, non l'inizio)
   useEffect(() => {
@@ -335,7 +380,7 @@ export default function ParlaCasella({ titolo, contesto }: { titolo: string; con
         onKeyDown={(e) => gestisciInvioChat(e, invia)}
         rows={2}
         placeholder={`Scrivi alla macchina su questa casella…  (${hintInvio})`}
-        className="input-soft w-full text-[12.5px] resize-y"
+        className={classeCampo("input-soft w-full text-[12.5px] resize-y")}
       />
       <div className="flex items-center gap-2 flex-wrap">
         <BottoneSkill aperta={skillAperte} onToggle={() => setSkillAperte((v) => !v)} lato={32} icona={14} />

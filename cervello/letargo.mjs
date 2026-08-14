@@ -13,6 +13,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { FINESTRA, statoFinestra } from "./finestra-misura.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 // LETARGO_AC_DIR: SOLO per i test — punta la lettura a una cartella finta, così la decisione si
@@ -62,6 +63,69 @@ export function livelloLetargo({ quotaPct, runway, runwaySoglia, cecitaDati, sal
   return { livello, motivi };
 }
 
+/**
+ * AR-369 — LA QUOTA SI MISURA DOVE STA IL MURO.
+ *
+ * Il muro vero del motore AI è una finestra che SCORRE (~6 ore), non la mezzanotte: è quella che
+ * ferma la macchina. Il rolling veniva già calcolato e scritto (`costo-ai.json → sessione_rolling`,
+ * AR-442) — ma la decisione continuava a girare sul totale del GIORNO SOLARE. Misurare una cosa e
+ * deciderne un'altra è peggio che non misurare: sembra che il numero sia sorvegliato. Nessun test
+ * legava la misura alla decisione, quindi aggiungere il campo giusto non ha rotto niente e nessuno
+ * si è accorto che la decisione era rimasta indietro.
+ *
+ * Qui la decisione passa alla finestra rolling, e se quella finestra è scaduta o assente l'asse NON
+ * VALE ZERO: non viene valutato, con la cautela scritta (AR-322: cieco non è verde).
+ * Il totale giornaliero resta come indicazione secondaria, mai come giudice.
+ *
+ * La soglia della finestra: si legge se dichiarata, altrimenti si DERIVA dal tetto giornaliero in
+ * proporzione all'ampiezza della finestra — e la derivazione viaggia scritta accanto al numero,
+ * perché un numero senza fonte non deve poter passare per misurato.
+ */
+export function asseQuotaSessione(costo, adessoMs) {
+  const roll = costo?.sessione_rolling || null;
+  const finestraMin = Number(roll?.finestra_min || costo?.sessione_rolling_min || 0) || null;
+
+  // La soglia sulla finestra, con la sua provenienza.
+  const envSoglia = Number(process.env.COSTO_SOGLIA_SESSIONE_TOKEN || 0);
+  const dichiarata = Number(costo?.soglia_sessione_token || 0);
+  const giornaliera = Number(costo?.soglia_giornaliera_token || 0);
+  let soglia = null;
+  let sogliaFonte = null;
+  if (envSoglia > 0) {
+    soglia = envSoglia;
+    sogliaFonte = "env COSTO_SOGLIA_SESSIONE_TOKEN";
+  } else if (dichiarata > 0) {
+    soglia = dichiarata;
+    sogliaFonte = "costo-ai.json · soglia_sessione_token";
+  } else if (giornaliera > 0 && finestraMin > 0) {
+    soglia = Math.round((giornaliera * finestraMin) / 1440);
+    sogliaFonte = `derivata: soglia giornaliera ${giornaliera} × ${finestraMin}min / 1440min di un giorno`;
+  }
+
+  const stato = statoFinestra({
+    valore: roll?.token_sessione_rolling,
+    timbro: roll?.aggiornato,
+    adessoMs,
+    finestraMin,
+    campioni: roll?.runs_sessione,
+  });
+
+  if (stato.esito !== FINESTRA.VIVA)
+    return { pct: null, esito: stato.esito, motivo: `quota-sessione non valutata: ${stato.motivo}`, soglia, soglia_fonte: sogliaFonte, token: stato.valore, finestra_min: finestraMin };
+  if (!soglia)
+    return { pct: null, esito: FINESTRA.ASSENTE, motivo: "quota-sessione non valutata: nessuna soglia sulla finestra, né dichiarata né derivabile", soglia: null, soglia_fonte: null, token: stato.valore, finestra_min: finestraMin };
+
+  return {
+    pct: +((stato.valore / soglia) * 100).toFixed(3),
+    esito: FINESTRA.VIVA,
+    motivo: `${stato.valore} token nella finestra di ${finestraMin} minuti (soglia ${soglia} — ${sogliaFonte})`,
+    soglia,
+    soglia_fonte: sogliaFonte,
+    token: stato.valore,
+    finestra_min: finestraMin,
+  };
+}
+
 function main() {
   const quando = nowPiacenza();
   const costo = leggi("costo-ai.json");
@@ -75,7 +139,12 @@ function main() {
   // Se il campo manca la quota è SCONOSCIUTA, non zero: `null` non fa scattare nessun livello, ma
   // nemmeno finge un 0% rassicurante.
   const _tokGate = costo?.oggi?.token_per_gate;
-  const quotaPct = soglia && typeof _tokGate === "number" ? +((_tokGate / soglia) * 100).toFixed(3) : null;
+  const quotaGiornoPct = soglia && typeof _tokGate === "number" ? +((_tokGate / soglia) * 100).toFixed(3) : null;
+  // AR-369: il giudice è la FINESTRA CHE SCORRE, non il giorno solare. Il giornaliero resta sotto,
+  // come indicazione secondaria: è utile a capire quanto si è speso oggi, non a dire se stiamo per
+  // sbattere contro il muro.
+  const quota = asseQuotaSessione(costo, Date.now());
+  const quotaPct = quota.pct;
   const runway = cassa?.runway_mesi ?? null; // può essere null (non calcolabile) → non si escala su un ignoto
   const runwaySoglia = cassa?.soglia_allerta_mesi ?? 3;
   // AR-589: il contatore che conta è quello dei DATI. max_giri_ciechi (tutti i sensori, uptime
@@ -88,6 +157,10 @@ function main() {
   const { livello, motivi } = livelloLetargo({ quotaPct, runway, runwaySoglia, cecitaDati, salute });
 
   const cautele = [];
+  // AR-369 — la cautela che mancava: un asse non valutato deve VEDERSI. Prima, quando il numero
+  // della quota non c'era, l'asse spariva in silenzio e il livello usciva NORMALE «perché nessuna
+  // soglia era stata superata» — cioè perché nessuno aveva guardato.
+  if (quota.esito !== FINESTRA.VIVA) cautele.push(`${quota.motivo} — asse quota NON valutato (non è uno 0%)`);
   if (runway == null) cautele.push(`runway non calcolabile (${cassa?.note || "burn/cassa non impostati"}) — asse non valutato, non escalo su un ignoto`);
   if ((cassa?.cassa_disponibile_eur ?? null) === 0) cautele.push("cassa disponibile €0 (Stripe balance): tienilo d'occhio");
   if (cecitaTotale >= 3 && cecitaDati < 3) {
@@ -101,7 +174,16 @@ function main() {
     quando,
     fonte: "costo-ai + cassa-runway + sensori-cecita + sentinella-dati (auto-coscienza)",
     assi: {
-      quota_ai_pct: quotaPct,
+      quota_ai_pct: quotaPct,                     // AR-369: la FINESTRA ROLLING, il muro vero
+      quota_sessione: {                            // da dove viene quel numero, e di quanto tempo parla
+        esito: quota.esito,
+        token: quota.token,
+        soglia: quota.soglia,
+        soglia_fonte: quota.soglia_fonte,
+        finestra_min: quota.finestra_min,
+        motivo: quota.motivo,
+      },
+      quota_giorno_pct: quotaGiornoPct,            // indicazione secondaria: quanto si è speso oggi
       runway_mesi: runway,
       sensori_giri_ciechi: cecitaDati,           // AR-589: solo fonti DATI (era il max su tutti)
       sensori_giri_ciechi_totale: cecitaTotale,  // informativo: include uptime/mani (non vota)
@@ -121,7 +203,10 @@ function main() {
 
   console.log(`🛌 Il Letargo — ${quando}   (degradazione con grazia)\n`);
   console.log(`   Assi vitali (dati reali):`);
-  console.log(`     • Quota AI:      ${quotaPct != null ? quotaPct + "% della soglia" : "n/d"}`);
+  console.log(
+    `     • Quota AI:      ${quotaPct != null ? quotaPct + "% della finestra rolling (" + quota.finestra_min + " min)" : "NON VALUTATA — " + quota.motivo}`
+  );
+  console.log(`       (giorno solare: ${quotaGiornoPct != null ? quotaGiornoPct + "% — indicazione secondaria" : "n/d"})`);
   console.log(`     • Runway:        ${runway != null ? runway + " mesi" : "non calcolabile"}`);
   console.log(`     • Sensori ciechi:${cecitaDati} giri (fonti dati; totale con uptime/mani: ${cecitaTotale})`);
   console.log(`     • Salute:        ${salute ?? "n/d"}`);

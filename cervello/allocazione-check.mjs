@@ -22,6 +22,7 @@ import { percorsiDaGit } from "./percorsi-git.mjs";
 import { storiaDelRepo } from "./storia-git.mjs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { FINESTRA, ritmoVsMagazzino } from "./finestra-misura.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 
@@ -63,6 +64,20 @@ const SOGLIA_PESANTI = 3;
 // L'mtime qui mente: su un clone fresco (il VPS ne fa) tutti i file risultano "di oggi" e la finestra
 // non esisterebbe. Git è l'unica fonte che sa davvero quando una cosa è stata fatta.
 const GIORNI_FINESTRA = 7;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-421 — UN MAGAZZINO NON È UN RITMO
+// ─────────────────────────────────────────────────────────────────────────────
+// Questo cancello deve tenere lo sforzo sul negozio che può incassare. La sua unica condizione era
+// un RAPPORTO fra due magazzini: «un non-confermato ha ≥3 asset E un confermato ne ha 0». Ventisei
+// cartelle vecchie intestate al negozio giusto lo tengono muto per sempre — anche se da settimane
+// per quel negozio non nasce più niente. Il guardiano era modellato sull'incidente che l'ha fatto
+// nascere (AR-006, il silo su Garetti: destinazione sbagliata) e non sull'obiettivo dichiarato
+// (produrre per chi incassa), quindi copre benissimo il passato e lascia scoperto il presente.
+//
+// Gli asset intestati si contano ANCHE dentro una finestra, la stessa della quota di sforzo, e
+// sempre per data GIT: l'mtime su un clone fresco direbbe che è tutto di oggi.
+const GIORNI_FINESTRA_ASSET = Number(process.env.ALLOCAZIONE_GIORNI_ASSET || GIORNI_FINESTRA);
 
 // Dove finisce lo sforzo. Prefisso di percorso → destinazione. Il primo che matcha vince.
 // Chi non è in lista NON viene assegnato d'ufficio a una delle due: finisce in "non classificato"
@@ -407,8 +422,16 @@ export function entitaPrimaria(blob, entitaNegozi) {
   return bestScore > 0 ? best.nome : null;
 }
 
-/** Conta quanti file pesanti "intestano" ciascuna entità — attribuzione ESCLUSIVA (un file → una entità). */
-function contaAssetPerEntita(entitaNegozi) {
+/**
+ * Conta quanti file pesanti "intestano" ciascuna entità — attribuzione ESCLUSIVA (un file → una entità).
+ *
+ * AR-421 — due numeri, non uno: `n` è il MAGAZZINO (quanti asset esistono in tutto) e `n_recenti` è
+ * il RITMO (quanti ne sono nati dentro la finestra, per data GIT e non per mtime — su un clone
+ * fresco l'mtime dice che è tutto di oggi). `recentiRel` è l'insieme dei percorsi toccati nella
+ * finestra: se è `null` la storia di git non è intera e il ritmo NON si produce (`n_recenti: null`),
+ * perché uno zero inventato qui direbbe «non stiamo producendo» quando la verità è «non lo so».
+ */
+function contaAssetPerEntita(entitaNegozi, recentiRel = null) {
   // Pre-carica i file pesanti una sola volta (path + testo per i file leggibili).
   const files = [];
   for (const root of ROOT_PESANTI) {
@@ -426,11 +449,17 @@ function contaAssetPerEntita(entitaNegozi) {
     }
   }
 
+  const recenti = recentiRel instanceof Set ? recentiRel : Array.isArray(recentiRel) ? new Set(recentiRel) : null;
   const conteggio = {};
-  for (const ent of entitaNegozi) conteggio[ent.nome] = { stato: ent.stato, n: 0, esempi: [] };
+  for (const ent of entitaNegozi)
+    conteggio[ent.nome] = { stato: ent.stato, n: 0, n_recenti: recenti ? 0 : null, esempi: [], esempi_recenti: [] };
   for (const f of files) {
     const nome = entitaPrimaria(f.blob, entitaNegozi);
     if (!nome || !conteggio[nome]) continue; // file non intestato a nessun negozio presidiato → non conta
+    if (recenti && recenti.has(f.rel)) {
+      conteggio[nome].n_recenti++;
+      if (conteggio[nome].esempi_recenti.length < 4) conteggio[nome].esempi_recenti.push(f.rel);
+    }
     conteggio[nome].n++;
     if (conteggio[nome].esempi.length < 4) conteggio[nome].esempi.push(f.rel);
   }
@@ -462,7 +491,10 @@ async function main() {
   // contratto se ne accorga. Costano una riga e coprono la finestra fra le due difese.
   const ESCLUSI = new Set(["scartato", "demo", "escluso"]);
   const negozi = registro.entita.filter((e) => e.tipo === "negozio" && !ESCLUSI.has(e.stato));
-  const { conteggio, totaleFile } = contaAssetPerEntita(negozi);
+  // AR-421 — la finestra si chiede UNA volta e serve a due cose: la quota di sforzo (AR-114) e il
+  // ritmo di produzione per negozio. `null` = storia di git troncata: nessuno dei due si produce.
+  const toccati = fileToccatiDaGit(GIORNI_FINESTRA_ASSET);
+  const { conteggio, totaleFile } = contaAssetPerEntita(negozi, toccati ? new Set(toccati) : null);
 
   const confermati = negozi.filter((e) => e.stato === "confermato");
   const nonConfermati = negozi.filter((e) => e.stato !== "confermato");
@@ -478,6 +510,23 @@ async function main() {
     .filter((x) => x.n === 0);
   const siloAttivo = sovra.length > 0 && confermatiAZero.length > 0;
 
+  // ── Violazione 3 (AR-421): SILENZIO PRODUTTIVO su un negozio confermato ────────────────────
+  // La condizione che mancava. Le prime due si accendono solo se lo sforzo è finito sul negozio
+  // SBAGLIATO; nessuna si accende se lo sforzo non c'è per NESSUNO — che è lo stato di oggi, e il
+  // più costoso: il magazzino resta pieno di roba vecchia e il cancello tace.
+  // Si misura SEMPRE; diventa violazione solo con ALLOCAZIONE_GATE_PRODUZIONE=1, per la stessa
+  // ragione dichiarata sopra per il gate macchina: fino alla fine della fase tecnica suonerebbe a
+  // ogni giro contraddicendo una decisione presa, e un allarme che suona sempre si impara a spegnere.
+  const GATE_PRODUZIONE = process.env.ALLOCAZIONE_GATE_PRODUZIONE === "1";
+  const silenzio = confermati.map((e) => {
+    const c = conteggio[e.nome] || {};
+    const r = ritmoVsMagazzino({ magazzino: c.n ?? 0, recenti: c.n_recenti, giorni: GIORNI_FINESTRA_ASSET });
+    return { nome: e.nome, magazzino: r.magazzino, recenti: r.recenti, esito: r.esito, motivo: r.motivo };
+  });
+  const muti = silenzio.filter((s) => s.esito === FINESTRA.VUOTA);
+  const ritmoCieco = silenzio.some((s) => s.esito === FINESTRA.ASSENTE);
+  const violazioneProduzione = GATE_PRODUZIONE && muti.length > 0;
+
   // AR-114 — la seconda dimensione. Si misura SEMPRE; diventa una violazione solo se Nicola accende
   // il cancello (ALLOCAZIONE_GATE_MACCHINA=1). Non è timidezza: al 25/7 Nicola ha DECISO che fino al
   // 24/8-1/9 si perfezionano Pannello, AD, worker e marketplace, e solo dopo si torna sul business
@@ -487,13 +536,13 @@ async function main() {
   // cancello si accende con una riga di env e il numero è già lì, con la sua storia.
   const GATE_MACCHINA = process.env.ALLOCAZIONE_GATE_MACCHINA === "1";
   const SOGLIA_MACCHINA = Number(process.env.ALLOCAZIONE_SOGLIA_MACCHINA || 0.7);
-  const toccati = fileToccatiDaGit();
   const quota = quotaSforzo(toccati);
   const quotaOltre = !quota.cieca && quota.quota_macchina != null && quota.quota_macchina > SOGLIA_MACCHINA;
   const violazioneMacchina = GATE_MACCHINA && quotaOltre;
 
   const cieca = zonaCiecaOltreIlTetto(quota);
-  const violazioni = sovra.length + (siloAttivo ? 1 : 0) + (violazioneMacchina ? 1 : 0) + (cieca.oltre ? 1 : 0);
+  const violazioni =
+    sovra.length + (siloAttivo ? 1 : 0) + (violazioneMacchina ? 1 : 0) + (cieca.oltre ? 1 : 0) + (violazioneProduzione ? 1 : 0);
 
   // AR-419 — la cecità sulla quota non spegne le altre due dimensioni (il silo e i confermati a
   // zero si misurano sul disco, non sulla storia): quelle restano valide e il loro verdetto vale.
@@ -516,17 +565,29 @@ async function main() {
   );
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ esito, quando, totaleFile, conteggio, sovra, confermatiAZero, siloAttivo, sforzo: { ...quota, giorni: GIORNI_FINESTRA, soglia: SOGLIA_MACCHINA, gate_acceso: GATE_MACCHINA, oltre_soglia: quotaOltre, tetto_non_classificati: cieca.tetto, tetto_misurato_il: TETTO_MISURATO_IL, zona_cieca_oltre: cieca.oltre, storia_intera: STORIA.intera, motivo_cecita: quota.cieca ? STORIA.motivo : null } }, null, 2));
+    console.log(JSON.stringify({ esito, quando, totaleFile, conteggio, sovra, confermatiAZero, siloAttivo, produzione: { giorni: GIORNI_FINESTRA_ASSET, gate_acceso: GATE_PRODUZIONE, per_negozio: silenzio, muti: muti.map((m) => m.nome), ritmo_cieco: ritmoCieco, violazione: violazioneProduzione }, sforzo: { ...quota, giorni: GIORNI_FINESTRA, soglia: SOGLIA_MACCHINA, gate_acceso: GATE_MACCHINA, oltre_soglia: quotaOltre, tetto_non_classificati: cieca.tetto, tetto_misurato_il: TETTO_MISURATO_IL, zona_cieca_oltre: cieca.oltre, storia_intera: STORIA.intera, motivo_cecita: quota.cieca ? STORIA.motivo : null } }, null, 2));
     process.exit(codiceUscita);
   }
 
   console.log(`\n⚖️  ALLOCAZIONE DELLO SFORZO — ${quando}\n`);
   console.log(`Asset pesanti scansionati (${ROOT_PESANTI.join(", ")}): ${totaleFile}\n`);
-  console.log("Per negozio (n asset · stato):");
+  console.log(`Per negozio (magazzino · ritmo negli ultimi ${GIORNI_FINESTRA_ASSET} giorni · stato):`);
   for (const e of negozi) {
-    const c = conteggio[e.nome] || { n: 0, stato: e.stato };
+    const c = conteggio[e.nome] || { n: 0, n_recenti: null, stato: e.stato };
     const bandiera = e.stato === "confermato" ? "✅" : "🟨";
-    console.log(`  ${bandiera} ${e.nome} — ${c.n} asset · ${e.stato}`);
+    // AR-421: due numeri affiancati. Il primo non invecchia mai, il secondo sì — ed è il secondo
+    // che dice se per quel negozio stiamo ancora lavorando.
+    const ritmo = c.n_recenti == null ? "ritmo non misurabile (storia git troncata)" : `${c.n_recenti} nuovi`;
+    console.log(`  ${bandiera} ${e.nome} — ${c.n} asset in magazzino · ${ritmo} · ${e.stato}`);
+  }
+  if (muti.length) {
+    console.log(`\n🔇 SILENZIO PRODUTTIVO (AR-421) — negozi CONFERMATI senza un asset nuovo negli ultimi ${GIORNI_FINESTRA_ASSET} giorni:`);
+    for (const m of muti) console.log(`  • ${m.nome}: ${m.motivo}`);
+    console.log(
+      GATE_PRODUZIONE
+        ? "  ❌ cancello produzione ACCESO → violazione."
+        : "  (cancello produzione spento durante la fase tecnica: si misura e si dichiara, non blocca. Accendilo con ALLOCAZIONE_GATE_PRODUZIONE=1.)"
+    );
   }
 
   // AR-114: la quota macchina-vs-business, che prima non compariva da nessuna parte.

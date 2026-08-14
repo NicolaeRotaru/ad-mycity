@@ -15,6 +15,7 @@ import { usePanelSync } from "@/lib/panel-sync";
 import { dimensioneLeggibile, humanizzaDifetto } from "@/lib/radiografia-umana";
 import { listaSicura } from "@/lib/memoria-json";
 import { serieSicura } from "@/lib/verdetto-dato";
+import { classeComando, classeComandoSommario } from "@/lib/tocco-bersaglio";
 
 // 🧠 CERVELLO — l'area dove Nicola vede la macchina pensare su sé stessa: salute, auto-analisi del lavoro,
 // e la RADIOGRAFIA DI SÉ (la macchina analizza la propria architettura da cima a fondo).
@@ -312,6 +313,7 @@ export default function RadiografiaDiSe() {
                         dove={f.dove}
                         impatto_crescita={f.impatto_crescita}
                         genera={f.genera}
+                        parlaId={`problema:${dim.key || ""}|${comeTesto(f.titolo)}`}
                         parlaTitolo={`Problema: ${comeTesto(f.titolo).slice(0, 60)}`}
                         parlaContesto={[
                           dim.key && `Area: ${dimensioneLeggibile(dim.key)}`,
@@ -323,7 +325,7 @@ export default function RadiografiaDiSe() {
                       />
                     );
                   })}
-                  <ParlaCasella titolo={`Area: ${dimensioneLeggibile(dim.key || "")}`} contesto={dim.sintesi} />
+                  <ParlaCasella idCasella={`area:${dim.key || ""}`} titolo={`Area: ${dimensioneLeggibile(dim.key || "")}`} contesto={dim.sintesi} />
                 </div>
               ))}
 
@@ -335,7 +337,7 @@ export default function RadiografiaDiSe() {
                       <div key={i} className="rounded-xl border border-amber-200 bg-amber-50/50 p-3">
                         <div className="text-[12.5px] font-medium">⚠️ {p.disastro} <span className="t-eti">· prob. {p.probabilita}</span></div>
                         {p.difesa_proposta && <div className="text-[12px] text-black/65 mt-0.5"><b>Difesa (🟡):</b> {p.difesa_proposta}</div>}
-                        <ParlaCasella titolo={`Pre-mortem: ${p.disastro}`} contesto={[p.come, p.difesa_proposta && `Difesa: ${p.difesa_proposta}`].filter(Boolean).join(" · ")} />
+                        <ParlaCasella idCasella={`premortem:${p.disastro}`} titolo={`Pre-mortem: ${p.disastro}`} contesto={[p.come, p.difesa_proposta && `Difesa: ${p.difesa_proposta}`].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
                   </div>
@@ -354,7 +356,7 @@ export default function RadiografiaDiSe() {
                         {b.come_fanno_i_migliori && <div className="text-[12px] text-black/65 mt-1">{b.come_fanno_i_migliori}</div>}
                         {b.obiettivo && <div className="text-[12px] text-black/70 mt-0.5"><b>Obiettivo:</b> {b.obiettivo}</div>}
                         {(b.esempi || []).map((e, j) => <div key={j} className="t-eti mt-0.5">↗ {e.chi}: {e.cosa}</div>)}
-                        <ParlaCasella titolo={`Benchmark: ${b.ambito}`} contesto={[b.come_fanno_i_migliori, b.obiettivo && `Obiettivo: ${b.obiettivo}`].filter(Boolean).join(" · ")} />
+                        <ParlaCasella idCasella={`benchmark:${b.ambito}`} titolo={`Benchmark: ${b.ambito}`} contesto={[b.come_fanno_i_migliori, b.obiettivo && `Obiettivo: ${b.obiettivo}`].filter(Boolean).join(" · ")} />
                       </div>
                     ))}
                   </div>
@@ -382,7 +384,7 @@ export default function RadiografiaDiSe() {
                       <div key={i} className="rounded-xl border border-brand/20 bg-brand-50/30 p-3 mb-2">
                         <div className="text-[13px] font-medium break-words">❓ {testo}</div>
                         {perche && <div className="text-[12px] text-black/65 mt-1"><b>Perché:</b> {perche}</div>}
-                        <ParlaCasella titolo={`Domanda: ${(testo || "").slice(0, 60)}`} contesto={[testo, perche && `Perché: ${perche}`].filter(Boolean).join(" · ")} />
+                        <ParlaCasella idCasella={`domanda:${testo || ""}`} titolo={`Domanda: ${(testo || "").slice(0, 60)}`} contesto={[testo, perche && `Perché: ${perche}`].filter(Boolean).join(" · ")} />
                       </div>
                     );
                   })}
@@ -463,7 +465,7 @@ export default function RadiografiaDiSe() {
                       {x.verifica?.tipo === "umano" && x.stato === "in-corso" && <div className="text-[11px] text-black/45 mt-0.5">Chiusura riservata a Nicola (azione umana: revoca chiave, giudizio, firma).</div>}
                       {umano.tecnici && (
                         <details className="mt-2 group/tecnici">
-                          <summary className="text-[11px] font-medium text-black/45 cursor-pointer select-none hover:text-brand list-none flex items-center gap-1 [&::-webkit-details-marker]:hidden">
+                          <summary className={classeComandoSommario("text-[11px] font-medium text-black/45 cursor-pointer select-none hover:text-brand list-none flex items-center gap-1 [&::-webkit-details-marker]:hidden")}>
                             <span className="group-open/tecnici:rotate-90 transition-transform inline-block">▸</span> Dettagli tecnici
                           </summary>
                           <div className="text-[11px] text-black/50 mt-1.5 whitespace-pre-wrap break-words font-mono leading-relaxed">{umano.tecnici}</div>
@@ -474,7 +476,7 @@ export default function RadiografiaDiSe() {
                           <ArrowRight size={12} /> Vai all'azione collegata
                         </button>
                       )}
-                      <ParlaCasella titolo={`Difetto: ${umano.titolo}`} contesto={[umano.cosaSuccede, umano.perche && `Perché: ${umano.perche}`, umano.cosaFare && `Cosa fare: ${umano.cosaFare}`].filter(Boolean).join(" · ")} />
+                      <ParlaCasella idCasella={`difetto:${x.id || umano.titolo}`} titolo={`Difetto: ${umano.titolo}`} contesto={[umano.cosaSuccede, umano.perche && `Perché: ${umano.perche}`, umano.cosaFare && `Cosa fare: ${umano.cosaFare}`].filter(Boolean).join(" · ")} />
                     </div>
                   </details>
                 );

@@ -3,7 +3,8 @@
 import { Fragment, useCallback, useEffect, useState } from "react";
 import { ChevronDown, RefreshCw } from "lucide-react";
 import { formatta } from "@/lib/format";
-import { usePanelSync } from "@/lib/panel-sync";
+import { usePanelRefresh } from "@/lib/panel-sync";
+import { intervalloRipasso } from "@/lib/casella-ricarica";
 
 // 🔄 Il volano (effetto-rete): più negozi → più clienti → più ordini → più negozi.
 export default function Volano() {
@@ -14,7 +15,8 @@ export default function Volano() {
   }, []);
 
   useEffect(() => { carica(); }, [carica]);
-  usePanelSync(["memoria", "all"], carica);
+  // AR-236 — la casella non aspetta solo il segnale del worker: ripassa a tempo e al ritorno sulla scheda.
+  usePanelRefresh(["memoria", "all"], carica, intervalloRipasso());
   const v = (k: string) => (m && m[k] != null ? formatta(m[k], "n") : "—");
 
   const passi = [

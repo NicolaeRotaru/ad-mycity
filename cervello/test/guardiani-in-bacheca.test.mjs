@@ -240,6 +240,25 @@ prova("in bacheca finiscono tutti i guardiani, raggruppati e con il loro effetto
   assert.equal(corpoDi(md).startsWith("A ogni giro"), true);
 });
 
+prova("un guardiano descritto sotto una famiglia inventata sparisce dalla tabella, e ora il cancello lo vede", () => {
+  // Il modo in cui `c4-cancelli` è uscito dalla bacheca senza che niente diventasse rosso: descritto
+  // (quindi non «senza descrizione»), cablato nel giro (quindi non un fantasma), ma messo in una
+  // famiglia che non compariva fra quelle stampate. La bacheca stampa un gruppo per volta e salta
+  // quelli vuoti: il controllo protegge e non compare. Il terzo buco, e il più silenzioso dei tre.
+  const finto = 'node "$SCRIPT_DIR/tale-check.mjs" 2>&1 || true';
+  const inventata = censimento(finto, { descrizioni: { "tale-check": { famiglia: "non-esiste", cosa: "x".repeat(50) } } });
+  assert.deepEqual(inventata.famiglieOrfane, ["tale-check"], "una famiglia che non esiste va nominata");
+  assert.ok(!bloccoBacheca(inventata, "2026-08-14 10:00").includes("`tale-check`"), "e infatti dalla tabella sparisce");
+  assert.equal(codiceUscita(inventata), 1, "sparire in silenzio deve costare un rosso");
+
+  // Stessa descrizione, famiglia vera: compare e il cancello è verde. Senza questa metà il caso
+  // sopra passerebbe anche se il controllo bocciasse tutto.
+  const buona = censimento(finto, { descrizioni: { "tale-check": { famiglia: "test", cosa: "x".repeat(50) } } });
+  assert.deepEqual(buona.famiglieOrfane, []);
+  assert.ok(bloccoBacheca(buona, "2026-08-14 10:00").includes("`tale-check`"));
+  assert.equal(codiceUscita(buona), 0);
+});
+
 let falliti = 0;
 for (const c of casi) {
   console.log(`${c.ok ? "  ok" : "not ok"} - ${c.nome}${c.ok ? "" : `\n      ${c.err}`}`);

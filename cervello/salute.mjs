@@ -32,6 +32,15 @@ import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync } fr
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { GIRI_PER_CRONICO, dilloAVoce, quadroCronicita, statoAllarme } from "./cronicita-allarmi.mjs";
+import {
+  COMPITI_DELLA_REVIEW,
+  NON_VISTO,
+  REGISTRO_FRESCHEZZA,
+  STANTIO,
+  etaReferto,
+  timbraReferto,
+  verdettoReferti,
+} from "./eta-referto.mjs";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
 import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
@@ -344,6 +353,97 @@ export function giudicaCadenze(r) {
   };
 }
 
+/**
+ * AR-215 / AR-578 / AR-581 — I FILE CHE LA CABINA MOSTRA SONO ANCORA VALIDI?
+ *
+ * La visita sapeva già dire se il VPS aveva smesso di visitarsi (`giudicaPonte`) e se qualcuno
+ * lasciava tracce (`giudicaTracce`), ma non c'era nessuno che si chiedesse, file per file, «questo
+ * che il Pannello mostra al presente, di quando è?». La freschezza era cablata come toppa per-file
+ * — una per la checklist, una per gli OKR, una per l'intelligence — e ogni file nuovo nasceva
+ * scoperto: le «Mosse di Nicola» sono rimaste ferme al 23 luglio per giorni senza che nulla
+ * suonasse, e il referto di questo stesso checkup è rimasto indietro 45 ore mentre la memoria
+ * accanto si aggiornava ogni sera.
+ *
+ * PURA: prende i verdetti già calcolati (uno per referto) e ne fa UN esito della visita. Il rosso
+ * vince sul ⚪, e il ⚪ non diventa mai verde — un referto che non ho potuto vedere è un buco
+ * dichiarato, esattamente come i controlli che non ho potuto fare.
+ */
+export function giudicaFreschezza(referti) {
+  const v = verdettoReferti(referti);
+  if (v.stato === STANTIO) {
+    const elenco = v.stantii.map((r) => `${r.nome} (${r.eta_ore != null ? `${Math.round(r.eta_ore)}h` : "?"})`).join(", ");
+    return rotto(`${v.stantii.length} file che la Cabina mostra sono più vecchi della loro scadenza: ${elenco}`, {
+      stantii: v.stantii.map((r) => r.nome),
+      nonVisti: v.nonVisti.map((r) => r.nome),
+    });
+  }
+  if (v.stato === NON_VISTO) return nonVisto(v.perche, { nonVisti: v.nonVisti.map((r) => r.nome) });
+  return ok(`${v.freschi.length} file di memoria tutti dentro la loro scadenza dichiarata`, { quanti: v.freschi.length });
+}
+
+/**
+ * AR-593 — LA REVIEW DEL VENERDÌ HA LASCIATO I COMPITI?
+ *
+ * `ritmo.md` marca «OBBLIGATORIO ogni venerdì» quattro prodotti: benchmark, peer review,
+ * calibrazione, lettera a Nicola. Il 13/8 erano fermi rispettivamente a 24 luglio, 24 luglio, 7
+ * luglio e 30 luglio — tre venerdì senza compiti — e nessun contatore lo diceva, perché la
+ * freschezza si misurava sull'ULTIMA RIGA DI ESITO della corsa (che ha cinque giorni e sembra sana)
+ * e mai sui compiti che la corsa doveva lasciare. È la stessa malattia già curata una volta — «si
+ * controlla che la sveglia sia carica, mai che qualcuno si sia alzato» — tornata un piano più su.
+ *
+ * Il dettaglio che la fa funzionare: l'età NON si legge in cima al file. `auto-miglioramento.json`
+ * porta `aggiornato: oggi` perché glielo riscrive `sincronizza-proposte.mjs` a ogni giro, mentre il
+ * benchmark dentro è di venti giorni prima. Si guarda il ramo, non la copertina.
+ */
+export function giudicaCompiti(referti) {
+  const v = verdettoReferti(referti);
+  if (v.stato === STANTIO) {
+    const elenco = v.stantii.map((r) => `${r.nome} (${r.eta_ore != null ? `${Math.round(r.eta_ore / 24)} giorni` : "?"})`).join(", ");
+    return rotto(`la review del venerdì non lascia più i suoi compiti: ${elenco}`, { fermi: v.stantii.map((r) => r.nome) });
+  }
+  if (v.stato === NON_VISTO) return nonVisto(`non ho potuto misurare i compiti della review: ${v.perche}`, { nonVisti: v.nonVisti.map((r) => r.nome) });
+  return ok(`i ${v.freschi.length} compiti della review del venerdì sono tutti recenti`, { quanti: v.freschi.length });
+}
+
+/** Legge un JSON del vault. `null` quando non c'è o non si parsa: null ≠ documento vuoto. */
+function leggiJsonMemoria(rel, radice = AD_ROOT) {
+  const p = join(radice, "MyCity-Vault/90-Memoria-AI", rel);
+  if (!existsSync(p)) return null;
+  try {
+    return JSON.parse(readFileSync(p, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * I compiti della review letti dal disco. Un `.md` non ha campi: il suo timbro è la data scritta nel
+ * titolo — e resta un timbro DENTRO il testo, non la data di modifica del file.
+ */
+export function leggiCompitiReview(radice = AD_ROOT, adessoMs = Date.now()) {
+  return COMPITI_DELLA_REVIEW.map((c) => {
+    let dato = null;
+    if (c.file.endsWith(".md")) {
+      const p = join(radice, "MyCity-Vault/90-Memoria-AI", c.file);
+      if (existsSync(p)) {
+        const testo = readFileSync(p, "utf8").slice(0, 400);
+        const m = testo.match(/(\d{4}-\d{2}-\d{2})(?:[ T](\d{2}:\d{2}))?/);
+        if (m) dato = { data: m[2] ? `${m[1]} ${m[2]}` : m[1] };
+      }
+    } else {
+      dato = leggiJsonMemoria(c.file, radice);
+    }
+    return etaReferto({ dato, scadenzaOre: c.scadenzaOre, adessoMs, nome: c.nome, dentro: c.dentro });
+  });
+}
+
+/** I referti del registro unico, letti dal disco e giudicati uno per uno. */
+export function leggiReferti(radice = AD_ROOT, adessoMs = Date.now()) {
+  return REGISTRO_FRESCHEZZA.map((r) =>
+    etaReferto({ dato: leggiJsonMemoria(r.percorso, radice), scadenzaOre: r.scadenzaOre, adessoMs, nome: r.nome }),
+  );
+}
+
 /** La coda: non quanti lavori ci sono, ma da quanto sono lì. */
 export function giudicaCoda(righe, adesso = Date.now(), soglie = SOGLIE) {
   const eta = (x) => (adesso - Date.parse(x.aggiornato_il || x.creato_il)) / 60_000;
@@ -634,6 +734,30 @@ export const CONTROLLI = [
     impatto: 2,
     async prova({ esegui = eseguiNode } = {}) {
       return giudicaCadenze(esegui("freschezza-cadenze.mjs", ["--json"], 60_000));
+    },
+  },
+  {
+    // AR-215 / AR-578 / AR-581 — il registro unico di freschezza, al posto delle quattro toppe
+    // per-file. Sta fra i controlli del worker perché la domanda è la sua: «la macchina sta ancora
+    // riscrivendo quello che il Pannello mostra?». Un file di memoria pieno e vecchio è la forma più
+    // silenziosa di bugia: non è vuoto (si vedrebbe), è pieno e di tre giorni fa.
+    // `adessoMs` e `radice` si iniettano: senza, la prova dovrebbe aspettare che un file invecchi.
+    id: "cervello.freschezza",
+    organo: "cervello",
+    titolo: "I file che la Cabina mostra sono ancora validi",
+    impatto: 2,
+    async prova({ radice = AD_ROOT, adessoMs = Date.now() } = {}) {
+      return giudicaFreschezza(leggiReferti(radice, adessoMs));
+    },
+  },
+  {
+    // AR-593 — non «la review è partita» ma «la review ha lasciato i compiti».
+    id: "cervello.riti",
+    organo: "cervello",
+    titolo: "La review del venerdì lascia i suoi compiti",
+    impatto: 3,
+    async prova({ radice = AD_ROOT, adessoMs = Date.now() } = {}) {
+      return giudicaCompiti(leggiCompitiReview(radice, adessoMs));
     },
   },
   {
@@ -1351,13 +1475,41 @@ export function referto(v) {
   return righe.join("\n");
 }
 
-function scriviMemoria(v) {
+/**
+ * AR-286 — LE CHIAVI CHE, SE CI SONO, FANNO VEDERE QUALCOSA.
+ * Nel timbro finiscono i NOMI di quelle presenti, mai i valori: serve a sapere se chi ha scritto
+ * questo referto poteva vedere, non a rimettere in giro un segreto.
+ */
+const CHIAVI_CHE_CONTANO = [
+  "SUPABASE_URL",
+  "SUPABASE_SERVICE_KEY",
+  "MARKETPLACE_SUPABASE_URL",
+  "MARKETPLACE_SUPABASE_KEY",
+  "STRIPE_SECRET_KEY",
+  "GIT_PUSH_TOKEN",
+];
+
+/**
+ * AR-286 — IL DOCUMENTO DEL REFERTO, con dentro il suo timbro di provenienza.
+ *
+ * Prima `salute.json` diceva quando era stato scritto e quanti rossi c'erano, ma non DA DOVE:
+ * un referto scritto da una sessione cloud (che i sensori non li vede affatto) e uno scritto dal
+ * VPS erano indistinguibili anche a posteriori. Senza provenienza non si può fare un post-mortem,
+ * e ogni sessione deve ridedurre a mano da dove sta leggendo — e può sbagliare la deduzione.
+ *
+ * Il timbro porta anche la SCADENZA, accanto al dato: chi legge questo file non deve più sapersela
+ * da sé. È la regola ① del modulo, e vale per chiunque scriva qui dentro, non solo per la visita.
+ *
+ * PURA apposta: costruisce il documento e non tocca il disco, così una prova può eseguirla senza
+ * far girare la visita vera sul vault di Nicola.
+ */
+export function documentoSalute(v, { casa = CASA, modo = MODO, quando = ts(), istante = iso(), env = process.env } = {}) {
   const prec = v.precedente;
   const riassunto = {
-    quando: ts(),
-    iso: iso(),
-    casa: CASA,
-    modo: MODO,
+    quando,
+    iso: istante,
+    casa,
+    modo,
     ok: v.buoni.length,
     rotti: v.rotti.length,
     guasti: v.guasti.length,
@@ -1365,11 +1517,18 @@ function scriviMemoria(v) {
     copertura: Number(v.copertura.toFixed(2)),
   };
   const doc = {
-    aggiornato: ts(),
+    aggiornato: quando,
+    timbro: timbraReferto({
+      quando,
+      scadenzaOre: SOGLIE.refertoVpsScadutoOre,
+      scrittoDa: "cervello/salute.mjs",
+      env,
+      chiavi: CHIAVI_CHE_CONTANO,
+    }),
     soglie: SOGLIE,
     ultime: {
       ...prec.ultime,
-      [CASA]: {
+      [casa]: {
         ...riassunto,
         controlli: v.risultati.map((r) => ({
           id: r.id,
@@ -1390,7 +1549,11 @@ function scriviMemoria(v) {
     },
     storico: [...prec.storico, riassunto].slice(-SOGLIE.storicoMax),
   };
-  scriviJsonAtomico(SALUTE_JSON, doc);
+  return doc;
+}
+
+function scriviMemoria(v) {
+  scriviJsonAtomico(SALUTE_JSON, documentoSalute(v));
 
   const nome = `${ts().replace(" ", "-").replace(":", "")}-${CASA}.md`;
   mkdirSync(CARTELLA_REFERTI, { recursive: true });

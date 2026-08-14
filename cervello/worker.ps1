@@ -9,6 +9,40 @@
 
 $ErrorActionPreference = "Stop"
 
+# ══════════════════════════════════════════════════════════════════════════════════════════════════
+# 🪦 IN PENSIONE — AR-306. LEGGI QUESTO PRIMA DI RIACCENDERLO.
+#
+# Questo file è un SECONDO consumatore della stessa coda di produzione su cui gira il worker vero
+# (cervello/worker.sh, sul VPS). È stato scritto una volta e non è mai stato aggiornato: ogni difesa
+# costruita dopo è finita solo nel .sh, perché la parità fra i due non era di nessuno e nessun
+# controllo la misurava. I due file non condividono niente — né il modo di prendere un lavoro né il
+# kill-switch della pausa: sono due implementazioni indipendenti dello stesso contratto REST.
+#
+# Cosa succede se gira mentre il worker del VPS è vivo — ed è lo scenario per cui esiste, la stessa
+# coda: un'azione approvata da Nicola può partire DUE VOLTE (qui non c'è il claim atomico, cioè la
+# presa del lavoro «solo se è ancora in attesa»), e può partire mentre l'AD è in PAUSA (qui l'errore
+# di rete sul kill-switch viene ingoiato e si prosegue). Tocca soldi ed email a persone vere.
+#
+# Perciò da oggi NON parte da solo. Chi lo vuole davvero accendere deve dirlo a voce alta:
+#     $env:MYCITY_WORKER_PS1 = "1"
+# e prima deve sapere cosa gli manca. Quel «cosa manca» adesso è un numero, non un'impressione:
+#     node cervello/c4-cancelli.mjs parita-worker
+# elenca le difese che worker.sh ha e questo file no, e fallisce se qualcuno toglie questo blocco
+# lasciando il file indietro. La parità non si mantiene ricopiando i fix — si mantiene misurandola.
+if (-not $env:MYCITY_WORKER_PS1) {
+  Write-Host ""
+  Write-Host "🪦 worker.ps1 e' IN PENSIONE (AR-306). Il worker vivo e' cervello/worker.sh, sul VPS."
+  Write-Host "   Non lo avvio: e' un secondo consumatore della coda di produzione e gli mancano difese"
+  Write-Host "   che il worker vero ha (presa atomica del lavoro, pausa che si chiude in caso di dubbio)."
+  Write-Host "   Se gira insieme all'altro, un'azione approvata puo' partire DUE volte."
+  Write-Host ""
+  Write-Host "   Cosa gli manca, in chiaro:  node cervello/c4-cancelli.mjs parita-worker"
+  Write-Host "   Per avviarlo lo stesso, consapevolmente:  `$env:MYCITY_WORKER_PS1 = `"1`""
+  Write-Host ""
+  exit 0
+}
+Write-Warning "worker.ps1 avviato con MYCITY_WORKER_PS1=1: e' indietro rispetto a worker.sh (vedi node cervello/c4-cancelli.mjs parita-worker). Non farlo girare insieme al worker del VPS."
+
 $repo = Split-Path -Parent $PSScriptRoot
 Set-Location $repo
 

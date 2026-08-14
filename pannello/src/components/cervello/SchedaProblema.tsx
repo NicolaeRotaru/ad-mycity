@@ -23,6 +23,8 @@ type Props = {
   extra?: ReactNode;
   parlaTitolo?: string;
   parlaContesto?: string;
+  /** AR-405 — identità stabile della conversazione: il titolo mostrato è testo tagliato e cambia. */
+  parlaId?: string;
   umano?: FindingUmano;
 };
 
@@ -42,6 +44,7 @@ export default function SchedaProblema({
   extra,
   parlaTitolo,
   parlaContesto,
+  parlaId,
   umano: umanoProp,
 }: Props) {
   const u = umanoProp || humanizzaFinding({ titolo, descrizione, impatto, causa_radice, fix, fix_proposto, dove });
@@ -84,7 +87,7 @@ export default function SchedaProblema({
           <div className="text-[11px] text-black/50 mt-1.5 whitespace-pre-wrap break-words font-mono leading-relaxed">{u.tecnici}</div>
         </details>
       )}
-      <ParlaCasella titolo={parlaTitolo || `Problema: ${u.titolo.slice(0, 60)}`} contesto={contestoChat} />
+      <ParlaCasella idCasella={parlaId} titolo={parlaTitolo || `Problema: ${u.titolo.slice(0, 60)}`} contesto={contestoChat} />
     </div>
   );
 }

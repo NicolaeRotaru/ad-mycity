@@ -5,7 +5,9 @@ import { Mail, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { dataVault } from "@/lib/format";
-import { usePanelSync } from "@/lib/panel-sync";
+import { usePanelRefresh } from "@/lib/panel-sync";
+import { intervalloRipasso } from "@/lib/casella-ricarica";
+import { useStrato } from "@/lib/useStrato";
 
 /** Anteprima lettera AD in home (3–5 righe + «Leggi tutta»). */
 export default function LetteraAdCard() {
@@ -25,7 +27,11 @@ export default function LetteraAdCard() {
   }, []);
 
   useEffect(() => { carica(); }, [carica]);
-  usePanelSync(["radiografia", "memoria", "all"], carica);
+  // AR-236 — segnale + tempo + ritorno sulla scheda, non il solo segnale.
+  usePanelRefresh(["radiografia", "memoria", "all"], carica, intervalloRipasso());
+  // AR-402 — la lettera aperta è un riquadro a schermo intero (`fixed inset-0 z-50`): col gesto
+  // indietro deve chiudersi lei, non cambiare l'area sotto lasciandola aperta sopra.
+  useStrato("lettera-ad", aperta, () => setAperta(false));
 
   if (!lettera) {
     return (

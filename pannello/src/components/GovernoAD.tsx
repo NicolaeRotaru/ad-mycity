@@ -7,6 +7,7 @@ import { titoloDecisione, percheLeggibile, repartoLeggibile, livelloLeggibile, s
 import { usePanelSync } from "@/lib/panel-sync";
 import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
+import { classeListaScorrevole } from "@/lib/tocco-bersaglio";
 
 type Tab = "decisioni" | "agenti" | "feed" | "controllo";
 
@@ -247,7 +248,7 @@ export default function GovernoAD({ variant = "full" }: Props) {
                   Spiegami perché
                 </button>
                 {spiega[k] && <p className="text-[12px] text-ink/80 bg-brand-50/40 rounded-lg p-2.5 whitespace-pre-wrap">{spiega[k]}</p>}
-                <ParlaCasella titolo={`Decisione: ${titolo.slice(0, 50)}`} contesto={[titolo, perche && `Perché: ${perche}`, reparto && `Reparto: ${reparto}`].filter(Boolean).join(" · ")} />
+                <ParlaCasella idCasella={`decisione:${k}`} titolo={`Decisione: ${titolo.slice(0, 50)}`} contesto={[titolo, perche && `Perché: ${perche}`, reparto && `Reparto: ${reparto}`].filter(Boolean).join(" · ")} />
               </div>
             </details>
             );
@@ -279,7 +280,7 @@ export default function GovernoAD({ variant = "full" }: Props) {
             {sala.length === 0 ? (
               <p className="text-[13px] text-black/45">Ancora nessun movimento di squadra.</p>
             ) : (
-              <div className="space-y-1.5 max-h-72 overflow-y-auto pr-1">
+              <div className={classeListaScorrevole("space-y-1.5 max-h-72 overflow-y-auto pr-1")}>
                 {sala.map((r, i) => (
                   <div key={i} className="text-[13px] rounded-lg bg-paper/40 px-3 py-2">
                     <span className="text-[11px] text-black/40">{quando(r.ts)}</span>{" "}
@@ -296,7 +297,7 @@ export default function GovernoAD({ variant = "full" }: Props) {
 
       {/* FEED */}
       {tab === "feed" && (
-        <div className="space-y-2 max-h-[28rem] overflow-y-auto pr-1">
+        <div className={classeListaScorrevole("space-y-2 max-h-[28rem] overflow-y-auto pr-1")}>
           {feed.length === 0 && <p className="text-sm text-black/45 py-4 text-center">Nessuna attività registrata ancora.</p>}
           {feed.map((v, i) => (
             <div key={i} className="rounded-xl border border-black/[0.06] bg-paper/30 p-3">
@@ -306,7 +307,7 @@ export default function GovernoAD({ variant = "full" }: Props) {
               </div>
               <p className="text-[13px] text-ink/90 mt-1 font-medium leading-snug">{testoPulito(v.titolo)}</p>
               {v.testo && <p className="text-[12px] text-black/55 mt-0.5 line-clamp-3">{testoPulito(v.testo)}</p>}
-              <ParlaCasella titolo={`Feed: ${v.titolo}`} contesto={(v.testo || "").slice(0, 500)} />
+              <ParlaCasella idCasella={`feed:${v.quando || ""}|${v.titolo}`} titolo={`Feed: ${v.titolo}`} contesto={(v.testo || "").slice(0, 500)} />
             </div>
           ))}
         </div>

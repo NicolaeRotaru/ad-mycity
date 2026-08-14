@@ -21,7 +21,8 @@
 // Exit --gate (contratto AR-322): 0 = la north star si muove · 1 = stallo (vincolo HARD) · 2 = cieco
 
 import { existsSync, readFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { FONTI, codiceUscita, decidiStallo } from "./fonte-numero.mjs";
 
@@ -124,10 +125,29 @@ async function main() {
     ordini_creati: ordiniCreati,
     ordini_pagati: { valore: pagati, fonte: fonteTesto },
     ordini_consegnati: ordiniConsegnati,
-    margine: { valore: null, fonte: null },
+    // AR-420 — IL MARGINE È UNA DELLE TRE STELLE POLARI E NON LO MISURA NESSUNO.
+    // Il campo era cablato a `null` E tolto a mano dall'elenco dei numeri senza fonte
+    // (`k !== "margine"`): l'esenzione trasformava un buco in un verde, che è esattamente il gesto
+    // che ha tenuto in piedi per settimane «0 token spesi» (AR-144/AR-196).
+    // La cura onesta NON è inventare un numero — una query sulle righe ordine non si può scrivere
+    // alla cieca, e un valore sbagliato sarebbe peggio del buco. È DICHIARARE la stella cieca, qui
+    // e nel report, finché la fonte non esiste. Un buco dichiarato si può chiudere; un buco esentato
+    // no, perché nessuno sa che c'è.
+    margine: {
+      valore: null,
+      fonte: null,
+      cieco: true,
+      serve:
+        "una fonte vera: dalle righe ordine via REST (importo, commissione, fee di consegna) o da un sensore " +
+        "dedicato. Finché non c'è, questa stella NON è misurata — e il guardiano lo dice invece di uscire verde.",
+    },
   };
+  // AR-420 (a): l'esenzione è tolta. Un faro senza fonte è un numero orfano come tutti gli altri.
   const orfani = Object.entries(northStar)
-    .filter(([k, v]) => v.valore === null && k !== "margine")
+    .filter(([, v]) => v.valore === null)
+    .map(([k]) => k);
+  const stelleCieche = Object.entries(northStar)
+    .filter(([, v]) => v.cieco === true)
     .map(([k]) => k);
 
   // In modalità gate comanda il verdetto sullo stallo (il vincolo di allocazione, AR-113).
@@ -148,6 +168,7 @@ async function main() {
     gate: esito.gate,
     gate_mode: GATE_MODE,
     numeri_senza_fonte: orfani,
+    stelle_cieche: stelleCieche, // AR-420: quali fari NON sono misurati da nessuno, detto sempre
   };
 
   const msgSegnale =
@@ -167,6 +188,10 @@ async function main() {
     console.log(`  Ordini creati:    ${ordiniCreati.valore ?? "n/d"}`);
     console.log(`  Ordini pagati:    ${pagati ?? "n/d"}  ← stella polare`);
     console.log(`  Ordini consegnati:${ordiniConsegnati.valore ?? "n/d"}`);
+    // AR-420 — la riga che prima non esisteva: la stella cieca si vede SEMPRE, anche quando tutto
+    // il resto è verde. Un buco che non compare a schermo non verrà chiuso da nessuno.
+    if (stelleCieche.length)
+      console.log(`  ⚪ NON MISURATE (${stelleCieche.length} su 3 stelle polari): ${stelleCieche.join(", ")} — ${northStar.margine.serve}`);
     console.log(`  Stallo:           ${esito.motivo}`);
     if (esito.gate === "cieco") console.log("  ⚠️  GUARDIANO CIECO (AR-322): non ho potuto misurare. Non è un verde.");
     else if (esito.gate === "chiuso") console.log(`  🔴 STALLO: vincolo di allocazione al giro.`);
@@ -176,7 +201,13 @@ async function main() {
   process.exit(rc);
 }
 
-main().catch((e) => {
-  console.error("ERRORE north-star-check:", e?.message || e);
-  process.exit(2); // AR-322: un guardiano che esplode è CIECO, non «bocciato»
-});
+// Il programma parte SOLO se qualcuno lancia questo file. Importarlo per usarne una funzione non
+// deve farlo girare: un modulo che si esegue all'import non è provabile — chi scrive il test si
+// ritrova il guardiano intero addosso invece della funzione che voleva misurare.
+const lanciatoDaRigaDiComando = process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+if (lanciatoDaRigaDiComando) {
+  main().catch((e) => {
+    console.error("ERRORE north-star-check:", e?.message || e);
+    process.exit(2); // AR-322: un guardiano che esplode è CIECO, non «bocciato»
+  });
+}

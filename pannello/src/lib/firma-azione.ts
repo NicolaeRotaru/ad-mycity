@@ -53,3 +53,48 @@ export async function registraFirma(id: string, chi: Firmatario, quando: Date = 
 export async function revocaFirma(id: string): Promise<boolean> {
   return setImpostazione(`azione:${id}:firma`, "");
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-384 — LE SCRITTURE DI SICUREZZA NON SI POSSONO IGNORARE PER DISTRAZIONE
+//
+// Il difetto: in `/api/lavori/annulla` la riga era `await revocaFirma(az.id);` e il booleano finiva
+// nel nulla, mentre le due scritture immediatamente successive — meno critiche — l'esito lo
+// controllavano. Nicola annullava, la revoca falliva in silenzio, l'azione restava firmata e poteva
+// ancora partire dal worker.
+//
+// La radice non è la distrazione: è che `setImpostazione` segnala il fallimento con un VALORE DI
+// RITORNO, e un valore di ritorno si può ignorare senza che niente protesti — «ho scritto» e «credo
+// di aver scritto» hanno lo stesso aspetto nel codice. Per le chiavi di sicurezza (la firma, la
+// pausa, l'autopilota) qui c'è la versione che LANCIA: ignorarla diventa impossibile invece che
+// facoltativo, perché per non gestirla bisogna scrivere apposta un `try/catch` — e quello si vede
+// nel diff.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** La firma non è finita in memoria. Chi la riceve DEVE decidere cosa fare: non c'è un ramo muto. */
+export class FirmaNonScritta extends Error {
+  readonly idAzione: string;
+  constructor(idAzione: string, messaggio: string) {
+    super(messaggio);
+    this.name = "FirmaNonScritta";
+    this.idAzione = idAzione;
+  }
+}
+
+/** Come `revocaFirma`, ma se non è passata LANCIA. Da usare ovunque la revoca sia una protezione. */
+export async function revocaFirmaObbligatoria(id: string): Promise<void> {
+  const ok = await revocaFirma(id);
+  if (!ok) {
+    throw new FirmaNonScritta(
+      id,
+      "Non sono riuscito a togliere la firma da questa azione: resta firmata e il cervello potrebbe ancora eseguirla.",
+    );
+  }
+}
+
+/** Come `registraFirma`, ma se non è passata LANCIA: un'azione che parte senza firma scritta arriva al worker come «non firmata» e muore in prova a vuoto. */
+export async function registraFirmaObbligatoria(id: string, chi: Firmatario, quando: Date = new Date()): Promise<void> {
+  const ok = await registraFirma(id, chi, quando);
+  if (!ok) {
+    throw new FirmaNonScritta(id, "Non sono riuscito a registrare la firma di questa azione: non la faccio partire.");
+  }
+}

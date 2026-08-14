@@ -32,8 +32,19 @@
  * Il prefisso può essere un `timeout 60` oppure un array di comando (`"${T[@]}" git push …`), che è
  * la forma usata dal loop condiviso: senza riconoscerla, la porta più importante — quella da cui
  * passano ORA giro, ritmo e monitora — sarebbe invisibile a questo guardiano.
+ *
+ * E fra `git` e `push` ci possono stare le OPZIONI GLOBALI di git — `-c chiave=valore`, `-C cartella`,
+ * `--no-pager`, oppure un array che le porta (`git "${C4_GIT_OPZ[@]}" push …`, la forma con cui il
+ * worker pubblica dal 14/8). Misurato: prima del lotto 41 le porte viste erano 8, dopo 7, e la
+ * mancante era proprio quella del worker — la più usata, una a ogni lavoro. La porta non era sparita
+ * né rimasta scoperta (il cancello sopra c'è, worker.sh riga 291): era il METRO a leggere ancora la
+ * forma vecchia. Un guardiano che smette di vedere una porta perché quella porta è stata scritta un
+ * po' diversa è un verde comprato, ed è la malattia che questo file cura.
  */
-const RE_PUSH = /^\s*(?:if\s+)?(?:(?:timeout\s+"?\$?\{?[\w:-]+\}?"?|"\$\{[A-Za-z_]\w*\[@\]\}")\s+)*git\s+push\s/;
+const RE_OPZ_GLOBALE = String.raw`(?:"\$\{[A-Za-z_]\w*\[@\]\}"|-c\s+\S+|-C\s+\S+|--[\w-]+(?:=\S+)?)`;
+const RE_PUSH = new RegExp(
+  String.raw`^\s*(?:if\s+)?(?:(?:timeout\s+"?\$?\{?[\w:-]+\}?"?|"\$\{[A-Za-z_]\w*\[@\]\}")\s+)*git\s+(?:${RE_OPZ_GLOBALE}\s+)*push\s`,
+);
 
 /**
  * La porta INDIRETTA: chi pubblica chiamando il loop condiviso `pubblica_memoria`. Conta come porta

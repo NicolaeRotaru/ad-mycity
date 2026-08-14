@@ -1,6 +1,7 @@
 // Utilità condivise per git-pr.mjs e git-merge.mjs — GitHub API + risoluzione repo.
 // Token: GIT_PUSH_TOKEN (ad-mycity) o MARKETPLACE_GIT_TOKEN / GIT_PUSH_TOKEN (mycity).
 
+import { execFileSync } from "node:child_process";
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -59,7 +60,16 @@ export function resolveRepoConfig(key) {
     const [owner, repo] = slug.split("/");
     if (!owner || !repo) throw new Error(`GIT_REPO non valido: ${slug}`);
     const token = tokenFromEnv("GIT_PUSH_TOKEN", "GIT_TOKEN", "GITHUB_TOKEN");
-    if (!token) throw new Error("Manca GIT_PUSH_TOKEN (PAT con Contents + Pull requests write su ad-mycity).");
+    // AR-328 — il token non è più un requisito d'ingresso, è UNO dei canali. Prima si moriva qui,
+    // prima ancora di guardare se un altro canale esisteva: in una sessione cloud il repo è già
+    // clonato da un proxy autenticato e `origin` funziona, ma nessuno arrivava a provarlo.
+    // Si muore solo se NON C'È NESSUN CANALE — e il messaggio dice quali ha guardato.
+    const origin = remoteOrigin(AD_ROOT);
+    if (!token && !origin)
+      throw new Error(
+        "Nessun canale verso GitHub per ad-mycity: manca GIT_PUSH_TOKEN (PAT con Contents + Pull requests write) " +
+          "e non esiste nemmeno un remote origin da cui ereditare l'autenticazione."
+      );
     return {
       key,
       owner,
@@ -67,6 +77,7 @@ export function resolveRepoConfig(key) {
       slug,
       cwd: AD_ROOT,
       token,
+      origin,
       defaultBranch: process.env.GIT_DEFAULT_BRANCH?.trim() || "main",
     };
   }
@@ -98,6 +109,13 @@ export function resolveRepoConfig(key) {
 
 /** @param {string} token @param {string} path @param {RequestInit} [init] */
 export async function githubRequest(token, path, init = {}) {
+  // AR-328 — se il canale disponibile è `origin` (nessun token), l'API di GitHub non è raggiungibile:
+  // meglio dirlo qui, per nome, che ricevere un 401 che sembra un token sbagliato. Il push funziona
+  // lo stesso: sono due canali diversi e vanno distinti in chiaro.
+  if (!String(token ?? "").trim())
+    throw new Error(
+      `Chiamata a GitHub senza token (${path}): da qui si può pubblicare via remote origin, ma per creare o leggere una PR serve GIT_PUSH_TOKEN.`
+    );
   const res = await fetch(`${API}${path}`, {
     ...init,
     headers: {
@@ -137,9 +155,109 @@ export async function getPullRequest(cfg, prNumber) {
   return githubRequest(cfg.token, `/repos/${cfg.owner}/${cfg.repo}/pulls/${prNumber}`);
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-327 / AR-328 — COME SI PARLA A GIT, E CON QUALE CHIAVE
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-327: ogni comando git del cervello nasce da `execFileSync` senza `maxBuffer`, quindi eredita
+// il limite di 1 MB di Node sullo stdout. Un rebase o un diff che stampa di più muore con ENOBUFS —
+// cioè lo strumento che pubblica il lavoro si rompe PROPRIO quando il lavoro è grosso. I giri
+// ordinari sono piccoli e non ci arrivano mai: il difetto è invisibile finché non conta.
+// Qui il tetto è dichiarato una volta e chi legge git da questo modulo lo eredita.
+export const MAX_BUFFER_GIT = 64 * 1024 * 1024;
+
+/**
+ * L'UNICO punto in cui il cervello esegue git. Chi vuole leggere passa di qui, quindi il tetto di
+ * `maxBuffer` è dichiarato una volta sola: non esiste una seconda porta che possa nascere senza.
+ *
+ * Era la seconda metà di AR-327, e la parte che il difetto non nominava: il tetto era stato messo
+ * su `gitLetto` mentre `git-pr.mjs` aveva la sua copia dell'esecuzione, senza. La prova restava
+ * verde perché misurava la porta riparata. Curare il punto e lasciare in piedi il modo in cui si è
+ * rotto è la definizione di lavoro da rifare — quindi qui la copia sparisce, non si allinea.
+ *
+ * Alza l'eccezione: chi la vuole tollerante usa `gitLetto`.
+ */
+export function gitEsegui(args, cwd, env = {}) {
+  return execFileSync("git", args, {
+    cwd,
+    encoding: "utf8",
+    maxBuffer: MAX_BUFFER_GIT,
+    stdio: ["ignore", "pipe", "pipe"],
+    env: { ...process.env, ...env },
+  }).trim();
+}
+
+/** Legge da git senza il tetto di 1 MB. `null` se il comando fallisce (non si indovina un valore). */
+export function gitLetto(args, cwd) {
+  try {
+    return gitEsegui(args, cwd);
+  } catch {
+    return null;
+  }
+}
+
+/** L'URL del remote `origin`, se c'è. È l'altro canale possibile verso GitHub. */
+export function remoteOrigin(cwd) {
+  const u = gitLetto(["remote", "get-url", "origin"], cwd);
+  return u || null;
+}
+
+/** Nasconde la parte segreta di un URL nei messaggi: un errore non deve stampare il token. */
+export function urlSenzaSegreti(url) {
+  return String(url ?? "").replace(/(:\/\/)[^@/]*@/, "$1***@");
+}
+
+/**
+ * AR-328 — LA SCELTA DEL CANALE, PURA E DICHIARATA.
+ *
+ * `gitAuthUrl` costruiva SEMPRE `https://x-access-token:TOKEN@github.com/SLUG.git`, senza nessun
+ * ripiego. In una sessione cloud il repo è già clonato da un proxy git autenticato e
+ * `GIT_PUSH_TOKEN` non esiste: il push falliva con «Invalid username or token» mentre `origin`
+ * avrebbe funzionato benissimo. Il comando `radiografia` è previsto anche da cloud (CLAUDE.md,
+ * «DOVE PUBBLICARE»), quindi esisteva un modo documentato di far girare la macchina che era
+ * strutturalmente incapace di consegnare il proprio risultato.
+ *
+ * ⚠️ Differenza dichiarata rispetto alla scheda, che diceva «provare origin per primo». Sul VPS
+ * `origin` è un URL https NUDO, senza credenziali: preferirlo romperebbe l'unico canale che lì
+ * funziona. L'ordine giusto è quindi: il token se c'è (è la chiave esplicita di chi l'ha
+ * configurata), ALTRIMENTI origin — che nel cloud porta con sé la propria autenticazione. La
+ * differenza rispetto a prima non è l'ordine, è che un ripiego ADESSO ESISTE.
+ *
+ * @returns {{canale: "token"|"origin"|null, url: string|null, motivo: string, provati: string[]}}
+ */
+export function scegliCanalePush({ token = "", origin = null, slug = "" } = {}) {
+  const t = String(token ?? "").trim();
+  const o = String(origin ?? "").trim();
+  const provati = [];
+  if (t) {
+    provati.push("token");
+    return { canale: "token", url: `https://x-access-token:${t}@github.com/${slug}.git`, motivo: "token di push configurato: si usa quello", provati };
+  }
+  provati.push("token (assente)");
+  if (o) {
+    provati.push("origin");
+    return { canale: "origin", url: "origin", motivo: `nessun token, ma il remote origin risponde (${urlSenzaSegreti(o)}): si pubblica da lì`, provati };
+  }
+  provati.push("origin (assente)");
+  return {
+    canale: null,
+    url: null,
+    motivo:
+      "nessun canale per pubblicare: non c'è un token (GIT_PUSH_TOKEN / GIT_TOKEN / GITHUB_TOKEN) e non c'è nemmeno un remote origin da cui ereditare l'autenticazione",
+    provati,
+  };
+}
+
 /** @param {RepoConfig} cfg */
 export function gitAuthUrl(cfg) {
-  return `https://x-access-token:${cfg.token}@github.com/${cfg.slug}.git`;
+  const scelta = scegliCanalePush({
+    token: cfg.token,
+    origin: cfg.origin !== undefined ? cfg.origin : remoteOrigin(cfg.cwd),
+    slug: cfg.slug,
+  });
+  // Il messaggio dice QUALI canali ha provato e perché ha smesso, invece del generico
+  // «Authentication failed» che non fa capire nemmeno da dove ripartire.
+  if (!scelta.url) throw new Error(`Non posso pubblicare su ${cfg.slug}: ${scelta.motivo}. Canali provati: ${scelta.provati.join(" → ")}.`);
+  return scelta.url;
 }
 
 // --- Segnali per il Pannello (tabella impostazioni del Supabase MEMORIA) ---

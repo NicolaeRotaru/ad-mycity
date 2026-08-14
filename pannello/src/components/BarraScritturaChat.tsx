@@ -7,6 +7,8 @@ import BottoneAllegatiChat from "@/components/BottoneAllegatiChat";
 import BottoneFotoChat from "@/components/BottoneFotoChat";
 import AnteprimaAllegatiChat from "@/components/AnteprimaAllegatiChat";
 import { gestisciInvioChat } from "@/lib/chat-input";
+import { classeCampo } from "@/lib/tocco-bersaglio";
+import { bozzaDaRipescare, chiaveBozza, segnaLavoroInCorso } from "@/lib/casella-ricarica";
 
 export type BarraScritturaChatHandle = {
   getTesto: () => string;
@@ -65,7 +67,18 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
   },
   ref,
 ) {
-  const [bozza, setBozza] = useState(() => bozzaCondivisaRef.current);
+  // AR-408 (b) — la bozza è l'unica cosa che Nicola non può ricostruire: sopravvive alla ricarica.
+  // Il Pannello salvava già la vista, le conversazioni e le letture, ma non il gesto in corso.
+  const [bozza, setBozza] = useState(() => {
+    const viva = bozzaCondivisaRef.current;
+    if (viva) return viva;
+    try {
+      return bozzaDaRipescare(sessionStorage.getItem(chiaveBozza(variant)), "");
+    } catch {
+      // sessionStorage negato (navigazione privata, permessi): si riparte dalla bozza in memoria.
+      return "";
+    }
+  });
   const [skillAperte, setSkillAperte] = useState(false);
   // 24/7: doppio tap ravvicinato sul bottone invia (comune su touch) chiamava invia() due volte
   // PRIMA che React ri-renderizzasse con bozza="" — il secondo click leggeva ancora il testo vecchio
@@ -80,7 +93,19 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
 
   useEffect(() => {
     bozzaCondivisaRef.current = bozza;
-  }, [bozza, bozzaCondivisaRef]);
+    // Il gesto in corso, scritto dove una ricarica non lo tocca — e dichiarato al registro, così
+    // `RegisterSW` sa che c'è qualcosa da non buttare via (AR-408, clausole b e c).
+    segnaLavoroInCorso(`chat:${variant}`, Boolean(bozza.trim()) || loading);
+    try {
+      if (bozza) sessionStorage.setItem(chiaveBozza(variant), bozza);
+      else sessionStorage.removeItem(chiaveBozza(variant));
+    } catch {
+      // sessionStorage non disponibile: la bozza resta in memoria, come prima di questa cura.
+    }
+  }, [bozza, bozzaCondivisaRef, variant, loading]);
+
+  // Smontando la barra il gesto è finito: chi resta non deve credere che ci sia ancora.
+  useEffect(() => () => segnaLavoroInCorso(`chat:${variant}`, false), [variant]);
 
   useImperativeHandle(
     ref,
@@ -297,8 +322,8 @@ const BarraScritturaChat = forwardRef<BarraScritturaChatHandle, Props>(function 
         }
         className={
           fab
-            ? "input-soft w-full min-h-[78px] max-h-28 resize-y text-[13px]"
-            : "input-soft w-full min-h-[56px] max-h-24 resize-y"
+            ? classeCampo("input-soft w-full min-h-[78px] max-h-28 resize-y text-[13px]")
+            : classeCampo("input-soft w-full min-h-[56px] max-h-24 resize-y")
         }
       />
     </div>

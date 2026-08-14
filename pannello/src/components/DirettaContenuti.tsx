@@ -343,6 +343,7 @@ export default function DirettaContenuti() {
                 )}
                 <div className="px-3.5 pb-3 border-t border-black/[0.04] dark:border-white/[0.06]">
                   <ParlaCasella
+                    idCasella={`contenuto:${c.path || c.titolo}`}
                     titolo={`${c.etichetta}: ${c.titolo}`}
                     contesto={contestoContenuto(c, isOpen ? testo : undefined)}
                   />

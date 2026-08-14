@@ -11,6 +11,7 @@ import { contestoPiano } from "@/lib/contesto-piano";
 import Aggiornato from "@/components/Aggiornato";
 import StellePolari from "@/components/StellePolari";
 import ParlaCasella from "@/components/ParlaCasella";
+import { classeListaScorrevole } from "@/lib/tocco-bersaglio";
 
 type Piano = { nome: string; testo: string; aggiornato?: string | null; nota?: string | null; smentite?: number };
 type Okr = { senior: string; kpi: string; target: string; budget: string };
@@ -81,7 +82,7 @@ export function SezioneStato() {
     <div className="space-y-2">
       <Intestazione titolo="Situazione attuale" icon={<Gauge size={15} className="text-brand" />} aggAt={aggAt} loading={loading} onRefresh={() => carica()} />
       {statoAgg && <p className="t-eti -mt-1">{dataVault(statoAgg)}</p>}
-      <div className="max-h-[24rem] overflow-y-auto pr-1 rounded-xl border border-black/[0.07] bg-paper/30 p-3.5">
+      <div className={classeListaScorrevole("max-h-[24rem] overflow-y-auto pr-1 rounded-xl border border-black/[0.07] bg-paper/30 p-3.5")}>
         {stato ? <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={Markdown}>{stato}</ReactMarkdown>
           : <p className="text-sm text-black/45 py-2 text-center">Nessun file stato ancora.</p>}
       </div>
@@ -136,7 +137,7 @@ export function SezioneOkr() {
           </div>
           <div className="t-eti mt-0.5">{r.kpi}</div>
           <div className="t-riga mt-0.5">🎯 {r.target}</div>
-          <ParlaCasella titolo={`OKR: ${r.senior}`} contesto={[r.kpi && `KPI: ${r.kpi}`, r.target && `Target: ${r.target}`].filter(Boolean).join(" · ")} />
+          <ParlaCasella idCasella={`okr:${r.senior}`} titolo={`OKR: ${r.senior}`} contesto={[r.kpi && `KPI: ${r.kpi}`, r.target && `Target: ${r.target}`].filter(Boolean).join(" · ")} />
         </div>
       ))}
     </div>
@@ -238,10 +239,10 @@ export function SezionePiani() {
             <summary className="text-[13px] font-semibold cursor-pointer">
               🧩 {p.nome} <EtichettaData piano={p} /> <EtichettaSmentite piano={p} />
             </summary>
-            <div className="mt-2 max-h-96 overflow-y-auto pr-1">
+            <div className={classeListaScorrevole("mt-2 max-h-96 overflow-y-auto pr-1")}>
               <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={Markdown}>{p.testo}</ReactMarkdown>
             </div>
-            <ParlaCasella titolo={`Piano: ${p.nome}`} contesto={contestoPiano(p.testo || "")} />
+            <ParlaCasella idCasella={`piano:${p.nome}`} titolo={`Piano: ${p.nome}`} contesto={contestoPiano(p.testo || "")} />
           </details>
         ))}
       </div>

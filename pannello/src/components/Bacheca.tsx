@@ -7,7 +7,8 @@ import remarkGfm from "remark-gfm";
 import HomeSezione from "@/components/HomeSezione";
 import ParlaCasella from "@/components/ParlaCasella";
 import { dataVault } from "@/lib/format";
-import { usePanelSync } from "@/lib/panel-sync";
+import { usePanelRefresh } from "@/lib/panel-sync";
+import { intervalloRipasso } from "@/lib/casella-ricarica";
 import Aggiornato from "@/components/Aggiornato";
 import { leggiDato, collegatoFalso, fraseVuoto, VERDETTO_INIZIALE, type Verdetto } from "@/lib/verdetto-dato";
 
@@ -64,7 +65,8 @@ export default function Bacheca() {
   useEffect(() => {
     carica();
   }, [carica]);
-  usePanelSync(["memoria", "all"], carica);
+  // AR-236 — la casella non aspetta solo il segnale del worker: ripassa a tempo e al ritorno sulla scheda.
+  usePanelRefresh(["memoria", "all"], carica, intervalloRipasso());
 
   // Sparire è consentito solo dopo aver GUARDATO: «ho letto e non c'era niente» è un'informazione,
   // «non ho potuto leggere» no — e nella seconda la scheda deve restare e dirlo.
@@ -115,7 +117,7 @@ export default function Bacheca() {
                   {a.testo}
                 </ReactMarkdown>
               </div>
-              <ParlaCasella titolo={`Bacheca: ${a.titolo}`} contesto={a.testo.slice(0, 800)} />
+              <ParlaCasella idCasella={`bacheca:${a.data}|${a.titolo}`} titolo={`Bacheca: ${a.titolo}`} contesto={a.testo.slice(0, 800)} />
             </div>
           </details>
         ))}

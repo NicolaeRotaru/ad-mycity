@@ -17,6 +17,7 @@ import ParlaCasella from "@/components/ParlaCasella";
 import { contestoAvviso, descrizioneAvviso } from "@/lib/descrizione-avviso";
 import { azioniVisibili, cardAperta, idDaAncora, quanteNascoste, serveSrotolare } from "@/lib/coda-azioni";
 import { saltoAllAzione } from "@/lib/salto-azione";
+import { classeComando, classeComandoSommario, classeListaScorrevole } from "@/lib/tocco-bersaglio";
 import {
   etichettaScelta,
   isPropostaSceltaAB,
@@ -624,7 +625,7 @@ export default function Azioni() {
                   </button>
                 </>
               ) : (
-                <button onClick={senzaAprire(() => decidi(a.id, "annulla"))} disabled={decidendo.has(a.id)} className="inline-flex items-center gap-1.5 t-eti hover:text-brand transition disabled:opacity-50"><RotateCcw size={13} /> annulla</button>
+                <button onClick={senzaAprire(() => decidi(a.id, "annulla"))} disabled={decidendo.has(a.id)} className={classeComando("inline-flex items-center gap-1.5 t-eti hover:text-brand transition disabled:opacity-50")}><RotateCcw size={13} /> annulla</button>
               )}
             </div>
           </div>
@@ -650,7 +651,7 @@ export default function Azioni() {
               ))}
               {tecnico ? (
                 <details className="mt-1 rounded-lg border border-black/8 bg-paper/40 px-3 py-2">
-                  <summary className="text-[12px] font-medium text-black/55 cursor-pointer select-none">Dettagli tecnici e riferimenti</summary>
+                  <summary className={classeComandoSommario("text-[12px] font-medium text-black/55 cursor-pointer select-none")}>Dettagli tecnici e riferimenti</summary>
                   <pre className="mt-1.5 whitespace-pre-wrap font-sans text-[11.5px] text-black/50 leading-relaxed">{tecnico}</pre>
                 </details>
               ) : null}
@@ -683,7 +684,7 @@ export default function Azioni() {
         {/* 📄 Il testo VERO che verrà inviato (il percorso tecnico del file resta nascosto). */}
         {path && (
           <div className="mt-2.5">
-            <button onClick={() => apriScheda(a.id, path)} className="inline-flex items-center gap-1.5 text-[12px] font-medium text-brand hover:underline">
+            <button onClick={() => apriScheda(a.id, path)} className={classeComando("inline-flex items-center gap-1.5 text-[12px] font-medium text-brand hover:underline")}>
               <FileText size={13} /> Leggi il testo esatto che verrà inviato
             </button>
             {sch?.loading && <p className="t-eti mt-1 flex items-center gap-1"><Loader2 size={12} className="animate-spin" /> apro il testo…</p>}
@@ -697,7 +698,7 @@ export default function Azioni() {
         {/* Anteprima breve (se il contenuto NON è un percorso ma testo vero) */}
         {a.testo && !path && (
           <div className="mt-2.5">
-            <button onClick={() => toggle(a.id)} className="t-eti hover:text-brand inline-flex items-center gap-1 transition">
+            <button onClick={() => toggle(a.id)} className={classeComando("t-eti hover:text-brand inline-flex items-center gap-1 transition")}>
               {open ? <ChevronDown size={14} /> : <ChevronRight size={14} />} Leggi il testo esatto che verrà inviato
             </button>
             {open && <pre className="mt-1.5 whitespace-pre-wrap font-sans text-[12.5px] text-ink/85 leading-relaxed border-l-2 border-brand/20 pl-3 bg-paper/40 rounded-r-lg py-2">{a.testo}</pre>}
@@ -711,13 +712,13 @@ export default function Azioni() {
             const o = risolviOrigine(a.origine);
             if (o) {
               return (
-                <button onClick={() => vaiArea(o.vista, o.anchor, o.sub)} className="inline-flex items-center gap-1 t-eti hover:text-brand transition">
+                <button onClick={() => vaiArea(o.vista, o.anchor, o.sub)} className={classeComando("inline-flex items-center gap-1 t-eti hover:text-brand transition")}>
                   <ArrowRight size={12} /> Da dove nasce: {o.etichetta}
                 </button>
               );
             }
             return (
-              <button onClick={() => vaiArea("auto-coscienza", undefined, "analisi")} className="inline-flex items-center gap-1 t-eti hover:text-brand transition">
+              <button onClick={() => vaiArea("auto-coscienza", undefined, "analisi")} className={classeComando("inline-flex items-center gap-1 t-eti hover:text-brand transition")}>
                 <ArrowRight size={12} /> Perché te la propongo
               </button>
             );
@@ -735,7 +736,7 @@ export default function Azioni() {
 
         {/* I bottoni Approva/Rifiuta non stanno più qui in fondo ma nel <summary>, sempre visibili:
             con la scheda chiusa si firma lo stesso, che è il motivo per cui si apre il Pannello. */}
-        <ParlaCasella titolo={`Azione: ${pulisciTitolo(testoPulito(a.titolo))}`} contesto={[a.perche, a.reparto && `Reparto: ${a.reparto}`, a.canale && `Canale: ${a.canale}`].filter(Boolean).join(" · ")} />
+        <ParlaCasella idCasella={`azione:${a.id}`} titolo={`Azione: ${pulisciTitolo(testoPulito(a.titolo))}`} contesto={[a.perche, a.reparto && `Reparto: ${a.reparto}`, a.canale && `Canale: ${a.canale}`].filter(Boolean).join(" · ")} />
       </details>
     );
   };
@@ -797,10 +798,10 @@ export default function Azioni() {
                         </div>
                         {m.come && <div className="text-[12px] text-black/65 mt-1">Come: {m.come}</div>}
                         {m.ad_prepara && <div className="text-[12px] text-ink/80 mt-1">🤖 L'AD prepara: {m.ad_prepara}</div>}
-                        <button onClick={() => vaiAllAzione(m.titolo)} className="mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-brand hover:underline">
+                        <button onClick={() => vaiAllAzione(m.titolo)} className={classeComando("mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-brand hover:underline")}>
                           <ArrowRight size={13} /> Vai all'azione da firmare
                         </button>
-                        <ParlaCasella titolo={`Mossa: ${pulisciTitolo(testoPulito(m.titolo))}`} contesto={[m.come && `Come: ${m.come}`, m.quando && `Quando: ${m.quando}`, m.ad_prepara && `L'AD prepara: ${m.ad_prepara}`].filter(Boolean).join(" · ")} />
+                        <ParlaCasella idCasella={`mossa:${m.titolo}`} titolo={`Mossa: ${pulisciTitolo(testoPulito(m.titolo))}`} contesto={[m.come && `Come: ${m.come}`, m.quando && `Quando: ${m.quando}`, m.ad_prepara && `L'AD prepara: ${m.ad_prepara}`].filter(Boolean).join(" · ")} />
                       </div>
                     </div>
                   </div>
@@ -895,7 +896,7 @@ export default function Azioni() {
                     </button>
                   </div>
                 )}
-                <ParlaCasella titolo={`Proposta: ${pulisciTitolo(testoPulito(p.titolo))}`} contesto={p.motivo} />
+                <ParlaCasella idCasella={`proposta:${p.titolo}`} titolo={`Proposta: ${pulisciTitolo(testoPulito(p.titolo))}`} contesto={p.motivo} />
               </div>
             );
           })}
@@ -949,10 +950,10 @@ export default function Azioni() {
                     <div className="text-[13px] font-semibold text-ink/90">{rosso ? "🔴" : "🟡"} {pulisciTitolo(al.titolo)}</div>
                     <div className="text-[12px] text-black/60 mt-0.5">{al.perche}</div>
                     <div className="text-[12px] text-ink/80 mt-1">→ {al.cosaFare}</div>
-                    <button onClick={() => vaiAllAzione(al.titolo)} className="mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-brand hover:underline">
+                    <button onClick={() => vaiAllAzione(al.titolo)} className={classeComando("mt-2 inline-flex items-center gap-1 text-[12px] font-medium text-brand hover:underline")}>
                       <ArrowRight size={13} /> Vai all'azione da firmare
                     </button>
-                    <ParlaCasella titolo={`Sentinella: ${pulisciTitolo(testoPulito(al.titolo))}`} contesto={[al.perche, al.cosaFare && `Cosa fare: ${al.cosaFare}`].filter(Boolean).join(" · ")} />
+                    <ParlaCasella idCasella={`sentinella:${al.titolo}`} titolo={`Sentinella: ${pulisciTitolo(testoPulito(al.titolo))}`} contesto={[al.perche, al.cosaFare && `Cosa fare: ${al.cosaFare}`].filter(Boolean).join(" · ")} />
                   </div>
                 </div>
               </div>
@@ -980,7 +981,7 @@ export default function Azioni() {
                 <div className="min-w-0 flex-1">
                   <p className="text-[12.5px] text-ink/80 leading-snug">{descrizioneAvviso(av.testo)}</p>
                   <details className="mt-1.5">
-                    <summary className="text-[11px] text-ink/40 cursor-pointer select-none hover:text-ink/60 w-fit">Dettaglio tecnico</summary>
+                    <summary className={classeComandoSommario("text-[11px] text-ink/40 cursor-pointer select-none hover:text-ink/60 w-fit")}>Dettaglio tecnico</summary>
                     <div className="text-[11px] text-ink/50 leading-snug whitespace-pre-wrap mt-1">{testoPulito(av.testo)}</div>
                   </details>
                   <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-1">
@@ -990,6 +991,7 @@ export default function Azioni() {
                     </span>
                   </div>
                   <ParlaCasella
+                    idCasella={`avviso:${av.at || ""}|${(av.testo || "").split("\n")[0]}`}
                     titolo={`Avviso: ${(av.testo || "").split("\n")[0].slice(0, 60)}`}
                     contesto={contestoAvviso(av)}
                   />
@@ -1025,7 +1027,7 @@ export default function Azioni() {
             <div className="card border border-amber-200 bg-amber-50/50 p-3 flex items-start gap-2">
               <span className="text-[15px] leading-none mt-0.5">🔎</span>
               <p className="text-[13px] text-ink/85 flex-1">{avvisoSalto}</p>
-              <button onClick={() => setAvvisoSalto(null)} className="t-eti hover:text-brand transition shrink-0" aria-label="Chiudi l'avviso">
+              <button onClick={() => setAvvisoSalto(null)} className={classeComando("t-eti hover:text-brand transition shrink-0")} aria-label="Chiudi l'avviso">
                 ✕
               </button>
             </div>
@@ -1051,7 +1053,7 @@ export default function Azioni() {
                 {azioniVisibili(daFirmare, mostraTuttaCoda).map((a, i) => cardAzione(a, i))}
               </div>
               {quanteNascoste(daFirmare.length, mostraTuttaCoda) > 0 && (
-                <button onClick={() => setMostraTuttaCoda(true)} className="t-eti hover:text-brand transition pt-0.5">
+                <button onClick={() => setMostraTuttaCoda(true)} className={classeComando("t-eti hover:text-brand transition pt-0.5")}>
                   mostra le altre {quanteNascoste(daFirmare.length, mostraTuttaCoda)} da firmare
                 </button>
               )}
@@ -1081,7 +1083,7 @@ export default function Azioni() {
                 {azioniVisibili(ferme, mostraTutteFerme).map((a, i) => cardAzione(a, i))}
               </div>
               {quanteNascoste(ferme.length, mostraTutteFerme) > 0 && (
-                <button onClick={() => setMostraTutteFerme(true)} className="t-eti hover:text-brand transition pt-0.5">
+                <button onClick={() => setMostraTutteFerme(true)} className={classeComando("t-eti hover:text-brand transition pt-0.5")}>
                   mostra le altre {quanteNascoste(ferme.length, mostraTutteFerme)} ferme
                 </button>
               )}

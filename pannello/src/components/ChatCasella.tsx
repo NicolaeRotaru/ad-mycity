@@ -17,6 +17,7 @@ import { emitSync } from "@/lib/panel-sync";
 import { MSG_RISPOSTA_VUOTA } from "@/lib/parla";
 import { mergeThreadMsgs } from "@/lib/chat-thread-merge";
 import { fondiConservandoVivi } from "@/lib/stato-vivo";
+import { classeCampo } from "@/lib/tocco-bersaglio";
 
 const HEADERS = { "Content-Type": "application/json" };
 
@@ -316,7 +317,7 @@ export default function ChatCasella({
           onKeyDown={(e) => gestisciInvioChat(e, invia)}
           rows={2}
           placeholder={`Rispondi qui, resti nella stessa conversazione…  (${hintInvio})`}
-          className="input-soft w-full text-[12.5px] resize-y"
+          className={classeCampo("input-soft w-full text-[12.5px] resize-y")}
         />
       </div>
     </div>
