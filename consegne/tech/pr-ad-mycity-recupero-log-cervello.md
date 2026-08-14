@@ -30,7 +30,10 @@ e agenda, non logica di programma. E che nessun altro file è toccato.
   su `main`. Committati e pushati diretti, commit `bb619f2a6`, come da regola memoria-diretta.
 - Questa PR contiene SOLO l'aggiornamento di stato/log dei tre file `cervello/*.json` sopra.
   Nessuna modifica di logica o di script.
-- CI su questa PR: 2 controlli rossi. Verificati in locale con `node --test` su tutta
-  `cervello/test/`: 1577 test, solo 2 falliti, nessuno dei due legato ai file di questa PR
-  (`permessi-check.mjs` orfano nel registro motivi + `mappa-in-bacheca.test.mjs`). Rosso
-  ereditato da `main`, non causato da questa PR.
+- CI su questa PR (verificata di nuovo il 15/8 00:20): 1 controllo rosso, `cervello/test/mappa-in-bacheca.test.mjs`
+  ("oggi ogni pezzo misurabile ha la sua riga"). Causa: 65 skill del pacchetto marketing
+  (`ab-testing`, `ads`, `seo-audit`, …) non hanno ancora una riga di spiegazione nella bacheca —
+  un buco che c'era già prima di questo lavoro. Verificato con `git diff origin/main --stat`: questa
+  PR non tocca né `.claude/skills/` né `cervello/censimento-macchina.mjs`, quindi non può averlo
+  causato. Il verdetto automatico di `ci-stato.mjs` lo segna per errore come "colpa mia" — da
+  correggere lì, ma il guasto vero resta su `main`, non su questo ramo.
