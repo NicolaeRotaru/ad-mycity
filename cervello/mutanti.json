@@ -185,15 +185,6 @@
   },
   {
    "lotto": 31,
-   "difetto": "AR-317",
-   "nome": "il motore torna in primo piano e le trap restano in sospeso",
-   "file": "cervello/lib-cadenza.sh",
-   "cerca": "    \"${T[@]}\" \"${AI_CMD[@]}\" \"$prompt\" >\"$_tmp\" 2>&1 &\n    CADENZA_AI_PID=$!\n    wait \"$CADENZA_AI_PID\" || CADENZA_AI_RC=$?",
-   "sostituisci": "    \"${T[@]}\" \"${AI_CMD[@]}\" \"$prompt\" >\"$_tmp\" 2>&1 || CADENZA_AI_RC=$?",
-   "test": "cervello/test/lib-cadenza.test.mjs"
-  },
-  {
-   "lotto": 31,
    "difetto": "AR-163b",
    "nome": "le chiacchiere della cadenza tornano su stdout, dentro il codice d'uscita",
    "file": "cervello/lib-cadenza.sh",
@@ -2401,7 +2392,7 @@
   {
    "lotto": 37,
    "difetto": "AR-575",
-   "nome": "senza il timbro della data, le chiusure tornano orfane di mese: contabilita-chiusure.test.mjs deve diventare rosso",
+   "nome": "senza il timbro della data le chiusure tornano orfane di mese e il tasso di chiusura non le conta. Questa difesa stava su cervello/auto-fix.mjs finché il timbro viveva lì: da AR-655 la funzione unica e in contratto-scheda.mjs e auto-fix la importa, quindi la mutazione si e spostata con lei — non e sparita.",
    "file": "cervello/contratto-scheda.mjs",
    "cerca": "  d.chiuso_il = q;",
    "sostituisci": "  d.chiuso_il = \"\";",
@@ -3199,6 +3190,39 @@
    "cerca": "      stdio: [\"ignore\", \"pipe\", \"pipe\"],",
    "sostituisci": "      stdio: [\"ignore\", \"pipe\", \"inherit\"],",
    "test": "node cervello/test/errore-di-git-crudo-nel-verdetto.test.mjs"
+  },
+  {
+   "lotto": 31,
+   "difetto": "AR-317",
+   "nome": "il motore torna in primo piano e le trap restano in sospeso",
+   "file": "cervello/lib-cadenza.sh",
+   "cerca": "    \"${T[@]}\" \"${AI_CMD[@]}\" \"$prompt\" >\"$_tmp\" 2>&1 8>&- 9>&- &\n    CADENZA_AI_PID=$!\n    wait \"$CADENZA_AI_PID\" || CADENZA_AI_RC=$?",
+   "sostituisci": "    \"${T[@]}\" \"${AI_CMD[@]}\" \"$prompt\" >\"$_tmp\" 2>&1 || CADENZA_AI_RC=$?",
+   "test": "cervello/test/lib-cadenza.test.mjs"
+  },
+  {
+   "difetto": "AR-691 lucchetto-ereditato-blocca-tutto",
+   "nome": "il motore torna a ereditare il lucchetto: un figlio appeso ferma ogni cadenza per sempre, in silenzio",
+   "file": "cervello/lib-cadenza.sh",
+   "cerca": "2>&1 8>&- 9>&- &",
+   "sostituisci": "2>&1 &",
+   "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
+  },
+  {
+   "difetto": "AR-691 eta-del-lucchetto-persa",
+   "nome": "l'eta del lucchetto torna a leggersi DOPO l'apertura, che lo tronca: il verdetto non sa piu da quanto e bloccato",
+   "file": "cervello/lib-cadenza.sh",
+   "cerca": "[ -n \"$eta_min\" ] && [ \"$eta_min\" -ge 120 ]",
+   "sostituisci": "[ -n \"$eta_min\" ] && [ \"$eta_min\" -ge 999999 ]",
+   "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
+  },
+  {
+   "difetto": "AR-575",
+   "nome": "senza il timbro della data le chiusure tornano orfane di mese e il tasso di chiusura non le conta. Questa difesa stava su cervello/auto-fix.mjs finché il timbro viveva lì: da AR-655 la funzione unica e in contratto-scheda.mjs e auto-fix la importa, quindi la mutazione si e spostata con lei — non e sparita.",
+   "file": "cervello/contratto-scheda.mjs",
+   "cerca": "  d.chiuso_il = q;",
+   "sostituisci": "  d.chiuso_il = \"\";",
+   "test": "node cervello/test/contabilita-chiusure.test.mjs"
   }
  ]
 }
