@@ -16,6 +16,7 @@
 import { readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { cercaNeiBlocchi, pezziDiFile } from "./lettura-a-blocchi.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
 import { REGOLE_SEGRETI, campioneRedatto, provaRegole } from "./segreti-pattern.mjs";
 
@@ -37,8 +38,12 @@ const REGOLE = REGOLE_SEGRETI;
 const SKIP_EXT = /\.(png|jpe?g|gif|webp|ico|pdf|zip|gz|tar|mp4|mov|woff2?|ttf|otf|lock)$/i;
 
 /**
- * Oltre questo il file non viene letto (AR-427). Resta una soglia, ma smette di essere
- * un'esenzione: ciò che non si legge finisce fra i non raggiunti e il verdetto diventa «cieco».
+ * Oltre questo il file non si legge più tutto in una volta: si legge A BLOCCHI (AR-441).
+ *
+ * Prima era il tetto oltre il quale il file veniva saltato del tutto — dichiarandolo, dopo AR-427,
+ * ma comunque non letto. Adesso è solo il punto in cui cambia il MODO di leggerlo: sopra questa
+ * soglia si legge un pezzo per volta tenendo una coda, così la memoria resta piatta e nessun file
+ * esce dallo sguardo. La dimensione non è più né un'esenzione né una cecità.
  */
 const SOGLIA_TROPPO_GRANDE = 2_000_000;
 
@@ -127,14 +132,17 @@ function provaEEsci() {
  * @returns {{esito: "pulito"|"cieco"|"trovato", sintesi: string, codice: 0|1|2}}
  */
 /**
- * AR-427 — cosa farsene di un file, decidendolo su due numeri invece che dentro il ciclo.
+ * AR-427 → AR-441 — cosa farsene di un file, decidendolo su due numeri invece che dentro il ciclo.
  *
- * Il difetto era una riga: `if (!st.isFile() || st.size > 2_000_000) continue;`. Due casi diversi
- * incollati in un `continue` solo, e uno dei due è un difetto NOSTRO — un file che non abbiamo
- * aperto non è un file pulito, ma lo scanner continuava a dire «nessun segreto in N file». Non è
- * un caso limite in attesa: i JSON che la macchina genera crescono a ogni giro (cantiere-difetti e
- * auto-radiografia sono già oltre il mezzo mega), e il giorno in cui il primo supera il tetto la
- * difesa si spegne proprio sul file più grosso — cioè quello in cui c'è dentro più roba.
+ * Il difetto di partenza era una riga: `if (!st.isFile() || st.size > 2_000_000) continue;`. Due
+ * casi diversi incollati in un `continue` solo, e uno dei due è un difetto NOSTRO — un file che non
+ * abbiamo aperto non è un file pulito, ma lo scanner continuava a dire «nessun segreto in N file».
+ *
+ * AR-427 ha tolto la bugia (il file grosso finiva fra i non raggiunti, verdetto «cieco»). AR-441
+ * toglie anche la cecità: il file grosso adesso si LEGGE, a blocchi. Il conto che l'ha imposto,
+ * misurato il 13/8: `cantiere-difetti.json` è a 1,70 MB — l'85% del tetto — e cresce a ogni giro.
+ * Con la sola cecità, entro poche settimane il guardiano sarebbe diventato rosso fisso proprio sul
+ * file più pieno di roba, e un cancello che suona sempre lo si impara a saltare.
  *
  * PURA (regola ③): prende `{isFile, size}`, non uno `statSync`. Così la prova la esegue su un file
  * da 3 MB che non esiste, invece di doverne creare uno per scoprire cosa succede.
@@ -146,9 +154,23 @@ export function classificaPerDimensione(st, soglia = SOGLIA_TROPPO_GRANDE) {
   if (!eUnFile) return { azione: "ignora" };
   const size = Number(st.size);
   if (Number.isFinite(size) && size > soglia) {
-    return { azione: "non-letto", motivo: `${Math.round(size / 1000)} kB: oltre il tetto di lettura` };
+    return { azione: "leggi-a-blocchi", motivo: `${Math.round(size / 1000)} kB: si legge un pezzo per volta` };
   }
   return { azione: "leggi" };
+}
+
+/**
+ * Le regole passate su un testo già in mano. Una porta sola per tutti e due i modi di leggere —
+ * intero e a blocchi — così il file grosso non finisce su un percorso di codice meno provato di
+ * quello normale: è la stessa funzione, cambia solo da dove arrivano i pezzi.
+ */
+function trovaInPezzi(rel, pezzi) {
+  const esito = [];
+  for (const t of cercaNeiBlocchi(pezzi, REGOLE)) {
+    if (inDeroga(rel, t.regola)) continue; // AR-270: deroga esplicita, versionata e motivata
+    esito.push({ file: rel, regola: t.regola, campione: reda(t.valore) });
+  }
+  return esito;
 }
 
 export function verdetto({ letti = 0, nonRaggiunti = [], trovati = [] } = {}) {
@@ -160,10 +182,20 @@ export function verdetto({ letti = 0, nonRaggiunti = [], trovati = [] } = {}) {
     return {
       esito: "cieco",
       codice: 2,
-      // AR-427: «non sono riuscito ad aprire» era vero finché l'unica causa era il percorso
-      // illeggibile. Ora ci arriva anche il file saltato perché troppo grande — che non è un
-      // fallimento ma una scelta nostra, e proprio per questo va detta.
-      sintesi: `${nonRaggiunti.length} file elencati da git che NON ho letto (illeggibili o oltre il tetto di ${SOGLIA_TROPPO_GRANDE / 1_000_000} MB): su ${letti} letti non posso dire «pulito»`,
+      // AR-441: qui resta SOLO il file che non si è riusciti ad aprire davvero. Il file grosso non
+      // passa più di qui — si legge a blocchi — e per questo la frase non parla più di un tetto:
+      // dire «cieco» per una dimensione era il modo di suonare per sempre su un file che cresce.
+      //
+      // AR-427, la metà che stava per perdersi: la sintesi deve NOMINARE il motivo, perché «non ho
+      // letto» manda chi indaga a indovinare fra una porta rotta e una scelta nostra — due azioni
+      // diverse. Il motivo c'è già, scritto dentro ogni voce di `nonRaggiunti`: il difetto era che
+      // si fermava lì, e chi legge il verdetto vede solo la sintesi. Quindi si CITA il primo caso
+      // invece di cablare un motivo fisso — così la frase resta vera qualunque cosa impedisca la
+      // lettura domani, e non torna a parlare di un tetto che non esiste più.
+      sintesi:
+        `${nonRaggiunti.length} file elencati da git che NON sono riuscito ad aprire ` +
+        `(${nonRaggiunti[0]}${nonRaggiunti.length > 1 ? `, e altri ${nonRaggiunti.length - 1}` : ""}): ` +
+        `su ${letti} letti non posso dire «pulito»`,
     };
   }
   return { esito: "pulito", codice: 0, sintesi: `nessun segreto in ${letti} file versionabili` };
@@ -185,6 +217,10 @@ function main() {
   // NOSTRO: un percorso che git ci ha dato e che non riusciamo ad aprire significa che abbiamo letto
   // male l'elenco, non che il file è pulito.
   const nonRaggiunti = [];
+  // AR-441 — i file letti a blocchi si dichiarano. Non è un buco (sono letti eccome): è la
+  // trasparenza su COME li ho guardati, e il posto dove si vede crescere il problema vero, cioè i
+  // JSON generati che si gonfiano a ogni giro.
+  const aBlocchi = [];
   let letti = 0;
   for (const rel of files) {
     if (SKIP_EXT.test(rel)) continue;
@@ -198,27 +234,17 @@ function main() {
     }
     const c = classificaPerDimensione(st);
     if (c.azione === "ignora") continue; // una cartella non è un file saltato: niente da leggere
-    if (c.azione === "non-letto") {
-      nonRaggiunti.push(`${rel} (${c.motivo})`);
-      continue;
-    }
-    let testo;
     try {
-      testo = readFileSync(abs, "utf8");
+      if (c.azione === "leggi-a-blocchi") {
+        trovati.push(...trovaInPezzi(rel, pezziDiFile(abs)));
+        aBlocchi.push(`${rel} (${c.motivo})`);
+      } else {
+        trovati.push(...trovaInPezzi(rel, [readFileSync(abs, "utf8")]));
+      }
     } catch {
       continue; // binario/non-utf8: saltarlo è corretto, e non lo contiamo fra i letti
     }
     letti++;
-    for (const regola of REGOLE) {
-      regola.re.lastIndex = 0;
-      const m = testo.match(regola.re);
-      if (m && m.length) {
-        if (inDeroga(rel, regola.nome)) continue; // AR-270: deroga esplicita, versionata e motivata
-        for (const hit of m) {
-          trovati.push({ file: rel, regola: regola.nome, campione: reda(hit) });
-        }
-      }
-    }
   }
 
   const { esito, sintesi, codice } = verdetto({ letti, nonRaggiunti, trovati });
@@ -226,9 +252,12 @@ function main() {
   if (!REPO_FINTO) stampSegnale("scan-segreti", codice === 0 ? "ok" : "errore", `${sintesi} · ${quando}`).catch(() => {});
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ esito, quando, sintesi, trovati, letti, non_raggiunti: nonRaggiunti }, null, 2));
+    console.log(
+      JSON.stringify({ esito, quando, sintesi, trovati, letti, non_raggiunti: nonRaggiunti, letti_a_blocchi: aBlocchi }, null, 2),
+    );
   } else {
     console.log(`\n🔒 SCAN SEGRETI — ${quando}\n`);
+    if (aBlocchi.length) console.log(`   ${aBlocchi.length} file grossi letti a blocchi: ${aBlocchi.join(", ")}\n`);
     if (esito === "pulito") {
       console.log(`✅ ${sintesi}`);
     } else if (esito === "cieco") {

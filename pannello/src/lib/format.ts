@@ -76,6 +76,53 @@ export function vaultToIso(s: string): string {
   return `${y}-${mo}-${d}T${hh}:${mi}:00${offsetRoma(new Date(base))}`;
 }
 
+/**
+ * AR-414 — **QUANTO È VECCHIO QUESTO DATO**, calcolato una volta sola e per il fuso giusto.
+ *
+ * Tre rotte del Pannello scrivevano a mano `new Date(\`${y}-${mo}-${d}T${h}:${mi}:00+02:00\`)`. Erano
+ * nate d'estate, e `+02:00` è l'ora legale: da fine ottobre a fine marzo quel calcolo sbaglia di
+ * un'ora piena, sempre nella stessa direzione. **Misurato, non dedotto:** una data-vault del
+ * 15 gennaio alle 12:00 vale davvero le 11:00 UTC, ma letta con `+02:00` diventa le 10:00 UTC — cioè
+ * un istante più indietro, e il dato risulta **più VECCHIO di un'ora** di quanto sia. D'inverno le due
+ * soglie che stanno qui sotto scattano un'ora prima del dovuto: `scan_stale` (oltre 48 ore) e
+ * `dati_freschi` (sotto le 3). Un allarme che parte da solo vale un allarme ignorato.
+ *
+ * È la stessa malattia del badge — una superficie che dà un verdetto senza averlo misurato — solo
+ * girata nella direzione pessimista. E ne erano tre perché la terza copia era stata incollata dalla
+ * seconda, identica carattere per carattere.
+ *
+ * L'ora giusta si CALCOLA (`vaultToIso` interroga il fuso di Europe/Rome per quella data), non si
+ * scrive. Qui la conoscenza sta in una funzione sola: la quarta copia non ha più motivo di nascere,
+ * e la prova (`cervello/test/orologi-inchiodati-allora-legale.test.mjs`) chiude la porta a chi
+ * volesse riscriverla a mano.
+ *
+ * @param dataStr una data-vault ("AAAA-MM-GG" o "AAAA-MM-GG HH:MM", ora di parete di Piacenza) oppure
+ *   un ISO che porta già il suo fuso — in quel caso si rispetta il fuso che ha.
+ * @param adesso l'istante di riferimento in millisecondi. Esplicito perché l'età di un dato si possa
+ *   provare in gennaio e in luglio senza aspettare l'inverno.
+ * @param oraSeManca l'ora da usare quando la data non ne porta una: mezzogiorno, così l'errore
+ *   massimo è di mezza giornata in entrambe le direzioni invece di una intera in una sola.
+ * @returns le ore trascorse (frazionarie), oppure `null` se la stringa non è una data — mai 0, che
+ *   si leggerebbe come «appena aggiornato».
+ */
+export function oreDaDataVault(dataStr: unknown, adesso: number = Date.now(), oraSeManca = "12:00"): number | null {
+  const raw = String(dataStr ?? "").trim();
+  if (!raw) return null;
+  let iso: string;
+  if (senzaFuso(raw)) {
+    const m = raw.match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
+    if (!m) return null;
+    const [, y, mo, d, hh, mi] = m;
+    const [hDef = "12", miDef = "00"] = String(oraSeManca).split(":");
+    iso = vaultToIso(`${y}-${mo}-${d} ${hh ?? hDef}:${mi ?? miDef}`);
+  } else {
+    iso = raw;
+  }
+  const t = Date.parse(iso);
+  if (Number.isNaN(t)) return null;
+  return (adesso - t) / 3_600_000;
+}
+
 /** Giorno calendario in Europe/Rome (AAAA-MM-GG). */
 export function giornoRoma(d: Date = new Date()): string {
   return new Intl.DateTimeFormat("en-CA", { timeZone: TZ_ROMA }).format(d);

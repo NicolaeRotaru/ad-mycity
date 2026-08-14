@@ -165,3 +165,94 @@ export function semaforoDaLettura(
 ): "verde" | "giallo" | "rosso" | "grigio" {
   return l.stato === "letto" ? quandoLetto : "grigio";
 }
+
+// ── AR-415 — PERCHÉ non ho letto: la parte che si perdeva per strada ────────────────────────────
+//
+// `readVaultFile` tornava `string | null`, e quel `null` era il funerale di tre notizie diverse: «il
+// file non c'è», «GitHub è giù», «l'archivio ha passato il muro e non ho modo di prenderlo». A valle
+// diventavano tutte la stessa frase — «Nessuna radiografia nel vault», «Ancora nessuno storico» —
+// cioè **non è mai stato fatto**. La differenza fra «non l'ho trovato» e «non l'ho potuto leggere»
+// vale un lavoro intero: la prima chiede di lanciare il giro, la seconda di sistemare l'archivio.
+//
+// La riparazione di AR-254 aveva già inventato lo stato `troppo-grande`, ma aggiungendo una funzione
+// NUOVA accanto a quella malata (`readVaultFileEsito`): 26 rotte hanno continuato a chiamare la
+// vecchia e a ricevere `null`. È la lezione ⑤ della scheda — si ripara alla profondità del sintomo
+// osservato, e il resto del sistema continua a inciampare nella stessa pietra. Qui la decisione
+// («che cosa dico a Nicola davanti a questo esito») sta in UN posto, pura e provabile senza rete.
+
+/** Lo stato grezzo che il lettore del vault riporta insieme al testo. */
+export type EsitoGrezzo = { stato?: string; testo?: string | null; dettaglio?: string };
+
+/** Una lettura JSON con la sua ragione: `letto` dice se il buio è stato attraversato o no. */
+export type LetturaJson<T = unknown> = { dati: T | null; letto: boolean; motivo: string | null };
+
+/**
+ * La frase che spiega perché la lettura non porta un dato — in italiano, per Nicola.
+ *
+ * `null` **solo** quando non c'è niente da spiegare: il file è stato letto (`ok`) o è stato guardato
+ * e non c'era (`assente`). Sono i due casi in cui il Pannello sa davvero qualcosa.
+ *
+ * Su tutto il resto la frase c'è, e su uno stato mai visto **non tace**: dire «non so perché» è
+ * l'unica risposta onesta, e tacere qui vorrebbe dire far ricomparire a valle il pollice in su. È la
+ * stessa regola fail-closed del badge della coerenza (AR-646), applicata alla lettura invece che
+ * all'esito.
+ */
+export function motivoLettura(e: EsitoGrezzo | null | undefined): string | null {
+  const stato = String(e?.stato ?? "").trim();
+  const dettaglio = String(e?.dettaglio ?? "").trim();
+  const con = (frase: string) => (dettaglio ? `${frase} — ${dettaglio}` : frase);
+  switch (stato) {
+    case "ok":
+    case "assente":
+      return null;
+    case "troppo-grande":
+      return con("archivio troppo grande per essere letto");
+    case "auth":
+      return con("GitHub ha rifiutato l'accesso (token o permessi)");
+    case "github-giu":
+      return con("GitHub non raggiungibile");
+    default:
+      return con(`non so perché la lettura non è riuscita (stato «${stato || "vuoto"}»)`);
+  }
+}
+
+/**
+ * Da un esito di lettura al JSON, tenendo la ragione attaccata al dato.
+ *
+ * Tre uscite, non due:
+ *   · `{dati, letto: true}`         → c'è ed è valido
+ *   · `{dati: null, letto: true}`   → guardato, non c'era: **è un fatto**, si può dire «non ancora fatto»
+ *   · `{dati: null, letto: false, motivo}` → non l'ho potuto leggere: NON si può dire niente sul contenuto
+ *
+ * Il JSON malformato sta con i non-letti, non con gli assenti: un file che c'è e non si sa leggere
+ * non è un file che manca — è esattamente il modo in cui `apprendimento.json` è sparito per sempre.
+ */
+export function daEsitoJson<T = unknown>(e: EsitoGrezzo | null | undefined): LetturaJson<T> {
+  const stato = String(e?.stato ?? "").trim();
+  if (stato === "assente") return { dati: null, letto: true, motivo: null };
+  if (stato !== "ok" || e?.testo == null) return { dati: null, letto: false, motivo: motivoLettura(e) };
+  try {
+    return { dati: JSON.parse(String(e.testo)) as T, letto: true, motivo: null };
+  } catch (err: unknown) {
+    const perche = String((err as Error)?.message ?? err).slice(0, 120);
+    return { dati: null, letto: false, motivo: `archivio illeggibile: JSON non valido (${perche})` };
+  }
+}
+
+/**
+ * Il messaggio da mettere in una scheda vuota, che è il punto dove la bugia usciva a schermo.
+ *
+ * @param l l'esito della lettura.
+ * @param quandoAssente cosa dire quando il file davvero non c'è (di solito: «lancia il giro»).
+ */
+export function messaggioSenzaDato(
+  l: LetturaJson<unknown>,
+  quandoAssente: string,
+): { messaggio: string; letto: boolean; motivo: string | null } {
+  if (l.letto) return { messaggio: quandoAssente, letto: true, motivo: null };
+  return {
+    messaggio: `Non ho potuto leggere questo archivio, quindi non so dirti se il lavoro è stato fatto: ${l.motivo ?? "motivo sconosciuto"}.`,
+    letto: false,
+    motivo: l.motivo,
+  };
+}

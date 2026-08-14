@@ -30,6 +30,15 @@ import { chiusuraAmmessa, istanteNascita, patternTrovato } from "./prove-regole.
 import { chiusuraBloccata, formaProva, verdettoChiusura } from "./chiusura-dichiarata.mjs";
 import { FORMA_COMANDO_PROVA, MOTIVO_COMANDO_NON_AMMESSO, comandoAmmesso } from "./forma-prova.mjs";
 export { FORMA_COMANDO_PROVA, comandoAmmesso };
+// 📇 IL CONTRATTO DELLA SCHEDA (contratto-scheda.mjs) — il timbro di chiusura e il verdetto sulla
+// prova stanno lì, in una funzione pura che TUTTI possono importare. Vedi il commento su
+// `timbraChiusura`: era qui, e il secondo che chiude (l'allineatore delle radiografie) non poteva
+// chiamarlo senza trascinarsi dentro una chiamata a git — così se n'era scritta una versione sua.
+import { NON_MISURABILE, coperturaChiusi, timbraChiusura, verdettoProva } from "./contratto-scheda.mjs";
+// I chiamanti storici (e `contabilita-chiusure.test.mjs`) importano il timbro DA QUI: continuano a
+// funzionare. La definizione però è una sola — riesportare è come si sposta una regola senza
+// rompere chi la usa; lasciarne una copia sarebbe la malattia che stiamo curando.
+export { timbraChiusura };
 import { cambiatoDallaNascita, storiaDelRepo } from "./storia-git.mjs";
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
@@ -60,27 +69,6 @@ function readJson(path, fallback) {
 // copiaincollata in cinque file; ora è una sola, in cervello/scrivi-json.mjs.
 function writeJson(path, data) {
   scriviJsonAtomico(path, data);
-}
-
-/**
- * IL TIMBRO UNICO DI CHIUSURA (AR-575). Ogni strada che scrive `stato: "chiuso"` DEVE passare da
- * qui: 74 schede sono finite in archivio chiuse ma senza data, e il voto mensile (tasso-chiusura)
- * non le contava — il freno anti-ricerche ha strozzato la macchina su un contatore rotto (0,23
- * dichiarato, ~0,92 vero). La lezione è AR-172: il timbro sta vicino al DATO, una funzione sola,
- * non una copia per ogni comando — la porta a mano riparata e quella automatica lasciata aperta.
- * `quando` porta SEMPRE l'ora (regola dell'orario, "AAAA-MM-GG HH:MM", fuso di Piacenza): Nicola
- * deve poter sapere al minuto quando ogni scheda si è chiusa.
- */
-export function timbraChiusura(d, { come, quando } = {}) {
-  if (!d) throw new Error("timbraChiusura: nessuna scheda");
-  const q = quando || nowPiacenza();
-  if (!/^\d{4}-\d{2}-\d{2} \d{2}:\d{2}/.test(q)) {
-    throw new Error(`timbraChiusura: data di chiusura senza ora ("${q}") — serve "AAAA-MM-GG HH:MM"`);
-  }
-  d.stato = "chiuso";
-  d.chiuso_il = q;
-  if (come !== undefined) d.chiuso_come = come;
-  return d;
 }
 
 function ricalcolaMeta(cantiere) {
@@ -115,7 +103,30 @@ function ricalcolaMeta(cantiere) {
 export function eseguiProvaComando(comando, run = spawnSync) {
   const c = String(comando || "").trim();
   const m = FORMA_COMANDO_PROVA.exec(c);
-  if (!m) return { esito: "manuale", dettaglio: `comando non ammesso: "${c}" (${MOTIVO_COMANDO_NON_AMMESSO})` };
+  // AR-559 — QUI STAVA IL BUCO. Un comando fuori forma tornava `esito: "manuale"`, cioè la stessa
+  // parola con cui questo motore dice «questo difetto ha una verifica UMANA e non lo chiuderà mai
+  // un guardiano». Due cose oppostissime nello stesso cassetto: la prima è un metro rotto, la
+  // seconda è una scelta scritta. Risultato misurato il 13/8: 53 schede chiuse su una prova che
+  // nessuno ha mai eseguito — quasi tutte per tre caratteri di troppo (`node --test x` invece di
+  // `node x`), cioè comandi che FUNZIONEREBBERO. Ora il motore lo dice: `non-misurabile` è il
+  // codice 2 del contratto di casa, e non somiglia a un verde.
+  //
+  // ⚠️ PERCHÉ `esito` RESTA "manuale" E LA VERITÀ STA IN `codice`. La cura pulita sarebbe
+  // rinominare l'esito. Non si può da qui: `permessi-check.test.mjs` — il test che difende
+  // l'invariante di SICUREZZA «un difetto non può far girare codice arbitrario» — verifica il
+  // rifiuto confrontando proprio quella stringa, e quel file non è di questa corsia. Rinominarlo
+  // avrebbe fatto diventare rosso un test di sicurezza per una questione di etichetta: il rimedio
+  // sarebbe stato peggio del male. Quindi la distinzione diventa un CAMPO, che è anche più solido
+  // di una parola: chi decide legge `codice`, non l'etichetta. (La rinomina resta consigliata e
+  // sta nell'esito della corsia, con la riga esatta da cambiare.)
+  if (!m) {
+    return {
+      esito: "manuale",
+      codice: NON_MISURABILE,
+      misurato: false,
+      dettaglio: `comando non ammesso: "${c}" (${MOTIVO_COMANDO_NON_AMMESSO}) — NON HO POTUTO MISURARE: questa prova non è stata eseguita, quindi non dice né verde né rosso`,
+    };
+  }
   const argomenti = m[2] ? m[2].trim().split(/\s+/) : [];
   const r = run(process.execPath, [join(AD_ROOT, m[1]), ...argomenti], {
     cwd: AD_ROOT,
@@ -280,6 +291,9 @@ async function cmdVerifica(cantiere) {
   const daChiudere = [];
   const rifiutate = [];
   const dichiaratiAperti = [];
+  // AR-559 — le prove che il motore NON HA POTUTO ESEGUIRE. Prima finivano fra le «manuali» e
+  // sparivano: un metro che non misura una strada non la dichiara scoperta, dice verde.
+  const nonMisurate = [];
   for (const d of aperti) {
     const r = verificaFix(d);
     // ② LA GUARDIA DELLA CHIUSURA (AR-330): una prova soddisfatta non basta. Se fra la nascita del
@@ -296,14 +310,27 @@ async function cmdVerifica(cantiere) {
     // lo può ESEGUIRE.
     const vc = verdettoChiusura(d, r.esito);
     const bloccato = r.esito === "risolto" && !g.ammessa;
+    // AR-559 — la distinzione la fa il CODICE del contratto, non la parola `esito`: «manuale»
+    // significava tanto «l'ho lasciato a un umano» quanto «non l'ho saputo eseguire», ed è la
+    // confusione che ha lasciato chiudere 53 schede su una prova mai eseguita.
+    const cieca = r.codice === NON_MISURABILE;
     const icona = vc.bloccata
       ? "🔒 dichiarato aperto"
-      : bloccato ? "🛑 rifiutata" : r.esito === "risolto" ? (vc.debole ? "✅ risolto (prova debole)" : "✅ risolto") : r.esito === "manuale" ? "🖐️  manuale" : "⏳ aperto";
+      : bloccato ? "🛑 rifiutata" : r.esito === "risolto" ? (vc.debole ? "✅ risolto (prova debole)" : "✅ risolto") : cieca ? "⚠️  NON MISURATO" : r.esito === "manuale" ? "🖐️  manuale" : "⏳ aperto";
     console.log(`${icona}  ${d.id} — ${d.titolo}`);
     console.log(`        ${vc.bloccata ? vc.motivo : bloccato ? g.motivo : r.dettaglio}`);
     if (vc.bloccata) dichiaratiAperti.push({ d, motivo: vc.motivo });
     else if (r.esito === "risolto" && g.ammessa) daChiudere.push({ d, come: r.dettaglio, debole: vc.debole });
     else if (bloccato) rifiutate.push({ d, motivo: g.motivo });
+    else if (cieca) nonMisurate.push({ d, motivo: r.dettaglio });
+  }
+  if (nonMisurate.length) {
+    // Il terzo esito del contratto di casa, stampato come tale: 0 = passato · 1 = violazione ·
+    // 2 = NON HO POTUTO MISURARE. Senza questa riga il numero resta dentro le «manuali», dove
+    // somiglia a una scelta invece che a un metro rotto.
+    console.log(
+      `\n⚠️  ${nonMisurate.length} prova/e NON MISURATE (codice 2): il comando c'è ma il motore non lo sa eseguire. Non è un verde e non è un rosso — è una prova che non ha detto niente. Riscrivila nella forma \`node cervello/<script>.mjs [--flag]\`.`,
+    );
   }
   if (dichiaratiAperti.length) {
     console.log(
@@ -368,6 +395,20 @@ function cmdChiudi(cantiere) {
     console.error(`   Se la decisione è cambiata, togli \`chiusura: "bloccata"\` dalla scheda (o --forza, che resta scritto).`);
     process.exit(1);
   }
+  // AR-559 — LA PORTA A MANO È QUELLA DA CUI SONO PASSATE TUTTE E 53. Misurato il 13/8: ogni
+  // scheda del cantiere con un comando di prova che il motore non sa eseguire è CHIUSA, e nessuna
+  // è passata dalla porta automatica — che quel comando lo rifiuta. Cioè: questa porta chiudeva in
+  // silenzio esattamente ciò che l'altra si rifiutava di chiudere.
+  //
+  // Non la sbarro: un cancello sempre rosso viene aggirato al secondo giro, ed è la malattia che
+  // stiamo curando, non la cura. La chiusura resta possibile e diventa DICHIARATA — sulla scheda,
+  // dove un guardiano la ritrova, non in prosa dentro `chiuso_come` dove nessuno la cerca.
+  const vp = verdettoProva(d.verifica);
+  if (vp.codice === NON_MISURABILE) {
+    d.prova_non_misurata = vp.motivo;
+    console.error(`⚠️  ${id}: chiusa a mano su una prova che il motore NON sa eseguire — ${vp.motivo}`);
+    console.error(`   Resta scritto sulla scheda (\`prova_non_misurata\`) e nel conto di \`cantiere-prove.mjs --gate-prove\`: questa chiusura non è corroborata da nessuna esecuzione.`);
+  }
   // AR-575 — anche la porta A MANO passa dal timbro unico (lezione AR-172: mai due copie del timbro).
   timbraChiusura(d, { come: blocco.bloccata ? `${come} [FORZATA su una dichiarazione umana: ${blocco.motivo}]` : come });
   ricalcolaMeta(cantiere);
@@ -375,6 +416,56 @@ function cmdChiudi(cantiere) {
   writeJson(CANTIERE, cantiere);
   bumpSalute(1, `Auto-fix: chiuso ${id} — ${come}`);
   console.log(`✅ Chiuso ${id}. Cantiere: ${cantiere.meta.aperti} aperti · ${cantiere.meta.chiusi} chiusi.`);
+}
+
+/**
+ * AR-336 — CHI RIGUARDA UN DIFETTO CHIUSO? (comando `rivedi-chiusi`)
+ *
+ * `cmdVerifica` filtra `d.stato !== "chiuso"`: una volta chiuso, un difetto non viene MAI più
+ * verificato. Se la sua prova diventa rossa — qualcuno ha disfatto il fix senza accorgersene —
+ * nessuno lo scopre, perché nessuno guarda.
+ *
+ * PERCHÉ NON RIESEGUE TUTTO. I chiusi sono 372: rilanciarne le prove a ogni giro costerebbe minuti
+ * e nessuno lo terrebbe acceso. Ma non serve, e la misura lo dice: 215 di quelle prove sono file
+ * della suite, che `test-cervello` rilancia interi a ogni lotto — lì la rete c'è già. Il buco vero
+ * sono le prove ESEGUIBILI FUORI dalla suite, che oggi sono 12: quelle si rieseguono davvero.
+ * (La scheda del 28/7 ne contava 4. Rimisurate il 13/8: 12. Un numero si rimisura, non si ricorda.)
+ *
+ * PERCHÉ NON RIAPRE DA SOLO. Riaprire su una prova diventata rossa per altri motivi sarebbe
+ * peggio del buco: una prova può essere diventata vacua, o l'ambiente può mancare. Qui si SEGNALA
+ * — «chiuso, e la sua prova adesso è rossa» — e la decisione resta di chi guarda.
+ */
+function cmdRivediChiusi(cantiere) {
+  const cop = coperturaChiusi(cantiere.difetti || []);
+  console.log(`\n🔁 RIVEDO I DIFETTI CHIUSI — ${nowPiacenza()}\n`);
+  console.log(`   ${cop.suite.length} con la prova nella suite (test-cervello le rilancia a ogni lotto: la rete c'è)`);
+  console.log(`   ${cop.fuori_suite.length} con la prova ESEGUIBILE fuori dalla suite → le rieseguo ORA (è il buco vero)`);
+  console.log(`   ${cop.non_misurabili.length} chiuse su una prova che il motore NON sa eseguire (AR-559: niente da rieseguire)`);
+  console.log(`   ${cop.deboli.length} chiuse da una prova a pattern · ${cop.senza_prova.length} chiuse senza nessuna prova\n`);
+
+  const rosse = [];
+  for (const v of cop.fuori_suite) {
+    const r = eseguiProvaComando(v.comando);
+    const ic = r.esito === "risolto" ? "✅" : r.codice === NON_MISURABILE ? "⚠️ " : "❌";
+    console.log(`${ic} ${v.id} — ${v.comando}`);
+    console.log(`      ${r.dettaglio}`);
+    if (r.esito === "aperto") rosse.push({ id: v.id, comando: v.comando, dettaglio: r.dettaglio });
+  }
+  if (rosse.length) {
+    console.log(
+      `\n❌ ${rosse.length} difetto/i CHIUSI la cui prova adesso è ROSSA: ${rosse.map((x) => x.id).join(", ")}.`,
+    );
+    console.log(`   NON li riapro da solo (una prova può essere diventata vacua per conto suo): guardali e decidi.`);
+  } else if (cop.fuori_suite.length) {
+    console.log(`\n✅ Le ${cop.fuori_suite.length} prove rieseguibili fuori dalla suite reggono ancora.`);
+  }
+  // Ciò che NON ho potuto guardare, detto: è il codice 2 del contratto di casa, e senza questa
+  // riga un «✅ reggono ancora» sopra 12 prove sembrerebbe un verde su tutte e 372.
+  const cieche = cop.non_misurabili.length + cop.senza_prova.length;
+  console.log(
+    `\n⚠️  COPERTURA DICHIARATA: ho rieseguito ${cop.fuori_suite.length} prove su ${(cantiere.difetti || []).filter((d) => d.stato === "chiuso").length} difetti chiusi. Di ${cieche} non ho potuto misurare niente (nessuna prova eseguibile), e ${cop.suite.length} le copre la suite. Questo verde vale per ciò che ho eseguito, non per l'archivio.`,
+  );
+  return rosse;
 }
 
 function cmdReport(cantiere) {
@@ -401,8 +492,11 @@ async function main() {
     case "report":
       cmdReport(cantiere);
       break;
+    case "rivedi-chiusi":
+      cmdRivediChiusi(cantiere);
+      break;
     default:
-      console.error(`Comando sconosciuto: ${cmd}. Usa: verifica [--applica] | chiudi --id= | report`);
+      console.error(`Comando sconosciuto: ${cmd}. Usa: verifica [--applica] | chiudi --id= | report | rivedi-chiusi`);
       process.exit(2);
   }
   await stampSegnale("auto-fix", "ok", `${cantiere.meta?.chiusi ?? 0} chiusi · ${cantiere.meta?.aperti ?? 0} aperti · ${nowPiacenza()}`);

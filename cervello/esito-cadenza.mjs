@@ -29,6 +29,16 @@
 //
 // 🟢 Modulo PURO: nessun file, nessuna rete, nessun git, nessuna variabile d'ambiente letta dalle
 // funzioni. È l'unico modo perché un test le esegua davvero invece di cercare un pattern nel codice.
+//
+// AR-647 — la sesta copia della stessa malattia, trovata dopo: le due funzioni che misurano il
+// tempo (`giaFattaDiRecente`, `cadenzeStantie`) leggevano il timbro con
+// `Date.parse(quando.replace(" ","T"))`. Una data senza fuso, per lo standard, è ora LOCALE DEL
+// PROCESSO: sul portatile di casa (Europe/Rome) tornava l'istante giusto, sul VPS (UTC) tornava
+// un'ora avanti d'inverno e due d'estate — e sempre nella direzione che fa sembrare la cadenza più
+// FRESCA di quanto sia. Il fuso ora lo dà `msDaTimbro`, in un file suo: il timbro si scrive e si
+// rilegge con lo stesso orologio.
+
+import { msDaTimbro } from "./ora-piacenza.mjs";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // LE TRE CADENZE — l'elenco che AR-163 dice che non esiste
@@ -69,7 +79,9 @@ export function giaFattaDiRecente({ stato = {}, tipo = "", adessoMs = 0, cadenze
   const voce = stato?.cadenze?.[tipo];
   if (!voce?.quando) return { gia: false, motivo: "mai registrata" };
   if (Number(voce.codice) !== 0) return { gia: false, motivo: `l'ultima è finita male (${voce.esito}) — si può riprovare` };
-  const t = Date.parse(String(voce.quando).replace(" ", "T"));
+  // AR-647: il timbro è ora di Piacenza, non ora del server. Su un VPS in UTC il vecchio
+  // `Date.parse` lo faceva sembrare più recente, e la distanza minima fra due lanci si accorciava.
+  const t = msDaTimbro(voce.quando);
   if (!Number.isFinite(t)) return { gia: false, motivo: "data illeggibile" };
   const ore = (Number(adessoMs) - t) / 3_600_000;
   if (ore >= 0 && ore < gap) {
@@ -243,7 +255,10 @@ export function cadenzeStantie({ stato = {}, adessoMs = 0, cadenze = CADENZE } =
       stantie.push({ tipo, oreMax, ore: null, motivo: "mai registrata" });
       continue;
     }
-    const t = Date.parse(String(voce.quando).replace(" ", "T"));
+    // AR-647: stessa cura di sopra. Qui l'errore andava sempre nel verso peggiore — una cadenza
+    // ferma da 31 ore su un VPS in UTC d'estate ne dichiarava 29, sotto la soglia di 30: il
+    // guardiano nato per accorgersi di chi non si alza più taceva proprio sul primo caso vero.
+    const t = msDaTimbro(voce.quando);
     if (!Number.isFinite(t)) {
       stantie.push({ tipo, oreMax, ore: null, motivo: `data illeggibile (${voce.quando})` });
       continue;

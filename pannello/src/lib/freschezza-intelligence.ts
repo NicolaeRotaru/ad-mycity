@@ -9,6 +9,11 @@
 // REGOLA che conta, la soglia, non è duplicata: si deriva da cervello/radar-fonti.json, che
 // entrambi leggono. Se le cadenze cambiano lì, cambiano in tutti e due i posti insieme.
 
+// Estensione esplicita: questo modulo lo esegue ANCHE il cervello con Node
+// (cervello/test/orologi-inchiodati-allora-legale.test.mjs), e Node ESM pretende il percorso
+// completo. È lo stesso motivo per cui il tsconfig porta `allowImportingTsExtensions` (AR-232).
+import { vaultToIso } from "./format.ts";
+
 export const SOGLIA_GIORNALIERA = 2;
 export const SOGLIA_SETTIMANALE = 8;
 
@@ -41,10 +46,23 @@ export function dataDaIntestazione(testo: string): string | null {
   return null;
 }
 
+/**
+ * AR-414 — quanti giorni separano due date del vault.
+ *
+ * Qui c'era `+02:00` scritto a mano su entrambe le date. Sembrava innocuo perché il calcolo si fa a
+ * mezzogiorno, e un'ora di scarto non attraversa mai la mezzanotte. **Misurato invece che dedotto:**
+ * l'errore non è dentro una giornata, è sul CONFINE dell'ora legale. Se l'intervallo lo scavalca, le
+ * due date hanno offset veri diversi e il cablato ne perde uno — `Math.floor` lo trasforma in un
+ * giorno pieno. Dal 15 gennaio al 15 luglio il conto diceva 181 invece di 180; dal 1° al 31 marzo,
+ * 30 invece di 29. Una scheda risultava vecchia di un giorno più del vero, e la soglia di freschezza
+ * scattava un giorno prima del dovuto: un allarme che parte da solo è un allarme che si impara a
+ * ignorare. `vaultToIso` chiede a `Europe/Rome` l'offset di QUELLA data, quindi le due sponde del
+ * cambio d'ora restano ciascuna nel suo fuso.
+ */
 export function giorniFra(isoVecchia: string | null, isoOggi: string): number | null {
   if (!isoVecchia) return null;
-  const a = Date.parse(`${isoVecchia}T12:00:00+02:00`);
-  const b = Date.parse(`${isoOggi}T12:00:00+02:00`);
+  const a = Date.parse(vaultToIso(`${isoVecchia} 12:00`));
+  const b = Date.parse(vaultToIso(`${isoOggi} 12:00`));
   if (Number.isNaN(a) || Number.isNaN(b)) return null;
   return Math.floor((b - a) / 86_400_000);
 }

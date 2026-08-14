@@ -34,6 +34,7 @@
 
 import { readFileSync, readdirSync, statSync, existsSync, writeFileSync } from "node:fs";
 import { join, relative } from "node:path";
+import { timbroOra } from "./ora-piacenza.mjs";
 
 export const GLOSSARIO = "MyCity-Vault/90-Memoria-AI/GLOSSARIO.md";
 
@@ -1083,7 +1084,7 @@ function scansione(radice) {
     JSON.stringify(
       {
         _cosa_e: "Quanto è difficile leggere quello che scrivo a Nicola. Meno è, meglio è.",
-        misurato: new Date().toISOString().slice(0, 16).replace("T", " "),
+        misurato: timbroOra(),
         testi: righe.length,
         parole,
         problemi: tot,
@@ -1139,7 +1140,7 @@ function main() {
       JSON.stringify(
         {
           _cosa_e: "Le parole tecniche che compaiono nei testi di Nicola e non sono nel GLOSSARIO. La fila da smaltire.",
-          misurato: new Date().toISOString().slice(0, 16).replace("T", " "),
+          misurato: timbroOra(),
           testi_letti: file.length,
           parole_diverse: ord.length,
           fila: ord.slice(0, 100).map(([parola, volte]) => ({ parola, volte })),
@@ -1180,7 +1181,7 @@ function main() {
         // referto illeggibile: riparto pulito invece di perdere la misura di oggi
       }
     }
-    storia.sessioni.push({ quando: new Date().toISOString().slice(0, 16).replace("T", " "), ...r, ultime: undefined });
+    storia.sessioni.push({ quando: timbroOra(), ...r, ultime: undefined });
     storia.sessioni = storia.sessioni.slice(-60); // due mesi di storia bastano a vedere una tendenza
     const q = storia.sessioni.map((x) => x.quota).filter((x) => x != null);
     storia.media_ultime_5 = q.length ? Math.round(q.slice(-5).reduce((a, b) => a + b, 0) / Math.min(5, q.length)) : null;

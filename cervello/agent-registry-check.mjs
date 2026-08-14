@@ -19,8 +19,17 @@
 // Exit: 0 = nessun drift · 1 = drift presente (così può fare da gate in CI o nel giro)
 
 import { existsSync, readFileSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { execFileSync } from "node:child_process";
+import { join, basename } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import {
+  percorsiMorti,
+  canaliVersoPersone,
+  canaliSenzaOwner,
+  capifilaMuti,
+  separaDescription,
+} from "./mandato-owner.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 
@@ -153,7 +162,11 @@ function analizzaCollisioniDescription(descriptions) {
   const descNorm = new Map();
   for (const [nome, desc] of descriptions) {
     triggerPerAgente.set(nome, estraiFrasiTrigger(desc));
-    descNorm.set(nome, normalizzaFraseTrigger(desc));
+    // AR-130: il confronto guarda SOLO ciò che la scheda rivendica (mandato + domande). I blocchi di
+    // rimando «(→ tema = **vicino**)» nominano per forza il tema del vicino — è il loro mestiere — e
+    // contarli come collisione puniva proprio il deferral che risolve il doppione.
+    const { mandato, domande } = separaDescription(desc);
+    descNorm.set(nome, normalizzaFraseTrigger(`${mandato} ${domande}`));
   }
 
   const collisioniCoppie = [];
@@ -268,6 +281,48 @@ async function main() {
     }
   }
 
+  // 9. AR-349 — I PERCORSI SCRITTI DENTRO UN MANSIONARIO SONO CONFIGURAZIONE, NON PROSA.
+  //    Sette schede mandavano il senior a leggere `MyCity-Vault/02-Aree/Area - Consegna.md`: quella
+  //    cartella non esiste più (le Aree stanno sotto 04-Prodotto-Ops) e nessun controllo apriva i
+  //    percorsi citati, perché il mansionario era trattato come testo per il modello. L'elenco dei file
+  //    veri viene da `git ls-files` — misurato dal repo, non un recinto scritto a mano.
+  //    AR-339 — l'elenco si chiede alla PORTA (`percorsiDaGit`), non a git direttamente: la porta
+  //    mette il `-z`, quindi un nome con l'accento o con uno spazio non viene troncato a metà, e
+  //    cattura lo stderr invece di stamparlo crudo (AR-643). Chi la aggira si riporta dietro
+  //    entrambi i difetti — ed è successo proprio qui, in questo lotto.
+  let fileTracciati = [];
+  try {
+    fileTracciati = percorsiDaGit(["ls-files"], { cwd: AD_ROOT });
+  } catch {
+    fileTracciati = []; // fuori da un clone git: il controllo si limita ai percorsi assoluti dalla radice
+  }
+  const perBasename = new Map();
+  for (const f of fileTracciati) {
+    const b = basename(f);
+    if (!perBasename.has(b)) perBasename.set(b, []);
+    perBasename.get(b).push(f);
+  }
+  const risolviPercorso = (p) => {
+    if (existsSync(join(AD_ROOT, p))) return true;
+    if (!fileTracciati.length) return true; // niente indice = niente verdetto (meglio muto che bugiardo)
+    return (perBasename.get(basename(p)) || []).some((f) => f === p || f.endsWith("/" + p));
+  };
+  const percorsiRotti = percorsiMorti(
+    agentiReali.map((n) => ({ nome: n, testo: readFileSync(join(AGENTS_DIR, `${n}.md`), "utf8") })),
+    risolviPercorso
+  );
+
+  // 10. AR-188 / AR-585 — LA MATRICE LETTA DALL'ALTRO LATO. Il registro verificava che ogni AGENTE
+  //     avesse un mandato, mai che ogni CANALE verso clienti e negozianti avesse un agente: così la
+  //     consegnabilità della posta e il filo WhatsApp col negoziante non erano di nessuno, e il buco si
+  //     sarebbe visto il giorno del primo invio.
+  const canaliOrfani = canaliSenzaOwner(canaliVersoPersone(leggiTesto("cervello/azioni.md")), descriptions);
+
+  // 11. AR-130 — IL GENERALISTA MUTO. Se due o più specialisti rimandano a un senior, quel senior è un
+  //     capofila: deve dichiarare nella PROPRIA description dove finisce il suo confine, altrimenti chi
+  //     legge solo la sua scheda crede che faccia tutto e il lavoro si ferma dal generalista.
+  const generalistiMuti = capifilaMuti(agentiReali.map((n) => ({ nome: n, description: descriptions.get(n) })));
+
   const driftTotale =
     orfani.length +
     assentiDaAgentiMd.length +
@@ -275,7 +330,10 @@ async function main() {
     nCollisioni +
     senzaKpi.length +
     conteggiSbagliati.length +
-    nomi.problemi; // AR-619: un name incoerente rompe il routing anche con 120 file = 120 dichiarati
+    nomi.problemi + // AR-619: un name incoerente rompe il routing anche con 120 file = 120 dichiarati
+    percorsiRotti.length + // AR-349
+    canaliOrfani.length + // AR-188 / AR-585
+    generalistiMuti.length; // AR-130
 
   await stampSegnale(
     "agent-registry",
@@ -298,6 +356,9 @@ async function main() {
           senza_kpi_okr: senzaKpi,
           conteggi_sbagliati: conteggiSbagliati,
           nomi_frontmatter: nomi, // AR-619
+          percorsi_morti: percorsiRotti, // AR-349
+          canali_senza_owner: canaliOrfani, // AR-188 / AR-585
+          generalisti_muti: generalistiMuti, // AR-130
           drift_totale: driftTotale,
         },
         null,
@@ -364,6 +425,24 @@ async function main() {
         );
         for (const n of senzaKpi.slice(0, 20)) console.log(`  • ${n}`);
         if (senzaKpi.length > 20) console.log(`  … e altri ${senzaKpi.length - 20}`);
+      }
+
+      if (percorsiRotti.length) {
+        // AR-349: un percorso dentro un prompt è configurazione — se non si apre, il senior va a sbattere.
+        console.log(`\n🗺️  ${percorsiRotti.length} percorsi citati nei mansionari che non esistono:`);
+        for (const p of percorsiRotti) console.log(`  • ${p.agente}.md → ${p.percorso}`);
+      }
+
+      if (canaliOrfani.length) {
+        // AR-188 / AR-585: la copertura letta dal lato del mondo, non dell'organigramma.
+        console.log(`\n📮 ${canaliOrfani.length} canali verso clienti/negozianti senza nessun senior che li reclami:`);
+        for (const c of canaliOrfani) console.log(`  • ${c.canale} (nessuna description nomina "${c.chiave}")`);
+      }
+
+      if (generalistiMuti.length) {
+        // AR-130: il capofila che non dichiara il confine si tiene lavoro che è di uno specialista.
+        console.log(`\n🔇 ${generalistiMuti.length} capifila senza un solo deferral nella propria description:`);
+        for (const n of generalistiMuti) console.log(`  • ${n} (≥2 specialisti gli rimandano, lui non rimanda a nessuno)`);
       }
 
       if (nomi.problemi) {

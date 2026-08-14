@@ -1,13 +1,22 @@
 #!/usr/bin/env node
-// AR-027 — Guardiano "owner unico per keyword" (AR-008) sulle DESCRIPTION degli agenti.
-// 🟢 Sola lettura: NON scrive nel vault, NON fa git. Legge `.claude/agents/*.md`, estrae le
-// keyword di instradamento dalle description (la stringa che il Task-router usa davvero) e
-// FALLISCE se una keyword ha ≥2 owner SENZA un deferral esplicito ("→ ...").
+// AR-027 / AR-185 — Guardiano "un mandato, un solo padrone" (AR-008) sulle DESCRIPTION degli agenti.
+// 🟢 Sola lettura: NON scrive nel vault, NON fa git. Legge `.claude/agents/*.md`, estrae il mandato di
+// ogni scheda (la stringa su cui il Task-router instrada davvero) e FALLISCE quando due senior
+// rivendicano lo stesso mandato SENZA che nessuno dei due rimandi all'altro ("→ ...").
 //
 // Perché (AR-027): la deconfliction "un mandato = un owner" vive nel roster di CLAUDE.md ma NON
 // nelle description. Il router instrada sulle description, quindi keyword duplicate senza deferral
 // (es. marketing↔crm-lifecycle, trust-safety↔dispute) creano doppioni invisibili. Questo check
 // misura il drift a ogni giro, come agent-registry-check per il registro agenti.
+//
+// AR-185 — COSA È CAMBIATO E PERCHÉ. Fino a qui il guardiano leggeva SOLO l'elenco fra virgolette del
+// blocco «Delega qui per "…"» e buttava via il resto della scheda, cioè la frase in cui il mansionario
+// dichiara di cosa risponde: «Usa per …». Con quel taglio due senior potevano contendersi il carrello
+// abbandonato (crm-lifecycle ↔ cro) o l'inquadramento dei rider (public-policy ↔ consulente-lavoro) con
+// il guardiano verde. In più il conflitto veniva perdonato appena ESISTEVA un deferral qualsiasi su
+// quella keyword, scritto da chiunque (`deferrers.size === 0`): ora il rimando si valuta fra i DUE
+// agenti in causa. La logica che decide sta in `cervello/mandato-owner.mjs` (funzioni pure, provate sui
+// 120 file veri da cervello/test/mandato-senza-padrone.test.mjs); qui restano solo le mani.
 //
 // Uso:
 //   node cervello/keyword-owner-check.mjs           -> report leggibile
@@ -18,45 +27,10 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { analizzaMandati } from "./mandato-owner.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const AGENTS_DIR = join(AD_ROOT, ".claude/agents");
-
-// Estrae il valore del campo `description:` dal frontmatter YAML di un mansionario.
-function estraiDescription(testo) {
-  const m = testo.match(/^---\s*[\r\n]([\s\S]*?)[\r\n]---/);
-  const fm = m ? m[1] : testo;
-  const d = fm.match(/description:\s*([\s\S]*?)(?:[\r\n]\w[\w-]*:\s|$)/);
-  return d ? d[1].replace(/\s+/g, " ").trim() : "";
-}
-
-// Estrae le KEYWORD di instradamento (owning) da una description:
-// - prende i frammenti dopo "Delega qui per" (o l'intera description come fallback);
-// - RIMUOVE i blocchi-deferral tra parentesi che contengono la freccia "→" (quello è un rimando,
-//   non una rivendicazione di ownership — AR-027);
-// - normalizza e spezza su virgole/slash/virgolette.
-function estraiKeyword(desc) {
-  // 1. isola la parte "Delega qui per ..." se presente
-  const idx = desc.toLowerCase().indexOf("delega qui per");
-  let parte = idx >= 0 ? desc.slice(idx + "delega qui per".length) : desc;
-  // 2. togli i blocchi-deferral "(→ ...)" e le frecce (sono rimandi, non ownership)
-  parte = parte.replace(/\([^)]*→[^)]*\)/g, " ");
-  // 3. tieni solo il contenuto tra virgolette se c'è (è l'elenco keyword del router)
-  const q = parte.match(/[""«»"]([^""«»"]+)[""«»"]/g);
-  if (q) parte = q.map((s) => s.replace(/[""«»"]/g, "")).join(" / ");
-  // 4. spezza e normalizza
-  return parte
-    .split(/[\/,;]|\s-\s/)
-    .map((k) => k.toLowerCase().replace(/[?!.]+/g, "").replace(/\s+/g, " ").trim())
-    .filter((k) => k.length >= 4 && k.length <= 60 && /[a-zàèéìòù]/.test(k));
-}
-
-// Vero se la description contiene un deferral esplicito ("→ altro-agente") per quella keyword.
-function haDeferral(desc, keyword) {
-  // deferral generico presente nella description (blocco con freccia che cita la keyword)
-  const blocchi = desc.match(/\([^)]*→[^)]*\)/g) || [];
-  return blocchi.some((b) => b.toLowerCase().includes(keyword.split(" ")[0]));
-}
 
 function main() {
   const quando = nowPiacenza();
@@ -67,45 +41,49 @@ function main() {
   }
 
   const files = readdirSync(AGENTS_DIR).filter((f) => f.endsWith(".md"));
-  const mappa = new Map(); // keyword -> { owners:Set, deferrers:Set }
+  const schede = files.map((f) => ({
+    nome: f.replace(/\.md$/, ""),
+    testo: readFileSync(join(AGENTS_DIR, f), "utf8"),
+  }));
 
-  for (const f of files) {
-    const nome = f.replace(/\.md$/, "");
-    const desc = estraiDescription(readFileSync(join(AGENTS_DIR, f), "utf8"));
-    for (const kw of estraiKeyword(desc)) {
-      if (!mappa.has(kw)) mappa.set(kw, { owners: new Set(), deferrers: new Set() });
-      const rec = mappa.get(kw);
-      if (haDeferral(desc, kw)) rec.deferrers.add(nome);
-      else rec.owners.add(nome);
-    }
-  }
+  // AR-185: la logica che decide vive in mandato-owner.mjs (funzione pura), qui si legge e si stampa.
+  const esito = analizzaMandati(schede);
 
-  // Conflitto = una keyword con ≥2 owner e NESSUN deferral che la disambigui.
-  const conflitti = [];
-  for (const [kw, rec] of mappa) {
-    if (rec.owners.size >= 2 && rec.deferrers.size === 0) {
-      conflitti.push({ keyword: kw, owners: [...rec.owners].sort() });
-    }
-  }
-  conflitti.sort((a, b) => b.owners.length - a.owners.length || a.keyword.localeCompare(b.keyword));
+  // Una riga per tema conteso, coi due contendenti: la forma che il gate del giro e la Cabina leggono.
+  const conflitti = esito.conflitti.flatMap((c) =>
+    c.temi.map((t) => ({ keyword: t.tema, owners: [c.a, c.b], frase_a: t.frase_a, frase_b: t.frase_b }))
+  );
 
   const out = {
-    ok: conflitti.length === 0,
+    ok: conflitti.length === 0 && esito.senza_mandato.length === 0,
     quando,
     agenti: files.length,
-    keyword_totali: mappa.size,
+    frasi_mandato: esito.frasi_mandato, // se crollasse a zero, il verde sarebbe cecità e non salute
+    radici_specifiche: esito.radici_specifiche,
+    senza_mandato: esito.senza_mandato, // schede da cui non si estrae nessun mandato leggibile
     conflitti,
   };
 
   if (JSON_MODE) {
     console.log(JSON.stringify(out, null, 2));
   } else if (out.ok) {
-    console.log(`✅ keyword-owner: nessun conflitto (${mappa.size} keyword, ${files.length} agenti) — ${quando}`);
+    console.log(
+      `✅ mandato-owner: nessun doppione (${esito.frasi_mandato} frasi di mandato, ${files.length} agenti) — ${quando}`
+    );
   } else {
-    console.log(`❌ keyword-owner: ${conflitti.length} keyword con ≥2 owner senza deferral — ${quando}`);
-    for (const c of conflitti) console.log(`  · "${c.keyword}" → ${c.owners.join(", ")}`);
+    if (conflitti.length) {
+      console.log(`❌ mandato-owner: ${conflitti.length} mandati contesi senza deferral — ${quando}`);
+      for (const c of conflitti) {
+        console.log(`  · [${c.keyword}] ${c.owners.join(" ↔ ")}`);
+        console.log(`      «${c.frase_a}» ↔ «${c.frase_b}»`);
+      }
+    }
+    if (esito.senza_mandato.length) {
+      console.log(`⚠️  ${esito.senza_mandato.length} schede senza un mandato leggibile: ${esito.senza_mandato.join(", ")}`);
+    }
   }
   process.exit(out.ok ? 0 : 1);
 }
 
-main();
+// Il CLI parte solo se questo file è LANCIATO: un test che importa il modulo non deve far girare il gate.
+if (import.meta.url === `file://${process.argv[1]}`) main();

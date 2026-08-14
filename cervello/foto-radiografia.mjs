@@ -11,6 +11,7 @@
 
 import fs from "node:fs";
 import path from "node:path";
+import { timbroOra } from "./ora-piacenza.mjs";
 
 const RUN = process.argv[2];
 const SECCO = process.argv.includes("--secco");
@@ -115,7 +116,7 @@ console.log(`dimensioni ${dimensioni.length} · zone non viste ${zone.size}`);
 if (SECCO) { console.log("(prova a secco: non ho scritto niente)"); process.exit(0); }
 
 const vecchia = JSON.parse(fs.readFileSync(FOTO, "utf8"));
-const ora = new Date().toISOString().slice(0, 16).replace("T", " ");
+const ora = timbroOra();
 
 // La foto vecchia NON si butta: i suoi findings ancora aperti sono lavoro che
 // aspetta, e alcuni sono l'aggancio di mutazioni che proteggono fix già fatti.

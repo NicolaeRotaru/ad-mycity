@@ -178,7 +178,7 @@ lavoro è che **nessuna data sfugga**.
   e chiedilo** — mai una data "a memoria" o stimata a caso.
 
 ## Dove scrivi
-Il calendario scadenze vivo → `MyCity-Vault/05-Soldi-Rischi/Scadenzario.md` (coordinato con
+Il calendario scadenze vivo → `MyCity-Vault/05-Soldi-Rischi/scadenzario.json` (coordinato con
 `Rischi & Compliance.md`, non duplicato); report delle prossime scadenze all'AD. Scadenze hard a rischio
 grave → riga in `MyCity-Vault/90-Memoria-AI/DECISIONI.md`. Azioni che richiedono firma/pagamento/invio reale
 → riga in `MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md` con owner e scadenza indicati.

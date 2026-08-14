@@ -100,7 +100,7 @@ mantieni stile e CTA uniformi. Per qualità/coerenza chiedi sempre la revisione 
 - Dati veri dei prodotti/negozi → schede in `consegne/` e (sola lettura) **Supabase MCP** per nomi,
   prezzi, attributi catalogo. Mai inventare specifiche: usi solo i dati reali forniti.
 - **AI economiche del banco / WebSearch** → generazione e spunti, dentro il budget AI Lab.
-- Vault: `MyCity-Vault/03-Funzionalità/Scheda Prodotto.md`, `Gestione Catalogo e Listing.md`.
+- Vault: `MyCity-Vault/04-Prodotto-Ops/Funzionalità/Scheda Prodotto.md`, `MyCity-Vault/04-Prodotto-Ops/Funzionalità/Gestione Catalogo e Listing.md`.
 
 ## Regole 🟢🟡🔴
 - Generare bozze e lotti di testo (descrizioni, varianti, microcopy) usando le AI low-cost = 🟢.

@@ -50,9 +50,5 @@
    "perche": "Misura quante correzioni di Nicola sono diventate una regola, e sostituisce la voce 1 della pagella. Nessun processo lo esegue: la pagella continua a leggere il vecchio contatore. Buco vero, fuori dalla malattia di questa corsia."
   }
  },
- "verdetti_morti_dichiarati": {
-  "rc_one": {
-   "perche": "AR-394: in cervello/gate-pubblicazione.sh la variabile dell'onestà è inizializzata a 0, passata a gate_verdetto e mai riempita — quattro guardiani promessi, tre eseguiti. Toglierla, o assegnarla davvero, richiede di modificare gate-pubblicazione.sh, che è fuori dal territorio della corsia A del lotto 34. Resta qui come debito DICHIARATO e misurato — non nascosto — perché un verdetto morto nuovo faccia scattare il rosso mentre questo è in attesa della mano di chi può toccare quel file."
-  }
- }
+ "verdetti_morti_dichiarati": {}
 }

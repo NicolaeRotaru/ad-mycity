@@ -1,3 +1,12 @@
+// La radiografia della macchina su sé stessa.
+//
+// Cosa è cambiato qui (lotto corsia G — AR-434, AR-435): ogni dimensione dichiara il SENIOR che la
+// sa fare, e il suo prompt lo compone `cervello/prompt-senior.mjs` dal mansionario vero. Prima ogni
+// revisore era «il senior più esperto per la dimensione X» — una frase, non un mestiere: i 120
+// mansionari non arrivavano a chi lavorava. E la radice del repo era scritta a mano (vera qui, falsa
+// sul VPS): ora si risolve a runtime.
+import { promptSenior, radiceRepo } from '../../cervello/prompt-senior.mjs'
+
 export const meta = {
   name: 'auto-radiografia',
   description: 'Radiografia della MACCHINA stessa (il cervello dell\'AD MyCity): 12 dimensioni in sola lettura, ogni difetto verificato avversarialmente, + pre-mortem e benchmark vs i migliori',
@@ -52,41 +61,49 @@ const FINDINGS = {
 }
 
 // La macchina è QUESTO repo (il cervello dell'AD), non il marketplace. Sola lettura.
-const REPO = '/home/user/ad-mycity'
+const REPO = radiceRepo()
 
+// Ogni dimensione ha il senior che la sa fare: `senior` è il nome del file in .claude/agents/, e da
+// lì esce il prompt. Se un nome qui non esiste come mansionario, la porta si ferma e lo dice — è il
+// modo in cui una dimensione non può più finire in mano a un revisore generico senza che si veda.
 const DIMS = [
-  { key: 'coerenza-agenti', focus: 'coerenza dei 120 agenti in .claude/agents/: CONTA i file reali; buchi di copertura (capacità mancanti), doppioni/sovrapposizioni di mandato, description vaghe che sballano il routing, agenti orfani mai richiamati da CLAUDE.md/COMANDI.md, responsabilità in conflitto' },
-  { key: 'vettori-installati', focus: 'i vettori di MyCity-Vault/07-Agenti/ (VETTORI-MULTINAZIONALE, STAMPO-SENIOR-PRO, RUBRICA-LIVELLI) sono DAVVERO nei prompt degli agenti (loop interno, metro/rubrica, trappole, carburante) o solo descritti nei doc? quali senior sono a metà' },
-  { key: 'salute-sensori-dati', focus: 'sensori e dati: Supabase/Stripe/PostHog/Resend raggiungibili e usati? cervello/radar-fonti.json con fonti vive o morte/stale? quali sensori ciechi e da quanto? verifica davvero, non fidarti delle dichiarazioni' },
-  { key: 'integrita-memoria', focus: 'integrità del vault (MyCity-Vault/90-Memoria-AI e memoria-squadra): ridondanze, contraddizioni, file stale/morti, JSON divergenti dai contratti di cervello/auto-coscienza.md, KPI divergenti vs GLOSSARIO-KPI (una sola verità)' },
-  { key: 'chiusura-volano', focus: 'il loop di auto-coscienza chiude davvero? tasso_applicazione delle lezioni in apprendimento.json > 0; esperimenti di auto-miglioramento misurati o aperti all\'infinito; proposte mai validate; calibrazione aggiornata' },
-  { key: 'cadenza-esecuzione', focus: 'il giro gira ogni 2h (battito, ultimo-briefing.json fresco)? ritmo.md eseguito? worker.sh/giro.sh/autopilot.mjs coerenti e schedulabili? i passi del giro (auto-analisi/apprendimento/sonda) vengono saltati in silenzio?' },
-  { key: 'calibrazione-onesta', focus: 'previsto-vs-reale in calibrazione.json: i voti di fiducia/autonomia sono giustificati o gonfiati? over-confidence = voti alti senza punti ciechi dichiarati' },
-  { key: 'copertura-cieca', focus: 'META: cosa la macchina NON analizza e dovrebbe; aree dell\'azienda senza sensore/agente/sentinella/KPI; rischi noti senza owner; buchi della radiografia stessa. Dove manca un pezzo, segnalalo come genera:nuovo-pezzo (proposta di crearlo)' },
-  { key: 'guardrail-semaforo', focus: 'guardrail 🟢🟡🔴: 🔴 (soldi, messaggi a clienti reali, deploy, prezzi) che sfuggono senza firma o travestiti da 🟢; autopilot.mjs che tocca non-🟢; budget STOP reale; ONESTA-RULES applicate' },
-  { key: 'allineamento-northstar', focus: 'le mosse/azioni recenti spingono la North Star (ordini/negozi/margine) o si disperdono in attività a basso ritorno? coerenza cross-silo (AD-VETTORI-SISTEMA): vittorie di reparto che bruciano margine o intasano operations' },
-  { key: 'efficienza-costo', focus: 'spreco di token/Max: ricontrolli a cadenza sbagliata, rilanci inutili, prompt enormi, modello premium su compiti banali (vedi cervello/banco-ai.md); valore prodotto vs costo' },
-  { key: 'rischio-sicurezza-se', focus: 'la macchina può farsi male? segreti esposti in cervello/*.sh|*.mjs o nel vault; permessi .claude/settings.json troppo larghi; un giro che può corrompere la memoria (reset/force-push); loop auto-amplificanti; single point of failure del cervello' },
+  { key: 'coerenza-agenti', senior: 'people-talent', focus: 'coerenza dei 120 agenti in .claude/agents/: CONTA i file reali; buchi di copertura (capacità mancanti), doppioni/sovrapposizioni di mandato, description vaghe che sballano il routing, agenti orfani mai richiamati da CLAUDE.md/COMANDI.md, responsabilità in conflitto' },
+  { key: 'vettori-installati', senior: 'prompt-engineer', focus: 'i vettori di MyCity-Vault/07-Agenti/ (VETTORI-MULTINAZIONALE, STAMPO-SENIOR-PRO, RUBRICA-LIVELLI) sono DAVVERO nei prompt degli agenti (loop interno, metro/rubrica, trappole, carburante) o solo descritti nei doc? quali senior sono a metà' },
+  { key: 'salute-sensori-dati', senior: 'data-engineer', focus: 'sensori e dati: Supabase/Stripe/PostHog/Resend raggiungibili e usati? cervello/radar-fonti.json con fonti vive o morte/stale? quali sensori ciechi e da quanto? verifica davvero, non fidarti delle dichiarazioni' },
+  { key: 'integrita-memoria', senior: 'bi-lead', focus: 'integrità del vault (MyCity-Vault/90-Memoria-AI e memoria-squadra): ridondanze, contraddizioni, file stale/morti, JSON divergenti dai contratti di cervello/auto-coscienza.md, KPI divergenti vs GLOSSARIO-KPI (una sola verità)' },
+  { key: 'chiusura-volano', senior: 'chief-of-staff', focus: 'il loop di auto-coscienza chiude davvero? tasso_applicazione delle lezioni in apprendimento.json > 0; esperimenti di auto-miglioramento misurati o aperti all\'infinito; proposte mai validate; calibrazione aggiornata' },
+  { key: 'cadenza-esecuzione', senior: 'devops-sre', focus: 'il giro gira ogni 2h (battito, ultimo-briefing.json fresco)? ritmo.md eseguito? worker.sh/giro.sh/autopilot.mjs coerenti e schedulabili? i passi del giro (auto-analisi/apprendimento/sonda) vengono saltati in silenzio?' },
+  { key: 'calibrazione-onesta', senior: 'analista', focus: 'previsto-vs-reale in calibrazione.json: i voti di fiducia/autonomia sono giustificati o gonfiati? over-confidence = voti alti senza punti ciechi dichiarati' },
+  { key: 'copertura-cieca', senior: 'enterprise-risk', focus: 'META: cosa la macchina NON analizza e dovrebbe; aree dell\'azienda senza sensore/agente/sentinella/KPI; rischi noti senza owner; buchi della radiografia stessa. Dove manca un pezzo, segnalalo come genera:nuovo-pezzo (proposta di crearlo)' },
+  { key: 'guardrail-semaforo', senior: 'internal-audit', focus: 'guardrail 🟢🟡🔴: 🔴 (soldi, messaggi a clienti reali, deploy, prezzi) che sfuggono senza firma o travestiti da 🟢; autopilot.mjs che tocca non-🟢; budget STOP reale; ONESTA-RULES applicate' },
+  { key: 'allineamento-northstar', senior: 'corporate-strategy', focus: 'le mosse/azioni recenti spingono la North Star (ordini/negozi/margine) o si disperdono in attività a basso ritorno? coerenza cross-silo (AD-VETTORI-SISTEMA): vittorie di reparto che bruciano margine o intasano operations' },
+  { key: 'efficienza-costo', senior: 'prompt-engineer', focus: 'spreco di token/Max: ricontrolli a cadenza sbagliata, rilanci inutili, prompt enormi, modello premium su compiti banali (vedi cervello/banco-ai.md); valore prodotto vs costo' },
+  { key: 'rischio-sicurezza-se', senior: 'security', focus: 'la macchina può farsi male? segreti esposti in cervello/*.sh|*.mjs o nel vault; permessi .claude/settings.json troppo larghi; un giro che può corrompere la memoria (reset/force-push); loop auto-amplificanti; single point of failure del cervello' },
 ]
 
 phase('Auto-radiografia')
 const reviewed = await pipeline(
   DIMS,
   (d) => agent(
-    `Sei il senior più esperto del MyCity OS per la dimensione "${d.focus}".
-Analizza in SOLA LETTURA la MACCHINA stessa (il cervello dell'AD) nel repo \`${REPO}\` (usa Read/Grep/Glob).
+    promptSenior(d.senior, { radice: REPO, focus: `Radiografia della macchina, dimensione "${d.key}": ${d.focus}`, compito:
+    `Analizza in SOLA LETTURA la MACCHINA stessa (il cervello dell'AD) nel repo \`${REPO}\` (usa Read/Grep/Glob).
 ⛔ NON modificare nulla, nessun git, nessun file: è un audit di sé, in sola lettura.
 Cerca con accuratezza MILLIMETRICA i difetti STRUTTURALI REALI della tua dimensione: incoerenze, buchi, sprechi, rischi, processi che non chiudono.
 Per ognuno: titolo · dove (file:riga/componente) · severità (bloccante/grave/minore) · descrizione · impatto sulla macchina/azienda · CAUSA RADICE (i "5 perché" fino alla causa di sistema, non il sintomo) · fix del PROCESSO (resta 🟡 da firmare) · impatto_crescita (alto/medio/basso = quanto frena ordini/negozi/margine) · genera (lezione/auto-riscrittura/sentinella/nuovo-pezzo/domanda-nicola/solo-report).
 Dove ti accorgi che MANCA un pezzo (un sensore, un agente, una capacità, una sentinella), segnalalo con genera:nuovo-pezzo.
-Sii esaustiva ma concreta: SOLO difetti che vedi davvero nei file, niente teoria. Se non trovi nulla di reale, lista vuota.`,
+Sii esaustiva ma concreta: SOLO difetti che vedi davvero nei file, niente teoria. Se non trovi nulla di reale, lista vuota.` }),
     { label: `rivedi:${d.key}`, phase: 'Auto-radiografia', schema: FINDINGS }
   ),
+  // Chi trova non conferma: la verifica è del controllo interno, che ha il suo mestiere e il suo mansionario.
   (rev, d) => agent(
-    `Sei un VERIFICATORE avversariale e scettico della dimensione "${d.key}". Ecco i difetti segnalati su SÉ STESSA:
+    promptSenior('internal-audit', {
+      radice: REPO,
+      focus: `Verifica avversariale dei difetti che un collega dichiara di aver trovato nella dimensione "${d.key}".`,
+      compito: `Ecco i difetti segnalati sulla macchina stessa:
 ${JSON.stringify(rev?.findings || [], null, 2)}
 Per CIASCUNO, controllalo nei file reali in \`${REPO}\` (sola lettura) e TIENI SOLO quelli VERI: scarta i falsi positivi e ciò che non riesci a confermare. Correggi la severità e la causa_radice se sbagliate. In caso di dubbio, scarta.
 Restituisci {dimensione:"${d.key}", findings:[...solo quelli confermati...]}.`,
+    }),
     { label: `verifica:${d.key}`, phase: 'Verifica', schema: FINDINGS }
   )
 )
@@ -94,9 +111,10 @@ Restituisci {dimensione:"${d.key}", findings:[...solo quelli confermati...]}.`,
 // Pre-mortem: simula i disastri peggiori che la macchina potrebbe causare, e le difese da mettere PRIMA.
 phase('Pre-mortem')
 const preMortem = await agent(
-  `Sei il capo del rischio del MyCity OS. Fai un PRE-MORTEM della macchina (repo \`${REPO}\`, sola lettura).
+  promptSenior('enterprise-risk', { radice: REPO, focus: 'Pre-mortem della macchina: i disastri che l\'AD digitale potrebbe causare, e le difese da mettere PRIMA.', compito:
+  `Fai un PRE-MORTEM della macchina (repo \`${REPO}\`, sola lettura).
 Immagina che tra una settimana sia successo un disastro causato dall'AD digitale: messaggi sbagliati a clienti reali, soldi mossi per errore, memoria corrotta, un'azione 🔴 partita senza firma, un loop che brucia budget.
-Elenca i 3-6 disastri più PLAUSIBILI dato com'è fatta oggi la macchina, e per ognuno: probabilità (alta/media/bassa), come potrebbe accadere (dove nel sistema), e la DIFESA da mettere PRIMA (🟡, da firmare Nicola).`,
+Elenca i 3-6 disastri più PLAUSIBILI dato com'è fatta oggi la macchina, e per ognuno: probabilità (alta/media/bassa), come potrebbe accadere (dove nel sistema), e la DIFESA da mettere PRIMA (🟡, da firmare Nicola).` }),
   { label: 'pre-mortem', phase: 'Pre-mortem', schema: {
     type: 'object',
     properties: { scenari: { type: 'array', items: { type: 'object', properties: {
@@ -108,9 +126,10 @@ Elenca i 3-6 disastri più PLAUSIBILI dato com'è fatta oggi la macchina, e per 
 // Benchmark: come operano i MIGLIORI (locali + mondo) per ogni mestiere; il divario e come colmarlo.
 phase('Benchmark')
 const benchmark = await agent(
-  `Sei lo stratega del MyCity OS. Confronta come OPERA la macchina con i MIGLIORI, per i mestieri chiave dell'azienda (contenuti, prezzi, onboarding negozi, funnel/CRO, email/CRM, SEO, PR, consegne, cura clienti, e il modo stesso di gestire un'azienda in autonomia con agenti AI).
+  promptSenior('intelligence', { radice: REPO, focus: 'Benchmark: come operano i migliori, locali e mondiali, per ogni mestiere dell\'azienda — e dov\'è il nostro divario.', compito:
+  `Confronta come OPERA la macchina con i MIGLIORI, per i mestieri chiave dell'azienda (contenuti, prezzi, onboarding negozi, funnel/CRO, email/CRM, SEO, PR, consegne, cura clienti, e il modo stesso di gestire un'azienda in autonomia con agenti AI).
 Due livelli per ogni ambito: (a) i concorrenti LOCALI di Piacenza (Glovo, GDO con consegna, marketplace locali) e (b) il MEGLIO DEL MONDO per quel mestiere. Usa WebSearch/WebFetch dove serve; leggi anche MyCity-Vault/90-Memoria-AI/auto-coscienza/watchlist-riferimenti.json se presente.
-Per ogni ambito: come fanno i migliori (con 1-2 ESEMPI concreti: link/descrizione), il nostro divario (alto/medio/basso), un OBIETTIVO concreto per colmarlo, e il primo passo. Impara il principio, non copiare alla lettera. Mai sazia: dove siamo già bravi, chiediti "c'è un 10× qui?".`,
+Per ogni ambito: come fanno i migliori (con 1-2 ESEMPI concreti: link/descrizione), il nostro divario (alto/medio/basso), un OBIETTIVO concreto per colmarlo, e il primo passo. Impara il principio, non copiare alla lettera. Mai sazia: dove siamo già bravi, chiediti "c'è un 10× qui?".` }),
   { label: 'benchmark-vs-migliori', phase: 'Benchmark', schema: {
     type: 'object',
     properties: { ambiti: { type: 'array', items: { type: 'object', properties: {

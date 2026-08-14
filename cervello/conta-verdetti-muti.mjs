@@ -53,6 +53,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { CARTELLE_MEMORIA, CERCA_ESITO_IN_GIT } from "./cancello-stop.mjs";
+import { msDaTimbro, timbroOra } from "./ora-piacenza.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -165,9 +166,12 @@ export function cabinaFerma(statoAggiornato, ultimaConsegna) {
   // di un onesto «non l'ho potuto leggere»: un numero inventato con la faccia di una misura.
   const FORMA = /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/;
   if (!FORMA.test(String(statoAggiornato)) || !FORMA.test(String(ultimaConsegna))) return null;
-  const a = new Date(`${statoAggiornato.replace(" ", "T")}:00Z`);
-  const b = new Date(`${ultimaConsegna.replace(" ", "T")}:00Z`);
-  if (Number.isNaN(a.getTime()) || Number.isNaN(b.getTime())) return null;
+  // AR-648: i due timbri sono ora di PIACENZA, e appiccicargli una `Z` li dichiarava UTC. Fra due
+  // timbri della stessa stagione la differenza tornava lo stesso, ma nelle due notti del cambio
+  // d'ora no — e soprattutto è la forma che si copia: qui il fuso lo dà l'orologio di casa.
+  const a = msDaTimbro(statoAggiornato);
+  const b = msDaTimbro(ultimaConsegna);
+  if (!Number.isFinite(a) || !Number.isFinite(b)) return null;
   const giorni = Math.floor((b - a) / 86_400_000);
   return { stato_aggiornato: statoAggiornato, ultima_consegna: ultimaConsegna, giorni_indietro: Math.max(0, giorni) };
 }
@@ -379,7 +383,7 @@ function main() {
   const referto = {
     _cosa_e:
       "📮 Quante volte ho consegnato un lavoro il cui esito non è arrivato dove Nicola legge (AR-474). Il tetto SCENDE e non risale: aggiungerne uno è un errore, portarne via è il lavoro.",
-    misurato: new Date().toISOString().slice(0, 16).replace("T", " "),
+    misurato: timbroOra(),
     finestra_giorni: GIORNI,
     ...conto,
     esclusi_non_scrivibili: esclusiNonScrivibili,

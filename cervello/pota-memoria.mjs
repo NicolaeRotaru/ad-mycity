@@ -18,13 +18,16 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { NOTE_TENUTE, VOCI_TENUTE, integro, splittaCoda, splittaLog, splittaSnapshot } from "./archivio-memoria.mjs";
+import { mesePiacenza, timbroOra } from "./ora-piacenza.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = process.env.POTA_REPO || join(QUI, "..");
 const MEM = "MyCity-Vault/90-Memoria-AI";
 const APPLICA = process.argv.includes("--applica");
 
-const mese = (process.env.POTA_MESE || new Date().toISOString().slice(0, 7));
+// AR-648: il mese di PIACENZA. Con `toISOString()` la notte fra il 31 e il 1º, dalle 00:00 alle
+// 01:00 (o 02:00 d'estate), l'archivio del mese nuovo finiva dentro la cartella del mese vecchio.
+const mese = process.env.POTA_MESE || mesePiacenza();
 
 /** Cosa fare per ogni file: la forma del file decide il taglio, non un'unica regola per tutti. */
 const PIANO = [
@@ -92,7 +95,7 @@ function main() {
       const dest = join(REPO, MEM, relStorico);
       mkdirSync(dirname(dest), { recursive: true });
       const intestazione =
-        `---\ntipo: storico\nfonte: ${p.file}\npotato: ${new Date().toISOString().slice(0, 16).replace("T", " ")}\n---\n\n` +
+        `---\ntipo: storico\nfonte: ${p.file}\npotato: ${timbroOra()}\n---\n\n` +
         `> 📦 Storico di **${p.file}** (${mese}). Spostato qui da \`cervello/pota-memoria.mjs\` perché il file vivo\n` +
         `> viene riletto a ogni giro e spedito alla Cabina a ogni caricamento. **Niente è stato cancellato.**\n\n`;
       const gia = existsSync(dest) ? readFileSync(dest, "utf8") : "";

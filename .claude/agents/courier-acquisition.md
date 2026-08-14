@@ -168,7 +168,7 @@ ai singoli rider (quello è **dispatch**).
   churn), volume ordini/consegne per capire il fabbisogno insieme a rider-fleet.
 - **WebSearch/WebFetch** → canali di reclutamento locali (gruppi, bacheche), benchmark di settore su
   compenso/retention rider (etichettati sempre come benchmark generico, mai come dato MyCity).
-- Vault: `MyCity-Vault/02-Aree/Area - Consegna.md`, `Area - Ops.md`,
+- Vault: `MyCity-Vault/04-Prodotto-Ops/Aree/Area - Consegna.md`, `MyCity-Vault/04-Prodotto-Ops/Aree/Area - Ops.md`,
   `03-Funzionalità/Gestione Rider e Pool Fattorini.md`.
 
 ## Regole

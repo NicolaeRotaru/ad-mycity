@@ -16,6 +16,7 @@ import { emitSync, fetchBriefingVivo, usePanelSync } from "@/lib/panel-sync";
 import ParlaCasella from "@/components/ParlaCasella";
 import { contestoAvviso, descrizioneAvviso } from "@/lib/descrizione-avviso";
 import { azioniVisibili, cardAperta, idDaAncora, quanteNascoste, serveSrotolare } from "@/lib/coda-azioni";
+import { saltoAllAzione } from "@/lib/salto-azione";
 import {
   etichettaScelta,
   isPropostaSceltaAB,
@@ -97,11 +98,8 @@ function estraiPath(s: string): string | null {
   const m = (s || "").match(/(consegne|creativi)\/[A-Za-z0-9 _./-]+\.md/);
   return m ? m[0] : null;
 }
-// Parole-chiave significative di un titolo (per collegare una mossa/sentinella alla sua azione da firmare).
-const STOP = new Set(["firmare", "portare", "aprire", "fare", "della", "delle", "degli", "come", "questa", "questo", "subito", "entro", "prima", "anche", "nicola", "sblocca", "sbloccare", "azione", "azioni", "mossa", "live", "prepara", "gestisci"]);
-function chiavi(s: string): string[] {
-  return ((s || "").toLowerCase().match(/[a-zàèéìòù0-9]{4,}/g) || []).filter((w) => !STOP.has(w));
-}
+// (AR-612) Il collegamento mossa/sentinella → azione da firmare vive in lib/salto-azione.ts: era una
+// decisione sepolta qui dentro, dove nessun test poteva eseguirla — ed è invecchiata in silenzio.
 
 // Le righe del riquadro «In parole semplici» dentro ogni card della coda (fix #3):
 // il "cosa farà" e "come lo fa" ora sono SEMPRE visibili, non più nascosti in una tendina.
@@ -136,6 +134,9 @@ export default function Azioni() {
   const [scelteCard, setScelteCard] = useState<Record<string, boolean>>({});
   const [mostraTuttaCoda, setMostraTuttaCoda] = useState(false);
   const [mostraTutteFerme, setMostraTutteFerme] = useState(false);
+  // AR-612 — cosa dire quando «Vai all'azione da firmare» non trova niente da mostrare. Prima non si
+  // diceva nulla e il bottone sembrava rotto: si finiva su una lista qualunque senza capire perché.
+  const [avvisoSalto, setAvvisoSalto] = useState<string | null>(null);
   const [schede, setSchede] = useState<Record<string, SchedaDoc>>({});
   const [registro, setRegistro] = useState<Registro | null>(null);
   const [proposteGiro, setProposteGiro] = useState<Proposta[]>([]);
@@ -495,25 +496,34 @@ export default function Azioni() {
       setSchede((s) => ({ ...s, [id]: { loading: false, err: "Errore di rete" } }));
     }
   }
-  // Da una mossa/sentinella, trova l'azione da firmare collegata (match per parole chiave) e vacci.
+  // Da una mossa/sentinella, trova l'azione da firmare collegata e portaci Nicola davvero.
+  //
+  // AR-612 — la decisione (quale azione, se aprire la card, se srotolare la coda, cosa dire se non
+  // c'è) sta tutta in lib/salto-azione.ts, dove un test la esegue. Qui restano solo le mani. Prima
+  // questa funzione apriva lo stato sbagliato (`aperte`, che comanda il testo esatto, non la card) e
+  // non srotolava mai la lista: oltre la decima azione non c'era niente da scorrere e il bottone
+  // sembrava rotto. Il percorso gemello (EVENTO_VAI, sopra) faceva già le cose giuste.
   function vaiAllAzione(titolo: string) {
-    const k = chiavi(titolo);
-    let best: Azione | null = null;
-    let bestScore = 0;
-    for (const a of azioni) {
-      if (a.stato) continue;
-      const testo = `${a.titolo} ${a.perche}`.toLowerCase();
-      const score = k.reduce((n, w) => n + (testo.includes(w) ? 1 : 0), 0);
-      if (score > bestScore) { bestScore = score; best = a; }
-    }
-    setTab("approvare");
+    const salto = saltoAllAzione(titolo, azioniRef.current, mostraTuttaCoda);
+    setTab(salto.tab);
     // Timbra la voce di cronologia per la scheda (come i tab): così dopo "Vai all'azione da
     // firmare" il tasto INDIETRO torna alla scheda di prima, non a un'altra pagina. (bug #4)
-    vaiSub("azioni", "approvare");
-    if (best && bestScore > 0) {
-      const id = best.id;
-      setAperte((s) => new Set(s).add(id));
-      setTimeout(() => document.getElementById(`azione-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 60);
+    vaiSub("azioni", salto.tab);
+    setAvvisoSalto(salto.avviso);
+    if (salto.srotola) setMostraTuttaCoda(true);
+    if (salto.id) {
+      const id = salto.id;
+      if (salto.apri) {
+        setScelteCard((s) => ({ ...s, [id]: true })); // la card della coda: è questo lo stato che la apre
+        setAperte((s) => new Set(s).add(id)); // e il testo esatto dentro, come prima
+      }
+      // Se la lista è appena stata srotolata servono qualche decina di millisecondi in più: la card
+      // entra nel DOM col render successivo, e cercarla prima significa non trovarla (era metà del
+      // difetto: nessun errore, semplicemente non succedeva niente).
+      setTimeout(
+        () => document.getElementById(`azione-${id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }),
+        salto.srotola ? 160 : 60,
+      );
     }
   }
 
@@ -1006,6 +1016,18 @@ export default function Azioni() {
             <div className="card p-4 text-sm text-black/55">
               Niente da firmare adesso. 👍
               {ferme.length > 0 && <> Le <b>{ferme.length}</b> azioni già decise ma in attesa del canale sono nella finestra <b>In coda</b>.</>}
+            </div>
+          )}
+
+          {/* AR-612 — «Vai all'azione da firmare» che non trova niente lo DICE, invece di lasciare
+              Nicola su una lista qualunque a chiedersi se il bottone abbia funzionato. */}
+          {avvisoSalto && (
+            <div className="card border border-amber-200 bg-amber-50/50 p-3 flex items-start gap-2">
+              <span className="text-[15px] leading-none mt-0.5">🔎</span>
+              <p className="text-[13px] text-ink/85 flex-1">{avvisoSalto}</p>
+              <button onClick={() => setAvvisoSalto(null)} className="t-eti hover:text-brand transition shrink-0" aria-label="Chiudi l'avviso">
+                ✕
+              </button>
             </div>
           )}
 

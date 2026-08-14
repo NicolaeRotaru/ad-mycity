@@ -25,6 +25,7 @@
 import { readFileSync, writeFileSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { timbroOra } from "./ora-piacenza.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const RADICE = resolve(QUI, "..");
@@ -82,7 +83,7 @@ function calcola(datiIn, storiaPrecedenteIn) {
   const sano = !peggiorato && !sopraSoglia;
 
   const risultato = {
-    quando: new Date().toISOString().slice(0, 16).replace("T", " "),
+    quando: timbroOra(),
     totale_taggate: taggate.length,
     senza_gate: senzaGate.length,
     con_gate: taggate.length - senzaGate.length,
