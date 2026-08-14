@@ -3,8 +3,8 @@
 - **Repo:** NicolaeRotaru/ad-mycity
 - **Branch:** `fix/recupero-log-cervello-23-22` → `main`
 - **URL:** https://github.com/NicolaeRotaru/ad-mycity/pull/732
-- **Titolo:** leggibilità: correggi il conto CI stale nella PR recupero log cervello (verificato 00:20)
-- **Creato:** 2026-08-15 00:24 (Europe/Rome)
+- **Titolo:** coda: rimuovi la riga doppia di merge PR #732 (nata dal secondo aggiornamento della stessa PR)
+- **Creato:** 2026-08-15 00:26 (Europe/Rome)
 
 ## Merge
 🔴 **Non mergeare da solo.** Nicola approva dal Pannello → `node cervello/git-merge.mjs --repo ad-mycity --pr 732`
