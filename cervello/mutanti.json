@@ -3223,6 +3223,24 @@
    "cerca": "  d.chiuso_il = q;",
    "sostituisci": "  d.chiuso_il = \"\";",
    "test": "node cervello/test/contabilita-chiusure.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-142",
+   "nome": "il rilevatore smette di riconoscere il jolly su una cartella scrivibile: le 2 violazioni del jolly spariscono (9 -> 7) e il permesso largo torna invisibile",
+   "file": "cervello/permessi-check.mjs",
+   "cerca": "    vieta: /^Bash\\((?:node|bash|sh|python3?)\\s+[^):]*\\*[^):]*(?::|\\))/,",
+   "sostituisci": "    vieta: /^Bash\\(QUESTO-NON-ESISTE-MAI\\)/,",
+   "test": "node cervello/permessi-check.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-199",
+   "nome": "il guardiano del peso legge un tetto che non esiste e non trova piu nessun file oltre soglia: il difetto riaperto sparirebbe cambiando il metro invece della memoria",
+   "file": "cervello/peso-contesto.mjs",
+   "cerca": "const TETTI = process.env.PESO_TETTI || join(QUI, \"peso-contesto.json\");",
+   "sostituisci": "const TETTI = process.env.PESO_TETTI || join(QUI, \"peso-contesto-inesistente.json\");",
+   "test": "node cervello/peso-contesto.mjs"
   }
  ]
 }
