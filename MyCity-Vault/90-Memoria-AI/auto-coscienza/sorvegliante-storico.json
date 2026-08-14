@@ -1997,6 +1997,28 @@
         "prova-accecata": 4
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T00:18:46.296Z",
+      "scatti": 6458,
+      "voci": 18,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 13,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T00:26:07.195Z",
+      "scatti": 6488,
+      "voci": 19,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 14,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
     }
   ],
   "aggiornato": "2026-08-14T00:37:17.876Z"
