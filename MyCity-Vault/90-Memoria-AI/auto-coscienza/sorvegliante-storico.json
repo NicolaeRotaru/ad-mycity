@@ -2,16 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-10T06:22:59.662Z",
-      "scatti": 1651,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-10T06:30:09.860Z",
       "scatti": 1651,
       "voci": 7,
@@ -2072,7 +2062,97 @@
         "prova-accecata": 2
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T20:36:59.396Z",
+      "scatti": 7718,
+      "voci": 47,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 42,
+        "prova-accecata": 2
+      },
+      "mai_risolte": [
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «pannello/src/components/Bacheca.tsx», che è il codice su cui poggia la mutazione di AR-236",
+          "ripetuta": 38
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/retry-policy.mjs», che è il codice su cui poggia la mutazione di limite-settimanale-macchina-ferma",
+          "ripetuta": 38
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/worker.ps1», che è il codice su cui poggia la mutazione di AR-306",
+          "ripetuta": 38
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/git-github.mjs», che è il codice su cui poggia la mutazione di AR-328",
+          "ripetuta": 76
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/sincronizza-proposte.mjs», che è il codice su cui poggia la mutazione di AR-581",
+          "ripetuta": 38
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «pannello/src/lib/battito.ts», che è il codice su cui poggia la mutazione di AR-367",
+          "ripetuta": 38
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/fonte-numero.mjs», che è il codice su cui poggia la mutazione di AR-424",
+          "ripetuta": 38
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/letargo.mjs», che è il codice su cui poggia la mutazione di AR-589",
+          "ripetuta": 38
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «pannello/src/lib/ai-budget.ts», che è il codice su cui poggia la mutazione di AR-383",
+          "ripetuta": 38
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «pannello/src/components/BottoneFotoChat.tsx», che è il codice su cui poggia la mutazione di AR-402",
+          "ripetuta": 38
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/north-star-check.mjs», che è il codice su cui poggia la mutazione di AR-420",
+          "ripetuta": 38
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/allocazione-check.mjs», che è il codice su cui poggia la mutazione di AR-346d",
+          "ripetuta": 38
+        },
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «cervello/onesta-check.mjs», che è il codice su cui poggia la mutazione di AR-433",
+          "ripetuta": 38
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-08-14T20:08:41.093Z"
+  "aggiornato": "2026-08-14T20:36:59.398Z"
 }

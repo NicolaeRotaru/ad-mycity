@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-14 19:52** — Automatico: **69 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-14 22:23** — Automatico: **69 aperte · 8 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -1099,7 +1099,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-14 19:52)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-14 22:23)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-14-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1111,7 +1111,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-14 19:52 · 8 card totali
+> Ultima pulizia: 2026-08-14 22:23 · 8 card totali
 
 ### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 
@@ -1366,3 +1366,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 83 | 2026-08-14 06:39 | @tech | Finisci di riparare i test rossi: il primo tentativo ne ha lasciato un altro aperto sullo stesso ramo | 🟡 | https://github.com/NicolaeRotaru/ad-mycity/pull/722 — 2 controlli CI falliti (test del cervello, verdetti senza lettore), nessun esito lasciato nel quaderno di reparto (AR-009). Da riparare sullo stesso ramo `fix/recupero-sensori-mappa-macchina-13-8`, non un altro. | github | in attesa | Finché resta rossa, sale a 5 il numero di PR aperte e rosse, e le altre due PR sullo stesso tema (probabile duplicato) non si possono chiudere con sicurezza. | Dopo il fix la CI torna verde, e posso rileggere le PR duplicate per capire se vanno chiuse. |
 | 84 | 2026-08-14 11:17 | @tech | Salva in un ramo il lavoro sul cantiere rimasto solo sul disco | 🟡 | 34 file (20 modificati + 14 nuovi: `cervello/misura-o-cieco.mjs`, 7 test collegati, `pannello/src/lib/badge-coerenza.ts`) sono sul disco dalle 06:30 di oggi e mai committati — sembra un fix reale del cantiere (tema "misura vs cieco" + "badge di coerenza") interrotto prima di salvare. Segnalato per la prima volta alle 08:41, ancora invariato alle 11:17: nessuno lo ha ancora messo al sicuro. | manuale | ✅ CHIUSA 2026-08-14 20:05 — verificato: `cervello/misura-o-cieco.mjs` e `pannello/src/lib/badge-coerenza.ts` sono ora su `main`, puliti (`git status` non li mostra più), portati dalla PR #721 (commit `c583d5bbb`, "Quarantaquattro difetti riparati"), confermata ancestor di HEAD. Nessuna perdita. | Finché resta solo sul disco, un `git clean`/checkout accidentale lo cancella per sempre — 3-4 ore di lavoro di cantiere perse senza motivo. | Apro io la PR una volta che confermi cosa sono questi file (o li apro direttamente se il contenuto si spiega da solo). |
 | 85 | 2026-08-14 20:05 | @tech | Completa la mappa della macchina: sono arrivate 65 skill nuove senza la loro riga di descrizione | 🟡 | Il pacchetto di skill marketing/ingegneria arrivato l'11-13/8 ha portato altre 65 skill (`ab-testing`, `ads`, `copywriting`, `seo-audit`, `social`, …) oltre alle 67 già censite dalla PR #714. `cervello/censimento-macchina.mjs` (oggetto `DESCRIZIONI.skill`) non ha ancora la loro riga: `node --test cervello/test/mappa-in-bacheca.test.mjs` è rosso su questo esatto elenco (verificato dal vivo in questo giro, non dedotto). È uno dei 3 test rossi del cervello, diagnosticato ora con la causa esatta invece del generico "stesso debito noto". | github | in attesa | Finché mancano le righe, la bacheca "di cosa è fatta la macchina" che leggi tu mostra un pezzo su tre incompleto — e il test del cervello resta rosso su questo. | Dopo il fix (righe aggiunte, una frase per skill) il test torna verde e la mappa torna vera. |
+| 86 | 2026-08-14 22:39 | @tech | Rigenera il registro delle prove del cantiere: due difetti ancora aperti hanno perso il comando che li verifica | 🟡 | Il sorvegliante segnala da decine di giri che `cantiere-prove.json` ha perso righe che chiamavano `cervello/sentinella-dati.mjs` e `pannello/src/app/page.tsx`, fra le altre. Controllato riga per riga contro la fonte vera (`cantiere-difetti.json`, non il grep del sorvegliante): su 13 difetti coinvolti, **11 sono davvero chiusi** — la sparizione della loro prova è corretta, il file traccia solo i difetti aperti, falso allarme già confermato più volte oggi. Ma **2 sono ancora "aperto"** (AR-225 — tabella dei numeri fuori schermo su mobile; AR-346 — cancello condiviso rosso su main per una riga di censimento mancante): per questi due la sparizione della prova è un buco vero, non un falso allarme. Il file dirty predata questa sessione (già modificato all'apertura, prima di qualunque mio comando) e il suo generatore, `cervello/cantiere-prove.mjs`, è bloccato dall'allowlist di questa sessione headless — non l'ho potuto rilanciare per riparalo, né modificarlo a mano senza rischiare di introdurre un errore mio in un file auto-generato. | github | in attesa | Finché resta così, AR-225 e AR-346 restano difetti aperti ma invisibili al conteggio delle prove — la macchina non sa più come verificarli quando arriva il turno di ripararli. | Rilancia `node cervello/cantiere-prove.mjs` da un canale con permessi più larghi (VPS): rigenera il file dalla fonte vera e le due righe tornano. |
