@@ -24,7 +24,11 @@ import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 
-const require = createRequire("/opt/node22/lib/node_modules/");
+// Il percorso era scritto a mano — `/opt/node22/lib/node_modules/` — cioè la cartella di UNA
+// macchina sola: la mia. In CI non esiste, quindi Playwright non si trovava e la prova moriva
+// dicendo «rotto» quando il vero problema era «non ho potuto guardare». È la stessa forma di AR-329,
+// il percorso finto dato per buono. Adesso si parte da questo file e si lascia decidere a Node.
+const require = createRequire(import.meta.url);
 const QUI = dirname(fileURLToPath(import.meta.url));
 const RADICE = join(QUI, "..", "..");
 const PORTA = Number(process.env.PANNELLO_PORT || 3939);
@@ -35,6 +39,41 @@ const TELEFONO = { viewport: { width: 375, height: 812 }, isMobile: true, hasTou
 let server = null;
 let browser = null;
 
+/**
+ * C'è un browser da guidare, qui? In CI no: non c'è Playwright e non c'è il Pannello acceso.
+ *
+ * Lì la risposta onesta non è «rotto» — manderebbe a cercare un bug che non c'è — e nemmeno «a
+ * posto», che dichiarerebbe provato ciò che nessuno ha guardato. È **⚪ non l'ho potuto vedere**, e
+ * si dichiara uscendo con `1..0 # SKIP <perché>`, che il banco conta a parte e non come verde.
+ * Dove il browser c'è (questa macchina, il VPS) il test gira per intero e un fallimento resta ROSSO.
+ */
+function browserDisponibile() {
+  return Boolean(risolviPlaywright());
+}
+
+/**
+ * Playwright può stare in tre case diverse: accanto al repo, dentro il Pannello, o installato per
+ * tutta la macchina. Il percorso scritto a mano ne conosceva UNA — la terza, su questo contenitore —
+ * e cercare solo lì o solo nelle prime due dà lo stesso errore da lati opposti. Le si prova tutte.
+ */
+function risolviPlaywright() {
+  const case_ = [
+    import.meta.url,
+    join(RADICE, "pannello", "package.json"),
+    join(RADICE, "package.json"),
+    process.env.NODE_PATH || "",
+    "/opt/node22/lib/node_modules/",
+  ].filter(Boolean);
+  for (const dove of case_) {
+    try {
+      return createRequire(dove)("playwright");
+    } catch {
+      /* la casa dopo */
+    }
+  }
+  return null;
+}
+
 async function raggiungibile() {
   try {
     const r = await fetch(URL_BASE + "/", { signal: AbortSignal.timeout(4000) });
@@ -42,6 +81,14 @@ async function raggiungibile() {
   } catch {
     return false;
   }
+}
+
+// Prima di qualunque cosa: se non c'è niente da guidare, si dichiara e si esce. Va fatto QUI, prima
+// che `node:test` registri i casi — altrimenti il TAP contiene già dei test e il salto non si legge.
+if (!browserDisponibile()) {
+  console.log("TAP version 13");
+  console.log("1..0 # SKIP nessun Playwright su questa macchina: i tre difetti di schermo (AR-225 safe-area, AR-417 colonna fuori schermo, AR-244 link che atterra) NON sono stati verificati qui");
+  process.exit(0);
 }
 
 before(async () => {
@@ -59,7 +106,7 @@ before(async () => {
     }
     assert.ok(await raggiungibile(), `il Pannello non risponde su ${URL_BASE}: non posso guardare, quindi non posso dire che è a posto`);
   }
-  const { chromium } = require("playwright");
+  const { chromium } = risolviPlaywright();
   browser = await chromium.launch({ headless: true });
 });
 
