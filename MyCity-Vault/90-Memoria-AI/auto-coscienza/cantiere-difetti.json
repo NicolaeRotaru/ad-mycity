@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-14 22:05",
+  "aggiornato": "2026-08-15 00:30",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -3332,17 +3332,18 @@
       "causa_radice": "1) Perché la colonna resta fuori? Perché la tabella ha `min-w-[420px]` (page.tsx:3428) dentro un `overflow-x-auto` (page.tsx:3427). 2) Perché 420px? Perché serve a tenere leggibili quattro colonne affiancate. 3) Perché non si capisce che scorre? Perché non c'è nessuna indicazione visiva e su telefono la barra orizzontale non si disegna. 4) Perché non è stata pensata un'altra forma per lo schermo stretto? Perché la tabella a 4 colonne viene dal formato desktop ed è stata solo resa scorrevole, non ripensata. 5) RADICE: manca una variante «una scheda per KPI» per lo schermo stretto — la tabella è l'unico formato previsto, quindi sul telefono il dato c'è ma non si vede.",
       "fix_proposto": "🟡 @frontend-dev. In `pannello/src/app/page.tsx:3418-3470` aggiungere una variante mobile: sotto `sm` una lista a schede (per ogni KPI: icona + nome per esteso su una riga, e sotto i tre valori Oggi/7g/30g in `grid grid-cols-3` con l'etichetta piccola sopra ognuno), tenendo la tabella da `sm:` in su. Alternativa minima se si vuole spendere poco: togliere `truncate` dal nome del KPI (riga 3456) e aggiungere una sfumatura sul bordo destro del contenitore per far capire che si scorre di lato.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
         "comando": "node cervello/test/c2-schermo.test.mjs"
       },
       "nota": "Dove: pannello/src/app/page.tsx:3427-3434 (tabella) · pannello/src/app/page.tsx:3456 (nome KPI troncato) · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-08-15 00:30",
+      "chiuso_come": "node cervello/test/c2-schermo.test.mjs → exit 0 (guardiano soddisfatto)",
       "nato_come": "scoperta",
-      "nota_fix": "[lotto 41] La tabella dei numeri ha quattro colonne e una larghezza minima di 420 punti: su un telefono da 375 la colonna «30 giorni» finiva fuori, dentro uno scorrimento laterale che sul telefono non si vede nemmeno (la barra non si disegna). Il dato c'era e non si vedeva. Sotto la soglia «tablet» ora c'è una scheda per KPI — nome per esteso (niente più troncato) e sotto i tre valori Oggi / 7 giorni / 30 giorni affiancati con la loro etichetta; da tablet in su resta la tabella di sempre. LA CURA È DI SOLA FORMA (CSS/struttura): non c'è nessuna decisione da mettere in una funzione pura, quindi — come chiede la corsia — la prova è a runtime e non un test finto. Guidato Chromium a 375 punti: l'etichetta «30 giorni» sta dentro lo schermo, la pagina non sborda di lato, e la tabella a quattro colonne non è quella che si vede sul telefono."
+      "nota_fix": "[lotto 41] La tabella dei numeri ha quattro colonne e una larghezza minima di 420 punti: su un telefono da 375 la colonna «30 giorni» finiva fuori, dentro uno scorrimento laterale che sul telefono non si vede nemmeno (la barra non si disegna). Il dato c'era e non si vedeva. Sotto la soglia «tablet» ora c'è una scheda per KPI — nome per esteso (niente più troncato) e sotto i tre valori Oggi / 7 giorni / 30 giorni affiancati con la loro etichetta; da tablet in su resta la tabella di sempre. LA CURA È DI SOLA FORMA (CSS/struttura): non c'è nessuna decisione da mettere in una funzione pura, quindi — come chiede la corsia — la prova è a runtime e non un test finto. Guidato Chromium a 375 punti: l'etichetta «30 giorni» sta dentro lo schermo, la pagina non sborda di lato, e la tabella a quattro colonne non è quella che si vede sul telefono.",
+      "corroborata": true
     },
     {
       "id": "AR-226",
@@ -14365,8 +14366,8 @@
     }
   ],
   "meta": {
-    "aperti": 157,
+    "aperti": 156,
     "in_corso": 0,
-    "chiusi": 473
+    "chiusi": 474
   }
 }
