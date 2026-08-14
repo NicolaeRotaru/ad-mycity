@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-14 11:37",
+  "aggiornato": "2026-08-14 19:38",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -1586,7 +1586,7 @@
       "causa_radice": ".claude/settings.local.json/.claude/settings.json si sono accumulati permessi ad-hoc nel tempo (sbloccare lavori specifici) senza revisione periodica che li restringa; nessun guardiano confronta i permessi effettivi con la regola d'oro CLAUDE.md ('solo PR, mai merge diretto su main').",
       "fix_proposto": "🟡 restringere: niente git push origin main diretto (solo branch fix/memoria-*), niente git merge:* generico, Write con path espliciti invece di senza restrizioni, curl limitato a domini noti, rimuovere node /tmp/*.mjs:*.",
       "colore": "🔴",
-      "stato": "chiuso",
+      "stato": "aperto",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione rischio-sicurezza-se)",
       "verifica": {
@@ -1595,7 +1595,11 @@
       "nota_round4": "Round 4 (corretto due volte). ① La prima diagnosi diceva «4 su 5 già stretti»: sbagliata, misurata nella sessione cloud dove settings.local.json non esiste. Sul VPS quel file ha 33 allow e 0 deny e contiene TUTTI i permessi contestati (11 violazioni totali). ② La prima correzione usava file+pattern su settings.local.json: sbagliata anche quella, perché `git push` compare sia fra i permessi sia fra i divieti e una regex sul testo grezzo non li distingue — un file configurato bene sarebbe risultato sporco. ③ Ora la prova è il guardiano stesso: si chiude quando `permessi-check.mjs` esce 0, cioè quando NON c'è più nessuna violazione in nessuno dei due file, divieti mancanti compresi. È l'unica formulazione che dice la verità. ④ 25/7 04:30 — anche le 11 violazioni erano sbagliate, e il guardiano stava per far togliere a Nicola permessi innocui. I permessi dei due file SI SOMMANO e il DENY VINCE SEMPRE: cercare i divieti file per file inventava «divieti mancanti» che erano scritti nell'altro file, e un permesso già coperto da un divieto veniva contato come pericolo mentre non concede nulla. Corretto: il controllo guarda i file insieme e separa le violazioni vere dai permessi INERTI. Il conteggio vero lo ridà il guardiano sul VPS.",
       "chiuso_il": "2026-07-25 05:03",
       "chiuso_come": "node cervello/permessi-check.mjs → exit 0 (guardiano soddisfatto)",
-      "nato_come": "scoperta"
+      "nato_come": "regressione",
+      "nota_fix": "RIAPERTO il 2026-08-14 (lotto 40). La prova sulla scheda — `node cervello/permessi-check.mjs` — e' ROSSA adesso: exit 1, 4 violazioni. Non e' un metro da riallineare, e' il difetto tornato. Le quattro: due permessi col jolly su cartelle che la macchina stessa puo' SCRIVERE (`Bash(node cervello/*.mjs:*)` e `Bash(bash cervello/*.sh:*)` in .claude/settings.json) — cioe' il permesso non e' su un elenco di programmi ma su «qualunque programma io decida di scrivere li' dentro», e i freni vivono DENTRO i singoli script: col jolly si arriva al risultato senza passare dallo script che contiene il freno. Piu' il divieto mancante su `git push`. Come e' passato inosservato: la scheda era chiusa e nessuno riesegue le prove dei chiusi — e' AR-336, ed e' per questo che quel difetto conta.",
+      "nato_da": "chiuso in un lotto precedente e mai piu' riverificato (AR-336): la prova era gia' comportamentale, ma nessun processo riesegue le prove dei difetti CHIUSI",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e' «un difetto CHIUSO torna e nessuno se ne accorge, perche' nessun processo riesegue le prove dei chiusi». Non e' cercabile con un pattern nel testo: non c'e' una riga sbagliata da trovare: il codice del difetto e' tornato altrove, e cio' che manca e' un CONTROLLO RIPETUTO nel tempo. La copre AR-336, aperto e nominato apposta («un difetto chiuso non viene mai piu' riguardato, e settantaquattro hanno una prova che si potrebbe rieseguire»), piu' il comando `rivedi-chiusi` che la corsia H ha costruito in questo lotto: e' stato lui a trovarli."
     },
     {
       "id": "AR-143",
@@ -2770,7 +2774,7 @@
       "causa_radice": "① Perché il giro carica 109.000 token di memoria? Perché STATO.md è un unico file da 437 KB. ② Perché è così grande? Perché ogni chat vi appende una nota e nessuno le toglie. ③ Perché nessuno le toglie? Perché la regola «la storia non si riscrive» (append-only di DECISIONI/SALA/Briefing) è stata applicata anche a un file nato come snapshot. ④ Perché la confusione non è stata corretta? Perché nessun guardiano misura il PESO dei file che entrano nel contesto: vault-sanita.mjs controlla che siano leggibili, non che siano sostenibili. ⑤ Causa di sistema: la macchina ha un contratto sul CONTENUTO della memoria e nessuno sul suo COSTO — la dimensione del contesto non è di nessuno.",
       "fix_proposto": "🟡 (a) Rimettere STATO.md nella sua natura: snapshot corrente ≤ 200 righe (7 numeri + ultime 5 note + Gap); il resto migra in MyCity-Vault/90-Memoria-AI/Storico/STATO-AAAA-MM.md, che nessun giro legge ma resta consultabile. Stesso trattamento per AZIONI-IN-ATTESA (housekeeping-azioni.mjs esiste già: alzarne l'aggressività) e SALA-OPERATIVA. (b) Nuovo pezzo: un guardiano `cervello/peso-contesto.mjs` che a ogni giro misura i byte dei file vivi che entrano nel contesto e FALLISCE oltre una soglia dichiarata — così il costo del contesto diventa un numero sorvegliato invece di una curva silenziosa.",
       "colore": "🟡",
-      "stato": "chiuso",
+      "stato": "aperto",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -2779,7 +2783,11 @@
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/STATO.md (437.764 byte, 1.302 righe, ~109.000 token) · AZIONI-IN-ATTESA.md (303.680 byte) · SALA-OPERATIVA.md (257.871 byte) · DECISIONI.md (461.188 byte) · cervello/giro.md:17 (dichiara STATO.md uno «snapshot»), :85 (il giro aggiorna i 7 numeri in STATO.md), :129 (registra le mosse in SALA-OPERATIVA) · Impatto: È la voce di contesto più pesante di ogni giro pieno (2 oggi) e di ogni cadenza, e l'unica che cresce senza che nessuno decida di farla crescere. Con il lavoro operativo in pausa fino a fine agosto, la macchina rilegge ogni giorno 15 giorni di conversazioni per aggiornare 7 numeri che non cambiano (ordini fermi a 1 dal 24/6, vedi delta-gate.json). Un mese così e STATO.md supera i 900 KB: il file non entrerà più in una lettura sola e il giro comincerà a leggerlo a pezzi, cioè a spendere di più per vederne meno. · LOTTO 27 (28/7 sera): gli STRUMENTI ci sono e sono provati (cervello/archivio-memoria.mjs + pota-memoria.mjs + peso-contesto.mjs, prova node cervello/test/il-costo-della-memoria.test.mjs, 15 casi). La prova di CHIUSURA e volutamente il guardiano: resta ROSSA finche la potatura non e stata applicata su main (node cervello/pota-memoria.mjs --applica), perche i tetti sono l OBIETTIVO post-potatura e non il peso di oggi. Misura a secco: 1.068.042 → 280.200 byte (-74%, 769 KB in meno a ogni giro e a ogni apertura della Cabina), con garanzia riga-per-riga che niente si perde.",
       "chiuso_il": "2026-07-28 20:15",
       "chiuso_come": "node cervello/peso-contesto.mjs → exit 0 (guardiano soddisfatto)",
-      "nato_come": "scoperta"
+      "nato_come": "regressione",
+      "nota_fix": "RIAPERTO il 2026-08-14 (lotto 40). La prova sulla scheda — `node cervello/peso-contesto.mjs` — e' ROSSA adesso: exit 1, quattro file oltre il loro tetto. Misurati: DECISIONI.md 642.074 B (tetto 636.194) · STATO.md 197.907 B (tetto 122.210) · SALA-OPERATIVA.md 195.523 B (tetto 138.535) · AZIONI-IN-ATTESA.md 119.924 B (tetto 74.111). STATO.md e' il caso peggiore: pesa il 62% in piu' del tetto. La malattia e' quella originale — la memoria che il giro riapre a ogni turno cresce ogni giorno e nessuno la pota — e il tetto, che doveva essere il freno, e' stato superato in silenzio.",
+      "nato_da": "chiuso in un lotto precedente e mai piu' riverificato (AR-336): la prova era gia' comportamentale, ma nessun processo riesegue le prove dei difetti CHIUSI",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e' «un difetto CHIUSO torna e nessuno se ne accorge, perche' nessun processo riesegue le prove dei chiusi». Non e' cercabile con un pattern nel testo: non c'e' una riga sbagliata da trovare: il codice del difetto e' tornato altrove, e cio' che manca e' un CONTROLLO RIPETUTO nel tempo. La copre AR-336, aperto e nominato apposta («un difetto chiuso non viene mai piu' riguardato, e settantaquattro hanno una prova che si potrebbe rieseguire»), piu' il comando `rivedi-chiusi` che la corsia H ha costruito in questo lotto: e' stato lui a trovarli."
     },
     {
       "id": "AR-200",
@@ -14221,6 +14229,24 @@
     },
     {
       "id": "AR-692",
+      "titolo": "Riaprire onestamente un difetto fa scattare l allarme del debito, come se l avessi aggiunto io",
+      "dimensione": "cantiere-prove",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "stato": "aperto",
+      "nato_come": "scoperta",
+      "nato_da": "trovato riaprendo AR-142 e AR-199 su richiesta di Nicola (2026-08-14)",
+      "causa_radice": "Il cancello conta in `senzaMutazione` i difetti APERTI con prova a comando e senza mutazione, con tetto 0. Riaprire due difetti veri porta il conto da 0 a 2 e fa scattare `mutazione-mancante-oltre-il-tetto`: il metro legge «il debito si e' allargato» dove il fatto e' l'opposto — il debito c'era gia', nascosto dentro una scheda marcata chiusa, e riaprirla lo ha reso VISIBILE. Piu' a fondo: la meccanica della non-vacuita' e' pensata per un difetto RIPARATO — si rompe il fix e si pretende che la prova diventi rossa. Su un difetto APERTO la prova e' gia' rossa e non c'e' nessun fix da rompere: la domanda giusta diventa un'altra, «il rilevatore sa ancora vedere?», e il cancello non sa distinguere le due. Effetto pratico: chi riapre un difetto viene punito, e la strada comoda diventa lasciarlo chiuso. E' l'incentivo esattamente rovesciato in un cantiere che vive di onesta'.",
+      "fix_proposto": "Distinguere i due casi in cancello-lotto.mjs: per un difetto APERTO la mutazione non prova il fix (non c'e'), prova che il RILEVATORE non e' cieco — cioe' rompendo il guardiano il suo verdetto deve cambiare (1 -> 2, oppure il conto delle violazioni deve calare). Serve un campo che dichiari il verso della mutazione, o una regola separata `rilevatore-cieco` per i difetti aperti. Fino ad allora un difetto riaperto va escluso dal conteggio di `senzaMutazione`, non conteggiato come debito nuovo.",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma e' «una regola giusta applicata a un caso che non aveva previsto». Non e' una riga sbagliata da cercare: e' un ramo mancante nella logica del cancello. La copre questa scheda e la prova comportamentale che nascera' col fix.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "alla riparazione: un test che riapre un difetto finto e pretende che il cancello NON lo conti come debito nuovo"
+      }
+    },
+    {
+      "id": "AR-693",
       "titolo": "Il referto della visita non nomina la cosa rotta: come motivo mostra una parentesi graffa",
       "dimensione": "sensori-e-verita",
       "gravita": "grave",
@@ -14234,15 +14260,15 @@
       "verifica": {
         "comando": "node cervello/test/motivo-che-non-dice-niente.test.mjs"
       },
-      "nota_fix": "2026-08-14: 5 prove (JSON con sintesi · campi alternativi e liste · testo normale invariato · JSON troncato che non resta muto · il verdetto vero che non contiene piu la graffa). Non-vacuita: tolto il ramo JSON -> test rosso, rimesso -> verde.",
+      "nota_fix": "2026-08-14: 5 prove (JSON con sintesi · campi alternativi e liste · testo normale invariato · JSON troncato che non resta muto · il verdetto vero che non contiene piu la graffa). Non-vacuita: tolto il ramo JSON -> test rosso, rimesso -> verde. Numero cambiato da AR-692 ad AR-693 il 14/8 alle 18:2x: mentre la richiesta di unione era ferma in conflitto, su main il numero 692 era stato dato a un'altra scoperta. Cede il numero chi non e ancora pubblicato.",
       "chiuso_il": "2026-08-14 17:00",
       "chiuso_come": "node cervello/test/motivo-che-non-dice-niente.test.mjs → 5 pass / 0 fail",
       "corroborata": true
     }
   ],
   "meta": {
-    "aperti": 202,
+    "aperti": 205,
     "in_corso": 0,
-    "chiusi": 424
+    "chiusi": 423
   }
 }

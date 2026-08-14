@@ -3225,12 +3225,30 @@
    "test": "node cervello/test/contabilita-chiusure.test.mjs"
   },
   {
-   "difetto": "AR-692",
+   "difetto": "AR-693",
    "nome": "il referto torna a mostrare la prima riga del JSON invece del riassunto: il motivo del guasto ridiventa una parentesi graffa",
    "file": "cervello/salute.mjs",
    "cerca": "  if (testo.startsWith(\"{\") || testo.startsWith(\"[\")) {",
    "sostituisci": "  if (false) {",
    "test": "node cervello/test/motivo-che-non-dice-niente.test.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-142",
+   "nome": "il rilevatore smette di riconoscere il jolly su una cartella scrivibile: le 2 violazioni del jolly spariscono (9 -> 7) e il permesso largo torna invisibile",
+   "file": "cervello/permessi-check.mjs",
+   "cerca": "    vieta: /^Bash\\((?:node|bash|sh|python3?)\\s+[^):]*\\*[^):]*(?::|\\))/,",
+   "sostituisci": "    vieta: /^Bash\\(QUESTO-NON-ESISTE-MAI\\)/,",
+   "test": "node cervello/permessi-check.mjs"
+  },
+  {
+   "lotto": 40,
+   "difetto": "AR-199",
+   "nome": "il guardiano del peso legge un tetto che non esiste e non trova piu nessun file oltre soglia: il difetto riaperto sparirebbe cambiando il metro invece della memoria",
+   "file": "cervello/peso-contesto.mjs",
+   "cerca": "const TETTI = process.env.PESO_TETTI || join(QUI, \"peso-contesto.json\");",
+   "sostituisci": "const TETTI = process.env.PESO_TETTI || join(QUI, \"peso-contesto-inesistente.json\");",
+   "test": "node cervello/peso-contesto.mjs"
   }
  ]
 }
