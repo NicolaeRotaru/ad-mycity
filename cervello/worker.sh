@@ -1681,4 +1681,13 @@ $_sync_nota"
   # Dopo un giro, giro.sh potrebbe aver allineato worker.sh da main → ricarica al giro dopo.
   [ "$tipo" = "giro" ] && maybe_reload_worker
   stamp_worker_info
+
+  # 🩹 fix etichetta-fantasma: il lavoro di QUESTO giro è concluso (esito scritto sopra) — svuota
+  # richiesta/id perché sono globali e sopravvivevano al giro. Senza questo reset, il ripescaggio
+  # periodico (righe ~1201-1209, ogni WORKER_RICOVERO_SEC) chiamava sync_vault ereditando ancora il
+  # titolo dell'ULTIMO lavoro vero anche quando non c'era nulla di nuovo da pubblicare: il commit
+  # nasceva etichettato come se avesse appena rifatto quel lavoro, mentre il suo diff reale toccava
+  # solo file di sync di routine. Da qui in poi il ripescaggio senza lavoro nuovo produce
+  # "worker: lavoro ? (…)", mai più il titolo riciclato di un lavoro già chiuso.
+  richiesta=""; id=""
 done

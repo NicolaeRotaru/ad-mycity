@@ -1,17 +1,17 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-14 11:55",
+  "aggiornato": "2026-08-14 19:50",
   "giorni_sospetto": 3,
-  "difetti_aperti": 258,
+  "difetti_aperti": 261,
   "per_classe": {
-    "umana": 164,
+    "umana": 165,
     "auto-sospetta": 78,
-    "auto-comando": 10,
+    "auto-comando": 12,
     "auto-ok": 5,
     "auto-attesa": 1
   },
-  "non_auto_chiudibili": 242,
+  "non_auto_chiudibili": 243,
   "bloccanti_ciechi": [
     "AR-072",
     "AR-518",
@@ -158,6 +158,13 @@
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-692",
+      "gravita": "medio",
+      "manca": [
+        "nato"
       ]
     }
   ],
@@ -2078,6 +2085,15 @@
       "auto_chiudibile": false
     },
     {
+      "id": "AR-142",
+      "gravita": "bloccante",
+      "eta_giorni": 22,
+      "titolo": "🔴 BLOCCANTE — Permessi di sessione più larghi del dovuto: Write senza path, git push origin main, git merge, ",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/permessi-check.mjs",
+      "auto_chiudibile": true
+    },
+    {
       "id": "AR-143",
       "gravita": "grave",
       "eta_giorni": 22,
@@ -2256,6 +2272,15 @@
       "classe": "auto-sospetta",
       "perche": "prova mai soddisfatta da 18 giorni (cervello/motore-ai.sh ~ /AI_MODELLO/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
+    },
+    {
+      "id": "AR-199",
+      "gravita": "grave",
+      "eta_giorni": 18,
+      "titolo": "La memoria che il giro riapre ogni volta è diventata un diario da 437 KB, e cresce ogni giorno",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/peso-contesto.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-200",
@@ -4350,6 +4375,15 @@
       "gravita": "grave",
       "eta_giorni": 0,
       "titolo": "Nel recupero del monitoraggio il cancello guardava lo stage dopo che il commit l'aveva svuotato",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-692",
+      "gravita": "medio",
+      "eta_giorni": null,
+      "titolo": "Riaprire onestamente un difetto fa scattare l allarme del debito, come se l avessi aggiunto io",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
