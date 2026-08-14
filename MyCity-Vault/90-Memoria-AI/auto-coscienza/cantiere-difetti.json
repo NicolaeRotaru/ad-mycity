@@ -14062,6 +14062,26 @@
       "nato_da": "AR-395 (lotto 40, corsia J): il cancello è stato spostato prima del commit nel giro, ma non nel recupero del monitoraggio",
       "malattia": "non-pattern-izzabile",
       "malattia_perche": "La forma è «il cancello gira nell'istante sbagliato», e l'istante non si vede in una riga: si vede nell'ORDINE fra la chiamata e il commit, che una ricerca testuale non sa leggere. La copre cervello/istante-cancello.mjs, nato in questo lotto apposta (AR-395), più la prova a due versi che rimette il commit davanti alla chiamata e pretende che il rilevatore lo veda."
+    },
+    {
+      "id": "AR-691",
+      "titolo": "Un lucchetto ereditato dal motore ferma tutte le cadenze per ore, e nessuno se ne accorge",
+      "dimensione": "worker-e-automazione",
+      "gravita": "bloccante",
+      "impatto_crescita": "alto",
+      "stato": "chiuso",
+      "nato": "2026-08-14 07:40",
+      "nato_come": "scoperta",
+      "causa_radice": "cervello/lib-cadenza.sh. DUE difetti in catena. ① cadenza_lock prende il lucchetto con flock su fd 8, e il motore AI parte in background: il figlio EREDITA fd 8, quindi finche quel figlio e vivo il lucchetto resta preso anche a cadenza morta. Il commento in testa al file dichiarava il contrario («un kill o un crash non lascia lucchetti orfani»): vero del processo, falso della sua discendenza. ② Il messaggio che ne usciva era informativo («ne sta gia girando una»), quindi nessuno lo guardava; e `exec 8>` troncava il file del lucchetto PRIMA che se ne potesse leggere l'eta, cancellando la traccia di chi lo teneva. Misurato la notte del 13->14/8: ultimo push alle 23:28, poi 8 ore di silenzio; la coda dei lavori mostra un giro toccato alle 06:26 con 6 tentativi e sempre lo stesso esito. Niente giro, niente visita del mattino, niente memoria pubblicata — e in Cabina una macchina apparentemente viva.",
+      "fix_proposto": "① `8>&- 9>&-` sul lancio del motore: il figlio non eredita i lucchetti. ② L'eta del lucchetto si legge PRIMA dell'apertura che lo tronca; oltre 120 minuti il verdetto diventa un guasto dichiarato (⛔ BLOCCATA + stampSegnale sul canale che il Pannello legge), sotto resta una nota.",
+      "origine": "check-in del mattino 14/8: visita delle 6:45 mai pubblicata, 8 ore senza push",
+      "verifica": {
+        "comando": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
+      },
+      "nota_fix": "2026-08-14: 5 prove comportamentali. Il difetto e RIPRODOTTO (figlio che eredita -> lucchetto PRESO dopo la morte del padre) e la cura misurata sulla stessa scena (fd chiuso -> LIBERO). Piu: lucchetto di 5 minuti = nota, di 300 minuti = ⛔ BLOCCATA con i minuti dichiarati. Non-vacuita: 2 mutazioni registrate.",
+      "chiuso_il": "2026-08-14 07:45",
+      "chiuso_come": "node cervello/test/lucchetto-che-non-si-libera.test.mjs -> 5 pass / 0 fail",
+      "corroborata": true
     }
   ],
   "meta": {

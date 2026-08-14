@@ -41,9 +41,41 @@ cadenza_lock() {
   }
   # fd 8 = lucchetto di ESECUZIONE (tenuto per tutto il run). fd 9 = lucchetto di SYNC git, che
   # resta com'è: sono due cose diverse, ed è averle confuse a lasciare il buco.
+  # ⚠️ L'ETÀ SI LEGGE PRIMA DI APRIRE, perché `exec 8>` TRONCA il file.
+  # Non è un dettaglio di ordine: chi NON riesce a prendere il lucchetto svuotava comunque il file,
+  # cancellando l'unica traccia di chi lo tiene e da quando. Sei tentativi falliti stanotte, e la
+  # riga «PID data-ora» scritta dalla cadenza viva era già sparita al primo. Leggere dopo l'apertura
+  # vuol dire leggere sempre il vuoto.
+  local eta_min=""
+  if [ -r "$file" ]; then
+    local preso; preso="$(awk 'NR==1{print $2" "$3}' "$file" 2>/dev/null)"
+    if [ -n "$preso" ]; then
+      local t0; t0="$(date -d "$preso" +%s 2>/dev/null || echo "")"
+      [ -n "$t0" ] && eta_min=$(( ( $(date +%s) - t0 ) / 60 ))
+    fi
+  fi
   exec 8>"$file" || return 0
   if ! flock -n 8; then
-    echo "[$(ts)] ⏭️  Cadenza «$tipo»: ne sta già girando una (lucchetto $file) — esco senza fare nulla."
+    # QUANTO DURA È LA DIFFERENZA FRA «occupato» E «bloccato», e per otto ore nessuno l'ha vista.
+    #
+    # La notte del 13→14/8 questa riga è uscita sei volte identiche mentre la macchina era ferma:
+    # nessun giro, nessuna visita, nessuna memoria pubblicata. Era una riga informativa su una
+    # cadenza che si era incastrata — e informativa vuol dire che nessuno la guarda. Un giro dura
+    # al massimo poco più di un'ora: oltre le due, «ne sta già girando una» non è più plausibile,
+    # è un lucchetto orfano. Da qui in poi si dichiara come guasto, sul canale che il Pannello
+    # legge, così il blocco arriva a Nicola invece di restare nel journal del server.
+    if [ -n "$eta_min" ] && [ "$eta_min" -ge 120 ]; then
+      echo "[$(ts)] ⛔ Cadenza «$tipo» BLOCCATA: il lucchetto $file è preso da ${eta_min} minuti — è orfano, non una cadenza viva. Nessun giro parte finché non si libera." >&2
+      CADENZA_TIPO="$tipo" CADENZA_ETA="$eta_min" CADENZA_LIB="${SCRIPT_DIR:-cervello}/git-github.mjs" \
+      node -e '
+        import(require("node:url").pathToFileURL(process.env.CADENZA_LIB).href).then(async (m) => {
+          await m.stampSegnale(`cadenza-${process.env.CADENZA_TIPO}`, "errore",
+            `lucchetto orfano da ${process.env.CADENZA_ETA} minuti: nessuna cadenza parte`);
+        }).catch(() => {});
+      ' >/dev/null 2>&1 || true
+      return 1
+    fi
+    echo "[$(ts)] ⏭️  Cadenza «$tipo»: ne sta già girando una da ${eta_min:-?} minuti (lucchetto $file) — esco senza fare nulla."
     return 1
   fi
   printf '%s %s\n' "$$" "$(date '+%Y-%m-%d %H:%M:%S')" >&8 2>/dev/null || true
@@ -150,7 +182,14 @@ cadenza_ai_run() {
     # subito sul segnale, la trap parte, il motore viene fermato e il marcatore tolto.
     # (Trovato dal test che uccide davvero il processo — un grep non lo avrebbe mai visto.)
     _tmp="$(mktemp "${TMPDIR:-/tmp}/cadenza-ai-XXXXXX")"
-    "${T[@]}" "${AI_CMD[@]}" "$prompt" >"$_tmp" 2>&1 &
+    # 🔑 `8>&- 9>&-`: il motore NON eredita i lucchetti. Senza questi due caratteri il figlio si
+    # porta dietro i descrittori del padre, e finché QUEL figlio è vivo il lucchetto resta preso —
+    # anche se la cadenza che l'aveva chiesto è morta da ore. È successo la notte del 13/8: un
+    # motore rimasto appeso ha tenuto `MYCITY_RUN_LOCK-giro`, e per 8 ore ogni giro è uscito con
+    # «ne sta già girando una» senza fare niente. Nessun push, nessuna visita, e in Cabina una
+    # macchina apparentemente viva. Il commento in testa a questo file diceva «un kill o un crash
+    # non lascia lucchetti orfani»: era vero del processo, falso della sua discendenza.
+    "${T[@]}" "${AI_CMD[@]}" "$prompt" >"$_tmp" 2>&1 8>&- 9>&- &
     CADENZA_AI_PID=$!
     wait "$CADENZA_AI_PID" || CADENZA_AI_RC=$?
     CADENZA_AI_PID=""
