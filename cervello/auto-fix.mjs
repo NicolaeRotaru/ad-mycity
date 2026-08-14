@@ -29,6 +29,8 @@ import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { chiusuraAmmessa, istanteNascita, patternTrovato } from "./prove-regole.mjs";
 import { chiusuraBloccata, formaProva, verdettoChiusura } from "./chiusura-dichiarata.mjs";
 import { FORMA_COMANDO_PROVA, MOTIVO_COMANDO_NON_AMMESSO, comandoAmmesso } from "./forma-prova.mjs";
+// 📏 Quanto vale una prova lo dice UN posto solo (contratto-prova.mjs), non un lettore per file.
+import { classificaProva } from "./contratto-prova.mjs";
 export { FORMA_COMANDO_PROVA, comandoAmmesso };
 // 📇 IL CONTRATTO DELLA SCHEDA (contratto-scheda.mjs) — il timbro di chiusura e il verdetto sulla
 // prova stanno lì, in una funzione pura che TUTTI possono importare. Vedi il commento su
@@ -193,6 +195,15 @@ function verificaFix(dif) {
   if (forma === "comando") return eseguiProvaComando(v.comando);
   if (forma !== "pattern") return { esito: "manuale", dettaglio: "nessuna prova automatica: verifica umana" };
   const p = join(AD_ROOT, v.file);
+  // AR-686 — il puntatore rotto lo riconosce IL CONTRATTO, non una riga scritta qui.
+  //
+  // Questo motore la cosa giusta la faceva già (file assente → «aperto», mai chiuso), ma la faceva
+  // per conto suo — e `cantiere-prove` sullo stesso caso rispondeva «auto-fix lo chiuderà». Due
+  // metri sullo stesso difetto: uno prometteva una chiusura che l'altro non faceva, e un numero che
+  // promette e non mantiene è come si costruisce una misura di cui nessuno si fida. La risposta
+  // adesso è una sola, e il motivo che arriva a chi legge è lo stesso in tutt'e due i posti.
+  const orfana = classificaProva(v, { fileEsiste: (f) => existsSync(join(AD_ROOT, f)) });
+  if (orfana.tipo === "orfana") return { esito: "aperto", dettaglio: orfana.motivo };
   if (!existsSync(p)) return { esito: "aperto", dettaglio: `file assente: ${v.file}` };
   let txt = "";
   try {

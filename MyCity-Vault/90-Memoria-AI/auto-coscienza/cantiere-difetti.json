@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-14 22:05",
+  "aggiornato": "2026-08-14 23:55",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -14360,6 +14360,118 @@
       "fix_proposto": "Distinguere «il tetto è stato superato» (regressione, rossa per chi l'ha causata) da «il tetto è esattamente pieno» (stato normale dopo una cura). Oppure attribuire la riga nuova a chi l'ha scritta, come fa già il sorvegliante del delta.",
       "verifica": {
         "tipo": "umano"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-696",
+      "stato": "aperto",
+      "dimensione": "cantiere-prove",
+      "scoperto": "2026-08-14 23:45",
+      "lotto_scoperta": 42,
+      "gravita": "medio",
+      "titolo": "Una prova che l'ambiente non sa far partire viene contata come rossa invece che come «non l'ho potuta guardare»",
+      "causa_radice": "cervello/test/c1-atto-una-volta-sola.test.mjs importa una route del Pannello che richiede `next`, e `pannello/node_modules` non esiste in una sessione appena aperta. Il banco lo classifica `ineseguibile`, e l'ineseguibile conta come rosso. È la stessa confusione fra «rotto» e «ambiente incompleto» che AR-693 cura per le prove in bash, ma sul lato Node: andrebbe dichiarato ⚪ come i .bats senza bats. Finché resta così, il tetto `test_cervello` porta per sempre due rossi che non sono rossi — e un rosso che non appartiene a chi lo vede è il modo più veloce per imparare a ignorarlo. — visto in cervello/test-cervello.mjs (verdetto `ineseguibile`) · AR-385/AR-412/AR-413 nel cantiere",
+      "fix_proposto": "Il banco distingue tre esiti e non due: verde, rosso, ⚪ non misurato. Un import che fallisce per dipendenze assenti è ⚪, come già succede per bats. La prova: togliere pannello/node_modules e pretendere che il conteggio dica ⚪ e non ❌.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 42 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-697",
+      "stato": "aperto",
+      "dimensione": "cantiere-prove",
+      "scoperto": "2026-08-14 23:45",
+      "lotto_scoperta": 42,
+      "gravita": "grave",
+      "titolo": "Novantotto schede dichiarate riparate hanno una prova che nessuno ha mai rotto apposta",
+      "causa_radice": "Il conto `mutazione-mancante` guardava solo i difetti APERTI, e un difetto riparato esce dalla lista degli aperti nel momento stesso in cui viene chiuso: il debito si accumulava esattamente dove nessuno lo misurava. Novantotto schede dicono «riparato» appoggiandosi a una prova che non è mai stata messa alla prova. Dal lotto 42 il numero compare fra gli avvisi del cancello, ma NON blocca, e nessuno lo sta facendo scendere. — visto in cervello/cancello-lotto.mjs, avviso «schede dichiarate RIPARATE la cui prova non è mai stata rotta apposta»",
+      "fix_proposto": "Un tetto che scende e non risale sulle schede riparate senza mutazione, come già esiste per gli aperti. Prima però va misurato quanti dei novantotto sono difetti veri e quanti sono prove ereditate a pattern: sono due debiti diversi e vanno separati, o il tetto non potrà mai scendere.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 42 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-698",
+      "stato": "aperto",
+      "dimensione": "cantiere-prove",
+      "scoperto": "2026-08-14 23:45",
+      "lotto_scoperta": 42,
+      "gravita": "grave",
+      "titolo": "Una prova può restare verde col fix disfatto, se osserva l'uscita dal canale comodo invece che da quello vero",
+      "causa_radice": "La prima versione della prova di AR-685 leggeva il referto con `spawnSync` diretto e restava VERDE anche rimettendo il difetto: il troncamento a 64 KB si vede solo da una pipe di shell, che è il canale in cui il difetto vive davvero. Cioè il canale con cui la prova osserva cambia il verdetto, e il canale sbagliato è quello comodo da scrivere. È una forma nuova della malattia «prova che non può fallire» e oggi non ha nessun guardiano: si scopre solo applicando la mutazione, mai deducendola. Non è un caso isolato — è il motivo per cui la non-vacuità va ESEGUITA e non ragionata. — visto in cervello/test/prova-che-non-puo-fallire.test.mjs, caso AR-685 (prima versione)",
+      "fix_proposto": "Censire la malattia («prova che osserva dal canale sbagliato») e cercare i casi: ogni prova che riproduce un difetto legato a un canale (pipe, buffer, terminale, rete) deve osservarlo da quel canale. La difesa vera resta la non-vacuità eseguita: questo difetto è stato trovato solo perché la mutazione è stata applicata davvero.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 42 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-699",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "scoperto": "2026-08-14 23:45",
+      "lotto_scoperta": 42,
+      "gravita": "grave",
+      "titolo": "Chi riscrive una riga sorvegliata non sa di averne staccato la guardia: lo scopre dopo, se lo scopre",
+      "causa_radice": "Misurato in un lotto solo: CINQUE mutazioni sono state orfanate riscrivendo il codice che sorvegliavano — due in sorvegliante.mjs (AR-503, AR-543), due in cancello-lotto.mjs (blocco duro e tetto), una spostata da gate-veri.mjs a contratto-prova.mjs (L-2026-0813-02). In tutti e cinque i casi il comportamento era SPOSTATO, non rimosso: nessun difetto era stato disfatto. Ma in nessuno dei cinque se n'è accorto chi stava riscrivendo — l'ha detto il guardiano dopo, e per uno di essi lo aveva già detto novantanove volte senza che nessuno agisse. La conseguenza è precisa: il fix resta, la difesa no, e il test continua a passare. Il guardiano c'è e funziona; quello che manca è che la notizia arrivi a chi può ancora agire, cioè PRIMA della consegna e non dentro un messaggio che scorre via. — visto in cervello/sorvegliante.mjs (classe prova-accecata) · misurato sul lotto 42 ⟲ CONFERMA INDIPENDENTE: la corsia B ha riportato lo stesso pattern senza saperlo, aggiungendo il caso peggiore — il guardiano vede solo le mutazioni REGISTRATE, quindi un comportamento chiuso con una prova a pattern o senza mutazione sarebbe sparito in silenzio, senza che nessuno gridasse nemmeno dopo.",
+      "fix_proposto": "Chi riscrive deve poterlo chiedere prima di consegnare, con un comando che risponda «di tutte le mutazioni che puntano ai file che hai toccato, queste N non trovano più il loro pezzo». Il cancello già blocca alla consegna: il buco è nel mezzo, fra la riscrittura e il cancello, che è l'unico momento in cui riagganciare costa trenta secondi invece di un giro di richiesta di unione. Da valutare anche il contrario: un avviso ripetuto novantanove volte e mai agito non è un avviso, è rumore — la ripetizione andrebbe contata e fatta salire di gravità.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 42 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-700",
+      "stato": "aperto",
+      "dimensione": "sensori-e-misure",
+      "scoperto": "2026-08-14 23:55",
+      "lotto_scoperta": 42,
+      "gravita": "grave",
+      "titolo": "Il censimento conta i moduli del cervello solo al primo livello: dichiara a Nicola un terzo di macchina in meno di quella che c'è",
+      "causa_radice": "La funzione che elenca i file legge una cartella sola e non scende nelle sottocartelle: misura 210 moduli dove ce ne sono 277. È l'altra metà di AR-677 — quel difetto è stato curato dove il conto serviva a un CANCELLO, e lasciato dov'era dove serve a RACCONTARE la macchina a Nicola. Cioè la metà che lui legge è rimasta sbagliata. Il numero finisce nel censimento e nella mappa: il quadro dichiara meno macchina di quella che c'è, e nessuno se ne accorge perché un numero più piccolo non allarma nessuno. — visto in cervello/censimento-macchina.mjs, voce «immunitario.script» e le altre che passano dallo stesso elenco. Misurato: 210 al primo livello, 277 contando le sottocartelle.",
+      "fix_proposto": "Far passare anche il censimento dalla stessa porta che AR-677 ha già sistemato per il cancello, invece di tenere due funzioni che elencano gli stessi file in due modi. Prova: creare un modulo in una sottocartella e pretendere che il totale salga.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 42 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-701",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "scoperto": "2026-08-14 23:55",
+      "lotto_scoperta": 42,
+      "gravita": "grave",
+      "titolo": "Il guardiano delle capacità conta le cartelle che l'ambiente lascia sul disco, non quelle della macchina: il verdetto dipende da dove gira",
+      "causa_radice": "Elenca le sottocartelle di .claude/skills leggendo il disco. In questa sessione l'ambiente ne ha depositate 67 che non appartengono al repo — le tracciate sono 5 su 72 — e il drift è passato da 2 a 55 senza che nessuno abbia toccato la macchina. Su una postazione è rosso, sul server è verde, e nessuno dei due sa perché. Un guardiano il cui verdetto dipende dall'ambiente invece che dallo stato della macchina non misura la macchina: misura dove sta girando. E siccome il rosso non appartiene a chi lo vede, si impara a ignorarlo. — visto in cervello/guardiano-capacita.mjs, funzione elencaSkill. Misurato: 72 cartelle sul disco, 5 nel repo, drift 55 contro i 2 di inizio sessione.",
+      "fix_proposto": "Contare le capacità che il REPO dichiara (quelle tracciate da git), non quelle che stanno sul disco. Prova: depositare una cartella skill non tracciata e pretendere che il drift NON si muova.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 42 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-702",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "scoperto": "2026-08-14 23:55",
+      "lotto_scoperta": 42,
+      "gravita": "minore",
+      "titolo": "La lista delle cacce aperte torna vuota anche quando il registro non si è potuto leggere",
+      "causa_radice": "La funzione non distingue «non c'è nessuna caccia aperta» da «non ho potuto leggere il registro»: torna un elenco vuoto in tutti e due i casi. Oggi la cecità la dichiara il chiamante dalla riga di comando, ed è uno solo e lo fa bene — ma il prossimo che userà la funzione riceverà un vuoto rassicurante. È la malattia di casa (un errore che diventa una misura) lasciata a mezz'aria: curata nel chiamante invece che alla fonte. — visto in cervello/prompt-senior.mjs, funzione cacciaAperta. La prova che ne fissa la forma è cervello/test/porta-dei-senior.test.mjs.",
+      "fix_proposto": "La funzione torna il vuoto e la cecità separati (due valori, non uno), e la prova di casa va aggiornata insieme. Prova: rendere illeggibile il registro e pretendere che il chiamante dica «non ho potuto guardare» invece di «niente da segnalare».",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 42 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
       "nato_come": "scoperta"
     }

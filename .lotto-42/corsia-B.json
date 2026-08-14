@@ -173,10 +173,11 @@
       "file": "cervello/malattie.json",
       "cosa_serve": "Riscrivere la voce «esito-in-una-pipe» sul COMPORTAMENTO invece che sulla sintassi di ieri, e rimettere la partenza sul numero vero. Tre campi, da sostituire così com'è:",
       "pattern": "node \"\\$SCRIPT_DIR/[^\"\\n]+\\.mjs\"[^|\\n]*(\\|[^|\\n]*(tail|head|esito_righe)|\\|\\|[ \\t]*true)",
-      "baseline": 34,
-      "nota_baseline": "34 misurato il 2026-08-14 sulla forma VIVA: `node \"$SCRIPT_DIR/X.mjs\" … | esito_righe N || true` in giro.sh. La partenza precedente diceva 0 e spiegava il calo con un rinominamento: era il difetto AR-375, non una guarigione. Il triage «rapporto informativo vs cancello» va fatto voce per voce e dichiarato negli esenti: finché non è fatto, il numero resta 34 e scende solo quando qualcuno cura.",
+      "baseline": 50,
+      "nota_baseline": "50 misurato il 2026-08-14 sulla forma VIVA: `node \"$SCRIPT_DIR/X.mjs\" … | esito_righe N || true`. Dove sono: giro.sh 46, ritmo.sh 2, monitora.sh 1, worker.sh 1. La scheda di AR-375 diceva 34, ma era il conto del 29 luglio e da allora il giro è cresciuto: il numero da mettere è quello misurato oggi. La partenza precedente diceva 0 e spiegava il calo con un rinominamento: era il difetto, non una guarigione. Il triage «rapporto informativo vs cancello» va fatto voce per voce e dichiarato negli esenti: finché non è fatto, il numero resta 50 e scende solo quando qualcuno cura.",
       "controprova": "node \"$SCRIPT_DIR/sonda-volano.mjs\" --json | esito_righe 3 || true",
-      "perche": "La controprova è il campo nuovo che il guardiano legge: un testo che il pattern DEVE trovare. Se un domani il metro smette di guardare lì, il guardiano lo dice invece di stampare zero. Con questi tre campi «node cervello/spazzata-fratelli.mjs» torna verde su questa voce."
+      "perche": "La controprova è il campo nuovo che il guardiano legge: un testo che il pattern DEVE trovare. Se un domani il metro smette di guardare lì, il guardiano lo dice invece di stampare zero. Con questi tre campi «node cervello/spazzata-fratelli.mjs» torna verde su questa voce.",
+      "verificato": "misurato adesso col pattern proposto: 50 istanze in 4 file (giro.sh 46, ritmo.sh 2, monitora.sh 1, worker.sh 1), e la controprova fa scattare il pattern. Il vecchio pattern, che pretende la parola «tail», ne trova 0."
     },
     {
       "difetto": "AR-682",

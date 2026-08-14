@@ -37,7 +37,8 @@
         "cerca": "    if (!STATI_CHIUSI.has(String(d?.stato || \"\").toLowerCase())) continue;",
         "sostituisci": "    if (STATI_CHIUSI.has(String(d?.stato || \"\").toLowerCase())) continue;"
       },
-      "non_vacuita": "invertendo il filtro delle chiuse i casi «una scheda CHIUSA la cui prova è rossa adesso viene trovata» e «una prova NON ESEGUITA è ⚪» diventano rossi — verificato lanciando il test"
+      "non_vacuita": "invertendo il filtro delle chiuse i casi «una scheda CHIUSA la cui prova è rossa adesso viene trovata» e «una prova NON ESEGUITA è ⚪» diventano rossi — verificato lanciando il test",
+      "cosa_ha_trovato_accendendolo": "Alla prima corsa completa non erano tre: erano diciassette. Tre sono quelle della scheda (AR-385, AR-412, AR-413, tutte su c1-atto-una-volta-sola) e una è AR-417 su c2-schermo; le altre tredici — otto su freni-senza-fonte, quattro su errore-ingoiato, una su esenzione-con-un-motivo-vero — sono comparse mentre lavoravamo, perché altre corsie stanno riscrivendo gli script che quelle prove sorvegliano. È il valore del meccanismo detto in un numero: prima una chiusura, una volta fatta, non veniva più guardata; adesso ogni corsa del banco dice quali chiusure poggiano su un rosso, e lo dice mentre succede invece che tre lotti dopo."
     },
     {
       "id": "AR-686",
@@ -131,6 +132,7 @@
     "cervello/test-cervello.mjs",
     "cervello/cantiere-prove.mjs",
     "cervello/cancello-lotto.mjs",
+    "cervello/auto-fix.mjs",
     "cervello/gate-veri.mjs",
     "cervello/tetto-guardiano.mjs",
     "cervello/import-che-esegue.mjs",
@@ -139,10 +141,13 @@
     "cervello/test/perimetro-main.test.mjs",
     "cervello/test/prova-che-non-puo-fallire.test.mjs"
   ],
+  "il_modulo_e_usato_davvero": "grep -c del simbolo importato, file per file: cantiere-prove 2 (classificaProva) · auto-fix 2 (classificaProva) · cancello-lotto 2+2 (debitoDiMutazione, perimetroDichiarato) · gate-veri 2 (misuraFreni) · test-cervello 2+2 (casiSpenti, chiusureDaRiverificare). Nessuno resta a 1, che sarebbe l'import da solo col resto morto.",
+  "stato_del_banco_alla_consegna": "`node cervello/test-cervello.mjs` su 284 file: 6 rossi · ⚪ 29 in bash non eseguite (manca bats). NESSUNO DEI SEI È MIO: due sono ambiente incompleto e stavano lì da prima (c1-atto-una-volta-sola non parte perché manca `next` in pannello/node_modules · c2-schermo perché il Pannello non risponde), gli altri quattro sono comparsi durante il lotto e vengono dal lavoro in corso delle altre corsie su spazzata-fratelli e sulle skill (errore-ingoiato ed esenzione-con-un-motivo-vero, rilanciati da soli, passano). I miei quattro file di prova — lib-cadenza, mutazione-mancante, perimetro-main, prova-che-non-puo-fallire — sono tutti verdi.",
   "il_cancello_e_piu_permissivo": "NO su tutto tranne un angolo, e va detto. PIÙ SEVERO: (a) una scheda CHIUSA in questo lotto senza mutazione adesso blocca — prima usciva dal blocco duro da tutt'e due i lati; (b) una prova che punta a un file inesistente non è più auto-chiudibile; (c) il banco dei test dichiara ⚪ nel totale invece di toglierli dal denominatore. PIÙ PERMISSIVO in due punti, entrambi voluti: (1) un difetto RIAPERTO in questo lotto non conta più nel tetto `mutazione_mancante` (è AR-692, e resta scritto fra gli avvisi); (2) in `misuraFreni` una mutazione cieca non boccia più il gate se un'ALTRA mutazione viva rompe lo stesso file — prima bastava una cieca fra le sue per bocciarlo. Il blocco duro sui difetti NATI in questo lotto (regola `asticella`) non l'ho toccato.",
   "fuori_territorio": [
     "AR-565 (seconda metà): la coppia che la scheda nomina — `sonda-volano.mjs` che stampa «Loop chiude ✅ (tasso 18%)» e `apprendimento-guardiano.mjs` che sullo stesso numero dice «❌ APPRENDIMENTO MALATO — tasso 12% < 30%» — vive in cervello/sonda-volano.mjs, cervello/apprendimento-guardiano.mjs e cervello/volano-regole.mjs (loopChiude), nessuno dei tre mio. La cura è la stessa: `loopChiude` deve incorporare la soglia del tasso, oppure smettere di stampare il tasso accanto al proprio verde.",
     "AR-693: i nove file .bats rossi. Sono nel mio territorio come FILE, ma i fallimenti stanno in cervello/worker.sh, cervello/giro.sh, cervello/watch-main.sh, cervello/motore-ai.sh e in .claude/settings.json — nessuno dei quali è mio. Ripararli qui significherebbe riscrivere le prove per farle passare, che è il contrario del mestiere.",
+    "AR-678 (la clausola larga: «e prima di loro OGNI guardiano che chiede a git cosa ho toccato»): ho curato i due nominati e il lettore di git di import-che-esegue. Restano quattro guardiani che chiedono a git l'elenco dei file cambiati per conto loro e non sono miei — cervello/cancello-senior.mjs, cervello/forma-json.mjs, cervello/git-pr.mjs, cervello/ramo-pulito.mjs. La stessa cura vale per tutti: accettare il perimetro dichiarato (`perimetroDichiarato` da tetto-guardiano.mjs) e passare da `percorsiDaGit`.",
     "AR-694 (fuori dai miei file): zero casi spenti restano nella cartella. I quattro file che il mio scanner aveva segnalato all'inizio — errore-ingoiato, organi-verdi-per-costante, perimetro-applicato, plancia-cieca — usano forme SANE (coda o registro) e il guardiano non li accusa: verificato uno per uno leggendo il ciclo finale di ciascuno."
   ],
   "difetti_nuovi": [
