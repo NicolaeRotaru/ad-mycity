@@ -1,19 +1,18 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-14 08:20",
+  "aggiornato": "2026-08-14 11:55",
   "giorni_sospetto": 3,
-  "difetti_aperti": 279,
+  "difetti_aperti": 258,
   "per_classe": {
-    "umana": 162,
-    "auto-sospetta": 97,
+    "umana": 164,
+    "auto-sospetta": 78,
     "auto-comando": 10,
-    "auto-ok": 8,
-    "auto-attesa": 2
+    "auto-ok": 5,
+    "auto-attesa": 1
   },
-  "non_auto_chiudibili": 259,
+  "non_auto_chiudibili": 242,
   "bloccanti_ciechi": [
-    "AR-473",
     "AR-072",
     "AR-518",
     "AR-521",
@@ -36,28 +35,7 @@
       ]
     },
     {
-      "id": "AR-583",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
       "id": "AR-584",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-585",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-586",
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
@@ -79,13 +57,6 @@
     },
     {
       "id": "AR-593",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-594",
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
@@ -134,13 +105,6 @@
       ]
     },
     {
-      "id": "AR-606",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
       "id": "AR-607",
       "gravita": "grave",
       "manca": [
@@ -155,21 +119,7 @@
       ]
     },
     {
-      "id": "AR-612",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
       "id": "AR-617",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-620",
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
@@ -209,13 +159,1876 @@
       "manca": [
         "impatto_crescita"
       ]
+    }
+  ],
+  "schede_senza_prova": [
+    {
+      "id": "AR-345",
+      "gravita": "grave",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-458",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-464",
+      "gravita": "minore",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-504",
+      "gravita": "media",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-518",
+      "gravita": "bloccante",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-521",
+      "gravita": "bloccante",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-640",
+      "gravita": "grave",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-645",
+      "gravita": "minore",
+      "stato": "aperto"
+    }
+  ],
+  "prove_non_misurabili": [
+    {
+      "id": "AR-481",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/cancello-stop.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/cancello-stop.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-487",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/cancello-stop.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/cancello-stop.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-476",
+      "stato": "chiuso",
+      "gravita": "media",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --import ./cervello/test/hook-ts.mjs --test cervello/test/salute-per-organo.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --import ./cervello/test/hook-ts.mjs --test cervello/test/salute-per-organo.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-491",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/rosso-che-non-dice-perche.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/rosso-che-non-dice-perche.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-492",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/storia-tagliata-non-e-un-numero.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/storia-tagliata-non-e-un-numero.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-494",
+      "stato": "chiuso",
+      "gravita": "medio",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/conta-verdetti-muti.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/conta-verdetti-muti.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-496",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/cancello-stop.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/cancello-stop.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-497",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs cervello/test/cancello-stop.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs cervello/test/cancello-stop.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-499",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/malattie-mancanti.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/malattie-mancanti.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-500",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/registro-due-lettori.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/registro-due-lettori.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-501",
+      "stato": "chiuso",
+      "gravita": "media",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-502",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/misura-cieca.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/misura-cieca.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-505",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/campo-commit-e-turno.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-506",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/cancello-stop.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/cancello-stop.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-507",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/cancello-stop.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/cancello-stop.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-508",
+      "stato": "chiuso",
+      "gravita": "media",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-509",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-510",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/campo-commit-e-turno.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-511",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/campo-commit-e-turno.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-451",
+      "stato": "chiuso",
+      "gravita": "minore",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/lease-dopo-rebase-ripetuto.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/lease-dopo-rebase-ripetuto.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-503",
+      "stato": "chiuso",
+      "gravita": "minore",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-512",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/cantiere-integrita.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/cantiere-integrita.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-513",
+      "stato": "chiuso",
+      "gravita": "media",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/numeri-prima-delle-risposte.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-514",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/numeri-prima-delle-risposte.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-515",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/numeri-prima-delle-risposte.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-516",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/numeri-prima-delle-risposte.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-517",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/numeri-prima-delle-risposte.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/numeri-prima-delle-risposte.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-526",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/hooks-check.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/hooks-check.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-522",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/indentazione-che-blocca-tutto.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/indentazione-che-blocca-tutto.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-523",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/non-vacuita-ripristino.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/non-vacuita-ripristino.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-530",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/indentazione-che-blocca-tutto.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/indentazione-che-blocca-tutto.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-531",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/rosso-che-non-dice-perche.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/rosso-che-non-dice-perche.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-532",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/collaudo.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/collaudo.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-541",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/campo-commit-e-turno.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/campo-commit-e-turno.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-542",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/freni-senza-fonte.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/freni-senza-fonte.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-534",
+      "stato": "chiuso",
+      "gravita": "media",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-535",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/prossimo-ar.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/prossimo-ar.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-536",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-538",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/prossimo-ar.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/prossimo-ar.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-540",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/cancello-stop.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/cancello-stop.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-543",
+      "stato": "chiuso",
+      "gravita": "media",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-550",
+      "stato": "chiuso",
+      "gravita": "critica",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-550",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-550\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-551",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-551",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-551\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-552",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-552",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-552\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-553",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-553",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-553\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-554",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-554",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-554\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-555",
+      "stato": "chiuso",
+      "gravita": "alta",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-555",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-555\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-544",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --import ./cervello/test/hook-ts.mjs --test pannello/src/lib/memoria-ferma.test.mts",
+      "motivo": "il motore non sa eseguire \"node --import ./cervello/test/hook-ts.mjs --test pannello/src/lib/memoria-ferma.test.mts\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-564",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "causa": "comando-non-eseguibile",
+      "comando": "node cervello/test-cervello.mjs --solo asticella-prova-che-gira",
+      "motivo": "il motore non sa eseguire \"node cervello/test-cervello.mjs --solo asticella-prova-che-gira\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-566",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "causa": "comando-non-eseguibile",
+      "comando": "node cervello/test-cervello.mjs --solo tasso-di-chiusura",
+      "motivo": "il motore non sa eseguire \"node cervello/test-cervello.mjs --solo tasso-di-chiusura\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-569",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "causa": "comando-non-eseguibile",
+      "comando": "node cervello/test-cervello.mjs --solo coda-vista-come-la-vede-nicola",
+      "motivo": "il motore non sa eseguire \"node cervello/test-cervello.mjs --solo coda-vista-come-la-vede-nicola\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-570",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "causa": "comando-non-eseguibile",
+      "comando": "node cervello/test-cervello.mjs --solo prove-a-due-versi",
+      "motivo": "il motore non sa eseguire \"node cervello/test-cervello.mjs --solo prove-a-due-versi\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-571",
+      "stato": "chiuso",
+      "gravita": "bloccante",
+      "causa": "comando-non-eseguibile",
+      "comando": "node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata",
+      "motivo": "il motore non sa eseguire \"node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata\" (solo: node cervello/<script>.mjs [--flag])"
+    }
+  ],
+  "da_riverificare": [
+    {
+      "id": "AR-045",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-046",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-047",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-048",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-050",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-051",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-052",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-053",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-054",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-055",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-056",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-057",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-058",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-059",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-060",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-061",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-062",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-063",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-064",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-065",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-067",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-068",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-069",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-070",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-071",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-072",
+      "stato": "da-riverificare",
+      "gravita": "bloccante",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-073",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-074",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-075",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-076",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-077",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-078",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-079",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-080",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-081",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-082",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-083",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-084",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-085",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-086",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-087",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-088",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-089",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-091",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-092",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-093",
+      "stato": "da-riverificare",
+      "gravita": "grave",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-094",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-095",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-096",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-100",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-102",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-103",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    },
+    {
+      "id": "AR-104",
+      "stato": "da-riverificare",
+      "gravita": "minore",
+      "causa": "da-riverificare",
+      "comando": null,
+      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
+    }
+  ],
+  "alias_fuori_contratto": [
+    {
+      "id": "AR-575",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-576",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-577",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-578",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-579",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-580",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-581",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-582",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-583",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-584",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-585",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-586",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-587",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-588",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-589",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-590",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-591",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-592",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "bloccante",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-593",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-594",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-595",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-596",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-597",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-598",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-599",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-600",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-601",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-602",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-603",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-604",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-605",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-606",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-607",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-608",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-609",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-610",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-611",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-612",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-613",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-614",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-615",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-616",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-617",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-618",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-619",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-620",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-621",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-622",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-623",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-624",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-625",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-626",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-627",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-628",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-629",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-630",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-631",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-632",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-633",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-634",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-635",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-636",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-637",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-638",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-639",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-640",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-641",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-642",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-643",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-644",
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-645",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
+    },
+    {
+      "id": "AR-659",
+      "stato": "aperto",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "minore",
+          "anche_canonico": false
+        }
+      ]
     },
     {
       "id": "AR-660",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
+      "stato": "chiuso",
+      "alias": [
+        {
+          "campo": "severita",
+          "canonico": "gravita",
+          "valore": "grave",
+          "anche_canonico": false
+        }
       ]
+    }
+  ],
+  "timbri_storti": [
+    {
+      "id": "AR-004",
+      "chiuso_il": "2026-07-07"
+    },
+    {
+      "id": "AR-005",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-006",
+      "chiuso_il": "2026-07-14"
+    },
+    {
+      "id": "AR-001",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-002",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-003",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-007",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-008",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-010",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-011",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-012",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-013",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-014",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-015",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-016",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-017",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-018",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-020",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-021",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-022",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-025",
+      "chiuso_il": "2026-07-04"
+    },
+    {
+      "id": "AR-451",
+      "chiuso_il": "2026-08-03"
+    },
+    {
+      "id": "AR-503",
+      "chiuso_il": "2026-08-03"
+    },
+    {
+      "id": "AR-512",
+      "chiuso_il": "2026-08-03"
     }
   ],
   "voci": [
@@ -229,30 +2042,12 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-126",
-      "gravita": "grave",
-      "eta_giorni": 29,
-      "titolo": "Il giro operativo (flotta senior) semina i money-engine con un negozio SCARTATO (Casa Linda) e un ordine MORTO",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 29 giorni (.claude/workflows/giro-operativo.js ~ /Casa Linda|ordine zombie/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-128",
       "gravita": "grave",
       "eta_giorni": 29,
       "titolo": "Nessun sensore né sentinella per le contestazioni carta (dispute/chargeback) da Stripe: soldi con scadenza rig",
       "classe": "auto-sospetta",
       "perche": "prova mai soddisfatta da 29 giorni (cervello/sentinelle.md ~ /dispute|chargeback|contestazione carta/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-130",
-      "gravita": "grave",
-      "eta_giorni": 29,
-      "titolo": "I nuovi specialisti rimandano ai capi, ma i capi non rimandano indietro: routing ambiguo su temi sensibili",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 29 giorni (.claude/agents/legale-privacy.md ~ /description:[^\\n]*→/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
@@ -388,33 +2183,6 @@
       "titolo": "Il vincolo che dovrebbe sbloccare l'apprendimento chiede di promuovere lezioni mature che non esistono più",
       "classe": "auto-sospetta",
       "perche": "prova mai soddisfatta da 18 giorni (cervello/giro.sh ~ /promuovi a .{1,2}principio.{1,2} 2-3 lezioni mature/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-185",
-      "gravita": "grave",
-      "eta_giorni": 18,
-      "titolo": "Il guardiano che deve garantire un solo padrone per ogni mandato legge solo l'elenco tra virgolette e butta vi",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 18 giorni (cervello/keyword-owner-check.mjs ~ /estraiMandato|slice\\(0, ?idx\\)|keyword del mandato/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-187",
-      "gravita": "grave",
-      "eta_giorni": 18,
-      "titolo": "Il motore che ogni giorno produce le mosse da firmare chiama sei senior scritti a mano: gli altri centoquattor",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 18 giorni (.claude/workflows/giro-operativo.js ~ /rotazione|MOTORI_DA_OKR|motoriDaOkr|readdirSync/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-188",
-      "gravita": "minore",
-      "eta_giorni": 18,
-      "titolo": "Nessuno dei centoventi senior risponde del fatto che le email arrivino davvero nella posta e non nello spam",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 18 giorni (.claude/agents/crm-lifecycle.md ~ /deliverab|DKIM|SPF|DMARC|reputazione del dominio/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
@@ -625,30 +2393,12 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-241",
-      "gravita": "grave",
-      "eta_giorni": 18,
-      "titolo": "L'indietro riapre l'area giusta ma sulla scheda sbagliata",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 18 giorni (pannello/src/app/page.tsx ~ /pushState\\(\\{ \\.\\.\\.\\(window\\.history\\.state \\|\\| \\{\\}\\), vista \\}/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-244",
       "gravita": "grave",
       "eta_giorni": 18,
       "titolo": "Il link del messaggio Telegram non può portarti sulle azioni da firmare",
       "classe": "auto-sospetta",
       "perche": "prova mai soddisfatta da 18 giorni (pannello/src/app/page.tsx ~ /window\\.location\\.pathname \\+ window\\.location\\.search/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-245",
-      "gravita": "minore",
-      "eta_giorni": 18,
-      "titolo": "Ritocchi la scheda su cui sei già e l'indietro fa un colpo a vuoto",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 18 giorni (pannello/src/components/aree/Azioni.tsx ~ /vaiSub\\(\"azioni\", t\\.id\\);/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
@@ -728,8 +2478,8 @@
       "gravita": "minore",
       "eta_giorni": 18,
       "titolo": "Nessuna misura dei sensori dice da quale computer è stata scritta",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 18 giorni (MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json ~ /\"ambiente\"|\"scritto_da\"/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
     },
     {
@@ -886,24 +2636,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-336",
-      "gravita": "minore",
-      "eta_giorni": 17,
-      "titolo": "Un difetto chiuso non viene mai più riguardato, e settantaquattro hanno una prova che si potrebbe rieseguire",
-      "classe": "auto-attesa",
-      "perche": "il fix consiste nel creare cervello/prove-uniche.mjs, non ancora presente",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-337",
-      "gravita": "medio",
-      "eta_giorni": 17,
-      "titolo": "Gli occhi della macchina riscrivono i numeri del business anche quando non hanno potuto leggerli",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 17 giorni (cervello/sentinella-dati.mjs ~ /non_misurato_in_questo_ambiente/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-345",
       "gravita": "grave",
       "eta_giorni": 16,
@@ -919,24 +2651,6 @@
       "titolo": "Il cancello condiviso è rosso su main per tutti: #604 è entrata con la sua stessa prova rossa e #602 ha aggiun",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-434",
-      "gravita": "grave",
-      "eta_giorni": 16,
-      "titolo": "I due workflow che mettono al lavoro i senior non aprono mai il loro mansionario: il prompt e scritto a mano d",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 16 giorni (.claude/workflows/giro-operativo.js ~ /prompt-senior/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-435",
-      "gravita": "grave",
-      "eta_giorni": 16,
-      "titolo": "Tre workflow dicono ai senior di leggere la memoria a un indirizzo che sul VPS non esiste",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 16 giorni (.claude/workflows/giro-operativo.js ~ //home/user/ad-mycity/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
@@ -964,15 +2678,6 @@
       "titolo": "Il quaderno dell'AD e spaccato in due da una maiuscola, e il lavoro piu grosso e finito nella meta che nessuno",
       "classe": "auto-sospetta",
       "perche": "prova mai soddisfatta da 16 giorni (cervello/chiusura-loop.mjs ~ /repartoValido/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-349",
-      "gravita": "minore",
-      "eta_giorni": 16,
-      "titolo": "Sette mansionari mandano i senior a leggere una cartella del vault che non esiste, e lo scadenzario apre una s",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 16 giorni (.claude/agents/dispatch.md ~ /02-Aree/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
@@ -1043,26 +2748,8 @@
       "gravita": "grave",
       "eta_giorni": 16,
       "titolo": "Quasi metà dei difetti che la macchina trova su sé stessa non ha un'etichetta che il sistema sappia instradare",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 16 giorni (cervello/valida-contratti.mjs ~ /GENERA_AMMESSI/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-363",
-      "gravita": "grave",
-      "eta_giorni": 16,
-      "titolo": "I sensori scrivono «tutto a posto» e nessuno guarda mai da quanto tempo l'hanno scritto",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (cervello/sentinella-dati.mjs ~ /SENSORI_STANTII_MIN/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-364",
-      "gravita": "grave",
-      "eta_giorni": 16,
-      "titolo": "Due sensori risultano accesi da giorni senza che nessuno li abbia più provati, e li contiamo come accesi",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 16 giorni (cervello/verifica-sensori.mjs ~ /MCP_DECADENZA_GIRI/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
     },
     {
@@ -1111,15 +2798,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-370",
-      "gravita": "grave",
-      "eta_giorni": 16,
-      "titolo": "Il guardiano dell'automazione diventa verde appena lo lanci da dove i timer non esistono",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (cervello/verifica-automazione.mjs ~ /controlli_non_eseguiti/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-375",
       "gravita": "grave",
       "eta_giorni": 16,
@@ -1127,15 +2805,6 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-378",
-      "gravita": "grave",
-      "eta_giorni": 16,
-      "titolo": "Quando l'elenco dei guardiani è rotto, la bacheca resta congelata a ieri e promette più protezione di quella c",
-      "classe": "auto-ok",
-      "perche": "prova soddisfatta ora (cervello/censimento-guardiani.mjs ~ /TABELLA INCOMPLETA/): auto-fix lo chiuderà",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-383",
@@ -1187,8 +2856,8 @@
       "gravita": "grave",
       "eta_giorni": 16,
       "titolo": "Se la rete fa i capricci, la pausa di Nicola non ferma le cadenze del mattino e della sera",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 16 giorni (cervello/ritmo.sh ~ /_pausa_rc/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
     },
     {
@@ -1214,17 +2883,8 @@
       "gravita": "grave",
       "eta_giorni": 16,
       "titolo": "Il cancello comune promette quattro controlli e ne fa tre: il quarto è un parametro morto",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 16 giorni (cervello/gate-pubblicazione.sh ~ /rc_one=\\$\\?/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-395",
-      "gravita": "grave",
-      "eta_giorni": 16,
-      "titolo": "Nel giro il cancello guarda lo stage dopo che il commit l'ha svuotato",
       "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/prove-difetti.mjs --ar-395",
+      "perche": "prova eseguibile: node cervello/test/istante-cancello.test.mjs",
       "auto_chiudibile": true
     },
     {
@@ -1261,15 +2921,6 @@
       "titolo": "Con la fotocamera aperta il dito indietro cambia pagina sotto, non chiude la fotocamera (AR-243 dichiarato chi",
       "classe": "auto-sospetta",
       "perche": "prova mai soddisfatta da 16 giorni (pannello/src/components/BottoneFotoChat.tsx ~ /useStrato\\(/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-403",
-      "gravita": "minore",
-      "eta_giorni": 16,
-      "titolo": "Chiudi un pannello col dito e il primo indietro non fa più niente",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 16 giorni (pannello/src/lib/useStrato.ts ~ /window\\.history\\.back\\(/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
@@ -1342,24 +2993,6 @@
       "titolo": "Se la memoria è giù, il Pannello manda comunque l'azione vera e poi ti dice di riprovare — e riprovare la rima",
       "classe": "auto-sospetta",
       "perche": "prova mai soddisfatta da 16 giorni (pannello/src/app/api/azioni-pronte/route.ts ~ /memoryConnected/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-414",
-      "gravita": "minore",
-      "eta_giorni": 16,
-      "titolo": "Tre orologi del Pannello sono inchiodati all'ora legale: d'inverno ogni «quanto è fresco questo dato» sbaglia ",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 16 giorni (pannello/src/app/api/memoria/auto-coscienza/route.ts ~ /\\+02:00/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-415",
-      "gravita": "minore",
-      "eta_giorni": 16,
-      "titolo": "Il lettore della memoria butta via la differenza fra «non c'è» e «è troppo grande»: quando un archivio superer",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 16 giorni (pannello/src/lib/vault.ts ~ /troppo-grande/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
@@ -1471,37 +3104,10 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-438",
-      "gravita": "medio",
-      "eta_giorni": 16,
-      "titolo": "La visita si dichiara cieca sulla Cabina per un indirizzo che la macchina conosce già",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-439",
       "gravita": "alto",
       "eta_giorni": 16,
       "titolo": "Il battito che i guardiani mandano non ha un tempo massimo: se la memoria risponde lenta, il giro si ferma lì",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-440",
-      "gravita": "alto",
-      "eta_giorni": 16,
-      "titolo": "Un allarme acceso da settimane e uno acceso da un minuto si leggono uguale, quindi il primo diventa sfondo",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-441",
-      "gravita": "medio",
-      "eta_giorni": 16,
-      "titolo": "Lo scanner dei segreti si dichiara cieco sui file grossi invece di leggerli, e i tre JSON che crescono ogni gi",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
@@ -1516,37 +3122,10 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-443",
-      "gravita": "minore",
-      "eta_giorni": 16,
-      "titolo": "Se la coda delle azioni non si riesce a leggere, il cancello dice «azione non trovata» invece di «non ho potut",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-445",
-      "gravita": "grave",
-      "eta_giorni": 15,
-      "titolo": "Importare un modulo del cervello ne ESEGUE il programma: chi lo prova si ritrova la memoria riscritta sotto i ",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-446",
       "gravita": "grave",
       "eta_giorni": 15,
       "titolo": "Tredici test scrivono nella memoria VERA della macchina, e uno tocca il registro dei fatti",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-456",
-      "gravita": "grave",
-      "eta_giorni": 15,
-      "titolo": "Il Pannello mostra 150 difetti aperti, ne sono 155: il contatore riassuntivo del cantiere e piu vecchio dei di",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
@@ -1561,37 +3140,10 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-460",
-      "gravita": "grave",
-      "eta_giorni": 15,
-      "titolo": "In ogni sessione cloud il guardiano del formato JSON e cieco: la regressione passa in locale e la trova solo l",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-461",
-      "gravita": "grave",
-      "eta_giorni": 15,
-      "titolo": "Il test di AR-451 prova la funzione ma non il punto che la chiama: si puo scollegare il fix e il test resta ve",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-464",
       "gravita": "minore",
       "eta_giorni": 15,
       "titolo": "Lanciare un guardiano per VERIFICARE sporca l'albero: verificare costa un diff, e l'incentivo diventa non veri",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-473",
-      "gravita": "bloccante",
-      "eta_giorni": 13,
-      "titolo": "Il cancello dice verde su cio che non ha misurato: due passi cambiano riferimento e smettono di guardare, senz",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
@@ -2074,15 +3626,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-023",
-      "gravita": "minore",
-      "eta_giorni": 11,
-      "titolo": "Il campo che permette a un difetto di chiudersi da solo è obbligatorio per iscritto, ma non era un difetto di ",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-100",
       "gravita": "minore",
       "eta_giorni": 11,
@@ -2150,15 +3693,6 @@
       "gravita": "grave",
       "eta_giorni": 10,
       "titolo": "Un difetto chiuso con una prova che non prova piu: rompo la guardia sui file cancellati e il test resta verde",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-559",
-      "gravita": "alta",
-      "eta_giorni": 10,
-      "titolo": "Quarantotto difetti sono stati chiusi con una prova che il motore non sa eseguire",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
@@ -2236,37 +3770,10 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-583",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "I due guardiani anti-doppione danno il verde mentre due senior si contendono il carrello abbandonato",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-584",
       "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Tutti i centoventi mansionari lasciano ogni strumento in mano ai senior, anche a chi per contratto legge solta",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-585",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Il canale WhatsApp del negoziante non ha nessun senior che lo reclami",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-586",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "La scheda degli affari regolatori reclama l'inquadramento dei rider senza rimandare ai due che ne rispondono",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
@@ -2294,15 +3801,6 @@
       "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "La review del venerdì è obbligatoria sulla carta ma non lascia i compiti da tre venerdì",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-594",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Il referto di salute non ha la voce sul battito: sei cadenze rosse e la visita tace",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
@@ -2398,15 +3896,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-606",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Chiudere un pannello col tocco lascia il suo timbro nella cronologia e da lì il tasto indietro sbaglia strada",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-607",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -2425,37 +3914,10 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-609",
-      "gravita": "minore",
-      "eta_giorni": 1,
-      "titolo": "Il vecchio collegamento col cancelletto per l'auto-coscienza si apre solo se sei già sulla scheda giusta",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-610",
-      "gravita": "minore",
-      "eta_giorni": 1,
-      "titolo": "Un indirizzo sbagliato del Pannello finisce su una pagina inglese di errore senza una via per tornare alla Cab",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-611",
       "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Il pannello gira su librerie con quattro falle note di gravità alta, tutte già corrette a monte",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-612",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Il bottone che porta all'azione da firmare lascia Nicola su una scheda chiusa o nel nulla",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
@@ -2510,15 +3972,6 @@
       "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Nessun senior ha un modello assegnato: anche i lavori semplici girano col motore più caro",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-620",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Quando un senior passa il lavoro a un collega, nessuno lo raccoglie: sei passaggi su sette caduti nel vuoto",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
@@ -2596,73 +4049,10 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-643",
-      "gravita": "minore",
-      "eta_giorni": 1,
-      "titolo": "Gli errori di git finiscono crudi nel verdetto di chiusura del turno",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-644",
-      "gravita": "minore",
-      "eta_giorni": 1,
-      "titolo": "Se l'aggancio dei cancelli del commit fallisce all'avvio, la sessione parte scoperta e muta",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-645",
       "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Ogni blocco del commit insegna la scappatoia e nessuno conta chi la usa",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-646",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Il badge della coerenza in Cabina traduce ogni esito non-incoerenze in «ok»: anche «cieco» e «non_verificato» ",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-647",
-      "gravita": "minore",
-      "eta_giorni": 1,
-      "titolo": "La freschezza delle cadenze legge il timbro senza fuso: su un server UTC ogni cadenza sembra più fresca di 1-2",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-648",
-      "gravita": "minore",
-      "eta_giorni": 1,
-      "titolo": "Quattordici registri del cervello timbrano in UTC nudo invece che con l ora di Piacenza",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-649",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Le 71 schede nate dalla radiografia del 13/8 non dichiarano la priorità di crescita e usano «severita» al post",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-650",
-      "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Un difetto bloccante di generazione nuova sfugge al conteggio dei bloccanti ciechi perché il guardiano legge s",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
@@ -2704,15 +4094,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-655",
-      "gravita": "medio",
-      "eta_giorni": 1,
-      "titolo": "L allineatore delle radiografie chiude le schede con una data vuota: lo stesso buco delle 74 chiusure senza da",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-659",
       "gravita": "minore",
       "eta_giorni": 1,
@@ -2722,10 +4103,253 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-660",
+      "id": "AR-663",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Un guardiano di sola lettura riscrive il suo referto nel vault a ogni interrogazione",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-664",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Un guardiano muore con lo stack trace invece di dichiararsi cieco quando il registro-fatti ha una forma inatte",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-665",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "AR-648 resta aperto su peso-file-cabina.mjs perche' il suo test copia lo script da solo in una cartella tempor",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-666",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "L'ora scritta a mano vive ancora in almeno diciassette punti del cervello fuori da questo lotto",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-667",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "salute.mjs promuove a verde qualunque codice d'uscita che non sia 1, compreso il 2 del cieco",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-668",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Un comando di misura scrive nel vault vero anche quando lo lancia una prova, tramite uno script annidato",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-669",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Un'estrazione in un modulo nuovo ha lasciato indietro tre puntatori di mutanti.json: le prove di AR-582 e AR-5",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-670",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Il Pannello ha due definizioni di «quanti difetti aperti» e nessuna delle due è dichiarata: la stessa pagina n",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-671",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Il burn-down del cantiere può migliorare da solo: i difetti senza data di nascita venivano scartati in silenzi",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-672",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Due file del Pannello hanno ancora il fuso di Roma scritto a mano, fuori dal territorio di questa corsia",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-673",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Il deep-link dell'auto-coscienza scorre verso una casella che non esiste piu",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-674",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Nel gestore centrale dell'indietro resta un timbro che fonde tutto lo stato a occhi chiusi",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-675",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Una card della coda ha due memorie diverse di «sono aperta»",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-676",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Il filtro --solo di test-cervello guardava una famiglia sola di prove e concludeva «non c'e niente»",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-677",
       "gravita": "grave",
-      "eta_giorni": 1,
-      "titolo": "Ventisei prove scritte in bats non le esegue nessuno: né la suite, né il cancello, né i workflow",
+      "eta_giorni": 0,
+      "titolo": "Il perimetro dei moduli del cervello e quasi il doppio di quello che i conti a mano dicevano: 270 file, non 19",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-678",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Su un tronco condiviso da piu corsie, `git diff HEAD` attribuisce a ogni lotto il lavoro di tutti",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-679",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Il guardiano del registro puniva proprio il deferral che risolve il doppione",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-680",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "keyword-owner-check partiva da solo appena importato",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-681",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "La mia prima versione della porta nascondeva un registro illeggibile dietro un elenco vuoto",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-682",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Un workflow su sei non è evocato da nessun comando",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-683",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Tre difetti CHIUSI hanno la prova ROSSA adesso, e nessuno se n'era accorto",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-684",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Il cantiere conta 595 schede su 653: 56 in un terzo stato non entrano in nessun totale",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-685",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Il guardiano delle prove si tronca il referto a 64 KB quando lo si legge da una pipe",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-686",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Una prova che punta a un file inesistente viene contata come «fix in attesa», cioè auto-chiudibile",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-687",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "titolo": "Il vincolo cronico del giro si ripete ancora uguale: la cronicità si misura, ma solo nella visita",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-688",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "titolo": "Appena il fatto cabina.url entra nel registro, ponte-cabina.json diventa una seconda casa dello stesso indiriz",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-689",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "titolo": "Due script del cervello sono usciti dalla porta di percorsi-git.mjs in questo stesso lotto",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-690",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "titolo": "Nel recupero del monitoraggio il cancello guardava lo stage dopo che il commit l'aveva svuotato",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
