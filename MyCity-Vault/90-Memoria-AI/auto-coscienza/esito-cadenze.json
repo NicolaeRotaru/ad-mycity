@@ -12,18 +12,17 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-14 06:44",
+      "quando": "2026-08-14 11:59",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
       "push_ok": false,
-      "passi_ok": true,
-      "vincoli_attivi": 11,
+      "passi_ok": false,
+      "vincoli_attivi": 10,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
         "CHIUSURA",
-        "CI",
         "CORREZIONE_NICOLA",
         "FRESCHEZZA",
         "MAPPA",
@@ -74,5 +73,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-14 06:44"
+  "aggiornato": "2026-08-14 11:59"
 }
