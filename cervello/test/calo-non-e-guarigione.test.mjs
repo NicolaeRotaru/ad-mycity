@@ -27,6 +27,8 @@
 
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
+import { mkdtempSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { caloNonProvato, istanzeDichiarate } from "../spazzata-fratelli.mjs";
@@ -95,13 +97,54 @@ prova("il numero si legge dalle parole del registro, non si indovina", () => {
   assert.equal(istanzeDichiarate("ne rimangono parecchie"), null, "senza un numero non c'è contraddizione da misurare");
 });
 
-prova("⬇️ ⑥ il guardiano vero, adesso, accusa la malattia che risultava guarita", () => {
+// ⑥ IL GUARDIANO VERO — su un registro SUO, non su quello vivo.
+//
+// La prima versione di questo caso puntava al registro vivo e pretendeva che `esito-in-una-pipe`
+// fosse ANCORA accusata. Funzionava, perché quel giorno la malattia era davvero rotta: la sua
+// partenza diceva zero e la nota spiegava il calo con un rinominamento.
+//
+// Poi il difetto è stato riparato — con la patch che questa stessa corsia aveva proposto — e il caso
+// è diventato rosso. Non perché il guardiano avesse smesso di funzionare: perché **pretendeva che il
+// bug fosse ancora lì**. Una prova scritta contro lo stato malato del momento non prova il guardiano:
+// inchioda il difetto, e diventa rossa esattamente quando qualcuno lo cura. È l'incentivo rovesciato
+// (chi ripara rompe la prova), lo stesso di AR-692 visto da un'altra faccia.
+//
+// La cura è la regola di casa: **la prova si porta la sua fixture**. Qui il registro è deviabile con
+// `SPAZZATA_REGISTRO`, quindi il guardiano gira su un caso costruito apposta — e resta vero anche
+// quando il repo è sano.
+prova("⬇️ ⑥ il guardiano vero accusa un calo non provato, e il suo «no» cambia il codice d'uscita", () => {
+  const registro = join(mkdtempSync(join(tmpdir(), "spazzata-")), "malattie.json");
+  writeFileSync(registro, JSON.stringify({
+    malattie: [{
+      id: "finta-guarita",
+      nome: "Una malattia che dichiara zero spiegandolo con un rinominamento",
+      perche_e_grave: "fixture del caso ⑥",
+      pattern: "questa-stringa-non-esiste-da-nessuna-parte",
+      dove: ["cervello"], estensioni: [".sh"], baseline: 0, file_noti: [], esenti: [],
+      nota_onesta: "35 istanze restano, tutte in giro.sh.",
+      nota_baseline: "0 da quando lo script non usa piu `| tail`: l'esito passa da esito_righe.",
+    }],
+  }));
+
+  const r = spawnSync(process.execPath, [join(REPO, "cervello/spazzata-fratelli.mjs"), "--json"],
+    { encoding: "utf8", cwd: REPO, env: { ...process.env, SPAZZATA_REGISTRO: registro } });
+  const finta = JSON.parse(r.stdout).malattie.find((m) => m.id === "finta-guarita");
+
+  assert.ok(finta, "il guardiano non ha nemmeno letto il registro che gli ho dato");
+  assert.ok(finta.calo_non_provato, "uno zero contraddetto dalle sue stesse parole deve essere accusato");
+  assert.notEqual(r.status, 0, "un'accusa che non cambia il codice d'uscita è un rapporto, non un cancello");
+});
+
+// ⑦ E il contrario, che è la metà che si dimentica: sul registro VIVO, la malattia che è stata
+// riparata in questo lotto NON deve più essere accusata. Senza questo caso, il guardiano potrebbe
+// accusare tutto e i due casi insieme non distinguerebbero un metro da un allarme perenne.
+prova("⑦ sul registro vivo, la malattia riparata in questo lotto non è più accusata", () => {
   const r = spawnSync(process.execPath, [join(REPO, "cervello/spazzata-fratelli.mjs"), "--json"], { encoding: "utf8", cwd: REPO });
-  const dati = JSON.parse(r.stdout);
-  const pipe = dati.malattie.find((m) => m.id === "esito-in-una-pipe");
-  assert.ok(pipe, "la malattia non è più nel registro: la prova non può passare a vuoto");
-  assert.ok(pipe.calo_non_provato, "lo zero di questa malattia è ancora venduto per una guarigione");
-  assert.notEqual(r.status, 0, "e un'accusa che non cambia il codice d'uscita è un rapporto, non un cancello");
+  const pipe = JSON.parse(r.stdout).malattie.find((m) => m.id === "esito-in-una-pipe");
+  assert.ok(pipe, "la malattia è sparita dal registro: la prova passerebbe a vuoto");
+  assert.equal(pipe.calo_non_provato, null,
+    "la partenza dice il numero vero (50) e la nota spiega il perché: non c'è più nessun calo da provare");
+  assert.equal(pipe.baseline, 50, "se la partenza torna a zero, lo zero è di nuovo venduto per una guarigione");
 });
 
 let falliti = 0;

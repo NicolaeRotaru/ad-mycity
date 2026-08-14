@@ -324,7 +324,7 @@ export default function Azioni() {
       // prime 10 non sarebbe nemmeno nel DOM, quindi lo scroll di page.tsx non troverebbe nulla.
       const idAz = idDaAncora(det.anchor);
       if (idAz) {
-        setScelteCard((s) => ({ ...s, [idAz]: true }));
+        setCarte((s) => apriPerAtterraggio(s, idAz));
         setMostraTuttaCoda((v) => v || serveSrotolare(idAz, azioniRef.current.filter((a) => !a.stato), false));
       }
       if (!det.sub) return;
@@ -512,13 +512,7 @@ export default function Azioni() {
       setTodoErr((m) => ({ ...m, [item.id]: "non salvata, riprova" }));
     }
   }
-  const toggle = (id: string) =>
-    setAperte((s) => {
-      const n = new Set(s);
-      if (n.has(id)) n.delete(id);
-      else n.add(id);
-      return n;
-    });
+  const toggle = (id: string) => setCarte((s) => giraTesto(s, id));
   async function apriScheda(id: string, path: string) {
     if (schede[id]?.testo || schede[id]?.loading) return;
     setSchede((s) => ({ ...s, [id]: { loading: true } }));
@@ -546,10 +540,9 @@ export default function Azioni() {
     if (salto.srotola) setMostraTuttaCoda(true);
     if (salto.id) {
       const id = salto.id;
-      if (salto.apri) {
-        setScelteCard((s) => ({ ...s, [id]: true })); // la card della coda: è questo lo stato che la apre
-        setAperte((s) => new Set(s).add(id)); // e il testo esatto dentro, come prima
-      }
+      // Una chiamata sola apre la scheda E il testo dentro. Prima erano due stati diversi, e
+      // bastava azzeccare quello sbagliato perché il link atterrasse su una riga muta: è AR-675.
+      if (salto.apri) setCarte((s) => apriPerAtterraggio(s, id));
       // Se la lista è appena stata srotolata servono qualche decina di millisecondi in più: la card
       // entra nel DOM col render successivo, e cercarla prima significa non trovarla (era metà del
       // difetto: nessun errore, semplicemente non succedeva niente).
@@ -597,7 +590,7 @@ export default function Azioni() {
   // e i due bottoni Approva/Rifiuta: si firma senza aprire nulla. Tutto il resto si apre al tocco.
   const cardAzione = (a: Azione, indice = 0) => {
     const decisa = a.stato !== "";
-    const open = aperte.has(a.id);
+    const open = testoAperto(carte, a.id);
     const b = badgeStato(a.stato);
     const path = estraiPath(a.testo) || estraiPath(a.perche);
     const sch = schede[a.id];
@@ -608,10 +601,10 @@ export default function Azioni() {
       <details
         id={`azione-${a.id}`}
         key={a.id}
-        open={cardAperta(a.id, indice, scelteCard)}
+        open={cardAperta(carte, a.id, indice)}
         onToggle={(e) => {
           const ap = (e.currentTarget as HTMLDetailsElement).open;
-          setScelteCard((s) => (s[a.id] === ap ? s : { ...s, [a.id]: ap }));
+          setCarte((s) => segnaCard(s, a.id, ap));
         }}
         className={`card border ${BORDO(a.livello)} p-4 scroll-mt-24 group ${decisa ? "opacity-80" : ""}`}
       >
