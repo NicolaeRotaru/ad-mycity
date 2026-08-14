@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-14 06:19",
+ "aggiornato": "2026-08-14 06:29",
  "lezioni": [
   {
    "id": "L-2026-0813-03",
@@ -4814,7 +4814,7 @@
     "prevenzione"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 1,
+   "confidenza": 0.85,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -4826,7 +4826,8 @@
      "quando": "2026-07-17 07:00",
      "ref": "giro-17-07 — applicata: git diff origin/main prima di push branch; rebase preventivo nei PR di Pannello"
     }
-   ]
+   ],
+   "decaduto_step_il": "2026-08-14 06:22"
   },
   {
    "id": "L-2026-0717-244",
@@ -4840,7 +4841,7 @@
     "nicola-richiesta"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.9,
+   "confidenza": 0.75,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -4852,7 +4853,8 @@
      "quando": "2026-07-17 07:00",
      "ref": "giro-17-07 — piano streaming accodato in AZIONI-IN-ATTESA #streaming-worker secondo questa lezione (worker, non Pannello)"
     }
-   ]
+   ],
+   "decaduto_step_il": "2026-08-14 06:22"
   },
   {
    "id": "L-2026-0716-243",
@@ -13196,12 +13198,12 @@
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.12,
-  "tasso_calcolato_il": "2026-08-14 06:19",
+  "tasso_calcolato_il": "2026-08-14 06:29",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-14 06:19",
+  "tick_leggero_il": "2026-08-14 06:29",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-14 01:51",
+  "cristallizzazione_ultima": "2026-08-14 06:22",
   "lezioni_totali": 517,
   "lezioni_per_stato": {
    "attiva": 412,
