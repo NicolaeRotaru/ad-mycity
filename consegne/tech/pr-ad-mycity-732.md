@@ -3,8 +3,8 @@
 - **Repo:** NicolaeRotaru/ad-mycity
 - **Branch:** `fix/recupero-log-cervello-23-22` → `main`
 - **URL:** https://github.com/NicolaeRotaru/ad-mycity/pull/732
-- **Titolo:** leggibilità: aggiungi esempio concreto alla PR recupero log cervello (AR-478)
-- **Creato:** 2026-08-15 00:18 (Europe/Rome)
+- **Titolo:** leggibilità: correggi il conto CI stale nella PR recupero log cervello (verificato 00:20)
+- **Creato:** 2026-08-15 00:24 (Europe/Rome)
 
 ## Merge
 🔴 **Non mergeare da solo.** Nicola approva dal Pannello → `node cervello/git-merge.mjs --repo ad-mycity --pr 732`
