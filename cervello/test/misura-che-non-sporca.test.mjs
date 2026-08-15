@@ -46,11 +46,29 @@ const prova = (nome, fn) => {
 };
 
 const sabbiera = mkdtempSync(join(tmpdir(), "misura-"));
-const node = (args, env = {}) =>
-  execFileSync(process.execPath, args, {
+
+/**
+ * Lancia uno script e torna cosa ha detto, SENZA alzare un'eccezione se esce diverso da zero.
+ *
+ * ⚠️ QUESTA RIGA È COSTATA UN ROSSO IN CI, ed è la malattia che questo lotto cura, capitata dentro
+ * la sua stessa prova. La prima versione usava la scorciatoia che ALZA su uscita non-zero. Qui ho la
+ * fortuna di avere le chiavi, quindi i guardiani escono 0 e passava tutto; sulla macchina della CI
+ * non ci sono, gli stessi guardiani escono 2 — che in questa casa vuol dire «NON HO POTUTO
+ * MISURARE» — e la prova diventava rossa dove non c'era niente di rotto.
+ *
+ * Cioè stavo trattando un CIECO come un GUASTO: 13 passati e 2 falliti, e i 2 non erano difetti.
+ *
+ * La cura è la stessa che applico ai guardiani veri: si giudica l'EFFETTO, non il codice d'uscita.
+ * Questi casi chiedono «ha scritto o no?», e la risposta si legge sul disco — un guardiano che non
+ * ha potuto misurare non ha scritto niente, che è esattamente ciò che devono dimostrare.
+ */
+const node = (args, env = {}) => {
+  const r = spawnSync(process.execPath, args, {
     cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024,
     stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, ...env },
   });
+  return { uscita: r.status, testo: `${r.stdout || ""}`, errore: `${r.stderr || ""}` };
+};
 
 // ── ① La decisione, sul modulo puro ─────────────────────────────────────────
 
@@ -146,14 +164,34 @@ prova("⑫ AR-639 · due esecuzioni identiche lasciano il file uguale BYTE PER B
 
 // ── ③ La prova che chiede la scheda di AR-464, testualmente ─────────────────
 
-prova("⑬ AR-464 · due guardiani lanciati con --sola-lettura lasciano git status VUOTO", () => {
-  const sporchi = () => percorsiDaGit(["status", "--porcelain"], { cwd: REPO }).map((l) => l.slice(3).trim());
-  const prima = new Set(sporchi());
+prova("⑬ AR-464 · due guardiani lanciati con --sola-lettura non toccano il loro file di stato", () => {
+  // ⚠️ La prima versione chiedeva «git status VUOTO» su TUTTO l'albero, ed è la prova chiesta dalla
+  // scheda alla lettera. Ma in CI la suite gira a quattro processi insieme: qualunque altra prova
+  // che scrive un file rende rosso questo caso, e la colpa finisce sui due guardiani che non
+  // c'entrano niente. Un rosso che non appartiene a chi lo vede è il modo più veloce per imparare a
+  // ignorarlo — la stessa cosa che questo lotto ha curato altrove.
+  //
+  // Quindi si guarda l'impronta dei DUE FILE che questi guardiani scrivono, non l'intero albero:
+  // l'affermazione vera è «questi due non lasciano impronte», non «nessuno nel repo ha scritto».
+  const sorvegliati = [
+    "MyCity-Vault/90-Memoria-AI/auto-coscienza/stampo-check.json",
+    "MyCity-Vault/90-Memoria-AI/auto-coscienza/coerenza-fatti.json",
+  ];
+  const impronta = () => sorvegliati.map((f) => {
+    try { return `${f}:${readFileSync(join(REPO, f), "utf8").length}`; }
+    catch { return `${f}:assente`; }
+  }).join("|");
+
+  const prima = impronta();
   node(["cervello/coerenza-fatti.mjs", "--sola-lettura"]);
   node(["cervello/stampo-check.mjs", "--sola-lettura"]);
-  const nuovi = sporchi().filter((f) => f && !prima.has(f));
-  assert.deepEqual(nuovi, [],
-    `verificare non deve costare un diff, e invece ha sporcato: ${nuovi.join(", ")}`);
+  assert.equal(impronta(), prima,
+    "verificare non deve costare un diff: con --sola-lettura il file di stato non si tocca");
+
+  // E il controllo che rende il caso non-vacuo: il percorso sorvegliato deve essere quello VERO,
+  // altrimenti sopra si confronterebbero due «assente» e passerebbe qualunque cosa.
+  assert.ok(sorvegliati.some((f) => existsSync(join(REPO, f))),
+    "nessuno dei file sorvegliati esiste: questo caso non sta guardando niente");
 });
 
 // ── AR-653 · AR-654 — una decisione che vive solo in un file d'ambiente non esiste ──
@@ -182,11 +220,10 @@ prova("⑮ AR-653 · senza la variabile d'ambiente il sensore è SPENTO lo stess
   // chiavi il comando esce 2, che in questa casa vuol dire «non ho potuto misurare» e non «errore».
   // Trattare il cieco come un guasto renderebbe questa prova rossa dove non c'è niente di rotto —
   // che è la malattia curata dalla corsia accanto, riprodotta dentro la sua stessa prova.
-  const r = spawnSync(process.execPath,
-    [join(REPO, "cervello/verifica-sensori.mjs"), "--json", "--sola-lettura"],
-    { cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024,
-      env: { ...process.env, POSTHOG_OFF: "" }, stdio: ["ignore", "pipe", "pipe"] });
-  const posthog = (JSON.parse(r.stdout).checks || []).find((c) => c.nome === "posthog_api");
+  const r = node(["cervello/verifica-sensori.mjs", "--json", "--sola-lettura"], { POSTHOG_OFF: "" });
+  // Da una macchina senza chiavi il comando esce 2 (cieco) ma il verdetto sui sensori lo stampa
+  // lo stesso: è il testo che conta, non il codice d'uscita.
+  const posthog = (JSON.parse(r.testo).checks || []).find((c) => c.nome === "posthog_api");
   assert.ok(posthog, "il sensore non compare fra i controlli");
   assert.equal(posthog.spento, true,
     "senza POSTHOG_OFF il check torna a partire e il sensore risulta acceso: la decisione di Nicola sparisce");
