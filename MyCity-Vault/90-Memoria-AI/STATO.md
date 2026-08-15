@@ -1,8 +1,19 @@
 ---
 tipo: stato
-aggiornato: 2026-08-15 11:10
+aggiornato: 2026-08-15 11:25
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **15/8 11:25 — Giro richiesto in chat, 15 minuti dopo il passaggio delle 11:10. Business invariato. Strategia snella applicata: nessun motore pesante riaperto.**
+> Riconfermato con `verifica-sensori.mjs` (REST, allowlisted) + `cervello/delta-gate.mjs` (letto, non rilanciato): firma identica dal 24/6 — 1 ordine, mai pagato, 0 pagati negli ultimi 7gg, 7 clienti. `coerenza-fatti.mjs` rieseguito dal vivo: ✅ memoria coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: 103/120 quaderni fermi, nessuno riguarda una card sbloccabile prima del 24/8-1/9 (vincolo north-star rispettato: nessun lavoro-macchina fuori da ciò che sblocca il primo incasso).
+>
+> **Non riscritti** `auto-analisi.json`/`AUTO-ANALISI.md` (freschi da 14 minuti, passaggio 11:10) né `apprendimento.json` (fresco da 3 minuti, stesso passaggio): business identico, riscriverli ora sarebbe la stessa passata a vuoto già scartata più volte oggi ([[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Correzione-nicola-gate: nessun nuovo candidato onestamente gatabile.** Stesso esito dei passaggi precedenti di oggi (i 5 esempi segnalati restano giudizio/UX, non meccanizzabili senza violare l'asticella AR-128).
+>
+> **Provati e bloccati una sola volta ciascuno (stesso limite noto, non ritentati):** `test-cervello.mjs`, `verifica-automazione.mjs`, `freschezza-cadenze.mjs`, `north-star-check.mjs --gate`, `gate-veri.mjs`, `piani-data.mjs --controlla` — tutti "richiede approvazione" in questa sessione ([[feedback-bash-solo-script-esatti-in-allowlist]]).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7 senza risposta). Briefing: [[Briefing/2026-08-15]].
 
 > 🔁 **15/8 11:10 — Giro richiesto in chat, ~25 minuti dopo il passaggio delle 10:45 (lavoro vero: 3 test riparati, PR aperta). Business invariato, strategia snella applicata.**
 > Riconfermato con **query SQL diretta** via MCP Supabase: 1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6, stallo North Star **52 giorni** — identico byte-per-byte al passaggio precedente. `ci-stato.mjs` (PR #734 rossa colpa mista, non toccata; PR #727 verde pronta per la firma) e `coerenza-fatti.mjs` (memoria coerente) rieseguiti dal vivo: stesso esito. Non rieseguiti i motori pesanti (analista/intelligence/riscrittura JSON business-facing): nulla è cambiato in 25 minuti, rifarli avrebbe solo duplicato lavoro.
