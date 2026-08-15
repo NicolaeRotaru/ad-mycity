@@ -4365,6 +4365,24 @@
    "cerca": "Workflow `.claude/workflows/radiografia-totale.js`",
    "sostituisci": "Workflow interno",
    "test": "cervello/test/ogni-workflow-ha-la-sua-porta.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-689",
+   "nome": "uno script torna a chiedere l elenco dei file a git invece che alla porta: la lettura senza tetto si rompe proprio quando il lavoro e grosso",
+   "file": "cervello/agent-registry-check.mjs",
+   "cerca": "    fileTracciati = percorsiDaGit([\"ls-files\"], { cwd: AD_ROOT });",
+   "sostituisci": "    fileTracciati = execFileSync(\"git\", [\"ls-files\"], { cwd: AD_ROOT, encoding: \"utf8\" }).split(\"\\n\");",
+   "test": "cervello/test/segreto-in-un-nome-con-l-accento.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-698",
+   "nome": "il testo della controprova smette di far scattare il pattern: il metro non guarda piu dove aveva promesso, e lo zero della malattia diventa una bugia",
+   "file": "cervello/malattie.json",
+   "cerca": "\"controprova\": \"const maxBuffer = 64000;",
+   "sostituisci": "\"controprova\": \"const niente = 1;",
+   "test": "cervello/spazzata-fratelli.mjs"
   }
  ]
 }

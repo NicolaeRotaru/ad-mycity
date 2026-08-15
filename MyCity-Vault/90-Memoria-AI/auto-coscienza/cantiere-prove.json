@@ -1,15 +1,15 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-15 18:38",
+  "aggiornato": "2026-08-15 18:39",
   "giorni_sospetto": 3,
   "difetti_aperti": 237,
   "per_classe": {
     "umana": 128,
-    "auto-sospetta": 47,
-    "auto-comando": 62
+    "auto-sospetta": 38,
+    "auto-comando": 71
   },
-  "non_auto_chiudibili": 175,
+  "non_auto_chiudibili": 166,
   "bloccanti_ciechi": [
     "AR-072",
     "AR-518",
@@ -274,14 +274,6 @@
     }
   ],
   "prove_non_misurabili": [
-    {
-      "id": "AR-458",
-      "stato": "aperto",
-      "gravita": "minore",
-      "causa": "comando-non-eseguibile",
-      "comando": "node --test cervello/test/gate-veri-in-attesa.test.mjs",
-      "motivo": "il motore non sa eseguire \"node --test cervello/test/gate-veri-in-attesa.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
-    },
     {
       "id": "AR-481",
       "stato": "chiuso",
@@ -705,70 +697,6 @@
       "causa": "comando-non-eseguibile",
       "comando": "node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata",
       "motivo": "il motore non sa eseguire \"node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata\" (solo: node cervello/<script>.mjs [--flag])"
-    },
-    {
-      "id": "AR-671",
-      "stato": "aperto",
-      "gravita": "minore",
-      "causa": "comando-non-eseguibile",
-      "comando": "node --test cervello/test/burn-down-che-migliora-da-solo.test.mjs",
-      "motivo": "il motore non sa eseguire \"node --test cervello/test/burn-down-che-migliora-da-solo.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
-    },
-    {
-      "id": "AR-685",
-      "stato": "aperto",
-      "gravita": "grave",
-      "causa": "comando-non-eseguibile",
-      "comando": "node --test cervello/test/referto-troncato-dalla-pipe.test.mjs",
-      "motivo": "il motore non sa eseguire \"node --test cervello/test/referto-troncato-dalla-pipe.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
-    },
-    {
-      "id": "AR-699",
-      "stato": "aperto",
-      "gravita": "grave",
-      "causa": "comando-non-eseguibile",
-      "comando": "node --test cervello/test/mutazioni-orfane.test.mjs",
-      "motivo": "il motore non sa eseguire \"node --test cervello/test/mutazioni-orfane.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
-    },
-    {
-      "id": "AR-701",
-      "stato": "aperto",
-      "gravita": "grave",
-      "causa": "comando-non-eseguibile",
-      "comando": "node --test cervello/test/capacita-dal-repo-non-dal-disco.test.mjs",
-      "motivo": "il motore non sa eseguire \"node --test cervello/test/capacita-dal-repo-non-dal-disco.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
-    },
-    {
-      "id": "AR-702",
-      "stato": "aperto",
-      "gravita": "minore",
-      "causa": "comando-non-eseguibile",
-      "comando": "node --test cervello/test/caccia-cieca-non-e-un-elenco-vuoto.test.mjs",
-      "motivo": "il motore non sa eseguire \"node --test cervello/test/caccia-cieca-non-e-un-elenco-vuoto.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
-    },
-    {
-      "id": "AR-706",
-      "stato": "aperto",
-      "gravita": "grave",
-      "causa": "comando-non-eseguibile",
-      "comando": "node --test cervello/test/prove-senza-esecutore-e-senza-mutazione.test.mjs",
-      "motivo": "il motore non sa eseguire \"node --test cervello/test/prove-senza-esecutore-e-senza-mutazione.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
-    },
-    {
-      "id": "AR-707",
-      "stato": "aperto",
-      "gravita": "grave",
-      "causa": "comando-non-eseguibile",
-      "comando": "node --test cervello/test/non-vacuita-tre-esiti.test.mjs",
-      "motivo": "il motore non sa eseguire \"node --test cervello/test/non-vacuita-tre-esiti.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
-    },
-    {
-      "id": "AR-708",
-      "stato": "aperto",
-      "gravita": "grave",
-      "causa": "comando-non-eseguibile",
-      "comando": "node --test cervello/test/non-vacuita-foglietto.test.mjs",
-      "motivo": "il motore non sa eseguire \"node --test cervello/test/non-vacuita-foglietto.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
     }
   ],
   "da_riverificare": [
@@ -2872,10 +2800,9 @@
       "gravita": "minore",
       "eta_giorni": 16,
       "titolo": "gate-veri butta via la differenza fra «freno mai costruito» e «freno che aspetta un merge»: grida al lupo su o",
-      "classe": "auto-sospetta",
-      "codice": 2,
-      "perche": "comando di prova non ammesso: node --test cervello/test/gate-veri-in-attesa.test.mjs — solo: node cervello/<script>.mjs [--flag]",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/gate-veri-in-attesa.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-464",
@@ -3872,10 +3799,9 @@
       "gravita": "minore",
       "eta_giorni": 1,
       "titolo": "Il burn-down del cantiere può migliorare da solo: i difetti senza data di nascita venivano scartati in silenzi",
-      "classe": "auto-sospetta",
-      "codice": 2,
-      "perche": "comando di prova non ammesso: node --test cervello/test/burn-down-che-migliora-da-solo.test.mjs — solo: node cervello/<script>.mjs [--flag]",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/burn-down-che-migliora-da-solo.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-672",
@@ -3999,10 +3925,9 @@
       "gravita": "grave",
       "eta_giorni": 1,
       "titolo": "Il guardiano delle prove si tronca il referto a 64 KB quando lo si legge da una pipe",
-      "classe": "auto-sospetta",
-      "codice": 2,
-      "perche": "comando di prova non ammesso: node --test cervello/test/referto-troncato-dalla-pipe.test.mjs — solo: node cervello/<script>.mjs [--flag]",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/referto-troncato-dalla-pipe.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-686",
@@ -4099,10 +4024,9 @@
       "gravita": "grave",
       "eta_giorni": null,
       "titolo": "Chi riscrive una riga sorvegliata non sa di averne staccato la guardia: lo scopre dopo, se lo scopre",
-      "classe": "auto-sospetta",
-      "codice": 2,
-      "perche": "comando di prova non ammesso: node --test cervello/test/mutazioni-orfane.test.mjs — solo: node cervello/<script>.mjs [--flag]",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/mutazioni-orfane.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-700",
@@ -4118,20 +4042,18 @@
       "gravita": "grave",
       "eta_giorni": null,
       "titolo": "Il guardiano delle capacità conta le cartelle che l'ambiente lascia sul disco, non quelle della macchina: il v",
-      "classe": "auto-sospetta",
-      "codice": 2,
-      "perche": "comando di prova non ammesso: node --test cervello/test/capacita-dal-repo-non-dal-disco.test.mjs — solo: node cervello/<script>.mjs [--flag]",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/capacita-dal-repo-non-dal-disco.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-702",
       "gravita": "minore",
       "eta_giorni": null,
       "titolo": "La lista delle cacce aperte torna vuota anche quando il registro non si è potuto leggere",
-      "classe": "auto-sospetta",
-      "codice": 2,
-      "perche": "comando di prova non ammesso: node --test cervello/test/caccia-cieca-non-e-un-elenco-vuoto.test.mjs — solo: node cervello/<script>.mjs [--flag]",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/caccia-cieca-non-e-un-elenco-vuoto.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-703",
@@ -4165,30 +4087,27 @@
       "gravita": "grave",
       "eta_giorni": null,
       "titolo": "Una prova a runtime può misurare il tema invece della cura, e il verde sembra vero",
-      "classe": "auto-sospetta",
-      "codice": 2,
-      "perche": "comando di prova non ammesso: node --test cervello/test/prove-senza-esecutore-e-senza-mutazione.test.mjs — solo: node cervello/<script>.mjs [--flag]",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/prove-senza-esecutore-e-senza-mutazione.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-707",
       "gravita": "grave",
       "eta_giorni": null,
       "titolo": "Il banco delle mutazioni giudica dal solo numero di uscita, e una corsa mai avvenuta ne ha uno qualsiasi",
-      "classe": "auto-sospetta",
-      "codice": 2,
-      "perche": "comando di prova non ammesso: node --test cervello/test/non-vacuita-tre-esiti.test.mjs — solo: node cervello/<script>.mjs [--flag]",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/non-vacuita-tre-esiti.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-708",
       "gravita": "grave",
       "eta_giorni": null,
       "titolo": "Il ripristino d emergenza non puo scattare proprio nel momento in cui serve",
-      "classe": "auto-sospetta",
-      "codice": 2,
-      "perche": "comando di prova non ammesso: node --test cervello/test/non-vacuita-foglietto.test.mjs — solo: node cervello/<script>.mjs [--flag]",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/non-vacuita-foglietto.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-709",

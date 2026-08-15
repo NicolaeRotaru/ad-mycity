@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-15 18:45",
+  "aggiornato": "2026-08-15 19:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -14871,6 +14871,23 @@
       "verifica": {
         "tipo": "umano",
         "nota": "nato nel lotto 43 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
+      }
+    },
+    {
+      "id": "AR-723",
+      "titolo": "La controprova di una malattia si può togliere in silenzio: sparisce lei e sparisce il controllo",
+      "dimensione": "trovato-riparando",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "stato": "aperto",
+      "nato": "2026-08-15 19:10",
+      "nato_come": "scoperta",
+      "causa_radice": "In cervello/spazzata-fratelli.mjs, caloNonProvato() controlla la controprova SOLO se la voce ne dichiara una (`if (malattia.controprova)`). Cambiarne il testo fa scattare il rosso — provato: la mutazione di AR-698 lo dimostra. TOGLIERE il campo, invece, lascia la spazzata VERDE: il codice cade nel ramo successivo e nessuno nota che una promessa è stata ritirata. Cioè la difesa più forte del registro è quella che si disinstalla nel modo più facile. È la forma «una difesa che si può spegnere senza fare rumore», sorella di prova-che-non-puo-fallire.",
+      "fix_proposto": "Chi ha DICHIARATO una controprova non può ritirarla in silenzio: la spazzata deve confrontare la voce di oggi con quella dell ultimo commit (come fa già il sorvegliante del delta per le difese rimosse) e dichiarare rosso se un campo  sparisce senza che la baseline salga. Prova: togliere il campo a una malattia e pretendere il rosso.",
+      "origine": "lotto 43: trovato mentre si scriveva la mutazione di AR-698 — la prima versione mutava il NOME del campo e il test restava verde",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 43 mentre si riparava un altro difetto: causa verificata sul codice (spazzata-fratelli.mjs, caloNonProvato), prova da scrivere"
       }
     }
   ],
