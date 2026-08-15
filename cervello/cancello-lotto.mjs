@@ -479,7 +479,24 @@ export function ambientePannello(esiste) {
  * scelta finisce in «:» si porta dietro le righe puntate che la seguono.
  */
 export function righeMotivo(righe = []) {
-  const MARCATORE = /(❌|⛔|⚪|CIECO|AssertionError|^\s*Error\b|^\s*Errore\b|^not ok\b)/;
+  // I SIMBOLI VALGONO IN TESTA ALLA RIGA, le parole ovunque — e la differenza l'ha insegnata la CI.
+  //
+  // Prima bastava che il carattere comparisse in un punto qualsiasi. Il 15/8 il banco delle
+  // mutazioni ha prodotto due righe RIUSCITE il cui titolo *cita* il carattere ⚪ («una prova non
+  // eseguita resta come ⚪»): sono state scelte come motivi, hanno riempito le sei righe tenute, e
+  // hanno spinto fuori l'unica riga che il problema ce l'aveva davvero. Il referto mostrava due
+  // successi sotto l'intestazione di un fallimento.
+  //
+  // Un simbolo che APRE la riga è un VERDETTO; lo stesso simbolo in mezzo a una frase è una parola.
+  //
+  // «Apre», non «è il primo carattere»: un verdetto vero arriva spesso dentro un referto in JSON,
+  // dove davanti ha spazi e una virgoletta (`      "❌ 14 consegne mute…"`), oppure dentro un
+  // elenco puntato. Quindi si ammette la punteggiatura che sta prima, e si rifiuta il testo.
+  // Ancorarlo alla colonna zero spegneva la diagnosi che questo filtro esiste per salvare — provato
+  // subito, con un caso di questo file diventato rosso.
+  //
+  // Le parole-marcatore restano libere: `AssertionError` e `CIECO` compaiono in mezzo alle righe.
+  const MARCATORE = /(^[\s"'`·•\-[(]*(❌|⛔|⚪)|CIECO|AssertionError|^\s*Error\b|^\s*Errore\b|^not ok\b)/;
   const scelte = new Set();
   righe.forEach((r, i) => {
     if (!MARCATORE.test(r)) return;
