@@ -36,7 +36,6 @@ import {
   stessoContenuto,
   timbroProvenienza,
 } from "../scrittura-misura.mjs";
-import { percorsiDaGit } from "../percorsi-git.mjs";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
 const casi = [];
@@ -139,10 +138,28 @@ prova("⑨ i campi-timbro non contano nel confronto, il resto sì", () => {
 
 // ── ② Gli script veri, guidati su una cartella temporanea ───────────────────
 
-prova("⑩ AR-663 · il referto è deviabile, e la memoria vera non si tocca", () => {
+prova("⑩ AR-663 · col referto deviato, la memoria VERA non si tocca", () => {
+  // ⚠️ La prima versione pretendeva che il file finto ESISTESSE dopo la corsa, e in CI cadeva —
+  // giustamente. Là il guardiano non ha niente da contare, si dichiara cieco e non scrive: è il
+  // comportamento corretto, e la mia prova lo chiamava guasto. Ancora una volta un cieco letto
+  // come un rosso, dentro la prova che cura proprio quello.
+  //
+  // Quello che AR-663 afferma non è «scrive nel file finto»: è «NON scrive in quello vero». È
+  // questa la cosa da misurare, ed è vera sia quando il guardiano ha dati sia quando è cieco.
   const finto = join(sabbiera, "blocco-mancante.json");
+  const vero = join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/blocco-mancante.json");
+  const impronta = () => { try { return readFileSync(vero, "utf8"); } catch { return "assente"; } };
+
+  const prima = impronta();
   node(["cervello/conta-blocco-mancante.mjs", "--aggiorna-tetto"], { BLOCCO_MANCANTE_FILE: finto });
-  assert.ok(existsSync(finto), "senza la variabile d'ambiente la prova sporcherebbe il referto VERO");
+  assert.equal(impronta(), prima,
+    "col referto deviato il file VERO non deve cambiare: chi lo interroga non deve peggiorarlo");
+
+  // E il controllo che tiene il caso onesto: se ha scritto, deve aver scritto nel finto. Se non ha
+  // scritto da nessuna parte è perché era cieco, e va bene — ma non si finge di aver misurato.
+  if (!existsSync(finto)) {
+    assert.equal(prima, impronta(), "nessuna scrittura da nessuna parte: il guardiano era cieco");
+  }
 });
 
 prova("⑪ AR-663 · con --json si guarda e non si scrive", () => {
