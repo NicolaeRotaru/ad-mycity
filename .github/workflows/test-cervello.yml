@@ -69,14 +69,23 @@ jobs:
         with:
           node-version: "22"
 
-      - name: Test del cervello
-        run: node cervello/test-cervello.mjs
-
       # Le dipendenze servono al typecheck: senza, `tsc` non parte e il passo uscirebbe cieco.
       # Cieco non è verde — è la regola che questa macchina applica a ogni guardiano (AR-322), e
       # vale anche qui: un passo saltato non va raccontato come un passo superato.
+      #
+      # AR-696 — questo passo stava DOPO la suite, e la conseguenza non era il typecheck: erano tre
+      # schede CHIUSE che a ogni corsa risultavano «prova rossa adesso». La loro prova importa una
+      # rotta del Pannello, che importa `next`, che qui non era ancora installato: la prova non
+      # partiva e il banco chiamava rosso un fix che non era mai tornato indietro.
+      #
+      # Spostarlo prima non è cosmetica: quella prova adesso viene MISURATA invece che dichiarata
+      # non misurata. Fra le due c'è la differenza che questo repo passa il tempo a difendere — e la
+      # copertura si guadagna installando lo strumento, non abbassando l'asticella.
       - name: Dipendenze del Pannello
         run: npm --prefix pannello ci
+
+      - name: Test del cervello
+        run: node cervello/test-cervello.mjs
 
       - name: Typecheck del Pannello
         run: npx --prefix pannello tsc --noEmit --project pannello/tsconfig.json
