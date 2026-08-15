@@ -23,6 +23,11 @@ import { nonEUnaPrevisione } from "./volano-regole.mjs";
 import { CAUSE_AMMESSE, conteggioReparto, fineFinestra, invarianteRotta, punteggioOnesto } from "./previsione-verificabile.mjs";
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+// AR-446 · AR-668 — la scrittura passa dal writer atomico condiviso, che consulta il freno della
+// memoria (`cervello/casa-memoria.mjs`). È così che il percorso diventa INIETTABILE senza dare a
+// questo script una variabile sua: chi lo lancia da una prova devia la radice UNA volta e la
+// ereditano anche gli script che questo lancia a sua volta.
+import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 const PATH = join(VAULT, "calibrazione.json");
@@ -184,8 +189,7 @@ function write(data) {
   assertRegistroStrutturato(data);
   data.aggiornato = nowPiacenza();
   aggiornaNota(data);
-  mkdirSync(dirname(PATH), { recursive: true });
-  writeFileSync(PATH, JSON.stringify(data, null, 2) + "\n", "utf8");
+  scriviJsonAtomico(PATH, data);
 }
 
 /**
@@ -545,13 +549,12 @@ function cmdPromozioni(data) {
       `- **Stato:** in attesa\n`;
     if (accoda) {
       if (!existsSync(CODA)) {
-        mkdirSync(dirname(CODA), { recursive: true });
-        writeFileSync(CODA, "# ⏳ AZIONI IN ATTESA (firma di Nicola)\n");
+        scriviTestoAtomico(CODA, "# ⏳ AZIONI IN ATTESA (firma di Nicola)\n");
       }
       const testo = readFileSync(CODA, "utf8");
       // Anti-doppione anche cross-run: se un blocco per questo reparto è già in coda, non riaccodare.
       if (!testo.includes(`Dai più autonomia a ${r.reparto}`)) {
-        writeFileSync(CODA, testo.trimEnd() + "\n" + blocco, "utf8");
+        scriviTestoAtomico(CODA, testo.trimEnd() + "\n" + blocco);
       }
       data.promozioni_proposte[r.reparto] = quando;
       console.log(`🚦 ${r.reparto}: autonomia ALTA guadagnata (${r.azzeccate}/${r.previsioni}, Wilson ${r.lower_bound}) → proposta 🟡 accodata per la firma.`);

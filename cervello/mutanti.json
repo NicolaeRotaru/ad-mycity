@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-15 15:05",
+ "aggiornato": "2026-08-15T15:54:48.948Z",
  "mutanti": [
   {
    "lotto": 30,
@@ -4167,6 +4167,222 @@
    "cerca": "  const MARCATORE = /(^[\\s\"'`·•\\-[(]*(❌|⛔|⚪)|CIECO|AssertionError|^\\s*Error\\b|^\\s*Errore\\b|^not ok\\b)/;",
    "sostituisci": "  const MARCATORE = /(❌|⛔|⚪|CIECO|AssertionError|^\\s*Error\\b|^\\s*Errore\\b|^not ok\\b)/;",
    "test": "cervello/test/rosso-che-non-dice-perche.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-702",
+   "nome": "AR-702 — il cuore del fix",
+   "file": "cervello/prompt-senior.mjs",
+   "cerca": "  if (!r.ok) return null;",
+   "sostituisci": "  if (!r.ok) return [];",
+   "test": "cervello/test/caccia-cieca-non-e-un-elenco-vuoto.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-458",
+   "nome": "AR-458 — il cuore del fix",
+   "file": "cervello/gate-veri.mjs",
+   "cerca": "      bloccante: c.bloccante,",
+   "sostituisci": "      bloccante: true,",
+   "test": "cervello/test/gate-veri-in-attesa.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-701",
+   "nome": "AR-701 — il cuore del fix",
+   "file": "cervello/guardiano-capacita.mjs",
+   "cerca": "    tracciati = percorsiDaGit([\"ls-files\", \"--\", rel], { cwd: AD_ROOT });",
+   "sostituisci": "    tracciati = readdirSync(dir).map((n) => `${rel}/${n}/SKILL.md`);",
+   "test": "cervello/test/capacita-dal-repo-non-dal-disco.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-685",
+   "nome": "AR-685 — il cuore del fix",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "if (GATE && bloccantiCiechiOra.length) process.exitCode = 1;",
+   "sostituisci": "if (GATE && bloccantiCiechiOra.length) process.exit(1);",
+   "test": "cervello/test/referto-troncato-dalla-pipe.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-671",
+   "nome": "AR-671 — il cuore del fix",
+   "file": "cervello/atti-veri.mjs",
+   "cerca": "      if (!giaChiuso) ignoti++;",
+   "sostituisci": "      if (false) ignoti++;",
+   "test": "cervello/test/burn-down-che-migliora-da-solo.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-663",
+   "nome": "il freno della memoria smette di fermare la scrittura di chi sta solo misurando",
+   "file": "cervello/scrivi-json.mjs",
+   "cerca": "  if (!dove.scrivi) return null;",
+   "sostituisci": "  // FRENO DISFATTO",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-668",
+   "nome": "lo scrittore comune smette di chiedere alla casa dove e se scrivere",
+   "file": "cervello/scrivi-json.mjs",
+   "cerca": "import { decidiDestinazione } from \"./casa-memoria.mjs\";",
+   "sostituisci": "const decidiDestinazione = (p) => ({ scrivi: true, percorso: p });",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-639",
+   "nome": "uno scrittore del vault torna a scrivere crudo invece di passare dal freno: il tetto degli scrittori che saltano la casa risale",
+   "file": "cervello/esperimenti-check.mjs",
+   "cerca": "  scriviJsonAtomico(PATH, dati);",
+   "sostituisci": "  writeFileSync(PATH, JSON.stringify(dati));",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-446",
+   "nome": "la memoria non è più riconosciuta come memoria, quindi niente viene deviato",
+   "file": "cervello/casa-memoria.mjs",
+   "cerca": "export const CARTELLE_MEMORIA = [\"MyCity-Vault\", \"memoria-squadra\"];",
+   "sostituisci": "export const CARTELLE_MEMORIA = [];",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-464",
+   "nome": "l'interruttore della sola lettura non risponde più al suo nome",
+   "file": "cervello/casa-memoria.mjs",
+   "cerca": "export const ENV_SOLA_LETTURA = \"MYCITY_MEMORIA_SOLA_LETTURA\";",
+   "sostituisci": "export const ENV_SOLA_LETTURA = \"__MAI__\";",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-708",
+   "nome": "il foglietto non viene più scritto prima di mutare: nessuno sa che quel file è rotto, e il caso col SIGKILL diventa rosso",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "      lasciaTraccia(IN_CORSO.stato, IO_VERO.scrivi);",
+   "sostituisci": "      /* rotto */;",
+   "test": "cervello/test/non-vacuita-foglietto.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-699",
+   "nome": "il comando smette di confrontare il pezzo col file: nessuna mutazione risulta mai orfana",
+   "file": "cervello/mutazioni-orfane.mjs",
+   "cerca": "    if (!String(testo).includes(String(m?.cerca ?? \"\"))) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/mutazioni-orfane.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-706",
+   "nome": "il conto delle prove a runtime scoperte è sempre zero: una prova che guida un browser e che nessuno ha mai rotto apposta passa liscia",
+   "file": "cervello/prove-runtime-senza-mutazione.mjs",
+   "cerca": "  return proveRuntime.filter((p) => !coperte.has(basename(p.file)));",
+   "sostituisci": "  return [];",
+   "test": "cervello/test/prove-senza-esecutore-e-senza-mutazione.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-705",
+   "nome": "AR-705 — il cuore del fix",
+   "file": "pannello/src/components/aree/Azioni.tsx",
+   "cerca": "const BORDO = classiBordo;",
+   "sostituisci": "const BORDO = classiBordoCheNonEsiste;",
+   "test": "cervello/test/c4-typecheck-del-pannello.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-602",
+   "nome": "AR-602 — il cuore del fix",
+   "file": "pannello/src/components/LavoriCervello.tsx",
+   "cerca": "    const scelta = qualeRisposta(lv, d);",
+   "sostituisci": "    return { ...lv, richiesta: d.richiesta ?? lv.richiesta, risultato: d.risultato ?? lv.risultato }; const scelta = qualeRisposta(lv, d);",
+   "test": "cervello/test/c4-recupero-thread.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-603",
+   "nome": "AR-603 — il cuore del fix",
+   "file": "pannello/src/lib/recupero-thread.ts",
+   "cerca": "  return [...new Set(out)].slice(0, MAX_RILETTURE);",
+   "sostituisci": "  return [];",
+   "test": "cervello/test/c4-recupero-thread.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-604",
+   "nome": "AR-604 — il cuore del fix",
+   "file": "pannello/src/lib/recupero-thread.ts",
+   "cerca": "  const recupera = !s?.recuperoFatto || sospeso;",
+   "sostituisci": "  const recupera = !s?.recuperoFatto && !s?.giaCaricato;",
+   "test": "cervello/test/c4-recupero-thread.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-605",
+   "nome": "AR-605 — il cuore del fix",
+   "file": "pannello/src/lib/effetti-in-updater.ts",
+   "cerca": "    if (!/^\\(\\s*(?:async\\s+)?(?:\\([^()]*\\)|[A-Za-z_$][\\w$]*)\\s*(?::[^=]*?)?=>/.test(corpo)) continue;",
+   "sostituisci": "    continue;",
+   "test": "cervello/test/c4-effetti-fuori-dagli-updater.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-674",
+   "nome": "AR-674 — il cuore del fix",
+   "file": "pannello/src/lib/strati.ts",
+   "cerca": "  const base = voceDiNavigazione(statoCorrente, { vista: vista || \"plancia\" });",
+   "sostituisci": "  const base = { ...(statoCorrente && typeof statoCorrente === \"object\" ? statoCorrente : {}), vista: vista || \"plancia\" } as Record<string, unknown>;",
+   "test": "cervello/test/c4-voce-senza-vista.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-704",
+   "nome": "AR-704 — il cuore del fix",
+   "file": "cervello/malattie.json",
+   "cerca": "\"id\": \"una-parola-con-due-padroni\"",
+   "sostituisci": "\"id\": \"una-parola-con-tre-padroni\"",
+   "test": "cervello/test/una-parola-con-due-padroni.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-680",
+   "nome": "AR-680 — il cuore del fix",
+   "file": "cervello/keyword-owner-check.mjs",
+   "cerca": "if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();",
+   "sostituisci": "main();",
+   "test": "cervello/test/importare-un-guardiano-non-lo-esegue.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-682",
+   "nome": "AR-682 — il cuore del fix",
+   "file": "COMANDI.md",
+   "cerca": "Workflow `.claude/workflows/radiografia-totale.js`",
+   "sostituisci": "Workflow interno",
+   "test": "cervello/test/ogni-workflow-ha-la-sua-porta.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-689",
+   "nome": "uno script torna a chiedere l elenco dei file a git invece che alla porta: la lettura senza tetto si rompe proprio quando il lavoro e grosso",
+   "file": "cervello/agent-registry-check.mjs",
+   "cerca": "    fileTracciati = percorsiDaGit([\"ls-files\"], { cwd: AD_ROOT });",
+   "sostituisci": "    fileTracciati = execFileSync(\"git\", [\"ls-files\"], { cwd: AD_ROOT, encoding: \"utf8\" }).split(\"\\n\");",
+   "test": "cervello/test/segreto-in-un-nome-con-l-accento.test.mjs"
+  },
+  {
+   "lotto": 43,
+   "difetto": "AR-698",
+   "nome": "il testo della controprova smette di far scattare il pattern: il metro non guarda piu dove aveva promesso, e lo zero della malattia diventa una bugia",
+   "file": "cervello/malattie.json",
+   "cerca": "\"controprova\": \"const maxBuffer = 64000;",
+   "sostituisci": "\"controprova\": \"const niente = 1;",
+   "test": "cervello/spazzata-fratelli.mjs"
   }
  ]
 }

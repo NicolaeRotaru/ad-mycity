@@ -18,17 +18,31 @@
 // esaurimento, e dopo l'invio non si corregge. Leggere «3 giorni» quando ne restano 2 è la
 // differenza fra arrivare e non arrivare.
 //
-// Nessun import: si esegue in un test senza toccare disco, rete o vault.
+// Nessun import che tocchi disco, rete o vault: si esegue in un test così com'è. L'unico è
+// l'orologio di casa, che è puro anche lui.
+
+import { msDaTimbro } from "./ora-piacenza.mjs";
 
 /** Millisecondi in un'ora e in un giorno. */
 const ORA = 3_600_000;
 const GIORNO = 24 * ORA;
 
-/** Parsing tollerante: ISO con fuso, oppure «AAAA-MM-GG HH:MM». `null` se illeggibile. */
+/**
+ * Parsing tollerante: ISO con fuso, oppure «AAAA-MM-GG HH:MM». `null` se illeggibile.
+ *
+ * AR-666 — QUI IL FUSO ERA QUELLO DEL SERVER. `Date.parse("2026-07-30T16:00")` senza fuso scritto
+ * legge l'ora con l'orologio della macchina che gira: sul portatile di casa è Piacenza e il conto
+ * torna, sul VPS è UTC e la stessa scadenza risulta due ore più tardi. Le scadenze qui dentro sono
+ * timbri di Piacenza («AAAA-MM-GG HH:MM»), quindi il fuso si CHIEDE per quella data — che d'inverno
+ * è +01:00 e d'estate +02:00 — invece di ereditarlo da dove capita girare.
+ *
+ * La posta in gioco è la stessa di tutto questo file: un bando a sportello con 10.000€ a fondo
+ * perduto, dove due ore di differenza sul countdown sono la differenza fra arrivare e non arrivare.
+ */
 export function istante(v) {
   const s = String(v ?? "").trim();
   if (!s) return null;
-  const t = Date.parse(s.includes("T") ? s : s.replace(" ", "T"));
+  const t = msDaTimbro(s);
   return Number.isFinite(t) ? t : null;
 }
 

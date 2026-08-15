@@ -43,6 +43,8 @@ import { fileDelComando } from "./cancello-lotto.mjs";
 // rispondono alla stessa domanda vince quello che finisce nella riga di riassunto, e in questa casa
 // il verde vince sempre. La definizione adesso sta nel contratto; qui si CHIAMA.
 import { misuraFreni } from "./contratto-prova.mjs";
+// ⏳ AR-458 — la terza strada: un gate il cui file non c'è PUÒ essere un freno che aspetta un merge.
+import { classificaGateAssente, notaDelGate, nascitaDellaLezione, GIORNI_ATTESA_MAX } from "./gate-in-attesa.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 // AR-596 — il freno stretto, quello che pretende la mutazione DELLA LEZIONE. Non è acceso di
@@ -62,7 +64,7 @@ const MUTANTI = join(AD_ROOT, "cervello/mutanti.json");
  * @param esiste   (percorso) => boolean
  * @param leggi    (percorso) => string | null
  */
-export function analizzaGate(lezioni = [], mutanti = [], esiste = () => false, leggi = () => null) {
+export function analizzaGate(lezioni = [], mutanti = [], esiste = () => false, leggi = () => null, { adesso = Date.now() } = {}) {
   // LA MUTAZIONE È DEL FRENO, NON DELLA FRASE — e resta vero. Ventuno correzioni sulla stessa
   // famiglia puntano tutte allo stesso guardiano: pretendere ventuno mutazioni identiche sarebbe
   // copiatura travestita da rigore. Perciò un freno rotto da chiunque conta come freno provato.
@@ -74,13 +76,60 @@ export function analizzaGate(lezioni = [], mutanti = [], esiste = () => false, l
   // vedono separati, e il totale non cambia: `veri` continua a contenerli tutti (nessun gate sparisce
   // dal conto), `propri` e `per_file` dicono di che pasta è fatto quel numero.
   const m = misuraFreni(lezioni, mutanti, esiste, leggi, fileDelComando);
+
+  // ⏳ AR-458 — LA TERZA STRADA. `misuraFreni` sa dire «il file del gate non esiste» ma non sa
+  // perché: un freno mai costruito e un freno che sta in una PR non ancora mergiata escono da lì
+  // con la stessa etichetta `gate-orfano`. Qui la si separa, con la nota della lezione alla mano.
+  //
+  // La voce NON esce dall'elenco delle violazioni — resta lì, visibile, col suo nome e la sua
+  // gravità — ma smette di essere BLOCCANTE. Due ragioni per tenerla dentro invece che in un terzo
+  // secchio: ① l'invariante «ogni gate dichiarato è o vero o violazione, nessuno sparisce dal
+  // conto» continua a valere, ed è la difesa contro il modo più facile di far salire la pagella;
+  // ② è la stessa forma del sorvegliante, che mette `gate-in-attesa` e `gate-orfano` nella stessa
+  // lista con gravità diverse. Quello che cambia è chi fa uscire 1.
+  const perId = new Map(lezioni.filter(Boolean).map((l) => [l?.id, l]));
+  const violazioni = m.violazioni.map((v) => {
+    if (v.regola !== "gate-orfano") return { ...v, bloccante: true, gravita: "grave" };
+    const l = perId.get(v.lezione);
+    const c = classificaGateAssente({ gateNota: notaDelGate(l), nato: nascitaDellaLezione(l), adesso });
+    return {
+      ...v,
+      regola: c.classe,
+      bloccante: c.bloccante,
+      gravita: c.bloccante ? "grave" : "media",
+      pr: c.pr,
+      giorni_di_attesa: c.giorni,
+      motivo: c.motivo,
+    };
+  });
+
   return {
     dichiarati: m.dichiarati,
     veri: [...m.veri, ...m.perFile],
-    violazioni: m.violazioni,
+    violazioni,
+    // Chi fa uscire 1: le violazioni bloccanti. Le attese sono debito dichiarato, non falsi allarmi.
+    bloccanti: violazioni.filter((v) => v.bloccante),
+    inAttesa: violazioni.filter((v) => v.regola === "gate-in-attesa"),
     propri: m.veri,
     perFile: m.perFile,
   };
+}
+
+/**
+ * IL CODICE D'USCITA, tirato fuori dal corpo del comando perché una prova lo possa ESEGUIRE (AR-458).
+ *
+ * Era la metà del difetto che non si vedeva: la distinzione fra «orfano» e «in attesa» non serve a
+ * niente se poi il `process.exit(1)` guarda comunque tutto il mucchio. Le due strade del comando —
+ * `--json` e il report a video — passano tutte e due di qui, così non se ne può riparare una sola.
+ *
+ * @param {{bloccanti:object[], perFile:object[]}} esito
+ * @param {{soloProprie?:boolean}} opzioni
+ * @returns {0|1}
+ */
+export function codiceUscitaGate(esito, { soloProprie = false } = {}) {
+  const bloccanti = esito?.bloccanti?.length || 0;
+  const senzaPropria = esito?.perFile?.length || 0;
+  return bloccanti || (soloProprie && senzaPropria) ? 1 : 0;
 }
 
 function main() {
@@ -112,8 +161,8 @@ function main() {
   );
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ quando: nowPiacenza(), ...esito, senza_mutazione_propria: esito.perFile.length }, null, 2));
-    process.exit(esito.violazioni.length || (SOLO_PROPRIE && esito.perFile.length) ? 1 : 0);
+    console.log(JSON.stringify({ quando: nowPiacenza(), ...esito, senza_mutazione_propria: esito.perFile.length, in_attesa: esito.inAttesa.length }, null, 2));
+    process.exit(codiceUscitaGate(esito, { soloProprie: SOLO_PROPRIE }));
   }
 
   console.log(`\n🚦 GATE VERI — ${nowPiacenza()}\n`);
@@ -139,22 +188,36 @@ function main() {
   }
   if (SOLO_PROPRIE && esito.perFile.length) {
     console.log(`\n❌ --proprie: ${esito.perFile.length} lezioni frenate senza la propria mutazione (${esito.perFile.map((x) => x.lezione).join(", ")}).`);
-    process.exit(1);
+    process.exit(codiceUscitaGate(esito, { soloProprie: SOLO_PROPRIE }));
   }
-  if (esito.violazioni.length) {
+  // ⏳ AR-458 — le attese si mostrano, ma in giallo e senza far uscire 1. Prima finivano nel mucchio
+  // dei rossi: un falso allarme a ogni lezione il cui freno stava in una PR non ancora mergiata, e
+  // un guardiano che grida al lupo si impara a ignorare — compreso il giorno in cui ha ragione.
+  if (esito.inAttesa.length) {
     console.log("");
-    for (const v of esito.violazioni) console.log(`  ❌ ${v.regola} — ${v.lezione}\n     ${v.motivo}`);
-    console.log(`\n❌ ${esito.violazioni.length} gate dichiarati che non possono scattare.`);
+    for (const v of esito.inAttesa) console.log(`  🟡 in attesa — ${v.lezione}\n     ${v.motivo}`);
+    console.log(
+      `\n🟡 ${esito.inAttesa.length} freni esistono in una PR non ancora mergiata: sono debito dichiarato, non difesa.` +
+        `\n   Non è un rosso — ma l'attesa scade: dopo ${GIORNI_ATTESA_MAX} giorni torna un gate orfano, perché` +
+        `\n   un'attesa senza fine è un'esenzione detta più lentamente.`,
+    );
+  }
+  if (esito.bloccanti.length) {
+    console.log("");
+    for (const v of esito.bloccanti) console.log(`  ❌ ${v.regola} — ${v.lezione}\n     ${v.motivo}`);
+    console.log(`\n❌ ${esito.bloccanti.length} gate dichiarati che non possono scattare.`);
     console.log(`   Un freno che non frena conta come freno solo nella pagella: è il modo di far salire`);
     console.log(`   il numero senza costruire la difesa. Aggiungi la mutazione, o togli il campo gate.`);
-    process.exit(1);
+    process.exit(codiceUscitaGate(esito, { soloProprie: SOLO_PROPRIE }));
   }
   if (!esito.dichiarati) {
     console.log("  ⚪ nessuna lezione dichiara un gate: qui non c'è niente da misurare (ed è il problema).");
+  } else if (esito.inAttesa.length) {
+    console.log(`\n✅ nessun gate orfano — ${esito.inAttesa.length} però sono ancora in una PR: quelli non frenano finché non si mergia.`);
   } else {
     console.log(`✅ ogni gate dichiarato può scattare davvero.`);
   }
-  process.exit(0);
+  process.exit(codiceUscitaGate(esito, { soloProprie: SOLO_PROPRIE }));
 }
 
 function esci(codice, messaggio) {

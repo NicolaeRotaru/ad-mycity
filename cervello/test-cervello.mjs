@@ -45,7 +45,7 @@
 // possono divergere in silenzio.
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { basename, join } from "node:path";
+import { basename, join, resolve } from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { cpus } from "node:os";
 import { pathToFileURL } from "node:url";
@@ -62,7 +62,13 @@ const SOLO = (() => {
   const i = process.argv.indexOf("--solo");
   return i >= 0 ? process.argv[i + 1] : null;
 })();
-const CARTELLA = "cervello/test";
+// La cartella delle prove si può PUNTARE ALTROVE, e non è una comodità: è l'unico modo di provare
+// questo banco senza aggiungere al repo una prova rotta apposta. Un banco che si può misurare solo
+// sul contenuto vero di casa è un banco che nessuno misura — la forma di difetto che questa cartella
+// passa il tempo a curare. Il risolutore di TypeScript resta ancorato alla cartella vera: è roba
+// del repo, non della fixture.
+const CARTELLA = process.env.TEST_CERVELLO_DIR || "cervello/test";
+const HOOK_TS = join(AD_ROOT, "cervello/test", "hook-ts.mjs");
 // Ogni file gira già nel suo processo: le corsie sono quanti processi tenere accesi insieme.
 const CORSIE = SERIALE ? 1 : Math.max(2, Math.min(8, cpus().length));
 
@@ -360,7 +366,7 @@ export function verdetto(status, out) {
  */
 function eseguiTest(dir, f) {
   return new Promise((risolvi) => {
-    const p = spawn(process.execPath, ["--import", join(dir, "hook-ts.mjs"), "--test", "--test-reporter=tap", join(dir, f)], {
+    const p = spawn(process.execPath, ["--import", HOOK_TS, "--test", "--test-reporter=tap", join(dir, f)], {
       cwd: AD_ROOT,
     });
     let uscita = "";
@@ -477,7 +483,9 @@ export async function aCorsie(elementi, corsie, lavoro) {
 
 async function main() {
   const quando = nowPiacenza();
-  const dir = join(AD_ROOT, CARTELLA);
+  // `resolve` e non `join`: con TEST_CERVELLO_DIR assoluto, `join` incollerebbe il percorso in coda
+  // alla radice e la cartella non esisterebbe — un banco che non trova le prove dice «0 passati».
+  const dir = resolve(AD_ROOT, CARTELLA);
   if (!existsSync(dir)) {
     console.error(`❌ cartella non trovata: ${CARTELLA}`);
     process.exit(1);
@@ -566,7 +574,21 @@ async function main() {
   // e un cancello che diventa rosso per motivi che non c'entrano col codice si impara a saltare.
   // Resta ⚠️, dichiarato per nome in fondo, mai spacciato per ✅.
   const tutte = [...righe, ...righeBats];
-  const rotti = tutte.filter((x) => x.esito !== "ok" && x.esito !== "non-eseguito" && x.esito !== "instabile");
+  const eRotto = (x) => x.esito !== "ok" && x.esito !== "non-eseguito" && x.esito !== "instabile";
+  const rotti = tutte.filter(eRotto);
+  // AR-693 ③ — I ROSSI IN BASH SI CONTANO A PARTE DA QUELLI IN NODE.
+  //
+  // Non è cosmetica del report: sono due debiti diversi e chiedono due mosse diverse. I rossi in
+  // Node parlano del lavoro di adesso — chi li ha fatti diventare rossi è chi ha appena scritto. I
+  // rossi in bash sono DEBITO EREDITATO: nove file rossi per diciannove casi caduti, invisibili da
+  // mesi perché su questa macchina `bats` non c'è, e i fallimenti stanno negli script del worker e
+  // del giro (worker.sh, giro.sh, watch-main.sh, i permessi), non nel cervello.
+  //
+  // Sommarli in un numero solo produce la riga che ha tenuto nascosto il buco per mesi: «12 rossi»
+  // fa sembrare che qualcuno abbia appena rotto dodici cose, e chi legge non sa quali sono sue. Un
+  // rosso che non appartiene a chi lo vede è il modo più veloce per imparare a ignorare tutti gli altri.
+  const rottiNode = righe.filter(eRotto);
+  const rottiBash = righeBats.filter(eRotto);
   const totale = tutte.reduce((n, x) => n + (x.passati || 0), 0);
   // ⚪ IN TUTTE E DUE LE FAMIGLIE. Anche una prova in Node può dichiarare di non aver potuto girare
   // (`1..0 # SKIP`): contare i ⚪ solo fra i `.bats` lascerebbe sparire gli altri dal denominatore,
@@ -593,6 +615,9 @@ async function main() {
           test: righe,
           bats: righeBats,
           bats_non_eseguiti: nonEseguiti.length,
+          // AR-693 ③ — due debiti, due numeri: quello di adesso (Node) e quello ereditato (bash).
+          rossi_node: rottiNode.map((x) => x.file),
+          rossi_bash: rottiBash.map((x) => x.file),
           non_misurati: nonMisurati.map((x) => x.file),
           bats_binario: bin,
           // I due conti stanno nel JSON SEMPRE, anche a zero: un numero che compare solo quando è
@@ -670,8 +695,11 @@ async function main() {
     process.exitCode = 0;
     return;
   }
+  // AR-693 ③ — il numero dice anche DI CHI è: «12 rossi» e «3 rossi in Node + 9 in bash ereditati»
+  // mandano chi legge in due posti diversi, e solo il secondo è quello giusto.
+  const daChi = rottiBash.length ? ` (${rottiNode.length} in Node · ${rottiBash.length} in bash, debito ereditato AR-693)` : "";
   console.log(
-    `\n❌ ${rotti.length} rossi${nonMisurati.length ? ` · ⚪ ${nonMisurati.length} non misurati` : ""} su ${quantiFile} file: ${rotti.length + nonMisurati.length} non danno garanzie.`,
+    `\n❌ ${rotti.length} rossi${daChi}${nonMisurati.length ? ` · ⚪ ${nonMisurati.length} non misurati` : ""} su ${quantiFile} file: ${rotti.length + nonMisurati.length} non danno garanzie.`,
   );
   console.log(`   Un test che non gira non è una rete: è un file che fa sembrare coperto ciò che non lo è.`);
   process.exitCode = 1;

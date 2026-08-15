@@ -237,14 +237,14 @@
    "estensioni": [
     ".mjs"
    ],
-   "baseline": 65,
+   "baseline": 64,
    "curati": [
     "i file nati dopo AR-445 usano tutti la guardia `import.meta.url`",
     "guardiano-tempo.mjs (11/8): la guardia `import.meta.url` messa davvero. Prima era `main().catch(...)` senza guardia — importarlo eseguiva tutto, ma la forma non era piu quella che il rilevatore cerca: malattia nascosta invece che curata. L'ha presa la spazzata contando 70 contro un tetto di 71."
    ],
    "nota_onesta": "25 istanze storiche misurate il 3/8, non curate qui: toccarle tutte in questo lotto avrebbe voluto dire 25 file modificati per un lavoro che parlava d altro (e la deriva che il controllo ⑨ del sorvegliante esiste per chiedere). Il valore di censirla adesso e che la 26a viene fermata nel momento in cui la scrivo.",
    "esenti": [],
-   "nota_baseline": "67 misurate il 2026-08-14 da spazzata-fratelli dopo il lotto 41 (prec. → 67). 71 dal 2026-08-03: numero MISURATO dalla spazzata su tutto cervello/ (il primo grep ne aveva contati 25 perche guardava solo il primo livello — la differenza e la ragione per cui i numeri si misurano con lo strumento che poi li verifica). file_noti omesso apposta: su una malattia larga elencare 71 file gonfia il registro senza aggiungere verita, e basta il tetto sul totale. · sceso a 69 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B) · sceso a 68 il 2026-08-13 (lotto 40: un altro main-guard, corsia E) · 65 dal 2026-08-14 (lotto 42): era 66, e una corsia ne ha curata una — keyword-owner-check partiva da solo appena importato (AR-680). Il tetto scende e non risale."
+   "nota_baseline": "67 misurate il 2026-08-14 da spazzata-fratelli dopo il lotto 41 (prec. → 67). 71 dal 2026-08-03: numero MISURATO dalla spazzata su tutto cervello/ (il primo grep ne aveva contati 25 perche guardava solo il primo livello — la differenza e la ragione per cui i numeri si misurano con lo strumento che poi li verifica). file_noti omesso apposta: su una malattia larga elencare 71 file gonfia il registro senza aggiungere verita, e basta il tetto sul totale. · sceso a 69 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B) · sceso a 68 il 2026-08-13 (lotto 40: un altro main-guard, corsia E) · 65 dal 2026-08-14 (lotto 42): era 66, e una corsia ne ha curata una — keyword-owner-check partiva da solo appena importato (AR-680). Il tetto scende e non risale. Lotto 43: 65 -> 64, curato cervello/tasso-lezioni.mjs (guardia dell entrypoint nella forma robusta con pathToFileURL). Il tetto scende e non risale."
   },
   {
    "id": "data-senza-ora",
@@ -551,6 +551,56 @@
    ],
    "esenti": [],
    "nota_baseline": "0 dal 2026-08-14: nasce verde perché è appena stata curata. Esiste per accorgersi del PROSSIMO che riscrive quella riga, non per misurare un debito."
+  },
+  {
+   "nome": "prova-dal-canale-comodo",
+   "id": "prova-dal-canale-comodo",
+   "perche_e_grave": "È la malattia «una prova che non può fallire» spostata dentro le prove, dove nessun guardiano guarda. Non si deduce leggendo il test: si scopre SOLO applicando la mutazione davvero. Ed è il motivo per cui la non-vacuità va ESEGUITA e non ragionata — due difetti in due giorni sono usciti da lì, e in entrambi i casi il codice sembrava a posto a chiunque lo leggesse.",
+   "pattern": "(?:tronc|64 ?KB|64\\s*000|pipe di shell|buffer pieno|maxBuffer)[\\s\\S]{0,3000}?(?:spawnSync|execFileSync)\\(\\s*(?:process\\.execPath|\"node\")",
+   "dove": [
+    "cervello/test"
+   ],
+   "estensioni": [
+    ".test.mjs"
+   ],
+   "esenti": [],
+   "baseline": 0,
+   "nota_baseline": "Lotto 43. La corsia che l ha censita dichiarava baseline 1 e due esenzioni: misurato sul repo vero, il pattern non tocca nessuno di quei due file e le istanze sono ZERO. Le esenzioni morte sono state tolte, non lasciate a nascondere il prossimo caso vero. E perche uno zero non sia il metro che ha smesso di guardare, la voce porta una CONTROPROVA: il testo della prima versione della prova di AR-685 — quella che leggeva il referto con uno spawn diretto e non vedeva il troncamento a 64 KB. Se il pattern smette di trovare quel testo, il guardiano dichiara il metro cieco invece di dichiarare la malattia guarita.",
+   "controprova": "const maxBuffer = 64000;\nconst r = spawnSync(\"node\", [S], { maxBuffer });"
+  },
+  {
+   "id": "una-parola-con-due-padroni",
+   "nome": "La stessa parola è definita in due posti, e le copie divergono in silenzio",
+   "perche_e_grave": "Quando una verità non ha UNA casa, ogni pezzo di codice che ne ha bisogno se la riscrive — e da quel momento le copie divergono senza che nessuno lo veda. È la forma di difetto che si moltiplica da sola: il prossimo che ha bisogno della risposta ne fa un'altra. Istanza misurata: «quali lavori sono azioni vere» (la lista da cui dipende la difesa contro il doppio invio) vive in cinque punti con quattro nomi diversi, e due portano lo STESSO nome con contenuti diversi (AR-659). Il giorno che nasce un sesto tipo di lavoro che manda qualcosa a un negozio, verrà aggiunto in uno o due posti su cinque, e dalle porte rimaste indietro tornerà riaccodabile da solo — cioè spedibile due volte senza la firma di Nicola. Fino a oggi nessuna delle 21 malattie censite diceva questo, quindi la spazzata non poteva cercarne i fratelli: ogni copia nuova andava trovata a mano, cioè per caso (AR-704).",
+   "pattern": "(\\[\\s*\"(?:esegui-azione|proposta)\",\\s*\"(?:esegui-azione|proposta)\"\\s*\\]|case \" (?:esegui-azione|proposta) (?:esegui-azione|proposta) \" in)",
+   "dove": [
+    "cervello",
+    "pannello/src"
+   ],
+   "estensioni": [
+    ".mjs",
+    ".ts",
+    ".tsx",
+    ".sh"
+   ],
+   "baseline": 5,
+   "file_noti": [
+    "cervello/sentinella-lavori.mjs",
+    "cervello/pulisci-coda.mjs",
+    "cervello/worker.sh",
+    "cervello/lib-recupero.sh",
+    "pannello/src/lib/recupero-lavoro.ts"
+   ],
+   "curati": [],
+   "esenti": [
+    {
+     "file": "cervello/atti-veri.mjs",
+     "quale": "export const ATTI_VERI = Object.freeze([\"esegui-azione\", \"proposta\"])",
+     "perche": "È LA CASA, non una copia: la lista deve pur essere scritta una volta, e questo è il posto dichiarato dove viverla. Il pattern conta le dichiarazioni a mano e non sa distinguere il padrone dai figli, quindi il padrone si dichiara qui. Il giorno che questa riga sparisse, l'esenzione diventa orfana e la spazzata lo dice."
+    }
+   ],
+   "nota_onesta": "COSA QUESTO PATTERN NON PUÒ VEDERE, detto qui e non nascosto. La spazzata è un contatore di espressioni regolari file per file: non sa calcolare che due file dichiarino «la stessa collezione», perché per saperlo dovrebbe confrontarli fra loro. Quindi il pattern elenca le COLLEZIONI NOTE che hanno già un padrone e cerca chi le riscrive a mano — oggi una sola, quella degli atti veri. È una misura per DIFETTO: quando dice cinque, cinque ci sono di sicuro; non dimostra che non ce ne siano altre di forma diversa. Quando una collezione nuova viene trovata duplicata (le due candidate note oggi: i conti dei difetti a mano in cervello/auto-fix.mjs, allinea-scan-cantiere.mjs e chiusura-dichiarata.mjs, e i due punti del Pannello già dichiarati esenti nella loro prova), la sua forma si aggiunge come nuova alternativa del pattern e la partenza si rialza di quante ne trova — che è l'unico caso in cui questo tetto sale, e va scritto qui.",
+   "nota_baseline": "5 misurate il 2026-08-15 dalla spazzata su cervello/ e pannello/src/ (6 lorde meno la casa dichiarata esente). Dove sono: cervello/sentinella-lavori.mjs (TIPI_AZIONE), cervello/pulisci-coda.mjs (TIPI_PROTETTI), cervello/worker.sh e cervello/lib-recupero.sh (due `case`), pannello/src/lib/recupero-lavoro.ts (TIPI_AZIONE_REALE). Scende a 0 quando AR-659 è chiuso, cioè quando quei cinque punti IMPORTANO cervello/atti-veri.mjs invece di riscrivere la lista. Il tetto scende e non risale — l'unica eccezione, dichiarata sopra, è l'aggiunta di una collezione nuova al pattern. Nessuna delle sei istanze è nata in questo lotto: sono tutte righe che c'erano già su main (verificato con git log -S), quindi la partenza non è misurata su file che si muovono."
   }
  ]
 }

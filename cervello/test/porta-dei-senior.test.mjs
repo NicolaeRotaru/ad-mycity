@@ -204,7 +204,9 @@ test("un registro rotto non diventa «nessun valore superato»: il guardiano si 
   writeFileSync(join(finto, ".claude/agents/x.md"), "---\nname: x\n---\nIo.");
   writeFileSync(join(finto, "MyCity-Vault/90-Memoria-AI/registro-fatti.json"), "{ questo non è json");
   assert.equal(leggiRegistroFatti(finto).ok, false);
-  assert.deepEqual(cacciaAperta(finto), []);
+  // AR-702 — questa riga pretendeva `[]`, cioè fissava proprio il difetto: un registro illeggibile
+  // e «nessuna caccia aperta» erano lo stesso valore. Ora sono due: `null` = non ho potuto leggere.
+  assert.equal(cacciaAperta(finto), null, "un registro illeggibile è tornato come «niente da inseguire»");
 
   const r = spawnSync(process.execPath, [join(RADICE, "cervello/prompt-senior.mjs"), "--guardiano"], {
     env: { ...process.env, AD_ROOT: finto }, encoding: "utf8",

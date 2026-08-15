@@ -29,7 +29,7 @@
 //   1 = almeno una mutazione lascia il test VERDE → quella prova non dimostra il suo fix
 //   2 = non ho potuto misurare (file/mutanti assenti, pattern non trovato)
 
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { isAbsolute, join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
@@ -80,10 +80,125 @@ export function ripristina(stato, scrivi) {
   }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// IL FOGLIETTO SU DISCO (AR-708) — perché il gestore del segnale non basta.
+//
+// AR-523 ha agganciato il ripristino a SIGINT/SIGTERM/SIGHUP. Ma il gestore di un segnale è una
+// callback JS, e una callback gira solo quando il ciclo degli eventi è LIBERO. Qui il ciclo non è
+// mai libero nel momento che conta: si applica la mutazione, si chiama `spawnSync` — che blocca il
+// processo per tutta la durata del test — e si rimette a posto subito dopo. La finestra in cui il
+// file resta rotto è esattamente la finestra in cui nessun gestore può partire. La cura copriva
+// ogni momento tranne quello che doveva coprire.
+//
+// Visto succedere il 15/8: fermato il cancello a metà, `cervello/test-cervello.mjs` è rimasto su
+// disco con la mutazione di AR-676 applicata (`const i = -1;` al posto del filtro `--solo`). L'ho
+// rimesso a posto a mano. Senza il sorvegliante finiva in un commit — parola per parola il racconto
+// di AR-523.
+//
+// La cura non può essere una callback: deve essere una TRACCIA. Prima di rompere si scrive un
+// foglietto su disco (quale file, e com'era prima); dopo il ripristino lo si cancella. All'avvio, se
+// il foglietto c'è, vuol dire che la corsa precedente non è arrivata in fondo: si rimette a posto e
+// LO SI DICE. Così il ripristino non dipende più dal fatto che il processo sia ancora vivo — che è
+// l'unica ipotesi che un SIGKILL, un `kill -9` o una macchina che si spegne non concedono.
+//
+// Il nome comincia con `_tmp_` perché `.gitignore` ignora già quella forma: un foglietto lasciato
+// da una corsa morta non deve poter finire in un commit insieme al file che stava proteggendo.
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const FOGLIETTO = process.env.NON_VACUITA_FOGLIETTO || join(AD_ROOT, "_tmp_non-vacuita-in-corso.json");
+
+/** Lascia la traccia PRIMA di rompere. `scrivi` iniettato: il test la esercita senza toccare il repo. */
+export function lasciaTraccia(stato, scrivi, via = FOGLIETTO) {
+  if (!stato || !stato.file) return null;
+  scrivi(via, `${JSON.stringify({ file: stato.file, originale: stato.originale, quando: new Date().toISOString() }, null, 1)}\n`);
+  return via;
+}
+
+/**
+ * Toglie la traccia dopo un ripristino riuscito. Un fallimento qui non deve fermare la corsa —
+ * ma non deve nemmeno sparire.
+ *
+ * Prima tornava `false` e basta, e tutti e quattro i chiamanti lo buttavano via: un errore che
+ * diventa niente (la malattia censita `fonte-troncata-letta-per-intera`). E qui il costo è
+ * concreto, non teorico: se il foglietto NON si riesce a cancellare, la corsa dopo lo trova e
+ * crede che questa sia morta a metà — quindi «ripristina» un file che era già a posto. Cioè
+ * proprio il guasto silenzioso che AR-708 stava curando, riaperto dalla porta accanto.
+ *
+ * @returns {{tolta: boolean, motivo: string|null}} il motivo viaggia col dato, non si perde.
+ */
+export function togliTraccia(cancella, via = FOGLIETTO) {
+  try {
+    cancella(via);
+    return { tolta: true, motivo: null };
+  } catch (e) {
+    return { tolta: false, motivo: `non sono riuscito a togliere il foglietto ${via}: ${e.message || e}` };
+  }
+}
+
+/** Toglie la traccia e, se non ci riesce, lo DICE. Il posto da cui i chiamanti passano. */
+function togliTracciaDicendolo(cancella, via = FOGLIETTO) {
+  const esito = togliTraccia(cancella, via);
+  if (!esito.tolta) {
+    console.error(`⚠️  ${esito.motivo}`);
+    console.error("   La corsa dopo lo troverà e crederà che questa sia morta a metà: toglilo a mano.");
+  }
+  return esito;
+}
+
+/**
+ * All'avvio: c'è un foglietto di una corsa che non è arrivata in fondo?
+ *
+ * Quattro risposte, e nessuna è il silenzio — un ripristino che non si dichiara è indistinguibile
+ * da un file che nessuno ha mai rotto:
+ *   · `null`            → nessun foglietto: la corsa precedente è finita bene
+ *   · `rimesso`         → il file era ancora rotto, l'ho riscritto com'era
+ *   · `gia-a-posto`     → il file era già a posto (qualcuno l'ha rimesso, o il `finally` ce l'ha fatta)
+ *   · `illeggibile`/`fallito` → il foglietto c'è ma non posso usarlo: lo dico e lo LASCIO lì, perché
+ *     cancellarlo qui sarebbe far sparire l'unica traccia del file che è rimasto rotto.
+ */
+export function riprendiDaTraccia({ ceE, leggi, scrivi, cancella }, via = FOGLIETTO) {
+  if (!ceE(via)) return null;
+  let nota;
+  try {
+    nota = JSON.parse(leggi(via));
+  } catch (e) {
+    return { esito: "illeggibile", file: null, motivo: `foglietto di ripristino illeggibile (${e.message}): non so quale file rimettere a posto` };
+  }
+  if (!nota || typeof nota.file !== "string" || typeof nota.originale !== "string") {
+    return { esito: "illeggibile", file: null, motivo: "foglietto di ripristino senza `file`/`originale`: non so quale file rimettere a posto" };
+  }
+  let adesso = null;
+  try {
+    adesso = ceE(nota.file) ? leggi(nota.file) : null;
+  } catch {
+    adesso = null;
+  }
+  if (adesso === nota.originale) {
+    togliTracciaDicendolo(cancella, via);
+    return { esito: "gia-a-posto", file: nota.file, motivo: `${nota.file} era già com'era: la corsa precedente ha fatto in tempo a rimetterlo` };
+  }
+  try {
+    scrivi(nota.file, nota.originale);
+  } catch (e) {
+    return { esito: "fallito", file: nota.file, motivo: `non sono riuscito a rimettere a posto ${nota.file} (${e.message}): il file è ANCORA rotto` };
+  }
+  togliTracciaDicendolo(cancella, via);
+  return { esito: "rimesso", file: nota.file, motivo: `${nota.file} era rimasto rotto da una corsa precedente ammazzata: l'ho rimesso com'era (AR-708)` };
+}
+
+/** L'IO vero, in un posto solo: il test inietta il suo e non tocca niente di questo repo. */
+const IO_VERO = {
+  ceE: (f) => existsSync(f),
+  leggi: (f) => readFileSync(f, "utf8"),
+  scrivi: (f, t) => writeFileSync(f, t),
+  cancella: (f) => rmSync(f, { force: true }),
+};
+
 for (const segnale of ["SIGINT", "SIGTERM", "SIGHUP"]) {
   process.on(segnale, () => {
     const rimesso = ripristina(IN_CORSO.stato, (f, t) => writeFileSync(f, t));
     IN_CORSO.stato = null;
+    if (rimesso) togliTracciaDicendolo(IO_VERO.cancella);
     if (rimesso) console.error(`\n⚠️  interrotto da ${segnale}: ho rimesso a posto ${rimesso} prima di uscire (AR-523).`);
     process.exit(130);
   });
@@ -183,6 +298,15 @@ export function verdettoCorsa({ status, signal = null, uscita = "" } = {}) {
 }
 
 function main() {
+  // PRIMA di tutto: la corsa precedente è arrivata in fondo? (AR-708) — e prima anche del controllo
+  // sui mutanti, perché un file lasciato rotto va rimesso a posto anche quando questa corsa non ha
+  // niente da misurare: il debito di ieri non aspetta che oggi ci sia lavoro.
+  const ripresa = riprendiDaTraccia(IO_VERO);
+  if (ripresa) {
+    const segno = ripresa.esito === "rimesso" ? "⚠️ " : ripresa.esito === "gia-a-posto" ? "ℹ️ " : "⛔";
+    console.error(`${segno} ${ripresa.motivo}`);
+  }
+
   if (!existsSync(MUTANTI)) {
     console.error("non-vacuita: cervello/mutanti.json assente → non posso misurare");
     process.exit(2);
@@ -215,11 +339,21 @@ function main() {
       // Il pattern non c'è più: o il fix è stato riscritto, o questa mutazione punta al posto
       // sbagliato. In entrambi i casi non ho misurato niente — e dirlo «verde» sarebbe la bugia
       // esatta che questo strumento esiste per impedire.
-      esiti.push({ ...m, verdetto: "cieco", perche: "il pezzo da rompere non esiste più: mutazione da aggiornare" });
+      esiti.push({
+        ...m,
+        verdetto: "cieco",
+        // AR-699 — chi legge questa riga ha già consegnato. Il momento in cui riagganciare costa
+        // trenta secondi è subito dopo la riscrittura, e la domanda si fa con un comando:
+        perche: "il pezzo da rompere non esiste più: mutazione da aggiornare (chiedilo prima con `node cervello/mutazioni-orfane.mjs`)",
+      });
       continue;
     }
     try {
       IN_CORSO.stato = { file, originale };
+      // Il foglietto va scritto PRIMA della mutazione, non dopo: fra le due righe c'è la finestra in
+      // cui il file è rotto e nessuno sa che lo è. Scriverlo dopo lascerebbe scoperta esattamente la
+      // porzione di tempo che questa difesa esiste per coprire.
+      lasciaTraccia(IN_CORSO.stato, IO_VERO.scrivi);
       writeFileSync(file, rotto);
       const r = spawnSync("node", [m.test], { cwd: AD_ROOT, encoding: "utf8", timeout: TEMPO_MAX });
       esiti.push({
@@ -228,6 +362,7 @@ function main() {
       });
     } finally {
       writeFileSync(file, originale); // sempre, anche se il test esplode
+      togliTracciaDicendolo(IO_VERO.cancella); // il file è a posto: la traccia non serve più
       IN_CORSO.stato = null;
     }
   }

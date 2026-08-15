@@ -128,6 +128,35 @@ export function voceDiNavigazione(statoCorrente: unknown, campi: Record<string, 
   return { ...st, ...(campi || {}) };
 }
 
+/**
+ * AR-674 — l'ULTIMO punto che timbrava a occhi chiusi.
+ *
+ * Quando il gesto indietro riporta a una voce SENZA vista (succede impostando l'ancora dentro
+ * un'area: il browser crea una voce con stato nullo e fa scattare `popstate`), il Pannello la
+ * ritimbrava con `{ ...history.state, vista }` — un merge cieco, l'unico rimasto fuori da
+ * `voceDiNavigazione`. Da lì un marcatore di un pannello ormai chiuso poteva entrare in una voce
+ * nuova, e `history.state` sopravvive anche al ricaricamento: il fantasma tornava pure dopo un F5.
+ *
+ * Toglierlo e basta però romperebbe il contratto opposto (AR-218): se il Worker è aperto DAVVERO,
+ * la sua voce deve continuare a dire «qui sopra c'è il Worker», altrimenti il gesto indietro
+ * successivo lo lascerebbe piantato sopra la pagina. La regola giusta non è «spoglia» né «eredita»:
+ * è **la voce dice quello che è aperto adesso**. Si spoglia tutto, e si rimette solo ciò che è vivo
+ * nel momento in cui si timbra — che è l'unica cosa che chi arriva dopo può verificare.
+ *
+ * `vivi` porta i nomi di ciò che è aperto in questo istante: `strato` dalla pila degli strati,
+ * `overlay` dal Worker. Vuoto/assente = niente aperto = voce pulita.
+ */
+export function voceSenzaVista(
+  statoCorrente: unknown,
+  vista: string,
+  vivi: { strato?: string | null; overlay?: string | null } = {},
+): Record<string, unknown> {
+  const base = voceDiNavigazione(statoCorrente, { vista: vista || "plancia" });
+  if (vivi?.strato) base.strato = vivi.strato;
+  if (vivi?.overlay) base.overlay = vivi.overlay;
+  return base;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // AR-402 — IL CENSIMENTO: «chiuso» non può voler dire «scritto»
 // ─────────────────────────────────────────────────────────────────────────────

@@ -98,7 +98,23 @@ test("AR-240 · aprire il Worker timbra una voce di cronologia", () => {
   // muoveva l'area sotto e lasciava la chat sopra, oppure buttava fuori dal Pannello.
   const src = leggi("pannello/src/app/page.tsx");
   assert.match(src, /overlay: "worker"/, "manca il marcatore nella voce di cronologia");
-  assert.match(src, /pushState\(\{ \.\.\.st, overlay: "worker" \}/, "lo state va FUSO: dentro ci sono gli internals di Next");
+  // Prima questa riga pretendeva la FORMA esatta `pushState({ ...st, overlay: "worker" }`. Poi
+  // AR-674 ha spostato quella fusione dentro `voceDiNavigazione` — la porta dichiarata, che fonde
+  // lo state E toglie i marcatori degli strati ormai chiusi — e la prova è diventata rossa su un
+  // cambiamento che era un miglioramento. Una prova che sorveglia la forma frena chi la migliora e
+  // non frena chi la rompe: qui si controlla l'EFFETTO, cioè che il timbro passi dalla porta e che
+  // la porta fonda davvero.
+  assert.match(
+    src,
+    /pushState\(\s*voceDiNavigazione\(\s*\w+,\s*\{ overlay: "worker" \}/,
+    "il timbro del Worker deve passare dalla porta dichiarata, non da un oggetto scritto lì per lì",
+  );
+  const porta = leggi("pannello/src/lib/strati.ts");
+  assert.match(
+    porta,
+    /return \{ \.\.\.st, \.\.\.\(campi \|\| \{\}\) \};/,
+    "e la porta deve FONDERE lo state esistente: dentro ci sono gli internals di routing di Next",
+  );
   assert.match(src, /deveChiudereOverlay\(st\)/, "il gestore dell'indietro non guarda lo strato aperto");
 });
 
