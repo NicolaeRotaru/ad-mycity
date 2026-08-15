@@ -1,24 +1,23 @@
-# 📅 Eventi & Picchi di Domanda — 2026-08-14
+# 📅 Eventi & Picchi di Domanda — 2026-08-15
 
-> Aggiornato: 14 agosto 2026 06:31 · @intelligence · giro leggero (Ondata 3, `cervello/monitora.md`). Controllate le fonti giornaliere dovute oggi: Libertà Attualità, Libertà Città, PiacenzaSera, Comune (news+eventi, via WebSearch per il 403), CCIAA Emilia, Unione Commercianti (bandi), meteo. Precedente: 13/8 09:30.
+> Aggiornato: 15 agosto 2026 06:45 · @intelligence · giro leggero (Ondata 3, `cervello/monitora.md`). Controllate le fonti giornaliere dovute oggi: Libertà Attualità, Libertà Città, PiacenzaSera, Comune (news+eventi, via WebSearch per il 403), CCIAA Emilia, Unione Commercianti (bandi), meteo. Nessuna novità ad alto impatto oggi. Solo due dettagli operativi nuovi: cantieri stradali e un dettaglio meteo — vedi sotto. Precedente: 14/8 06:31.
 
 ---
 
-## 🌡️ Meteo Piacenza 13-16/8 — caldo confermato fino a Ferragosto, svolta indicata per il 17/8
+## 🌡️ Meteo Piacenza 15-22/8 — Ferragosto ancora rovente, da lunedì 17/8 cambia con instabilità
 
-Conferma il pattern già segnalato il 10/8 (sollievo "non prima del 16-20/8"), con una data più precisa oggi: **3B Meteo indica il cambio scenario dal 17/8**.
+Conferma il pattern già segnalato il 10/8 e il 14/8 (svolta dal 17/8), con un dettaglio nuovo oggi: il cambio non è solo un miglioramento delle temperature, ma porta **instabilità con possibili temporali** al Nord.
 
-| Data | 3B Meteo (oggi, 13/8) |
+| Data | Previsione |
 |------|------|
-| Gio 13/8 (oggi) | 24°/36° |
 | Ven 14/8 | 24°/36° |
 | Sab 15/8 (Ferragosto) | 22°/36° |
 | Dom 16/8 | 22°/35° |
-| Lun 17/8 | Cambio scenario — primo miglioramento indicato |
+| Lun 17/8 | Cambio di circolazione atmosferica — fase più instabile al Nord, temperature in calo verso la media, **attenzione a possibili temporali forti** |
 
-**Impatto:** nessuna novità rispetto al 10/8, solo conferma — caldo secco fino al weekend di Ferragosto compreso, tregua vera da lunedì 17/8. La bozza "ondata di caldo" per Pane Quotidiano resta valida e parcheggiata (vedi Opportunità sotto).
+**Impatto:** nessun cambio di scenario rispetto al 14/8, solo un dettaglio in più — non aspettarsi solo "meno caldo" dal 17/8, ma anche rischio temporali. Rilevante se/quando riparte la logistica bici (oggi non operativa). La bozza "ondata di caldo" per Pane Quotidiano resta valida e parcheggiata (vedi Opportunità sotto).
 
-Fonte: 3bmeteo.com/meteo/piacenza (consultata 13/8). **Riconfermato 14/8** via WebSearch (3bmeteo.com ha dato 403 sul fetch diretto). Pattern invariato: cambio scenario dal 17/8. Nessun aggiornamento.
+Fonte: ricerca aggregata su meteo.it, 3bmeteo.com e ilmeteo.it, consultata 15/8 via WebSearch (il fetch diretto resta in errore 403). Pattern invariato dal 14/8, il dettaglio sui temporali è nuovo.
 
 ---
 
@@ -74,21 +73,36 @@ Nessuna di queste due richiede un'azione reale oggi (🟢 nota/prep, coerente co
 
 ---
 
+## 🆕 Novità di oggi (15/8) — solo operative, nessuna azione
+
+**① Cantieri stradali fine agosto/inizio settembre — 4 vie coinvolte**
+Lavori di riqualificazione in arrivo su via Farnesiana, via Veneto, via Borghetto e via San Bartolomeo tra fine agosto e inizio settembre. Su via Benedettine sono già stati eliminati 70 stalli di parcheggio fino a dicembre per gli stessi lavori. Nessuna di queste vie è nelle rotte di consegna previste oggi (0 consegne attive). Da tenere a mente per quando riparte la logistica: possibili deviazioni/parcheggio ridotto in quella zona fino a fine anno.
+Fonte: [liberta.it/territorio/citta/piacenza](https://www.liberta.it/territorio/citta/piacenza) (consultato 15/8, articoli del 13-14/8).
+
+**② West Nile virus, secondo caso nel Piacentino**
+Bollettino ISS, 14/8. Notizia sanitaria, non commerciale. Nessun legame diretto con delivery/negozi oggi. Segnalata solo per completezza, nessuna azione.
+Fonte: [liberta.it/attualita](https://www.liberta.it/attualita) (consultato 15/8).
+
+Nessuna di queste due richiede un'azione oggi (🟢 nota, coerente col vincolo pre-24/8).
+
+---
+
 ## 💰 Bandi — riconfermato tutto chiuso, nessuna apertura nuova
 
-Ricontrollati oggi (14/8) sia il sito CCIAA Emilia (via WebSearch, il fetch diretto resta 403) sia Unione Commercianti PC. Gli stati non cambiano: **BI26 chiuso l'11/6, PI26 e BE26 chiusi il 30/7, Bando Commercio Emilia-Romagna chiuso al limite delle 350 domande.** Nessuno di questi ha riaperto. Nessun bando nuovo per il commercio (negozi/botteghe) è comparso. Coerente con `registro-fatti.json` (`bandi.pi26.scadenza`, `bando.commercio-er.scadenza`).
+Ricontrollati il 14/8 e di nuovo oggi (15/8) sia il sito CCIAA Emilia (via WebSearch, il fetch diretto resta 403) sia Unione Commercianti PC. Gli stati non cambiano: **BI26 chiuso l'11/6, PI26 e BE26 chiusi il 30/7, Bando Commercio Emilia-Romagna chiuso al limite delle 350 domande.** Nessuno di questi ha riaperto. Nessun bando nuovo per il commercio (negozi/botteghe) è comparso. Coerente con `registro-fatti.json` (`bandi.pi26.scadenza`, `bando.commercio-er.scadenza`).
 
-Trovato invece un bando **non commercio**: "Fotovoltaico su parcheggi aziendali" (Regione ER, tramite Unione Commercianti, 11/8). Copre il 35-40% a fondo perduto, fino a 100.000€. Le domande aprono dal 30/9/2026. Bassa rilevanza per le botteghe MyCity: serve un parcheggio aziendale, che i negozi del centro tipicamente non hanno. Nessuna azione. Fonte: [unionecommerciantipc.it — Bando fotovoltaico imprese Emilia-Romagna](https://www.unionecommerciantipc.it/bando-fotovoltaico-imprese-emilia-romagna/) (11/8).
+Bando **non commercio** già segnalato ieri: "Fotovoltaico su parcheggi aziendali" (Regione ER, tramite Unione Commercianti, 11/8). Copre il 35-40% a fondo perduto, fino a 100.000€. Le domande aprono dal 30/9/2026. Bassa rilevanza per le botteghe MyCity: serve un parcheggio aziendale, che i negozi del centro tipicamente non hanno. Nessuna azione. Nessun bando ulteriore trovato oggi. Fonte: [unionecommerciantipc.it — Bando fotovoltaico imprese Emilia-Romagna](https://www.unionecommerciantipc.it/bando-fotovoltaico-imprese-emilia-romagna/) (11/8, riconfermato 15/8).
 
 ---
 
 ## 🚦 Operativo
 
-- ⚠️ Viabilità Corso V.E. 226-234: stato non confermato, invariato da 4 settimane (19/7→13/8) — il dato più vecchio del file.
+- ⚠️ Viabilità Corso V.E. 226-234: stato non confermato, invariato da 5 settimane (19/7→15/8) — il dato più vecchio del file.
 - ZTL centro 8:00–19:00 invariata.
 - Nuova restrizione Piazzetta Barozzieri (alcol/vetro/orari) dall'11/8 — zona ristretta, non tocca le rotte di consegna previste.
+- 🆕 Cantieri fine agosto/inizio settembre: via Farnesiana, via Veneto, via Borghetto, via San Bartolomeo. Via Benedettine già senza 70 stalli fino a dicembre. Tenerne conto quando riparte la logistica.
 - Bici consegna: non operativa (invariato).
-- Caldo estremo confermato fino al 16/8, tregua indicata dal 17/8: se si riattiva la logistica bici, tenerne conto per gli orari di consegna (mattina presto) fino a quella data.
+- Caldo estremo confermato fino a Ferragosto (15-16/8), tregua indicata dal 17/8 con possibile instabilità/temporali: se si riattiva la logistica bici, tenerne conto per gli orari di consegna (mattina presto) fino a quella data.
 
 ---
 
@@ -125,5 +139,12 @@ Report 27/7 → 30/7 → 10/8: versioni precedenti di questo file (in git histor
 - **14/8:** piacenzasera.it — "Riqualificazione Piazza Cittadella, al via l'appalto integrato" (657840) · "Ferragosto, mercato regolare in centro storico e alla Besurica" (657852)
 - **14/8:** unionecommerciantipc.it/bando-fotovoltaico-imprese-emilia-romagna/ (bando non-commercio, bassa rilevanza)
 - **14/8:** liberta.it/territorio/citta/piacenza — nessuna menzione MyCity/marketplace, nessuna novità botteghe/ZTL
+- **15/8:** liberta.it/attualita — West Nile secondo caso (14/8), stangata energia confermata (già nota)
+- **15/8:** liberta.it/territorio/citta/piacenza — cantieri via Benedettine/Veneto/Borghetto/San Bartolomeo/Farnesiana
+- **15/8:** ricerca meteo aggregata (meteo.it, 3bmeteo.com, ilmeteo.it) — dettaglio temporali dal 17/8
+- **15/8:** WebSearch site:comune.piacenza.it news commercio — nessuna novità oltre quanto già noto
+- **15/8:** WebSearch eventi Piacenza settimana — nessun evento di massa nuovo
+- **15/8:** unionecommerciantipc.it/category/bandi/ — nessun bando nuovo, fotovoltaico riconfermato
+- **15/8:** WebSearch site:emilia.camcom.it bando 2026 — PI26/BE26/BI26 confermati chiusi
 
 *Senior: @intelligence · nessuna azione da eseguire ora, tutto parcheggiato per la ripresa 24/8-1/9 salvo il monitoraggio bandi/meteo che resta sempre attivo*
