@@ -240,13 +240,23 @@ function main() {
   } else {
     console.log("🧨 LA PROVA CHE LE PROVE PROVINO\n");
     for (const e of esiti) {
-      const segno = e.verdetto === "ok" ? "✅" : e.verdetto === "vacua" ? "❌" : "⚠️ ";
+      // ⚪ e non ⚠️, e non è cosmetica: il cancello del lotto sceglie quali righe mostrare cercando
+      // i simboli di casa (`righeMotivo`), e ⚠️ non è uno di quelli. Risultato misurato in CI il
+      // 15/8: il cancello ha stampato due mutazioni RIUSCITE — passate solo perché il loro titolo
+      // cita il carattere ⚪ — e ha nascosto l'unica che non aveva misurato, lasciando in fondo un
+      // «1 controllo non ha potuto misurare» senza dire quale. Un ⚪ che non si può nominare non è
+      // dichiarato: è sparito con una nota a piè di pagina.
+      const segno = e.verdetto === "ok" ? "✅" : e.verdetto === "vacua" ? "❌" : "⚪";
       // Dal 30/7 una mutazione può appartenere a un DIFETTO (rompi il fix, il test deve diventare
       // rosso) oppure a una LEZIONE (rimetti l'errore, il gate deve scattare). Senza questa riga la
       // seconda specie si stampava «undefined —», che è il modo più veloce per far sembrare rotto
       // un pezzo che funziona.
-      console.log(`  ${segno} ${e.difetto || e.lezione || "(senza padrone)"} — ${e.nome}`);
-      if (e.perche) console.log(`     ${e.perche}`);
+      // I due punti in fondo e il puntino davanti al motivo NON sono decorazione: sono la regola con
+      // cui `righeMotivo` del cancello capisce che la riga sotto appartiene a quella sopra. Senza,
+      // in CI arriva il nome del problema e non il perché — e chi legge deve rilanciare tutto per
+      // sapere cosa è successo.
+      console.log(`  ${segno} ${e.difetto || e.lezione || "(senza padrone)"} — ${e.nome}${e.perche ? ":" : ""}`);
+      if (e.perche) console.log(`     · ${e.perche}`);
     }
     console.log("");
     const misurate = esiti.length - ciechi.length;
@@ -259,7 +269,7 @@ function main() {
           ? `✅ tutte e ${misurate} le mutazioni rendono rosso il loro test.`
           : `⚪ nessuna mutazione è stata misurata: non ho niente da dire su queste prove.`,
     );
-    if (ciechi.length) console.log(`⚠️  ${ciechi.length} mutazione/i non ha potuto misurare (vedi sopra).`);
+    if (ciechi.length) console.log(`⚪ ${ciechi.length} mutazione/i non ha potuto misurare (vedi sopra).`);
   }
 
   if (vacue.length) process.exit(1);
