@@ -100,9 +100,30 @@ prova("la rotta della radiografia non trasforma più «non letto» in zero", () 
 prova("la scheda mostra «non ho potuto leggere» invece del pollice in su", () => {
   const s = readFileSync(join(REPO, "pannello/src/components/cervello/RadiografiaDiSe.tsx"), "utf-8");
   assert.match(s, /Non ho potuto leggere il cantiere|cantiereLetto === false/, "serve il ramo grigio");
-  const i0 = s.indexOf("cantiereLetto === false");
-  const i1 = s.indexOf("Nessun difetto aperto. 👍");
-  assert.ok(i0 !== -1 && i1 !== -1 && i0 < i1, "il ramo «non letto» deve venire PRIMA del pollice in su");
+  // ⚠️ Il pollice in su si cerca per FORMA, non per frase esatta. La prima versione di questo caso
+  // cercava la stringa «Nessun difetto aperto. 👍» e nel lotto 44 è diventata rossa senza che il
+  // comportamento cambiasse: il conto era passato da «aperti» a «da fare» (i tre stati vivi invece
+  // di uno) e la scritta era stata rinominata di conseguenza. La cura giusta era proprio quella, e
+  // la prova puniva chi l'aveva fatta. Una prova agganciata alle parole misura il testo; qui serve
+  // misurare l'ORDINE dei due rami, che è la cosa che il difetto rompeva.
+  // ⚠️ Il ramo grigio si cerca dal SUO TESTO, non dalla variabile. La prima versione confrontava
+  // `indexOf("cantiereLetto === false")` col pollice in su, ma quella stringa compare già a inizio
+  // file dentro il calcolo di `daFare`: l'indice era sempre piccolo e il confronto sempre vero.
+  // Cioè un caso che non poteva fallire — scoperto spostando il pollice in su davanti al ramo
+  // grigio e vedendo il verde restare. Qui si guarda la scritta che AR-449 ha messo a video.
+  // E si guarda DENTRO la scheda del cantiere, non nell'intero file: la frase del ramo grigio
+  // compare anche prima, in un'altra scheda, e un confronto sull'intero file era vero comunque.
+  // Due versioni di questo caso di fila non potevano fallire — l'ho visto solo spostando davvero
+  // il pollice in su davanti al ramo grigio e trovando ancora verde.
+  const inizioScheda = s.indexOf("{/* === CANTIERE === */}");
+  assert.ok(inizioScheda !== -1, "senza l'inizio della scheda non so dove guardare");
+  const scheda = s.slice(inizioScheda);
+  const grigio = scheda.indexOf("Non ho potuto leggere il cantiere");
+  const pollice = scheda.match(/Nessun difetto [^.]*\. 👍/);
+  const i1 = pollice ? scheda.indexOf(pollice[0]) : -1;
+  assert.ok(i1 !== -1, "il pollice in su deve esistere: senza, questo caso non sta misurando niente");
+  assert.ok(grigio !== -1, "serve la scritta del ramo grigio dentro la scheda del cantiere");
+  assert.ok(grigio < i1, "il ramo «non letto» deve venire PRIMA del pollice in su");
 });
 
 let falliti = 0;

@@ -1,0 +1,246 @@
+{
+  "corsia": 7,
+  "malattia": "Il semaforo verde-giallo-rosso era applicato da testi nei mansionari e da convenzioni: nessuno di questi difetti aveva un pezzo di codice capace di FERMARE l'atto, quindi ogni cancello era un consiglio che si poteva aggirare senza lasciare traccia.",
+  "moduli_condivisi": [
+    "cervello/cancelli-commit.mjs",
+    "cervello/credenziali-git.mjs",
+    "cervello/traccia-decisione.mjs",
+    "cervello/senior-sola-lettura.mjs"
+  ],
+  "difetti": [
+    {
+      "id": "AR-142",
+      "esito": "aperto",
+      "perche_resta_aperto": "La cura è stringere `.claude/settings.json`, e quel file è NEGATO in Edit/Write alla macchina apposta (regola `no-auto-permessi` dello stesso guardiano). Toccarlo da qui vorrebbe dire scavalcare il confine che il difetto chiede di rispettare: sarebbe la macchina che si allarga o si stringe i permessi da sola, cioè il difetto in una forma peggiore. La prova sulla scheda — `node cervello/permessi-check.mjs` — è ROSSA adesso (exit 1, 4 violazioni) e resta la misura giusta: si chiuderà da sola il giorno in cui Nicola applica la modifica. Il testo esatto da incollare è in `patch_per_ad`. NON ho toccato le 4 violazioni in nessun modo indiretto: nessuna è stata giustificata in STRUMENTI_GIUSTIFICATI per farla sparire dal conto — giustificare `mcp__Supabase__execute_sql` sarebbe stato allargare un permesso invece di stringerlo.",
+      "nota_fix_proposta": "Le 4 violazioni vere, misurate oggi: due permessi col jolly su una cartella che la macchina stessa può scrivere (`Bash(node cervello/*.mjs:*)` e `Bash(bash cervello/*.sh:*)`), il divieto mancante su `git push`, e lo strumento collegato `mcp__Supabase__execute_sql` (SQL arbitrario sul database del sito) concesso senza un perché scritto. Restano 5 righe INERTI in forma `Write(percorso)`, che il CLI non applica più: non aprono nulla, ma sono l'avviso che Nicola vede a ogni avvio."
+    },
+    {
+      "id": "AR-206",
+      "esito": "aperto",
+      "perche_resta_aperto": "Stessa porta di AR-142: la parte (a) — sostituire il jolly con l'elenco esplicito degli script ammessi — vive in `.claude/settings.json`, negato alla macchina. La parte (b) era già fatta e regge: `permessi-check.mjs` applica la regola `no-jolly-su-cartella-scrivibile` a entrambi i file e a ogni forma, e oggi becca esattamente quei due permessi. Le parti (c) controllo di provenienza su ogni script lanciato e (d) chiavi fuori dall'ambiente del worker sono FUORI dal mio territorio: il punto dove agganciarle è `cervello/pre-scrittura.mjs` (l'aggancio prima di ogni Bash) e `cervello/worker.sh`, che appartengono ad altri. Verificato sul codice vero: la prova `node cervello/prove-difetti.mjs --ar-206` esce 1 e dice «2 permessi col jolly», quindi il metro è giusto e il difetto è intero.",
+      "nota_fix_proposta": "Il freno giusto per (c) non è un controllo dentro ogni script nuovo — è la stessa forma di AR-172 — ma un controllo al CONFINE: prima che un comando parta, si confronta il file su disco con la versione committata. Il posto è l'aggancio `PreToolUse` su Bash, non i singoli programmi."
+    },
+    {
+      "id": "AR-143",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c7-freni-che-fermano-davvero.test.mjs",
+      "nota_fix": "La scheda diceva «rimetti a posto l'indirizzo dopo il clone, come fa trigger-build.sh». Sul codice vero ho trovato due cose diverse. ① Il file `cervello/vps/trigger-build.sh` che la scheda cita come modello NON ESISTE in questo repo: non ho potuto copiarne il pattern, e comunque quel pattern lascia una finestra aperta per tutta la durata del clone — se il programma muore in mezzo il segreto resta. ② Il token entrava in `.git/config` da DUE strade, non una: `git clone <url col token>` e `git remote set-url origin <url col token>`; ripararne una avrebbe lasciato l'altra. Cosa ho fatto: l'indirizzo salvato su disco è sempre quello pubblico, le credenziali arrivano al singolo comando da una variabile d'ambiente (mai dagli argomenti, dove `ps` le mostra a chiunque), e il clone è sostituito da `init` + `remote` pulito + `fetch` autenticato con `-c`, che su un comando normale non viene salvato. Sopra tutto c'è il freno sul DATO: dopo ogni operazione — anche dopo `--status`, anche dopo una corsa fallita a metà — si legge il file di configurazione vero e, se un segreto è comparso lì da qualunque strada, si toglie e si avvisa. La decisione (quali comandi lanciare) è in `cervello/credenziali-git.mjs`, pura. Ho anche tolto la copia locale di `execFileSync(\"git\")` in favore di `gitEsegui`, che ha già il tetto sull'uscita: era la malattia censita `git-letto-senza-tetto`, e me l'ha fermata il guardiano mentre scrivevo. COSA NON HO VERIFICATO: qui la cartella `marketplace/` NON esiste, quindi non ho potuto controllare se un token sia già esposto su disco sul VPS — la bonifica di un segreto già uscito è 🔴 e va fatta da Nicola (ruotare il PAT su GitHub). E non ho potuto provare un `fetch` autenticato vero contro GitHub: il repo è pubblico e da qui non ho un token; ho provato la SEQUENZA di comandi, non la rete.",
+      "mutante": {
+        "file": "cervello/credenziali-git.mjs",
+        "cerca": "  const url = urlPubblico(repo);",
+        "sostituisci": "  const url = conToken ? `https://x-access-token:${process.env.MYCITY_GIT_TOKEN}@github.com/${repo}.git` : urlPubblico(repo);"
+      },
+      "non_vacuita": "Rimesso l'indirizzo col token dentro (la forma vecchia) → test ROSSO su «AR-143: la sequenza di comandi git non contiene mai il segreto», riga dell'asserzione `segretoNelPiano`. Rimesso a posto: verde."
+    },
+    {
+      "id": "AR-329",
+      "esito": "aperto",
+      "togli_verifica_a_pattern": true,
+      "perche_resta_aperto": "La cura sta in due file fuori dal mio territorio: la regola operativa va in `cervello/scrittura-umana.md` e il freno che la fa rispettare in `cervello/si-capisce.mjs`, il metro che misura ogni bozza prima della consegna. Dentro il mio territorio non esiste nessun punto che veda i comandi prima che arrivino a Nicola. Verificato: oggi `scrittura-umana.md` non contiene né «segnaposto» né «TUO_PERCORSO» (zero occorrenze), quindi la vecchia prova a pattern è rossa e sta dicendo la verità — ma va tolta lo stesso, perché il giorno in cui qualcuno scrive quella parola nel documento il difetto si richiuderebbe da solo senza che nessun comando sia diventato più sicuro. La forma della cura è chiara ed è in `patch_per_ad`."
+    },
+    {
+      "id": "AR-208",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c7-freni-che-fermano-davvero.test.mjs",
+      "nota_fix": "Il fix chiedeva tre cose. Ho fatto la (a), che è quella che trasforma il rapporto in freno: lo stop di budget adesso è uno STATO che il cancello di consenso consulta prima di lasciar partire qualunque azione, e sta DOPO la firma apposta — una firma non scavalca il tetto di spesa. Per farlo ho dovuto riparare un pezzo che la scheda non nominava: il reparto veniva parsato dall'intestazione della card solo per calcolare l'id e poi BUTTATO VIA, quindi il cancello non poteva sapere di chi fosse l'azione; ora viaggia col blocco. Al buio si sta fermi: un registro dei budget illeggibile blocca, come già fa la pausa — è il tetto dei soldi. La (b) — catturare il codice d'uscita della sentinella nel giro invece di ingoiarlo in un `|| true` — è in `cervello/giro.sh`, FUORI dal mio territorio: la proposta è in `patch_per_ad`. La (c) — dare un proprietario al campo «speso» — non è codice, è una decisione di Nicola. COSA NON HO VERIFICATO: con `speso` a zero ovunque nel file vero, il freno oggi non scatta su nessun reparto reale; l'ho provato su registri finti, non su uno sforo vero, perché uno sforo vero non esiste ancora. E la regola del tetto adesso è scritta in DUE posti (qui e in `sentinella-budget.mjs`, fuori territorio): due copie di un freno non sono un freno, e la fusione va chiesta all'AD.",
+      "mutante": {
+        "file": "cervello/consenso-azione.mjs",
+        "cerca": "  if (usato >= soglia && speso > 0) {",
+        "sostituisci": "  if (false) {"
+      },
+      "non_vacuita": "Spento il confronto col tetto → test ROSSO su «AR-208: un reparto oltre il tetto non parte, e il motivo lo dice». Rimesso: verde."
+    },
+    {
+      "id": "AR-209",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c7-freni-che-fermano-davvero.test.mjs",
+      "nota_fix": "Tutte e tre le parti del fix, con un limite dichiarato sulla prima. (a) La scrittura della traccia è uscita dall'esecutore in cui viveva e sta in `cervello/traccia-decisione.mjs`; l'autopilota la chiama a ogni pubblicazione vera, PRIMA di toccare il calendario. Il limite: `cervello/esegui-azione.mjs` — l'altro esecutore, quello che la traccia ce l'aveva già — è fuori dal mio territorio, quindi ha ancora la sua copia della funzione. Il formato della riga è identico apposta, così chi legge la storia non distingue i due, ma «una casa sola» non è ancora vero e la fusione è in `patch_per_ad`. (b) Lo stato della voce cambia (deve, o si ripubblica) ma la storia non si cancella più: accanto gli si aggiunge una riga di storico con da/a/esito. (c) Il guardiano di riscontro esiste e GIRA da solo (`node cervello/traccia-decisione.mjs --riscontro`): confronta ogni pubblicazione reale del registro dell'autopilota con le righe di DECISIONI.md. L'ho aggiunto dopo essermi accorto, alla rilettura, che `riscontroTracce` sarebbe stata una funzione che nessuno chiama — cioè una difesa che somiglia a una difesa. COSA NON HO VERIFICATO: non ho potuto far pubblicare davvero l'autopilota end-to-end, perché il cancello di consenso è fail-closed senza le chiavi della memoria e in prova nulla parte mai; ho eseguito la funzione di traccia vera su un registro finto e verificato che la chiamata sia viva nel ramo che pubblica. Oggi il guardiano di riscontro esce ⚪ (2): il registro dell'autopilota non esiste ancora in questo albero, quindi non c'è niente da confrontare — cieco, non verde.",
+      "mutante": {
+        "file": "cervello/traccia-decisione.mjs",
+        "cerca": "  return `- ${quando} · ${colore} · [${chi}] · MANO ESEGUITA (LIVE): ${cosa}${coda} · ${esito || \"—\"}\\n`;",
+        "sostituisci": "  return \"\";"
+      },
+      "non_vacuita": "Svuotata la riga di traccia → test ROSSO su due casi: «AR-209: ogni pubblicazione reale deve avere la sua riga nel registro» e «AR-209: l'autopilota scrive DAVVERO la riga». Rimesso: verde. ⚠️ La PRIMA mutazione che avevo scelto (commentare la chiamata nell'autopilota) lasciava il test VERDE: l'asserzione cercava la sottostringa `tracciaPubblicazione(voce`, che una riga commentata contiene ancora. Era una prova che non poteva fallire, e l'ho scoperta solo eseguendo la mutazione invece di dedurla; l'asserzione ora è ancorata a inizio riga e il caso vero è funzionale."
+    },
+    {
+      "id": "AR-345",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c7-cancelli-che-fermano.test.mjs",
+      "nota_fix": "Tutte e due le parti. (a) `prova-trigger.mjs` lascia un marcatore in `.git/MISURA-TRIGGER-IN-CORSO` col percorso della copia messa da parte; nasce PRIMA dello spostamento (se nascesse dopo ci sarebbe una finestra, corta ma vera, in cui la skill è già via e il cancello non lo sa) e muore dentro `rimetti()`, che gira a fine corsa, su eccezione e su Ctrl-C. (b) Il `pre-commit` rifiuta qualunque commit che cancelli file sotto `.claude/skills/` finché il marcatore esiste, e dice dove sta la copia; senza marcatore la cancellazione è una scelta e passa. Ho rispettato la nota della scheda: la cartella NON viene ricreata per far sparire la D, perché `rimetti()` ripristina solo se la cartella non c'è. Trovato riparando: gli hook cercavano i loro guardiani sotto la radice del repo committato, quindi non si potevano provare su un repo di prova; adesso il modulo si cerca accanto agli hook, che è anche più corretto quando `core.hooksPath` governa un altro albero di lavoro. COSA NON HO VERIFICATO: non ho lanciato una misura del trigger vera (serve la CLI `claude` e ~35 minuti), quindi ho provato il marcatore scrivendolo a mano nella stessa posizione e con lo stesso contenuto che `prova-trigger.mjs` gli dà.",
+      "mutante": {
+        "file": "cervello/cancelli-commit.mjs",
+        "cerca": "    blocca: true,",
+        "sostituisci": "    blocca: false,"
+      },
+      "non_vacuita": "Fatto rispondere «non bloccare» alla decisione → test ROSSO su due casi, compreso quello end-to-end che fa il commit vero («AR-345: col marcatore della misura, un commit che cancella una skill viene RIFIUTATO»). Rimesso: verde."
+    },
+    {
+      "id": "AR-600",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c7-il-canale-alza-il-colore.test.mjs",
+      "nota_fix": "Il ponte n8n — WhatsApp, social, Google, cioè il canale col raggio più ampio — si apriva con un booleano solo: acceso quello, il controllo del destinatario diceva sì a qualunque numero finisse nel payload. Adesso ha la stessa forma dell'email: `n8n` resta l'interruttore generale (spento, niente si muove) ma non basta più — serve il destinatario scritto per intero in `n8n_destinatari`. Nessun jolly, nessun prefisso: un `*` in lista non autorizza nessuno, e un prefisso non è il numero. Ho curato anche la FORMA e non solo il punto: `interruttoriUnici()` elenca i canali ancora governati da un `true` che apre tutto, così il prossimo canale largo non può nascere di nuovo come booleano senza che il numero salga. Il ponte resta SPENTO: non ho aperto niente. COSA NON HO VERIFICATO: non esiste un invio n8n vero da provare (il ponte è chiuso e non ci sono destinatari autorizzati); ho provato il cancello su una allowlist finta, passando anche dalla strada vera (`destinatarioAmmesso`) e non solo dalla funzione. Resta scoperto il gemello: `github` è ancora un interruttore unico — stessa malattia, altro difetto, l'ho messo in `difetti_nuovi` invece di allargare il lotto.",
+      "mutante": {
+        "file": "cervello/consenso-azione.mjs",
+        "cerca": "  if (inLista(lista, dest)) return { ok: true };",
+        "sostituisci": "  return { ok: true };"
+      },
+      "non_vacuita": "Tolto il controllo sulla lista (lasciando solo l'interruttore) → test ROSSO su tre casi, fra cui «AR-600: il cancello vero passa di lì», che è quello che prova la strada e non la funzione. Rimesso: verde."
+    },
+    {
+      "id": "AR-599",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c7-il-canale-alza-il-colore.test.mjs",
+      "nota_fix": "Confermato sul codice vero prima di toccarlo: `autoEseguibile('verde','github')` e `autoEseguibile('verde','marketplace')` rispondevano tutti e due vero, perché `git`, `github` e `marketplace` stavano nell'elenco dei canali interni. La logica era «non arrivano a una persona, quindi non alzano il colore» — vera e fuori bersaglio, perché il pericolo di quei due non è chi legge, è cosa resta fatto. Adesso i gradini sono tre invece di due: unire una richiesta, rilasciare e mandare in produzione valgono almeno 🔴; scrivere sul catalogo del sito almeno 🟡; la memoria, i file e `git` restano di casa, altrimenti l'autopilota non farebbe più niente e verrebbe spento. Il verso non è cambiato: si alza soltanto. Curato anche il buco che la scheda non nominava: un canale mai visto prima (`stripe`) cadeva FRA i due elenchi e restava verde — adesso quello che non riconosco vale giallo. Secondo strato: il filtro sul contenuto ha l'indicatore che gli mancava, e vede «merge», «richiesta di unione», «in produzione», «deploy». COSA NON HO VERIFICATO: non ho fatto girare il Pannello con Playwright — le due decisioni stanno in moduli puri e le prove le eseguono direttamente, ma la schermata non l'ho vista. Il typecheck del Pannello (`npx tsc --noEmit`) è verde. Resta vero che l'ultimo strato sul merge è ancora un confronto di stringa sulla firma: qui ne ho aggiunto uno sopra, non l'ho sostituito.",
+      "mutante": {
+        "file": "pannello/src/lib/livello-effettivo.ts",
+        "cerca": "  return almeno(livelloDaTesto, minimoDalCanale(canale));",
+        "sostituisci": "  if (!versoIlMondo(canale)) return livelloDaTesto;\n  return almeno(livelloDaTesto, \"giallo\");"
+      },
+      "non_vacuita": "Rimessa la vecchia regola a due gradini → test ROSSO su tre casi, primo fra tutti «un verde su github o marketplace NON è più auto-eseguibile». Rimesso: verde."
+    },
+    {
+      "id": "AR-617",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c7-freni-che-fermano-davvero.test.mjs",
+      "nota_fix": "Il conto della scheda è esatto: 120 mansionari, 114 dichiarano SOLA LETTURA, zero avevano il campo `tools:`. Ma la scheda è più LARGA del vero su cosa promettono: guardando il testo, in 84 casi su 114 la frase è il titolo di una sezione — «## Da dove leggi (SOLA LETTURA)» — cioè la promessa è sulle FONTI da cui leggono (il database del sito, la copia del marketplace, il vault), non su tutto quello che fanno. Questo cambia la cura: togliere Write ed Edit a 114 senior romperebbe il «doer mode» del mansionario dell'AD, che gli chiede di consegnare in `consegne/`. Quello che ho fatto è stringere dove sta il danno irreversibile: ogni senior che promette sola lettura ha adesso un `tools:` esplicito che NON contiene nessuno strumento collegato capace di scrivere su un sistema esterno — niente SQL arbitrario sul database, niente unione di richieste, niente rilascio — e nemmeno `Task`, perché un senior che può lanciare un altro senior esce dai propri limiti al giro dopo. Prima li ereditavano tutti dalla sessione. Il campo non è scritto a mano: lo genera e lo verifica `cervello/senior-sola-lettura.mjs`, che confronta la promessa scritta con gli strumenti concessi e usa il classificatore già in casa (`permessi-strumenti.mjs`, AR-273) invece di una lista nera — così uno strumento di forma nuova non entra in silenzio. Non ho allargato gli strumenti di nessuno: 114 file, una riga aggiunta ciascuno, zero righe tolte. COSA NON HO VERIFICATO: non ho lanciato nessuno dei 114 senior per vedere se il kit gli basta davvero — se a qualcuno mancasse uno strumento se ne accorgerebbe alla prima delega, e il rimedio è aggiungerlo al kit con il perché scritto. E resta vero che `Bash`, `Write` ed `Edit` sono nel kit: sui FILE il perimetro continua a essere quello dei permessi di sessione (AR-142), non questo.",
+      "mutante": {
+        "file": "cervello/senior-sola-lettura.mjs",
+        "cerca": "  if (tools == null) {",
+        "sostituisci": "  if (false) {"
+      },
+      "non_vacuita": "Fatto ignorare al guardiano il campo `tools:` mancante → test ROSSO su «AR-617: il kit concesso non contiene nulla che scriva su un sistema esterno», sull'asserzione che un mansionario senza `tools:` dev'essere bocciato («è esattamente com'erano tutti e 120 prima»). Rimesso: verde."
+    },
+    {
+      "id": "AR-645",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c7-cancelli-che-fermano.test.mjs",
+      "nota_fix": "Verificati sul file vero i sette punti della scheda: c'erano davvero, compreso quello sui segreti reali, e ognuno chiudeva regalando il comando che lo annulla. Due cure insieme, perché una sola non basta. ① Nessun messaggio di blocco spiega più come aggirarsi: tutti chiudono dicendo che forzare si può, che viene contato, e che se è un'emergenza vera lo si dice a Nicola. ② La forzatura adesso si CONTA: il `pre-commit` lascia un segno quando tutti i cancelli hanno detto sì, e un `post-commit` nuovo — l'unico hook che gira anche quando qualcuno salta la verifica, ed è per questo che il conto sta lì — scrive una riga per ogni commit nel registro `.git/registro-cancelli.log` e avvisa a voce alta quando ne trova una forzata. Rebase e commit di unione contano «non applicabile», perché su quelli git non chiama i cancelli e contarli come forzature riempirebbe il registro di rumore — un registro rumoroso non lo guarda nessuno, cioè di nuovo nessun sensore. Trovato riparando, ed è il pezzo che la mutazione ha scoperto: `Number(null)` vale 0, che è finito, quindi il ramo «il marcatore non c'è» non scattava mai e il caso finiva in quello sotto, che rispondeva giusto ma dava il motivo sbagliato («è vecchio» invece di «non c'è»). Un cancello che sbaglia il motivo insegna a diffidare del motivo. COSA NON HO VERIFICATO: il registro vive dentro `.git/`, quindi è per macchina e non viaggia col repo — sul VPS il conto ripartirà da zero, e nessuno lo legge ancora a ogni giro. Il comando c'è (`node cervello/cancelli-commit.mjs rapporto`) ma agganciarlo al giro è in `patch_per_ad`.",
+      "mutante": {
+        "file": "cervello/cancelli-commit.mjs",
+        "cerca": "  if (marcatoreMs == null || !Number.isFinite(Number(marcatoreMs))) return { esito: \"bypass\", motivo: \"i cancelli non sono passati di qui\" };\n  const eta = (Number(adessoMs) - Number(marcatoreMs)) / 1000;\n  if (eta > Number(freschezzaSec)) return { esito: \"bypass\", motivo: `il segno dei cancelli è vecchio di ${Math.round(eta)}s: non è di questo commit` };",
+        "sostituisci": "  const eta = 0;"
+      },
+      "non_vacuita": "Tolti i due rami che riconoscono la forzatura → test ROSSO su «AR-645: un commit che salta i cancelli lascia una riga contata» (che fa due commit git veri, uno normale e uno forzato) e su «rebase e unioni non sono forzature». Rimesso: verde. ⚠️ La PRIMA mutazione che avevo scelto toccava solo il ramo del marcatore assente e lasciava il test VERDE — ed è così che ho scoperto il difetto di `Number(null)`: quel ramo non lo eseguiva nessuno."
+    },
+    {
+      "id": "AR-442",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c7-freni-che-fermano-davvero.test.mjs",
+      "nota_fix": "La metà aperta era il cuore, e la nota della scheda lo diceva: il numero della finestra scorrevole esisteva nel file dal lotto 40 e non lo guardava nessuno, perché chi frena decideva ancora sul contatore del GIORNO SOLARE. Adesso i tetti sono due e vince il più severo: basta che uno dei due sia superato perché si freni. Il tetto della finestra si dichiara nel file accanto a quello del giorno; se manca eredita quello giornaliero, che non è un numero inventato — è quello già firmato per la giornata, applicato a una finestra più stretta. Un buco non è uno zero anche qui: una gamba cieca si DICHIARA nel motivo (col ⚪) e solo due gambe cieche fanno «cieco». Ho aggiunto la stessa disciplina di AR-424 sulla freschezza: un conto della finestra fermo da più della finestra stessa è SCADUTO, non basso — senza quella riga il freno di sessione si spegnerebbe da solo il giorno in cui `costo-ai` smettesse di girare, cioè esattamente quando serve. COSA NON HO VERIFICATO: sui dati veri di adesso la gamba di sessione risponde «scaduta» (il conto è delle 11:39, la finestra è di 360 minuti), quindi il freno oggi decide sul solo giorno e lo dice — è il verdetto giusto e va detto a Nicola, non nascosto: vuol dire che `costo-ai.mjs` non gira da più di sei ore su questo albero. Non ho fatto passare una mezzanotte vera: ho provato le funzioni con l'istante passato da fuori.",
+      "mutante": {
+        "file": "cervello/fonte-numero.mjs",
+        "cerca": "  if (g.azione === \"frena\" || s.azione === \"frena\") {",
+        "sostituisci": "  if (g.azione === \"frena\") {"
+      },
+      "non_vacuita": "Rimesso il freno a guardare il solo giorno → test ROSSO su «AR-442: alle 00:10 il freno guarda le ultime ore, non il giorno appena nato». Rimesso: verde."
+    }
+  ],
+  "bloccati": [
+    {
+      "id": "AR-142",
+      "serve": "`.claude/settings.json` — è nel territorio dichiarato ma è NEGATO in Edit/Write alla macchina dalla regola `no-auto-permessi`, apposta. La modifica è pronta in `patch_per_ad` e la applica Nicola a mano."
+    },
+    {
+      "id": "AR-206",
+      "serve": "`.claude/settings.json` per la parte (a) · `cervello/pre-scrittura.mjs` per la (c), il controllo di provenienza al confine invece che dentro ogni script · `cervello/worker.sh` per la (d), le chiavi fuori dall'ambiente dei lavori. Gli ultimi due sono fuori territorio."
+    },
+    {
+      "id": "AR-329",
+      "serve": "`cervello/scrittura-umana.md` (la regola) e `cervello/si-capisce.mjs` (il freno che la misura su ogni bozza). Nessun punto del mio territorio vede i comandi prima che arrivino a Nicola."
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Il merge di una richiesta si sblocca con un interruttore unico, come il ponte verso WhatsApp prima di oggi",
+      "gravita": "medio",
+      "causa_radice": "`mani-allowlist.json` governa il canale `github` con un booleano solo (`\"github\": true`, oggi ACCESO), esattamente la forma curata su n8n in questo lotto: acceso quello, `destinatarioAmmesso(\"github\", …)` risponde ok per qualunque repo e qualunque numero di richiesta. È la stessa malattia dell'interruttore unico, sull'atto che il mansionario chiama «il più irreversibile della macchina». Non l'ho curata insieme a n8n per una ragione precisa: `cervello/test/consenso-azione.test.mjs` (fuori dal mio territorio, non modificabile da questa corsia) contiene la riga `assert.equal(destinatarioAmmesso(\"github\", \"mycity#5\").ok, allow.github === true)`, che diventerebbe rossa nel momento in cui il booleano smette di bastare.",
+      "dove": "cervello/mani-allowlist.json (chiave `github`) · cervello/consenso-azione.mjs (case \"github\" di destinatarioAmmesso)",
+      "fix_proposto": "Stessa forma di AR-600: `github` resta l'interruttore generale e si aggiunge `github_repo` con l'elenco esplicito dei repository (e volendo dei numeri di richiesta) su cui il merge è autorizzato. Il conto lo dà già `interruttoriUnici()`, che oggi risponde `[\"github\"]`. Va aggiornata insieme la riga del test in cervello/test/consenso-azione.test.mjs."
+    },
+    {
+      "titolo": "La regola del tetto di spesa è scritta in due posti, e due copie di un freno non sono un freno",
+      "gravita": "minore",
+      "causa_radice": "Riparando AR-208 ho dovuto scrivere il confronto «speso ≥ soglia × budget e speso > 0» dentro `consenso-azione.mjs`, perché `sentinella-budget.mjs` — che lo aveva già — è fuori dal territorio di questa corsia. Le due copie oggi dicono la stessa cosa; il giorno in cui una cambia (una soglia diversa, un campo nuovo) l'altra continua a decidere con la regola vecchia, e nessuno se ne accorge perché entrambe stampano verde.",
+      "dove": "cervello/consenso-azione.mjs (repartoInStop) · cervello/sentinella-budget.mjs (righe del calcolo `usato`)",
+      "fix_proposto": "Estrarre la decisione in un modulo puro solo — es. `cervello/tetto-budget.mjs` con `repartoInStop(registro, reparto)` — e farlo importare da tutti e due. La sentinella misura e propone, il cancello legge e ferma, ma la regola è una."
+    },
+    {
+      "titolo": "Il conto dei commit forzati vive dentro .git, quindi non esce dalla macchina che lo scrive",
+      "gravita": "minore",
+      "causa_radice": "Il registro nato con AR-645 sta in `.git/registro-cancelli.log`, che non viaggia col repository: è la scelta giusta (non è contenuto del progetto e non deve finire in una PR), ma vuol dire che il numero delle forzature sul VPS Nicola non lo vede dalla Cabina, e riparte da zero a ogni clone nuovo. Un sensore che nessuno legge fuori dalla macchina è a metà strada fra un sensore e un log.",
+      "dove": "cervello/cancelli-commit.mjs (NOME_REGISTRO, dentro il git-dir)",
+      "fix_proposto": "Agganciare `node cervello/cancelli-commit.mjs rapporto --json` al giro e portarne il numero nel referto di salute, così la forzatura diventa una riga che Nicola vede invece di un file dentro `.git` su una macchina sola."
+    }
+  ],
+  "malattie_da_censire": [
+    {
+      "id": "interruttore-unico-sul-canale-largo",
+      "cosa_e": "Un canale verso il mondo governato da un booleano invece che da una lista di destinatari: acceso una volta, vale per chiunque. Nasce sempre per comodità («per ora è chiuso, quando servirà lo accendiamo») e il giorno in cui serve l'unico modo di aprirlo per uno è aprirlo per tutti. Vale al contrario del rischio: i canali larghi — WhatsApp, social, merge, deploy — sono proprio quelli che l'hanno preso, mentre l'email, che arriva a una persona per volta, aveva già la lista.",
+      "come_si_cerca": "In `cervello/mani-allowlist.json`, ogni chiave il cui valore è `true` senza una lista gemella: `node -e \"import('./cervello/consenso-azione.mjs').then(m=>console.log(m.interruttoriUnici(require('./cervello/mani-allowlist.json'))))\"`. Oggi risponde [\"github\"]."
+    },
+    {
+      "id": "blocco-che-insegna-la-scappatoia",
+      "cosa_e": "Un cancello che, nel momento in cui ferma qualcuno, gli scrive anche il comando per non essere fermato — e nessuno conta chi lo usa. Il bypass diventa a costo zero e invisibile: un passaggio forzato è indistinguibile da uno controllato. Peggiora quando un altro automatismo spinge nella direzione opposta (l'hook di fine turno che pretende commit e push di ogni modifica), perché allora l'unica uscita scritta è proprio quella.",
+      "come_si_cerca": "`node -e \"import('./cervello/cancelli-commit.mjs').then(m=>{const fs=require('fs');for(const f of ['.githooks/pre-commit','.githooks/post-commit','.githooks/commit-msg'].filter(x=>fs.existsSync(x)))console.log(f, m.righeCheInsegnano(fs.readFileSync(f,'utf8')).map(r=>r.riga))})\"` — deve rispondere elenchi vuoti. Vale per qualunque messaggio di blocco, non solo per i hook."
+    },
+    {
+      "id": "promessa-di-sola-lettura-senza-attuatore",
+      "cosa_e": "Un mandato dichiarato in sola lettura nella prosa di un mansionario, senza il campo `tools:` che il runtime dei sotto-agenti applica davvero. La promessa vale finché il modello la ricorda: una svista diventa una scrittura vera, e sul VPS — dove i permessi di sessione sono larghi — il semaforo non ha nessun attuatore a livello di singolo agente.",
+      "come_si_cerca": "`node cervello/senior-sola-lettura.mjs` (exit 1 se una promessa è scoperta; `--applica` genera il campo). Il tetto è zero e non si alza."
+    }
+  ],
+  "file_toccati": [
+    "cervello/cancelli-commit.mjs",
+    "cervello/credenziali-git.mjs",
+    "cervello/traccia-decisione.mjs",
+    "cervello/senior-sola-lettura.mjs",
+    "cervello/collega-marketplace.mjs",
+    "cervello/consenso-azione.mjs",
+    "cervello/mani-allowlist.json",
+    "cervello/fonte-numero.mjs",
+    "cervello/freno-costi.mjs",
+    "cervello/costo-ai.mjs",
+    "cervello/autopilot.mjs",
+    "cervello/prova-trigger.mjs",
+    ".githooks/pre-commit",
+    ".githooks/post-commit",
+    "pannello/src/lib/livello-effettivo.ts",
+    "pannello/src/lib/rischio-contenuto.ts",
+    "cervello/test/c7-cancelli-che-fermano.test.mjs",
+    "cervello/test/c7-il-canale-alza-il-colore.test.mjs",
+    "cervello/test/c7-freni-che-fermano-davvero.test.mjs",
+    ".claude/agents/**  (114 file: una riga `tools:` aggiunta a ciascuno, zero righe tolte)"
+  ],
+  "patch_per_ad": [
+    {
+      "file": ".claude/settings.json",
+      "perche": "AR-142 e AR-206 (a). Il file è negato in Edit/Write alla macchina apposta: la modifica va applicata a mano da Nicola. Sono quattro tagli, tutti nel verso di STRINGERE, e nessuno di essi è reversibile dalla macchina. Il guardiano `node cervello/permessi-check.mjs` passa da exit 1 a exit 0 quando sono fatti tutti e quattro.",
+      "diff_proposto": "① TOGLIERE dalla lista `allow` le due righe col jolly:\n      \"Bash(node cervello/*.mjs:*)\",\n      \"Bash(bash cervello/*.sh:*)\",\n   Non sono permessi su un elenco di programmi: sono permessi su «qualunque programma io decida di scrivere in quella cartella», che la macchina stessa può scrivere. Gli script che servono davvero sono già elencati uno per uno più sotto nello stesso file (git-pr, git-github, esegui-azione, marketplace, coerenza-fatti, chiusura-loop, verifica-sensori, banco-ai, supervisione-negozi, auto-fix, allocazione-check, agent-registry-check). Se dopo il taglio una sessione si blocca su uno script legittimo, la cura è AGGIUNGERE QUELLA RIGA, non rimettere il jolly.\n\n② AGGIUNGERE alla lista `deny`:\n      \"Bash(git push:*)\",\n   Da agente cloud si lavora in un ramo e si apre una richiesta di unione, mai un push diretto. Sul VPS i push li fanno gli script lanciati da systemd, che non passano da questi permessi, quindi il divieto non ferma niente di ciò che funziona oggi.\n\n③ TOGLIERE dalla lista `allow`:\n      \"mcp__Supabase__execute_sql\",\n   Esegue SQL arbitrario sul database, cioè scrive, mentre il mansionario dice «Mai scritture sul DB». ⚠️ Da valutare con Nicola: se lo si toglie, la lettura dei dati in sessione resta al canale REST, che è già la fonte-di-verità dichiarata. Se invece serve davvero, va scritto il perché in STRUMENTI_GIUSTIFICATI dentro cervello/permessi-check.mjs — ma una giustificazione scritta per uno strumento che scrive è una decisione di Nicola, non mia.\n\n④ RISCRIVERE le cinque righe `Write(percorso)` come `Edit(percorso)` (o toglierle, dato che il gemello `Edit` c'è già): il CLI non applica più quella forma e stampa un avviso a ogni avvio — è il muro di avvisi che Nicola vede in cima a ogni analisi. Non cambia cosa la macchina può fare: è solo rumore da togliere."
+    },
+    {
+      "file": "cervello/giro.sh",
+      "perche": "AR-208 (b): il verdetto della sentinella di budget muore in una pipe con `|| true`, quindi lo stop non arriva mai al giro come vincolo. Fuori dal mio territorio.",
+      "diff_proposto": "Nel tratto «Sentinella budget per reparto», catturare il codice d'uscita invece di ingoiarlo, come si fa già per gli altri cancelli:\n  out=$(node cervello/sentinella-budget.mjs --json); code=$?\n  esito_righe 4 <<< \"$out\"\n  [ \"$code\" = \"1\" ] && VINCOLI=\"$VINCOLI\\n- BUDGET_VINCOLO: un reparto è in STOP: nessuna spesa di quel reparto parte, nemmeno firmata.\"\nLa metà che FERMA è già fatta e provata (il cancello di consenso legge lo stato); questa è la metà che lo fa VEDERE dentro il giro."
+    },
+    {
+      "file": "cervello/giro.sh",
+      "perche": "I tre guardiani nati in questa corsia girano solo se qualcuno li lancia. Agganciarli al giro è ciò che li trasforma da comandi in sensori.",
+      "diff_proposto": "Aggiungere al giro, in sola lettura:\n  node cervello/senior-sola-lettura.mjs        # AR-617 — nessuna promessa di sola lettura scoperta\n  node cervello/traccia-decisione.mjs --riscontro   # AR-209 — ogni atto reale ha la sua riga (exit 2 = cieco, non verde)\n  node cervello/cancelli-commit.mjs rapporto   # AR-645 — quante volte i cancelli del commit sono stati forzati"
+    },
+    {
+      "file": "cervello/esegui-azione.mjs",
+      "perche": "AR-209 (a): la traccia in DECISIONI.md è adesso in un pezzo condiviso (`cervello/traccia-decisione.mjs`), ma questo esecutore ha ancora la sua copia della funzione. Finché sono due, il formato può divergere e il guardiano di riscontro comincerebbe a mentire. Fuori dal mio territorio.",
+      "diff_proposto": "Sostituire il corpo di `tracciaDecisione(cosa)` con una chiamata al pezzo condiviso:\n  import { rigaDecisione } from \"./traccia-decisione.mjs\";\n  …\n  fs.appendFileSync(new URL(\"DECISIONI.md\", \"file://\" + VAULT), rigaDecisione({ chi: \"AD/esegui-azione\", cosa, azioneId: AZIONE_ID }));\nIl formato prodotto è identico a quello di oggi: l'ho ricopiato riga per riga apposta."
+    },
+    {
+      "file": "cervello/sentinella-budget.mjs",
+      "perche": "La regola del tetto di spesa adesso vive in due posti (vedi `difetti_nuovi`). Fuori dal mio territorio.",
+      "diff_proposto": "Far importare a `sentinella-budget.mjs` la stessa `repartoInStop` esportata da `cervello/consenso-azione.mjs` (o, meglio, spostarla prima in un `cervello/tetto-budget.mjs` che importano tutti e due). La sentinella misura e propone, il cancello legge e ferma, ma la regola dev'essere una sola."
+    },
+    {
+      "file": "cervello/scrittura-umana.md + cervello/si-capisce.mjs",
+      "perche": "AR-329: un comando che Nicola incollerà davvero non può contenere segnaposti travestiti da valori. Entrambi i file sono fuori dal mio territorio.",
+      "diff_proposto": "① In `scrittura-umana.md`, la regola: o il percorso è verificato nel repo e si scrive per intero, o si rende impossibile da incollare per sbaglio (TUTTO_MAIUSCOLO), oppure lo si chiede prima. E i comandi in sequenza si legano con `&&`, così se il primo passo fallisce il secondo non parte su un file omonimo.\n② Il freno che la fa rispettare va in un modulo puro nuovo (es. `cervello/percorso-finto.mjs`) con una funzione sola — `percorsiFinti(testo)` → le righe che contengono un blocco di comando con dentro un percorso segnaposto in minuscolo (`/percorso/di/…`, `/path/to/…`, `<tuo-percorso>`) — chiamata da `si-capisce.mjs`, che è il metro che ogni bozza attraversa prima di uscire. Un test in `cervello/test/` che gli passa il comando vero del 27/7 («cd /percorso/di/ad-mycity && nano .claude/settings.json») e pretende che venga bocciato, e uno col percorso vero (`/opt/mycity/ad-mycity`) che deve passare."
+    }
+  ]
+}

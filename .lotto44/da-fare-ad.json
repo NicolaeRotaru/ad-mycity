@@ -110,6 +110,42 @@
       "diff_proposto": "① Dentro il ciclo, PRIMA di eseguire il publisher e solo quando `modo` è vero (cioè quando sta per uscire davvero):\n\n    if (modo) {\n      const testo = [voce.titolo, voce.testo, voce.caption].filter(Boolean).join(\"\\n\");\n      const o = spawnSync(\"node\", [join(QUI, \"onesta-check.mjs\"), \"--stdin\"], { input: testo, encoding: \"utf8\" });\n      if (o.status !== 0) {\n        const ok = accoda(voce);\n        console.log(`🚦 ${voce.id} (${voce.canale}) → l'onestà ha detto no: ${(o.stdout||\"\").split(\"\\n\")[0]} → ACCODATO per la firma${ok ? \"\" : \" (coda non scrivibile)\"}.`);\n        logga({ id: voce.id, canale: voce.canale, esito: \"accodato-onesta\", motivo: (o.stdout||\"\").split(\"\\n\")[0] });\n        accodate++; continue;\n      }\n    }\n\n  Fail-closed come il resto del cancello: se onesta-check non c'è o non risponde, la voce si accoda invece di partire.\n\n② La seconda clausola («un solo posto con l'elenco delle porte verso il pubblico e le guardie dovute») ha già la sua casa: cervello/uscite-reali.json, letto da cervello/uscite-check.mjs, che gira a ogni giro. Aggiungere il campo `guardie: [\"consenso\", \"onesta\"]` alle voci che toccano il pubblico e far fallire uscite-check quando una porta dichiarata ne è priva. Così la domanda «quali porte hanno quali guardie» smette di essere una cosa da ricordarsi.\n\nProva: una voce con un numero senza fonte nel testo, in LIVE, con un publisher finto che registra gli invii — si pretende zero invii e una riga in coda."
     },
     {
+      "corsia": 7,
+      "file": ".claude/settings.json",
+      "perche": "AR-142 e AR-206 (a). Il file è negato in Edit/Write alla macchina apposta: la modifica va applicata a mano da Nicola. Sono quattro tagli, tutti nel verso di STRINGERE, e nessuno di essi è reversibile dalla macchina. Il guardiano `node cervello/permessi-check.mjs` passa da exit 1 a exit 0 quando sono fatti tutti e quattro.",
+      "diff_proposto": "① TOGLIERE dalla lista `allow` le due righe col jolly:\n      \"Bash(node cervello/*.mjs:*)\",\n      \"Bash(bash cervello/*.sh:*)\",\n   Non sono permessi su un elenco di programmi: sono permessi su «qualunque programma io decida di scrivere in quella cartella», che la macchina stessa può scrivere. Gli script che servono davvero sono già elencati uno per uno più sotto nello stesso file (git-pr, git-github, esegui-azione, marketplace, coerenza-fatti, chiusura-loop, verifica-sensori, banco-ai, supervisione-negozi, auto-fix, allocazione-check, agent-registry-check). Se dopo il taglio una sessione si blocca su uno script legittimo, la cura è AGGIUNGERE QUELLA RIGA, non rimettere il jolly.\n\n② AGGIUNGERE alla lista `deny`:\n      \"Bash(git push:*)\",\n   Da agente cloud si lavora in un ramo e si apre una richiesta di unione, mai un push diretto. Sul VPS i push li fanno gli script lanciati da systemd, che non passano da questi permessi, quindi il divieto non ferma niente di ciò che funziona oggi.\n\n③ TOGLIERE dalla lista `allow`:\n      \"mcp__Supabase__execute_sql\",\n   Esegue SQL arbitrario sul database, cioè scrive, mentre il mansionario dice «Mai scritture sul DB». ⚠️ Da valutare con Nicola: se lo si toglie, la lettura dei dati in sessione resta al canale REST, che è già la fonte-di-verità dichiarata. Se invece serve davvero, va scritto il perché in STRUMENTI_GIUSTIFICATI dentro cervello/permessi-check.mjs — ma una giustificazione scritta per uno strumento che scrive è una decisione di Nicola, non mia.\n\n④ RISCRIVERE le cinque righe `Write(percorso)` come `Edit(percorso)` (o toglierle, dato che il gemello `Edit` c'è già): il CLI non applica più quella forma e stampa un avviso a ogni avvio — è il muro di avvisi che Nicola vede in cima a ogni analisi. Non cambia cosa la macchina può fare: è solo rumore da togliere."
+    },
+    {
+      "corsia": 7,
+      "file": "cervello/giro.sh",
+      "perche": "AR-208 (b): il verdetto della sentinella di budget muore in una pipe con `|| true`, quindi lo stop non arriva mai al giro come vincolo. Fuori dal mio territorio.",
+      "diff_proposto": "Nel tratto «Sentinella budget per reparto», catturare il codice d'uscita invece di ingoiarlo, come si fa già per gli altri cancelli:\n  out=$(node cervello/sentinella-budget.mjs --json); code=$?\n  esito_righe 4 <<< \"$out\"\n  [ \"$code\" = \"1\" ] && VINCOLI=\"$VINCOLI\\n- BUDGET_VINCOLO: un reparto è in STOP: nessuna spesa di quel reparto parte, nemmeno firmata.\"\nLa metà che FERMA è già fatta e provata (il cancello di consenso legge lo stato); questa è la metà che lo fa VEDERE dentro il giro."
+    },
+    {
+      "corsia": 7,
+      "file": "cervello/giro.sh",
+      "perche": "I tre guardiani nati in questa corsia girano solo se qualcuno li lancia. Agganciarli al giro è ciò che li trasforma da comandi in sensori.",
+      "diff_proposto": "Aggiungere al giro, in sola lettura:\n  node cervello/senior-sola-lettura.mjs        # AR-617 — nessuna promessa di sola lettura scoperta\n  node cervello/traccia-decisione.mjs --riscontro   # AR-209 — ogni atto reale ha la sua riga (exit 2 = cieco, non verde)\n  node cervello/cancelli-commit.mjs rapporto   # AR-645 — quante volte i cancelli del commit sono stati forzati"
+    },
+    {
+      "corsia": 7,
+      "file": "cervello/esegui-azione.mjs",
+      "perche": "AR-209 (a): la traccia in DECISIONI.md è adesso in un pezzo condiviso (`cervello/traccia-decisione.mjs`), ma questo esecutore ha ancora la sua copia della funzione. Finché sono due, il formato può divergere e il guardiano di riscontro comincerebbe a mentire. Fuori dal mio territorio.",
+      "diff_proposto": "Sostituire il corpo di `tracciaDecisione(cosa)` con una chiamata al pezzo condiviso:\n  import { rigaDecisione } from \"./traccia-decisione.mjs\";\n  …\n  fs.appendFileSync(new URL(\"DECISIONI.md\", \"file://\" + VAULT), rigaDecisione({ chi: \"AD/esegui-azione\", cosa, azioneId: AZIONE_ID }));\nIl formato prodotto è identico a quello di oggi: l'ho ricopiato riga per riga apposta."
+    },
+    {
+      "corsia": 7,
+      "file": "cervello/sentinella-budget.mjs",
+      "perche": "La regola del tetto di spesa adesso vive in due posti (vedi `difetti_nuovi`). Fuori dal mio territorio.",
+      "diff_proposto": "Far importare a `sentinella-budget.mjs` la stessa `repartoInStop` esportata da `cervello/consenso-azione.mjs` (o, meglio, spostarla prima in un `cervello/tetto-budget.mjs` che importano tutti e due). La sentinella misura e propone, il cancello legge e ferma, ma la regola dev'essere una sola."
+    },
+    {
+      "corsia": 7,
+      "file": "cervello/scrittura-umana.md + cervello/si-capisce.mjs",
+      "perche": "AR-329: un comando che Nicola incollerà davvero non può contenere segnaposti travestiti da valori. Entrambi i file sono fuori dal mio territorio.",
+      "diff_proposto": "① In `scrittura-umana.md`, la regola: o il percorso è verificato nel repo e si scrive per intero, o si rende impossibile da incollare per sbaglio (TUTTO_MAIUSCOLO), oppure lo si chiede prima. E i comandi in sequenza si legano con `&&`, così se il primo passo fallisce il secondo non parte su un file omonimo.\n② Il freno che la fa rispettare va in un modulo puro nuovo (es. `cervello/percorso-finto.mjs`) con una funzione sola — `percorsiFinti(testo)` → le righe che contengono un blocco di comando con dentro un percorso segnaposto in minuscolo (`/percorso/di/…`, `/path/to/…`, `<tuo-percorso>`) — chiamata da `si-capisce.mjs`, che è il metro che ogni bozza attraversa prima di uscire. Un test in `cervello/test/` che gli passa il comando vero del 27/7 («cd /percorso/di/ad-mycity && nano .claude/settings.json») e pretende che venga bocciato, e uno col percorso vero (`/opt/mycity/ad-mycity`) che deve passare."
+    },
+    {
       "corsia": 8,
       "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json",
       "perche": "AR-360 — le schede senza `dimensione` sono 73 su 716, di cui 31 ancora aperte: senza etichetta non entrano in nessun raggruppamento per malattia, quindi non vengono mai scelte per un lotto. Il cantiere è il registro dell'AD e una corsia non ci scrive; l'elenco degli id si ricava con il comando qui sotto. Le stesse 73 sono anche senza `gravita`.",
@@ -296,6 +332,30 @@
       "fix_proposto": "🟢 Prima delle due righe, la stessa chiamata messa in aggiorna-cervello.sh: `git status --porcelain -- <cartelle di memoria> | node cervello/scritture-a-rischio.mjs decidi` e, su `metti-da-parte`, uno `stash push -u` con nome parlante. Il modulo esiste già e la prova pure."
     },
     {
+      "corsia": 7,
+      "titolo": "Il merge di una richiesta si sblocca con un interruttore unico, come il ponte verso WhatsApp prima di oggi",
+      "gravita": "medio",
+      "causa_radice": "`mani-allowlist.json` governa il canale `github` con un booleano solo (`\"github\": true`, oggi ACCESO), esattamente la forma curata su n8n in questo lotto: acceso quello, `destinatarioAmmesso(\"github\", …)` risponde ok per qualunque repo e qualunque numero di richiesta. È la stessa malattia dell'interruttore unico, sull'atto che il mansionario chiama «il più irreversibile della macchina». Non l'ho curata insieme a n8n per una ragione precisa: `cervello/test/consenso-azione.test.mjs` (fuori dal mio territorio, non modificabile da questa corsia) contiene la riga `assert.equal(destinatarioAmmesso(\"github\", \"mycity#5\").ok, allow.github === true)`, che diventerebbe rossa nel momento in cui il booleano smette di bastare.",
+      "dove": "cervello/mani-allowlist.json (chiave `github`) · cervello/consenso-azione.mjs (case \"github\" di destinatarioAmmesso)",
+      "fix_proposto": "Stessa forma di AR-600: `github` resta l'interruttore generale e si aggiunge `github_repo` con l'elenco esplicito dei repository (e volendo dei numeri di richiesta) su cui il merge è autorizzato. Il conto lo dà già `interruttoriUnici()`, che oggi risponde `[\"github\"]`. Va aggiornata insieme la riga del test in cervello/test/consenso-azione.test.mjs."
+    },
+    {
+      "corsia": 7,
+      "titolo": "La regola del tetto di spesa è scritta in due posti, e due copie di un freno non sono un freno",
+      "gravita": "minore",
+      "causa_radice": "Riparando AR-208 ho dovuto scrivere il confronto «speso ≥ soglia × budget e speso > 0» dentro `consenso-azione.mjs`, perché `sentinella-budget.mjs` — che lo aveva già — è fuori dal territorio di questa corsia. Le due copie oggi dicono la stessa cosa; il giorno in cui una cambia (una soglia diversa, un campo nuovo) l'altra continua a decidere con la regola vecchia, e nessuno se ne accorge perché entrambe stampano verde.",
+      "dove": "cervello/consenso-azione.mjs (repartoInStop) · cervello/sentinella-budget.mjs (righe del calcolo `usato`)",
+      "fix_proposto": "Estrarre la decisione in un modulo puro solo — es. `cervello/tetto-budget.mjs` con `repartoInStop(registro, reparto)` — e farlo importare da tutti e due. La sentinella misura e propone, il cancello legge e ferma, ma la regola è una."
+    },
+    {
+      "corsia": 7,
+      "titolo": "Il conto dei commit forzati vive dentro .git, quindi non esce dalla macchina che lo scrive",
+      "gravita": "minore",
+      "causa_radice": "Il registro nato con AR-645 sta in `.git/registro-cancelli.log`, che non viaggia col repository: è la scelta giusta (non è contenuto del progetto e non deve finire in una PR), ma vuol dire che il numero delle forzature sul VPS Nicola non lo vede dalla Cabina, e riparte da zero a ogni clone nuovo. Un sensore che nessuno legge fuori dalla macchina è a metà strada fra un sensore e un log.",
+      "dove": "cervello/cancelli-commit.mjs (NOME_REGISTRO, dentro il git-dir)",
+      "fix_proposto": "Agganciare `node cervello/cancelli-commit.mjs rapporto --json` al giro e portarne il numero nel referto di salute, così la forzatura diventa una riga che Nicola vede invece di un file dentro `.git` su una macchina sola."
+    },
+    {
       "corsia": 8,
       "titolo": "Il confronto che decide se una prova è soddisfatta ha sei copie, e cinque non ereditano le cure",
       "gravita": "grave",
@@ -406,6 +466,24 @@
       "come_si_cerca": "`grep -nE 'curl [^|]*\\|\\| true' cervello/*.sh cervello/vps/*.sh` e, nei .mjs, ogni `fetch(...).catch(() => …)` che ricade su un valore normale invece che su «non lo so». Per ogni occorrenza: il chiamante distingue «no» da «non ho letto»? Oggi curati kill-switch.sh e la presa in carico di worker.sh."
     },
     {
+      "corsia": 7,
+      "id": "interruttore-unico-sul-canale-largo",
+      "cosa_e": "Un canale verso il mondo governato da un booleano invece che da una lista di destinatari: acceso una volta, vale per chiunque. Nasce sempre per comodità («per ora è chiuso, quando servirà lo accendiamo») e il giorno in cui serve l'unico modo di aprirlo per uno è aprirlo per tutti. Vale al contrario del rischio: i canali larghi — WhatsApp, social, merge, deploy — sono proprio quelli che l'hanno preso, mentre l'email, che arriva a una persona per volta, aveva già la lista.",
+      "come_si_cerca": "In `cervello/mani-allowlist.json`, ogni chiave il cui valore è `true` senza una lista gemella: `node -e \"import('./cervello/consenso-azione.mjs').then(m=>console.log(m.interruttoriUnici(require('./cervello/mani-allowlist.json'))))\"`. Oggi risponde [\"github\"]."
+    },
+    {
+      "corsia": 7,
+      "id": "blocco-che-insegna-la-scappatoia",
+      "cosa_e": "Un cancello che, nel momento in cui ferma qualcuno, gli scrive anche il comando per non essere fermato — e nessuno conta chi lo usa. Il bypass diventa a costo zero e invisibile: un passaggio forzato è indistinguibile da uno controllato. Peggiora quando un altro automatismo spinge nella direzione opposta (l'hook di fine turno che pretende commit e push di ogni modifica), perché allora l'unica uscita scritta è proprio quella.",
+      "come_si_cerca": "`node -e \"import('./cervello/cancelli-commit.mjs').then(m=>{const fs=require('fs');for(const f of ['.githooks/pre-commit','.githooks/post-commit','.githooks/commit-msg'].filter(x=>fs.existsSync(x)))console.log(f, m.righeCheInsegnano(fs.readFileSync(f,'utf8')).map(r=>r.riga))})\"` — deve rispondere elenchi vuoti. Vale per qualunque messaggio di blocco, non solo per i hook."
+    },
+    {
+      "corsia": 7,
+      "id": "promessa-di-sola-lettura-senza-attuatore",
+      "cosa_e": "Un mandato dichiarato in sola lettura nella prosa di un mansionario, senza il campo `tools:` che il runtime dei sotto-agenti applica davvero. La promessa vale finché il modello la ricorda: una svista diventa una scrittura vera, e sul VPS — dove i permessi di sessione sono larghi — il semaforo non ha nessun attuatore a livello di singolo agente.",
+      "come_si_cerca": "`node cervello/senior-sola-lettura.mjs` (exit 1 se una promessa è scoperta; `--applica` genera il campo). Il tetto è zero e non si alza."
+    },
+    {
       "corsia": 8,
       "id": "numero-con-due-metri",
       "cosa_e": "Lo stesso dato letto da due programmi con due soglie o due definizioni diverse: uno suona l'allarme e l'altro scrive verde, e chi guarda la Cabina vede solo il secondo. AR-149 (0,3 contro 0), AR-180 e AR-344 sono la stessa forma.",
@@ -509,6 +587,15 @@
       "AR-630",
       "AR-690",
       "AR-295",
+      "AR-143",
+      "AR-208",
+      "AR-209",
+      "AR-345",
+      "AR-600",
+      "AR-599",
+      "AR-617",
+      "AR-645",
+      "AR-442",
       "AR-149",
       "AR-150",
       "AR-355",
@@ -550,6 +637,12 @@
       "AR-398: BLOCCATO — file fuori territorio: cervello/autopilot.mjs (salvataggio del calendario dopo OGNI invio, try/catch attorno al publisher, timeout sul fetch condiviso, lock all'avvio dello scheduler).",
       "AR-210: BLOCCATO — file fuori territorio: cervello/autopilot.mjs (chiamata al controllo d'onestà dentro il punto che esegue il publisher) e cervello/uscite-reali.json + cervello/uscite-check.mjs (l'elenco unico delle porte verso il pubblico e delle guardie dovute).",
       "AR-659: BLOCCATO — due prove condivise fuori territorio che PINZANO le cinque copie: cervello/test/parola-senza-padrone.test.mjs (sezione ②) e cervello/test/recupero-due-porte.test.mjs. Finché cercano le dichiarazioni letterali, importare dal padrone le fa diventare rosse.",
+      "AR-142: La cura è stringere `.claude/settings.json`, e quel file è NEGATO in Edit/Write alla macchina apposta (regola `no-auto-permessi` dello stesso guardiano). Toccarlo da qui vorrebbe dire scavalcare il confine che il difetto chiede di rispettare: sarebbe la macchina che si allarga o si stringe i permessi da sola, cioè il difetto in una forma peggiore. La prova sulla scheda — `node cervello/permessi-check.mjs` — è ROSSA adesso (exit 1, 4 violazioni) e resta la misura giusta: si chiuderà da sola il giorno in cui Nicola applica la modifica. Il testo esatto da incollare è in `patch_per_ad`. NON ho toccato le 4 violazioni in nessun modo indiretto: nessuna è stata giustificata in STRUMENTI_GIUSTIFICATI per farla sparire dal conto — giustificare `mcp__Supabase__execute_sql` sarebbe stato allargare un permesso invece di stringerlo.",
+      "AR-206: Stessa porta di AR-142: la parte (a) — sostituire il jolly con l'elenco esplicito degli script ammessi — vive in `.claude/settings.json`, negato alla macchina. La parte (b) era già fatta e regge: `permessi-check.mjs` applica la regola `no-jolly-su-cartella-scrivibile` a entrambi i file e a ogni forma, e oggi becca esattamente quei due permessi. Le parti (c) controllo di provenienza su ogni script lanciato e (d) chiavi fuori dall'ambiente del worker sono FUORI dal mio territorio: il punto dove agganciarle è `cervello/pre-scrittura.mjs` (l'aggancio prima di ogni Bash) e `cervello/worker.sh`, che appartengono ad altri. Verificato sul codice vero: la prova `node cervello/prove-difetti.mjs --ar-206` esce 1 e dice «2 permessi col jolly», quindi il metro è giusto e il difetto è intero.",
+      "AR-329: La cura sta in due file fuori dal mio territorio: la regola operativa va in `cervello/scrittura-umana.md` e il freno che la fa rispettare in `cervello/si-capisce.mjs`, il metro che misura ogni bozza prima della consegna. Dentro il mio territorio non esiste nessun punto che veda i comandi prima che arrivino a Nicola. Verificato: oggi `scrittura-umana.md` non contiene né «segnaposto» né «TUO_PERCORSO» (zero occorrenze), quindi la vecchia prova a pattern è rossa e sta dicendo la verità — ma va tolta lo stesso, perché il giorno in cui qualcuno scrive quella parola nel documento il difetto si richiuderebbe da solo senza che nessun comando sia diventato più sicuro. La forma della cura è chiara ed è in `patch_per_ad`.",
+      "AR-142: BLOCCATO — `.claude/settings.json` — è nel territorio dichiarato ma è NEGATO in Edit/Write alla macchina dalla regola `no-auto-permessi`, apposta. La modifica è pronta in `patch_per_ad` e la applica Nicola a mano.",
+      "AR-206: BLOCCATO — `.claude/settings.json` per la parte (a) · `cervello/pre-scrittura.mjs` per la (c), il controllo di provenienza al confine invece che dentro ogni script · `cervello/worker.sh` per la (d), le chiavi fuori dall'ambiente dei lavori. Gli ultimi due sono fuori territorio.",
+      "AR-329: BLOCCATO — `cervello/scrittura-umana.md` (la regola) e `cervello/si-capisce.mjs` (il freno che la misura su ogni bozza). Nessun punto del mio territorio vede i comandi prima che arrivino a Nicola.",
       "AR-181: Il fix vive tutto dentro `cervello/calibrazione.mjs` (`cmdValida` che non chiede la causa, `cmdDaLoop` che chiude direttamente come `mancata`), e quel file non è nel mio territorio: toccarlo vorrebbe dire scrivere nella corsia di qualcun altro. Ho verificato la scheda sul codice e regge: `cmdValida` controlla fonte e sensore e non la causa, quindi l'obbligo vive solo nel percorso comodo del comando e evapora appena qualcuno scrive il JSON a mano. Il diff proposto è in patch_per_ad.",
       "AR-622: L'ho verificato e la scheda è vera alla lettera: in tutta la Sala Operativa c'è UNA riga `RIVEDI`, del 29/7 01:20, da @ad a @finanza, e @finanza non ha più scritto una riga dopo. Nel codice non c'è niente di rotto da riparare — il formato la prevede, la sintassi funziona, semplicemente nessuno la usa e nessuno risponde. È un comportamento mancante, non un difetto di programma, e chiuderlo scrivendo un modulo sarebbe esattamente la malattia di questa corsia: una lezione chiusa con una frase. QUELLO CHE HO COSTRUITO, perché il difetto smetta almeno di essere invisibile: `revisioniTraPari` in `cervello/sala-regole.mjs` conta le richieste e quante hanno ricevuto risposta (il destinatario che scrive in Sala dopo essere stato chiamato), e `chiusura-loop.mjs --sonda` lo pubblica in `chiusura-loop.json` sotto `sala_operativa.peer_review`. Oggi quel numero dice 1 richiesta, 0 risposte. Il difetto si chiude quando quel numero cambia, e allora la prova lo mostrerà da sola. Il test NON asserisce «zero risposte»: una prova che diventa rossa il giorno in cui la squadra migliora insegna a non migliorare — verifica il meccanismo su un caso costruito e stampa il numero vero.",
       "AR-181: BLOCCATO — file fuori territorio: cervello/calibrazione.mjs. Servono `cmdValida` che boccia una `mancata` chiusa dopo la data-ponte senza `causa` fra le tre ammesse (righe storiche esenti) e `cmdDaLoop` che chiude come `da-classificare` invece che come `mancata`. Diff proposto in patch_per_ad.",
@@ -562,7 +655,9 @@
       "AR-335: BLOCCATO — file fuori territorio: MyCity-Vault/90-Memoria-AI/STATO.md. Misura di adesso: 1.829 righe contro l'obiettivo di ≤200 dichiarato dal difetto padre — peggio delle 789 misurate alla nascita della scheda, il cruscotto è più che raddoppiato. La scheda dichiara `verifica: {tipo: \"umano\"}` perché quali sezioni servono ancora è un giudizio da prendere con Nicola, non una soglia da far scattare. Da questa corsia posso solo dare il numero aggiornato: 1.829 righe, 238.278 byte, tetto 122.210."
     ],
     "mancanti": [],
-    "mutantiNuovi": 8,
-    "patternTolti": []
+    "mutantiNuovi": 9,
+    "patternTolti": [
+      "AR-329"
+    ]
   }
 }

@@ -1596,7 +1596,7 @@
       "chiuso_il": "2026-07-25 05:03",
       "chiuso_come": "node cervello/permessi-check.mjs → exit 0 (guardiano soddisfatto)",
       "nato_come": "regressione",
-      "nota_fix": "RIAPERTO il 2026-08-14 (lotto 40). La prova sulla scheda — `node cervello/permessi-check.mjs` — e' ROSSA adesso: exit 1, 4 violazioni. Non e' un metro da riallineare, e' il difetto tornato. Le quattro: due permessi col jolly su cartelle che la macchina stessa puo' SCRIVERE (`Bash(node cervello/*.mjs:*)` e `Bash(bash cervello/*.sh:*)` in .claude/settings.json) — cioe' il permesso non e' su un elenco di programmi ma su «qualunque programma io decida di scrivere li' dentro», e i freni vivono DENTRO i singoli script: col jolly si arriva al risultato senza passare dallo script che contiene il freno. Piu' il divieto mancante su `git push`. Come e' passato inosservato: la scheda era chiusa e nessuno riesegue le prove dei chiusi — e' AR-336, ed e' per questo che quel difetto conta.",
+      "nota_fix": "La cura è stringere `.claude/settings.json`, e quel file è NEGATO in Edit/Write alla macchina apposta (regola `no-auto-permessi` dello stesso guardiano). Toccarlo da qui vorrebbe dire scavalcare il confine che il difetto chiede di rispettare: sarebbe la macchina che si allarga o si stringe i permessi da sola, cioè il difetto in una forma peggiore. La prova sulla scheda — `node cervello/permessi-check.mjs` — è ROSSA adesso (exit 1, 4 violazioni) e resta la misura giusta: si chiuderà da sola il giorno in cui Nicola applica la modifica. Il testo esatto da incollare è in `patch_per_ad`. NON ho toccato le 4 violazioni in nessun modo indiretto: nessuna è stata giustificata in STRUMENTI_GIUSTIFICATI per farla sparire dal conto — giustificare `mcp__Supabase__execute_sql` sarebbe stato allargare un permesso invece di stringerlo.",
       "nato_da": "chiuso in un lotto precedente e mai piu' riverificato (AR-336): la prova era gia' comportamentale, ma nessun processo riesegue le prove dei difetti CHIUSI",
       "malattia": "non-pattern-izzabile",
       "malattia_perche": "La forma e' «un difetto CHIUSO torna e nessuno se ne accorge, perche' nessun processo riesegue le prove dei chiusi». Non e' cercabile con un pattern nel testo: non c'e' una riga sbagliata da trovare: il codice del difetto e' tornato altrove, e cio' che manca e' un CONTROLLO RIPETUTO nel tempo. La copre AR-336, aperto e nominato apposta («un difetto chiuso non viene mai piu' riguardato, e settantaquattro hanno una prova che si potrebbe rieseguire»), piu' il comando `rivedi-chiusi` che la corsia H ha costruito in questo lotto: e' stato lui a trovarli."
@@ -1614,9 +1614,12 @@
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione rischio-sicurezza-se)",
       "verifica": {
-        "tipo": "umano"
+        "tipo": "comando",
+        "comando": "node cervello/test/c7-freni-che-fermano-davvero.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "La scheda diceva «rimetti a posto l'indirizzo dopo il clone, come fa trigger-build.sh». Sul codice vero ho trovato due cose diverse. ① Il file `cervello/vps/trigger-build.sh` che la scheda cita come modello NON ESISTE in questo repo: non ho potuto copiarne il pattern, e comunque quel pattern lascia una finestra aperta per tutta la durata del clone — se il programma muore in mezzo il segreto resta. ② Il token entrava in `.git/config` da DUE strade, non una: `git clone <url col token>` e `git remote set-url origin <url col token>`; ripararne una avrebbe lasciato l'altra. Cosa ho fatto: l'indirizzo salvato su disco è sempre quello pubblico, le credenziali arrivano al singolo comando da una variabile d'ambiente (mai dagli argomenti, dove `ps` le mostra a chiunque), e il clone è sostituito da `init` + `remote` pulito + `fetch` autenticato con `-c`, che su un comando normale non viene salvato. Sopra tutto c'è il freno sul DATO: dopo ogni operazione — anche dopo `--status`, anche dopo una corsa fallita a metà — si legge il file di configurazione vero e, se un segreto è comparso lì da qualunque strada, si toglie e si avvisa. La decisione (quali comandi lanciare) è in `cervello/credenziali-git.mjs`, pura. Ho anche tolto la copia locale di `execFileSync(\"git\")` in favore di `gitEsegui`, che ha già il tetto sull'uscita: era la malattia censita `git-letto-senza-tetto`, e me l'ha fermata il guardiano mentre scrivevo. COSA NON HO VERIFICATO: qui la cartella `marketplace/` NON esiste, quindi non ho potuto controllare se un token sia già esposto su disco sul VPS — la bonifica di un segreto già uscito è 🔴 e va fatta da Nicola (ruotare il PAT su GitHub). E non ho potuto provare un `fetch` autenticato vero contro GitHub: il repo è pubblico e da qui non ho un token; ho provato la SEQUENZA di comandi, non la rete.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-144",
@@ -2948,7 +2951,7 @@
       "nota": "Dove: .claude/settings.json:23 (permesso «Bash(node cervello/*.mjs:*)») + cervello/motore-ai.sh:274 (scritture auto-accettate) + cervello/worker.sh:26 (tutte le chiavi esportate nell'ambiente) + cervello/permessi-check.mjs:40-88 (le 7 regole d'oro non coprono il caso) · Impatto: Ogni cancello diventa facoltativo: l'invio a un cliente, la scrittura su una tabella del sito, il merge, la pausa — tutto raggiungibile senza passare dagli script che contengono i controlli, quindi senza firma, senza pausa e senza allowlist. Vale sia per i lavori sia per la chat, che è anche la superficie che ingoia testo esterno (vault, allegati, web): un'istruzione ostile in un documento letto diventa eseguibile. Nessuna traccia in DECISIONI.md, perché la traccia la scrive solo lo script che si è aggirato. · 28/7 lotto 13: FATTA la (b) — permessi-check ha ora la regola no-jolly-su-cartella-scrivibile, che becca esattamente Bash(node cervello/*.mjs:*) e Bash(bash cervello/*.sh:*) e NON i permessi su un singolo script (la prima versione li bocciava tutti: un cancello che boccia cio che va bene viene disattivato). RESTA APERTO perche la (a) — sostituire il jolly con l elenco esplicito in .claude/settings.json — e AZIONE DI NICOLA: quel file e negato in Edit/Write alla macchina, apposta. Restano aperte anche la (c) provenienza degli script e la (d) chiavi fuori dall ambiente del worker. La radice condivisa con AR-272 e invece chiusa: esiste l elenco delle uscite verso il mondo reale (cervello/uscite-reali.json) e un guardiano che fallisce il giro se ne compare una non dichiarata. · 28/7 08:40 — PROVA CORRETTA prima che chiudesse a vuoto. Il passo 5 di come-riparo.md l ha intercettato: la prova puntava a no-jolly-su-cartella-scrivibile in permessi-check.mjs, cioe alla meta (b) che ho fatto io, e sarebbe passata lasciando aperta la (a) — togliere Bash(node cervello/*.mjs:*) e Bash(bash cervello/*.sh:*) da .claude/settings.json, che e azione di Nicola perche quel file e negato in Edit/Write alla macchina. Terza chiusura falsa intercettata in un giorno, tutte con la stessa forma: una prova che si accontenta di una parte del fix. Ora la prova guarda il file che deve cambiare.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nota_fix": "Lotto 33 (29/7) — malattia comune ai dieci bloccanti: **il perimetro di un controllo era una dichiarazione scritta a mano, o un confine implicito di implementazione, invece di una misura derivata dal codice vero**. Cura condivisa: `cervello/perimetro.mjs` (funzioni pure: elenco ricorsivo con esclusioni dichiarate, derivazione dei nomi dal codice, confronto dichiarati↔derivati) + `cervello/segnali-attesi.mjs` + `pannello/src/lib/rotte-scriventi.ts`. Registrata come malattia `perimetro-dedotto-non-misurato` in cervello/malattie.json (tetto 5 netto, scende e non si alza). **RESTA APERTO, e non per dimenticanza.** La parte (b) della scheda — la regola «niente jolly su una cartella scrivibile» in permessi-check.mjs — esisteva già ed è verde: il guardiano segnala correttamente `Bash(node cervello/*.mjs:*)` e `Bash(bash cervello/*.sh:*)`. La parte (a) — sostituire il jolly con l'elenco esplicito — richiede di modificare `.claude/settings.json`, che è NEGATO in Edit/Write alla macchina apposta (regola `no-auto-permessi`: la macchina non deve poter toccare i propri permessi, né per allargarli né per restringerli). Farlo da qui sarebbe stato scavalcare il confine che il difetto stesso chiede di rispettare. L'elenco esplicito pronto da incollare è preparato in AZIONI-IN-ATTESA. Le parti (c) controllo di provenienza su ogni script e (d) chiavi fuori dall'ambiente del worker restano da fare: sono infrastruttura, non perimetro, e vanno in un lotto loro.",
+      "nota_fix": "Stessa porta di AR-142: la parte (a) — sostituire il jolly con l'elenco esplicito degli script ammessi — vive in `.claude/settings.json`, negato alla macchina. La parte (b) era già fatta e regge: `permessi-check.mjs` applica la regola `no-jolly-su-cartella-scrivibile` a entrambi i file e a ogni forma, e oggi becca esattamente quei due permessi. Le parti (c) controllo di provenienza su ogni script lanciato e (d) chiavi fuori dall'ambiente del worker sono FUORI dal mio territorio: il punto dove agganciarle è `cervello/pre-scrittura.mjs` (l'aggancio prima di ogni Bash) e `cervello/worker.sh`, che appartengono ad altri. Verificato sul codice vero: la prova `node cervello/prove-difetti.mjs --ar-206` esce 1 e dice «2 permessi col jolly», quindi il metro è giusto e il difetto è intero.",
       "nato_come": "scoperta",
       "nota_prova": "Prova convertita il 2026-08-11 00:45 (AR-564, l'asticella). Prima era un grep: .claude/settings.json ~ /cervello\\/\\*\\.mjs/ (presente:false). il grep guardava UNA scrittura sola del difetto: un jolly scritto in un altro modo, o messo in settings.local.json, sarebbe passato. La prova nuova esegue `permessi-check.mjs`, che applica la regola `no-jolly-su-cartella-scrivibile` a entrambi i file e a ogni forma. Oggi trova 2 permessi troppo larghi."
     },
@@ -2986,14 +2989,16 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "comando": "node cervello/prove-difetti.mjs --ar-208",
-        "nota": "Esegue il tratto vero di giro.sh («Sentinella budget per reparto») con una sentinella finta che dichiara lo sforo e esce 1, e guarda se ne esce un BUDGET_VINCOLO. Oggi rossa: il verdetto muore in `| esito_righe 4 || true`. Ribaltamento provato in cervello/test/prove-a-due-versi.test.mjs."
+        "tipo": "comando",
+        "comando": "node cervello/test/c7-freni-che-fermano-davvero.test.mjs"
       },
       "nota": "Dove: cervello/sentinella-budget.mjs:74-87 (accoda una proposta) e :116 (esce con codice 1) + cervello/giro.sh:341 (l'uscita finisce in una pipe con «|| true») + MyCity-Vault/05-Soldi-Rischi/budget-reparti.json (speso ovunque a zero, nessuna fonte che lo riempia) · Impatto: Il guardrail economico esiste come rapporto e non come freno: un reparto può continuare a proporre e far approvare spese oltre il tetto senza che nulla si opponga, e la card di stop finisce in fondo alla stessa coda che genera le spese. Con più negozi e più canali a pagamento questo è il controllo che serve per primo — ed è quello che oggi non regge.",
       "chiuso_il": "",
       "chiuso_come": "",
       "nato_come": "scoperta",
-      "prova_convertita_il": "2026-08-11 02:10"
+      "prova_convertita_il": "2026-08-11 02:10",
+      "nota_fix": "Il fix chiedeva tre cose. Ho fatto la (a), che è quella che trasforma il rapporto in freno: lo stop di budget adesso è uno STATO che il cancello di consenso consulta prima di lasciar partire qualunque azione, e sta DOPO la firma apposta — una firma non scavalca il tetto di spesa. Per farlo ho dovuto riparare un pezzo che la scheda non nominava: il reparto veniva parsato dall'intestazione della card solo per calcolare l'id e poi BUTTATO VIA, quindi il cancello non poteva sapere di chi fosse l'azione; ora viaggia col blocco. Al buio si sta fermi: un registro dei budget illeggibile blocca, come già fa la pausa — è il tetto dei soldi. La (b) — catturare il codice d'uscita della sentinella nel giro invece di ingoiarlo in un `|| true` — è in `cervello/giro.sh`, FUORI dal mio territorio: la proposta è in `patch_per_ad`. La (c) — dare un proprietario al campo «speso» — non è codice, è una decisione di Nicola. COSA NON HO VERIFICATO: con `speso` a zero ovunque nel file vero, il freno oggi non scatta su nessun reparto reale; l'ho provato su registri finti, non su uno sforo vero, perché uno sforo vero non esiste ancora. E la regola del tetto adesso è scritta in DUE posti (qui e in `sentinella-budget.mjs`, fuori territorio): due copie di un freno non sono un freno, e la fusione va chiesta all'AD.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-209",
@@ -3008,14 +3013,15 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/autopilot.mjs",
-        "pattern": "tracciaDecisione|DECISIONI\\.md",
-        "presente": true
+        "tipo": "comando",
+        "comando": "node cervello/test/c7-freni-che-fermano-davvero.test.mjs"
       },
       "nota": "Dove: cervello/autopilot.mjs:228-247 (traccia solo in creativi/output/autopilot-log.jsonl e riscrive lo stato del calendario) — a confronto con cervello/esegui-azione.mjs:33-44, che ogni invio reale lo scrive in DECISIONI.md · Impatto: Buco nella catena di custodia: una pubblicazione vera può non lasciare traccia ricostruibile da terzi, e la storia del calendario viene sovrascritta. Oggi la superficie che parte da sola è piccola (chat del proprietario, email di prova a se stessi), quindi il danno è contenuto — ma la regola d'oro della memoria («non riscrivere mai le righe vecchie») è violata proprio dove serve di più.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Tutte e tre le parti del fix, con un limite dichiarato sulla prima. (a) La scrittura della traccia è uscita dall'esecutore in cui viveva e sta in `cervello/traccia-decisione.mjs`; l'autopilota la chiama a ogni pubblicazione vera, PRIMA di toccare il calendario. Il limite: `cervello/esegui-azione.mjs` — l'altro esecutore, quello che la traccia ce l'aveva già — è fuori dal mio territorio, quindi ha ancora la sua copia della funzione. Il formato della riga è identico apposta, così chi legge la storia non distingue i due, ma «una casa sola» non è ancora vero e la fusione è in `patch_per_ad`. (b) Lo stato della voce cambia (deve, o si ripubblica) ma la storia non si cancella più: accanto gli si aggiunge una riga di storico con da/a/esito. (c) Il guardiano di riscontro esiste e GIRA da solo (`node cervello/traccia-decisione.mjs --riscontro`): confronta ogni pubblicazione reale del registro dell'autopilota con le righe di DECISIONI.md. L'ho aggiunto dopo essermi accorto, alla rilettura, che `riscontroTracce` sarebbe stata una funzione che nessuno chiama — cioè una difesa che somiglia a una difesa. COSA NON HO VERIFICATO: non ho potuto far pubblicare davvero l'autopilota end-to-end, perché il cancello di consenso è fail-closed senza le chiavi della memoria e in prova nulla parte mai; ho eseguito la funzione di traccia vera su un registro finto e verificato che la chiamata sia viva nel ramo che pubblica. Oggi il guardiano di riscontro esce ⚪ (2): il registro dell'autopilota non esiste ancora in questo albero, quindi non c'è niente da confrontare — cieco, non verde.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-210",
@@ -5578,15 +5584,16 @@
       "stato": "aperto",
       "nato": "2026-07-27",
       "origine": "correzione di Nicola 2026-07-27 11:20 (screenshot) — caso-studio prioritario",
-      "verifica": {
+      "nota": "Dove: chat 27/7, istruzione per sbloccare il push · Impatto: Nicola ha aperto ed era pronto a modificare ~/.claude/settings.json invece di quello del repo. Nessun danno perche se ne e accorto e ha chiesto. Il percorso giusto era in SETUP-VPS.md:61.",
+      "chiuso_il": "",
+      "chiuso_come": "",
+      "nato_come": "scoperta",
+      "verifica_storica": {
         "file": "cervello/scrittura-umana.md",
         "pattern": "segnaposto|TUO_PERCORSO",
         "presente": true
       },
-      "nota": "Dove: chat 27/7, istruzione per sbloccare il push · Impatto: Nicola ha aperto ed era pronto a modificare ~/.claude/settings.json invece di quello del repo. Nessun danno perche se ne e accorto e ha chiesto. Il percorso giusto era in SETUP-VPS.md:61.",
-      "chiuso_il": "",
-      "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nota_fix": "La cura sta in due file fuori dal mio territorio: la regola operativa va in `cervello/scrittura-umana.md` e il freno che la fa rispettare in `cervello/si-capisce.mjs`, il metro che misura ogni bozza prima della consegna. Dentro il mio territorio non esiste nessun punto che veda i comandi prima che arrivino a Nicola. Verificato: oggi `scrittura-umana.md` non contiene né «segnaposto» né «TUO_PERCORSO» (zero occorrenze), quindi la vecchia prova a pattern è rossa e sta dicendo la verità — ma va tolta lo stesso, perché il giorno in cui qualcuno scrive quella parola nel documento il difetto si richiuderebbe da solo senza che nessun comando sia diventato più sicuro. La forma della cura è chiara ed è in `patch_per_ad`."
     },
     {
       "id": "AR-330",
@@ -5912,7 +5919,13 @@
       "nato": "2026-07-29 01:05",
       "nota": "Trovato dal vivo nel lotto 30: durante il bench del trigger lo stop-hook di sessione ha chiesto tre volte di committare le modifiche pendenti, e le uniche pendenti erano la cancellazione apparente della skill. Ho committato solo percorsi espliciti proprio per non cadere nella trappola — ma la difesa e stata la mia attenzione, non un cancello. NON entra nel lotto 30 (regola ② della skill).",
       "nato_come": "nuovo-lavoro",
-      "nascita_nota": "prova-trigger.mjs sposta la skill fuori dall'albero per misurare il trigger: e' un rischio creato dallo strumento nuovo, non un difetto preesistente"
+      "nascita_nota": "prova-trigger.mjs sposta la skill fuori dall'albero per misurare il trigger: e' un rischio creato dallo strumento nuovo, non un difetto preesistente",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/c7-cancelli-che-fermano.test.mjs"
+      },
+      "nota_fix": "Tutte e due le parti. (a) `prova-trigger.mjs` lascia un marcatore in `.git/MISURA-TRIGGER-IN-CORSO` col percorso della copia messa da parte; nasce PRIMA dello spostamento (se nascesse dopo ci sarebbe una finestra, corta ma vera, in cui la skill è già via e il cancello non lo sa) e muore dentro `rimetti()`, che gira a fine corsa, su eccezione e su Ctrl-C. (b) Il `pre-commit` rifiuta qualunque commit che cancelli file sotto `.claude/skills/` finché il marcatore esiste, e dice dove sta la copia; senza marcatore la cancellazione è una scelta e passa. Ho rispettato la nota della scheda: la cartella NON viene ricreata per far sparire la D, perché `rimetti()` ripristina solo se la cartella non c'è. Trovato riparando: gli hook cercavano i loro guardiani sotto la radice del repo committato, quindi non si potevano provare su un repo di prova; adesso il modulo si cerca accanto agli hook, che è anche più corretto quando `core.hooksPath` governa un altro albero di lavoro. COSA NON HO VERIFICATO: non ho lanciato una misura del trigger vera (serve la CLI `claude` e ~35 minuti), quindi ho provato il marcatore scrivendolo a mano nella stessa posizione e con lo stesso contenuto che `prova-trigger.mjs` gli dà.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-346",
@@ -7912,11 +7925,13 @@
       "causa_radice": "Trovato riparando AR-424 (lotto 34). Il freno ora si dichiara cieco su un contatore di ieri invece di dire «lascia» — la bugia e chiusa. Resta il disegno: la spesa si conta per GIORNO SOLARE, non su una finestra scorrevole. Alle 00:10 il contatore riparte da zero anche se nelle sei ore precedenti la macchina ha bruciato tutto il tetto, e il freno lascia passare. E una malattia diversa da quella del lotto 34 (li era la cecita, qui e la finestra sbagliata): tenuta fuori apposta per non allargare il lotto a meta.",
       "fix_proposto": "🟡 (a) Tenere le voci in uno storico continuo, non azzerato a mezzanotte, e calcolare la finestra rolling su quello; (b) far decidere `decidiFrenoCosto` sul massimo fra tetto giornaliero e tetto-sessione, con due soglie distinte.",
       "verifica": {
-        "tipo": "umano"
+        "tipo": "comando",
+        "comando": "node cervello/test/c7-freni-che-fermano-davvero.test.mjs"
       },
       "nato_come": "scoperta",
       "nato_da": "AR-424",
-      "nota_fix": "APERTO A META', e la meta' aperta e' il cuore. RIPARATO in cervello/costo-ai.mjs, tutto dentro il mio territorio: (a) parseQuando costruiva l'istante con `+02:00` SCRITTO A MANO — d'inverno l'intera finestra della spesa si spostava di un'ora, sempre nel verso che perdona; ora usa msDaTimbro; (b) la finestra scorrevole si calcolava su `oggi.voci`, che a mezzanotte viene AZZERATO: e' il difetto della scheda, ed era un errore di CONTENITORE, non di misura. Ora c'e' una coda continua `voci_recenti`, potata dalla finestra e non dal calendario, che affianca `oggi.voci` senza sostituirla (nessun consumatore rotto); (c) `main()` girava anche al semplice import, quindi la finestra era provabile solo aspettando la mezzanotte vera: aggiunta la guardia isMain, e ora finestraContinua e tokenSessioneRolling sono funzioni PURE esportate che un test esegue con l'istante passato da fuori. Provato end-to-end in un repo finto alle 00:03 vere di Piacenza, con contatore fermo a ieri e 900.000 token bruciati fra le 22:00 e le 23:30: dopo il giro il conto del GIORNO riparte da 1.000 (giusto) e sessione_rolling dice 901.000 token nelle ultime 360 minuti (prima erano 0). RESTA APERTO il pezzo che chiude davvero il titolo del difetto: chi FRENA — cervello/freno-costi.mjs con decidiFrenoCosto/tokenPerGate di cervello/fonte-numero.mjs — decide ancora sul contatore del GIORNO SOLARE. Il numero della finestra adesso esiste nel file (sessione_rolling.token_sessione_rolling) ma nessuno lo guarda, e quei due file sono fuori dal mio territorio: quindi alle 00:10 il freno non dice piu' una bugia (dice «cieco», gia' curato dal lotto 34) ma nemmeno frena. Serve il fix (b) della scheda: due soglie distinte, tetto giornaliero e tetto-sessione, e decidere sul massimo. Aggiunto anche il conteggio `voci_illeggibili`: una voce col timbro rotto usciva dal conto in silenzio, e un freno che perde voci senza dirlo e' il modo in cui un freno smette di frenare."
+      "nota_fix": "La metà aperta era il cuore, e la nota della scheda lo diceva: il numero della finestra scorrevole esisteva nel file dal lotto 40 e non lo guardava nessuno, perché chi frena decideva ancora sul contatore del GIORNO SOLARE. Adesso i tetti sono due e vince il più severo: basta che uno dei due sia superato perché si freni. Il tetto della finestra si dichiara nel file accanto a quello del giorno; se manca eredita quello giornaliero, che non è un numero inventato — è quello già firmato per la giornata, applicato a una finestra più stretta. Un buco non è uno zero anche qui: una gamba cieca si DICHIARA nel motivo (col ⚪) e solo due gambe cieche fanno «cieco». Ho aggiunto la stessa disciplina di AR-424 sulla freschezza: un conto della finestra fermo da più della finestra stessa è SCADUTO, non basso — senza quella riga il freno di sessione si spegnerebbe da solo il giorno in cui `costo-ai` smettesse di girare, cioè esattamente quando serve. COSA NON HO VERIFICATO: sui dati veri di adesso la gamba di sessione risponde «scaduta» (il conto è delle 11:39, la finestra è di 360 minuti), quindi il freno oggi decide sul solo giorno e lo dice — è il verdetto giusto e va detto a Nicola, non nascosto: vuol dire che `costo-ai.mjs` non gira da più di sei ore su questo albero. Non ho fatto passare una mezzanotte vera: ho provato le funzioni con l'istante passato da fuori.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-443",
@@ -12548,11 +12563,11 @@
       },
       "verifica": {
         "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "/bin/sh: 1: Syntax error: \"(\" unexpected"
+        "comando": "node cervello/test/c7-il-canale-alza-il-colore.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Confermato sul codice vero prima di toccarlo: `autoEseguibile('verde','github')` e `autoEseguibile('verde','marketplace')` rispondevano tutti e due vero, perché `git`, `github` e `marketplace` stavano nell'elenco dei canali interni. La logica era «non arrivano a una persona, quindi non alzano il colore» — vera e fuori bersaglio, perché il pericolo di quei due non è chi legge, è cosa resta fatto. Adesso i gradini sono tre invece di due: unire una richiesta, rilasciare e mandare in produzione valgono almeno 🔴; scrivere sul catalogo del sito almeno 🟡; la memoria, i file e `git` restano di casa, altrimenti l'autopilota non farebbe più niente e verrebbe spento. Il verso non è cambiato: si alza soltanto. Curato anche il buco che la scheda non nominava: un canale mai visto prima (`stripe`) cadeva FRA i due elenchi e restava verde — adesso quello che non riconosco vale giallo. Secondo strato: il filtro sul contenuto ha l'indicatore che gli mancava, e vede «merge», «richiesta di unione», «in produzione», «deploy». COSA NON HO VERIFICATO: non ho fatto girare il Pannello con Playwright — le due decisioni stanno in moduli puri e le prove le eseguono direttamente, ma la schermata non l'ho vista. Il typecheck del Pannello (`npx tsc --noEmit`) è verde. Resta vero che l'ultimo strato sul merge è ancora un confronto di stringa sulla firma: qui ne ho aggiunto uno sopra, non l'ho sostituito.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-600",
@@ -12568,9 +12583,12 @@
         "tipo": "grep"
       },
       "verifica": {
-        "tipo": "grep"
+        "tipo": "comando",
+        "comando": "node cervello/test/c7-il-canale-alza-il-colore.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Il ponte n8n — WhatsApp, social, Google, cioè il canale col raggio più ampio — si apriva con un booleano solo: acceso quello, il controllo del destinatario diceva sì a qualunque numero finisse nel payload. Adesso ha la stessa forma dell'email: `n8n` resta l'interruttore generale (spento, niente si muove) ma non basta più — serve il destinatario scritto per intero in `n8n_destinatari`. Nessun jolly, nessun prefisso: un `*` in lista non autorizza nessuno, e un prefisso non è il numero. Ho curato anche la FORMA e non solo il punto: `interruttoriUnici()` elenca i canali ancora governati da un `true` che apre tutto, così il prossimo canale largo non può nascere di nuovo come booleano senza che il numero salga. Il ponte resta SPENTO: non ho aperto niente. COSA NON HO VERIFICATO: non esiste un invio n8n vero da provare (il ponte è chiuso e non ci sono destinatari autorizzati); ho provato il cancello su una allowlist finta, passando anche dalla strada vera (`destinatarioAmmesso`) e non solo dalla funzione. Resta scoperto il gemello: `github` è ancora un interruttore unico — stessa malattia, altro difetto, l'ho messo in `difetti_nuovi` invece di allargare il lotto.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-601",
@@ -12936,11 +12954,11 @@
       },
       "verifica": {
         "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "114 senior dichiarano SOLA LETTURA senza campo tools nel frontmatter"
+        "comando": "node cervello/test/c7-freni-che-fermano-davvero.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Il conto della scheda è esatto: 120 mansionari, 114 dichiarano SOLA LETTURA, zero avevano il campo `tools:`. Ma la scheda è più LARGA del vero su cosa promettono: guardando il testo, in 84 casi su 114 la frase è il titolo di una sezione — «## Da dove leggi (SOLA LETTURA)» — cioè la promessa è sulle FONTI da cui leggono (il database del sito, la copia del marketplace, il vault), non su tutto quello che fanno. Questo cambia la cura: togliere Write ed Edit a 114 senior romperebbe il «doer mode» del mansionario dell'AD, che gli chiede di consegnare in `consegne/`. Quello che ho fatto è stringere dove sta il danno irreversibile: ogni senior che promette sola lettura ha adesso un `tools:` esplicito che NON contiene nessuno strumento collegato capace di scrivere su un sistema esterno — niente SQL arbitrario sul database, niente unione di richieste, niente rilascio — e nemmeno `Task`, perché un senior che può lanciare un altro senior esce dai propri limiti al giro dopo. Prima li ereditavano tutti dalla sessione. Il campo non è scritto a mano: lo genera e lo verifica `cervello/senior-sola-lettura.mjs`, che confronta la promessa scritta con gli strumenti concessi e usa il classificatore già in casa (`permessi-strumenti.mjs`, AR-273) invece di una lista nera — così uno strumento di forma nuova non entra in silenzio. Non ho allargato gli strumenti di nessuno: 114 file, una riga aggiunta ciascuno, zero righe tolte. COSA NON HO VERIFICATO: non ho lanciato nessuno dei 114 senior per vedere se il kit gli basta davvero — se a qualcuno mancasse uno strumento se ne accorgerebbe alla prima delega, e il rimedio è aggiungerlo al kit con il perché scritto. E resta vero che `Bash`, `Write` ed `Edit` sono nel kit: sui FILE il perimetro continua a essere quello dei permessi di sessione (AR-142), non questo.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-618",
@@ -13557,7 +13575,13 @@
       "prova": {
         "tipo": "grep"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/c7-cancelli-che-fermano.test.mjs"
+      },
+      "nota_fix": "Verificati sul file vero i sette punti della scheda: c'erano davvero, compreso quello sui segreti reali, e ognuno chiudeva regalando il comando che lo annulla. Due cure insieme, perché una sola non basta. ① Nessun messaggio di blocco spiega più come aggirarsi: tutti chiudono dicendo che forzare si può, che viene contato, e che se è un'emergenza vera lo si dice a Nicola. ② La forzatura adesso si CONTA: il `pre-commit` lascia un segno quando tutti i cancelli hanno detto sì, e un `post-commit` nuovo — l'unico hook che gira anche quando qualcuno salta la verifica, ed è per questo che il conto sta lì — scrive una riga per ogni commit nel registro `.git/registro-cancelli.log` e avvisa a voce alta quando ne trova una forzata. Rebase e commit di unione contano «non applicabile», perché su quelli git non chiama i cancelli e contarli come forzature riempirebbe il registro di rumore — un registro rumoroso non lo guarda nessuno, cioè di nuovo nessun sensore. Trovato riparando, ed è il pezzo che la mutazione ha scoperto: `Number(null)` vale 0, che è finito, quindi il ramo «il marcatore non c'è» non scattava mai e il caso finiva in quello sotto, che rispondeva giusto ma dava il motivo sbagliato («è vecchio» invece di «non c'è»). Un cancello che sbaglia il motivo insegna a diffidare del motivo. COSA NON HO VERIFICATO: il registro vive dentro `.git/`, quindi è per macchina e non viaggia col repo — sul VPS il conto ripartirà da zero, e nessuno lo legge ancora a ogni giro. Il comando c'è (`node cervello/cancelli-commit.mjs rapporto`) ma agganciarlo al giro è in `patch_per_ad`.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-646",

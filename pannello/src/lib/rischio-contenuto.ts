@@ -25,7 +25,15 @@
 // fix: «il posto giusto per la funzione di rischio è un modulo condiviso, così le due metà usano lo
 // stesso metro»).
 
-export type Indicatore = "importo" | "iban" | "telefono" | "pubblicazione" | "pagamento" | "annullamento" | "dato_personale";
+export type Indicatore =
+  | "importo"
+  | "iban"
+  | "telefono"
+  | "pubblicazione"
+  | "pagamento"
+  | "annullamento"
+  | "dato_personale"
+  | "irreversibile";
 
 type Regola = { nome: Indicatore; re: RegExp; perche: string };
 
@@ -66,6 +74,15 @@ const REGOLE: Regola[] = [
     nome: "dato_personale",
     re: /\b[\w.+-]+@[\w-]+\.[a-z]{2,}\b/i,
     perche: "contiene l'indirizzo email di una persona",
+  },
+  {
+    // AR-599 — l'indicatore che mancava, ed era quello dell'atto più grave.
+    // Il filtro sul contenuto guardava soldi, persone e pubblicazioni: niente per «unisci la
+    // richiesta», «manda in produzione», «scrivi sul catalogo». Cioè taceva proprio sulle azioni
+    // che non si disfano — quelle per cui il mansionario chiede sempre la firma di Nicola.
+    nome: "irreversibile",
+    re: /\bmerg\w*|\brichiest\w+ di unione\b|\bpull\s*request\b|\bPR\s*#?\d+\b|\bdeploy\w*|\bin produzione\b|\brilasci\w+\b|\bunisci\b/i,
+    perche: "chiede di unire una richiesta o di mandare qualcosa in produzione, e non si torna indietro",
   },
 ];
 

@@ -21,7 +21,13 @@ import { fileURLToPath } from "node:url";
 // farla accadere sul file vero). Non allarga i permessi di nessuno: l'autorità che apre il cancello
 // resta la firma di Nicola registrata in Supabase, che da questo file non passa.
 const CODA = process.env.AZIONI_CODA_FILE || fileURLToPath(new URL("../MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", import.meta.url));
-const ALLOWLIST = fileURLToPath(new URL("./mani-allowlist.json", import.meta.url));
+// AR-600 — sovrascrivibile solo per PROVARE il cancello su una allowlist finta: il ponte vero è
+// spento, quindi senza questo non si potrebbe mai vedere cosa succede col ponte acceso — cioè
+// proprio il caso che il difetto descrive. Non allarga niente: la lista vera resta questo file.
+const ALLOWLIST = process.env.MANI_ALLOWLIST_FILE || fileURLToPath(new URL("./mani-allowlist.json", import.meta.url));
+// AR-208 — il registro dei budget per reparto. Stessa ragione dell'override sulla coda: uno stop
+// va DIMOSTRATO facendolo accadere, e non si può farlo accadere sul file vero.
+const BUDGET = process.env.BUDGET_REPARTI_FILE || fileURLToPath(new URL("../MyCity-Vault/05-Soldi-Rischi/budget-reparti.json", import.meta.url));
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Codici casella — MIRROR 1:1 di pannello/src/lib/azioni-attesa.ts (idSezione + codiceAzione +
@@ -141,7 +147,10 @@ export function blocchiCoda(md) {
     const blocco = cur.heading + "\n" + cur.corpo.join("\n");
     const { data, reparto, titolo, cartellino } = parseHeading(cur.heading);
     const id = idSezione(data, reparto, titolo);
-    out.push({ heading: cur.heading, blocco, id, code: codiceAzione(id), cartellino });
+    // AR-208 — il reparto viaggia col blocco: serviva già per l'id, ma veniva buttato via subito
+    // dopo. Senza, il cancello non può sapere DI CHI è l'azione, e uno stop per reparto non ha
+    // niente su cui applicarsi.
+    out.push({ heading: cur.heading, blocco, id, code: codiceAzione(id), cartellino, reparto });
     cur = null;
   };
   for (const r of righe) {
@@ -164,7 +173,7 @@ export function blocchiCoda(md) {
     const celle = r.split("|").slice(1, -1).map((c) => c.trim());
     if (celle.length < 8) continue;
     const id = idSezione(celle[1], celle[2], celle[3]);
-    out.push({ heading: r, blocco: r, id, code: codiceAzione(id), cartellino: m[1] });
+    out.push({ heading: r, blocco: r, id, code: codiceAzione(id), cartellino: m[1], reparto: String(celle[2] || "").replace(/^@/, "") });
   }
   return out;
 }
@@ -296,6 +305,58 @@ export async function pausaAttiva() {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// AR-208 — LO STOP AL BUDGET ERA UN FOGLIETTO IN CODA, NON UN FRENO.
+//
+// `sentinella-budget.mjs` misurava benissimo e produceva… una PROPOSTA: accodava una card «STOP
+// budget» nella stessa coda che genera le spese, e usciva con codice 1 che il giro ingoiava in un
+// `|| true`. Cioè il guardrail economico esisteva come rapporto e non come freno: un reparto oltre
+// il tetto poteva continuare a far approvare spese, e nulla si opponeva.
+//
+// Qui lo stop diventa uno STATO che il cancello di consenso consulta prima di lasciar partire
+// qualunque cosa — anche firmata. È la (a) del fix, ed è la metà che rende vera l'altra: finché
+// nessuno LEGGE il verdetto, misurarlo meglio non cambia niente.
+//
+// La regola è la stessa della sentinella (speso ≥ soglia × budget, e speso > 0): due copie di un
+// freno non sono un freno, quindi la casa definitiva è un modulo solo — ma `sentinella-budget.mjs`
+// è fuori dal territorio di questa corsia e la fusione va chiesta all'AD.
+
+/**
+ * Un reparto è in stop? Pura: riceve il registro già letto.
+ * @returns {{stop:boolean, motivo:string, misurabile:boolean}}
+ */
+export function repartoInStop(registro, reparto) {
+  const nome = String(reparto || "").trim();
+  if (!nome) return { stop: false, misurabile: false, motivo: "azione senza reparto dichiarato: il tetto di spesa non ha su cosa applicarsi" };
+  if (registro == null) {
+    // Un registro dei budget che non si legge NON è un registro senza sfori. È il tetto dei soldi:
+    // al buio si sta fermi. Stessa scelta della PAUSA qui sopra.
+    return { stop: true, misurabile: false, motivo: `budget dei reparti non leggibile → fail-closed: nessuna spesa parte al buio` };
+  }
+  const r = (registro.reparti || {})[nome];
+  if (!r) return { stop: false, misurabile: false, motivo: `reparto "${nome}" non ha un budget dichiarato: niente tetto, niente stop` };
+  const soglia = Number(registro.soglia_stop ?? 1) || 1;
+  const budget = Number(r.budget) || 0;
+  const speso = Number(r.speso) || 0;
+  const usato = budget > 0 ? speso / budget : speso > 0 ? Infinity : 0;
+  if (usato >= soglia && speso > 0) {
+    return {
+      stop: true,
+      misurabile: true,
+      motivo: `reparto "${nome}" in STOP budget: speso ${speso}€ su ${budget}€ (tetto al ${Math.round(soglia * 100)}%) → non parte niente, nemmeno firmato, finché Nicola non rialza il tetto`,
+    };
+  }
+  return { stop: false, misurabile: true, motivo: `reparto "${nome}" sotto il tetto (${speso}€ / ${budget}€)` };
+}
+
+function leggiBudget() {
+  try {
+    return JSON.parse(fs.readFileSync(BUDGET, "utf8"));
+  } catch {
+    return null;
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Allowlist destinatari — tutto in DRY-RUN forzato finché Nicola non sblocca esplicitamente.
 function leggiAllowlist() {
   try {
@@ -305,10 +366,56 @@ function leggiAllowlist() {
   }
 }
 
+/** Un valore è in lista se ci sta scritto **per intero**: nessun jolly, nessun prefisso. */
+export function inLista(arr, v) {
+  return Array.isArray(arr) && arr.map((x) => String(x).toLowerCase().trim()).includes(String(v || "").toLowerCase().trim());
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-600 — L'INTERRUTTORE UNICO SUL CANALE PIÙ LARGO.
+//
+// Per email e notifiche l'autorizzazione è per-destinatario: ogni indirizzo va scritto uno a uno.
+// Per il ponte n8n — che porta a WhatsApp, ai social e a Google, cioè al pubblico più ampio che
+// questa macchina possa raggiungere — c'era un booleano solo. Con `"n8n": true` il controllo del
+// destinatario rispondeva ok a **qualunque** numero o pagina finisse nel payload.
+//
+// Oggi il ponte è chiuso, quindi il rischio dormiva; ma il giorno della prima automazione
+// WhatsApp l'unico modo di aprirla sarebbe stato aprire tutto. Un interruttore che si può solo
+// alzare per intero non è una granularità «riga per riga»: è una promessa scritta.
+//
+// La cura ha la stessa forma dell'email: una LISTA. Il booleano resta come interruttore generale
+// (spento = niente si muove), ma da solo non basta più — serve anche il destinatario in chiaro.
+export function ammessoPonteN8n(al, dest) {
+  const acceso = al?.n8n === true;
+  const lista = al?.n8n_destinatari;
+  if (!acceso) {
+    return { ok: false, motivo: 'canale n8n non sbloccato — imposta mani-allowlist.json → "n8n": true' };
+  }
+  if (inLista(lista, dest)) return { ok: true };
+  return {
+    ok: false,
+    motivo:
+      `destinatario n8n "${dest || "(vuoto)"}" non autorizzato — aggiungilo per intero a ` +
+      `mani-allowlist.json → "n8n_destinatari". Il ponte acceso NON autorizza da solo: ` +
+      `WhatsApp, social e Google sono il canale più largo che abbiamo, e si apre un destinatario per volta.`,
+  };
+}
+
+/**
+ * I canali ancora governati da un interruttore unico, cioè da un `true` che apre tutto.
+ * Non è decorazione: è il modo di far diventare un NUMERO la malattia curata qui sopra, così che
+ * il prossimo canale largo non nasca di nuovo come booleano senza che nessuno se ne accorga.
+ */
+export function interruttoriUnici(al = {}) {
+  const conLista = { n8n: "n8n_destinatari" };
+  return Object.keys(al)
+    .filter((k) => al[k] === true)
+    .filter((k) => !(conLista[k] && Array.isArray(al[conLista[k]])));
+}
+
 export function destinatarioAmmesso(canale, dest) {
   const al = leggiAllowlist();
-  const inList = (arr, v) =>
-    Array.isArray(arr) && arr.map((x) => String(x).toLowerCase()).includes(String(v || "").toLowerCase());
+  const inList = inLista;
   switch (canale) {
     case "telegram":
       // Canale-proprietario: la chat è quella dell'env (solo Nicola). L'allarme all'owner non è
@@ -323,9 +430,7 @@ export function destinatarioAmmesso(canale, dest) {
         ? { ok: true }
         : { ok: false, motivo: `utente "${dest}" non in allowlist — aggiungilo a mani-allowlist.json → "notifica_user"` };
     case "n8n":
-      return al.n8n === true
-        ? { ok: true }
-        : { ok: false, motivo: 'canale n8n non sbloccato — imposta mani-allowlist.json → "n8n": true' };
+      return ammessoPonteN8n(al, dest); // AR-600: acceso + destinatario in lista, non solo acceso
     case "github":
       return al.github === true
         ? { ok: true }
@@ -390,7 +495,13 @@ export async function consensoInvio({ azioneId, canale, destinatario }) {
   }
   const dove = `casella ${blk.code} ${f.motivo}`;
 
-  // 3) Destinatario in allowlist (DRY-RUN forzato finché non sbloccato).
+  // 3) AR-208 — STOP DI BUDGET DEL REPARTO. Sta DOPO la firma apposta: una firma non scavalca il
+  //    tetto di spesa. Se il reparto ha bruciato il budget, l'azione non parte nemmeno approvata —
+  //    è la differenza fra un rapporto e un freno.
+  const stop = repartoInStop(leggiBudget(), blk.reparto);
+  if (stop.stop) return { live: false, motivo: stop.motivo };
+
+  // 4) Destinatario in allowlist (DRY-RUN forzato finché non sbloccato).
   const a = destinatarioAmmesso(canale, destinatario);
   if (!a.ok) return { live: false, motivo: a.motivo };
 

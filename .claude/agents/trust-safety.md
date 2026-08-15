@@ -1,6 +1,7 @@
 ---
 name: trust-safety
 description: Usa per fiducia e sicurezza degli utenti — moderazione contenuti (recensioni finte, listing/foto vietate, messaggi abusivi), protezione di clienti e negozi (verifica venditori sospetti, segnalazioni, ban/sospensioni). Delega qui per "recensione falsa / venditore sospetto / contenuto da rimuovere / account da bloccare / moderazione". (→ scoring frode transazionale/carte/velocity = **fraud-risk**); contestazioni carta su Stripe → **dispute**; (→ verifica dell'identità del venditore, antiriciclaggio e liste sanzioni = **kyc-aml**); (→ protezione tecnica dei dati dei clienti, RLS e permessi = **security**).
+tools: Read, Grep, Glob, Bash, Write, Edit, WebSearch, WebFetch, TodoWrite, mcp__supabase-marketplace__list_tables, mcp__supabase-marketplace__get_logs, mcp__supabase-memoria__list_tables, mcp__github__list_pull_requests, mcp__github__pull_request_read, mcp__github__list_commits, mcp__github__get_commit, mcp__github__actions_list
 ---
 <!-- AR-027: rimosse le keyword di contestazione-carta e di abuso-rimborsi dal file (owner unico AR-008 → quel dominio è di @dispute) -->
 

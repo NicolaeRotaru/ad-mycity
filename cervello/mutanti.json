@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-15 21:36",
+ "aggiornato": "2026-08-15 21:39",
  "mutanti": [
   {
    "lotto": 30,
@@ -4797,6 +4797,87 @@
    "cerca": "    if (adessoMs > fino) {",
    "sostituisci": "    if (false) {",
    "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-143",
+   "nome": "AR-143: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/credenziali-git.mjs",
+   "cerca": "  const url = urlPubblico(repo);",
+   "sostituisci": "  const url = conToken ? `https://x-access-token:${process.env.MYCITY_GIT_TOKEN}@github.com/${repo}.git` : urlPubblico(repo);",
+   "test": "cervello/test/c7-freni-che-fermano-davvero.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-208",
+   "nome": "AR-208: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/consenso-azione.mjs",
+   "cerca": "  if (usato >= soglia && speso > 0) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/c7-freni-che-fermano-davvero.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-209",
+   "nome": "AR-209: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/traccia-decisione.mjs",
+   "cerca": "  return `- ${quando} · ${colore} · [${chi}] · MANO ESEGUITA (LIVE): ${cosa}${coda} · ${esito || \"—\"}\\n`;",
+   "sostituisci": "  return \"\";",
+   "test": "cervello/test/c7-freni-che-fermano-davvero.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-345",
+   "nome": "AR-345: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/cancelli-commit.mjs",
+   "cerca": "    blocca: true,",
+   "sostituisci": "    blocca: false,",
+   "test": "cervello/test/c7-cancelli-che-fermano.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-600",
+   "nome": "AR-600: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/consenso-azione.mjs",
+   "cerca": "  if (inLista(lista, dest)) return { ok: true };",
+   "sostituisci": "  return { ok: true };",
+   "test": "cervello/test/c7-il-canale-alza-il-colore.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-599",
+   "nome": "AR-599: il cuore del fix rimesso com'era col difetto",
+   "file": "pannello/src/lib/livello-effettivo.ts",
+   "cerca": "  return almeno(livelloDaTesto, minimoDalCanale(canale));",
+   "sostituisci": "  if (!versoIlMondo(canale)) return livelloDaTesto;\n  return almeno(livelloDaTesto, \"giallo\");",
+   "test": "cervello/test/c7-il-canale-alza-il-colore.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-617",
+   "nome": "AR-617: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/senior-sola-lettura.mjs",
+   "cerca": "  if (tools == null) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/c7-freni-che-fermano-davvero.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-645",
+   "nome": "AR-645: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/cancelli-commit.mjs",
+   "cerca": "  if (marcatoreMs == null || !Number.isFinite(Number(marcatoreMs))) return { esito: \"bypass\", motivo: \"i cancelli non sono passati di qui\" };\n  const eta = (Number(adessoMs) - Number(marcatoreMs)) / 1000;\n  if (eta > Number(freschezzaSec)) return { esito: \"bypass\", motivo: `il segno dei cancelli è vecchio di ${Math.round(eta)}s: non è di questo commit` };",
+   "sostituisci": "  const eta = 0;",
+   "test": "cervello/test/c7-cancelli-che-fermano.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-442",
+   "nome": "AR-442: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/fonte-numero.mjs",
+   "cerca": "  if (g.azione === \"frena\" || s.azione === \"frena\") {",
+   "sostituisci": "  if (g.azione === \"frena\") {",
+   "test": "cervello/test/c7-freni-che-fermano-davvero.test.mjs"
   }
  ]
 }
