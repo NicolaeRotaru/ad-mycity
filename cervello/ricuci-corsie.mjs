@@ -181,14 +181,14 @@ function main() {
         if (scelta.togliVerifica) delete scheda.verifica;
         else if (scelta.verifica) scheda.verifica = scelta.verifica;
         scheda.chiusura = "bloccata";
-        scheda.chiusura_perche =
+        scheda.chiusura_motivo =
           d.perche_aperto ||
           "dichiarato aperto da chi ha lavorato il difetto: la prova passa, il difetto no";
       }
       // Un difetto che TORNA chiuso non deve portarsi dietro il blocco del giro prima.
       if (d.esito === "chiuso" && scheda.chiusura === "bloccata") {
         delete scheda.chiusura;
-        delete scheda.chiusura_perche;
+        delete scheda.chiusura_motivo;
       }
 
       if (d.nota_fix) scheda.nota_fix = d.nota_fix;

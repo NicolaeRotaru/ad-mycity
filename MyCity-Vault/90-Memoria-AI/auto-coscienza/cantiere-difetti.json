@@ -14378,7 +14378,7 @@
       "corroborata": false,
       "corroborata_nota": "storia troncata al momento della chiusura — clone superficiale (2 commit di innesto: 66c65a8, dacc526): il commit di innesto non ha genitori, quindi git elenca TUTTO il suo albero come appena cambiato",
       "chiusura": "bloccata",
-      "chiusura_perche": "Dichiarato APERTO dalla corsia E del lotto 43 e richiuso da solo dopo il merge. Il terzo stato (`da-riverificare`) è ancora fuori dai conti in tre punti che la corsia ha trovato e non ha potuto toccare — sono i difetti nuovi AR-717, AR-718 e AR-719, registrati apposta. La prova sulla scheda passa perché copre il conteggio che è stato sistemato, non i tre che restano."
+      "chiusura_motivo": "Dichiarato APERTO dalla corsia E del lotto 43 e richiuso da solo dopo il merge. Il terzo stato (`da-riverificare`) è ancora fuori dai conti in tre punti che la corsia ha trovato e non ha potuto toccare — sono i difetti nuovi AR-717, AR-718 e AR-719, registrati apposta. La prova sulla scheda passa perché copre il conteggio che è stato sistemato, non i tre che restano."
     },
     {
       "id": "AR-685",
@@ -14570,7 +14570,7 @@
       "corroborata": false,
       "corroborata_nota": "storia troncata al momento della chiusura — clone superficiale (2 commit di innesto: 66c65a8, dacc526): il commit di innesto non ha genitori, quindi git elenca TUTTO il suo albero come appena cambiato",
       "chiusura": "bloccata",
-      "chiusura_perche": "Dichiarato APERTO dalla corsia C del lotto 43 e richiuso da solo dopo il merge. Delle tre clausole ne sono state fatte due: il buco è dichiarato come tetto che scende (29 prove in bash non misurate) e i rossi ereditati sono contati a parte. La PRIMA clausola — installare `bats` dove il banco gira davvero, cioè in CI e sul VPS — non è stata fatta: tocca .github/workflows e cervello/vps, fuori dal territorio della corsia. Finché non c'è, quelle 29 prove esistono e non le esegue nessuno. La prova sulla scheda passa perché misura il tetto, non l'installazione."
+      "chiusura_motivo": "Dichiarato APERTO dalla corsia C del lotto 43 e richiuso da solo dopo il merge. Delle tre clausole ne sono state fatte due: il buco è dichiarato come tetto che scende (29 prove in bash non misurate) e i rossi ereditati sono contati a parte. La PRIMA clausola — installare `bats` dove il banco gira davvero, cioè in CI e sul VPS — non è stata fatta: tocca .github/workflows e cervello/vps, fuori dal territorio della corsia. Finché non c'è, quelle 29 prove esistono e non le esegue nessuno. La prova sulla scheda passa perché misura il tetto, non l'installazione."
     },
     {
       "id": "AR-694",
