@@ -3,8 +3,8 @@
 - **Repo:** NicolaeRotaru/ad-mycity
 - **Branch:** `fix/sorvegliante-referto-salute-json` → `main`
 - **URL:** https://github.com/NicolaeRotaru/ad-mycity/pull/733
-- **Titolo:** fix: sorvegliante non accusa più salute.json e auto-analisi.json di difesa-rimossa
-- **Creato:** 2026-08-15 08:59 (Europe/Rome)
+- **Titolo:** chore: fix/sorvegliante-referto-salute-json
+- **Creato:** 2026-08-15 09:14 (Europe/Rome)
 
 ## Merge
 🔴 **Non mergeare da solo.** Nicola approva dal Pannello → `node cervello/git-merge.mjs --repo ad-mycity --pr 733`
