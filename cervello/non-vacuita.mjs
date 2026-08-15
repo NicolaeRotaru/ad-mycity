@@ -114,14 +114,35 @@ export function lasciaTraccia(stato, scrivi, via = FOGLIETTO) {
   return via;
 }
 
-/** Toglie la traccia dopo un ripristino riuscito. Un fallimento qui non deve fermare la corsa. */
+/**
+ * Toglie la traccia dopo un ripristino riuscito. Un fallimento qui non deve fermare la corsa —
+ * ma non deve nemmeno sparire.
+ *
+ * Prima tornava `false` e basta, e tutti e quattro i chiamanti lo buttavano via: un errore che
+ * diventa niente (la malattia censita `fonte-troncata-letta-per-intera`). E qui il costo è
+ * concreto, non teorico: se il foglietto NON si riesce a cancellare, la corsa dopo lo trova e
+ * crede che questa sia morta a metà — quindi «ripristina» un file che era già a posto. Cioè
+ * proprio il guasto silenzioso che AR-708 stava curando, riaperto dalla porta accanto.
+ *
+ * @returns {{tolta: boolean, motivo: string|null}} il motivo viaggia col dato, non si perde.
+ */
 export function togliTraccia(cancella, via = FOGLIETTO) {
   try {
     cancella(via);
-    return true;
-  } catch {
-    return false;
+    return { tolta: true, motivo: null };
+  } catch (e) {
+    return { tolta: false, motivo: `non sono riuscito a togliere il foglietto ${via}: ${e.message || e}` };
   }
+}
+
+/** Toglie la traccia e, se non ci riesce, lo DICE. Il posto da cui i chiamanti passano. */
+function togliTracciaDicendolo(cancella, via = FOGLIETTO) {
+  const esito = togliTraccia(cancella, via);
+  if (!esito.tolta) {
+    console.error(`⚠️  ${esito.motivo}`);
+    console.error("   La corsa dopo lo troverà e crederà che questa sia morta a metà: toglilo a mano.");
+  }
+  return esito;
 }
 
 /**
@@ -153,7 +174,7 @@ export function riprendiDaTraccia({ ceE, leggi, scrivi, cancella }, via = FOGLIE
     adesso = null;
   }
   if (adesso === nota.originale) {
-    togliTraccia(cancella, via);
+    togliTracciaDicendolo(cancella, via);
     return { esito: "gia-a-posto", file: nota.file, motivo: `${nota.file} era già com'era: la corsa precedente ha fatto in tempo a rimetterlo` };
   }
   try {
@@ -161,7 +182,7 @@ export function riprendiDaTraccia({ ceE, leggi, scrivi, cancella }, via = FOGLIE
   } catch (e) {
     return { esito: "fallito", file: nota.file, motivo: `non sono riuscito a rimettere a posto ${nota.file} (${e.message}): il file è ANCORA rotto` };
   }
-  togliTraccia(cancella, via);
+  togliTracciaDicendolo(cancella, via);
   return { esito: "rimesso", file: nota.file, motivo: `${nota.file} era rimasto rotto da una corsa precedente ammazzata: l'ho rimesso com'era (AR-708)` };
 }
 
@@ -177,7 +198,7 @@ for (const segnale of ["SIGINT", "SIGTERM", "SIGHUP"]) {
   process.on(segnale, () => {
     const rimesso = ripristina(IN_CORSO.stato, (f, t) => writeFileSync(f, t));
     IN_CORSO.stato = null;
-    if (rimesso) togliTraccia(IO_VERO.cancella);
+    if (rimesso) togliTracciaDicendolo(IO_VERO.cancella);
     if (rimesso) console.error(`\n⚠️  interrotto da ${segnale}: ho rimesso a posto ${rimesso} prima di uscire (AR-523).`);
     process.exit(130);
   });
@@ -341,7 +362,7 @@ function main() {
       });
     } finally {
       writeFileSync(file, originale); // sempre, anche se il test esplode
-      togliTraccia(IO_VERO.cancella); // il file è a posto: la traccia non serve più
+      togliTracciaDicendolo(IO_VERO.cancella); // il file è a posto: la traccia non serve più
       IN_CORSO.stato = null;
     }
   }

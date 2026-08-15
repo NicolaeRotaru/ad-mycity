@@ -15,9 +15,15 @@
 // Uso:  node cervello/ricuci-corsie.mjs <cartella-frammenti> --lotto 43 [--scrivi]
 // Senza --scrivi stampa soltanto cosa farebbe (prova a vuoto).
 
-import { readFileSync, writeFileSync, readdirSync } from "node:fs";
+import { readFileSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+
+// AR-530: l'indentazione di un file di memoria non la sceglie chi scrive, la CONSERVA lo scrittore
+// di casa. Riscrivendo `mutanti.json` e `malattie.json` con due spazi dove il disco ne aveva uno,
+// il diff diventa il file intero e la pubblicazione si blocca — successo qui, in questo lotto,
+// mentre si curava il difetto gemello.
+import { scriviJsonAtomico } from "./scrivi-json.mjs";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..");
 const CANTIERE = join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json");
@@ -25,7 +31,7 @@ const MUTANTI = join(REPO, "cervello/mutanti.json");
 const MALATTIE = join(REPO, "cervello/malattie.json");
 
 const leggi = (p) => JSON.parse(readFileSync(p, "utf8"));
-const scrivi = (p, v) => writeFileSync(p, JSON.stringify(v, null, 2) + "\n");
+const scrivi = (p, v) => scriviJsonAtomico(p, v);
 
 /**
  * Decide cosa fare della `verifica` di una scheda, dato l'esito dichiarato dalla corsia.

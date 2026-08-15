@@ -107,7 +107,10 @@ test("se nemmeno il ripristino riesce, non si finge riuscito", () => {
 });
 
 test("togliere una traccia che non c'è non esplode", () => {
-  assert.equal(togliTraccia(() => { throw new Error("ENOENT"); }, "/f.json"), false);
+  assert.deepEqual(togliTraccia(() => { throw new Error("ENOENT"); }, "/f.json"), {
+    tolta: false,
+    motivo: "non sono riuscito a togliere il foglietto /f.json: ENOENT",
+  }, "un fallimento che torna solo `false` viene buttato via da tutti i chiamanti: il motivo deve viaggiare col dato");
 });
 
 // ─────────────────────────────────────────────────────────────────────────────
