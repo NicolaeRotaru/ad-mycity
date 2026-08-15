@@ -3876,7 +3876,8 @@
    "file": "cervello/test-cervello.mjs",
    "cerca": "    const copertura = nonMisurati.length ? ` · ⚪ ${nonMisurati.length} NON le ho potute far girare qui (il verde non le copre)` : \"\";",
    "sostituisci": "    const copertura = \"\";",
-   "test": "cervello/test-cervello.mjs"
+   "test": "cervello/test/prova-che-non-puo-fallire.test.mjs",
+   "nota_riaggancio": "Lotto 44: il puntatore diceva cervello/test-cervello.mjs — il BANCO, non una prova. Il banco intero esce 0 anche con quella riga tolta (la mutazione cambia solo una stringa che si stampa), quindi la mutazione risultava vacua. La prova che davvero diventa rossa e quella gia dichiarata sulla scheda del difetto: prova-che-non-puo-fallire. Misurato lanciando entrambe col fix rotto."
   },
   {
    "lotto": 42,
