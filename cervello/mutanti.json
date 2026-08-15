@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-15 21:24",
+ "aggiornato": "2026-08-15 21:30",
  "mutanti": [
   {
    "lotto": 30,
@@ -4536,6 +4536,105 @@
    "cerca": "  if (inMisura.has(file)) return { testo: null, motivo: null, sottoMisura: true };",
    "sostituisci": "  if (false) return { testo: null, motivo: null, sottoMisura: true };",
    "test": "cervello/test/prova-accecata-sul-file.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-710",
+   "nome": "AR-710: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/guardiano-capacita.mjs",
+   "cerca": "function elencaWorkflow(dir) {\n  const dentro = tracciatiDaGit(dir);",
+   "sostituisci": "function elencaWorkflow(dir) {\n  const dentro = existsSync(dir) ? readdirSync(dir) : [];",
+   "test": "cervello/test/workflow-dal-repo-non-dal-disco.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-711",
+   "nome": "AR-711: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/gate-veri.mjs",
+   "cerca": "  if (JSON_MODE) console.log(JSON.stringify(refertoGate({ quando: nowPiacenza(), esito: null, verdetto }), null, 2));",
+   "sostituisci": "  if (JSON_MODE) console.log(JSON.stringify({ ok: false, cieco: verdetto.codice === 2, motivo: verdetto.motivo }));",
+   "test": "cervello/test/referto-cieco-parla-la-stessa-lingua.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-709",
+   "nome": "AR-709: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "  process.exit(codiceDiUscita(lettura.esito));",
+   "sostituisci": "  process.exit(1);",
+   "test": "cervello/test/cantiere-che-non-si-apre-non-e-un-cantiere-sporco.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-504",
+   "nome": "AR-504: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/salute.mjs",
+   "cerca": "    altriRotti: rotti.filter((r) => !nominato(r)),",
+   "sostituisci": "    altriRotti: rotti,",
+   "test": "cervello/test/referto-che-non-si-ripete.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-388",
+   "nome": "AR-388: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/vps/aggiorna-cervello.sh",
+   "cerca": "if [ \"$_azione_salvataggio\" = \"metti-da-parte\" ]; then",
+   "sostituisci": "if [ \"$_azione_salvataggio\" = \"mai-nessuno\" ]; then",
+   "test": "cervello/test/checkout-che-butta-la-memoria.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-392",
+   "nome": "AR-392: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/giro.sh",
+   "cerca": "  _letargo_out=\"$(node \"$SCRIPT_DIR/letargo.mjs\" 2>&1)\"; _letargo_rc=$?",
+   "sostituisci": "  _letargo_out=\"\"; node \"$SCRIPT_DIR/letargo.mjs\" 2>&1 | esito_righe 3 || true; _letargo_rc=$?",
+   "test": "cervello/prove-difetti.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-396",
+   "nome": "AR-396: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/gate-pubblicazione.sh",
+   "cerca": "    ramo=\"$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)\"",
+   "sostituisci": "    ramo=\"$branch\"",
+   "test": "cervello/test/ramo-staccato-prima-del-push.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-626",
+   "nome": "AR-626: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/esito-claim.mjs",
+   "cerca": "    return { azione: \"verifica\", motivo: `la chiamata di presa in carico non è arrivata a destinazione (rc=${rc}): non so se è passata` };",
+   "sostituisci": "    return { azione: \"salta\", motivo: `la chiamata di presa in carico non è arrivata a destinazione (rc=${rc}): non so se è passata` };",
+   "test": "cervello/test/presa-in-carico-senza-risposta.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-630",
+   "nome": "AR-630: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/esito-cadenza.mjs",
+   "cerca": "  const mancano = Math.ceil((quando - ora) / 1000);",
+   "sostituisci": "  const mancano = 0; return { ritenta: true, attesaSec: pausa, motivo: \"pausa fissa\" };",
+   "test": "cervello/test/ritentativo-cieco-sul-reset.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-690",
+   "nome": "AR-690: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/monitora.sh",
+   "cerca": "      if gate_pubblicazione \"$SCRIPT_DIR\" \"$REPO\" \"$branch\" 1; then\n        git \"${GIT_ID[@]}\" commit -q -m \"recupero: scritture pendenti da un run interrotto ($(ts))\" 2>/dev/null || true",
+   "sostituisci": "      git \"${GIT_ID[@]}\" commit -q -m \"recupero: scritture pendenti da un run interrotto ($(ts))\" 2>/dev/null || true\n      if gate_pubblicazione \"$SCRIPT_DIR\" \"$REPO\" \"$branch\" 1; then",
+   "test": "cervello/test/recupero-cancello-prima-del-commit.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-295",
+   "nome": "AR-295: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/worker.sh",
+   "cerca": "  now_z=\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"\n  _rtry=\"&or=(riprova_dopo.is.null,riprova_dopo.lte.$now_z)\"",
+   "sostituisci": "  if [ \"$HAS_RETRY_COLS\" = 1 ]; then\n    now_z=\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"\n    _rtry=\"&or=(riprova_dopo.is.null,riprova_dopo.lte.$now_z)\"\n  else\n    _rtry=\"\"\n  fi",
+   "test": "cervello/test/scadenza-ignorata-in-silenzio.test.mjs"
   }
  ]
 }

@@ -90,6 +90,34 @@ export function ciecoPerDatoIllegibile(err, { cosa = "" } = {}) {
 }
 
 /**
+ * Il verdetto sulla LETTURA DI UNA FONTE, dai fatti grezzi. Pura: l'I/O lo fa chi chiama e passa
+ * qui cosa ha trovato.
+ *
+ * LA MALATTIA CHE CHIUDE (AR-709). Il modo più comune di perdere una cecità è un lettore che torna
+ * `null` sia quando il file non c'è, sia quando il JSON è rotto, sia quando la forma è un'altra —
+ * e un chiamante che da quel `null` conclude «ho misurato e ho trovato un problema», cioè uscita 1.
+ * Ma 1 nel contratto di casa (AR-322) vuol dire «ho guardato»: chi legge il codice d'uscita — il
+ * giro, il cancello, la CI — non può più distinguere un registro pieno di guai da un registro che
+ * non si è lasciato aprire, e il secondo arriva con la faccia del primo.
+ *
+ * Le quattro strade sono quattro, e tre su quattro sono cieche:
+ *   · la fonte non c'è          → cieco (non è «vuota»: non l'ho vista)
+ *   · leggerla è esplosa        → cieco
+ *   · la forma non è quella     → cieco (è AR-664: meglio dirlo che morire con lo stack trace)
+ *   · tutto a posto             → verde, e da qui in poi decide chi ha chiamato
+ *
+ * @param {{trovata?:boolean, errore?:unknown, formaValida?:boolean, formaAttesa?:string}} fatti
+ * @param {{cosa?:string}} ctx `cosa` = il nome della fonte, per poterlo dire a chi legge
+ */
+export function esitoDellaFonte({ trovata = true, errore = null, formaValida = true, formaAttesa = "" } = {}, { cosa = "la fonte" } = {}) {
+  if (trovata === false) return ciecoPerDatoIllegibile("non esiste", { cosa });
+  if (errore) return ciecoPerDatoIllegibile(errore, { cosa });
+  if (formaValida === false)
+    return ciecoPerDatoIllegibile(`la forma non è quella attesa${formaAttesa ? ` (${formaAttesa})` : ""}`, { cosa });
+  return { stato: "verde", motivo: `${cosa}: letta`, codice: CODICE.verde };
+}
+
+/**
  * Il verdetto quando non c'è stato NIENTE da misurare mentre del lavoro c'era.
  *
  * Zero misurazioni non è zero problemi. È la stessa forma di AR-395 sullo stage vuoto: un metro che

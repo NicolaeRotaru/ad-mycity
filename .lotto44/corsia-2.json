@@ -1,0 +1,219 @@
+{
+  "corsia": 2,
+  "malattia": "Un guardiano che non ha potuto guardare stampa verde: il codice d'uscita diverso da 1 promosso a «ok», la lista vuota che vuol dire «non ho letto», il referto che cambia forma quando è cieco, il censimento che conta le cartelle dell'ambiente invece di quelle del repo.",
+  "moduli_condivisi": ["cervello/esito-guardiano.mjs"],
+  "difetti": [
+    {
+      "id": "AR-710",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/workflow-dal-repo-non-dal-disco.test.mjs",
+      "nota_fix": "La scheda diceva il vero e il codice lo confermava: AR-701 aveva portato le SKILL su git e aveva lasciato `elencaWorkflow` a fare `readdirSync(.claude/workflows)`. Stessa malattia, stessa riga di riassunto (`drift_totale`), porta automatica rimasta aperta. Ho curato la CLASSE e non i due punti: c'è una fonte sola, `tracciatiDaGit`, e i due elenchi la chiamano — chi domani conterà una terza capacità la troverà già lì. Tre clausole in più che la scheda non chiedeva: ① la domanda «git ha risposto?» si fa UNA volta sui due elenchi, così non si può curare l'uno e dimenticare l'altro; ② se git risponde «niente» su una cartella che sul disco ha dei file, è cecità e non zero — non stiamo leggendo il repo; ③ in `--json` anche il cieco stampa JSON con le stesse chiavi (era la malattia di AR-711 viva anche qui: la strada cieca scriveva in prosa su un canale che nessuno stava leggendo, e lo stesso faceva il ramo che muore per un errore). NON HO VERIFICATO: come si comporta su un checkout senza git — la sabbiera del test lascia git a posto e simula solo il file intruso.",
+      "mutante": {
+        "file": "cervello/guardiano-capacita.mjs",
+        "cerca": "function elencaWorkflow(dir) {\n  const dentro = tracciatiDaGit(dir);",
+        "sostituisci": "function elencaWorkflow(dir) {\n  const dentro = existsSync(dir) ? readdirSync(dir) : [];",
+        "test": "cervello/test/workflow-dal-repo-non-dal-disco.test.mjs"
+      },
+      "non_vacuita": "Rimesso il conteggio dal disco in `elencaWorkflow` → test rosso su due casi su quattro: «il conto dei workflow è salito per un file che nessun commit ha aggiunto» e «chi elenca le capacità non apre il disco». Rimesso a posto: verde (4 su 4)."
+    },
+    {
+      "id": "AR-711",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/referto-cieco-parla-la-stessa-lingua.test.mjs",
+      "nota_fix": "Verificato sul codice: in `--json` la strada normale stampava `{quando, dichiarati, veri, violazioni, …}` e `esci(2, …)` stampava `{ok, cieco, motivo}`, senza un campo in comune. Adesso c'è un involucro solo, `refertoGate`, funzione pura: le chiavi sono le stesse in tutti e tre gli esiti, il verdetto sta dentro (`verdetto.stato`), e la chiave nuova `misurato` distingue «ho guardato e non c'era niente» da «non ho guardato». Le tre chiavi vecchie del cieco — `ok`, `cieco`, `motivo` — restano, così chi le leggeva continua a leggerle. Aggiunta una clausola che la scheda non chiedeva: il 2 non si ricopia più a mano in due punti, il codice d'uscita esce da `verdettoGate` + `codiceDiUscita`, e `verdettoGate(null)` non può dare verde. LA PROVA GUARDA IL COMANDO VERO da una sabbiera che copia gli script e ci mette un registro rotto: senza quel caso avrei misurato solo la funzione, e la funzione giusta chiamata da nessuno è il modo elegante di non avere una difesa. DIFFERENZA CON LA SCHEDA: dice «la cura è la stessa di `verdettoCapacita`», ma `verdettoCapacita` aveva lo stesso buco — il suo ramo cieco non stampava JSON affatto. Riparato anche quello, stesso lotto, stesso file di corsia.",
+      "mutante": {
+        "file": "cervello/gate-veri.mjs",
+        "cerca": "  if (JSON_MODE) console.log(JSON.stringify(refertoGate({ quando: nowPiacenza(), esito: null, verdetto }), null, 2));",
+        "sostituisci": "  if (JSON_MODE) console.log(JSON.stringify({ ok: false, cieco: verdetto.codice === 2, motivo: verdetto.motivo }));",
+        "test": "cervello/test/referto-cieco-parla-la-stessa-lingua.test.mjs"
+      },
+      "non_vacuita": "Rimessa la vecchia forma del referto cieco → test rosso sul caso «il comando VERO, sano e cieco, parla la stessa lingua» («il comando vero cambia forma quando è cieco: la funzione è a posto ma il comando non ci passa»). Rimesso a posto: verde (4 su 4)."
+    },
+    {
+      "id": "AR-709",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/cantiere-che-non-si-apre-non-e-un-cantiere-sporco.test.mjs",
+      "nota_fix": "La scheda diceva il vero: `readJson` tornava `null` sia col file assente sia col JSON rotto, e il chiamante faceva `process.exit(1)` — che nel contratto di casa vuol dire «ho misurato e ho trovato dei guai». La regola che decide adesso sta in un modulo puro: `esitoDellaFonte` in `cervello/esito-guardiano.mjs` (nuova, accanto a `ciecoPerDatoIllegibile`) prende i fatti grezzi — trovata? errore? forma giusta? — e torna verde o cieco; `cantiere-prove.mjs` fa solo la lettura e le racconta cosa ha visto, poi esce con `codiceDiUscita`. Due clausole in più: la forma «un oggetto con dentro l'elenco `difetti`» adesso è una cecità dichiarata e non un rosso, e il vecchio `readJson` è stato TOLTO invece che affiancato — lasciarne due è come questa malattia si riproduce. NON HO VERIFICATO: il caso in cui il file esiste ma il sistema nega la lettura (permessi); nella sabbiera non l'ho costruito.",
+      "mutante": {
+        "file": "cervello/cantiere-prove.mjs",
+        "cerca": "  process.exit(codiceDiUscita(lettura.esito));",
+        "sostituisci": "  process.exit(1);",
+        "test": "cervello/test/cantiere-che-non-si-apre-non-e-un-cantiere-sporco.test.mjs"
+      },
+      "non_vacuita": "Rimesso `process.exit(1)` al posto del codice del verdetto → test rosso su «il comando VERO su un cantiere rotto esce 2, non 1» («con «JSON rotto» il guardiano esce 1»). Rimesso a posto: verde (3 su 3)."
+    },
+    {
+      "id": "AR-504",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/referto-che-non-si-ripete.test.mjs",
+      "nota_fix": "Misurato prima di toccare: un referto realistico usciva con 4 punti difficili e 3 su 4 erano `gia-detto-qui`. Non era colpa delle frasi, era la struttura — lo stesso controllo rotto compariva in cima, in «Cosa devi fare», fra i peggiorati e nell'elenco per gravità; i non-visti stavano sia nel blocco che Nicola legge sia in una sezione tecnica gemella. La decisione «questo va detto qui e non altrove» è uscita dalla stampa ed è diventata un dato: `pianoDelReferto` (pura) più il suo metro `raccontiDoppi`, che la prova ESEGUE. Regola: ogni controllo si racconta per intero in un posto solo; il peggiore in cima perché è la notizia, e per questo non torna nell'elenco per gravità; cronici e peggiorati portano solo il titolo, e non nominano chi è già stato nominato; la sezione tecnica dei ⚪ è stata tolta perché ripeteva gli stessi titoli venti righe dopo. Adesso lo stesso referto misura ZERO punti difficili. DIFFERENZA CON LA SCHEDA: diceva «~12 punti difficili, riscrivere le frasi fisse»; le frasi fisse erano quasi a posto, il debito veniva dalle ripetizioni. ⚠️ CIÒ CHE LA PROVA NON PUÒ DIRE, dichiarato dentro il file: il referto porta anche le frasi che ogni singolo controllo scrive di suo (`detto`), e quelle non sono del generatore — su un referto vero resta un punto `parola-mia` che nasce lì, non qui (registrato in difetti_nuovi). E non ho lanciato una visita vera: avrebbe scritto in `consegne/salute/` e in `salute.json` mentre le altre corsie lavorano.",
+      "mutante": {
+        "file": "cervello/salute.mjs",
+        "cerca": "    altriRotti: rotti.filter((r) => !nominato(r)),",
+        "sostituisci": "    altriRotti: rotti,",
+        "test": "cervello/test/referto-che-non-si-ripete.test.mjs"
+      },
+      "non_vacuita": "Rimesso il peggiore anche nell'elenco per gravità → test rosso su tutti e quattro i casi, a partire da «nessun controllo si racconta per intero in due posti». Rimesso a posto: verde (4 su 4)."
+    },
+    {
+      "id": "AR-701",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/capacita-dal-repo-non-dal-disco.test.mjs",
+      "nota_fix": "Il fix e la prova erano già in casa (lotto 43). In questo lotto la funzione è stata spostata dentro la fonte unica `tracciatiDaGit`, che serve anche ai workflow (AR-710): il comportamento non cambia, la prova resta verde e la mutazione la fa ancora diventare rossa — verificato eseguendola, non deducendolo. Aggiunta una clausola: git che risponde «niente» su una cartella piena di file adesso è una cecità, non uno zero.",
+      "mutante": {
+        "file": "cervello/guardiano-capacita.mjs",
+        "cerca": "    tracciati = percorsiDaGit([\"ls-files\", \"--\", rel], { cwd: AD_ROOT });",
+        "sostituisci": "    tracciati = readdirSync(dir).map((n) => `${rel}/${n}/SKILL.md`);",
+        "test": "cervello/test/capacita-dal-repo-non-dal-disco.test.mjs"
+      },
+      "non_vacuita": "Applicata la mutazione di casa dopo il mio spostamento → test rosso (uscita 1). Rimesso a posto: verde. Il pezzo che la mutazione cerca esiste ancora dopo il refactor: verificato eseguendola, non leggendola."
+    },
+    {
+      "id": "AR-667",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/cieco-venduto-per-verde.test.mjs",
+      "nota_fix": "Nessuna modifica mia: il fix è del lotto 42 ed è su questo ramo. Verificato oggi ESEGUENDO la mutazione invece di rileggere il codice — spenta la riga del cieco in `esito-guardiano.mjs` il test diventa rosso, rimessa torna verde (17 casi su 17). La traduzione codice→verdetto non abita più in `daGuardiano`: sta nel modulo puro, il 2 è cieco prima che il chiamante possa dire la sua, e `rossoSe` può solo allargare il rosso.",
+      "mutante": {
+        "file": "cervello/esito-guardiano.mjs",
+        "cerca": "  if (code === CODICE.cieco) return cieco(\"il controllo si è dichiarato cieco (uscita 2): non ha potuto misurare\");",
+        "sostituisci": "  if (false) return cieco(\"il controllo si è dichiarato cieco (uscita 2): non ha potuto misurare\");",
+        "test": "cervello/test/cieco-venduto-per-verde.test.mjs"
+      },
+      "non_vacuita": "Spenta la riga del cieco → test rosso (uscita 1). Rimessa: verde. Eseguito, non dedotto."
+    },
+    {
+      "id": "AR-664",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/cieco-venduto-per-verde.test.mjs",
+      "nota_fix": "Nessuna modifica mia: il fix è del lotto 42 ed è su questo ramo. `pausa-check.mjs` controlla `Array.isArray(fatti)` prima di scorrerli ed esce 2 dicendo cosa non ha potuto leggere, senza stack trace. Verificato ESEGUENDO la mutazione: tolto il controllo di forma il test diventa rosso, rimesso torna verde.",
+      "mutante": {
+        "file": "cervello/pausa-check.mjs",
+        "cerca": "  if (!Array.isArray(fatti)) {",
+        "sostituisci": "  if (false) {",
+        "test": "cervello/test/cieco-venduto-per-verde.test.mjs"
+      },
+      "non_vacuita": "Tolto il controllo di forma → test rosso (uscita 1). Rimesso: verde. Eseguito, non dedotto."
+    },
+    {
+      "id": "AR-702",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/caccia-cieca-non-e-un-elenco-vuoto.test.mjs",
+      "nota_fix": "Nessuna modifica mia: il fix è del lotto 43 ed è su questo ramo. `cacciaAperta` in prompt-senior.mjs torna `null` quando non ha potuto leggere il registro e `[]` quando ha letto e non c'è niente — lo stesso patto che `elencaSkill` usa nel guardiano delle capacità. Verificato ESEGUENDO la mutazione: rimesso `[]` al posto di `null` il test diventa rosso.",
+      "mutante": {
+        "file": "cervello/prompt-senior.mjs",
+        "cerca": "  if (!r.ok) return null;",
+        "sostituisci": "  if (!r.ok) return [];",
+        "test": "cervello/test/caccia-cieca-non-e-un-elenco-vuoto.test.mjs"
+      },
+      "non_vacuita": "Rimesso l'elenco vuoto al posto del null → test rosso (uscita 1). Rimesso a posto: verde. Eseguito, non dedotto."
+    },
+    {
+      "id": "AR-682",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/ogni-workflow-ha-la-sua-porta.test.mjs",
+      "nota_fix": "Nessuna modifica mia sul fix: la porta in COMANDI.md e la prova sono del lotto 43. Ho toccato COMANDI.md in questo lotto (riga 47, per AR-347) e ho verificato che la mutazione trova ancora il suo pezzo e fa ancora diventare rosso il test — eseguendola. Il guardiano vede sei workflow su sei, nessun orfano, nessun comando che punta a un workflow inesistente. Resta vero il limite già dichiarato dentro la prova: «la porta si apre davvero» non è misurabile da Node, perché i sei workflow sono scritti in un dialetto che nessun caricatore accetta.",
+      "mutante": {
+        "file": "COMANDI.md",
+        "cerca": "Workflow `.claude/workflows/radiografia-totale.js`",
+        "sostituisci": "Workflow interno",
+        "test": "cervello/test/ogni-workflow-ha-la-sua-porta.test.mjs"
+      },
+      "non_vacuita": "Tolto il riferimento al workflow dal menu dei comandi → test rosso (uscita 1). Rimesso: verde. Eseguito dopo la mia modifica a COMANDI.md, non prima."
+    },
+    {
+      "id": "AR-685",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/referto-troncato-dalla-pipe.test.mjs",
+      "nota_fix": "Nessuna modifica mia sul fix: `process.exitCode` al posto di `process.exit`, lotto 42, su questo ramo. Ho toccato `cantiere-prove.mjs` in questo lotto (per AR-709) e ho quindi rieseguito la mutazione: rimettendo `process.exit(1)` il test torna rosso, e lo fa dalla pipe di shell vera (`bash -o pipefail -c 'node … | cat'`) — che è il canale dove il difetto vive. Con `spawnSync` diretto resterebbe verde col fix disfatto, ed è la lezione di AR-698. Una nota sul mio fix di AR-709: l'uscita cieca usa ancora `process.exit`, ma prima ha stampato due righe corte su stderr, non un referto da 139 KB: lì il taglio non c'è. Se un domani quella strada stampasse il referto, va convertita.",
+      "mutante": {
+        "file": "cervello/cantiere-prove.mjs",
+        "cerca": "if (GATE && bloccantiCiechiOra.length) process.exitCode = 1;",
+        "sostituisci": "if (GATE && bloccantiCiechiOra.length) process.exit(1);",
+        "test": "cervello/test/referto-troncato-dalla-pipe.test.mjs"
+      },
+      "non_vacuita": "Rimesso `process.exit(1)` → rossi tutti e due i test che lo coprono (referto-troncato-dalla-pipe e prova-che-non-puo-fallire). Rimesso a posto: verdi. Eseguito dopo le mie modifiche allo stesso file."
+    },
+    {
+      "id": "AR-347",
+      "esito": "aperto",
+      "perche_resta_aperto": "Il titolo della scheda ha due metà e ne ho potuta riparare una sola. Il MENU dei comandi non dice più «42 agenti»: COMANDI.md ora rimanda alla fonte («tutti i senior in `.claude/agents/`»), perché un rimedio non deve contenere un numero che può invecchiare. La SENTINELLA no: `cervello/sentinelle.md:93` ordina ancora di riallineare i registri «ai 42 file reali», e quel file è fuori dal territorio della corsia 2. Fuori territorio anche la causa radice vera: `FILE_PILOTA` in `cervello/agent-registry-check.mjs` è ancora una lista di sei percorsi scelti a mano, e finché è a mano coprirà solo i posti dove il difetto è già stato visto. Ho lasciato la difesa di classe che si poteva lasciare: `cervello/test/quanti-senior-dice-di-avere.test.mjs` non legge una lista, SCANSIONA tutti i .md di radice, tutti i workflow e tutti i .md e .mjs del cervello, e conta i senior veri da `.claude/agents/`. Oggi è verde con un elenco di frasi ammesse — sottoinsiemi col loro denominatore, racconti di com'era, e cinque voci di debito dichiarato fuori territorio con la loro patch — e quell'elenco può solo accorciarsi: se una frase sparisce il test lo dice e la riga va tolta. Verificato rompendo: rimesso «42 agenti» in COMANDI.md, due casi su tre diventano rossi. I senior veri contati oggi: 120.",
+      "togli_verifica_a_pattern": true,
+      "mutante": {
+        "file": "COMANDI.md",
+        "cerca": "(la propria architettura: tutti i senior in `.claude/agents/`, prompt",
+        "sostituisci": "(la propria architettura: 42 agenti, prompt",
+        "test": "cervello/test/quanti-senior-dice-di-avere.test.mjs"
+      },
+      "non_vacuita": "Rimesso «42 agenti» nel menu dei comandi → test rosso su due casi su tre («nessun file vivo dichiara un numero di senior che non è quello vero» e «il menu dei comandi non dice più «42 agenti»»). Rimesso a posto: verde (3 su 3)."
+    }
+  ],
+  "bloccati": [
+    {
+      "id": "AR-347",
+      "serve": "file fuori territorio: `cervello/sentinelle.md` (riga 93, «ai 42 file reali» — è la «sentinella» del titolo della scheda), `cervello/agent-registry-check.mjs` (riga 8, «40 senior contro 42 file reali», e la lista `FILE_PILOTA` che è la causa radice), `README.md` (riga 10, «i 40 senior»), `INIZIA-QUI.md` (riga 49, «40 senior, 10 team»). Le quattro correzioni di testo hanno la patch pronta in patch_per_ad; la quinta — sostituire `FILE_PILOTA` con una scansione — è un lavoro di codice in un file di un'altra corsia."
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Le frasi che ogni controllo della visita scrive di suo non passano mai dal misuratore della leggibilità",
+      "gravita": "minore",
+      "causa_radice": "Il referto della visita è fatto per metà di testo del generatore e per metà del campo `detto` che ogni controllo scrive per conto suo. Il generatore adesso è misurato (AR-504), quelle frasi no: su un referto realistico resta un punto `parola-mia` («sensore» non è nel glossario che Nicola sta studiando) che nasce dentro un controllo, non dentro il generatore. Finché nessuno le misura, ogni controllo nuovo può rimettere debito nel file che Nicola legge, e la prova del generatore resterà verde perché quel testo non è suo.",
+      "dove": "cervello/salute.mjs — i campi `detto` dei CONTROLLI (non il generatore del referto)",
+      "fix_proposto": "Far girare `si-capisce.mjs` su ogni `detto` dei controlli come parte del test della salute, con un tetto che scende: le frasi si riscrivono una per una, e il tetto impedisce che ne entrino di nuove."
+    },
+    {
+      "titolo": "Il conteggio delle capacità vede cinque skill perché le altre non sono tracciate in git, e nessuno dice che è una scelta",
+      "gravita": "minore",
+      "causa_radice": "`.gitignore` esclude `.claude/skills/*` tranne cinque cartelle. Da quando il guardiano conta ciò che il repo dichiara (AR-701), il numero è cinque e il verdetto è verde. È corretto rispetto alla domanda «quante ne dichiara il progetto», ma la macchina in COMANDI.md ne annuncia di più: il numero giusto non è sbagliato, è che risponde a una domanda diversa da quella che il lettore si fa. Un verde che risponde a un'altra domanda è la stessa famiglia di questa corsia.",
+      "dove": ".gitignore righe 58-63 · cervello/guardiano-capacita.mjs (n_skill)",
+      "fix_proposto": "Decidere con Nicola se le skill devono stare in git (allora si tracciano e il conto sale) oppure no (allora il referto deve dire «cinque su N, le altre non appartengono al repo»), e scriverlo nel referto invece di lasciarlo dedurre."
+    }
+  ],
+  "malattie_da_censire": [
+    {
+      "id": "referto-che-cambia-forma-quando-e-cieco",
+      "cosa_e": "Un comando che in `--json` stampa un oggetto con certe chiavi quando ha misurato e un oggetto con chiavi tutte diverse quando non ha potuto. Chi legge un conto (`dati.violazioni.length`) non trova il campo e si becca un errore invece di leggere una cecità dichiarata — e un errore, nove volte su dieci, viene ingoiato: lo stesso effetto di un verde finto. La cura è un involucro solo con il verdetto dentro e le stesse chiavi in tutti gli esiti.",
+      "come_si_cerca": "Negli script con `--json`: più di un `console.log(JSON.stringify(` nello stesso file i cui oggetti non hanno nessuna chiave in comune. Visto in cervello/gate-veri.mjs (AR-711) e in cervello/guardiano-capacita.mjs (ramo cieco e ramo che muore), curati insieme in questo lotto."
+    },
+    {
+      "id": "censimento-che-conta-il-disco-invece-del-repo",
+      "cosa_e": "Un guardiano che conta file o cartelle con `readdirSync` e mette quel numero dentro un verdetto. Il risultato dipende da DOVE gira invece che da com'è la macchina: su una postazione è rosso, sul server è verde, e nessuno dei due sa perché. Un rosso che non appartiene a chi lo vede si impara a ignorare, e con lui si ignorano gli altri. La cura è chiedere l'elenco a git, e dichiararsi ciechi se git non risponde.",
+      "come_si_cerca": "`readdirSync(` dentro un file che poi usa quel conteggio in un verdetto o in un `drift`. Visto in cervello/guardiano-capacita.mjs due volte: skill (AR-701) e workflow (AR-710)."
+    }
+  ],
+  "file_toccati": [
+    "COMANDI.md",
+    "cervello/cantiere-prove.mjs",
+    "cervello/esito-guardiano.mjs",
+    "cervello/gate-veri.mjs",
+    "cervello/guardiano-capacita.mjs",
+    "cervello/salute.mjs",
+    "cervello/test/cantiere-che-non-si-apre-non-e-un-cantiere-sporco.test.mjs",
+    "cervello/test/quanti-senior-dice-di-avere.test.mjs",
+    "cervello/test/referto-che-non-si-ripete.test.mjs",
+    "cervello/test/referto-cieco-parla-la-stessa-lingua.test.mjs",
+    "cervello/test/workflow-dal-repo-non-dal-disco.test.mjs"
+  ],
+  "patch_per_ad": [
+    {
+      "file": "cervello/sentinelle.md",
+      "perche": "Riga 93: la sentinella ORDINA all'AD di riallineare i registri «ai 42 file reali». I senior veri sono 120. È la metà del titolo di AR-347 che la corsia 2 non poteva toccare. Un rimedio non deve contenere un numero che può invecchiare: si cita la fonte, non la cifra. Applicata questa, il test `quanti-senior-dice-di-avere` lo dirà e la riga corrispondente va tolta dall'elenco delle frasi ammesse.",
+      "diff_proposto": "- | Drift registro agenti (`agent-registry-check.mjs`) | drift > 0 (orfani/conteggio) | AD | riallinea CLAUDE.md/AGENTI.md/COMANDI ai 42 file reali | 🟡 |\n+ | Drift registro agenti (`agent-registry-check.mjs`) | drift > 0 (orfani/conteggio) | AD | riallinea CLAUDE.md/AGENTI.md/COMANDI al conteggio reale dei file in `.claude/agents/` (fonte: `node cervello/agent-registry-check.mjs`) | 🟡 |"
+    },
+    {
+      "file": "cervello/agent-registry-check.mjs",
+      "perche": "Riga 8: il commento del guardiano dei senior afferma che i file reali sono 42. Sono 120, e lo sa lui stesso contandoli. Poi la causa radice di AR-347: `FILE_PILOTA` è una lista di sei percorsi scelti a mano — chi l'ha scritta ci ha messo i file dove aveva appena visto il difetto, e infatti né COMANDI.md né sentinelle.md sono dentro. Va sostituita da una scansione (tutti i .md di radice, tutti i `.claude/workflows/*.js`, tutti i `cervello/*.md` e `*.mjs`) con esenzioni motivate per la storia; la scansione e il suo metro esistono già, provati, in cervello/test/quanti-senior-dice-di-avere.test.mjs.",
+      "diff_proposto": "- // (es. \"40 senior\" contro 42 file reali). Questo guardiano rende il drift misurabile a ogni giro,\n+ // (es. \"40 senior\" contro il numero vero dei file). Questo guardiano rende il drift misurabile a ogni giro,"
+    },
+    {
+      "file": "README.md",
+      "perche": "Riga 10: «i 40 senior». Sono 120. È la prima riga che legge chi apre il repo.",
+      "diff_proposto": "- - `.claude/agents/` — i 40 senior (vendite, marketing, finanza, tech…).\n+ - `.claude/agents/` — i senior (vendite, marketing, finanza, tech…): quanti sono lo dice `node cervello/agent-registry-check.mjs`."
+    },
+    {
+      "file": "INIZIA-QUI.md",
+      "perche": "Riga 49: «40 senior, 10 team». Sono 120.",
+      "diff_proposto": "- - 👥 **I dipendenti (40 senior, 10 team)** — [[AGENTI]] (chi fa cosa) · le 7 capacità in [[CULTURA-SQUADRA]]\n+ - 👥 **I dipendenti** — [[AGENTI]] (chi fa cosa, e quanti sono) · le 7 capacità in [[CULTURA-SQUADRA]]"
+    }
+  ]
+}
