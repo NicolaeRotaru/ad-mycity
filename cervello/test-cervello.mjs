@@ -293,9 +293,35 @@ export function verdetto(status, out) {
   // non c'è, mentre il guasto è l'import. È esattamente la distinzione per cui esiste AR-156.
   // Quindi: prima si guarda se il modulo si carica, POI si guarda il TAP.
   const testo = String(out || "");
-  const mod = testo.match(/Cannot find module '([^']+)'/);
+  // Node dice «module» per un percorso e «package» per un pacchetto: sono due messaggi diversi per
+  // la stessa cosa, e guardarne uno solo faceva cadere il caso dei pacchetti nel ramo generico —
+  // cioè proprio quello che AR-696 deve distinguere.
+  const mod = testo.match(/Cannot find (?:module|package) '([^']+)'/);
   if (mod || /ERR_MODULE_NOT_FOUND|ERR_UNSUPPORTED_DIR_IMPORT/.test(testo)) {
-    return { esito: "ineseguibile", motivo: `import non risolvibile${mod ? `: ${mod[1]}` : ""}`, passati, falliti };
+    // AR-696 — «non parte» sono DUE cose diverse, e chiamarle entrambe rosso manda a cercare un bug
+    // che non c'è. La riga di confine è quale modulo manca:
+    //
+    //   · un percorso NOSTRO (`./x.mjs`, `../lib/y.ts`) non si risolve → il repo è rotto: ROSSO.
+    //   · un PACCHETTO (`next`, `playwright`) non si risolve → qui non è installato: ⚪ NON MISURATO.
+    //
+    // Il secondo caso è lo stesso di `bats` che manca (AR-693): la prova esiste, è sana, e questa
+    // macchina non ha lo strumento per farla girare. Contarlo come rosso significa portarsi dietro
+    // per sempre un rosso che nessuna riparazione può togliere — e un rosso che non appartiene a
+    // chi lo vede è il modo più veloce per imparare a ignorare tutti gli altri.
+    //
+    // Misurato: nel lavoro del cervello `pannello/node_modules` non c'è, e tre schede CHIUSE
+    // risultavano «prova rossa» per questo — cioè il difetto sembrava tornato e non era mai andato
+    // via nessuno. ⚪ non è un verde: resta nel totale di «non danno garanzie», dove deve stare.
+    const nome = mod?.[1] || "";
+    const eNostro = nome.startsWith(".") || nome.startsWith("/");
+    if (nome && !eNostro) {
+      return {
+        esito: "non-eseguito",
+        motivo: `manca il pacchetto «${nome}» su questa macchina: la prova esiste e nessuno l'ha fatta girare`,
+        passati, falliti,
+      };
+    }
+    return { esito: "ineseguibile", motivo: `import non risolvibile${nome ? `: ${nome}` : ""}`, passati, falliti };
   }
   if (passati === null) {
     return { esito: "ineseguibile", motivo: "il file non è nemmeno partito", passati, falliti };

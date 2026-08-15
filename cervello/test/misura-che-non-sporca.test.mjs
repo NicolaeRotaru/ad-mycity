@@ -23,7 +23,7 @@
 // smette di lanciare.
 
 import assert from "node:assert/strict";
-import { execFileSync } from "node:child_process";
+import { execFileSync, spawnSync } from "node:child_process";
 import { mkdtempSync, readFileSync, writeFileSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
@@ -154,6 +154,43 @@ prova("⑬ AR-464 · due guardiani lanciati con --sola-lettura lasciano git stat
   const nuovi = sporchi().filter((f) => f && !prima.has(f));
   assert.deepEqual(nuovi, [],
     `verificare non deve costare un diff, e invece ha sporcato: ${nuovi.join(", ")}`);
+});
+
+// ── AR-653 · AR-654 — una decisione che vive solo in un file d'ambiente non esiste ──
+//
+// Nicola aveva spento PostHog il 5/7. La decisione però viveva SOLO in `POSTHOG_OFF=1` dentro il
+// `.env`, che non è versionato — e sul VPS quella riga non c'era. Lì la chiave era presente, il
+// check partiva davvero, e il sensore risultava VERDE mentre la decisione diceva l'opposto.
+//
+// La stessa macchina dava due risposte diverse a seconda di dove la si interrogava, e nessuna delle
+// due era sbagliata nel suo ambiente: era la decisione a non essere da nessuna parte. La cura non è
+// mettere la riga anche sul VPS (sarebbe la stessa fragilità, spostata) — è spostare la decisione
+// nel registro versionato, dove viaggia col repo ed è uguale ovunque.
+
+prova("⑭ AR-654 · la decisione di spegnere un sensore sta nel registro versionato, non in un .env", () => {
+  const motivi = JSON.parse(readFileSync(join(REPO, "cervello/sensori-motivi.json"), "utf8"));
+  const p = motivi?.motivi?.posthog_api;
+  assert.ok(p, "senza questa riga la decisione esiste solo nella testa di chi ha scritto il .env");
+  assert.equal(p.motivo, "decisione", "«decisione» è lo stato finale sano: Nicola ha scelto");
+  assert.ok(String(p.perche || "").length > 40, "un motivo senza il perché è un numero senza fonte");
+});
+
+prova("⑮ AR-653 · senza la variabile d'ambiente il sensore è SPENTO lo stesso", () => {
+  // È il caso del VPS: la chiave c'è e `POSTHOG_OFF` no. Prima qui usciva «verde».
+  //
+  // ⚠️ Si legge con `spawnSync` e NON con la scorciatoia che alza l'eccezione: da una sessione senza
+  // chiavi il comando esce 2, che in questa casa vuol dire «non ho potuto misurare» e non «errore».
+  // Trattare il cieco come un guasto renderebbe questa prova rossa dove non c'è niente di rotto —
+  // che è la malattia curata dalla corsia accanto, riprodotta dentro la sua stessa prova.
+  const r = spawnSync(process.execPath,
+    [join(REPO, "cervello/verifica-sensori.mjs"), "--json", "--sola-lettura"],
+    { cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024,
+      env: { ...process.env, POSTHOG_OFF: "" }, stdio: ["ignore", "pipe", "pipe"] });
+  const posthog = (JSON.parse(r.stdout).checks || []).find((c) => c.nome === "posthog_api");
+  assert.ok(posthog, "il sensore non compare fra i controlli");
+  assert.equal(posthog.spento, true,
+    "senza POSTHOG_OFF il check torna a partire e il sensore risulta acceso: la decisione di Nicola sparisce");
+  assert.match(posthog.dettaglio || "", /decision/i, "il dettaglio deve dire CHI ha deciso e dove sta scritto");
 });
 
 // ── il conto ────────────────────────────────────────────────────────────────
