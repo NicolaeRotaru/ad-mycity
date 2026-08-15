@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-15 19:10",
+  "aggiornato": "2026-08-15 19:25",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -14888,6 +14888,23 @@
       "verifica": {
         "tipo": "umano",
         "nota": "nato nel lotto 43 mentre si riparava un altro difetto: causa verificata sul codice (spazzata-fratelli.mjs, caloNonProvato), prova da scrivere"
+      }
+    },
+    {
+      "id": "AR-724",
+      "titolo": "Uno script d archivio timbra «chiuso» su un difetto senza passare dalla porta che tutti gli altri devono usare",
+      "dimensione": "trovato-riparando",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "stato": "aperto",
+      "nato": "2026-08-15 19:25",
+      "nato_come": "scoperta",
+      "causa_radice": "cervello/contratto-scheda.mjs:257 dichiara: «Ogni strada che scrive stato \"chiuso\" DEVE passare da qui — 74 schede sono finite in archivio senza il timbro». Ma cervello/round2-applica.mjs, righe 67 e 73, assegna lo stato \"chiuso\" direttamente sull oggetto della scheda, senza passare dalla porta: quei due difetti sono entrati in archivio senza i campi che il contratto pretende. E il guardiano non se n è accorto perché cerca il MODO in cui si chiude nei file che conosce, non l ATTO ovunque venga compiuto. È AR-172 nella sua forma pura: la porta a mano riparata, la porta laterale lasciata aperta. Lo script è uno-shot del 25/7 e ha già girato, quindi il danno è fatto ed è piccolo; il buco nel guardiano no.",
+      "fix_proposto": "Il freno va sul DATO, non sui file noti: un guardiano che cerca  assegnato a  in TUTTO cervello/ (test esclusi) e pretende che ogni occorrenza fuori da contratto-scheda.mjs sia dichiarata esente col perche. Prova: aggiungere una riga che timbra chiuso in uno script qualsiasi e pretendere il rosso.",
+      "origine": "lotto 43, secondo giro (domanda ①: ogni strada che arriva all atto passa dal freno?) — trovata cercando l ATTO con grep, non il fix",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 43 al secondo giro: causa verificata sul codice (round2-applica.mjs righe 67 e 73 vs contratto-scheda.mjs:257), prova da scrivere"
       }
     }
   ],
