@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-15 11:10",
+ "aggiornato": "2026-08-15 11:16",
  "lezioni": [
   {
    "id": "L-2026-0814-001",
@@ -13283,11 +13283,11 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 415,
+  "lezioni_attive": 514,
   "promosse_a_principio": 88,
   "decadute": 0,
-  "tasso_applicazione": 0.12,
-  "tasso_calcolato_il": "2026-08-15 11:04",
+  "tasso_applicazione": 0.13,
+  "tasso_calcolato_il": "2026-08-15 11:16",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-15 11:10",
   "usi_marcati_il": "2026-07-17 07:00",
