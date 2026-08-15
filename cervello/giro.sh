@@ -781,7 +781,7 @@ Fai quello che ti dice QUI SOPRA: se dice che ce ne sono da MISURARE, misura que
   printf '%s\n' "$_appr_out" | tail -6
   if [ "$_appr_rc" -ne 0 ]; then
     _appr_ric="$(node "$SCRIPT_DIR/apprendimento-guardiano.mjs" --memoria 2>&1 || true)"
-    APPRENDIMENTO_VINCOLO="⛔ APPRENDIMENTO FERMO (apprendimento-guardiano.mjs rc=$_appr_rc): promuovi a \`principio\` 2-3 lezioni mature con più evidenze (scrivi la regola in un mansionario/sentinella) e rendi la 1ª area ricorrente qui sotto un GATE; NON loggare l'ennesima lezione uguale.
+    APPRENDIMENTO_VINCOLO="⛔ APPRENDIMENTO FERMO (apprendimento-guardiano.mjs rc=$_appr_rc): promuovi a \`principio\` 2-3 lezioni mature con più evidenze (scrivi la regola in un mansionario/sentinella) e rendi la 1ª area ricorrente qui sotto un GATE; NON loggare l'ennesima lezione uguale. Una lezione nuova si scrive SOLO dalla porta (AR-651), mai aprendo il file a mano: \`node cervello/lezione-nuova.mjs --fonte \"…\" --testo \"…\" --regola \"…\" [--gate \"…\"]\` — il numero lo conia lei, ed è così che smettono di nascere due lezioni con lo stesso id.
 $_appr_ric"
     echo "[$(ts)] ⚠️  Lever 1: apprendimento malato → vincolo hard al motore." >&2
   fi
@@ -997,6 +997,36 @@ GATE_ROSSI="${#VINCOLI_ATTIVI[@]}"
 if [ "$GATE_ROSSI" -gt 0 ]; then
   echo "[$(ts)] ⛔ $GATE_ROSSI vincoli ATTIVI in questo giro: ${VINCOLI_ATTIVI[*]}" >&2
 fi
+
+# ── AR-687 — DA QUANTI GIRI DICE NO? ─────────────────────────────────────────────────────────────
+# Fino a oggi un vincolo era una stringa vuota o piena, e basta: un guardiano rosso da tre settimane
+# occupava il prompt esattamente come uno rosso da un minuto. Il modo di misurarlo esisteva già
+# (`cronicita-allarmi.mjs`, nato per AR-440) ma nel giro non lo chiamava nessuno: mancava l'aggancio,
+# ed è questo. Il conto vive in `.git/` perché è lo stato di una macchina, non memoria da committare.
+#
+# ⚠️ Il nome NON finisce in `_VINCOLO`, ed è voluto: non è un cancello suo: è l'ETÀ dei cancelli già
+# contati due righe più su. Chiamarlo `_VINCOLO` gli farebbe contare una seconda volta gli stessi
+# rossi, e il conto di AR-387 mentirebbe.
+#
+# ⚠️ Il verdetto NON si calcola qui. La decisione sta in una funzione pura che un test può eseguire
+# (`bloccoPerIlGiro`); questa parte incolla e basta. L'unica cosa che decide la shell è cosa fare
+# quando il comando non parte — e non parte MAI in silenzio: un vuoto vuol dire «niente di cronico»,
+# un'uscita ≠ 0 vuol dire «non l'ho misurato», e le due cose non si possono confondere.
+# >>> AR-687 BLOCCO CRONICITA (il test cervello/test/vincolo-cronico.test.mjs esegue queste righe) >>>
+CRONICITA_BLOCCO=""
+_cron_out="$(node "$SCRIPT_DIR/cronicita-allarmi.mjs" --attivi="${VINCOLI_ATTIVI[*]:-}" --blocco 2>/dev/null)"; _cron_rc=$?
+if [ "$_cron_rc" -ne 0 ]; then
+  CRONICITA_BLOCCO="⚠️ NON HO POTUTO MISURARE DA QUANTI GIRI questi controlli dicono no (cronicita-allarmi.mjs rc=$_cron_rc). Tratta OGNI vincolo qui sopra come se fosse nuovo e ripetilo per intero: saltarne uno perché «tanto è vecchio», senza sapere se è vecchio, è il modo peggiore di sbagliare."
+else
+  CRONICITA_BLOCCO="$_cron_out"
+fi
+if [ -n "$CRONICITA_BLOCCO" ]; then
+  PROMPT="$PROMPT
+
+## Da quanti giri dicono no (AR-687 — l'età dei vincoli, non un vincolo in più)
+$CRONICITA_BLOCCO"
+fi
+# <<< AR-687 BLOCCO CRONICITA <<<
 
 if [ -n "$SENSORI_VINCOLO" ]; then
   PROMPT="$PROMPT

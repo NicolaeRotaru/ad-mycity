@@ -1,25 +1,27 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-15 12:20",
+ "aggiornato": "2026-08-15 15:05",
  "mutanti": [
   {
    "lotto": 30,
    "difetto": "cancello-lotto · mutazione-mancante (blocco duro)",
    "nome": "il difetto toccato senza mutazione non viene più fermato",
    "file": "cervello/cancello-lotto.mjs",
-   "cerca": "  const mutNelLotto = toccati ? senzaMutazione.filter((x) => toccati.includes(x.id)) : [];",
+   "cerca": "  const mutNelLotto = toccati ? senzaMutazioneContati.filter((x) => toccati.includes(x.id)) : [];",
    "sostituisci": "  const mutNelLotto = [];",
-   "test": "cervello/test/mutazione-mancante.test.mjs"
+   "test": "cervello/test/mutazione-mancante.test.mjs",
+   "nota_riaggancio": "main ha riscritto il cancello (senzaMutazioneContati): il comportamento vive, il puntatore era rimasto indietro. Riagganciato alla fusione del lotto 42."
   },
   {
    "lotto": 30,
    "difetto": "cancello-lotto · mutazione-mancante (tetto)",
    "nome": "il debito di prove mai rotte apposta può allargarsi senza che nessuno lo veda",
    "file": "cervello/cancello-lotto.mjs",
-   "cerca": "  if (senzaMutazione.length > tettoMut) {",
+   "cerca": "  if (senzaMutazioneContati.length > tettoMut) {",
    "sostituisci": "  if (false) {",
-   "test": "cervello/test/mutazione-mancante.test.mjs"
+   "test": "cervello/test/mutazione-mancante.test.mjs",
+   "nota_riaggancio": "idem: il tetto c e ancora, la riga e cambiata."
   },
   {
    "lotto": 30,
@@ -1394,15 +1396,6 @@
    "test": "cervello/test/misura-cieca.test.mjs"
   },
   {
-   "difetto": "AR-503",
-   "lezione": "L-2026-0803-544",
-   "nome": "la prosa torna a contare come chiamata: togliere una riga di istruzioni sembra spegnere un guardiano",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "    if (!eFixture(file) && !ePROSA(file) && !eReferto(file)) {",
-   "sostituisci": "    if (true) {",
-   "test": "cervello/test/sorvegliante.test.mjs"
-  },
-  {
    "difetto": "AR-506",
    "lezione": "L-2026-0803-545",
    "nome": "una nota torna a contare come cieco: il cancello esce 2 per costruzione in CI",
@@ -1948,15 +1941,6 @@
    "test": "node --test cervello/test/cancello-stop.test.mjs"
   },
   {
-   "difetto": "AR-543",
-   "lezione": "L-2026-0804-554",
-   "nome": "il diario del sorvegliante torna a valere come dichiarazione: la guardia riaccusa se stessa",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "const eReferto = (file) => REFERTI.includes(file);",
-   "sostituisci": "const eReferto = () => false;",
-   "test": "node --test cervello/test/sorvegliante.test.mjs"
-  },
-  {
    "difetto": "AR-505",
    "lezione": "L-2026-0804-554",
    "nome": "la ricerca dell esito torna a saltare le fusioni: chi registra risolvendo un conflitto ridiventa muto",
@@ -2324,15 +2308,6 @@
    "cerca": "«Cosa non ho verificato» (dichiara cosa NON hai potuto controllare da qui",
    "sostituisci": "",
    "test": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
-  },
-  {
-   "difetto": "L-2026-0813-02 gate-dichiarato-senza-mutazione",
-   "lezione": "L-2026-0813-02",
-   "nome": "la regola gate-mai-rotto cambia nome e nessuno boccia più un gate senza mutazione: il freno della lezione sparisce in silenzio",
-   "file": "cervello/gate-veri.mjs",
-   "cerca": "        regola: \"gate-mai-rotto\",",
-   "sostituisci": "        regola: \"gate-mai-rotto-disattivato\",",
-   "test": "node cervello/test/gate-che-non-puo-scattare.test.mjs"
   },
   {
    "lotto": 37,
@@ -3753,6 +3728,445 @@
    "cerca": "  \"node_modules\", \".git\", \".next\", \"dist\", \"build\", \"worktrees\",",
    "sostituisci": "  \"node_modules\", \".git\", \".next\", \"dist\", \"build\", // MUTANTE: worktrees tolto dalle escluse",
    "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+  },
+  {
+   "lotto": 30,
+   "difetto": "cancello-lotto · mutazione-mancante (blocco duro)",
+   "nome": "il difetto toccato senza mutazione non viene più fermato",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  const mutNelLotto = toccati ? senzaMutazioneContati.filter((x) => toccati.includes(x.id)) : [];",
+   "sostituisci": "  const mutNelLotto = [];",
+   "test": "cervello/test/mutazione-mancante.test.mjs",
+   "nota_riaggancio": "AR-692 ha separato il debito ereditato da quello nuovo: la misura ora e senzaMutazioneContati (lotto 42)."
+  },
+  {
+   "lotto": 30,
+   "difetto": "cancello-lotto · mutazione-mancante (tetto)",
+   "nome": "il debito di prove mai rotte apposta può allargarsi senza che nessuno lo veda",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  if (senzaMutazioneContati.length > tettoMut) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/mutazione-mancante.test.mjs",
+   "nota_riaggancio": "AR-692 ha separato il debito ereditato da quello nuovo: la misura ora e senzaMutazioneContati (lotto 42)."
+  },
+  {
+   "difetto": "AR-503",
+   "lezione": "L-2026-0803-544",
+   "nome": "la prosa torna a contare come chiamata: togliere una riga di istruzioni sembra spegnere un guardiano",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    if (!eFixture(file) && !ePROSA(file) && !eReferto(file, perNome.get(file)?.contenuto ?? null)) {",
+   "sostituisci": "    if (!eFixture(file) && !eReferto(file, perNome.get(file)?.contenuto ?? null)) {",
+   "test": "cervello/test/sorvegliante.test.mjs",
+   "nota_riaggancio": "AR-556 ha dato a eReferto un secondo argomento: stessa riga, firma nuova (lotto 42)."
+  },
+  {
+   "difetto": "AR-543",
+   "lezione": "L-2026-0804-554",
+   "nome": "il diario del sorvegliante torna a valere come dichiarazione: la guardia riaccusa se stessa",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  if (REFERTI.includes(nome)) return true;",
+   "sostituisci": "  if (false) return true;",
+   "test": "node --test cervello/test/sorvegliante.test.mjs",
+   "nota_riaggancio": "AR-556 ha riscritto eReferto da elenco a riconoscimento: il comportamento vive qui (lotto 42)."
+  },
+  {
+   "difetto": "L-2026-0813-02 gate-dichiarato-senza-mutazione",
+   "lezione": "L-2026-0813-02",
+   "nome": "la regola gate-mai-rotto cambia nome e nessuno boccia più un gate senza mutazione: il freno della lezione sparisce in silenzio",
+   "file": "cervello/contratto-prova.mjs",
+   "cerca": "      violazioni.push({ regola: \"gate-mai-rotto\", lezione: l.id,",
+   "sostituisci": "      violazioni.push({ regola: \"gate-mai-rotto-disattivato\", lezione: l.id,",
+   "test": "node cervello/test/gate-che-non-puo-scattare.test.mjs",
+   "nota_riaggancio": "AR-565 ha spostato la definizione unica dei freni in contratto-prova.mjs: la regola vive li (lotto 42)."
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-639",
+   "nome": "facendo riscrivere anche quando cambia solo l’ora diventa rosso il caso ② — applicata, lanciata, vista rossa, rimessa",
+   "file": "cervello/scrittura-misura.mjs",
+   "cerca": "  if (stessoContenuto(misuraNuova, misuraVecchia, campiTimbro)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-464",
+   "nome": "togliendo il freno della sola-lettura diventano rossi 3 casi (①⑫⑬) — applicata, lanciata, vista rossa, rimessa",
+   "file": "cervello/scrittura-misura.mjs",
+   "cerca": "  if (solaLettura) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-286",
+   "nome": "facendo rispondere «vps» a chiunque, il caso ⑧ diventa rosso — applicata, lanciata, vista rossa, rimessa",
+   "file": "cervello/scrittura-misura.mjs",
+   "cerca": "  if (e.SALUTE_CASA === \"vps\" || e.VPS === \"1\" || e.MYCITY_VPS === \"1\") return \"vps\";",
+   "sostituisci": "  if (true) return \"vps\";",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-667",
+   "nome": "spegnendo la riga del cieco di casa diventano rossi 4 casi su 17, fra cui ① (il caso esposto di sensori.vista) e ⑤ (dentro la visita vera) — verificato applicando la mutazione, lanciando il test e rimettendo a posto",
+   "file": "cervello/esito-guardiano.mjs",
+   "cerca": "  if (code === CODICE.cieco) return cieco(\"il controllo si è dichiarato cieco (uscita 2): non ha potuto misurare\");",
+   "sostituisci": "  if (false) return cieco(\"il controllo si è dichiarato cieco (uscita 2): non ha potuto misurare\");",
+   "test": "cervello/test/cieco-venduto-per-verde.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-664",
+   "nome": "togliendo il controllo di forma il caso ⑥ torna rosso: uscita 1 con «TypeError: fatti.map is not a function» invece di uscita 2 — verificato",
+   "file": "cervello/pausa-check.mjs",
+   "cerca": "  if (!Array.isArray(fatti)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/cieco-venduto-per-verde.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-556",
+   "nome": "spegnendo il riconoscimento il secondo referto torna accusato; spegnendo l'eccezione all'esenzione (la riga di MAI_REFERTO) il caso di controllo sul cantiere diventa rosso — verificati tutti e due a mano applicando la mutazione e lanciando il test",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  return typeof contenuto === \"string\" && DICHIARA_GENERATORE.test(contenuto);",
+   "sostituisci": "  return false;",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-681",
+   "nome": "togliendo il controllo «zero cose guardate» i casi ① e ⑤ diventano rossi: il guardiano vero, lanciato su una casa senza file-pilota, torna a stampare la spunta e a uscire 0 — verificato",
+   "file": "cervello/prompt-senior.mjs",
+   "cerca": "  const nienteDaGuardare = ciecoSeNienteMisurato(piloti, \"file-pilota\");",
+   "sostituisci": "  const nienteDaGuardare = null;",
+   "test": "cervello/test/verde-comprato-senza-guardare.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-679",
+   "nome": "tornando a confrontare la scheda intera il caso ① diventa rosso: due senior che si rimandano il lavoro a vicenda vengono accusati di contenderselo — verificato",
+   "file": "cervello/agent-registry-check.mjs",
+   "cerca": "    descNorm.set(nome, normalizzaFraseTrigger(`${mandato} ${domande}`));",
+   "sostituisci": "    descNorm.set(nome, normalizzaFraseTrigger(desc));",
+   "test": "cervello/test/deferral-non-e-una-collisione.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-690",
+   "nome": "rimettendo la chiamata al cancello DOPO il commit i casi ① e ② diventano rossi — verificato scambiando davvero le due righe nel file e rimettendole a posto",
+   "file": "cervello/monitora.sh",
+   "cerca": "      if gate_pubblicazione \"$SCRIPT_DIR\" \"$REPO\" \"$branch\" 1; then",
+   "sostituisci": "      git \"${GIT_ID[@]}\" commit -q -m \"recupero\" 2>/dev/null || true\n      if gate_pubblicazione \"$SCRIPT_DIR\" \"$REPO\" \"$branch\" 1; then",
+   "test": "cervello/test/recupero-cancello-prima-del-commit.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-694",
+   "nome": "rimettendo `async` su un caso riparato, «i tre file riparati dal lotto 42 non hanno più nessun caso spento» diventa rosso — verificato lanciando il test. Provata anche la difesa a monte: spegnendo il ramo `if (!b.chiamaSubito) continue` in contratto-prova.mjs cadono due casi del guardiano.",
+   "file": "cervello/test/perimetro-main.test.mjs",
+   "cerca": "prova(\"l'hook IMPORTA la regola invece di ricopiarla\", () => {",
+   "sostituisci": "prova(\"l'hook IMPORTA la regola invece di ricopiarla\", async () => {",
+   "test": "cervello/test/prova-che-non-puo-fallire.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-693",
+   "nome": "togliendo la riga che dichiara i ⚪ accanto al verde, «una prova non eseguita resta NEL totale come ⚪» diventa rosso — verificato lanciando il test. La prova fa girare il banco vero con `BATS_BIN` puntato al vuoto (cioè la condizione di ogni sessione nuova) e pretende due cose: il denominatore vero («su 1», non «su 0») e il buco detto accanto al verde.",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "    const copertura = nonMisurati.length ? ` · ⚪ ${nonMisurati.length} NON le ho potute far girare qui (il verde non le copre)` : \"\";",
+   "sostituisci": "    const copertura = \"\";",
+   "test": "cervello/test-cervello.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-683",
+   "nome": "invertendo il filtro delle chiuse i casi «una scheda CHIUSA la cui prova è rossa adesso viene trovata» e «una prova NON ESEGUITA è ⚪» diventano rossi — verificato lanciando il test",
+   "file": "cervello/contratto-prova.mjs",
+   "cerca": "    if (!STATI_CHIUSI.has(String(d?.stato || \"\").toLowerCase())) continue;",
+   "sostituisci": "    if (STATI_CHIUSI.has(String(d?.stato || \"\").toLowerCase())) continue;",
+   "test": "cervello/test/prova-che-non-puo-fallire.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-686",
+   "nome": "togliendo la domanda sul file, tre casi diventano rossi — compreso quello che esegue `classifica` di cantiere-prove.mjs, cioè la funzione vera del report. Verificato lanciando il test.",
+   "file": "cervello/contratto-prova.mjs",
+   "cerca": "    if (!fileEsiste(v.file)) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/prova-che-non-puo-fallire.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-692",
+   "nome": "rimettendo i riaperti nel conto, «AR-692 ②: RIAPRIRE un difetto senza mutazione NON fa scattare l'allarme del debito» diventa rosso — verificato lanciando il test. I due casi di controllo che l'AD ha chiesto sono separati e verdi: ① un difetto riparato in questo lotto senza mutazione resta FERMATO anche col tetto largo (e ①bis: dichiararlo chiuso non lo salva) · ② riaprirne uno non fa più scattare l'allarme.",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  const senzaMutazioneContati = senzaMutazione.filter((x) => !riapertoAdesso(x.id));",
+   "sostituisci": "  const senzaMutazioneContati = senzaMutazione;",
+   "test": "cervello/test/mutazione-mancante.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-596",
+   "nome": "rimescolando i due gradi, «un freno coperto solo dalla mutazione di un ALTRO non conta come freno suo» diventa rosso — verificato lanciando il test",
+   "file": "cervello/contratto-prova.mjs",
+   "cerca": "    if (sueVive.length) veri.push({ lezione: l.id, gate: l.gate, file, mutazioni: sueVive.length });",
+   "sostituisci": "    if (sueVive.length || delFileVive.length) veri.push({ lezione: l.id, gate: l.gate, file, mutazioni: sueVive.length });",
+   "test": "cervello/test/prova-che-non-puo-fallire.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-685",
+   "nome": "rimettendo `process.exit(1)` il caso di AR-685 diventa rosso — verificato lanciando il test. ⚠️ Vale la pena saperlo: la PRIMA versione di questa prova usava `spawnSync` diretto e restava VERDE col fix disfatto (node legge dall'altro capo abbastanza in fretta perché il taglio non si veda). Era una prova che non poteva fallire dentro la corsia che cura le prove che non possono fallire: l'ho scoperta solo perché ho applicato la mutazione invece di dedurla. La prova adesso legge il referto come lo legge davvero giro.sh, da una pipe di shell.",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "if (GATE && bloccantiCiechiOra.length) process.exitCode = 1;",
+   "sostituisci": "if (GATE && bloccantiCiechiOra.length) process.exit(1);",
+   "test": "cervello/test/prova-che-non-puo-fallire.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-678",
+   "nome": "spegnendo il filtro del perimetro dichiarato, «con il perimetro dichiarato resta soltanto ciò che è mio» diventa rosso — verificato lanciando il test",
+   "file": "cervello/tetto-guardiano.mjs",
+   "cerca": "    if (solo && !solo.has(p)) continue;",
+   "sostituisci": "    if (false) continue;",
+   "test": "cervello/test/prova-che-non-puo-fallire.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-565",
+   "nome": "sostituendo l'import con una copia locale che non misura niente, i casi «la definizione di freno vero è UNA» e «il guardiano dei gate dice il numero» diventano rossi — verificato lanciando il test (l'import è provato usato: `misuraFreni` compare due volte in gate-veri.mjs, l'import e la chiamata).",
+   "file": "cervello/gate-veri.mjs",
+   "cerca": "import { misuraFreni } from \"./contratto-prova.mjs\";",
+   "sostituisci": "const misuraFreni = () => ({ dichiarati: 0, veri: [], perFile: [], violazioni: [] });",
+   "test": "cervello/test/prova-che-non-puo-fallire.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-684",
+   "nome": "rimettendo «da fare = aperto + in corso» diventano rossi tre casi (la somma sul cantiere vero, lo stato mai visto prima, l'accordo con il Pannello) — verificato lanciando il test",
+   "file": "cervello/atti-veri.mjs",
+   "cerca": "    da_fare: lista.length - chiusi,",
+   "sostituisci": "    da_fare: aperti + in_corso,",
+   "test": "cervello/test/parola-senza-padrone.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-671",
+   "nome": "togliendo il conteggio degli ignoti diventano rossi due casi (il caso a tavolino e il referto vero della salute onesta) — verificato lanciando il test",
+   "file": "cervello/atti-veri.mjs",
+   "cerca": "      if (!giaChiuso) ignoti++;",
+   "sostituisci": "      if (false) ignoti++;",
+   "test": "cervello/test/parola-senza-padrone.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-670",
+   "nome": "rimettendo il filtro a mano diventano rossi due casi (il componente passa dalla porta unica · nessun punto nuovo conta a mano) — verificato lanciando il test",
+   "file": "pannello/src/components/cervello/RadiografiaDiSe.tsx",
+   "cerca": "  const aperti = difetti.filter((x) => !eChiuso(x));",
+   "sostituisci": "  const aperti = difetti.filter((x) => x.stato !== \"chiuso\");",
+   "test": "cervello/test/parola-senza-padrone.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-700",
+   "nome": "rimettendo la lettura a un livello solo diventano rossi 6 casi su 7 — verificato lanciando il test",
+   "file": "cervello/censimento-macchina.mjs",
+   "cerca": "  const cervelloScript = sottoAlbero(p(\"cervello\"), [\".mjs\", \".sh\"], [\"test\"]);",
+   "sostituisci": "  const cervelloScript = [...fileCon(p(\"cervello\"), \".mjs\"), ...fileCon(p(\"cervello\"), \".sh\")];",
+   "test": "cervello/test/censimento-che-non-scende.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-687",
+   "nome": "staccando l'aggancio nel giro diventano rossi due casi (l'età dentro il prompt · il vincolo che resta ma invecchiato) — verificato applicando la mutazione, lanciando il test e rimettendo a posto. Provata anche l'altra metà: togliendo il ramo «non lo so» dal modulo diventano rossi altri due casi",
+   "file": "cervello/giro.sh",
+   "cerca": "  CRONICITA_BLOCCO=\"$_cron_out\"",
+   "sostituisci": "  CRONICITA_BLOCCO=\"\"",
+   "test": "cervello/test/vincolo-cronico.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-651",
+   "nome": "rimettendo il calcolo che ignora il numero più alto del giorno diventano rossi tre casi (il buco nella numerazione, la lista in disordine, e le due scritture di fila sulla copia dell'archivio vero che tornano a partire da uno) — verificato applicando la mutazione, lanciando il test e rimettendo a posto",
+   "file": "cervello/lezione-nuova.mjs",
+   "cerca": "    if (Number.isFinite(n) && n > massimo) massimo = n;",
+   "sostituisci": "    if (false) massimo = n;",
+   "test": "cervello/test/porta-delle-lezioni.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-675",
+   "nome": "togliendo l'apertura del testo dall'atterraggio, 3 casi su 26 diventano rossi — verificato lanciando il test",
+   "file": "pannello/src/lib/stato-card.ts",
+   "cerca": "  return conCasella(stato, id, { card: true, testo: true });",
+   "sostituisci": "  return conCasella(stato, id, { card: true });",
+   "test": "cervello/test/c4-decisione-fuori-da-react.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-615",
+   "nome": "facendo dire al freno «non è premuto nulla», 2 casi diventano rossi, fra cui la simulazione del doppio dito — verificato",
+   "file": "pannello/src/lib/stato-card.ts",
+   "cerca": "  return Boolean((stato || NESSUNO_PREMUTO)[id]);",
+   "sostituisci": "  return false;",
+   "test": "cervello/test/c4-decisione-fuori-da-react.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-616",
+   "nome": "togliendo il filtro dalla porta unica, il caso del titolo storico con sigla e percorso diventa rosso — verificato",
+   "file": "pannello/src/lib/stato-card.ts",
+   "cerca": "  return pulisciTitolo(testoPulito(grezzo));",
+   "sostituisci": "  return String(grezzo || \"\");",
+   "test": "cervello/test/c4-decisione-fuori-da-react.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-613",
+   "nome": "rimettendo un bottone dentro la linguetta il caso «nessun comando dentro un altro comando» diventa rosso; togliendo il ruolo di scheda diventano rossi altri due casi — verificato guidando il Pannello vero",
+   "file": "pannello/src/components/aree/Azioni.tsx",
+   "cerca": "<summary className=\"list-none cursor-pointer select-none min-h-[44px]\">",
+   "sostituisci": "<summary className=\"list-none cursor-pointer select-none min-h-[44px]\"><button type=\"button\">x</button>",
+   "test": "cervello/test/c4-schermo-coda.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-614",
+   "nome": "togliendo la gemella scura dal bordo rosso, il caso «NESSUNA classe resta indietro» diventa rosso — verificato. ATTENZIONE, e lo scrivo perché è la cosa più utile di tutto il frammento: lo STESSO mutante lascia VERDE il caso guidato dal browser. Sulla pagina ci sono altri riquadri con la stessa tinta e la gemella scritta a mano, e la misura finisce su uno di quelli. Il caso a runtime racconta un fatto vero ma non distingue il Pannello curato da quello malato: la rete è quella della tavolozza. È scritto anche in testa al file di prova.",
+   "file": "pannello/src/lib/stato-card.ts",
+   "cerca": "  rosso: \"border-red-200 dark:border-red-900/50\",",
+   "sostituisci": "  rosso: \"border-red-200\",",
+   "test": "cervello/test/c4-decisione-fuori-da-react.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-673",
+   "nome": "togliendo il consumo del cancelletto messo da parte, il caso «si consuma — la casella non salta due volte» diventa rosso — verificato. Il caso guidato dal browser l'ho TOLTO invece di lasciarlo: era rosso una volta sì e una no, e un caso che suona a caso dopo due volte lo si guarda senza crederci. Il salto l'ho visto avvenire davvero (la pagina scorre di 296 punti e la casella si ferma a 96 dal bordo), ma in coda agli altri casi cadeva da solo. Il motivo è scritto in testa al file di prova a schermo.",
+   "file": "pannello/src/lib/nav.ts",
+   "cerca": "  ancoraPendente = null;",
+   "sostituisci": "  // ancoraPendente = null;",
+   "test": "cervello/test/c4-decisione-fuori-da-react.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-607",
+   "nome": "rimettendo la promessa larga sulla schermata che copre tutto, 2 casi diventano rossi — verificato",
+   "file": "pannello/src/lib/stato-card.ts",
+   "cerca": "    promessa: \"Questa volta è caduto tutto, non solo una casella. Ricarica la pagina: se torna subito, era un intoppo passeggero.\",",
+   "sostituisci": "    promessa: \"Il resto del Pannello funziona. Ricarica la pagina.\",",
+   "test": "cervello/test/c4-decisione-fuori-da-react.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-665",
+   "nome": "rimettendo la copia di un file solo, 8 casi su 10 diventano rossi (compresi i due nuovi) — verificato lanciando il test",
+   "file": "cervello/test/peso-file-cabina.test.mjs",
+   "cerca": "  copiaConModuli(GUARDIANO, dir);",
+   "sostituisci": "  cpSync(GUARDIANO, join(dir, \"cervello/peso-file-cabina.mjs\"));",
+   "test": "cervello/test/peso-file-cabina.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-666",
+   "nome": "rimesso l'offset cablato nel punto che DECIDE (il battito che accende il motore AI) il test diventa rosso sul timbro invernale — verificato. E non solo lì: rotti uno per uno tutti e dieci i file curati, tutti e dieci diventano rossi (delta-gate, freschezza-intelligence, intelligence-agenda, sonda-volano, piani-data, tetti-archivio, esito-scrittura, sentinella-motore, cristallizza-apprendimento, peso-file-cabina).",
+   "file": "cervello/delta-gate.mjs",
+   "cerca": "  const ore = oreDaTimbro(`${y}-${mo}-${d} ${h}:${mi}`, Date.now());",
+   "sostituisci": "  const ore = (Date.now() - new Date(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`).getTime()) / 3600000;",
+   "test": "cervello/test/ora-scritta-a-mano-nel-cervello.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-676",
+   "nome": "il filtro torna a guardare una famiglia sola e chiama «vuoto» cio che non ha cercato",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "  const i = process.argv.indexOf(\"--solo\");",
+   "sostituisci": "  const i = -1; process.argv.indexOf(\"--solo\");",
+   "test": "cervello/test/prova-che-non-puo-fallire.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-677",
+   "nome": "il perimetro smette di scendere nelle sottocartelle e torna a dichiarare meta macchina",
+   "file": "cervello/perimetro.mjs",
+   "cerca": "        if (ammesso(rel + \"/_\", { escludi: opzioni.escludi })) scendi(pieno);",
+   "sostituisci": "        if (ammesso(rel + \"/_\", { escludi: opzioni.escludi })) void 0;",
+   "test": "cervello/test/import-che-esegue.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-653",
+   "nome": "la decisione torna a vivere solo nel file d ambiente, e dove quel file non c e il sensore risulta acceso",
+   "file": "cervello/verifica-sensori.mjs",
+   "cerca": "  const perDecisione = motivi?.motivi?.posthog_api?.motivo === \"decisione\";",
+   "sostituisci": "  const perDecisione = false;",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-654",
+   "nome": "la riga che dichiara la decisione torna «inerzia»: il sensore risulta spento per caso invece che per scelta",
+   "file": "cervello/sensori-motivi.json",
+   "cerca": "      \"motivo\": \"decisione\",",
+   "sostituisci": "      \"motivo\": \"inerzia\",",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-663",
+   "nome": "interrogare il guardiano torna a cambiarlo: con --json riscrive il referto invece di guardare e basta",
+   "file": "cervello/conta-blocco-mancante.mjs",
+   "cerca": "const SOLA_LETTURA = process.argv.includes(\"--sola-lettura\") || (JSON_MODE && !AGGIORNA);",
+   "sostituisci": "const SOLA_LETTURA = false;",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "L-2026-0815-002",
+   "lezione": "L-2026-0815-002",
+   "nome": "il tetto del debito «da-cablare» smette di frenare: il guardiano non si accorge piu se il buco si allarga",
+   "file": "cervello/guardia-viva-check.mjs",
+   "cerca": "  const tetto = tettoSforato(debito, registro.tetto_da_cablare);",
+   "sostituisci": "  const tetto = tettoSforato(debito, 0);",
+   "test": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs",
+   "nota": "⚠️ Questa mutazione prova che il TETTO del test e vivo, non che l'esclusione delle cartelle temporanee funzioni: quella riga nel ramo non c'e (verificato anche su origin/main). Il freno che la lezione dichiara e piu largo della difesa che esiste, e lo scrivo invece di far finta."
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-557",
+   "nome": "la guardia smette di vedere i file cancellati e il test deve accorgersene",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "      if (!nuovo && vecchio) cancellati.push(vecchio);",
+   "sostituisci": "      if (!nuovo && vecchio) [].push(vecchio);",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-672",
+   "nome": "l'ora del Pannello torna a essere costruita senza chiedere il fuso, e d'inverno mente di un'ora",
+   "file": "pannello/src/lib/verdetto-dato.ts",
+   "cerca": "    const t = Date.parse(vaultToIso(`${y}-${mo}-${d} ${h}:${mi}`));",
+   "sostituisci": "    const t = Date.parse(HARDCODE(`${y}-${mo}-${d} ${h}:${mi}`));",
+   "test": "cervello/test/orologi-inchiodati-allora-legale.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-707",
+   "nome": "togliendo il ramo del cieco, la corsa che si e tirata indietro torna a essere raccontata come «prova vacua»",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "  if (haDichiaratoDiNonGuardare(uscita)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/non-vacuita-tre-esiti.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-707",
+   "nome": "togliendo l'ancora al marcatore, una riga VERDE che cita il carattere ⚪ torna a passare per un motivo e spinge fuori il cieco vero",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  const MARCATORE = /(^[\\s\"'`·•\\-[(]*(❌|⛔|⚪)|CIECO|AssertionError|^\\s*Error\\b|^\\s*Errore\\b|^not ok\\b)/;",
+   "sostituisci": "  const MARCATORE = /(❌|⛔|⚪|CIECO|AssertionError|^\\s*Error\\b|^\\s*Errore\\b|^not ok\\b)/;",
+   "test": "cervello/test/rosso-che-non-dice-perche.test.mjs"
   }
  ]
 }

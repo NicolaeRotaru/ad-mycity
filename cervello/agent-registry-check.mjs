@@ -157,7 +157,11 @@ function estraiDeferral(desc) {
  * Collisioni description: coppie con >=2 frasi-trigger condivise verbatim + deferral assente.
  * @param {Map<string, string>} descriptions nome → description
  */
-function analizzaCollisioniDescription(descriptions) {
+// Esportata (AR-679) perché una prova la possa ESEGUIRE. La cura di AR-130 — non contare come
+// collisione i blocchi di rimando «(→ tema = **vicino**)» — viveva qui dentro senza nessun freno che
+// potesse diventare rosso: il fix c'era, la difesa no. E il difetto che copre è quello di un guardiano
+// che punisce proprio il deferral con cui il doppione si risolve, cioè che insegna a non scriverlo.
+export function analizzaCollisioniDescription(descriptions) {
   const triggerPerAgente = new Map();
   const descNorm = new Map();
   for (const [nome, desc] of descriptions) {

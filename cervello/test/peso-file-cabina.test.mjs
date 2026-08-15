@@ -10,11 +10,12 @@
 // 1 bocciato · 2 cieco.
 
 import { spawnSync } from "node:child_process";
-import { mkdtempSync, mkdirSync, writeFileSync, rmSync, cpSync, readFileSync } from "node:fs";
+import { mkdtempSync, mkdirSync, writeFileSync, rmSync, cpSync, readFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { dirname, join } from "node:path";
+import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
+import { timbroOra } from "../ora-piacenza.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -26,13 +27,42 @@ const prova = (nome, fn) => {
   catch (e) { casi.push({ nome, ok: false, err: (e.message || String(e)).split("\n")[0] }); }
 };
 
-/** Un albero finto con gli stessi percorsi del vero, e il guardiano copiato dentro. */
+/**
+ * AR-665 — LA SABBIERA PORTA CON SÉ I MODULI DI CASA, SEGUENDO LA CATENA DEGLI IMPORT.
+ *
+ * Qui prima c'era un `cpSync` solo: nell'albero finto finiva il guardiano e nient'altro. Sembra un
+ * dettaglio del test e invece era la regola che teneva viva una malattia del codice: **finché uno
+ * script deve bastare a sé stesso per poter essere provato, l'orologio di casa non si può importare
+ * e va ricopiato dentro ogni file.** La prova imponeva la duplicazione che il difetto lamentava —
+ * al punto che il guardiano portava scritto in un commento «AR-648 non riparato qui, e il motivo è
+ * questo test». Un solo `import` e sei casi diventavano «cannot find module».
+ *
+ * Il modo di copiare è quello già in casa in `cervello/test/mutazione-mancante.test.mjs`: si legge
+ * il sorgente, si seguono gli import relativi e si copiano anche le loro dipendenze. Così ciò che
+ * gira nella sabbiera è il codice di produzione com'è, non una sua versione mutilata.
+ */
+function copiaConModuli(sorgente, radiceDest, visti = new Set()) {
+  const abs = resolve(sorgente);
+  if (visti.has(abs) || !existsSync(abs)) return visti;
+  visti.add(abs);
+  const dest = join(radiceDest, relative(REPO, abs).split("\\").join("/"));
+  mkdirSync(dirname(dest), { recursive: true });
+  cpSync(abs, dest);
+  // Solo i moduli di casa (`./x.mjs`): `node:fs` e i pacchetti li risolve Node da sé.
+  const src = readFileSync(abs, "utf8");
+  for (const m of src.matchAll(/^\s*(?:import|export)\b[^"';]*from\s*["'](\.[^"']+)["']/gm)) {
+    copiaConModuli(resolve(dirname(abs), m[1]), radiceDest, visti);
+  }
+  return visti;
+}
+
+/** Un albero finto con gli stessi percorsi del vero, e il guardiano (coi suoi moduli) copiato dentro. */
 function mondo({ pesi = {}, maxLettura = "8 * 1_048_576", conObsidian = true }) {
   const dir = mkdtempSync(join(tmpdir(), "mycity-peso-"));
   mkdirSync(join(dir, "cervello"), { recursive: true });
   mkdirSync(join(dir, "pannello/src/lib"), { recursive: true });
   mkdirSync(join(dir, "MyCity-Vault/90-Memoria-AI/auto-coscienza"), { recursive: true });
-  cpSync(GUARDIANO, join(dir, "cervello/peso-file-cabina.mjs"));
+  copiaConModuli(GUARDIANO, dir);
   if (conObsidian) {
     writeFileSync(join(dir, "pannello/src/lib/obsidian.ts"), `const MAX_LETTURA = ${maxLettura};\n`);
   }
@@ -53,8 +83,12 @@ function mondo({ pesi = {}, maxLettura = "8 * 1_048_576", conObsidian = true }) 
     writeFileSync(join(dir, rel), "x".repeat(byte));
   }
   return {
-    gira: (args = []) => {
-      const r = spawnSync("node", [join(dir, "cervello/peso-file-cabina.mjs"), ...args], { encoding: "utf8" });
+    dir,
+    gira: (args = [], env = {}) => {
+      const r = spawnSync("node", [join(dir, "cervello/peso-file-cabina.mjs"), ...args], {
+        encoding: "utf8",
+        env: { ...process.env, ...env },
+      });
       return { rc: r.status, out: `${r.stdout || ""}${r.stderr || ""}` };
     },
     pulisci: () => rmSync(dir, { recursive: true, force: true }),
@@ -126,6 +160,52 @@ prova("--json produce un report leggibile da una macchina", () => {
     assert.equal(j.tetto_inline, 1_048_576);
     assert.ok(Array.isArray(j.misure) && j.misure.length >= 8);
   } finally { m.pulisci(); }
+});
+
+// ── AR-665 · AR-666 — la sabbiera non costringe più il guardiano a bastare a sé stesso ──────────
+
+prova("AR-665 — nella sabbiera arrivano anche i moduli di casa che il guardiano importa", () => {
+  const m = mondo({});
+  try {
+    // Non si guarda il sorgente: si guarda l'albero finto. Se la copia seguisse un import solo per
+    // volta, questo file non ci sarebbe e il guardiano morirebbe prima di stampare qualsiasi cosa.
+    assert.ok(
+      existsSync(join(m.dir, "cervello/ora-piacenza.mjs")),
+      "l'orologio di casa deve essere copiato nella sabbiera insieme al guardiano",
+    );
+    const r = m.gira(["--json"]);
+    assert.equal(r.rc, 0, `il guardiano deve girare nella sabbiera, non morire su un import: ${r.out}`);
+    assert.doesNotMatch(r.out, /Cannot find (module|package)/i, r.out);
+  } finally {
+    m.pulisci();
+  }
+});
+
+prova("AR-666 — il referto è timbrato con l'ora di Piacenza anche su un server in UTC", () => {
+  // Il guardiano scriveva `new Date().toISOString()`: la FORMA giusta col valore di Greenwich. Alle
+  // 23:40 di Piacenza il referto diceva 21:40, e nessuno poteva accorgersene guardando il file.
+  // Roma non è MAI su UTC (d'inverno +1, d'estate +2), quindi il confronto discrimina sempre.
+  const m = mondo({});
+  try {
+    const prima = timbroOra();
+    const r = m.gira(["--json"], { TZ: "UTC" });
+    const dopo = timbroOra();
+    assert.equal(r.rc, 0, r.out);
+    const { data } = JSON.parse(r.out);
+    assert.ok(
+      data === prima || data === dopo,
+      `col server in UTC il referto dice «${data}», ma a Piacenza sono le ${prima}: è l'ora di Greenwich travestita`,
+    );
+    // Stessa domanda dall'altro fuso: la risposta non può dipendere dalla macchina che esegue.
+    const roma = JSON.parse(m.gira(["--json"], { TZ: "Europe/Rome" }).out);
+    assert.equal(
+      roma.data.slice(0, 13),
+      data.slice(0, 13),
+      `TZ=UTC dice «${data}» e TZ=Europe/Rome dice «${roma.data}»: il timbro dipende dal fuso del server`,
+    );
+  } finally {
+    m.pulisci();
+  }
 });
 
 prova("il giro lo esegue davvero (un guardiano che nessuno lancia non è una rete)", () => {

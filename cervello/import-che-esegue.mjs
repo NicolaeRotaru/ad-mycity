@@ -40,12 +40,12 @@
 //   2 = non ho potuto misurare → cieco, non «verde»
 
 import { readFileSync } from "node:fs";
-import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { AD_ROOT } from "./git-github.mjs";
 import { elencaFile } from "./perimetro.mjs";
-import { verdettoConTetto } from "./tetto-guardiano.mjs";
+import { perimetroDichiarato, verdettoConTetto } from "./tetto-guardiano.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const ELENCO = process.argv.includes("--elenco");
@@ -127,13 +127,19 @@ export function moduliMalati(moduli = []) {
  * una sua descrizione. Pura: riceve gli elenchi che git ha già dato, così la prova può metterla in
  * ogni forma senza costruire un repo.
  */
-export function malatiToccati(malati = [], fileCambiati = null, moduliMisurati = []) {
+export function malatiToccati(malati = [], fileCambiati = null, moduliMisurati = [], dichiarato = null) {
   if (fileCambiati === null) return null; // git muto → non attribuisco, e non assolvo
+  // AR-678 — su un tronco condiviso da più corsie, git risponde a «cosa è cambiato nell'albero», non
+  // a «cosa ho toccato io»: senza una dichiarazione ogni lotto si vede attribuito il lavoro di tutti.
+  // Con `LOTTO_PERIMETRO` il perimetro è quello dichiarato; senza, resta la sovrastima di git — che
+  // blocca di più, mai di meno, ed è il verso giusto in cui sbagliare.
+  const solo = dichiarato ? new Set(dichiarato) : null;
   const misurati = new Set(moduliMisurati);
   const cambiati = new Set();
   for (const f of fileCambiati) {
     const p = String(f || "").trim();
     if (!p) continue;
+    if (solo && !solo.has(p)) continue;
     const rel = p.startsWith(`${CARTELLA}/`) ? p.slice(CARTELLA.length + 1) : p;
     if (misurati.has(rel)) cambiati.add(rel);
   }
@@ -150,11 +156,23 @@ function leggiTetto() {
   return TETTO_ALLA_NASCITA;
 }
 
-/** I file che questo lotto ha cambiato, secondo git; `null` se git non ha saputo rispondere. */
+/**
+ * I file che questo lotto ha cambiato, secondo git; `null` se git non ha saputo rispondere.
+ *
+ * ⚠️ L'ELENCO DI PERCORSI SI CHIEDE ALLA PORTA, non a git a mano. Qui c'era uno `spawnSync` scritto
+ * in casa che faceva `stdout.split("\n")`: senza il `-z` che mette `percorsiDaGit`, un nome con un
+ * byte non-ASCII torna citato e in ottali — e nel vault italiano sono 26 file. Un file MIO letto col
+ * nome sbagliato non corrisponde a nessun modulo misurato, quindi risulta non-mio: il blocco duro
+ * smette di riconoscerlo, in silenzio. È la malattia censita `git-letto-senza-tetto`, e la cura non
+ * è allineare i chiamanti uno per uno: è che l'esecutore sia uno solo.
+ */
 function fileCambiati() {
   const g = (args) => {
-    const r = spawnSync("git", args, { cwd: AD_ROOT, encoding: "utf8", timeout: 30_000, maxBuffer: 32 * 1024 * 1024 });
-    return r.status === 0 ? r.stdout.split("\n") : null;
+    try {
+      return percorsiDaGit(args, { cwd: AD_ROOT });
+    } catch {
+      return null; // git non ha risposto → non attribuisco, e chi chiama non assolve
+    }
   };
   const cambiati = g(["diff", "--name-only", "HEAD"]);
   const nuovi = g(["ls-files", "--others", "--exclude-standard"]);
@@ -189,6 +207,7 @@ function main() {
     malati,
     fileCambiati(),
     moduli.map((m) => m.nome),
+    perimetroDichiarato(process.env.LOTTO_PERIMETRO),
   );
 
   if (ELENCO) {

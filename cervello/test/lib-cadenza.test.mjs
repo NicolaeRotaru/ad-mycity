@@ -57,7 +57,11 @@ ${corpo}`;
 }
 
 // ── AR-145 / AR-293 — due cadenze non possono girare insieme ─────────────────
-prova("AR-293: la seconda cadenza dello stesso tipo NON parte", async () => {
+// ⚠️ NON `async`, e non è pignoleria: questo banco lancia i casi con `fn()` secco, senza aspettarli
+// (AR-694). Un caso `async` qui restituisce una promessa che nessuno raccoglie: l'asserzione girerebbe
+// DOPO il conteggio, e un `1 = 2` stamperebbe «passati». Questo caso non ha niente da aspettare —
+// `execFileSync` e `spawn().kill()` sono sincroni — quindi la forma giusta è quella sincrona.
+prova("AR-293: la seconda cadenza dello stesso tipo NON parte", () => {
   const repo = repoFinto();
   try {
     // Primo processo: prende il lucchetto e lo tiene per un po'.

@@ -27,6 +27,7 @@ import { basename, join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { msDaTimbro } from "./ora-piacenza.mjs";
 // AR-348 — la normalizzazione del nome sta nel modulo puro della corsia: «due nomi che indicano la
 // stessa cosa devono cadere nello stesso secchio» è la stessa domanda che lì si fa sul tempo e sul
 // perimetro, applicata all'identità.
@@ -136,8 +137,11 @@ function giorniFa(dataStr) {
   const m = String(dataStr).match(/(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
   if (!m) return Infinity;
   const [, y, mo, d, h = "12", mi = "00"] = m;
-  const t = new Date(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`).getTime();
-  return Number.isNaN(t) ? Infinity : (Date.now() - t) / 86400000;
+  // AR-666 — l'offset era scritto a mano (`+02:00`): giusto d'estate, falso di un'ora da fine
+  // ottobre a fine marzo. Un quaderno fermo da 30 giorni ne dichiarava 30,04 d'estate e 29,96
+  // d'inverno, e su una soglia a giorni interi quella differenza cambia il verdetto.
+  const t = msDaTimbro(`${y}-${mo}-${d} ${h}:${mi}`);
+  return t === null ? Infinity : (Date.now() - t) / 86400000;
 }
 
 // Legge un quaderno e trova la data dell'ultimo ESITO reale (righe "- AAAA-MM-GG …" sotto ## Esiti).

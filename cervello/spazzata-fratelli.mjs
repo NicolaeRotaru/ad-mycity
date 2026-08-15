@@ -177,6 +177,79 @@ export function pesaEsenzioni(esenti = [], perFile = new Map()) {
   return { valide, orfane };
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-375 — UN CALO NON È UNA GUARIGIONE FINCHÉ QUALCUNO NON LO DIMOSTRA
+//
+// La storia, ed è la ragione per cui queste righe esistono. La malattia «l'esito di un guardiano
+// finisce in una pipe» risultava a ZERO istanze da fine luglio. Non perché fosse stata curata: il
+// consumatore era stato RINOMINATO, il pattern cercava il nome vecchio, e da quel giorno non trovava
+// più niente. Chi ha visto il numero scendere l'ha letto come conferma del proprio lavoro. Nel
+// frattempo il registro stesso ammetteva, in un altro campo, che trentacinque istanze erano ancora lì.
+//
+// I cinque perché finiscono su questo: il metro descrive la SINTASSI di ieri invece del COMPORTAMENTO
+// da vietare, e **un calo non viene mai controprovato**. Tre domande, e nessuna era mai stata fatta:
+//   ① il registro si contraddice? (dice «N istanze restano» mentre il conteggio è zero)
+//   ② il calo è spiegato col METRO invece che con una cura? («il pattern non le prende più»)
+//   ③ chi dichiara una controprova, la mantiene? (il pattern trova ancora il suo esempio noto)
+//
+// La via d'uscita legittima c'è ed è dichiarata: se un conteggio è zero perché il pattern non arriva
+// lì, si NOMINA ciò che regge il contratto al suo posto — un test, un guardiano, una controprova. È
+// la differenza fra un limite dichiarato e una guarigione inventata.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Le parole con cui un registro spiega un calo col METRO invece che con una cura. */
+export const SPIEGA_COL_METRO = /rinominat|cambiato nome|si chiama ora|non usa (?:più|piu)|il pattern non|non le prende|il consumatore/i;
+
+/** Ciò che può reggere il contratto al posto del conteggio: un test, un guardiano, una controprova. */
+export const REGGE_AL_POSTO = /cervello\/test\/[\w./-]+|node cervello\/[\w./-]+\.mjs|controprova/i;
+
+/** Quante istanze il registro stesso dichiara ancora vive, a parole («35 istanze restano»). */
+export function istanzeDichiarate(nota = "") {
+  const m = /(\d+)\s+istanz\w*\s+(?:restano|rimangono|sono rimaste|vive)/i.exec(String(nota || ""));
+  return m ? Number(m[1]) : null;
+}
+
+/**
+ * Il calo va controprovato? Torna il motivo, oppure `null` se il numero si può credere.
+ * Pura: entrano la voce del registro e il conteggio di oggi, esce un giudizio.
+ */
+export function caloNonProvato(malattia = {}, totale = 0) {
+  const nb = String(malattia.nota_baseline || "");
+  const no = String(malattia.nota_onesta || "");
+
+  // ③ Una controprova dichiarata è una promessa: il pattern DEVE trovarla. Se non la trova, il metro
+  //    non guarda più dove aveva detto — ed è il caso peggiore, perché il registro sembra in regola.
+  if (malattia.controprova) {
+    if (istanzeNelTesto(malattia, String(malattia.controprova), "controprova.txt") === 0) {
+      return {
+        tipo: "controprova-che-non-scatta",
+        motivo: `la controprova dichiarata non fa scattare il pattern: il metro non guarda più dove aveva promesso`,
+      };
+    }
+    return null; // promessa mantenuta: il numero si può credere
+  }
+
+  // ① Il registro si contraddice da solo: a parole dice che ne restano, a numero dice ZERO.
+  //    Solo lo zero, non un calo qualsiasi: un conteggio che scende da 22 a 8 è gente che ha curato,
+  //    e la nota è la fotografia del giorno in cui è stata scritta. Sparire del tutto è un'altra cosa.
+  const restano = istanzeDichiarate(no) ?? istanzeDichiarate(nb);
+  if (totale === 0 && restano !== null && restano > 0) {
+    return {
+      tipo: "registro-si-contraddice",
+      motivo: `il registro dichiara ${restano} istanze ancora vive e il conteggio ne trova ${totale}: uno dei due è falso, e finché non si sa quale il numero non vale`,
+    };
+  }
+
+  // ② Un conteggio a zero spiegato col metro, senza nominare niente che regga il contratto al posto suo.
+  if (totale === 0 && SPIEGA_COL_METRO.test(nb) && !REGGE_AL_POSTO.test(nb)) {
+    return {
+      tipo: "calo-spiegato-col-metro",
+      motivo: "la nota spiega lo zero con un rinominamento o con un pattern che non arriva più lì, non con una cura: è un metro che ha smesso di guardare, non una malattia guarita",
+    };
+  }
+  return null;
+}
+
 function main() {
   if (!existsSync(REGISTRO)) {
     console.error(`⚠️  SPAZZATA CIECA: manca ${relative(REPO, REGISTRO)} — non so quali malattie cercare.`);
@@ -243,10 +316,13 @@ function main() {
     // la baseline da 36 a 999 lo lasciava verde. Un tetto più alto del conteggio vero non è prudenza,
     // è margine regalato a sé stessi. Se hai curato qualcosa, il tetto DEVE scendere con te.
     const tettoGonfiato = baseline > totaleNetto;
-    if (fileNuovi.length || cresciuta || tettoGonfiato || esentiOrfane.length) {
+    // AR-375 — e prima di credere al numero, si controlla che il numero sia credibile.
+    const calo = caloNonProvato(m, totaleNetto);
+    if (fileNuovi.length || cresciuta || tettoGonfiato || esentiOrfane.length || calo) {
       nuoviTot += fileNuovi.length || esentiOrfane.length || 1;
     }
     rapporto.push({
+      calo_non_provato: calo,
       id: m.id,
       nome: m.nome,
       totale: totaleNetto,          // AR-334: al netto delle esenzioni dichiarate e verificate
@@ -280,6 +356,11 @@ function main() {
       if (r.esenti_orfane.length) {
         console.log(`     ❌ ${r.esenti_orfane.length} ESENZIONE/I che non corrisponde più a niente (residuo che nasconde il prossimo caso vero):`);
         for (const e of r.esenti_orfane) console.log(`        · ${e}`);
+      }
+      if (r.calo_non_provato) {
+        console.log(`     ❌ CALO NON PROVATO (${r.calo_non_provato.tipo}): ${r.calo_non_provato.motivo}`);
+        console.log(`        → riscrivi il pattern sul COMPORTAMENTO da vietare e rimetti la partenza sul numero vero,`);
+        console.log(`          oppure dichiara nel registro la «controprova»: un testo che il pattern DEVE trovare.`);
       }
       if (r.cresciuta) console.log(`     ❌ CRESCIUTA: ${r.totale} istanze contro le ${r.baseline} di partenza.`);
       if (r.tetto_gonfiato)

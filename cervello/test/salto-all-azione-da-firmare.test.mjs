@@ -109,11 +109,27 @@ test("il tetto viene da coda-azioni, non è ricopiato qui", () => {
   assert.equal(saltoAllAzione("Ordine speciale del panettiere", corte, false).srotola, false);
 });
 
-test("la decisione è collegata al bottone, e apre lo stato GIUSTO", () => {
+test("la decisione è collegata al bottone, e apre lo stato GIUSTO", async () => {
   const az = readFileSync(join(REPO, "pannello/src/components/aree/Azioni.tsx"), "utf8");
   const corpo = az.slice(az.indexOf("function vaiAllAzione("), az.indexOf("// «Da approvare» ="));
   assert.match(corpo, /saltoAllAzione\(/, "il bottone deve usare la decisione provata");
-  assert.match(corpo, /setScelteCard\(/, "è `scelteCard` ad aprire la card della coda, non `aperte`");
   assert.match(corpo, /setMostraTuttaCoda\(true\)/, "e la coda va srotolata quando serve");
   assert.match(az, /avvisoSalto/, "l'avviso «non l'ho trovata» dev'essere mostrato a schermo");
+
+  // ── AGGIORNATA NEL LOTTO 42 (AR-675), e vale la pena dire perché ──────────
+  //
+  // Qui c'era scritto: «è `scelteCard` ad aprire la card della coda, non `aperte`». Quella riga
+  // cercava nel file il NOME di uno dei due stati — cioè inchiodava l'ambiguità che aveva generato
+  // questo difetto: due memorie con nomi quasi uguali, e chi scriveva ne azzeccava una a caso. Una
+  // prova così diventa rossa proprio quando qualcuno cura la causa, e allora chi ripara sembra
+  // avere torto.
+  //
+  // Adesso la memoria è UNA e la regola si esegue invece di leggerla: chi atterra su un'azione
+  // trova la scheda aperta E il testo dentro, in una chiamata sola. Non c'è più uno stato sbagliato
+  // da scegliere, quindi non c'è più un nome da inchiodare.
+  const M = await import(join(REPO, "pannello/src/lib/stato-card.ts"));
+  const dopo = M.apriPerAtterraggio(M.NESSUNA_CARTA, "a-42");
+  assert.equal(M.cardAperta(dopo, "a-42", 7), true, "la scheda della coda dev'essere aperta, anche se non è la prima");
+  assert.equal(M.testoAperto(dopo, "a-42"), true, "e il testo esatto dentro, come prima");
+  assert.match(corpo, /apriPerAtterraggio\(/, "il salto deve passare dall'atterraggio unico, non riaprire stati a mano");
 });

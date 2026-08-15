@@ -26,21 +26,34 @@
 //
 // 🟢 Sola lettura sul cantiere; scrive il suo referto in auto-coscienza/tasso-chiusura.json.
 //
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-639 — MISURARE NON DEVE SPORCARE L'ALBERO
+// ─────────────────────────────────────────────────────────────────────────────
+// Osservato il 13/8: `git diff` pulito, si lancia questo comando per LEGGERE il voto, e il diff non
+// è più pulito — l'unica riga cambiata è l'ora. Chi verifica il proprio lavoro si ritrova un file
+// modificato che non è suo, e impara a non verificare. Adesso il referto si riscrive solo quando è
+// cambiato qualcosa oltre l'orologio (`decidiScrittura` + `contenutoSostanziale`), e chi vuole
+// l'assoluta certezza di non lasciare impronte ha `--sola-lettura`.
+//
 // Uso:
 //   node cervello/tasso-chiusura.mjs           → il referto a voce (exit 0 sempre)
 //   node cervello/tasso-chiusura.mjs --gate    → exit 1 se sotto obiettivo (è il freno del giro)
 //   node cervello/tasso-chiusura.mjs --json    → il referto in JSON
+//   node cervello/tasso-chiusura.mjs --sola-lettura → non tocca il referto per nessun motivo
 
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
+import { decidiScrittura, timbroProvenienza } from "./scrittura-misura.mjs";
 
 const GATE = process.argv.includes("--gate");
 const JSON_MODE = process.argv.includes("--json");
+const SOLA_LETTURA = process.argv.includes("--sola-lettura");
 
 const CANTIERE = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json");
-const REFERTO = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/tasso-chiusura.json");
+// Deviabile per le prove: un banco che scrive nel referto vero è un banco che si smette di lanciare.
+const REFERTO = process.env.TASSO_CHIUSURA_FILE || join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/tasso-chiusura.json");
 
 /** L'obiettivo: chiudere almeno quanto si apre. */
 export const OBIETTIVO = 1;
@@ -194,8 +207,21 @@ function main() {
   };
   const nBuchi = Object.values(registriBucati).reduce((a, x) => a + x.length, 0);
 
-  const referto = { _cosa_e: "Quanti difetti la macchina chiude, diviso quanti ne apre. Obiettivo: almeno 1. Sotto 1 il giro chiude invece di cercare.", misurato: quando, mese, ...conto, tasso: v.tasso, esito: v.esito, detto: v.detto, obiettivo: OBIETTIVO, minimo_campione: MINIMO_CAMPIONE, registri_bucati: registriBucati, per_mese: storico };
-  scriviJsonAtomico(REFERTO, referto);
+  // AR-568 (a) · AR-286: la copertura è quante schede ho davvero letto. Due voti calcolati su 552
+  // schede e su 3 non sono confrontabili, e finora si somigliavano.
+  const referto = { _cosa_e: "Quanti difetti la macchina chiude, diviso quanti ne apre. Obiettivo: almeno 1. Sotto 1 il giro chiude invece di cercare.", misurato: quando, ...timbroProvenienza({ env: process.env, copertura: difetti.length, scrittoDa: "tasso-chiusura.mjs" }), mese, ...conto, tasso: v.tasso, esito: v.esito, detto: v.detto, obiettivo: OBIETTIVO, minimo_campione: MINIMO_CAMPIONE, registri_bucati: registriBucati, per_mese: storico };
+  // AR-639: si riscrive solo se è cambiato qualcosa OLTRE l'ora. Il timbro non è la notizia.
+  let precedente = null;
+  let leggibile = true;
+  try {
+    if (existsSync(REFERTO)) precedente = JSON.parse(readFileSync(REFERTO, "utf8"));
+  } catch {
+    // Un errore di lettura NON diventa «non c'era niente prima»: sarebbe un errore travestito da
+    // misura. Si dichiara, e la decisione lo tratta come una riparazione.
+    leggibile = false;
+  }
+  const scelta = decidiScrittura({ solaLettura: SOLA_LETTURA, misuraNuova: referto, misuraVecchia: precedente, vecchiaLeggibile: leggibile });
+  if (scelta.scrivi) scriviJsonAtomico(REFERTO, referto);
 
   if (JSON_MODE) {
     console.log(JSON.stringify(referto, null, 1));

@@ -8,7 +8,11 @@
 // Import relativo e non `@/lib/format`: l'alias lo risolve solo Next, quindi finché c'era questo
 // file — 300 righe che decidono cosa Nicola vede nella coda — non poteva avere UNA prova. È così
 // che il difetto della mezza emoji è vissuto indisturbato. Stessa forma di `lavori-gruppo.ts`.
-import { comeTesto } from "./format";
+// L'estensione è esplicita di proposito: è così che un test di `cervello/test/` può caricare questo
+// modulo con Node senza compilarlo prima. Senza, il filtro dei titoli resta una cosa che solo il
+// sito sa eseguire — e nessuna prova può toccarlo. (È la convenzione già seguita da nav.ts,
+// salto-azione.ts, freschezza-intelligence.ts.)
+import { comeTesto } from "./format.ts";
 
 export type AzioneAttesa = {
   numero: string;

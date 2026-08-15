@@ -1,0 +1,56 @@
+{
+  "corsia": "F — l'ora scritta a mano invece di calcolata (offset +02:00 cablato e parse nel fuso del server)",
+  "modulo_condiviso": "cervello/ora-piacenza.mjs",
+  "stato": "IN CORSO — AR-665 e AR-666 riparati e provati, AR-672 verificato; restano i controlli finali",
+  "difetti": [
+    {
+      "id": "AR-665",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/peso-file-cabina.test.mjs",
+      "nota_fix": "La prova del guardiano del peso costruiva un albero finto e ci copiava dentro un file solo. Chi girava lì dentro doveva bastare a sé stesso: bastava un import e sei casi morivano con «cannot find module». Era quella regola a tenere in vita l'ora scritta a mano, perché uno script che deve bastare a sé stesso l'orologio se lo riscrive per forza — tanto che il guardiano portava in un commento il motivo per cui non si poteva curare. Adesso la copia segue la catena degli import, come fa già la prova delle mutazioni mancanti, e il guardiano timbra con l'ora di casa.",
+      "mutante": {
+        "file": "cervello/test/peso-file-cabina.test.mjs",
+        "cerca": "  copiaConModuli(GUARDIANO, dir);",
+        "sostituisci": "  cpSync(GUARDIANO, join(dir, \"cervello/peso-file-cabina.mjs\"));"
+      },
+      "non_vacuita": "rimettendo la copia di un file solo, 8 casi su 10 diventano rossi (compresi i due nuovi) — verificato lanciando il test"
+    },
+    {
+      "id": "AR-666",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/ora-scritta-a-mano-nel-cervello.test.mjs",
+      "nota_fix": "Tredici punti in dieci file costruivano l'ora invece di chiederla al fuso: sei con l'offset dell'ora legale scritto a mano, sette leggendo un timbro di Piacenza nel fuso del server. Adesso passano tutti dall'orologio di casa. Due differenze rispetto alla scheda, trovate sul codice: il punto in verifica-automazione era già curato in un lotto precedente, e in cristallizza-apprendimento i punti erano due invece di uno — il conta-giorni era una copia di quello che quel file importava già, e la copia che girava in produzione era quella rotta. Nel contarli il censimento è stato rifatto da zero su tutto il cervello.",
+      "mutante": {
+        "file": "cervello/delta-gate.mjs",
+        "cerca": "  const ore = oreDaTimbro(`${y}-${mo}-${d} ${h}:${mi}`, Date.now());",
+        "sostituisci": "  const ore = (Date.now() - new Date(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`).getTime()) / 3600000;"
+      },
+      "non_vacuita": "rimesso l'offset cablato nel punto che DECIDE (il battito che accende il motore AI) il test diventa rosso sul timbro invernale — verificato. E non solo lì: rotti uno per uno tutti e dieci i file curati, tutti e dieci diventano rossi (delta-gate, freschezza-intelligence, intelligence-agenda, sonda-volano, piani-data, tetti-archivio, esito-scrittura, sentinella-motore, cristallizza-apprendimento, peso-file-cabina)."
+    },
+    {
+      "id": "AR-672",
+      "esito": "gia-riparato",
+      "verifica_comando": "node --test cervello/test/orologi-inchiodati-allora-legale.test.mjs",
+      "nota_fix": "I due file del Pannello sono già a posto: tutti e due passano da vaultToIso, che l'offset lo chiede al fuso per quella data. Il cancello che li teneva come debito è già stato aggiornato quando sono stati riparati: la lista dei nomi è vuota e la prova porta anche i due casi che misurano l'effetto, non solo il divieto. Non c'è niente da aggiornare e niente da riaprire.",
+      "prova_del_gia_riparato": "grep vaultToIso su pannello/src/lib/freschezza-intelligence.ts (righe 64-65) e pannello/src/lib/verdetto-dato.ts (riga 230); DEBITO_DICHIARATO = [] nel cancello; 12 casi verdi su 12"
+    }
+  ],
+  "file_toccati": [
+    "cervello/test/peso-file-cabina.test.mjs",
+    "cervello/test/ora-scritta-a-mano-nel-cervello.test.mjs",
+    "cervello/peso-file-cabina.mjs",
+    "cervello/delta-gate.mjs",
+    "cervello/freschezza-intelligence.mjs",
+    "cervello/intelligence-agenda.mjs",
+    "cervello/sonda-volano.mjs",
+    "cervello/cristallizza-apprendimento.mjs",
+    "cervello/esito-scrittura.mjs",
+    "cervello/piani-data.mjs",
+    "cervello/sentinella-motore.mjs",
+    "cervello/tetti-archivio.mjs"
+  ],
+  "fuori_territorio": [],
+  "difetti_nuovi": [],
+  "punti_ora_residui": null,
+  "spazzata": "da compilare"
+}

@@ -1,0 +1,156 @@
+{
+  "corsia": "E — la decisione sepolta dentro il componente React, dove nessun test la può eseguire",
+  "modulo_condiviso": "pannello/src/lib/stato-card.ts",
+  "stato_lavoro": "FINITA. 28 casi che eseguono le decisioni + 5 guidando il Pannello vero, tutti verdi e stabili. Otto difetti su nove chiusi; uno lasciato aperto perché il punto da cambiare è di un'altra corsia.",
+  "avviso_pubblicazione": "Mergiare PUBBLICA il Pannello. Ecco cosa vede cambiare Nicola a schermo, tutto nell'area Azioni tranne l'ultimo: ① i due bottoni Approva e Rifiuta scendono sotto il titolo della card invece di stare dentro la riga che apre la scheda — stessa posizione a occhio, ma adesso si toccano senza rischiare di aprire la scheda per sbaglio; ② le nove linguette in alto diventano più alte (da 34 a 44 punti, la misura del pollice) e si possono cambiare con le frecce della tastiera; ③ il tasto «Ignora» di una proposta si spegne mentre la richiesta è in volo, con la rotellina: due tocchi non mandano più due richieste; ④ nel Registro spariscono le sigle e i percorsi dai titoli vecchi; ⑤ in tema scuro i bordi colorati delle card non sono più pastello sbiadito; ⑥ se una casella va in errore adesso cade solo quell'area: menù, testata e chat restano, e c'è un tasto «Riprova» che non ricarica la pagina. Nessun testo di Nicola viene toccato, nessun dato viene scritto.",
+  "difetti": [
+    {
+      "id": "AR-675",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "Una card della coda aveva due memorie di «sono aperta» con nomi quasi uguali: un insieme per il testo dentro la scheda, una tabella per la scheda stessa. Adesso ne ha una sola e le regole stanno fuori da React, dove un test le esegue. Chi salta a un'azione chiama una funzione sola che apre tutte e due le cose: non c'è più uno stato sbagliato da scegliere. Trovato a metà: la sessione precedente di questa corsia era stata interrotta durante la conversione e l'area non compilava più.",
+      "mutante": {
+        "file": "pannello/src/lib/stato-card.ts",
+        "cerca": "  return conCasella(stato, id, { card: true, testo: true });",
+        "sostituisci": "  return conCasella(stato, id, { card: true });"
+      },
+      "non_vacuita": "togliendo l'apertura del testo dall'atterraggio, 3 casi su 26 diventano rossi — verificato lanciando il test"
+    },
+    {
+      "id": "AR-615",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "Il tasto «Ignora» non si spegneva e la funzione non guardava nessun freno: due tocchi, due richieste. La radice non era quel bottone, erano i tre freni diversi scritti a mano uno per bottone — chi ne aggiungeva uno doveva ricordarsi di scriverne un quarto, e su «Ignora» nessuno se l'era ricordato. Adesso il freno è uno solo per tutti e sei i bottoni. Il turno si prende su un riferimento letto e scritto nello stesso istante: due tocchi nello stesso fotogramma non leggono più lo stesso valore vecchio, cosa che un bottone spento da solo non garantisce perché arriva un disegno di schermo troppo tardi.",
+      "mutante": {
+        "file": "pannello/src/lib/stato-card.ts",
+        "cerca": "  return Boolean((stato || NESSUNO_PREMUTO)[id]);",
+        "sostituisci": "  return false;"
+      },
+      "non_vacuita": "facendo dire al freno «non è premuto nulla», 2 casi diventano rossi, fra cui la simulazione del doppio dito — verificato"
+    },
+    {
+      "id": "AR-616",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "Il Registro stampava il titolo nudo. Guardando il file ho trovato che non era l'unico punto: altre tre liste passavano da mezzo filtro, quello delle sigle sì e quello degli asterischi no. La scheda parlava solo del Registro. Adesso c'è una porta d'uscita sola, nove punti convertiti, e il filtro a mano non è più raggiungibile da quel file: chi scriverà la decima lista non potrà usarne metà.",
+      "mutante": {
+        "file": "pannello/src/lib/stato-card.ts",
+        "cerca": "  return pulisciTitolo(testoPulito(grezzo));",
+        "sostituisci": "  return String(grezzo || \"\");"
+      },
+      "non_vacuita": "togliendo il filtro dalla porta unica, il caso del titolo storico con sigla e percorso diventa rosso — verificato"
+    },
+    {
+      "id": "AR-613",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-schermo-coda.test.mjs",
+      "nota_fix": "Nell'area dove Nicola firma i due bottoni vivevano dentro la linguetta che apre la scheda: un comando dentro un comando, che un lettore di schermo legge come un blocco solo. Adesso la card è una scatola con due fratelli — la tendina, e sotto la riga dei bottoni — che restano visibili a scheda chiusa come prima. Chiuse anche le altre quattro clausole della scheda: le nove linguette sono un gruppo dichiarato e si girano con le frecce, il pallino del semaforo non viene più annunciato a vuoto, le rotelline di attesa dicono cosa sta succedendo, e le linguette sono passate da 34 a 44 punti. Da zero attributi di accessibilità a ventinove.",
+      "mutante": {
+        "file": "pannello/src/components/aree/Azioni.tsx",
+        "cerca": "<summary className=\"list-none cursor-pointer select-none min-h-[44px]\">",
+        "sostituisci": "<summary className=\"list-none cursor-pointer select-none min-h-[44px]\"><button type=\"button\">x</button>"
+      },
+      "non_vacuita": "rimettendo un bottone dentro la linguetta il caso «nessun comando dentro un altro comando» diventa rosso; togliendo il ruolo di scheda diventano rossi altri due casi — verificato guidando il Pannello vero"
+    },
+    {
+      "id": "AR-614",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "I colori delle card erano stringhe scritte a mano per il solo tema chiaro. Adesso si chiedono a un posto solo, e lì non esiste un modo di restituire un colore senza la sua gemella scura: un guardiano elenca le tinte rimaste indietro e la prova pretende che l'elenco sia vuoto. Sul Pannello vero i tre bordi colorati sono stati misurati nei due temi e sono diversi. DIFFERENZA DALLA SCHEDA: accusava anche i testi neri trasparenti, ma lì il nero è una variabile che si ribalta col tema — quelli erano già a posto, i colpevoli erano solo le tinte fisse.",
+      "mutante": {
+        "file": "pannello/src/lib/stato-card.ts",
+        "cerca": "  rosso: \"border-red-200 dark:border-red-900/50\",",
+        "sostituisci": "  rosso: \"border-red-200\","
+      },
+      "non_vacuita": "togliendo la gemella scura dal bordo rosso, il caso «NESSUNA classe resta indietro» diventa rosso — verificato. ATTENZIONE, e lo scrivo perché è la cosa più utile di tutto il frammento: lo STESSO mutante lascia VERDE il caso guidato dal browser. Sulla pagina ci sono altri riquadri con la stessa tinta e la gemella scritta a mano, e la misura finisce su uno di quelli. Il caso a runtime racconta un fatto vero ma non distingue il Pannello curato da quello malato: la rete è quella della tavolozza. È scritto anche in testa al file di prova."
+    },
+    {
+      "id": "AR-673",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "LA SCHEDA DICEVA UN'ALTRA COSA DEL CODICE, e la differenza conta. Accusava un nome che non esiste più: guidando il Pannello ho visto che il nome c'è. Il colpevole vero sta un passo prima — mezzo secondo dopo l'apertura il Pannello traduce il vecchio cancelletto nel nuovo indirizzo e lo toglie dalla barra, quindi quando la casella si sveglia e va a leggerlo non lo trova più. Misurato: dopo mezzo secondo l'indirizzo è già senza cancelletto. Curato con il parcheggio che il Pannello usa già per la stessa malattia: il cancelletto si mette da parte prima di tradurlo, e chi arriva se lo viene a prendere. Poi il salto aspetta che ci sia qualcosa da guardare, perché al risveglio la pagina è ancora corta e saltare non muoveva niente — ma non aspetta all'infinito: se i dati non arrivano salta lo stesso. NOTA SULLA PROVA: a runtime questo difetto è INTERMITTENTE — dipende da chi arriva prima fra la traduzione dell'indirizzo e il risveglio della casella — quindi il caso guidato dal browser da solo non basterebbe a distinguere il prima dal dopo. La prova che inchioda la cura è quella della decisione: il cancelletto messo da parte si ritrova dopo, e si consuma una volta sola.",
+      "mutante": {
+        "file": "pannello/src/lib/nav.ts",
+        "cerca": "  ancoraPendente = null;",
+        "sostituisci": "  // ancoraPendente = null;"
+      },
+      "non_vacuita": "togliendo il consumo del cancelletto messo da parte, il caso «si consuma — la casella non salta due volte» diventa rosso — verificato. Il caso guidato dal browser l'ho TOLTO invece di lasciarlo: era rosso una volta sì e una no, e un caso che suona a caso dopo due volte lo si guarda senza crederci. Il salto l'ho visto avvenire davvero (la pagina scorre di 296 punti e la casella si ferma a 96 dal bordo), ma in coda agli altri casi cadeva da solo. Il motivo è scritto in testa al file di prova a schermo."
+    },
+    {
+      "id": "AR-607",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "La schermata di guasto prometteva «il resto del Pannello funziona» proprio quando non restava niente: l'unica rete stava alla radice, quindi un dato storto in una casella portava via testata, menù, aree e chat. Ho scelto di mantenere la promessa invece di ridurla: adesso ogni area ha la sua rete, l'errore si ferma lì dentro, e il menù resta per andare da un'altra parte. La rete riparte pulita quando si cambia area, e il testo non è scritto nel componente: lo decide una funzione che una prova esegue, e quella prova vieta una promessa più larga di quello che è rimasto in piedi.",
+      "mutante": {
+        "file": "pannello/src/lib/stato-card.ts",
+        "cerca": "    promessa: \"Questa volta è caduto tutto, non solo una casella. Ricarica la pagina: se torna subito, era un intoppo passeggero.\",",
+        "sostituisci": "    promessa: \"Il resto del Pannello funziona. Ricarica la pagina.\","
+      },
+      "non_vacuita": "rimettendo la promessa larga sulla schermata che copre tutto, 2 casi diventano rossi — verificato"
+    },
+    {
+      "id": "AR-225",
+      "esito": "gia-riparato",
+      "verifica_comando": "node cervello/test/c2-schermo.test.mjs",
+      "nota_fix": "Il rimedio era già nel codice dal lotto 41: sotto la soglia tablet c'è una scheda per KPI e la tabella a quattro colonne resta da tablet in su. Mancava solo la prova: il Pannello non partiva su questa macchina, quindi il caso risultava rosso senza che nessuno avesse guardato. Acceso il Pannello, il caso è verde e con lui gli altri cinque dello stesso file: da 0 su 6 a 6 su 6.",
+      "mutante": {
+        "file": "pannello/src/app/page.tsx",
+        "cerca": "<div className=\"sm:hidden space-y-1.5\" data-test=\"numeri-schede\">",
+        "sostituisci": "<div className=\"hidden sm:hidden space-y-1.5\" data-test=\"numeri-schede\">"
+      },
+      "non_vacuita": "è il mutante registrato dal lotto 41 e non l'ho rilanciato: qui non ho cambiato quel codice, ho solo acceso il Pannello perché la prova potesse guardare"
+    },
+    {
+      "id": "AR-602",
+      "esito": "aperto",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "La decisione è scritta e provata, sei casi verdi: quando il lavoro si è mosso la copia messa da parte non vince più, e si va a rileggere la risposta vera. Il punto malato però sta in un file che non è di questa corsia, quindi il collegamento non l'ho fatto: chi lo raccoglie deve solo chiamare le funzioni.",
+      "motivo_se_aperto": "il punto da cambiare è pannello/src/components/LavoriCervello.tsx alla riga 229 (`risultato: d.risultato ?? lv.risultato`), fuori dal territorio assegnato a questa corsia"
+    }
+  ],
+  "file_toccati": [
+    "pannello/src/lib/stato-card.ts",
+    "pannello/src/lib/azioni-attesa.ts",
+    "pannello/src/lib/nav.ts",
+    "pannello/src/components/aree/Azioni.tsx",
+    "pannello/src/components/AutoCoscienza.tsx",
+    "pannello/src/app/page.tsx",
+    "cervello/test/c4-decisione-fuori-da-react.test.mjs",
+    "cervello/test/c4-schermo-coda.test.mjs",
+    "cervello/test/salto-all-azione-da-firmare.test.mjs"
+  ],
+  "prove_altrui_toccate": [
+    "cervello/test/salto-all-azione-da-firmare.test.mjs — un caso pretendeva di trovare nel file il nome di UNO dei due stati («è scelteCard ad aprire la card, non aperte»). Quel nome è l'ambiguità che AR-675 toglie di mezzo, quindi la prova diventava rossa proprio quando qualcuno curava la causa. L'ho aggiornata al comportamento e non alla forma nuova: adesso ESEGUE la regola dell'atterraggio (la scheda si apre E il testo dentro) invece di cercare un nome. Torna 10 casi su 10."
+  ],
+  "rossi_segnalati_dal_coordinatore": [
+    "c2-schermo.test.mjs — ADESSO VERDE, 6 su 6. Il rosso visto era lo stato a metà di una mia modifica: il server di sviluppo stava ricompilando mentre la prova guardava.",
+    "salto-all-azione-da-firmare.test.mjs — ERA MIA, ADESSO VERDE, 10 su 10. Vedi prove_altrui_toccate: la prova guardava la forma vecchia.",
+    "mappa-in-bacheca.test.mjs — NON È NOSTRA, e non è del lotto. Il censimento pretende una riga di spiegazione per ogni skill che trova sul disco. In git ce ne sono 5; su questa macchina ce ne sono 72, perché l'ambiente di sessione ne installa altre 67 (marketing, copywriting, docx…) che nessun commit ha mai aggiunto. Sull'albero pulito il test è verde perché lì quelle 67 non esistono. Nessuna corsia può farlo tornare verde scrivendo codice: o si spiegano 67 skill che non sono del progetto, o il censimento guarda solo quelle tracciate in git."
+  ],
+  "fuori_territorio": [
+    "AR-602: il punto malato è pannello/src/components/LavoriCervello.tsx, non assegnato a questa corsia. Le funzioni pure sono pronte e provate.",
+    "AR-607: la schermata di guasto della radice (pannello/src/app/error.tsx) non è di questa corsia. La sua riga «Il resto del Pannello funziona» resta scritta com'era, ma adesso è quasi sempre vera: con la rete per area quella schermata compare solo se cade anche la testata, cioè quando è caduto tutto davvero. Chi prende quel file può allinearla chiamando la stessa funzione."
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "L'area dove Nicola firma non compilava: era rimasta rotta a metà conversione",
+      "causa_radice": "La sessione precedente di questa corsia è stata interrotta a metà di una sostituzione di stato. Sono rimasti quattro riferimenti a nomi che non esistevano più: tredici errori di compilazione. Nessuno se n'era accorto perché il server di sviluppo compila solo la pagina che gli chiedi, e quell'area non era stata aperta. Il rischio resta anche dopo: il controllo dei tipi non gira in nessun cancello.",
+      "visto_in": "pannello/src/components/aree/Azioni.tsx, misurato con il controllo dei tipi del Pannello: 13 errori prima, 0 dopo",
+      "registrato_come": "AR-705"
+    },
+    {
+      "titolo": "Il conteggio delle skill misura la macchina su cui gira, non il progetto",
+      "causa_radice": "Il censimento dei guardiani elenca le skill leggendo la cartella su disco invece dell'elenco tracciato in git. Su una macchina con skill di ambiente installate accanto a quelle del progetto, la prova diventa rossa per 67 pezzi che nessuno ha aggiunto al repo — e resta rossa qualunque cosa faccia chi ripara.",
+      "visto_in": "cervello/test/mappa-in-bacheca.test.mjs: 5 skill tracciate in git contro 72 presenti in .claude/skills",
+      "registrato_come": "AR-701"
+    },
+    {
+      "titolo": "Una prova a runtime può misurare il tema invece della cura, e sembrare verde",
+      "causa_radice": "Misuravo il bordo della «prima card» per dire se il tema scuro era rispettato. Quella card ha livello sconosciuto e il suo bordo usa una variabile che si ribalta da sola col tema: la misura cambiava fra chiaro e scuro anche con le gemelle scure tolte. L'ho scoperto solo perché il mutante restava verde. Vale come regola: una prova a runtime che non è stata rotta apposta non è ancora una prova.",
+      "visto_in": "cervello/test/c4-schermo-coda.test.mjs, prima versione del caso su AR-614",
+      "registrato_come": "AR-706"
+    }
+  ],
+  "spazzata": "La malattia NON è censita in cervello/malattie.json (21 voci, nessuna corrisponde). La più vicina è «prova-che-non-puo-fallire», ma quella è la conseguenza: la causa è che la decisione sta dentro il componente, e da lì l'unica prova possibile è cercare una parola nel file. Nome proposto: «decisione-sepolta-nel-componente». Istanze rimaste, misurate sul cantiere: dei 218 difetti aperti, 15 toccano un componente del Pannello e 5 di questi hanno per prova una ricerca di parole (AR-605, AR-608, e i tre che ho chiuso stanotte). Restano quindi 2 istanze note con la prova debole, più le decisioni ancora sepolte nei componenti che nessuna radiografia ha ancora guardato.",
+  "nota_al_coordinatore": "Due prove a runtime che avevo scritto NON difendevano la loro cura, e me ne sono accorto solo perché ho rotto i fix apposta: quella del tema scuro misurava un riquadro qualsiasi con la stessa tinta, quella del salto era intermittente. La prima l'ho corretta e poi ridimensionata a misura di contorno, la seconda l'ho tolta. In entrambi i casi la rete vera è la prova che ESEGUE la decisione. Se qualcuno legge un solo pezzo di questo frammento, legga questo: una prova a runtime che non è stata rotta apposta non è ancora una prova."
+}

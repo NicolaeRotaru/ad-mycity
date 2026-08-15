@@ -28,6 +28,7 @@ import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { leggi as leggiErrori, FILE_ERRORI } from "./errore-motore.mjs";
+import { msDaTimbro } from "./ora-piacenza.mjs";
 
 process.env.TZ = process.env.TZ || "Europe/Rome";
 
@@ -95,7 +96,12 @@ export function cadenzeDaRiprendere(esiti = {}, nowMs = Date.now(), elenco = CAD
     const riga = esiti?.cadenze?.[c.tipo];
     if (!riga) continue;
     const buona = riga.esito === "ok" || riga.esito === "riuscita";
-    const quando = Date.parse(String(riga.quando || "").replace(" ", "T") + ":00");
+    // AR-666 — `Date.parse("2026-12-01T13:00:00")` è ora LOCALE del processo, non di Piacenza. Il
+    // timbro lo scrive `timbroOra()` in ora di casa, quindi sul VPS in UTC ogni cadenza risultava
+    // una o due ore più giovane del vero. Sotto sta la finestra oltre la quale una cadenza non vale
+    // più la pena di essere recuperata: una cadenza ringiovanita rientra in una finestra che aveva
+    // già superato, e il motore riparte per rifare un piano del mattino che non serve più.
+    const quando = msDaTimbro(riga.quando);
     const eta = Number.isFinite(quando) ? (nowMs - quando) / 3600000 : 999;
     if (!buona && eta <= c.validaOre) out.push({ ...c, oreFa: Math.round(eta) });
   }

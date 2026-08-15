@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback, useMemo, memo, Fragment } from "react";
+import { useState, useRef, useEffect, useCallback, useMemo, memo, Component, Fragment, type ReactNode } from "react";
 import {
   Send,
   Loader2,
@@ -138,7 +138,7 @@ import {
   type GruppoLavori,
 } from "@/lib/lavori-gruppo";
 import { accodaSyncConvMeta, caricaConvMeta, mergeLette } from "@/lib/conv-meta";
-import { parcheggiaSubDaIndirizzo, ripristinaSub } from "@/lib/nav";
+import { AREE_NOTE, parcheggiaAncoraDaIndirizzo, parcheggiaSubDaIndirizzo, ripristinaSub } from "@/lib/nav";
 import {
   destinazioneDaIndirizzo,
   indirizzoDopoCambioArea,
@@ -152,6 +152,7 @@ import { voceDiNavigazione } from "@/lib/strati";
 import { deveChiudereOverlay, eTastoChiudi, overlayInCima, type StatoOverlay } from "@/lib/overlay-chiusura";
 import { useStrato } from "@/lib/useStrato";
 import { emitSync, emitSyncDaLavoriFiniti, usePanelSync } from "@/lib/panel-sync";
+import { messaggioGuasto } from "@/lib/stato-card";
 import { ascoltaChatUnificata, pubblicaChatUnificata } from "@/lib/chat-unificata";
 import { aggiornamentoPertinente, fondiConservandoVivi } from "@/lib/stato-vivo";
 import { chiaveCreazioneChat } from "@/lib/atto-unico";
@@ -877,6 +878,54 @@ type Vista =
   | "esplora"
   | "report"
   | "storico";
+
+/**
+ * 🛟 LA RETE DI SICUREZZA DELL'AREA (AR-607).
+ *
+ * Il difetto: l'unica rete stava alla radice della pagina. Bastava un dato storto in UNA casella —
+ * una data che non è una data, una lista che è arrivata come testo — e Next portava via TUTTO:
+ * testata, menù, aree, chat. Al loro posto compariva la faccina 😕 che intanto scriveva «Il resto
+ * del Pannello funziona». Non era vero: non restava niente. Una schermata di guasto che promette
+ * più di quello che è rimasto è peggio di una che tace, perché manda a cercare una via d'uscita che
+ * non c'è.
+ *
+ * Adesso l'errore di un'area si ferma DENTRO l'area: il menù, la testata e la chat restano al loro
+ * posto, e da lì si va da un'altra parte. La promessa torna vera, e non perché l'abbiamo riscritta:
+ * perché adesso il resto del Pannello c'è davvero.
+ *
+ * Il testo non è scritto qui: lo decide `messaggioGuasto` in lib/stato-card.ts, dove una prova
+ * verifica che una promessa non possa mai essere più larga dell'ambito. Qui restano solo le mani.
+ */
+class ReteArea extends Component<{ nome: string; children: ReactNode }, { caduta: boolean }> {
+  constructor(p: { nome: string; children: ReactNode }) {
+    super(p);
+    this.state = { caduta: false };
+  }
+  static getDerivedStateFromError() {
+    return { caduta: true };
+  }
+  componentDidCatch(errore: unknown) {
+    // In console resta tutto, per quando serve capire davvero.
+    console.error(`[Cabina] l'area «${this.props.nome}» è caduta:`, errore);
+  }
+  render() {
+    if (!this.state.caduta) return this.props.children;
+    const g = messaggioGuasto("casella", this.props.nome);
+    return (
+      <div role="alert" data-test="area-caduta" className="card p-6 space-y-3">
+        <div className="text-2xl" aria-hidden="true">😕</div>
+        <h2 className="t-sez">{g.titolo}</h2>
+        <p className="t-corpo">{g.promessa}</p>
+        <button
+          onClick={() => this.setState({ caduta: false })}
+          className="inline-flex items-center gap-1.5 min-h-[44px] bg-brand text-white text-[13px] font-medium px-3.5 py-2 rounded-xl shadow-card hover:bg-brand-dark transition"
+        >
+          Riprova
+        </button>
+      </div>
+    );
+  }
+}
 
 export default function Dashboard() {
   const [vista, setVista] = useState<Vista>("plancia");
@@ -2185,6 +2234,10 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     // quel posto, non l'ultimo visitato. Il cancelletto vecchio continua a funzionare (AR-609).
     try {
       const d = destinazioneDaIndirizzo(window.location.search, window.location.hash);
+      // AR-673 — il cancelletto si mette da parte PRIMA di tradurlo, perché tradurlo lo cancella
+      // dalla barra: chi arriva dopo (le caselle si svegliano quando servono) troverebbe la tasca
+      // vuota e non saprebbe di essere stato chiamato.
+      parcheggiaAncoraDaIndirizzo(window.location.hash);
       if (d) {
         applicaVistaSalvata(d.vista);
         iniz = d.vista;
@@ -3101,6 +3154,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
 
         <main className={`flex-1 min-w-0 max-w-5xl mx-auto w-full ${vista === "assistente" ? "flex flex-col min-h-0 px-4 sm:px-6 pt-4 pb-0" : "px-4 sm:px-6 py-5 sm:py-6 space-y-5"}`}>
 
+        <ReteArea key={vista} nome={AREE_NOTE[vista] || "questa"}>
+
         {/* 🧪 Modalità demo: prova la macchina viva senza chiavi (banner + interruttore) */}
         {vista !== "assistente" && <DemoBanner />}
 
@@ -3501,6 +3556,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           </section>
         )}
 
+        </ReteArea>
       </main>
       </div>
 

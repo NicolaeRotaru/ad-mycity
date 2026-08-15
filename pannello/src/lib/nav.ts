@@ -165,6 +165,48 @@ export function parcheggiaSubDaIndirizzo(vista: string, sub: string) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// 📍 L'ANCORA CHIESTA DALL'INDIRIZZO (AR-673) — stesso parcheggio, altro passeggero.
+//
+// La casella dell'auto-coscienza si porta sott'occhio da sola quando si arriva da `/#auto-coscienza`,
+// e per saperlo leggeva `window.location.hash` al proprio risveglio. Solo che il cancelletto lì non
+// c'è già più: mezzo secondo prima il Pannello lo ha TRADOTTO nel nuovo indirizzo (`?a=auto-coscienza`)
+// e lo ha tolto dalla barra — è la cura di AR-609/AR-244. Quando la casella si sveglia trova la
+// tasca vuota, e non salta. Nessun errore, nessun segnale: gira e non fa niente.
+//
+// La scheda del difetto accusava un altro colpevole: «cerca un pezzo di pagina per nome, e quel nome
+// non esiste più». Guardando il Pannello vero il nome c'è (finché è aperta la scheda Analisi): il
+// colpevole è il cancelletto consumato prima. Sono due difetti in fila, e questo è il primo.
+//
+// La cura è quella che il Pannello usa già per la stessa malattia — chi riceve arriva dopo che il
+// messaggio è passato: si parcheggia, senza scadenza, e chi arriva se lo viene a prendere.
+
+let ancoraPendente: string | null = null;
+
+/** Da `#auto-coscienza/altro` a `auto-coscienza`. Pura: è la parte che una prova può eseguire. */
+export function nomeAncora(grezzo: string | null | undefined): string | null {
+  const s = String(grezzo || "").trim().replace(/^#/, "").split("?")[0].split("/")[0].trim();
+  return s || null;
+}
+
+/** L'indirizzo di partenza chiedeva un punto preciso della pagina: si tiene da parte. */
+export function parcheggiaAncoraDaIndirizzo(hash: string | null | undefined) {
+  const a = nomeAncora(hash);
+  if (a) ancoraPendente = a;
+}
+
+/**
+ * La casella chiede: «l'indirizzo chiedeva ME?». Si consuma: la seconda volta è no.
+ *
+ * Consumarla è la metà che conta. Senza, una casella che si rimonta salterebbe di nuovo, ed è
+ * esattamente il difetto già pagato con AR-257: la pagina che si sposta da sola ogni mezzo minuto.
+ */
+export function ancoraChiesta(nome: string): boolean {
+  if (!nome || ancoraPendente !== nome) return false;
+  ancoraPendente = null;
+  return true;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // 🔗 I LINK PROFONDI (AR-609 / AR-610): un indirizzo scritto o salvato deve atterrare in un posto.
 //
 // Il Pannello è una pagina sola: l'area si sceglie con lo stato, e all'avvio veniva letta SOLO da

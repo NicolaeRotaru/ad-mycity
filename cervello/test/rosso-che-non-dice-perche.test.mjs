@@ -189,3 +189,49 @@ test("un'esenzione senza perché non zittisce niente", () => {
     "«esente» senza spiegazione è il modo educato di zittire: resta un'accusa viva (AR-338)",
   );
 });
+
+// ── AR-707 · il ⚪ del banco delle mutazioni deve arrivare fin qui ────────────
+//
+// Il caso vero, misurato in CI il 15/8. Il banco stampava il «non ho misurato» con ⚠️, che in
+// questo filtro non è un marcatore. Il cancello ha mostrato due mutazioni RIUSCITE — passate solo
+// perché il loro titolo CITA il carattere ⚪ — e ha nascosto l'unica che non aveva misurato,
+// lasciando in fondo «1 controllo non ha potuto misurare» senza dire quale.
+//
+// Cioè: il buco era dichiarato e illeggibile insieme. Questo caso tiene agganciate le due metà —
+// il simbolo che il banco usa e i simboli che questo filtro cerca — così se una delle due cambia
+// da sola, si vede qui invece che in produzione.
+
+const USCITA_BANCO = [
+  "🧨 LA PROVA CHE LE PROVE PROVINO",
+  "",
+  "  ✅ AR-683 — invertendo il filtro «una prova NON ESEGUITA è ⚪» diventa rosso",
+  "  ⚪ AR-613 — rimettendo un bottone dentro la linguetta il caso diventa rosso:",
+  "     · il test ha dichiarato di non poter guardare (gli manca lo strumento)",
+  "",
+  "⚪ 1 mutazione/i non ha potuto misurare (vedi sopra).",
+];
+
+test("AR-707 · la mutazione che NON ha misurato arriva col suo nome, non solo col conto", () => {
+  const mostrate = righeMotivo(USCITA_BANCO);
+  assert.ok(
+    mostrate.some((r) => r.includes("AR-613") && r.includes("⚪")),
+    `chi legge la CI deve sapere QUALE non ha misurato; ha visto invece:\n${mostrate.join("\n")}`,
+  );
+});
+
+test("AR-707 · e col suo perché: il motivo viaggia attaccato al nome", () => {
+  const mostrate = righeMotivo(USCITA_BANCO);
+  assert.ok(
+    mostrate.some((r) => r.includes("gli manca lo strumento")),
+    "senza il motivo resta «non ho misurato» e basta, che manda a indagare sul fix invece che sull'ambiente",
+  );
+});
+
+test("AR-707 · un ✅ che NOMINA il ⚪ non deve travestirsi da problema", () => {
+  // È il tranello che ha nascosto il vero cieco: due righe verdi selezionate perché il loro testo
+  // contiene il carattere. Il filtro non le può distinguere da sole — le distingue il posto del
+  // simbolo, in testa alla riga.
+  const mostrate = righeMotivo(USCITA_BANCO);
+  const verdiMostrate = mostrate.filter((r) => r.trimStart().startsWith("✅"));
+  assert.deepEqual(verdiMostrate, [], `una mutazione riuscita non è un motivo: mostrate ${verdiMostrate.length}`);
+});

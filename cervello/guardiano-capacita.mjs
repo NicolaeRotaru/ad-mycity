@@ -20,11 +20,20 @@
 //   node cervello/guardiano-capacita.mjs           -> report leggibile
 //   node cervello/guardiano-capacita.mjs --json      -> output JSON (per gate / sentinelle)
 //
-// Exit: 0 = nessun drift · 1 = drift presente (così può fare da gate nel giro, come agent-registry-check).
+// Exit (contratto guardiani, AR-322): 0 = nessun drift · 1 = drift presente (così fa da cancello nel
+// giro, come agent-registry-check) · 2 = CIECO, cioè non ho potuto misurare — e cieco non è verde.
+//
+// Il 2 è arrivato con AR-682: `elencaWorkflow` torna un elenco vuoto anche quando la cartella dei
+// workflow non c'è, e zero capacità guardate producevano «✅ nessun drift» con uscita 0. Un guardiano
+// che non ha aperto niente si dichiarava pulito. Stessa cosa per i due registri: se COMANDI.md e
+// CLAUDE.md non si leggono, «nessun comando evoca questa capacità» è vero per costruzione — sarebbe
+// un rosso finto invece di un verde finto, ed è comunque un verdetto che non ho misurato.
 
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { ciecoPerDatoIllegibile, ciecoSeNienteMisurato, codiceDiUscita } from "./esito-guardiano.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 
@@ -37,6 +46,23 @@ function leggiTesto(rel) {
   return existsSync(p) ? readFileSync(p, "utf8") : "";
 }
 
+/**
+ * Il verdetto, tirato fuori dal corpo del guardiano perché una prova lo possa ESEGUIRE (AR-682).
+ * Tre risposte, quelle di casa: verde · rosso · ⚪ non l'ho potuto misurare.
+ */
+export function verdettoCapacita({ workflow = 0, registri = 0, drift = 0 } = {}) {
+  // Nessuna capacità aperta: non è «nessun drift», è un guardiano che non ha guardato niente.
+  const nienteDaGuardare = ciecoSeNienteMisurato(workflow, "workflow");
+  if (nienteDaGuardare) return nienteDaGuardare;
+  // Nessun registro leggibile: «nessun comando lo evoca» sarebbe vero per costruzione su tutti.
+  if (!registri)
+    return ciecoPerDatoIllegibile("né COMANDI.md né CLAUDE.md si sono letti", {
+      cosa: "senza i registri ogni capacità risulterebbe orfana per costruzione",
+    });
+  if (drift > 0) return { stato: "rosso", motivo: `${drift} voci di drift`, codice: 1 };
+  return { stato: "verde", motivo: "ogni capacità ha un comando, ogni comando punta a un workflow reale", codice: 0 };
+}
+
 /** Elenca i nomi (basename senza estensione) dei file `.js`/`.mjs` in una cartella, o [] se assente. */
 function elencaWorkflow(dir) {
   if (!existsSync(dir)) return [];
@@ -47,17 +73,38 @@ function elencaWorkflow(dir) {
 }
 
 /** Elenca le sottocartelle (una skill = una cartella con SKILL.md), o [] se `.claude/skills` non esiste. */
+/**
+ * Le capacità che il PROGETTO dichiara — cioè quelle tracciate in git, non quelle che si trovano
+ * sul disco.
+ *
+ * AR-701. Prima si leggeva la cartella, e il verdetto dipendeva da DOVE girava invece che da com'è
+ * la macchina: su questa sessione l'ambiente ha depositato 67 cartelle-skill che nessun commit ha
+ * mai aggiunto — 72 sul disco contro le 5 vere — e il divario passava da 2 a 55 senza che nessuno
+ * avesse toccato niente. Su una postazione rosso, sul server verde, e nessuno dei due sapeva perché.
+ *
+ * Un guardiano il cui rosso non appartiene a chi lo vede è un guardiano che si impara a ignorare, e
+ * porta con sé tutti gli altri.
+ *
+ * Se git non risponde NON si ripiega sul disco: si torna `null`, e chi chiama dichiara che non ha
+ * potuto guardare. Un elenco più povero preso da un'altra fonte sarebbe una misura diversa con la
+ * faccia della stessa.
+ */
 function elencaSkill(dir) {
   if (!existsSync(dir)) return [];
-  return readdirSync(dir)
-    .filter((f) => {
-      try {
-        return statSync(join(dir, f)).isDirectory();
-      } catch {
-        return false;
-      }
-    })
-    .sort();
+  const rel = dir.replace(`${AD_ROOT}/`, "");
+  let tracciati;
+  try {
+    tracciati = percorsiDaGit(["ls-files", "--", rel], { cwd: AD_ROOT });
+  } catch {
+    return null; // cieco: non è un elenco vuoto, ed è chi chiama a doverlo dire
+  }
+  const nomi = new Set();
+  for (const f of tracciati) {
+    const dopo = f.slice(rel.length).replace(/^\//, "");
+    const primo = dopo.split("/")[0];
+    if (primo && dopo.includes("/")) nomi.add(primo);
+  }
+  return [...nomi].sort();
 }
 
 async function main() {
@@ -65,6 +112,16 @@ async function main() {
 
   const workflowReali = elencaWorkflow(WORKFLOWS_DIR);
   const skillReali = elencaSkill(SKILLS_DIR);
+  // AR-701 — se git non risponde NON si ripiega sul disco: quell'elenco misurerebbe la macchina su
+  // cui giriamo invece del progetto, ed è il difetto stesso. Cieco è uscita 2, e non è mai un verde.
+  if (skillReali === null) {
+    const c = ciecoPerDatoIllegibile(new Error("git non elenca i file tracciati sotto .claude/skills"));
+    console.log(`⚪ ${c.motivo}`);
+    console.log("   Senza git non so quali capacità appartengano al progetto: contarle dal disco direbbe");
+    console.log("   quante ne ha questa macchina, che è un'altra domanda.");
+    await stampSegnale("guardiano-capacita", "warn", "cieco: git non elenca le skill tracciate");
+    process.exit(2);
+  }
 
   const comandi = leggiTesto("COMANDI.md");
   const claude = leggiTesto("CLAUDE.md");
@@ -85,10 +142,15 @@ async function main() {
   const comandiRotti = [...riferiti].filter((n) => !setReali.has(n)).sort();
 
   const driftTotale = workflowOrfani.length + skillOrfane.length + comandiRotti.length;
+  const v = verdettoCapacita({
+    workflow: workflowReali.length,
+    registri: [comandi, claude].filter((t) => t.trim()).length,
+    drift: driftTotale,
+  });
 
   await stampSegnale(
     "guardiano-capacita",
-    driftTotale > 0 ? "warn" : "ok",
+    v.stato === "verde" ? "ok" : v.stato === "cieco" ? "cieco" : "warn",
     `${workflowOrfani.length} workflow orfani · ${comandiRotti.length} comandi rotti · ${quando}`
   );
 
@@ -103,6 +165,7 @@ async function main() {
           skill_orfane: skillOrfane,
           comandi_rotti: comandiRotti,
           drift_totale: driftTotale,
+          verdetto: v,
         },
         null,
         2
@@ -113,7 +176,9 @@ async function main() {
     console.log(`Workflow reali (.claude/workflows/*.js): ${workflowReali.length}`);
     if (skillReali.length) console.log(`Skill reali (.claude/skills/*):          ${skillReali.length}`);
 
-    if (driftTotale === 0) {
+    if (v.stato === "cieco") {
+      console.log(`\n⚪ ${v.motivo}`);
+    } else if (driftTotale === 0) {
       console.log(`\n✅ nessun drift: ogni capacità ha un comando, ogni comando punta a un workflow reale.`);
     } else {
       if (workflowOrfani.length) {
@@ -132,15 +197,20 @@ async function main() {
     console.log(`\nDrift totale: ${driftTotale}`);
   }
 
-  process.exit(driftTotale > 0 ? 1 : 0);
+  process.exit(codiceDiUscita(v));
 }
 
-main().catch(async (e) => {
+// Il guardiano parte solo se questo file è LANCIATO: un test che importa `verdettoCapacita` non deve
+// far girare la scansione né chiudere il processo (malattia «programma-che-parte-importando»).
+if (import.meta.url === `file://${process.argv[1]}`)
+  main().catch(async (e) => {
   console.error("ERRORE guardiano-capacita:", e.message || e);
   await stampSegnale(
     "guardiano-capacita",
     "errore",
     `crash: ${(e.message || e).toString().slice(0, 200)}`
   );
-  process.exit(1);
+  // Un guardiano che muore non ha «trovato drift»: non ha misurato. Uscire 1 metteva un crash e un
+  // risultato vero nella stessa casella, e chi legge l'esito non poteva più distinguerli.
+  process.exit(codiceDiUscita(ciecoPerDatoIllegibile(e, { cosa: "il guardiano delle capacità è morto a metà" })));
 });

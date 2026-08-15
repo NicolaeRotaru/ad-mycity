@@ -26,7 +26,10 @@ import { fileURLToPath } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { scriviStatoSensore } from "./stato-sensori.mjs";
 import { decadiAutoDichiarato, eSpentoPerDecisione, istruzioniGiro, sintesiSensori, verdettoSensori } from "./lib-sensori-verdetto.mjs";
-import { codiceUscitaSensori, misuraScaduta, origineMisura } from "./misura-o-cieco.mjs";
+import { codiceUscitaSensori, misuraScaduta } from "./misura-o-cieco.mjs";
+// AR-568 (b): la decisione «questa misura può prendere il posto di quella che c'è?» sta in un modulo
+// puro, dove un test la esegue senza chiavi e senza sensori.
+import { decidiScrittura, origineCorrente } from "./scrittura-misura.mjs";
 
 /**
  * AR-364 — dopo quanto un «ok» che si è dato la macchina da sola smette di valere.
@@ -145,9 +148,16 @@ function leggiCecita() {
   try {
     return JSON.parse(readFileSync(CECITA_PATH, "utf8"));
   } catch {
+    // Un errore di lettura NON diventa una misura: si dichiara qui e la scrittura lo tratta come
+    // riparazione, non come «non c'era niente prima» (che sarebbe un errore travestito da confronto).
+    cecitaLeggibile = false;
     return { aggiornato: nowPiacenza(), sensori: {}, meta: { giri_totali: 0 } };
   }
 }
+
+/** Il file c'era già? E si è potuto leggere? Due domande diverse, e servono ENTRAMBE per decidere. */
+const esisteva = existsSync(CECITA_PATH);
+let cecitaLeggibile = true;
 
 /**
  * @param {Record<string, {stato?: string, giri_ciechi?: number, ultimo_ok?: string, ultimo_errore?: string, canale?: string}>} prev
@@ -257,13 +267,24 @@ async function checkStripe() {
   return { ...r, configurato: true };
 }
 
-async function checkPostHog() {
+async function checkPostHog(motivi = null) {
   // Decisione Nicola 2026-07-05 (chat "togli PostHog"): sensore SPENTO finché non lo riattiva lui.
   // POSTHOG_OFF=1 (o chiave assente) → non_configurato: niente check, niente rumore, niente card.
-  if (process.env.POSTHOG_OFF === "1") {
+  //
+  // AR-653 — LA DECISIONE VIVEVA IN UN SOLO COMPUTER. Fino al lotto 42 l'unico modo di spegnerlo era
+  // `POSTHOG_OFF=1` nel `.env`, e sul VPS quella riga non c'era: lì la chiave era presente, il check
+  // partiva davvero e il sensore risultava verde (ultimo_ok 13/8 14:14) mentre la decisione del
+  // proprietario diceva l'opposto. Una decisione che vive in un file di ambiente non versionato non
+  // esiste per nessuna altra macchina — e infatti la stessa macchina dava due risposte diverse a
+  // seconda di dove la si interrogava. Adesso la decisione sta nel REGISTRO dei motivi
+  // (`cervello/sensori-motivi.json`, motivo "decisione"), che viaggia col repo ed è la stessa
+  // ovunque; l'env resta valido come scorciatoia locale.
+  const perDecisione = motivi?.motivi?.posthog_api?.motivo === "decisione";
+  if (process.env.POSTHOG_OFF === "1" || perDecisione) {
     // AR-590: `spento: true` = spento per DECISIONE (non «chiave che da qui non vedo»): lo stato
     // scritto deve dire "non_configurato", non conservare un vecchio "ok" di quando era acceso.
-    return { ok: false, configurato: false, spento: true, dettaglio: "PostHog SPENTO su decisione di Nicola (5/7) — riattivare solo su suo ok (POSTHOG_OFF=0 + Personal API key)" };
+    const dove = perDecisione ? "registro dei motivi (cervello/sensori-motivi.json)" : "POSTHOG_OFF=1 nell'ambiente";
+    return { ok: false, configurato: false, spento: true, dettaglio: `PostHog SPENTO su decisione di Nicola (5/7), dichiarata nel ${dove} — riattivare solo su suo ok (togliere la riga «decisione» + Personal API key)` };
   }
   const key = process.env.POSTHOG_API_KEY?.trim() || process.env.POSTHOG_PERSONAL_API_KEY?.trim();
   const host = (process.env.POSTHOG_HOST?.trim() || "https://eu.posthog.com").replace(/\/$/, "");
@@ -466,7 +487,10 @@ async function main() {
     st.configurato
   );
 
-  const ph = await checkPostHog();
+  // AR-653: la decisione «PostHog spento» arriva dal registro dei motivi, non solo dal .env di una
+  // macchina. Va letta PRIMA del check, o il check parte lo stesso e il sensore torna verde.
+  const motiviSensori = leggiMotiviSensori();
+  const ph = await checkPostHog(motiviSensori);
   checks.push({ nome: "posthog_api", ...ph, canale: "POSTHOG_API_KEY" });
   cecita.sensori.posthog_api = aggiornaSensore(
     cecita.sensori,
@@ -638,8 +662,11 @@ async function main() {
   // si può confrontare con nessun'altra. Il timbro non ferma niente da solo; è la riga senza la
   // quale (b) «cieco non sovrascrive vedente» e (d) il cancello di pubblicazione non sono
   // scrivibili, perché non c'è il numero da confrontare.
-  cecita.origine = origineMisura();
+  cecita.origine = origineCorrente(process.env);
   cecita.copertura = verdetto.misurati_ambiente;
+  // AR-286: chi ha scritto questa riga. `origine` dice da quale computer, questo dice da quale
+  // programma — e sono due domande diverse quando quattro script scrivono nella stessa cartella.
+  cecita.scritto_da = "verifica-sensori.mjs";
   // AR-587: le istruzioni non affermano cose non misurate (il vecchio «Stripe ok ma Supabase
   // REST cieco» usciva anche quando Stripe non era stato misurato affatto).
   cecita.istruzioni_giro = istruzioniGiro(esito, sb.ok);
@@ -663,7 +690,29 @@ async function main() {
   const dipendentiDaEnv = checks.filter((c) => c.dipende_da_env !== false);
   const ambienteConfigurato = dipendentiDaEnv.some((c) => c.configurato !== false);
   const aggiornamentoMcp = mcpSb !== null || mcpStripe !== null;
-  const scriviStato = ambienteConfigurato || aggiornamentoMcp;
+
+  // AR-568 (b) — CIECO NON SOVRASCRIVE VEDENTE, ed è la clausola che mancava.
+  //
+  // (a) e (c) erano già in casa: il file porta `origine` e `copertura`, e `--sola-lettura` esiste. Ma
+  // nessuno CONFRONTAVA la copertura nuova con quella della misura che stava sostituendo: una misura
+  // più povera vinceva solo perché era più recente. La guardia d'ambiente (AR-035/573) copre il caso
+  // «nessuna chiave»; non copre quello più insidioso — una sessione con UNA chiave su dieci che
+  // riscrive il quadro di chi le aveva tutte. E il caso peggiore non è il rosso, che si vede: è il
+  // voto che MIGLIORA perché si è misurato di meno.
+  //
+  // La decisione sta in `scrittura-misura.mjs`, dove un test la esegue senza far girare i sensori.
+  // Qui NON le si passa `solaLettura`: quel freno è la riga `!SOLA_LETTURA` più sotto, che ha già la
+  // sua mutazione e la sua prova. Spostarlo qui la spegnerebbe in silenzio — una prova disinnescata
+  // è peggio di una prova assente, perché resta verde.
+  // Il ramo «nulla è cambiato oltre l'ora» qui non può scattare: `meta.giri_totali` cresce a ogni
+  // esecuzione. È voluto — questo file è anche un contatore, e per un contatore l'esecuzione è il dato.
+  const copertura = decidiScrittura({
+    solaLettura: false,
+    misuraNuova: cecita,
+    misuraVecchia: esisteva ? esistente : null,
+    vecchiaLeggibile: cecitaLeggibile,
+  });
+  const scriviStato = (ambienteConfigurato || aggiornamentoMcp) && copertura.scrivi;
 
   // AR-573, seconda mossa: la porta si chiude sul SINGOLO sensore, non sul file intero.
   // Anche quando si scrive, un sensore che questa esecuzione non ha potuto misurare non
@@ -674,7 +723,6 @@ async function main() {
   // proprietario (POSTHOG_OFF=1, o motivo "decisione" in sensori-motivi.json) non è in quella
   // famiglia: il suo stato vero È "non_configurato", e ripristinare il vecchio "ok" lo faceva
   // risultare acceso per sempre.
-  const motiviSensori = leggiMotiviSensori();
   if (scriviStato && esistente?.sensori) {
     for (const c of checks) {
       if (c.configurato !== false || c.dipende_da_env === false) continue;
@@ -692,7 +740,9 @@ async function main() {
     ambienteConfigurato: scriviStato && !SOLA_LETTURA,
     motivo: SOLA_LETTURA
       ? "--sola-lettura: guardo e non scrivo (AR-568)"
-      : "nessuna chiave sensore nell'ambiente e nessun aggiornamento MCP",
+      : !copertura.scrivi
+        ? copertura.motivo
+        : "nessuna chiave sensore nell'ambiente e nessun aggiornamento MCP",
   });
 
   // AR-591: il denominatore sono i sensori CONFIGURATI, gli spenti si dichiarano a parte —

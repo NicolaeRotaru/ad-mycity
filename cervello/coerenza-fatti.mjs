@@ -16,8 +16,22 @@
 // I log STORICI sono esenti di default (la storia non si riscrive): DECISIONI.md,
 // Briefing/, SALA-OPERATIVA.md, memoria-squadra/, auto-coscienza/.
 //
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-464 — VERIFICARE NON DEVE COSTARE UN DIFF
+// ─────────────────────────────────────────────────────────────────────────────
+// Questo guardiano riscriveva il suo file di stato a OGNI esecuzione, anche quando l'unica riga
+// diversa era `data`. Chi lo lanciava per controllare il proprio lavoro — cioè esattamente il
+// comportamento che si sta cercando di rendere abituale — si ritrovava un file modificato che non
+// era lavoro suo. Il 30/7 è successo sei volte in una sessione e due volte quel file è finito in un
+// commit, tolto poi con un amend. L'incentivo che ne esce è «non lanciare il guardiano se non devi»,
+// cioè il contrario di quello che serve: un controllo che costa un diff si smette di fare, e un
+// controllo che si smette di fare è spento.
+//   · `--sola-lettura` → calcola, stampa il verdetto vero, non scrive NIENTE (né file né segnale);
+//   · senza il flag il worker continua a scrivere come prima, perché lì il timestamp è il dato.
+//
 // USO:
 //   node cervello/coerenza-fatti.mjs                      -> controlla (exit 0 ok · 3 incoerenze)
+//   node cervello/coerenza-fatti.mjs --sola-lettura       -> come sopra, senza toccare niente
 //   node cervello/coerenza-fatti.mjs --json               -> come sopra, stampa il report JSON
 //   node cervello/coerenza-fatti.mjs registra <id> "<valore>" [--caccia "frase1|frase2"]
 //        [--nome "..."] [--fonte "..."] [--esenzioni "path1|path2"] [--nuovo] [--dry] [--forza]
@@ -37,9 +51,12 @@ import { readFileSync, writeFileSync, readdirSync, statSync, mkdirSync, existsSy
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { decidiScrittura, timbroProvenienza } from "./scrittura-misura.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(QUI, "..");
+/** AR-464 — «guarda ma non toccare»: chi verifica non lascia impronte nella memoria condivisa. */
+const SOLA_LETTURA = process.argv.includes("--sola-lettura");
 // Path del registro/report. Override via env (COERENZA_FATTI_REGISTRO/REPORT) SOLO per i test:
 // così la suite bats esercita `registra` su un registro-fatti temporaneo senza toccare quello vero.
 const REGISTRO = process.env.COERENZA_FATTI_REGISTRO
@@ -110,6 +127,34 @@ export function verdettoRegistroAssente({ esiste = false, scopo = "controllo" } 
       "   • Se il registro è stato spostato/cancellato: ripristinalo (MyCity-Vault/90-Memoria-AI/registro-fatti.json).\n" +
       '   • Se è davvero la prima volta: crealo con `node cervello/coerenza-fatti.mjs registra <id> "<valore>" --nuovo`.',
   };
+}
+
+/**
+ * L'UNICA porta di scrittura del report (AR-464 · AR-568).
+ *
+ * Prima ce n'erano due — il ramo «cieco» e il ramo normale — ognuna con il suo `writeFileSync`
+ * scritto a mano. Due porte vogliono dire due freni da ricordarsi, e quello che si dimentica è
+ * sempre il secondo. Adesso la decisione è una sola e sta in `scrittura-misura.mjs`, dove un test la
+ * esegue senza far girare il guardiano intero.
+ *
+ * @returns {{scrivi: boolean, motivo: string}} perché ha scritto o perché no — si stampa, non si ingoia.
+ */
+function scriviReport(report) {
+  let precedente = null;
+  let leggibile = true;
+  // Un errore di lettura NON diventa «non c'era niente prima»: si dichiara, e la decisione lo tratta
+  // come una riparazione dichiarata invece che come un confronto vinto.
+  try {
+    if (existsSync(REPORT)) precedente = JSON.parse(readFileSync(REPORT, "utf8"));
+  } catch {
+    leggibile = false;
+  }
+  const scelta = decidiScrittura({ solaLettura: SOLA_LETTURA, misuraNuova: report, misuraVecchia: precedente, vecchiaLeggibile: leggibile });
+  if (scelta.scrivi) {
+    mkdirSync(dirname(REPORT), { recursive: true });
+    writeFileSync(REPORT, JSON.stringify(report, null, 2) + "\n", "utf8");
+  }
+  return scelta;
 }
 
 function leggiRegistro() {
@@ -211,6 +256,7 @@ async function check({ json = false } = {}) {
       data: oraPiacenza(),
       esito: "cieco",
       copertura: 0,
+      ...timbroProvenienza({ env: process.env, scrittoDa: "coerenza-fatti.mjs" }),
       fatti_totali: null,
       cacce_aperte: null,
       file_scansionati: 0,
@@ -218,11 +264,10 @@ async function check({ json = false } = {}) {
       cacce: [],
       istruzioni: assente.messaggio,
     };
-    mkdirSync(dirname(REPORT), { recursive: true });
-    writeFileSync(REPORT, JSON.stringify(report, null, 2) + "\n", "utf8");
+    scriviReport(report);
     if (json) console.log(JSON.stringify(report, null, 2));
     console.error(assente.messaggio);
-    await stampSegnale("coerenza-fatti", "warn", `CIECO: registro-fatti.json assente · ${nowPiacenza()}`);
+    if (!SOLA_LETTURA) await stampSegnale("coerenza-fatti", "warn", `CIECO: registro-fatti.json assente · ${nowPiacenza()}`);
     process.exit(assente.exit);
   }
 
@@ -291,6 +336,11 @@ async function check({ json = false } = {}) {
     // Pannello e nei gate non è un rosso ma nemmeno un verde comprato a credito.
     esito: incoerenze.length ? "incoerenze" : fileScansionati > 0 ? "ok" : "non_verificato",
     copertura: fileScansionati,
+    // AR-568 (a) · AR-286 — DA DOVE viene questo verdetto. `copertura` c'era già ed è il numero
+    // giusto (quanti file vivi ho davvero aperto); mancava il punto d'osservazione, senza il quale
+    // «cieco non sovrascrive vedente» non è nemmeno scrivibile: due coperture non si confrontano se
+    // non si sa chi le ha prese.
+    ...timbroProvenienza({ env: process.env, scrittoDa: "coerenza-fatti.mjs" }),
     fatti_totali: registro.fatti.length,
     cacce_aperte: cacce.length,
     file_scansionati: fileScansionati,
@@ -303,8 +353,7 @@ async function check({ json = false } = {}) {
         ? "Memoria coerente: nessuna copia vecchia nei file vivi."
         : "NON VERIFICATO: nessuna caccia aperta, quindi non è stato letto alcun file. Non è un verde — è l'assenza di una misura (AR-211).",
   };
-  mkdirSync(dirname(REPORT), { recursive: true });
-  writeFileSync(REPORT, JSON.stringify(report, null, 2) + "\n", "utf8");
+  const scelta = scriviReport(report);
 
   if (json) {
     console.log(JSON.stringify(report, null, 2));
@@ -328,14 +377,18 @@ async function check({ json = false } = {}) {
         console.log("✅ Memoria coerente.");
       }
     }
-    console.log(`   report: ${relative(ROOT, REPORT)}`);
+    console.log(`   report: ${relative(ROOT, REPORT)}${scelta.scrivi ? "" : ` — NON riscritto: ${scelta.motivo}`}`);
   }
   // AR-373 (lotto 33): il battito. `freschezza-segnali.mjs` aspettava un segnale «coerenza-fatti»
   // che questo script non ha mai mandato — perché l'elenco degli attesi era scritto a mano e non è
   // mai stato confrontato con chi il battito lo emette davvero. Risultato: un vincolo acceso a ogni
   // giro, da sempre, che si legge come sfondo. Un guardiano perennemente rosso costa quanto uno
   // spento. Adesso l'attesa è vera; e dall'altra parte l'elenco non si scrive più a mano.
-  await stampSegnale("coerenza-fatti", incoerenze.length ? "warn" : "ok", `${incoerenze.length} copie vecchie in file vivi · ${nowPiacenza()}`);
+  // Il segnale è una scrittura come le altre: in sola lettura non parte, o il «guardo e non tocco»
+  // sarebbe vero per il file e falso per la memoria.
+  if (!SOLA_LETTURA) {
+    await stampSegnale("coerenza-fatti", incoerenze.length ? "warn" : "ok", `${incoerenze.length} copie vecchie in file vivi · ${nowPiacenza()}`);
+  }
   process.exit(incoerenze.length ? 3 : 0);
 }
 
@@ -492,7 +545,7 @@ function rimuovi(argv) {
 if (import.meta.url === `file://${process.argv[1]}`) {
 const argv = process.argv.slice(2);
 const cmd = argv[0];
-if (!cmd || cmd === "check" || cmd === "--json" || cmd === "--gate") {
+if (!cmd || cmd === "check" || cmd === "--json" || cmd === "--gate" || cmd === "--sola-lettura") {
   await check({ json: argv.includes("--json") });
 } else if (cmd === "registra") {
   registra(argv.slice(1));

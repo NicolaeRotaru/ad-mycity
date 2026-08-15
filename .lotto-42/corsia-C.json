@@ -1,0 +1,217 @@
+{
+  "corsia": "C — la prova che non può fallire: quando è il metro a essere rotto, un difetto chiuso vale meno di uno aperto",
+  "modulo_condiviso": "cervello/contratto-prova.mjs",
+  "stato": "COMPLETO — 11 difetti lavorati, 7 mutazioni verificate rompendo il fix davvero",
+  "difetti": [
+    {
+      "id": "AR-694",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs",
+      "nota_fix": "I cinque casi asincroni sono diventati sincroni: uno in lib-cadenza (non aspettava niente), due in mutazione-mancante e due in perimetro-main (l'`async` c'era solo per fare `await import` dentro il caso — gli import sono saliti in cima al file). E la ricomparsa la impedisce un guardiano: `casiSpenti` guarda il BANCO, non la parola `async`, e distingue le tre forme sane (banco che aspetta ed è atteso · banco che rinvia il caso in coda · banco che lo registra come dato) dall'unica malata, il banco che chiama il caso senza aspettarlo. Misurato su tutta la cartella: 5 prima, 0 dopo, zero falsi positivi sui quattro file che usano le forme sane. Lo chiama il banco a ogni corsa (`test-cervello.mjs`), che stampa il conto e lo mette nel JSON.",
+      "mutante": {
+        "file": "cervello/test/perimetro-main.test.mjs",
+        "cerca": "prova(\"l'hook IMPORTA la regola invece di ricopiarla\", () => {",
+        "sostituisci": "prova(\"l'hook IMPORTA la regola invece di ricopiarla\", async () => {"
+      },
+      "non_vacuita": "rimettendo `async` su un caso riparato, «i tre file riparati dal lotto 42 non hanno più nessun caso spento» diventa rosso — verificato lanciando il test. Provata anche la difesa a monte: spegnendo il ramo `if (!b.chiamaSubito) continue` in contratto-prova.mjs cadono due casi del guardiano."
+    },
+    {
+      "id": "AR-693",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test-cervello.mjs --solo due-worker",
+      "nota_fix": "Il denominatore non si restringe più. Il verde diceva «N file girano e passano» dopo aver TOLTO dal conto le prove che non aveva potuto eseguire: un metro che restringe il campione fa salire il voto misurando di meno. Adesso la riga finale è «X file su Y girano e passano · ⚪ Z non le ho potute far girare qui», e lo stesso vale per il rosso; i ⚪ si contano in tutt'e due le famiglie (anche una prova in Node può dichiarare `1..0 # SKIP`) e finiscono nel JSON come `non_misurati`. Il numero vero l'ho misurato installando bats con `npx`: sullo stesso albero, senza bats 1 rosso su 243, con bats 12 — nove file in bash rossi per 19 casi caduti, invisibili da mesi. Nessuno dei nove si ripara dentro il mio territorio: i fallimenti sono in worker.sh, giro.sh, watch-main.sh e nei permessi, e stanno in `bats_rosse_trovate`.",
+      "mutante": {
+        "file": "cervello/test-cervello.mjs",
+        "cerca": "    const copertura = nonMisurati.length ? ` · ⚪ ${nonMisurati.length} NON le ho potute far girare qui (il verde non le copre)` : \"\";",
+        "sostituisci": "    const copertura = \"\";"
+      },
+      "non_vacuita": "togliendo la riga che dichiara i ⚪ accanto al verde, «una prova non eseguita resta NEL totale come ⚪» diventa rosso — verificato lanciando il test. La prova fa girare il banco vero con `BATS_BIN` puntato al vuoto (cioè la condizione di ogni sessione nuova) e pretende due cose: il denominatore vero («su 1», non «su 0») e il buco detto accanto al verde."
+    },
+    {
+      "id": "AR-683",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs",
+      "nota_fix": "I tre difetti sono AR-385, AR-412 e AR-413: tutti e tre chiusi, tutti e tre appoggiati a `cervello/test/c1-atto-una-volta-sola.test.mjs`, che oggi non parte (importa una route del Pannello che chiede `next`, e `pannello/node_modules` non c'è). Il quarto è AR-417 su c2-schermo, rosso perché il Pannello non risponde. La causa non è nessuno dei quattro: è che le due metà non si parlavano — chi classifica le prove guarda solo i difetti APERTI, e il banco che esegue i test non sa che quei file sono la prova di qualcosa. Adesso il banco incrocia i suoi rossi con le schede chiuse a ogni corsa e lo stampa, distinguendo «regredita» (il fix c'era e non c'è più) da «non l'ho potuta eseguire qui» — che è ⚪, non un fix tornato indietro.",
+      "mutante": {
+        "file": "cervello/contratto-prova.mjs",
+        "cerca": "    if (!STATI_CHIUSI.has(String(d?.stato || \"\").toLowerCase())) continue;",
+        "sostituisci": "    if (STATI_CHIUSI.has(String(d?.stato || \"\").toLowerCase())) continue;"
+      },
+      "non_vacuita": "invertendo il filtro delle chiuse i casi «una scheda CHIUSA la cui prova è rossa adesso viene trovata» e «una prova NON ESEGUITA è ⚪» diventano rossi — verificato lanciando il test",
+      "cosa_ha_trovato_accendendolo": "Alla prima corsa completa non erano tre: erano diciassette. Tre sono quelle della scheda (AR-385, AR-412, AR-413, tutte su c1-atto-una-volta-sola) e una è AR-417 su c2-schermo; le altre tredici — otto su freni-senza-fonte, quattro su errore-ingoiato, una su esenzione-con-un-motivo-vero — sono comparse mentre lavoravamo, perché altre corsie stanno riscrivendo gli script che quelle prove sorvegliano. È il valore del meccanismo detto in un numero: prima una chiusura, una volta fatta, non veniva più guardata; adesso ogni corsa del banco dice quali chiusure poggiano su un rosso, e lo dice mentre succede invece che tre lotti dopo."
+    },
+    {
+      "id": "AR-686",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs",
+      "nota_fix": "La scheda dice metà della cosa. È vero che una prova che punta a un file inesistente veniva contata «fix in attesa», cioè auto-chiudibile; ma c'è un secondo travestimento peggiore, che ho trovato leggendo il codice: con `presente: false` quella prova COMBACIA — il pattern non c'è perché non c'è il file — e finiva in `auto-ok`, «auto-fix lo chiuderà». Cioè il difetto si sarebbe chiuso perché il suo file è SPARITO. La domanda «il file esiste?» adesso viene prima di giudicare il pattern, e la fa il contratto per tutti. Nota: `auto-fix.mjs` su file assente diceva già «aperto» — erano due metri sullo stesso caso, uno che prometteva una chiusura e l'altro che non la faceva.",
+      "mutante": {
+        "file": "cervello/contratto-prova.mjs",
+        "cerca": "    if (!fileEsiste(v.file)) {",
+        "sostituisci": "    if (false) {"
+      },
+      "non_vacuita": "togliendo la domanda sul file, tre casi diventano rossi — compreso quello che esegue `classifica` di cantiere-prove.mjs, cioè la funzione vera del report. Verificato lanciando il test.",
+      "effetto_sui_numeri": "zero difetti aperti oggi hanno una prova orfana, quindi il report e il `--gate` non cambiano di un numero: è una porta chiusa per il futuro, non una nuova accusa."
+    },
+    {
+      "id": "AR-692",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/mutazione-mancante.test.mjs",
+      "nota_fix": "Riaprire onestamente un difetto non è aggiungere debito. Il conto con tetto 0 adesso esclude chi era CHIUSO sul ramo pubblicato ed è aperto adesso: quel debito c'era già, dentro una scheda marcata chiusa, e riaprirla lo ha reso visibile. Il numero non sparisce — resta detto come «debito ereditato reso visibile, da dichiarare nella PR». ⚠️ E il cancello NON è più permissivo, è più severo in due punti: (a) chiudere una scheda in questo lotto senza toccarne la prova era la porta di servizio per saltare la mutazione — non risultava «toccata» (il confronto guarda solo `verifica`) né fra le aperte (il conto guarda solo quelle), quindi usciva dal blocco duro da tutt'e due i lati: adesso «l'ho chiuso io in questo lotto» conta come toccato; (b) il debito vero — 98 schede dichiarate riparate la cui prova non è mai stata rotta apposta — prima non lo contava nessuno, adesso è un numero in chiaro fra gli avvisi (non blocca: bloccare 98 schede vecchie renderebbe il cancello rosso per sempre).",
+      "mutante": {
+        "file": "cervello/cancello-lotto.mjs",
+        "cerca": "  const senzaMutazioneContati = senzaMutazione.filter((x) => !riapertoAdesso(x.id));",
+        "sostituisci": "  const senzaMutazioneContati = senzaMutazione;"
+      },
+      "non_vacuita": "rimettendo i riaperti nel conto, «AR-692 ②: RIAPRIRE un difetto senza mutazione NON fa scattare l'allarme del debito» diventa rosso — verificato lanciando il test. I due casi di controllo che l'AD ha chiesto sono separati e verdi: ① un difetto riparato in questo lotto senza mutazione resta FERMATO anche col tetto largo (e ①bis: dichiararlo chiuso non lo salva) · ② riaprirne uno non fa più scattare l'allarme."
+    },
+    {
+      "id": "AR-596",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs",
+      "nota_fix": "Il numero vero non è 19 su 59: è 24 su 65, misurato il 14/8 — la scheda era di una settimana fa e nessuno l'aveva ricontata. Il buco era invisibile perché il guardiano dei freni accetta ogni mutazione che rompe il FILE del gate: giusto (21 correzioni sulla stessa famiglia puntano allo stesso guardiano, e pretendere 21 mutazioni identiche sarebbe copiatura travestita da rigore), ma così «ha la sua mutazione» e «qualcun altro ha rotto lo stesso file» finivano in un mucchio solo e il verdetto era ✅. Adesso i due gradi si vedono separati — «65 dichiarati · 40 con la PROPRIA mutazione · 24 coperti solo dalla mutazione di un altro» — e il totale non cambia, così nessun gate sparisce dal conto. Chi vuole il debito bloccante ha `--proprie`, che esce 1.",
+      "mutante": {
+        "file": "cervello/contratto-prova.mjs",
+        "cerca": "    if (sueVive.length) veri.push({ lezione: l.id, gate: l.gate, file, mutazioni: sueVive.length });",
+        "sostituisci": "    if (sueVive.length || delFileVive.length) veri.push({ lezione: l.id, gate: l.gate, file, mutazioni: sueVive.length });"
+      },
+      "non_vacuita": "rimescolando i due gradi, «un freno coperto solo dalla mutazione di un ALTRO non conta come freno suo» diventa rosso — verificato lanciando il test"
+    },
+    {
+      "id": "AR-685",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs",
+      "nota_fix": "Il fix era già in casa dal 13/8 (`process.exitCode` invece di `process.exit()`), ma senza nessuna prova che lo tenesse: il difetto era registrato aperto e nessuno poteva sapere se reggeva ancora. L'ho riprodotto per essere sicuro di cosa difendo: rimettendo `process.exit(1)` il referto letto da una pipe di shell arriva tagliato a 65.536 byte esatti, in mezzo a una stringa, e il JSON non si parsa. Il taglio NON dipende dal `maxBuffer` di execSync (quello è 1 MB e il referto ne pesa 134 KB): è il buffer della pipe più l'uscita anticipata di node.",
+      "mutante": {
+        "file": "cervello/cantiere-prove.mjs",
+        "cerca": "if (GATE && bloccantiCiechiOra.length) process.exitCode = 1;",
+        "sostituisci": "if (GATE && bloccantiCiechiOra.length) process.exit(1);"
+      },
+      "non_vacuita": "rimettendo `process.exit(1)` il caso di AR-685 diventa rosso — verificato lanciando il test. ⚠️ Vale la pena saperlo: la PRIMA versione di questa prova usava `spawnSync` diretto e restava VERDE col fix disfatto (node legge dall'altro capo abbastanza in fretta perché il taglio non si veda). Era una prova che non poteva fallire dentro la corsia che cura le prove che non possono fallire: l'ho scoperta solo perché ho applicato la mutazione invece di dedurla. La prova adesso legge il referto come lo legge davvero giro.sh, da una pipe di shell."
+    },
+    {
+      "id": "AR-678",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs",
+      "nota_fix": "`git diff HEAD` risponde a «cosa è cambiato nell'albero», non a «cosa ho toccato IO»: con sei corsie che scrivono insieme ognuna si vede attribuito il lavoro di tutte. Adesso chi lavora può DICHIARARE il proprio perimetro (`LOTTO_PERIMETRO`, percorsi separati da virgola o a-capo) e il guardiano interseca; senza dichiarazione resta ciò che vede git, che è una sovrastima — blocca troppo, mai troppo poco, ed è il verso giusto in cui sbagliare. Vale per il blocco duro dei test (cancello-lotto → testDelLotto) e per i moduli che eseguono al caricamento (import-che-esegue → malatiToccati). Nello stesso passaggio ho tolto il lettore di git scritto a mano dentro import-che-esegue: adesso passa da `percorsiDaGit`, che mette il `-z` — senza, i 26 file del vault con un accento tornano citati e in ottali, cioè un file mio risulta non-mio e il blocco duro smette di riconoscerlo in silenzio.",
+      "mutante": {
+        "file": "cervello/tetto-guardiano.mjs",
+        "cerca": "    if (solo && !solo.has(p)) continue;",
+        "sostituisci": "    if (false) continue;"
+      },
+      "non_vacuita": "spegnendo il filtro del perimetro dichiarato, «con il perimetro dichiarato resta soltanto ciò che è mio» diventa rosso — verificato lanciando il test"
+    },
+    {
+      "id": "AR-669",
+      "esito": "gia-riparato",
+      "verifica_comando": "node cervello/non-vacuita.mjs --difetti AR-582,AR-575",
+      "nota_fix": "I tre puntatori sono già stati riagganciati (dal lotto 40, con la nota «pezzo SPOSTATO, non rimosso» dentro ogni voce). Verificato sul codice vero, non sulla scheda: tutte e tre le stringhe `cerca` esistono adesso in cervello/contratto-scheda.mjs — `  d.chiuso_il = q;` alla riga 276, `return d?.gravita ?? d?.severita ?? null;` alla 70, e la terza — quella che la scheda dava per introvabile — è rinata come `  const manca = campiMancanti(d, [\"impatto_crescita\", \"nato\"]);` alla 208, che è il puntatore già scritto in mutanti.json. Niente da correggere.",
+      "osservazione": "La malattia però NON è finita, ed è più grave di come la scheda la racconta: in questo solo lotto si è manifestata sei volte — due nel sorvegliante riscrivendo `eReferto`, due nel cancello riscrivendo il conteggio del debito, una in gate-veri spostando `gate-mai-rotto` nel contratto, una qui. Tutte scoperte dal guardiano DOPO la scrittura, nessuna da chi stava riscrivendo. Non è un incidente capitato una volta a un'estrazione: è quello che succede ogni volta che qualcuno riscrive una riga sorvegliata. La cura non è «aggiusta i tre puntatori», è «chi riscrive deve poterlo sapere prima di consegnare» — e il pezzo che manca non è il rilevatore (il sorvegliante lo vede subito, ed esce 1, quindi il cancello è già rosso) ma il momento: arriva come avviso dopo l'Edit, dove è facile leggerlo e andare avanti."
+    },
+    {
+      "id": "AR-676",
+      "esito": "gia-riparato",
+      "verifica_comando": "node cervello/test-cervello.mjs --solo due-worker",
+      "nota_fix": "Verificato sul codice: in `main()` il filtro `--solo` si applica a tutt'e due le famiglie e il messaggio di «niente trovato» le nomina entrambe. Provato da fuori: `--solo due-worker` (un nome che esiste solo fra le prove in bash) trova la prova e la dichiara ⚪, non «non c'è niente»; `--solo zzz-non-esiste` esce 1 dicendo «il filtro non ha misurato niente», che è la risposta giusta — un filtro che non pesca niente non è un verde."
+    },
+    {
+      "id": "AR-565",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs",
+      "nota_fix": "ATTENZIONE, qui scheda e codice non concordano e comanda il codice. La scheda parla di `sonda-volano.mjs` e `apprendimento-guardiano.mjs` (il 18% del tasso di applicazione): quei due file non sono della mia corsia e quella metà resta aperta — sta in `fuori_territorio` con la riga esatta. La coppia che HO potuto curare è quella che passa da gate-veri: due definizioni di «freno vero» sullo stesso mucchio di 65 lezioni, una che diceva ✅ e una che contava 24 freni senza la loro prova. Adesso la definizione è una sola e vive in contratto-prova.mjs (`misuraFreni`); gate-veri la importa invece di riscriverla, e stampa i due numeri di cui il verde è fatto. La regola che tiene: quando due numeri rispondono alla stessa domanda vince quello che finisce nella riga di riassunto, e in questa casa il verde vince sempre.",
+      "mutante": {
+        "file": "cervello/gate-veri.mjs",
+        "cerca": "import { misuraFreni } from \"./contratto-prova.mjs\";",
+        "sostituisci": "const misuraFreni = () => ({ dichiarati: 0, veri: [], perFile: [], violazioni: [] });"
+      },
+      "non_vacuita": "sostituendo l'import con una copia locale che non misura niente, i casi «la definizione di freno vero è UNA» e «il guardiano dei gate dice il numero» diventano rossi — verificato lanciando il test (l'import è provato usato: `misuraFreni` compare due volte in gate-veri.mjs, l'import e la chiamata)."
+    }
+  ],
+  "file_toccati": [
+    "cervello/contratto-prova.mjs",
+    "cervello/test-cervello.mjs",
+    "cervello/cantiere-prove.mjs",
+    "cervello/cancello-lotto.mjs",
+    "cervello/auto-fix.mjs",
+    "cervello/gate-veri.mjs",
+    "cervello/tetto-guardiano.mjs",
+    "cervello/import-che-esegue.mjs",
+    "cervello/test/lib-cadenza.test.mjs",
+    "cervello/test/mutazione-mancante.test.mjs",
+    "cervello/test/perimetro-main.test.mjs",
+    "cervello/test/prova-che-non-puo-fallire.test.mjs"
+  ],
+  "il_modulo_e_usato_davvero": "grep -c del simbolo importato, file per file: cantiere-prove 2 (classificaProva) · auto-fix 2 (classificaProva) · cancello-lotto 2+2 (debitoDiMutazione, perimetroDichiarato) · gate-veri 2 (misuraFreni) · test-cervello 2+2 (casiSpenti, chiusureDaRiverificare). Nessuno resta a 1, che sarebbe l'import da solo col resto morto.",
+  "stato_del_banco_alla_consegna": "`node cervello/test-cervello.mjs` su 284 file: 6 rossi · ⚪ 29 in bash non eseguite (manca bats). NESSUNO DEI SEI È MIO: due sono ambiente incompleto e stavano lì da prima (c1-atto-una-volta-sola non parte perché manca `next` in pannello/node_modules · c2-schermo perché il Pannello non risponde), gli altri quattro sono comparsi durante il lotto e vengono dal lavoro in corso delle altre corsie su spazzata-fratelli e sulle skill (errore-ingoiato ed esenzione-con-un-motivo-vero, rilanciati da soli, passano). I miei quattro file di prova — lib-cadenza, mutazione-mancante, perimetro-main, prova-che-non-puo-fallire — sono tutti verdi.",
+  "il_cancello_e_piu_permissivo": "NO su tutto tranne un angolo, e va detto. PIÙ SEVERO: (a) una scheda CHIUSA in questo lotto senza mutazione adesso blocca — prima usciva dal blocco duro da tutt'e due i lati; (b) una prova che punta a un file inesistente non è più auto-chiudibile; (c) il banco dei test dichiara ⚪ nel totale invece di toglierli dal denominatore. PIÙ PERMISSIVO in due punti, entrambi voluti: (1) un difetto RIAPERTO in questo lotto non conta più nel tetto `mutazione_mancante` (è AR-692, e resta scritto fra gli avvisi); (2) in `misuraFreni` una mutazione cieca non boccia più il gate se un'ALTRA mutazione viva rompe lo stesso file — prima bastava una cieca fra le sue per bocciarlo. Il blocco duro sui difetti NATI in questo lotto (regola `asticella`) non l'ho toccato.",
+  "fuori_territorio": [
+    "AR-565 (seconda metà): la coppia che la scheda nomina — `sonda-volano.mjs` che stampa «Loop chiude ✅ (tasso 18%)» e `apprendimento-guardiano.mjs` che sullo stesso numero dice «❌ APPRENDIMENTO MALATO — tasso 12% < 30%» — vive in cervello/sonda-volano.mjs, cervello/apprendimento-guardiano.mjs e cervello/volano-regole.mjs (loopChiude), nessuno dei tre mio. La cura è la stessa: `loopChiude` deve incorporare la soglia del tasso, oppure smettere di stampare il tasso accanto al proprio verde.",
+    "AR-693: i nove file .bats rossi. Sono nel mio territorio come FILE, ma i fallimenti stanno in cervello/worker.sh, cervello/giro.sh, cervello/watch-main.sh, cervello/motore-ai.sh e in .claude/settings.json — nessuno dei quali è mio. Ripararli qui significherebbe riscrivere le prove per farle passare, che è il contrario del mestiere.",
+    "AR-678 (la clausola larga: «e prima di loro OGNI guardiano che chiede a git cosa ho toccato»): ho curato i due nominati e il lettore di git di import-che-esegue. Restano quattro guardiani che chiedono a git l'elenco dei file cambiati per conto loro e non sono miei — cervello/cancello-senior.mjs, cervello/forma-json.mjs, cervello/git-pr.mjs, cervello/ramo-pulito.mjs. La stessa cura vale per tutti: accettare il perimetro dichiarato (`perimetroDichiarato` da tetto-guardiano.mjs) e passare da `percorsiDaGit`.",
+    "AR-694 (fuori dai miei file): zero casi spenti restano nella cartella. I quattro file che il mio scanner aveva segnalato all'inizio — errore-ingoiato, organi-verdi-per-costante, perimetro-applicato, plancia-cieca — usano forme SANE (coda o registro) e il guardiano non li accusa: verificato uno per uno leggendo il ciclo finale di ciascuno."
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Tre difetti chiusi si appoggiano a una prova che in questo ambiente non parte, e il banco la chiama «rossa» invece che «non l'ho potuta guardare»",
+      "causa_radice": "cervello/test/c1-atto-una-volta-sola.test.mjs importa una route del Pannello che richiede `next`, e `pannello/node_modules` non esiste in una sessione appena aperta. Il banco lo classifica `ineseguibile`, che conta come rosso: è la stessa confusione fra «rotto» e «ambiente incompleto» che AR-693 cura per le prove in bash, sul lato Node. Andrebbe dichiarato ⚪ come i .bats senza bats, altrimenti il tetto `test_cervello` porta per sempre due rossi che non sono rossi.",
+      "visto_in": "cervello/test-cervello.mjs (verdetto `ineseguibile`) + AR-385/AR-412/AR-413 nel cantiere",
+      "registrato_come": "AR-696"
+    },
+    {
+      "titolo": "Novantotto schede dichiarate riparate hanno una prova che nessuno ha mai rotto apposta",
+      "causa_radice": "Il conto `mutazione-mancante` guardava solo i difetti APERTI, e i difetti riparati escono dalla lista degli aperti nel momento stesso in cui vengono chiusi: il debito si accumulava esattamente dove nessuno lo misurava. Adesso il numero si vede fra gli avvisi del cancello, ma non blocca — e nessuno lo sta facendo scendere.",
+      "visto_in": "cervello/cancello-lotto.mjs, avviso «schede dichiarate RIPARATE la cui prova non è mai stata rotta apposta»",
+      "registrato_come": "AR-697"
+    },
+    {
+      "titolo": "Una prova comportamentale può restare verde col fix disfatto se legge l'uscita nel modo sbagliato",
+      "causa_radice": "La prima versione della prova di AR-685 leggeva il referto con `spawnSync` diretto e restava verde anche rimettendo `process.exit()`: il taglio a 64 KB si vede solo da una pipe di SHELL. Cioè il canale con cui la prova osserva cambia il verdetto, e il canale sbagliato è quello comodo. È una forma nuova della malattia di questa corsia e non ha oggi nessun guardiano: si scopre solo applicando la mutazione, mai deducendola.",
+      "visto_in": "cervello/test/prova-che-non-puo-fallire.test.mjs, caso AR-685 (prima versione)",
+      "registrato_come": "AR-698"
+    }
+  ],
+  "mutanti_da_correggere": [
+    {
+      "voce": "L-2026-0813-02 gate-dichiarato-senza-mutazione",
+      "cosa_e_successo": "SPOSTATA (non rimossa): la regola `gate-mai-rotto` è uscita da gate-veri.mjs ed è entrata nel contratto, dove adesso è UNA per tutti i lettori. Il freno esiste ancora e boccia ancora.",
+      "file_vecchio": "cervello/gate-veri.mjs",
+      "file_nuovo": "cervello/contratto-prova.mjs",
+      "cerca_nuovo": "      violazioni.push({ regola: \"gate-mai-rotto\", lezione: l.id,",
+      "sostituisci_nuovo": "      violazioni.push({ regola: \"gate-mai-rotto-disattivato\", lezione: l.id,",
+      "verificata": "sì — applicata la versione rotta, `node cervello/test/gate-che-non-puo-scattare.test.mjs` diventa rosso su 2 casi, poi rimessa a posto",
+      "gia_fatta_dall_ad": "sì — ricontrollato alle 23:5x: mutanti.json punta già a contratto-prova.mjs con questo `cerca`, la stringa c'è, e `node cervello/gate-veri.mjs` è tornato a uscire 0"
+    },
+    {
+      "voce": "cancello-lotto · mutazione-mancante (blocco duro)",
+      "cosa_e_successo": "SPOSTATA/RISCRITTA — l'AD l'ha già riagganciata. Qui resta la verifica che chiedeva.",
+      "cerca_nuovo": "  const mutNelLotto = toccati ? senzaMutazioneContati.filter((x) => toccati.includes(x.id)) : [];",
+      "sostituisci_nuovo": "  const mutNelLotto = [];",
+      "verificata": "sì — applicata, `node cervello/test/mutazione-mancante.test.mjs` esce 1, poi rimessa a posto"
+    },
+    {
+      "voce": "cancello-lotto · mutazione-mancante (tetto)",
+      "cosa_e_successo": "SPOSTATA/RISCRITTA — l'AD l'ha già riagganciata.",
+      "cerca_nuovo": "  if (senzaMutazioneContati.length > tettoMut) {",
+      "sostituisci_nuovo": "  if (false) {",
+      "verificata": "sì — applicata, `node cervello/test/mutazione-mancante.test.mjs` esce 1, poi rimessa a posto"
+    },
+    {
+      "voce": "AR-669 — i tre puntatori della scheda",
+      "cosa_e_successo": "NIENTE DA FARE: erano già stati riagganciati a cervello/contratto-scheda.mjs. Verificate tutte e tre le stringhe sul file vero (righe 276, 70, 208)."
+    }
+  ],
+  "bats_rosse_trovate": [
+    "Misurato con `BATS_BIN=$(npx bats)` sullo stesso albero: 29 prove in bash, 9 file rossi per 19 casi caduti. Senza bats il banco ne dichiarava 29 non eseguite e il totale diceva 1 rosso su 243; con bats i rossi sono 12.",
+    "cervello/test/worker-titolo-commit.bats — 6 casi (titolo su una riga con accenti, UTF-8 spezzato da `cut`)",
+    "cervello/test/irrobustimenti.bats — 4 casi (timeout su sync_vault, ls-remote di avvio, probe delle colonne)",
+    "cervello/test/n8n-placeholder.bats — 2 casi (n8n segnaposto: non_configurato e max_giri_ciechi_dati)",
+    "cervello/test/worker-doppio-invio.bats — 2 casi (PATCH finale che risuscita un lavoro, guardia ramo in sync_vault)",
+    "cervello/test/estrai-stream.bats — 1 caso (file vuoto: nessun output, nessun errore)",
+    "cervello/test/gate-coerenza-vault-pre-push.bats — 1 caso (il blocco del gate non è un successo silenzioso)",
+    "cervello/test/permessi-guardrail.bats — 1 caso (deny sul push grezzo)",
+    "cervello/test/sensori-non-clobber.bats — 1 caso (guardia anti-drift dietro scriviStato)",
+    "cervello/test/worker-claim-pausa.bats — 1 caso (guard PAUSA_FAIL_CLOSED con cattura dell'rc)",
+    "NESSUNA riparata: i fallimenti stanno negli script di shell del worker e del giro, fuori dal mio territorio. Sono debito reale, non prove sbagliate."
+  ],
+  "spazzata": "La malattia è censita in malattie.json? Il nome più vicino è `certifica-esistenza-non-funzionamento` (il controllo verifica che una cosa ESISTA, non che FUNZIONI): tutte e cinque le forme che ho curato ne sono istanze, ma nessuna con questo nome. Non ho scritto in malattie.json (non è mio). Il nome che propongo per la forma specifica: `prova-che-non-puo-fallire` — una prova che non può diventare rossa nemmeno quando ciò che difende è rotto. Istanze contate oggi: 0 casi asincroni spenti (erano 5) · 0 prove orfane auto-chiudibili · 24 freni senza la propria mutazione (visibili, non più nascosti sotto un ✅) · 98 schede riparate senza mutazione (visibili, nessuno le sta facendo scendere) · 9 file in bash rossi che nessuno eseguiva."
+}

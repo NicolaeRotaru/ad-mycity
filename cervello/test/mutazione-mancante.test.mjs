@@ -23,6 +23,15 @@ const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
 const DENTRO_CANTIERE = "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json";
 
+// AR-694 — I MODULI SI CARICANO QUI, non dentro i casi. Il banco qui sotto lancia i casi con `fn()`
+// secco: un caso scritto `async` per poter fare `await import(...)` restituisce una promessa che
+// nessuno raccoglie, l'asserzione gira dopo che il conteggio è già stampato, e un `1 = 2` esce
+// «passato». Due casi di questo file erano esattamente così. L'import in cima è `await` di modulo —
+// legittimo, atteso da Node prima di eseguire una riga di test — e rende i casi sincroni per davvero.
+// (Caricare `cancello-lotto.mjs` non lo fa girare: ha la guardia dell'entrypoint.)
+const { fileDelComando, proveOrfane } = await import(join(QUI, "..", "cancello-lotto.mjs"));
+const { comandoAmmesso } = await import(join(QUI, "..", "forma-prova.mjs"));
+
 const casi = [];
 const prova = (nome, fn) => {
   try {
@@ -55,7 +64,7 @@ function copiaDipendenze(dir, entry, gia = new Set(), stub = new Set(["./git-git
   return gia;
 }
 
-function repoFinto({ verificaPrima, verificaOra, mutanti, tetti, cerca = "if (scaduto) return false;" }) {
+function repoFinto({ verificaPrima, verificaOra, mutanti, tetti, cerca = "if (scaduto) return false;", statoPrima = "aperto", statoOra = "aperto" }) {
   const dir = mkdtempSync(join(tmpdir(), "mut-mancante-"));
   mkdirSync(join(dir, "cervello"), { recursive: true });
   mkdirSync(join(dir, "finto"), { recursive: true });
@@ -83,19 +92,19 @@ function repoFinto({ verificaPrima, verificaOra, mutanti, tetti, cerca = "if (sc
   writeFileSync(join(dir, "cervello/mutanti.json"), typeof mutanti === "string" ? mutanti : JSON.stringify({ mutanti }));
   writeFileSync(join(dir, "cervello/tetti-lotto.json"), JSON.stringify(tetti ?? { prova_con_or: 0, mutazione_mancante: 0 }));
 
-  const scriviCantiere = (verifica) =>
+  const scriviCantiere = (verifica, stato) =>
     writeFileSync(
       join(dir, DENTRO_CANTIERE),
-      JSON.stringify({ difetti: [{ id: "AR-900", stato: "aperto", verifica }] }, null, 1),
+      JSON.stringify({ difetti: [{ id: "AR-900", stato, verifica }] }, null, 1),
     );
 
   execFileSync("git", ["init", "-q", "."], { cwd: dir });
   execFileSync("git", ["config", "user.email", "t@t"], { cwd: dir });
   execFileSync("git", ["config", "user.name", "t"], { cwd: dir });
-  scriviCantiere(verificaPrima);
+  scriviCantiere(verificaPrima, statoPrima);
   execFileSync("git", ["add", "-A"], { cwd: dir });
   execFileSync("git", ["commit", "-q", "-m", "prima", "--no-verify"], { cwd: dir });
-  scriviCantiere(verificaOra); // ← quello che il lotto sta per consegnare, non ancora committato
+  scriviCantiere(verificaOra, statoOra); // ← quello che il lotto sta per consegnare, non ancora committato
   return dir;
 }
 
@@ -168,8 +177,55 @@ prova("--aggiorna-tetti non abbassa un tetto che non ha potuto misurare", () => 
   assert.equal(JSON.parse(readFileSync(join(dir, "cervello/tetti-lotto.json"), "utf8")).mutazione_mancante, 5, "il tetto resta quello di prima");
 });
 
-prova("il file del test si riconosce anche quando il comando porta un caricatore (lotto 33)", async () => {
-  const { fileDelComando } = await import(join(QUI, "..", "cancello-lotto.mjs"));
+// ── AR-692 — i due casi che vanno tenuti separati ────────────────────────────
+// Riaprire onestamente un difetto faceva scattare l'allarme del debito, come se il debito l'avesse
+// aggiunto chi riapre. Curarlo ha un rischio preciso, ed è la ragione per cui questi due casi stanno
+// scritti uno accanto all'altro: allentare il conto del debito NON deve allentare il blocco duro.
+
+prova("AR-692 ①: un difetto RIPARATO in questo lotto senza mutazione resta FERMATO", () => {
+  // «Riparato dal lotto» nel linguaggio del cantiere = la sua prova è cambiata adesso. Era aperto
+  // prima ed è aperto adesso: nessuna riapertura, nessuna esenzione.
+  const dir = repoFinto({ verificaPrima: PATTERN, verificaOra: COMANDO, mutanti: [], tetti: { mutazione_mancante: 9 } });
+  const { codice, uscita } = cancello(dir);
+  assert.equal(codice, 1, `il blocco duro doveva fermarlo anche col tetto largo, invece è uscito ${codice}:\n${uscita}`);
+  assert.match(uscita, /mutazione-mancante/, "e deve dire quale regola");
+});
+
+prova("AR-692 ①bis: dichiararlo CHIUSO non è la porta di servizio per saltare la mutazione", () => {
+  // Il modo più comodo di consegnare un fix mai provato era chiudere la scheda senza toccarne la
+  // prova: non risultava «toccata» (il confronto guarda solo `verifica`) e non risultava fra le
+  // aperte (il conto guarda solo quelle). Usciva dal blocco duro da tutt'e due i lati.
+  const dir = repoFinto({
+    verificaPrima: COMANDO,
+    verificaOra: COMANDO,
+    statoPrima: "aperto",
+    statoOra: "chiuso",
+    mutanti: [],
+    tetti: { mutazione_mancante: 9 },
+  });
+  const { codice, uscita } = cancello(dir);
+  assert.equal(codice, 1, `chiudere una scheda senza mutazione non si consegna, invece è uscito ${codice}:\n${uscita}`);
+  assert.match(uscita, /CHIUSO in questo lotto/, "e deve dire perché");
+});
+
+prova("AR-692 ②: RIAPRIRE un difetto senza mutazione NON fa scattare l'allarme del debito", () => {
+  // Il caso vero: due difetti riaperti su richiesta di Nicola portavano `senzaMutazione` da 0 a 2 e
+  // il cancello leggeva «il debito si è allargato». Il debito c'era già, dentro una scheda marcata
+  // chiusa: riaprirla lo ha reso visibile. Punire chi riapre è l'incentivo rovesciato.
+  const dir = repoFinto({
+    verificaPrima: COMANDO,
+    verificaOra: COMANDO,
+    statoPrima: "chiuso",
+    statoOra: "aperto",
+    mutanti: [],
+    tetti: { mutazione_mancante: 0 },
+  });
+  const { codice, uscita } = cancello(dir);
+  assert.equal(codice, 0, `riaprire onestamente non è debito nuovo, invece è uscito ${codice}:\n${uscita}`);
+  assert.match(uscita, /RIAPERT/i, "e il numero non sparisce: resta detto come debito ereditato reso visibile");
+});
+
+prova("il file del test si riconosce anche quando il comando porta un caricatore (lotto 33)", () => {
   // Il caso che ha rotto: la regola era «il primo token che sembra un file», e con
   // `--import ./cervello/test/hook-ts.mjs` quel token è il RISOLUTORE, non il test. Il cancello
   // leggeva il file sbagliato e accusava una prova condivisa di non nominare i suoi difetti mentre
@@ -186,10 +242,7 @@ prova("il file del test si riconosce anche quando il comando porta un caricatore
   assert.equal(fileDelComando("echo niente"), null, "senza file deve dire null, non indovinare");
 });
 
-prova("una prova che auto-fix non sa eseguire non passa il cancello (lotto 33)", async () => {
-  const { proveOrfane } = await import(join(QUI, "..", "cancello-lotto.mjs"));
-  const { comandoAmmesso } = await import(join(QUI, "..", "forma-prova.mjs"));
-
+prova("una prova che auto-fix non sa eseguire non passa il cancello (lotto 33)", () => {
   // Il caso che ha rotto, e che è costato due difetti: AR-409 e AR-226 sono stati consegnati con
   // `node --import ./cervello/test/hook-ts.mjs --test …`. Il cancello l'ha accettato — il file
   // esisteva — ma `auto-fix`, che chiude i difetti DOPO il merge, esegue solo

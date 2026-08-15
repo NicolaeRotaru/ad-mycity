@@ -26,10 +26,28 @@
 //   node cervello/conta-blocco-mancante.mjs --json          # per gli script
 //   node cervello/conta-blocco-mancante.mjs --giorni 14     # finestra diversa (default 7)
 //   node cervello/conta-blocco-mancante.mjs --aggiorna-tetto  # abbassa il tetto al valore di adesso
+//   node cervello/conta-blocco-mancante.mjs --sola-lettura  # stampa e NON scrive niente
 //
 // Uscita (contratto guardiani, AR-322): 0 = sotto il tetto · 1 = l'abitudine è peggiorata · 2 = cieco
 //
 // 🟢 Sola lettura sulle trascrizioni. Scrive solo dentro la memoria dell'AI (auto-coscienza/).
+//
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-663 · AR-568 — PERCHÉ INTERROGARE QUESTO CONTATORE NON DEVE PEGGIORARLO
+// ─────────────────────────────────────────────────────────────────────────────
+// Fino al lotto 42 questo file chiamava `scriviJsonAtomico(REFERTO, …)` SEMPRE — anche con `--json`,
+// anche da una prova — e `REFERTO` era un percorso fisso, senza nessun modo di deviarlo. Chi lo
+// eseguiva per sapere come stava messo lo PEGGIORAVA: eseguendolo da un test si è sovrascritto il
+// referto vero (misurato il 13/8 alle 18:46 → 00:02, trascrizioni 589 → 1, perché nell'ambiente di
+// prova le trascrizioni non ci sono) e si è dovuto ripristinare a mano.
+//
+// Il caso peggiore non è il rosso, che si vede. È questo: la finestra passa da 26 messaggi a 2, la
+// quota scende dal 100% al 50%, e il voto MIGLIORA perché si è misurato di meno. Adesso il referto
+// porta `origine` e `copertura` (quanti messaggi ha davvero misurato) e la scrittura passa da
+// `decidiScrittura`: una misura più povera scritta da un punto d'osservazione diverso non prende il
+// posto di una più ricca.
+//   · `BLOCCO_MANCANTE_FILE`  → devia il referto (le prove ci puntano una cartella temporanea);
+//   · `--sola-lettura` e `--json` → guardano e non toccano.
 
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -44,13 +62,19 @@ import {
 } from "./si-capisce.mjs";
 import { testiAssistente } from "./cancello-stop.mjs";
 import { timbroOra } from "./ora-piacenza.mjs";
+import { decidiScrittura, timbroProvenienza } from "./scrittura-misura.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
-const REFERTO = join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/blocco-mancante.json");
+// AR-663: il referto è DEVIABILE. Senza questa riga chiunque esegua il contatore — una prova, una
+// diagnosi, una sessione senza trascrizioni — scrive sopra la fotografia vera.
+const REFERTO = process.env.BLOCCO_MANCANTE_FILE || join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/blocco-mancante.json");
 
 const JSON_MODE = process.argv.includes("--json");
 const AGGIORNA = process.argv.includes("--aggiorna-tetto");
+// `--json` è un'INTERROGAZIONE: chi vuole il dato per uno script non sta chiedendo di aggiornare la
+// memoria di tutti. `--aggiorna-tetto` resta l'unico modo esplicito di scrivere insieme al giro.
+const SOLA_LETTURA = process.argv.includes("--sola-lettura") || (JSON_MODE && !AGGIORNA);
 const GIORNI = Number(process.argv[process.argv.indexOf("--giorni") + 1]) || 7;
 
 /**
@@ -177,13 +201,33 @@ export function verdetto({ conto, tetto }) {
   return { righe, rotto };
 }
 
+/**
+ * Dichiara il ⚪ NEL CANALE IN CUI È STATA FATTA LA DOMANDA, poi esce 2.
+ *
+ * Prima il cieco usciva sempre in italiano su stderr, anche quando l'interrogazione era `--json`.
+ * Chi chiede JSON è una macchina, e una macchina che riceve una frase non sa distinguere «non ho
+ * potuto guardare» da «sono morto a metà»: le resta solo il numero d'uscita, ed è esattamente il
+ * modo di ragionare che il lotto 42 sta togliendo di mezzo (AR-707).
+ *
+ * L'ho scoperto dalla CI: su GitHub non esiste nessuna trascrizione da contare, quindi il guardiano
+ * usciva cieco in prosa e la prova che lo interroga in JSON si rompeva sul parse — un rosso che
+ * parlava dell'ambiente e sembrava parlare del fix.
+ */
+function dichiaraCieco(motivo) {
+  if (JSON_MODE) {
+    console.log(JSON.stringify({ _cieco: true, _motivo: motivo, _referto_risolto: REFERTO, _ha_scritto: false }, null, 2));
+  } else {
+    console.error(`⚪ CIECO: ${motivo}`);
+  }
+  process.exit(2);
+}
+
 function main() {
   const cartelle = cartelleTrascrizioni();
   if (cartelle === null) {
-    console.error(
-      "⚪ CIECO: non ho potuto leggere ~/.claude/projects (permessi o cartella illeggibile). Non è «nessuna trascrizione»: è non aver guardato.",
+    dichiaraCieco(
+      "non ho potuto leggere ~/.claude/projects (permessi o cartella illeggibile). Non è «nessuna trascrizione»: è non aver guardato.",
     );
-    process.exit(2);
   }
   const trovate = trascrizioniRecenti(cartelle, GIORNI);
   const file = trovate.presi;
@@ -191,12 +235,11 @@ function main() {
     const scartati = Object.entries(trovate.scartati)
       .map(([e, n]) => `${n}${e}`)
       .join(", ");
-    console.error(
-      `⚪ CIECO: nessuna trascrizione .jsonl degli ultimi ${GIORNI} giorni sotto ~/.claude/projects` +
+    dichiaraCieco(
+      `nessuna trascrizione .jsonl degli ultimi ${GIORNI} giorni sotto ~/.claude/projects` +
         (trovate.visti ? ` (ho visto ${trovate.visti} file e li ho scartati tutti: ${scartati} — se il formato è cambiato, il recinto va allargato)` : "") +
         ". Qui non posso vedere come scrivo. (cieco non è verde: «zero dimenticanze» sarebbe una bugia)",
     );
-    process.exit(2);
   }
 
   const testi = [];
@@ -210,12 +253,20 @@ function main() {
     }
   }
   if (!letti) {
-    console.error(`⚪ CIECO: ${file.length} trascrizioni trovate e nessuna leggibile.`);
-    process.exit(2);
+    dichiaraCieco(`${file.length} trascrizioni trovate e nessuna leggibile.`);
   }
 
   const conto = conta(testi);
-  const precedente = existsSync(REFERTO) ? JSON.parse(readFileSync(REFERTO, "utf8")) : {};
+  // Il referto precedente serve a DUE cose: il tetto (che scende e non risale) e il confronto di
+  // copertura. Un errore di lettura non diventa «non c'era niente prima»: si dichiara e si porta
+  // fino alla decisione, così una riparazione non si traveste da confronto vinto.
+  let precedente = {};
+  let leggibile = true;
+  try {
+    if (existsSync(REFERTO)) precedente = JSON.parse(readFileSync(REFERTO, "utf8"));
+  } catch {
+    leggibile = false;
+  }
   const tetto = precedente?.tetto?.quota_peggiore ?? null;
   const v = verdetto({ conto, tetto });
 
@@ -223,6 +274,10 @@ function main() {
     _cosa_e:
       "📮 Quante volte un messaggio che pretendeva le quattro risposte è uscito senza. Il tetto è una QUOTA e SCENDE: aggiungerne è un errore, portarne via è il lavoro. Nato dalla domanda di Nicola del 3/8 («come fai a non dimenticartene mai?»).",
     misurato: timbroOra(),
+    // AR-568 (a) · AR-286 — DA DOVE viene questa misura e QUANTO ha visto. La copertura è il numero
+    // di messaggi davvero misurati: è il campione, cioè l'unica cosa che rende confrontabili due
+    // quote. Senza, «50% su 2 messaggi» e «50% su 200» sono lo stesso numero.
+    ...timbroProvenienza({ env: process.env, copertura: conto.misurati, scrittoDa: "conta-blocco-mancante.mjs" }),
     finestra_giorni: GIORNI,
     trascrizioni: { trovate: file.length, lette: letti, file_visti: trovate.visti, scartati_per_estensione: trovate.scartati },
     messaggi_misurati: conto.misurati,
@@ -236,10 +291,17 @@ function main() {
         : precedente.tetto || { quota_peggiore: conto.quota },
     verdetto: v,
   };
-  scriviJsonAtomico(REFERTO, referto);
+  // AR-663 · AR-568 (b) — la scrittura passa dalla decisione condivisa, non da un `if` scritto qui.
+  const scelta = decidiScrittura({ solaLettura: SOLA_LETTURA, misuraNuova: referto, misuraVecchia: precedente?.misurato ? precedente : null, vecchiaLeggibile: leggibile });
+  if (scelta.scrivi) scriviJsonAtomico(REFERTO, referto);
 
   if (JSON_MODE) {
-    console.log(JSON.stringify(referto, null, 2));
+    // AR-663 — il referto DICE dove scriverebbe e se ha scritto. Serve a una prova che deve valere
+    // ovunque: guardare il disco funziona solo dove il guardiano ha dati da contare, e su una
+    // macchina senza trascrizioni (la CI) non scrive comunque — quindi «non ha sporcato il file
+    // vero» sarebbe vero anche col fix disfatto. Il percorso RISOLTO invece e la cosa che il fix
+    // cambia davvero, e si legge allo stesso modo dappertutto.
+    console.log(JSON.stringify({ ...referto, _referto_risolto: REFERTO, _ha_scritto: scelta.scrivi }, null, 2));
   } else {
     console.log("\n📮 IL BLOCCO CHE SPARISCE — quante volte ho scritto senza rispondere\n");
     console.log(`   Finestra:      ultimi ${GIORNI} giorni · ${letti} trascrizioni su ${file.length}`);
@@ -252,7 +314,7 @@ function main() {
     console.log(`\n   Il peggiore: «${conto.peggiore}» al ${conto.quota}% · tetto ${referto.tetto.quota_peggiore}%`);
     for (const r of v.righe) console.log(`   ${r}`);
     if (!v.righe.length) console.log("   ✅ sotto il tetto.");
-    console.log(`\n   Referto: ${REFERTO}\n`);
+    console.log(`\n   Referto: ${REFERTO}${scelta.scrivi ? "" : ` — NON riscritto: ${scelta.motivo}`}\n`);
   }
 
   if (AGGIORNA) process.exit(0);

@@ -37,6 +37,7 @@ import { dirname, join } from "node:path";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { scriviStatoSensore } from "./stato-sensori.mjs";
+import { oreDaTimbro } from "./ora-piacenza.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const SEGNA_PIENO = process.argv.includes("--segna-pieno");
@@ -64,14 +65,29 @@ function writeJson(path, data) {
   scriviJsonAtomico(path, data);
 }
 
-/** @param {string} dataStr "AAAA-MM-DD HH:MM" (fuso Piacenza) */
-function oreFa(dataStr) {
+/**
+ * Da quante ore è stato scritto questo timbro di Piacenza. `Infinity` se non si legge.
+ *
+ * ⚠️ Questo numero DECIDE: sopra ci sta il battito (`MAX_ORE`), cioè «è passato troppo tempo
+ * dall'ultimo giro pieno, accendi il motore comunque». Qui l'offset era scritto a mano (`+02:00`),
+ * che è l'ora legale: da fine ottobre a fine marzo l'Italia sta a `+01:00` e il conto sbagliava di
+ * un'ora piena, sempre nella stessa direzione — il giro pieno partiva un'ora prima del dovuto,
+ * cinque mesi l'anno, bruciando un motore AI che non serviva. D'estate era giusto per caso, ed è
+ * per questo che nessuno l'ha visto: chi l'ha scritto stava lavorando a luglio.
+ *
+ * Adesso il conto passa dall'orologio di casa, che l'offset lo chiede al fuso per QUELLA data.
+ * La lettura dei campi resta qui perché è solo estrazione: una data senza ora vale mezzogiorno,
+ * come in tutto il resto della macchina.
+ *
+ * @param {string} dataStr "AAAA-MM-DD HH:MM" (fuso Piacenza)
+ */
+export function oreFa(dataStr) {
   if (!dataStr) return Infinity;
   const m = String(dataStr).match(/^(\d{4})-(\d{2})-(\d{2})(?:[ T](\d{2}):(\d{2}))?/);
   if (!m) return Infinity;
   const [, y, mo, d, h = "12", mi = "00"] = m;
-  const t = new Date(`${y}-${mo}-${d}T${h}:${mi}:00+02:00`).getTime();
-  return Number.isNaN(t) ? Infinity : (Date.now() - t) / 3600000;
+  const ore = oreDaTimbro(`${y}-${mo}-${d} ${h}:${mi}`, Date.now());
+  return ore === null ? Infinity : ore;
 }
 
 // Conteggio esatto via PostgREST (header Prefer: count=exact + Range 0-0 → Content-Range "0-0/N").
@@ -282,9 +298,16 @@ function spiegaCambio(a, b) {
   return diff.length ? `cambiato: ${diff.join(", ")}` : "cambiato (firma diversa)";
 }
 
-main().catch(async (e) => {
-  console.error("ERRORE delta-gate:", e.message || e);
-  await stampSegnale("delta-gate", "errore", `crash: ${(e.message || e).toString().slice(0, 160)}`);
-  // Fail-safe: in caso di errore NON saltiamo mai il giro (meglio un giro in più che perdere segnali).
-  process.exit(0);
-});
+// Gira solo se lanciato direttamente. Prima `main()` partiva anche su import: chi voleva PROVARE
+// `oreFa` — il conto su cui sta il battito che accende o spegne il motore AI — faceva partire un
+// giro vero e scrivere lo stato dei sensori come effetto collaterale del test. È la stessa trappola
+// già annotata in sonda-volano.mjs, e una decisione che non si può provare senza sporcare la
+// memoria non viene provata: è così che l'ora scritta a mano è rimasta qui dentro per mesi.
+if (import.meta.url === `file://${process.argv[1]}`) {
+  main().catch(async (e) => {
+    console.error("ERRORE delta-gate:", e.message || e);
+    await stampSegnale("delta-gate", "errore", `crash: ${(e.message || e).toString().slice(0, 160)}`);
+    // Fail-safe: in caso di errore NON saltiamo mai il giro (meglio un giro in più che perdere segnali).
+    process.exit(0);
+  });
+}

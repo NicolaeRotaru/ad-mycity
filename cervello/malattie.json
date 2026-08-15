@@ -7,23 +7,28 @@
    "id": "esito-in-una-pipe",
    "nome": "L'esito di un guardiano finisce in una pipe e sparisce",
    "perche_e_grave": "In una pipe il codice d'uscita che conta è quello dell'ULTIMO comando (`tail`, sempre 0). Il guardiano gira, trova il problema, lo stampa — e chi lo ha chiamato riceve «tutto a posto». Se poi c'è anche un `|| true`, l'esito è sepolto due volte. È il difetto AR-165: il guardiano nato apposta per scoprire i controlli spenti in silenzio aveva, lui per primo, l'allarme staccato. Nel giro il modello «riga informativa» e il modello «cancello» si somigliano a vista: la differenza sono due caratteri, ed è per questo che si sbaglia.",
-   "pattern": "node \"\\$SCRIPT_DIR/[^\"\\n]+\\.mjs\"[^|\\n]*\\|[^|\\n]*tail",
+   "pattern": "node \"\\$SCRIPT_DIR/[^\"\\n]+\\.mjs\"[^|\\n]*(\\|[^|\\n]*(tail|head|esito_righe)|\\|\\|[ \\t]*true)",
    "dove": [
     "cervello"
    ],
    "estensioni": [
     ".sh"
    ],
-   "baseline": 0,
-   "file_noti": [],
+   "baseline": 50,
+   "file_noti": [
+    "cervello/giro.sh",
+    "cervello/ritmo.sh",
+    "cervello/monitora.sh",
+    "cervello/worker.sh"
+   ],
    "curati": [
     "freschezza-segnali.mjs — promosso a cancello con la funzione guardiano() (lotto 10)",
     "sonda-volano.mjs — promosso a cancello con la funzione guardiano() (lotto 10)",
     "tasso-lezioni.mjs — l'altra metà di AR-178, sfuggita al lotto 10 e ripresa dall'audit della chiusura"
    ],
-   "nota_onesta": "35 istanze restano, tutte in giro.sh. NON sono tutte difetti: molte sono rapporti informativi veri (capacita, bilancio-vivo, macchina-del-tempo) dove non esiste un fallimento che debba vincolare il giro. Ma la differenza va DECISA una per una, non lasciata al caso: finché il triage non è fatto, AR-165 resta aperto con questo numero scritto sopra. La radice — una funzione `guardiano` che rende la scelta esplicita invece che implicita in due caratteri — è installata.",
+   "nota_onesta": "Cinquanta istanze, quasi tutte in giro.sh. NON sono tutte difetti: molte sono rapporti informativi veri (capacita, bilancio-vivo, macchina-del-tempo) dove non esiste un fallimento che debba fermare il giro. Ma la differenza va DECISA una per una e dichiarata negli esenti, non lasciata al caso — ed è il triage che manca. La radice è installata: la funzione `guardiano()` rende la scelta esplicita invece che implicita in due caratteri.",
    "esenti": [],
-   "nota_baseline": "0 dal 2026-07-28 (AR-307): giro.sh non usa piu `| tail`, l'esito passa da esito_righe che tiene la prima riga (verdetto/errore) e la coda."
+   "nota_baseline": "50, misurato il 2026-08-14 sulla forma VIVA — `node \"$SCRIPT_DIR/X.mjs\" … | esito_righe N || true`. Dove sono: giro.sh 46, ritmo.sh 2, monitora.sh 1, worker.sh 1. ⚠️ IL NUMERO NON È SALITO DA 0 A 50: era 0 perché il rilevatore cercava solo `| tail`, e il codice nel frattempo era passato a `esito_righe`. Cioè la malattia risultava guarita perché avevamo cambiato nome al tubo (AR-375), e per due settimane nessuno ha visto le cinquanta istanze vive. Da qui il tetto scende e non risale. La scheda di AR-375 diceva 34, ma era il conto del 29 luglio: il giro è cresciuto da allora."
   },
   {
    "id": "buco-letto-come-zero",
@@ -217,11 +222,6 @@
      "file": "cervello/git-github.mjs",
      "quale": "riga 177, invio -> false",
      "perche": "E una scrittura di rete che restituisce «e andata a buon fine?»: su eccezione la risposta onesta e proprio `false`, perche l'invio davvero non e confermato. E la cura di «esito-di-scrittura-buttato», non la malattia."
-    },
-    {
-     "file": "cervello/guardiano-capacita.mjs",
-     "quale": "riga 56, statSync(...).isDirectory() -> false in un filter",
-     "perche": "Fallisce CHIUSO: una cartella che non si riesce a interrogare esce dal censimento, quindi il guardiano conta MENO capacita di quante ce ne siano — sottostima, non rassicurazione. Il verso pericoloso e l'opposto."
     }
    ],
    "nota_baseline": "0 dal 2026-07-29 (lotto 34). ATTENZIONE al metro: questa regex prende la SINTASSI (un errore che diventa vuoto/zero), non la malattia. Ogni istanza va giudicata su una domanda sola — «il verdetto che ne esce fallisce APERTO o CHIUSO?». I cinque punti dichiarati esenti falliscono tutti chiusi (fanno di meno, non dicono che va bene). Il metro FINE per la meta git della malattia non e questa regex ma `node cervello/storia-git.mjs --check`, che ragiona per chiamata invece che per testo — nato verde il 29/7 dopo aver portato dentro i quattro punti che la scavalcavano. · lotto 40: TOLTA l'esenzione su cervello/consenso-azione.mjs (riga 74, leggiCoda -> \"\"). Non e' una difesa rimossa: e' un residuo. Quell'esenzione descriveva un difetto che AR-443 ha curato in questo stesso lotto — leggiCoda adesso distingue «coda vuota» da «coda illeggibile» e il cancello scrive il motivo vero. La spazzata la segnalava come «esenzione che non corrisponde piu' a niente», ed e' esatto: un'esenzione che non copre piu' nessuna istanza nasconde il prossimo caso vero che nascera' in quel file. La difesa di AR-443 vive nel CODICE e nella sua mutazione (cervello/mutanti.json, verificata unica sul file), non in questa riga."
@@ -237,14 +237,14 @@
    "estensioni": [
     ".mjs"
    ],
-   "baseline": 66,
+   "baseline": 65,
    "curati": [
     "i file nati dopo AR-445 usano tutti la guardia `import.meta.url`",
     "guardiano-tempo.mjs (11/8): la guardia `import.meta.url` messa davvero. Prima era `main().catch(...)` senza guardia — importarlo eseguiva tutto, ma la forma non era piu quella che il rilevatore cerca: malattia nascosta invece che curata. L'ha presa la spazzata contando 70 contro un tetto di 71."
    ],
    "nota_onesta": "25 istanze storiche misurate il 3/8, non curate qui: toccarle tutte in questo lotto avrebbe voluto dire 25 file modificati per un lavoro che parlava d altro (e la deriva che il controllo ⑨ del sorvegliante esiste per chiedere). Il valore di censirla adesso e che la 26a viene fermata nel momento in cui la scrivo.",
    "esenti": [],
-   "nota_baseline": "67 misurate il 2026-08-14 da spazzata-fratelli dopo il lotto 41 (prec. → 67). 71 dal 2026-08-03: numero MISURATO dalla spazzata su tutto cervello/ (il primo grep ne aveva contati 25 perche guardava solo il primo livello — la differenza e la ragione per cui i numeri si misurano con lo strumento che poi li verifica). file_noti omesso apposta: su una malattia larga elencare 71 file gonfia il registro senza aggiungere verita, e basta il tetto sul totale. · sceso a 69 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B) · sceso a 68 il 2026-08-13 (lotto 40: un altro main-guard, corsia E)"
+   "nota_baseline": "67 misurate il 2026-08-14 da spazzata-fratelli dopo il lotto 41 (prec. → 67). 71 dal 2026-08-03: numero MISURATO dalla spazzata su tutto cervello/ (il primo grep ne aveva contati 25 perche guardava solo il primo livello — la differenza e la ragione per cui i numeri si misurano con lo strumento che poi li verifica). file_noti omesso apposta: su una malattia larga elencare 71 file gonfia il registro senza aggiungere verita, e basta il tetto sul totale. · sceso a 69 il 2026-08-13 17:57 (lotto 37: main-guard aggiunti da corsia B) · sceso a 68 il 2026-08-13 (lotto 40: un altro main-guard, corsia E) · 65 dal 2026-08-14 (lotto 42): era 66, e una corsia ne ha curata una — keyword-owner-check partiva da solo appena importato (AR-680). Il tetto scende e non risale."
   },
   {
    "id": "data-senza-ora",
@@ -532,6 +532,25 @@
    ],
    "nota_onesta": "Il pattern conta OGNI esecuzione diretta di git, compresa quella dentro gitEsegui: è voluto, perché l'esecutore unico è una riga sola e tutto il resto è una porta laterale. Il tetto scende quando un chiamante passa all'esecutore unico, e non risale: è l'unica cosa che impedisce all'ottava porta di nascere in silenzio.",
    "nota_baseline": "18 istanze nette (19 trovate − 1 esente) in 14 file, misurate il 2026-08-14 da spazzata-fratelli sul repo vero. La scheda di AR-327 ne nominava DUE: era nove volte più stretta del vero, ed è il motivo per cui la regola dice che comanda il codice e non la scheda. I file elencati in file_noti sono la LINEA DI PARTENZA, non un'assoluzione: portarli tutti all'esecutore unico è il lavoro di un lotto suo (registrato come difetto nuovo), e finché non è fatto il tetto tiene fermo il numero."
+  },
+  {
+   "id": "codice-uscita-che-compra-il-verde",
+   "nome": "Un codice d'uscita inatteso cade nel ramo «ok» e compra il verde",
+   "perche_e_grave": "Chi legge l'esito di un guardiano si scrive la regola a mano — «rosso se il codice è 1» — e ogni altro codice, il 2 compreso, finisce nel ramo rassicurante. Ma nel contratto di casa (AR-322) il 2 vuol dire NON HO POTUTO MISURARE, e un cieco non è mai un verde. È la stessa malattia di «verde-che-e-il-ramo-di-default» applicata ai codici d'uscita invece che alle stringhe di stato, e per questo il rilevatore vecchio non la vedeva: AR-667 è passato sotto il metro senza essere contato una sola volta.",
+   "pattern": "\\brossoSe\\s*\\([^)\\n]*\\)\\s*\\?[^:\\n]*:\\s*ok\\b|===\\s*1\\s*\\?[^:\\n]*:\\s*ok\\b",
+   "dove": [
+    "cervello"
+   ],
+   "estensioni": [
+    ".mjs"
+   ],
+   "baseline": 0,
+   "file_noti": [],
+   "curati": [
+    "salute.mjs — daGiudizio passa da esito-guardiano.mjs, che ha il cieco nel default (lotto 42)"
+   ],
+   "esenti": [],
+   "nota_baseline": "0 dal 2026-08-14: nasce verde perché è appena stata curata. Esiste per accorgersi del PROSSIMO che riscrive quella riga, non per misurare un debito."
   }
  ]
 }

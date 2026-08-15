@@ -43,7 +43,11 @@ jobs:
   cancello:
     name: prove, guardiani e typecheck
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # Erano 20, e il cancello ne prendeva 6 e mezzo. Da quando c'è il browser il conto cambia: lo
+    # scarico di chromium, la compilazione a freddo del Pannello e la mutazione di AR-613 che lo
+    # riapre. Il margine sta qui apposta — un cancello ucciso dall'orologio è un ⚪, e chi legge un
+    # lavoro bocciato dall'orologio impara a rilanciarlo invece di leggerlo.
+    timeout-minutes: 30
     steps:
       # Agganciate al commit, non all'etichetta (AR-637): un tag si sposta, un commit no.
       # Per aggiornarle: `git ls-remote --tags https://github.com/actions/checkout v4`.
@@ -61,6 +65,45 @@ jobs:
       # cieco non è verde. Installarle qui è ciò che rende il verde un verde vero.
       - name: Dipendenze del Pannello
         run: npm --prefix pannello ci
+
+      # 🖥️ IL BROWSER — AR-707, 15/8.
+      #
+      # `cervello/test/c4-schermo-coda.test.mjs` non legge un file: apre il Pannello vero e guarda la
+      # pagina costruita. Su una macchina senza browser fa la cosa giusta — dichiara di non aver
+      # potuto guardare ed esce zero. Ma zero è anche il numero di chi ha guardato e non ha trovato
+      # niente da ridire, e il banco delle mutazioni leggeva solo quel numero: sul referto usciva
+      # «❌ AR-613 — la prova NON dimostra il suo fix». Falso. Quella prova diventa rossa eccome, su
+      # una macchina che il Pannello lo sa aprire: era l'ambiente a mancare, non la difesa.
+      #
+      # Il banco adesso distingue ⚪ da ❌ (`verdettoCorsa`), ma un ⚪ resta un cancello rosso — ed è
+      # giusto così: questo file lo dice due volte, un cieco non è un verde. Quindi la strada per il
+      # verde è una sola, ed è la stessa già scritta qui sopra per `npm ci` e il typecheck: **la
+      # copertura si guadagna installando lo strumento, non abbassando l'asticella.**
+      #
+      # Qui vale il doppio, perché non serve solo alla mutazione: senza browser quelle CINQUE prove
+      # di accessibilità del Pannello — comandi annidati, ruoli delle linguette, spostamento da
+      # tastiera, misura del pollice, tema scuro — non le eseguiva nessuno, né qui né in
+      # `test-cervello.yml`. Passano da «provate su una postazione» a «provate a ogni richiesta».
+      # Il Pannello NON si accende qui: se lo trova spento, se lo accende la prova stessa, e va bene
+      # così. Accenderlo prima faceva risparmiare una compilazione, ma apriva una finestra in cui
+      # sbagliare: la mutazione cambia il file mentre il server gira, e il server deve accorgersene
+      # e ricompilare PRIMA che la prova guardi la pagina. Se arriva un attimo tardi, la prova vede
+      # la pagina vecchia, resta verde, e il banco scrive di nuovo «AR-613 non prova niente» — cioè
+      # la stessa accusa all'innocente che questo passo esiste per togliere, per un'altra strada.
+      # Lasciando accendere la prova, la pagina si compila da zero col fix già rotto: niente finestra.
+      #
+      # Non servono chiavi: la coda che il Pannello disegna la legge dai file del vault, che stanno
+      # in questo stesso commit. È per questo che la pagina ha delle card anche su una macchina dove
+      # non esiste nessun Supabase — e senza card la prova direbbe «spariti anche i bottoni».
+      - name: Browser per le prove a schermo
+        run: |
+          npm i -g playwright@1.56.1
+          # `playwright` finisce direttamente nel PATH globale: chiamarlo per nome toglie di mezzo
+          # la domanda «npx sta usando quello installato o ne sta scaricando un altro?».
+          playwright install --with-deps chromium
+          # `require("playwright")` deve risolversi da dentro il repo: il file di prova cerca anche
+          # in NODE_PATH, e la radice globale è dove npm l'ha appena messo.
+          echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
 
       - name: Cancello di uscita
         run: node cervello/cancello-lotto.mjs

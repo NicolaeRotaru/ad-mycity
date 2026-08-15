@@ -1,33 +1,36 @@
 {
   "_cosa_e": "📮 Quante volte un messaggio che pretendeva le quattro risposte è uscito senza. Il tetto è una QUOTA e SCENDE: aggiungerne è un errore, portarne via è il lavoro. Nato dalla domanda di Nicola del 3/8 («come fai a non dimenticartene mai?»).",
-  "misurato": "2026-08-14 04:46",
+  "misurato": "2026-08-15 13:41",
+  "origine": "cloud",
+  "copertura": 21,
+  "scritto_da": "conta-blocco-mancante.mjs",
   "finestra_giorni": 7,
   "trascrizioni": {
-    "trovate": 582,
-    "lette": 582,
-    "file_visti": 582,
+    "trovate": 1,
+    "lette": 1,
+    "file_visti": 1,
     "scartati_per_estensione": {}
   },
-  "messaggi_misurati": 48,
+  "messaggi_misurati": 21,
   "mancanze": {
-    "In parole semplici": 39,
-    "Cosa cambia per te": 40,
-    "Cosa devi fare": 40,
-    "Cosa non ho verificato": 46
+    "In parole semplici": 4,
+    "Cosa cambia per te": 16,
+    "Cosa devi fare": 4,
+    "Cosa non ho verificato": 4
   },
-  "blocco_peggiore": "Cosa non ho verificato",
-  "quota_peggiore": 96,
+  "blocco_peggiore": "Cosa cambia per te",
+  "quota_peggiore": 76,
   "esempi": [
-    "Il giro è completo e i file sono scritti su disco (il push su `main` l",
-    "Tutto a posto: file scritti, JSON validi, working tree pulito e coeren",
-    "Working tree is clean now on `main` (housekeeping vault files committe"
+    "Wave 1 is deep in the verify-on-real-code phase. Let me report status ",
+    "Il lavoro è al sicuro sul ramo. Ecco dove siamo. **In parole semplici",
+    "Wave 2 is running (D and F alongside A). Corsia E waits for a free slo"
   ],
   "tetto": {
     "quota_peggiore": 45
   },
   "verdetto": {
     "righe": [
-      "❌ «Cosa non ho verificato» manca nel 96% dei messaggi che lo pretendevano (tetto 45%): l'abitudine non sta sparendo."
+      "❌ «Cosa cambia per te» manca nel 76% dei messaggi che lo pretendevano (tetto 45%): l'abitudine non sta sparendo."
     ],
     "rotto": true
   }

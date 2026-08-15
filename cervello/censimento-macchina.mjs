@@ -29,6 +29,11 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 
+// AR-700 — la porta unica per elencare i file di un ramo, RICORSIVAMENTE. Non è un'importazione di
+// comodo: è il punto del difetto. Il censimento aveva la sua funzione, che leggeva una cartella sola.
+import { elencaFile } from "./perimetro.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
+
 /** Il titolo del blocco in bacheca. Fisso: è la chiave con cui il blocco si ritrova e si sostituisce. */
 export const TITOLO_BACHECA = "🗺️ Com'è fatta la macchina";
 
@@ -188,7 +193,49 @@ export function creaOcchi() {
     cammina,
     /** File di una cartella (non ricorsivo) che finiscono con una delle estensioni date. */
     fileCon: (dir, ...est) => elenca(dir).filter((f) => est.some((e) => f.endsWith(e))).sort(),
-    /** Cartelle dentro una cartella. */
+    /**
+     * AR-700 — I FILE DI UN RAMO, SOTTOCARTELLE COMPRESE, dalla porta unica di `perimetro.mjs`.
+     *
+     * `fileCon` legge un livello solo, ed è giusto per le cartelle piatte (i sensori, i workflow).
+     * Su `cervello/` era una bugia: 227 moduli contati al primo livello contro 306 veri, perché
+     * `capacita/`, `vps/`, `publishers/`, `content-factory/` e `riparazioni/` non venivano
+     * guardati. È l'altra metà di AR-677 — lì il conto serviva a un CANCELLO ed è stato curato, qui
+     * serve a RACCONTARE la macchina a Nicola ed era rimasto sbagliato. Un numero più piccolo del
+     * vero non allarma nessuno: è per questo che è sopravvissuto.
+     *
+     * Torna `null` — non `[]` — se la radice non si lascia leggere: «non ho potuto guardare» e «non
+     * c'è niente» sono due risposte diverse, e confonderle è come nascono i verdetti ciechi.
+     */
+    sottoAlbero: (dir, estensioni, escludi = []) => {
+      const fuori = elencaFile(dir, { estensioni, escludi }, {
+        leggiCartella: (d) => readdirSync(d, { withFileTypes: true }),
+      });
+      if (fuori == null) { nota("non elenco (nemmeno la radice)", dir, { message: "illeggibile" }); return null; }
+      return fuori;
+    },
+    /**
+     * Le cartelle che il PROGETTO dichiara — quelle tracciate in git, non quelle sul disco.
+     *
+     * AR-701. Per le capacità la domanda giusta è «cosa appartiene a questa macchina», non «cosa
+     * c'è su quella su cui gira»: l'ambiente di una sessione può depositare decine di cartelle che
+     * nessun commit ha aggiunto (misurato: 72 sul disco contro 5 tracciate), e il censimento le
+     * raccontava a Nicola come pezzi della macchina.
+     *
+     * Se git non risponde si torna `null` — cioè cieco, che il chiamante dichiara. Ripiegare sul
+     * disco darebbe una misura diversa con la faccia della stessa.
+     */
+    cartelleTracciate: (dir) => {
+      if (!existsSync(dir)) return [];
+      let tracciati;
+      // Chiesto DENTRO la cartella: git risponde con percorsi relativi a lei, quindi il primo
+      // segmento è già il nome della sottocartella. Nessuna radice da indovinare.
+      try { tracciati = percorsiDaGit(["ls-files"], { cwd: dir }); }
+      catch (e) { nota("git non elenca", dir, e); return null; }
+      const nomi = new Set();
+      for (const f of tracciati) if (f.includes("/")) nomi.add(f.split("/")[0]);
+      return [...nomi].sort();
+    },
+    /** Cartelle dentro una cartella, viste sul disco. */
     cartelle: (dir) => elenca(dir)
       .filter((f) => { try { return statSync(join(dir, f)).isDirectory(); } catch (e) { nota("non guardo", join(dir, f), e); return false; } })
       .sort(),
@@ -246,12 +293,13 @@ export function maniDaPublishers(file = []) {
 /** Conta tutto quello che c'è nella macchina, leggendo il repo. Ogni guasto di lettura resta scritto. */
 export function misura(repo, occhi = creaOcchi()) {
   const p = (...x) => join(repo, ...x);
-  const { leggi, elenca, esiste, cammina, fileCon, cartelle, righeDi, chiaviJson } = occhi;
+  const { leggi, elenca, esiste, cammina, fileCon, sottoAlbero, cartelle, cartelleTracciate, righeDi, chiaviJson } = occhi;
 
   const pannelloFile = esiste(p("pannello/src")) ? cammina(p("pannello/src"), (f) => /\.tsx?$/.test(f)) : [];
   const aree = areeDaNav(leggi(p("pannello/src/lib/nav.ts")));
-  const cervelloMjs = fileCon(p("cervello"), ".mjs");
-  const cervelloSh = fileCon(p("cervello"), ".sh");
+  // AR-700 — i moduli del cervello si contano SOTTOCARTELLE COMPRESE. `test/` resta fuori perché ha
+  // già il suo numero nella stessa riga del referto: contarlo qui lo direbbe due volte.
+  const cervelloScript = sottoAlbero(p("cervello"), [".mjs", ".sh"], ["test"]);
   const servizi = fileCon(p("cervello/vps"), ".service").map((f) => f.replace(/\.service$/, ""));
   const timer = fileCon(p("cervello/vps"), ".timer").map((f) => f.replace(/\.timer$/, ""));
 
@@ -287,7 +335,9 @@ export function misura(repo, occhi = creaOcchi()) {
     },
     // 5 — Guardiani e sensori
     immunitario: {
-      script: cervelloMjs.length + cervelloSh.length,
+      // `null` = non ho potuto contare. Non è uno zero, e chi stampa il referto lo dice a parole.
+      script: cervelloScript == null ? null : cervelloScript.length,
+      scriptSottocartelle: cervelloScript == null ? null : cervelloScript.filter((f) => f.includes("/")).length,
       sensori: sensoriDaVerifica(leggi(p("cervello/verifica-sensori.mjs"))),
       test: fileCon(p("cervello/test"), ".test.mjs").length,
       testBash: fileCon(p("cervello/test"), ".bats").length,
@@ -310,7 +360,7 @@ export function misura(repo, occhi = creaOcchi()) {
     },
     // 9 — Estensioni
     estensioni: {
-      skill: cartelle(p(".claude/skills")),
+      skill: cartelleTracciate(p(".claude/skills")),
       workflow: fileCon(p(".claude/workflows"), ".js").map((f) => f.replace(/\.js$/, "")),
       capacita: fileCon(p("cervello/capacita"), ".mjs").length,
     },
@@ -529,7 +579,11 @@ export const PARTI = [
     titolo: "Guardiani e sensori — il sistema immunitario",
     unaFrase: "Quello che impedisce alla macchina di raccontarti una bugia.",
     dove: "`cervello/*.mjs` — girano prima che l'AI scriva una riga",
-    taglia: (m) => `${m.immunitario.script} script · ${m.immunitario.sensori.length} sensori · ${m.immunitario.test} test + ${m.immunitario.testBash} prove bash`,
+    // AR-700 — `script` può essere `null` («non ho potuto contarli»): a Nicola si dice così, non «0».
+    taglia: (m) =>
+      `${m.immunitario.script == null ? "non sono riuscito a contare gli" : m.immunitario.script} script` +
+      `${m.immunitario.scriptSottocartelle ? ` (${m.immunitario.scriptSottocartelle} nelle sottocartelle)` : ""}` +
+      ` · ${m.immunitario.sensori.length} sensori · ${m.immunitario.test} test + ${m.immunitario.testBash} prove bash`,
     corpo: () =>
       "Sono controlli automatici che girano **prima** che il lavoro si chiuda. Non danno consigli: molti " +
       "hanno il potere di fermare tutto. Il principio è uno solo — *meglio memoria vecchia che memoria " +

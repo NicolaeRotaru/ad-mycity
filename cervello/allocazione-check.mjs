@@ -103,6 +103,14 @@ const DESTINAZIONE = [
   // 120 senior, cioè il lavoro della macchina su se stessa per definizione.
   ["memoria-squadra/", "macchina"],
   ["consegne/ad/", "macchina"], // note di regia dell'AD su se stessa
+  // Il banco di lavoro di un lotto di riparazione: il brief comune alle corsie, la misura di
+  // partenza, i frammenti che ogni corsia consegna, e gli attrezzi della ricucitura. È lavoro della
+  // macchina su se stessa per definizione — la stessa ragione per cui ci sono `cervello/` e i
+  // quaderni. Mapparlo qui NON è la scorciatoia vietata da AR-340: quella era mappare appunti di
+  // scarto per far tacere il tetto. Questi file esistono per essere riletti (la ricucitura e il
+  // controllo del secondo giro si rilanciano), e contarli come macchina ALZA la quota-macchina,
+  // che è la direzione scomoda: dichiara più meta-lavoro, non meno.
+  [".lotto-", "macchina"],
   [".claude/", "macchina"],
   [".cursor/", "macchina"],
   [".github/", "macchina"],

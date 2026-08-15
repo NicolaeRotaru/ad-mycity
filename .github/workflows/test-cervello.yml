@@ -73,6 +73,20 @@ jobs:
       # Cieco non è verde — è la regola che questa macchina applica a ogni guardiano (AR-322), e
       # vale anche qui: un passo saltato non va raccontato come un passo superato.
       #
+      # AR-696 — questo passo stava DOPO la suite, e la conseguenza non era il typecheck: erano tre
+      # schede CHIUSE che a ogni corsa risultavano «prova rossa adesso». La loro prova importa una
+      # rotta del Pannello, che importa `next`, che qui non era ancora installato: la prova non
+      # partiva e il banco chiamava rosso un fix che non era mai tornato indietro.
+      #
+      # Spostarlo prima non è cosmetica: quella prova adesso viene MISURATA invece che dichiarata
+      # non misurata. Fra le due c'è la differenza che questo repo passa il tempo a difendere — e la
+      # copertura si guadagna installando lo strumento, non abbassando l'asticella.
+      #
+      # ⚖️ DUE SESSIONI HANNO TROVATO QUESTO STESSO DIFETTO NELLA STESSA NOTTE, ognuna per la sua
+      # strada, e qui sotto c'è anche il racconto dell'altra. Non l'ho tolto: due descrizioni
+      # indipendenti dello stesso guasto valgono più di una, e la seconda porta un dettaglio che la
+      # prima non ha — i due workflow che davano verdetti opposti sulla stessa riga di codice.
+      #
       # E servono PRIMA della suite, non solo al typecheck. Il 14/8 questo passo stava sotto, e
       # `c1-atto-una-volta-sola.test.mjs` usciva 🚫 «import non risolvibile»: quel test carica
       # `pannello/src/app/api/azioni-pronte/route.ts`, che importa `next`, che senza `npm ci` non

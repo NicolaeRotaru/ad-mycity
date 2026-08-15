@@ -36,8 +36,20 @@ import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { fileDelComando } from "./cancello-lotto.mjs";
+// 📏 UNA DEFINIZIONE SOLA di «freno vero» (contratto-prova.mjs) — AR-565.
+//
+// Qui c'era una copia della regola, e da qualche parte ce n'era un'altra: due guardiani guardavano
+// lo stesso mucchio di lezioni e ne davano verdetti opposti nello stesso giorno. Quando due numeri
+// rispondono alla stessa domanda vince quello che finisce nella riga di riassunto, e in questa casa
+// il verde vince sempre. La definizione adesso sta nel contratto; qui si CHIAMA.
+import { misuraFreni } from "./contratto-prova.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
+// AR-596 — il freno stretto, quello che pretende la mutazione DELLA LEZIONE. Non è acceso di
+// default e la ragione è la solita: 24 lezioni su 65 non ce l'hanno, e un cancello che non può
+// diventare verde viene aggirato al secondo giro. Con questo flag il numero diventa un'uscita 1,
+// per chi vuole vedere il debito bloccare invece che solo comparire.
+const SOLO_PROPRIE = process.argv.includes("--proprie");
 const APPRENDIMENTO = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json");
 const MUTANTI = join(AD_ROOT, "cervello/mutanti.json");
 
@@ -51,61 +63,24 @@ const MUTANTI = join(AD_ROOT, "cervello/mutanti.json");
  * @param leggi    (percorso) => string | null
  */
 export function analizzaGate(lezioni = [], mutanti = [], esiste = () => false, leggi = () => null) {
-  const conGate = lezioni.filter((l) => typeof l?.gate === "string" && l.gate.trim());
-  const veri = [];
-  const violazioni = [];
-
-  for (const l of conGate) {
-    const file = fileDelComando(l.gate);
-    if (!file) {
-      violazioni.push({
-        regola: "gate-senza-comando",
-        lezione: l.id,
-        motivo: `«${l.gate}» non nomina nessun file eseguibile: non è un comando, è una frase`,
-      });
-      continue;
-    }
-    if (!esiste(file)) {
-      violazioni.push({
-        regola: "gate-orfano",
-        lezione: l.id,
-        motivo: `il gate punta a ${file}, che non esiste — «non fatto» è indistinguibile da «puntatore rotto»`,
-      });
-      continue;
-    }
-    // LA MUTAZIONE È DEL FRENO, NON DELLA FRASE. La prima versione cercava `m.lezione === l.id`, e
-    // il guardiano ha bocciato il suo stesso autore: ventuno correzioni sulla stessa famiglia
-    // puntano tutte a `ramo-pulito.mjs`, e pretendere ventuno mutazioni identiche sullo stesso file
-    // sarebbe stato lavoro di copiatura spacciato per rigore — anzi peggio, avrebbe insegnato che
-    // per far passare il controllo basta duplicare una voce. La domanda giusta è una sola: QUESTO
-    // comando, qualcuno l'ha mai visto diventare rosso? Perciò vale ogni mutazione che rompe il
-    // file del gate; il campo `lezione` resta per sapere da quale correzione è nato.
-    const sue = mutanti.filter((m) => m?.lezione === l.id || m?.file === file);
-    if (!sue.length) {
-      violazioni.push({
-        regola: "gate-mai-rotto",
-        lezione: l.id,
-        motivo: `nessuna mutazione rompe ${file} in mutanti.json — nessuno ha mai rimesso l'errore per vedere se quel freno scatta`,
-      });
-      continue;
-    }
-    // La mutazione deve ancora agganciarsi al codice vero, altrimenti prova un passato che non c'è.
-    const cieche = sue.filter((m) => {
-      const src = leggi(m.file);
-      return src === null || !src.includes(m.cerca);
-    });
-    if (cieche.length) {
-      violazioni.push({
-        regola: "mutazione-cieca",
-        lezione: l.id,
-        motivo: `la mutazione di ${l.id} cerca in ${cieche[0].file} un pezzo che non c'è più: non prova niente, e lo dice «cieco», non «verde»`,
-      });
-      continue;
-    }
-    veri.push({ lezione: l.id, gate: l.gate, file, mutazioni: sue.length });
-  }
-
-  return { dichiarati: conGate.length, veri, violazioni };
+  // LA MUTAZIONE È DEL FRENO, NON DELLA FRASE — e resta vero. Ventuno correzioni sulla stessa
+  // famiglia puntano tutte allo stesso guardiano: pretendere ventuno mutazioni identiche sarebbe
+  // copiatura travestita da rigore. Perciò un freno rotto da chiunque conta come freno provato.
+  //
+  // AR-596 — MA LE DUE COSE NON SONO LA STESSA, e prima finivano in un mucchio solo. «Questa lezione
+  // ha la SUA mutazione» e «qualcun altro ha rotto lo stesso file» sono due gradi diversi, e il
+  // secondo nascondeva il primo: il guardiano diceva «ogni gate può scattare davvero» mentre 24
+  // lezioni su 65 non avevano nessuno che avesse mai rimesso il LORO errore. Adesso i due gradi si
+  // vedono separati, e il totale non cambia: `veri` continua a contenerli tutti (nessun gate sparisce
+  // dal conto), `propri` e `per_file` dicono di che pasta è fatto quel numero.
+  const m = misuraFreni(lezioni, mutanti, esiste, leggi, fileDelComando);
+  return {
+    dichiarati: m.dichiarati,
+    veri: [...m.veri, ...m.perFile],
+    violazioni: m.violazioni,
+    propri: m.veri,
+    perFile: m.perFile,
+  };
 }
 
 function main() {
@@ -137,15 +112,34 @@ function main() {
   );
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ quando: nowPiacenza(), ...esito }, null, 2));
-    process.exit(esito.violazioni.length ? 1 : 0);
+    console.log(JSON.stringify({ quando: nowPiacenza(), ...esito, senza_mutazione_propria: esito.perFile.length }, null, 2));
+    process.exit(esito.violazioni.length || (SOLO_PROPRIE && esito.perFile.length) ? 1 : 0);
   }
 
   console.log(`\n🚦 GATE VERI — ${nowPiacenza()}\n`);
   console.log(`  Lezioni che dichiarano un gate: ${esito.dichiarati}`);
-  console.log(`  Gate veri (comando + mutazione che lo fa scattare): ${esito.veri.length}\n`);
+  console.log(`  Gate veri (comando + mutazione che lo fa scattare): ${esito.veri.length}`);
+  // AR-596 — LA RIGA CHE MANCAVA. Il verde qui sopra è composto da due cose diverse, e senza questa
+  // riga la seconda spariva dentro la prima: un freno «vero» perché qualcun ALTRO ha rotto lo stesso
+  // file non è un freno che qualcuno ha visto scattare per QUESTA lezione. Un freno mai visto
+  // scattare è una promessa, non un impedimento — ed è il conto che deve scendere.
+  console.log(
+    `  · di cui con la PROPRIA mutazione: ${esito.propri.length} · coperti solo dalla mutazione di un altro sullo stesso file: ${esito.perFile.length}\n`,
+  );
   for (const v of esito.veri) {
-    console.log(`  ✅ ${v.lezione} → ${v.gate}  (${v.mutazioni} mutazione/i)`);
+    const suo = esito.propri.includes(v);
+    console.log(`  ${suo ? "✅" : "🟡"} ${v.lezione} → ${v.gate}  (${v.mutazioni} mutazione/i${suo ? "" : " di un'altra lezione sullo stesso file"})`);
+  }
+  if (esito.perFile.length && !SOLO_PROPRIE) {
+    console.log(
+      `\n🟡 ${esito.perFile.length} freni su ${esito.dichiarati} non hanno la LORO mutazione: nessuno ha mai rimesso QUELL'errore.` +
+        `\n   Non è un rosso qui — 21 correzioni sulla stessa famiglia puntano allo stesso guardiano, e pretendere 21 mutazioni` +
+        `\n   identiche sarebbe copiatura travestita da rigore. Ma è il numero da far scendere: \`--proprie\` lo rende un'uscita 1.`,
+    );
+  }
+  if (SOLO_PROPRIE && esito.perFile.length) {
+    console.log(`\n❌ --proprie: ${esito.perFile.length} lezioni frenate senza la propria mutazione (${esito.perFile.map((x) => x.lezione).join(", ")}).`);
+    process.exit(1);
   }
   if (esito.violazioni.length) {
     console.log("");

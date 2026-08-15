@@ -47,6 +47,7 @@ import {
   STATI_FUSIONE,
   statoFusione,
   leggeMarcatori,
+  eReferto,
 } from "../sorvegliante.mjs";
 
 const MALATTIE = [
@@ -1404,5 +1405,124 @@ test("…ma il cantiere e le lezioni restano guardati: lì le difese ci vivono d
     gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length,
     1,
     "l'esenzione è per UN file preciso, non per tutti i JSON della memoria",
+  );
+});
+
+// ── AR-556: un referto si RICONOSCE, non si elenca ──────────────────────────
+//
+// AR-543 aveva capito la classe giusta — un file dove nessuna difesa PUÒ vivere — ma l'aveva scritta
+// come l'elenco del file visto quel giorno. Nella stessa cartella ce ne sono una trentina: ogni volta
+// che uno veniva rigenerato dopo una chiusura, le righe dei difetti chiusi sparivano e la guardia
+// gridava «difesa rimossa». Il pedaggio cadeva sul lavoro che fa scendere il conto del cantiere.
+//
+// I casi qui sotto toccano DUE referti diversi apposta: con un caso solo si ricura di nuovo
+// l'istanza invece della classe, che è precisamente l'errore che ha generato questo difetto.
+
+/** Un referto rigenerato: le righe sparite, e il file che dichiara chi lo riscrive. */
+function refertoRigenerato(percorso, dichiarazione, rigaTolta) {
+  const testo = ["--- a/" + percorso, "+++ b/" + percorso, "@@ -12,1 +12,0 @@", `-${rigaTolta}`].join("\n");
+  const agg = leggiDiff(testo);
+  const { rimosse, cancellati } = leggiRimozioni(testo);
+  return sorveglia({
+    toccati: [{ file: percorso, aggiunte: agg.get(percorso) || [], contenuto: JSON.stringify({ _cosa_e: dichiarazione, voci: [] }) }],
+    rimossi: [...rimosse].map(([f, r]) => ({ file: f, rimosse: r, cancellato: cancellati.includes(f) })),
+    difese: DIFESE,
+    malattie: MALATTIE,
+    mutanti: [],
+    esiste: () => true,
+  });
+}
+
+test("AR-556 · primo referto: rigenerare cantiere-prove.json non è spegnere un freno", () => {
+  const e = refertoRigenerato(
+    "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+    "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto. Scritto da cervello/cantiere-prove.mjs.",
+    '      "prova": "node cervello/gate-veri.mjs"',
+  );
+  assert.equal(gravi(e.voci).length, 0, "è il caso vero del 4/8: il commit bloccato con quattro accuse di difesa-rimossa");
+});
+
+test("AR-556 · secondo referto, altro file e altro generatore: stessa risposta", () => {
+  const e = refertoRigenerato(
+    "MyCity-Vault/90-Memoria-AI/auto-coscienza/chiusura-loop.json",
+    "🔁 CHIUSURA-LOOP: stato di copertura dei quaderni. Scritto da cervello/chiusura-loop.mjs.",
+    '      "gate": "node cervello/gate-veri.mjs"',
+  );
+  assert.equal(gravi(e.voci).length, 0, "con un caso solo si cura l'istanza vista, non la classe");
+});
+
+test("AR-556 · IL CASO DI CONTROLLO: il cantiere non si assolve nemmeno dichiarandosi referto", () => {
+  // Se bastasse scrivere «Scritto da cervello/x.mjs» dentro il cantiere per zittire la guardia,
+  // l'esenzione avrebbe mangiato proprio il registro che la guardia serve a proteggere.
+  const e = refertoRigenerato(
+    "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json",
+    "🚧 CANTIERE DEI DIFETTI. Scritto da cervello/cantiere-prove.mjs.",
+    '      "gate": "node cervello/gate-veri.mjs"',
+  );
+  assert.equal(
+    gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length,
+    1,
+    "qui le difese ci vivono davvero: l'accusa deve restare",
+  );
+});
+
+test("AR-556 · un JSON che non dichiara nessuno resta guardato come prima", () => {
+  const e = refertoRigenerato(
+    "cervello/routing.json",
+    "una descrizione qualsiasi che non nomina nessuno script",
+    '      "gate": "node cervello/gate-veri.mjs"',
+  );
+  assert.equal(gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length, 1, "il perdono si dà a chi lo dichiara, non a tutti i JSON");
+});
+
+test("AR-556 · e un file di codice non diventa referto scrivendoci dentro la frase giusta", () => {
+  assert.equal(eReferto("cervello/gate-veri.mjs", '{"_cosa_e":"Scritto da cervello/gate-veri.mjs"}'), false);
+  assert.equal(eReferto("MyCity-Vault/90-Memoria-AI/auto-coscienza/salute.json", null), true, "la mappa dichiarata dalla casa vale anche senza contenuto");
+});
+
+// ── AR-557: le due domande sullo spostamento, separate ───────────────────────
+//
+// La mutazione di AR-495 «spostare un guardiano viene punito come toglierlo» era sopravvissuta: la
+// guardia sullo spostamento nello STESSO file era diventata un doppione di quella su TUTTO il delta,
+// quindi spegnerla non cambiava niente e il test restava verde. Un difetto chiuso con una prova che
+// non prova più è un verde che vale zero. Adesso le due domande sono separate, e queste sono le loro.
+
+test("AR-557 · sposto un guardiano dentro lo STESSO file: la guardia tace", () => {
+  const e = daDiff([
+    "--- a/cervello/giro.sh",
+    "+++ b/cervello/giro.sh",
+    "@@ -40,2 +40,2 @@",
+    "-node cervello/gate-veri.mjs --presto",
+    "+# spostato più in basso, dopo i sensori",
+    "+node cervello/gate-veri.mjs --tardi",
+  ]);
+  assert.equal(gravi(e.voci).length, 0, "punire uno spostamento insegna a non riordinare mai più niente");
+});
+
+test("AR-557 · sposto un guardiano in un ALTRO file dello stesso delta: la guardia tace", () => {
+  const e = daDiff([
+    "--- a/cervello/giro.sh",
+    "+++ b/cervello/giro.sh",
+    "@@ -40,1 +40,0 @@",
+    "-node cervello/gate-veri.mjs --presto",
+    "--- a/cervello/salute.mjs",
+    "+++ b/cervello/salute.mjs",
+    "@@ -10,0 +10,1 @@",
+    '+  eseguiNode("gate-veri.mjs", []);',
+  ]);
+  assert.equal(gravi(e.voci).length, 0, "è il caso di AR-516: ventidue accuse mentre guardavo la riparazione");
+});
+
+test("AR-557 · IL CONTROLLO: se lo tolgo e non lo rimetto da nessuna parte, l'accusa arriva", () => {
+  const e = daDiff([
+    "--- a/cervello/giro.sh",
+    "+++ b/cervello/giro.sh",
+    "@@ -40,1 +40,0 @@",
+    "-node cervello/gate-veri.mjs --presto",
+  ]);
+  assert.equal(
+    gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length,
+    1,
+    "senza questo caso i due sopra proverebbero solo che la guardia tace sempre",
   );
 });

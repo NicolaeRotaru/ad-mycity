@@ -1,0 +1,75 @@
+{
+  "corsia": "A — uno strumento dichiarato di sola lettura che invece scrive nella memoria condivisa",
+  "modulo_condiviso": "cervello/scrittura-misura.mjs",
+  "difetti": [
+    {
+      "id": "AR-663",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
+      "nota_fix": "Il referto è deviabile con `BLOCCO_MANCANTE_FILE` e con `--json` non si scrive più. Prima il percorso era fisso: chiunque lo interrogasse per sapere lo stato lo peggiorava, e una prova su questa famiglia sporcava la memoria vera.",
+      "mutante": {
+        "file": "cervello/conta-blocco-mancante.mjs",
+        "cerca": "const REFERTO = process.env.BLOCCO_MANCANTE_FILE || join",
+        "sostituisci": "const REFERTO = join"
+      },
+      "non_vacuita": "rimettendo il referto su un percorso fisso diventano rossi 2 casi (⑩⑪) — applicata, lanciata, vista rossa, rimessa"
+    },
+    {
+      "id": "AR-639",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
+      "nota_fix": "Il referto si riscrive solo se è cambiato qualcosa oltre l’ora: `contenutoSostanziale` toglie i campi-timbro e confronta il resto. Due esecuzioni identiche lasciano il file uguale byte per byte.",
+      "mutante": {
+        "file": "cervello/scrittura-misura.mjs",
+        "cerca": "  if (stessoContenuto(misuraNuova, misuraVecchia, campiTimbro)) {",
+        "sostituisci": "  if (false) {"
+      },
+      "non_vacuita": "facendo riscrivere anche quando cambia solo l’ora diventa rosso il caso ② — applicata, lanciata, vista rossa, rimessa"
+    },
+    {
+      "id": "AR-464",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
+      "nota_fix": "`--sola-lettura` su coerenza-fatti e stampo-check: la scrittura passa da `decidiScrittura`, che con quel flag non scrive niente. La prova è quella chiesta dalla scheda alla lettera — due guardiani lanciati di fila e `git status` che resta vuoto. AD: la corsia aveva scritto il codice ma NON la prova che dichiarava; l’ho scritta io e verificata rompendo il fix.",
+      "mutante": {
+        "file": "cervello/scrittura-misura.mjs",
+        "cerca": "  if (solaLettura) {",
+        "sostituisci": "  if (false) {"
+      },
+      "non_vacuita": "togliendo il freno della sola-lettura diventano rossi 3 casi (①⑫⑬) — applicata, lanciata, vista rossa, rimessa"
+    },
+    {
+      "id": "AR-286",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
+      "nota_fix": "Ogni misura dei sensori porta adesso da DOVE è stata presa: `origine` (vps, cloud o locale) e `copertura`. Verificato sul file vero: dice «cloud» e «8». Senza indizi la funzione risponde «locale» e MAI «vps» — non si millanta la vista, perché una misura che si dichiara vps senza esserlo comprerebbe il diritto di sovrascrivere quella vera. AD: la corsia aveva scritto il codice, non l'aveva messo nel suo rapporto.",
+      "mutante": {
+        "file": "cervello/scrittura-misura.mjs",
+        "cerca": "  if (e.SALUTE_CASA === \"vps\" || e.VPS === \"1\" || e.MYCITY_VPS === \"1\") return \"vps\";",
+        "sostituisci": "  if (true) return \"vps\";"
+      },
+      "non_vacuita": "facendo rispondere «vps» a chiunque, il caso ⑧ diventa rosso — applicata, lanciata, vista rossa, rimessa"
+    },
+    {
+      "id": "AR-568",
+      "esito": "aperto",
+      "motivo_se_aperto": "Tre clausole su quattro sono fatte e provate: (a) ogni misura porta origine e copertura — verificato sul file vero; (b) chi scrive RIFIUTA di sostituire una misura con una che ha visto meno, e la mette accanto invece di buttarla; (c) `--sola-lettura` esiste e non sporca niente — verificato, zero file toccati. Manca la (d): il cancello di pubblicazione deve fermare una richiesta che abbassa la copertura di un file di misura senza dirlo. Quel cancello è di un'altra corsia e non è stato fatto. Lo lascio APERTO invece di chiuderlo a tre quarti: è la clausola che protegge il caso peggiore — una misura più povera che vince perché è più recente, e un voto che MIGLIORA perché si è misurato di meno.",
+      "nota_fix": "Tre clausole su quattro fatte e provate (origine+copertura · cieco-non-sovrascrive-vedente · sola-lettura). Resta la quarta: il cancello che ferma una richiesta che abbassa la copertura senza dichiararlo."
+    }
+  ],
+  "file_toccati": [
+    "cervello/scrittura-misura.mjs",
+    "cervello/conta-blocco-mancante.mjs",
+    "cervello/tasso-chiusura.mjs",
+    "cervello/coerenza-fatti.mjs",
+    "cervello/stampo-check.mjs",
+    "cervello/verifica-sensori.mjs",
+    "cervello/chiusura-loop.mjs",
+    "cervello/tick-auto-coscienza-leggero.mjs",
+    "cervello/test/misura-che-non-sporca.test.mjs"
+  ],
+  "fuori_territorio": [],
+  "difetti_nuovi": [],
+  "spazzata": "in corso",
+  "nota_ad": "La corsia si è fermata a 3 difetti su 9 e il contenitore l’ha uccisa. Il codice che aveva scritto era buono (476 righe, 6 file) ma la prova che dichiarava NON ESISTEVA: una prova orfana, cioè esattamente la classe che questo lotto cura. L’ho scritta io, 13 casi, e ho verificato le tre mutazioni rompendo il fix davvero. Ho anche fatto i due punti dell’ora che bloccavano AR-666 della corsia F."
+}

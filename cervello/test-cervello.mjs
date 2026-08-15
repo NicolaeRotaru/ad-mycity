@@ -50,6 +50,11 @@ import { spawn, spawnSync } from "node:child_process";
 import { cpus } from "node:os";
 import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+// 📏 Il contratto della prova, in un posto solo (contratto-prova.mjs). Qui si CHIAMA, non si
+// riscrive: le due domande che questo banco è l'unico a poter fare — «questo caso può fallire?» e
+// «questo rosso è la prova di una scheda dichiarata chiusa?» — hanno una risposta sola per tutti.
+import { casiSpenti, chiusureDaRiverificare } from "./contratto-prova.mjs";
+import { fileDelComando } from "./cancello-lotto.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const SERIALE = process.argv.includes("--seriale");
@@ -250,6 +255,26 @@ export function righeRosse(out = "", max = 8) {
     rosse.push(riga);
     if (rosse.length >= max) break;
   }
+
+  // ── Lo STAMPO DI CASA, che non parla TAP ────────────────────────────────────
+  //
+  // Le prove scritte col `prova(nome, fn)` di casa non stampano `not ok`: stampano `✗ nome → perché`
+  // e chiudono con `# fail N`. Per tutte quelle l'estrattore qui sopra non trovava niente e `rosse`
+  // tornava vuota — quindi in CI arrivava «1 asserzioni fallite» e basta, senza dire QUALE.
+  //
+  // È la stessa cecità che AR-563 ha già curato sul TAP numerato, ricomparsa su un altro formato.
+  // Il costo, misurato stanotte: un rosso in CI che non si riproduce in locale e di cui il log non
+  // dice niente si ripubblica a tentativi, e ogni tentativo costa un giro intero.
+  //
+  // Un rosso che non dice quale caso è caduto non è una diagnosi: è un invito a indovinare.
+  if (!rosse.length) {
+    for (const t of righe) {
+      const m = /^\s*✗\s+(.*)$/.exec(t);
+      if (!m) continue;
+      rosse.push(m[1].trim());
+      if (rosse.length >= max) break;
+    }
+  }
   return rosse;
 }
 
@@ -288,9 +313,35 @@ export function verdetto(status, out) {
   // non c'è, mentre il guasto è l'import. È esattamente la distinzione per cui esiste AR-156.
   // Quindi: prima si guarda se il modulo si carica, POI si guarda il TAP.
   const testo = String(out || "");
-  const mod = testo.match(/Cannot find module '([^']+)'/);
+  // Node dice «module» per un percorso e «package» per un pacchetto: sono due messaggi diversi per
+  // la stessa cosa, e guardarne uno solo faceva cadere il caso dei pacchetti nel ramo generico —
+  // cioè proprio quello che AR-696 deve distinguere.
+  const mod = testo.match(/Cannot find (?:module|package) '([^']+)'/);
   if (mod || /ERR_MODULE_NOT_FOUND|ERR_UNSUPPORTED_DIR_IMPORT/.test(testo)) {
-    return { esito: "ineseguibile", motivo: `import non risolvibile${mod ? `: ${mod[1]}` : ""}`, passati, falliti };
+    // AR-696 — «non parte» sono DUE cose diverse, e chiamarle entrambe rosso manda a cercare un bug
+    // che non c'è. La riga di confine è quale modulo manca:
+    //
+    //   · un percorso NOSTRO (`./x.mjs`, `../lib/y.ts`) non si risolve → il repo è rotto: ROSSO.
+    //   · un PACCHETTO (`next`, `playwright`) non si risolve → qui non è installato: ⚪ NON MISURATO.
+    //
+    // Il secondo caso è lo stesso di `bats` che manca (AR-693): la prova esiste, è sana, e questa
+    // macchina non ha lo strumento per farla girare. Contarlo come rosso significa portarsi dietro
+    // per sempre un rosso che nessuna riparazione può togliere — e un rosso che non appartiene a
+    // chi lo vede è il modo più veloce per imparare a ignorare tutti gli altri.
+    //
+    // Misurato: nel lavoro del cervello `pannello/node_modules` non c'è, e tre schede CHIUSE
+    // risultavano «prova rossa» per questo — cioè il difetto sembrava tornato e non era mai andato
+    // via nessuno. ⚪ non è un verde: resta nel totale di «non danno garanzie», dove deve stare.
+    const nome = mod?.[1] || "";
+    const eNostro = nome.startsWith(".") || nome.startsWith("/");
+    if (nome && !eNostro) {
+      return {
+        esito: "non-eseguito",
+        motivo: `manca il pacchetto «${nome}» su questa macchina: la prova esiste e nessuno l'ha fatta girare`,
+        passati, falliti,
+      };
+    }
+    return { esito: "ineseguibile", motivo: `import non risolvibile${nome ? `: ${nome}` : ""}`, passati, falliti };
   }
   if (passati === null) {
     return { esito: "ineseguibile", motivo: "il file non è nemmeno partito", passati, falliti };
@@ -465,9 +516,16 @@ async function main() {
   // niente, e il default silenzioso lo manderebbe in corsia libera — cioè la scelta rischiosa presa
   // dal ramo dell'errore. Va in fila per prudenza, e l'impossibilità di leggerlo si dice.
   const illeggibili = [];
+  // AR-694 — mentre leggo il sorgente per sapere se scrive sul dato vivo, gli faccio anche l'altra
+  // domanda: questi casi possono fallire? Stessa lettura, due risposte: un file letto due volte è
+  // il modo in cui due misure della stessa cosa si allontanano.
+  const spentiPerFile = new Map();
   const vaInFila = (f) => {
     try {
-      return scriveSulDatoVivo(readFileSync(join(dir, f), "utf8"));
+      const src = readFileSync(join(dir, f), "utf8");
+      const spenti = casiSpenti(src);
+      if (spenti.length) spentiPerFile.set(`${CARTELLA}/${f}`, spenti);
+      return scriveSulDatoVivo(src);
     } catch (e) {
       illeggibili.push(`${f}: non ho potuto leggerlo (${e.message}) → in fila per prudenza`);
       return true;
@@ -510,6 +568,17 @@ async function main() {
   const tutte = [...righe, ...righeBats];
   const rotti = tutte.filter((x) => x.esito !== "ok" && x.esito !== "non-eseguito" && x.esito !== "instabile");
   const totale = tutte.reduce((n, x) => n + (x.passati || 0), 0);
+  // ⚪ IN TUTTE E DUE LE FAMIGLIE. Anche una prova in Node può dichiarare di non aver potuto girare
+  // (`1..0 # SKIP`): contare i ⚪ solo fra i `.bats` lascerebbe sparire gli altri dal denominatore,
+  // che è la forma esatta del difetto che questo conto cura.
+  const nonMisurati = tutte.filter((x) => x.esito === "non-eseguito");
+
+  // AR-683 — IL ROSSO DI UNA SCHEDA GIÀ CHIUSA. Questo banco sa quali file sono rossi; il cantiere sa
+  // quali schede si appoggiano a quei file per dirsi riparate. Nessuno dei due sapeva l'altra metà, e
+  // così tre difetti CHIUSI avevano la prova rossa senza che nessuno se ne accorgesse. Il conto si fa
+  // qui perché è l'unico posto dove le due metà esistono insieme, e costa una lettura di file.
+  const verdettoPerFile = new Map(tutte.map((x) => [x.file, x.esito]));
+  const chiusure = chiusureConProvaRossa(verdettoPerFile);
 
   if (JSON_MODE) {
     console.log(
@@ -524,7 +593,13 @@ async function main() {
           test: righe,
           bats: righeBats,
           bats_non_eseguiti: nonEseguiti.length,
+          non_misurati: nonMisurati.map((x) => x.file),
           bats_binario: bin,
+          // I due conti stanno nel JSON SEMPRE, anche a zero: un numero che compare solo quando è
+          // brutto non si può guardare scendere — sparisce, e la sparizione somiglia a una guarigione.
+          casi_spenti: [...spentiPerFile].map(([file, casi]) => ({ file, casi })),
+          chiusure_da_riverificare: chiusure.voci,
+          chiusure_non_lette: chiusure.cieco,
         },
         null,
         2,
@@ -551,9 +626,37 @@ async function main() {
   if (nonEseguiti.length) {
     console.log(
       `\n⚪ ${nonEseguiti.length} prove in bash NON eseguite: manca \`bats\` su questa macchina.` +
-        `\n   Installalo (\`sudo apt-get install -y bats\`, oppure \`npm i -g bats\` e poi BATS_BIN=$(command -v bats)) e rilancia: sono prove vere, oggi nessuno le fa.`,
+        `\n   Installalo (\`npx bats --version\` per provarlo, \`npm i -g bats\` e poi BATS_BIN=$(command -v bats)) e rilancia: sono prove vere, oggi nessuno le fa.` +
+        `\n   Il conto misurato il 14/8: senza bats 1 rosso su 243, con bats 12 — dieci fallimenti veri erano invisibili (AR-693).`,
     );
   }
+  // AR-694 — i casi che non possono fallire. Vanno detti PRIMA del verdetto: un file può essere
+  // verde e avere dentro tre casi spenti, e quel verde copre meno di quanto sembra.
+  if (spentiPerFile.size) {
+    const quanti = [...spentiPerFile.values()].reduce((n, c) => n + c.length, 0);
+    console.log(`\n⚠️  ${quanti} casi di prova NON POSSONO FALLIRE (asincroni, e il banco del file non li aspetta):`);
+    for (const [file, casi] of spentiPerFile) {
+      console.log(`   · ${file} — ${casi.length}: ${casi.map((c) => `riga ${c.riga}`).join(", ")}`);
+      console.log(`     ${casi[0].motivo}`);
+    }
+  }
+  // AR-683 — e le schede che si dicono chiuse appoggiandosi a un file che oggi è rosso.
+  if (chiusure.voci.length) {
+    const regredite = chiusure.voci.filter((v) => v.stato === "regredita");
+    const mute = chiusure.voci.filter((v) => v.stato === "non-misurata");
+    if (regredite.length) {
+      console.log(`\n❗ ${regredite.length} schede CHIUSE hanno la prova rossa adesso: il fix c'era e non c'è più, oppure non c'è mai stato.`);
+      for (const v of regredite.slice(0, 10)) console.log(`   · ${v.id} → ${v.file} (${v.esito})`);
+    }
+    if (mute.length) console.log(`\n⚪ ${mute.length} schede chiuse la cui prova non ho potuto eseguire qui: chiuse su una misura che oggi nessuno rifà.`);
+  }
+  for (const m of chiusure.cieco) console.log(`\n⚪ ${m}`);
+
+  // IL DENOMINATORE NON SI RESTRINGE. Prima il verde contava «i file che ho potuto eseguire»,
+  // cioè toglieva le prove non misurate dal totale: un metro che restringe il campione fa salire il
+  // voto misurando di meno. Adesso i ⚪ restano nel conto e si vedono accanto al verde.
+  const quantiFile = righe.length + righeBats.length;
+
   // Un instabile è un difetto vero (una prova che dipende dall'ordine non è una rete), solo non di
   // quelli che si riparano rilanciando. Va a finire qui, dove si legge il verdetto, con il nome.
   if (instabili.length) {
@@ -562,14 +665,37 @@ async function main() {
     console.log(`   Non è una regressione (il codice passa), ma è una prova che dipende da chi gira insieme: va isolata.`);
   }
   if (!rotti.length) {
-    const copertura = nonEseguiti.length ? ` — il verde NON copre ${nonEseguiti.length} prove in bash` : "";
-    console.log(`\n✅ ${righe.length + (righeBats.length - nonEseguiti.length)} file, ${totale} asserzioni: girano tutti e passano tutti${copertura}.`);
+    const copertura = nonMisurati.length ? ` · ⚪ ${nonMisurati.length} NON le ho potute far girare qui (il verde non le copre)` : "";
+    console.log(`\n✅ ${quantiFile - nonMisurati.length} file su ${quantiFile} girano e passano, ${totale} asserzioni${copertura}.`);
     process.exitCode = 0;
     return;
   }
-  console.log(`\n❌ ${rotti.length} su ${righe.length + righeBats.length} non danno garanzie.`);
+  console.log(
+    `\n❌ ${rotti.length} rossi${nonMisurati.length ? ` · ⚪ ${nonMisurati.length} non misurati` : ""} su ${quantiFile} file: ${rotti.length + nonMisurati.length} non danno garanzie.`,
+  );
   console.log(`   Un test che non gira non è una rete: è un file che fa sembrare coperto ciò che non lo è.`);
   process.exitCode = 1;
+}
+
+/**
+ * AR-683 — le schede CHIUSE la cui prova, adesso, non è verde.
+ *
+ * Legge il cantiere in sola lettura e chiede al contratto della prova di incrociarlo coi verdetti
+ * appena misurati. Se il cantiere non si legge NON torna un elenco vuoto — quello somiglia a «non ce
+ * n'è» — ma dichiara di non aver guardato: `cieco` arriva fino alla stampa e al JSON.
+ */
+function chiusureConProvaRossa(verdettoPerFile) {
+  const path = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json");
+  if (!existsSync(path)) return { voci: [], cieco: ["cantiere-difetti.json assente: non so quali schede chiuse poggino su questi file"] };
+  let cantiere;
+  try {
+    cantiere = JSON.parse(readFileSync(path, "utf8"));
+  } catch (e) {
+    return { voci: [], cieco: [`cantiere-difetti.json non leggibile (${e.message}): non ho potuto controllare le chiusure`] };
+  }
+  const difetti = Array.isArray(cantiere?.difetti) ? cantiere.difetti : null;
+  if (!difetti) return { voci: [], cieco: ["cantiere-difetti.json senza elenco `difetti`: non ho potuto controllare le chiusure"] };
+  return { voci: chiusureDaRiverificare(difetti, verdettoPerFile, fileDelComando), cieco: [] };
 }
 
 // AR-445 — la guardia dell'entrypoint nella forma che regge anche i percorsi strani. Il confronto

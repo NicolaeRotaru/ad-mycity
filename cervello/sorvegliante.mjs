@@ -145,6 +145,9 @@ import { dirname, join, relative, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import { senzaCommenti } from "./spazzata-fratelli.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
+// La mappa referto→generatore che la casa dichiara già: una casa sola per quell'elenco, altrimenti
+// due copie della stessa conoscenza divergono al primo aggiornamento (AR-556).
+import { REFERTI_RIGENERATI } from "./file-della-macchina.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -213,11 +216,62 @@ const ePROSA = (file) => PROSA.some((e) => file.endsWith(e));
  * dopo i commenti (⑥b) e la prosa (AR-503) — e la più imbarazzante: il diario di chi accusa.
  */
 export const REFERTI = [
+  ...REFERTI_RIGENERATI,
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/sorvegliante-storico.json",
+  // Questi due li aveva elencati `main` mentre il lotto 42 riscriveva questa funzione. Il
+  // riconoscimento (③, più sotto) copre `salute.json` da solo, perché dichiara chi lo scrive —
+  // `auto-analisi.json` NO, e verificandolo alla fusione l'ho visto perdere la protezione.
+  //
+  // Restano scritti a mano apposta: la cura generale non annulla una copertura che c'era. Un
+  // riconoscimento più elegante che protegge un file in meno è un passo indietro travestito da
+  // passo avanti — e questo l'ho misurato invece di dedurlo, chiedendo alla funzione se li vedeva.
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/salute.json",
   "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json",
 ];
-const eReferto = (file) => REFERTI.includes(file);
+
+/**
+ * 🚫 LE ECCEZIONI ALL'ESENZIONE (AR-556). Qui le difese ci vivono davvero, quindi il perdono non
+ * arriva MAI — nemmeno se il file si dichiarasse generato da uno script. Sono quattro nomi e sono
+ * un'eccezione, non un perimetro: senza questa riga basterebbe scrivere «Scritto da cervello/x.mjs»
+ * dentro il cantiere per zittire la guardia sul registro che la guardia serve a proteggere.
+ */
+export const MAI_REFERTO = [
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json",
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+  "cervello/mutanti.json",
+  "cervello/malattie.json",
+];
+
+/**
+ * Come un referto DICHIARA di essere l'uscita di un comando: un campo di intestazione (`_cosa_e`,
+ * `_scritto_da`, …) che nomina lo script del cervello che lo riscrive. È il riconoscimento che
+ * sostituisce l'elenco: chi genera un referto nuovo domani lo dichiara e la guardia lo capisce da
+ * sola, senza che nessuno venga qui ad aggiungere una riga.
+ */
+export const DICHIARA_GENERATORE =
+  /"_[a-z_]+"\s*:\s*"(?:[^"\\]|\\.)*\b(?:scritt|generat|aggiornat|prodott|riempit)\w*\s+da\s+cervello\/[\w./-]+\.(?:mjs|js|sh)/i;
+
+/**
+ * È un referto? Cioè: quello che la macchina SCRIVE su sé stessa dopo aver misurato.
+ *
+ * AR-556 — PRIMA ERA UN ELENCO DI UN FILE, e costava un pedaggio su ogni referto rigenerato. AR-543
+ * aveva capito la classe giusta — un file dove nessuna difesa PUÒ vivere — ma l'aveva scritta
+ * elencando il file visto quel giorno. Nella stessa cartella ce ne sono una trentina, e molti citano
+ * per mestiere il nome di un test o di un freno: appena uno veniva rigenerato dopo una chiusura, le
+ * righe dei difetti chiusi sparivano e la guardia leggeva «difesa rimossa». Cioè il pedaggio cadeva
+ * proprio sul lavoro che fa scendere il conto del cantiere.
+ *
+ * Tre strade, in quest'ordine: ① i quattro registri dove le difese vivono non sono MAI referti;
+ * ② la mappa che la casa dichiara già (`REFERTI_RIGENERATI`, più il diario di questa guardia);
+ * ③ il riconoscimento vero: un JSON che dichiara chi lo scrive.
+ */
+export function eReferto(file, contenuto = null) {
+  const nome = String(file || "");
+  if (MAI_REFERTO.some((f) => nome === f || nome.endsWith(`/${basename(f)}`))) return false;
+  if (REFERTI.includes(nome)) return true;
+  if (!nome.endsWith(".json")) return false;
+  return typeof contenuto === "string" && DICHIARA_GENERATORE.test(contenuto);
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // IL CUORE — funzione pura. Nessun I/O, nessun git: così una prova la esegue su un diff finto invece
@@ -875,14 +929,26 @@ export function sorveglia({
   // (AR-516). Trovato dal vivo: ho spostato un contatore dal cancello del lotto alla visita, in un
   // solo commit, e la guardia l'ha chiamato «freno spento» ventidue volte di fila. Un allarme che
   // grida mentre guardi la riparazione è un allarme che si impara a scorrere.
-  const aggiuntoOvunque = toccati
-    .flatMap((t) => (t.aggiunte || []).map((a) => senzaCommenti(a.testo, t.file)))
-    .join("\n");
+  //
+  // AR-557 — E GUARDA SOLO GLI ALTRI FILE. Prima guardava anche questo, cioè copriva già da sola
+  // anche il caso dello spostamento DENTRO lo stesso file: le due domande diventavano una, la riga
+  // sopra (`testoAggiunto`) non decideva più niente, e la mutazione che la spegneva lasciava il test
+  // verde. Una prova che resta verde a fix rimosso è un difetto chiuso il cui freno non frena — cioè
+  // un verde che vale zero. Ora le due domande sono separate: qui gli ALTRI file, sopra questo.
+  const aggiunteSenzaCommenti = new Map(
+    toccati.map((t) => [t.file, (t.aggiunte || []).map((a) => senzaCommenti(a.testo, t.file)).join("\n")]),
+  );
   for (const r of rimossi) {
     const file = r.file;
     const rimosse = r.rimosse || [];
     const aggiunteQui = perNome.get(file)?.aggiunte || [];
+    // «L'ho rimesso in QUESTO file?» — la prima delle due domande sullo spostamento.
     const testoAggiunto = aggiunteQui.map((a) => a.testo).join("\n");
+    // «L'ho rimesso in un ALTRO file di questa stessa modifica?» — la seconda.
+    const aggiuntoOvunque = [...aggiunteSenzaCommenti]
+      .filter(([f]) => f !== file)
+      .map(([, testo]) => testo)
+      .join("\n");
 
     // ⑥a un FILE cancellato che qualcun altro dichiara difesa. Resta acceso anche sulle prove: un
     //    test cancellato È la difesa che muore, ed è il caso per cui questo controllo esiste.
@@ -913,7 +979,9 @@ export function sorveglia({
     //    era più vuoto — chiamandola «hai spento un guardiano». È «menzione ≠ chiamata», la quarta
     //    volta in questo repo, stavolta dentro il controllo che quella regola la conosce: in un file
     //    di codice il filtro dei commenti basta, in un file di prosa il commento è TUTTO il file.
-    if (!eFixture(file) && !ePROSA(file) && !eReferto(file)) {
+    // Il contenuto serve al riconoscimento del referto (AR-556): è il file stesso a dichiarare chi lo
+    // riscrive, e senza leggerlo si tornerebbe a un elenco di nomi scritto a mano.
+    if (!eFixture(file) && !ePROSA(file) && !eReferto(file, perNome.get(file)?.contenuto ?? null)) {
       for (const riga of rimosse) {
         const pulita = senzaCommenti(riga.testo, file);
         if (!pulita.trim()) continue;

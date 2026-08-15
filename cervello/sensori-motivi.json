@@ -1,8 +1,13 @@
 {
   "_cosa_e": "Perché un sensore è spento. Un sensore che non risponde e non ha una riga qui è un BUCO, non uno stato: il guardiano sensori-spenti-check.mjs lo dice a ogni giro (AR-105/AR-108). Tre motivi ammessi: 'decisione' (Nicola ha scelto: stato finale, sano), 'da-chiedere' (glielo stiamo chiedendo, la card è in coda), 'inerzia' (nessuno ha mai deciso — è quello che non deve esistere).",
   "_regola_per_i_sensori_nuovi": "Ogni sensore nuovo in verifica-sensori.mjs nasce con la sua riga qui. Se nasce senza, il guardiano è rosso al primo giro — che è il punto: i due uptime sono rimasti spenti 163 giri proprio perché nessuno reclamava la loro configurazione.",
-  "aggiornato": "2026-07-28 14:05",
+  "aggiornato": "2026-08-14 23:20",
   "motivi": {
+    "posthog_api": {
+      "motivo": "decisione",
+      "perche": "Nicola, 5/7/2026 (chat «togli PostHog»): sensore spento finché non lo riattiva lui. Fino al 14/8 la decisione viveva SOLO in POSTHOG_OFF=1 nel .env, e sul VPS quella riga non c'era: lì la chiave era presente, il check partiva davvero e il sensore risultava verde (ultimo_ok 13/8 14:14) mentre la decisione diceva l'opposto. Una decisione che vive in un file d'ambiente non versionato non esiste per nessun'altra macchina — e la stessa macchina dava due risposte diverse a seconda di dove la si interrogava. Adesso sta qui, viaggia col repo, ed è la stessa ovunque. Per riaccenderlo: togliere questa riga e mettere la Personal API key.",
+      "dal": "2026-07-05 00:00"
+    },
     "telegram_bot": {
       "motivo": "da-chiedere",
       "perche": "Il bot Telegram è costruito e mai acceso. Non risulta che Nicola l'abbia rifiutato: semplicemente non gliel'ha mai chiesto nessuno. Card #sensori-spenti-senza-motivo in coda dal 2026-07-28 — quando risponde, questa riga diventa 'decisione' (e resta tale per sempre) oppure il sensore si accende.",

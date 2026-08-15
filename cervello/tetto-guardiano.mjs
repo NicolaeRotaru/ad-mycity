@@ -116,16 +116,46 @@ export function verdettoConTetto({ codice, quanti = null, tetto = null, delLotto
 }
 
 /**
+ * AR-678 — IL PERIMETRO DICHIARATO, quando l'albero è di più di un lotto.
+ *
+ * `git diff HEAD` risponde a «cosa è cambiato nell'albero», non a «cosa ho toccato IO». Finché una
+ * sessione sola lavora su un tronco le due domande hanno la stessa risposta; con sei corsie che
+ * scrivono insieme — com'è successo in questo lotto — ogni corsia si vede attribuito il lavoro di
+ * tutte, e il blocco duro accusa l'una del rosso dell'altra. Non è un caso limite: è la condizione
+ * normale del lavoro parallelo.
+ *
+ * L'unica risposta onesta è una dichiarazione: chi lavora dice quali file sono suoi, e il guardiano
+ * interseca. Senza dichiarazione si torna a ciò che git sa — che è una sovrastima, mai una
+ * sottostima: si blocca troppo, non troppo poco. Il verso conta: sbagliare per eccesso ferma un
+ * lavoro sano (fastidioso, visibile), sbagliare per difetto lascia passare un rosso (silenzioso).
+ *
+ * @param {string|string[]|null|undefined} valore l'elenco dichiarato (env `LOTTO_PERIMETRO`, virgole
+ *   o a-capo), oppure niente
+ * @returns {string[]|null} i percorsi dichiarati, o `null` se nessuno ha dichiarato niente
+ */
+export function perimetroDichiarato(valore) {
+  const pezzi = Array.isArray(valore) ? valore : String(valore ?? "").split(/[,\n]/);
+  const puliti = pezzi.map((p) => String(p ?? "").trim()).filter(Boolean);
+  return puliti.length ? [...new Set(puliti)].sort() : null;
+}
+
+/**
  * I file di test che questo lotto ha aggiunto o modificato — il perimetro del blocco duro.
  *
  * Pura sulla decisione: riceve gli elenchi che git ha già dato e non li chiede lei, così una prova
  * può metterla in ogni forma senza costruire un repo.
+ *
+ * `dichiarato` (AR-678) restringe a ciò che questa corsia dice di aver toccato. `null` = nessuno ha
+ * dichiarato niente, e allora vale ciò che vede git: tutto l'albero, sovrastimando.
  */
-export function testDelLotto(cambiati = [], nonTracciati = [], cartella = "cervello/test/") {
+export function testDelLotto(cambiati = [], nonTracciati = [], cartella = "cervello/test/", dichiarato = null) {
+  const solo = dichiarato ? new Set(dichiarato) : null;
   const dentro = new Set();
   for (const f of [...cambiati, ...nonTracciati]) {
     const p = String(f || "").trim();
-    if (p.startsWith(cartella)) dentro.add(p);
+    if (!p.startsWith(cartella)) continue;
+    if (solo && !solo.has(p)) continue;
+    dentro.add(p);
   }
   return [...dentro].sort();
 }
