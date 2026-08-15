@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-15 19:25",
+  "aggiornato": "2026-08-15 20:30",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -14905,6 +14905,23 @@
       "verifica": {
         "tipo": "umano",
         "nota": "nato nel lotto 43 al secondo giro: causa verificata sul codice (round2-applica.mjs righe 67 e 73 vs contratto-scheda.mjs:257), prova da scrivere"
+      }
+    },
+    {
+      "id": "AR-725",
+      "titolo": "Le due prove più pesanti del lotto passano da sole e falliscono in compagnia: il verde dipende da chi gira insieme",
+      "dimensione": "trovato-riparando",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "stato": "aperto",
+      "nato": "2026-08-15 20:30",
+      "nato_come": "scoperta",
+      "causa_radice": "Il banco del cervello lancia quattro processi di test in parallelo. Le due prove nuove del lotto 43 che costano di piu — c4-schermo-coda (avvia il Pannello vero e lo guida con un browser) e c4-typecheck-del-pannello (lancia tsc su tutta la superficie) — sotto quel carico escono ROSSE, e rilanciate da sole escono VERDI. Il banco lo dichiara («2 prove INSTABILI»), quindi nessuno sta mentendo: il punto e che una prova il cui verdetto dipende da chi le gira accanto non e una rete, e la prossima volta che diventa rossa nessuno sapra dire se e il codice o il vicino. Prima del lotto la suite ne aveva una sola cosi (c2-schermo); adesso tre. Il banco riconosce gia le prove che toccano la memoria vera e le fa girare in fila da sole: manca lo stesso trattamento per quelle che aprono un browser o compilano il Pannello, cioe per il COSTO invece che per l effetto collaterale.",
+      "fix_proposto": "Estendere il riconoscimento del banco (cervello/test-cervello.mjs) dalle prove che toccano la memoria a quelle COSTOSE: chi avvia un browser o lancia il compilatore gira in fila da solo, come gia fa chi scrive nel vault. Riconoscerle dal contenuto e non da un elenco, altrimenti la prossima prova pesante nasce fuori dalla lista. Prova: mettere due prove finte che si contendono la stessa risorsa e pretendere che il banco le serializzi invece di dichiararle instabili.",
+      "origine": "lotto 43, collaudo del lavoro finito: la suite intera lanciata a fine lotto le dichiara instabili",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 43 al collaudo finale: causa verificata sul banco (test-cervello.mjs serializza per contenuto, non per costo), prova da scrivere"
       }
     }
   ],
