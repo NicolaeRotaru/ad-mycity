@@ -4393,6 +4393,16 @@
    "sostituisci": "    azione: \"lascia\",",
    "test": "cervello/test/ricucitura-non-richiude-da-sola.test.mjs",
    "nota_riaggancio": "Lotto 44: il caso e reale, non teorico. Nel lotto 43 AR-693 e AR-684 erano dichiarati APERTI, portavano una prova a comando verde, e auto-fix li ha chiusi da solo dopo il merge — il conto diceva 61 chiusure su 49 dichiarate."
+  },
+  {
+   "lotto": 44,
+   "difetto": "cancello-lotto · difetti toccati (riaprire e lavorarci)",
+   "nome": "il cancello torna a riconoscere il lavoro del lotto dalla sola prova: riaprire un difetto non risulta toccarlo, e il banco delle mutazioni si dichiara cieco",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "const CAMPI_DEL_LOTTO = [\"verifica\", \"stato\", \"chiusura\"];",
+   "sostituisci": "const CAMPI_DEL_LOTTO = [\"verifica\"];",
+   "test": "cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs",
+   "nota_riaggancio": "Lotto 44: e il buco per cui la CI della PR #738 era rossa. Il cancello usciva 2 (cieco sul passo delle mutazioni) proprio perche il lotto aveva RIAPERTO due difetti senza toccarne le prove — cioe il lavoro piu onesto era quello che non passava."
   }
  ]
 }
