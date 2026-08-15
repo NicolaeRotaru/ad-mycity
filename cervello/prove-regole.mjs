@@ -41,6 +41,39 @@
  * letterale lo onora anche quando la regex tradisce.
  */
 export function patternTrovato(pattern, testo) {
+  return patternNelCodice(pattern, testo);
+}
+
+/**
+ * AR-355 — UNA RIGA DI COMMENTO NON È UNA RIPARAZIONE.
+ *
+ * Il caso: due difetti del worker (AR-136, AR-137) risultavano chiusi perché la loro prova citava una
+ * frase che nel file esisteva davvero — dentro un commento scritto da chi aveva fatto il fix. Il fix
+ * non c'era; c'era la sua descrizione.
+ *
+ * La causa di sistema, scritta nella scheda: «nel vocabolario delle prove non esiste la nozione di
+ * riga eseguibile — per la macchina un file è una stringa, quindi la documentazione di un fix e il
+ * fix sono indistinguibili». Qui quella nozione entra nel vocabolario, e ci entra **sul dato**: la
+ * cura sta dentro `patternTrovato`, cioè nel confronto che TUTTI usano (auto-fix per chiudere, la
+ * sonda per accreditare, il guardiano per giudicare). Metterla in un solo chiamante avrebbe lasciato
+ * aperte le altre porte — è AR-172, l'errore già pagato.
+ *
+ * Come funziona: il pattern si cerca due volte, sullo stesso testo e su una copia in cui le righe di
+ * commento sono state svuotate (le righe restano, così un pattern che attraversa più righe non si
+ * rompe). Se combacia solo nella prima, la prova NON è soddisfatta.
+ */
+const RE_RIGA_COMMENTO = /^\s*(\/\/|#(?!!)|\*|\/\*|<!--)/;
+
+/** Il testo con le righe di solo commento svuotate. Le righe restano al loro posto. */
+export function senzaCommenti(testo) {
+  return String(testo ?? "")
+    .split("\n")
+    .map((r) => (RE_RIGA_COMMENTO.test(r) ? "" : r))
+    .join("\n");
+}
+
+/** Il confronto grezzo: regex OPPURE letterale, su tutto il testo com'è (commenti compresi). */
+export function patternOvunque(pattern, testo) {
   const p = String(pattern ?? "");
   const t = String(testo ?? "");
   if (!p) return false;
@@ -53,11 +86,81 @@ export function patternTrovato(pattern, testo) {
   return (re ? re.test(t) : false) || t.includes(p);
 }
 
+/** Il confronto che conta: solo sulle righe che il computer esegue. */
+export function patternNelCodice(pattern, testo) {
+  return patternOvunque(pattern, senzaCommenti(testo));
+}
+
+/**
+ * La prova combacia SOLO dentro un commento?
+ *
+ * È il verdetto che mancava: non «assente» e non «presente», ma «c'è scritto e non fa niente».
+ * Chi mostra una prova non soddisfatta deve poter dire quale dei due casi è, perché sono due
+ * riparazioni diverse: una prova mai soddisfatta aspetta il fix, una soddisfatta-in-commento è già
+ * stata chiusa una volta su una frase.
+ */
+export function soloInCommento(pattern, testo) {
+  return patternOvunque(pattern, testo) && !patternNelCodice(pattern, testo);
+}
+
 /** Una prova file+pattern è soddisfatta da questo testo? (`presente` default: true) */
 export function provaSoddisfatta(verifica, testo) {
   const v = verifica || {};
   const trovato = patternTrovato(v.pattern, testo);
   return v.presente === false ? !trovato : trovato;
+}
+
+/**
+ * AR-356 — DOVE UNA PROVA NON PUÒ PUNTARE.
+ *
+ * Una prova che cita testo dentro `MyCity-Vault/` o `consegne/` si smonta da sola: sono i file che la
+ * macchina RISCRIVE a ogni giro. Domani quella frase non c'è più, la prova diventa rossa (o verde) per
+ * un motivo che non c'entra niente col difetto, e nessuno sa più cosa stava misurando.
+ *
+ * La causa di sistema è che l'ammissibilità della prova non veniva giudicata MAI — né alla nascita né
+ * dopo: per il registro un `.md` di memoria e un `.mjs` di codice erano lo stesso tipo di file. Qui
+ * l'ammissibilità diventa una regola, e chi valida il registro la può pretendere sul dato.
+ *
+ * Restano ammesse le prove per comando: un comando misura il presente, non cita una frase.
+ */
+export const CARTELLE_VOLATILI = ["MyCity-Vault/", "consegne/", "creativi/", "memoria-squadra/"];
+
+export function provaSuFileVolatile(verifica) {
+  const v = verifica || {};
+  if (!v.file || !v.pattern) return false;
+  const f = String(v.file).replace(/^\.\//, "");
+  return CARTELLE_VOLATILI.some((c) => f.startsWith(c));
+}
+
+/**
+ * AR-567 — «PROVA MAI SODDISFATTA» E «PROVA AL VUOTO» SONO DUE COSE DIVERSE.
+ *
+ * Otto riparazioni erano state progettate scrivendo nella prova il nome del file che il fix avrebbe
+ * creato. Il lotto non è mai arrivato a costruirlo, e sono rimasti otto puntatori al niente — chiamati
+ * «auto-sospette» insieme alle prove semplicemente non ancora soddisfatte. Sono due stati opposti:
+ *
+ *   · **mai-soddisfatta** — il file c'è, il pattern non ancora: è un piano che aspetta il lavoro.
+ *   · **al-vuoto**        — il file non esiste: è un piano che NON PUÒ essere soddisfatto da nessuno.
+ *     Non è un dubbio, è un allarme: o il fix si costruisce o la prova si riscrive.
+ *
+ * `fileEsiste` e `patternCombacia` li raccoglie chi chiama (qui non si tocca il disco), così questa
+ * classificazione si esegue in un test invece di essere riletta.
+ */
+export function classificaProva({ verifica, fileEsiste = null, patternCombacia = null } = {}) {
+  const v = verifica || {};
+  if (v.comando !== undefined) return { classe: "comando", motivo: "prova comportamentale: la misura è l'uscita del comando" };
+  if (v.tipo === "umano" || v.tipo === "umana") return { classe: "umana", motivo: "verifica umana dichiarata: nessun guardiano la chiuderà" };
+  if (!v.file || !v.pattern) return { classe: "nessuna", motivo: "nessuna prova valutabile su questa scheda" };
+  if (fileEsiste === false) {
+    return {
+      classe: "al-vuoto",
+      motivo: `la prova punta a ${v.file}, che non esiste: nessun lavoro potrà mai soddisfarla (AR-567)`,
+    };
+  }
+  if (fileEsiste === null) return { classe: "non-misurata", motivo: `non ho guardato se ${v.file} esiste` };
+  if (patternCombacia === null) return { classe: "non-misurata", motivo: `${v.file} c'è, ma il pattern non è stato valutato` };
+  if (patternCombacia) return { classe: "soddisfatta", motivo: `${v.file} contiene /${v.pattern}/` };
+  return { classe: "mai-soddisfatta", motivo: `${v.file} c'è e non contiene ancora /${v.pattern}/: il fix è da fare` };
 }
 
 /** Solo le prove file+pattern sono controllabili qui: un comando non si può «rieseguire nel passato». */

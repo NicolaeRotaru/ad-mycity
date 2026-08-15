@@ -1725,9 +1725,12 @@
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione chiusura-volano)",
       "verifica": {
-        "tipo": "umano"
+        "tipo": "comando",
+        "comando": "node cervello/test/il-voto-del-volano-con-due-metri.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "SCHEDA CONTRO CODICE. La scheda diceva «sonda-volano.mjs:111 usa tasso>0»: la riga oggi non è più lì, la regola era già stata spostata in `volano-regole.mjs` (funzione `loopChiude`, `tasso > 0`). Le due soglie però c'erano davvero, e sono state contate: `tasso-lezioni.mjs` confrontava con 0,3 in tre punti scritti a mano, `sonda-volano.mjs` in altri due. Col tasso vero al 17% il primo suonava l'allarme e il secondo scriveva `loop_chiude: true` nel file che la Cabina mostra. COSA HO FATTO. Il numero 0,3 adesso esiste in un posto solo, `cervello/volano-numeri.mjs`, insieme alla definizione di «lezione applicata» che prima era una funzione privata dentro il programma che quel numero lo pubblica. `tasso-lezioni.mjs` la richiama (non ne ha più una sua) e decide l'uscita con `esitoTasso`; `sonda-volano.mjs` calcola `loop_chiude` con `verdettoVolano`, che pretende il tasso sopra soglia E una prova di chiusura vera. In più la sonda ora scrive accanto al verdetto la soglia che ha usato e `tasso_sopra_soglia`, perché «non chiude per mancanza di prove» e «non chiude perché le lezioni non si usano» sono due guasti diversi e prima si leggevano uguali. COSA NON HO VERIFICATO. Il ramo «rendere obbligatoria una riga APPLICATE: L-xxx nelle note» del fix_proposto non l'ho costruito: è un obbligo su chi scrive, non un freno, e il posto giusto sarebbe il cancello del giro, fuori dal mio territorio. Resta vero che questo tasso SOTTOSTIMA — un richiamo implicito non lo vede nessuno — e l'ho scritto nel modulo, non solo qui.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-150",
@@ -1742,9 +1745,12 @@
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione chiusura-volano)",
       "verifica": {
-        "tipo": "umano"
+        "tipo": "comando",
+        "comando": "node cervello/test/il-voto-del-volano-con-due-metri.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "SCHEDA CONTRO CODICE. La scheda dice «EXP-004 è l'unico esperimento mai misurato, e non lo è davvero». Contati oggi sul registro vero: gli esperimenti che si dichiarano `misurato` sono nove, e OTTO di loro dicono nella propria nota che il gate non è mai partito — «non testata», «mai stato pubblicato», «mai ricevuto la parola di Nicola». Non è un caso isolato: è quasi tutto il registro. COSA HO FATTO. `cervello/esperimenti-regole.mjs` dà uno stato EFFETTIVO all'esperimento leggendo il suo racconto invece della sua etichetta, e introduce `non-testato` (mai eseguito) accanto a `misurato` (eseguito e letto). Il punto dove faceva danno era `sonda-volano.mjs`: contava quei «misurato» come PROVA che la macchina impara, quindi il volano si dava ragione da solo. Ora chiede `esperimentoProvaApprendimento`. `esperimenti-check.mjs` scrive `non_testati`, i loro id e la `resa` in `meta_esperimenti`, così il numero che prima spariva dentro «misurati» è visibile in Cabina. COSA NON HO VERIFICATO. Il rilevatore è conservativo e lo dichiaro: EXP-007 è mai testato nei fatti (la telefonata non è stata fatta) ma lo dice con parole che nessuna regola può indovinare, quindi resta contato come misurato. Otto su nove riconosciuti, uno no. Lo stato `chiuso` esiste nell'elenco ma nessun esperimento ci arriva ancora: quel passaggio è il lavoro di chi misura, non del guardiano.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-151",
@@ -2383,15 +2389,16 @@
       "stato": "aperto",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
-      "verifica": {
+      "nota": "Dove: cervello/calibrazione.mjs:666-687 (cmdValida) contro 364-377 (cmdEsito) · Impatto: La calibrazione registra CHE ha sbagliato ma mai PERCHÉ. Le tre cause (modello / dato / mondo) sono l'unica cosa che distingue «ho ragionato male» da «il sensore era cieco» da «è successo un imprevisto»: senza, nessun reparto può correggere il proprio modo di prevedere, e l'autonomia guadagnata sui punteggi si muove su un buio.",
+      "chiuso_il": "",
+      "chiuso_come": "",
+      "nato_come": "scoperta",
+      "verifica_storica": {
         "file": "cervello/calibrazione.mjs",
         "pattern": "chiusa senza causa|!e\\.causa",
         "presente": true
       },
-      "nota": "Dove: cervello/calibrazione.mjs:666-687 (cmdValida) contro 364-377 (cmdEsito) · Impatto: La calibrazione registra CHE ha sbagliato ma mai PERCHÉ. Le tre cause (modello / dato / mondo) sono l'unica cosa che distingue «ho ragionato male» da «il sensore era cieco» da «è successo un imprevisto»: senza, nessun reparto può correggere il proprio modo di prevedere, e l'autonomia guadagnata sui punteggi si muove su un buio.",
-      "chiuso_il": "",
-      "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nota_fix": "Il fix vive tutto dentro `cervello/calibrazione.mjs` (`cmdValida` che non chiede la causa, `cmdDaLoop` che chiude direttamente come `mancata`), e quel file non è nel mio territorio: toccarlo vorrebbe dire scrivere nella corsia di qualcun altro. Ho verificato la scheda sul codice e regge: `cmdValida` controlla fonte e sensore e non la causa, quindi l'obbligo vive solo nel percorso comodo del comando e evapora appena qualcuno scrive il JSON a mano. Il diff proposto è in patch_per_ad."
     },
     {
       "id": "AR-182",
@@ -4676,14 +4683,15 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/chiusura-loop.mjs",
-        "pattern": "const scoreTxt = scorecard \\?",
-        "presente": false
+        "tipo": "comando",
+        "comando": "node cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
       },
       "nota": "Dove: MyCity-Vault/07-Agenti/RUBRICA-LIVELLI.md:38-48 · cervello/chiusura-loop.mjs:107 · Impatto: Il livellamento previsto da RUBRICA-LIVELLI («scorecard media ≥ 4.3 su un campione» per dichiarare un senior da multinazionale) è materialmente incalcolabile: i punteggi non sono aggregabili tra loro. Nessun senior può essere promosso, bocciato o confrontato nel tempo sui numeri, e lo spot-check anti-deriva non ha una serie storica su cui appoggiarsi. Il metro dichiarato in 120 prompt costa token a ogni chiamata e non produce un solo dato utilizzabile. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "SCHEDA CONTRO CODICE, due volte. ① La scheda chiede sei assi `A/V/C/K/S/N`; la rubrica vera di casa (`MyCity-Vault/07-Agenti/RUBRICA-QUALITA.md`) ne dichiara SETTE — Vero, Concreto, Artefatto reale, Colore giusto, Impatto dichiarato, Memoria, Efficiente. Ho seguito il documento, non la sigla: buttare un asse per far tornare sei lettere sarebbe la stessa malattia un piano sotto. Un test rilegge la rubrica e pretende che i due elenchi coincidano. ② La sua `verifica` era `{pattern: \"const scoreTxt = scorecard ?\", presente: false}`, cioè una prova che si sarebbe soddisfatta da sola alla prima riscrittura di quella riga. COSA HO FATTO. `cervello/scorecard-rubrica.mjs` legge un voto solo nella forma `V5 C4 A5 K5 I3 M4 E4` (o `5/4/5/5/3/4/4`), torna la media e i due assi più bassi, e `aggregaPerReparto` dà la vista che il livellamento aspettava — con accanto quante righe sono tipizzate, perché «media 4,2 su tre righe di quaranta» non è «media 4,2». `chiusura-loop.mjs registra` RIFIUTA (uscita 2) un voto in prosa e stampa i sette assi con la loro spiegazione. Le righe storiche restano come sono. DEROGA DICHIARATA: i reparti-fixture (`prova-…`) passano — esistono solo perché le prove del ciclo previsione→esito girino su un reparto finto, e chiedere loro un voto vero vorrebbe dire spegnere il cancello per tutti pur di far passare un test. COSA NON HO VERIFICATO: `cervello/registra-programma-intelligenza.mjs` (uno script one-shot già eseguito, fuori territorio) chiama `registra` con un voto in prosa: se qualcuno lo rilanciasse, adesso quella riga non verrebbe scritta. Lo script controlla già lo stato d'uscita e lo dichiara, quindi non si rompe in silenzio.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-289",
@@ -6156,11 +6164,12 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/worker.sh:747 (unico riscontro di «BATTITO DURANTE LA CHAT», riga di commento) e cervello/worker.sh:411 (unico riscontro di «ESEGUI CON BATTITO», riga di commento); regola da mettere in cervello/prove-regole.mjs. Sintomo: AR-136 è chiuso con prova {file: cervello/worker.sh, pattern: 'BATTITO DURANTE LA CHAT'} e AR-137 con {pattern: 'ESEGUI CON BATTITO'}. Cercati nel file, entrambi i pattern hanno UN SOLO riscontro e in tutti e due i casi è l'intestazione di un commento: riga 747 `# 🫀 BATTITO DURANTE LA CHAT (ROOT-CAUSE FIX…)` e riga 411 `# 🫀 ESEGUI CON BATTITO (fix falso-allarme…)`. La prova non tocca una riga eseguibile: cancellando il blocco di codice sotto e lasciando il commento, la prova continua a passare; scrivendo quel commento senza codice, il difetto si chiude a costo zero.",
       "verifica": {
-        "file": "cervello/prove-regole.mjs",
-        "pattern": "soloInCommento",
-        "presente": true
+        "tipo": "comando",
+        "comando": "node cervello/test/una-prova-che-punta-al-vuoto.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "SCHEDA CONTRO CODICE. La scheda chiedeva `soloInCommento` dentro `prove-regole.mjs` e la classificazione «non ammessa» in `prove-oneste` e `cantiere-prove`. Quei due file non sono nel mio territorio, ma la cura giusta non era aggiungere il controllo lì: era metterlo SUL DATO, cioè dentro `patternTrovato`, il confronto che usano tutti. COSA HO FATTO. `patternTrovato` cerca il pattern su una copia del file con le righe di commento svuotate (le righe restano, così un pattern su più righe non si rompe); accanto ci sono `patternOvunque`, `patternNelCodice` e `soloInCommento`, che è il verdetto che mancava: non «assente» e non «presente», ma «c'è scritto e non fa niente». Da qui lo ereditano `auto-fix.mjs` (che è chi CHIUDE i difetti), `prove-oneste.mjs` e `sonda-volano.mjs`. IL CONTO VERO, misurato sulle 109 prove file+pattern del cantiere: quattro cambiano verdetto — AR-136 e AR-137, cioè esattamente le due che la scheda nomina, più AR-193 e AR-203, due fratelli che nessuno aveva visto e che al prossimo giro `auto-fix` avrebbe chiuso a vuoto. COSA NON HO VERIFICATO E RESTA APERTO. Il confronto della prova ha SEI copie in casa: cinque file lo rifanno con `new RegExp(v.pattern).test(testo)` invece di importarlo (`cantiere-prove`, `chiusures-audit`, `allinea-scan-cantiere`, `sorvegliante`, `spazzata-fratelli`), e nessuno dei cinque è nel mio territorio. Quelli CLASSIFICANO e non chiudono, quindi l'atto è protetto, ma la malattia lì è ancora possibile: l'ho registrata in difetti_nuovi. E il ramo (c) della scheda — riaprire AR-136 e AR-137 con una prova bats sul worker — non l'ho fatto: tocca il cantiere, che le corsie non scrivono.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-356",
@@ -6175,11 +6184,12 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cantiere-difetti.json: AR-152 (prova su MyCity-Vault/90-Memoria-AI/STATO.md), AR-153 (prova su AZIONI-IN-ATTESA.md), AR-110 (prova su pannello/src/app/api/approva/route.ts, cartella oggi inesistente); gate in cervello/chiusure-audit.mjs:101 e :125. Sintomo: Rieseguendo le prove dei 183 chiusi: AR-152 cerca la frase «STALE — lo scenario 12 mesi» in STATO.md e AR-153 cerca «pat-decisioni-redazione — RIMOSSA» in AZIONI-IN-ATTESA.md — verificato con grep, entrambe le frasi NON esistono più (0 riscontri): i due difetti sono formalmente regrediti pur restando 'chiusi'. AR-110 punta a pannello/src/app/api/approva/route.ts: la cartella `approva` non esiste più, quindi quel difetto è diventato non verificabile per sempre. In tutti e tre i casi la prova cita testo che la macchina stessa riscrive a ogni giro. chiusure-audit.mjs li vede e li elenca, ma il suo gate (righe 101 e 125: `GATE && regrediti.length`) copre solo i regrediti e ignora sia `fileAssente` sia i 4 classificati 'prova debole'.",
       "verifica": {
-        "file": "cervello/chiusure-audit.mjs",
-        "pattern": "GATE && [^;]*fileAssente",
-        "presente": true
+        "tipo": "comando",
+        "comando": "node cervello/test/una-prova-che-punta-al-vuoto.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "COSA HO FATTO. La causa di sistema che la scheda nomina — «manca una regola di ammissibilità della prova al momento in cui il difetto NASCE» — ora è una regola eseguibile (`provaSuFileVolatile` in `prove-regole.mjs`: una prova file+pattern dentro MyCity-Vault, consegne, creativi o memoria-squadra cita testo che la macchina stessa riscrive) e un cancello duro sul DATO, non sul comando: `valida-contratti.mjs` scende dentro `cantiere-difetti.json` e conta quelle prove a ogni giro. Il tetto dichiarato è 11, che è il numero misurato oggi (AR-029, AR-118, AR-124, AR-125, AR-152, AR-153, AR-160, AR-161, AR-202, AR-285, AR-289): scende quando si curano, e se ne nasce una dodicesima il giro diventa rosso. Il tetto invece dello zero perché un cancello che parte rosso su undici voci viene disattivato entro la settimana — è l'errore già pagato scritto nel mansionario. COSA NON HO FATTO, ed è debito dichiarato: il ramo (b) del fix_proposto (estendere il gate di `chiusure-audit.mjs` a regrediti e file_assente) e il ramo (c) (riaprire AR-152, AR-153, AR-110 con prova comportamentale) restano fuori: il primo è un file di un'altra corsia, il secondo tocca il cantiere.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-357",
@@ -6258,11 +6268,12 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-radiografia.json (170 findings: 52 senza campo `genera`, 25 con un valore fuori dall'enum) — filtri in .claude/workflows/auto-radiografia.js:138-139; controllo mancante in cervello/valida-contratti.mjs. Sintomo: Il workflow instrada i findings con `f.genera === 'nuovo-pezzo'` (→ proposte pezzi) e `f.genera === 'domanda-nicola'` (→ domande in Cabina). Contati i 170 findings dell'ultima radiografia contro l'enum ammesso (lezione, auto-riscrittura, sentinella, nuovo-pezzo, domanda-nicola, solo-report): 52 non hanno proprio il campo e 25 ce l'hanno ma contiene una frase intera invece di un valore. Totale 77 su 170 (45%) invisibili al routing: non diventano né pezzo, né sentinella, né domanda per Nicola, né lezione, e cadono in silenzio. valida-contratti.mjs controlla i nomi dei campi di primo livello dei file di auto-coscienza e non scende dentro `dimensioni[].findings[]`, quindi non se ne accorge.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "prova a pattern TOLTA nel lotto 40: il difetto resta aperto e non deve poter chiudersi da solo (AR-444)"
+        "tipo": "comando",
+        "comando": "node cervello/test/una-prova-che-punta-al-vuoto.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "SCHEDA vs CODICE — la scheda dice «il 45% non viene instradato»; misurato oggi sulla radiografia vera: 163 findings su 286 senza `genera`, cioè il 57%. Zero fuori enum: la malattia non è il valore inventato, è il campo MANCANTE — quindi il ramo «normalizzare i valori non riconosciuti» del fix_proposto cura un caso che oggi non esiste, mentre il caso che esiste (assente) va contato. La sua verifica cercava `GENERA_AMMESSI` in `cervello/valida-contratti.mjs`: quella costante lì NON C'È, quindi la prova era correttamente rossa e il difetto correttamente aperto. PERCHÉ «A METÀ» E NON «RIPARATO»: la casa giusta del rosso duro è `valida-contratti.mjs` — il validatore dei contratti di questi JSON — e quel file NON è nel mio territorio (non allinea né riconcilia niente: valida). Quello che ho fatto è la parte che mi compete e che rende la riparazione un lavoro di minuti per chi possiede quel file: `GENERA_AMMESSI`, `verdettoFinding()` e `findingsFuoriContratto()` sono pronti e provati nel contratto, e l'allineatore (che i findings li legge davvero) ora li conta e li scrive in `sync_scan.findings_non_instradabili` — 163, visibile in Cabina invece che invisibile. Manca il vincolo hard con rc≠0, ed è debito dichiarato, non lavoro finito. Ho anche agganciato la causa di sistema che la scheda nomina («i contratti sono dichiarati all'ingresso e mai riverificati all'uscita»): il test rilegge l'enum dallo SCHEMA VERO in .claude/workflows/auto-radiografia.js e pretende che le due liste coincidano, così il guardiano non può diventare più permissivo dello schema senza che nessuno se ne accorga."
+      "nota_fix": "IL NUMERO VERO, ricontato oggi: 163 findings su 286 senza `genera`, cioè il 57% — la scheda diceva 45% e la `nota_fix` del lotto 40 aveva già corretto a 163. Fuori enum: zero. Quindi la malattia non è l'etichetta inventata, è il campo MANCANTE, e il ramo «normalizzare i valori non riconosciuti» del fix_proposto cura un caso che oggi non esiste. COSA HO FATTO, cioè il pezzo che il lotto 40 ha dichiarato come debito: il rosso duro adesso c'è, e sta dove doveva stare — `valida-contratti.mjs`, il validatore dei contratti di questi JSON, che gira a ogni giro dentro giro.sh. Scende dentro `auto-radiografia.dimensioni[].findings[]` con `verdettoFinding` (l'enum resta in `contratto-scheda.mjs`, dove un test la tiene allineata allo schema vero dei sotto-agenti) e separa due guasti con due cure: un'etichetta INVENTATA è blocco duro senza tetto (oggi zero, e da qui in poi restano zero), un'etichetta MANCANTE sta sotto il tetto dichiarato di 163, che scende e non risale. NON ho toccato le schede del cantiere: l'elenco delle 73 senza `dimensione` — 31 delle quali ancora aperte — è in patch_per_ad, perché il cantiere è il registro dell'AD.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-361",
@@ -7228,11 +7239,13 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: pannello/src/lib/esito-lettura.ts (1 importatore: lib/obsidian.ts:4, per la sola `comeServire`) · lib/esito-scrittura.ts (`scritturaConfermata` in 2 componenti; `STATUS_SCRITTURA_FALLITA` in 3 rotte su 29 con POST) · lib/stato-vivo.ts (`aggiornamentoPertinente` in 1 dei 2 ascoltatori del bus) · lib/panel-sync.ts:71 `usePanelRefresh` (2 usi contro 25 file con `usePanelSync`) · lib/useStrato.ts (5 strati registrati, 2 riquadri a schermo intero fuori). Sintomo: VERIFICATO contando i chiamanti reali con grep. `lib/esito-lettura.ts` esporta 8 funzioni (`letto`/`assente`/`cieco`/`haDato`/`oppure`/`testoQuandoVuoto`/`daRisposta`/`listaSicura`/`comeServire`/`semaforoDaLettura`) ed è importato da UN solo file, `lib/obsidian.ts:4`, solo per `comeServire`: ZERO componenti. `scritturaConfermata` compare in 2 file client (DemoBanner.tsx:5,36 e aree/Azioni.tsx:11,459) su decine di scritture; `STATUS_SCRITTURA_FALLITA` in 3 rotte su 29 che espongono un POST. `aggiornamentoPertinente` in 1 solo dei 2 ascoltatori del bus (page.tsx:2329, non ParlaCasella). `usePanelRefresh` in 2 punti (DirettaContenuti.tsx:139, lib/fatti.ts:36) contro 25 file che usano `usePanelSync`. `useStrato` in 5 punti mentre BottoneFotoChat e LetteraAdCard restano fuori. Ogni modulo porta in testa un commento che dichiara «qui la regola diventa una funzione, e chi la salta si vede nel diff» — ma nessun guardiano misura l'adozione: `cervello/adozione-medicine.mjs` NON esiste (ls → No such file).",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Nessun guardiano può chiudere questo difetto finché il pezzo non esiste: la vecchia prova puntava a `cervello/adozione-medicine.mjs`, mai scritto. Chi giudica deve vedere il registro (medicina → sintomo grezzo → punti che dovrebbero usarla) E il conto dei chiamanti reali per ognuna: è quel conto la cosa che manca, non il file. Una medicina installata in due punti su venti deve risultare installata in due punti su venti."
+        "tipo": "comando",
+        "comando": "node cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
       },
       "nato_come": "scoperta",
-      "prova_convertita_il": "2026-08-11 02:10"
+      "prova_convertita_il": "2026-08-11 02:10",
+      "nota_fix": "COSA HO FATTO: il pezzo che la scheda chiede esiste, `cervello/adozione-medicine.mjs`, ed è quello che mancava — non il file, il CONTO. Un registro dichiarativo di cinque medicine (medicina → come si riconosce un punto guarito → come si riconosce un punto ancora malato → dove cercare) e, per ognuna, i chiamanti veri e i punti ancora scoperti letti sul repo. Misurato oggi: `esito-lettura` 7 usano / 0 scoperti · `scrittura-confermata` 2/0 · `panel-sync` 16 usano e 4 ancora scoperti · `strato` 4/0 · `aggiornamento-pertinente` 4 usano e 1 scoperto. Cinque punti scoperti in tutto, con nome e cognome: sono il lotto dopo, non un numero da guardare. LA SOGLIA È UN CRICCHETTO: ogni medicina porta la copertura del giorno in cui la voce è nata, e il comando esce 1 se scende — cioè se nasce un punto nuovo già malato. Non «deve essere 100%»: un cancello che parte rosso viene disattivato entro la settimana. E «nessun paziente» torna `null`, non 100%: zero su zero è «non ho guardato niente», ed è la bugia peggiore. COSA NON HO VERIFICATO, dichiarato: le espressioni che riconoscono il sintomo grezzo sono conservative, quindi i «punti scoperti» sono un PAVIMENTO e non la verità — la scheda parlava di «due punti su venti» e io ne trovo molti meno, il che può voler dire che nel frattempo la conversione è andata avanti oppure che il mio setaccio è a maglie larghe. Il comando non è ancora agganciato al giro: quello tocca `giro.sh`, fuori territorio, e il diff è in patch_per_ad.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-408",
@@ -11803,11 +11816,13 @@
       "causa_radice": "① Quando si registra un difetto si scrive la prova indicando il file che il fix creerà. ② Se il lotto poi non arriva a costruirlo, resta un puntatore a un file che non esiste. ③ Nessun guardiano distingue «prova non ancora soddisfatta» da «prova che punta al vuoto»: cantiere-prove.mjs li chiama entrambi «auto-sospetta». ④ Con AR-562 aperto, questi otto erano perfino accreditati come «già risolti». ⑤ Un puntatore al vuoto è peggio di nessun puntatore: sembra un piano ed è un buco.",
       "fix_proposto": "🟡 cantiere-prove.mjs separa i due casi e li chiama con due nomi diversi: «prova mai soddisfatta» (il file c'è, il pattern no) e «prova al vuoto» (il file non esiste). La seconda è un allarme, non un dubbio: o il fix si costruisce o la prova si riscrive.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "prova automatica assente per costruzione: cantiere-prove.mjs non sa ancora distinguere «pattern assente» da «file inesistente», quindi esce 0 comunque. Quando la distinzione esisterà, la prova diventa `node cervello/cantiere-prove.mjs` con un mutante che la rompe."
+        "tipo": "comando",
+        "comando": "node cervello/test/una-prova-che-punta-al-vuoto.test.mjs"
       },
       "nato_da": "AR-562",
-      "nota": "Dove: cervello/cantiere-prove.mjs · Impatto: otto pezzi di lavoro dati per progettati e mai atterrati."
+      "nota": "Dove: cervello/cantiere-prove.mjs · Impatto: otto pezzi di lavoro dati per progettati e mai atterrati.",
+      "nota_fix": "IL NUMERO VERO: la scheda dice otto puntatori al vuoto, oggi ne resta UNO — AR-110, che punta a `pannello/src/app/api/approva/route.ts`, un file che non esiste. Gli altri sette nel frattempo o sono stati costruiti o hanno cambiato prova. COSA HO FATTO. La distinzione che mancava è ora una funzione che si esegue: `classificaProva` in `prove-regole.mjs` separa «mai-soddisfatta» (il file c'è, il pattern no: un piano che aspetta il lavoro) da «al-vuoto» (il file non esiste: un piano che nessun lavoro può soddisfare), e dice due motivi diversi, perché un lettore che riceve la stessa frase per due stati opposti non impara niente. Il freno sta sul dato, in `valida-contratti.mjs`, col tetto dichiarato a 1: se ne nasce una seconda il giro è rosso. COSA NON HO FATTO: `cantiere-prove.mjs` — il posto che la scheda nomina, quello che oggi chiama entrambi i casi «auto-sospetta» — è fuori dal mio territorio. Il modulo che gli serve è pronto e il diff di due righe è in patch_per_ad; finché non lo applica qualcuno, quel comando continuerà a confondere i due casi nel suo report, mentre il cancello dei contratti li distingue.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-568",
@@ -12998,11 +13013,11 @@
       },
       "verifica": {
         "tipo": "comando",
-        "esito": "riprodotto",
-        "quando": "2026-08-13",
-        "nota": "reparti con ESITO fresco (oggi/ieri) ma muti in Sala: ['devops-sre']"
+        "comando": "node cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "COSA HO TROVATO, misurato sulla Sala vera con la finestra di 7 giorni: 191 righe, SEI voci diverse, e il 91% delle righe è del direttore. I reparti con un ESITO fresco nel loro quaderno e nessuna riga in Sala sono QUATTORDICI (la scheda ne trovava uno solo, devops-sre, il 13/8). COSA HO FATTO. `cervello/sala-regole.mjs` legge il formato dichiarato delle righe e calcola tre cose pure: chi ha lavorato senza farsi vedere (`repartiMuti`), quanto il canale è concentrato in una voce sola (`concentrazioneVoci`), e le revisioni fra pari. `chiusura-loop.mjs --sonda` le pubblica in `chiusura-loop.json` sotto `sala_operativa`, e il conteggio dei muti entra nella riga di sintesi che finisce nel segnale. Il difetto era che quel comportamento non lo contava NESSUNO: adesso è un numero che la Cabina può mostrare e che non può tornare invisibile. COSA NON HO FATTO, ed è una scelta: non ho messo un cancello che BLOCCA il giro sui reparti muti. Quattordici su un roster di 120 farebbe partire rosso ogni giro, e un cancello sempre rosso si impara a saltare. Misura, per ora, e l'elenco è l'ordine di lavoro. Il direttore è escluso dal conto apposta (la sua riga in Sala c'è sempre e nasconderebbe il problema degli altri): è scritto nel modulo.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-622",
@@ -13024,7 +13039,8 @@
         "quando": "2026-08-13",
         "nota": "richieste di peer review: 1 · con risposta del destinatario: 0"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "L'ho verificato e la scheda è vera alla lettera: in tutta la Sala Operativa c'è UNA riga `RIVEDI`, del 29/7 01:20, da @ad a @finanza, e @finanza non ha più scritto una riga dopo. Nel codice non c'è niente di rotto da riparare — il formato la prevede, la sintassi funziona, semplicemente nessuno la usa e nessuno risponde. È un comportamento mancante, non un difetto di programma, e chiuderlo scrivendo un modulo sarebbe esattamente la malattia di questa corsia: una lezione chiusa con una frase. QUELLO CHE HO COSTRUITO, perché il difetto smetta almeno di essere invisibile: `revisioniTraPari` in `cervello/sala-regole.mjs` conta le richieste e quante hanno ricevuto risposta (il destinatario che scrive in Sala dopo essere stato chiamato), e `chiusura-loop.mjs --sonda` lo pubblica in `chiusura-loop.json` sotto `sala_operativa.peer_review`. Oggi quel numero dice 1 richiesta, 0 risposte. Il difetto si chiude quando quel numero cambia, e allora la prova lo mostrerà da sola. Il test NON asserisce «zero risposte»: una prova che diventa rossa il giorno in cui la squadra migliora insegna a non migliorare — verifica il meccanismo su un caso costruito e stampa il numero vero."
     },
     {
       "id": "AR-623",
@@ -13041,10 +13057,12 @@
         "comando": "cd /home/user/ad-mycity && node cervello/chiusura-loop.mjs --lista | grep -qE \"@ad \" || (echo 'il quaderno ad (49 esiti) non è nel conteggio della sonda'; exit 1)"
       },
       "verifica": {
-        "tipo": "comando"
+        "tipo": "comando",
+        "comando": "node cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "[lotto 42 · APERTO] il file da correggere è nella lista di quelli che non devo toccare in questo lotto. Nella mia zona non c'è niente da riparare: correggerlo qui vorrebbe dire scriverlo là."
+      "nota_fix": "IL LOTTO 42 L'AVEVA LASCIATO APERTO perché il file da correggere era fuori dal suo territorio; in questa corsia `chiusura-loop.mjs` c'è, e la riparazione è di tre righe. COSA HO TROVATO. La sonda partiva dal roster dei 120 agenti. `ad` e `supervisione` sono deroghe dichiarate — l'AD non è un agente, è il direttore — quindi non erano nel roster; e siccome sono deroghe, anche la lista dei «fuori roster» le saltava apposta. Il quaderno con 114 esiti dentro, quello dove finisce il lavoro del direttore, non compariva in nessuno dei due conti: non era vuoto, era invisibile, che in un contatore è peggio. COSA HO FATTO. Entrano nel conto le deroghe che un quaderno ce l'hanno DAVVERO sul disco (creare una riga per un file inesistente trasformerebbe «non conto il direttore» in «mi manca un quaderno», che è un'altra bugia), e ognuna resta marcata `deroga: true` per quello che è. Il totale è passato da 120 a 122 e il quaderno `ad` risulta vivo con 114 esiti, l'ultimo di ieri.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-624",

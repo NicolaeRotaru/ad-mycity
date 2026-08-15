@@ -108,6 +108,36 @@
       "file": "cervello/autopilot.mjs",
       "perche": "AR-210 — il controllo d'onestà sorveglia una porta sola: i file di consegna. L'autopilota pubblica verso il pubblico e da lì non passa. Le difese si aggiungono dove è appena successo un problema, non su tutte le porte della stessa classe.",
       "diff_proposto": "① Dentro il ciclo, PRIMA di eseguire il publisher e solo quando `modo` è vero (cioè quando sta per uscire davvero):\n\n    if (modo) {\n      const testo = [voce.titolo, voce.testo, voce.caption].filter(Boolean).join(\"\\n\");\n      const o = spawnSync(\"node\", [join(QUI, \"onesta-check.mjs\"), \"--stdin\"], { input: testo, encoding: \"utf8\" });\n      if (o.status !== 0) {\n        const ok = accoda(voce);\n        console.log(`🚦 ${voce.id} (${voce.canale}) → l'onestà ha detto no: ${(o.stdout||\"\").split(\"\\n\")[0]} → ACCODATO per la firma${ok ? \"\" : \" (coda non scrivibile)\"}.`);\n        logga({ id: voce.id, canale: voce.canale, esito: \"accodato-onesta\", motivo: (o.stdout||\"\").split(\"\\n\")[0] });\n        accodate++; continue;\n      }\n    }\n\n  Fail-closed come il resto del cancello: se onesta-check non c'è o non risponde, la voce si accoda invece di partire.\n\n② La seconda clausola («un solo posto con l'elenco delle porte verso il pubblico e le guardie dovute») ha già la sua casa: cervello/uscite-reali.json, letto da cervello/uscite-check.mjs, che gira a ogni giro. Aggiungere il campo `guardie: [\"consenso\", \"onesta\"]` alle voci che toccano il pubblico e far fallire uscite-check quando una porta dichiarata ne è priva. Così la domanda «quali porte hanno quali guardie» smette di essere una cosa da ricordarsi.\n\nProva: una voce con un numero senza fonte nel testo, in LIVE, con un publisher finto che registra gli invii — si pretende zero invii e una riga in coda."
+    },
+    {
+      "corsia": 8,
+      "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json",
+      "perche": "AR-360 — le schede senza `dimensione` sono 73 su 716, di cui 31 ancora aperte: senza etichetta non entrano in nessun raggruppamento per malattia, quindi non vengono mai scelte per un lotto. Il cantiere è il registro dell'AD e una corsia non ci scrive; l'elenco degli id si ricava con il comando qui sotto. Le stesse 73 sono anche senza `gravita`.",
+      "diff_proposto": "node -e \"const c=require('./MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json');const a=c.difetti.filter(d=>d.stato!=='chiuso'&&!d.dimensione).map(d=>d.id);console.log(a.length, a.join(' '))\"   # 31 schede aperte da etichettare"
+    },
+    {
+      "corsia": 8,
+      "file": "cervello/calibrazione.mjs",
+      "perche": "AR-181 — l'obbligo della causa vive solo nel comando; il guardiano `cmdValida` non lo chiede, quindi appena il JSON viene scritto per un'altra via il vincolo evapora. È la regola generale che la scheda chiede: ogni campo che il CLI dichiara obbligatorio deve comparire nel guardiano dello stesso file.",
+      "diff_proposto": "in cmdValida, accanto ai controlli su fonte e sensore:\n\n  const CAUSE_AMMESSE = [\"ipotesi-sbagliata\", \"esecuzione-mancata\", \"misura-cieca\"];\n  const DATA_PONTE = \"2026-08-01\"; // le righe precedenti sono storia e restano esenti\n  for (const e of registro) {\n    if (e.stato !== \"mancata\") continue;\n    if (!e.chiuso_il || e.chiuso_il < DATA_PONTE) continue;\n    if (!CAUSE_AMMESSE.includes(e.causa)) {\n      problemi.push(`${e.id}: chiusa senza causa ammessa (${CAUSE_AMMESSE.join(\" | \")}). Una previsione mancata che non dice PERCHÉ non insegna niente.`);\n    }\n  }\n\ne in cmdDaLoop, al posto della chiusura diretta come `mancata`, lo stato `da-classificare`, che il gate del giro obbliga a classificare nello stesso giro."
+    },
+    {
+      "corsia": 8,
+      "file": "cervello/cantiere-prove.mjs",
+      "perche": "AR-567 — oggi chiama «auto-sospetta» sia la prova non ancora soddisfatta sia quella che punta a un file inesistente. Il modulo che li distingue è pronto e provato.",
+      "diff_proposto": "import { classificaProva } from \"./prove-regole.mjs\";\n… nel punto in cui oggi decide l'etichetta:\n  const c = classificaProva({ verifica: v, fileEsiste: existsSync(join(REPO, v.file)), patternCombacia: r.combacia }).classe;\n  if (c === \"al-vuoto\") { /* allarme: o si costruisce il file o si riscrive la prova */ }\n  if (c === \"mai-soddisfatta\") { /* dubbio: il fix è da fare */ }"
+    },
+    {
+      "corsia": 8,
+      "file": "cervello/giro.sh",
+      "perche": "AR-407 — il sensore di adozione esiste e nessuno lo lancia. Un guardiano che non gira è un file, non una difesa.",
+      "diff_proposto": "accanto agli altri guardiani del giro:\n\n  if ! guardiano adozione-medicine.mjs --json; then\n    ADOZIONE_VINCOLO=\"⛔ ADOZIONE PEGGIORATA (adozione-medicine.mjs rc=$GUARDIANO_RC, AR-407): è nato un punto nuovo che NON usa una medicina già scritta. Guarda quali: node cervello/adozione-medicine.mjs --scoperti\"\n  fi"
+    },
+    {
+      "corsia": 8,
+      "file": "cervello/registra-programma-intelligenza.mjs",
+      "perche": "AR-288 — lo script chiama `chiusura-loop.mjs registra` con un voto in prosa («7/10 — i due strumenti funzionano…»). È uno script one-shot già eseguito, quindi non rompe niente adesso; se qualcuno lo rilanciasse, la riga ESITO non verrebbe più scritta e lo script lo direbbe («chiusura-loop ha fallito»).",
+      "diff_proposto": "sostituire il terzo argomento con un voto tipizzato che conserva il giudizio nel contesto, es. \"V4 C5 A5 K5 I4 M5 E4\", spostando la frase lunga dentro il campo contesto."
     }
   ],
   "difettiNuovi": [
@@ -222,6 +252,30 @@
       "causa_radice": "Stessa malattia di AR-388 in un punto scoperto: `git checkout -f` seguito da `git reset --hard origin/<branch>` senza nessun freno che guardi il dato prima. È attenuato dal fatto che lo lancia una persona a mano durante l'installazione, quando il worktree dovrebbe essere pulito — ma «dovrebbe» non è un freno, e sul server quello è il comando più distruttivo che esista.",
       "dove": "cervello/vps/setup.sh:88",
       "fix_proposto": "🟢 Prima delle due righe, la stessa chiamata messa in aggiorna-cervello.sh: `git status --porcelain -- <cartelle di memoria> | node cervello/scritture-a-rischio.mjs decidi` e, su `metti-da-parte`, uno `stash push -u` con nome parlante. Il modulo esiste già e la prova pure."
+    },
+    {
+      "corsia": 8,
+      "titolo": "Il confronto che decide se una prova è soddisfatta ha sei copie, e cinque non ereditano le cure",
+      "gravita": "grave",
+      "causa_radice": "`patternTrovato` in cervello/prove-regole.mjs è la casa dichiarata del confronto, ma cinque programmi lo rifanno a mano con `new RegExp(v.pattern).test(testo)`. Ogni difesa aggiunta nella casa (il caso AR-151 della regex non compilabile, adesso il caso AR-355 del riscontro dentro un commento) protegge solo i tre che importano. È la stessa forma di AR-344 e AR-180: una regola con più copie non è una regola, è una coincidenza che dura finché nessuno la tocca.",
+      "dove": "cervello/cantiere-prove.mjs:144 · cervello/chiusure-audit.mjs · cervello/allinea-scan-cantiere.mjs · cervello/sorvegliante.mjs · cervello/spazzata-fratelli.mjs",
+      "fix_proposto": "🟡 Far importare a tutti e cinque `patternTrovato` da cervello/prove-regole.mjs e cancellare le copie. Prova: un test che, per ogni file che nomina `v.pattern`, pretende l'import del modulo condiviso; mutazione, rimettere una copia locale in uno dei cinque."
+    },
+    {
+      "corsia": 8,
+      "titolo": "Otto esperimenti su nove si dichiarano misurati mentre il gate non è mai partito, e nessuno riscrive lo stato",
+      "gravita": "grave",
+      "causa_radice": "Il guardiano adesso li riconosce e li conta (AR-150), ma il registro sul disco continua a dire `stato: \"misurato\"`. Chi legge il file senza passare da `esperimenti-regole.mjs` — il Pannello, un giro futuro, una radiografia — legge ancora nove esperimenti misurati. La causa è che il rilevatore è un lettore e non un correttore: la macchina sa che il dato è sbagliato e lo lascia sbagliato.",
+      "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json — EXP-001, EXP-002, EXP-003, EXP-004, EXP-005, EXP-006, EXP-013, EXP-014",
+      "fix_proposto": "🟡 Una passata che riscriva `stato: \"non-testato\"` sugli otto (la nota resta, la storia non si riscrive) e il contratto in valida-contratti.mjs che ammetta il nuovo stato per auto-miglioramento.json. È una scrittura in memoria dell'AD, quindi non la fa una corsia."
+    },
+    {
+      "corsia": 8,
+      "titolo": "Il canale di squadra è il monologo del direttore: il novantuno per cento delle righe è di una voce sola",
+      "gravita": "medio",
+      "causa_radice": "Misurato adesso sulla Sala Operativa, finestra 7 giorni: 191 righe, 6 voci diverse, 174 del direttore. AR-621 diceva «chi lavora senza scrivere resta invisibile» e guardava i reparti muti; il numero specchio è che chi scrive è quasi sempre uno solo. Un canale con una voce non è un canale: è un diario, e nessuno dei 120 lo apre per sapere cosa fanno gli altri.",
+      "dove": "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md — misurato con node -e su cervello/sala-regole.mjs",
+      "fix_proposto": "🟡 Il numero c'è già (`sala_operativa.quota_voce_dominante` in chiusura-loop.json). Manca la conseguenza: una soglia sopra la quale il giro lo dice come vincolo, e la domanda vera — perché un senior delegato non scrive in Sala? Se è perché il suo mansionario non glielo chiede all'uscita, la cura sta nello stampo dei senior, non qui."
     }
   ],
   "malattieDaCensire": [
@@ -284,6 +338,24 @@
       "id": "due-risposte-dove-ne-servono-tre",
       "cosa_e": "Una chiamata di rete il cui esito viene letto solo dal CORPO della risposta e mai dal codice d'uscita, così «il server ha detto no» e «la risposta non è arrivata» finiscono nello stesso ramo. Il ramo scelto è sempre quello comodo: fail-open quando il rischio è partire (il kill-switch, AR-390), fail-closed-e-perdi-il-lavoro quando il rischio è fermarsi (la presa in carico, AR-626). La cura è sempre la stessa: un terzo stato dichiarato — non verificabile — e una decisione pura che lo sappia dire.",
       "come_si_cerca": "`grep -nE 'curl [^|]*\\|\\| true' cervello/*.sh cervello/vps/*.sh` e, nei .mjs, ogni `fetch(...).catch(() => …)` che ricade su un valore normale invece che su «non lo so». Per ogni occorrenza: il chiamante distingue «no» da «non ho letto»? Oggi curati kill-switch.sh e la presa in carico di worker.sh."
+    },
+    {
+      "corsia": 8,
+      "id": "numero-con-due-metri",
+      "cosa_e": "Lo stesso dato letto da due programmi con due soglie o due definizioni diverse: uno suona l'allarme e l'altro scrive verde, e chi guarda la Cabina vede solo il secondo. AR-149 (0,3 contro 0), AR-180 e AR-344 sono la stessa forma.",
+      "come_si_cerca": "Cercare la stessa costante numerica confrontata in due file diversi: `grep -rnE '[<>]=?\\s*0\\.[0-9]' cervello/*.mjs` e, per ogni numero che compare in più di un file, chiedersi se è la stessa decisione. La cura è sempre la stessa: il numero in un modulo puro, chi decide lo chiama."
+    },
+    {
+      "corsia": 8,
+      "id": "etichetta-che-si-scrive-da-sola",
+      "cosa_e": "Un campo di stato che il motore si scrive da sé (`misurato`, `chiuso`, `presente: true`) e che un secondo lettore prende per una misura. AR-150 (esperimenti mai testati), AR-571 (`verifica.presente` letto come «il fix c'è»): stessa forma. Il segno che la si è trovata è che l'oggetto stesso, in un altro suo campo, dice il contrario.",
+      "come_si_cerca": "Per ogni registro JSON con un campo `stato`, confrontare l'etichetta col racconto libero della stessa voce (`nota`, `delta`, `motivo`): se la nota contiene «mai», «non testat», «non è mai partito» e lo stato dice finito, la voce mente. Il modulo che lo fa per gli esperimenti è cervello/esperimenti-regole.mjs."
+    },
+    {
+      "corsia": 8,
+      "id": "dato-raccolto-in-prosa",
+      "cosa_e": "Un numero che serve a decidere (promuovere un senior, tagliare un kit, misurare un reparto nel tempo) raccolto come testo libero. Non si aggrega, quindi non decide niente, ma la sua presenza fa sembrare il difetto chiuso. AR-288 è il caso di scuola: 120 mansionari promettono una scorecard e nessuna delle righe scritte è confrontabile con un'altra.",
+      "come_si_cerca": "Per ogni campo che un guardiano o una vista AGGREGA, controllare che chi lo scrive sia obbligato a un formato: `grep -rn 'scorecard\\|voto\\|punteggio' cervello/*.mjs` e, per ognuno, cercare il parser. Se non c'è un parser, quel numero non esiste."
     }
   ],
   "esiti": {
@@ -352,7 +424,17 @@
       "AR-626",
       "AR-630",
       "AR-690",
-      "AR-295"
+      "AR-295",
+      "AR-149",
+      "AR-150",
+      "AR-355",
+      "AR-356",
+      "AR-360",
+      "AR-567",
+      "AR-288",
+      "AR-621",
+      "AR-623",
+      "AR-407"
     ],
     "aperti": [
       "AR-692: Il fix c'è già e non è mio. Verificato sul codice vero: `cervello/cancello-lotto.mjs` ha `riapertoAdesso` e `senzaMutazioneContati`, che escludono dal debito i difetti chiusi sul ramo pubblicato e riaperti adesso — esattamente ciò che il fix_proposto chiedeva — e la prova `node cervello/test/mutazione-mancante.test.mjs` è verde, 12/12, coi tre casi di controllo separati compreso «riaprire un difetto senza mutazione NON fa scattare l'allarme». `cancello-lotto.mjs` è della corsia 4: non l'ho toccato e non ho aggiunto niente. All'AD: la scheda ha già una prova a comando (non a pattern), quindi si chiuderà da sola al prossimo `auto-fix verifica --applica`, ed è giusto così.",
@@ -375,14 +457,17 @@
       "AR-659: Il mandato dice «un solo elenco esportato da cervello/tipi-lavoro.mjs», ma quel file NON esiste e non va creato: il padrone c'è già ed è cervello/atti-veri.mjs (esporta ATTI_VERI, TIPI_CON_LE_MANI, e genera cervello/atti-veri.sh per la shell). Crearne un altro sarebbe un SESTO posto, cioè la malattia peggiorata. Contati i posti sul codice vero: sono cinque più uno — sentinella-lavori.mjs (TIPI_AZIONE), pulisci-coda.mjs (TIPI_PROTETTI), pannello/src/lib/recupero-lavoro.ts (TIPI_AZIONE_REALE), worker.sh e lib-recupero.sh (due `case`), più retry-policy.mjs che tiene apposta una lista diversa con un nome diverso. Quattro di questi sono nel mio territorio e il quinto (recupero-lavoro.ts) pure. Il trasloco NON si può fare lo stesso, e il motivo è preciso: le cinque copie sono PINZATE carattere per carattere da due prove condivise che il mandato non mi assegna — cervello/test/parola-senza-padrone.test.mjs (sezione ②) e cervello/test/recupero-due-porte.test.mjs — che cercano le dichiarazioni LETTERALI (`const TIPI_AZIONE = [...]`, `case \" esegui-azione proposta \" in`). Nel momento in cui un punto IMPORTA invece di dichiarare, quelle due prove diventano rosse. Consolidare e lasciare due prove altrui rosse è peggio del difetto. LA COSA DA PORTARSI VIA: il pin era il tappo provvisorio e adesso è l'ostacolo alla cura — un'impalcatura che sopravvive al lavoro per cui è nata diventa un muro, e va tolta nello stesso gesto in cui si trasloca. Lo può fare solo chi possiede quelle due prove, cioè l'AD ad albero fermo. Istruzioni in patch_per_ad. ⚠️ La scheda ha già `verifica: {tipo:\"umano\"}`: va lasciata così, non si richiude da sola.",
       "AR-398: BLOCCATO — file fuori territorio: cervello/autopilot.mjs (salvataggio del calendario dopo OGNI invio, try/catch attorno al publisher, timeout sul fetch condiviso, lock all'avvio dello scheduler).",
       "AR-210: BLOCCATO — file fuori territorio: cervello/autopilot.mjs (chiamata al controllo d'onestà dentro il punto che esegue il publisher) e cervello/uscite-reali.json + cervello/uscite-check.mjs (l'elenco unico delle porte verso il pubblico e delle guardie dovute).",
-      "AR-659: BLOCCATO — due prove condivise fuori territorio che PINZANO le cinque copie: cervello/test/parola-senza-padrone.test.mjs (sezione ②) e cervello/test/recupero-due-porte.test.mjs. Finché cercano le dichiarazioni letterali, importare dal padrone le fa diventare rosse."
+      "AR-659: BLOCCATO — due prove condivise fuori territorio che PINZANO le cinque copie: cervello/test/parola-senza-padrone.test.mjs (sezione ②) e cervello/test/recupero-due-porte.test.mjs. Finché cercano le dichiarazioni letterali, importare dal padrone le fa diventare rosse.",
+      "AR-181: Il fix vive tutto dentro `cervello/calibrazione.mjs` (`cmdValida` che non chiede la causa, `cmdDaLoop` che chiude direttamente come `mancata`), e quel file non è nel mio territorio: toccarlo vorrebbe dire scrivere nella corsia di qualcun altro. Ho verificato la scheda sul codice e regge: `cmdValida` controlla fonte e sensore e non la causa, quindi l'obbligo vive solo nel percorso comodo del comando e evapora appena qualcuno scrive il JSON a mano. Il diff proposto è in patch_per_ad.",
+      "AR-622: L'ho verificato e la scheda è vera alla lettera: in tutta la Sala Operativa c'è UNA riga `RIVEDI`, del 29/7 01:20, da @ad a @finanza, e @finanza non ha più scritto una riga dopo. Nel codice non c'è niente di rotto da riparare — il formato la prevede, la sintassi funziona, semplicemente nessuno la usa e nessuno risponde. È un comportamento mancante, non un difetto di programma, e chiuderlo scrivendo un modulo sarebbe esattamente la malattia di questa corsia: una lezione chiusa con una frase. QUELLO CHE HO COSTRUITO, perché il difetto smetta almeno di essere invisibile: `revisioniTraPari` in `cervello/sala-regole.mjs` conta le richieste e quante hanno ricevuto risposta (il destinatario che scrive in Sala dopo essere stato chiamato), e `chiusura-loop.mjs --sonda` lo pubblica in `chiusura-loop.json` sotto `sala_operativa.peer_review`. Oggi quel numero dice 1 richiesta, 0 risposte. Il difetto si chiude quando quel numero cambia, e allora la prova lo mostrerà da sola. Il test NON asserisce «zero risposte»: una prova che diventa rossa il giorno in cui la squadra migliora insegna a non migliorare — verifica il meccanismo su un caso costruito e stampa il numero vero.",
+      "AR-181: BLOCCATO — file fuori territorio: cervello/calibrazione.mjs. Servono `cmdValida` che boccia una `mancata` chiusa dopo la data-ponte senza `causa` fra le tre ammesse (righe storiche esenti) e `cmdDaLoop` che chiude come `da-classificare` invece che come `mancata`. Diff proposto in patch_per_ad.",
+      "AR-355: BLOCCATO — solo per la parte residua: cervello/cantiere-prove.mjs, cervello/chiusure-audit.mjs, cervello/allinea-scan-cantiere.mjs, cervello/sorvegliante.mjs, cervello/spazzata-fratelli.mjs rifanno il confronto del pattern a mano invece di importarlo, quindi non ereditano la cura. L'atto (la chiusura via auto-fix) è protetto; la classificazione no.",
+      "AR-567: BLOCCATO — solo per la parte residua: cervello/cantiere-prove.mjs deve importare `classificaProva` e chiamare i due casi con due nomi. Il modulo è pronto."
     ],
     "mancanti": [],
-    "mutantiNuovi": 11,
+    "mutantiNuovi": 10,
     "patternTolti": [
-      "AR-347",
-      "AR-398",
-      "AR-210"
+      "AR-181"
     ]
   }
 }

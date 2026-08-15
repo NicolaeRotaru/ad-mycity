@@ -27,6 +27,10 @@ import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { lezioniVive } from "./misura-parziale.mjs";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
+// AR-149 — la definizione di «applicata» e la soglia NON vivono più qui dentro. Vivevano qui, e la
+// sonda del volano ne usava un'altra: stesso dato, due metri, e la Cabina scriveva «il loop chiude»
+// mentre questo stesso programma suonava l'allarme. Una regola, una casa.
+import { SOGLIA_APPLICAZIONE, esitoTasso, sopraSoglia, tassoApplicazione } from "./volano-numeri.mjs";
 
 const DRY = process.argv.includes("--dry");
 const JSON_MODE = process.argv.includes("--json");
@@ -181,17 +185,10 @@ function cmdApplica() {
   console.log(`✅ ${id} marcata applicata → ${ref}`);
 }
 
-function lezioneApplicata(lez, blob) {
-  const usi = lez.usi || lez.applicata_in || [];
-  if (Array.isArray(usi) && usi.length) {
-    for (const u of usi) {
-      const quando = typeof u === "object" ? u.data || u.quando : null;
-      if (quando == null || giorniFa(quando) <= GIORNI) return true;
-    }
-  }
-  if (lez.id && blob.includes(lez.id)) return true;
-  return false;
-}
+// AR-149 — `lezioneApplicata` viveva qui, privata, e nessun test la eseguiva: era la definizione
+// del numero più importante del volano, scritta dentro il programma che quel numero lo pubblica.
+// Ora sta in `volano-numeri.mjs`, dove una prova la esegue; qui resta solo il richiamo.
+export { lezioneApplicata, esitoTasso } from "./volano-numeri.mjs";
 
 function main() {
   if (process.argv[2] === "applica") {
@@ -214,10 +211,8 @@ function main() {
   const partizione = lezioniVive(appr);
   const attive = partizione.lista;
   const blob = testoRecente(appr);
-  const applicate = attive.filter((l) => lezioneApplicata(l, blob));
-  const tasso_applicazione = attive.length
-    ? Math.round((applicate.length / attive.length) * 100) / 100
-    : 0;
+  const misura = tassoApplicazione(attive, blob, { giorni: GIORNI });
+  const tasso_applicazione = misura.tasso;
 
   const meta = {
     ...(appr.meta || {}),
@@ -237,11 +232,14 @@ function main() {
   const report = {
     ok: true,
     lezioni_attive: attive.length,
-    lezioni_applicate: applicate.length,
+    lezioni_applicate: misura.applicate,
     tasso_applicazione,
-    applicate_ids: applicate.map((l) => l.id),
-    non_applicate_ids: attive.filter((l) => !lezioneApplicata(l, blob)).map((l) => l.id),
-    volano: tasso_applicazione >= 0.3 ? "🟢 aperto" : "🔴 fermo (< 0.3 → escalation)",
+    soglia_applicazione: SOGLIA_APPLICAZIONE, // AR-149: la soglia si DICHIARA, non si indovina dal testo
+    applicate_ids: misura.applicate_ids,
+    non_applicate_ids: misura.non_applicate_ids,
+    volano: sopraSoglia(tasso_applicazione)
+      ? "🟢 aperto"
+      : `🔴 fermo (< ${SOGLIA_APPLICAZIONE} → escalation)`,
     scritto: !DRY,
   };
 
@@ -257,7 +255,7 @@ function main() {
   if (JSON_MODE) {
     console.log(JSON.stringify(report, null, 2));
   } else {
-    console.log(`📈 tasso_applicazione = ${tasso_applicazione} (${applicate.length}/${attive.length} lezioni attive usate negli ultimi ${GIORNI}gg)`);
+    console.log(`📈 tasso_applicazione = ${tasso_applicazione} (${misura.applicate}/${attive.length} lezioni attive usate negli ultimi ${GIORNI}gg · soglia ${SOGLIA_APPLICAZIONE})`);
     console.log(`   volano: ${report.volano}`);
     if (report.non_applicate_ids.length) console.log(`   lezioni MAI applicate: ${report.non_applicate_ids.join(", ")}`);
     if (DRY) console.log("   (--dry: meta NON riscritto)");
@@ -265,7 +263,9 @@ function main() {
     else console.log("   (sola lettura: meta NON riscritto, la memoria resta com'era)");
   }
 
-  process.exit(tasso_applicazione < 0.3 ? 1 : 0);
+  // AR-149 — l'esito NON confronta più un numero scritto qui: lo decide `esitoTasso`, la stessa
+  // funzione che la sonda del volano usa per dire se il loop chiude. Due soglie erano due verità.
+  process.exit(esitoTasso(tasso_applicazione));
 }
 
 // AR-680 — il programma parte solo se qualcuno LANCIA questo file, non se qualcuno lo importa.

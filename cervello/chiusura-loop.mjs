@@ -32,6 +32,11 @@ import { msDaTimbro } from "./ora-piacenza.mjs";
 // stessa cosa devono cadere nello stesso secchio» è la stessa domanda che lì si fa sul tempo e sul
 // perimetro, applicata all'identità.
 import { chiaviDoppie, chiaveCanonica, chiaveNormalizzata } from "./finestra-misura.mjs";
+// AR-288 — il voto di fine lavoro deve essere confrontabile, o non è un voto: è prosa.
+import { comeSiScrive, leggiScorecard } from "./scorecard-rubrica.mjs";
+// AR-621 · AR-622 — il canale di squadra non aveva nessun sensore addosso: chi lavora senza scrivere
+// lì resta invisibile, e una richiesta di revisione senza risposta non la contava nessuno.
+import { concentrazioneVoci, repartiMuti, revisioniTraPari, righeFresche, righeSala } from "./sala-regole.mjs";
 
 const SQUADRA_DIR = join(AD_ROOT, "memoria-squadra");
 const AGENTS_DIR = join(AD_ROOT, ".claude/agents");
@@ -44,6 +49,7 @@ function rosterReparti() {
     .map((f) => basename(f, ".md"))
     .sort();
 }
+const SALA_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md");
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 const STATE_PATH = join(VAULT, "chiusura-loop.json");
 const GIORNI_STALLO = Number(process.env.CHIUSURA_LOOP_GIORNI || 7);
@@ -183,8 +189,27 @@ function registra(args) {
   const { nome, path } = q;
   const quando = nowPiacenza();
 
+  // AR-288 — IL VOTO DEVE ESSERE CONFRONTABILE, O NON È UN VOTO.
+  //
+  // Il campo `scorecard` era testo libero opzionale: «9/10», «cancello verde, 9 min», «8/10 chiuso in
+  // 20min». Nessuna di queste righe si mette in fila con quella del mese scorso, quindi il
+  // livellamento dei senior è rimasto un giudizio a impressione — mentre tutti e centoventi i
+  // mansionari promettevano una scorecard. Un dato raccolto in prosa non è un dato.
+  //
+  // Deroga dichiarata: i reparti-fixture (`prova-…`) passano. Esistono solo perché le prove del ciclo
+  // previsione→esito lavorino su un reparto finto, e chiedere loro un voto vero vorrebbe dire
+  // disattivare il cancello per tutti pur di far girare un test.
+  const voto = leggiScorecard(scorecard);
+  if (!voto.ok && !q.fixture) {
+    console.error(`⛔ AR-288: il voto «${scorecard ?? ""}» non si può confrontare con nessun altro.`);
+    console.error(`   ${voto.motivo}`);
+    console.error(comeSiScrive().split("\n").map((r) => `   ${r}`).join("\n"));
+    console.error("   Serve a decidere chi far crescere e su cosa: un numero che decide non si raccoglie in prosa.");
+    process.exit(2);
+  }
+
   // Riga canonica (formato memoria-squadra/README): data · contesto · scorecard · atteso→reale · #tag
-  const scoreTxt = scorecard ? ` · ${scorecard}` : "";
+  const scoreTxt = voto.ok ? ` · ${voto.canonico} (media ${voto.media})` : scorecard ? ` · ${scorecard}` : "";
   const num = atteso || reale ? ` · atteso ${atteso || "?"} → reale ${reale || "?"}` : "";
   const tagTxt = tags.length ? ` · ${tags.map((t) => (t.startsWith("#") ? t : `#${t}`)).join(" ")}` : "";
   const riga = `- ${quando} · ${contesto}${scoreTxt}${num}${tagTxt}`;
@@ -287,7 +312,20 @@ async function sonda() {
     process.exit(1);
   }
 
-  const quaderni = reparti.map((reparto) => {
+  // AR-623 — IL CONTATORE DEI QUADERNI VIVI NON CONTAVA IL QUADERNO DEL DIRETTORE.
+  //
+  // La sonda partiva dal roster dei 120 agenti. `ad` e `supervisione` sono deroghe dichiarate (l'AD
+  // non è un agente, è il direttore) e quindi non stavano nel roster; e siccome sono deroghe, la
+  // lista dei «fuori roster» le saltava apposta. Risultato: il quaderno con più esiti di tutti —
+  // quello dove finisce il lavoro del direttore — non compariva in nessuno dei due conti. Non era
+  // vuoto: era invisibile, che in un contatore è peggio.
+  //
+  // Entrano solo le deroghe che un quaderno ce l'hanno davvero: creare una riga per un file che non
+  // esiste trasformerebbe «non conto il direttore» in «mi manca un quaderno», che è un'altra bugia.
+  const derogheConQuaderno = DEROGHE_REPARTO.filter((n) => existsSync(join(SQUADRA_DIR, `${n}.md`)));
+  const daContare = [...reparti, ...derogheConQuaderno];
+
+  const quaderni = daContare.map((reparto) => {
     const path = join(SQUADRA_DIR, `${reparto}.md`);
     const a = analizzaQuaderno(path);
     const mancante = !a.esiste;
@@ -295,6 +333,7 @@ async function sonda() {
     const fermo = mancante || a.vuoto || gg > GIORNI_STALLO;
     return {
       reparto,
+      deroga: derogheConQuaderno.includes(reparto), // AR-623: non è uno dei 120, ma il suo lavoro conta
       esiste: a.esiste,
       mancante,
       righe_esito: a.righe,
@@ -322,6 +361,36 @@ async function sonda() {
     (n) => !reparti.some((r) => chiaveNormalizzata(r) === chiaveNormalizzata(n)) && !DEROGHE_REPARTO.includes(chiaveNormalizzata(n))
   );
 
+  // ─── AR-621 · AR-622 — il canale di squadra, misurato invece che raccontato ───
+  //
+  // Un ESITO fresco nel quaderno prova che quel reparto ha lavorato. Se nella stessa finestra non ha
+  // UNA riga in Sala Operativa, ha lavorato di nascosto: nessuno può aiutarlo né riusare quello che
+  // ha fatto. E una `RIVEDI` a cui nessuno risponde è una revisione fra pari che esiste solo sulla
+  // carta. Qui i due diventano numeri; il verdetto resta informativo, come i tetti ereditati.
+  let sala = { misurabile: false, motivo: "SALA-OPERATIVA.md non trovata" };
+  if (existsSync(SALA_PATH)) {
+    const tutte = righeSala(readFileSync(SALA_PATH, "utf8"));
+    const fresche = righeFresche(tutte, GIORNI_STALLO);
+    const conEsitoFresco = quaderni.filter((q) => !q.fermo).map((q) => q.reparto);
+    const muti = repartiMuti(fresche, conEsitoFresco);
+    const voci = concentrazioneVoci(fresche);
+    const peer = revisioniTraPari(tutte);
+    sala = {
+      misurabile: true,
+      finestra_giorni: GIORNI_STALLO,
+      righe_totali: tutte.length,
+      righe_nella_finestra: fresche.length,
+      voci_diverse: voci.voci,
+      voce_dominante: voci.dominante,
+      quota_voce_dominante: voci.quota,
+      reparti_muti: muti,                       // AR-621: hanno lavorato e non l'hanno detto a nessuno
+      reparti_muti_conteggio: muti.length,
+      peer_review: peer,                        // AR-622: richieste di revisione e risposte vere
+      _cosa_significa:
+        "un reparto «muto» ha un ESITO fresco nel suo quaderno e nessuna riga in Sala nella stessa finestra: ha lavorato, e per la squadra non è successo niente (AR-621). Le richieste di revisione senza risposta sono peer review solo sulla carta (AR-622).",
+    };
+  }
+
   const state = {
     _cosa_e:
       "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
@@ -341,11 +410,13 @@ async function sonda() {
     // veri e non troveranno nessuno.
     quaderni_doppi: doppi,
     quaderni_fuori_roster: fuoriRoster,
+    sala_operativa: sala,
     quaderni,
   };
   writeJson(STATE_PATH, state);
 
-  const sintesi = `${state.vivi}/${totale} quaderni vivi · ${mancanti.length} mancanti · ${vuoti.length} vuoti · ${fermi.length} fermi (>${GIORNI_STALLO}gg)`;
+  const mutiTxt = sala.misurabile ? ` · ${sala.reparti_muti_conteggio} muti in Sala` : " · Sala non misurabile";
+  const sintesi = `${state.vivi}/${totale} quaderni vivi · ${mancanti.length} mancanti · ${vuoti.length} vuoti · ${fermi.length} fermi (>${GIORNI_STALLO}gg)${mutiTxt}`;
   await stampSegnale("chiusura-loop", fermi.length > totale / 2 ? "warn" : "ok", `${sintesi} · ${quando}`);
 
   if (JSON_MODE) {

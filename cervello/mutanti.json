@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-15 21:30",
+ "aggiornato": "2026-08-15 21:32",
  "mutanti": [
   {
    "lotto": 30,
@@ -4635,6 +4635,96 @@
    "cerca": "  now_z=\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"\n  _rtry=\"&or=(riprova_dopo.is.null,riprova_dopo.lte.$now_z)\"",
    "sostituisci": "  if [ \"$HAS_RETRY_COLS\" = 1 ]; then\n    now_z=\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"\n    _rtry=\"&or=(riprova_dopo.is.null,riprova_dopo.lte.$now_z)\"\n  else\n    _rtry=\"\"\n  fi",
    "test": "cervello/test/scadenza-ignorata-in-silenzio.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-149",
+   "nome": "AR-149: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/volano-numeri.mjs",
+   "cerca": "    chiude: sopra && prova,",
+   "sostituisci": "    chiude: t > 0 && prova,",
+   "test": "cervello/test/il-voto-del-volano-con-due-metri.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-150",
+   "nome": "AR-150: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/esperimenti-regole.mjs",
+   "cerca": "  if (gateMaiPartito(exp)) return \"non-testato\";",
+   "sostituisci": "  if (false) return \"non-testato\";",
+   "test": "cervello/test/il-voto-del-volano-con-due-metri.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-355",
+   "nome": "AR-355: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/prove-regole.mjs",
+   "cerca": "  return patternNelCodice(pattern, testo);",
+   "sostituisci": "  return patternOvunque(pattern, testo);",
+   "test": "cervello/test/una-prova-che-punta-al-vuoto.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-356",
+   "nome": "AR-356: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/prove-regole.mjs",
+   "cerca": "export const CARTELLE_VOLATILI = [\"MyCity-Vault/\", \"consegne/\", \"creativi/\", \"memoria-squadra/\"];",
+   "sostituisci": "export const CARTELLE_VOLATILI = [];",
+   "test": "cervello/test/una-prova-che-punta-al-vuoto.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-360",
+   "nome": "AR-360: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/valida-contratti.mjs",
+   "cerca": "      if (v.codice === 0) continue;",
+   "sostituisci": "      if (v.codice === 0 || v.genera === null) continue;",
+   "test": "cervello/test/una-prova-che-punta-al-vuoto.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-567",
+   "nome": "AR-567: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/prove-regole.mjs",
+   "cerca": "      classe: \"al-vuoto\",",
+   "sostituisci": "      classe: \"mai-soddisfatta\",",
+   "test": "cervello/test/una-prova-che-punta-al-vuoto.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-288",
+   "nome": "AR-288: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/chiusura-loop.mjs",
+   "cerca": "  if (!voto.ok && !q.fixture) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-621",
+   "nome": "AR-621: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/sala-regole.mjs",
+   "cerca": "    .filter((r) => !escludi.includes(r) && !hannoParlato.has(r))",
+   "sostituisci": "    .filter(() => false)",
+   "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-623",
+   "nome": "AR-623: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/chiusura-loop.mjs",
+   "cerca": "  const daContare = [...reparti, ...derogheConQuaderno];",
+   "sostituisci": "  const daContare = [...reparti];",
+   "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-407",
+   "nome": "AR-407: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/adozione-medicine.mjs",
+   "cerca": "    peggiorata: copertura !== null && copertura < medicina.soglia,",
+   "sostituisci": "    peggiorata: false,",
+   "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
   }
  ]
 }
