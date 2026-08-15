@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-15 10:54",
+ "aggiornato": "2026-08-15 11:10",
  "lezioni": [
   {
    "id": "L-2026-0814-001",
@@ -22,6 +22,48 @@
    "stato": "attiva",
    "usi": [],
    "freno_non_scrivibile": "2026-08-14 20:40: il campo gate indicava `cervello/test/registri-ora-di-piacenza.test.mjs`, che NON e il freno di questa lezione: quel test prova che i registri timbrano con l'ora di Piacenza, mentre qui la regola e di metodo (rilancia la suite prima di aprire una scheda). Rompere quel test non direbbe niente su questa lezione, e aggiungergli una mutazione avrebbe comprato il verde senza costruire nessuna difesa. Tolto il campo: il freno vero sarebbe un guardiano che rifiuta l'apertura di una scheda su un rosso non riconfermato, e oggi non esiste. Debito dichiarato, non lavoro finito."
+  },
+  {
+   "id": "L-2026-0815-002",
+   "testo": "**Un guardiano che scansiona 'tutto il repo' deve escludere esplicitamente le cartelle di lavoro temporanee, non solo i test (2026-08-15, giro AD, passaggio 10:45).** `cervello/guardia-viva-check.mjs` cerca chi esegue davvero ogni guardiano grep-ando il repo, escludendo `cervello/test/` per non contare i file di test come 'esecutori veri'. Ma non escludeva `.claude/worktrees/` — 4 cartelle lasciate sul disco da sessioni `Agent(isolation:\"worktree\")` del 13-14/8, ognuna una copia intera del repo. Una vecchia riga di test dentro `.claude/worktrees/agent-…/cervello/test/…` cominciava per un percorso che NON iniziava per `cervello/test/`, quindi veniva contata come 'esecutore vero' — il guardiano dichiarava fantasma un'annotazione che nel repo reale è invece corretta. Causa radice: un'esclusione per prefisso di percorso pensata per un solo tipo di copia (i test) non copre un secondo tipo di copia (i worktree) comparso dopo che il guardiano è stato scritto. Regola: quando un guardiano esclude cartelle per non falsare un conteggio, rivedere l'elenco delle esclusioni ogni volta che compare un NUOVO meccanismo che duplica file del repo (qui: `Agent isolation:worktree`), non solo all'apertura.",
+   "tag": [
+    "guardiani",
+    "worktree",
+    "causa-radice",
+    "test-cervello",
+    "asticella"
+   ],
+   "reparto": "@ad",
+   "confidenza": 0.9,
+   "evidenze": 1,
+   "fonte": "giro",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-15",
+   "ultima_conferma": "2026-08-15 10:45",
+   "stato": "attiva",
+   "usi": [],
+   "gate": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs — se guardia-viva-check.mjs torna a scandire .claude/worktrees/ come parte del repo reale, il test rileva di nuovo un esecutore fantasma e va rosso (test pre-esistente, non scritto per questa lezione; il fix aggiunto in questo passaggio è la riga \"worktrees\" nell'elenco delle cartelle escluse)"
+  },
+  {
+   "id": "L-2026-0815-001",
+   "testo": "**Un pacchetto di skill nuove arrivato in blocco (65-67 skill marketing/ingegneria, 11-13/8) può restare senza descrizione nel censimento per giorni senza che nessun giro se ne accorga, finché un test non lo scandisce per intero (2026-08-15, giro AD, passaggio 10:45).** `cervello/test/mappa-in-bacheca.test.mjs` verifica che ogni skill disponibile abbia una riga descrittiva in `DESCRIZIONI.skill` dentro `cervello/censimento-macchina.mjs`; le skill arrivate con l'aggiornamento dell'11-13/8 non l'avevano, ed era già un debito noto scritto a parole come 'card #85' ma mai risolto con una riga vera in coda. Causa radice: l'arrivo di un pacchetto di skill non genera automaticamente né un promemoria né una card eseguibile — resta invisibile finché qualcosa lo scandisce per intero (qui: il test lanciato dal vivo). Regola: quando arriva un pacchetto di skill/agenti nuovo, la stessa sessione che lo riceve deve aggiungere SUBITO le righe descrittive mancanti (non rimandarlo a una card generica 'da fare poi') — il costo di scriverle è minimo, il costo di scoprirle rosse mesi dopo (o mai) non lo è.",
+   "tag": [
+    "censimento-macchina",
+    "skill",
+    "debito-silenzioso",
+    "test-cervello",
+    "asticella"
+   ],
+   "reparto": "@ad",
+   "confidenza": 0.85,
+   "evidenze": 1,
+   "fonte": "giro",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-15",
+   "ultima_conferma": "2026-08-15 10:45",
+   "stato": "attiva",
+   "usi": [],
+   "gate": "node --test cervello/test/mappa-in-bacheca.test.mjs — va rosso se una skill disponibile compare senza una riga descrittiva in censimento-macchina.mjs (test pre-esistente; le righe mancanti sono state scritte in questo passaggio)"
   },
   {
    "id": "L-2026-0813-03",
@@ -13241,25 +13283,26 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 512,
+  "lezioni_attive": 415,
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.12,
-  "tasso_calcolato_il": "2026-08-15 10:54",
+  "tasso_calcolato_il": "2026-08-15 11:04",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-15 10:54",
+  "tick_leggero_il": "2026-08-15 11:10",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-15 10:23",
-  "lezioni_totali": 518,
+  "cristallizzazione_ultima": "2026-08-15 11:04",
+  "lezioni_totali": 520,
   "lezioni_per_stato": {
-   "attiva": 413,
+   "attiva": 415,
    "principio": 88,
    "in-prova": 5,
    "decaduta": 0,
    "senza-stato": 11,
    "altro": 1
   },
-  "lezioni_conteggio_quadra": true
+  "lezioni_conteggio_quadra": true,
+  "nota_11_10": "2026-08-15 11:10 (giro AD, passaggio breve — strategia snella, business invariato): aggiunte 2 lezioni nuove (L-2026-0815-001, L-2026-0815-002) che chiudono il debito HARD segnalato da freschezza-cadenze.mjs — il passaggio delle 10:45 aveva riparato per davvero 2 bug (guardia-viva-check.mjs, censimento-macchina.mjs) ma non li aveva ancora scritti come lezioni riusabili con gate. Entrambe hanno un gate REALE: un test di regressione GIÀ ESISTENTE nel repo (non scritto per l'occasione) che va rosso se il difetto originale ritorna — coerente con l'asticella (CLAUDE.md §⭐), non un grep. Nessuna lezione dell'area correzione-nicola promossa a gate in questo passaggio: i 5 esempi segnalati dal vincolo HARD sono gli stessi già controllati nel passaggio delle 10:45 (giudizio/UX, non misurabili senza una mutazione vera in mutanti.json — vedi L-2026-0813-02 su cosa rende un gate onesto per gate-veri.mjs); non ri-litigato per evitare di duplicare la stessa indagine a distanza di 25 minuti su uno stato invariato."
  }
 }

@@ -1,8 +1,17 @@
 ---
 tipo: stato
-aggiornato: 2026-08-15 10:40
+aggiornato: 2026-08-15 11:10
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **15/8 11:10 — Giro richiesto in chat, ~25 minuti dopo il passaggio delle 10:45 (lavoro vero: 3 test riparati, PR aperta). Business invariato, strategia snella applicata.**
+> Riconfermato con **query SQL diretta** via MCP Supabase: 1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6, stallo North Star **52 giorni** — identico byte-per-byte al passaggio precedente. `ci-stato.mjs` (PR #734 rossa colpa mista, non toccata; PR #727 verde pronta per la firma) e `coerenza-fatti.mjs` (memoria coerente) rieseguiti dal vivo: stesso esito. Non rieseguiti i motori pesanti (analista/intelligence/riscrittura JSON business-facing): nulla è cambiato in 25 minuti, rifarli avrebbe solo duplicato lavoro.
+>
+> **Lavoro reale di questo passaggio:** chiuso il vincolo HARD di `freschezza-cadenze.mjs` che segnalava il giro delle 10:45 uscito senza scrivere l'apprendimento. Le 2 riparazioni vere di quel passaggio (worktree non escluse in `guardia-viva-check.mjs`, skill mancanti in `censimento-macchina.mjs`) sono ora 2 lezioni riusabili in `apprendimento.json` (L-2026-0815-001, L-2026-0815-002), ciascuna con un **gate reale**: un test di regressione già esistente nel repo (`guardiano-mai-messo-di-guardia.test.mjs`, `mappa-in-bacheca.test.mjs`), non inventato per l'occasione. Riscritti anche `auto-analisi.json` e `AUTO-ANALISI.md` con lo stato vero di questo passaggio (il file `auto-analisi.json` era fermo alle 00:45, un altro debito dello stesso vincolo HARD).
+>
+> **Correzione-nicola-gate:** non ri-indagata. I 5 esempi segnalati dal vincolo sono gli stessi già controllati e scartati onestamente nel passaggio delle 10:45 (giudizio/UX, non meccanizzabili senza un check vietato dall'asticella AR-128) — ri-litigare la stessa indagine su uno stato invariato non è serietà, è duplicazione.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7). Briefing: [[Briefing/2026-08-15]].
 
 > 🔁 **15/8 10:40 — Giro richiesto in chat, arrivato a ridosso del passaggio precedente (il blocco 10:45 qui sotto, trovato già scritto e non ancora committato all'apertura di questa sessione). Business invariato: strategia snella applicata, nessuna passata a vuoto.**
 > Riconfermato con **query SQL diretta** via MCP Supabase (non ereditato): 1 ordine totale, 0 pagati, 0 negli ultimi 7 giorni, ultimo ordine 24/6, stallo North Star **52 giorni** — stessa firma esatta del passaggio precedente. Dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.

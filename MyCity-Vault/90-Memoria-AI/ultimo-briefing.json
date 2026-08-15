@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-15 00:45",
-  "situazione": "Business invariato, riconfermato dal sensore diretto: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg. North Star fermo a 53 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. In questo passaggio ho chiuso un vincolo HARD stantio: la checklist personale di Nicola era ferma da oltre 2 giorni, rigenerata dalle 69 righe in attesa. Il test del cervello rilanciato dal vivo resta a 1569 verdi su 1577, sempre gli stessi 2 debiti noti col fix già pronto in coda su una PR.",
+  "data": "2026-08-15 11:10",
+  "situazione": "Business invariato, riconfermato con query SQL diretta (non ereditata): 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg. North Star fermo a 52 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Il giro delle 10:45 di stamattina ha riparato alla radice 3 bug del test del cervello (non solo diagnosticati) e aperto una PR. Questo passaggio, 25 minuti dopo, ha chiuso il debito lasciato aperto: le due riparazioni sono ora lezioni riusabili con un test reale che le tiene sotto controllo. Nessuna riscrittura dei motori pesanti: business e sensori identici al passaggio precedente.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},

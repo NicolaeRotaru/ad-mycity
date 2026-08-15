@@ -1,4 +1,30 @@
-# 🔬 AUTO-ANALISI — 2026-08-15 00:45
+# 🔬 AUTO-ANALISI — 2026-08-15 11:10
+
+> Passaggio breve, ~25 minuti dopo il giro completo delle 10:45 (3 test rossi riparati alla radice, PR
+> aperta). Strategia snella applicata: business riverificato con **query SQL diretta** via MCP Supabase
+> (non ereditata) — identico byte-per-byte (1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6, stallo
+> **52 giorni**, dentro la pausa concordata fino al 24/8-1/9). `ci-stato.mjs` e `coerenza-fatti.mjs`
+> rieseguiti dal vivo: stesso esito del passaggio delle 10:45 (PR #734 rossa, colpa mista, non toccata —
+> fuori dal perimetro north-star; PR #727 verde, pronta per la firma di Nicola; memoria coerente).
+
+## Voto di fiducia: 87/100 (→ invariato)
+
+**Il lavoro vero di questo passaggio: chiudere il vincolo HARD di freschezza-cadenze lasciato aperto dal
+passaggio delle 10:45.** Quel passaggio aveva riparato per davvero 2 bug (worktree non escluse in
+`guardia-viva-check.mjs`, skill mancanti in `censimento-macchina.mjs`) ma non li aveva ancora scritti come
+lezioni riusabili — `freschezza-cadenze.mjs` lo segnalava come "giro uscito saltando l'auto-analisi o
+l'apprendimento". Scritte 2 lezioni nuove in `apprendimento.json` (L-2026-0815-001, L-2026-0815-002),
+ciascuna con un **gate reale**: un test di regressione già esistente nel repo (`guardiano-mai-messo-di-
+guardia.test.mjs`, `mappa-in-bacheca.test.mjs`), non inventato per l'occasione — coerente con l'asticella.
+
+**Cosa NON ho rifatto, e perché.** Non ho rieseguito i motori pesanti (analista, intelligence, auto-
+miglioramento, riscrittura degli JSON business-facing): lo stato è identico al passaggio di 25 minuti fa,
+rieseguirli avrebbe solo duplicato lavoro e affollato la Cabina di righe ripetute (vedi
+[[playbook-giro-pieno-ripetuto-strategia]]). Non ho ri-indagato l'area 'correzione-nicola' per il gate
+HARD: i 5 esempi segnalati sono gli stessi già controllati e scartati onestamente nel passaggio delle
+10:45 (giudizio/UX, non meccanizzabili senza un check vietato dall'asticella AR-128).
+
+## Passaggio precedente (10:45)
 
 > Giro richiesto in chat pochi minuti dopo la chiusura del passaggio precedente (22:33/00:30). Business
 > invariato. Non riverificato con query diretta: il sensore REST è già fresco di 18 minuti, e riaprirlo
