@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-14 22:23** — Automatico: **69 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-15 06:23** — Automatico: **69 aperte · 8 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -144,7 +144,7 @@ in scrittura alla macchina, ed è giusto così.
 - **Reparto:** tech
 - **Origine:** `{origine:sessione-2026-08-10-vittoria-winback, ancora:3bda15ad5b5b0be5c920fe926341c08b1a0cc8e9, commit-non-contati:397}`
 
-🔧 Dettagli tecnici: `ancoraDelTurno()`/`piantaAncora()` in `cervello/cancello-stop.mjs` (righe ~661-701): l'ancora avanza solo su turni con `git status --porcelain` vuoto (`alberoSporco()`). Verificato ora: `git rev-list --count 3bda15ad..HEAD` = 397, ultimo commit reale del ramo `f13968f22` (11:24:38), ancora ferma al `3bda15ad` del 2026-08-04 00:11. Le 6 PR citate dal cancello risultano già in coda: righe 1636-1639 (679/680/681/683) + blocchi `#pr-675`/`#pr-678` sopra.
+🔧 Dettagli tecnici: `ancoraDelTurno()`/`piantaAncora()` in `cervello/cancello-stop.mjs`, righe ~661-701. L'ancora avanza solo su turni con `git status --porcelain` vuoto (`alberoSporco()`). Verificato ora: `git rev-list --count 3bda15ad..HEAD` = 397. L'ultimo commit reale del ramo è `f13968f22` (11:24:38). L'ancora resta ferma al `3bda15ad` del 2026-08-04 00:11. Le 6 PR citate dal cancello risultano già in coda: righe 1636-1639 (679/680/681/683) più i blocchi `#pr-675`/`#pr-678` sopra.
 
 <!-- sorvegliante-esenzione-vault -->
 
@@ -152,7 +152,7 @@ in scrittura alla macchina, ed è giusto così.
 
 ### 🟡 #56 — Il controllo automatico grida al lupo su un referto che si aggiorna da solo · ⏳ accodata 2026-08-04 18:30
 
-**Cosa cambia:** ogni volta che la macchina salva `cantiere-prove.json` (il referto dei difetti aperti), il controllo di sicurezza accusa "hai tolto una difesa" anche quando il difetto è semplicemente chiuso e il referto si è aggiornato di conseguenza — è successo 153 volte in questa sola sessione. Non è un buco di sicurezza vero: l'ho verificato riga per riga (i test esistono ancora, girano ancora, 131/131 passano). Ma il rumore nasconde i controlli veri.
+**Cosa cambia:** `cantiere-prove.json` è il referto dei difetti aperti. Ogni volta che la macchina lo salva, il controllo di sicurezza accusa "hai tolto una difesa" — anche quando il difetto è semplicemente chiuso e il referto si è aggiornato di conseguenza. È successo 153 volte in questa sola sessione. Non è un buco di sicurezza vero: l'ho verificato riga per riga, i test esistono ancora, girano ancora, 131/131 passano. Ma il rumore nasconde i controlli veri.
 
 **Se va bene:** un tecnico decide una delle due cure proposte nel dettaglio e la porta in un branch con la prova che il fix non spalanca la porta ad accuse vere. Non urgente: per ora la macchina lavora attorno al problema (esclude il file dal commit quando serve).
 
@@ -1099,8 +1099,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-14 22:23)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-14-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-15 06:23)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-15-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1111,7 +1111,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-14 22:23 · 8 card totali
+> Ultima pulizia: 2026-08-15 06:23 · 8 card totali
 
 ### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 
@@ -1367,3 +1367,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 84 | 2026-08-14 11:17 | @tech | Salva in un ramo il lavoro sul cantiere rimasto solo sul disco | 🟡 | 34 file (20 modificati + 14 nuovi: `cervello/misura-o-cieco.mjs`, 7 test collegati, `pannello/src/lib/badge-coerenza.ts`) sono sul disco dalle 06:30 di oggi e mai committati — sembra un fix reale del cantiere (tema "misura vs cieco" + "badge di coerenza") interrotto prima di salvare. Segnalato per la prima volta alle 08:41, ancora invariato alle 11:17: nessuno lo ha ancora messo al sicuro. | manuale | ✅ CHIUSA 2026-08-14 20:05 — verificato: `cervello/misura-o-cieco.mjs` e `pannello/src/lib/badge-coerenza.ts` sono ora su `main`, puliti (`git status` non li mostra più), portati dalla PR #721 (commit `c583d5bbb`, "Quarantaquattro difetti riparati"), confermata ancestor di HEAD. Nessuna perdita. | Finché resta solo sul disco, un `git clean`/checkout accidentale lo cancella per sempre — 3-4 ore di lavoro di cantiere perse senza motivo. | Apro io la PR una volta che confermi cosa sono questi file (o li apro direttamente se il contenuto si spiega da solo). |
 | 85 | 2026-08-14 20:05 | @tech | Completa la mappa della macchina: sono arrivate 65 skill nuove senza la loro riga di descrizione | 🟡 | Il pacchetto di skill marketing/ingegneria arrivato l'11-13/8 ha portato altre 65 skill (`ab-testing`, `ads`, `copywriting`, `seo-audit`, `social`, …) oltre alle 67 già censite dalla PR #714. `cervello/censimento-macchina.mjs` (oggetto `DESCRIZIONI.skill`) non ha ancora la loro riga: `node --test cervello/test/mappa-in-bacheca.test.mjs` è rosso su questo esatto elenco (verificato dal vivo in questo giro, non dedotto). È uno dei 3 test rossi del cervello, diagnosticato ora con la causa esatta invece del generico "stesso debito noto". | github | in attesa | Finché mancano le righe, la bacheca "di cosa è fatta la macchina" che leggi tu mostra un pezzo su tre incompleto — e il test del cervello resta rosso su questo. | Dopo il fix (righe aggiunte, una frase per skill) il test torna verde e la mappa torna vera. |
 | 86 | 2026-08-14 22:39 | @tech | Rigenera il registro delle prove del cantiere: due difetti ancora aperti hanno perso il comando che li verifica | 🟡 | Il sorvegliante segnala da decine di giri che `cantiere-prove.json` ha perso righe che chiamavano `cervello/sentinella-dati.mjs` e `pannello/src/app/page.tsx`, fra le altre. Controllato riga per riga contro la fonte vera (`cantiere-difetti.json`, non il grep del sorvegliante): su 13 difetti coinvolti, **11 sono davvero chiusi** — la sparizione della loro prova è corretta, il file traccia solo i difetti aperti, falso allarme già confermato più volte oggi. Ma **2 sono ancora "aperto"** (AR-225 — tabella dei numeri fuori schermo su mobile; AR-346 — cancello condiviso rosso su main per una riga di censimento mancante): per questi due la sparizione della prova è un buco vero, non un falso allarme. Il file dirty predata questa sessione (già modificato all'apertura, prima di qualunque mio comando) e il suo generatore, `cervello/cantiere-prove.mjs`, è bloccato dall'allowlist di questa sessione headless — non l'ho potuto rilanciare per riparalo, né modificarlo a mano senza rischiare di introdurre un errore mio in un file auto-generato. | github | in attesa | Finché resta così, AR-225 e AR-346 restano difetti aperti ma invisibili al conteggio delle prove — la macchina non sa più come verificarli quando arriva il turno di ripararli. | Rilancia `node cervello/cantiere-prove.mjs` da un canale con permessi più larghi (VPS): rigenera il file dalla fonte vera e le due righe tornano. |
+| 87 | 2026-08-15 00:26 | @tech | Merge PR #732 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/732 (aggiornata: aggiunto esempio concreto + corretto il conto CI stale) | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |

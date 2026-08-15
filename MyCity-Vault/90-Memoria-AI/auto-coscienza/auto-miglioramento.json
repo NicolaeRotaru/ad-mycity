@@ -651,7 +651,7 @@
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-08-14 23:21",
+    "aggiornato": "2026-08-15 06:32",
     "totale": 15,
     "aperti": 1,
     "in_scadenza": 0,
@@ -939,17 +939,17 @@
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
   "_review_settimanale_24_07": "REVIEW SETTIMANALE 24/7 16:00 — benchmark @AD aggiornato (43, radiografia completa 23/7). 2 nuove peer_review (PR-006 tech/frontend-dev sullo sprint Pannello, PR-007 valutatore indipendente sulla bozza PI26 → DA SISTEMARE). Torneo tra senior ancora rinviato (stesso motivo del 3/7: nessun esito di business reale da confrontare, negozi in pausa fino al 24/8-1/9). Verifica loop-chiuso esperimenti: 2 misurati su 13 aperti (EXP-004 e EXP-005, entrambi mancata) — il volano-business osserva ma continua a non chiudere sui numeri.",
   "_giro_25_07_0631": "GIRO 25/7 06:31 — misurati i 2 esperimenti in scadenza oggi: EXP-001 (ordini_consegnati, MANCATA, reale 0 vs atteso 1 — North Star ferma) ed EXP-007 (check-in PQ concordato, MANCATA, superato dalla pausa concordata coi negozi fino al 24/8-1/9, non un fallimento operativo). 4/13 esperimenti ora misurati, tutti e 4 mancata — nessun esito positivo del volano-business finché la pausa negozi resta attiva. 0 esperimenti in scadenza residui oggi.",
-  "aggiornato": "2026-08-14 23:21",
+  "aggiornato": "2026-08-15 06:32",
   "proposte_sync": {
-    "aggiornato": "2026-08-14 22:24",
+    "aggiornato": "2026-08-15 06:23",
     "totale": 13,
     "aggiornate": 0
   },
   "pezzi_sync": {
-    "aggiornato": "2026-08-14 22:24",
+    "aggiornato": "2026-08-15 06:23",
     "fonte": "auto-coscienza/cantiere-pezzi.json",
     "freschezza": "stantio",
-    "perche": "Il quaderno dei pezzi nuovi: scritto 40 giorni e 17 ore fa e vale 30 giorni — quello che dice è di allora",
+    "perche": "Il quaderno dei pezzi nuovi: scritto 41 giorni e 1 ore fa e vale 30 giorni — quello che dice è di allora",
     "totale": 14,
     "fatti": 13,
     "da_costruire": [

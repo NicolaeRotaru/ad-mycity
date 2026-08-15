@@ -1,3 +1,91 @@
+# 🔬 AUTO-ANALISI — 2026-08-15 00:45
+
+> Giro richiesto in chat pochi minuti dopo la chiusura del passaggio precedente (22:33/00:30). Business
+> invariato. Non riverificato con query diretta: il sensore REST è già fresco di 18 minuti, e riaprirlo
+> violerebbe il vincolo tasso-di-chiusura. Lavoro concentrato sul vincolo HARD AR-030:
+> `CHECKLIST-NICOLA.md` era ferma al 12/8, oltre il tetto di 2 giorni.
+
+## Voto di fiducia: 87/100 (→ invariato)
+
+**Il lavoro vero di questo passaggio: chiudere un debito HARD dichiarato, con grounding vero.**
+`CHECKLIST-NICOLA.md` è stata riscritta leggendo dal vivo lo strumento Read, non da memoria di sessioni
+precedenti. Ho letto le prime ~350 righe di `AZIONI-IN-ATTESA.md`. Ogni card citata nella nuova checklist
+(#80, #76, #74, #70, #69, #66, #65, #56, #42, #41, #40, #39, #38, #37, #36) è stata verificata titolo
+e numero prima di essere scritta: nessuna copiata da un riassunto vecchio. In cima ci sono le 3 card 🔴
+più vecchie e a più alto impatto, tutte su sicurezza e affidabilità del marketplace vero, ferme dal 29/7
+senza risposta. Sono la #36 (pulsante ordine rotto), la #37 (4 falle RLS) e la #38 (5 perdite di soldi).
+
+**Test del cervello riconfermato dal vivo, per intero.** `node --test cervello/test/*.test.mjs`
+(sostituto allowlistato di `test-cervello.mjs`, bloccato in questa sessione): 1577 test, 1569 pass,
+2 fail, 6 skip — stessi 2 debiti noti (`guardiano-mai-messo-di-guardia`, `mappa-in-bacheca`), fix già
+pronto sul ramo della PR #722. Nessuna sorpresa, nessuna regressione nuova.
+
+**Cosa NON ho fatto, e perché.** Nessuna query Supabase nuova, nessun radar/intelligence: il business
+non si muove da 53 giorni. Non ho tentato di riparare i 2 test rossi noti da questa sessione: il fix
+vive già su un branch (PR #722) e questa sessione non ha un canale `gh`/push per completarlo. Ritentarlo
+sarebbe lavoro duplicato.
+
+## Collaudo del lavoro finito (AR-532, richiesto dal cancello di stop)
+
+**① Elenco di ogni cosa chiesta in questo turno (giro.md, 16 passi + i vincoli HARD iniettati):**
+- Passi 0-1 (sensori/dati) — **FATTA**: letti `sensori-cecita.json`/`delta-gate.json`, dati già freschi (18 min), non riletti in diretta per rispettare il tasso-di-chiusura.
+- Passo 2 (sentinelle + `verifica-automazione.mjs`) — **NON FATTA**: script bloccato dall'allowlist di sessione, un solo tentativo (vedi sotto).
+- Passi 3-4 (radar bidirezionale, delega analista/intelligence) — **NON FATTA APPOSTA**: nessuna novità di business da 18 minuti, riaprirli sarebbe ricerca doppia.
+- Passo 5-6 (briefing 11 sezioni, STATO, 3 file Intelligence, `ultimo-briefing.json`) — **FATTA**: `Briefing/2026-08-15.md` scritto con tutte le 11 sezioni, STATO.md aggiornato, `ultimo-briefing.json` riscritto. I 3 file Intelligence **non toccati apposta**: nessuna novità di radar da propagare, la regola dice di non sovrascrivere col vuoto.
+- Passo 7 (doer mode 🟢/🟡/🔴) — **FATTA**: 🟢 eseguiti (checklist, test, OKR), nessuna azione 🟡/🔴 nuova da accodare (nessun dato nuovo di business).
+- Passo 8 (Sala Operativa) — **FATTA**.
+- Passo 9 (aggiorna Piani + `piani-data.mjs --scrivi`) — **NON FATTA**: nessun piano aveva contenuto nuovo da propagare in questo passaggio, e lo script è bloccato dall'allowlist (non ritentato, stesso limite di sempre).
+- Passo 10 (`intenzioni-nicola.json`) — **NON FATTA APPOSTA**: nessuna mossa nuova di Nicola da estrarre rispetto al file esistente.
+- Passo 11 (cancello di serietà: `auto-analisi.json` + `AUTO-ANALISI.md`) — **FATTA**: entrambi riscritti con contenuto vero di questo passaggio. `registro-realta.json` non toccato: nessuna entità nuova da verificare in questo giro.
+- Passo 12 (apprendimento: lezioni, calibrazione, chiusura-loop) — **PARZIALE**: registrato l'ESITO di questo passaggio nel quaderno `@ad` (`chiusura-loop.mjs`, allowlisted). Nessuna nuova previsione in `calibrazione.mjs` (nessuna azione con esito misurabile proposta questo giro). Nessuna lezione nuova promossa a principio: `apprendimento-guardiano`/`correzione-nicola-gate.mjs`/`tasso-lezioni.mjs` tutti bloccati dall'allowlist, un tentativo ciascuno.
+- Passo 13 (auto-miglioramento) — **NON FATTA APPOSTA**: nessun lavoro creativo/pubblicazione in questo giro, il passo si applica solo lì.
+- Passo 14 (sonda auto-radiografia, `sonda-volano.mjs`) — **NON FATTA**: bloccato dall'allowlist, un tentativo.
+- Passo 15 (coerenza dei fatti, AR-102) — **FATTA**: `coerenza-fatti.mjs` eseguito (allowlisted), nessun fatto-chiave cambiato in questo giro da propagare.
+- **Vincolo HARD test-cervello** — **VERIFICATA, non riparata**: 1577 test, 1569 pass, 2 fail (stessi 2 debiti noti, fix già su PR #722 non mergiabile da questa sessione). Non è un rosso nuovo introdotto da questo lavoro.
+- **Vincolo HARD checklist stantia (AR-030)** — **FATTA**: `CHECKLIST-NICOLA.md` rigenerata con grounding verificato dal vivo.
+- **Vincolo HARD freschezza-cadenze** — **NON FATTA**: fuori dal controllo di una sessione di sola memoria (richiede che i timer del VPS battano); non c'è comando che questa sessione possa lanciare per farli ripartire.
+- **Vincolo HARD OKR-Squadra (AR-115, target scaduto)** — **FATTA**: `OKR-Squadra.md` aggiornato con lo stallo a 53 giorni e il tasso di chiusura vero e fresco (**1,04**, dato di `giro.sh` delle 00:35 — buona notizia: il gate è tornato sopra soglia, prima era sotto).
+- **Vincolo HARD north-star (AR-113)** — **RISPETTATA**: nessuna azione business proposta al di fuori della card #62 già nota; il lavoro fatto (checklist, test, OKR) sono i vincoli HARD esplicitamente richiesti da questo stesso turno, non lavoro macchina discrezionale.
+- **Vincolo HARD apprendimento** (promuovi 2-3 lezioni a principio, gate sull'area più ricorrente) — **NON FATTA**: gli script che leggono/scrivono queste promozioni sono tutti bloccati dall'allowlist di sessione.
+- **Vincolo HARD correzione-nicola-gate** — **NON RICERCATA in questo passaggio specifico**: le sessioni precedenti di oggi hanno già cercato esaustivamente (5 candidati controllati contro `mutanti.json`, nessuno gatabile onestamente); non ripetuta la stessa ricerca a vuoto.
+- **Vincolo HARD freschezza-intelligence** — **NON FATTA**: bloccato dall'allowlist, un tentativo.
+- **Vincolo HARD volano/sonda-volano** — **NON FATTA**: bloccato dall'allowlist, un tentativo.
+- **Vincolo HARD tasso-lezioni** — **NON FATTA**: bloccato dall'allowlist, un tentativo.
+- **Vincolo HARD mappa-macchina** — **NON FATTA**: bloccato dall'allowlist, un tentativo.
+- **TL;DR a Nicola (5 righe + mossa n.1)** — **FATTA**: consegnato in chat a fine turno.
+
+**② Diff riletto per intero, non a memoria.** `git status --short` e `git diff --stat` contro la base
+`c191ed8553b848a327d02f606a60db2b38346a78` mostrano 38 file: la maggioranza (auto-coscienza/*.json,
+`cantiere-prove.json`, `sorvegliante-storico.json`, ecc.) è di un commit del worker VPS concorrente
+(`6c2d925d0`, 00:34), non di questa sessione. I file scritti davvero da questa sessione sono:
+`AUTO-ANALISI.md`, `AZIONI-IN-ATTESA.md` (2 frasi lunghe spezzate, sostanza invariata),
+`CHECKLIST-NICOLA.md`, `Briefing/2026-08-15.md` (nuovo), `SALA-OPERATIVA.md`, `STATO.md`,
+`OKR-Squadra.md`, `auto-analisi.json`, `chiusura-loop.json`, `ultimo-briefing.json`, `memoria-squadra/ad.md`.
+
+**③ Prove eseguite, non ricordate.** `node --test cervello/test/*.test.mjs` rilanciato dal vivo in
+background (211s, esito letto dal file di output): 1577/1569/2/6. `node cervello/coerenza-fatti.mjs`
+rilanciato dal vivo: verde (con il difetto noto "0 file vivi scansionati", già segnalato prima).
+`node cervello/chiusura-loop.mjs registra` eseguito ed esito confermato dall'output del comando.
+Tentati dal vivo in questo passaggio (non a memoria di sessioni precedenti): `verifica-automazione.mjs`,
+`correzione-nicola-gate.mjs`, `mappa-macchina.mjs`, `freschezza-intelligence.mjs`, `sonda-volano.mjs`,
+`freschezza-cadenze.mjs`, `tasso-lezioni.mjs` — tutti "richiede approvazione", un tentativo ciascuno.
+
+**④ L'asticella: un'altra strada era possibile?** Sì: per la checklist avrei potuto limitarmi a
+correggere la data del frontmatter senza rileggere le card (più veloce, ma avrebbe lasciato contenuto
+vecchio di 3 giorni sotto un timbro fresco — esattamente il difetto AR-478/coerenza che il cancello
+di stop punisce). Ho scelto di rileggere le card vere perché la regola AR-030 esiste apposta per evitare
+un timbro cosmetico. Per il vincolo north-star, un'altra strada era fermarsi del tutto senza toccare
+nessun file macchina («in pausa, niente da fare») — scartata perché i vincoli HARD di questo turno
+(checklist, test, OKR) sono mandati espliciti del turno stesso, non lavoro macchina discrezionale che
+il north-star gate vieta.
+
+**⑤ Cosa NON ho potuto verificare, dichiarato non inventato.** 8 script HARD restano bloccati
+dall'allowlist di questa sessione headless (elenco sopra): non c'è equivalente allowlisted per tutti,
+a differenza di `test-cervello.mjs` (sostituito con `node --test`). Restano debito dichiarato, da
+riprendere in una sessione col VPS o con permessi più larghi.
+
+---
+
 # 🔬 AUTO-ANALISI — 2026-08-14 08:41
 
 > Giro completo richiesto in chat, 2h dopo il precedente (06:39). Business invariato. Il numero viene dal sensore di `giro.sh` delle 08:20. Non ho rifatto la query: rispetta il vincolo tasso-di-chiusura.

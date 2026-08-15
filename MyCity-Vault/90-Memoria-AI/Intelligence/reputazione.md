@@ -1,12 +1,14 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
-> Aggiornato: **2026-08-14 06:31** — giro leggero (`cervello/monitora.md`). Fonte dovuta oggi: WebFetch su liberta.it/territorio/citta/piacenza (fonte giornaliera "Libertà — Città di Piacenza"). **Nessuna menzione MyCity/marketplace/Pane Quotidiano.** Nessuna novità su botteghe/ZTL rispetto a ieri: le notizie del giorno restano di viabilità/urbanistica (Piazza Cittadella, lavori Via Benedettine), riportate in `eventi-picchi.md`. La fonte settimanale "Reputazione MyCity (ricerca aperta)" non è dovuta oggi: ultimo controllo 10/8, sotto i 7 giorni. Non ripetuta, per non sprecare il Max. Precedente: 13/8/2026 09:30, fonti elencate sotto.
+> Aggiornato: **2026-08-15 06:45** — giro leggero (`cervello/monitora.md`). Fonte dovuta oggi: WebFetch su liberta.it/territorio/citta/piacenza, la fonte giornaliera "Libertà — Città di Piacenza". **Nessuna menzione MyCity/marketplace/Pane Quotidiano.** Le notizie del giorno restano di viabilità e urbanistica: cantieri su via Benedettine, Veneto, Borghetto, San Bartolomeo e Farnesiana. Sono riportate in `eventi-picchi.md`, perché sono operative e non reputazionali. La fonte settimanale "Reputazione MyCity (ricerca aperta)" non è dovuta oggi: l'ultimo controllo è del 10/8, 5 giorni fa, sotto la soglia di 7. Non ripetuta oggi, per non sprecare il motore. L'ultimo controllo di questo file risale al 14/8/2026 alle 06:31; le fonti sono elencate sotto.
 
 ---
 
 ## Stato attuale (13/8/2026, invariato dal 10/8)
 
 Stesso esito di 26 giorni fa: **nessuna menzione esterna trovata**. Né positiva né negativa. È coerente con lo stallo: 47+ giorni senza un ordine pagato. Il fascicolo pagamenti di Pane Quotidiano ha ancora incassi disattivati. Non c'è ancora niente da "reputare": la macchina non ha consegnato un solo ordine vero.
+
+**Novità 15/8 da Libertà — Città di Piacenza:** nessuna menzione di MyCity o Pane Quotidiano. Le notizie del giorno sono cantieri/viabilità (via Benedettine, via Veneto/Borghetto/San Bartolomeo/Farnesiana), senza legame diretto col marketplace. Le riporto invece in `eventi-picchi.md`, dove sono operativamente rilevanti per orari e zone. Nessuna azione per questo file.
 
 **Novità 13/8 da Libertà — Città di Piacenza:** nessuna menzione di MyCity o Pane Quotidiano. Le notizie del giorno sono di cronaca cittadina generale (degrado/restrizioni tra Lupa e Stradone, controlli e-bike/monopattini, furto al Parco Galleana, dibattito su Piazza Cittadella), senza legame diretto col marketplace. Le riporto invece in `eventi-picchi.md`, dove sono operativamente rilevanti per orari e zone. Nessuna azione per questo file.
 

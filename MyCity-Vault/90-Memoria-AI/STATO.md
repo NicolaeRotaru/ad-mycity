@@ -1,8 +1,21 @@
 ---
 tipo: stato
-aggiornato: 2026-08-14 22:33
+aggiornato: 2026-08-15 00:45
 fonte: AD digitale (chat)
 ---
+
+> ✅ **15/8 00:45 — Giro richiesto in chat, pochi minuti dopo la chiusura del passaggio precedente (commit `6f94adf68`, 00:30). Business invariato. Chiuso un vincolo HARD stantio: la checklist personale di Nicola.**
+> Riconfermato con il sensore diretto già scritto da `giro.sh` (`sensori-cecita.json`, 22:27 del 14/8, non riletto in diretta per rispettare il vincolo tasso-di-chiusura): 1 ordine, mai pagato, del 24/6, stessa firma dal 24/6. North Star: stallo **53 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Chiuso il vincolo HARD AR-030 (checklist stantia).** `CHECKLIST-NICOLA.md` era ferma al 12/8 22:43, oltre il tetto di 2 giorni. Rigenerata dalle voci ⏳ vere in [[AZIONI-IN-ATTESA]] (69 righe aperte): in cima le 3 card 🔴 di sicurezza/affidabilità del marketplace vero, ferme dal 29/7 senza risposta (#36 pulsante ordine rotto per un campo cancellato, #37 quattro falle RLS su dati di negozi/clienti, #38 cinque punti dove il marketplace perde soldi da solo), poi le decisioni rapide 🟡 più fresche (#80 PostHog, #76 occhi cloud, #74 permessi server, #69 piani da rivedere, #66 Telegram, #42 permesso jolly, #39 privacy, #40 anteprime con chiavi vere).
+>
+> **Test del cervello rilanciato dal vivo** (`node --test cervello/test/*.test.mjs`, sostituto allowlistato di `test-cervello.mjs`, bloccato in questa sessione headless — stesso limite noto in [[feedback-bash-solo-script-esatti-in-allowlist]]): completato, **1577 test, 1569 pass, 2 fail, 6 skip** — stessi 2 debiti noti (`guardiano-mai-messo-di-guardia`, `mappa-in-bacheca`), fix già pronto sulla PR #722, nessuna sorpresa.
+>
+> **Rispettato il vincolo HARD tasso-di-chiusura:** nessuna query Supabase nuova, nessun radar/intelligence riaperto — il turno è andato a chiudere il debito HARD della checklist, non a raccogliere novità nuove (invariate dal passaggio delle 22:33).
+>
+> **Provati e bloccati (una sola volta ciascuno, non ritentati):** `north-star-check.mjs --gate`, `tasso-chiusura.mjs`, `correzione-nicola-gate.mjs`, `freschezza-cadenze.mjs`, `freschezza-intelligence.mjs`, `sonda-volano.mjs`, `mappa-macchina.mjs`, `gate-veri.mjs`, `cancello-lotto.mjs` — tutti "richiede approvazione" in questa sessione, stesso limite di sempre.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), più le 3 card 🔴 di sicurezza/marketplace ora in cima alla checklist rigenerata. Briefing: [[Briefing/2026-08-15]].
 
 > ✅ **14/8 22:33 — Sesto giro in chat in questa fascia (2h dopo le 20:22). Business invariato. Chiusi per davvero 2 vincoli HARD lasciati aperti: il gate chiusura-loop e la mappa dei rischi stantia.**
 > Business riconfermato con `node cervello/verifica-sensori.mjs` (sola lettura, allowlisted): `supabase_rest` conta 1 riga ordini — coerente con la baseline invariata dal 24/6 (mai pagato, annullato). North Star: stallo confermato, **52 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
@@ -1633,6 +1646,19 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (☀️ aggiornato 15/8 06:00 — piano del mattino)
+Business INVARIATO dal 24/6, confermato dal sensore diretto delle 22:27 del 14/8 (il più recente disponibile), zero numeri inventati: 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine mai pagato (CANCELED), 0 pagati. **Stallo 53 giorni.** È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Il tasso di chiusura del mese è tornato **sopra soglia (1,04)**: il giro può ricominciare a cercare, ma oggi le tre priorità restano decisioni da chiudere, non ricerche nuove.
+
+1. [ ] 🔴 **Decidi sulle tre falle di sicurezza/affidabilità del sito** (`#36` pulsante ordine rotto, `#37` dati di negozi/clienti leggibili senza login, `#38` cinque punti dove il marketplace perde soldi da solo) — ferme dal 29/7, 17 giorni, pronte in branch, aspettano solo il via per l'anteprima.
+2. [ ] 🟡 **Cinque risposte corte sbloccano cinque card** — `#80` spegni PostHog sul server (un comando) · `#66` un sensore mai acceso, acceso o spento? · `#74` due domande sui permessi del server · `#76` tre host per far vedere Cabina e dati alle sessioni cloud · `#69` l'ordine in cui riscrivo i tuoi dieci piani.
+3. [ ] 🟡 **Tech chiude PR #722 (ancora rossa) prima di lavoro nuovo** — 2 test noti da sistemare, poi la mappa macchina (`#85`, 65 skill senza riga nel censimento).
+
+**Non dimenticare, invariata:** la mossa n.1 resta `#62`, la pratica pagamenti di Pane Quotidiano — il vero blocco del primo incasso, in attesa del fornaio, congelata fino al 24/8-1/9.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 53gg, atteso — negozi in pausa) · `sito_uptime` cieco da 146 giri (HTTP 503, migrazione Vercel nota, non un guasto) · `mcp_stripe` cieco (2 giri) · resto sensori (REST/MCP Supabase/Stripe API/Resend/n8n/Pannello/watchdog esterno) ✅ alle 22:27 del 14/8.
+
+---
 
 ## Prossime priorità (☀️ aggiornato 14/8 06:01 — piano del mattino)
 Business INVARIATO dal 24/6, confermato dalla sentinella diretta delle 06:00, zero numeri inventati. 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine mai pagato (CANCELED), 0 pagati, 0 eventi nuovi nell'ultima ora. **Stallo 51 giorni.** È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Il tasso di chiusura del mese resta sotto soglia (0,66 su 1). Oggi il lavoro chiude la coda già aperta, non ne cerca di nuova.

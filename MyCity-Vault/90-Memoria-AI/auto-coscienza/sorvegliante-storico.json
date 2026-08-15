@@ -2,126 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-10T09:09:43.997Z",
-      "scatti": 1760,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:24:37.520Z",
-      "scatti": 1828,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:28:56.561Z",
-      "scatti": 1842,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:38:53.774Z",
-      "scatti": 1889,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:42:43.132Z",
-      "scatti": 1907,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:44:51.239Z",
-      "scatti": 1917,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:46:58.311Z",
-      "scatti": 1924,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:49:27.953Z",
-      "scatti": 1939,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:51:44.749Z",
-      "scatti": 1950,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:53:41.897Z",
-      "scatti": 1954,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:56:04.959Z",
-      "scatti": 1962,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T09:58:11.018Z",
-      "scatti": 1968,
-      "voci": 7,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-10T10:00:15.872Z",
       "scatti": 1981,
       "voci": 7,
@@ -2148,6 +2028,28 @@
       "mai_risolte": []
     },
     {
+      "quando": "2026-08-14T21:37:29.041Z",
+      "scatti": 7878,
+      "voci": 47,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 42,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T21:38:33.403Z",
+      "scatti": 7881,
+      "voci": 47,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 42,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
       "quando": "2026-08-14T21:40:03.990Z",
       "scatti": 655,
       "voci": 12,
@@ -2158,7 +2060,124 @@
         "difesa-rimossa": 2
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T21:58:35.820Z",
+      "scatti": 7927,
+      "voci": 47,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 42,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T21:59:49.019Z",
+      "scatti": 7932,
+      "voci": 47,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 42,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T22:29:24.351Z",
+      "scatti": 8000,
+      "voci": 47,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 42,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T22:44:18.437Z",
+      "scatti": 8058,
+      "voci": 47,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 42,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T22:48:28.348Z",
+      "scatti": 8062,
+      "voci": 47,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 42,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T23:34:13.190Z",
+      "scatti": 8086,
+      "voci": 47,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 42,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-15T02:34:07.450Z",
+      "scatti": 8114,
+      "voci": 47,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 42,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-15T04:04:40.085Z",
+      "scatti": 8131,
+      "voci": 47,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 42,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-15T04:28:31.137Z",
+      "scatti": 8147,
+      "voci": 48,
+      "per_classe": {
+        "soglia-allentata": 3,
+        "difesa-rimossa": 43,
+        "prova-accecata": 2
+      },
+      "mai_risolte": [
+        {
+          "classe": "difesa-rimossa",
+          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
+          "cosa": "ho tolto la riga che chiamava «node cervello/test/c2-schermo.test.mjs», che è la prova che deve diventare rossa per AR-225",
+          "ripetuta": 16
+        }
+      ]
+    },
+    {
+      "quando": "2026-08-15T04:40:34.855Z",
+      "scatti": 8194,
+      "voci": 49,
+      "per_classe": {
+        "soglia-allentata": 4,
+        "difesa-rimossa": 43,
+        "prova-accecata": 2
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-14T21:40:03.991Z"
+  "aggiornato": "2026-08-15T04:40:34.857Z"
 }
