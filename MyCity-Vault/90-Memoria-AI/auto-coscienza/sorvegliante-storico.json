@@ -2,22 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-10T14:53:20.819Z",
-      "scatti": 110,
-      "voci": 0,
-      "per_classe": {},
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T15:02:21.519Z",
-      "scatti": 384,
-      "voci": 4,
-      "per_classe": {
-        "difesa-rimossa": 4
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-10T15:23:57.834Z",
       "scatti": 397,
       "voci": 4,
@@ -1345,16 +1329,6 @@
       "mai_risolte": []
     },
     {
-      "quando": "2026-08-14T00:37:17.875Z",
-      "scatti": 1205,
-      "voci": 13,
-      "per_classe": {
-        "difesa-rimossa": 9,
-        "prova-accecata": 4
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-14T00:18:46.296Z",
       "scatti": 6458,
       "voci": 18,
@@ -1384,6 +1358,16 @@
         "soglia-allentata": 3,
         "difesa-rimossa": 14,
         "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T00:37:17.875Z",
+      "scatti": 1205,
+      "voci": 13,
+      "per_classe": {
+        "difesa-rimossa": 9,
+        "prova-accecata": 4
       },
       "mai_risolte": []
     },
@@ -1750,6 +1734,18 @@
       "mai_risolte": []
     },
     {
+      "quando": "2026-08-14T20:17:06.516Z",
+      "scatti": 607,
+      "voci": 12,
+      "per_classe": {
+        "prova-accecata": 8,
+        "gate-orfano": 1,
+        "riparazione-parziale": 1,
+        "difesa-rimossa": 2
+      },
+      "mai_risolte": []
+    },
+    {
       "quando": "2026-08-14T20:36:59.396Z",
       "scatti": 7718,
       "voci": 47,
@@ -1880,6 +1876,18 @@
         "soglia-allentata": 3,
         "difesa-rimossa": 42,
         "prova-accecata": 2
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-14T21:40:03.990Z",
+      "scatti": 655,
+      "voci": 12,
+      "per_classe": {
+        "prova-accecata": 8,
+        "gate-orfano": 1,
+        "riparazione-parziale": 1,
+        "difesa-rimossa": 2
       },
       "mai_risolte": []
     },

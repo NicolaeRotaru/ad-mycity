@@ -16,11 +16,13 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { existsSync, readFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { eGuardiano, guardiaDi, invocazioniIn, invocazioniNegliHook, verdettiMorti } from "../guardia-viva.mjs";
+import { elenca } from "../guardia-viva-check.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -212,4 +214,36 @@ test("nessun hook, nessuna invocazione inventata", () => {
   assert.equal(invocazioniNegliHook([]).size, 0);
   assert.equal(invocazioniNegliHook([{ comando: "echo ciao" }]).size, 0);
   assert.equal(invocazioniNegliHook([{}]).size, 0);
+});
+
+// ── L-2026-0815-002 — la copia di lavoro di un agente non è il repo ──────────
+//
+// Un worktree è un ALTRO albero dello stesso repo, appeso sotto `.claude/worktrees/`. Chi scandisce
+// «tutto il repo» per sapere chi esegue davvero un guardiano ci trova dentro gli stessi file una
+// seconda volta, e li conta come esecutori: un guardiano risulta di guardia perché la sua copia lo
+// nomina. È il difetto che questo file cura, tornato dalla porta di servizio.
+//
+// LA LEZIONE DAVA LA RIGA PER SCRITTA, E NON C'ERA. `L-2026-0815-002` (15/8) dichiara come proprio
+// fix «la riga worktrees nell'elenco delle cartelle escluse». Andandola a cercare per registrarne la
+// mutazione, in `guardia-viva-check.mjs` non esisteva — né qui né su main. La prova sotto ESEGUE
+// `elenca()` su un albero finto, così non dipende dal fatto che una copia di lavoro esista oggi sul
+// disco: quel test verde era verde perché la cartella era vuota, non perché la difesa ci fosse.
+test("una copia di lavoro sotto .claude/worktrees non viene scandita come repo", () => {
+  const base = mkdtempSync(join(tmpdir(), "guardia-viva-"));
+  try {
+    mkdirSync(join(base, "cervello"), { recursive: true });
+    writeFileSync(join(base, "cervello", "giro.sh"), "node cervello/permessi-check.mjs\n");
+    // La copia di lavoro, con dentro lo stesso file: se venisse scandita, comparirebbe due volte.
+    mkdirSync(join(base, ".claude", "worktrees", "agente-x", "cervello"), { recursive: true });
+    writeFileSync(join(base, ".claude", "worktrees", "agente-x", "cervello", "giro.sh"), "node cervello/permessi-check.mjs\n");
+
+    const trovati = elenca(base).map((p) => p.replace(base, ""));
+    assert.equal(trovati.length, 1, `l'albero vero ha un file solo, trovati: ${JSON.stringify(trovati)}`);
+    assert.ok(
+      !trovati.some((p) => p.includes("worktrees")),
+      "la copia di lavoro di un agente non è il repo: contarla dichiara di guardia un guardiano che nessuno esegue",
+    );
+  } finally {
+    rmSync(base, { recursive: true, force: true });
+  }
 });
