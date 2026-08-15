@@ -1,10 +1,10 @@
 {
-  "data": "2026-08-15 08:45",
-  "situazione": "Business invariato, riconfermato dal vivo (verifica-sensori.mjs, 08:40): 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg. North Star fermo a 52 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. In questo passaggio ho chiuso un vincolo HARD reale: il giro automatico delle 06:30 era solo la sonda leggera (nessuna novità da confermare), non una sessione con me dentro, quindi non aveva scritto la mia auto-analisi né imparato nulla — l'ho scritta ora, con una lezione nuova su come riconoscere la differenza. Ho anche trovato una richiesta di modifica del codice che nessuno aveva ancora messo in coda, e un secondo caso dello stesso difetto che ho già riparato ieri.",
+  "data": "2026-08-15 00:45",
+  "situazione": "Business invariato, riconfermato dal sensore diretto: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg. North Star fermo a 53 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. In questo passaggio ho chiuso un vincolo HARD stantio: la checklist personale di Nicola era ferma da oltre 2 giorni, rigenerata dalle 69 righe in attesa. Il test del cervello rilanciato dal vivo resta a 1569 verdi su 1577, sempre gli stessi 2 debiti noti col fix già pronto in coda su una PR.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
-    {"titolo": "Sistema i due controlli rossi della richiesta 733 prima di firmarla", "motivo": "il fix del sorvegliante è buono, ma la richiesta stessa non è ancora pronta per la firma", "livello": "giallo"},
-    {"titolo": "Escludi anche la mia auto-analisi dal falso allarme del sorvegliante, come hai già fatto ieri per il referto di salute", "motivo": "stesso identico difetto appena riparato su un file diverso: senza il fix, ogni giro futuro genera lo stesso rumore", "livello": "giallo"}
+    {"titolo": "Tappa i cinque punti dove il marketplace perde soldi da solo", "motivo": "ferma dal 29/7 senza risposta: doppia vendita, coupon che si esauriscono sui tentativi, rider che si decide lo stipendio", "livello": "rosso"},
+    {"titolo": "Chiudi le quattro porte aperte sui dati di negozi e clienti", "motivo": "falle RLS verificate sul database vero, ferme dal 29/7 senza risposta", "livello": "rosso"}
   ]
 }
