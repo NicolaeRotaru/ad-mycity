@@ -1,8 +1,10 @@
 {
-  "data": "2026-08-14 20:22",
-  "situazione": "Business invariato, riverificato con query diretta su Supabase (non ereditata): 1 ordine mai pagato/annullato del 24/6, 0 pagati, 5 prodotti, 7 profili, 1 negozio, 407 lead commercianti. North Star fermo a 51 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Buona notizia: il rischio dei 34 file di codice non committati (aperto dalle 06:30 di stamattina) è chiuso, messo in sicurezza da un passaggio successivo. Un presunto terzo test rosso si è rivelato un fantasma di parallelismo tra test, non un difetto nuovo. Restano rosse 5 PR su 6 aperte per colpa propria (una nuova, #728, oltre alle 4 note) e 1 mai provata.",
+  "data": "2026-08-15 11:25",
+  "situazione": "Business invariato, riconfermato con REST + delta-gate 15 minuti dopo il giro precedente: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Memoria coerente (`coerenza-fatti.mjs` verde), nessuna card nuova. Strategia snella: non riscritti i motori pesanti (auto-analisi/apprendimento freschi di pochi minuti), per non duplicare lavoro già fatto.",
   "opportunita": [],
   "azioni": [
-    {"titolo": "Riprendi la PR che ripara i due test rossi rimasti, prima di guardare le altre", "motivo": "il fix dei 2 debiti noti (guardiano dei motivi, mappa della macchina) vive già sul ramo della PR #722, ma quella PR è a sua volta rossa su altri controlli — le altre 3-4 PR aperte probabilmente coprono lo stesso tema e conviene chiuderle dopo, non prima", "livello": "giallo"}
+    {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
+    {"titolo": "Tappa i cinque punti dove il marketplace perde soldi da solo", "motivo": "ferma dal 29/7 senza risposta: doppia vendita, coupon che si esauriscono sui tentativi, rider che si decide lo stipendio", "livello": "rosso"},
+    {"titolo": "Chiudi le quattro porte aperte sui dati di negozi e clienti", "motivo": "falle RLS verificate sul database vero, ferme dal 29/7 senza risposta", "livello": "rosso"}
   ]
 }

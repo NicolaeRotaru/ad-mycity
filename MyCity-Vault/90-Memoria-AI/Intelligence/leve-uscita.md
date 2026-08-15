@@ -6,10 +6,12 @@
 > **Confermato 2026-08-13 09:30** (recupero del giro delle 08:41, fallito per limite motore). Ricontrollate le due fonti bandi dovute oggi: Camera Commercio Emilia e Unione Commercianti PC. Check fatto stamattina alle 06:30, dettaglio completo in `eventi-picchi.md`. **Nessuna riapertura, nessun bando nuovo.** BI26/PI26/BE26/Bando Commercio ER restano tutti chiusi. Zero cambiamenti alla strategia sotto: resta valida così com'è.
 >
 > **Confermato 2026-08-14 06:31** (giro leggero `cervello/monitora.md`). Stessi due bandi ricontrollati, stesso esito: tutto chiuso, nessuna apertura. Trovato un dato nuovo per la **catena #2 sotto (caro-energia)** — vedi la voce aggiornata.
+>
+> **Confermato 2026-08-15 06:45** (giro leggero `cervello/monitora.md`). CCIAA Emilia e Unione Commercianti PC ricontrollati di nuovo via WebSearch, il fetch diretto resta in errore 403. Stesso esito: BI26/PI26/BE26/Bando Commercio ER restano tutti chiusi, nessuna riapertura, nessun bando nuovo per il commercio. Nessun dato nuovo per le 3 catene indirette sotto. Zero cambiamenti alla strategia.
 
 ## Il filtro che decide tutto, oggi
 
-Un solo negozio reale (**Pane Quotidiano**), **0 ordini pagati in 47 giorni** di stallo, e — scoperta di oggi (10/8) — anche l'unico negozio confermato **non può ancora incassare**: dati pagamento mai inviati al fornitore, incassi e versamenti disattivati (card `#16`, 🔴 firma Nicola, dati che deve dare il fornaio). Pausa concordata con Nicola fino al **24/8-1/9**. Regola d'oro AR-006: **lo sforzo pesante va dove c'è un negozio che può incassare** — oggi, in senso stretto, non c'è nessuno. Quindi: **niente asset pesanti/pubblicazioni nuove**, solo mosse leggere (ricerca, preparazione, mappe pronte) che non aspettano la firma e che accorciano la strada quando lo stallo si rompe.
+Un solo negozio reale, **Pane Quotidiano**. **0 ordini pagati in 47 giorni** di stallo. Scoperta del 10/8: anche questo unico negozio confermato **non può ancora incassare** — dati pagamento mai inviati al fornitore, incassi e versamenti disattivati (card `#16`, 🔴 firma Nicola, dati che deve dare il fornaio). Pausa concordata con Nicola fino al **24/8-1/9**. Regola d'oro AR-006: **lo sforzo pesante va dove c'è un negozio che può incassare**. Oggi, in senso stretto, non c'è nessuno. Quindi: **niente asset pesanti né pubblicazioni nuove**, solo mosse leggere — ricerca, preparazione, mappe pronte — che non aspettano la firma e che accorciano la strada quando lo stallo si rompe.
 
 Playbook già tentati e finiti a vuoto (non riaprirli senza un fatto nuovo): stampa (4×, comunicato ritirato 30/7), istituzioni (7×, bandi PI26/BT26/BE26 tutti chiusi), capillarità (3×), fedeltà di rete (4×), recupero carrelli (4×), scout negozi (4×, in pausa fino 24/8-1/9).
 

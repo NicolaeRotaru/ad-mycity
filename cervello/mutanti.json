@@ -1106,7 +1106,7 @@
    "difetto": "AR-154",
    "nome": "l allarme aggiunto a una consegna che esisteva gia torna a passare inosservato",
    "file": "cervello/cancello-stop.mjs",
-   "cerca": "  const daiModificati = consegneModificate.filter((f) => (f.righe || []).some((r) => ALLARMI.some((m) => m.test(r)))).map((f) => f.file);",
+   "cerca": "  const daiModificati = consegneModificate\n    .filter((f) => !ePrDoc(f.file))\n    .filter((f) => (f.righe || []).some((r) => ALLARMI.some((m) => m.test(r))))\n    .map((f) => f.file);",
    "sostituisci": "  const daiModificati = [];",
    "test": "cervello/test/cancello-stop.test.mjs"
   },

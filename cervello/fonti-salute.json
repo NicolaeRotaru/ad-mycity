@@ -1,16 +1,19 @@
 {
   "ok": true,
-  "quando": "2026-08-14 20:32",
+  "quando": "2026-08-14 22:20",
   "timbro": {
-    "quando": "2026-08-14 20:32",
+    "quando": "2026-08-14 22:20",
     "scade_dopo_ore": 24,
-    "ambiente": "cloud",
+    "ambiente": "locale",
     "scritto_da": "cervello/sentinella-fonti.mjs",
-    "chiavi_presenti": []
+    "chiavi_presenti": [
+      "SUPABASE_URL",
+      "MARKETPLACE_SUPABASE_URL"
+    ]
   },
   "radar": "cervello/radar-fonti.json",
   "fonti_totali": 18,
-  "vive": 4,
+  "vive": 18,
   "morte": 0,
   "allerta_peso_critico": [],
   "fonti": [
@@ -19,44 +22,44 @@
       "nome": "Libertà — Attualità",
       "url": "https://www.liberta.it/attualita",
       "peso": 5,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     },
     {
       "id": "liberta-citta",
       "nome": "Libertà — Città di Piacenza",
       "url": "https://www.liberta.it/territorio/citta/piacenza",
       "peso": 5,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     },
     {
       "id": "ilpiacenza-economia",
       "nome": "IlPiacenza — Economia",
       "url": "https://www.ilpiacenza.it/economia/",
       "peso": 4,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     },
     {
       "id": "piacenzasera",
       "nome": "PiacenzaSera",
       "url": "https://www.piacenzasera.it/",
       "peso": 4,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     },
     {
       "id": "comune-news",
@@ -67,7 +70,7 @@
       "status": 0,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32",
+      "ultimo_controllo": "2026-08-14 22:20",
       "skip_check": true,
       "nota_check": "403 CDN Google — IP VPS bloccato. Usa WebSearch: site:comune.piacenza.it news commercio"
     },
@@ -80,7 +83,7 @@
       "status": 0,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32",
+      "ultimo_controllo": "2026-08-14 22:20",
       "skip_check": true,
       "nota_check": "403 CDN Google — IP VPS bloccato. Usa WebSearch: site:comune.piacenza.it eventi"
     },
@@ -93,7 +96,7 @@
       "status": 0,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32",
+      "ultimo_controllo": "2026-08-14 22:20",
       "skip_check": true,
       "nota_check": "403 CDN Google — IP VPS bloccato. Usa WebSearch: comune piacenza bandi imprese commercio"
     },
@@ -106,7 +109,7 @@
       "status": 0,
       "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32",
+      "ultimo_controllo": "2026-08-14 22:20",
       "skip_check": true,
       "nota_check": "Pagina istituzionale senza RSS ufficiale — WebSearch + feed sindacati locali"
     },
@@ -115,110 +118,110 @@
       "nome": "Unione Commercianti PC — Bandi e agevolazioni",
       "url": "https://www.unionecommerciantipc.it/category/bandi/",
       "peso": 4,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     },
     {
       "id": "vitaincentro",
       "nome": "Vita in Centro a Piacenza",
       "url": "https://www.vitaincentroapiacenza.com/category/news/",
       "peso": 3,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     },
     {
       "id": "unionecommercianti",
       "nome": "Unione Commercianti Piacenza",
       "url": "https://www.unionecommerciantipc.it/",
       "peso": 3,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     },
     {
       "id": "cna-piacenza",
       "nome": "CNA Piacenza / CompraPiacenza",
       "url": "https://piacenza.cna.it/",
       "peso": 4,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     },
     {
       "id": "glovo-piacenza",
       "nome": "Glovo — Piacenza",
       "url": "https://glovoapp.com/it/it/piacenza/",
       "peso": 4,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     },
     {
       "id": "conad-consegna",
       "nome": "Conad — Spesa online Piacenza",
       "url": "https://spesaonline.conad.it/aree-coperte-dal-servizio/piacenza",
       "peso": 4,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     },
     {
       "id": "cortilia",
       "nome": "Cortilia / q-commerce filiera corta",
       "url": "https://www.cortilia.it/",
       "peso": 3,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     },
     {
       "id": "meteo-piacenza",
       "nome": "Meteo Piacenza (ARPAE/3B)",
       "url": "https://www.arpae.it/it/temi-ambientali/meteo",
       "peso": 4,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     },
     {
       "id": "sagre-provincia",
       "nome": "Sagre & mercatini Piacenza e provincia",
       "url": "https://www.quatarobpavia.it/eventi-mercatini-sagre-piacenza-provincia/",
       "peso": 3,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     },
     {
       "id": "reputazione-mycity",
       "nome": "Reputazione MyCity & negozi (ricerca aperta)",
       "url": "https://www.google.com/search?q=MyCity+Piacenza",
       "peso": 3,
-      "viva": false,
-      "status": 403,
-      "falliti_consecutivi": 1,
+      "viva": true,
+      "status": 200,
+      "falliti_consecutivi": 0,
       "morta": false,
-      "ultimo_controllo": "2026-08-14 20:32"
+      "ultimo_controllo": "2026-08-14 22:20"
     }
   ]
 }

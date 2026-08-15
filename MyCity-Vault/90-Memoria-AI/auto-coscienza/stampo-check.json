@@ -1,10 +1,7 @@
 {
   "_cosa_e": "Guardiano stampo senior: legge il CONTENUTO di mansionario, kit e quaderno di ogni agente e lo confronta col debito dichiarato in cervello/stampo-baseline.json.",
   "_cosa_NON_prova": "Non prova che un kit sia BUONO né che un ESITO sia vero: misura spessore relativo, fotocopie, struttura e presenza di righe ESITO datate. Un kit lungo e originale può essere sbagliato, e una riga ESITO può contenere un numero inventato — quella parte la giudicano il direttore-creativo e la calibrazione, non questo controllo.",
-  "aggiornato": "2026-08-15 00:05",
-  "origine": "cloud",
-  "copertura": 120,
-  "scritto_da": "stampo-check.mjs",
+  "aggiornato": "2026-08-15 11:49",
   "totale_agenti": 120,
   "soglia_sottile_byte": 7025,
   "quaderni": {

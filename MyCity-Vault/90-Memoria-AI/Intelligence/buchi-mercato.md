@@ -2,6 +2,7 @@
 
 > Aggiornato: 2026-08-10 13:35 · fonte: query dal vivo Supabase marketplace (MCP `execute_sql`) + `registro-fatti.json`.
 > Il contesto macro in fondo alla pagina è stato rinfrescato il 13/8 alle 09:30. È il recupero del giro delle 08:41, fallito per limite motore. La fonte è IlPiacenza-Economia. Il fetch diretto ha dato HTTP 403, quindi l'ho recuperata via WebSearch. Il resto del file non è stato ricontrollato oggi. Catalogo e lista contatti restano quelli letti dal database il 10/8.
+> **Ricontrollato 15/8 06:45** (giro leggero, `cervello/monitora.md`). Fonte: IlPiacenza-Economia via WebSearch, il fetch diretto resta in errore 403. Nessuna apertura o chiusura nuova di negozi trovata. Confermano lo stesso quadro già noto dal 13/8. Le imprese attive a Piacenza restano in calo del 3,3% nel primo semestre 2026, 840 in meno di un anno fa ([ilpiacenza.it](https://www.ilpiacenza.it/economia/piacenza-imprese-calo-primo-semestre-2026.html)). Via Taverna resta sotto i 40 negozi, contro i 51 di prima. Catalogo e contatti restano quelli letti dal database il 10/8: non ricontrollati oggi perché non dovuti.
 > Precedente versione: 20 luglio 2026 (in git history).
 > Rifatto da zero sui dati reali, non solo confermato a memoria. Tabelle interrogate il 10/8: `profiles`, `products`, `categories`, `merchants_leads`.
 
@@ -29,9 +30,9 @@ Il file di luglio elencava enoteca/pescheria/erboristeria/formaggi come "categor
 | Supermercato | 42 | 0 | 71,4 | Catene tipo Conad, Esselunga, Lidl e Coop: non target da onboarding, ma segnalano la densità della zona |
 | Ristorante | 27 | 0 | 87,0 | **Escluso** per decisione Nicola 18/7 |
 | Pizzeria | 22 | 0 | 95,5 | **Escluso** per decisione Nicola 18/7 |
-| Panificio (`bakery`) | 11 | 0 | 77,3 | Categoria del negozio faro — 11 concorrenti/prospect diretti mai contattati |
+| Panificio (`bakery`) | 11 | 0 | 77,3 | Categoria del negozio faro. 11 concorrenti/prospect diretti, mai contattati |
 | Macelleria (`butcher`) | 8 | 0 | 50,0 | 0 contattati nonostante citati come "prospect" a luglio |
-| Fioraio (`florist`) | 7 | 0 | 50,0 | Categoria già "scoperta" a luglio — i 7 nomi esistono, mai chiamati |
+| Fioraio (`florist`) | 7 | 0 | 50,0 | Già segnata come "scoperta" a luglio. I 7 nomi esistono, ma nessuno è mai stato chiamato |
 | *(coda lunga: sushi, kebab, cinese, messicano, indiano…)* | ~74 | 0 | var. | Ristorazione etnica, stesso vincolo del 18/7 |
 
 **Enoteca, pescheria, erboristeria, formaggi/caseificio: 0 su 0** — non ci sono NEI 407, quindi nessuno li ha mai cercati con uno scarico dedicato.

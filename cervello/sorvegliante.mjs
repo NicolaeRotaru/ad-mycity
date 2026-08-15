@@ -215,7 +215,19 @@ const ePROSA = (file) => PROSA.some((e) => file.endsWith(e));
  * volte, sul proprio diario. Terza forma della stessa regola in questo file — «menzione ≠ chiamata»
  * dopo i commenti (⑥b) e la prosa (AR-503) — e la più imbarazzante: il diario di chi accusa.
  */
-export const REFERTI = [...REFERTI_RIGENERATI, "MyCity-Vault/90-Memoria-AI/auto-coscienza/sorvegliante-storico.json"];
+export const REFERTI = [
+  ...REFERTI_RIGENERATI,
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/sorvegliante-storico.json",
+  // Questi due li aveva elencati `main` mentre il lotto 42 riscriveva questa funzione. Il
+  // riconoscimento (③, più sotto) copre `salute.json` da solo, perché dichiara chi lo scrive —
+  // `auto-analisi.json` NO, e verificandolo alla fusione l'ho visto perdere la protezione.
+  //
+  // Restano scritti a mano apposta: la cura generale non annulla una copertura che c'era. Un
+  // riconoscimento più elegante che protegge un file in meno è un passo indietro travestito da
+  // passo avanti — e questo l'ho misurato invece di dedurlo, chiedendo alla funzione se li vedeva.
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/salute.json",
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json",
+];
 
 /**
  * 🚫 LE ECCEZIONI ALL'ESENZIONE (AR-556). Qui le difese ci vivono davvero, quindi il perdono non

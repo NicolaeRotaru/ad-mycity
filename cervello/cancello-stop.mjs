@@ -77,6 +77,18 @@ const CODA = "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md";
 /** I marcatori d'allarme: le forme con cui questa macchina scrive «questo è grave». */
 export const ALLARMI = [/🔴/, /\bCRITICO\b/i, /\bbloccante\b/i];
 
+/**
+ * I referti di PR che `git-pr.mjs` scrive da solo (`consegne/tech/pr-<repo>-<numero>.md`, vedi
+ * `writeConsegna`): portano SEMPRE la stessa riga «🔴 Non mergeare da solo» — non è un allarme nuovo
+ * che stavo per lasciare indietro, è l'avviso di governo che quello script incolla in ogni PR che apre.
+ * Trovato aprendo la PR #733 di questo stesso lavoro: il file nasce nuovo nel ramo (non esiste su
+ * main finché la PR non c'è), quindi la sua riga fissa veniva letta come un allarme appena scritto —
+ * mentre l'approvazione del merge arriva già alle card del Pannello (`--accoda`), non da qui. Stessa
+ * malattia dei referti auto-scritti in `sorvegliante.mjs` (REFERTI): un testo che la macchina rigenera
+ * sempre uguale non è la voce di chi scopre un problema.
+ */
+const ePrDoc = (file) => /^consegne\/tech\/pr-[^/]+-\d+\.md$/.test(file);
+
 // ─────────────────────────────────────────────────────────────────────────────
 // IL CUORE — funzioni pure. Prendono DUE stati (prima e dopo) e tornano cosa manca. Pure perché una
 // prova le deve poter eseguire su stati finti: se misurassero com'è il repo adesso, domani sarebbero
@@ -163,11 +175,17 @@ export function codaToccataNelPerimetro(righeCartella = null, codaPath = CODA) {
 
 export function allarmiSenzaCoda(fileNuovi = [], codaToccata = false, consegneModificate = []) {
   if (codaToccata) return [];
-  const daiNuovi = fileNuovi.filter((f) => ALLARMI.some((r) => r.test(f.contenuto || ""))).map((f) => f.file);
+  const daiNuovi = fileNuovi
+    .filter((f) => !ePrDoc(f.file))
+    .filter((f) => ALLARMI.some((r) => r.test(f.contenuto || "")))
+    .map((f) => f.file);
   // Il buco che restava (1/8): un allarme AGGIUNTO in fondo a una consegna che esisteva già non era
   // un file nuovo, quindi non lo vedeva nessuno. È il caso più probabile dei due — le consegne si
   // aggiornano molto più spesso di quanto nascano.
-  const daiModificati = consegneModificate.filter((f) => (f.righe || []).some((r) => ALLARMI.some((m) => m.test(r)))).map((f) => f.file);
+  const daiModificati = consegneModificate
+    .filter((f) => !ePrDoc(f.file))
+    .filter((f) => (f.righe || []).some((r) => ALLARMI.some((m) => m.test(r))))
+    .map((f) => f.file);
   return [...new Set([...daiNuovi, ...daiModificati])];
 }
 

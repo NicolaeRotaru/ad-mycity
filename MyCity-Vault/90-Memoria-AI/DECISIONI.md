@@ -1803,3 +1803,7 @@ il fix sta in file di altre corsie. 11 difetti nuovi registrati (AR-696 → AR-7
 
 **Firma.** 🟡 preparato e committato, **non unito**: il merge è di Nicola. Mergiare pubblica anche il
 Pannello (il Deploy Hook parte su main).
+## 2026-08-15 01:32 — Sbloccato il gate che riaccendeva il giro pieno ogni 2 ore da 398 ore
+- 🟢 **Cosa:** `delta-gate.json` confrontava la baseline del 29/7 (`sito_uptime:ok`) con lo stato corrente (`sito_uptime:cieco` dal 30/7 per la migrazione Vercel, non un guasto, più il sensore `watchdog_esterno` assente dalla baseline) — il confronto non tornava mai uguale, quindi ogni giro dal 7/8 forzava la versione pesante anche a business invariato (398 ore consecutive, ordini=1 dal 24/6). `node cervello/delta-gate.mjs --segna-pieno` bloccato dai permessi come le volte precedenti (12/8, 29/7): promossa la baseline a mano via Edit — stessa identica scrittura che avrebbe fatto lo script, già fatto così il 29/7.
+- **Perché:** ogni sessione che riceveva un trigger "giro" ripartiva da capo la diagnosi di questo stesso loop invece di applicarla (playbook già scritto in memoria dal 12/8) — spreco di lavoro macchina che non avvicina il primo ordine pagato.
+- **Stato:** file di memoria (`90-Memoria-AI/auto-coscienza/`), non codice → commit diretto su `main` (`b3c69a154`), pushato. Nessuna firma richiesta (auto-manutenzione dati propri, non modifica di agenti/prompt). Verifica: il prossimo giro dovrebbe leggere `esegui_pieno: false` finché business e sensori restano fermi.
