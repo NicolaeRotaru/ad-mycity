@@ -2610,14 +2610,15 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/notifica-approvazioni.mjs",
-        "pattern": "stantia|risollecit|ore_attesa",
-        "presente": true
+        "tipo": "comando",
+        "comando": "node cervello/test/c9-firma-che-non-arriva.test.mjs"
       },
       "nota": "Dove: cervello/sentinelle.md:95 · cervello/notifica-approvazioni.mjs:8 · cervello/housekeeping-azioni.mjs:9 · Impatto: Il collo di bottiglia dichiarato dalla macchina stessa — il tempo che passa tra «pronto da firmare» e «fatto» — non è né misurato né presidiato. Una proposta perfetta che nessuno ricorda vale zero: le occasioni con scadenza (bandi, ordini, risposte a clienti) muoiono in silenzio dentro una coda che sembra sana perché nessuno la guarda invecchiare.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "L'anti-spam era diventato anti-memoria: `notifica-approvazioni.mjs` mandava una notifica per card e poi taceva per sempre, anche dopo due settimane. Adesso la coda invecchia sotto gli occhi di qualcuno: ogni card porta le sue ore di attesa, il risollecito RIPETE (48 ore per le rosse, 5 giorni per le gialle, mai più spesso della soglia), oltre i sette giorni la card sale di grado, e l'elenco è ordinato per anzianità — la più vecchia per prima. La coda adesso ha un numero di salute che finisce sia nel file di stato sia nel messaggio: sui dati veri di oggi, 16 card in coda, attesa mediana 2 giorni, la più vecchia 18. Una card senza data di accodamento non viene contata come fresca: è dichiarata come buco. COSA NON HO FATTO: (a) l'esposizione nel Pannello — il numero lo scrivo in auto-coscienza/notifiche-approvazioni.json, ma pannello/src è fuori territorio; (b) «finché Telegram è spento scrivi il risollecito in testa alla checklist di Nicola»: CHECKLIST-NICOLA.md è fuori territorio, e senza chiavi Telegram oggi il risollecito resta in dry-run. Provato solo in dry-run: non ho potuto verificare un invio vero.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-192",
@@ -2763,14 +2764,15 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/motore-ai.sh",
-        "pattern": "AI_MODELLO",
-        "presente": true
+        "tipo": "comando",
+        "comando": "node cervello/test/c9-scala-di-sforzo.test.mjs"
       },
       "nota": "Dove: cervello/motore-ai.sh:249 e :277 (--model solo da CERVELLO_MODELLO, variabile globale) · cervello/worker.sh:1176 (metabolizza dichiara ROUTER_COMPITO_JOB=testi-volume) · cervello/worker.sh:1348-1351 (ramo economico irraggiungibile: AI_ECON_CMD è vuoto per costruzione, motore-ai.sh:334) · cervello/banco-ai.mjs:26 (ROUTER_SOLO_CONSIGLIO = true) · Impatto: Ogni conversazione con Nicola sopra i 160 caratteri paga DUE run premium: la risposta e poi la metabolizzazione, che è un riassunto. Sulla quota-sessione rolling ~5h (la risorsa davvero scarsa, costo-ai.mjs:22) significa consumare in riassunti la capacità che serve al ragionamento — e in una giornata di chat fitta è la prima causa di «limite raggiunto». Il costo non è visibile in nessun numero perché è la corsia del worker (vedi il difetto precedente). Ordine di grandezza dell'abbonamento: 200 €/mese ÷ 30 = ~6,7 €/giorno di quota; oggi 5 run reali registrate → ~1,3 € di abbonamento per run, e almeno una su due delle run non misurate è un riassunto.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "La scheda chiedeva `AI_MODELLO` per-corsia accanto ad AI_THINKING. Verificato sul codice: la leva era già mezza costruita — worker.sh mette `ROUTER_COMPITO_JOB=testi-volume` per la metabolizzazione e `AI_THINKING=0` sui compiti di volume, e chiama `ai_build_cmd` subito dopo. Mancava solo chi legge quei due segnali. Adesso `ai_build_cmd` chiede il modello a `ai_modello_corsia`, che chiama la decisione pura `sforzoPerCorsia` in conto-motore.mjs: volume → modello leggero, chat/giro/ritmo → modello pieno, override con AI_MODELLO. LA CLAUSOLA CHE NON HO SALTATO: senza `CERVELLO_MODELLO_ECONOMICO` dichiarato nel .env non cambia NIENTE, e il perché viene detto invece di inventare un ripiego — la scheda chiede di misurare prima/dopo su 5 metabolizzazioni reali, e quel confronto lo deve fare Nicola col modello che sceglie lui. Ho anche messo una guardia sull'ordine di --allowedTools (il bug che spense la macchina una notte), perché il --model nuovo passa da lì. COSA RESTA E NON HO FATTO: la seconda clausola («finché ROUTER_SOLO_CONSIGLIO è vero non spendere due processi node per lavoro a registrare una scelta che non viene eseguita») vive in worker.sh righe 1543-1545, fuori territorio → patch_per_ad. E non ho misurato la qualità delle note prima/dopo: senza un modello economico dichiarato non c'era niente da confrontare.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-199",
@@ -2791,7 +2793,7 @@
       "chiuso_il": "2026-07-28 20:15",
       "chiuso_come": "node cervello/peso-contesto.mjs → exit 0 (guardiano soddisfatto)",
       "nato_come": "regressione",
-      "nota_fix": "RIAPERTO il 2026-08-14 (lotto 40). La prova sulla scheda — `node cervello/peso-contesto.mjs` — e' ROSSA adesso: exit 1, quattro file oltre il loro tetto. Misurati: DECISIONI.md 642.074 B (tetto 636.194) · STATO.md 197.907 B (tetto 122.210) · SALA-OPERATIVA.md 195.523 B (tetto 138.535) · AZIONI-IN-ATTESA.md 119.924 B (tetto 74.111). STATO.md e' il caso peggiore: pesa il 62% in piu' del tetto. La malattia e' quella originale — la memoria che il giro riapre a ogni turno cresce ogni giorno e nessuno la pota — e il tetto, che doveva essere il freno, e' stato superato in silenzio.",
+      "nota_fix": "La prova sulla scheda — `node cervello/peso-contesto.mjs` — è ROSSA adesso, e giustamente: quattro file di memoria sono sopra il loro tetto (STATO.md 238.278 B contro 122.210 · SALA-OPERATIVA 221.200 contro 138.535 · AZIONI-IN-ATTESA 126.378 contro 74.111 · DECISIONI 645.408 contro 636.194), più 20 file che entrano nel contesto senza nessun tetto. Il guardiano funziona ed è cablato: quello che manca è la POTATURA, e la potatura tocca MyCity-Vault/90-Memoria-AI/** e cervello/pota-memoria.mjs, che non sono territorio di questa corsia. Nel mio territorio c'era solo la clausola (a) parziale su AZIONI-IN-ATTESA («alzare l'aggressività di housekeeping-azioni»): non l'ho fatta perché sarebbe un fix a metà su un difetto che resta rosso comunque per STATO.md, e perché far girare housekeeping mentre altre corsie lavorano riscriverebbe un file di memoria condiviso. La prova è già un comando, non un pattern.",
       "nato_da": "chiuso in un lotto precedente e mai piu' riverificato (AR-336): la prova era gia' comportamentale, ma nessun processo riesegue le prove dei difetti CHIUSI",
       "malattia": "non-pattern-izzabile",
       "malattia_perche": "La forma e' «un difetto CHIUSO torna e nessuno se ne accorge, perche' nessun processo riesegue le prove dei chiusi». Non e' cercabile con un pattern nel testo: non c'e' una riga sbagliata da trovare: il codice del difetto e' tornato altrove, e cio' che manca e' un CONTROLLO RIPETUTO nel tempo. La copre AR-336, aperto e nominato apposta («un difetto chiuso non viene mai piu' riguardato, e settantaquattro hanno una prova che si potrebbe rieseguire»), piu' il comando `rivedi-chiusi` che la corsia H ha costruito in questo lotto: e' stato lui a trovarli."
@@ -2852,14 +2854,15 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "MyCity-Vault/05-Soldi-Rischi/budget-reparti.json",
-        "pattern": "macchina-ai",
-        "presente": true
+        "tipo": "comando",
+        "comando": "node cervello/test/c9-quanto-rende-un-giro.test.mjs"
       },
       "nota": "Dove: MyCity-Vault/05-Soldi-Rischi/budget-reparti.json (9 reparti, tutti budget 0 e speso 0, nessuna voce per l'AI) · cervello/sentinella-budget.mjs (sorveglia quel file) · cervello/metabolismo.mjs (solo consumo) · cervello/pagella-intelligenza.mjs (5 numeri, nessuno di costo) · fonte del costo reale: MyCity-Vault/90-Memoria-AI/registro-fatti.json, fatto finanza.burn-mensile · Impatto: Dal 10/7 a oggi il registro conta 17 giorni di run (fino a 33 in un solo giorno, il 23/7) con 0 ordini consegnati e il lavoro operativo in pausa fino a fine agosto: nessun meccanismo può accorgersi che la spesa non sta rendendo, perché la resa non è un numero. Sono ~200 €/mese che si rinnovano senza un solo dato che dica se hanno prodotto qualcosa — ed è la spesa più grande dell'azienda. È anche il motivo per cui la scelta più ovvia («a business fermo, dimezza la cadenza») non è mai stata proposta da nessun organo: non ha i dati per formularla.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Il valore adesso è un numero. I risultati non erano un'opinione: erano già scritti in chiaro nella coda, come `### ✅ #75 — … ✅ chiusa 2026-08-13`, e non li contava nessuno. `metabolismo.mjs` adesso legge quelle card, prende il costo dell'abbonamento dal registro dei fatti (finanza.costi_infrastruttura, «Claude 200», confermato da Nicola il 21/7) e stampa gli euro per risultato con la fonte accanto. Sui dati veri di oggi: 200 € / 8 risultati = 25 € per risultato negli ultimi 30 giorni. Con zero risultati non divide per zero: dice «brucia a vuoto» e quanti euro sono, che è l'informazione per cui il difetto è nato. Senza costo dichiarato la resa è CIECA, mai zero. COSA NON HO FATTO, e va detto: la clausola (a) chiede una riga `macchina-ai` in MyCity-Vault/05-Soldi-Rischi/budget-reparti.json — file fuori territorio, la trovi in patch_per_ad. La clausola (c) — «a business in pausa la cadenza resta a 9 giri al giorno o scende a 2?» — è una decisione di Nicola, non una riga di codice: adesso però il numero per formularla esiste.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-203",
@@ -2874,14 +2877,15 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/motore-ai.sh",
-        "pattern": "input_tokens",
-        "presente": true
+        "tipo": "comando",
+        "comando": "node cervello/test/c9-il-pavimento-della-stima.test.mjs"
       },
       "nota": "Dove: cervello/motore-ai.sh:317-330 (ai_stima_token: max(minuti×5.000, caratteri/4), con pavimento 50.000) · dati: MyCity-Vault/90-Memoria-AI/auto-coscienza/costo-ai.json, voci del 26/7 · Impatto: Ogni ragionamento su costo e valore poggia su un numero che non misura nulla: se anche il freno del budget venisse riparato (primo difetto), erediterebbe questa cecità e scatterebbe su una durata travestita da token. È il motivo per cui «245.000 token oggi» non significa niente: sono 4 pavimenti e 2 cronometri.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Trovato nel codice vero: `ai_stima_token` in motore-ai.sh fa max(minuti×5.000, caratteri/4) e poi alza tutto a 50.000. Sui dati veri di oggi quel pavimento morde su 11 run su 20, e due numeri identici sono condivisi da quattro corsie diverse (giro, ritmo-mattino, worker-analisi, worker-playbook): un numero che non distingue due lavori diversi non sta misurando. Cosa ho cambiato: `ai_registra_costo` adesso, se gli si passa il transcript stream-json della CLI (5º argomento o AI_USAGE_STREAM), ne estrae `usage.input_tokens`+`usage.output_tokens` e registra il numero VERO SENZA `--stima`; senza transcript ricade sulla stima, che resta dichiarata tale. La lettura dell'usage è una funzione pura (`usageDaStream`), non una riga di bash. In più `metabolismo.mjs` adesso dice quanti run sono misurati, quanti stimati, quanti fermi al pavimento, e NOMINA le stime gemelle. Ho anche corretto una riga che si contraddiceva: diceva «copertura misura token 100%» contando i run che hanno un numero, non quelli il cui numero è una misura. COSA NON HO VERIFICATO: l'ultimo miglio. Chi possiede il transcript è `worker.sh` (riga 786 scrive lo stream-json in $tmpf), che non è territorio di questa corsia: finché non gli si passa `AI_USAGE_STREAM=\"$tmpf\"`, in produzione le voci restano stime. La riga esatta è in patch_per_ad. Da qui non ho potuto far girare un run vero della CLI: la prova usa un transcript costruito, non uno prodotto dal motore.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-204",
@@ -4541,14 +4545,15 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/sensore-cassa.mjs",
-        "pattern": "CASSA_BANCA_EUR|cassa_banca|liquidita_banca|payout_dovuti",
-        "presente": true
+        "tipo": "comando",
+        "comando": "node cervello/test/c9-cassa-incompleta-non-e-rossa.test.mjs"
       },
       "nota": "Dove: cervello/sensore-cassa.mjs:46-63 (cassaStripe è l'unica fonte), :75-81 (runway = cassa/burn, soglia critico < 3 mesi), :155 (exit 1) · Impatto: Il primo allarme rosso sul rischio numero uno sarà un falso allarme, e arriverà proprio nel momento in cui Nicola avrà appena fatto quello che gli chiedevamo da 256 giri: la lezione che impara è «quando collego un sensore, la macchina si mette a urlare». È il modo più rapido per far disattivare un sensore. Sbaglia in entrambe le direzioni: sottostima oggi (ignora i soldi in banca), sovrastimerebbe domani (conta i soldi dei negozi). · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Sola lettura, sempre: non ho toccato niente che scriva su Stripe o sul database. La formula della cassa non è più «il saldo che so leggere»: adesso è banca (dichiarata da Nicola, CASSA_BANCA_EUR) + Stripe − payout dovuti ai negozi, e l'output dice a ogni giro quali componenti ci sono e quali mancano. La difesa vera è una riga sola, ed è quella che il difetto chiedeva: FINCHÉ UNA COMPONENTE MANCA LO STATO È «PARZIALE», MAI «CRITICO». Provata coi numeri: cassa 900 € su Stripe e burn 1000 €/mese sarebbero 0,9 mesi di runway, cioè un rosso pieno — e sarebbe falso, perché i soldi in banca non li conta nessuno. Con tutte e tre le componenti il rosso torna possibile ed è vero. Ho anche reso il file import-safe: prima `main()` partiva al solo import, quindi la formula non la poteva eseguire nessun test. DIFFERENZA SCHEDA/CODICE: la scheda parlava di righe 46-63 e 75-81; quel codice si era già spostato. COSA NON HO FATTO: la clausola ① («scrivere la definizione in GLOSSARIO-KPI») tocca MyCity-Vault/07-Agenti/GLOSSARIO-KPI.md, fuori territorio → patch_per_ad. E i payout dovuti oggi arrivano da una env, non da una query al database: leggerli dal marketplace richiede il sensore, e non l'ho costruito.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-283",
@@ -4606,14 +4611,15 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cassa-runway.json",
-        "pattern": "\"giri_sconosciuto\": *[1-9][0-9]{2,}",
-        "presente": false
+        "tipo": "comando",
+        "comando": "node cervello/test/c9-allarme-che-si-puo-chiudere.test.mjs"
       },
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/auto-coscienza/cassa-runway.json (giri_sconosciuto: 256) · cervello/sentinella-dati.mjs:380-393 (soglia 5 giri, cooldown 24h) · memoria-squadra/finanza.md:11 · Impatto: Un lavoro AI al giorno e una card in coda bruciati su una domanda già fatta e già risposta, mentre la coda approvazioni è satura (AR-116) e dentro c'è un bando da 10.000 € in scadenza. Peggio dell'attenzione sprecata: la sentinella grida al lupo tutti i giorni sullo stesso lupo, quindi il giorno in cui griderà per un motivo nuovo nessuno la starà più ascoltando. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "La sentinella suona da 406 giri, non 256: il contatore in cassa-runway.json è cresciuto dalla scheda a oggi. La cura non è un tasto «silenzia» — un allarme spento senza data è una lampadina svitata. Adesso si può PRENDERE IN CARICO, ma solo con una scadenza scritta: `node cervello/sensore-cassa.mjs --prendo-in-carico \"chiedo il saldo in banca\" --fino 2026-09-15`. Finché la data non passa la sentinella tace (warn silenziato, mai verde); quando passa torna a suonare DA SOLA e torna più in alto — l'escalation è per anzianità, non per ripetizione, così la card sale invece di duplicarsi. Una presa in carico senza scadenza leggibile viene rifiutata: è un interruttore, non una presa in carico. La quarta clausola l'ho fatta: `firmaCausa` toglie i numeri dalla firma di dedup, e adesso «cieco da 255 giri» e «cieco da 256 giri» sono la stessa firma — era il motivo per cui il dedup non agganciava mai. COSA NON HO FATTO: la stessa firma va usata anche in cervello/sentinella-dati.mjs (righe 512-526, il ramo M6b), che è fuori territorio → patch_per_ad. Finché quella riga non cambia, la sentinella-dati continua ad accodare la sua card anche se il sensore adesso sa stare zitto.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-286",
@@ -7739,7 +7745,8 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/coerenza-rischi.mjs:33-70 (i quattro controlli di check(), nessuno sulla freschezza) · MyCity-Vault/05-Soldi-Rischi/REGISTRO-RISCHI.json. Sintomo: VERIFICATO LEGGENDO IL REGISTRO. `aggiornato: 2026-07-02 12:59`; tutti e 14 i rischi hanno `ultima_revisione: 2026-07-02` — 27 giorni fa, un periodo in cui il modello di commissioni è cambiato, il negozio faro è cambiato e la macchina si è fermata. `coerenza-rischi.mjs` controlla quattro cose (canonico presente, puntatore che dichiara il canonico, rischi ALTA senza owner, doppio registro): nessuna riguarda la freschezza né `ultima_revisione`, che non è mai nominata nel file. Intanto esistono già tre guardiani della stessa famiglia — `freschezza-checklist.mjs`, `freschezza-okr.mjs`, `freschezza-segnali.mjs` — e il registro dei rischi è l'unico documento di governo rimasto fuori. Sette dei 14 rischi sono classificati `alta`.",
       "verifica": {
-        "comando": "node cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+        "tipo": "comando",
+        "comando": "node cervello/test/c9-governo-senza-sveglia.test.mjs"
       },
       "nato_come": "scoperta",
       "verifica_storica": {
@@ -7747,7 +7754,8 @@
         "pattern": "ultima_revisione",
         "presente": true
       },
-      "nota_fix": "[lotto 41] La mappa dei rischi dell'azienda era ferma da 43 giorni con otto rischi gravi, e nessuno se ne accorgeva. Il guardiano che doveva accorgersene ESISTEVA e funzionava: semplicemente non lo eseguiva nessuno — cioè era esattamente la malattia che doveva sorvegliare. La clausola mancante del fix era l'ultima («cablarlo nel giro come gli altri tre»), che è il posto in cui le clausole saltano più spesso. Adesso gira a ogni giro e il suo «no» diventa un vincolo che il motore deve leggere, invece di finire a schermo."
+      "nota_fix": "Verificato sul codice vero: il guardiano dei rischi ESISTE, gira in giro.sh come vincolo (riga 571) ed è verde — il lotto 41 quella parte l'aveva fatta. Restava l'ultima clausola, quella che salta sempre: «ogni documento di governo ha un guardiano di freschezza, e la lista sta in un posto solo». Adesso la lista c'è, in `cervello/documenti-di-governo.mjs`: i cinque documenti nominati dalla scheda (rischi, OKR, checklist, scadenzario, glossario KPI). Tre hanno un guardiano che esiste davvero sul disco — dichiararlo non basta, si controlla. Due no, e non spariscono: stanno nella lista con un'ATTESA DATATA (30/9) e il perché scritto, e quando la data passa tornano a essere un buco. Le due ragioni sono vere e non generiche: allo scadenzario un controllo di freschezza direbbe la cosa sbagliata (non invecchia quando nessuno lo tocca, invecchia quando una data passa), e al glossario dei KPI serve un confronto fra i KPI scritti nel codice e quelli definiti lì — che è esattamente la causa di AR-282. Ho anche cambiato la prova: prima era `node cervello/test/guardiano-mai-messo-di-guardia.test.mjs`, un test condiviso che NON nomina AR-431 da nessuna parte (prova-condivisa-cieca). Adesso ha la sua, e dentro c'è anche la forzatura del guardiano dei rischi a diventare rosso su un registro fermo da un anno: un tetto mai superato è indistinguibile da un tetto scollegato. COSA NON HO FATTO: i due guardiani mancanti non li ho costruiti — sono un lavoro loro, e allargare il lotto a metà è il modo classico di non finirlo.",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-432",
@@ -7839,15 +7847,17 @@
       "causa_radice": "① Perché un giro può bloccarsi mandando un segnale? Perché `stampSegnale` in git-github.mjs fa `fetch` senza `AbortSignal.timeout`. ② Perché senza timeout? Perché è nato per una chiamata locale veloce e non ha mai fallito. ③ Perché non se n'è accorto nessuno? Perché l'errore che produce non è un rosso: è un'ATTESA, e un processo fermo somiglia a un processo che lavora. ④ Perché gli altri fetch della casa il timeout ce l'hanno? Perché lì il problema si era già visto (freschezza-segnali usa AbortSignal.timeout(8000)) — la protezione è stata messa dove qualcuno si è scottato, mai portata nelle copie accanto. ⑤ RADICE: la stessa «la regola vive in N posti e N-1 restano indietro», applicata al timeout di rete.",
       "fix_proposto": "🟡 Mettere `signal: AbortSignal.timeout(8000)` nel fetch di `stampSegnale`, come già fa freschezza-segnali.mjs. Poi la regola generale: un guardiano che spazza tutti i `fetch(` del cervello e fallisce su quelli senza timeout — un'attesa infinita dentro un cancello è un cancello che si può bloccare tenendo aperta una connessione.",
       "verifica": {
-        "tipo": "umano"
+        "tipo": "comando",
+        "comando": "node cervello/test/c9-attesa-senza-fine.test.mjs"
       },
-      "nota_fix": "Registrato il 2026-07-29 18:45 durante il lotto 33, NON incluso nel lotto (regola ②: un difetto nuovo trovato riparando si registra subito ma non allarga il lotto in corso). Trovato il 29/7 durante il lotto 33, provando a runtime il battito di coerenza-fatti contro un finto Supabase: il processo è rimasto appeso 25 secondi senza inviare niente. (In quel caso il blocco era del test — execFileSync congela l'event loop del server finto — ma la mancanza del timeout è vera e resta.)",
+      "nota_fix": "Il fetch di `stampSegnale` in git-github.mjs adesso ha `signal: AbortSignal.timeout(8000)`, lo stesso valore del fratello che funzionava già (freschezza-segnali). Additivo e conservativo: nessun cambio di firma, il timeout si sposta con SEGNALE_TIMEOUT_MS. Ho messo un tetto anche all'altro fetch dello stesso file (le chiamate all'API di GitHub, 30 secondi, e il `signal` del chiamante comanda comunque). `node cervello/test-cervello.mjs --solo git` resta come prima: 1 rosso su 3, ed è `file-oltre-il-tetto-di-github.test.mjs`, che era GIÀ rosso su HEAD pulito — verificato in un worktree sul commit di partenza, riguarda pannello/src/lib/esito-lettura.ts e non è mio. Ma la radice non era quella riga: la protezione esisteva già altrove e non era mai stata portata nelle copie accanto. Perciò c'è anche il cricchetto, `cervello/attesa-senza-fine.mjs`: conta le chiamate di rete senza tempo massimo su un perimetro DERIVATO dal disco (perimetro.mjs, 302 file letti), e il numero può solo scendere. Misura di oggi: 35, tetto 35. UNA COSA CHE HO SCOPERTO ROMPENDO IL FIX: la prima versione dello scanner leggeva il testo grezzo e il commento che spiega il fix nomina `AbortSignal.timeout` — quindi vedeva la protezione dentro la SPIEGAZIONE e dichiarava protetta una chiamata che non lo era. Il mutante è sopravvissuto, e l'ho scoperto solo perché l'ho eseguito. Adesso lo scanner toglie i commenti e legge gli argomenti fino alla parentesi chiusa. COSA NON HO FATTO: il guardiano gira nella suite dei test (quindi a ogni push, a ogni PR e a ogni giro) ma NON è cablato in giro.sh come vincolo — giro.sh è fuori territorio, la riga è in patch_per_ad. L'ho dichiarato in cervello/guardiani-motivi.json, come vuole la casa.",
       "trovato": "2026-07-29 18:45",
       "nato_come": "scoperta",
       "impatto_crescita": "medio",
       "impatto_crescita_nota": "scelta ragionata (B-impatto, AR-582): Un `stampSegnale` senza timeout può fermare l'INTERO giro se la memoria risponde lenta: quando scatta, quel turno di lavoro della macchina non produce niente (niente briefing, niente code, niente proposte). Non 'alto' perché è un rischio intermittente, non una perdita continua misurata.",
       "nato": "2026-07-29 20:18",
-      "nato_fonte": "git log: primo commit in cui la scheda compare (6fed456, 2026-07-29 20:18)"
+      "nato_fonte": "git log: primo commit in cui la scheda compare (6fed456, 2026-07-29 20:18)",
+      "lotto_riparazione": 44
     },
     {
       "id": "AR-440",

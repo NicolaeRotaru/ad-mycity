@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-15 21:32",
+ "aggiornato": "2026-08-15 21:36",
  "mutanti": [
   {
    "lotto": 30,
@@ -4725,6 +4725,78 @@
    "cerca": "    peggiorata: copertura !== null && copertura < medicina.soglia,",
    "sostituisci": "    peggiorata: false,",
    "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-203",
+   "nome": "AR-203: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/motore-ai.sh",
+   "cerca": "if [ -n \"$tok\" ] && [ \"$tok\" -gt 0 ]; then misurato=1; fi",
+   "sostituisci": "if false; then misurato=1; fi",
+   "test": "cervello/test/c9-il-pavimento-della-stima.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-198",
+   "nome": "AR-198: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/motore-ai.sh",
+   "cerca": "_ai_modello=\"$(ai_modello_corsia)\"",
+   "sostituisci": "_ai_modello=\"${CERVELLO_MODELLO:-}\"",
+   "test": "cervello/test/c9-scala-di-sforzo.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-202",
+   "nome": "AR-202: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/metabolismo.mjs",
+   "cerca": "    resa: { ...laResa, costo_mensile_eur: costo.eur, fonte_costo: costo.fonte }, // AR-202",
+   "sostituisci": "    // AR-202: il valore non si conta",
+   "test": "cervello/test/c9-quanto-rende-un-giro.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-282",
+   "nome": "AR-282: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/sensore-cassa.mjs",
+   "cerca": "  if (!cassa.completa) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/c9-cassa-incompleta-non-e-rossa.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-285",
+   "nome": "AR-285: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/presa-in-carico.mjs",
+   "cerca": "if (presaInCarico && Number.isFinite(fino) && adessoMs <= fino) {",
+   "sostituisci": "if (presaInCarico && Number.isFinite(fino)) {",
+   "test": "cervello/test/c9-allarme-che-si-puo-chiudere.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-191",
+   "nome": "AR-191: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/presa-in-carico.mjs",
+   "cerca": "const daRisollecitare = oreAttesa >= soglia && (oreDaUltimo === null || oreDaUltimo >= soglia);",
+   "sostituisci": "const daRisollecitare = oreAttesa >= soglia && oreDaUltimo === null;",
+   "test": "cervello/test/c9-firma-che-non-arriva.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-439",
+   "nome": "AR-439: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/git-github.mjs",
+   "cerca": "      signal: AbortSignal.timeout(Number(process.env.SEGNALE_TIMEOUT_MS || 8000)),",
+   "sostituisci": "",
+   "test": "cervello/test/c9-attesa-senza-fine.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-431",
+   "nome": "AR-431: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/documenti-di-governo.mjs",
+   "cerca": "    if (adessoMs > fino) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
   }
  ]
 }
