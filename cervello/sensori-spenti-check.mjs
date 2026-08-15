@@ -28,6 +28,10 @@ import { fileURLToPath } from "node:url";
 import { MOTIVO, codiceUscita, motivoDi, quadroSpenti, serveNicola } from "./sensore-spento.mjs";
 import { prossimoNumero } from "./pausa-coda.mjs";
 import { timbroOra } from "./ora-piacenza.mjs";
+// AR-568 — anche una CARD è memoria: la coda delle approvazioni è il file che Nicola legge nel
+// Pannello. La penna passa dal writer condiviso, così una prova che esercita `--accoda` non gli
+// infila una domanda vera nella coda vera.
+import { scriviTestoAtomico } from "./scrivi-json.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..");
@@ -145,7 +149,7 @@ function accoda(testoCoda, buchi) {
   ].join("\n");
   const punto = testoCoda.indexOf("\n### ");
   const nuovo = punto < 0 ? `${testoCoda}\n${card}` : `${testoCoda.slice(0, punto)}\n${card}${testoCoda.slice(punto)}`;
-  writeFileSync(via(CODA), nuovo);
+  scriviTestoAtomico(via(CODA), nuovo);
   return buchi.map((b) => b.sensore);
 }
 

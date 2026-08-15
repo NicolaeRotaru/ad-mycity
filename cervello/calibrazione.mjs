@@ -28,6 +28,15 @@ import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 // questo script una variabile sua: chi lo lancia da una prova devia la radice UNA volta e la
 // ereditano anche gli script che questo lancia a sua volta.
 import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
+// AR-446 — e la LETTURA, che è la metà che mancava. Deviare la penna mette al sicuro la memoria
+// vera; non dà alla prova il potere di scegliere cosa questo comando VEDE. Finché il percorso di
+// lettura restava calcolato qui dentro, l'unico modo di provare «senza il fatto northstar.consegnati
+// non apro nessuna previsione» era togliere quel fatto dal registro VERO e rimetterlo in un
+// `finally` — sulla fonte unica della verità, e con il ripristino affidato a un processo che può
+// morire a metà.
+import { fileMemoriaDaLeggere } from "./casa-memoria.mjs";
+// AR-464 — la decisione «è cambiato qualcosa OLTRE l'ora?», pura e provata altrove.
+import { decidiScrittura } from "./scrittura-misura.mjs";
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 const PATH = join(VAULT, "calibrazione.json");
@@ -57,7 +66,14 @@ function arg(name, def = undefined) {
   return a ? a.slice(pref.length) : def;
 }
 
-function readJsonSafe(path, fallback) {
+/**
+ * Il file da cui leggere davvero: la sabbiera se questa corsa ne ha una e ci trova la sua copia,
+ * altrimenti la memoria vera. Una riga sola, e da qui in giù il percorso è INIETTATO.
+ */
+const daLeggere = (p) => fileMemoriaDaLeggere(p, { env: process.env, esiste: existsSync });
+
+function readJsonSafe(percorso, fallback) {
+  const path = daLeggere(percorso);
   if (!existsSync(path)) return fallback;
   try {
     return JSON.parse(readFileSync(path, "utf8"));
@@ -138,9 +154,10 @@ function readCalibrazione() {
     per_reparto: [],
     registro: [],
   };
-  if (!existsSync(PATH)) return base;
+  const daQui = daLeggere(PATH);
+  if (!existsSync(daQui)) return base;
   try {
-    const j = JSON.parse(readFileSync(PATH, "utf8"));
+    const j = JSON.parse(readFileSync(daQui, "utf8"));
     j.per_reparto = Array.isArray(j.per_reparto) ? j.per_reparto : [];
     j.registro = Array.isArray(j.registro) ? j.registro : [];
     j._cosa_e = base._cosa_e;
@@ -185,11 +202,33 @@ function assertRegistroStrutturato(data) {
   }
 }
 
+/**
+ * L'unica penna del registro delle previsioni — e non scrive se non c'è niente di nuovo (AR-464).
+ *
+ * `report` e `debito` sono comandi di LETTURA e passavano di qui lo stesso: ricalcolavano i reparti,
+ * riscrivevano il file, e l'unica riga diversa era `aggiornato`. Misurato qui il 15/8 lanciando
+ * `calibrazione.mjs report --json` una volta sola: il file vero è comparso in `git status`. Chi lo
+ * lancia per controllare il proprio lavoro si porta a casa un diff che non è suo, e la volta dopo non
+ * lo lancia — un controllo che costa un diff si smette di fare, e un controllo che si smette di fare
+ * è spento.
+ *
+ * Il confronto ignora i campi-timbro (`aggiornato` è uno di quelli), quindi una previsione vera che
+ * entra o cambia stato passa come prima: si ferma soltanto la riscrittura a vuoto.
+ */
 function write(data) {
   assertRegistroStrutturato(data);
   data.aggiornato = nowPiacenza();
   aggiornaNota(data);
-  scriviJsonAtomico(PATH, data);
+  let precedente = null;
+  let leggibile = true;
+  try {
+    const daQui = daLeggere(PATH);
+    if (existsSync(daQui)) precedente = JSON.parse(readFileSync(daQui, "utf8"));
+  } catch {
+    leggibile = false; // un file rotto non passa per «non c'era niente prima»: si ripara
+  }
+  const scelta = decidiScrittura({ misuraNuova: data, misuraVecchia: precedente, vecchiaLeggibile: leggibile });
+  if (scelta.scrivi) scriviJsonAtomico(PATH, data);
 }
 
 /**

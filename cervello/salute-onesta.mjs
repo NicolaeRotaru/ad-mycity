@@ -20,7 +20,7 @@
 //     né oggi né una settimana fa. Non è un arrotondamento, ed è sempre dalla parte comoda — il
 //     burn-down migliorava da solo. Adesso quelli che non so collocare nel tempo si CHIAMANO, e il
 //     confronto con «una settimana fa» dichiara il proprio margine invece di dare un numero secco.
-// Le due definizioni vivono in `cervello/atti-veri.mjs`, dove un test le può eseguire.
+// Le due definizioni vivono in `cervello/stati-cantiere.mjs`, dove un test le può eseguire.
 //
 // USO:
 //   node cervello/salute-onesta.mjs           -> report umano
@@ -33,7 +33,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
-import { apertiAllaData, contaDifetti } from "./atti-veri.mjs";
+import { apertiAllaData, contaDifetti } from "./stati-cantiere.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const AC = join(ROOT, "MyCity-Vault", "90-Memoria-AI", "auto-coscienza");
@@ -104,6 +104,8 @@ const report = {
   // AR-684 — il terzo stato ha un nome e un numero suoi: prima non entrava in nessun totale.
   cantiere_da_riverificare: conto.da_riverificare,
   cantiere_per_stato: conto.per_stato,
+  // Gli stati che il conto non sa nominare, detti per nome. Un buco che ha un nome non è più un buco.
+  cantiere_stati_ignoti: conto.stati_ignoti,
   // AR-671 — quanti non so collocare nel tempo. Un numero che non c'è è diverso da uno zero.
   cantiere_senza_data_nascita: conto.senza_data_nascita,
   cantiere_aperti_settimana_fa: apertiSettimanaFa,

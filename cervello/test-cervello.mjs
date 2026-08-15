@@ -53,7 +53,7 @@ import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 // 📏 Il contratto della prova, in un posto solo (contratto-prova.mjs). Qui si CHIAMA, non si
 // riscrive: le due domande che questo banco è l'unico a poter fare — «questo caso può fallire?» e
 // «questo rosso è la prova di una scheda dichiarata chiusa?» — hanno una risposta sola per tutti.
-import { casiSpenti, chiusureDaRiverificare } from "./contratto-prova.mjs";
+import { canaleAllargato, casiSpenti, chiusureDaRiverificare } from "./contratto-prova.mjs";
 import { fileDelComando } from "./cancello-lotto.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
@@ -467,6 +467,60 @@ export function scriveSulDatoVivo(sorgente = "") {
   return /MyCity-Vault\/90-Memoria-AI|auto-coscienza\/[\w-]+\.json|registro-fatti\.json/.test(sorgente);
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-725 — IN FILA ANCHE PER IL COSTO, NON SOLO PER L'EFFETTO COLLATERALE.
+//
+// Il banco sapeva già mettere in fila chi SCRIVE sul dato vivo: due prove che si riscrivono lo
+// stesso file si disturbano, e in corsia diventano rosse a caso. Ma esiste un secondo modo di
+// disturbarsi che non passa da nessun file: il COSTO. Una prova che avvia il Pannello vero e lo
+// guida con un browser, o che lancia il compilatore su tutta la superficie, mangia processori e
+// memoria — e sotto quel carico, insieme, escono rosse; rilanciate da sole escono verdi.
+//
+// Misurato al collaudo del lotto 43: `c4-schermo-coda` e `c4-typecheck-del-pannello` dichiarate
+// «2 prove INSTABILI». Nessuno mentiva — il banco lo diceva — ma una prova il cui verdetto dipende
+// da chi le gira accanto non è una rete: la prossima volta che diventa rossa nessuno saprà dire se
+// è il codice o il vicino. Prima del lotto la suite ne aveva una sola così; dopo, tre.
+//
+// Riconosciute dal GESTO, mai da un elenco di nomi: un elenco si dimentica alla prossima prova
+// pesante, ed è la malattia che questo cantiere cura. Nominare playwright non basta — un aiutante
+// che lo importa senza guidarlo non costa niente; quello che costa è `launch(`, `newPage(` e il
+// compilatore fatto partire davvero.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Avvia un browser vero: `chromium.launch(`, `firefox.launch(`, `webkit.launch(`, `.newPage(`. */
+const APRE_UN_BROWSER = /\b(?:chromium|firefox|webkit)\s*\.\s*launch\s*\(|\.\s*newPage\s*\(/;
+/** Fa partire il compilatore TypeScript: `tsc` come comando, o lo script `typecheck` di npm. */
+const LANCIA_IL_COMPILATORE = /["'`]\s*(?:npx\s+)?tsc\s*(?:--[\w-]+)?["'`]|["'`]tsc["'`]\s*,|\btypecheck\b\s*["'`]|["'`]typecheck["'`]/;
+
+/**
+ * Perché questa prova non può girare in corsia con le altre, oppure `null` se può.
+ * Pura: entra il sorgente, esce il motivo — così il banco e la sua prova non divergono.
+ */
+export function costaTroppoPerLaCorsia(sorgente = "") {
+  const testo = String(sorgente);
+  if (APRE_UN_BROWSER.test(testo)) return "avvia un browser vero";
+  if (LANCIA_IL_COMPILATORE.test(testo)) return "lancia il compilatore";
+  return null;
+}
+
+/**
+ * Va in fila da sola? Torna il motivo (o `null`). Due ragioni diverse, una domanda sola: qui si
+ * decide, e il banco esegue — se le due domande stessero in due posti, la prossima prova pesante
+ * finirebbe nella corsia sbagliata per una svista.
+ */
+export function perchePartireDaSola(sorgente = "") {
+  if (scriveSulDatoVivo(sorgente)) return "scrive sul dato vivo";
+  return costaTroppoPerLaCorsia(sorgente);
+}
+
+/** «3 scrivono sul dato vivo · 2 avviano un browser» — i motivi contati, per l'intestazione. */
+export function riassuntoFila(perche = new Map()) {
+  const conti = new Map();
+  for (const m of perche.values()) conti.set(m, (conti.get(m) || 0) + 1);
+  if (!conti.size) return "nessuna";
+  return [...conti.entries()].sort((a, b) => b[1] - a[1]).map(([m, n]) => `${n} ${m}`).join(" · ");
+}
+
 /** Esegue `lavoro` su tutti gli elementi tenendo al massimo `corsie` processi accesi. */
 export async function aCorsie(elementi, corsie, lavoro) {
   const esiti = new Array(elementi.length);
@@ -528,14 +582,24 @@ async function main() {
   // domanda: questi casi possono fallire? Stessa lettura, due risposte: un file letto due volte è
   // il modo in cui due misure della stessa cosa si allontanano.
   const spentiPerFile = new Map();
+  const canaliPerFile = new Map();
+  // AR-725 — e il motivo per cui una prova va in fila si dichiara: «scrive sul dato vivo» e «costa
+  // troppo» sono due cose diverse, e chi legge il referto deve poterle distinguere.
+  const perche = new Map();
   const vaInFila = (f) => {
     try {
       const src = readFileSync(join(dir, f), "utf8");
       const spenti = casiSpenti(src);
       if (spenti.length) spentiPerFile.set(`${CARTELLA}/${f}`, spenti);
-      return scriveSulDatoVivo(src);
+      // AR-714 — terza domanda alla stessa lettura: questa prova si allarga il canale senza dirlo?
+      const larghi = canaleAllargato(src);
+      if (larghi.length) canaliPerFile.set(`${CARTELLA}/${f}`, larghi);
+      const motivo = perchePartireDaSola(src);
+      if (motivo) perche.set(f, motivo);
+      return Boolean(motivo);
     } catch (e) {
       illeggibili.push(`${f}: non ho potuto leggerlo (${e.message}) → in fila per prudenza`);
+      perche.set(f, "non l'ho potuto leggere");
       return true;
     }
   };
@@ -611,6 +675,7 @@ async function main() {
           asserzioni: totale,
           corsie: CORSIE,
           in_fila: inFila,
+          in_fila_perche: Object.fromEntries(perche),
           illeggibili,
           test: righe,
           bats: righeBats,
@@ -623,6 +688,7 @@ async function main() {
           // I due conti stanno nel JSON SEMPRE, anche a zero: un numero che compare solo quando è
           // brutto non si può guardare scendere — sparisce, e la sparizione somiglia a una guarigione.
           casi_spenti: [...spentiPerFile].map(([file, casi]) => ({ file, casi })),
+          canali_allargati: [...canaliPerFile].map(([file, righe]) => ({ file, righe })),
           chiusure_da_riverificare: chiusure.voci,
           chiusure_non_lette: chiusure.cieco,
         },
@@ -634,7 +700,7 @@ async function main() {
     return;
   }
 
-  console.log(`\n🧪 TEST DEL CERVELLO — ${quando}  (${CORSIE} corsie · ${inFila.length} in fila perché scrivono sul dato vivo)\n`);
+  console.log(`\n🧪 TEST DEL CERVELLO — ${quando}  (${CORSIE} corsie · ${inFila.length} in fila da sole: ${riassuntoFila(perche)})\n`);
   for (const m of illeggibili) console.log(`  ⚠️  ${m}`);
   for (const x of [...righe, ...righeBats]) {
     const icona =

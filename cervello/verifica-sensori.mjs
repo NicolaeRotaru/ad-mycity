@@ -25,6 +25,12 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { scriviStatoSensore } from "./stato-sensori.mjs";
+// AR-568 · AR-446 — la penna condivisa. `stato-sensori.mjs` è la porta della guardia d'AMBIENTE
+// (AR-281), ma la sua penna di default è un `writeFileSync` crudo: il freno della memoria
+// (`cervello/casa-memoria.mjs`) non lo attraversa, e una prova che lancia questo comando riscrive la
+// memoria dei sensori VERA anche quando ha deviato tutto il resto. Passandogli la penna, la scrittura
+// dei sensori torna dentro l'unico punto che sa se questa corsa deve scrivere e dove.
+import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { decadiAutoDichiarato, eSpentoPerDecisione, istruzioniGiro, sintesiSensori, verdettoSensori } from "./lib-sensori-verdetto.mjs";
 import { codiceUscitaSensori, misuraScaduta } from "./misura-o-cieco.mjs";
 // AR-568 (b): la decisione «questa misura può prendere il posto di quella che c'è?» sta in un modulo
@@ -737,6 +743,7 @@ async function main() {
   // AR-568 (c): `--sola-lettura` chiude la porta prima della guardia d'ambiente, non dopo. Chi
   // diagnostica da fuori vede tutto il verdetto e non lascia impronte, anche là dove le chiavi ci sono.
   const esitoScrittura = scriviStatoSensore(CECITA_PATH, cecita, {
+    scrittore: (p, d) => scriviJsonAtomico(p, d),
     ambienteConfigurato: scriviStato && !SOLA_LETTURA,
     motivo: SOLA_LETTURA
       ? "--sola-lettura: guardo e non scrivo (AR-568)"

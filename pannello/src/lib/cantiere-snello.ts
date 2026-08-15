@@ -63,9 +63,186 @@ function soloCampi(d: Difetto, campi: readonly string[]): Difetto {
   return out;
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+// GLI STATI DEL CANTIERE — il gemello di cervello/stati-cantiere.mjs
+// ═══════════════════════════════════════════════════════════════════════════
+//
+// PERCHÉ ESISTE UNA COPIA, E PERCHÉ NON È LIBERA. Next.js non importa da `cervello/`: il Pannello
+// gira in un altro processo, con un altro bundler, e il modulo del cervello non gli arriva. La
+// scelta non è quindi «una casa o due», è «due case pinzate o due case libere» — e due case libere
+// sono esattamente la malattia (`una parola con due padroni`).
+//
+// L'altra strada era servire al Pannello il numero GIÀ CALCOLATO, cioè `cantiere.meta` scritto da
+// `auto-fix.mjs`. Scartata, e il motivo è un difetto pagato: AR-456. Un totale scritto in un file
+// invecchia appena qualcuno aggiunge una scheda senza toccarlo — il 13/8 diceva 223 mentre i non
+// chiusi erano 281. **Un numero derivato dalla lista non può invecchiare; un numero letto sì.**
+//
+// Quindi: la regola resta scritta due volte, e `cervello/test/un-totale-che-salta-uno-stato.test.mjs`
+// le confronta campo per campo — sul cantiere vero e su una tabella di casi limite. Il giorno che
+// una delle due cambia senza l'altra, il test diventa rosso.
+
+/** Gli stati che questo file sa nominare. Chi non c'è NON sparisce: finisce in `altri`. */
+export const STATI_NOTI = ["chiuso", "aperto", "in-corso", "da-riverificare"] as const;
+
+/** L'etichetta che il vuoto porta nel conto per stato. Anche il niente ha un nome, così si vede. */
+export const STATO_ASSENTE = "(senza stato)";
+
+/** Lo stato di una scheda, normalizzato: senza spazi attorno, e con un nome anche quando manca. */
+export function statoDi(d: Difetto): string {
+  return String(d?.stato ?? "").trim() || STATO_ASSENTE;
+}
+
 /** Un difetto è chiuso se lo dice il suo stato. Tutto il resto (aperto, in-corso, da-riverificare) è «da fare». */
 export function eChiuso(d: Difetto): boolean {
   return String(d?.stato ?? "") === "chiuso";
+}
+
+/**
+ * ⚠️ L'UNICA DIFFERENZA FRA LE DUE CASE, DICHIARATA QUI E NON NASCOSTA.
+ *
+ * `eChiuso` qui sopra NON toglie gli spazi; `eChiusa` nel cervello sì. Su una scheda scritta
+ * `" chiuso "` le due danno verdetti diversi. Il verso giusto è togliere gli spazi — uno spazio in
+ * un JSON è un refuso, non un sesto stato — ma le DUE risposte opposte sono pinzate, una per parte,
+ * da `cervello/test/parola-senza-padrone.test.mjs`, che non appartiene a questa corsia: allinearle
+ * lascerebbe rosso il test di qualcun altro. Quindi la differenza resta, e resta MISURATA: la patch
+ * (una riga qui, un caso lì) è in mano all'AD.
+ *
+ * Quanto costa oggi: **niente di misurabile**. Nessuna delle 716 schede del cantiere ha uno stato
+ * con spazi attorno — verificato una per una da `cervello/test/un-totale-che-salta-uno-stato.test.mjs`,
+ * che è anche la trappola: il giorno che ne comparisse una, quel test diventa rosso invece di
+ * lasciare che i due totali divergano di uno senza che nessuno lo veda.
+ */
+export type ContoStati = {
+  letto: boolean;
+  motivo: string | null;
+  totale: number | null;
+  chiusi: number | null;
+  aperti: number | null;
+  in_corso: number | null;
+  da_riverificare: number | null;
+  altri: number | null;
+  da_fare: number | null;
+  senza_data_nascita: number | null;
+  per_stato: Record<string, number> | null;
+  stati_ignoti: { stato: string; quante: number }[] | null;
+};
+
+/** La data di nascita è leggibile? Un `nato` assente o illeggibile è un IGNOTO, non uno zero. */
+export function haDataNascita(d: Difetto): boolean {
+  return !Number.isNaN(Date.parse(String(d?.nato ?? "").slice(0, 10)));
+}
+
+/**
+ * IL CONTO CON TUTTI I RAMI — il gemello di `contaDifetti` del cervello, stesso nome dei campi.
+ *
+ * ① `da_fare` è tutto ciò che non è chiuso, non «aperto + in-corso»: il 13/8 le 56 schede
+ *    `da-riverificare` sparivano dal numero perché la loro etichetta non era prevista (AR-684).
+ * ② la somma dei rami DEVE fare il totale: se domani nasce un sesto stato finisce in `altri` e la
+ *    somma continua a tornare, invece di aprire un buco dove le schede scompaiono.
+ * ③ non letto non è zero: senza una lista i conti restano `null` col motivo, perché uno zero è un
+ *    fatto e un errore di lettura travestito da zero è la bugia peggiore che la Cabina possa dire.
+ */
+export function contoCantiere(difetti: unknown): ContoStati {
+  if (!Array.isArray(difetti)) {
+    return {
+      letto: false,
+      motivo: "non mi è arrivata una lista di schede: non ho potuto contare (e un non-contato non è uno zero)",
+      totale: null,
+      chiusi: null,
+      aperti: null,
+      in_corso: null,
+      da_riverificare: null,
+      altri: null,
+      da_fare: null,
+      senza_data_nascita: null,
+      per_stato: null,
+      stati_ignoti: null,
+    };
+  }
+  const lista = (difetti as Difetto[]).filter(Boolean);
+  const per_stato: Record<string, number> = {};
+  let chiusi = 0;
+  let aperti = 0;
+  let in_corso = 0;
+  let da_riverificare = 0;
+  let altri = 0;
+  let senza_data_nascita = 0;
+  const ignoti = new Map<string, number>();
+  for (const d of lista) {
+    const stato = statoDi(d);
+    per_stato[stato] = (per_stato[stato] ?? 0) + 1;
+    // «Chiusa» lo decide `eChiuso`, la porta unica di questo file — non un confronto in più scritto
+    // qui, che sarebbe la terza definizione della stessa parola dentro lo stesso modulo.
+    if (eChiuso(d)) chiusi++;
+    else if (stato === "aperto") aperti++;
+    else if (stato === "in-corso") in_corso++;
+    else if (stato === "da-riverificare") da_riverificare++;
+    else {
+      altri++;
+      ignoti.set(stato, (ignoti.get(stato) ?? 0) + 1);
+    }
+    if (!haDataNascita(d)) senza_data_nascita++;
+  }
+  return {
+    letto: true,
+    motivo: null,
+    totale: lista.length,
+    chiusi,
+    aperti,
+    in_corso,
+    da_riverificare,
+    altri,
+    da_fare: lista.length - chiusi,
+    senza_data_nascita,
+    per_stato,
+    stati_ignoti: [...ignoti.entries()].map(([stato, quante]) => ({ stato, quante })).sort((a, b) => b.quante - a.quante),
+  };
+}
+
+/** La somma dei rami torna? Su un conto non letto non si emette un verdetto: `null`. */
+export function sommaTorna(conto: ContoStati): boolean | null {
+  if (!conto || conto.letto !== true) return null;
+  const rami = (conto.chiusi ?? 0) + (conto.aperti ?? 0) + (conto.in_corso ?? 0) + (conto.da_riverificare ?? 0) + (conto.altri ?? 0);
+  return rami === conto.totale && conto.da_fare === (conto.totale ?? 0) - (conto.chiusi ?? 0);
+}
+
+/**
+ * QUANTI ERANO APERTI A UNA CERTA DATA — e quanti non lo so (AR-671).
+ *
+ * La rotta della salute onesta se n'era scritta una versione sua, con dentro il difetto originale:
+ * `if (nato == null) return false`, cioè una scheda senza data di nascita usciva dalla statistica
+ * **in silenzio**, né oggi né una settimana fa — e sempre dalla parte comoda, perché il burn-down
+ * migliorava da solo. Qui gli ignoti si contano e si dichiarano: chi disegna il confronto deve poter
+ * scrivere «più o meno N» invece di un numero secco che non regge.
+ */
+export function apertiAllaData(
+  difetti: unknown,
+  tMs: number,
+): { conteggio: number | null; ignoti: number | null; letto: boolean; motivo: string | null } {
+  if (!Array.isArray(difetti)) {
+    return { conteggio: null, ignoti: null, letto: false, motivo: "non mi è arrivata una lista di schede: non ho potuto contare" };
+  }
+  if (!Number.isFinite(tMs)) {
+    return { conteggio: null, ignoti: null, letto: false, motivo: "non mi è arrivata una data valida: non ho potuto collocare niente nel tempo" };
+  }
+  const giorno = (iso: unknown): number | null => {
+    const t = Date.parse(String(iso ?? "").slice(0, 10));
+    return Number.isNaN(t) ? null : t;
+  };
+  let conteggio = 0;
+  let ignoti = 0;
+  for (const d of (difetti as Difetto[]).filter(Boolean)) {
+    const chiuso = giorno(d?.chiuso_il);
+    const giaChiuso = chiuso != null && chiuso <= tMs;
+    const nato = giorno(d?.nato);
+    if (nato == null) {
+      if (!giaChiuso) ignoti++;
+      continue;
+    }
+    if (nato > tMs) continue;
+    if (!giaChiuso) conteggio++;
+  }
+  return { conteggio, ignoti, letto: true, motivo: null };
 }
 
 /**
@@ -95,16 +272,22 @@ export type ContoCantiere = {
   per_stato: Record<string, number>;
 };
 
+/**
+ * La faccia STORICA del conto: quattro campi, e zeri quando la lista non c'è.
+ *
+ * Non conta più per conto suo — deriva da `contoCantiere`, che è l'unica regola. Resta perché la
+ * usano la rotta, la scheda della Cabina e due prove che pretendono esattamente questa forma; il
+ * conto pieno (con i rami per stato e il `letto: false` sui ciechi) è l'altro.
+ *
+ * ⚠️ Lo zero su una lista assente è un DEBITO, non una scelta: `contoCantiere` risponde `letto:
+ * false`, che è la risposta giusta, e qui viene appiattito a `0` perché così lo pretende
+ * `cervello/test/contatore-piu-vecchio-dei-difetti.test.mjs`. Chi decide qualcosa di importante
+ * usi `contoCantiere` e guardi `letto`.
+ */
 export function contaDifetti(difetti: unknown): ContoCantiere {
-  const lista = Array.isArray(difetti) ? (difetti as Difetto[]).filter(Boolean) : [];
-  const per_stato: Record<string, number> = {};
-  let chiusi = 0;
-  for (const d of lista) {
-    const stato = String(d?.stato ?? "").trim() || "(senza stato)";
-    per_stato[stato] = (per_stato[stato] ?? 0) + 1;
-    if (eChiuso(d)) chiusi++;
-  }
-  return { totale: lista.length, chiusi, da_fare: lista.length - chiusi, per_stato };
+  const c = contoCantiere(difetti);
+  if (!c.letto) return { totale: 0, chiusi: 0, da_fare: 0, per_stato: {} };
+  return { totale: c.totale ?? 0, chiusi: c.chiusi ?? 0, da_fare: c.da_fare ?? 0, per_stato: c.per_stato ?? {} };
 }
 
 /**
@@ -119,17 +302,30 @@ export function contaDifetti(difetti: unknown): ContoCantiere {
  * `aperto`, 281 contando i non chiusi): erano tre risposte alla stessa domanda, nella stessa pagina.
  */
 export function metaDerivata(cantiere: { difetti?: unknown; meta?: unknown } | null | undefined): Record<string, unknown> {
-  const conto = contaDifetti(cantiere?.difetti);
+  const conto = contoCantiere(cantiere?.difetti);
   const scritto = typeof cantiere?.meta === "object" && cantiere?.meta ? (cantiere.meta as Record<string, unknown>) : {};
-  const apertiScritti = Number(scritto.aperti);
+  // Il confronto va fatto con la stessa domanda: «quanto lavoro resta». Da quando il registro scrive
+  // anche `da_fare`, è quello il numero omologo; `aperti` resta il ripiego per i file più vecchi, che
+  // di quel campo non ne avevano uno.
+  const apertiScritti = Number(scritto.da_fare ?? scritto.aperti);
+  const daFare = conto.da_fare ?? 0;
   return {
     ...scritto,
-    aperti: conto.da_fare,
+    aperti: daFare,
     chiusi: conto.chiusi,
+    // AR-684 — i tre stati vivi hanno ognuno il suo numero, e il totale non lascia fuori nessuno.
+    // Prima il terzo (`da-riverificare`) non compariva da nessuna parte in questa risposta.
+    in_corso: conto.in_corso,
+    da_riverificare: conto.da_riverificare,
+    altri: conto.altri,
+    totale: conto.totale,
+    da_fare: daFare,
     per_stato: conto.per_stato,
+    stati_ignoti: conto.stati_ignoti,
+    somma_torna: sommaTorna(conto),
     derivato_dalla_lista: true,
     scritto: { aperti: Number.isFinite(apertiScritti) ? apertiScritti : null },
-    divergenza: Number.isFinite(apertiScritti) ? conto.da_fare - apertiScritti : null,
+    divergenza: Number.isFinite(apertiScritti) ? daFare - apertiScritti : null,
   };
 }
 

@@ -1164,13 +1164,26 @@ find /opt/mycity/ad-mycity/.allegati-chat -maxdepth 1 -mindepth 1 -mtime +1 -exe
 # (fallito → errore, riprova manuale) senza rompersi.
 # (stessa rilevazione POSITIVA del probe owner: solo HTTP 200 accende la feature — un probe che
 # fallisce per qualsiasi motivo lascia la modalità degradata, che funziona sempre)
-HAS_RETRY_COLS=0
-_retry_probe_http="$(curl -sS -o /dev/null -w '%{http_code}' "$SUPABASE_URL/rest/v1/lavori?select=riprova_dopo&limit=1" "${AUTH[@]}" 2>/dev/null || echo 000)"
-if [ "$_retry_probe_http" = 200 ]; then
-  HAS_RETRY_COLS=1
+#
+# 🔁 AR-295 (b) — IL SONDAGGIO SI RIPETE. Prima bastava un tentativo solo: un singolo intoppo di rete
+# nel secondo in cui il worker parte spegneva l'auto-recovery per tutta la vita del processo, cioè
+# per giorni. Un interruttore permanente deciso da una domanda sola non è una rilevazione: è un
+# sorteggio. Tre tentativi con una pausa in mezzo.
+_sonda_retry() {
+  local http n
+  for n in 1 2 3; do
+    http="$(curl -sS -o /dev/null -w '%{http_code}' "$SUPABASE_URL/rest/v1/lavori?select=riprova_dopo&limit=1" "${AUTH[@]}" 2>/dev/null || echo 000)"
+    [ "$http" = 200 ] && { echo 1; return 0; }
+    [ "$n" -lt 3 ] && sleep 2
+  done
+  echo 0
+}
+HAS_RETRY_COLS="$(_sonda_retry)"
+_LAST_SONDA_RETRY="$(date +%s)"
+if [ "$HAS_RETRY_COLS" = 1 ]; then
   echo "[$(ts)] Auto-recovery ON (campi tentativi/riprova_dopo presenti)."
 else
-  echo "[$(ts)] Auto-recovery OFF (manca la migration lavori-retry.sql o probe non conclusiva) — i falliti restano 'errore' (riprova manuale)." >&2
+  echo "[$(ts)] Auto-recovery OFF dopo 3 tentativi (manca la migration lavori-retry.sql, o il database non risponde) — i falliti restano 'errore'. Riprovo da solo ogni ${WORKER_SONDA_RETRY_SEC:-600}s (AR-295)." >&2
 fi
 
 # 💸 BATTITO THROTTLE (efficienza): il loop gira ogni ${INTERVALLO}s (default 5) per tenere la chat
@@ -1214,6 +1227,16 @@ while true; do
   # solo, a coda vuota compresa, con un intervallo suo (non a ogni giro del ciclo, che è 1 secondo).
   #   · un esito ricoverato su disco → riscritto sul database (l'azione eseguita non torna in coda);
   #   · una pubblicazione della memoria rimandata → ritentata, e se resta ferma troppo si alza la voce.
+  # 🔁 AR-295 (c) — IL SONDAGGIO SI RIFÀ, ogni tanto. Un blip all'avvio non deve condannare il
+  # processo per giorni: se l'auto-recovery è spento, ogni WORKER_SONDA_RETRY_SEC si richiede al
+  # database se i campi ci sono. Quando la risposta cambia, cambia anche il comportamento — e si
+  # dice, perché un interruttore che si alza da solo senza una riga nel log è una sorpresa.
+  if [ "$HAS_RETRY_COLS" != 1 ] && [ "$(( _now_epoch - ${_LAST_SONDA_RETRY:-0} ))" -ge "${WORKER_SONDA_RETRY_SEC:-600}" ]; then
+    _LAST_SONDA_RETRY="$_now_epoch"
+    HAS_RETRY_COLS="$(_sonda_retry)"
+    [ "$HAS_RETRY_COLS" = 1 ] && echo "[$(ts)] Auto-recovery ACCESO al risondaggio: i campi tentativi/riprova_dopo adesso rispondono (AR-295)."
+  fi
+
   if [ "$(( _now_epoch - ${_LAST_RICOVERO:-0} ))" -ge "${WORKER_RICOVERO_SEC:-60}" ]; then
     _LAST_RICOVERO="$_now_epoch"
     ripubblica_esiti_ricoverati
@@ -1232,13 +1255,22 @@ while true; do
   # solo il più vecchio in assoluto (FIFO stretto): una metabolizzazione o un ritmo accodati prima della
   # tua domanda la facevano aspettare. Ora: prima si prova a prendere una chat; se non ce n'è, si prende
   # il più vecchio di qualsiasi tipo (i lavori di fondo continuano quando non stai chattando).
-  if [ "$HAS_RETRY_COLS" = 1 ]; then
-    now_z="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
-    _rtry="&or=(riprova_dopo.is.null,riprova_dopo.lte.$now_z)"
-  else
+  #
+  # ⏱️ AR-295 — RISPETTARE UNA SCADENZA GIÀ SCRITTA È SEMPRE SICURO. Qui c'era `if HAS_RETRY_COLS …
+  # else _rtry=""`: una variabile sola governava DUE comportamenti diversi — programmare le attese e
+  # rispettarle — e li spegneva insieme. Ma le attese le programma anche un secondo componente (la
+  # sentinella): con l'interruttore giù per un intoppo di rete di un secondo, il worker ignorava in
+  # silenzio OGNI `riprova_dopo` già scritto e rilanciava i falliti a raffica. Il filtro adesso si
+  # applica SEMPRE; se il database lo rifiuta si ripiega, ma AD ALTA VOCE — non in silenzio.
+  now_z="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
+  _rtry="&or=(riprova_dopo.is.null,riprova_dopo.lte.$now_z)"
+  _coda_rc=0
+  riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&tipo=eq.chat${_rtry}&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null)" || _coda_rc=$?
+  if [ "$_coda_rc" -ne 0 ]; then
     _rtry=""
+    riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&tipo=eq.chat&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
+    echo "[$(ts)] ⚠️  AR-295: la coda NON sta rispettando l'ora di ritentativo (la query col filtro è stata rifiutata, rc=$_coda_rc): i lavori in attesa del reset verranno ripresi subito. Manca la migration lavori-retry.sql?" >&2
   fi
-  riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&tipo=eq.chat${_rtry}&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
   if [ -z "$(printf '%s' "$riga" | jq -r '.[0].id // empty' 2>/dev/null)" ]; then
     if [ "$WORKER_LANE" = chat ]; then
       # Worker dedicato solo-chat: nessuna chat in attesa → non prende altri tipi, aspetta.
@@ -1289,11 +1321,35 @@ while true; do
   #    in_corso — usata dal recupero orfani e dalla sentinella (ORFANO_MIN=60) — deve partire da QUANDO
   #    il lavoro è stato preso, non da quando è stato accodato. Senza questo, un lavoro rimasto in coda
   #    >60 min (es. dopo un'interruzione) veniva ucciso dalla sentinella APPENA iniziava a girare.
-  _claim_body="$(jq -n --arg t "$(date -Iseconds)" '{stato:"in_corso", updated_at:$t}')"
-  [ "${HAS_OWNER_COL:-0}" = 1 ] && _claim_body="$(jq -n --arg o "$WORKER_ID" --arg t "$(date -Iseconds)" '{stato:"in_corso", worker_owner:$o, updated_at:$t}')"
+  #    🕳️ AR-626 — E SE LA CONFERMA SI PERDE PER STRADA? Fino a qui «risposta vuota» e «risposta mai
+  #    arrivata» finivano nello stesso ramo. Se la PATCH va a segno sul server e la risposta si perde
+  #    (rete che cade, timeout, proxy), il lavoro resta segnato `in_corso` nel database e il worker se
+  #    ne va convinto di averlo perso: non lo esegue nessuno finché il recupero orfani non lo ripesca,
+  #    cioè SOGLIA_ORFANO_MIN = un'ora. In chat è una domanda di Nicola che nessuno raccoglie.
+  #    Adesso i casi sono tre — presa · non presa · non lo so — e il terzo si risolve RILEGGENDO la
+  #    riga: se porta il nostro nome o il timbro che abbiamo appena scritto noi, era nostra. La testa
+  #    che classifica sta in cervello/esito-claim.mjs (pura, provata); qui restano solo le mani.
+  _claim_ts="$(date -Iseconds)"
+  _claim_body="$(jq -n --arg t "$_claim_ts" '{stato:"in_corso", updated_at:$t}')"
+  [ "${HAS_OWNER_COL:-0}" = 1 ] && _claim_body="$(jq -n --arg o "$WORKER_ID" --arg t "$_claim_ts" '{stato:"in_corso", worker_owner:$o, updated_at:$t}')"
+  _claim_rc=0
   claimed="$(curl -fsS -X PATCH "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&stato=eq.in_attesa" "${AUTH[@]}" \
-    -H "Prefer: return=representation" -d "$_claim_body" 2>/dev/null || true)"
-  if [ -z "$(printf '%s' "$claimed" | jq -r '.[0].id // empty' 2>/dev/null)" ]; then
+    -H "Prefer: return=representation" -d "$_claim_body" 2>/dev/null)" || _claim_rc=$?
+  _claim_az=""
+  _claim_az="$(node "$SCRIPT_DIR/esito-claim.mjs" decidi --rc="$_claim_rc" 2>/dev/null <<<"$claimed")" || _claim_az=""
+  # Cintura: se la testa non risponde si torna al comportamento di prima (la riga c'è = è mia).
+  case "$_claim_az" in
+    procedi|salta|verifica) : ;;
+    *) if [ -n "$(printf '%s' "$claimed" | jq -r '.[0].id // empty' 2>/dev/null)" ]; then _claim_az=procedi; else _claim_az=salta; fi ;;
+  esac
+  if [ "$_claim_az" = verifica ]; then
+    _sel_claim="id,stato,updated_at"; [ "${HAS_OWNER_COL:-0}" = 1 ] && _sel_claim="$_sel_claim,worker_owner"
+    _riletta="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?id=eq.$id&select=$_sel_claim&limit=1" "${AUTH[@]}" 2>/dev/null)" || _riletta=""
+    _claim_az="$(node "$SCRIPT_DIR/esito-claim.mjs" rileggi --io="$WORKER_ID" --timbro="$_claim_ts" 2>/dev/null <<<"$_riletta")" || _claim_az=salta
+    case "$_claim_az" in procedi) : ;; *) _claim_az=salta ;; esac
+    echo "[$(ts)] Lavoro $id: la conferma della presa in carico non è arrivata — riletta la riga: $_claim_az (AR-626)." >&2
+  fi
+  if [ "$_claim_az" != procedi ]; then
     echo "[$(ts)] Lavoro $id: claim perso (già preso da un altro worker o non più in_attesa) — salto." >&2
     continue
   fi

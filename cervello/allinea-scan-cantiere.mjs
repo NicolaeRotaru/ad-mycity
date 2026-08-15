@@ -26,6 +26,10 @@ import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 // auto-fix.mjs (irraggiungibile senza trascinarsi dietro una chiamata a git) se n'era scritto una
 // versione sua — `|| ""`. Ora chiama la stessa funzione dell'altro (AR-655).
 import { findingsFuoriContratto, timbraChiusura, timbroValido } from "./contratto-scheda.mjs";
+// 🚧 GLI STATI DEL CANTIERE — «quanti difetti ci sono» ha UNA casa (cervello/stati-cantiere.mjs).
+// Questo file scriveva il suo conto a mano su tre stati e lasciava fuori le 56 schede
+// `da-riverificare`, dentro il blocco che il Pannello legge (AR-684 · AR-718).
+import { contaDifetti, sommaTorna } from "./stati-cantiere.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
@@ -47,6 +51,34 @@ function readJson(path, fallback) {
 // copiaincollata in cinque file; ora è una sola, in cervello/scrivi-json.mjs.
 function writeJson(path, data) {
   scriviJsonAtomico(path, data);
+}
+
+/**
+ * I CONTI DEL CANTIERE DENTRO `sync_scan` — AR-684 · AR-718.
+ *
+ * Qui c'erano tre `.filter()` a mano su tre etichette (`aperto`, `in-corso`, `chiuso`): le schede
+ * `da-riverificare` non cadevano in nessuna, quindi 56 difetti veri uscivano dal blocco che il
+ * Pannello legge nella pagina della radiografia. Non erano risolti: la loro etichetta non era
+ * prevista, ed è tutta la differenza fra un difetto chiuso e un difetto invisibile.
+ *
+ * È una funzione a parte, e pura, per la ragione di sempre: dentro `allineaMacchina` la decisione
+ * viveva insieme alla lettura e alla scrittura di due file di memoria, quindi una prova poteva solo
+ * cercarne la forma. Qui la esegue.
+ */
+export function cantiereNelSyncScan(difetti) {
+  const c = contaDifetti(difetti);
+  return {
+    cantiere_totale: c.totale,
+    cantiere_aperti: c.aperti,
+    cantiere_in_corso: c.in_corso,
+    cantiere_da_riverificare: c.da_riverificare,
+    cantiere_altri: c.altri,
+    cantiere_chiusi: c.chiusi,
+    // «Quanto lavoro resta» è tutto ciò che non è chiuso, compresi gli stati che non so nominare.
+    cantiere_da_fare: c.da_fare,
+    cantiere_somma_torna: sommaTorna(c),
+    cantiere_stati_ignoti: c.stati_ignoti,
+  };
 }
 
 /** Normalizza per confronto titoli: minuscolo, niente emoji/punteggiatura, spazi collassati. */
@@ -222,9 +254,7 @@ function allineaMacchina() {
     findings_in_corso: inCorso,
     findings_chiusi: chiusi,
     findings_tot: aperti + inCorso + chiusi,
-    cantiere_aperti: difetti.filter((d) => d.stato === "aperto").length,
-    cantiere_in_corso: difetti.filter((d) => d.stato === "in-corso").length,
-    cantiere_chiusi: difetti.filter((d) => d.stato === "chiuso").length,
+    ...cantiereNelSyncScan(difetti),
     match_aggiornati: aggiornati,
     chiusi_verifica: chiusiVerifica,
     data_scan: rad.data || null,
@@ -240,7 +270,14 @@ function allineaMacchina() {
     in_corso: inCorso,
     chiusi,
     non_instradabili: nonInstradabili.length,
-    cantiere: { aperti: rad.sync_scan.cantiere_aperti, in_corso: rad.sync_scan.cantiere_in_corso, chiusi: rad.sync_scan.cantiere_chiusi },
+    cantiere: {
+      aperti: rad.sync_scan.cantiere_aperti,
+      in_corso: rad.sync_scan.cantiere_in_corso,
+      da_riverificare: rad.sync_scan.cantiere_da_riverificare,
+      chiusi: rad.sync_scan.cantiere_chiusi,
+      da_fare: rad.sync_scan.cantiere_da_fare,
+      totale: rad.sync_scan.cantiere_totale,
+    },
   };
 }
 

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { cantiereSnello, contaDifetti } from "@/lib/cantiere-snello";
+import { cantiereSnello, contaDifetti, contoCantiere, sommaTorna } from "@/lib/cantiere-snello";
 import { radiografiaSnella } from "@/lib/radiografia-snella";
 import { leggiJsonVault, readVaultFile } from "@/lib/vault";
 import { listaSicura, sanificaListe } from "@/lib/memoria-json";
@@ -85,8 +85,12 @@ function calcolaLive(radiografia: any, cantiere: any, cantiereLetto = true) {
   // non dai buchi DENTRO (un `null` fra i difetti, e il conteggio esplode). `listaSicura` fa entrambe.
   const difetti = listaSicura<any>(cantiere?.difetti);
   const conto = cantiereLetto ? contaDifetti(difetti) : null;
+  // AR-684 — il conto con TUTTI i rami, dalla stessa regola: `contaDifetti` è la sua faccia a quattro
+  // campi, tenuta perché due prove pretendono quella forma. I rami servono qui sotto per mostrare i
+  // tre stati vivi separati invece di pescarli a mano da `per_stato`.
+  const dettaglio = cantiereLetto ? contoCantiere(difetti) : null;
   const aperti = conto ? conto.da_fare : null;
-  const in_corso = conto ? (conto.per_stato["in-corso"] ?? 0) : null;
+  const in_corso = dettaglio ? dettaglio.in_corso : null;
   const chiusi = conto ? conto.chiusi : null;
   const oreScan = oreDaDataVault(radiografia?.data);
   const oreSonda = oreDaDataVault(sonda.data);
@@ -105,6 +109,14 @@ function calcolaLive(radiografia: any, cantiere: any, cantiereLetto = true) {
     in_corso,
     chiusi,
     da_fare: aperti, // AR-456: «da fare» = tutto ciò che non è chiuso, compresi gli stati che questo file non conosce
+    // AR-684 — i tre stati vivi, ognuno col suo numero, più il totale: il terzo (`da-riverificare`)
+    // non usciva da questa rotta in nessuna forma, quindi la Cabina non aveva modo di mostrarlo.
+    totale: dettaglio ? dettaglio.totale : null,
+    aperto: dettaglio ? dettaglio.aperti : null,
+    da_riverificare: dettaglio ? dettaglio.da_riverificare : null,
+    altri: dettaglio ? dettaglio.altri : null,
+    stati_ignoti: dettaglio ? dettaglio.stati_ignoti : null,
+    somma_torna: sommaTorna(dettaglio ?? contoCantiere(null)),
     per_stato: conto ? conto.per_stato : null,
     cantiere_letto: cantiereLetto,
     findings_aperti: typeof radiografia?.sync_scan?.findings_aperti === "number"

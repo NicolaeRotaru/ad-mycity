@@ -303,6 +303,50 @@ export function ritentaSecondoPolicy(decisioneJson) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// ④bis QUANTO SI ASPETTA PRIMA DI RIPROVARE — AR-630
+// ─────────────────────────────────────────────────────────────────────────────
+// «Quando la quota si libera tra ore, la cadenza riprova comunque dopo trenta secondi.»
+//
+// AR-201 aveva aggiunto la domanda giusta — «si ritenta?» — e la retry-policy risponde anche QUANDO:
+// `quandoISO` è l'istante in cui il motore tornerà disponibile, e per il limite settimanale sono ore
+// o giorni. Ma il ciclo leggeva solo il sì, e poi dormiva la sua pausa fissa di trenta secondi.
+// Risultato: tre tentativi bruciati contro lo stesso muro nel giro di un minuto, e ogni tentativo
+// paga il suo timeout. Il «sì» era arrivato, il «quando» no.
+//
+// La regola è una sola e sta qui, dove un test la può eseguire: se l'attesa che serve entra nella
+// pausa che la cadenza si può permettere, si aspetta e si riprova; se la supera, non si riprova
+// affatto — si esce e si lascia fare al RECUPERO (`cadenza_recupero`), che ri-accoda il lavoro con
+// `riprova_dopo` all'ora del reset. Riprovare fra trenta secondi qualcosa che torna fra sei ore non
+// è ostinazione: è spendere il budget per farsi dire di no tre volte.
+export const ATTESA_MAX_IN_CADENZA_SEC = 300; // cinque minuti: oltre, la cadenza non tiene aperto
+
+export function attesaRitentativo({ quandoISO = "", adessoMs = 0, pausaSec = PAUSA_DEFAULT_SEC, attesaMaxSec = ATTESA_MAX_IN_CADENZA_SEC } = {}) {
+  const pausa = Math.max(0, Math.floor(Number(pausaSec) ?? PAUSA_DEFAULT_SEC));
+  const tetto = Math.max(0, Math.floor(Number(attesaMaxSec) || 0));
+  const quando = Date.parse(String(quandoISO ?? ""));
+  const ora = Number(adessoMs) || 0;
+  if (!Number.isFinite(quando) || !ora) {
+    // Nessun orario dalla policy: non si inventa niente, si tiene la pausa di sempre.
+    return { ritenta: true, attesaSec: pausa, motivo: "la policy non ha detto quando: pausa standard" };
+  }
+  const mancano = Math.ceil((quando - ora) / 1000);
+  if (mancano <= pausa) {
+    return { ritenta: true, attesaSec: pausa, motivo: "il motore torna disponibile subito: pausa standard" };
+  }
+  if (mancano <= tetto) {
+    return { ritenta: true, attesaSec: mancano, motivo: `il motore torna fra ${mancano}s: aspetto fin lì invece di riprovare a vuoto` };
+  }
+  const ore = Math.round((mancano / 3600) * 10) / 10;
+  return {
+    ritenta: false,
+    attesaSec: 0,
+    troppoLontano: true,
+    mancanoSec: mancano,
+    motivo: `il motore torna fra ~${ore}h (${quandoISO}): riprovare fra ${pausa}s brucerebbe i tentativi contro lo stesso muro — mi fermo e lascio ri-accodare la cadenza all'ora del reset`,
+  };
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // CLI — è così che i tre script bash chiedono, invece di decidere
 // ─────────────────────────────────────────────────────────────────────────────
 //   node cervello/esito-cadenza.mjs timeout --budget=2700 [--tentativi=3] [--pausa=30]
@@ -366,7 +410,26 @@ if (isMain) {
       tentativiMax: Number(arg("tentativi", String(TENTATIVI_DEFAULT))),
     });
     const r = chiedi ? ritentaSecondoPolicy(arg("policy", "")) : { ritenta: false, motivo: "nessuna domanda da fare" };
-    process.stdout.write(JSON.stringify({ chiedi, ...r }) + "\n");
+    // AR-630 — al «si ritenta?» si aggiunge il «quando»: se il motore torna fra ore, ritentare fra
+    // trenta secondi brucia i tentativi contro lo stesso muro. Il campo `attesaSec` dice al ciclo
+    // quanto dormire, e `ritenta` può diventare falso proprio qui.
+    const att = r.ritenta
+      ? attesaRitentativo({
+          quandoISO: r.quandoISO,
+          adessoMs: Date.now(),
+          pausaSec: Number(arg("pausa", String(PAUSA_DEFAULT_SEC))),
+          attesaMaxSec: Number(arg("attesa-max", String(ATTESA_MAX_IN_CADENZA_SEC))),
+        })
+      : { ritenta: false, attesaSec: 0, motivo: r.motivo };
+    process.stdout.write(
+      JSON.stringify({
+        chiedi,
+        ...r,
+        ritenta: r.ritenta && att.ritenta,
+        attesaSec: att.attesaSec ?? 0,
+        motivo: att.ritenta === false && r.ritenta ? att.motivo : r.motivo,
+      }) + "\n",
+    );
   } else {
     process.stderr.write("Uso: esito-cadenza.mjs {timeout|esito|ritenta} [--opzioni]\n");
     process.exit(64);
