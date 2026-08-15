@@ -1647,6 +1647,19 @@ fonte: AD digitale (chat)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
+## Prossime priorità (☀️ aggiornato 15/8 06:00 — piano del mattino)
+Business INVARIATO dal 24/6, confermato dal sensore diretto delle 22:27 del 14/8 (il più recente disponibile), zero numeri inventati: 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine mai pagato (CANCELED), 0 pagati. **Stallo 53 giorni.** È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Il tasso di chiusura del mese è tornato **sopra soglia (1,04)**: il giro può ricominciare a cercare, ma oggi le tre priorità restano decisioni da chiudere, non ricerche nuove.
+
+1. [ ] 🔴 **Decidi sulle tre falle di sicurezza/affidabilità del sito** (`#36` pulsante ordine rotto, `#37` dati di negozi/clienti leggibili senza login, `#38` cinque punti dove il marketplace perde soldi da solo) — ferme dal 29/7, 17 giorni, pronte in branch, aspettano solo il via per l'anteprima.
+2. [ ] 🟡 **Cinque risposte corte sbloccano cinque card** — `#80` spegni PostHog sul server (un comando) · `#66` un sensore mai acceso, acceso o spento? · `#74` due domande sui permessi del server · `#76` tre host per far vedere Cabina e dati alle sessioni cloud · `#69` l'ordine in cui riscrivo i tuoi dieci piani.
+3. [ ] 🟡 **Tech chiude PR #722 (ancora rossa) prima di lavoro nuovo** — 2 test noti da sistemare, poi la mappa macchina (`#85`, 65 skill senza riga nel censimento).
+
+**Non dimenticare, invariata:** la mossa n.1 resta `#62`, la pratica pagamenti di Pane Quotidiano — il vero blocco del primo incasso, in attesa del fornaio, congelata fino al 24/8-1/9.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 53gg, atteso — negozi in pausa) · `sito_uptime` cieco da 146 giri (HTTP 503, migrazione Vercel nota, non un guasto) · `mcp_stripe` cieco (2 giri) · resto sensori (REST/MCP Supabase/Stripe API/Resend/n8n/Pannello/watchdog esterno) ✅ alle 22:27 del 14/8.
+
+---
+
 ## Prossime priorità (☀️ aggiornato 14/8 06:01 — piano del mattino)
 Business INVARIATO dal 24/6, confermato dalla sentinella diretta delle 06:00, zero numeri inventati. 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine mai pagato (CANCELED), 0 pagati, 0 eventi nuovi nell'ultima ora. **Stallo 51 giorni.** È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Il tasso di chiusura del mese resta sotto soglia (0,66 su 1). Oggi il lavoro chiude la coda già aperta, non ne cerca di nuova.
 

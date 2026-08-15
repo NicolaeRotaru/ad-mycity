@@ -1186,3 +1186,22 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - Senza fretta: due falle di sicurezza sul sito aspettano il tuo ok da 16 giorni. Sono già pronte da vedere in anteprima. Riguardano i negozi modificabili senza account e i dati dei clienti visibili senza login.
 
 **Dettagli tecnici** (PostHog `#80` · sensore `#66` · piani `#69` · sicurezza `#37`/`#36` · dati confermati da `sentinella-dati.json` 06:00, 0 eventi nuovi nell'ultima ora)
+
+## Piano del mattino · 2026-08-15 06:00
+
+**In una riga:** Il negozio è sempre in pausa fino a fine agosto. Oggi conta soprattutto la sicurezza del sito e cinque risposte veloci che hai in coda.
+
+**Le 3 cose di oggi**
+1. Decidi sulle tre falle di sicurezza del sito. Sono ferme da 17 giorni. Sono già pronte da vedere in anteprima. Riguardano un pulsante ordine rotto e i dati di negozi e clienti troppo aperti.
+2. Ti riassumo cinque piccole domande in coda, tutte da un minuto. Rispondendo, sblocchi cinque card in un colpo solo.
+3. Chi si occupa del codice chiude prima la richiesta di unione ancora rossa. Poi riprende il resto. Il mese è tornato in credito sui difetti chiusi, quindi può cercarne di nuovi.
+
+**Serve da te**
+- Guarda le tre card rosse di sicurezza in cima alla lista e dimmi se posso mostrarti l'anteprima.
+- Spegni per davvero il sensore che avevi già deciso di spegnere. Il comando è pronto, basta incollarlo sul server.
+- Dimmi se un sensore mai acceso lo tieni spento o lo accendi.
+- Rispondi alle due domande sui permessi nuovi del server.
+- Dimmi se vuoi aprire alle sessioni cloud la vista su Cabina e dati. Bastano tre righe da aggiungere.
+- Dimmi in che ordine ti riscrivo i tuoi dieci piani, ancora vecchi di un mese.
+
+**Dettagli tecnici** (sicurezza `#36`/`#37`/`#38` · risposte corte `#80`/`#66`/`#74`/`#76`/`#69` · PR #722 ancora rossa su 2 test · tasso di chiusura agosto 1,04, gate verde · dati confermati da `sensori-cecita.json` 22:27 del 14/8)
