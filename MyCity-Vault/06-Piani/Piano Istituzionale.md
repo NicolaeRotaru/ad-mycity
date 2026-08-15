@@ -11,7 +11,7 @@
 > · **Il Bando Commercio ER è dato per aperto** (righe 20, 99, 110, 145, 161, 188) — il registro dice: CHIUSO il 23/6/2026 ore 10:00:37 — raggiunto limite di 350 domande. Scadenza formale 21/7 superflua. Nessuna azione possibile su questo bando. *(fesr.regione.emilia-romagna.it — verificato da agente intelligence 2026-07-11 11:40)*
 > · **Il voucher PI26 è dato per aperto o da inviare** (riga 201) — il registro dice: Non idoneo, confermato da Nicola 2026-07-29 00:10 — nessuna domanda da inviare, sportello CCIAA non più rilevante per MyCity *(Nicola (chat 29/7 ~00:10) — DECISIONI.md 2026-07-29 00:15)*
 > · **Una fotografia del 25/06/2026 è presentata come «oggi»** (riga 20) — I numeri della frase reggono ancora al 10/8; a mentire è la parola «oggi». *(letto dal vivo sul database del marketplace il 2026-08-10 09:58…)*
-> *Misurato il 2026-08-15 06:28. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
+> *Misurato il 2026-08-15 10:43. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
 <!-- ⛔ AD-SMENTITE:END -->
 
 > Base dati: [[Piano di Notorieta 2026]] (§6), [[Piano d'Azione]] (§5), [[Bandi & Finanziamenti]].

@@ -1,8 +1,33 @@
 ---
 tipo: stato
-aggiornato: 2026-08-15 00:45
+aggiornato: 2026-08-15 10:40
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **15/8 10:40 — Giro richiesto in chat, arrivato a ridosso del passaggio precedente (il blocco 10:45 qui sotto, trovato già scritto e non ancora committato all'apertura di questa sessione). Business invariato: strategia snella applicata, nessuna passata a vuoto.**
+> Riconfermato con **query SQL diretta** via MCP Supabase (non ereditato): 1 ordine totale, 0 pagati, 0 negli ultimi 7 giorni, ultimo ordine 24/6, stallo North Star **52 giorni** — stessa firma esatta del passaggio precedente. Dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Questa sessione ha di nuovo il limite noto:** `node cervello/*.mjs` (test-cervello, north-star-check, ecc.) richiede approvazione e non parte, stesso limite di sempre ([[feedback-bash-solo-script-esatti-in-allowlist]]). Il passaggio delle 10:45 sotto risulta scritto da una sessione con permessi più larghi (ha potuto lanciare `node --test` per intero) — non l'ho rifatto: sarebbe lavoro duplicato sullo stesso tema, a business invariato. `AZIONI-IN-ATTESA.md` e i file `auto-coscienza/*.json` risultano già aggiornati dal pre-step automatico di `giro.sh` (housekeeping 10:23) e dal passaggio 10:45: nessuna riscrittura necessaria.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7). Vedi il passaggio 10:45 qui sotto per il dettaglio dei 3 test rossi riparati e lo stato CI. Briefing: [[Briefing/2026-08-15]].
+
+> 🔧 **15/8 10:45 — Giro completo richiesto in chat. Business invariato. Sessione con permessi più larghi del solito: rilanciato il test del cervello dal vivo e riparati per davvero i 3 rossi, non solo diagnosticati.**
+> Riconfermato con **query SQL diretta** su Supabase (non ereditato dal sensore): 1 ordine (id `58094956…`, PENDING/CANCELED, 24/6), 0 pagati, 0 negli ultimi 7 giorni, 7 profili, 5 prodotti, 1 negozio (Pane Quotidiano). North Star: stallo **52 giorni** (calcolato dal database, non a mano: `now()::date - '2026-06-24'::date` = 52 — la cifra di 53 scritta nei passaggi precedenti di oggi era un conteggio manuale leggermente sfalsato). Dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **I 3 rossi del test del cervello: riparati, non solo documentati.** Questa sessione ha potuto lanciare `node --test "cervello/test/**/*.test.mjs"` per intero (218s, 1579 test) e leggere l'errore riga per riga invece di limitarsi al riepilogo. Tre rossi, tre cause vere, tre fix, tutti verificati con un secondo rilancio del singolo file:
+> - **`mappa-in-bacheca.test.mjs`** — le 65-67 skill del pacchetto marketing/ingegneria (arrivato l'11-13/8) non avevano una riga in `cervello/censimento-macchina.mjs` (`DESCRIZIONI.skill`), il debito già noto da giorni come card "#85" mai scritta davvero in coda. Scritte tutte le righe mancanti (ab-testing, ads, copywriting, seo-audit, social, xlsx, …), una frase corta ciascuna. Verificato: verde.
+> - **`guardiano-mai-messo-di-guardia.test.mjs`** — la causa vera, mai trovata prima d'ora: `cervello/guardia-viva-check.mjs` scansiona TUTTO il repo per capire chi esegue davvero ogni guardiano, ma non escludeva `.claude/worktrees/` — 4 cartelle di lavoro lasciate sul disco da sessioni `Agent(isolation:"worktree")` del 13-14/8, ognuna una copia intera del repo. Il controllo che tiene i file di test fuori dal conteggio guarda solo se il percorso comincia per `cervello/test/`, e dentro quelle cartelle comincia per `.claude/worktrees/agent-…/cervello/test/…` — quindi una copia vecchia di un test lì dentro contava come "qualcuno esegue davvero `permessi-check.mjs`", dichiarando fantasma un'annotazione che invece è vera nel repo reale. Aggiunto `"worktrees"` all'elenco delle cartelle escluse in `guardia-viva-check.mjs`. Verificato: verde. (Le 4 cartelle stesse restano sul disco, non cancellate da qui: `git worktree remove` è un'operazione fuori dal perimetro di un giro di memoria — il fix di codice rende il guardiano corretto comunque, a prescindere da quando/se qualcuno le pulisce.)
+> - **`una-card-una-volta-sola.test.mjs`** — il sensore `mcp_supabase` risultava "spento senza un perché dichiarato" perché nessuna sessione di questo giro l'aveva ridichiarato con `verifica-sensori.mjs --mcp-supabase=ok`, pur avendolo usato davvero (le query SQL dirette di questo stesso giro). Ridichiarato dal vivo. Verde.
+>
+> Tutti e tre i fix sono verificati sul file singolo E sono compatibili fra loro (nessuna sovrapposizione di codice). Il fix di `censimento-macchina.mjs` e `guardia-viva-check.mjs` è codice: va su branch + PR, non diretto su `main` (regola del repo), aperta in questo stesso passaggio.
+>
+> **CI riletta dal vivo (`ci-stato.mjs`):** 2 PR aperte. **PR #734** rossa su `cervello/test/misura-che-non-sporca.test.mjs`, colpa mista (parte nuova, parte ereditata dal ramo di partenza) — non toccata in questo passaggio: non sblocca il primo ordine e non è la stessa area dei 3 fix di sopra, il vincolo north-star tiene il lavoro-macchina limitato a ciò che questo giro ha già in mano. **PR #727** verde, pronta per la firma di Nicola.
+>
+> **Tasso di chiusura del mese: 1,04 (≥1, sano) per la prima volta da luglio.** 229 difetti chiusi contro 220 nati in agosto — il freno che per settimane ha impedito di aprire ricerche nuove ora è spento: il mese chiude più di quanto apre.
+>
+> **Correzione-nicola-gate: ancora 246/311 senza freno, sano:false** — stesso debito strutturale di sempre, nessun nuovo candidato onestamente gatabile trovato in questo passaggio (controllati di nuovo i 5 esempi segnalati: sono giudizio/UX, non misurabili senza inventare un test che l'asticella AR-128 vieta).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7). **Novità di coda:** nessuna nuova card — i 3 rossi del test erano già scritti nella coda solo come "debito noto", ora sono chiusi per davvero e non servono più una riga propria. Briefing: [[Briefing/2026-08-15]].
 
 > ✅ **15/8 00:45 — Giro richiesto in chat, pochi minuti dopo la chiusura del passaggio precedente (commit `6f94adf68`, 00:30). Business invariato. Chiuso un vincolo HARD stantio: la checklist personale di Nicola.**
 > Riconfermato con il sensore diretto già scritto da `giro.sh` (`sensori-cecita.json`, 22:27 del 14/8, non riletto in diretta per rispettare il vincolo tasso-di-chiusura): 1 ordine, mai pagato, del 24/6, stessa firma dal 24/6. North Star: stallo **53 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
