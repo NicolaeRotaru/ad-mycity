@@ -255,6 +255,26 @@ export function righeRosse(out = "", max = 8) {
     rosse.push(riga);
     if (rosse.length >= max) break;
   }
+
+  // ── Lo STAMPO DI CASA, che non parla TAP ────────────────────────────────────
+  //
+  // Le prove scritte col `prova(nome, fn)` di casa non stampano `not ok`: stampano `✗ nome → perché`
+  // e chiudono con `# fail N`. Per tutte quelle l'estrattore qui sopra non trovava niente e `rosse`
+  // tornava vuota — quindi in CI arrivava «1 asserzioni fallite» e basta, senza dire QUALE.
+  //
+  // È la stessa cecità che AR-563 ha già curato sul TAP numerato, ricomparsa su un altro formato.
+  // Il costo, misurato stanotte: un rosso in CI che non si riproduce in locale e di cui il log non
+  // dice niente si ripubblica a tentativi, e ogni tentativo costa un giro intero.
+  //
+  // Un rosso che non dice quale caso è caduto non è una diagnosi: è un invito a indovinare.
+  if (!rosse.length) {
+    for (const t of righe) {
+      const m = /^\s*✗\s+(.*)$/.exec(t);
+      if (!m) continue;
+      rosse.push(m[1].trim());
+      if (rosse.length >= max) break;
+    }
+  }
   return rosse;
 }
 

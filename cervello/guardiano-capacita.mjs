@@ -33,6 +33,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { ciecoPerDatoIllegibile, ciecoSeNienteMisurato, codiceDiUscita } from "./esito-guardiano.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 
@@ -72,17 +73,38 @@ function elencaWorkflow(dir) {
 }
 
 /** Elenca le sottocartelle (una skill = una cartella con SKILL.md), o [] se `.claude/skills` non esiste. */
+/**
+ * Le capacità che il PROGETTO dichiara — cioè quelle tracciate in git, non quelle che si trovano
+ * sul disco.
+ *
+ * AR-701. Prima si leggeva la cartella, e il verdetto dipendeva da DOVE girava invece che da com'è
+ * la macchina: su questa sessione l'ambiente ha depositato 67 cartelle-skill che nessun commit ha
+ * mai aggiunto — 72 sul disco contro le 5 vere — e il divario passava da 2 a 55 senza che nessuno
+ * avesse toccato niente. Su una postazione rosso, sul server verde, e nessuno dei due sapeva perché.
+ *
+ * Un guardiano il cui rosso non appartiene a chi lo vede è un guardiano che si impara a ignorare, e
+ * porta con sé tutti gli altri.
+ *
+ * Se git non risponde NON si ripiega sul disco: si torna `null`, e chi chiama dichiara che non ha
+ * potuto guardare. Un elenco più povero preso da un'altra fonte sarebbe una misura diversa con la
+ * faccia della stessa.
+ */
 function elencaSkill(dir) {
   if (!existsSync(dir)) return [];
-  return readdirSync(dir)
-    .filter((f) => {
-      try {
-        return statSync(join(dir, f)).isDirectory();
-      } catch {
-        return false;
-      }
-    })
-    .sort();
+  const rel = dir.replace(`${AD_ROOT}/`, "");
+  let tracciati;
+  try {
+    tracciati = percorsiDaGit(["ls-files", "--", rel], { cwd: AD_ROOT });
+  } catch {
+    return null; // cieco: non è un elenco vuoto, ed è chi chiama a doverlo dire
+  }
+  const nomi = new Set();
+  for (const f of tracciati) {
+    const dopo = f.slice(rel.length).replace(/^\//, "");
+    const primo = dopo.split("/")[0];
+    if (primo && dopo.includes("/")) nomi.add(primo);
+  }
+  return [...nomi].sort();
 }
 
 async function main() {
@@ -90,6 +112,16 @@ async function main() {
 
   const workflowReali = elencaWorkflow(WORKFLOWS_DIR);
   const skillReali = elencaSkill(SKILLS_DIR);
+  // AR-701 — se git non risponde NON si ripiega sul disco: quell'elenco misurerebbe la macchina su
+  // cui giriamo invece del progetto, ed è il difetto stesso. Cieco è uscita 2, e non è mai un verde.
+  if (skillReali === null) {
+    const c = ciecoPerDatoIllegibile(new Error("git non elenca i file tracciati sotto .claude/skills"));
+    console.log(`⚪ ${c.motivo}`);
+    console.log("   Senza git non so quali capacità appartengano al progetto: contarle dal disco direbbe");
+    console.log("   quante ne ha questa macchina, che è un'altra domanda.");
+    await stampSegnale("guardiano-capacita", "warn", "cieco: git non elenca le skill tracciate");
+    process.exit(2);
+  }
 
   const comandi = leggiTesto("COMANDI.md");
   const claude = leggiTesto("CLAUDE.md");

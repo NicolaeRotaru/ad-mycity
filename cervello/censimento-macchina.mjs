@@ -32,6 +32,7 @@ import { join } from "node:path";
 // AR-700 — la porta unica per elencare i file di un ramo, RICORSIVAMENTE. Non è un'importazione di
 // comodo: è il punto del difetto. Il censimento aveva la sua funzione, che leggeva una cartella sola.
 import { elencaFile } from "./perimetro.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 
 /** Il titolo del blocco in bacheca. Fisso: è la chiave con cui il blocco si ritrova e si sostituisce. */
 export const TITOLO_BACHECA = "🗺️ Com'è fatta la macchina";
@@ -212,7 +213,29 @@ export function creaOcchi() {
       if (fuori == null) { nota("non elenco (nemmeno la radice)", dir, { message: "illeggibile" }); return null; }
       return fuori;
     },
-    /** Cartelle dentro una cartella. */
+    /**
+     * Le cartelle che il PROGETTO dichiara — quelle tracciate in git, non quelle sul disco.
+     *
+     * AR-701. Per le capacità la domanda giusta è «cosa appartiene a questa macchina», non «cosa
+     * c'è su quella su cui gira»: l'ambiente di una sessione può depositare decine di cartelle che
+     * nessun commit ha aggiunto (misurato: 72 sul disco contro 5 tracciate), e il censimento le
+     * raccontava a Nicola come pezzi della macchina.
+     *
+     * Se git non risponde si torna `null` — cioè cieco, che il chiamante dichiara. Ripiegare sul
+     * disco darebbe una misura diversa con la faccia della stessa.
+     */
+    cartelleTracciate: (dir) => {
+      if (!existsSync(dir)) return [];
+      let tracciati;
+      // Chiesto DENTRO la cartella: git risponde con percorsi relativi a lei, quindi il primo
+      // segmento è già il nome della sottocartella. Nessuna radice da indovinare.
+      try { tracciati = percorsiDaGit(["ls-files"], { cwd: dir }); }
+      catch (e) { nota("git non elenca", dir, e); return null; }
+      const nomi = new Set();
+      for (const f of tracciati) if (f.includes("/")) nomi.add(f.split("/")[0]);
+      return [...nomi].sort();
+    },
+    /** Cartelle dentro una cartella, viste sul disco. */
     cartelle: (dir) => elenca(dir)
       .filter((f) => { try { return statSync(join(dir, f)).isDirectory(); } catch (e) { nota("non guardo", join(dir, f), e); return false; } })
       .sort(),
@@ -270,7 +293,7 @@ export function maniDaPublishers(file = []) {
 /** Conta tutto quello che c'è nella macchina, leggendo il repo. Ogni guasto di lettura resta scritto. */
 export function misura(repo, occhi = creaOcchi()) {
   const p = (...x) => join(repo, ...x);
-  const { leggi, elenca, esiste, cammina, fileCon, sottoAlbero, cartelle, righeDi, chiaviJson } = occhi;
+  const { leggi, elenca, esiste, cammina, fileCon, sottoAlbero, cartelle, cartelleTracciate, righeDi, chiaviJson } = occhi;
 
   const pannelloFile = esiste(p("pannello/src")) ? cammina(p("pannello/src"), (f) => /\.tsx?$/.test(f)) : [];
   const aree = areeDaNav(leggi(p("pannello/src/lib/nav.ts")));
@@ -337,7 +360,7 @@ export function misura(repo, occhi = creaOcchi()) {
     },
     // 9 — Estensioni
     estensioni: {
-      skill: cartelle(p(".claude/skills")),
+      skill: cartelleTracciate(p(".claude/skills")),
       workflow: fileCon(p(".claude/workflows"), ".js").map((f) => f.replace(/\.js$/, "")),
       capacita: fileCon(p("cervello/capacita"), ".mjs").length,
     },

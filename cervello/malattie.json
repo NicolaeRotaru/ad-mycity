@@ -222,11 +222,6 @@
      "file": "cervello/git-github.mjs",
      "quale": "riga 177, invio -> false",
      "perche": "E una scrittura di rete che restituisce «e andata a buon fine?»: su eccezione la risposta onesta e proprio `false`, perche l'invio davvero non e confermato. E la cura di «esito-di-scrittura-buttato», non la malattia."
-    },
-    {
-     "file": "cervello/guardiano-capacita.mjs",
-     "quale": "riga 56, statSync(...).isDirectory() -> false in un filter",
-     "perche": "Fallisce CHIUSO: una cartella che non si riesce a interrogare esce dal censimento, quindi il guardiano conta MENO capacita di quante ce ne siano — sottostima, non rassicurazione. Il verso pericoloso e l'opposto."
     }
    ],
    "nota_baseline": "0 dal 2026-07-29 (lotto 34). ATTENZIONE al metro: questa regex prende la SINTASSI (un errore che diventa vuoto/zero), non la malattia. Ogni istanza va giudicata su una domanda sola — «il verdetto che ne esce fallisce APERTO o CHIUSO?». I cinque punti dichiarati esenti falliscono tutti chiusi (fanno di meno, non dicono che va bene). Il metro FINE per la meta git della malattia non e questa regex ma `node cervello/storia-git.mjs --check`, che ragiona per chiamata invece che per testo — nato verde il 29/7 dopo aver portato dentro i quattro punti che la scavalcavano. · lotto 40: TOLTA l'esenzione su cervello/consenso-azione.mjs (riga 74, leggiCoda -> \"\"). Non e' una difesa rimossa: e' un residuo. Quell'esenzione descriveva un difetto che AR-443 ha curato in questo stesso lotto — leggiCoda adesso distingue «coda vuota» da «coda illeggibile» e il cancello scrive il motivo vero. La spazzata la segnalava come «esenzione che non corrisponde piu' a niente», ed e' esatto: un'esenzione che non copre piu' nessuna istanza nasconde il prossimo caso vero che nascera' in quel file. La difesa di AR-443 vive nel CODICE e nella sua mutazione (cervello/mutanti.json, verificata unica sul file), non in questa riga."
