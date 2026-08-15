@@ -50,28 +50,41 @@ prova("① un difetto chiuso prende la sua prova a comando", () => {
   assert.deepEqual(s.verifica, { tipo: "comando", comando: "node cervello/test/x.test.mjs" });
 });
 
-prova("② un difetto dichiarato APERTO si vede togliere la vecchia prova a pattern", () => {
+prova("② un difetto dichiarato APERTO si vede BLOCCARE la chiusura, e la prova a pattern sparisce", () => {
   const s = decidiVerifica("aperto", null, PATTERN_VECCHIA);
-  assert.equal(s.azione, "togli", "lasciandola, auto-fix lo richiuderebbe da solo dopo il merge");
+  assert.equal(s.azione, "blocca", "senza il blocco, auto-fix lo richiude da solo dopo il merge");
+  assert.equal(s.togliVerifica, true, "una prova a pattern in piu non si merita di sopravvivere");
 });
 
-prova("③ anche «già curato» perde la prova a pattern: non l'ha chiuso questo lotto", () => {
+prova("③ anche «già curato» perde la prova a pattern se non ha un comando", () => {
   const s = decidiVerifica("gia-curato", null, PATTERN_VECCHIA);
-  assert.equal(s.azione, "togli");
+  assert.equal(s.azione, "blocca");
+  assert.equal(s.togliVerifica, true);
 });
 
-prova("④ un aperto senza prova a pattern non si tocca", () => {
+prova("④ IL CASO CHE È COSTATO DUE CHIUSURE FALSE: aperto con una prova a comando che PASSA", () => {
+  // Lotto 43: AR-693 e AR-684 erano dichiarati aperti e portavano una prova a comando verde.
+  // La prima versione di questa funzione tornava «lascia» — non era una prova a pattern, quindi
+  // sembrava innocua — e dopo il merge auto-fix li ha chiusi tutti e due. Il conto diceva 61
+  // chiusure su 49 dichiarate, ed e cosi che si e visto. Non e il TIPO di prova a richiudere un
+  // difetto: e il fatto che la prova PASSI.
+  const s = decidiVerifica("aperto", null, { tipo: "comando", comando: "node cervello/test/x.test.mjs" });
+  assert.equal(s.azione, "blocca");
+  assert.ok(!s.togliVerifica, "la prova serve e resta: e il difetto a non essere chiuso, non la prova a essere sbagliata");
+});
+
+prova("⑤ un aperto con verifica umana si blocca lo stesso: il blocco non dipende dal tipo di prova", () => {
   const s = decidiVerifica("aperto", null, { tipo: "umano", nota: "serve una mano" });
-  assert.equal(s.azione, "lascia");
+  assert.equal(s.azione, "blocca");
 });
 
-prova("⑤ un chiuso senza comando non si inventa una prova", () => {
+prova("⑥ un chiuso senza comando non si inventa una prova", () => {
   const s = decidiVerifica("chiuso", null, undefined);
   assert.equal(s.azione, "lascia");
   assert.match(s.perche, /dichiar/);
 });
 
-prova("⑥ questa funzione non decide MAI lo stato: le chiusure sono di auto-fix dopo il merge", () => {
+prova("⑦ questa funzione non decide MAI lo stato: le chiusure sono di auto-fix dopo il merge", () => {
   for (const esito of ["chiuso", "aperto", "gia-curato"]) {
     const s = decidiVerifica(esito, "node cervello/test/x.test.mjs", PATTERN_VECCHIA);
     assert.ok(!("stato" in s), `${esito}: la decisione non deve portarsi dietro uno stato`);
@@ -85,7 +98,7 @@ prova("⑥ questa funzione non decide MAI lo stato: le chiusure sono di auto-fix
 
 // ── la voce di malattia: la nota di come è stata provata non deve finire nel registro ────────────
 
-prova("⑦ una voce annidata sotto `voce` si estrae senza l'involucro che la racconta", () => {
+prova("⑧ una voce annidata sotto `voce` si estrae senza l'involucro che la racconta", () => {
   const proposta = {
     nome: "come l'ho provata: su una copia del registro, exit 0",
     voce: { id: "una-parola-con-due-padroni", nome: "La stessa parola in due posti", pattern: "x", partenza: 5 },
@@ -94,7 +107,7 @@ prova("⑦ una voce annidata sotto `voce` si estrae senza l'involucro che la rac
   assert.ok(!("descrizione" in voceDiMalattia(proposta)), "la prosa di corsia non entra in malattie.json");
 });
 
-prova("⑧ una voce piatta perde solo i campi di racconto, non i suoi", () => {
+prova("⑨ una voce piatta perde solo i campi di racconto, non i suoi", () => {
   const v = voceDiMalattia({ id: "prova-dal-canale-comodo", pattern: "y", partenza: 1, descrizione: "come l'ho provata", nota_onesta: "…" });
   assert.deepEqual(v, { id: "prova-dal-canale-comodo", pattern: "y", partenza: 1 });
 });
@@ -105,7 +118,7 @@ const VOCE_INTERA = {
   id: "x", nome: "X", pattern: "p", dove: ["cervello"], estensioni: [".mjs"], baseline: 3,
 };
 
-prova("⑨ una voce intera passa, e `partenza` diventa `baseline` (il nome che il registro usa)", () => {
+prova("⑩ una voce intera passa, e `partenza` diventa `baseline` (il nome che il registro usa)", () => {
   const { partenza, baseline, ...senzaBaseline } = VOCE_INTERA;
   const e = normalizzaMalattia({ ...senzaBaseline, partenza: 3 });
   assert.equal(e.ok, true);
@@ -113,13 +126,13 @@ prova("⑨ una voce intera passa, e `partenza` diventa `baseline` (il nome che i
   assert.ok(!("partenza" in e.voce), "`partenza` non è un campo del registro");
 });
 
-prova("⑩ una voce senza id/dove/estensioni viene SCARTATA, non scritta a metà", () => {
+prova("⑪ una voce senza id/dove/estensioni viene SCARTATA, non scritta a metà", () => {
   const e = normalizzaMalattia({ nome: "una frase lunga", pattern: "p", partenza: 5 });
   assert.equal(e.ok, false, "scritta così, la spazzata non la cercherebbe mai e sembrerebbe censita");
   assert.deepEqual(e.mancanti.sort(), ["dove", "estensioni", "id"]);
 });
 
-prova("⑪ due voci SENZA nome non sono la stessa voce", () => {
+prova("⑫ due voci SENZA nome non sono la stessa voce", () => {
   // `undefined === undefined` è vero: prima di questo caso due proposte anonime si riconoscevano
   // a vicenda come «già censita» e sparivano in silenzio. Un confronto che non ha guardato niente
   // non deve produrre un «sì».
@@ -131,7 +144,7 @@ prova("⑪ due voci SENZA nome non sono la stessa voce", () => {
 
 // ── il file della prova: una mutazione che punta a `--test` non può girare ───────────────────────
 
-prova("⑫ il file della prova si ricava saltando `node` e le opzioni", () => {
+prova("⑬ il file della prova si ricava saltando `node` e le opzioni", () => {
   assert.equal(testDaComando("node cervello/test/x.test.mjs"), "cervello/test/x.test.mjs");
   assert.equal(
     testDaComando("node --test cervello/test/x.test.mjs"),
@@ -146,7 +159,7 @@ prova("⑫ il file della prova si ricava saltando `node` e le opzioni", () => {
   assert.equal(testDaComando(undefined), undefined);
 });
 
-prova("⑬ nessuna mutazione del registro punta a un'opzione invece che a un file", () => {
+prova("⑭ nessuna mutazione del registro punta a un'opzione invece che a un file", () => {
   const mutanti = JSON.parse(readFileSync(join(REPO, "cervello/mutanti.json"), "utf8")).mutanti;
   const rotte = mutanti.filter((m) => m.test && m.test.startsWith("-"));
   assert.equal(

@@ -59,12 +59,6 @@ export function decidiVerifica(esito, verificaComando, verificaAttuale) {
     };
   }
 
-  // APERTO o GIA-CURATO. Il caso pericoloso è uno solo: una prova a pattern rimasta sulla
-  // scheda di un difetto dichiarato aperto. Il codice ora contiene il pattern, quindi
-  // auto-fix lo troverebbe e richiuderebbe il difetto da solo.
-  if (eraPattern) {
-    return { azione: "togli", perche: "dichiarato non-chiuso: la prova a pattern si richiuderebbe da sola (AR-444)" };
-  }
   if (esito === "gia-curato" && verificaComando) {
     return {
       azione: "scrivi",
@@ -72,7 +66,30 @@ export function decidiVerifica(esito, verificaComando, verificaAttuale) {
       perche: "già curato: la prova comportamentale che lo dimostra",
     };
   }
-  return { azione: "lascia", perche: "dichiarato non-chiuso, nessuna prova a pattern da togliere" };
+
+  // APERTO. Qui è dove il lotto 43 ha sbagliato, e il conto lo ha detto: «Chiusi 61» quando ne
+  // avevo dichiarati 49. Due difetti che avevo scritto APERTI — AR-693 e AR-684 — si sono chiusi
+  // da soli dopo il merge, e la mia prima versione di questa funzione li aveva lasciati passare
+  // perché guardava solo le prove a PATTERN.
+  //
+  // La radice: non è il TIPO di prova a richiudere un difetto, è il fatto che la prova PASSI.
+  // Una prova a comando che oggi esce 0 chiude la scheda esattamente come un pattern che si
+  // trova — e su un difetto dichiarato aperto è peggio, perché sembra più seria. Togliere la
+  // prova non basta e non è nemmeno giusto: la prova serve, è il difetto a non essere chiuso.
+  //
+  // La casa ha già il freno giusto e non lo stavo usando: `chiusura: "bloccata"`, che auto-fix
+  // rispetta («NON chiusi perché dichiarati aperti da un umano... si sbloccano solo con un'altra
+  // decisione umana»). Quindi: la prova resta, e accanto ci va il blocco col perché.
+  const blocco = {
+    azione: "blocca",
+    verifica: verificaComando ? { tipo: "comando", comando: verificaComando } : undefined,
+    perche: "dichiarato APERTO: la prova resta, ma la chiusura si blocca (una prova che passa richiude da sola — AR-444)",
+  };
+  if (eraPattern) {
+    // Una prova a pattern in più non si merita di sopravvivere: non frena, non legge, non decide.
+    return { ...blocco, verifica: undefined, togliVerifica: true };
+  }
+  return blocco;
 }
 
 /**
@@ -160,6 +177,19 @@ function main() {
       const scelta = decidiVerifica(d.esito, d.verifica_comando, scheda.verifica);
       if (scelta.azione === "scrivi") scheda.verifica = scelta.verifica;
       else if (scelta.azione === "togli") delete scheda.verifica;
+      else if (scelta.azione === "blocca") {
+        if (scelta.togliVerifica) delete scheda.verifica;
+        else if (scelta.verifica) scheda.verifica = scelta.verifica;
+        scheda.chiusura = "bloccata";
+        scheda.chiusura_perche =
+          d.perche_aperto ||
+          "dichiarato aperto da chi ha lavorato il difetto: la prova passa, il difetto no";
+      }
+      // Un difetto che TORNA chiuso non deve portarsi dietro il blocco del giro prima.
+      if (d.esito === "chiuso" && scheda.chiusura === "bloccata") {
+        delete scheda.chiusura;
+        delete scheda.chiusura_perche;
+      }
 
       if (d.nota_fix) scheda.nota_fix = d.nota_fix;
       if (d.esito === "aperto" && d.perche_aperto) {

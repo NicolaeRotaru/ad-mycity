@@ -4383,6 +4383,16 @@
    "cerca": "\"controprova\": \"const maxBuffer = 64000;",
    "sostituisci": "\"controprova\": \"const niente = 1;",
    "test": "cervello/spazzata-fratelli.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "ricuci-corsie · chiusura bloccata (AR-444)",
+   "nome": "un difetto dichiarato aperto torna a non essere bloccato: la sua prova a comando che passa lo richiude da sola dopo il merge",
+   "file": "cervello/ricuci-corsie.mjs",
+   "cerca": "    azione: \"blocca\",",
+   "sostituisci": "    azione: \"lascia\",",
+   "test": "cervello/test/ricucitura-non-richiude-da-sola.test.mjs",
+   "nota_riaggancio": "Lotto 44: il caso e reale, non teorico. Nel lotto 43 AR-693 e AR-684 erano dichiarati APERTI, portavano una prova a comando verde, e auto-fix li ha chiusi da solo dopo il merge — il conto diceva 61 chiusure su 49 dichiarate."
   }
  ]
 }
