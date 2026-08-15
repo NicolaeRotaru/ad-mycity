@@ -63,6 +63,7 @@ const CANCELLO = join(REPO, "cervello/gate-pubblicazione.sh");
 const FUORI = new Set([
   "node_modules", ".git", ".next", "dist", "build",
   "MyCity-Vault", "consegne", "creativi", "memoria-squadra", "marketplace", "auto-coscienza",
+  "worktrees",
 ]);
 
 /** Estensioni che possono contenere un'esecuzione. */
