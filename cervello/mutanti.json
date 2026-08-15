@@ -4234,10 +4234,10 @@
   {
    "lotto": 43,
    "difetto": "AR-639",
-   "nome": "lo scrittore di testo non guarda più l'ambiente, quindi il freno non lo raggiunge",
-   "file": "cervello/scrivi-json.mjs",
-   "cerca": "export function scriviTestoAtomico(percorso, testo, env = process.env) {",
-   "sostituisci": "export function scriviTestoAtomico(percorso, testo, env = {}) {",
+   "nome": "uno scrittore del vault torna a scrivere crudo invece di passare dal freno: il tetto degli scrittori che saltano la casa risale",
+   "file": "cervello/esperimenti-check.mjs",
+   "cerca": "  scriviJsonAtomico(PATH, dati);",
+   "sostituisci": "  writeFileSync(PATH, JSON.stringify(dati));",
    "test": "cervello/test/misura-che-non-sporca.test.mjs"
   },
   {
