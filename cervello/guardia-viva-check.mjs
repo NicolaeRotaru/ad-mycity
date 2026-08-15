@@ -60,15 +60,19 @@ const CANCELLO = join(REPO, "cervello/gate-pubblicazione.sh");
  * significherebbe dichiarare «di guardia» un guardiano perché un briefing lo ha nominato — che è
  * la forma esatta del difetto (il cartello scambiato per freno).
  */
+// `worktrees` (15/8): una copia di lavoro temporanea di un agente contiene UN ALTRO albero del repo,
+// con dentro gli stessi file di questo. Scandendola, ogni guardiano risultava eseguito una seconda
+// volta da un file che non è il repo — un esecutore fantasma. La lezione L-2026-0815-002 dava questa
+// riga per scritta il 15/8, ma nel codice non c'era: la riga è nata qui, con la prova sotto.
 const FUORI = new Set([
-  "node_modules", ".git", ".next", "dist", "build",
+  "node_modules", ".git", ".next", "dist", "build", "worktrees",
   "MyCity-Vault", "consegne", "creativi", "memoria-squadra", "marketplace", "auto-coscienza",
 ]);
 
 /** Estensioni che possono contenere un'esecuzione. */
 const ESEGUIBILI = /\.(sh|mjs|js|ts|yml|yaml|bats|service|timer|json)$/;
 
-function elenca(dir, dentro = []) {
+export function elenca(dir, dentro = []) {
   let voci;
   try {
     voci = readdirSync(dir, { withFileTypes: true });

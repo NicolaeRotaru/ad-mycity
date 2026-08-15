@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-14 23:30",
+ "aggiornato": "2026-08-15 12:20",
  "mutanti": [
   {
    "lotto": 30,
@@ -1104,7 +1104,7 @@
    "difetto": "AR-154",
    "nome": "l allarme aggiunto a una consegna che esisteva gia torna a passare inosservato",
    "file": "cervello/cancello-stop.mjs",
-   "cerca": "  const daiModificati = consegneModificate.filter((f) => (f.righe || []).some((r) => ALLARMI.some((m) => m.test(r)))).map((f) => f.file);",
+   "cerca": "  const daiModificati = consegneModificate\n    .filter((f) => !ePrDoc(f.file))\n    .filter((f) => (f.righe || []).some((r) => ALLARMI.some((m) => m.test(r))))\n    .map((f) => f.file);",
    "sostituisci": "  const daiModificati = [];",
    "test": "cervello/test/cancello-stop.test.mjs"
   },
@@ -3735,6 +3735,24 @@
    "cerca": "      - name: Dipendenze del Pannello\n        run: npm --prefix pannello ci\n\n      - name: Test del cervello\n        run: node cervello/test-cervello.mjs",
    "sostituisci": "      - name: Test del cervello\n        run: node cervello/test-cervello.mjs\n\n      - name: Dipendenze del Pannello\n        run: npm --prefix pannello ci",
    "test": "node cervello/test/dipendenze-prima-delle-prove.test.mjs"
+  },
+  {
+   "difetto": "skill-senza-riga-in-bacheca",
+   "lezione": "L-2026-0815-001",
+   "nome": "una skill disponibile torna a non avere la sua riga nel censimento: la bacheca la mostra senza dire cosa fa",
+   "file": "cervello/censimento-macchina.mjs",
+   "cerca": "    verify: \"La prova sul campo: guida il Pannello vero con un browser e i test del worker, per dimostrare che un fix funziona.\",",
+   "sostituisci": "    // MUTANTE: la riga della skill «verify» tolta dal censimento",
+   "test": "node --test cervello/test/mappa-in-bacheca.test.mjs"
+  },
+  {
+   "difetto": "worktree-contato-come-repo",
+   "lezione": "L-2026-0815-002",
+   "nome": "la copia di lavoro di un agente torna a essere scandita come repo: ogni guardiano risulta eseguito una seconda volta da un esecutore fantasma",
+   "file": "cervello/guardia-viva-check.mjs",
+   "cerca": "  \"node_modules\", \".git\", \".next\", \"dist\", \"build\", \"worktrees\",",
+   "sostituisci": "  \"node_modules\", \".git\", \".next\", \"dist\", \"build\", // MUTANTE: worktrees tolto dalle escluse",
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
   }
  ]
 }

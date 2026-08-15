@@ -212,7 +212,11 @@ const ePROSA = (file) => PROSA.some((e) => file.endsWith(e));
  * volte, sul proprio diario. Terza forma della stessa regola in questo file — «menzione ≠ chiamata»
  * dopo i commenti (⑥b) e la prosa (AR-503) — e la più imbarazzante: il diario di chi accusa.
  */
-export const REFERTI = ["MyCity-Vault/90-Memoria-AI/auto-coscienza/sorvegliante-storico.json"];
+export const REFERTI = [
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/sorvegliante-storico.json",
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/salute.json",
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json",
+];
 const eReferto = (file) => REFERTI.includes(file);
 
 // ─────────────────────────────────────────────────────────────────────────────

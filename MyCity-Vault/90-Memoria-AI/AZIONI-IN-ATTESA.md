@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-15 06:23** — Automatico: **69 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-15 11:38** — Automatico: **69 aperte · 8 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -1099,7 +1099,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-15 06:23)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-15 11:38)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-15-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1111,7 +1111,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-15 06:23 · 8 card totali
+> Ultima pulizia: 2026-08-15 11:38 · 8 card totali
 
 ### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 
@@ -1368,3 +1368,5 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 85 | 2026-08-14 20:05 | @tech | Completa la mappa della macchina: sono arrivate 65 skill nuove senza la loro riga di descrizione | 🟡 | Il pacchetto di skill marketing/ingegneria arrivato l'11-13/8 ha portato altre 65 skill (`ab-testing`, `ads`, `copywriting`, `seo-audit`, `social`, …) oltre alle 67 già censite dalla PR #714. `cervello/censimento-macchina.mjs` (oggetto `DESCRIZIONI.skill`) non ha ancora la loro riga: `node --test cervello/test/mappa-in-bacheca.test.mjs` è rosso su questo esatto elenco (verificato dal vivo in questo giro, non dedotto). È uno dei 3 test rossi del cervello, diagnosticato ora con la causa esatta invece del generico "stesso debito noto". | github | in attesa | Finché mancano le righe, la bacheca "di cosa è fatta la macchina" che leggi tu mostra un pezzo su tre incompleto — e il test del cervello resta rosso su questo. | Dopo il fix (righe aggiunte, una frase per skill) il test torna verde e la mappa torna vera. |
 | 86 | 2026-08-14 22:39 | @tech | Rigenera il registro delle prove del cantiere: due difetti ancora aperti hanno perso il comando che li verifica | 🟡 | Il sorvegliante segnala da decine di giri che `cantiere-prove.json` ha perso righe che chiamavano `cervello/sentinella-dati.mjs` e `pannello/src/app/page.tsx`, fra le altre. Controllato riga per riga contro la fonte vera (`cantiere-difetti.json`, non il grep del sorvegliante): su 13 difetti coinvolti, **11 sono davvero chiusi** — la sparizione della loro prova è corretta, il file traccia solo i difetti aperti, falso allarme già confermato più volte oggi. Ma **2 sono ancora "aperto"** (AR-225 — tabella dei numeri fuori schermo su mobile; AR-346 — cancello condiviso rosso su main per una riga di censimento mancante): per questi due la sparizione della prova è un buco vero, non un falso allarme. Il file dirty predata questa sessione (già modificato all'apertura, prima di qualunque mio comando) e il suo generatore, `cervello/cantiere-prove.mjs`, è bloccato dall'allowlist di questa sessione headless — non l'ho potuto rilanciare per riparalo, né modificarlo a mano senza rischiare di introdurre un errore mio in un file auto-generato. | github | in attesa | Finché resta così, AR-225 e AR-346 restano difetti aperti ma invisibili al conteggio delle prove — la macchina non sa più come verificarli quando arriva il turno di ripararli. | Rilancia `node cervello/cantiere-prove.mjs` da un canale con permessi più larghi (VPS): rigenera il file dalla fonte vera e le due righe tornano. |
 | 87 | 2026-08-15 00:26 | @tech | Merge PR #732 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/732 (aggiornata: aggiunto esempio concreto + corretto il conto CI stale) | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 88 | 2026-08-15 09:14 | @tech | Merge PR #733 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/733 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 89 | 2026-08-15 11:47 | @tech | Merge PR #735 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/735 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |

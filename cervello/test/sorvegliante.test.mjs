@@ -1373,6 +1373,26 @@ test("il diario del sorvegliante non dichiara difese: lì un nome è la cronaca 
   assert.equal(gravi(e.voci).length, 0, "terza forma di «menzione ≠ chiamata», e la più imbarazzante");
 });
 
+test("i referti auto-scritti (salute.json, auto-analisi.json) non dichiarano difese (AR-543/PR#733)", () => {
+  // PR #733: il sorvegliante accusava `salute.json` di "difesa-rimossa" ~60 volte a sessione — è un
+  // referto che la macchina riscrive da sola a ogni giro, come `sorvegliante-storico.json` sopra.
+  // Scoperto lo stesso giorno che `auto-analisi.json` ha la stessa identica malattia (AZIONI #89):
+  // la mia auto-analisi di un giro non ripete parola per parola i nomi dei guardiani già citati nel
+  // giro precedente, e senza l'esenzione quel "non ripetere" veniva letto come "ho spento un guardiano".
+  for (const file of [
+    "MyCity-Vault/90-Memoria-AI/auto-coscienza/salute.json",
+    "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-analisi.json",
+  ]) {
+    const e = daDiff([
+      `--- a/${file}`,
+      `+++ b/${file}`,
+      "@@ -10,1 +10,0 @@",
+      '-  "gate": "node cervello/gate-veri.mjs"',
+    ]);
+    assert.equal(gravi(e.voci).filter((v) => v.classe === "difesa-rimossa").length, 0, `${file} deve restare esente, è un referto rigenerato`);
+  }
+});
+
 test("…ma il cantiere e le lezioni restano guardati: lì le difese ci vivono davvero", () => {
   const e = daDiff([
     "--- a/MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
