@@ -3717,15 +3717,6 @@
   },
   {
    "lotto": 42,
-   "difetto": "AR-663",
-   "nome": "rimettendo il referto su un percorso fisso diventano rossi 2 casi (⑩⑪) — applicata, lanciata, vista rossa, rimessa",
-   "file": "cervello/conta-blocco-mancante.mjs",
-   "cerca": "const REFERTO = process.env.BLOCCO_MANCANTE_FILE || join",
-   "sostituisci": "const REFERTO = join",
-   "test": "cervello/test/misura-che-non-sporca.test.mjs"
-  },
-  {
-   "lotto": 42,
    "difetto": "AR-639",
    "nome": "facendo riscrivere anche quando cambia solo l’ora diventa rosso il caso ② — applicata, lanciata, vista rossa, rimessa",
    "file": "cervello/scrittura-misura.mjs",
@@ -4074,6 +4065,36 @@
    "cerca": "      \"motivo\": \"decisione\",",
    "sostituisci": "      \"motivo\": \"inerzia\",",
    "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-663",
+   "nome": "interrogare il guardiano torna a cambiarlo: con --json riscrive il referto invece di guardare e basta",
+   "file": "cervello/conta-blocco-mancante.mjs",
+   "cerca": "const SOLA_LETTURA = process.argv.includes(\"--sola-lettura\") || (JSON_MODE && !AGGIORNA);",
+   "sostituisci": "const SOLA_LETTURA = false;",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "L-2026-0815-001",
+   "nome": "una skill resta senza la sua riga descrittiva e la mappa non se ne accorge",
+   "file": "cervello/censimento-macchina.mjs",
+   "cerca": "    verify: \"La prova sul campo: guida il Pannello vero con un browser e i test del worker, per dimostrare che un fix funziona.\",",
+   "sostituisci": "",
+   "test": "cervello/test/mappa-in-bacheca.test.mjs",
+   "lezione": "L-2026-0815-001"
+  },
+  {
+   "lotto": 42,
+   "difetto": "L-2026-0815-002",
+   "lezione": "L-2026-0815-002",
+   "nome": "il tetto del debito «da-cablare» smette di frenare: il guardiano non si accorge piu se il buco si allarga",
+   "file": "cervello/guardia-viva-check.mjs",
+   "cerca": "  const tetto = tettoSforato(debito, registro.tetto_da_cablare);",
+   "sostituisci": "  const tetto = tettoSforato(debito, 0);",
+   "test": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs",
+   "nota": "⚠️ Questa mutazione prova che il TETTO del test e vivo, non che l'esclusione delle cartelle temporanee funzioni: quella riga nel ramo non c'e (verificato anche su origin/main). Il freno che la lezione dichiara e piu largo della difesa che esiste, e lo scrivo invece di far finta."
   }
  ]
 }
