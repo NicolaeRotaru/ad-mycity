@@ -1,8 +1,21 @@
 ---
 tipo: stato
-aggiornato: 2026-08-15 00:45
+aggiornato: 2026-08-15 08:45
 fonte: AD digitale (chat)
 ---
+
+> ✅ **15/8 08:45 — Giro completo richiesto in chat. Business invariato. Chiuso il vincolo HARD freschezza-cadenze: il giro delle 06:30 era la sonda leggera, non una sessione mancata.**
+> Riconfermato dal vivo (`node cervello/verifica-sensori.mjs --mcp-supabase=ok`, 08:40): 1 ordine via REST, stessa firma dal 24/6 (mai pagato, annullato). North Star: stallo **52 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
+>
+> **Il vincolo HARD freschezza-cadenze, diagnosticato per davvero, non solo ritimbrato.** Segnalava che il "giro" delle 06:30 era uscito saltando auto-analisi/apprendimento. Verificato con `git show --stat` sui commit reali `1d40afde3`/`33c60d780` (non dedotto): autore "AD MyCity VPS", solo file di sensori/sentinelle/Intelligence toccati — è il pre-step deterministico di `giro.sh` (la sonda leggera), non una sessione con il modello dentro. `delta-gate.json` conferma: alle 06:23 aveva deciso `esegui_pieno:false` ("nulla di nuovo"). Il vincolo aveva comunque ragione a segnalare un buco reale (`Briefing/2026-08-15.md` fermo al commit delle 00:45, verificato con `git log` sul file): nessun briefing/auto-analisi/apprendimento era uscito da quasi 8 ore. Scritti ora: `auto-analisi.json`, `AUTO-ANALISI.md`, e 1 lezione nuova (`L-2026-0815-001`) che distingue sonda-leggera da giro-pieno guardando `delta-gate.json` invece di dare per scontato un errore.
+>
+> **Trovata e messa in coda una PR aperta 9 minuti prima di questa sessione, mai segnalata.** Il file untracked `consegne/tech/pr-ad-mycity-733.md` documentava la PR #733 (fix vero: il sorvegliante accusava `salute.json`, un referto auto-generato, di "difesa rimossa" 60 volte a sessione). `node cervello/ci-stato.mjs` (funzionante in questa sessione) mostra la PR rossa su 2 controlli — aggiunta come card **#88**, non dichiarata pronta per la firma. Esito registrato nel quaderno `@tech` (`chiusura-loop.mjs`).
+>
+> **Trovato un secondo caso dello stesso identico difetto, appena riparato ieri.** Scrivendo `auto-analisi.json` in questo passaggio, il sorvegliante ha accusato "difesa rimossa" 5 volte per lo stesso motivo della PR #733: `REFERTI` in `cervello/sorvegliante.mjs` ha ancora solo 2 voci (`sorvegliante-storico.json`, `salute.json`), manca `auto-analisi.json`. Aggiunta come card **#89** — stesso movimento di ieri, non risolvibile da questa sessione di sola memoria.
+>
+> **Provati e bloccati (un tentativo ciascuno, non ritentati, [[feedback-bash-solo-script-esatti-in-allowlist]]):** `north-star-check.mjs --gate`, `correzione-nicola-gate.mjs`, `gate-veri.mjs`, `tasso-lezioni.mjs`. **Funzionanti in questa sessione** (diversamente da molte precedenti oggi): `verifica-sensori.mjs`, `coerenza-fatti.mjs`, `chiusura-loop.mjs`, `ci-stato.mjs` — la disponibilità dei comandi allowlisted varia da sessione a sessione.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), più **#88** (CI della PR #733 da sistemare) e **#89** (secondo caso del falso allarme sorvegliante). Briefing: [[Briefing/2026-08-15]].
 
 > ✅ **15/8 00:45 — Giro richiesto in chat, pochi minuti dopo la chiusura del passaggio precedente (commit `6f94adf68`, 00:30). Business invariato. Chiuso un vincolo HARD stantio: la checklist personale di Nicola.**
 > Riconfermato con il sensore diretto già scritto da `giro.sh` (`sensori-cecita.json`, 22:27 del 14/8, non riletto in diretta per rispettare il vincolo tasso-di-chiusura): 1 ordine, mai pagato, del 24/6, stessa firma dal 24/6. North Star: stallo **53 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Non è un allarme.
