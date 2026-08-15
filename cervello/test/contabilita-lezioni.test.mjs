@@ -82,3 +82,31 @@ test("B-dedup --applica: la seconda copia cambia id SENZA perdere contenuto; la 
   const r2 = spawnSync(process.execPath, [SCRIPT, `--root=${dove}`, `--file=${file}`, "--applica"], { encoding: "utf8", timeout: 30000 });
   assert.match(r2.stdout, /Nessun id doppio/, "idempotente: al secondo giro niente da riparare");
 });
+
+// ── 14/8: una mutazione che cita una lezione mai scritta ─────────────────────
+// TROVATO NEL COLLAUDO, non da un guardiano. Registrando la mutazione di AR-697 le ho messo
+// accanto `"lezione": "L-2026-0814-002"` — una lezione che in quel momento non esisteva ancora, e
+// che avrei potuto non scrivere mai. Nessun controllo se ne sarebbe accorto: `gate-veri.mjs`
+// cammina nel verso opposto (lezione → mutazione) e una mutazione orfana gli passa sotto il naso.
+//
+// Perché conta: il campo `lezione` è ciò che lega un freno alla ragione per cui esiste. Se punta
+// al vuoto, il freno resta (il test gira) ma la memoria del perché è persa — e fra un mese quella
+// mutazione sembrerà arbitraria a chiunque la legga, io compresa. È la stessa malattia degli id
+// doppi qui sopra, vista dall'altro capo del filo: lì due lezioni per un numero, qui un numero per
+// nessuna lezione.
+test("nessuna mutazione cita una lezione che non esiste", () => {
+  const REPO = join(QUI, "..", "..");
+  const mut = JSON.parse(readFileSync(join(REPO, "cervello/mutanti.json"), "utf8"));
+  const app = JSON.parse(readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json"), "utf8"));
+  const ids = new Set((app.lezioni || app).map((l) => l.id));
+  const orfane = (mut.mutanti || []).filter((m) => m.lezione && !ids.has(m.lezione)).map((m) => `${m.difetto} → ${m.lezione}`);
+  assert.deepEqual(orfane, [], `mutazioni che puntano a una lezione inesistente: ${orfane.join(" · ")}`);
+});
+
+test("…e il rilevatore non è cieco: su dati finti la trova", () => {
+  // Senza questa, la prova sopra resterebbe verde anche se il confronto fosse rotto.
+  const ids = new Set(["L-1", "L-2"]);
+  const mutanti = [{ difetto: "AR-1", lezione: "L-1" }, { difetto: "AR-2", lezione: "L-99" }, { difetto: "AR-3" }];
+  const orfane = mutanti.filter((m) => m.lezione && !ids.has(m.lezione)).map((m) => m.difetto);
+  assert.deepEqual(orfane, ["AR-2"], "una mutazione senza campo `lezione` è legittima e non va segnalata");
+});

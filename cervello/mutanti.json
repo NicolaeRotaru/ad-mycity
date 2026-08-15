@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-14T23:29:37.693Z",
+ "aggiornato": "2026-08-15 12:20",
  "mutanti": [
   {
    "lotto": 30,
@@ -11,7 +11,7 @@
    "cerca": "  const mutNelLotto = toccati ? senzaMutazioneContati.filter((x) => toccati.includes(x.id)) : [];",
    "sostituisci": "  const mutNelLotto = [];",
    "test": "cervello/test/mutazione-mancante.test.mjs",
-   "nota_riaggancio": "AR-692 ha separato il debito ereditato da quello nuovo: la misura ora e senzaMutazioneContati (lotto 42)."
+   "nota_riaggancio": "main ha riscritto il cancello (senzaMutazioneContati): il comportamento vive, il puntatore era rimasto indietro. Riagganciato alla fusione del lotto 42."
   },
   {
    "lotto": 30,
@@ -21,7 +21,7 @@
    "cerca": "  if (senzaMutazioneContati.length > tettoMut) {",
    "sostituisci": "  if (false) {",
    "test": "cervello/test/mutazione-mancante.test.mjs",
-   "nota_riaggancio": "AR-692 ha separato il debito ereditato da quello nuovo: la misura ora e senzaMutazioneContati (lotto 42)."
+   "nota_riaggancio": "idem: il tetto c e ancora, la riga e cambiata."
   },
   {
    "lotto": 30,
@@ -964,30 +964,30 @@
   },
   {
    "difetto": "AR-474",
-   "lezione": "L-2026-0731-536",
    "nome": "il cancello smette di vedere i difetti chiusi senza prova: si torna a chiudere sulla lettera",
    "file": "cervello/cancello-stop.mjs",
    "cerca": "    .filter((d) => !chiusuraLegittima(d.verifica))",
    "sostituisci": "    .filter(() => false)",
-   "test": "cervello/test/cancello-stop.test.mjs"
+   "test": "cervello/test/cancello-stop.test.mjs",
+   "nota_lezione": "Citava L-2026-0731-536, che in apprendimento.json non e mai esistita (verificato con git log -S su tutta la storia del file): un puntatore coniato a mano e mai scritto. Tolto invece di inventargli una destinazione — il legame col difetto resta nel campo `difetto`."
   },
   {
    "difetto": "AR-474",
-   "lezione": "L-2026-0731-536",
    "nome": "la valvola anti-cappio si rompe: il cancello blocca all infinito e viene spento entro il giorno",
    "file": "cervello/cancello-stop.mjs",
    "cerca": "  if (giaBloccato) {",
    "sostituisci": "  if (false) {",
-   "test": "cervello/test/cancello-stop.test.mjs"
+   "test": "cervello/test/cancello-stop.test.mjs",
+   "nota_lezione": "Citava L-2026-0731-536, che in apprendimento.json non e mai esistita (verificato con git log -S su tutta la storia del file): un puntatore coniato a mano e mai scritto. Tolto invece di inventargli una destinazione — il legame col difetto resta nel campo `difetto`."
   },
   {
    "difetto": "AR-474",
-   "lezione": "L-2026-0731-536",
    "nome": "il cancello grida anche quando la coda e stata toccata: il rumore lo fa spegnere",
    "file": "cervello/cancello-stop.mjs",
    "cerca": "  if (codaToccata) return [];",
    "sostituisci": "  if (false) return [];",
-   "test": "cervello/test/cancello-stop.test.mjs"
+   "test": "cervello/test/cancello-stop.test.mjs",
+   "nota_lezione": "Citava L-2026-0731-536, che in apprendimento.json non e mai esistita (verificato con git log -S su tutta la storia del file): un puntatore coniato a mano e mai scritto. Tolto invece di inventargli una destinazione — il legame col difetto resta nel campo `difetto`."
   },
   {
    "difetto": "AR-154",
@@ -1394,16 +1394,6 @@
    "cerca": "  if (dalSorvegliante) righe.push(dalSorvegliante);",
    "sostituisci": "  if (false) righe.push(dalSorvegliante);",
    "test": "cervello/test/misura-cieca.test.mjs"
-  },
-  {
-   "difetto": "AR-503",
-   "lezione": "L-2026-0803-544",
-   "nome": "la prosa torna a contare come chiamata: togliere una riga di istruzioni sembra spegnere un guardiano",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "    if (!eFixture(file) && !ePROSA(file) && !eReferto(file, perNome.get(file)?.contenuto ?? null)) {",
-   "sostituisci": "    if (!eFixture(file) && !eReferto(file, perNome.get(file)?.contenuto ?? null)) {",
-   "test": "cervello/test/sorvegliante.test.mjs",
-   "nota_riaggancio": "AR-556 ha dato a eReferto un secondo argomento: stessa riga, firma nuova (lotto 42)."
   },
   {
    "difetto": "AR-506",
@@ -1951,16 +1941,6 @@
    "test": "node --test cervello/test/cancello-stop.test.mjs"
   },
   {
-   "difetto": "AR-543",
-   "lezione": "L-2026-0804-554",
-   "nome": "il diario del sorvegliante torna a valere come dichiarazione: la guardia riaccusa se stessa",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "  if (REFERTI.includes(nome)) return true;",
-   "sostituisci": "  if (false) return true;",
-   "test": "node --test cervello/test/sorvegliante.test.mjs",
-   "nota_riaggancio": "AR-556 ha riscritto eReferto da elenco a riconoscimento: il comportamento vive qui (lotto 42)."
-  },
-  {
    "difetto": "AR-505",
    "lezione": "L-2026-0804-554",
    "nome": "la ricerca dell esito torna a saltare le fusioni: chi registra risolvendo un conflitto ridiventa muto",
@@ -2328,16 +2308,6 @@
    "cerca": "«Cosa non ho verificato» (dichiara cosa NON hai potuto controllare da qui",
    "sostituisci": "",
    "test": "node cervello/test/regola-scrittura-nei-senior.test.mjs"
-  },
-  {
-   "difetto": "L-2026-0813-02 gate-dichiarato-senza-mutazione",
-   "lezione": "L-2026-0813-02",
-   "nome": "la regola gate-mai-rotto cambia nome e nessuno boccia più un gate senza mutazione: il freno della lezione sparisce in silenzio",
-   "file": "cervello/contratto-prova.mjs",
-   "cerca": "      violazioni.push({ regola: \"gate-mai-rotto\", lezione: l.id,",
-   "sostituisci": "      violazioni.push({ regola: \"gate-mai-rotto-disattivato\", lezione: l.id,",
-   "test": "node cervello/test/gate-che-non-puo-scattare.test.mjs",
-   "nota_riaggancio": "AR-565 ha spostato la definizione unica dei freni in contratto-prova.mjs: la regola vive li (lotto 42)."
   },
   {
    "lotto": 37,
@@ -3230,6 +3200,14 @@
    "test": "node cervello/test/contabilita-chiusure.test.mjs"
   },
   {
+   "difetto": "AR-696",
+   "nome": "il referto torna a mostrare la prima riga del JSON invece del riassunto: il motivo del guasto ridiventa una parentesi graffa",
+   "file": "cervello/salute.mjs",
+   "cerca": "  if (testo.startsWith(\"{\") || testo.startsWith(\"[\")) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/motivo-che-non-dice-niente.test.mjs"
+  },
+  {
    "lotto": 40,
    "difetto": "AR-142",
    "nome": "il rilevatore smette di riconoscere il jolly su una cartella scrivibile: le 2 violazioni del jolly spariscono (9 -> 7) e il permesso largo torna invisibile",
@@ -3246,6 +3224,15 @@
    "cerca": "const TETTI = process.env.PESO_TETTI || join(QUI, \"peso-contesto.json\");",
    "sostituisci": "const TETTI = process.env.PESO_TETTI || join(QUI, \"peso-contesto-inesistente.json\");",
    "test": "node cervello/peso-contesto.mjs"
+  },
+  {
+   "difetto": "rilancio-di-conferma-spento",
+   "lezione": "L-2026-0814-001",
+   "nome": "la macchina smette di rilanciare un rosso prima di crederci: una corsa fra prove parallele torna a passare per una regressione e blocca la CI",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "  const daRilanciare = righe.filter((x) => x.esito === \"rosso\");",
+   "sostituisci": "  const daRilanciare = []; // MUTANTE: nessuno rilancia, il primo rosso e definitivo",
+   "test": "node cervello/test/rosso-confermato-prima-di-crederci.test.mjs"
   },
   {
    "lotto": 41,
@@ -3716,6 +3703,83 @@
    "test": "node cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
   },
   {
+   "difetto": "AR-697",
+   "lezione": "L-2026-0814-002",
+   "nome": "i passi tornano nell ordine di prima: la suite gira senza le dipendenze del Pannello, e una prova sana esce «import non risolvibile»",
+   "file": ".github/workflows/test-cervello.yml",
+   "cerca": "      - name: Dipendenze del Pannello\n        run: npm --prefix pannello ci\n\n      - name: Test del cervello\n        run: node cervello/test-cervello.mjs",
+   "sostituisci": "      - name: Test del cervello\n        run: node cervello/test-cervello.mjs\n\n      - name: Dipendenze del Pannello\n        run: npm --prefix pannello ci",
+   "test": "node cervello/test/dipendenze-prima-delle-prove.test.mjs"
+  },
+  {
+   "difetto": "skill-senza-riga-in-bacheca",
+   "lezione": "L-2026-0815-001",
+   "nome": "una skill disponibile torna a non avere la sua riga nel censimento: la bacheca la mostra senza dire cosa fa",
+   "file": "cervello/censimento-macchina.mjs",
+   "cerca": "    verify: \"La prova sul campo: guida il Pannello vero con un browser e i test del worker, per dimostrare che un fix funziona.\",",
+   "sostituisci": "    // MUTANTE: la riga della skill «verify» tolta dal censimento",
+   "test": "node --test cervello/test/mappa-in-bacheca.test.mjs"
+  },
+  {
+   "difetto": "worktree-contato-come-repo",
+   "lezione": "L-2026-0815-002",
+   "nome": "la copia di lavoro di un agente torna a essere scandita come repo: ogni guardiano risulta eseguito una seconda volta da un esecutore fantasma",
+   "file": "cervello/guardia-viva-check.mjs",
+   "cerca": "  \"node_modules\", \".git\", \".next\", \"dist\", \"build\", \"worktrees\",",
+   "sostituisci": "  \"node_modules\", \".git\", \".next\", \"dist\", \"build\", // MUTANTE: worktrees tolto dalle escluse",
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+  },
+  {
+   "lotto": 30,
+   "difetto": "cancello-lotto · mutazione-mancante (blocco duro)",
+   "nome": "il difetto toccato senza mutazione non viene più fermato",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  const mutNelLotto = toccati ? senzaMutazioneContati.filter((x) => toccati.includes(x.id)) : [];",
+   "sostituisci": "  const mutNelLotto = [];",
+   "test": "cervello/test/mutazione-mancante.test.mjs",
+   "nota_riaggancio": "AR-692 ha separato il debito ereditato da quello nuovo: la misura ora e senzaMutazioneContati (lotto 42)."
+  },
+  {
+   "lotto": 30,
+   "difetto": "cancello-lotto · mutazione-mancante (tetto)",
+   "nome": "il debito di prove mai rotte apposta può allargarsi senza che nessuno lo veda",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  if (senzaMutazioneContati.length > tettoMut) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/mutazione-mancante.test.mjs",
+   "nota_riaggancio": "AR-692 ha separato il debito ereditato da quello nuovo: la misura ora e senzaMutazioneContati (lotto 42)."
+  },
+  {
+   "difetto": "AR-503",
+   "lezione": "L-2026-0803-544",
+   "nome": "la prosa torna a contare come chiamata: togliere una riga di istruzioni sembra spegnere un guardiano",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    if (!eFixture(file) && !ePROSA(file) && !eReferto(file, perNome.get(file)?.contenuto ?? null)) {",
+   "sostituisci": "    if (!eFixture(file) && !eReferto(file, perNome.get(file)?.contenuto ?? null)) {",
+   "test": "cervello/test/sorvegliante.test.mjs",
+   "nota_riaggancio": "AR-556 ha dato a eReferto un secondo argomento: stessa riga, firma nuova (lotto 42)."
+  },
+  {
+   "difetto": "AR-543",
+   "lezione": "L-2026-0804-554",
+   "nome": "il diario del sorvegliante torna a valere come dichiarazione: la guardia riaccusa se stessa",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  if (REFERTI.includes(nome)) return true;",
+   "sostituisci": "  if (false) return true;",
+   "test": "node --test cervello/test/sorvegliante.test.mjs",
+   "nota_riaggancio": "AR-556 ha riscritto eReferto da elenco a riconoscimento: il comportamento vive qui (lotto 42)."
+  },
+  {
+   "difetto": "L-2026-0813-02 gate-dichiarato-senza-mutazione",
+   "lezione": "L-2026-0813-02",
+   "nome": "la regola gate-mai-rotto cambia nome e nessuno boccia più un gate senza mutazione: il freno della lezione sparisce in silenzio",
+   "file": "cervello/contratto-prova.mjs",
+   "cerca": "      violazioni.push({ regola: \"gate-mai-rotto\", lezione: l.id,",
+   "sostituisci": "      violazioni.push({ regola: \"gate-mai-rotto-disattivato\", lezione: l.id,",
+   "test": "node cervello/test/gate-che-non-puo-scattare.test.mjs",
+   "nota_riaggancio": "AR-565 ha spostato la definizione unica dei freni in contratto-prova.mjs: la regola vive li (lotto 42)."
+  },
+  {
    "lotto": 42,
    "difetto": "AR-639",
    "nome": "facendo riscrivere anche quando cambia solo l’ora diventa rosso il caso ② — applicata, lanciata, vista rossa, rimessa",
@@ -4023,30 +4087,12 @@
   },
   {
    "lotto": 42,
-   "difetto": "AR-672",
-   "nome": "l'ora del Pannello torna a essere costruita senza chiedere il fuso, e d'inverno mente di un'ora",
-   "file": "pannello/src/lib/verdetto-dato.ts",
-   "cerca": "    const t = Date.parse(vaultToIso(`${y}-${mo}-${d} ${h}:${mi}`));",
-   "sostituisci": "    const t = Date.parse(HARDCODE(`${y}-${mo}-${d} ${h}:${mi}`));",
-   "test": "cervello/test/orologi-inchiodati-allora-legale.test.mjs"
-  },
-  {
-   "lotto": 42,
    "difetto": "AR-677",
    "nome": "il perimetro smette di scendere nelle sottocartelle e torna a dichiarare meta macchina",
    "file": "cervello/perimetro.mjs",
    "cerca": "        if (ammesso(rel + \"/_\", { escludi: opzioni.escludi })) scendi(pieno);",
    "sostituisci": "        if (ammesso(rel + \"/_\", { escludi: opzioni.escludi })) void 0;",
    "test": "cervello/test/import-che-esegue.test.mjs"
-  },
-  {
-   "lotto": 42,
-   "difetto": "AR-557",
-   "nome": "la guardia smette di vedere i file cancellati e il test deve accorgersene",
-   "file": "cervello/sorvegliante.mjs",
-   "cerca": "      if (!nuovo && vecchio) cancellati.push(vecchio);",
-   "sostituisci": "      if (!nuovo && vecchio) [].push(vecchio);",
-   "test": "cervello/test/sorvegliante.test.mjs"
   },
   {
    "lotto": 42,
@@ -4077,16 +4123,6 @@
   },
   {
    "lotto": 42,
-   "difetto": "L-2026-0815-001",
-   "nome": "una skill resta senza la sua riga descrittiva e la mappa non se ne accorge",
-   "file": "cervello/censimento-macchina.mjs",
-   "cerca": "    verify: \"La prova sul campo: guida il Pannello vero con un browser e i test del worker, per dimostrare che un fix funziona.\",",
-   "sostituisci": "",
-   "test": "cervello/test/mappa-in-bacheca.test.mjs",
-   "lezione": "L-2026-0815-001"
-  },
-  {
-   "lotto": 42,
    "difetto": "L-2026-0815-002",
    "lezione": "L-2026-0815-002",
    "nome": "il tetto del debito «da-cablare» smette di frenare: il guardiano non si accorge piu se il buco si allarga",
@@ -4095,6 +4131,24 @@
    "sostituisci": "  const tetto = tettoSforato(debito, 0);",
    "test": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs",
    "nota": "⚠️ Questa mutazione prova che il TETTO del test e vivo, non che l'esclusione delle cartelle temporanee funzioni: quella riga nel ramo non c'e (verificato anche su origin/main). Il freno che la lezione dichiara e piu largo della difesa che esiste, e lo scrivo invece di far finta."
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-557",
+   "nome": "la guardia smette di vedere i file cancellati e il test deve accorgersene",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "      if (!nuovo && vecchio) cancellati.push(vecchio);",
+   "sostituisci": "      if (!nuovo && vecchio) [].push(vecchio);",
+   "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-672",
+   "nome": "l'ora del Pannello torna a essere costruita senza chiedere il fuso, e d'inverno mente di un'ora",
+   "file": "pannello/src/lib/verdetto-dato.ts",
+   "cerca": "    const t = Date.parse(vaultToIso(`${y}-${mo}-${d} ${h}:${mi}`));",
+   "sostituisci": "    const t = Date.parse(HARDCODE(`${y}-${mo}-${d} ${h}:${mi}`));",
+   "test": "cervello/test/orologi-inchiodati-allora-legale.test.mjs"
   }
  ]
 }

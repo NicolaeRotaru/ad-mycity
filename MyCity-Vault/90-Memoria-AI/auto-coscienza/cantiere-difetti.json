@@ -14396,35 +14396,45 @@
     },
     {
       "id": "AR-696",
-      "stato": "aperto",
-      "dimensione": "cantiere-prove",
-      "scoperto": "2026-08-14 23:45",
-      "lotto_scoperta": 42,
-      "gravita": "medio",
-      "titolo": "Una prova che l'ambiente non sa far partire viene contata come rossa invece che come «non l'ho potuta guardare»",
-      "causa_radice": "cervello/test/c1-atto-una-volta-sola.test.mjs importa una route del Pannello che richiede `next`, e `pannello/node_modules` non esiste in una sessione appena aperta. Il banco lo classifica `ineseguibile`, e l'ineseguibile conta come rosso. È la stessa confusione fra «rotto» e «ambiente incompleto» che AR-693 cura per le prove in bash, ma sul lato Node: andrebbe dichiarato ⚪ come i .bats senza bats. Finché resta così, il tetto `test_cervello` porta per sempre due rossi che non sono rossi — e un rosso che non appartiene a chi lo vede è il modo più veloce per imparare a ignorarlo. — visto in cervello/test-cervello.mjs (verdetto `ineseguibile`) · AR-385/AR-412/AR-413 nel cantiere",
-      "fix_proposto": "Il banco distingue tre esiti e non due: verde, rosso, ⚪ non misurato. Un import che fallisce per dipendenze assenti è ⚪, come già succede per bats. La prova: togliere pannello/node_modules e pretendere che il conteggio dica ⚪ e non ❌.",
+      "titolo": "Il referto della visita non nomina la cosa rotta: come motivo mostra una parentesi graffa",
+      "dimensione": "sensori-e-verita",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "stato": "chiuso",
+      "nato": "2026-08-14 16:55",
+      "nato_come": "scoperta",
+      "causa_radice": "cervello/salute.mjs, daGuardiano(): il motivo del guasto si prendeva con primaRigaUtile(r.out), cioe le prime due righe non vuote dell'output. Sei controlli della visita interrogano il loro guardiano con --json, e le prime due righe di un JSON indentato sono `{` e `\"esito\": \"errore\",`: le uniche due che non dicono niente. Il riassunto vero sta nel campo `sintesi` («1 FALLITI: token ad-mycity»). Per due giorni il referto ha detto a Nicola «Token, push e allineamento git — l'automazione ha un controllo fallito — { · \"esito\": \"errore\",»: un rosso che non dice cosa riparare, rimasto aperto proprio per questo.",
+      "fix_proposto": "motivoDelGuasto(): se l'output e JSON legge il campo che riassume (sintesi, poi motivo/perche/errore/dettaglio); altrimenti ripiega sulle prime righe come prima. Pura ed esportata, cosi la prova esegue la decisione invece di cercarne la forma.",
+      "origine": "check-in del 14/8: il controllo era rosso dal 13/8 sera e il referto non permetteva di sapere quale",
       "verifica": {
         "tipo": "umano",
         "nota": "nato nel lotto 42 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nato_come": "scoperta"
+      "nota_fix": "2026-08-14: 5 prove (JSON con sintesi · campi alternativi e liste · testo normale invariato · JSON troncato che non resta muto · il verdetto vero che non contiene piu la graffa). Non-vacuita: tolto il ramo JSON -> test rosso, rimesso -> verde. Numero cambiato due volte: AR-692, poi AR-693, ora AR-696 il 14/8 alle 18:2x: mentre la richiesta di unione era ferma in conflitto, su main il numero 692 era stato dato a un'altra scoperta. Cede il numero chi non e ancora pubblicato.",
+      "chiuso_il": "2026-08-14 17:00",
+      "chiuso_come": "node cervello/test/motivo-che-non-dice-niente.test.mjs → 5 pass / 0 fail",
+      "corroborata": true
     },
     {
       "id": "AR-697",
-      "stato": "aperto",
-      "dimensione": "cantiere-prove",
-      "scoperto": "2026-08-14 23:45",
-      "lotto_scoperta": 42,
+      "titolo": "La suite del cervello girava senza le dipendenze del Pannello, e una prova sana usciva «rotta»",
+      "dimensione": "prove-e-cancelli",
       "gravita": "grave",
-      "titolo": "Novantotto schede dichiarate riparate hanno una prova che nessuno ha mai rotto apposta",
-      "causa_radice": "Il conto `mutazione-mancante` guardava solo i difetti APERTI, e un difetto riparato esce dalla lista degli aperti nel momento stesso in cui viene chiuso: il debito si accumulava esattamente dove nessuno lo misurava. Novantotto schede dicono «riparato» appoggiandosi a una prova che non è mai stata messa alla prova. Dal lotto 42 il numero compare fra gli avvisi del cancello, ma NON blocca, e nessuno lo sta facendo scendere. — visto in cervello/cancello-lotto.mjs, avviso «schede dichiarate RIPARATE la cui prova non è mai stata rotta apposta»",
-      "fix_proposto": "Un tetto che scende e non risale sulle schede riparate senza mutazione, come già esiste per gli aperti. Prima però va misurato quanti dei novantotto sono difetti veri e quanti sono prove ereditate a pattern: sono due debiti diversi e vanno separati, o il tetto non potrà mai scendere.",
+      "impatto_crescita": "medio",
+      "stato": "chiuso",
+      "nato": "2026-08-14 22:40",
+      "nato_come": "scoperta",
+      "causa_radice": "In .github/workflows/test-cervello.yml il passo «Dipendenze del Pannello» (npm --prefix pannello ci) stava DOPO il passo che lancia la suite. c1-atto-una-volta-sola.test.mjs carica pannello/src/app/api/azioni-pronte/route.ts, che importa «next»: senza npm ci il modulo non esiste, il runner classifica il file «ineseguibile — import non risolvibile» e lo conta fra i rotti (1 su 279). Il cancello del lotto, che le dipendenze le installa al passo prima, restava verde sulla stessa identica riga di codice: due workflow con lo stesso compito e due ordini diversi davano due verdetti opposti sullo stesso commit.",
+      "fix_proposto": "Spostare il passo che installa le dipendenze PRIMA della suite (serve a lei, non solo al typecheck), e agganciare una prova che legge l ordine dichiarato dei passi nei due workflow e pretende che chi installa preceda chi usa.",
+      "origine": "CI rossa su PR #727: «suite del cervello» rossa e «prove, guardiani e typecheck» verde sullo stesso commit",
       "verifica": {
         "tipo": "umano",
         "nota": "nato nel lotto 42 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
       },
-      "nato_come": "scoperta"
+      "nota_fix": "6 prove (ordine nella suite · ordine nel cancello · i due workflow non divergono · il lettore dei passi provato su un finto con l ordine sbagliato · comando su piu righe con run: | · i workflow sorvegliati esistono ancora). Riprodotto il guasto vero su un albero staccato a 2fa0e8c: «Cannot find package next». Non-vacuita: mutazione AR-697 che rimette i passi nell ordine di prima, verificata dal motore.",
+      "chiuso_il": "2026-08-14 23:10",
+      "chiuso_come": "node cervello/test/dipendenze-prima-delle-prove.test.mjs → 6 pass / 0 fail",
+      "corroborata": true
     },
     {
       "id": "AR-698",
@@ -14575,6 +14585,6 @@
   "meta": {
     "aperti": 156,
     "in_corso": 0,
-    "chiusi": 474
+    "chiusi": 476
   }
 }
