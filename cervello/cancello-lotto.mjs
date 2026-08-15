@@ -872,9 +872,32 @@ function main() {
     // importati (AR-445), e quante prove esistono senza che nessuno le faccia girare (AR-660).
     passi.push(esegui("nessun modulo parte da solo se lo importi", "node", ["cervello/import-che-esegue.mjs"]));
     passi.push(esegui("nessuna prova scritta e mai eseguita", "node", ["cervello/prove-non-eseguite.mjs"]));
+    // AR-693 ② — «29 prove in bash che nessuno fa girare» detto come NUMERO con un tetto, e non come
+    // un ⚪ in fondo a un elenco di duecentoquaranta righe. Il tetto scende quando qualcuno installa
+    // bats dove il banco gira davvero; sale mai. Aggiungere una prova in bash mentre nessuno esegue
+    // le altre è una violazione, non un contributo.
+    passi.push(esegui("prove in bash senza esecutore (tetto)", "node", ["cervello/debito-prove-bash.mjs"]));
+    // AR-706 — e la stessa domanda sulle prove che guidano una superficie VIVA: quante non è mai
+    // stata rotta apposta? Una prova a runtime non provata col fix disfatto può misurare il tema
+    // invece della cura, e nessuno se ne accorge — è successo, ed è stato scoperto solo applicando
+    // la mutazione davvero.
+    passi.push(esegui("prove a runtime mai rotte apposta (tetto)", "node", ["cervello/prove-runtime-senza-mutazione.mjs"]));
     // La spazzata chiede «questa malattia si è allargata?». Questo chiede l'altra metà: «la forma che
     // è appena tornata ce l'ha, un nome?» — senza, il registro invecchia da fermo (AR-499).
     passi.push(esegui("le malattie che mancano", "node", ["cervello/malattie-mancanti.mjs"]));
+    // AR-699 — LE MUTAZIONI CHE HO SCOLLEGATO RISCRIVENDO, e non solo quelle dei difetti che nomino.
+    //
+    // `non-vacuita.mjs` qui sotto gira SOLO sulle mutazioni dei difetti che il lotto tocca: è una
+    // scelta giusta (rompere quelle di trenta lotti a ogni consegna costerebbe minuti), ma lascia
+    // scoperto proprio il caso misurato — cinque mutazioni orfanate in un lotto solo, e nessuna
+    // apparteneva a un difetto che quel lotto nominava. Il comportamento era SPOSTATO, non rimosso:
+    // il fix restava, la difesa no, e il test continuava a passare.
+    //
+    // Questo passo fa la domanda sull'altro asse: non «i miei difetti», ma «i file che ho toccato».
+    // Costa una lettura per file e nessun processo. Chi lo trova rosso ha due strade, e sono
+    // entrambe di trenta secondi: se il pezzo l'ho spostato, aggiorno `cerca` in mutanti.json; se
+    // l'ho tolto, ho appena disfatto un fix e lo devo sapere adesso.
+    passi.push(esegui("nessuna mutazione scollegata dai file toccati", "node", ["cervello/mutazioni-orfane.mjs"]));
     // Due schede con lo stesso numero (AR-535): non è un fastidio, è una scheda che sparisce alla
     // prima unione — successo tre volte il 4/8 fra me e il worker. Costa 100 ms e sta qui perché il
     // momento in cui il numero si sceglie è la consegna, e il momento in cui il danno si vede è la

@@ -19,9 +19,14 @@
 //
 // Exit: 0 = nessun esperimento in scadenza · 1 = almeno uno da misurare ORA (giro.sh può farne vincolo)
 
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+// AR-668 — la TERZA porta annidata. `sentinella-dati` lancia il tick, il tick lancia questo, e questo
+// riscriveva la memoria con un `writeFileSync` crudo: un freno sulla prima porta non arrivava mai
+// fin qui. Ora la scrittura passa dal writer atomico condiviso, che consulta `casa-memoria.mjs`.
+import { scriviJsonAtomico } from "./scrivi-json.mjs";
 
 const PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json");
 const JSON_MODE = process.argv.includes("--json");
@@ -44,7 +49,7 @@ if (process.argv.includes("--apri")) {
   let dati = existsSync(PATH) ? JSON.parse(readFileSync(PATH, "utf8")) : {};
   if (!Array.isArray(dati.esperimenti)) dati.esperimenti = [];
   dati.esperimenti.push({ id, stato: "aperto", ambito, metrica, atteso, data_misura, aperto_il: nowPiacenza() });
-  writeFileSync(PATH, JSON.stringify(dati, null, 2) + "\n", "utf8");
+  scriviJsonAtomico(PATH, dati);
   console.log(`✅ Esperimento ${id} aperto: ${metrica} atteso ${atteso} entro ${data_misura}`);
   process.exit(0);
 }
@@ -99,7 +104,7 @@ async function main() {
     chiusi: esperimenti.filter((e) => e.stato === "chiuso").length,
   };
   dati.aggiornato = quando;
-  writeFileSync(PATH, JSON.stringify(dati, null, 2) + "\n", "utf8");
+  scriviJsonAtomico(PATH, dati);
 
   const sintesi = `${aperti.length} aperti · ${inScadenza.length} in scadenza${datati ? ` · ${datati} datati d'ufficio (+${GIORNI_DEFAULT}g)` : ""}`;
   await stampSegnale("esperimenti", inScadenza.length ? "warn" : "ok", `${sintesi} · ${quando}`);
@@ -131,8 +136,15 @@ async function main() {
   process.exit(inScadenza.length > 0 || aperti.length === 0 ? 1 : 0);
 }
 
-main().catch(async (e) => {
-  console.error("ERRORE esperimenti-check:", e.message || e);
-  await stampSegnale("esperimenti", "errore", `crash: ${(e.message || e).toString().slice(0, 180)}`);
-  process.exit(1);
-});
+// AR-680 — il programma parte solo se qualcuno LANCIA questo file, non se qualcuno lo importa.
+// Senza questa guardia, importare il modulo per leggerne una funzione ne esegue il gate: è la
+// malattia censita `programma-che-parte-importando`. La forma con `pathToFileURL` è quella robusta:
+// `file://${process.argv[1]}` si rompe sotto un percorso con uno spazio o un accento, e si rompe
+// uscendo 0 — cioè il comando non parte e sembra andato bene.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch(async (e) => {
+    console.error("ERRORE esperimenti-check:", e.message || e);
+    await stampSegnale("esperimenti", "errore", `crash: ${(e.message || e).toString().slice(0, 180)}`);
+    process.exit(1);
+  });
+}

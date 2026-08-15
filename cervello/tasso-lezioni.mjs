@@ -23,6 +23,7 @@
 
 import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { lezioniVive } from "./misura-parziale.mjs";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
@@ -244,10 +245,13 @@ function main() {
     scritto: !DRY,
   };
 
+  let dovEScritto = null;
   if (!DRY) {
     appr.meta = meta;
     appr.aggiornato = nowPiacenza();
-    scriviJsonAtomico(APPR_PATH, appr); // indentazione conservata dal file, non imposta (AR-522)
+    // Il writer torna DOVE ha scritto davvero, o `null` se il freno della memoria l'ha fermato
+    // (`MYCITY_MEMORIA_SOLA_LETTURA`). Si racconta quello, non il percorso che si sperava.
+    dovEScritto = scriviJsonAtomico(APPR_PATH, appr); // indentazione conservata dal file (AR-522)
   }
 
   if (JSON_MODE) {
@@ -256,10 +260,16 @@ function main() {
     console.log(`📈 tasso_applicazione = ${tasso_applicazione} (${applicate.length}/${attive.length} lezioni attive usate negli ultimi ${GIORNI}gg)`);
     console.log(`   volano: ${report.volano}`);
     if (report.non_applicate_ids.length) console.log(`   lezioni MAI applicate: ${report.non_applicate_ids.join(", ")}`);
-    console.log(DRY ? "   (--dry: meta NON riscritto)" : `   meta.tasso_applicazione riscritto in ${APPR_PATH}`);
+    if (DRY) console.log("   (--dry: meta NON riscritto)");
+    else if (dovEScritto) console.log(`   meta.tasso_applicazione riscritto in ${dovEScritto}`);
+    else console.log("   (sola lettura: meta NON riscritto, la memoria resta com'era)");
   }
 
   process.exit(tasso_applicazione < 0.3 ? 1 : 0);
 }
 
-main();
+// AR-680 — il programma parte solo se qualcuno LANCIA questo file, non se qualcuno lo importa.
+// La forma con `pathToFileURL` e quella robusta: `file://${process.argv[1]}` si rompe sotto un
+// percorso con uno spazio o un accento, e si rompe USCENDO 0 — cioe il comando non parte e sembra
+// andato bene.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

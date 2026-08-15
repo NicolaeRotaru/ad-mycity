@@ -26,6 +26,7 @@
 
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { analizzaMandati } from "./mandato-owner.mjs";
 
@@ -85,5 +86,14 @@ function main() {
   process.exit(out.ok ? 0 : 1);
 }
 
-// Il CLI parte solo se questo file è LANCIATO: un test che importa il modulo non deve far girare il gate.
-if (import.meta.url === `file://${process.argv[1]}`) main();
+// Il CLI parte solo se questo file è LANCIATO: un test che importa il modulo non deve far girare il
+// gate (AR-680, malattia `programma-che-parte-importando`).
+//
+// ⚠️ PERCHÉ `pathToFileURL` E NON `file://${process.argv[1]}`. Le due forme si somigliano e una delle
+// due è rotta: `file://` incollato al percorso NON codifica i caratteri fuori dall'ASCII, mentre
+// `import.meta.url` li codifica sempre. Basta che il repo stia sotto una cartella con un accento o
+// uno spazio — e in questa casa i nomi con l'accento ci sono davvero (AR-339, 26 file nel vault) —
+// perché il confronto risulti falso: il guardiano non parte, non stampa niente ed esce 0. Cioè si
+// spegne **in silenzio**, che è il modo peggiore in cui un cancello può rompersi. La forma qui sotto
+// è quella che `cervello/import-che-esegue.mjs` indica come canonica.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) main();

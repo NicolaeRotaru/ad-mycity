@@ -21,10 +21,19 @@
 // nuovo, mai uno a metà. Stessa cartella e non /tmp proprio per questo — fra filesystem diversi il
 // rename diventa una copia, e la copia può interrompersi come qualsiasi altra scrittura.
 //
-// Nessun import oltre a node:fs. Le funzioni di decisione sono pure, così un test le esegue.
+// Nessun import oltre a node:fs e a due moduli PURI di casa. Le funzioni di decisione sono pure,
+// così un test le esegue.
+//
+// ⚠️ QUI PASSA ANCHE IL FRENO DELLA MEMORIA (AR-663 · AR-668 · AR-639 · AR-446). Questo è l'unico
+// punto che TUTTI gli scrittori atomici attraversano, quindi è qui che si decide se una scrittura
+// nella memoria della macchina va fatta e dove — invece che dentro ogni script, una variabile alla
+// volta. Il freno dentro lo script è la forma che ha generato AR-668: `sentinella-dati` aveva la sua
+// variabile e lanciava un tick che non ereditava niente. `cervello/casa-memoria.mjs` lo sposta sul
+// dato, e i processi figli lo ereditano dall'ambiente senza sapere che esiste.
 
 import { existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, join, basename } from "node:path";
+import { decidiDestinazione } from "./casa-memoria.mjs";
 
 /**
  * Il nome del temporaneo: nella stessa cartella del file finale, e diverso per ogni processo.
@@ -79,10 +88,14 @@ export function indentazioneDi(percorso, riferimento = 2) {
 /**
  * Scrive un JSON in modo che il file finale non possa MAI essere a metà.
  *
- * Torna il percorso scritto. Se il rename fallisce, il temporaneo viene rimosso e l'errore risale:
- * meglio un'eccezione visibile che un file muto lasciato indietro.
+ * Torna il percorso scritto, o `null` se la scrittura è stata fermata dal freno della memoria (chi
+ * misura non sporca). Se il rename fallisce, il temporaneo viene rimosso e l'errore risale: meglio
+ * un'eccezione visibile che un file muto lasciato indietro.
  */
-export function scriviJsonAtomico(percorso, dati) {
+export function scriviJsonAtomico(percorso, dati, env = process.env) {
+  const dove = decidiDestinazione(percorso, { env });
+  if (!dove.scrivi) return null;
+  percorso = dove.percorso;
   mkdirSync(dirname(percorso), { recursive: true });
   const tmp = nomeTemporaneo(percorso);
   try {
@@ -99,7 +112,10 @@ export function scriviJsonAtomico(percorso, dati) {
 }
 
 /** Come sopra ma per testo già formato (Markdown, log): stessa garanzia, nessuna serializzazione. */
-export function scriviTestoAtomico(percorso, testo) {
+export function scriviTestoAtomico(percorso, testo, env = process.env) {
+  const dove = decidiDestinazione(percorso, { env });
+  if (!dove.scrivi) return null;
+  percorso = dove.percorso;
   mkdirSync(dirname(percorso), { recursive: true });
   const tmp = nomeTemporaneo(percorso);
   try {

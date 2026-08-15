@@ -17,6 +17,7 @@ import {
 } from "@/lib/lavori-gruppo";
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
 import { emitSync } from "@/lib/panel-sync";
+import { arricchisciPerThread, type LavoroThread } from "@/lib/recupero-thread";
 import {
   assembleRichiestaCasella,
   estraiContestoCasellaDaRichiesta,
@@ -185,6 +186,25 @@ export async function salvaConversazioneCasella(id: string | null, titolo: strin
   return { id: nuovoId, suServer };
 }
 
+/**
+ * La lettura del testo completo di alcuni lavori — una porta sola, usata da chiunque ricostruisca
+ * una conversazione (la casella qui sotto e l'Assistente in `page.tsx`).
+ *
+ * Torna un elenco vuoto quando non riesce a leggere: chi la chiama passa da `arricchisciPerThread`,
+ * che in quel caso tiene le righe che aveva invece di buttarle.
+ */
+export async function leggiDettagliLavori(ids: string[]): Promise<LavoroThread[]> {
+  if (!Array.isArray(ids) || ids.length === 0) return [];
+  const r = await fetch("/api/lavori/dettagli", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ ids }),
+    cache: "no-store",
+  });
+  const d = await r.json().catch(() => ({}));
+  return Array.isArray(d?.lavori) ? (d.lavori as LavoroThread[]) : [];
+}
+
 // 🩹 RECUPERO: se la pagina si era chiusa prima della risposta, il thread salvato finisce
 // col messaggio di Nicola e la risposta vive solo nei LAVORI (stesso gruppo_id — o stessa
 // casella, per i lavori creati prima del collegamento gruppo_id). Ricostruisce il thread
@@ -212,7 +232,12 @@ export async function recuperaThreadDaLavori(
     })
     .sort((a, b) => new Date(a.created_at).getTime() - new Date(b.created_at).getTime());
   if (miei.length === 0) return null;
-  const daLavori = (messaggiDaGruppo(miei) as ParlaMsg[]).filter((m) => !m.pending);
+  // AR-603 — `/api/lavori` è l'elenco LEGGERO: niente `richiesta`, niente `risultato`. Ricostruire
+  // qui sopra dava zero messaggi per ogni lavoro già finito, cioè il ripescaggio tornava sempre
+  // «niente da recuperare» proprio nel caso per cui esiste (risposta arrivata a pagina chiusa).
+  // Il testo si va a prendere per le righe che servono, e chi decide quali sta in un modulo puro.
+  const completi = await arricchisciPerThread(miei, leggiDettagliLavori);
+  const daLavori = (messaggiDaGruppo(completi) as ParlaMsg[]).filter((m) => !m.pending);
   if (daLavori.length === 0) return null;
   const fusi = fondiMessaggi(salvati, daLavori);
   return fusi.length > salvati.filter((m) => !m.pending).length ? fusi : null;
