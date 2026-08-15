@@ -201,13 +201,33 @@ export function verdetto({ conto, tetto }) {
   return { righe, rotto };
 }
 
+/**
+ * Dichiara il ⚪ NEL CANALE IN CUI È STATA FATTA LA DOMANDA, poi esce 2.
+ *
+ * Prima il cieco usciva sempre in italiano su stderr, anche quando l'interrogazione era `--json`.
+ * Chi chiede JSON è una macchina, e una macchina che riceve una frase non sa distinguere «non ho
+ * potuto guardare» da «sono morto a metà»: le resta solo il numero d'uscita, ed è esattamente il
+ * modo di ragionare che il lotto 42 sta togliendo di mezzo (AR-707).
+ *
+ * L'ho scoperto dalla CI: su GitHub non esiste nessuna trascrizione da contare, quindi il guardiano
+ * usciva cieco in prosa e la prova che lo interroga in JSON si rompeva sul parse — un rosso che
+ * parlava dell'ambiente e sembrava parlare del fix.
+ */
+function dichiaraCieco(motivo) {
+  if (JSON_MODE) {
+    console.log(JSON.stringify({ _cieco: true, _motivo: motivo, _referto_risolto: REFERTO, _ha_scritto: false }, null, 2));
+  } else {
+    console.error(`⚪ CIECO: ${motivo}`);
+  }
+  process.exit(2);
+}
+
 function main() {
   const cartelle = cartelleTrascrizioni();
   if (cartelle === null) {
-    console.error(
-      "⚪ CIECO: non ho potuto leggere ~/.claude/projects (permessi o cartella illeggibile). Non è «nessuna trascrizione»: è non aver guardato.",
+    dichiaraCieco(
+      "non ho potuto leggere ~/.claude/projects (permessi o cartella illeggibile). Non è «nessuna trascrizione»: è non aver guardato.",
     );
-    process.exit(2);
   }
   const trovate = trascrizioniRecenti(cartelle, GIORNI);
   const file = trovate.presi;
@@ -215,12 +235,11 @@ function main() {
     const scartati = Object.entries(trovate.scartati)
       .map(([e, n]) => `${n}${e}`)
       .join(", ");
-    console.error(
-      `⚪ CIECO: nessuna trascrizione .jsonl degli ultimi ${GIORNI} giorni sotto ~/.claude/projects` +
+    dichiaraCieco(
+      `nessuna trascrizione .jsonl degli ultimi ${GIORNI} giorni sotto ~/.claude/projects` +
         (trovate.visti ? ` (ho visto ${trovate.visti} file e li ho scartati tutti: ${scartati} — se il formato è cambiato, il recinto va allargato)` : "") +
         ". Qui non posso vedere come scrivo. (cieco non è verde: «zero dimenticanze» sarebbe una bugia)",
     );
-    process.exit(2);
   }
 
   const testi = [];
@@ -234,8 +253,7 @@ function main() {
     }
   }
   if (!letti) {
-    console.error(`⚪ CIECO: ${file.length} trascrizioni trovate e nessuna leggibile.`);
-    process.exit(2);
+    dichiaraCieco(`${file.length} trascrizioni trovate e nessuna leggibile.`);
   }
 
   const conto = conta(testi);

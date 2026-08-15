@@ -24,7 +24,7 @@
 
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtempSync, readFileSync, writeFileSync, existsSync, rmSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, writeFileSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -162,18 +162,50 @@ prova("⑩ AR-663 · col referto deviato, la memoria VERA non si tocca", () => {
   }
 });
 
-prova("⑪ AR-663 · il referto e deviabile, e con --json si guarda senza scrivere", () => {
-  // Guarda il PERCORSO RISOLTO, non il disco. Il disco risponde solo dove il guardiano ha dati da
-  // contare: su una macchina senza trascrizioni non scrive comunque, quindi «non ha sporcato il file
-  // vero» resterebbe vero anche col fix disfatto — una prova che non puo diventare rossa.
-  //
-  // Il percorso invece e esattamente cio che il fix cambia, e si legge uguale ovunque. L'ho imparato
-  // dalla CI: li questa prova non mordeva, e il controllo della non-vacuita me l'ha detto.
+/**
+ * Una CASA finta con dentro una trascrizione finta, così il guardiano ha qualcosa da contare
+ * ovunque lo si lanci.
+ *
+ * PERCHÉ SERVE, e mi è costato due rossi in CI per capirlo. Questo guardiano legge i miei messaggi
+ * da `~/.claude/projects`. Sulla macchina di GitHub quella cartella non esiste: il guardiano si
+ * dichiara cieco ed esce PRIMA di arrivare al punto in cui decide se scrivere. Quindi là non solo
+ * la prova non poteva diventare rossa — non poteva nemmeno diventare verde per il motivo giusto:
+ * qualunque cosa avessi scritto nel codice, il risultato sarebbe stato lo stesso.
+ *
+ * Una prova che dipende da cosa c'è sulla macchina misura la macchina. Portandosi il materiale,
+ * misura il codice — ed è la stessa mossa già fatta con `MUTANTI_FILE` e `BLOCCO_MANCANTE_FILE`:
+ * lo strumento si punta su un mondo che la prova controlla.
+ */
+function casaConUnaTrascrizione(nome) {
+  const casa = join(sabbiera, nome);
+  // Il nome DEVE contenere `ad-mycity`: il guardiano scarta le cartelle degli altri progetti, e una
+  // cartella chiamata «finto» finiva scartata insieme a loro — la prova restava cieca credendosi
+  // attrezzata.
+  const cartella = join(casa, ".claude", "projects", "-finto-ad-mycity");
+  mkdirSync(cartella, { recursive: true });
+  // Un messaggio lungo che pretende i quattro blocchi e ne salta uno: è quello che il guardiano
+  // conta, quindi gli dà una misura vera invece di zero.
+  const testo = ["In parole semplici", "una riga qualsiasi", "Cosa cambia per te", "un'altra riga", "Cosa devi fare", "e ancora una", ...Array(12).fill("riga di riempimento, perché sotto le otto righe il conto non si fa")].join("\n");
+  writeFileSync(
+    join(cartella, "una.jsonl"),
+    JSON.stringify({ type: "assistant", message: { content: [{ type: "text", text: testo }] } }) + "\n",
+  );
+  return casa;
+}
+
+prova("⑪ AR-663 · con --json il guardiano dice dove scriverebbe, e non scrive", () => {
+  // Guarda il PERCORSO RISOLTO, non il disco: il disco tace anche col fix disfatto, perché in sola
+  // lettura non compare niente in nessuno dei due casi. Il percorso invece è esattamente ciò che il
+  // fix cambia — e con la casa finta qui sotto il guardiano ci arriva su qualunque macchina.
   const finto = join(sabbiera, "solo-json.json");
-  const r = node(["cervello/conta-blocco-mancante.mjs", "--json"], { BLOCCO_MANCANTE_FILE: finto });
+  const r = node(["cervello/conta-blocco-mancante.mjs", "--json"], {
+    BLOCCO_MANCANTE_FILE: finto,
+    HOME: casaConUnaTrascrizione("casa-json"),
+  });
   let j;
   try { j = JSON.parse(r.testo); }
   catch { throw new Error(`il guardiano non ha risposto in JSON: ${(r.errore || r.testo).slice(0, 120)}`); }
+  assert.equal(j._cieco, undefined, "con una trascrizione da contare non deve dichiararsi cieco: la prova non misurerebbe niente");
   assert.equal(j._referto_risolto, finto,
     "il referto non e deviabile: chiunque lo interroghi scriverebbe nella memoria vera");
   assert.equal(j._ha_scritto, false, "con --json si guarda e non si tocca niente");
