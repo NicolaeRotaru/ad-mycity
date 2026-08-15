@@ -4056,6 +4056,24 @@
    "cerca": "      if (!nuovo && vecchio) cancellati.push(vecchio);",
    "sostituisci": "      if (!nuovo && vecchio) [].push(vecchio);",
    "test": "cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-653",
+   "nome": "la decisione torna a vivere solo nel file d ambiente, e dove quel file non c e il sensore risulta acceso",
+   "file": "cervello/verifica-sensori.mjs",
+   "cerca": "  const perDecisione = motivi?.motivi?.posthog_api?.motivo === \"decisione\";",
+   "sostituisci": "  const perDecisione = false;",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-654",
+   "nome": "la riga che dichiara la decisione torna «inerzia»: il sensore risulta spento per caso invece che per scelta",
+   "file": "cervello/sensori-motivi.json",
+   "cerca": "      \"motivo\": \"decisione\",",
+   "sostituisci": "      \"motivo\": \"inerzia\",",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
   }
  ]
 }

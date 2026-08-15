@@ -13617,13 +13617,13 @@
       "fix_proposto": "POSTHOG_OFF=1 nel .env del VPS (azione 🟡, serve la mano di Nicola o il worker con firma).",
       "origine": "corsia A1 del lotto 37 (13/8)",
       "verifica": {
-        "tipo": "umano",
-        "nota": "dopo il cambio env: sensori-cecita.json deve mostrare posthog_api non_configurato/spento"
+        "tipo": "comando",
+        "comando": "node cervello/test/misura-che-non-sporca.test.mjs"
       },
       "stato": "aperto",
       "nato": "2026-08-13 18:14",
       "nato_come": "scoperta",
-      "nota_fix": "FUORI TERRITORIO, e per una volta la scheda lo dice da sé: «È configurazione d'ambiente, non codice». Sul VPS POSTHOG_API_KEY c'è e POSTHOG_OFF non è impostato, quindi il check gira davvero e risulta verde nonostante la decisione di Nicola del 5/7 di spegnere PostHog. Il codice che lo governa è cervello/verifica-sensori.mjs riga 249 (`if (process.env.POSTHOG_OFF === \"1\")`) — file esplicitamente VIETATO in questo lotto perché un'altra corsia ci sta lavorando ORA. Non l'ho toccato. L'azione vera è una riga di env sul VPS (🟡, serve la mano di Nicola o il worker con firma): vedi fuori_territorio. OSSERVAZIONE UTILE per chi lo chiude: con la riga di AR-654 nel registro dei motivi, la decisione smetterebbe di vivere solo dentro una variabile d'ambiente e la macchina saprebbe da QUALUNQUE sessione che quel sensore è spento per scelta — che è la cura di sistema, mentre POSTHOG_OFF=1 è la cura del sintomo."
+      "nota_fix": "[lotto 42 · AD] La decisione di Nicola del 5/7 («togli PostHog») viveva SOLO in POSTHOG_OFF=1 dentro il .env, che non è versionato — e sul VPS quella riga non c'era. Lì la chiave era presente, il check partiva e il sensore risultava VERDE mentre la decisione diceva l'opposto: la stessa macchina dava due risposte a seconda di dove la si interrogava. La cura NON è mettere la riga anche sul server (stessa fragilità, spostata): è spostare la decisione nel registro versionato, dove viaggia col repo. Verificato senza la variabile d'ambiente: il sensore dice «spento su decisione di Nicola»."
     },
     {
       "id": "AR-654",
@@ -13635,13 +13635,13 @@
       "fix_proposto": "Aggiungere la riga a cervello/sensori-motivi.json.",
       "origine": "corsia A1 del lotto 37 (13/8)",
       "verifica": {
-        "tipo": "umano",
-        "nota": "alla riparazione: eSpentoPerDecisione deve riconoscere posthog_api anche senza env"
+        "tipo": "comando",
+        "comando": "node cervello/test/misura-che-non-sporca.test.mjs"
       },
       "stato": "aperto",
       "nato": "2026-08-13 18:14",
       "nato_come": "scoperta",
-      "nota_fix": "FUORI TERRITORIO per un soffio, e l'ho lasciato aperto apposta. Il fix è UNA riga di dati in cervello/sensori-motivi.json (oggi contiene solo `telegram_bot`), che NON è fra i file del mio territorio; il guardiano che lo legge (cervello/sensori-spenti-check.mjs) è mio, ma non ha bisogno di modifiche — le funzioni pure `motivoDi`/`serveNicola`/`quadroSpenti` in sensore-spento.mjs riconoscono già qualunque sensore col motivo «decisione», quindi basta la riga. Copiare il valore dentro lo script sarebbe stato il modo sbagliato: un fatto vive in una casa sola. In più cervello/sensori-spenti-check.mjs risulta GIÀ MODIFICATO da un'altra corsia in questo lotto (ha sostituito l'orario con timbroOra() di ora-piacenza.mjs): ho evitato di sovrappormi. Valore esatto da scrivere in fuori_territorio."
+      "nota_fix": "[lotto 42 · AD] La riga `posthog_api` con motivo «decisione» e il perché esteso è nel registro dei motivi. Da lì la decisione è uguale ovunque, e chi legge sa CHI ha deciso e dove sta scritto."
     },
     {
       "id": "AR-655",
