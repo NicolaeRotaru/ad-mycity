@@ -191,7 +191,11 @@ prova("AR-683: il banco dei test lo dice da solo, senza che nessuno glielo chied
   const r = spawnSync("node", [join(REPO, "cervello/test-cervello.mjs"), "--json", "--solo", "prova-che-non-puo-fallire"], {
     cwd: REPO,
     encoding: "utf8",
-    timeout: 300_000,
+    // 60 secondi, non 300: questa corsa è FILTRATA su un nome solo e qui dura un secondo. Il
+    // tetto non serve a darle respiro — serve a fermarla quando il filtro è spento e sta girando la
+    // suite intera. Tre corse così a 300 secondi l'una sfondavano da sole il tetto del banco delle
+    // mutazioni, e il verdetto usciva ⚪ invece che rosso (AR-676, misurato in CI il 15/8).
+    timeout: 60_000,
     maxBuffer: 64 * 1024 * 1024,
   });
   const j = JSON.parse(r.stdout);
@@ -210,7 +214,9 @@ prova("AR-693: una prova non eseguita resta NEL totale come ⚪, non sparisce da
   const r = spawnSync("node", [join(REPO, "cervello/test-cervello.mjs"), "--solo", "due-worker"], {
     cwd: REPO,
     encoding: "utf8",
-    timeout: 300_000,
+    // Stesso motivo del caso qui sopra: filtrata dura un secondo, e il tetto esiste per fermarla
+    // quando il filtro non filtra più.
+    timeout: 60_000,
     env: { ...process.env, BATS_BIN: "/percorso/che/non/esiste" },
   });
   const uscita = `${r.stdout || ""}${r.stderr || ""}`;
@@ -271,7 +277,11 @@ prova("AR-685: il referto del guardiano delle prove arriva INTERO anche da una P
   const r = spawnSync("bash", ["-c", "node cervello/cantiere-prove.mjs --dry --json --gate 2>/dev/null | cat"], {
     cwd: REPO,
     encoding: "utf8",
-    timeout: 300_000,
+    // 60 secondi, non 300: questa corsa è FILTRATA su un nome solo e qui dura un secondo. Il
+    // tetto non serve a darle respiro — serve a fermarla quando il filtro è spento e sta girando la
+    // suite intera. Tre corse così a 300 secondi l'una sfondavano da sole il tetto del banco delle
+    // mutazioni, e il verdetto usciva ⚪ invece che rosso (AR-676, misurato in CI il 15/8).
+    timeout: 60_000,
     maxBuffer: 64 * 1024 * 1024,
   });
   assert.ok(r.stdout.length > 65_536, `il referto dev'essere più grosso del buffer della pipe per provare qualcosa: ${r.stdout.length} byte`);
@@ -343,13 +353,38 @@ prova("AR-669: ogni mutazione trova ancora il suo pezzo nel file che dichiara", 
 //
 // Il caso gira il filtro VERO su un nome che esiste solo fra le prove in bash: se il filtro tornasse
 // a guardare i soli `.test.mjs`, direbbe «nessuna prova» e questo caso diventa rosso.
-prova("AR-676: --solo trova anche le prove che non sono .test.mjs", () => {
+// ⚠️ QUESTO CASO HA AVUTO DUE VITE, e la prima era rossa per il motivo sbagliato.
+//
+// Cercava il nome «worker-orfani» dentro l'uscita, senza tetto di tempo. Ma la mutazione di AR-676
+// SPEGNE il filtro: la corsa annidata non sbaglia risposta, gira la suite INTERA — 297 file invece
+// di uno. Quindi il rosso arrivava sempre e comunque, ma per esaurimento: l'orologio ammazzava la
+// corsa, l'uscita restava vuota, e il nome non c'era perché non c'era niente.
+//
+// Misurato in CI il 15/8: quella corsa ha sfondato il tetto di sette minuti del banco delle
+// mutazioni e ne è uscito un ⚪ «non ho misurato». Prima del lotto 42 sarebbe stato ancora peggio —
+// un processo ammazzato veniva letto come «è diventato rosso», quindi questa prova risultava ✅
+// senza che nessuno l'avesse mai vista dire di no per la ragione giusta.
+//
+// Adesso la domanda è quella vera — **il filtro RESTRINGE?** — e si legge da un numero, non da una
+// parola: un nome solo deve scegliere una prova sola. Il tetto resta, ma quando scatta dice cosa
+// significa invece di lasciare un mistero.
+prova("AR-676: --solo trova anche le prove che non sono .test.mjs, e restringe davvero", () => {
   const r = spawnSync(process.execPath,
     [join(REPO, "cervello/test-cervello.mjs"), "--solo", "worker-orfani", "--json"],
-    { cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
-  const testo = `${r.stdout || ""}${r.stderr || ""}`;
-  assert.match(testo, /worker-orfani/,
+    { cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024, timeout: 60_000 });
+  if (r.status === null) {
+    throw new Error(
+      `il banco filtrato non è arrivato in fondo (${r.signal || "orologio"}): col filtro spento gira la suite intera, ed è il sintomo stesso`,
+    );
+  }
+  let j;
+  try { j = JSON.parse(r.stdout); }
+  catch { throw new Error(`il banco non ha risposto in JSON: ${(r.stderr || r.stdout || "").slice(0, 140)}`); }
+  const scelte = [...(j.test || []), ...(j.bats || [])].map((x) => String(x?.file ?? x));
+  assert.ok(scelte.some((f) => f.includes("worker-orfani")),
     "il filtro non ha trovato una prova che esiste: guarda una famiglia sola e chiama «vuoto» ciò che non ha cercato");
+  assert.ok(scelte.length <= 3,
+    `il filtro non restringe: per un nome solo ha scelto ${scelte.length} prove`);
 });
 
 // ── esito ────────────────────────────────────────────────────────────────────
