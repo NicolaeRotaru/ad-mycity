@@ -12,11 +12,11 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-15 06:30",
-      "esito": "vincoli-attivi",
-      "codice": 3,
+      "quando": "2026-08-15 10:45",
+      "esito": "non-pubblicato",
+      "codice": 2,
       "ai_rc": 0,
-      "push_ok": true,
+      "push_ok": false,
       "passi_ok": false,
       "vincoli_attivi": 9,
       "vincoli": [
@@ -24,10 +24,10 @@
         "CADENZE",
         "CORREZIONE_NICOLA",
         "FRESCHEZZA",
-        "MAPPA",
         "TASSO",
         "TEST",
         "VOLANO",
+        "CI",
         "NORTH_STAR"
       ]
     },
@@ -72,5 +72,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-15 06:30"
+  "aggiornato": "2026-08-15 10:45"
 }
