@@ -162,10 +162,22 @@ prova("⑩ AR-663 · col referto deviato, la memoria VERA non si tocca", () => {
   }
 });
 
-prova("⑪ AR-663 · con --json si guarda e non si scrive", () => {
+prova("⑪ AR-663 · il referto e deviabile, e con --json si guarda senza scrivere", () => {
+  // Guarda il PERCORSO RISOLTO, non il disco. Il disco risponde solo dove il guardiano ha dati da
+  // contare: su una macchina senza trascrizioni non scrive comunque, quindi «non ha sporcato il file
+  // vero» resterebbe vero anche col fix disfatto — una prova che non puo diventare rossa.
+  //
+  // Il percorso invece e esattamente cio che il fix cambia, e si legge uguale ovunque. L'ho imparato
+  // dalla CI: li questa prova non mordeva, e il controllo della non-vacuita me l'ha detto.
   const finto = join(sabbiera, "solo-json.json");
-  node(["cervello/conta-blocco-mancante.mjs", "--json"], { BLOCCO_MANCANTE_FILE: finto });
-  assert.equal(existsSync(finto), false, "interrogare per sapere lo stato non deve cambiarlo");
+  const r = node(["cervello/conta-blocco-mancante.mjs", "--json"], { BLOCCO_MANCANTE_FILE: finto });
+  let j;
+  try { j = JSON.parse(r.testo); }
+  catch { throw new Error(`il guardiano non ha risposto in JSON: ${(r.errore || r.testo).slice(0, 120)}`); }
+  assert.equal(j._referto_risolto, finto,
+    "il referto non e deviabile: chiunque lo interroghi scriverebbe nella memoria vera");
+  assert.equal(j._ha_scritto, false, "con --json si guarda e non si tocca niente");
+  assert.equal(existsSync(finto), false, "e infatti sul disco non e comparso niente");
 });
 
 prova("⑫ AR-639 · due esecuzioni identiche lasciano il file uguale BYTE PER BYTE", () => {

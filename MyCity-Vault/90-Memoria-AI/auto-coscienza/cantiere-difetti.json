@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-15 11:36",
+  "aggiornato": "2026-08-15 14:35",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -14578,6 +14578,38 @@
       "verifica": {
         "tipo": "umano",
         "nota": "nato nel lotto 42 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-707",
+      "stato": "aperto",
+      "dimensione": "cantiere-prove",
+      "scoperto": "2026-08-15 14:05",
+      "lotto_scoperta": 42,
+      "gravita": "grave",
+      "titolo": "Il banco delle mutazioni giudica dal solo numero di uscita, e una corsa mai avvenuta ne ha uno qualsiasi",
+      "causa_radice": "non-vacuita.mjs decideva con `r.status !== 0`. Ma il numero di uscita descrive una corsa AVVENUTA, e nessuno controllava che fosse avvenuta. Due bugie opposte dalla stessa riga: ① una prova che dichiara di non poter guardare (c4-schermo-coda senza browser stampa «1..0 # SKIP» ed esce 0) veniva raccontata «❌ la prova non dimostra il suo fix» — accusa a un innocente, e in CI e successo davvero su AR-613; ② un test AMMAZZATO torna status null, e null !== 0 e vero: veniva contato «✅ diventato rosso», cioe la mutazione piu lenta comprava il verde smettendo di rispondere. — visto in cervello/non-vacuita.mjs",
+      "fix_proposto": "Estratta `verdettoCorsa` (pura): ammazzato → ⚪ · salto dichiarato (piano 1..0 # SKIP, oppure pass 0 + fail 0 + skipped > 0) → ⚪ · uscita ≠ 0 → ✅ · uscita 0 → ❌. E il tetto di tempo per prova sale da 2 a 7 minuti, sopra l attesa piu lunga che una prova di casa dichiara.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/non-vacuita-tre-esiti.test.mjs"
+      },
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-708",
+      "stato": "aperto",
+      "dimensione": "cantiere-prove",
+      "scoperto": "2026-08-15 14:35",
+      "lotto_scoperta": 42,
+      "gravita": "grave",
+      "titolo": "Il ripristino d emergenza non puo scattare proprio nel momento in cui serve",
+      "causa_radice": "AR-523 ha agganciato il ripristino a SIGINT/SIGTERM/SIGHUP perche un finally non gira su un processo ammazzato. Ma il gestore di un segnale e una callback JS, e gira solo quando il ciclo degli eventi e libero: non-vacuita.mjs applica la mutazione, chiama spawnSync — che BLOCCA il ciclo per tutta la durata del test — e la rimette a posto subito dopo. La finestra in cui il file resta rotto e esattamente la finestra in cui il gestore non puo partire. Cioe la cura copre tutti i momenti tranne quello che doveva coprire. Visto succedere davvero il 15/8: fermato il cancello a meta, cervello/test-cervello.mjs e rimasto su disco con la mutazione di AR-676 applicata (la riga del filtro --solo riscritta come \"const i = -1;\"), e l ho rimesso a posto a mano. Senza il sorvegliante finiva in un commit — che e parola per parola il racconto di AR-523. — visto in cervello/non-vacuita.mjs",
+      "fix_proposto": "Il segnale non basta: serve una traccia SU DISCO. Prima di mutare si scrive un foglietto (file + contenuto originale); dopo il ripristino si cancella. All avvio, se il foglietto c e, si rimette a posto quello di prima e lo si dichiara. Cosi il ripristino non dipende piu dal fatto che il processo sia ancora vivo. Prova: eseguire il banco su una mutazione lenta, ammazzarlo con SIGKILL (che nessun gestore puo intercettare), rilanciarlo e pretendere che il file torni com era.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 42 fermando il cancello a meta; la cura chiede un foglietto su disco e la sua prova, fuori dal perimetro di questo lotto"
       },
       "nato_come": "scoperta"
     }

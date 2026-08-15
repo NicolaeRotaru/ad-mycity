@@ -1,8 +1,8 @@
 {
   "_cosa_e": "📮 Quante volte un messaggio che pretendeva le quattro risposte è uscito senza. Il tetto è una QUOTA e SCENDE: aggiungerne è un errore, portarne via è il lavoro. Nato dalla domanda di Nicola del 3/8 («come fai a non dimenticartene mai?»).",
-  "misurato": "2026-08-15 10:03",
+  "misurato": "2026-08-15 13:41",
   "origine": "cloud",
-  "copertura": 17,
+  "copertura": 21,
   "scritto_da": "conta-blocco-mancante.mjs",
   "finestra_giorni": 7,
   "trascrizioni": {
@@ -11,15 +11,15 @@
     "file_visti": 1,
     "scartati_per_estensione": {}
   },
-  "messaggi_misurati": 17,
+  "messaggi_misurati": 21,
   "mancanze": {
-    "In parole semplici": 2,
-    "Cosa cambia per te": 14,
-    "Cosa devi fare": 2,
+    "In parole semplici": 4,
+    "Cosa cambia per te": 16,
+    "Cosa devi fare": 4,
     "Cosa non ho verificato": 4
   },
   "blocco_peggiore": "Cosa cambia per te",
-  "quota_peggiore": 82,
+  "quota_peggiore": 76,
   "esempi": [
     "Wave 1 is deep in the verify-on-real-code phase. Let me report status ",
     "Il lavoro è al sicuro sul ramo. Ecco dove siamo. **In parole semplici",
@@ -30,7 +30,7 @@
   },
   "verdetto": {
     "righe": [
-      "❌ «Cosa cambia per te» manca nel 82% dei messaggi che lo pretendevano (tetto 45%): l'abitudine non sta sparendo."
+      "❌ «Cosa cambia per te» manca nel 76% dei messaggi che lo pretendevano (tetto 45%): l'abitudine non sta sparendo."
     ],
     "rotto": true
   }

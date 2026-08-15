@@ -278,7 +278,12 @@ function main() {
   if (scelta.scrivi) scriviJsonAtomico(REFERTO, referto);
 
   if (JSON_MODE) {
-    console.log(JSON.stringify(referto, null, 2));
+    // AR-663 — il referto DICE dove scriverebbe e se ha scritto. Serve a una prova che deve valere
+    // ovunque: guardare il disco funziona solo dove il guardiano ha dati da contare, e su una
+    // macchina senza trascrizioni (la CI) non scrive comunque — quindi «non ha sporcato il file
+    // vero» sarebbe vero anche col fix disfatto. Il percorso RISOLTO invece e la cosa che il fix
+    // cambia davvero, e si legge allo stesso modo dappertutto.
+    console.log(JSON.stringify({ ...referto, _referto_risolto: REFERTO, _ha_scritto: scelta.scrivi }, null, 2));
   } else {
     console.log("\n📮 IL BLOCCO CHE SPARISCE — quante volte ho scritto senza rispondere\n");
     console.log(`   Finestra:      ultimi ${GIORNI} giorni · ${letti} trascrizioni su ${file.length}`);

@@ -101,6 +101,15 @@ export function filtraPerDifetti(elenco = [], ids = null) {
 // mondo adesso resta verde anche a strumento rimosso.
 const MUTANTI = process.env.MUTANTI_FILE || join(AD_ROOT, "cervello/mutanti.json");
 
+// Quanto tempo do a UNA prova prima di considerarla non finita.
+//
+// Erano due minuti, e due minuti bastano a ogni prova che legge dei file. Non bastano a quelle che
+// devono aprire il Pannello: prima che il primo caso parta, `c4-schermo-coda.test.mjs` aspetta fino
+// a tre minuti che il server di sviluppo risponda. Con il tetto a due, quella prova veniva ammazzata
+// a metà attesa — e da oggi un ammazzato è un ⚪, cioè un cancello rosso per un motivo che col fix
+// non c'entra niente. Il tetto deve stare sopra l'attesa più lunga che una prova di casa dichiara.
+const TEMPO_MAX = Number(process.env.NON_VACUITA_TIMEOUT_MS || 420_000);
+
 /** Il file da rompere. Assoluto se la mutazione lo dà assoluto (è così che il test usa una fixture). */
 const viaDi = (f) => (isAbsolute(String(f)) ? String(f) : join(AD_ROOT, String(f)));
 
@@ -108,6 +117,69 @@ const viaDi = (f) => (isAbsolute(String(f)) ? String(f) : join(AD_ROOT, String(f
 export function muta(testo, cerca, sostituisci) {
   if (!testo.includes(cerca)) return null;
   return testo.split(cerca).join(sostituisci);
+}
+
+/**
+ * ⚪ LA CORSA SI È TIRATA INDIETRO? — AR-707.
+ *
+ * Un file di prova di questa casa, quando gli manca lo strumento per guardare (il browser, un
+ * servizio in ascolto), NON dice «a posto»: stampa un piano vuoto dichiarato come salto e se ne va
+ * con zero. Ma zero è anche il numero di chi ha guardato e non ha trovato niente da ridire. Da fuori
+ * i due casi hanno lo stesso numero di uscita e vogliono dire il contrario.
+ *
+ * Si distinguono solo leggendo cosa la corsa ha DETTO. Due forme, quelle che `node:test` produce:
+ *   · `1..0 # SKIP <perché>`                        → si è tirato indietro prima di registrare un caso
+ *   · `# pass 0` + `# fail 0` + `# skipped N` (N>0)  → i casi c'erano e sono stati saltati tutti
+ */
+export function haDichiaratoDiNonGuardare(uscita = "") {
+  if (/^\s*1\.\.0\b[^\n]*#\s*skip/im.test(String(uscita))) return true;
+  const quanti = (chiave) => {
+    const m = String(uscita).match(new RegExp(`^#\\s*${chiave}\\s+(\\d+)\\s*$`, "im"));
+    return m ? Number(m[1]) : null;
+  };
+  const saltati = quanti("skipped") ?? quanti("skip");
+  return quanti("pass") === 0 && quanti("fail") === 0 && saltati !== null && saltati > 0;
+}
+
+/**
+ * Il verdetto su UNA mutazione: rompendo il fix, la prova se n'è accorta?
+ *
+ * Tre risposte, quelle di casa (AR-322) — e fino al 15/8 erano due, con le altre due travestite:
+ *   ✅ ok    · il test è diventato rosso → la prova difende il suo fix
+ *   ❌ vacua · il test è rimasto verde col fix rotto → quella prova non prova niente
+ *   ⚪ cieco · non ho misurato: la corsa non è mai finita, oppure ha dichiarato di non poter guardare
+ *
+ * PERCHÉ ESISTE (il conto, misurato il 15/8). Il giudizio era `r.status !== 0`, cioè il solo numero
+ * di uscita — e il numero di uscita di una corsa che non è avvenuta non significa niente. Due bugie
+ * opposte uscivano dalla stessa riga:
+ *
+ *  ① **Un ⚪ raccontato come ❌.** In CI non c'è nessun browser, quindi `c4-schermo-coda.test.mjs`
+ *     dichiara il salto ed esce 0. Il banco leggeva «zero» e scriveva «AR-613 — la prova NON
+ *     dimostra il suo fix: rompendolo il test resta verde». Non era vero: quella prova diventa rossa
+ *     eccome, su una macchina che il Pannello lo sa aprire. L'accusa era all'innocente, e mandava a
+ *     indagare sul fix invece che sull'ambiente.
+ *  ② **Un ⚪ raccontato come ✅**, che è il verso pericoloso. Un test AMMAZZATO (timeout, segnale)
+ *     torna `status === null`, e `null !== 0` è vero: il banco lo contava come «è diventato rosso,
+ *     la prova morde». Cioè la mutazione più lenta comprava il verde smettendo di rispondere.
+ *
+ * La radice è una sola e vale oltre questo file: **il codice d'uscita descrive una corsa avvenuta.
+ * Prima di leggerlo bisogna sapere se la corsa c'è stata.**
+ */
+export function verdettoCorsa({ status, signal = null, uscita = "" } = {}) {
+  if (status === null || status === undefined) {
+    return {
+      verdetto: "cieco",
+      perche: `il test non è arrivato in fondo (${signal || "ammazzato, o mai partito"}): non ha misurato niente`,
+    };
+  }
+  if (haDichiaratoDiNonGuardare(uscita)) {
+    return {
+      verdetto: "cieco",
+      perche: "il test ha dichiarato di non poter guardare (gli manca lo strumento): esce zero perché si è tirato indietro, non perché col fix rotto va tutto bene",
+    };
+  }
+  if (status !== 0) return { verdetto: "ok", perche: "" };
+  return { verdetto: "vacua", perche: "il test resta VERDE col fix rotto" };
 }
 
 function main() {
@@ -149,9 +221,11 @@ function main() {
     try {
       IN_CORSO.stato = { file, originale };
       writeFileSync(file, rotto);
-      const r = spawnSync("node", [m.test], { cwd: AD_ROOT, encoding: "utf8", timeout: 120_000 });
-      const rosso = r.status !== 0;
-      esiti.push({ ...m, verdetto: rosso ? "ok" : "vacua", perche: rosso ? "" : "il test resta VERDE col fix rotto" });
+      const r = spawnSync("node", [m.test], { cwd: AD_ROOT, encoding: "utf8", timeout: TEMPO_MAX });
+      esiti.push({
+        ...m,
+        ...verdettoCorsa({ status: r.status, signal: r.signal, uscita: `${r.stdout || ""}${r.stderr || ""}` }),
+      });
     } finally {
       writeFileSync(file, originale); // sempre, anche se il test esplode
       IN_CORSO.stato = null;
@@ -175,10 +249,15 @@ function main() {
       if (e.perche) console.log(`     ${e.perche}`);
     }
     console.log("");
+    const misurate = esiti.length - ciechi.length;
     console.log(
       vacue.length
         ? `⛔ ${vacue.length} prova/e NON dimostra il suo fix: rompendolo il test resta verde.`
-        : `✅ tutte e ${esiti.length - ciechi.length} le mutazioni rendono rosso il loro test.`,
+        : // «tutte e 0 le mutazioni rendono rosso il loro test» è la stessa bugia in piccolo: un ✅
+          // per un conto vuoto. Se non ho misurato niente, la riga verde non ci va.
+          misurate
+          ? `✅ tutte e ${misurate} le mutazioni rendono rosso il loro test.`
+          : `⚪ nessuna mutazione è stata misurata: non ho niente da dire su queste prove.`,
     );
     if (ciechi.length) console.log(`⚠️  ${ciechi.length} mutazione/i non ha potuto misurare (vedi sopra).`);
   }
