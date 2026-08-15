@@ -312,6 +312,46 @@ prova("AR-678: una dichiarazione vuota non è una dichiarazione (e non assolve n
   assert.equal(malatiToccati([], null, []), null, "git muto resta muto: non attribuisco e non assolvo");
 });
 
+// ── AR-669: nessuna mutazione punta a un pezzo che non esiste più ────────────
+//
+// Un'estrazione in un modulo nuovo lascia indietro i puntatori: il comportamento è stato SPOSTATO,
+// non rimosso, ma la mutazione cerca ancora il testo dov'era. Da lì lo strumento dice «cieco», e
+// cieco non è verde — la prova di quel difetto smette di essere eseguibile senza che nessuno gridi.
+//
+// Nel lotto 42 è successo SEI volte in poche ore, ogni volta scoperto dal guardiano DOPO la
+// riscrittura e mai da chi scriveva. Questo caso lo rende una cosa che si misura invece che si nota:
+// gira sul registro vero, e diventa rosso appena un puntatore resta indietro.
+prova("AR-669: ogni mutazione trova ancora il suo pezzo nel file che dichiara", () => {
+  const reg = JSON.parse(readFileSync(join(REPO, "cervello/mutanti.json"), "utf8"));
+  const orfane = [];
+  for (const m of reg.mutanti || []) {
+    if (!m?.file || !m?.cerca) continue;
+    let src;
+    try { src = readFileSync(join(REPO, m.file), "utf8"); }
+    catch { orfane.push(`${m.difetto || "?"} → ${m.file} (file assente)`); continue; }
+    if (!src.includes(m.cerca)) orfane.push(`${m.difetto || "?"} → ${m.file}`);
+  }
+  assert.deepEqual(orfane, [],
+    `queste mutazioni non trovano più il loro pezzo: la prova del loro difetto non è eseguibile\n      ${orfane.join("\n      ")}`);
+});
+
+// ── AR-676: il filtro --solo guarda TUTTE le famiglie di prove, non una sola ─
+//
+// Prima guardava una famiglia sola e concludeva «non c'è niente» — cioè rispondeva «zero» a una
+// domanda che non aveva fatto per intero. È la stessa forma della malattia di questa corsia: un
+// metro che non misura una strada non la dichiara scoperta, dice che è vuota.
+//
+// Il caso gira il filtro VERO su un nome che esiste solo fra le prove in bash: se il filtro tornasse
+// a guardare i soli `.test.mjs`, direbbe «nessuna prova» e questo caso diventa rosso.
+prova("AR-676: --solo trova anche le prove che non sono .test.mjs", () => {
+  const r = spawnSync(process.execPath,
+    [join(REPO, "cervello/test-cervello.mjs"), "--solo", "worker-orfani", "--json"],
+    { cwd: REPO, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+  const testo = `${r.stdout || ""}${r.stderr || ""}`;
+  assert.match(testo, /worker-orfani/,
+    "il filtro non ha trovato una prova che esiste: guarda una famiglia sola e chiama «vuoto» ciò che non ha cercato");
+});
+
 // ── esito ────────────────────────────────────────────────────────────────────
 let falliti = 0;
 for (const c of casi) {

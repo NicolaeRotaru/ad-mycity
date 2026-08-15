@@ -21,10 +21,19 @@
 // ⚠️ Se il browser non c'è, questo file NON dice «a posto»: dichiara di non aver potuto guardare e
 // si conta a parte. Un cieco venduto per verde è peggio di un rosso.
 //
-// NON-VACUITÀ (verificata, non dedotta): rimettendo i due bottoni dentro il <summary> il primo caso
-// diventa rosso; togliendo la gemella `dark:` dal bordo rosso in lib/stato-card.ts diventa rosso il
-// caso del tema scuro; rimettendo `document.getElementById` al posto del riferimento in
-// AutoCoscienza.tsx diventa rosso il caso del salto.
+// NON-VACUITÀ, misurata rompendo i fix uno per uno — e va detta com'è andata davvero:
+//  ✔ AR-613 — rimettendo un bottone dentro il <summary> il primo caso diventa rosso; togliendo il
+//    ruolo di scheda diventano rossi il secondo e il terzo. Questi due casi difendono la cura.
+//  ✖ AR-614 — togliendo la gemella `dark:` dalla tavolozza questo file resta VERDE. Sulla pagina ci
+//    sono altri riquadri con la stessa tinta e la gemella scritta a mano dentro il JSX, e la misura
+//    finisce su uno di quelli. Quindi il caso qui sotto racconta un fatto vero (i bordi colorati
+//    cambiano fra i due temi) ma NON distingue il Pannello curato da quello malato: la prova che
+//    difende AR-614 è quella della tavolozza, in c4-decisione-fuori-da-react.test.mjs, dove lo
+//    stesso mutante diventa rosso. Scritto qui perché il prossimo che legge non ci caschi.
+//  ~ AR-673 — a runtime il difetto è INTERMITTENTE: dipende da chi arriva prima fra la traduzione
+//    dell'indirizzo e il risveglio della casella, e sotto ricompilazione il caso è diventato rosso
+//    da solo, senza nessun mutante. Vale come misura del comportamento, non come rete. La rete è
+//    nei due casi puri sul parcheggio del cancelletto.
 
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
@@ -142,55 +151,67 @@ test("AR-613 · le linguette si prendono col pollice (44 punti, non 34)", async 
 
 // ── AR-614 · il tema scuro ───────────────────────────────────────────────────
 
-/** Il colore VERO del bordo di una card, come lo dipinge il browser dopo i fogli di stile. */
-async function bordoDellaPrimaCard(p) {
-  return p.locator('[data-test="riga-firma"]').first().evaluate((el) => {
-    const card = el.closest(".card");
-    return card ? getComputedStyle(card).borderColor : "";
-  });
+/**
+ * Il colore VERO di una tinta, come lo dipinge il browser dopo i fogli di stile.
+ *
+ * ⚠️ La prima versione di questo caso misurava «il bordo della prima card» — e passava anche con le
+ * gemelle scure tolte. Motivo: quella card ha livello sconosciuto, e il suo bordo usa una variabile
+ * del tema che si ribalta da sola. Misurava il tema, non la cura. Verificato rompendo il fix: il caso
+ * restava verde. Adesso si misurano le tinte della tavolozza, che sono quelle che erano rimaste indietro.
+ */
+async function coloreDi(p, classe) {
+  return p.evaluate((c) => {
+    // Solo le CARD DELLA CODA: altrove nel Pannello ci sono riquadri con la stessa tinta e la
+    // gemella scura già scritta a mano, e pescare uno di quelli faceva passare la prova comunque.
+    // Verificato rompendo il fix: il caso restava verde. Un selettore troppo largo è un modo
+    // silenzioso di misurare qualcos'altro.
+    const el = document.querySelector(`.card[class~="${c}"]`);
+    return el ? getComputedStyle(el).borderColor : null;
+  }, classe);
 }
 
-test("AR-614 · in tema scuro i bordi delle card NON restano quelli del tema chiaro", async () => {
-  const chiaro = await browser.newPage({ ...SCRIVANIA, colorScheme: "light" });
-  await chiaro.goto(URL_BASE + "/?a=azioni&s=approvare", { waitUntil: "networkidle", timeout: 90000 });
-  await chiaro.waitForTimeout(2500);
-  const bordoChiaro = await bordoDellaPrimaCard(chiaro);
+async function apriTema(tema) {
+  const p = await browser.newPage({ ...SCRIVANIA, colorScheme: tema });
+  await p.goto(URL_BASE + "/?a=azioni&s=approvare", { waitUntil: "networkidle", timeout: 90000 });
+  await p.waitForTimeout(2500);
+  return p;
+}
+
+test("AR-614 · in tema scuro i bordi colorati NON restano quelli del tema chiaro", async (t) => {
+  const chiaro = await apriTema("light");
+  const scuro = await apriTema("dark");
+  const misure = [];
+  for (const classe of ["border-red-200", "border-amber-200", "border-green-200"]) {
+    const a = await coloreDi(chiaro, classe);
+    const b = await coloreDi(scuro, classe);
+    if (a && b) misure.push({ classe, chiaro: a, scuro: b });
+  }
   await chiaro.close();
-
-  const scuro = await browser.newPage({ ...SCRIVANIA, colorScheme: "dark" });
-  await scuro.goto(URL_BASE + "/?a=azioni&s=approvare", { waitUntil: "networkidle", timeout: 90000 });
-  await scuro.waitForTimeout(2500);
-  const bordoScuro = await bordoDellaPrimaCard(scuro);
   await scuro.close();
-
-  assert.ok(bordoChiaro, "non ho trovato nessuna card da misurare: senza card questa prova non prova niente");
-  assert.notEqual(
-    bordoScuro,
-    bordoChiaro,
-    `il bordo è lo stesso nei due temi (${bordoChiaro}): sul fondo scuro resta il pastello del tema chiaro`,
-  );
+  if (misure.length === 0) {
+    // Non c'è nessuna card colorata a schermo: dirlo è l'unica risposta onesta. Dichiarare «a posto»
+    // qui sarebbe la stessa bugia che questo lotto sta curando.
+    t.skip("nessuna card di livello colorato a schermo: il tema scuro dei bordi NON è stato verificato");
+    return;
+  }
+  const uguali = misure.filter((m) => m.chiaro === m.scuro).map((m) => `${m.classe} (${m.chiaro})`);
+  assert.deepEqual(uguali, [], `queste tinte sono identiche nei due temi: sul fondo scuro resta il pastello del chiaro`);
 });
 
-// ── AR-673 · il salto del collegamento diretto ───────────────────────────────
-
-test("AR-673 · il collegamento all'auto-coscienza porta davvero la casella sott'occhio", async () => {
-  const p = await browser.newPage(SCRIVANIA);
-  await p.goto(URL_BASE + "/#auto-coscienza", { waitUntil: "networkidle", timeout: 90000 });
-  await p.waitForTimeout(6000); // il salto è morbido e aspetta che i dati siano arrivati
-  const riquadro = p.locator('[data-test="riquadro-auto-coscienza"]');
-  assert.equal(await riquadro.count(), 1, "la casella dell'auto-coscienza non è nemmeno a schermo");
-  const q = await riquadro.evaluate((el) => ({
-    top: Math.round(el.getBoundingClientRect().top),
-    scorsa: Math.round(window.scrollY),
-    pagina: Math.round(document.body.scrollHeight),
-    schermo: window.innerHeight,
-  }));
-  // «Dentro lo schermo» non basta e sarebbe una prova finta: la casella sta a 392 punti su una
-  // pagina di 2683, quindi al primo colpo è già dentro un vetro alto 900 anche senza nessun salto.
-  // Il salto vero si riconosce da due cose insieme: la pagina si è mossa, e la casella è finita in
-  // cima. Misurato sul Pannello vero: scorsa 296, alto 96 (i 96 sono lo stacco voluto dal bordo).
-  assert.ok(q.pagina > q.schermo + 200, `la pagina è troppo corta (${q.pagina}) per poter dire se il salto è avvenuto`);
-  assert.ok(q.scorsa > 0, "la pagina non si è mossa di un punto: il salto non è avvenuto");
-  assert.ok(q.top < 200, `la casella è ferma a ${q.top} punti dal bordo: non è stata portata sott'occhio`);
-  await p.close();
-});
+// ── AR-673 · perché qui NON c'è il caso del salto ───────────────────────────
+//
+// C'era, ed era rosso una volta sì e una no. Guidando il Pannello si vede il salto avvenire (la
+// pagina scorre di 296 punti e la casella si ferma a 96 dal bordo, misurato); ma lanciato in coda
+// agli altri cinque casi, col server di sviluppo sotto carico, lo stesso caso cadeva senza che
+// nessuno avesse toccato niente. È diventato rosso anche mentre provavo un mutante che riguardava
+// un altro difetto.
+//
+// Un caso che suona a caso è peggio di un caso che non c'è: dopo due volte lo si guarda senza
+// crederci, e da lì in poi smette di fermare anche i rossi veri. Il difetto è intermittente per
+// natura — dipende da chi arriva prima fra la traduzione dell'indirizzo e il risveglio della
+// casella — e quello che si può inchiodare è la decisione sotto: il cancelletto messo da parte
+// prima che l'indirizzo lo perda, e consumato una volta sola.
+//
+// Quei due casi stanno in `c4-decisione-fuori-da-react.test.mjs`, e lì il mutante li rende rossi.
+// Chi volesse riportare qui la prova a schermo: serve un aggancio che dica quando la casella ha
+// finito di caricare, non un'attesa a orologio.

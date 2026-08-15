@@ -150,3 +150,20 @@ test("moduliMalati(): un sorgente che non ho potuto leggere non diventa un modul
   // fra gli `illeggibili`, che è una terza colonna — non un verde per distrazione.
   assert.deepEqual(moduliMalati([{ nome: "x.mjs", sorgente: null }, null]), []);
 });
+
+// ── AR-677 — il perimetro dei moduli era quasi la metà di quello vero ─────────
+//
+// Il conto guardava solo il primo livello di `cervello/`: 192 moduli dichiarati contro i 277 che
+// ci sono davvero. Le sottocartelle — `capacita/` e le altre — non le contava nessuno, quindi un
+// modulo malato messo lì dentro era invisibile al metro che serve a trovarlo.
+//
+// È la forma più silenziosa di questa famiglia: il guardiano non mente, semplicemente non guarda —
+// e un numero più piccolo non allarma nessuno.
+test("AR-677: il perimetro scende nelle sottocartelle, non si ferma al primo livello", () => {
+  const moduli = elencaFile("cervello", [".mjs"]);
+  const inSottocartella = moduli.filter((f) => f.split("/").length > 2);
+  assert.ok(inSottocartella.length > 0,
+    "il perimetro non vede nessun modulo in sottocartella: sta guardando solo il primo livello, come prima di AR-677");
+  assert.ok(moduli.length > 200,
+    `il perimetro dichiara ${moduli.length} moduli: il conto a mano diceva 192 e ne mancavano quasi cento`);
+});

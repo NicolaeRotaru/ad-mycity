@@ -37,6 +37,24 @@
         "sostituisci": "  if (false) {"
       },
       "non_vacuita": "togliendo il freno della sola-lettura diventano rossi 3 casi (①⑫⑬) — applicata, lanciata, vista rossa, rimessa"
+    },
+    {
+      "id": "AR-286",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
+      "nota_fix": "Ogni misura dei sensori porta adesso da DOVE è stata presa: `origine` (vps, cloud o locale) e `copertura`. Verificato sul file vero: dice «cloud» e «8». Senza indizi la funzione risponde «locale» e MAI «vps» — non si millanta la vista, perché una misura che si dichiara vps senza esserlo comprerebbe il diritto di sovrascrivere quella vera. AD: la corsia aveva scritto il codice, non l'aveva messo nel suo rapporto.",
+      "mutante": {
+        "file": "cervello/scrittura-misura.mjs",
+        "cerca": "  if (e.SALUTE_CASA === \"vps\" || e.VPS === \"1\" || e.MYCITY_VPS === \"1\") return \"vps\";",
+        "sostituisci": "  if (true) return \"vps\";"
+      },
+      "non_vacuita": "facendo rispondere «vps» a chiunque, il caso ⑧ diventa rosso — applicata, lanciata, vista rossa, rimessa"
+    },
+    {
+      "id": "AR-568",
+      "esito": "aperto",
+      "motivo_se_aperto": "Tre clausole su quattro sono fatte e provate: (a) ogni misura porta origine e copertura — verificato sul file vero; (b) chi scrive RIFIUTA di sostituire una misura con una che ha visto meno, e la mette accanto invece di buttarla; (c) `--sola-lettura` esiste e non sporca niente — verificato, zero file toccati. Manca la (d): il cancello di pubblicazione deve fermare una richiesta che abbassa la copertura di un file di misura senza dirlo. Quel cancello è di un'altra corsia e non è stato fatto. Lo lascio APERTO invece di chiuderlo a tre quarti: è la clausola che protegge il caso peggiore — una misura più povera che vince perché è più recente, e un voto che MIGLIORA perché si è misurato di meno.",
+      "nota_fix": "Tre clausole su quattro fatte e provate (origine+copertura · cieco-non-sovrascrive-vedente · sola-lettura). Resta la quarta: il cancello che ferma una richiesta che abbassa la copertura senza dichiararlo."
     }
   ],
   "file_toccati": [

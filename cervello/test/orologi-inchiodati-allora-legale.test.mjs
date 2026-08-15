@@ -218,3 +218,32 @@ test("quandoMs legge una data invernale col suo fuso, non con l'ora legale", () 
   // Una stringa che porta GIÀ il suo fuso è un istante assoluto: si rispetta com'è.
   assert.equal(quandoMs("2026-01-15T08:30:00Z"), Date.parse("2026-01-15T08:30:00Z"));
 });
+
+// ── AR-672 — i due file del Pannello che avevano il fuso scritto a mano ───────
+//
+// `freschezza-intelligence.ts` e `verdetto-dato.ts` costruivano l'ora con l'offset dell'ora legale
+// scritto dentro: giusto d'estate, falso di un'ora da fine ottobre a fine marzo. Cinque mesi l'anno
+// su due schermate che dicono a Nicola quanto e vecchio un dato.
+//
+// ⚠️ La PRIMA versione di questo caso cercava `+02:00` nel testo del file, e diventava rossa sui
+// COMMENTI che spiegano la cura. Cercare una stringa non distingue il codice dalla sua spiegazione:
+// e la ragione per cui una prova si scrive sull'EFFETTO. Qui si chiede l'ora di un timbro
+// INVERNALE: se qualcuno rimettesse l'offset a mano, la risposta sbaglierebbe di un'ora.
+test("AR-672: le due schermate del Pannello chiedono il fuso, non se lo scrivono", async () => {
+  const { readFileSync } = await import("node:fs");
+  for (const f of ["pannello/src/lib/freschezza-intelligence.ts", "pannello/src/lib/verdetto-dato.ts"]) {
+    const righe = readFileSync(new URL(`../../${f}`, import.meta.url), "utf8")
+      .split("\n")
+      .filter((r) => !/^\s*(\/\/|\*|\/\*)/.test(r));   // via i commenti: spiegano la cura, non la disfano
+    const cablato = righe.filter((r) => /[+]0[12]:00/.test(r));
+    assert.deepEqual(cablato, [],
+      `${f}: l'offset e di nuovo scritto a mano nel CODICE — d'inverno mente di un'ora`);
+  }
+
+  // E l'effetto, che e la parte che conta: un timbro d'inverno vale +01:00, non +02:00.
+  const { vaultToIso } = await import("../../pannello/src/lib/format.ts");
+  assert.equal(Date.parse(vaultToIso("2026-12-01 23:30")), Date.parse("2026-12-01T23:30:00+01:00"),
+    "d'inverno la schermata dei dati sbaglia di un'ora");
+  assert.equal(Date.parse(vaultToIso("2026-07-15 08:30")), Date.parse("2026-07-15T08:30:00+02:00"),
+    "d'estate il calcolo era gia giusto: non deve essere cambiato");
+});

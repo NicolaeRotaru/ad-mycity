@@ -366,9 +366,15 @@ export default function AutoCoscienza({
   // UNA volta sola: `saltoFatto` è il freno di AR-257 — `carica()` gira ogni 30 secondi e mette
   // sempre un oggetto nuovo, quindi senza freno la pagina salterebbe da sola ogni mezzo minuto.
   useEffect(() => {
-    if (!chiesta.current || saltoFatto.current || !d) return;
-    saltoFatto.current = true;
-    const t = setTimeout(() => riquadroRef.current?.scrollIntoView({ behavior: "smooth", block: "start" }), 120);
+    if (!chiesta.current || saltoFatto.current) return;
+    // Si aspetta che ci sia qualcosa da guardare — con la casella ancora vuota la pagina è corta e
+    // saltare non muove niente — ma non si aspetta all'infinito: se i dati non arrivano (rete giù,
+    // memoria scollegata) la casella c'è lo stesso, col suo messaggio, e va portata sott'occhio
+    // uguale. Senza questa seconda strada il salto dipenderebbe da una risposta che può non arrivare.
+    const t = setTimeout(() => {
+      saltoFatto.current = true;
+      riquadroRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, d ? 120 : 1500);
     return () => clearTimeout(t);
   }, [d]);
 

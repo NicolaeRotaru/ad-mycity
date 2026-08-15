@@ -268,6 +268,33 @@ prova("AR-613: un tasto qualunque non fa saltare la scheda", () => {
   assert.equal(M.schedaDopoTasto(t, "boh", "ArrowRight"), null, "da una scheda che non esiste, fermi");
 });
 
+// ── ⑧ AR-673 · il cancelletto messo da parte prima che sparisca ─────────────
+//
+// La parte a runtime prova che la casella finisce sott'occhio. Questi due casi provano la decisione
+// che ci sta sotto, e sono l'unica prova che distingue il prima dal dopo in modo affidabile: nel
+// browser il difetto è INTERMITTENTE, perché dipende da chi arriva prima fra la traduzione
+// dell'indirizzo e il risveglio della casella. Un difetto intermittente provato solo a runtime è un
+// difetto che tornerà: la prova sarebbe verde una volta su due, e nessuno saprebbe dire perché.
+
+const N = await import(join(REPO, "pannello/src/lib/nav.ts"));
+
+prova("AR-673: il cancelletto si legge anche dopo che l'indirizzo l'ha perso", () => {
+  // È il difetto misurato sul Pannello vero: mezzo secondo dopo l'apertura la barra non ha più il
+  // cancelletto, e chi lo cercava lì trovava una tasca vuota.
+  N.parcheggiaAncoraDaIndirizzo("#auto-coscienza");
+  assert.equal(N.ancoraChiesta("auto-coscienza"), true, "chi arriva dopo deve poterlo ancora trovare");
+});
+
+prova("AR-673: si consuma — la casella non salta due volte", () => {
+  N.parcheggiaAncoraDaIndirizzo("#auto-coscienza");
+  assert.equal(N.ancoraChiesta("auto-coscienza"), true);
+  assert.equal(N.ancoraChiesta("auto-coscienza"), false, "la seconda volta è no: senza questo la pagina si sposterebbe da sola");
+  assert.equal(N.ancoraChiesta("un-altra"), false, "e non risponde per conto di una casella diversa");
+  assert.equal(N.nomeAncora("#azioni/approvare"), "azioni", "del cancelletto conta la prima parte");
+  assert.equal(N.nomeAncora(""), null);
+  assert.equal(N.nomeAncora(null), null);
+});
+
 let falliti = 0;
 for (const c of casi) {
   console.log(`${c.ok ? "  ok" : "not ok"} - ${c.nome}${c.ok ? "" : `\n      ${c.err}`}`);
