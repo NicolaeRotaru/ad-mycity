@@ -131,6 +131,21 @@ test("i marcatori sono le forme VERE con cui questa macchina scrive «e' grave»
   assert.ok(!ALLARMI.some((r) => r.test("verde, nessun problema")), "e un testo tranquillo no");
 });
 
+test("il referto di PR che git-pr.mjs scrive da solo non è un allarme nuovo (PR #733)", () => {
+  // La PR #733 ha portato la sua stessa prova a passare inosservata: `consegne/tech/pr-ad-mycity-733.md`
+  // nasce nuovo nel ramo (non esiste su main finché la PR non c'è) con la riga fissa che `writeConsegna`
+  // incolla in ogni PR — "🔴 Non mergeare da solo" — e il cancello la leggeva come un allarme appena
+  // scritto da accodare in AZIONI-IN-ATTESA, mentre l'approvazione arriva già dalle card del Pannello.
+  const boilerplate = "## Merge\n🔴 **Non mergeare da solo.** Nicola approva dal Pannello → `node cervello/git-merge.mjs --repo ad-mycity --pr 733`\n";
+  const file = [{ file: "consegne/tech/pr-ad-mycity-733.md", contenuto: boilerplate }];
+  assert.deepEqual(allarmiSenzaCoda(file, false), [], "il referto di PR generato da git-pr.mjs resta esente");
+  const modificate = [{ file: "consegne/tech/pr-ad-mycity-733.md", righe: [boilerplate] }];
+  assert.deepEqual(allarmiSenzaCoda([], false, modificate), [], "…anche visto come riga aggiunta, non come file nuovo");
+  // Ma un vero allarme scritto in un ALTRO file di consegne/tech (non un referto pr-*.md) resta visto.
+  const vero = [{ file: "consegne/tech/2026-08-15-audit.md", contenuto: "# 🔴 CRITICO — payout fermo" }];
+  assert.deepEqual(allarmiSenzaCoda(vero, false), ["consegne/tech/2026-08-15-audit.md"], "un audit vero non si esenta");
+});
+
 // ── ③ lezione senza freno ─────────────────────────────────────────────────────
 
 test("una lezione nuova senza gate viene fermata: senza freno e' una frase", () => {
