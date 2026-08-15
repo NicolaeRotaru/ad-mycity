@@ -1775,3 +1775,31 @@ curato alla radice), portato il testo del post kefir dentro la sua card. 🟡 in
 - 🟡 **Cosa:** riparati e provati AR-587/589/590/591 (sensori che raccontavano il falso), AR-597/633/642 (cancelli che davano verde a fonte sparita), AR-575/580/582/619 (contabilità del cantiere bucata), AR-629/632/634 (registro cadenze: ora legale scolpita e azzeramenti muti). Riparazioni dati applicate: 74 date di chiusura ricavate (69 dal git log, 5 da un campo col nome sbagliato, 0 stime), 4 lezioni rinumerate, 4 schede prioritizzate. 2 malattie censite a tetto 0 nella spazzata. 14 difetti nuovi registrati riparando (AR-646..655, più i 6 già contati): non entrano nel lotto, regola ②.
 - **Perché:** il tasso di chiusura di agosto era sotto 1 (dopo la riparazione dei libri: 0,55 — 95 chiusi su 174 aperti) → il giro non apre ricerche nuove, chiude. Scelta per malattia, non per conteggio; priorità a ciò che fa mentire Pannello e macchina a Nicola.
 - **Stato:** PR aperta sul ramo claude/fix-multiple-bugs-o7nkhn, merge = firma di Nicola. Cancello del lotto 🟡 (unico ⚪: typecheck del Pannello, non toccato dal lotto). Azione accodata: #posthog-off-vps.
+
+## 2026-08-15 02:20 · 🟡 Lotto 42 — cinquanta difetti a corsie parallele
+
+**Cosa.** Sei corsie in parallelo, ognuna su una MALATTIA (non su un elenco di difetti), con
+territori di file disgiunti e un modulo puro da estrarre a testa. 45 difetti lavorati: **40 chiusi**
+con prova comportamentale e mutazione verificata rompendo il fix, **7 dichiarati aperti** col motivo
+scritto. Cancello del lotto **exit 0** su 20 guardiani, zero ciechi (clone reso completo apposta).
+
+**Perché così.** Raggruppare per causa invece che per conteggio: dieci difetti scollegati sono dieci
+mini-lotti impilati, dieci con la stessa malattia si curano con un modulo condiviso. I sei moduli
+nati: `scrittura-misura` · `esito-guardiano` · `contratto-prova` · `atti-veri` · `stato-card` (Pannello)
+· e l'orologio di casa fatto chiamare da tutti i punti che se lo riscrivevano.
+
+**Le tre cose che valgono più dei numeri.**
+① Il rilevatore di una malattia dichiarava ZERO istanze e sembrava una guarigione: cercava la forma
+vecchia mentre il codice era passato a un'altra. Cinquanta istanze vive invisibili per due settimane.
+② Una PROVA teneva in piedi quella bugia — pretendeva zero, quindi chi riparava il metro rompeva la
+prova. Due guardiani d'accordo su un numero sbagliato si coprono a vicenda, e nessuno dei due mente.
+③ Il controllo della non-vacuità ha rifiutato una mutazione MIA: avevo mutato la prova invece del
+codice, e rompere il controllo dentro una prova la rende più verde, mai più rossa.
+
+**Cosa resta aperto, dichiarato.** AR-669 (la cura è un dato, non codice: la non-vacuità non è
+esprimibile — e gli ho tolto la prova a comando apposta, sarebbe passata e il chiusore automatico
+l'avrebbe chiuso da solo). AR-568 (tre clausole su quattro). AR-602, AR-623, AR-659, AR-688, AR-693:
+il fix sta in file di altre corsie. 11 difetti nuovi registrati (AR-696 → AR-706).
+
+**Firma.** 🟡 preparato e committato, **non unito**: il merge è di Nicola. Mergiare pubblica anche il
+Pannello (il Deploy Hook parte su main).

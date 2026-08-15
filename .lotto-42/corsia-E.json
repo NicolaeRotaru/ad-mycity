@@ -135,17 +135,20 @@
     {
       "titolo": "L'area dove Nicola firma non compilava: era rimasta rotta a metà conversione",
       "causa_radice": "La sessione precedente di questa corsia è stata interrotta a metà di una sostituzione di stato. Sono rimasti quattro riferimenti a nomi che non esistevano più: tredici errori di compilazione. Nessuno se n'era accorto perché il server di sviluppo compila solo la pagina che gli chiedi, e quell'area non era stata aperta. Il rischio resta anche dopo: il controllo dei tipi non gira in nessun cancello.",
-      "visto_in": "pannello/src/components/aree/Azioni.tsx, misurato con il controllo dei tipi del Pannello: 13 errori prima, 0 dopo"
+      "visto_in": "pannello/src/components/aree/Azioni.tsx, misurato con il controllo dei tipi del Pannello: 13 errori prima, 0 dopo",
+      "registrato_come": "AR-705"
     },
     {
       "titolo": "Il conteggio delle skill misura la macchina su cui gira, non il progetto",
       "causa_radice": "Il censimento dei guardiani elenca le skill leggendo la cartella su disco invece dell'elenco tracciato in git. Su una macchina con skill di ambiente installate accanto a quelle del progetto, la prova diventa rossa per 67 pezzi che nessuno ha aggiunto al repo — e resta rossa qualunque cosa faccia chi ripara.",
-      "visto_in": "cervello/test/mappa-in-bacheca.test.mjs: 5 skill tracciate in git contro 72 presenti in .claude/skills"
+      "visto_in": "cervello/test/mappa-in-bacheca.test.mjs: 5 skill tracciate in git contro 72 presenti in .claude/skills",
+      "registrato_come": "AR-701"
     },
     {
       "titolo": "Una prova a runtime può misurare il tema invece della cura, e sembrare verde",
       "causa_radice": "Misuravo il bordo della «prima card» per dire se il tema scuro era rispettato. Quella card ha livello sconosciuto e il suo bordo usa una variabile che si ribalta da sola col tema: la misura cambiava fra chiaro e scuro anche con le gemelle scure tolte. L'ho scoperto solo perché il mutante restava verde. Vale come regola: una prova a runtime che non è stata rotta apposta non è ancora una prova.",
-      "visto_in": "cervello/test/c4-schermo-coda.test.mjs, prima versione del caso su AR-614"
+      "visto_in": "cervello/test/c4-schermo-coda.test.mjs, prima versione del caso su AR-614",
+      "registrato_come": "AR-706"
     }
   ],
   "spazzata": "La malattia NON è censita in cervello/malattie.json (21 voci, nessuna corrisponde). La più vicina è «prova-che-non-puo-fallire», ma quella è la conseguenza: la causa è che la decisione sta dentro il componente, e da lì l'unica prova possibile è cercare una parola nel file. Nome proposto: «decisione-sepolta-nel-componente». Istanze rimaste, misurate sul cantiere: dei 218 difetti aperti, 15 toccano un componente del Pannello e 5 di questi hanno per prova una ricerca di parole (AR-605, AR-608, e i tre che ho chiuso stanotte). Restano quindi 2 istanze note con la prova debole, più le decisioni ancora sepolte nei componenti che nessuna radiografia ha ancora guardato.",

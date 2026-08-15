@@ -137,12 +137,14 @@
     {
       "titolo": "Uno strumento che misura se la macchina sta migliorando non lo esegue nessuno, e non lo ha dichiarato nessuno",
       "causa_radice": "salute-onesta.mjs ha lo shebang, il contratto d'uscita e il process.exit, quindi la macchina lo riconosce come guardiano; ma nessun processo lo lancia e non c'è la sua voce fra i motivi dichiarati. Non è un difetto mio: l'ho misurato togliendo di mezzo i miei file nuovi e la segnalazione resta identica. È il numero con cui si risponde a «sto migliorando?»: se non lo esegue nessuno, quella domanda non ha risposta.",
-      "visto_in": "node cervello/guardia-viva-check.mjs --json → senza_guardia: [\"salute-onesta.mjs\"] · la prova guardiano-mai-messo-di-guardia era già rossa per questo prima che io scrivessi qualsiasi file"
+      "visto_in": "node cervello/guardia-viva-check.mjs --json → senza_guardia: [\"salute-onesta.mjs\"] · la prova guardiano-mai-messo-di-guardia era già rossa per questo prima che io scrivessi qualsiasi file",
+      "registrato_come": "AR-703"
     },
     {
       "titolo": "La malattia «una parola senza padrone» non ha un nome nel censimento delle malattie",
       "causa_radice": "in cervello/malattie.json ci sono 21 forme di difetto e nessuna dice «la stessa parola è definita in due posti diversi». Senza il nome, la spazzata che cerca i fratelli di una malattia nota non può cercarne le altre istanze: ogni copia nuova va trovata a mano, cioè per caso. È la ragione per cui questa corsia esiste ed è composta da nove difetti che sono la stessa cosa nove volte.",
-      "visto_in": "cervello/malattie.json — nessuna voce fra le 21 corrisponde; le istanze note oggi sono le cinque liste degli «atti veri», i due conti dei quaderni vivi dentro lo stesso file, e i due punti del Pannello che contano ancora i difetti a mano"
+      "visto_in": "cervello/malattie.json — nessuna voce fra le 21 corrisponde; le istanze note oggi sono le cinque liste degli «atti veri», i due conti dei quaderni vivi dentro lo stesso file, e i due punti del Pannello che contano ancora i difetti a mano",
+      "registrato_come": "AR-704"
     }
   ],
   "mutanti_da_correggere": [],
