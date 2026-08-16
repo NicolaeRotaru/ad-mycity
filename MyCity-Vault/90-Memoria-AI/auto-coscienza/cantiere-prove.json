@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-16 13:40",
+  "aggiornato": "2026-08-16 15:00",
   "giorni_sospetto": 3,
-  "difetti_aperti": 209,
+  "difetti_aperti": 210,
   "per_classe": {
     "umana": 125,
     "auto-sospetta": 21,
-    "auto-comando": 63
+    "auto-comando": 64
   },
   "non_auto_chiudibili": 146,
   "bloccanti_ciechi": [
@@ -92,6 +92,14 @@
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-693",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita",
+        "nato"
       ]
     },
     {
@@ -677,6 +685,14 @@
       "causa": "comando-non-eseguibile",
       "comando": "node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata",
       "motivo": "il motore non sa eseguire \"node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-751",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/numero-di-card-gia-speso.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/numero-di-card-gia-speso.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
     }
   ],
   "da_riverificare": [
@@ -3514,6 +3530,15 @@
       "auto_chiudibile": false
     },
     {
+      "id": "AR-684",
+      "gravita": "grave",
+      "eta_giorni": 2,
+      "titolo": "Il cantiere conta 595 schede su 653: 56 in un terzo stato non entrano in nessun totale",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/un-totale-che-salta-uno-stato.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
       "id": "AR-688",
       "gravita": "minore",
       "eta_giorni": 2,
@@ -3521,6 +3546,15 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
+    },
+    {
+      "id": "AR-693",
+      "gravita": "grave",
+      "eta_giorni": null,
+      "titolo": "Ventinove prove scritte in bash non le esegue nessuno, e nove sono rosse da mesi",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/prova-che-non-puo-fallire.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-695",
@@ -3917,15 +3951,6 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-751",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "Chi distribuisce i numeri delle card ne vede solo metà, e ha dato lo stesso numero a due card diverse",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/carte-numerate.test.mjs",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-752",
