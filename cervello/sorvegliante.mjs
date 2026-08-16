@@ -144,6 +144,8 @@ import { execFileSync } from "node:child_process";
 import { dirname, join, relative, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import { senzaCommenti } from "./spazzata-fratelli.mjs";
+// Nessun anello: il libro mastro non importa niente da qui, registra e basta.
+import { annota, chiudi } from "./libro-mastro.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
 // La mappa referto→generatore che la casa dichiara già: una casa sola per quell'elenco, altrimenti
 // due copie della stessa conoscenza divergono al primo aggiornamento (AR-556).
@@ -2070,6 +2072,27 @@ export function scatto(esito, nToccati) {
   return bustaPerIlModello(esito.voci, nToccati, viste, { motivi: esito.motivi || [], esentate: esito.esentate || [] });
 }
 
+/**
+ * IL NOME DELLO STRUMENTO NON SI LEGGE DA STDIN — e la prima stesura di questo pezzo lo faceva.
+ *
+ * COSA È SUCCESSO, il 16/8, mezz'ora dopo averlo scritto. Per mettere nel libro mastro QUALE
+ * strumento avesse svegliato la guardia, leggevo il payload dell'evento con una lettura sincrona,
+ * protetta da un `isTTY`. Quel guardia copre un caso solo: il file lanciato da un terminale. Non
+ * copre quello che conta — un chiamante che apre il canale e non lo chiude mai. Lì la lettura non
+ * torna PIÙ, e la guardia resta appesa per sempre.
+ *
+ * Misurato: `sleep 60 | node cervello/sorvegliante.mjs --hook` non finiva. Dentro l'hook vero il
+ * danno era limitato (Claude Code chiude stdin, e comunque c'è un tempo massimo), ma il programma
+ * che esegue tutte le prove spawna i file con un canale aperto: sul mio ramo non finiva più, mentre
+ * su main finiva in meno di novanta secondi. Una guardia che PIANTA chi la esegue è peggio di una
+ * guardia che non sa il nome dello strumento.
+ *
+ * PERCHÉ TOGLIERLO NON COSTA NIENTE. La mappa di copertura non ricava da qui chi sorveglia cosa:
+ * quello lo legge dai matcher del file dei freni. Dal libro mastro prende solo l'ELENCO degli
+ * strumenti usati, e quell'elenco arriva già dalle altre guardie e dalla trascrizione. Il nome qui
+ * era un di più; l'attesa infinita no.
+ */
+
 function main() {
   const argv = process.argv.slice(2);
   const hook = argv.includes("--hook");
@@ -2099,10 +2122,17 @@ function main() {
     process.exit(v.uscita);
   }
 
+  // Il libro mastro: la riga si apre PRIMA di guardare il delta, perché è proprio qui che una guardia
+  // può morire a metà (il calcolo del diff è la parte lenta, ed è dove scade il tempo massimo).
+  // Senza l'apertura, un sorvegliante ucciso dal timeout lascerebbe la stessa traccia di uno che ha
+  // detto ✅: nessuna. Con l'apertura, la mossa risulta NON guardata, che è la verità.
+  const mastro = hook ? annota({ guardia: "sorvegliante", evento: "PostToolUse", strumento: "", bersaglio: "delta del repo" }) : "";
+
   const { errore, esito, toccati } = verdettoDelDelta({ soloStaged, da: base });
   if (errore) {
     if (hook) {
       console.log("👁️ sorvegliante: cieco (git non leggibile) — nessun controllo sul delta");
+      chiudi(mastro, "ok", `cieco: ${errore}`);
       process.exit(0);
     }
     console.error(`👁️ SORVEGLIANTE CIECO — non ho potuto leggere il diff: ${errore}`);
@@ -2123,6 +2153,7 @@ function main() {
     // illeggibile a chi la deve interpretare, e il verdetto tornerebbe a sparire nel log.
     const busta = scatto(esito, toccati.length);
     if (busta) console.log(busta);
+    chiudi(mastro, rossi.length ? "blocca" : busta ? "avvisa" : "ok", rossi.map((v) => `${v.classe} ${v.file}`).join(" · "));
     // Avvisa, non blocca: un freno che ferma un Edit a metà lavoro viene spento in un giorno, e un
     // controllo spento è peggio di nessun controllo (insegna che il verde non vuol dire niente).
     // Il freno che BLOCCA sta al commit, dove fermarsi non costa il lavoro in corso.

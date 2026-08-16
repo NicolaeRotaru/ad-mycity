@@ -21,7 +21,7 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { join, basename } from "node:path";
-import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { AD_ROOT, gitEsegui, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import {
   percorsiMorti,
   canaliVersoPersone,
@@ -30,6 +30,7 @@ import {
   separaDescription,
 } from "./mandato-owner.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
+import { conteggiSbagliati as conteggiSbagliatiPuro, perimetroDaRepo } from "./perimetro-conteggi.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 
@@ -41,6 +42,38 @@ const AGENTS_DIR = join(AD_ROOT, ".claude/agents");
  * assente equivale a "non cita nessun agente", così il drift emerge invece di far crashare.
  * @param {string} rel
  */
+/**
+ * Tutti i file tracciati dal repo. È la fonte da cui si DERIVA il perimetro dei conteggi (AR-347):
+ * chiedere a git è l'unico modo di non tenere un elenco che invecchia. Se git non risponde si torna
+ * vuoto e il controllo dei conteggi non gira — e questo lo dice `perimetro.length` a chi chiama,
+ * invece di far passare per «nessun conteggio sbagliato» un elenco che non ho potuto leggere.
+ */
+function fileDelRepo() {
+  try {
+    // L'esecutore unico di git (AR-327): il tetto sullo stdout sta in UN posto solo. Allinearlo qui
+    // a mano vorrebbe dire tenerne due, e due copie della stessa regola divergono sempre.
+    return gitEsegui(["ls-files"], AD_ROOT).split("\n").filter(Boolean);
+  } catch (e) {
+    // NON una lista vuota: da vuota uscirebbe «zero conteggi vecchi», cioè un verde costruito su un
+    // elenco che non ho potuto leggere. `null` vuol dire «non lo so», e chi chiama lo deve dire.
+    return null;
+  }
+}
+
+/**
+ * Il tetto dichiarato per i conteggi vecchi ereditati. Assente = zero, cioè il comportamento severo:
+ * un tetto che non c'è non può essere un permesso.
+ */
+function leggiTettoConteggi() {
+  try {
+    const j = JSON.parse(readFileSync(join(AD_ROOT, "cervello/tetti-lotto.json"), "utf8"));
+    const n = Number(j?.conteggi_agenti_vecchi);
+    return Number.isFinite(n) && n >= 0 ? n : 0;
+  } catch (e) {
+    return 0;
+  }
+}
+
 function leggiTesto(rel) {
   const p = join(AD_ROOT, rel);
   return existsSync(p) ? readFileSync(p, "utf8") : "";
@@ -266,24 +299,26 @@ async function main() {
   //    diceva ai suoi agenti «i 42 agenti in .claude/agents/» mentre erano 120, cioè partiva già con
   //    una realtà vecchia in testa. Qui il perimetro si allarga a TUTTO ciò che pilota: se un file
   //    dichiara un numero di agenti/senior diverso da quello reale, il guardiano fallisce.
-  const FILE_PILOTA = [
-    ".claude/workflows/auto-radiografia.js",
-    ".claude/workflows/giro-operativo.js",
-    ".claude/workflows/audit-pannello.js",
-    "cervello/auto-radiografia.md",
-    "cervello/auto-coscienza.md",
-    "cervello/giro.md",
-  ];
-  const RE_CONTEGGIO = /(\d{2,4})\s+(?:agenti|senior)\b/gi;
-  const conteggiSbagliati = [];
-  for (const rel of FILE_PILOTA) {
-    const testo = leggiTesto(rel);
-    if (!testo) continue;
-    for (const m of testo.matchAll(RE_CONTEGGIO)) {
-      const n = Number(m[1]);
-      if (n !== nReali && n !== nReali + 1) conteggiSbagliati.push({ file: rel, dichiarato: n, reali: nReali });
-    }
-  }
+  //    AR-347 — E QUELL'ELENCO ERA ANCORA UN ELENCO. Fino al 16/8 i file da guardare erano sei,
+  //    scritti a mano qui dentro. Il «42» viveva ancora in due posti, entrambi fuori: `COMANDI.md`,
+  //    cioè il menù che legge Nicola, e `cervello/sentinelle.md`, cioè la regola che dovrebbe
+  //    accorgersi proprio di questo disallineamento. Adesso il perimetro lo DERIVA il repo
+  //    (`cervello/perimetro-conteggi.mjs`): si guarda tutto ciò che può pilotare il lavoro, e la
+  //    storia — briefing, decisioni, quaderni — resta esente col suo perché scritto.
+  const elencoRepo = fileDelRepo();
+  const perimetroCieco = elencoRepo === null;
+  const perimetro = perimetroDaRepo(elencoRepo || []);
+  const testiPerimetro = Object.fromEntries(perimetro.map((rel) => [rel, leggiTesto(rel)]).filter(([, t]) => t));
+  const conteggiSbagliati = perimetroCieco ? [] : conteggiSbagliatiPuro(testiPerimetro, nReali);
+  //    IL TETTO SUL DEBITO EREDITATO. Allargando il perimetro sono usciti in un colpo 26 conteggi
+  //    vecchi che nessuno guardava da mesi: farli fallire tutti insieme renderebbe questo guardiano
+  //    rosso per costruzione, e un guardiano sempre rosso si impara a saltare entro la settimana —
+  //    è scritto in questa casa e ci è già costato AR-346. Quindi il debito si MISURA sotto un tetto
+  //    che può solo scendere (`cervello/tetti-lotto.json`), mentre un conteggio vecchio NUOVO —
+  //    cioè sopra il tetto — blocca come prima. Il tetto non si alza mai: chi lo alza sta spostando
+  //    il metro invece del codice.
+  const tettoConteggi = leggiTettoConteggi();
+  const conteggiOltreIlTetto = Math.max(0, conteggiSbagliati.length - tettoConteggi);
 
   // 9. AR-349 — I PERCORSI SCRITTI DENTRO UN MANSIONARIO SONO CONFIGURAZIONE, NON PROSA.
   //    Sette schede mandavano il senior a leggere `MyCity-Vault/02-Aree/Area - Consegna.md`: quella
@@ -333,7 +368,7 @@ async function main() {
     (conteggioIncoerente ? 1 : 0) +
     nCollisioni +
     senzaKpi.length +
-    conteggiSbagliati.length +
+    conteggiOltreIlTetto +
     nomi.problemi + // AR-619: un name incoerente rompe il routing anche con 120 file = 120 dichiarati
     percorsiRotti.length + // AR-349
     canaliOrfani.length + // AR-188 / AR-585

@@ -123,6 +123,7 @@ export function misuraCieca(comando = "") {
 // ne esegue il programma. È la malattia `programma-che-parte-importando` (AR-445), censita oggi nel
 // registro proprio perché 71 file del cervello non ce l'hanno ancora.
 const { verdettoDelDelta, scatto } = await import("./sorvegliante.mjs");
+const { annota, chiudi } = await import("./libro-mastro.mjs");
 
 async function leggiStdin() {
   const pezzi = [];
@@ -134,12 +135,20 @@ async function main() {
   const argv = process.argv.slice(2);
   let comando = argv.filter((a) => !a.startsWith("--")).join(" ");
 
+  let mastro = "";
+  let mastroGuardia = "";
   if (argv.includes("--hook")) {
     // L'hook riceve il payload dell'evento su stdin. Se non è leggibile NON invento un verdetto:
     // esco 0 in silenzio — un avvisatore che parla a vanvera si impara a ignorare.
     try {
       const ev = JSON.parse(await leggiStdin());
       comando = ev?.tool_input?.command || "";
+      // Due righe nel libro mastro, non una: qui girano DUE guardie diverse sullo stesso comando —
+      // questa, e il sorvegliante sul delta (AR-502). Registrarne una sola direbbe che l'altra non
+      // c'era, e la mappa di copertura si costruisce esattamente su queste righe.
+      const dati = { evento: "PostToolUse", strumento: ev?.tool_name || "Bash", bersaglio: comando };
+      mastro = annota({ guardia: "misura-cieca", ...dati });
+      mastroGuardia = annota({ guardia: "sorvegliante", ...dati });
     } catch {
       process.exit(0);
     }
@@ -169,13 +178,19 @@ async function main() {
         const busta = scatto(esito, toccati.length);
         // Dalla busta dell'altro prendo il TESTO, non l'involucro: le buste non si annidano.
         if (busta) dalSorvegliante = JSON.parse(busta)?.hookSpecificOutput?.additionalContext || null;
+        chiudi(mastroGuardia, dalSorvegliante ? "avvisa" : "ok", `${toccati.length} file nel delta`);
+      } else {
+        chiudi(mastroGuardia, "ok", `delta non calcolabile: ${errore}`);
       }
-    } catch {
+    } catch (e) {
       // Se la guardia non gira, questo hook fa comunque il suo mestiere: un pezzo mancante non deve
-      // portarsi via anche l'altro verdetto. Che abbia girato o no lo dice il battito, non il silenzio.
+      // portarsi via anche l'altro verdetto. Che abbia girato o no lo dice il battito, non il silenzio —
+      // e da oggi lo dice anche il libro mastro, con il motivo del guasto invece che con un buco.
+      chiudi(mastroGuardia, "ok", `sorvegliante in errore su questo comando: ${e?.message || e}`);
     }
     const busta = bustaPerIlModello(trovate, dalSorvegliante);
     if (busta) console.log(busta);
+    chiudi(mastro, trovate.length ? "avvisa" : "ok", trovate.map((t) => t.cosa).join(" · "));
     process.exit(0);
   }
 
