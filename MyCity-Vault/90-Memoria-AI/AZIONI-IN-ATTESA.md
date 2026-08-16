@@ -36,7 +36,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🟡 #104 — Correggi 5 righe nelle tue regole di permesso. È il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20 · rinumerata da #81 alle 11:12 (collideva col vecchio #81 tabellare "Merge PR #714", mai riutilizzabile)
+### 🟡 #104 — Correggi le tue regole di permesso: sono il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20 · aggiornata 2026-08-16 15:45 (secondo guasto trovato oggi, stessa causa: il file dei permessi è troppo stretto)
 
 **Cosa cambia:** il 4 agosto avevo trovato una causa (5 righe "Write" invece di "Edit" nel file dei miei permessi). Oggi, 16 agosto alle 15:35, l'ho ricontrollata dal vivo e ho trovato una cosa diversa da quello che pensavo — te la dico con onestà, non aggiusto la vecchia diagnosi per farla tornare.
 
