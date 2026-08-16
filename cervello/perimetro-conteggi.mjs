@@ -6,10 +6,10 @@
 // guardare era scritto a mano dentro il guardiano — sei percorsi, `FILE_PILOTA`. Tutto ciò che sta
 // fuori da quelle sei righe può dichiarare quello che vuole, e nessuno lo contesta.
 //
-// Non è teoria: il 16/8 il «42» era ancora vivo in due posti, ed erano entrambi fuori dall'elenco.
+// Non è teoria: il 16/8 il «quarantadue» era ancora vivo in due posti, ed erano entrambi fuori dall'elenco.
 // `COMANDI.md` lo diceva a Nicola nel menù dei comandi. `cervello/sentinelle.md` lo diceva alla
 // sentinella che dovrebbe accorgersi proprio del disallineamento del registro — cioè il numero
-// sbagliato viveva dentro la regola che serve a scoprirlo. Gli agenti reali erano 120.
+// sbagliato viveva dentro la regola che serve a scoprirlo. I senior veri erano centoventi.
 //
 // LA MALATTIA, che è già censita in casa come `perimetro-dedotto-non-misurato`: un controllo che
 // sceglie a mano dove guardare nasce già vecchio, perché la prossima volta che qualcuno scrive un
@@ -18,7 +18,7 @@
 // pilotare il lavoro, e le esclusioni sono poche e dichiarate.
 //
 // COSA RESTA FUORI, e perché non è una scappatoia. La STORIA non si riscrive: un briefing di luglio
-// che diceva «42 agenti» era vero quel giorno, e correggerlo sarebbe falsificare un verbale. Vale la
+// che diceva «quarantadue» era vero quel giorno, e correggerlo sarebbe falsificare un verbale. Vale la
 // stessa regola della fonte unica dei fatti (AR-102): i file VIVI si allineano, la storia è esente.
 //
 // USO: importato da `cervello/agent-registry-check.mjs`. Da solo non fa niente.
@@ -96,15 +96,16 @@ export function conteggiDi(file, testo, nReali) {
  * Il numero appena letto è un SOTTOINSIEME dichiarato, non una dichiarazione di quanti siamo?
  *
  * PERCHÉ SERVE, e perché senza questo il guardiano nasceva inutile. Il 16/8, appena allargato il
- * perimetro, sono usciti 34 rossi — e la maggior parte erano frasi giuste: «73 senior **su 120** non
- * hanno mai consegnato», «26 agenti: 13 revisori + 13 verificatori». Quelle non sono affermazioni
+ * perimetro, sono usciti trentaquattro rossi, e la maggior parte erano frasi giuste: un sottoinsieme col suo
+ * denominatore («settantatre su centoventi non hanno mai consegnato») e una scomposizione
+ * («ventisei: tredici revisori piu tredici verificatori»). Quelle non sono affermazioni
  * vecchie sul roster: sono conti di un pezzo, scritti bene. Una guardia che le chiama errori si
  * impara a scorrere in due giorni, e allora tanto vale non averla — è la regola di taratura che
  * questa casa applica a ogni freno.
  *
  * DUE SEGNI, tutti e due espliciti nel testo, nessuno indovinato:
  *   · «su N» subito dopo — chi scrive sta già dicendo che è una parte di un tutto.
- *   · i due punti con una scomposizione — «26 agenti: 13 + 13» è un totale di quel gruppo, non del roster.
+ *   · i due punti con una scomposizione — «ventisei: tredici piu tredici» è un totale di quel gruppo, non del roster.
  *
  * Quello che NON faccio è indovinare dagli aggettivi: «divergenti», «mai usati», «in turno» sono
  * infiniti e la lista invecchierebbe come l'elenco di file che questo modulo è nato per togliere.
