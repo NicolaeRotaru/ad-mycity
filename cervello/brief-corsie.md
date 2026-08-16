@@ -92,7 +92,7 @@ Scrivi **un solo file**: `MyCity-Vault/90-Memoria-AI/auto-coscienza/lotti/44/cor
       "non_vacuita": "rotto <cosa> → test rosso su <quale asserzione>. Rimesso: verde."
     },
     {
-      "id": "AR-999",
+      "id": "AR-<un altro numero del tuo elenco>",
       "esito": "aperto",
       "perche_resta_aperto": "…",
       "togli_verifica_a_pattern": true
