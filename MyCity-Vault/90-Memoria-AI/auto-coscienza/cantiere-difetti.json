@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-16 17:24",
+  "aggiornato": "2026-08-16 19:33",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -6091,7 +6091,7 @@
       "causa_radice": "1) Perche il 42 sopravvive? Perche il guardiano non legge COMANDI.md ne sentinelle.md. 2) Perche non li legge? Perche FILE_PILOTA e un elenco letterale, e chi lo ha scritto ha elencato i file dove aveva appena visto il difetto. 3) Perche un elenco a mano? Perche e il modo piu veloce per far diventare verde il guardiano nello stesso lavoro in cui si dichiara chiuso il difetto. 4) Perche e accettabile chiudere e verificare nello stesso lavoro? Perche la prova di chiusura la sceglie chi ripara, fra quelle che sa gia superare. 5) CAUSA DI SISTEMA: manca la separazione dei compiti dentro il cantiere — chi ripara scrive anche il proprio esame.",
       "fix_proposto": "🟡 (a) Sostituire FILE_PILOTA con una scansione: tutti i .md di radice, tutti i .claude/workflows/*.js e tutti i cervello/*.md e *.mjs, con esenzioni motivate per la storia (Briefing, DECISIONI, consegne/audit). (b) Correggere COMANDI.md:38, sentinelle.md:93 e il commento di guardiano-capacita.mjs:6, e riaprire AR-195. (c) Regola per il cantiere: la `verifica` di un difetto va scritta PRIMA del fix e deve fallire sul repo com'e adesso — una prova mai vista rossa non e una prova.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/agent-registry-check.mjs:215-222 (`FILE_PILOTA`: sei percorsi letterali — auto-radiografia.js, giro-operativo.js, audit-pannello.js, auto-radiografia.md, auto-coscienza.md, giro.md) · COMANDI.md:38 («la propria architettura: 42 agenti») · cervello/sentinelle.md:93 («riallinea CLAUDE.md/AGENTI.md/COMANDI ai 42 file reali») · cervello/guardiano-capacita.mjs:6 (commento: «copre i 42 AGENTI») · cantiere AR-195 stato=chiuso, verifica {file: auto-radiografia.js, pattern \"42 agenti\", presente:false}. Sintomo: Eseguito ora: `node cervello/agent-registry-check.mjs` esce 0, «nessun drift», 120 reali = 120 dichiarati. Nello stesso momento COMANDI.md:38 — il menu ufficiale dei comandi indicato da CLAUDE.md — dice che l'auto-radiografia analizza «42 agenti», e sentinelle.md:93 ORDINA all'AD di riallineare i registri «ai 42 file reali». Il fix di AR-195 ha sostituito una lista di tre file scelti a mano con una di SEI scelti a mano, che non include ne COMANDI.md ne sentinelle.md: la causa radice scritta nella scheda del difetto («il guardiano legge tre file scelti a mano») e stata riprodotta dal suo stesso fix. Rientra nell'eccezione: chiuso nel cantiere, vivo nel repo.",
       "nato_come": "scoperta",
@@ -6103,7 +6103,10 @@
       },
       "verifica": {
         "comando": "node cervello/test/perimetro-conteggi.test.mjs"
-      }
+      },
+      "chiuso_il": "2026-08-16 19:33",
+      "chiuso_come": "node cervello/test/perimetro-conteggi.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-348",
@@ -15956,7 +15959,7 @@
       "nato_come": "regressione",
       "nato_da": "AR-473 / lotto 44 — stessa forma, terza occorrenza",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "causa_radice": "① Perché il cancello si dichiara cieco sulle mutazioni? Perché `difettiToccati` non vede nessun difetto toccato. ② Perché non lo vede? Perché confronta un'impronta fatta di un ELENCO CHIUSO di campi (`CAMPI_DEL_LOTTO`), e il campo con cui il lotto ha lavorato non è in quell'elenco. ③ Perché non è nell'elenco? Perché l'elenco si aggiorna a mano, e solo dopo che è già successo. ④ Perché nessuno se ne accorge prima? Perché il sintomo appare in CI come exit 2 con un messaggio che dà la colpa a un «clone superficiale» — un'ipotesi sbagliata che manda a cercare nel posto sbagliato; nel lotto 44 era già stato annotato che `fetch-depth: 0` c'era da mesi. ⑤ Causa di sistema: il metro è costruito per elencare ciò che conta invece di escludere ciò che è rumore, quindi ogni forma di lavoro NUOVA nasce invisibile — e l'invisibilità si manifesta come un cancello cieco, che è il modo più costoso di scoprirlo. Occorrenze: `verifica` sola (fino al lotto 44) → `stato`/`chiusura` (lotto 44, PR #738) → `sintomo` (lotto 45, PR #742).",
       "fix_proposto": "🟡 Invertire il metro: l'impronta guarda TUTTI i campi della scheda TRANNE una lista dichiarata di rumore (timbri, note, titoli, prosa). Un falso «toccato» costa una prova in più che gira; un falso «non toccato» costa un cancello cieco che blocca la CI e insegna a saltare il controllo — non sono simmetrici, e nel dubbio va scelto il primo. Da valutare col conto vero: se un campo di rumore cambia su tutte le schede, «toccati» diventa l'intero cantiere e il banco delle mutazioni potrebbe non reggerne il volume — misurarlo prima di invertire. Va sistemato anche il messaggio: «(clone superficiale?)» è un'ipotesi che ha già sviato due volte, e la causa vera va nominata per prima.",
       "sintomo": {
@@ -15975,7 +15978,10 @@
       },
       "nota_fix": "16/8: aggiunto `sintomo` all'elenco e il caso ③bis al banco, con non-vacuità eseguita (togliendo `sintomo` il caso diventa rosso). È la cura del punto, non della malattia: l'elenco resta chiuso, quindi il difetto resta APERTO di proposito.",
       "malattia": "non-pattern-izzabile",
-      "malattia_perche": "Un pattern qui cercherebbe «un array costante di stringhe usato per costruire un confronto», che nel codice della casa è ovunque: sarebbe un sensore che si accende su ogni elenco e quindi non si accende su niente — rumore travestito da copertura, cioè la malattia che questo cantiere cura. CHI LA COPRE OGGI: `cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs` prova le quattro forme già viste (prova cambiata, difetto riaperto, chiusura bloccata, sintomo dichiarato) e la loro non-vacuità. CHI NON LA COPRE: il quinto campo di lavoro, quello che nascerà domani. Nessun banco può provarlo perché nessuno sa ancora come si chiamerà, e il suo sintomo — un cancello che si dichiara cieco in CI — arriva sempre dopo che il lavoro è già stato fatto. È esattamente per questo che AR-756 resta APERTO: la cura vera non è un pattern né un quinto caso, è invertire il metro perché guardi tutti i campi tranne una lista dichiarata di rumore. Finché quell'inversione non è misurata (potrebbe far risultare toccato l'intero cantiere), la forma non ha nessuna difesa che scatti da sola, e dichiararlo è più onesto che inventarle un nome nel registro."
+      "malattia_perche": "Un pattern qui cercherebbe «un array costante di stringhe usato per costruire un confronto», che nel codice della casa è ovunque: sarebbe un sensore che si accende su ogni elenco e quindi non si accende su niente — rumore travestito da copertura, cioè la malattia che questo cantiere cura. CHI LA COPRE OGGI: `cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs` prova le quattro forme già viste (prova cambiata, difetto riaperto, chiusura bloccata, sintomo dichiarato) e la loro non-vacuità. CHI NON LA COPRE: il quinto campo di lavoro, quello che nascerà domani. Nessun banco può provarlo perché nessuno sa ancora come si chiamerà, e il suo sintomo — un cancello che si dichiara cieco in CI — arriva sempre dopo che il lavoro è già stato fatto. È esattamente per questo che AR-756 resta APERTO: la cura vera non è un pattern né un quinto caso, è invertire il metro perché guardi tutti i campi tranne una lista dichiarata di rumore. Finché quell'inversione non è misurata (potrebbe far risultare toccato l'intero cantiere), la forma non ha nessuna difesa che scatti da sola, e dichiararlo è più onesto che inventarle un nome nel registro.",
+      "chiuso_il": "2026-08-16 19:33",
+      "chiuso_come": "node cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-757",
@@ -16006,16 +16012,16 @@
   ],
   "meta": {
     "letto": true,
-    "totale": 746,
+    "totale": 748,
     "aperti": 104,
     "in_corso": 0,
     "da_riverificare": 56,
-    "chiusi": 586,
+    "chiusi": 588,
     "altri": 0,
     "da_fare": 160,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 586,
+      "chiuso": 588,
       "aperto": 104,
       "da-riverificare": 56
     },
