@@ -1869,10 +1869,14 @@ Pannello (il Deploy Hook parte su main).
   l'ambiente poteva misurare, quindi la clausola sarebbe stata vera sempre e avrebbe **spento la
   guardia che impedisce a una misura cieca di cancellare quella del server**. Una cura che disattiva
   la cura di prima non è una cura.
-- **Il quarto rosso non era un difetto:** il margine del confronto storico. La prova pretendeva
-  «schede aperte oggi senza data di nascita» (2); il referto conta «schede che non so collocare a una
-  settimana fa» (15), che è il numero giusto per un confronto all'indietro. I due coincidevano finché
-  non si chiudeva niente: questo lotto ne ha chiuse 61 e si sono separati. Corretta la prova.
+- **Il quarto rosso era un difetto, ma non quello che credevo: AR-753.** Il campo del margine
+  rispondeva a DUE domande con un nome solo — «di quanto può sbagliare il confronto con una settimana
+  fa» (15) e «quante schede non so collocare adesso» (2). Due prove di casa ne pretendevano i due
+  valori opposti. Io avevo corretto la prova; sul ramo principale il worker aveva corretto il codice.
+  Nessuna delle due mosse era sbagliata: **era sbagliato che ci fosse un campo solo**, e infatti
+  accontentarne una rendeva rossa l'altra — lo stesso giorno, a turno, sono state rosse entrambe.
+  La cura è dare due nomi alle due domande. Nessun numero si perde e ogni prova legge il campo che
+  intende. *È la malattia «una parola con due padroni», dentro il file che porta quel nome.*
 - **Come sono state provate:** ogni fix ha una prova comportamentale e una mutazione **eseguita**, non
   ragionata. La prima versione del rinfresco cancellava dalla domanda chi era già in attesa — un
   difetto che ho visto solo lanciando il comando tre volte di fila su una copia della coda.

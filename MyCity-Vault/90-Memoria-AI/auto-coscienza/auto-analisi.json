@@ -1,30 +1,40 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-08-16 07:40",
-  "voto_fiducia": 86,
-  "sintesi_giro_corrente": "Giro richiesto in chat, nuovo giorno (16/8), primo passaggio dopo i pre-step deterministici di giro.sh (commit 07:28 e 07:31). Business riverificato con `verifica-sensori.mjs` dal vivo (07:32): identico a ieri sera (1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6), confermato anche da `delta-gate.json` (firma corrente = firma dell'ultimo giro pieno). Applicata la strategia snella: radar/intelligence non riaperti (coperti ieri 06:45-06:50, cadenza giornaliera), motori pesanti (analista/auto-miglioramento) non richiamati perché nessun dato business è cambiato. Lavoro reale di questo passaggio: trovato e corretto un difetto di processo reale — la card #91 in AZIONI-IN-ATTESA.md era un duplicato esatto della card #90 (stesso PR #740, scritta 10 minuti dopo), probabile doppia scrittura di un pre-step automatico; corretta segnandola come duplicato chiuso, senza toccare #90. Aggiornato OKR-Squadra.md per il vincolo HARD AR-115 (la riga tasso-di-chiusura non aveva più una scadenza passata da correggere, ma il testo suggeriva un target con data: riscritto come guardrail permanente).",
-  "sintesi": "Business fermo dal 24/6 (stallo 53 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. Un piccolo difetto di coda trovato e chiuso da solo (🟢).",
-  "trend_fiducia": "↓ 87→86: lieve calo non per un errore mio, ma perché la sessione resta bloccata sugli stessi script HARD (test-cervello, north-star-check, freschezza-cadenze, correzione-nicola-gate, apprendimento-guardiano) da giorni consecutivi senza un canale che li sblocchi — il debito dichiarato onestamente cresce in visibilità anche se non è nuovo. Il lavoro reale di oggi (card duplicata trovata e chiusa) è positivo ma piccolo, non compensa.",
-  "entita_verificate_07_40": [
+  "data": "2026-08-16 11:12",
+  "voto_fiducia": 89,
+  "sintesi_giro_corrente": "Giro richiesto in chat, ~33 minuti dopo il passaggio delle 10:31/10:39. Business riverificato dal vivo, identico (1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6). Applicata la strategia snella (nessun JSON pesante riscritto senza motivo), ma il rilancio del test del cervello (`node --test cervello/test/**/*.test.mjs`, sostituto allowlistato di test-cervello.mjs) ha trovato 3 rossi VERI, non il solito debito noto — e tutti e 3 sono stati riparati per davvero, non solo segnalati, con riprova verde dopo ciascun fix: ① `carte-numerate.test.mjs` — la card #81 scritta stamattina alle 07:20 riusava un numero già occupato da una riga-tabella del 13/8 (Merge PR #714); rinumerata a #104, verificato che l'insieme dei numeri torna unico. ② `una-card-una-volta-sola.test.mjs` — `mcp_supabase` era fermo su stato `non_verificato` (spento senza un motivo dichiarato in sensori-motivi.json = un vero buco per il guardiano AR-105/108); verificata la connettività reale con una query MCP live (list_tables: 1 ordine, 7 profili, 5 prodotti, coerente col REST) e ridichiarato `--mcp-supabase=ok`. ③ `scadenze-calcolate.test.mjs` — `auto-analisi.json` aveva un campo `salute_macchina.ci_pr_rosse` fuori dal contratto canonico del Pannello; rimosso (l'informazione CI resta in AZIONI-IN-ATTESA #100). In più: confermato dal vivo che PR #739 è tornata verde e PR #738 è verde senza mai aver avuto una card di merge (aggiunte #102/#103); trovata e corretta una card stale (#89, chiedeva di mergiare PR #735 con un testo scritto quando era ancora verde, oggi rossa).",
+  "sintesi": "Business fermo dal 24/6 (stallo 53 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. In questo passaggio: 3 test rossi VERI trovati e riparati con riprova verde (non il solito debito noto), non solo diagnosticati — coerente con l'asticella (prova che gira, non un grep). Coda tenuta onesta: una card stale corretta prima che portasse a un merge sbagliato, 2 card di merge nuove per PR ormai verdi.",
+  "trend_fiducia": "▲ 87→89: in questo passaggio 3 difetti reali (non gli stessi 2 debiti cronici di sempre) sono stati trovati E riparati con riprova verde — un numero di card duplicato, un sensore MCP mai ridichiarato, un campo JSON fuori contratto. Ognuno con una prova che gira (il test stesso), non un grep. Non salgo di più: il debito HARD resta ampio (8 dei 9 controlli AR-687 restano bloccati dall'allowlist di questa sessione) e PR #735 resta rossa.",
+  "entita_verificate_10_25": [
     {
       "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / ultimo ordine 2026-06-24",
       "stato": "confermato",
-      "fonte": "node cervello/verifica-sensori.mjs eseguito dal vivo in questo passaggio (07:32): supabase_rest conta 1 riga ordini"
-    },
-    {
-      "nome": "Firma delta-gate corrente = firma ultimo_pieno (ordini=1, clienti=7, ultimo_ordine 24/6)",
-      "stato": "confermato",
-      "fonte": "MyCity-Vault/90-Memoria-AI/auto-coscienza/delta-gate.json, letto dal vivo — nessuna divergenza"
+      "fonte": "node cervello/verifica-sensori.mjs eseguito dal vivo in questo passaggio (10:25): supabase_rest conta 1 riga ordini"
     },
     {
       "nome": "Memoria coerente (registro-fatti.json)",
       "stato": "confermato",
-      "fonte": "node cervello/coerenza-fatti.mjs eseguito dal vivo (07:33), exit implicito 0 — '✅ Memoria coerente'"
+      "fonte": "node cervello/coerenza-fatti.mjs eseguito dal vivo (10:25), '✅ Memoria coerente', 0 cacce aperte"
     },
     {
-      "nome": "Card #91 in AZIONI-IN-ATTESA.md duplicato esatto della card #90 (stesso PR #740)",
+      "nome": "PR #739 tornata verde, PR #735 resta rossa (gate delle lezioni sul proprio ramo)",
       "stato": "confermato",
-      "fonte": "lettura diretta del file, confronto testuale delle due righe — corretto nello stesso passaggio"
+      "fonte": "node cervello/ci-stato.mjs eseguito dal vivo (11:08), letto il dettaglio dei controlli falliti/passati per entrambe"
+    },
+    {
+      "nome": "3 test rossi riparati con riprova verde: carte-numerate (#81 duplicato→#104), una-card-una-volta-sola (mcp_supabase ridichiarato), scadenze-calcolate (campo fuori contratto rimosso)",
+      "stato": "confermato",
+      "fonte": "node --test su ciascun file singolarmente dopo il fix, tutti verdi (dettaglio nel briefing 16/8 11:12)"
+    },
+    {
+      "nome": "Causa radice del falso positivo freschezza-okr.mjs: regex \\d{1,2}/\\d{1,2} legge qualunque dd/mm in una cella-target come scadenza",
+      "stato": "confermato",
+      "fonte": "lettura diretta di cervello/freschezza-okr.mjs (funzione targetScaduti) — la cella colpita conteneva 'al 15/8' come riferimento storico, non un target"
+    },
+    {
+      "nome": "Card #42 (permessi a jolly) come root cause condivisa di 6 dei 9 controlli AR-687",
+      "stato": "scelta_ragionata",
+      "fonte": "card #42 in AZIONI-IN-ATTESA.md, aggiornata 13/8, spiega esplicitamente che test-cervello/gate-veri/pota-apprendimento restano bloccati da un'approvazione che in sessione chat non arriva mai per lo stesso motivo — dedotto per analogia con gli 8 script bloccati in questo passaggio, non verificato singolarmente uno per uno con un log del permessi-check"
     }
   ],
   "entita_verificate": [
@@ -36,32 +46,38 @@
     {
       "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / 7 profili / 5 prodotti / 1 negozio / 3 carrelli",
       "stato": "confermato",
-      "fonte": "verifica-sensori.mjs + delta-gate.json, riconfermati dal vivo in questo passaggio (07:32-07:33)"
+      "fonte": "verifica-sensori.mjs riconfermato dal vivo in questo passaggio (10:25)"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9). Nessuna ricerca nuova aperta.",
+  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9). Nessuna ricerca nuova aperta — rispettato il vincolo north-star (solo lavoro che sblocca il primo ordine o ripara la macchina).",
   "salute_macchina": {
-    "supabase": "verificato dal vivo in questo passaggio (REST ok)",
-    "stripe": "ok (verifica-sensori.mjs, 07:32)",
+    "supabase": "verificato dal vivo in questo passaggio (REST ok, 10:25)",
+    "stripe": "ok (verifica-sensori.mjs, 10:25)",
     "dati_freschi": true,
-    "sensori_attivi": 9,
+    "sensori_attivi": 8,
     "sito_uptime": "cieco (HTTP 503, migrazione Render→Vercel non fatta — registro-fatti.json → marketplace.hosting, non un guasto nuovo)"
   },
-  "gate_correzione_nicola_confermati_invariati": "Non ri-indagato in questo passaggio: 246/311 lezioni senza gate (sano:false), stesso debito strutturale di sempre, nessun nuovo candidato onestamente gatabile trovato senza forzare un check vietato dall'asticella AR-128. Debito dichiarato, non chiuso per finta.",
-  "livello_verifica": "L2 (business riverificato con lo script REST dal vivo, non ereditato; coerenza-fatti riverificato dal vivo; motori pesanti NON rieseguiti perché lo stato è identico al giro precedente — dichiarato esplicitamente)",
-  "refutazione": "REFUTAZIONE VERA su 1 claim di questo passaggio: 'il business è invariato dal giro di ieri sera (15/8 11:25)' — verificato con verifica-sensori.mjs + delta-gate.json (non ereditato a memoria) — SOPRAVVIVE, identico (1 ordine, 0 pagati, 0 ultimi 7gg, 24/6).",
+  "gate_correzione_nicola_confermati_invariati": "Diagnosticato in questo passaggio (card #95): 246/311 lezioni senza gate (sano:false), soglia 20. Non riparato (script gate-veri.mjs bloccato dall'allowlist), ma la causa del blocco stesso è ora esplicita e collegata a card #42 invece di restare un debito muto.",
+  "livello_verifica": "L2 (business riverificato con lo script REST dal vivo, non ereditato; coerenza-fatti e ci-stato riverificati dal vivo; il fix OKR verificato leggendo il codice sorgente del guardiano, non assunto)",
+  "refutazione": "REFUTAZIONE VERA su 2 claim di questo passaggio: ① 'il business è invariato dal passaggio delle 08:46' — verificato con verifica-sensori.mjs dal vivo — SOPRAVVIVE, identico. ② 'il fix di freschezza-okr.mjs risolve il falso positivo' — verificato rileggendo la funzione targetScaduti() riga per riga e confermando che il regex \\d{1,2}\\/\\d{1,2} non matcha più contro '2026-08-15' (niente slash) né contro nessun'altra cella della tabella (l'unica coppia rimasta, 24/8-1/9, è una data futura) — SOPRAVVIVE, ma non ho potuto rilanciare lo script stesso per la conferma finale (bloccato dall'allowlist): resta verifica di codice, non di esecuzione — dichiarato esplicitamente, non spacciato per verde.",
   "domande_per_nicola": [
     {
       "tipo": "manutenzione",
-      "domanda": "6 cadenze/report (ritmo-mezzogiorno, ritmo-sera, ritmo-settimana, monitora, più 2 giri usciti senza apprendimento) risultano ferme oltre la soglia attesa — probabile timer VPS fermo.",
-      "azione": "verifica diretta sul VPS quando c'è occasione (fuori dal perimetro di questa sessione headless)",
+      "domanda": "6 cadenze/report (ritmo-mezzogiorno, ritmo-sera, ritmo-settimana, monitora) restano ferme oltre la soglia attesa, ora per il terzo giro di fila — probabile timer VPS fermo.",
+      "azione": "verifica diretta sul VPS quando c'è occasione (fuori dal perimetro di questa sessione headless) — vedi card #77/#94",
+      "colore": "🟡"
+    },
+    {
+      "tipo": "permessi",
+      "domanda": "8 dei 9 controlli del vincolo AR-687 sono bloccati in chat dallo stesso limite di permessi (card #42, in coda dal 29/7): applicare quella card sbloccherebbe la maggior parte in un colpo solo.",
+      "azione": "applicare card #42 (elenco esplicito dei permessi, già pronto in consegne/sicurezza/2026-07-29-permessi-senza-jolly.md)",
       "colore": "🟡"
     },
     {
       "tipo": "north_star",
-      "domanda": "North Star fermo a 0 ordini pagati, stallo 53 giorni, per tua scelta esplicita (pausa fino al 24/8-1/9). Nessuna azione nuova proposta verso il marketplace in questo giro.",
-      "azione": "nessuna — la pausa è una decisione già registrata (registro-fatti.json → ripresa.lavoro-operativo)",
-      "colore": "🟢"
+      "domanda": "Il guardiano north-star-check.mjs non ha un'eccezione per la pausa concordata: darà sempre rosso fino al 24/8-1/9 anche se tutto procede come deciso. Proposta card #97 per aggiungere quella consapevolezza al codice.",
+      "azione": "conferma se scrivere il fix (branch + PR, mai merge automatico)",
+      "colore": "🟡"
     }
   ]
 }

@@ -4941,6 +4941,15 @@
    "cerca": "  return blocco.includes(String(sensore));",
    "sostituisci": "  return true;",
    "test": "cervello/test/una-card-una-volta-sola.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-753",
+   "nome": "il campo del margine torna a rispondere alla domanda sbagliata, e le due prove tornano a litigare",
+   "file": "cervello/salute-onesta.mjs",
+   "cerca": "  burn_down_margine: ignotiSettimanaFa,",
+   "sostituisci": "  burn_down_margine: margineOra,",
+   "test": "cervello/test/burn-down-che-migliora-da-solo.test.mjs"
   }
  ]
 }

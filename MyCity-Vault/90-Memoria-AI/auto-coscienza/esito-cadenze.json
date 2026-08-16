@@ -12,7 +12,7 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-16 07:46",
+      "quando": "2026-08-16 11:32",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -24,10 +24,10 @@
         "CADENZE",
         "CORREZIONE_NICOLA",
         "FRESCHEZZA",
-        "OKR",
         "TASSO",
         "TEST",
         "VOLANO",
+        "CI",
         "NORTH_STAR"
       ]
     },
@@ -72,5 +72,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-16 07:46"
+  "aggiornato": "2026-08-16 11:32"
 }

@@ -15640,7 +15640,7 @@
         "comando": "node cervello/test/sensori-non-calpestati.test.mjs"
       },
       "lotto_riparazione": 44,
-      "nota_fix": "La scheda, scritta quando il difetto è stato visto per la prima volta, diceva un'altra cosa: «distinguere la copertura possibile da quella raggiunta». Ho provato quella strada e l'ho buttata. Il motivo: `copertura` è GIÀ il numero di sensori che questo ambiente poteva misurare, quindi «completa per quello che potevo vedere» sarebbe stata vera sempre, e avrebbe spento del tutto la guardia di AR-568 — la regola che impedisce a una misura cieca di cancellare quella del server. Una cura che disattiva la cura di prima non è una cura. Guardando il codice invece della scheda ho trovato il buco vero: il verdetto prometteva «accanto» e nessuno lo leggeva. Cosa NON ho verificato da qui: che sul VPS, dove le chiavi ci sono tutte, il ramo `affianca` non scatti mai — da questa macchina la misura del server non la posso produrre."
+      "nota_fix": "La scheda, scritta quando il difetto è stato visto per la prima volta, diceva un'altra cosa: «distinguere la copertura possibile da quella raggiunta». Ho provato quella strada e l'ho buttata. Il motivo: `copertura` è GIÀ il numero di sensori che questo ambiente poteva misurare, quindi «completa per quello che potevo vedere» sarebbe stata vera sempre, e avrebbe spento del tutto la guardia di AR-568 — la regola che impedisce a una misura cieca di cancellare quella del server. Una cura che disattiva la cura di prima non è una cura. Guardando il codice invece della scheda ho trovato il buco vero: il verdetto prometteva «accanto» e nessuno lo leggeva. Cosa NON ho verificato da qui: che sul VPS, dove le chiavi ci sono tutte, il ramo `affianca` non scatti mai — da questa macchina la misura del server non la posso produrre. Seconda lezione, dalla fusione con main: la mia prima prova passava per la strada sbagliata. Copiava il file vero dei sensori, che oggi è scritto da «cloud» come la corsa di prova — e con la stessa provenienza il verdetto è «scrivi», non «affianca», quindi il ramo che volevo provare non veniva nemmeno percorso. Restava verde col fix disfatto, e me l’ha detto il guardiano delle mutazioni, non io. Adesso la misura di partenza è costruita a mano (scritta dal server, con più copertura): il caso non dipende più da com’è il mondo stamattina."
     },
     {
       "id": "AR-750",
@@ -15702,6 +15702,27 @@
         "comando": "node cervello/test/una-card-una-volta-sola.test.mjs"
       },
       "nota_fix": "La prima versione del rinfresco riscriveva l'elenco coi soli buchi e faceva sparire `telegram_bot` dalla domanda: l'ho vista perché ho eseguito il comando tre volte di fila su una copia della coda, non perché l'avessi ragionata. Ho anche dichiarato `mcp_supabase` come «da-chiedere» in cervello/sensori-motivi.json: il canale REST, che è la fonte-di-verità dei dati del marketplace, resta acceso — quello spento è il collegamento di sessione. Cosa NON ho verificato: se sul VPS `mcp_supabase` risponda (da qui vedo solo questa macchina), e la risposta di Nicola sui due sensori, che è sua e non mia."
+    },
+    {
+      "id": "AR-753",
+      "stato": "aperto",
+      "dimensione": "trovato-riparando",
+      "gravita": "grave",
+      "titolo": "Due prove di casa pretendevano numeri opposti dallo stesso campo, e accontentarne una rompeva l’altra",
+      "causa_radice": "Nel referto della salute onesta il campo `burn_down_margine` rispondeva a due domande diverse: «di quanto può sbagliare il confronto con una settimana fa» (15) e «quante schede non so collocare adesso» (2). Sono due numeri e due significati, con un nome solo. Il 16/8 il ramo principale ha cambiato il campo per accontentare una prova e ha reso rossa l’altra; sul ramo di lavoro era successo l’opposto. Lo stesso giorno, a turno, entrambe rosse — ed è esattamente la malattia «una parola con due padroni», dentro il file che porta quel nome.",
+      "fix_proposto": "Due domande, due nomi. `burn_down_margine` resta il margine DEL CONFRONTO (guarda indietro, come il confronto stesso); nasce `cantiere_aperti_senza_data_nascita` per quelle di adesso. Nessuno dei due numeri si perde e ogni prova legge il campo che intende.",
+      "dove": "cervello/salute-onesta.mjs · cervello/test/parola-senza-padrone.test.mjs · cervello/test/burn-down-che-migliora-da-solo.test.mjs",
+      "impatto_crescita": "indiretto: è debito della macchina, ma un campo che significa due cose fa litigare due prove e nasconde quale delle due dice la verità",
+      "nato": "2026-08-16 12:10",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 44, seconda fusione con main: la stessa riga risolta in due modi opposti sui due rami",
+      "lotto_scoperta": 44,
+      "lotto_riparazione": 44,
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/burn-down-che-migliora-da-solo.test.mjs"
+      },
+      "nota_fix": "Trovato scontrandomi con me stessa: avevo corretto la prova, main aveva corretto il codice, e nessuna delle due mosse era sbagliata — era sbagliato che ci fosse un campo solo. Cosa NON ho verificato: se qualcuno fuori da questo repo legga `burn_down_margine` aspettandosi il numero di adesso; dentro il repo l’ho cercato e lo leggono solo le due prove e il referto a video."
     }
   ],
   "meta": {
