@@ -1,8 +1,19 @@
 ---
 tipo: stato
-aggiornato: 2026-08-15 11:25
+aggiornato: 2026-08-16 18:54
 fonte: AD digitale (chat)
 ---
+
+> 🛠️ **16/8 18:54 — Lavoro sulla sorveglianza del turno, chiesto da Nicola in chat. Business invariato: nessun sensore riletto, nessun numero nuovo.**
+> **Cosa è stato costruito (PR #744, ramo `claude/work-monitoring-question-78o2e4`, NON mergiata — la firma è di Nicola).** Le prime tre mosse dell'elenco concordato: ① `cervello/libro-mastro.mjs` — ogni mossa del turno lascia una riga con la guardia che l'ha vista e il verdetto che ha dato (misurato dal vivo: 70 mosse in un turno, 4 guardie, 0 senza risposta); ② `cervello/mappa-copertura.mjs` — tre stati (sorvegliato · solo-avviso · scoperto) derivati dai matcher veri e dagli strumenti usati davvero, letti dalla trascrizione e non da un elenco a mano; ③ il silenzio di una guardia non vale più come ok — chi si sveglia apre la sua riga e la chiude, e una riga rimasta aperta arriva a Nicola dal cancello dello Stop.
+>
+> **Il primo risultato misurato, ed è una conferma non una scoperta:** sulle modifiche fatte a mano la copertura è piena (una guardia nega prima, una blocca dopo); sui comandi di shell resta 🟡 — due guardie parlano, nessuna può fermare. Prima era una lettura mia della configurazione, adesso è un numero che la macchina produce da sola.
+>
+> **Difetti trovati NEL lavoro appena scritto, tutti in questo turno:** 5 istanze nuove di `fonte-troncata-letta-per-intera` viste dalla spazzata dei fratelli (2 riparate davvero — un registro illeggibile non torna più una lista vuota — e 3 dichiarate esenti col perché); un commit uscito senza uno dei file, visto dal controllo finale sullo stato del ramo; e il peggiore, mio: una lettura sincrona aggiunta al sorvegliante lo lasciava appeso per sempre se il chiamante non chiudeva il canale. Tolta, con il freno che la ferma se torna (`cervello/test/guardia-che-non-si-pianta.test.mjs`).
+>
+> **La CI.** «Test del cervello» verde sul ramo. «Cancello del lotto» non parte da solo su questa PR (gli eventi di richiesta-unione non scattano quando la PR la apre la macchina): lanciato a mano, ha trovato UN rosso — questa Cabina ferma di un giorno rispetto all'ultima consegna. Cioè: il guardiano ha funzionato, il buco era la memoria non aggiornata, ed è ciò che questo blocco chiude.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38).
 
 > 🔁 **15/8 11:25 — Giro richiesto in chat, 15 minuti dopo il passaggio delle 11:10. Business invariato. Strategia snella applicata: nessun motore pesante riaperto.**
 > Riconfermato con `verifica-sensori.mjs` (REST, allowlisted) + `cervello/delta-gate.mjs` (letto, non rilanciato): firma identica dal 24/6 — 1 ordine, mai pagato, 0 pagati negli ultimi 7gg, 7 clienti. `coerenza-fatti.mjs` rieseguito dal vivo: ✅ memoria coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: 103/120 quaderni fermi, nessuno riguarda una card sbloccabile prima del 24/8-1/9 (vincolo north-star rispettato: nessun lavoro-macchina fuori da ciò che sblocca il primo incasso).
