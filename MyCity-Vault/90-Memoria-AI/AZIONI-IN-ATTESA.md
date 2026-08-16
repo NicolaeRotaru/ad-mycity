@@ -143,7 +143,7 @@ in scrittura alla macchina, ed è giusto così.
 
 ### 🟡 #66 — Dimmi se questi occhi della macchina li vuoi accesi o no · ⏳ accodata 2026-08-10 12:16
 
-**Cosa cambia:** ci sono strumenti già costruiti che non stanno guardando niente: `telegram_bot`. Non sono rotti — non sono mai stati accesi, e non risulta che tu abbia deciso di lasciarli spenti: semplicemente nessuno te l'ha chiesto. È già successo: i controlli che dicono se il sito e il Pannello sono in piedi sono rimasti spenti per 163 giri di fila, e nessuna card te l'ha mai detto.
+**Cosa cambia:** ci sono strumenti già costruiti che non stanno guardando niente: `telegram_bot` e `mcp_supabase`. Non sono rotti — non sono mai stati accesi, e non risulta che tu abbia deciso di lasciarli spenti: semplicemente nessuno te l'ha chiesto. È già successo: i controlli che dicono se il sito e il Pannello sono in piedi sono rimasti spenti per 163 giri di fila, e nessuna card te l'ha mai detto.
 
 **Se va bene:** mi dici per ognuno «acceso» o «lasciamolo spento». Se dici spento lo scrivo come una tua decisione e non te lo richiedo mai più. Se dici acceso ti dico l'unica riga che serve per farlo partire.
 
