@@ -97,143 +97,31 @@ _e_un_atto_vero() {
 }
 
 // ═══════════════════════════════════════════════════════════════════════════
-// ② «QUANTI DIFETTI» — un conto solo, con tutti i rami dichiarati (AR-684 · AR-671)
+// ② «QUANTI DIFETTI» — la casa si è spostata, e non ne è rimasta una copia
 // ═══════════════════════════════════════════════════════════════════════════
+//
+// Il conto del cantiere è nato qui (lotto 42, AR-684 · AR-671) perché qui c'era già la prova che lo
+// eseguiva. Ma questa è la casa di un'ALTRA parola — «quali lavori toccano il mondo» — e due parole
+// sotto lo stesso tetto sono la stessa malattia vista da lontano: chi cerca la regola degli stati
+// non pensa di aprire il file degli atti.
+//
+// Adesso vive in `cervello/stati-cantiere.mjs`, con i suoi fratelli nuovi (`statoDi`, `eDaFare`,
+// `statiIgnoti`, `contaGoverno`, `metaCantiere`). Qui resta la RIESPORTAZIONE, che è come si sposta
+// una regola senza rompere chi la usa: `salute-onesta.mjs`, le prove del lotto 42 e chiunque
+// importasse da questo file continuano a funzionare, e **la definizione resta una sola**. Lasciarne
+// una copia qui sarebbe precisamente la malattia che questo file dichiara di curare.
 
-/** L'unico stato che vuol dire «non è più lavoro». Tutto il resto è da fare, anche ciò che non conosco. */
-export const STATO_CHIUSO = "chiuso";
+export {
+  STATO_CHIUSO,
+  STATI_NOTI,
+  eChiusa,
+  haDataNascita,
+  contaDifetti,
+  sommaTorna,
+  apertiAllaData,
+} from "./stati-cantiere.mjs";
 
-/** Gli stati che questo file sa nominare. Quelli che non conosce NON spariscono: finiscono in `altri`. */
-export const STATI_NOTI = Object.freeze(["chiuso", "aperto", "in-corso", "da-riverificare"]);
-
-/** Una scheda è chiusa se lo dice il suo stato. Una porta sola, come `eChiuso` lato Pannello. */
-export function eChiusa(d) {
-  return String(d?.stato ?? "").trim() === STATO_CHIUSO;
-}
-
-/** La data di nascita è leggibile? Un `nato` assente o illeggibile è un IGNOTO, non uno zero. */
-export function haDataNascita(d) {
-  return !Number.isNaN(Date.parse(String(d?.nato ?? "").slice(0, 10)));
-}
-
-/**
- * IL CONTO DEL CANTIERE — un metro solo, e la somma dei rami che fa il totale.
- *
- * Perché è una funzione e non un `.filter()`, in tre punti che sono tre difetti pagati:
- *
- *  ① **`da_fare` è tutto ciò che non è chiuso**, non «aperto + in-corso». Il 13/8 c'erano 225
- *     `aperto`, 0 `in-corso` e 56 `da-riverificare`: sommando i due stati previsti, 56 difetti veri
- *     sparivano dal numero che Nicola guarda (AR-684). Uno stato che non conosco non è un difetto
- *     risolto — è un difetto che non so nominare.
- *  ② **La somma dei rami DEVE fare il totale.** `chiusi + aperti + in_corso + da_riverificare +
- *     altri === totale`, e il test lo pretende sul cantiere vero. È la difesa che rende impossibile
- *     il buco di ①: se domani nasce un sesto stato finisce in `altri` e la somma continua a tornare.
- *  ③ **Non letto non è zero.** Se non ti è arrivata una lista, questa funzione non risponde `0`:
- *     risponde `letto: false` con tutti i conti a `null`. Uno zero è un fatto («non ci sono
- *     difetti»); un errore di lettura travestito da zero è la bugia che il 30/7 ha fatto scrivere
- *     alla Cabina «Nessun difetto aperto 👍» con 162 aperti, per dodici ore.
- *
- * `senza_data_nascita` è AR-671 visto dalla parte del dato: i difetti senza `nato` uscivano in
- * silenzio dalla statistica storica invece di essere dichiarati ignoti — e sbagliavano **nella
- * direzione ottimista**, cioè il burn-down migliorava da solo.
- */
-export function contaDifetti(difetti) {
-  if (!Array.isArray(difetti)) {
-    return {
-      letto: false,
-      motivo: "non mi è arrivata una lista di schede: non ho potuto contare (e un non-contato non è uno zero)",
-      totale: null,
-      chiusi: null,
-      aperti: null,
-      in_corso: null,
-      da_riverificare: null,
-      altri: null,
-      da_fare: null,
-      senza_data_nascita: null,
-      per_stato: null,
-    };
-  }
-  const lista = difetti.filter(Boolean);
-  const per_stato = {};
-  let chiusi = 0;
-  let aperti = 0;
-  let in_corso = 0;
-  let da_riverificare = 0;
-  let altri = 0;
-  let senza_data_nascita = 0;
-  for (const d of lista) {
-    const stato = String(d?.stato ?? "").trim() || "(senza stato)";
-    per_stato[stato] = (per_stato[stato] ?? 0) + 1;
-    if (stato === "chiuso") chiusi++;
-    else if (stato === "aperto") aperti++;
-    else if (stato === "in-corso") in_corso++;
-    else if (stato === "da-riverificare") da_riverificare++;
-    else altri++;
-    if (!haDataNascita(d)) senza_data_nascita++;
-  }
-  return {
-    letto: true,
-    motivo: null,
-    totale: lista.length,
-    chiusi,
-    aperti,
-    in_corso,
-    da_riverificare,
-    altri,
-    // `da_fare` resta il nome con cui il Pannello chiama la stessa cosa: chiuso, oppure da fare.
-    da_fare: lista.length - chiusi,
-    senza_data_nascita,
-    per_stato,
-  };
-}
-
-/**
- * La somma dei rami torna? Il conto si controlla da solo, così un ramo nuovo non può nascondersi.
- * Torna `null` se il conto non è stato letto: su un cieco non si emette un verdetto.
- */
-export function sommaTorna(conto) {
-  if (!conto || conto.letto !== true) return null;
-  const rami = conto.chiusi + conto.aperti + conto.in_corso + conto.da_riverificare + conto.altri;
-  return rami === conto.totale && conto.da_fare === conto.totale - conto.chiusi;
-}
-
-/**
- * QUANTI ERANO APERTI A UNA CERTA DATA — e quanti non lo so (AR-671).
- *
- * Prima era `if (nato == null) return false`: una scheda senza data di nascita usciva dal conteggio
- * **in silenzio**, né oggi né una settimana fa. Non è un arrotondamento: è un difetto che sparisce
- * dalla statistica, e sparisce sempre dalla parte comoda — il burn-down migliora da solo.
- *
- * Adesso escono due numeri: quelli che so contare e quelli che **non so collocare nel tempo**.
- * Chi disegna il burn-down deve poter scrivere «più o meno N», non un numero secco che non regge.
- */
-export function apertiAllaData(difetti, tMs) {
-  const conto = contaDifetti(difetti);
-  if (!conto.letto) return { conteggio: null, ignoti: null, letto: false, motivo: conto.motivo };
-  if (!Number.isFinite(tMs)) {
-    return { conteggio: null, ignoti: null, letto: false, motivo: "non mi è arrivata una data valida: non ho potuto collocare niente nel tempo" };
-  }
-  const giorno = (iso) => {
-    const t = Date.parse(String(iso ?? "").slice(0, 10));
-    return Number.isNaN(t) ? null : t;
-  };
-  let conteggio = 0;
-  let ignoti = 0;
-  for (const d of difetti.filter(Boolean)) {
-    const chiuso = giorno(d?.chiuso_il);
-    const giaChiuso = chiuso != null && chiuso <= tMs;
-    const nato = giorno(d?.nato);
-    if (nato == null) {
-      // Non so QUANDO è nato. Se a quella data non risulta ancora chiuso, era del lavoro da fare:
-      // lo dichiaro ignoto invece di buttarlo via. Se risultava già chiuso, non è più un dubbio.
-      if (!giaChiuso) ignoti++;
-      continue;
-    }
-    if (nato > tMs) continue; // non ancora nato a quella data
-    if (!giaChiuso) conteggio++;
-  }
-  return { conteggio, ignoti, letto: true, motivo: null };
-}
+import { STATI_NOTI } from "./stati-cantiere.mjs";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // LA RIGA DI COMANDO — stampa e basta, nessuna scrittura

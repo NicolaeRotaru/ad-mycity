@@ -41,6 +41,9 @@ import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { formaProva } from "./chiusura-dichiarata.mjs";
 import { MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
 import { fileDelComando } from "./cancello-lotto.mjs";
+// 🚦 Il verdetto su una fonte che non si è lasciata leggere: la regola sta nel modulo puro, qui si
+// fa solo l'I/O e le si raccontano i fatti (AR-709).
+import { codiceDiUscita, esitoDellaFonte } from "./esito-guardiano.mjs";
 // 📇 IL CONTRATTO DELLA SCHEDA, in un posto solo (contratto-scheda.mjs). Prima ogni script se lo
 // rileggeva a modo suo: è per questo che i nomi dei campi divergevano e il registro non sapeva
 // leggere sé stesso. Qui si LEGGE il contratto, non lo si riscrive.
@@ -80,13 +83,31 @@ const AC = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 const CANTIERE_PATH = join(AC, "cantiere-difetti.json");
 const OUT_PATH = join(AC, "cantiere-prove.json");
 
-function readJson(path, fallback = null) {
-  if (!existsSync(path)) return fallback;
+/**
+ * La lettura di un JSON che dice anche PERCHÉ non ha letto — AR-709.
+ *
+ * Qui c'era un `readJson` che tornava `null` per tre motivi diversi (il file non c'è · il JSON è
+ * rotto · l'ho letto ed era davvero null) e chi lo chiamava concludeva «uscita 1», cioè «ho
+ * misurato e ho trovato dei guai». Non era vero: non si era misurato niente, ed è un 2. Un cantiere
+ * pieno di difetti e un cantiere che non si lascia aprire arrivavano a giro.sh, al cancello e alla
+ * CI con la stessa faccia.
+ *
+ * Il vecchio lettore è stato tolto, non affiancato: lasciarne due è come questa malattia si
+ * riproduce — la strada comoda resta lì e il prossimo la prende.
+ *
+ * La regola che decide sta in `esitoDellaFonte` (modulo puro): qui si fa solo l'I/O e le si
+ * raccontano i fatti.
+ */
+function leggiJson(path, { cosa, forma = () => true, formaAttesa = "" } = {}) {
+  const nome = cosa || path.replace(`${AD_ROOT}/`, "");
+  if (!existsSync(path)) return { valore: null, esito: esitoDellaFonte({ trovata: false }, { cosa: nome }) };
+  let valore;
   try {
-    return JSON.parse(readFileSync(path, "utf8"));
-  } catch {
-    return fallback;
+    valore = JSON.parse(readFileSync(path, "utf8"));
+  } catch (e) {
+    return { valore: null, esito: esitoDellaFonte({ errore: e }, { cosa: nome }) };
   }
+  return { valore, esito: esitoDellaFonte({ formaValida: forma(valore) === true, formaAttesa }, { cosa: nome }) };
 }
 
 /** Giorni interi trascorsi da una data "AAAA-MM-GG [HH:MM]". null se illeggibile. */
@@ -245,11 +266,21 @@ export function classifica(d) {
 
 if (E_CLI) {
 
-const cantiere = readJson(CANTIERE_PATH);
-if (!cantiere || !Array.isArray(cantiere.difetti)) {
-  console.error("❌ cantiere-difetti.json illeggibile o senza difetti — niente da controllare.");
-  process.exit(1);
+// AR-709 — «non ho potuto aprire il cantiere» NON è «ho guardato e ho trovato dei guai».
+// Prima qui usciva 1, cioè il codice che nel contratto di casa (AR-322) vuol dire «ho misurato».
+// Chi legge l'uscita — giro.sh, il cancello, la CI — non poteva distinguere i due casi, e il
+// secondo arrivava con la faccia del primo. Adesso è un 2, e la frase dice cosa non si è letto.
+const lettura = leggiJson(CANTIERE_PATH, {
+  cosa: "il cantiere dei difetti",
+  forma: (v) => Array.isArray(v?.difetti),
+  formaAttesa: "un oggetto con dentro l'elenco `difetti`",
+});
+if (lettura.esito.stato !== "verde") {
+  console.error(`⚪ ${lettura.esito.motivo}`);
+  console.error("   Non è un cantiere pulito: è una misura che non c'è stata. Ripara la fonte, non fidarti di questo silenzio.");
+  process.exit(codiceDiUscita(lettura.esito));
 }
+const cantiere = lettura.valore;
 
 const aperti = cantiere.difetti.filter((d) => d.stato !== "chiuso");
 const voci = aperti.map(classifica);

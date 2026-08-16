@@ -12,7 +12,14 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
-import { loopChiude as loopChiudeRegola, loopVivo, previsioneValida, provaBusiness as calcolaProvaBusiness } from "./volano-regole.mjs";
+import { loopVivo, previsioneValida, provaBusiness as calcolaProvaBusiness } from "./volano-regole.mjs";
+// AR-149 — la soglia del volano e il verdetto «il loop chiude» arrivano da UNA casa sola. Qui c'era
+// `tasso > 0` mentre `tasso-lezioni.mjs` bocciava sotto 0,3: con il tasso vero al 17% questo file
+// scriveva `loop_chiude: true` nella Cabina mentre l'altro suonava l'allarme, 42 giri di fila.
+import { SOGLIA_APPLICAZIONE, verdettoVolano } from "./volano-numeri.mjs";
+// AR-150 — un esperimento «misurato» la cui stessa nota dice che il gate non è mai scattato non è
+// una prova che la macchina impara: è un verbale di un test mai fatto.
+import { esperimentoProvaApprendimento, esperimentiNonTestati } from "./esperimenti-regole.mjs";
 import { provaSoddisfatta } from "./prove-regole.mjs";
 import { mediaCoperta, perLoStorico } from "./misura-parziale.mjs";
 import { msDaTimbro } from "./ora-piacenza.mjs";
@@ -221,11 +228,20 @@ function main() {
   const previsioniAperteRecenti = Array.isArray(calibr.registro)
     ? calibr.registro.filter((e) => e && e.stato === "aperta" && oreFa(e.creato) <= oreFinestra)
     : [];
+  // AR-052 + AR-063 + AR-150. La terza condizione è nuova ed è quella che mancava: `stato:"misurato"`
+  // è una parola che il motore si scrive da solo. Nove esperimenti su quindici la portavano, e la
+  // loro stessa nota diceva «mai testata: il gate non è mai partito». Un esperimento non eseguito
+  // che vale come prova di apprendimento è la bugia più costosa del volano.
   const esperimentiMisurati =
     Array.isArray(autoMig.esperimenti) &&
     autoMig.esperimenti.some(
-      (e) => e && (e.stato === "misurato" || e.data_misura) && oreFa(e.data_misura || e.chiuso_il) <= oreFinestra
-    ); // AR-052 + AR-063
+      (e) =>
+        e &&
+        (e.stato === "misurato" || e.data_misura) &&
+        oreFa(e.data_misura || e.chiuso_il) <= oreFinestra &&
+        esperimentoProvaApprendimento(e)
+    );
+  const nonTestati = esperimentiNonTestati(autoMig.esperimenti);
   const esperimentiAperti = Array.isArray(autoMig.esperimenti)
     ? autoMig.esperimenti.filter((e) => e && e.stato === "aperto")
     : [];
@@ -236,7 +252,8 @@ function main() {
   const provaBusiness = calcolaProvaBusiness({ calibrazionePiena, esperimentiMisurati });
   const provaArchitettura = difettiChiusiRecenti > 0;
   const provaChiusura = provaBusiness || provaArchitettura;
-  const loopChiude = loopChiudeRegola({ tasso, provaBusiness, provaArchitettura });
+  const volano = verdettoVolano({ tasso, provaBusiness, provaArchitettura });
+  const loopChiude = volano.chiude;
   // Le aperte non si buttano: diventano un segnale SEPARATO. «Non chiude» con dieci previsioni
   // aperte è vero ma incompleto, e un segnale incompleto viene ignorato. Solo, questa è la prova che
   // la macchina ci sta provando — non che sta imparando.
@@ -281,17 +298,19 @@ function main() {
   // Traccia giri consecutivi con tasso basso
   rad.sonda_meta = rad.sonda_meta || {};
   const prevBassi = Number(rad.sonda_meta.giri_tasso_basso || 0);
-  const giriTassoBasso = tasso < 0.3 ? prevBassi + 1 : 0;
+  const giriTassoBasso = volano.sopra_soglia ? 0 : prevBassi + 1;
   const serveRadiografiaCompleta = giriTassoBasso >= 3 || oreRad > 240;
 
   let verdetto = "ok";
   if (giriTassoBasso >= 3 || oreRad > 240) verdetto = "serve-completa";
-  else if (!loopChiude || !giroACadenza || maxCecita >= 3 || tasso < 0.3) verdetto = "attenzione";
+  else if (!loopChiude || !giroACadenza || maxCecita >= 3 || !volano.sopra_soglia) verdetto = "attenzione";
 
   const sonda = {
     data: quando,
     loop_chiude: loopChiude,
     tasso_applicazione: tasso,
+    soglia_applicazione: SOGLIA_APPLICAZIONE, // AR-149: la soglia che ha deciso, scritta accanto al verdetto
+    tasso_sopra_soglia: volano.sopra_soglia,  // AR-149: «non chiude» per mancanza di prove ≠ per lezioni non usate
     prova_chiusura: provaChiusura,
     finestra_recency_gg: finestraGg, // AR-052
     difetti_chiusi: difettiChiusi,
@@ -304,6 +323,8 @@ function main() {
     prova_business: provaBusiness,
     prova_architettura: provaArchitettura,
     esperimenti_misurati: esperimentiMisurati,
+    esperimenti_non_testati: nonTestati.length,           // AR-150
+    esperimenti_non_testati_ids: nonTestati.map((e) => e.id).filter(Boolean),
     giro_a_cadenza: giroACadenza,
     sentinelle_scattano: sentinelleScattano,
     ore_da_ultima_completa: Math.round(oreRad),
@@ -321,7 +342,8 @@ function main() {
     salute_firma: saluteFirma,            // firma dello stato decidibile (ID dei (a))
     verdetto,
     nota: [
-      loopChiude ? "loop chiude (con prova)" : provaChiusura ? "tasso=0 ma c'è chiusura" : "loop NON chiude: nessuna prova (0 difetti chiusi, calibrazione vuota, 0 esperimenti misurati)",
+      loopChiude ? "loop chiude (con prova)" : volano.motivo,
+      nonTestati.length ? `${nonTestati.length} esperimenti dichiarati misurati e mai testati` : null,
       giroACadenza ? `briefing ${Math.round(oreBrief)}h fa` : `briefing STALE (${Math.round(oreBrief)}h)`,
       maxCecita >= 3 ? `cecità sensori ${maxCecita} giri` : `sensori max cecità ${maxCecita}`,
       `salute pending-merge ${votoProvvisorio}/100 (floor ${votoPieno}): ${apertiDavvero.length} aperti-davvero · ${pendingMerge.length} in attesa merge · ${bloccantiUmani.length} bloccanti umani`,

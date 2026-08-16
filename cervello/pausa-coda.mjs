@@ -185,10 +185,21 @@ export function leggiCard(testoFile) {
  * `cervello/azioni.md`). Su una coda senza numeri parte da 1. Casa unica: la usano tutti
  * gli scrittori automatici di card (sensori-spenti-check, pausa-check), così nessuno
  * ricalcola la regola per conto suo.
+ *
+ * ⚠️ Le card in coda hanno DUE forme — il blocco `### 🟡 #81 — …` e la riga-tabella
+ * `| 81 | … |` del formato vecchio — e vivono nello **stesso** spazio di numeri: «ok 81»
+ * deve avere una risposta sola. Guardare solo i blocchi vuol dire riassegnare un numero che
+ * una riga-tabella tiene già, e allora il Pannello apre la card sbagliata. Successo vero: il
+ * 16/8 il numero 81 era di due card insieme, proprio perché qui si contava metà coda.
  */
 export function prossimoNumero(testoFile) {
+  const testo = String(testoFile || "");
   let max = 0;
-  for (const m of String(testoFile || "").matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) {
+  for (const m of testo.matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) {
+    const n = Number(m[1]);
+    if (n > max) max = n;
+  }
+  for (const m of testo.matchAll(/^\|\s*(\d+)\s*\|/gmu)) {
     const n = Number(m[1]);
     if (n > max) max = n;
   }

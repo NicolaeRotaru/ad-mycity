@@ -274,9 +274,43 @@ ai_build_cmd() {
       AI_CMD+=(--permission-mode acceptEdits)
       # `if` esplicito (non `[ ] &&`): l'ultima riga della funzione non deve MAI lasciare rc=1
       # quando il modello non è impostato — sotto `set -e` spegnerebbe il chiamante.
-      if [ -n "${CERVELLO_MODELLO:-}" ]; then AI_CMD+=(--model "$CERVELLO_MODELLO"); fi
+      # AR-198: il modello non è più UNA variabile globale per tutta la macchina, è il gradino
+      # della corsia. `ai_modello_corsia` torna CERVELLO_MODELLO quando non c'è niente da cambiare.
+      local _ai_modello
+      _ai_modello="$(ai_modello_corsia)"
+      if [ -n "$_ai_modello" ]; then AI_CMD+=(--model "$_ai_modello"); fi
       ;;
   esac
+}
+
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+# 🎚️ AR-198 — LA SCALA DI SFORZO, non l'interruttore
+#
+# Prima qui c'era una sola variabile globale, `CERVELLO_MODELLO`: o la macchina intera girava sul
+# modello pieno, o su nessuno. Così anche RIASSUMERE una chat — che è volume, non ragionamento —
+# pagava il modello più caro, due volte per ogni conversazione (la risposta, e poi il riassunto).
+# La leva per fare diversamente c'era già mezza costruita: `AI_THINKING` per-lavoro e `--model`
+# per-corsia. Mancava il pezzo che le tira.
+#
+# ⚠️ LA CLAUSOLA CHE NON SI SALTA: senza `CERVELLO_MODELLO_ECONOMICO` dichiarato nel .env questa
+# funzione NON cambia niente. Un ripiego inventato cambierebbe la qualità delle note senza che
+# nessuno l'abbia deciso — e la scheda chiede di misurare prima/dopo, non di indovinare.
+#
+# La DECISIONE non sta in questo file (una regola in bash non la esegue nessun test): sta in
+# `cervello/conto-motore.mjs`, funzione `sforzoPerCorsia`, e qui la si chiama.
+# ═══════════════════════════════════════════════════════════════════════════════════════════════
+ai_modello_corsia() {
+  # Override esplicito del chiamante: comanda sempre.
+  if [ -n "${AI_MODELLO:-}" ]; then printf '%s' "$AI_MODELLO"; return 0; fi
+  # Niente node, o niente modello economico dichiarato: nulla da decidere, si resta com'era.
+  if ! command -v node >/dev/null 2>&1 || [ -z "${CERVELLO_MODELLO_ECONOMICO:-}" ]; then
+    printf '%s' "${CERVELLO_MODELLO:-}"
+    return 0
+  fi
+  local dir out
+  dir="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
+  out="$(node "$dir/conto-motore.mjs" --modello 2>/dev/null)" || out=""
+  if [ -n "$out" ]; then printf '%s' "$out"; else printf '%s' "${CERVELLO_MODELLO:-}"; fi
 }
 
 
@@ -438,14 +472,37 @@ ai_freno_verdetto() {
 # Registra il consumo di UNA accensione del motore. Non fallisce mai: una registrazione persa non
 # deve poter far fallire il lavoro — ma il lavoro non registrato non deve poter esistere.
 ai_registra_costo() {
-  local corsia="$1" start="$2" prompt="$3" output="$4"
-  local dir tok
+  local corsia="$1" start="$2" prompt="$3" output="$4" stream="${5:-${AI_USAGE_STREAM:-}}"
+  local dir tok misurato=0
   dir="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
   command -v node >/dev/null 2>&1 || return 0
-  tok="$(ai_stima_token "$start" "$prompt" "$output")"
-  node "$dir/costo-ai.mjs" --tipo="$corsia" \
-    --durata-sec="$(( $(date +%s) - start ))" --token="$tok" --stima \
-    --modello="$(ai_engine)" >/dev/null 2>&1 || true
+
+  # ── AR-203 ① IL NUMERO VERO, quando c'è ────────────────────────────────────────────────────────
+  # La CLI, in stream-json, chiude il turno con un evento `result` che porta `usage.input_tokens` e
+  # `usage.output_tokens`. Il worker quel file lo scrive già per estrarne il testo: il numero era lì
+  # accanto e nessuno l'aveva guardato. Chi conosce il transcript lo passa come 5º argomento (o in
+  # AI_USAGE_STREAM) e il consumo smette di essere una supposizione.
+  tok=""
+  if [ -n "$stream" ] && [ -s "$stream" ]; then
+    tok="$(node "$dir/conto-motore.mjs" --token-da "$stream" 2>/dev/null || true)"
+    case "$tok" in ''|*[!0-9]*) tok="" ;; esac
+    if [ -n "$tok" ] && [ "$tok" -gt 0 ]; then misurato=1; fi
+  fi
+
+  # ── AR-203 ② LA STIMA, che resta una stima e lo DICHIARA ───────────────────────────────────────
+  # `--stima` è ciò che tiene il numero finto fuori da `token_totali`. Una misura vera registrata
+  # come stima varrebbe zero per i gate; una stima registrata come misura sarebbe una bugia. Il
+  # ramo si sceglie sul DATO (l'usage c'era o no), mai sul chiamante.
+  if [ "$misurato" = 0 ]; then
+    tok="$(ai_stima_token "$start" "$prompt" "$output")"
+    node "$dir/costo-ai.mjs" --tipo="$corsia" \
+      --durata-sec="$(( $(date +%s) - start ))" --token="$tok" --stima \
+      --modello="$(ai_engine)" >/dev/null 2>&1 || true
+  else
+    node "$dir/costo-ai.mjs" --tipo="$corsia" \
+      --durata-sec="$(( $(date +%s) - start ))" --token="$tok" \
+      --modello="$(ai_engine)" >/dev/null 2>&1 || true
+  fi
   return 0
 }
 

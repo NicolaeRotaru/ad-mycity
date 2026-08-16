@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+# 🚪 post-commit — CONTA chi passa dai cancelli e chi li salta (AR-645).
+#
+# Il difetto: tutti i blocchi del `pre-commit` insegnavano il comando per aggirarli, e nessun
+# sensore contava quante volte veniva usato. Un commit forzato era indistinguibile da uno
+# controllato — quindi il bypass costava zero ed era invisibile, e un segreto committato così era
+# già nella storia remota quando la seconda rete lo vedeva.
+#
+# Perché il conto sta QUI e non nel pre-commit: chi salta la verifica salta anche il pre-commit,
+# per definizione. `post-commit` invece gira lo stesso. È l'unico posto da cui si può vedere il
+# salto — e infatti finché non c'era, il salto non lo vedeva nessuno.
+#
+# Non blocca mai niente e non fallisce mai: il commit è già fatto, qui si scrive solo una riga.
+# La decisione (controllato / forzato / non applicabile) sta in cervello/cancelli-commit.mjs,
+# pura, dove un test la può eseguire.
+
+set -u
+
+# Il modulo si cerca accanto agli hook (`core.hooksPath`), non accanto al codice committato: così
+# vale anche quando gli hook governano un altro albero di lavoro.
+HOOKS_HOME="$(cd "$(dirname "$0")" && pwd)"
+GITDIR="$(git rev-parse --git-dir 2>/dev/null || echo .git)"
+MOD="$HOOKS_HOME/../cervello/cancelli-commit.mjs"
+
+command -v node >/dev/null 2>&1 || exit 0
+[ -f "$MOD" ] || exit 0
+
+# Quanti genitori ha il commit appena fatto: due o più = commit di unione, e su quelli git non
+# chiama il pre-commit. Contarli come forzature riempirebbe il registro di rumore.
+_riga="$(git rev-list --parents -n 1 HEAD 2>/dev/null || echo '')"
+_parenti=0
+for _p in $_riga; do _parenti=$((_parenti + 1)); done
+[ "$_parenti" -gt 0 ] && _parenti=$((_parenti - 1)) # il primo campo è il commit stesso
+[ "$_parenti" -lt 1 ] && _parenti=1                 # il primissimo commit non ha genitori
+
+_sha="$(git rev-parse --short HEAD 2>/dev/null || echo '?')"
+
+node "$MOD" post-commit "$_parenti" "$_sha" --git-dir "$GITDIR" || true
+exit 0

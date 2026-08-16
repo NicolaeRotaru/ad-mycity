@@ -1807,3 +1807,107 @@ Pannello (il Deploy Hook parte su main).
 - 🟢 **Cosa:** `delta-gate.json` confrontava la baseline del 29/7 (`sito_uptime:ok`) con lo stato corrente (`sito_uptime:cieco` dal 30/7 per la migrazione Vercel, non un guasto, più il sensore `watchdog_esterno` assente dalla baseline) — il confronto non tornava mai uguale, quindi ogni giro dal 7/8 forzava la versione pesante anche a business invariato (398 ore consecutive, ordini=1 dal 24/6). `node cervello/delta-gate.mjs --segna-pieno` bloccato dai permessi come le volte precedenti (12/8, 29/7): promossa la baseline a mano via Edit — stessa identica scrittura che avrebbe fatto lo script, già fatto così il 29/7.
 - **Perché:** ogni sessione che riceveva un trigger "giro" ripartiva da capo la diagnosi di questo stesso loop invece di applicarla (playbook già scritto in memoria dal 12/8) — spreco di lavoro macchina che non avvicina il primo ordine pagato.
 - **Stato:** file di memoria (`90-Memoria-AI/auto-coscienza/`), non codice → commit diretto su `main` (`b3c69a154`), pushato. Nessuna firma richiesta (auto-manutenzione dati propri, non modifica di agenti/prompt). Verifica: il prossimo giro dovrebbe leggere `esegui_pieno: false` finché business e sensori restano fermi.
+
+## 2026-08-15 22:40 — Lotto 44 del cantiere: 104 difetti chiusi in nove corsie parallele
+- 🟡 **Cosa:** nove corsie in parallelo su nove **malattie** (non su nove difetti sparsi), con territori
+  di file disgiunti e un frammento JSON per corsia che l'AD ha ricucito nei registri condivisi.
+  **92 difetti riparati in questo lotto** — ognuno con una prova comportamentale che gira e una
+  mutazione **eseguita** che l'ha fatta diventare rossa (55 mutazioni nuove, 39 prove nuove) — più
+  **12 già riparati nel lotto 43 e mai timbrati**, verificati qui uno per uno con lo stesso metodo.
+  Le nove malattie: il totale che salta uno stato · la sola lettura che scrive nel vault · la prova
+  che non prova · la decisione che vive dentro lo schermo · il freno dentro il comando invece che sul
+  lavoro · il guardiano che dice verde senza aver guardato · il semaforo che è una promessa scritta ·
+  la lezione che si chiude con una frase · il costo stimato con un pavimento fisso.
+- **Perché:** il cantiere era a 184 aperti e cresceva più di quanto calasse. Curare la malattia invece
+  del punto è l'unico modo perché il numero scenda e resti giù: una malattia curata si riprende con un
+  modulo condiviso, dieci toppe si riprendono dieci volte.
+- **Cosa NON è stato fatto, e il perché:** tre difetti (AR-142, AR-206, AR-329) restano **aperti
+  apposta**. La loro cura è stringere `.claude/settings.json`, e quel file la macchina non se lo tocca
+  da sola — sarebbe l'auto-allargamento dei permessi nella sua forma peggiore. Il testo esatto dei
+  tagli è pronto nel frammento della corsia 7. AR-622 (la revisione fra pari) resta aperto perché nel
+  codice non c'è niente di rotto: è un comportamento che nessuno fa, e chiuderlo con un modulo sarebbe
+  la malattia che quella corsia cura. È stato costruito il contatore che lo rende visibile.
+- **Cosa il lotto ha trovato di suo:** 23 difetti nuovi registrati (AR-726 → AR-748), tutti nati
+  riparando. E cinque regressioni causate dal lotto stesso, trovate dal cancello ad albero fermo e
+  riparate prima di consegnare — fra cui una prova che era diventata rossa **perché la cura era
+  giusta** (guardava la frase esatta a video, e il fix l'aveva legittimamente cambiata) e il banco dei
+  test che dichiarava «ineseguibile» qualunque cosa misurasse da dentro un test, perché una variabile
+  d'ambiente del runner di Node arrivava fino ai nipoti.
+- **Tetti scesi (scendono e non risalgono):** prove a OR 9 → 3 · prove deboli 39 → 22 ·
+  `esito-in-una-pipe` 50 → 49 · `git-letto-senza-tetto` 18 → 17. Nasce `canali_allargati` a 19.
+- **Stato:** 🟡 preparato, committato e **pushato sul ramo, non unito**. Il merge è di Nicola.
+  ⚠️ La richiesta tocca `pannello/**`: **unirla pubblica anche il Pannello** (il Deploy Hook parte su
+  `main`). Le chiusure delle schede si applicano **dopo** il merge, con `auto-fix.mjs verifica --applica`.
+- **Cosa non ho potuto verificare da qui:** le 29 prove scritte in bash (manca `bats` su questa
+  macchina) · il guardiano `prove-oneste` (il clone è superficiale, quindi è cieco per costruzione) ·
+  niente è stato provato sul VPS, che da una sessione cloud si vede solo di riflesso.
+
+---
+
+## 2026-08-16 10:45 — 🟡 Le quattro prove rosse che arrivavano da main sono verdi, e tre erano difetti veri
+
+- **Cosa è successo:** dopo la fusione con `main` la richiesta #739 aveva la CI rossa. Quattro prove
+  di casa fallivano — `carte-numerate`, `parola-senza-padrone`, `sensori-non-calpestati`,
+  `una-card-una-volta-sola` — e le avevo misurate rosse anche su un ramo pulito di `main`: non le
+  aveva rotte questo lavoro. Erano registrate come debito dichiarato (AR-749, AR-750). Le ho aperte
+  una per una invece di lasciarle lì, e sotto tre di esse c'era un difetto vero.
+- **① Due card avevano lo stesso numero (AR-751).** Le card in coda hanno due forme — il blocco e la
+  riga-tabella del formato vecchio — e vivono nello stesso spazio di numeri, perché Nicola approva
+  scrivendo «ok 81». Chi distribuiva i numeri contava solo i blocchi, cioè metà coda. Il 16/8 il
+  numero 81 era di due card insieme: **«ok 81» era una domanda con due risposte**, e sono le card che
+  fanno partire azioni vere. Curato l'allocatore, rinumerata la card viva.
+- **② La domanda sui sensori spenti era ferma al 10 agosto (AR-752).** La card chiedeva di
+  `telegram_bot`; poi si è spento anche il collegamento Supabase di sessione, e nella domanda non ci
+  è mai entrato: il guardiano lo contava come buco a ogni giro e **non esisteva nessuna strada per
+  tornare verde**. Adesso la card che c'è già viene rinfrescata invece di restare a metà verità, e una
+  card vale come domanda solo se dentro c'è scritto il nome del sensore.
+- **③ La misura di chi ha meno chiavi spariva nel nulla (AR-749).** Il verdetto «non la scrivo sopra,
+  la metto ACCANTO» usciva da mesi e nessuno lo leggeva: il campo `affianca` non era letto da nessuna
+  riga di questa casa. La promessa viveva nel testo di un motivo, cioè dove nessuna prova guarda.
+- **Una cura buttata via.** La scheda di AR-749 proponeva di distinguere la copertura possibile da
+  quella raggiunta. L'ho scritta, e poi l'ho tolta: `copertura` è già il numero di sensori che
+  l'ambiente poteva misurare, quindi la clausola sarebbe stata vera sempre e avrebbe **spento la
+  guardia che impedisce a una misura cieca di cancellare quella del server**. Una cura che disattiva
+  la cura di prima non è una cura.
+- **Il quarto rosso era un difetto, ma non quello che credevo: AR-753.** Il campo del margine
+  rispondeva a DUE domande con un nome solo — «di quanto può sbagliare il confronto con una settimana
+  fa» (15) e «quante schede non so collocare adesso» (2). Due prove di casa ne pretendevano i due
+  valori opposti. Io avevo corretto la prova; sul ramo principale il worker aveva corretto il codice.
+  Nessuna delle due mosse era sbagliata: **era sbagliato che ci fosse un campo solo**, e infatti
+  accontentarne una rendeva rossa l'altra — lo stesso giorno, a turno, sono state rosse entrambe.
+  La cura è dare due nomi alle due domande. Nessun numero si perde e ogni prova legge il campo che
+  intende. *È la malattia «una parola con due padroni», dentro il file che porta quel nome.*
+- **Come sono state provate:** ogni fix ha una prova comportamentale e una mutazione **eseguita**, non
+  ragionata. La prima versione del rinfresco cancellava dalla domanda chi era già in attesa — un
+  difetto che ho visto solo lanciando il comando tre volte di fila su una copia della coda.
+- **Tetto sceso:** `programma-che-parte-importando` 64 → 63.
+- **Stato:** 🟡 cancello del lotto verde (exit 0, ogni guardiano e tutta la suite). Il merge è di Nicola.
+- **Cosa non ho potuto verificare da qui:** le 29 prove in bash (manca `bats`) · niente sul VPS, che
+  da una sessione cloud si vede solo di riflesso · se `mcp_supabase` risponda sul server · e la
+  risposta di Nicola sui due sensori spenti, che è sua e non mia.
+
+---
+
+## 2026-08-16 13:15 — 🟡 La CI provava una cosa che qui non vedevo, e aveva ragione
+
+- **Cosa è successo:** la CI era rossa su una prova che qui era verde, sullo stesso commit. Il motivo:
+  **la CI non prova il mio ramo, prova il mio ramo GIÀ FUSO con quello principale.** Riprodotta quella
+  condizione, il rosso è comparso anche qui. Da adesso, prima di dire «verde», la fusione va fatta.
+- **Il rosso era AR-751 dal vivo:** un numero di card finito di nuovo su due card insieme (il 106).
+  Non è una ricaduta: sul ramo principale gira ancora il vecchio codice che conta metà coda, quindi
+  continua a produrne finché questa richiesta non viene unita. Rinumerata la card e basta.
+- **AR-755, e questo è il difetto vero della giornata.** Rinumerare quella card ha reso il ramo diverso
+  da main per UNA riga — e il cancello dello stop ha ripreso a misurare l'intero file, ventunmila
+  parole scritte dal worker, dicendo «questo lavoro gli ha aggiunto 33 punti difficili». Erano già su
+  main, dove valgono identici. Per consegnare una riga avrei dovuto riscrivere il testo di un altro.
+  *Un cancello che chiede questo è un cancello che si impara ad aggirare* — ed è così che i freni di
+  questa casa sono morti in passato. Adesso il livello di partenza è il peggiore fra inizio turno e
+  main: sono entrambi testo già pubblicato, e nessuno dei due l'ha scritto questo lavoro.
+- **Il buco che resta, dichiarato:** un ramo che avesse MIGLIORATO un file sotto il livello di main
+  potrebbe riportarlo a quel livello senza far scattare niente. Chiuderlo vuol dire confrontare le
+  frasi una per una invece dei totali. È scritto nel commento del codice e nella scheda, non taciuto.
+- **Una prova mia era vacua e me l'ha detto la mutazione, non io.** Il primo caso che avevo scritto per
+  AR-755 restava verde anche col fix disfatto: avevo scelto un testo in cui il metro conta zero
+  problemi in entrambe le versioni, quindi non c'era differenza da misurare. Rifatto con numeri veri
+  (quattro punti su main, cinque sul mio): con la mutazione diventa rosso.
+- **Stato:** 🟡 cancello verde, uscita 0. Il merge è di Nicola.

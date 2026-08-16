@@ -20,6 +20,9 @@ import { serieSicura } from "@/lib/verdetto-dato";
 // 225 difetti in una frase e 281 in un badge. Non è un totale che invecchia — è che la parola non
 // aveva un proprietario, quindi ogni lettore se la definiva da sé.
 import { contaDifetti, eChiuso } from "@/lib/cantiere-snello";
+// AR-684 — il conto con TUTTI i rami: la riga qui sopra è pinzata carattere per carattere da una
+// prova, quindi il secondo import sta su una riga sua invece di allungare la prima.
+import { contoCantiere } from "@/lib/cantiere-snello";
 import { classeComando, classeComandoSommario } from "@/lib/tocco-bersaglio";
 
 // 🧠 CERVELLO — l'area dove Nicola vede la macchina pensare su sé stessa: salute, auto-analisi del lavoro,
@@ -43,7 +46,7 @@ type Radiografia = {
   salute_marketplace?: { voto?: number; sintesi?: string };
   meta?: { agenti_totali?: number; bloccanti?: number };
 };
-type Cantiere = { difetti?: Difetto[]; meta?: { aperti?: number; in_corso?: number; chiusi?: number } };
+type Cantiere = { difetti?: Difetto[]; meta?: { aperti?: number; in_corso?: number; da_riverificare?: number; chiusi?: number; da_fare?: number; totale?: number } };
 type Storico = { serie?: { data?: string; voto_salute?: number; difetti_aperti?: number; difetti_chiusi?: number }[] };
 type NonLetto = { file?: string; motivo?: string };
 type Dati = { collegato: boolean; messaggio?: string; letto?: boolean; non_letti?: NonLetto[]; live?: Live; radiografia?: Radiografia; cantiere?: Cantiere; storico?: Storico; watchlist?: any; lettera?: string };
@@ -52,6 +55,9 @@ type Live = {
   cantiere_aggiornato?: string | null; aperti?: number | null; in_corso?: number | null; chiusi?: number | null;
   cantiere_letto?: boolean;
   da_fare?: number | null; findings_aperti?: number | null; findings_in_corso?: number | null;
+  // AR-684 — i tre stati vivi, separati: «da fare» è la loro somma e da solo non dice chi c'è dentro.
+  totale?: number | null; aperto?: number | null; da_riverificare?: number | null; altri?: number | null;
+  stati_ignoti?: { stato: string; quante: number }[] | null; somma_torna?: boolean | null;
   sync_aggiornato?: string | null;
   scan_ore_fa?: number | null; sonda_ore_fa?: number | null; scan_stale?: boolean;
 };
@@ -167,6 +173,25 @@ export default function RadiografiaDiSe() {
   // AR-670 — il numero di ripiego, se il server non lo manda, esce dalla stessa porta del server:
   // `conto.da_fare` è «tutto ciò che non è chiuso», compresi gli stati che questo file non conosce.
   const daFare = cantiereLetto === false ? null : (live?.da_fare ?? conto.da_fare);
+  // AR-684 — «da fare» è una somma di TRE stati vivi, e il terzo (`da-riverificare`) non compariva
+  // in nessuna riga di questa scheda: le sue 56 schede erano dentro il totale ma senza un nome, cioè
+  // invisibili a chi legge. Il dettaglio arriva dalla rotta, che lo deriva dalla stessa regola; se
+  // non arriva, si conta qui sulla lista ricevuta (i non chiusi ci sono tutti, i chiusi no).
+  const dettaglio = contoCantiere(difetti);
+  const perStato = {
+    aperto: live?.aperto ?? dettaglio.aperti ?? 0,
+    in_corso: live?.in_corso ?? dettaglio.in_corso ?? 0,
+    da_riverificare: live?.da_riverificare ?? dettaglio.da_riverificare ?? 0,
+    altri: live?.altri ?? dettaglio.altri ?? 0,
+  };
+  const ripartizione = [
+    `${perStato.aperto} aperti`,
+    perStato.in_corso ? `${perStato.in_corso} in corso` : null,
+    perStato.da_riverificare ? `${perStato.da_riverificare} da riverificare` : null,
+    perStato.altri ? `${perStato.altri} in stati che non so nominare` : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
   const findingsAperti = live?.findings_aperti;
 
   const TABS: { id: Tab; label: string; icon: React.ReactNode; badge?: number }[] = [
@@ -248,9 +273,11 @@ export default function RadiografiaDiSe() {
               {live.scan_ore_fa != null ? ` (${live.scan_ore_fa}h fa)` : ""}
               {findingsAperti != null ? ` · ${findingsAperti} voci nello scan` : ""}.
               {" "}I fix aggiornano <button type="button" onClick={() => setTab("cantiere")} className="underline font-medium hover:text-brand">Da fare ora</button>
+              {/* AR-684 — `live.aperti` vale «tutto ciò che non è chiuso»: chiamarlo «aperti» qui
+                  faceva leggere 240 aperti accanto a un elenco che ne dichiarava 184. Il nome giusto
+                  è «da fare», e la ripartizione sta accanto. */}
               {live.chiusi != null ? ` (${live.chiusi} chiusi` : ""}
-              {live.in_corso ? `, ${live.in_corso} in corso` : ""}
-              {live.aperti ? `, ${live.aperti} aperti` : ""}
+              {live.da_fare ? `, ${live.da_fare} da fare` : ""}
               {live.chiusi != null ? ")" : ""}.
               {live.sync_aggiornato ? ` Sync ${dataVault(live.sync_aggiornato)}.` : ""}
             </div>
@@ -435,11 +462,16 @@ export default function RadiografiaDiSe() {
                 </div>
               ) : (
                 <>
-                  <div className="flex gap-2">
-                    <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-amber-50 text-amber-700 ring-1 ring-amber-200"><Wrench size={12} /> {aperti.length} aperti</span>
-                    <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-green-50 text-green-700 ring-1 ring-green-200"><CheckCircle2 size={12} /> {chiusi.length} chiusi</span>
+                  {/* AR-684 — «da fare» è la somma dei tre stati vivi, e i chiusi sono TUTTI, non i
+                      quaranta ricevuti: qui la targhetta diceva «40 chiusi» mentre nella sezione sotto
+                      ne dichiarava 476, nella stessa scheda. Il dettaglio per stato sta accanto al
+                      totale, così il terzo stato non può più sparire dentro una somma. */}
+                  <div className="flex flex-wrap gap-2 items-center">
+                    <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-amber-50 text-amber-700 ring-1 ring-amber-200"><Wrench size={12} /> {aperti.length} da fare</span>
+                    <span className="inline-flex items-center gap-1 text-[11px] px-2 py-1 rounded-lg bg-green-50 text-green-700 ring-1 ring-green-200"><CheckCircle2 size={12} /> {chiusiTotali} chiusi</span>
+                    <span className="t-eti">{ripartizione}</span>
                   </div>
-                  {aperti.length === 0 && <p className="t-eti">Nessun difetto aperto. 👍</p>}
+                  {aperti.length === 0 && <p className="t-eti">Nessun difetto da fare. 👍</p>}
                 </>
               )}
               {aperti.map((x, i) => {
@@ -533,7 +565,7 @@ export default function RadiografiaDiSe() {
                   {serieGiorni.map((s, i) => {
                     const voto = Number(s.voto_salute) || 0;
                     return (
-                      <div key={i} className="flex flex-col items-center gap-1 flex-1 min-w-0" title={`${s.data}: ${voto}/100 · ${s.difetti_aperti ?? "–"} aperti · ${s.difetti_chiusi ?? "–"} chiusi`}>
+                      <div key={i} className="flex flex-col items-center gap-1 flex-1 min-w-0" title={`${s.data}: ${voto}/100 · ${s.difetti_aperti ?? "–"} da fare · ${s.difetti_chiusi ?? "–"} chiusi`}>
                         <span className={`text-[9px] tabular-nums ${votoColore(voto)}`}>{voto}</span>
                         <div className="w-full max-w-[26px] rounded-t bg-brand/70" style={{ height: `${Math.max(3, Math.round((voto / 100) * BARRA_MAX_PX))}px` }} />
                         <span className="text-[9px] text-black/40 w-full text-center whitespace-nowrap">{String(s.data).slice(8, 10)}/{String(s.data).slice(5, 7)}</span>
@@ -553,7 +585,7 @@ export default function RadiografiaDiSe() {
                       {prec && delta !== 0 && (
                         <span className={`text-[11px] tabular-nums ${delta > 0 ? "text-green-600" : "text-red-600"}`}>{delta > 0 ? `▲ +${delta}` : `▼ ${delta}`}</span>
                       )}
-                      <span className="t-eti ml-auto">{s.difetti_aperti} aperti · {s.difetti_chiusi} chiusi</span>
+                      <span className="t-eti ml-auto">{s.difetti_aperti} da fare · {s.difetti_chiusi} chiusi</span>
                     </div>
                   );
                 })}

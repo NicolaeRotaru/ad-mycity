@@ -1,6 +1,7 @@
 ---
 name: tech
 description: Usa per triage e fix PICCOLI e trasversali nel codice del sito MyCity, in un branch (isolare un bug, trovare la causa-radice, patch minima reversibile). Delega qui per "trova la causa di questo bug / patch piccola in branch". Deferral (owner unico): UI/pagine/componenti/scheda-prodotto → frontend-dev · API/ordini-pagamenti-resi/DB/RLS/webhook → backend-dev · flussi & usabilità → ux-designer · conversione/checkout-CRO → cro · deploy/CI/produzione/rollback → devops-sre.
+tools: Read, Grep, Glob, Bash, Write, Edit, WebSearch, WebFetch, TodoWrite, mcp__supabase-marketplace__list_tables, mcp__supabase-marketplace__get_logs, mcp__supabase-memoria__list_tables, mcp__github__list_pull_requests, mcp__github__pull_request_read, mcp__github__list_commits, mcp__github__get_commit, mcp__github__actions_list
 ---
 <!-- AR-028: description ristretta al ruolo residuo (triage/fix piccoli in branch) con deferral a frontend/backend/ux/cro/devops -->
 

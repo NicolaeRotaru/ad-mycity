@@ -22,7 +22,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #106 — Pubblica "I fornelli restano spenti" — hummus e pesto genovese bio di Pane Quotidiano · ⏳ accodata 2026-08-16 12:05
+### 🔴 #107 — Pubblica "I fornelli restano spenti" — hummus e pesto genovese bio di Pane Quotidiano · ⏳ accodata 2026-08-16 12:05
 
 **Cosa cambia:** esce un post nuovo per Pane Quotidiano, l'unico negozio vero su MyCity. L'angolo è diverso da tutti quelli fatti finora: aggancia il caldo di metà agosto — chi non ha voglia di stare ai fornelli — a due prodotti reali del suo catalogo, già pronti: hummus di ceci bio (2,95€) e pesto genovese bio (5€, basta cuocere la pasta). Prezzi e descrizioni letti oggi, in diretta, dal database del marketplace: zero numeri inventati, zero recensioni finte (il negozio non ne ha ancora, e il post non ne parla).
 

@@ -23,6 +23,10 @@
  * Funzioni pure, nessun I/O: il punto malato (`auto-fix.mjs`) le chiama.
  */
 
+// 🚧 «Quali schede sono ancora lavoro» non si decide qui: la casa è cervello/stati-cantiere.mjs.
+// Il conto del debito partiva da `stato === "aperto"` e saltava il terzo stato (AR-719).
+import { eDaFare } from "./stati-cantiere.mjs";
+
 /** Le forme di prova che una scheda può portare. La forte è una sola: un comando che si esegue. */
 export function formaProva(verifica) {
   if (!verifica) return "nessuna";
@@ -82,11 +86,27 @@ export function verdettoChiusura(dif, esitoProva) {
   };
 }
 
-/** Il debito: quante schede APERTE portano ancora la forma debole. Il tetto scende, non risale. */
+/**
+ * IL DEBITO DELLE PROVE DEBOLI — quante schede DA FARE portano ancora la forma a pattern.
+ *
+ * AR-719 — qui partiva da `d.stato === "aperto"`, cioè da uno dei tre stati vivi. Le schede
+ * `da-riverificare` non erano né fra le aperte né fra le deboli: **il tetto poteva scendere solo
+ * perché una scheda cambiava etichetta**, cioè il debito migliorava da solo. È il modo in cui un
+ * debito si nasconde invece di calare, ed è il peggiore perché il numero sembra un progresso.
+ *
+ * La base adesso è «tutto ciò che non è chiuso», chiesta alla casa unica degli stati. Misurato il
+ * 15/8/2026: 38 deboli su 184 aperte, 38 su 240 da fare — le 56 `da-riverificare` oggi non ne
+ * portano nessuna, quindi il tetto non si muove. La scheda diceva il contrario («le 56 con la prova
+ * debole stanno fuori dal tetto»): il buco era vero, il numero no. Vale la pena lo stesso — il
+ * meccanismo per sbagliare c'era, e sarebbe scattato alla prima scheda riverificata con un grep.
+ *
+ * `aperti` resta nel risultato col vecchio nome perché `cancello-lotto.mjs` lo stampa, ma adesso
+ * vale «da fare»: gli si affianca `da_fare`, che è come si chiama davvero.
+ */
 export function contaProveDeboli(difetti) {
-  const aperti = (difetti || []).filter((d) => d.stato === "aperto");
-  const deboli = aperti.filter((d) => provaDebole(d.verifica));
-  return { aperti: aperti.length, deboli: deboli.length, ids: deboli.map((d) => d.id) };
+  const daFare = (difetti || []).filter(Boolean).filter(eDaFare);
+  const deboli = daFare.filter((d) => provaDebole(d.verifica));
+  return { aperti: daFare.length, da_fare: daFare.length, deboli: deboli.length, ids: deboli.map((d) => d.id) };
 }
 
 /**

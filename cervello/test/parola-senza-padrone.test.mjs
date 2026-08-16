@@ -218,7 +218,12 @@ prova("④ il referto della salute onesta dichiara il terzo stato e il proprio m
   const senzaNascita = vero.difetti
     .filter(Boolean)
     .filter((d) => String(d.stato ?? "").trim() !== "chiuso" && Number.isNaN(Date.parse(String(d.nato ?? "").slice(0, 10)))).length;
-  assert.equal(r.burn_down_margine, senzaNascita, "il confronto storico deve dire di quanto può sbagliare, e il numero è questo");
+  // AR-753 — questa domanda è «quante non so collocare ADESSO», e ha un campo suo. Per un giorno ha
+  // condiviso il nome col margine del confronto storico, che è un'altra domanda e un altro numero:
+  // due prove di casa pretendevano valori opposti dallo stesso campo, e chi accontentava l'una
+  // rompeva l'altra. Due domande, due nomi.
+  assert.equal(r.cantiere_aperti_senza_data_nascita, senzaNascita, "le schede che non so collocare oggi sono queste");
+  assert.equal(r.burn_down_margine, r.cantiere_aperti_settimana_fa_ignoti, "e il margine del confronto resta quello del confronto");
 });
 
 // ═══ ⑤ le due porte del Pannello rispondono lo stesso numero ═════════════════════════════════════

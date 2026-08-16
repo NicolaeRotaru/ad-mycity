@@ -8,7 +8,26 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-16 13:45 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 13:32 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 12:27 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 12:14 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 12:08 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 11:59 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 11:53 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:57 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:49 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:42 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:35 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:28 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:04 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 09:49 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 09:41 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 09:06 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 07:13 · fix contratto salute_macchina: due chiavi (sensori_ciechi, telegram_configurato) bocciate dal validatore auto-analisi.json · test contratto rosso su ogni PR che tocca auto-analisi.json · atteso contratto allineato, test scadenze-calcolate verde → reale 21/21 test verdi, tsc pulito, non verificato a video nel browser · #AR-532
+- 2026-08-16 04:28 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-15 21:34 · Lotto 44 del cantiere: nove corsie in parallelo su nove malattie, territori di file disgiunti, ogni corsia consegna un frammento e l'AD ricuce i registri condivisi · V5 C5 A5 K5 I4 M5 E5 (media 4.86) · atteso 100 difetti chiusi in una sessione sola → reale 75 riparati e verificati con le sette corsie rientrate finora: 39 mutazioni eseguite, 39 prove diventate rosse. Piu 12 gia riparati nel lotto 43 e mai timbrati, verificati uno per uno. Due corsie ancora al lavoro; il conto vero lo dara il cancello ad albero fermo · #cantiere #lotto44 #corsie-parallele
+- 2026-08-15 21:32 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-15 18:32 · Lotto 43 del cantiere: 53 difetti in cinque corsie parallele, una per malattia, territori di file disgiunti · difetti chiusi con prova comportamentale + non-vacuita eseguita · atteso 50 chiusi → reale 23 chiusi in questo lotto + 26 gia curati nel codice e mai dichiarati + 4 lasciati aperti col perche scritto; 5 regressioni introdotte dal lotto stesso trovate dal cancello e riparate (mutazioni che puntavano a --test, due voci di malattia senza nome che si riconoscevano a vicenda, tre registri riscritti con l indentazione sbagliata, un catch che ingoiava l errore, una prova che sorvegliava la forma invece dell effetto) · #cantiere #lotto43 #corsie-parallele
 - 2026-08-15 08:51 · PR #733: aggiungo auto-analisi.json ai REFERTI esenti (AZIONI #89), stessa malattia di salute.json, con test di regressione + mutazione verde-rosso-verde · 1 riga codice, 1 test nuovo (2 file coperti), 131/131 test sorvegliante verdi · atteso 0 falsi allarmi difesa-rimossa su auto-analisi.json, prova che fallisce senza il fix → reale confermato: test rosso senza la riga in REFERTI, verde con — mutazione provata a mano · #PR-733 #sorvegliante #falso-allarme #AR-543
 - 2026-08-15 08:43 · Fix sorvegliante.mjs: salute.json escluso dai REFERTI, evitava 60 falsi allarmi 'difesa-rimossa' a sessione (PR #733) · 5/5/4/4/5/4 · atteso 0 falsi allarmi prova-accecata su salute.json, PR verde e mergeable → reale fix committato (498722b0d) e PR #733 aperta; CI PR ancora rossa su 2 controlli (verdetti-senza-lettore, ESITO-quaderno mancante nel branch) — non ancora confermato verde · #PR-733 #sorvegliante #falso-allarme

@@ -15,6 +15,11 @@
    "dove": "cervello/cancello-stop.mjs",
    "perche": "AR-532: il suo giudizio vive dentro il cancello dello Stop, che importa collaudoAlloStop() e lo esegue a OGNI chiusura di turno via hook Stop — più spesso di qualunque timer. La CLI (stato/registro) è diagnosi, non il freno."
   },
+  "attesa-senza-fine.mjs": {
+   "motivo": "cablato",
+   "dove": "cervello/test/c9-attesa-senza-fine.test.mjs",
+   "perche": "AR-439: conta le chiamate di rete senza tempo massimo e tiene il cricchetto che le fa solo scendere. Il suo verdetto sul repo vero e una prova della suite — gira su ogni push in CI, a ogni PR col cancello e a ogni giro. Non poteva nascere gia cablato nel giro: giro.sh non e territorio di questa corsia, e la riga per metterlo anche li e nella patch per l'AD."
+  },
   "permessi-check.mjs": {
    "motivo": "cablato",
    "dove": "cervello/test/permessi-di-guardia.test.mjs",

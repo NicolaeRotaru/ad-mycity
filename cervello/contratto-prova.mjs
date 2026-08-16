@@ -216,6 +216,54 @@ export function casiSpenti(sorgente = "") {
   return fuori;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// ③bis IL CANALE ALLARGATO PER COMODITÀ (AR-714, famiglia di AR-698)
+//
+// AR-698: una prova che osserva un difetto dal canale COMODO invece che da quello vero resta verde
+// col fix disfatto. Il caso madre era il troncamento a 64 KB, che si vede solo da una pipe di shell.
+// AR-714 ne ha visto un secondo verso: la prova che si ALLARGA il canale — `maxBuffer: 32 * 1024 *
+// 1024` — per osservare un comando che nel giro vero scrive dentro una pipe. Se il difetto che copre
+// riguarda la quantità di uscita, quella prova resta verde mentre la realtà è rossa.
+//
+// Qui non si vieta il canale largo: si pretende che sia DICHIARATO. Una riga di commento accanto,
+// con il perché, basta — perché il difetto non è il numero grande, è il numero grande messo senza
+// pensarci. Il tetto è il canale che Node dà a chiunque non chieda niente: 1 MB.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Il canale che Node dà a chi non chiede niente: sopra questo, il canale è stato ALLARGATO. */
+export const CANALE_VERO = 1024 * 1024;
+
+/**
+ * Le prove che si allargano il canale di osservazione senza dire perché.
+ *
+ * Pura: entra il sorgente, escono le righe da giustificare. Una dichiarazione vale se sta sulla
+ * riga stessa o su quella sopra e porta un perché scritto — `// canale largo: …` — e non un
+ * commento qualsiasi, che sarebbe il silenzio con un cappello.
+ *
+ * @returns {{riga:number, byte:number, testo:string}[]}
+ */
+export function canaleAllargato(sorgente = "") {
+  const righe = String(sorgente).split("\n");
+  const fuori = [];
+  for (let i = 0; i < righe.length; i++) {
+    const m = /maxBuffer\s*:\s*([^,}\n]+)/.exec(righe[i]);
+    if (!m) continue;
+    const byte = valoreInByte(m[1]);
+    if (byte === null || byte <= CANALE_VERO) continue;
+    const dichiarata = /canale largo\s*:\s*\S/i;
+    if (dichiarata.test(righe[i]) || (i > 0 && dichiarata.test(righe[i - 1]))) continue;
+    fuori.push({ riga: i + 1, byte, testo: righe[i].trim() });
+  }
+  return fuori;
+}
+
+/** `32 * 1024 * 1024` → 33554432. Solo numeri e moltiplicazioni: il resto non lo interpreto. */
+function valoreInByte(espressione = "") {
+  const testo = String(espressione).trim().replace(/_/g, "");
+  if (!/^[\d\s*]+$/.test(testo) || !/\d/.test(testo)) return null;
+  return testo.split("*").reduce((p, x) => p * Number(x.trim()), 1);
+}
+
 /**
  * Com'è fatto il banco definito DENTRO questo file: chiama il caso subito, lo aspetta, lo rinvia?
  *

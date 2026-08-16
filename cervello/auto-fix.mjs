@@ -42,6 +42,10 @@ import { NON_MISURABILE, coperturaChiusi, timbraChiusura, verdettoProva } from "
 // rompere chi la usa; lasciarne una copia sarebbe la malattia che stiamo curando.
 export { timbraChiusura };
 import { cambiatoDallaNascita, storiaDelRepo } from "./storia-git.mjs";
+// 🚧 GLI STATI DEL CANTIERE — «quanti difetti ci sono» ha UNA casa (cervello/stati-cantiere.mjs).
+// Qui il conto era scritto a mano su tre stati e le schede `da-riverificare` non entravano in
+// nessun ramo: 632 contro 716, dentro il registro stesso (AR-684 · AR-717).
+import { metaCantiere } from "./stati-cantiere.mjs";
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 const CANTIERE = join(VAULT, "cantiere-difetti.json");
@@ -73,13 +77,21 @@ function writeJson(path, data) {
   scriviJsonAtomico(path, data);
 }
 
-function ricalcolaMeta(cantiere) {
-  const d = cantiere.difetti || [];
-  cantiere.meta = {
-    aperti: d.filter((x) => x.stato === "aperto").length,
-    in_corso: d.filter((x) => x.stato === "in-corso").length,
-    chiusi: d.filter((x) => x.stato === "chiuso").length,
-  };
+/**
+ * IL RIASSUNTO CHE IL CANTIERE SCRIVE DI SÉ — AR-684 · AR-717.
+ *
+ * Questo era il posto peggiore in cui contare male, perché il numero finisce **dentro il registro**
+ * e chi lo legge invece di ricontare eredita l'errore senza accorgersene. Contava a mano tre stati
+ * (`aperto`, `in-corso`, `chiuso`) e le schede `da-riverificare` non cadevano in nessun ramo:
+ * misurato il 15/8/2026, il meta diceva 632 su 716 schede vere — 84 difetti fuori dal proprio conto.
+ *
+ * Adesso la regola non è qui: la chiede a `cervello/stati-cantiere.mjs`, che la porta anche al
+ * Pannello e all'allineatore delle radiografie. E il blocco scritto porta con sé `somma_torna`: se
+ * un giorno i rami non facessero il totale, il file lo dichiara di sé invece di lasciarlo scoprire
+ * a una radiografia sei settimane dopo.
+ */
+export function ricalcolaMeta(cantiere) {
+  cantiere.meta = metaCantiere(cantiere.difetti || [], { oggiMs: Date.parse(nowPiacenza().slice(0, 10)) });
 }
 
 /**
@@ -264,7 +276,10 @@ function bumpSalute(chiusiOra, note) {
     data: nowPiacenza().slice(0, 10),
     voto_salute: voto,
     voto_riportato: !misurato, // true = non ri-misurato qui, ereditato dall'ultima misura vera
-    difetti_aperti: cantiere.meta?.aperti ?? 0,
+    // AR-684 — «quanti ne restano» è tutto ciò che non è chiuso, non le sole schede etichettate
+    // `aperto`: questa serie disegna il grafico dell'andamento nella Cabina, e per mesi ha lasciato
+    // fuori le 56 `da-riverificare`, cioè ha fatto sembrare il cantiere più corto di quanto fosse.
+    difetti_aperti: cantiere.meta?.da_fare ?? 0,
     difetti_chiusi: chiusiOra,
     tipo: "auto-fix",
     nota: misurato
@@ -381,7 +396,7 @@ async function cmdVerifica(cantiere) {
   cantiere.aggiornato = nowPiacenza();
   writeJson(CANTIERE, cantiere);
   bumpSalute(daChiudere.length, `Auto-fix: chiusi ${daChiudere.map((x) => x.d.id).join(", ")} (verificati nel codice).`);
-  console.log(`\n✅ Chiusi ${daChiudere.length}. Cantiere ora: ${cantiere.meta.aperti} aperti · ${cantiere.meta.in_corso} in-corso · ${cantiere.meta.chiusi} chiusi.`);
+  console.log(`\n✅ Chiusi ${daChiudere.length}. Cantiere ora: ${cantiere.meta.da_fare} da fare (${cantiere.meta.aperti} aperti · ${cantiere.meta.in_corso} in corso · ${cantiere.meta.da_riverificare} da riverificare) · ${cantiere.meta.chiusi} chiusi su ${cantiere.meta.totale}.`);
 }
 
 function cmdChiudi(cantiere) {
@@ -426,7 +441,7 @@ function cmdChiudi(cantiere) {
   cantiere.aggiornato = nowPiacenza();
   writeJson(CANTIERE, cantiere);
   bumpSalute(1, `Auto-fix: chiuso ${id} — ${come}`);
-  console.log(`✅ Chiuso ${id}. Cantiere: ${cantiere.meta.aperti} aperti · ${cantiere.meta.chiusi} chiusi.`);
+  console.log(`✅ Chiuso ${id}. Cantiere: ${cantiere.meta.da_fare} da fare · ${cantiere.meta.chiusi} chiusi su ${cantiere.meta.totale}.`);
 }
 
 /**
@@ -482,7 +497,9 @@ function cmdRivediChiusi(cantiere) {
 function cmdReport(cantiere) {
   ricalcolaMeta(cantiere);
   console.log(`\n🚧 CANTIERE DIFETTI — ${cantiere.aggiornato || nowPiacenza()}`);
-  console.log(`   ${cantiere.meta.aperti} aperti · ${cantiere.meta.in_corso} in-corso · ${cantiere.meta.chiusi} chiusi\n`);
+  console.log(`   ${cantiere.meta.da_fare} da fare · ${cantiere.meta.chiusi} chiusi · ${cantiere.meta.totale} schede in tutto`);
+  // AR-684 — i tre stati vivi si dicono per nome. Il terzo era quello che spariva dai totali.
+  console.log(`   di cui: ${cantiere.meta.aperti} aperti · ${cantiere.meta.in_corso} in corso · ${cantiere.meta.da_riverificare} da riverificare${cantiere.meta.altri ? ` · ${cantiere.meta.altri} in stati che non so nominare` : ""}\n`);
   for (const d of cantiere.difetti || []) {
     const ic = d.stato === "chiuso" ? "✅" : d.stato === "in-corso" ? "🔧" : "⏳";
     console.log(`${ic} ${d.id} [${d.impatto_crescita || "?"}] ${d.titolo}`);
@@ -510,7 +527,7 @@ async function main() {
       console.error(`Comando sconosciuto: ${cmd}. Usa: verifica [--applica] | chiudi --id= | report | rivedi-chiusi`);
       process.exit(2);
   }
-  await stampSegnale("auto-fix", "ok", `${cantiere.meta?.chiusi ?? 0} chiusi · ${cantiere.meta?.aperti ?? 0} aperti · ${nowPiacenza()}`);
+  await stampSegnale("auto-fix", "ok", `${cantiere.meta?.chiusi ?? 0} chiusi · ${cantiere.meta?.da_fare ?? 0} da fare · ${nowPiacenza()}`);
 }
 
 // Il CLI parte solo se questo file è LANCIATO, non quando un test ne importa

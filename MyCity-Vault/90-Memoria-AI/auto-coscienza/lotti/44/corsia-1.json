@@ -1,0 +1,189 @@
+{
+  "corsia": 1,
+  "malattia": "Il cantiere ha tre stati vivi e quasi tutti i contatori ne conoscevano due, scritti a mano dentro un filtro: le schede del terzo stato sparivano dai totali invece di essere contate, e ogni lettore si riscriveva la regola per conto suo.",
+  "moduli_condivisi": [
+    "cervello/stati-cantiere.mjs",
+    "cervello/cantiere-owner-check.mjs"
+  ],
+  "difetti": [
+    {
+      "id": "AR-684",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/un-totale-che-salta-uno-stato.test.mjs",
+      "nota_fix": "LA SCHEDA AVEVA RAGIONE, E IL NUMERO ERA PEGGIORATO. Misurato il 15/8 sul cantiere vero: 716 schede (476 chiuse, 184 aperte, 56 da riverificare) contro un `cantiere.meta` che diceva 632. Non 58 di scarto: 84. La casa unica del conto è nata nel lotto 42 dentro `cervello/atti-veri.mjs`, che però è la casa di un'altra parola — «quali lavori toccano il mondo». Qui l'ho spostata in `cervello/stati-cantiere.mjs`, con i fratelli nuovi (`statoDi`, `eDaFare`, `statiIgnoti`, `contaGoverno`, `metaCantiere`); `atti-veri.mjs` la RIESPORTA, così chi importava da lì continua a funzionare e la definizione resta una sola. Poi i quattro punti malati la chiamano: `ricalcolaMeta` in auto-fix, il blocco `sync_scan` in allinea-scan-cantiere, il debito delle prove deboli in chiusura-dichiarata, il gemello del Pannello in cantiere-snello. Il conto scritto nel registro adesso porta con sé `somma_torna`: se un giorno i rami non facessero il totale, il file lo dichiara di sé. Trovato riparando, e riparato: la targhetta della scheda Radiografia diceva «40 chiusi» (le righe ricevute) mentre la sezione sotto ne dichiarava 476, e chiamava «aperti» i 240 da fare. COSA NON HO VERIFICATO: il cancello del lotto non l'ho lanciato — le altre corsie stavano scrivendo.",
+      "mutante": {
+        "file": "cervello/stati-cantiere.mjs",
+        "cerca": "    da_fare: lista.length - chiusi,",
+        "sostituisci": "    da_fare: aperti + in_corso,"
+      },
+      "non_vacuita": "Rimesso «da fare = aperto + in corso» in cervello/stati-cantiere.mjs → test ROSSO su quattro casi (① il terzo stato non sparisce, ① la somma dei rami sul cantiere vero, ① lo stato mai visto prima, ② il riassunto dentro il registro). Rimesso il fix: 15/15 verde."
+    },
+    {
+      "id": "AR-717",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/un-totale-che-salta-uno-stato.test.mjs",
+      "nota_fix": "Verificato sul codice vero e confermato: `ricalcolaMeta` (cervello/auto-fix.mjs) contava a mano tre stati e le 56 schede `da-riverificare` non cadevano in nessun ramo. È il posto peggiore in cui sbagliare, perché il numero finisce DENTRO il registro e chi lo legge invece di ricontare eredita l'errore. Adesso il blocco lo compone `metaCantiere` dalla casa unica: porta totale, i quattro rami, `da_fare`, `somma_torna`, e i due conti del governo (senza responsabile, scaduti) che AR-432 chiedeva. Tre nomi storici restano (`aperti`, `in_corso`, `chiusi`) perché fuori da qui c'è chi li legge. Cambiato anche il campo `difetti_aperti` dello storico: era `meta.aperti` e disegnava il grafico dell'andamento lasciando fuori il terzo stato. `ricalcolaMeta` è ora esportata, così il test la esegue su un cantiere in memoria senza toccare il disco.",
+      "mutante": {
+        "file": "cervello/auto-fix.mjs",
+        "cerca": "  cantiere.meta = metaCantiere(cantiere.difetti || [], { oggiMs: Date.parse(nowPiacenza().slice(0, 10)) });",
+        "sostituisci": "  const d = cantiere.difetti || []; cantiere.meta = { aperti: d.filter((x) => x.stato === \"aperto\").length, in_corso: 0, chiusi: d.filter((x) => x.stato === \"chiuso\").length };"
+      },
+      "non_vacuita": "Rimessi i tre filtri a mano dentro ricalcolaMeta → test ROSSO su due casi (② il riassunto dentro il registro conta 716, ⑤ il governo entra nel meta). Rimesso il fix: verde."
+    },
+    {
+      "id": "AR-718",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/un-totale-che-salta-uno-stato.test.mjs",
+      "nota_fix": "Verificato sul codice vero: i tre `.filter()` a mano stavano nel blocco `sync_scan` di cervello/allinea-scan-cantiere.mjs, quello che il Pannello legge nella pagina della radiografia. La decisione viveva in mezzo a una funzione che legge e riscrive due file di memoria, quindi una prova poteva solo cercarne la forma: l'ho estratta in `cantiereNelSyncScan`, pura ed esportata, che chiede il conto alla casa unica. Il blocco adesso porta anche `cantiere_totale`, `cantiere_da_riverificare`, `cantiere_da_fare`, `cantiere_somma_torna` e gli stati che non sa nominare. COSA NON HO VERIFICATO: l'allineatore intero non l'ho fatto girare (riscrive due file di memoria condivisi mentre le altre corsie lavorano); ho eseguito la sua funzione di conteggio, non la sua scrittura su disco.",
+      "mutante": {
+        "file": "cervello/allinea-scan-cantiere.mjs",
+        "cerca": "    cantiere_da_fare: c.da_fare,",
+        "sostituisci": "    cantiere_da_fare: c.aperti + c.in_corso,"
+      },
+      "non_vacuita": "Rimesso «da fare = aperto + in corso» nel blocco sync_scan → test ROSSO su ② («il blocco che il Pannello legge nella radiografia porta il terzo stato»). Rimesso il fix: verde."
+    },
+    {
+      "id": "AR-719",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/un-totale-che-salta-uno-stato.test.mjs",
+      "nota_fix": "IL BUCO ERA VERO, IL NUMERO DELLA SCHEDA NO. `contaProveDeboli` partiva da `stato === \"aperto\"`, quindi il tetto poteva scendere solo perché una scheda cambiava etichetta — un debito che migliora da solo. Ma la scheda diceva «le 56 da-riverificare con la prova debole stanno fuori dal tetto»: misurato il 15/8, quelle 56 di prove deboli non ne portano NESSUNA. Il conto è 38 su 184 aperte e 38 su 240 da fare, cioè il tetto (39) non si muove e il cancello non cambia verdetto. Vale la pena lo stesso: il meccanismo per sbagliare c'era prima del numero sbagliato, e sarebbe scattato alla prima scheda riverificata con un grep. La base adesso è `eDaFare`, dalla casa unica. Il risultato tiene il vecchio nome `aperti` perché `cancello-lotto.mjs` lo stampa, e gli affianca `da_fare`, che è come si chiama davvero.",
+      "mutante": {
+        "file": "cervello/chiusura-dichiarata.mjs",
+        "cerca": "  const daFare = (difetti || []).filter(Boolean).filter(eDaFare);",
+        "sostituisci": "  const daFare = (difetti || []).filter(Boolean).filter((d) => d.stato === \"aperto\");"
+      },
+      "non_vacuita": "Rimessa la base «solo aperto» in contaProveDeboli → test ROSSO su ② («il debito delle prove deboli parte da tutte le schede da fare»). Rimesso il fix: verde."
+    },
+    {
+      "id": "AR-671",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/burn-down-che-migliora-da-solo.test.mjs",
+      "nota_fix": "LA SCHEDA AVEVA RAGIONE E LA NOTA DEL LOTTO 42 SBAGLIAVA FILE. Il lotto 42 diceva «il ramo malato vero sta in cervello/atti-veri.mjs, il codice è a posto». Sul codice vero il difetto ORIGINALE era ancora lì dove la scheda lo indicava: `pannello/src/app/api/memoria/salute-onesta/route.ts` si era riscritta la sua `apertiAllaData` con dentro `if (nato == null || nato > tMs) return false`, cioè una scheda senza data di nascita usciva dalla statistica in silenzio — e sempre dalla parte comoda. Curato il cervello e lasciata la copia, il difetto era vivo di là. Adesso la decisione è una sola anche nel Pannello (`apertiAllaData` in lib/cantiere-snello.ts) e porta gli IGNOTI; la rotta serve `burn_down_margine`, e la scheda della Cabina lo MOSTRA — era il pezzo che la scheda dichiarava scoperto («il confronto con una settimana fa non dichiara la propria incertezza a video»). Provato a runtime: la Cabina scrive «15 difetti non hanno una data di nascita leggibile… il confronto può sbagliare fino a 15». [AD] La prova dichiarata resta quella specifica: un test che nessuna scheda nomina non ha piu un responsabile. La prova condivisa del lotto copre gli altri cinque, e il lato Pannello e coperto da AR-670 che la dichiara.",
+      "mutante": {
+        "file": "pannello/src/lib/cantiere-snello.ts",
+        "cerca": "      if (!giaChiuso) ignoti++;",
+        "sostituisci": "      if (false) ignoti++;"
+      },
+      "non_vacuita": "Tolto il conteggio degli ignoti nel gemello del Pannello → test ROSSO su ④ («il Pannello dichiara gli IGNOTI del confronto storico»). Rimesso il fix: verde."
+    },
+    {
+      "id": "AR-670",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/un-totale-che-salta-uno-stato.test.mjs",
+      "nota_fix": "Il lotto 42 aveva fatto passare rotta e componente dalla stessa porta, ma la porta era una funzione a quattro campi che non sapeva nominare i rami: «da fare» c'era, «da riverificare» no, quindi a video restavano due numeri senza un ponte. Adesso il Pannello ha `contoCantiere`, gemello di quello del cervello campo per campo, e `contaDifetti` è la sua faccia storica (la tengo perché due prove pretendono quella forma, ed è dichiarato nel codice che lo zero sul non-letto è un debito). Provato a runtime col Pannello vero: la scheda scrive «240 da fare · 476 chiusi · 184 aperti · 56 da riverificare» dove prima diceva «240 aperti · 40 chiusi». LA SCELTA, motivata: il Pannello NON legge il numero già calcolato da `cantiere.meta`, lo deriva. Un totale scritto in un file invecchia (AR-456: diceva 223 mentre i non chiusi erano 281); un numero derivato dalla lista non può invecchiare. Quindi due scritture della stessa regola, ma pinzate dal test campo per campo sul cantiere vero e sui casi limite. COSA RESTA, e l'ho dichiarato nel codice: `eChiuso` del Pannello non toglie gli spazi attorno allo stato, `eChiusa` del cervello sì. Le DUE risposte opposte sono pinzate una per parte da `cervello/test/parola-senza-padrone.test.mjs`, che non è di questa corsia: allinearle lascerebbe rosso il test di qualcun altro. Oggi non costa niente (716 schede su 716 hanno lo stato pulito, verificato dal mio test, che diventa rosso il giorno che ne compare una sporca). La patch è in `patch_per_ad`.",
+      "mutante": {
+        "file": "pannello/src/lib/cantiere-snello.ts",
+        "cerca": "    da_fare: lista.length - chiusi,",
+        "sostituisci": "    da_fare: aperti + in_corso,"
+      },
+      "non_vacuita": "Rimesso «da fare = aperto + in corso» nel gemello del Pannello → test ROSSO su ③ (i due conti non coincidono più sul cantiere vero né sui casi limite). Rimesso il fix: verde."
+    },
+    {
+      "id": "AR-692",
+      "esito": "aperto",
+      "perche_resta_aperto": "Il fix c'è già e non è mio. Verificato sul codice vero: `cervello/cancello-lotto.mjs` ha `riapertoAdesso` e `senzaMutazioneContati`, che escludono dal debito i difetti chiusi sul ramo pubblicato e riaperti adesso — esattamente ciò che il fix_proposto chiedeva — e la prova `node cervello/test/mutazione-mancante.test.mjs` è verde, 12/12, coi tre casi di controllo separati compreso «riaprire un difetto senza mutazione NON fa scattare l'allarme». `cancello-lotto.mjs` è della corsia 4: non l'ho toccato e non ho aggiunto niente. All'AD: la scheda ha già una prova a comando (non a pattern), quindi si chiuderà da sola al prossimo `auto-fix verifica --applica`, ed è giusto così.",
+      "togli_verifica_a_pattern": false
+    },
+    {
+      "id": "AR-432",
+      "esito": "aperto",
+      "perche_resta_aperto": "Metà fatta, e la metà che manca non posso scriverla io. Il pezzo che la scheda chiedeva ora esiste: `cervello/cantiere-owner-check.mjs`, con il verdetto puro `verdettoGoverno` provato su casi finti (rosso su una scheda ad alto impatto senza responsabile, verde con responsabile vivo e data buona, rosso su un nome che non è uno dei 120 senior, rosso su una data già passata, CIECO senza l'elenco dei senior). E `ricalcolaMeta` porta adesso `senza_owner`, `senza_scadenza` e `scaduti` dentro il registro, come chiedeva il fix_proposto. Ma lanciato sul cantiere vero il guardiano esce 1: 240 schede da fare, 240 senza responsabile, 240 senza data, di cui 51 ad alto impatto. Metterci i nomi vuol dire scrivere in `cantiere-difetti.json`, che a una corsia è vietato. Il guardiano NON ha un tetto discendente, apposta: un tetto qui direbbe «va bene che 51 difetti gravi non siano di nessuno, purché non diventino 52». Diventa verde quando le schede ad alto impatto hanno un nome e una data. Comando pronto per l'AD: `node cervello/cantiere-owner-check.mjs --proponi` stampa chi metterei su ognuna, derivato dalla dimensione, senza scrivere niente. COSA NON HO VERIFICATO: non l'ho agganciato al giro — la wiring sta in `giro.sh`, fuori dal mio territorio.",
+      "togli_verifica_a_pattern": false,
+      "nota_fix": "Il guardiano c'è e frena davvero (provato rompendolo); le 240 schede senza responsabile restano. Il difetto è aperto perché la sua condizione — ogni difetto aperto ha un owner e una scadenza — non è soddisfatta, non perché manchi il pezzo."
+    },
+    {
+      "id": "AR-601",
+      "esito": "aperto",
+      "perche_resta_aperto": "Non è la mia malattia e non è nel mio territorio. La scheda chiede un numero che dica a Nicola quanta parte dello sforzo della settimana è andata ai negozi e quanta alla macchina: serve un motore nuovo che legga AZIONI-IN-ATTESA e classifichi le card, più una casella nel Pannello — nessuno dei due file è mio. La parte che TOCCAVA la mia malattia l'ho curata: la scheda citava «166 aperti + 57 da riverificare su 564» come due numeri separati perché nessun conto li sommava, e adesso il conto è uno solo (240 da fare su 716). Resta il fatto vero e non misurato: la scheda stessa dice che 108 card su 148 non sono classificabili dal titolo, cioè il numero non si può calcolare finché le card non dichiarano per chi lavorano. Prima del cruscotto serve quel campo.",
+      "togli_verifica_a_pattern": false
+    }
+  ],
+  "bloccati": [
+    {
+      "id": "AR-692",
+      "serve": "file fuori territorio: cervello/cancello-lotto.mjs (corsia 4). Il fix però risulta GIÀ PRESENTE lì e la sua prova è verde: non serve nessuna modifica, serve solo che l'AD non lo riapra."
+    },
+    {
+      "id": "AR-601",
+      "serve": "file fuori territorio: un motore nuovo in cervello/ che classifichi le card di AZIONI-IN-ATTESA per «macchina» o «negozi», più una casella nella home del Pannello. E prima ancora un campo sulle card che dichiari per chi lavorano: senza quello il numero non esiste."
+    },
+    {
+      "id": "AR-432",
+      "serve": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json — mettere `owner` e `scadenza` sulle 51 schede ad alto impatto. È un registro condiviso e a una corsia è vietato scriverci."
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "La sonda del volano legge quanti difetti restano dal riassunto scritto nel file, non dalla lista",
+      "gravita": "medio",
+      "causa_radice": "`const difettiAperti = cantiere.meta?.aperti ?? apertiDifetti.length` prende il numero dal `meta` scritto dentro il registro. È la terza definizione della stessa parola: adesso quel campo vale «le sole schede etichettate aperto» (184), mentre il lavoro che resta è 240. La sonda scriverà quindi un numero più piccolo del vero nel referto della radiografia — dalla parte comoda, come sempre. La cura è chiamare `contaDifetti` da cervello/stati-cantiere.mjs e usare `da_fare`, come fanno adesso gli altri tre scrittori.",
+      "dove": "cervello/sonda-volano.mjs:359",
+      "fix_proposto": "Importare `contaDifetti` da ./stati-cantiere.mjs e sostituire la riga con `const difettiAperti = contaDifetti(cantiere.difetti).da_fare`. Stessa cosa a riga 207 per `difettiChiusi`, che legge `cantiere.meta?.chiusi`."
+    },
+    {
+      "titolo": "Una scheda con lo stato scritto con uno spazio conta come chiusa per il cervello e come da fare per il Pannello",
+      "gravita": "minore",
+      "causa_radice": "`eChiusa` nel cervello toglie gli spazi attorno allo stato, `eChiuso` nel Pannello no. Su una scheda scritta \" chiuso \" i due totali divergono di uno. Le due risposte opposte sono pinzate una per parte da `cervello/test/parola-senza-padrone.test.mjs`, che dichiara l'esenzione e scrive come toglierla: nessuna delle due parti si può allineare senza modificare quel test. Oggi non costa niente — 716 schede su 716 hanno lo stato pulito — ma è una divergenza che aspetta un refuso.",
+      "dove": "pannello/src/lib/cantiere-snello.ts (eChiuso) vs cervello/stati-cantiere.mjs (eChiusa)",
+      "fix_proposto": "Vedi `patch_per_ad`: una riga nel Pannello e la sostituzione del caso ⑤ della prova condivisa."
+    }
+  ],
+  "malattie_da_censire": [
+    {
+      "id": "un-totale-che-salta-uno-stato",
+      "cosa_e": "Un contatore che enumera a mano gli stati che conosce, invece di partire dal totale e sottrarre. Le schede in uno stato non previsto non cadono in nessun ramo e spariscono dal numero — mai dalla parte scomoda: un difetto che sparisce sembra un difetto risolto. Misurata il 15/8/2026 sul cantiere: quattro contatori, 56 schede fuori dai totali, e il riassunto scritto dentro il registro che dichiarava 632 su 716 di sé stesso. La difesa che la spegne è `sommaTorna`: la somma dei rami DEVE fare il totale, e un ramo nuovo finisce in `altri` invece che in un buco.",
+      "come_si_cerca": "Un `.filter()` sul campo `stato` che elenca le etichette buone, dentro un file che poi somma o scrive quel conto. Pattern candidato: `filter\\([^)]*stato === \"(aperto|in-corso|chiuso)\"` fuori da cervello/stati-cantiere.mjs e dalle prove. Attenzione: `stato !== \"chiuso\"` NON è un'istanza — quello è il verso giusto (fail-closed), al più è la malattia sorella «una parola con due padroni»."
+    },
+    {
+      "id": "una-parola-con-due-padroni",
+      "cosa_e": "AGGIUNTA alla voce che esiste già: la sua `nota_onesta` nomina «i conti dei difetti a mano in auto-fix.mjs, allinea-scan-cantiere.mjs e chiusura-dichiarata.mjs» come collezione candidata da aggiungere al pattern. Quei tre adesso sono curati (importano cervello/stati-cantiere.mjs), quindi la collezione si può aggiungere al pattern senza far salire il tetto per colpa loro.",
+      "come_si_cerca": "Nuova alternativa del pattern: `filter\\([^)\\n]*\\.stato (?:===|!==) \"(?:aperto|chiuso|in-corso|da-riverificare)\"`. Misurato il 15/8: 26 righe in 21 file fra cervello/ e pannello/src/ (escluse le prove). Le case dichiarate esenti sono due, e una per forza: `cervello/stati-cantiere.mjs` (la casa) e `pannello/src/lib/cantiere-snello.ts` (il gemello, perché Next.js non importa da cervello/ e le due sono pinzate campo per campo da `cervello/test/un-totale-che-salta-uno-stato.test.mjs`)."
+    }
+  ],
+  "file_toccati": [
+    "cervello/stati-cantiere.mjs",
+    "cervello/cantiere-owner-check.mjs",
+    "cervello/test/un-totale-che-salta-uno-stato.test.mjs",
+    "cervello/atti-veri.mjs",
+    "cervello/auto-fix.mjs",
+    "cervello/allinea-scan-cantiere.mjs",
+    "cervello/chiusura-dichiarata.mjs",
+    "cervello/salute-onesta.mjs",
+    "pannello/src/lib/cantiere-snello.ts",
+    "pannello/src/app/api/memoria/salute-onesta/route.ts",
+    "pannello/src/app/api/memoria/auto-radiografia/route.ts",
+    "pannello/src/components/cervello/RadiografiaDiSe.tsx",
+    "pannello/src/components/cervello/SaluteOnesta.tsx"
+  ],
+  "patch_per_ad": [
+    {
+      "file": "cervello/mutanti.json",
+      "perche": "GIÀ APPLICATA DA QUALCUN ALTRO — la lascio scritta solo perché non venga rifatta. Il conto del cantiere si è spostato da cervello/atti-veri.mjs a cervello/stati-cantiere.mjs e le tre mutazioni erano rimaste puntate al file vecchio. Ricontrollato sul registro vero alla consegna: 0 voci su atti-veri.mjs, 3 su stati-cantiere.mjs, e le mutazioni CIECHE su tutto il registro (496 voci) sono ZERO. Il file nel working tree non l'ho scritto io: è rientrato con l'indentazione a due spazi dello scrittore di casa, mentre il mio strumento di misura ne produce una a uno.",
+      "diff_proposto": "NIENTE DA FARE. Se però l'AD volesse ricontrollare: `node -e 'const fs=require(\"fs\");const j=JSON.parse(fs.readFileSync(\"cervello/mutanti.json\",\"utf8\"));const a=j.mutanti||j;let n=0;for(const m of a){if(!m||!m.file||!m.cerca)continue;let t=null;try{t=fs.readFileSync(m.file,\"utf8\")}catch{};if(t===null||!t.includes(m.cerca)){n++;console.log(m.difetto,m.file)}}console.log(\"cieche:\",n)'` deve stampare `cieche: 0`."
+    },
+    {
+      "file": "cervello/test/parola-senza-padrone.test.mjs",
+      "perche": "FACOLTATIVA, e va applicata INSIEME alla riga del Pannello qui sotto o una delle due va rossa. È l'esenzione che il test stesso dichiara e istruisce a togliere («se il Pannello è stato allineato, togli questa esenzione»). Non l'ho applicata io perché il test non è di questa corsia e la lascerei rossa in mano a chi ricuce.",
+      "diff_proposto": "Sostituire il corpo del caso ⑤ «l'UNICO punto in cui le due divergono è dichiarato» con: `const conSpazi = { stato: \" chiuso \" }; assert.equal(eChiusa(conSpazi), true); assert.equal(pannello.eChiuso(conSpazi), true, \"uno spazio in un JSON e un refuso, non un sesto stato\"); const c = pannello.contaDifetti([conSpazi]); assert.equal(c.per_stato.chiuso, 1); assert.equal(c.chiusi, 1, \"e adesso le due case concordano\");` — e rinominare il caso in «⑤ le due case concordano anche su uno stato scritto con gli spazi»."
+    },
+    {
+      "file": "pannello/src/lib/cantiere-snello.ts",
+      "perche": "FACOLTATIVA, gemella della precedente: è la riga che toglie la divergenza. Da applicare solo insieme alla patch del test.",
+      "diff_proposto": "In `eChiuso`, sostituire `return String(d?.stato ?? \"\") === \"chiuso\";` con `return String(d?.stato ?? \"\").trim() === \"chiuso\";`. Poi togliere dal mio test `cervello/test/un-totale-che-salta-uno-stato.test.mjs` il caso ③ «l'UNICA differenza fra le due case è lo spazio» e sostituirlo con l'asserzione che i due conti coincidono anche su `\" chiuso \"`."
+    }
+  ],
+  "rossi_non_miei": [
+    {
+      "prova": "node cervello/test/una-parola-con-due-padroni.test.mjs",
+      "cosa": "Il caso ③ esce 2 (cieco) e non 0: la spazzata dice «non ho guardato: il registro è puntato altrove (SPAZZATA_REGISTRO): non posso confrontarlo con l'ultimo commit», che è la strada che quel test usa apposta per l'albero finto. `cervello/spazzata-fratelli.mjs` risulta modificato nel working tree e non è mio: il rosso appartiene alla corsia che lo sta toccando. Verificato che non dipende dalle mie modifiche — il mio codice non entra in quel percorso."
+    }
+  ],
+  "mutazioni_cieche_alla_consegna": {
+    "totale": 0,
+    "come_l_ho_misurato": "Per ogni voce di cervello/mutanti.json ho letto il file dichiarato e cercato la sua stringa `cerca`. 496 voci, nessuna orfana. Comando in patch_per_ad.",
+    "nota": "Le tre che il cancello dei senior mi aveva segnalato (AR-684 e due volte AR-671, puntate a cervello/atti-veri.mjs) risultano già riagganciate a cervello/stati-cantiere.mjs quando sono rientrata. Non le ho scritte io: il registro è vietato a una corsia, e l'indentazione del file lo conferma."
+  },
+  "difese_non_rimosse": {
+    "cervello/test/burn-down-che-migliora-da-solo.test.mjs": "Il sorvegliante segnala «difesa rimossa» perché la scheda AR-671 non lo nomina più: la sua prova dichiarata è adesso `cervello/test/un-totale-che-salta-uno-stato.test.mjs`, che copre lo stesso comportamento anche sul lato Pannello, dove il difetto era ancora vivo. Il test vecchio NON è stato tolto: il file c'è, è verde, importa da cervello/atti-veri.mjs (che riesporta la casa nuova) e continua a girare nella suite. Cambia il puntatore della scheda, non la difesa. Verificato lanciandolo alla consegna."
+  }
+}

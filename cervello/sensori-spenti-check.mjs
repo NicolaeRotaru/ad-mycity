@@ -24,10 +24,14 @@
 
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, isAbsolute, join } from "node:path";
-import { fileURLToPath } from "node:url";
-import { MOTIVO, codiceUscita, motivoDi, quadroSpenti, serveNicola } from "./sensore-spento.mjs";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { MOTIVO, codiceUscita, laCardChiedeDi, motivoDi, quadroSpenti, serveNicola } from "./sensore-spento.mjs";
 import { prossimoNumero } from "./pausa-coda.mjs";
 import { timbroOra } from "./ora-piacenza.mjs";
+// AR-568 — anche una CARD è memoria: la coda delle approvazioni è il file che Nicola legge nel
+// Pannello. La penna passa dal writer condiviso, così una prova che esercita `--accoda` non gli
+// infila una domanda vera nella coda vera.
+import { scriviTestoAtomico } from "./scrivi-json.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..");
@@ -66,15 +70,15 @@ function main() {
   for (const nome of [...quadro.inerzia, ...quadro["da-chiedere"]]) {
     const motivo = motivoDi(nome, registro);
     const card = registro[nome]?.card;
-    // Una card «già chiesta» vale solo se esiste DAVVERO nella coda: altrimenti il registro
-    // dichiarerebbe una domanda che nessuno vede, che è il silenzio di prima con un'etichetta sopra.
-    // Il registro scrive «#slug»; dal 13/8 lo slug vive nell'ancora `<!-- slug -->` (il titolo
-    // porta il numero), quindi si cerca lo slug nudo: prende l'ancora nuova e il titolo vecchio.
-    const cardInCoda = Boolean(card && testoCoda.includes(String(card).replace(/^#/, "")));
+    // Una card «già chiesta» vale solo se esiste DAVVERO nella coda E se in quella card il nome
+    // del sensore c'è scritto: altrimenti il registro dichiarerebbe una domanda che nessuno vede,
+    // che è il silenzio di prima con un'etichetta sopra. Il registro scrive «#slug»; dal 13/8 lo
+    // slug vive nell'ancora `<!-- slug -->` (il titolo porta il numero).
+    const cardInCoda = laCardChiedeDi(testoCoda, card, nome);
     const g = serveNicola({ stato: sensori[nome]?.stato, motivo, cardInCoda });
     if (g.serve) buchi.push({ sensore: nome, motivo, perche: g.perche });
     else if (motivo === MOTIVO.DA_CHIEDERE && !cardInCoda) {
-      buchi.push({ sensore: nome, motivo, perche: `dichiarato «da-chiedere» ma la card ${card || "(nessuna)"} non è in coda: la domanda non esiste` });
+      buchi.push({ sensore: nome, motivo, perche: `dichiarato «da-chiedere» ma la card ${card || "(nessuna)"} non chiede di ${nome}: la domanda non esiste` });
     }
   }
 
@@ -91,7 +95,11 @@ function main() {
     buchi,
   };
 
-  if (ACCODA && buchi.length) rapporto.accodata = accoda(testoCoda, buchi);
+  // La card deve nominare TUTTI quelli che aspettano una risposta, non solo i buchi di oggi:
+  // rinfrescarla coi soli buchi cancellerebbe dalla domanda chi era già in attesa, e al giro dopo
+  // quello tornerebbe buco perché la card non lo nomina più. Un'altalena, non un guardiano.
+  const inAttesa = [...quadro.inerzia, ...quadro["da-chiedere"]];
+  if (ACCODA && buchi.length) rapporto.accodata = accoda(testoCoda, buchi, inAttesa);
 
   const rc = codiceUscita({ senzaMotivo: rapporto.accodata ? 0 : buchi.length });
 
@@ -119,11 +127,17 @@ function main() {
  * AR-108 ② — UNA card, una volta sola. Se c'è già, non se ne accoda un'altra: una domanda ripetuta a
  * ogni giro è una domanda che si impara a saltare, ed è così che i due uptime sono rimasti spenti
  * mezzo anno pur essendo «segnalati».
+ *
+ * Ma «una sola» non vuol dire «ferma». Il 16/8 la card c'era dal 10/8 e chiedeva di `telegram_bot`;
+ * intanto si era spento anche `mcp_supabase`, e qui si usciva subito con `[]`: il guardiano restava
+ * rosso per sempre e a Nicola quella seconda domanda non arrivava mai. Una card sola che dice metà
+ * verità è peggio di una card in più. Quindi: se c'è già e l'elenco è cambiato, si **riscrive
+ * l'elenco dentro la stessa card** — stesso numero, stessa posizione, timbro `🔄 refresh`.
  */
-function accoda(testoCoda, buchi) {
+function accoda(testoCoda, buchi, inAttesa = buchi.map((b) => b.sensore)) {
   const marca = "<!-- sensori-spenti-senza-motivo -->";
-  if (testoCoda.includes(marca)) return [];
-  const elenco = buchi.map((b) => `\`${b.sensore}\``).join(", ");
+  const elenco = [...new Set(inAttesa)].sort().map((s) => `\`${s}\``).join(", ");
+  if (testoCoda.includes(marca)) return rinfresca(testoCoda, marca, buchi, elenco);
   const adesso = new Date().toLocaleString("sv-SE", { timeZone: "Europe/Rome" }).slice(0, 16);
   const card = [
     "",
@@ -145,8 +159,42 @@ function accoda(testoCoda, buchi) {
   ].join("\n");
   const punto = testoCoda.indexOf("\n### ");
   const nuovo = punto < 0 ? `${testoCoda}\n${card}` : `${testoCoda.slice(0, punto)}\n${card}${testoCoda.slice(punto)}`;
-  writeFileSync(via(CODA), nuovo);
+  scriviTestoAtomico(via(CODA), nuovo);
   return buchi.map((b) => b.sensore);
 }
 
-main();
+/**
+ * La card c'è già: le si rimette dentro l'elenco vero, senza spostarla e senza cambiarle numero.
+ * Se l'elenco è identico non si scrive niente — un file riscritto uguale è rumore nel diff, e a
+ * ogni giro farebbe sembrare successo qualcosa che non è successo.
+ */
+function rinfresca(testoCoda, marca, buchi, elenco) {
+  const dove = testoCoda.indexOf(marca);
+  const resto = testoCoda.slice(dove);
+  const taglio = resto.slice(marca.length).search(/\n<!-- [a-z0-9-]+ -->/);
+  const fine = taglio < 0 ? testoCoda.length : dove + marca.length + taglio;
+  const blocco = testoCoda.slice(dove, fine);
+
+  let nuovoBlocco = blocco.replace(
+    /(non stanno guardando niente: )([^.]*)(\.)/,
+    (_t, a, _vecchio, z) => `${a}${elenco}${z}`,
+  );
+  if (nuovoBlocco === blocco) return []; // la frase non c'è più: non indovino dove scrivere
+
+  const adesso = new Date().toLocaleString("sv-SE", { timeZone: "Europe/Rome" }).slice(0, 16);
+  nuovoBlocco = nuovoBlocco.replace(/^(### .*?)(?: · 🔄 refresh [\d -:]+)?$/m, `$1 · 🔄 refresh ${adesso}`);
+
+  const senzaTimbro = (t) => t.replace(/ · 🔄 refresh [\d -:]+/g, "");
+  if (senzaTimbro(nuovoBlocco) === senzaTimbro(blocco)) return []; // stessi sensori: niente da dire
+
+  scriviTestoAtomico(via(CODA), testoCoda.slice(0, dove) + nuovoBlocco + testoCoda.slice(fine));
+  return buchi.map((b) => b.sensore);
+}
+
+// Un modulo che parte da solo quando lo importi non si può interrogare: chi volesse provare
+// `rinfresca` o `accoda` senza far girare tutto il guardiano si ritroverebbe il programma addosso,
+// e in una prova anche una scrittura. Il file girava così da prima; toccandolo, il tetto non lo
+// assolve più.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main();
+}

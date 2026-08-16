@@ -118,6 +118,10 @@ export async function githubRequest(token, path, init = {}) {
     );
   const res = await fetch(`${API}${path}`, {
     ...init,
+    // AR-439 — un'attesa senza fine dentro un cancello è un cancello che si può bloccare tenendo
+    // aperta una connessione. Il chiamante può passare il suo `signal`: qui si mette solo il tetto
+    // quando non c'è (additivo — chi passava un segnale continua a comandare lui).
+    signal: init.signal ?? AbortSignal.timeout(Number(process.env.GIT_HTTP_TIMEOUT_MS || 30_000)),
     headers: {
       Authorization: `Bearer ${token}`,
       Accept: "application/vnd.github+json",
@@ -279,6 +283,25 @@ export async function stampSegnale(nome, esito, dettaglio = "") {
   try {
     const res = await fetch(`${url}/rest/v1/impostazioni?on_conflict=chiave`, {
       method: "POST",
+      // ═══════════════════════════════════════════════════════════════════════════════════════
+      // AR-439 — IL BATTITO CHE NON AVEVA UN TEMPO MASSIMO
+      //
+      // Questo `fetch` era senza `signal`. Se la memoria risponde lenta (o non risponde e tiene
+      // la connessione aperta) il processo resta appeso QUI: e l'errore che produce non è un
+      // rosso, è un'ATTESA — un processo fermo somiglia moltissimo a un processo che lavora.
+      // Il giro che stava mandando il suo battito non finisce mai, e quel turno di macchina non
+      // produce niente: niente briefing, niente code, niente proposte.
+      //
+      // Gli altri fetch della casa il timeout ce l'avevano già (`freschezza-segnali.mjs` usa
+      // `AbortSignal.timeout(8000)`): la protezione era stata messa dove qualcuno si era
+      // scottato, e mai portata nelle copie accanto. È la stessa «la regola vive in N posti e
+      // N-1 restano indietro», applicata al timeout di rete — per questo, insieme al timeout,
+      // nasce il contatore che li conta tutti (`cervello/attesa-senza-fine.mjs`).
+      //
+      // Conservativo: 8 secondi come il fratello che funziona, e un'env per cambiarlo. Un
+      // battito perso non ferma niente — è già dentro un `try` che torna `false`.
+      // ═══════════════════════════════════════════════════════════════════════════════════════
+      signal: AbortSignal.timeout(Number(process.env.SEGNALE_TIMEOUT_MS || 8000)),
       headers: {
         apikey: key,
         Authorization: `Bearer ${key}`,

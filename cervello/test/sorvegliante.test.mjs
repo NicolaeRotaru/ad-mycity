@@ -124,9 +124,11 @@ test("l'estensione dichiarata dalla malattia si rispetta: un .md non è un .mjs"
 // ─── ② prova accecata ────────────────────────────────────────────────────────
 
 test("se tolgo il pezzo su cui poggia una mutazione, la prova di quel fix è appena diventata cieca", () => {
+  // `leggi` è il disco (AR-713): il giudizio si dà sul file, non sul frammento che arriva.
   const e = sorveglia({
     ...base,
     toccati: [{ file: "cervello/finto.mjs", contenuto: "export function f(){ return true; }", aggiunte: [{ n: 2, testo: "  return true;" }] }],
+    leggi: () => "export function f(){ return true; }",
   });
   const v = gravi(e.voci).filter((x) => x.classe === "prova-accecata");
   assert.equal(v.length, 1, "il fix resta, la difesa no — e il test continua a passare");
@@ -297,6 +299,7 @@ test("…ma quell'esenzione vale SOLO per i pattern: sui file dei guardiani gli 
     ...base,
     mutanti: [{ difetto: "AR-998", nome: "x", file: "cervello/spazzata-fratelli.mjs", cerca: "PEZZO CHE NON C'È", test: "t" }],
     toccati: [{ file: "cervello/spazzata-fratelli.mjs", contenuto: "codice senza quel pezzo", aggiunte: [{ n: 1, testo: "catch(() => {})" }] }],
+    leggi: () => "codice senza quel pezzo",
     importatori: new Map([["cervello/spazzata-fratelli.mjs", ["cervello/sorvegliante.mjs"]]]),
   });
   const classi = e.voci.map((v) => v.classe);

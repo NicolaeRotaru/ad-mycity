@@ -209,14 +209,20 @@ cadenza_ai_run() {
     local _dec _ver
     _dec="$(RP_TIPO="$tipo" RP_TENTATIVI="$n" RP_RISULTATO="$CADENZA_AI_OUT" \
       timeout 20s node "${SCRIPT_DIR:-cervello}/retry-policy.mjs" decidi 2>/dev/null || echo '{}')"
+    # AR-630 — si chiede anche il QUANDO, non solo il se. La policy sa a che ora il motore torna
+    # disponibile: se è fra ore (limite settimanale) riprovare fra trenta secondi brucia i tentativi
+    # contro lo stesso muro, e ognuno paga il suo timeout. La testa risponde `attesaSec` e può dire
+    # di no proprio per questo; il recupero qui sotto ri-accoda la cadenza all'ora del reset.
     _ver="$(node "${SCRIPT_DIR:-cervello}/esito-cadenza.mjs" ritenta \
-      --ai-rc="$CADENZA_AI_RC" --tentativo="$n" --tentativi="$tentativi" --policy="$_dec" 2>/dev/null || echo '{}')"
+      --ai-rc="$CADENZA_AI_RC" --tentativo="$n" --tentativi="$tentativi" --pausa="$pausa" --policy="$_dec" 2>/dev/null || echo '{}')"
     if ! printf '%s' "$_ver" | grep -q '"ritenta":true'; then
-      echo "[$(ts)] Motore «$tipo»: la retry-policy dice di NON ritentare — mi fermo al tentativo $n (AR-201)." >&2
+      echo "[$(ts)] Motore «$tipo»: NON si ritenta adesso — $(printf '%s' "$_ver" | sed -n 's/.*"motivo":"\([^"]*\)".*/\1/p') (AR-201/AR-630)." >&2
       break
     fi
-    echo "[$(ts)] Motore «$tipo»: la retry-policy dice di ritentare — pausa ${pausa}s." >&2
-    sleep "$pausa"
+    _attesa="$(printf '%s' "$_ver" | sed -n 's/.*"attesaSec":\([0-9]*\).*/\1/p')"
+    case "$_attesa" in ''|*[!0-9]*) _attesa="$pausa" ;; esac
+    echo "[$(ts)] Motore «$tipo»: la retry-policy dice di ritentare — pausa ${_attesa}s." >&2
+    sleep "$_attesa"
   done
 
   # 🪧 IL GUASTO LASCIA UNA TRACCIA CHE ESCE DALLA MACCHINA (2026-08-10).

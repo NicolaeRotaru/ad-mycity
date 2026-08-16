@@ -93,6 +93,17 @@ fonte: AD digitale (chat)
 >
 > **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7 senza risposta, ora 18 giorni). Briefing: [[Briefing/2026-08-16]].
 
+> 🔧 **15/8 22:55 — Lotto 44 del cantiere: 104 difetti chiusi, nove malattie curate insieme.** Nove corsie
+> in parallelo su territori di file separati: 92 riparati in questo lotto (55 mutazioni eseguite, 39 prove
+> nuove) più 12 già riparati nel lotto 43 e mai timbrati, verificati qui uno per uno. Cantiere: 184 → 92
+> aperti sui vecchi, +23 nati riparando (AR-726 → AR-748). Tetti scesi: prove a OR 9→3, prove deboli 39→21.
+> ⚠️ Numeri riletti dopo la fusione con main del 16/8 08:24, che nel frattempo ne aveva chiusi 61 per conto
+> suo: il cantiere adesso conta 537 chiuse, 146 aperte (23 sono le nuove di questo lotto, quindi 123 vecchie)
+> e 56 da riverificare. Le riparate e non ancora timbrate si chiudono al merge.
+> Restano aperti apposta i tre che chiederebbero alla macchina di allargarsi i permessi da sola.
+> 🟡 pushato sul ramo, **non unito** — il merge è di Nicola, e mergiare pubblica anche il Pannello.
+> Dettaglio in [[DECISIONI]].
+
 > 🔁 **15/8 11:25 — Giro richiesto in chat, 15 minuti dopo il passaggio delle 11:10. Business invariato. Strategia snella applicata: nessun motore pesante riaperto.**
 > Riconfermato con `verifica-sensori.mjs` (REST, allowlisted) + `cervello/delta-gate.mjs` (letto, non rilanciato): firma identica dal 24/6 — 1 ordine, mai pagato, 0 pagati negli ultimi 7gg, 7 clienti. `coerenza-fatti.mjs` rieseguito dal vivo: ✅ memoria coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: 103/120 quaderni fermi, nessuno riguarda una card sbloccabile prima del 24/8-1/9 (vincolo north-star rispettato: nessun lavoro-macchina fuori da ciò che sblocca il primo incasso).
 >

@@ -27,6 +27,10 @@ import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 // riscriveva la memoria con un `writeFileSync` crudo: un freno sulla prima porta non arrivava mai
 // fin qui. Ora la scrittura passa dal writer atomico condiviso, che consulta `casa-memoria.mjs`.
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
+// AR-150 — «misurato» era una parola che il motore si scriveva da solo. Nove esperimenti su quindici
+// la portavano mentre la loro stessa nota diceva «mai testata: il gate non è mai partito». Qui il
+// conto passa dallo stato EFFETTIVO, e i non-testati diventano un numero invece di sparire nei misurati.
+import { contaEsperimenti, esperimentiNonTestati, statoEffettivo } from "./esperimenti-regole.mjs";
 
 const PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json");
 const JSON_MODE = process.argv.includes("--json");
@@ -95,18 +99,28 @@ async function main() {
   const inScadenza = aperti.filter((e) => e.data_misura && e.data_misura <= oggi);
 
   // (3) Bookkeeping per Pannello/sonda (contatori, non tocca gli stati: la MISURA resta al motore/AD).
+  // AR-150 — `misurati` era il conto di chi si dichiarava misurato. Ora è il conto di chi lo è
+  // davvero, e accanto compare `non_testati`: gli esperimenti scaduti col gate mai partito. Il numero
+  // che prima si nascondeva dentro «misurati» adesso ha un nome suo, e il Pannello lo può mostrare.
+  const conto = contaEsperimenti(esperimenti);
+  const nonTestati = esperimentiNonTestati(esperimenti);
   dati.meta_esperimenti = {
     aggiornato: quando,
     totale: esperimenti.length,
     aperti: aperti.length,
     in_scadenza: inScadenza.length,
-    misurati: esperimenti.filter((e) => e.stato === "misurato").length,
-    chiusi: esperimenti.filter((e) => e.stato === "chiuso").length,
+    misurati: conto.misurati,
+    chiusi: conto.chiusi,
+    non_testati: conto.non_testati,
+    non_testati_ids: nonTestati.map((e) => e.id).filter(Boolean),
+    resa_esperimenti: conto.resa,
+    _cosa_significa_non_testati:
+      "esperimenti che si dichiarano misurati/chiusi mentre la loro stessa nota dice che il gate non è mai partito: l'ipotesi non è stata respinta, non è mai stata provata (AR-150).",
   };
   dati.aggiornato = quando;
   scriviJsonAtomico(PATH, dati);
 
-  const sintesi = `${aperti.length} aperti · ${inScadenza.length} in scadenza${datati ? ` · ${datati} datati d'ufficio (+${GIORNI_DEFAULT}g)` : ""}`;
+  const sintesi = `${aperti.length} aperti · ${inScadenza.length} in scadenza · ${conto.misurati} misurati davvero · ${conto.non_testati} mai testati${datati ? ` · ${datati} datati d'ufficio (+${GIORNI_DEFAULT}g)` : ""}`;
   await stampSegnale("esperimenti", inScadenza.length ? "warn" : "ok", `${sintesi} · ${quando}`);
 
   const out = {
@@ -128,6 +142,10 @@ async function main() {
       console.log("   Es: node cervello/esperimenti-check.mjs --apri --ambito=onboarding --metrica=negozi_live --atteso=1 --giorni=7");
     } else {
       console.log("   ✅ Tutti gli esperimenti aperti hanno una scadenza futura.");
+    }
+    if (nonTestati.length) {
+      console.log(`   ⚠️  ${nonTestati.length} dichiarati misurati e MAI TESTATI (il gate non è mai partito): ${nonTestati.map((e) => e.id).join(", ")}`);
+      console.log(`      Non contano come prova che la macchina impara. Vanno riscritti stato "non-testato" o riaperti col gate legato all'esecuzione, non a un timer.`);
     }
   }
   // AR-041: array vuoto = volano spento → exit 1 (giro.sh può farne vincolo hard al motore).

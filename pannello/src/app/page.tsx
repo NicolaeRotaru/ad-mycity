@@ -164,7 +164,13 @@ import {
   MSG_RISPOSTA_VUOTA,
   type ParlaMsg,
 } from "@/lib/parla";
-import { arricchisciPerThread } from "@/lib/recupero-thread";
+import { arricchisciPerThread, fondiDettagli } from "@/lib/recupero-thread";
+import {
+  conteggioMessaggiDaMostrare,
+  esitoGruppoChat,
+  idsDaPrecaricareInElenco,
+  threadDiLista,
+} from "@/lib/testi-elenco";
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
 import { bollaUtenteDaTesto, mergeThreadMsgs, messaggiUguali, PLACEHOLDER_ALLEGATI } from "@/lib/chat-thread-merge";
 import {
@@ -330,11 +336,21 @@ function tsUltimoAssistantFinale(c: Conversazione, gruppo?: GruppoLavori | null)
   return candidati.reduce((max, t) => tsMaxIso(max, t), candidati[0]);
 }
 
-/** Thread effettivo in lista: messaggi salvati + risposte già finite nei Lavori (spesso mancano nel DB). */
+/**
+ * Thread effettivo in lista: messaggi salvati + risposte già finite nei Lavori (spesso mancano nel DB).
+ *
+ * AR-716 — la fusione adesso dichiara anche quanto è completa. Dopo un ricaricamento le righe del
+ * poll sono mute, la metà «dai lavori» esce vuota e prima si tornava il solo thread salvato senza
+ * distinguere «non c'era niente in più» da «non ho potuto leggere»: a schermo un buco si travestiva
+ * da risposta completa. La decisione sta fuori da qui, in `lib/testi-elenco.ts`, dove un test la
+ * esegue.
+ */
+function threadConvDiLista(c: Conversazione, gruppo?: GruppoLavori | null) {
+  return threadDiLista<Msg>(c.messaggi, gruppo?.lavori ?? []);
+}
+
 function messaggiConvEffettivi(c: Conversazione, gruppo?: GruppoLavori | null): Msg[] {
-  if (!gruppo?.lavori.length) return c.messaggi;
-  const daLavori = messaggiDaGruppo(gruppo.lavori) as Msg[];
-  return mergeThreadMsgs(c.messaggi, daLavori);
+  return threadConvDiLista(c, gruppo).messaggi;
 }
 
 /** Pallino rosso: l'ultimo messaggio reale è una risposta AI e Nicola non l'ha ancora aperta/letta. */
@@ -389,16 +405,23 @@ function mergeListaConversazioni(prev: Conversazione[], incoming: Conversazione[
   return merged;
 }
 
-/** Chat aperta da Lavori («Chat con questa casella») vive nei lavori — la aggiungiamo alla lista Worker se manca nel DB. */
+/**
+ * Chat aperta da Lavori («Chat con questa casella») vive nei lavori — la aggiungiamo alla lista Worker se manca nel DB.
+ *
+ * AR-715 — prima si saltava il gruppo quando non si trovava nessun messaggio di Nicola. Dopo un
+ * ricaricamento NESSUN gruppo porta il testo (le righe del poll sono mute), quindi la conversazione
+ * spariva dall'elenco pur esistendo. Chi decide adesso è `esitoGruppoChat`: salta il gruppo vuoto
+ * davvero, tiene quello che ha solo delle righe da rileggere.
+ */
 function integraConversazioniDaLavori(list: Conversazione[], lavoriList: Lavoro[]): Conversazione[] {
   const ids = new Set(list.map((c) => c.id));
   const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
   const extra: Conversazione[] = [];
   for (const g of raggruppaLavori(lavoriList, m)) {
     if (ids.has(g.id)) continue;
-    if (!g.lavori.some((l) => l.tipo === "chat")) continue;
-    const msgs = messaggiDaGruppo(g.lavori).filter((m) => !m.pending) as Msg[];
-    if (!msgs.some((m) => m.role === "user" && m.content.trim())) continue;
+    const esito = esitoGruppoChat(g.lavori);
+    if (!esito.tieni) continue;
+    const msgs = esito.messaggi as Msg[];
     extra.push({
       id: g.id,
       titolo: g.titolo,
@@ -2884,6 +2907,33 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     }
   }
 
+  // AR-715 · AR-716 — IL PRECARICO DEI TESTI DELLE CHAT.
+  // L'elenco arriva muto (niente domanda, niente risposta) e `arricchisciLavoriAttivi` qui sotto
+  // rilegge SOLO i lavori ancora in corso: un lavoro già finito non lo rilegge nessuno, quindi dopo
+  // un ricaricamento le conversazioni dei Lavori si ricostruivano da niente — una spariva
+  // dall'elenco, l'altra si accorciava in silenzio. Le due funzioni che le ricostruiscono girano
+  // durante il disegno della pagina e non possono aspettare una lettura: la lettura si fa QUI, una
+  // volta sola per riga, e il risultato resta nella lista (il merge del poll conserva `richiesta` e
+  // `risultato` già noti). Chi decide cosa leggere è `idsDaPrecaricareInElenco`, che è puro.
+  const testiChiestiRef = useRef<Set<string>>(new Set());
+
+  async function precaricaTestiDelleChat(lista: Lavoro[]) {
+    const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+    const ids = idsDaPrecaricareInElenco(lista, mappa, testiChiestiRef.current);
+    if (ids.length === 0) return;
+    ids.forEach((id) => testiChiestiRef.current.add(id));
+    const dettagli = await leggiDettagliLavori(ids);
+    if (dettagli.length === 0) {
+      // Non è «questi lavori non hanno testo»: è «non sono riuscito a leggere». Tolgo il segno di
+      // «già chiesto» e ci riprovo al giro dopo, invece di restare muto fino al ricaricamento.
+      ids.forEach((id) => testiChiestiRef.current.delete(id));
+      return;
+    }
+    const prima = lavoriRef.current;
+    const dopo = fondiDettagli(prima, dettagli);
+    if (!lavoriUguali(prima, dopo)) setLavori(dopo);
+  }
+
   async function arricchisciLavoriAttivi(lista: Lavoro[]): Promise<Lavoro[]> {
     const ids = new Set<string>();
     for (const p of pendingLavoroChatRef.current.values()) ids.add(p.id);
@@ -2938,6 +2988,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           }
           // I nomi mancanti si chiedono dopo aver mostrato la lista: la vista non aspetta.
           void assicuraNomiLavori(arricchiti);
+          // …e per la stessa ragione i testi delle chat: la lista si vede subito, il testo arriva.
+          void precaricaTestiDelleChat(merged);
           if (d.conteggi?.coda != null) {
             setConteggiLavori({ coda: d.conteggi.coda, archivio: d.conteggi.archivio });
           }
@@ -3008,9 +3060,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       if (Array.isArray(d.lavori)) {
         // I nomi già noti si riattaccano subito (altrimenti le righe vecchie tornerebbero senza
         // nome); quelli delle righe appena arrivate si chiedono dopo aver mostrato la lista.
-        const conNomi: Lavoro[] = d.lavori.map((l: Lavoro) =>
-          nomiLavoriRef.current[l.id] ? { ...l, titolo: nomiLavoriRef.current[l.id] } : l
-        );
+        // AR-715/716, DOMANDA ⑥ («quali cancelli eredita il canale nuovo?»): questa è la SECONDA
+        // porta che riscrive la lista, e non ereditava niente. Sostituiva le righe con quelle
+        // appena arrivate — mute — buttando via i testi già letti, e siccome le righe risultavano
+        // «già chieste» non le rileggeva più nessuno: «Carica altro» faceva sparire le chat che il
+        // precarico aveva appena riportato. Adesso conserva ciò che sa e ripassa dallo stesso
+        // precarico del poll.
+        const noti = lavoriRef.current;
+        const conNomi: Lavoro[] = d.lavori.map((l: Lavoro) => {
+          const vecchio = noti.find((p) => p.id === l.id);
+          return {
+            ...l,
+            richiesta: l.richiesta ?? vecchio?.richiesta,
+            risultato: l.risultato ?? vecchio?.risultato,
+            titolo: nomiLavoriRef.current[l.id] ?? l.titolo ?? vecchio?.titolo,
+          };
+        });
         setLavori(conNomi);
         if (d.conteggi?.coda != null) {
           setConteggiLavori({ coda: d.conteggi.coda, archivio: d.conteggi.archivio });
@@ -3018,6 +3083,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         if (d.archivio?.hasMore != null) setArchivioHasMore(Boolean(d.archivio.hasMore));
         setArchivioLimit(nuovoLimit);
         void assicuraNomiLavori(conNomi);
+        void precaricaTestiDelleChat(conNomi);
       }
     } catch {
     } finally {
@@ -3548,7 +3614,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   const gruppo = gruppiConvById.get(c.id);
                   const chatVisibile = vista === "assistente" || chatFluttuante;
                   const nonLetta = haRispostaNonLetta(c, convLette, convLetteFp, convId, chatVisibile, gruppo);
-                  const effMsgs = messaggiConvEffettivi(c, gruppo);
+                  const thread = threadConvDiLista(c, gruppo);
+                  const effMsgs = thread.messaggi;
                   return (
                   <div
                     key={c.id}
@@ -3567,7 +3634,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                         <span className="truncate">{c.titolo}</span>
                       </div>
                       <div className="conv-row-meta">
-                        {effMsgs.filter((m) => !m.prompt).length} messaggi · {fa(tsConvAggiornato(c, gruppo))}
+                        {conteggioMessaggiDaMostrare(effMsgs.filter((m) => !m.prompt).length, thread.incompleto)} messaggi ·{" "}
+                        {fa(tsConvAggiornato(c, gruppo))}
                         {convId === c.id && <span className="text-brand font-medium"> · aperta ora</span>}
                       </div>
                     </button>
@@ -3730,7 +3798,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   const gruppo = gruppiConvById.get(c.id);
                   const chatVisibile = chatFluttuante || workerFull;
                   const nonLetta = haRispostaNonLetta(c, convLette, convLetteFp, convId, chatVisibile, gruppo);
-                  const effMsgs = messaggiConvEffettivi(c, gruppo);
+                  const thread = threadConvDiLista(c, gruppo);
+                  const effMsgs = thread.messaggi;
                   const attiva = c.id === convId;
                   return (
                     <div
@@ -3753,7 +3822,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                           <span className="truncate text-[12.5px]">{c.titolo || "Conversazione"}</span>
                         </div>
                         <div className="conv-row-meta text-[10.5px]">
-                          {effMsgs.filter((m) => !m.prompt).length} msg · {fa(tsConvAggiornato(c, gruppo))}
+                          {conteggioMessaggiDaMostrare(effMsgs.filter((m) => !m.prompt).length, thread.incompleto)} msg ·{" "}
+                          {fa(tsConvAggiornato(c, gruppo))}
                         </div>
                       </button>
                       <button
