@@ -136,6 +136,38 @@ export function mutazioniNonGirate({ mutantiLetti = true, toccati = null, quante
 }
 
 /**
+ * Gli id la cui PROVA questo lotto ha scritto o cambiato.
+ *
+ * ⚠️ PERCHÉ NON BASTA `difettiToccati`, e perché la differenza è nata il 16/8 nel giro stesso in
+ * cui `sintomo` è entrato fra i campi del lotto.
+ *
+ * Appena il metro ha ricominciato a vedere le schede su cui il lotto 45 aveva lavorato, la regola
+ * `prova-con-or` è scattata su AR-190 e AR-192 dicendo «una prova NUOVA con un OR dentro». Quelle
+ * due prove sono identiche a `origin/main`, carattere per carattere: nessuno le aveva toccate. Il
+ * lotto aveva dichiarato il loro SINTOMO — cioè aveva chiesto a quelle schede se fossero ancora
+ * vere — e per questo si è visto imputare prove scritte da altri, mesi fa.
+ *
+ * Sono due domande diverse e vanno tenute separate:
+ *   · «questo lotto ha lavorato su questa scheda?» → `difettiToccati`, e serve a sapere QUALI
+ *     mutazioni far girare: lì è giusto essere larghi, perché una mutazione in più costa poco.
+ *   · «questo lotto ha scritto QUESTA prova?»       → questa funzione, e serve a decidere chi
+ *     giudicare col blocco duro: lì essere larghi significa bloccare qualcuno per il debito di
+ *     un altro, e un cancello che punisce a caso è un cancello che si impara ad aggirare.
+ *
+ * Il debito ereditato non sparisce: resta sotto il suo tetto, che scende e non risale mai.
+ */
+export function proveScritteDalLotto(cantiereOra, cantierePrima) {
+  if (!cantierePrima) return null; // niente confronto possibile → cieco, come per i toccati
+  const impronta = (d) => JSON.stringify(d?.verifica ?? null);
+  const prima = new Map((cantierePrima.difetti || []).map((d) => [d.id, impronta(d)]));
+  const out = [];
+  for (const d of cantiereOra.difetti || []) {
+    if (!prima.has(d.id) || prima.get(d.id) !== impronta(d)) out.push(d.id);
+  }
+  return out;
+}
+
+/**
  * Gli id che in questo lotto sono NATI: presenti adesso, assenti dal ramo pubblicato.
  *
  * Diverso da `difettiToccati`, che include anche le schede vecchie la cui prova è cambiata. Per
@@ -660,6 +692,7 @@ function main() {
     cantierePrima = null;
   }
   const toccati = difettiToccati(cantiere, cantierePrima);
+  const proveDelLotto = proveScritteDalLotto(cantiere, cantierePrima);
   const nati = difettiNati(cantiere, cantierePrima);
   const tetti = leggiTetti();
 
@@ -709,7 +742,9 @@ function main() {
 
   // `prova-con-or`: il debito storico ha un tetto, le prove del LOTTO no.
   const tettoOr = tetti.prova_con_or ?? 0;
-  const orNelLotto = toccati ? conOr.filter((id) => toccati.includes(id)) : [];
+  // Il blocco duro guarda chi ha SCRITTO la prova, non chi ha lavorato sulla scheda: dichiarare un
+  // sintomo su una scheda non rende tua la prova che ci trovi sopra (AR-190 e AR-192, 16/8).
+  const orNelLotto = proveDelLotto ? conOr.filter((id) => proveDelLotto.includes(id)) : [];
   if (orNelLotto.length) {
     violazioniProve.push({
       regola: "prova-con-or",
