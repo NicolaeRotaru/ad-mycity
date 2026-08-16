@@ -1,8 +1,18 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 11:23
+aggiornato: 2026-08-16 11:42
 fonte: AD digitale (chat)
 ---
+
+> ⚪ **16/8 11:42 — Giro richiesto in chat, 19 minuti dopo il passaggio delle 11:23. Nessuna novità di business. Un canale in meno per verificare: GitHub ha rate-limitato le query CI.**
+> Riconfermato dal vivo con `verifica-sensori.mjs` (11:41): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg — identica firma dal 24/6, stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme. `coerenza-fatti.mjs` rieseguito: ✅ memoria coerente, 0 cacce aperte (non riscritto il report: nulla oltre l'ora è cambiato).
+>
+> **`ci-stato.mjs` questa volta NON ha risposto**: GitHub ha risposto 403 "API rate limit exceeded" invece dei dati reali. Non posso riconfermare da qui se PR #735 è ancora rossa o se #739/#738 sono ancora verdi e mergiabili (card #102/#103) — resta lo stato dell'ultimo passaggio (11:23), non riverificato in questo. Lo segnalo nei Gap, non lo do per buono.
+> `chiusura-loop.mjs --sonda` rieseguito: stessi ~103/120 quaderni fermi, nessuno sblocca una card business prima di settembre — vincolo north-star rispettato. `north-star-check.mjs --gate` provato una volta, bloccato dall'allowlist di questa sessione (stesso limite noto, non ritentato).
+>
+> Non ririscritti `auto-analisi.json`, `AUTO-ANALISI.md`, `apprendimento.json` e gli altri `auto-coscienza/*`: freschi da 19 minuti, con dati identici salvo il buco CI qui sopra. Riscriverli ora sarebbe un giro a vuoto ([[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 18 giorni), **#104** (bug Write/Edit nei permessi VPS, causa nota di quasi tutti i giri falliti, 12 giorni senza fix perché serve mano sul VPS), **#105** (scelta di Nicola su `burn_down_margine`), **#102/#103** (merge PR verdi, da riverificare al prossimo passaggio con CI raggiungibile), **#89** (PR #735, non mergiare finché non torna verde), #92 (radiografia completa), #42 (root cause dei 9 controlli AR-687). Briefing: [[Briefing/2026-08-16]].
 
 > ⚪ **16/8 11:23 — Giro richiesto in chat, 11 minuti dopo il passaggio delle 11:12. Nessuna novità.** Strategia snella applicata, nessun motore pesante riaperto.
 > Riconfermato dal vivo con `coerenza-fatti.mjs` (11:20). Memoria coerente, 0 cacce aperte. `ci-stato.mjs` rieseguito: stato invariato. PR #735 resta l'unica rossa, causa nel proprio ramo. #739 e #738 sono verdi, pronte per la firma (#102/#103).
