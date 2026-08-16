@@ -1,15 +1,15 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-16 08:22",
+  "aggiornato": "2026-08-16 08:58",
   "giorni_sospetto": 3,
-  "difetti_aperti": 179,
+  "difetti_aperti": 182,
   "per_classe": {
-    "umana": 131,
+    "umana": 132,
     "auto-sospetta": 38,
-    "auto-comando": 10
+    "auto-comando": 12
   },
-  "non_auto_chiudibili": 169,
+  "non_auto_chiudibili": 170,
   "bloccanti_ciechi": [
     "AR-072",
     "AR-518",
@@ -92,6 +92,14 @@
       "gravita": "grave",
       "manca": [
         "impatto_crescita"
+      ]
+    },
+    {
+      "id": "AR-693",
+      "gravita": "grave",
+      "manca": [
+        "impatto_crescita",
+        "nato"
       ]
     },
     {
@@ -567,6 +575,22 @@
       "causa": "comando-non-eseguibile",
       "comando": "node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata",
       "motivo": "il motore non sa eseguire \"node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-750",
+      "stato": "chiuso",
+      "gravita": "medio",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/numero-di-card-gia-speso.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/numero-di-card-gia-speso.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-751",
+      "stato": "chiuso",
+      "gravita": "medio",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --test cervello/test/sensori-non-calpestati.test.mjs",
+      "motivo": "il motore non sa eseguire \"node --test cervello/test/sensori-non-calpestati.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
     }
   ],
   "da_riverificare": [
@@ -3404,6 +3428,15 @@
       "auto_chiudibile": false
     },
     {
+      "id": "AR-684",
+      "gravita": "grave",
+      "eta_giorni": 2,
+      "titolo": "Il cantiere conta 595 schede su 653: 56 in un terzo stato non entrano in nessun totale",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/parola-senza-padrone.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
       "id": "AR-688",
       "gravita": "minore",
       "eta_giorni": 2,
@@ -3411,6 +3444,15 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
+    },
+    {
+      "id": "AR-693",
+      "gravita": "grave",
+      "eta_giorni": null,
+      "titolo": "Ventinove prove scritte in bash non le esegue nessuno, e nove sono rosse da mesi",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/prova-che-non-puo-fallire.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-695",
@@ -3579,6 +3621,15 @@
       "gravita": "medio",
       "eta_giorni": 1,
       "titolo": "Le due prove più pesanti del lotto passano da sole e falliscono in compagnia: il verde dipende da chi gira ins",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-749",
+      "gravita": "medio",
+      "eta_giorni": 1,
+      "titolo": "Due guardiani sporcano il vault a ogni controllo, e il freno costruito apposta non li raggiunge",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false

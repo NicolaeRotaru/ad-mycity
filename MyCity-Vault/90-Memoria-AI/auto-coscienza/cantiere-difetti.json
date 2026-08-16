@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-16 08:55",
+  "aggiornato": "2026-08-16 09:20",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -15139,6 +15139,25 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/numero-di-card-gia-speso.test.mjs"
+      }
+    },
+    {
+      "id": "AR-751",
+      "titolo": "Una prova partiva dal dato di ieri, e quando la regola è migliorata è diventata rossa su codice sano",
+      "dimensione": "trovato-riparando",
+      "gravita": "medio",
+      "impatto_crescita": "basso",
+      "stato": "chiuso",
+      "nato": "2026-08-16 09:10",
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 09:20",
+      "chiuso_come": "prova riscritta sull'effetto, non sul dato del giorno",
+      "causa_radice": "Il caso ⑤ di cervello/test/sensori-non-calpestati.test.mjs chiede una cosa giusta — «la porta sa aprirsi, o è murata?» — ma la chiedeva partendo da una COPIA DEL FILE VERO dei sensori e pretendendo che cambiasse. Funzionava finché la porta aveva una serratura sola: «l'ambiente è di questo dominio?». Poi ne è arrivata una seconda, più severa e giusta (AR-568): una misura CIECA non sovrascrive una VEDENTE. Da quel momento il caso ha cominciato a dipendere da cosa contiene il file vero oggi — se l'ultima misura veniva dal VPS con sette sensori visti, la prova, che gira con una chiave finta e ne vede uno, veniva respinta correttamente e usciva rossa. Misurato il 16/8 su `origin/main` puro, senza nessuna mia modifica: EXIT=1, caso ⑤ rosso, nessuno aveva rotto niente. È la stessa forma di difetto già vista sul Pannello: una prova agganciata alla FORMA di ieri invece che all'effetto che deve garantire. Fa danno due volte — chiama rossa una macchina sana, e insegna a chi guarda che il rosso qui si può ignorare.",
+      "fix_proposto": "Fatto: il caso ⑤ ora costruisce la misura di partenza invece di ereditarla — stesso punto d'osservazione, copertura 0, data vecchia — cioè una misura che questa esecuzione ha il DIRITTO di battere. Nessuna delle due serrature ha motivo di tenere chiuso, quindi se resta chiuso è davvero murata. L'asserzione riporta anche cosa ha detto lo strumento, così il prossimo che la vede rossa legge il motivo invece di indovinarlo. Non-vacuità eseguita: forzato `scriviStato = false` in verifica-sensori.mjs → caso ⑤ rosso, EXIT=1, gli altri quattro restano verdi; rimesso → EXIT=0.",
+      "origine": "Trovato riparando la PR #738: dopo la fusione con main la suite era rossa qui. Verificato su main puro che il rosso c'era già — è ereditato, non causato da questa richiesta, ma è una malattia e l'ho curata invece di dichiararla non mia.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/sensori-non-calpestati.test.mjs"
       }
     }
   ],
