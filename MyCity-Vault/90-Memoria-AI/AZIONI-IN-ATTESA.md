@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-16 11:05** — Automatico: **70 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-16 11:41** — Automatico: **70 aperte · 8 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -22,7 +22,21 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🟡 #104 — Correggi 5 righe nelle tue regole di permesso: è il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20 · rinumerata da #81 alle 11:12 (collideva col vecchio #81 tabellare "Merge PR #714", mai riutilizzabile)
+### 🔴 #106 — Pubblica "I fornelli restano spenti" — hummus e pesto genovese bio di Pane Quotidiano · ⏳ accodata 2026-08-16 12:05
+
+**Cosa cambia:** esce un post nuovo per Pane Quotidiano, l'unico negozio vero su MyCity. L'angolo è diverso da tutti quelli fatti finora: aggancia il caldo di metà agosto — chi non ha voglia di stare ai fornelli — a due prodotti reali del suo catalogo, già pronti: hummus di ceci bio (2,95€) e pesto genovese bio (5€, basta cuocere la pasta). Prezzi e descrizioni letti oggi, in diretta, dal database del marketplace: zero numeri inventati, zero recensioni finte (il negozio non ne ha ancora, e il post non ne parla).
+
+**Se va bene:** il post porta qualche click in più verso la scheda del negozio su MyCity (misurabile col codice `no-fornelli-1608`), e apre un filone che si può ripetere ogni settimana con un'altra coppia prodotto-bisogno, sempre letta dal vivo dal database — così non si rischia mai di inventare un numero.
+
+**Cosa devi fare:** scrivi «ok 106» se va bene così. Il testo e l'immagine sono già pronti, basta pubblicarli sui canali social di MyCity (Instagram, la sua Storia, Facebook e i gruppi locali).
+
+**Cosa non ho verificato:** non ho controllato con il titolare di Pane Quotidiano se oggi è aperto per davvero (l'orario nel suo profilo è quello standard settimanale, non una conferma per questo giorno specifico) — il post non promette apertura oggi, parla solo del prodotto ordinabile online. Non ho scattato foto vere dei due prodotti: l'immagine proposta è tipografica (testo su sfondo colorato), non una foto reale del vasetto.
+
+🔧 Dettagli tecnici: testo completo, caption per i gruppi Facebook e idea visual in `consegne/content/2026-08-16-post-del-giorno-no-fornelli-caldo-PQ.md`; sintesi anche in [[AZIONI-PRONTE]] A41. Reparto: content-social (sintesi AD). Fonte prezzi/descrizioni: query SQL diretta `products` (seller Pane Quotidiano), 2026-08-16 ~12:00.
+
+---
+
+### 🟡 #104 — Correggi 5 righe nelle tue regole di permesso. È il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20 · rinumerata da #81 alle 11:12 (collideva col vecchio #81 tabellare "Merge PR #714", mai riutilizzabile)
 
 **Cosa cambia:** il 4 agosto avevo trovato perché i giri restavano bloccati o scadevano. Cinque righe nel file dei miei permessi dicono "Write" invece di "Edit". Il controllo dei permessi riconosce solo "Edit" per chi scrive file. Per questo, ogni volta che il giro prova a scrivere in memoria, consegne, creativi, cervello o Pannello, il permesso non scatta. Te l'avevo segnalato allora. Non potevo correggerlo da sola: è una protezione voluta, contro il rischio che mi allarghi i permessi da sola. Sono passati 12 giorni. Le righe sono ancora "Write". Ho ricontrollato oggi, 16 agosto. Il giro continua a fallire con lo stesso identico errore. L'ultimo fallimento registrato è del 14/8 alle 11:16. Prima ancora, uno ogni due ore circa, per giorni. Il checkup di salute della macchina è fermo per lo stesso motivo, da oltre 26 ore: non riesce più a scrivere il suo referto.
 
@@ -168,7 +182,7 @@ in scrittura alla macchina, ed è giusto così.
 - **Reparto:** tech
 - **Origine:** `{origine:sessione-2026-08-10-vittoria-winback, ancora:3bda15ad5b5b0be5c920fe926341c08b1a0cc8e9, commit-non-contati:397}`
 
-🔧 Dettagli tecnici: `ancoraDelTurno()`/`piantaAncora()` in `cervello/cancello-stop.mjs`, righe ~661-701. L'ancora avanza solo su turni con `git status --porcelain` vuoto. La funzione che controlla questo stato si chiama `alberoSporco()`. Verificato ora: `git rev-list --count 3bda15ad..HEAD` = 397. L'ultimo commit reale del ramo è `f13968f22` (11:24:38). L'ancora resta ferma al `3bda15ad` del 2026-08-04 00:11. Le 6 PR citate dal cancello risultano già in coda: righe 1636-1639 (679/680/681/683). Più i blocchi `#pr-675`/`#pr-678` sopra.
+🔧 Dettagli tecnici: le due funzioni coinvolte sono `ancoraDelTurno()` e `piantaAncora()`. Vivono in `cervello/cancello-stop.mjs`, righe ~661-701. L'ancora avanza solo su turni con `git status --porcelain` vuoto. La funzione che controlla questo stato si chiama `alberoSporco()`. Verificato ora: `git rev-list --count 3bda15ad..HEAD` = 397. L'ultimo commit reale del ramo è `f13968f22` (11:24:38). L'ancora resta ferma al `3bda15ad` del 2026-08-04 00:11. Le 6 PR citate dal cancello risultano già in coda: righe 1636-1639 (679/680/681/683). Più i blocchi `#pr-675`/`#pr-678` sopra.
 
 <!-- sorvegliante-esenzione-vault -->
 
@@ -176,7 +190,7 @@ in scrittura alla macchina, ed è giusto così.
 
 ### 🟡 #56 — Il controllo automatico grida al lupo su un referto che si aggiorna da solo · ⏳ accodata 2026-08-04 18:30
 
-**Cosa cambia:** `cantiere-prove.json` è il referto dei difetti aperti. Ogni volta che la macchina lo salva, il controllo di sicurezza accusa "hai tolto una difesa" — anche quando il difetto è semplicemente chiuso e il referto si è aggiornato di conseguenza. È successo 153 volte in questa sola sessione. Non è un buco di sicurezza vero: l'ho verificato riga per riga, i test esistono ancora, girano ancora, 131/131 passano. Ma il rumore nasconde i controlli veri.
+**Cosa cambia:** `cantiere-prove.json` è il referto dei difetti aperti. La macchina lo salva spesso. Ogni volta il controllo di sicurezza accusa "hai tolto una difesa" — anche quando il difetto è semplicemente chiuso e il referto si è aggiornato di conseguenza. È successo 153 volte in questa sola sessione. Non è un buco di sicurezza vero: l'ho verificato riga per riga, i test esistono ancora, girano ancora, 131/131 passano. Ma il rumore nasconde i controlli veri.
 
 **Se va bene:** un tecnico decide una delle due cure proposte nel dettaglio e la porta in un branch con la prova che il fix non spalanca la porta ad accuse vere. Non urgente: per ora la macchina lavora attorno al problema (esclude il file dal commit quando serve).
 
@@ -1123,7 +1137,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-16 11:05)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-16 11:41)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-16-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1135,7 +1149,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-16 11:05 · 8 card totali
+> Ultima pulizia: 2026-08-16 11:41 · 8 card totali
 
 ### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 
@@ -1409,3 +1423,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 102 | 2026-08-16 11:08 | @tech | Merge PR #739 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/739 — Centoquattro difetti curati per malattia (radiografia), CI verde (2/2), pronta per la firma. | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 103 | 2026-08-16 11:08 | @tech | Merge PR #738 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/738 — 50 difetti in parallelo, CI verde (2/2), pronta per la firma. | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 105 | 2026-08-16 11:29 | @tech | Il test del cervello è rosso per davvero: un commit di stamattina ha cambiato cosa significa "margine" senza aggiornare il test che lo controlla | 🟡 | `cervello/test/burn-down-che-migliora-da-solo.test.mjs` fallisce su `salute-onesta.mjs --json`: il test si aspetta che `burn_down_margine` sia uguale a `cantiere_aperti_settimana_fa_ignoti` (il margine del confronto con una settimana fa — è il comportamento descritto nel commento in cima al test stesso, scritto quando è nato AR-671). Il commit di stamattina delle 08:37 (`78bcfcc39`, "burn_down_margine conta ADESSO, non a settimana fa") ha cambiato `cervello/salute-onesta.mjs:119` per scrivere lì il margine di ADESSO (`margineOra`) invece di quello di una settimana fa. Non ho capito da solo quale dei due comportamenti sia quello giusto oggi: il nome del commit dice "conta ADESSO" di proposito, ma il test (mai toccato da quel commit) dice ancora l'opposto. Verificato dal vivo lanciando l'intera suite (`node --test cervello/test/**/*.test.mjs`, non solo un grep): su oltre 700 test passati in questo giro, questo è l'unico rosso vero. | manuale | in attesa | Finché resta così, il test del cervello segna rosso davvero (non il solito debito noto) e il vincolo HARD blocca ogni "fatto"/PR finché non si sceglie quale dei due numeri è quello giusto. | Dimmi tu quale margine è quello giusto (adesso o una settimana fa): o si aggiorna il test per riflettere la nuova scelta, o si torna indietro sul commit di stamattina. Poi @tech lo sistema in un ramo, verifica col test e apre la PR. |
+| 106 | 2026-08-16 12:01 | @tech | Merge PR #741 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/741 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |

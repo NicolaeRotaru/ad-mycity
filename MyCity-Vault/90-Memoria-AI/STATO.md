@@ -1,8 +1,32 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 11:23
+aggiornato: 2026-08-16 12:12
 fonte: AD digitale (chat)
 ---
+
+> 🕛 **16/8 12:12 — Punto di mezzogiorno.** Business riconfermato in diretta con query SQL (non ereditato): 1 ordine, mai pagato, del 24/6, 7 clienti, 5 prodotti — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Nessuna novità di business dai passaggi di stamattina.
+>
+> Le 3 priorità di oggi (emerse dai passaggi in chat, non da un Piano del mattino scritto — il battito automatico è fermo da giorni, card #94): ❌ **#62** primo incasso, ferma sul fornaio · ❌ **#36/#37/#38** sicurezza del sito, ferme 18 giorni senza risposta · 🔄 **macchina più affidabile**, lavoro vero fatto (duplicato chiuso, falso allarme OKR riparato, 3 test rotti veri riparati, 2 PR tornate verdi e pronte per la firma — #102/#103 — una terza, #89/PR #735, resta rossa e non va mergiata).
+>
+> **Corretto in rotta:** segnalata a Nicola una card nuova (#106, post per Pane Quotidiano) che non porta il segno "in pausa" degli altri post fermi da luglio — da chiarire se è un'eccezione voluta prima di proporre la firma.
+>
+> Blocco completo in [[RITMO]].
+
+> 🟡 **16/8 12:05 — PLAYBOOK Contenuto del giorno eseguito: 1 post pronto per Pane Quotidiano, in attesa della firma di Nicola.**
+> Angolo nuovo (mai usato finora): "I fornelli restano spenti" — hummus di ceci bio (2,95€) e pesto genovese bio (5€), prezzi e descrizioni letti in diretta dal database (query SQL 16/8 ~12:00, seller Pane Quotidiano), coerenti con la fotografia del 23/7 (nessun prodotto/prezzo cambiato). Gate ONESTA passato: zero numeri inventati, zero testimonianze, nessuna prova sociale numerica citata (0 ordini pagati reali). Non duplica gli angoli già fatti (kefir-colazione 14/7, carosello-catalogo 23/7, BTS-mattina 20/7, volto-bottegaio 9/7).
+> Consegnato in `consegne/content/2026-08-16-post-del-giorno-no-fornelli-caldo-PQ.md`, sintesi in [[AZIONI-PRONTE]] A41, card di firma **#106** in [[AZIONI-IN-ATTESA]] (🔴, pubblicazione — testo e immagine tipografica già pronti, serve solo il via).
+>
+> Resta valido tutto il resto del passaggio delle 11:42 qui sotto (business invariato, pausa concordata fino al 24/8-1/9, coda #62/#36-38/#104/#105/#102-103/#89/#92/#42 invariata).
+
+> ⚪ **16/8 11:42 — Giro richiesto in chat, 19 minuti dopo il passaggio delle 11:23. Nessuna novità di business. Un canale in meno per verificare: GitHub ha rate-limitato le query CI.**
+> Riconfermato dal vivo con `verifica-sensori.mjs` (11:41): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg — identica firma dal 24/6, stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme. `coerenza-fatti.mjs` rieseguito: ✅ memoria coerente, 0 cacce aperte (non riscritto il report: nulla oltre l'ora è cambiato).
+>
+> **`ci-stato.mjs` questa volta NON ha risposto**: GitHub ha risposto 403 "API rate limit exceeded" invece dei dati reali. Non posso riconfermare da qui se PR #735 è ancora rossa o se #739/#738 sono ancora verdi e mergiabili (card #102/#103) — resta lo stato dell'ultimo passaggio (11:23), non riverificato in questo. Lo segnalo nei Gap, non lo do per buono.
+> `chiusura-loop.mjs --sonda` rieseguito: stessi ~103/120 quaderni fermi, nessuno sblocca una card business prima di settembre — vincolo north-star rispettato. `north-star-check.mjs --gate` provato una volta, bloccato dall'allowlist di questa sessione (stesso limite noto, non ritentato).
+>
+> Non ririscritti `auto-analisi.json`, `AUTO-ANALISI.md`, `apprendimento.json` e gli altri `auto-coscienza/*`: freschi da 19 minuti, con dati identici salvo il buco CI qui sopra. Riscriverli ora sarebbe un giro a vuoto ([[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 18 giorni), **#104** (bug Write/Edit nei permessi VPS, causa nota di quasi tutti i giri falliti, 12 giorni senza fix perché serve mano sul VPS), **#105** (scelta di Nicola su `burn_down_margine`), **#102/#103** (merge PR verdi, da riverificare al prossimo passaggio con CI raggiungibile), **#89** (PR #735, non mergiare finché non torna verde), #92 (radiografia completa), #42 (root cause dei 9 controlli AR-687). Briefing: [[Briefing/2026-08-16]].
 
 > ⚪ **16/8 11:23 — Giro richiesto in chat, 11 minuti dopo il passaggio delle 11:12. Nessuna novità.** Strategia snella applicata, nessun motore pesante riaperto.
 > Riconfermato dal vivo con `coerenza-fatti.mjs` (11:20). Memoria coerente, 0 cacce aperte. `ci-stato.mjs` rieseguito: stato invariato. PR #735 resta l'unica rossa, causa nel proprio ramo. #739 e #738 sono verdi, pronte per la firma (#102/#103).
@@ -1767,6 +1791,21 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (🕛 aggiornato 16/8 12:12 — punto di mezzogiorno)
+Business INVARIATO dal 24/6, riconfermato ORA con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (mai pagato, del 24/6), 0 pagati — **stallo 53 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Oggi il battito automatico (Piano del mattino/Report della sera) non è partito da solo (card #94, ferma da quasi 3 giorni): le priorità sotto sono quelle emerse da otto passaggi in chat dalle 07:40 in poi, non da un piano scritto stamattina.
+
+1. [ ] 🔴 **Decidi sulle tre falle di sicurezza/affidabilità del sito** (`#36` pulsante ordine rotto, `#37` dati di negozi/clienti leggibili senza login, `#38` cinque punti dove il marketplace perde soldi da solo) — ferme dal 29/7, **18 giorni**, pronte in branch, aspettano solo il via per l'anteprima.
+2. [ ] 🟡 **Correggi 5 righe nel file dei permessi sul server** (`#104`) — è la causa nota per cui i giri automatici falliscono da quasi due settimane; il checkup di salute è fermo per lo stesso motivo.
+3. [ ] 🔴 **Firma le due richieste di unione tornate verdi** (`#102` PR #739, `#103` PR #738) — codice già curato (154 difetti in due lotti), test passati. Non toccare invece `#89` (PR #735): resta rossa, non va mergiata finché il gate delle lezioni non torna verde.
+
+**Non dimenticare, invariata:** la mossa n.1 resta `#62`, la pratica pagamenti di Pane Quotidiano — il vero blocco del primo incasso, in attesa del fornaio, congelata fino al 24/8-1/9.
+
+**Nuovo da chiarire:** un lavoro automatico ha preparato oggi un post per Pane Quotidiano (`#106`) senza il segno "in pausa" che portano tutti gli altri post social fermi da metà luglio — prima di proporre la firma, verifico con Nicola se è un'eccezione voluta.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 53gg, atteso — negozi in pausa) · REST/MCP Supabase ✅ (riverificati con query diretta 12:02) · resto sensori invariato dall'ultima lettura di stamattina.
+
+---
 
 ## Prossime priorità (☀️ aggiornato 15/8 06:00 — piano del mattino)
 Business INVARIATO dal 24/6, confermato dal sensore diretto delle 22:27 del 14/8 (il più recente disponibile), zero numeri inventati: 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine mai pagato (CANCELED), 0 pagati. **Stallo 53 giorni.** È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Il tasso di chiusura del mese è tornato **sopra soglia (1,04)**: il giro può ricominciare a cercare, ma oggi le tre priorità restano decisioni da chiudere, non ricerche nuove.
