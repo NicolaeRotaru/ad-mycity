@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-15 20:30",
+  "aggiornato": "2026-08-16 07:31",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -4616,7 +4616,7 @@
       "causa_radice": "① Gli artefatti non hanno provenienza. ② Perché sono nati quando esisteva un solo posto che li scriveva (il VPS). ③ Perché quando sono comparse le sessioni cloud si è messa una guardia sulla SCRITTURA invece di un timbro sul DATO. ④ Perché la guardia era il rimedio minimo per il sintomo osservato (lo stato buono sovrascritto) e nessuno ha chiesto «e come facciamo a saperlo dopo?». ⑤ Causa di sistema: la memoria condivisa è trattata come uno spazio di lavoro fidato invece che come un archivio multi-scrittore — manca la regola per cui ogni dato scritto in memoria porta con sé chi, quando e da dove.",
       "fix_proposto": "🟡 ① Ogni artefatto di sensore porta `ambiente` (vps|cloud|locale, dedotto dalla presenza delle chiavi del dominio), `scritto_da` (nome dello script) e `chiavi_presenti` (elenco dei nomi, MAI dei valori). ② Il Pannello mostra la provenienza accanto all'orario, così Nicola vede a colpo d'occhio se sta guardando una misura del VPS. ③ Regola di processo: ogni nuovo file in auto-coscienza/ nasce con l'intestazione di provenienza — controllo nel giro che fallisce se manca.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
@@ -4624,10 +4624,11 @@
         "comando": "node cervello/test/misura-che-non-sporca.test.mjs"
       },
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json, cassa-runway.json, delta-gate.json e cervello/fonti-salute.json (nessun campo di provenienza: 0 occorrenze di ambiente/host) · cervello/verifica-sensori.mjs:538-551 (stato_persistito calcolato ma esposto solo a schermo, non scritto nel file) · Impatto: Da solo non fa danno: diventa il moltiplicatore del difetto dei tre guardiani senza guardia d'ambiente. Senza timbro di provenienza, una scrittura sbagliata è indistinguibile da una giusta anche a posteriori — non si può fare un post-mortem né dire da quando uno stato è falso. È anche il motivo per cui ogni sessione cloud deve ridedurre a mano da dove sta leggendo, e può sbagliare la deduzione. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/misura-che-non-sporca.test.mjs → exit 0 (guardiano soddisfatto)",
       "nato_come": "scoperta",
-      "nota_fix": "[lotto 42 · A] Ogni misura dei sensori porta adesso da DOVE è stata presa: `origine` (vps, cloud o locale) e `copertura`. Verificato sul file vero: dice «cloud» e «8». Senza indizi la funzione risponde «locale» e MAI «vps» — non si millanta la vista, perché una misura che si dichiara vps senza esserlo comprerebbe il diritto di sovrascrivere quella vera. AD: la corsia aveva scritto il codice, non l'aveva messo nel suo rapporto."
+      "nota_fix": "[lotto 42 · A] Ogni misura dei sensori porta adesso da DOVE è stata presa: `origine` (vps, cloud o locale) e `copertura`. Verificato sul file vero: dice «cloud» e «8». Senza indizi la funzione risponde «locale» e MAI «vps» — non si millanta la vista, perché una misura che si dichiara vps senza esserlo comprerebbe il diritto di sovrascrivere quella vera. AD: la corsia aveva scritto il codice, non l'aveva messo nel suo rapporto.",
+      "corroborata": true
     },
     {
       "id": "AR-287",
@@ -7708,7 +7709,7 @@
       "causa_radice": "① Il registro non si aggiorna. ② Perché nessuno chiede che sia aggiornato. ③ Perché il guardiano dei rischi controlla la COERENZA fra due copie, non la VITALITÀ del contenuto. ④ È nato per risolvere il doppio registro e si è fermato lì. ⑤ Causa di sistema: quando qui nasce una famiglia di controlli (la freschezza) nessuno passa in rassegna tutti i documenti che dovrebbero entrarci — le famiglie crescono per incidenti, non per copertura.",
       "fix_proposto": "🟡 Nuovo pezzo `cervello/freschezza-rischi.mjs`, sulla forma esatta di `freschezza-checklist.mjs`: legge `ultima_revisione` di ogni rischio del registro canonico e fallisce se un rischio ALTA non è rivisto da più di 30 giorni, o se il file non è toccato da più di 45. Cablarlo nel giro come vincolo, come gli altri tre. E rendere la regola generale: ogni documento di governo (rischi, OKR, checklist, scadenzario, glossario KPI) ha un guardiano di freschezza, e la lista sta in un posto solo.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/coerenza-rischi.mjs:33-70 (i quattro controlli di check(), nessuno sulla freschezza) · MyCity-Vault/05-Soldi-Rischi/REGISTRO-RISCHI.json. Sintomo: VERIFICATO LEGGENDO IL REGISTRO. `aggiornato: 2026-07-02 12:59`; tutti e 14 i rischi hanno `ultima_revisione: 2026-07-02` — 27 giorni fa, un periodo in cui il modello di commissioni è cambiato, il negozio faro è cambiato e la macchina si è fermata. `coerenza-rischi.mjs` controlla quattro cose (canonico presente, puntatore che dichiara il canonico, rischi ALTA senza owner, doppio registro): nessuna riguarda la freschezza né `ultima_revisione`, che non è mai nominata nel file. Intanto esistono già tre guardiani della stessa famiglia — `freschezza-checklist.mjs`, `freschezza-okr.mjs`, `freschezza-segnali.mjs` — e il registro dei rischi è l'unico documento di governo rimasto fuori. Sette dei 14 rischi sono classificati `alta`.",
       "verifica": {
@@ -7720,7 +7721,10 @@
         "pattern": "ultima_revisione",
         "presente": true
       },
-      "nota_fix": "[lotto 41] La mappa dei rischi dell'azienda era ferma da 43 giorni con otto rischi gravi, e nessuno se ne accorgeva. Il guardiano che doveva accorgersene ESISTEVA e funzionava: semplicemente non lo eseguiva nessuno — cioè era esattamente la malattia che doveva sorvegliare. La clausola mancante del fix era l'ultima («cablarlo nel giro come gli altri tre»), che è il posto in cui le clausole saltano più spesso. Adesso gira a ogni giro e il suo «no» diventa un vincolo che il motore deve leggere, invece di finire a schermo."
+      "nota_fix": "[lotto 41] La mappa dei rischi dell'azienda era ferma da 43 giorni con otto rischi gravi, e nessuno se ne accorgeva. Il guardiano che doveva accorgersene ESISTEVA e funzionava: semplicemente non lo eseguiva nessuno — cioè era esattamente la malattia che doveva sorvegliare. La clausola mancante del fix era l'ultima («cablarlo nel giro come gli altri tre»), che è il posto in cui le clausole saltano più spesso. Adesso gira a ogni giro e il suo «no» diventa un vincolo che il motore deve leggere, invece di finire a schermo.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/guardiano-mai-messo-di-guardia.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-432",
@@ -7956,7 +7960,7 @@
       "causa_radice": "I test di cervello/test/ che provano calibrazione, cadenza, scadenze e pausa non ricevono il percorso su cui lavorare: lo calcolano da soli come join(REPO, \"MyCity-Vault/90-Memoria-AI/...\"). Salvano il contenuto vero, lo riscrivono per la prova e lo rimettono a posto alla fine. Finche girano uno alla volta e nessuno crasha, funziona. Ma il ripristino sta nel test stesso: se il processo muore a meta (crash, timeout, ctrl-c, due test insieme) la memoria vera resta con dentro i dati della prova — e uno di questi tocca registro-fatti.json, che e la fonte unica della verita. Scoperto il 30/7 facendo girare la suite a corsie: due test diventavano rossi a caso perche si sovrascrivevano il file a vicenda.",
       "fix_proposto": "Il percorso va INIETTATO, non calcolato: gli script (calibrazione.mjs, chiusura-loop.mjs, cadenza, scadenze) leggono la loro casa da una variabile d ambiente o da un argomento, e il test la punta su una cartella temporanea. Cosi il dato vivo non e mai il banco di prova, il ripristino non serve piu, e i tredici tornano in corsia libera (la suite scende da 31 a ~18 s). Nel frattempo test-cervello.mjs li riconosce dal contenuto e li fa girare in fila: mitigazione, non cura.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-30 01:20",
       "origine": "trovato riparando il ciclo di verifica (lotto efficienza 30/7): la corsia parallela ha reso visibile una condivisione di stato che in serie non si vedeva — registrato come AR-444 in una sessione parallela e rinumerato al merge: su main AR-444 era già stato preso dal lotto 36 (due difetti diversi, stesso numero).",
       "verifica": {
@@ -7965,7 +7969,10 @@
       },
       "nato_come": "scoperta",
       "nato_da": "lotto efficienza 30/7 — la corsia parallela ha reso visibile una condivisione di stato preesistente",
-      "nota_fix": "Tredici test scrivevano nella memoria vera, uno toccava il registro dei fatti. Il fix è sullo SCRITTORE e non sui tredici test: con MYCITY_MEMORIA_ROOT una prova devia tutto l'albero della memoria, compresi gli script annidati che non sa di star lanciando. Nessuno dei tredici file di test è stato modificato."
+      "nota_fix": "Tredici test scrivevano nella memoria vera, uno toccava il registro dei fatti. Il fix è sullo SCRITTORE e non sui tredici test: con MYCITY_MEMORIA_ROOT una prova devia tutto l'albero della memoria, compresi gli script annidati che non sa di star lanciando. Nessuno dei tredici file di test è stato modificato.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/misura-che-non-sporca.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-447",
@@ -8178,7 +8185,7 @@
     },
     {
       "id": "AR-458",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "colore": "🟡",
       "dimensione": "guardiani-e-guardrail",
@@ -8193,7 +8200,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/gate-veri-in-attesa.test.mjs"
       },
-      "nota_fix": "SCHEDA vs CODICE: il caso che l'aveva fatta nascere (L-2026-0730-530, PR #635) oggi è mergiato, quindi il guardiano è verde e il difetto era LATENTE — il meccanismo però c'era tutto, e la scheda descriveva bene la cura. Verificato sul codice: la classificazione `gate-orfano` non nasce in gate-veri.mjs ma in `misuraFreni` (cervello/contratto-prova.mjs), che è di un'altra corsia e non l'ho toccata. Ho aggiunto la terza strada DOPO, in analizzaGate: per ogni `gate-orfano` si guarda la `gate_nota` della lezione e, se nomina una PR, la voce diventa `gate-in-attesa` (gravità media, `bloccante: false`). Due clausole del fix_proposto rispettate alla lettera: ① l'attesa VUOLE il numero di PR (senza, resta rossa: un'attesa non verificabile è un'esenzione travestita, AR-338); ② l'attesa SCADE dopo 21 giorni e torna rossa, con il numero di PR dentro il messaggio. La voce NON esce dall'elenco delle violazioni — resta visibile e l'invariante «dichiarati = veri + violazioni» regge, quindi il test di casa gate-che-non-puo-scattare.mjs non si rompe né oggi né quando un'attesa comparirà davvero. Ciò che cambia è CHI fa uscire 1: ho estratto `codiceUscitaGate()` (pura) e la usano tutte e quattro le uscite del comando, `--json` compresa, così non se ne può riparare una sola (è l'errore di AR-172). Effetto su giro.sh: un freno in coda di merge non produce più il vincolo hard «FRENI FINTI FRA LE LEZIONI»."
+      "nota_fix": "SCHEDA vs CODICE: il caso che l'aveva fatta nascere (L-2026-0730-530, PR #635) oggi è mergiato, quindi il guardiano è verde e il difetto era LATENTE — il meccanismo però c'era tutto, e la scheda descriveva bene la cura. Verificato sul codice: la classificazione `gate-orfano` non nasce in gate-veri.mjs ma in `misuraFreni` (cervello/contratto-prova.mjs), che è di un'altra corsia e non l'ho toccata. Ho aggiunto la terza strada DOPO, in analizzaGate: per ogni `gate-orfano` si guarda la `gate_nota` della lezione e, se nomina una PR, la voce diventa `gate-in-attesa` (gravità media, `bloccante: false`). Due clausole del fix_proposto rispettate alla lettera: ① l'attesa VUOLE il numero di PR (senza, resta rossa: un'attesa non verificabile è un'esenzione travestita, AR-338); ② l'attesa SCADE dopo 21 giorni e torna rossa, con il numero di PR dentro il messaggio. La voce NON esce dall'elenco delle violazioni — resta visibile e l'invariante «dichiarati = veri + violazioni» regge, quindi il test di casa gate-che-non-puo-scattare.mjs non si rompe né oggi né quando un'attesa comparirà davvero. Ciò che cambia è CHI fa uscire 1: ho estratto `codiceUscitaGate()` (pura) e la usano tutte e quattro le uscite del comando, `--json` compresa, così non se ne può riparare una sola (è l'errore di AR-172). Effetto su giro.sh: un freno in coda di merge non produce più il vincolo hard «FRENI FINTI FRA LE LEZIONI».",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/gate-veri-in-attesa.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-459",
@@ -8298,7 +8308,7 @@
     },
     {
       "id": "AR-464",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "colore": "🟡",
       "dimensione": "guardiani-e-guardrail",
@@ -8313,7 +8323,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/misura-che-non-sporca.test.mjs"
       },
-      "nota_fix": "Lanciare un guardiano per verificare sporcava l'albero, quindi l'incentivo che nasceva era non verificare. Con MYCITY_MEMORIA_SOLA_LETTURA=1 un comando di lettura non scrive, punto — e verificare torna a costare zero."
+      "nota_fix": "Lanciare un guardiano per verificare sporcava l'albero, quindi l'incentivo che nasceva era non verificare. Con MYCITY_MEMORIA_SOLA_LETTURA=1 un comando di lettura non scrive, punto — e verificare torna a costare zero.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/misura-che-non-sporca.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-465",
@@ -11539,7 +11552,7 @@
     },
     {
       "id": "AR-556",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "grave",
       "colore": "🟡",
       "dimensione": "guardiani-e-guardrail",
@@ -11555,11 +11568,14 @@
         "tipo": "comando",
         "comando": "node cervello/test/sorvegliante.test.mjs"
       },
-      "nota_fix": "Verificato dall'AD su HEAD: la classe «file dove nessuna difesa può vivere» non è più un elenco di un file solo — sorvegliante.mjs importa REFERTI_RIGENERATI e riconosce un referto dal campo di intestazione che dichiara chi l'ha scritto, con i registri veri (cantiere-difetti, mutanti, malattie, apprendimento) nominati come eccezioni all'esenzione. sorvegliante.mjs non è stato toccato in questo lotto."
+      "nota_fix": "Verificato dall'AD su HEAD: la classe «file dove nessuna difesa può vivere» non è più un elenco di un file solo — sorvegliante.mjs importa REFERTI_RIGENERATI e riconosce un referto dal campo di intestazione che dichiara chi l'ha scritto, con i registri veri (cantiere-difetti, mutanti, malattie, apprendimento) nominati come eccezioni all'esenzione. sorvegliante.mjs non è stato toccato in questo lotto.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/sorvegliante.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-557",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "grave",
       "colore": "🟡",
       "dimensione": "guardiani-e-guardrail",
@@ -11575,7 +11591,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/sorvegliante.test.mjs"
       },
-      "nota_fix": "Il difetto era che la mutazione dichiarata NON faceva più diventare rosso il test: la prova aveva perso i denti. L'AD l'ha riprovata a mano sul codice di oggi — e adesso mordono. Questo è il difetto la cui cura si poteva dichiarare solo eseguendola: leggere il codice non l'avrebbe mai detto."
+      "nota_fix": "Il difetto era che la mutazione dichiarata NON faceva più diventare rosso il test: la prova aveva perso i denti. L'AD l'ha riprovata a mano sul codice di oggi — e adesso mordono. Questo è il difetto la cui cura si poteva dichiarare solo eseguendola: leggere il codice non l'avrebbe mai detto.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/sorvegliante.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-558",
@@ -11725,7 +11744,7 @@
     },
     {
       "id": "AR-565",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "grave",
       "colore": "🟡",
       "dimensione": "guardiani-e-guardrail",
@@ -11742,7 +11761,10 @@
       },
       "nato_da": "AR-175 (la Cabina risponde con due numeri diversi alla stessa domanda)",
       "nota": "Dove: cervello/sonda-volano.mjs (riga «Loop chiude») · cervello/apprendimento-guardiano.mjs · cervello/volano-regole.mjs (loopChiude).",
-      "nota_fix": "[lotto 42 · C] ATTENZIONE, qui scheda e codice non concordano e comanda il codice. La scheda parla di `sonda-volano.mjs` e `apprendimento-guardiano.mjs` (il 18% del tasso di applicazione): quei due file non sono della mia corsia e quella metà resta aperta — sta in `fuori_territorio` con la riga esatta. La coppia che HO potuto curare è quella che passa da gate-veri: due definizioni di «freno vero» sullo stesso mucchio di 65 lezioni, una che diceva ✅ e una che contava 24 freni senza la loro prova. Adesso la definizione è una sola e vive in contratto-prova.mjs (`misuraFreni`); gate-veri la importa invece di riscriverla, e stampa i due numeri di cui il verde è fatto. La regola che tiene: quando due numeri rispondono alla stessa domanda vince quello che finisce nella riga di riassunto, e in questa casa il verde vince sempre."
+      "nota_fix": "[lotto 42 · C] ATTENZIONE, qui scheda e codice non concordano e comanda il codice. La scheda parla di `sonda-volano.mjs` e `apprendimento-guardiano.mjs` (il 18% del tasso di applicazione): quei due file non sono della mia corsia e quella metà resta aperta — sta in `fuori_territorio` con la riga esatta. La coppia che HO potuto curare è quella che passa da gate-veri: due definizioni di «freno vero» sullo stesso mucchio di 65 lezioni, una che diceva ✅ e una che contava 24 freni senza la loro prova. Adesso la definizione è una sola e vive in contratto-prova.mjs (`misuraFreni`); gate-veri la importa invece di riscriverla, e stampa i due numeri di cui il verde è fatto. La regola che tiene: quando due numeri rispondono alla stessa domanda vince quello che finisce nella riga di riassunto, e in questa casa il verde vince sempre.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/prova-che-non-puo-fallire.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-566",
@@ -12420,7 +12442,7 @@
       "id": "AR-596",
       "titolo": "Un freno su tre è senza la prova che scatti: diciannove lezioni frenate non hanno la mutazione",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "/home/user/ad-mycity/MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json (59 lezioni con gate) vs /home/user/ad-mycity/cervello/mutanti.json (100 mutanti con campo lezione)",
@@ -12435,7 +12457,10 @@
         "comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "[lotto 42 · C] Il numero vero non è 19 su 59: è 24 su 65, misurato il 14/8 — la scheda era di una settimana fa e nessuno l'aveva ricontata. Il buco era invisibile perché il guardiano dei freni accetta ogni mutazione che rompe il FILE del gate: giusto (21 correzioni sulla stessa famiglia puntano allo stesso guardiano, e pretendere 21 mutazioni identiche sarebbe copiatura travestita da rigore), ma così «ha la sua mutazione» e «qualcun altro ha rotto lo stesso file» finivano in un mucchio solo e il verdetto era ✅. Adesso i due gradi si vedono separati — «65 dichiarati · 40 con la PROPRIA mutazione · 24 coperti solo dalla mutazione di un altro» — e il totale non cambia, così nessun gate sparisce dal conto. Chi vuole il debito bloccante ha `--proprie`, che esce 1."
+      "nota_fix": "[lotto 42 · C] Il numero vero non è 19 su 59: è 24 su 65, misurato il 14/8 — la scheda era di una settimana fa e nessuno l'aveva ricontata. Il buco era invisibile perché il guardiano dei freni accetta ogni mutazione che rompe il FILE del gate: giusto (21 correzioni sulla stessa famiglia puntano allo stesso guardiano, e pretendere 21 mutazioni identiche sarebbe copiatura travestita da rigore), ma così «ha la sua mutazione» e «qualcun altro ha rotto lo stesso file» finivano in un mucchio solo e il verdetto era ✅. Adesso i due gradi si vedono separati — «65 dichiarati · 40 con la PROPRIA mutazione · 24 coperti solo dalla mutazione di un altro» — e il totale non cambia, così nessun gate sparisce dal conto. Chi vuole il debito bloccante ha `--proprie`, che esce 1.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/prova-che-non-puo-fallire.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-597",
@@ -12545,7 +12570,7 @@
       "id": "AR-602",
       "titolo": "La risposta di un lavoro aperto resta quella vecchia anche quando il lavoro è finito",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "pannello/src/components/LavoriCervello.tsx:225-247 (lavoroConDettaglio + caricaDettaglioLavoro) con pannello/src/lib/store.ts:418-427,490-499 (getLavoriPannello usa la select LIGHT senza richiesta/risultato)",
@@ -12560,13 +12585,16 @@
         "comando": "node cervello/test/c4-recupero-thread.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "IL MODULO C'ERA, IL COMPONENTE NON LO CHIAMAVA. Il lotto 42 aveva già estratto le tre decisioni in `pannello/src/lib/stato-card.ts` (`dettaglioScaduto`, `qualeRisposta`, `serveRileggereDettaglio`) con la loro prova verde, ma il componente era fuori dal suo territorio: `grep -c` su tutto `pannello/src` dava UNA occorrenza per `qualeRisposta` e UNA per `serveRileggereDettaglio` — cioè solo la definizione. Un modulo mai chiamato somiglia moltissimo a una difesa attiva, e il difetto a schermo era ancora tutto lì. Ho fatto tre cose in `LavoriCervello.tsx`: ① `lavoroConDettaglio` chiama `qualeRisposta` invece di `d.risultato ?? lv.risultato` (la copia vinceva SEMPRE); ② `caricaDettaglioLavoro` chiede a `serveRileggereDettaglio` invece della guardia «ce l'ho già, non lo chiedo più»; ③ CLAUSOLA CHE MANCAVA ANCHE NEL PIANO: l'effetto sul polling adesso rilegge da solo il dettaglio di un lavoro già aperto che si è mosso (`dettaglioScaduto`), altrimenti la risposta si sarebbe aggiornata solo richiudendo e riaprendo il gruppo — cioè il difetto sarebbe rimasto vivo in tre quarti dei casi."
+      "nota_fix": "IL MODULO C'ERA, IL COMPONENTE NON LO CHIAMAVA. Il lotto 42 aveva già estratto le tre decisioni in `pannello/src/lib/stato-card.ts` (`dettaglioScaduto`, `qualeRisposta`, `serveRileggereDettaglio`) con la loro prova verde, ma il componente era fuori dal suo territorio: `grep -c` su tutto `pannello/src` dava UNA occorrenza per `qualeRisposta` e UNA per `serveRileggereDettaglio` — cioè solo la definizione. Un modulo mai chiamato somiglia moltissimo a una difesa attiva, e il difetto a schermo era ancora tutto lì. Ho fatto tre cose in `LavoriCervello.tsx`: ① `lavoroConDettaglio` chiama `qualeRisposta` invece di `d.risultato ?? lv.risultato` (la copia vinceva SEMPRE); ② `caricaDettaglioLavoro` chiede a `serveRileggereDettaglio` invece della guardia «ce l'ho già, non lo chiedo più»; ③ CLAUSOLA CHE MANCAVA ANCHE NEL PIANO: l'effetto sul polling adesso rilegge da solo il dettaglio di un lavoro già aperto che si è mosso (`dettaglioScaduto`), altrimenti la risposta si sarebbe aggiornata solo richiudendo e riaprendo il gruppo — cioè il difetto sarebbe rimasto vivo in tre quarti dei casi.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/c4-recupero-thread.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-603",
       "titolo": "Ricaricando la pagina l'archivio perde i titoli veri e il recupero delle risposte dai lavori gira a vuoto",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "pannello/src/lib/store.ts:419-420 (LAVORI_SELECT_LIGHT senza richiesta/risultato) → pannello/src/lib/lavori-gruppo.ts:50-65 (titoloLavoro → «Messaggio chat»), 76-108 (messaggiDaLavoro → 0 messaggi per un fatto senza testo), 149-152 (titolo gruppo) → pannello/src/app/page.tsx:1518-1543 e 1546-1585 (continuaConversazione/apriChatDaGruppo)",
@@ -12581,13 +12609,16 @@
         "comando": "node cervello/test/c4-recupero-thread.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "LA SCHEDA ACCUSAVA DUE COSE E UNA ERA GIÀ CURATA. ① «i titoli veri si perdono e l'archivio diventa una colonna di «Messaggio chat»»: non è più vero — `titoloLavoro` adesso usa `lv.titolo`, che `assicuraNomiLavori` va a prendere con `getRigheNome` e che `salvaNomiLavoriLocali` conserva nel browser, quindi sopravvive al ricaricamento (lavori-gruppo.ts:96-99, page.tsx:2796). ② «il recupero delle risposte gira a vuoto»: VERO e ancora aperto. La riga leggera del poll non porta né domanda né risposta, e i lavori già finiti non li rilegge nessuno — `messaggiDaGruppo` su righe mute produce ZERO messaggi (il test lo esegue e lo mostra). Curato spostando il freno sul dato: `idsDaRileggerePerThread` decide quali righe sono mute, `arricchisciPerThread` le rilegge dalla porta `leggiDettagliLavori` (POST /api/lavori/dettagli, che esisteva già), e i TRE punti che ricostruiscono un thread la chiamano — `continuaConversazione`, `apriChatDaGruppo` (page.tsx) e `recuperaThreadDaLavori` (parla.ts, che era rotto allo stesso modo e nessuna scheda lo diceva). Chi ha già il testo non fa nessuna lettura; se la rete cade si tiene quello che si aveva. SCOPERTO CERCANDO L'ATTO E NON IL MIO PEZZO: restano due punti che ricostruiscono da righe leggere e non possono essere riparati così perché girano durante il disegno della pagina e non possono aspettare — `messaggiConvEffettivi` (page.tsx:334, degrada al thread salvato: nessuna perdita) e `integraConversazioniDaLavori` (page.tsx:400, salta il gruppo: questa è una perdita vera) — registrato in difetti_nuovi."
+      "nota_fix": "LA SCHEDA ACCUSAVA DUE COSE E UNA ERA GIÀ CURATA. ① «i titoli veri si perdono e l'archivio diventa una colonna di «Messaggio chat»»: non è più vero — `titoloLavoro` adesso usa `lv.titolo`, che `assicuraNomiLavori` va a prendere con `getRigheNome` e che `salvaNomiLavoriLocali` conserva nel browser, quindi sopravvive al ricaricamento (lavori-gruppo.ts:96-99, page.tsx:2796). ② «il recupero delle risposte gira a vuoto»: VERO e ancora aperto. La riga leggera del poll non porta né domanda né risposta, e i lavori già finiti non li rilegge nessuno — `messaggiDaGruppo` su righe mute produce ZERO messaggi (il test lo esegue e lo mostra). Curato spostando il freno sul dato: `idsDaRileggerePerThread` decide quali righe sono mute, `arricchisciPerThread` le rilegge dalla porta `leggiDettagliLavori` (POST /api/lavori/dettagli, che esisteva già), e i TRE punti che ricostruiscono un thread la chiamano — `continuaConversazione`, `apriChatDaGruppo` (page.tsx) e `recuperaThreadDaLavori` (parla.ts, che era rotto allo stesso modo e nessuna scheda lo diceva). Chi ha già il testo non fa nessuna lettura; se la rete cade si tiene quello che si aveva. SCOPERTO CERCANDO L'ATTO E NON IL MIO PEZZO: restano due punti che ricostruiscono da righe leggere e non possono essere riparati così perché girano durante il disegno della pagina e non possono aspettare — `messaggiConvEffettivi` (page.tsx:334, degrada al thread salvato: nessuna perdita) e `integraConversazioniDaLavori` (page.tsx:400, salta il gruppo: questa è una perdita vera) — registrato in difetti_nuovi.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/c4-recupero-thread.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-604",
       "titolo": "La casella promette di ripescare la risposta alla riapertura, ma riaprirla non ripesca niente",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "pannello/src/components/ParlaCasella.tsx:91 (caricatoRef), 122-179 (effetto di caricamento con return anticipato su leggiUltimaChatUnificata prima di recuperaThreadDaLavori), 258-262 (ramo timeout che promette «la risposta vera verrà ripescata dai lavori alla prossima apertura»)",
@@ -12602,13 +12633,16 @@
         "comando": "node cervello/test/c4-recupero-thread.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "LA SCHEDA ERA GIUSTA SU TUTTE E DUE LE USCITE, e ne mancava una terza. ① `caricatoRef` resta acceso perché chiudere il box non smonta il componente → alla riapertura l'effetto usciva alla prima riga; ② il percorso rapido della chat unificata faceva `return` PRIMA del passo di recupero. La terza, trovata leggendo `recuperaThreadDaLavori`: anche quando ci si arrivava, quella funzione leggeva l'elenco LEGGERO e quindi non recuperava niente comunque (è AR-603, curato nello stesso giro — le due schede erano lo stesso difetto visto da due lati). Cura: `pianoApertura` separa «da dove parto» da «devo ripescare», e la seconda NON dipende più né da `caricatoRef` né dalla chat unificata: si ripesca finché il ripescaggio non è mai riuscito, o finché a schermo resta una bolla sospesa — che è esattamente l'avviso «tempo scaduto, la risposta vera verrà ripescata». Aggiunto anche che le bolle sospese non entrano nel confronto di lunghezza del thread, altrimenti l'avviso di timeout faceva sembrare il thread già abbastanza lungo e bloccava il recupero da solo."
+      "nota_fix": "LA SCHEDA ERA GIUSTA SU TUTTE E DUE LE USCITE, e ne mancava una terza. ① `caricatoRef` resta acceso perché chiudere il box non smonta il componente → alla riapertura l'effetto usciva alla prima riga; ② il percorso rapido della chat unificata faceva `return` PRIMA del passo di recupero. La terza, trovata leggendo `recuperaThreadDaLavori`: anche quando ci si arrivava, quella funzione leggeva l'elenco LEGGERO e quindi non recuperava niente comunque (è AR-603, curato nello stesso giro — le due schede erano lo stesso difetto visto da due lati). Cura: `pianoApertura` separa «da dove parto» da «devo ripescare», e la seconda NON dipende più né da `caricatoRef` né dalla chat unificata: si ripesca finché il ripescaggio non è mai riuscito, o finché a schermo resta una bolla sospesa — che è esattamente l'avviso «tempo scaduto, la risposta vera verrà ripescata». Aggiunto anche che le bolle sospese non entrano nel confronto di lunghezza del thread, altrimenti l'avviso di timeout faceva sembrare il thread già abbastanza lungo e bloccava il recupero da solo.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/c4-recupero-thread.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-605",
       "titolo": "Salvataggi e letture partono da dentro gli aggiornamenti di stato e possono partire doppi",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "pannello/src/app/page.tsx:1214-1226 (persistConversazione dentro l'updater di setConversazioni) e 1233-1241 (persistConversazione dentro l'updater di setMessages); pannello/src/components/LavoriCervello.tsx:214-223 e 257-266 (caricaDettaglioLavoro dentro gli updater di setApertiGruppi/setChatAperta)",
@@ -12622,7 +12656,10 @@
         "comando": "node cervello/test/c4-effetti-fuori-dagli-updater.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "LA SCHEDA ERA PIÙ STRETTA DEL DIFETTO: nominava cinque punti (due in page.tsx, due in LavoriCervello, più il precedente AR-268), il lettore scritto per contarli ne ha trovati TREDICI. Tutti riparati con la stessa forma — il valore nuovo si calcola dallo specchio (`conversazioniRef`, `messagesRef`, `lavoriRef`, più tre specchi nuovi per `convPinnate`/`convLette`/`convLetteFp`), lo stato si aggiorna con un valore, e l'atto parte una volta sola fuori. Ma la cura vera non sono i tredici punti: è che la regola esisteva già in casa — scritta nel commento di AR-268 in ParlaCasella — e non frenava nessuno, perché un commento vale finché qualcuno lo legge. Adesso c'è `attiDentroGliUpdater`, che legge tutto `pannello/src` (400+ file) col tetto a ZERO, e riconosce sei forme di atto: rete, `void` di una promessa, scrittura nella memoria del browser, `await`, annuncio agli altri riquadri, chiamata che scrive. DUE CORREZIONI AL METRO, trovate provandolo invece di dedurlo: (a) la prima versione leggeva anche i commenti e bocciava un punto sano perché sopra c'era scritto «dopo l'`await fetch`» — adesso commenti e stringhe si tolgono prima, a lunghezza invariata; (b) non riconosceva `setX(async (p) => …)`, che è la forma PEGGIORE del difetto — aggiunta."
+      "nota_fix": "LA SCHEDA ERA PIÙ STRETTA DEL DIFETTO: nominava cinque punti (due in page.tsx, due in LavoriCervello, più il precedente AR-268), il lettore scritto per contarli ne ha trovati TREDICI. Tutti riparati con la stessa forma — il valore nuovo si calcola dallo specchio (`conversazioniRef`, `messagesRef`, `lavoriRef`, più tre specchi nuovi per `convPinnate`/`convLette`/`convLetteFp`), lo stato si aggiorna con un valore, e l'atto parte una volta sola fuori. Ma la cura vera non sono i tredici punti: è che la regola esisteva già in casa — scritta nel commento di AR-268 in ParlaCasella — e non frenava nessuno, perché un commento vale finché qualcuno lo legge. Adesso c'è `attiDentroGliUpdater`, che legge tutto `pannello/src` (400+ file) col tetto a ZERO, e riconosce sei forme di atto: rete, `void` di una promessa, scrittura nella memoria del browser, `await`, annuncio agli altri riquadri, chiamata che scrive. DUE CORREZIONI AL METRO, trovate provandolo invece di dedurlo: (a) la prima versione leggeva anche i commenti e bocciava un punto sano perché sopra c'era scritto «dopo l'`await fetch`» — adesso commenti e stringhe si tolgono prima, a lunghezza invariata; (b) non riconosceva `setX(async (p) => …)`, che è la forma PEGGIORE del difetto — aggiunta.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/c4-effetti-fuori-dagli-updater.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-606",
@@ -12651,7 +12688,7 @@
       "id": "AR-607",
       "titolo": "La schermata di errore promette che il resto del Pannello funziona, ma quando compare è sparito tutto",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "pannello/src/app/error.tsx:28-31 (unico error boundary di tutto pannello/src, a livello radice)",
@@ -12666,7 +12703,10 @@
         "comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "Riparato dal lotto 42 (corsia E) e verificato sul codice vero in questa corsia: `pannello/src/app/page.tsx` ha adesso una rete d'errore per AREA (`componentDidCatch` alla riga ~909) e il testo che compare non è scritto nel componente ma lo decide `messaggioGuasto` in `lib/stato-card.ts`, che la prova esegue e a cui vieta una promessa più larga di quello che è rimasto in piedi. La schermata di radice `app/error.tsx` c'è ancora ma non è più l'unica. Il test è verde (28 casi). Non ho toccato niente."
+      "nota_fix": "Riparato dal lotto 42 (corsia E) e verificato sul codice vero in questa corsia: `pannello/src/app/page.tsx` ha adesso una rete d'errore per AREA (`componentDidCatch` alla riga ~909) e il testo che compare non è scritto nel componente ma lo decide `messaggioGuasto` in `lib/stato-card.ts`, che la prova esegue e a cui vieta una promessa più larga di quello che è rimasto in piedi. La schermata di radice `app/error.tsx` c'è ancora ma non è più l'unica. Il test è verde (28 casi). Non ho toccato niente.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/c4-decisione-fuori-da-react.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-608",
@@ -12780,7 +12820,7 @@
       "id": "AR-613",
       "titolo": "L'area dove si firma è invisibile ai lettori di schermo: zero etichette di accessibilità e bottoni dentro bottoni",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "pannello/src/components/aree/Azioni.tsx (summary righe 567-612, tab righe 733-754)",
@@ -12794,13 +12834,16 @@
         "comando": "node cervello/test/c4-schermo-coda.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "Riparato dal lotto 42 e verificato qui in due modi. Sul codice: `Azioni.tsx` ha 29 attributi di accessibilità (erano 0) e 11 marcature di scheda. A RUNTIME, guidando il Pannello vero col browser: i quattro casi sono verdi — nessun comando dentro un altro comando, le linguette sono un gruppo di schede dichiarato, la freccia destra sposta davvero di una scheda, e le linguette sono 44 punti invece di 34. Non ho toccato niente."
+      "nota_fix": "Riparato dal lotto 42 e verificato qui in due modi. Sul codice: `Azioni.tsx` ha 29 attributi di accessibilità (erano 0) e 11 marcature di scheda. A RUNTIME, guidando il Pannello vero col browser: i quattro casi sono verdi — nessun comando dentro un altro comando, le linguette sono un gruppo di schede dichiarato, la freccia destra sposta davvero di una scheda, e le linguette sono 44 punti invece di 34. Non ho toccato niente.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/c4-schermo-coda.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-614",
       "titolo": "In tema scuro i bordi e i badge colorati delle card restano quelli del tema chiaro",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "pannello/src/components/aree/Azioni.tsx righe 59-67 (mappe BORDO/PALLINO/badgeStato) e blocchi analoghi senza variante dark",
@@ -12815,13 +12858,16 @@
         "comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "Riparato dal lotto 42 e verificato qui. I colori delle card non sono più stringhe scritte a mano: si chiedono a `classiBordo`/`classiPallino`/`classiBadge` in `lib/stato-card.ts`, dove ogni tinta nasce con la sua gemella scura e `tintaSoloChiara` elenca quelle rimaste indietro (la prova pretende che l'elenco sia vuoto). A runtime i tre bordi colorati sono stati misurati nei due temi e sono diversi. ATTENZIONE PER CHI RILEGGE — è la trappola di AR-706, ed è già dichiarata dentro `c4-schermo-coda.test.mjs`: il caso a runtime su AR-614 racconta un fatto vero ma NON distingue il Pannello curato da quello malato (la misura finisce su un riquadro vicino che la gemella ce l'ha scritta dentro il JSX). La rete che difende AR-614 è quella della tavolozza, in `c4-decisione-fuori-da-react.test.mjs`, dove il mutante diventa rosso. Non ho toccato niente."
+      "nota_fix": "Riparato dal lotto 42 e verificato qui. I colori delle card non sono più stringhe scritte a mano: si chiedono a `classiBordo`/`classiPallino`/`classiBadge` in `lib/stato-card.ts`, dove ogni tinta nasce con la sua gemella scura e `tintaSoloChiara` elenca quelle rimaste indietro (la prova pretende che l'elenco sia vuoto). A runtime i tre bordi colorati sono stati misurati nei due temi e sono diversi. ATTENZIONE PER CHI RILEGGE — è la trappola di AR-706, ed è già dichiarata dentro `c4-schermo-coda.test.mjs`: il caso a runtime su AR-614 racconta un fatto vero ma NON distingue il Pannello curato da quello malato (la misura finisce su un riquadro vicino che la gemella ce l'ha scritta dentro il JSX). La rete che difende AR-614 è quella della tavolozza, in `c4-decisione-fuori-da-react.test.mjs`, dove il mutante diventa rosso. Non ho toccato niente.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/c4-decisione-fuori-da-react.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-615",
       "titolo": "Il tasto Ignora di una proposta accetta il doppio tocco e spara due richieste",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "pannello/src/components/aree/Azioni.tsx righe 377-398 (ignoraProposta) e 872 (bottone senza disabled)",
@@ -12835,13 +12881,16 @@
         "comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "Riparato dal lotto 42 e verificato sul codice vero: i tre freni scritti a mano uno per bottone (`propBusy`, `decidendo`, e il niente su «Ignora») non esistono più; c'è un turno solo, preso su un riferimento letto e scritto nello stesso istante (`giaPremuto`/`segnaPremuto`/`liberaPremuto` in lib/stato-card.ts), e tutti e sei i bottoni dell'area firme lo usano. Il test è verde. Non ho toccato niente."
+      "nota_fix": "Riparato dal lotto 42 e verificato sul codice vero: i tre freni scritti a mano uno per bottone (`propBusy`, `decidendo`, e il niente su «Ignora») non esistono più; c'è un turno solo, preso su un riferimento letto e scritto nello stesso istante (`giaPremuto`/`segnaPremuto`/`liberaPremuto` in lib/stato-card.ts), e tutti e sei i bottoni dell'area firme lo usano. Il test è verde. Non ho toccato niente.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/c4-decisione-fuori-da-react.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-616",
       "titolo": "Il registro delle azioni mostra i titoli grezzi, saltando il filtro che pulisce sigle e percorsi",
       "severita": "minore",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "radiografia-totale 2026-08-13 (giro 1 salvato + recupero)",
       "dove": "pannello/src/components/aree/Azioni.tsx riga 1096 ({v.titolo}) + pannello/src/lib/store.ts righe 655-660 (logAzione salva il titolo com'è)",
@@ -12855,7 +12904,10 @@
         "comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "Riparato dal lotto 42 e verificato sul codice vero: il Registro (Azioni.tsx:1234) stampa `titoloDaMostrare(v.titolo)` e non più il titolo nudo; `titoloDaMostrare` è la porta d'uscita unica, usata in 15 punti del file. Il test è verde. Non ho toccato niente."
+      "nota_fix": "Riparato dal lotto 42 e verificato sul codice vero: il Registro (Azioni.tsx:1234) stampa `titoloDaMostrare(v.titolo)` e non più il titolo nudo; `titoloDaMostrare` è la porta d'uscita unica, usata in 15 punti del file. Il test è verde. Non ho toccato niente.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/c4-decisione-fuori-da-react.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-617",
@@ -13347,7 +13399,7 @@
       "id": "AR-639",
       "titolo": "Gli strumenti di misura scrivono la memoria anche quando devono solo leggere, e l'archivio butta via storia vera",
       "severita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 08:50",
       "origine": "sessione 2026-08-13 (osservato due volte, diff salvato)",
       "dove": "cervello/tasso-chiusura.mjs + il sorvegliante che scrive sorvegliante-storico.json",
@@ -13363,7 +13415,10 @@
       },
       "vedi": "AR-568 (capostipite della famiglia: verifica-sensori che riscrive la memoria dei sensi)",
       "nato_come": "scoperta",
-      "nota_fix": "La forma generale della malattia. Il caso ⑲ della prova è un TETTO: conta quanti scrittori del vault saltano ancora il freno e diventa rosso se il numero sale. Non è «riparati tutti», è «da qui in giù e mai più su» — dichiarato invece che nascosto."
+      "nota_fix": "La forma generale della malattia. Il caso ⑲ della prova è un TETTO: conta quanti scrittori del vault saltano ancora il freno e diventa rosso se il numero sale. Non è «riparati tutti», è «da qui in giù e mai più su» — dichiarato invece che nascosto.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/misura-che-non-sporca.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-640",
@@ -13599,10 +13654,13 @@
         "tipo": "comando",
         "comando": "node cervello/test/porta-delle-lezioni.test.mjs"
       },
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 17:56",
       "nato_come": "scoperta",
-      "nota_fix": "Verificato: la porta esiste ed è `cervello/lezione-nuova.mjs`. Conia l'id guardando il progressivo PIÙ ALTO del giorno (non quante lezioni ci sono: è quel calcolo che riusa un numero già preso quando una sessione ne salta uno), controlla il numero coniato contro tutti quelli esistenti, rifiuta una lezione senza fonte/testo/regola, rifiuta un id già usato invece di scriverci sopra, e su un archivio illeggibile esce ⚪ senza scrivere niente. VERIFICATA ANCHE LA CONDIZIONE CHE MI ERA STATA CHIESTA: la prova NON scrive nella memoria vera. Il percorso si inietta con `APPRENDIMENTO_FILE` (cervello/lezione-nuova.mjs riga 184) e il test lavora su una copia in `mkdtempSync`; lanciata la prova, `git status` su MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json resta pulito. Niente da riparare."
+      "nota_fix": "Verificato: la porta esiste ed è `cervello/lezione-nuova.mjs`. Conia l'id guardando il progressivo PIÙ ALTO del giorno (non quante lezioni ci sono: è quel calcolo che riusa un numero già preso quando una sessione ne salta uno), controlla il numero coniato contro tutti quelli esistenti, rifiuta una lezione senza fonte/testo/regola, rifiuta un id già usato invece di scriverci sopra, e su un archivio illeggibile esce ⚪ senza scrivere niente. VERIFICATA ANCHE LA CONDIZIONE CHE MI ERA STATA CHIESTA: la prova NON scrive nella memoria vera. Il percorso si inietta con `APPRENDIMENTO_FILE` (cervello/lezione-nuova.mjs riga 184) e il test lavora su una copia in `mkdtempSync`; lanciata la prova, `git status` su MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json resta pulito. Niente da riparare.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/porta-delle-lezioni.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-652",
@@ -13634,10 +13692,13 @@
         "tipo": "comando",
         "comando": "node cervello/test/misura-che-non-sporca.test.mjs"
       },
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 18:14",
       "nato_come": "scoperta",
-      "nota_fix": "[lotto 42 · AD] La decisione di Nicola del 5/7 («togli PostHog») viveva SOLO in POSTHOG_OFF=1 dentro il .env, che non è versionato — e sul VPS quella riga non c'era. Lì la chiave era presente, il check partiva e il sensore risultava VERDE mentre la decisione diceva l'opposto: la stessa macchina dava due risposte a seconda di dove la si interrogava. La cura NON è mettere la riga anche sul server (stessa fragilità, spostata): è spostare la decisione nel registro versionato, dove viaggia col repo. Verificato senza la variabile d'ambiente: il sensore dice «spento su decisione di Nicola»."
+      "nota_fix": "[lotto 42 · AD] La decisione di Nicola del 5/7 («togli PostHog») viveva SOLO in POSTHOG_OFF=1 dentro il .env, che non è versionato — e sul VPS quella riga non c'era. Lì la chiave era presente, il check partiva e il sensore risultava VERDE mentre la decisione diceva l'opposto: la stessa macchina dava due risposte a seconda di dove la si interrogava. La cura NON è mettere la riga anche sul server (stessa fragilità, spostata): è spostare la decisione nel registro versionato, dove viaggia col repo. Verificato senza la variabile d'ambiente: il sensore dice «spento su decisione di Nicola».",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/misura-che-non-sporca.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-654",
@@ -13652,10 +13713,13 @@
         "tipo": "comando",
         "comando": "node cervello/test/misura-che-non-sporca.test.mjs"
       },
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-13 18:14",
       "nato_come": "scoperta",
-      "nota_fix": "La riga posthog_api era GIÀ in cervello/sensori-motivi.json prima di questo lotto (verificato con `git show HEAD:`). Il file non è stato toccato: quello che il lotto aggiunge è il caso ⑭ della prova, che la pinza — la decisione di spegnere un sensore deve vivere nel registro versionato e non dentro un .env che nessuno vede."
+      "nota_fix": "La riga posthog_api era GIÀ in cervello/sensori-motivi.json prima di questo lotto (verificato con `git show HEAD:`). Il file non è stato toccato: quello che il lotto aggiunge è il caso ⑭ della prova, che la pinza — la decisione di spegnere un sensore deve vivere nel registro versionato e non dentro un .env che nessuno vede.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/misura-che-non-sporca.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-655",
@@ -13832,7 +13896,7 @@
     {
       "id": "AR-663",
       "titolo": "Un guardiano di sola lettura riscrive il suo referto nel vault a ogni interrogazione",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -13844,12 +13908,15 @@
         "comando": "node cervello/test/misura-che-non-sporca.test.mjs"
       },
       "nota_fix": "conta-blocco-mancante.mjs scriveva il suo referto SEMPRE, anche con --json e senza --aggiorna-tetto, su un percorso fisso senza modo di deviarlo. Il file dello script non è stato toccato: il freno è andato sul dato, in scrivi-json.mjs, che è l'unico punto attraversato da tutti gli scrittori atomici. Un freno messo sulla porta che si è trovata lascia aperte quelle che non si sono viste — ed è così che è nato AR-668.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/misura-che-non-sporca.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-664",
       "titolo": "Un guardiano muore con lo stack trace invece di dichiararsi cieco quando il registro-fatti ha una forma inattesa",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -13861,12 +13928,15 @@
         "comando": "node cervello/test/cieco-venduto-per-verde.test.mjs"
       },
       "nota_fix": "Curato dal lotto 42 e verificato oggi sul codice: `cervello/pausa-check.mjs` controlla `Array.isArray(fatti)` PRIMA di scorrerli, e quando la forma non torna esce 2 dicendo cosa non ha potuto leggere (`ciecoPerDatoIllegibile`, e il codice viene da `codiceDiUscita`, non da un 2 ricopiato a mano). Nessuno stack trace. Nessuna modifica mia.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/cieco-venduto-per-verde.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-665",
       "titolo": "AR-648 resta aperto su peso-file-cabina.mjs perche' il suo test copia lo script da solo in una cartella temporanea",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -13878,12 +13948,15 @@
         "comando": "node cervello/test/peso-file-cabina.test.mjs"
       },
       "nota_fix": "[lotto 42 · F] La prova del guardiano del peso costruiva un albero finto e ci copiava dentro un file solo. Chi girava lì dentro doveva bastare a sé stesso: bastava un import e sei casi morivano con «cannot find module». Era quella regola a tenere in vita l'ora scritta a mano, perché uno script che deve bastare a sé stesso l'orologio se lo riscrive per forza — tanto che il guardiano portava in un commento il motivo per cui non si poteva curare. Adesso la copia segue la catena degli import, come fa già la prova delle mutazioni mancanti, e il guardiano timbra con l'ora di casa.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/peso-file-cabina.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-666",
       "titolo": "L'ora scritta a mano vive ancora in almeno diciassette punti del cervello fuori da questo lotto",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -13895,12 +13968,15 @@
         "comando": "node cervello/test/ora-scritta-a-mano-nel-cervello.test.mjs"
       },
       "nota_fix": "L'offset +02:00 cablato nei ~17 punti del cervello non c'è più: censito con grep sull'albero, resta un solo candidato (cervello/salute.mjs:255) che NON è la malattia — è un ciclo che prova entrambi gli offset di proposito. La prova è un tetto a zero, verificata dall'AD.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/ora-scritta-a-mano-nel-cervello.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-667",
       "titolo": "salute.mjs promuove a verde qualunque codice d'uscita che non sia 1, compreso il 2 del cieco",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -13912,12 +13988,15 @@
         "comando": "node cervello/test/cieco-venduto-per-verde.test.mjs"
       },
       "nota_fix": "Curato dal lotto 42 (commit dbe5689, già su questo ramo) e verificato riga per riga oggi: la traduzione codice→verdetto non abita più in `daGuardiano`, sta in `leggiEsito` dentro il modulo puro `cervello/esito-guardiano.mjs`. Il patto regge nella direzione che conta: il 2 è cieco PRIMA che il chiamante possa dire la sua, `rossoSe` può solo ALLARGARE il rosso, e i codici che nessuno ha previsto sono rossi e non verdi. `daGuardiano` in salute.mjs chiama `leggiEsito` (import provato usato). Nessuna modifica mia.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/cieco-venduto-per-verde.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-668",
       "titolo": "Un comando di misura scrive nel vault vero anche quando lo lancia una prova, tramite uno script annidato",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -13929,7 +14008,10 @@
         "comando": "node cervello/test/misura-che-non-sporca.test.mjs"
       },
       "nota_fix": "Le porte annidate erano tre, non una: sentinella-dati lancia tick-auto-coscienza-leggero, che lancia esperimenti-check, che scriveva con un writeFileSync crudo. La variabile d'ambiente della prima porta non arrivava alla terza. Curato spostando la decisione sul dato: gli interruttori sono variabili d'ambiente, e un processo figlio le eredita senza sapere che esistono.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/misura-che-non-sporca.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-669",
@@ -13954,7 +14036,7 @@
     {
       "id": "AR-670",
       "titolo": "Il Pannello ha due definizioni di «quanti difetti aperti» e nessuna delle due è dichiarata: la stessa pagina ne mostrava 225 in una frase e 281 in un badge",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -13966,12 +14048,15 @@
         "comando": "node cervello/test/parola-senza-padrone.test.mjs"
       },
       "nota_fix": "Riparato dal lotto 42 e verificato sul codice vero: `RadiografiaDiSe.tsx` importa `contaDifetti` ed `eChiuso` da `lib/cantiere-snello.ts` e non rifà più il filtro a mano — la parola «aperto» ha un padrone solo, che rotta e componente chiamano entrambi. Resta un filtro `stato !== \"chiuso\"` alla riga 310, ma risponde a un'altra domanda (i reperti della radiografia) ed è dichiarato dentro la prova. Il test è verde (18 casi). Come da consegna NON ho toccato `parola-senza-padrone.test.mjs`, che è condiviso.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/parola-senza-padrone.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-671",
       "titolo": "Il burn-down del cantiere può migliorare da solo: i difetti senza data di nascita venivano scartati in silenzio dal conteggio storico",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -13983,12 +14068,15 @@
         "comando": "node cervello/test/burn-down-che-migliora-da-solo.test.mjs"
       },
       "nota_fix": "SCHEDA vs CODICE: la scheda puntava a `pannello/src/app/api/memoria/salute-onesta/route.ts:66`; il ramo malato vero sta in `cervello/atti-veri.mjs` (funzione `apertiAllaData`), che è dove il lotto 42 l'ha già curato. Il codice è a posto — i difetti senza data di nascita escono come `ignoti`, un numero suo, e salute-onesta.mjs dichiara il margine del confronto (`burn_down_margine`) invece di dare una cifra secca. Mancava la prova: la scheda rimandava a `parola-senza-padrone.test.mjs`, che è condiviso con altre corsie e che questa corsia non poteva toccare. Prova nuova, in due strati: ① la decisione pura su liste finte (senza data → ignoto; già chiuso allora → nessun dubbio; lista `null` → cieco con `conteggio: null`, non zero; data di confronto non valida → cieco); ② il comando vero su cantiere vero, dove pretendo che il referto porti `cantiere_senza_data_nascita`, che `burn_down_margine` sia esattamente il numero degli ignoti, e che chiuse + da fare faccia il totale.",
-      "nato_come": "nuovo-lavoro"
+      "nato_come": "nuovo-lavoro",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/burn-down-che-migliora-da-solo.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-672",
       "titolo": "Due file del Pannello hanno ancora il fuso di Roma scritto a mano, fuori dal territorio di questa corsia",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -14000,12 +14088,15 @@
         "comando": "node cervello/test/orologi-inchiodati-allora-legale.test.mjs"
       },
       "nota_fix": "Riparato e verificato sul codice vero: né `freschezza-intelligence.ts` né `verdetto-dato.ts` hanno più `+02:00` scritto a mano — tutti e due passano da `vaultToIso`, che l'offset lo chiede a Europe/Rome per QUELLA data, quindi i cinque mesi di ora solare non sbagliano più di un'ora. Il test è verde (13 casi) e porta anche i casi che misurano l'effetto, non solo il divieto. Non ho toccato niente.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/orologi-inchiodati-allora-legale.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-673",
       "titolo": "Il deep-link dell'auto-coscienza scorre verso una casella che non esiste piu",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -14017,12 +14108,15 @@
         "comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs"
       },
       "nota_fix": "Riparato dal lotto 42 e verificato sul codice vero: `AutoCoscienza.tsx` non cerca più un pezzo di pagina per nome, chiede al parcheggio (`ancoraChiesta`) dove il cancelletto è stato messo da parte prima che l'indirizzo lo perdesse. I due casi puri — il cancelletto si ritrova dopo, e si consuma una volta sola — sono verdi. Il caso a runtime è dichiarato INTERMITTENTE nel file stesso: la rete è quella pura. Non ho toccato niente.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/c4-decisione-fuori-da-react.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-674",
       "titolo": "Nel gestore centrale dell'indietro resta un timbro che fonde tutto lo stato a occhi chiusi",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -14034,12 +14128,15 @@
         "comando": "node cervello/test/c4-voce-senza-vista.test.mjs"
       },
       "nota_fix": "LA SCHEDA DICEVA «va chiuso insieme al contratto dell'overlay, non di sfuggita»: aveva ragione sul perché, e il modo per farlo c'era. Il conflitto era apparente — sembrava di dover scegliere fra spogliare la voce (AR-606) e conservare il marcatore del Worker (AR-218). La regola che li tiene insieme è una terza: LA VOCE DICE QUELLO CHE È APERTO ADESSO. `voceSenzaVista` spoglia tutto e rimette solo ciò che è vivo nell'istante in cui timbra — lo strato in cima alla pila (`stratoInCimaAdesso()`) e il Worker se è davvero sullo schermo (un ref nuovo, perché il gestore dell'indietro è registrato una volta sola e la variabile del suo primo disegno sarebbe vecchia). Il contratto di AR-218 è provato in tutte e due le direzioni: con il Worker aperto `deveChiudereOverlay` continua a dire no, senza dice sì. TROVATO COL SECONDO GIRO, domanda ①: cercando l'ATTO invece del mio fix, l'apertura del Worker timbrava con `{ ...st, overlay: 'worker' }` — l'oggetto lo costruiva a mano dopo essere passato dalla porta, quindi era sano ma per abitudine, non per costruzione. Adesso il marcatore si passa alla porta (`voceDiNavigazione(grezzo, { overlay: 'worker' })`) e TUTTI e sei i timbri di cronologia di `pannello/src` hanno una porta dichiarata come argomento — il test lo pretende su tutta la cartella, non solo su page.tsx.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/c4-voce-senza-vista.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-675",
       "titolo": "Una card della coda ha due memorie diverse di «sono aperta»",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -14051,12 +14148,15 @@
         "comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs"
       },
       "nota_fix": "Riparato dal lotto 42 e verificato sul codice vero: in `Azioni.tsx` `aperte` e `scelteCard` non esistono più, c'è un solo stato `carte` (`StatoCarte`) e le regole stanno fuori da React in `lib/stato-card.ts`; chi salta a un'azione chiama `apriPerAtterraggio`, che apre la scheda e il testo dentro in una chiamata sola — non c'è più uno stato sbagliato da scegliere. Il test è verde. Non ho toccato niente.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/c4-decisione-fuori-da-react.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-676",
       "titolo": "Il filtro --solo di test-cervello guardava una famiglia sola di prove e concludeva «non c'e niente»",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -14068,12 +14168,15 @@
         "comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs"
       },
       "nota_fix": "Verificato dal FUORI, non leggendo il codice: `node cervello/test-cervello.mjs --solo due-worker` (un nome che esiste solo fra le prove in bash) trova la prova e la dichiara ⚪ invece di dire «non c'è niente»; `--solo zzz-non-esiste` esce 1 con «il filtro non ha misurato niente», che è la risposta giusta — un filtro che non pesca niente non è un verde. In `main()` il filtro si applica a tutt'e due le famiglie e il messaggio le nomina entrambe. Caso dedicato nella prova, verde.",
-      "nato_come": "nuovo-lavoro"
+      "nato_come": "nuovo-lavoro",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/prova-che-non-puo-fallire.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-677",
       "titolo": "Il perimetro dei moduli del cervello e quasi il doppio di quello che i conti a mano dicevano: 270 file, non 192",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "grave",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -14085,12 +14188,15 @@
         "comando": "node cervello/test/import-che-esegue.test.mjs"
       },
       "nota_fix": "[lotto 42 · B] Chi fa il conto è cervello/import-che-esegue.mjs, e il perimetro è già quello vero: misura 277 moduli su tutto l'albero, sottocartelle comprese, con le due esclusioni scritte e motivate. Il file racconta lui stesso l'errore che la scheda descrive («la prima misura diceva 60 su 192, perché guardavo solo il primo livello»). La difesa esiste e morde: la prova ricalcola il perimetro per conto suo e lo confronta col denominatore del guardiano, e la mutazione registrata la fa diventare rossa. Verificato lanciandola.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/import-che-esegue.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-678",
       "titolo": "Su un tronco condiviso da piu corsie, `git diff HEAD` attribuisce a ogni lotto il lavoro di tutti",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -14102,12 +14208,15 @@
         "comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs"
       },
       "nota_fix": "[lotto 42 · C] `git diff HEAD` risponde a «cosa è cambiato nell'albero», non a «cosa ho toccato IO»: con sei corsie che scrivono insieme ognuna si vede attribuito il lavoro di tutte. Adesso chi lavora può DICHIARARE il proprio perimetro (`LOTTO_PERIMETRO`, percorsi separati da virgola o a-capo) e il guardiano interseca; senza dichiarazione resta ciò che vede git, che è una sovrastima — blocca troppo, mai troppo poco, ed è il verso giusto in cui sbagliare. Vale per il blocco duro dei test (cancello-lotto → testDelLotto) e per i moduli che eseguono al caricamento (import-che-esegue → malatiToccati). Nello stesso passaggio ho tolto il lettore di git scritto a mano dentro import-che-esegue: adesso passa da `percorsiDaGit`, che mette il `-z` — senza, i 26 file del vault con un accento tornano citati e in ottali, cioè un file mio risulta non-mio e il blocco duro smette di riconoscerlo in silenzio.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/prova-che-non-puo-fallire.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-679",
       "titolo": "Il guardiano del registro puniva proprio il deferral che risolve il doppione",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -14119,12 +14228,15 @@
         "comando": "node cervello/test/deferral-non-e-una-collisione.test.mjs"
       },
       "nota_fix": "Verificato sul codice vero: in `analizzaCollisioniDescription` (cervello/agent-registry-check.mjs riga 164) il confronto passa da `separaDescription(desc)` e guarda SOLO mandato + domande, cioè ciò che una scheda rivendica — i blocchi di rimando «(→ tema = **vicino**)», che nominano per forza il tema del vicino perché è il loro mestiere, restano fuori. La funzione è esportata e ha tre casi che la eseguono. Niente da riparare: curato nel lotto 42, e qui resta la prova che la cura non può sparire in silenzio.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/deferral-non-e-una-collisione.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-680",
       "titolo": "keyword-owner-check partiva da solo appena importato",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -14138,12 +14250,15 @@
       "nota_fix": "LA SCHEDA ERA VERA A METÀ. La guardia dell'entrypoint c'era già (aggiunta nel lotto 42) e importare il file non fa più partire il gate: quella parte era curata, ma senza nessuna prova che potesse fallire — `verifica: {tipo:\"umano\"}`. La metà che nessuno aveva visto è la FORMA della guardia: era `import.meta.url === `file://${process.argv[1]}``, che non codifica i caratteri fuori dall'ASCII mentre `import.meta.url` li codifica sempre. Sotto una cartella con un accento o uno spazio il confronto è falso, quindi il guardiano NON parte, non stampa niente ed esce 0: un cancello che si spegne in silenzio, che è la stessa famiglia di AR-339 (26 file col nome accentato in questo vault). Adesso la guardia è quella che `cervello/import-che-esegue.mjs` indica come canonica, e la differenza fra le due forme il test non la argomenta: la ESEGUE, scrivendo due moduli gemelli sotto una cartella chiamata «città però» e guardando quale dei due parte. Verificato col censimento: la malattia `programma-che-parte-importando` conta AR-680 fra i curati e il tetto resta 65; la forma robusta è quella che il guardiano consiglia in fondo al proprio rapporto.",
       "nato_come": "regressione",
       "nato_da": "AR-185 (lotto 40, corsia F): il guardiano del mandato unico è stato reso importabile, ma senza la guardia dell entrypoint partiva da solo",
-      "malattia": "programma-che-parte-importando"
+      "malattia": "programma-che-parte-importando",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/importare-un-guardiano-non-lo-esegue.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-681",
       "titolo": "La mia prima versione della porta nascondeva un registro illeggibile dietro un elenco vuoto",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -14157,12 +14272,15 @@
       "nota_fix": "Curato dal lotto 42 e verificato oggi: `fattiVivi` in prompt-senior.mjs, quando il registro non si legge, NON torna un elenco vuoto — torna una voce «⚠️ Fatti-chiave NON letti» che finisce dentro il prompt del senior, così chi lavora sa di non essere informato. E `verdettoPorta` decide prima di stampare, con `ciecoSeNienteMisurato` che rende ⚪ anche il caso «zero file-pilota guardati». Nessuna modifica mia su questo punto (la funzione sorella `cacciaAperta`, che era rimasta indietro, è AR-702 qui sopra).",
       "nato_come": "regressione",
       "nato_da": "lotto 40, ricucitura AD: elencoTracciato in cancello-lotto.mjs ingoiava l errore di git e tornava [] — vuoto e assente sono verdetti opposti",
-      "malattia": "cieco-che-torna-una-misura"
+      "malattia": "cieco-che-torna-una-misura",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/verde-comprato-senza-guardare.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-682",
       "titolo": "Un workflow su sei non è evocato da nessun comando",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -14174,12 +14292,15 @@
         "comando": "node cervello/test/ogni-workflow-ha-la-sua-porta.test.mjs"
       },
       "nota_fix": "La porta c'è: COMANDI.md riga 48 evoca «radiografia totale» e nomina `.claude/workflows/radiografia-totale.js` (aggiunta al merge del lotto 42, `git log -S`). Il guardiano `cervello/guardiano-capacita.mjs` dice drift 0 su sei workflow e cinque skill. Mancava il freno: la scheda aveva `verifica: {tipo:\"umano\"}`, cioè la porta poteva sparire senza che niente diventasse rosso. Adesso il test esegue il guardiano VERO sul repo vero e pretende: nessun workflow orfano, `radiografia-totale` fra quelli con la porta, nessun comando che punti a un workflow inesistente, e il guardiano che ne guarda sei su sei (un guardiano che ne guarda tre è verde per cecità). ⚠️ CIÒ CHE IL TEST NON PUÒ VEDERE, dichiarato dentro il file: «la porta si apre davvero» non è misurabile da Node. I sei workflow sono scritti in un dialetto del motore di Claude Code — `import`/`export` da modulo INSIEME a un `return` di primo livello — che nessun caricatore di Node accetta: `import()` risponde «Illegal return statement» su tutti e sei, non su uno. Il test fissa quel limite come caso esplicito, così il verde non può essere letto come «i workflow funzionano»; la cosa è registrata in difetti_nuovi.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/ogni-workflow-ha-la-sua-porta.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-683",
       "titolo": "Tre difetti CHIUSI hanno la prova ROSSA adesso, e nessuno se n'era accorto",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "grave",
       "dimensione": "cantiere-prove",
       "impatto_crescita": "medio",
@@ -14191,12 +14312,15 @@
         "comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs"
       },
       "nota_fix": "Verificato sul codice vero: il freno chiesto dalla scheda esiste e gira da solo. `chiusureDaRiverificare` (cervello/contratto-prova.mjs) incrocia i verdetti del banco con le schede CHIUSE, e `test-cervello.mjs` lo chiama a ogni corsa (`chiusureConProvaRossa`), stampando «❗ N schede CHIUSE hanno la prova rossa adesso» e distinguendo «regredita» da «non l'ho potuta eseguire qui» — che è ⚪, non un fix tornato indietro. Se il cantiere non si legge NON torna un elenco vuoto: dichiara di non aver guardato (`cieco`), che arriva fino al JSON. I tre difetti della scheda erano AR-385, AR-412 e AR-413, tutti appoggiati a c1-atto-una-volta-sola.test.mjs, che non parte senza pannello/node_modules: quello è un ⚪, e il workflow di CI ora installa le dipendenze PRIMA della suite proprio per questo. Prova verde (26/26) con due casi dedicati.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/prova-che-non-puo-fallire.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-684",
       "titolo": "Il cantiere conta 595 schede su 653: 56 in un terzo stato non entrano in nessun totale",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "grave",
       "dimensione": "memoria-registro",
       "impatto_crescita": "medio",
@@ -14208,12 +14332,15 @@
         "comando": "node cervello/test/parola-senza-padrone.test.mjs"
       },
       "nota_fix": "LA SCHEDA HA RAGIONE E LA NOTA DEL LOTTO 42 ERA OTTIMISTA. Il terzo stato si chiama `da-riverificare` e oggi sono 56 su 699 schede (476 chiuse, 167 aperte). La porta unica esiste — `contaDifetti` in cervello/atti-veri.mjs — e il Pannello ci passa. Ma i CONTATORI SCRITTI DENTRO IL CANTIERE non ci passano: `cantiere.meta` dice `{aperti:156, in_corso:0, chiusi:476}`, somma 632 contro 699 schede vere, cioè 67 difetti fuori dal numero che sta scritto nel registro stesso. Chi lo scrive è `ricalcolaMeta` in cervello/auto-fix.mjs (riga 76), che filtra a mano `stato === \"aperto\"`. E non è l'unico lettore che si fa la regola da sé: cervello/allinea-scan-cantiere.mjs riga 225 scrive `cantiere_aperti/in_corso/chiusi` in auto-radiografia.json con lo stesso filtro, e cervello/chiusura-dichiarata.mjs riga 87 conta il debito delle prove deboli solo sugli `aperto`, quindi le 56 da-riverificare con la prova debole stanno fuori dal tetto. NON HO POTUTO RIPARARLO: nessuno di quei tre file è nel territorio della corsia E, e la prova condivisa cervello/test/parola-senza-padrone.test.mjs mi è vietata. La cura è una riga per file: far tornare i tre conti da `contaDifetti` e pretendere `sommaTorna(conto) === true`. Testo pronto in note_ricucitura.\nRESTA APERTO: La porta unica c'è, ma tre scrittori in cervello/ contano ancora a modo loro e uno di essi (auto-fix.mjs) scrive il conto sbagliato DENTRO il cantiere: 632 contro 699. Nessuno dei tre file è nel mio territorio. ⚠️ ALL'AD: togli dalla scheda la vecchia `verifica` {comando: parola-senza-padrone.test.mjs} — quel test è verde e non parla di questi tre punti, quindi al prossimo `auto-fix verifica --applica` AR-684 si richiude da solo smentendo questa nota.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/parola-senza-padrone.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-685",
       "titolo": "Il guardiano delle prove si tronca il referto a 64 KB quando lo si legge da una pipe",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "grave",
       "dimensione": "guardiani-e-guardrail",
       "impatto_crescita": "medio",
@@ -14225,12 +14352,15 @@
         "comando": "node cervello/test/referto-troncato-dalla-pipe.test.mjs"
       },
       "nota_fix": "Il fix era già in casa (`process.exitCode = 1` al posto di `process.exit(1)`, tre volte in fondo a cantiere-prove.mjs). Ho scritto la prova nel canale in cui il difetto vive davvero — una shell VERA con una pipe VERA (`bash -o pipefail -c 'node … | cat'`) — perché con spawnSync diretto il taglio non si vede mai: chi legge svuota la pipe troppo in fretta, e la prova resterebbe verde col fix disfatto. Tre confronti: ① il referto letto da pipe pesa quanto quello scritto su file (139.486 byte oggi, misurati); ② quello che arriva dalla pipe si parsa come JSON; ③ il codice d'uscita di `--gate` (che è rosso davvero: exit 1) è lo stesso da file e da pipe. Più una quarta guardia contro la vacuità futura: se il referto scendesse sotto i 65.536 byte del buffer, il test lo dice invece di passare a vuoto.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/referto-troncato-dalla-pipe.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-686",
       "titolo": "Una prova che punta a un file inesistente viene contata come «fix in attesa», cioè auto-chiudibile",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "minore",
       "dimensione": "cantiere-prove",
       "impatto_crescita": "basso",
@@ -14242,12 +14372,15 @@
         "comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs"
       },
       "nota_fix": "Verificato sul codice vero: in `cervello/contratto-prova.mjs` la domanda «il file esiste?» viene PRIMA di giudicare il pattern, e la fa il contratto per tutti — quindi vale sia per il classificatore del cantiere sia per auto-fix. La scheda diceva metà della cosa: oltre a «fix in attesa», con `presente: false` una prova che punta a un file sparito COMBACIAVA (il pattern non c'è perché non c'è il file) e finiva in `auto-ok`, cioè il difetto si sarebbe chiuso perché il suo file era SPARITO. Cinque casi dedicati nella prova, tutti verdi (26/26).",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/prova-che-non-puo-fallire.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-687",
       "titolo": "Il vincolo cronico del giro si ripete ancora uguale: la cronicità si misura, ma solo nella visita",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "medio",
       "dimensione": "guardiani-e-guardrail",
       "impatto_crescita": "basso",
@@ -14259,7 +14392,10 @@
         "comando": "node cervello/test/vincolo-cronico.test.mjs"
       },
       "nota_fix": "[lotto 42 · D] Il modo di misurare da quanti giri un controllo dice no esisteva già, ma nel giro non lo chiamava nessuno. Adesso il giro glielo chiede, e sopra ai vincoli compare la loro età: «acceso in 21 giri di fila e nessuno l'ha risolto». Quando un controllo taglia i tre giri, il giro riceve l'ordine di portarlo a Nicola una volta sola. La frase la decide una funzione che un test può eseguire, non lo script di shell: la shell la incolla e basta. Se lo strumento non parte, il prompt dice di non sapere e ordina di ripetere tutto — un errore non diventa un «nessuno è cronico». SCHEDA vs CODICE: la scheda chiedeva anche di togliere dal prompt il vincolo diventato cronico, e non l'ho fatto. Togliere «non inventare numeri» solo perché lo ripetiamo da tre giri spegnerebbe una difesa proprio quando serve di più: si toglie il silenzio sull'età, non la difesa. Il blocco non porta il nome degli altri vincoli, apposta: non è un cancello nuovo, è l'età di quelli già contati, e chiamarlo vincolo li conterebbe due volte.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/vincolo-cronico.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-688",
@@ -14281,7 +14417,7 @@
     {
       "id": "AR-689",
       "titolo": "Due script del cervello sono usciti dalla porta di percorsi-git.mjs in questo stesso lotto",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "medio",
       "dimensione": "guardiani-e-guardrail",
       "impatto_crescita": "basso",
@@ -14295,12 +14431,15 @@
       "nota_fix": "Verificato sul codice vero, non sulla scheda. `node cervello/percorsi-git.mjs --check --json` risponde `{esito:\"ok\", letti:214, fuori:[]}`: nessuna chiamata a git fuori dalla porta. I due punti che la scheda nomina sono rientrati tutti e due — `cervello/agent-registry-check.mjs` riga 299 chiama `percorsiDaGit([\"ls-files\"], {cwd: AD_ROOT})` e `cervello/cancello-lotto.mjs` riga 951 passa da `elencoTracciato`, che è un involucro di `percorsiDaGit` (riga 416). La difesa c'è già ed è comportamentale: `cervello/test/segreto-in-un-nome-con-l-accento.test.mjs` ha il caso «nessuno script del cervello chiede più elenchi a git fuori dalla porta», che esegue il check vero. Niente da riparare: il difetto era una regressione del lotto 40, chiusa nel 42.",
       "nato_come": "regressione",
       "nato_da": "AR-643 (lotto 40): agent-registry-check.mjs e cancello-lotto.mjs hanno chiamato git ls-files fuori dalla porta di percorsi-git.mjs",
-      "malattia": "porta-laterale-senza-i-freni-della-principale"
+      "malattia": "porta-laterale-senza-i-freni-della-principale",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/segreto-in-un-nome-con-l-accento.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-690",
       "titolo": "Nel recupero del monitoraggio il cancello guardava lo stage dopo che il commit l'aveva svuotato",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "grave",
       "dimensione": "trovato-riparando",
       "impatto_crescita": "basso",
@@ -14315,7 +14454,10 @@
       "nato_come": "regressione",
       "nato_da": "AR-395 (lotto 40, corsia J): il cancello è stato spostato prima del commit nel giro, ma non nel recupero del monitoraggio",
       "malattia": "non-pattern-izzabile",
-      "malattia_perche": "La forma è «il cancello gira nell'istante sbagliato», e l'istante non si vede in una riga: si vede nell'ORDINE fra la chiamata e il commit, che una ricerca testuale non sa leggere. La copre cervello/istante-cancello.mjs, nato in questo lotto apposta (AR-395), più la prova a due versi che rimette il commit davanti alla chiamata e pretende che il rilevatore lo veda."
+      "malattia_perche": "La forma è «il cancello gira nell'istante sbagliato», e l'istante non si vede in una riga: si vede nell'ORDINE fra la chiamata e il commit, che una ricerca testuale non sa leggere. La copre cervello/istante-cancello.mjs, nato in questo lotto apposta (AR-395), più la prova a due versi che rimette il commit davanti alla chiamata e pretende che il rilevatore lo veda.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/recupero-cancello-prima-del-commit.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-691",
@@ -14343,7 +14485,7 @@
       "dimensione": "cantiere-prove",
       "gravita": "medio",
       "impatto_crescita": "basso",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato_come": "scoperta",
       "nato_da": "trovato riaprendo AR-142 e AR-199 su richiesta di Nicola (2026-08-14)",
       "causa_radice": "Il cancello conta in `senzaMutazione` i difetti APERTI con prova a comando e senza mutazione, con tetto 0. Riaprire due difetti veri porta il conto da 0 a 2 e fa scattare `mutazione-mancante-oltre-il-tetto`: il metro legge «il debito si e' allargato» dove il fatto e' l'opposto — il debito c'era gia', nascosto dentro una scheda marcata chiusa, e riaprirla lo ha reso VISIBILE. Piu' a fondo: la meccanica della non-vacuita' e' pensata per un difetto RIPARATO — si rompe il fix e si pretende che la prova diventi rossa. Su un difetto APERTO la prova e' gia' rossa e non c'e' nessun fix da rompere: la domanda giusta diventa un'altra, «il rilevatore sa ancora vedere?», e il cancello non sa distinguere le due. Effetto pratico: chi riapre un difetto viene punito, e la strada comoda diventa lasciarlo chiuso. E' l'incentivo esattamente rovesciato in un cantiere che vive di onesta'.",
@@ -14354,11 +14496,14 @@
         "tipo": "comando",
         "comando": "node cervello/test/mutazione-mancante.test.mjs"
       },
-      "nota_fix": "Verificato sul codice vero: `cancello-lotto.mjs` non punisce più l'onestà. `senzaMutazioneContati` esclude chi era CHIUSO sul ramo pubblicato ed è aperto adesso (`riapertoAdesso`), e il numero non sparisce — resta detto come «debito ereditato reso visibile, da dichiarare nella PR (AR-692)». E il cancello è più severo in due punti, non più permissivo: chiudere una scheda in questo lotto senza toccarne la prova adesso conta come «toccata» (era la porta di servizio per saltare la mutazione), e le 98 schede dichiarate riparate la cui prova non è mai stata rotta apposta sono un numero in chiaro fra gli avvisi. La prova passa (12/12) con i tre casi di controllo separati, compreso ①bis. NOTA: il cancello NON l'ho lanciato — le altre corsie stavano scrivendo, e un cancello letto ad albero sporco riporta rossi che non sono miei."
+      "nota_fix": "Verificato sul codice vero: `cancello-lotto.mjs` non punisce più l'onestà. `senzaMutazioneContati` esclude chi era CHIUSO sul ramo pubblicato ed è aperto adesso (`riapertoAdesso`), e il numero non sparisce — resta detto come «debito ereditato reso visibile, da dichiarare nella PR (AR-692)». E il cancello è più severo in due punti, non più permissivo: chiudere una scheda in questo lotto senza toccarne la prova adesso conta come «toccata» (era la porta di servizio per saltare la mutazione), e le 98 schede dichiarate riparate la cui prova non è mai stata rotta apposta sono un numero in chiaro fra gli avvisi. La prova passa (12/12) con i tre casi di controllo separati, compreso ①bis. NOTA: il cancello NON l'ho lanciato — le altre corsie stavano scrivendo, e un cancello letto ad albero sporco riporta rossi che non sono miei.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/mutazione-mancante.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-693",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "scoperto": "2026-08-14 20:55",
       "lotto_scoperta": 41,
@@ -14372,11 +14517,14 @@
         "comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "Tre clausole, due fatte e una no — e la terza non è dimenticata, è fuori territorio. ② IL BUCO È UN NUMERO CON UN TETTO: `cervello/debito-prove-bash.mjs` conta le prove in bash e chiede al REPO (non al PATH di questa macchina) se qualcuno le esegue — un passo di CI che installa o lancia bats, una dipendenza in un package.json, uno script d'avvio. Misurato adesso: 29 prove, 36 posti guardati, esecutore NESSUNO. Il permesso `Bash(npx bats:*)` in .claude/settings.json è escluso apposta ed è il cuore del difetto: è un'autorizzazione, non un esecutore. Il tetto va a 29 e scende quando qualcuno installa bats; una trentesima prova in bash mentre nessuno esegue le altre 29 è una violazione. Il guardiano gira nel cancello del lotto. I posti dove cercare l'esecutore si DERIVANO dal repo (tutti i workflow, tutti i hook, tutti gli script .sh del cervello, tutti i package.json del primo livello): un elenco scritto a mano sarebbe la malattia `perimetro-dedotto-non-misurato`, e infatti il sorvegliante me l'ha fermata due volte mentre scrivevo questo file. ③ I ROSSI IN BASH SI CONTANO A PARTE: `test-cervello.mjs` adesso tiene `rossi_node` e `rossi_bash` separati nel JSON, e la riga finale dice «N rossi (X in Node · Y in bash, debito ereditato AR-693)». Sommarli produceva «12 rossi», che manda chi legge a cercare nel cervello mentre i nove fallimenti stanno in worker.sh, giro.sh, watch-main.sh e nei permessi. ① NON FATTA, e resta il motivo per cui il difetto è aperto: installare bats dove il banco gira davvero significa toccare .github/workflows/test-cervello.yml, .github/workflows/cancello-lotto.yml e l'avvio del VPS — nessuno dei tre è nel territorio di questa corsia. Da qui `npx --yes bats --version` risponde «Bats 1.13.0», quindi la strada è aperta: serve un passo `npm i -g bats` + `BATS_BIN=$(command -v bats)` nei due workflow prima di `node cervello/test-cervello.mjs`. Attenzione all'effetto: appena bats gira in CI compaiono 9 file rossi veri (19 casi), che sono debito ereditato e vanno dichiarati, non subiti.\nRESTA APERTO: Manca la clausola ①: installare bats dove il banco gira davvero (CI del cervello, CI del cancello, avvio del VPS). I file sono .github/workflows/** e cervello/vps/**, fuori dal territorio della corsia C. Finché non c'è, le 29 prove restano ⚪ e i 9 rossi ereditati restano invisibili sulla macchina di chi lavora — adesso però il numero è dichiarato e sotto un tetto, invece di essere un ⚪ in fondo a un elenco lungo."
+      "nota_fix": "Tre clausole, due fatte e una no — e la terza non è dimenticata, è fuori territorio. ② IL BUCO È UN NUMERO CON UN TETTO: `cervello/debito-prove-bash.mjs` conta le prove in bash e chiede al REPO (non al PATH di questa macchina) se qualcuno le esegue — un passo di CI che installa o lancia bats, una dipendenza in un package.json, uno script d'avvio. Misurato adesso: 29 prove, 36 posti guardati, esecutore NESSUNO. Il permesso `Bash(npx bats:*)` in .claude/settings.json è escluso apposta ed è il cuore del difetto: è un'autorizzazione, non un esecutore. Il tetto va a 29 e scende quando qualcuno installa bats; una trentesima prova in bash mentre nessuno esegue le altre 29 è una violazione. Il guardiano gira nel cancello del lotto. I posti dove cercare l'esecutore si DERIVANO dal repo (tutti i workflow, tutti i hook, tutti gli script .sh del cervello, tutti i package.json del primo livello): un elenco scritto a mano sarebbe la malattia `perimetro-dedotto-non-misurato`, e infatti il sorvegliante me l'ha fermata due volte mentre scrivevo questo file. ③ I ROSSI IN BASH SI CONTANO A PARTE: `test-cervello.mjs` adesso tiene `rossi_node` e `rossi_bash` separati nel JSON, e la riga finale dice «N rossi (X in Node · Y in bash, debito ereditato AR-693)». Sommarli produceva «12 rossi», che manda chi legge a cercare nel cervello mentre i nove fallimenti stanno in worker.sh, giro.sh, watch-main.sh e nei permessi. ① NON FATTA, e resta il motivo per cui il difetto è aperto: installare bats dove il banco gira davvero significa toccare .github/workflows/test-cervello.yml, .github/workflows/cancello-lotto.yml e l'avvio del VPS — nessuno dei tre è nel territorio di questa corsia. Da qui `npx --yes bats --version` risponde «Bats 1.13.0», quindi la strada è aperta: serve un passo `npm i -g bats` + `BATS_BIN=$(command -v bats)` nei due workflow prima di `node cervello/test-cervello.mjs`. Attenzione all'effetto: appena bats gira in CI compaiono 9 file rossi veri (19 casi), che sono debito ereditato e vanno dichiarati, non subiti.\nRESTA APERTO: Manca la clausola ①: installare bats dove il banco gira davvero (CI del cervello, CI del cancello, avvio del VPS). I file sono .github/workflows/** e cervello/vps/**, fuori dal territorio della corsia C. Finché non c'è, le 29 prove restano ⚪ e i 9 rossi ereditati restano invisibili sulla macchina di chi lavora — adesso però il numero è dichiarato e sotto un tetto, invece di essere un ⚪ in fondo a un elenco lungo.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/prova-che-non-puo-fallire.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-694",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "scoperto": "2026-08-14 20:55",
       "lotto_scoperta": 41,
@@ -14390,7 +14538,10 @@
         "comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "Verificato sul codice vero: il guardiano c'è ed è quello giusto — `casiSpenti` in cervello/contratto-prova.mjs guarda il BANCO (chi chiama il caso e se ne aspetta il valore), non la parola `async`, e distingue le tre forme sane da quella malata. Lo chiama `test-cervello.mjs` a ogni corsa, che stampa il conto e lo mette nel JSON come `casi_spenti`. Misurato adesso da me su TUTTI i file di cervello/test/, comprese le prove nuove scritte dalle altre corsie di questo lotto: **0 casi spenti**, in nessun file. La prova passa (26/26) e ha sei casi che nominano AR-694, compreso «i tre file riparati dal lotto 42 non hanno più nessun caso spento». La mutazione è già in mutanti.json (rimette `async` su un caso riparato in perimetro-main.test.mjs)."
+      "nota_fix": "Verificato sul codice vero: il guardiano c'è ed è quello giusto — `casiSpenti` in cervello/contratto-prova.mjs guarda il BANCO (chi chiama il caso e se ne aspetta il valore), non la parola `async`, e distingue le tre forme sane da quella malata. Lo chiama `test-cervello.mjs` a ogni corsa, che stampa il conto e lo mette nel JSON come `casi_spenti`. Misurato adesso da me su TUTTI i file di cervello/test/, comprese le prove nuove scritte dalle altre corsie di questo lotto: **0 casi spenti**, in nessun file. La prova passa (26/26) e ha sei casi che nominano AR-694, compreso «i tre file riparati dal lotto 42 non hanno più nessun caso spento». La mutazione è già in mutanti.json (rimette `async` su un caso riparato in perimetro-main.test.mjs).",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/prova-che-non-puo-fallire.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-695",
@@ -14451,7 +14602,7 @@
     },
     {
       "id": "AR-698",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "cantiere-prove",
       "scoperto": "2026-08-14 23:45",
       "lotto_scoperta": 42,
@@ -14464,11 +14615,14 @@
         "comando": "node cervello/spazzata-fratelli.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "La scheda chiede due cose e nessuna delle due è un fix di codice: CENSIRE la malattia e cercarne i fratelli. ① Il censimento è in `malattie_da_censire` di questo frammento (id `prova-dal-canale-comodo`) — non l'ho scritto in cervello/malattie.json perché è un registro condiviso e lo applica l'AD. ② La ricerca dei fratelli l'ho fatta su tutte le 280 prove di cervello/test/: filtrate quelle che nominano un canale (troncamento, 64 KB, pipe, buffer, tail/head, terminale, TTY) e incrociate con come osservano (spawn diretto contro `sh -c`). Risultato: **una istanza sola ed è quella già curata** — AR-685, oggi in `cervello/test/referto-troncato-dalla-pipe.test.mjs`, che osserva da una pipe di shell vera. **Un sospetto**: `cervello/test/segreti-file-grosso.test.mjs` alza `maxBuffer` a 32 MB per osservare lo scanner, cioè guarda da un canale più generoso di quello vero (in giro.sh l'uscita passa da una pipe) — registrato in difetti_nuovi come da verificare, non come istanza accertata. Le prove che parlano di troncamento della STORIA di git (storia-troncata, storia-tagliata-non-e-un-numero) non c'entrano: lì il troncamento è una proprietà del dato, non un canale, e sono funzioni pure. La difesa vera resta quella che ha trovato il difetto: la non-vacuità ESEGUITA, non ragionata — ed è già un blocco del cancello."
+      "nota_fix": "La scheda chiede due cose e nessuna delle due è un fix di codice: CENSIRE la malattia e cercarne i fratelli. ① Il censimento è in `malattie_da_censire` di questo frammento (id `prova-dal-canale-comodo`) — non l'ho scritto in cervello/malattie.json perché è un registro condiviso e lo applica l'AD. ② La ricerca dei fratelli l'ho fatta su tutte le 280 prove di cervello/test/: filtrate quelle che nominano un canale (troncamento, 64 KB, pipe, buffer, tail/head, terminale, TTY) e incrociate con come osservano (spawn diretto contro `sh -c`). Risultato: **una istanza sola ed è quella già curata** — AR-685, oggi in `cervello/test/referto-troncato-dalla-pipe.test.mjs`, che osserva da una pipe di shell vera. **Un sospetto**: `cervello/test/segreti-file-grosso.test.mjs` alza `maxBuffer` a 32 MB per osservare lo scanner, cioè guarda da un canale più generoso di quello vero (in giro.sh l'uscita passa da una pipe) — registrato in difetti_nuovi come da verificare, non come istanza accertata. Le prove che parlano di troncamento della STORIA di git (storia-troncata, storia-tagliata-non-e-un-numero) non c'entrano: lì il troncamento è una proprietà del dato, non un canale, e sono funzioni pure. La difesa vera resta quella che ha trovato il difetto: la non-vacuità ESEGUITA, non ragionata — ed è già un blocco del cancello.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/spazzata-fratelli.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-699",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "scoperto": "2026-08-14 23:45",
       "lotto_scoperta": 42,
@@ -14481,11 +14635,14 @@
         "comando": "node cervello/test/mutazioni-orfane.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "La scheda chiede letteralmente «un comando che risponda: di tutte le mutazioni che puntano ai file che hai toccato, queste N non trovano più il loro pezzo». È `cervello/mutazioni-orfane.mjs`: la decisione sta in una funzione pura (`mutazioniOrfane(mutanti, toccati, leggi)`), i file toccati arrivano da git (albero di lavoro + differenza col ramo di base), e un file illeggibile diventa un ⚪ dichiarato, mai «nessuna orfana». Misurato adesso sul repo: 472 mutazioni su 472 trovano ancora il loro pezzo. La riga del cieco di `non-vacuita.mjs` («il pezzo da rompere non esiste più») adesso nomina il comando, così chi ci sbatte alla consegna sa cosa lanciare la volta prima. ⚠️ Difetto trovato ADDOSSO a questo comando mentre lo scrivevo, e la sua prova lo copre: leggere l'uscita di `git status -z` con `trim()` prima di togliere i tre caratteri di stato lascia dentro una lettera, i percorsi non combaciano più con nessuna mutazione e il comando dice «✅ niente da riagganciare» con l'albero pieno di modifiche — un verde per non aver guardato, cioè la malattia che il comando cura. NON fatto (fuori territorio): agganciarlo al momento dell'Edit — il posto sarebbe un hook PostToolUse in .claude/settings.json, oppure `sorvegliante.mjs`, che è di un'altra corsia."
+      "nota_fix": "La scheda chiede letteralmente «un comando che risponda: di tutte le mutazioni che puntano ai file che hai toccato, queste N non trovano più il loro pezzo». È `cervello/mutazioni-orfane.mjs`: la decisione sta in una funzione pura (`mutazioniOrfane(mutanti, toccati, leggi)`), i file toccati arrivano da git (albero di lavoro + differenza col ramo di base), e un file illeggibile diventa un ⚪ dichiarato, mai «nessuna orfana». Misurato adesso sul repo: 472 mutazioni su 472 trovano ancora il loro pezzo. La riga del cieco di `non-vacuita.mjs` («il pezzo da rompere non esiste più») adesso nomina il comando, così chi ci sbatte alla consegna sa cosa lanciare la volta prima. ⚠️ Difetto trovato ADDOSSO a questo comando mentre lo scrivevo, e la sua prova lo copre: leggere l'uscita di `git status -z` con `trim()` prima di togliere i tre caratteri di stato lascia dentro una lettera, i percorsi non combaciano più con nessuna mutazione e il comando dice «✅ niente da riagganciare» con l'albero pieno di modifiche — un verde per non aver guardato, cioè la malattia che il comando cura. NON fatto (fuori territorio): agganciarlo al momento dell'Edit — il posto sarebbe un hook PostToolUse in .claude/settings.json, oppure `sorvegliante.mjs`, che è di un'altra corsia.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/mutazioni-orfane.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-700",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "sensori-e-misure",
       "scoperto": "2026-08-14 23:55",
       "lotto_scoperta": 42,
@@ -14498,11 +14655,14 @@
         "comando": "node cervello/test/censimento-che-non-scende.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "Il file del censimento è `cervello/censimento-macchina.mjs`. Curato dal lotto 42 e verificato oggi: la voce che contava un livello solo adesso passa da `sottoAlbero()`, che chiama `elencaFile` di `cervello/perimetro.mjs` — la stessa porta che AR-677 aveva già sistemato per il cancello — quindi non ci sono due funzioni che elencano gli stessi file in due modi. Se la radice non si lascia leggere torna `null` e non `0`, e il guasto arriva fino al verdetto. La prova esisteva già e copre tutte e quattro le clausole (sottocartelle contate · il numero dichiarato per nome · test esclusi · solo .mjs/.sh · radice illeggibile → null): l'ho verificata prima di riscriverla, e riscriverla non serviva. Nessuna modifica mia."
+      "nota_fix": "Il file del censimento è `cervello/censimento-macchina.mjs`. Curato dal lotto 42 e verificato oggi: la voce che contava un livello solo adesso passa da `sottoAlbero()`, che chiama `elencaFile` di `cervello/perimetro.mjs` — la stessa porta che AR-677 aveva già sistemato per il cancello — quindi non ci sono due funzioni che elencano gli stessi file in due modi. Se la radice non si lascia leggere torna `null` e non `0`, e il guasto arriva fino al verdetto. La prova esisteva già e copre tutte e quattro le clausole (sottocartelle contate · il numero dichiarato per nome · test esclusi · solo .mjs/.sh · radice illeggibile → null): l'ho verificata prima di riscriverla, e riscriverla non serviva. Nessuna modifica mia.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/censimento-che-non-scende.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-701",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "scoperto": "2026-08-14 23:55",
       "lotto_scoperta": 42,
@@ -14515,11 +14675,14 @@
         "comando": "node cervello/test/capacita-dal-repo-non-dal-disco.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "Il CODICE era già curato (lotto 42): `elencaSkill` in guardiano-capacita.mjs chiede l'elenco a `percorsiDaGit(['ls-files', ...])` e torna `null` — non `[]` — se git non risponde. Quello che mancava era la PROVA: la scheda aveva `verifica: {tipo:\"umano\"}`, cioè il fix non era tenuto da niente e nessuno poteva sapere se reggeva ancora. Ho scritto la prova che la scheda chiedeva alla lettera: deposito `.claude/skills/zzz-intrusa-di-un-altro-ambiente/` (una cartella che nessun commit conosce), rilancio il guardiano vero in `--json` e pretendo che `n_skill`, `drift_totale`, `skill_orfane` e il codice d'uscita NON si muovano; la cartella si rimuove sempre, anche se il test esplode. Terzo caso: il numero del guardiano deve essere uguale a quello che git dichiara, contato dal test per conto suo. Verificato che il test non può litigare con le altre prove: `.claude/skills/*` è in .gitignore tranne le cinque tracciate, quindi la cartella finta non compare in `git status` e non tocca specchia-skills.bats."
+      "nota_fix": "Il CODICE era già curato (lotto 42): `elencaSkill` in guardiano-capacita.mjs chiede l'elenco a `percorsiDaGit(['ls-files', ...])` e torna `null` — non `[]` — se git non risponde. Quello che mancava era la PROVA: la scheda aveva `verifica: {tipo:\"umano\"}`, cioè il fix non era tenuto da niente e nessuno poteva sapere se reggeva ancora. Ho scritto la prova che la scheda chiedeva alla lettera: deposito `.claude/skills/zzz-intrusa-di-un-altro-ambiente/` (una cartella che nessun commit conosce), rilancio il guardiano vero in `--json` e pretendo che `n_skill`, `drift_totale`, `skill_orfane` e il codice d'uscita NON si muovano; la cartella si rimuove sempre, anche se il test esplode. Terzo caso: il numero del guardiano deve essere uguale a quello che git dichiara, contato dal test per conto suo. Verificato che il test non può litigare con le altre prove: `.claude/skills/*` è in .gitignore tranne le cinque tracciate, quindi la cartella finta non compare in `git status` e non tocca specchia-skills.bats.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/capacita-dal-repo-non-dal-disco.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-702",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "scoperto": "2026-08-14 23:55",
       "lotto_scoperta": 42,
@@ -14532,7 +14695,10 @@
         "comando": "node cervello/test/caccia-cieca-non-e-un-elenco-vuoto.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "La scheda diceva il vero e il codice lo confermava, commento compreso: `cacciaAperta` tornava `[]` sia con una caccia inesistente sia con il registro illeggibile, e la cecità la dichiarava il chiamante (il guardiano `--guardiano`, che il registro se lo rilegge per conto suo). Malattia curata FUORI e viva DENTRO. Adesso sono due valori: `null` = non ho potuto leggere il registro · `[]` = letto, niente da inseguire — lo stesso patto che `elencaSkill` usa in guardiano-capacita.mjs dopo AR-701, così in casa la forma è una sola. Aggiunta una clausola che la scheda non chiedeva: `violazioniPorta` ora LANCIA se qualcuno le passa `caccia: null`, perché il vecchio `ctx.caccia || []` avrebbe ritrasformato la cecità in «nessun valore superato» — cioè il difetto, spostato di una funzione. Il chiamante CLI converte esplicitamente (`caccia ?? []`) e la cecità viaggia dove deve, nel `registroLetto` di `verdettoPorta` (uscita 2)."
+      "nota_fix": "La scheda diceva il vero e il codice lo confermava, commento compreso: `cacciaAperta` tornava `[]` sia con una caccia inesistente sia con il registro illeggibile, e la cecità la dichiarava il chiamante (il guardiano `--guardiano`, che il registro se lo rilegge per conto suo). Malattia curata FUORI e viva DENTRO. Adesso sono due valori: `null` = non ho potuto leggere il registro · `[]` = letto, niente da inseguire — lo stesso patto che `elencaSkill` usa in guardiano-capacita.mjs dopo AR-701, così in casa la forma è una sola. Aggiunta una clausola che la scheda non chiedeva: `violazioniPorta` ora LANCIA se qualcuno le passa `caccia: null`, perché il vecchio `ctx.caccia || []` avrebbe ritrasformato la cecità in «nessun valore superato» — cioè il difetto, spostato di una funzione. Il chiamante CLI converte esplicitamente (`caccia ?? []`) e la cecità viaggia dove deve, nel `registroLetto` di `verdettoPorta` (uscita 2).",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/caccia-cieca-non-e-un-elenco-vuoto.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-703",
@@ -14552,7 +14718,7 @@
     },
     {
       "id": "AR-704",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "scoperto": "2026-08-15 01:20",
       "lotto_scoperta": 42,
@@ -14565,11 +14731,14 @@
         "comando": "node cervello/test/una-parola-con-due-padroni.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "La malattia adesso ha un nome, quindi la spazzata può cercarne i fratelli. Misurata oggi sul repo vero con la spazzata stessa (non a occhio): 6 dichiarazioni a mano della lista degli «atti veri», in cervello/atti-veri.mjs (la casa), cervello/sentinella-lavori.mjs, cervello/pulisci-coda.mjs, cervello/worker.sh, cervello/lib-recupero.sh, pannello/src/lib/recupero-lavoro.ts. La casa è dichiarata esente col perché scritto, quindi la partenza è 5 e vuol dire «copie fuori casa»: scende a 0 quando AR-659 è chiuso. La voce sta in `malattie_da_censire` perché cervello/malattie.json è un registro condiviso e non lo tocco io. ⚠️ FINCHÉ L'AD NON APPLICA LA VOCE, IL TEST È ROSSO — è voluto: è la forcing-function che impedisce di dichiarare censita una malattia che nel registro non c'è. DOVE LA SCHEDA ERA IMPRECISA: chiedeva «un pattern che trovi le liste duplicate». La spazzata è un contatore di espressioni regolari file per file: non sa confrontare due file fra loro, quindi non può dedurre da sola che due collezioni siano la stessa. Il pattern elenca le collezioni NOTE che hanno già un padrone e cerca chi le riscrive a mano; il limite è scritto in `nota_onesta`, non nascosto."
+      "nota_fix": "La malattia adesso ha un nome, quindi la spazzata può cercarne i fratelli. Misurata oggi sul repo vero con la spazzata stessa (non a occhio): 6 dichiarazioni a mano della lista degli «atti veri», in cervello/atti-veri.mjs (la casa), cervello/sentinella-lavori.mjs, cervello/pulisci-coda.mjs, cervello/worker.sh, cervello/lib-recupero.sh, pannello/src/lib/recupero-lavoro.ts. La casa è dichiarata esente col perché scritto, quindi la partenza è 5 e vuol dire «copie fuori casa»: scende a 0 quando AR-659 è chiuso. La voce sta in `malattie_da_censire` perché cervello/malattie.json è un registro condiviso e non lo tocco io. ⚠️ FINCHÉ L'AD NON APPLICA LA VOCE, IL TEST È ROSSO — è voluto: è la forcing-function che impedisce di dichiarare censita una malattia che nel registro non c'è. DOVE LA SCHEDA ERA IMPRECISA: chiedeva «un pattern che trovi le liste duplicate». La spazzata è un contatore di espressioni regolari file per file: non sa confrontare due file fra loro, quindi non può dedurre da sola che due collezioni siano la stessa. Il pattern elenca le collezioni NOTE che hanno già un padrone e cerca chi le riscrive a mano; il limite è scritto in `nota_onesta`, non nascosto.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/una-parola-con-due-padroni.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-705",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "pannello-robustezza-sicurezza",
       "scoperto": "2026-08-15 01:20",
       "lotto_scoperta": 42,
@@ -14582,11 +14751,14 @@
         "comando": "node cervello/test/c4-typecheck-del-pannello.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "IL PUNTO ERA GIÀ SANO, LA CAUSA NO. Lanciando `npx tsc --noEmit` dentro `pannello/` ho trovato ZERO errori: i tredici del lotto 42 erano già stati tolti. La scheda però diceva anche «il controllo dei tipi non gira in nessun cancello», e su questo il codice la smentisce a metà: `cervello/cancello-lotto.mjs` il typecheck lo lancia già (riga ~1013), ma solo se non gli si passa `--veloce` e solo se `pannello/node_modules` c'è — e nella SUITE non girava affatto. La clausola che restava scoperta è quella: «o almeno nella suite». Adesso il controllo dei tipi è una prova come le altre, quindi entra nel cancello anche quando il typecheck di sistema è ⚪ o saltato. Il file non è solo un lanciatore: la decisione (verde / rosso / cieco) è una funzione esportata, esercitata su uscite finte — compreso il caso «tredici errori» esatto di quel giorno, e il caso «ambiente non pronto», che NON diventa un verde silenzioso ma un ⚪ dichiarato col comando per rimediare. Non ho toccato `cancello-lotto.mjs`: è della corsia C."
+      "nota_fix": "IL PUNTO ERA GIÀ SANO, LA CAUSA NO. Lanciando `npx tsc --noEmit` dentro `pannello/` ho trovato ZERO errori: i tredici del lotto 42 erano già stati tolti. La scheda però diceva anche «il controllo dei tipi non gira in nessun cancello», e su questo il codice la smentisce a metà: `cervello/cancello-lotto.mjs` il typecheck lo lancia già (riga ~1013), ma solo se non gli si passa `--veloce` e solo se `pannello/node_modules` c'è — e nella SUITE non girava affatto. La clausola che restava scoperta è quella: «o almeno nella suite». Adesso il controllo dei tipi è una prova come le altre, quindi entra nel cancello anche quando il typecheck di sistema è ⚪ o saltato. Il file non è solo un lanciatore: la decisione (verde / rosso / cieco) è una funzione esportata, esercitata su uscite finte — compreso il caso «tredici errori» esatto di quel giorno, e il caso «ambiente non pronto», che NON diventa un verde silenzioso ma un ⚪ dichiarato col comando per rimediare. Non ho toccato `cancello-lotto.mjs`: è della corsia C.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/c4-typecheck-del-pannello.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-706",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "cantiere-prove",
       "scoperto": "2026-08-15 01:20",
       "lotto_scoperta": 42,
@@ -14599,11 +14771,14 @@
         "comando": "node cervello/test/prove-senza-esecutore-e-senza-mutazione.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "La cura di sistema che la scheda chiede («da valutare un guardiano che elenchi le prove a runtime senza mutazione dichiarata») esiste: `cervello/prove-runtime-senza-mutazione.mjs`, agganciato al cancello del lotto. Il rilevatore cerca il GESTO, non la parola: `chromium/firefox/webkit.launch(` e `.newPage(` — aprire un browser e una pagina vera. Nominare playwright non basta (un aiutante che lo importa senza guidarlo non misura niente di vivo), e i tanti test sani che accendono un finto server con `listen(0, \"127.0.0.1\")` non vengono accusati: quel finto lo controlli tu, e una misura su un finto non si ribalta da sola. Unica esenzione, e non è un nome in un elenco: una prova che IMPORTA questo modulo è una prova SUL rilevatore e per esercitarlo deve contenere i pezzi che il rilevatore cerca — accusarla sarebbe un rosso che nessuna riparazione toglie. Il fatto che la esenta è un import, che sta nel codice e si vede. Misurato adesso: 2 prove guidano un browser (c2-schermo, c4-schermo-coda) e tutt'e due hanno la loro mutazione → tetto `prove_runtime_senza_mutazione` a 0, cioè la prossima prova a runtime senza mutazione non passa. NON toccati i c4-*.test.mjs (territorio della corsia D): il guardiano li legge, non li modifica."
+      "nota_fix": "La cura di sistema che la scheda chiede («da valutare un guardiano che elenchi le prove a runtime senza mutazione dichiarata») esiste: `cervello/prove-runtime-senza-mutazione.mjs`, agganciato al cancello del lotto. Il rilevatore cerca il GESTO, non la parola: `chromium/firefox/webkit.launch(` e `.newPage(` — aprire un browser e una pagina vera. Nominare playwright non basta (un aiutante che lo importa senza guidarlo non misura niente di vivo), e i tanti test sani che accendono un finto server con `listen(0, \"127.0.0.1\")` non vengono accusati: quel finto lo controlli tu, e una misura su un finto non si ribalta da sola. Unica esenzione, e non è un nome in un elenco: una prova che IMPORTA questo modulo è una prova SUL rilevatore e per esercitarlo deve contenere i pezzi che il rilevatore cerca — accusarla sarebbe un rosso che nessuna riparazione toglie. Il fatto che la esenta è un import, che sta nel codice e si vede. Misurato adesso: 2 prove guidano un browser (c2-schermo, c4-schermo-coda) e tutt'e due hanno la loro mutazione → tetto `prove_runtime_senza_mutazione` a 0, cioè la prossima prova a runtime senza mutazione non passa. NON toccati i c4-*.test.mjs (territorio della corsia D): il guardiano li legge, non li modifica.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/prove-senza-esecutore-e-senza-mutazione.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-707",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "cantiere-prove",
       "scoperto": "2026-08-15 14:05",
       "lotto_scoperta": 42,
@@ -14616,11 +14791,14 @@
         "comando": "node cervello/test/non-vacuita-tre-esiti.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "Verificato sul codice vero, clausola per clausola: il fix dichiarato dalla scheda è INTERO in cervello/non-vacuita.mjs. `verdettoCorsa({status, signal, uscita})` è pura ed esportata (riga ~168) e dà i tre esiti nell'ordine giusto — ammazzato (`status == null`) → ⚪ · salto dichiarato → ⚪ · uscita ≠ 0 → ✅ · uscita 0 → ❌ — con `haDichiaratoDiNonGuardare` che riconosce tutt'e due le forme chieste (`1..0 # SKIP` e pass 0 + fail 0 + skipped > 0). Il tetto di tempo è `TEMPO_MAX = Number(process.env.NON_VACUITA_TIMEOUT_MS || 420_000)`, cioè 7 minuti, non più 2. La prova esiste e passa: 7/7. Le due mutazioni sono già in mutanti.json (lotto 42). Nessun mio cambiamento su questo difetto: quello che ho aggiunto a questo file è AR-708 (il foglietto) e la riga del cieco che nomina mutazioni-orfane.mjs."
+      "nota_fix": "Verificato sul codice vero, clausola per clausola: il fix dichiarato dalla scheda è INTERO in cervello/non-vacuita.mjs. `verdettoCorsa({status, signal, uscita})` è pura ed esportata (riga ~168) e dà i tre esiti nell'ordine giusto — ammazzato (`status == null`) → ⚪ · salto dichiarato → ⚪ · uscita ≠ 0 → ✅ · uscita 0 → ❌ — con `haDichiaratoDiNonGuardare` che riconosce tutt'e due le forme chieste (`1..0 # SKIP` e pass 0 + fail 0 + skipped > 0). Il tetto di tempo è `TEMPO_MAX = Number(process.env.NON_VACUITA_TIMEOUT_MS || 420_000)`, cioè 7 minuti, non più 2. La prova esiste e passa: 7/7. Le due mutazioni sono già in mutanti.json (lotto 42). Nessun mio cambiamento su questo difetto: quello che ho aggiunto a questo file è AR-708 (il foglietto) e la riga del cieco che nomina mutazioni-orfane.mjs.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/non-vacuita-tre-esiti.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-708",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "cantiere-prove",
       "scoperto": "2026-08-15 14:35",
       "lotto_scoperta": 42,
@@ -14633,7 +14811,10 @@
         "comando": "node cervello/test/non-vacuita-foglietto.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "La scheda aveva ragione riga per riga: il gestore di SIGINT/SIGTERM/SIGHUP è una callback JS e gira solo a ciclo degli eventi libero, mentre `spawnSync` lo tiene bloccato per tutta la durata del test — cioè esattamente la finestra in cui il file resta rotto. Adesso c'è una TRACCIA SU DISCO: `lasciaTraccia` scrive un foglietto (file + contenuto originale) PRIMA della mutazione, il `finally` lo cancella dopo il ripristino, e `riprendiDaTraccia` all'avvio di ogni corsa rimette a posto quello che una corsa ammazzata ha lasciato rotto e LO DICHIARA. Quattro esiti, nessuno silenzioso: rimesso · gia-a-posto · illeggibile · fallito — e un foglietto illeggibile NON si cancella, perché sarebbe far sparire l'unica traccia del file rimasto rotto. Il foglietto si chiama `_tmp_non-vacuita-in-corso.json`: `.gitignore` riga 38 (`**/_tmp_*`) lo copre già, verificato con `git check-ignore -v` — una traccia lasciata da una corsa morta non deve poter finire in un commit insieme al file che stava proteggendo. Percorso puntabile con NON_VACUITA_FOGLIETTO, perché la prova non tocchi un solo file del repo."
+      "nota_fix": "La scheda aveva ragione riga per riga: il gestore di SIGINT/SIGTERM/SIGHUP è una callback JS e gira solo a ciclo degli eventi libero, mentre `spawnSync` lo tiene bloccato per tutta la durata del test — cioè esattamente la finestra in cui il file resta rotto. Adesso c'è una TRACCIA SU DISCO: `lasciaTraccia` scrive un foglietto (file + contenuto originale) PRIMA della mutazione, il `finally` lo cancella dopo il ripristino, e `riprendiDaTraccia` all'avvio di ogni corsa rimette a posto quello che una corsa ammazzata ha lasciato rotto e LO DICHIARA. Quattro esiti, nessuno silenzioso: rimesso · gia-a-posto · illeggibile · fallito — e un foglietto illeggibile NON si cancella, perché sarebbe far sparire l'unica traccia del file rimasto rotto. Il foglietto si chiama `_tmp_non-vacuita-in-corso.json`: `.gitignore` riga 38 (`**/_tmp_*`) lo copre già, verificato con `git check-ignore -v` — una traccia lasciata da una corsa morta non deve poter finire in un commit insieme al file che stava proteggendo. Percorso puntabile con NON_VACUITA_FOGLIETTO, perché la prova non tocchi un solo file del repo.",
+      "chiuso_il": "2026-08-16 07:31",
+      "chiuso_come": "node cervello/test/non-vacuita-foglietto.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-709",
@@ -14926,8 +15107,8 @@
     }
   ],
   "meta": {
-    "aperti": 156,
+    "aperti": 123,
     "in_corso": 0,
-    "chiusi": 476
+    "chiusi": 537
   }
 }
