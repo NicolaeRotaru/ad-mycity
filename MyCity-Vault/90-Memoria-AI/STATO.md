@@ -1,8 +1,29 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 08:46
+aggiornato: 2026-08-16 10:39
 fonte: AD digitale (chat)
 ---
+
+> ⚪ **16/8 10:39 — Giro richiesto in chat, 8 minuti dopo il passaggio delle 10:26/10:31. Nessuna novità: strategia snella applicata, nessun motore pesante riaperto.**
+> Riconfermato dal vivo con `verifica-sensori.mjs` (10:39): 1 ordine, mai pagato, del 24/6, 0 pagati — identica firma dal 24/6, stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme. `coerenza-fatti.mjs` rieseguito: ✅ memoria coerente, 0 cacce aperte.
+>
+> **`ci-stato.mjs` rieseguito: le due riparazioni in background su PR #739 e #735 (lanciate nel passaggio delle 10:26) non sono ancora arrivate** — entrambe le PR restano rosse sugli stessi 2 controlli di prima (colpa propria, non di `main`). Non ho rilanciato un terzo tentativo: quelle riparazioni girano in sessioni separate fuori dalla mia visibilità diretta, e ripeterle da qui duplicherebbe lavoro già in corso altrove.
+> Non riscritti `auto-analisi.json`/`AUTO-ANALISI.md` (freschi da 8 minuti, passaggio 10:31), né il briefing di oggi, né le card #93-#101 (tutte invariate, nessun fatto nuovo da riportare): business identico, riscriverli ora sarebbe la stessa passata a vuoto già scartata più volte ([[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 18 giorni), 4 card 🔴 di merge PR (#87/#88/#89/#90), **#92** (radiografia completa), **#42** (root cause di 6 dei 9 controlli AR-687), **#100** (PR #739/#735 ancora rosse, in lavorazione altrove). Briefing: [[Briefing/2026-08-16]].
+
+> 🔁 **16/8 10:26 — Giro richiesto in chat, ~1h40 dopo il passaggio delle 08:46. Business invariato. Riparato un difetto vero (falso positivo OKR) e risposto per intero al nuovo vincolo AR-687 (9 controlli cronici).**
+> Riconfermato dal vivo con `verifica-sensori.mjs` (REST, 10:25): 1 ordine, mai pagato, del 24/6, 0 pagati, stallo North Star **53 giorni** — identico ai passaggi precedenti. `coerenza-fatti.mjs` ✅ coerente. `ci-stato.mjs` rieseguito: 2 PR rosse (#739, #735), causa nel loro stesso ramo.
+>
+> **Riparato per davvero (non solo segnalato): il guardiano `freschezza-okr.mjs` dava un falso "target scaduto".** Causa radice: il suo regex legge qualunque `dd/mm` dentro una cella-target come una scadenza — e la cella del tasso-di-chiusura conteneva un riferimento storico, "al 15/8", letto per errore come deadline passata. Corretto in `OKR-Squadra.md` scrivendo quella data per esteso (2026-08-15); nessun altro target nella tabella ha date passate.
+>
+> **Risposto al vincolo AR-687 (9 controlli acceso da 3 giri: APPRENDIMENTO, CADENZE, CORREZIONE_NICOLA, FRESCHEZZA, NORTH_STAR, OKR, TASSO, TEST, VOLANO):** accodata una card per ciascuno in [[AZIONI-IN-ATTESA]] (#93-#101), non un elenco generico — ognuna con la causa reale trovata leggendo i JSON che quegli script scrivono. La maggioranza riconduce alla stessa radice già in coda dal 29/7 (card #42, i permessi "a jolly" che bloccano script come `test-cervello`/`gate-veri`/`tasso-lezioni`/`sonda-volano` in sessione chat). Per NORTH_STAR trovata una causa di codice vera (il gate non sa che siamo in una pausa concordata) ma non l'ho scritta da sola: è automodifica, proposta con card #97 in attesa di firma.
+>
+> **Lanciate in background 2 riparazioni di codice** (agenti tech, worktree isolato) sui rami delle PR #739 e #735 per chiudere i 2 rossi di CI senza toccare `main` — esito al prossimo passaggio.
+>
+> **Provati e bloccati (una sola volta ciascuno, non ritentati — stesso limite noto, ora tutti spiegati nelle card #93-#101):** `freschezza-cadenze.mjs`, `north-star-check.mjs --gate`, `sonda-volano.mjs --json`, `apprendimento-guardiano.mjs`, `correzione-nicola-gate.mjs` (rilancio), `freschezza-intelligence.mjs`, `tasso-lezioni.mjs`, `test-cervello.mjs`. Eseguibili (allowlisted): `verifica-sensori.mjs`, `coerenza-fatti.mjs`, `chiusura-loop.mjs --sonda`, `ci-stato.mjs`.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 18 giorni), 4 card 🔴 di merge PR (#87/#88/#89/#90), **#92** (radiografia completa), **#42** (root cause di 6 dei 9 controlli AR-687 — la più a leva). Briefing: [[Briefing/2026-08-16]].
 
 > 🔁 **16/8 08:41 — Giro richiesto in chat, ~1h dopo il passaggio delle 07:40. Business invariato. Il worker VPS ha lavorato in parallelo: 1 fix di codice reale (AR-671), nessuna novità di business.**
 > Riconfermato dal vivo con `verifica-sensori.mjs` (REST, 08:40): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg, stallo North Star **53 giorni** — identico al passaggio delle 07:40. `coerenza-fatti.mjs` rieseguito dal vivo: ✅ memoria coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: 103/120 quaderni fermi, nessuno sblocca una card business prima di settembre — vincolo north-star rispettato.

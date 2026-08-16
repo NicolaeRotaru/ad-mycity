@@ -10,7 +10,7 @@
 > ⛔ **Attenzione: 8 frasi di questo piano non sono più vere.** Il registro dei fatti le smentisce, e il testo qui sotto è rimasto com'era. Correggerlo è una revisione del piano: la decide Nicola.
 > · **Il voucher PI26 è dato per aperto o da inviare** (riga 199) — il registro dice: Non idoneo, confermato da Nicola 2026-07-29 00:10 — nessuna domanda da inviare, sportello CCIAA non più rilevante per MyCity *(Nicola (chat 29/7 ~00:10) — DECISIONI.md 2026-07-29 00:15)*
 > · **Il negozio-faro è Garetti (o Casa Linda)** (righe 57, 81, 103, 113, 161, 185, 187) — il registro dice: Pane Quotidiano (unico negozio reale; la demo Casa Linda è esclusa). NON puo ancora incassare: al 2026-08-10 il fascicolo pagamenti ha dati mai inviati, incassi disattivati e vers… *(letto dal vivo sul database del marketplace il 2026-08-10 09:58…)*
-> *Misurato il 2026-08-16 08:47. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
+> *Misurato il 2026-08-16 10:43. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
 <!-- ⛔ AD-SMENTITE:END -->
 
 > **Obiettivo:** alimentare di contenuti il [[Piano di Notorieta 2026]] — trasformare la causa "salviamo le botteghe del centro" in un flusso costante di post, reel, storie e copy che fanno **conoscere** MyCity (awareness) e **convertire** verso lista d'attesa/ordine.
