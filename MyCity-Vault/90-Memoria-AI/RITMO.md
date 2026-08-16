@@ -1234,23 +1234,35 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 ## Report della sera · 2026-08-16 18:01
 
 **Com'è andata oggi**
-- Il negozio è rimasto fermo tutto il giorno, come previsto dalla pausa concordata con te. Riconfermato più volte dal vivo, sempre uguale.
-- Ho chiuso un doppione in coda. Ho riparato un falso allarme: un controllo leggeva una data vecchia come se fosse una scadenza. Ho trovato e riparato per davvero 3 test rotti veri, non il solito debito già noto.
-- Le richieste di unione del codice sono peggiorate. Due restano rosse da tre passaggi di fila, con la stessa causa. Una terza era tornata pronta ma è ricaduta rossa nel pomeriggio. Ora non la vedo più tra quelle aperte: non so dirti da qui se è stata chiusa altrove o no.
+- Il negozio è rimasto fermo tutto il giorno. Riconfermato più volte dal vivo, sempre lo stesso risultato.
+- Il lavoro vero è stato sulla macchina, e lì ho riparato tre guasti.
+- Ho chiuso una richiesta doppia rimasta in coda.
+- Ho riparato un controllo che leggeva una data vecchia e la scambiava per una scadenza.
+- Ho trovato tre test rotti per davvero. Non il debito che conoscevamo già: tre guasti nuovi. Riparati tutti e tre.
+- Due richieste di unione restano rosse da tre passaggi di fila, sempre per la stessa causa.
+- Una terza era tornata pronta, poi è ricaduta rossa nel pomeriggio. Adesso non la vedo più tra quelle aperte.
+- Se quella terza sia stata chiusa da qualcun altro non l'ho potuto verificare: l'elenco su GitHub non era leggibile da qui.
 
 **I numeri**
-- 1 negozio, 1 ordine (mai pagato, del 24 giugno), 0 pagati, 5 prodotti, 7 profili — tutto invariato rispetto a ieri sera.
-- Stallo: 53 giorni. Dentro la pausa concordata, non un allarme.
+- 1 negozio, 1 ordine, 0 pagati, 5 prodotti, 7 profili. Tutto uguale a ieri sera.
+- L'unico ordine è del 24 giugno e non è mai stato pagato.
+- Stallo a 53 giorni. Rientra nella sosta che avevamo deciso insieme, quindi non suona nessun campanello.
 
 **Da approvare**
-- Le tre falle di sicurezza del sito, ferme da 19 giorni senza una tua risposta (`#36`/`#37`/`#38`)
-- Una richiesta di unione già pronta e verde, aspetta solo la tua firma (`#103`)
-- Il nuovo post per Pane Quotidiano, se vuoi che esca nonostante la pausa (`#106`)
-
-**Lezione di oggi**
-- Un controllo automatico leggeva una data scritta come riferimento al passato. La scambiava per una scadenza futura e dava un allarme falso. Una data va letta per il suo significato, non solo riconosciuta come schema di testo.
+- Le tre falle di sicurezza del sito aspettano una tua risposta da 19 giorni (`#36`, `#37`, `#38`).
+- Una richiesta di unione è pronta e verde. Aspetta solo la firma (`#103`).
+- Il nuovo post per Pane Quotidiano esce solo se dici di sì (`#107`).
 
 **Domani**
-- Dimmi tu come vuoi le richieste di unione rimaste rosse: le riparo per davvero, oppure le congelo fino a dopo la pausa.
+- Dimmi come vuoi i due lavori rossi: li riparo per davvero, oppure li congelo fino a dopo la sosta.
 
-**Dettagli tecnici** (test cervello: 3 rossi veri riparati, oltre 700 test rilanciati per intero · CI: PR #741 e #735 rosse da 3 passaggi, causa invariata; PR #739 sparita dalla lista PR aperte tra le 12:56 e le 16:27, da confermare; PR #738 verde · card aperte di oggi: #91 chiusa come duplicato di #90, #104/#105/#107 in coda · dati confermati da query SQL diretta MCP `execute_sql` 2026-08-16 18:00 UTC)
+**Lezione di oggi**
+- L'esempio vero: nel testo c'era scritto «misurato il 2 agosto», cioè un fatto già successo. Il controllo ci vedeva una scadenza da rispettare e suonava a vuoto.
+- Una data va letta per quello che significa nella frase, non solo riconosciuta come data.
+
+**Dettagli tecnici**
+- Test del cervello: 3 rossi veri riparati. Rilanciati per intero oltre 700 test.
+- CI: PR #741 e #735 rosse da 3 passaggi, causa invariata. PR #738 verde.
+- PR #739: non più tra le aperte fra le 12:56 e le 16:27. Da confermare.
+- Card di oggi: #91 chiusa come duplicato di #90. In coda #104, #105 e #109.
+- Dati letti con `execute_sql` (MCP) alle 18:00 UTC del 2026-08-16.
