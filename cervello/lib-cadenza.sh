@@ -68,6 +68,11 @@ cadenza_lock_rompi() {
     fi
   fi
   mv -f "$file" "$file.orfano" 2>/dev/null || rm -f "$file" 2>/dev/null || return 1
+  # ⚠️ Il file spostato è VUOTO: `exec 8>` qui sopra l'aveva già troncato, ed è la ragione per cui
+  # l'età si legge prima di aprire (AR-691). Quindi la prova non è il file: è quello che ci scriviamo
+  # adesso. Dirlo «prova di chi era» senza questa riga sarebbe stato promettere un forense inesistente.
+  printf 'lucchetto orfano rotto il %s — teneva da %s minuti, PID dichiarato: %s\n' \
+    "$(date '+%Y-%m-%d %H:%M:%S')" "${eta:-?}" "${pid:-sconosciuto}" >"$file.orfano" 2>/dev/null || true
   exec 8>"$file" || return 1
   flock -n 8 || return 1
   return 0
