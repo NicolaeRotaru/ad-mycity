@@ -32,9 +32,9 @@ in questo passaggio è minore.
    non spendere lavoro-macchina che non sblocchi il primo ordine, mentre il business è fermo.
 
 ## Grounding delle entità
-Nessuna entità nuova citata in questo passaggio. Le entità toccate sono: 1 ordine (0 pagati), 7 profili, 1
-vetrina (Pane Quotidiano), 0 recensioni. Sono tutte **confermate**: dati reali, letti in diretta con query
-SQL via MCP Supabase, in questo stesso passaggio.
+Nessuna entità nuova citata in questo passaggio. Le entità toccate sono quattro: 1 ordine, di cui 0 pagati.
+7 profili. 1 vetrina, quella di Pane Quotidiano. 0 recensioni. Sono tutte **confermate**: dati reali, letti
+in diretta con query SQL via MCP Supabase, in questo stesso passaggio.
 
 ## Domande aperte per Nicola
 Una domanda nuova: va bene restare in modalità RISPARMIO fino alla ripresa del lavoro operativo, il
@@ -96,9 +96,9 @@ confermare il verde prima di passare al successivo.
 
 1. **`carte-numerate.test.mjs`** — l'assertion di unicità (`Set(numeri).size === numeri.length`) falliva
    di uno: `actual 101, expected 102`. Ho estratto a mano tutti i numeri (heading `### #N` + righe-tabella
-   `| N |`). Ho confrontato le due liste. Il numero **81** compariva due volte. Una card scritta stamattina
-   alle 07:20 (`#81 — Correggi 5 righe nelle tue regole di permesso`) riusava lo stesso numero di una
-   riga-tabella del 13/8 (`Merge PR #714`). Non ho toccato la riga più vecchia: i numeri, una volta dati,
+   `| N |`). Ho confrontato le due liste. Il numero **81** compariva due volte. La prima è una card scritta
+   stamattina alle 07:20: `#81 — Correggi 5 righe nelle tue regole di permesso`. La seconda è una
+   riga-tabella del 13/8: `Merge PR #714`. Riusavano lo stesso numero. Non ho toccato la riga più vecchia: i numeri, una volta dati,
    non si riassegnano, e il vecchio formato tabellare resta la fonte storica. Ho rinumerato la card più
    nuova a **#104**, il primo libero dopo le mie stesse aggiunte di oggi (#102/#103). Rilanciato il file da
    solo: 8/8 verdi.

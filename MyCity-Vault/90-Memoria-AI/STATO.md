@@ -1,8 +1,17 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 23:58
+aggiornato: 2026-08-17 00:21
 fonte: AD digitale (chat)
 ---
+
+> 🌙 **17/8 00:21 — Giro richiesto in chat, ~23 minuti dopo il passaggio 23:58 (nuovo giorno di calendario). Business invariato, nessuna novità.**
+> Riverificato dal vivo con query SQL dirette via MCP (`execute_sql`, 00:20): 1 ordine totale, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 08:28 (CANCELED), 7 profili, 0 recensioni — stallo North Star ora **54 giorni** (+1, solo per il cambio di data di calendario, non per un evento nuovo). Dentro la pausa concordata fino al 24/8-1/9. `verifica-sensori.mjs` (✅ REST/Stripe/Resend/pannello/n8n ok, PostHog spento per scelta, sito 503 per migrazione Vercel nota) e `coerenza-fatti.mjs` (✅ coerente, 0 cacce aperte) rilanciati dal vivo. `ci-stato.mjs` bloccato: GitHub 403 rate-limit (stesso limite già visto alle 22:29/23:xx) — stato delle 3 PR (#749/#741/#735) **ereditato invariato** dal passaggio precedente, non riverificato in diretta.
+>
+> Nessuna novità da accodare: la card #113 (letargo RISPARMIO) e #105 (test rosso `burn-down-che-migliora-da-solo`, in attesa della scelta di Nicola) restano quelle già in coda. Applicata la strategia snella: non riscritti `auto-analisi.json`/`registro-realta.json`/gli altri `auto-coscienza/*` pesanti (freschi da 24 minuti, dati identici — riscriverli ora sarebbe un giro a vuoto, [[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Difetto vero trovato e riparato in questo passaggio.** `node --test "cervello/test/**/*.test.mjs"` (rilanciato per intero in background, 1940 test, ~5m20s) ha trovato 2 rossi VERI, non il solito debito noto (`burn-down-che-migliora-da-solo`, card #105, che stavolta NON è tra i falliti): `scadenze-calcolate.test.mjs` e `una-prova-che-punta-al-vuoto.test.mjs`. Causa unica, isolata rilanciando il file singolo: il PASSAGGIO PRECEDENTE (23:58) aveva scritto in `auto-analisi.json` la chiave `salute_macchina.letargo` — un campo nuovo, mai aggiunto allo schema canonico di `valida-contratti.mjs` né al tile corrispondente in Cabina. Esattamente il vincolo HARD "contratti JSON fuori-contratto" già in cima a questa sessione. **Riparato togliendo la chiave `letargo` da `salute_macchina`** (l'informazione resta comunque visibile altrove: card #113, questa nota, `ultimo-briefing.json`) — non serviva una nuova chiave canonica+tile per un dato già coperto. Rilanciati i due file di test: entrambi verdi. Vincolo test-cervello rispettato, nessuna PR necessaria (fix di memoria, non di codice).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38), **#108** (server fermo da mezzogiorno), **#109** (2 PR croniche rosse), **#113** (letargo, in attesa conferma Nicola).
 
 > 🔁 **16/8 23:58 — Giro richiesto in chat, ~23 minuti dopo il passaggio 23:35. Business invariato, nessuna novità.**
 > Riverificato dal vivo con query SQL dirette via MCP (23:5x): 1 ordine totale, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 (CANCELED) — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. 7 profili, 1 vetrina attiva, 0 recensioni: identico. `verifica-sensori.mjs`, `coerenza-fatti.mjs` (✅ coerente) e `ci-stato.mjs` rilanciati dal vivo: le 3 PR (#749, #741, #735) restano tutte rosse, stesso guasto già noto — nessun peggioramento né miglioramento.

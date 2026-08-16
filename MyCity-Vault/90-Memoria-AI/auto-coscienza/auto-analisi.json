@@ -1,8 +1,8 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-08-16 23:58",
-  "voto_fiducia": 87,
-  "sintesi_giro_corrente": "Giro richiesto in chat, 23 minuti dopo il passaggio delle 23:35. Business riverificato dal vivo con query SQL dirette via MCP (non ereditate): `orders` → 1 riga totale, 0 con payment_status='paid', 0 create negli ultimi 7gg, delivery_status='CANCELED', ultimo ordine 2026-06-24; `profiles`→7, `seller_storefronts`→1, `reviews`→0. Tutto identico al passaggio 23:35. A differenza dei passaggi precedenti, in questo sono girati senza blocco `verifica-sensori.mjs` (23:53), `coerenza-fatti.mjs` (✅ coerente, 0 cacce) e `ci-stato.mjs` (3 PR ancora rosse #749/#741/#735, stesso guasto, nessun cambiamento). Sono rimasti bloccati (2° tentativo, non riprovati) `north-star-check.mjs --gate` e `sonda-volano.mjs --json`. Il vero lavoro utile di questo passaggio: accodata la card #113 in AZIONI-IN-ATTESA per il vincolo AR-687 — il gate `letargo.mjs` è a livello RISPARMIO da 3 giri di fila, andava reso visibile a Nicola una volta.",
+  "data": "2026-08-17 00:21",
+  "voto_fiducia": 88,
+  "sintesi_giro_corrente": "Giro richiesto in chat, primo del nuovo giorno (17/8), 23 minuti dopo la chiusura del 16/8 (23:58). Business riverificato dal vivo con query SQL dirette via MCP (non ereditate): `orders` → 1 riga totale, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24; `profiles`→7, `reviews`→0. Identico al passaggio precedente (stallo North Star 54gg, +1 solo per la mezzanotte). `verifica-sensori.mjs` e `coerenza-fatti.mjs` rilanciati dal vivo, entrambi verdi; `ci-stato.mjs` bloccato da GitHub rate-limit (403), stato PR ereditato non riverificato. **Difetto vero trovato e riparato**: la suite completa dei test (`node --test cervello/test/**/*.test.mjs`, 1940 test) ha trovato 2 rossi nuovi (non il debito noto di card #105), entrambi con la stessa causa: il passaggio 23:58 aveva scritto `salute_macchina.letargo` in questo stesso file, una chiave fuori dallo schema canonico di `valida-contratti.mjs` (vincolo HARD 'contratti JSON'). Rimossa la chiave (il dato letargo resta comunque in card #113/STATO.md), entrambi i test tornano verdi. Nessuna nuova azione business da accodare.",
   "sintesi": "Business fermo dal 24/6 (stallo 53 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. In questo passaggio: nessun dato di business nuovo; unico atto è la card #113 sul gate letargo, dovuta dal vincolo di sistema, non da una scoperta nuova.",
   "trend_fiducia": "▲ 86→87: gli script che nel passaggio precedente erano bloccati dall'allowlist (sensori, coerenza-fatti, ci-stato) questa volta hanno girato regolarmente — meno debito di verifica accumulato in questo passaggio. Resta il debito HARD noto (north-star-check/sonda-volano ancora bloccati, PR rosse croniche, correzione-nicola-gate senza gate verificabile in questa sessione).",
   "entita_verificate_10_25": [
@@ -65,8 +65,7 @@
     "stripe": "ok (verifica-sensori.mjs, 23:53)",
     "dati_freschi": true,
     "sensori_attivi": 8,
-    "sito_uptime": "cieco (HTTP 503, migrazione Render→Vercel non fatta — registro-fatti.json → marketplace.hosting, non un guasto nuovo)",
-    "letargo": "RISPARMIO — 3° giro di fila, card #113 accodata per AR-687"
+    "sito_uptime": "cieco (HTTP 503, migrazione Render→Vercel non fatta — registro-fatti.json → marketplace.hosting, non un guasto nuovo)"
   },
   "gate_correzione_nicola_confermati_invariati": "Diagnosticato nei passaggi precedenti (card #95): 246/311 lezioni senza gate (sano:false), soglia 20. Non riverificato in questo passaggio (nessuna nuova ricerca: north-star gate impone di non investire su questo mentre il business è in stallo), stato ereditato.",
   "livello_verifica": "L2 (business riverificato con query SQL dirette via MCP, non ereditato; sensori/coerenza-fatti/ci-stato riverificati dal vivo in questo passaggio, non ereditati dal precedente)",
