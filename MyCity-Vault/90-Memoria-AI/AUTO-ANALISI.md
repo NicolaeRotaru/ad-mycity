@@ -1,4 +1,31 @@
-# 🔬 AUTO-ANALISI — 2026-08-16 07:40
+# 🔬 AUTO-ANALISI — 2026-08-16 08:41
+
+> Giro richiesto in chat, ~1h dopo il passaggio delle 07:40. Business riverificato con `verifica-sensori.mjs`
+> dal vivo (08:40): identico (1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6, stallo **53 giorni**,
+> dentro la pausa concordata fino al 24/8-1/9). `coerenza-fatti.mjs` rieseguito dal vivo: memoria coerente, 0
+> cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: 103/120 quaderni fermi, nessuno sblocca una card
+> business prima di settembre.
+
+## Voto di fiducia: 86/100 (→ invariato)
+
+**Nessuna novità di business. Il worker VPS ha lavorato in parallelo.** Tra le 07:40 e le 08:38 il worker
+ha scritto 2 commit diretti su `main`. Il primo (08:24): una sentinella macchina ha segnalato **voto salute
+basso**. Il secondo (08:37): il fix vero della causa. `cervello/salute-onesta.mjs` calcolava
+`burn_down_margine` guardando le schede aperte "a settimana fa". Doveva guardare quelle aperte **adesso**
+(AR-671). Sono due domande diverse. La prima rispondeva alla domanda sbagliata. Ho letto il diff per intero
+(`git show 78bcfcc39`) prima di riportarlo: è un fix reale, non solo un commit message. Non è lavoro mio.
+Lo segnalo per trasparenza, non lo conto nel voto di fiducia di questa sessione.
+
+**Verificato: non ho trovato nulla di nuovo nella coda.** Il commit worker che ha toccato
+`AZIONI-IN-ATTESA.md` (823cc5fc5) ha solo aggiornato 2 timestamp di housekeeping. Ho confrontato il diff riga
+per riga. Nessuna card nuova. Nessuna card duplicata come la settimana scorsa.
+
+**Cosa NON ho rifatto, e perché.** Non ho riaperto radar/intelligence (coperti il 15/8, cadenza giornaliera).
+Non ho ri-indagato l'area 'correzione-nicola': stesso debito (246/311 senza gate). Non ho ritentato gli
+script HARD bloccati (freschezza-cadenze, north-star-check --gate, sonda-volano --json, piani-data --scrivi)
+oltre il primo tentativo di questo passaggio: stesso limite noto dell'allowlist, insistere non li sblocca.
+
+## Passaggio precedente (16/8 07:40)
 
 > Nuovo giorno, primo passaggio dopo i pre-step deterministici di `giro.sh` (commit 07:28/07:31). Business
 > riverificato con `verifica-sensori.mjs` dal vivo (07:32): identico al giro di ieri sera (1 ordine, 0

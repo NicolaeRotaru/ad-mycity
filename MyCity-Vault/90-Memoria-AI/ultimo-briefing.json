@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-16 07:40",
-  "situazione": "Business invariato, riconfermato con REST + delta-gate: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star 53 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Memoria coerente (`coerenza-fatti.mjs` verde). Trovato e corretto un piccolo difetto: una card della coda («Merge PR #740») era stata scritta due volte.",
+  "data": "2026-08-16 08:46",
+  "situazione": "Business invariato, riconfermato con REST dal vivo (08:40): 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star 53 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Memoria coerente. Il worker VPS ha lavorato da solo tra le 07:40 e le 08:38: ha trovato e riparato un bug reale nel calcolo del voto salute (AR-671), nessuna novità di business.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},

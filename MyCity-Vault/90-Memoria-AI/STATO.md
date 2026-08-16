@@ -1,8 +1,19 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 07:40
+aggiornato: 2026-08-16 08:46
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **16/8 08:41 — Giro richiesto in chat, ~1h dopo il passaggio delle 07:40. Business invariato. Il worker VPS ha lavorato in parallelo: 1 fix di codice reale (AR-671), nessuna novità di business.**
+> Riconfermato dal vivo con `verifica-sensori.mjs` (REST, 08:40): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg, stallo North Star **53 giorni** — identico al passaggio delle 07:40. `coerenza-fatti.mjs` rieseguito dal vivo: ✅ memoria coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: 103/120 quaderni fermi, nessuno sblocca una card business prima di settembre — vincolo north-star rispettato.
+>
+> **Novità reale, ma non mia: il worker VPS ha continuato a lavorare in autonomia tra le 07:40 e le 08:38**, con 2 commit diretti su `main`. Il primo (`823cc5fc5`, 08:24) è una sentinella macchina che ha segnalato **voto salute basso** e ha riscritto una dozzina di file `auto-coscienza/*.json` (refresh di sensori, costo-ai, cassa-runway, ecc. — bookkeeping, non un allarme di business). Il secondo (`78bcfcc39`, 08:37) è un fix di codice vero: `cervello/salute-onesta.mjs` calcolava `burn_down_margine` guardando le schede aperte "a settimana fa" invece che quelle aperte **adesso** (AR-671) — le due domande sono diverse (indietro nel tempo vs oggi) e la prima rispondeva alla domanda sbagliata, sotto/sovra-stimando il margine dichiarato del voto salute. Non l'ho scritto io: lo segnalo per trasparenza, verificato leggendo il diff.
+>
+> **Provati e bloccati (una sola volta ciascuno, non ritentati — stesso limite noto):** `freschezza-cadenze.mjs`, `north-star-check.mjs --gate`, `sonda-volano.mjs --json`, `piani-data.mjs --scrivi`. Eseguibili invece (allowlisted): `verifica-sensori.mjs`, `coerenza-fatti.mjs`, `chiusura-loop.mjs --sonda`.
+>
+> **Nessuna azione nuova di business generata**, ma il collaudo di fine giro (AR-532) ha trovato un passo saltato: `auto-radiografia.json` segna `serve_radiografia_completa: true` (115 ore dall'ultima radiografia completa) e nessuna card lo chiedeva ancora — accodata **#92** 🟡. Registrato anche l'esito di questo giro nel quaderno `@ad` (`chiusura-loop.mjs`, AR-009/AR-154). **Correzione:** il file `cervello/salute-onesta.mjs` segnalato dal cancello di fine turno come "committato da me" NON è lavoro mio — è il fix AR-671 del worker VPS (commit `78bcfcc39`, già documentato sopra); il cancello confronta contro un commit-base vecchio di 23 commit (dello stesso limite già noto, [[project-cancello-stop-base-commit-vecchio]]), quindi attribuisce a questo turno anche i commit autonomi del worker.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7, ora 18 giorni), 4 card 🔴 di merge PR in attesa di firma (#87/#88/#89/#90), **#92** (radiografia completa da rilanciare, nuova). Briefing: [[Briefing/2026-08-16]].
 
 > 🔁 **16/8 07:40 — Giro richiesto in chat. Nuovo giorno, business invariato. Trovato e corretto un piccolo difetto di coda (card duplicata).**
 > Riconfermato con `verifica-sensori.mjs` dal vivo (REST): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg, 7 clienti — identico al giro di ieri sera (15/8 11:25). `delta-gate.json` conferma la stessa firma dell'ultimo giro pieno. `coerenza-fatti.mjs` rieseguito dal vivo: ✅ coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: 103/120 quaderni fermi, nessuno sblocca una card business prima di settembre — vincolo north-star rispettato.
