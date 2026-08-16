@@ -1,14 +1,14 @@
 {
-  "data": "2026-08-16 12:30",
-  "situazione": "Business invariato, riconfermato dal vivo (12:25): 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star 53 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Memoria coerente. Novità tecnica (non di business): è comparsa una terza PR rossa, #741, colpa non ricostruibile da questa sessione — segnalata come rischio, non come card di firma. Confermato invariato il resto: PR #739/#738 verdi (pronte per la firma), PR #735 rossa (non mergiare).",
+  "data": "2026-08-16 12:56",
+  "situazione": "Business invariato dal 24/6 (delta-gate confermato): 1 ordine mai pagato/annullato, 0 pagati, 0 negli ultimi 7gg — stallo North Star 53 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Strategia snella applicata: 4° passaggio ravvicinato sullo stesso stato, non rilanciate query pesanti. Unica novità reale: PR #739 (card #102), tornata verde alle 11:08, è ricaduta rossa per un test del cervello genuino (carte-numerate.test.mjs) — ora 3 PR su 4 sono rosse (#741, #739, #735), solo #738 resta verde e firmabile (card #103).",
   "opportunita": [],
   "azioni": [
+    {"titolo": "Non firmare ancora il merge di PR #739", "motivo": "era tornata verde alle 11:08 ma è ricaduta rossa su un test del cervello vero (carte-numerate.test.mjs) — firmarla ora porterebbe un test rotto su main", "livello": "giallo"},
     {"titolo": "Correggi 5 righe nelle regole di permesso del VPS", "motivo": "5 righe dicono \"Write\" invece di \"Edit\" in .claude/settings.local.json sul VPS: è il motivo per cui il giro fallisce da quasi due settimane, il giro non riesce a scrivere memoria/cervello/Pannello per questo, da 12 giorni", "livello": "giallo"},
     {"titolo": "Scegli quale dei due significati del margine è quello giusto", "motivo": "il test del cervello è rosso per davvero: un commit di stamattina ha cambiato il numero senza aggiornare il test che lo controlla, e la macchina non può decidere da sola quale versione è quella voluta", "livello": "giallo"},
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
     {"titolo": "Tappa i cinque punti dove il marketplace perde soldi da solo", "motivo": "ferma dal 29/7 senza risposta: doppia vendita, coupon che si esauriscono sui tentativi, rider che si decide lo stipendio", "livello": "rosso"},
     {"titolo": "Chiudi le quattro porte aperte sui dati di negozi e clienti", "motivo": "falle RLS verificate sul database vero, ferme dal 29/7 senza risposta", "livello": "rosso"},
-    {"titolo": "Firma il merge delle due richieste di unione ormai verdi", "motivo": "PR #739 e PR #738 confermate verdi al 12:26 (GitHub di nuovo raggiungibile dopo il rate-limit)", "livello": "rosso"},
-    {"titolo": "Conferma se il post di Pane Quotidiano è un'eccezione voluta alla pausa contenuti", "motivo": "card #106 non porta il segno \"in pausa\" degli altri post fermi da luglio — testo e immagine già pronti, serve solo il tuo sì o no", "livello": "rosso"}
+    {"titolo": "Firma il merge della richiesta di unione ormai verde", "motivo": "PR #738 confermata verde al 12:55 — è l'unica delle 4 PR aperte rimasta pulita", "livello": "rosso"}
   ]
 }

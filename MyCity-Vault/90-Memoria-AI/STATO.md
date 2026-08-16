@@ -1,9 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 12:30
+aggiornato: 2026-08-16 12:56
 fonte: AD digitale (chat)
 ---
 
+> 🔁 **16/8 12:56 — Ennesimo giro richiesto in chat, 26 minuti dopo l'ultimo passaggio pieno (12:30). Strategia snella applicata** ([[playbook-giro-pieno-ripetuto-strategia]]): `delta-gate.json` conferma la firma di business identica a quella del giro pieno delle 12:34 (1 ordine, mai pagato, del 24/6; sensori invariati) — non ha senso rieseguire query REST/MCP o riscrivere i JSON pesanti dell'auto-coscienza (freschi da 7-27 minuti) per lo stesso stato. **L'unica novità reale trovata:** `ci-stato.mjs` rilanciato dal vivo (12:55) mostra **PR #739 ricaduta rossa** — era tornata verde alle 11:08, nuovi commit sullo stesso ramo hanno rotto `cervello/test/carte-numerate.test.mjs` (test del cervello, non il gate delle lezioni di #735). Ora **3 PR su 4 sono rosse** (#741, #739, #735), solo #738 resta verde e pronta per la firma (card #103). Aggiornate le card #100 e #102 in [[AZIONI-IN-ATTESA]] col nuovo verdetto: **non firmare la card #102 (merge #739)** finché non torna verde davvero. Nessuna azione business sbloccata da questa scoperta: resta debito macchina, non un blocco al primo ordine pagato.
+>
 > 🔁 **16/8 12:30 — Giro richiesto in chat, 18 minuti dopo il punto di mezzogiorno (12:12). Business invariato. Trovata una terza PR rossa (#741), non presente nei passaggi precedenti.**
 > Riconfermato dal vivo con `verifica-sensori.mjs` (REST, 12:25): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg — identica firma dal 24/6, stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme. `coerenza-fatti.mjs` ✅ coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: stessi ~103/120 quaderni fermi, nessuno sblocca una card business prima di settembre — vincolo north-star rispettato.
 >

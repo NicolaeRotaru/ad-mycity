@@ -1021,3 +1021,9 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-16 12:30 · @ad · FATTO · ci-stato.mjs rieseguito (GitHub di nuovo raggiungibile): trovata PR #741 rossa (2/2 controlli, colpa ignota da qui), non presente nei passaggi precedenti. Segnalata nei Rischi del briefing, nessuna card di firma (non è una decisione che aspetta Nicola).
 - 2026-08-16 12:30 · @ad · FATTO · Confermato invariato: PR #739/#738 verdi (#102/#103 pronte per la firma), PR #735 rossa (#89, non mergiare).
 - 2026-08-16 12:30 · @ad · SERVE · Invariato: card #62 resta l'unico vero blocco al primo incasso. Da Nicola: #36/#37/#38 (sicurezza, 18gg), #104 (permessi VPS), #105 (burn_down_margine), #106 (post PQ eccezione pausa), firma su #102/#103.
+
+### 2026-08-16 12:56 — Giro richiesto in chat (26' dopo il passaggio 12:30)
+- 2026-08-16 12:56 · @ad · FATTO · Strategia snella applicata: delta-gate.json conferma firma di business identica al giro pieno 12:34, non rilanciate query REST/MCP né JSON pesanti dell'auto-coscienza.
+- 2026-08-16 12:56 · @ad · FATTO · ci-stato.mjs rieseguito dal vivo (12:55): PR #739 ricaduta rossa (era verde alle 11:08) per un test del cervello vero (carte-numerate.test.mjs), non più per il gate delle lezioni. Ora 3 PR su 4 rosse (#741, #739, #735), solo #738 verde.
+- 2026-08-16 12:56 · @ad · FATTO · Aggiornate card #100 e #102 in AZIONI-IN-ATTESA con l'avviso "non mergiare finché non torna verde" (stesso trattamento di #89/PR #735).
+- 2026-08-16 12:56 · @ad · SERVE · Invariato: card #62 resta l'unico vero blocco al primo incasso. Firma disponibile solo su #103 (PR #738 verde); non firmare #102 (PR #739 rossa di nuovo).
