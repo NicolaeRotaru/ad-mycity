@@ -15742,6 +15742,27 @@
         "tipo": "umano",
         "nota": "Per riprodurlo servono due macchine che scrivono nello stesso momento, e da una sessione sola non lo so provare. Oggi la cura è stata togliere quei file dal ramo a mano: è un rimedio, non un freno. Debito dichiarato."
       }
+    },
+    {
+      "id": "AR-755",
+      "stato": "aperto",
+      "dimensione": "trovato-riparando",
+      "gravita": "grave",
+      "titolo": "Cambiare una riga in un file lungo scritto da un altro rende tuo tutto il resto, e il cancello chiede di riscriverlo",
+      "causa_radice": "Il cancello dello stop misura quanto un testo è diventato difficile da leggere, e confronta il totale di adesso con quello di inizio turno. Aveva già una difesa per la fusione — un file IDENTICO alla copia su main non è lavoro mio — ma il confine era l'identità esatta. Il 16/8 la coda delle azioni differiva da main per UNA riga (una card rinumerata, per togliere un numero che era finito su due card insieme) e l'intero file, ventunmila parole scritte dal worker, è tornato a essere mio: «questo lavoro gli ha aggiunto 33 punti difficili». Quei 33 erano già su main e lì valgono identici. Per consegnare una riga avrei dovuto riscrivere il testo di un altro — e un cancello che chiede questo è un cancello che si impara ad aggirare, che è esattamente il modo in cui i freni di questa casa sono morti in passato.",
+      "fix_proposto": "Il termine di paragone non è solo «com'era a inizio turno» ma il PEGGIORE fra inizio turno e main: sono entrambi testo già pubblicato, e nessuno dei due l'ha scritto questo lavoro. `testoDaMisurare` porta con sé anche la copia di main, e il conteggio prende il massimo delle due basi.",
+      "dove": "cervello/cancello-stop.mjs",
+      "impatto_crescita": "indiretto: è debito della macchina, ma un cancello che non può diventare verde senza riscrivere il lavoro di un altro viene aggirato, e allora non protegge più niente",
+      "nato": "2026-08-16 13:05",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 44, quarta fusione con main: una card rinumerata ha reso mio tutto il testo del worker",
+      "lotto_scoperta": 44,
+      "lotto_riparazione": 44,
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/cancello-stop.test.mjs"
+      },
+      "nota_fix": "Ho scelto il massimo fra le due basi invece del confronto frase per frase, che sarebbe la cura completa. Il buco che resta lo dichiaro: un ramo che avesse MIGLIORATO un file sotto il livello di main potrebbe riportarlo a quel livello senza far scattare niente. Chiuderlo vuol dire confrontare gli insiemi di frase invece dei totali, ed è il passo dopo — l'ho scritto anche nel commento del codice, così chi arriva lo trova. Cosa NON ho verificato: come si comporta quando main e il ramo hanno storie molto divergenti sullo stesso file, perché da qui non ho un caso vero da cui misurarlo."
     }
   ],
   "meta": {

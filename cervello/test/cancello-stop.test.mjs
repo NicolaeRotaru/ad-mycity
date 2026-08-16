@@ -686,6 +686,43 @@ test("un file che su main non esiste è tutto mio", () => {
   assert.equal(t.contenutoPrima, null, "e parte da zero: ogni suo problema è nuovo");
 });
 
+// ── AR-755: cambiare UNA riga non rende mio tutto il resto del file ────────────
+//
+// Il 16/8 la coda delle azioni differiva da main per una riga sola — una card rinumerata, per
+// togliere un numero che era finito su due card insieme. Il cancello l'ha misurata per intero e ha
+// detto «questo lavoro gli ha aggiunto 33 punti difficili»: quei 33 li aveva scritti il worker su
+// main, e misurati lì valgono identici. Per consegnare una riga avrei dovuto riscrivere ventunmila
+// parole di un altro — cioè il cancello sarebbe diventato una cosa da aggirare.
+test("chi misura sa anche com'è il file su main, non solo com'era a inizio turno", () => {
+  const t = testoDaMisurare("MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", {
+    ora: () => "coda del worker, più una mia riga",
+    pubblicato: () => "coda del worker",
+    prima: () => "coda com'era ieri, senza le card di oggi",
+  });
+  assert.ok(t, "differisce da main per una riga: resta lavoro di questo lotto");
+  assert.equal(
+    t.contenutoSuMain,
+    "coda del worker",
+    "senza la copia di main non si può distinguere il debito del worker dal mio",
+  );
+});
+
+test("il livello già pubblicato è il PEGGIORE fra inizio turno e main", () => {
+  // Il caso del 16/8 in piccolo. Su main il file porta già quattro punti difficili, scritti dal
+  // worker. A inizio turno quel testo sul ramo non c'era ancora: è arrivato con la fusione. Io ci
+  // aggiungo UNA parola mia. Quello che deve uscire è «uno», non «cinque».
+  const suMain = "Il guardiano del cantiere ha trovato un difetto nel lotto.";
+  const t = testoDaMisurare("MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", {
+    ora: () => `${suMain} E anche il sensore.`,
+    pubblicato: () => suMain,
+    prima: () => "a inizio turno qui non c'era niente di difficile da leggere",
+  });
+  const fuori = testiIlleggibili([t], new Set());
+  assert.equal(fuori.length, 1, "una parola in più della peggiore fra le due basi resta mia, e va detta");
+  assert.equal(fuori[0].prima, 4, "il livello di partenza è quello di main, non quello di inizio turno");
+  assert.equal(fuori[0].nuovi, 1, "una, non cinque: le altre quattro le ha scritte il worker su main");
+});
+
 // Le due difese qui sotto (AR-657, per FILE) e qui sopra (per CONTENUTO) sono complementari e
 // stanno insieme apposta: una toglie dal perimetro i file che la fusione ha portato sul ramo,
 // l'altra i file che nel mio albero sono identici alla copia pubblicata. Un file può sfuggire

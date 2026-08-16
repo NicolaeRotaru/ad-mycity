@@ -1885,3 +1885,29 @@ Pannello (il Deploy Hook parte su main).
 - **Cosa non ho potuto verificare da qui:** le 29 prove in bash (manca `bats`) · niente sul VPS, che
   da una sessione cloud si vede solo di riflesso · se `mcp_supabase` risponda sul server · e la
   risposta di Nicola sui due sensori spenti, che è sua e non mia.
+
+---
+
+## 2026-08-16 13:15 — 🟡 La CI provava una cosa che qui non vedevo, e aveva ragione
+
+- **Cosa è successo:** la CI era rossa su una prova che qui era verde, sullo stesso commit. Il motivo:
+  **la CI non prova il mio ramo, prova il mio ramo GIÀ FUSO con quello principale.** Riprodotta quella
+  condizione, il rosso è comparso anche qui. Da adesso, prima di dire «verde», la fusione va fatta.
+- **Il rosso era AR-751 dal vivo:** un numero di card finito di nuovo su due card insieme (il 106).
+  Non è una ricaduta: sul ramo principale gira ancora il vecchio codice che conta metà coda, quindi
+  continua a produrne finché questa richiesta non viene unita. Rinumerata la card e basta.
+- **AR-755, e questo è il difetto vero della giornata.** Rinumerare quella card ha reso il ramo diverso
+  da main per UNA riga — e il cancello dello stop ha ripreso a misurare l'intero file, ventunmila
+  parole scritte dal worker, dicendo «questo lavoro gli ha aggiunto 33 punti difficili». Erano già su
+  main, dove valgono identici. Per consegnare una riga avrei dovuto riscrivere il testo di un altro.
+  *Un cancello che chiede questo è un cancello che si impara ad aggirare* — ed è così che i freni di
+  questa casa sono morti in passato. Adesso il livello di partenza è il peggiore fra inizio turno e
+  main: sono entrambi testo già pubblicato, e nessuno dei due l'ha scritto questo lavoro.
+- **Il buco che resta, dichiarato:** un ramo che avesse MIGLIORATO un file sotto il livello di main
+  potrebbe riportarlo a quel livello senza far scattare niente. Chiuderlo vuol dire confrontare le
+  frasi una per una invece dei totali. È scritto nel commento del codice e nella scheda, non taciuto.
+- **Una prova mia era vacua e me l'ha detto la mutazione, non io.** Il primo caso che avevo scritto per
+  AR-755 restava verde anche col fix disfatto: avevo scelto un testo in cui il metro conta zero
+  problemi in entrambe le versioni, quindi non c'era differenza da misurare. Rifatto con numeri veri
+  (quattro punti su main, cinque sul mio): con la mutazione diventa rosso.
+- **Stato:** 🟡 cancello verde, uscita 0. Il merge è di Nicola.
