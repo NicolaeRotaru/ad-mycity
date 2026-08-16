@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-08-16 16:00",
+  "aggiornato": "2026-08-16 16:03",
   "regole": {
     "salute_bassa": {
       "ultima_firma": "AR-045,AR-046,AR-047,AR-048,AR-050,AR-051,AR-052,AR-053,AR-054,AR-055,AR-056,AR-057,AR-058,AR-059,AR-060,AR-061,AR-062,AR-063,AR-064,AR-065,AR-067,AR-068,AR-069,AR-070,AR-071,AR-072,AR-073,AR-074,AR-075,AR-076,AR-077,AR-078,AR-079,AR-080,AR-081,AR-082,AR-083,AR-084,AR-085,AR-086,AR-087,AR-088,AR-089,AR-091,AR-092,AR-093,AR-094,AR-095,AR-096,AR-100,AR-102,AR-103,AR-104,AR-128,AR-131,AR-133,AR-142,AR-158,AR-160,AR-161,AR-174,AR-175,AR-181,AR-184,AR-190,AR-191,AR-192,AR-193,AR-198,AR-199,AR-200,AR-202,AR-203,AR-206,AR-208,AR-209,AR-210,AR-274,AR-282,AR-283,AR-285,AR-288,AR-289,AR-290,AR-295,AR-329,AR-345,AR-347,AR-351,AR-352,AR-354,AR-355,AR-356,AR-365,AR-366,AR-386,AR-388,AR-392,AR-394,AR-398,AR-411,AR-436,AR-504,AR-518,AR-521,AR-560,AR-561,AR-576,AR-584,AR-588,AR-598,AR-599,AR-600,AR-608,AR-611,AR-617,AR-618,AR-621,AR-622,AR-623,AR-630,AR-640,AR-641,AR-645",
@@ -64,7 +64,7 @@
     "2026-08-16T13:56:02.260Z"
   ],
   "ultima_recensione_vista": "2026-08-16T13:46:56.834Z",
-  "tick": 14,
+  "tick": 17,
   "storia": [
     {
       "quando": "2026-08-16 15:46",
@@ -149,10 +149,28 @@
       "eventi": 8,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-08-16 16:01",
+      "eventi": 8,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-16 16:02",
+      "eventi": 8,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-16 16:03",
+      "eventi": 8,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "timbro": {
-    "quando": "2026-08-16 16:00",
+    "quando": "2026-08-16 16:03",
     "scade_dopo_ore": 3,
     "ambiente": "locale",
     "scritto_da": "cervello/sentinella-dati.mjs",
@@ -163,9 +181,9 @@
       "MARKETPLACE_SUPABASE_KEY"
     ]
   },
-  "senior_giri_sotto": 14,
+  "senior_giri_sotto": 17,
   "ultimo_stato": {
-    "quando": "2026-08-16 16:00",
+    "quando": "2026-08-16 16:03",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
