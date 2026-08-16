@@ -1,8 +1,17 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 22:29
+aggiornato: 2026-08-16 23:35
 fonte: AD digitale (chat)
 ---
+
+> 🔬 **16/8 23:35 — Giro richiesto in chat, ~1h dopo il passaggio 22:29/22:36. Business invariato, riparato un difetto di processo.**
+> Riconfermato dal vivo con query SQL dirette via MCP (23:33): 1 ordine mai pagato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. 7 profili, 1 vetrina attiva, 0 recensioni: tutto identico al passaggio precedente.
+>
+> **Difetto vero trovato e riparato: `auto-analisi.json` era fermo da 12 ore (ultima scrittura vera 11:12)** perché i passaggi 12:12→22:29 lo saltavano ogni volta con "dati identici, non riscrivo" — ma il guardiano `freschezza-cadenze.mjs` misura quando il file è scritto, non se il numero dentro cambia, e segnalava rosso: "giro 22:36 uscito senza auto-analisi". Riscritti `auto-analisi.json` e `AUTO-ANALISI.md` con verifica vera. Corretta anche la regola della strategia snella per i prossimi passaggi: i due file del cancello di serietà vanno riscritti almeno una volta a giro pieno, non solo quando cambia il dato.
+>
+> Bloccati come sempre gli script diagnostici pesanti non allowlistati (`verifica-automazione`, `north-star-check --gate`, `sonda-volano`, `gate-veri`) e `gh pr list` (negato due volte): stato delle 3 PR rosse (#749/#741/#735) ereditato dal passaggio 22:29, non riverificato ora.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38), **#109** (come procedere con le 3 PR rosse croniche — domanda aperta a Nicola).
 
 > 🔄 **16/8 22:29 — Giro richiesto in chat, ~6h dopo il report della sera (18:01). Business invariato, novità sulla coda PR.**
 > Riconfermato dal vivo con `verifica-sensori.mjs` (22:27, REST): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. `coerenza-fatti.mjs` ✅ coerente, 0 cacce aperte. Il worker sul VPS ha continuato a girare da solo tra le 21:10 e le 22:26 (recuperi, riconcilia, sentinella salute — voto 4, coerente col letargo già segnalato): nessuna novità di business in quei passaggi.

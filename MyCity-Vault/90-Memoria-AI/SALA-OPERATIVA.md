@@ -1047,3 +1047,9 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-16 22:29 · @ad · FATTO · ci-stato.mjs rilanciato dal vivo: PR #749 (card #111) è passata da verde a rossa dopo l'accodamento; PR #738 (card #103) confermata mergiata via `git log origin/main` (commit ceb988da1) e chiusa. Le 3 PR aperte (#749, #741, #735) sono ora tutte rosse — nessuna pronta per la firma.
 - 2026-08-16 22:29 · @ad · FATTO · Accodata card #112 in AZIONI-IN-ATTESA: riassume che zero PR sono pronte per l'approvazione in questo momento, nessuna azione richiesta da Nicola su questo fronte.
 - 2026-08-16 22:29 · @ad · SERVE · Invariato: card #62 resta l'unico vero blocco al primo incasso. Card #109 resta aperta: come procedere con le PR rosse croniche.
+
+### 2026-08-16 23:35 — Giro richiesto in chat (~1h dopo il passaggio 22:29/22:36)
+- 2026-08-16 23:35 · @ad · FATTO · Business riverificato con query SQL dirette via MCP (`execute_sql`, non ereditate): orders 0 pagati/1 totale/0 ultimi 7gg, profiles 7 (4 buyer/1 seller/1 rider/1 admin), seller_storefronts 1, reviews 0 — identico al passaggio 22:29.
+- 2026-08-16 23:35 · @ad · FATTO · Trovato e riparato: `auto-analisi.json` era fermo da 12 ore (ultima scrittura vera 11:12) perché i passaggi 12:12→22:29 lo saltavano ogni volta a parità di dati — il guardiano `freschezza-cadenze.mjs` segnalava rosso proprio questo. Riscritti `auto-analisi.json` + `AUTO-ANALISI.md` con verifica vera; corretta la regola della strategia snella per i prossimi passaggi (vedi [[playbook-giro-pieno-ripetuto-strategia]]).
+- 2026-08-16 23:35 · @ad · FATTO · Aggiornati STATO.md, Briefing/2026-08-16.md, ultimo-briefing.json con questo passaggio.
+- 2026-08-16 23:35 · @ad · SERVE · Invariato: card #62 resta l'unico vero blocco al primo incasso. Stato delle 3 PR rosse (#749/#741/#735) e card #109 restano quelli del passaggio 22:29, non riverificabili ora (`gh pr list` negato).

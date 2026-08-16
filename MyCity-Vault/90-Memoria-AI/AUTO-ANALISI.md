@@ -1,3 +1,46 @@
+# 🔬 AUTO-ANALISI — 2026-08-16 23:35
+
+> Giro richiesto in chat, ~1h dopo il passaggio delle 22:29/22:36. Business riverificato con query SQL
+> dirette via MCP (non ereditate): 0 ordini pagati su 1 totale, 0 negli ultimi 7 giorni, ultimo ordine
+> 2026-06-24 — identico. 7 profili (4 buyer, 1 seller, 1 rider, 1 admin), 1 vetrina attiva, 0 recensioni.
+> Stallo North Star **53 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9.
+
+## Voto di fiducia: 86/100 (▼ da 89)
+
+Nessun dato di business nuovo in questo passaggio. Il lavoro reale è stato correggere un difetto di
+processo che riguarda proprio questo cancello di serietà.
+
+1. **`auto-analisi.json` era fermo alle 11:12. 12 ore ferme.** I passaggi dalle 12:12 alle 22:29 lo hanno
+   saltato ogni volta. Motivo dato: "dati identici, non riscrivo" (la strategia snella,
+   [[playbook-giro-pieno-ripetuto-strategia]]). Quel ragionamento va bene per i JSON pesanti di DATI
+   (numeri, sentinelle). Non va bene per questo file. Il motivo: `freschezza-cadenze.mjs` guarda QUANDO
+   il file è stato scritto. Non guarda se il numero dentro è cambiato. Ha segnalato rosso: "il giro delle
+   22:36 è uscito saltando l'auto-analisi o l'apprendimento". Riscritto ora per davvero. **Abbasso il
+   voto** per questo: il vincolo era rosso da un giro pieno intero prima che qualcuno se ne accorgesse.
+   Non perché sia comparso un difetto nuovo nel marketplace.
+2. **Script diagnostici pesanti bloccati come sempre in questa sessione**, provati una volta ciascuno e non
+   ritentati (regola dei 2 blocchi, [[feedback-agenti-background-verifica-permessi]]):
+   `verifica-automazione.mjs --json`, `north-star-check.mjs --gate`, `sonda-volano.mjs --json`,
+   `gate-veri.mjs`. Causa nota, radice = card #104 (allowlist VPS). Aggirati dove possibile con query SQL
+   dirette via MCP invece dello script.
+3. **`gh pr list` negato esplicitamente due volte** (non "richiede approvazione" come gli altri — un
+   diniego diretto). Lo stato delle 3 PR aperte (#749, #741, #735, tutte rosse al 22:29) è **ereditato dal
+   briefing precedente, non riverificato in questo passaggio**: segnalato nei Gap, non dato per buono.
+4. **`correzione-nicola-gate` resta rosso** (246/311 lezioni senza un `gate:` verificabile). Non ho
+   aggiunto un gate "a penna": non potevo verificarlo con `gate-veri.mjs` (bloccato, punto 2). Sarebbe
+   stato l'errore-tipo che l'asticella vieta: una prova che gira, non una parola scritta in un file.
+   Riconosciuto come debito aperto, non finto chiuso.
+
+## Grounding delle entità
+Nessuna entità nuova citata in questo passaggio. Le uniche entità toccate (1 ordine/0 pagati, 7 profili, 1
+vetrina Pane Quotidiano, 0 recensioni) sono **confermate**: dati reali, letti in diretta con query SQL via
+MCP Supabase in questo stesso passaggio (23:33).
+
+## Domande aperte per Nicola
+Nessuna nuova. Restano valide quelle del briefing 22:29 (coda PR rosse, card #104, card #62 pagamenti PQ).
+
+---
+
 # 🔬 AUTO-ANALISI — 2026-08-16 16:28
 
 > Giro richiesto in chat. Sono passate 3 ore e mezza dal passaggio delle 12:56. Era già il 4° passaggio

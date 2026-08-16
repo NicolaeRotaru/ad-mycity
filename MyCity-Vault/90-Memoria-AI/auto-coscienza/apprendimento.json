@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-16 23:21",
+ "aggiornato": "2026-08-16 23:44",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -2842,14 +2842,15 @@
     "caso-studio"
    ],
    "reparto": "@marketing",
-   "confidenza": 0.9,
+   "confidenza": 0.75,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-19",
    "ultima_conferma": "2026-07-19 23:34",
    "stato": "attiva",
-   "usi": []
+   "usi": [],
+   "decaduto_step_il": "2026-08-16 23:35"
   },
   {
    "id": "L-2026-0719-335",
@@ -2885,7 +2886,7 @@
     "caso-studio"
    ],
    "reparto": "@tech",
-   "confidenza": 0.95,
+   "confidenza": 0.7999999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -2893,7 +2894,8 @@
    "ultima_conferma": "2026-07-19 23:23",
    "stato": "attiva",
    "usi": [],
-   "gate": "node cervello/ramo-pulito.mjs"
+   "gate": "node cervello/ramo-pulito.mjs",
+   "decaduto_step_il": "2026-08-16 23:35"
   },
   {
    "id": "L-2026-0719-333",
@@ -2907,14 +2909,15 @@
     "caso-studio"
    ],
    "reparto": "@builder-automazioni",
-   "confidenza": 0.95,
+   "confidenza": 0.7999999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-19",
    "ultima_conferma": "2026-07-19 23:33",
    "stato": "attiva",
-   "usi": []
+   "usi": [],
+   "decaduto_step_il": "2026-08-16 23:35"
   },
   {
    "id": "L-2026-0719-332",
@@ -3401,14 +3404,15 @@
     "caso-studio"
    ],
    "reparto": "@onboarding-negozi",
-   "confidenza": 0.96,
+   "confidenza": 0.8099999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-19",
    "ultima_conferma": "2026-07-19 23:23",
    "stato": "attiva",
-   "usi": []
+   "usi": [],
+   "decaduto_step_il": "2026-08-16 23:35"
   },
   {
    "id": "L-2026-0719-311",
@@ -13355,12 +13359,12 @@
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.12,
-  "tasso_calcolato_il": "2026-08-16 23:21",
+  "tasso_calcolato_il": "2026-08-16 23:44",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-16 23:21",
+  "tick_leggero_il": "2026-08-16 23:41",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-16 22:26",
+  "cristallizzazione_ultima": "2026-08-16 23:35",
   "lezioni_totali": 521,
   "lezioni_per_stato": {
    "attiva": 416,
