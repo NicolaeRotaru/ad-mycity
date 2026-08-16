@@ -61,7 +61,14 @@ export const CONTRATTO = {
       // il giro scrive, qualcuno lo mostra. Perciò la riga qui sotto arriva INSIEME al tile nel
       // Pannello (AutoCoscienza.tsx) — e una prova tiene i due elenchi allineati, o fra un mese
       // saranno di nuovo due.
-      canonici: ["supabase", "stripe", "dati_freschi", "sensori_attivi", "sito_uptime"],
+      // `sensori_ciechi_dichiarati` e `telegram_bot` sono entrati il 15/8 con la stessa identica
+      // dinamica di `sito_uptime`: il giro li scriveva, il contratto li bocciava (cancello rosso su
+      // OGNI PR aperta, non solo quelle che toccano questo file), e l'informazione non arrivava in
+      // Cabina lo stesso. Stessa cura: la chiave entra qui INSIEME al tile in AutoCoscienza.tsx.
+      canonici: [
+        "supabase", "stripe", "dati_freschi", "sensori_attivi", "sito_uptime",
+        "sensori_ciechi_dichiarati", "telegram_bot",
+      ],
       vietati: ["supabase_marketplace", "supabase_memoria"], // AR-043: alias che spengono i tile
     },
   },

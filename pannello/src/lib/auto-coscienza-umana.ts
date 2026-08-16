@@ -121,5 +121,20 @@ export function saluteValore(k: string, v: unknown): { label: string; ok: boolea
     if (s.includes("cieco") || s.includes("non misurat")) return { label: "⚪ non misurato", ok: false };
     return { label: "non risponde", ok: false };
   }
+  // Sensori ciechi dichiarati: qui il numero corretto è zero, non "più alto è meglio" come per i
+  // sensori attivi — un ramo condiviso con quello sopra mostrerebbe verde proprio quando ce ne sono.
+  if (key.includes("ciechi")) {
+    const n = Number(v) || 0;
+    return { label: n > 0 ? `${n} dichiarati` : "nessuno", ok: n === 0 };
+  }
+  // Telegram: "non configurato" è una scelta dichiarata (card #66), non un guasto — stesso ⚪ del
+  // sito non misurato, per non farlo leggere come un errore quando è un rinvio deciso.
+  if (key.includes("telegram")) {
+    const s = String(v ?? "").trim().toLowerCase();
+    if (!s) return { label: "—", ok: false };
+    if (s.includes("non configurato")) return { label: "⚪ non configurato (scelta)", ok: false };
+    if (s.startsWith("ok") || s.includes("configurato")) return { label: "configurato", ok: true };
+    return { label: "problema", ok: false };
+  }
   return { label: String(v ?? "—"), ok: !!v };
 }
