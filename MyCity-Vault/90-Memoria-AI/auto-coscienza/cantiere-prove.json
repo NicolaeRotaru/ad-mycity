@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-16 07:31",
+  "aggiornato": "2026-08-16 07:46",
   "giorni_sospetto": 3,
-  "difetti_aperti": 240,
+  "difetti_aperti": 179,
   "per_classe": {
     "umana": 131,
     "auto-sospetta": 38,
-    "auto-comando": 71
+    "auto-comando": 10
   },
   "non_auto_chiudibili": 169,
   "bloccanti_ciechi": [
@@ -53,34 +53,6 @@
       ]
     },
     {
-      "id": "AR-602",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-603",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-604",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
-      "id": "AR-607",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
       "id": "AR-611",
       "gravita": "grave",
       "manca": [
@@ -109,13 +81,6 @@
       ]
     },
     {
-      "id": "AR-639",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita"
-      ]
-    },
-    {
       "id": "AR-640",
       "gravita": "grave",
       "manca": [
@@ -130,29 +95,6 @@
       ]
     },
     {
-      "id": "AR-692",
-      "gravita": "medio",
-      "manca": [
-        "nato"
-      ]
-    },
-    {
-      "id": "AR-693",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita",
-        "nato"
-      ]
-    },
-    {
-      "id": "AR-694",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita",
-        "nato"
-      ]
-    },
-    {
       "id": "AR-695",
       "gravita": "medio",
       "manca": [
@@ -161,79 +103,7 @@
       ]
     },
     {
-      "id": "AR-698",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita",
-        "nato"
-      ]
-    },
-    {
-      "id": "AR-699",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita",
-        "nato"
-      ]
-    },
-    {
-      "id": "AR-700",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita",
-        "nato"
-      ]
-    },
-    {
-      "id": "AR-701",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita",
-        "nato"
-      ]
-    },
-    {
       "id": "AR-703",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita",
-        "nato"
-      ]
-    },
-    {
-      "id": "AR-704",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita",
-        "nato"
-      ]
-    },
-    {
-      "id": "AR-705",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita",
-        "nato"
-      ]
-    },
-    {
-      "id": "AR-706",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita",
-        "nato"
-      ]
-    },
-    {
-      "id": "AR-707",
-      "gravita": "grave",
-      "manca": [
-        "impatto_crescita",
-        "nato"
-      ]
-    },
-    {
-      "id": "AR-708",
       "gravita": "grave",
       "manca": [
         "impatto_crescita",
@@ -1380,7 +1250,7 @@
     },
     {
       "id": "AR-596",
-      "stato": "aperto",
+      "stato": "chiuso",
       "alias": [
         {
           "campo": "severita",
@@ -1452,7 +1322,7 @@
     },
     {
       "id": "AR-602",
-      "stato": "aperto",
+      "stato": "chiuso",
       "alias": [
         {
           "campo": "severita",
@@ -1464,7 +1334,7 @@
     },
     {
       "id": "AR-603",
-      "stato": "aperto",
+      "stato": "chiuso",
       "alias": [
         {
           "campo": "severita",
@@ -1476,7 +1346,7 @@
     },
     {
       "id": "AR-604",
-      "stato": "aperto",
+      "stato": "chiuso",
       "alias": [
         {
           "campo": "severita",
@@ -1488,7 +1358,7 @@
     },
     {
       "id": "AR-605",
-      "stato": "aperto",
+      "stato": "chiuso",
       "alias": [
         {
           "campo": "severita",
@@ -1512,7 +1382,7 @@
     },
     {
       "id": "AR-607",
-      "stato": "aperto",
+      "stato": "chiuso",
       "alias": [
         {
           "campo": "severita",
@@ -1584,7 +1454,7 @@
     },
     {
       "id": "AR-613",
-      "stato": "aperto",
+      "stato": "chiuso",
       "alias": [
         {
           "campo": "severita",
@@ -1596,7 +1466,7 @@
     },
     {
       "id": "AR-614",
-      "stato": "aperto",
+      "stato": "chiuso",
       "alias": [
         {
           "campo": "severita",
@@ -1608,7 +1478,7 @@
     },
     {
       "id": "AR-615",
-      "stato": "aperto",
+      "stato": "chiuso",
       "alias": [
         {
           "campo": "severita",
@@ -1620,7 +1490,7 @@
     },
     {
       "id": "AR-616",
-      "stato": "aperto",
+      "stato": "chiuso",
       "alias": [
         {
           "campo": "severita",
@@ -1896,7 +1766,7 @@
     },
     {
       "id": "AR-639",
-      "stato": "aperto",
+      "stato": "chiuso",
       "alias": [
         {
           "campo": "severita",
@@ -2436,15 +2306,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-286",
-      "gravita": "minore",
-      "eta_giorni": 20,
-      "titolo": "Nessuna misura dei sensori dice da quale computer è stata scritta",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/misura-che-non-sporca.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-288",
       "gravita": "grave",
       "eta_giorni": 20,
@@ -2742,15 +2603,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-431",
-      "gravita": "minore",
-      "eta_giorni": 18,
-      "titolo": "La mappa dei rischi dell'azienda è ferma al due luglio e nessuno controlla che sia fresca, mentre per la check",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/guardiano-mai-messo-di-guardia.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-432",
       "gravita": "grave",
       "eta_giorni": 18,
@@ -2785,33 +2637,6 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-446",
-      "gravita": "grave",
-      "eta_giorni": 17,
-      "titolo": "Tredici test scrivono nella memoria VERA della macchina, e uno tocca il registro dei fatti",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/misura-che-non-sporca.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-458",
-      "gravita": "minore",
-      "eta_giorni": 17,
-      "titolo": "gate-veri butta via la differenza fra «freno mai costruito» e «freno che aspetta un merge»: grida al lupo su o",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/gate-veri-in-attesa.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-464",
-      "gravita": "minore",
-      "eta_giorni": 17,
-      "titolo": "Lanciare un guardiano per VERIFICARE sporca l'albero: verificare costa un diff, e l'incentivo diventa non veri",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/misura-che-non-sporca.test.mjs",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-504",
@@ -3345,24 +3170,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-556",
-      "gravita": "grave",
-      "eta_giorni": 12,
-      "titolo": "La guardia blocca la macchina che aggiorna i propri referti: ogni rapporto rigenerato sembra una difesa spenta",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/sorvegliante.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-557",
-      "gravita": "grave",
-      "eta_giorni": 12,
-      "titolo": "Un difetto chiuso con una prova che non prova piu: rompo la guardia sui file cancellati e il test resta verde",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/sorvegliante.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-560",
       "gravita": "grave",
       "eta_giorni": 6,
@@ -3379,15 +3186,6 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-565",
-      "gravita": "grave",
-      "eta_giorni": 6,
-      "titolo": "Due guardiani guardano lo stesso diciotto per cento: uno dice che sto imparando, l'altro che sono malata",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/prova-che-non-puo-fallire.test.mjs",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-567",
@@ -3435,15 +3233,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-596",
-      "gravita": "minore",
-      "eta_giorni": 3,
-      "titolo": "Un freno su tre è senza la prova che scatti: diciannove lezioni frenate non hanno la mutazione",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/prova-che-non-puo-fallire.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-598",
       "gravita": "grave",
       "eta_giorni": 3,
@@ -3480,51 +3269,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-602",
-      "gravita": "grave",
-      "eta_giorni": 3,
-      "titolo": "La risposta di un lavoro aperto resta quella vecchia anche quando il lavoro è finito",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/c4-recupero-thread.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-603",
-      "gravita": "grave",
-      "eta_giorni": 3,
-      "titolo": "Ricaricando la pagina l'archivio perde i titoli veri e il recupero delle risposte dai lavori gira a vuoto",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/c4-recupero-thread.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-604",
-      "gravita": "grave",
-      "eta_giorni": 3,
-      "titolo": "La casella promette di ripescare la risposta alla riapertura, ma riaprirla non ripesca niente",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/c4-recupero-thread.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-605",
-      "gravita": "minore",
-      "eta_giorni": 3,
-      "titolo": "Salvataggi e letture partono da dentro gli aggiornamenti di stato e possono partire doppi",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/c4-effetti-fuori-dagli-updater.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-607",
-      "gravita": "grave",
-      "eta_giorni": 3,
-      "titolo": "La schermata di errore promette che il resto del Pannello funziona, ma quando compare è sparito tutto",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/c4-decisione-fuori-da-react.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-608",
       "gravita": "minore",
       "eta_giorni": 3,
@@ -3541,42 +3285,6 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-613",
-      "gravita": "minore",
-      "eta_giorni": 3,
-      "titolo": "L'area dove si firma è invisibile ai lettori di schermo: zero etichette di accessibilità e bottoni dentro bott",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/c4-schermo-coda.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-614",
-      "gravita": "minore",
-      "eta_giorni": 3,
-      "titolo": "In tema scuro i bordi e i badge colorati delle card restano quelli del tema chiaro",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/c4-decisione-fuori-da-react.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-615",
-      "gravita": "minore",
-      "eta_giorni": 3,
-      "titolo": "Il tasto Ignora di una proposta accetta il doppio tocco e spara due richieste",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/c4-decisione-fuori-da-react.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-616",
-      "gravita": "minore",
-      "eta_giorni": 3,
-      "titolo": "Il registro delle azioni mostra i titoli grezzi, saltando il filtro che pulisce sigle e percorsi",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/c4-decisione-fuori-da-react.test.mjs",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-617",
@@ -3642,15 +3350,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-639",
-      "gravita": "grave",
-      "eta_giorni": 3,
-      "titolo": "Gli strumenti di misura scrivono la memoria anche quando devono solo leggere, e l'archivio butta via storia ve",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/misura-che-non-sporca.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-640",
       "gravita": "grave",
       "eta_giorni": 3,
@@ -3678,15 +3377,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-651",
-      "gravita": "medio",
-      "eta_giorni": 3,
-      "titolo": "Le lezioni non hanno nessun punto di scrittura nel codice: gli id si coniano a mano in sessione, ed è la causa",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/porta-delle-lezioni.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-652",
       "gravita": "minore",
       "eta_giorni": 3,
@@ -3694,24 +3384,6 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-653",
-      "gravita": "medio",
-      "eta_giorni": 3,
-      "titolo": "Sul server il sensore PostHog gira e risulta verde nonostante la decisione di spegnerlo",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/misura-che-non-sporca.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-654",
-      "gravita": "minore",
-      "eta_giorni": 3,
-      "titolo": "Il registro dei motivi dei sensori non sa che PostHog è spento per decisione",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/misura-che-non-sporca.test.mjs",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-659",
@@ -3723,60 +3395,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-663",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Un guardiano di sola lettura riscrive il suo referto nel vault a ogni interrogazione",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/misura-che-non-sporca.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-664",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Un guardiano muore con lo stack trace invece di dichiararsi cieco quando il registro-fatti ha una forma inatte",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/cieco-venduto-per-verde.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-665",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "AR-648 resta aperto su peso-file-cabina.mjs perche' il suo test copia lo script da solo in una cartella tempor",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/peso-file-cabina.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-666",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "L'ora scritta a mano vive ancora in almeno diciassette punti del cervello fuori da questo lotto",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/ora-scritta-a-mano-nel-cervello.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-667",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "salute.mjs promuove a verde qualunque codice d'uscita che non sia 1, compreso il 2 del cieco",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/cieco-venduto-per-verde.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-668",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Un comando di misura scrive nel vault vero anche quando lo lancia una prova, tramite uno script annidato",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/misura-che-non-sporca.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-669",
       "gravita": "minore",
       "eta_giorni": 2,
@@ -3784,168 +3402,6 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-670",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Il Pannello ha due definizioni di «quanti difetti aperti» e nessuna delle due è dichiarata: la stessa pagina n",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/parola-senza-padrone.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-671",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Il burn-down del cantiere può migliorare da solo: i difetti senza data di nascita venivano scartati in silenzi",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/burn-down-che-migliora-da-solo.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-672",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Due file del Pannello hanno ancora il fuso di Roma scritto a mano, fuori dal territorio di questa corsia",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/orologi-inchiodati-allora-legale.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-673",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Il deep-link dell'auto-coscienza scorre verso una casella che non esiste piu",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/c4-decisione-fuori-da-react.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-674",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Nel gestore centrale dell'indietro resta un timbro che fonde tutto lo stato a occhi chiusi",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/c4-voce-senza-vista.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-675",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Una card della coda ha due memorie diverse di «sono aperta»",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/c4-decisione-fuori-da-react.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-676",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Il filtro --solo di test-cervello guardava una famiglia sola di prove e concludeva «non c'e niente»",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/prova-che-non-puo-fallire.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-677",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il perimetro dei moduli del cervello e quasi il doppio di quello che i conti a mano dicevano: 270 file, non 19",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/import-che-esegue.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-678",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Su un tronco condiviso da piu corsie, `git diff HEAD` attribuisce a ogni lotto il lavoro di tutti",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/prova-che-non-puo-fallire.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-679",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Il guardiano del registro puniva proprio il deferral che risolve il doppione",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/deferral-non-e-una-collisione.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-680",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "keyword-owner-check partiva da solo appena importato",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/importare-un-guardiano-non-lo-esegue.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-681",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "La mia prima versione della porta nascondeva un registro illeggibile dietro un elenco vuoto",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/verde-comprato-senza-guardare.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-682",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Un workflow su sei non è evocato da nessun comando",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/ogni-workflow-ha-la-sua-porta.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-683",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Tre difetti CHIUSI hanno la prova ROSSA adesso, e nessuno se n'era accorto",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/prova-che-non-puo-fallire.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-684",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il cantiere conta 595 schede su 653: 56 in un terzo stato non entrano in nessun totale",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/parola-senza-padrone.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-685",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Il guardiano delle prove si tronca il referto a 64 KB quando lo si legge da una pipe",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/referto-troncato-dalla-pipe.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-686",
-      "gravita": "minore",
-      "eta_giorni": 2,
-      "titolo": "Una prova che punta a un file inesistente viene contata come «fix in attesa», cioè auto-chiudibile",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/prova-che-non-puo-fallire.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-687",
-      "gravita": "medio",
-      "eta_giorni": 2,
-      "titolo": "Il vincolo cronico del giro si ripete ancora uguale: la cronicità si misura, ma solo nella visita",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/vincolo-cronico.test.mjs",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-688",
@@ -3957,51 +3413,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-689",
-      "gravita": "medio",
-      "eta_giorni": 2,
-      "titolo": "Due script del cervello sono usciti dalla porta di percorsi-git.mjs in questo stesso lotto",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/segreto-in-un-nome-con-l-accento.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-690",
-      "gravita": "grave",
-      "eta_giorni": 2,
-      "titolo": "Nel recupero del monitoraggio il cancello guardava lo stage dopo che il commit l'aveva svuotato",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/recupero-cancello-prima-del-commit.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-692",
-      "gravita": "medio",
-      "eta_giorni": null,
-      "titolo": "Riaprire onestamente un difetto fa scattare l allarme del debito, come se l avessi aggiunto io",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/mutazione-mancante.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-693",
-      "gravita": "grave",
-      "eta_giorni": null,
-      "titolo": "Ventinove prove scritte in bash non le esegue nessuno, e nove sono rosse da mesi",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/prova-che-non-puo-fallire.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-694",
-      "gravita": "grave",
-      "eta_giorni": null,
-      "titolo": "Sette casi di prova sono scritti in modo che non possano fallire: passano qualunque cosa affermino",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/prova-che-non-puo-fallire.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-695",
       "gravita": "medio",
       "eta_giorni": null,
@@ -4011,51 +3422,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-698",
-      "gravita": "grave",
-      "eta_giorni": null,
-      "titolo": "Una prova può restare verde col fix disfatto, se osserva l'uscita dal canale comodo invece che da quello vero",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/spazzata-fratelli.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-699",
-      "gravita": "grave",
-      "eta_giorni": null,
-      "titolo": "Chi riscrive una riga sorvegliata non sa di averne staccato la guardia: lo scopre dopo, se lo scopre",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/mutazioni-orfane.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-700",
-      "gravita": "grave",
-      "eta_giorni": null,
-      "titolo": "Il censimento conta i moduli del cervello solo al primo livello: dichiara a Nicola un terzo di macchina in men",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/censimento-che-non-scende.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-701",
-      "gravita": "grave",
-      "eta_giorni": null,
-      "titolo": "Il guardiano delle capacità conta le cartelle che l'ambiente lascia sul disco, non quelle della macchina: il v",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/capacita-dal-repo-non-dal-disco.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-702",
-      "gravita": "minore",
-      "eta_giorni": null,
-      "titolo": "La lista delle cacce aperte torna vuota anche quando il registro non si è potuto leggere",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/caccia-cieca-non-e-un-elenco-vuoto.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-703",
       "gravita": "grave",
       "eta_giorni": null,
@@ -4063,51 +3429,6 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-704",
-      "gravita": "grave",
-      "eta_giorni": null,
-      "titolo": "La malattia «una parola con due padroni» non ha un nome, quindi la spazzata non può cercarne i fratelli",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/una-parola-con-due-padroni.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-705",
-      "gravita": "grave",
-      "eta_giorni": null,
-      "titolo": "L'area dove Nicola firma è rimasta rotta a metà lavoro e nessun cancello se n'è accorto",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/c4-typecheck-del-pannello.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-706",
-      "gravita": "grave",
-      "eta_giorni": null,
-      "titolo": "Una prova a runtime può misurare il tema invece della cura, e il verde sembra vero",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/prove-senza-esecutore-e-senza-mutazione.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-707",
-      "gravita": "grave",
-      "eta_giorni": null,
-      "titolo": "Il banco delle mutazioni giudica dal solo numero di uscita, e una corsa mai avvenuta ne ha uno qualsiasi",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/non-vacuita-tre-esiti.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-708",
-      "gravita": "grave",
-      "eta_giorni": null,
-      "titolo": "Il ripristino d emergenza non puo scattare proprio nel momento in cui serve",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/non-vacuita-foglietto.test.mjs",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-709",

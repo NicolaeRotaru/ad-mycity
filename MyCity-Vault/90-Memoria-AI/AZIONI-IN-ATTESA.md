@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-15 11:38** — Automatico: **69 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-16 07:32** — Automatico: **70 aperte · 8 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -1123,8 +1123,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-15 11:38)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-15-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-16 07:32)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-16-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1135,7 +1135,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-15 11:38 · 8 card totali
+> Ultima pulizia: 2026-08-16 07:32 · 8 card totali
 
 ### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 
@@ -1395,4 +1395,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 88 | 2026-08-15 09:14 | @tech | Merge PR #733 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/733 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 89 | 2026-08-15 11:47 | @tech | Merge PR #735 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/735 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 90 | 2026-08-16 07:07 | @tech | Merge PR #740 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/740 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 91 | 2026-08-16 07:17 | @tech | Merge PR #740 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/740 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 91 | 2026-08-16 07:17 | @tech | Merge PR #740 ad-mycity → main | 🔴 | Duplicato esatto della card #90. Stesso PR, scritta 10 minuti dopo. Probabile doppia scrittura del pre-step automatico. Trovato e chiuso da @ad nel giro del 2026-08-16 07:40. Niente da eseguire su questa riga: firma solo #90. | github | ✅ chiusa (duplicato di #90) | — | — |

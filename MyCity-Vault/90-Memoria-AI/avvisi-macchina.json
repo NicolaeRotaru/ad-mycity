@@ -1,5 +1,5 @@
 {
-  "aggiornato": "2026-07-20T18:23:42.826Z",
+  "aggiornato": "2026-08-16T05:46:42.100Z",
   "avvisi": [
     {
       "at": "2026-07-18T04:30:10.026Z",
@@ -124,6 +124,11 @@
     {
       "at": "2026-07-20T18:23:42.826Z",
       "testo": "⚠️ MyCity: memoria incoerente/vault sporco — giro NON pubblicato (2026-07-20 20:23). Dettaglio: vault-sanità: auto-coscienza/auto-radiografia.json: JSON non parsabile (Expected ',' or '}' after property value in JSON at position 277261 (line 1791 column 5)) ; La memoria resta solo sul server, il Pannello NON mostra dati non verificati.",
+      "canale": "casella"
+    },
+    {
+      "at": "2026-08-16T05:46:42.100Z",
+      "testo": "⚠️ MyCity: memoria incoerente/vault sporco — giro NON pubblicato (2026-08-16 07:46). Dettaglio: AR-321: vincoli consegnati al motore e NON soddisfatti su ciò che il Pannello mostra (APPRENDIMENTO CADENZE CORREZIONE_NICOLA FRESCHEZZA OKR TASSO TEST VOLANO); La memoria resta solo sul server, il Pannello NON mostra dati non verificati.",
       "canale": "casella"
     }
   ]

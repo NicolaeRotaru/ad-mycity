@@ -1,4 +1,34 @@
-# 🔬 AUTO-ANALISI — 2026-08-15 11:10
+# 🔬 AUTO-ANALISI — 2026-08-16 07:40
+
+> Nuovo giorno, primo passaggio dopo i pre-step deterministici di `giro.sh` (commit 07:28/07:31). Business
+> riverificato con `verifica-sensori.mjs` dal vivo (07:32): identico al giro di ieri sera (1 ordine, 0
+> pagati, 0 ultimi 7gg, ultimo ordine 24/6, stallo **53 giorni**, dentro la pausa concordata fino al
+> 24/8-1/9). `delta-gate.json` conferma la stessa firma dell'ultimo giro pieno. `coerenza-fatti.mjs`
+> rieseguito dal vivo: memoria coerente, 0 cacce aperte.
+
+## Voto di fiducia: 86/100 (↓ da 87)
+
+**Il lavoro vero di questo passaggio: trovato e corretto un difetto reale di processo.**
+Leggendo `AZIONI-IN-ATTESA.md` per preparare il briefing ho notato una cosa. La card «Merge PR #740
+ad-mycity → main» era scritta **due volte**: riga #90 (07:07) e riga #91 (07:17). Stesso link, stesso
+testo. Probabile doppia scrittura dello stesso pre-step automatico. Ho corretto: la #91 ora è segnata come
+duplicato chiuso di #90. Non ho toccato la card originale. Non ho duplicato ulteriormente la coda.
+
+**Aggiornato `OKR-Squadra.md` per il vincolo HARD AR-115.** La riga «Tasso di chiusura» aveva un target
+scritto come soglia («≥ 1»). Il guardiano la segnalava scaduta. L'ho riscritta come guardrail permanente,
+non come una scadenza. Ho anche chiarito la riga sul north-star: il gate azionabile è già stato risposto da
+Nicola il 28/7 (card #35, chiusa il 13/8). Non è più «da forzare».
+
+**Il calo di 1 punto nel voto di fiducia non è per un errore mio in questo passaggio**: riflette che i
+guardiani HARD elencati nel Gap (§11 del briefing) restano bloccati da giorni consecutivi nella stessa
+sessione headless, senza un canale che li sblocchi — un debito dichiarato che cresce in visibilità pur
+restando lo stesso di ieri.
+
+**Cosa NON ho rifatto, e perché.** Non ho riaperto radar/intelligence (coperti ieri 06:45-06:50, cadenza
+giornaliera). Non ho ri-indagato l'area 'correzione-nicola': stesso debito (246/311 senza gate), nessun
+nuovo candidato onestamente gatabile senza forzare un check vietato dall'asticella AR-128.
+
+## Passaggio precedente (15/8 11:10)
 
 > Passaggio breve, ~25 minuti dopo il giro completo delle 10:45 (3 test rossi riparati alla radice, PR
 > aperta). Strategia snella applicata: business riverificato con **query SQL diretta** via MCP Supabase
