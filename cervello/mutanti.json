@@ -8,10 +8,10 @@
    "difetto": "cancello-lotto · mutazione-mancante (blocco duro)",
    "nome": "il difetto toccato senza mutazione non viene più fermato",
    "file": "cervello/cancello-lotto.mjs",
-   "cerca": "  const mutNelLotto = toccati ? senzaMutazioneContati.filter((x) => toccati.includes(x.id)) : [];",
+   "cerca": "  const mutNelLotto = proveDelLotto ? senzaMutazioneContati.filter((x) => proveDelLotto.includes(x.id)) : [];",
    "sostituisci": "  const mutNelLotto = [];",
    "test": "cervello/test/mutazione-mancante.test.mjs",
-   "nota_riaggancio": "main ha riscritto il cancello (senzaMutazioneContati): il comportamento vive, il puntatore era rimasto indietro. Riagganciato alla fusione del lotto 42."
+   "nota_riaggancio": "Riagganciata il 2026-08-16 (lotto 45): la regola ora filtra su `proveDelLotto` invece che sui difetti toccati — la mutazione appartiene alla PROVA, non alla scheda. Il comportamento che difende è lo stesso, il puntatore era rimasto sulla riga vecchia."
   },
   {
    "lotto": 30,
@@ -3734,10 +3734,10 @@
    "difetto": "cancello-lotto · mutazione-mancante (blocco duro)",
    "nome": "il difetto toccato senza mutazione non viene più fermato",
    "file": "cervello/cancello-lotto.mjs",
-   "cerca": "  const mutNelLotto = toccati ? senzaMutazioneContati.filter((x) => toccati.includes(x.id)) : [];",
+   "cerca": "  const mutNelLotto = proveDelLotto ? senzaMutazioneContati.filter((x) => proveDelLotto.includes(x.id)) : [];",
    "sostituisci": "  const mutNelLotto = [];",
    "test": "cervello/test/mutazione-mancante.test.mjs",
-   "nota_riaggancio": "AR-692 ha separato il debito ereditato da quello nuovo: la misura ora e senzaMutazioneContati (lotto 42)."
+   "nota_riaggancio": "Riagganciata il 2026-08-16 (lotto 45): la regola ora filtra su `proveDelLotto` invece che sui difetti toccati — la mutazione appartiene alla PROVA, non alla scheda. Il comportamento che difende è lo stesso, il puntatore era rimasto sulla riga vecchia."
   },
   {
    "lotto": 30,
