@@ -18,6 +18,30 @@ Ogni card ha un **numero fisso**, scritto prima del titolo (es. `#41`). Il numer
 Per dare il via scrivi all'AD: **«ok 41»** (o «ok a tutte le 🟡»). L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al titolo.
 
+<!-- write-vs-edit-settings-local -->
+
+---
+
+### 🟡 #81 — Correggi 5 righe nelle tue regole di permesso: è il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20
+
+**Cosa cambia:** il 4 agosto avevo trovato perché i giri restavano bloccati o scadevano: cinque righe nel file che regola i miei permessi dicono "Write" invece di "Edit", e la parte del sistema che controlla i permessi riconosce solo "Edit" per chi scrive file. Risultato: ogni volta che il giro prova a scrivere in memoria, consegne, creativi, cervello o Pannello, il permesso non scatta. Te l'avevo segnalato allora — non potevo correggerlo da sola, è una protezione voluta contro l'auto-allargamento dei miei permessi. Sono passati 12 giorni e le righe sono ancora "Write": ho ricontrollato oggi (16/8) e il giro continua a fallire con lo stesso identico errore — l'ultimo fallimento registrato è del 14/8 alle 11:16, e prima ancora uno ogni ~2 ore per giorni. Il checkup di salute della macchina è fermo da oltre 26 ore per lo stesso motivo: non riesce più a scrivere il suo referto.
+
+**Se va bene:** il giro torna a scrivere la memoria regolarmente invece di fallire ogni volta, il checkup di salute torna a pubblicarsi da solo, e il Pannello smette di mostrare dati vecchi spacciati per dati di oggi.
+
+**Cosa fare.** Apri `.claude/settings.local.json` sul VPS e in queste 5 righe cambia la parola "Write" in "Edit" (lascia tutto il resto uguale):
+```
+Write(MyCity-Vault/90-Memoria-AI/**)  →  Edit(MyCity-Vault/90-Memoria-AI/**)
+Write(consegne/**)                    →  Edit(consegne/**)
+Write(creativi/**)                    →  Edit(creativi/**)
+Write(cervello/**)                    →  Edit(cervello/**)
+Write(pannello/**)                    →  Edit(pannello/**)
+```
+Il file non è nel repo (è in `.gitignore`), quindi va modificato a mano sul VPS — non con una PR.
+
+**Cosa non ho verificato:** non ho potuto testare il giro dopo la correzione (serve il VPS, io scrivo da un ambiente cloud senza quei permessi); e non so se qualcos'altro oltre a queste 5 righe contribuisce ai fallimenti — ho verificato solo che questo errore compare identico in ogni fallimento registrato dal 12/8 in poi.
+
+(dettaglio: vedi memoria `project-settings-local-write-vs-edit-blocca-lavori.md`; prova: `MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json`)
+
 <!-- posthog-off-vps -->
 
 ---
@@ -1371,3 +1395,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 88 | 2026-08-15 09:14 | @tech | Merge PR #733 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/733 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 89 | 2026-08-15 11:47 | @tech | Merge PR #735 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/735 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 90 | 2026-08-16 07:07 | @tech | Merge PR #740 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/740 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 91 | 2026-08-16 07:17 | @tech | Merge PR #740 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/740 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
