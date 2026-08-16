@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-16 18:58",
+  "aggiornato": "2026-08-16 22:21",
   "giorni_sospetto": 3,
-  "difetti_aperti": 162,
+  "difetti_aperti": 161,
   "per_classe": {
     "umana": 126,
     "auto-sospetta": 21,
-    "auto-comando": 15
+    "auto-comando": 14
   },
   "non_auto_chiudibili": 147,
   "bloccanti_ciechi": [
@@ -15,7 +15,8 @@
     "AR-518",
     "AR-521",
     "AR-568",
-    "AR-757"
+    "AR-757",
+    "AR-761"
   ],
   "schede_incomplete": [
     {
@@ -117,11 +118,6 @@
     },
     {
       "id": "AR-329",
-      "gravita": "grave",
-      "stato": "aperto"
-    },
-    {
-      "id": "AR-347",
       "gravita": "grave",
       "stato": "aperto"
     },
@@ -2394,15 +2390,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-347",
-      "gravita": "grave",
-      "eta_giorni": 18,
-      "titolo": "AR-195 dichiarato chiuso ma vivo: il «42 agenti» e ancora nel menu dei comandi e nella sentinella, perche il g",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-350",
       "gravita": "grave",
       "eta_giorni": 18,
@@ -3519,19 +3506,19 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-756",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "Il metro che decide se un lotto ha lavorato su una scheda conosce solo quattro campi: il quinto che nasce è in",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-757",
       "gravita": "bloccante",
       "eta_giorni": 0,
       "titolo": "Se il banco delle mutazioni viene interrotto a metà, il codice mutato resta nell'albero — e la volta scorsa er",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-761",
+      "gravita": "bloccante",
+      "eta_giorni": 0,
+      "titolo": "Quando i commit del server non si pubblicano, la macchina non puo piu ricevere nessuna correzione",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false

@@ -1,13 +1,50 @@
 {
   "_cosa_e": "💶 CASSA / RUNWAY — mesi di autonomia = cassa disponibile / burn mensile. Rischio esistenziale n.1 (AR-016). Lo scrive cervello/sensore-cassa.mjs; una sentinella allerta sotto soglia. Sola lettura verso Stripe.",
-  "data": "2026-08-16 11:37",
+  "data": "2026-08-16 22:20",
   "cassa_disponibile_eur": 0,
-  "fonte_cassa": "Stripe balance",
+  "formula": "cassa disponibile = banca (dichiarata da Nicola) + Stripe − payout dovuti ai negozi",
+  "componenti_cassa": [
+    {
+      "nome": "stripe",
+      "eur": 0,
+      "incluso": true,
+      "perche": "saldo Stripe (available + pending)"
+    },
+    {
+      "nome": "banca",
+      "eur": null,
+      "incluso": false,
+      "perche": "liquidità aziendale, la dichiara Nicola (CASSA_BANCA_EUR)"
+    },
+    {
+      "nome": "payout_dovuti",
+      "eur": null,
+      "incluso": false,
+      "perche": "quanto dobbiamo ai negozi: si SOTTRAE, perché non sono soldi nostri"
+    }
+  ],
+  "componenti_mancanti": [
+    "banca",
+    "payout_dovuti"
+  ],
+  "misura_completa": false,
+  "fonte_cassa": "stripe",
   "burn_mensile_eur": null,
   "runway_mesi": null,
   "soglia_allerta_mesi": 3,
   "stato": "sconosciuto",
-  "giri_sconosciuto": 409,
-  "note": "Stripe balance (available + pending) · burn mensile non impostato (env BURN_MENSILE_EUR): runway non calcolabile",
-  "istruzioni": "Runway non calcolabile da 409 giri (AR-039): Stripe ok (cassa 0€), manca solo BURN_MENSILE_EUR nel .env del VPS — Nicola deve indicare il burn mensile netto (€/mese)."
+  "stato_perche": "runway non calcolabile: manca il burn mensile",
+  "giri_sconosciuto": 410,
+  "allarme": {
+    "stato": "cronico",
+    "suona": true,
+    "priorita": 82,
+    "giorni_in_attesa": null,
+    "giorni_alla_scadenza": null,
+    "firma": "cassa-runway|sconosciuto: mancano banca+payout_dovuti+burn",
+    "motivo": "acceso da 410 giri senza che nessuno l'abbia preso in carico: o si prende in carico con una scadenza, o si ripara"
+  },
+  "presa_in_carico": null,
+  "note": "Stripe balance (available + pending) · componenti incluse: stripe · componenti MANCANTI: banca, payout_dovuti · burn mensile non impostato (env BURN_MENSILE_EUR): runway non calcolabile",
+  "istruzioni": "Runway non calcolabile da 410 giri (AR-039): Stripe ok (cassa 0€), manca solo BURN_MENSILE_EUR nel .env del VPS — Nicola deve indicare il burn mensile netto (€/mese)."
 }
