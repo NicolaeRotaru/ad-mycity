@@ -559,6 +559,27 @@ export async function aCorsie(elementi, corsie, lavoro) {
 }
 
 async function main() {
+  // 🔒 IL FRENO DELLA RICORSIONE. Il banco lancia i test · alcuni test lanciano il cancello del
+  // lotto · il cancello rilancia il banco. Il cerchio esisteva da sempre e si spezzava per un
+  // incidente — i nipoti nascevano rotti perché ereditavano `NODE_TEST_CONTEXT`. Curato l'incidente
+  // (giusto: senza, i nipoti non parlano TAP e il banco li dichiara ineseguibili), il cerchio è
+  // diventato infinito: centinaia di processi, la macchina in ginocchio e il runner della CI ucciso.
+  // Qui si esce CIECHI e non verdi: «non ho misurato» è la verità, e un verde a questa profondità
+  // sarebbe un banco che si autoapprova.
+  //
+  // Il freno distingue due annidamenti diversi, e la differenza è tutta:
+  //   · su una SABBIERA (`TEST_CERVELLO_DIR`) o su UNA PROVA SOLA (`--solo`) è legittimo e costa
+  //     niente — è così che sei prove di casa misurano il banco stesso, e vietarlo toglierebbe
+  //     l'unico modo di provarlo. La prima versione di questo freno le ha fatte diventare rosse
+  //     tutte e tre insieme: la regola era giusta e il confine sbagliato.
+  //   · sulla SUITE INTERA è il cerchio: 347 file che rilanciano 347 file, e ogni giro ne apre altri.
+  const suiteIntera = !process.env.TEST_CERVELLO_DIR && !SOLO;
+  if (PROFONDITA > PROFONDITA_MASSIMA || (PROFONDITA >= 1 && suiteIntera)) {
+    const messaggio = `⚪ BANCO ANNIDATO (profondità ${PROFONDITA}${suiteIntera ? ", sulla suite intera" : ""}): mi fermo invece di rilanciarmi. Un banco che chiama sé stesso senza fine non misura niente e occupa la macchina.`;
+    if (JSON_MODE) console.log(JSON.stringify({ esito: "cieco", profondita: PROFONDITA, motivo: messaggio, test: [], bats: [] }, null, 2));
+    else console.error(messaggio);
+    process.exit(2);
+  }
   const quando = nowPiacenza();
   // `resolve` e non `join`: con TEST_CERVELLO_DIR assoluto, `join` incollerebbe il percorso in coda
   // alla radice e la cartella non esisterebbe — un banco che non trova le prove dice «0 passati».
