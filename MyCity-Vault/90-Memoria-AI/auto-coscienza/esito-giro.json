@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Esito REALE dell ultimo giro (AR-300). Prima il giro stampava «Giro completato.» anche a controlli tutti rossi: questo file dice la verita, e il Pannello la puo leggere.",
-  "data": "2026-08-16 11:49",
+  "data": "2026-08-16 22:36",
   "esito": "non-pubblicato",
   "pulito": false,
   "gate_rossi": 8,
@@ -10,8 +10,8 @@
     "CORREZIONE_NICOLA",
     "FRESCHEZZA",
     "TASSO",
-    "TEST",
     "VOLANO",
+    "LETARGO",
     "NORTH_STAR"
   ],
   "ai_rc": 0,
