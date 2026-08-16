@@ -2607,7 +2607,16 @@
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/auto-coscienza/cassa-runway.json:10 · cervello/sensore-cassa.mjs:71 · Impatto: Il rischio dichiarato come esistenziale n.1 (B1 e B4 nel registro rischi) è l'unico che nessuno sta misurando davvero. La sentinella è verde per assenza di dati, non per salute: è il tipo di silenzio che ti accorgi solo quando è tardi. E ogni decisione di investimento (bando, rider, ads) viene presa senza sapere quanti mesi di ossigeno restano.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "sintomo": {
+        "misura": "node -e \"const r=require('./MyCity-Vault/90-Memoria-AI/auto-coscienza/cassa-runway.json');console.log(r.stato==='sconosciuto'?(r.giri_sconosciuto||1):0)\"",
+        "rotto_se": {
+          ">=": 1
+        },
+        "alla_nascita": 256,
+        "alla_nascita_fonte": "il titolo della scheda: «sconosciuto da 256 giri»",
+        "cosa_misura": "per quanti giri di fila il runway è rimasto sconosciuto: scende a zero solo quando il burn arriva davvero"
+      }
     },
     {
       "id": "AR-191",
@@ -2653,7 +2662,16 @@
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json:3 · cervello/allinea-scan-cantiere.mjs:194-215 · Impatto: L'azienda si controlla addosso ogni 10 giorni e non controlla mai il prodotto che deve incassare. I bloccanti riguardano soldi e dati personali (esposizione di dati cliente via permessi rider, sovravendita, dispute vinte che non ripagano il venditore, rifiuto ordine che non rimborsa il cliente): se anche uno fosse ancora vivo, il primo cliente vero incontrerebbe il difetto — e il primo cliente vero è l'unica cosa che conta ora.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "sintomo": {
+        "misura": "node -e \"const f=require('./MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json');const d=f.aggiornato||f.data||'';console.log(d?Math.floor((Date.now()-new Date(d.replace(' ','T')))/864e5):999)\"",
+        "rotto_se": {
+          ">=": 14
+        },
+        "alla_nascita": 21,
+        "alla_nascita_fonte": "il titolo della scheda: «fermi da tre settimane»",
+        "cosa_misura": "da quanti giorni non si rifà la radiografia del sito: scende solo se il controllo riparte davvero"
+      }
     },
     {
       "id": "AR-193",
@@ -3186,7 +3204,27 @@
       "chiuso_il": "",
       "chiuso_come": "",
       "nato_come": "scoperta",
-      "prova_convertita_il": "2026-08-11 02:10"
+      "prova_convertita_il": "2026-08-11 02:10",
+      "sintomo": {
+        "misura": "find . -type d -name memoria-squadra -not -path './.git/*' -not -path '*/node_modules/*' | wc -l",
+        "rotto_se": {
+          ">=": 2
+        },
+        "alla_nascita": 2,
+        "alla_nascita_fonte": "la causa radice della scheda: «Perché due cartelle? … le quattro copie nel vault non sono mai state cancellate»",
+        "cosa_misura": "quante cartelle memoria-squadra esistono: due significa che il Pannello può trovare quella morta",
+        "altre_misure": [
+          {
+            "misura": "grep -c \"listRepoDir\" pannello/src/app/api/cerca/route.ts",
+            "rotto_se": {
+              "<=": 0
+            },
+            "alla_nascita": 0,
+            "alla_nascita_fonte": "la clausola (b) del fix proposto, mai eseguita: la ricerca importa solo listVaultDirEntries",
+            "cosa_misura": "se la ricerca del Pannello sa leggere le cartelle fuori dal vault, dove stanno i quaderni vivi. METRO DEBOLE: conta l import, non prova la ricerca dal vivo"
+          }
+        ]
+      }
     },
     {
       "id": "AR-217",
@@ -4598,7 +4636,16 @@
       "nota": "Dove: cervello/sentinella-fonti.mjs:56-57 (skip_check → viva:true), :88 (azzeramento dei falliti), :97 (morta solo con 3 fallimenti), :110 (conteggio delle vive); risultato in cervello/fonti-salute.json:5-8 · Impatto: Il verde 18/18 è un verde per definizione, non una misura: il 22% del radar è fuori sorveglianza e non può generare nessun allarme. La fonte di peso massimo è proprio quella dei bandi camerali, e in coda c'è il bando PI26 da 10.000 € a fondo perduto in scadenza il 30/7 (difetto AR-147 già aperto): se quella pagina cambiasse indirizzo, nessun canale se ne accorgerebbe e l'intelligence continuerebbe a spendere token su una fonte morta credendola viva. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "sintomo": {
+        "misura": "grep -c 'skipCheck' cervello/sentinella-fonti.mjs",
+        "rotto_se": {
+          ">=": 1
+        },
+        "alla_nascita": 4,
+        "alla_nascita_fonte": "il titolo della scheda: «quattro fonti su diciotto»",
+        "cosa_misura": "quante volte il codice della sentinella salta il controllo di una fonte. METRO DEBOLE: conta le righe, non le fonti realmente saltate — per quello servirebbe un contatore a runtime, ed è il difetto dentro il difetto"
+      }
     },
     {
       "id": "AR-284",
@@ -15895,6 +15942,37 @@
       "chiuso_il": "2026-08-16 17:24",
       "chiuso_come": "node cervello/test/cancello-stop.test.mjs → exit 0 (guardiano soddisfatto)",
       "corroborata": true
+    },
+    {
+      "id": "AR-756",
+      "titolo": "Il metro che decide se un lotto ha lavorato su una scheda conosce solo quattro campi: il quinto che nasce è invisibile finché la CI non diventa rossa",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-16",
+      "nato_come": "regressione",
+      "nato_da": "AR-473 / lotto 44 — stessa forma, terza occorrenza",
+      "colore": "🟡",
+      "stato": "aperto",
+      "causa_radice": "① Perché il cancello si dichiara cieco sulle mutazioni? Perché `difettiToccati` non vede nessun difetto toccato. ② Perché non lo vede? Perché confronta un'impronta fatta di un ELENCO CHIUSO di campi (`CAMPI_DEL_LOTTO`), e il campo con cui il lotto ha lavorato non è in quell'elenco. ③ Perché non è nell'elenco? Perché l'elenco si aggiorna a mano, e solo dopo che è già successo. ④ Perché nessuno se ne accorge prima? Perché il sintomo appare in CI come exit 2 con un messaggio che dà la colpa a un «clone superficiale» — un'ipotesi sbagliata che manda a cercare nel posto sbagliato; nel lotto 44 era già stato annotato che `fetch-depth: 0` c'era da mesi. ⑤ Causa di sistema: il metro è costruito per elencare ciò che conta invece di escludere ciò che è rumore, quindi ogni forma di lavoro NUOVA nasce invisibile — e l'invisibilità si manifesta come un cancello cieco, che è il modo più costoso di scoprirlo. Occorrenze: `verifica` sola (fino al lotto 44) → `stato`/`chiusura` (lotto 44, PR #738) → `sintomo` (lotto 45, PR #742).",
+      "fix_proposto": "🟡 Invertire il metro: l'impronta guarda TUTTI i campi della scheda TRANNE una lista dichiarata di rumore (timbri, note, titoli, prosa). Un falso «toccato» costa una prova in più che gira; un falso «non toccato» costa un cancello cieco che blocca la CI e insegna a saltare il controllo — non sono simmetrici, e nel dubbio va scelto il primo. Da valutare col conto vero: se un campo di rumore cambia su tutte le schede, «toccati» diventa l'intero cantiere e il banco delle mutazioni potrebbe non reggerne il volume — misurarlo prima di invertire. Va sistemato anche il messaggio: «(clone superficiale?)» è un'ipotesi che ha già sviato due volte, e la causa vera va nominata per prima.",
+      "sintomo": {
+        "misura": "grep -c 'const CAMPI_DEL_LOTTO = \\[' cervello/cancello-lotto.mjs",
+        "rotto_se": {
+          ">=": 1
+        },
+        "alla_nascita": 1,
+        "alla_nascita_fonte": "l'elenco chiuso esiste in cervello/cancello-lotto.mjs il 2026-08-16: finché è un elenco da compilare a mano, il difetto c'è",
+        "cosa_misura": "se il metro dei campi del lotto è ancora un elenco chiuso da aggiornare a mano. METRO DEBOLE: conta la presenza dell'elenco nel codice, non prova che un campo nuovo resti invisibile — quella prova vera nascerà con l'inversione"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs",
+        "nota": "Il banco copre le quattro forme note (prova, stato, chiusura, sintomo) e la loro non-vacuità. NON copre la causa di sistema: un campo di lavoro che nascerà domani resta invisibile finché qualcuno non aggiunge un caso qui. La chiusura di AR-756 richiede l'inversione del metro, non un quinto caso."
+      },
+      "nota_fix": "16/8: aggiunto `sintomo` all'elenco e il caso ③bis al banco, con non-vacuità eseguita (togliendo `sintomo` il caso diventa rosso). È la cura del punto, non della malattia: l'elenco resta chiuso, quindi il difetto resta APERTO di proposito.",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "Un pattern qui cercherebbe «un array costante di stringhe usato per costruire un confronto», che nel codice della casa è ovunque: sarebbe un sensore che si accende su ogni elenco e quindi non si accende su niente — rumore travestito da copertura, cioè la malattia che questo cantiere cura. CHI LA COPRE OGGI: `cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs` prova le quattro forme già viste (prova cambiata, difetto riaperto, chiusura bloccata, sintomo dichiarato) e la loro non-vacuità. CHI NON LA COPRE: il quinto campo di lavoro, quello che nascerà domani. Nessun banco può provarlo perché nessuno sa ancora come si chiamerà, e il suo sintomo — un cancello che si dichiara cieco in CI — arriva sempre dopo che il lavoro è già stato fatto. È esattamente per questo che AR-756 resta APERTO: la cura vera non è un pattern né un quinto caso, è invertire il metro perché guardi tutti i campi tranne una lista dichiarata di rumore. Finché quell'inversione non è misurata (potrebbe far risultare toccato l'intero cantiere), la forma non ha nessuna difesa che scatti da sola, e dichiararlo è più onesto che inventarle un nome nel registro."
     }
   ],
   "meta": {

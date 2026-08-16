@@ -21,7 +21,7 @@
 
 import assert from "node:assert/strict";
 
-import { difettiToccati } from "../cancello-lotto.mjs";
+import { difettiToccati, proveScritteDalLotto } from "../cancello-lotto.mjs";
 
 const casi = [];
 const prova = (nome, fn) => {
@@ -59,6 +59,19 @@ prova("③ BLOCCARE la chiusura è lavorarci: è una decisione, non un dettaglio
   assert.deepEqual(t, ["AR-2"]);
 });
 
+prova("③bis DICHIARARE UN SINTOMO è lavorarci: è la prima volta che qualcuno chiede a quella scheda se è ancora vera", () => {
+  // 16/8, lotto 45, TERZA volta che questa stessa forma torna. Quattro schede hanno ricevuto la
+  // misura che dice se il difetto si riproduce ancora; nessuna `verifica` toccata, perché quelle
+  // restavano com'erano. Di nuovo «zero difetti toccati» col cantiere cambiato, di nuovo ⚪, di
+  // nuovo exit 2 e CI rossa sulla PR #742 — e di nuovo col messaggio che dava la colpa al clone
+  // superficiale, che non c'entrava niente nemmeno stavolta.
+  const t = difettiToccati(
+    conModifica("AR-2", { sintomo: { misura: "node cervello/salute.mjs --conta", rotto_se: { ">=": 1 }, alla_nascita: 3 } }),
+    prima,
+  );
+  assert.deepEqual(t, ["AR-2"], "un sintomo dichiarato è lavoro sulla scheda: senza, il banco delle mutazioni si acceca");
+});
+
 prova("④ una scheda NUOVA risulta toccata", () => {
   const dopo = { difetti: [...prima.difetti.map((d) => ({ ...d })), { id: "AR-9", stato: "aperto" }] };
   assert.deepEqual(difettiToccati(dopo, prima), ["AR-9"]);
@@ -75,6 +88,31 @@ prova("⑥ un campo che NON è del lotto non fa scattare niente (la nota, il tit
 
 prova("⑦ senza un termine di paragone il metro dice «non lo so», non «niente»", () => {
   assert.equal(difettiToccati(prima, null), null, "un vuoto qui verrebbe letto come «nessun difetto toccato»");
+});
+
+// ── ⑧-⑩ «ci ho lavorato» e «ho scritto io questa prova» sono due domande diverse ──
+//
+// 16/8, mezz'ora dopo aver aggiunto `sintomo` ai campi del lotto: il metro ha ricominciato a vedere
+// le schede toccate, e la regola del blocco duro `prova-con-or` è scattata su AR-190 e AR-192
+// dicendo «una prova NUOVA con un OR dentro». Quelle due prove erano identiche a origin/main,
+// carattere per carattere. Il lotto aveva dichiarato il loro SINTOMO, non riscritto la loro prova —
+// e si è visto imputare il debito di qualcun altro, di mesi prima.
+
+prova("⑧ dichiarare un sintomo NON rende tua la prova che trovi su quella scheda", () => {
+  const dopo = conModifica("AR-1", { sintomo: { misura: "node x.mjs", rotto_se: { ">=": 1 }, alla_nascita: 2 } });
+  assert.deepEqual(difettiToccati(dopo, prima), ["AR-1"], "ci hai lavorato: le mutazioni devono girare");
+  assert.deepEqual(proveScritteDalLotto(dopo, prima), [], "ma la prova è di chi l'ha scritta, e non sei tu");
+});
+
+prova("⑨ se invece la prova l'hai cambiata davvero, è tua e la rispondi", () => {
+  const dopo = conModifica("AR-1", { verifica: { tipo: "comando", comando: "node nuovo.mjs" } });
+  assert.deepEqual(proveScritteDalLotto(dopo, prima), ["AR-1"]);
+});
+
+prova("⑩ e una scheda NUOVA porta con sé la sua prova", () => {
+  const dopo = { difetti: [...prima.difetti, { id: "AR-9", stato: "aperto", verifica: { tipo: "umano" } }] };
+  assert.deepEqual(proveScritteDalLotto(dopo, prima), ["AR-9"]);
+  assert.equal(proveScritteDalLotto(prima, null), null, "senza paragone si dice «non lo so», non «nessuna»");
 });
 
 let falliti = 0;
