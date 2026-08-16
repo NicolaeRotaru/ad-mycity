@@ -4914,6 +4914,33 @@
    "cerca": "      const bugiardi = lista.filter((e) => String(e?.stato ?? \"\").toLowerCase() === \"misurato\" && maiPartito.test(String(e?.nota ?? \"\")));",
    "sostituisci": "      const bugiardi = [];",
    "test": "cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-749",
+   "nome": "nessuno legge più il verdetto «mettila accanto»: la misura di chi ha meno chiavi torna a sparire nel nulla",
+   "file": "cervello/verifica-sensori.mjs",
+   "cerca": "  if (copertura.affianca && !SOLA_LETTURA && ambienteConfigurato) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/sensori-non-calpestati.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-751",
+   "nome": "chi assegna i numeri torna a vedere solo i blocchi, e le righe-tabella tornano invisibili",
+   "file": "cervello/pausa-coda.mjs",
+   "cerca": "  for (const m of testo.matchAll(/^\\|\\s*(\\d+)\\s*\\|/gmu)) {",
+   "sostituisci": "  for (const m of []) {",
+   "test": "cervello/test/carte-numerate.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-752",
+   "nome": "la card in coda torna a valere per il solo fatto di esistere, senza nominare il sensore",
+   "file": "cervello/sensore-spento.mjs",
+   "cerca": "  return blocco.includes(String(sensore));",
+   "sostituisci": "  return true;",
+   "test": "cervello/test/una-card-una-volta-sola.test.mjs"
   }
  ]
 }

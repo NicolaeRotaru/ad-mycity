@@ -36,6 +36,7 @@ import { existsSync, readFileSync, mkdtempSync, writeFileSync, chmodSync, mkdirS
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
+import { pathToFileURL } from "node:url";
 import { AD_ROOT } from "./git-github.mjs";
 
 // La radice su cui le prove guardano. Di norma è il repo vero; la prova a due versi la punta su una

@@ -1841,3 +1841,43 @@ Pannello (il Deploy Hook parte su main).
 - **Cosa non ho potuto verificare da qui:** le 29 prove scritte in bash (manca `bats` su questa
   macchina) · il guardiano `prove-oneste` (il clone è superficiale, quindi è cieco per costruzione) ·
   niente è stato provato sul VPS, che da una sessione cloud si vede solo di riflesso.
+
+---
+
+## 2026-08-16 10:45 — 🟡 Le quattro prove rosse che arrivavano da main sono verdi, e tre erano difetti veri
+
+- **Cosa è successo:** dopo la fusione con `main` la richiesta #739 aveva la CI rossa. Quattro prove
+  di casa fallivano — `carte-numerate`, `parola-senza-padrone`, `sensori-non-calpestati`,
+  `una-card-una-volta-sola` — e le avevo misurate rosse anche su un ramo pulito di `main`: non le
+  aveva rotte questo lavoro. Erano registrate come debito dichiarato (AR-749, AR-750). Le ho aperte
+  una per una invece di lasciarle lì, e sotto tre di esse c'era un difetto vero.
+- **① Due card avevano lo stesso numero (AR-751).** Le card in coda hanno due forme — il blocco e la
+  riga-tabella del formato vecchio — e vivono nello stesso spazio di numeri, perché Nicola approva
+  scrivendo «ok 81». Chi distribuiva i numeri contava solo i blocchi, cioè metà coda. Il 16/8 il
+  numero 81 era di due card insieme: **«ok 81» era una domanda con due risposte**, e sono le card che
+  fanno partire azioni vere. Curato l'allocatore, rinumerata la card viva.
+- **② La domanda sui sensori spenti era ferma al 10 agosto (AR-752).** La card chiedeva di
+  `telegram_bot`; poi si è spento anche il collegamento Supabase di sessione, e nella domanda non ci
+  è mai entrato: il guardiano lo contava come buco a ogni giro e **non esisteva nessuna strada per
+  tornare verde**. Adesso la card che c'è già viene rinfrescata invece di restare a metà verità, e una
+  card vale come domanda solo se dentro c'è scritto il nome del sensore.
+- **③ La misura di chi ha meno chiavi spariva nel nulla (AR-749).** Il verdetto «non la scrivo sopra,
+  la metto ACCANTO» usciva da mesi e nessuno lo leggeva: il campo `affianca` non era letto da nessuna
+  riga di questa casa. La promessa viveva nel testo di un motivo, cioè dove nessuna prova guarda.
+- **Una cura buttata via.** La scheda di AR-749 proponeva di distinguere la copertura possibile da
+  quella raggiunta. L'ho scritta, e poi l'ho tolta: `copertura` è già il numero di sensori che
+  l'ambiente poteva misurare, quindi la clausola sarebbe stata vera sempre e avrebbe **spento la
+  guardia che impedisce a una misura cieca di cancellare quella del server**. Una cura che disattiva
+  la cura di prima non è una cura.
+- **Il quarto rosso non era un difetto:** il margine del confronto storico. La prova pretendeva
+  «schede aperte oggi senza data di nascita» (2); il referto conta «schede che non so collocare a una
+  settimana fa» (15), che è il numero giusto per un confronto all'indietro. I due coincidevano finché
+  non si chiudeva niente: questo lotto ne ha chiuse 61 e si sono separati. Corretta la prova.
+- **Come sono state provate:** ogni fix ha una prova comportamentale e una mutazione **eseguita**, non
+  ragionata. La prima versione del rinfresco cancellava dalla domanda chi era già in attesa — un
+  difetto che ho visto solo lanciando il comando tre volte di fila su una copia della coda.
+- **Tetto sceso:** `programma-che-parte-importando` 64 → 63.
+- **Stato:** 🟡 cancello del lotto verde (exit 0, ogni guardiano e tutta la suite). Il merge è di Nicola.
+- **Cosa non ho potuto verificare da qui:** le 29 prove in bash (manca `bats`) · niente sul VPS, che
+  da una sessione cloud si vede solo di riflesso · se `mcp_supabase` risponda sul server · e la
+  risposta di Nicola sui due sensori spenti, che è sua e non mia.

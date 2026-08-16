@@ -117,14 +117,59 @@ prova("un registro che vanta una card inesistente NON passa", () => {
   } finally { m.pulisci(); }
 });
 
-prova("con la card DAVVERO in coda, il guardiano tace", () => {
+prova("con la card DAVVERO in coda, e col sensore NOMINATO dentro, il guardiano tace", () => {
   const m = mondo({
     sensori: { telegram: { stato: "non_configurato" } },
     motivi: { telegram: { motivo: "da-chiedere", card: "#chiesto-sul-serio" } },
-    coda: "# coda\n\n### 🟡 #chiesto-sul-serio — Lo vuoi acceso?\n",
+    coda: "# coda\n\n<!-- chiesto-sul-serio -->\n\n### 🟡 #7 — Vuoi acceso `telegram`?\n",
   });
   try {
     assert.equal(m.gira().rc, 0);
+  } finally { m.pulisci(); }
+});
+
+prova("una card che esiste ma NON nomina il sensore non è una domanda", () => {
+  // Il 16/8: la card #66 era in coda dal 10/8 e chiedeva di `telegram_bot`; intanto si era spento
+  // anche `mcp_supabase`. Bastava puntare quella card per dichiararlo «glielo stiamo chiedendo» —
+  // ma il suo nome lì dentro non c'era. Una domanda che nessuno può leggere è silenzio con
+  // un'etichetta sopra, ed è esattamente la cosa che questo guardiano esiste per impedire.
+  const m = mondo({
+    sensori: { telegram: { stato: "non_configurato" }, supabase: { stato: "non_configurato" } },
+    motivi: {
+      telegram: { motivo: "da-chiedere", card: "#chiesto-sul-serio" },
+      supabase: { motivo: "da-chiedere", card: "#chiesto-sul-serio" },
+    },
+    coda: "# coda\n\n<!-- chiesto-sul-serio -->\n\n### 🟡 #7 — Vuoi acceso `telegram`?\n",
+  });
+  try {
+    const r = m.gira();
+    assert.equal(r.rc, 1, "il sensore non nominato deve restare un buco");
+    assert.match(r.out, /supabase/);
+    assert.doesNotMatch(r.out.split("spenti senza un perché")[1] || "", /telegram/, "quello nominato invece è a posto");
+  } finally { m.pulisci(); }
+});
+
+prova("la card che c'è già viene RINFRESCATA, non lasciata a metà verità", () => {
+  // «Una card sola» non vuol dire «una card ferma»: se si spegne un secondo sensore, la stessa card
+  // deve nominarlo. Prima di questo fix si usciva subito e il guardiano restava rosso per sempre.
+  // Il mondo del 16/8 in piccolo: la card c'è e nomina `telegram`; `supabase` si è spento dopo ed
+  // è già dichiarato «glielo stiamo chiedendo» su QUELLA card — dove però non compare.
+  const m = mondo({
+    sensori: { telegram: { stato: "non_configurato" }, supabase: { stato: "non_configurato" } },
+    motivi: {
+      telegram: { motivo: "da-chiedere", card: "#sensori-spenti-senza-motivo" },
+      supabase: { motivo: "da-chiedere", card: "#sensori-spenti-senza-motivo" },
+    },
+    coda: "# coda\n\n<!-- sensori-spenti-senza-motivo -->\n\n### 🟡 #7 — Dimmi se questi occhi della macchina li vuoi accesi o no · ⏳ accodata 2026-08-10 12:16\n\n**Cosa cambia:** ci sono strumenti già costruiti che non stanno guardando niente: `telegram`. Non sono rotti.\n",
+  });
+  try {
+    assert.equal(m.gira().rc, 1, "prima del refresh la domanda su supabase non esiste");
+    m.gira(["--accoda"]);
+    const coda = m.coda();
+    assert.equal((coda.match(/^<!-- sensori-spenti-senza-motivo -->$/gm) || []).length, 1, "sempre una card sola");
+    assert.match(coda, /telegram/, "chi era già in attesa non sparisce dalla domanda");
+    assert.match(coda, /supabase/, "e chi si è spento dopo ci entra");
+    assert.equal(m.gira().rc, 0, "nominati tutti e due, il guardiano tace");
   } finally { m.pulisci(); }
 });
 

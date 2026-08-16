@@ -22,7 +22,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🟡 #81 — Correggi 5 righe nelle tue regole di permesso: è il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20
+### 🟡 #92 — Correggi 5 righe nelle tue regole di permesso: è il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20
 
 **Cosa cambia:** il 4 agosto avevo trovato perché i giri restavano bloccati o scadevano. Cinque righe nel file dei miei permessi dicono "Write" invece di "Edit". Il controllo dei permessi riconosce solo "Edit" per chi scrive file. Per questo, ogni volta che il giro prova a scrivere in memoria, consegne, creativi, cervello o Pannello, il permesso non scatta. Te l'avevo segnalato allora. Non potevo correggerlo da sola: è una protezione voluta, contro il rischio che mi allarghi i permessi da sola. Sono passati 12 giorni. Le righe sono ancora "Write". Ho ricontrollato oggi, 16 agosto. Il giro continua a fallire con lo stesso identico errore. L'ultimo fallimento registrato è del 14/8 alle 11:16. Prima ancora, uno ogni due ore circa, per giorni. Il checkup di salute della macchina è fermo per lo stesso motivo, da oltre 26 ore: non riesce più a scrivere il suo referto.
 
@@ -141,9 +141,9 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🟡 #66 — Dimmi se questi occhi della macchina li vuoi accesi o no · ⏳ accodata 2026-08-10 12:16
+### 🟡 #66 — Dimmi se questi occhi della macchina li vuoi accesi o no · ⏳ accodata 2026-08-10 12:16 · 🔄 refresh 2026-08-16 10:12
 
-**Cosa cambia:** ci sono strumenti già costruiti che non stanno guardando niente: `telegram_bot`. Non sono rotti — non sono mai stati accesi, e non risulta che tu abbia deciso di lasciarli spenti: semplicemente nessuno te l'ha chiesto. È già successo: i controlli che dicono se il sito e il Pannello sono in piedi sono rimasti spenti per 163 giri di fila, e nessuna card te l'ha mai detto.
+**Cosa cambia:** ci sono strumenti già costruiti che non stanno guardando niente: `mcp_supabase`, `telegram_bot`. Non sono rotti — non sono mai stati accesi, e non risulta che tu abbia deciso di lasciarli spenti: semplicemente nessuno te l'ha chiesto. È già successo: i controlli che dicono se il sito e il Pannello sono in piedi sono rimasti spenti per 163 giri di fila, e nessuna card te l'ha mai detto.
 
 **Se va bene:** mi dici per ognuno «acceso» o «lasciamolo spento». Se dici spento lo scrivo come una tua decisione e non te lo richiedo mai più. Se dici acceso ti dico l'unica riga che serve per farlo partire.
 

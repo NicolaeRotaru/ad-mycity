@@ -15620,6 +15620,88 @@
       "nato_da": "lotto 44, corsia 9: trovato mentre si riparava un altro difetto",
       "lotto_scoperta": 44,
       "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cassa-runway.json, campo giri_sconosciuto: 406"
+    },
+    {
+      "id": "AR-749",
+      "stato": "aperto",
+      "dimensione": "trovato-riparando",
+      "gravita": "grave",
+      "titolo": "La misura presa da una macchina con meno chiavi non entra da nessuna parte: né sopra quella buona, né accanto come promesso",
+      "causa_radice": "La decisione «posso scrivere?» (cervello/scrittura-misura.mjs) ha tre risposte, non due: sì, no, e «no ma la metto ACCANTO» — il campo `affianca`. Il motivo che esce dice alla lettera «la metto accanto, non al posto». Nessuno la metteva accanto: cervello/verifica-sensori.mjs guardava solo `scrivi`, e `affianca` non era letto da nessuna riga di questa casa. Così da una sessione con meno chiavi del server il quadro dei sensori spariva: giustamente non sovrascriveva quello del VPS, ma nemmeno finiva a fianco. La promessa viveva nel TESTO di un motivo, cioè nell'unico posto dove nessuna prova guarda.",
+      "fix_proposto": "Dare un lettore ad `affianca`: la misura rifiutata va in `misure_affiancate[origine]` dentro lo stesso file, e il quadro autorevole non si tocca. La fusione sta in `affiancaMisura` (modulo puro, eseguibile da un test); verifica-sensori.mjs la chiama quando la decisione dice di affiancare e non si è in --sola-lettura.",
+      "dove": "cervello/scrittura-misura.mjs · cervello/verifica-sensori.mjs",
+      "impatto_crescita": "indiretto: e debito della macchina, ma mura una porta che serve a ogni sessione che non sia il server",
+      "nato": "2026-08-16 09:52",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 44, fusione con main: quattro prove rosse sul ramo principale",
+      "lotto_scoperta": 44,
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/sensori-non-calpestati.test.mjs"
+      },
+      "lotto_riparazione": 44,
+      "nota_fix": "La scheda, scritta quando il difetto è stato visto per la prima volta, diceva un'altra cosa: «distinguere la copertura possibile da quella raggiunta». Ho provato quella strada e l'ho buttata. Il motivo: `copertura` è GIÀ il numero di sensori che questo ambiente poteva misurare, quindi «completa per quello che potevo vedere» sarebbe stata vera sempre, e avrebbe spento del tutto la guardia di AR-568 — la regola che impedisce a una misura cieca di cancellare quella del server. Una cura che disattiva la cura di prima non è una cura. Guardando il codice invece della scheda ho trovato il buco vero: il verdetto prometteva «accanto» e nessuno lo leggeva. Cosa NON ho verificato da qui: che sul VPS, dove le chiavi ci sono tutte, il ramo `affianca` non scatti mai — da questa macchina la misura del server non la posso produrre."
+    },
+    {
+      "id": "AR-750",
+      "stato": "aperto",
+      "dimensione": "trovato-riparando",
+      "gravita": "medio",
+      "titolo": "Quattro prove di casa sono rosse sul ramo principale, e nessuno se n'è accorto finché non ci è passata una richiesta",
+      "causa_radice": "Misurate su un worktree pulito di origin/main il 16/8: carte-numerate, parola-senza-padrone, sensori-non-calpestati e una-card-una-volta-sola escono tutte 1. Non le ha rotte nessun lotto: le ha rotte il dato vivo che il worker scrive su main, e sul ramo principale non gira nessun cancello che le guardi. Chi apre una richiesta se le trova addosso e sembra averle causate lui.",
+      "fix_proposto": "Far girare la suite anche su main (non solo sulle richieste), e quando è rossa aprire il difetto invece di lasciarlo scoprire a chi passa. Prova: node cervello/test-cervello.mjs su un worktree di origin/main.",
+      "dove": "main · le quattro prove elencate",
+      "impatto_crescita": "indiretto: e debito della macchina, ma mura una porta che serve a ogni sessione che non sia il server",
+      "nato": "2026-08-16 09:52",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 44, fusione con main: quattro prove rosse sul ramo principale",
+      "lotto_scoperta": 44,
+      "verifica": {
+        "tipo": "umano",
+        "nota": "serve far girare la suite su main e guardare il risultato: da una richiesta non si misura il ramo principale"
+      }
+    },
+    {
+      "dimensione": "trovato-riparando",
+      "nato": "2026-08-16 10:35",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 44, ricucitura dell'AD: le quattro prove rosse ereditate da main, portate a verde una per una",
+      "lotto_scoperta": 44,
+      "lotto_riparazione": 44,
+      "stato": "aperto",
+      "id": "AR-751",
+      "gravita": "grave",
+      "titolo": "Chi distribuisce i numeri delle card ne vede solo metà, e ha dato lo stesso numero a due card diverse",
+      "causa_radice": "Le card nella coda hanno due forme — il blocco «### 🟡 #81 — …» e la riga-tabella «| 81 | … |» del formato vecchio — e vivono nello STESSO spazio di numeri, perché Nicola approva scrivendo «ok 81». `prossimoNumero` in cervello/pausa-coda.mjs contava solo i blocchi: il numero più alto fra le righe-tabella gli era invisibile, e poteva riconsegnare un numero già in mano a qualcun altro. Il 16/8 il numero 81 apparteneva a due card insieme, e «ok 81» era una domanda con due risposte.",
+      "fix_proposto": "Contare entrambe le forme dentro l'unica casa della regola (`prossimoNumero`), così ogni scrittore automatico eredita la correzione senza saperlo. In più la card viva che aveva il numero doppio è stata rinumerata al primo libero.",
+      "dove": "cervello/pausa-coda.mjs · MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+      "impatto_crescita": "diretto sulla fiducia del proprietario: se «ok 81» apre la card sbagliata, un'azione parte al posto di un'altra — e le azioni in coda toccano negozi e soldi veri",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/carte-numerate.test.mjs"
+      },
+      "nota_fix": "Il numero doppio non l'ha assegnato un programma: la card viva era stata scritta a mano da una sessione, che ha scelto il numero guardando solo le card in cima. Ho riparato comunque l'allocatore, perché la stessa svista è a portata di ogni scrittore automatico e lì nessuno se ne accorgerebbe. Cosa NON ho verificato: che nessuna sessione futura continui a scrivere card a mano scavalcando `prossimoNumero` — quella è disciplina, non codice, e da qui non la posso imporre."
+    },
+    {
+      "dimensione": "trovato-riparando",
+      "nato": "2026-08-16 10:35",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 44, ricucitura dell'AD: le quattro prove rosse ereditate da main, portate a verde una per una",
+      "lotto_scoperta": 44,
+      "lotto_riparazione": 44,
+      "stato": "aperto",
+      "id": "AR-752",
+      "gravita": "grave",
+      "titolo": "La domanda a Nicola sui sensori spenti era ferma a mesi fa: chi si spegneva dopo non ci finiva dentro, e il guardiano restava rosso per sempre",
+      "causa_radice": "Due buchi che si tenevano su a vicenda. ① `sensori-spenti-check.mjs` non accodava una seconda card se l'ancora c'era già — giusto — ma usciva subito, quindi la card restava com'era nata: quella del 10/8 chiedeva di `telegram_bot` e basta. Un sensore che si spegneva dopo non entrava mai nella domanda, il guardiano lo contava come buco a ogni giro, e non esisteva nessuna strada per tornare verde. ② Il controllo «la card è in coda?» guardava solo che l'ancora esistesse, non che dentro ci fosse scritto il nome del sensore: bastava puntare una card qualsiasi per dichiarare «glielo stiamo chiedendo» su una domanda che nessuno poteva leggere.",
+      "fix_proposto": "① La card che c'è già viene RINFRESCATA — stesso numero, stessa posizione, timbro «🔄 refresh» — e nomina tutti quelli che aspettano una risposta, non solo i buchi di oggi (coi soli buchi cancellerebbe chi era già in attesa, e al giro dopo tornerebbe buco: un'altalena). ② `laCardChiedeDi` (funzione pura in cervello/sensore-spento.mjs) pretende il nome del sensore dentro il blocco della card.",
+      "dove": "cervello/sensori-spenti-check.mjs · cervello/sensore-spento.mjs",
+      "impatto_crescita": "indiretto: è debito della macchina, ma è la strada per cui una domanda vera arriva a Nicola invece di restare un rosso che nessuno può spegnere",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/una-card-una-volta-sola.test.mjs"
+      },
+      "nota_fix": "La prima versione del rinfresco riscriveva l'elenco coi soli buchi e faceva sparire `telegram_bot` dalla domanda: l'ho vista perché ho eseguito il comando tre volte di fila su una copia della coda, non perché l'avessi ragionata. Ho anche dichiarato `mcp_supabase` come «da-chiedere» in cervello/sensori-motivi.json: il canale REST, che è la fonte-di-verità dei dati del marketplace, resta acceso — quello spento è il collegamento di sessione. Cosa NON ho verificato: se sul VPS `mcp_supabase` risponda (da qui vedo solo questa macchina), e la risposta di Nicola sui due sensori, che è sua e non mia."
     }
   ],
   "meta": {

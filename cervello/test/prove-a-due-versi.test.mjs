@@ -356,3 +356,8 @@ test("AR-744 — gli esperimenti misurati senza che il gate parta: rossa oggi, v
     ],
   });
 });
+
+// AR-749 non abita più qui: era una prova a due versi perché il difetto era APERTO, e la cura
+// ipotizzata («conta la copertura possibile») si è rivelata sbagliata — avrebbe spento la guardia di
+// AR-568. Il difetto è stato riparato per davvero dando un lettore al verdetto «mettila accanto», e
+// la sua prova è comportamentale: `node cervello/test/sensori-non-calpestati.test.mjs`, caso ⑤.

@@ -213,12 +213,29 @@ prova("④ il referto della salute onesta dichiara il terzo stato e il proprio m
   assert.equal(r.cantiere_da_riverificare, c.da_riverificare, "il terzo stato ha un numero suo (AR-684)");
   assert.equal(r.cantiere_senza_data_nascita, c.senza_data_nascita);
   assert.equal(r.cantiere_letto, true);
-  // AR-671 — il margine si conta QUI, senza chiedere niente al modulo: quante schede non chiuse non
-  // hanno una data di nascita leggibile. Se il referto ne dichiara meno, ne sta buttando via.
-  const senzaNascita = vero.difetti
-    .filter(Boolean)
-    .filter((d) => String(d.stato ?? "").trim() !== "chiuso" && Number.isNaN(Date.parse(String(d.nato ?? "").slice(0, 10)))).length;
-  assert.equal(r.burn_down_margine, senzaNascita, "il confronto storico deve dire di quanto può sbagliare, e il numero è questo");
+  // AR-671 — il margine si conta QUI, senza chiedere niente al modulo. È il margine di un confronto
+  // ALL'INDIETRO, quindi la domanda è «quante schede non so collocare a QUELLA data»: senza data di
+  // nascita, e non ancora chiuse allora. Una scheda chiusa ieri era aperta una settimana fa, e va
+  // contata: guardare invece «non chiuse ADESSO» dava lo stesso numero solo finché non si chiudeva
+  // niente — questo lotto ne ha chiuse 61 e i due conti si sono separati (2 contro 15).
+  const giorno = (iso) => {
+    const t = Date.parse(String(iso ?? "").slice(0, 10));
+    return Number.isNaN(t) ? null : t;
+  };
+  const vive = vero.difetti.filter(Boolean);
+  const note = vive.map((d) => giorno(d.chiuso_il) ?? giorno(d.nato)).filter((x) => x != null);
+  const settimanaFa = Math.max(...note) - 7 * 86400000;
+  const margine = vive.filter((d) => {
+    const chiuso = giorno(d.chiuso_il);
+    return giorno(d.nato) == null && !(chiuso != null && chiuso <= settimanaFa);
+  }).length;
+  assert.equal(r.burn_down_margine, margine, "il confronto storico deve dire di quanto può sbagliare, e il numero è questo");
+  // E il margine non può essere più piccolo di quelle che ancora oggi non so collocare: se lo fosse,
+  // ne starebbe buttando via.
+  const apertiSenzaNascita = vive.filter(
+    (d) => String(d.stato ?? "").trim() !== "chiuso" && giorno(d.nato) == null,
+  ).length;
+  assert.ok(r.burn_down_margine >= apertiSenzaNascita, `margine ${r.burn_down_margine} < ${apertiSenzaNascita} non collocabili di oggi`);
 });
 
 // ═══ ⑤ le due porte del Pannello rispondono lo stesso numero ═════════════════════════════════════

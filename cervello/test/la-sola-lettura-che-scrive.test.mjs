@@ -89,6 +89,7 @@ function conLaMemoriaAlSicuro(relativi, lavoro) {
 
 const REL_CECITA = "MyCity-Vault/90-Memoria-AI/auto-coscienza/sensori-cecita.json";
 
+
 prova("① AR-568 · con una chiave sola la misura dei sensori si scrive, ma non sopra quella vera", () => {
   // È lo scenario esatto della scheda: una sessione che vede quasi niente decide comunque di
   // scrivere il quadro dei sensori. La guardia d'ambiente (AR-035) qui NON la ferma — basta una
@@ -96,6 +97,12 @@ prova("① AR-568 · con una chiave sola la misura dei sensori si scrive, ma non
   // rifiuto arrivato prima. La chiave è finta e l'indirizzo non esiste: il sensore risulta cieco,
   // che è appunto la misura povera contro cui AR-568 protegge.
   const sab = nuovaSab("sensori");
+  // ⚠️ LA SABBIERA RESTA VUOTA, ed è il punto. Il 16/8 questi due casi sono diventati rossi senza che
+  // una riga di codice cambiasse: il server aveva scritto una misura più ricca, e la guardia «cieco
+  // non sovrascrive vedente» la leggeva dal file VERO mentre la scrittura andava in sabbiera —
+  // giudicava un file che non avrebbe toccato. La cura è nel codice (il lettore che conosce la
+  // deviazione, in verifica-sensori.mjs), non qui: seminare un precedente finto avrebbe nascosto il
+  // difetto e smussato la mutazione, che senza sabbiera vuota resta verde col fix rotto.
   const prima = impronta(REL_CECITA);
   let dopo;
   conLaMemoriaAlSicuro([REL_CECITA], () => {

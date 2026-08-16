@@ -25,6 +25,8 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { scriviStatoSensore } from "./stato-sensori.mjs";
+import { pathToFileURL } from "node:url";
+import { fileMemoriaDaLeggere, decidiDestinazione } from "./casa-memoria.mjs";
 // AR-568 · AR-446 — la penna condivisa. `stato-sensori.mjs` è la porta della guardia d'AMBIENTE
 // (AR-281), ma la sua penna di default è un `writeFileSync` crudo: il freno della memoria
 // (`cervello/casa-memoria.mjs`) non lo attraversa, e una prova che lancia questo comando riscrive la
@@ -35,7 +37,7 @@ import { decadiAutoDichiarato, eSpentoPerDecisione, istruzioniGiro, sintesiSenso
 import { codiceUscitaSensori, misuraScaduta } from "./misura-o-cieco.mjs";
 // AR-568 (b): la decisione «questa misura può prendere il posto di quella che c'è?» sta in un modulo
 // puro, dove un test la esegue senza chiavi e senza sensori.
-import { decidiScrittura, origineCorrente } from "./scrittura-misura.mjs";
+import { affiancaMisura, decidiScrittura, origineCorrente } from "./scrittura-misura.mjs";
 
 /**
  * AR-364 — dopo quanto un «ok» che si è dato la macchina da sola smette di valere.
@@ -70,7 +72,20 @@ function fetchSensore(url, init = {}) {
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 // Sovrascrivibile SOLO per provare il sensore su un file finto (AR-284: la cecità sospetta va
 // dimostrata facendola accadere, e non si può farla accadere sullo stato vero della macchina).
-const CECITA_PATH = process.env.SENSORI_CECITA_FILE || join(VAULT, "sensori-cecita.json");
+const CECITA_NOMINALE = process.env.SENSORI_CECITA_FILE || join(VAULT, "sensori-cecita.json");
+// ⚠️ SI LEGGE DA DOVE SI SCRIVERÀ, non dal nome del file. La guardia «cieco non sovrascrive vedente»
+// confronta la misura nuova con quella che sta per sostituire: se la scrittura è deviata in una
+// sabbiera e il confronto resta sul file VERO, la guardia giudica un file che non toccherà — e
+// rifiuta la scrittura per colpa di una misura che nessuno stava per perdere. Il 16/8 è successo:
+// il server aveva scritto una misura più ricca, e due prove sono diventate rosse senza che una riga
+// di codice fosse cambiata. Il lettore che conosce la deviazione esiste già ed è di casa.
+const CECITA_PATH = fileMemoriaDaLeggere(CECITA_NOMINALE, { env: process.env, esiste: existsSync });
+// E la DESTINAZIONE, che è un'altra domanda. Per LEGGERE il dato di partenza il ripiego sul file
+// vero è giusto (una sabbiera senza copia deve poter partire dai numeri veri). Per decidere se
+// SOVRASCRIVERE no: lì si difende il file che si sta per toccare, e se la scrittura è deviata quel
+// file è la copia in sabbiera. Confondere le due fa rifiutare una scrittura per proteggere una
+// misura che nessuno stava per perdere — ed è il rosso comparso il 16/8.
+const CECITA_DESTINAZIONE = decidiDestinazione(CECITA_NOMINALE, { env: process.env }).percorso;
 
 /** Classe sensore per max_giri_ciechi_dati (sentinella M2) vs infrastruttura/mani. */
 const SENSOR_CLASSE = {
@@ -138,6 +153,15 @@ function leggiMotiviSensori() {
   }
 }
 
+/** Il JSON di un percorso, o `null` se non c'è o non si legge. Serve a guardare la DESTINAZIONE. */
+function leggiJsonSeC(percorso) {
+  try {
+    return existsSync(percorso) ? JSON.parse(readFileSync(percorso, "utf8")) : null;
+  } catch {
+    return null;
+  }
+}
+
 function leggiCecita() {
   if (!existsSync(CECITA_PATH)) {
     return {
@@ -162,7 +186,7 @@ function leggiCecita() {
 }
 
 /** Il file c'era già? E si è potuto leggere? Due domande diverse, e servono ENTRAMBE per decidere. */
-const esisteva = existsSync(CECITA_PATH);
+const esisteva = existsSync(CECITA_DESTINAZIONE);
 let cecitaLeggibile = true;
 
 /**
@@ -715,7 +739,9 @@ async function main() {
   const copertura = decidiScrittura({
     solaLettura: false,
     misuraNuova: cecita,
-    misuraVecchia: esisteva ? esistente : null,
+    // `esistente` è ciò che si è LETTO (può venire dal file vero); qui serve ciò che si sta per
+    // sostituire, e se là non c'è niente non c'è niente da difendere.
+    misuraVecchia: esisteva ? leggiJsonSeC(CECITA_DESTINAZIONE) ?? esistente : null,
     vecchiaLeggibile: cecitaLeggibile,
   });
   const scriviStato = (ambienteConfigurato || aggiornamentoMcp) && copertura.scrivi;
@@ -751,6 +777,19 @@ async function main() {
         ? copertura.motivo
         : "nessuna chiave sensore nell'ambiente e nessun aggiornamento MCP",
   });
+
+  // AR-749 — la promessa mantenuta. Quando la decisione dice «la metto accanto, non al posto», fin
+  // qui non la metteva accanto nessuno: si guardava solo `scrivi`. Da una sessione con meno chiavi
+  // la misura non entrava da nessuna parte, e il metro non sapeva più dire di sì. Adesso la misura
+  // povera va in `misure_affiancate`, sotto il nome della sua provenienza; il quadro autorevole
+  // resta intatto, che è il punto di AR-568. In `--sola-lettura` non si scrive nemmeno questo.
+  if (copertura.affianca && !SOLA_LETTURA && ambienteConfigurato) {
+    const conAccanto = affiancaMisura(leggiJsonSeC(CECITA_DESTINAZIONE), cecita, {
+      origine: cecita.origine,
+      quando,
+    });
+    if (conAccanto) scriviJsonAtomico(CECITA_DESTINAZIONE, conAccanto);
+  }
 
   // AR-591: il denominatore sono i sensori CONFIGURATI, gli spenti si dichiarano a parte —
   // «7/11 ok» con 4 spenti faceva sembrare rotti 4 sensori che erano spenti apposta.
@@ -813,8 +852,13 @@ async function main() {
   process.exit(codiceUscitaSensori(esito));
 }
 
-main().catch(async (e) => {
-  console.error("ERRORE verifica-sensori:", e.message || e);
-  await stampSegnale("sensori", "errore", `crash: ${(e.message || e).toString().slice(0, 200)}`);
-  process.exit(1);
-});
+// 🚪 Importare questo file NON deve interrogare i sensori. Senza questa riga bastava un `import`
+// per far partire il giro dei sensori e riscrivere la loro memoria — ed è la malattia che questo
+// stesso lotto cura altrove. Il file girava così da prima; toccandolo, il tetto non lo assolve più.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch(async (e) => {
+    console.error("ERRORE verifica-sensori:", e.message || e);
+    await stampSegnale("sensori", "errore", `crash: ${(e.message || e).toString().slice(0, 200)}`);
+    process.exit(1);
+  });
+}

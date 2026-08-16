@@ -8,6 +8,15 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-16 10:57 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:49 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:42 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:35 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:28 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:04 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 09:49 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 09:41 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 09:06 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 07:13 · fix contratto salute_macchina: due chiavi (sensori_ciechi, telegram_configurato) bocciate dal validatore auto-analisi.json · test contratto rosso su ogni PR che tocca auto-analisi.json · atteso contratto allineato, test scadenze-calcolate verde → reale 21/21 test verdi, tsc pulito, non verificato a video nel browser · #AR-532
 - 2026-08-16 04:28 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-15 21:34 · Lotto 44 del cantiere: nove corsie in parallelo su nove malattie, territori di file disgiunti, ogni corsia consegna un frammento e l'AD ricuce i registri condivisi · V5 C5 A5 K5 I4 M5 E5 (media 4.86) · atteso 100 difetti chiusi in una sessione sola → reale 75 riparati e verificati con le sette corsie rientrate finora: 39 mutazioni eseguite, 39 prove diventate rosse. Piu 12 gia riparati nel lotto 43 e mai timbrati, verificati uno per uno. Due corsie ancora al lavoro; il conto vero lo dara il cancello ad albero fermo · #cantiere #lotto44 #corsie-parallele

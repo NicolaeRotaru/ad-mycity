@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
   "_cosa_NON_prova": "Non prova che un ESITO sia VERO. Conta righe e date: se un reparto scrive «atteso 10 → reale 12» senza aver misurato niente, qui risulta vivo e puntuale. La verità del numero la giudica la calibrazione (che pretende una fonte esterna al quaderno), non questo conteggio.",
-  "aggiornato": "2026-08-16 08:23",
+  "aggiornato": "2026-08-16 10:51",
   "soglia_giorni": 7,
-  "totale": 120,
+  "totale": 122,
   "mancanti": 0,
   "vuoti": 72,
-  "fermi": 103,
-  "vivi": 17,
+  "fermi": 104,
+  "vivi": 18,
   "reparti_fermi": [
     "accessibility",
     "account-security",
@@ -111,7 +111,8 @@
     "seo",
     "supporto",
     "sustainability-esg",
-    "ux-designer"
+    "ux-designer",
+    "supervisione"
   ],
   "quaderni_doppi": [
     {
@@ -125,9 +126,45 @@
   "quaderni_fuori_roster": [
     "reparto-che-non-esiste"
   ],
+  "sala_operativa": {
+    "misurabile": true,
+    "finestra_giorni": 7,
+    "righe_totali": 623,
+    "righe_nella_finestra": 195,
+    "voci_diverse": 6,
+    "voce_dominante": "ad",
+    "quota_voce_dominante": 0.91,
+    "reparti_muti": [
+      "account-negozi",
+      "chief-of-staff",
+      "content-social",
+      "crm-lifecycle",
+      "customer-success",
+      "data-engineer",
+      "frontend-dev",
+      "growth-monetizzazione",
+      "pr-stampa",
+      "qa",
+      "relazioni-istituzionali",
+      "security",
+      "trust-safety",
+      "vendite"
+    ],
+    "reparti_muti_conteggio": 14,
+    "peer_review": {
+      "richieste": 1,
+      "con_risposta": 0,
+      "senza_risposta": 1,
+      "elenco_senza_risposta": [
+        "2026-07-29 01:20 ad→finanza"
+      ]
+    },
+    "_cosa_significa": "un reparto «muto» ha un ESITO fresco nel suo quaderno e nessuna riga in Sala nella stessa finestra: ha lavorato, e per la squadra non è successo niente (AR-621). Le richieste di revisione senza risposta sono peer review solo sulla carta (AR-622)."
+  },
   "quaderni": [
     {
       "reparto": "accessibility",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -138,6 +175,7 @@
     },
     {
       "reparto": "account-negozi",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 42,
@@ -148,6 +186,7 @@
     },
     {
       "reparto": "account-security",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -158,6 +197,7 @@
     },
     {
       "reparto": "ads-performance",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 1,
@@ -168,6 +208,7 @@
     },
     {
       "reparto": "ai-copywriter",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 1,
@@ -178,6 +219,7 @@
     },
     {
       "reparto": "ai-designer",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 1,
@@ -188,6 +230,7 @@
     },
     {
       "reparto": "ai-video",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 1,
@@ -198,6 +241,7 @@
     },
     {
       "reparto": "analista",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 20,
@@ -208,6 +252,7 @@
     },
     {
       "reparto": "analytics-engineering",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -218,6 +263,7 @@
     },
     {
       "reparto": "authentication-prodotti",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -228,6 +274,7 @@
     },
     {
       "reparto": "avvocato-civile",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -238,6 +285,7 @@
     },
     {
       "reparto": "avvocato-ip",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -248,6 +296,7 @@
     },
     {
       "reparto": "avvocato-lavoro",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -258,6 +307,7 @@
     },
     {
       "reparto": "backend-dev",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 4,
@@ -268,6 +318,7 @@
     },
     {
       "reparto": "bi-lead",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -278,6 +329,7 @@
     },
     {
       "reparto": "brand-protection",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -288,6 +340,7 @@
     },
     {
       "reparto": "broker-assicurativo",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -298,6 +351,7 @@
     },
     {
       "reparto": "builder-automazioni",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 76,
@@ -308,6 +362,7 @@
     },
     {
       "reparto": "business-plan-bancabile",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -318,6 +373,7 @@
     },
     {
       "reparto": "capacity-planning",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -328,6 +384,7 @@
     },
     {
       "reparto": "category-manager",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -338,6 +395,7 @@
     },
     {
       "reparto": "cfo",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -348,6 +406,7 @@
     },
     {
       "reparto": "chief-of-staff",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 7,
@@ -358,6 +417,7 @@
     },
     {
       "reparto": "city-manager",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -368,6 +428,7 @@
     },
     {
       "reparto": "commercialista",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -378,6 +439,7 @@
     },
     {
       "reparto": "computer-vision",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -388,6 +450,7 @@
     },
     {
       "reparto": "consulente-bancario",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -398,6 +461,7 @@
     },
     {
       "reparto": "consulente-lavoro",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -408,6 +472,7 @@
     },
     {
       "reparto": "contabilita",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 1,
@@ -418,6 +483,7 @@
     },
     {
       "reparto": "content-social",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 27,
@@ -428,16 +494,18 @@
     },
     {
       "reparto": "corporate-strategy",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 4,
       "ultimo_esito": "2026-07-20 21:57",
-      "giorni_fa": 26,
+      "giorni_fa": 27,
       "vuoto": false,
       "fermo": true
     },
     {
       "reparto": "courier-acquisition",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -448,6 +516,7 @@
     },
     {
       "reparto": "credito-impresa",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -458,6 +527,7 @@
     },
     {
       "reparto": "crm-lifecycle",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 31,
@@ -468,6 +538,7 @@
     },
     {
       "reparto": "cro",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 2,
@@ -478,6 +549,7 @@
     },
     {
       "reparto": "customer-success",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 18,
@@ -488,16 +560,18 @@
     },
     {
       "reparto": "data-engineer",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 16,
       "ultimo_esito": "2026-08-13 22:00",
-      "giorni_fa": 2,
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
     {
       "reparto": "demand-forecasting",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -508,6 +582,7 @@
     },
     {
       "reparto": "designer",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 3,
@@ -518,6 +593,7 @@
     },
     {
       "reparto": "developer-platform",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -528,6 +604,7 @@
     },
     {
       "reparto": "devops-sre",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 123,
@@ -538,6 +615,7 @@
     },
     {
       "reparto": "direttore-creativo",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -548,6 +626,7 @@
     },
     {
       "reparto": "dispatch",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 1,
@@ -558,6 +637,7 @@
     },
     {
       "reparto": "dispute",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 1,
@@ -568,6 +648,7 @@
     },
     {
       "reparto": "dpo",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -578,6 +659,7 @@
     },
     {
       "reparto": "enterprise-risk",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -588,6 +670,7 @@
     },
     {
       "reparto": "finanza",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 24,
@@ -598,6 +681,7 @@
     },
     {
       "reparto": "finanza-agevolata",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 2,
@@ -608,6 +692,7 @@
     },
     {
       "reparto": "fiscalista-iva-ecommerce",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -618,6 +703,7 @@
     },
     {
       "reparto": "fondo-garanzia-pmi",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -628,6 +714,7 @@
     },
     {
       "reparto": "food-safety",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -638,6 +725,7 @@
     },
     {
       "reparto": "fp-and-a",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -648,6 +736,7 @@
     },
     {
       "reparto": "fraud-risk",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -658,16 +747,18 @@
     },
     {
       "reparto": "frontend-dev",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 179,
       "ultimo_esito": "2026-08-13 20:28",
-      "giorni_fa": 2,
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
     {
       "reparto": "fundraising-equity",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -678,6 +769,7 @@
     },
     {
       "reparto": "grant-writer",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -688,6 +780,7 @@
     },
     {
       "reparto": "growth-monetizzazione",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 7,
@@ -698,6 +791,7 @@
     },
     {
       "reparto": "influencer-partnership",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 1,
@@ -708,6 +802,7 @@
     },
     {
       "reparto": "infosec-soc",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -718,36 +813,40 @@
     },
     {
       "reparto": "innovation-lab",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-20 21:57",
-      "giorni_fa": 26,
+      "giorni_fa": 27,
       "vuoto": false,
       "fermo": true
     },
     {
       "reparto": "intelligence",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 25,
       "ultimo_esito": "2026-08-14 22:29",
-      "giorni_fa": 1,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
     {
       "reparto": "internal-audit",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 8,
       "ultimo_esito": "2026-07-29 21:05",
-      "giorni_fa": 17,
+      "giorni_fa": 18,
       "vuoto": false,
       "fermo": true
     },
     {
       "reparto": "investor-relations",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -758,6 +857,7 @@
     },
     {
       "reparto": "kyc-aml",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -768,6 +868,7 @@
     },
     {
       "reparto": "legale-contrattualista",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -778,6 +879,7 @@
     },
     {
       "reparto": "legale-privacy",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 2,
@@ -788,6 +890,7 @@
     },
     {
       "reparto": "live-ops",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -798,6 +901,7 @@
     },
     {
       "reparto": "localization",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -808,6 +912,7 @@
     },
     {
       "reparto": "loyalty-membership",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -818,6 +923,7 @@
     },
     {
       "reparto": "marketing",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 7,
@@ -828,6 +934,7 @@
     },
     {
       "reparto": "marketplace-payments",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -838,6 +945,7 @@
     },
     {
       "reparto": "marketplace-policy",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -848,6 +956,7 @@
     },
     {
       "reparto": "mediatore-creditizio",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -858,6 +967,7 @@
     },
     {
       "reparto": "medico-competente",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -868,6 +978,7 @@
     },
     {
       "reparto": "ml-engineer",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -878,6 +989,7 @@
     },
     {
       "reparto": "mobile-app",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -888,6 +1000,7 @@
     },
     {
       "reparto": "new-verticals",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -898,6 +1011,7 @@
     },
     {
       "reparto": "notaio",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -908,6 +1022,7 @@
     },
     {
       "reparto": "office-manager",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -918,6 +1033,7 @@
     },
     {
       "reparto": "onboarding-negozi",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 6,
@@ -928,6 +1044,7 @@
     },
     {
       "reparto": "operations",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 13,
@@ -938,6 +1055,7 @@
     },
     {
       "reparto": "partner-management",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 1,
@@ -948,6 +1066,7 @@
     },
     {
       "reparto": "people-talent",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 4,
@@ -958,6 +1077,7 @@
     },
     {
       "reparto": "personalization",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -968,6 +1088,7 @@
     },
     {
       "reparto": "platform-infra",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -978,6 +1099,7 @@
     },
     {
       "reparto": "pr-stampa",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 5,
@@ -988,6 +1110,7 @@
     },
     {
       "reparto": "pricing-scientist",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -998,6 +1121,7 @@
     },
     {
       "reparto": "private-label",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1008,6 +1132,7 @@
     },
     {
       "reparto": "procurement",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1018,16 +1143,18 @@
     },
     {
       "reparto": "product-manager",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 6,
       "ultimo_esito": "2026-07-13 22:28",
-      "giorni_fa": 33,
+      "giorni_fa": 34,
       "vuoto": false,
       "fermo": true
     },
     {
       "reparto": "prompt-engineer",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 35,
@@ -1038,6 +1165,7 @@
     },
     {
       "reparto": "public-policy",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1048,6 +1176,7 @@
     },
     {
       "reparto": "q-commerce-ops",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1058,6 +1187,7 @@
     },
     {
       "reparto": "qa",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 10,
@@ -1068,6 +1198,7 @@
     },
     {
       "reparto": "qa-designer",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1078,6 +1209,7 @@
     },
     {
       "reparto": "rating-centrale-rischi",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1088,6 +1220,7 @@
     },
     {
       "reparto": "registro-imprese",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1098,6 +1231,7 @@
     },
     {
       "reparto": "relazioni-istituzionali",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 6,
@@ -1108,6 +1242,7 @@
     },
     {
       "reparto": "retail-media",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1118,6 +1253,7 @@
     },
     {
       "reparto": "reverse-logistics",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1128,6 +1264,7 @@
     },
     {
       "reparto": "revisore-conti",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1138,6 +1275,7 @@
     },
     {
       "reparto": "revops",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1148,6 +1286,7 @@
     },
     {
       "reparto": "rider-fleet",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 1,
@@ -1158,6 +1297,7 @@
     },
     {
       "reparto": "rspp",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1168,6 +1308,7 @@
     },
     {
       "reparto": "sales-ops",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1178,6 +1319,7 @@
     },
     {
       "reparto": "scadenzario",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1188,6 +1330,7 @@
     },
     {
       "reparto": "sdet",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 4,
@@ -1198,6 +1341,7 @@
     },
     {
       "reparto": "search-reco-scientist",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1208,6 +1352,7 @@
     },
     {
       "reparto": "search-relevance",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1218,16 +1363,18 @@
     },
     {
       "reparto": "security",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 14,
       "ultimo_esito": "2026-08-13 22:00",
-      "giorni_fa": 2,
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
     {
       "reparto": "segreteria-ea",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1238,6 +1385,7 @@
     },
     {
       "reparto": "seller-financing",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1248,6 +1396,7 @@
     },
     {
       "reparto": "seller-standards",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1258,6 +1407,7 @@
     },
     {
       "reparto": "seo",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 8,
@@ -1268,6 +1418,7 @@
     },
     {
       "reparto": "supporto",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 1,
@@ -1278,6 +1429,7 @@
     },
     {
       "reparto": "sustainability-esg",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 0,
@@ -1288,16 +1440,18 @@
     },
     {
       "reparto": "tech",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
-      "righe_esito": 124,
-      "ultimo_esito": "2026-08-16 07:13",
+      "righe_esito": 135,
+      "ultimo_esito": "2026-08-16 10:49",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
     {
       "reparto": "trust-safety",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 6,
@@ -1308,6 +1462,7 @@
     },
     {
       "reparto": "ux-designer",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 10,
@@ -1318,6 +1473,7 @@
     },
     {
       "reparto": "vendite",
+      "deroga": false,
       "esiste": true,
       "mancante": false,
       "righe_esito": 26,
@@ -1325,6 +1481,28 @@
       "giorni_fa": 6,
       "vuoto": false,
       "fermo": false
+    },
+    {
+      "reparto": "ad",
+      "deroga": true,
+      "esiste": true,
+      "mancante": false,
+      "righe_esito": 114,
+      "ultimo_esito": "2026-08-15 02:17",
+      "giorni_fa": 1,
+      "vuoto": false,
+      "fermo": false
+    },
+    {
+      "reparto": "supervisione",
+      "deroga": true,
+      "esiste": true,
+      "mancante": false,
+      "righe_esito": 4,
+      "ultimo_esito": "2026-07-19 23:23",
+      "giorni_fa": 27,
+      "vuoto": false,
+      "fermo": true
     }
   ]
 }
