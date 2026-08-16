@@ -85,6 +85,24 @@ test("un collaudo chiesto e mai tornato (turno interrotto) si richiede, non si d
   assert.equal(verdettoCollaudo({ lavoro: true, impronta: "i1", registro }).azione, "chiedi");
 });
 
+// IL CICLO GEMELLO DI QUELLO IN cancello-stop.mjs (46+ conferme in memoria, 16/8): un registro
+// "chiesto" scritto da una sessione passata non muore mai da solo — il suo `da` resta antenato di
+// ogni HEAD futuro per definizione (è storia). Senza il bypass qui sotto, il test appena sopra
+// ("un collaudo chiesto e mai tornato… si richiede") si applicherebbe ANCHE quando quel lavoro è nel
+// frattempo finito su origin/main: il collaudo tornerebbe dovuto in eterno su lavoro che nessuna
+// sessione nuova ha mai aperto.
+test("HEAD già pubblicato vince su un registro «chiesto» rimasto sul disco: niente da ricollaudare", () => {
+  const registro = { impronta: "i1", esito: "chiesto", giro: 5 };
+  const v = verdettoCollaudo({ lavoro: true, impronta: "i1", registro, headUgualeABase: true });
+  assert.equal(v.azione, "niente");
+});
+
+test("HEAD già pubblicato vince ANCHE quando il lavoro sembra pendente e l'impronta è diversa", () => {
+  const registro = { impronta: "vecchia", esito: "chiesto", giro: 1 };
+  const v = verdettoCollaudo({ lavoro: true, impronta: "nuova", registro, giaBloccato: true, headUgualeABase: true });
+  assert.equal(v.azione, "niente", "headUgualeABase decide prima di guardare pendente/stessa/giaBloccato");
+});
+
 // ── Le istruzioni: la forma che blocca, i quattro passi, il giro meccanico dentro ────────────────
 
 test("le istruzioni aprono con ❌ e contengono i quattro passi del ricontrollo sul diff VERO", () => {

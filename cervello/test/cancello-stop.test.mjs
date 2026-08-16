@@ -76,6 +76,22 @@ test("senza nemmeno una base non invento un perimetro", () => {
   assert.equal(p.nota, null, "lo dichiara già il cieco del controllo ④: due volte sarebbe rumore");
 });
 
+// IL CICLO CHE NON SI ROMPEVA MAI (46+ conferme in memoria, 16/8): l'ancora è ancora un antenato di
+// HEAD (quindi «usabile»), ma HEAD è già identico a origin/main — niente di non pubblicato da
+// ricollaudare. Se si usasse comunque l'ancora vecchia, il collaudo troverebbe sempre lavoro che
+// nessuna sessione ha aperto, l'ancora non si sposterebbe mai (siPiantaAncora pianta solo sui turni
+// puliti quando turno=true), e il giro dopo vedrebbe un diff ancora più grande. All'infinito.
+test("HEAD già uguale a origin/main vince sull'ancora vecchia: niente da ricollaudare", () => {
+  const p = scegliPerimetro({ ancora: "f2ea10bb7", ancoraUsabile: true, base: "origin/main", headUgualeABase: true });
+  assert.equal(p.da, "origin/main");
+  assert.equal(p.turno, false, "così l'ancora si ripianta comunque (regola ② di siPiantaAncora)");
+  assert.match(p.nota, /già uguale/, "va dichiarato, non taciuto: sennò sembra un perimetro largo per caso");
+});
+
+test("HEAD già uguale a origin/main: siPiantaAncora ripianta anche con dei ❌ (rompe il ciclo)", () => {
+  assert.equal(siPiantaAncora(["🛑 …", "❌ collaudo del lavoro finito"], false), true);
+});
+
 // ── ① difetto chiuso senza prova ──────────────────────────────────────────────
 
 test("IL CASO VERO: un difetto chiuso adesso senza comando di prova viene fermato", () => {
