@@ -34,9 +34,13 @@
 //      dichiararla non misurata. Un sintomo che non risponde è un buco, non un verde.
 
 import { execSync } from "node:child_process";
-import { readFileSync, writeFileSync } from "node:fs";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+// ✍️ La penna condivisa, non `writeFileSync` crudo (AR-639). Il freno vive dentro `scrivi-json.mjs`
+// e copre solo chi ci passa: uno scrittore crudo del vault è una porta aperta che nessun guardiano
+// attraversa. La CI me l'ha detto al primo push — il tetto degli scrittori crudi è 49, io ero il 50°.
+import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import {
   DEBOLE,
   NON_MISURATO,
@@ -209,6 +213,6 @@ if (GATE) {
 }
 
 if (!DRY && !JSON_MODE) {
-  writeFileSync(REFERTO, JSON.stringify(referto, null, 2) + "\n");
+  scriviJsonAtomico(REFERTO, referto);
   console.log(`\n   referto → MyCity-Vault/90-Memoria-AI/auto-coscienza/ancora-rotti.json`);
 }
