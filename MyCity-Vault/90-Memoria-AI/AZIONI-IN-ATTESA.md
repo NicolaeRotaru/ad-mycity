@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-15 11:38** — Automatico: **69 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-16 08:23** — Automatico: **70 aperte · 8 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -17,6 +17,30 @@ fonte: senior dell'AD
 Ogni card ha un **numero fisso**, scritto prima del titolo (es. `#41`). Il numero non cambia mai. Una card nuova prende il numero successivo al più alto mai usato.
 Per dare il via scrivi all'AD: **«ok 41»** (o «ok a tutte le 🟡»). L'AD esegue, segna FATTO qui e lascia la traccia in [[DECISIONI]].
 Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al titolo.
+
+<!-- write-vs-edit-settings-local -->
+
+---
+
+### 🟡 #81 — Correggi 5 righe nelle tue regole di permesso: è il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20
+
+**Cosa cambia:** il 4 agosto avevo trovato perché i giri restavano bloccati o scadevano. Cinque righe nel file dei miei permessi dicono "Write" invece di "Edit". Il controllo dei permessi riconosce solo "Edit" per chi scrive file. Per questo, ogni volta che il giro prova a scrivere in memoria, consegne, creativi, cervello o Pannello, il permesso non scatta. Te l'avevo segnalato allora. Non potevo correggerlo da sola: è una protezione voluta, contro il rischio che mi allarghi i permessi da sola. Sono passati 12 giorni. Le righe sono ancora "Write". Ho ricontrollato oggi, 16 agosto. Il giro continua a fallire con lo stesso identico errore. L'ultimo fallimento registrato è del 14/8 alle 11:16. Prima ancora, uno ogni due ore circa, per giorni. Il checkup di salute della macchina è fermo per lo stesso motivo, da oltre 26 ore: non riesce più a scrivere il suo referto.
+
+**Se va bene:** il giro torna a scrivere la memoria regolarmente. Il checkup di salute torna a pubblicarsi da solo. Il Pannello smette di mostrare dati vecchi spacciati per dati di oggi.
+
+**Cosa fare.** Apri `.claude/settings.local.json` sul VPS e in queste 5 righe cambia la parola "Write" in "Edit" (lascia tutto il resto uguale):
+```
+Write(MyCity-Vault/90-Memoria-AI/**)  →  Edit(MyCity-Vault/90-Memoria-AI/**)
+Write(consegne/**)                    →  Edit(consegne/**)
+Write(creativi/**)                    →  Edit(creativi/**)
+Write(cervello/**)                    →  Edit(cervello/**)
+Write(pannello/**)                    →  Edit(pannello/**)
+```
+Il file non è nel repo (è in `.gitignore`), quindi va modificato a mano sul VPS — non con una PR.
+
+**Cosa non ho verificato:** non ho potuto testare il giro dopo la correzione. Serve il VPS, e io scrivo da un ambiente cloud senza quei permessi. Non so nemmeno se qualcos'altro, oltre a queste 5 righe, contribuisce ai fallimenti. Ho verificato solo che questo stesso errore compare in ogni fallimento registrato dal 12/8 in poi.
+
+(dettaglio: vedi memoria `project-settings-local-write-vs-edit-blocca-lavori.md`; prova: `MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json`)
 
 <!-- posthog-off-vps -->
 
@@ -1099,8 +1123,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-15 11:38)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-15-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-16 08:23)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-16-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1111,7 +1135,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-15 11:38 · 8 card totali
+> Ultima pulizia: 2026-08-16 08:23 · 8 card totali
 
 ### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 
@@ -1370,3 +1394,5 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 87 | 2026-08-15 00:26 | @tech | Merge PR #732 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/732 (aggiornata: aggiunto esempio concreto + corretto il conto CI stale) | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 88 | 2026-08-15 09:14 | @tech | Merge PR #733 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/733 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 89 | 2026-08-15 11:47 | @tech | Merge PR #735 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/735 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 90 | 2026-08-16 07:07 | @tech | Merge PR #740 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/740 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 91 | 2026-08-16 07:17 | @tech | Merge PR #740 ad-mycity → main | 🔴 | Duplicato esatto della card #90. Stesso PR, scritta 10 minuti dopo. Probabile doppia scrittura del pre-step automatico. Trovato e chiuso da @ad nel giro del 2026-08-16 07:40. Niente da eseguire su questa riga: firma solo #90. | github | ✅ chiusa (duplicato di #90) | — | — |

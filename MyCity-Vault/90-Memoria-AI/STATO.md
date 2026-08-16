@@ -1,13 +1,31 @@
 ---
 tipo: stato
-aggiornato: 2026-08-15 22:55
+aggiornato: 2026-08-16 07:40
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **16/8 07:40 — Giro richiesto in chat. Nuovo giorno, business invariato. Trovato e corretto un piccolo difetto di coda (card duplicata).**
+> Riconfermato con `verifica-sensori.mjs` dal vivo (REST): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg, 7 clienti — identico al giro di ieri sera (15/8 11:25). `delta-gate.json` conferma la stessa firma dell'ultimo giro pieno. `coerenza-fatti.mjs` rieseguito dal vivo: ✅ coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: 103/120 quaderni fermi, nessuno sblocca una card business prima di settembre — vincolo north-star rispettato.
+>
+> **Lavoro reale: la card #91 in [[AZIONI-IN-ATTESA]] era un duplicato esatto della card #90** (entrambe «Merge PR #740 ad-mycity → main», scritte a 10 minuti di distanza, 07:07 e 07:17 — probabile doppia scrittura dello stesso pre-step automatico). Corretta segnando #91 come duplicato chiuso, senza toccare la #90 originale.
+>
+> **Aggiornato `OKR-Squadra.md` per il vincolo HARD AR-115** (target scaduti): la riga tasso-di-chiusura è stata riscritta come guardrail permanente (non una scadenza), e la riga north-star chiarisce che il gate `#ordine-test-dentro-o-fuori-dalla-pausa` è già stato risposto da Nicola il 28/7 (card #35, chiusa il 13/8) — non resta più «da forzare».
+>
+> **Aggiornati i file obbligatori del cancello di serietà** (`auto-analisi.json`, `AUTO-ANALISI.md`, voto di fiducia 86/100, ↓1 per il debito HARD dichiarato — non per un errore di questo passaggio) e il digest `ultimo-briefing.json`.
+>
+> **Provati e bloccati (una sola volta ciascuno, non ritentati — stesso limite noto):** `test-cervello.mjs`, `north-star-check.mjs --gate`, `freschezza-cadenze.mjs`, `apprendimento-guardiano.mjs`, `correzione-nicola-gate.mjs`, `sonda-volano.mjs`, `gate-veri.mjs`, `piani-data.mjs --controlla` ([[feedback-bash-solo-script-esatti-in-allowlist]]).
+>
+> **Correzione-nicola-gate: non ri-indagato** — stesso debito (246/311 senza freno), nessun nuovo candidato onestamente gatabile senza forzare un check vietato dall'asticella AR-128.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7 senza risposta, ora 18 giorni). Briefing: [[Briefing/2026-08-16]].
 
 > 🔧 **15/8 22:55 — Lotto 44 del cantiere: 104 difetti chiusi, nove malattie curate insieme.** Nove corsie
 > in parallelo su territori di file separati: 92 riparati in questo lotto (55 mutazioni eseguite, 39 prove
 > nuove) più 12 già riparati nel lotto 43 e mai timbrati, verificati qui uno per uno. Cantiere: 184 → 92
-> aperti sui vecchi, +23 nati riparando (AR-726 → AR-748). Tetti scesi: prove a OR 9→3, prove deboli 39→22.
+> aperti sui vecchi, +23 nati riparando (AR-726 → AR-748). Tetti scesi: prove a OR 9→3, prove deboli 39→21.
+> ⚠️ Numeri riletti dopo la fusione con main del 16/8 08:24, che nel frattempo ne aveva chiusi 61 per conto
+> suo: il cantiere adesso conta 537 chiuse, 146 aperte (23 sono le nuove di questo lotto, quindi 123 vecchie)
+> e 56 da riverificare. Le riparate e non ancora timbrate si chiudono al merge.
 > Restano aperti apposta i tre che chiederebbero alla macchina di allargarsi i permessi da sola.
 > 🟡 pushato sul ramo, **non unito** — il merge è di Nicola, e mergiare pubblica anche il Pannello.
 > Dettaglio in [[DECISIONI]].
