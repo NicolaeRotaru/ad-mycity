@@ -38,19 +38,60 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🟡 #104 — Correggi 5 righe nelle tue regole di permesso. È il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20 · rinumerata da #81 alle 11:12 (collideva col vecchio #81 tabellare "Merge PR #714", mai riutilizzabile)
 
-**Cosa cambia:** il 4 agosto avevo trovato perché i giri restavano bloccati o scadevano. Cinque righe nel file dei miei permessi dicono "Write" invece di "Edit". Il controllo dei permessi riconosce solo "Edit" per chi scrive file. Per questo, ogni volta che il giro prova a scrivere in memoria, consegne, creativi, cervello o Pannello, il permesso non scatta. Te l'avevo segnalato allora. Non potevo correggerlo da sola: è una protezione voluta, contro il rischio che mi allarghi i permessi da sola. Sono passati 12 giorni. Le righe sono ancora "Write". Ho ricontrollato oggi, 16 agosto. Il giro continua a fallire con lo stesso identico errore. L'ultimo fallimento registrato è del 14/8 alle 11:16. Prima ancora, uno ogni due ore circa, per giorni. Il checkup di salute della macchina è fermo per lo stesso motivo, da oltre 26 ore: non riesce più a scrivere il suo referto.
+**Cosa cambia:** il 4 agosto avevo trovato una causa (5 righe "Write" invece di "Edit" nel file dei miei permessi). Oggi, 16 agosto alle 15:35, l'ho ricontrollata dal vivo e ho trovato una cosa diversa da quello che pensavo — te la dico con onestà, non aggiusto la vecchia diagnosi per farla tornare.
 
-**Se va bene:** il giro torna a scrivere la memoria regolarmente. Il checkup di salute torna a pubblicarsi da solo. Il Pannello smette di mostrare dati vecchi spacciati per dati di oggi.
+① **Provato oggi, e NON si riproduce:** ho modificato proprio il file `AZIONI-IN-ATTESA.md` (percorso coperto solo da "Write" nel file dei permessi) con lo strumento Edit, ed è passato senza chiedere permesso. Quindi il bug "Write invece di Edit" o è già superato, o non è la causa vera del blocco — non lo so con certezza da qui, e non voglio farti ricontrollare una cosa già chiusa.
 
-**Cosa fare.** Apri `.claude/settings.local.json` sul VPS e in queste 5 righe cambia la parola "Write" in "Edit" (lascia tutto il resto uguale):
+② **Provato oggi, e SI riproduce — questo è il guasto reale:** ho lanciato `node cervello/salute.mjs` (il checkup di salute, sola lettura, niente di rischioso) e mi è stato risposto "richiede approvazione". Ho controllato perché: il file grande e condiviso (`settings.json`) mi permette di lanciare qualsiasi script `cervello/*.mjs` o `cervello/*.sh`, ma il tuo file più stretto (`settings.local.json`, quello che vince davvero) elenca per nome SOLO due script (`pulisci-coda.mjs` e `git-pr.mjs`). Ogni altro script — compresi quelli che il giro, il ritmo e il checkup di salute usano ogni giorno (`giro.sh`, `ritmo.sh`, `ritmo-run.sh`, `monitora.sh`, `salute.mjs`, e tutti gli altri) — chiede un clic di conferma che, in un giro automatico senza nessuno davanti allo schermo, non arriva mai. Il giro si ferma lì, in silenzio.
+
+**Se va bene:** il giro, il ritmo e il checkup di salute tornano a girare da soli, senza fermarsi ad ogni script che non sia uno dei due già elencati. Il Pannello smette di mostrare dati vecchi spacciati per dati di oggi.
+
+**Cosa fare.** Il file è dentro `.gitignore`, non è nel repo: va aperto e modificato a mano sul VPS, non con una PR — e io stessa non posso scriverci (è protetto apposta, contro il rischio che mi allarghi i permessi da sola). Apri `.claude/settings.local.json` sul VPS e sostituisci l'intero blocco `"allow"` con questo (aggiunge le due righe che mancano, `Bash(node cervello/*.mjs:*)` e `Bash(bash cervello/*.sh:*)`, senza togliere nulla che c'è già):
+```json
+{
+  "permissions": {
+    "allow": [
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git fetch:*)",
+      "Bash(git remote:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push origin main:*)",
+      "Bash(git push origin feature/*:*)",
+      "Bash(git push origin fix/*:*)",
+      "Bash(git checkout:*)",
+      "Bash(git -C /opt/mycity/ad-mycity/marketplace:*)",
+      "Bash(git rebase:*)",
+      "Bash(git stash:*)",
+      "Bash(gh pr create:*)",
+      "Bash(gh pr list:*)",
+      "Bash(gh pr view:*)",
+      "Bash(gh auth status:*)",
+      "Bash(gh auth login:*)",
+      "Bash(node cervello/*.mjs:*)",
+      "Bash(bash cervello/*.sh:*)",
+      "Write(MyCity-Vault/90-Memoria-AI/**)",
+      "Write(consegne/**)",
+      "Write(creativi/**)",
+      "Write(cervello/**)",
+      "Write(pannello/**)",
+      "mcp__claude_ai_Vercel__list_teams",
+      "mcp__claude_ai_Vercel__list_projects",
+      "mcp__claude_ai_Vercel__list_deployments",
+      "mcp__claude_ai_Vercel__get_deployment",
+      "mcp__claude_ai_Vercel__get_project",
+      "mcp__supabase-memoria__execute_sql",
+      "mcp__supabase-memoria__list_tables",
+      "mcp__supabase-marketplace__execute_sql",
+      "mcp__supabase-marketplace__list_tables"
+    ]
+  }
+}
 ```
-Write(MyCity-Vault/90-Memoria-AI/**)  →  Edit(MyCity-Vault/90-Memoria-AI/**)
-Write(consegne/**)                    →  Edit(consegne/**)
-Write(creativi/**)                    →  Edit(creativi/**)
-Write(cervello/**)                    →  Edit(cervello/**)
-Write(pannello/**)                    →  Edit(pannello/**)
-```
-Il file non è nel repo: è dentro `.gitignore`. Va modificato a mano sul VPS, non con una PR.
+Nota: ho lasciato le righe "Write" come le ho trovate (il punto ① sopra) perché non ho la controprova che vadano cambiate in "Edit" — se dopo questa modifica il giro si ferma ancora nello stesso punto, allora è il segnale che serve anche quel secondo cambio, e te lo dico separatamente con la prova.
+
+**Cosa non ho verificato:** non ho potuto controllare il VPS da qui (nessuna chiave di scrittura server), quindi non so se lassù il blocco è identico a quello visto in questa sessione — solo un giro reale dopo la modifica lo conferma.
 
 **Cosa non ho verificato:** non ho potuto testare il giro dopo la correzione. Serve il VPS, e io scrivo da un ambiente cloud senza quei permessi. Non so nemmeno se qualcos'altro, oltre a queste 5 righe, contribuisce ai fallimenti. Ho verificato solo che questo stesso errore compare in ogni fallimento registrato dal 12/8 in poi.
 
