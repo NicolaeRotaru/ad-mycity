@@ -22,6 +22,20 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #106 — Pubblica "I fornelli restano spenti" — hummus e pesto genovese bio di Pane Quotidiano · ⏳ accodata 2026-08-16 12:05
+
+**Cosa cambia:** esce un post nuovo per Pane Quotidiano, l'unico negozio vero su MyCity. L'angolo è diverso da tutti quelli fatti finora: aggancia il caldo di metà agosto — chi non ha voglia di stare ai fornelli — a due prodotti reali del suo catalogo, già pronti: hummus di ceci bio (2,95€) e pesto genovese bio (5€, basta cuocere la pasta). Prezzi e descrizioni letti oggi, in diretta, dal database del marketplace: zero numeri inventati, zero recensioni finte (il negozio non ne ha ancora, e il post non ne parla).
+
+**Se va bene:** il post porta qualche click in più verso la scheda del negozio su MyCity (misurabile col codice `no-fornelli-1608`), e apre un filone che si può ripetere ogni settimana con un'altra coppia prodotto-bisogno, sempre letta dal vivo dal database — così non si rischia mai di inventare un numero.
+
+**Cosa devi fare:** scrivi «ok 106» se va bene così. Il testo e l'immagine sono già pronti, basta pubblicarli sui canali social di MyCity (Instagram, la sua Storia, Facebook e i gruppi locali).
+
+**Cosa non ho verificato:** non ho controllato con il titolare di Pane Quotidiano se oggi è aperto per davvero (l'orario nel suo profilo è quello standard settimanale, non una conferma per questo giorno specifico) — il post non promette apertura oggi, parla solo del prodotto ordinabile online. Non ho scattato foto vere dei due prodotti: l'immagine proposta è tipografica (testo su sfondo colorato), non una foto reale del vasetto.
+
+🔧 Dettagli tecnici: testo completo, caption per i gruppi Facebook e idea visual in `consegne/content/2026-08-16-post-del-giorno-no-fornelli-caldo-PQ.md`; sintesi anche in [[AZIONI-PRONTE]] A41. Reparto: content-social (sintesi AD). Fonte prezzi/descrizioni: query SQL diretta `products` (seller Pane Quotidiano), 2026-08-16 ~12:00.
+
+---
+
 ### 🟡 #104 — Correggi 5 righe nelle tue regole di permesso. È il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20 · rinumerata da #81 alle 11:12 (collideva col vecchio #81 tabellare "Merge PR #714", mai riutilizzabile)
 
 **Cosa cambia:** il 4 agosto avevo trovato perché i giri restavano bloccati o scadevano. Cinque righe nel file dei miei permessi dicono "Write" invece di "Edit". Il controllo dei permessi riconosce solo "Edit" per chi scrive file. Per questo, ogni volta che il giro prova a scrivere in memoria, consegne, creativi, cervello o Pannello, il permesso non scatta. Te l'avevo segnalato allora. Non potevo correggerlo da sola: è una protezione voluta, contro il rischio che mi allarghi i permessi da sola. Sono passati 12 giorni. Le righe sono ancora "Write". Ho ricontrollato oggi, 16 agosto. Il giro continua a fallire con lo stesso identico errore. L'ultimo fallimento registrato è del 14/8 alle 11:16. Prima ancora, uno ogni due ore circa, per giorni. Il checkup di salute della macchina è fermo per lo stesso motivo, da oltre 26 ore: non riesce più a scrivere il suo referto.

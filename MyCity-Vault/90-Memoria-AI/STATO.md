@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 11:42
+aggiornato: 2026-08-16 12:05
 fonte: AD digitale (chat)
 ---
+
+> 🟡 **16/8 12:05 — PLAYBOOK Contenuto del giorno eseguito: 1 post pronto per Pane Quotidiano, in attesa della firma di Nicola.**
+> Angolo nuovo (mai usato finora): "I fornelli restano spenti" — hummus di ceci bio (2,95€) e pesto genovese bio (5€), prezzi e descrizioni letti in diretta dal database (query SQL 16/8 ~12:00, seller Pane Quotidiano), coerenti con la fotografia del 23/7 (nessun prodotto/prezzo cambiato). Gate ONESTA passato: zero numeri inventati, zero testimonianze, nessuna prova sociale numerica citata (0 ordini pagati reali). Non duplica gli angoli già fatti (kefir-colazione 14/7, carosello-catalogo 23/7, BTS-mattina 20/7, volto-bottegaio 9/7).
+> Consegnato in `consegne/content/2026-08-16-post-del-giorno-no-fornelli-caldo-PQ.md`, sintesi in [[AZIONI-PRONTE]] A41, card di firma **#106** in [[AZIONI-IN-ATTESA]] (🔴, pubblicazione — testo e immagine tipografica già pronti, serve solo il via).
+>
+> Resta valido tutto il resto del passaggio delle 11:42 qui sotto (business invariato, pausa concordata fino al 24/8-1/9, coda #62/#36-38/#104/#105/#102-103/#89/#92/#42 invariata).
 
 > ⚪ **16/8 11:42 — Giro richiesto in chat, 19 minuti dopo il passaggio delle 11:23. Nessuna novità di business. Un canale in meno per verificare: GitHub ha rate-limitato le query CI.**
 > Riconfermato dal vivo con `verifica-sensori.mjs` (11:41): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg — identica firma dal 24/6, stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme. `coerenza-fatti.mjs` rieseguito: ✅ memoria coerente, 0 cacce aperte (non riscritto il report: nulla oltre l'ora è cambiato).
