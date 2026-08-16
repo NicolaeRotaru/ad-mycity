@@ -1213,7 +1213,7 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 **Stato delle priorità di oggi:**
 1. ❌ **Primo incasso (#62).** La pratica pagamenti di Pane Quotidiano resta ferma. Dipende dal fornaio, non da un blocco tecnico. Congelata dentro la pausa concordata con te fino al 24/8-1/9.
 2. ❌ **Sicurezza del sito (#36/#37/#38).** Tre falle vere — un pulsante ordine rotto, dati di negozi e clienti troppo aperti, cinque punti dove il marketplace perde soldi da solo — ferme da 18 giorni, ancora senza una tua risposta.
-3. 🔄 **Rendere la macchina più affidabile.** Stamattina: chiuso un duplicato in coda, riparato un falso allarme sul voto della squadra, trovati e riparati 3 test rotti veri (non il solito debito già noto). Due richieste di unione sono tornate verdi e pronte per la tua firma. Una terza resta rossa: non va approvata finché non torna verde. E resta ferma da 12 giorni la causa che blocca i giri automatici: 5 righe da correggere in un file sul server.
+3. 🔄 **Rendere la macchina più affidabile.** Stamattina ho chiuso un duplicato in coda. Ho riparato un falso allarme sul voto della squadra. Ho trovato e riparato 3 test rotti veri, non il solito debito già noto. Due richieste di unione sono tornate verdi e pronte per la tua firma. Una terza resta rossa e non va approvata finché non torna verde. Resta ferma da 12 giorni anche la causa che blocca i giri automatici — sono 5 righe da correggere in un file sul server.
 
 **Dati controllati ora, in diretta (query al database, non ereditati):** 1 ordine in tutto, ancora mai pagato, del 24 giugno — stallo **53 giorni**, dentro la pausa concordata. 7 clienti, 5 prodotti: tutto invariato.
 

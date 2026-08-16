@@ -1,5 +1,7 @@
 # PR #741 — NicolaeRotaru/ad-mycity
 
+**In parole semplici:** una richiesta di unione pronta sul repo del sito. Aggiorna solo le sentinelle di sistema, cioè i controlli interni della macchina. Non tocca nulla che i clienti vedono.
+
 ## 🔧 Dettagli tecnici
 - **Repo:** NicolaeRotaru/ad-mycity
 - **Branch:** `memoria/esito-playbook-recensioni-16-8` → `main`
