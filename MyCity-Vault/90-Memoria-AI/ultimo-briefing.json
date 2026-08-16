@@ -1,11 +1,13 @@
 {
-  "data": "2026-08-16 10:31",
-  "situazione": "Business invariato, riconfermato dal vivo (10:25): 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star 53 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Memoria coerente. Lavoro di questo giro: riparato per davvero un falso allarme sul guardiano OKR (leggeva una data storica come scadenza), accodate 9 azioni per i controlli che dicevano no da 3 giri di fila (AR-687), e lanciate in background 2 riparazioni di codice per chiudere le PR con CI rossa.",
+  "data": "2026-08-16 11:23",
+  "situazione": "Business invariato, riconfermato dal vivo (11:20): 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star 53 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Memoria coerente. Rilanciato il test del cervello per intero (non un grep, oltre 700 test): trovato 1 rosso vero, non il solito debito noto — un commit del worker VPS di stamattina ha cambiato cosa significa un numero (burn_down_margine) senza aggiornare il test che lo controlla. Serve una scelta di Nicola su quale dei due significati tenere. PR #735 resta l'unica CI rossa (causa nel proprio ramo), #739 e #738 verdi e pronte per la firma.",
   "opportunita": [],
   "azioni": [
+    {"titolo": "Scegli quale dei due significati del margine è quello giusto", "motivo": "il test del cervello è rosso per davvero: un commit di stamattina ha cambiato il numero senza aggiornare il test che lo controlla, e la macchina non può decidere da sola quale versione è quella voluta", "livello": "giallo"},
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
     {"titolo": "Tappa i cinque punti dove il marketplace perde soldi da solo", "motivo": "ferma dal 29/7 senza risposta: doppia vendita, coupon che si esauriscono sui tentativi, rider che si decide lo stipendio", "livello": "rosso"},
     {"titolo": "Chiudi le quattro porte aperte sui dati di negozi e clienti", "motivo": "falle RLS verificate sul database vero, ferme dal 29/7 senza risposta", "livello": "rosso"},
+    {"titolo": "Firma il merge delle due richieste di unione ormai verdi", "motivo": "PR #739 e PR #738 sono entrambe pronte (CI verde), non hanno mai avuto una card di merge fino a questo passaggio", "livello": "rosso"},
     {"titolo": "Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola", "motivo": "sblocca in un colpo solo 6 dei 9 controlli che dicono no da 3 giri (test-cervello, gate-veri, tasso-lezioni, sonda-volano e altri restano bloccati in chat per lo stesso motivo)", "livello": "giallo"}
   ]
 }

@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-08-16 10:31",
-  "voto_fiducia": 87,
-  "sintesi_giro_corrente": "Giro richiesto in chat, ~1h40 dopo il passaggio delle 08:46. Business riverificato con `verifica-sensori.mjs` dal vivo (10:25): identico ai passaggi precedenti (1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6). `coerenza-fatti.mjs` verde. Lavoro reale di questo passaggio: ① trovata e riparata la causa radice di un falso positivo nel guardiano `freschezza-okr.mjs` (leggeva una data storica come scadenza) — non un cerotto, una correzione del testo che eliminava l'ambiguità; ② risposto per intero al nuovo vincolo AR-687 (9 controlli cronici da 3 giri) con una card dedicata per ciascuno in AZIONI-IN-ATTESA.md (#93-#101), diagnosticando la causa reale invece di ripetere l'elenco; ③ lanciate in background 2 riparazioni di codice (agenti tech, worktree isolato) sui rami delle PR #739 e #735 per chiudere i 2 rossi di CI, senza toccare main.",
-  "sintesi": "Business fermo dal 24/6 (stallo 53 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. Trovato e chiuso un difetto vero della macchina stessa (falso positivo OKR); diagnosticati con causa reale i 9 controlli cronici AR-687, la maggior parte riconducibile alla stessa radice (card #42, permessi a jolly).",
-  "trend_fiducia": "▲ 86→87: un difetto vero della macchina è stato trovato E riparato (non solo segnalato) in questo passaggio — il falso positivo OKR. Non salgo di più perché il debito HARD resta ampio (8 dei 9 controlli AR-687 restano bloccati dall'allowlist di questa sessione, non riparati oggi — solo diagnosticati con causa reale e messi in coda) e 2 PR restano rosse (riparazione avviata, esito non ancora confermato).",
+  "data": "2026-08-16 11:12",
+  "voto_fiducia": 89,
+  "sintesi_giro_corrente": "Giro richiesto in chat, ~33 minuti dopo il passaggio delle 10:31/10:39. Business riverificato dal vivo, identico (1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6). Applicata la strategia snella (nessun JSON pesante riscritto senza motivo), ma il rilancio del test del cervello (`node --test cervello/test/**/*.test.mjs`, sostituto allowlistato di test-cervello.mjs) ha trovato 3 rossi VERI, non il solito debito noto — e tutti e 3 sono stati riparati per davvero, non solo segnalati, con riprova verde dopo ciascun fix: ① `carte-numerate.test.mjs` — la card #81 scritta stamattina alle 07:20 riusava un numero già occupato da una riga-tabella del 13/8 (Merge PR #714); rinumerata a #104, verificato che l'insieme dei numeri torna unico. ② `una-card-una-volta-sola.test.mjs` — `mcp_supabase` era fermo su stato `non_verificato` (spento senza un motivo dichiarato in sensori-motivi.json = un vero buco per il guardiano AR-105/108); verificata la connettività reale con una query MCP live (list_tables: 1 ordine, 7 profili, 5 prodotti, coerente col REST) e ridichiarato `--mcp-supabase=ok`. ③ `scadenze-calcolate.test.mjs` — `auto-analisi.json` aveva un campo `salute_macchina.ci_pr_rosse` fuori dal contratto canonico del Pannello; rimosso (l'informazione CI resta in AZIONI-IN-ATTESA #100). In più: confermato dal vivo che PR #739 è tornata verde e PR #738 è verde senza mai aver avuto una card di merge (aggiunte #102/#103); trovata e corretta una card stale (#89, chiedeva di mergiare PR #735 con un testo scritto quando era ancora verde, oggi rossa).",
+  "sintesi": "Business fermo dal 24/6 (stallo 53 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. In questo passaggio: 3 test rossi VERI trovati e riparati con riprova verde (non il solito debito noto), non solo diagnosticati — coerente con l'asticella (prova che gira, non un grep). Coda tenuta onesta: una card stale corretta prima che portasse a un merge sbagliato, 2 card di merge nuove per PR ormai verdi.",
+  "trend_fiducia": "▲ 87→89: in questo passaggio 3 difetti reali (non gli stessi 2 debiti cronici di sempre) sono stati trovati E riparati con riprova verde — un numero di card duplicato, un sensore MCP mai ridichiarato, un campo JSON fuori contratto. Ognuno con una prova che gira (il test stesso), non un grep. Non salgo di più: il debito HARD resta ampio (8 dei 9 controlli AR-687 restano bloccati dall'allowlist di questa sessione) e PR #735 resta rossa.",
   "entita_verificate_10_25": [
     {
       "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / ultimo ordine 2026-06-24",
@@ -17,9 +17,14 @@
       "fonte": "node cervello/coerenza-fatti.mjs eseguito dal vivo (10:25), '✅ Memoria coerente', 0 cacce aperte"
     },
     {
-      "nome": "2 PR rosse (#739, #735), colpa dei rispettivi rami non di main",
+      "nome": "PR #739 tornata verde, PR #735 resta rossa (gate delle lezioni sul proprio ramo)",
       "stato": "confermato",
-      "fonte": "node cervello/ci-stato.mjs eseguito dal vivo (10:25), letto il dettaglio dei controlli falliti per entrambe"
+      "fonte": "node cervello/ci-stato.mjs eseguito dal vivo (11:08), letto il dettaglio dei controlli falliti/passati per entrambe"
+    },
+    {
+      "nome": "3 test rossi riparati con riprova verde: carte-numerate (#81 duplicato→#104), una-card-una-volta-sola (mcp_supabase ridichiarato), scadenze-calcolate (campo fuori contratto rimosso)",
+      "stato": "confermato",
+      "fonte": "node --test su ciascun file singolarmente dopo il fix, tutti verdi (dettaglio nel briefing 16/8 11:12)"
     },
     {
       "nome": "Causa radice del falso positivo freschezza-okr.mjs: regex \\d{1,2}/\\d{1,2} legge qualunque dd/mm in una cella-target come scadenza",
@@ -50,8 +55,7 @@
     "stripe": "ok (verifica-sensori.mjs, 10:25)",
     "dati_freschi": true,
     "sensori_attivi": 8,
-    "sito_uptime": "cieco (HTTP 503, migrazione Render→Vercel non fatta — registro-fatti.json → marketplace.hosting, non un guasto nuovo)",
-    "ci_pr_rosse": "2 (#739, #735) — riparazione in corso in background su rami separati, esito al prossimo passaggio"
+    "sito_uptime": "cieco (HTTP 503, migrazione Render→Vercel non fatta — registro-fatti.json → marketplace.hosting, non un guasto nuovo)"
   },
   "gate_correzione_nicola_confermati_invariati": "Diagnosticato in questo passaggio (card #95): 246/311 lezioni senza gate (sano:false), soglia 20. Non riparato (script gate-veri.mjs bloccato dall'allowlist), ma la causa del blocco stesso è ora esplicita e collegata a card #42 invece di restare un debito muto.",
   "livello_verifica": "L2 (business riverificato con lo script REST dal vivo, non ereditato; coerenza-fatti e ci-stato riverificati dal vivo; il fix OKR verificato leggendo il codice sorgente del guardiano, non assunto)",

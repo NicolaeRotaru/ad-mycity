@@ -1,8 +1,26 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 10:39
+aggiornato: 2026-08-16 11:23
 fonte: AD digitale (chat)
 ---
+
+> ⚪ **16/8 11:23 — Giro richiesto in chat, 11 minuti dopo il passaggio delle 11:12. Nessuna novità.** Strategia snella applicata, nessun motore pesante riaperto.
+> Riconfermato dal vivo con `coerenza-fatti.mjs` (11:20). Memoria coerente, 0 cacce aperte. `ci-stato.mjs` rieseguito: stato invariato. PR #735 resta l'unica rossa, causa nel proprio ramo. #739 e #738 sono verdi, pronte per la firma (#102/#103).
+> Rilanciato `node --test "cervello/test/**/*.test.mjs"` per intero, senza `tail` (la prima volta la pipe nascondeva il vero codice di uscita). **Trovato 1 rosso vero su oltre 700 test**: `burn-down-che-migliora-da-solo.test.mjs` non è il solito debito noto. Causa precisa: il commit di stamattina alle 08:37 (`78bcfcc39`, del worker VPS) ha cambiato cosa significa `burn_down_margine` in `salute-onesta.mjs`, ma non ha aggiornato il test che lo controlla. Non ho deciso da solo quale versione sia quella giusta: accodata la card **#105**, serve una scelta di Nicola.
+> Non ririscritti `auto-analisi.json`, `AUTO-ANALISI.md` e gli altri `auto-coscienza/*`. Sono freschi da 11 minuti, con dati identici. Riscriverli ora sarebbe un giro a vuoto ([[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 18 giorni), **#102/#103** (merge PR #739/#738, pronte per la firma), **#89** (PR #735, NON mergiare finché rossa), #92 (radiografia completa), #42 (root cause dei 9 controlli AR-687). Briefing: [[Briefing/2026-08-16]].
+
+> 🔧 **16/8 11:12 — Giro richiesto in chat, ~33 minuti dopo il passaggio delle 10:39. Business invariato. Novità vera: una delle due PR rosse si è riparata da sola, l'altra ha una diagnosi più precisa — e una card di merge era rimasta stale su una PR tornata rossa.**
+> Riconfermato dal vivo (`verifica-sensori.mjs`, 11:08): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg — identica firma dal 24/6, stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme. `coerenza-fatti.mjs` ✅ coerente, 0 cacce aperte.
+>
+> **`ci-stato.mjs` rieseguito: PR #739 è tornata verde** (2/2 controlli passati — la riparazione lanciata in background nel passaggio delle 10:26 ha funzionato). **PR #738** risulta anch'essa verde e senza una card di merge propria: non erano ancora in coda, accodate ora (**#102**, **#103**). **PR #735 resta rossa** (2/2 falliti), ma con causa ora precisa (non solo "in riparazione"): il gate delle lezioni non supera i propri test sullo stesso ramo che li ha introdotti — non un guasto ereditato da `main`. Aggiornata la card **#100** con questo dettaglio.
+>
+> **Trovato un piccolo difetto di coerenza nella coda**: la card **#89** («Merge PR #735») era stata scritta il 15/8 quando quella PR era verde — nel frattempo sono arrivati nuovi commit sullo stesso ramo che l'hanno resa rossa, e la card non lo segnalava. Aggiunta un'avvertenza esplicita («NON approvare finché non torna verde») per non rischiare che un merge distratto porti codice rotto su `main`.
+>
+> **Test del cervello**: rilanciato `node --test "cervello/test/**/*.test.mjs"` (sostituto allowlistato di `test-cervello.mjs`, bloccato in questa sessione) — ancora in corso al momento di chiudere questo passaggio, oltre i 4 minuti (la suite è cresciuta, richiede tipicamente 3-4 minuti). Non riportato un esito qui per non inventarlo: lo confermo al prossimo passaggio o appena arriva la notifica.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 18 giorni), **#102/#103** (nuove, merge PR #739/#738 verdi), #87/#88/#90 (altre PR 🔴 in attesa), **#89** (PR #735, NON mergiare finché rossa), #92 (radiografia completa), #42 (root cause dei 9 controlli AR-687). Briefing: [[Briefing/2026-08-16]].
 
 > ⚪ **16/8 10:39 — Giro richiesto in chat, 8 minuti dopo il passaggio delle 10:26/10:31. Nessuna novità: strategia snella applicata, nessun motore pesante riaperto.**
 > Riconfermato dal vivo con `verifica-sensori.mjs` (10:39): 1 ordine, mai pagato, del 24/6, 0 pagati — identica firma dal 24/6, stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme. `coerenza-fatti.mjs` rieseguito: ✅ memoria coerente, 0 cacce aperte.

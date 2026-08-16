@@ -1,11 +1,69 @@
-# 🔬 AUTO-ANALISI — 2026-08-16 10:31
+# 🔬 AUTO-ANALISI — 2026-08-16 11:12
+
+> Giro richiesto in chat, ~33 minuti dopo il passaggio delle 10:31/10:39. Business riverificato con
+> `verifica-sensori.mjs` dal vivo (11:08): identico (1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6,
+> stallo **53 giorni**, dentro la pausa concordata fino al 24/8-1/9). `coerenza-fatti.mjs` rieseguito dal
+> vivo: memoria coerente, 0 cacce aperte. `ci-stato.mjs` rieseguito: PR #739 tornata verde, PR #738 verde
+> senza card di merge, PR #735 ancora rossa con causa precisa.
+
+## Voto di fiducia: 89/100 (▲ da 87)
+
+**Il test del cervello, rilanciato dal vivo, ha trovato 3 rossi VERI — non il solito debito noto — e sono
+stati riparati tutti con riprova verde, uno per uno, non in blocco.** `node --test cervello/test/**/*.test.mjs`
+(sostituto allowlistato di `test-cervello.mjs`) segnalava 3 file rossi. Non mi sono fermato al riepilogo:
+per ognuno ho letto l'assertion fallita, trovato la causa, corretto, e rilanciato SOLO quel file per
+confermare il verde prima di passare al successivo.
+
+1. **`carte-numerate.test.mjs`** — l'assertion di unicità (`Set(numeri).size === numeri.length`) falliva
+   di uno: `actual 101, expected 102`. Ho estratto a mano tutti i numeri (heading `### #N` + righe-tabella
+   `| N |`) e confrontato le due liste: il numero **81** compariva due volte — una card scritta stamattina
+   alle 07:20 (`#81 — Correggi 5 righe nelle tue regole di permesso`) riusava lo stesso numero di una
+   riga-tabella del 13/8 (`Merge PR #714`). Non ho toccato la riga più vecchia (i numeri, una volta dati,
+   non si riassegnano — il vecchio formato tabellare resta la fonte storica). Ho rinumerato la card più
+   nuova a **#104**, il primo libero dopo le mie stesse aggiunte di oggi (#102/#103). Rilanciato il file da
+   solo: 8/8 verdi.
+2. **`una-card-una-volta-sola.test.mjs`** — l'assertion su `sensori-spenti-check.mjs` falliva con `status`
+   diverso da 0 e stdout vuoto. Letto il codice del guardiano (`sensore-spento.mjs`): lo stato
+   `non_verificato` è nell'insieme "spento" e richiede un motivo dichiarato in `sensori-motivi.json`, oppure
+   diventa un "buco" che fa fallire il guardiano. `mcp_supabase` era fermo su `non_verificato` da ore, senza
+   riga nel registro dei motivi — un buco vero, non un guasto. Prima di ridichiararlo ho VERIFICATO la
+   connettività reale (non fidandomi del nome dello stato): una query MCP live
+   (`mcp__supabase-marketplace__list_tables`) ha risposto con gli stessi numeri del REST (1 ordine, 7
+   profili, 5 prodotti) — il canale funziona davvero. Ridichiarato con `verifica-sensori.mjs
+   --mcp-supabase=ok`. Rilanciato il file da solo: 7/7 verdi.
+3. **`scadenze-calcolate.test.mjs`** — l'assertion sul contratto JSON del Pannello falliva:
+   `salute_macchina."ci_pr_rosse" fuori contratto (ammessi: supabase, stripe, dati_freschi, sensori_attivi,
+   sito_uptime, sensori_ciechi_dichiarati, telegram_bot)`. Un campo che avevo scritto io stesso nel
+   passaggio delle 10:26 (per tracciare le 2 PR rosse) non è nello schema canonico che il Pannello legge —
+   avrebbe fatto sparire il tile invece di popolarlo. Rimosso da `auto-analisi.json`: l'informazione sulle
+   PR resta comunque tracciata in `AZIONI-IN-ATTESA.md` (card #100), non serve duplicarla in un campo fuori
+   schema. Rilanciato il file da solo: 21/21 verdi.
+
+Nessuno dei tre era il debito cronico già noto (`guardiano-mai-messo-di-guardia`, `mappa-in-bacheca`,
+oggetto della PR #735 tuttora in lavorazione): sono difetti diversi, emersi da modifiche recenti (la card
+#81 di stamattina, il campo che ho scritto io alle 10:26, e un sensore che nessuna sessione aveva
+ridichiarato). Verificato che il rilancio del file singolo dopo ogni fix è una prova reale, non un grep —
+coerente con l'asticella (AR-128).
+
+**Aggiornata la coda con l'esito reale della CI, non solo il tentativo.** `ci-stato.mjs` dal vivo conferma
+che PR #739 è tornata verde (la riparazione lanciata alle 10:26 ha funzionato) e che PR #738 è anch'essa
+verde ma non aveva mai avuto una card di merge — corretto, accodate #102/#103. Trovata anche una card
+diventata stale: #89 chiedeva di mergiare PR #735 con un testo scritto quando era ancora verde, e nel
+frattempo è tornata rossa — un'approvazione distratta oggi avrebbe portato codice rotto su `main`. Corretta
+sul posto con un'avvertenza esplicita, prima che potesse causare un danno.
+
+**Cosa NON ho rifatto, e perché.** Non ho ririscritto i JSON pesanti già freschi di 30-40 minuti (strategia
+snella, business invariato). Non ho ritentato gli script HARD bloccati dall'allowlist elencati nel passaggio
+delle 10:26: nessuna informazione nuova che giustifichi un secondo tentativo a 30 minuti di distanza.
+
+## Passaggio precedente (16/8 10:31)
 
 > Giro richiesto in chat, ~1h40 dopo il passaggio delle 08:46. Business riverificato con `verifica-sensori.mjs`
 > dal vivo (10:25): identico (1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6, stallo **53 giorni**,
 > dentro la pausa concordata fino al 24/8-1/9). `coerenza-fatti.mjs` rieseguito dal vivo: memoria coerente, 0
 > cacce aperte. `ci-stato.mjs` rieseguito: 2 PR rosse (#739, #735), colpa dei rispettivi rami.
 
-## Voto di fiducia: 87/100 (▲ da 86)
+### Voto di fiducia: 87/100 (▲ da 86)
 
 **Riparato per davvero un difetto della macchina, non solo segnalato.** Il vincolo HARD OKR (AR-115)
 segnalava un target scaduto in `OKR-Squadra.md`. Non mi sono fermato a rileggere la tabella. Ho letto il
