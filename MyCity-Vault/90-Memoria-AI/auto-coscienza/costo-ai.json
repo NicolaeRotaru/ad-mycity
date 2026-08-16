@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-08-16 11:37",
+  "aggiornato": "2026-08-16 12:10",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
     "data": "2026-08-16",
-    "runs": 15,
+    "runs": 20,
     "token_totali": 0,
-    "durata_sec_totale": 8674,
+    "durata_sec_totale": 10786,
     "voci": [
       {
         "quando": "2026-08-16 07:09",
@@ -127,10 +127,50 @@
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 11:49",
+        "tipo": "giro",
+        "durata_sec": 482,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 11:57",
+        "tipo": "worker-playbook",
+        "durata_sec": 465,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 12:06",
+        "tipo": "worker-playbook",
+        "durata_sec": 558,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 12:08",
+        "tipo": "ritmo-mezzogiorno",
+        "durata_sec": 494,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 12:10",
+        "tipo": "worker-analisi",
+        "durata_sec": 113,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
       }
     ],
-    "token_stimati": 995000,
-    "token_per_gate": 995000,
+    "token_stimati": 1245000,
+    "token_per_gate": 1245000,
     "token_fonte": "misura"
   },
   "storico_giorni": [
@@ -394,11 +434,11 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 995000,
-    "runs_sessione": 15,
+    "token_sessione_rolling": 1245000,
+    "runs_sessione": 20,
     "finestra_min": 360,
     "voci_illeggibili": 0,
-    "aggiornato": "2026-08-16 11:37"
+    "aggiornato": "2026-08-16 12:10"
   },
   "voci_recenti": [
     {
@@ -517,6 +557,46 @@
       "quando": "2026-08-16 11:37",
       "tipo": "worker-playbook",
       "durata_sec": 189,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 11:49",
+      "tipo": "giro",
+      "durata_sec": 482,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 11:57",
+      "tipo": "worker-playbook",
+      "durata_sec": 465,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 12:06",
+      "tipo": "worker-playbook",
+      "durata_sec": 558,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 12:08",
+      "tipo": "ritmo-mezzogiorno",
+      "durata_sec": 494,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 12:10",
+      "tipo": "worker-analisi",
+      "durata_sec": 113,
       "token": 50000,
       "modello": "claude",
       "stima_grezza": true
