@@ -15723,6 +15723,25 @@
         "comando": "node cervello/test/burn-down-che-migliora-da-solo.test.mjs"
       },
       "nota_fix": "Trovato scontrandomi con me stessa: avevo corretto la prova, main aveva corretto il codice, e nessuna delle due mosse era sbagliata — era sbagliato che ci fosse un campo solo. Cosa NON ho verificato: se qualcuno fuori da questo repo legga `burn_down_margine` aspettandosi il numero di adesso; dentro il repo l’ho cercato e lo leggono solo le due prove e il referto a video."
+    },
+    {
+      "id": "AR-754",
+      "stato": "aperto",
+      "dimensione": "trovato-riparando",
+      "gravita": "medio",
+      "titolo": "Ogni richiesta che resta aperta più di un'ora si riempie di conflitti, e sono sempre gli stessi quindici file",
+      "causa_radice": "Quindici file di misura sotto auto-coscienza sono dati DERIVATI: i guardiani li riscrivono a ogni corsa, e il worker li ricalcola su main ogni pochi minuti. Chi lavora su un ramo se li porta dietro senza volerlo — basta lanciare il cancello una volta — e da quel momento ogni commit del worker apre un conflitto nuovo. Non è un conflitto di lavoro: sono due macchine che scrivono la stessa fotografia in momenti diversi. Nicola l'ha segnalato tre volte con la stessa frase, «ci sono conflitti», e ogni volta si è risolto a mano invece che alla radice.",
+      "fix_proposto": "Due strade, da scegliere. ① I guardiani non riscrivono le misure quando girano da un ramo che non è quello principale: l'interruttore esiste già (`--sola-lettura`), manca che il cancello lo usi. ② Un guardiano di commit rifiuta un commit che mette insieme codice e misure derivate, come già si fa per altre scritture a rischio. La ① toglie la causa, la ② rende impossibile ripeterla.",
+      "dove": "cervello/cancello-lotto.mjs · MyCity-Vault/90-Memoria-AI/auto-coscienza/ (i 15 file derivati)",
+      "impatto_crescita": "indiretto, ma il costo lo paga Nicola: ogni volta deve accorgersene lui e chiedermelo, e intanto la richiesta non si può unire",
+      "nato": "2026-08-16 12:40",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 44, terza fusione con main nello stesso giorno: sempre gli stessi file",
+      "lotto_scoperta": 44,
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Per riprodurlo servono due macchine che scrivono nello stesso momento, e da una sessione sola non lo so provare. Oggi la cura è stata togliere quei file dal ramo a mano: è un rimedio, non un freno. Debito dichiarato."
+      }
     }
   ],
   "meta": {
