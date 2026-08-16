@@ -24,9 +24,9 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🟡 #81 — Correggi 5 righe nelle tue regole di permesso: è il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20
 
-**Cosa cambia:** il 4 agosto avevo trovato perché i giri restavano bloccati o scadevano: cinque righe nel file che regola i miei permessi dicono "Write" invece di "Edit", e la parte del sistema che controlla i permessi riconosce solo "Edit" per chi scrive file. Risultato: ogni volta che il giro prova a scrivere in memoria, consegne, creativi, cervello o Pannello, il permesso non scatta. Te l'avevo segnalato allora — non potevo correggerlo da sola, è una protezione voluta contro l'auto-allargamento dei miei permessi. Sono passati 12 giorni e le righe sono ancora "Write": ho ricontrollato oggi (16/8) e il giro continua a fallire con lo stesso identico errore — l'ultimo fallimento registrato è del 14/8 alle 11:16, e prima ancora uno ogni ~2 ore per giorni. Il checkup di salute della macchina è fermo da oltre 26 ore per lo stesso motivo: non riesce più a scrivere il suo referto.
+**Cosa cambia:** il 4 agosto avevo trovato perché i giri restavano bloccati o scadevano. Cinque righe nel file dei miei permessi dicono "Write" invece di "Edit". Il controllo dei permessi riconosce solo "Edit" per chi scrive file. Per questo, ogni volta che il giro prova a scrivere in memoria, consegne, creativi, cervello o Pannello, il permesso non scatta. Te l'avevo segnalato allora. Non potevo correggerlo da sola: è una protezione voluta, contro il rischio che mi allarghi i permessi da sola. Sono passati 12 giorni. Le righe sono ancora "Write". Ho ricontrollato oggi, 16 agosto. Il giro continua a fallire con lo stesso identico errore. L'ultimo fallimento registrato è del 14/8 alle 11:16. Prima ancora, uno ogni due ore circa, per giorni. Il checkup di salute della macchina è fermo per lo stesso motivo, da oltre 26 ore: non riesce più a scrivere il suo referto.
 
-**Se va bene:** il giro torna a scrivere la memoria regolarmente invece di fallire ogni volta, il checkup di salute torna a pubblicarsi da solo, e il Pannello smette di mostrare dati vecchi spacciati per dati di oggi.
+**Se va bene:** il giro torna a scrivere la memoria regolarmente. Il checkup di salute torna a pubblicarsi da solo. Il Pannello smette di mostrare dati vecchi spacciati per dati di oggi.
 
 **Cosa fare.** Apri `.claude/settings.local.json` sul VPS e in queste 5 righe cambia la parola "Write" in "Edit" (lascia tutto il resto uguale):
 ```
@@ -38,7 +38,7 @@ Write(pannello/**)                    →  Edit(pannello/**)
 ```
 Il file non è nel repo (è in `.gitignore`), quindi va modificato a mano sul VPS — non con una PR.
 
-**Cosa non ho verificato:** non ho potuto testare il giro dopo la correzione (serve il VPS, io scrivo da un ambiente cloud senza quei permessi); e non so se qualcos'altro oltre a queste 5 righe contribuisce ai fallimenti — ho verificato solo che questo errore compare identico in ogni fallimento registrato dal 12/8 in poi.
+**Cosa non ho verificato:** non ho potuto testare il giro dopo la correzione. Serve il VPS, e io scrivo da un ambiente cloud senza quei permessi. Non so nemmeno se qualcos'altro, oltre a queste 5 righe, contribuisce ai fallimenti. Ho verificato solo che questo stesso errore compare in ogni fallimento registrato dal 12/8 in poi.
 
 (dettaglio: vedi memoria `project-settings-local-write-vs-edit-blocca-lavori.md`; prova: `MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json`)
 
