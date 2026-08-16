@@ -89,11 +89,9 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
   }
 }
 ```
-Nota: ho lasciato le righe "Write" come le ho trovate (il punto ① sopra) perché non ho la controprova che vadano cambiate in "Edit" — se dopo questa modifica il giro si ferma ancora nello stesso punto, allora è il segnale che serve anche quel secondo cambio, e te lo dico separatamente con la prova.
+Nota: ho lasciato le righe "Write" come le ho trovate (vedi Prova 1 sopra). Non ho la prova che vadano cambiate in "Edit". Se dopo questa modifica il giro si ferma ancora nello stesso punto, è il segnale che serve anche quel secondo cambio. Te lo dico separatamente, con la prova.
 
-**Cosa non ho verificato:** non ho potuto controllare il VPS da qui (nessuna chiave di scrittura server), quindi non so se lassù il blocco è identico a quello visto in questa sessione — solo un giro reale dopo la modifica lo conferma.
-
-**Cosa non ho verificato:** non ho potuto testare il giro dopo la correzione. Serve il VPS, e io scrivo da un ambiente cloud senza quei permessi. Non so nemmeno se qualcos'altro, oltre a queste 5 righe, contribuisce ai fallimenti. Ho verificato solo che questo stesso errore compare in ogni fallimento registrato dal 12/8 in poi.
+**Cosa non ho verificato:** non ho la chiave di scrittura del server. Non ho potuto controllare il VPS da qui. Non so se lassù il blocco è identico a quello visto in questa sessione. Non ho potuto testare un giro reale dopo la correzione. Non so se un'altra causa, oltre a questa, contribuisce ai fallimenti. So solo che l'errore "Write invece di Edit" compare in ogni fallimento registrato dal 12/8 in poi, anche se oggi non l'ho visto scattare di persona.
 
 (dettaglio: vedi memoria `project-settings-local-write-vs-edit-blocca-lavori.md`; prova: `MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json`)
 
