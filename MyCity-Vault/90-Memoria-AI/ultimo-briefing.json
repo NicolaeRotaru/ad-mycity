@@ -1,12 +1,13 @@
 {
-  "data": "2026-08-17 00:21",
-  "situazione": "Business invariato, riconfermato dal vivo con query SQL dirette via MCP: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star 54 giorni (il +1 è solo il cambio di data di calendario, non un evento nuovo). Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Sensori e coerenza dei fatti riverificati dal vivo, tutto ok; la coda PR non è stata riverificabile in diretta (GitHub 403 rate-limit) ed è ereditata invariata dal passaggio di 23 minuti fa. Nessuna novità da accodare: le card #113 (letargo) e #105 (test rosso, in attesa della scelta di Nicola) restano quelle già in coda.",
+  "data": "2026-08-17 01:53",
+  "situazione": "Business invariato, riconfermato dal vivo: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star 54 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Passaggio richiesto 12 minuti dopo quello delle 01:41: sensori, coerenza-fatti e coda PR (3 rosse: #749/#741/#735) riverificati dal vivo e identici bit-per-bit — nessuna novità da propagare, strategia snella applicata (nessuna riscrittura dei file già freschi).",
   "opportunita": [],
   "azioni": [
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
-    {"titolo": "Tappa i cinque punti dove il marketplace perde soldi da solo", "motivo": "ferma dal 29/7 senza risposta: doppia vendita, coupon che si esauriscono sui tentativi, rider che si decide lo stipendio", "livello": "rosso"},
-    {"titolo": "Chiudi le quattro porte aperte sui dati di negozi e clienti", "motivo": "falle RLS verificate sul database vero, ferme dal 29/7 senza risposta", "livello": "rosso"},
-    {"titolo": "Decidi come procedere con le tre richieste di unione rosse da giorni", "motivo": "PR #749, #741 e #735 restano rosse con lo stesso guasto: dedicare una sessione a ripararle o congelarle fino a dopo la pausa negozi del 24/8-1/9", "livello": "giallo"},
-    {"titolo": "Guarda la card sul risparmio energetico della macchina", "motivo": "il gate letargo è acceso a livello risparmio da 3+ giri di fila (quota AI 68%, salute macchina bassa): coerente con la pausa concordata, ma il vincolo impone di mostrartelo", "livello": "giallo"}
+    {"titolo": "Tappa i cinque punti dove il marketplace perde soldi da solo", "motivo": "ferma da 19 giorni senza risposta: doppia vendita, coupon che si esauriscono sui tentativi, rider che si decide lo stipendio", "livello": "rosso"},
+    {"titolo": "Chiudi le quattro porte aperte sui dati di negozi e clienti", "motivo": "falle RLS verificate sul database vero, ferme da 19 giorni senza risposta", "livello": "rosso"},
+    {"titolo": "Non mergiare ancora le tre richieste di unione rosse", "motivo": "PR #749, #741 e #735 sono le uniche aperte oggi e restano tutte rosse per colpa del proprio ramo, non di main", "livello": "rosso"},
+    {"titolo": "Decidi come procedere con le tre PR croniche rosse", "motivo": "dedicare una sessione a ripararle o congelarle fino a dopo la pausa negozi del 24/8-1/9", "livello": "giallo"},
+    {"titolo": "Scegli quale definizione di 'margine' è quella giusta nel codice", "motivo": "un commit di ieri mattina ha cambiato il calcolo ma il test che lo controlla dice ancora la versione vecchia: il test del cervello resta rosso finché non scegli", "livello": "giallo"}
   ]
 }

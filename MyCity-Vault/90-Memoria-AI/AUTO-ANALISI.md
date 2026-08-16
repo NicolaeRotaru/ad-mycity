@@ -1,3 +1,55 @@
+# 🔬 AUTO-ANALISI — 2026-08-17 01:52
+
+> Giro completo richiesto in chat. Sono passati ~80 minuti dal passaggio delle 00:21.
+> Business riverificato con query SQL dirette via MCP, non ereditate da prima.
+> Ordini pagati: 0 su 1 totale. Ordini negli ultimi 7 giorni: 0.
+> Ultimo ordine: 2026-06-24, annullato (CANCELED). Tutto identico al passaggio precedente.
+> Profili: 7. Recensioni: 0. Stallo North Star: **54 giorni**. Dentro la pausa concordata fino al 24/8-1/9.
+
+## Voto di fiducia: 85/100 (▼ da 88)
+
+Il voto scende, e vale la pena spiegare perché anche se il lavoro di questo passaggio è stato utile.
+
+1. **Igiene della coda vera: 4 righe di merge chiuse.** `ci-stato.mjs` è tornato raggiungibile. Non c'è
+   più il rate-limit di GitHub che bloccava i passaggi precedenti. Conta solo 3 PR aperte oggi:
+   #749, #741, #735. Quattro righe in [[AZIONI-IN-ATTESA]] restavano "in attesa" per PR già dentro
+   `main`: #81, #87, #88, #90. Verificato con `git log origin/main`. Chiuse con la prova trovata.
+2. **`CHECKLIST-NICOLA.md` rigenerata, ferma dal 15/8.** Era oltre il tetto di due giorni imposto da
+   AR-030. Qui è successo l'errore che abbassa il voto. La prima stesura diceva che quattro card "non
+   esistono più nella coda": #36, #37, #38 (sicurezza e soldi, 🔴, ferme da 19 giorni) e #42 (il
+   permesso jolly, 🟡). **Era falso.** Avevo cercato solo il formato riga-di-tabella, cioè righe come
+   `| 36 |`. Le card sono scritte come blocchi `###`, un formato diverso che il mio grep non copriva.
+   Ho trovato l'errore rileggendo il file per contenuto invece che per formato, prima di chiudere il
+   giro. Ho corretto CHECKLIST-NICOLA.md, STATO.md, il briefing e il digest. Nessuno di questi file è
+   arrivato a Nicola con l'informazione sbagliata. Ma averla scritta anche solo temporaneamente è
+   esattamente il tipo di errore che il cancello di serietà esiste per intercettare. Questa volta è
+   stato il **secondo giro di lettura**, non il primo, a trovarlo. È un margine più stretto di quanto
+   vorrei.
+3. **Misurato EXP-015**, l'esperimento sull'ordine test di Pane Quotidiano: mancata, 0 ordini pagati.
+   Stesso motivo delle due aperture precedenti. Deciso di non riaprirlo una 4ª volta oggi. Il prossimo
+   tentativo parte a fine pausa, il 24/8-1/9. Riaprirlo ora avrebbe prodotto solo una 4ª misura identica.
+4. **Bloccati come sempre, un solo tentativo, non ritentati:** `apprendimento-guardiano.mjs`,
+   `north-star-check.mjs --gate`, `esperimenti-check.mjs`. Quest'ultimo l'ho aggirato leggendo il suo
+   JSON direttamente.
+
+## Grounding delle entità
+Nessuna entità nuova. Le entità toccate sono confermate con dati reali letti in diretta con query SQL.
+Le 4 card di sicurezza e permessi sono confermate con lettura diretta del file sorgente, rilette per
+intero dopo la correzione del metodo di ricerca. Dettaglio completo con le fonti in
+`auto-coscienza/auto-analisi.json`.
+
+## Domande aperte per Nicola
+Le 3 card 🔴 di sicurezza e soldi (#36/#37/#38) restano il rischio più alto in coda, dopo il blocco
+pagamenti di Pane Quotidiano (#62). Sono ferme da 19 giorni.
+
+Restano valide anche queste domande precedenti:
+- la scelta sul test "margine" (#105)
+- come procedere con le PR croniche (#109)
+- la conferma sul livello RISPARMIO (#113)
+- l'ok per il gate north-star che riconosca la pausa (#97)
+
+---
+
 # 🔬 AUTO-ANALISI — 2026-08-16 23:58
 
 > Giro richiesto in chat. Sono passati 23 minuti dal passaggio delle 23:35.

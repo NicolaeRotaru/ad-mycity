@@ -1,8 +1,24 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 00:21
+aggiornato: 2026-08-17 01:53
 fonte: AD digitale (chat)
 ---
+
+> 🌙 **17/8 01:53 — Giro richiesto in chat, 12 minuti dopo il passaggio 01:41. Business invariato, nessuna novità.** Sensori, coerenza-fatti e coda PR riverificati dal vivo: identici bit-per-bit al passaggio precedente (stesso stallo North Star 54gg, stesse 3 PR rosse #749/#741/#749). Applicata la strategia snella: nessuna riscrittura dei file pesanti già freschi. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
+
+> 🧹 **17/8 01:41 — Giro completo richiesto in chat, ~1h20 dopo il passaggio 00:21. Business invariato. Trovate e riparate 2 falle vere di igiene della coda, non solo confermato lo stato.**
+>
+> Business riconfermato dal vivo con query SQL dirette via MCP (`execute_sql`): `orders` → 1 riga, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 08:28 (CANCELED); `profiles` → 7; `reviews` → 0 — identico a tutti i passaggi di oggi. Stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9: non è un allarme. `verifica-sensori.mjs` e `coerenza-fatti.mjs` rilanciati dal vivo, entrambi verdi.
+>
+> **Novità vera #1 — la coda PR è tornata leggibile e ha rivelato un buco.** `ci-stato.mjs` questa volta ha risposto (niente più rate-limit GitHub): conta **solo 3 PR aperte** (#749, #741, #735), tutte rosse per colpa del proprio ramo. Ma in [[AZIONI-IN-ATTESA]] c'erano ancora **4 righe "in attesa" di merge per PR che non esistono più tra le aperte** (#81→PR#714, #87→PR#732, #88→PR#733, #90→PR#740). Verificato con `git log origin/main` che i primi tre commit vivono già dentro `main`; il quarto non risulta più tra le 3 PR che GitHub conta oggi. **Chiuse tutte e 4 le righe** con la prova trovata, invece di lasciarle a chiedere per sempre una firma su un merge già avvenuto.
+>
+> **Novità vera #2, con un mio errore corretto nello stesso passaggio.** `CHECKLIST-NICOLA.md` era ferma al 15/8 00:40 (oltre il tetto di 2 giorni, AR-030). Rigenerandola avevo prima scritto che le card #36/#37/#38 (sicurezza/soldi, ferme dal 29/7) e #42 (permesso "jolly") "non esistono più nella coda" — **conclusione sbagliata**: le avevo cercate solo come righe di tabella (`| 36 |`), ma sono scritte come blocchi `###`, formato che il mio primo grep non copriva. Verificato meglio: **tutte e quattro sono ancora aperte**, la più vecchia da 19 giorni senza risposta. Corretta la checklist e rimesse in cima. Restano invece davvero chiuse le 4 righe di merge (#81/#87/#88/#90, formato tabella, verificate con `git log`).
+>
+> **Misurato l'esperimento in scadenza oggi (vincolo esperimenti-check, AR-041/106):** EXP-015 (ordine test PQ pagato entro il 17/8) → **mancata**, 0 ordini pagati, stesso motivo delle due aperture precedenti (EXP-013, EXP-014) — ma stavolta il gate `#ordine-test-dentro-o-fuori-dalla-pausa` è di fatto sciolto: Nicola ha già risposto con la pausa concordata fino al 24/8-1/9. **Non riaperta una 4ª volta**: il prossimo esperimento sullo stesso KPI parte quando la pausa finisce, non prima — riaprirlo oggi avrebbe prodotto solo una 4ª misura "mancata" identica.
+>
+> Bloccati come sempre (1 tentativo, non ritentati — [[feedback-bash-solo-script-esatti-in-allowlist]]): `apprendimento-guardiano.mjs`, `north-star-check.mjs --gate`, `esperimenti-check.mjs` (i verdetti letti direttamente dal JSON invece che dall'output dello script).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda aggiornata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco), **#36/#37/#38** (sicurezza/soldi del marketplace, ferme 19 giorni), le 3 PR rosse (#89/#735, #106/#741, #111/#749 — non mergiare), **#105** (scelta sul test rosso "margine"), **#109** (come procedere con le PR croniche), **#113** (conferma livello RISPARMIO), **#97** (ok per insegnare al gate north-star la pausa concordata), **#42** (permesso jolly). Checklist completa, corretta e verificata: [[CHECKLIST-NICOLA]].
 
 > 🌙 **17/8 00:21 — Giro richiesto in chat, ~23 minuti dopo il passaggio 23:58 (nuovo giorno di calendario). Business invariato, nessuna novità.**
 > Riverificato dal vivo con query SQL dirette via MCP (`execute_sql`, 00:20): 1 ordine totale, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 08:28 (CANCELED), 7 profili, 0 recensioni — stallo North Star ora **54 giorni** (+1, solo per il cambio di data di calendario, non per un evento nuovo). Dentro la pausa concordata fino al 24/8-1/9. `verifica-sensori.mjs` (✅ REST/Stripe/Resend/pannello/n8n ok, PostHog spento per scelta, sito 503 per migrazione Vercel nota) e `coerenza-fatti.mjs` (✅ coerente, 0 cacce aperte) rilanciati dal vivo. `ci-stato.mjs` bloccato: GitHub 403 rate-limit (stesso limite già visto alle 22:29/23:xx) — stato delle 3 PR (#749/#741/#735) **ereditato invariato** dal passaggio precedente, non riverificato in diretta.
