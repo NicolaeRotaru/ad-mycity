@@ -2598,7 +2598,16 @@
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/auto-coscienza/cassa-runway.json:10 · cervello/sensore-cassa.mjs:71 · Impatto: Il rischio dichiarato come esistenziale n.1 (B1 e B4 nel registro rischi) è l'unico che nessuno sta misurando davvero. La sentinella è verde per assenza di dati, non per salute: è il tipo di silenzio che ti accorgi solo quando è tardi. E ogni decisione di investimento (bando, rider, ads) viene presa senza sapere quanti mesi di ossigeno restano.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "sintomo": {
+        "misura": "node -e \"const r=require('./MyCity-Vault/90-Memoria-AI/auto-coscienza/cassa-runway.json');console.log(r.stato==='sconosciuto'?(r.giri_sconosciuto||1):0)\"",
+        "rotto_se": {
+          ">=": 1
+        },
+        "alla_nascita": 256,
+        "alla_nascita_fonte": "il titolo della scheda: «sconosciuto da 256 giri»",
+        "cosa_misura": "per quanti giri di fila il runway è rimasto sconosciuto: scende a zero solo quando il burn arriva davvero"
+      }
     },
     {
       "id": "AR-191",
@@ -2643,7 +2652,16 @@
       "nota": "Dove: MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json:3 · cervello/allinea-scan-cantiere.mjs:194-215 · Impatto: L'azienda si controlla addosso ogni 10 giorni e non controlla mai il prodotto che deve incassare. I bloccanti riguardano soldi e dati personali (esposizione di dati cliente via permessi rider, sovravendita, dispute vinte che non ripagano il venditore, rifiuto ordine che non rimborsa il cliente): se anche uno fosse ancora vivo, il primo cliente vero incontrerebbe il difetto — e il primo cliente vero è l'unica cosa che conta ora.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "sintomo": {
+        "misura": "node -e \"const f=require('./MyCity-Vault/90-Memoria-AI/auto-coscienza/radiografia-marketplace.json');const d=f.aggiornato||f.data||'';console.log(d?Math.floor((Date.now()-new Date(d.replace(' ','T')))/864e5):999)\"",
+        "rotto_se": {
+          ">=": 14
+        },
+        "alla_nascita": 21,
+        "alla_nascita_fonte": "il titolo della scheda: «fermi da tre settimane»",
+        "cosa_misura": "da quanti giorni non si rifà la radiografia del sito: scende solo se il controllo riparte davvero"
+      }
     },
     {
       "id": "AR-193",
@@ -3171,7 +3189,27 @@
       "chiuso_il": "",
       "chiuso_come": "",
       "nato_come": "scoperta",
-      "prova_convertita_il": "2026-08-11 02:10"
+      "prova_convertita_il": "2026-08-11 02:10",
+      "sintomo": {
+        "misura": "find . -type d -name memoria-squadra -not -path './.git/*' -not -path '*/node_modules/*' | wc -l",
+        "rotto_se": {
+          ">=": 2
+        },
+        "alla_nascita": 2,
+        "alla_nascita_fonte": "la causa radice della scheda: «Perché due cartelle? … le quattro copie nel vault non sono mai state cancellate»",
+        "cosa_misura": "quante cartelle memoria-squadra esistono: due significa che il Pannello può trovare quella morta",
+        "altre_misure": [
+          {
+            "misura": "grep -c \"listRepoDir\" pannello/src/app/api/cerca/route.ts",
+            "rotto_se": {
+              "<=": 0
+            },
+            "alla_nascita": 0,
+            "alla_nascita_fonte": "la clausola (b) del fix proposto, mai eseguita: la ricerca importa solo listVaultDirEntries",
+            "cosa_misura": "se la ricerca del Pannello sa leggere le cartelle fuori dal vault, dove stanno i quaderni vivi. METRO DEBOLE: conta l import, non prova la ricerca dal vivo"
+          }
+        ]
+      }
     },
     {
       "id": "AR-217",
@@ -4582,7 +4620,16 @@
       "nota": "Dove: cervello/sentinella-fonti.mjs:56-57 (skip_check → viva:true), :88 (azzeramento dei falliti), :97 (morta solo con 3 fallimenti), :110 (conteggio delle vive); risultato in cervello/fonti-salute.json:5-8 · Impatto: Il verde 18/18 è un verde per definizione, non una misura: il 22% del radar è fuori sorveglianza e non può generare nessun allarme. La fonte di peso massimo è proprio quella dei bandi camerali, e in coda c'è il bando PI26 da 10.000 € a fondo perduto in scadenza il 30/7 (difetto AR-147 già aperto): se quella pagina cambiasse indirizzo, nessun canale se ne accorgerebbe e l'intelligence continuerebbe a spendere token su una fonte morta credendola viva. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "sintomo": {
+        "misura": "grep -c 'skipCheck' cervello/sentinella-fonti.mjs",
+        "rotto_se": {
+          ">=": 1
+        },
+        "alla_nascita": 4,
+        "alla_nascita_fonte": "il titolo della scheda: «quattro fonti su diciotto»",
+        "cosa_misura": "quante volte il codice della sentinella salta il controllo di una fonte. METRO DEBOLE: conta le righe, non le fonti realmente saltate — per quello servirebbe un contatore a runtime, ed è il difetto dentro il difetto"
+      }
     },
     {
       "id": "AR-284",

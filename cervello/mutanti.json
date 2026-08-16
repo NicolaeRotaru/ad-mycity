@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-16 13:55",
+ "aggiornato": "2026-08-16 17:52",
  "mutanti": [
   {
    "lotto": 30,
@@ -4991,6 +4991,36 @@
    "sostituisci": "  const scriviStato = false;",
    "test": "cervello/test/sensori-non-calpestati.test.mjs",
    "nota_riaggancio": "La cosa da rompere è la capacità di dire di SÌ. I casi ①-④ sorvegliano che la porta resti chiusa quando deve; senza il caso ⑤ una porta murata li passerebbe tutti e quattro — cioè il modo più facile di far sembrare sano un guardiano è spegnerlo."
+  },
+  {
+   "lotto": 45,
+   "difetto": "sintomo · il comando che esplode non diventa una guarigione",
+   "nome": "l errore torna una misura verde (malattia cieco-che-torna-una-misura)",
+   "file": "cervello/sintomo.mjs",
+   "cerca": "  if (errore) return { esito: NON_MISURATO, valore: null, perche: `la misura non è girata: ${errore}` };",
+   "sostituisci": "  if (errore) return { esito: SANO, valore: 0, perche: \"niente da vedere\" };",
+   "test": "cervello/test/sintomo.test.mjs",
+   "nota": "Provata a mano il 16/8 prima di consegnare: il banco passa da 16 a 15 verdi. Senza questa riga un difetto la cui misura non gira si legge come guarito, che è la malattia intera."
+  },
+  {
+   "lotto": 45,
+   "difetto": "sintomo · il metro non si compra scrivendo una parola",
+   "nome": "la regola anti-compiacenza si spegne e il grep nella prosa torna un sintomo valido",
+   "file": "cervello/sintomo.mjs",
+   "cerca": "  if (CERCA_TESTO.test(m) && PROSA.test(m)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/sintomo.test.mjs",
+   "nota": "Provata a mano il 16/8: il banco passa da 16 a 14 verdi. È AR-128 rifatto — scrivere «chargeback» in un .md chiudeva il difetto mentre il sensore non c era."
+  },
+  {
+   "lotto": 45,
+   "difetto": "sintomo · una clausola rotta basta a tenere rotto il difetto",
+   "nome": "il difetto a più clausole guarda solo la prima e produce falsi guariti",
+   "file": "cervello/sintomo.mjs",
+   "cerca": "  const rotta = osservazioni.find((o) => o.esito === ROTTO);",
+   "sostituisci": "  const rotta = null;",
+   "test": "cervello/test/sintomo.test.mjs",
+   "nota": "Il caso è vero e capitato il 16/8: AR-216 chiede tre cose, il primo sintomo ne misurava una, e lo strumento ha stampato «non si riproduce più» su un difetto rotto."
   }
  ]
 }

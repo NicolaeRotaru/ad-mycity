@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-16 18:00 · Il modo per sapere se i 138 difetti sono ancora rotti: il sintomo, tre esiti, le clausole · V5 C5 A5 K5 I3 M5 E4 (media 4.57) · atteso 4 difetti misurati, mi aspettavo di trovarli tutti e 4 ancora rotti → reale 4 rotti su 4. AR-190 e PEGGIORATO: da 256 a 409 giri col runway sconosciuto. E AR-216 mi aveva stampato un falso guarito perche il sintomo copriva 1 clausola su 3: e la malattia che lo strumento cura, dentro lo strumento · #cantiere #metro #sintomo
 - 2026-08-16 14:50 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 13:45 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 13:32 · prova · 9/10 · atteso 1 → reale 1
