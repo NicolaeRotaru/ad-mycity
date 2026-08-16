@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-16 08:05",
+  "aggiornato": "2026-08-16 08:55",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -15120,6 +15120,25 @@
       "verifica": {
         "tipo": "umano",
         "nota": "nato nel lotto 44 al collaudo finale: causa verificata a mano lanciando il guardiano col freno acceso e guardando git status, prova da scrivere"
+      }
+    },
+    {
+      "id": "AR-750",
+      "titolo": "Chi dà il numero alle card non guarda l'archivio, e «ok 81» è diventata una domanda con due risposte",
+      "dimensione": "trovato-riparando",
+      "gravita": "medio",
+      "impatto_crescita": "medio",
+      "stato": "chiuso",
+      "nato": "2026-08-16 08:40",
+      "nato_come": "scoperta",
+      "chiuso_il": "2026-08-16 08:55",
+      "chiuso_come": "cura sulla classe + prova che morde",
+      "causa_radice": "Una card della coda si scrive in due forme e valgono uguale: `### 🟡 #81 — …` finché aspetta la firma, `| 81 | data | … |` una volta archiviata. È la stessa card in due momenti della sua vita, e il numero è la sua targa — serve a Nicola per dire «ok 81» e ricevere UNA risposta. Chi assegna il numero, `prossimoNumero` in cervello/pausa-coda.mjs, guardava solo i titoli delle card ancora in attesa: l'archivio era invisibile. Misurato sul file vero il 16/8: titolo più alto 81, riga-tabella più alta 91. Quindi il prossimo numero usciva 82, e ottantadue era già speso — come 83, come tutti fino a 91. Non una collisione: dieci, in fila, in attesa di essere scritte. Una è già successa — la card nata alle 07:20 sul ramo principale ha preso il #81, che l'archivio dava a un merge del 13/8. La guardia che l'ha trovata (cervello/test/carte-numerate.test.mjs) sapeva già che le due forme condividono lo spazio dei numeri, e lo dice nel suo stesso commento: ma controlla il file VERO, cioè parla solo dopo che il numero doppio è finito su disco. Fra chi sceglie il numero e chi lo controlla c'era una regola scritta due volte e capita una sola.",
+      "fix_proposto": "Fatto: estratta `numeriUsati(testoFile)` in cervello/pausa-coda.mjs — una casa sola per «quali numeri sono già spesi», che legge ENTRAMBE le forme — e `prossimoNumero` ora ci passa. Aggiunta cervello/test/numero-di-card-gia-speso.test.mjs, che lo chiede a chi il numero lo sceglie invece che al disco: ⑤ pretende che il numero proposto sul file VERO sia libero davvero, quindi la prova resta viva mentre la coda cresce. Rinumerata la card colpevole da #81 a #92 (l'archivio tiene il suo 81: la storia non si riscrive). Non-vacuità eseguita, non ragionata: tolta la riga che legge le righe-tabella → EXIT=1 su due casi; rimessa → EXIT=0.",
+      "origine": "Trovato riparando la PR #738: la corsa della CI era rossa su carte-numerate.test.mjs («due card portano lo stesso numero», 91 !== 92). Il difetto arrivava dal ramo principale, non da questa richiesta — ma è finito sotto le mie mani ed è una malattia, non un incidente.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/numero-di-card-gia-speso.test.mjs"
       }
     }
   ],

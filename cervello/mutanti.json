@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-15T15:54:48.948Z",
+ "aggiornato": "2026-08-16 09:00",
  "mutanti": [
   {
    "lotto": 30,
@@ -4404,6 +4404,16 @@
    "sostituisci": "const CAMPI_DEL_LOTTO = [\"verifica\"];",
    "test": "cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs",
    "nota_riaggancio": "Lotto 44: e il buco per cui la CI della PR #738 era rossa. Il cancello usciva 2 (cieco sul passo delle mutazioni) proprio perche il lotto aveva RIAPERTO due difetti senza toccarne le prove — cioe il lavoro piu onesto era quello che non passava."
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-750",
+   "nome": "chi dà il numero alla prossima card torna a non vedere l'archivio: propone un numero già speso e nessuno se ne accorge finché non è su disco",
+   "file": "cervello/pausa-coda.mjs",
+   "cerca": "  for (const m of testo.matchAll(/^\\|\\s*(\\d+)\\s*\\|/gm)) numeri.add(Number(m[1]));",
+   "sostituisci": "",
+   "test": "cervello/test/numero-di-card-gia-speso.test.mjs",
+   "nota_riaggancio": "Se questa riga cambia forma, il mutante va riscritto sulla riga nuova, non tolto: la cosa da rompere è che `numeriUsati` legga ANCHE le righe-tabella dell'archivio. Tolta quella lettura, il prossimo numero torna a uscire da soli i titoli in attesa — che il 16/8 valeva 82 su una coda dove 82 era già di un'altra card."
   }
  ]
 }
