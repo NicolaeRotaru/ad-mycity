@@ -15970,7 +15970,9 @@
         "comando": "node cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs",
         "nota": "Il banco copre le quattro forme note (prova, stato, chiusura, sintomo) e la loro non-vacuità. NON copre la causa di sistema: un campo di lavoro che nascerà domani resta invisibile finché qualcuno non aggiunge un caso qui. La chiusura di AR-756 richiede l'inversione del metro, non un quinto caso."
       },
-      "nota_fix": "16/8: aggiunto `sintomo` all'elenco e il caso ③bis al banco, con non-vacuità eseguita (togliendo `sintomo` il caso diventa rosso). È la cura del punto, non della malattia: l'elenco resta chiuso, quindi il difetto resta APERTO di proposito."
+      "nota_fix": "16/8: aggiunto `sintomo` all'elenco e il caso ③bis al banco, con non-vacuità eseguita (togliendo `sintomo` il caso diventa rosso). È la cura del punto, non della malattia: l'elenco resta chiuso, quindi il difetto resta APERTO di proposito.",
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "Un pattern qui cercherebbe «un array costante di stringhe usato per costruire un confronto», che nel codice della casa è ovunque: sarebbe un sensore che si accende su ogni elenco e quindi non si accende su niente — rumore travestito da copertura, cioè la malattia che questo cantiere cura. CHI LA COPRE OGGI: `cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs` prova le quattro forme già viste (prova cambiata, difetto riaperto, chiusura bloccata, sintomo dichiarato) e la loro non-vacuità. CHI NON LA COPRE: il quinto campo di lavoro, quello che nascerà domani. Nessun banco può provarlo perché nessuno sa ancora come si chiamerà, e il suo sintomo — un cancello che si dichiara cieco in CI — arriva sempre dopo che il lavoro è già stato fatto. È esattamente per questo che AR-756 resta APERTO: la cura vera non è un pattern né un quinto caso, è invertire il metro perché guardi tutti i campi tranne una lista dichiarata di rumore. Finché quell'inversione non è misurata (potrebbe far risultare toccato l'intero cantiere), la forma non ha nessuna difesa che scatti da sola, e dichiararlo è più onesto che inventarle un nome nel registro."
     }
   ],
   "meta": {
