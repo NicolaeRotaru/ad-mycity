@@ -78,6 +78,11 @@ export const ESENZIONI = {
   ToolSearch: "carica la definizione di uno strumento: non tocca niente",
   TodoWrite: "lista di lavoro della sessione, muore con la sessione",
   ListMcpResourcesTool: "elenca risorse esterne: sola lettura",
+  // Trovato dal cancello dello Stop il 16/8, ed è la prima cosa che questa mappa ha scoperto da sola.
+  // Aprire una skill non tocca niente: carica un mansionario nel turno. Quello che poi FACCIO
+  // leggendolo passa dalle guardie come qualsiasi altra mossa — è lì che va guardato, non qui.
+  // L'esenzione vale per il caricamento, non per le conseguenze.
+  Skill: "carica un mansionario nel turno: non scrive e non tocca il mondo. Le mosse che ne seguono le guardano le guardie di sempre",
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
