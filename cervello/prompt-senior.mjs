@@ -310,15 +310,20 @@ export const ESENZIONI_PORTA = {};
  * guarda dentro .claude/workflows — ed è per questo che il giro ha continuato per mesi a seminare i
  * senior con un negozio scartato e un ordine annullato (AR-126). Qui la caccia entra anche nei
  * file-pilota, che sono prompt eseguibili: la stessa bugia, detta a chi lavora.
+ * AR-702 — DUE VALORI, NON UNO. Prima di qui usciva un elenco vuoto in due casi opposti: «non c'è
+ * nessuna caccia aperta» e «il registro non si è potuto leggere». La cecità la dichiarava il
+ * chiamante — uno solo, e lo faceva bene — quindi la malattia era curata FUORI e viva DENTRO: il
+ * prossimo che avesse usato questa funzione avrebbe ricevuto un vuoto rassicurante al posto di un
+ * «non ho guardato». Adesso `null` vuol dire «non ho potuto leggere il registro» e `[]` vuol dire
+ * «letto, e non c'è niente da inseguire»: è lo stesso patto di `elencaSkill` in
+ * guardiano-capacita.mjs (AR-701), e chi chiama non può più confonderli per distrazione.
+ *
  * @param {string} radice
- * @returns {{id:string, pattern:string}[]}
+ * @returns {{id:string, pattern:string}[] | null} `null` = registro illeggibile (cieco), non «vuoto»
  */
 export function cacciaAperta(radice = radiceRepo()) {
-  // Registro illeggibile = questa regola non si può misurare. L'elenco resta vuoto perché è la forma
-  // che chi chiama si aspetta, ma il verdetto NON lo dà questa funzione: lo dà `verdettoPorta`, che
-  // riceve anche se il registro si è letto. Un elenco vuoto da solo sarebbe un verde comprato.
   const r = leggiRegistroFatti(radice);
-  if (!r.ok) return [];
+  if (!r.ok) return null;
   const fuori = [];
   for (const f of r.fatti) {
     for (const c of f.caccia || []) {
@@ -375,6 +380,15 @@ export function percorsiAssoluti(testo) {
  * @returns {{file:string, regola:string, dove:string, perche:string}[]}
  */
 export function violazioniPorta(file, ctx = {}) {
+  // AR-702 — `caccia: null` vuol dire «il registro non si è letto». Non lo si può far scivolare in
+  // un `|| []`: diventerebbe «nessun valore superato», cioè la cecità ritrasformata in una misura
+  // proprio nel punto che questo lotto sta curando. Chi non ha potuto guardare lo deve dire.
+  if (ctx.caccia === null) {
+    throw new TypeError(
+      "violazioniPorta: caccia = null significa «registro dei fatti non letto», non «nessuna caccia aperta». " +
+        "Dichiara la cecità con verdettoPorta({registroLetto:false}) invece di passarla come elenco vuoto.",
+    );
+  }
   const senior = ctx.senior || elencoSenior();
   const fuori = [];
   const accusa = (nome, regola, dove, perche) => {
@@ -455,7 +469,11 @@ if (process.argv[1] && process.argv[1].endsWith("prompt-senior.mjs")) {
   if (argv.includes("--guardiano")) {
     const piloti = leggiPiloti();
     const registro = leggiRegistroFatti(radice);
-    const fuori = violazioniPorta(piloti, { senior: elencoSenior(radice), caccia: cacciaAperta(radice) });
+    // AR-702 — `cacciaAperta` torna `null` quando il registro non si è letto. Qui si converte in
+    // «regola non misurata» ESPLICITAMENTE, e la cecità finisce nel verdetto qui sotto
+    // (`registroLetto`), non in un elenco vuoto che avrebbe la faccia di «tutto pulito».
+    const caccia = cacciaAperta(radice);
+    const fuori = violazioniPorta(piloti, { senior: elencoSenior(radice), caccia: caccia ?? [] });
     // AR-681 — il verdetto si decide PRIMA di stamparlo. Prima la spunta verde usciva per prima e la
     // riga ⚪ dopo: chi legge un log si ferma alla spunta, e un guardiano che non ha misurato niente
     // (zero file-pilota, o registro illeggibile) si dichiarava pulito lo stesso.

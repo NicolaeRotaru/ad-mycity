@@ -148,9 +148,9 @@ import {
   RITARDO_RICERCA_MS,
   type EsitoSalvataggio,
 } from "@/lib/pagina-stato";
-import { voceDiNavigazione } from "@/lib/strati";
+import { voceDiNavigazione, voceSenzaVista } from "@/lib/strati";
 import { deveChiudereOverlay, eTastoChiudi, overlayInCima, type StatoOverlay } from "@/lib/overlay-chiusura";
-import { useStrato } from "@/lib/useStrato";
+import { stratoInCimaAdesso, useStrato } from "@/lib/useStrato";
 import { emitSync, emitSyncDaLavoriFiniti, usePanelSync } from "@/lib/panel-sync";
 import { messaggioGuasto } from "@/lib/stato-card";
 import { ascoltaChatUnificata, pubblicaChatUnificata } from "@/lib/chat-unificata";
@@ -160,9 +160,17 @@ import {
   buildRichiestaCasella,
   estraiContestoCasellaDaRichiesta,
   EVENTO_LAVORO_CAS,
+  leggiDettagliLavori,
   MSG_RISPOSTA_VUOTA,
   type ParlaMsg,
 } from "@/lib/parla";
+import { arricchisciPerThread, fondiDettagli } from "@/lib/recupero-thread";
+import {
+  conteggioMessaggiDaMostrare,
+  esitoGruppoChat,
+  idsDaPrecaricareInElenco,
+  threadDiLista,
+} from "@/lib/testi-elenco";
 import { bloccoMemoriaChat } from "@/lib/memoria-chat";
 import { bollaUtenteDaTesto, mergeThreadMsgs, messaggiUguali, PLACEHOLDER_ALLEGATI } from "@/lib/chat-thread-merge";
 import {
@@ -328,11 +336,21 @@ function tsUltimoAssistantFinale(c: Conversazione, gruppo?: GruppoLavori | null)
   return candidati.reduce((max, t) => tsMaxIso(max, t), candidati[0]);
 }
 
-/** Thread effettivo in lista: messaggi salvati + risposte già finite nei Lavori (spesso mancano nel DB). */
+/**
+ * Thread effettivo in lista: messaggi salvati + risposte già finite nei Lavori (spesso mancano nel DB).
+ *
+ * AR-716 — la fusione adesso dichiara anche quanto è completa. Dopo un ricaricamento le righe del
+ * poll sono mute, la metà «dai lavori» esce vuota e prima si tornava il solo thread salvato senza
+ * distinguere «non c'era niente in più» da «non ho potuto leggere»: a schermo un buco si travestiva
+ * da risposta completa. La decisione sta fuori da qui, in `lib/testi-elenco.ts`, dove un test la
+ * esegue.
+ */
+function threadConvDiLista(c: Conversazione, gruppo?: GruppoLavori | null) {
+  return threadDiLista<Msg>(c.messaggi, gruppo?.lavori ?? []);
+}
+
 function messaggiConvEffettivi(c: Conversazione, gruppo?: GruppoLavori | null): Msg[] {
-  if (!gruppo?.lavori.length) return c.messaggi;
-  const daLavori = messaggiDaGruppo(gruppo.lavori) as Msg[];
-  return mergeThreadMsgs(c.messaggi, daLavori);
+  return threadConvDiLista(c, gruppo).messaggi;
 }
 
 /** Pallino rosso: l'ultimo messaggio reale è una risposta AI e Nicola non l'ha ancora aperta/letta. */
@@ -387,16 +405,23 @@ function mergeListaConversazioni(prev: Conversazione[], incoming: Conversazione[
   return merged;
 }
 
-/** Chat aperta da Lavori («Chat con questa casella») vive nei lavori — la aggiungiamo alla lista Worker se manca nel DB. */
+/**
+ * Chat aperta da Lavori («Chat con questa casella») vive nei lavori — la aggiungiamo alla lista Worker se manca nel DB.
+ *
+ * AR-715 — prima si saltava il gruppo quando non si trovava nessun messaggio di Nicola. Dopo un
+ * ricaricamento NESSUN gruppo porta il testo (le righe del poll sono mute), quindi la conversazione
+ * spariva dall'elenco pur esistendo. Chi decide adesso è `esitoGruppoChat`: salta il gruppo vuoto
+ * davvero, tiene quello che ha solo delle righe da rileggere.
+ */
 function integraConversazioniDaLavori(list: Conversazione[], lavoriList: Lavoro[]): Conversazione[] {
   const ids = new Set(list.map((c) => c.id));
   const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
   const extra: Conversazione[] = [];
   for (const g of raggruppaLavori(lavoriList, m)) {
     if (ids.has(g.id)) continue;
-    if (!g.lavori.some((l) => l.tipo === "chat")) continue;
-    const msgs = messaggiDaGruppo(g.lavori).filter((m) => !m.pending) as Msg[];
-    if (!msgs.some((m) => m.role === "user" && m.content.trim())) continue;
+    const esito = esitoGruppoChat(g.lavori);
+    if (!esito.tieni) continue;
+    const msgs = esito.messaggi as Msg[];
     extra.push({
       id: g.id,
       titolo: g.titolo,
@@ -1157,6 +1182,11 @@ export default function Dashboard() {
   // Riusa l'overlay della chat fluttuante, solo con contenitore fullscreen e barra "assistente" (identica).
   const [workerFull, setWorkerFull] = useState(false);
   const workerAperto = chatFluttuante || workerFull;
+  // AR-674 — il gestore centrale dell'indietro è registrato una volta sola (dipendenze vuote): per
+  // sapere se il Worker è aperto NEL MOMENTO in cui timbra una voce gli serve un ref, non la
+  // variabile del render in cui è nato.
+  const workerApertoRef = useRef(workerAperto);
+  workerApertoRef.current = workerAperto;
   // `storia: false` quando l'apertura È GIÀ una navigazione (ripristino da popstate): timbrare
   // un'altra voce lì dentro impilerebbe cronologia a ogni «indietro» e il tasto non uscirebbe più.
   const apriWorkerPopup = useCallback((full = false, storia = true) => {
@@ -1173,8 +1203,14 @@ export default function Dashboard() {
         // AR-606 — prima di timbrare si spogliano i marcatori ereditati (il `strato` di un pannello
         // già chiuso, che `history.state` si porta dietro anche dopo un ricaricamento): la voce nuova
         // deve dire UNA cosa sola, «qui è aperto il Worker». Gli internals di Next restano dentro.
-        const st = voceDiNavigazione(grezzo);
-        window.history.pushState({ ...st, overlay: "worker" }, "", window.location.pathname + window.location.search);
+        // AR-674 — il marcatore si passa alla porta, non si aggiunge dopo: così ogni timbro di
+        // questo file ha come argomento una porta dichiarata, e non un oggetto scritto lì per lì
+        // che domani qualcuno riempirà con quello che si trova in mano.
+        window.history.pushState(
+          voceDiNavigazione(grezzo, { overlay: "worker" }),
+          "",
+          window.location.pathname + window.location.search,
+        );
       }
     } catch {}
   }, []);
@@ -1260,6 +1296,16 @@ export default function Dashboard() {
   lavoriRef.current = lavori;
   convServerRef.current = convServer;
   loadingRef.current = loading;
+  // AR-605 — tre specchi in più, per lo stesso motivo di quelli sopra. Servono a calcolare il valore
+  // nuovo FUORI dall'aggiornamento di stato: dentro, l'effetto collaterale che sta accanto al calcolo
+  // (la scrittura in locale, l'invio al server) può partire due volte, perché React quella funzione la
+  // può richiamare. La regola vale per chiunque scriva: il calcolo sta nell'updater, l'atto no.
+  const convPinnateRef = useRef<Set<string>>(convPinnate);
+  convPinnateRef.current = convPinnate;
+  const convLetteRef = useRef<Record<string, string>>(convLette);
+  convLetteRef.current = convLette;
+  const convLetteFpRef = useRef<Record<string, string>>(convLetteFp);
+  convLetteFpRef.current = convLetteFp;
 
   const gruppiConvById = useMemo(() => {
     const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
@@ -1337,18 +1383,22 @@ export default function Dashboard() {
 
   /** Applica la risposta al thread giusto (anche se Nicola ha aperto «Nuova chat» nel frattempo). */
   function aggiornaMessaggiConversazione(targetConvId: string, content: string) {
-    setConversazioni((list) => {
-      const idx = list.findIndex((c) => c.id === targetConvId);
-      if (idx === -1) return list;
-      const c = list[idx];
-      const aggiornati = rispondiInChat(c.messaggi, content);
-      const nuovaLista = list.map((x, i) =>
-        i === idx ? { ...x, messaggi: aggiornati, updated_at: new Date().toISOString() } : x
-      );
-      if (!convServer) scriviConvLocali(nuovaLista);
-      void persistConversazione(targetConvId, aggiornati);
-      return nuovaLista;
-    });
+    // AR-605 — NIENTE EFFETTI COLLATERALI DENTRO UN AGGIORNAMENTO DI STATO.
+    // Salvataggio su Supabase e scrittura in locale vivevano dentro l'updater di `setConversazioni`.
+    // React può richiamare un updater più di una volta (StrictMode in sviluppo, disegno concorrente):
+    // la stessa scrittura partiva doppia. La regola è già scritta in casa nel commento di AR-268 in
+    // ParlaCasella; qui era ancora violata. Il nuovo valore si calcola dal ref — che è lo stato
+    // com'è ADESSO — e le scritture partono una volta sola, fuori.
+    const list = conversazioniRef.current;
+    const idx = list.findIndex((c) => c.id === targetConvId);
+    if (idx === -1) return;
+    const aggiornati = rispondiInChat(list[idx].messaggi, content);
+    const nuovaLista = list.map((x, i) =>
+      i === idx ? { ...x, messaggi: aggiornati, updated_at: new Date().toISOString() } : x
+    );
+    setConversazioni(nuovaLista);
+    if (!convServer) scriviConvLocali(nuovaLista);
+    void persistConversazione(targetConvId, aggiornati);
   }
 
   /** Mostra un messaggio nel thread giusto (UI attiva o conversazione salvata).
@@ -1357,13 +1407,13 @@ export default function Dashboard() {
    *  lavoro come risolto, così riprova al prossimo giro di polling invece di perdere la risposta. */
   function instradaMessaggioChat(targetConvId: string, content: string): boolean {
     if (convIdRef.current === targetConvId) {
-      setMessages((m) => {
-        const nuovi = rispondiInChat(m, content);
-        // Persisti ANCHE quando la chat è quella attiva: prima la risposta restava solo
-        // nello stato React/localStorage e Supabase teneva la versione senza risposta.
-        void persistConversazione(targetConvId, nuovi);
-        return nuovi;
-      });
+      // AR-605 — stessa cura: il salvataggio stava dentro l'updater di `setMessages` e poteva
+      // partire doppio. Si calcola dal ref e si salva una volta sola, fuori.
+      const nuovi = rispondiInChat(messagesRef.current, content);
+      setMessages(nuovi);
+      // Persisti ANCHE quando la chat è quella attiva: prima la risposta restava solo
+      // nello stato React/localStorage e Supabase teneva la versione senza risposta.
+      void persistConversazione(targetConvId, nuovi);
       return true;
     }
     // Chat NON attiva: applicabile solo se la conversazione è già nell'elenco caricato. Se non c'è,
@@ -1467,14 +1517,13 @@ export default function Dashboard() {
     } catch {}
   }
   function togglePin(id: string) {
-    setConvPinnate((prev) => {
-      const n = new Set(prev);
-      if (n.has(id)) n.delete(id); else n.add(id);
-      const arr = [...n];
-      try { localStorage.setItem("mycity_conv_pin", JSON.stringify(arr)); } catch {}
-      if (convServerRef.current) accodaSyncConvMeta(undefined, arr);
-      return n;
-    });
+    // AR-605 — il calcolo resta uguale, gli atti escono dall'updater (vedi i tre specchi in alto).
+    const n = new Set(convPinnateRef.current);
+    if (n.has(id)) n.delete(id); else n.add(id);
+    const arr = [...n];
+    setConvPinnate(n);
+    try { localStorage.setItem("mycity_conv_pin", JSON.stringify(arr)); } catch {}
+    if (convServerRef.current) accodaSyncConvMeta(undefined, arr);
   }
   /** Timestamp minimo per «letta»: deve coprire conversazione + lavori collegati, altrimenti il poll li rende di nuovo «non letti». */
   function tsLettaPerConv(id: string): string {
@@ -1492,20 +1541,19 @@ export default function Dashboard() {
     const m = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
     const g = raggruppaLavori(lavoriRef.current, m).find((x) => x.id === id);
     const fp = c ? fpUltimaRisposta(c, g) : "";
-    setConvLette((prev) => {
-      if (prev[id] && new Date(prev[id]).getTime() >= new Date(ora!).getTime()) return prev;
-      const n = { ...prev, [id]: ora! };
+    // AR-605 — calcolo dentro, atti fuori: la scrittura in locale e l'invio al server partivano da
+    // dentro l'updater e potevano partire doppi.
+    const lette = convLetteRef.current;
+    if (!(lette[id] && new Date(lette[id]).getTime() >= new Date(ora!).getTime())) {
+      const n = { ...lette, [id]: ora! };
+      setConvLette(n);
       try { localStorage.setItem("mycity_conv_lette", JSON.stringify(n)); } catch {}
       if (convServerRef.current) accodaSyncConvMeta(n);
-      return n;
-    });
-    if (fp) {
-      setConvLetteFp((prev) => {
-        if (prev[id] === fp) return prev;
-        const n = { ...prev, [id]: fp };
-        try { localStorage.setItem("mycity_conv_lette_fp", JSON.stringify(n)); } catch {}
-        return n;
-      });
+    }
+    if (fp && convLetteFpRef.current[id] !== fp) {
+      const n = { ...convLetteFpRef.current, [id]: fp };
+      setConvLetteFp(n);
+      try { localStorage.setItem("mycity_conv_lette_fp", JSON.stringify(n)); } catch {}
     }
   }
   /** Segna letta la chat aperta (es. chiudo la finestra o passo ad altra area). */
@@ -1608,31 +1656,34 @@ export default function Dashboard() {
     setChatSoloLocale(!esito.suServer);
     const newId = esito.id;
     if (!newId) return { id: null, suServer: false };
-    setConversazioni((list) => {
-      const esiste = list.find((c) => c.id === newId);
-      const created_at = esiste?.created_at || new Date().toISOString();
-      // ANTI-RACE al COMMIT: dopo l'`await fetch`, `list` è lo stato PIÙ fresco. Se nel frattempo è
-      // arrivata una risposta (dal poller), rifondiamo con la versione corrente invece di sovrascriverla
-      // con lo snapshot `reali` di PRIMA dell'await → la risposta non si perde. Prima il merge era solo
-      // al momento della chiamata (riga sopra), ma la scrittura avveniva col vecchio snapshot dopo l'await.
-      const messaggiFinali = esiste?.messaggi?.length ? mergeThread(esiste.messaggi, reali) : reali;
-      const messaggiUguali =
-        !!esiste && JSON.stringify(esiste.messaggi) === JSON.stringify(messaggiFinali);
-      const updated_at =
-        messaggiUguali && esiste ? esiste.updated_at : new Date().toISOString();
-      const riga: Conversazione = {
-        id: newId as string,
-        titolo,
-        messaggi: messaggiFinali,
-        created_at,
-        updated_at,
-      };
-      // Aggiornamento: resta al suo posto (aprire un'altra chat non la sposta in cima).
-      const nuova = esiste ? list.map((c) => (c.id === newId ? riga : c)) : [riga, ...list];
-      // Cache locale sempre: backup se il DB non ha ancora la riga (rete mobile, reload surriscaldamento).
-      scriviConvLocali(nuova);
-      return nuova;
-    });
+    // AR-605 — la copia di sicurezza in locale stava DENTRO l'aggiornamento di stato. Adesso il
+    // valore si calcola dallo specchio (che è lo stato com'è ADESSO, aggiornato a ogni disegno:
+    // stessa freschezza che dava l'updater, e l'anti-race qui sotto continua a valere) e la
+    // scrittura parte una volta sola, fuori.
+    const list = conversazioniRef.current;
+    const esiste = list.find((c) => c.id === newId);
+    const created_at = esiste?.created_at || new Date().toISOString();
+    // ANTI-RACE al COMMIT: dopo l'attesa della rete, `list` è lo stato PIÙ fresco. Se nel frattempo è
+    // arrivata una risposta (dal poller), rifondiamo con la versione corrente invece di sovrascriverla
+    // con lo snapshot `reali` di PRIMA dell'attesa → la risposta non si perde. Prima il merge era solo
+    // al momento della chiamata (riga sopra), ma la scrittura avveniva col vecchio snapshot dopo.
+    const messaggiFinali = esiste?.messaggi?.length ? mergeThread(esiste.messaggi, reali) : reali;
+    const messaggiIdentici =
+      !!esiste && JSON.stringify(esiste.messaggi) === JSON.stringify(messaggiFinali);
+    const updated_at =
+      messaggiIdentici && esiste ? esiste.updated_at : new Date().toISOString();
+    const riga: Conversazione = {
+      id: newId as string,
+      titolo,
+      messaggi: messaggiFinali,
+      created_at,
+      updated_at,
+    };
+    // Aggiornamento: resta al suo posto (aprire un'altra chat non la sposta in cima).
+    const nuova = esiste ? list.map((c) => (c.id === newId ? riga : c)) : [riga, ...list];
+    setConversazioni(nuova);
+    // Cache locale sempre: backup se il DB non ha ancora la riga (rete mobile, reload surriscaldamento).
+    scriviConvLocali(nuova);
     return esito;
   }
 
@@ -1669,7 +1720,12 @@ export default function Dashboard() {
     // gruppo per created_at ASC (ed esclude i job interni "metabolizza"), come già fa apriChatDaGruppo →
     // thread in ordine cronologico.
     const g = raggruppaLavori(lavori, mappa).find((x) => x.id === id);
-    const daLavori = g ? (messaggiDaGruppo(g.lavori) as Msg[]) : [];
+    // AR-603 — l'elenco che gira in continuo è LEGGERO: dopo un ricaricamento le righe già finite
+    // arrivano senza domanda e senza risposta, e ricostruire da righe mute dava zero messaggi. Il
+    // «recupero» dichiarato qui sopra si apriva solo finché non serviva. Il testo si va a prendere
+    // per le sole righe che ne hanno bisogno — chi sono lo decide una funzione che un test esegue.
+    const completi = g ? await arricchisciPerThread(g.lavori, leggiDettagliLavori) : [];
+    const daLavori = messaggiDaGruppo(completi) as Msg[];
     const msgs = daLavori.length ? mergeThread(c.messaggi, daLavori) : c.messaggi;
     attivaScrollConvApertura();
     setMessages(msgs);
@@ -1689,7 +1745,9 @@ export default function Dashboard() {
     void persistConversazione(convId, messages);
     const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
     const g = raggruppaLavori(lavori, mappa).find((x) => x.id === gruppoId);
-    const daLavori = g ? (messaggiDaGruppo(g.lavori) as Msg[]) : [];
+    // AR-603 — stessa cura del percorso gemello: prima di ricostruire, il testo mancante si rilegge.
+    const completi = g ? await arricchisciPerThread(g.lavori, leggiDettagliLavori) : [];
+    const daLavori = messaggiDaGruppo(completi) as Msg[];
     const esistente = conversazioni.find((c) => c.id === gruppoId);
 
     if (esistente) {
@@ -1767,11 +1825,10 @@ export default function Dashboard() {
         body: JSON.stringify({ id }),
       }).catch(() => {});
     }
-    setConversazioni((list) => {
-      const n = list.filter((c) => c.id !== id);
-      if (!convServer) scriviConvLocali(n);
-      return n;
-    });
+    // AR-605 — la scrittura in locale stava dentro l'updater: calcolo dallo specchio, atto fuori.
+    const senzaQuella = conversazioniRef.current.filter((c) => c.id !== id);
+    setConversazioni(senzaQuella);
+    if (!convServer) scriviConvLocali(senzaQuella);
     setConvSel((s) => s.filter((x) => x !== id));
     if (convId === id) {
       setConvId(null);
@@ -2300,7 +2357,18 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       // tab Radiografia ⇄ Auto-coscienza). Non è un "torna alla plancia": resta nell'area corrente
       // e timbra la voce con la vista attuale, così il tasto INDIETRO la conosce e non esce a vuoto.
       if (!st?.vista) {
-        try { window.history.replaceState({ ...(window.history.state || {}), vista: ultimaVistaStoria.current || "plancia" }, ""); } catch {}
+        // AR-674 — era l'ultimo merge cieco rimasto: `{ ...history.state, vista }` si portava dentro
+        // il marcatore di un pannello già chiuso. Adesso la voce dice quello che è aperto ADESSO —
+        // e solo quello: lo strato in cima alla pila e il Worker se è davvero sullo schermo.
+        try {
+          window.history.replaceState(
+            voceSenzaVista(window.history.state, ultimaVistaStoria.current || "plancia", {
+              strato: stratoInCimaAdesso()?.nome ?? null,
+              overlay: workerApertoRef.current ? "worker" : null,
+            }),
+            "",
+          );
+        } catch {}
         return;
       }
       // AR-218 — gli overlay entrano nel contratto di cronologia: se la voce a cui siamo tornati non
@@ -2433,21 +2501,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
   // dal salvataggio locale (questo dispositivo).
   const applicaConvMeta = useCallback((meta: { letta: Record<string, string>; pin: string[] } | null) => {
     if (!meta) return;
-    setConvLette((prev) => {
-      const merged = mergeLette(prev, meta.letta);
-      // Qui NON si applica AR-246: è una mappa di conversazioni lette, non un thread di messaggi —
-      // ed è piccola, quindi il confronto per stringa non pesa. Il caso caro è l'archivio dei thread.
-      if (JSON.stringify(merged) === JSON.stringify(prev)) return prev;
+    // AR-605 — calcolo dagli specchi, scritture fuori dall'updater.
+    const prevLette = convLetteRef.current;
+    const merged = mergeLette(prevLette, meta.letta);
+    // Qui NON si applica AR-246: è una mappa di conversazioni lette, non un thread di messaggi —
+    // ed è piccola, quindi il confronto per stringa non pesa. Il caso caro è l'archivio dei thread.
+    if (JSON.stringify(merged) !== JSON.stringify(prevLette)) {
+      setConvLette(merged);
       try { localStorage.setItem("mycity_conv_lette", JSON.stringify(merged)); } catch {}
-      return merged;
-    });
+    }
     if (meta.pin.length) {
-      setConvPinnate((prev) => {
-        const next = new Set(meta.pin);
-        if (prev.size === next.size && [...prev].every((id) => next.has(id))) return prev;
+      const prevPin = convPinnateRef.current;
+      const next = new Set(meta.pin);
+      if (!(prevPin.size === next.size && [...prevPin].every((id) => next.has(id)))) {
+        setConvPinnate(next);
         try { localStorage.setItem("mycity_conv_pin", JSON.stringify(meta.pin)); } catch {}
-        return next;
-      });
+      }
     }
   }, []);
 
@@ -2838,6 +2907,33 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
     }
   }
 
+  // AR-715 · AR-716 — IL PRECARICO DEI TESTI DELLE CHAT.
+  // L'elenco arriva muto (niente domanda, niente risposta) e `arricchisciLavoriAttivi` qui sotto
+  // rilegge SOLO i lavori ancora in corso: un lavoro già finito non lo rilegge nessuno, quindi dopo
+  // un ricaricamento le conversazioni dei Lavori si ricostruivano da niente — una spariva
+  // dall'elenco, l'altra si accorciava in silenzio. Le due funzioni che le ricostruiscono girano
+  // durante il disegno della pagina e non possono aspettare una lettura: la lettura si fa QUI, una
+  // volta sola per riga, e il risultato resta nella lista (il merge del poll conserva `richiesta` e
+  // `risultato` già noti). Chi decide cosa leggere è `idsDaPrecaricareInElenco`, che è puro.
+  const testiChiestiRef = useRef<Set<string>>(new Set());
+
+  async function precaricaTestiDelleChat(lista: Lavoro[]) {
+    const mappa = typeof window !== "undefined" ? leggiMappaGruppiLocali() : {};
+    const ids = idsDaPrecaricareInElenco(lista, mappa, testiChiestiRef.current);
+    if (ids.length === 0) return;
+    ids.forEach((id) => testiChiestiRef.current.add(id));
+    const dettagli = await leggiDettagliLavori(ids);
+    if (dettagli.length === 0) {
+      // Non è «questi lavori non hanno testo»: è «non sono riuscito a leggere». Tolgo il segno di
+      // «già chiesto» e ci riprovo al giro dopo, invece di restare muto fino al ricaricamento.
+      ids.forEach((id) => testiChiestiRef.current.delete(id));
+      return;
+    }
+    const prima = lavoriRef.current;
+    const dopo = fondiDettagli(prima, dettagli);
+    if (!lavoriUguali(prima, dopo)) setLavori(dopo);
+  }
+
   async function arricchisciLavoriAttivi(lista: Lavoro[]): Promise<Lavoro[]> {
     const ids = new Set<string>();
     for (const p of pendingLavoroChatRef.current.values()) ids.add(p.id);
@@ -2871,24 +2967,29 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
           const arricchiti = await arricchisciLavoriAttivi(d.lavori);
           // Aggiorna SOLO se la lista è davvero cambiata: un array nuovo ma identico
           // ri-renderizzerebbe tutto il Pannello ad ogni tick (2-8s) inutilmente.
-          setLavori((prev) => {
-            const merged = arricchiti.map((l) => {
-              const nome = nomiLavoriRef.current[l.id];
-              const old = prev.find((p) => p.id === l.id);
-              if (!old) return nome ? { ...l, titolo: nome } : l;
-              return {
-                ...l,
-                richiesta: l.richiesta ?? old.richiesta,
-                risultato: l.risultato ?? old.risultato,
-                titolo: nome ?? l.titolo ?? old.titolo,
-              };
-            });
-            if (lavoriUguali(prev, merged)) return prev;
-            emitSyncDaLavoriFiniti(prev, merged);
-            return merged;
+          // AR-605 — l'avviso agli altri riquadri (`emitSyncDaLavoriFiniti`) stava dentro l'updater:
+          // a ogni tick del poll poteva partire due volte, cioè due giri di ricarica per una sola
+          // risposta arrivata. Calcolo dallo specchio, avviso fuori, una volta sola.
+          const prev = lavoriRef.current;
+          const merged = arricchiti.map((l) => {
+            const nome = nomiLavoriRef.current[l.id];
+            const old = prev.find((p) => p.id === l.id);
+            if (!old) return nome ? { ...l, titolo: nome } : l;
+            return {
+              ...l,
+              richiesta: l.richiesta ?? old.richiesta,
+              risultato: l.risultato ?? old.risultato,
+              titolo: nome ?? l.titolo ?? old.titolo,
+            };
           });
+          if (!lavoriUguali(prev, merged)) {
+            setLavori(merged);
+            emitSyncDaLavoriFiniti(prev, merged);
+          }
           // I nomi mancanti si chiedono dopo aver mostrato la lista: la vista non aspetta.
           void assicuraNomiLavori(arricchiti);
+          // …e per la stessa ragione i testi delle chat: la lista si vede subito, il testo arriva.
+          void precaricaTestiDelleChat(merged);
           if (d.conteggi?.coda != null) {
             setConteggiLavori({ coda: d.conteggi.coda, archivio: d.conteggi.archivio });
           }
@@ -2959,9 +3060,22 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
       if (Array.isArray(d.lavori)) {
         // I nomi già noti si riattaccano subito (altrimenti le righe vecchie tornerebbero senza
         // nome); quelli delle righe appena arrivate si chiedono dopo aver mostrato la lista.
-        const conNomi: Lavoro[] = d.lavori.map((l: Lavoro) =>
-          nomiLavoriRef.current[l.id] ? { ...l, titolo: nomiLavoriRef.current[l.id] } : l
-        );
+        // AR-715/716, DOMANDA ⑥ («quali cancelli eredita il canale nuovo?»): questa è la SECONDA
+        // porta che riscrive la lista, e non ereditava niente. Sostituiva le righe con quelle
+        // appena arrivate — mute — buttando via i testi già letti, e siccome le righe risultavano
+        // «già chieste» non le rileggeva più nessuno: «Carica altro» faceva sparire le chat che il
+        // precarico aveva appena riportato. Adesso conserva ciò che sa e ripassa dallo stesso
+        // precarico del poll.
+        const noti = lavoriRef.current;
+        const conNomi: Lavoro[] = d.lavori.map((l: Lavoro) => {
+          const vecchio = noti.find((p) => p.id === l.id);
+          return {
+            ...l,
+            richiesta: l.richiesta ?? vecchio?.richiesta,
+            risultato: l.risultato ?? vecchio?.risultato,
+            titolo: nomiLavoriRef.current[l.id] ?? l.titolo ?? vecchio?.titolo,
+          };
+        });
         setLavori(conNomi);
         if (d.conteggi?.coda != null) {
           setConteggiLavori({ coda: d.conteggi.coda, archivio: d.conteggi.archivio });
@@ -2969,6 +3083,7 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
         if (d.archivio?.hasMore != null) setArchivioHasMore(Boolean(d.archivio.hasMore));
         setArchivioLimit(nuovoLimit);
         void assicuraNomiLavori(conNomi);
+        void precaricaTestiDelleChat(conNomi);
       }
     } catch {
     } finally {
@@ -3499,7 +3614,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   const gruppo = gruppiConvById.get(c.id);
                   const chatVisibile = vista === "assistente" || chatFluttuante;
                   const nonLetta = haRispostaNonLetta(c, convLette, convLetteFp, convId, chatVisibile, gruppo);
-                  const effMsgs = messaggiConvEffettivi(c, gruppo);
+                  const thread = threadConvDiLista(c, gruppo);
+                  const effMsgs = thread.messaggi;
                   return (
                   <div
                     key={c.id}
@@ -3518,7 +3634,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                         <span className="truncate">{c.titolo}</span>
                       </div>
                       <div className="conv-row-meta">
-                        {effMsgs.filter((m) => !m.prompt).length} messaggi · {fa(tsConvAggiornato(c, gruppo))}
+                        {conteggioMessaggiDaMostrare(effMsgs.filter((m) => !m.prompt).length, thread.incompleto)} messaggi ·{" "}
+                        {fa(tsConvAggiornato(c, gruppo))}
                         {convId === c.id && <span className="text-brand font-medium"> · aperta ora</span>}
                       </div>
                     </button>
@@ -3681,7 +3798,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                   const gruppo = gruppiConvById.get(c.id);
                   const chatVisibile = chatFluttuante || workerFull;
                   const nonLetta = haRispostaNonLetta(c, convLette, convLetteFp, convId, chatVisibile, gruppo);
-                  const effMsgs = messaggiConvEffettivi(c, gruppo);
+                  const thread = threadConvDiLista(c, gruppo);
+                  const effMsgs = thread.messaggi;
                   const attiva = c.id === convId;
                   return (
                     <div
@@ -3704,7 +3822,8 @@ Rispondi in italiano, in modo concreto e operativo. Se ti servono dati che non v
                           <span className="truncate text-[12.5px]">{c.titolo || "Conversazione"}</span>
                         </div>
                         <div className="conv-row-meta text-[10.5px]">
-                          {effMsgs.filter((m) => !m.prompt).length} msg · {fa(tsConvAggiornato(c, gruppo))}
+                          {conteggioMessaggiDaMostrare(effMsgs.filter((m) => !m.prompt).length, thread.incompleto)} msg ·{" "}
+                          {fa(tsConvAggiornato(c, gruppo))}
                         </div>
                       </button>
                       <button

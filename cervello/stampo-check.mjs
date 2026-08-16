@@ -31,6 +31,8 @@
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync, mkdirSync } from "node:fs";
 import { basename, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+// AR-464 — la penna condivisa, che consulta il freno della memoria (`cervello/casa-memoria.mjs`).
+import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import {
   DIFETTO,
   classificaNuovi,
@@ -200,8 +202,9 @@ async function main() {
   }
   const scelta = decidiScrittura({ solaLettura: PARCO_FINTO || SOLA_LETTURA, misuraNuova: state, misuraVecchia: precedente, vecchiaLeggibile: leggibile });
   if (scelta.scrivi) {
-    mkdirSync(join(STATE_PATH, ".."), { recursive: true });
-    writeFileSync(STATE_PATH, JSON.stringify(state, null, 2) + "\n", "utf8");
+    // La penna passa dal writer condiviso: `--sola-lettura` ferma chi lo digita, il freno sul dato
+    // (`cervello/casa-memoria.mjs`) ferma anche chi non sa di essere stato lanciato da una prova.
+    scriviJsonAtomico(STATE_PATH, state);
     await stampSegnale("stampo-check", rc === 0 ? "ok" : "warn", `${sintesi} · ${quando}`);
   }
 

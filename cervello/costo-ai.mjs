@@ -87,6 +87,10 @@ function vuoto() {
     sessione_rolling_min: SESSIONE_ROLLING_MIN,
     aggiornato: nowPiacenza(),
     soglia_giornaliera_token: Number(process.env.COSTO_SOGLIA_TOKEN_GIORNO || SOGLIA_DEFAULT),
+    // AR-442 — il tetto della FINESTRA SCORREVOLE, scritto accanto a quello del giorno perché il
+    // freno possa guardarli tutti e due. Senza dichiararlo qui, la gamba di sessione di
+    // `decidiFrenoCostoDoppio` nascerebbe cieca e il difetto resterebbe intero.
+    soglia_sessione_rolling_token: Number(process.env.COSTO_SOGLIA_TOKEN_SESSIONE || SOGLIA_DEFAULT),
     oggi: { data: "", runs: 0, token_totali: 0, durata_sec_totale: 0, voci: [] },
     storico_giorni: [],
   };
@@ -109,6 +113,11 @@ function main() {
   const oggiData = quando.slice(0, 10);
   const stato = leggi();
   stato.soglia_giornaliera_token = Number(process.env.COSTO_SOGLIA_TOKEN_GIORNO || stato.soglia_giornaliera_token || SOGLIA_DEFAULT);
+  // AR-442 — se manca, eredita il tetto del giorno: in sei ore non si può spendere ciò che è
+  // concesso in ventiquattro. Un tetto assente farebbe tornare il freno a UNA gamba sola.
+  stato.soglia_sessione_rolling_token = Number(
+    process.env.COSTO_SOGLIA_TOKEN_SESSIONE || stato.soglia_sessione_rolling_token || stato.soglia_giornaliera_token
+  );
   if (!stato.modello_quota) stato.modello_quota = "sessione-rolling";
   if (!stato.sessione_rolling_min) stato.sessione_rolling_min = SESSIONE_ROLLING_MIN;
 

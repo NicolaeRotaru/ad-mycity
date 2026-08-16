@@ -26,6 +26,7 @@ import {
   trovaConversazione,
 } from "@/lib/casella-conversazione";
 import { classeCampo } from "@/lib/tocco-bersaglio";
+import { pianoApertura } from "@/lib/recupero-thread";
 import {
   ascoltaChatUnificata,
   leggiUltimaChatUnificata,
@@ -153,66 +154,90 @@ export default function ParlaCasella({
     pubblicaChatUnificata({ convId, titolo: chiaveTitolo, messaggi: pub }, "casella");
   }, [aperto, convId, chiaveTitolo, msgs]);
 
+  // AR-604 — il ripescaggio è già riuscito almeno una volta per questa casella?
+  // Sta in un ref e non in uno stato perché non si disegna: serve solo a non rileggere per niente.
+  const recuperoFattoRef = useRef(false);
   useEffect(() => {
-    if (!aperto || caricatoRef.current) return;
+    if (!aperto) return;
     let annullato = false;
     const chiave = chiaveTitolo; // AR-405: identità stabile, non il testo mostrato
     const giaAttiva = leggiUltimaChatUnificata();
-    if (stessaCasella(giaAttiva?.titolo, chiave) && giaAttiva?.messaggi.length) {
+    // AR-604 — LE DUE USCITE ANTICIPATE CHE SPEGNEVANO LA PROMESSA.
+    // Quando l'attesa scadeva, a schermo compariva «la risposta vera verrà ripescata dai lavori alla
+    // prossima apertura». Ma chiudere il box non smonta il componente, quindi `caricatoRef` restava
+    // acceso e alla riapertura si usciva alla prima riga; e anche al rimontaggio vero, se la chat
+    // unificata ricordava proprio questa casella, si usciva PRIMA del passo di recupero. Adesso
+    // «da dove parto» e «devo ripescare» sono due domande separate, e la seconda la decide una
+    // funzione pura che un test esegue: finché a schermo resta una risposta promessa e mai
+    // arrivata, si ritenta a ogni apertura.
+    const piano = pianoApertura({
+      giaCaricato: caricatoRef.current,
+      recuperoFatto: recuperoFattoRef.current,
+      unificataMia: stessaCasella(giaAttiva?.titolo, chiave),
+      unificataMessaggi: giaAttiva?.messaggi.length ?? 0,
+      threadCorrente: msgsRef.current,
+    });
+    if (piano.usaUnificata && giaAttiva) {
       caricatoRef.current = true;
       setMsgs(giaAttiva.messaggi as ParlaMsg[]);
       if (giaAttiva.convId) setConvId(giaAttiva.convId);
-      return;
     }
+    if (!piano.leggiSalvati && !piano.recupera) return;
     (async () => {
-      let salvati: ParlaMsg[] = [];
-      let cid: string | null = null;
+      let salvati: ParlaMsg[] = piano.usaUnificata ? ((giaAttiva?.messaggi ?? []) as ParlaMsg[]) : [];
+      let cid: string | null = piano.usaUnificata ? (giaAttiva?.convId ?? null) : null;
       // AR-405 (b) — MIGRAZIONE: se col titolo nuovo non c'è niente si cerca la conversazione col
       // vecchio titolo esatto e la si rinomina, così le chat già avute non si perdono per strada.
       let daMigrare = false;
-      // 1) server (lista condivisa, cache + dedup)
-      try {
-        const arr = await fetchConversazioniCondiviso();
-        const c = trovaConversazione(arr, idCasella, titolo);
-        if (c) {
-          salvati = Array.isArray(c.messaggi) ? (c.messaggi as ParlaMsg[]) : [];
-          cid = c.convId;
-          daMigrare = c.daMigrare;
-        }
-      } catch {
-        /* rete instabile: passo al locale */
-      }
-      // 2) fallback locale (stesso formato della Cabina)
-      if (!cid && salvati.length === 0) {
+      if (piano.leggiSalvati) {
+        // 1) server (lista condivisa, cache + dedup)
         try {
-          const list = JSON.parse(localStorage.getItem("mycity_conversazioni") || "[]");
-          const c = trovaConversazione(Array.isArray(list) ? list : [], idCasella, titolo);
+          const arr = await fetchConversazioniCondiviso();
+          const c = trovaConversazione(arr, idCasella, titolo);
           if (c) {
             salvati = Array.isArray(c.messaggi) ? (c.messaggi as ParlaMsg[]) : [];
             cid = c.convId;
             daMigrare = c.daMigrare;
           }
         } catch {
-          /* localStorage non disponibile */
+          /* rete instabile: passo al locale */
+        }
+        // 2) fallback locale (stesso formato della Cabina)
+        if (!cid && salvati.length === 0) {
+          try {
+            const list = JSON.parse(localStorage.getItem("mycity_conversazioni") || "[]");
+            const c = trovaConversazione(Array.isArray(list) ? list : [], idCasella, titolo);
+            if (c) {
+              salvati = Array.isArray(c.messaggi) ? (c.messaggi as ParlaMsg[]) : [];
+              cid = c.convId;
+              daMigrare = c.daMigrare;
+            }
+          } catch {
+            /* localStorage non disponibile */
+          }
+        }
+        if (annullato) return;
+        caricatoRef.current = true;
+        if (salvati.length || cid) {
+          setMsgs(salvati);
+          setConvId(cid);
+        }
+        if (daMigrare && salvati.length) {
+          // Stesso `convId`, titolo nuovo: da qui in poi la conversazione ha un'identità e sopravvive
+          // alla prossima riscrittura del testo.
+          const { id } = await salvaConversazioneCasella(cid, chiave, salvati);
+          if (!annullato && id) setConvId(id);
         }
       }
-      if (annullato) return;
-      caricatoRef.current = true;
-      if (salvati.length || cid) {
-        setMsgs(salvati);
-        setConvId(cid);
-      }
-      if (daMigrare && salvati.length) {
-        // Stesso `convId`, titolo nuovo: da qui in poi la conversazione ha un'identità e sopravvive
-        // alla prossima riscrittura del testo.
-        const { id } = await salvaConversazioneCasella(cid, chiave, salvati);
-        if (!annullato && id) setConvId(id);
-      }
+      if (!piano.recupera || annullato) return;
       // 3) 🩹 RECUPERO: risposta arrivata quando la pagina era chiusa → vive solo nei lavori
       //    (stesso gruppo_id, o stessa casella per i lavori nati prima del collegamento).
       //    Se il thread completo è più lungo di quello salvato, mostralo e RISALVALO in
       //    Conversazioni, così la lista dell'Assistente torna a dire la verità.
-      const completi = await recuperaThreadDaLavori(titolo, cid, salvati);
+      //    Le bolle sospese non fanno parte del confronto: erano l'avviso «tempo scaduto», e
+      //    lasciarle dentro farebbe sembrare il thread già lungo abbastanza.
+      const completi = await recuperaThreadDaLavori(titolo, cid, salvati.filter((m) => !m.pending));
+      recuperoFattoRef.current = true;
       if (!completi) return;
       if (!annullato) setMsgs((cur) => fondiMessaggi(cur, completi));
       const { id } = await salvaConversazioneCasella(cid, chiave, completi);

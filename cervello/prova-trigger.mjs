@@ -47,6 +47,7 @@ import { createHash } from "node:crypto";
 import { join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
 import { timbroOra } from "./ora-piacenza.mjs";
+import { NOME_MARCATORE_MISURA } from "./cancelli-commit.mjs"; // AR-345
 
 const JSON_MODE = process.argv.includes("--json");
 const arg = (nome, def) => {
@@ -212,11 +213,23 @@ async function main() {
   let daRimettere = false;
   let comandiCreata = false;
 
+  // AR-345 — IL MARCATORE CHE DICE «SPOSTATA, NON CANCELLATA».
+  // Per i ~35 minuti della misura `git status` mostra `D .claude/skills/cantiere/SKILL.md`, che è
+  // indistinguibile da una cancellazione voluta. Qualunque automatismo che dica «ci sono modifiche
+  // pendenti, committale» la cancellerebbe davvero — e lo stop-hook di sessione lo chiede a ogni
+  // turno. Il 29/7 la difesa è stata l'attenzione di chi lavorava, e l'attenzione non si ripete.
+  // Questo file è la traccia visibile; il `pre-commit` la legge e rifiuta il commit finché c'è.
+  const marcatore = join(AD_ROOT, ".git", NOME_MARCATORE_MISURA);
+
   // Rimettere a posto la skill vera conta più di qualunque risultato: vale a fine corsa, su
-  // eccezione e su Ctrl-C.
+  // eccezione e su Ctrl-C. Il marcatore si toglie QUI, insieme alla skill: se sparisse prima, il
+  // cancello smetterebbe di proteggere una cartella ancora spostata.
   const rimetti = () => {
     if (daRimettere && existsSync(spostata) && !existsSync(SKILL_DIR)) renameSync(spostata, SKILL_DIR);
     daRimettere = false;
+    try {
+      if (existsSync(marcatore)) unlinkSync(marcatore);
+    } catch {}
     try {
       if (existsSync(fileComando)) unlinkSync(fileComando);
       if (comandiCreata) rmSync(COMANDI, { recursive: true, force: true });
@@ -236,6 +249,9 @@ async function main() {
       comandiCreata = true;
     }
     writeFileSync(fileComando, `---\ndescription: |\n  ${descrizione}\n---\n\n# cantiere\n\n${descrizione}\n`);
+    // AR-345 — il marcatore nasce PRIMA dello spostamento: se nascesse dopo esisterebbe una
+    // finestra, corta ma vera, in cui la skill è già via e il cancello non lo sa ancora.
+    writeFileSync(marcatore, `${spostata}\n`);
     renameSync(SKILL_DIR, spostata);
     daRimettere = true;
 

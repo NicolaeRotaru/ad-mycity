@@ -19,9 +19,18 @@
 //
 // Exit: 0 = nessun esperimento in scadenza · 1 = almeno uno da misurare ORA (giro.sh può farne vincolo)
 
-import { existsSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
+import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+// AR-668 — la TERZA porta annidata. `sentinella-dati` lancia il tick, il tick lancia questo, e questo
+// riscriveva la memoria con un `writeFileSync` crudo: un freno sulla prima porta non arrivava mai
+// fin qui. Ora la scrittura passa dal writer atomico condiviso, che consulta `casa-memoria.mjs`.
+import { scriviJsonAtomico } from "./scrivi-json.mjs";
+// AR-150 — «misurato» era una parola che il motore si scriveva da solo. Nove esperimenti su quindici
+// la portavano mentre la loro stessa nota diceva «mai testata: il gate non è mai partito». Qui il
+// conto passa dallo stato EFFETTIVO, e i non-testati diventano un numero invece di sparire nei misurati.
+import { contaEsperimenti, esperimentiNonTestati, statoEffettivo } from "./esperimenti-regole.mjs";
 
 const PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json");
 const JSON_MODE = process.argv.includes("--json");
@@ -44,7 +53,7 @@ if (process.argv.includes("--apri")) {
   let dati = existsSync(PATH) ? JSON.parse(readFileSync(PATH, "utf8")) : {};
   if (!Array.isArray(dati.esperimenti)) dati.esperimenti = [];
   dati.esperimenti.push({ id, stato: "aperto", ambito, metrica, atteso, data_misura, aperto_il: nowPiacenza() });
-  writeFileSync(PATH, JSON.stringify(dati, null, 2) + "\n", "utf8");
+  scriviJsonAtomico(PATH, dati);
   console.log(`✅ Esperimento ${id} aperto: ${metrica} atteso ${atteso} entro ${data_misura}`);
   process.exit(0);
 }
@@ -90,18 +99,28 @@ async function main() {
   const inScadenza = aperti.filter((e) => e.data_misura && e.data_misura <= oggi);
 
   // (3) Bookkeeping per Pannello/sonda (contatori, non tocca gli stati: la MISURA resta al motore/AD).
+  // AR-150 — `misurati` era il conto di chi si dichiarava misurato. Ora è il conto di chi lo è
+  // davvero, e accanto compare `non_testati`: gli esperimenti scaduti col gate mai partito. Il numero
+  // che prima si nascondeva dentro «misurati» adesso ha un nome suo, e il Pannello lo può mostrare.
+  const conto = contaEsperimenti(esperimenti);
+  const nonTestati = esperimentiNonTestati(esperimenti);
   dati.meta_esperimenti = {
     aggiornato: quando,
     totale: esperimenti.length,
     aperti: aperti.length,
     in_scadenza: inScadenza.length,
-    misurati: esperimenti.filter((e) => e.stato === "misurato").length,
-    chiusi: esperimenti.filter((e) => e.stato === "chiuso").length,
+    misurati: conto.misurati,
+    chiusi: conto.chiusi,
+    non_testati: conto.non_testati,
+    non_testati_ids: nonTestati.map((e) => e.id).filter(Boolean),
+    resa_esperimenti: conto.resa,
+    _cosa_significa_non_testati:
+      "esperimenti che si dichiarano misurati/chiusi mentre la loro stessa nota dice che il gate non è mai partito: l'ipotesi non è stata respinta, non è mai stata provata (AR-150).",
   };
   dati.aggiornato = quando;
-  writeFileSync(PATH, JSON.stringify(dati, null, 2) + "\n", "utf8");
+  scriviJsonAtomico(PATH, dati);
 
-  const sintesi = `${aperti.length} aperti · ${inScadenza.length} in scadenza${datati ? ` · ${datati} datati d'ufficio (+${GIORNI_DEFAULT}g)` : ""}`;
+  const sintesi = `${aperti.length} aperti · ${inScadenza.length} in scadenza · ${conto.misurati} misurati davvero · ${conto.non_testati} mai testati${datati ? ` · ${datati} datati d'ufficio (+${GIORNI_DEFAULT}g)` : ""}`;
   await stampSegnale("esperimenti", inScadenza.length ? "warn" : "ok", `${sintesi} · ${quando}`);
 
   const out = {
@@ -124,6 +143,10 @@ async function main() {
     } else {
       console.log("   ✅ Tutti gli esperimenti aperti hanno una scadenza futura.");
     }
+    if (nonTestati.length) {
+      console.log(`   ⚠️  ${nonTestati.length} dichiarati misurati e MAI TESTATI (il gate non è mai partito): ${nonTestati.map((e) => e.id).join(", ")}`);
+      console.log(`      Non contano come prova che la macchina impara. Vanno riscritti stato "non-testato" o riaperti col gate legato all'esecuzione, non a un timer.`);
+    }
   }
   // AR-041: array vuoto = volano spento → exit 1 (giro.sh può farne vincolo hard al motore).
   // --solo-bookkeeping: chiamato dal tick leggero ogni ~10 min — solo contatori, niente gate.
@@ -131,8 +154,15 @@ async function main() {
   process.exit(inScadenza.length > 0 || aperti.length === 0 ? 1 : 0);
 }
 
-main().catch(async (e) => {
-  console.error("ERRORE esperimenti-check:", e.message || e);
-  await stampSegnale("esperimenti", "errore", `crash: ${(e.message || e).toString().slice(0, 180)}`);
-  process.exit(1);
-});
+// AR-680 — il programma parte solo se qualcuno LANCIA questo file, non se qualcuno lo importa.
+// Senza questa guardia, importare il modulo per leggerne una funzione ne esegue il gate: è la
+// malattia censita `programma-che-parte-importando`. La forma con `pathToFileURL` è quella robusta:
+// `file://${process.argv[1]}` si rompe sotto un percorso con uno spazio o un accento, e si rompe
+// uscendo 0 — cioè il comando non parte e sembra andato bene.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main().catch(async (e) => {
+    console.error("ERRORE esperimenti-check:", e.message || e);
+    await stampSegnale("esperimenti", "errore", `crash: ${(e.message || e).toString().slice(0, 180)}`);
+    process.exit(1);
+  });
+}

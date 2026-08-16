@@ -636,6 +636,7 @@ function writeConsegna(meta, dryRun) {
   const file = join(dir, `pr-${meta.cfg.key}-${meta.prNumber}.md`);
   const body = `# PR #${meta.prNumber} — ${meta.cfg.slug}
 
+## 🔧 Dettagli tecnici
 - **Repo:** ${meta.cfg.slug}
 - **Branch:** \`${meta.branch}\` → \`${meta.base}\`
 - **URL:** ${meta.prUrl}

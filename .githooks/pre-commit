@@ -10,13 +10,43 @@
 # strumento non è un cancello.
 #
 # Installazione: `git config core.hooksPath .githooks` (versionato, lo fa cervello/installa-hooks.sh
-# e il setup del VPS). Bypass di emergenza consapevole: `git commit --no-verify` (sconsigliato).
+# e il setup del VPS).
+#
+# AR-645 — NESSUN MESSAGGIO DI BLOCCO QUI DENTRO SPIEGA COME AGGIRARLO. Tutti e sette lo facevano,
+# compreso quello sui segreti reali, e nessuno contava chi lo usava: un commit forzato era
+# indistinguibile da uno controllato. Adesso ogni blocco chiude con $FORZARE_E_CONTATO, e il
+# passaggio (o il salto) di ogni commit finisce nel registro che tiene cervello/cancelli-commit.mjs.
+# Forzare resta possibile — deve esserlo, per le emergenze vere — ma non è più né insegnato né gratis.
 
 set -u
 
+# AR-645 — la chiusa di ogni blocco: dice che si può forzare, NON come, e dice che viene contato.
+FORZARE_E_CONTATO="Forzare questo cancello si può, ma viene CONTATO e finisce nel referto: se è un'emergenza vera, dillo a Nicola."
+
 # Radice del repo (funziona anche se il commit parte da una sottocartella).
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+# La casa DEGLI HOOK: `core.hooksPath` può puntare qui da un altro albero di lavoro (è così che il
+# test dei cancelli li fa girare su un repo finto). I guardiani che appartengono agli hook si
+# cercano accanto agli hook, non accanto al codice che si sta committando.
+HOOKS_HOME="$(cd "$(dirname "$0")" && pwd)"
+CANCELLI="$HOOKS_HOME/../cervello/cancelli-commit.mjs"
 SCAN="$ROOT/cervello/scan-segreti.mjs"
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 0) 🎯 SKILL SPOSTATA, NON CANCELLATA (AR-345) — mentre `prova-trigger.mjs` misura la porta
+#    d'ingresso, la skill `cantiere` sta fuori dall'albero e `git status` la mostra cancellata.
+#    Un automatismo che dice «ci sono modifiche, committale» la cancellerebbe per davvero, e il
+#    commit riuscirebbe: nessun cancello guardava se un commit sta cancellando una skill.
+#    Scatta SOLO col marcatore della misura presente: senza, una cancellazione è una scelta.
+if command -v node >/dev/null 2>&1 && [ -f "$CANCELLI" ]; then
+  _gitdir="$(git rev-parse --git-dir 2>/dev/null || echo .git)"
+  if ! git diff --cached --name-only --diff-filter=D \
+       | node "$CANCELLI" skill-cancellata --git-dir "$_gitdir" >&2; then
+    echo "" >&2
+    echo "$FORZARE_E_CONTATO" >&2
+    exit 1
+  fi
+fi
 
 # ─────────────────────────────────────────────────────────────────────────────
 # 1) 🩺 GATE DI SINTASSI SHELL — la causa radice del worker-outage del 2026-07-09 fu un worker.sh con
@@ -43,7 +73,7 @@ if command -v bash >/dev/null 2>&1; then
       git show ":$f" 2>/dev/null | bash -n 2>&1 | head -3 | sed 's/^/     /' >&2 || true
     done
     echo "" >&2
-    echo "Correggi la sintassi e ri-committa. Bypass consapevole (sconsigliato): git commit --no-verify." >&2
+    echo "Correggi la sintassi e ri-committa. $FORZARE_E_CONTATO" >&2
     exit 1
   fi
 fi
@@ -88,7 +118,7 @@ if command -v node >/dev/null 2>&1; then
       done
       rm -rf "$_js_tmpdir"
       echo "" >&2
-      echo "Correggi la sintassi e ri-committa. Bypass consapevole (sconsigliato): git commit --no-verify." >&2
+      echo "Correggi la sintassi e ri-committa. $FORZARE_E_CONTATO" >&2
       exit 1
     fi
     rm -rf "$_js_tmpdir"
@@ -129,7 +159,7 @@ if [ "$_ramo" = "main" ] && [ -f "$ROOT/cervello/gate-pubblicazione.sh" ]; then
     echo "Spostali su un ramo di lavoro e aprine una PR:" >&2
     echo "  git reset HEAD -- <file>   ·   git checkout -b fix/<nome>   ·   git add <file> && git commit" >&2
     echo "" >&2
-    echo "Bypass consapevole (sconsigliato, solo per un'emergenza vera): git commit --no-verify." >&2
+    echo "$FORZARE_E_CONTATO" >&2
     exit 1
   fi
 fi
@@ -140,11 +170,29 @@ fi
 #    rompere i commit su una macchina senza node.
 if ! command -v node >/dev/null 2>&1; then
   echo "⚠️  pre-commit: node non trovato — scan-segreti saltato (il giro resta come seconda rete)." >&2
-  exit 0
+  # ─────────────────────────────────────────────────────────────────────────────
+# 6) 🚪 IL SEGNO DEL PASSAGGIO (AR-645) — arrivare qui significa che tutti i cancelli sopra hanno
+#    detto sì. Il segno lo raccoglie `post-commit`, che è l'unico hook che gira ANCHE quando
+#    qualcuno salta la verifica: è così che una forzatura diventa una riga contata invece di un
+#    commit indistinguibile dagli altri.
+if command -v node >/dev/null 2>&1 && [ -f "$CANCELLI" ]; then
+  node "$CANCELLI" segna --git-dir "$(git rev-parse --git-dir 2>/dev/null || echo .git)" >/dev/null 2>&1 || true
+fi
+
+exit 0
 fi
 if [ ! -f "$SCAN" ]; then
   echo "⚠️  pre-commit: $SCAN mancante — scan-segreti saltato." >&2
-  exit 0
+  # ─────────────────────────────────────────────────────────────────────────────
+# 6) 🚪 IL SEGNO DEL PASSAGGIO (AR-645) — arrivare qui significa che tutti i cancelli sopra hanno
+#    detto sì. Il segno lo raccoglie `post-commit`, che è l'unico hook che gira ANCHE quando
+#    qualcuno salta la verifica: è così che una forzatura diventa una riga contata invece di un
+#    commit indistinguibile dagli altri.
+if command -v node >/dev/null 2>&1 && [ -f "$CANCELLI" ]; then
+  node "$CANCELLI" segna --git-dir "$(git rev-parse --git-dir 2>/dev/null || echo .git)" >/dev/null 2>&1 || true
+fi
+
+exit 0
 fi
 
 # Scansiona SOLO i file staged (git diff --cached): veloce e mirato al commit in corso.
@@ -155,7 +203,7 @@ if ! node "$SCAN" --staged >/dev/null 2>&1; then
   node "$SCAN" --staged 2>&1 | tail -12 >&2 || true
   echo "" >&2
   echo "→ Rimuovi il valore dal file (usa un *.example senza valori reali), RUOTA il segreto se era" >&2
-  echo "  reale, poi ri-committa. Bypass consapevole (sconsigliato): git commit --no-verify." >&2
+  echo "  reale, poi ri-committa. $FORZARE_E_CONTATO" >&2
   exit 1
 fi
 
@@ -182,7 +230,7 @@ if git diff --cached --name-only --diff-filter=ACM | grep -q "auto-coscienza/can
       node "$GATE" --solo-prove 2>&1 | sed -n '/── Le prove ──/,$p' | head -20 >&2 || true
       echo "" >&2
       echo "→ Ogni difetto vuole una prova che diventi ROSSA se QUEL difetto non è riparato." >&2
-      echo "  Standard completo: .claude/skills/cantiere/ · Bypass (sconsigliato): git commit --no-verify." >&2
+      echo "  Standard completo: .claude/skills/cantiere/ · $FORZARE_E_CONTATO" >&2
       exit 1
     fi
   fi
@@ -216,7 +264,7 @@ if command -v node >/dev/null 2>&1 && [ -f "$ROOT/cervello/sorvegliante.mjs" ]; 
     printf '%s\n' "$_sv" | grep -A3 "^❌" | head -24 >&2
     echo "" >&2
     echo "→ Non è debito ereditato: è il delta di questo commit. Curalo, o dichiaralo esente col PERCHÉ" >&2
-    echo "  (cervello/malattie.json · cervello/mutanti.json). Bypass consapevole: git commit --no-verify." >&2
+    echo "  (cervello/malattie.json · cervello/mutanti.json). $FORZARE_E_CONTATO" >&2
     exit 1
   elif [ "$_sv_code" = "2" ]; then
     echo "⚪ sorvegliante: non ho potuto misurare il delta (cieco, non verde)." >&2
@@ -243,11 +291,20 @@ if command -v node >/dev/null 2>&1 && [ -f "$ROOT/cervello/forma-json.mjs" ]; th
     echo "" >&2
     echo "→ Il contenuto può essere giusto: è la FORMA che rende la PR illeggibile e il conflitto" >&2
     echo "  totale per chiunque altro tocchi quel file. Riscrivilo con l'indentazione che aveva:" >&2
-    echo "  JSON.stringify(dati, null, <gli spazi di origin/main>). Bypass: git commit --no-verify." >&2
+    echo "  JSON.stringify(dati, null, <gli spazi di origin/main>). $FORZARE_E_CONTATO" >&2
     exit 1
   elif [ "$_fj_code" = "2" ]; then
     echo "⚪ forma dei JSON: non ho potuto misurare (manca origin/main). Cieco non è verde." >&2
   fi
+fi
+
+# ─────────────────────────────────────────────────────────────────────────────
+# 6) 🚪 IL SEGNO DEL PASSAGGIO (AR-645) — arrivare qui significa che tutti i cancelli sopra hanno
+#    detto sì. Il segno lo raccoglie `post-commit`, che è l'unico hook che gira ANCHE quando
+#    qualcuno salta la verifica: è così che una forzatura diventa una riga contata invece di un
+#    commit indistinguibile dagli altri.
+if command -v node >/dev/null 2>&1 && [ -f "$CANCELLI" ]; then
+  node "$CANCELLI" segna --git-dir "$(git rev-parse --git-dir 2>/dev/null || echo .git)" >/dev/null 2>&1 || true
 fi
 
 exit 0

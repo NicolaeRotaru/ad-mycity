@@ -383,7 +383,13 @@ export function testiIlleggibili(testi = [], noteAGlossario = null) {
     // Il debito vecchio resta debito (misurato, e si riscrive a mano, un testo per volta). Quello che
     // qui NON deve passare è il debito NUOVO: un file che esce peggiore di come è entrato.
     // Un file nuovo entra da zero, quindi ogni suo problema è nuovo: lì la soglia è 0, come deve.
-    const prima = t.contenutoPrima == null ? 0 : misura(t.contenutoPrima, { noteAGlossario }).problemi.length;
+    // AR-755 — il livello «già pubblicato» è il peggiore fra inizio turno e main: dopo una fusione
+    // le card nuove del worker sono entrate nel file senza che le abbia scritte io, e contarle come
+    // mie vorrebbe dire chiedermi di riscrivere il testo di un altro per consegnare una riga.
+    const contaPunti = (testo) => (testo == null ? null : misura(testo, { noteAGlossario }).problemi.length);
+    const aInizioTurno = contaPunti(t.contenutoPrima);
+    const suMain = contaPunti(t.contenutoSuMain);
+    const prima = Math.max(aInizioTurno ?? 0, suMain ?? 0);
     if (m.problemi.length <= prima) continue;
 
     fuori.push({
@@ -929,12 +935,26 @@ function testoDiBase(percorso, da = null) {
  * solo ciò che questo lotto consegna DI SUO — un file che su main non c'è, o che rispetto a main
  * è cambiato, torna a essere misurato per intero.
  *
+ * ⚠️ AR-755 — «identico a main» era un confine troppo stretto, e il 16/8 l'ha mostrato: la coda
+ * delle azioni differiva da main per UNA riga (una card rinumerata, per togliere un numero doppio) e
+ * l'intero file — ventunmila parole scritte dal worker — è tornato a essere mio. Il verdetto diceva
+ * «questo lavoro gli ha aggiunto 33 punti difficili»: quei 33 li aveva scritti il worker su main,
+ * misurati lì valgono identici. Un cancello che chiede di riscrivere il testo di un altro per poter
+ * consegnare una riga cambiata è un cancello che si impara ad aggirare.
+ *
+ * Perciò il termine di paragone non è solo «com'era a inizio turno», ma **il peggiore fra inizio
+ * turno e main**: entrambi sono testo già pubblicato, e nessuno dei due l'ha scritto questo lavoro.
+ * Resta un buco, e lo dichiaro invece di tacerlo: se un ramo avesse MIGLIORATO un file sotto il
+ * livello di main, potrebbe poi riportarlo a quel livello senza che qui scatti niente. Chiuderlo
+ * richiede confrontare le frasi una per una invece dei totali — è il passo dopo, non questo.
+ *
  * I tre lettori si passano da fuori perché la regola si possa provare senza un repo git.
  */
 export function testoDaMisurare(file, { ora, pubblicato, prima }) {
   const contenuto = ora();
-  if (contenuto === pubblicato()) return null;
-  return { file, contenuto, contenutoPrima: prima() };
+  const suMain = pubblicato();
+  if (contenuto === suMain) return null;
+  return { file, contenuto, contenutoPrima: prima(), contenutoSuMain: suMain };
 }
 
 /**

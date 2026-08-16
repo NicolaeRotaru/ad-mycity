@@ -14,9 +14,33 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { cardFirmate, coperturaMisura, resa } from "./conto-motore.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const FILE = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/costo-ai.json");
+const CODA = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
+const FATTI = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/registro-fatti.json");
+const FINESTRA_RESA_GIORNI = Number(process.env.RESA_FINESTRA_GIORNI || 30);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-202 — IL COSTO DELL'ABBONAMENTO, CON LA SUA FONTE
+// ─────────────────────────────────────────────────────────────────────────────
+// Nessun numero orfano: la cifra viene dal registro dei fatti (l'unica casa aggiornata, AR-102),
+// dal fatto `finanza.costi_infrastruttura` che Nicola ha confermato il 21/7 — «Claude 200». Se
+// quel fatto non si legge, la resa resta CIECA: meglio dichiararlo che inventare un denominatore.
+function costoAiMensile() {
+  const forzato = Number(process.env.MACCHINA_AI_EUR_MESE);
+  if (Number.isFinite(forzato) && forzato > 0) return { eur: forzato, fonte: "env MACCHINA_AI_EUR_MESE" };
+  try {
+    const reg = JSON.parse(readFileSync(FATTI, "utf8"));
+    const f = (reg.fatti || []).find((x) => x.id === "finanza.costi_infrastruttura");
+    const m = String(f?.valore || "").match(/Claude\s+(\d+)/i);
+    if (m) return { eur: Number(m[1]), fonte: `registro-fatti: finanza.costi_infrastruttura (${f.fonte || "senza fonte dichiarata"})` };
+  } catch {
+    /* registro illeggibile: sotto diventa un cieco dichiarato */
+  }
+  return { eur: null, fonte: null };
+}
 
 function aggrega(voci, chiave) {
   const map = {};
@@ -59,10 +83,36 @@ function main() {
   const tokenMostrati = tokGate != null ? tokGate : oggi.token_totali;
   const notaStima = tokGate != null && oggi.token_totali === 0 ? " (stimati)" : "";
 
+  // ── AR-203 — quanto di questo conto è MISURATO e quanto è il pavimento ────────────────────────
+  // «245.000 token oggi» non significa niente se sono quattro pavimenti e due cronometri. Qui il
+  // conto dichiara la propria qualità, e le STIME GEMELLE (due corsie diverse con lo stesso identico
+  // numero) vengono nominate una per una: è il sintomo del pavimento, reso visibile.
+  const misura = coperturaMisura(voci);
+
+  // ── AR-202 — il valore, contato ───────────────────────────────────────────────────────────────
+  // Il risultato di un giro non è un'opinione: è una card che Nicola ha firmato, con la data della
+  // chiusura, scritta in chiaro nella coda da mesi. Mancava solo qualcuno che la contasse.
+  const costo = costoAiMensile();
+  let firmate = [];
+  try {
+    firmate = cardFirmate(readFileSync(CODA, "utf8"));
+  } catch {
+    firmate = [];
+  }
+  const laResa = resa({
+    risultati: firmate,
+    oggi: quando.slice(0, 10),
+    finestraGiorni: FINESTRA_RESA_GIORNI,
+    burnMensileEur: costo.eur,
+    runs: oggi.runs,
+  });
+
   const out = {
     ok: !sopraSoglia,
     quando,
     fonte: "auto-coscienza/costo-ai.json (consumo reale dei giri)",
+    qualita_misura: misura, // AR-203
+    resa: { ...laResa, costo_mensile_eur: costo.eur, fonte_costo: costo.fonte }, // AR-202
     oggi: {
       data: oggi.data,
       runs: oggi.runs,
@@ -93,7 +143,19 @@ function main() {
   // fidarsi di tutte le altre.
   console.log(`   Oggi (${oggi.data}): ${oggi.runs} run · ${tokenMostrati} token${notaStima} · ${oggi.durata_sec_totale}s`);
   if (pctSoglia != null) console.log(`   Budget giornaliero: ${tokenMostrati}/${soglia} token = ${pctSoglia}% della soglia`);
-  console.log(`   Copertura misura token: ${coperturaToken}% dei run (il resto misurato solo a durata)\n`);
+  // AR-203: questa riga diceva «copertura misura 100%» contando i run che hanno UN NUMERO — non
+  // quelli il cui numero è una misura. Con tutte le voci a `--stima` faceva 100% ed era falso.
+  console.log(`   Run con un numero accanto: ${coperturaToken}% (gli altri hanno solo la durata)\n`);
+  // AR-203 — la qualità del conto, detta prima dei numeri che ci poggiano sopra.
+  console.log(`   Di questi run: ${misura.misurati} col numero VERO della CLI · ${misura.stimati} stimati · ${misura.al_pavimento} fermi al pavimento (${50000} token secchi)`);
+  if (misura.gemelle.length) {
+    console.log(`   ⚠️  ${misura.gemelle.length} numero/i identico/i su corsie DIVERSE — quel numero non sta misurando il lavoro, sta misurando il pavimento:`);
+    for (const g of misura.gemelle.slice(0, 4)) console.log(`      • ${g.token} token uguali per: ${g.tipi.join(", ")} (${g.quante} run)${g.e_il_pavimento ? " ← è esattamente il pavimento" : ""}`);
+  }
+  // AR-202 — e finalmente il denominatore: quanto rende.
+  console.log(`\n   💶 Resa (ultimi ${laResa.finestra_giorni} giorni): ${laResa.motivo}`);
+  if (costo.fonte) console.log(`      fonte del costo: ${costo.fonte}`);
+  console.log("");
   console.log(`   Consumo per organo (tipo di lavoro), dal più pesante:`);
   for (const t of perTipo) console.log(`     • ${t.voce.padEnd(18)} ${t.runs} run · ${t.token} token · ${t.durata_sec}s`);
   console.log(`   Consumo per modello:`);

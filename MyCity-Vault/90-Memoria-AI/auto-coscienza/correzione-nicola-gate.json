@@ -1,150 +1,6 @@
 {
  "storia": [
   {
-   "quando": "2026-08-13 23:51",
-   "totale_taggate": 311,
-   "senza_gate": 248,
-   "con_gate": 63,
-   "soglia": 20,
-   "peggiorato_dal_giro_precedente": false,
-   "sano": false,
-   "esempi_senza_gate": [
-    "L-2026-0723-448",
-    "L-2026-0723-446",
-    "L-2026-0721-443",
-    "L-2026-0721-441",
-    "L-2026-0721-440"
-   ]
-  },
-  {
-   "quando": "2026-08-14 04:22",
-   "totale_taggate": 311,
-   "senza_gate": 248,
-   "con_gate": 63,
-   "soglia": 20,
-   "peggiorato_dal_giro_precedente": false,
-   "sano": false,
-   "esempi_senza_gate": [
-    "L-2026-0723-448",
-    "L-2026-0723-446",
-    "L-2026-0721-443",
-    "L-2026-0721-441",
-    "L-2026-0721-440"
-   ]
-  },
-  {
-   "quando": "2026-08-14 06:22",
-   "totale_taggate": 311,
-   "senza_gate": 248,
-   "con_gate": 63,
-   "soglia": 20,
-   "peggiorato_dal_giro_precedente": false,
-   "sano": false,
-   "esempi_senza_gate": [
-    "L-2026-0723-448",
-    "L-2026-0723-446",
-    "L-2026-0721-443",
-    "L-2026-0721-441",
-    "L-2026-0721-440"
-   ]
-  },
-  {
-   "quando": "2026-08-14 08:22",
-   "totale_taggate": 311,
-   "senza_gate": 248,
-   "con_gate": 63,
-   "soglia": 20,
-   "peggiorato_dal_giro_precedente": false,
-   "sano": false,
-   "esempi_senza_gate": [
-    "L-2026-0723-448",
-    "L-2026-0723-446",
-    "L-2026-0721-443",
-    "L-2026-0721-441",
-    "L-2026-0721-440"
-   ]
-  },
-  {
-   "quando": "2026-08-14 09:16",
-   "totale_taggate": 311,
-   "senza_gate": 248,
-   "con_gate": 63,
-   "soglia": 20,
-   "peggiorato_dal_giro_precedente": false,
-   "sano": false,
-   "esempi_senza_gate": [
-    "L-2026-0723-448",
-    "L-2026-0723-446",
-    "L-2026-0721-443",
-    "L-2026-0721-441",
-    "L-2026-0721-440"
-   ]
-  },
-  {
-   "quando": "2026-08-14 11:57",
-   "totale_taggate": 311,
-   "senza_gate": 248,
-   "con_gate": 63,
-   "soglia": 20,
-   "peggiorato_dal_giro_precedente": false,
-   "sano": false,
-   "esempi_senza_gate": [
-    "L-2026-0723-448",
-    "L-2026-0723-446",
-    "L-2026-0721-443",
-    "L-2026-0721-441",
-    "L-2026-0721-440"
-   ]
-  },
-  {
-   "quando": "2026-08-14 19:53",
-   "totale_taggate": 311,
-   "senza_gate": 248,
-   "con_gate": 63,
-   "soglia": 20,
-   "peggiorato_dal_giro_precedente": false,
-   "sano": false,
-   "esempi_senza_gate": [
-    "L-2026-0723-448",
-    "L-2026-0723-446",
-    "L-2026-0721-443",
-    "L-2026-0721-441",
-    "L-2026-0721-440"
-   ]
-  },
-  {
-   "quando": "2026-08-14 22:24",
-   "totale_taggate": 311,
-   "senza_gate": 246,
-   "con_gate": 65,
-   "soglia": 20,
-   "peggiorato_dal_giro_precedente": false,
-   "sano": false,
-   "esempi_senza_gate": [
-    "L-2026-0723-448",
-    "L-2026-0723-446",
-    "L-2026-0721-441",
-    "L-2026-0721-439",
-    "L-2026-0721-438"
-   ]
-  },
-  {
-   "quando": "2026-08-14 22:37",
-   "totale_taggate": 311,
-   "senza_gate": 246,
-   "con_gate": 65,
-   "soglia": 20,
-   "peggiorato_dal_giro_precedente": false,
-   "sano": false,
-   "esempi_senza_gate": [
-    "L-2026-0723-448",
-    "L-2026-0723-446",
-    "L-2026-0721-441",
-    "L-2026-0721-439",
-    "L-2026-0721-438"
-   ]
-  },
-  {
    "quando": "2026-08-15 00:32",
    "totale_taggate": 311,
    "senza_gate": 246,
@@ -306,6 +162,150 @@
   },
   {
    "quando": "2026-08-15 11:39",
+   "totale_taggate": 311,
+   "senza_gate": 246,
+   "con_gate": 65,
+   "soglia": 20,
+   "peggiorato_dal_giro_precedente": false,
+   "sano": false,
+   "esempi_senza_gate": [
+    "L-2026-0723-448",
+    "L-2026-0723-446",
+    "L-2026-0721-441",
+    "L-2026-0721-439",
+    "L-2026-0721-438"
+   ]
+  },
+  {
+   "quando": "2026-08-16 07:32",
+   "totale_taggate": 311,
+   "senza_gate": 246,
+   "con_gate": 65,
+   "soglia": 20,
+   "peggiorato_dal_giro_precedente": false,
+   "sano": false,
+   "esempi_senza_gate": [
+    "L-2026-0723-448",
+    "L-2026-0723-446",
+    "L-2026-0721-441",
+    "L-2026-0721-439",
+    "L-2026-0721-438"
+   ]
+  },
+  {
+   "quando": "2026-08-16 07:44",
+   "totale_taggate": 311,
+   "senza_gate": 246,
+   "con_gate": 65,
+   "soglia": 20,
+   "peggiorato_dal_giro_precedente": false,
+   "sano": false,
+   "esempi_senza_gate": [
+    "L-2026-0723-448",
+    "L-2026-0723-446",
+    "L-2026-0721-441",
+    "L-2026-0721-439",
+    "L-2026-0721-438"
+   ]
+  },
+  {
+   "quando": "2026-08-16 08:47",
+   "totale_taggate": 311,
+   "senza_gate": 246,
+   "con_gate": 65,
+   "soglia": 20,
+   "peggiorato_dal_giro_precedente": false,
+   "sano": false,
+   "esempi_senza_gate": [
+    "L-2026-0723-448",
+    "L-2026-0723-446",
+    "L-2026-0721-441",
+    "L-2026-0721-439",
+    "L-2026-0721-438"
+   ]
+  },
+  {
+   "quando": "2026-08-16 10:24",
+   "totale_taggate": 311,
+   "senza_gate": 246,
+   "con_gate": 65,
+   "soglia": 20,
+   "peggiorato_dal_giro_precedente": false,
+   "sano": false,
+   "esempi_senza_gate": [
+    "L-2026-0723-448",
+    "L-2026-0723-446",
+    "L-2026-0721-441",
+    "L-2026-0721-439",
+    "L-2026-0721-438"
+   ]
+  },
+  {
+   "quando": "2026-08-16 10:43",
+   "totale_taggate": 311,
+   "senza_gate": 246,
+   "con_gate": 65,
+   "soglia": 20,
+   "peggiorato_dal_giro_precedente": false,
+   "sano": false,
+   "esempi_senza_gate": [
+    "L-2026-0723-448",
+    "L-2026-0723-446",
+    "L-2026-0721-441",
+    "L-2026-0721-439",
+    "L-2026-0721-438"
+   ]
+  },
+  {
+   "quando": "2026-08-16 11:05",
+   "totale_taggate": 311,
+   "senza_gate": 246,
+   "con_gate": 65,
+   "soglia": 20,
+   "peggiorato_dal_giro_precedente": false,
+   "sano": false,
+   "esempi_senza_gate": [
+    "L-2026-0723-448",
+    "L-2026-0723-446",
+    "L-2026-0721-441",
+    "L-2026-0721-439",
+    "L-2026-0721-438"
+   ]
+  },
+  {
+   "quando": "2026-08-16 11:30",
+   "totale_taggate": 311,
+   "senza_gate": 246,
+   "con_gate": 65,
+   "soglia": 20,
+   "peggiorato_dal_giro_precedente": false,
+   "sano": false,
+   "esempi_senza_gate": [
+    "L-2026-0723-448",
+    "L-2026-0723-446",
+    "L-2026-0721-441",
+    "L-2026-0721-439",
+    "L-2026-0721-438"
+   ]
+  },
+  {
+   "quando": "2026-08-16 11:41",
+   "totale_taggate": 311,
+   "senza_gate": 246,
+   "con_gate": 65,
+   "soglia": 20,
+   "peggiorato_dal_giro_precedente": false,
+   "sano": false,
+   "esempi_senza_gate": [
+    "L-2026-0723-448",
+    "L-2026-0723-446",
+    "L-2026-0721-441",
+    "L-2026-0721-439",
+    "L-2026-0721-438"
+   ]
+  },
+  {
+   "quando": "2026-08-16 11:47",
    "totale_taggate": 311,
    "senza_gate": 246,
    "con_gate": 65,

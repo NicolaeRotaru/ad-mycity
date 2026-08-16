@@ -1,179 +1,187 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-08-15 11:39",
+  "aggiornato": "2026-08-16 12:10",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
-    "data": "2026-08-15",
+    "data": "2026-08-16",
     "runs": 20,
     "token_totali": 0,
-    "durata_sec_totale": 10379,
+    "durata_sec_totale": 10786,
     "voci": [
       {
-        "quando": "2026-08-15 00:29",
+        "quando": "2026-08-16 07:09",
         "tipo": "worker-analisi",
-        "durata_sec": 874,
-        "token": 75000,
+        "durata_sec": 902,
+        "token": 80000,
         "modello": "claude",
         "stima_grezza": true
       },
       {
-        "quando": "2026-08-15 00:46",
+        "quando": "2026-08-16 07:12",
+        "tipo": "worker-analisi",
+        "durata_sec": 61,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 07:20",
+        "tipo": "worker-analisi",
+        "durata_sec": 505,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 07:28",
+        "tipo": "worker-analisi",
+        "durata_sec": 469,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 07:46",
         "tipo": "giro",
-        "durata_sec": 824,
+        "durata_sec": 841,
         "token": 60000,
         "modello": "claude",
         "stima_grezza": true
       },
       {
-        "quando": "2026-08-15 00:48",
+        "quando": "2026-08-16 07:48",
         "tipo": "worker-analisi",
-        "durata_sec": 63,
+        "durata_sec": 112,
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
       },
       {
-        "quando": "2026-08-15 01:34",
+        "quando": "2026-08-16 07:50",
         "tipo": "worker-analisi",
-        "durata_sec": 337,
+        "durata_sec": 129,
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
       },
       {
-        "quando": "2026-08-15 04:34",
+        "quando": "2026-08-16 07:51",
         "tipo": "worker-analisi",
-        "durata_sec": 422,
+        "durata_sec": 54,
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
       },
       {
-        "quando": "2026-08-15 06:04",
-        "tipo": "ritmo-mattino",
-        "durata_sec": 281,
+        "quando": "2026-08-16 07:56",
+        "tipo": "worker-analisi",
+        "durata_sec": 246,
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
       },
       {
-        "quando": "2026-08-15 06:30",
-        "tipo": "giro",
-        "durata_sec": 441,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-15 06:40",
-        "tipo": "monitora",
-        "durata_sec": 630,
+        "quando": "2026-08-16 08:24",
+        "tipo": "worker-analisi",
+        "durata_sec": 605,
         "token": 55000,
         "modello": "claude",
         "stima_grezza": true
       },
       {
-        "quando": "2026-08-15 09:02",
-        "tipo": "worker-analisi",
-        "durata_sec": 902,
-        "token": 80000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-15 09:20",
-        "tipo": "worker-analisi",
-        "durata_sec": 902,
-        "token": 80000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-15 09:21",
-        "tipo": "worker-analisi",
-        "durata_sec": 48,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-15 09:39",
-        "tipo": "worker-analisi",
-        "durata_sec": 815,
-        "token": 70000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-15 09:55",
-        "tipo": "worker-analisi",
-        "durata_sec": 902,
-        "token": 80000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-15 10:10",
-        "tipo": "worker-analisi",
-        "durata_sec": 695,
-        "token": 60000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-15 10:45",
+        "quando": "2026-08-16 08:49",
         "tipo": "giro",
-        "durata_sec": 1308,
+        "durata_sec": 1537,
+        "token": 120000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 10:45",
+        "tipo": "giro",
+        "durata_sec": 1282,
         "token": 100000,
         "modello": "claude",
         "stima_grezza": true
       },
       {
-        "quando": "2026-08-15 11:17",
-        "tipo": "worker-playbook",
-        "durata_sec": 46,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-15 11:19",
-        "tipo": "worker-playbook",
-        "durata_sec": 117,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-15 11:29",
+        "quando": "2026-08-16 11:32",
         "tipo": "giro",
-        "durata_sec": 428,
+        "durata_sec": 1653,
+        "token": 130000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 11:34",
+        "tipo": "worker-playbook",
+        "durata_sec": 89,
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
       },
       {
-        "quando": "2026-08-15 11:33",
+        "quando": "2026-08-16 11:37",
         "tipo": "worker-playbook",
-        "durata_sec": 202,
+        "durata_sec": 189,
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
       },
       {
-        "quando": "2026-08-15 11:35",
+        "quando": "2026-08-16 11:49",
+        "tipo": "giro",
+        "durata_sec": 482,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 11:57",
         "tipo": "worker-playbook",
-        "durata_sec": 142,
+        "durata_sec": 465,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 12:06",
+        "tipo": "worker-playbook",
+        "durata_sec": 558,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 12:08",
+        "tipo": "ritmo-mezzogiorno",
+        "durata_sec": 494,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-16 12:10",
+        "tipo": "worker-analisi",
+        "durata_sec": 113,
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
       }
     ],
-    "token_per_gate": 1210000,
-    "token_fonte": "misura",
-    "token_stimati": 1210000
+    "token_stimati": 1245000,
+    "token_per_gate": 1245000,
+    "token_fonte": "misura"
   },
   "storico_giorni": [
+    {
+      "data": "2026-08-15",
+      "runs": 20,
+      "token_totali": 0,
+      "token_stimati": 1210000,
+      "token_per_gate": 1210000,
+      "durata_sec_totale": 10379
+    },
     {
       "data": "2026-08-14",
       "runs": 13,
@@ -426,129 +434,169 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 925000,
-    "runs_sessione": 15,
+    "token_sessione_rolling": 1245000,
+    "runs_sessione": 20,
     "finestra_min": 360,
     "voci_illeggibili": 0,
-    "aggiornato": "2026-08-15 11:39"
+    "aggiornato": "2026-08-16 12:10"
   },
   "voci_recenti": [
     {
-      "quando": "2026-08-15 06:04",
-      "tipo": "ritmo-mattino",
-      "durata_sec": 281,
+      "quando": "2026-08-16 07:09",
+      "tipo": "worker-analisi",
+      "durata_sec": 902,
+      "token": 80000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 07:12",
+      "tipo": "worker-analisi",
+      "durata_sec": 61,
       "token": 50000,
       "modello": "claude",
       "stima_grezza": true
     },
     {
-      "quando": "2026-08-15 06:30",
+      "quando": "2026-08-16 07:20",
+      "tipo": "worker-analisi",
+      "durata_sec": 505,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 07:28",
+      "tipo": "worker-analisi",
+      "durata_sec": 469,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 07:46",
       "tipo": "giro",
-      "durata_sec": 441,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-15 06:40",
-      "tipo": "monitora",
-      "durata_sec": 630,
-      "token": 55000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-15 09:02",
-      "tipo": "worker-analisi",
-      "durata_sec": 902,
-      "token": 80000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-15 09:20",
-      "tipo": "worker-analisi",
-      "durata_sec": 902,
-      "token": 80000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-15 09:21",
-      "tipo": "worker-analisi",
-      "durata_sec": 48,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-15 09:39",
-      "tipo": "worker-analisi",
-      "durata_sec": 815,
-      "token": 70000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-15 09:55",
-      "tipo": "worker-analisi",
-      "durata_sec": 902,
-      "token": 80000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-15 10:10",
-      "tipo": "worker-analisi",
-      "durata_sec": 695,
+      "durata_sec": 841,
       "token": 60000,
       "modello": "claude",
       "stima_grezza": true
     },
     {
-      "quando": "2026-08-15 10:45",
+      "quando": "2026-08-16 07:48",
+      "tipo": "worker-analisi",
+      "durata_sec": 112,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 07:50",
+      "tipo": "worker-analisi",
+      "durata_sec": 129,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 07:51",
+      "tipo": "worker-analisi",
+      "durata_sec": 54,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 07:56",
+      "tipo": "worker-analisi",
+      "durata_sec": 246,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 08:24",
+      "tipo": "worker-analisi",
+      "durata_sec": 605,
+      "token": 55000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 08:49",
       "tipo": "giro",
-      "durata_sec": 1308,
+      "durata_sec": 1537,
+      "token": 120000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 10:45",
+      "tipo": "giro",
+      "durata_sec": 1282,
       "token": 100000,
       "modello": "claude",
       "stima_grezza": true
     },
     {
-      "quando": "2026-08-15 11:17",
-      "tipo": "worker-playbook",
-      "durata_sec": 46,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-15 11:19",
-      "tipo": "worker-playbook",
-      "durata_sec": 117,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-15 11:29",
+      "quando": "2026-08-16 11:32",
       "tipo": "giro",
-      "durata_sec": 428,
+      "durata_sec": 1653,
+      "token": 130000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 11:34",
+      "tipo": "worker-playbook",
+      "durata_sec": 89,
       "token": 50000,
       "modello": "claude",
       "stima_grezza": true
     },
     {
-      "quando": "2026-08-15 11:33",
+      "quando": "2026-08-16 11:37",
       "tipo": "worker-playbook",
-      "durata_sec": 202,
+      "durata_sec": 189,
       "token": 50000,
       "modello": "claude",
       "stima_grezza": true
     },
     {
-      "quando": "2026-08-15 11:35",
+      "quando": "2026-08-16 11:49",
+      "tipo": "giro",
+      "durata_sec": 482,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 11:57",
       "tipo": "worker-playbook",
-      "durata_sec": 142,
+      "durata_sec": 465,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 12:06",
+      "tipo": "worker-playbook",
+      "durata_sec": 558,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 12:08",
+      "tipo": "ritmo-mezzogiorno",
+      "durata_sec": 494,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-16 12:10",
+      "tipo": "worker-analisi",
+      "durata_sec": 113,
       "token": 50000,
       "modello": "claude",
       "stima_grezza": true

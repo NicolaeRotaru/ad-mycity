@@ -160,6 +160,80 @@ export function decidiFrenoCosto({ valore = null, fonte = FONTI.ASSENTE, soglia 
   return { azione: "lascia", motivo: `${v} token sotto la soglia di ${s}` };
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-442 — IL CONTATORE SI AZZERA A MEZZANOTTE, LA SPESA NO.
+// ─────────────────────────────────────────────────────────────────────────────
+// Il lotto 34 aveva già tolto la bugia («cieco» invece di «lascia» su un contatore di ieri) e il
+// lotto 40 aveva costruito il numero giusto — `sessione_rolling.token_sessione_rolling`, una coda
+// continua potata dalla finestra e non dal calendario. Restava il pezzo che chiude il titolo del
+// difetto: **chi frena guardava ancora il solo giorno solare.** Alle 00:10 la macchina poteva aver
+// bruciato l'intera quota fra le 18 e le 24, il conto del giorno ripartiva da 1.000 e il freno
+// diceva «lascia». Il numero c'era nel file e non lo guardava nessuno.
+//
+// Due tetti distinti, e vince il più severo: il giorno e la finestra scorrevole. Basta che UNO dei
+// due sia superato perché si freni — è la (b) del fix proposto sulla scheda.
+
+/**
+ * Il numero della finestra scorrevole, con la sua provenienza.
+ *
+ * La stessa disciplina del contatore del giorno (AR-424): una misura che non si aggiorna da più
+ * della finestra stessa non è una spesa bassa, è una misura **scaduta**. Senza questa riga il freno
+ * di sessione si spegnerebbe da solo il giorno in cui costo-ai smettesse di girare — cioè
+ * esattamente quando serve.
+ *
+ * @param {object} sessione il blocco `sessione_rolling` di costo-ai.json
+ * @param {number} adessoMs l'istante, passato da fuori: la funzione resta pura
+ * @param {(t:string)=>number} msDa come si legge un timbro «AAAA-MM-GG HH:MM» (iniettato)
+ */
+export function tokenSessionePerGate(sessione, adessoMs, msDa) {
+  const letto = leggiContatore(sessione, "token_sessione_rolling");
+  if (letto.fonte === FONTI.ASSENTE) {
+    return { valore: null, fonte: FONTI.ASSENTE, motivo: "nessun conto della finestra scorrevole nel file" };
+  }
+  const finestraMin = Number(sessione?.finestra_min);
+  const t = typeof msDa === "function" ? msDa(sessione?.aggiornato) : NaN;
+  if (Number.isFinite(adessoMs) && Number.isFinite(finestraMin) && finestraMin > 0) {
+    if (!Number.isFinite(t)) {
+      return { valore: null, fonte: FONTI.ASSENTE, motivo: "la finestra scorrevole non dice di quando è" };
+    }
+    if (adessoMs - t > finestraMin * 60 * 1000) {
+      return {
+        valore: null,
+        fonte: FONTI.SCADUTA,
+        motivo: `il conto della finestra è fermo a ${sessione?.aggiornato}, più vecchio della finestra stessa (${finestraMin} min)`,
+      };
+    }
+  }
+  return { valore: letto.valore, fonte: FONTI.MISURA, motivo: "" };
+}
+
+/**
+ * Il freno sui costi con DUE tetti: il giorno solare e la finestra scorrevole.
+ * Vince il più severo. Cieco solo se non vede né l'uno né l'altro — se una gamba vede e l'altra no,
+ * si decide con quella che vede e la cecità dell'altra si DICHIARA, non si tace.
+ *
+ * @returns {{azione:"frena"|"lascia"|"cieco", motivo:string, giorno:object, sessione:object}}
+ */
+export function decidiFrenoCostoDoppio({ giorno = {}, sessione = {} } = {}) {
+  const g = decidiFrenoCosto(giorno);
+  const s = decidiFrenoCosto(sessione);
+  const eti = { giorno: "nel giorno", sessione: "nelle ultime ore" };
+  const dettaglio = { giorno: g, sessione: s };
+  if (g.azione === "frena" || s.azione === "frena") {
+    const quali = [
+      g.azione === "frena" ? `${eti.giorno}: ${g.motivo}` : null,
+      s.azione === "frena" ? `${eti.sessione}: ${s.motivo}` : null,
+    ].filter(Boolean);
+    return { azione: "frena", motivo: quali.join(" · "), ...dettaglio };
+  }
+  if (g.azione === "cieco" && s.azione === "cieco") {
+    return { azione: "cieco", motivo: `nessuno dei due tetti è misurabile — ${eti.giorno}: ${g.motivo} · ${eti.sessione}: ${s.motivo}`, ...dettaglio };
+  }
+  const cieca = g.azione === "cieco" ? `⚪ ${eti.giorno}: ${g.motivo}` : s.azione === "cieco" ? `⚪ ${eti.sessione}: ${s.motivo}` : "";
+  const viste = [g.azione === "lascia" ? `${eti.giorno}: ${g.motivo}` : null, s.azione === "lascia" ? `${eti.sessione}: ${s.motivo}` : null].filter(Boolean);
+  return { azione: "lascia", motivo: [viste.join(" · "), cieca].filter(Boolean).join(" · "), ...dettaglio };
+}
+
 /** Giorni interi fra un istante ISO e adesso. `null` se la data non si legge. */
 export function giorniDa(iso, adessoMs) {
   const t = Date.parse(String(iso ?? ""));

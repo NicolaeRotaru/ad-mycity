@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Brain, ChevronDown, ChevronRight, MessageSquare, Trash2, Ban } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
@@ -15,6 +15,7 @@ import {
   raggruppaLavori,
   titoloLavoro,
 } from "@/lib/lavori-gruppo";
+import { dettaglioScaduto, qualeRisposta, serveRileggereDettaglio } from "@/lib/stato-card";
 
 const LAVORO_STATO: Record<string, { label: string; cls: string }> = {
   in_attesa: { label: "⏳ In attesa", cls: "bg-amber-50 text-amber-700 ring-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:ring-amber-800" },
@@ -212,25 +213,41 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
   const codaFermaMaVivo = codaBloccata && workerVivo !== false && !adInPausa && !orfani;
   const mostraAvviso = codaBloccata && (adInPausa || workerVivo === false || orfani || codaFermaMaVivo);
 
+  // AR-605 — GLI EFFETTI COLLATERALI NON PARTONO DA DENTRO UN AGGIORNAMENTO DI STATO.
+  // React può richiamare la funzione di aggiornamento più di una volta (StrictMode in sviluppo,
+  // disegno concorrente): la lettura partiva doppia. Il nuovo valore si calcola da com'è lo stato
+  // ADESSO — che è quello che il ref sa — e la richiesta parte una volta sola, fuori.
+  const apertiGruppiRef = useRef(apertiGruppi);
+  apertiGruppiRef.current = apertiGruppi;
+  const apertiLavoriRef = useRef(apertiLavori);
+  apertiLavoriRef.current = apertiLavori;
+  const chatApertaRef = useRef(chatAperta);
+  chatApertaRef.current = chatAperta;
+
   function toggleGruppo(id: string) {
-    setApertiGruppi((s) => {
-      const apri = !s[id];
-      if (apri) {
-        const g = gruppi.find((x) => x.id === id);
-        if (g) for (const lv of g.lavori) void caricaDettaglioLavoro(lv.id);
-      }
-      return { ...s, [id]: apri };
-    });
+    const apri = !apertiGruppiRef.current[id];
+    setApertiGruppi({ ...apertiGruppiRef.current, [id]: apri });
+    if (!apri) return;
+    const g = gruppi.find((x) => x.id === id);
+    if (g) for (const lv of g.lavori) void caricaDettaglioLavoro(lv.id);
   }
 
+  // AR-602 — QUALE RISPOSTA SI MOSTRA. Prima la copia messa da parte vinceva sempre
+  // (`d.risultato ?? lv.risultato`) e non si rinfrescava mai: il bollino passava a «Fatto» e il corpo
+  // restava la risposta a metà di quando avevi aperto. Adesso la copia vince solo finché è ancora
+  // buona, e a dirlo è una funzione che una prova esegue (`qualeRisposta` in lib/stato-card.ts).
   function lavoroConDettaglio(lv: LavoroBase): LavoroBase {
     const d = dettagliLavori[lv.id];
     if (!d) return lv;
-    return { ...lv, richiesta: d.richiesta ?? lv.richiesta, risultato: d.risultato ?? lv.risultato };
+    const scelta = qualeRisposta(lv, d);
+    return { ...lv, richiesta: scelta.richiesta || undefined, risultato: scelta.risultato || undefined };
   }
 
   async function caricaDettaglioLavoro(id: string) {
-    if (dettagliLavori[id]?.richiesta || caricamentoDettaglio[id]) return;
+    // AR-602 — la vecchia guardia era «ce l'ho già, non lo chiedo più»: è quella che congelava la
+    // risposta. Adesso si rilegge anche quando la copia è invecchiata.
+    const vivo = lavori.find((l) => l.id === id);
+    if (!serveRileggereDettaglio(vivo, dettagliLavori[id], Boolean(caricamentoDettaglio[id]))) return;
     setCaricamentoDettaglio((s) => ({ ...s, [id]: true }));
     try {
       const r = await fetch(`/api/lavori/${encodeURIComponent(id)}`, { cache: "no-store" });
@@ -248,27 +265,29 @@ export default function LavoriCervello({ lavori, onSvuota, embedded = false, wor
   }
 
   function toggleLavoro(id: string) {
-    setApertiLavori((s) => {
-      const apri = !s[id];
-      if (apri) void caricaDettaglioLavoro(id);
-      return { ...s, [id]: apri };
-    });
+    const apri = !apertiLavoriRef.current[id];
+    setApertiLavori({ ...apertiLavoriRef.current, [id]: apri });
+    if (apri) void caricaDettaglioLavoro(id);
   }
 
   function toggleChat(id: string) {
-    setChatAperta((s) => {
-      const apri = !s[id];
-      if (apri) {
-        const g = gruppi.find((x) => x.id === id);
-        if (g) for (const lv of g.lavori) void caricaDettaglioLavoro(lv.id);
-      }
-      return { ...s, [id]: apri };
-    });
+    const apri = !chatApertaRef.current[id];
+    setChatAperta({ ...chatApertaRef.current, [id]: apri });
+    if (!apri) return;
+    const g = gruppi.find((x) => x.id === id);
+    if (g) for (const lv of g.lavori) void caricaDettaglioLavoro(lv.id);
   }
 
   useEffect(() => {
     for (const l of lavori) {
-      if (l.stato === "errore" && !l.risultato && !dettagliLavori[l.id]) void caricaDettaglioLavoro(l.id);
+      if (l.stato === "errore" && !l.risultato && !dettagliLavori[l.id]) {
+        void caricaDettaglioLavoro(l.id);
+        continue;
+      }
+      // AR-602 — un lavoro già aperto che nel frattempo si è mosso (in corso → fatto): la copia a
+      // schermo è vecchia e si rilegge DA SOLA, senza aspettare che qualcuno richiuda e riapra il
+      // gruppo. Era il pezzo mancante: prima la risposta si aggiornava solo ricaricando la pagina.
+      if (dettagliLavori[l.id] && dettaglioScaduto(l, dettagliLavori[l.id])) void caricaDettaglioLavoro(l.id);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps -- prefetch motivo errore on-demand
   }, [lavori]);

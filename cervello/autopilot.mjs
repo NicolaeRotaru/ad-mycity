@@ -32,6 +32,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { publisherPer, coloreMinimoPer, destinatarioPer, CANALI_DISPONIBILI } from "./publishers/index.mjs";
 import { pausaAttiva, destinatarioAmmesso, consensoInvio } from "./consenso-azione.mjs";
+import { conStorico, rigaDecisione, timbroMinuto } from "./traccia-decisione.mjs"; // AR-209
 
 const LIVE = process.env.AUTOPILOT_LIVE === "1";
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -43,6 +44,31 @@ const ROOT = join(QUI, "..");
 const CALENDARIO = process.env.AUTOPILOT_CALENDARIO || join(QUI, "calendario-editoriale.json");
 const LOG_DIR = process.env.AUTOPILOT_LOG_DIR || join(ROOT, "creativi", "output");
 const LOG_FILE = join(LOG_DIR, "autopilot-log.jsonl");
+// AR-209 — il registro delle decisioni, l'unico posto dove un atto reale resta ricostruibile da
+// terzi. L'override esiste per la stessa ragione degli altri: provare la traccia senza scrivere
+// nella memoria vera. Un freno che non si può provare è un freno che nessuno ha mai visto scattare.
+const DECISIONI = process.env.AUTOPILOT_DECISIONI || join(ROOT, "MyCity-Vault/90-Memoria-AI/DECISIONI.md");
+
+// AR-209 — la traccia dell'atto: si scrive SOLO quando qualcosa è partito davvero. Una prova a
+// secco non è un atto, e tracciarla riempirebbe la storia di cose non successe.
+export function tracciaPubblicazione(voce, esito) {
+  try {
+    mkdirSync(dirname(DECISIONI), { recursive: true });
+    appendFileSync(
+      DECISIONI,
+      rigaDecisione({
+        chi: "AD/autopilot",
+        cosa: `pubblicato "${voce.id}" sul canale ${voce.canale}`,
+        azioneId: voce.azioneId || "",
+        esito: esito || "inviato",
+      })
+    );
+    return true;
+  } catch (e) {
+    console.log(`[avviso] traccia DECISIONI non scritta: ${e.message}`);
+    return false;
+  }
+}
 const CODA = process.env.AUTOPILOT_CODA || join(ROOT, "MyCity-Vault", "90-Memoria-AI", "AZIONI-IN-ATTESA.md");
 
 const oggiISO = () => new Date().toISOString().slice(0, 10);
@@ -231,7 +257,14 @@ async function giro(tutto) {
     // non va marcata come tale (altrimenti sparirebbe dal calendario senza essere mai uscita).
     if (modo && r.stato === "inviato") {
       pubblicate++;
-      // In LIVE marca la voce come pubblicata (riscrive il calendario).
+      // AR-209 (a) — LA TRACCIA, PRIMA DI TOCCARE IL CALENDARIO.
+      // L'altro esecutore (esegui-azione.mjs) scriveva una riga in DECISIONI.md a ogni invio
+      // reale; l'autopilota no, e una pubblicazione vera non lasciava niente di ricostruibile da
+      // terzi. La riga la costruisce il pezzo condiviso, così le due strade scrivono lo stesso.
+      tracciaPubblicazione(voce, r.stato);
+      // AR-209 (b) — lo stato deve cambiare (altrimenti la voce si ripubblica), ma la storia di
+      // com'era NON si cancella: le si mette accanto una riga di storico.
+      voce.storico = conStorico(voce, { quando: timbroMinuto(), statoPrima: voce.stato, esito: r.stato });
       voce.stato = "pubblicato";
       voce.pubblicatoIl = new Date().toISOString();
     }
@@ -242,7 +275,7 @@ async function giro(tutto) {
     const dati = JSON.parse(readFileSync(CALENDARIO, "utf8"));
     for (const v of dati.voci) {
       const agg = daFare.find((x) => x.id === v.id && x.stato === "pubblicato");
-      if (agg) { v.stato = "pubblicato"; v.pubblicatoIl = agg.pubblicatoIl; }
+      if (agg) { v.stato = "pubblicato"; v.pubblicatoIl = agg.pubblicatoIl; v.storico = agg.storico; }
     }
     writeFileSync(CALENDARIO, JSON.stringify(dati, null, 2));
   }

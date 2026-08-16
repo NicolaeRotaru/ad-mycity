@@ -44,6 +44,7 @@ import { giorniFra as giorniFraPiani } from "../piani-data.mjs";
 import { giorniDa as giorniDaArchivio, istante, passoDovuto } from "../tetti-archivio.mjs";
 import { ripresaPubblicazione } from "../esito-scrittura.mjs";
 import { cadenzeDaRiprendere } from "../sentinella-motore.mjs";
+import { istante as istanteScadenza, quantoManca, livelloScadenza } from "../scadenze-regole.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const CERVELLO = join(QUI, "..");
@@ -230,6 +231,40 @@ prova("IL DANNO VERO: una cadenza scaduta rientrava nella finestra e faceva ripa
   assert.deepEqual(cadenzeDaRiprendere(buona, dentro), []);
 });
 
+// ── ⑦bis SCADENZE: il countdown di un bando, letto col fuso giusto ───────────────────────────────
+//
+// `scadenze-regole.mjs` calcola quanto manca a una scadenza. La scadenza è un timbro di Piacenza
+// («2026-07-30 16:00»), e `Date.parse` su una stringa senza fuso legge l'ora del PROCESSO: sul
+// portatile di casa è Piacenza e torna, sul VPS è UTC e la stessa scadenza slitta di due ore.
+//
+// La posta in gioco non è teorica ed è scritta in cima a quel file: PI26, 10.000€ a fondo perduto,
+// sportello a esaurimento, e dopo l'invio non si corregge.
+
+prova("scadenze: la stessa scadenza vale lo stesso da Piacenza e dal server in UTC", () => {
+  // D'estate (offset +02:00) e d'inverno (+01:00), scritte col fuso ESPLICITO: è l'istante vero
+  // contro cui misurare, e non cambia con la macchina che gira.
+  const estate = { timbro: "2026-07-30 16:00", esatto: Date.parse("2026-07-30T16:00:00+02:00") };
+  const inverno = { timbro: "2026-12-01 09:00", esatto: Date.parse("2026-12-01T09:00:00+01:00") };
+  for (const c of [estate, inverno]) {
+    assert.equal(istanteScadenza(c.timbro), c.esatto,
+      `«${c.timbro}» letto col fuso sbagliato: sul VPS in UTC il countdown del bando slitta di ore`);
+  }
+  assert.equal(istanteScadenza("non è una data"), null, "un campo illeggibile resta «non lo so», non una data inventata");
+});
+
+prova("IL DANNO VERO: due ore di scarto spostavano un bando da «ultime ore» a domani", () => {
+  // Scadenza alle 16:00 di Piacenza, e adesso sono le 17:30 del giorno prima: mancano 22,5 ore, cioè
+  // «ultime-ore» — il livello che fa suonare l'allarme. Col timbro letto in UTC la scadenza sembra
+  // due ore più in là: 24,5 ore, cioè «imminente», e l'avviso di oggi non parte.
+  const adesso = Date.parse("2026-07-29T17:30:00+02:00");
+  const m = quantoManca("2026-07-30 16:00", adesso);
+  assert.ok(Math.abs(m.ore - 22.5) < 0.001, `ore residue ${m.ore}, attese 22,5`);
+  assert.equal(livelloScadenza(m.ore), "ultime-ore",
+    "col fuso del server la stessa scadenza superava le 24 ore e l'allarme slittava di un giorno");
+  assert.equal(livelloScadenza(quantoManca("2026-07-30 16:00", adesso - 2 * ORA).ore), "imminente",
+    "il caso di controllo: due ore prima è davvero un livello diverso, quindi lo scarto contava sul serio");
+});
+
 // ── ⑧ IL CANCELLO: il fuso si calcola, non si scrive ─────────────────────────────────────────────
 //
 // I casi qui sopra provano l'EFFETTO nei punti curati. Questo vieta la copia numero quattordici:
@@ -244,11 +279,16 @@ const CASE_DELL_OFFSET = [
 
 // Debito ereditato, dichiarato per nome. Sono i punti della stessa malattia che stanno in file di
 // un'altra squadra di riparazione: si dichiarano invece di toccarli, e la lista può solo accorciarsi.
-const DEBITO_DICHIARATO = [
-  "cervello/chiusura-loop.mjs",
-  "cervello/tick-auto-coscienza-leggero.mjs",
-  "cervello/scadenze-regole.mjs",
-];
+//
+// 15/8 — LA LISTA È VUOTA. Erano tre nomi, e ricontando sul codice due erano già curati: in
+// `chiusura-loop` e nel `tick` l'offset era rimasto solo nel commento che racconta la cura, e il
+// filtro dei commenti li scagionava già. Il terzo, `scadenze-regole`, leggeva davvero le scadenze
+// col fuso del server ed è stato curato qui (`istante` chiede l'ora all'orologio di casa).
+//
+// Una lista di debito più lunga del debito vero è il modo in cui un tetto smette di frenare: tre
+// posti liberi vuol dire che i prossimi tre punti malati entrano senza far rumore. Adesso zero
+// significa zero, e il primo che ricompare rende rossa questa prova.
+const DEBITO_DICHIARATO = [];
 
 function sorgenti(dir) {
   const out = [];
@@ -298,6 +338,7 @@ prova("CANCELLO — nessuna ora scritta a mano nel cervello", () => {
 // più sotto. Qui si conta: il nome dell'orologio deve comparire più di una volta per file.
 
 const CURATI = [
+  "cervello/scadenze-regole.mjs",
   "cervello/delta-gate.mjs",
   "cervello/freschezza-intelligence.mjs",
   "cervello/intelligence-agenda.mjs",

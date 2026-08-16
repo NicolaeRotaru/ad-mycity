@@ -18,6 +18,14 @@ type Dati = {
   cantiere_aperti_ora?: number | null;
   cantiere_aperti_settimana_fa?: number | null;
   burn_down_settimana?: number | null;
+  // AR-684 — i tre stati vivi. Il terzo (`da-riverificare`) non arrivava fin qui in nessuna forma.
+  cantiere_totale?: number | null;
+  cantiere_aperto?: number | null;
+  cantiere_in_corso?: number | null;
+  cantiere_da_riverificare?: number | null;
+  // AR-671 — di quanto il confronto con «una settimana fa» puo sbagliare.
+  cantiere_senza_data_nascita?: number | null;
+  burn_down_margine?: number | null;
   serie_onesta?: { data: string; voto: number }[];
 };
 
@@ -50,6 +58,17 @@ export default function SaluteOnesta() {
   const trend = d?.voto_onesto_trend || "";
   const TrendIco = trend === "in salita" ? TrendingUp : trend === "in discesa" ? TrendingDown : Minus;
   const burn = d?.burn_down_settimana;
+  // AR-671 — il margine del confronto storico: quante schede non si sanno collocare nel tempo.
+  // Finché restava solo nella risposta dell'API, il burn-down a video era un numero secco che non
+  // reggeva — e sbagliava sempre dalla parte comoda, cioè sembrava un miglioramento.
+  const margine = d?.burn_down_margine ?? d?.cantiere_senza_data_nascita ?? null;
+  const ripartizione = [
+    d?.cantiere_aperto != null ? `${d.cantiere_aperto} aperti` : null,
+    d?.cantiere_in_corso ? `${d.cantiere_in_corso} in corso` : null,
+    d?.cantiere_da_riverificare ? `${d.cantiere_da_riverificare} da riverificare` : null,
+  ]
+    .filter(Boolean)
+    .join(" · ");
   const fermi0 = d?.ultimi10_fermi_a_zero ?? 0;
   const serie = d?.serie_onesta || [];
 
@@ -99,9 +118,15 @@ export default function SaluteOnesta() {
           >
             <div className="t-micro mb-1 flex items-center gap-1.5"><Hammer size={13} /> Burn-down cantiere difetti</div>
             <p className="t-corpo text-[13px]">
-              ~7 giorni fa: <b>{d.cantiere_aperti_settimana_fa ?? "n/d"}</b> aperti → ora:{" "}
-              <b>{d.cantiere_aperti_ora ?? "n/d"}</b> aperti
+              ~7 giorni fa: <b>{d.cantiere_aperti_settimana_fa ?? "n/d"}</b> da fare → ora:{" "}
+              <b>{d.cantiere_aperti_ora ?? "n/d"}</b> da fare
             </p>
+            {ripartizione && (
+              <p className="t-eti mt-0.5">
+                dei difetti da fare adesso: {ripartizione}
+                {d.cantiere_totale != null ? ` (su ${d.cantiere_totale} schede in tutto)` : ""}
+              </p>
+            )}
             {burn != null && (
               <p className="text-[12px] mt-0.5">
                 {burn > 0
@@ -111,6 +136,12 @@ export default function SaluteOnesta() {
                     : "⏸️ cantiere fermo (né su né giù)"}
               </p>
             )}
+            {margine ? (
+              <p className="text-[12px] mt-0.5 text-amber-700">
+                ⚠️ {margine} difetti non hanno una data di nascita leggibile: non so dove stavano una
+                settimana fa, quindi il confronto qui sopra può sbagliare fino a {margine}.
+              </p>
+            ) : null}
           </div>
 
           {/* Sparkline onesto: se resta a zero, le barre restano a terra — è il messaggio */}

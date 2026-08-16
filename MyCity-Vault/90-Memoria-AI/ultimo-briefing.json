@@ -1,10 +1,13 @@
 {
-  "data": "2026-08-15 11:25",
-  "situazione": "Business invariato, riconfermato con REST + delta-gate 15 minuti dopo il giro precedente: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Memoria coerente (`coerenza-fatti.mjs` verde), nessuna card nuova. Strategia snella: non riscritti i motori pesanti (auto-analisi/apprendimento freschi di pochi minuti), per non duplicare lavoro già fatto.",
+  "data": "2026-08-16 11:42",
+  "situazione": "Business invariato, riconfermato dal vivo (11:41): 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star 53 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Memoria coerente. In questo passaggio GitHub ha rate-limitato le query CI (403): non è possibile riconfermare da qui se PR #735 è ancora rossa o se #739/#738 restano verdi e pronte per la firma. Nessun'altra novità rispetto al passaggio delle 11:23.",
   "opportunita": [],
   "azioni": [
+    {"titolo": "Correggi 5 righe nelle regole di permesso del VPS", "motivo": "5 righe dicono \"Write\" invece di \"Edit\" in .claude/settings.local.json sul VPS: è il motivo per cui il giro fallisce da quasi due settimane, il giro non riesce a scrivere memoria/cervello/Pannello per questo, da 12 giorni", "livello": "giallo"},
+    {"titolo": "Scegli quale dei due significati del margine è quello giusto", "motivo": "il test del cervello è rosso per davvero: un commit di stamattina ha cambiato il numero senza aggiornare il test che lo controlla, e la macchina non può decidere da sola quale versione è quella voluta", "livello": "giallo"},
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
     {"titolo": "Tappa i cinque punti dove il marketplace perde soldi da solo", "motivo": "ferma dal 29/7 senza risposta: doppia vendita, coupon che si esauriscono sui tentativi, rider che si decide lo stipendio", "livello": "rosso"},
-    {"titolo": "Chiudi le quattro porte aperte sui dati di negozi e clienti", "motivo": "falle RLS verificate sul database vero, ferme dal 29/7 senza risposta", "livello": "rosso"}
+    {"titolo": "Chiudi le quattro porte aperte sui dati di negozi e clienti", "motivo": "falle RLS verificate sul database vero, ferme dal 29/7 senza risposta", "livello": "rosso"},
+    {"titolo": "Firma il merge delle due richieste di unione ormai verdi (da riconfermare)", "motivo": "PR #739 e PR #738 risultavano verdi all'ultima verifica (11:23); GitHub è rate-limitato in questo passaggio, riconfermare prima di firmare", "livello": "rosso"}
   ]
 }

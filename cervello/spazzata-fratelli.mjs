@@ -29,6 +29,7 @@
 // Exit (contratto AR-322): 0 = nessun fratello nuovo · 1 = fratello nuovo trovato · 2 = cieco
 
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -250,6 +251,87 @@ export function caloNonProvato(malattia = {}, totale = 0) {
   return null;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-723 — UNA PROMESSA NON SI RITIRA IN SILENZIO.
+//
+// `caloNonProvato` controlla la controprova solo se la voce ne dichiara una. Cambiarne il testo fa
+// scattare il rosso — è provato. TOGLIERE il campo, invece, lascia tutto verde: il codice cade nel
+// ramo successivo e nessuno nota che una promessa è stata ritirata. Cioè la difesa più forte del
+// registro è quella che si disinstalla nel modo più facile. Stessa cosa, in peggio, se sparisce la
+// voce intera: sparisce la malattia e sparisce chi la cercava.
+//
+// La cura è quella che il sorvegliante usa già per le difese rimosse: confrontare la voce di oggi
+// con quella dell'ultimo commit. L'unica via d'uscita legittima è dichiarata e costa: la partenza
+// (`baseline`) deve SALIRE. Chi ritira la controprova sta dicendo «questo numero non lo so più
+// controprovare» — e allora non può contemporaneamente vantare un conteggio più basso di prima.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Le promesse ritirate fra il registro di ieri e quello di oggi. Pura: entrano due elenchi di
+ * malattie, esce l'elenco di ciò che è stato disarmato senza dirlo.
+ */
+export function promesseRitirate(prima = [], oggi = []) {
+  const perId = new Map((Array.isArray(oggi) ? oggi : []).map((m) => [String(m?.id ?? ""), m]));
+  const fuori = [];
+  for (const p of Array.isArray(prima) ? prima : []) {
+    const id = String(p?.id ?? "");
+    if (!id) continue;
+    const o = perId.get(id);
+    if (!o) {
+      fuori.push({
+        id,
+        tipo: "malattia-sparita",
+        motivo: `la voce «${id}» c'era nell'ultimo commit e adesso non c'è più: sparita la voce, sparisce anche chi cercava quella forma di difetto`,
+      });
+      continue;
+    }
+    if (!String(p.controprova ?? "").trim()) continue; // non aveva promesso niente
+    if (String(o.controprova ?? "").trim()) continue; // la promessa c'è ancora
+    const ieri = Number(p.baseline);
+    const adesso = Number(o.baseline);
+    if (Number.isFinite(ieri) && Number.isFinite(adesso) && adesso > ieri) continue; // ritiro dichiarato: non vanta una cura
+    fuori.push({
+      id,
+      tipo: "controprova-ritirata",
+      motivo: `la controprova di «${id}» è sparita dal registro e la partenza non è salita (${Number.isFinite(ieri) ? ieri : "?"} → ${Number.isFinite(adesso) ? adesso : "?"}): il conteggio resta, la prova che il metro guardi ancora dove aveva promesso no`,
+    });
+  }
+  return fuori;
+}
+
+/**
+ * Il registro com'era all'ultimo commit. Torna `{malattie, motivo}`: se non l'ho potuto leggere lo
+ * DICO — un confronto che non si è potuto fare non è «nessuna promessa ritirata».
+ */
+function registroDellUltimoCommit() {
+  const via = process.env.SPAZZATA_PRIMA;
+  if (via) {
+    try {
+      return { malattie: JSON.parse(readFileSync(via, "utf8")).malattie || [], motivo: null };
+    } catch (e) {
+      return { malattie: null, motivo: `non ho potuto leggere il registro di confronto ${via} (${e.message})` };
+    }
+  }
+  if (REGISTRO !== join(QUI, "malattie.json")) {
+    // FUORI SCOPO, non cieco — e la differenza cambia il codice d'uscita. Con il registro puntato a
+    // una sabbiera (SPAZZATA_REGISTRO) non esiste nessun «ieri» da confrontare: la domanda «qualcuno
+    // ha ritirato una promessa dall'ultimo commit?» non ha risposta perché non ha senso, non perché
+    // non sono riuscita a guardare. Chiamarla cecità faceva uscire 2 ogni volta, e le tre prove che
+    // guidano la spazzata su scenari costruiti sono diventate rosse senza che il difetto esistesse.
+    // Chi vuole il confronto anche in sabbiera passa SPAZZATA_PRIMA: quello sì, se fallisce, è cieco.
+    return { malattie: null, motivo: null, fuoriScopo: "il registro è puntato altrove (SPAZZATA_REGISTRO): non c'è un «ultimo commit» di quel file da confrontare" };
+  }
+  const r = spawnSync("git", ["show", `HEAD:${relative(join(QUI, ".."), REGISTRO)}`], { cwd: join(QUI, ".."), encoding: "utf8" });
+  if (r.status !== 0) {
+    return { malattie: null, motivo: `git non mi ha dato il registro dell'ultimo commit (${(r.stderr || "").split("\n")[0] || "uscita " + r.status}): non so se una promessa è stata ritirata` };
+  }
+  try {
+    return { malattie: JSON.parse(r.stdout).malattie || [], motivo: null };
+  } catch (e) {
+    return { malattie: null, motivo: `il registro dell'ultimo commit non è JSON leggibile (${e.message}): non so se una promessa è stata ritirata` };
+  }
+}
+
 function main() {
   if (!existsSync(REGISTRO)) {
     console.error(`⚠️  SPAZZATA CIECA: manca ${relative(REPO, REGISTRO)} — non so quali malattie cercare.`);
@@ -338,7 +420,19 @@ function main() {
     });
   }
 
-  const out = { ok: nuoviTot === 0, nuovi_totali: nuoviTot, malattie: rapporto };
+  // AR-723 — chi ha promesso una controprova non può ritirarla in silenzio.
+  const prima = registroDellUltimoCommit();
+  const ritirate = prima.malattie ? promesseRitirate(prima.malattie, malattie) : [];
+  nuoviTot += ritirate.length;
+
+  const out = {
+    ok: nuoviTot === 0,
+    nuovi_totali: nuoviTot,
+    promesse_ritirate: ritirate,
+    non_ho_guardato: prima.motivo ? [prima.motivo] : [],
+    fuori_scopo: prima.fuoriScopo ? [prima.fuoriScopo] : [],
+    malattie: rapporto,
+  };
 
   if (JSON_MODE) {
     console.log(JSON.stringify(out, null, 2));
@@ -371,6 +465,13 @@ function main() {
       }
       console.log();
     }
+    if (ritirate.length) {
+      console.log(`  ❌ ${ritirate.length} PROMESSA/E RITIRATA/E IN SILENZIO dall'ultimo commit (AR-723):`);
+      for (const r of ritirate) console.log(`     · ${r.motivo}`);
+      console.log(`     → rimetti il campo, oppure alza la partenza di quella malattia: chi non sa più controprovare un numero non può vantarlo.\n`);
+    }
+    if (prima.motivo) console.log(`  ⚪ non ho guardato: ${prima.motivo}\n`);
+    if (prima.fuoriScopo) console.log(`  ▫️ fuori scopo: ${prima.fuoriScopo}\n`);
     console.log(
       nuoviTot === 0
         ? "✅ nessun fratello nuovo: la malattia non si è allargata."
@@ -378,7 +479,8 @@ function main() {
     );
   }
 
-  process.exit(nuoviTot === 0 ? 0 : 1);
+  // Cieco non è verde: se non ho potuto confrontare col commit di ieri, esco 2 invece di 0.
+  process.exit(nuoviTot !== 0 ? 1 : prima.motivo ? 2 : 0);
 }
 
 // Importare questo file NON deve far partire la scansione: la prova di AR-338 importa `pesaEsenzioni`

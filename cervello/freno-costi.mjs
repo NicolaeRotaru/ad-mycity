@@ -17,7 +17,8 @@
 import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { decidiFrenoCosto, tokenPerGate } from "./fonte-numero.mjs";
+import { decidiFrenoCostoDoppio, tokenPerGate, tokenSessionePerGate } from "./fonte-numero.mjs";
+import { msDaTimbro } from "./ora-piacenza.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const JSON_MODE = process.argv.includes("--json");
@@ -47,11 +48,23 @@ if (dati == null) {
 }
 
 const soglia = Number(dati.soglia_giornaliera_token || 0);
+// AR-442 — il SECONDO tetto: quanto si può bruciare nella finestra scorrevole (~6h), che è il muro
+// vero della quota. Se il file non lo dichiara si eredita il tetto del giorno: in sei ore non si
+// può spendere ciò che è concesso in ventiquattro. Non è un numero inventato — è quello già
+// firmato per la giornata, applicato a una finestra più stretta.
+const sogliaSessione = Number(dati.soglia_sessione_rolling_token || soglia || 0);
 // AR-424 — la data di oggi a Piacenza, passata alla funzione pura invece di essere letta da dentro:
 // così il confronto «di che giorno è questo contatore?» è provabile senza spostare l'orologio.
 const OGGI_PIACENZA = new Date().toLocaleDateString("sv-SE", { timeZone: "Europe/Rome" });
 const misura = tokenPerGate(dati.oggi, OGGI_PIACENZA);
-const verdetto = decidiFrenoCosto({ valore: misura.valore, fonte: misura.fonte, soglia });
+const misuraSessione = tokenSessionePerGate(dati.sessione_rolling, Date.now(), msDaTimbro);
+// AR-442 — DUE TETTI, VINCE IL PIÙ SEVERO. Prima qui c'era `decidiFrenoCosto` su un contatore solo,
+// quello del GIORNO SOLARE: alle 00:10 ripartiva da zero e il freno lasciava passare una macchina
+// che aveva appena bruciato tutto fra le 18 e le 24.
+const verdetto = decidiFrenoCostoDoppio({
+  giorno: { valore: misura.valore, fonte: misura.fonte, soglia },
+  sessione: { valore: misuraSessione.valore, fonte: misuraSessione.fonte, soglia: sogliaSessione },
+});
 
 const out = {
   ...verdetto,
@@ -60,6 +73,10 @@ const out = {
   reali: misura.reali,
   stimati: misura.stimati,
   soglia,
+  valore_sessione: misuraSessione.valore,
+  fonte_sessione: misuraSessione.fonte,
+  soglia_sessione: sogliaSessione,
+  finestra_min: dati.sessione_rolling?.finestra_min ?? null,
   file: FILE,
   // AR-424: il giorno del contatore va SEMPRE in chiaro accanto al verdetto. È il dato che mancava:
   // finché non compariva, «lascia, 0 token» e «lascia, 0 token di ieri» erano la stessa riga.

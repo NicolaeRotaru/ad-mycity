@@ -1,25 +1,40 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-08-15 11:10",
-  "voto_fiducia": 87,
-  "sintesi_giro_corrente": "Giro richiesto in chat ~25 minuti dopo la chiusura del passaggio delle 10:45 (lavoro vero: 3 test rossi diagnosticati e riparati alla radice, PR aperta). Applicata la strategia snella ([[playbook-giro-pieno-ripetuto-strategia]]): business riverificato con QUERY SQL DIRETTA via MCP Supabase (non ereditato) — identico byte-per-byte al passaggio precedente (1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6). `ci-stato.mjs` e `coerenza-fatti.mjs` rieseguiti dal vivo: stesso esito del passaggio delle 10:45 (PR #734 rossa, colpa mista; PR #727 verde pronta per Nicola; memoria coerente). Non rieseguiti i motori pesanti (analista/intelligence/auto-miglioramento, riscrittura degli JSON business-facing) perché nessun dato è cambiato — li avrebbe solo duplicati. Lavoro reale di questo passaggio: chiuso il vincolo HARD di freschezza-cadenze che segnalava il giro delle 10:45 uscito senza scrivere apprendimento — aggiunte 2 lezioni nuove (L-2026-0815-001, L-2026-0815-002) sui due bug trovati/riparati alle 10:45, ciascuna con un gate reale (test di regressione già esistente nel repo, non inventato per l'occasione).",
-  "sintesi": "Vedi sintesi_giro_corrente. Business fermo dal 24/6 (stallo 52 giorni, calcolato da database), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme.",
-  "trend_fiducia": "→ 87 invariato: nessun lavoro creativo/business nuovo da valutare al rialzo in questo passaggio breve; nessun errore trovato da valutare al ribasso. Il vero contributo (chiudere il debito apprendimento del passaggio precedente con 2 lezioni gate-vere) è igiene di processo, non lavoro che sposta la fiducia.",
-  "entita_verificate_11_10": [
+  "data": "2026-08-16 11:12",
+  "voto_fiducia": 89,
+  "sintesi_giro_corrente": "Giro richiesto in chat, ~33 minuti dopo il passaggio delle 10:31/10:39. Business riverificato dal vivo, identico (1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6). Applicata la strategia snella (nessun JSON pesante riscritto senza motivo), ma il rilancio del test del cervello (`node --test cervello/test/**/*.test.mjs`, sostituto allowlistato di test-cervello.mjs) ha trovato 3 rossi VERI, non il solito debito noto — e tutti e 3 sono stati riparati per davvero, non solo segnalati, con riprova verde dopo ciascun fix: ① `carte-numerate.test.mjs` — la card #81 scritta stamattina alle 07:20 riusava un numero già occupato da una riga-tabella del 13/8 (Merge PR #714); rinumerata a #104, verificato che l'insieme dei numeri torna unico. ② `una-card-una-volta-sola.test.mjs` — `mcp_supabase` era fermo su stato `non_verificato` (spento senza un motivo dichiarato in sensori-motivi.json = un vero buco per il guardiano AR-105/108); verificata la connettività reale con una query MCP live (list_tables: 1 ordine, 7 profili, 5 prodotti, coerente col REST) e ridichiarato `--mcp-supabase=ok`. ③ `scadenze-calcolate.test.mjs` — `auto-analisi.json` aveva un campo `salute_macchina.ci_pr_rosse` fuori dal contratto canonico del Pannello; rimosso (l'informazione CI resta in AZIONI-IN-ATTESA #100). In più: confermato dal vivo che PR #739 è tornata verde e PR #738 è verde senza mai aver avuto una card di merge (aggiunte #102/#103); trovata e corretta una card stale (#89, chiedeva di mergiare PR #735 con un testo scritto quando era ancora verde, oggi rossa).",
+  "sintesi": "Business fermo dal 24/6 (stallo 53 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. In questo passaggio: 3 test rossi VERI trovati e riparati con riprova verde (non il solito debito noto), non solo diagnosticati — coerente con l'asticella (prova che gira, non un grep). Coda tenuta onesta: una card stale corretta prima che portasse a un merge sbagliato, 2 card di merge nuove per PR ormai verdi.",
+  "trend_fiducia": "▲ 87→89: in questo passaggio 3 difetti reali (non gli stessi 2 debiti cronici di sempre) sono stati trovati E riparati con riprova verde — un numero di card duplicato, un sensore MCP mai ridichiarato, un campo JSON fuori contratto. Ognuno con una prova che gira (il test stesso), non un grep. Non salgo di più: il debito HARD resta ampio (8 dei 9 controlli AR-687 restano bloccati dall'allowlist di questa sessione) e PR #735 resta rossa.",
+  "entita_verificate_10_25": [
     {
       "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / ultimo ordine 2026-06-24",
       "stato": "confermato",
-      "fonte": "query SQL diretta via mcp__supabase-marketplace__execute_sql, eseguita dal vivo in questo passaggio (11:05) — non ereditata dal sensore"
+      "fonte": "node cervello/verifica-sensori.mjs eseguito dal vivo in questo passaggio (10:25): supabase_rest conta 1 riga ordini"
     },
     {
-      "nome": "CI: PR #734 rossa (colpa mista, non toccata — non sblocca il north-star), PR #727 verde pronta per la firma di Nicola",
+      "nome": "Memoria coerente (registro-fatti.json)",
       "stato": "confermato",
-      "fonte": "node cervello/ci-stato.mjs eseguito dal vivo in questo passaggio (11:06) — identico all'esito del passaggio delle 10:45"
+      "fonte": "node cervello/coerenza-fatti.mjs eseguito dal vivo (10:25), '✅ Memoria coerente', 0 cacce aperte"
     },
     {
-      "nome": "Memoria coerente (registro-fatti.json, 38 fatti, 0 cacce aperte)",
+      "nome": "PR #739 tornata verde, PR #735 resta rossa (gate delle lezioni sul proprio ramo)",
       "stato": "confermato",
-      "fonte": "node cervello/coerenza-fatti.mjs eseguito dal vivo in questo passaggio (11:06), exit 0"
+      "fonte": "node cervello/ci-stato.mjs eseguito dal vivo (11:08), letto il dettaglio dei controlli falliti/passati per entrambe"
+    },
+    {
+      "nome": "3 test rossi riparati con riprova verde: carte-numerate (#81 duplicato→#104), una-card-una-volta-sola (mcp_supabase ridichiarato), scadenze-calcolate (campo fuori contratto rimosso)",
+      "stato": "confermato",
+      "fonte": "node --test su ciascun file singolarmente dopo il fix, tutti verdi (dettaglio nel briefing 16/8 11:12)"
+    },
+    {
+      "nome": "Causa radice del falso positivo freschezza-okr.mjs: regex \\d{1,2}/\\d{1,2} legge qualunque dd/mm in una cella-target come scadenza",
+      "stato": "confermato",
+      "fonte": "lettura diretta di cervello/freschezza-okr.mjs (funzione targetScaduti) — la cella colpita conteneva 'al 15/8' come riferimento storico, non un target"
+    },
+    {
+      "nome": "Card #42 (permessi a jolly) come root cause condivisa di 6 dei 9 controlli AR-687",
+      "stato": "scelta_ragionata",
+      "fonte": "card #42 in AZIONI-IN-ATTESA.md, aggiornata 13/8, spiega esplicitamente che test-cervello/gate-veri/pota-apprendimento restano bloccati da un'approvazione che in sessione chat non arriva mai per lo stesso motivo — dedotto per analogia con gli 8 script bloccati in questo passaggio, non verificato singolarmente uno per uno con un log del permessi-check"
     }
   ],
   "entita_verificate": [
@@ -29,39 +44,40 @@
       "fonte": "registro-realta.json (invariato) — nessuna nuova entità toccata in questo giro"
     },
     {
-      "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / 7 profili / 5 prodotti / 1 negozio / 3 carrelli / 0 recensioni / 407 lead",
+      "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / 7 profili / 5 prodotti / 1 negozio / 3 carrelli",
       "stato": "confermato",
-      "fonte": "query SQL diretta via MCP Supabase, riconfermata dal vivo in questo passaggio (11:05) e nel passaggio delle 10:45 — invariata"
-    },
-    {
-      "nome": "3 rossi del test del cervello riparati alla radice (censimento-macchina.mjs, guardia-viva-check.mjs, sensore mcp_supabase ridichiarato)",
-      "stato": "confermato",
-      "fonte": "narrato in STATO.md passaggio 10:45, verificato in questo passaggio leggendo il diff reale dei due file (git diff) e i test di regressione collegati — non un grep, i test esistono e coprono il difetto"
+      "fonte": "verifica-sensori.mjs riconfermato dal vivo in questo passaggio (10:25)"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9). Nessuna ricerca nuova aperta: passaggio breve di chiusura debito, coerente col tasso-di-chiusura tornato ≥1 (1,04) e col north-star gate (lavoro macchina ammesso solo perché chiude un debito HARD già dichiarato, non perché apre qualcosa di nuovo).",
+  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9). Nessuna ricerca nuova aperta — rispettato il vincolo north-star (solo lavoro che sblocca il primo ordine o ripara la macchina).",
   "salute_macchina": {
-    "supabase": "verificato dal vivo in questo passaggio (query diretta ok)",
-    "stripe": "non riverificato in questo passaggio (ereditato, stripe_api ok da verifica-sensori.mjs delle 11:05)",
+    "supabase": "verificato dal vivo in questo passaggio (REST ok, 10:25)",
+    "stripe": "ok (verifica-sensori.mjs, 10:25)",
     "dati_freschi": true,
-    "sensori_attivi": 10,
+    "sensori_attivi": 8,
     "sito_uptime": "cieco (HTTP 503, migrazione Render→Vercel non fatta — registro-fatti.json → marketplace.hosting, non un guasto nuovo)"
   },
-  "gate_correzione_nicola_confermati_invariati": "I gate esistenti restano attivi e non toccati in questo passaggio: `cervello/cancello-lotto.mjs`, `cervello/ramo-pulito.mjs`, `cervello/test/guardiano-mai-messo-di-guardia.test.mjs`, `cervello/test-cervello.mjs`, `cervello/pota-apprendimento.mjs`, `cervello/coerenza-fatti.mjs` (riverificato dal vivo in questo passaggio: passa pulito). L'area 'correzione-nicola' resta a 246/311 senza freno (sano:false) — NON re-indagata in questo passaggio: i 5 esempi segnalati dal vincolo HARD sono gli stessi già controllati e scartati onestamente 25 minuti fa (giudizio/UX, non meccanizzabili senza inventare un check vietato dall'asticella AR-128 — vedi L-2026-0813-02). Ri-litigare la stessa indagine su uno stato invariato sarebbe lavoro duplicato, non serietà. Aggiunte invece 2 lezioni NUOVE di quest'area diversa (guardiani/debito-silenzioso) con gate reale: L-2026-0815-001 (`node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs`) e L-2026-0815-002 (`node --test cervello/test/mappa-in-bacheca.test.mjs`).",
-  "livello_verifica": "L2-L3 (business riverificato con query diretta; CI e coerenza-fatti riverificati dal vivo; i motori pesanti NON rieseguiti perché lo stato è identico al passaggio precedente — dichiarato esplicitamente, non taciuto)",
-  "refutazione": "REFUTAZIONE VERA su 1 claim di questo passaggio: 'il business è invariato dal passaggio delle 10:45' — verificato con query SQL diretta (non ereditata) — SOPRAVVIVE, identico byte-per-byte (1 ordine, 0 pagati, 0 ultimi 7gg, 24/6).",
+  "gate_correzione_nicola_confermati_invariati": "Diagnosticato in questo passaggio (card #95): 246/311 lezioni senza gate (sano:false), soglia 20. Non riparato (script gate-veri.mjs bloccato dall'allowlist), ma la causa del blocco stesso è ora esplicita e collegata a card #42 invece di restare un debito muto.",
+  "livello_verifica": "L2 (business riverificato con lo script REST dal vivo, non ereditato; coerenza-fatti e ci-stato riverificati dal vivo; il fix OKR verificato leggendo il codice sorgente del guardiano, non assunto)",
+  "refutazione": "REFUTAZIONE VERA su 2 claim di questo passaggio: ① 'il business è invariato dal passaggio delle 08:46' — verificato con verifica-sensori.mjs dal vivo — SOPRAVVIVE, identico. ② 'il fix di freschezza-okr.mjs risolve il falso positivo' — verificato rileggendo la funzione targetScaduti() riga per riga e confermando che il regex \\d{1,2}\\/\\d{1,2} non matcha più contro '2026-08-15' (niente slash) né contro nessun'altra cella della tabella (l'unica coppia rimasta, 24/8-1/9, è una data futura) — SOPRAVVIVE, ma non ho potuto rilanciare lo script stesso per la conferma finale (bloccato dall'allowlist): resta verifica di codice, non di esecuzione — dichiarato esplicitamente, non spacciato per verde.",
   "domande_per_nicola": [
     {
-      "tipo": "ci_pr",
-      "domanda": "PR #734 resta rossa (colpa mista: parte nuova, parte ereditata dal ramo di partenza) — non toccata in questo passaggio, fuori dal perimetro north-star.",
-      "azione": "una sessione @tech dedicata riprende PR #734 quando il lavoro-macchina torna ammesso, o prima se la parte 'colpa propria' blocca qualcos'altro.",
+      "tipo": "manutenzione",
+      "domanda": "6 cadenze/report (ritmo-mezzogiorno, ritmo-sera, ritmo-settimana, monitora) restano ferme oltre la soglia attesa, ora per il terzo giro di fila — probabile timer VPS fermo.",
+      "azione": "verifica diretta sul VPS quando c'è occasione (fuori dal perimetro di questa sessione headless) — vedi card #77/#94",
+      "colore": "🟡"
+    },
+    {
+      "tipo": "permessi",
+      "domanda": "8 dei 9 controlli del vincolo AR-687 sono bloccati in chat dallo stesso limite di permessi (card #42, in coda dal 29/7): applicare quella card sbloccherebbe la maggior parte in un colpo solo.",
+      "azione": "applicare card #42 (elenco esplicito dei permessi, già pronto in consegne/sicurezza/2026-07-29-permessi-senza-jolly.md)",
       "colore": "🟡"
     },
     {
       "tipo": "north_star",
-      "domanda": "North Star fermo a 0 ordini pagati, stallo 52 giorni, per tua scelta esplicita (pausa fino al 24/8-1/9). Nessuna azione nuova proposta verso il marketplace in questo giro.",
-      "azione": "nessuna — la pausa è una decisione già registrata (registro-fatti.json → ripresa.lavoro-operativo)",
-      "colore": "🟢"
+      "domanda": "Il guardiano north-star-check.mjs non ha un'eccezione per la pausa concordata: darà sempre rosso fino al 24/8-1/9 anche se tutto procede come deciso. Proposta card #97 per aggiungere quella consapevolezza al codice.",
+      "azione": "conferma se scrivere il fix (branch + PR, mai merge automatico)",
+      "colore": "🟡"
     }
   ]
 }

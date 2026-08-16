@@ -24,10 +24,11 @@
 
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync, existsSync, rmSync } from "node:fs";
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, writeFileSync, existsSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { decidiDestinazione } from "../casa-memoria.mjs";
 import {
   CAMPI_TIMBRO,
   contenutoSostanziale,
@@ -289,6 +290,133 @@ prova("⑮ AR-653 · senza la variabile d'ambiente il sensore è SPENTO lo stess
   assert.equal(posthog.spento, true,
     "senza POSTHOG_OFF il check torna a partire e il sensore risulta acceso: la decisione di Nicola sparisce");
   assert.match(posthog.dettaglio || "", /decision/i, "il dettaglio deve dire CHI ha deciso e dove sta scritto");
+});
+
+// ── AR-668 · AR-639 · AR-446 — LA PORTA ANNIDATA ────────────────────────────
+//
+// I casi qui sopra provano il freno sul singolo strumento. Questi provano la cosa che quel freno NON
+// copriva, ed è il motivo per cui AR-668 esiste: uno script che ne lancia un altro.
+//
+//   sentinella-dati  →  tick-auto-coscienza-leggero  →  tasso-lezioni      (apprendimento.json)
+//                                                    →  esperimenti-check  (auto-miglioramento.json)
+//
+// La prima porta aveva la sua variabile (`SENTINELLA_DATI_STATE_FILE`). La seconda e la terza no, e
+// non potevano averla: nessuno che scrive una prova sa quali script verranno lanciati da dentro. Con
+// il freno sul DATO (`cervello/casa-memoria.mjs`, consultato da chi SCRIVE) la deviazione si dichiara
+// una volta nell'ambiente e la ereditano tutti i processi figli, anche quelli che non sanno di esserlo.
+
+/**
+ * LA RETE DI SICUREZZA DEI DUE CASI CHE LANCIANO SCRITTORI VERI.
+ *
+ * Prende una copia dei file di memoria PRIMA, lascia lavorare, e se qualcuno li ha mossi li rimette
+ * com'erano — restituendo l'elenco di chi si è mosso, così il caso può diventare rosso su quello.
+ *
+ * ⚠️ Non è la mitigazione criticata da AR-446 (un test che si ripulisce sempre da solo, e se muore a
+ * metà lascia i dati della prova nella memoria vera). Sulla strada VERDE qui non si scrive niente: il
+ * ripristino esiste solo per la strada rotta. Serve perché la prova di non-vacuità di questi difetti
+ * — rompere il freno apposta e pretendere il rosso — senza di lui sporcherebbe davvero
+ * `apprendimento.json`, cioè riprodurrebbe la malattia dentro la sua stessa cura. È già successo,
+ * misurato qui il 15/8 mentre scrivevo questo file: la prima versione proteggeva un caso e non
+ * l'altro, e il file vero è rimasto sporco dopo la mutazione.
+ */
+function conLaMemoriaAlSicuro(relativi, lavoro) {
+  const leggi = (f) => { try { return readFileSync(join(REPO, f), "utf8"); } catch { return null; } };
+  const prima = new Map(relativi.map((f) => [f, leggi(f)]));
+  try {
+    lavoro();
+  } finally {
+    var mossi = relativi.filter((f) => leggi(f) !== prima.get(f));
+    for (const f of mossi) if (prima.get(f) !== null) writeFileSync(join(REPO, f), prima.get(f), "utf8");
+  }
+  return { mossi, cera: (f) => prima.get(f) !== null };
+}
+
+/** I due file di memoria che la catena annidata di AR-668 riscrive. */
+const FILE_DEL_TICK = [
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+  "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
+];
+
+prova("⑯ AR-668 · il modulo decide DOVE si scrive, e non tocca ciò che memoria non è", () => {
+  const radice = "/casa/repo";
+  const dentro = "/casa/repo/MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json";
+  const fuori = "/casa/repo/cervello/mutanti.json";
+
+  const deviato = decidiDestinazione(dentro, { env: { MYCITY_MEMORIA_ROOT: "/tmp/sab" }, radice });
+  assert.equal(deviato.percorso, "/tmp/sab/MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+    "il percorso interno si conserva: un referto deviato deve restare confrontabile con quello vero");
+  assert.equal(deviato.scrivi, true);
+
+  const codice = decidiDestinazione(fuori, { env: { MYCITY_MEMORIA_ROOT: "/tmp/sab" }, radice });
+  assert.equal(codice.percorso, fuori,
+    "il freno non deve allargarsi fuori dalla memoria: un giro vero si ritroverebbe mezzo dirottato");
+
+  const zitto = decidiDestinazione(dentro, { env: { MYCITY_MEMORIA_SOLA_LETTURA: "1" }, radice });
+  assert.equal(zitto.scrivi, false, "un comando di lettura non scrive, punto");
+
+  const altrove = decidiDestinazione("/tmp/finto/MyCity-Vault/x.json", { env: { MYCITY_MEMORIA_ROOT: "/tmp/sab" }, radice });
+  assert.equal(altrove.percorso, "/tmp/finto/MyCity-Vault/x.json",
+    "una sabbiera che un test si è già fatto da solo non va dirottata altrove");
+});
+
+prova("⑰ AR-668 · lo script ANNIDATO eredita il freno: la memoria vera non si muove", () => {
+  // Il tick è proprio quello che `sentinella-dati` lancia con `execFileSync`, e lancia a sua volta i
+  // due che riscrivono i file di AR-668. Qui si guarda l'EFFETTO sul disco, non il codice d'uscita:
+  // il tick esce warn quando il tasso è basso, che è una notizia sulla macchina e non un guasto.
+  const sab = join(sabbiera, "annidato");
+  const esito = conLaMemoriaAlSicuro(FILE_DEL_TICK, () => {
+    node(["cervello/tick-auto-coscienza-leggero.mjs", "--forza", "--json"], { MYCITY_MEMORIA_ROOT: sab });
+  });
+
+  assert.ok(FILE_DEL_TICK.some((f) => esito.cera(f)),
+    "nessuno dei due file esiste: questo caso non starebbe guardando niente");
+  assert.equal(esito.mossi.length, 0,
+    `la memoria VERA è cambiata (${esito.mossi.join(", ")}): il freno non ha attraversato l'execFileSync annidato (AR-668). ` +
+    "L'ho rimessa com'era, ma questo è il difetto");
+
+  const finiti = FILE_DEL_TICK.filter((f) => existsSync(join(sab, f)));
+  assert.ok(finiti.length >= 1,
+    "nessuna scrittura nemmeno nella sabbiera: la deviazione ha spento il tick invece di spostarlo");
+});
+
+prova("⑱ AR-639 · in sola lettura il tick non scrive da nessuna parte, e lo DICE", () => {
+  // La differenza fra «non ho scritto» e «ho scritto altrove» deve restare visibile: uno strumento
+  // che racconta di aver scritto dove non ha scritto è la stessa bugia, spostata di un passo.
+  const sab = join(sabbiera, "muto");
+  let r;
+  const esito = conLaMemoriaAlSicuro(FILE_DEL_TICK, () => {
+    r = node(["cervello/tasso-lezioni.mjs"], { MYCITY_MEMORIA_SOLA_LETTURA: "1", MYCITY_MEMORIA_ROOT: sab });
+  });
+  assert.equal(esito.mossi.length, 0,
+    `in sola lettura la memoria VERA è cambiata (${esito.mossi.join(", ")}): l'ho rimessa com'era, ma è il difetto`);
+  assert.equal(existsSync(join(sab, "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json")), false,
+    "in sola lettura non si scrive nemmeno nella sabbiera: la sola lettura vince su tutto");
+  assert.match(r.testo, /sola lettura/i,
+    "lo strumento deve dire che NON ha riscritto: prima stampava il percorso vero comunque");
+});
+
+prova("⑲ AR-639 · IL TETTO: quanti scrittori del vault saltano ancora il freno", () => {
+  // Il freno vive dentro `cervello/scrivi-json.mjs`, quindi copre chi passa di lì. Chi scrive nel
+  // vault con un `writeFileSync` crudo non lo attraversa, e resta una porta aperta.
+  //
+  // Il numero è un TETTO, non un obiettivo: scende quando si cura e non si alza mai. Se questo caso
+  // diventa rosso in su, qualcuno ha aggiunto un nuovo scrittore crudo del vault — o si converte a
+  // `scriviJsonAtomico`, o si spiega perché no; abbassare il tetto per farlo tacere è la cosa che
+  // questo cantiere cura.
+  // Il tetto scende quando si cura e non si alza mai: 54 → 49, dopo che coerenza-fatti (che scriveva
+  // il REGISTRO DEI FATTI crudo), stampo-check e sensori-spenti-check sono passati alla penna condivisa.
+  const TETTO = 49; // misurato il 2026-08-15 sul codice vero
+  const dir = join(REPO, "cervello");
+  const crudi = readdirSync(dir)
+    .filter((f) => f.endsWith(".mjs"))
+    .filter((f) => {
+      const t = readFileSync(join(dir, f), "utf8");
+      return t.includes("MyCity-Vault") && /\b(writeFileSync|appendFileSync)\s*\(/.test(t);
+    });
+  assert.ok(crudi.length <= TETTO,
+    `scrittori crudi del vault: ${crudi.length} > tetto ${TETTO}. I nuovi: ${crudi.join(", ")}`);
+  assert.ok(!crudi.includes("esperimenti-check.mjs"),
+    "esperimenti-check è la terza porta di AR-668: se torna a scrivere crudo, il freno non la attraversa più");
 });
 
 // ── il conto ────────────────────────────────────────────────────────────────

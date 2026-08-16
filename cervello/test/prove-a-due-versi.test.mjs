@@ -74,6 +74,40 @@ function siRibalta({ flag, file, cerca, sostituisci, extra = [] }) {
 }
 
 /**
+ * Lo stesso metro, quando il fix finto non sta in un file solo.
+ *
+ * `siRibalta` cambia UN punto. Ci sono difetti la cui cura è per definizione distribuita — «questa
+ * verità è copiata in cinque file, portala in uno» — e lì un fix su un file solo lascia il verdetto
+ * rosso: la prova sembrerebbe inchiodata mentre invece ha ragione. Qui le modifiche si applicano
+ * tutte insieme, che è la forma vera della cura.
+ */
+function simulaFixOvunque(radice, file, cerca, sostituisci) {
+  const p = join(radice, file);
+  const t = readFileSync(p, "utf8");
+  assert.ok(t.includes(cerca), `il finto fix non si aggancia: «${cerca.slice(0, 50)}…» non è in ${file}`);
+  writeFileSync(p, t.split(cerca).join(sostituisci));
+}
+
+function siRibaltaConPiuFix({ flag, file, fix }) {
+  const percorsi = [...new Set([file, ...fix.map((f) => f.file)])];
+
+  const senzaFix = copiaParziale(percorsi);
+  const prima = eseguiProva(flag, senzaFix);
+  assert.equal(prima.codice, 1, `${flag} doveva dire «il difetto c'è» sul codice di oggi, invece: ${prima.detto}`);
+
+  const conFix = copiaParziale(percorsi);
+  // `tutte` esiste per i difetti che stanno in N punti identici: curarne uno non è la cura, ed è
+  // proprio quello il difetto. Senza, il fix finto ne sistemerebbe uno solo e la prova resterebbe
+  // rossa — sembrando inchiodata mentre invece sta dicendo la verità.
+  for (const f of fix) {
+    if (f.tutte) simulaFixOvunque(conFix, f.file, f.cerca, f.sostituisci);
+    else simulaFix(conFix, f.file, f.cerca, f.sostituisci);
+  }
+  const dopo = eseguiProva(flag, conFix);
+  assert.equal(dopo.codice, 0, `${flag} non si accorge del fix: resta inchiodata sul rosso. Detto: ${dopo.detto}`);
+}
+
+/**
  * Lo stesso metro, per un difetto GIÀ RIPARATO nel codice vero.
  *
  * `siRibalta` parte dal rosso e applica il fix. Quando il difetto viene riparato per davvero quel
@@ -110,13 +144,25 @@ test("AR-366 — il battito: rossa oggi, verde se il timbro arriva solo dopo un 
   });
 });
 
-test("AR-388 — le scritture del server: rossa oggi, verde se il ramo le mette da parte prima del checkout", () => {
-  siRibalta({
+test("AR-388 — le scritture del server: RIPARATO, e la prova se ne accorge se la messa al sicuro sparisce", () => {
+  // ⟲ VERSO GIRATO (lotto 44). Il difetto è stato riparato davvero: prima del `checkout -f` lo
+  // script mette da parte la memoria non committata, e il rilevatore lo conferma da solo — fotografa
+  // lo stato del repo nell'istante del checkout e ci trova una stash. Il verso originale (parti dal
+  // rotto, applica il fix) non è più percorribile su un codice verde.
+  //
+  // La rottura fedele è togliere la messa al sicuro e lasciare solo lo scarico dello stage: è
+  // esattamente com'era il ramo il giorno in cui il server ha perso il lavoro appena promesso.
+  siRibaltaAlContrario({
     flag: "--ar-388",
     file: "cervello/vps/aggiorna-cervello.sh",
-    cerca: 'git reset HEAD -- . 2>/dev/null || true',
-    sostituisci:
-      'git reset HEAD -- . 2>/dev/null || true\n      git "${GIT_ID[@]}" stash push -u -m "al sicuro prima del checkout" >/dev/null 2>&1 || true',
+    // La rottura giusta toglie TUTTO il blocco, non solo la stash. Il primo tentativo spegneva solo
+    // il `git stash push` e la prova restava cieca: c'era una seconda difesa — se non riesce a
+    // mettere da parte, lo script si RIFIUTA di allineare — e l'esecuzione non arrivava mai al
+    // checkout. Buona notizia sul fix (due strade, non una), ma una mutazione che non riproduce il
+    // guasto non prova niente. Saltando l'intero ramo si torna esattamente al codice del giorno in
+    // cui il server ha perso il lavoro appena promesso.
+    cerca: 'if [ "$_azione_salvataggio" = "metti-da-parte" ]; then',
+    sostituisci: 'if false; then',
   });
 });
 
@@ -155,17 +201,17 @@ test("AR-208 — il budget: rossa oggi, verde se il rc esce dalla pipe e diventa
   });
 });
 
-test("AR-392 — il letargo: rossa oggi, verde se il livello dichiarato diventa vincolo", () => {
-  siRibalta({
+test("AR-392 — il letargo: RIPARATO, e la prova se ne accorge se il verdetto torna dentro la pipe", () => {
+  // ⟲ VERSO GIRATO (lotto 44), stessa ragione di AR-323 e AR-395: il difetto è stato riparato per
+  // davvero. Il giro cattura l'uscita del letargo (`_letargo_out`) e la porta al motore dentro il
+  // vincolo; prima finiva in una pipe, dove il codice d'uscita è quello del filtro e il verdetto si
+  // perdeva. La rottura fedele è rimettere la riga com'era: un `| esito_righe 3 || true` che stampa
+  // e butta via il «no» del guardiano.
+  siRibaltaAlContrario({
     flag: "--ar-392",
     file: "cervello/giro.sh",
-    cerca: '  node "$SCRIPT_DIR/letargo.mjs" 2>&1 | esito_righe 3 || true',
-    sostituisci:
-      '  _letargo_out="$(node "$SCRIPT_DIR/letargo.mjs" 2>&1)"; _letargo_rc=$?\n' +
-      "  printf '%s\\n' \"$_letargo_out\" | esito_righe 3\n" +
-      '  if [ "$_letargo_rc" -ne 0 ]; then\n' +
-      "    LETARGO_VINCOLO=\"$(printf '%s\\n' \"$_letargo_out\" | head -1)\"\n" +
-      "  fi",
+    cerca: '  _letargo_out="$(node "$SCRIPT_DIR/letargo.mjs" 2>&1)"; _letargo_rc=$?',
+    sostituisci: '  node "$SCRIPT_DIR/letargo.mjs" 2>&1 | esito_righe 3 || true\n  _letargo_rc=0; _letargo_out=""',
   });
 });
 
@@ -240,3 +286,78 @@ test("AR-365 — senza le chiavi della memoria la prova esce ⚪, e ⚪ non è n
   assert.ok([1, 2].includes(r.codice), `atteso 1 (difetto c'è) o 2 (non misurabile), avuto ${r.codice}: ${r.detto}`);
   if (r.codice === 2) assert.match(r.detto, /non posso esercitarla|non ho potuto/, "un ⚪ deve dire PERCHÉ non ha misurato");
 });
+
+// ── I QUATTRO GRAVI NATI NEL LOTTO 44 ────────────────────────────────────────
+//
+// Nascono rossi: sono difetti aperti. Qui si prova che i loro rilevatori sanno dire anche di SÌ —
+// altrimenti sarebbero quattro prove inchiodate su un verso solo, cioè quattro prove che non hanno
+// mai avuto occasione di sbagliarsi.
+
+test("AR-730 — la penna cruda nella porta dei sensori: rossa oggi, verde se la scrittura passa dal freno", () => {
+  siRibalta({
+    flag: "--ar-730",
+    file: "cervello/stato-sensori.mjs",
+    cerca: '  else writeFileSync(path, JSON.stringify(doc, null, 2) + "\\n", "utf8");',
+    sostituisci: '  else scriviJsonAtomico(path, doc);',
+  });
+});
+
+test("AR-737 — il rebase che ingoia i suoi tre esiti: rossa oggi, verde se il fallimento dell'abort viene letto", () => {
+  siRibaltaConPiuFix({
+    flag: "--ar-737",
+    file: "cervello/vps/aggiorna-cervello.sh",
+    fix: [
+      {
+        file: "cervello/vps/aggiorna-cervello.sh",
+        cerca: "          git rebase --abort 2>/dev/null || true",
+        sostituisci: '          if ! git rebase --abort 2>/dev/null; then echo "[$(ts)] ⛔ abort del rebase FALLITO: albero a metà" >&2; return 1; fi',
+      },
+      {
+        file: "cervello/vps/aggiorna-cervello.sh",
+        cerca: '      && { git "${GIT_ID[@]}" rebase FETCH_HEAD 2>/dev/null || git rebase --abort 2>/dev/null || true; }',
+        sostituisci: '      && node "$REPO/cervello/esito-scrittura.mjs" rebase',
+      },
+    ],
+  });
+});
+
+test("AR-743 — il confronto della prova copiato a mano: rossa oggi, verde se i copisti importano la casa", () => {
+  siRibaltaConPiuFix({
+    flag: "--ar-743",
+    file: "cervello/prove-regole.mjs",
+    fix: [
+      {
+        file: "cervello/chiusure-audit.mjs",
+        cerca: 'import',
+        sostituisci: 'import { patternTrovato } from "./prove-regole.mjs";\nimport',
+      },
+      {
+        file: "cervello/allinea-scan-cantiere.mjs",
+        cerca: 'import',
+        sostituisci: 'import { patternTrovato } from "./prove-regole.mjs";\nimport',
+      },
+    ],
+  });
+});
+
+test("AR-744 — gli esperimenti misurati senza che il gate parta: rossa oggi, verde se lo stato dice la verità", () => {
+  siRibaltaConPiuFix({
+    flag: "--ar-744",
+    file: "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
+    // La cura vera è che un esperimento il cui gate non è partito NON si chiami «misurato». Si simula
+    // sul dato — e su TUTTI: sono sei, e sistemarne uno lascerebbe il difetto in piedi cinque volte.
+    fix: [
+      {
+        file: "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
+        cerca: '"stato": "misurato"',
+        sostituisci: '"stato": "non_testato"',
+        tutte: true,
+      },
+    ],
+  });
+});
+
+// AR-749 non abita più qui: era una prova a due versi perché il difetto era APERTO, e la cura
+// ipotizzata («conta la copertura possibile») si è rivelata sbagliata — avrebbe spento la guardia di
+// AR-568. Il difetto è stato riparato per davvero dando un lettore al verdetto «mettila accanto», e
+// la sua prova è comportamentale: `node cervello/test/sensori-non-calpestati.test.mjs`, caso ⑤.

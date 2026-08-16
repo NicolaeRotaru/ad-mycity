@@ -146,7 +146,7 @@ type Analisi = {
   data?: string; voto_fiducia?: number | string; trend_fiducia?: string; sintesi?: string;
   verifiche?: Record<string, string>; errori?: Errore[]; domande_per_nicola?: (Domanda | string)[];
   punti_ciechi?: string[]; miglioramenti_prossimo_giro?: string[];
-  salute_macchina?: { supabase?: string; stripe?: string; dati_freschi?: boolean; sensori_attivi?: number; sito_uptime?: string };
+  salute_macchina?: { supabase?: string; stripe?: string; dati_freschi?: boolean; sensori_attivi?: number; sito_uptime?: string; sensori_ciechi_dichiarati?: number; telegram_bot?: string };
 };
 type Lezione = { id?: string; testo?: string; tag?: string[]; reparto?: string; confidenza?: number; evidenze?: number; fonte?: string; stato?: string; nato?: string; ultima_conferma?: string };
 type AppMeta = {
@@ -652,6 +652,10 @@ export default function AutoCoscienza({
                       // a questa schermata. Il contratto in cervello/valida-contratti.mjs ammette
                       // questa chiave insieme a questa riga: i due elenchi si muovono insieme.
                       { k: "Sito negozi", raw: sm.sito_uptime, okKey: "sito" },
+                      // Sesto e settimo tile (15/8): stessa cura del quinto — il giro scriveva già
+                      // questi due dati e il contratto in cervello/valida-contratti.mjs li bocciava.
+                      { k: "Sensori ciechi", raw: sm.sensori_ciechi_dichiarati ?? 0, okKey: "ciechi" },
+                      { k: "Telegram", raw: sm.telegram_bot, okKey: "telegram" },
                     ].map((s) => {
                       const { label, ok } = saluteValore(s.okKey, s.raw);
                       return (

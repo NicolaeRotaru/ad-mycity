@@ -661,6 +661,110 @@ export function motiviMarketplace({ presente = false, sporchi = 0, leggibile = t
   return [`${sporchi} file modificati nel repo del sito (${CARTELLA_MARKETPLACE}/): è un altro repo, lì non arrivo — nessuno dei miei controlli li ha guardati`];
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-713 — «PROVA ACCECATA» SI GIUDICA SUL FILE, E NON MENTRE QUALCUNO LO TIENE ROTTO APPOSTA.
+//
+// Due modi di gridare al lupo su un lavoro sano, e tutti e due sono stati misurati addosso a questa
+// guardia il 15/8, undici volte di fila su `cervello/scrivi-json.mjs` mentre il pezzo c'era eccome:
+//
+//   ① IL PEZZO CHE MI ARRIVA NON È IL FILE. Il giudizio poggiava su `t.contenuto`, cioè su quello
+//      che il chiamante ha voluto passare. Oggi il chiamante di casa legge da disco — ma è una sua
+//      cortesia, non una regola: il giorno che un secondo canale passa il frammento della modifica,
+//      ogni mutazione il cui appiglio sta FUORI da quel frammento risulta orfana e non lo è. La cura
+//      non è ricordarsi di leggere il file: è che a leggerlo sia il controllo, per chiunque lo chiami.
+//
+//   ② LO STRUMENTO CHE MISURA TIENE IL FILE ROTTO. `non-vacuita.mjs` rompe il fix apposta per
+//      pretendere il rosso, e mentre il test gira quel file su disco NON contiene `cerca`: è il suo
+//      mestiere. Accusarlo in quella finestra è accusare la misura di essere una malattia. Il
+//      foglietto di AR-708 (`_tmp_non-vacuita-in-corso.json`) dice quale file è sotto misura in
+//      questo momento: leggerlo costa una `readFile` e toglie di mezzo un'intera classe di falsi.
+//
+// Perché conta più di un fastidio: un allarme grave ripetuto undici volte su un lavoro sano insegna
+// a scorrere anche quelli veri (è il verso di AR-699). Un guardiano rumoroso finisce spento come uno
+// lento.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Il nome del foglietto che `non-vacuita.mjs` lascia mentre tiene un file rotto apposta. */
+export const FOGLIETTO_MISURA = "_tmp_non-vacuita-in-corso.json";
+
+/**
+ * Quali file uno strumento di misura sta tenendo rotti ADESSO. Pura: entra il testo del foglietto
+ * (o `null` se non c'è), esce l'insieme dei file da non accusare più il motivo di eventuale cecità.
+ */
+export function fileSottoMisura(testoFoglietto = null) {
+  if (testoFoglietto === null || testoFoglietto === undefined) return { file: new Set(), motivo: null };
+  if (typeof testoFoglietto !== "string" || !testoFoglietto.trim()) {
+    return { file: new Set(), motivo: `${FOGLIETTO_MISURA} c'è ma è vuoto: non so quale file è sotto misura, quindi giudico tutto` };
+  }
+  let nota;
+  try {
+    nota = JSON.parse(testoFoglietto);
+  } catch (e) {
+    return { file: new Set(), motivo: `${FOGLIETTO_MISURA} non è JSON (${e.message}): non so quale file è sotto misura, quindi giudico tutto` };
+  }
+  if (!nota || typeof nota.file !== "string" || !nota.file.trim()) {
+    return { file: new Set(), motivo: `${FOGLIETTO_MISURA} non nomina nessun file: non so quale file è sotto misura, quindi giudico tutto` };
+  }
+  return { file: new Set([nota.file]), motivo: null };
+}
+
+/**
+ * Il testo su cui giudicare le mutazioni di un file. Il disco COMANDA: `t.contenuto` è ciò che il
+ * chiamante ha passato, e su una modifica parziale non è il file intero (AR-713).
+ *
+ * @returns {{testo:string|null, motivo:string|null, sottoMisura:boolean}}
+ */
+export function letturaPerAccecate(file, t = {}, leggi = null, inMisura = new Set()) {
+  if (inMisura.has(file)) return { testo: null, motivo: null, sottoMisura: true };
+  if (typeof leggi !== "function") {
+    return { testo: null, motivo: "non mi è stato dato un modo di leggere il file da disco", sottoMisura: false };
+  }
+  try {
+    const testo = leggi(file);
+    if (typeof testo !== "string") return { testo: null, motivo: "il file non c'è più su disco", sottoMisura: false };
+    return { testo, motivo: null, sottoMisura: false };
+  } catch (e) {
+    return { testo: null, motivo: `non ho potuto leggerlo da disco (${e.message || e})`, sottoMisura: false };
+  }
+}
+
+/**
+ * Il verdetto sulle mutazioni di UN file. Pura: entra il testo già letto, escono voci e motivi.
+ * Un testo che non ho potuto avere non è «nessuna mutazione accecata»: è un ⚪ che si dichiara.
+ */
+export function accecate(file, mutantiDelFile = [], lettura = {}) {
+  const voci = [];
+  const motivi = [];
+  if (!mutantiDelFile.length) return { voci, motivi };
+  if (lettura.sottoMisura) {
+    motivi.push(
+      `${file}: uno strumento di misura lo sta tenendo rotto apposta in questo momento (${FOGLIETTO_MISURA}) — le sue ${mutantiDelFile.length} mutazioni non le giudico finché la corsa non finisce`,
+    );
+    return { voci, motivi };
+  }
+  if (typeof lettura.testo !== "string") {
+    motivi.push(
+      `${file}: ha ${mutantiDelFile.length} mutazione/i ma ${lettura.motivo || "non ho il contenuto"} — non ho potuto controllare se le ho accecate`,
+    );
+    return { voci, motivi };
+  }
+  for (const mu of mutantiDelFile) {
+    if (!mu.cerca) continue;
+    if (lettura.testo.includes(mu.cerca)) continue;
+    voci.push({
+      classe: "prova-accecata",
+      gravita: "grave",
+      file,
+      riga: null,
+      cosa: `la mutazione di ${mu.difetto || "?"} («${mu.nome || ""}») non trova più il suo pezzo in questo file`,
+      perche:
+        "quel fix era protetto da una prova che sapeva diventare rossa. Adesso la prova non ha più niente da rompere: il fix resta, la difesa no — e nessuno se ne accorgerà, perché il test continua a passare.",
+      domanda: `ho spostato quel pezzo (allora aggiorna \`cerca\` in cervello/mutanti.json) o l'ho rimosso (allora ho appena disfatto ${mu.difetto || "un fix"})?`,
+    });
+  }
+  return { voci, motivi };
+}
+
 /**
  * @param {object} ing
  * @param {Array<{file:string, aggiunte:Array<{n:number,testo:string}>, contenuto?:string|null}>} ing.toccati
@@ -681,6 +785,8 @@ export function sorveglia({
   rimossi = [],
   difese = new Map(),
   oggi = "",
+  leggi = null,
+  inMisura = new Set(),
 } = {}) {
   const voci = [];
   const motivi = [];
@@ -769,26 +875,15 @@ export function sorveglia({
     }
 
     // ② prova-accecata — ho toccato un file su cui poggia una mutazione, e il suo appiglio è sparito.
+    //
+    // AR-713 — il giudizio si dà sul FILE, non sul pezzo che mi è arrivato, e non mentre qualcuno lo
+    // sta tenendo rotto apposta. Il testo lo prepara `letturaPerAccecate`; il verdetto lo dà
+    // `accecate`, che è pura e si può eseguire.
     const suQuestoFile = mutanti.filter((mu) => mu.file === file);
     if (suQuestoFile.length) {
-      if (typeof t.contenuto !== "string") {
-        motivi.push(`${file}: ha ${suQuestoFile.length} mutazione/i ma non ho il contenuto dopo la modifica — non ho potuto controllare se le ho accecate`);
-      } else {
-        for (const mu of suQuestoFile) {
-          if (!mu.cerca) continue;
-          if (!t.contenuto.includes(mu.cerca)) {
-            voci.push({
-              classe: "prova-accecata",
-              gravita: "grave",
-              file,
-              riga: null,
-              cosa: `la mutazione di ${mu.difetto || "?"} («${mu.nome || ""}») non trova più il suo pezzo in questo file`,
-              perche: "quel fix era protetto da una prova che sapeva diventare rossa. Adesso la prova non ha più niente da rompere: il fix resta, la difesa no — e nessuno se ne accorgerà, perché il test continua a passare.",
-              domanda: `ho spostato quel pezzo (allora aggiorna \`cerca\` in cervello/mutanti.json) o l'ho rimosso (allora ho appena disfatto ${mu.difetto || "un fix"})?`,
-            });
-          }
-        }
-      }
+      const esito = accecate(file, suQuestoFile, letturaPerAccecate(file, t, leggi, inMisura));
+      voci.push(...esito.voci);
+      motivi.push(...esito.motivi);
     }
 
     // ③ gate-orfano — un freno dichiarato che non può scattare.
@@ -1909,6 +2004,18 @@ export function verdettoDelDelta({ soloStaged = false, da = null, senzaRaggio = 
   const lezioni = leggiLezioni();
   const difese = indiceDifese({ lezioni: lezioni || [], mutanti: mutanti || [], guardiani: guardianiNominati() });
 
+  // AR-713 — chi è sotto misura adesso. Il foglietto lo lascia `non-vacuita.mjs` mentre tiene un
+  // file rotto apposta: senza questa lettura la guardia accusa lo strumento che sta misurando.
+  let foglietto = null;
+  try {
+    const via = join(REPO, FOGLIETTO_MISURA);
+    foglietto = existsSync(via) ? readFileSync(via, "utf8") : null;
+  } catch (e) {
+    motiviIO.push(`non ho potuto leggere ${FOGLIETTO_MISURA} (${e.message}): se una misura è in corso, potrei accusarla a torto`);
+  }
+  const misura = fileSottoMisura(foglietto);
+  if (misura.motivo) motiviIO.push(misura.motivo);
+
   const esito = sorveglia({
     toccati,
     malattie: malattie || [],
@@ -1918,6 +2025,9 @@ export function verdettoDelDelta({ soloStaged = false, da = null, senzaRaggio = 
     rimossi,
     difese,
     oggi: new Date().toISOString().slice(0, 10),
+    // Il disco COMANDA sul frammento che il chiamante ha in mano (AR-713).
+    leggi: (p) => (existsSync(join(REPO, p)) ? readFileSync(join(REPO, p), "utf8") : null),
+    inMisura: misura.file,
   });
   esito.motivi.push(...motiviIO);
   esito.motivi.push(...motiviPerimetro({ base: da, nToccati: toccati.length, nRimossi: rimossi.length }));

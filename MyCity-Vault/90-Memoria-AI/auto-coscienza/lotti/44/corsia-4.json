@@ -1,0 +1,271 @@
+{
+  "corsia": 4,
+  "malattia": "La prova che non prova: il banco che dovrebbe dire se una riparazione tiene ha buchi propri — casi che non possono fallire, mutazioni giudicate dal solo numero di uscita, un sorvegliante che guarda il pezzo invece del file, una promessa che si ritira in silenzio, un canale di osservazione più comodo di quello vero.",
+  "moduli_condivisi": [
+    "cervello/contratto-prova.mjs",
+    "cervello/sorvegliante.mjs",
+    "cervello/spazzata-fratelli.mjs",
+    "cervello/test-cervello.mjs"
+  ],
+  "difetti": [
+    {
+      "id": "AR-713",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prova-accecata-sul-file.test.mjs",
+      "nota_fix": "La scheda sbagliava la causa, e il codice comanda. Diceva che il controllo poggia su `t.contenuto`, cioè sul pezzo che l'hook passa: verificato con git, il chiamante di casa legge il file INTERO da disco da prima del 15/8, quindi quel falso allarme non poteva nascere da lì. La causa vera l'ho vista addosso a me mentre lavoravo: quando `non-vacuita.mjs` gira, tiene un file ROTTO APPOSTA su disco per tutta la durata del test, e in quella finestra il sorvegliante accusa lo strumento che sta misurando — è successo undici volte su scrivi-json.mjs il 15/8, e in questa sessione l'ho visto ripetersi cinquecento volte su un altro file. Adesso il sorvegliante legge il foglietto che AR-708 lascia (`_tmp_non-vacuita-in-corso.json`) e su quel file dichiara «non ho guardato» invece di accusare; finita la corsa, l'accusa torna. E la clausola letterale della scheda l'ho comunque messa in piedi: la lettura da disco non è più una cortesia del chiamante ma un dovere del controllo — `letturaPerAccecate` legge, `accecate` giudica, tutt'e due pure. Un file illeggibile o sparito è un ⚪ dichiarato, mai un verde. NON verificato da qui: che i falsi allarmi del 15/8 fossero proprio quelli di una corsa di non-vacuita — è la ricostruzione più semplice che spiega i fatti (pezzo presente al grep, accusa ripetuta), non una registrazione.",
+      "mutante": {
+        "file": "cervello/sorvegliante.mjs",
+        "cerca": "    const testo = leggi(file);",
+        "sostituisci": "    const testo = t?.contenuto ?? null;"
+      },
+      "non_vacuita": "ESEGUITA. ① rimesso il giudizio sul frammento (`const testo = t?.contenuto ?? null;`) → rosso, 3 casi caduti fra cui «un frammento parziale non fa risultare orfana una mutazione ancora agganciata» e «il contenuto passato dal chiamante NON assolve un file il cui disco ha perso il pezzo». ② spento il ramo di chi è sotto misura (`if (inMisura.has(file))` → `if (false)`) → rosso su «un file tenuto rotto da chi misura non viene accusato». Rimessi tutt'e due: verde, 13/13."
+    },
+    {
+      "id": "AR-723",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/promessa-ritirata.test.mjs",
+      "nota_fix": "Verificato sul codice vero: `caloNonProvato` guarda la controprova solo dentro `if (malattia.controprova)`, quindi cambiarne il testo è rosso e TOGLIERLA è verde — la difesa più forte del registro era quella che si disinstallava più facilmente. Adesso `promesseRitirate` (pura) confronta il registro di oggi con quello dell'ultimo commit e dichiara rosso in due casi: una controprova sparita, e una voce di malattia sparita del tutto. L'unica via d'uscita è dichiarata e costa: la partenza di quella malattia deve SALIRE — chi non sa più controprovare un numero non può contemporaneamente vantare un conteggio più basso. Il registro di ieri arriva da `git show HEAD:cervello/malattie.json`; se non lo posso leggere lo dico e l'uscita diventa 2, perché un confronto mancato non è un verde. Il registro `malattie.json` NON l'ho toccato: è condiviso. Misurato adesso sul repo vero: nessuna promessa ritirata, e il confronto col commit di ieri si è potuto fare davvero. ⚠️ Da sapere per la consegna: da qui in poi, se il lotto toglie una controprova o una voce di malattia, la spazzata diventa rossa — è il punto.",
+      "mutante": {
+        "file": "cervello/spazzata-fratelli.mjs",
+        "cerca": "    if (String(o.controprova ?? \"\").trim()) continue; // la promessa c'è ancora",
+        "sostituisci": "    continue;"
+      },
+      "non_vacuita": "ESEGUITA. Spento il confronto sulla controprova di oggi → rosso su 3 casi, fra cui «togliere la controprova è rosso» e «con la partenza ferma o in calo resta rosso». Rimesso: verde, 13/13 — compreso il caso che lancia lo strumento VERO su un albero finto e pretende uscita 1 con la frase a parole, e il suo controllo che pretende uscita 0 a promessa mantenuta."
+    },
+    {
+      "id": "AR-725",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prove-costose-in-fila.test.mjs",
+      "nota_fix": "Il banco sapeva mettere in fila chi SCRIVE sul dato vivo, e non chi COSTA troppo. Adesso `costaTroppoPerLaCorsia` riconosce il gesto — aprire un browser vero (`launch(`, `newPage(`) o far partire il compilatore — e `perchePartireDaSola` unisce le due domande in una sola risposta, così il banco e la sua prova non possono divergere. Riconosciute dal gesto e non da un elenco di nomi, come chiedeva la scheda: la prossima prova pesante finisce in fila senza che nessuno se lo ricordi. Il motivo per cui una prova va in fila adesso si DICHIARA, nell'intestazione e nel JSON (`in_fila_perche`): «scrive sul dato vivo» e «costa troppo» sono due cose diverse. Limite noto e scritto: il rilevatore guarda il sorgente commenti compresi, quindi una prova che NOMINA il gesto per intero anche solo in un commento finisce in fila — costa lentezza, non un verdetto sbagliato, e la prova di questo difetto compone i gesti a pezzi apposta. NON verificato da qui: che c4-schermo-coda e c4-typecheck-del-pannello smettano davvero di essere instabili nella suite intera — quelle due prove sono di un'altra corsia e la suite completa, con le altre corsie che scrivono, non è misurabile adesso; quello che ho provato è il MECCANISMO, su due prove finte costruite per pestarsi.",
+      "mutante": {
+        "file": "cervello/test-cervello.mjs",
+        "cerca": "      const motivo = perchePartireDaSola(src);",
+        "sostituisci": "      const motivo = scriveSulDatoVivo(src) ? \"scrive sul dato vivo\" : null;"
+      },
+      "non_vacuita": "ESEGUITA. Rimesso il banco a guardare solo l'effetto collaterale → rosso su «due prove costose che si contendono una porta il banco le SERIALIZZA, e sono verdi». Rimesso: verde, 11/11. E c'è il caso di controllo che rende il primo non vacuo: le stesse due prove SENZA il segno del costo restano in corsia e il banco le dichiara INSTABILI — cioè il difetto di AR-725 riprodotto in piccolo, che gira rosso se il meccanismo non serve a niente."
+    },
+    {
+      "id": "AR-714",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/canale-allargato.test.mjs",
+      "nota_fix": "La scheda dichiarava un SOSPETTO da verificare rompendo il fix, e l'ho verificato: infondato in quel punto. Misurata l'uscita dello scanner dei segreti — circa 200 byte sul repo vero, con e senza il canale allargato, e identica passando da una pipe di shell come fa il giro. Quindi quei 32 MB non nascondevano il difetto di AR-441. Ma il GESTO è la forma di AR-698 e nessuno lo contava, quindi ho curato la classe invece dell'istanza: `canaleAllargato` (in contratto-prova.mjs) trova ogni prova che si allarga il canale oltre quello che Node dà a chi non chiede niente, e pretende una riga di dichiarazione col perché — «canale largo: …»; un commento qualsiasi non basta, e un valore che non so leggere non lo accuso. Il numero esce dal referto del banco (`canali_allargati`). L'istanza della scheda è curata: `segreti-file-grosso.test.mjs` adesso guarda lo scanner dal canale vero, e ha un caso nuovo che misura l'uscita e confronta il verdetto diretto con quello da una pipe di shell. ⚠️ Il debito ereditato è di 17 canali allargati in 12 altre prove: NON l'ho messo come tetto dentro la prova, perché un tetto in un file di prova mentre altre corsie ne scrivono diventa rosso per colpa di chi non c'entra (è AR-695). Il tetto va in tetti-lotto.json — vedi patch_per_ad.",
+      "mutante": {
+        "file": "cervello/contratto-prova.mjs",
+        "cerca": "    if (byte === null || byte <= CANALE_VERO) continue;",
+        "sostituisci": "    continue;"
+      },
+      "non_vacuita": "ESEGUITA. Spento il confronto col canale vero → rosso su 3 casi, fra cui «un canale oltre il megabyte senza spiegazione viene trovato, con riga e byte» e «un commento qualsiasi NON basta». Rimesso: verde, 11/11."
+    },
+    {
+      "id": "AR-683",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs",
+      "nota_fix": "Freno già costruito nel lotto 43 e presente su HEAD (`chiusureDaRiverificare` in contratto-prova.mjs, chiamato dal banco a ogni corsa, con «regredita» distinto da «non l'ho potuta eseguire»). Oggi ho fatto la cosa che la scheda chiede in più: TROVARE i tre difetti chiusi con la prova rossa e dire, per ognuno, se è rotta la prova o disfatto il fix. Sono AR-385, AR-412 e AR-413, tutti e tre appoggiati a cervello/test/c1-atto-una-volta-sola.test.mjs. Lanciato adesso: 9 casi su 9 verdi. Quindi né prova rotta né fix disfatto — era un ⚪ d'ambiente, quel test non parte senza pannello/node_modules e nella sessione che l'ha misurato non c'erano; qui ci sono. Controllato anche il contrario, staticamente: fra le 380 schede chiuse con una prova a comando, nessuna punta a un file di prova inesistente. ⚠️ Il conto vero delle chiusure regredite si può fare solo a suite intera e ad albero fermo: con le altre corsie che scrivono leggerei rossi non loro, quindi quel numero lo deve rifare l'AD alla consegna.",
+      "mutante": {
+        "file": "cervello/contratto-prova.mjs",
+        "cerca": "    if (!STATI_CHIUSI.has(String(d?.stato || \"\").toLowerCase())) continue;",
+        "sostituisci": "    if (STATI_CHIUSI.has(String(d?.stato || \"\").toLowerCase())) continue;"
+      },
+      "non_vacuita": "ESEGUITA oggi con `node cervello/non-vacuita.mjs --difetti AR-683`: invertendo il filtro delle chiuse la prova diventa rossa sui due casi dedicati. Verde rimettendo."
+    },
+    {
+      "id": "AR-686",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs",
+      "nota_fix": "Fix del lotto 43 già su HEAD: in contratto-prova.mjs la domanda «il file esiste?» viene prima del giudizio sul pattern, e la fa il contratto per tutti — classificatore del cantiere e auto-fix insieme. Oggi ho rieseguito la prova (26 casi verdi) e la sua mutazione. In più ho controllato il verso che la scheda non nominava, staticamente: nessuna delle 380 schede chiuse con prova a comando punta a un file che non esiste.",
+      "mutante": {
+        "file": "cervello/contratto-prova.mjs",
+        "cerca": "    if (!fileEsiste(v.file)) {",
+        "sostituisci": "    if (false) {"
+      },
+      "non_vacuita": "ESEGUITA oggi: togliendo la domanda sul file diventano rossi tre casi, compreso quello che esegue `classifica` di cantiere-prove.mjs. Verde rimettendo."
+    },
+    {
+      "id": "AR-694",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs",
+      "nota_fix": "Il guardiano c'è ed è quello giusto: `casiSpenti` guarda il BANCO — chi chiama il caso e se ne aspetta il valore — non la parola `async`, e distingue le tre forme sane dalla quarta malata. Il banco lo chiama a ogni corsa e mette il conto nel JSON. Misurato oggi su tutti i file di cervello/test/, comprese le quattro prove nuove che ho scritto io in questo lotto: ZERO casi spenti. Il numero della scheda («sette») era la fotografia di prima del lotto 42.",
+      "mutante": {
+        "file": "cervello/test/perimetro-main.test.mjs",
+        "cerca": "prova(\"l'hook IMPORTA la regola invece di ricopiarla\", () => {",
+        "sostituisci": "prova(\"l'hook IMPORTA la regola invece di ricopiarla\", async () => {"
+      },
+      "non_vacuita": "ESEGUITA oggi: rimettendo `async` su un caso riparato, «i tre file riparati dal lotto 42 non hanno più nessun caso spento» diventa rosso. Provata anche la difesa a monte (spegnendo `if (!b.chiamaSubito) continue`): cadono due casi del guardiano."
+    },
+    {
+      "id": "AR-707",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/non-vacuita-tre-esiti.test.mjs",
+      "nota_fix": "Riletto clausola per clausola contro il codice: il fix è intero. `verdettoCorsa({status, signal, uscita})` è pura ed esportata e dà i quattro esiti nell'ordine giusto — ammazzato (`status == null`) → ⚪ · salto dichiarato → ⚪ · uscita ≠ 0 → ✅ · uscita 0 → ❌ — e `haDichiaratoDiNonGuardare` riconosce tutt'e due le forme chieste (`1..0 # SKIP`, e pass 0 + fail 0 + skipped > 0). Il tetto di tempo è 7 minuti, non più 2. È il difetto che conta di più di tutta la corsia, perché distinguere «il test è diventato rosso» da «il test non è nemmeno partito» è l'intero valore del banco: senza, una mutazione che ammazza il processo compra il verde smettendo di rispondere. Prova verde 7/7 e due mutazioni rieseguite oggi.",
+      "mutante": {
+        "file": "cervello/non-vacuita.mjs",
+        "cerca": "  if (haDichiaratoDiNonGuardare(uscita)) {",
+        "sostituisci": "  if (false) {"
+      },
+      "non_vacuita": "ESEGUITE oggi tutt'e due le mutazioni registrate: togliendo il ramo del cieco, la corsa che si è tirata indietro torna a essere raccontata come «prova vacua» → rosso; togliendo l'ancora al marcatore, una riga verde che cita il carattere ⚪ torna a passare per un motivo → rosso."
+    },
+    {
+      "id": "AR-708",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/non-vacuita-foglietto.test.mjs",
+      "nota_fix": "La scheda aveva ragione riga per riga e il fix è in piedi: il gestore di un segnale è una callback e gira solo a ciclo libero, mentre `spawnSync` lo tiene bloccato per tutta la finestra in cui il file resta rotto. Adesso c'è una traccia su disco — foglietto scritto prima della mutazione, cancellato dopo il ripristino, riletto all'avvio con quattro esiti dichiarati e nessun silenzio. In questa corsia quel foglietto ha guadagnato un secondo mestiere: è la fonte che dice al sorvegliante quale file è sotto misura adesso, e toglie di mezzo la classe di falsi allarmi di AR-713. Un pezzo costruito per una ragione che ne serve due è il segno che la causa era quella giusta.",
+      "mutante": {
+        "file": "cervello/non-vacuita.mjs",
+        "cerca": "      lasciaTraccia(IN_CORSO.stato, IO_VERO.scrivi);",
+        "sostituisci": ""
+      },
+      "non_vacuita": "ESEGUITA oggi: senza il foglietto scritto prima di mutare, nessuno sa che quel file è rotto e il caso col SIGKILL diventa rosso. Verde rimettendo."
+    },
+    {
+      "id": "AR-699",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/mutazioni-orfane.test.mjs",
+      "nota_fix": "Il comando che la scheda chiede esiste — `cervello/mutazioni-orfane.mjs` — con la decisione in una funzione pura, i file toccati presi da git e un file illeggibile che diventa ⚪ invece di «nessuna orfana». Oggi l'ho usato per davvero sul mio stesso lavoro, ed è esattamente il momento per cui è nato: mi ha detto che spostando il controllo di AR-713 avevo staccato la mutazione di AR-453, e riagganciarla è costato mezzo minuto invece di un giro di richiesta di unione. ⚠️ Resta aperto il pezzo che la scheda chiama «il buco nel mezzo»: il comando non è ancora agganciato al momento dell'Edit (servirebbe un hook in .claude/settings.json), e quello è fuori dal territorio di questa corsia. La sonda del sorvegliante intanto lo grida, ma lo grida CENTINAIA di volte — in questa sessione la stessa voce è arrivata a 524 ripetizioni — ed è il verso di AR-699 che nessuno ha ancora curato: la ripetizione andrebbe contata e fatta salire di gravità, non ristampata identica.",
+      "mutante": {
+        "file": "cervello/mutazioni-orfane.mjs",
+        "cerca": "    if (!String(testo).includes(String(m?.cerca ?? \"\"))) {",
+        "sostituisci": "    if (false) {"
+      },
+      "non_vacuita": "ESEGUITA oggi: il comando smette di confrontare il pezzo col file, e nessuna mutazione risulta mai orfana → rosso. Verde rimettendo. In più, la prova sul campo: il comando ha trovato l'orfana vera di AR-453 mentre lavoravo."
+    },
+    {
+      "id": "AR-557",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/sorvegliante.test.mjs",
+      "nota_fix": "La mutazione dichiarata torna a mordere: spegnendo la guardia sui file cancellati il test diventa rosso. È il difetto la cui cura si poteva dichiarare solo eseguendola — leggere il codice non l'avrebbe mai detto. Rieseguita oggi. ⚠️ La causa di SISTEMA che la scheda mette al punto ②, cioè far girare la non-vacuità dentro il cancello del lotto, non è nel mio territorio (cancello-lotto.mjs è dell'AD): la lascio dichiarata come debito, non come fatto.",
+      "mutante": {
+        "file": "cervello/sorvegliante.mjs",
+        "cerca": "      if (!nuovo && vecchio) cancellati.push(vecchio);",
+        "sostituisci": "      if (!nuovo && vecchio) [].push(vecchio);"
+      },
+      "non_vacuita": "ESEGUITA oggi con il banco delle mutazioni: la guardia smette di vedere i file cancellati e il test se ne accorge → rosso. Verde rimettendo. Il test resta verde (139/139) anche dopo le mie modifiche a sorvegliante.mjs."
+    },
+    {
+      "id": "AR-556",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/sorvegliante.test.mjs",
+      "nota_fix": "Verificato sul codice di oggi: la classe «file dove nessuna difesa può vivere» non è più un elenco di un file solo — il sorvegliante riconosce un referto dal campo di intestazione che dichiara chi l'ha scritto, e i registri veri (cantiere-difetti, mutanti, malattie, apprendimento) sono nominati come eccezioni all'esenzione. Le mie modifiche a sorvegliante.mjs non toccano questa strada, e il test resta verde.",
+      "mutante": {
+        "file": "cervello/sorvegliante.mjs",
+        "cerca": "  return typeof contenuto === \"string\" && DICHIARA_GENERATORE.test(contenuto);",
+        "sostituisci": "  return false;"
+      },
+      "non_vacuita": "ESEGUITA oggi: spegnendo il riconoscimento, il secondo referto torna accusato → rosso. Verde rimettendo."
+    },
+    {
+      "id": "AR-706",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prove-senza-esecutore-e-senza-mutazione.test.mjs",
+      "nota_fix": "La cura di sistema che la scheda chiedeva («da valutare un guardiano che elenchi le prove a runtime senza mutazione dichiarata») esiste ed è agganciata al cancello: cerca il GESTO — aprire un browser e una pagina vera — non la parola. Oggi quel modo di riconoscere è stato riusato per AR-725: le stesse due prove che il rilevatore chiama «a runtime» sono quelle che il banco deve far girare da sole. Due guardiani che leggono il codice con la stessa domanda e la scrivono in due posti divergono, e questo è il primo posto dove il rischio si vede: NON ho unito i due rilevatori perché rispondono a domande diverse (uno chiede «chi guida un browser», l'altro «chi costa troppo», e il secondo comprende anche il compilatore), ma vale la pena dirlo all'AD invece di lasciarlo scoprire.",
+      "mutante": {
+        "file": "cervello/prove-runtime-senza-mutazione.mjs",
+        "cerca": "  return proveRuntime.filter((p) => !coperte.has(basename(p.file)));",
+        "sostituisci": "  return [];"
+      },
+      "non_vacuita": "ESEGUITA oggi: il conto delle prove a runtime scoperte torna sempre zero, e una prova che guida un browser senza mutazione passa liscia → rosso. Verde rimettendo."
+    },
+    {
+      "id": "AR-676",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs",
+      "nota_fix": "Verificato dal fuori, non leggendo il codice: `--solo due-worker` (un nome che esiste solo fra le prove in bash) trova la prova e la dichiara ⚪ invece di dire «non c'è niente», e `--solo zzz-non-esiste` esce 1 con «il filtro non ha misurato niente» — un filtro che non pesca niente non è un verde. Le mie modifiche a test-cervello.mjs per AR-725 stanno tutte dopo il filtro e non lo toccano; rieseguita la prova, verde.",
+      "mutante": {
+        "file": "cervello/test-cervello.mjs",
+        "cerca": "  const i = process.argv.indexOf(\"--solo\");",
+        "sostituisci": "  const i = -1;"
+      },
+      "non_vacuita": "ESEGUITA oggi: il filtro torna a guardare una famiglia sola e chiama «vuoto» ciò che non ha cercato → rosso. Verde rimettendo."
+    },
+    {
+      "id": "AR-698",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/spazzata-fratelli.mjs",
+      "nota_fix": "La scheda chiedeva due cose, censire la malattia e cercarne i fratelli, e tutt'e due sono in piedi: la voce `prova-dal-canale-comodo` è nel registro delle malattie con la sua controprova, e la ricerca dei fratelli era già stata fatta su tutte le prove di casa. Oggi ho chiuso il sospetto che quella ricerca aveva lasciato aperto — `segreti-file-grosso.test.mjs` — misurandolo invece di dedurlo: vedi AR-714. Risultato: non era un'istanza (l'uscita è di 200 byte, il canale largo non nascondeva niente), ma il gesto adesso ha un guardiano suo. ⚠️ ATTENZIONE alla consegna: la verifica di questo difetto è un guardiano su TUTTO il repo, quindi il suo verdetto dipende anche da quello che scrivono le altre corsie. Adesso esce 1 per due punti che non sono miei (un tetto gonfiato e un fratello nuovo su `una-parola-con-due-padroni`). Il pezzo che riguarda AR-698 — le promesse ritirate e la controprova del canale comodo — è verde. Da rilanciare ad albero fermo.",
+      "mutante": {
+        "file": "cervello/malattie.json",
+        "cerca": "\"controprova\": \"const maxBuffer = 64000;",
+        "sostituisci": "\"controprova\": \"QUESTA FRASE NON ESISTE IN NESSUN FILE"
+      },
+      "non_vacuita": "ESEGUITA oggi: il testo della controprova smette di far scattare il pattern, il metro non guarda più dove aveva promesso, e lo zero della malattia diventa una bugia → rosso. Verde rimettendo. (È la stessa mutazione già registrata: l'ho rieseguita, non riscritta.)"
+    },
+    {
+      "id": "AR-722",
+      "esito": "aperto",
+      "perche_resta_aperto": "La scheda dice «il ciclo non è coperto da nessuna prova». Verificato sul codice ed è peggio: quel ciclo NON PUÒ girare, quindi una prova che lo faccia girare andrebbe costruita su un ingresso impossibile — cioè un caso che non può fallire, esattamente la malattia che questa corsia cura. La dimostrazione: `massimo` è il più grande numero fra gli id di oggi che si lasciano leggere come numero; l'id coniato è `formaId(giorno, massimo + 1)`, che ha per forza il prefisso di oggi e per forza un suffisso di sole cifre; quindi se fosse già preso, il suo numero sarebbe stato letto e `massimo` sarebbe già ≥ massimo+1. Contraddizione. Verificato anche a forza bruta: nessuna collisione su tutte le combinazioni di uno, due e tre id fra trenta forme diverse di suffisso (padding, spazi, segni, notazione esadecimale ed esponenziale, cifre non latine, suffissi non numerici). Non ho scritto la prova perché sarebbe una prova finta, e non ho tolto il ciclo perché togliere una difesa è una decisione che spetta alla firma. La via d'uscita vera è nel difetto nuovo che ho registrato qui sotto: le due reti leggono lo stesso spazio con due regole diverse, e la prima è troppo generosa.",
+      "togli_verifica_a_pattern": false
+    }
+  ],
+  "bloccati": [
+    {
+      "id": "AR-699",
+      "serve": "file fuori territorio: agganciare `mutazioni-orfane.mjs` al momento dell'Edit vuole un hook PostToolUse in .claude/settings.json (configurazione, non codice della corsia). E far salire di gravità un avviso ripetuto vuole toccare il contatore delle ripetizioni del sorvegliante insieme al canale che lo stampa: il pezzo di codice è mio, la decisione su quante ripetizioni valgono un'escalation è dell'AD. Il resto del difetto è riparato."
+    },
+    {
+      "id": "AR-557",
+      "serve": "file fuori territorio: la causa di sistema del punto ② — far girare `non-vacuita.mjs` dentro `cervello/cancello-lotto.mjs`, almeno sui difetti toccati dal lotto — sta in cancello-lotto.mjs, che è dell'AD. Il punto ① (la prova che torna a mordere sui file cancellati) è riparato e verificato eseguendo."
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "Le due reti che evitano un id doppio leggono lo stesso spazio, e la prima è così generosa che la seconda non può mai servire",
+      "gravita": "minore",
+      "causa_radice": "In `coniaId` il progressivo più alto si calcola con `Number(id.slice(prefisso.length))`, che accetta molto più delle cifre: «1e3» diventa 1000, «0x10» diventa 16, « 7 » diventa 7. Due effetti. Il primo, visibile: un id malformato nell'archivio fa saltare la numerazione del giorno a 1001. Il secondo, invisibile: siccome quella lettura accetta tutto ciò che la seconda rete dovrebbe intercettare, la seconda rete (`while (presi.has(id))`) diventa irraggiungibile — ed è il difetto AR-722, che così non si può nemmeno provare. La cura è una sola: il numero di un id si legge in un posto solo e con una regola stretta (`/^\\d+$/`), e allora le due reti smettono di leggere lo stesso spazio.",
+      "dove": "cervello/lezione-nuova.mjs, funzione coniaId (la riga del massimo e la riga del ciclo)",
+      "fix_proposto": "Estrarre `numeroDiId(id, prefisso)` pura, stretta sulle sole cifre, e usarla nel calcolo del massimo. Prova comportamentale: un archivio con `L-AAAA-MMGG-1e3` deve dare il progressivo 2 e non 1001; e un archivio con un suffisso non numerico non deve spostare la numerazione. Poi decidere su AR-722 con la prova in mano: o il ciclo diventa raggiungibile, o si toglie con la dimostrazione allegata."
+    },
+    {
+      "titolo": "Il sorvegliante ripete lo stesso allarme grave centinaia di volte nella stessa sessione, e la ripetizione non fa niente",
+      "gravita": "medio",
+      "causa_radice": "Il contatore delle ripetizioni esiste e stampa «⟲ già detto N volte», ma N non cambia niente: né la gravità, né il canale, né il fatto che l'allarme venga ristampato identico a ogni singola chiamata di strumento. Misurato in questa sessione: la stessa voce `prova-accecata` su cervello/atti-veri.mjs è arrivata a 524 ripetizioni in poche ore, e in mezzo a quel rumore le voci vere (fra cui una mia, che ho poi riparato) scorrono via. È il verso di AR-699 che la sua scheda nomina («un avviso ripetuto novantanove volte e mai agito non è un avviso, è rumore») e che nessuno ha ancora curato: la ripetizione andrebbe contata e fatta salire di gravità, oppure raggruppata, non ristampata.",
+      "dove": "cervello/sorvegliante.mjs, `vociInsistenti` e `bustaPerIlModello`",
+      "fix_proposto": "Oltre una soglia, una voce ripetuta smette di essere ristampata per intero e diventa una riga sola di riassunto che SALE di gravità e nomina il comando per risolverla. Prova comportamentale: un registro del battito con la stessa voce vista N volte deve produrre una busta diversa da quella con la voce vista una volta, e la differenza deve essere l'escalation, non il testo."
+    }
+  ],
+  "malattie_da_censire": [
+    {
+      "id": "canale-allargato-senza-dirlo",
+      "cosa_e": "Una prova che si allarga il canale con cui osserva il comando sotto misura — `maxBuffer` oltre il megabyte che Node dà a chi non chiede niente — senza scrivere perché. È il secondo verso di `prova-dal-canale-comodo`: lì la prova guarda dal canale sbagliato, qui lo guarda da uno più generoso di quello vero, e in tutt'e due i casi un difetto legato alla quantità di uscita resta invisibile.",
+      "come_si_cerca": "Il conto lo dà `node cervello/test-cervello.mjs --json` nel campo `canali_allargati`, che chiama `canaleAllargato` di cervello/contratto-prova.mjs. Se lo si vuole nel registro delle malattie come pattern: `maxBuffer\\s*:\\s*(?!.*canale largo)`, ma il rilevatore vero è la funzione, perché deve leggere il valore e la riga sopra. Controprova suggerita: una riga con `maxBuffer: 64 * 1024 * 1024` senza dichiarazione, che il pattern DEVE trovare. Misura di oggi: 17 istanze in 12 prove, tutte ereditate; l'unica curata è segreti-file-grosso."
+    }
+  ],
+  "file_toccati": [
+    "cervello/sorvegliante.mjs",
+    "cervello/spazzata-fratelli.mjs",
+    "cervello/test-cervello.mjs",
+    "cervello/contratto-prova.mjs",
+    "cervello/test/sorvegliante.test.mjs",
+    "cervello/test/segreti-file-grosso.test.mjs",
+    "cervello/test/prova-accecata-sul-file.test.mjs",
+    "cervello/test/promessa-ritirata.test.mjs",
+    "cervello/test/prove-costose-in-fila.test.mjs",
+    "cervello/test/canale-allargato.test.mjs"
+  ],
+  "patch_per_ad": [
+    {
+      "file": "cervello/mutanti.json",
+      "stato": "GIÀ APPLICATO dall'AD mentre chiudevo — lasciato qui solo come traccia, non rifarlo",
+      "perche": "Era OBBLIGATORIO: spostando il controllo ② del sorvegliante dentro la funzione pura `accecate` (AR-713), la mutazione di AR-453 non trovava più il suo pezzo, e per quel motivo `cervello/test/mutazioni-orfane.test.mjs` e `cervello/test/prova-che-non-puo-fallire.test.mjs` uscivano 1. Il comportamento era SPOSTATO, non tolto. VERIFICATO ADESSO: la voce di AR-453 in mutanti.json punta alla riga nuova, `node cervello/mutazioni-orfane.mjs` non elenca più nessuna orfana, e tutt'e due quelle prove escono 0.",
+      "diff_proposto": "Nella voce con difetto \"AR-453\" e file \"cervello/sorvegliante.mjs\":\n-  \"cerca\": \"          if (!t.contenuto.includes(mu.cerca)) {\",\n-  \"sostituisci\": \"          if (false) {\"\n+  \"cerca\": \"    if (lettura.testo.includes(mu.cerca)) continue;\",\n+  \"sostituisci\": \"    if (true) continue;\"\n(Le altre orfane segnalate dallo stesso comando — AR-456 su pannello/src/lib/cantiere-snello.ts, AR-684 e AR-671 su cervello/atti-veri.mjs — NON sono mie: sono di altre corsie.)"
+    },
+    {
+      "file": "cervello/mutanti.json",
+      "perche": "Le quattro mutazioni nuove di questa corsia, tutte eseguite e tutte rosse. Le riporto qui perché il registro è condiviso. Per AR-713 ce ne sono DUE: la scheda parla di un difetto solo ma il fix ha due metà indipendenti (il disco che comanda sul frammento, e chi è sotto misura che non si accusa), e una mutazione sola ne coprirebbe metà.",
+      "diff_proposto": "Aggiungere:\n{ \"difetto\": \"AR-713\", \"nome\": \"il giudizio torna a poggiare sul frammento invece che sul file su disco\", \"file\": \"cervello/sorvegliante.mjs\", \"cerca\": \"    const testo = leggi(file);\", \"sostituisci\": \"    const testo = t?.contenuto ?? null;\", \"test\": \"cervello/test/prova-accecata-sul-file.test.mjs\" }\n{ \"difetto\": \"AR-713\", \"nome\": \"il sorvegliante torna ad accusare lo strumento che sta tenendo quel file rotto apposta\", \"file\": \"cervello/sorvegliante.mjs\", \"cerca\": \"  if (inMisura.has(file)) return { testo: null, motivo: null, sottoMisura: true };\", \"sostituisci\": \"  if (false) return { testo: null, motivo: null, sottoMisura: true };\", \"test\": \"cervello/test/prova-accecata-sul-file.test.mjs\" }\n{ \"difetto\": \"AR-723\", \"nome\": \"una controprova ritirata torna a sparire in silenzio\", \"file\": \"cervello/spazzata-fratelli.mjs\", \"cerca\": \"    if (String(o.controprova ?? \\\"\\\").trim()) continue; // la promessa c'è ancora\", \"sostituisci\": \"    continue;\", \"test\": \"cervello/test/promessa-ritirata.test.mjs\" }\n{ \"difetto\": \"AR-725\", \"nome\": \"il banco torna a mettere in fila solo chi scrive sul dato vivo, e le prove costose si pestano in corsia\", \"file\": \"cervello/test-cervello.mjs\", \"cerca\": \"      const motivo = perchePartireDaSola(src);\", \"sostituisci\": \"      const motivo = scriveSulDatoVivo(src) ? \\\"scrive sul dato vivo\\\" : null;\", \"test\": \"cervello/test/prove-costose-in-fila.test.mjs\" }\n{ \"difetto\": \"AR-714\", \"nome\": \"il canale allargato senza dirlo torna a non contare per nessuno\", \"file\": \"cervello/contratto-prova.mjs\", \"cerca\": \"    if (byte === null || byte <= CANALE_VERO) continue;\", \"sostituisci\": \"    continue;\", \"test\": \"cervello/test/canale-allargato.test.mjs\" }"
+    },
+    {
+      "file": "cervello/tetti-lotto.json",
+      "perche": "Il debito ereditato di AR-714 va misurato e fatto scendere, e il posto giusto è il cricchetto dei tetti — non un numero dentro una prova, che altre corsie farebbero diventare rosso senza c'entrare niente (AR-695). Il numero esce già da `node cervello/test-cervello.mjs --json`, campo `canali_allargati`.",
+      "diff_proposto": "Aggiungere una voce `\"canali_allargati\": 17` (misura del 15/8 su cervello/test/: 17 istanze in 12 file, dopo la cura di segreti-file-grosso). Da ricontare ad albero fermo prima di scriverla: le altre corsie hanno aggiunto prove mentre misuravo."
+    },
+    {
+      "file": "cervello/malattie.json",
+      "perche": "Censire il fratello di `prova-dal-canale-comodo` scoperto da AR-714. Il registro è condiviso, quindi lo scrive l'AD: il testo sta in `malattie_da_censire` qui sopra.",
+      "diff_proposto": "Aggiungere la voce `canale-allargato-senza-dirlo` con baseline pari alla misura del momento e la controprova indicata. ⚠️ Da oggi togliere una `controprova` o una voce di malattia senza alzare la baseline fa fallire `node cervello/spazzata-fratelli.mjs` (AR-723): è voluto, ma va saputo prima di modificare il registro."
+    },
+    {
+      "file": "cervello/cancello-lotto.mjs",
+      "perche": "Debito dichiarato, non una richiesta di modifica adesso. AR-557 punto ② chiede che `non-vacuita.mjs` giri DENTRO il cancello almeno sui difetti che il lotto tocca: finché non ci gira, una prova che perde i denti non lo dichiara a nessuno finché qualcuno non la lancia a mano — che è come AR-557 è nato ed è rimasto invisibile per giorni.",
+      "diff_proposto": "Nessun diff proposto: la scelta fra «dentro il cancello» e «sonda periodica con un esito scritto» dipende da quanto tempo il cancello può costare, e quella è una decisione dell'AD. Segnalo solo che oggi il cancello NON lo fa e la scheda lo chiede."
+    }
+  ]
+}

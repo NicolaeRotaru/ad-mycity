@@ -125,23 +125,95 @@ prova("un sensore non misurato conserva il valore di chi l'aveva misurato davver
 });
 
 // ── La prova che la prova non sia vacua ──────────────────────────────────────
+//
+// ⚠️ QUESTO CASO È STATO RISCRITTO IL 16/8, e il motivo vale più della riga cambiata.
+//
+// Partiva da una COPIA DEL FILE VERO e pretendeva che cambiasse. Ha funzionato finché la porta
+// aveva una sola serratura — «l'ambiente è di questo dominio?». Poi ne è arrivata una seconda,
+// più severa e giusta: **una misura cieca non sovrascrive una vedente** (AR-568). Da lì il caso
+// ha cominciato a dipendere da cosa contiene il file vero OGGI: se l'ultima misura era del VPS
+// con sette sensori visti, questa prova — che gira con una chiave finta e ne vede uno — viene
+// respinta, correttamente, e il caso diventa rosso su un codice che sta funzionando bene.
+//
+// È successo davvero: rosso sul ramo principale, con nessuno che avesse rotto niente.
+//
+// La correzione non è ammorbidire la pretesa, è togliere la dipendenza dal dato del giorno. La
+// domanda vera — «la porta sa aprirsi, o è murata?» — si fa partendo da una misura che questa
+// esecuzione ha il DIRITTO di battere: stesso punto d'osservazione, copertura più bassa. Così il
+// caso misura la serratura invece del contenuto di ieri.
 prova("il metro sa dire di SÌ: con una chiave presente il file si scrive", () => {
   const dir = mkdtempSync(join(tmpdir(), "sensori-si-"));
   const copia = join(dir, "sensori-cecita.json");
   copyFileSync(VERO, copia);
+
+  // La misura di partenza è più povera di quella che sta per arrivare, e viene dallo stesso posto:
+  // nessuna delle due serrature ha motivo di tenere chiuso. Se resta chiuso lo stesso, è murata.
+  const base = JSON.parse(readFileSync(copia, "utf8"));
+  base.origine = "prova";
+  base.copertura = 0;
+  base.aggiornato = "2000-01-01 00:00";
+  writeFileSync(copia, JSON.stringify(base, null, 2));
   const prima = readFileSync(copia, "utf8");
 
-  const env = { ...process.env, SENSORI_CECITA_FILE: copia };
+  const env = { ...process.env, SENSORI_CECITA_FILE: copia, MYCITY_ORIGINE_MISURA: "prova" };
   for (const k of CHIAVI) delete env[k];
   // Una chiave finta ma presente: l'ambiente ora è "di questo dominio", la porta deve aprirsi.
+  env.MARKETPLACE_SUPABASE_URL = "https://esempio-non-esiste.supabase.co";
+  env.MARKETPLACE_SUPABASE_KEY = "chiave-finta-per-la-prova";
+  let detto = "";
+  try {
+    detto = execFileSync("node", [VERIFICA], { env, encoding: "utf8", timeout: 240000, stdio: ["ignore", "pipe", "pipe"] });
+  } catch (e) { detto = `${e.stdout || ""}${e.stderr || ""}`; /* l'esito rosso è previsto: la chiave è finta */ }
+
+  const dopo = readFileSync(copia, "utf8");
+  assert.notEqual(
+    dopo,
+    prima,
+    `con una chiave del dominio presente e una misura vecchia più povera il file DEVE aggiornarsi, o la porta è murata. Lo strumento ha detto: ${detto.trim().split("\n").slice(-2).join(" / ")}`
+  );
+});
+
+// ── AR-749: quando la misura NON può entrare al posto dell'altra, deve entrare ACCANTO ──────────
+//
+// Il verdetto di `scrittura-misura.mjs` ha tre risposte, non due: sì, no, e «no ma la metto accanto».
+// Il testo del motivo lo diceva alla lettera — «la metto accanto, non al posto» — e nessuno la
+// metteva accanto: il chiamante guardava solo `scrivi`. Da una macchina con meno chiavi del server
+// il quadro dei sensori non entrava da nessuna parte.
+//
+// ⚠️ Questo caso NON guarda il file vero. Ci ho provato, e la prova passava per la strada sbagliata:
+// oggi quel file è scritto da «cloud», la corsa di prova è anch'essa «cloud», e con la stessa
+// provenienza il verdetto è «scrivi», non «affianca» — il ramo che voglio provare non veniva
+// nemmeno percorso. Una prova che dipende da come è il mondo stamattina non prova la cura.
+// Qui la misura di partenza è costruita a mano: scritta dal server, con più copertura.
+prova("la misura che non può sostituire quella del server finisce ACCANTO, non per terra", () => {
+  const dir = mkdtempSync(join(tmpdir(), "sensori-accanto-"));
+  const copia = join(dir, "sensori-cecita.json");
+  const delServer = {
+    origine: "vps",
+    copertura: 18,
+    scritto_da: "verifica-sensori.mjs",
+    sensori: { mcp_supabase: { stato: "ok" }, sito_uptime: { stato: "ok" } },
+    meta: {},
+  };
+  writeFileSync(copia, `${JSON.stringify(delServer, null, 2)}\n`);
+
+  const env = { ...process.env, SENSORI_CECITA_FILE: copia, MYCITY_ORIGINE: "cloud" };
+  for (const k of CHIAVI) env[k] = "";
   env.MARKETPLACE_SUPABASE_URL = "https://esempio-non-esiste.supabase.co";
   env.MARKETPLACE_SUPABASE_KEY = "chiave-finta-per-la-prova";
   try {
     execFileSync("node", [VERIFICA], { env, encoding: "utf8", timeout: 240000, stdio: ["ignore", "pipe", "pipe"] });
   } catch { /* l'esito rosso è previsto: la chiave è finta */ }
 
-  const dopo = readFileSync(copia, "utf8");
-  assert.notEqual(dopo, prima, "con una chiave del dominio presente il file DEVE aggiornarsi, o la porta è murata");
+  const dopo = JSON.parse(readFileSync(copia, "utf8"));
+  assert.equal(dopo.origine, "vps", "il quadro autorevole non si tocca: resta quello del server");
+  assert.equal(dopo.copertura, 18, "e la sua copertura nemmeno");
+  assert.ok(dopo.misure_affiancate, "la misura rifiutata deve essere finita ACCANTO, non per terra");
+  assert.ok(dopo.misure_affiancate.cloud, "e sotto il nome di chi l'ha presa");
+  assert.ok(
+    Number(dopo.misure_affiancate.cloud.copertura) < 18,
+    "accanto ci va la misura povera, con la sua copertura dichiarata",
+  );
 });
 
 const rossi = casi.filter((c) => !c.ok);

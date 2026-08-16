@@ -68,14 +68,39 @@ function leggiTetti() {
   }
 }
 
-/** Gli id dei difetti la cui `verifica` è cambiata rispetto al ramo pubblicato: quelli del lotto. */
+/**
+ * I campi che dicono «questo lotto ha lavorato su questa scheda».
+ *
+ * Era `verifica` e basta, e per due anni è bastato perché un lotto si riconosceva dalle prove che
+ * scriveva. Poi il lotto 44 ha fatto una cosa che il metro non sapeva vedere: ha RIAPERTO due
+ * difetti che si erano chiusi da soli, mettendoci sopra `chiusura: "bloccata"` col motivo. Nessuna
+ * `verifica` toccata — quelle andavano bene — quindi «zero difetti toccati» mentre il cantiere era
+ * cambiato, e il cancello si dichiarava cieco ed usciva 2. In CI il 2 blocca, quindi il lavoro più
+ * onesto del lotto (dire «questi due non sono chiusi») era proprio quello che non passava.
+ *
+ * Riaprire un difetto è lavorarci. Bloccarne la chiusura è lavorarci. Il metro guarda i quattro campi.
+ *
+ * E il 16/8 è successo di nuovo, terza volta, con `sintomo`: il lotto 45 ha dichiarato a quattro
+ * schede la misura che dice se il difetto si riproduce ancora. Nessuna `verifica` toccata — quelle
+ * restano com'erano — quindi di nuovo «zero difetti toccati», di nuovo ⚪, di nuovo exit 2 in CI.
+ * Dichiarare un sintomo è lavorarci: è la prima volta che qualcuno chiede a quella scheda se è
+ * ancora vera.
+ *
+ * ⚠️ La forma di questo difetto è ricorrente e la lista non la cura: ogni campo di lavoro che
+ * nasce dopo è invisibile finché qualcuno non lo aggiunge a mano, e se ne accorge solo quando la CI
+ * è già rossa. Registrato come difetto suo nel cantiere invece di allargare questo lotto.
+ */
+const CAMPI_DEL_LOTTO = ["verifica", "stato", "chiusura", "sintomo"];
+
+const improntaScheda = (d) => JSON.stringify(CAMPI_DEL_LOTTO.map((c) => d?.[c] ?? null));
+
+/** Gli id dei difetti su cui questo lotto ha lavorato, rispetto al ramo pubblicato. */
 export function difettiToccati(cantiereOra, cantierePrima) {
   if (!cantierePrima) return null; // niente confronto possibile → cieco su questo controllo
-  const prima = new Map((cantierePrima.difetti || []).map((d) => [d.id, JSON.stringify(d.verifica || null)]));
+  const prima = new Map((cantierePrima.difetti || []).map((d) => [d.id, improntaScheda(d)]));
   const toccati = [];
   for (const d of cantiereOra.difetti || []) {
-    const ora = JSON.stringify(d.verifica || null);
-    if (!prima.has(d.id) || prima.get(d.id) !== ora) toccati.push(d.id);
+    if (!prima.has(d.id) || prima.get(d.id) !== improntaScheda(d)) toccati.push(d.id);
   }
   return toccati;
 }
@@ -108,6 +133,38 @@ export function mutazioniNonGirate({ mutantiLetti = true, toccati = null, quante
     return "la prova che le prove provino non ha girato: il cantiere è cambiato ma il confronto non vede nessun difetto toccato (clone superficiale?)";
   }
   return null; // il lotto non lavora su difetti: non c'è nessuna mutazione da rompere, ed è vero
+}
+
+/**
+ * Gli id la cui PROVA questo lotto ha scritto o cambiato.
+ *
+ * ⚠️ PERCHÉ NON BASTA `difettiToccati`, e perché la differenza è nata il 16/8 nel giro stesso in
+ * cui `sintomo` è entrato fra i campi del lotto.
+ *
+ * Appena il metro ha ricominciato a vedere le schede su cui il lotto 45 aveva lavorato, la regola
+ * `prova-con-or` è scattata su AR-190 e AR-192 dicendo «una prova NUOVA con un OR dentro». Quelle
+ * due prove sono identiche a `origin/main`, carattere per carattere: nessuno le aveva toccate. Il
+ * lotto aveva dichiarato il loro SINTOMO — cioè aveva chiesto a quelle schede se fossero ancora
+ * vere — e per questo si è visto imputare prove scritte da altri, mesi fa.
+ *
+ * Sono due domande diverse e vanno tenute separate:
+ *   · «questo lotto ha lavorato su questa scheda?» → `difettiToccati`, e serve a sapere QUALI
+ *     mutazioni far girare: lì è giusto essere larghi, perché una mutazione in più costa poco.
+ *   · «questo lotto ha scritto QUESTA prova?»       → questa funzione, e serve a decidere chi
+ *     giudicare col blocco duro: lì essere larghi significa bloccare qualcuno per il debito di
+ *     un altro, e un cancello che punisce a caso è un cancello che si impara ad aggirare.
+ *
+ * Il debito ereditato non sparisce: resta sotto il suo tetto, che scende e non risale mai.
+ */
+export function proveScritteDalLotto(cantiereOra, cantierePrima) {
+  if (!cantierePrima) return null; // niente confronto possibile → cieco, come per i toccati
+  const impronta = (d) => JSON.stringify(d?.verifica ?? null);
+  const prima = new Map((cantierePrima.difetti || []).map((d) => [d.id, impronta(d)]));
+  const out = [];
+  for (const d of cantiereOra.difetti || []) {
+    if (!prima.has(d.id) || prima.get(d.id) !== impronta(d)) out.push(d.id);
+  }
+  return out;
 }
 
 /**
@@ -635,6 +692,7 @@ function main() {
     cantierePrima = null;
   }
   const toccati = difettiToccati(cantiere, cantierePrima);
+  const proveDelLotto = proveScritteDalLotto(cantiere, cantierePrima);
   const nati = difettiNati(cantiere, cantierePrima);
   const tetti = leggiTetti();
 
@@ -684,7 +742,9 @@ function main() {
 
   // `prova-con-or`: il debito storico ha un tetto, le prove del LOTTO no.
   const tettoOr = tetti.prova_con_or ?? 0;
-  const orNelLotto = toccati ? conOr.filter((id) => toccati.includes(id)) : [];
+  // Il blocco duro guarda chi ha SCRITTO la prova, non chi ha lavorato sulla scheda: dichiarare un
+  // sintomo su una scheda non rende tua la prova che ci trovi sopra (AR-190 e AR-192, 16/8).
+  const orNelLotto = proveDelLotto ? conOr.filter((id) => proveDelLotto.includes(id)) : [];
   if (orNelLotto.length) {
     violazioniProve.push({
       regola: "prova-con-or",
@@ -764,7 +824,10 @@ function main() {
     ? debitoDiMutazione(difetti, (id) => !senzaMutazioneTutti.has(id), riapertoAdesso)
     : { riparati: [], aperti: [], riaperti: [], senzaProvaAComando: 0 };
   const senzaMutazioneContati = senzaMutazione.filter((x) => !riapertoAdesso(x.id));
-  const mutNelLotto = toccati ? senzaMutazioneContati.filter((x) => toccati.includes(x.id)) : [];
+  // La mutazione appartiene alla PROVA, non alla scheda: se non l'hai scritta tu, la sua mutazione
+  // è debito di chi l'ha scritta e resta contata nel tetto. (Le riaperture erano già escluse sopra
+  // con `riapertoAdesso`: dichiarare «non è riparato» non è chiedere una mutazione.)
+  const mutNelLotto = proveDelLotto ? senzaMutazioneContati.filter((x) => proveDelLotto.includes(x.id)) : [];
   for (const x of mutNelLotto) {
     violazioniProve.push({
       regola: "mutazione-mancante",
@@ -857,7 +920,11 @@ function main() {
       regola: "prove-oneste",
       // Rosso e zero id estratti = non ho saputo contare → `null`, e allora non si assolve niente.
       quanti: disonesti.length || null,
-      delLotto: toccati ? disonesti.filter((id) => toccati.includes(id)) : null,
+      // Stessa distinzione della regola dell'OR: il blocco duro guarda chi ha SCRITTO la prova.
+      // Il commento qui sopra dice perché il filtro esiste — «un lotto sano restava bloccato dalle
+      // prove disoneste di radiografie vecchie» — e filtrare sui toccati invece che sulle prove
+      // scritte riapriva proprio quella porta (16/8).
+      delLotto: proveDelLotto ? disonesti.filter((id) => proveDelLotto.includes(id)) : null,
       tetto: tetti.prove_oneste ?? null,
       avvisi,
       violazioni: violazioniProve,
@@ -872,9 +939,32 @@ function main() {
     // importati (AR-445), e quante prove esistono senza che nessuno le faccia girare (AR-660).
     passi.push(esegui("nessun modulo parte da solo se lo importi", "node", ["cervello/import-che-esegue.mjs"]));
     passi.push(esegui("nessuna prova scritta e mai eseguita", "node", ["cervello/prove-non-eseguite.mjs"]));
+    // AR-693 ② — «29 prove in bash che nessuno fa girare» detto come NUMERO con un tetto, e non come
+    // un ⚪ in fondo a un elenco di duecentoquaranta righe. Il tetto scende quando qualcuno installa
+    // bats dove il banco gira davvero; sale mai. Aggiungere una prova in bash mentre nessuno esegue
+    // le altre è una violazione, non un contributo.
+    passi.push(esegui("prove in bash senza esecutore (tetto)", "node", ["cervello/debito-prove-bash.mjs"]));
+    // AR-706 — e la stessa domanda sulle prove che guidano una superficie VIVA: quante non è mai
+    // stata rotta apposta? Una prova a runtime non provata col fix disfatto può misurare il tema
+    // invece della cura, e nessuno se ne accorge — è successo, ed è stato scoperto solo applicando
+    // la mutazione davvero.
+    passi.push(esegui("prove a runtime mai rotte apposta (tetto)", "node", ["cervello/prove-runtime-senza-mutazione.mjs"]));
     // La spazzata chiede «questa malattia si è allargata?». Questo chiede l'altra metà: «la forma che
     // è appena tornata ce l'ha, un nome?» — senza, il registro invecchia da fermo (AR-499).
     passi.push(esegui("le malattie che mancano", "node", ["cervello/malattie-mancanti.mjs"]));
+    // AR-699 — LE MUTAZIONI CHE HO SCOLLEGATO RISCRIVENDO, e non solo quelle dei difetti che nomino.
+    //
+    // `non-vacuita.mjs` qui sotto gira SOLO sulle mutazioni dei difetti che il lotto tocca: è una
+    // scelta giusta (rompere quelle di trenta lotti a ogni consegna costerebbe minuti), ma lascia
+    // scoperto proprio il caso misurato — cinque mutazioni orfanate in un lotto solo, e nessuna
+    // apparteneva a un difetto che quel lotto nominava. Il comportamento era SPOSTATO, non rimosso:
+    // il fix restava, la difesa no, e il test continuava a passare.
+    //
+    // Questo passo fa la domanda sull'altro asse: non «i miei difetti», ma «i file che ho toccato».
+    // Costa una lettura per file e nessun processo. Chi lo trova rosso ha due strade, e sono
+    // entrambe di trenta secondi: se il pezzo l'ho spostato, aggiorno `cerca` in mutanti.json; se
+    // l'ho tolto, ho appena disfatto un fix e lo devo sapere adesso.
+    passi.push(esegui("nessuna mutazione scollegata dai file toccati", "node", ["cervello/mutazioni-orfane.mjs"]));
     // Due schede con lo stesso numero (AR-535): non è un fastidio, è una scheda che sparisce alla
     // prima unione — successo tre volte il 4/8 fra me e il worker. Costa 100 ms e sta qui perché il
     // momento in cui il numero si sceglie è la consegna, e il momento in cui il danno si vede è la

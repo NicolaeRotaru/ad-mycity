@@ -23,6 +23,20 @@ import { nonEUnaPrevisione } from "./volano-regole.mjs";
 import { CAUSE_AMMESSE, conteggioReparto, fineFinestra, invarianteRotta, punteggioOnesto } from "./previsione-verificabile.mjs";
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+// AR-446 · AR-668 — la scrittura passa dal writer atomico condiviso, che consulta il freno della
+// memoria (`cervello/casa-memoria.mjs`). È così che il percorso diventa INIETTABILE senza dare a
+// questo script una variabile sua: chi lo lancia da una prova devia la radice UNA volta e la
+// ereditano anche gli script che questo lancia a sua volta.
+import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
+// AR-446 — e la LETTURA, che è la metà che mancava. Deviare la penna mette al sicuro la memoria
+// vera; non dà alla prova il potere di scegliere cosa questo comando VEDE. Finché il percorso di
+// lettura restava calcolato qui dentro, l'unico modo di provare «senza il fatto northstar.consegnati
+// non apro nessuna previsione» era togliere quel fatto dal registro VERO e rimetterlo in un
+// `finally` — sulla fonte unica della verità, e con il ripristino affidato a un processo che può
+// morire a metà.
+import { fileMemoriaDaLeggere } from "./casa-memoria.mjs";
+// AR-464 — la decisione «è cambiato qualcosa OLTRE l'ora?», pura e provata altrove.
+import { decidiScrittura } from "./scrittura-misura.mjs";
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
 const PATH = join(VAULT, "calibrazione.json");
@@ -52,7 +66,14 @@ function arg(name, def = undefined) {
   return a ? a.slice(pref.length) : def;
 }
 
-function readJsonSafe(path, fallback) {
+/**
+ * Il file da cui leggere davvero: la sabbiera se questa corsa ne ha una e ci trova la sua copia,
+ * altrimenti la memoria vera. Una riga sola, e da qui in giù il percorso è INIETTATO.
+ */
+const daLeggere = (p) => fileMemoriaDaLeggere(p, { env: process.env, esiste: existsSync });
+
+function readJsonSafe(percorso, fallback) {
+  const path = daLeggere(percorso);
   if (!existsSync(path)) return fallback;
   try {
     return JSON.parse(readFileSync(path, "utf8"));
@@ -133,9 +154,10 @@ function readCalibrazione() {
     per_reparto: [],
     registro: [],
   };
-  if (!existsSync(PATH)) return base;
+  const daQui = daLeggere(PATH);
+  if (!existsSync(daQui)) return base;
   try {
-    const j = JSON.parse(readFileSync(PATH, "utf8"));
+    const j = JSON.parse(readFileSync(daQui, "utf8"));
     j.per_reparto = Array.isArray(j.per_reparto) ? j.per_reparto : [];
     j.registro = Array.isArray(j.registro) ? j.registro : [];
     j._cosa_e = base._cosa_e;
@@ -180,12 +202,33 @@ function assertRegistroStrutturato(data) {
   }
 }
 
+/**
+ * L'unica penna del registro delle previsioni — e non scrive se non c'è niente di nuovo (AR-464).
+ *
+ * `report` e `debito` sono comandi di LETTURA e passavano di qui lo stesso: ricalcolavano i reparti,
+ * riscrivevano il file, e l'unica riga diversa era `aggiornato`. Misurato qui il 15/8 lanciando
+ * `calibrazione.mjs report --json` una volta sola: il file vero è comparso in `git status`. Chi lo
+ * lancia per controllare il proprio lavoro si porta a casa un diff che non è suo, e la volta dopo non
+ * lo lancia — un controllo che costa un diff si smette di fare, e un controllo che si smette di fare
+ * è spento.
+ *
+ * Il confronto ignora i campi-timbro (`aggiornato` è uno di quelli), quindi una previsione vera che
+ * entra o cambia stato passa come prima: si ferma soltanto la riscrittura a vuoto.
+ */
 function write(data) {
   assertRegistroStrutturato(data);
   data.aggiornato = nowPiacenza();
   aggiornaNota(data);
-  mkdirSync(dirname(PATH), { recursive: true });
-  writeFileSync(PATH, JSON.stringify(data, null, 2) + "\n", "utf8");
+  let precedente = null;
+  let leggibile = true;
+  try {
+    const daQui = daLeggere(PATH);
+    if (existsSync(daQui)) precedente = JSON.parse(readFileSync(daQui, "utf8"));
+  } catch {
+    leggibile = false; // un file rotto non passa per «non c'era niente prima»: si ripara
+  }
+  const scelta = decidiScrittura({ misuraNuova: data, misuraVecchia: precedente, vecchiaLeggibile: leggibile });
+  if (scelta.scrivi) scriviJsonAtomico(PATH, data);
 }
 
 /**
@@ -545,13 +588,12 @@ function cmdPromozioni(data) {
       `- **Stato:** in attesa\n`;
     if (accoda) {
       if (!existsSync(CODA)) {
-        mkdirSync(dirname(CODA), { recursive: true });
-        writeFileSync(CODA, "# ⏳ AZIONI IN ATTESA (firma di Nicola)\n");
+        scriviTestoAtomico(CODA, "# ⏳ AZIONI IN ATTESA (firma di Nicola)\n");
       }
       const testo = readFileSync(CODA, "utf8");
       // Anti-doppione anche cross-run: se un blocco per questo reparto è già in coda, non riaccodare.
       if (!testo.includes(`Dai più autonomia a ${r.reparto}`)) {
-        writeFileSync(CODA, testo.trimEnd() + "\n" + blocco, "utf8");
+        scriviTestoAtomico(CODA, testo.trimEnd() + "\n" + blocco);
       }
       data.promozioni_proposte[r.reparto] = quando;
       console.log(`🚦 ${r.reparto}: autonomia ALTA guadagnata (${r.azzeccate}/${r.previsioni}, Wilson ${r.lower_bound}) → proposta 🟡 accodata per la firma.`);

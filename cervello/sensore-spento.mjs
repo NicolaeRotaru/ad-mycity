@@ -90,6 +90,32 @@ export function quadroSpenti(sensori = {}, registro = {}) {
   };
 }
 
+/**
+ * La card in coda chiede DAVVERO di questo sensore?
+ *
+ * Non basta che l'ancora `<!-- slug -->` esista. Il 16/8 la card #66 era in coda dal 10/8 e chiedeva
+ * di `telegram_bot` soltanto; poi si è spento anche `mcp_supabase`, e il registro avrebbe potuto
+ * dichiararlo «glielo stiamo chiedendo» indicando quella stessa card — dove il suo nome non compare.
+ * Sarebbe una domanda che nessuno può leggere: il silenzio di prima con un'etichetta sopra.
+ *
+ * Perciò si guarda dentro il blocco della card, dall'ancora fino alla card successiva, e ci si
+ * pretende il nome del sensore. Ritorna `false` anche se il testo manca: nel dubbio la domanda non
+ * c'è.
+ */
+export function laCardChiedeDi(testoCoda, slug, sensore) {
+  const nudo = String(slug || "").replace(/^#/, "");
+  if (!nudo || !sensore) return false;
+  const testo = String(testoCoda || "");
+  const ancora = testo.indexOf(`<!-- ${nudo} -->`);
+  const dove = ancora >= 0 ? ancora : testo.indexOf(nudo);
+  if (dove < 0) return false;
+  // Il blocco finisce dove comincia l'ancora della card dopo (o in fondo al file).
+  const resto = testo.slice(dove + nudo.length);
+  const fine = resto.search(/\n<!-- [a-z0-9-]+ -->/);
+  const blocco = fine < 0 ? resto : resto.slice(0, fine);
+  return blocco.includes(String(sensore));
+}
+
 /** Contratto dei guardiani (AR-322): 0 tutto dichiarato · 1 c'è un buco · 2 non ho potuto leggere. */
 export function codiceUscita({ cieco = 0, senzaMotivo = 0 } = {}) {
   if (cieco > 0) return 2;

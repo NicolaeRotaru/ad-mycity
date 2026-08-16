@@ -35,6 +35,8 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+// 🚦 Il contratto dei codici d'uscita in un posto solo: qui non si ricopia il 2 a mano (AR-711).
+import { CODICE, ciecoPerDatoIllegibile, codiceDiUscita } from "./esito-guardiano.mjs";
 import { fileDelComando } from "./cancello-lotto.mjs";
 // 📏 UNA DEFINIZIONE SOLA di «freno vero» (contratto-prova.mjs) — AR-565.
 //
@@ -43,6 +45,8 @@ import { fileDelComando } from "./cancello-lotto.mjs";
 // rispondono alla stessa domanda vince quello che finisce nella riga di riassunto, e in questa casa
 // il verde vince sempre. La definizione adesso sta nel contratto; qui si CHIAMA.
 import { misuraFreni } from "./contratto-prova.mjs";
+// ⏳ AR-458 — la terza strada: un gate il cui file non c'è PUÒ essere un freno che aspetta un merge.
+import { classificaGateAssente, notaDelGate, nascitaDellaLezione, GIORNI_ATTESA_MAX } from "./gate-in-attesa.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 // AR-596 — il freno stretto, quello che pretende la mutazione DELLA LEZIONE. Non è acceso di
@@ -62,7 +66,7 @@ const MUTANTI = join(AD_ROOT, "cervello/mutanti.json");
  * @param esiste   (percorso) => boolean
  * @param leggi    (percorso) => string | null
  */
-export function analizzaGate(lezioni = [], mutanti = [], esiste = () => false, leggi = () => null) {
+export function analizzaGate(lezioni = [], mutanti = [], esiste = () => false, leggi = () => null, { adesso = Date.now() } = {}) {
   // LA MUTAZIONE È DEL FRENO, NON DELLA FRASE — e resta vero. Ventuno correzioni sulla stessa
   // famiglia puntano tutte allo stesso guardiano: pretendere ventuno mutazioni identiche sarebbe
   // copiatura travestita da rigore. Perciò un freno rotto da chiunque conta come freno provato.
@@ -74,12 +78,114 @@ export function analizzaGate(lezioni = [], mutanti = [], esiste = () => false, l
   // vedono separati, e il totale non cambia: `veri` continua a contenerli tutti (nessun gate sparisce
   // dal conto), `propri` e `per_file` dicono di che pasta è fatto quel numero.
   const m = misuraFreni(lezioni, mutanti, esiste, leggi, fileDelComando);
+
+  // ⏳ AR-458 — LA TERZA STRADA. `misuraFreni` sa dire «il file del gate non esiste» ma non sa
+  // perché: un freno mai costruito e un freno che sta in una PR non ancora mergiata escono da lì
+  // con la stessa etichetta `gate-orfano`. Qui la si separa, con la nota della lezione alla mano.
+  //
+  // La voce NON esce dall'elenco delle violazioni — resta lì, visibile, col suo nome e la sua
+  // gravità — ma smette di essere BLOCCANTE. Due ragioni per tenerla dentro invece che in un terzo
+  // secchio: ① l'invariante «ogni gate dichiarato è o vero o violazione, nessuno sparisce dal
+  // conto» continua a valere, ed è la difesa contro il modo più facile di far salire la pagella;
+  // ② è la stessa forma del sorvegliante, che mette `gate-in-attesa` e `gate-orfano` nella stessa
+  // lista con gravità diverse. Quello che cambia è chi fa uscire 1.
+  const perId = new Map(lezioni.filter(Boolean).map((l) => [l?.id, l]));
+  const violazioni = m.violazioni.map((v) => {
+    if (v.regola !== "gate-orfano") return { ...v, bloccante: true, gravita: "grave" };
+    const l = perId.get(v.lezione);
+    const c = classificaGateAssente({ gateNota: notaDelGate(l), nato: nascitaDellaLezione(l), adesso });
+    return {
+      ...v,
+      regola: c.classe,
+      bloccante: c.bloccante,
+      gravita: c.bloccante ? "grave" : "media",
+      pr: c.pr,
+      giorni_di_attesa: c.giorni,
+      motivo: c.motivo,
+    };
+  });
+
   return {
     dichiarati: m.dichiarati,
     veri: [...m.veri, ...m.perFile],
-    violazioni: m.violazioni,
+    violazioni,
+    // Chi fa uscire 1: le violazioni bloccanti. Le attese sono debito dichiarato, non falsi allarmi.
+    bloccanti: violazioni.filter((v) => v.bloccante),
+    inAttesa: violazioni.filter((v) => v.regola === "gate-in-attesa"),
     propri: m.veri,
     perFile: m.perFile,
+  };
+}
+
+/**
+ * IL CODICE D'USCITA, tirato fuori dal corpo del comando perché una prova lo possa ESEGUIRE (AR-458).
+ *
+ * Era la metà del difetto che non si vedeva: la distinzione fra «orfano» e «in attesa» non serve a
+ * niente se poi il `process.exit(1)` guarda comunque tutto il mucchio. Le due strade del comando —
+ * `--json` e il report a video — passano tutte e due di qui, così non se ne può riparare una sola.
+ *
+ * @param {{bloccanti:object[], perFile:object[]}} esito
+ * @param {{soloProprie?:boolean}} opzioni
+ * @returns {0|1}
+ */
+export function codiceUscitaGate(esito, { soloProprie = false } = {}) {
+  const bloccanti = esito?.bloccanti?.length || 0;
+  const senzaPropria = esito?.perFile?.length || 0;
+  return bloccanti || (soloProprie && senzaPropria) ? 1 : 0;
+}
+
+/**
+ * Il verdetto della misura, nelle tre risposte di casa. Pura.
+ *
+ * Un `esito` assente non è «zero violazioni»: è «non ho misurato». Passa di qui anche il percorso
+ * cieco, così il codice d'uscita del cieco non è più un 2 ricopiato a mano in due punti.
+ */
+export function verdettoGate(esito, { soloProprie = false } = {}) {
+  if (!esito) return ciecoPerDatoIllegibile("non ho potuto leggere i registri", { cosa: "i freni dichiarati" });
+  const codice = codiceUscitaGate(esito, { soloProprie });
+  if (codice === 1)
+    return {
+      stato: "rosso",
+      motivo: `${esito.bloccanti.length} gate dichiarati che non possono scattare`,
+      codice: CODICE.rosso,
+    };
+  return { stato: "verde", motivo: "ogni gate dichiarato può scattare davvero", codice: CODICE.verde };
+}
+
+/**
+ * IL REFERTO IN JSON, CON LE STESSE CHIAVI QUALUNQUE SIA IL VERDETTO — AR-711.
+ *
+ * Il difetto: in `--json` la strada normale stampava `{quando, dichiarati, veri, violazioni, …}` e
+ * la strada cieca `{ok, cieco, motivo}`. Nessun campo in comune. Chi legge fa `dati.violazioni.length`
+ * e si becca un errore invece di una cecità dichiarata: la cecità c'era, ma detta in una lingua che
+ * il lettore non parla — ed è la stessa malattia di un verde finto, perché chi si becca l'errore
+ * quasi sempre lo ingoia e va avanti.
+ *
+ * La cura è un involucro solo, con il verdetto dentro (la forma di `verdettoCapacita`). Chi legge un
+ * conto DEVE guardare prima `verdetto.stato`: quando è `cieco`, gli elenchi sono vuoti perché non è
+ * stato guardato niente, e `misurato` lo dice a chiare lettere.
+ *
+ * Pura: entrano i dati, esce l'oggetto. Nessuna I/O, così una prova può confrontare le due forme.
+ */
+export function refertoGate({ quando, esito = null, verdetto }) {
+  return {
+    quando,
+    // Le tre chiavi storiche della strada cieca: restano, così chi le leggeva continua a leggerle.
+    ok: verdetto.stato === "verde",
+    cieco: verdetto.stato === "cieco",
+    motivo: verdetto.motivo,
+    // La chiave che distingue «ho guardato e non c'era niente» da «non ho guardato».
+    misurato: esito !== null,
+    verdetto,
+    dichiarati: esito?.dichiarati ?? 0,
+    veri: esito?.veri ?? [],
+    violazioni: esito?.violazioni ?? [],
+    bloccanti: esito?.bloccanti ?? [],
+    inAttesa: esito?.inAttesa ?? [],
+    propri: esito?.propri ?? [],
+    perFile: esito?.perFile ?? [],
+    senza_mutazione_propria: esito?.perFile?.length ?? 0,
+    in_attesa: esito?.inAttesa?.length ?? 0,
   };
 }
 
@@ -89,13 +195,13 @@ function main() {
   try {
     lezioni = JSON.parse(readFileSync(APPRENDIMENTO, "utf8")).lezioni || [];
   } catch (e) {
-    return esci(2, `apprendimento.json non leggibile (${e.message}): non posso misurare i gate`);
+    return esci(ciecoPerDatoIllegibile(e, { cosa: "apprendimento.json non leggibile: non posso misurare i gate" }));
   }
   try {
     mutanti = JSON.parse(readFileSync(MUTANTI, "utf8")).mutanti || [];
   } catch (e) {
     // Nessuna mutazione leggibile non è «nessun gate finto»: è non aver guardato.
-    return esci(2, `mutanti.json non leggibile (${e.message}): non posso sapere se i gate sono mai scattati`);
+    return esci(ciecoPerDatoIllegibile(e, { cosa: "mutanti.json non leggibile: non posso sapere se i gate sono mai scattati" }));
   }
 
   const esito = analizzaGate(
@@ -112,8 +218,9 @@ function main() {
   );
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ quando: nowPiacenza(), ...esito, senza_mutazione_propria: esito.perFile.length }, null, 2));
-    process.exit(esito.violazioni.length || (SOLO_PROPRIE && esito.perFile.length) ? 1 : 0);
+    const v = verdettoGate(esito, { soloProprie: SOLO_PROPRIE });
+    console.log(JSON.stringify(refertoGate({ quando: nowPiacenza(), esito, verdetto: v }), null, 2));
+    process.exit(codiceDiUscita(v));
   }
 
   console.log(`\n🚦 GATE VERI — ${nowPiacenza()}\n`);
@@ -139,28 +246,48 @@ function main() {
   }
   if (SOLO_PROPRIE && esito.perFile.length) {
     console.log(`\n❌ --proprie: ${esito.perFile.length} lezioni frenate senza la propria mutazione (${esito.perFile.map((x) => x.lezione).join(", ")}).`);
-    process.exit(1);
+    process.exit(codiceDiUscita(verdettoGate(esito, { soloProprie: SOLO_PROPRIE })));
   }
-  if (esito.violazioni.length) {
+  // ⏳ AR-458 — le attese si mostrano, ma in giallo e senza far uscire 1. Prima finivano nel mucchio
+  // dei rossi: un falso allarme a ogni lezione il cui freno stava in una PR non ancora mergiata, e
+  // un guardiano che grida al lupo si impara a ignorare — compreso il giorno in cui ha ragione.
+  if (esito.inAttesa.length) {
     console.log("");
-    for (const v of esito.violazioni) console.log(`  ❌ ${v.regola} — ${v.lezione}\n     ${v.motivo}`);
-    console.log(`\n❌ ${esito.violazioni.length} gate dichiarati che non possono scattare.`);
+    for (const v of esito.inAttesa) console.log(`  🟡 in attesa — ${v.lezione}\n     ${v.motivo}`);
+    console.log(
+      `\n🟡 ${esito.inAttesa.length} freni esistono in una PR non ancora mergiata: sono debito dichiarato, non difesa.` +
+        `\n   Non è un rosso — ma l'attesa scade: dopo ${GIORNI_ATTESA_MAX} giorni torna un gate orfano, perché` +
+        `\n   un'attesa senza fine è un'esenzione detta più lentamente.`,
+    );
+  }
+  if (esito.bloccanti.length) {
+    console.log("");
+    for (const v of esito.bloccanti) console.log(`  ❌ ${v.regola} — ${v.lezione}\n     ${v.motivo}`);
+    console.log(`\n❌ ${esito.bloccanti.length} gate dichiarati che non possono scattare.`);
     console.log(`   Un freno che non frena conta come freno solo nella pagella: è il modo di far salire`);
     console.log(`   il numero senza costruire la difesa. Aggiungi la mutazione, o togli il campo gate.`);
-    process.exit(1);
+    process.exit(codiceDiUscita(verdettoGate(esito, { soloProprie: SOLO_PROPRIE })));
   }
   if (!esito.dichiarati) {
     console.log("  ⚪ nessuna lezione dichiara un gate: qui non c'è niente da misurare (ed è il problema).");
+  } else if (esito.inAttesa.length) {
+    console.log(`\n✅ nessun gate orfano — ${esito.inAttesa.length} però sono ancora in una PR: quelli non frenano finché non si mergia.`);
   } else {
     console.log(`✅ ogni gate dichiarato può scattare davvero.`);
   }
-  process.exit(0);
+  process.exit(codiceDiUscita(verdettoGate(esito, { soloProprie: SOLO_PROPRIE })));
 }
 
-function esci(codice, messaggio) {
-  if (JSON_MODE) console.log(JSON.stringify({ ok: false, cieco: codice === 2, motivo: messaggio }));
-  else console.error(`gate-veri: ${messaggio}`);
-  process.exit(codice);
+/**
+ * L'uscita anticipata: qui ci si arriva solo quando NON si è potuto misurare.
+ *
+ * AR-711 — il referto passa dallo stesso involucro della strada normale. Prima cambiava forma, e un
+ * lettore che cercava `violazioni` trovava un oggetto che non conosceva.
+ */
+function esci(verdetto) {
+  if (JSON_MODE) console.log(JSON.stringify(refertoGate({ quando: nowPiacenza(), esito: null, verdetto }), null, 2));
+  else console.error(`gate-veri: ${verdetto.motivo}`);
+  process.exit(codiceDiUscita(verdetto));
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) main();

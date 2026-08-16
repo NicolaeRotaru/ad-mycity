@@ -45,7 +45,7 @@
 // possono divergere in silenzio.
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
-import { basename, join } from "node:path";
+import { basename, join, resolve } from "node:path";
 import { spawn, spawnSync } from "node:child_process";
 import { cpus } from "node:os";
 import { pathToFileURL } from "node:url";
@@ -53,7 +53,7 @@ import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 // 📏 Il contratto della prova, in un posto solo (contratto-prova.mjs). Qui si CHIAMA, non si
 // riscrive: le due domande che questo banco è l'unico a poter fare — «questo caso può fallire?» e
 // «questo rosso è la prova di una scheda dichiarata chiusa?» — hanno una risposta sola per tutti.
-import { casiSpenti, chiusureDaRiverificare } from "./contratto-prova.mjs";
+import { canaleAllargato, casiSpenti, chiusureDaRiverificare } from "./contratto-prova.mjs";
 import { fileDelComando } from "./cancello-lotto.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
@@ -62,7 +62,17 @@ const SOLO = (() => {
   const i = process.argv.indexOf("--solo");
   return i >= 0 ? process.argv[i + 1] : null;
 })();
-const CARTELLA = "cervello/test";
+// La cartella delle prove si può PUNTARE ALTROVE, e non è una comodità: è l'unico modo di provare
+// questo banco senza aggiungere al repo una prova rotta apposta. Un banco che si può misurare solo
+// sul contenuto vero di casa è un banco che nessuno misura — la forma di difetto che questa cartella
+// passa il tempo a curare. Il risolutore di TypeScript resta ancorato alla cartella vera: è roba
+// del repo, non della fixture.
+const CARTELLA = process.env.TEST_CERVELLO_DIR || "cervello/test";
+/** Quante volte questo banco è già stato lanciato da dentro sé stesso. Zero = lancio in cima. */
+const PROFONDITA = Number(process.env.MYCITY_BANCO_PROFONDITA || 0);
+/** Un livello di annidamento serve (una prova che misura il banco). Due non serve a nessuno. */
+const PROFONDITA_MASSIMA = 1;
+const HOOK_TS = join(AD_ROOT, "cervello/test", "hook-ts.mjs");
 // Ogni file gira già nel suo processo: le corsie sono quanti processi tenere accesi insieme.
 const CORSIE = SERIALE ? 1 : Math.max(2, Math.min(8, cpus().length));
 
@@ -360,8 +370,27 @@ export function verdetto(status, out) {
  */
 function eseguiTest(dir, f) {
   return new Promise((risolvi) => {
-    const p = spawn(process.execPath, ["--import", join(dir, "hook-ts.mjs"), "--test", "--test-reporter=tap", join(dir, f)], {
+    // ⚠️ `NODE_TEST_CONTEXT` NON SI EREDITA. Quando il banco gira dentro `node --test` (cioè quando
+    // una prova lancia il banco per misurarlo — è il caso di AR-725), Node ha già messo
+    // `NODE_TEST_CONTEXT=child-v8` nell'ambiente, e i NIPOTI la ereditano: si mettono a parlare il
+    // protocollo binario del runner padre invece del TAP che questo banco sa leggere, e il verdetto
+    // che ne esce è «ineseguibile» per tutti. Cioè: il banco misurato da una prova dichiarava rotto
+    // tutto quello che toccava, e sembrava un difetto del codice sotto misura.
+    // Si toglie QUI e non nella singola prova, perché vale per chiunque lanci il banco da dentro un
+    // test — la stessa lezione di sempre: il freno va sul dato, non dentro il comando che ha bruciato.
+    const ambiente = { ...process.env };
+    delete ambiente.NODE_TEST_CONTEXT;
+    // 🔒 E IL FRENO CHE VA CON LA CURA, perché senza è una bomba. Togliere `NODE_TEST_CONTEXT` era
+    // giusto (i nipoti tornano a parlare TAP), ma quella variabile faceva anche da freno per caso:
+    // il banco lancia i test, alcuni test lanciano il cancello, il cancello rilancia il banco. Con i
+    // nipoti rotti la catena moriva da sola; con i nipoti sani è diventata infinita — 373 processi in
+    // pochi minuti, la macchina in ginocchio. Un rimedio che toglie un freno senza rimetterne uno è
+    // peggio del difetto. Qui la profondità si CONTA: un livello di annidamento è quello che serve a
+    // una prova per misurare il banco, due non servono a nessuno.
+    ambiente.MYCITY_BANCO_PROFONDITA = String(PROFONDITA + 1);
+    const p = spawn(process.execPath, ["--import", HOOK_TS, "--test", "--test-reporter=tap", join(dir, f)], {
       cwd: AD_ROOT,
+      env: ambiente,
     });
     let uscita = "";
     p.stdout.on("data", (d) => (uscita += d));
@@ -461,6 +490,60 @@ export function scriveSulDatoVivo(sorgente = "") {
   return /MyCity-Vault\/90-Memoria-AI|auto-coscienza\/[\w-]+\.json|registro-fatti\.json/.test(sorgente);
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-725 — IN FILA ANCHE PER IL COSTO, NON SOLO PER L'EFFETTO COLLATERALE.
+//
+// Il banco sapeva già mettere in fila chi SCRIVE sul dato vivo: due prove che si riscrivono lo
+// stesso file si disturbano, e in corsia diventano rosse a caso. Ma esiste un secondo modo di
+// disturbarsi che non passa da nessun file: il COSTO. Una prova che avvia il Pannello vero e lo
+// guida con un browser, o che lancia il compilatore su tutta la superficie, mangia processori e
+// memoria — e sotto quel carico, insieme, escono rosse; rilanciate da sole escono verdi.
+//
+// Misurato al collaudo del lotto 43: `c4-schermo-coda` e `c4-typecheck-del-pannello` dichiarate
+// «2 prove INSTABILI». Nessuno mentiva — il banco lo diceva — ma una prova il cui verdetto dipende
+// da chi le gira accanto non è una rete: la prossima volta che diventa rossa nessuno saprà dire se
+// è il codice o il vicino. Prima del lotto la suite ne aveva una sola così; dopo, tre.
+//
+// Riconosciute dal GESTO, mai da un elenco di nomi: un elenco si dimentica alla prossima prova
+// pesante, ed è la malattia che questo cantiere cura. Nominare playwright non basta — un aiutante
+// che lo importa senza guidarlo non costa niente; quello che costa è `launch(`, `newPage(` e il
+// compilatore fatto partire davvero.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Avvia un browser vero: `chromium.launch(`, `firefox.launch(`, `webkit.launch(`, `.newPage(`. */
+const APRE_UN_BROWSER = /\b(?:chromium|firefox|webkit)\s*\.\s*launch\s*\(|\.\s*newPage\s*\(/;
+/** Fa partire il compilatore TypeScript: `tsc` come comando, o lo script `typecheck` di npm. */
+const LANCIA_IL_COMPILATORE = /["'`]\s*(?:npx\s+)?tsc\s*(?:--[\w-]+)?["'`]|["'`]tsc["'`]\s*,|\btypecheck\b\s*["'`]|["'`]typecheck["'`]/;
+
+/**
+ * Perché questa prova non può girare in corsia con le altre, oppure `null` se può.
+ * Pura: entra il sorgente, esce il motivo — così il banco e la sua prova non divergono.
+ */
+export function costaTroppoPerLaCorsia(sorgente = "") {
+  const testo = String(sorgente);
+  if (APRE_UN_BROWSER.test(testo)) return "avvia un browser vero";
+  if (LANCIA_IL_COMPILATORE.test(testo)) return "lancia il compilatore";
+  return null;
+}
+
+/**
+ * Va in fila da sola? Torna il motivo (o `null`). Due ragioni diverse, una domanda sola: qui si
+ * decide, e il banco esegue — se le due domande stessero in due posti, la prossima prova pesante
+ * finirebbe nella corsia sbagliata per una svista.
+ */
+export function perchePartireDaSola(sorgente = "") {
+  if (scriveSulDatoVivo(sorgente)) return "scrive sul dato vivo";
+  return costaTroppoPerLaCorsia(sorgente);
+}
+
+/** «3 scrivono sul dato vivo · 2 avviano un browser» — i motivi contati, per l'intestazione. */
+export function riassuntoFila(perche = new Map()) {
+  const conti = new Map();
+  for (const m of perche.values()) conti.set(m, (conti.get(m) || 0) + 1);
+  if (!conti.size) return "nessuna";
+  return [...conti.entries()].sort((a, b) => b[1] - a[1]).map(([m, n]) => `${n} ${m}`).join(" · ");
+}
+
 /** Esegue `lavoro` su tutti gli elementi tenendo al massimo `corsie` processi accesi. */
 export async function aCorsie(elementi, corsie, lavoro) {
   const esiti = new Array(elementi.length);
@@ -476,8 +559,31 @@ export async function aCorsie(elementi, corsie, lavoro) {
 }
 
 async function main() {
+  // 🔒 IL FRENO DELLA RICORSIONE. Il banco lancia i test · alcuni test lanciano il cancello del
+  // lotto · il cancello rilancia il banco. Il cerchio esisteva da sempre e si spezzava per un
+  // incidente — i nipoti nascevano rotti perché ereditavano `NODE_TEST_CONTEXT`. Curato l'incidente
+  // (giusto: senza, i nipoti non parlano TAP e il banco li dichiara ineseguibili), il cerchio è
+  // diventato infinito: centinaia di processi, la macchina in ginocchio e il runner della CI ucciso.
+  // Qui si esce CIECHI e non verdi: «non ho misurato» è la verità, e un verde a questa profondità
+  // sarebbe un banco che si autoapprova.
+  //
+  // Il freno distingue due annidamenti diversi, e la differenza è tutta:
+  //   · su una SABBIERA (`TEST_CERVELLO_DIR`) o su UNA PROVA SOLA (`--solo`) è legittimo e costa
+  //     niente — è così che sei prove di casa misurano il banco stesso, e vietarlo toglierebbe
+  //     l'unico modo di provarlo. La prima versione di questo freno le ha fatte diventare rosse
+  //     tutte e tre insieme: la regola era giusta e il confine sbagliato.
+  //   · sulla SUITE INTERA è il cerchio: 347 file che rilanciano 347 file, e ogni giro ne apre altri.
+  const suiteIntera = !process.env.TEST_CERVELLO_DIR && !SOLO;
+  if (PROFONDITA > PROFONDITA_MASSIMA || (PROFONDITA >= 1 && suiteIntera)) {
+    const messaggio = `⚪ BANCO ANNIDATO (profondità ${PROFONDITA}${suiteIntera ? ", sulla suite intera" : ""}): mi fermo invece di rilanciarmi. Un banco che chiama sé stesso senza fine non misura niente e occupa la macchina.`;
+    if (JSON_MODE) console.log(JSON.stringify({ esito: "cieco", profondita: PROFONDITA, motivo: messaggio, test: [], bats: [] }, null, 2));
+    else console.error(messaggio);
+    process.exit(2);
+  }
   const quando = nowPiacenza();
-  const dir = join(AD_ROOT, CARTELLA);
+  // `resolve` e non `join`: con TEST_CERVELLO_DIR assoluto, `join` incollerebbe il percorso in coda
+  // alla radice e la cartella non esisterebbe — un banco che non trova le prove dice «0 passati».
+  const dir = resolve(AD_ROOT, CARTELLA);
   if (!existsSync(dir)) {
     console.error(`❌ cartella non trovata: ${CARTELLA}`);
     process.exit(1);
@@ -520,14 +626,24 @@ async function main() {
   // domanda: questi casi possono fallire? Stessa lettura, due risposte: un file letto due volte è
   // il modo in cui due misure della stessa cosa si allontanano.
   const spentiPerFile = new Map();
+  const canaliPerFile = new Map();
+  // AR-725 — e il motivo per cui una prova va in fila si dichiara: «scrive sul dato vivo» e «costa
+  // troppo» sono due cose diverse, e chi legge il referto deve poterle distinguere.
+  const perche = new Map();
   const vaInFila = (f) => {
     try {
       const src = readFileSync(join(dir, f), "utf8");
       const spenti = casiSpenti(src);
       if (spenti.length) spentiPerFile.set(`${CARTELLA}/${f}`, spenti);
-      return scriveSulDatoVivo(src);
+      // AR-714 — terza domanda alla stessa lettura: questa prova si allarga il canale senza dirlo?
+      const larghi = canaleAllargato(src);
+      if (larghi.length) canaliPerFile.set(`${CARTELLA}/${f}`, larghi);
+      const motivo = perchePartireDaSola(src);
+      if (motivo) perche.set(f, motivo);
+      return Boolean(motivo);
     } catch (e) {
       illeggibili.push(`${f}: non ho potuto leggerlo (${e.message}) → in fila per prudenza`);
+      perche.set(f, "non l'ho potuto leggere");
       return true;
     }
   };
@@ -566,7 +682,21 @@ async function main() {
   // e un cancello che diventa rosso per motivi che non c'entrano col codice si impara a saltare.
   // Resta ⚠️, dichiarato per nome in fondo, mai spacciato per ✅.
   const tutte = [...righe, ...righeBats];
-  const rotti = tutte.filter((x) => x.esito !== "ok" && x.esito !== "non-eseguito" && x.esito !== "instabile");
+  const eRotto = (x) => x.esito !== "ok" && x.esito !== "non-eseguito" && x.esito !== "instabile";
+  const rotti = tutte.filter(eRotto);
+  // AR-693 ③ — I ROSSI IN BASH SI CONTANO A PARTE DA QUELLI IN NODE.
+  //
+  // Non è cosmetica del report: sono due debiti diversi e chiedono due mosse diverse. I rossi in
+  // Node parlano del lavoro di adesso — chi li ha fatti diventare rossi è chi ha appena scritto. I
+  // rossi in bash sono DEBITO EREDITATO: nove file rossi per diciannove casi caduti, invisibili da
+  // mesi perché su questa macchina `bats` non c'è, e i fallimenti stanno negli script del worker e
+  // del giro (worker.sh, giro.sh, watch-main.sh, i permessi), non nel cervello.
+  //
+  // Sommarli in un numero solo produce la riga che ha tenuto nascosto il buco per mesi: «12 rossi»
+  // fa sembrare che qualcuno abbia appena rotto dodici cose, e chi legge non sa quali sono sue. Un
+  // rosso che non appartiene a chi lo vede è il modo più veloce per imparare a ignorare tutti gli altri.
+  const rottiNode = righe.filter(eRotto);
+  const rottiBash = righeBats.filter(eRotto);
   const totale = tutte.reduce((n, x) => n + (x.passati || 0), 0);
   // ⚪ IN TUTTE E DUE LE FAMIGLIE. Anche una prova in Node può dichiarare di non aver potuto girare
   // (`1..0 # SKIP`): contare i ⚪ solo fra i `.bats` lascerebbe sparire gli altri dal denominatore,
@@ -589,15 +719,20 @@ async function main() {
           asserzioni: totale,
           corsie: CORSIE,
           in_fila: inFila,
+          in_fila_perche: Object.fromEntries(perche),
           illeggibili,
           test: righe,
           bats: righeBats,
           bats_non_eseguiti: nonEseguiti.length,
+          // AR-693 ③ — due debiti, due numeri: quello di adesso (Node) e quello ereditato (bash).
+          rossi_node: rottiNode.map((x) => x.file),
+          rossi_bash: rottiBash.map((x) => x.file),
           non_misurati: nonMisurati.map((x) => x.file),
           bats_binario: bin,
           // I due conti stanno nel JSON SEMPRE, anche a zero: un numero che compare solo quando è
           // brutto non si può guardare scendere — sparisce, e la sparizione somiglia a una guarigione.
           casi_spenti: [...spentiPerFile].map(([file, casi]) => ({ file, casi })),
+          canali_allargati: [...canaliPerFile].map(([file, righe]) => ({ file, righe })),
           chiusure_da_riverificare: chiusure.voci,
           chiusure_non_lette: chiusure.cieco,
         },
@@ -609,7 +744,7 @@ async function main() {
     return;
   }
 
-  console.log(`\n🧪 TEST DEL CERVELLO — ${quando}  (${CORSIE} corsie · ${inFila.length} in fila perché scrivono sul dato vivo)\n`);
+  console.log(`\n🧪 TEST DEL CERVELLO — ${quando}  (${CORSIE} corsie · ${inFila.length} in fila da sole: ${riassuntoFila(perche)})\n`);
   for (const m of illeggibili) console.log(`  ⚠️  ${m}`);
   for (const x of [...righe, ...righeBats]) {
     const icona =
@@ -670,8 +805,11 @@ async function main() {
     process.exitCode = 0;
     return;
   }
+  // AR-693 ③ — il numero dice anche DI CHI è: «12 rossi» e «3 rossi in Node + 9 in bash ereditati»
+  // mandano chi legge in due posti diversi, e solo il secondo è quello giusto.
+  const daChi = rottiBash.length ? ` (${rottiNode.length} in Node · ${rottiBash.length} in bash, debito ereditato AR-693)` : "";
   console.log(
-    `\n❌ ${rotti.length} rossi${nonMisurati.length ? ` · ⚪ ${nonMisurati.length} non misurati` : ""} su ${quantiFile} file: ${rotti.length + nonMisurati.length} non danno garanzie.`,
+    `\n❌ ${rotti.length} rossi${daChi}${nonMisurati.length ? ` · ⚪ ${nonMisurati.length} non misurati` : ""} su ${quantiFile} file: ${rotti.length + nonMisurati.length} non danno garanzie.`,
   );
   console.log(`   Un test che non gira non è una rete: è un file che fa sembrare coperto ciò che non lo è.`);
   process.exitCode = 1;
