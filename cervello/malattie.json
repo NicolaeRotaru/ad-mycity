@@ -222,6 +222,21 @@
      "file": "cervello/git-github.mjs",
      "quale": "riga 177, invio -> false",
      "perche": "E una scrittura di rete che restituisce «e andata a buon fine?»: su eccezione la risposta onesta e proprio `false`, perche l'invio davvero non e confermato. E la cura di «esito-di-scrittura-buttato», non la malattia."
+    },
+    {
+     "file": "cervello/libro-mastro.mjs",
+     "quale": "turnoCorrente(), ancora del turno illeggibile -> \"\"",
+     "perche": "Il turno vuoto NON restringe il verdetto: lo allarga. delTurno() con turno vuoto torna TUTTE le azioni, quindi una fonte non letta qui fa guardare di piu, mai di meno. La malattia e il verdetto piu verde della realta; questo e il caso opposto."
+    },
+    {
+     "file": "cervello/libro-mastro.mjs",
+     "quale": "scrivi(), aggiunta al registro fallita -> false",
+     "perche": "Il booleano E la risposta alla domanda «sono riuscito a scrivere?»: non e un verdetto calcolato su un contenuto parziale, e il falso significa esattamente cio che e successo. Stessa forma gia esente in cervello/git-pr.mjs riga 176."
+    },
+    {
+     "file": "cervello/mappa-copertura.mjs",
+     "quale": "copre(), matcher che non compila -> false",
+     "perche": "Un matcher rotto che «non copre niente» spinge lo strumento fra gli SCOPERTI, cioe fa uscire ROSSO. La malattia e la fonte parziale che produce un verde; qui la direzione dell'errore e quella sicura, ed e la taratura dichiarata in testa alla funzione."
     }
    ],
    "nota_baseline": "0 dal 2026-07-29 (lotto 34). ATTENZIONE al metro: questa regex prende la SINTASSI (un errore che diventa vuoto/zero), non la malattia. Ogni istanza va giudicata su una domanda sola — «il verdetto che ne esce fallisce APERTO o CHIUSO?». I cinque punti dichiarati esenti falliscono tutti chiusi (fanno di meno, non dicono che va bene). Il metro FINE per la meta git della malattia non e questa regex ma `node cervello/storia-git.mjs --check`, che ragiona per chiamata invece che per testo — nato verde il 29/7 dopo aver portato dentro i quattro punti che la scavalcavano. · lotto 40: TOLTA l'esenzione su cervello/consenso-azione.mjs (riga 74, leggiCoda -> \"\"). Non e' una difesa rimossa: e' un residuo. Quell'esenzione descriveva un difetto che AR-443 ha curato in questo stesso lotto — leggiCoda adesso distingue «coda vuota» da «coda illeggibile» e il cancello scrive il motivo vero. La spazzata la segnalava come «esenzione che non corrisponde piu' a niente», ed e' esatto: un'esenzione che non copre piu' nessuna istanza nasconde il prossimo caso vero che nascera' in quel file. La difesa di AR-443 vive nel CODICE e nella sua mutazione (cervello/mutanti.json, verificata unica sul file), non in questa riga."

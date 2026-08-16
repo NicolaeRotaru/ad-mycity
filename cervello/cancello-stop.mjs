@@ -67,6 +67,8 @@ import { percorsiDaGit } from "./percorsi-git.mjs";
 import { misura, parolePeggioNoteAGlossario } from "./si-capisce.mjs";
 import { BATTITO, vociInsistenti } from "./sorvegliante.mjs";
 import { collaudoAlloStop } from "./collaudo.mjs";
+import { abbina, buchi, delTurno, leggiRegistroConEsito, strumentiVisti } from "./libro-mastro.mjs";
+import { leggiFreni, mappa, righeSorveglianza, strumentiDaTrascrizione } from "./mappa-copertura.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -440,6 +442,7 @@ export function lezioniSenzaGate(prima = [], dopo = []) {
  * finisce mai — e un freno che incastra viene spento entro il giorno, che è il peggiore degli esiti.
  */
 export function verdetto({
+  sorveglianza = [],
   chiusi = [],
   allarmi = [],
   lezioni = [],
@@ -460,6 +463,10 @@ export function verdetto({
   // registro; qui si mettono in testa perché il ricontrollo dell'intero lavoro è l'ombrello sotto
   // cui tutti gli altri ❌ si sistemano nello stesso giro.
   for (const r of collaudo) righe.push(r);
+  // Le righe della sorveglianza stanno accanto al collaudo perché rispondono alla stessa domanda —
+  // «cosa è passato senza che nessuno guardasse» — solo che il collaudo guarda il lavoro e queste
+  // guardano le guardie.
+  for (const r of sorveglianza) righe.push(r);
   // ⚪ «NON SO COSA È TUO» (AR-507, Nicola 3/8) — l'accusa che parte prima dell'attribuzione.
   //
   // COSA È SUCCESSO. Prima chiusura di una sessione cloud: nessuna ancora del turno (vive fuori da
@@ -1184,7 +1191,36 @@ async function main() {
     );
   }
 
+  // LA SORVEGLIANZA DI QUESTO TURNO (mosse 1-3, Nicola 16/8). Due domande che prima non aveva nessuno:
+  // ① una guardia si è svegliata e non ha risposto? ② ho usato uno strumento che nessuno guarda?
+  // La ② si può fare solo qui: la lista completa degli strumenti chiamati sta nella trascrizione, e
+  // il percorso della trascrizione arriva solo nel payload di questo hook.
+  const sorveglianza = (() => {
+    try {
+      const { righe: grezze, errore: guasto } = leggiRegistroConEsito();
+      if (guasto) {
+        // ⚪ non è un verde: senza registro non so quali mosse siano state guardate, e dirlo è
+        // l'unica cosa onesta. Zero buchi su una fonte non letta somiglia in tutto a «tutto a posto».
+        ciechi.push(`il libro mastro non è leggibile da qui (${guasto}): non so quali mosse abbiano avuto una guardia.`);
+        return [];
+      }
+      const azioni = delTurno(abbina(grezze), perimetro.turno || "");
+      const { hooks } = leggiFreni();
+      if (!hooks) return [];
+      const usati = trascrizione
+        ? strumentiDaTrascrizione(leggiTrascrizione(trascrizione) || [])
+        : strumentiVisti(azioni);
+      const m = mappa([...new Set([...strumentiVisti(azioni), ...usati])], hooks);
+      return righeSorveglianza({ buchi: buchi(azioni), scoperti: m.scoperti, mosse: azioni.length });
+    } catch (e) {
+      // Il registro è un di più: se si rompe, il cancello fa comunque tutti gli altri controlli.
+      note.push(`la sorveglianza del turno non è misurabile da qui (${e?.message || e}).`);
+      return [];
+    }
+  })();
+
   const v = verdetto({
+    sorveglianza,
     senzaEsito: committati && righeQuaderni ? consegnaSenzaEsito(committati, righeQuaderni.flatMap((f) => f.righe), base ? codiceDopoUltimoEsito(base) : null) : null,
     chiusi: chiusiSenzaProva(cantierePrima, cantiereDopo),
     allarmi: allarmiSenzaCoda(file, codaToccata || codaEraGiaToccata, consegneModificate || []),
