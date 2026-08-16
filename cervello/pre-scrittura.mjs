@@ -60,6 +60,7 @@ import { execFileSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { BATTITO, difeseDelRepo } from "./sorvegliante.mjs";
+import { annota, chiudi } from "./libro-mastro.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -241,6 +242,10 @@ async function main() {
 
   const strumento = ev?.tool_name || "";
 
+  // Il libro mastro: da qui in poi ogni uscita chiude la sua riga. Aprirla senza chiuderla
+  // significherebbe dichiarare questa guardia morta a metà, che è il difetto opposto.
+  const mastro = annota({ guardia: "pre-scrittura", evento: "PreToolUse", strumento, bersaglio: comandoDi(ev?.tool_input) });
+
   // Parte un senior: pianto l'ancora del suo lavoro e non chiedo niente.
   if (strumento === "Task") {
     const b = leggiJson(BATTITO);
@@ -254,11 +259,14 @@ async function main() {
     } catch {
       // Senza ancora il cancello dei senior guarderà un perimetro largo e lo dirà: peggiore, non falso.
     }
+    chiudi(mastro, "ok", "parte un senior: ancora piantata, niente da chiedere");
     process.exit(0);
   }
 
-  const busta = bustaDecisione(decidi({ strumento, comando: comandoDi(ev?.tool_input), difese: difeseDelRepo() }));
+  const d = decidi({ strumento, comando: comandoDi(ev?.tool_input), difese: difeseDelRepo() });
+  const busta = bustaDecisione(d);
   if (busta) console.log(busta);
+  chiudi(mastro, d.chiedi ? "chiede" : "ok", d.chiedi ? d.motivo : "");
   process.exit(0);
 }
 

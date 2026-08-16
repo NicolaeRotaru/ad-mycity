@@ -5041,6 +5041,15 @@
    "sostituisci": "  const impronta = improntaScheda;",
    "test": "cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs",
    "nota": "Provata a mano il 16/8: il caso ⑧ diventa rosso. Riproduce il rosso vero della CI sulla PR #742, dove il blocco duro `prova-con-or` ha imputato al lotto 45 le prove di AR-190 e AR-192 — identiche a origin/main carattere per carattere — solo perché il lotto ne aveva dichiarato il sintomo."
+  },
+  {
+   "lotto": 41,
+   "difetto": "AR-347",
+   "nome": "Il perimetro dei conteggi torna un elenco scritto a mano: COMANDI.md e sentinelle.md tornano invisibili",
+   "file": "cervello/perimetro-conteggi.mjs",
+   "cerca": "return DENTRO.some((d) => {",
+   "sostituisci": "return false; // mutante: perimetro chiuso",
+   "test": "node cervello/test/perimetro-conteggi.test.mjs"
   }
  ]
 }

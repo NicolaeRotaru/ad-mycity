@@ -15,5 +15,6 @@
  "_perche_prove_bash_senza_esecutore": "Lotto 43 · AR-693. Ventinove prove scritte in bash che nessuno esegue, perche bats non e installato ne in CI ne sul VPS ne all avvio di sessione. Finche restano decorative il numero deve essere DICHIARATO e poter solo scendere: un cerchio bianco sparso in fondo a un elenco lungo non e un numero. Misurato sul commit di partenza: senza bats 1 rosso su 243, con bats 12 — dieci fallimenti veri erano invisibili.",
  "_perche_prove_runtime_senza_mutazione": "Lotto 43 · AR-706. Una prova che guida il Pannello vero e non ha una mutazione dichiarata puo misurare il tema invece della cura e restare verde col fix disfatto. Tetto a ZERO: ogni prova a runtime nuova nasce con la sua mutazione, o il cancello si ferma.",
  "canali_allargati": 19,
- "_perche_canali_allargati": "Lotto 44 · AR-714. Una prova che si allarga il canale con cui osserva il comando sotto misura (maxBuffer oltre il megabyte di casa) senza scrivere perche: un difetto legato alla QUANTITA di uscita resta invisibile. Misurato ad albero fermo il 15/8: 19 istanze in 13 prove, tutte ereditate. Scende e non risale."
+ "_perche_canali_allargati": "Lotto 44 · AR-714. Una prova che si allarga il canale con cui osserva il comando sotto misura (maxBuffer oltre il megabyte di casa) senza scrivere perche: un difetto legato alla QUANTITA di uscita resta invisibile. Misurato ad albero fermo il 15/8: 19 istanze in 13 prove, tutte ereditate. Scende e non risale.",
+ "conteggi_agenti_vecchi": 53
 }

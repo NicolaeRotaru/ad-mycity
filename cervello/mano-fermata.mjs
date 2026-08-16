@@ -45,6 +45,7 @@ import { readFileSync } from "node:fs";
 import { dirname, isAbsolute, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import { righeDiFileNuovo, sorveglia } from "./sorvegliante.mjs";
+import { annota, chiudi } from "./libro-mastro.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(QUI);
@@ -190,17 +191,31 @@ async function main() {
   }
 
   // Forma hook: SEMPRE exit 0 — il rifiuto viaggia nel JSON, mai nel codice d'uscita.
+  // Il libro mastro apre la riga appena so su cosa sto guardando, e la chiude su OGNI uscita: una
+  // riga lasciata aperta direbbe «questa guardia è morta a metà», che qui sarebbe falso.
+  let mastro = "";
   try {
     const ev = JSON.parse(await leggiStdin());
     const testo = testoInArrivo(ev?.tool_input || {});
     const assoluto = ev?.tool_input?.file_path || "";
-    if (testo == null || !assoluto) process.exit(0);
+    mastro = annota({ guardia: "mano-fermata", evento: "PreToolUse", strumento: ev?.tool_name || "", bersaglio: assoluto });
+    if (testo == null || !assoluto) {
+      chiudi(mastro, "ok", "nessun testo da guardare in questa scrittura");
+      process.exit(0);
+    }
     const file = isAbsolute(assoluto) ? relative(REPO, assoluto) : assoluto;
-    if (file.startsWith("..")) process.exit(0); // fuori dalla casa: non è giurisdizione di questo freno
-    const busta = bustaManoFermata(giudizioScrittura({ file, testo, malattie: leggiMalattie() }), file);
+    if (file.startsWith("..")) {
+      chiudi(mastro, "ok", "fuori dalla casa: non è giurisdizione di questo freno");
+      process.exit(0); // fuori dalla casa: non è giurisdizione di questo freno
+    }
+    const voci = giudizioScrittura({ file, testo, malattie: leggiMalattie() });
+    const busta = bustaManoFermata(voci, file);
     if (busta) process.stdout.write(busta);
+    chiudi(mastro, voci.length ? "nega" : "ok", voci.length ? voci.map((v) => v.cosa).join(" · ") : "");
   } catch {
-    // Fail-open dichiarato: un freno rotto non deve murare ogni scrittura.
+    // Fail-open dichiarato: un freno rotto non deve murare ogni scrittura. Ma il guasto resta scritto:
+    // un fail-open silenzioso è indistinguibile da un via libera, ed è la cosa che stiamo togliendo.
+    chiudi(mastro, "ok", "freno in errore: fail-open dichiarato, la scrittura è passata senza giudizio");
   }
   process.exit(0);
 }

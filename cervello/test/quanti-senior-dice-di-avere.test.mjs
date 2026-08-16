@@ -71,7 +71,8 @@ const AMMESSE = [
   { dove: "INIZIA-QUI.md", frase: "40 senior", perche: "debito: file fuori territorio, patch consegnata all'AD" },
   { dove: "cervello/agent-registry-check.mjs", frase: "40 senior", perche: "debito: file fuori territorio, patch consegnata all'AD" },
   { dove: "cervello/agent-registry-check.mjs", frase: "42 file reali", perche: "debito: file fuori territorio, patch consegnata all'AD" },
-  { dove: "cervello/sentinelle.md", frase: "42 file reali", perche: "debito: file fuori territorio, patch consegnata all'AD" },
+  // ⬇️ 16/8: «42 file reali» in cervello/sentinelle.md e stata CURATA (ora dice 120). Il tetto scende
+  //    di una riga, come dice la regola qui sopra: la patch consegnata all'AD e stata applicata.
 ];
 
 /** Tutte le citazioni di un numero della squadra diverso dal vero, con dove stanno. */
