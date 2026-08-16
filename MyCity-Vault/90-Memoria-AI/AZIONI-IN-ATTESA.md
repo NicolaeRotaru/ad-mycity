@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-16 12:53** — Automatico: **71 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-16 16:24** — Automatico: **71 aperte · 8 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -22,13 +22,13 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #106 — Pubblica il post "I fornelli restano spenti" per Pane Quotidiano: hummus e pesto genovese bio · ⏳ accodata 2026-08-16 12:05
+### 🔴 #108 — Pubblica il post "I fornelli restano spenti" per Pane Quotidiano: hummus e pesto genovese bio · ⏳ accodata 2026-08-16 12:05 · rinumerata da #106 a #108 il 2026-08-16 16:35 (il numero #106 era già usato da un'altra riga, "Merge PR #741", nata 4 minuti prima)
 
 **Cosa cambia:** esce un post nuovo per Pane Quotidiano, l'unico negozio vero su MyCity. L'angolo è diverso da tutti quelli fatti finora: aggancia il caldo di metà agosto, quando non si ha voglia di stare ai fornelli. Lo aggancia a due prodotti reali già pronti del suo catalogo. Il primo è l'hummus di ceci bio, 2,95€. Il secondo è il pesto genovese bio, 5€ (basta cuocere la pasta). Prezzi e descrizioni letti oggi, in diretta, dal database del marketplace. Zero numeri inventati. Zero recensioni finte: il negozio non ne ha ancora, e il post non ne parla.
 
 **Se va bene:** il post porta qualche click in più verso la scheda del negozio su MyCity (misurabile col codice `no-fornelli-1608`). Apre anche un filone ripetibile ogni settimana con un'altra coppia prodotto-bisogno. I dati si leggono sempre dal vivo dal database, così non si rischia mai di inventare un numero.
 
-**Cosa devi fare:** scrivi «ok 106» se va bene così. Il testo e l'immagine sono già pronti, basta pubblicarli sui canali social di MyCity (Instagram, la sua Storia, Facebook e i gruppi locali).
+**Cosa devi fare:** scrivi «ok 108» se va bene così. Il testo e l'immagine sono già pronti, basta pubblicarli sui canali social di MyCity (Instagram, la sua Storia, Facebook e i gruppi locali).
 
 **Cosa non ho verificato:** non ho controllato con il titolare di Pane Quotidiano se oggi è aperto per davvero. L'orario nel suo profilo è quello standard settimanale, non una conferma per questo giorno specifico. Il post però non promette apertura oggi: parla solo del prodotto ordinabile online. Non ho scattato foto vere dei due prodotti: l'immagine proposta è tipografica (testo su sfondo colorato), non una foto reale del vasetto.
 
@@ -46,7 +46,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Se va bene:** il giro, il ritmo e il checkup di salute tornano a girare da soli, senza fermarsi ad ogni script che non sia uno dei due già elencati. Il Pannello smette di mostrare dati vecchi spacciati per dati di oggi.
 
-**Cosa fare.** Il file è dentro `.gitignore`: non è nel repo. Va aperto e modificato a mano sul VPS, non con una PR. Io stessa non posso scriverci: è protetto apposta, contro il rischio che mi allarghi i permessi da sola. Apri `.claude/settings.local.json` sul VPS e sostituisci l'intero blocco `"allow"` con questo. Aggiunge le due righe che mancano, `Bash(node cervello/*.mjs:*)` e `Bash(bash cervello/*.sh:*)`, senza togliere nulla che c'è già:
+**Cosa fare.** Il file è dentro `.gitignore`: non è nel repo. Va aperto e modificato a mano sul VPS, non con una PR. Io stessa non posso scriverci: è protetto apposta, contro il rischio che mi allarghi i permessi da sola. Apri `.claude/settings.local.json` sul VPS e sostituisci l'intero blocco `"allow"` con questo. Aggiunge due righe che mancano: `Bash(node cervello/*.mjs:*)` e `Bash(bash cervello/*.sh:*)`. Non toglie nulla che c'è già:
 ```json
 {
   "permissions": {
@@ -1188,7 +1188,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-16 12:53)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-16 16:24)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-16-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1200,7 +1200,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-16 12:53 · 8 card totali
+> Ultima pulizia: 2026-08-16 16:24 · 8 card totali
 
 ### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 
@@ -1475,3 +1475,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 103 | 2026-08-16 11:08 | @tech | Merge PR #738 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/738 — 50 difetti in parallelo, CI verde (2/2), pronta per la firma. | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 105 | 2026-08-16 11:29 | @tech | Il test del cervello è rosso per davvero: un commit di stamattina ha cambiato cosa significa "margine" senza aggiornare il test che lo controlla | 🟡 | `cervello/test/burn-down-che-migliora-da-solo.test.mjs` fallisce su `salute-onesta.mjs --json`: il test si aspetta che `burn_down_margine` sia uguale a `cantiere_aperti_settimana_fa_ignoti` (il margine del confronto con una settimana fa — è il comportamento descritto nel commento in cima al test stesso, scritto quando è nato AR-671). Il commit di stamattina delle 08:37 (`78bcfcc39`, "burn_down_margine conta ADESSO, non a settimana fa") ha cambiato `cervello/salute-onesta.mjs:119` per scrivere lì il margine di ADESSO (`margineOra`) invece di quello di una settimana fa. Non ho capito da solo quale dei due comportamenti sia quello giusto oggi: il nome del commit dice "conta ADESSO" di proposito, ma il test (mai toccato da quel commit) dice ancora l'opposto. Verificato dal vivo lanciando l'intera suite (`node --test cervello/test/**/*.test.mjs`, non solo un grep): su oltre 700 test passati in questo giro, questo è l'unico rosso vero. | manuale | in attesa | Finché resta così, il test del cervello segna rosso davvero (non il solito debito noto) e il vincolo HARD blocca ogni "fatto"/PR finché non si sceglie quale dei due numeri è quello giusto. | Dimmi tu quale margine è quello giusto (adesso o una settimana fa): o si aggiorna il test per riflettere la nuova scelta, o si torna indietro sul commit di stamattina. Poi @tech lo sistema in un ramo, verifica col test e apre la PR. |
 | 106 | 2026-08-16 12:01 | @tech | Merge PR #741 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/741 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 107 | 2026-08-16 16:28 | @tech | Due richieste di unione sono rosse da tre giri di fila. Nessuno le sta riparando | 🟡 | Ho rilanciato `ci-stato.mjs` in diretta alle 16:27. La PR #741 e la PR #735 restano rosse. Hanno esattamente lo stesso guasto trovato stamattina, ai passaggi delle 10:26, delle 11:08 e delle 12:55. Nessuna riparazione le ha ancora toccate. Sono le stesse due già descritte nelle card #89, #100 e #106. La #735 fallisce il gate delle lezioni sul proprio ramo. La #741 fallisce due controlli: "verdetti senza lettore" e un commit di lavoro senza esito nel quaderno. Il vincolo di oggi (AR-687) segnala che il controllo CI è appena diventato "cronico": tre giri di fila senza soluzione. Si aggiunge agli altri 8 controlli già in coda dalle card #93-#101. Scrivo questa card perché il vincolo lo chiede. Non è una scoperta nuova sul merito tecnico, che resta invariato. **Novità vera di questo passaggio:** la PR #739, che era in questa stessa lista alle 12:55 (card #100/#102), non risulta più tra le PR aperte. Probabile merge o chiusura avvenuta altrove, nelle ultime tre ore e mezza. Non posso verificarlo da qui: in questa sessione `gh pr view` e `gh pr list` sono stati negati. | manuale | in attesa | Le due PR restano rosse da mezza giornata. Non toccano il marketplace live: nessun rischio per il business. Ma è debito che si accumula invece di chiudersi. | Dimmi se vuoi una cosa tra due: ① dedico una sessione a chiudere per davvero questi 2 rossi, sullo stesso ramo di ciascuna PR (vedi card #83: cambiare ramo è l'errore già fatto una volta); ② li congelo fino a dopo la pausa negozi (24/8-1/9), insieme al resto del lavoro-macchina non urgente. Nel frattempo, verifica se la PR #739 è già stata mergiata: se sì, chiudo io la card #102. |

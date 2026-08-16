@@ -1027,3 +1027,10 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-16 12:56 · @ad · FATTO · ci-stato.mjs rieseguito dal vivo (12:55): PR #739 ricaduta rossa (era verde alle 11:08) per un test del cervello vero (carte-numerate.test.mjs), non più per il gate delle lezioni. Ora 3 PR su 4 rosse (#741, #739, #735), solo #738 verde.
 - 2026-08-16 12:56 · @ad · FATTO · Aggiornate card #100 e #102 in AZIONI-IN-ATTESA con l'avviso "non mergiare finché non torna verde" (stesso trattamento di #89/PR #735).
 - 2026-08-16 12:56 · @ad · SERVE · Invariato: card #62 resta l'unico vero blocco al primo incasso. Firma disponibile solo su #103 (PR #738 verde); non firmare #102 (PR #739 rossa di nuovo).
+
+### 2026-08-16 16:28 — Giro richiesto in chat (~3h32 dopo il passaggio 12:56)
+- 2026-08-16 16:28 · @ad · FATTO · verifica-sensori.mjs + coerenza-fatti.mjs rilanciati dal vivo: business invariato dal 24/6, memoria coerente. Strategia snella applicata (delta-gate firma identica).
+- 2026-08-16 16:28 · @ad · FATTO · ci-stato.mjs rilanciato dal vivo (16:27): PR #741 e #735 restano rosse con la stessa causa di stamattina, PR #738 resta verde. PR #739 non risulta più tra le PR aperte (probabile merge/chiusura fuori sessione, non confermabile qui).
+- 2026-08-16 16:28 · @ad · FATTO · Accodata card #107 in AZIONI-IN-ATTESA: CI diventata cronica (3 giri di fila rossa), chiesto a Nicola se dedicare una sessione al fix o congelare fino a dopo la pausa.
+- 2026-08-16 16:28 · @ad · SERVE · Conferma se PR #739 è già mergiata (card #102 da chiudere se sì). Invariato: card #62 resta l'unico vero blocco al primo incasso; firma disponibile su #103 (PR #738 verde).
+- 2026-08-16 16:41 · @ad · FATTO · Collaudo di fine-turno (AR-532): verificato il diff intero dalla base f2ea10bb7, confermato che il giro delle 16:28 era già coerente su disco. Trovate e corrette 5 frasi troppo dense in AUTO-ANALISI.md, AZIONI-IN-ATTESA.md e AZIONI-PRONTE.md (AR-478, regola scrittura-umana): spezzate in frasi più corte, sostanza invariata. `node cervello/si-capisce.mjs` bloccato dallo stesso limite di permessi della card #104: la correzione è manuale, non riverificata col numero esatto.

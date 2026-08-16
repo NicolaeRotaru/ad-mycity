@@ -1,14 +1,15 @@
 {
-  "data": "2026-08-16 12:56",
-  "situazione": "Business invariato dal 24/6 (delta-gate confermato): 1 ordine mai pagato/annullato, 0 pagati, 0 negli ultimi 7gg — stallo North Star 53 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Strategia snella applicata: 4° passaggio ravvicinato sullo stesso stato, non rilanciate query pesanti. Unica novità reale: PR #739 (card #102), tornata verde alle 11:08, è ricaduta rossa per un test del cervello genuino (carte-numerate.test.mjs) — ora 3 PR su 4 sono rosse (#741, #739, #735), solo #738 resta verde e firmabile (card #103).",
+  "data": "2026-08-16 16:28",
+  "situazione": "Business invariato dal 24/6 (delta-gate confermato): 1 ordine mai pagato/annullato, 0 pagati, 0 negli ultimi 7gg — stallo North Star 54 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Strategia snella applicata: stesso stato di business del giro pieno delle 12:34, non rilanciate query pesanti. Novità del passaggio: la CI è diventata cronica (PR #741 e #735 rosse da 3 giri di fila, stessa causa, nessuno le ha ancora riparate) e PR #739 non risulta più tra le PR aperte — probabile merge/chiusura fuori sessione, da confermare.",
   "opportunita": [],
   "azioni": [
-    {"titolo": "Non firmare ancora il merge di PR #739", "motivo": "era tornata verde alle 11:08 ma è ricaduta rossa su un test del cervello vero (carte-numerate.test.mjs) — firmarla ora porterebbe un test rotto su main", "livello": "giallo"},
-    {"titolo": "Correggi 5 righe nelle regole di permesso del VPS", "motivo": "5 righe dicono \"Write\" invece di \"Edit\" in .claude/settings.local.json sul VPS: è il motivo per cui il giro fallisce da quasi due settimane, il giro non riesce a scrivere memoria/cervello/Pannello per questo, da 12 giorni", "livello": "giallo"},
+    {"titolo": "Dimmi se vuoi che si dedichi una sessione a riparare le due PR rosse croniche, o se si congelano fino a dopo la pausa negozi", "motivo": "PR #741 e #735 restano rosse con la stessa causa da 3 giri di fila senza che nessuno le tocchi — non blocca il business ma è debito che si accumula", "livello": "giallo"},
+    {"titolo": "Conferma se PR #739 è già stata mergiata altrove", "motivo": "era in coda per la tua firma (card #102) ma non risulta più tra le PR aperte: se è già mergiata la card si chiude, altrimenti va ricontrollata", "livello": "giallo"},
+    {"titolo": "Correggi 5 righe nelle regole di permesso del VPS", "motivo": "5 righe dicono \"Write\" invece di \"Edit\" in .claude/settings.local.json sul VPS: è il motivo per cui molti script diagnostici restano bloccati in sessione chat, da 13 giorni", "livello": "giallo"},
     {"titolo": "Scegli quale dei due significati del margine è quello giusto", "motivo": "il test del cervello è rosso per davvero: un commit di stamattina ha cambiato il numero senza aggiornare il test che lo controlla, e la macchina non può decidere da sola quale versione è quella voluta", "livello": "giallo"},
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
     {"titolo": "Tappa i cinque punti dove il marketplace perde soldi da solo", "motivo": "ferma dal 29/7 senza risposta: doppia vendita, coupon che si esauriscono sui tentativi, rider che si decide lo stipendio", "livello": "rosso"},
     {"titolo": "Chiudi le quattro porte aperte sui dati di negozi e clienti", "motivo": "falle RLS verificate sul database vero, ferme dal 29/7 senza risposta", "livello": "rosso"},
-    {"titolo": "Firma il merge della richiesta di unione ormai verde", "motivo": "PR #738 confermata verde al 12:55 — è l'unica delle 4 PR aperte rimasta pulita", "livello": "rosso"}
+    {"titolo": "Firma il merge della richiesta di unione ormai verde", "motivo": "PR #738 confermata verde al 16:27 — è l'unica delle PR aperte rimasta pulita", "livello": "rosso"}
   ]
 }

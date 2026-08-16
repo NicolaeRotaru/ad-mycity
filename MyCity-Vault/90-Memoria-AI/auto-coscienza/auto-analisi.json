@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-08-16 11:12",
-  "voto_fiducia": 89,
-  "sintesi_giro_corrente": "Giro richiesto in chat, ~33 minuti dopo il passaggio delle 10:31/10:39. Business riverificato dal vivo, identico (1 ordine, 0 pagati, 0 ultimi 7gg, ultimo ordine 24/6). Applicata la strategia snella (nessun JSON pesante riscritto senza motivo), ma il rilancio del test del cervello (`node --test cervello/test/**/*.test.mjs`, sostituto allowlistato di test-cervello.mjs) ha trovato 3 rossi VERI, non il solito debito noto — e tutti e 3 sono stati riparati per davvero, non solo segnalati, con riprova verde dopo ciascun fix: ① `carte-numerate.test.mjs` — la card #81 scritta stamattina alle 07:20 riusava un numero già occupato da una riga-tabella del 13/8 (Merge PR #714); rinumerata a #104, verificato che l'insieme dei numeri torna unico. ② `una-card-una-volta-sola.test.mjs` — `mcp_supabase` era fermo su stato `non_verificato` (spento senza un motivo dichiarato in sensori-motivi.json = un vero buco per il guardiano AR-105/108); verificata la connettività reale con una query MCP live (list_tables: 1 ordine, 7 profili, 5 prodotti, coerente col REST) e ridichiarato `--mcp-supabase=ok`. ③ `scadenze-calcolate.test.mjs` — `auto-analisi.json` aveva un campo `salute_macchina.ci_pr_rosse` fuori dal contratto canonico del Pannello; rimosso (l'informazione CI resta in AZIONI-IN-ATTESA #100). In più: confermato dal vivo che PR #739 è tornata verde e PR #738 è verde senza mai aver avuto una card di merge (aggiunte #102/#103); trovata e corretta una card stale (#89, chiedeva di mergiare PR #735 con un testo scritto quando era ancora verde, oggi rossa).",
-  "sintesi": "Business fermo dal 24/6 (stallo 53 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. In questo passaggio: 3 test rossi VERI trovati e riparati con riprova verde (non il solito debito noto), non solo diagnosticati — coerente con l'asticella (prova che gira, non un grep). Coda tenuta onesta: una card stale corretta prima che portasse a un merge sbagliato, 2 card di merge nuove per PR ormai verdi.",
-  "trend_fiducia": "▲ 87→89: in questo passaggio 3 difetti reali (non gli stessi 2 debiti cronici di sempre) sono stati trovati E riparati con riprova verde — un numero di card duplicato, un sensore MCP mai ridichiarato, un campo JSON fuori contratto. Ognuno con una prova che gira (il test stesso), non un grep. Non salgo di più: il debito HARD resta ampio (8 dei 9 controlli AR-687 restano bloccati dall'allowlist di questa sessione) e PR #735 resta rossa.",
+  "data": "2026-08-16 16:28",
+  "voto_fiducia": 88,
+  "sintesi_giro_corrente": "Giro richiesto in chat, ~3h32 dopo il passaggio delle 12:56 (che era il 4° passaggio ravvicinato di oggi sullo stesso business). Applicata la strategia snella: business riverificato dal vivo con verifica-sensori.mjs (16:28) e identico dal 24/6 (1 ordine, 0 pagati, 0 ultimi 7gg). delta-gate.json conferma la stessa firma del giro pieno delle 12:34 — nessun motivo per riscrivere i JSON pesanti già freschi. Unico controllo dal vivo rilanciato oltre ai sensori: ci-stato.mjs (16:27), l'area con la probabilità più alta di essere cambiata in 3+ ore. Trovate 2 novità reali: ① la CI è diventata 'cronica' secondo il vincolo AR-687 (PR #741 e #735 rosse da 3 giri di fila con la stessa causa, nessuna riparazione le ha toccate) — accodata la card #107 con una domanda concreta a Nicola; ② PR #739, che era nella lista delle PR aperte fino al passaggio delle 12:55 (card #100/#102), non compare più in ci-stato.mjs — probabile merge/chiusura fuori sessione, non verificabile da qui perché gh pr list/view sono stati negati esplicitamente in questo passaggio (diverso dal solito 'richiede approvazione'). Dichiarato come Gap, non dato per buono. Nessuna nuova entità di business toccata: registro-realta.json resta invariato.",
+  "sintesi": "Business fermo dal 24/6 (stallo 54 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. In questo passaggio: nessun test/fix di codice (nessun motivo per riaprirli, area invariata da stamattina), lavoro concentrato su tenere la coda onesta — 1 card nuova (CI cronica, #107) e 1 incongruenza segnalata (PR #739 sparita senza conferma).",
+  "trend_fiducia": "▼ 89→88: nessun nuovo difetto riparato in questo passaggio (a differenza di quello delle 11:12), solo osservazione onesta + 1 card nuova; il debito HARD resta ampio e la CI è peggiorata di stato (da 'debole' a 'cronica' per il vincolo AR-687) anche se il merito tecnico delle 2 PR rosse è invariato dalle 10:26.",
   "entita_verificate_10_25": [
     {
       "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / ultimo ordine 2026-06-24",
@@ -46,7 +46,17 @@
     {
       "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / 7 profili / 5 prodotti / 1 negozio / 3 carrelli",
       "stato": "confermato",
-      "fonte": "verifica-sensori.mjs riconfermato dal vivo in questo passaggio (10:25)"
+      "fonte": "verifica-sensori.mjs riconfermato dal vivo in questo passaggio (16:28)"
+    },
+    {
+      "nome": "PR #741 e PR #735 rosse con la stessa causa di stamattina",
+      "stato": "confermato",
+      "fonte": "ci-stato.mjs eseguito dal vivo (16:27), stesso dettaglio controlli falliti dei passaggi 10:26/12:55"
+    },
+    {
+      "nome": "PR #739 mergiata/chiusa fuori sessione",
+      "stato": "da_verificare",
+      "fonte": "dedotta per assenza dalla lista di ci-stato.mjs (16:27) rispetto alla card #100/#102 (12:55) — non confermata da GitHub direttamente (gh pr list/view negati in questo passaggio)"
     }
   ],
   "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9). Nessuna ricerca nuova aperta — rispettato il vincolo north-star (solo lavoro che sblocca il primo ordine o ripara la macchina).",
@@ -57,9 +67,9 @@
     "sensori_attivi": 8,
     "sito_uptime": "cieco (HTTP 503, migrazione Render→Vercel non fatta — registro-fatti.json → marketplace.hosting, non un guasto nuovo)"
   },
-  "gate_correzione_nicola_confermati_invariati": "Diagnosticato in questo passaggio (card #95): 246/311 lezioni senza gate (sano:false), soglia 20. Non riparato (script gate-veri.mjs bloccato dall'allowlist), ma la causa del blocco stesso è ora esplicita e collegata a card #42 invece di restare un debito muto.",
-  "livello_verifica": "L2 (business riverificato con lo script REST dal vivo, non ereditato; coerenza-fatti e ci-stato riverificati dal vivo; il fix OKR verificato leggendo il codice sorgente del guardiano, non assunto)",
-  "refutazione": "REFUTAZIONE VERA su 2 claim di questo passaggio: ① 'il business è invariato dal passaggio delle 08:46' — verificato con verifica-sensori.mjs dal vivo — SOPRAVVIVE, identico. ② 'il fix di freschezza-okr.mjs risolve il falso positivo' — verificato rileggendo la funzione targetScaduti() riga per riga e confermando che il regex \\d{1,2}\\/\\d{1,2} non matcha più contro '2026-08-15' (niente slash) né contro nessun'altra cella della tabella (l'unica coppia rimasta, 24/8-1/9, è una data futura) — SOPRAVVIVE, ma non ho potuto rilanciare lo script stesso per la conferma finale (bloccato dall'allowlist): resta verifica di codice, non di esecuzione — dichiarato esplicitamente, non spacciato per verde.",
+  "gate_correzione_nicola_confermati_invariati": "246/311 lezioni senza gate (sano:false), soglia 20 — invariato dalla card #95 (10:26). Nessuna nuova ricerca di candidati gatabili in questo passaggio: la stessa indagine è già stata fatta e scartata onestamente 4+ volte oggi, ripeterla identica ora sarebbe la passata a vuoto già scartata dal playbook-giro-pieno-ripetuto-strategia.",
+  "livello_verifica": "L2 (business riverificato con lo script REST dal vivo alle 16:28, non ereditato; coerenza-fatti e ci-stato riverificati dal vivo; PR #739 dichiarata 'sparita' solo dal confronto tra ci-stato.mjs di oggi e la card #100/#102 di stamattina, non da una lettura diretta di GitHub — negato l'accesso a gh pr list/view in questo passaggio)",
+  "refutazione": "REFUTAZIONE VERA su 2 claim di questo passaggio: ① 'il business è invariato dal passaggio delle 12:56' — verificato con verifica-sensori.mjs dal vivo (16:28) — SOPRAVVIVE, identico (1 ordine, 0 pagati, stessa data 24/6). ② 'PR #741 e #735 hanno la stessa causa di stamattina' — verificato leggendo l'output completo di ci-stato.mjs (16:27), stessi controlli falliti elencati parola per parola rispetto al passaggio delle 10:26/12:55 — SOPRAVVIVE. Non refutato per mancanza di accesso: 'PR #739 è stata mergiata' resta un'ipotesi (probabile, non verificata) — dichiarata come tale, non spacciata per fatto.",
   "domande_per_nicola": [
     {
       "tipo": "manutenzione",
@@ -77,6 +87,18 @@
       "tipo": "north_star",
       "domanda": "Il guardiano north-star-check.mjs non ha un'eccezione per la pausa concordata: darà sempre rosso fino al 24/8-1/9 anche se tutto procede come deciso. Proposta card #97 per aggiungere quella consapevolezza al codice.",
       "azione": "conferma se scrivere il fix (branch + PR, mai merge automatico)",
+      "colore": "🟡"
+    },
+    {
+      "tipo": "ci",
+      "domanda": "PR #741 e #735 sono rosse da 3 giri di fila con la stessa causa, senza che nessuno le tocchi (nuova card #107).",
+      "azione": "dedicare una sessione al fix vero, oppure congelarle fino a dopo la pausa negozi insieme al resto del debito macchina non urgente",
+      "colore": "🟡"
+    },
+    {
+      "tipo": "verifica",
+      "domanda": "PR #739 (card #102) non risulta più tra le PR aperte in ci-stato.mjs — probabile merge/chiusura, non confermato da qui.",
+      "azione": "conferma se è già mergiata: se sì, la card #102 si chiude senza altra azione",
       "colore": "🟡"
     }
   ]

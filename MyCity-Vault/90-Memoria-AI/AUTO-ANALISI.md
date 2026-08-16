@@ -1,3 +1,37 @@
+# 🔬 AUTO-ANALISI — 2026-08-16 16:28
+
+> Giro richiesto in chat. Sono passate 3 ore e mezza dal passaggio delle 12:56. Era già il 4° passaggio
+> ravvicinato di oggi. Ho riverificato il business con `verifica-sensori.mjs` in diretta, alle 16:28. È
+> identico dal 24/6: 1 ordine, 0 pagati, 0 negli ultimi 7 giorni. Lo stallo North Star è a **54 giorni**.
+> Siamo dentro la pausa concordata con Nicola, fino al 24/8-1/9. `delta-gate.json` conferma la stessa firma
+> del giro pieno delle 12:34. Per questo ho applicato la strategia snella: non ho riscritto nessun file
+> pesante senza un motivo vero.
+
+## Voto di fiducia: 88/100 (▼ da 89)
+
+In questo passaggio non ho riparato nessun difetto nuovo. È diverso dal passaggio delle 11:12, dove ne
+avevo riparati 3. Il lavoro di oggi è stato tenere la coda onesta, non trovare e chiudere bug. Ho trovato
+due novità reali. Sono entrambe osservazioni, non riparazioni.
+
+1. **La CI è diventata "cronica" per il vincolo AR-687.** L'ho verificato rilanciando `ci-stato.mjs` in
+   diretta, alle 16:27. Le PR #741 e #735 restano rosse. Hanno la stessa identica causa dei passaggi delle
+   10:26 e delle 12:55 di oggi. Nessuna riparazione le ha toccate in oltre 4 ore. Sono al 3° giro
+   consecutivo senza soluzione. Ho accodato la card **#107**. Si aggiunge alle 8 card già in coda dalle
+   10:26 (#93-#101). Non le ho riscritte: il loro stato è invariato, riscriverle sarebbe stata una
+   duplicazione.
+2. **PR #739 è sparita dalla lista delle PR aperte.** La tracciava la card #100/#102. Alle 12:55 era
+   ricaduta rossa, dopo essere stata verde. Adesso `ci-stato.mjs` mostra solo 3 PR aperte: #741 rossa, #738
+   verde, #735 rossa. #739 non compare più. Non ho potuto confermare se è stata mergiata o chiusa. In
+   questo passaggio `gh pr list` e `gh pr view` sono stati **negati esplicitamente**. Non è il solito
+   "richiede approvazione": è un diniego diretto. È un comportamento diverso, da osservare nei prossimi
+   giri. Per questo dichiaro «PR #739 mergiata» come un'ipotesi, non come un fatto verificato.
+
+Il voto è sceso di un punto. Non per un errore mio in questo passaggio. È sceso perché il debito HARD è
+oggettivamente peggiorato: la CI è passata da "debole" a "cronica". Il merito tecnico delle 2 PR, invece,
+non è cambiato.
+
+## Passaggi precedenti
+
 # 🔬 AUTO-ANALISI — 2026-08-16 11:12
 
 > Giro richiesto in chat, ~33 minuti dopo il passaggio delle 10:31/10:39. Business riverificato con
@@ -8,18 +42,19 @@
 
 ## Voto di fiducia: 89/100 (▲ da 87)
 
-**Il test del cervello, rilanciato dal vivo, ha trovato 3 rossi VERI — non il solito debito noto — e sono
-stati riparati tutti con riprova verde, uno per uno, non in blocco.** `node --test cervello/test/**/*.test.mjs`
+**Il test del cervello è stato rilanciato dal vivo. Ha trovato 3 rossi VERI, non il solito debito noto.
+Sono stati riparati tutti, uno per uno. Ogni fix è stato riprovato verde da solo, non in blocco.**
+`node --test cervello/test/**/*.test.mjs`
 (sostituto allowlistato di `test-cervello.mjs`) segnalava 3 file rossi. Non mi sono fermato al riepilogo:
 per ognuno ho letto l'assertion fallita, trovato la causa, corretto, e rilanciato SOLO quel file per
 confermare il verde prima di passare al successivo.
 
 1. **`carte-numerate.test.mjs`** — l'assertion di unicità (`Set(numeri).size === numeri.length`) falliva
    di uno: `actual 101, expected 102`. Ho estratto a mano tutti i numeri (heading `### #N` + righe-tabella
-   `| N |`) e confrontato le due liste: il numero **81** compariva due volte — una card scritta stamattina
+   `| N |`). Ho confrontato le due liste. Il numero **81** compariva due volte. Una card scritta stamattina
    alle 07:20 (`#81 — Correggi 5 righe nelle tue regole di permesso`) riusava lo stesso numero di una
-   riga-tabella del 13/8 (`Merge PR #714`). Non ho toccato la riga più vecchia (i numeri, una volta dati,
-   non si riassegnano — il vecchio formato tabellare resta la fonte storica). Ho rinumerato la card più
+   riga-tabella del 13/8 (`Merge PR #714`). Non ho toccato la riga più vecchia: i numeri, una volta dati,
+   non si riassegnano, e il vecchio formato tabellare resta la fonte storica. Ho rinumerato la card più
    nuova a **#104**, il primo libero dopo le mie stesse aggiunte di oggi (#102/#103). Rilanciato il file da
    solo: 8/8 verdi.
 2. **`una-card-una-volta-sola.test.mjs`** — l'assertion su `sensori-spenti-check.mjs` falliva con `status`
