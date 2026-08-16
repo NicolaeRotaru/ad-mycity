@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-16 03:54",
+  "aggiornato": "2026-08-16 04:08",
   "giorni_sospetto": 3,
   "difetti_aperti": 263,
   "per_classe": {
-    "umana": 122,
-    "auto-sospetta": 22,
+    "umana": 123,
+    "auto-sospetta": 21,
     "auto-comando": 119
   },
   "non_auto_chiudibili": 144,
@@ -245,6 +245,11 @@
     {
       "id": "AR-181",
       "gravita": "grave",
+      "stato": "aperto"
+    },
+    {
+      "id": "AR-193",
+      "gravita": "medio",
       "stato": "aperto"
     },
     {
@@ -2410,8 +2415,8 @@
       "gravita": "medio",
       "eta_giorni": 20,
       "titolo": "Pubblichiamo con cinque canali e non leggiamo nessun risultato: i contenuti escono e spariscono",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 20 giorni (cervello/agent-registry-check.mjs ~ /fonte/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
     },
     {

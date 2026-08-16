@@ -2657,15 +2657,16 @@
       "stato": "aperto",
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
-      "verifica": {
+      "nota": "Dove: cervello/publishers/facebook.mjs · cervello/publishers/instagram.mjs · cervello/publishers/gbp.mjs · MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md:22 · Impatto: Il reparto che produce più volume è l'unico senza ritorno misurato: la macchina non può sapere quale angolo funziona, quindi non può migliorare i contenuti né decidere di smettere. È il ramo del volano che gira a vuoto — si produce, si pubblica (🔴 firmato da Nicola), e il risultato non torna mai indietro come dato. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
+      "chiuso_il": "",
+      "chiuso_come": "",
+      "nato_come": "scoperta",
+      "verifica_storica": {
         "file": "cervello/agent-registry-check.mjs",
         "pattern": "fonte",
         "presente": false
       },
-      "nota": "Dove: cervello/publishers/facebook.mjs · cervello/publishers/instagram.mjs · cervello/publishers/gbp.mjs · MyCity-Vault/05-Soldi-Rischi/OKR-Squadra.md:22 · Impatto: Il reparto che produce più volume è l'unico senza ritorno misurato: la macchina non può sapere quale angolo funziona, quindi non può migliorare i contenuti né decidere di smettere. È il ramo del volano che gira a vuoto — si produce, si pubblica (🔴 firmato da Nicola), e il risultato non torna mai indietro come dato. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
-      "chiuso_il": "",
-      "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nota_prova": "Prova a pattern TOLTA nel lotto 44. Diceva: «risolto quando la parola fonte sparisce da cervello/agent-registry-check.mjs» — un file che non c entra niente con il leggere i risultati dei cinque canali di pubblicazione. Quella parola nel frattempo e sparita davvero, quindi la prova risultava soddisfatta e al primo giro auto-fix avrebbe CHIUSO questo difetto senza che nessuno lo riparasse. Non e una regressione di questo lotto: e una bugia vecchia che la cura di AR-355 (il confronto della prova portato in un posto solo) ha reso visibile. Il difetto resta APERTO e adesso senza prova: la scrivera chi lo ripara."
     },
     {
       "id": "AR-194",
