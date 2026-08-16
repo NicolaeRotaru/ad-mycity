@@ -58,10 +58,10 @@ rm -f /opt/mycity/ad-mycity/.git/MYCITY_RUN_LOCK-giro
 
 🔧 Dettagli tecnici — segnali letti dal vivo sulla tabella `impostazioni`, 16/8 fra le 18:24 e le 18:47:
 
-- `automazione:cadenza-giro` = «lucchetto orfano da 300 minuti: nessuna cadenza parte»
-- `automazione:watch-main` = «allineamento fermo da 72 giri (~360 min) … d9fe8a7 mai applicato»
-- `automazione:giro` = «non-pubblicato (uscita 2)»
-- `worker:ultimo` = 18:47 (il worker è vivo)
+- `automazione:cadenza-giro` dice che il lucchetto è orfano da 300 minuti. Nessuna cadenza parte.
+- `automazione:watch-main` dice che l'allineamento è fermo da 72 giri, circa 360 minuti. Il commit `d9fe8a7` non è mai stato applicato.
+- `automazione:giro` dice «non-pubblicato», uscita 2.
+- `worker:ultimo` segna le 18:47. Il worker è vivo.
 
 La cura permanente del lucchetto sta in `cervello/lib-cadenza.sh`, funzione `cadenza_lock_rompi`. La prova è `node cervello/test/lucchetto-che-non-si-libera.test.mjs`. Reparto: devops-sre (sintesi AD).
 
