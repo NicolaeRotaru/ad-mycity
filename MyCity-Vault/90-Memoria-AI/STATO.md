@@ -1,8 +1,17 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 12:12
+aggiornato: 2026-08-16 12:30
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **16/8 12:30 — Giro richiesto in chat, 18 minuti dopo il punto di mezzogiorno (12:12). Business invariato. Trovata una terza PR rossa (#741), non presente nei passaggi precedenti.**
+> Riconfermato dal vivo con `verifica-sensori.mjs` (REST, 12:25): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg — identica firma dal 24/6, stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Non è un allarme. `coerenza-fatti.mjs` ✅ coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: stessi ~103/120 quaderni fermi, nessuno sblocca una card business prima di settembre — vincolo north-star rispettato.
+>
+> **`ci-stato.mjs` rieseguito (12:26, GitHub di nuovo raggiungibile dopo il rate-limit dell'11:42): trovata PR #741**, "Aggiorna sentinelle di sistema — giro playbook Recensioni 16/8" (branch `memoria/esito-playbook-recensioni-16-8`), rossa su 2/2 controlli, colpa non ricostruibile da qui ("verdetti senza lettore" + committato senza esito in un quaderno). Non genero una card di firma: non aspetta una decisione di Nicola, è debito macchina della stessa famiglia di #42/#100 — segnalato nei Rischi del briefing, non in coda. **Confermato invariato il resto:** PR #739/#738 restano verdi (card #102/#103, pronte per la firma), PR #735 resta rossa (card #89, non mergiare finché non torna verde).
+>
+> **Provati e bloccati una sola volta ciascuno, non ritentati** (stesso limite noto, [[feedback-bash-solo-script-esatti-in-allowlist]]): `test-cervello.mjs`, `delta-gate.mjs` (letto invece il JSON già scritto dal pre-step di `giro.sh`, fresco delle 12:00). Non riscritti `auto-analisi.json` (fresco da 11:12) né `apprendimento.json` (fresco da 12:19, scrittura del worker): nessun fatto nuovo di business li giustifica — riscriverli ora sarebbe un giro a vuoto ([[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 18 giorni), **#104** (bug permessi VPS, causa nota dei giri falliti, 12 giorni), **#105** (scelta di Nicola su `burn_down_margine`), **#102/#103** (merge PR verdi, riconfermate), **#89** (PR #735, non mergiare finché rossa), **#106** (post PQ, eccezione alla pausa content da confermare). Briefing: [[Briefing/2026-08-16]].
 
 > 🕛 **16/8 12:12 — Punto di mezzogiorno.** Business riconfermato in diretta con query SQL (non ereditato): 1 ordine, mai pagato, del 24/6, 7 clienti, 5 prodotti — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Nessuna novità di business dai passaggi di stamattina.
 >

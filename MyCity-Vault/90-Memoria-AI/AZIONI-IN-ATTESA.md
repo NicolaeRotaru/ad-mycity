@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-16 11:41** — Automatico: **70 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-16 12:23** — Automatico: **71 aperte · 8 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -22,11 +22,11 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #106 — Pubblica "I fornelli restano spenti" — hummus e pesto genovese bio di Pane Quotidiano · ⏳ accodata 2026-08-16 12:05
+### 🔴 #106 — Pubblica il post "I fornelli restano spenti" per Pane Quotidiano: hummus e pesto genovese bio · ⏳ accodata 2026-08-16 12:05
 
-**Cosa cambia:** esce un post nuovo per Pane Quotidiano, l'unico negozio vero su MyCity. L'angolo è diverso da tutti quelli fatti finora: aggancia il caldo di metà agosto — chi non ha voglia di stare ai fornelli — a due prodotti reali del suo catalogo, già pronti: hummus di ceci bio (2,95€) e pesto genovese bio (5€, basta cuocere la pasta). Prezzi e descrizioni letti oggi, in diretta, dal database del marketplace: zero numeri inventati, zero recensioni finte (il negozio non ne ha ancora, e il post non ne parla).
+**Cosa cambia:** esce un post nuovo per Pane Quotidiano, l'unico negozio vero su MyCity. L'angolo è diverso da tutti quelli fatti finora. Aggancia il caldo di metà agosto, quando non si ha voglia di stare ai fornelli, a due prodotti reali già pronti del suo catalogo: hummus di ceci bio (2,95€) e pesto genovese bio (5€, basta cuocere la pasta). Prezzi e descrizioni letti oggi, in diretta, dal database del marketplace. Zero numeri inventati, zero recensioni finte (il negozio non ne ha ancora, e il post non ne parla).
 
-**Se va bene:** il post porta qualche click in più verso la scheda del negozio su MyCity (misurabile col codice `no-fornelli-1608`), e apre un filone che si può ripetere ogni settimana con un'altra coppia prodotto-bisogno, sempre letta dal vivo dal database — così non si rischia mai di inventare un numero.
+**Se va bene:** il post porta qualche click in più verso la scheda del negozio su MyCity (misurabile col codice `no-fornelli-1608`). Apre anche un filone ripetibile ogni settimana con un'altra coppia prodotto-bisogno. I dati si leggono sempre dal vivo dal database, così non si rischia mai di inventare un numero.
 
 **Cosa devi fare:** scrivi «ok 106» se va bene così. Il testo e l'immagine sono già pronti, basta pubblicarli sui canali social di MyCity (Instagram, la sua Storia, Facebook e i gruppi locali).
 
@@ -1137,7 +1137,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-16 11:41)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-16 12:23)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-16-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1149,7 +1149,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-16 11:41 · 8 card totali
+> Ultima pulizia: 2026-08-16 12:23 · 8 card totali
 
 ### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 

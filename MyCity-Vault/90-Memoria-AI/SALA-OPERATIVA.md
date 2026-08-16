@@ -1015,3 +1015,9 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-16 12:12 · @ad · FACCIO · Correzione di rotta: segnalata a Nicola la card #106 (post per Pane Quotidiano, playbook di stamattina) — non porta il segno "in pausa" degli altri post social fermi da metà luglio. Da chiarire con lui se è un'eccezione voluta prima di proporre la firma; nessuna modifica alla card fatta da sola.
 - 2026-08-16 12:12 · @ad · SERVE · Da Nicola entro sera: le 3 card di sicurezza (#36/#37/#38, 18gg) · la correzione dei permessi VPS (#104) · la firma sulle 2 PR verdi (#102/#103) · la scelta su burn_down_margine (#105) · conferma o pausa sul post #106.
 - 2026-08-16 12:12 · @ad · FATTO · Scritto il blocco «Punto di mezzogiorno · 2026-08-16 12:12» in [[RITMO]] e aggiunta la sezione «Prossime priorità» in [[STATO]].
+
+### 2026-08-16 12:30 — Giro richiesto in chat (18' dopo il mezzogiorno)
+- 2026-08-16 12:30 · @ad · FATTO · Business riconfermato invariato (verifica-sensori.mjs 12:25, coerenza-fatti.mjs verde, chiusura-loop --sonda: nessun quaderno sblocca una card business prima di settembre).
+- 2026-08-16 12:30 · @ad · FATTO · ci-stato.mjs rieseguito (GitHub di nuovo raggiungibile): trovata PR #741 rossa (2/2 controlli, colpa ignota da qui), non presente nei passaggi precedenti. Segnalata nei Rischi del briefing, nessuna card di firma (non è una decisione che aspetta Nicola).
+- 2026-08-16 12:30 · @ad · FATTO · Confermato invariato: PR #739/#738 verdi (#102/#103 pronte per la firma), PR #735 rossa (#89, non mergiare).
+- 2026-08-16 12:30 · @ad · SERVE · Invariato: card #62 resta l'unico vero blocco al primo incasso. Da Nicola: #36/#37/#38 (sicurezza, 18gg), #104 (permessi VPS), #105 (burn_down_margine), #106 (post PQ eccezione pausa), firma su #102/#103.
