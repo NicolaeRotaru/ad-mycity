@@ -78,9 +78,19 @@ function leggiTetti() {
  * cambiato, e il cancello si dichiarava cieco ed usciva 2. In CI il 2 blocca, quindi il lavoro più
  * onesto del lotto (dire «questi due non sono chiusi») era proprio quello che non passava.
  *
- * Riaprire un difetto è lavorarci. Bloccarne la chiusura è lavorarci. Il metro guarda i tre campi.
+ * Riaprire un difetto è lavorarci. Bloccarne la chiusura è lavorarci. Il metro guarda i quattro campi.
+ *
+ * E il 16/8 è successo di nuovo, terza volta, con `sintomo`: il lotto 45 ha dichiarato a quattro
+ * schede la misura che dice se il difetto si riproduce ancora. Nessuna `verifica` toccata — quelle
+ * restano com'erano — quindi di nuovo «zero difetti toccati», di nuovo ⚪, di nuovo exit 2 in CI.
+ * Dichiarare un sintomo è lavorarci: è la prima volta che qualcuno chiede a quella scheda se è
+ * ancora vera.
+ *
+ * ⚠️ La forma di questo difetto è ricorrente e la lista non la cura: ogni campo di lavoro che
+ * nasce dopo è invisibile finché qualcuno non lo aggiunge a mano, e se ne accorge solo quando la CI
+ * è già rossa. Registrato come difetto suo nel cantiere invece di allargare questo lotto.
  */
-const CAMPI_DEL_LOTTO = ["verifica", "stato", "chiusura"];
+const CAMPI_DEL_LOTTO = ["verifica", "stato", "chiusura", "sintomo"];
 
 const improntaScheda = (d) => JSON.stringify(CAMPI_DEL_LOTTO.map((c) => d?.[c] ?? null));
 

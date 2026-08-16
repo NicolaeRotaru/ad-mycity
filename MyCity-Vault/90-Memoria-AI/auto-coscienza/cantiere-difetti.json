@@ -15942,6 +15942,35 @@
       "chiuso_il": "2026-08-16 17:24",
       "chiuso_come": "node cervello/test/cancello-stop.test.mjs → exit 0 (guardiano soddisfatto)",
       "corroborata": true
+    },
+    {
+      "id": "AR-756",
+      "titolo": "Il metro che decide se un lotto ha lavorato su una scheda conosce solo quattro campi: il quinto che nasce è invisibile finché la CI non diventa rossa",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "nato": "2026-08-16",
+      "nato_come": "regressione",
+      "nato_da": "AR-473 / lotto 44 — stessa forma, terza occorrenza",
+      "colore": "🟡",
+      "stato": "aperto",
+      "causa_radice": "① Perché il cancello si dichiara cieco sulle mutazioni? Perché `difettiToccati` non vede nessun difetto toccato. ② Perché non lo vede? Perché confronta un'impronta fatta di un ELENCO CHIUSO di campi (`CAMPI_DEL_LOTTO`), e il campo con cui il lotto ha lavorato non è in quell'elenco. ③ Perché non è nell'elenco? Perché l'elenco si aggiorna a mano, e solo dopo che è già successo. ④ Perché nessuno se ne accorge prima? Perché il sintomo appare in CI come exit 2 con un messaggio che dà la colpa a un «clone superficiale» — un'ipotesi sbagliata che manda a cercare nel posto sbagliato; nel lotto 44 era già stato annotato che `fetch-depth: 0` c'era da mesi. ⑤ Causa di sistema: il metro è costruito per elencare ciò che conta invece di escludere ciò che è rumore, quindi ogni forma di lavoro NUOVA nasce invisibile — e l'invisibilità si manifesta come un cancello cieco, che è il modo più costoso di scoprirlo. Occorrenze: `verifica` sola (fino al lotto 44) → `stato`/`chiusura` (lotto 44, PR #738) → `sintomo` (lotto 45, PR #742).",
+      "fix_proposto": "🟡 Invertire il metro: l'impronta guarda TUTTI i campi della scheda TRANNE una lista dichiarata di rumore (timbri, note, titoli, prosa). Un falso «toccato» costa una prova in più che gira; un falso «non toccato» costa un cancello cieco che blocca la CI e insegna a saltare il controllo — non sono simmetrici, e nel dubbio va scelto il primo. Da valutare col conto vero: se un campo di rumore cambia su tutte le schede, «toccati» diventa l'intero cantiere e il banco delle mutazioni potrebbe non reggerne il volume — misurarlo prima di invertire. Va sistemato anche il messaggio: «(clone superficiale?)» è un'ipotesi che ha già sviato due volte, e la causa vera va nominata per prima.",
+      "sintomo": {
+        "misura": "grep -c 'const CAMPI_DEL_LOTTO = \\[' cervello/cancello-lotto.mjs",
+        "rotto_se": {
+          ">=": 1
+        },
+        "alla_nascita": 1,
+        "alla_nascita_fonte": "l'elenco chiuso esiste in cervello/cancello-lotto.mjs il 2026-08-16: finché è un elenco da compilare a mano, il difetto c'è",
+        "cosa_misura": "se il metro dei campi del lotto è ancora un elenco chiuso da aggiornare a mano. METRO DEBOLE: conta la presenza dell'elenco nel codice, non prova che un campo nuovo resti invisibile — quella prova vera nascerà con l'inversione"
+      },
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs",
+        "nota": "Il banco copre le quattro forme note (prova, stato, chiusura, sintomo) e la loro non-vacuità. NON copre la causa di sistema: un campo di lavoro che nascerà domani resta invisibile finché qualcuno non aggiunge un caso qui. La chiusura di AR-756 richiede l'inversione del metro, non un quinto caso."
+      },
+      "nota_fix": "16/8: aggiunto `sintomo` all'elenco e il caso ③bis al banco, con non-vacuità eseguita (togliendo `sintomo` il caso diventa rosso). È la cura del punto, non della malattia: l'elenco resta chiuso, quindi il difetto resta APERTO di proposito."
     }
   ],
   "meta": {

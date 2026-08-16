@@ -59,6 +59,19 @@ prova("③ BLOCCARE la chiusura è lavorarci: è una decisione, non un dettaglio
   assert.deepEqual(t, ["AR-2"]);
 });
 
+prova("③bis DICHIARARE UN SINTOMO è lavorarci: è la prima volta che qualcuno chiede a quella scheda se è ancora vera", () => {
+  // 16/8, lotto 45, TERZA volta che questa stessa forma torna. Quattro schede hanno ricevuto la
+  // misura che dice se il difetto si riproduce ancora; nessuna `verifica` toccata, perché quelle
+  // restavano com'erano. Di nuovo «zero difetti toccati» col cantiere cambiato, di nuovo ⚪, di
+  // nuovo exit 2 e CI rossa sulla PR #742 — e di nuovo col messaggio che dava la colpa al clone
+  // superficiale, che non c'entrava niente nemmeno stavolta.
+  const t = difettiToccati(
+    conModifica("AR-2", { sintomo: { misura: "node cervello/salute.mjs --conta", rotto_se: { ">=": 1 }, alla_nascita: 3 } }),
+    prima,
+  );
+  assert.deepEqual(t, ["AR-2"], "un sintomo dichiarato è lavoro sulla scheda: senza, il banco delle mutazioni si acceca");
+});
+
 prova("④ una scheda NUOVA risulta toccata", () => {
   const dopo = { difetti: [...prima.difetti.map((d) => ({ ...d })), { id: "AR-9", stato: "aperto" }] };
   assert.deepEqual(difettiToccati(dopo, prima), ["AR-9"]);
