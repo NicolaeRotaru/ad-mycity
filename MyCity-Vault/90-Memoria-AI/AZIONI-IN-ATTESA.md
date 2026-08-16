@@ -56,7 +56,14 @@ rm -f /opt/mycity/ad-mycity/.git/MYCITY_RUN_LOCK-giro
 
 **Cosa non ho verificato:** non ho provato nessuno di questi comandi, perché scrivo da una sessione in cloud e nel server non posso entrare. Li ho scritti leggendo gli script che li useranno. Non so nemmeno **quale** processo tenga il lucchetto da stamattina: da qui vedo che è preso e da quanto, non chi lo tiene. E non so se i commit fermi sul server siano solo memoria o anche altro: lo dice la prima riga qui sopra, guardala prima di unire.
 
-🔧 Dettagli tecnici: segnali letti dal vivo su `impostazioni` — `automazione:cadenza-giro` = «lucchetto orfano da 300 minuti», `automazione:watch-main` = «allineamento fermo da 72 giri (~360 min) … d9fe8a7 mai applicato», `automazione:giro` = «non-pubblicato (uscita 2)», `worker:ultimo` = 18:47. Cura permanente del lucchetto in `cervello/lib-cadenza.sh` (`cadenza_lock_rompi`), prova `node cervello/test/lucchetto-che-non-si-libera.test.mjs`. Reparto: devops-sre (sintesi AD).
+🔧 Dettagli tecnici — segnali letti dal vivo sulla tabella `impostazioni`, 16/8 fra le 18:24 e le 18:47:
+
+- `automazione:cadenza-giro` = «lucchetto orfano da 300 minuti: nessuna cadenza parte»
+- `automazione:watch-main` = «allineamento fermo da 72 giri (~360 min) … d9fe8a7 mai applicato»
+- `automazione:giro` = «non-pubblicato (uscita 2)»
+- `worker:ultimo` = 18:47 (il worker è vivo)
+
+La cura permanente del lucchetto sta in `cervello/lib-cadenza.sh`, funzione `cadenza_lock_rompi`. La prova è `node cervello/test/lucchetto-che-non-si-libera.test.mjs`. Reparto: devops-sre (sintesi AD).
 
 ---
 

@@ -8,6 +8,9 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-16 19:03 · Le altre due porte del blocco duro, e un bottone finto trovato nel Pannello dal collaudo · V5 C5 A5 K5 I4 M5 E4 (media 4.71) · atteso mi aspettavo che il secondo giro uscisse a mani vuote: il fix delle regole era gia fatto → reale a mani vuote non e uscito. Ha trovato altre due regole con la stessa confusione, e soprattutto un residuo di mutazione nell albero: un bottone finto dentro il Pannello lasciato da non-vacuita.mjs morto per timeout. Compilava e passava il typecheck: un commit distratto lo pubblicava. Registrato AR-757 bloccante · #cantiere #cancello #mutazioni
+- 2026-08-16 18:59 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 18:00 · Il modo per sapere se i 138 difetti sono ancora rotti: il sintomo, tre esiti, le clausole · V5 C5 A5 K5 I3 M5 E4 (media 4.57) · atteso 4 difetti misurati, mi aspettavo di trovarli tutti e 4 ancora rotti → reale 4 rotti su 4. AR-190 e PEGGIORATO: da 256 a 409 giri col runway sconosciuto. E AR-216 mi aveva stampato un falso guarito perche il sintomo copriva 1 clausola su 3: e la malattia che lo strumento cura, dentro lo strumento · #cantiere #metro #sintomo
 - 2026-08-16 17:30 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 14:50 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 13:45 · prova · 9/10 · atteso 1 → reale 1

@@ -1,17 +1,17 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-16 19:30",
+ "aggiornato": "2026-08-16 19:50",
  "mutanti": [
   {
    "lotto": 30,
    "difetto": "cancello-lotto · mutazione-mancante (blocco duro)",
    "nome": "il difetto toccato senza mutazione non viene più fermato",
    "file": "cervello/cancello-lotto.mjs",
-   "cerca": "  const mutNelLotto = toccati ? senzaMutazioneContati.filter((x) => toccati.includes(x.id)) : [];",
+   "cerca": "  const mutNelLotto = proveDelLotto ? senzaMutazioneContati.filter((x) => proveDelLotto.includes(x.id)) : [];",
    "sostituisci": "  const mutNelLotto = [];",
    "test": "cervello/test/mutazione-mancante.test.mjs",
-   "nota_riaggancio": "main ha riscritto il cancello (senzaMutazioneContati): il comportamento vive, il puntatore era rimasto indietro. Riagganciato alla fusione del lotto 42."
+   "nota_riaggancio": "Riagganciata il 2026-08-16 (lotto 45): la regola ora filtra su `proveDelLotto` invece che sui difetti toccati — la mutazione appartiene alla PROVA, non alla scheda. Il comportamento che difende è lo stesso, il puntatore era rimasto sulla riga vecchia."
   },
   {
    "lotto": 30,
@@ -3192,14 +3192,6 @@
    "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
   },
   {
-   "difetto": "AR-758 lucchetto-orfano-gridato-e-mai-rotto",
-   "nome": "l'orfano torna a essere solo dichiarato: la cadenza lo riconosce, lo grida e resta ferma per sempre",
-   "file": "cervello/lib-cadenza.sh",
-   "cerca": "if cadenza_lock_rompi \"$tipo\" \"$file\" \"$pid_preso\" \"$eta_min\"; then",
-   "sostituisci": "if false; then",
-   "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
-  },
-  {
    "difetto": "AR-575",
    "nome": "senza il timbro della data le chiusure tornano orfane di mese e il tasso di chiusura non le conta. Questa difesa stava su cervello/auto-fix.mjs finché il timbro viveva lì: da AR-655 la funzione unica e in contratto-scheda.mjs e auto-fix la importa, quindi la mutazione si e spostata con lei — non e sparita.",
    "file": "cervello/contratto-scheda.mjs",
@@ -3742,10 +3734,10 @@
    "difetto": "cancello-lotto · mutazione-mancante (blocco duro)",
    "nome": "il difetto toccato senza mutazione non viene più fermato",
    "file": "cervello/cancello-lotto.mjs",
-   "cerca": "  const mutNelLotto = toccati ? senzaMutazioneContati.filter((x) => toccati.includes(x.id)) : [];",
+   "cerca": "  const mutNelLotto = proveDelLotto ? senzaMutazioneContati.filter((x) => proveDelLotto.includes(x.id)) : [];",
    "sostituisci": "  const mutNelLotto = [];",
    "test": "cervello/test/mutazione-mancante.test.mjs",
-   "nota_riaggancio": "AR-692 ha separato il debito ereditato da quello nuovo: la misura ora e senzaMutazioneContati (lotto 42)."
+   "nota_riaggancio": "Riagganciata il 2026-08-16 (lotto 45): la regola ora filtra su `proveDelLotto` invece che sui difetti toccati — la mutazione appartiene alla PROVA, non alla scheda. Il comportamento che difende è lo stesso, il puntatore era rimasto sulla riga vecchia."
   },
   {
    "lotto": 30,
@@ -4975,10 +4967,10 @@
    "difetto": "cancello-lotto · difetti toccati (riaprire e lavorarci)",
    "nome": "il cancello torna a riconoscere il lavoro del lotto dalla sola prova: riaprire un difetto non risulta toccarlo, e il banco delle mutazioni si dichiara cieco",
    "file": "cervello/cancello-lotto.mjs",
-   "cerca": "const CAMPI_DEL_LOTTO = [\"verifica\", \"stato\", \"chiusura\"];",
+   "cerca": "const CAMPI_DEL_LOTTO = [\"verifica\", \"stato\", \"chiusura\", \"sintomo\"];",
    "sostituisci": "const CAMPI_DEL_LOTTO = [\"verifica\"];",
    "test": "cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs",
-   "nota_riaggancio": "Lotto 44: e il buco per cui la CI della PR #738 era rossa. Il cancello usciva 2 (cieco sul passo delle mutazioni) proprio perche il lotto aveva RIAPERTO due difetti senza toccarne le prove — cioe il lavoro piu onesto era quello che non passava."
+   "nota_riaggancio": "Riagganciata il 2026-08-16: il lotto 45 ha aggiunto il campo `sintomo` ai campi del lotto — terza volta che un campo di lavoro nuovo resta invisibile al metro finché la CI non diventa rossa. Il comportamento vive, il puntatore era rimasto indietro."
   },
   {
    "lotto": 44,
@@ -5001,6 +4993,64 @@
    "nota_riaggancio": "La cosa da rompere è la capacità di dire di SÌ. I casi ①-④ sorvegliano che la porta resti chiusa quando deve; senza il caso ⑤ una porta murata li passerebbe tutti e quattro — cioè il modo più facile di far sembrare sano un guardiano è spegnerlo."
   },
   {
+   "lotto": 45,
+   "difetto": "sintomo · il comando che esplode non diventa una guarigione",
+   "nome": "l errore torna una misura verde (malattia cieco-che-torna-una-misura)",
+   "file": "cervello/sintomo.mjs",
+   "cerca": "  if (errore) return { esito: NON_MISURATO, valore: null, perche: `la misura non è girata: ${errore}` };",
+   "sostituisci": "  if (errore) return { esito: SANO, valore: 0, perche: \"niente da vedere\" };",
+   "test": "cervello/test/sintomo.test.mjs",
+   "nota": "Provata a mano il 16/8 prima di consegnare: il banco passa da 16 a 15 verdi. Senza questa riga un difetto la cui misura non gira si legge come guarito, che è la malattia intera."
+  },
+  {
+   "lotto": 45,
+   "difetto": "sintomo · il metro non si compra scrivendo una parola",
+   "nome": "la regola anti-compiacenza si spegne e il grep nella prosa torna un sintomo valido",
+   "file": "cervello/sintomo.mjs",
+   "cerca": "  if (CERCA_TESTO.test(m) && PROSA.test(m)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/sintomo.test.mjs",
+   "nota": "Provata a mano il 16/8: il banco passa da 16 a 14 verdi. È AR-128 rifatto — scrivere «chargeback» in un .md chiudeva il difetto mentre il sensore non c era."
+  },
+  {
+   "lotto": 45,
+   "difetto": "sintomo · una clausola rotta basta a tenere rotto il difetto",
+   "nome": "il difetto a più clausole guarda solo la prima e produce falsi guariti",
+   "file": "cervello/sintomo.mjs",
+   "cerca": "  const rotta = osservazioni.find((o) => o.esito === ROTTO);",
+   "sostituisci": "  const rotta = null;",
+   "test": "cervello/test/sintomo.test.mjs",
+   "nota": "Il caso è vero e capitato il 16/8: AR-216 chiede tre cose, il primo sintomo ne misurava una, e lo strumento ha stampato «non si riproduce più» su un difetto rotto."
+  },
+  {
+   "lotto": 45,
+   "difetto": "AR-756 · il metro dei campi del lotto è un elenco chiuso",
+   "nome": "il campo con cui il lotto ha lavorato torna invisibile e il banco delle mutazioni si acceca",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "const CAMPI_DEL_LOTTO = [\"verifica\", \"stato\", \"chiusura\", \"sintomo\"];",
+   "sostituisci": "const CAMPI_DEL_LOTTO = [\"verifica\", \"stato\", \"chiusura\"];",
+   "test": "cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs",
+   "nota": "Provata a mano il 16/8 prima di consegnare: il banco passa da 8 verdi a 1 rosso sul caso ③bis. È la mutazione che riproduce il rosso vero della CI sulla PR #742 — «zero difetti toccati» col cantiere cambiato. NB: la mutazione dimostra che il METRO vede il campo; NON dimostra che AR-756 sia riparato, perché non lo è: l'elenco resta chiuso e il sesto campo nascerà invisibile come questo."
+  },
+  {
+   "lotto": 45,
+   "difetto": "cancello-lotto · chi ha scritto la prova ≠ chi ha lavorato sulla scheda",
+   "nome": "la prova di un altro diventa tua solo perché hai toccato quella scheda",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "  const impronta = (d) => JSON.stringify(d?.verifica ?? null);",
+   "sostituisci": "  const impronta = improntaScheda;",
+   "test": "cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs",
+   "nota": "Provata a mano il 16/8: il caso ⑧ diventa rosso. Riproduce il rosso vero della CI sulla PR #742, dove il blocco duro `prova-con-or` ha imputato al lotto 45 le prove di AR-190 e AR-192 — identiche a origin/main carattere per carattere — solo perché il lotto ne aveva dichiarato il sintomo."
+  },
+  {
+   "difetto": "AR-758 lucchetto-orfano-gridato-e-mai-rotto",
+   "nome": "l'orfano torna a essere solo dichiarato: la cadenza lo riconosce, lo grida e resta ferma per sempre",
+   "file": "cervello/lib-cadenza.sh",
+   "cerca": "if cadenza_lock_rompi \"$tipo\" \"$file\" \"$pid_preso\" \"$eta_min\"; then",
+   "sostituisci": "if false; then",
+   "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
+  },
+  {
    "difetto": "AR-759 lucchetto-git-che-tace",
    "nome": "il lucchetto git torna a scadere in silenzio: dieci minuti persi e nessuna riga fuori dalla macchina",
    "file": "cervello/lib-cadenza.sh",
@@ -5009,7 +5059,7 @@
    "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
   },
   {
-   "difetto": "AR-756 pausa-cieca-che-non-esce",
+   "difetto": "AR-760 pausa-cieca-che-non-esce",
    "nome": "il fail-closed della pausa torna a fermarsi in silenzio: tre cadenze giu insieme e in Cabina non arriva niente",
    "file": "cervello/kill-switch.sh",
    "cerca": "       pausa_segnala_cieco \"$etichetta\" \"$rc\"",
