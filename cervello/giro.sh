@@ -259,6 +259,7 @@ DEFERRAL_VINCOLO=""      # AR-186: il roster di CLAUDE.md e le schede dei senior
 STAMPO_VINCOLO=""        # AR-291: verdetto dello stampo senior, prima buttato in un `|| true` (AR-129/287/289)
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
 GUARDIANI_VINCOLO=""     # 29/7: un guardiano che gira senza una riga in bacheca — protezione promessa e non spiegata
+LETARGO_VINCOLO=""       # AR-392: il livello di degradazione dichiarato dal letargo, prima perso dentro una pipe
 if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Verifica sensori dati (retry REST + contatore cecità)..."
   # AR-038: il canale MCP è trasporto di sessione, NON testabile da script. Passiamo lo stato del
@@ -309,6 +310,29 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/sentinella-fonti.mjs" 2>&1 | esito_righe 4 || true
   echo "[$(ts)] Agenda intelligence (fonti dovute oggi)..."
   node "$SCRIPT_DIR/intelligence-agenda.mjs" 2>&1 | esito_righe 3 || true
+  # AR-617 — i 114 senior che promettono di lavorare in sola lettura adesso hanno il limite scritto
+  # dove la macchina lo legge, e questo guardiano controlla che promessa e permessi non divergano.
+  # Va qui e non in CI: in CI il danno è già scritto, qui arriva prima che si deleghi il lavoro.
+  # AR-407 — le medicine dei lotti si scrivevano e non si somministravano: nessuno contava chi le
+  # usa. Il guardiano c'era e non lo eseguiva nessuno, che è la stessa malattia un piano sopra.
+  echo "[$(ts)] Adozione delle medicine (AR-407)..."
+  _medicine_out="$(node "$SCRIPT_DIR/adozione-medicine.mjs" 2>&1)"; _medicine_rc=$?
+  printf '%s\n' "$_medicine_out" | tail -4
+  if [ "$_medicine_rc" -eq 1 ]; then
+    MEDICINE_VINCOLO="⛔ UNA MEDICINA NON SOMMINISTRATA (adozione-medicine.mjs rc=$_medicine_rc, AR-407): è nato un punto scoperto nuovo, oppure una cura scritta non la usa nessuno."
+    echo "[$(ts)] ⚠️  AR-407: adozione-medicine FALLITO (rc=$_medicine_rc) → vincolo al motore." >&2
+  elif [ "$_medicine_rc" -ne 0 ]; then
+    echo "[$(ts)] ⚪ AR-407: adozione-medicine non ha potuto misurare (rc=$_medicine_rc) — cieco, non verde." >&2
+  fi
+  echo "[$(ts)] Guardiano permessi dei senior (AR-617)..."
+  _solalettura_out="$(node "$SCRIPT_DIR/senior-sola-lettura.mjs" 2>&1)"; _solalettura_rc=$?
+  printf '%s\n' "$_solalettura_out" | tail -4
+  if [ "$_solalettura_rc" -eq 1 ]; then
+    SENIOR_SOLA_LETTURA_VINCOLO="⛔ UN SENIOR PROMETTE SOLA LETTURA E HA GLI STRUMENTI PER SCRIVERE (senior-sola-lettura.mjs rc=$_solalettura_rc, AR-617): allinea il mansionario prima di delegargli lavoro."
+    echo "[$(ts)] ⚠️  AR-617: senior-sola-lettura FALLITO (rc=$_solalettura_rc) → vincolo hard al motore." >&2
+  elif [ "$_solalettura_rc" -ne 0 ]; then
+    echo "[$(ts)] ⚪ AR-617: senior-sola-lettura non ha potuto misurare (rc=$_solalettura_rc) — cieco, non verde." >&2
+  fi
   echo "[$(ts)] Guardiano registro agenti (AR-007/008 — gate hard)..."
   _agenti_out="$(node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1)"; _agenti_rc=$?
   printf '%s\n' "$_agenti_out" | tail -4
@@ -863,7 +887,23 @@ $_chius_out"
   echo "[$(ts)] ⚡ #23 Midollo Spinale (riflessi proposti)..."
   node "$SCRIPT_DIR/midollo-spinale.mjs" 2>&1 | esito_righe 3 || true
   echo "[$(ts)] 🛌 #37 Letargo (livello di degradazione)..."
-  node "$SCRIPT_DIR/letargo.mjs" 2>&1 | esito_righe 3 || true
+  # AR-392 — «chi deve spegnere il superfluo quando finisce la benzina parla e nessuno lo ascolta».
+  # La riga era `node letargo.mjs 2>&1 | esito_righe 3 || true`: in bash il codice d'uscita di una
+  # pipe è quello dell'ULTIMO comando, cioè del filtro che stampa tre righe. Il verdetto del letargo
+  # — RISPARMIO o SOPRAVVIVENZA, e cosa spegnere — moriva lì, e la macchina continuava a spendere
+  # come se avesse il serbatoio pieno.
+  # Restava informativo per una ragione giusta applicata al passo sbagliato: «le regole di letargo
+  # si firmano una volta». Vero per SPEGNERE, che è 🟡 e resta di Nicola. Ma MISURARE e DIRE sono
+  # sola lettura, e non hanno mai avuto bisogno di una firma. Qui si consegna il verdetto e basta:
+  # entra nell'elenco dei vincoli attivi (derivato dalle variabili `*_VINCOLO`, AR-387), arriva al
+  # motore e conta nell'esito del giro.
+  _letargo_out="$(node "$SCRIPT_DIR/letargo.mjs" 2>&1)"; _letargo_rc=$?
+  printf '%s\n' "$_letargo_out" | esito_righe 3
+  if [ "$_letargo_rc" -ne 0 ]; then
+    LETARGO_VINCOLO="⛔ BENZINA AGLI SGOCCIOLI (letargo.mjs rc=$_letargo_rc, AR-392): la macchina NON è al livello NORMALE. Questo giro spende il minimo indispensabile: taglia il VOLUME (giri pesanti, contenuti, esperimenti nuovi), MAI i controlli di verità e sicurezza. Le regole di spegnimento restano 🟡 da firmare una volta: quello che segue è il verdetto misurato adesso, parola per parola.
+$_letargo_out"
+    echo "[$(ts)] ⚠️  #37 Letargo: livello degradato → vincolo al motore." >&2
+  fi
   echo "[$(ts)] ⏪ #4 Macchina del Tempo (replay della giornata)..."
   node "$SCRIPT_DIR/macchina-del-tempo.mjs" 2>&1 | esito_righe 2 || true
   # Il tracker che veglia i cancelli di sblocco delle 46 capacità ancora chiuse:
@@ -1275,6 +1315,14 @@ if [ -n "${MAPPA_VINCOLO:-}" ]; then
 
 ## Vincolo mappa della macchina (HARD — 29/7: la bacheca spiega di cosa è fatta la macchina, e deve restare vera)
 $MAPPA_VINCOLO"
+fi
+if [ -n "${LETARGO_VINCOLO:-}" ]; then
+  # AR-392: il verdetto del letargo è sola lettura, quindi arriva al motore senza aspettare nessuna
+  # firma. Quello che resta 🟡 è SPEGNERE, e infatti qui non si spegne niente: si dice.
+  PROMPT="$PROMPT
+
+## Vincolo letargo (AR-392: la benzina è agli sgoccioli — taglia il volume, mai i controlli)
+$LETARGO_VINCOLO"
 fi
 if [ -n "${SOGLIE_VINCOLO:-}" ]; then
   # AR-324: se una manopola che allenta un cancello non è quella di fabbrica, il motore lo deve

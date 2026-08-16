@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { leggiJsonVault } from "@/lib/vault";
 import { messaggioSenzaDato } from "@/lib/esito-lettura";
-import { contaDifetti, eChiuso, metaDerivata } from "@/lib/cantiere-snello";
+import { apertiAllaData, contaDifetti, contoCantiere, metaDerivata } from "@/lib/cantiere-snello";
 import { listaSicura } from "@/lib/memoria-json";
 import { serieSicura } from "@/lib/verdetto-dato";
 
@@ -60,14 +60,12 @@ export async function GET() {
   // (2) BURN-DOWN CANTIERE — identico a salute-onesta.mjs (ancorato all'ultima data del cantiere)
   // AR-253 — `Array.isArray` difende dal tipo sbagliato ma non dai buchi DENTRO la lista: un `null`
   // fra i difetti e `d.nato` due righe più sotto esplode. Stesso lettore delle altre tre letture.
+  // AR-671 — QUI STAVA IL DIFETTO ORIGINALE, e stava in una copia. Questa rotta si era riscritta
+  // «quanti erano aperti a una certa data» con dentro `if (nato == null) return false`: una scheda
+  // senza data di nascita usciva dal conteggio **in silenzio**, e sempre dalla parte comoda — il
+  // burn-down migliorava da solo. Il cervello l'aveva già curato; questa copia no, perché era una
+  // copia. Adesso la decisione è una sola, in `lib/cantiere-snello.ts`, e porta con sé gli IGNOTI.
   const difetti: any[] = listaSicura<any>(cj?.difetti);
-  const apertiAllaData = (tMs: number) =>
-    difetti.filter((d) => {
-      const nato = giorno(d.nato);
-      if (nato == null || nato > tMs) return false;
-      const chiuso = giorno(d.chiuso_il);
-      return chiuso == null || chiuso > tMs;
-    }).length;
   const dateNote = difetti
     .map((d) => giorno(d.chiuso_il) || giorno(d.nato))
     .filter((x): x is number => x != null);
@@ -78,11 +76,15 @@ export async function GET() {
   // 223 mentre i non chiusi erano 281. E il conteggio per data lascia fuori in silenzio ogni difetto
   // senza `nato` — un difetto senza data di nascita non è un difetto risolto.
   const conto = contaDifetti(cj?.difetti);
+  const dettaglio = contoCantiere(cj?.difetti);
   const apertiOra = cl.letto ? conto.da_fare : null;
-  const apertiSettimanaFa = settimanaFaMs != null ? apertiAllaData(settimanaFaMs) : null;
+  const indietro = settimanaFaMs != null ? apertiAllaData(difetti, settimanaFaMs) : null;
+  const apertiSettimanaFa = indietro?.conteggio ?? null;
   // Quanti non si possono collocare nel tempo: senza `nato` non si sa se una settimana fa esistevano.
-  // Vanno DICHIARATI, non ignorati — altrimenti il burn-down sembra più bello di quanto sia.
-  const senzaNato = difetti.filter((d) => !eChiuso(d) && giorno(d.nato) == null).length;
+  // Vanno DICHIARATI, non ignorati — altrimenti il burn-down sembra più bello di quanto sia. È il
+  // margine del confronto qui sotto, e adesso lo conta la stessa funzione che fa il confronto: erano
+  // due domande vicine con due risposte scritte a mano, cioè due numeri liberi di divergere.
+  const senzaNato = indietro?.ignoti ?? null;
   const burnDown =
     apertiOra != null && apertiSettimanaFa != null ? apertiSettimanaFa - apertiOra : null; // >0 = migliora
 
@@ -107,6 +109,16 @@ export async function GET() {
     cantiere_aperti_ora: apertiOra,
     cantiere_aperti_settimana_fa: apertiSettimanaFa,
     burn_down_settimana: burnDown,
+    // AR-684 — i tre stati vivi hanno un numero ciascuno. Il terzo non compariva da nessuna parte,
+    // e le sue schede uscivano dai totali senza che niente lo dicesse.
+    cantiere_totale: cl.letto ? dettaglio.totale : null,
+    cantiere_aperto: cl.letto ? dettaglio.aperti : null,
+    cantiere_in_corso: cl.letto ? dettaglio.in_corso : null,
+    cantiere_da_riverificare: cl.letto ? dettaglio.da_riverificare : null,
+    cantiere_per_stato: cl.letto ? dettaglio.per_stato : null,
+    cantiere_stati_ignoti: cl.letto ? dettaglio.stati_ignoti : null,
+    // AR-671 — di quanto il confronto con «una settimana fa» può sbagliare, detto invece che taciuto.
+    burn_down_margine: senzaNato,
     // AR-456 — il meta servito è quello DERIVATO dalla lista, non quello scritto nel file. Porta con
     // sé `scritto` e `divergenza`: se il totale del file torna a invecchiare, lo scarto è già a video.
     cantiere_meta: cj ? metaDerivata(cj) : null,

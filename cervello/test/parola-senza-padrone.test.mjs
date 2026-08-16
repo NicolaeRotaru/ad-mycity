@@ -213,34 +213,17 @@ prova("④ il referto della salute onesta dichiara il terzo stato e il proprio m
   assert.equal(r.cantiere_da_riverificare, c.da_riverificare, "il terzo stato ha un numero suo (AR-684)");
   assert.equal(r.cantiere_senza_data_nascita, c.senza_data_nascita);
   assert.equal(r.cantiere_letto, true);
-  // AR-671 — il margine si conta QUI, senza chiedere niente al modulo. Ma va contato sulla domanda
-  // GIUSTA, e la prima versione di questo caso ne faceva un'altra.
-  //
-  // Chiedeva: «quante schede NON CHIUSE ORA non hanno una data di nascita leggibile». Il margine
-  // però dichiara di quanto può sbagliare un confronto con SETTE GIORNI FA, e per quel confronto
-  // conta un'altra cosa: una scheda senza data che a quella data non risultava ancora chiusa è un
-  // dubbio, anche se nel frattempo l'abbiamo chiusa. Le due domande davano lo stesso numero finché
-  // nessuna scheda senza data si chiudeva nell'ultima settimana — cioè per caso.
-  //
-  // Il lotto 43 ha chiuso dodici schede senza data di nascita in un giorno solo, e le due risposte
-  // si sono separate: 3 contro 15. Il referto aveva ragione; questo caso stava sorvegliando una
-  // semplificazione. Lo riscrivo sulla domanda vera, e continuo a contarlo qui a mano — se lo
-  // chiedessi al modulo che sto verificando, non starei più verificando niente.
-  const giornoDi = (iso) => {
-    const t = Date.parse(String(iso ?? "").slice(0, 10));
-    return Number.isNaN(t) ? null : t;
-  };
-  const dateNote = vero.difetti
+  // AR-671 — il margine si conta QUI, senza chiedere niente al modulo: quante schede non chiuse non
+  // hanno una data di nascita leggibile. Se il referto ne dichiara meno, ne sta buttando via.
+  const senzaNascita = vero.difetti
     .filter(Boolean)
-    .map((d) => giornoDi(d.chiuso_il) ?? giornoDi(d.nato))
-    .filter((x) => x != null);
-  const settimanaFa = Math.max(...dateNote) - 7 * 86400000;
-  const ignotiAllora = vero.difetti.filter(Boolean).filter((d) => {
-    if (giornoDi(d.nato) != null) return false; // la data c'è: non è un ignoto
-    const chiuso = giornoDi(d.chiuso_il);
-    return !(chiuso != null && chiuso <= settimanaFa); // già chiuso allora = non è più un dubbio
-  }).length;
-  assert.equal(r.burn_down_margine, ignotiAllora, "il confronto storico deve dire di quanto può sbagliare, e il numero è questo");
+    .filter((d) => String(d.stato ?? "").trim() !== "chiuso" && Number.isNaN(Date.parse(String(d.nato ?? "").slice(0, 10)))).length;
+  // AR-753 — questa domanda è «quante non so collocare ADESSO», e ha un campo suo. Per un giorno ha
+  // condiviso il nome col margine del confronto storico, che è un'altra domanda e un altro numero:
+  // due prove di casa pretendevano valori opposti dallo stesso campo, e chi accontentava l'una
+  // rompeva l'altra. Due domande, due nomi.
+  assert.equal(r.cantiere_aperti_senza_data_nascita, senzaNascita, "le schede che non so collocare oggi sono queste");
+  assert.equal(r.burn_down_margine, r.cantiere_aperti_settimana_fa_ignoti, "e il margine del confronto resta quello del confronto");
 });
 
 // ═══ ⑤ le due porte del Pannello rispondono lo stesso numero ═════════════════════════════════════

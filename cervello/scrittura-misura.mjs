@@ -237,6 +237,48 @@ export function decidiScrittura({ solaLettura = false, misuraNuova = null, misur
 }
 
 /**
+ * ⭐ LA MISURA MESSA ACCANTO — la seconda metà di `decidiScrittura`, quella che mancava.
+ *
+ * AR-749. Quando la decisione dice `affianca: true` il motivo recita, alla lettera, «la metto
+ * accanto, non al posto». Nessuno la metteva accanto: il verdetto usciva, il chiamante guardava solo
+ * `scrivi`, e la misura finiva per terra. Da una sessione cloud il quadro dei sensori non entrava
+ * quindi **da nessuna parte** — né sopra quello del VPS (giusto) né a fianco (promesso e mai fatto).
+ * Il conto: quella promessa era nel testo del motivo, cioè nell'unico posto dove nessun test guarda.
+ *
+ * Qui la misura povera va in `misure_affiancate[origine]`, e la misura autorevole non si tocca: chi
+ * legge il file trova il quadro del VPS dov'era, più — dichiarato e separato — quello che si vedeva
+ * dall'altra parte. Ritorna `null` se non c'è niente di nuovo da dire, così affiancare non costa un
+ * diff a ogni corsa (AR-464).
+ *
+ * @param {object|null} documento il file com'è adesso (la misura autorevole).
+ * @param {object} misuraNuova la misura rifiutata come sostituta.
+ * @param {object} [p]
+ * @param {string} [p.origine] da dove arriva la misura nuova; senza, si legge da lei.
+ * @param {string} [p.quando] il timbro dell'ora, passato da fuori (questo modulo resta puro).
+ * @param {string[]} [p.campiTimbro]
+ * @returns {object|null} il documento da riscrivere, o `null` se non cambierebbe niente.
+ */
+export function affiancaMisura(documento, misuraNuova, { origine, quando, campiTimbro = CAMPI_TIMBRO } = {}) {
+  if (!misuraNuova || typeof misuraNuova !== "object") return null;
+  const da = String(origine || origineDi(misuraNuova) || "").trim();
+  // Senza un nome per la provenienza non c'è un posto dove metterla: due misure anonime si
+  // sovrascriverebbero a vicenda dentro la casella «accanto», rifacendo il difetto di partenza.
+  if (!da) return null;
+
+  const base = documento && typeof documento === "object" ? documento : {};
+  const accanto = base.misure_affiancate && typeof base.misure_affiancate === "object" ? base.misure_affiancate : {};
+  const voce = {
+    quando: quando ?? null,
+    origine: da,
+    copertura: coperturaDi(misuraNuova),
+    scritto_da: misuraNuova.scritto_da ?? null,
+    sensori: misuraNuova.sensori ?? null,
+  };
+  if (accanto[da] && stessoContenuto(accanto[da], voce, campiTimbro)) return null;
+  return { ...base, misure_affiancate: { ...accanto, [da]: voce } };
+}
+
+/**
  * Il timbro di provenienza da appendere a OGNI file di misura (AR-286 · AR-568 a).
  *
  * Tre campi e nessuno di più: da dove, quanto ha visto, chi l'ha scritto. Senza questi una misura è

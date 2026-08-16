@@ -173,6 +173,49 @@ prova("il metro sa dire di SÌ: con una chiave presente il file si scrive", () =
   );
 });
 
+// ── AR-749: quando la misura NON può entrare al posto dell'altra, deve entrare ACCANTO ──────────
+//
+// Il verdetto di `scrittura-misura.mjs` ha tre risposte, non due: sì, no, e «no ma la metto accanto».
+// Il testo del motivo lo diceva alla lettera — «la metto accanto, non al posto» — e nessuno la
+// metteva accanto: il chiamante guardava solo `scrivi`. Da una macchina con meno chiavi del server
+// il quadro dei sensori non entrava da nessuna parte.
+//
+// ⚠️ Questo caso NON guarda il file vero. Ci ho provato, e la prova passava per la strada sbagliata:
+// oggi quel file è scritto da «cloud», la corsa di prova è anch'essa «cloud», e con la stessa
+// provenienza il verdetto è «scrivi», non «affianca» — il ramo che voglio provare non veniva
+// nemmeno percorso. Una prova che dipende da come è il mondo stamattina non prova la cura.
+// Qui la misura di partenza è costruita a mano: scritta dal server, con più copertura.
+prova("la misura che non può sostituire quella del server finisce ACCANTO, non per terra", () => {
+  const dir = mkdtempSync(join(tmpdir(), "sensori-accanto-"));
+  const copia = join(dir, "sensori-cecita.json");
+  const delServer = {
+    origine: "vps",
+    copertura: 18,
+    scritto_da: "verifica-sensori.mjs",
+    sensori: { mcp_supabase: { stato: "ok" }, sito_uptime: { stato: "ok" } },
+    meta: {},
+  };
+  writeFileSync(copia, `${JSON.stringify(delServer, null, 2)}\n`);
+
+  const env = { ...process.env, SENSORI_CECITA_FILE: copia, MYCITY_ORIGINE: "cloud" };
+  for (const k of CHIAVI) env[k] = "";
+  env.MARKETPLACE_SUPABASE_URL = "https://esempio-non-esiste.supabase.co";
+  env.MARKETPLACE_SUPABASE_KEY = "chiave-finta-per-la-prova";
+  try {
+    execFileSync("node", [VERIFICA], { env, encoding: "utf8", timeout: 240000, stdio: ["ignore", "pipe", "pipe"] });
+  } catch { /* l'esito rosso è previsto: la chiave è finta */ }
+
+  const dopo = JSON.parse(readFileSync(copia, "utf8"));
+  assert.equal(dopo.origine, "vps", "il quadro autorevole non si tocca: resta quello del server");
+  assert.equal(dopo.copertura, 18, "e la sua copertura nemmeno");
+  assert.ok(dopo.misure_affiancate, "la misura rifiutata deve essere finita ACCANTO, non per terra");
+  assert.ok(dopo.misure_affiancate.cloud, "e sotto il nome di chi l'ha presa");
+  assert.ok(
+    Number(dopo.misure_affiancate.cloud.copertura) < 18,
+    "accanto ci va la misura povera, con la sua copertura dichiarata",
+  );
+});
+
 const rossi = casi.filter((c) => !c.ok);
 console.log(`TAP version 13\n1..${casi.length}`);
 casi.forEach((c, i) => console.log(`${c.ok ? "ok" : "not ok"} ${i + 1} - ${c.nome}${c.ok ? "" : `\n  # ${c.err}`}`));

@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-16 09:20",
+ "aggiornato": "2026-08-16 13:45",
  "mutanti": [
   {
    "lotto": 30,
@@ -758,10 +758,10 @@
   {
    "difetto": "AR-453",
    "lezione": "L-2026-0730-531",
-   "nome": "la guardia non si accorge piu che una mutazione ha perso il suo appiglio",
+   "nome": "la guardia non si accorge piu che una mutazione ha perso il suo appiglio — riagganciata nel lotto 44: il controllo è stato spostato dentro la funzione pura accecate(), il comportamento è lo stesso",
    "file": "cervello/sorvegliante.mjs",
-   "cerca": "          if (!t.contenuto.includes(mu.cerca)) {",
-   "sostituisci": "          if (false) {",
+   "cerca": "    if (lettura.testo.includes(mu.cerca)) continue;",
+   "sostituisci": "    if (true) continue;",
    "test": "cervello/test/sorvegliante.test.mjs"
   },
   {
@@ -2470,7 +2470,7 @@
    "difetto": "AR-478 merge-conta-lavoro-altrui",
    "nome": "il cancello torna a misurare i file che il merge ha portato identici da main: accusa il lotto del debito del worker",
    "file": "cervello/cancello-stop.mjs",
-   "cerca": "  if (contenuto === pubblicato()) return null;",
+   "cerca": "  if (contenuto === suMain) return null;",
    "sostituisci": "  if (false) return null;",
    "test": "node cervello/test/cancello-stop.test.mjs"
   },
@@ -2818,10 +2818,10 @@
   {
    "lotto": 40,
    "difetto": "AR-456",
-   "nome": "DIFFERENZA SCHEDA/CODICE: la scheda dice «150 contro 155». Misurato sul file vero il 13/8/2026 è peggio, e son",
+   "nome": "DIFFERENZA SCHEDA/CODICE: la scheda dice «150 contro 155». Misurato sul file vero il 13/8/2026 è peggio, e son — riagganciata nel lotto 44: la riga si è spostata quando il conto degli stati è stato riscritto, il cuore del fix è lo stesso (il numero si DERIVA dalla lista, non si LEGGE dal file)",
    "file": "pannello/src/lib/cantiere-snello.ts",
-   "cerca": "    aperti: conto.da_fare,\n    chiusi: conto.chiusi,",
-   "sostituisci": "    aperti: Number.isFinite(apertiScritti) ? apertiScritti : conto.da_fare,\n    chiusi: conto.chiusi,",
+   "cerca": "    aperti: daFare,",
+   "sostituisci": "    aperti: Number.isFinite(apertiScritti) ? apertiScritti : daFare,",
    "test": "node cervello/test/contatore-piu-vecchio-dei-difetti.test.mjs"
   },
   {
@@ -3876,8 +3876,7 @@
    "file": "cervello/test-cervello.mjs",
    "cerca": "    const copertura = nonMisurati.length ? ` · ⚪ ${nonMisurati.length} NON le ho potute far girare qui (il verde non le copre)` : \"\";",
    "sostituisci": "    const copertura = \"\";",
-   "test": "cervello/test/prova-che-non-puo-fallire.test.mjs",
-   "nota_riaggancio": "Lotto 44: il puntatore diceva cervello/test-cervello.mjs — il BANCO, non una prova. Il banco intero esce 0 anche con quella riga tolta (la mutazione cambia solo una stringa che si stampa), quindi la mutazione risultava vacua. La prova che davvero diventa rossa e quella gia dichiarata sulla scheda del difetto: prova-che-non-puo-fallire. Misurato lanciando entrambe col fix rotto."
+   "test": "cervello/test-cervello.mjs"
   },
   {
    "lotto": 42,
@@ -3946,7 +3945,7 @@
    "lotto": 42,
    "difetto": "AR-684",
    "nome": "rimettendo «da fare = aperto + in corso» diventano rossi tre casi (la somma sul cantiere vero, lo stato mai visto prima, l'accordo con il Pannello) — verificato lanciando il test",
-   "file": "cervello/atti-veri.mjs",
+   "file": "cervello/stati-cantiere.mjs",
    "cerca": "    da_fare: lista.length - chiusi,",
    "sostituisci": "    da_fare: aperti + in_corso,",
    "test": "cervello/test/parola-senza-padrone.test.mjs"
@@ -3955,7 +3954,7 @@
    "lotto": 42,
    "difetto": "AR-671",
    "nome": "togliendo il conteggio degli ignoti diventano rossi due casi (il caso a tavolino e il referto vero della salute onesta) — verificato lanciando il test",
-   "file": "cervello/atti-veri.mjs",
+   "file": "cervello/stati-cantiere.mjs",
    "cerca": "      if (!giaChiuso) ignoti++;",
    "sostituisci": "      if (false) ignoti++;",
    "test": "cervello/test/parola-senza-padrone.test.mjs"
@@ -4209,7 +4208,7 @@
    "lotto": 43,
    "difetto": "AR-671",
    "nome": "AR-671 — il cuore del fix",
-   "file": "cervello/atti-veri.mjs",
+   "file": "cervello/stati-cantiere.mjs",
    "cerca": "      if (!giaChiuso) ignoti++;",
    "sostituisci": "      if (false) ignoti++;",
    "test": "cervello/test/burn-down-che-migliora-da-solo.test.mjs"
@@ -4387,6 +4386,583 @@
   },
   {
    "lotto": 44,
+   "difetto": "AR-717",
+   "nome": "AR-717: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/auto-fix.mjs",
+   "cerca": "  cantiere.meta = metaCantiere(cantiere.difetti || [], { oggiMs: Date.parse(nowPiacenza().slice(0, 10)) });",
+   "sostituisci": "  const d = cantiere.difetti || []; cantiere.meta = { aperti: d.filter((x) => x.stato === \"aperto\").length, in_corso: 0, chiusi: d.filter((x) => x.stato === \"chiuso\").length };",
+   "test": "cervello/test/un-totale-che-salta-uno-stato.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-718",
+   "nome": "AR-718: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/allinea-scan-cantiere.mjs",
+   "cerca": "    cantiere_da_fare: c.da_fare,",
+   "sostituisci": "    cantiere_da_fare: c.aperti + c.in_corso,",
+   "test": "cervello/test/un-totale-che-salta-uno-stato.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-719",
+   "nome": "AR-719: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/chiusura-dichiarata.mjs",
+   "cerca": "  const daFare = (difetti || []).filter(Boolean).filter(eDaFare);",
+   "sostituisci": "  const daFare = (difetti || []).filter(Boolean).filter((d) => d.stato === \"aperto\");",
+   "test": "cervello/test/un-totale-che-salta-uno-stato.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-670",
+   "nome": "AR-670: il cuore del fix rimesso com'era col difetto",
+   "file": "pannello/src/lib/cantiere-snello.ts",
+   "cerca": "    da_fare: lista.length - chiusi,",
+   "sostituisci": "    da_fare: aperti + in_corso,",
+   "test": "cervello/test/un-totale-che-salta-uno-stato.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-668",
+   "nome": "AR-668: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/casa-memoria.mjs",
+   "cerca": "export const CARTELLE_MEMORIA = [\"MyCity-Vault\", \"memoria-squadra\"];",
+   "sostituisci": "export const CARTELLE_MEMORIA = [];",
+   "test": "cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-639",
+   "nome": "AR-639: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/calibrazione.mjs",
+   "cerca": "  if (scelta.scrivi) scriviJsonAtomico(PATH, data);",
+   "sostituisci": "  scriviJsonAtomico(PATH, data);",
+   "test": "cervello/test/la-sola-lettura-che-scrive.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-464",
+   "nome": "AR-464: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/stampo-check.mjs",
+   "cerca": "    scriviJsonAtomico(STATE_PATH, state);",
+   "sostituisci": "    writeFileSync(STATE_PATH, JSON.stringify(state, null, 2) + \"\\n\", \"utf8\");",
+   "test": "cervello/test/la-sola-lettura-che-scrive.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-446",
+   "nome": "AR-446: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/casa-memoria.mjs",
+   "cerca": "  return esiste(d.percorso) ? d.percorso : vero;",
+   "sostituisci": "  return vero;",
+   "test": "cervello/test/la-sola-lettura-che-scrive.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-286",
+   "nome": "AR-286: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/verifica-sensori.mjs",
+   "cerca": "    scrittore: (p, d) => scriviJsonAtomico(p, d),",
+   "sostituisci": "",
+   "test": "cervello/test/la-sola-lettura-che-scrive.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-713",
+   "nome": "AR-713: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    const testo = leggi(file);",
+   "sostituisci": "    const testo = t?.contenuto ?? null;",
+   "test": "cervello/test/prova-accecata-sul-file.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-723",
+   "nome": "AR-723: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/spazzata-fratelli.mjs",
+   "cerca": "    if (String(o.controprova ?? \"\").trim()) continue; // la promessa c'è ancora",
+   "sostituisci": "    continue;",
+   "test": "cervello/test/promessa-ritirata.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-725",
+   "nome": "AR-725: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "      const motivo = perchePartireDaSola(src);",
+   "sostituisci": "      const motivo = scriveSulDatoVivo(src) ? \"scrive sul dato vivo\" : null;",
+   "test": "cervello/test/prove-costose-in-fila.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-714",
+   "nome": "AR-714: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/contratto-prova.mjs",
+   "cerca": "    if (byte === null || byte <= CANALE_VERO) continue;",
+   "sostituisci": "    continue;",
+   "test": "cervello/test/canale-allargato.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-608",
+   "nome": "AR-608: il cuore del fix rimesso com'era col difetto",
+   "file": "pannello/src/lib/quaderni-vista.ts",
+   "cerca": "  if (base?.stato === \"non-letto\" && inMano > 0) {",
+   "sostituisci": "  if (false && base?.stato === \"non-letto\" && inMano > 0) {",
+   "test": "cervello/test/c5-quaderni-senza-rete.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-715",
+   "nome": "AR-715: il cuore del fix rimesso com'era col difetto",
+   "file": "pannello/src/lib/testi-elenco.ts",
+   "cerca": "  if (incompleto) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/c5-chat-mute-nell-elenco.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-716",
+   "nome": "AR-716: il cuore del fix rimesso com'era col difetto",
+   "file": "pannello/src/lib/testi-elenco.ts",
+   "cerca": "    incompleto: threadIncompleto(righe as LavoroThread[]),",
+   "sostituisci": "    incompleto: false,",
+   "test": "cervello/test/c5-chat-mute-nell-elenco.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-713",
+   "nome": "il sorvegliante torna ad accusare lo strumento che sta tenendo quel file rotto apposta",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  if (inMisura.has(file)) return { testo: null, motivo: null, sottoMisura: true };",
+   "sostituisci": "  if (false) return { testo: null, motivo: null, sottoMisura: true };",
+   "test": "cervello/test/prova-accecata-sul-file.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-710",
+   "nome": "AR-710: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/guardiano-capacita.mjs",
+   "cerca": "function elencaWorkflow(dir) {\n  const dentro = tracciatiDaGit(dir);",
+   "sostituisci": "function elencaWorkflow(dir) {\n  const dentro = existsSync(dir) ? readdirSync(dir) : [];",
+   "test": "cervello/test/workflow-dal-repo-non-dal-disco.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-711",
+   "nome": "AR-711: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/gate-veri.mjs",
+   "cerca": "  if (JSON_MODE) console.log(JSON.stringify(refertoGate({ quando: nowPiacenza(), esito: null, verdetto }), null, 2));",
+   "sostituisci": "  if (JSON_MODE) console.log(JSON.stringify({ ok: false, cieco: verdetto.codice === 2, motivo: verdetto.motivo }));",
+   "test": "cervello/test/referto-cieco-parla-la-stessa-lingua.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-709",
+   "nome": "AR-709: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "  process.exit(codiceDiUscita(lettura.esito));",
+   "sostituisci": "  process.exit(1);",
+   "test": "cervello/test/cantiere-che-non-si-apre-non-e-un-cantiere-sporco.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-504",
+   "nome": "AR-504: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/salute.mjs",
+   "cerca": "    altriRotti: rotti.filter((r) => !nominato(r)),",
+   "sostituisci": "    altriRotti: rotti,",
+   "test": "cervello/test/referto-che-non-si-ripete.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-388",
+   "nome": "AR-388: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/vps/aggiorna-cervello.sh",
+   "cerca": "if [ \"$_azione_salvataggio\" = \"metti-da-parte\" ]; then",
+   "sostituisci": "if [ \"$_azione_salvataggio\" = \"mai-nessuno\" ]; then",
+   "test": "cervello/test/checkout-che-butta-la-memoria.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-392",
+   "nome": "AR-392: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/giro.sh",
+   "cerca": "  _letargo_out=\"$(node \"$SCRIPT_DIR/letargo.mjs\" 2>&1)\"; _letargo_rc=$?",
+   "sostituisci": "  _letargo_out=\"\"; node \"$SCRIPT_DIR/letargo.mjs\" 2>&1 | esito_righe 3 || true; _letargo_rc=$?",
+   "test": "cervello/prove-difetti.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-396",
+   "nome": "AR-396: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/gate-pubblicazione.sh",
+   "cerca": "    ramo=\"$(git rev-parse --abbrev-ref HEAD 2>/dev/null || true)\"",
+   "sostituisci": "    ramo=\"$branch\"",
+   "test": "cervello/test/ramo-staccato-prima-del-push.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-626",
+   "nome": "AR-626: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/esito-claim.mjs",
+   "cerca": "    return { azione: \"verifica\", motivo: `la chiamata di presa in carico non è arrivata a destinazione (rc=${rc}): non so se è passata` };",
+   "sostituisci": "    return { azione: \"salta\", motivo: `la chiamata di presa in carico non è arrivata a destinazione (rc=${rc}): non so se è passata` };",
+   "test": "cervello/test/presa-in-carico-senza-risposta.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-630",
+   "nome": "AR-630: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/esito-cadenza.mjs",
+   "cerca": "  const mancano = Math.ceil((quando - ora) / 1000);",
+   "sostituisci": "  const mancano = 0; return { ritenta: true, attesaSec: pausa, motivo: \"pausa fissa\" };",
+   "test": "cervello/test/ritentativo-cieco-sul-reset.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-690",
+   "nome": "AR-690: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/monitora.sh",
+   "cerca": "      if gate_pubblicazione \"$SCRIPT_DIR\" \"$REPO\" \"$branch\" 1; then\n        git \"${GIT_ID[@]}\" commit -q -m \"recupero: scritture pendenti da un run interrotto ($(ts))\" 2>/dev/null || true",
+   "sostituisci": "      git \"${GIT_ID[@]}\" commit -q -m \"recupero: scritture pendenti da un run interrotto ($(ts))\" 2>/dev/null || true\n      if gate_pubblicazione \"$SCRIPT_DIR\" \"$REPO\" \"$branch\" 1; then",
+   "test": "cervello/test/recupero-cancello-prima-del-commit.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-295",
+   "nome": "AR-295: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/worker.sh",
+   "cerca": "  now_z=\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"\n  _rtry=\"&or=(riprova_dopo.is.null,riprova_dopo.lte.$now_z)\"",
+   "sostituisci": "  if [ \"$HAS_RETRY_COLS\" = 1 ]; then\n    now_z=\"$(date -u +%Y-%m-%dT%H:%M:%SZ)\"\n    _rtry=\"&or=(riprova_dopo.is.null,riprova_dopo.lte.$now_z)\"\n  else\n    _rtry=\"\"\n  fi",
+   "test": "cervello/test/scadenza-ignorata-in-silenzio.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-149",
+   "nome": "AR-149: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/volano-numeri.mjs",
+   "cerca": "    chiude: sopra && prova,",
+   "sostituisci": "    chiude: t > 0 && prova,",
+   "test": "cervello/test/il-voto-del-volano-con-due-metri.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-150",
+   "nome": "AR-150: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/esperimenti-regole.mjs",
+   "cerca": "  if (gateMaiPartito(exp)) return \"non-testato\";",
+   "sostituisci": "  if (false) return \"non-testato\";",
+   "test": "cervello/test/il-voto-del-volano-con-due-metri.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-355",
+   "nome": "AR-355: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/prove-regole.mjs",
+   "cerca": "  return patternNelCodice(pattern, testo);",
+   "sostituisci": "  return patternOvunque(pattern, testo);",
+   "test": "cervello/test/una-prova-che-punta-al-vuoto.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-356",
+   "nome": "AR-356: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/prove-regole.mjs",
+   "cerca": "export const CARTELLE_VOLATILI = [\"MyCity-Vault/\", \"consegne/\", \"creativi/\", \"memoria-squadra/\"];",
+   "sostituisci": "export const CARTELLE_VOLATILI = [];",
+   "test": "cervello/test/una-prova-che-punta-al-vuoto.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-360",
+   "nome": "AR-360: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/valida-contratti.mjs",
+   "cerca": "      if (v.codice === 0) continue;",
+   "sostituisci": "      if (v.codice === 0 || v.genera === null) continue;",
+   "test": "cervello/test/una-prova-che-punta-al-vuoto.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-567",
+   "nome": "AR-567: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/prove-regole.mjs",
+   "cerca": "      classe: \"al-vuoto\",",
+   "sostituisci": "      classe: \"mai-soddisfatta\",",
+   "test": "cervello/test/una-prova-che-punta-al-vuoto.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-288",
+   "nome": "AR-288: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/chiusura-loop.mjs",
+   "cerca": "  if (!voto.ok && !q.fixture) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-621",
+   "nome": "AR-621: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/sala-regole.mjs",
+   "cerca": "    .filter((r) => !escludi.includes(r) && !hannoParlato.has(r))",
+   "sostituisci": "    .filter(() => false)",
+   "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-623",
+   "nome": "AR-623: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/chiusura-loop.mjs",
+   "cerca": "  const daContare = [...reparti, ...derogheConQuaderno];",
+   "sostituisci": "  const daContare = [...reparti];",
+   "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-407",
+   "nome": "AR-407: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/adozione-medicine.mjs",
+   "cerca": "    peggiorata: copertura !== null && copertura < medicina.soglia,",
+   "sostituisci": "    peggiorata: false,",
+   "test": "cervello/test/il-quaderno-che-nessuno-firma.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-203",
+   "nome": "AR-203: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/motore-ai.sh",
+   "cerca": "if [ -n \"$tok\" ] && [ \"$tok\" -gt 0 ]; then misurato=1; fi",
+   "sostituisci": "if false; then misurato=1; fi",
+   "test": "cervello/test/c9-il-pavimento-della-stima.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-198",
+   "nome": "AR-198: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/motore-ai.sh",
+   "cerca": "_ai_modello=\"$(ai_modello_corsia)\"",
+   "sostituisci": "_ai_modello=\"${CERVELLO_MODELLO:-}\"",
+   "test": "cervello/test/c9-scala-di-sforzo.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-202",
+   "nome": "AR-202: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/metabolismo.mjs",
+   "cerca": "    resa: { ...laResa, costo_mensile_eur: costo.eur, fonte_costo: costo.fonte }, // AR-202",
+   "sostituisci": "    // AR-202: il valore non si conta",
+   "test": "cervello/test/c9-quanto-rende-un-giro.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-282",
+   "nome": "AR-282: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/sensore-cassa.mjs",
+   "cerca": "  if (!cassa.completa) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/c9-cassa-incompleta-non-e-rossa.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-285",
+   "nome": "AR-285: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/presa-in-carico.mjs",
+   "cerca": "if (presaInCarico && Number.isFinite(fino) && adessoMs <= fino) {",
+   "sostituisci": "if (presaInCarico && Number.isFinite(fino)) {",
+   "test": "cervello/test/c9-allarme-che-si-puo-chiudere.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-191",
+   "nome": "AR-191: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/presa-in-carico.mjs",
+   "cerca": "const daRisollecitare = oreAttesa >= soglia && (oreDaUltimo === null || oreDaUltimo >= soglia);",
+   "sostituisci": "const daRisollecitare = oreAttesa >= soglia && oreDaUltimo === null;",
+   "test": "cervello/test/c9-firma-che-non-arriva.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-439",
+   "nome": "AR-439: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/git-github.mjs",
+   "cerca": "      signal: AbortSignal.timeout(Number(process.env.SEGNALE_TIMEOUT_MS || 8000)),",
+   "sostituisci": "",
+   "test": "cervello/test/c9-attesa-senza-fine.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-431",
+   "nome": "AR-431: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/documenti-di-governo.mjs",
+   "cerca": "    if (adessoMs > fino) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/c9-governo-senza-sveglia.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-143",
+   "nome": "AR-143: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/credenziali-git.mjs",
+   "cerca": "  const url = urlPubblico(repo);",
+   "sostituisci": "  const url = conToken ? `https://x-access-token:${process.env.MYCITY_GIT_TOKEN}@github.com/${repo}.git` : urlPubblico(repo);",
+   "test": "cervello/test/c7-freni-che-fermano-davvero.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-208",
+   "nome": "AR-208: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/consenso-azione.mjs",
+   "cerca": "  if (usato >= soglia && speso > 0) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/c7-freni-che-fermano-davvero.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-209",
+   "nome": "AR-209: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/traccia-decisione.mjs",
+   "cerca": "  return `- ${quando} · ${colore} · [${chi}] · MANO ESEGUITA (LIVE): ${cosa}${coda} · ${esito || \"—\"}\\n`;",
+   "sostituisci": "  return \"\";",
+   "test": "cervello/test/c7-freni-che-fermano-davvero.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-345",
+   "nome": "AR-345: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/cancelli-commit.mjs",
+   "cerca": "    blocca: true,",
+   "sostituisci": "    blocca: false,",
+   "test": "cervello/test/c7-cancelli-che-fermano.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-600",
+   "nome": "AR-600: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/consenso-azione.mjs",
+   "cerca": "  if (inLista(lista, dest)) return { ok: true };",
+   "sostituisci": "  return { ok: true };",
+   "test": "cervello/test/c7-il-canale-alza-il-colore.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-599",
+   "nome": "AR-599: il cuore del fix rimesso com'era col difetto",
+   "file": "pannello/src/lib/livello-effettivo.ts",
+   "cerca": "  return almeno(livelloDaTesto, minimoDalCanale(canale));",
+   "sostituisci": "  if (!versoIlMondo(canale)) return livelloDaTesto;\n  return almeno(livelloDaTesto, \"giallo\");",
+   "test": "cervello/test/c7-il-canale-alza-il-colore.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-617",
+   "nome": "AR-617: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/senior-sola-lettura.mjs",
+   "cerca": "  if (tools == null) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/c7-freni-che-fermano-davvero.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-645",
+   "nome": "AR-645: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/cancelli-commit.mjs",
+   "cerca": "  if (marcatoreMs == null || !Number.isFinite(Number(marcatoreMs))) return { esito: \"bypass\", motivo: \"i cancelli non sono passati di qui\" };\n  const eta = (Number(adessoMs) - Number(marcatoreMs)) / 1000;\n  if (eta > Number(freschezzaSec)) return { esito: \"bypass\", motivo: `il segno dei cancelli è vecchio di ${Math.round(eta)}s: non è di questo commit` };",
+   "sostituisci": "  const eta = 0;",
+   "test": "cervello/test/c7-cancelli-che-fermano.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-442",
+   "nome": "AR-442: il cuore del fix rimesso com'era col difetto",
+   "file": "cervello/fonte-numero.mjs",
+   "cerca": "  if (g.azione === \"frena\" || s.azione === \"frena\") {",
+   "sostituisci": "  if (g.azione === \"frena\") {",
+   "test": "cervello/test/c7-freni-che-fermano-davvero.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-730",
+   "nome": "il rilevatore smette di contare le penne crude e dichiara guarita una porta che scrive ancora nel vault senza freno",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "      const crude = (testo.match(/writeFileSync\\s*\\(/g) || []).length;",
+   "sostituisci": "      const crude = 0;",
+   "test": "cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-737",
+   "nome": "il rilevatore smette di cercare la catena che ingoia il fallimento dell abort: un albero lasciato a meta rebase passa per successo",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "        .filter(({ r }) => /\\brebase\\b/.test(r) && /rebase\\s+--abort/.test(r) && /\\|\\|\\s*true/.test(r));",
+   "sostituisci": "        .filter(() => false);",
+   "test": "cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-743",
+   "nome": "il rilevatore smette di distinguere chi importa la casa da chi rifa il confronto a mano: cinque copie divergenti risultano una sola",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "        return rifa && !importa;",
+   "sostituisci": "        return false;",
+   "test": "cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-744",
+   "nome": "il rilevatore smette di leggere la nota: un esperimento che si dichiara misurato col gate mai partito torna a contare come apprendimento",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "      const bugiardi = lista.filter((e) => String(e?.stato ?? \"\").toLowerCase() === \"misurato\" && maiPartito.test(String(e?.nota ?? \"\")));",
+   "sostituisci": "      const bugiardi = [];",
+   "test": "cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-749",
+   "nome": "nessuno legge più il verdetto «mettila accanto»: la misura di chi ha meno chiavi torna a sparire nel nulla",
+   "file": "cervello/verifica-sensori.mjs",
+   "cerca": "  if (copertura.affianca && !SOLA_LETTURA && ambienteConfigurato) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/sensori-non-calpestati.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-752",
+   "nome": "la card in coda torna a valere per il solo fatto di esistere, senza nominare il sensore",
+   "file": "cervello/sensore-spento.mjs",
+   "cerca": "  return blocco.includes(String(sensore));",
+   "sostituisci": "  return true;",
+   "test": "cervello/test/una-card-una-volta-sola.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-753",
+   "nome": "il campo del margine torna a rispondere alla domanda sbagliata, e le due prove tornano a litigare",
+   "file": "cervello/salute-onesta.mjs",
+   "cerca": "  burn_down_margine: ignotiSettimanaFa,",
+   "sostituisci": "  burn_down_margine: margineOra,",
+   "test": "cervello/test/burn-down-che-migliora-da-solo.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-755",
+   "nome": "il conteggio torna a guardare solo l'inizio turno, e il testo arrivato da main torna a essere mio",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  const prima = Math.max(aInizioTurno ?? 0, suMain ?? 0);",
+   "sostituisci": "  const prima = aInizioTurno ?? 0;",
+   "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-693",
+   "nome": "togliendo la riga che dichiara i ⚪ accanto al verde, «una prova non eseguita resta NEL totale come ⚪» diventa rosso — verificato lanciando il test. La prova fa girare il banco vero con `BATS_BIN` puntato al vuoto (cioè la condizione di ogni sessione nuova) e pretende due cose: il denominatore vero («su 1», non «su 0») e il buco detto accanto al verde.",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "    const copertura = nonMisurati.length ? ` · ⚪ ${nonMisurati.length} NON le ho potute far girare qui (il verde non le copre)` : \"\";",
+   "sostituisci": "    const copertura = \"\";",
+   "test": "cervello/test/prova-che-non-puo-fallire.test.mjs",
+   "nota_riaggancio": "Lotto 44: il puntatore diceva cervello/test-cervello.mjs — il BANCO, non una prova. Il banco intero esce 0 anche con quella riga tolta (la mutazione cambia solo una stringa che si stampa), quindi la mutazione risultava vacua. La prova che davvero diventa rossa e quella gia dichiarata sulla scheda del difetto: prova-che-non-puo-fallire. Misurato lanciando entrambe col fix rotto."
+  },
+  {
+   "lotto": 44,
    "difetto": "ricuci-corsie · chiusura bloccata (AR-444)",
    "nome": "un difetto dichiarato aperto torna a non essere bloccato: la sua prova a comando che passa lo richiude da sola dopo il merge",
    "file": "cervello/ricuci-corsie.mjs",
@@ -4407,7 +4983,7 @@
   },
   {
    "lotto": 44,
-   "difetto": "AR-750",
+   "difetto": "AR-751",
    "nome": "chi dà il numero alla prossima card torna a non vedere l'archivio: propone un numero già speso e nessuno se ne accorge finché non è su disco",
    "file": "cervello/pausa-coda.mjs",
    "cerca": "  for (const m of testo.matchAll(/^\\|\\s*(\\d+)\\s*\\|/gm)) numeri.add(Number(m[1]));",
@@ -4417,7 +4993,7 @@
   },
   {
    "lotto": 44,
-   "difetto": "AR-751",
+   "difetto": "AR-750",
    "nome": "la porta dei sensori viene murata: nessuna esecuzione può più scrivere il file, nemmeno quella che ne avrebbe il diritto",
    "file": "cervello/verifica-sensori.mjs",
    "cerca": "  const scriviStato = (ambienteConfigurato || aggiornamentoMcp) && copertura.scrivi;",

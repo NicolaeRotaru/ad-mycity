@@ -27,6 +27,7 @@ import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { createHash } from "node:crypto";
 import { dirname, join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
+import { ORE_ESCALATION, ORE_RISOLLECITO, invecchiamentoCoda } from "./presa-in-carico.mjs";
 
 const CODA_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
 const STATE_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/notifiche-approvazioni.json");
@@ -110,7 +111,7 @@ export function estraiAzioni(testo) {
   return azioni.filter((a) => (visti.has(a.id) ? false : (visti.add(a.id), true)));
 }
 
-export function componiMessaggio(nuove, totaleInCoda) {
+export function componiMessaggio(nuove, totaleInCoda, stantie = [], salute = null) {
   const righe = [];
   righe.push(`🖊️ MyCity — ${nuove.length === 1 ? "1 nuova cosa" : `${nuove.length} nuove cose`} da approvare (${totaleInCoda} in coda):`);
   righe.push("");
@@ -120,6 +121,24 @@ export function componiMessaggio(nuove, totaleInCoda) {
   }
   if (nuove.length > MAX_PER_MESSAGGIO) {
     righe.push(`…e altre ${nuove.length - MAX_PER_MESSAGGIO} in coda.`);
+  }
+
+  // ── AR-191 — QUELLO CHE ASPETTA DA TROPPO ─────────────────────────────────────────────────────
+  // «Una proposta perfetta che nessuno ricorda vale zero.» L'anti-spam (una notifica sola per card)
+  // era diventato anti-memoria: la card squillava una volta e poi taceva per sempre. Adesso torna,
+  // e la più vecchia va per prima — l'ordine è per ANZIANITÀ, non per data di arrivo.
+  if (stantie.length) {
+    righe.push("");
+    righe.push(`⏳ Ferme in attesa della tua firma (le più vecchie prima):`);
+    for (const s of stantie.slice(0, MAX_PER_MESSAGGIO)) {
+      const giorni = Math.floor(s.ore_attesa / 24);
+      righe.push(`${s.escalation ? "‼️" : "•"} ${s.colore} ${s.titolo} — ferma da ${giorni >= 1 ? `${giorni} giorni` : `${s.ore_attesa} ore`}`);
+    }
+    if (stantie.length > MAX_PER_MESSAGGIO) righe.push(`…e altre ${stantie.length - MAX_PER_MESSAGGIO} che aspettano.`);
+  }
+  if (salute?.ore_attesa_mediana != null) {
+    righe.push("");
+    righe.push(`   (in media una card aspetta ${Math.round(salute.ore_attesa_mediana / 24)} giorni; la più vecchia ${Math.round(salute.ore_attesa_massima / 24)}.)`);
   }
   righe.push("");
   // AR-244, l'altra metà: il Pannello adesso SA ricevere un indirizzo che nomina area e scheda, ma
@@ -179,15 +198,46 @@ async function main() {
   const stato = leggiStato();
   const nuove = azioni.filter((a) => !stato.notificate[a.id]);
 
-  const out = { quando, in_coda: azioni.length, nuove: nuove.length, dry_run: DRY, titoli_nuove: nuove.map((a) => a.titolo) };
+  // ── AR-191 — LA CODA INVECCHIA, E ADESSO SI VEDE ──────────────────────────────────────────────
+  // Il collo di bottiglia dichiarato dalla macchina stessa è il tempo fra «pronto da firmare» e
+  // «fatto», e non era né misurato né presidiato. Qui la coda si fa vecchia sotto gli occhi di
+  // qualcuno: `ultimo_sollecito` è l'ultima volta che quella card ha squillato, quindi il
+  // risollecito si RIPETE (48h per le rosse, 5 giorni per le gialle) invece di squillare una volta
+  // sola e tacere per sempre.
+  const adessoMs = Date.now();
+  const salute = invecchiamentoCoda(
+    azioni.map((a) => ({ ...a, ultimo_sollecito: stato.notificate[a.id]?.ultimo_sollecito || stato.notificate[a.id]?.notificata_il || null })),
+    adessoMs
+  );
+  const nuoveId = new Set(nuove.map((a) => a.id));
+  const stantie = salute.da_risollecitare
+    .filter((r) => !nuoveId.has(r.id)) // le nuove squillano già per conto loro
+    .sort((a, b) => (b.ore_attesa || 0) - (a.ore_attesa || 0)); // escalation per ANZIANITÀ
 
-  if (!nuove.length) {
-    await stampSegnale("notifica-approvazioni", "ok", `0 nuove · ${azioni.length} in coda · ${quando}`);
-    console.log(JSON_MODE ? JSON.stringify(out, null, 2) : `📲 Nessuna azione nuova da notificare (${azioni.length} in coda, già tutte notificate).`);
+  const out = {
+    quando,
+    in_coda: azioni.length,
+    nuove: nuove.length,
+    dry_run: DRY,
+    titoli_nuove: nuove.map((a) => a.titolo),
+    // Il numero di salute della coda che AR-191 chiede: quanto ci mette una firma ad arrivare.
+    attesa_firma: {
+      ore_mediana: salute.ore_attesa_mediana,
+      ore_massima: salute.ore_attesa_massima,
+      da_risollecitare: stantie.length,
+      in_escalation: salute.in_escalation.length,
+      senza_data: salute.senza_data,
+      soglie_ore: { ...ORE_RISOLLECITO, escalation: ORE_ESCALATION },
+    },
+  };
+
+  if (!nuove.length && !stantie.length) {
+    await stampSegnale("notifica-approvazioni", "ok", `0 nuove · 0 da risollecitare · ${azioni.length} in coda · ${quando}`);
+    console.log(JSON_MODE ? JSON.stringify(out, null, 2) : `📲 Nessuna azione nuova né stantia (${azioni.length} in coda, attesa mediana ${salute.ore_attesa_mediana ?? "?"} ore).`);
     process.exit(0);
   }
 
-  const messaggio = componiMessaggio(nuove, azioni.length);
+  const messaggio = componiMessaggio(nuove, azioni.length, stantie, salute);
 
   if (DRY) {
     await stampSegnale("notifica-approvazioni", "warn", `${nuove.length} nuove NON inviate (${TOKEN && CHAT ? "dry forzato" : "chiavi Telegram mancanti"}) · ${quando}`);
@@ -203,7 +253,15 @@ async function main() {
 
   const r = await inviaTelegram(messaggio);
   if (r.ok) {
-    for (const a of nuove) stato.notificate[a.id] = { titolo: a.titolo, colore: a.colore, notificata_il: quando };
+    for (const a of nuove) stato.notificate[a.id] = { titolo: a.titolo, colore: a.colore, notificata_il: quando, ultimo_sollecito: quando, solleciti: 0 };
+    // AR-191: il risollecito segna il proprio orario, così la prossima volta si conta da qui e non
+    // dalla prima notifica. Senza questa riga il risollecito ripartirebbe a ogni giro: l'anti-spam
+    // tornerebbe a essere il problema, dall'altra parte.
+    for (const s of stantie) {
+      const v = stato.notificate[s.id] || { titolo: s.titolo, colore: s.colore, notificata_il: quando };
+      stato.notificate[s.id] = { ...v, ultimo_sollecito: quando, solleciti: (v.solleciti || 0) + 1 };
+    }
+    stato.attesa_firma = out.attesa_firma; // il numero di salute della coda, leggibile dal Pannello
     stato.aggiornato = quando;
     stato.meta = stato.meta || {};
     stato.meta.totale_notifiche = (stato.meta.totale_notifiche || 0) + 1;

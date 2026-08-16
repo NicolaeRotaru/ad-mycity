@@ -1,0 +1,240 @@
+{
+  "corsia": 5,
+  "malattia": "la decisione che vive dentro lo schermo: nel Pannello le regole che scelgono cosa Nicola vede — quale titolo, se una card è aperta, se una risposta è quella vecchia, se una chat esiste ancora — stavano dentro i componenti React e dentro gli useEffect, dove nessuna prova le può eseguire e si può solo cercarne la forma in un file",
+  "moduli_condivisi": [
+    "pannello/src/lib/quaderni-vista.ts",
+    "pannello/src/lib/testi-elenco.ts"
+  ],
+  "difetti": [
+    {
+      "id": "AR-608",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c5-quaderni-senza-rete.test.mjs",
+      "nota_fix": "LA SCHEDA ACCUSAVA TRE COSE E DUE ERANO GIÀ CURATE. ① «entrambe le letture sono in try/finally SENZA catch»: non è più vero, in QuaderniSenior tutte e due hanno il catch e guardano anche `res.ok` — l'ha fatto AR-263. Nessuna promessa rifiutata resta scoperta, quindi anche la parte «errori non gestiti ogni due minuti» del titolo è caduta. ② «cliccando un quaderno offline compare Quaderno non trovato»: curato, il dettaglio passa da `cosaMostrare` e mostra il motivo vero; l'ho eseguito, non solo letto. ③ «le istruzioni sulle variabili di Vercel compaiono a lista vuota»: VERO e riparato qui — quel messaggio adesso esce solo quando il server ha risposto «non sono collegato», e apre con una frase in italiano invece che con la configurazione. CERCANDO SUL CODICE NE HO TROVATE DUE PEGGIORI, CHE NESSUNA SCHEDA DICEVA. (a) Il ripasso silenzioso ogni due minuti CANCELLAVA l'elenco: se quella rilettura falliva — un tunnel, un ascensore — i quaderni già a schermo sparivano e restava l'avviso di errore, buttando via un dato buono. Adesso l'elenco resta e l'errore diventa una striscia sopra. (b) Il tasto «Riprova» CHIUDEVA il quaderno invece di rileggerlo: faceva `setAperto(null)` e richiamava l'apertura nello stesso istante, ma lo stato di React si aggiorna dopo, quindi la seconda chiamata ritrovava lo stesso nome e credeva di dover chiudere — l'unica via d'uscita da un errore di rete non funzionava. La decisione «quale delle cinque schermate si vede» e «cosa fa un gesto su un quaderno» stanno adesso in `lib/quaderni-vista.ts`, fuori da React. NON HO SOSTITUITO `cosaMostrare`: il mio modulo ci si appoggia sopra, così il guardiano di AR-263 continua a vedere la sua decisione nel componente (me ne sono accorto perché la prima versione lo faceva diventare rosso). COSA NON HO VERIFICATO: non ho guidato questa casella col browser — la cura è tutta in funzioni pure e la prova le esegue, ma il disegno vero della striscia d'avviso non l'ho visto.",
+      "mutante": {
+        "file": "pannello/src/lib/quaderni-vista.ts",
+        "cerca": "  if (base?.stato === \"non-letto\" && inMano > 0) {",
+        "sostituisci": "  if (false && base?.stato === \"non-letto\" && inMano > 0) {"
+      },
+      "non_vacuita": "ESEGUITA. Spento il cuore («un dato in mano batte l'errore di rilettura») → test ROSSO, cade «AR-608 LA CURA: il ripasso fallito NON butta via i quaderni già a schermo». Rimesso: verde (19 casi). Provato anche il secondo punto: tolto il ramo della riprova (`if (gesto === \"riprova\")` → `if (false)`) → ROSSO su «la riprova arrivava con lo stesso quaderno ancora segnato aperto». Rimesso: verde."
+    },
+    {
+      "id": "AR-715",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c5-chat-mute-nell-elenco.test.mjs",
+      "nota_fix": "LA SCHEDA AVEVA RAGIONE SULLA CAUSA, E IL DANNO ERA PIÙ GRANDE DI COME LO DESCRIVEVA. `integraConversazioniDaLavori` scartava un gruppo quando non trovava nessun messaggio di Nicola. Misurando invece di dedurre ho scoperto che quella condizione è vera SOLO sulle righe mute: una riga di chat che porta la sua richiesta produce sempre almeno la bolla di Nicola, anche quando il testo è un segnaposto. Dopo un ricaricamento le righe sono mute tutte — quindi il filtro non scartava i gruppi vuoti, scartava l'intero elenco delle chat nate dai Lavori. Cura in tre pezzi, tutti in `lib/testi-elenco.ts`: ① il buco si dichiara (`threadIncompleto`); ② `esitoGruppoChat` tiene il gruppo che ha righe da rileggere e scarta solo quello che non ha né messaggi né niente da leggere; ③ la dichiarazione ha un destinatario — `idsDaPrecaricareInElenco` dice cosa rileggere UNA VOLTA SOLA all'arrivo dell'elenco, e la pagina lo fa fuori dal disegno con la porta che esisteva già (`leggiDettagliLavori`). La scheda diceva «non si può curare come AR-603 perché questa funzione gira durante il disegno»: è vero, e infatti la lettura non è dentro la funzione — è nel poll, e la funzione si limita a non buttare via quello che non ha ancora. DOMANDA ⑥, «quali cancelli eredita il canale nuovo?»: le porte che riscrivono l'elenco sono DUE. «Carica altro archivio» sostituiva le righe con quelle appena arrivate — mute — perdendo i testi già letti, e siccome quelle righe risultavano già chieste non le rileggeva più nessuno: avrebbe disfatto il fix al primo clic. Adesso conserva ciò che sa e ripassa dallo stesso precarico. COSA NON HO VERIFICATO: non ho guidato il Pannello col browser su questo caso (serve un worker con lavori di chat veri e un ricaricamento vero); la catena è provata su righe costruite esattamente come quelle della select leggera, non su righe pescate dal database.",
+      "mutante": {
+        "file": "pannello/src/lib/testi-elenco.ts",
+        "cerca": "  if (incompleto) {",
+        "sostituisci": "  if (false) {"
+      },
+      "non_vacuita": "ESEGUITA. Tolto il ramo che tiene il gruppo muto → test ROSSO su 2 casi: «AR-715 LA CURA: il gruppo-chat con righe mute RESTA nell'elenco» e «LA STORIA VERA: ricaricata la pagina, la chat c'è, si dichiara incompleta e chiede il suo testo». Rimesso: verde (22 casi)."
+    },
+    {
+      "id": "AR-716",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c5-chat-mute-nell-elenco.test.mjs",
+      "nota_fix": "LA SCHEDA ERA GIUSTA. `messaggiConvEffettivi` fondeva il thread salvato con quello ricostruito dai lavori e, quando la seconda metà era vuota, tornava il solo salvato senza distinguere «non c'era niente in più» da «non ho potuto leggere». La fusione adesso passa da `threadDiLista` in `lib/testi-elenco.ts`, che torna anche `incompleto`. Due usi veri, così la dichiarazione non resta un campo inutilizzato: ① a schermo il conteggio della riga non scrive più «0 messaggi» sotto una chat che ne ha sei, scrive tre puntini — uno zero è un'affermazione, e sarebbe falsa; ② lo stesso giudizio guida il precarico che va a riempire il buco, quindi il buco non viene mostrato come completo: viene chiuso. QUELLO CHE HO LASCIATO IN PIEDI, E LO DICO PERCHÉ NON SI SCOPRA DOPO: con un thread incompleto `fpUltimaRisposta` non trova nessuna risposta finale e il pallino rosso «non letta» resta spento finché il precarico non torna (un giro di poll). Non l'ho forzato ad accendersi: un pallino acceso su un dato che non ho letto sarebbe l'errore opposto, e permanente. È registrato in difetti_nuovi. COSA NON HO VERIFICATO: come sopra, niente browser su questo caso.",
+      "mutante": {
+        "file": "pannello/src/lib/testi-elenco.ts",
+        "cerca": "    incompleto: threadIncompleto(righe as LavoroThread[]),",
+        "sostituisci": "    incompleto: false,"
+      },
+      "non_vacuita": "ESEGUITA. Fatto dire al thread di lista che è sempre completo → test ROSSO su «AR-716 LA CURA: con righe mute il thread si dichiara INCOMPLETO». Rimesso: verde (22 casi)."
+    },
+    {
+      "id": "AR-602",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-recupero-thread.test.mjs",
+      "nota_fix": "Riparato dal lotto 43 e RIMISURATO qui, non riletto: il test gira verde (25 casi) e la sua mutazione l'ho eseguita davvero. Non ho toccato niente. La nota del lotto 43 resta valida sul codice vero.",
+      "mutante": {
+        "file": "pannello/src/components/LavoriCervello.tsx",
+        "cerca": "    const scelta = qualeRisposta(lv, d);",
+        "sostituisci": "    return { ...lv, richiesta: d.richiesta ?? lv.richiesta, risultato: d.risultato ?? lv.risultato }; const scelta = qualeRisposta(lv, d);"
+      },
+      "non_vacuita": "ESEGUITA (la mutazione era già in mutanti.json, lotto 43: NON va aggiunta di nuovo). Rimessa la vecchia regola «la copia vince sempre» → ROSSO su «cablaggio AR-602: la vecchia regola non esiste più». Rimesso: verde."
+    },
+    {
+      "id": "AR-603",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-recupero-thread.test.mjs",
+      "nota_fix": "Riparato dal lotto 43 e rimisurato qui: test verde (25 casi), mutazione eseguita e rossa. Non ho toccato niente. I due punti che la nota del lotto 43 lasciava aperti — `messaggiConvEffettivi` e `integraConversazioniDaLavori` — sono esattamente AR-716 e AR-715, curati in questa corsia: la malattia adesso non ha più rami scoperti nell'elenco.",
+      "mutante": {
+        "file": "pannello/src/lib/recupero-thread.ts",
+        "cerca": "  return [...new Set(out)].slice(0, MAX_RILETTURE);",
+        "sostituisci": "  return [];"
+      },
+      "non_vacuita": "ESEGUITA (mutazione già in mutanti.json, lotto 43). Fatto dire «niente da rileggere» → ROSSO su 5 casi, il primo «una riga finita e muta viene riconosciuta come da rileggere». Rimesso: verde."
+    },
+    {
+      "id": "AR-604",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-recupero-thread.test.mjs",
+      "nota_fix": "Riparato dal lotto 43 e rimisurato qui: test verde, mutazione eseguita e rossa. Non ho toccato niente.",
+      "mutante": {
+        "file": "pannello/src/lib/recupero-thread.ts",
+        "cerca": "  const recupera = !s?.recuperoFatto || sospeso;",
+        "sostituisci": "  const recupera = !s?.recuperoFatto && !s?.giaCaricato;"
+      },
+      "non_vacuita": "ESEGUITA (mutazione già in mutanti.json, lotto 43). Rimessa la dipendenza da «ho già caricato» → ROSSO su «riaperta dopo il tempo scaduto, il ripescaggio RIPARTE». Rimesso: verde."
+    },
+    {
+      "id": "AR-605",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-effetti-fuori-dagli-updater.test.mjs",
+      "nota_fix": "Riparato dal lotto 43 e rimisurato qui: test verde (9 casi), mutazione eseguita e rossa. Non ho toccato niente. Il guardiano `attiDentroGliUpdater` legge tutto `pannello/src` col tetto a zero, quindi ha misurato anche il codice che ho aggiunto io in questa corsia: il precarico dei testi calcola dallo specchio e chiama `setLavori` con un valore, come vuole la regola.",
+      "mutante": {
+        "file": "pannello/src/lib/effetti-in-updater.ts",
+        "cerca": "    if (!/^\\(\\s*(?:async\\s+)?(?:\\([^()]*\\)|[A-Za-z_$][\\w$]*)\\s*(?::[^=]*?)?=>/.test(corpo)) continue;",
+        "sostituisci": "    continue;"
+      },
+      "non_vacuita": "ESEGUITA (mutazione già in mutanti.json, lotto 43). Accecato il riconoscitore degli updater → ROSSO su 2 casi, fra cui «un salvataggio dentro l'updater viene VISTO». Rimesso: verde."
+    },
+    {
+      "id": "AR-607",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "Riparato dal lotto 42 e rimisurato qui: test verde (28 casi), mutazione eseguita e rossa. Non ho toccato niente.",
+      "mutante": {
+        "file": "pannello/src/lib/stato-card.ts",
+        "cerca": "    promessa: \"Questa volta è caduto tutto, non solo una casella. Ricarica la pagina: se torna subito, era un intoppo passeggero.\",",
+        "sostituisci": "    promessa: \"Il resto del Pannello funziona. Ricarica la pagina.\","
+      },
+      "non_vacuita": "ESEGUITA (mutazione già in mutanti.json, lotto 42). Rimessa la promessa più larga di quello che resta in piedi → ROSSO su 2 casi, il primo «se è caduta tutta la Cabina, NON si promette che il resto funziona». Rimesso: verde."
+    },
+    {
+      "id": "AR-613",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-schermo-coda.test.mjs",
+      "nota_fix": "Riparato dal lotto 42 e verificato QUI A RUNTIME, guidando il Pannello vero con un browser: installate le dipendenze, avviato il Pannello e lanciata la prova, tutti e cinque i casi sono verdi — nessun comando dentro un altro comando, le linguette sono un gruppo di schede dichiarato, la freccia destra sposta davvero di una scheda, le linguette si prendono col pollice. Non ho toccato niente. ATTENZIONE PER CHI RILEGGE: questa prova è ROSSA se il Pannello non gira, e non lo dichiara come «non ho potuto guardare» — serve `npm ci --prefix pannello` e un Pannello acceso, altrimenti sembra un difetto e invece è un ambiente non pronto.",
+      "mutante": {
+        "file": "pannello/src/components/aree/Azioni.tsx",
+        "cerca": "<summary className=\"list-none cursor-pointer select-none min-h-[44px]\">",
+        "sostituisci": "<summary className=\"list-none cursor-pointer select-none min-h-[44px]\"><button type=\"button\">x</button>"
+      },
+      "non_vacuita": "ESEGUITA A RUNTIME (mutazione già in mutanti.json, lotto 42). Rimesso un bottone dentro la linguetta, atteso il ricompilo, rilanciata la prova col browser vero → ROSSO su «nessun comando vive dentro un altro comando» (gli altri quattro restano verdi, come dichiarato in testa al file di prova). File ripristinato e verificato con git: nessuna differenza."
+    },
+    {
+      "id": "AR-614",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "Riparato dal lotto 42 e rimisurato qui in due modi: la prova della tavolozza è verde e la sua mutazione è rossa; a runtime, col Pannello vero acceso, il caso sui bordi colorati nei due temi è verde. Resta vera la trappola dichiarata dal lotto 42 e la confermo: la prova a runtime NON distingue il Pannello curato da quello malato, perché la misura finisce su un riquadro vicino che la gemella scura ce l'ha scritta dentro. La rete che difende questo difetto è quella della tavolozza. Non ho toccato niente.",
+      "mutante": {
+        "file": "pannello/src/lib/stato-card.ts",
+        "cerca": "  rosso: \"border-red-200 dark:border-red-900/50\",",
+        "sostituisci": "  rosso: \"border-red-200\","
+      },
+      "non_vacuita": "ESEGUITA (mutazione già in mutanti.json, lotto 42). Tolta la gemella scura dal bordo rosso → ROSSO su «NESSUNA classe prodotta dal modulo resta indietro in tema scuro». Rimesso: verde."
+    },
+    {
+      "id": "AR-615",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "Riparato dal lotto 42 e rimisurato qui: test verde, mutazione eseguita e rossa. Non ho toccato niente.",
+      "mutante": {
+        "file": "pannello/src/lib/stato-card.ts",
+        "cerca": "  return Boolean((stato || NESSUNO_PREMUTO)[id]);",
+        "sostituisci": "  return false;"
+      },
+      "non_vacuita": "ESEGUITA (mutazione già in mutanti.json, lotto 42). Fatto dire al freno «non è premuto nulla» → ROSSO su 2 casi, fra cui la simulazione del doppio dito. Rimesso: verde."
+    },
+    {
+      "id": "AR-616",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "Riparato dal lotto 42 e rimisurato qui: test verde, mutazione eseguita e rossa. Non ho toccato niente.",
+      "mutante": {
+        "file": "pannello/src/lib/stato-card.ts",
+        "cerca": "  return pulisciTitolo(testoPulito(grezzo));",
+        "sostituisci": "  return String(grezzo || \"\");"
+      },
+      "non_vacuita": "ESEGUITA (mutazione già in mutanti.json, lotto 42). Tolto il filtro dalla porta d'uscita unica → ROSSO su «un titolo storico con la targa tecnica esce pulito». Rimesso: verde."
+    },
+    {
+      "id": "AR-673",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "Riparato dal lotto 42 e rimisurato qui: test verde, mutazione eseguita e rossa. Non ho toccato niente. Resta valida la dichiarazione del lotto 42: il caso guidato dal browser era intermittente ed è stato tolto apposta, la rete sono i due casi puri sul parcheggio del cancelletto.",
+      "mutante": {
+        "file": "pannello/src/lib/nav.ts",
+        "cerca": "  ancoraPendente = null;",
+        "sostituisci": "  // ancoraPendente = null;"
+      },
+      "non_vacuita": "ESEGUITA (mutazione già in mutanti.json, lotto 42). Tolto il consumo del cancelletto messo da parte → ROSSO su «si consuma — la casella non salta due volte». Rimesso: verde."
+    },
+    {
+      "id": "AR-674",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-voce-senza-vista.test.mjs",
+      "nota_fix": "Riparato dal lotto 43 e rimisurato qui: test verde (8 casi), mutazione eseguita e rossa. Non ho toccato niente.",
+      "mutante": {
+        "file": "pannello/src/lib/strati.ts",
+        "cerca": "  const base = voceDiNavigazione(statoCorrente, { vista: vista || \"plancia\" });",
+        "sostituisci": "  const base = { ...(statoCorrente && typeof statoCorrente === \"object\" ? statoCorrente : {}), vista: vista || \"plancia\" } as Record<string, unknown>;"
+      },
+      "non_vacuita": "ESEGUITA (mutazione già in mutanti.json, lotto 43). Rimesso il timbro che fonde tutto a occhi chiusi → ROSSO su 2 casi, fra cui «il marcatore di un pannello GIÀ CHIUSO non entra nella voce nuova». Rimesso: verde."
+    },
+    {
+      "id": "AR-675",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-decisione-fuori-da-react.test.mjs",
+      "nota_fix": "Riparato dal lotto 42 e rimisurato qui: test verde, mutazione eseguita e rossa. Non ho toccato niente.",
+      "mutante": {
+        "file": "pannello/src/lib/stato-card.ts",
+        "cerca": "  return conCasella(stato, id, { card: true, testo: true });",
+        "sostituisci": "  return conCasella(stato, id, { card: true });"
+      },
+      "non_vacuita": "ESEGUITA (mutazione già in mutanti.json, lotto 42). Tolta l'apertura del testo dall'atterraggio → ROSSO su 3 casi. Rimesso: verde."
+    },
+    {
+      "id": "AR-705",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/c4-typecheck-del-pannello.test.mjs",
+      "nota_fix": "Riparato dal lotto 43 e rimisurato qui con l'ambiente PRONTO, che è la differenza importante: ho installato le dipendenze del Pannello (`npm ci --prefix pannello`) e lanciato `npx tsc --noEmit` — ZERO errori, sia prima sia dopo il mio lavoro in questa corsia. La prova è verde (6 casi) e la sua mutazione è rossa. Non ho toccato `cancello-lotto.mjs`. NOTA PER L'AD: da una sessione nuova il controllo dei tipi è ⚪ finché non si fa `npm ci --prefix pannello`; qui l'ho fatto, quindi per questa corsia il typecheck è un verde vero e non un cieco.",
+      "mutante": {
+        "file": "pannello/src/components/aree/Azioni.tsx",
+        "cerca": "const BORDO = classiBordo;",
+        "sostituisci": "const BORDO = classiBordoCheNonEsiste;"
+      },
+      "non_vacuita": "ESEGUITA (mutazione già in mutanti.json, lotto 43). Rotto un nome nell'area dove Nicola firma → ROSSO su «il Pannello compila tutto, non solo la pagina che qualcuno apre». Rimesso: verde."
+    }
+  ],
+  "bloccati": [],
+  "difetti_nuovi": [
+    {
+      "titolo": "Dopo un ricaricamento il pallino della risposta non letta resta spento finché i testi non tornano",
+      "gravita": "minore",
+      "causa_radice": "L'impronta dell'ultima risposta si calcola sul thread di lista. Con le righe del poll mute quel thread non ha nessuna risposta finale, l'impronta esce vuota e il pallino si spegne: Nicola non viene avvisato che una risposta è arrivata. Il precarico dei testi lo riaccende entro un giro di poll, ma se quella lettura non riesce il pallino resta spento in silenzio, e nessuno lo dice. Non l'ho forzato ad accendersi apposta: un pallino acceso su un dato che non ho letto è l'errore opposto e sarebbe permanente. La cura giusta è un terzo stato del pallino — «non lo so ancora» — invece di far collassare l'ignoto sul «letta».",
+      "dove": "pannello/src/app/page.tsx, funzioni fpUltimaRisposta e haRispostaNonLetta (righe ~305-360)",
+      "fix_proposto": "Portare la decisione del pallino in una funzione pura che riceva anche `incompleto` (già calcolato da threadDiLista in lib/testi-elenco.ts) e torni tre esiti invece di due: letta / non letta / non lo so. A schermo il terzo può essere un pallino sbiadito. Prova: un caso puro che con righe mute pretende «non lo so» e non «letta»."
+    },
+    {
+      "titolo": "Una riga chiesta al precarico e non tornata indietro resta muta per sempre",
+      "gravita": "minore",
+      "causa_radice": "Il precarico dei testi delle chat segna gli id come «già chiesti» PRIMA di leggere, e li rimette in gioco solo se la lettura torna completamente a vuoto. Se la risposta è parziale — dieci id chiesti, otto tornati — i due mancanti restano marcati come chiesti e nessuno li rilegge più fino al ricaricamento della pagina. È lo stesso schema che i nomi dei lavori curano già a metà (là si toglie il segno solo quando la lettura fallisce del tutto).",
+      "dove": "pannello/src/app/page.tsx, funzione precaricaTestiDelleChat (riga ~2910)",
+      "fix_proposto": "Confrontare gli id chiesti con quelli tornati e togliere il segno di «già chiesto» solo a quelli mancanti, non a tutti e non a nessuno. Attenzione al rovescio: un lavoro che davvero non ha testo non deve essere richiesto ogni otto secondi, quindi il segno va tolto solo quando la riga non è arrivata affatto, non quando è arrivata vuota. Prova: una funzione pura che riceve chiesti e tornati e dice quali vanno rimessi in coda."
+    }
+  ],
+  "malattie_da_censire": [
+    {
+      "id": "riprova-che-chiude",
+      "cosa_e": "Un gestore che azzera uno stato di React e nello stesso istante chiama una funzione il cui comportamento dipende da quello stato. Lo stato si aggiorna dopo, quindi la seconda chiamata legge ancora il valore vecchio e fa il contrario di quello che il tasto promette. È AR-608: il tasto «Riprova» dei quaderni chiudeva il quaderno invece di rileggerlo, e l'unica via d'uscita da un errore di rete non funzionava.",
+      "come_si_cerca": "Su tutto pannello/src, dopo aver tolto commenti e stringhe: /set([A-Z]\\w*)\\(\\s*(null|false|\\[\\]|\\{\\})\\s*\\)\\s*;\\s*(void\\s+)?[a-z]\\w*\\(/ — un setter azzerato seguito subito da una chiamata nella stessa istruzione. Ogni occorrenza va guardata a mano: la cura è portare la decisione in una funzione pura che riceve il gesto come argomento invece di dedurlo dallo stato."
+    },
+    {
+      "id": "buco-che-passa-per-vuoto",
+      "cosa_e": "Una funzione che ricostruisce dei dati da righe incomplete e torna un risultato più corto — o vuoto — senza dichiarare che non ha potuto leggere. Chi la chiama mostra quel vuoto come se fosse la verità: «0 messaggi» sotto una chat che ne ha sei, o una conversazione che sparisce dall'elenco. Sono AR-715 e AR-716, ed è la stessa forma di AR-263 e di «cieco non è rotto» già censite altrove.",
+      "come_si_cerca": "Non ho un metro automatico affidabile e lo dichiaro invece di inventarne uno debole. Il candidato misurabile: una funzione che riceve righe e torna un array o un conteggio, senza tornare da nessuna parte un campo che dica quanto è completa. Prima di censirla serve decidere il perimetro (quali funzioni contano), altrimenti il tetto boccia mezza cartella. Proposta: partire dai soli ricostruttori di thread (`messaggiDaGruppo` e chi lo chiama) e allargare dopo."
+    }
+  ],
+  "file_toccati": [
+    "pannello/src/lib/quaderni-vista.ts",
+    "pannello/src/lib/testi-elenco.ts",
+    "pannello/src/components/QuaderniSenior.tsx",
+    "pannello/src/app/page.tsx",
+    "cervello/test/c5-quaderni-senza-rete.test.mjs",
+    "cervello/test/c5-chat-mute-nell-elenco.test.mjs"
+  ],
+  "patch_per_ad": []
+}

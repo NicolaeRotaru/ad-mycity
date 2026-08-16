@@ -36,6 +36,7 @@ import { existsSync, readFileSync, mkdtempSync, writeFileSync, chmodSync, mkdirS
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
+import { pathToFileURL } from "node:url";
 import { AD_ROOT } from "./git-github.mjs";
 
 // La radice su cui le prove guardano. Di norma è il repo vero; la prova a due versi la punta su una
@@ -624,6 +625,12 @@ const PROVE = {
         `#!/bin/bash\nset -u\nexport PATH=${JSON.stringify(finto)}:$PATH\ncd ${JSON.stringify(repo)}\n` +
           `ts() { echo 00:00; }\nGIT_ID=(-c user.name=prova -c user.email=prova@mycity.local)\n` +
           `url=""\nbranch=main\n_ahead_pre=0\n` +
+          // ⚠️ `REPO` è la radice del repo nello script vero, ed è arrivata DENTRO il tratto ritagliato
+          // quando il lotto 44 ha fatto crescere quel ramo. Con `set -u` il pezzo estratto moriva
+          // sulla variabile non definita e la prova usciva ⚪ — onesta, ma cieca: una copertura persa
+          // in silenzio. Il preludio deve dichiarare l'ambiente che il tratto si aspetta di trovare,
+          // e quando ne comparirà un'altra la cecità lo dirà di nuovo, con il nome giusto.
+          `REPO=${JSON.stringify(repo)}\n` +
           `esito_allineamento() { echo 0; }\nmotivo_allineamento() { echo motivo; }\nmotivo_push_fallito() { echo motivo; }\n` +
           `serve_mettere_da_parte() { echo no; }\n` +
           `${righe.slice(iInizio, iCheckout + 1).join("\n")}\n`,
@@ -678,6 +685,105 @@ const PROVE = {
         : { ...APERTO, detto: "`prenotaAzione` esiste ma non viene presa prima delle mani: la corsa fra due clic resta aperta" };
     },
   },
+
+  // ── I QUATTRO GRAVI NATI NEL LOTTO 44 ──────────────────────────────────────
+  // Nascono ROSSI, che è il loro stato giusto: sono difetti aperti. Ognuno ESEGUE una misura sul
+  // repo vero invece di cercare una parola, e diventa verde solo quando qualcuno ripara davvero.
+
+  "ar-730": {
+    titolo: "La porta unica delle scritture dei sensori ha una penna cruda, e non tutti gli scrittori passano dal freno",
+    prova() {
+      const f = join(RADICE, "cervello/stato-sensori.mjs");
+      if (!existsSync(f)) return { cieco: "cervello/stato-sensori.mjs non c'è: non ho potuto misurare la porta" };
+      const testo = readFileSync(f, "utf8");
+      // La penna di default della porta: se scrive col writeFileSync crudo, il freno della memoria
+      // (casa-memoria → scrivi-json) non la sfiora, e chi non passa la penna buona bypassa tutto.
+      const crude = (testo.match(/writeFileSync\s*\(/g) || []).length;
+      if (crude === 0) return { ...RIPARATO, detto: "la porta dei sensori non ha più penne crude: ogni scrittura passa dal freno della memoria" };
+      return { ...APERTO, detto: `la porta dei sensori ha ancora ${crude} scrittura/e cruda/e: chi non passa la penna condivisa scrive nel vault senza freno` };
+    },
+  },
+
+  "ar-737": {
+    titolo: "Nel ciclo di pubblicazione dell'allineamento il rebase ha tre esiti e ne viene letto zero",
+    prova() {
+      const f = join(RADICE, "cervello/vps/aggiorna-cervello.sh");
+      if (!existsSync(f)) return { cieco: "cervello/vps/aggiorna-cervello.sh non c'è" };
+      const righe = readFileSync(f, "utf8").split("\n");
+      // La forma malata è la catena `rebase || abort || true`: il rebase può fallire, l'abort può
+      // fallire a sua volta, e `|| true` compra il verde comunque — si arriva al push con l'albero a
+      // metà rebase, e dal remoto un avanzamento PARZIALE sembra un fast-forward. Tre esiti diversi
+      // (riuscito · abortito pulito · albero sporco) schiacciati su uno solo, che è «tutto bene».
+      const ingoiati = righe
+        .map((r, i) => ({ r, i: i + 1 }))
+        .filter(({ r }) => !/^\s*#/.test(r))
+        .filter(({ r }) => /\brebase\b/.test(r) && /rebase\s+--abort/.test(r) && /\|\|\s*true/.test(r));
+      if (!ingoiati.length) {
+        return { ...RIPARATO, detto: "nessun rebase dell'allineamento finisce più in una catena che ingoia anche il fallimento dell'abort" };
+      }
+      return {
+        ...APERTO,
+        detto: `alla riga ${ingoiati[0].i} il rebase, il suo abort e il fallimento dell'abort finiscono tutti in «|| true»: l'albero può restare a metà e il push va avanti lo stesso`,
+      };
+    },
+  },
+
+  "ar-743": {
+    titolo: "Il confronto che decide se una prova è soddisfatta ha più copie, e solo una eredita le cure",
+    prova() {
+      // La casa dichiarata è `patternTrovato` in cervello/prove-regole.mjs. Chi rifà il confronto a
+      // mano non eredita le sue cure: si contano i file che lo rifanno invece di importarlo.
+      const casa = join(RADICE, "cervello/prove-regole.mjs");
+      if (!existsSync(casa)) return { cieco: "cervello/prove-regole.mjs non c'è: non so quale sia la casa del confronto" };
+      const sospetti = [
+        "cervello/cantiere-prove.mjs",
+        "cervello/chiusure-audit.mjs",
+        "cervello/allinea-scan-cantiere.mjs",
+        "cervello/sorvegliante.mjs",
+        "cervello/spazzata-fratelli.mjs",
+      ];
+      const copie = sospetti.filter((rel) => {
+        const f = join(RADICE, rel);
+        if (!existsSync(f)) return false;
+        const t = readFileSync(f, "utf8");
+        const importa = /from\s+"\.\/prove-regole\.mjs"/.test(t);
+        const rifa = /\.presente\b[\s\S]{0,200}?\.pattern\b|\.pattern\b[\s\S]{0,200}?\.presente\b/.test(t);
+        return rifa && !importa;
+      });
+      if (!copie.length) return { ...RIPARATO, detto: "il confronto della prova ha una casa sola: chi ne ha bisogno la importa" };
+      return { ...APERTO, detto: `${copie.length} file rifanno il confronto a mano invece di importarlo (${copie.join(", ")}): le cure della casa non arrivano lì` };
+    },
+  },
+
+  "ar-744": {
+    titolo: "Esperimenti che si dichiarano misurati mentre il loro cancello non è mai scattato",
+    prova() {
+      const f = join(RADICE, "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json");
+      if (!existsSync(f)) return { cieco: "auto-miglioramento.json non c'è: non ho potuto contare gli esperimenti" };
+      let reg;
+      try {
+        reg = JSON.parse(readFileSync(f, "utf8"));
+      } catch (e) {
+        return { cieco: `auto-miglioramento.json non è JSON leggibile (${e.message})` };
+      }
+      const lista = reg.esperimenti || [];
+      if (!lista.length) return { cieco: "il registro non contiene esperimenti: non ho niente da misurare" };
+      // «Misurato» dovrebbe voler dire che l'esperimento è stato CORSO. Qui si contano quelli che si
+      // dichiarano misurati e la cui stessa nota dice che il gate non è mai partito — un verde
+      // comprato: il volano conta come apprendimento una cosa che non è mai successa.
+      const maiPartito = /in pausa|⏸|mai (partit|scatt|gir)|non (è |e )?(mai )?(partit|scatt|gir)|non testat/i;
+      const bugiardi = lista.filter((e) => String(e?.stato ?? "").toLowerCase() === "misurato" && maiPartito.test(String(e?.nota ?? "")));
+      if (!bugiardi.length) {
+        return { ...RIPARATO, detto: "nessun esperimento si dichiara misurato mentre la sua nota dice che il cancello non è partito" };
+      }
+      const misurati = lista.filter((e) => String(e?.stato ?? "").toLowerCase() === "misurato").length;
+      return {
+        ...APERTO,
+        detto: `${bugiardi.length} esperimenti su ${misurati} dichiarati «misurato» hanno una nota che dice che il gate non è mai partito (${bugiardi.map((e) => e.id).join(", ")}): il volano conta come appreso ciò che non è successo`,
+      };
+    },
+  },
+
 };
 
 // ═════════════════════════════════════════════════════════════════════════════

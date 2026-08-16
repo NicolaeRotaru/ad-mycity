@@ -3,7 +3,8 @@
 // (e le skill `.claude/skills/*`) con gli elenchi umani (COMANDI.md, CLAUDE.md) e segnala il DRIFT.
 // 🟢 Sola lettura: NON scrive nel vault, NON fa git. Legge e stampa un report (+ opzionale --json).
 //
-// Perché esiste: `agent-registry-check.mjs` copre i 42 AGENTI, ma NON i WORKFLOW. Una capacità potente
+// Perché esiste: `agent-registry-check.mjs` copre i SENIOR (quanti sono lo dice lui, contando i file
+// in `.claude/agents/` — qui non si ricopia il numero: AR-347), ma NON i WORKFLOW. Una capacità potente
 // (es. il workflow `audit-pannello`) può esistere sul disco senza NESSUN comando che la evochi: è come
 // avere un senior che nessuno sa chiamare. Nicola non la troverà mai, e la macchina non è "cosciente" di
 // avercela. Questo guardiano rende quel drift misurabile a ogni giro, invece di scoprirlo a mano.
@@ -29,7 +30,7 @@
 // CLAUDE.md non si leggono, «nessun comando evoca questa capacità» è vero per costruzione — sarebbe
 // un rosso finto invece di un verde finto, ed è comunque un verdetto che non ho misurato.
 
-import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { ciecoPerDatoIllegibile, ciecoSeNienteMisurato, codiceDiUscita } from "./esito-guardiano.mjs";
@@ -39,6 +40,27 @@ const JSON_MODE = process.argv.includes("--json");
 
 const WORKFLOWS_DIR = join(AD_ROOT, ".claude/workflows");
 const SKILLS_DIR = join(AD_ROOT, ".claude/skills");
+
+/**
+ * Il referto in JSON, con le STESSE CHIAVI qualunque sia il verdetto (AR-711, stessa malattia).
+ *
+ * Pura: entrano i numeri e il verdetto, esce l'involucro. Serve perché il referto del cieco non
+ * cambi forma: chi legge `dati.drift_totale` deve trovare il campo anche quando non abbiamo potuto
+ * guardare, e capire dal `verdetto` che quello zero non è un verde.
+ */
+export function refertoCapacita({ quando, verdetto, misura = null }) {
+  return {
+    quando,
+    misurato: misura !== null,
+    verdetto,
+    n_workflow: misura?.workflow?.length ?? null,
+    n_skill: misura?.skill?.length ?? null,
+    workflow_orfani: misura?.workflowOrfani ?? [],
+    skill_orfane: misura?.skillOrfane ?? [],
+    comandi_rotti: misura?.comandiRotti ?? [],
+    drift_totale: misura?.drift ?? null,
+  };
+}
 
 /** Legge un file registro relativo alla radice AD; se manca torna "" (→ il drift emerge, non crasha). */
 function leggiTesto(rel) {
@@ -63,33 +85,28 @@ export function verdettoCapacita({ workflow = 0, registri = 0, drift = 0 } = {})
   return { stato: "verde", motivo: "ogni capacità ha un comando, ogni comando punta a un workflow reale", codice: 0 };
 }
 
-/** Elenca i nomi (basename senza estensione) dei file `.js`/`.mjs` in una cartella, o [] se assente. */
-function elencaWorkflow(dir) {
-  if (!existsSync(dir)) return [];
-  return readdirSync(dir)
-    .filter((f) => f.endsWith(".js") || f.endsWith(".mjs"))
-    .map((f) => f.replace(/\.(js|mjs)$/, ""))
-    .sort();
-}
-
-/** Elenca le sottocartelle (una skill = una cartella con SKILL.md), o [] se `.claude/skills` non esiste. */
 /**
- * Le capacità che il PROGETTO dichiara — cioè quelle tracciate in git, non quelle che si trovano
- * sul disco.
+ * I percorsi che il REPO DICHIARA dentro una cartella — cioè quelli tracciati in git, non quelli
+ * che si trovano sul disco. Relativi alla cartella. `null` = git non ha risposto.
  *
- * AR-701. Prima si leggeva la cartella, e il verdetto dipendeva da DOVE girava invece che da com'è
- * la macchina: su questa sessione l'ambiente ha depositato 67 cartelle-skill che nessun commit ha
- * mai aggiunto — 72 sul disco contro le 5 vere — e il divario passava da 2 a 55 senza che nessuno
- * avesse toccato niente. Su una postazione rosso, sul server verde, e nessuno dei due sapeva perché.
+ * AR-701 + AR-710. Prima si leggeva la cartella con `readdirSync`, e il verdetto dipendeva da DOVE
+ * girava invece che da com'è la macchina: su una sessione cloud l'ambiente ha depositato 67
+ * cartelle-skill che nessun commit ha mai aggiunto — 72 sul disco contro le 5 vere — e il divario
+ * passava da 2 a 55 senza che nessuno avesse toccato niente. Su una postazione rosso, sul server
+ * verde, e nessuno dei due sapeva perché.
  *
  * Un guardiano il cui rosso non appartiene a chi lo vede è un guardiano che si impara a ignorare, e
  * porta con sé tutti gli altri.
+ *
+ * AR-701 aveva curato le SKILL e lasciato i WORKFLOW al `readdirSync`: stessa malattia, stessa
+ * riga di riassunto (`drift_totale`), porta automatica rimasta aperta. Adesso la fonte è UNA, e i
+ * due elenchi la chiamano. Chi vorrà contare una terza cosa la troverà già qui.
  *
  * Se git non risponde NON si ripiega sul disco: si torna `null`, e chi chiama dichiara che non ha
  * potuto guardare. Un elenco più povero preso da un'altra fonte sarebbe una misura diversa con la
  * faccia della stessa.
  */
-function elencaSkill(dir) {
+function tracciatiDaGit(dir) {
   if (!existsSync(dir)) return [];
   const rel = dir.replace(`${AD_ROOT}/`, "");
   let tracciati;
@@ -98,11 +115,34 @@ function elencaSkill(dir) {
   } catch {
     return null; // cieco: non è un elenco vuoto, ed è chi chiama a doverlo dire
   }
+  // Git ha risposto, ma ha risposto NIENTE su una cartella che sul disco ha dei file: non stiamo
+  // leggendo il repo (checkout strano, sottomodulo, cartella copiata fuori da git). Zero capacità
+  // dichiarate sarebbe un numero, e sarebbe falso: qui è una cecità.
+  if (!tracciati.length && existsSync(dir) && readdirSync(dir).length) return null;
+  return tracciati.map((f) => f.slice(rel.length).replace(/^\//, "")).filter(Boolean);
+}
+
+/** I workflow che il repo dichiara: un `.js`/`.mjs` in cima a `.claude/workflows`. null = cieco. */
+function elencaWorkflow(dir) {
+  const dentro = tracciatiDaGit(dir);
+  if (dentro === null) return null;
   const nomi = new Set();
-  for (const f of tracciati) {
-    const dopo = f.slice(rel.length).replace(/^\//, "");
-    const primo = dopo.split("/")[0];
-    if (primo && dopo.includes("/")) nomi.add(primo);
+  for (const f of dentro) {
+    if (f.includes("/")) continue; // un file annidato non è un workflow evocabile
+    if (!/\.(js|mjs)$/.test(f)) continue;
+    nomi.add(f.replace(/\.(js|mjs)$/, ""));
+  }
+  return [...nomi].sort();
+}
+
+/** Le skill che il repo dichiara: una skill = una cartella tracciata con dentro dei file. null = cieco. */
+function elencaSkill(dir) {
+  const dentro = tracciatiDaGit(dir);
+  if (dentro === null) return null;
+  const nomi = new Set();
+  for (const f of dentro) {
+    if (!f.includes("/")) continue;
+    nomi.add(f.split("/")[0]);
   }
   return [...nomi].sort();
 }
@@ -112,15 +152,27 @@ async function main() {
 
   const workflowReali = elencaWorkflow(WORKFLOWS_DIR);
   const skillReali = elencaSkill(SKILLS_DIR);
-  // AR-701 — se git non risponde NON si ripiega sul disco: quell'elenco misurerebbe la macchina su
-  // cui giriamo invece del progetto, ed è il difetto stesso. Cieco è uscita 2, e non è mai un verde.
-  if (skillReali === null) {
-    const c = ciecoPerDatoIllegibile(new Error("git non elenca i file tracciati sotto .claude/skills"));
-    console.log(`⚪ ${c.motivo}`);
-    console.log("   Senza git non so quali capacità appartengano al progetto: contarle dal disco direbbe");
-    console.log("   quante ne ha questa macchina, che è un'altra domanda.");
-    await stampSegnale("guardiano-capacita", "warn", "cieco: git non elenca le skill tracciate");
-    process.exit(2);
+  // AR-701 + AR-710 — se git non risponde NON si ripiega sul disco: quell'elenco misurerebbe la
+  // macchina su cui giriamo invece del progetto, ed è il difetto stesso. Cieco è uscita 2, e non è
+  // mai un verde. La domanda si fa UNA volta sui due elenchi: era già capitato di curare la skill e
+  // lasciare il workflow, ed è così che un difetto torna da solo.
+  const cieche = [
+    [".claude/workflows", workflowReali],
+    [".claude/skills", skillReali],
+  ]
+    .filter(([, elenco]) => elenco === null)
+    .map(([nome]) => nome);
+  if (cieche.length) {
+    const c = ciecoPerDatoIllegibile(new Error(`git non elenca i file tracciati sotto ${cieche.join(" e ")}`));
+    if (JSON_MODE) {
+      console.log(JSON.stringify(refertoCapacita({ quando, verdetto: c }), null, 2));
+    } else {
+      console.log(`⚪ ${c.motivo}`);
+      console.log("   Senza git non so quali capacità appartengano al progetto: contarle dal disco direbbe");
+      console.log("   quante ne ha questa macchina, che è un'altra domanda.");
+    }
+    await stampSegnale("guardiano-capacita", "warn", `cieco: git non elenca ${cieche.join(" e ")}`);
+    process.exit(codiceDiUscita(c));
   }
 
   const comandi = leggiTesto("COMANDI.md");
@@ -157,16 +209,18 @@ async function main() {
   if (JSON_MODE) {
     console.log(
       JSON.stringify(
-        {
+        refertoCapacita({
           quando,
-          n_workflow: workflowReali.length,
-          n_skill: skillReali.length,
-          workflow_orfani: workflowOrfani,
-          skill_orfane: skillOrfane,
-          comandi_rotti: comandiRotti,
-          drift_totale: driftTotale,
           verdetto: v,
-        },
+          misura: {
+            workflow: workflowReali,
+            skill: skillReali,
+            workflowOrfani,
+            skillOrfane,
+            comandiRotti,
+            drift: driftTotale,
+          },
+        }),
         null,
         2
       )
@@ -204,7 +258,11 @@ async function main() {
 // far girare la scansione né chiudere il processo (malattia «programma-che-parte-importando»).
 if (import.meta.url === `file://${process.argv[1]}`)
   main().catch(async (e) => {
-  console.error("ERRORE guardiano-capacita:", e.message || e);
+  // Anche morendo il referto parla la stessa lingua (AR-711): chi legge in `--json` deve trovare un
+  // oggetto che conosce, non un errore in prosa su un canale che non stava leggendo.
+  const morto = ciecoPerDatoIllegibile(e, { cosa: "il guardiano delle capacità è morto a metà" });
+  if (JSON_MODE) console.log(JSON.stringify(refertoCapacita({ quando: nowPiacenza(), verdetto: morto }), null, 2));
+  else console.error("ERRORE guardiano-capacita:", e.message || e);
   await stampSegnale(
     "guardiano-capacita",
     "errore",

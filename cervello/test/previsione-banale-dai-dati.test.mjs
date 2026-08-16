@@ -10,7 +10,8 @@
 // zero ordini restino zero» sono la stessa riga.
 
 import { execFileSync } from "node:child_process";
-import { readFileSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
@@ -18,6 +19,32 @@ import { ESCLUSA, banale, contaNelPunteggio } from "../previsione-verificabile.m
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
+
+/**
+ * LA SABBIERA (AR-446). Prima questi due casi lavoravano sulla memoria VERA: salvavano
+ * `calibrazione.json` e `registro-fatti.json`, li riscrivevano per la prova e li rimettevano a posto
+ * in un `finally`. Finché nessuno crasha funziona — ma il ripristino sta dentro il test, e uno dei
+ * due file è la fonte unica della verità. Un timeout, un ctrl-c, due prove insieme, e il registro dei
+ * fatti resta con dentro i dati della prova.
+ *
+ * Adesso il percorso è INIETTATO: `MYCITY_MEMORIA_ROOT` devia tutto l'albero della memoria — le
+ * letture di `calibrazione.mjs` e le sue scritture, comprese quelle degli script che lancia a sua
+ * volta — dentro una cartella temporanea. Niente `finally`, niente ripristino, niente da rompere.
+ */
+function sabbieraMemoria(seed = {}) {
+  const dir = mkdtempSync(join(tmpdir(), "previsione-"));
+  mkdirSync(join(dir, "MyCity-Vault/90-Memoria-AI/auto-coscienza"), { recursive: true });
+  for (const [rel, testo] of Object.entries(seed)) writeFileSync(join(dir, rel), testo);
+  return dir;
+}
+const REL_CAL = "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json";
+const REL_FATTI = "MyCity-Vault/90-Memoria-AI/registro-fatti.json";
+/** Il registro vero ma con la lista delle previsioni svuotata: la prova parte da un foglio pulito. */
+const calibrazioneVuota = () => {
+  const j = JSON.parse(readFileSync(join(REPO, REL_CAL), "utf8"));
+  j.registro = [];
+  return JSON.stringify(j, null, 2) + "\n";
+};
 
 const casi = [];
 const prova = (nome, fn) => {
@@ -53,24 +80,21 @@ prova("senza baseline NON si indovina la banalità", () => {
 });
 
 prova("il comando VERO accetta e conserva la baseline, ed avverte se è uguale all'atteso", () => {
-  // `calibrazione.mjs` scrive su un percorso fisso, quindi la prova salva il file prima e lo rimette
-  // identico dopo — byte per byte. Un test che lascia spazzatura nel registro vero sporcherebbe
-  // proprio il dato che questo lotto sta cercando di rendere onesto.
-  const P = join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json");
-  const prima = readFileSync(P, "utf8");
+  // Il comando gira su una sabbiera: legge di lì, scrive di lì, e la memoria vera non la sfiora.
+  const sab = sabbieraMemoria({ [REL_CAL]: calibrazioneVuota() });
+  const impronta = readFileSync(join(REPO, REL_CAL), "utf8");
+  const bin = join(REPO, "cervello/calibrazione.mjs");
+  let out = "";
   try {
-    const bin = join(REPO, "cervello/calibrazione.mjs");
-    let out = "";
-    try {
-      out = execFileSync("node", [bin, "prevedi", "--reparto=@prova-baseline", "--azione=prova", "--metrica=ordini", "--atteso=0", "--baseline=0", "--entro=2099-01-01", "--id=CAL-PROVA-BANALE"], { cwd: REPO, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
-    } catch (e) { out = `${e.stdout || ""}${e.stderr || ""}`; }
-    assert.match(out, /fermo resti fermo|baseline/i, "deve avvisare che sta prevedendo lo status quo");
-    const scritta = JSON.parse(readFileSync(P, "utf8")).registro.find((e) => e.id === "CAL-PROVA-BANALE");
-    assert.ok(scritta, "la previsione dev'essere stata scritta");
-    assert.equal(scritta.baseline, 0, "la baseline dev'essere finita nella voce, non solo nell'avviso");
-  } finally {
-    writeFileSync(P, prima);
-  }
+    out = execFileSync("node", [bin, "prevedi", "--reparto=@prova-baseline", "--azione=prova", "--metrica=ordini", "--atteso=0", "--baseline=0", "--entro=2099-01-01", "--id=CAL-PROVA-BANALE"], { cwd: REPO, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"], env: { ...process.env, MYCITY_MEMORIA_ROOT: sab } });
+  } catch (e) { out = `${e.stdout || ""}${e.stderr || ""}`; }
+  assert.match(out, /fermo resti fermo|baseline/i, "deve avvisare che sta prevedendo lo status quo");
+  const scritta = JSON.parse(readFileSync(join(sab, REL_CAL), "utf8")).registro.find((e) => e.id === "CAL-PROVA-BANALE");
+  assert.ok(scritta, "la previsione dev'essere stata scritta");
+  assert.equal(scritta.baseline, 0, "la baseline dev'essere finita nella voce, non solo nell'avviso");
+  assert.equal(readFileSync(join(REPO, REL_CAL), "utf8"), impronta,
+    "il registro VERO non deve essersi mosso: il percorso è iniettato, non calcolato (AR-446)");
+  rmSync(sab, { recursive: true, force: true });
 });
 
 prova("nemmeno la previsione AUTOMATICA inventa più l'atteso", () => {
@@ -79,34 +103,34 @@ prova("nemmeno la previsione AUTOMATICA inventa più l'atteso", () => {
   // `ordini_totali` senza sapere quanti ordini ci fossero. Se il numero vero era 1 la previsione
   // nasceva azzeccata; se era 0, «1» era un desiderio scritto come misura. Sistemare la porta a mano
   // e lasciare aperta quella automatica è il modo più sicuro di far tornare il difetto da solo.
-  const P = join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/calibrazione.json");
-  const F = join(REPO, "MyCity-Vault/90-Memoria-AI/registro-fatti.json");
-  const primaCal = readFileSync(P, "utf8");
-  const primaFatti = readFileSync(F, "utf8");
+  const impronte = [REL_CAL, REL_FATTI].map((f) => readFileSync(join(REPO, f), "utf8"));
   const bin = join(REPO, "cervello/calibrazione.mjs");
-  const vuota = (testo) => { const j = JSON.parse(testo); j.registro = []; return JSON.stringify(j, null, 2) + "\n"; };
-  try {
-    // ① con la baseline leggibile: apre, e la porta dentro la voce.
-    writeFileSync(P, vuota(primaCal));
-    execFileSync("node", [bin, "autoprevedi"], { cwd: REPO, encoding: "utf8" });
-    const voce = JSON.parse(readFileSync(P, "utf8")).registro[0];
-    assert.ok(voce, "con la baseline leggibile deve aprire la previsione");
-    assert.equal(typeof voce.baseline, "number", "la baseline dev'essere nella voce, non solo nel messaggio");
-    assert.notEqual(voce.atteso, voce.baseline, "l'atteso non può coincidere col valore di partenza");
-    assert.equal(banale(voce), false);
 
-    // ② senza il fatto: NON apre nulla, e lo dice. «Meglio nessuna che una inventata.»
-    const fatti = JSON.parse(primaFatti);
-    fatti.fatti = fatti.fatti.filter((x) => x.id !== "northstar.consegnati");
-    writeFileSync(F, JSON.stringify(fatti, null, 2) + "\n");
-    writeFileSync(P, vuota(primaCal));
-    const out = execFileSync("node", [bin, "autoprevedi"], { cwd: REPO, encoding: "utf8" });
-    assert.equal(JSON.parse(readFileSync(P, "utf8")).registro.length, 0, "senza baseline non deve aprire niente");
-    assert.match(out, /nessuna previsione aperta/, "e deve dire PERCHÉ non l'ha aperta");
-  } finally {
-    writeFileSync(P, primaCal);
-    writeFileSync(F, primaFatti);
-  }
+  // ① con la baseline leggibile: apre, e la porta dentro la voce. Il fatto `northstar.consegnati` lo
+  // legge dalla memoria vera (leggere non sporca nessuno), perché la sabbiera non ne ha una copia.
+  const uno = sabbieraMemoria({ [REL_CAL]: calibrazioneVuota() });
+  execFileSync("node", [bin, "autoprevedi"], { cwd: REPO, encoding: "utf8", env: { ...process.env, MYCITY_MEMORIA_ROOT: uno } });
+  const voce = JSON.parse(readFileSync(join(uno, REL_CAL), "utf8")).registro[0];
+  assert.ok(voce, "con la baseline leggibile deve aprire la previsione");
+  assert.equal(typeof voce.baseline, "number", "la baseline dev'essere nella voce, non solo nel messaggio");
+  assert.notEqual(voce.atteso, voce.baseline, "l'atteso non può coincidere col valore di partenza");
+  assert.equal(banale(voce), false);
+
+  // ② senza il fatto: NON apre nulla, e lo dice. «Meglio nessuna che una inventata.»
+  // Qui la sabbiera porta la SUA copia del registro dei fatti, mutilata: prima questa riga toglieva
+  // il fatto dal registro vero e sperava nel `finally`.
+  const fatti = JSON.parse(readFileSync(join(REPO, REL_FATTI), "utf8"));
+  fatti.fatti = fatti.fatti.filter((x) => x.id !== "northstar.consegnati");
+  const due = sabbieraMemoria({ [REL_CAL]: calibrazioneVuota(), [REL_FATTI]: JSON.stringify(fatti, null, 2) + "\n" });
+  const out = execFileSync("node", [bin, "autoprevedi"], { cwd: REPO, encoding: "utf8", env: { ...process.env, MYCITY_MEMORIA_ROOT: due } });
+  assert.equal(JSON.parse(readFileSync(join(due, REL_CAL), "utf8")).registro.length, 0, "senza baseline non deve aprire niente");
+  assert.match(out, /nessuna previsione aperta/, "e deve dire PERCHÉ non l'ha aperta");
+
+  // E la riga che rende questo caso una prova di AR-446 e non solo di AR-172.
+  assert.deepEqual([REL_CAL, REL_FATTI].map((f) => readFileSync(join(REPO, f), "utf8")), impronte,
+    "la memoria VERA non si è mossa: nemmeno il registro dei fatti, che è la fonte unica della verità");
+  rmSync(uno, { recursive: true, force: true });
+  rmSync(due, { recursive: true, force: true });
 });
 
 prova("il registro vero non ha baseline: è la misura che ha aperto il difetto", () => {

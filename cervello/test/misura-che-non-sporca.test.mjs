@@ -403,7 +403,9 @@ prova("⑲ AR-639 · IL TETTO: quanti scrittori del vault saltano ancora il fren
   // diventa rosso in su, qualcuno ha aggiunto un nuovo scrittore crudo del vault — o si converte a
   // `scriviJsonAtomico`, o si spiega perché no; abbassare il tetto per farlo tacere è la cosa che
   // questo cantiere cura.
-  const TETTO = 54; // misurato il 2026-08-15 sul codice vero, dopo la cura di esperimenti-check
+  // Il tetto scende quando si cura e non si alza mai: 54 → 49, dopo che coerenza-fatti (che scriveva
+  // il REGISTRO DEI FATTI crudo), stampo-check e sensori-spenti-check sono passati alla penna condivisa.
+  const TETTO = 49; // misurato il 2026-08-15 sul codice vero
   const dir = join(REPO, "cervello");
   const crudi = readdirSync(dir)
     .filter((f) => f.endsWith(".mjs"))

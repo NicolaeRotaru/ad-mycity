@@ -205,6 +205,40 @@ if ! git fetch "$url" "$branch" 2>/dev/null; then
   echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all")" >&2
   exit "$_rc_all"
 fi
+
+# 🛟 AR-388 — IL FRENO AL CONFINE DELL'ATTO, non dentro il ramo che l'ha fatto vedere.
+# Novanta righe più in su il recupero delle scritture pendenti ha DUE uscite che non committano
+# niente — il cancello dice no (AR-314), oppure c'è già un arretrato non pubblicato (AR-467) — e
+# tutte e due stampano «restano sul server» e proseguono fino a QUESTA riga, che le butta. La frase
+# era falsa nel momento in cui è stata scritta.
+# Mettere un `if` dentro quei due rami sarebbe la stessa malattia spostata di dieci righe: il terzo
+# ramo che nascerà domani non lo erediterebbe. Il freno sta qui, sul DATO — «c'è memoria scritta e
+# non salvata?» — e chi decide è una funzione pura che un test può eseguire
+# (`decidiPrimaDelCheckout` in cervello/scritture-a-rischio.mjs).
+# La messa da parte NON è una cancellazione: la stash resta, `git stash list` la mostra, e il giro
+# dopo la ritrova. Se invece la messa da parte non riesce, NON si prosegue: si esce col codice 5,
+# quello che watch-main già sa leggere come «non segnare lo SHA, il lavoro è ancora qui».
+_azione_salvataggio=metti-da-parte   # cieco non è «procedi»: il default protegge
+if command -v node >/dev/null 2>&1 && [ -f "$REPO/cervello/scritture-a-rischio.mjs" ]; then
+  _porcelain="$(git status --porcelain -- "${MEM_DIRS[@]}" 2>/dev/null || true)"
+  _azione_salvataggio="$(printf '%s\n' "$_porcelain" \
+    | node "$REPO/cervello/scritture-a-rischio.mjs" decidi 2>/dev/null || true)"
+  case "$_azione_salvataggio" in procedi|metti-da-parte) : ;; *) _azione_salvataggio=metti-da-parte ;; esac
+fi
+if [ "$_azione_salvataggio" = "metti-da-parte" ]; then
+  _stash_out=""
+  if _stash_out="$(git "${GIT_ID[@]}" stash push -u -m "aggiorna-cervello: memoria non committata, messa al sicuro prima dell'allineamento ($(ts))" -- "${MEM_DIRS[@]}" 2>&1)"; then
+    case "$_stash_out" in
+      *"No local changes"*|*"Nessuna modifica locale"*) : ;;
+      *) echo "[$(ts)] 📦 Memoria non committata messa al sicuro prima del checkout -f (git stash list per riprenderla) — AR-388." ;;
+    esac
+  else
+    _rc_all="$(esito_allineamento 0 1 0)"
+    echo "[$(ts)] ⛔ NON allineo: c'è memoria scritta e non salvata e non sono riuscito a metterla da parte — il checkout -f la cancellerebbe (AR-388)." >&2
+    printf '%s\n' "$_stash_out" | head -3 >&2
+    exit "$_rc_all"
+  fi
+fi
 git checkout -f -B "$branch" FETCH_HEAD 2>/dev/null || git checkout -f -B "$branch" 2>/dev/null || true
 
 # 📍 LA POSIZIONE SI CONTROLLA, NON SI DÀ PER FATTA (12/8 — due giorni di macchina ferma).

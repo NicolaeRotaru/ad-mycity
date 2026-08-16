@@ -34,6 +34,7 @@
 import { existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileSync } from "node:fs";
 import { dirname, join, basename } from "node:path";
 import { decidiDestinazione } from "./casa-memoria.mjs";
+import { decidiScrittura } from "./scrittura-misura.mjs";
 
 /**
  * Il nome del temporaneo: nella stessa cartella del file finale, e diverso per ogni processo.
@@ -86,16 +87,60 @@ export function indentazioneDi(percorso, riferimento = 2) {
 }
 
 /**
+ * ⭐ CIECO NON SOVRASCRIVE VEDENTE, ma sul DATO invece che dentro un comando (AR-568 b · AR-286).
+ *
+ * La clausola esisteva già, scritta dentro `verifica-sensori.mjs`. Lì protegge un file solo: gli
+ * altri referti di misura — il tasso di chiusura, il blocco mancante, il referto della coerenza —
+ * restano scoperti, e ogni strumento nuovo nasce scoperto per default. È la forma che ha generato
+ * AR-668: il freno sulla porta che si è vista.
+ *
+ * Qui la regola vale per chiunque passi da questa penna, e il prezzo di ammissione è il TIMBRO: la
+ * protezione scatta solo se la misura dichiara `origine` (e la vecchia pure). Una misura anonima non
+ * si può confrontare con nessun'altra — ed è per questo che AR-286 non è un dettaglio di
+ * catalogazione: senza provenienza, un residuo e una misura sono la stessa riga.
+ *
+ * Chi scrive documenti che misure non sono (registri, code, cantieri) non ha `origine` e non vede
+ * cambiare niente: il freno non deve allargarsi dove nessuno l'ha chiesto.
+ *
+ * @returns {{scrivi: boolean, motivo: string}}
+ */
+function coperturaAmmessa(percorso, dati) {
+  if (!dati || typeof dati !== "object" || !dati.origine) return { scrivi: true, motivo: "" };
+  let vecchia = null;
+  let leggibile = true;
+  try {
+    if (existsSync(percorso)) vecchia = JSON.parse(readFileSync(percorso, "utf8"));
+  } catch {
+    leggibile = false; // un file rotto NON deve passare per «non c'era niente prima»
+  }
+  if (vecchia === null && leggibile) return { scrivi: true, motivo: "" };
+  if (!vecchia || typeof vecchia !== "object" || !vecchia.origine) return { scrivi: true, motivo: "" };
+  const d = decidiScrittura({ misuraNuova: dati, misuraVecchia: vecchia, vecchiaLeggibile: leggibile });
+  // Qui interessa SOLO la regola della copertura: «nulla è cambiato oltre l'ora» resta una scelta di
+  // chi misura (per un contatore l'esecuzione È il dato), e imporla da qui spegnerebbe in silenzio i
+  // guardiani che quella decisione la prendono già, con la loro prova addosso.
+  if (!d.scrivi && d.affianca) return { scrivi: false, motivo: d.motivo };
+  return { scrivi: true, motivo: "" };
+}
+
+/**
  * Scrive un JSON in modo che il file finale non possa MAI essere a metà.
  *
  * Torna il percorso scritto, o `null` se la scrittura è stata fermata dal freno della memoria (chi
- * misura non sporca). Se il rename fallisce, il temporaneo viene rimosso e l'errore risale: meglio
- * un'eccezione visibile che un file muto lasciato indietro.
+ * misura non sporca) o dalla guardia della copertura (chi ha visto meno non cancella chi ha visto
+ * più). Se il rename fallisce, il temporaneo viene rimosso e l'errore risale: meglio un'eccezione
+ * visibile che un file muto lasciato indietro.
  */
 export function scriviJsonAtomico(percorso, dati, env = process.env) {
   const dove = decidiDestinazione(percorso, { env });
   if (!dove.scrivi) return null;
   percorso = dove.percorso;
+  const copertura = coperturaAmmessa(percorso, dati);
+  if (!copertura.scrivi) {
+    // Un rifiuto muto è un guasto: chi legge il log deve capire perché il file non è cambiato.
+    console.error(`⏭️  NON riscrivo ${percorso}: ${copertura.motivo}`);
+    return null;
+  }
   mkdirSync(dirname(percorso), { recursive: true });
   const tmp = nomeTemporaneo(percorso);
   try {

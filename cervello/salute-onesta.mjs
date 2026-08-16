@@ -20,7 +20,7 @@
 //     né oggi né una settimana fa. Non è un arrotondamento, ed è sempre dalla parte comoda — il
 //     burn-down migliorava da solo. Adesso quelli che non so collocare nel tempo si CHIAMANO, e il
 //     confronto con «una settimana fa» dichiara il proprio margine invece di dare un numero secco.
-// Le due definizioni vivono in `cervello/atti-veri.mjs`, dove un test le può eseguire.
+// Le due definizioni vivono in `cervello/stati-cantiere.mjs`, dove un test le può eseguire.
 //
 // USO:
 //   node cervello/salute-onesta.mjs           -> report umano
@@ -31,9 +31,9 @@
 
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
-import { apertiAllaData, contaDifetti } from "./atti-veri.mjs";
+import { apertiAllaData, contaDifetti } from "./stati-cantiere.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const AC = join(ROOT, "MyCity-Vault", "90-Memoria-AI", "auto-coscienza");
@@ -89,6 +89,20 @@ const ignotiSettimanaFa = indietro.ignoti;
 const burnDown =
   apertiOra != null && apertiSettimanaFa != null ? apertiSettimanaFa - apertiOra : null; // >0 = migliora
 
+// AR-671 / AR-753 — sono DUE domande, e per un giorno hanno litigato su un nome solo.
+//
+//   · «di quanto può sbagliare il confronto qui sopra?» → riguarda una settimana fa, e la risposta è
+//     `ignotiSettimanaFa`: le schede che non so collocare a quella data. Una chiusa ieri senza data di
+//     nascita allora era aperta, quindi conta. Oggi sono 15.
+//   · «quante non so collocare ADESSO?» → riguarda oggi, e sono le non chiuse senza data. Oggi sono 2.
+//
+// Un campo solo per due domande ha prodotto due prove di casa che pretendevano numeri opposti: chi ne
+// accontentava una rompeva l'altra, e sono state entrambe rosse a turno nello stesso giorno. La cura
+// non è scegliere il numero giusto — è **smettere di far rispondere un nome solo a due domande**.
+const margineOra = difetti
+  ? difetti.filter(Boolean).filter((d) => String(d?.stato ?? "").trim() !== "chiuso" && giorno(d?.nato) == null).length
+  : null;
+
 const report = {
   esito: conto.letto ? "ok" : "cieco",
   voto_onesto_ultimo: ultimoPieno,
@@ -104,60 +118,79 @@ const report = {
   // AR-684 — il terzo stato ha un nome e un numero suoi: prima non entrava in nessun totale.
   cantiere_da_riverificare: conto.da_riverificare,
   cantiere_per_stato: conto.per_stato,
+  // Gli stati che il conto non sa nominare, detti per nome. Un buco che ha un nome non è più un buco.
+  cantiere_stati_ignoti: conto.stati_ignoti,
   // AR-671 — quanti non so collocare nel tempo. Un numero che non c'è è diverso da uno zero.
   cantiere_senza_data_nascita: conto.senza_data_nascita,
   cantiere_aperti_settimana_fa: apertiSettimanaFa,
   cantiere_aperti_settimana_fa_ignoti: ignotiSettimanaFa,
   burn_down_settimana: burnDown, // positivo = il cantiere cala (bene)
-  burn_down_margine: ignotiSettimanaFa, // di quanto il confronto può sbagliare, dichiarato
+  // Il margine DEL CONFRONTO qui sopra: riguarda una settimana fa, come il confronto stesso.
+  burn_down_margine: ignotiSettimanaFa,
+  // E l'altra domanda, con un nome suo: quante non so collocare ADESSO (AR-753).
+  cantiere_aperti_senza_data_nascita: margineOra,
   cantiere_meta: cj?.meta ?? null,
 };
 
 /** 0 = ho misurato · 2 = non ho potuto guardare. Il cieco non esce mai con la faccia del verde. */
 const USCITA = conto.letto ? 0 : 2;
 
-if (JSON_OUT) {
-  process.stdout.write(JSON.stringify(report, null, 2));
+/**
+ * Il referto è calcolato qui sopra e si può leggere importando il file. Quello che invece NON deve
+ * partire da solo è lo STAMPARLO e l'USCIRE: un modulo che chiude il processo quando lo importi non
+ * si può interrogare, e chi volesse provarlo si ritroverebbe il programma addosso. AR-445.
+ */
+export { report, USCITA };
+
+function main() {
+
+  if (JSON_OUT) {
+    process.stdout.write(JSON.stringify(report, null, 2));
+    process.exit(USCITA);
+  }
+
+  console.log("📈 SALUTE ONESTA (sto migliorando nel tempo?)");
+  console.log(`   voto ONESTO (voto_pieno) ultimo: ${ultimoPieno ?? "n/d"}  ·  trend: ${trend}`);
+  console.log(`   rilevazioni con voto_pieno: ${conPieno.length}/${serie.length}  ·  ultimi 10 fermi a 0: ${fermiAZero}`);
+  console.log("");
+  if (!conto.letto) {
+    console.log("⚪ NON HO POTUTO CONTARE IL CANTIERE.");
+    console.log(`   ${conto.motivo}`);
+    console.log(`   Il file che dovrei leggere: ${CANTIERE}`);
+    console.log("   Questo NON è «zero difetti»: è che non ho guardato. Esco con 2.");
+    process.exit(USCITA);
+  }
+  console.log("🔻 Burn-down cantiere difetti:");
+  console.log(`   aperti ~7 giorni fa: ${apertiSettimanaFa ?? "n/d"}  →  aperti ora: ${apertiOra ?? "n/d"}`);
+  console.log(
+    `   il cantiere ha ${conto.totale} schede: ${conto.chiusi} chiuse, ${conto.da_fare} da fare` +
+      ` (di cui ${conto.aperti} aperte, ${conto.in_corso} in corso, ${conto.da_riverificare} da riverificare` +
+      `${conto.altri ? `, ${conto.altri} in stati che non so nominare` : ""}).`,
+  );
+  if (burnDown != null) {
+    if (burnDown > 0) console.log(`   ✅ il cantiere CALA (${burnDown} difetti chiusi netti nella settimana).`);
+    else if (burnDown < 0) console.log(`   ⚠️  il cantiere CRESCE (${-burnDown} difetti aperti netti in più): non va a zero.`);
+    else console.log("   ⏸️  cantiere fermo (né su né giù).");
+  }
+  // AR-671 — il confronto con «una settimana fa» dice quanto può sbagliare. Prima quei difetti
+  // uscivano dal conto in silenzio, e il burn-down migliorava da solo.
+  if (ignotiSettimanaFa) {
+    console.log(
+      `   ⚠️  ${ignotiSettimanaFa} difetti su ${conto.totale} non hanno una data di nascita leggibile:` +
+        ` non so dove stavano una settimana fa, quindi il confronto qui sopra può sbagliare fino a ${ignotiSettimanaFa}.`,
+    );
+  }
+  console.log("");
+  if (ultimoPieno === 0 || fermiAZero >= 8) {
+    console.log("⚠️  Il metro ONESTO è fermo: il voto pieno non si muove (o resta 0). Il progresso");
+    console.log("   'creditato' non è progresso reale. Prossimo passo: cablare questa serie come KPI nel");
+    console.log("   Pannello e sbloccare l'auto-radiografia completa (oggi la sentinella la chiede ma non parte).");
+  } else {
+    console.log("✅ Il metro onesto si muove.");
+  }
   process.exit(USCITA);
 }
 
-console.log("📈 SALUTE ONESTA (sto migliorando nel tempo?)");
-console.log(`   voto ONESTO (voto_pieno) ultimo: ${ultimoPieno ?? "n/d"}  ·  trend: ${trend}`);
-console.log(`   rilevazioni con voto_pieno: ${conPieno.length}/${serie.length}  ·  ultimi 10 fermi a 0: ${fermiAZero}`);
-console.log("");
-if (!conto.letto) {
-  console.log("⚪ NON HO POTUTO CONTARE IL CANTIERE.");
-  console.log(`   ${conto.motivo}`);
-  console.log(`   Il file che dovrei leggere: ${CANTIERE}`);
-  console.log("   Questo NON è «zero difetti»: è che non ho guardato. Esco con 2.");
-  process.exit(USCITA);
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  main();
 }
-console.log("🔻 Burn-down cantiere difetti:");
-console.log(`   aperti ~7 giorni fa: ${apertiSettimanaFa ?? "n/d"}  →  aperti ora: ${apertiOra ?? "n/d"}`);
-console.log(
-  `   il cantiere ha ${conto.totale} schede: ${conto.chiusi} chiuse, ${conto.da_fare} da fare` +
-    ` (di cui ${conto.aperti} aperte, ${conto.in_corso} in corso, ${conto.da_riverificare} da riverificare` +
-    `${conto.altri ? `, ${conto.altri} in stati che non so nominare` : ""}).`,
-);
-if (burnDown != null) {
-  if (burnDown > 0) console.log(`   ✅ il cantiere CALA (${burnDown} difetti chiusi netti nella settimana).`);
-  else if (burnDown < 0) console.log(`   ⚠️  il cantiere CRESCE (${-burnDown} difetti aperti netti in più): non va a zero.`);
-  else console.log("   ⏸️  cantiere fermo (né su né giù).");
-}
-// AR-671 — il confronto con «una settimana fa» dice quanto può sbagliare. Prima quei difetti
-// uscivano dal conto in silenzio, e il burn-down migliorava da solo.
-if (ignotiSettimanaFa) {
-  console.log(
-    `   ⚠️  ${ignotiSettimanaFa} difetti su ${conto.totale} non hanno una data di nascita leggibile:` +
-      ` non so dove stavano una settimana fa, quindi il confronto qui sopra può sbagliare fino a ${ignotiSettimanaFa}.`,
-  );
-}
-console.log("");
-if (ultimoPieno === 0 || fermiAZero >= 8) {
-  console.log("⚠️  Il metro ONESTO è fermo: il voto pieno non si muove (o resta 0). Il progresso");
-  console.log("   'creditato' non è progresso reale. Prossimo passo: cablare questa serie come KPI nel");
-  console.log("   Pannello e sbloccare l'auto-radiografia completa (oggi la sentinella la chiede ma non parte).");
-} else {
-  console.log("✅ Il metro onesto si muove.");
-}
-process.exit(USCITA);

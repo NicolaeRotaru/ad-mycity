@@ -169,3 +169,35 @@ export function fileMemoria(relativo, { env = {}, radice = RADICE_REPO } = {}) {
   const d = decidiDestinazione(vero, { env, radice });
   return d.percorso;
 }
+
+/**
+ * ⭐ DA DOVE SI LEGGE la memoria, che NON è sempre dove si scrive.
+ *
+ * PERCHÉ SERVE, e perché la scrittura da sola non bastava (AR-446). Deviare la scrittura mette al
+ * sicuro la memoria vera, ma non dà alla prova il potere di scegliere COSA lo script vede. Finché il
+ * percorso di lettura resta calcolato dentro lo script, un test che vuole provare «senza il fatto
+ * `northstar.consegnati` non apre nessuna previsione» ha una sola strada: togliere quel fatto dal
+ * registro VERO e rimetterlo dopo in un `finally`. È esattamente ciò che due prove di questa casa
+ * fanno oggi sulla fonte unica della verità — e se il processo muore a metà, il registro resta monco.
+ *
+ * Le regole, nell'ordine:
+ *   ① nessuna radice deviata (compreso `MYCITY_MEMORIA_SOLA_LETTURA`, che ferma la penna e non gli
+ *      occhi) → si legge la memoria vera. Leggere non sporca nessuno.
+ *   ② radice deviata E la copia esiste nella sabbiera → si legge quella: è il mondo che la prova ha
+ *      preparato, ed è tutto il punto.
+ *   ③ radice deviata ma nella sabbiera quel file non c'è → si legge quello vero. Una sabbiera è un
+ *      banco di prova, non un mondo vuoto: senza questa riga un guardiano deviato si dichiarerebbe
+ *      cieco su tutto, e la prova misurerebbe la sabbiera invece del codice.
+ *
+ * PURO: l'esistenza del file arriva come funzione, così questa decisione si esegue senza disco.
+ *
+ * @param {string} relativo il percorso dentro il repo.
+ * @param {object} [p]
+ * @param {(percorso: string) => boolean} [p.esiste] come si controlla se un file c'è (di solito `existsSync`).
+ */
+export function fileMemoriaDaLeggere(relativo, { env = {}, radice = RADICE_REPO, esiste = () => false } = {}) {
+  const vero = isAbsolute(relativo) ? relativo : join(radice, relativo);
+  const d = decidiDestinazione(vero, { env, radice });
+  if (!d.deviato) return vero;
+  return esiste(d.percorso) ? d.percorso : vero;
+}

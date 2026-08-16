@@ -1,8 +1,10 @@
 {
   "_nota": "AR-103 — Allowlist dei destinatari per l'invio REALE (LIVE). Vuoto = DRY-RUN forzato: anche con AZIONI_LIVE=1 e un'azione firmata, nulla parte finché il destinatario/tabella non è qui. Aggiungi SOLO indirizzi/utenti/tabelle che hai autorizzato. Telegram è escluso (va solo alla tua chat dell'env).",
+  "_nota_n8n": "AR-600 — il ponte n8n (WhatsApp, social, Google) non si apre più con un interruttore solo: «n8n: true» accende il ponte, ma parte solo ciò che ha il destinatario scritto per intero in «n8n_destinatari». Nessun jolly, nessun prefisso: la riga è il permesso.",
   "email": [],
   "notifica_user": [],
   "marketplace_tables": ["products"],
   "n8n": false,
+  "n8n_destinatari": [],
   "github": true
 }

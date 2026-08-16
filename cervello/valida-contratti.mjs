@@ -19,6 +19,12 @@ import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { scriviJsonAtomico } from "./scrivi-json.mjs"; // AR-296: scrittura atomica anche qui
+// AR-360 — l'enum di `genera` vive in contratto-scheda.mjs, dove un test la tiene allineata allo
+// schema vero dei sotto-agenti. Qui la si PRETENDE: era dichiarata all'ingresso e mai riverificata.
+import { GENERA_AMMESSI, verdettoFinding } from "./contratto-scheda.mjs";
+// AR-356 · AR-567 — dove una prova non può puntare, e la differenza fra «non ancora soddisfatta» e
+// «punta a un file che non esiste».
+import { classificaProva, provaSuFileVolatile } from "./prove-regole.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 // AR-212 — `--correggi` rinomina gli alias vietati nel campo canonico, sul posto.
@@ -199,9 +205,113 @@ export function valoriFuoriContratto(dati, regole) {
   return problemi;
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AR-360 · AR-356 · AR-567 — il contratto scende DENTRO gli elenchi
+// ─────────────────────────────────────────────────────────────────────────────
+//
+// Fin qui il contratto guardava i nomi dei campi in cima al file e i valori di una lista sola. Le
+// tre cose che gli sfuggivano vivono tutte un piano più sotto, dentro gli elementi:
+//
+//   AR-360 — un finding di radiografia senza `genera` non viene instradato da nessuno: né diventa
+//            una lezione, né una sentinella, né un pezzo nuovo. Sparisce. Erano 163 su 286.
+//   AR-356 — una prova che cita testo dentro la memoria che la macchina riscrive si smonta da sola.
+//   AR-567 — una prova che punta a un file mai nato non è un piano: è un buco che sembra un piano.
+//
+// I TETTI, e perché ci sono. Questi tre numeri nascono grossi: un cancello che parte rosso su
+// centosessantatré voci viene disattivato entro la settimana, e allora non protegge più niente. Il
+// tetto è il debito ereditato dichiarato per iscritto: SCENDE quando si cura, non si alza mai. Ciò
+// che nasce oggi passa comunque dal blocco duro, perché il conto non deve poter crescere.
+export const TETTI_CONTRATTO = {
+  // misurati sul repo il 2026-08-15, con i comandi che li ricontano a ogni giro
+  findings_senza_genera: 163,
+  prove_su_memoria_volatile: 11,
+  prove_al_vuoto: 1,
+};
+
+/** I findings di radiografia che nessuno può instradare, con il motivo per ognuno. */
+export function findingsSenzaRotta(rad) {
+  const fuori = [];
+  for (const dim of Array.isArray(rad?.dimensioni) ? rad.dimensioni : []) {
+    for (const f of Array.isArray(dim?.findings) ? dim.findings : []) {
+      const v = verdettoFinding(f);
+      if (v.codice === 0) continue;
+      // `genera: null` = campo mancante · `genera` valorizzato = etichetta inventata. Sono due
+      // guasti con due cure: il primo è debito ereditato sotto tetto, il secondo è blocco duro.
+      fuori.push({
+        dimensione: dim.key || dim.nome || "?",
+        titolo: f?.titolo || "(senza titolo)",
+        causa: v.genera === null ? "genera-mancante" : "genera-fuori-enum",
+        motivo: v.motivo,
+      });
+    }
+  }
+  return fuori;
+}
+
+/**
+ * Le prove del cantiere che non possono reggere: quelle puntate alla memoria volatile e quelle al
+ * vuoto. `esisteFile` è iniettato così il giudizio si può eseguire in un test senza il disco vero.
+ */
+export function proveInammissibili(difetti = [], esisteFile = () => true) {
+  const volatili = [];
+  const alVuoto = [];
+  for (const d of Array.isArray(difetti) ? difetti : []) {
+    const v = d?.verifica;
+    if (!v || !v.file || !v.pattern) continue;
+    if (provaSuFileVolatile(v)) volatili.push({ id: d.id, file: v.file });
+    const classe = classificaProva({ verifica: v, fileEsiste: esisteFile(v.file) }).classe;
+    if (classe === "al-vuoto") alVuoto.push({ id: d.id, file: v.file });
+  }
+  return { volatili, alVuoto };
+}
+
+/** Un conto sopra il suo tetto dichiarato: il messaggio che chi legge deve poter capire da solo. */
+function oltreIlTetto(quanti, tetto, cosa, esempi) {
+  if (quanti <= tetto) return null;
+  return `${quanti} ${cosa} — il tetto dichiarato è ${tetto} e i tetti scendono, non salgono. Esempi: ${esempi.slice(0, 5).join(" · ")}`;
+}
+
 function valida(nomeFile, dati, regola) {
   const problemi = [];
   problemi.push(...valoriFuoriContratto(dati, regola.valori));
+
+  // AR-360 — dentro i findings della radiografia.
+  if (nomeFile === "auto-radiografia.json") {
+    const fuori = findingsSenzaRotta(dati);
+    const inventati = fuori.filter((f) => f.causa === "genera-fuori-enum");
+    const mancanti = fuori.filter((f) => f.causa !== "genera-fuori-enum");
+    // Un'etichetta INVENTATA è blocco duro senza tetto: oggi sono zero, e da qui in poi restano zero.
+    for (const f of inventati.slice(0, 5)) {
+      problemi.push(`finding «${f.titolo}» (${f.dimensione}): ${f.motivo}. Ammessi: ${GENERA_AMMESSI.join(", ")}.`);
+    }
+    const troppi = oltreIlTetto(
+      mancanti.length,
+      TETTI_CONTRATTO.findings_senza_genera,
+      "findings senza `genera`: nessuno li instrada, non diventano né lezione né sentinella né pezzo nuovo (AR-360)",
+      mancanti.map((f) => f.titolo),
+    );
+    if (troppi) problemi.push(troppi);
+  }
+
+  // AR-356 · AR-567 — dentro le prove delle schede del cantiere.
+  if (nomeFile === "cantiere-difetti.json") {
+    const { volatili, alVuoto } = proveInammissibili(dati.difetti, (f) => existsSync(join(AD_ROOT, f)));
+    const t1 = oltreIlTetto(
+      volatili.length,
+      TETTI_CONTRATTO.prove_su_memoria_volatile,
+      "prove puntate a file che la macchina riscrive da sola: si smontano da sole, riscrivile come {comando} (AR-356)",
+      volatili.map((v) => `${v.id}→${v.file}`),
+    );
+    if (t1) problemi.push(t1);
+    const t2 = oltreIlTetto(
+      alVuoto.length,
+      TETTI_CONTRATTO.prove_al_vuoto,
+      "prove che puntano a un file inesistente: non è «non ancora soddisfatta», è un piano che nessun lavoro può soddisfare (AR-567)",
+      alVuoto.map((v) => `${v.id}→${v.file}`),
+    );
+    if (t2) problemi.push(t2);
+  }
+
   for (const req of regola.obbligatori || []) {
     if (!(req in dati)) problemi.push(`campo obbligatorio mancante: "${req}"`);
   }

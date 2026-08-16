@@ -10,6 +10,7 @@ import Aggiornato from "@/components/Aggiornato";
 import ParlaCasella from "@/components/ParlaCasella";
 import { dataVault } from "@/lib/format";
 import { cosaMostrare } from "@/lib/casella-ricarica";
+import { aperturaQuaderno, vistaQuaderni } from "@/lib/quaderni-vista";
 import { classeCampo, classeComando, classeComandoSommario, classeListaScorrevole } from "@/lib/tocco-bersaglio";
 
 type Esito = { data: string; testo: string };
@@ -93,13 +94,17 @@ export default function QuaderniSenior() {
 
   usePanelSync(["memoria", "radiografia", "azioni", "all"], () => carica(true));
 
-  const apriQuaderno = async (senior: string) => {
-    if (aperto === senior) {
-      setAperto(null);
+  // AR-608 — cosa fa un gesto su un quaderno lo decide `aperturaQuaderno`, fuori da React. Prima il
+  // tasto «Riprova» chiamava questa funzione dopo un `setAperto(null)`: lo stato di React si
+  // aggiorna dopo, quindi la seconda chiamata trovava ancora lo stesso nome aperto e CHIUDEVA il
+  // quaderno invece di rileggerlo. L'unica via d'uscita da un errore di rete non funzionava.
+  const apriQuaderno = async (senior: string, gesto: "clic" | "riprova" = "clic") => {
+    const piano = aperturaQuaderno(aperto, senior, gesto);
+    setAperto(piano.aperto);
+    if (!piano.leggi) {
       setDettaglio(null);
       return;
     }
-    setAperto(senior);
     setCaricaDett(true);
     setErrDettaglio(null);
     try {
@@ -128,15 +133,19 @@ export default function QuaderniSenior() {
     );
   }, [quaderni, filtro]);
 
-  // La decisione «cosa si vede adesso» sta nel modulo condiviso, non qui: elenco e dettaglio la
-  // fanno con la stessa funzione, quindi non possono più divergere.
-  const vistaElenco = cosaMostrare({
-    caricando: loading && quaderni.length === 0,
-    letto: errElenco == null,
-    vuoto: visibili.length === 0,
-    motivo: errElenco,
-    testoVuoto: filtro.trim() ? "Nessun quaderno corrisponde alla ricerca." : "Nessun quaderno ancora.",
-  });
+  // AR-608 — la decisione «quale delle cinque schermate si vede adesso» sta fuori da React, in
+  // `lib/quaderni-vista.ts`, dove un test la esegue. Era una catena di `? :` dentro il JSX, e da lì
+  // nessuno poteva accorgersi che un ripasso silenzioso fallito cancellava l'elenco già a schermo.
+  const vistaElenco = vistaQuaderni(
+    cosaMostrare({
+      caricando: loading,
+      letto: errElenco == null,
+      vuoto: visibili.length === 0,
+      motivo: errElenco,
+      testoVuoto: filtro.trim() ? "Nessun quaderno corrisponde alla ricerca." : "Nessun quaderno ancora.",
+    }),
+    { collegato, quantiInMano: quaderni.length, motivo: errElenco },
+  );
   const vistaDettaglio = cosaMostrare({
     caricando: caricaDett,
     letto: errDettaglio == null,
@@ -183,28 +192,33 @@ export default function QuaderniSenior() {
         />
       </div>
 
-      {vistaElenco.stato === "carico" ? (
+      {vistaElenco.schermata === "carico" ? (
         <div className="text-center text-black/45 py-8 text-sm flex items-center justify-center gap-2">
           <Loader2 size={16} className="animate-spin" /> Carico i quaderni…
         </div>
-      ) : vistaElenco.stato === "non-letto" ? (
+      ) : vistaElenco.schermata === "non-letto" ? (
         <div className="text-center py-8 text-sm max-w-lg mx-auto">
           <p className="text-[13px] font-medium text-amber-700">{vistaElenco.messaggio}</p>
           <p className="t-eti mt-1">I quaderni possono esserci tutti: quello che manca è la lettura, non il dato.</p>
         </div>
-      ) : !collegato && quaderni.length === 0 ? (
+      ) : vistaElenco.schermata === "non-collegato" ? (
         <div className="text-center text-black/50 py-8 text-sm max-w-lg mx-auto">
-          <p className="mb-2 font-medium text-ink/80">Quaderni non raggiungibili.</p>
+          <p className="mb-2 font-medium text-ink/80">{vistaElenco.messaggio}</p>
           <p className="text-xs text-black/45 leading-relaxed">
             I file stanno in <code className="bg-black/[0.05] px-1 rounded">memoria-squadra/</code> sul ramo{" "}
             <b>unico main</b> (come il vault). Servono le variabili <code className="bg-black/[0.05] px-1 rounded">OBSIDIAN_*</code>{" "}
             su Vercel — stesse del resto della memoria.
           </p>
         </div>
-      ) : visibili.length === 0 ? (
+      ) : vistaElenco.schermata === "vuoto" ? (
         <p className="text-sm text-black/45 py-6 text-center">{vistaElenco.messaggio}</p>
       ) : (
         <div className="space-y-2">
+          {vistaElenco.avviso && (
+            <p className="text-[12px] font-medium text-amber-700 rounded-lg bg-amber-50 border border-amber-200/60 px-3 py-2">
+              {vistaElenco.avviso}
+            </p>
+          )}
           <p className="text-[11px] text-black/45 mb-1">
             {visibili.length} senior · clicca per aprire tutti gli ESITO
           </p>
@@ -253,7 +267,7 @@ export default function QuaderniSenior() {
                         <p className="text-[13px] font-medium text-amber-700">{vistaDettaglio.messaggio}</p>
                         <button
                           type="button"
-                          onClick={() => { setAperto(null); void apriQuaderno(q.senior); }}
+                          onClick={() => void apriQuaderno(q.senior, "riprova")}
                           className="mt-1 inline-flex items-center gap-1 min-h-[44px] py-2 -my-1 text-[12px] font-medium text-brand hover:underline"
                         >
                           <RefreshCw size={13} /> Riprova

@@ -12,19 +12,18 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-16 07:46",
+      "quando": "2026-08-16 11:49",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
       "push_ok": false,
-      "passi_ok": true,
-      "vincoli_attivi": 9,
+      "passi_ok": false,
+      "vincoli_attivi": 8,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
         "CORREZIONE_NICOLA",
         "FRESCHEZZA",
-        "OKR",
         "TASSO",
         "TEST",
         "VOLANO",
@@ -42,11 +41,11 @@
       "vincoli": []
     },
     "ritmo-mezzogiorno": {
-      "quando": "2026-08-13 12:06",
-      "esito": "non-pubblicato",
-      "codice": 2,
+      "quando": "2026-08-16 12:08",
+      "esito": "pulito",
+      "codice": 0,
       "ai_rc": 0,
-      "push_ok": false,
+      "push_ok": true,
       "passi_ok": true,
       "vincoli_attivi": 0,
       "vincoli": []
@@ -72,5 +71,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-16 07:46"
+  "aggiornato": "2026-08-16 12:08"
 }

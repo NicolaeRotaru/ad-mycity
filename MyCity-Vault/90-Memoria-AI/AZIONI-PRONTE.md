@@ -669,3 +669,18 @@ testo (hook IG):
 visual: carosello 6 slide tipografico su palette brand (copertina + 1 slide a prodotto con prezzo reale) = pubblicabile subito senza foto; boost futuro = foto reale dei 5 prodotti (serve ok titolare).
 pre-condizioni: (1) link marketplace in bio/1° commento UTM carosello_bio_2307 · (2) timing 17:00–19:00 · (3) foto reale = ok titolare se boost. Coda canonica = #post-carosello-bio-2307 in [[AZIONI-IN-ATTESA]].
 stato: IN ATTESA DI FIRMA NICOLA.
+
+## A41 · 📣 Post del giorno 16/8 — "I fornelli restano spenti" (hummus + pesto genovese bio, Pane Quotidiano)
+reparto: content-social
+livello: 🔴 (pubblicazione — la bozza 🟢 è già fatta)
+canale: IG feed @mycity.piacenza + storia 9:16 + pagina FB + gruppi FB
+perche: PLAYBOOK Contenuto del giorno (worker/chat 16/8). Angolo **PRODOTTO-EROE stagionale** (swipe #5 Cortilia "la vera stella in uso") — prima volta che agganciamo il bisogno concreto di metà agosto (caldo, poca voglia di stare ai fornelli) a due prodotti reali già "pronti": hummus di ceci bio e pesto genovese bio. **Non duplica:** kefir-caldo 14/7 (bevanda colazione) · carosello 5 prodotti 23/7 (rubrica intero catalogo) · turno-mattina 20/7 (BTS/volto) · volto bottegaio 9/7 (persona).
+preparato: ✍️ content-social (sintesi AD) — gate ONESTA passato: i 2 prodotti, i prezzi e le descrizioni letti ORA dal DB live (query SQL diretta 16/8), 0 numeri MyCity inventati, 0 testimonianze, nessuna prova sociale numerica (0 ordini pagati reali → non citata), le parole "pronto al consumo" e "condimento pronto" sono citate dalla scheda prodotto reale del negozio, non inventate da noi
+contenuto pronto: consegne/content/2026-08-16-post-del-giorno-no-fornelli-caldo-PQ.md
+cosa cambia: esce un post che aggancia un bisogno stagionale reale (agosto/caldo) a 2 prodotti veri del catalogo (hummus 2,95€ · pesto genovese bio 5€) invece di un prodotto isolato o l'intero catalogo — apre un filone "coppia prodotto-bisogno" riusabile nelle prossime settimane.
+se va bene: click marketplace via UTM `no-fornelli-1608`; PQ può ripubblicare; prima prova di un angolo "bisogno stagionale" che si può ripetere (es. pudding+caldo pomeriggio) sempre letto dal DB, zero rischio di inventare numeri.
+testo (hook IG):
+🌤️ Con questo caldo, i fornelli restano spenti. Da Pane Quotidiano: hummus di ceci bio pronto (2,95€) e pesto genovese bio (5€, basta la pasta) — ordini da casa, ve li portiamo noi.
+visual: immagine tipografica unica 1080×1350 su palette brand (headline + 2 badge prodotto con prezzo reale) = pubblicabile subito senza foto; boost futuro = foto reale dei 2 vasetti (serve ok titolare).
+pre-condizioni: (1) link marketplace in bio/1° commento UTM `no-fornelli-1608` · (2) timing 12:00–13:30 (pranzo) o 17:00–19:00 (cena) · (3) foto reale = ok titolare se boost. Coda canonica = **#106** in [[AZIONI-IN-ATTESA]].
+stato: IN ATTESA DI FIRMA NICOLA.

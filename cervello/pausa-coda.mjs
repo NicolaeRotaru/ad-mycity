@@ -206,8 +206,15 @@ export function numeriUsati(testoFile) {
  * come righe di tabella, erano invisibili. Il 16/8 la coda aveva 81 come titolo più alto e 91 in
  * archivio, quindi il prossimo numero usciva 82 — un numero già speso. È successo davvero: una
  * card nata alle 07:20 ha preso il #81, che l'archivio dava già a un merge del 13/8, e «ok 81»
- * è diventata una domanda con due risposte. Archiviare una card non libera il suo numero: la
- * card è ancora lì, è solo scesa di sotto.
+ * è diventata una domanda con due risposte — con il Pannello che apre la card sbagliata.
+ * Archiviare una card non libera il suo numero: la card è ancora lì, è solo scesa di sotto.
+ *
+ * 🤝 DUE SESSIONI HANNO TROVATO QUESTO STESSO DIFETTO LO STESSO GIORNO, ognuna per la sua strada
+ * (questo ramo dalla prova rossa `carte-numerate`, il lotto 44 dalla sua radiografia). Le due
+ * cure erano identiche nella sostanza e diverse nella forma: là i due cicli stavano dentro
+ * `prossimoNumero`, qui vivono in `numeriUsati`, che un test può interrogare da sola — «quali
+ * numeri sono già spesi?» è una domanda che serve anche a chi non deve sceglierne uno nuovo.
+ * Tenuta questa, tenuta la conseguenza che l'altra aveva visto e questa no: il Pannello.
  */
 export function prossimoNumero(testoFile) {
   const usati = numeriUsati(testoFile);

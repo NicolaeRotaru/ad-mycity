@@ -8,9 +8,28 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
-- 2026-08-16 08:42 · CI rossa sulla PR #738: due card della coda portavano il numero 81 · il numero della prossima card lo sceglie prossimoNumero in pausa-coda.mjs · atteso pensavo fosse una collisione singola arrivata da main, da rinumerare e via → reale erano dieci collisioni in fila: chi assegna il numero non guardava l'archivio (titoli fermi a 81, righe-tabella già a 91), quindi ogni card nuova da qui a 91 avrebbe pescato un numero già speso. Curata la classe con numeriUsati(), non il punto · #AR-750
+- 2026-08-16 13:45 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 13:32 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 12:27 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 12:14 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 12:08 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 11:59 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 11:53 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:57 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:49 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:42 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:35 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:28 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 10:04 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 09:49 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 09:41 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 09:06 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 08:42 · CI rossa sulla PR #738: due card della coda portavano il numero 81 · il numero della prossima card lo sceglie prossimoNumero in pausa-coda.mjs · atteso pensavo fosse una collisione singola arrivata da main, da rinumerare e via → reale erano dieci collisioni in fila: chi assegna il numero non guardava l'archivio (titoli fermi a 81, righe-tabella già a 91), quindi ogni card nuova da qui a 91 avrebbe pescato un numero già speso. Curata la classe con numeriUsati(), non il punto · #AR-751 (la scheda di main sui numeri delle card: il mio numero collideva)
 - 2026-08-15 20:45 · Dopo il merge del lotto 43: rilettura delle chiusure una per una, come chiede il mansionario · chiusure applicate = chiusure dichiarate · atteso 49 chiusi, 4 aperti → reale il motore ne ha chiusi 61: undici erano difetti vecchi curati di rimbalzo (legittimi, riletti uno per uno) e DUE erano miei dichiarati APERTI che si sono richiusi da soli (AR-693, AR-684). Causa: il ricucitore toglieva solo le prove a PATTERN, ma non e il tipo di prova a richiudere un difetto, e il fatto che la prova PASSI. Riaperti con chiusura bloccata, il freno che il motore rispetta gia; auto-fix rilanciato chiude 0 · #cantiere #lotto43 #AR-444
 - 2026-08-16 07:13 · fix contratto salute_macchina: due chiavi (sensori_ciechi, telegram_configurato) bocciate dal validatore auto-analisi.json · test contratto rosso su ogni PR che tocca auto-analisi.json · atteso contratto allineato, test scadenze-calcolate verde → reale 21/21 test verdi, tsc pulito, non verificato a video nel browser · #AR-532
+- 2026-08-16 04:28 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-15 21:34 · Lotto 44 del cantiere: nove corsie in parallelo su nove malattie, territori di file disgiunti, ogni corsia consegna un frammento e l'AD ricuce i registri condivisi · V5 C5 A5 K5 I4 M5 E5 (media 4.86) · atteso 100 difetti chiusi in una sessione sola → reale 75 riparati e verificati con le sette corsie rientrate finora: 39 mutazioni eseguite, 39 prove diventate rosse. Piu 12 gia riparati nel lotto 43 e mai timbrati, verificati uno per uno. Due corsie ancora al lavoro; il conto vero lo dara il cancello ad albero fermo · #cantiere #lotto44 #corsie-parallele
+- 2026-08-15 21:32 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-15 18:32 · Lotto 43 del cantiere: 53 difetti in cinque corsie parallele, una per malattia, territori di file disgiunti · difetti chiusi con prova comportamentale + non-vacuita eseguita · atteso 50 chiusi → reale 23 chiusi in questo lotto + 26 gia curati nel codice e mai dichiarati + 4 lasciati aperti col perche scritto; 5 regressioni introdotte dal lotto stesso trovate dal cancello e riparate (mutazioni che puntavano a --test, due voci di malattia senza nome che si riconoscevano a vicenda, tre registri riscritti con l indentazione sbagliata, un catch che ingoiava l errore, una prova che sorvegliava la forma invece dell effetto) · #cantiere #lotto43 #corsie-parallele
 - 2026-08-15 08:51 · PR #733: aggiungo auto-analisi.json ai REFERTI esenti (AZIONI #89), stessa malattia di salute.json, con test di regressione + mutazione verde-rosso-verde · 1 riga codice, 1 test nuovo (2 file coperti), 131/131 test sorvegliante verdi · atteso 0 falsi allarmi difesa-rimossa su auto-analisi.json, prova che fallisce senza il fix → reale confermato: test rosso senza la riga in REFERTI, verde con — mutazione provata a mano · #PR-733 #sorvegliante #falso-allarme #AR-543
 - 2026-08-15 08:43 · Fix sorvegliante.mjs: salute.json escluso dai REFERTI, evitava 60 falsi allarmi 'difesa-rimossa' a sessione (PR #733) · 5/5/4/4/5/4 · atteso 0 falsi allarmi prova-accecata su salute.json, PR verde e mergeable → reale fix committato (498722b0d) e PR #733 aperta; CI PR ancora rossa su 2 controlli (verdetti-senza-lettore, ESITO-quaderno mancante nel branch) — non ancora confermato verde · #PR-733 #sorvegliante #falso-allarme

@@ -14,6 +14,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { blocchiCoda, trovaAzione } from "../consenso-azione.mjs";
 import { lettoreDellaCabina } from "../coda-cabina.mjs";
+import { prossimoNumero } from "../pausa-coda.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -123,6 +124,33 @@ test("nel file vero ogni card ha il suo numero, unico, con la data di nascita", 
     if (m) numeri.push(Number(m[1]));
   }
   assert.equal(new Set(numeri).size, numeri.length, "due card portano lo stesso numero");
+});
+
+// ── 4) Chi distribuisce i numeri deve vedere TUTTA la coda ───────────────────
+// Il 16/8 il numero 81 apparteneva a due card insieme: un blocco vivo e una riga-tabella
+// archiviata. Chi assegnava i numeri guardava solo i blocchi, cioè metà della coda, e ha
+// riconsegnato un numero già in mano a qualcun altro. «ok 81» era una domanda con due risposte.
+test("chi assegna il prossimo numero conta anche le card in riga-tabella", () => {
+  const coda = [
+    "### 🟡 #3 — Una card a blocco · ⏳ accodata 2026-08-16 07:20",
+    "",
+    "| 40 | 2026-08-13 18:59 | @tech | Una card a riga | 🔴 | url | github | in attesa | x | y |",
+  ].join("\n");
+  assert.equal(prossimoNumero(coda), 41, "il numero più alto è quello della riga-tabella: il prossimo è 41");
+});
+
+test("il prossimo numero non è già di qualcun altro, nella coda VERA", () => {
+  const md = readFileSync(CODA_VERA, "utf8");
+  const presi = new Set();
+  for (const m of md.matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) presi.add(Number(m[1]));
+  for (const m of md.matchAll(/^\|\s*(\d+)\s*\|/gmu)) presi.add(Number(m[1]));
+  const prossimo = prossimoNumero(md);
+  assert.ok(!presi.has(prossimo), `il numero ${prossimo} è già di una card che esiste`);
+});
+
+test("senza numeri in coda si riparte da 1, non da zero né da NaN", () => {
+  assert.equal(prossimoNumero("## Come approvare\ntesto qualsiasi"), 1);
+  assert.equal(prossimoNumero(""), 1);
 });
 
 test("nel file vero le card pendenti sono in ordine: la più nuova in alto", () => {

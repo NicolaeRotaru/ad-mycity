@@ -52,6 +52,12 @@ import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath } from "node:url";
 import { nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { decidiScrittura, timbroProvenienza } from "./scrittura-misura.mjs";
+// AR-464 · AR-446 — la penna passa dal writer condiviso, che consulta il freno della memoria
+// (`cervello/casa-memoria.mjs`). Il `--sola-lettura` qui sotto ferma solo CHI LO SA: bastava che una
+// prova lanciasse `registra` perché il registro dei fatti VERO — la fonte unica della verità — si
+// riscrivesse, e con un `writeFileSync` che non è nemmeno atomico. Il freno sul dato invece lo
+// ereditano tutti, anche gli script che questo lancia senza sapere cosa scrivono.
+import { scriviJsonAtomico } from "./scrivi-json.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(QUI, "..");
@@ -150,10 +156,7 @@ function scriviReport(report) {
     leggibile = false;
   }
   const scelta = decidiScrittura({ solaLettura: SOLA_LETTURA, misuraNuova: report, misuraVecchia: precedente, vecchiaLeggibile: leggibile });
-  if (scelta.scrivi) {
-    mkdirSync(dirname(REPORT), { recursive: true });
-    writeFileSync(REPORT, JSON.stringify(report, null, 2) + "\n", "utf8");
-  }
+  if (scelta.scrivi) scriviJsonAtomico(REPORT, report);
   return scelta;
 }
 
@@ -167,8 +170,9 @@ function leggiRegistro() {
 
 function scriviRegistro(dati) {
   dati.aggiornato = oraPiacenza();
-  mkdirSync(dirname(REGISTRO), { recursive: true });
-  writeFileSync(REGISTRO, JSON.stringify(dati, null, 2) + "\n", "utf8");
+  // La fonte unica della verità (AR-102) è anche il file che due prove riscrivevano davvero, e a
+  // metà di un crash sarebbe rimasta monca: qui la penna è atomica e passa dal freno della memoria.
+  scriviJsonAtomico(REGISTRO, dati);
 }
 
 // Un pattern è "generico" se matcherebbe testo legittimo ovunque (timestamp, contatori).

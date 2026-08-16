@@ -1,0 +1,205 @@
+{
+  "corsia": 3,
+  "malattia": "Uno strumento che dichiara di leggere scrive nella memoria vera, perché il freno sta sul dato ma quattro penne non ci passavano: scrivevano il vault con un writeFileSync crudo, e una di quelle penne riscriveva il registro dei fatti.",
+  "moduli_condivisi": [
+    "cervello/casa-memoria.mjs",
+    "cervello/scrivi-json.mjs"
+  ],
+  "cosa_ho_trovato_di_diverso_dalla_scheda": "Nove schede su dieci descrivono difetti che il lotto 43 ha già curato e mergiato in main: le loro prove sono verdi da qui e le loro mutazioni sono già in mutanti.json. Restavano APERTE nel cantiere perché la chiusura si applica dopo il merge, non perché il fix mancasse. Il lavoro vero di questa corsia è la seconda metà della stessa malattia, trovata eseguendo e non leggendo: il freno sul dato copre solo chi passa dallo scrittore condiviso, e coerenza-fatti, stampo-check, sensori-spenti-check e la porta dei sensori non ci passavano. Misurato prima del fix: con MYCITY_MEMORIA_SOLA_LETTURA=1 e il contenuto cambiato, stampo-check ha riscritto il file VERO lo stesso.",
+  "difetti": [
+    {
+      "id": "AR-568",
+      "esito": "aperto",
+      "perche_resta_aperto": "Tre clausole su quattro sono fatte e provate, e questa corsia ha portato la (b) dal comando al DATO: la regola «cieco non sovrascrive vedente» ora vive dentro scriviJsonAtomico, quindi la eredita chiunque scriva una misura timbrata, non solo verifica-sensori. In più la scrittura della memoria dei sensori passa finalmente dal freno: con la radice deviata il file vero non si muove più (prima si muoveva). Manca la clausola (d): il cancello di pubblicazione deve fermare una richiesta che abbassa la copertura di un file di misura senza dirlo. Quel cancello è cervello/gate-pubblicazione.sh, fuori dal mio territorio. Lo lascio aperto invece di chiuderlo a tre quarti: la (d) copre la strada che il freno sulla penna non copre — un file di misura più povero che entra in un commit a mano.",
+      "verifica_resta": "umano",
+      "togli_verifica_a_pattern": false,
+      "nota_fix": "Aggiunto in questo lotto: (1) la guardia della copertura è passata dal comando alla penna condivisa (cervello/scrivi-json.mjs, funzione coperturaAmmessa), e scatta solo per i documenti che portano il timbro `origine` — chi scrive registri o code non vede cambiare niente; (2) verifica-sensori passa a scriviStatoSensore la penna atomica, così la scrittura dei sensori attraversa il freno della memoria — prima la penna di default di stato-sensori.mjs era un writeFileSync crudo e il freno non la sfiorava; (3) sensori-spenti-check non infila più una card nella coda vera con un writeFileSync. Cosa NON ho verificato: la clausola (d); e la porta dei sensori resta scoperta per gli altri TRE scrittori (sensore-cassa, delta-gate, sentinella-fonti), che passano dalla penna cruda di stato-sensori.mjs — file di un'altra corsia, la patch è in patch_per_ad."
+    },
+    {
+      "id": "AR-663",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
+      "nota_fix": "Il guardiano del blocco mancante non riscrive più il suo referto quando lo si interroga, e con --json dice dove scriverebbe senza scrivere. Il fix era già in main dal lotto 43 e non l'ho toccato: ho rieseguito la sua mutazione da qui e il test diventa rosso davvero. Quello che questa corsia aggiunge è la copertura di classe: il freno sul dato adesso lo attraversano anche le penne che lo saltavano.",
+      "mutante": {
+        "file": "cervello/conta-blocco-mancante.mjs",
+        "cerca": "const SOLA_LETTURA = process.argv.includes(\"--sola-lettura\") || (JSON_MODE && !AGGIORNA);",
+        "sostituisci": "const SOLA_LETTURA = false;"
+      },
+      "non_vacuita": "Eseguita il 15/8: forzato SOLA_LETTURA a false → caso ⑪ rosso («con --json si guarda e non si tocca niente»). Rimesso: verde. È la mutazione già presente in mutanti.json, rieseguita e non dedotta."
+    },
+    {
+      "id": "AR-668",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
+      "nota_fix": "Le porte annidate (sentinella-dati → tick → esperimenti-check) ereditano il freno perché è una variabile d'ambiente letta da chi scrive. Verificato da qui rieseguendo la mutazione. La stessa domanda applicata alle penne — «quali cancelli eredita chi scrive in un altro modo?» — è ciò che ha fatto trovare i quattro writeFileSync crudi curati in questa corsia: un freno sul dato non vale per chi non tocca il dato attraverso la penna.",
+      "mutante": {
+        "file": "cervello/casa-memoria.mjs",
+        "cerca": "export const CARTELLE_MEMORIA = [\"MyCity-Vault\", \"memoria-squadra\"];",
+        "sostituisci": "export const CARTELLE_MEMORIA = [];"
+      },
+      "non_vacuita": "Eseguita il 15/8: svuotato l'elenco delle cartelle di memoria → casi ⑯ ⑰ ⑱ rossi, e il caso ⑰ ha visto la memoria VERA muoversi (apprendimento.json e auto-miglioramento.json), rimessa a posto dalla rete del test. Rimesso: verde."
+    },
+    {
+      "id": "AR-639",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/la-sola-lettura-che-scrive.test.mjs",
+      "nota_fix": "Il tetto degli scrittori crudi del vault scende da 54 a 49: coerenza-fatti (che riscriveva il REGISTRO DEI FATTI a mano, e senza atomicità), stampo-check e sensori-spenti-check passano ora dalla penna condivisa. In più ho trovato eseguendo un caso nuovo della stessa malattia dentro il mio territorio: `calibrazione.mjs report` — un comando di lettura — riscriveva il registro delle previsioni a ogni corsa, con la sola riga `aggiornato` diversa. Adesso la penna del registro chiede prima se è cambiato qualcosa oltre l'ora.",
+      "mutante": {
+        "file": "cervello/calibrazione.mjs",
+        "cerca": "  if (scelta.scrivi) scriviJsonAtomico(PATH, data);",
+        "sostituisci": "  scriviJsonAtomico(PATH, data);"
+      },
+      "non_vacuita": "Eseguita il 15/8: tolta la domanda «è cambiato qualcosa oltre l'ora?» → caso ⑥ rosso («il registro si è mosso solo perché qualcuno l'ha letto»). Rimesso: verde. Prima del fix l'avevo visto succedere davvero: un `report --json` faceva comparire calibrazione.json in git status."
+    },
+    {
+      "id": "AR-464",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/la-sola-lettura-che-scrive.test.mjs",
+      "nota_fix": "Verificare non deve costare un diff, e non lo costava solo per chi digitava --sola-lettura. Misurato prima del fix: con MYCITY_MEMORIA_SOLA_LETTURA=1 e il contenuto cambiato, stampo-check ha riscritto il file VERO — il freno c'era e la sua penna non ci passava. Adesso stampo-check e coerenza-fatti scrivono dalla penna condivisa, quindi il freno vale anche per chi non sa di essere stato lanciato da una prova. Aggiunta la stessa cura al report della calibrazione.",
+      "mutante": {
+        "file": "cervello/stampo-check.mjs",
+        "cerca": "    scriviJsonAtomico(STATE_PATH, state);",
+        "sostituisci": "    writeFileSync(STATE_PATH, JSON.stringify(state, null, 2) + \"\\n\", \"utf8\");"
+      },
+      "non_vacuita": "Eseguita il 15/8: rimessa la penna cruda → caso ④ rosso («lo stato VERO si è mosso»). Rimesso: verde. Eseguita anche la mutazione ereditata su casa-memoria (ENV_SOLA_LETTURA = \"__MAI__\"): casi ⑯ ⑱ dell'altra prova rossi."
+    },
+    {
+      "id": "AR-446",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/la-sola-lettura-che-scrive.test.mjs",
+      "nota_fix": "La scheda diceva tredici test; contati col grep sul codice vero ne restavano DUE che scrivono davvero nella memoria vera, e uno tocca il registro dei fatti — il resto si era già fatto la sabbiera da solo. Curato lo scrittore e non il test, come vuole la scheda: mancava però la metà della lettura. Deviare la penna mette al sicuro la memoria; non dà alla prova il potere di scegliere cosa lo script VEDE, e finché il percorso di lettura resta calcolato dentro lo script l'unica strada è togliere un fatto dal registro vero e sperare nel `finally`. Aggiunta `fileMemoriaDaLeggere` in casa-memoria (pura: l'esistenza del file arriva come funzione) e usata in calibrazione. Ora `previsione-banale-dai-dati.test.mjs` lavora su una sabbiera e non tocca più né calibrazione.json né registro-fatti.json — verificato confrontando l'impronta dei due file dentro il test. Il tetto delle prove che scrivono nella memoria vera è 1, e chi resta è dichiarato per nome.",
+      "mutante": {
+        "file": "cervello/casa-memoria.mjs",
+        "cerca": "  return esiste(d.percorso) ? d.percorso : vero;",
+        "sostituisci": "  return vero;"
+      },
+      "non_vacuita": "Eseguita il 15/8: fatta tornare sempre la memoria vera in lettura → caso ⑩ rosso («con la copia nella sabbiera si legge quella»), e anche previsione-banale-dai-dati diventa rosso sul caso «nemmeno la previsione AUTOMATICA inventa più l'atteso». Rotta anche l'iniezione dentro calibrazione (daLeggere → percorso secco): stesso rosso. Rimesso: verde."
+    },
+    {
+      "id": "AR-286",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/la-sola-lettura-che-scrive.test.mjs",
+      "nota_fix": "Il timbro c'era già nel documento; quello che mancava era che arrivasse fino al file. La scrittura dei sensori passava da una penna cruda, quindi in una corsa deviata il timbro finiva sul file VERO invece che nella sabbiera. Adesso la misura scritta porta origine, copertura e scritto_da, e la prova le legge dal file che la corsa ha davvero prodotto. Il timbro non è catalogazione: è il prezzo di ammissione alla protezione della copertura — senza provenienza, un residuo e una misura sono la stessa riga, e la regola «cieco non sovrascrive vedente» non è nemmeno scrivibile.",
+      "mutante": {
+        "file": "cervello/verifica-sensori.mjs",
+        "cerca": "    scrittore: (p, d) => scriviJsonAtomico(p, d),",
+        "sostituisci": ""
+      },
+      "non_vacuita": "Eseguita il 15/8: tolta la penna condivisa → casi ① e ② rossi, e il caso ① ha visto la memoria dei sensori VERA muoversi davvero (rimessa a posto dalla rete del test). Rimesso: verde."
+    },
+    {
+      "id": "AR-653",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
+      "nota_fix": "La decisione di Nicola del 5/7 vive nel registro versionato e non in un .env: senza POSTHOG_OFF il sensore risulta spento lo stesso, e il dettaglio dice chi ha deciso. Fix del lotto 43, non toccato; mutazione rieseguita da qui.",
+      "mutante": {
+        "file": "cervello/verifica-sensori.mjs",
+        "cerca": "  const perDecisione = motivi?.motivi?.posthog_api?.motivo === \"decisione\";",
+        "sostituisci": "  const perDecisione = false;"
+      },
+      "non_vacuita": "Eseguita il 15/8: ignorato il motivo dichiarato → caso ⑮ rosso («senza POSTHOG_OFF il check torna a partire»). Rimesso: verde."
+    },
+    {
+      "id": "AR-654",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/misura-che-non-sporca.test.mjs",
+      "nota_fix": "La riga posthog_api con motivo «decisione» e il perché sta in cervello/sensori-motivi.json, e il guardiano la legge. Non toccato in questa corsia; mutazione rieseguita.",
+      "mutante": {
+        "file": "cervello/sensori-motivi.json",
+        "cerca": "      \"motivo\": \"decisione\",",
+        "sostituisci": "      \"motivo\": \"inerzia\","
+      },
+      "non_vacuita": "Eseguita il 15/8: cambiato «decisione» in «inerzia» → casi ⑭ e ⑮ rossi. Rimesso: verde."
+    },
+    {
+      "id": "AR-665",
+      "esito": "riparato",
+      "verifica_comando": "node cervello/test/peso-file-cabina.test.mjs",
+      "nota_fix": "La prova del guardiano del peso copia nella sabbiera anche i moduli che il guardiano importa, quindi lo script non deve più bastare a sé stesso e l'ora la prende dall'orologio di casa. Fix del lotto 43, non toccato; ho rieseguito la mutazione da qui perché il file di prova è nel mio territorio.",
+      "mutante": {
+        "file": "cervello/test/peso-file-cabina.test.mjs",
+        "cerca": "  copiaConModuli(GUARDIANO, dir);",
+        "sostituisci": "  cpSync(GUARDIANO, join(dir, \"cervello/peso-file-cabina.mjs\"));"
+      },
+      "non_vacuita": "Eseguita il 15/8: rimessa la copia di un file solo → sei casi rossi con «cannot find module», gli stessi sei della scheda. Rimesso: verde."
+    }
+  ],
+  "bloccati": [
+    {
+      "id": "AR-568",
+      "serve": "file fuori territorio: cervello/gate-pubblicazione.sh — la clausola (d) vuole che il cancello di pubblicazione fermi una richiesta che abbassa la copertura di un file di misura senza dirlo."
+    },
+    {
+      "id": "AR-446",
+      "serve": "file fuori territorio: cervello/chiusura-loop.mjs — è l'ultima prova che scrive nella memoria vera (previsione-aperta-prima.test.mjs guida quel comando, che calcola da sé il percorso di lettura di calibrazione.json e del quaderno). Con una riga di lettura iniettata come in calibrazione.mjs, il tetto scende da 1 a 0."
+    },
+    {
+      "id": "—  (segnalazione del cancello dei senior, non un difetto di questa corsia)",
+      "serve": "file fuori territorio: cervello/sorvegliante.mjs. Il cancello dei senior chiude in rosso perché la mutazione di AR-453 («la guardia non si accorge più che una mutazione ha perso il suo appiglio») non trova più il suo pezzo: cerca la riga `if (!t.contenuto.includes(mu.cerca)) {`, e quel file è stato riscritto nell'albero di lavoro (128 righe aggiunte, 18 tolte) da un'altra corsia. Io quel file non l'ho aperto: `git diff` lo conferma, e l'ultimo commit che lo tocca è il #734, prima del lotto. Non lo sistemo perché editarlo adesso cancellerebbe il lavoro di chi ci sta dentro. Chi possiede sorvegliante.mjs deve scegliere fra due cose, e sono diverse: se ha SPOSTATO quel pezzo aggiorna il `cerca` in cervello/mutanti.json; se l'ha TOLTO ha appena disfatto AR-453 e va rimesso. Stessa cosa per AR-456 in pannello/src/lib/cantiere-snello.ts e per AR-684 e AR-671 (due voci) in cervello/atti-veri.mjs: cinque mutazioni orfane in tutto, nessuna in un file di questa corsia — verificato con `node cervello/test/mutazioni-orfane.test.mjs`."
+    }
+  ],
+  "difetti_nuovi": [
+    {
+      "titolo": "La porta unica delle scritture dei sensori ha una penna cruda, e tre scrittori su quattro la usano",
+      "gravita": "grave",
+      "causa_radice": "cervello/stato-sensori.mjs è la porta di classe della guardia d'AMBIENTE (AR-281), ma il suo scrittore di default è un writeFileSync crudo: il freno della memoria (casa-memoria) non lo attraversa. verifica-sensori adesso le passa la penna condivisa; sensore-cassa, delta-gate e sentinella-fonti no. Da lì, un comando lanciato con la radice deviata riscrive comunque la memoria dei sensori vera. È AR-568 nella sua forma di classe: la porta si è vista, la penna no.",
+      "dove": "cervello/stato-sensori.mjs:51",
+      "fix_proposto": "La penna di default diventa scriviJsonAtomico (una riga), così tutti e quattro gli scrittori ereditano il freno senza saperlo. Prova: lanciare sensore-cassa con MYCITY_MEMORIA_ROOT e pretendere che il file vero non si muova."
+    },
+    {
+      "titolo": "Uno strumento racconta di aver scritto dove non ha scritto",
+      "gravita": "minore",
+      "causa_radice": "scriviStatoSensore torna `spiegazione: «Scritto: <percorso>»` col percorso PRIMA della deviazione. Con la radice deviata il file finisce nella sabbiera e il log dice il percorso vero. È la stessa bugia della misura che sporca, spostata di un passo: chi legge il log crede che la memoria vera sia cambiata.",
+      "dove": "cervello/stato-sensori.mjs:52",
+      "fix_proposto": "La penna torna il percorso davvero scritto e la spiegazione usa quello (scriviJsonAtomico già lo restituisce, e torna null quando il freno ferma la scrittura)."
+    },
+    {
+      "titolo": "Undici prove di casa sono rosse nell'albero di lavoro, e nessuna appartiene a questa corsia",
+      "gravita": "medio",
+      "causa_radice": "Misurato con la suite intera il 15/8: 11 file rossi su 328. Nessuno è mio, e l'ho verificato in tre modi: (1) un worktree sul commit di partenza dove le stesse prove sono verdi; (2) la spazzata dei fratelli, che elenca i punti nuovi in cervello/cancelli-commit.mjs e cervello/conto-motore.mjs — nessun mio file; (3) mutazioni-orfane, che elenca le cinque mutazioni senza più appiglio (AR-453 in sorvegliante.mjs, AR-456 in cantiere-snello.ts, AR-684 e due volte AR-671 in atti-veri.mjs) — di nuovo nessun mio file. In più due tetti sono gonfiati perché qualcuno ha curato senza abbassarli: esito-in-una-pipe dichiara 50 e ne restano 49, git-letto-senza-tetto dichiara 18 e ne restano 17.",
+      "dove": "cervello/cancelli-commit.mjs · cervello/conto-motore.mjs · cervello/atti-veri.mjs · cervello/sorvegliante.mjs · pannello/src/lib/cantiere-snello.ts · cervello/malattie.json (tetti)",
+      "fix_proposto": "Ogni corsia rimette a posto la mutazione dei propri file (o aggiorna il `cerca` se il pezzo si è spostato) e abbassa i tetti che ha fatto scendere. Vale la pena che l'AD lo guardi PRIMA del cancello: sono rossi che appartengono a chi ha mosso quei file, non al lotto nel suo insieme."
+    }
+  ],
+  "malattie_da_censire": [
+    {
+      "id": "penna-cruda-nella-memoria",
+      "cosa_e": "Uno script scrive nella memoria della macchina con un writeFileSync o un appendFileSync suo, invece che dallo scrittore condiviso. Non attraversa nessun freno: né la sola lettura, né la radice deviata, né la guardia della copertura — e non è nemmeno atomico, quindi un crash a metà lascia un file troncato. È la forma per cui il freno «sul dato» resta vero e inefficace insieme.",
+      "come_si_cerca": "File sotto cervello/ che nominano MyCity-Vault o memoria-squadra e chiamano writeFileSync/appendFileSync direttamente. Misurato il 15/8: 49 file (era 54 a inizio lotto 44). Il caso ⑲ di cervello/test/misura-che-non-sporca.test.mjs lo tiene come tetto che scende e non si alza."
+    }
+  ],
+  "file_toccati": [
+    "cervello/casa-memoria.mjs",
+    "cervello/scrivi-json.mjs",
+    "cervello/coerenza-fatti.mjs",
+    "cervello/stampo-check.mjs",
+    "cervello/sensori-spenti-check.mjs",
+    "cervello/verifica-sensori.mjs",
+    "cervello/calibrazione.mjs",
+    "cervello/test/la-sola-lettura-che-scrive.test.mjs",
+    "cervello/test/previsione-banale-dai-dati.test.mjs",
+    "cervello/test/misura-che-non-sporca.test.mjs"
+  ],
+  "patch_per_ad": [
+    {
+      "file": "cervello/stato-sensori.mjs",
+      "perche": "È la porta di classe delle scritture dei sensori e la sua penna di default salta il freno della memoria: verifica-sensori adesso le passa la penna buona, gli altri tre scrittori no. Un freno messo sulla porta che si è vista lascia aperte quelle che non si sono viste — è AR-668 che si ripete.",
+      "diff_proposto": "import { scriviJsonAtomico } from \"./scrivi-json.mjs\";\n…\n-  if (scrittore) scrittore(path, doc);\n-  else writeFileSync(path, JSON.stringify(doc, null, 2) + \"\\n\", \"utf8\");\n-  return { scritto: true, path, spiegazione: `Scritto: ${path}` };\n+  const finito = scrittore ? scrittore(path, doc) : scriviJsonAtomico(path, doc);\n+  if (!finito) return { scritto: false, path, spiegazione: `⏭️  NON scritto ${path}: fermato dal freno della memoria` };\n+  return { scritto: true, path: finito, spiegazione: `Scritto: ${finito}` };"
+    },
+    {
+      "file": "cervello/chiusura-loop.mjs",
+      "perche": "È l'ultima prova che scrive nella memoria vera (AR-446, tetto 1). Il comando calcola da sé i percorsi di lettura, quindi il test che lo guida deve togliere e rimettere i dati nel registro vero.",
+      "diff_proposto": "import { fileMemoriaDaLeggere } from \"./casa-memoria.mjs\";\nconst daLeggere = (p) => fileMemoriaDaLeggere(p, { env: process.env, esiste: existsSync });\n// e ogni readFileSync/existsSync su un percorso del vault passa da daLeggere(...), come in cervello/calibrazione.mjs."
+    },
+    {
+      "file": "cervello/gate-pubblicazione.sh",
+      "perche": "AR-568 clausola (d): il cancello deve fermare una richiesta che abbassa la copertura di un file di misura senza dirlo. Il freno sulla penna copre i programmi; questa copre la strada che resta — un file di misura più povero messo in un commit a mano.",
+      "diff_proposto": "Per ogni file di auto-coscienza/ in stage che porta `copertura`: confrontare il valore in stage con quello in HEAD; se scende e l'`origine` è diversa, bloccare e chiedere di dichiararlo. La decisione esiste già pura ed è provata: decidiScrittura in cervello/scrittura-misura.mjs — il cancello può chiamarla con un node -e invece di riscriverla in bash."
+    }
+  ],
+  "cosa_non_ho_potuto_verificare": [
+    "Le mutazioni ereditate che vivono in file di altre corsie (cervello/scrittura-misura.mjs per AR-639/AR-464/AR-286, cervello/esperimenti-check.mjs per AR-639) NON le ho rieseguite: mutare un file mentre un'altra corsia ci lavora rischia di cancellarle il lavoro. Restano quelle registrate dal lotto 43.",
+    "Le 29 prove in bash non girano su questa macchina (manca bats): non è un verde, è un ⚪.",
+    "Non ho lanciato cancello-lotto.mjs (regola della corsia): la suite intera l'ho lanciata una volta e i due soli rossi sono di altre corsie, verificati verdi sul commit di partenza."
+  ]
+}

@@ -59,9 +59,14 @@ function scansiona(files) {
     spawnSync("git", ["config", "user.email", "prova@mycity.local"], { cwd: dir });
     spawnSync("git", ["config", "user.name", "prova"], { cwd: dir });
     for (const [rel, contenuto] of Object.entries(files)) writeFileSync(join(dir, rel), contenuto);
+    // AR-714 — si osserva dal CANALE VERO. Prima qui c'era `maxBuffer: 32 * 1024 * 1024`, cioè un
+    // canale trentadue volte più generoso di quello che Node dà a chiunque, per guardare un comando
+    // che nel giro scrive dentro una pipe di shell. Misurato il 15/8: l'uscita di questo scanner è
+    // di circa 200 byte, quindi il margine non serviva a niente — ma un margine così largo rende
+    // invisibile il giorno in cui l'uscita esplode, ed è la famiglia di AR-698 (la prova che
+    // osserva dal canale comodo invece che da quello vero).
     const r = spawnSync("node", [SCANNER, "--json"], {
       encoding: "utf8",
-      maxBuffer: 32 * 1024 * 1024,
       env: { ...process.env, SCAN_SEGRETI_REPO: dir },
     });
     let json = null;
@@ -164,10 +169,26 @@ prova("sotto il tetto si legge tutto in una volta, e una cartella resta ignorata
 // ── Il repo VERO: il file che sta arrivando al muro ─────────────────────────
 
 prova("sul repo vero nessun file resta fuori dallo sguardo e il verdetto è verde", () => {
-  const r = spawnSync("node", [SCANNER, "--json"], { cwd: REPO, encoding: "utf8", maxBuffer: 32 * 1024 * 1024 });
+  const r = spawnSync("node", [SCANNER, "--json"], { cwd: REPO, encoding: "utf8" });
   const j = JSON.parse(r.stdout);
   assert.deepEqual(j.non_raggiunti, [], `file elencati e mai aperti: ${j.non_raggiunti.join(", ")}`);
   assert.equal(r.status, 0, `atteso verde:\n${r.stdout.slice(0, 400)}${r.stderr}`);
+});
+
+// ── AR-714: il canale con cui guardo è quello vero, e lo misuro ─────────────
+
+prova("l'uscita dello scanner sta dentro il canale vero, e la pipe di shell dà lo stesso verdetto", () => {
+  // Nel giro l'uscita di questo comando passa da una pipe di shell (`| esito_righe`). Se un giorno
+  // lo scanner stampasse megabyte, una prova con il canale allargato resterebbe verde e la realtà
+  // no: qui si guarda da dove guarda il giro, e si scrive il numero invece di fidarsi del margine.
+  const diretto = spawnSync("node", [SCANNER, "--json"], { cwd: REPO, encoding: "utf8" });
+  const daPipe = spawnSync("sh", ["-c", `node ${JSON.stringify(SCANNER)} --json | cat`], { cwd: REPO, encoding: "utf8" });
+  assert.ok(
+    diretto.stdout.length < 1024 * 1024,
+    `l'uscita è ${diretto.stdout.length} byte: oltre il canale che Node dà a chi non chiede niente, e una prova che se lo allarga smetterebbe di vederlo`,
+  );
+  assert.equal(daPipe.status, diretto.status, "il verdetto non deve dipendere dal canale da cui lo guardo");
+  assert.equal(JSON.parse(daPipe.stdout).esito, JSON.parse(diretto.stdout).esito, "e nemmeno il referto");
 });
 
 let falliti = 0;
