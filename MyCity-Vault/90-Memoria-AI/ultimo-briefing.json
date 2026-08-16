@@ -1,12 +1,12 @@
 {
-  "data": "2026-08-16 23:35",
-  "situazione": "Business invariato, riconfermato dal vivo con query SQL dirette (23:33): 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star 53 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Novità del passaggio: non di business ma di processo — il file obbligatorio del cancello di serietà (auto-analisi.json) era fermo da 12 ore perché i passaggi precedenti lo saltavano sempre a parità di dati; riscritto ora per davvero. Lo stato delle 3 PR rosse (#749/#741/#735) resta quello del passaggio precedente, non riverificabile in questo passaggio (gh pr list negato).",
+  "data": "2026-08-16 23:58",
+  "situazione": "Business invariato, riconfermato dal vivo con query SQL dirette via MCP: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star 53 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Sensori, coerenza dei fatti e coda PR riverificati dal vivo: tutto identico al passaggio di 23 minuti fa (23:35). Unica novità: accodata la card #113 per il gate letargo (livello RISPARMIO) acceso da 3 giri di fila, come richiede il vincolo AR-687.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
     {"titolo": "Tappa i cinque punti dove il marketplace perde soldi da solo", "motivo": "ferma dal 29/7 senza risposta: doppia vendita, coupon che si esauriscono sui tentativi, rider che si decide lo stipendio", "livello": "rosso"},
     {"titolo": "Chiudi le quattro porte aperte sui dati di negozi e clienti", "motivo": "falle RLS verificate sul database vero, ferme dal 29/7 senza risposta", "livello": "rosso"},
-    {"titolo": "Scegli quale dei due significati del margine è quello giusto", "motivo": "il test del cervello è rosso per davvero: un commit ha cambiato il numero senza aggiornare il test che lo controlla, e la macchina non può decidere da sola quale versione è quella voluta", "livello": "giallo"},
-    {"titolo": "Decidi come procedere con le tre richieste di unione rosse da giorni", "motivo": "PR #749, #741 e #735 erano tutte rosse al passaggio precedente, nessuna pronta per il merge: dedicare una sessione a ripararle o congelarle fino a dopo la pausa negozi del 24/8-1/9", "livello": "giallo"}
+    {"titolo": "Decidi come procedere con le tre richieste di unione rosse da giorni", "motivo": "PR #749, #741 e #735 restano rosse con lo stesso guasto: dedicare una sessione a ripararle o congelarle fino a dopo la pausa negozi del 24/8-1/9", "livello": "giallo"},
+    {"titolo": "Guarda la card sul risparmio energetico della macchina", "motivo": "il gate letargo è acceso a livello risparmio da 3 giri di fila (quota AI 55%, salute macchina bassa): coerente con la pausa concordata, ma il vincolo impone di mostrartelo una volta", "livello": "giallo"}
   ]
 }

@@ -1,8 +1,17 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 23:35
+aggiornato: 2026-08-16 23:58
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **16/8 23:58 — Giro richiesto in chat, ~23 minuti dopo il passaggio 23:35. Business invariato, nessuna novità.**
+> Riverificato dal vivo con query SQL dirette via MCP (23:5x): 1 ordine totale, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 (CANCELED) — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. 7 profili, 1 vetrina attiva, 0 recensioni: identico. `verifica-sensori.mjs`, `coerenza-fatti.mjs` (✅ coerente) e `ci-stato.mjs` rilanciati dal vivo: le 3 PR (#749, #741, #735) restano tutte rosse, stesso guasto già noto — nessun peggioramento né miglioramento.
+>
+> **Unica novità: accodata la card #113** — il gate `letargo.mjs` (livello RISPARMIO: quota AI 55%, salute macchina 4) è ora acceso da 3 giri di fila (vincolo AR-687, "appena diventati cronici"). Non è un guasto nuovo — coerente con la pausa concordata e la sessione lunga di oggi — ma il vincolo impone di renderlo visibile a Nicola una volta, non di riscoprirlo ogni giro.
+>
+> Bloccati come sempre (2° tentativo, non riprovati oltre) gli script diagnostici pesanti non allowlistati (`north-star-check --gate`, `sonda-volano.mjs --json`).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38), **#109** (PR croniche), **#113** (nuova, letargo).
 
 > 🔬 **16/8 23:35 — Giro richiesto in chat, ~1h dopo il passaggio 22:29/22:36. Business invariato, riparato un difetto di processo.**
 > Riconfermato dal vivo con query SQL dirette via MCP (23:33): 1 ordine mai pagato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. 7 profili, 1 vetrina attiva, 0 recensioni: tutto identico al passaggio precedente.

@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-08-16 23:35",
-  "voto_fiducia": 86,
-  "sintesi_giro_corrente": "Giro richiesto in chat, ~1h dopo il passaggio delle 22:29/22:36. Business riverificato dal vivo con query SQL dirette via MCP (non ereditate): `select count(*) filter (where payment_status='paid') ... from orders` → 0 pagati su 1 totale, 0 negli ultimi 7gg, ultimo ordine 2026-06-24; `profiles` → 7 righe (4 buyer, 1 seller, 1 rider, 1 admin); `seller_storefronts` → 1; `reviews` → 0. Tutto identico al passaggio 22:29. Il vero lavoro utile di questo passaggio: questo stesso file (`auto-analisi.json`) era fermo dalle **11:12** — 12 ore — perché i passaggi 12:12→22:29 lo hanno saltato ogni volta con la motivazione «dati identici, non riscrivo» (playbook giro-pieno-ripetuto). Ma `freschezza-cadenze.mjs` misura QUANDO il file è stato scritto, non se il dato dentro è cambiato, e ha segnalato rosso: «il giro delle 22:36 è uscito saltando l'auto-analisi». Riscritto ora per davvero, chiudendo il vincolo. Script diagnostici pesanti non allowlistati in questa sessione (`verifica-automazione.mjs`, `north-star-check.mjs --gate`, `sonda-volano.mjs`, `gate-veri.mjs`) provati una volta ciascuno e bloccati («richiede approvazione»/negato) — stesso limite noto, causa radice card #104; non ritentati (regola dei 2 blocchi). `gh pr list` negato esplicitamente due volte: stato PR ereditato dal briefing 22:29 (3 PR aperte, tutte rosse: #749, #741, #735), non riverificato in questo passaggio — segnalato nei Gap, non dato per buono.",
-  "sintesi": "Business fermo dal 24/6 (stallo 53 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. In questo passaggio: nessun dato di business nuovo, ma corretto un difetto di processo reale — la 'strategia snella' stava lasciando invecchiare un file che è anche un timer del cancello di serietà, facendo scattare il vincolo freschezza-cadenze per 12 ore consecutive senza che nessun passaggio se ne accorgesse.",
-  "trend_fiducia": "▼ 89→86: nessun difetto di marketplace nuovo, ma abbasso il voto perché il vincolo freschezza-cadenze era rosso da almeno un giro intero (22:36) prima che questo passaggio lo notasse e lo chiudesse — la 'strategia snella', applicata senza eccezioni, aveva smesso di distinguere tra 'dato invariato' e 'file che il guardiano vuole vedere aggiornato comunque'. Corretto ora; resta ampio il debito HARD noto (script bloccati dall'allowlist, PR rosse, correzione-nicola-gate senza gate verificabile in questa sessione).",
+  "data": "2026-08-16 23:58",
+  "voto_fiducia": 87,
+  "sintesi_giro_corrente": "Giro richiesto in chat, 23 minuti dopo il passaggio delle 23:35. Business riverificato dal vivo con query SQL dirette via MCP (non ereditate): `orders` → 1 riga totale, 0 con payment_status='paid', 0 create negli ultimi 7gg, delivery_status='CANCELED', ultimo ordine 2026-06-24; `profiles`→7, `seller_storefronts`→1, `reviews`→0. Tutto identico al passaggio 23:35. A differenza dei passaggi precedenti, in questo sono girati senza blocco `verifica-sensori.mjs` (23:53), `coerenza-fatti.mjs` (✅ coerente, 0 cacce) e `ci-stato.mjs` (3 PR ancora rosse #749/#741/#735, stesso guasto, nessun cambiamento). Sono rimasti bloccati (2° tentativo, non riprovati) `north-star-check.mjs --gate` e `sonda-volano.mjs --json`. Il vero lavoro utile di questo passaggio: accodata la card #113 in AZIONI-IN-ATTESA per il vincolo AR-687 — il gate `letargo.mjs` è a livello RISPARMIO da 3 giri di fila, andava reso visibile a Nicola una volta.",
+  "sintesi": "Business fermo dal 24/6 (stallo 53 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. In questo passaggio: nessun dato di business nuovo; unico atto è la card #113 sul gate letargo, dovuta dal vincolo di sistema, non da una scoperta nuova.",
+  "trend_fiducia": "▲ 86→87: gli script che nel passaggio precedente erano bloccati dall'allowlist (sensori, coerenza-fatti, ci-stato) questa volta hanno girato regolarmente — meno debito di verifica accumulato in questo passaggio. Resta il debito HARD noto (north-star-check/sonda-volano ancora bloccati, PR rosse croniche, correzione-nicola-gate senza gate verificabile in questa sessione).",
   "entita_verificate_10_25": [
     {
       "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / ultimo ordine 2026-06-24",
@@ -44,22 +44,33 @@
       "fonte": "registro-realta.json (invariato) — nessuna nuova entità toccata in questo giro"
     },
     {
-      "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / 7 profili / 5 prodotti / 1 negozio / 3 carrelli",
+      "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / 7 profili / 1 vetrina / 0 recensioni",
       "stato": "confermato",
-      "fonte": "verifica-sensori.mjs riconfermato dal vivo in questo passaggio (10:25)"
+      "fonte": "query SQL dirette via mcp__supabase-marketplace__execute_sql, eseguite dal vivo in questo passaggio (23:5x)"
+    },
+    {
+      "nome": "3 PR aperte tutte rosse (#749, #741, #735), stesso guasto dei passaggi precedenti",
+      "stato": "confermato",
+      "fonte": "node cervello/ci-stato.mjs eseguito dal vivo in questo passaggio (23:54)"
+    },
+    {
+      "nome": "letargo.mjs a livello RISPARMIO da 3 giri di fila (quota AI 55%, salute macchina 4)",
+      "stato": "confermato",
+      "fonte": "vincolo di sistema mostrato in cima a questa sessione (blocco 'Vincolo letargo'), numeri riportati testualmente, non ricalcolati da me"
     }
   ],
   "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9). Nessuna ricerca nuova aperta — rispettato il vincolo north-star (solo lavoro che sblocca il primo ordine o ripara la macchina).",
   "salute_macchina": {
-    "supabase": "verificato dal vivo in questo passaggio (REST ok, 10:25)",
-    "stripe": "ok (verifica-sensori.mjs, 10:25)",
+    "supabase": "verificato dal vivo in questo passaggio (REST ok + query dirette, 23:5x)",
+    "stripe": "ok (verifica-sensori.mjs, 23:53)",
     "dati_freschi": true,
     "sensori_attivi": 8,
-    "sito_uptime": "cieco (HTTP 503, migrazione Render→Vercel non fatta — registro-fatti.json → marketplace.hosting, non un guasto nuovo)"
+    "sito_uptime": "cieco (HTTP 503, migrazione Render→Vercel non fatta — registro-fatti.json → marketplace.hosting, non un guasto nuovo)",
+    "letargo": "RISPARMIO — 3° giro di fila, card #113 accodata per AR-687"
   },
-  "gate_correzione_nicola_confermati_invariati": "Diagnosticato in questo passaggio (card #95): 246/311 lezioni senza gate (sano:false), soglia 20. Non riparato (script gate-veri.mjs bloccato dall'allowlist), ma la causa del blocco stesso è ora esplicita e collegata a card #42 invece di restare un debito muto.",
-  "livello_verifica": "L2 (business riverificato con lo script REST dal vivo, non ereditato; coerenza-fatti e ci-stato riverificati dal vivo; il fix OKR verificato leggendo il codice sorgente del guardiano, non assunto)",
-  "refutazione": "REFUTAZIONE VERA su 2 claim di questo passaggio: ① 'il business è invariato dal passaggio delle 08:46' — verificato con verifica-sensori.mjs dal vivo — SOPRAVVIVE, identico. ② 'il fix di freschezza-okr.mjs risolve il falso positivo' — verificato rileggendo la funzione targetScaduti() riga per riga e confermando che il regex \\d{1,2}\\/\\d{1,2} non matcha più contro '2026-08-15' (niente slash) né contro nessun'altra cella della tabella (l'unica coppia rimasta, 24/8-1/9, è una data futura) — SOPRAVVIVE, ma non ho potuto rilanciare lo script stesso per la conferma finale (bloccato dall'allowlist): resta verifica di codice, non di esecuzione — dichiarato esplicitamente, non spacciato per verde.",
+  "gate_correzione_nicola_confermati_invariati": "Diagnosticato nei passaggi precedenti (card #95): 246/311 lezioni senza gate (sano:false), soglia 20. Non riverificato in questo passaggio (nessuna nuova ricerca: north-star gate impone di non investire su questo mentre il business è in stallo), stato ereditato.",
+  "livello_verifica": "L2 (business riverificato con query SQL dirette via MCP, non ereditato; sensori/coerenza-fatti/ci-stato riverificati dal vivo in questo passaggio, non ereditati dal precedente)",
+  "refutazione": "REFUTAZIONE VERA su 1 claim di questo passaggio: 'nulla è cambiato dal passaggio delle 23:35' — verificato riscrivendo da zero le query business (orders/profiles/seller_storefronts/reviews) invece di fidarsi del delta-gate, e rilanciando sensori/coerenza-fatti/ci-stato dal vivo — SOPRAVVIVE su tutti e quattro i fronti controllati.",
   "domande_per_nicola": [
     {
       "tipo": "manutenzione",
