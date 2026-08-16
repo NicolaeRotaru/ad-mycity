@@ -1205,3 +1205,28 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - Dimmi in che ordine ti riscrivo i tuoi dieci piani, ancora vecchi di un mese.
 
 **Dettagli tecnici** (sicurezza `#36`/`#37`/`#38` · risposte corte `#80`/`#66`/`#74`/`#76`/`#69` · PR #722 ancora rossa su 2 test · tasso di chiusura agosto 1,04, gate verde · dati confermati da `sensori-cecita.json` 22:27 del 14/8)
+
+## Punto di mezzogiorno · 2026-08-16 12:12
+
+**Contesto:** oggi non ho trovato un Piano del mattino scritto qui — il battito automatico è fermo da quasi 3 giorni (lo dice la card #94 in coda). Le priorità di oggi sono comunque quelle emerse da otto passaggi in chat dalle 07:40 in poi, sempre a business invariato. Questo blocco è il controllo di metà giornata su quel lavoro.
+
+**Stato delle priorità di oggi:**
+1. ❌ **Primo incasso (#62).** La pratica pagamenti di Pane Quotidiano resta ferma. Dipende dal fornaio, non da un blocco tecnico. Congelata dentro la pausa concordata con te fino al 24/8-1/9.
+2. ❌ **Sicurezza del sito (#36/#37/#38).** Tre falle vere — un pulsante ordine rotto, dati di negozi e clienti troppo aperti, cinque punti dove il marketplace perde soldi da solo — ferme da 18 giorni, ancora senza una tua risposta.
+3. 🔄 **Rendere la macchina più affidabile.** Stamattina: chiuso un duplicato in coda, riparato un falso allarme sul voto della squadra, trovati e riparati 3 test rotti veri (non il solito debito già noto). Due richieste di unione sono tornate verdi e pronte per la tua firma. Una terza resta rossa: non va approvata finché non torna verde. E resta ferma da 12 giorni la causa che blocca i giri automatici: 5 righe da correggere in un file sul server.
+
+**Dati controllati ora, in diretta (query al database, non ereditati):** 1 ordine in tutto, ancora mai pagato, del 24 giugno — stallo **53 giorni**, dentro la pausa concordata. 7 clienti, 5 prodotti: tutto invariato.
+
+**Correzioni di rotta:**
+- Nessuna urgenza nuova di business: il quadro è lo stesso di stamattina.
+- Una cosa da chiarire, non ancora un problema: un lavoro automatico ha preparato oggi un nuovo post per Pane Quotidiano senza il segno "in pausa" che portano tutti gli altri post fermi dal 18 luglio in poi. Prima di darti il testo per l'ok, verifico se è un'eccezione voluta o se va messo in pausa come gli altri.
+- Nessuna ricerca nuova aperta sui temi già guardati oggi: niente di nuovo li giustifica.
+
+**Serve da te entro sera:**
+- 🔴 Le tre falle di sicurezza ferme da 18 giorni.
+- 🟡 La correzione di 5 righe nel file dei permessi sul server — è la causa nota dei giri falliti da quasi due settimane.
+- 🔴 Le due richieste di unione pronte, codice già curato e testato.
+- 🟡 Una tua scelta su cosa deve voler dire "margine" nel voto di salute della macchina: quello di adesso o quello di una settimana fa.
+- 🔴 Il nuovo post per Pane Quotidiano, se vuoi che esca nonostante la pausa.
+
+**Dettagli tecnici** (priorità 1: card `#62` · priorità 2: card `#36`/`#37`/`#38` · priorità 3: `#104` causa nota giri falliti, `#102`/`#103` merge pronti PR #739/#738, `#89` PR #735 ancora rossa non mergiare, `#105` scelta `burn_down_margine`, card nuova senza tag pausa: `#106` · dati confermati da query SQL diretta 2026-08-16 12:02 UTC)

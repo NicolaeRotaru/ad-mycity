@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 12:05
+aggiornato: 2026-08-16 12:12
 fonte: AD digitale (chat)
 ---
+
+> 🕛 **16/8 12:12 — Punto di mezzogiorno.** Business riconfermato in diretta con query SQL (non ereditato): 1 ordine, mai pagato, del 24/6, 7 clienti, 5 prodotti — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. Nessuna novità di business dai passaggi di stamattina.
+>
+> Le 3 priorità di oggi (emerse dai passaggi in chat, non da un Piano del mattino scritto — il battito automatico è fermo da giorni, card #94): ❌ **#62** primo incasso, ferma sul fornaio · ❌ **#36/#37/#38** sicurezza del sito, ferme 18 giorni senza risposta · 🔄 **macchina più affidabile**, lavoro vero fatto (duplicato chiuso, falso allarme OKR riparato, 3 test rotti veri riparati, 2 PR tornate verdi e pronte per la firma — #102/#103 — una terza, #89/PR #735, resta rossa e non va mergiata).
+>
+> **Corretto in rotta:** segnalata a Nicola una card nuova (#106, post per Pane Quotidiano) che non porta il segno "in pausa" degli altri post fermi da luglio — da chiarire se è un'eccezione voluta prima di proporre la firma.
+>
+> Blocco completo in [[RITMO]].
 
 > 🟡 **16/8 12:05 — PLAYBOOK Contenuto del giorno eseguito: 1 post pronto per Pane Quotidiano, in attesa della firma di Nicola.**
 > Angolo nuovo (mai usato finora): "I fornelli restano spenti" — hummus di ceci bio (2,95€) e pesto genovese bio (5€), prezzi e descrizioni letti in diretta dal database (query SQL 16/8 ~12:00, seller Pane Quotidiano), coerenti con la fotografia del 23/7 (nessun prodotto/prezzo cambiato). Gate ONESTA passato: zero numeri inventati, zero testimonianze, nessuna prova sociale numerica citata (0 ordini pagati reali). Non duplica gli angoli già fatti (kefir-colazione 14/7, carosello-catalogo 23/7, BTS-mattina 20/7, volto-bottegaio 9/7).
@@ -1772,6 +1780,21 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (🕛 aggiornato 16/8 12:12 — punto di mezzogiorno)
+Business INVARIATO dal 24/6, riconfermato ORA con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (mai pagato, del 24/6), 0 pagati — **stallo 53 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Oggi il battito automatico (Piano del mattino/Report della sera) non è partito da solo (card #94, ferma da quasi 3 giorni): le priorità sotto sono quelle emerse da otto passaggi in chat dalle 07:40 in poi, non da un piano scritto stamattina.
+
+1. [ ] 🔴 **Decidi sulle tre falle di sicurezza/affidabilità del sito** (`#36` pulsante ordine rotto, `#37` dati di negozi/clienti leggibili senza login, `#38` cinque punti dove il marketplace perde soldi da solo) — ferme dal 29/7, **18 giorni**, pronte in branch, aspettano solo il via per l'anteprima.
+2. [ ] 🟡 **Correggi 5 righe nel file dei permessi sul server** (`#104`) — è la causa nota per cui i giri automatici falliscono da quasi due settimane; il checkup di salute è fermo per lo stesso motivo.
+3. [ ] 🔴 **Firma le due richieste di unione tornate verdi** (`#102` PR #739, `#103` PR #738) — codice già curato (154 difetti in due lotti), test passati. Non toccare invece `#89` (PR #735): resta rossa, non va mergiata finché il gate delle lezioni non torna verde.
+
+**Non dimenticare, invariata:** la mossa n.1 resta `#62`, la pratica pagamenti di Pane Quotidiano — il vero blocco del primo incasso, in attesa del fornaio, congelata fino al 24/8-1/9.
+
+**Nuovo da chiarire:** un lavoro automatico ha preparato oggi un post per Pane Quotidiano (`#106`) senza il segno "in pausa" che portano tutti gli altri post social fermi da metà luglio — prima di proporre la firma, verifico con Nicola se è un'eccezione voluta.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 53gg, atteso — negozi in pausa) · REST/MCP Supabase ✅ (riverificati con query diretta 12:02) · resto sensori invariato dall'ultima lettura di stamattina.
+
+---
 
 ## Prossime priorità (☀️ aggiornato 15/8 06:00 — piano del mattino)
 Business INVARIATO dal 24/6, confermato dal sensore diretto delle 22:27 del 14/8 (il più recente disponibile), zero numeri inventati: 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine mai pagato (CANCELED), 0 pagati. **Stallo 53 giorni.** È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Il tasso di chiusura del mese è tornato **sopra soglia (1,04)**: il giro può ricominciare a cercare, ma oggi le tre priorità restano decisioni da chiudere, non ricerche nuove.
