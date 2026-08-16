@@ -2,7 +2,7 @@
   "data": "2026-08-16 17:20",
   "esito": "non_verificato",
   "copertura": 0,
-  "origine": "locale",
+  "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 38,
   "cacce_aperte": 0,
