@@ -126,6 +126,23 @@ motivo_push_fallito() {
   esac
 }
 
+# frase_segnale_allineamento <rc> <rinvii> [causa-specifica] → la riga che ESCE dalla macchina.
+#
+# 2026-08-16 — il perché vero del blocco moriva sul server. `motivo_push_fallito` sa già distinguere
+# «il rebase ha trovato conflitti» da «GitHub ha rifiutato il push»: due guasti con due cure diverse.
+# Ma quella frase finiva solo su stderr, cioè nel journal di systemd, cioè solo per chi può entrare
+# nel VPS. Fuori — Pannello, telefono, sessione cloud — arrivava «commit del server non pubblicati»
+# e basta, che non dice né cosa è successo né cosa fare. Sei ore e mezza di macchina ferma con la
+# causa già scritta e mai uscita di casa: la stessa lezione del motore AI (lib-cadenza ③), non
+# ancora applicata qui.
+frase_segnale_allineamento() {
+  local rc="${1:-0}" rinvii="${2:-0}" causa="${3:-}"
+  local frase
+  frase="allineamento fermo da ${rinvii} giri (~$(( rinvii * 5 )) min): $(motivo_allineamento "$rc")"
+  [ -n "$causa" ] && frase="$frase — causa: $causa"
+  printf '%s\n' "$frase"
+}
+
 # motivo_allineamento <rc> — la frase da mettere nel log e nel segnale, in italiano.
 motivo_allineamento() {
   case "${1:-0}" in

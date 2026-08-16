@@ -45,7 +45,7 @@ MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
 if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
   url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
   (
-    flock -w 600 9 || exit 0   # Fix A: timeout sul lock — niente hang se un altro processo resta appeso
+    cadenza_sync_attendi monitora 600 || exit 0   # Fix A: timeout sul lock — niente hang se un altro processo resta appeso; e se scade, si dice (2026-08-16)
     # Fix B: se un run precedente è morto lasciando scritture del vault NON committate (siamo ancora sul
     # ramo della memoria), salvale e pushale PRIMA del reset distruttivo qui sotto, così non vengono perse.
     if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(git status --porcelain 2>/dev/null)" ]; then

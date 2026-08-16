@@ -32,6 +32,47 @@
 #
 # Il descrittore si rilascia da solo quando il processo muore: un kill o un crash non lascia
 # lucchetti orfani. (Questa parte del disegno esistente è corretta e va mantenuta — AR-293.)
+
+# Oltre quanti minuti un lucchetto non è più «una cadenza viva» ma un orfano. Un giro dura al
+# massimo poco più di un'ora. Si abbassa solo nei test (CADENZA_ORFANO_MIN=1).
+: "${CADENZA_ORFANO_MIN:=120}"
+
+# ── ①bis ROMPERE L'ORFANO, NON SOLO GRIDARLO — 2026-08-16 ────────────────────
+#
+# IL CASO VERO, pomeriggio del 16/8. Alle 13:36 una cadenza prende il lucchetto del giro e non lo
+# molla più. Da lì in poi, ogni cinque minuti, la macchina fa esattamente la cosa giusta: riconosce
+# l'orfano, lo misura, lo dichiara guasto sul canale che il Pannello legge. E poi non lo tocca.
+# Sei ore e mezza di silenzio, nessun giro, nessuna memoria pubblicata — con l'allarme acceso tutto
+# il tempo. Il difetto non era la diagnosi: era **credere che la diagnosi fosse la cura**.
+#
+# Perché si RUOTA il file invece di cancellarlo o di uccidere e basta: `flock` non vive sul nome, vive
+# sull'inode. Chi tiene il lucchetto lo tiene su QUEL file già aperto; spostargli il nome da sotto non
+# glielo strappa (e non corrompe niente), ma il prossimo `exec 8>` crea un inode NUOVO, libero. Così
+# il blocco si rompe anche quando chi lo tiene è un nipote che nessuno sa più uccidere — che è
+# esattamente il caso descritto in `lucchetto-che-non-si-libera.test.mjs`. Il file spostato resta su
+# disco come prova di chi era e da quando.
+#
+# Il kill viene PRIMA ed è best-effort, perché un processo appeso che scrive ancora nel vault è
+# peggio di un lucchetto: ma si uccide solo se il PID è davvero uno dei nostri copioni. I PID si
+# riciclano, e prendere per orfano il processo sbagliato è il modo di trasformare una cura in un danno.
+cadenza_lock_rompi() {
+  local tipo="$1" file="$2" pid="$3" eta="$4"
+  if [ -n "$pid" ] && kill -0 "$pid" 2>/dev/null; then
+    if tr '\0' ' ' <"/proc/$pid/cmdline" 2>/dev/null | grep -qE 'giro\.sh|ritmo\.sh|monitora\.sh|lib-cadenza'; then
+      echo "[$(ts)] 🔨 Cadenza «$tipo»: fermo il processo appeso $pid che tiene il lucchetto da ${eta} minuti." >&2
+      kill -TERM "$pid" 2>/dev/null || true
+      for _i in 1 2 3 4 5; do kill -0 "$pid" 2>/dev/null || break; sleep 1; done
+      kill -KILL "$pid" 2>/dev/null || true
+    else
+      echo "[$(ts)] Cadenza «$tipo»: il PID $pid del lucchetto non è un nostro copione — non lo tocco, ruoto solo il lucchetto." >&2
+    fi
+  fi
+  mv -f "$file" "$file.orfano" 2>/dev/null || rm -f "$file" 2>/dev/null || return 1
+  exec 8>"$file" || return 1
+  flock -n 8 || return 1
+  return 0
+}
+
 cadenza_lock() {
   local tipo="${1:?serve il tipo di cadenza}"
   local file="${REPO:-.}/.git/MYCITY_RUN_LOCK-${tipo}"
@@ -46,9 +87,11 @@ cadenza_lock() {
   # cancellando l'unica traccia di chi lo tiene e da quando. Sei tentativi falliti stanotte, e la
   # riga «PID data-ora» scritta dalla cadenza viva era già sparita al primo. Leggere dopo l'apertura
   # vuol dire leggere sempre il vuoto.
-  local eta_min=""
+  local eta_min="" pid_preso=""
   if [ -r "$file" ]; then
     local preso; preso="$(awk 'NR==1{print $2" "$3}' "$file" 2>/dev/null)"
+    pid_preso="$(awk 'NR==1{print $1}' "$file" 2>/dev/null)"
+    case "$pid_preso" in ''|*[!0-9]*) pid_preso="" ;; esac
     if [ -n "$preso" ]; then
       local t0; t0="$(date -d "$preso" +%s 2>/dev/null || echo "")"
       [ -n "$t0" ] && eta_min=$(( ( $(date +%s) - t0 ) / 60 ))
@@ -64,15 +107,32 @@ cadenza_lock() {
     # al massimo poco più di un'ora: oltre le due, «ne sta già girando una» non è più plausibile,
     # è un lucchetto orfano. Da qui in poi si dichiara come guasto, sul canale che il Pannello
     # legge, così il blocco arriva a Nicola invece di restare nel journal del server.
-    if [ -n "$eta_min" ] && [ "$eta_min" -ge 120 ]; then
-      echo "[$(ts)] ⛔ Cadenza «$tipo» BLOCCATA: il lucchetto $file è preso da ${eta_min} minuti — è orfano, non una cadenza viva. Nessun giro parte finché non si libera." >&2
-      CADENZA_TIPO="$tipo" CADENZA_ETA="$eta_min" CADENZA_LIB="${SCRIPT_DIR:-cervello}/git-github.mjs" \
+    if [ -n "$eta_min" ] && [ "$eta_min" -ge "$CADENZA_ORFANO_MIN" ]; then
+      echo "[$(ts)] ⛔ Cadenza «$tipo» BLOCCATA: il lucchetto $file è preso da ${eta_min} minuti — è orfano, non una cadenza viva." >&2
+      # La diagnosi non basta: si rompe. Un allarme che suona per ore senza che nessuno agisca è
+      # indistinguibile da una macchina spenta — e per Nicola è peggio, perché sembra viva.
+      local _stato _msg
+      if cadenza_lock_rompi "$tipo" "$file" "$pid_preso" "$eta_min"; then
+        _stato="ok"
+        _msg="lucchetto orfano da ${eta_min} minuti rimosso da solo: la cadenza è ripartita"
+        echo "[$(ts)] 🔓 Cadenza «$tipo»: lucchetto orfano rimosso (prova in ${file}.orfano) — riparto." >&2
+      else
+        _stato="errore"
+        _msg="lucchetto orfano da ${eta_min} minuti: non sono riuscito a liberarlo, nessuna cadenza parte"
+        echo "[$(ts)] ⛔ Cadenza «$tipo»: il lucchetto orfano NON si è liberato — serve una mano sul server." >&2
+      fi
+      CADENZA_TIPO="$tipo" CADENZA_MSG="$_msg" CADENZA_STATO="$_stato" \
+      CADENZA_LIB="${SCRIPT_DIR:-cervello}/git-github.mjs" \
       node -e '
         import(require("node:url").pathToFileURL(process.env.CADENZA_LIB).href).then(async (m) => {
-          await m.stampSegnale(`cadenza-${process.env.CADENZA_TIPO}`, "errore",
-            `lucchetto orfano da ${process.env.CADENZA_ETA} minuti: nessuna cadenza parte`);
+          await m.stampSegnale(`cadenza-${process.env.CADENZA_TIPO}`,
+            process.env.CADENZA_STATO, process.env.CADENZA_MSG);
         }).catch(() => {});
       ' >/dev/null 2>&1 || true
+      if [ "$_stato" = "ok" ]; then
+        printf '%s %s\n' "$$" "$(date '+%Y-%m-%d %H:%M:%S')" >&8 2>/dev/null || true
+        return 0
+      fi
       return 1
     fi
     echo "[$(ts)] ⏭️  Cadenza «$tipo»: ne sta già girando una da ${eta_min:-?} minuti (lucchetto $file) — esco senza fare nulla."
@@ -80,6 +140,31 @@ cadenza_lock() {
   fi
   printf '%s %s\n' "$$" "$(date '+%Y-%m-%d %H:%M:%S')" >&8 2>/dev/null || true
   return 0
+}
+
+# ─────────────────────────────────────────────────────────────────────────────
+# ①ter IL LUCCHETTO GIT CHE NON SI PRENDE — 2026-08-16
+# ─────────────────────────────────────────────────────────────────────────────
+# `flock -w 600 9 || exit 0`, scritta identica in giro.sh, ritmo.sh e monitora.sh. Dieci minuti di
+# attesa e poi silenzio: nessun segnale, nessuna riga, nessuna traccia. È la stessa malattia del
+# lucchetto di esecuzione presa uno stadio prima — lì almeno si gridava. Qui il turno se ne va, la
+# memoria non viene pubblicata, e da fuori si vede solo un giro che «non ha pubblicato» senza il
+# perché. Il codice d'uscita resta 0 apposta: il chiamante è una subshell e cambiare il suo controllo
+# di flusso è un'altra modifica; quello che mancava era che il fatto uscisse dalla macchina.
+#
+# cadenza_sync_attendi <tipo> [secondi] — 0 se il lucchetto git (fd 9) è nostro, 1 se scade.
+cadenza_sync_attendi() {
+  local tipo="${1:-cadenza}" secondi="${2:-600}"
+  flock -w "$secondi" 9 && return 0
+  echo "[$(ts)] ⛔ «$tipo»: lucchetto git ancora occupato dopo ${secondi}s — la memoria di questo turno NON viene pubblicata." >&2
+  CADENZA_TIPO="$tipo" CADENZA_SEC="$secondi" CADENZA_LIB="${SCRIPT_DIR:-cervello}/git-github.mjs" \
+  node -e '
+    import(require("node:url").pathToFileURL(process.env.CADENZA_LIB).href).then(async (m) => {
+      await m.stampSegnale(`sync-${process.env.CADENZA_TIPO}`, "errore",
+        `lucchetto git occupato oltre ${process.env.CADENZA_SEC}s: memoria non pubblicata in questo turno`);
+    }).catch(() => {});
+  ' >/dev/null 2>&1 || true
+  return 1
 }
 
 # ─────────────────────────────────────────────────────────────────────────────

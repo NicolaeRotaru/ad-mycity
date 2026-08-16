@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-16 17:24",
+  "aggiornato": "2026-08-16 19:30",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -15895,6 +15895,82 @@
       "chiuso_il": "2026-08-16 17:24",
       "chiuso_come": "node cervello/test/cancello-stop.test.mjs → exit 0 (guardiano soddisfatto)",
       "corroborata": true
+    },
+    {
+      "id": "AR-756",
+      "stato": "chiuso",
+      "dimensione": "trovato-riparando",
+      "gravita": "grave",
+      "titolo": "Quando l@ interruttore di pausa non risponde, ogni cadenza si ferma e nessuno lo viene a sapere",
+      "causa_radice": "pausa_consenti_partenza si ferma - giustamente - se non riesce a leggere lo stato della pausa: meglio fermi che partiti mentre Nicola crede di aver messo in pausa. Ma il fatto lo scrive solo su stderr, e i tre copioni lo raccolgono con «|| exit 0». Se Supabase diventa irraggiungibile mentre le chiavi ci sono, giro, ritmo e monitoraggio si fermano tutti insieme e fuori dalla macchina non arriva niente: nessun segnale sul canale che il Pannello legge, nessuna riga in memoria. E la memoria non si pubblica proprio perche le cadenze sono ferme, quindi il guasto non puo raccontarsi da solo. E la stessa famiglia del lucchetto orfano curato oggi, sul terzo punto di ingresso.",
+      "fix_proposto": "Il fail-closed resta comera: e la scelta giusta. Cambia solo che il motivo esca dalla macchina, come fa ora cadenza_sync_attendi: una stampSegnale su pausa-<tipo> con «stato pausa non verificabile» prima del return 1. Cosi in Cabina si distingue «Nicola ha messo in pausa» da «non riesco a leggere se e in pausa», che oggi sono indistinguibili da fuori.",
+      "dove": "cervello/kill-switch.sh (pausa_consenti_partenza) · cervello/giro.sh:136 · cervello/ritmo.sh:84 · cervello/monitora.sh:36",
+      "impatto_crescita": "ferma tutte le cadenze insieme senza allarme: la stessa forma del blocco di oggi, che e costato sei ore e mezza",
+      "nato": "2026-08-16 19:10",
+      "nato_come": "scoperta",
+      "nato_da": "caccia agli altri fermi-giro dopo il blocco del 16/8",
+      "verifica": {
+        "comando": "node cervello/test/pausa-cieca-che-non-si-vede.test.mjs",
+        "nota": "Il segnale e OSSERVATO, non cercato nel sorgente: SCRIPT_DIR punta a un canale finto che scrive su file, e il test guarda cosa ci arriva."
+      },
+      "fix_fatto": "Il fail-closed resta comera - e la scelta giusta. Cambia che il motivo ESCE dalla macchina: pausa_segnala_cieco stampa un segnale sul canale che il Pannello legge, cosi in Cabina si distingue «Nicola ha messo in pausa» da «non riesco a leggere se e in pausa». Una pausa voluta non suona: solo il guasto.",
+      "chiuso": "2026-08-16 19:30"
+    },
+    {
+      "id": "AR-757",
+      "stato": "aperto",
+      "dimensione": "trovato-riparando",
+      "gravita": "bloccante",
+      "titolo": "Quando i commit del server non si pubblicano, la macchina non puo piu ricevere nessuna correzione",
+      "causa_radice": "aggiorna-cervello.sh fa la cosa giusta a fermarsi: se i commit locali non si pubblicano, allinearsi li cancellerebbe. Ma da li in poi non esiste nessuna via di uscita automatica. Il server resta sulla versione vecchia del codice e ci resta per sempre, riprovando la stessa cosa ogni cinque minuti - 72 volte il 16/8, sei ore. Il guaio vero non e il blocco: e che in quello stato il server non puo ricevere nemmeno la correzione che sbloccherebbe il blocco. Ogni cura scritta nel repo e irraggiungibile finche non entra una mano umana nel VPS.",
+      "fix_proposto": "Dare al lavoro intrappolato una uscita sicura invece di un muro: dopo N tentativi falliti, spingere i commit locali su un ramo di salvataggio (vps/salvataggio-<data>) invece che su main. Il lavoro e salvo su GitHub, il checkout -f non puo piu cancellarlo, il server torna ad allinearsi da solo e Nicola si ritrova un ramo da unire con calma. Nessuna forzatura, nessuna perdita.",
+      "dove": "cervello/vps/aggiorna-cervello.sh (il ciclo dei 3 tentativi) · cervello/vps/watch-main.sh",
+      "impatto_crescita": "e il difetto che rende inutile ogni altra riparazione: finche vive, le cure non arrivano alla macchina",
+      "nato": "2026-08-16 19:10",
+      "nato_come": "scoperta",
+      "nato_da": "blocco del 16/8: allineamento fermo da 72 giri con la cura del lucchetto gia scritta e mai arrivata",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Serve un repo finto con due storie divergenti e un remoto scrivibile: da questa sessione non ho un remoto su cui provare il push del ramo di salvataggio. Debito dichiarato: il fix non si scrive finche non si puo provare."
+      }
+    },
+    {
+      "id": "AR-758",
+      "stato": "chiuso",
+      "dimensione": "trovato-riparando",
+      "gravita": "bloccante",
+      "titolo": "Il lucchetto orfano la macchina lo riconosce, lo grida e non lo toglie mai: sei ore e mezza ferma con lallarme acceso",
+      "causa_radice": "cadenza_lock sapeva gia distinguere «ne sta girando una» da «e un orfano»: oltre due ore lo dichiarava guasto sul canale che il Pannello legge. E poi usciva senza toccarlo, ogni cinque minuti, per sempre. Il 16/8 il lucchetto del giro e stato preso alle 13:36 e non e piu stato mollato: nessuna cadenza partita, nessuna memoria pubblicata, e lallarme acceso per tutto il tempo. Il difetto non era la diagnosi - quella era giusta e precisa - era credere che la diagnosi fosse la cura. La stessa forma dei difetti che questa casa ha gia pagato: una riga informativa su una macchina ferma.",
+      "fix_fatto": "Dopo la dichiarazione si rompe. Prima si prova a fermare il processo appeso, ma solo se il PID e davvero uno dei nostri copioni (i PID si riciclano: uccidere quello sbagliato trasformerebbe la cura in un danno). Poi si RUOTA il file invece di cancellarlo: flock vive sullinode, non sul nome, quindi il prossimo exec 8> apre un inode nuovo e libero. Funziona anche quando chi tiene il lucchetto e un nipote che nessuno sa piu uccidere - il caso gia documentato nello stesso test. Il file spostato resta su disco come prova di chi era.",
+      "dove": "cervello/lib-cadenza.sh (cadenza_lock, cadenza_lock_rompi)",
+      "impatto_crescita": "e il fermo-macchina piu costoso: blocca ogni cadenza insieme, e il Pannello continua a mostrare a Nicola numeri vecchi come se fossero di oggi",
+      "nato": "2026-08-16 18:40",
+      "nato_come": "scoperta",
+      "chiuso": "2026-08-16 19:30",
+      "nato_da": "Nicola: «gli ultimi giri di perlustrazione non sono partiti, l ultimo e alle 11»",
+      "verifica": {
+        "comando": "node cervello/test/lucchetto-che-non-si-libera.test.mjs",
+        "nota": "Prova comportamentale: con un lucchetto vecchio di cinque ore la cadenza deve PARTIRE (RC=0), con uno di cinque minuti non deve rubarlo (RC=1). Tolta la cura, il test diventa rosso - verificato."
+      }
+    },
+    {
+      "id": "AR-759",
+      "stato": "chiuso",
+      "dimensione": "trovato-riparando",
+      "gravita": "grave",
+      "titolo": "Il lucchetto git scadeva dopo dieci minuti senza dire niente, e il turno spariva",
+      "causa_radice": "«flock -w 600 9 || exit 0», scritta identica in giro.sh, ritmo.sh e monitora.sh. Se il lucchetto git e occupato la cadenza aspetta dieci minuti e poi esce: il turno e andato, la memoria non e stata pubblicata, e fuori non arriva una riga. E la stessa malattia del lucchetto di esecuzione presa uno stadio prima - li almeno si gridava. Trovato cercando gli ALTRI modi in cui il giro puo fermarsi, dopo il blocco del 16/8.",
+      "fix_fatto": "Le tre copie chiamano ora cadenza_sync_attendi, che se il lucchetto non arriva lo dice sul canale del Pannello e torna 1. Il codice duscita del chiamante resta 0 apposta: e dentro una subshell e cambiarne il controllo di flusso e unaltra modifica. Quello che mancava era che il fatto uscisse dalla macchina.",
+      "dove": "cervello/lib-cadenza.sh (cadenza_sync_attendi) · cervello/giro.sh · cervello/ritmo.sh · cervello/monitora.sh",
+      "impatto_crescita": "fa sparire un turno intero senza lasciare traccia: da fuori si vede solo un giro che non ha pubblicato, senza il perche",
+      "nato": "2026-08-16 18:55",
+      "nato_come": "scoperta",
+      "chiuso": "2026-08-16 19:30",
+      "nato_da": "caccia agli altri fermi-giro chiesta da Nicola dopo il blocco",
+      "verifica": {
+        "comando": "node cervello/test/lucchetto-che-non-si-libera.test.mjs",
+        "nota": "Un altro processo tiene il lucchetto git: la cadenza deve tornare 1 e dirlo. Col lucchetto libero deve tirare dritto senza rumore."
+      }
     }
   ],
   "meta": {

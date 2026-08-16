@@ -96,7 +96,7 @@ MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
 if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
   url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
   (
-    flock -w 600 9 || exit 0
+    cadenza_sync_attendi "ritmo-$RITMO_TIPO" 600 || exit 0   # e se il lucchetto git non arriva, si dice (2026-08-16)
     # AR-028: allineamento NON distruttivo, identico a giro.sh. Prima il `checkout -f -B FETCH_HEAD`
     # committava le scritture pendenti e SUBITO DOPO resettava il ramo al remoto, ORFANANDO quel commit
     # e qualunque commit locale non ancora pushato (memoria di un giro il cui push era fallito, righe
