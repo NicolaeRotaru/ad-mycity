@@ -458,7 +458,11 @@
             "pattern": "42 file reali",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-16 22:26",
+          "chiuso_come": "cervello/sentinelle.md NON contiene /42 file reali/ → assente",
+          "chiuso_da": "verifica-codice"
         }
       ],
       "giro": "2026-07-30 05:09"
@@ -1473,7 +1477,11 @@
             "pattern": "_rinvii \\* 5",
             "presente": false
           },
-          "confermato": true
+          "confermato": true,
+          "stato": "chiuso",
+          "chiuso_il": "2026-08-16 22:26",
+          "chiuso_come": "cervello/vps/watch-main.sh NON contiene /_rinvii \\* 5/ → assente",
+          "chiuso_da": "verifica-codice"
         },
         {
           "titolo": "Lo schema del DB della memoria si applica a mano dal SQL Editor: nessun registro di cosa è applicato, nessun guardiano che misuri la deriva",
@@ -4803,7 +4811,7 @@
     }
   ],
   "sonda": {
-    "data": "2026-08-16 22:20",
+    "data": "2026-08-16 22:36",
     "loop_chiude": false,
     "tasso_applicazione": 0.12,
     "soglia_applicazione": 0.3,
@@ -4831,12 +4839,12 @@
       "EXP-013",
       "EXP-014"
     ],
-    "giro_a_cadenza": false,
+    "giro_a_cadenza": true,
     "sentinelle_scattano": true,
     "ore_da_ultima_completa": 129,
-    "ore_da_ultimo_briefing": 11,
-    "max_giri_ciechi_sensori": 165,
-    "giri_tasso_basso": 130,
+    "ore_da_ultimo_briefing": 0,
+    "max_giri_ciechi_sensori": 166,
+    "giri_tasso_basso": 131,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
@@ -4846,7 +4854,7 @@
     "bloccanti_umani": 36,
     "salute_firma": "AR-045,AR-046,AR-047,AR-048,AR-050,AR-051,AR-052,AR-053,AR-054,AR-055,AR-056,AR-057,AR-058,AR-059,AR-060,AR-061,AR-062,AR-063,AR-064,AR-065,AR-067,AR-068,AR-069,AR-070,AR-071,AR-072,AR-073,AR-074,AR-075,AR-076,AR-077,AR-078,AR-079,AR-080,AR-081,AR-082,AR-083,AR-084,AR-085,AR-086,AR-087,AR-088,AR-089,AR-091,AR-092,AR-093,AR-094,AR-095,AR-096,AR-100,AR-102,AR-103,AR-104,AR-128,AR-131,AR-133,AR-142,AR-158,AR-160,AR-161,AR-174,AR-175,AR-181,AR-184,AR-190,AR-192,AR-193,AR-199,AR-200,AR-206,AR-210,AR-274,AR-283,AR-289,AR-290,AR-329,AR-351,AR-352,AR-354,AR-365,AR-366,AR-386,AR-394,AR-396,AR-398,AR-411,AR-436,AR-518,AR-521,AR-560,AR-561,AR-576,AR-584,AR-588,AR-598,AR-611,AR-618,AR-622,AR-640,AR-641,AR-684,AR-693,AR-726,AR-727,AR-728,AR-729,AR-730,AR-731,AR-732,AR-733,AR-734,AR-735,AR-736,AR-737,AR-738,AR-739,AR-740,AR-741,AR-742,AR-743,AR-744,AR-745,AR-746,AR-747,AR-748",
     "verdetto": "serve-completa",
-    "nota": "le lezioni non si usano: tasso 12% sotto la soglia 30% · 8 esperimenti dichiarati misurati e mai testati · briefing STALE (11h) · cecità sensori 165 giri · salute pending-merge 0/100 (floor 0): 125 aperti-davvero · 0 in attesa merge · 36 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)",
+    "nota": "le lezioni non si usano: tasso 12% sotto la soglia 30% · 8 esperimenti dichiarati misurati e mai testati · briefing 0h fa · cecità sensori 166 giri · salute pending-merge 0/100 (floor 0): 125 aperti-davvero · 0 in attesa merge · 36 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)",
     "voto_salute": 4,
     "voto_salute_copertura": "radiografia",
     "voto_salute_parziale": false,
@@ -4899,8 +4907,8 @@
     "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
   },
   "sync_scan": {
-    "aggiornato": "2026-08-16 11:41",
-    "findings_aperti": 260,
+    "aggiornato": "2026-08-16 22:26",
+    "findings_aperti": 258,
     "findings_non_instradabili": 163,
     "findings_non_instradabili_ids": [
       "Cinquantasei schede del cantiere hanno una gravità scritta in una lingua che i contatori n",
@@ -4945,18 +4953,24 @@
       "Il ripasso automatico quando torni sulla scheda è stato costruito per dieci caselle e ne s"
     ],
     "findings_in_corso": 0,
-    "findings_chiusi": 26,
+    "findings_chiusi": 28,
     "findings_tot": 286,
-    "cantiere_aperti": 123,
+    "cantiere_totale": 752,
+    "cantiere_aperti": 105,
     "cantiere_in_corso": 0,
-    "cantiere_chiusi": 537,
-    "match_aggiornati": 0,
-    "chiusi_verifica": 0,
+    "cantiere_da_riverificare": 56,
+    "cantiere_altri": 0,
+    "cantiere_chiusi": 591,
+    "cantiere_da_fare": 161,
+    "cantiere_somma_torna": true,
+    "cantiere_stati_ignoti": [],
+    "match_aggiornati": 2,
+    "chiusi_verifica": 2,
     "data_scan": "2026-08-11 13:37"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 130,
-    "aggiornato": "2026-08-16 22:20"
+    "giri_tasso_basso": 131,
+    "aggiornato": "2026-08-16 22:36"
   },
   "zone_non_viste": [
     "Il worker e il VPS: da questa sessione non si vedono. Non ho potuto verificare se lo script che scrive AZIONI-IN-ATTESA sul server si comporti come la copia locale che ho letto, né se là il file sia più grande o più piccolo.",

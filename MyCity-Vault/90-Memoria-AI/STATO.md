@@ -1,8 +1,17 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 18:54
+aggiornato: 2026-08-16 22:29
 fonte: AD digitale (chat)
 ---
+
+> 🔄 **16/8 22:29 — Giro richiesto in chat, ~6h dopo il report della sera (18:01). Business invariato, novità sulla coda PR.**
+> Riconfermato dal vivo con `verifica-sensori.mjs` (22:27, REST): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. `coerenza-fatti.mjs` ✅ coerente, 0 cacce aperte. Il worker sul VPS ha continuato a girare da solo tra le 21:10 e le 22:26 (recuperi, riconcilia, sentinella salute — voto 4, coerente col letargo già segnalato): nessuna novità di business in quei passaggi.
+>
+> **Novità vera: per la prima volta oggi, zero PR sono pronte per la firma di Nicola.** `ci-stato.mjs` rilanciato dal vivo: **PR #749 (card #111), verde quando accodata alle 21:02, è ora rossa** (2 controlli falliti su 2, stesso schema di #735/#741 — nuovi commit sul ramo l'hanno rotta). **PR #738 (card #103) è confermata già mergiata** (`git log origin/main`, commit `ceb988da1`) — chiusa senza bisogno di un Approva. Le 3 PR rimaste aperte (#749, #741, #735) sono tutte rosse: nuova card **#112** riassume lo stato. `main` locale e `origin/main` risultano allineati (nessuna divergenza residua dal recupero delle 21:20).
+>
+> Strategia snella applicata ([[playbook-giro-pieno-ripetuto-strategia]]): non rilanciate query pesanti né riscritti i JSON pesanti dell'auto-coscienza (freschi da meno di 40 minuti, entità e business identici).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38), **#109** (come procedere con le 3 PR rosse croniche — domanda aperta a Nicola).
 
 > 🛠️ **16/8 18:54 — Lavoro sulla sorveglianza del turno, chiesto da Nicola in chat. Business invariato: nessun sensore riletto, nessun numero nuovo.**
 > **Cosa è stato costruito (PR #744, ramo `claude/work-monitoring-question-78o2e4`, NON mergiata — la firma è di Nicola).** Le prime tre mosse dell'elenco concordato: ① `cervello/libro-mastro.mjs` — ogni mossa del turno lascia una riga con la guardia che l'ha vista e il verdetto che ha dato (misurato dal vivo: 70 mosse in un turno, 4 guardie, 0 senza risposta); ② `cervello/mappa-copertura.mjs` — tre stati (sorvegliato · solo-avviso · scoperto) derivati dai matcher veri e dagli strumenti usati davvero, letti dalla trascrizione e non da un elenco a mano; ③ il silenzio di una guardia non vale più come ok — chi si sveglia apre la sua riga e la chiude, e una riga rimasta aperta arriva a Nicola dal cancello dello Stop.

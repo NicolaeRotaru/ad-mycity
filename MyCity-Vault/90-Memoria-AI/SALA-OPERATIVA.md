@@ -1041,3 +1041,9 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-16 18:01 · @ad · FATTO · Aggiornati i 7 numeri in [[STATO]] (query diretta 18:00) e scritto il blocco «Report della sera · 2026-08-16 18:01» in [[RITMO]], con le 3 voci da approvare (sicurezza #36/#37/#38, merge pronto #103, post PQ #106) e la lezione del giorno (guardiano che legge una data storica come scadenza).
 - 2026-08-16 18:01 · @ad · SERVE · Da Nicola entro domani: le 3 card di sicurezza (#36/#37/#38, 19gg) · la firma su #103 (PR #738 verde) · conferma o pausa sul post #106 · la scelta su #105 (`burn_down_margine`) · la parola su #107 (CI cronica: riparare ora o congelare) · #104 (permessi VPS, causa nota dei giri falliti, 13gg).
 - 2026-08-16 18:01 · @ad · FACCIO · Nessuna azione business sbloccabile prima del 24/8-1/9. Mossa n.1 resta invariata: #62, la pratica pagamenti di Pane Quotidiano.
+
+### 2026-08-16 22:29 — Giro richiesto in chat (~6h dopo il report della sera)
+- 2026-08-16 22:29 · @ad · FATTO · verifica-sensori.mjs + coerenza-fatti.mjs rilanciati dal vivo: business invariato dal 24/6 (53gg di stallo), memoria coerente. Strategia snella applicata (delta-gate: unico cambio è lo stato PostHog, già deciso da Nicola il 5/7).
+- 2026-08-16 22:29 · @ad · FATTO · ci-stato.mjs rilanciato dal vivo: PR #749 (card #111) è passata da verde a rossa dopo l'accodamento; PR #738 (card #103) confermata mergiata via `git log origin/main` (commit ceb988da1) e chiusa. Le 3 PR aperte (#749, #741, #735) sono ora tutte rosse — nessuna pronta per la firma.
+- 2026-08-16 22:29 · @ad · FATTO · Accodata card #112 in AZIONI-IN-ATTESA: riassume che zero PR sono pronte per l'approvazione in questo momento, nessuna azione richiesta da Nicola su questo fronte.
+- 2026-08-16 22:29 · @ad · SERVE · Invariato: card #62 resta l'unico vero blocco al primo incasso. Card #109 resta aperta: come procedere con le PR rosse croniche.
