@@ -824,7 +824,10 @@ function main() {
     ? debitoDiMutazione(difetti, (id) => !senzaMutazioneTutti.has(id), riapertoAdesso)
     : { riparati: [], aperti: [], riaperti: [], senzaProvaAComando: 0 };
   const senzaMutazioneContati = senzaMutazione.filter((x) => !riapertoAdesso(x.id));
-  const mutNelLotto = toccati ? senzaMutazioneContati.filter((x) => toccati.includes(x.id)) : [];
+  // La mutazione appartiene alla PROVA, non alla scheda: se non l'hai scritta tu, la sua mutazione
+  // è debito di chi l'ha scritta e resta contata nel tetto. (Le riaperture erano già escluse sopra
+  // con `riapertoAdesso`: dichiarare «non è riparato» non è chiedere una mutazione.)
+  const mutNelLotto = proveDelLotto ? senzaMutazioneContati.filter((x) => proveDelLotto.includes(x.id)) : [];
   for (const x of mutNelLotto) {
     violazioniProve.push({
       regola: "mutazione-mancante",
@@ -917,7 +920,11 @@ function main() {
       regola: "prove-oneste",
       // Rosso e zero id estratti = non ho saputo contare → `null`, e allora non si assolve niente.
       quanti: disonesti.length || null,
-      delLotto: toccati ? disonesti.filter((id) => toccati.includes(id)) : null,
+      // Stessa distinzione della regola dell'OR: il blocco duro guarda chi ha SCRITTO la prova.
+      // Il commento qui sopra dice perché il filtro esiste — «un lotto sano restava bloccato dalle
+      // prove disoneste di radiografie vecchie» — e filtrare sui toccati invece che sulle prove
+      // scritte riapriva proprio quella porta (16/8).
+      delLotto: proveDelLotto ? disonesti.filter((id) => proveDelLotto.includes(id)) : null,
       tetto: tetti.prove_oneste ?? null,
       avvisi,
       violazioni: violazioniProve,
