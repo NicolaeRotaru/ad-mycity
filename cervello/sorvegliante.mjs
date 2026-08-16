@@ -1963,25 +1963,25 @@ export function scatto(esito, nToccati) {
 }
 
 /**
- * Lo strumento che ha svegliato questo hook, letto dal payload dell'evento.
+ * IL NOME DELLO STRUMENTO NON SI LEGGE DA STDIN — e la prima stesura di questo pezzo lo faceva.
  *
- * Questa guardia non aveva mai letto stdin: il suo giudizio nasce dal diff, non dalla mossa. Ma il
- * libro mastro deve poter dire QUALE strumento è stato guardato, altrimenti la mappa di copertura
- * resta cieca proprio sulla guardia che copre più cose. Si legge in modo sincrono perché `main()` lo
- * è, e solo quando stdin NON è un terminale: lanciato a mano il file resterebbe lì ad aspettare per
- * sempre, e una guardia che si pianta è peggio di una che non sa il nome dello strumento.
+ * COSA È SUCCESSO, il 16/8, mezz'ora dopo averlo scritto. Per mettere nel libro mastro QUALE
+ * strumento avesse svegliato la guardia, leggevo il payload dell'evento con una lettura sincrona,
+ * protetta da un `isTTY`. Quel guardia copre un caso solo: il file lanciato da un terminale. Non
+ * copre quello che conta — un chiamante che apre il canale e non lo chiude mai. Lì la lettura non
+ * torna PIÙ, e la guardia resta appesa per sempre.
+ *
+ * Misurato: `sleep 60 | node cervello/sorvegliante.mjs --hook` non finiva. Dentro l'hook vero il
+ * danno era limitato (Claude Code chiude stdin, e comunque c'è un tempo massimo), ma il programma
+ * che esegue tutte le prove spawna i file con un canale aperto: sul mio ramo non finiva più, mentre
+ * su main finiva in meno di novanta secondi. Una guardia che PIANTA chi la esegue è peggio di una
+ * guardia che non sa il nome dello strumento.
+ *
+ * PERCHÉ TOGLIERLO NON COSTA NIENTE. La mappa di copertura non ricava da qui chi sorveglia cosa:
+ * quello lo legge dai matcher del file dei freni. Dal libro mastro prende solo l'ELENCO degli
+ * strumenti usati, e quell'elenco arriva già dalle altre guardie e dalla trascrizione. Il nome qui
+ * era un di più; l'attesa infinita no.
  */
-function strumentoDellHook() {
-  if (process.stdin.isTTY) return { nome: "", nota: "lanciato a mano: nessun payload da leggere" };
-  try {
-    return { nome: String(JSON.parse(readFileSync(0, "utf8"))?.tool_name || ""), nota: "" };
-  } catch (e) {
-    // Non torno una stringa vuota e via: il nome che manca è un PEZZO DI FONTE che non ho letto, e
-    // deve arrivare al registro. Se sparisse, la mappa di copertura conterebbe una mossa in meno e
-    // sarebbe più verde di quanto ho misurato — la malattia `fonte-troncata-letta-per-intera`.
-    return { nome: "", nota: `payload dell'evento non leggibile: ${e?.message || e}` };
-  }
-}
 
 function main() {
   const argv = process.argv.slice(2);
@@ -2016,10 +2016,7 @@ function main() {
   // può morire a metà (il calcolo del diff è la parte lenta, ed è dove scade il tempo massimo).
   // Senza l'apertura, un sorvegliante ucciso dal timeout lascerebbe la stessa traccia di uno che ha
   // detto ✅: nessuna. Con l'apertura, la mossa risulta NON guardata, che è la verità.
-  const daPayload = hook ? strumentoDellHook() : { nome: "", nota: "" };
-  const mastro = hook
-    ? annota({ guardia: "sorvegliante", evento: "PostToolUse", strumento: daPayload.nome, bersaglio: daPayload.nota || "delta del repo" })
-    : "";
+  const mastro = hook ? annota({ guardia: "sorvegliante", evento: "PostToolUse", strumento: "", bersaglio: "delta del repo" }) : "";
 
   const { errore, esito, toccati } = verdettoDelDelta({ soloStaged, da: base });
   if (errore) {
