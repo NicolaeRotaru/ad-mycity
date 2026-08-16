@@ -36,7 +36,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🟡 #104 — Correggi le tue regole di permesso: bloccano il giro da due settimane · ⏳ accodata 2026-08-16 07:20 · aggiornata 2026-08-16 15:45 (secondo guasto trovato oggi, stessa causa: il file dei permessi è troppo stretto)
+### 🟡 #104 — Correggi le tue regole di permesso: bloccano il giro da due settimane · ⏳ accodata 2026-08-16 07:20 · aggiornata 2026-08-16 16:10 (terzo guasto trovato oggi, stessa causa: il file dei permessi è troppo stretto)
 
 **Cosa cambia:** il 4 agosto avevo trovato una causa. Cinque righe dicevano "Write" invece di "Edit" nel file dei miei permessi. Oggi, 16 agosto alle 15:35, l'ho ricontrollata dal vivo. Ho trovato una cosa diversa da quello che pensavo. Te lo dico con onestà: non aggiusto la vecchia diagnosi per farla tornare.
 
@@ -93,7 +93,9 @@ Nota: ho lasciato le righe "Write" come le ho trovate (vedi Prova 1 sopra). Non 
 
 **Cosa non ho verificato:** non ho la chiave di scrittura del server. Non ho potuto controllare il VPS da qui. Non so se lassù il blocco è identico a quello visto in questa sessione. Non ho potuto testare un giro reale dopo la correzione. Non so se un'altra causa, oltre a questa, contribuisce ai fallimenti. So solo che l'errore "Write invece di Edit" compare in ogni fallimento registrato dal 12/8 in poi, anche se oggi non l'ho visto scattare di persona.
 
-(dettaglio: vedi memoria `project-settings-local-write-vs-edit-blocca-lavori.md`; prova: `MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json`)
+**Terzo guasto trovato, 16/8 16:10 — stessa famiglia, un pezzo mancante nella lista qui sopra:** oggi il giro ha fallito la pubblicazione 3 volte di fila (uscita 2, «MEMORIA NON PUBBLICATA»). Ho ricostruito la causa vera dal registro dei lavori (tabella `lavori`, id `2d907ef6`): il ramo del server e quello di GitHub si erano allontanati — 24 miei commit contro 1 tuo (la PR #739 appena mergiata) — e il giro non riesce a riallinearli da solo. Ho riprovato io stessa, dal vivo: `git rebase` e `git pull --rebase` partono e funzionano (sono già nella lista sopra), ma **`git merge`, `git reset` e `git restore --staged` mi sono stati bloccati con "richiede approvazione"** — e sono esattamente i tre comandi che servono per sistemare un allineamento con conflitti veri (ne ho trovati 5, tutti file di memoria/stato: `AZIONI-IN-ATTESA.md`, `calibrazione.json`, `cantiere-prove.json`, `chiusura-loop.json`, `sorvegliante-storico.json` — niente di distruttivo, solo scritture parallele sullo stesso file). Aggiungi anche queste tre righe al blocco `"allow"` proposto sopra: `"Bash(git merge:*)"`, `"Bash(git reset:*)"`, `"Bash(git restore:*)"`. Ho lasciato il repository pulito (ho annullato io stessa il tentativo di rebase appena apertolo, nessun danno) — resta un mio commit locale in attesa (solo il registro delle sentinelle) e i conflitti da risolvere restano lì, non li ho toccati: preferisco chiedere il tuo via piuttosto che indovinare come fondere 5 file di stato condiviso.
+
+(dettaglio: vedi memoria `project-settings-local-write-vs-edit-blocca-lavori.md`; prova: `MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json`; lavoro `2d907ef6-396e-4e13-9adf-dd1e766dd0f6` nella tabella `lavori`)
 
 <!-- posthog-off-vps -->
 
