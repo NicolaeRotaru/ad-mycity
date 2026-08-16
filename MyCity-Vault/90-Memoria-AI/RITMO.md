@@ -1230,3 +1230,27 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - 🔴 Il nuovo post per Pane Quotidiano, se vuoi che esca nonostante la pausa.
 
 **Dettagli tecnici** (priorità 1: card `#62` · priorità 2: card `#36`/`#37`/`#38` · priorità 3: `#104` causa nota giri falliti, `#102`/`#103` merge pronti PR #739/#738, `#89` PR #735 ancora rossa non mergiare, `#105` scelta `burn_down_margine`, card nuova senza tag pausa: `#106` · dati confermati da query SQL diretta 2026-08-16 12:02 UTC)
+
+## Report della sera · 2026-08-16 18:01
+
+**Com'è andata oggi**
+- Il negozio è rimasto fermo tutto il giorno, come previsto dalla pausa concordata con te. Riconfermato più volte dal vivo, sempre uguale.
+- Ho chiuso un doppione in coda. Ho riparato un falso allarme: un controllo leggeva una data vecchia come se fosse una scadenza. Ho trovato e riparato per davvero 3 test rotti veri, non il solito debito già noto.
+- Le richieste di unione del codice sono peggiorate. Due restano rosse da tre passaggi di fila, con la stessa causa. Una terza era tornata pronta ma è ricaduta rossa nel pomeriggio. Ora non la vedo più tra quelle aperte: non so dirti da qui se è stata chiusa altrove o no.
+
+**I numeri**
+- 1 negozio, 1 ordine (mai pagato, del 24 giugno), 0 pagati, 5 prodotti, 7 profili — tutto invariato rispetto a ieri sera.
+- Stallo: 53 giorni. Dentro la pausa concordata, non un allarme.
+
+**Da approvare**
+- Le tre falle di sicurezza del sito, ferme da 19 giorni senza una tua risposta (`#36`/`#37`/`#38`)
+- Una richiesta di unione già pronta e verde, aspetta solo la tua firma (`#103`)
+- Il nuovo post per Pane Quotidiano, se vuoi che esca nonostante la pausa (`#106`)
+
+**Lezione di oggi**
+- Un controllo automatico leggeva una data scritta come riferimento al passato. La scambiava per una scadenza futura e dava un allarme falso. Una data va letta per il suo significato, non solo riconosciuta come schema di testo.
+
+**Domani**
+- Dimmi tu come vuoi le richieste di unione rimaste rosse: le riparo per davvero, oppure le congelo fino a dopo la pausa.
+
+**Dettagli tecnici** (test cervello: 3 rossi veri riparati, oltre 700 test rilanciati per intero · CI: PR #741 e #735 rosse da 3 passaggi, causa invariata; PR #739 sparita dalla lista PR aperte tra le 12:56 e le 16:27, da confermare; PR #738 verde · card aperte di oggi: #91 chiusa come duplicato di #90, #104/#105/#107 in coda · dati confermati da query SQL diretta MCP `execute_sql` 2026-08-16 18:00 UTC)

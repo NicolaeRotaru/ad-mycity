@@ -1015,3 +1015,29 @@ Assegnazioni (1 mossa per reparto):
 - 2026-08-16 12:12 · @ad · FACCIO · Correzione di rotta: segnalata a Nicola la card #106 (post per Pane Quotidiano, playbook di stamattina) — non porta il segno "in pausa" degli altri post social fermi da metà luglio. Da chiarire con lui se è un'eccezione voluta prima di proporre la firma; nessuna modifica alla card fatta da sola.
 - 2026-08-16 12:12 · @ad · SERVE · Da Nicola entro sera: le 3 card di sicurezza (#36/#37/#38, 18gg) · la correzione dei permessi VPS (#104) · la firma sulle 2 PR verdi (#102/#103) · la scelta su burn_down_margine (#105) · conferma o pausa sul post #106.
 - 2026-08-16 12:12 · @ad · FATTO · Scritto il blocco «Punto di mezzogiorno · 2026-08-16 12:12» in [[RITMO]] e aggiunta la sezione «Prossime priorità» in [[STATO]].
+
+### 2026-08-16 12:30 — Giro richiesto in chat (18' dopo il mezzogiorno)
+- 2026-08-16 12:30 · @ad · FATTO · Business riconfermato invariato (verifica-sensori.mjs 12:25, coerenza-fatti.mjs verde, chiusura-loop --sonda: nessun quaderno sblocca una card business prima di settembre).
+- 2026-08-16 12:30 · @ad · FATTO · ci-stato.mjs rieseguito (GitHub di nuovo raggiungibile): trovata PR #741 rossa (2/2 controlli, colpa ignota da qui), non presente nei passaggi precedenti. Segnalata nei Rischi del briefing, nessuna card di firma (non è una decisione che aspetta Nicola).
+- 2026-08-16 12:30 · @ad · FATTO · Confermato invariato: PR #739/#738 verdi (#102/#103 pronte per la firma), PR #735 rossa (#89, non mergiare).
+- 2026-08-16 12:30 · @ad · SERVE · Invariato: card #62 resta l'unico vero blocco al primo incasso. Da Nicola: #36/#37/#38 (sicurezza, 18gg), #104 (permessi VPS), #105 (burn_down_margine), #106 (post PQ eccezione pausa), firma su #102/#103.
+
+### 2026-08-16 12:56 — Giro richiesto in chat (26' dopo il passaggio 12:30)
+- 2026-08-16 12:56 · @ad · FATTO · Strategia snella applicata: delta-gate.json conferma firma di business identica al giro pieno 12:34, non rilanciate query REST/MCP né JSON pesanti dell'auto-coscienza.
+- 2026-08-16 12:56 · @ad · FATTO · ci-stato.mjs rieseguito dal vivo (12:55): PR #739 ricaduta rossa (era verde alle 11:08) per un test del cervello vero (carte-numerate.test.mjs), non più per il gate delle lezioni. Ora 3 PR su 4 rosse (#741, #739, #735), solo #738 verde.
+- 2026-08-16 12:56 · @ad · FATTO · Aggiornate card #100 e #102 in AZIONI-IN-ATTESA con l'avviso "non mergiare finché non torna verde" (stesso trattamento di #89/PR #735).
+- 2026-08-16 12:56 · @ad · SERVE · Invariato: card #62 resta l'unico vero blocco al primo incasso. Firma disponibile solo su #103 (PR #738 verde); non firmare #102 (PR #739 rossa di nuovo).
+
+### 2026-08-16 16:28 — Giro richiesto in chat (~3h32 dopo il passaggio 12:56)
+- 2026-08-16 16:28 · @ad · FATTO · verifica-sensori.mjs + coerenza-fatti.mjs rilanciati dal vivo: business invariato dal 24/6, memoria coerente. Strategia snella applicata (delta-gate firma identica).
+- 2026-08-16 16:28 · @ad · FATTO · ci-stato.mjs rilanciato dal vivo (16:27): PR #741 e #735 restano rosse con la stessa causa di stamattina, PR #738 resta verde. PR #739 non risulta più tra le PR aperte (probabile merge/chiusura fuori sessione, non confermabile qui).
+- 2026-08-16 16:28 · @ad · FATTO · Accodata card #107 in AZIONI-IN-ATTESA: CI diventata cronica (3 giri di fila rossa), chiesto a Nicola se dedicare una sessione al fix o congelare fino a dopo la pausa.
+- 2026-08-16 16:28 · @ad · SERVE · Conferma se PR #739 è già mergiata (card #102 da chiudere se sì). Invariato: card #62 resta l'unico vero blocco al primo incasso; firma disponibile su #103 (PR #738 verde).
+- 2026-08-16 16:41 · @ad · FATTO · Collaudo di fine-turno (AR-532): verificato il diff intero dalla base f2ea10bb7, confermato che il giro delle 16:28 era già coerente su disco. Trovate e corrette 5 frasi troppo dense in AUTO-ANALISI.md, AZIONI-IN-ATTESA.md e AZIONI-PRONTE.md (AR-478, regola scrittura-umana): spezzate in frasi più corte, sostanza invariata. `node cervello/si-capisce.mjs` bloccato dallo stesso limite di permessi della card #104: la correzione è manuale, non riverificata col numero esatto.
+
+### 2026-08-16 18:01 — 🌙 REPORT DELLA SERA (AD, richiesto in chat)
+- 2026-08-16 18:01 · @ad · FATTO · Business riverificato in diretta con query SQL (MCP Supabase, `execute_sql`, non ereditato): 1 negozio, 5 prodotti, 1 ordine (mai pagato, del 24/6, CANCELED), 0 pagati, 0 ultimi 7gg, 7 profili (1 seller, 4 buyer, 1 rider, 1 admin) — identico a ieri sera, stallo North Star 53 giorni, dentro la pausa concordata fino al 24/8-1/9.
+- 2026-08-16 18:01 · @ad · FATTO · Riepilogato il lavoro vero della giornata da SALA-OPERATIVA: duplicato #91/#90 chiuso, falso allarme OKR riparato, 3 test rotti veri riparati (non debito noto), card #93-#107 accodate rispondendo al vincolo AR-687 (9 controlli cronici).
+- 2026-08-16 18:01 · @ad · FATTO · Aggiornati i 7 numeri in [[STATO]] (query diretta 18:00) e scritto il blocco «Report della sera · 2026-08-16 18:01» in [[RITMO]], con le 3 voci da approvare (sicurezza #36/#37/#38, merge pronto #103, post PQ #106) e la lezione del giorno (guardiano che legge una data storica come scadenza).
+- 2026-08-16 18:01 · @ad · SERVE · Da Nicola entro domani: le 3 card di sicurezza (#36/#37/#38, 19gg) · la firma su #103 (PR #738 verde) · conferma o pausa sul post #106 · la scelta su #105 (`burn_down_margine`) · la parola su #107 (CI cronica: riparare ora o congelare) · #104 (permessi VPS, causa nota dei giri falliti, 13gg).
+- 2026-08-16 18:01 · @ad · FACCIO · Nessuna azione business sbloccabile prima del 24/8-1/9. Mossa n.1 resta invariata: #62, la pratica pagamenti di Pane Quotidiano.

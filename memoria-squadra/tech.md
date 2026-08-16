@@ -19,6 +19,7 @@ reparto: tech
 - 2026-08-16 14:50 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 13:45 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 13:32 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 12:59 · Aggiornamento coda AZIONI-IN-ATTESA giro 12:56: PR #739 ricaduta rossa (carte-numerate.test.mjs), card #100/#102 aggiornate con avviso non-mergiare · osservazione:3,chiarezza:4,tempestivita:5,completezza:3,rischio:4,riuso:3 · atteso PR #739 verde e firmabile → reale PR #739 rossa di nuovo, non firmabile · #ci-stato #pr-739
 - 2026-08-16 12:27 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 12:14 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 12:08 · prova · 9/10 · atteso 1 → reale 1

@@ -15,11 +15,11 @@ nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: 
 ## A4 · ⛔ RITIRATA 2026-07-18 — Playbook anti-churn 6 botteghe (post 13/7)
 reparto: account-negozi
 livello: ⛔ non avviare
-motivo: I 6 negozi elencati (Tigellabella, La Forchetta, Le Tre Ganasce, Osteria Carducci, La Dispensa, Trattoria Pescatori) sono TUTTI **ESCLUSI** perché ristoranti/osterie (Nicola 18/7: «non sono il nostro target»). La visita del 13/7 non ha prodotto onboarding. Condizione "botteghe onboardate dopo 13/7" = mai soddisfatta.
+motivo: I 6 negozi elencati (Tigellabella, La Forchetta, Le Tre Ganasce, Osteria Carducci, La Dispensa, Trattoria Pescatori) sono TUTTI **ESCLUSI**. Sono ristoranti e osterie: Nicola, 18/7, «non sono il nostro target». La visita del 13/7 non ha prodotto onboarding. La condizione "botteghe onboardate dopo 13/7" non si è mai avverata.
 stato: #antichurn-13lug segnata ❌ SCADUTA 2026-07-18 in AZIONI-IN-ATTESA.
 sostituzione: Il playbook anti-churn si riattiva quando arriva il **primo negozio reale onboardato** (Garetti/Peretti/Amendolara o onda 2). La struttura T+3/T+7/T+14/T+45 resta valida — basta cambiare i destinatari.
 
-### Testi T+3 (da inviare ≈ mer 16/7, WhatsApp) — pronti, da personalizzare col nome raccolto il 13/7
+### Testi T+3 — da inviare mercoledì 16/7 su WhatsApp, pronti da personalizzare col nome raccolto il 13/7
 
 **Tigellabella** (già su Deliveroo — aggancio commissioni):
 > "Ciao [nome]! Sono Nicola di MyCity. Come sta andando con la piattaforma? Ci sono ordini arrivati o preferite che vi aiuto a ottimizzare il profilo per partire forte questo weekend?"
@@ -682,5 +682,5 @@ se va bene: click marketplace via UTM `no-fornelli-1608`; PQ può ripubblicare; 
 testo (hook IG):
 🌤️ Con questo caldo, i fornelli restano spenti. Da Pane Quotidiano: hummus di ceci bio pronto (2,95€) e pesto genovese bio (5€, basta la pasta) — ordini da casa, ve li portiamo noi.
 visual: immagine tipografica unica 1080×1350 su palette brand (headline + 2 badge prodotto con prezzo reale) = pubblicabile subito senza foto; boost futuro = foto reale dei 2 vasetti (serve ok titolare).
-pre-condizioni: (1) link marketplace in bio/1° commento UTM `no-fornelli-1608` · (2) timing 12:00–13:30 (pranzo) o 17:00–19:00 (cena) · (3) foto reale = ok titolare se boost. Coda canonica = **#106** in [[AZIONI-IN-ATTESA]].
+pre-condizioni: (1) link marketplace in bio/1° commento UTM `no-fornelli-1608` · (2) timing 12:00–13:30 (pranzo) o 17:00–19:00 (cena) · (3) foto reale = ok titolare se boost. Coda canonica = **#107** in [[AZIONI-IN-ATTESA]] (era #106, poi #108 il 16/8 16:35, infine #107: ogni volta il numero precedente era già stato preso da un'altra riga).
 stato: IN ATTESA DI FIRMA NICOLA.
