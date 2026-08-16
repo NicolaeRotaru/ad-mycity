@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-16 14:50 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 13:45 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 13:32 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 12:27 · prova · 9/10 · atteso 1 → reale 1
@@ -24,6 +25,8 @@ reparto: tech
 - 2026-08-16 09:49 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 09:41 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-16 09:06 · prova · 9/10 · atteso 1 → reale 1
+- 2026-08-16 08:42 · CI rossa sulla PR #738: due card della coda portavano il numero 81 · il numero della prossima card lo sceglie prossimoNumero in pausa-coda.mjs · atteso pensavo fosse una collisione singola arrivata da main, da rinumerare e via → reale erano dieci collisioni in fila: chi assegna il numero non guardava l'archivio (titoli fermi a 81, righe-tabella già a 91), quindi ogni card nuova da qui a 91 avrebbe pescato un numero già speso. Curata la classe con numeriUsati(), non il punto · #AR-751 (la scheda di main sui numeri delle card: il mio numero collideva)
+- 2026-08-15 20:45 · Dopo il merge del lotto 43: rilettura delle chiusure una per una, come chiede il mansionario · chiusure applicate = chiusure dichiarate · atteso 49 chiusi, 4 aperti → reale il motore ne ha chiusi 61: undici erano difetti vecchi curati di rimbalzo (legittimi, riletti uno per uno) e DUE erano miei dichiarati APERTI che si sono richiusi da soli (AR-693, AR-684). Causa: il ricucitore toglieva solo le prove a PATTERN, ma non e il tipo di prova a richiudere un difetto, e il fatto che la prova PASSI. Riaperti con chiusura bloccata, il freno che il motore rispetta gia; auto-fix rilanciato chiude 0 · #cantiere #lotto43 #AR-444
 - 2026-08-16 07:13 · fix contratto salute_macchina: due chiavi (sensori_ciechi, telegram_configurato) bocciate dal validatore auto-analisi.json · test contratto rosso su ogni PR che tocca auto-analisi.json · atteso contratto allineato, test scadenze-calcolate verde → reale 21/21 test verdi, tsc pulito, non verificato a video nel browser · #AR-532
 - 2026-08-16 04:28 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-15 21:34 · Lotto 44 del cantiere: nove corsie in parallelo su nove malattie, territori di file disgiunti, ogni corsia consegna un frammento e l'AD ricuce i registri condivisi · V5 C5 A5 K5 I4 M5 E5 (media 4.86) · atteso 100 difetti chiusi in una sessione sola → reale 75 riparati e verificati con le sette corsie rientrate finora: 39 mutazioni eseguite, 39 prove diventate rosse. Piu 12 gia riparati nel lotto 43 e mai timbrati, verificati uno per uno. Due corsie ancora al lavoro; il conto vero lo dara il cancello ad albero fermo · #cantiere #lotto44 #corsie-parallele

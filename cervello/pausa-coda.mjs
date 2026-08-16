@@ -181,29 +181,44 @@ export function leggiCard(testoFile) {
 }
 
 /**
+ * Tutti i numeri di card già usati nella coda, in un posto solo.
+ *
+ * Una card si scrive in DUE forme, e valgono uguale: il titolo `### 🟡 #81 — …` delle card in
+ * attesa, e la riga-tabella `| 81 | data | … |` di quelle archiviate. Sono la stessa cosa in due
+ * momenti della vita: quando Nicola scrive «ok 81», la risposta deve essere una sola.
+ */
+export function numeriUsati(testoFile) {
+  const testo = String(testoFile || "");
+  const numeri = new Set();
+  for (const m of testo.matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) numeri.add(Number(m[1]));
+  for (const m of testo.matchAll(/^\|\s*(\d+)\s*\|/gm)) numeri.add(Number(m[1]));
+  return numeri;
+}
+
+/**
  * Il numero per la PROSSIMA card della coda: il più alto mai usato + 1 (regola del 13/8,
  * `cervello/azioni.md`). Su una coda senza numeri parte da 1. Casa unica: la usano tutti
  * gli scrittori automatici di card (sensori-spenti-check, pausa-check), così nessuno
  * ricalcola la regola per conto suo.
  *
- * ⚠️ Le card in coda hanno DUE forme — il blocco `### 🟡 #81 — …` e la riga-tabella
- * `| 81 | … |` del formato vecchio — e vivono nello **stesso** spazio di numeri: «ok 81»
- * deve avere una risposta sola. Guardare solo i blocchi vuol dire riassegnare un numero che
- * una riga-tabella tiene già, e allora il Pannello apre la card sbagliata. Successo vero: il
- * 16/8 il numero 81 era di due card insieme, proprio perché qui si contava metà coda.
+ * ⚠️ «Il più alto mai usato» include l'ARCHIVIO, e per un po' non è stato così. Questa funzione
+ * guardava solo i titoli delle card ancora in attesa: quelle archiviate, che scendono in fondo
+ * come righe di tabella, erano invisibili. Il 16/8 la coda aveva 81 come titolo più alto e 91 in
+ * archivio, quindi il prossimo numero usciva 82 — un numero già speso. È successo davvero: una
+ * card nata alle 07:20 ha preso il #81, che l'archivio dava già a un merge del 13/8, e «ok 81»
+ * è diventata una domanda con due risposte — con il Pannello che apre la card sbagliata.
+ * Archiviare una card non libera il suo numero: la card è ancora lì, è solo scesa di sotto.
+ *
+ * 🤝 DUE SESSIONI HANNO TROVATO QUESTO STESSO DIFETTO LO STESSO GIORNO, ognuna per la sua strada
+ * (questo ramo dalla prova rossa `carte-numerate`, il lotto 44 dalla sua radiografia). Le due
+ * cure erano identiche nella sostanza e diverse nella forma: là i due cicli stavano dentro
+ * `prossimoNumero`, qui vivono in `numeriUsati`, che un test può interrogare da sola — «quali
+ * numeri sono già spesi?» è una domanda che serve anche a chi non deve sceglierne uno nuovo.
+ * Tenuta questa, tenuta la conseguenza che l'altra aveva visto e questa no: il Pannello.
  */
 export function prossimoNumero(testoFile) {
-  const testo = String(testoFile || "");
-  let max = 0;
-  for (const m of testo.matchAll(/^###\s+\S+\s+#(\d+)\s+[—–-]\s/gmu)) {
-    const n = Number(m[1]);
-    if (n > max) max = n;
-  }
-  for (const m of testo.matchAll(/^\|\s*(\d+)\s*\|/gmu)) {
-    const n = Number(m[1]);
-    if (n > max) max = n;
-  }
-  return max + 1;
+  const usati = numeriUsati(testoFile);
+  return usati.size ? Math.max(...usati) + 1 : 1;
 }
 
 // ── ③ Dal valore del fatto al momento del risveglio ──────────────────────────

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-16 07:31",
+  "aggiornato": "2026-08-16 13:40",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -14433,7 +14433,7 @@
     {
       "id": "AR-684",
       "titolo": "Il cantiere conta 595 schede su 653: 56 in un terzo stato non entrano in nessun totale",
-      "stato": "chiuso",
+      "stato": "aperto",
       "gravita": "grave",
       "dimensione": "memoria-registro",
       "impatto_crescita": "medio",
@@ -14444,12 +14444,12 @@
         "tipo": "comando",
         "comando": "node cervello/test/un-totale-che-salta-uno-stato.test.mjs"
       },
-      "nota_fix": "LA SCHEDA AVEVA RAGIONE, E IL NUMERO ERA PEGGIORATO. Misurato il 15/8 sul cantiere vero: 716 schede (476 chiuse, 184 aperte, 56 da riverificare) contro un `cantiere.meta` che diceva 632. Non 58 di scarto: 84. La casa unica del conto è nata nel lotto 42 dentro `cervello/atti-veri.mjs`, che però è la casa di un'altra parola — «quali lavori toccano il mondo». Qui l'ho spostata in `cervello/stati-cantiere.mjs`, con i fratelli nuovi (`statoDi`, `eDaFare`, `statiIgnoti`, `contaGoverno`, `metaCantiere`); `atti-veri.mjs` la RIESPORTA, così chi importava da lì continua a funzionare e la definizione resta una sola. Poi i quattro punti malati la chiamano: `ricalcolaMeta` in auto-fix, il blocco `sync_scan` in allinea-scan-cantiere, il debito delle prove deboli in chiusura-dichiarata, il gemello del Pannello in cantiere-snello. Il conto scritto nel registro adesso porta con sé `somma_torna`: se un giorno i rami non facessero il totale, il file lo dichiara di sé. Trovato riparando, e riparato: la targhetta della scheda Radiografia diceva «40 chiusi» (le righe ricevute) mentre la sezione sotto ne dichiarava 476, e chiamava «aperti» i 240 da fare. COSA NON HO VERIFICATO: il cancello del lotto non l'ho lanciato — le altre corsie stavano scrivendo.",
+      "nota_fix": "LA SCHEDA HA RAGIONE E LA NOTA DEL LOTTO 42 ERA OTTIMISTA. Il terzo stato si chiama `da-riverificare` e oggi sono 56 su 699 schede (476 chiuse, 167 aperte). La porta unica esiste — `contaDifetti` in cervello/atti-veri.mjs — e il Pannello ci passa. Ma i CONTATORI SCRITTI DENTRO IL CANTIERE non ci passano: `cantiere.meta` dice `{aperti:156, in_corso:0, chiusi:476}`, somma 632 contro 699 schede vere, cioè 67 difetti fuori dal numero che sta scritto nel registro stesso. Chi lo scrive è `ricalcolaMeta` in cervello/auto-fix.mjs (riga 76), che filtra a mano `stato === \"aperto\"`. E non è l'unico lettore che si fa la regola da sé: cervello/allinea-scan-cantiere.mjs riga 225 scrive `cantiere_aperti/in_corso/chiusi` in auto-radiografia.json con lo stesso filtro, e cervello/chiusura-dichiarata.mjs riga 87 conta il debito delle prove deboli solo sugli `aperto`, quindi le 56 da-riverificare con la prova debole stanno fuori dal tetto. NON HO POTUTO RIPARARLO: nessuno di quei tre file è nel territorio della corsia E, e la prova condivisa cervello/test/parola-senza-padrone.test.mjs mi è vietata. La cura è una riga per file: far tornare i tre conti da `contaDifetti` e pretendere `sommaTorna(conto) === true`. Testo pronto in note_ricucitura.\nRESTA APERTO: La porta unica c'è, ma tre scrittori in cervello/ contano ancora a modo loro e uno di essi (auto-fix.mjs) scrive il conto sbagliato DENTRO il cantiere: 632 contro 699. Nessuno dei tre file è nel mio territorio. ⚠️ ALL'AD: togli dalla scheda la vecchia `verifica` {comando: parola-senza-padrone.test.mjs} — quel test è verde e non parla di questi tre punti, quindi al prossimo `auto-fix verifica --applica` AR-684 si richiude da solo smentendo questa nota.",
       "nato_come": "scoperta",
-      "chiuso_il": "2026-08-16 07:31",
-      "chiuso_come": "node cervello/test/parola-senza-padrone.test.mjs → exit 0 (guardiano soddisfatto)",
       "corroborata": true,
-      "lotto_riparazione": 44
+      "lotto_riparazione": 44,
+      "chiusura": "bloccata",
+      "chiusura_motivo": "Dichiarato APERTO dalla corsia E del lotto 43 e richiuso da solo dopo il merge. Il terzo stato (`da-riverificare`) è ancora fuori dai conti in tre punti che la corsia ha trovato e non ha potuto toccare — sono i difetti nuovi AR-717, AR-718 e AR-719, registrati apposta. La prova sulla scheda passa perché copre il conteggio che è stato sistemato, non i tre che restano."
     },
     {
       "id": "AR-685",
@@ -14620,7 +14620,7 @@
     },
     {
       "id": "AR-693",
-      "stato": "chiuso",
+      "stato": "aperto",
       "dimensione": "guardiani-e-guardrail",
       "scoperto": "2026-08-14 20:55",
       "lotto_scoperta": 41,
@@ -14635,9 +14635,9 @@
       },
       "nato_come": "scoperta",
       "nota_fix": "Tre clausole, due fatte e una no — e la terza non è dimenticata, è fuori territorio. ② IL BUCO È UN NUMERO CON UN TETTO: `cervello/debito-prove-bash.mjs` conta le prove in bash e chiede al REPO (non al PATH di questa macchina) se qualcuno le esegue — un passo di CI che installa o lancia bats, una dipendenza in un package.json, uno script d'avvio. Misurato adesso: 29 prove, 36 posti guardati, esecutore NESSUNO. Il permesso `Bash(npx bats:*)` in .claude/settings.json è escluso apposta ed è il cuore del difetto: è un'autorizzazione, non un esecutore. Il tetto va a 29 e scende quando qualcuno installa bats; una trentesima prova in bash mentre nessuno esegue le altre 29 è una violazione. Il guardiano gira nel cancello del lotto. I posti dove cercare l'esecutore si DERIVANO dal repo (tutti i workflow, tutti i hook, tutti gli script .sh del cervello, tutti i package.json del primo livello): un elenco scritto a mano sarebbe la malattia `perimetro-dedotto-non-misurato`, e infatti il sorvegliante me l'ha fermata due volte mentre scrivevo questo file. ③ I ROSSI IN BASH SI CONTANO A PARTE: `test-cervello.mjs` adesso tiene `rossi_node` e `rossi_bash` separati nel JSON, e la riga finale dice «N rossi (X in Node · Y in bash, debito ereditato AR-693)». Sommarli produceva «12 rossi», che manda chi legge a cercare nel cervello mentre i nove fallimenti stanno in worker.sh, giro.sh, watch-main.sh e nei permessi. ① NON FATTA, e resta il motivo per cui il difetto è aperto: installare bats dove il banco gira davvero significa toccare .github/workflows/test-cervello.yml, .github/workflows/cancello-lotto.yml e l'avvio del VPS — nessuno dei tre è nel territorio di questa corsia. Da qui `npx --yes bats --version` risponde «Bats 1.13.0», quindi la strada è aperta: serve un passo `npm i -g bats` + `BATS_BIN=$(command -v bats)` nei due workflow prima di `node cervello/test-cervello.mjs`. Attenzione all'effetto: appena bats gira in CI compaiono 9 file rossi veri (19 casi), che sono debito ereditato e vanno dichiarati, non subiti.\nRESTA APERTO: Manca la clausola ①: installare bats dove il banco gira davvero (CI del cervello, CI del cancello, avvio del VPS). I file sono .github/workflows/** e cervello/vps/**, fuori dal territorio della corsia C. Finché non c'è, le 29 prove restano ⚪ e i 9 rossi ereditati restano invisibili sulla macchina di chi lavora — adesso però il numero è dichiarato e sotto un tetto, invece di essere un ⚪ in fondo a un elenco lungo.",
-      "chiuso_il": "2026-08-16 07:31",
-      "chiuso_come": "node cervello/test/prova-che-non-puo-fallire.test.mjs → exit 0 (guardiano soddisfatto)",
-      "corroborata": true
+      "corroborata": true,
+      "chiusura": "bloccata",
+      "chiusura_motivo": "Dichiarato APERTO dalla corsia C del lotto 43 e richiuso da solo dopo il merge. Delle tre clausole ne sono state fatte due: il buco è dichiarato come tetto che scende (29 prove in bash non misurate) e i rossi ereditati sono contati a parte. La PRIMA clausola — installare `bats` dove il banco gira davvero, cioè in CI e sul VPS — non è stata fatta: tocca .github/workflows e cervello/vps, fuori dal territorio della corsia. Finché non c'è, quelle 29 prove esistono e non le esegue nessuno. La prova sulla scheda passa perché misura il tetto, non l'installazione."
     },
     {
       "id": "AR-694",
@@ -15322,7 +15322,7 @@
       "dimensione": "trovato-riparando",
       "gravita": "grave",
       "titolo": "La porta unica delle scritture dei sensori ha una penna cruda, e tre scrittori su quattro la usano",
-      "causa_radice": "cervello/stato-sensori.mjs è la porta di classe della guardia d'AMBIENTE (AR-281), ma il suo scrittore di default è un writeFileSync crudo: il freno della memoria (casa-memoria) non lo attraversa. verifica-sensori adesso le passa la penna condivisa; sensore-cassa, delta-gate e sentinella-fonti no. Da lì, un comando lanciato con la radice deviata riscrive comunque la memoria dei sensori vera. È AR-568 nella sua forma di classe: la porta si è vista, la penna no.",
+      "causa_radice": "cervello/stato-sensori.mjs è la porta di classe della guardia d'AMBIENTE (AR-281), ma il suo scrittore di default è un writeFileSync crudo: il freno della memoria (casa-memoria) non lo attraversa. verifica-sensori adesso le passa la penna condivisa; sensore-cassa, delta-gate e sentinella-fonti no. Da lì, un comando lanciato con la radice deviata riscrive comunque la memoria dei sensori vera. È AR-568 nella sua forma di classe: la porta si è vista, la penna no. — SECONDA ISTANZA, misurata il 15/8 alle 22:40 su due controlli consecutivi a un'ora di distanza: `cervello/sorvegliante.mjs` riscrive il proprio diario `auto-coscienza/sorvegliante-storico.json` con una penna cruda a ogni giro, anche quando quel giro è di SOLA LETTURA. È un registro a finestra, quindi ogni passaggio fa uscire la voce più vecchia e ne fa entrare una nuova: committarlo vuol dire un commit ogni ora sulla richiesta aperta, e una richiesta piena di rumore si unisce per fiducia invece che per lettura. Il difetto non è il diario: è che uno strumento che non ha cambiato niente lascia comunque un diff.",
       "fix_proposto": "La penna di default diventa scriviJsonAtomico (una riga), così tutti e quattro gli scrittori ereditano il freno senza saperlo. Prova: lanciare sensore-cassa con MYCITY_MEMORIA_ROOT e pretendere che il file vero non si muova.",
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "nato": "2026-08-15 22:17",
@@ -15648,8 +15648,8 @@
       "dimensione": "trovato-riparando",
       "gravita": "medio",
       "titolo": "Quattro prove di casa sono rosse sul ramo principale, e nessuno se n'è accorto finché non ci è passata una richiesta",
-      "causa_radice": "Misurate su un worktree pulito di origin/main il 16/8: carte-numerate, parola-senza-padrone, sensori-non-calpestati e una-card-una-volta-sola escono tutte 1. Non le ha rotte nessun lotto: le ha rotte il dato vivo che il worker scrive su main, e sul ramo principale non gira nessun cancello che le guardi. Chi apre una richiesta se le trova addosso e sembra averle causate lui.",
-      "fix_proposto": "Far girare la suite anche su main (non solo sulle richieste), e quando è rossa aprire il difetto invece di lasciarlo scoprire a chi passa. Prova: node cervello/test-cervello.mjs su un worktree di origin/main.",
+      "causa_radice": "Misurate su un worktree pulito di origin/main il 16/8: carte-numerate, parola-senza-padrone, sensori-non-calpestati e una-card-una-volta-sola escono tutte 1. Non le ha rotte nessun lotto: le ha rotte il dato vivo che il worker scrive su main, e sul ramo principale non gira nessun cancello che le guardi. Chi apre una richiesta se le trova addosso e sembra averle causate lui. — LA QUARTA, guardata da vicino il 16/8: `sensori-non-calpestati` caso ⑤ non era rotta dal dato vivo per caso, ci era AGGANCIATA per costruzione. Chiedeva una cosa giusta («la porta sa aprirsi, o è murata?») partendo da una copia del file vero dei sensori. Ha funzionato finché la porta aveva una serratura sola. Poi ne è arrivata una seconda, più severa e giusta (AR-568: una misura cieca non sovrascrive una vedente), e da lì il verdetto dipendeva da quale misura il file conteneva quel giorno: col VPS che ne aveva viste sette, la prova che ne vede una veniva respinta — correttamente — e usciva rossa su codice sano. Curata riscrivendo il caso perché costruisca la misura di partenza (stesso punto d'osservazione, copertura 0) invece di ereditarla: una misura che l'esecuzione ha il diritto di battere. Non-vacuità eseguita: forzato `scriviStato = false` → il caso ⑤ rosso e gli altri quattro verdi, cioè una porta murata passerebbe tutti gli altri.",
+      "fix_proposto": "Far girare la suite anche su main (non solo sulle richieste), e quando è rossa aprire il difetto invece di lasciarlo scoprire a chi passa. Prova: node cervello/test-cervello.mjs su un worktree di origin/main. — AGGIORNAMENTO 16/8 da questo ramo: tre delle quattro sono curate qui. `carte-numerate` cade col fix dei numeri (AR-751). `parola-senza-padrone` cade col fix dei due campi (AR-753). `sensori-non-calpestati` era rossa per un motivo suo, ora scritto sotto. Resta `una-card-una-volta-sola`. La scheda NON si chiude lo stesso: la sua domanda vera è «chi guarda il ramo principale?», e nessuna richiesta può rispondere — è un cancello che manca, non quattro prove da aggiustare.",
       "dove": "main · le quattro prove elencate",
       "impatto_crescita": "indiretto: e debito della macchina, ma mura una porta che serve a ogni sessione che non sia il server",
       "nato": "2026-08-16 09:52",
@@ -15668,19 +15668,21 @@
       "nato_da": "lotto 44, ricucitura dell'AD: le quattro prove rosse ereditate da main, portate a verde una per una",
       "lotto_scoperta": 44,
       "lotto_riparazione": 44,
-      "stato": "aperto",
+      "stato": "chiuso",
       "id": "AR-751",
       "gravita": "grave",
       "titolo": "Chi distribuisce i numeri delle card ne vede solo metà, e ha dato lo stesso numero a due card diverse",
       "causa_radice": "Le card nella coda hanno due forme — il blocco «### 🟡 #81 — …» e la riga-tabella «| 81 | … |» del formato vecchio — e vivono nello STESSO spazio di numeri, perché Nicola approva scrivendo «ok 81». `prossimoNumero` in cervello/pausa-coda.mjs contava solo i blocchi: il numero più alto fra le righe-tabella gli era invisibile, e poteva riconsegnare un numero già in mano a qualcun altro. Il 16/8 il numero 81 apparteneva a due card insieme, e «ok 81» era una domanda con due risposte.",
-      "fix_proposto": "Contare entrambe le forme dentro l'unica casa della regola (`prossimoNumero`), così ogni scrittore automatico eredita la correzione senza saperlo. In più la card viva che aveva il numero doppio è stata rinumerata al primo libero.",
+      "fix_proposto": "Contare entrambe le forme dentro l'unica casa della regola (`prossimoNumero`), così ogni scrittore automatico eredita la correzione senza saperlo. In più la card viva che aveva il numero doppio è stata rinumerata al primo libero. — CURATO. Due sessioni hanno trovato questo difetto lo stesso giorno per strade diverse: il lotto 44 dalla sua radiografia, questo ramo da `carte-numerate` rossa in CI. Le due cure erano identiche nella sostanza. Tenuta la forma di questo ramo: i due cicli vivono in `numeriUsati(testo)`, che un test può interrogare da sola — «quali numeri sono già spesi?» serve anche a chi non deve sceglierne uno nuovo. Prova `cervello/test/numero-di-card-gia-speso.test.mjs`, 5 casi; il ⑤ pretende il numero libero sul file VERO, quindi resta viva mentre la coda cresce. Card rinumerata #81 → #92 (l'archivio tiene il suo 81: la storia non si riscrive). Non-vacuità eseguita: tolta la lettura delle righe-tabella → 2 casi rossi, EXIT=1; rimessa → EXIT=0.",
       "dove": "cervello/pausa-coda.mjs · MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
       "impatto_crescita": "diretto sulla fiducia del proprietario: se «ok 81» apre la card sbagliata, un'azione parte al posto di un'altra — e le azioni in coda toccano negozi e soldi veri",
       "verifica": {
         "tipo": "comando",
-        "comando": "node cervello/test/carte-numerate.test.mjs"
+        "comando": "node --test cervello/test/numero-di-card-gia-speso.test.mjs"
       },
-      "nota_fix": "Il numero doppio non l'ha assegnato un programma: la card viva era stata scritta a mano da una sessione, che ha scelto il numero guardando solo le card in cima. Ho riparato comunque l'allocatore, perché la stessa svista è a portata di ogni scrittore automatico e lì nessuno se ne accorgerebbe. Cosa NON ho verificato: che nessuna sessione futura continui a scrivere card a mano scavalcando `prossimoNumero` — quella è disciplina, non codice, e da qui non la posso imporre."
+      "nota_fix": "Il numero doppio non l'ha assegnato un programma: la card viva era stata scritta a mano da una sessione, che ha scelto il numero guardando solo le card in cima. Ho riparato comunque l'allocatore, perché la stessa svista è a portata di ogni scrittore automatico e lì nessuno se ne accorgerebbe. Cosa NON ho verificato: che nessuna sessione futura continui a scrivere card a mano scavalcando `prossimoNumero` — quella è disciplina, non codice, e da qui non la posso imporre.",
+      "chiuso_il": "2026-08-16 13:40",
+      "chiuso_come": "curato in due sessioni indipendenti; qui la funzione estratta + la prova che la interroga"
     },
     {
       "dimensione": "trovato-riparando",

@@ -68,14 +68,29 @@ function leggiTetti() {
   }
 }
 
-/** Gli id dei difetti la cui `verifica` è cambiata rispetto al ramo pubblicato: quelli del lotto. */
+/**
+ * I campi che dicono «questo lotto ha lavorato su questa scheda».
+ *
+ * Era `verifica` e basta, e per due anni è bastato perché un lotto si riconosceva dalle prove che
+ * scriveva. Poi il lotto 44 ha fatto una cosa che il metro non sapeva vedere: ha RIAPERTO due
+ * difetti che si erano chiusi da soli, mettendoci sopra `chiusura: "bloccata"` col motivo. Nessuna
+ * `verifica` toccata — quelle andavano bene — quindi «zero difetti toccati» mentre il cantiere era
+ * cambiato, e il cancello si dichiarava cieco ed usciva 2. In CI il 2 blocca, quindi il lavoro più
+ * onesto del lotto (dire «questi due non sono chiusi») era proprio quello che non passava.
+ *
+ * Riaprire un difetto è lavorarci. Bloccarne la chiusura è lavorarci. Il metro guarda i tre campi.
+ */
+const CAMPI_DEL_LOTTO = ["verifica", "stato", "chiusura"];
+
+const improntaScheda = (d) => JSON.stringify(CAMPI_DEL_LOTTO.map((c) => d?.[c] ?? null));
+
+/** Gli id dei difetti su cui questo lotto ha lavorato, rispetto al ramo pubblicato. */
 export function difettiToccati(cantiereOra, cantierePrima) {
   if (!cantierePrima) return null; // niente confronto possibile → cieco su questo controllo
-  const prima = new Map((cantierePrima.difetti || []).map((d) => [d.id, JSON.stringify(d.verifica || null)]));
+  const prima = new Map((cantierePrima.difetti || []).map((d) => [d.id, improntaScheda(d)]));
   const toccati = [];
   for (const d of cantiereOra.difetti || []) {
-    const ora = JSON.stringify(d.verifica || null);
-    if (!prima.has(d.id) || prima.get(d.id) !== ora) toccati.push(d.id);
+    if (!prima.has(d.id) || prima.get(d.id) !== improntaScheda(d)) toccati.push(d.id);
   }
   return toccati;
 }

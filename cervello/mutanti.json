@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-15 21:39",
+ "aggiornato": "2026-08-16 13:55",
  "mutanti": [
   {
    "lotto": 30,
@@ -3871,15 +3871,6 @@
   },
   {
    "lotto": 42,
-   "difetto": "AR-693",
-   "nome": "togliendo la riga che dichiara i ⚪ accanto al verde, «una prova non eseguita resta NEL totale come ⚪» diventa rosso — verificato lanciando il test. La prova fa girare il banco vero con `BATS_BIN` puntato al vuoto (cioè la condizione di ogni sessione nuova) e pretende due cose: il denominatore vero («su 1», non «su 0») e il buco detto accanto al verde.",
-   "file": "cervello/test-cervello.mjs",
-   "cerca": "    const copertura = nonMisurati.length ? ` · ⚪ ${nonMisurati.length} NON le ho potute far girare qui (il verde non le copre)` : \"\";",
-   "sostituisci": "    const copertura = \"\";",
-   "test": "cervello/test-cervello.mjs"
-  },
-  {
-   "lotto": 42,
    "difetto": "AR-683",
    "nome": "invertendo il filtro delle chiuse i casi «una scheda CHIUSA la cui prova è rossa adesso viene trovata» e «una prova NON ESEGUITA è ⚪» diventano rossi — verificato lanciando il test",
    "file": "cervello/contratto-prova.mjs",
@@ -4926,15 +4917,6 @@
   },
   {
    "lotto": 44,
-   "difetto": "AR-751",
-   "nome": "chi assegna i numeri torna a vedere solo i blocchi, e le righe-tabella tornano invisibili",
-   "file": "cervello/pausa-coda.mjs",
-   "cerca": "  for (const m of testo.matchAll(/^\\|\\s*(\\d+)\\s*\\|/gmu)) {",
-   "sostituisci": "  for (const m of []) {",
-   "test": "cervello/test/carte-numerate.test.mjs"
-  },
-  {
-   "lotto": 44,
    "difetto": "AR-752",
    "nome": "la card in coda torna a valere per il solo fatto di esistere, senza nominare il sensore",
    "file": "cervello/sensore-spento.mjs",
@@ -4959,6 +4941,56 @@
    "cerca": "  const prima = Math.max(aInizioTurno ?? 0, suMain ?? 0);",
    "sostituisci": "  const prima = aInizioTurno ?? 0;",
    "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "lotto": 42,
+   "difetto": "AR-693",
+   "nome": "togliendo la riga che dichiara i ⚪ accanto al verde, «una prova non eseguita resta NEL totale come ⚪» diventa rosso — verificato lanciando il test. La prova fa girare il banco vero con `BATS_BIN` puntato al vuoto (cioè la condizione di ogni sessione nuova) e pretende due cose: il denominatore vero («su 1», non «su 0») e il buco detto accanto al verde.",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "    const copertura = nonMisurati.length ? ` · ⚪ ${nonMisurati.length} NON le ho potute far girare qui (il verde non le copre)` : \"\";",
+   "sostituisci": "    const copertura = \"\";",
+   "test": "cervello/test/prova-che-non-puo-fallire.test.mjs",
+   "nota_riaggancio": "Lotto 44: il puntatore diceva cervello/test-cervello.mjs — il BANCO, non una prova. Il banco intero esce 0 anche con quella riga tolta (la mutazione cambia solo una stringa che si stampa), quindi la mutazione risultava vacua. La prova che davvero diventa rossa e quella gia dichiarata sulla scheda del difetto: prova-che-non-puo-fallire. Misurato lanciando entrambe col fix rotto."
+  },
+  {
+   "lotto": 44,
+   "difetto": "ricuci-corsie · chiusura bloccata (AR-444)",
+   "nome": "un difetto dichiarato aperto torna a non essere bloccato: la sua prova a comando che passa lo richiude da sola dopo il merge",
+   "file": "cervello/ricuci-corsie.mjs",
+   "cerca": "    azione: \"blocca\",",
+   "sostituisci": "    azione: \"lascia\",",
+   "test": "cervello/test/ricucitura-non-richiude-da-sola.test.mjs",
+   "nota_riaggancio": "Lotto 44: il caso e reale, non teorico. Nel lotto 43 AR-693 e AR-684 erano dichiarati APERTI, portavano una prova a comando verde, e auto-fix li ha chiusi da solo dopo il merge — il conto diceva 61 chiusure su 49 dichiarate."
+  },
+  {
+   "lotto": 44,
+   "difetto": "cancello-lotto · difetti toccati (riaprire e lavorarci)",
+   "nome": "il cancello torna a riconoscere il lavoro del lotto dalla sola prova: riaprire un difetto non risulta toccarlo, e il banco delle mutazioni si dichiara cieco",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "const CAMPI_DEL_LOTTO = [\"verifica\", \"stato\", \"chiusura\"];",
+   "sostituisci": "const CAMPI_DEL_LOTTO = [\"verifica\"];",
+   "test": "cervello/test/riaprire-un-difetto-e-lavorarci.test.mjs",
+   "nota_riaggancio": "Lotto 44: e il buco per cui la CI della PR #738 era rossa. Il cancello usciva 2 (cieco sul passo delle mutazioni) proprio perche il lotto aveva RIAPERTO due difetti senza toccarne le prove — cioe il lavoro piu onesto era quello che non passava."
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-751",
+   "nome": "chi dà il numero alla prossima card torna a non vedere l'archivio: propone un numero già speso e nessuno se ne accorge finché non è su disco",
+   "file": "cervello/pausa-coda.mjs",
+   "cerca": "  for (const m of testo.matchAll(/^\\|\\s*(\\d+)\\s*\\|/gm)) numeri.add(Number(m[1]));",
+   "sostituisci": "",
+   "test": "cervello/test/numero-di-card-gia-speso.test.mjs",
+   "nota_riaggancio": "Se questa riga cambia forma, il mutante va riscritto sulla riga nuova, non tolto: la cosa da rompere è che `numeriUsati` legga ANCHE le righe-tabella dell'archivio. Tolta quella lettura, il prossimo numero torna a uscire da soli i titoli in attesa — che il 16/8 valeva 82 su una coda dove 82 era già di un'altra card."
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-750",
+   "nome": "la porta dei sensori viene murata: nessuna esecuzione può più scrivere il file, nemmeno quella che ne avrebbe il diritto",
+   "file": "cervello/verifica-sensori.mjs",
+   "cerca": "  const scriviStato = (ambienteConfigurato || aggiornamentoMcp) && copertura.scrivi;",
+   "sostituisci": "  const scriviStato = false;",
+   "test": "cervello/test/sensori-non-calpestati.test.mjs",
+   "nota_riaggancio": "La cosa da rompere è la capacità di dire di SÌ. I casi ①-④ sorvegliano che la porta resti chiusa quando deve; senza il caso ⑤ una porta murata li passerebbe tutti e quattro — cioè il modo più facile di far sembrare sano un guardiano è spegnerlo."
   }
  ]
 }
