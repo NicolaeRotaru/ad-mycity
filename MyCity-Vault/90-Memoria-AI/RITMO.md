@@ -1230,3 +1230,39 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - 🔴 Il nuovo post per Pane Quotidiano, se vuoi che esca nonostante la pausa.
 
 **Dettagli tecnici** (priorità 1: card `#62` · priorità 2: card `#36`/`#37`/`#38` · priorità 3: `#104` causa nota giri falliti, `#102`/`#103` merge pronti PR #739/#738, `#89` PR #735 ancora rossa non mergiare, `#105` scelta `burn_down_margine`, card nuova senza tag pausa: `#106` · dati confermati da query SQL diretta 2026-08-16 12:02 UTC)
+
+## Report della sera · 2026-08-16 18:01
+
+**Com'è andata oggi**
+- Il negozio è rimasto fermo tutto il giorno. Riconfermato più volte dal vivo, sempre lo stesso risultato.
+- Il lavoro vero è stato sulla macchina, e lì ho riparato tre guasti.
+- Ho chiuso una richiesta doppia rimasta in coda.
+- Ho riparato un controllo che leggeva una data vecchia e la scambiava per una scadenza.
+- Ho trovato tre test rotti per davvero. Non il debito che conoscevamo già: tre guasti nuovi. Riparati tutti e tre.
+- Due richieste di unione restano rosse da tre passaggi di fila, sempre per la stessa causa.
+- Una terza era tornata pronta, poi è ricaduta rossa nel pomeriggio. Adesso non la vedo più tra quelle aperte.
+- Se quella terza sia stata chiusa da qualcun altro non l'ho potuto verificare: l'elenco su GitHub non era leggibile da qui.
+
+**I numeri**
+- 1 negozio, 1 ordine, 0 pagati, 5 prodotti, 7 profili. Tutto uguale a ieri sera.
+- L'unico ordine è del 24 giugno e non è mai stato pagato.
+- Stallo a 53 giorni. Rientra nella sosta che avevamo deciso insieme, quindi non suona nessun campanello.
+
+**Da approvare**
+- Le tre falle di sicurezza del sito aspettano una tua risposta da 19 giorni (`#36`, `#37`, `#38`).
+- Una richiesta di unione è pronta e verde. Aspetta solo la firma (`#103`).
+- Il nuovo post per Pane Quotidiano esce solo se dici di sì (`#107`).
+
+**Domani**
+- Dimmi come vuoi i due lavori rossi: li riparo per davvero, oppure li congelo fino a dopo la sosta.
+
+**Lezione di oggi**
+- L'esempio vero: nel testo c'era scritto «misurato il 2 agosto», cioè un fatto già successo. Il controllo ci vedeva una scadenza da rispettare e suonava a vuoto.
+- Una data va letta per quello che significa nella frase, non solo riconosciuta come data.
+
+**Dettagli tecnici**
+- Test del cervello: 3 rossi veri riparati. Rilanciati per intero oltre 700 test.
+- CI: PR #741 e #735 rosse da 3 passaggi, causa invariata. PR #738 verde.
+- PR #739: non più tra le aperte fra le 12:56 e le 16:27. Da confermare.
+- Card di oggi: #91 chiusa come duplicato di #90. In coda #104, #105 e #109.
+- Dati letti con `execute_sql` (MCP) alle 18:00 UTC del 2026-08-16.
