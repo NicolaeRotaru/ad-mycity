@@ -2,66 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-10T17:23:04.046Z",
-      "scatti": 193,
-      "voci": 2,
-      "per_classe": {
-        "difesa-rimossa": 1,
-        "prova-accecata": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T17:32:11.638Z",
-      "scatti": 193,
-      "voci": 2,
-      "per_classe": {
-        "difesa-rimossa": 1,
-        "prova-accecata": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T17:37:15.961Z",
-      "scatti": 195,
-      "voci": 2,
-      "per_classe": {
-        "difesa-rimossa": 1,
-        "prova-accecata": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T17:42:20.190Z",
-      "scatti": 195,
-      "voci": 2,
-      "per_classe": {
-        "difesa-rimossa": 1,
-        "prova-accecata": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T17:47:24.725Z",
-      "scatti": 195,
-      "voci": 2,
-      "per_classe": {
-        "difesa-rimossa": 1,
-        "prova-accecata": 1
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-10T17:52:29.011Z",
-      "scatti": 195,
-      "voci": 2,
-      "per_classe": {
-        "difesa-rimossa": 1,
-        "prova-accecata": 1
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-10T17:57:33.589Z",
       "scatti": 195,
       "voci": 2,
@@ -2187,35 +2127,113 @@
       "mai_risolte": []
     },
     {
-      "quando": "2026-08-15T18:55:36.082Z",
-      "scatti": 696,
-      "voci": 7,
+      "quando": "2026-08-16T05:09:26.841Z",
+      "scatti": 9435,
+      "voci": 52,
       "per_classe": {
-        "prova-accecata": 5,
-        "difesa-rimossa": 2
+        "soglia-allentata": 4,
+        "difesa-rimossa": 44,
+        "prova-accecata": 3,
+        "riparazione-parziale": 1
       },
       "mai_risolte": []
     },
     {
-      "quando": "2026-08-15T20:36:22.901Z",
-      "scatti": 750,
-      "voci": 7,
+      "quando": "2026-08-16T05:11:27.691Z",
+      "scatti": 9439,
+      "voci": 52,
       "per_classe": {
-        "prova-accecata": 5,
-        "difesa-rimossa": 2
+        "soglia-allentata": 4,
+        "difesa-rimossa": 44,
+        "prova-accecata": 3,
+        "riparazione-parziale": 1
       },
       "mai_risolte": []
     },
     {
-      "quando": "2026-08-15T21:37:52.853Z",
-      "scatti": 761,
-      "voci": 7,
+      "quando": "2026-08-16T05:12:29.894Z",
+      "scatti": 9441,
+      "voci": 52,
       "per_classe": {
-        "prova-accecata": 5,
-        "difesa-rimossa": 2
+        "soglia-allentata": 4,
+        "difesa-rimossa": 44,
+        "prova-accecata": 3,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-16T05:20:55.730Z",
+      "scatti": 9467,
+      "voci": 52,
+      "per_classe": {
+        "soglia-allentata": 4,
+        "difesa-rimossa": 44,
+        "prova-accecata": 3,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-16T05:28:45.737Z",
+      "scatti": 9497,
+      "voci": 52,
+      "per_classe": {
+        "soglia-allentata": 4,
+        "difesa-rimossa": 44,
+        "prova-accecata": 3,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-16T05:44:34.599Z",
+      "scatti": 9550,
+      "voci": 52,
+      "per_classe": {
+        "soglia-allentata": 4,
+        "difesa-rimossa": 44,
+        "prova-accecata": 3,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-16T05:48:38.820Z",
+      "scatti": 9553,
+      "voci": 52,
+      "per_classe": {
+        "soglia-allentata": 4,
+        "difesa-rimossa": 44,
+        "prova-accecata": 3,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-16T05:50:53.847Z",
+      "scatti": 9563,
+      "voci": 52,
+      "per_classe": {
+        "soglia-allentata": 4,
+        "difesa-rimossa": 44,
+        "prova-accecata": 3,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-16T05:51:53.568Z",
+      "scatti": 9565,
+      "voci": 52,
+      "per_classe": {
+        "soglia-allentata": 4,
+        "difesa-rimossa": 44,
+        "prova-accecata": 3,
+        "riparazione-parziale": 1
       },
       "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-15T21:37:52.853Z"
+  "aggiornato": "2026-08-16T05:51:53.570Z"
 }

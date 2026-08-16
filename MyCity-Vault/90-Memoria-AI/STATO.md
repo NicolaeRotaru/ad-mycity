@@ -1,8 +1,23 @@
 ---
 tipo: stato
-aggiornato: 2026-08-15 11:25
+aggiornato: 2026-08-16 07:40
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **16/8 07:40 — Giro richiesto in chat. Nuovo giorno, business invariato. Trovato e corretto un piccolo difetto di coda (card duplicata).**
+> Riconfermato con `verifica-sensori.mjs` dal vivo (REST): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg, 7 clienti — identico al giro di ieri sera (15/8 11:25). `delta-gate.json` conferma la stessa firma dell'ultimo giro pieno. `coerenza-fatti.mjs` rieseguito dal vivo: ✅ coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: 103/120 quaderni fermi, nessuno sblocca una card business prima di settembre — vincolo north-star rispettato.
+>
+> **Lavoro reale: la card #91 in [[AZIONI-IN-ATTESA]] era un duplicato esatto della card #90** (entrambe «Merge PR #740 ad-mycity → main», scritte a 10 minuti di distanza, 07:07 e 07:17 — probabile doppia scrittura dello stesso pre-step automatico). Corretta segnando #91 come duplicato chiuso, senza toccare la #90 originale.
+>
+> **Aggiornato `OKR-Squadra.md` per il vincolo HARD AR-115** (target scaduti): la riga tasso-di-chiusura è stata riscritta come guardrail permanente (non una scadenza), e la riga north-star chiarisce che il gate `#ordine-test-dentro-o-fuori-dalla-pausa` è già stato risposto da Nicola il 28/7 (card #35, chiusa il 13/8) — non resta più «da forzare».
+>
+> **Aggiornati i file obbligatori del cancello di serietà** (`auto-analisi.json`, `AUTO-ANALISI.md`, voto di fiducia 86/100, ↓1 per il debito HARD dichiarato — non per un errore di questo passaggio) e il digest `ultimo-briefing.json`.
+>
+> **Provati e bloccati (una sola volta ciascuno, non ritentati — stesso limite noto):** `test-cervello.mjs`, `north-star-check.mjs --gate`, `freschezza-cadenze.mjs`, `apprendimento-guardiano.mjs`, `correzione-nicola-gate.mjs`, `sonda-volano.mjs`, `gate-veri.mjs`, `piani-data.mjs --controlla` ([[feedback-bash-solo-script-esatti-in-allowlist]]).
+>
+> **Correzione-nicola-gate: non ri-indagato** — stesso debito (246/311 senza freno), nessun nuovo candidato onestamente gatabile senza forzare un check vietato dall'asticella AR-128.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda invariata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco del primo incasso), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, ferme dal 29/7 senza risposta, ora 18 giorni). Briefing: [[Briefing/2026-08-16]].
 
 > 🔁 **15/8 11:25 — Giro richiesto in chat, 15 minuti dopo il passaggio delle 11:10. Business invariato. Strategia snella applicata: nessun motore pesante riaperto.**
 > Riconfermato con `verifica-sensori.mjs` (REST, allowlisted) + `cervello/delta-gate.mjs` (letto, non rilanciato): firma identica dal 24/6 — 1 ordine, mai pagato, 0 pagati negli ultimi 7gg, 7 clienti. `coerenza-fatti.mjs` rieseguito dal vivo: ✅ memoria coerente, 0 cacce aperte. `chiusura-loop.mjs --sonda` rieseguito: 103/120 quaderni fermi, nessuno riguarda una card sbloccabile prima del 24/8-1/9 (vincolo north-star rispettato: nessun lavoro-macchina fuori da ciò che sblocca il primo incasso).
