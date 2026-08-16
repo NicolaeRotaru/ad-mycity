@@ -89,6 +89,13 @@ const ignotiSettimanaFa = indietro.ignoti;
 const burnDown =
   apertiOra != null && apertiSettimanaFa != null ? apertiSettimanaFa - apertiOra : null; // >0 = migliora
 
+// AR-671 — il margine dichiarato dev'essere quello di ADESSO (schede non chiuse senza data leggibile),
+// non quello "a settimana fa" di `ignotiSettimanaFa`: sono due domande diverse (indietro nel tempo vs
+// oggi), e usare la prima per rispondere alla seconda sottostimava/sovrastimava il margine dichiarato.
+const margineOra = difetti
+  ? difetti.filter(Boolean).filter((d) => String(d?.stato ?? "").trim() !== "chiuso" && giorno(d?.nato) == null).length
+  : null;
+
 const report = {
   esito: conto.letto ? "ok" : "cieco",
   voto_onesto_ultimo: ultimoPieno,
@@ -109,7 +116,7 @@ const report = {
   cantiere_aperti_settimana_fa: apertiSettimanaFa,
   cantiere_aperti_settimana_fa_ignoti: ignotiSettimanaFa,
   burn_down_settimana: burnDown, // positivo = il cantiere cala (bene)
-  burn_down_margine: ignotiSettimanaFa, // di quanto il confronto può sbagliare, dichiarato
+  burn_down_margine: margineOra, // AR-671: schede non chiuse senza data di nascita leggibile, ADESSO
   cantiere_meta: cj?.meta ?? null,
 };
 
