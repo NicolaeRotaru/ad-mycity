@@ -75,7 +75,7 @@ non hai potuto provare da qui si dichiara, non si tace. Un ⚪ dichiarato vale, 
 
 ## Il frammento che consegni
 
-Scrivi **un solo file**: `.lotto44/corsia-<N>.json`, in questa forma esatta.
+Scrivi **un solo file**: `MyCity-Vault/90-Memoria-AI/auto-coscienza/lotti/44/corsia-<N>.json`, in questa forma esatta.
 
 ```json
 {

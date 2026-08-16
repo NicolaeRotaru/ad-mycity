@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-16 04:28 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-15 21:34 · Lotto 44 del cantiere: nove corsie in parallelo su nove malattie, territori di file disgiunti, ogni corsia consegna un frammento e l'AD ricuce i registri condivisi · V5 C5 A5 K5 I4 M5 E5 (media 4.86) · atteso 100 difetti chiusi in una sessione sola → reale 75 riparati e verificati con le sette corsie rientrate finora: 39 mutazioni eseguite, 39 prove diventate rosse. Piu 12 gia riparati nel lotto 43 e mai timbrati, verificati uno per uno. Due corsie ancora al lavoro; il conto vero lo dara il cancello ad albero fermo · #cantiere #lotto44 #corsie-parallele
 - 2026-08-15 21:32 · prova · 9/10 · atteso 1 → reale 1
 - 2026-08-15 18:32 · Lotto 43 del cantiere: 53 difetti in cinque corsie parallele, una per malattia, territori di file disgiunti · difetti chiusi con prova comportamentale + non-vacuita eseguita · atteso 50 chiusi → reale 23 chiusi in questo lotto + 26 gia curati nel codice e mai dichiarati + 4 lasciati aperti col perche scritto; 5 regressioni introdotte dal lotto stesso trovate dal cancello e riparate (mutazioni che puntavano a --test, due voci di malattia senza nome che si riconoscevano a vicenda, tre registri riscritti con l indentazione sbagliata, un catch che ingoiava l errore, una prova che sorvegliava la forma invece dell effetto) · #cantiere #lotto43 #corsie-parallele

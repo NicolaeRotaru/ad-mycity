@@ -313,6 +313,17 @@ if command -v node >/dev/null 2>&1; then
   # AR-617 — i 114 senior che promettono di lavorare in sola lettura adesso hanno il limite scritto
   # dove la macchina lo legge, e questo guardiano controlla che promessa e permessi non divergano.
   # Va qui e non in CI: in CI il danno è già scritto, qui arriva prima che si deleghi il lavoro.
+  # AR-407 — le medicine dei lotti si scrivevano e non si somministravano: nessuno contava chi le
+  # usa. Il guardiano c'era e non lo eseguiva nessuno, che è la stessa malattia un piano sopra.
+  echo "[$(ts)] Adozione delle medicine (AR-407)..."
+  _medicine_out="$(node "$SCRIPT_DIR/adozione-medicine.mjs" 2>&1)"; _medicine_rc=$?
+  printf '%s\n' "$_medicine_out" | tail -4
+  if [ "$_medicine_rc" -eq 1 ]; then
+    MEDICINE_VINCOLO="⛔ UNA MEDICINA NON SOMMINISTRATA (adozione-medicine.mjs rc=$_medicine_rc, AR-407): è nato un punto scoperto nuovo, oppure una cura scritta non la usa nessuno."
+    echo "[$(ts)] ⚠️  AR-407: adozione-medicine FALLITO (rc=$_medicine_rc) → vincolo al motore." >&2
+  elif [ "$_medicine_rc" -ne 0 ]; then
+    echo "[$(ts)] ⚪ AR-407: adozione-medicine non ha potuto misurare (rc=$_medicine_rc) — cieco, non verde." >&2
+  fi
   echo "[$(ts)] Guardiano permessi dei senior (AR-617)..."
   _solalettura_out="$(node "$SCRIPT_DIR/senior-sola-lettura.mjs" 2>&1)"; _solalettura_rc=$?
   printf '%s\n' "$_solalettura_out" | tail -4

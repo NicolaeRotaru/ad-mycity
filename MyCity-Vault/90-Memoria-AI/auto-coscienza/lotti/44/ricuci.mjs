@@ -11,16 +11,16 @@
 // E su un difetto che la corsia dichiara ancora APERTO si TOGLIE la verifica a pattern, o si
 // richiuderebbe da solo smentendo la firma di Nicola.
 //
-// Uso:  node .lotto44/ricuci.mjs [--scrivi]     (senza --scrivi fa solo il resoconto)
+// Uso:  node MyCity-Vault/90-Memoria-AI/auto-coscienza/lotti/44/ricuci.mjs [--scrivi]     (senza --scrivi fa solo il resoconto)
 
 import { readFileSync, writeFileSync, readdirSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { timbroOra } from "../cervello/ora-piacenza.mjs";
+import { timbroOra } from "../../../../../cervello/ora-piacenza.mjs";
 
 // `fileURLToPath` e non `.pathname`: un percorso con uno spazio o un accento arriva percent-encoded
 // e lo script si spegne in silenzio (è la malattia di AR-720, non la rifacciamo qui).
-const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
+const ROOT = dirname(dirname(dirname(dirname(dirname(dirname(fileURLToPath(import.meta.url)))))));
 const CANTIERE = join(ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json");
 const MUTANTI = join(ROOT, "cervello/mutanti.json");
 const LOTTO = 44;
@@ -43,10 +43,10 @@ const salva = (p, o) => {
   writeFileSync(p, JSON.stringify(o, null, indent) + "\n");
 };
 
-const frammenti = readdirSync(join(ROOT, ".lotto44"))
+const frammenti = readdirSync(join(ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/lotti/44"))
   .filter((f) => /^corsia-\d+\.json$/.test(f))
   .sort()
-  .map((f) => ({ nome: f, dati: leggi(join(ROOT, ".lotto44", f)) }));
+  .map((f) => ({ nome: f, dati: leggi(join(ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/lotti/44", f)) }));
 
 if (!frammenti.length) {
   console.log("nessun frammento in .lotto44/ — le corsie non hanno ancora consegnato");
@@ -139,7 +139,7 @@ if (SCRIVI) {
   salva(CANTIERE, cantiere);
   salva(MUTANTI, mutanti);
   writeFileSync(
-    join(ROOT, ".lotto44/da-fare-ad.json"),
+    join(ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/lotti/44/da-fare-ad.json"),
     JSON.stringify({ patchPerAd, difettiNuovi, malattieDaCensire, esiti }, null, 2) + "\n",
   );
   console.log("\n   💾 scritto: cantiere-difetti.json · mutanti.json · .lotto44/da-fare-ad.json");

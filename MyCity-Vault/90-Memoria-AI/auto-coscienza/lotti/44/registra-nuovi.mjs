@@ -12,16 +12,16 @@
 // malattia «git-letto-senza-tetto», e il guardiano me l'ha fermata mentre stavo per riscriverla.
 // Qui l'uscita va dritta su un file e il file si legge dopo: nessun tetto da indovinare.
 //
-// Uso:  node .lotto44/registra-nuovi.mjs [--scrivi]
+// Uso:  node MyCity-Vault/90-Memoria-AI/auto-coscienza/lotti/44/registra-nuovi.mjs [--scrivi]
 
 import { readFileSync, writeFileSync, readdirSync, openSync, closeSync, mkdtempSync, rmSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { tmpdir } from "node:os";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
-import { timbroOra } from "../cervello/ora-piacenza.mjs";
+import { timbroOra } from "../../../../../cervello/ora-piacenza.mjs";
 
-const ROOT = dirname(dirname(fileURLToPath(import.meta.url)));
+const ROOT = dirname(dirname(dirname(dirname(dirname(dirname(fileURLToPath(import.meta.url)))))));
 const CANTIERE = join(ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json");
 const DENTRO_GIT = "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json";
 const SCRIVI = process.argv.includes("--scrivi");
@@ -60,8 +60,8 @@ let prossimo = Math.max(maxRemoto, maxLocale) + 1;
 console.log(`numero più alto: ${maxRemoto} su origin/main · ${maxLocale} qui → si parte da AR-${prossimo}`);
 
 const nuovi = [];
-for (const f of readdirSync(join(ROOT, ".lotto44")).filter((x) => /^corsia-\d+\.json$/.test(x)).sort()) {
-  const d = JSON.parse(readFileSync(join(ROOT, ".lotto44", f), "utf8"));
+for (const f of readdirSync(join(ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/lotti/44")).filter((x) => /^corsia-\d+\.json$/.test(x)).sort()) {
+  const d = JSON.parse(readFileSync(join(ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/lotti/44", f), "utf8"));
   for (const x of d.difetti_nuovi || []) nuovi.push({ corsia: d.corsia, ...x });
 }
 
