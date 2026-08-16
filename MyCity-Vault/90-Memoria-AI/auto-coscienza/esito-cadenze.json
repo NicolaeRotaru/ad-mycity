@@ -12,13 +12,13 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-16 11:32",
+      "quando": "2026-08-16 11:49",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
       "push_ok": false,
-      "passi_ok": true,
-      "vincoli_attivi": 9,
+      "passi_ok": false,
+      "vincoli_attivi": 8,
       "vincoli": [
         "APPRENDIMENTO",
         "CADENZE",
@@ -27,7 +27,6 @@
         "TASSO",
         "TEST",
         "VOLANO",
-        "CI",
         "NORTH_STAR"
       ]
     },
@@ -72,5 +71,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-16 11:32"
+  "aggiornato": "2026-08-16 11:49"
 }
