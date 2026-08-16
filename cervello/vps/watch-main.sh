@@ -115,6 +115,8 @@ SHA_FILE="$REPO/.git/mycity-watch-main-sha"
 # AR-316: quanti rinvii CONSECUTIVI. Un rinvio è normale (una chat sta lavorando su un ramo); sei di
 # fila — mezz'ora — significa worktree bloccato, e nessuno se ne accorge perché ogni rinvio è verde.
 RINVII_FILE="$REPO/.git/mycity-watch-main-rinvii"
+# La causa specifica dell'allineamento fallito, scritta da aggiorna-cervello.sh (2026-08-16).
+CAUSA_FILE="$REPO/.git/mycity-allineamento-causa"
 LOCK="$REPO/.git/mycity-sync.lock"
 
 exec 9>"$LOCK"
@@ -198,7 +200,11 @@ if [ "$_agg_rc" -ne 0 ]; then
       # AR-316: oltre il tetto non è più «una chat che lavora», è un worktree bloccato. Un verde
       # ripetuto all'infinito è indistinguibile da un sistema fermo: qui diventa rosso.
       echo "[$(ts)] watch-main: ⛔ $_rinvii rinvii CONSECUTIVI — $_motivo" >&2
-      segnale "errore" "allineamento fermo da $_rinvii giri (~$(( _rinvii * 5 )) min): $_motivo — ${REMOTE_SHA:0:7} mai applicato"
+      # La causa specifica la scrive aggiorna-cervello.sh: qui si porta fuori, così dal Pannello si
+      # legge PERCHÉ è fermo e non solo CHE è fermo.
+      _causa=""
+      [ -f "$CAUSA_FILE" ] && _causa="$(head -c 300 "$CAUSA_FILE" 2>/dev/null | tr -d '"\n')"
+      segnale "errore" "$(frase_segnale_allineamento "$_agg_rc" "$_rinvii" "$_causa") — ${REMOTE_SHA:0:7} mai applicato"
       exit 1
       ;;
     *)

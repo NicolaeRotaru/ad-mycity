@@ -22,6 +22,51 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #108 — Sblocca il server: è fermo da mezzogiorno e da solo non ne esce · ⏳ accodata 2026-08-16 19:05
+
+**Cosa cambia:** da oggi alle 12:10 la macchina non pubblica più niente. Non è morta: il worker batte ancora, l'ho visto alle 18:47. Sono due cose incastrate. La prima: alle 13:36 una cadenza ha preso il lucchetto del giro e non l'ha più mollato, e da lì nessuna cadenza parte. La seconda: il server ha dei commit di memoria che non è riuscito a pubblicare, e giustamente si rifiuta di allinearsi al codice nuovo, perché allinearsi li cancellerebbe. Il risultato è che il server è fermo **e** non può ricevere nessuna correzione, nemmeno quella che ho appena scritto.
+
+**Se va bene:** i giri ripartono da soli, la memoria torna a pubblicarsi e il Pannello smette di mostrarti i numeri di stamattina. E il server riceve la cura che ho scritto oggi: da quel momento un lucchetto rimasto appeso oltre due ore la macchina se lo toglie da sola, senza di te.
+
+**Cosa devi fare.** Sul server, in quest'ordine.
+
+Prima guarda cosa è rimasto fermo, senza toccare niente:
+```
+cd /opt/mycity/ad-mycity
+sudo -u mycity git log --oneline origin/main..HEAD
+```
+
+Poi porta a casa quel lavoro unendolo a quello che c'è già su GitHub:
+```
+sudo -u mycity git fetch origin main
+sudo -u mycity git merge origin/main
+sudo -u mycity git push origin HEAD:main
+```
+
+Se il merge si lamenta di conflitti, non insistere: metti il lavoro al sicuro su un ramo suo e basta, lo recupero io dopo.
+```
+sudo -u mycity git merge --abort
+sudo -u mycity git push origin HEAD:refs/heads/vps/salvataggio-16-8
+```
+
+Infine togli il lucchetto rimasto appeso, una volta sola:
+```
+rm -f /opt/mycity/ad-mycity/.git/MYCITY_RUN_LOCK-giro
+```
+
+**Cosa non ho verificato:** non ho provato nessuno di questi comandi, perché scrivo da una sessione in cloud e nel server non posso entrare. Li ho scritti leggendo gli script che li useranno. Non so nemmeno **quale** processo tenga il lucchetto da stamattina: da qui vedo che è preso e da quanto, non chi lo tiene. E non so se i commit fermi sul server siano solo memoria o anche altro: lo dice la prima riga qui sopra, guardala prima di unire.
+
+🔧 Dettagli tecnici — segnali letti dal vivo sulla tabella `impostazioni`, 16/8 fra le 18:24 e le 18:47:
+
+- `automazione:cadenza-giro` dice che il lucchetto è orfano da 300 minuti. Nessuna cadenza parte.
+- `automazione:watch-main` dice che l'allineamento è fermo da 72 giri, circa 360 minuti. Il commit `d9fe8a7` non è mai stato applicato.
+- `automazione:giro` dice «non-pubblicato», uscita 2.
+- `worker:ultimo` segna le 18:47. Il worker è vivo.
+
+La cura permanente del lucchetto sta in `cervello/lib-cadenza.sh`, funzione `cadenza_lock_rompi`. La prova è `node cervello/test/lucchetto-che-non-si-libera.test.mjs`. Reparto: devops-sre (sintesi AD).
+
+---
+
 ### 🔴 #107 — Pubblica "I fornelli restano spenti" — hummus e pesto genovese bio di Pane Quotidiano · ⏳ accodata 2026-08-16 12:05
 
 **Cosa cambia:** esce un post nuovo per Pane Quotidiano, l'unico negozio vero su MyCity. L'angolo è diverso da tutti quelli fatti finora: aggancia il caldo di metà agosto — chi non ha voglia di stare ai fornelli — a due prodotti reali del suo catalogo, già pronti: hummus di ceci bio (2,95€) e pesto genovese bio (5€, basta cuocere la pasta). Prezzi e descrizioni letti oggi, in diretta, dal database del marketplace: zero numeri inventati, zero recensioni finte (il negozio non ne ha ancora, e il post non ne parla).

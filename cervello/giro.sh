@@ -150,7 +150,7 @@ MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)
 if [ -n "${GIT_PUSH_TOKEN:-}" ] && [ -n "${GIT_REPO:-}" ]; then
   url="$(c4_git_url)"   # AR-278: nessun token nell'indirizzo — lo dà l'ambiente ad askpass
   (
-    flock -w 600 9 || exit 0   # Fix A: timeout sul lock — niente hang se un altro processo resta appeso
+    cadenza_sync_attendi giro 600 || exit 0   # Fix A: timeout sul lock — niente hang se un altro processo resta appeso; e se scade, si dice (2026-08-16)
     # Fix B (PRESERVATA): se un giro precedente è morto lasciando scritture del vault NON committate,
     # committale ORA — così il rebase/merge qui sotto non le trova come modifiche pendenti (fallirebbe) e
     # non vanno perse. Il push finale del giro le pubblica.

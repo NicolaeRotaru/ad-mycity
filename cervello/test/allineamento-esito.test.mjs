@@ -198,6 +198,22 @@ prova("AR-468: conflitti e push rifiutato sono due cause diverse, e si dicono di
   assert.match(sh(`motivo_push_fallito ''`), /token|rete/i);
 });
 
+// 2026-08-16 — sei ore e mezza di macchina ferma con la causa già calcolata e mai uscita di casa.
+// Dal Pannello si leggeva «commit del server non pubblicati»: vero, e inutile. «Il rebase ha trovato
+// conflitti» e «GitHub ha rifiutato il push» hanno due cure diverse, e chi guarda da fuori non poteva
+// sapere quale delle due stesse succedendo senza entrare nel server.
+prova("la riga che esce dalla macchina porta la causa specifica, non solo che è fermo", () => {
+  const detto = sh(`frase_segnale_allineamento 5 62 'il rebase ha trovato conflitti: vanno risolti a mano'`);
+  assert.match(detto, /conflitti/, "la causa vera deve arrivare fuori dal server, non restare nel journal");
+  assert.match(detto, /62 giri/, "e con essa da quanto dura, altrimenti non si sa se è un inciampo o un blocco");
+});
+
+prova("senza causa nota la riga resta onesta invece di inventarne una", () => {
+  const detto = sh(`frase_segnale_allineamento 5 3 ''`);
+  assert.match(detto, /commit del server non pubblicati/, "resta il motivo generico");
+  assert.doesNotMatch(detto, /causa:/, "e NON si attacca un «causa:» vuoto: indovinare è peggio che tacere (AR-468)");
+});
+
 prova("ogni script toccato resta sintatticamente valido", () => {
   // Sono i copioni che portano il codice nuovo sul server: se si rompono, il VPS smette di
   // aggiornarsi e nessuno se ne accorge subito.

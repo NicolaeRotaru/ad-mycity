@@ -170,8 +170,13 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
       _rc_all="$(esito_allineamento 0 1 0)"
       echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all") — ${_ahead_pre} commit restano qui." >&2
       echo "[$(ts)]    Causa: $(motivo_push_fallito "$_perche_rebase")" >&2
+      # La causa esce dalla macchina: watch-main la infila nel segnale che il Pannello legge. Su
+      # stderr resterebbe nel journal del server, cioè invisibile a chiunque non possa entrarci.
+      printf '%s (%s commit fermi qui)\n' "$(motivo_push_fallito "$_perche_rebase")" "$_ahead_pre" \
+        > "$REPO/.git/mycity-allineamento-causa" 2>/dev/null || true
       exit "$_rc_all"
     fi
+    rm -f "$REPO/.git/mycity-allineamento-causa" 2>/dev/null || true
   fi
 fi
 

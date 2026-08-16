@@ -116,10 +116,9 @@ test("il motore parte senza portarsi dietro i lucchetti", () => {
 // massimo poco più di un'ora — oltre le due, quel lucchetto non è una cadenza viva.
 
 /** Prende il lucchetto e ci scrive dentro una data vecchia, poi prova a prenderlo di nuovo. */
-function verdettoConLucchettoVecchioDi(minuti) {
+function scenaLucchettoVecchioDi(minuti) {
   const dir = mkdtempSync(join(tmpdir(), "lucchetto-eta-"));
   try {
-    const lock = join(dir, "MYCITY_RUN_LOCK-giro");
     const scena = join(dir, "scena.sh");
     writeFileSync(
       scena,
@@ -132,16 +131,18 @@ ts() { date '+%Y-%m-%d %H:%M:%S'; }
 exec 7>"$REPO/.git/MYCITY_RUN_LOCK-giro"
 flock -n 7 || exit 9
 printf '%s %s\\n' 12345 "$(date -d '${minuti} minutes ago' '+%Y-%m-%d %H:%M:%S')" >&7
-cadenza_lock giro
+cadenza_lock giro; echo "RC=$?"
 `,
       { mode: 0o755 }
     );
-    const r = spawnSync("bash", [scena], { encoding: "utf8", timeout: 20_000 });
-    return `${r.stdout || ""}${r.stderr || ""}`;
+    const r = spawnSync("bash", [scena], { encoding: "utf8", timeout: 30_000 });
+    return { out: `${r.stdout || ""}${r.stderr || ""}` };
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
 }
+
+const verdettoConLucchettoVecchioDi = (m) => scenaLucchettoVecchioDi(m).out;
 
 test("un lucchetto di pochi minuti resta una nota, non un allarme", { skip: !haFlock && "flock assente" }, () => {
   const out = verdettoConLucchettoVecchioDi(5);
@@ -153,4 +154,89 @@ test("un lucchetto di ore è dichiarato orfano, e il blocco esce dalla macchina"
   const out = verdettoConLucchettoVecchioDi(300);
   assert.match(out, /BLOCCATA/, "cinque ore non sono una cadenza viva: è un lucchetto orfano e va detto");
   assert.match(out, /300 minuti/, "e va detto DA QUANTO, altrimenti chi legge non sa se è grave");
+});
+
+// ── E POI SI ROMPE: dichiarare il guasto non è ripararlo ──────────────────────
+//
+// IL CASO VERO, pomeriggio del 16/8/2026. Lucchetto del giro preso alle 13:36 e mai mollato. Da lì
+// in poi la macchina ha fatto tutto giusto tranne l'ultima cosa: ogni cinque minuti riconosceva
+// l'orfano, lo misurava, lo dichiarava sul canale del Pannello — e usciva senza toccarlo. Sei ore e
+// mezza senza un giro, senza una visita, senza una riga di memoria pubblicata, con l'allarme acceso
+// per tutto il tempo. I due test qui sopra erano verdi mentre succedeva: provavano che la macchina
+// SAPEVA di essere bloccata, non che sapesse ripartire. È la differenza fra un sensore e un freno.
+//
+// Questi due test provano il comportamento che mancava, e la coppia va letta insieme: si rompe il
+// lucchetto vecchio (altrimenti la macchina resta ferma per sempre) e NON si rompe quello vivo
+// (altrimenti due cadenze scrivono lo stesso vault, che è il danno da cui nasce tutto il lucchetto).
+
+test("dopo averlo dichiarato orfano, il lucchetto lo rompe e la cadenza riparte", { skip: !haFlock && "flock assente" }, () => {
+  const { out } = scenaLucchettoVecchioDi(300);
+  assert.match(
+    out,
+    /RC=0/,
+    "riconoscere l'orfano e poi uscire lascia la macchina ferma: dopo la diagnosi il lucchetto va rotto e la cadenza deve partire"
+  );
+  assert.match(out, /lucchetto orfano rimosso/, "e la ripartenza va detta, altrimenti sei ore di blocco spariscono dai log");
+});
+
+// ── L'ALTRO LUCCHETTO: quello che non gridava nemmeno ────────────────────────
+//
+// `flock -w 600 9 || exit 0`, la stessa riga in giro.sh, ritmo.sh e monitora.sh. Se il lucchetto git
+// è occupato, la cadenza aspetta dieci minuti e poi esce senza dire niente: il turno è andato, la
+// memoria non è stata pubblicata, e fuori non arriva una riga. Il lucchetto di esecuzione almeno
+// urlava; questo no. Qui si prova che adesso il fatto esce.
+
+function scenaSyncOccupato({ occupato }) {
+  const dir = mkdtempSync(join(tmpdir(), "sync-lock-"));
+  try {
+    const scena = join(dir, "scena.sh");
+    const tieni = occupato
+      ? `( exec 7>"$REPO/.git/mycity-sync.lock"; flock 7; sleep 6 ) & HOLDER=$!\nsleep 1`
+      : `HOLDER=""`;
+    writeFileSync(
+      scena,
+      `#!/usr/bin/env bash
+REPO="${dir}"; SCRIPT_DIR="${join(REPO, "cervello")}"
+mkdir -p "$REPO/.git"
+ts() { date '+%Y-%m-%d %H:%M:%S'; }
+. "${LIB}"
+${tieni}
+exec 9>"$REPO/.git/mycity-sync.lock"
+cadenza_sync_attendi giro 1; echo "RC=$?"
+[ -n "$HOLDER" ] && kill -KILL "$HOLDER" 2>/dev/null
+exit 0
+`,
+      { mode: 0o755 }
+    );
+    const r = spawnSync("bash", [scena], { encoding: "utf8", timeout: 30_000 });
+    return `${r.stdout || ""}${r.stderr || ""}`;
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+}
+
+test("il lucchetto git che non arriva smette di essere un silenzio", { skip: !haFlock && "flock assente" }, () => {
+  const out = scenaSyncOccupato({ occupato: true });
+  assert.match(out, /RC=1/, "se il lucchetto git non si prende, il turno non pubblica: va detto al chiamante");
+  assert.match(
+    out,
+    /NON viene pubblicata/,
+    "dieci minuti persi senza una riga sono indistinguibili da un giro andato bene: il fatto deve uscire dalla macchina"
+  );
+});
+
+test("col lucchetto git libero la cadenza tira dritto senza rumore", { skip: !haFlock && "flock assente" }, () => {
+  const out = scenaSyncOccupato({ occupato: false });
+  assert.match(out, /RC=0/, "il caso normale deve restare normale");
+  assert.doesNotMatch(out, /NON viene pubblicata/, "gridare quando va tutto bene insegna a ignorare il grido");
+});
+
+test("un lucchetto ancora vivo NON si rompe", { skip: !haFlock && "flock assente" }, () => {
+  const { out } = scenaLucchettoVecchioDi(5);
+  assert.match(
+    out,
+    /RC=1/,
+    "cinque minuti sono una cadenza viva: rubarle il lucchetto farebbe scrivere due cadenze sullo stesso vault"
+  );
+  assert.doesNotMatch(out, /lucchetto orfano rimosso/, "non si rompe quello che non è orfano");
 });

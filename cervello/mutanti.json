@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-16 18:50",
+ "aggiornato": "2026-08-16 20:05",
  "mutanti": [
   {
    "lotto": 30,
@@ -3187,7 +3187,7 @@
    "difetto": "AR-691 eta-del-lucchetto-persa",
    "nome": "l'eta del lucchetto torna a leggersi DOPO l'apertura, che lo tronca: il verdetto non sa piu da quanto e bloccato",
    "file": "cervello/lib-cadenza.sh",
-   "cerca": "[ -n \"$eta_min\" ] && [ \"$eta_min\" -ge 120 ]",
+   "cerca": "[ -n \"$eta_min\" ] && [ \"$eta_min\" -ge \"$CADENZA_ORFANO_MIN\" ]",
    "sostituisci": "[ -n \"$eta_min\" ] && [ \"$eta_min\" -ge 999999 ]",
    "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
   },
@@ -5050,6 +5050,30 @@
    "cerca": "return DENTRO.some((d) => {",
    "sostituisci": "return false; // mutante: perimetro chiuso",
    "test": "node cervello/test/perimetro-conteggi.test.mjs"
+  },
+  {
+   "difetto": "AR-758 lucchetto-orfano-gridato-e-mai-rotto",
+   "nome": "l'orfano torna a essere solo dichiarato: la cadenza lo riconosce, lo grida e resta ferma per sempre",
+   "file": "cervello/lib-cadenza.sh",
+   "cerca": "if cadenza_lock_rompi \"$tipo\" \"$file\" \"$pid_preso\" \"$eta_min\"; then",
+   "sostituisci": "if false; then",
+   "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
+  },
+  {
+   "difetto": "AR-759 lucchetto-git-che-tace",
+   "nome": "il lucchetto git torna a scadere in silenzio: dieci minuti persi e nessuna riga fuori dalla macchina",
+   "file": "cervello/lib-cadenza.sh",
+   "cerca": "  flock -w \"$secondi\" 9 && return 0",
+   "sostituisci": "  flock -w \"$secondi\" 9; return 0",
+   "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
+  },
+  {
+   "difetto": "AR-760 pausa-cieca-che-non-esce",
+   "nome": "il fail-closed della pausa torna a fermarsi in silenzio: tre cadenze giu insieme e in Cabina non arriva niente",
+   "file": "cervello/kill-switch.sh",
+   "cerca": "       pausa_segnala_cieco \"$etichetta\" \"$rc\"",
+   "sostituisci": "       :",
+   "test": "node cervello/test/pausa-cieca-che-non-si-vede.test.mjs"
   }
  ]
 }

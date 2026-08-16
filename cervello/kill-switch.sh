@@ -95,6 +95,30 @@ pausa_consenti_partenza() {
   case "$v" in
     0) return 0 ;;
     1) printf '[%s] %s' "$_ts" "$(pausa_motivo 1 "$etichetta" "$rc")"; return 1 ;;
-    *) printf '[%s] %s' "$_ts" "$(pausa_motivo 2 "$etichetta" "$rc")" >&2; return 1 ;;
+    *) printf '[%s] %s' "$_ts" "$(pausa_motivo 2 "$etichetta" "$rc")" >&2
+       pausa_segnala_cieco "$etichetta" "$rc"
+       return 1 ;;
   esac
+}
+
+# pausa_segnala_cieco <etichetta> <rc> — il fail-closed ESCE dalla macchina.
+#
+# 2026-08-16 — fermarsi quando non si riesce a leggere l'interruttore è la scelta giusta e resta.
+# Quello che mancava è che si sapesse. Il motivo andava solo su stderr, cioè nel journal del server:
+# se Supabase diventa irraggiungibile CON le chiavi presenti, giro, ritmo e monitoraggio si fermano
+# tutti e tre insieme e da fuori non arriva niente — e non può arrivare, perché la memoria non si
+# pubblica proprio in quanto le cadenze sono ferme. In Cabina «Nicola ha messo in pausa» e «non
+# riesco a leggere se è in pausa» erano indistinguibili: due cose molto diverse, una normale e una
+# un guasto. Stessa famiglia del lucchetto orfano, terzo punto d'ingresso.
+pausa_segnala_cieco() {
+  local etichetta="${1:-lavoro}" rc="${2:-?}"
+  PAUSA_ETICHETTA="$etichetta" PAUSA_RC="$rc" \
+  PAUSA_LIB="${SCRIPT_DIR:-cervello}/git-github.mjs" \
+  node -e '
+    import(require("node:url").pathToFileURL(process.env.PAUSA_LIB).href).then(async (m) => {
+      await m.stampSegnale(`pausa-${process.env.PAUSA_ETICHETTA}`.replace(/\s+/g, "-"), "errore",
+        `stato pausa non verificabile (rc=${process.env.PAUSA_RC}): fermato per sicurezza, non e una pausa voluta`);
+    }).catch(() => {});
+  ' >/dev/null 2>&1 || true
+  return 0
 }
