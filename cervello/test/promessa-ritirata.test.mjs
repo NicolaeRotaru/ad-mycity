@@ -84,7 +84,7 @@ test("…ma con la partenza ferma o in calo resta rosso: è lì che il ritiro co
 // ── ③ Lo strumento vero, su un albero finto ─────────────────────────────────
 
 /** Lancia la spazzata su un albero finto, con un registro di «ieri» dichiarato. */
-function spazzata({ ieri, oggi }) {
+function spazzata({ ieri, oggi, primaRotto = false }) {
   const dir = mkdtempSync(join(tmpdir(), "mycity-promessa-"));
   try {
     mkdirSync(join(dir, "albero"));
@@ -98,7 +98,11 @@ function spazzata({ ieri, oggi }) {
         ...process.env,
         SPAZZATA_REPO: join(dir, "albero"),
         SPAZZATA_REGISTRO: via.oggi,
-        ...(ieri ? { SPAZZATA_PRIMA: via.ieri } : { SPAZZATA_PRIMA: "" }),
+        ...(ieri
+          ? { SPAZZATA_PRIMA: via.ieri }
+          : primaRotto
+            ? { SPAZZATA_PRIMA: join(dir, "questo-file-non-esiste.json") }
+            : { SPAZZATA_PRIMA: "" }),
       },
     });
     return { rc: r.status, out: `${r.stdout}${r.stderr}` };
@@ -122,10 +126,23 @@ test("lo strumento vero: promessa mantenuta, nessuna accusa e uscita pulita", ()
 
 // ── ④ Cieco non è verde ─────────────────────────────────────────────────────
 
-test("senza il registro di ieri il confronto non si è fatto: uscita 2 e ⚪ dichiarato, non 0", () => {
-  const r = spazzata({ ieri: null, oggi: [voce()] });
-  assert.equal(r.rc, 2, `un confronto mancato non è un verde:\n${r.out.slice(0, 800)}`);
+// Due cose diverse, e il lotto 44 le ha dovute separare perché confonderle rendeva ROSSE tre prove
+// che guidano la spazzata su scenari costruiti (spazzata-esenti, esenzione-con-un-motivo-vero,
+// una-parola-con-due-padroni). In una sabbiera il registro non ha nessun «ultimo commit»: la
+// domanda sulle promesse ritirate non è senza risposta, è senza senso. Cieco resta cieco solo
+// quando qualcuno CHIEDE il confronto e il confronto non riesce.
+
+test("chiedo il confronto e non riesce: uscita 2 e ⚪ dichiarato, non 0", () => {
+  const r = spazzata({ ieri: null, oggi: [voce()], primaRotto: true });
+  assert.equal(r.rc, 2, `un confronto chiesto e fallito non è un verde:\n${r.out.slice(0, 800)}`);
   assert.match(r.out, /non ho guardato/);
+});
+
+test("in sabbiera senza un ieri il confronto è FUORI SCOPO: si dice, e non si spaccia per cecità", () => {
+  const r = spazzata({ ieri: null, oggi: [voce()] });
+  assert.equal(r.rc, 0, `nessun ieri da confrontare non è un guasto:\n${r.out.slice(0, 800)}`);
+  assert.match(r.out, /fuori scopo/);
+  assert.ok(!/non ho guardato/.test(r.out), "e non deve nemmeno dichiararsi cieca: non lo è");
 });
 
 // ── Il registro VERO: oggi nessuna promessa è stata ritirata ────────────────

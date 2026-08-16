@@ -93,12 +93,18 @@ export function rigaRegistro({ quando, sha, esito, motivo }) {
 
 /** Il conto: quante forzature, e quali. È il numero che AR-645 dice che non esisteva. */
 export function contaBypass(testo) {
-  const righe = String(testo || "").split("\n").filter((r) => r.trim());
+  // `null` = il registro non si è potuto leggere. Il conto non è zero: non c'è. Chi legge deve
+  // vedere `letto: false` e dire «non lo so» invece di stampare una fila di zeri rassicuranti.
+  if (testo === null || testo === undefined) {
+    return { letto: false, totale: null, controllati: null, bypass: null, non_applicabili: null, ultimi_bypass: [] };
+  }
+  const righe = String(testo).split("\n").filter((r) => r.trim());
   const voci = righe.map((r) => {
     const [quando, sha, esito, motivo] = r.split("\t");
     return { quando, sha, esito, motivo };
   });
   return {
+    letto: true,
     totale: voci.length,
     controllati: voci.filter((v) => v.esito === "controllato").length,
     bypass: voci.filter((v) => v.esito === "bypass").length,
@@ -168,13 +174,22 @@ export function registra(gitDir, voce) {
   }
 }
 
+/**
+ * Il testo del registro, oppure `null` se non si è potuto leggere.
+ *
+ * ⚠️ `null` e `""` sono due cose diverse e la differenza è tutta: il vuoto vuol dire «nessuno ha
+ * ancora forzato un commit», il null vuol dire «non lo so». Con `catch { return "" }` il conto dei
+ * bypass usciva ZERO su un registro illeggibile, cioè la notizia più rassicurante possibile proprio
+ * nel caso in cui non si è guardato niente. È la malattia `fonte-troncata-letta-per-intera`, e
+ * questo file l'aveva appena aggiunta.
+ */
 export function leggiRegistro(gitDir) {
   const p = g(gitDir, NOME_REGISTRO);
   if (!existsSync(p)) return "";
   try {
     return readFileSync(p, "utf8");
-  } catch {
-    return "";
+  } catch (e) {
+    return null;
   }
 }
 
@@ -240,7 +255,8 @@ function main(argv) {
     registra(gitDir, { quando, sha, esito: v.esito, motivo: v.motivo });
     if (v.esito === "bypass") {
       const c = contaBypass(leggiRegistro(gitDir));
-      console.error(`⚠️  Questo commit ha saltato i cancelli. È il ${c.bypass}° contato in questo repo (registro: ${join(gitDir, NOME_REGISTRO)}).`);
+      const quanti = c.letto ? `È il ${c.bypass}° contato in questo repo` : `Non ho potuto leggere il registro, quindi non so quanti siano`;
+      console.error(`⚠️  Questo commit ha saltato i cancelli. ${quanti} (registro: ${join(gitDir, NOME_REGISTRO)}).`);
     }
     return 0;
   }
@@ -249,7 +265,16 @@ function main(argv) {
     const c = contaBypass(leggiRegistro(gitDir));
     if (argv.includes("--json")) {
       console.log(JSON.stringify(c, null, 2));
-    } else {
+      return c.letto ? 0 : 2;
+    }
+    if (!c.letto) {
+      // ⚪ Il registro c'è ma non si legge. Stampare una fila di zeri qui sarebbe la bugia
+      // rassicurante: «nessuno ha mai forzato un commit» quando la verità è «non ho guardato».
+      console.log(`\n🚪 CANCELLI DEL COMMIT — ⚪ non ho potuto leggere ${join(gitDir, NOME_REGISTRO)}`);
+      console.log(`   Il conto delle forzature non è zero: non c'è. Cieco, non verde.`);
+      return 2;
+    }
+    {
       console.log(`\n🚪 CANCELLI DEL COMMIT — ${c.totale} commit visti`);
       console.log(`   controllati:      ${c.controllati}`);
       console.log(`   FORZATI:          ${c.bypass}`);

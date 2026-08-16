@@ -144,7 +144,12 @@ prova("⑦ sul registro vivo, la malattia riparata in questo lotto non è più a
   assert.ok(pipe, "la malattia è sparita dal registro: la prova passerebbe a vuoto");
   assert.equal(pipe.calo_non_provato, null,
     "la partenza dice il numero vero (50) e la nota spiega il perché: non c'è più nessun calo da provare");
-  assert.equal(pipe.baseline, 50, "se la partenza torna a zero, lo zero è di nuovo venduto per una guarigione");
+  // ⚠️ Non si inchioda al numero. La partenza DEVE poter scendere — è il cricchetto: chi cura
+  // abbassa il tetto. La prima versione pretendeva esattamente 50 ed è diventata rossa nel lotto 44
+  // quando una istanza è stata curata davvero (50 → 49): la prova puniva la cura. Quello che va
+  // impedito è lo ZERO, cioè il tetto che sparisce e si vende come guarigione.
+  assert.ok(pipe.baseline > 0, "se la partenza torna a zero, lo zero è di nuovo venduto per una guarigione");
+  assert.ok(pipe.baseline <= 50, "e non può risalire: il cricchetto scende e non torna su");
 });
 
 let falliti = 0;

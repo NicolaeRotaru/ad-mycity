@@ -14,7 +14,7 @@
    "estensioni": [
     ".sh"
    ],
-   "baseline": 50,
+   "baseline": 49,
    "file_noti": [
     "cervello/giro.sh",
     "cervello/ritmo.sh",
@@ -28,7 +28,7 @@
    ],
    "nota_onesta": "Cinquanta istanze, quasi tutte in giro.sh. NON sono tutte difetti: molte sono rapporti informativi veri (capacita, bilancio-vivo, macchina-del-tempo) dove non esiste un fallimento che debba fermare il giro. Ma la differenza va DECISA una per una e dichiarata negli esenti, non lasciata al caso — ed è il triage che manca. La radice è installata: la funzione `guardiano()` rende la scelta esplicita invece che implicita in due caratteri.",
    "esenti": [],
-   "nota_baseline": "50, misurato il 2026-08-14 sulla forma VIVA — `node \"$SCRIPT_DIR/X.mjs\" … | esito_righe N || true`. Dove sono: giro.sh 46, ritmo.sh 2, monitora.sh 1, worker.sh 1. ⚠️ IL NUMERO NON È SALITO DA 0 A 50: era 0 perché il rilevatore cercava solo `| tail`, e il codice nel frattempo era passato a `esito_righe`. Cioè la malattia risultava guarita perché avevamo cambiato nome al tubo (AR-375), e per due settimane nessuno ha visto le cinquanta istanze vive. Da qui il tetto scende e non risale. La scheda di AR-375 diceva 34, ma era il conto del 29 luglio: il giro è cresciuto da allora."
+   "nota_baseline": "50, misurato il 2026-08-14 sulla forma VIVA — `node \"$SCRIPT_DIR/X.mjs\" … | esito_righe N || true`. Dove sono: giro.sh 46, ritmo.sh 2, monitora.sh 1, worker.sh 1. ⚠️ IL NUMERO NON È SALITO DA 0 A 50: era 0 perché il rilevatore cercava solo `| tail`, e il codice nel frattempo era passato a `esito_righe`. Cioè la malattia risultava guarita perché avevamo cambiato nome al tubo (AR-375), e per due settimane nessuno ha visto le cinquanta istanze vive. Da qui il tetto scende e non risale. La scheda di AR-375 diceva 34, ma era il conto del 29 luglio: il giro è cresciuto da allora. Lotto 44: scesa a 49 — una istanza curata dal lotto. Il tetto scende e non risale."
   },
   {
    "id": "buco-letto-come-zero",
@@ -500,7 +500,7 @@
    "estensioni": [
     ".mjs"
    ],
-   "baseline": 18,
+   "baseline": 17,
    "file_noti": [
     "cervello/cancello-senior.mjs",
     "cervello/cancello-stop.mjs",
@@ -531,7 +531,7 @@
     }
    ],
    "nota_onesta": "Il pattern conta OGNI esecuzione diretta di git, compresa quella dentro gitEsegui: è voluto, perché l'esecutore unico è una riga sola e tutto il resto è una porta laterale. Il tetto scende quando un chiamante passa all'esecutore unico, e non risale: è l'unica cosa che impedisce all'ottava porta di nascere in silenzio.",
-   "nota_baseline": "18 istanze nette (19 trovate − 1 esente) in 14 file, misurate il 2026-08-14 da spazzata-fratelli sul repo vero. La scheda di AR-327 ne nominava DUE: era nove volte più stretta del vero, ed è il motivo per cui la regola dice che comanda il codice e non la scheda. I file elencati in file_noti sono la LINEA DI PARTENZA, non un'assoluzione: portarli tutti all'esecutore unico è il lavoro di un lotto suo (registrato come difetto nuovo), e finché non è fatto il tetto tiene fermo il numero."
+   "nota_baseline": "18 istanze nette (19 trovate − 1 esente) in 14 file, misurate il 2026-08-14 da spazzata-fratelli sul repo vero. La scheda di AR-327 ne nominava DUE: era nove volte più stretta del vero, ed è il motivo per cui la regola dice che comanda il codice e non la scheda. I file elencati in file_noti sono la LINEA DI PARTENZA, non un'assoluzione: portarli tutti all'esecutore unico è il lavoro di un lotto suo (registrato come difetto nuovo), e finché non è fatto il tetto tiene fermo il numero. Lotto 44: scesa a 17 — una istanza curata dal lotto. Il tetto scende e non risale."
   },
   {
    "id": "codice-uscita-che-compra-il-verde",

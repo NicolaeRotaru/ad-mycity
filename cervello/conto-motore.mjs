@@ -318,8 +318,13 @@ function main(argv) {
     let testo = "";
     try {
       testo = readFileSync(argv[i + 1], "utf8");
-    } catch {
-      return 0; // nessun transcript leggibile: si tace, e chi chiama resta sulla stima dichiarata
+    } catch (e) {
+      // ⚪ Cieco, non verde. Si tace su stdout — giusto, così chi chiama resta sulla stima
+      // dichiarata invece di scrivere uno zero misurato — ma il codice d'uscita deve DIRLO: con
+      // `return 0` un transcript illeggibile era indistinguibile da una misura riuscita a zero, e
+      // il contratto di casa (AR-322) tiene il 2 apposta per questo.
+      process.stderr.write(`⚪ non ho potuto leggere il transcript ${argv[i + 1]}: ${e.message}\n`);
+      return 2;
     }
     const u = usageDaStream(testo);
     if (u.misurato && u.totale > 0) process.stdout.write(String(u.totale));

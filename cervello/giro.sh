@@ -310,6 +310,18 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/sentinella-fonti.mjs" 2>&1 | esito_righe 4 || true
   echo "[$(ts)] Agenda intelligence (fonti dovute oggi)..."
   node "$SCRIPT_DIR/intelligence-agenda.mjs" 2>&1 | esito_righe 3 || true
+  # AR-617 — i 114 senior che promettono di lavorare in sola lettura adesso hanno il limite scritto
+  # dove la macchina lo legge, e questo guardiano controlla che promessa e permessi non divergano.
+  # Va qui e non in CI: in CI il danno è già scritto, qui arriva prima che si deleghi il lavoro.
+  echo "[$(ts)] Guardiano permessi dei senior (AR-617)..."
+  _solalettura_out="$(node "$SCRIPT_DIR/senior-sola-lettura.mjs" 2>&1)"; _solalettura_rc=$?
+  printf '%s\n' "$_solalettura_out" | tail -4
+  if [ "$_solalettura_rc" -eq 1 ]; then
+    SENIOR_SOLA_LETTURA_VINCOLO="⛔ UN SENIOR PROMETTE SOLA LETTURA E HA GLI STRUMENTI PER SCRIVERE (senior-sola-lettura.mjs rc=$_solalettura_rc, AR-617): allinea il mansionario prima di delegargli lavoro."
+    echo "[$(ts)] ⚠️  AR-617: senior-sola-lettura FALLITO (rc=$_solalettura_rc) → vincolo hard al motore." >&2
+  elif [ "$_solalettura_rc" -ne 0 ]; then
+    echo "[$(ts)] ⚪ AR-617: senior-sola-lettura non ha potuto misurare (rc=$_solalettura_rc) — cieco, non verde." >&2
+  fi
   echo "[$(ts)] Guardiano registro agenti (AR-007/008 — gate hard)..."
   _agenti_out="$(node "$SCRIPT_DIR/agent-registry-check.mjs" 2>&1)"; _agenti_rc=$?
   printf '%s\n' "$_agenti_out" | tail -4

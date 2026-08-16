@@ -313,7 +313,13 @@ function registroDellUltimoCommit() {
     }
   }
   if (REGISTRO !== join(QUI, "malattie.json")) {
-    return { malattie: null, motivo: "il registro è puntato altrove (SPAZZATA_REGISTRO): non posso confrontarlo con l'ultimo commit" };
+    // FUORI SCOPO, non cieco — e la differenza cambia il codice d'uscita. Con il registro puntato a
+    // una sabbiera (SPAZZATA_REGISTRO) non esiste nessun «ieri» da confrontare: la domanda «qualcuno
+    // ha ritirato una promessa dall'ultimo commit?» non ha risposta perché non ha senso, non perché
+    // non sono riuscita a guardare. Chiamarla cecità faceva uscire 2 ogni volta, e le tre prove che
+    // guidano la spazzata su scenari costruiti sono diventate rosse senza che il difetto esistesse.
+    // Chi vuole il confronto anche in sabbiera passa SPAZZATA_PRIMA: quello sì, se fallisce, è cieco.
+    return { malattie: null, motivo: null, fuoriScopo: "il registro è puntato altrove (SPAZZATA_REGISTRO): non c'è un «ultimo commit» di quel file da confrontare" };
   }
   const r = spawnSync("git", ["show", `HEAD:${relative(join(QUI, ".."), REGISTRO)}`], { cwd: join(QUI, ".."), encoding: "utf8" });
   if (r.status !== 0) {
@@ -424,6 +430,7 @@ function main() {
     nuovi_totali: nuoviTot,
     promesse_ritirate: ritirate,
     non_ho_guardato: prima.motivo ? [prima.motivo] : [],
+    fuori_scopo: prima.fuoriScopo ? [prima.fuoriScopo] : [],
     malattie: rapporto,
   };
 
@@ -464,6 +471,7 @@ function main() {
       console.log(`     → rimetti il campo, oppure alza la partenza di quella malattia: chi non sa più controprovare un numero non può vantarlo.\n`);
     }
     if (prima.motivo) console.log(`  ⚪ non ho guardato: ${prima.motivo}\n`);
+    if (prima.fuoriScopo) console.log(`  ▫️ fuori scopo: ${prima.fuoriScopo}\n`);
     console.log(
       nuoviTot === 0
         ? "✅ nessun fratello nuovo: la malattia non si è allargata."

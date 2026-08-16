@@ -4878,6 +4878,42 @@
    "cerca": "  if (g.azione === \"frena\" || s.azione === \"frena\") {",
    "sostituisci": "  if (g.azione === \"frena\") {",
    "test": "cervello/test/c7-freni-che-fermano-davvero.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-730",
+   "nome": "il rilevatore smette di contare le penne crude e dichiara guarita una porta che scrive ancora nel vault senza freno",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "      const crude = (testo.match(/writeFileSync\\s*\\(/g) || []).length;",
+   "sostituisci": "      const crude = 0;",
+   "test": "cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-737",
+   "nome": "il rilevatore smette di cercare la catena che ingoia il fallimento dell abort: un albero lasciato a meta rebase passa per successo",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "        .filter(({ r }) => /\\brebase\\b/.test(r) && /rebase\\s+--abort/.test(r) && /\\|\\|\\s*true/.test(r));",
+   "sostituisci": "        .filter(() => false);",
+   "test": "cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-743",
+   "nome": "il rilevatore smette di distinguere chi importa la casa da chi rifa il confronto a mano: cinque copie divergenti risultano una sola",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "        return rifa && !importa;",
+   "sostituisci": "        return false;",
+   "test": "cervello/test/prove-a-due-versi.test.mjs"
+  },
+  {
+   "lotto": 44,
+   "difetto": "AR-744",
+   "nome": "il rilevatore smette di leggere la nota: un esperimento che si dichiara misurato col gate mai partito torna a contare come apprendimento",
+   "file": "cervello/prove-difetti.mjs",
+   "cerca": "      const bugiardi = lista.filter((e) => String(e?.stato ?? \"\").toLowerCase() === \"misurato\" && maiPartito.test(String(e?.nota ?? \"\")));",
+   "sostituisci": "      const bugiardi = [];",
+   "test": "cervello/test/prove-a-due-versi.test.mjs"
   }
  ]
 }

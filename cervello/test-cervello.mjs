@@ -68,6 +68,10 @@ const SOLO = (() => {
 // passa il tempo a curare. Il risolutore di TypeScript resta ancorato alla cartella vera: è roba
 // del repo, non della fixture.
 const CARTELLA = process.env.TEST_CERVELLO_DIR || "cervello/test";
+/** Quante volte questo banco è già stato lanciato da dentro sé stesso. Zero = lancio in cima. */
+const PROFONDITA = Number(process.env.MYCITY_BANCO_PROFONDITA || 0);
+/** Un livello di annidamento serve (una prova che misura il banco). Due non serve a nessuno. */
+const PROFONDITA_MASSIMA = 1;
 const HOOK_TS = join(AD_ROOT, "cervello/test", "hook-ts.mjs");
 // Ogni file gira già nel suo processo: le corsie sono quanti processi tenere accesi insieme.
 const CORSIE = SERIALE ? 1 : Math.max(2, Math.min(8, cpus().length));
@@ -366,8 +370,27 @@ export function verdetto(status, out) {
  */
 function eseguiTest(dir, f) {
   return new Promise((risolvi) => {
+    // ⚠️ `NODE_TEST_CONTEXT` NON SI EREDITA. Quando il banco gira dentro `node --test` (cioè quando
+    // una prova lancia il banco per misurarlo — è il caso di AR-725), Node ha già messo
+    // `NODE_TEST_CONTEXT=child-v8` nell'ambiente, e i NIPOTI la ereditano: si mettono a parlare il
+    // protocollo binario del runner padre invece del TAP che questo banco sa leggere, e il verdetto
+    // che ne esce è «ineseguibile» per tutti. Cioè: il banco misurato da una prova dichiarava rotto
+    // tutto quello che toccava, e sembrava un difetto del codice sotto misura.
+    // Si toglie QUI e non nella singola prova, perché vale per chiunque lanci il banco da dentro un
+    // test — la stessa lezione di sempre: il freno va sul dato, non dentro il comando che ha bruciato.
+    const ambiente = { ...process.env };
+    delete ambiente.NODE_TEST_CONTEXT;
+    // 🔒 E IL FRENO CHE VA CON LA CURA, perché senza è una bomba. Togliere `NODE_TEST_CONTEXT` era
+    // giusto (i nipoti tornano a parlare TAP), ma quella variabile faceva anche da freno per caso:
+    // il banco lancia i test, alcuni test lanciano il cancello, il cancello rilancia il banco. Con i
+    // nipoti rotti la catena moriva da sola; con i nipoti sani è diventata infinita — 373 processi in
+    // pochi minuti, la macchina in ginocchio. Un rimedio che toglie un freno senza rimetterne uno è
+    // peggio del difetto. Qui la profondità si CONTA: un livello di annidamento è quello che serve a
+    // una prova per misurare il banco, due non servono a nessuno.
+    ambiente.MYCITY_BANCO_PROFONDITA = String(PROFONDITA + 1);
     const p = spawn(process.execPath, ["--import", HOOK_TS, "--test", "--test-reporter=tap", join(dir, f)], {
       cwd: AD_ROOT,
+      env: ambiente,
     });
     let uscita = "";
     p.stdout.on("data", (d) => (uscita += d));

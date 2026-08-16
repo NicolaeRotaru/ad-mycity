@@ -143,6 +143,7 @@ export const DESCRIZIONI = {
 
   // ── I 120 senior sono a posto? ────────────────────────────────────────────
   "agent-registry-check": { famiglia: "squadra", cosa: "Confronta i senior che esistono davvero con quelli elencati nei documenti: nessun agente orfano, nessun doppione." },
+  "senior-sola-lettura": { famiglia: "squadra", cosa: "Controlla che i senior che promettono di lavorare in sola lettura non abbiano gli strumenti per scrivere: la promessa e i permessi devono dire la stessa cosa." },
   "deferral-agenti": { famiglia: "squadra", cosa: "L'organigramma è scritto in due posti: la mappa che leggi tu e la scheda che legge chi smista il lavoro. Se un rimando esiste in uno solo dei due, il lavoro finisce da un senior che non lo rivendica." },
   "percorsi-git": { famiglia: "sicurezza", cosa: "I nomi dei file con l'accento tornano storpiati se li si chiede nel modo sbagliato: controlla che nessuno strumento lavori su file che non esistono, credendo di averli letti." },
   "keyword-owner-check": { famiglia: "squadra", cosa: "Ogni mandato ha un padrone solo: se due senior rivendicano la stessa cosa, il lavoro va a chi capita." },
