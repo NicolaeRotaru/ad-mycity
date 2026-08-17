@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-08-12 23:11",
+  "aggiornato": "2026-08-17 13:04",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -43,6 +43,16 @@
           "chiusa": "2026-07-30 06:05"
         }
       ],
+      "esenzioni": []
+    },
+    {
+      "id": "bando.cittadella-casali.stato",
+      "nome": "bando.cittadella-casali.stato",
+      "valore": "Contributo compensativo piazza Cittadella/Casali 2026 (8.200€ totali) — SOLO negozi affacciati su quelle due piazze, non applicabile a Pane Quotidiano (Via Calzolai) né come leva generale per una mail Comune/associazioni. Non un bando digitalizzazione.",
+      "fonte": "WebSearch 17/8 13:xx (verifica 9a invocazione PLAYBOOK Istituzioni) - ilpiacenza.it, comune.piacenza.it",
+      "aggiornato": "2026-08-17 13:04",
+      "storia": [],
+      "caccia": [],
       "esenzioni": []
     },
     {
