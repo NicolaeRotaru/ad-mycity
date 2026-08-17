@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-08-17 13:16",
+  "aggiornato": "2026-08-17 13:26",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "84",
@@ -156,68 +156,8 @@
     "2026-08-17T10:01:51.245Z"
   ],
   "ultima_recensione_vista": "2026-07-18T11:28:59.844Z",
-  "tick": 27047,
+  "tick": 27057,
   "storia": [
-    {
-      "quando": "2026-08-17 11:36",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-08-17 11:37",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-08-17 11:38",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-08-17 11:39",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-08-17 11:40",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-08-17 11:41",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-08-17 11:42",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-08-17 11:43",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-08-17 11:44",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-08-17 11:45",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-08-17 11:46",
       "eventi": 6,
@@ -757,10 +697,70 @@
       "eventi": 6,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-08-17 13:17",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-17 13:18",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-17 13:19",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-17 13:20",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-17 13:21",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-17 13:22",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-17 13:23",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-17 13:24",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-17 13:25",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-17 13:26",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-08-17 13:16",
+    "quando": "2026-08-17 13:26",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -775,7 +775,7 @@
     "volano_tasso": 0.11
   },
   "timbro": {
-    "quando": "2026-08-17 13:16",
+    "quando": "2026-08-17 13:26",
     "scade_dopo_ore": 3,
     "ambiente": "locale",
     "scritto_da": "cervello/sentinella-dati.mjs",
@@ -786,5 +786,5 @@
       "MARKETPLACE_SUPABASE_KEY"
     ]
   },
-  "senior_giri_sotto": 1914
+  "senior_giri_sotto": 1924
 }
