@@ -12,7 +12,7 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-17 00:31",
+      "quando": "2026-08-17 01:58",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -26,8 +26,8 @@
         "ESP",
         "FRESCHEZZA",
         "TASSO",
-        "TEST",
         "VOLANO",
+        "CI",
         "LETARGO",
         "NORTH_STAR"
       ]
@@ -73,5 +73,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-17 00:31"
+  "aggiornato": "2026-08-17 01:58"
 }
