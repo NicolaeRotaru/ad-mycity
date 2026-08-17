@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-17 08:28",
-  "situazione": "Business invariato, riconfermato dal vivo: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star 54 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Giro completo circa 2 ore dopo il passaggio 06:31: coerenza-fatti e coda PR riverificati dal vivo, identici (stesse 3 PR rosse #749/#741/#735). Chiuso il vincolo chiusura-loop registrando l'ESITO di intelligence (fermo da 3 giorni). Ricontrollati i 10 controlli cronici del vincolo di sistema: tutti hanno già una card aperta nei passaggi precedenti, nessuna duplicata.",
+  "data": "2026-08-17 10:04",
+  "situazione": "Business invariato, riconfermato dal vivo: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star 54 giorni (invariato dal passaggio 08:28, stessa data di calendario). Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Giro completo 1h36 dopo il passaggio 08:28: sensori, coerenza-fatti, coda PR e delta-gate riverificati dal vivo, tutti identici (stesse 3 PR rosse #749/#741/#735; unica novità, PR #750 mai testata). Non riscritti i JSON pesanti (stessi dati di stamattina). Segnalo il pattern: ~20 passaggi di giro oggi, tutti senza cambiamento — è il segnale di sistema più rilevante di oggi.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},

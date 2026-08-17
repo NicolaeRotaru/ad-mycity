@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 08:28
+aggiornato: 2026-08-17 10:04
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **17/8 10:04 — Giro completo richiesto in chat, 1h36 dopo il passaggio 08:28. Business invariato, zero novità reali.** Riverificato dal vivo con `verifica-sensori.mjs`, `coerenza-fatti.mjs` (✅ verde) e `ci-stato.mjs` (stesse 3 PR rosse #749/#741/#735): 1 ordine (CANCELED, 24/6), 0 pagati, 7 profili — stallo North Star **54 giorni** (invariato: stessa data di calendario del passaggio 08:28), dentro la pausa concordata fino al 24/8-1/9. `delta-gate.json` conferma indipendentemente: la firma dei dati (ordini/clienti/sensori) è identica alla baseline dell'ultimo giro pieno del 15/8. Unica novità minore: comparsa la PR #750, controlli mai partiti (⚪, non un rosso). Non riscritti i JSON pesanti (già rigenerati stamattina sugli stessi dati — livello RISPARMIO attivo, quota AI 73%). **Segnalo a Nicola il pattern stesso: ~20 passaggi di giro oggi, tutti "nessun cambiamento"** — vedi TL;DR del briefing. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
 
 > 🔁 **17/8 08:28 — Giro completo richiesto in chat, ~2h dopo il passaggio 06:31. Business invariato, un buco di processo chiuso.** Riverificato dal vivo con `coerenza-fatti.mjs` (✅ verde) e `ci-stato.mjs` (stesse 3 PR rosse #749/#741/#735, nessun peggioramento): 1 ordine (CANCELED, 24/6), 0 pagati, 7 profili — stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Chiuso il vincolo chiusura-loop registrando l'ESITO di `@intelligence` nel suo quaderno (monitoraggio delle 06:33, 18/18 fonti, fermo senza esito da 3 giorni). Ricontrollati i 10 controlli cronici del vincolo di sistema (APPRENDIMENTO/CADENZE/CI/CORREZIONE_NICOLA/ESP/FRESCHEZZA/LETARGO/NORTH_STAR/TASSO/VOLANO): tutti hanno già una card aperta nei passaggi precedenti di oggi, nessuna duplicata. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
 
