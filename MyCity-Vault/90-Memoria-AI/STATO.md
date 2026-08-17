@@ -1,8 +1,15 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 11:08
+aggiornato: 2026-08-17 11:25
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **17/8 11:25 — Giro completo richiesto in chat, ~17 minuti dopo il passaggio 11:08. Business riverificato dal vivo, invariato: ~35° passaggio odierno sullo stesso stato.**
+> Query SQL dirette via MCP (`orders`: 1 riga, 0 ultimi 7gg, ultimo 2026-06-24 CANCELED; `profiles`: 7) + `node cervello/ci-stato.mjs` (stesse 3 PR rosse #749/#741/#735, stessi controlli falliti): identico bit-per-bit. Stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9 — non un allarme. Livello letargo ancora SOPRAVVIVENZA (quota AI ~93%): applicata la stessa disciplina degli ultimi 30 passaggi, nessuna riscrittura dei JSON pesanti (freschi, dati identici). Provati `sonda-volano.mjs` e `piani-data.mjs --controlla` come controlli a costo zero: bloccati dall'allowlist (card #104), non ritentati.
+>
+> **Non ripropongo per la quarta volta la domanda sul ritmo dei giri nei file automatici** (posta 10:22, ripetuta 10:39/11:08, mai risposta): la richiamo in chiaro nella risposta a Nicola in chat qui sotto, non nella memoria.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 19 giorni), le 3 PR croniche rosse (#749/#741/#735), **#42** (permesso jolly), la domanda sul ritmo dei giri (sopra, senza risposta).
 
 > 🔁 **17/8 11:08 — Giro completo richiesto da Nicola in chat, 29 minuti dopo il passaggio 10:39. Business riverificato dal vivo con query SQL dirette (MCP): invariato.**
 > `orders`: 1 riga totale, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 (CANCELED) — stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. `profiles`: 7. `coerenza-fatti.mjs` ✅ verde. `ci-stato.mjs` rilanciato: stesse 3 PR rosse per colpa propria (#749/#741/#735), nessun cambiamento. File pesanti di `auto-coscienza/` non riscritti: già freschi da 9-30 minuti (scritti dal passaggio interrotto/recuperato delle 10:56-10:59), stessi identici dati — riscriverli userebbe quota AI (livello RISPARMIO, 83%) senza aggiungere informazione. Questo è circa il **32° passaggio di giro oggi sullo stesso stato invariato**: la domanda sul ritmo (posta alle 10:22, ripetuta alle 10:39) resta senza risposta — non la ripropongo una terza volta nei file automatici, ma la richiamo nella risposta a Nicola qui in chat, visto che ora è lui a scrivere direttamente.

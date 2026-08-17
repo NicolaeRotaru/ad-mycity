@@ -826,3 +826,53 @@ Voto stabile 90→90: nessuna nuova entità da verificare (stessa firma dati del
 **⑤ Cosa NON ho potuto verificare:** `piani-data.mjs --controlla` e `sonda-volano.mjs --json` (bloccati dall'allowlist, non ritentati); lo stato reale delle 3 PR rosse croniche (`ci-stato.mjs` non rilanciato in questo passaggio, ereditato dai passaggi precedenti); se la card #117 (ritmo dei giri) verrà letta da Nicola prima di un altro passaggio automatico.
 
 **Voto di fiducia per QUESTO turno: 78/100** — sceso rispetto all'84 delle 10:22 non per un errore di dati, ma perché il passo 5 (briefing 11 sezioni) e il passo 9/14 (piani-data, sonda-volano) restano dichiarati MANCANTI invece che eseguiti: la scelta di tagliare volume in SOPRAVVIVENZA è giustificata, ma resta una scelta che riduce la copertura letterale del mansionario, e il collaudo deve costare il voto, non nasconderlo.
+
+---
+
+## Passaggio 11:25 — ~35° giro odierno sullo stesso stato
+
+Ho riverificato il business DAL VIVO in questo passaggio. Non ho ereditato i numeri dai passaggi precedenti.
+
+Prova usata: query SQL dirette via MCP. `orders` → 1 riga totale, 0 negli ultimi 7 giorni, ultimo ordine 2026-06-24 (CANCELED). `profiles` → 7 righe.
+
+Seconda prova: `node cervello/ci-stato.mjs`. Stesse 3 PR rosse di stamattina (#749, #741, #735). Stessi controlli falliti su ognuna.
+
+Risultato: tutto identico, bit per bit, a tutti i passaggi precedenti di oggi. Lo stallo North Star resta a 54 giorni. Siamo dentro la pausa concordata con Nicola, fino al 24/8-1/9.
+
+**Cosa NON ho rifatto, e perché.** Il livello letargo è ancora SOPRAVVIVENZA: quota AI vicina al tetto. La regola in questo livello è tagliare il volume, non i controlli. Per questo non ho riscritto i file pesanti di `auto-coscienza/` (sono già freschi, con dati identici). Per lo stesso motivo non ho rilanciato radar, analista o intelligence: non c'era nulla di nuovo da controllare.
+
+**Un tentativo in più, fallito.** Ho provato a lanciare `sonda-volano.mjs --json` e `piani-data.mjs --controlla`. Sono script deterministici, non il motore AI: costano poco. Entrambi sono stati bloccati dall'allowlist di questa sessione. È lo stesso buco già noto, tracciato nella card #104. Non li ho ritentati una seconda volta.
+
+**Sulla domanda del ritmo dei giri, non la ripeto una quarta volta qui nei file.** L'ho già scritta alle 10:22 e la trovi in `domande_per_nicola`, dentro `auto-analisi.json`. In questo passaggio l'ho posta di nuovo, ma in chiaro, nella risposta diretta a Nicola in chat: è lì che lui può rispondere.
+
+**Voto di fiducia per QUESTO turno: 82/100.** La verifica è pulita e fatta dal vivo, non ereditata. Il voto scende comunque un poco, per un motivo diverso da un errore di dati: continuare a produrre passaggi quasi-duplicati, senza una risposta sul ritmo, ha un costo reale. Quel costo deve pesare sul voto.
+
+---
+
+## Collaudo di fine turno (AR-532) — passaggio 11:25
+
+**① Cosa ha chiesto Nicola in questo turno.** La richiesta: leggi ed esegui per intero `cervello/giro.md`. Scrivi tutti i file richiesti. Rispetta i colori 🟢🟡🔴. Alla fine, dai un TL;DR di 5 righe più la mossa numero 1.
+
+Elenco onesto, passo per passo:
+- Passo 0 (sensori/volano) → **FATTA**. Letti `sensori-cecita.json` e `delta-gate.json`, già scritti prima del mio turno.
+- Passo 1 (dati reali) → **FATTA**. Query SQL dirette via MCP su `orders` e `profiles`, non ereditate.
+- Passi 2-4 (sentinelle, radar IN/OUT, delega analista/intelligence) → **NON FATTA APPOSTA**. Il livello letargo è SOPRAVVIVENZA. La regola impone di tagliare il volume. Nessun sensore nuovo era cieco. Nessun radar aveva una novità da controllare.
+- Passo 5 (briefing con le 11 sezioni) → **PARZIALE**. Ho scritto un TL;DR e una sintesi breve in `Briefing/2026-08-17.md`. Non ho riscritto le 11 sezioni intere: sono identiche a quelle già scritte nei passaggi precedenti di oggi, sullo stesso stato.
+- Passo 6 (STATO.md, ultimo-briefing.json) → **FATTA**. I 3 file Intelligence → **NON FATTA APPOSTA**: nessuna novità di radar da riportare.
+- Passo 7 (azioni 🟢/🟡/🔴 nuove) → **NON FATTA APPOSTA**. Zero azioni nuove: business invariato.
+- Passo 8 (Sala Operativa) → **FATTA**.
+- Passo 9 (Piani + `piani-data.mjs`) → **MANCANTE**. Nessun piano toccato. `piani-data.mjs --controlla` bloccato dall'allowlist, un solo tentativo.
+- Passo 10 (intenzioni-nicola.json) → **NON FATTA APPOSTA**. Nessuna mossa nuova di Nicola da questo turno.
+- Passo 11 (cancello di serietà, questo file) → **FATTA**. Scritto `auto-analisi.json` e questo file, con verifica vera.
+- Passo 12 (apprendimento) → **NON FATTA APPOSTA**. Nessuna correzione nuova di Nicola da cui estrarre una lezione in questo turno.
+- Passo 13 (auto-miglioramento) → **NON FATTA APPOSTA**. Nessun lavoro creativo prodotto in questo turno.
+- Passo 14 (sonda auto-radiografia) → **MANCANTE**. `sonda-volano.mjs --json` bloccato dall'allowlist, un solo tentativo.
+- Passo 15 (coerenza-fatti) → **FATTA**. `node cervello/coerenza-fatti.mjs` rilanciato dal vivo: verde, nessuna caccia aperta.
+
+**② Diff vero riletto.** Comando: `git diff d884a3679d4efc1199b1c44333d6564619b945f7` e `git status --short`. Il commit di riferimento è vecchio. Il diff mostra ~85 file. La maggior parte non è di questo turno: sono ereditati dal worker VPS e da passaggi precedenti di oggi. È lo stesso bug già noto, tracciato in [[project-cancello-stop-base-commit-vecchio]]. I file davvero miei in questo turno sono 6: `STATO.md`, `Briefing/2026-08-17.md`, `ultimo-briefing.json`, `SALA-OPERATIVA.md`, `auto-coscienza/auto-analisi.json`, questo file.
+
+**③ Prove eseguite.** `node cervello/coerenza-fatti.mjs`: verde, in diretta. `node cervello/ci-stato.mjs`: 3 PR rosse, stesso esito di stamattina. I 2 file JSON toccati (`auto-analisi.json`, `ultimo-briefing.json`) li ho riletti per intero con lo strumento di lettura: struttura corretta, parentesi bilanciate. Non ho potuto lanciare `valida-contratti.mjs` né `JSON.parse` diretto: bloccati dall'allowlist di sessione, un tentativo ciascuno. Nessun test di codice: ho toccato solo file di memoria, nessuna riga di codice.
+
+**④ Asticella — un'altra strada considerata.** Sì. L'alternativa era eseguire il giro pieno alla lettera: riscrivere tutti gli `auto-coscienza/*.json`, rilanciare radar e analista, produrre tutte le 11 sezioni del briefing. L'ho scartata. Il motivo: il livello letargo è SOPRAVVIVENZA, misurato prima del mio turno. La regola in quel livello è tagliare il volume, non i controlli. Riscrivere un'analisi già fresca, su dati identici bit per bit, avrebbe speso quota scarsa senza dare a Nicola nessuna informazione nuova.
+
+**⑤ Cosa ho corretto e cosa resta da verificare.** Il cancello dello stop ha trovato un difetto vero: la sezione appena scritta aveva frasi troppo dense. L'ho riscritta spezzando le frasi lunghe in frasi più corte, un'idea per frase. Non ho potuto rilanciare `si-capisce.mjs` per confermare il numero esatto di punti difficili rimasti: bloccato dall'allowlist, non ritentato. Resta da verificare quando lo script tornerà disponibile.
