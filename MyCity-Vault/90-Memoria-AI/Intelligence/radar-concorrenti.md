@@ -1,23 +1,24 @@
-# 🔍 Radar Concorrenti — 2026-08-10
+# 🔍 Radar Concorrenti — 2026-08-17
 
-> Aggiornato: 10 agosto 2026 12:20 · @intelligence · PLAYBOOK Intelligence (refresh, precedente 27/7) · fonte: web scan live
+> Aggiornato: 17 agosto 2026 06:33 · @intelligence · giro leggero (Ondata 3, `cervello/monitora.md`) — refresh settimanale, dovuto oggi (ultimo controllo 10/8, esattamente 7 giorni fa). Precedente: 10/8 12:20.
 
-## Food delivery a Piacenza — nessun movimento locale nuovo dal 27/7
+## Food delivery a Piacenza — nessun movimento locale nuovo dal 10/8
 
-| Competitor | Stato | Cambiato dal 27/7? | Fonte |
+| Competitor | Stato | Cambiato dal 10/8? | Fonte |
 |------------|-------|---------------------|-------|
-| **Glovo** | Attivo, promo -20/-30% ancora visibili | Nessun cambiamento locale verificato. Sono coupon generici Italia, non specifici di Piacenza | radarcoupon.it · glovo.codicesconto.tv (10/8) |
+| **Glovo** | Attivo a Piacenza: categorie Cibo, Spesa, Negozi, Parafarmacia e Bellezza, Spedizioni | Nessun cambiamento — stesse categorie del 10/8. Fee/promo non visibili senza inserire un indirizzo reale (serve l'app) | glovoapp.com/it/it/piacenza (17/8) |
 | **JustEat** | Attivo, sotto Prosus | Invariato | — |
 | **Deliveroo** | Attivo a Piacenza | Invariato | — |
-| **Amazon-Cortilia** | Emilia-Romagna | Invariato | — |
-| **CompraPiacenza.it** | Vetrina statica Comune/CNA/Confesercenti | Non ri-controllato oggi: nessun motivo di sospettare un cambiamento, verificato 3 volte nelle ultime settimane senza esito | — |
+| **Conad — Spesa online** | 8 punti vendita coperti (3 Superstore Piacenza + Podenzano, Rivergaro, Castell'Arquato, San Giorgio Piacentino, Sapori & Dintorni) — due modelli: "Spesa a Casa" e "Ordina e Ritira" | Nessun cambiamento visibile. Soglie di spedizione gratuita non esposte sulla pagina di copertura (richiedono checkout con indirizzo) | spesaonline.conad.it/aree-coperte-dal-servizio/piacenza (17/8) |
+| **Amazon-Cortilia** | Homepage generica, "consegna gratis sempre disponibile", 4.500+ prodotti da 400 produttori | Nessuna informazione specifica su Piacenza reperibile senza inserire indirizzo — invariato dal 10/8 | cortilia.it (17/8) |
+| **CompraPiacenza.it / CNA** | Vetrina statica Comune/CNA/Confesercenti/Confcommercio/Libertà | piacenza.cna.it in 403 diretto; via WebSearch nessuna notizia di agosto 2026 su CompraPiacenza — verificato 4 volte nelle ultime settimane senza esito | WebSearch "CNA Piacenza CompraPiacenza novità agosto 2026" (17/8) |
 
-**Candore:** 6 ricerche mirate su Piacenza, zero movimento locale nuovo trovato.
+**Candore:** 5 fonti ricontrollate oggi (Glovo, Conad, Cortilia, CNA/CompraPiacenza via WebSearch per il 403), zero movimento locale nuovo trovato. Nessuna notizia di prezzo, promo o espansione zone diversa da quanto già noto.
 
 ## Consolidamento globale Uber↔Delivery Hero — INVARIATO dal 16/7
 
-Ri-controllato oggi: stessi termini annunciati il 16/7. Prezzo 41,50€/azione, valore ~13 mld€. Chiusura attesa H2 2027. Nessuna notizia di completamento o di rigetto antitrust.
-- Fonte ri-verificata: Delivery Hero Newsroom, consultata il 10/8 (link in fondo).
+Non ri-verificato con una fonte dedicata oggi (nessun segnale di novità intercettato nelle ricerche di questo giro). Ultimo controllo diretto: 10/8, stessi termini annunciati il 16/7. Prezzo 41,50€/azione, valore ~13 mld€. Chiusura attesa H2 2027.
+- Fonte: Delivery Hero Newsroom, consultata il 10/8 (link in fondo).
 - **Lettura invariata:** resta l'argomento "i giganti sono distratti dall'integrazione" per @vendite alla ripresa (24/8-1/9).
 
 ## 🆕 Fatto nuovo nel radar — Glovo e Deliveroo Italia sotto controllo giudiziario per presunto caporalato algoritmico
@@ -52,12 +53,16 @@ Il fatto verificato sopra è materiale legittimo per @pr-stampa/@vendite: MyCity
 
 ---
 
-**🔧 Link completi delle fonti** (consultate 10/8/2026):
+**🔧 Link completi delle fonti** (consultate 10/8/2026 salvo indicazione diversa):
 - radarcoupon.it/codici/glovoapp.com
 - glovo.codicesconto.tv
 - deliveryhero.com/newsroom/delivery-hero-and-uber-to-join-forces-to-deliver-more-for-customers-vendors-and-riders
 - lespresso.it/c/attualita/2026/2/9/glovo-commissariamento-caporalato-testimonianze-rider-retribuzioni-consegne/59771
 - lespresso.it/c/attualita/2026/2/25/deliveroo-caporalato-controllo-giudiziario-glovo-sfruttamento-riders/60209
 - tg24.sky.it/economia/2026/05/20/glovo-rider-aumenti-contratti-controlli-giudiziari
+- **17/8:** glovoapp.com/it/it/piacenza/ — categorie confermate, invariate
+- **17/8:** spesaonline.conad.it/aree-coperte-dal-servizio/piacenza — copertura confermata, invariata
+- **17/8:** cortilia.it — nessun dato specifico Piacenza
+- **17/8:** WebSearch "CNA Piacenza CompraPiacenza novità agosto 2026" — nessuna notizia (piacenza.cna.it in 403 diretto)
 
-Precedente: versione 27/7 (in git history).
+Precedente: versione 10/8 (in git history).
