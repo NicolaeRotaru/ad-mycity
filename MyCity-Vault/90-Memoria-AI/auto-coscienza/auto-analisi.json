@@ -1,10 +1,10 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-08-17 06:31",
-  "voto_fiducia": 86,
-  "sintesi_giro_corrente": "Giro richiesto in chat, 26 minuti dopo il Piano del mattino (06:05). Business riconfermato dal vivo (`verifica-sensori.mjs`, `coerenza-fatti.mjs`): identico in tutti i numeri (1 ordine CANCELED, 0 pagati, 0 ultimi 7gg, 7 profili, stallo North Star 54gg). Lavoro vero di questo passaggio, non solo riconferma: (1) chiuso il vincolo chiusura-loop (AR-009) registrando l'ESITO di `@backend-dev` nel suo quaderno (fermo da 29 giorni malgrado un FATTO in Sala Operativa alle 06:35 sul dispatch card #36) — scorecard V5 C5 A3 K5 I3 M4 E4, gate ora verde. (2) Accodata card #116 sul vincolo esperimenti (ESP) diventato cronico: scelto DELIBERATAMENTE di non forzare un 4° esperimento identico sul KPI del primo ordine (già fallito 3 volte per la pausa concordata) invece di aprire un esperimento sapendo in anticipo che avrebbe fallito per lo stesso motivo — chiesto a Nicola un ambito alternativo. Nessun errore trovato in questo passaggio (a differenza del 01:52). Non riscritti `registro-realta.json` e gli altri file pesanti di `auto-coscienza/`: rigenerati dall'housekeeping automatico 5-10 minuti prima, dati identici.",
-  "sintesi": "Business fermo dal 24/6 (stallo 54 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. Lavoro reale di igiene della coda (4 PR merge stale chiuse, checklist rigenerata) offuscato per un momento da un mio errore di metodo (grep a copertura parziale), trovato e corretto nello stesso passaggio prima di consegnare.",
-  "trend_fiducia": "▲ 85→86: piccolo recupero. Nessun errore di metodo in questo passaggio (a differenza delle 01:52). Chiuso un buco reale di processo (chiusura-loop ferma 29 giorni su backend-dev) e rispettata la propria stessa lezione sugli esperimenti — non aprire un 4° tentativo su un KPI bloccato dalla pausa solo per soddisfare meccanicamente un contatore, ma dichiararlo a Nicola con la scelta esplicita. Il voto non torna a 88 perché il business resta fermo da 54 giorni e tre card 🔴 di sicurezza restano senza risposta da 19 giorni: nessun passaggio di igiene della coda cambia quel fatto.",
+  "data": "2026-08-17 10:22",
+  "voto_fiducia": 84,
+  "sintesi_giro_corrente": "Giro completo richiesto via task automatico, 12 minuti dopo il passaggio 10:10/10:12 (recupero di un giro interrotto). Business riverificato dal vivo (`verifica-sensori.mjs` 10:19, `coerenza-fatti.mjs` 10:20): identico in tutti i numeri — 1 ordine CANCELED (24/6), 0 pagati, 7 profili, stallo North Star 54gg, dentro la pausa concordata fino al 24/8-1/9. Card #62 (pratica pagamenti Pane Quotidiano) confermata invariata in coda, ferma dal 10/8. Trovato e riparato il vero difetto di questo passaggio: `auto-analisi.json`/`AUTO-ANALISI.md` erano fermi dalle 06:31 (~4h) mentre il vincolo di freschezza-cadenze segnalava che il giro delle 10:10 era uscito saltandoli — riscritti ora con verifica vera, non un timestamp vuoto. Applicata la strategia snella su tutto il resto: non riscritti gli altri `auto-coscienza/*` pesanti (freschi da 10-15 minuti, dati identici) né rilanciati script diagnostici pesanti (north-star-check --gate, tasso-chiusura --gate bloccati dall'allowlist, 1 tentativo, non ritentati).",
+  "sintesi": "Business fermo dal 24/6 (stallo 54 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. Questo è oggi il ~26° passaggio di giro in chat sullo stesso stato invariato: il pattern stesso (non solo il numero) è la cosa da segnalare a Nicola, perché ogni ripetizione consuma quota AI (83% della finestra) senza produrre nulla di nuovo per l'azienda.",
+  "trend_fiducia": "▼ 86→84: non per un errore nuovo, ma perché il gate di freschezza ha dovuto correggermi (auto-analisi saltata nel passaggio precedente) invece che l'auto-analisi accorgersene da sola. Il resto del lavoro (verifica sensori dal vivo, coerenza-fatti verde, coda riletta) è pulito. Il voto non recupera perché il problema di fondo — 26 giri identici in un giorno, quota AI agli sgoccioli (letargo RISPARMIO) — non è ancora stato deciso da Nicola: gli ho riproposto la domanda invece di continuare a ripeterlo in silenzio.",
   "entita_verificate_01_52": [
     {
       "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / 7 profili / 0 recensioni / ultimo ordine 2026-06-24",
@@ -39,9 +39,14 @@
   ],
   "entita_verificate": [
     {
-      "nome": "Pane Quotidiano",
+      "nome": "Pane Quotidiano — unico negozio reale, pratica pagamenti ancora incompleta (card #62)",
       "stato": "confermato",
-      "fonte": "registro-realta.json (invariato) — nessuna nuova entità toccata in questo giro"
+      "fonte": "registro-realta.json (invariato) + card #62 riletta in AZIONI-IN-ATTESA.md riga 1424, ferma dal 2026-08-10"
+    },
+    {
+      "nome": "1 ordine totale / 0 pagati / 7 profili / ultimo ordine 2026-06-24 CANCELED",
+      "stato": "confermato",
+      "fonte": "node cervello/verifica-sensori.mjs eseguito dal vivo alle 10:19 (supabase_rest ok)"
     }
   ],
   "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9). Nessuna ricerca nuova aperta — rispettato il vincolo north-star (solo lavoro che sblocca il primo ordine o ripara la macchina/la coda).",
@@ -56,6 +61,12 @@
   "livello_verifica": "L2 (business riverificato con query SQL dirette via MCP; sensori/coerenza-fatti/ci-stato riverificati dal vivo; coda AZIONI-IN-ATTESA riletta riga per riga per le voci toccate, non solo grep) — MA non è stata fatta una passata di verifica sull'intera coda, solo sulle voci toccate oggi: un errore di metodo identico potrebbe essere altrove, non ancora cercato.",
   "refutazione": "REFUTAZIONE VERA e AUTO-TROVATA in questo passaggio: ho affermato 'le card #36/#37/#38/#42 non esistono più nella coda' basandomi su un grep con un solo pattern (`| NUM |`). Sottoponendo la stessa affermazione a una verifica più ampia (ricerca per contenuto, non per formato) l'affermazione NON SOPRAVVIVE: le 4 card esistono, in formato blocco `###`. Corretta prima di consegnare. Lezione riusabile: 'card non trovata' con un solo pattern di ricerca non è una prova di assenza in un file che usa due formati diversi (tabella + blocchi ###) per la stessa coda.",
   "domande_per_nicola": [
+    {
+      "tipo": "ritmo",
+      "domanda": "Oggi (17/8) ha girato ~26 volte in chat sullo stesso stato invariato (business fermo, pausa concordata fino al 24/8-1/9). Il letargo è già a livello RISPARMIO (quota AI all'83% della finestra). Ogni giro ripetuto in questa finestra non trova nulla di nuovo da fare, per costruzione, finché la pausa non finisce.",
+      "azione": "confermi che va bene continuare a rispondere a ogni richiesta di giro con una verifica lampo (sensori+coerenza-fatti, niente riscritture pesanti) come sto già facendo, o preferisci che smetta di aprire un nuovo passaggio/briefing quando l'ultimo ha meno di un'ora ed è tutto invariato?",
+      "colore": "🟡"
+    },
     {
       "tipo": "sicurezza",
       "domanda": "3 card 🔴 di sicurezza/soldi (#36/#37/#38) restano ferme da 19 giorni senza risposta — falle RLS su dati personali verificate sul DB vero, punti dove il marketplace perderebbe soldi al primo volume reale.",

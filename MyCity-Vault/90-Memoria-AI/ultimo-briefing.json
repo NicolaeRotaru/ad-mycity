@@ -1,13 +1,12 @@
 {
-  "data": "2026-08-17 10:04",
-  "situazione": "Business invariato, riconfermato dal vivo: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star 54 giorni (invariato dal passaggio 08:28, stessa data di calendario). Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Giro completo 1h36 dopo il passaggio 08:28: sensori, coerenza-fatti, coda PR e delta-gate riverificati dal vivo, tutti identici (stesse 3 PR rosse #749/#741/#735; unica novità, PR #750 mai testata). Non riscritti i JSON pesanti (stessi dati di stamattina). Segnalo il pattern: ~20 passaggi di giro oggi, tutti senza cambiamento — è il segnale di sistema più rilevante di oggi.",
+  "data": "2026-08-17 10:22",
+  "situazione": "Business invariato, riconfermato dal vivo: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 7 profili — stallo North Star 54 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Giro completo 12 minuti dopo il passaggio 10:10/10:12: sensori e coerenza-fatti riverificati dal vivo, tutto identico. Riparato un buco vero: auto-analisi.json/AUTO-ANALISI.md erano fermi da 4 ore, il gate di freschezza l'ha segnalato — riscritti ora. Oggi è il ~26° passaggio di giro sullo stesso stato invariato: il pattern stesso è il segnale più rilevante, con la quota AI all'83% (letargo RISPARMIO).",
   "opportunita": [],
   "azioni": [
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
     {"titolo": "Tappa i cinque punti dove il marketplace perde soldi da solo", "motivo": "ferma da 19 giorni senza risposta: doppia vendita, coupon che si esauriscono sui tentativi, rider che si decide lo stipendio", "livello": "rosso"},
     {"titolo": "Chiudi le quattro porte aperte sui dati di negozi e clienti", "motivo": "falle RLS verificate sul database vero, ferme da 19 giorni senza risposta", "livello": "rosso"},
-    {"titolo": "Non mergiare ancora le tre richieste di unione rosse", "motivo": "PR #749, #741 e #735 sono le uniche aperte oggi e restano tutte rosse per colpa del proprio ramo, non di main", "livello": "rosso"},
-    {"titolo": "Decidi come procedere con le tre PR croniche rosse", "motivo": "dedicare una sessione a ripararle o congelarle fino a dopo la pausa negozi del 24/8-1/9", "livello": "giallo"},
-    {"titolo": "Dimmi dove aprire il prossimo esperimento", "motivo": "il KPI del primo ordine resta bloccato dalla pausa fino al 24/8-1/9: aprirne un altro lì sarebbe il 4° tentativo identico e già fallito", "livello": "giallo"}
+    {"titolo": "Dimmi se va bene continuare a rispondere a ogni giro con una verifica lampo, o se preferisci meno passaggi", "motivo": "26 giri oggi sullo stesso stato invariato, quota AI all'83% — durante la pausa concordata ogni giro trova per forza le stesse cose", "livello": "giallo"},
+    {"titolo": "Decidi come procedere con le tre PR croniche rosse", "motivo": "dedicare una sessione a ripararle o congelarle fino a dopo la pausa negozi del 24/8-1/9", "livello": "giallo"}
   ]
 }

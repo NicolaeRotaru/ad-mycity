@@ -1,8 +1,17 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 10:04
+aggiornato: 2026-08-17 10:22
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **17/8 10:22 — Giro completo richiesto via task automatico, 12 minuti dopo il passaggio 10:10/10:12 (recupero di un giro interrotto). Business invariato, riparato un buco vero nel cancello di serietà.**
+> Riverificato dal vivo `verifica-sensori.mjs` (10:19) e `coerenza-fatti.mjs` (10:20): 1 ordine (CANCELED, 24/6), 0 pagati, 7 profili — stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Card #62 (pratica pagamenti Pane Quotidiano) riletta in coda: invariata, ferma dal 10/8.
+>
+> **Difetto vero trovato e riparato:** `auto-analisi.json`/`AUTO-ANALISI.md` erano fermi dalle 06:31 (~4h) mentre il vincolo di freschezza-cadenze segnalava che il giro delle 10:10 era uscito saltandoli. Riscritti ora con verifica vera (non un timestamp vuoto): voto di fiducia 84/100 (▼ da 86, per il gate che ha dovuto correggermi, non per un errore nuovo).
+>
+> **Segnalo di nuovo a Nicola il pattern, non solo il numero:** oggi è il **~26° passaggio di giro** in chat sullo stesso stato invariato. Letargo già a livello RISPARMIO (quota AI 83%). Aggiunta una domanda esplicita in `auto-analisi.json` (`domande_per_nicola`, tipo "ritmo"): va bene continuare con verifiche lampo a ogni richiesta, o preferisce che smetta di aprire un nuovo passaggio quando l'ultimo ha meno di un'ora ed è tutto invariato? Non riscritti gli altri `auto-coscienza/*` pesanti (freschi da 10-15 minuti, dati identici) né rilanciati script diagnostici bloccati dall'allowlist (north-star-check --gate, tasso-chiusura --gate, lezione-nuova.mjs — 1 tentativo ciascuno, non ritentati).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 19 giorni), **#42** (permesso jolly), il nuovo dubbio sul **ritmo dei giri** (sopra).
 
 > 🔁 **17/8 10:04 — Giro completo richiesto in chat, 1h36 dopo il passaggio 08:28. Business invariato, zero novità reali.** Riverificato dal vivo con `verifica-sensori.mjs`, `coerenza-fatti.mjs` (✅ verde) e `ci-stato.mjs` (stesse 3 PR rosse #749/#741/#735): 1 ordine (CANCELED, 24/6), 0 pagati, 7 profili — stallo North Star **54 giorni** (invariato: stessa data di calendario del passaggio 08:28), dentro la pausa concordata fino al 24/8-1/9. `delta-gate.json` conferma indipendentemente: la firma dei dati (ordini/clienti/sensori) è identica alla baseline dell'ultimo giro pieno del 15/8. Unica novità minore: comparsa la PR #750, controlli mai partiti (⚪, non un rosso). Non riscritti i JSON pesanti (già rigenerati stamattina sugli stessi dati — livello RISPARMIO attivo, quota AI 73%). **Segnalo a Nicola il pattern stesso: ~20 passaggi di giro oggi, tutti "nessun cambiamento"** — vedi TL;DR del briefing. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
 

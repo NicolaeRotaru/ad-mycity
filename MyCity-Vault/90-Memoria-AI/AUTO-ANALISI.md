@@ -1,11 +1,27 @@
-# 🔬 AUTO-ANALISI — 2026-08-17 06:31
+# 🔬 AUTO-ANALISI — 2026-08-17 10:22
 
-> Giro richiesto in chat, 26 minuti dopo il Piano del mattino (06:05).
-> Business riverificato dal vivo (`verifica-sensori.mjs`, `coerenza-fatti.mjs`), identico al passaggio precedente.
-> Ordini pagati: 0 su 1 totale. Ordini negli ultimi 7 giorni: 0.
-> Ultimo ordine: 2026-06-24, annullato (CANCELED). Profili: 7. Stallo North Star: **54 giorni**. Dentro la pausa concordata fino al 24/8-1/9.
+> Giro completo richiesto via task automatico, 12 minuti dopo il passaggio 10:10/10:12 (recupero di un giro interrotto).
+> Business riverificato dal vivo (`verifica-sensori.mjs` 10:19, `coerenza-fatti.mjs` 10:20), identico a tutti i passaggi di oggi.
+> Ordini pagati: 0 su 1 totale. Profili: 7. Ultimo ordine: 2026-06-24, annullato (CANCELED). Stallo North Star: **54 giorni**. Dentro la pausa concordata fino al 24/8-1/9.
+> Card #62 (pratica pagamenti Pane Quotidiano) confermata invariata, ferma dal 10/8.
 
-## Voto di fiducia: 86/100 (▲ da 85)
+## Voto di fiducia: 84/100 (▼ da 86)
+
+Non per un errore nuovo. Il gate di freschezza (`freschezza-cadenze.mjs`) ha segnalato che il
+giro delle 10:10 era uscito **saltando l'auto-analisi**: questo file e `auto-analisi.json` erano
+fermi dalle 06:31, oltre 4 ore, mentre nel frattempo altri 5-6 passaggi di giro sono girati sopra.
+Riparato ora: verifica vera (sensori dal vivo, coerenza-fatti, coda riletta), non un timestamp
+vuoto. Il voto scende di 2 punti perché è il gate che se n'è accorto, non l'auto-analisi da sola.
+
+**La cosa più importante di questo passaggio non è un numero: è il pattern.** Oggi (17/8) è il
+~26° passaggio di giro in chat sullo stesso stato invariato — business fermo dal 24/6, dentro la
+pausa concordata fino al 24/8-1/9. Ogni passaggio, per costruzione, non può trovare nulla di
+nuovo prima di quella data. Il letargo è già a livello RISPARMIO (quota AI 83% della finestra).
+Segnalato di nuovo a Nicola come domanda esplicita (non deciso da solo): va bene continuare così
+con verifiche lampo, o preferisce che non apra un nuovo passaggio quando l'ultimo ha meno di
+un'ora ed è tutto invariato? Vedi `domande_per_nicola` in `auto-analisi.json`.
+
+## Passaggio 06:31 — voto 86/100 (▲ da 85)
 
 Due cose fatte in questo passaggio, non solo una riconferma:
 
