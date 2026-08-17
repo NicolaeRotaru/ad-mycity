@@ -16142,9 +16142,11 @@
       "nato_come": "scoperta",
       "nato_da": "secondo giro del lotto AR-763: cercando TUTTE le strade che portano una lezione al lavoro, non solo quella riparata",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Prova da scrivere insieme al fix: dipende da quale delle due strade si sceglie. Registrato senza prova invece che con un grep, che qui non frenerebbe niente (CLAUDE.md, l asticella)."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/la-chat-senza-freni.test.mjs"
+      },
+      "strada_scelta": "(a) la chat chiede la scheda sul messaggio di Nicola all archivio strutturato. Scartata la (b) generare LEZIONI-CHAT.md dall archivio: avrebbe tolto un archivio ma anche le righe scritte a mano dalla metabolizzazione, che oggi sono l unica memoria della chat — meglio affiancare che sostituire finche la scheda non ha dimostrato di bastare.",
+      "nota_fix": "Riparato in questo lotto. `contesto_macchina_chat` riceve il messaggio e chiede la scheda a contesto-lezioni.mjs --richiesta --testo; se non esce niente resta la lista di sempre, cosi la chat non e mai muta. Prova a 3 casi che esegue la funzione vera di worker.sh (arriva la scheda coi freni / senza messaggio nulla cambia / strumento assente e la chat parla lo stesso). Non-vacuita verificata: staccando la chiamata il primo caso diventa rosso."
     },
     {
       "id": "AR-765",

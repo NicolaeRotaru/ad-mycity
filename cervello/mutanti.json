@@ -5109,6 +5109,15 @@
    "sostituisci": "    fermo: true,",
    "test": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs",
    "lezione": "L-2026-0817-02"
+  },
+  {
+   "difetto": "AR-764 la-chat-senza-freni",
+   "nome": "la chat torna a ricevere solo la prosa di LEZIONI-CHAT.md: nessuna regola sul tema del messaggio, nessun freno",
+   "file": "cervello/worker.sh",
+   "cerca": "    if ! lezioni_tema=\"$(timeout 20s node \"$SCRIPT_DIR/contesto-lezioni.mjs\" --richiesta --testo 2>/dev/null <<<\"$1\")\"; then",
+   "sostituisci": "    if true; then",
+   "test": "node cervello/test/la-chat-senza-freni.test.mjs",
+   "lezione": "L-2026-0817-03"
   }
  ]
 }
