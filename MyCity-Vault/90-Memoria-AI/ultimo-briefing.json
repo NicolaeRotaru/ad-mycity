@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-17 12:28",
-  "situazione": "Business invariato, riconfermato dal vivo con verifica-sensori/coerenza-fatti/ci-stato: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 7 profili — stallo North Star 54 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Novità reale: 4 playbook worker (12:15-12:26) hanno girato da soli, controllati uno per uno — nessuno produce azione nuova (Anti-churn/Recupero carrelli: 0 trovato; Fedeltà di rete: ri-accodata la card #116 per la 6ª volta, stesso gate invariato dal 10/8). Livello LETARGO: SOPRAVVIVENZA, quota AI 206% — nuovo record di oggi (era 169% alle 12:08).",
+  "data": "2026-08-17 14:28",
+  "situazione": "Business invariato, riconfermato dal vivo via SQL diretto: 1 ordine mai pagato/annullato del 24/6, 0 pagati, Pane Quotidiano ancora con Stripe tutto spento, nessun negozio nuovo — stallo North Star 54+ giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Giro ridotto al nucleo vitale (SOPRAVVIVENZA, quota AI 278%): la maggior parte degli script diagnostici resta bloccata dall'allowlist di questa sessione. Aperta PR #754 per 3 file di refresh automatico del worker.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
