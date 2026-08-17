@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-17 11:29",
+  "aggiornato": "2026-08-17 22:47",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16130,7 +16130,7 @@
     },
     {
       "id": "AR-764",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "apprendimento",
       "gravita": "medio",
       "titolo": "Le lezioni che entrano in OGNI turno di chat vivono in un secondo archivio che non puo avere freni",
@@ -16146,11 +16146,14 @@
         "comando": "node cervello/test/la-chat-senza-freni.test.mjs"
       },
       "strada_scelta": "(a) la chat chiede la scheda sul messaggio di Nicola all archivio strutturato. Scartata la (b) generare LEZIONI-CHAT.md dall archivio: avrebbe tolto un archivio ma anche le righe scritte a mano dalla metabolizzazione, che oggi sono l unica memoria della chat — meglio affiancare che sostituire finche la scheda non ha dimostrato di bastare.",
-      "nota_fix": "Riparato in questo lotto. `contesto_macchina_chat` riceve il messaggio e chiede la scheda a contesto-lezioni.mjs --richiesta --testo; se non esce niente resta la lista di sempre, cosi la chat non e mai muta. Prova a 3 casi che esegue la funzione vera di worker.sh (arriva la scheda coi freni / senza messaggio nulla cambia / strumento assente e la chat parla lo stesso). Non-vacuita verificata: staccando la chiamata il primo caso diventa rosso."
+      "nota_fix": "Riparato in questo lotto. `contesto_macchina_chat` riceve il messaggio e chiede la scheda a contesto-lezioni.mjs --richiesta --testo; se non esce niente resta la lista di sempre, cosi la chat non e mai muta. Prova a 3 casi che esegue la funzione vera di worker.sh (arriva la scheda coi freni / senza messaggio nulla cambia / strumento assente e la chat parla lo stesso). Non-vacuita verificata: staccando la chiamata il primo caso diventa rosso.",
+      "chiuso_il": "2026-08-17 22:47",
+      "chiuso_come": "node cervello/test/la-chat-senza-freni.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-765",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "apprendimento",
       "gravita": "grave",
       "titolo": "Ottantotto regole promosse, otto consegnate: i principi si sceglievano per posizione nel file",
@@ -16165,11 +16168,14 @@
         "tipo": "comando",
         "comando": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs"
       },
-      "nota_fix": "Riparato in questo lotto. Misura prima/dopo sull archivio vero: principi col freno consegnati 2 su 4 → 4 su 4; tetto 8 → 12 dichiarato in intestazione. Non-vacuita verificata: rimettendo la scelta per posizione, 4 casi su 7 diventano rossi."
+      "nota_fix": "Riparato in questo lotto. Misura prima/dopo sull archivio vero: principi col freno consegnati 2 su 4 → 4 su 4; tetto 8 → 12 dichiarato in intestazione. Non-vacuita verificata: rimettendo la scelta per posizione, 4 casi su 7 diventano rossi.",
+      "chiuso_il": "2026-08-17 22:47",
+      "chiuso_come": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-766",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "apprendimento",
       "gravita": "medio",
       "titolo": "Il guardiano diceva che il decadimento non gira, e stava girando: un motore giudicato dal conto dei morti",
@@ -16184,7 +16190,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs"
       },
-      "nota_fix": "Riparato in questo lotto. Prima: «0 decadute — il decadimento non gira». Adesso: «0 decadute, ma il decadimento GIRA: 323 passi negli ultimi 14 giorni, la piu vicina alla soglia e a confidenza 0.33». Non-vacuita verificata: dichiarando sempre fermo, 2 casi su 6 diventano rossi."
+      "nota_fix": "Riparato in questo lotto. Prima: «0 decadute — il decadimento non gira». Adesso: «0 decadute, ma il decadimento GIRA: 323 passi negli ultimi 14 giorni, la piu vicina alla soglia e a confidenza 0.33». Non-vacuita verificata: dichiarando sempre fermo, 2 casi su 6 diventano rossi.",
+      "chiuso_il": "2026-08-17 22:47",
+      "chiuso_come": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-767",
@@ -16207,16 +16216,16 @@
   ],
   "meta": {
     "letto": true,
-    "totale": 755,
+    "totale": 758,
     "aperti": 106,
     "in_corso": 0,
     "da_riverificare": 56,
-    "chiusi": 593,
+    "chiusi": 596,
     "altri": 0,
     "da_fare": 162,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 593,
+      "chiuso": 596,
       "aperto": 106,
       "da-riverificare": 56
     },
