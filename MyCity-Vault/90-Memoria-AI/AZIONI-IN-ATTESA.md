@@ -22,6 +22,83 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🟡 #119 — Una tua guardia non si sveglia mai prima che io deleghi lavoro a un senior · ⏳ accodata 2026-08-17 13:35
+
+**Cosa cambia:** ho trovato un buco piccolo ma reale nei tuoi controlli automatici. Il file
+`.claude/settings.json` dice a una guardia (`pre-scrittura.mjs`) di svegliarsi prima che io usi lo
+strumento chiamato "Task". Ma in questa sessione lo strumento che uso per delegare lavoro a un senior
+si chiama "Agent", non "Task". La guardia non riconosce il nome e non si sveglia mai: ogni volta che
+delego un compito a un senior, quella guardia salta senza che nessuno se ne accorga. Non è grave da
+solo — un'altra guardia (`cancello-senior.mjs`) controlla comunque il risultato quando il senior
+finisce — ma il controllo PRIMA della delega manca sempre, silenziosamente, da quando esiste questo
+file.
+
+**Se va bene:** incolli tu il blocco corretto (non posso scrivere `.claude/settings.json` da sola, è
+bloccato apposta). Basta aggiungere `Agent` accanto a `Task` nella riga del matcher. Nel file, cerca
+la sezione `"PreToolUse"` e sostituisci questo pezzo:
+```
+"matcher": "Bash|Task|mcp__.*",
+```
+con:
+```
+"matcher": "Bash|Task|Agent|mcp__.*",
+```
+È l'unica riga da cambiare, dentro il primo gruppo di `PreToolUse` (quello agganciato a
+`pre-scrittura.mjs`).
+
+**Cosa non ho verificato:** non ho controllato se altri repository o altre sessioni con questo stesso
+file di permessi hanno lo stesso problema — l'ho trovato solo qui, lavorando su un'altra cosa.
+
+- **Colore:** 🟡 — tocca la configurazione dei tuoi controlli di sicurezza interni, non soldi né dati
+  di clienti; è comunque un file che io non posso scrivere da sola per regola tua.
+- **Reparto:** AD (trovato dal cancello di fine turno, non da un senior)
+- **Origine:** `{origine:cancello-stop-turno-17-8, file:.claude/settings.json, sezione:hooks.PreToolUse}`
+
+---
+
+### 🔴 #118 — Manda il comunicato di lancio a un giornale, ma prima dammi due citazioni vere · ⏳ accodata 2026-08-17 13:20
+
+**Cosa cambia:** ho scritto il comunicato per raccontare alla stampa che MyCity sta nascendo e che Pane
+Quotidiano, in Via Calzolai, è il primo negozio a bordo. L'ho controllato un'ora fa sul database vero.
+Il negozio esiste. Ha 5 prodotti veri in vendita: per esempio l'hummus di ceci a 2,95€ e il pesto
+genovese a 5€. Ma oggi un cliente non può ancora pagare. I pagamenti Stripe sono spenti sul suo
+profilo, esattamente come il 10 agosto. Per questo il comunicato NON dice "ordina ora": dice che il
+progetto sta nascendo e i pagamenti si accendono nelle prossime settimane. È la versione onesta. Se
+scrivessi "puoi già comprare" e un giornalista lo verifica, troverebbe un carrello che non si chiude.
+In una città piccola, un errore così non si perdona una seconda volta.
+
+**Se va bene:** appena mi dai le due cose che mancano (sotto), lo mando prima a un giornale online
+(PiacenzaSera, il più adatto per una prima uscita leggera) per costruire il "già uscito su…". Tengo da
+parte l'esclusiva più pesante per Libertà per quando ci sarà la notizia vera e grande: il primo ordine
+pagato per davvero.
+
+**Cosa devi fare — due cose, non posso farle io:**
+1. **La tua citazione da fondatore.** Ho scritto una proposta di due frasi nel testo del comunicato
+   (`consegne/pr-stampa/2026-08-17-comunicato-nasce-mycity-piacenza.md`). Leggila e dimmi se va bene
+   così o riscrivila con le tue parole vere: una citazione finta o generica si vede subito.
+2. **Una frase vera del titolare di Pane Quotidiano**, con il suo ok esplicito a comparire con nome e
+   cognome sul giornale. Il numero del negozio letto oggi dal database è 0523388601. Bastano 2-3 frasi
+   raccolte al telefono o passando in negozio — non posso inventarle io, sarebbe la cosa che brucia di
+   più la fiducia di un giornalista se se ne accorge.
+
+Ci sono altri 4 dettagli minori in fondo al file del comunicato: una foto vera, un contatto stampa
+dedicato, la data precisa di attivazione pagamenti, e quale numero di desertificazione usare (ho
+trovato due cifre diverse in due file del vault, -22,6% e -20,4%, non ancora riconciliate). Non
+bloccano quanto le prime due, ma vanno chiusi prima dell'invio vero.
+
+**Cosa non ho verificato:** il numero "-22,6% di negozi in 12 anni" viene dalla ricerca che hai
+consegnato tu l'11/8. Non sono riuscita ad aprire il PDF originale per vederne la fonte primissima:
+quale ente l'ha misurato, in che anno. Se un giornalista chiede "fonte esatta?", oggi non ho la
+risposta pronta. Non ho nemmeno un contatto diretto di nessun giornalista di Piacenza. Ho verificato
+solo le caselle email ufficiali delle redazioni (via web, il 17/8), non i nomi delle persone.
+
+- **Colore:** 🔴 — è la voce pubblica dell'azienda verso un giornalista, in una città dove tutti si
+  conoscono: resta ferma finché non dai le due citazioni e poi il via libera esplicito.
+- **Reparto:** pr-stampa
+- **Origine:** `{origine:playbook-stampa-settimana-17-8, invocazione:6, gate:invariato-dal-2026-06-24, file:consegne/pr-stampa/2026-08-17-comunicato-nasce-mycity-piacenza.md}`
+
+---
+
 ### 🔴 #116 — Il programma punti + gift card è pronto da un mese, ma resta spento · ⏳ accodata 2026-08-17 12:24
 
 **Cosa cambia:** ti avevo chiesto di preparare punti spendibili in tutta la rete e gift card MyCity. L'ho già fatto, per intero, il 6 luglio. Da allora l'ho ricontrollato altre 5 volte (20/7, 27/7, 3/8, 10/8, oggi) invece di rifare il lavoro da capo ogni volta, perché il risultato sarebbe stato identico: il testo e la meccanica sono fermi in `consegne/growth/2026-07-06-playbook-fedelta-di-rete.md`. Restano spenti perché mancano ancora tutti e 5 i via libera che avevo scritto il 6/7: almeno 5 negozi veri (oggi 1 solo, Pane Quotidiano), ordini pagati (oggi 0), Stripe collegato in scrittura (ancora solo lettura), la percentuale di cashback firmata da te, e un parere legale sulla gift card. In più oggi Pane Quotidiano da solo non riesce nemmeno a incassare (dati mai inviati, incassi e versamenti disattivati) — quello è il blocco più urgente, non la fedeltà. Le due card che tenevano visibile questa proposta (#44 e #45) sono sparite dalla coda durante una pulizia automatica: questa le rimpiazza con una sola, per non perdere la traccia che il lavoro è già pronto.
