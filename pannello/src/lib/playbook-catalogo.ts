@@ -17,6 +17,7 @@ export type Playbook = {
   cadenza: "giornaliero" | "settimanale";
   livello: "verde" | "giallo" | "rosso";
   compito: string; // istruzione esatta per il cervello quando è il momento
+  sospesoFino?: string; // AAAA-MM-GG: non riaccodare prima di questa data (gate concordato con Nicola)
 };
 
 // Almeno un playbook per OGNI forma di dominio (arsenale forte):
@@ -47,6 +48,9 @@ export const PLAYBOOKS: Playbook[] = [
     descrizione: "Ogni giorno: individua le botteghe che rallentano e prepara la riattivazione.",
     cadenza: "giornaliero", livello: "giallo",
     compito: "PLAYBOOK Anti-churn negozi: trova i negozi con ordini in calo e prepara il check-in/azione di riattivazione per ciascuno. Accoda in AZIONI-PRONTE.",
+    // Gate esplicito di Nicola (registro-fatti.json: negozi.attesa-concordata / ripresa.lavoro-operativo):
+    // con 1 solo negozio reale (Pane Quotidiano) il playbook non ha bersaglio — riparte da solo dopo questa data.
+    sospesoFino: "2026-08-24",
   },
   // ── C · POSSEDERE IL DENARO ──
   {
@@ -123,7 +127,12 @@ export const PLAYBOOKS: Playbook[] = [
   },
 ];
 
-// Quali playbook vanno eseguiti oggi: i giornalieri sempre, i settimanali di lunedì.
-export function playbookDaEseguire(giornoSettimana: number): Playbook[] {
-  return PLAYBOOKS.filter((p) => p.cadenza === "giornaliero" || giornoSettimana === 1);
+// Quali playbook vanno eseguiti oggi: i giornalieri sempre, i settimanali di lunedì,
+// esclusi quelli sospesi da un gate (sospesoFino) non ancora raggiunto.
+export function playbookDaEseguire(giornoSettimana: number, oggiISO?: string): Playbook[] {
+  return PLAYBOOKS.filter((p) => {
+    if (p.cadenza !== "giornaliero" && giornoSettimana !== 1) return false;
+    if (p.sospesoFino && oggiISO && oggiISO < p.sospesoFino) return false;
+    return true;
+  });
 }

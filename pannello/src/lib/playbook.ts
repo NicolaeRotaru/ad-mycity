@@ -24,7 +24,7 @@ function giornoSettimanaRoma(): number {
 export async function accodaPlaybookDelGiorno(): Promise<number> {
   if (!memoryConnected()) return 0;
   const oggi = oggiRoma();
-  const due = playbookDaEseguire(giornoSettimanaRoma());
+  const due = playbookDaEseguire(giornoSettimanaRoma(), oggi);
   let n = 0;
   for (const p of due) {
     const k = `pb:${p.id}:${oggi}`;
