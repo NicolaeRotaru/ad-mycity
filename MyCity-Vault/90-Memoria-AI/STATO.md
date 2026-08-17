@@ -1,8 +1,15 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 12:28
+aggiornato: 2026-08-17 12:42
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **17/8 12:42 — Giro completo richiesto in chat, 14 minuti dopo il passaggio 12:28. Business invariato. È il ~41° passaggio odierno sullo stesso stato.**
+> Riverificato dal vivo: `verifica-sensori.mjs` (REST ok, 1 ordine, mcp_stripe cieco da 3 giri — non blocca), `coerenza-fatti.mjs` (✅ coerente, 38 fatti, 0 cacce), `ci-stato.mjs` (stesse 3 PR rosse per colpa propria #749/#741/#735). Nulla di nuovo rispetto al passaggio 12:28: niente riscrittura dei JSON pesanti di `auto-coscienza/` (dati identici, scritti minuti fa), nessun sub-agente, nessun radar/analista/intelligence lanciato — per disciplina SOPRAVVIVENZA. Livello LETARGO: **SOPRAVVIVENZA**, quota AI **236%** — nuovo record di oggi (era 206% alle 12:28), salute macchina 4/40.
+>
+> **Segnalo di nuovo a Nicola in chat (non nei file, per non ripetere una domanda senza risposta):** questo è il ~41° giro completo richiesto oggi sullo stesso stato di business invariato dal 24/6, a distanza di 8-20 minuti l'uno dall'altro. Ogni passaggio, anche ridotto al nucleo vitale, consuma quota AI — ora al 236% della finestra. Propongo a Nicola di decidere se continuare così o darmi un intervallo minimo tra un giro completo e l'altro quando lo stato è verificato identico.
+>
+> **Mossa n.1, invariata.** Coda: **#62/#116** (pratica pagamenti Pane Quotidiano, il vero blocco), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 19+ giorni), **#108** (sblocco server, pending Nicola), **#104** (permessi jolly), 3 PR croniche rosse.
 
 > 🔁 **17/8 12:28 — Giro richiesto in chat, 20 minuti dopo il passaggio 12:08. Business invariato. È il ~40° passaggio odierno sullo stesso stato.**
 > Riverificato dal vivo: sensori ok (REST, Stripe, Resend, n8n, Pannello), sito 503 noto, coerenza-fatti ✅, CI stesse 3 PR rosse (#749/#741/#735). Novità reale: 4 playbook worker (12:15-12:26) hanno girato da soli — controllati uno per uno, nessuno produce azione nuova (Anti-churn e Recupero carrelli: 0 trovato, coerente con negozi_fermi=0/carrelli=null; Dati-come-servizio: nessuna proposta; Fedeltà di rete: ri-accodata la card #116, 6ª volta, stesso gate invariato dal 10/8). Livello letargo SOPRAVVIVENZA, quota AI **206%** — nuovo record di oggi (era 169%). Nessuna riscrittura dei JSON pesanti (freschi da 1-2 minuti), nessun sub-agente. Stallo North Star invariato a 54 giorni, dentro la pausa concordata fino al 24/8-1/9.
