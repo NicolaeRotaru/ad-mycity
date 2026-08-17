@@ -1,8 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 10:39
+aggiornato: 2026-08-17 11:08
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **17/8 11:08 — Giro completo richiesto da Nicola in chat, 29 minuti dopo il passaggio 10:39. Business riverificato dal vivo con query SQL dirette (MCP): invariato.**
+> `orders`: 1 riga totale, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 (CANCELED) — stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. `profiles`: 7. `coerenza-fatti.mjs` ✅ verde. `ci-stato.mjs` rilanciato: stesse 3 PR rosse per colpa propria (#749/#741/#735), nessun cambiamento. File pesanti di `auto-coscienza/` non riscritti: già freschi da 9-30 minuti (scritti dal passaggio interrotto/recuperato delle 10:56-10:59), stessi identici dati — riscriverli userebbe quota AI (livello RISPARMIO, 83%) senza aggiungere informazione. Questo è circa il **32° passaggio di giro oggi sullo stesso stato invariato**: la domanda sul ritmo (posta alle 10:22, ripetuta alle 10:39) resta senza risposta — non la ripropongo una terza volta nei file automatici, ma la richiamo nella risposta a Nicola qui in chat, visto che ora è lui a scrivere direttamente.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 19 giorni), le 3 PR croniche rosse (#109), **#42** (permesso jolly), la domanda sul ritmo dei giri.
 
 > 🛌 **17/8 10:39 — Giro completo richiesto via task automatico, 17 minuti dopo il passaggio 10:22. Business invariato. Livello LETARGO passato a SOPRAVVIVENZA (quota AI 93%): passaggio ridotto al nucleo vitale, per regola.**
 > Confermato via i JSON già freschi di `giro.sh` (`sensori-cecita.json` 10:31, `delta-gate.json` 08:26): firma identica alla baseline del 15/8, nessun sensore nuovo cieco. `AZIONI-IN-ATTESA.md` invariata (73 aperte/8 archiviate). Non riscritti gli `auto-coscienza/*.json` pesanti (freschi da <10 minuti) né lanciati sub-agenti: SOPRAVVIVENZA impone di tagliare il volume, non i controlli — e i controlli erano già fatti. Domanda sul ritmo dei giri (posta alle 10:22) ancora senza risposta di Nicola: non riformulata una terza volta. Dettaglio: [[Briefing/2026-08-17]].

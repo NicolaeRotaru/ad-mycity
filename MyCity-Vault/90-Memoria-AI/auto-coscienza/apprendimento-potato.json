@@ -1,6 +1,16 @@
 {
   "potature": [
     {
+      "quando": "2026-08-17 11:05",
+      "byte_prima": 1092589,
+      "byte_dopo": 987240,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [],
+        "copie_di_principi": 88
+      }
+    },
+    {
       "quando": "2026-08-17 10:37",
       "byte_prima": 1091672,
       "byte_dopo": 986323,

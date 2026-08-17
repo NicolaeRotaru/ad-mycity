@@ -13,15 +13,16 @@ fermi dalle 06:31, oltre 4 ore, mentre nel frattempo altri 5-6 passaggi di giro 
 Riparato ora: verifica vera (sensori dal vivo, coerenza-fatti, coda riletta), non un timestamp
 vuoto. Il voto scende di 2 punti perché è il gate che se n'è accorto, non l'auto-analisi da sola.
 
-**La cosa più importante di questo passaggio non è un numero: è il pattern.** Oggi (17/8) è il
-~26° passaggio di giro in chat sullo stesso stato invariato — business fermo dal 24/6, dentro la
-pausa concordata fino al 24/8-1/9. Ogni passaggio, per costruzione, non può trovare nulla di
-nuovo prima di quella data. Il letargo è già a livello RISPARMIO (quota AI 83% della finestra).
-Segnalato di nuovo a Nicola come domanda esplicita (non deciso da solo): va bene continuare così
-con verifiche lampo, o preferisce che non apra un nuovo passaggio quando l'ultimo ha meno di
-un'ora ed è tutto invariato? Vedi `domande_per_nicola` in `auto-analisi.json`.
+**La cosa più importante di questo passaggio non è un numero.** È il pattern che si ripete.
+Oggi (17/8) è il ~26° passaggio di giro in chat sullo stesso stato invariato. Il business è
+fermo dal 24/6, dentro la pausa concordata fino al 24/8-1/9. Ogni passaggio, per costruzione,
+non può trovare nulla di nuovo prima di quella data. Il letargo è già a livello RISPARMIO
+(quota AI 83% della finestra). Ho segnalato di nuovo la cosa a Nicola come domanda esplicita,
+non l'ho decisa da solo: va bene continuare così con verifiche lampo? O preferisce che non apra
+un nuovo passaggio quando l'ultimo ha meno di un'ora ed è tutto invariato? Vedi
+`domande_per_nicola` in `auto-analisi.json`.
 
-## Passaggio 06:31 — voto 86/100 (▲ da 85)
+## Passaggio 06:31 (voto: 86/100, ▲ da 85)
 
 Due cose fatte in questo passaggio, non solo una riconferma:
 
@@ -33,11 +34,11 @@ Due cose fatte in questo passaggio, non solo una riconferma:
    per un limite di sandbox, non di diagnosi". Gate ora verde.
 2. **Rispettata la propria lezione invece di soddisfare un contatore a vuoto.** Il controllo
    `esperimenti-check.mjs` (ESP) segna "diventato cronico" da 3 giri senza un esperimento aperto.
-   L'unico ambito rilevante — il primo ordine pagato — ha già 3 tentativi falliti di fila
-   (EXP-013/014/015) per lo stesso identico motivo: la pausa concordata blocca ogni contatto
-   nuovo. Aprire un 4° esperimento sapendo in anticipo che fallirebbe per lo stesso motivo non
-   sarebbe imparare, sarebbe far tornare un numero verde con un dato inutile. Accodata la card
-   #116 con la scelta esplicita per Nicola, invece.
+   L'unico ambito rilevante è il primo ordine pagato. Ha già 3 tentativi falliti di fila
+   (EXP-013/014/015), tutti per lo stesso identico motivo: la pausa concordata blocca ogni
+   contatto nuovo. Aprire un 4° esperimento sapendo in anticipo che fallirebbe per lo stesso
+   motivo non sarebbe imparare: sarebbe solo far tornare un numero verde con un dato inutile.
+   Accodata invece la card #116, con la scelta esplicita per Nicola.
 
 Nessun errore di metodo trovato in questo passaggio (a differenza del 01:52, dove un grep a
 copertura parziale aveva prodotto un'affermazione falsa poi corretta). Il voto sale di un punto

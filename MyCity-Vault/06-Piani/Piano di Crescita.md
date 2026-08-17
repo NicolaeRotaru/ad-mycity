@@ -9,7 +9,7 @@
 <!-- ⛔ AD-SMENTITE:START · lo riscrive `node cervello/piani-verita.mjs --scrivi`, non a mano -->
 > ⛔ **Attenzione: una frase di questo piano non è più vera.** Il registro dei fatti le smentisce, e il testo qui sotto è rimasto com'era. Correggerlo è una revisione del piano: la decide Nicola.
 > · **Una fotografia del 25/06/2026 è presentata come «oggi»** (riga 16) — I numeri della frase reggono ancora al 10/8; a mentire è la parola «oggi». *(letto dal vivo sul database del marketplace il 2026-08-10 09:58…)*
-> *Misurato il 2026-08-17 10:44. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
+> *Misurato il 2026-08-17 11:11. Quando il piano e il registro tornano d'accordo, questo avviso sparisce da solo.*
 <!-- ⛔ AD-SMENTITE:END -->
 
 > Base dati: [[Metriche & KPI]] (North Star + i 7 numeri + i primi 4 esperimenti), [[Clienti, Personas & Crescita]] (i 5 loop organici), [[Area - Crescita]], [[Finanza & Unit Economics]].
