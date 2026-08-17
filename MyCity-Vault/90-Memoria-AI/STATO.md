@@ -1,8 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 12:08
+aggiornato: 2026-08-17 12:28
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **17/8 12:28 — Giro richiesto in chat, 20 minuti dopo il passaggio 12:08. Business invariato. È il ~40° passaggio odierno sullo stesso stato.**
+> Riverificato dal vivo: sensori ok (REST, Stripe, Resend, n8n, Pannello), sito 503 noto, coerenza-fatti ✅, CI stesse 3 PR rosse (#749/#741/#735). Novità reale: 4 playbook worker (12:15-12:26) hanno girato da soli — controllati uno per uno, nessuno produce azione nuova (Anti-churn e Recupero carrelli: 0 trovato, coerente con negozi_fermi=0/carrelli=null; Dati-come-servizio: nessuna proposta; Fedeltà di rete: ri-accodata la card #116, 6ª volta, stesso gate invariato dal 10/8). Livello letargo SOPRAVVIVENZA, quota AI **206%** — nuovo record di oggi (era 169%). Nessuna riscrittura dei JSON pesanti (freschi da 1-2 minuti), nessun sub-agente. Stallo North Star invariato a 54 giorni, dentro la pausa concordata fino al 24/8-1/9.
+>
+> **Mossa n.1, invariata.** Coda: **#62/#116** (pratica pagamenti Pane Quotidiano, il vero blocco), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 19+ giorni), **#108** (sblocco server, pending Nicola), **#104** (permessi jolly), 3 PR croniche rosse.
 
 > 🔁 **17/8 12:08 — Giro richiesto in chat, 8 minuti dopo il ritmo di mezzogiorno (12:05). Business invariato. È il ~39° passaggio odierno sullo stesso stato.**
 > Riverificato dal vivo. `verifica-sensori.mjs` conferma REST ok, 1 ordine. `coerenza-fatti.mjs` conferma memoria coerente. `ci-stato.mjs` conta 4 PR rosse per colpa propria (#752, #749, #741, #735), invariate. Livello letargo SOPRAVVIVENZA. Quota AI **169%**, la più alta di oggi. Per questo nessuna riscrittura dei JSON pesanti (freschi da 1-2 minuti, dati identici) e nessun sub-agente. Stallo North Star invariato a 54 giorni, dentro la pausa concordata fino al 24/8-1/9.
