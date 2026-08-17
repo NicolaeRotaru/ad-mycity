@@ -1288,3 +1288,20 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - Backend-dev incaricato oggi su `#36`, branch `fix/enforce-order-update-invoice-number`. In corso, esito nel prossimo giro.
 - Tasso di chiusura del mese 1,26, sopra soglia: la squadra può tornare a cercare.
 - Business confermato invariato: 1 negozio, 5 prodotti, 7 profili, 1 ordine CANCELED, 0 pagati, stallo 54 giorni.
+
+## Punto di mezzogiorno · 2026-08-17 12:00
+
+**Le 3 priorità del mattino:**
+1. ❌ **Sblocca il server** (`#108`) — ancora nessuna risposta tua. Il lucchetto è vuoto da stanotte. Ma proprio a mezzogiorno il worker ha dovuto fare un altro recupero automatico di scritture rimaste indietro. Senza i due comandi, il rischio di doverlo rifare resta.
+2. ❌ **Le tre falle di sicurezza** (`#36`/`#37`/`#38`) — ferme da 19 giorni, ancora senza tua risposta. Novità di oggi: la correzione della prima (`#36`) è scritta. Resta ferma un passo prima della richiesta di unione. La causa è un limite tecnico di questa sessione, non un dubbio sulla diagnosi.
+3. ❌ **I permessi sul server** (`#104`) — invariato, stessa causa nota dei giri falliti da 12 giorni.
+
+**Correzioni di rotta:** nessuna urgenza nuova. Il negozio resta fermo per la pausa concordata fino al 24/8-1/9. L'ho riverificato ora sul database vero: stesso numero di sempre. Oggi questo stato è già stato controllato molte volte in chat, circa 39 passaggi. Da qui in avanti mi fermo su questo tema, salvo che tu chieda un nuovo controllo o succeda qualcosa di diverso.
+
+**Serve da te entro sera:**
+- 🔴 Sblocca il server, due comandi (`#108`).
+- 🔴 Rispondi sulle tre falle di sicurezza (`#36`/`#37`/`#38`).
+- 🟡 Correggi le 5 righe di permessi sul server (`#104`).
+- 🔴 Sì o no al post per Pane Quotidiano (`#107`), pronto da ieri.
+
+**Dettagli tecnici** (opzionale) — dati riverificati 12:01 con `verifica-sensori.mjs` (REST ok, 1 ordine) e `coerenza-fatti.mjs` (✅ coerente): business identico al passaggio delle 11:40. Commit di recupero automatico del worker `e306d8297` alle 12:00 (scritture pendenti di auto-coscienza).

@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 11:40
+aggiornato: 2026-08-17 12:01
 fonte: AD digitale (chat)
 ---
+
+> 🕛 **17/8 12:00 — Punto di mezzogiorno (cadenza ufficiale di ritmo.md).** Riprese le 3 priorità del Piano del mattino (06:05): tutte e tre ancora aperte, nessuna sbloccata (`#108` sblocco server, `#36`/`#37`/`#38` sicurezza 19gg, `#104` permessi 12gg). Business riverificato dal vivo con `verifica-sensori.mjs` (REST, 1 ordine) e `coerenza-fatti.mjs` (✅ coerente): identico al passaggio 11:40, stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Nessuna correzione di rotta necessaria: nessuna urgenza nuova. Novità minima: il worker ha fatto un altro recupero automatico di scritture pendenti proprio a mezzogiorno (commit `e306d8297`). Blocco completo in [[RITMO]], dettaglio priorità in "Prossime priorità" più sotto.
 
 > 🔁 **17/8 11:40 — Nuova sessione di chat, giro completo. Business riverificato dal vivo, invariato: ~36°-37° passaggio odierno sullo stesso stato.**
 > `verifica-sensori.mjs` (REST ok, 1 ordine) + `coerenza-fatti.mjs` (✅ memoria coerente) + `ci-stato.mjs` (stesse 3 PR rosse #749/#741/#735): identico bit-per-bit. **Difetto vero trovato e riparato:** `AUTO-ANALISI.md` era fermo alle 10:22 mentre il suo json gemello era già a 11:25 — desincronizzati, causa del vincolo HARD `freschezza-cadenze` mostrato in apertura sessione. Risincronizzati. Livello letargo: SOPRAVVIVENZA, quota AI **123%** (era 93% alle 11:25) — nessuna riscrittura dei JSON pesanti (freschi, dati identici), nessun sub-agente.
@@ -1898,6 +1900,21 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (🕛 aggiornato 17/8 12:00 — punto di mezzogiorno)
+Business INVARIATO dal 24/6, riverificato ORA con `verifica-sensori.mjs` + `coerenza-fatti.mjs` (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (mai pagato, del 24/6, CANCELED), 0 pagati — **stallo 54 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Le 3 priorità del Piano del mattino (06:05) restano tutte e tre aperte a mezzogiorno, nessuna sbloccata: nessuna risposta di Nicola su nessuna delle tre.
+
+1. [ ] 🔴 **Sblocca il server** (`#108`) — invariato. Novità: il worker ha fatto un altro recupero automatico di scritture pendenti proprio a mezzogiorno (commit `e306d8297`) — segno che senza i due comandi il rischio si ripresenta.
+2. [ ] 🔴 **Decidi sulle tre falle di sicurezza/affidabilità del sito** (`#36`/`#37`/`#38`) — ferme dal 29/7, **19 giorni**. La correzione di `#36` è scritta ma ferma un passo prima della richiesta di unione (limite tecnico di sandbox, non un dubbio sulla diagnosi).
+3. [ ] 🟡 **Correggi 5 righe nel file dei permessi sul server** (`#104`) — invariato, 12 giorni.
+
+**Non dimenticare, invariata:** la mossa n.1 resta `#62`, la pratica pagamenti di Pane Quotidiano — il vero blocco del primo incasso, congelata fino al 24/8-1/9.
+
+**Nuovo da chiudere in fretta, invariato:** `#107`, il post per Pane Quotidiano, pronto da ieri, aspetta solo un sì o un no.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 54gg, atteso — negozi in pausa) · REST/MCP Supabase ✅ (riverificati 12:01) · resto sensori invariato dall'ultima lettura di stamattina.
+
+---
 
 ## Prossime priorità (☀️ aggiornato 17/8 06:05 — piano del mattino)
 Business INVARIATO dal 24/6, riconfermato stanotte con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (mai pagato, del 24/6, CANCELED), 0 pagati — **stallo 54 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Il battito automatico delle 06:00 si è di nuovo interrotto a metà (lucchetto orfano su `.git/MYCITY_RUN_LOCK-giro`, preso dalle 01:31 — verificato ora con `ps`: il processo che lo teneva, PID 1216448, non esiste più, conferma diretta della diagnosi già scritta in `#108`); questo piano lo scrivo subito dopo, gli scarti pendenti sono già stati recuperati in un commit separato. Tasso di chiusura del mese **1,26** (sopra soglia): la squadra può tornare a cercare, ma oggi la priorità resta chiudere quello che è già fermo in coda da settimane.
