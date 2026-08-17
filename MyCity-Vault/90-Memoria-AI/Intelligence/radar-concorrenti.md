@@ -1,6 +1,6 @@
 # 🔍 Radar Concorrenti — 2026-08-17
 
-> Aggiornato: 17 agosto 2026 06:33 · @intelligence · giro leggero (Ondata 3, `cervello/monitora.md`) — refresh settimanale, dovuto oggi (ultimo controllo 10/8, esattamente 7 giorni fa). Precedente: 10/8 12:20.
+> Aggiornato: 17 agosto 2026 06:33 · @intelligence. Giro leggero, Ondata 3 (`cervello/monitora.md`). È il refresh settimanale, dovuto oggi: l'ultimo controllo risale al 10/8, esattamente 7 giorni fa. Precedente: 10/8 12:20.
 
 ## Food delivery a Piacenza — nessun movimento locale nuovo dal 10/8
 
@@ -9,9 +9,9 @@
 | **Glovo** | Attivo a Piacenza: categorie Cibo, Spesa, Negozi, Parafarmacia e Bellezza, Spedizioni | Nessun cambiamento — stesse categorie del 10/8. Fee/promo non visibili senza inserire un indirizzo reale (serve l'app) | glovoapp.com/it/it/piacenza (17/8) |
 | **JustEat** | Attivo, sotto Prosus | Invariato | — |
 | **Deliveroo** | Attivo a Piacenza | Invariato | — |
-| **Conad — Spesa online** | 8 punti vendita coperti (3 Superstore Piacenza + Podenzano, Rivergaro, Castell'Arquato, San Giorgio Piacentino, Sapori & Dintorni) — due modelli: "Spesa a Casa" e "Ordina e Ritira" | Nessun cambiamento visibile. Soglie di spedizione gratuita non esposte sulla pagina di copertura (richiedono checkout con indirizzo) | spesaonline.conad.it/aree-coperte-dal-servizio/piacenza (17/8) |
+| **Conad — Spesa online** | 8 punti vendita coperti: 3 Superstore Piacenza, più Podenzano, Rivergaro, Castell'Arquato, San Giorgio Piacentino, Sapori & Dintorni. Due modelli di servizio: "Spesa a Casa" e "Ordina e Ritira" | Nessun cambiamento visibile. Le soglie di spedizione gratuita non sono esposte sulla pagina di copertura: serve un checkout con indirizzo per vederle | spesaonline.conad.it/aree-coperte-dal-servizio/piacenza (17/8) |
 | **Amazon-Cortilia** | Homepage generica, "consegna gratis sempre disponibile", 4.500+ prodotti da 400 produttori | Nessuna informazione specifica su Piacenza reperibile senza inserire indirizzo — invariato dal 10/8 | cortilia.it (17/8) |
-| **CompraPiacenza.it / CNA** | Vetrina statica Comune/CNA/Confesercenti/Confcommercio/Libertà | piacenza.cna.it in 403 diretto; via WebSearch nessuna notizia di agosto 2026 su CompraPiacenza — verificato 4 volte nelle ultime settimane senza esito | WebSearch "CNA Piacenza CompraPiacenza novità agosto 2026" (17/8) |
+| **CompraPiacenza.it / CNA** | Vetrina statica Comune/CNA/Confesercenti/Confcommercio/Libertà | Il sito piacenza.cna.it risponde 403 in accesso diretto. Con WebSearch, nessuna notizia di agosto 2026 su CompraPiacenza: verificato 4 volte nelle ultime settimane, sempre senza esito | WebSearch "CNA Piacenza CompraPiacenza novità agosto 2026" (17/8) |
 
 **Candore:** 5 fonti ricontrollate oggi (Glovo, Conad, Cortilia, CNA/CompraPiacenza via WebSearch per il 403), zero movimento locale nuovo trovato. Nessuna notizia di prezzo, promo o espansione zone diversa da quanto già noto.
 
