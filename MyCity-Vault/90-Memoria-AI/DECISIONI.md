@@ -1994,3 +1994,43 @@ dodici cose diverse. Prossimo passo proposto a Nicola: smistarle in tre case —
 (iniettato sempre), regole di comportamento fra i principi, tecniche verificabili in un freno.
 
 **Stato:** 🟡 lotto consegnato, merge di Nicola.
+
+## 2026-08-17 17:35 — 🟡 Il terzo anello: misurato, e un verdetto falso riparato (AR-766)
+
+**Origine:** Nicola, 17/8: «continua con il terzo anello» — le 452 lezioni che non sono né freno né
+principio.
+
+**La misura, sul corpus vero.** Non su richieste inventate: le 110 frasi fra virgolette del suo
+`COMANDI.md`, cioè quello che Nicola dice davvero. Su quelle:
+- **315 lezioni vive su 523 (60%) non arrivano MAI** in nessuna scheda;
+- delle 70 lezioni che portano un freno, **ne arrivano 33**: trentasette freni esistono e non si
+  vedono mai;
+- i comandi-freno distinti sono **35**, e 22 lezioni puntano tutte allo stesso (`ramo-pulito.mjs`).
+
+Il problema del terzo anello non è quindi «452 lezioni da trasformare in test». È che l'archivio è
+troppo grande per la porta da cui deve passare, e la porta sceglie per somiglianza di parole.
+
+**Il difetto trovato per strada, ed è quello riparato oggi.** Il guardiano dell'apprendimento diceva
+a Nicola «0 decadute — il decadimento non gira: l'archivio è un cimitero». **Falso.** Il motore c'è
+(AR-182) e stava lavorando: 323 lezioni con un passo timbrato fra il 12 e il 17 agosto, confidenza
+minima scesa da 0,8 a **0,33** — a un passo dalla soglia di morte (0,3). Zero morti coi passi che
+girano è lo stato normale di un motore che toglie 0,15 ogni 7 giorni: da 0,8 servono più di due mesi.
+
+La regola guardava il **risultato** (i morti) e mai il **motore** (i passi), che pure è scritto in
+archivio nel campo `decaduto_step_il`. Un verdetto che Nicola legge, e che mandava a riparare un
+organo sano.
+
+**Cosa ho fatto (🟡, PR aperta):** `passiDecadimento(vive)` misura i passi recenti e la confidenza
+peggiore; il verdetto si sdoppia fra «FERMO davvero» e «GIRA ma è lento», con il numero dei passi e
+quanto manca alla prima morte. Al buio — timbri assenti o illeggibili — resta fermo: è il verdetto
+che fa guardare.
+
+**La prova:** `cervello/test/il-motore-giudicato-dai-morti.test.mjs`, 6 casi. Dichiarando sempre
+fermo ne diventano rossi 2. Il primo caso ⑥ che avevo scritto accettava anche il verdetto sbagliato:
+l'ha smascherato la mutazione, non io, ed è stato riscritto.
+
+**Cosa resta del terzo anello, e non è stato fatto oggi:** i 37 freni che non arrivano mai. La strada
+che consiglio non è promuoverli (i principi hanno 12 posti, i freni sono 70): è smettere di farli
+passare dalla porta a somiglianza di parole. Da decidere con Nicola.
+
+**Stato:** 🟡 lotto consegnato, merge di Nicola.

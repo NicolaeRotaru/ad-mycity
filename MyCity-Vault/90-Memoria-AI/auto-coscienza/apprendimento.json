@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-17 17:18",
+ "aggiornato": "2026-08-17 19:46",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11775,6 +11775,14 @@
    "testo": "Promuovere una lezione a principio non bastava: dei 88 principi cristallizzati ne arrivavano 8 al lavoro, scelti per posizione nel file. Le regole promosse dopo il 26 luglio non le vedeva nessuno, e dei quattro principi con un freno ne arrivavano due.",
    "regola": "Ogni elenco di memoria che viene TAGLIATO prima di entrare in un lavoro deve ordinare per forza (prima cio che si puo eseguire, poi cio che parla del lavoro di adesso) e deve DICHIARARE il taglio: un taglio silenzioso si legge come «ci sono tutti».",
    "gate": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs"
+  },
+  {
+   "id": "L-2026-0817-02",
+   "data": "2026-08-17 19:46",
+   "fonte": "richiesta di Nicola 2026-08-17: «continua con il terzo anello» (le 452 lezioni che non sono ne freno ne principio)",
+   "testo": "Il guardiano dell apprendimento diceva «0 decadute, il decadimento non gira» mentre il motore stava lavorando: 323 lezioni avevano un passo timbrato negli ultimi giorni e la confidenza minima era scesa da 0,8 a 0,33. La regola guardava il conto dei morti e mai i passi, che pure erano scritti in archivio.",
+   "regola": "Un motore lento non si giudica dal risultato che deve ancora arrivare: si misura il LAVORO che sta facendo. Se un verdetto dice «X non gira» perche il suo effetto e ancora zero, deve prima guardare se X sta facendo passi — e al buio (nessuna traccia leggibile) dire fermo, non gira.",
+   "gate": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs"
   }
  ],
  "principi": [

@@ -16164,6 +16164,25 @@
         "comando": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs"
       },
       "nota_fix": "Riparato in questo lotto. Misura prima/dopo sull archivio vero: principi col freno consegnati 2 su 4 → 4 su 4; tetto 8 → 12 dichiarato in intestazione. Non-vacuita verificata: rimettendo la scelta per posizione, 4 casi su 7 diventano rossi."
+    },
+    {
+      "id": "AR-766",
+      "stato": "aperto",
+      "dimensione": "apprendimento",
+      "gravita": "medio",
+      "titolo": "Il guardiano diceva che il decadimento non gira, e stava girando: un motore giudicato dal conto dei morti",
+      "causa_radice": "① Perche il guardiano accusava il decadimento di essere fermo? Perche la regola era «vive > 400 E decadute == 0 → non gira». ② Perche quella regola sembrava sensata? Perche e stata scritta quando il motore non esisteva ancora, e li zero morti voleva dire davvero zero lavoro. ③ Perche adesso e falsa? Perche il motore c e (AR-182) e toglie 0,15 di confidenza ogni 7 giorni, uccidendo sotto 0,3: da 0,8 servono piu di due mesi per la prima morte. Zero morti coi passi che girano e lo stato NORMALE di un motore lento. ④ Perche nessuno se n e accorto? Perche il verdetto guardava il RISULTATO (i morti) e mai il MOTORE (i passi), che pure e scritto in archivio nel campo `decaduto_step_il`. Misurato il 17/8: 323 lezioni con un passo timbrato fra il 12 e il 17 agosto, confidenza minima scesa da 0,8 a 0,33 — a un passo dalla soglia, mentre il guardiano diceva a Nicola che era tutto fermo.",
+      "fix_proposto": "🟡 `passiDecadimento(vive)` guarda i passi recenti e la confidenza peggiore, e il verdetto si sdoppia: «FERMO davvero» quando non ci sono passi, «GIRA ma e lento» quando ci sono, col numero dei passi e quanto manca alla prima morte. Al buio (timbri assenti o illeggibili) resta fermo: e il verdetto che fa guardare.",
+      "dove": "cervello/apprendimento-guardiano.mjs (passiDecadimento, analizza)",
+      "impatto_crescita": "e un verdetto che Nicola legge: mandava a riparare un organo sano e intanto lasciava senza nome il problema vero, cioe un archivio troppo grande per il ritmo del motore",
+      "nato": "2026-08-17 17:30",
+      "nato_come": "scoperta",
+      "nato_da": "terzo anello dell apprendimento, su richiesta di Nicola: guardando perche 452 lezioni non diventano niente si e visto che il decadimento c era e nessuno lo stava misurando",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs"
+      },
+      "nota_fix": "Riparato in questo lotto. Prima: «0 decadute — il decadimento non gira». Adesso: «0 decadute, ma il decadimento GIRA: 323 passi negli ultimi 14 giorni, la piu vicina alla soglia e a confidenza 0.33». Non-vacuita verificata: dichiarando sempre fermo, 2 casi su 6 diventano rossi."
     }
   ],
   "meta": {

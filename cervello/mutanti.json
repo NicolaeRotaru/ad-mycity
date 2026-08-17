@@ -5100,6 +5100,15 @@
    "sostituisci": "    .sort(() => 0)",
    "test": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs",
    "lezione": "L-2026-0817-01"
+  },
+  {
+   "difetto": "AR-766 il-motore-giudicato-dai-morti",
+   "nome": "il guardiano torna a dire «il decadimento non gira» guardando solo il conto dei morti: diagnosi falsa su un organo sano",
+   "file": "cervello/apprendimento-guardiano.mjs",
+   "cerca": "    fermo: passiRecenti === 0,",
+   "sostituisci": "    fermo: true,",
+   "test": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs",
+   "lezione": "L-2026-0817-02"
   }
  ]
 }
