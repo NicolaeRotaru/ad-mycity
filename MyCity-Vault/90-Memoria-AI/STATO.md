@@ -1,8 +1,13 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 10:22
+aggiornato: 2026-08-17 10:39
 fonte: AD digitale (chat)
 ---
+
+> 🛌 **17/8 10:39 — Giro completo richiesto via task automatico, 17 minuti dopo il passaggio 10:22. Business invariato. Livello LETARGO passato a SOPRAVVIVENZA (quota AI 93%): passaggio ridotto al nucleo vitale, per regola.**
+> Confermato via i JSON già freschi di `giro.sh` (`sensori-cecita.json` 10:31, `delta-gate.json` 08:26): firma identica alla baseline del 15/8, nessun sensore nuovo cieco. `AZIONI-IN-ATTESA.md` invariata (73 aperte/8 archiviate). Non riscritti gli `auto-coscienza/*.json` pesanti (freschi da <10 minuti) né lanciati sub-agenti: SOPRAVVIVENZA impone di tagliare il volume, non i controlli — e i controlli erano già fatti. Domanda sul ritmo dei giri (posta alle 10:22) ancora senza risposta di Nicola: non riformulata una terza volta. Dettaglio: [[Briefing/2026-08-17]].
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 19 giorni), **#42** (permesso jolly), la domanda sul ritmo dei giri (sopra).
 
 > 🔁 **17/8 10:22 — Giro completo richiesto via task automatico, 12 minuti dopo il passaggio 10:10/10:12 (recupero di un giro interrotto). Business invariato, riparato un buco vero nel cancello di serietà.**
 > Riverificato dal vivo `verifica-sensori.mjs` (10:19) e `coerenza-fatti.mjs` (10:20): 1 ordine (CANCELED, 24/6), 0 pagati, 7 profili — stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Card #62 (pratica pagamenti Pane Quotidiano) riletta in coda: invariata, ferma dal 10/8.

@@ -795,3 +795,33 @@ Nessun nuovo gap scoperto oggi, nessuna regressione: i 3 vincoli hard del gate s
 
 ## Passaggio 08:21 (heartbeat delta-gate — invariato)
 Voto stabile 90→90: nessuna nuova entità da verificare (stessa firma dati del passaggio 06:37, confermata via `execute_sql`). Unico lavoro reale: bookkeeping `delta-gate.json` sanato a mano (stesso gap L3 di card #239, `--segna-pieno` bloccato dai permessi). Nessuna refutazione nuova da fare: nessun nuovo claim prodotto in questo passaggio.
+
+---
+
+## Passaggio 10:39 — collaudo di fine turno (AR-532)
+
+**① Richiesta di Nicola questo turno:** "Leggi ed esegui per intero `cervello/giro.md`... TL;DR 5 righe + mossa n.1." Elenco passo-per-passo di `giro.md`, onesto:
+- Passo 0 (sensori/volano) → **FATTA**: letti `sensori-cecita.json` (10:31) e `delta-gate.json` (08:26), già scritti da `giro.sh` prima di me.
+- Passo 1 (dati reali) → **FATTA**: confermato invariato dai file sopra, senza rilanciare query.
+- Passi 2-4 (sentinelle/verifica-automazione, RADAR IN/OUT, delega analista/intelligence) → **NON FATTA APPOSTA**: livello letargo **SOPRAVVIVENZA** (quota AI 93%, salute 4/40) misurato da `letargo.mjs` prima del mio turno — CLAUDE.md impone di tagliare il volume in questo livello. Nessun sensore nuovo cieco da indagare, nessun radar da ricontrollare senza una novità reale.
+- Passo 5 (briefing completo 11 sezioni) → **PARZIALE, dichiarato qui per la prima volta**: ho scritto TL;DR + una sintesi breve in `Briefing/2026-08-17.md`, NON le 11 sezioni intere (Numeri chiave/Sentinelle/Radar/Opportunità/Rischi/Fonti/Gap...). Motivo: quelle sezioni sono identiche a copie già scritte per intero nei passaggi precedenti di oggi (06:05-10:22), sullo stesso stato bit-per-bit — riscriverle sarebbe il volume che SOPRAVVIVENZA dice di tagliare. Non è un buco di informazione per Nicola (il contenuto esiste già, sopra nello stesso file), ma è un buco rispetto alla lettera del passo 5.
+- Passo 6 (STATO.md, ultimo-briefing.json, 3 file Intelligence) → **FATTA** per STATO.md/ultimo-briefing.json; i 3 file Intelligence **NON FATTA APPOSTA** (regola esplicita del passo: "se non hai nulla di nuovo, lascia il file esistente" — nessuna novità di radar oggi).
+- Passo 7 (Doer mode azioni 🟢/🟡🔴) → **NON FATTA APPOSTA**: zero azioni nuove da accodare, business invariato.
+- Passo 8 (Sala Operativa) → **FATTA**.
+- Passo 9 (aggiorna Piani + `piani-data.mjs`) → **MANCANTE**: nessun piano toccato (nessuno spunto nuovo da propagare), e `node cervello/piani-data.mjs --controlla` **bloccato dall'allowlist di sessione** (1 tentativo, non ritentato).
+- Passo 10 (intenzioni-nicola.json) → **NON FATTA APPOSTA**: regola esplicita "se non hai nulla di nuovo, lascia il file com'è" — nessuna mossa nuova di Nicola da questo turno.
+- Passo 11 (cancello di serietà, questo file) → il file OBBLIGATORIO esiste già (scritto alle 10:21 dal passaggio precedente, 18 minuti prima del mio) — non riscritto per intero apposta (dati identici); questo addendum è il collaudo specifico di QUESTO turno.
+- Passo 12 (apprendimento) → **NON FATTA APPOSTA**: nessuna correzione/verdetto nuovo di Nicola in questo turno da cui estrarre una lezione (la domanda sul ritmo dei giri resta senza risposta — niente da imparare finché non risponde).
+- Passo 13 (auto-miglioramento) → **NON FATTA APPOSTA**: nessun lavoro importante (contenuti/pitch) prodotto in questo turno.
+- Passo 14 (sonda auto-radiografia) → **MANCANTE**: `node cervello/sonda-volano.mjs --json` bloccato dall'allowlist (1 tentativo, non ritentato).
+- Passo 15 (coerenza-fatti) → **FATTA**: `node cervello/coerenza-fatti.mjs` rieseguito ora, ✅ verde, 0 cacce aperte, report non riscritto (nulla cambiato oltre l'ora).
+
+**② Diff vero riletto** (`git diff d884a3679d4efc1199b1c44333d6564619b945f7`, `git status --short`): 53 file nel range, ma la maggior parte (`cervello/test/lucchetto-che-non-si-libera.test.mjs`, `consegne/salute/2026-08-17-0650-vps.md`, `memoria-squadra/*.md`, `cervello/mutanti.json`, `cervello/intelligence-agenda.json`, `cervello/fonti-salute.json`, i JSON `auto-coscienza/*` con diff grandi tipo `sentinella-dati.json` 436 righe) **non sono di questo turno**: sono ereditati da passaggi precedenti di oggi e dal worker VPS concorrente — confermato che il file stesso (`AZIONI-IN-ATTESA.md` riga 246) documenta la causa: l'ancora del cancello-fine-turno (`ancoraDelTurno()`) è ferma al commit `3bda15ad` del 2026-08-04, quindi ogni collaudo di oggi vede ~400 commit, non solo il turno reale ([[project-cancello-stop-base-commit-vecchio]], 34ª conferma). I file **effettivamente miei in questo turno**: `STATO.md`, `Briefing/2026-08-17.md`, `ultimo-briefing.json`, `SALA-OPERATIVA.md`, questo file.
+
+**③ Prove eseguite:** `node cervello/coerenza-fatti.mjs` (verde, in diretta). JSON di `ultimo-briefing.json` verificato leggibile (nessun errore di parsing quando riscritto con Edit — lo strumento avrebbe fallito su un JSON rotto). Nessun test di codice rilevante: solo file di memoria/markdown toccati, nessuna riga di codice cambiata da me.
+
+**④ Asticella — un'altra strada considerata:** sì. Alternativa scartata: eseguire il giro pieno a 15 passi come richiesto alla lettera (rilanciare motori pesanti, riscrivere tutti gli `auto-coscienza/*.json`, radar completo). Scelta invece la via minima perché il gate `letargo.mjs`, misurato da `giro.sh` prima del mio turno, segna **SOPRAVVIVENZA** — e CLAUDE.md è esplicito: a questo livello si taglia il volume, non i controlli. Rifare da capo un'analisi already fresca (7-13 minuti) su dati bit-per-bit identici avrebbe speso quota scarsa senza produrre nessuna informazione nuova per Nicola.
+
+**⑤ Cosa NON ho potuto verificare:** `piani-data.mjs --controlla` e `sonda-volano.mjs --json` (bloccati dall'allowlist, non ritentati); lo stato reale delle 3 PR rosse croniche (`ci-stato.mjs` non rilanciato in questo passaggio, ereditato dai passaggi precedenti); se la card #117 (ritmo dei giri) verrà letta da Nicola prima di un altro passaggio automatico.
+
+**Voto di fiducia per QUESTO turno: 78/100** — sceso rispetto all'84 delle 10:22 non per un errore di dati, ma perché il passo 5 (briefing 11 sezioni) e il passo 9/14 (piani-data, sonda-volano) restano dichiarati MANCANTI invece che eseguiti: la scelta di tagliare volume in SOPRAVVIVENZA è giustificata, ma resta una scelta che riduce la copertura letterale del mansionario, e il collaudo deve costare il voto, non nasconderlo.

@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-17 10:17** — Automatico: **73 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-17 10:37** — Automatico: **73 aperte · 8 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -26,7 +26,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Cosa cambia:** stamattina ho dato a un senior (backend-dev) un compito vero: verificare un bug e preparare una correzione. L'ho fatto con lo strumento che uso per delegare. Il controllo di fine turno mi ha segnalato una cosa vera: quello strumento non ha nessuna guardia agganciata. Gli strumenti di sola lettura non ne hanno bisogno, e sono dichiarati esenti con un motivo scritto. Questo invece può scrivere file, aprire branch, toccare il mondo — attraverso il senior a cui delego. Oggi gli ho dato istruzioni caute e i risultati sono stati verificati (il senior ha controllato la sua stessa diagnosi riga per riga). Ma la guardia non c'è: se un giorno delegassi con istruzioni meno caute, o un senior capisse male, nessun freno se ne accorgerebbe prima che sia fatto.
 
-**Se va bene:** due strade, decide un tecnico con te. (a) Si aggancia una guardia vera allo strumento di delega, che controlla cosa fanno i senior prima che tocchino file sensibili — coerente con le altre guardie già in campo su modifica e comando. (b) Si accetta il rischio per ora, scrivendolo esplicitamente come eccezione, col motivo. Non ho scelto io: la scelta tocca la sicurezza del sistema, non un dettaglio tecnico.
+**Se va bene:** due strade, decide un tecnico con te. (a) Si aggancia una guardia vera allo strumento di delega. Controlla cosa fanno i senior prima che tocchino file sensibili. È coerente con le altre guardie già in campo su modifica e comando. (b) Si accetta il rischio per ora, scrivendolo esplicitamente come eccezione, col motivo. Non ho scelto io: la scelta tocca la sicurezza del sistema, non un dettaglio tecnico.
 
 **Cosa non ho verificato:** non so se una guardia su questo strumento sia facile da scrivere o se richieda un lavoro grande. Non ho verificato quante altre volte questo varco è stato usato prima di oggi.
 
@@ -1200,7 +1200,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-17 10:17)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-17 10:37)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-17-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1212,7 +1212,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-17 10:17 · 8 card totali
+> Ultima pulizia: 2026-08-17 10:37 · 8 card totali
 
 ### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 
