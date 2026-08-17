@@ -1,8 +1,15 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 11:25
+aggiornato: 2026-08-17 11:40
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **17/8 11:40 — Nuova sessione di chat, giro completo. Business riverificato dal vivo, invariato: ~36°-37° passaggio odierno sullo stesso stato.**
+> `verifica-sensori.mjs` (REST ok, 1 ordine) + `coerenza-fatti.mjs` (✅ memoria coerente) + `ci-stato.mjs` (stesse 3 PR rosse #749/#741/#735): identico bit-per-bit. **Difetto vero trovato e riparato:** `AUTO-ANALISI.md` era fermo alle 10:22 mentre il suo json gemello era già a 11:25 — desincronizzati, causa del vincolo HARD `freschezza-cadenze` mostrato in apertura sessione. Risincronizzati. Livello letargo: SOPRAVVIVENZA, quota AI **123%** (era 93% alle 11:25) — nessuna riscrittura dei JSON pesanti (freschi, dati identici), nessun sub-agente.
+>
+> **Non ripropongo per la quinta volta la domanda sul ritmo dei giri nei file automatici** (posta 10:22, 10:39, 11:08, 11:25, mai risposta): la richiamo in chiaro nella risposta a Nicola in chat.
+>
+> **Mossa n.1, invariata.** Coda: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38, 19 giorni), le 3 PR croniche rosse (#749/#741/#735), **#42** (permesso jolly).
 
 > 🔁 **17/8 11:25 — Giro completo richiesto in chat, ~17 minuti dopo il passaggio 11:08. Business riverificato dal vivo, invariato: ~35° passaggio odierno sullo stesso stato.**
 > Query SQL dirette via MCP (`orders`: 1 riga, 0 ultimi 7gg, ultimo 2026-06-24 CANCELED; `profiles`: 7) + `node cervello/ci-stato.mjs` (stesse 3 PR rosse #749/#741/#735, stessi controlli falliti): identico bit-per-bit. Stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9 — non un allarme. Livello letargo ancora SOPRAVVIVENZA (quota AI ~93%): applicata la stessa disciplina degli ultimi 30 passaggi, nessuna riscrittura dei JSON pesanti (freschi, dati identici). Provati `sonda-volano.mjs` e `piani-data.mjs --controlla` come controlli a costo zero: bloccati dall'allowlist (card #104), non ritentati.
