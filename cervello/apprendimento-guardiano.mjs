@@ -28,6 +28,7 @@ import { readFileSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { lezioniVive } from "./misura-parziale.mjs";
+import { oreDaTimbro } from "./ora-piacenza.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const APPR = join(ROOT, "MyCity-Vault", "90-Memoria-AI", "auto-coscienza", "apprendimento.json");
@@ -54,6 +55,40 @@ const TAG_GENERICI = new Set([
   "caso-studio", "correzione", "nicola", "processo", "ad", "memoria", "apprendimento",
   "lezione", "generale", "varie", "note",
 ]);
+
+/** Entro quanti giorni un passo di decadimento conta come «recente». Il motore fa un passo al
+ *  massimo ogni 7 giorni per lezione: 14 dà spazio a un giro saltato senza gridare al fermo. */
+export const GIORNI_PASSO_RECENTE = 14;
+
+/**
+ * Il decadimento sta girando? (AR-766)
+ *
+ * Si guarda il MOTORE, non il cimitero: quanti passi sono stati fatti di recente (`decaduto_step_il`)
+ * e quanto è vicina alla morte la lezione messa peggio. Zero morti con i passi che girano è uno stato
+ * NORMALE di un motore lento — 0,15 ogni 7 giorni da 0,8 fa più di due mesi. Zero morti E zero passi
+ * è un motore fermo. Sono due cose diverse e vanno dette con parole diverse.
+ */
+export function passiDecadimento(vive, adesso = null) {
+  // L'ora NON si conta a mano (lezione già pagata: `ora-scritta-a-mano-nel-cervello`). Un timbro va
+  // letto col fuso della SUA data — un giorno scritto come 24 ore fisse sbaglia di un'ora due volte
+  // l'anno, e sbaglia proprio in inverno, quando nessuno sta guardando.
+  const adessoMs = adesso ? new Date(adesso).getTime() : Date.now();
+  const oreSoglia = GIORNI_PASSO_RECENTE * 24;
+  let passiRecenti = 0;
+  let minConfidenza = null;
+  for (const l of vive) {
+    if (!l) continue;
+    const ore = oreDaTimbro(l.decaduto_step_il, adessoMs); // null = non leggibile, ≠ «zero ore fa»
+    if (ore !== null && ore >= 0 && ore <= oreSoglia) passiRecenti++;
+    const c = Number(l.confidenza);
+    if (Number.isFinite(c) && (minConfidenza === null || c < minConfidenza)) minConfidenza = c;
+  }
+  return {
+    passiRecenti,
+    fermo: passiRecenti === 0,
+    minConfidenza: minConfidenza === null ? null : Math.round(minConfidenza * 100) / 100,
+  };
+}
 
 export function leggiAppr() {
   try {
@@ -148,10 +183,18 @@ export function analizza(dati) {
     problemi.push(
       `${mature.length} lezioni MATURE (conf≥${SOGLIE.confPrincipio} & evidenze≥${SOGLIE.evidenzePrincipio}) mai promosse a principio — la cristallizzazione è ferma (solo ${principi.length} principi su ${vive.length} lezioni).`,
     );
-  if (vive.length > SOGLIE.totaleLezioniMax && decadute === 0)
+  if (vive.length > SOGLIE.totaleLezioniMax && decadute === 0) {
+    // AR-766: «0 decadute» NON vuol dire «il decadimento non gira». Il motore toglie 0,15 di
+    // confidenza ogni 7 giorni e uccide sotto 0,3: da 0,8 servono più di due mesi per la prima
+    // morte. Giudicare il motore dal conto dei morti è come dire che una pentola non scalda perché
+    // l'acqua non bolle ancora. Qui si guarda il MOTORE — i passi fatti — e non solo il risultato.
+    const p = passiDecadimento(vive);
     problemi.push(
-      `${vive.length} lezioni vive e 0 decadute — il decadimento non gira: l'archivio è un cimitero, non una memoria viva. Va potato.`,
+      p.fermo
+        ? `${vive.length} lezioni vive, 0 decadute e nessun passo di decadimento negli ultimi ${GIORNI_PASSO_RECENTE} giorni — il decadimento è FERMO davvero: l'archivio è un cimitero. Va potato.`
+        : `${vive.length} lezioni vive e 0 decadute, ma il decadimento GIRA: ${p.passiRecenti} passi negli ultimi ${GIORNI_PASSO_RECENTE} giorni, la più vicina alla soglia è a confidenza ${p.minConfidenza} (muore sotto 0,3). Non è fermo, è lento — l'archivio è troppo grande e le prime morti devono ancora arrivare.`,
     );
+  }
   const ricorrentiGravi = clusters.filter((c) => c.evidenze >= 8 || c.daNicola >= 5);
   if (ricorrentiGravi.length) {
     const peggiori = ricorrentiGravi
