@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-08-17 14:19",
+  "aggiornato": "2026-08-17 14:21",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "84",
@@ -67,10 +67,10 @@
       "ambito": "macchina"
     },
     "quaderni_fermi": {
-      "ultima_firma": "fermi-0.9",
-      "ultimo_accodato": "2026-08-17 12:01",
-      "ultimo_accodato_iso": "2026-08-17T10:01:51.245Z",
-      "ultimo_job": "cc116b4b-b812-4115-b418-c773c7173086",
+      "ultima_firma": "fermi-0.8",
+      "ultimo_accodato": "2026-08-17 14:21",
+      "ultimo_accodato_iso": "2026-08-17T12:21:16.845Z",
+      "ultimo_job": "07fce708-5cd8-449a-b807-fa9b438a8eaf",
       "colore": "🟡",
       "ambito": "macchina"
     },
@@ -101,10 +101,9 @@
   },
   "accodati_giorno": {
     "giorno": "2026-08-17",
-    "n": 5
+    "n": 6
   },
   "accodati_ts": [
-    "2026-07-23T22:00:10.130Z",
     "2026-07-23T22:00:10.130Z",
     "2026-07-23T22:02:13.252Z",
     "2026-07-24T14:20:56.909Z",
@@ -153,23 +152,12 @@
     "2026-08-17T04:36:19.984Z",
     "2026-08-17T04:45:21.373Z",
     "2026-08-17T04:46:21.944Z",
-    "2026-08-17T10:01:51.245Z"
+    "2026-08-17T10:01:51.245Z",
+    "2026-08-17T12:21:16.845Z"
   ],
   "ultima_recensione_vista": "2026-07-18T11:28:59.844Z",
-  "tick": 27109,
+  "tick": 27111,
   "storia": [
-    {
-      "quando": "2026-08-17 12:39",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-08-17 12:40",
-      "eventi": 6,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-08-17 12:41",
       "eventi": 6,
@@ -757,10 +745,22 @@
       "eventi": 6,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-08-17 14:20",
+      "eventi": 6,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-17 14:21",
+      "eventi": 6,
+      "accodati": 1,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-08-17 14:19",
+    "quando": "2026-08-17 14:21",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -775,7 +775,7 @@
     "volano_tasso": 0.11
   },
   "timbro": {
-    "quando": "2026-08-17 14:19",
+    "quando": "2026-08-17 14:21",
     "scade_dopo_ore": 3,
     "ambiente": "locale",
     "scritto_da": "cervello/sentinella-dati.mjs",
@@ -786,5 +786,5 @@
       "MARKETPLACE_SUPABASE_KEY"
     ]
   },
-  "senior_giri_sotto": 1976
+  "senior_giri_sotto": 1978
 }
