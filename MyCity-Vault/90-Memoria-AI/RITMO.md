@@ -1266,3 +1266,25 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - PR #739: non più tra le aperte fra le 12:56 e le 16:27. Da confermare.
 - Card di oggi: #91 chiusa come duplicato di #90. In coda #104, #105 e #109.
 - Dati letti con `execute_sql` (MCP) alle 18:00 UTC del 2026-08-16.
+
+## Piano del mattino · 2026-08-17 06:05
+
+**In una riga:** il negozio resta fermo per la pausa concordata. Oggi sblocco la macchina e spingo avanti la sicurezza, ferma da 19 giorni.
+
+**Le 3 cose di oggi**
+1. Sblocca il server. Il lucchetto che ferma i giri automatici è vuoto da stanotte. Il processo che lo teneva non esiste più. Bastano due comandi per toglierlo.
+2. Decidi sulle tre falle di sicurezza del sito. Sono ferme da 19 giorni senza risposta. Oggi ho fatto aprire a backend-dev il primo dei tre branch di correzione.
+3. Un sì o un no sul post per Pane Quotidiano. È pronto da ieri.
+
+**Serve da te**
+- Sblocca il server. I due comandi sono scritti nella card in "Da approvare".
+- Rispondi sulle tre falle di sicurezza. Toccano dati veri di negozi e clienti.
+- Correggi cinque righe nel file dei permessi sul server. È la causa nota dei giri falliti da 12 giorni.
+- Dì sì o no al post per Pane Quotidiano.
+
+**Dettagli tecnici** (opzionale)
+- Card `#108`, `#36`, `#37`, `#38`, `#104`, `#107` in AZIONI-IN-ATTESA.
+- Lucchetto `.git/MYCITY_RUN_LOCK-giro` orfano dalle 01:31. PID 1216448 non più in vita, verificato 06:02 con `ps`.
+- Backend-dev incaricato oggi su `#36`, branch `fix/enforce-order-update-invoice-number`. In corso, esito nel prossimo giro.
+- Tasso di chiusura del mese 1,26, sopra soglia: la squadra può tornare a cercare.
+- Business confermato invariato: 1 negozio, 5 prodotti, 7 profili, 1 ordine CANCELED, 0 pagati, stallo 54 giorni.

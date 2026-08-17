@@ -1,8 +1,55 @@
 ---
 tipo: stato
-aggiornato: 2026-08-16 22:29
+aggiornato: 2026-08-17 06:31
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **17/8 06:31 — Giro richiesto in chat, 26 minuti dopo il Piano del mattino (06:05). Business invariato, due righe di igiene chiuse.** Riconfermato dal vivo con `verifica-sensori.mjs` e `coerenza-fatti.mjs`: 1 ordine (CANCELED, 24/6), 0 pagati, 0 negli ultimi 7gg, 7 profili — stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Nessuna novità di business dal passaggio delle 06:05: dispatch `#36` su backend-dev già chiuso (migration+test scritti, branch locale non committato per limite di sandbox), come riportato lì. Due cose fatte in questo passaggio: ① chiuso il vincolo chiusura-loop registrando l'ESITO di backend-dev nel suo quaderno (fermo da 29 giorni); ② accodata la card **#116** — il controllo degli esperimenti (ESP) è diventato cronico (3 giri senza uno aperto), ma aprirne uno sul KPI del primo ordine sarebbe il 4° tentativo identico e già fallito per lo stesso motivo (pausa concordata): chiesto a Nicola come preferisce procedere. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
+
+> ☀️ **17/8 06:05 — Piano del mattino, scritto a mano.** Il battito automatico delle 06:00 si è di nuovo interrotto a metà: lucchetto `.git/MYCITY_RUN_LOCK-giro` orfano dalle 01:31, il processo che lo teneva (PID 1216448) non esiste più — verificato ora dal vivo, conferma diretta la diagnosi già scritta nella card `#108`. Business confermato invariato: 1 negozio, 5 prodotti, 7 profili, 1 ordine CANCELED, stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Tasso di chiusura del mese **1,26** (sopra soglia). Tre priorità di oggi: sblocco server (`#108`), decisione sulle tre falle di sicurezza ferme da 19 giorni (`#36`/`#37`/`#38` — oggi ho fatto aprire a backend-dev il primo branch, `#36`), permessi (`#104`). Dettaglio in [[Briefing/2026-08-17]] e sezione "Prossime priorità" più sotto.
+
+> 🌙 **17/8 01:53 — Giro richiesto in chat, 12 minuti dopo il passaggio 01:41. Business invariato, nessuna novità.** Sensori, coerenza-fatti e coda PR riverificati dal vivo: identici bit-per-bit al passaggio precedente (stesso stallo North Star 54gg, stesse 3 PR rosse #749/#741/#749). Applicata la strategia snella: nessuna riscrittura dei file pesanti già freschi. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
+
+> 🧹 **17/8 01:41 — Giro completo richiesto in chat, ~1h20 dopo il passaggio 00:21. Business invariato. Trovate e riparate 2 falle vere di igiene della coda, non solo confermato lo stato.**
+>
+> Business riconfermato dal vivo con query SQL dirette via MCP (`execute_sql`): `orders` → 1 riga, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 08:28 (CANCELED); `profiles` → 7; `reviews` → 0 — identico a tutti i passaggi di oggi. Stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9: non è un allarme. `verifica-sensori.mjs` e `coerenza-fatti.mjs` rilanciati dal vivo, entrambi verdi.
+>
+> **Novità vera #1 — la coda PR è tornata leggibile e ha rivelato un buco.** `ci-stato.mjs` questa volta ha risposto (niente più rate-limit GitHub): conta **solo 3 PR aperte** (#749, #741, #735), tutte rosse per colpa del proprio ramo. Ma in [[AZIONI-IN-ATTESA]] c'erano ancora **4 righe "in attesa" di merge per PR che non esistono più tra le aperte** (#81→PR#714, #87→PR#732, #88→PR#733, #90→PR#740). Verificato con `git log origin/main` che i primi tre commit vivono già dentro `main`; il quarto non risulta più tra le 3 PR che GitHub conta oggi. **Chiuse tutte e 4 le righe** con la prova trovata, invece di lasciarle a chiedere per sempre una firma su un merge già avvenuto.
+>
+> **Novità vera #2, con un mio errore corretto nello stesso passaggio.** `CHECKLIST-NICOLA.md` era ferma al 15/8 00:40 (oltre il tetto di 2 giorni, AR-030). Rigenerandola avevo prima scritto che le card #36/#37/#38 (sicurezza/soldi, ferme dal 29/7) e #42 (permesso "jolly") "non esistono più nella coda" — **conclusione sbagliata**: le avevo cercate solo come righe di tabella (`| 36 |`), ma sono scritte come blocchi `###`, formato che il mio primo grep non copriva. Verificato meglio: **tutte e quattro sono ancora aperte**, la più vecchia da 19 giorni senza risposta. Corretta la checklist e rimesse in cima. Restano invece davvero chiuse le 4 righe di merge (#81/#87/#88/#90, formato tabella, verificate con `git log`).
+>
+> **Misurato l'esperimento in scadenza oggi (vincolo esperimenti-check, AR-041/106):** EXP-015 (ordine test PQ pagato entro il 17/8) → **mancata**, 0 ordini pagati, stesso motivo delle due aperture precedenti (EXP-013, EXP-014) — ma stavolta il gate `#ordine-test-dentro-o-fuori-dalla-pausa` è di fatto sciolto: Nicola ha già risposto con la pausa concordata fino al 24/8-1/9. **Non riaperta una 4ª volta**: il prossimo esperimento sullo stesso KPI parte quando la pausa finisce, non prima — riaprirlo oggi avrebbe prodotto solo una 4ª misura "mancata" identica.
+>
+> Bloccati come sempre (1 tentativo, non ritentati — [[feedback-bash-solo-script-esatti-in-allowlist]]): `apprendimento-guardiano.mjs`, `north-star-check.mjs --gate`, `esperimenti-check.mjs` (i verdetti letti direttamente dal JSON invece che dall'output dello script).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda aggiornata: **#62** (pratica pagamenti Pane Quotidiano — il vero blocco), **#36/#37/#38** (sicurezza/soldi del marketplace, ferme 19 giorni), le 3 PR rosse (#89/#735, #106/#741, #111/#749 — non mergiare), **#105** (scelta sul test rosso "margine"), **#109** (come procedere con le PR croniche), **#113** (conferma livello RISPARMIO), **#97** (ok per insegnare al gate north-star la pausa concordata), **#42** (permesso jolly). Checklist completa, corretta e verificata: [[CHECKLIST-NICOLA]].
+
+> 🌙 **17/8 00:21 — Giro richiesto in chat, ~23 minuti dopo il passaggio 23:58 (nuovo giorno di calendario). Business invariato, nessuna novità.**
+> Riverificato dal vivo con query SQL dirette via MCP (`execute_sql`, 00:20): 1 ordine totale, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 08:28 (CANCELED), 7 profili, 0 recensioni — stallo North Star ora **54 giorni** (+1, solo per il cambio di data di calendario, non per un evento nuovo). Dentro la pausa concordata fino al 24/8-1/9. `verifica-sensori.mjs` (✅ REST/Stripe/Resend/pannello/n8n ok, PostHog spento per scelta, sito 503 per migrazione Vercel nota) e `coerenza-fatti.mjs` (✅ coerente, 0 cacce aperte) rilanciati dal vivo. `ci-stato.mjs` bloccato: GitHub 403 rate-limit (stesso limite già visto alle 22:29/23:xx) — stato delle 3 PR (#749/#741/#735) **ereditato invariato** dal passaggio precedente, non riverificato in diretta.
+>
+> Nessuna novità da accodare: la card #113 (letargo RISPARMIO) e #105 (test rosso `burn-down-che-migliora-da-solo`, in attesa della scelta di Nicola) restano quelle già in coda. Applicata la strategia snella: non riscritti `auto-analisi.json`/`registro-realta.json`/gli altri `auto-coscienza/*` pesanti (freschi da 24 minuti, dati identici — riscriverli ora sarebbe un giro a vuoto, [[playbook-giro-pieno-ripetuto-strategia]]).
+>
+> **Difetto vero trovato e riparato in questo passaggio.** `node --test "cervello/test/**/*.test.mjs"` (rilanciato per intero in background, 1940 test, ~5m20s) ha trovato 2 rossi VERI, non il solito debito noto (`burn-down-che-migliora-da-solo`, card #105, che stavolta NON è tra i falliti): `scadenze-calcolate.test.mjs` e `una-prova-che-punta-al-vuoto.test.mjs`. Causa unica, isolata rilanciando il file singolo: il PASSAGGIO PRECEDENTE (23:58) aveva scritto in `auto-analisi.json` la chiave `salute_macchina.letargo` — un campo nuovo, mai aggiunto allo schema canonico di `valida-contratti.mjs` né al tile corrispondente in Cabina. Esattamente il vincolo HARD "contratti JSON fuori-contratto" già in cima a questa sessione. **Riparato togliendo la chiave `letargo` da `salute_macchina`** (l'informazione resta comunque visibile altrove: card #113, questa nota, `ultimo-briefing.json`) — non serviva una nuova chiave canonica+tile per un dato già coperto. Rilanciati i due file di test: entrambi verdi. Vincolo test-cervello rispettato, nessuna PR necessaria (fix di memoria, non di codice).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38), **#108** (server fermo da mezzogiorno), **#109** (2 PR croniche rosse), **#113** (letargo, in attesa conferma Nicola).
+
+> 🔁 **16/8 23:58 — Giro richiesto in chat, ~23 minuti dopo il passaggio 23:35. Business invariato, nessuna novità.**
+> Riverificato dal vivo con query SQL dirette via MCP (23:5x): 1 ordine totale, 0 pagati, 0 negli ultimi 7gg, ultimo ordine 2026-06-24 (CANCELED) — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. 7 profili, 1 vetrina attiva, 0 recensioni: identico. `verifica-sensori.mjs`, `coerenza-fatti.mjs` (✅ coerente) e `ci-stato.mjs` rilanciati dal vivo: le 3 PR (#749, #741, #735) restano tutte rosse, stesso guasto già noto — nessun peggioramento né miglioramento.
+>
+> **Unica novità: accodata la card #113** — il gate `letargo.mjs` (livello RISPARMIO: quota AI 55%, salute macchina 4) è ora acceso da 3 giri di fila (vincolo AR-687, "appena diventati cronici"). Non è un guasto nuovo — coerente con la pausa concordata e la sessione lunga di oggi — ma il vincolo impone di renderlo visibile a Nicola una volta, non di riscoprirlo ogni giro.
+>
+> Bloccati come sempre (2° tentativo, non riprovati oltre) gli script diagnostici pesanti non allowlistati (`north-star-check --gate`, `sonda-volano.mjs --json`).
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38), **#109** (PR croniche), **#113** (nuova, letargo).
+
+> 🔬 **16/8 23:35 — Giro richiesto in chat, ~1h dopo il passaggio 22:29/22:36. Business invariato, riparato un difetto di processo.**
+> Riconfermato dal vivo con query SQL dirette via MCP (23:33): 1 ordine mai pagato del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. 7 profili, 1 vetrina attiva, 0 recensioni: tutto identico al passaggio precedente.
+>
+> **Difetto vero trovato e riparato: `auto-analisi.json` era fermo da 12 ore (ultima scrittura vera 11:12)** perché i passaggi 12:12→22:29 lo saltavano ogni volta con "dati identici, non riscrivo" — ma il guardiano `freschezza-cadenze.mjs` misura quando il file è scritto, non se il numero dentro cambia, e segnalava rosso: "giro 22:36 uscito senza auto-analisi". Riscritti `auto-analisi.json` e `AUTO-ANALISI.md` con verifica vera. Corretta anche la regola della strategia snella per i prossimi passaggi: i due file del cancello di serietà vanno riscritti almeno una volta a giro pieno, non solo quando cambia il dato.
+>
+> Bloccati come sempre gli script diagnostici pesanti non allowlistati (`verifica-automazione`, `north-star-check --gate`, `sonda-volano`, `gate-veri`) e `gh pr list` (negato due volte): stato delle 3 PR rosse (#749/#741/#735) ereditato dal passaggio 22:29, non riverificato ora.
+>
+> **Mossa n.1, invariata.** Nessuna azione business sbloccabile prima del 24/8-1/9. Coda: **#62** (pratica pagamenti Pane Quotidiano), le 3 card 🔴 di sicurezza/marketplace (#36/#37/#38), **#109** (come procedere con le 3 PR rosse croniche — domanda aperta a Nicola).
 
 > 🔄 **16/8 22:29 — Giro richiesto in chat, ~6h dopo il report della sera (18:01). Business invariato, novità sulla coda PR.**
 > Riconfermato dal vivo con `verifica-sensori.mjs` (22:27, REST): 1 ordine, mai pagato, del 24/6, 0 pagati, 0 negli ultimi 7gg — stallo North Star **53 giorni**, dentro la pausa concordata fino al 24/8-1/9. `coerenza-fatti.mjs` ✅ coerente, 0 cacce aperte. Il worker sul VPS ha continuato a girare da solo tra le 21:10 e le 22:26 (recuperi, riconcilia, sentinella salute — voto 4, coerente col letargo già segnalato): nessuna novità di business in quei passaggi.
@@ -1814,6 +1861,21 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (☀️ aggiornato 17/8 06:05 — piano del mattino)
+Business INVARIATO dal 24/6, riconfermato stanotte con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (mai pagato, del 24/6, CANCELED), 0 pagati — **stallo 54 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Il battito automatico delle 06:00 si è di nuovo interrotto a metà (lucchetto orfano su `.git/MYCITY_RUN_LOCK-giro`, preso dalle 01:31 — verificato ora con `ps`: il processo che lo teneva, PID 1216448, non esiste più, conferma diretta della diagnosi già scritta in `#108`); questo piano lo scrivo subito dopo, gli scarti pendenti sono già stati recuperati in un commit separato. Tasso di chiusura del mese **1,26** (sopra soglia): la squadra può tornare a cercare, ma oggi la priorità resta chiudere quello che è già fermo in coda da settimane.
+
+1. [ ] 🔴 **Sblocca il server** (`#108`) — il lucchetto che ferma i giri automatici è vuoto da stanotte, due comandi lo tolgono, poi il battito riparte da solo.
+2. [ ] 🔴 **Decidi sulle tre falle di sicurezza/affidabilità del sito** (`#36` pulsante ordine rotto, `#37` dati di negozi/clienti leggibili senza login, `#38` cinque punti dove il marketplace perde soldi da solo) — ferme dal 29/7, **19 giorni**. Oggi ho fatto aprire a backend-dev il primo dei tre branch (`#36`, il più semplice): verifica in corso, ti porto l'anteprima appena pronta.
+3. [ ] 🟡 **Correggi 5 righe nel file dei permessi sul server** (`#104`) — 12 giorni che è la causa nota per cui i giri automatici falliscono; il checkup di salute è fermo per lo stesso motivo.
+
+**Non dimenticare, invariata:** la mossa n.1 resta `#62`, la pratica pagamenti di Pane Quotidiano — il vero blocco del primo incasso, in attesa del fornaio, congelata fino al 24/8-1/9.
+
+**Nuovo da chiudere in fretta:** `#107`, il post per Pane Quotidiano, è pronto da ieri e aspetta solo un sì o un no.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 54gg, atteso — negozi in pausa) · `salute_bassa` 🟡 (lista difetti lunga, cantiere aperto) · REST/MCP Supabase ✅ (riconfermati stanotte con query diretta) · resto sensori invariato dall'ultima lettura di stanotte.
+
+---
 
 ## Prossime priorità (🕛 aggiornato 16/8 12:12 — punto di mezzogiorno)
 Business INVARIATO dal 24/6, riconfermato ORA con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (mai pagato, del 24/6), 0 pagati — **stallo 53 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Oggi il battito automatico (Piano del mattino/Report della sera) non è partito da solo (card #94, ferma da quasi 3 giorni): le priorità sotto sono quelle emerse da otto passaggi in chat dalle 07:40 in poi, non da un piano scritto stamattina.

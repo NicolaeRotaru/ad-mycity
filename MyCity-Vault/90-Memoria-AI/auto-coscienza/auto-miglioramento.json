@@ -636,28 +636,30 @@
     {
       "id": "EXP-015",
       "titolo": "Ordine test PQ pagato entro 7 giorni (2° rinnovo, di EXP-013/014)",
-      "stato": "aperto",
+      "stato": "misurato",
       "ambito": "north-star",
       "ipotesi": "Se Nicola chiude l'ordine test su Pane Quotidiano (checkout reale, anche €3-5), il 1° ordine PAGATO del marketplace arriva entro 7 giorni da oggi.",
       "metrica": "ordini_pagati",
       "baseline": 0,
       "atteso": 1,
+      "delta": "mancata — 0 ordini pagati alla scadenza (verificato dal vivo via MCP: `orders` invariato, ultimo ordine 24/6 CANCELED). Non è più 'domanda mai risposta': nel frattempo Nicola ha dato la risposta — pausa concordata fino al 24/8-1/9 (`registro-fatti.json`, ripresa.lavoro-operativo) — quindi il gate `#ordine-test-dentro-o-fuori-dalla-pausa` è di fatto sciolto (siamo DENTRO la pausa), non bloccato. Non un'ipotesi respinta: mai testata, per la 3ª volta di fila, per lo stesso motivo noto e concordato.",
       "data_misura": "2026-08-17",
       "aperto_il": "2026-08-10 10:38",
+      "misurato_il": "2026-08-17 01:38",
       "azioni_gate": [
         "#ordine-test-dentro-o-fuori-dalla-pausa"
       ],
-      "nota": "3° apertura consecutiva della stessa ipotesi (EXP-013 30/7, EXP-014 30/7-6/8, ora EXP-015): il blocco non è l'ipotesi ma la domanda a Nicola mai risposta (13 giorni). Se anche questa scade mancata, il problema da registrare non è più 'misura il KPI' ma 'la domanda stessa è bloccata' — da segnalare come rischio strutturale, non da riaprire una 4ª volta senza escalation."
+      "nota": "3° apertura consecutiva della stessa ipotesi (EXP-013 30/7, EXP-014 30/7-6/8, EXP-015 10/8-17/8, tutte mancate per lo stesso motivo). Non riaperta una 4ª volta ora: il prossimo esperimento su questo KPI va aperto quando la pausa concordata finisce (24/8-1/9), non prima — riaprirlo oggi produrrebbe solo una 4ª misura 'mancata' identica. Il rischio strutturale è già tracciato in coda (card #62, pratica pagamenti Pane Quotidiano)."
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-08-16 23:21",
+    "aggiornato": "2026-08-17 06:41",
     "totale": 15,
-    "aperti": 1,
+    "aperti": 0,
     "in_scadenza": 0,
     "misurati": 1,
     "chiusi": 0,
-    "non_testati": 8,
+    "non_testati": 9,
     "non_testati_ids": [
       "EXP-001",
       "EXP-002",
@@ -666,9 +668,10 @@
       "EXP-005",
       "EXP-006",
       "EXP-013",
-      "EXP-014"
+      "EXP-014",
+      "EXP-015"
     ],
-    "resa_esperimenti": 0.11,
+    "resa_esperimenti": 0.1,
     "_cosa_significa_non_testati": "esperimenti che si dichiarano misurati/chiusi mentre la loro stessa nota dice che il gate non è mai partito: l'ipotesi non è stata respinta, non è mai stata provata (AR-150)."
   },
   "_giro_30_07_0630": "GIRO 30/7 06:30 (continuazione del piano del mattino 06:05-06:24, interrotto prima di questo passo): misurati i 3 esperimenti in scadenza/scaduti trovati aperti nel file nonostante la narrativa del 28/7 li dicesse già chiusi (scrittura mai arrivata su questo JSON — bug di persistenza, non di analisi) — EXP-003 (welcome email, scaduta 28/7) → mancata, EXP-006 (esito PI26, scaduta 20/8 ma esito già certo: non idoneo, decisione Nicola 29/7) → mancata anticipata, EXP-013 (ordine test PQ pagato, scaduta oggi) → mancata (gate mai partito, non un'ipotesi respinta). Riaperto EXP-014 come rinnovo di EXP-013 sullo stesso gate, per non lasciare il KPI north-star senza un esperimento attivo. 8/14 misurati (tutti mancata finora), 1 aperto (EXP-014, scade 6/8), 0 in scadenza residui.",
@@ -952,17 +955,17 @@
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
   "_review_settimanale_24_07": "REVIEW SETTIMANALE 24/7 16:00 — benchmark @AD aggiornato (43, radiografia completa 23/7). 2 nuove peer_review (PR-006 tech/frontend-dev sullo sprint Pannello, PR-007 valutatore indipendente sulla bozza PI26 → DA SISTEMARE). Torneo tra senior ancora rinviato (stesso motivo del 3/7: nessun esito di business reale da confrontare, negozi in pausa fino al 24/8-1/9). Verifica loop-chiuso esperimenti: 2 misurati su 13 aperti (EXP-004 e EXP-005, entrambi mancata) — il volano-business osserva ma continua a non chiudere sui numeri.",
   "_giro_25_07_0631": "GIRO 25/7 06:31 — misurati i 2 esperimenti in scadenza oggi: EXP-001 (ordini_consegnati, MANCATA, reale 0 vs atteso 1 — North Star ferma) ed EXP-007 (check-in PQ concordato, MANCATA, superato dalla pausa concordata coi negozi fino al 24/8-1/9, non un fallimento operativo). 4/13 esperimenti ora misurati, tutti e 4 mancata — nessun esito positivo del volano-business finché la pausa negozi resta attiva. 0 esperimenti in scadenza residui oggi.",
-  "aggiornato": "2026-08-16 23:21",
+  "aggiornato": "2026-08-17 06:41",
   "proposte_sync": {
-    "aggiornato": "2026-08-16 22:26",
+    "aggiornato": "2026-08-17 06:25",
     "totale": 13,
     "aggiornate": 0
   },
   "pezzi_sync": {
-    "aggiornato": "2026-08-16 22:26",
+    "aggiornato": "2026-08-17 06:25",
     "fonte": "auto-coscienza/cantiere-pezzi.json",
     "freschezza": "stantio",
-    "perche": "Il quaderno dei pezzi nuovi: scritto 42 giorni e 17 ore fa e vale 30 giorni — quello che dice è di allora",
+    "perche": "Il quaderno dei pezzi nuovi: scritto 43 giorni e 1 ore fa e vale 30 giorni — quello che dice è di allora",
     "totale": 14,
     "fatti": 13,
     "da_costruire": [

@@ -1,18 +1,17 @@
 ---
 tipo: supervisione-negozi
-data: 2026-08-16 23:51
+data: 2026-08-17 06:25
 ---
 
-# 🛡️ Supervisione negozi & prodotti — 2026-08-16 23:51
+# 🛡️ Supervisione negozi & prodotti — 2026-08-17 06:25
 
-> La macchina ha vegliato ogni negozio e ogni prodotto, e ha trovato i dati mancanti. Qui sotto trovi due
-> cose. Le **proposte pronte**: riempimento automatico, in attesa del tuo ok. E ciò che **serve da te**:
-> foto, prezzi, e simili. Nessun dato è stato scritto sul sito: parte solo dopo la tua firma.
+> La macchina ha vegliato ogni negozio e ogni prodotto e ha trovato i dati mancanti. Qui sotto:
+> le **proposte pronte** (riempimento automatico, in attesa del tuo ok) e ciò che **serve da te** (foto, prezzi, ecc.).
+> Nessun dato è stato scritto sul sito: parte solo dopo la tua firma.
 
-**Quadro:** 1 negozio, approvato. 5 prodotti. Campi riempibili in automatico, già proposti: **0**. Campi
-che servono da te: **2**.
+**Quadro:** 1 negozi (1 approvati) · 5 prodotti · **0 campi** riempibili in automatico (proposti) · **2** che servono da te.
 
-## ✅ Proposte pronte — riempimento automatico, aspettano il tuo ok
+## ✅ Proposte pronte (riempimento automatico — aspettano il tuo ok)
 
 Nessun campo deducibile da riempire in automatico in questo giro. 🎉
 

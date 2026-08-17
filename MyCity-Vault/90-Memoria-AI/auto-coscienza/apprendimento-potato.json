@@ -1,6 +1,56 @@
 {
   "potature": [
     {
+      "quando": "2026-08-17 06:26",
+      "byte_prima": 1091672,
+      "byte_dopo": 986323,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [],
+        "copie_di_principi": 88
+      }
+    },
+    {
+      "quando": "2026-08-17 01:37",
+      "byte_prima": 1089930,
+      "byte_dopo": 984581,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [],
+        "copie_di_principi": 88
+      }
+    },
+    {
+      "quando": "2026-08-17 00:17",
+      "byte_prima": 1089544,
+      "byte_dopo": 984195,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [],
+        "copie_di_principi": 88
+      }
+    },
+    {
+      "quando": "2026-08-16 23:52",
+      "byte_prima": 1089544,
+      "byte_dopo": 984195,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [],
+        "copie_di_principi": 88
+      }
+    },
+    {
+      "quando": "2026-08-16 23:35",
+      "byte_prima": 1089500,
+      "byte_dopo": 984151,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [],
+        "copie_di_principi": 88
+      }
+    },
+    {
       "quando": "2026-08-16 22:26",
       "byte_prima": 1089285,
       "byte_dopo": 983936,

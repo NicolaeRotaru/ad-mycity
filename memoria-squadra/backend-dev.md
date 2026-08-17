@@ -7,6 +7,7 @@ reparto: backend-dev
 > Cosa ho imparato. Leggi all'inizio, aggiungi un ESITO alla fine di ogni lavoro.
 
 ## Esiti
+- 2026-08-17 06:30 · dispatch card #36 — fix trigger enforce_order_update_rules che cita invoice_number (colonna rimossa da migration 105) · V5 C5 A3 K5 I3 M4 E4 (media 4.14) · atteso branch aperto con migration+test pronti per PR → reale migration+test scritti in locale, branch creato ma non committato/pushato (sandbox nega git add/commit anche su branch isolato) · #sicurezza #36
 - 2026-07-19 17:00 · PR #213 marketplace mergiata (#fix-35-gravi chiuso) · atteso codice+DB allineati · reale: merge `304fe07` su origin/main verificato; migrazioni 109-111 già ok 16:57 · L-297 L-272 · #radiografia #pr-213 #esito
 - 2026-07-19 16:57 · Applica migrazioni 109/110/111 marketplace · atteso schema post-PR #213 sul DB live · reale: 109+111 ok; 110 adattata (public_avatar_url/city); rider_fee_cents + public_profiles verificati REST · Management API (MCP write bloccato in chat) · L-294 L-296 · #migrazioni #supabase #esito
 - 2026-07-19 16:55 · Verifica migrazioni marketplace 109/110/111 · atteso schema post-merge PR #213 · reale: colonna rider_fee_cents e vista public_profiles assenti — migrazioni non eseguite; apply_migration MCP bloccato in chat Pannello · L-294 · #migrazioni #supabase #esito
