@@ -1911,3 +1911,48 @@ Pannello (il Deploy Hook parte su main).
   problemi in entrambe le versioni, quindi non c'era differenza da misurare. Rifatto con numeri veri
   (quattro punti su main, cinque sul mio): con la mutazione diventa rosso.
 - **Stato:** 🟡 cancello verde, uscita 0. Il merge è di Nicola.
+
+## 2026-08-17 07:20 — 🟡 Le lezioni arrivavano al lavoro senza il freno: un nome di campo (AR-763)
+
+> **Rinumerato il 17/8 alle 08:10.** Era nato AR-762, e il secondo difetto AR-763. Mentre lavoravo,
+> un'altra corsia ha registrato il SUO AR-762 (i test che scrivevano nel canale dei segnali vero) ed
+> è arrivata su main per prima. I miei due sono diventati **AR-763** e **AR-764**. È la stessa
+> collisione già vista con AR-756/757 il 16/8: due sessioni aperte insieme leggono lo stesso numero
+> libero, e git non se ne accorge perché sono righe diverse dello stesso elenco.
+
+**Origine:** Nicola, 16/8: «ripara il problema che la macchina non impara le lezioni».
+
+**Cosa ho trovato, misurandolo e non deducendolo.** Il guardiano dell'apprendimento dice già da solo
+«malato» ed esce 1: 515 lezioni vive, tasso di applicazione 12%, e l'area «correzione-nicola» tornata
+19 volte senza diventare un freno. Ma la causa non era il tasso: era che la parte utile della lezione
+non arrivava. La scheda che parte a ogni richiesta (hook UserPromptSubmit) mostrava il comando della
+lezione solo se il campo `gate_attivo` era vero. Quel campo lo hanno 26 lezioni su 522, e la porta
+ufficiale di scrittura — `lezione-nuova.mjs` — non lo scrive **mai**: scrive `gate`. Era l'unica riga
+di tutto il repo a leggerlo (sorvegliante, cancello-stop, contratto-prova, tasso-regole leggono tutti
+`gate`). **Il conto, su 8 richieste tipiche: 52 righe di scheda servite, 11 appartenevano a lezioni
+con un freno vero, ne arrivava 1.** Le altre dieci erano prosa da leggere.
+
+**Cosa ho fatto (🟡, PR aperta, il merge è di Nicola):**
+- un solo posto che decide se una lezione ha un freno da mostrare (`frenoDi`), che legge `gate` e
+  continua a rispettare `gate_attivo: false` — che è un segnale vero: «il freno esiste ma non è
+  ancora su main» (L-2026-0730-530);
+- usato da **entrambe** le porte che portano memoria dentro un lavoro: la scheda su misura e il
+  blocco dei principi. Riparare una e lasciare l'altra è il modo classico di far tornare il difetto;
+- a parità di tema, la lezione che porta un freno sale di 2 punti e va in cima — ma **solo dopo** la
+  soglia di pertinenza, come il bonus delle correzioni di Nicola: darlo prima riempirebbe la scheda
+  di roba fuori tema, e una scheda che sbaglia si impara a scorrerla.
+
+**La prova:** `cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs`, 8 casi. Rotto il fix
+apposta, 4 diventano rossi (verificato a mano e dalla mutazione AR-763 in `mutanti.json`). Prova
+end-to-end sulla richiesta vera di Nicola: prima 0 freni serviti, adesso 3 comandi eseguibili in cima.
+
+**Trovato nel secondo giro e NON tirato dentro il lotto:** gli archivi delle lezioni sono due, e
+quello iniettato in ogni turno di chat (`LEZIONI-CHAT.md`) è prosa senza id e senza campo per il
+freno — lì un freno non si può nemmeno scrivere. Registrato come AR-763 con le due strade possibili,
+nessuna scelta ancora fatta.
+
+**Quello che NON ho riparato, e va detto:** il tasso di applicazione resta al 12% perché «lezione
+usata» si registra ancora a mano (`tasso-lezioni.mjs applica`) — l'ultima marcatura è del 17/7. È
+AR-051, aperto. Questo lotto fa arrivare il freno; non prova che venga tirato.
+
+**Stato:** 🟡 lotto consegnato, merge di Nicola.

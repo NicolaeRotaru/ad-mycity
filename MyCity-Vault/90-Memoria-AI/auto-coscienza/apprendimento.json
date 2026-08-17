@@ -11755,6 +11755,14 @@
    "testo": "**Quando due pezzi leggono la stessa cosa, non si scrivono due lettori: si carica quello che c'è già (AR-569, Nicola 11/8: «sistema il difetto della coda, 5 invece di 49»).** Il guardiano del tempo di Nicola aveva un parser suo che riconosceva solo il formato vecchio della coda: contava 5 firme in attesa mentre nel Pannello ce n'erano 57, e concludeva «coda sotto controllo». La tentazione era riscrivere il parser dei blocchi dentro il guardiano — cioè fare la seconda copia, che è la malattia stessa. Invece si carica il lettore vero della Cabina (331 righe di regole su cosa è un'azione e cosa è documentazione) attraverso l'hook che toglie i tipi. Seconda metà, altrettanto importante: riparato il conteggio, il verdetto restava verde perché guardava solo l'ETÀ della card più vecchia. Un numero giusto dentro una soglia che non lo guarda non serve a niente.",
    "regola": "prima di scrivere un lettore, cercare chi legge già quella cosa e caricarlo — anche attraverso un confine di linguaggio, se il confine si può attraversare (Node 22 esegue i .ts, e l'hook per gli import senza estensione esiste già). Se non si può caricare, si esce ⚪ e non si tira a indovinare. E ogni volta che si ripara un CONTEGGIO, si controlla anche la SOGLIA che lo giudica: un numero giusto letto da un verdetto che non lo guarda resta invisibile. Le soglie si derivano dal comportamento reale della persona (quante firme dà a settimana), non si inventano.",
    "gate": "node cervello/test/coda-vista-come-la-vede-nicola.test.mjs"
+  },
+  {
+   "id": "L-2026-0816-01",
+   "data": "2026-08-16 23:34",
+   "fonte": "correzione di Nicola 2026-08-16: «ripara il problema che la macchina non impara le lezioni»",
+   "testo": "La memoria arrivava al lavoro senza la parte che cambia il comportamento. La scheda che parte a ogni richiesta leggeva un campo (gate_attivo) che la porta ufficiale di scrittura non scrive mai: 44 lezioni su 69 con un freno vero non lo hanno mai mostrato, e su 8 richieste tipiche i freni serviti erano 1 su 11. Le lezioni si leggevano come prosa e si dimenticavano.",
+   "regola": "Quando la macchina porta una lezione dentro un lavoro, deve portarci il COMANDO che la fa rispettare, non solo il testo: chi legge un dato scritto da un altro pezzo legge il campo che quel pezzo scrive davvero, e a parita di tema vince la lezione che si puo eseguire.",
+   "gate": "node cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs"
   }
  ],
  "principi": [
