@@ -132,7 +132,7 @@ function leggiAppr() {
 // apprendimento.mjs). Devono raggiungere OGNI contesto: è il vero «cristallizzato_in: memoria-persistente».
 // Un principio che non arriva alla mossa è inutile — questo è il pezzo che lo fa arrivare.
 /**
- * Le righe dei principi, dall'archivio già letto. Pura apposta (AR-762): la decisione «questo
+ * Le righe dei principi, dall'archivio già letto. Pura apposta (AR-763): la decisione «questo
  * principio porta un freno?» deve stare dove una prova la può ESEGUIRE, non dentro una funzione che
  * legge il disco da un percorso fisso — altrimenti l'unico modo di provarla è cercare un pattern nel
  * file, e un pattern non frena niente.
@@ -146,7 +146,7 @@ export function righeDeiPrincipi(dati) {
     pr = dati.principi.map((p) => (typeof p === "string" ? { testo: p } : p?.testo ? p : null)).filter(Boolean);
   if (!pr.length && Array.isArray(dati?.lezioni))
     pr = dati.lezioni.filter((l) => l?.stato === "principio" && l.testo);
-  // AR-762: anche qui il freno viaggia col principio. Una regola stabile senza il comando che la
+  // AR-763: anche qui il freno viaggia col principio. Una regola stabile senza il comando che la
   // fa rispettare è la stessa prosa di prima, solo promossa di grado.
   return pr.slice(0, 8).map((p) => {
     const freno = frenoDi(p);
@@ -218,7 +218,7 @@ export function paroleChiave(testo = "") {
 export const PUNTI_MINIMI = 3;
 
 /**
- * IL FRENO DI UNA LEZIONE — il comando che diventa rosso se quell'errore torna (AR-762).
+ * IL FRENO DI UNA LEZIONE — il comando che diventa rosso se quell'errore torna (AR-763).
  *
  * IL DIFETTO CHE CURA. Questa era l'unica riga di tutto il repo che leggeva `gate_attivo`: il
  * sorvegliante, cancello-stop, contratto-prova e tasso-regole leggono tutti `l.gate`. E la porta
@@ -243,7 +243,7 @@ export function frenoDi(lezione) {
  * Punteggio: tag centrato = 3 (è la classificazione scritta a mano) · parola del prompt nel testo
  * = 1, con tetto a 4 (un testo lungo pesca somiglianze per caso) · correzione di Nicola già in
  * tema = +1 (le sue correzioni sono i casi-studio prioritari della casa, CLAUDE.md passo 6) ·
- * lezione già in tema che porta un FRENO = +2 (AR-762).
+ * lezione già in tema che porta un FRENO = +2 (AR-763).
  *
  * Perché il freno vale il doppio della correzione: fra due lezioni ugualmente in tema, quella con
  * un comando che può fallire cambia il lavoro, l'altra si legge e si dimentica. E perché il bonus

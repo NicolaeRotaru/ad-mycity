@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// AR-762 — la lezione arrivava al lavoro senza il suo freno, per un nome di campo.
+// AR-763 — la lezione arrivava al lavoro senza il suo freno, per un nome di campo.
 //
 // LA RADICE. La scheda che parte a ogni richiesta (hook UserPromptSubmit) leggeva `l.gate_attivo`
 // per decidere se mostrare il comando che fa scattare quella lezione. Era l'UNICA riga di tutto il

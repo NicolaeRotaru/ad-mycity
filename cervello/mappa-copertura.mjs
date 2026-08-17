@@ -83,7 +83,7 @@ export const ESENZIONI = {
   // leggendolo passa dalle guardie come qualsiasi altra mossa — è lì che va guardato, non qui.
   // L'esenzione vale per il caricamento, non per le conseguenze.
   Skill: "carica un mansionario nel turno: non scrive e non tocca il mondo. Le mosse che ne seguono le guardano le guardie di sempre",
-  // Trovato dal cancello il 17/8, lavorando ad AR-762: avevo fermato il cancello a metà per rifare
+  // Trovato dal cancello il 17/8, lavorando ad AR-763: avevo fermato il cancello a metà per rifare
   // il rebase, e la mappa se n'è accorta. Fermare un processo di questa sessione non tocca il repo
   // né il mondo. Ma non è innocente per il motivo ovvio: se il processo fermato è un GUARDIANO,
   // quel verdetto non è stato misurato — e un verdetto non misurato non è un verde. Chi lo ferma

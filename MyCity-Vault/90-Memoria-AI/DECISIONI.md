@@ -1912,7 +1912,13 @@ Pannello (il Deploy Hook parte su main).
   (quattro punti su main, cinque sul mio): con la mutazione diventa rosso.
 - **Stato:** 🟡 cancello verde, uscita 0. Il merge è di Nicola.
 
-## 2026-08-17 07:20 — 🟡 Le lezioni arrivavano al lavoro senza il freno: un nome di campo (AR-762)
+## 2026-08-17 07:20 — 🟡 Le lezioni arrivavano al lavoro senza il freno: un nome di campo (AR-763)
+
+> **Rinumerato il 17/8 alle 08:10.** Era nato AR-762, e il secondo difetto AR-763. Mentre lavoravo,
+> un'altra corsia ha registrato il SUO AR-762 (i test che scrivevano nel canale dei segnali vero) ed
+> è arrivata su main per prima. I miei due sono diventati **AR-763** e **AR-764**. È la stessa
+> collisione già vista con AR-756/757 il 16/8: due sessioni aperte insieme leggono lo stesso numero
+> libero, e git non se ne accorge perché sono righe diverse dello stesso elenco.
 
 **Origine:** Nicola, 16/8: «ripara il problema che la macchina non impara le lezioni».
 
@@ -1937,7 +1943,7 @@ con un freno vero, ne arrivava 1.** Le altre dieci erano prosa da leggere.
   di roba fuori tema, e una scheda che sbaglia si impara a scorrerla.
 
 **La prova:** `cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs`, 8 casi. Rotto il fix
-apposta, 4 diventano rossi (verificato a mano e dalla mutazione AR-762 in `mutanti.json`). Prova
+apposta, 4 diventano rossi (verificato a mano e dalla mutazione AR-763 in `mutanti.json`). Prova
 end-to-end sulla richiesta vera di Nicola: prima 0 freni serviti, adesso 3 comandi eseguibili in cima.
 
 **Trovato nel secondo giro e NON tirato dentro il lotto:** gli archivi delle lezioni sono due, e
