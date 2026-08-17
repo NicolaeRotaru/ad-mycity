@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-17 01:37** — Automatico: **72 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-17 06:20** — Automatico: **73 aperte · 8 chiuse in archivio** (nuova: `#115`, guardia mancante sulla delega ai senior).
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -19,6 +19,20 @@ Per dare il via scrivi all'AD: **«ok 41»** (o «ok a tutte le 🟡»). L'AD es
 Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al titolo.
 
 <!-- write-vs-edit-settings-local -->
+
+---
+
+### 🟡 #115 — Nessuna guardia controlla quando delego lavoro a un senior · ⏳ accodata 2026-08-17 06:20
+
+**Cosa cambia:** stamattina ho dato a un senior (backend-dev) un compito vero: verificare un bug e preparare una correzione. L'ho fatto con lo strumento che uso per delegare. Il controllo di fine turno mi ha segnalato una cosa vera: quello strumento non ha nessuna guardia agganciata. Gli strumenti di sola lettura non ne hanno bisogno, e sono dichiarati esenti con un motivo scritto. Questo invece può scrivere file, aprire branch, toccare il mondo — attraverso il senior a cui delego. Oggi gli ho dato istruzioni caute e i risultati sono stati verificati (il senior ha controllato la sua stessa diagnosi riga per riga). Ma la guardia non c'è: se un giorno delegassi con istruzioni meno caute, o un senior capisse male, nessun freno se ne accorgerebbe prima che sia fatto.
+
+**Se va bene:** due strade, decide un tecnico con te. (a) Si aggancia una guardia vera allo strumento di delega, che controlla cosa fanno i senior prima che tocchino file sensibili — coerente con le altre guardie già in campo su modifica e comando. (b) Si accetta il rischio per ora, scrivendolo esplicitamente come eccezione, col motivo. Non ho scelto io: la scelta tocca la sicurezza del sistema, non un dettaglio tecnico.
+
+**Cosa non ho verificato:** non so se una guardia su questo strumento sia facile da scrivere o se richieda un lavoro grande. Non ho verificato quante altre volte questo varco è stato usato prima di oggi.
+
+- **Colore:** 🟡 — nessuna scrittura sul mondo reale in questa card, ma la decisione su come chiudere il varco tocca `.claude/settings.json`, che solo tu puoi modificare.
+- **Reparto:** security + prompt-engineer
+- **Origine:** `{origine:cancello-stop-2026-08-17, strumento:Agent, guardiano:mappa-copertura.mjs}`
 
 ---
 
@@ -229,7 +243,7 @@ in scrittura alla macchina, ed è giusto così.
 - **Reparto:** tech
 - **Origine:** `{origine:sessione-2026-08-10-vittoria-winback, ancora:3bda15ad5b5b0be5c920fe926341c08b1a0cc8e9, commit-non-contati:397}`
 
-🔧 Dettagli tecnici: le due funzioni coinvolte sono `ancoraDelTurno()` e `piantaAncora()`. Vivono in `cervello/cancello-stop.mjs`, righe ~661-701. L'ancora avanza solo su turni con `git status --porcelain` vuoto. La funzione che controlla questo stato si chiama `alberoSporco()`. Verificato ora: `git rev-list --count 3bda15ad..HEAD` = 397. L'ultimo commit reale del ramo è `f13968f22` (11:24:38). L'ancora resta ferma al `3bda15ad` del 2026-08-04 00:11. Le 6 PR citate dal cancello risultano già in coda: righe 1636-1639 (679/680/681/683). Più i blocchi `#pr-675`/`#pr-678` sopra.
+🔧 Dettagli tecnici: due funzioni sono coinvolte. Sono `ancoraDelTurno()` e `piantaAncora()`. Vivono in `cervello/cancello-stop.mjs`, righe ~661-701. L'ancora avanza solo su turni con `git status --porcelain` vuoto. La funzione che controlla questo stato si chiama `alberoSporco()`. Verificato ora: `git rev-list --count 3bda15ad..HEAD` = 397. L'ultimo commit reale del ramo è `f13968f22` (11:24:38). L'ancora resta ferma al `3bda15ad` del 2026-08-04 00:11. Le 6 PR citate dal cancello risultano già in coda: righe 1636-1639 (679/680/681/683). Più i blocchi `#pr-675`/`#pr-678` sopra. Nota 17/8: questo è il motivo per cui i collaudi di fine turno di oggi appaiono enormi (centinaia di file) — l'ancora è ferma qui, non riflette il lavoro del turno.
 
 <!-- sorvegliante-esenzione-vault -->
 
@@ -239,13 +253,13 @@ in scrittura alla macchina, ed è giusto così.
 
 **Cosa cambia:** `cantiere-prove.json` è il referto dei difetti aperti. La macchina lo salva spesso. Ogni volta il controllo di sicurezza accusa "hai tolto una difesa" — anche quando il difetto è semplicemente chiuso e il referto si è aggiornato di conseguenza. È successo 153 volte in questa sola sessione. Non è un buco di sicurezza vero: l'ho verificato riga per riga, i test esistono ancora, girano ancora, 131/131 passano. Ma il rumore nasconde i controlli veri.
 
-**Se va bene:** un tecnico decide una delle due cure proposte nel dettaglio e la porta in un branch con la prova che il fix non spalanca la porta ad accuse vere. Non urgente: per ora la macchina lavora attorno al problema (esclude il file dal commit quando serve).
+**Se va bene:** un tecnico sceglie una delle due cure proposte nel dettaglio. Le porta in un branch. Con la prova che il fix non spalanca la porta ad accuse vere. Non è urgente. Per ora la macchina lavora attorno al problema: esclude il file dal commit quando serve.
 
 - **Colore:** 🟡 (fix di codice in `cervello/sorvegliante.mjs` o `cervello/cantiere-prove.mjs`, serve branch+PR)
 - **Reparto:** tech
 - **Origine:** `{origine:giro-2026-08-04-sera, collaudo-giro-16}`
 
-🔧 Dettagli tecnici: analisi completa e due cure proposte in `consegne/tech/2026-08-04-sorvegliante-esenzione-vault.md`. Causa: `eCodice()` esclude `MyCity-Vault/` (AR-554), quindi nessun marcatore di esenzione può vivere in un commit che tocca solo memoria.
+🔧 Dettagli tecnici: analisi completa e due cure proposte in `consegne/tech/2026-08-04-sorvegliante-esenzione-vault.md`. Causa: `eCodice()` esclude `MyCity-Vault/` (AR-554). Per questo nessun marcatore di esenzione può vivere in un commit che tocca solo memoria.
 
 <!-- pr-678-rinforzo-lezione-worker-concorrente -->
 
@@ -401,7 +415,9 @@ in scrittura alla macchina, ed è giusto così.
 
 **Se va bene:** apro un branch sul repo del sito con una migration che riscrive quel controllo togliendo il campo cancellato, più un test che diventa rosso se il controllo torna a citare una colonna che non esiste. Poi te lo mostro in anteprima e lo mandi in produzione tu.
 
-**Nota tecnica:** `migrations/061_p0_security_rls_state_machine_reviews.sql:129` (funzione `enforce_order_update_rules`, tuttora viva sul DB) cita `NEW.invoice_number`, colonna droppata da `migrations/105_remove_invoicing.sql:27`. Nessuna migration successiva ridefinisce la funzione (063/064/094/096 la citano solo nei commenti). Verifica diretta sul progetto `clmpyfvpvfjgeviworth`: `colonna_esiste=false`, `trigger_la_cita=true`. Punti d'impatto: `app/seller/orders/[id]/page.tsx:205`, `app/rider/orders/[id]/page.tsx:108`. Uscita anticipata per admin/service_role alle righe 96-98 → route server salve.
+**Aggiornamento 2026-08-17 06:xx:** oggi ho fatto rileggere a backend-dev tutti i file citati sotto, uno per uno. La diagnosi è confermata al 100%, nessun dubbio residuo. Il branch `fix/enforce-order-update-invoice-number` esiste in locale con la migration pronta e un test nuovo. Non è ancora su GitHub: i permessi di questa sessione non includono `git commit`/`git push` sul repo del sito. Serve una sessione con quei permessi per finire il lavoro (commit, push, anteprima).
+
+**Nota tecnica:** `migrations/061_p0_security_rls_state_machine_reviews.sql:129` (funzione `enforce_order_update_rules`, tuttora viva sul DB) cita `NEW.invoice_number`, colonna droppata da `migrations/105_remove_invoicing.sql:27`. Nessuna migration successiva ridefinisce la funzione (063/064/094/096 la citano solo nei commenti). Verifica diretta sul progetto `clmpyfvpvfjgeviworth`: `colonna_esiste=false`, `trigger_la_cita=true`. Punti d'impatto: `app/seller/orders/[id]/page.tsx:205`, `app/rider/orders/[id]/page.tsx:108`. Uscita anticipata per admin/service_role alle righe 96-98 → route server salve. Migration pronta: `marketplace/migrations/107_fix_enforce_order_update_invoice_number.sql`. Test pronto: `marketplace/tests/unit/migrations-integrity.test.ts`.
 - **Colore:** 🔴 (migration sul database di produzione)
 - **Reparto:** backend-dev + security
 - **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:rls-database}`

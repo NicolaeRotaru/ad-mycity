@@ -39,8 +39,8 @@ intero dopo la correzione del metodo di ricerca. Dettaglio completo con le fonti
 `auto-coscienza/auto-analisi.json`.
 
 ## Domande aperte per Nicola
-Le 3 card 🔴 di sicurezza e soldi (#36/#37/#38) restano il rischio più alto in coda, dopo il blocco
-pagamenti di Pane Quotidiano (#62). Sono ferme da 19 giorni.
+Le 3 card 🔴 di sicurezza e soldi (#36/#37/#38) restano il rischio più alto in coda. Il primo rischio
+resta il blocco pagamenti di Pane Quotidiano (#62). Le tre card di sicurezza sono ferme da 19 giorni.
 
 Restano valide anche queste domande precedenti:
 - la scelta sul test "margine" (#105)

@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 01:53
-fonte: AD digitale (chat)
+aggiornato: 2026-08-17 06:05
+fonte: AD digitale (piano del mattino)
 ---
+
+> ☀️ **17/8 06:05 — Piano del mattino, scritto a mano.** Il battito automatico delle 06:00 si è di nuovo interrotto a metà: lucchetto `.git/MYCITY_RUN_LOCK-giro` orfano dalle 01:31, il processo che lo teneva (PID 1216448) non esiste più — verificato ora dal vivo, conferma diretta la diagnosi già scritta nella card `#108`. Business confermato invariato: 1 negozio, 5 prodotti, 7 profili, 1 ordine CANCELED, stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Tasso di chiusura del mese **1,26** (sopra soglia). Tre priorità di oggi: sblocco server (`#108`), decisione sulle tre falle di sicurezza ferme da 19 giorni (`#36`/`#37`/`#38` — oggi ho fatto aprire a backend-dev il primo branch, `#36`), permessi (`#104`). Dettaglio in [[Briefing/2026-08-17]] e sezione "Prossime priorità" più sotto.
 
 > 🌙 **17/8 01:53 — Giro richiesto in chat, 12 minuti dopo il passaggio 01:41. Business invariato, nessuna novità.** Sensori, coerenza-fatti e coda PR riverificati dal vivo: identici bit-per-bit al passaggio precedente (stesso stallo North Star 54gg, stesse 3 PR rosse #749/#741/#749). Applicata la strategia snella: nessuna riscrittura dei file pesanti già freschi. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
 
@@ -1857,6 +1859,21 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (☀️ aggiornato 17/8 06:05 — piano del mattino)
+Business INVARIATO dal 24/6, riconfermato stanotte con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (mai pagato, del 24/6, CANCELED), 0 pagati — **stallo 54 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Il battito automatico delle 06:00 si è di nuovo interrotto a metà (lucchetto orfano su `.git/MYCITY_RUN_LOCK-giro`, preso dalle 01:31 — verificato ora con `ps`: il processo che lo teneva, PID 1216448, non esiste più, conferma diretta della diagnosi già scritta in `#108`); questo piano lo scrivo subito dopo, gli scarti pendenti sono già stati recuperati in un commit separato. Tasso di chiusura del mese **1,26** (sopra soglia): la squadra può tornare a cercare, ma oggi la priorità resta chiudere quello che è già fermo in coda da settimane.
+
+1. [ ] 🔴 **Sblocca il server** (`#108`) — il lucchetto che ferma i giri automatici è vuoto da stanotte, due comandi lo tolgono, poi il battito riparte da solo.
+2. [ ] 🔴 **Decidi sulle tre falle di sicurezza/affidabilità del sito** (`#36` pulsante ordine rotto, `#37` dati di negozi/clienti leggibili senza login, `#38` cinque punti dove il marketplace perde soldi da solo) — ferme dal 29/7, **19 giorni**. Oggi ho fatto aprire a backend-dev il primo dei tre branch (`#36`, il più semplice): verifica in corso, ti porto l'anteprima appena pronta.
+3. [ ] 🟡 **Correggi 5 righe nel file dei permessi sul server** (`#104`) — 12 giorni che è la causa nota per cui i giri automatici falliscono; il checkup di salute è fermo per lo stesso motivo.
+
+**Non dimenticare, invariata:** la mossa n.1 resta `#62`, la pratica pagamenti di Pane Quotidiano — il vero blocco del primo incasso, in attesa del fornaio, congelata fino al 24/8-1/9.
+
+**Nuovo da chiudere in fretta:** `#107`, il post per Pane Quotidiano, è pronto da ieri e aspetta solo un sì o un no.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 54gg, atteso — negozi in pausa) · `salute_bassa` 🟡 (lista difetti lunga, cantiere aperto) · REST/MCP Supabase ✅ (riconfermati stanotte con query diretta) · resto sensori invariato dall'ultima lettura di stanotte.
+
+---
 
 ## Prossime priorità (🕛 aggiornato 16/8 12:12 — punto di mezzogiorno)
 Business INVARIATO dal 24/6, riconfermato ORA con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (mai pagato, del 24/6), 0 pagati — **stallo 53 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Oggi il battito automatico (Piano del mattino/Report della sera) non è partito da solo (card #94, ferma da quasi 3 giorni): le priorità sotto sono quelle emerse da otto passaggi in chat dalle 07:40 in poi, non da un piano scritto stamattina.

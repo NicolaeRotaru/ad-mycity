@@ -2,7 +2,7 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-08-17 01:52
+aggiornato: 2026-08-17 06:20
 ---
 
 # ✅ Cose che devo fare io (Nicola)
@@ -30,7 +30,7 @@ aggiornato: 2026-08-17 01:52
 
 ## 🔴 SICUREZZA E SOLDI DEL MARKETPLACE — ferme da 19 giorni senza risposta
 
-- [ ] 🔴 **Ripara il pulsante che venditore e rider usano per far avanzare un ordine.** Oggi dà errore sempre, per un campo cancellato a giugno che un controllo di sicurezza cerca ancora. Al primo ordine vero il negoziante non riesce ad accettarlo.
+- [ ] 🔴 **Ripara il pulsante che venditore e rider usano per far avanzare un ordine.** Oggi dà sempre errore. La causa: un campo fu cancellato a giugno. Un controllo di sicurezza lo cerca ancora e blocca tutto. Al primo ordine vero il negoziante non riuscirebbe ad accettarlo. Aggiornamento 17/8: la diagnosi è riverificata al 100%, la correzione è pronta in un branch locale, manca solo chi la porti su GitHub.
   → Card `#36` in [[AZIONI-IN-ATTESA]]
 
 - [ ] 🔴 **Chiudi le 4 porte aperte su dati di negozi e clienti.** Liste negozi scrivibili senza login. Indirizzi clienti leggibili senza login. Venditori e rider auto-approvati alla registrazione. Dati di consegna modificabili senza login. Verificate una per una sul database vero: rischio violazione dati personali.
@@ -41,13 +41,15 @@ aggiornato: 2026-08-17 01:52
 
 ---
 
-## 🔴 RICHIESTE DI UNIONE (PR) DA FIRMARE — attenzione al colore
+## 🔴 RICHIESTE DI UNIONE (PR) DA FIRMARE
 
-- [ ] 🔴 **NON mergiare ancora — PR #735** (CI rossa: 2/2 controlli falliti sul proprio ramo). Aspetta il verde.
+Attenzione al colore: nessuna delle tre sotto è pronta.
+
+- [ ] 🔴 **NON mergiare ancora: PR #735.** CI rossa, 2 controlli su 2 falliti sul proprio ramo. Aspetta il verde.
   → Card `#89` in [[AZIONI-IN-ATTESA]]
-- [ ] 🔴 **NON mergiare ancora — PR #741** (CI rossa: 2/2 controlli falliti sul proprio ramo).
+- [ ] 🔴 **NON mergiare ancora: PR #741.** CI rossa, 2 controlli su 2 falliti sul proprio ramo.
   → Card `#106` in [[AZIONI-IN-ATTESA]]
-- [ ] 🔴 **NON mergiare ancora — PR #749** (CI rossa: 2/2 controlli falliti sul proprio ramo).
+- [ ] 🔴 **NON mergiare ancora: PR #749.** CI rossa, 2 controlli su 2 falliti sul proprio ramo.
   → Card `#111` in [[AZIONI-IN-ATTESA]]
 
 > Sono le uniche 3 PR aperte oggi (confermato dal vivo con `ci-stato.mjs`). Nessuna PR è pronta da firmare in questo momento.
