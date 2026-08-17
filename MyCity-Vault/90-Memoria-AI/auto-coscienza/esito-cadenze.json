@@ -12,12 +12,12 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-17 01:58",
+      "quando": "2026-08-17 08:34",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
       "push_ok": false,
-      "passi_ok": true,
+      "passi_ok": false,
       "vincoli_attivi": 10,
       "vincoli": [
         "APPRENDIMENTO",
@@ -73,5 +73,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-17 06:35"
+  "aggiornato": "2026-08-17 08:34"
 }
