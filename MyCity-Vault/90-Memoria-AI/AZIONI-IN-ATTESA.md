@@ -22,6 +22,20 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #116 — Il programma punti + gift card è pronto da un mese, ma resta spento · ⏳ accodata 2026-08-17 12:24
+
+**Cosa cambia:** ti avevo chiesto di preparare punti spendibili in tutta la rete e gift card MyCity. L'ho già fatto, per intero, il 6 luglio. Da allora l'ho ricontrollato altre 5 volte (20/7, 27/7, 3/8, 10/8, oggi) invece di rifare il lavoro da capo ogni volta, perché il risultato sarebbe stato identico: il testo e la meccanica sono fermi in `consegne/growth/2026-07-06-playbook-fedelta-di-rete.md`. Restano spenti perché mancano ancora tutti e 5 i via libera che avevo scritto il 6/7: almeno 5 negozi veri (oggi 1 solo, Pane Quotidiano), ordini pagati (oggi 0), Stripe collegato in scrittura (ancora solo lettura), la percentuale di cashback firmata da te, e un parere legale sulla gift card. In più oggi Pane Quotidiano da solo non riesce nemmeno a incassare (dati mai inviati, incassi e versamenti disattivati) — quello è il blocco più urgente, non la fedeltà. Le due card che tenevano visibile questa proposta (#44 e #45) sono sparite dalla coda durante una pulizia automatica: questa le rimpiazza con una sola, per non perdere la traccia che il lavoro è già pronto.
+
+**Se va bene:** quando il primo negozio vero incassa un ordine pagato (o arrivano altri negozi), riprendo il playbook e lo accendo per davvero — non serve rifare la meccanica, solo aggiornarla ai numeri veri e mandartela per la firma su cashback e gift card.
+
+**Cosa non ho verificato:** non ho verificato di persona il testo del 6/7, solo che esiste ed è lo stesso citato nelle 5 volte precedenti — se lo vuoi rileggere prima che arrivi il momento di accenderlo, è nel file sopra.
+
+- **Colore:** 🔴 — tocca soldi veri (percentuale di cashback, gift card come denaro anticipato): resta ferma finché non firmi tu, e comunque non parte prima che i 5 via libera siano tutti sbloccati.
+- **Reparto:** growth-monetizzazione + loyalty-membership
+- **Origine:** `{origine:playbook-fedelta-rete, invocazione:6, gate:invariato-dal-2026-08-10}`
+
+---
+
 ### 🟡 #115 — Nessuna guardia controlla quando delego lavoro a un senior · ⏳ accodata 2026-08-17 06:20
 
 **Cosa cambia:** stamattina ho dato a un senior (backend-dev) un compito vero: verificare un bug e preparare una correzione. L'ho fatto con lo strumento che uso per delegare. Il controllo di fine turno mi ha segnalato una cosa vera: quello strumento non ha nessuna guardia agganciata. Gli strumenti di sola lettura non ne hanno bisogno, e sono dichiarati esenti con un motivo scritto. Questo invece può scrivere file, aprire branch, toccare il mondo — attraverso il senior a cui delego. Oggi gli ho dato istruzioni caute e i risultati sono stati verificati (il senior ha controllato la sua stessa diagnosi riga per riga). Ma la guardia non c'è: se un giorno delegassi con istruzioni meno caute, o un senior capisse male, nessun freno se ne accorgerebbe prima che sia fatto.
