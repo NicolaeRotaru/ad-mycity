@@ -30,6 +30,8 @@ Il fatto risale a febbraio 2026, non a questa settimana. Ma non era mai stato re
 - Fonti triangolate (10/8, link in fondo): L'Espresso su Foodinho (9/2/2026), L'Espresso su Deliveroo (25/2/2026), Sky TG24 sul piano di uscita (20/5/2026).
 - **Confidenza sul fatto in sé: alta (90%)** — tre fonti indipendenti, provvedimento giudiziario pubblico. **Confidenza sullo stato attuale del percorso di uscita: bassa (30%)** — nessuna fonte più recente di maggio, potrebbe essere già risolto senza che lo sappiamo.
 
+**🆕 Aggiunto 17/8: un secondo procedimento pubblico, indipendente dal primo.** Il 6 maggio 2026 l'**Antitrust (AGCM)** ha aperto un'istruttoria contro Glovo (Glovoapp23, Foodinho, Glovo Infrastructure Services Italy) e Deliveroo Italia per aver "comunicato informazioni ingannevoli sul proprio impegno etico e sulla responsabilità sociale" verso i rider. Codacons sostiene l'istruttoria e chiede una sanzione esemplare; entrambe le aziende negano e dichiarano piena collaborazione. Non è la stessa notizia di febbraio rivestita: è un'**autorità diversa** (Antitrust, non la Procura di Milano) che indaga sullo stesso tema. Rafforza l'argomento di pitch sotto: ora ci sono **due procedimenti pubblici aperti**, non uno solo. Fonte: [ansa.it — L'Antitrust avvia un'istruttoria su Glovo e Deliveroo](https://www.ansa.it/sito/notizie/economia/2026/05/06/lantitrust-avvia-una-istruttorie-su-glovo-e-di-deliveroo-_f572e763-6ac0-4721-8636-6f4cedad81bc.html) (6/5/2026, consultata 17/8/2026). Confidenza: alta, 90% — fonte primaria ANSA con dichiarazioni ufficiali di entrambe le aziende.
+
 ## Punti di forza da comunicare ai negozi (aggiornati)
 
 > **"Noi siamo le botteghe del centro storico, non i ristoranti delle catene sotto inchiesta per come trattano i rider."** MyCity: 10% commissione, 50€/mese abbonamento, payout a consegna.
@@ -49,7 +51,7 @@ Invariata: complementare (loro vetrine statiche, noi ordine+consegna+payout). In
 ## Opportunità (parcheggiata per la ripresa 24/8-1/9)
 
 **① Argomento di pitch "botteghe vs caporalato algoritmico"** — 🟢 solo preparazione, NON usare ora
-Il fatto verificato sopra è materiale legittimo per @pr-stampa/@vendite: MyCity paga 10% commissione fissa e trasparente, non è sotto inchiesta. Rafforza la narrativa "botteghe di fiducia" nei primi pitch commerciali post-pausa. **Prima mossa:** @pr-stampa prepara un paragrafo pronto per il kit stampa/pitch deck citando le fonti sopra con date — non pubblicare né usare prima del 24/8-1/9 (vincolo pausa Nicola).
+Il fatto verificato sopra è materiale legittimo per @pr-stampa/@vendite: MyCity paga 10% commissione fissa e trasparente, non è sotto inchiesta. Rafforza la narrativa "botteghe di fiducia" nei primi pitch commerciali post-pausa. **Prima mossa:** @pr-stampa prepara un paragrafo pronto per il kit stampa/pitch deck citando le fonti sopra con date — non pubblicare né usare prima del 24/8-1/9 (vincolo pausa Nicola). Aggiornato 17/8: ora il paragrafo può citare **due** procedimenti pubblici indipendenti (Procura di Milano + Antitrust), non uno solo — vedi il fatto nuovo qui sopra.
 
 ---
 

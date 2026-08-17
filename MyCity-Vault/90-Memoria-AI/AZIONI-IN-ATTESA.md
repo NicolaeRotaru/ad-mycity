@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-17 12:38** — Automatico: **74 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-17 14:05** — Automatico: **75 aperte · 8 chiuse in archivio** (+1: card #120, @intelligence).
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -19,6 +19,41 @@ Per dare il via scrivi all'AD: **«ok 41»** (o «ok a tutte le 🟡»). L'AD es
 Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al titolo.
 
 <!-- write-vs-edit-settings-local -->
+
+---
+
+### 🟡 #120 — Avvisa il fornaio: c'è un circuito welfare gratis a cui può iscriversi subito · ⏳ accodata 2026-08-17 14:05
+
+**Cosa cambia:** ho trovato che a Piacenza esiste già un programma chiamato "Piacenza Pay" —
+gestito da un'azienda nazionale di buoni pasto (360Welfare) insieme alle 4 associazioni di
+commercianti della città — che fa arrivare ai negozi i soldi del welfare aziendale dei
+dipendenti (buoni pasto, buoni acquisto). Per il negozio è **gratis aderire**, paga solo una
+piccola parte quando un cliente spende davvero. Non c'entra niente con MyCity: Pane Quotidiano
+potrebbe iscriversi oggi stesso, senza aspettare che i nostri pagamenti Stripe siano accesi. È
+un canale di soldi in più che il fornaio oggi non sta prendendo.
+
+**Testo pronto da inoltrare (WhatsApp o di persona):**
+> «Ciao! Volevo segnalarti una cosa che ho trovato: a Piacenza c'è un programma gratuito chiamato
+> "Piacenza Pay" (lo gestisce 360Welfare insieme a Confindustria, Confapi, Confesercenti e
+> Confcommercio Piacenza) che fa arrivare ai negozi i buoni pasto e i buoni acquisto welfare dei
+> dipendenti delle aziende della zona. Per il negozio è gratis iscriversi, non c'è nessun canone:
+> paghi solo una piccola percentuale quando un cliente spende davvero. Basta scrivere a
+> piacenzapay@360welfare.it per iscriverti. Non c'entra con MyCity, è un programma separato — ma
+> ti porta clienti e soldi in più senza costo, quindi ti conviene comunque farlo. Fammi sapere se
+> vuoi che ti aiuti a scrivere la mail.»
+
+**Se va bene:** lo mandi tu al fornaio (hai il suo numero, 0523388601) quando preferisci — ora o
+quando riprendi il lavoro operativo il 24/8-1/9. Non costa niente a MyCity e non tocca nessun
+paletto: è un consiglio a un partner su un servizio esterno.
+
+**Cosa non ho verificato:** se Piacenza Pay ha già negozi come panetterie/gastronomie bio nel suo
+circuito, e se la percentuale sulla transazione è alta o bassa — l'articolo dice solo "nessun
+costo di ingresso", non parla della commissione sulla vendita.
+
+- **Colore:** 🟡 — è un messaggio a una persona reale fuori da MyCity (il fornaio), anche se a
+  costo/rischio quasi zero.
+- **Reparto:** intelligence
+- **Origine:** `{origine:playbook-intelligence-17-8, fonte:piacenza24.eu+ilpiacenza.it+360welfare.it, briefing:90-Memoria-AI/Briefing/2026-08-17-intelligence.md}`
 
 ---
 

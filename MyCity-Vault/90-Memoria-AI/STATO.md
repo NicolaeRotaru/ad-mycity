@@ -1,8 +1,11 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 12:42
+aggiornato: 2026-08-17 14:05
 fonte: AD digitale (chat)
 ---
+
+> 🔎 **17/8 14:05 — PLAYBOOK Intelligence settimanale (17-23/8): trovato un circuito welfare aziendale locale già attivo a Piacenza.**
+> "Piacenza Pay" (gestito da 360Welfare + Confindustria/Confapi/Confesercenti/Confcommercio Piacenza, presentato 9/10/2025) fa arrivare ai negozi i buoni pasto/welfare dei dipendenti — gratis per il negozio, adesione via piacenzapay@360welfare.it. È lo stesso meccanismo che `CONTESTO_BUSINESS.md` §5 chiama "il fossato competitivo" di MyCity (welfare aziendale, previsto per la Fase 2). Doppia lettura: **opportunità immediata** (Pane Quotidiano potrebbe aderirci oggi, indipendente da MyCity — card 🟡 **#120** accodata) e **rischio strategico** da tenere a mente per quando si costruirà il segmento welfare (novembre, §6): a Piacenza quel pezzo è già presidiato da un attore nazionale specializzato. Aggiunto anche un secondo fatto verificato (istruttoria Antitrust 6/5/2026 su Glovo/Deliveroo per messaggi ingannevoli sui rider) a rinforzo dell'argomento di pitch già pronto. Dettaglio completo, fonti e confidenza: `Briefing/2026-08-17-intelligence.md`. Nessuna azione business eseguita oggi: negozi in pausa fino al 24/8-1/9, coerente col vincolo Nicola.
 
 > 🔁 **17/8 12:42 — Giro completo richiesto in chat, 14 minuti dopo il passaggio 12:28. Business invariato. È il ~41° passaggio odierno sullo stesso stato.**
 > Riverificato dal vivo: `verifica-sensori.mjs` (REST ok, 1 ordine, mcp_stripe cieco da 3 giri — non blocca), `coerenza-fatti.mjs` (✅ coerente, 38 fatti, 0 cacce), `ci-stato.mjs` (stesse 3 PR rosse per colpa propria #749/#741/#735). Nulla di nuovo rispetto al passaggio 12:28: niente riscrittura dei JSON pesanti di `auto-coscienza/` (dati identici, scritti minuti fa), nessun sub-agente, nessun radar/analista/intelligence lanciato — per disciplina SOPRAVVIVENZA. Livello LETARGO: **SOPRAVVIVENZA**, quota AI **236%** — nuovo record di oggi (era 206% alle 12:28), salute macchina 4/40.
