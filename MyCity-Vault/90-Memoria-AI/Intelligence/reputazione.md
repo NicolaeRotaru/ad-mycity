@@ -1,12 +1,14 @@
 # ⭐ Reputazione — cosa si dice di MyCity e dei nostri negozi
 
-> Aggiornato: **2026-08-15 06:45** — giro leggero (`cervello/monitora.md`). Fonte dovuta oggi: WebFetch su liberta.it/territorio/citta/piacenza, la fonte giornaliera "Libertà — Città di Piacenza". **Nessuna menzione MyCity/marketplace/Pane Quotidiano.** Le notizie del giorno restano di viabilità e urbanistica: cantieri su via Benedettine, Veneto, Borghetto, San Bartolomeo e Farnesiana. Sono riportate in `eventi-picchi.md`, perché sono operative e non reputazionali. La fonte settimanale "Reputazione MyCity (ricerca aperta)" non è dovuta oggi: l'ultimo controllo è del 10/8, 5 giorni fa, sotto la soglia di 7. Non ripetuta oggi, per non sprecare il motore. L'ultimo controllo di questo file risale al 14/8/2026 alle 06:31; le fonti sono elencate sotto.
+> Aggiornato: **2026-08-17 06:33** — giro leggero (`cervello/monitora.md`). Fonti controllate oggi: WebFetch su liberta.it/territorio/citta/piacenza (giornaliera) + WebSearch "MyCity Piacenza marketplace consegne negozi" e ricerca mirata su "Pane Quotidiano" Via Calzolai (la settimanale "Reputazione MyCity", dovuta oggi: ultimo controllo 10/8, esattamente 7 giorni fa). **Nessuna menzione nuova, nessuna recensione trovata.** Stesso quadro del 10-15/8: solo schede da directory (PagineGialle, PagineBianche, VitaInCentro, Terra Nuova, VeganHome), nessuna recensione Google/social, nessun articolo di stampa. Le notizie del giorno da Libertà — Città restano di viabilità/urbanistica (Piazza Cittadella, cantieri già noti, riportate in `eventi-picchi.md`). L'ultimo controllo precedente di questo file risale al 15/8/2026 alle 06:45; le fonti sono elencate sotto.
 
 ---
 
 ## Stato attuale (13/8/2026, invariato dal 10/8)
 
 Stesso esito di 26 giorni fa: **nessuna menzione esterna trovata**. Né positiva né negativa. È coerente con lo stallo: 47+ giorni senza un ordine pagato. Il fascicolo pagamenti di Pane Quotidiano ha ancora incassi disattivati. Non c'è ancora niente da "reputare": la macchina non ha consegnato un solo ordine vero.
+
+**Novità 17/8 — ricontrollo settimanale "Reputazione MyCity" (dovuto oggi, 7 giorni dal 10/8):** WebSearch generica su "MyCity Piacenza marketplace" e ricerca mirata su "Pane Quotidiano Via Calzolai recensioni". Stesso esito del 10/8: nessuna recensione, nessun articolo, solo schede da directory (PagineGialle, PagineBianche, VitaInCentro/listing, Terra Nuova, VeganHome) che confermano l'esistenza fisica del negozio dal 1976 ma non aggiungono nulla di reputazionale. Nessuna azione.
 
 **Novità 15/8 da Libertà — Città di Piacenza:** nessuna menzione di MyCity o Pane Quotidiano. Le notizie del giorno sono cantieri/viabilità (via Benedettine, via Veneto/Borghetto/San Bartolomeo/Farnesiana), senza legame diretto col marketplace. Le riporto invece in `eventi-picchi.md`, dove sono operativamente rilevanti per orari e zone. Nessuna azione per questo file.
 
@@ -56,4 +58,4 @@ Stesso esito di 26 giorni fa: **nessuna menzione esterna trovata**. Né positiva
 
 > 🟢 leggere/annotare = automatico · le risposte pubbliche e i contatti = 🟡/🔴 (firma di Nicola).
 
-**Giro precedente**: 2026-08-10 13:35 — nessuna menzione intercettata (Fase 0, coerente). Stesso esito oggi, 13/8, 3 giorni dopo (giro del 10/8 restava il più recente prima di questo recupero).
+**Giro precedente**: 2026-08-15 06:45 — nessuna menzione intercettata (Fase 0, coerente). Stesso esito oggi, 17/8, ricontrollo settimanale incluso.

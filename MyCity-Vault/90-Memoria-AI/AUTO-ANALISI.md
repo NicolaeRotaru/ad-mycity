@@ -1,12 +1,34 @@
-# 🔬 AUTO-ANALISI — 2026-08-17 01:52
+# 🔬 AUTO-ANALISI — 2026-08-17 06:31
 
-> Giro completo richiesto in chat. Sono passati ~80 minuti dal passaggio delle 00:21.
-> Business riverificato con query SQL dirette via MCP, non ereditate da prima.
+> Giro richiesto in chat, 26 minuti dopo il Piano del mattino (06:05).
+> Business riverificato dal vivo (`verifica-sensori.mjs`, `coerenza-fatti.mjs`), identico al passaggio precedente.
 > Ordini pagati: 0 su 1 totale. Ordini negli ultimi 7 giorni: 0.
-> Ultimo ordine: 2026-06-24, annullato (CANCELED). Tutto identico al passaggio precedente.
-> Profili: 7. Recensioni: 0. Stallo North Star: **54 giorni**. Dentro la pausa concordata fino al 24/8-1/9.
+> Ultimo ordine: 2026-06-24, annullato (CANCELED). Profili: 7. Stallo North Star: **54 giorni**. Dentro la pausa concordata fino al 24/8-1/9.
 
-## Voto di fiducia: 85/100 (▼ da 88)
+## Voto di fiducia: 86/100 (▲ da 85)
+
+Due cose fatte in questo passaggio, non solo una riconferma:
+
+1. **Chiuso un buco di processo vero.** Il quaderno di `@backend-dev` era fermo da 29 giorni, ma
+   aveva un lavoro FATTO in Sala Operativa oggi (06:35, dispatch sulla card #36: migration + test
+   scritti, branch locale non committato per limite di sandbox). Il vincolo chiusura-loop (AR-009)
+   segnalava rosso. Registrato l'ESITO con `chiusura-loop.mjs registra backend-dev` — scorecard
+   V5 C5 A3 K5 I3 M4 E4 (media 4,14), atteso "branch pronto per PR", reale "fermo un passo prima
+   per un limite di sandbox, non di diagnosi". Gate ora verde.
+2. **Rispettata la propria lezione invece di soddisfare un contatore a vuoto.** Il controllo
+   `esperimenti-check.mjs` (ESP) segna "diventato cronico" da 3 giri senza un esperimento aperto.
+   L'unico ambito rilevante — il primo ordine pagato — ha già 3 tentativi falliti di fila
+   (EXP-013/014/015) per lo stesso identico motivo: la pausa concordata blocca ogni contatto
+   nuovo. Aprire un 4° esperimento sapendo in anticipo che fallirebbe per lo stesso motivo non
+   sarebbe imparare, sarebbe far tornare un numero verde con un dato inutile. Accodata la card
+   #116 con la scelta esplicita per Nicola, invece.
+
+Nessun errore di metodo trovato in questo passaggio (a differenza del 01:52, dove un grep a
+copertura parziale aveva prodotto un'affermazione falsa poi corretta). Il voto sale di un punto
+ma resta lontano da 88+: il business è fermo da 54 giorni e tre card 🔴 di sicurezza restano senza
+risposta da 19 giorni — nessuna igiene di coda cambia quel fatto.
+
+## Passaggio precedente (01:52) — voto 85/100 (▼ da 88)
 
 Il voto scende, e vale la pena spiegare perché anche se il lavoro di questo passaggio è stato utile.
 

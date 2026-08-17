@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 06:05
-fonte: AD digitale (piano del mattino)
+aggiornato: 2026-08-17 06:31
+fonte: AD digitale (chat)
 ---
+
+> 🔁 **17/8 06:31 — Giro richiesto in chat, 26 minuti dopo il Piano del mattino (06:05). Business invariato, due righe di igiene chiuse.** Riconfermato dal vivo con `verifica-sensori.mjs` e `coerenza-fatti.mjs`: 1 ordine (CANCELED, 24/6), 0 pagati, 0 negli ultimi 7gg, 7 profili — stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Nessuna novità di business dal passaggio delle 06:05: dispatch `#36` su backend-dev già chiuso (migration+test scritti, branch locale non committato per limite di sandbox), come riportato lì. Due cose fatte in questo passaggio: ① chiuso il vincolo chiusura-loop registrando l'ESITO di backend-dev nel suo quaderno (fermo da 29 giorni); ② accodata la card **#116** — il controllo degli esperimenti (ESP) è diventato cronico (3 giri senza uno aperto), ma aprirne uno sul KPI del primo ordine sarebbe il 4° tentativo identico e già fallito per lo stesso motivo (pausa concordata): chiesto a Nicola come preferisce procedere. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
 
 > ☀️ **17/8 06:05 — Piano del mattino, scritto a mano.** Il battito automatico delle 06:00 si è di nuovo interrotto a metà: lucchetto `.git/MYCITY_RUN_LOCK-giro` orfano dalle 01:31, il processo che lo teneva (PID 1216448) non esiste più — verificato ora dal vivo, conferma diretta la diagnosi già scritta nella card `#108`. Business confermato invariato: 1 negozio, 5 prodotti, 7 profili, 1 ordine CANCELED, stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Tasso di chiusura del mese **1,26** (sopra soglia). Tre priorità di oggi: sblocco server (`#108`), decisione sulle tre falle di sicurezza ferme da 19 giorni (`#36`/`#37`/`#38` — oggi ho fatto aprire a backend-dev il primo branch, `#36`), permessi (`#104`). Dettaglio in [[Briefing/2026-08-17]] e sezione "Prossime priorità" più sotto.
 

@@ -1,23 +1,22 @@
-# 📅 Eventi & Picchi di Domanda — 2026-08-15
+# 📅 Eventi & Picchi di Domanda — 2026-08-17
 
-> Aggiornato: 15 agosto 2026 06:45 · @intelligence · giro leggero (Ondata 3, `cervello/monitora.md`). Controllate le fonti giornaliere dovute oggi: Libertà Attualità, Libertà Città, PiacenzaSera, Comune (news+eventi, via WebSearch per il 403), CCIAA Emilia, Unione Commercianti (bandi), meteo. Nessuna novità ad alto impatto oggi. Solo due dettagli operativi nuovi: cantieri stradali e un dettaglio meteo — vedi sotto. Precedente: 14/8 06:31.
+> Aggiornato: 17 agosto 2026 06:33 · @intelligence · giro leggero (Ondata 3, `cervello/monitora.md`). Controllate le fonti giornaliere dovute oggi: Libertà Attualità, Libertà Città, PiacenzaSera, Comune (news+eventi, via WebSearch per il 403), CCIAA Emilia, Unione Commercianti (bandi), meteo. Novità di rilievo: la svolta meteo prevista è arrivata (instabilità/temporali lunedì), e un evento a 5 giorni con impatto food (Cotechino Festival Pianello, 22-23/8) — vedi sotto. Nessuna azione richiesta oggi. Precedente: 15/8 06:45.
 
 ---
 
-## 🌡️ Meteo Piacenza 15-22/8 — Ferragosto ancora rovente, da lunedì 17/8 cambia con instabilità
+## 🌡️ Meteo Piacenza 17-24/8 — la svolta prevista è arrivata: instabilità oggi, poi migliora, poi nuovo peggioramento da giovedì
 
-Conferma il pattern già segnalato il 10/8 e il 14/8 (svolta dal 17/8), con un dettaglio nuovo oggi: il cambio non è solo un miglioramento delle temperature, ma porta **instabilità con possibili temporali** al Nord.
+Confermato il pattern già segnalato il 10/8, 14/8 e 15/8: oggi lunedì 17/8 la circolazione cambia davvero.
 
 | Data | Previsione |
 |------|------|
-| Ven 14/8 | 24°/36° |
-| Sab 15/8 (Ferragosto) | 22°/36° |
-| Dom 16/8 | 22°/35° |
-| Lun 17/8 | Cambio di circolazione atmosferica — fase più instabile al Nord, temperature in calo verso la media, **attenzione a possibili temporali forti** |
+| Lun 17/8 | **Giornata instabile**: nuvolosità in aumento dal pomeriggio, temporali sui rilievi che possono interessare anche fascia pedecollinare e pianura |
+| Mar 18/8 | Migliora, cielo sereno/poco nuvoloso, massime in leggero calo (32-33° in pianura) |
+| Da gio 21/8 | Nuova onda depressionaria di origine atlantica: aumento nuvolosità, possibili precipitazioni (più probabili sul settore centro-occidentale della regione), lieve flessione delle temperature |
 
-**Impatto:** nessun cambio di scenario rispetto al 14/8, solo un dettaglio in più — non aspettarsi solo "meno caldo" dal 17/8, ma anche rischio temporali. Rilevante se/quando riparte la logistica bici (oggi non operativa). La bozza "ondata di caldo" per Pane Quotidiano resta valida e parcheggiata (vedi Opportunità sotto).
+**Impatto:** confermato il quadro già anticipato: fine del caldo intenso, non solo temperature più basse ma anche rischio temporali (oggi) e un nuovo peggioramento a fine settimana. Rilevante se/quando riparte la logistica bici (oggi non operativa). La bozza "ondata di caldo" per Pane Quotidiano perde attualità (il caldo estremo è finito) — da rivedere/archiviare alla ripresa 24/8-1/9, non da pubblicare oggi.
 
-Fonte: ricerca aggregata su meteo.it, 3bmeteo.com e ilmeteo.it, consultata 15/8 via WebSearch (il fetch diretto resta in errore 403). Pattern invariato dal 14/8, il dettaglio sui temporali è nuovo.
+Fonte: ricerca aggregata (piacenzasera.it, 3bmeteo.com e altri portali meteo), consultata 17/8 via WebSearch (il fetch diretto su arpae.it resta senza dati previsionali diretti, solo un hub di link). Yellow alert per lunedì confermato anche da PiacenzaSera.
 
 ---
 
@@ -25,14 +24,14 @@ Fonte: ricerca aggregata su meteo.it, 3bmeteo.com e ilmeteo.it, consultata 15/8 
 
 | Evento | Date | Rilevanza |
 |--------|------|-----------|
-| Speciale Ferragosto: City Tour Piazza Cavalli. Il percorso tocca colazione, centro storico, Palazzo Gotico e Palazzo Farnese | Sab 15/8, 10:00-12:30, ritrovo IAT-R Piazza Cavalli 7 | Bassa per MyCity — evento turistico, non un picco di domanda delivery. Utile solo come segnale che il 15/8 c'è comunque un po' di movimento in centro. |
+| 🆕 **Festa del Cotechino, 60° edizione** — Pianello Val Tidone, stand gastronomici + musica | Sab-Dom 22-23/8 | Media/bassa per MyCity — fuori Piacenza città (Val Tidone), ma è un picco DOP di prodotto locale (cotechino), coerente col posizionamento botteghe/gastronomia. Nessuna azione: nessun negozio MyCity in zona, solo da tenere a mente per storytelling futuro quando la vetrina prodotti tipici sarà attiva. |
 | Restrizioni Piazzetta Barozzieri (alcolici, contenitori in vetro, orari esercizi) | Dal 11/8 | Bassa/operativa — zona specifica, nessun impatto su consegne cargo-bike se non si passa da lì la sera. |
 | Sportelli "Digitale Facile" del Comune — chiusura estiva | 10-22/8, riapertura 24/8 | Nessuna — non tocca il marketplace. |
 | ❌ ~~PI26 CCIAA~~ — CHIUSO | non applicabile | Invariato, confermato di nuovo oggi: nessun bando nuovo aperto (vedi sotto) |
 | Rassegna cinema estiva Ex Caserma Cantore | fino 31/8 | Bassa — invariata |
 | Cornicione Corso V.E. 226-234 | dal 19/7, **riapertura ancora non confermata online** | ⚠️ 4 settimane senza notizia di riapertura — dato sempre più stantio, verificare sul posto prima di citarlo |
 
-**Nessun evento di massa nuovo in centro storico Piacenza questa settimana — invariato dal 10/8.**
+**Nessun evento di massa nuovo in centro storico Piacenza questa settimana. L'unico evento nuovo nei prossimi 7-14 giorni è il Cotechino Festival di Pianello (22-23/8), fuori città.**
 
 **Ferragosto 15/8, aggiornamento 14/8:** PiacenzaSera conferma che **i mercati restano regolari** in centro storico e alla Besurica il giorno di Ferragosto. Nessuna chiusura del mercato. Per i negozi vale comunque l'attesa chiusura per consuetudine nazionale. Impatto su MyCity oggi: nullo. L'unico negozio reale, Pane Quotidiano, non incassa ancora.
 Fonte: [piacenzasera.it — Ferragosto, mercato regolare in centro storico e alla Besurica](https://www.piacenzasera.it/2026/08/ferragosto-mercato-regolare-in-centro-storico-e-alla-besurica-2/657852/) (14/8).
@@ -87,11 +86,25 @@ Nessuna di queste due richiede un'azione oggi (🟢 nota, coerente col vincolo p
 
 ---
 
+## 🆕 Novità di oggi (17/8) — meteo confermato, un evento a 5 giorni, nessuna azione
+
+**① La svolta meteo prevista è arrivata** — vedi tabella meteo sopra: oggi instabilità/temporali, da giovedì nuovo peggioramento. Il caldo estremo di Ferragosto è finito. Nessuna azione (bici non operativa).
+
+**② Cotechino Festival Pianello, 60ª edizione (22-23/8)** — evento nuovo nella finestra 7-14 giorni, trovato tramite ricerca sagre/mercatini. Fuori Piacenza città, nessun negozio MyCity in zona: solo nota per contesto stagionale/DOP.
+Fonte: [piacenzasera.it](https://www.piacenzasera.it/) e ricerca aggregata sagre Piacenza provincia (17/8).
+
+**③ Comune di Piacenza — nessuna novità oltre quanto già noto**: WebSearch conferma solo le stesse notizie già registrate (chiusura estiva sportelli Digitale Facile, restrizioni Piazzetta Barozzieri). Nessun nuovo provvedimento ZTL/traffico/commercio.
+Fonte: WebSearch `site:comune.piacenza.it news commercio agosto 2026` (17/8).
+
+Nessuna di queste tre richiede un'azione oggi (🟢 nota, coerente col vincolo pre-24/8).
+
+---
+
 ## 💰 Bandi — riconfermato tutto chiuso, nessuna apertura nuova
 
-Ricontrollati il 14/8 e di nuovo oggi (15/8) sia il sito CCIAA Emilia (via WebSearch, il fetch diretto resta 403) sia Unione Commercianti PC. Gli stati non cambiano: **BI26 chiuso l'11/6, PI26 e BE26 chiusi il 30/7, Bando Commercio Emilia-Romagna chiuso al limite delle 350 domande.** Nessuno di questi ha riaperto. Nessun bando nuovo per il commercio (negozi/botteghe) è comparso. Coerente con `registro-fatti.json` (`bandi.pi26.scadenza`, `bando.commercio-er.scadenza`).
+Ricontrollati il 14/8, il 15/8 e di nuovo oggi (17/8) sia il sito CCIAA Emilia (via WebSearch, il fetch diretto resta 403) sia Unione Commercianti PC (RSS + WebSearch). Gli stati non cambiano: **BI26 chiuso l'11/6, PI26 e BE26 chiusi il 30/7, Bando Commercio Emilia-Romagna chiuso al limite delle 350 domande.** Nessuno di questi ha riaperto. Nessun bando nuovo per il commercio (negozi/botteghe) è comparso. Coerente con `registro-fatti.json` (`bandi.pi26.scadenza`, `bando.commercio-er.scadenza`).
 
-Bando **non commercio** già segnalato ieri: "Fotovoltaico su parcheggi aziendali" (Regione ER, tramite Unione Commercianti, 11/8). Copre il 35-40% a fondo perduto, fino a 100.000€. Le domande aprono dal 30/9/2026. Bassa rilevanza per le botteghe MyCity: serve un parcheggio aziendale, che i negozi del centro tipicamente non hanno. Nessuna azione. Nessun bando ulteriore trovato oggi. Fonte: [unionecommerciantipc.it — Bando fotovoltaico imprese Emilia-Romagna](https://www.unionecommerciantipc.it/bando-fotovoltaico-imprese-emilia-romagna/) (11/8, riconfermato 15/8).
+Bando **non commercio** già segnalato l'11/8: "Fotovoltaico su parcheggi aziendali" (Regione ER, tramite Unione Commercianti). Copre il 35-40% a fondo perduto, fino a 100.000€. Le domande aprono dal 30/9/2026. Bassa rilevanza per le botteghe MyCity: serve un parcheggio aziendale, che i negozi del centro tipicamente non hanno. Nessuna azione. Nessun bando ulteriore trovato oggi (RSS `unionecommerciantipc.it/feed/` ricontrollato: stessi 5 bandi già noti, tutti chiusi salvo il fotovoltaico). Fonte: [unionecommerciantipc.it — Bando fotovoltaico imprese Emilia-Romagna](https://www.unionecommerciantipc.it/bando-fotovoltaico-imprese-emilia-romagna/) (11/8, riconfermato 17/8).
 
 ---
 
@@ -102,7 +115,7 @@ Bando **non commercio** già segnalato ieri: "Fotovoltaico su parcheggi aziendal
 - Nuova restrizione Piazzetta Barozzieri (alcol/vetro/orari) dall'11/8 — zona ristretta, non tocca le rotte di consegna previste.
 - 🆕 Cantieri fine agosto/inizio settembre: via Farnesiana, via Veneto, via Borghetto, via San Bartolomeo. Via Benedettine già senza 70 stalli fino a dicembre. Tenerne conto quando riparte la logistica.
 - Bici consegna: non operativa (invariato).
-- Caldo estremo confermato fino a Ferragosto (15-16/8), tregua indicata dal 17/8 con possibile instabilità/temporali: se si riattiva la logistica bici, tenerne conto per gli orari di consegna (mattina presto) fino a quella data.
+- 🆕 Caldo estremo finito: oggi 17/8 instabilità/temporali, poi migliora, poi nuovo peggioramento da giovedì 21/8. Se si riattiva la logistica bici, tenerne conto per la pianificazione settimanale (non solo mattina presto per il caldo, ma anche rischio pioggia lunedì e da giovedì).
 
 ---
 
@@ -146,5 +159,10 @@ Report 27/7 → 30/7 → 10/8: versioni precedenti di questo file (in git histor
 - **15/8:** WebSearch eventi Piacenza settimana — nessun evento di massa nuovo
 - **15/8:** unionecommerciantipc.it/category/bandi/ — nessun bando nuovo, fotovoltaico riconfermato
 - **15/8:** WebSearch site:emilia.camcom.it bando 2026 — PI26/BE26/BI26 confermati chiusi
+- **17/8:** ricerca meteo aggregata (piacenzasera.it, 3bmeteo.com) — svolta meteo confermata, temporali lunedì
+- **17/8:** WebSearch eventi/sagre Piacenza provincia — Cotechino Festival Pianello 60° (22-23/8), nuovo nella finestra 7-14gg
+- **17/8:** WebSearch site:comune.piacenza.it news commercio — nessuna novità oltre quanto già noto
+- **17/8:** unionecommerciantipc.it/feed/ (RSS) — stessi 5 bandi già noti, nessuno nuovo
+- **17/8:** WebSearch site:emilia.camcom.it bando 2026 — PI26/BE26/BI26 confermati chiusi
 
 *Senior: @intelligence · nessuna azione da eseguire ora, tutto parcheggiato per la ripresa 24/8-1/9 salvo il monitoraggio bandi/meteo che resta sempre attivo*
