@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-17 10:01",
+  "aggiornato": "2026-08-17 10:56",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16108,7 +16108,7 @@
     },
     {
       "id": "AR-763",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "apprendimento",
       "gravita": "grave",
       "titolo": "Le lezioni arrivano al lavoro senza il freno che le fa rispettare: un nome di campo le trasforma in prosa da leggere",
@@ -16123,7 +16123,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs"
       },
-      "nota_fix": "Riparato in questo lotto. Misura prima/dopo sulle stesse richieste: freni mostrati 1 → tutti quelli serviti. Non-vacuita verificata due volte: a mano (4 casi su 8 rossi) e dal cancello (mutazione AR-763 in mutanti.json)."
+      "nota_fix": "Riparato in questo lotto. Misura prima/dopo sulle stesse richieste: freni mostrati 1 → tutti quelli serviti. Non-vacuita verificata due volte: a mano (4 casi su 8 rossi) e dal cancello (mutazione AR-763 in mutanti.json).",
+      "chiuso_il": "2026-08-17 10:56",
+      "chiuso_come": "node cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-764",
@@ -16146,22 +16149,22 @@
   ],
   "meta": {
     "letto": true,
-    "totale": 753,
-    "aperti": 105,
+    "totale": 755,
+    "aperti": 106,
     "in_corso": 0,
     "da_riverificare": 56,
-    "chiusi": 592,
+    "chiusi": 593,
     "altri": 0,
-    "da_fare": 161,
+    "da_fare": 162,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 592,
-      "aperto": 105,
+      "chiuso": 593,
+      "aperto": 106,
       "da-riverificare": 56
     },
     "stati_ignoti": [],
-    "senza_owner": 161,
-    "senza_scadenza": 161,
+    "senza_owner": 162,
+    "senza_scadenza": 162,
     "scaduti": 0,
     "derivato_dalla_lista": true,
     "somma_torna": true
