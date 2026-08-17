@@ -8,6 +8,8 @@
 > **Confermato 2026-08-14 06:31** (giro leggero `cervello/monitora.md`). Stessi due bandi ricontrollati, stesso esito: tutto chiuso, nessuna apertura. Trovato un dato nuovo per la **catena #2 sotto (caro-energia)** — vedi la voce aggiornata.
 >
 > **Confermato 2026-08-15 06:45** (giro leggero `cervello/monitora.md`). CCIAA Emilia e Unione Commercianti PC ricontrollati di nuovo via WebSearch, il fetch diretto resta in errore 403. Stesso esito: BI26/PI26/BE26/Bando Commercio ER restano tutti chiusi, nessuna riapertura, nessun bando nuovo per il commercio. Nessun dato nuovo per le 3 catene indirette sotto. Zero cambiamenti alla strategia.
+>
+> **Confermato 2026-08-17 06:33** (giro leggero `cervello/monitora.md`). Ricontrollate anche oggi CCIAA Emilia, Unione Commercianti PC (via RSS `unionecommerciantipc.it/feed/`, più diretta del solo WebSearch) e Comune — pagina imprese/commercio (WebSearch, il fetch diretto resta 403). Stesso identico esito: BI26/PI26/BE26/Bando Commercio ER tutti chiusi, nessuna riapertura. L'unico bando ancora aperto sul territorio è quello del fotovoltaico su parcheggi aziendali (domande dal 30/9/2026), irrilevante per le botteghe MyCity — vedi `eventi-picchi.md`. Nessun dato nuovo per le catene indirette sotto (nessuna news su caro-energia oltre quella già registrata il 14/8). Zero cambiamenti alla strategia sotto.
 
 ## Il filtro che decide tutto, oggi
 
