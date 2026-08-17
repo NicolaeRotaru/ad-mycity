@@ -136,10 +136,15 @@ function bloccoPrincipi() {
   if (!d) return null;
   let pr = [];
   if (Array.isArray(d.principi))
-    pr = d.principi.map((p) => (typeof p === "string" ? p : p?.testo)).filter(Boolean);
+    pr = d.principi.map((p) => (typeof p === "string" ? { testo: p } : p?.testo ? p : null)).filter(Boolean);
   if (!pr.length && Array.isArray(d.lezioni))
-    pr = d.lezioni.filter((l) => l?.stato === "principio").map((l) => l.testo).filter(Boolean);
-  const righe = pr.slice(0, 8).map((p) => `- ${nucleoRegola(String(p))}`);
+    pr = d.lezioni.filter((l) => l?.stato === "principio" && l.testo);
+  // AR-762: anche qui il freno viaggia col principio. Una regola stabile senza il comando che la
+  // fa rispettare è la stessa prosa di prima, solo promossa di grado.
+  const righe = pr.slice(0, 8).map((p) => {
+    const freno = frenoDi(p);
+    return `- ${nucleoRegola(String(p.testo))}${freno ? ` · freno: \`${freno}\`` : ""}`;
+  });
   if (!righe.length) return null;
   return `Principi (regole STABILI — valgono sempre, non solo se te le ricordi):\n${righe.join("\n")}`;
 }
@@ -200,11 +205,38 @@ export function paroleChiave(testo = "") {
 export const PUNTI_MINIMI = 3;
 
 /**
+ * IL FRENO DI UNA LEZIONE — il comando che diventa rosso se quell'errore torna (AR-762).
+ *
+ * IL DIFETTO CHE CURA. Questa era l'unica riga di tutto il repo che leggeva `gate_attivo`: il
+ * sorvegliante, cancello-stop, contratto-prova e tasso-regole leggono tutti `l.gate`. E la porta
+ * ufficiale di scrittura — `lezione-nuova.mjs` — scrive `gate` e basta, `gate_attivo` non lo scrive
+ * mai. Quindi ogni lezione nata dalla porta arrivava al lavoro SENZA il suo freno, per un nome di
+ * campo. Misurato il 16/8 su 8 richieste tipiche: 52 righe di scheda servite, 11 appartenevano a
+ * lezioni con un freno vero, ne veniva mostrato 1. Le altre 10 erano prosa da leggere.
+ *
+ * `gate_attivo: false` invece è un segnale VERO e resta rispettato: vuol dire «il freno esiste ma
+ * non è ancora su main» (L-2026-0730-530) — mostrarlo manderebbe a lanciare un comando che non c'è.
+ * L'assenza del campo non è un no: è la forma normale di una lezione scritta dalla porta.
+ */
+export function frenoDi(lezione) {
+  if (!lezione || lezione.gate_attivo === false) return null;
+  const g = typeof lezione.gate === "string" ? lezione.gate.trim() : "";
+  return g || null;
+}
+
+/**
  * Le lezioni che parlano di QUESTA richiesta, in ordine di pertinenza.
  *
  * Punteggio: tag centrato = 3 (è la classificazione scritta a mano) · parola del prompt nel testo
  * = 1, con tetto a 4 (un testo lungo pesca somiglianze per caso) · correzione di Nicola già in
- * tema = +1 (le sue correzioni sono i casi-studio prioritari della casa, CLAUDE.md passo 6).
+ * tema = +1 (le sue correzioni sono i casi-studio prioritari della casa, CLAUDE.md passo 6) ·
+ * lezione già in tema che porta un FRENO = +2 (AR-762).
+ *
+ * Perché il freno vale il doppio della correzione: fra due lezioni ugualmente in tema, quella con
+ * un comando che può fallire cambia il lavoro, l'altra si legge e si dimentica. E perché il bonus
+ * si dà SOLO dopo la soglia, come quello di Nicola: darlo prima farebbe entrare nella scheda
+ * lezioni fuori tema per il solo fatto di avere un freno — cioè rumore, che è quello che spegne i
+ * freni veri.
  */
 export function lezioniSuMisura(richiesta = "", lezioni = [], max = 8) {
   const tema = new Set(paroleChiave(richiesta));
@@ -219,8 +251,10 @@ export function lezioniSuMisura(richiesta = "", lezioni = [], max = 8) {
     }
     const nelTesto = paroleChiave(l.testo).filter((w) => tema.has(w)).length;
     punti += Math.min(nelTesto, 4);
+    const freno = frenoDi(l);
     if (punti >= PUNTI_MINIMI && l.caso_studio_nicola) punti += 1;
-    if (punti >= PUNTI_MINIMI) fuori.push({ id: l.id, punti, nicola: Boolean(l.caso_studio_nicola), gate: l.gate_attivo ? l.gate : null, testo: l.testo });
+    if (punti >= PUNTI_MINIMI && freno) punti += 2;
+    if (punti >= PUNTI_MINIMI) fuori.push({ id: l.id, punti, nicola: Boolean(l.caso_studio_nicola), gate: freno, testo: l.testo });
   }
   return fuori
     .sort((a, b) => b.punti - a.punti || Number(b.nicola) - Number(a.nicola) || String(b.id).localeCompare(String(a.id)))

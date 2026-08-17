@@ -1847,7 +1847,7 @@
    "difetto": "AR-533",
    "nome": "la scheda smette di selezionare: nessuna lezione entra mai, il contesto torna generico",
    "file": "cervello/contesto-lezioni.mjs",
-   "cerca": "    if (punti >= PUNTI_MINIMI) fuori.push({ id: l.id, punti, nicola: Boolean(l.caso_studio_nicola), gate: l.gate_attivo ? l.gate : null, testo: l.testo });",
+   "cerca": "    if (punti >= PUNTI_MINIMI) fuori.push({ id: l.id, punti, nicola: Boolean(l.caso_studio_nicola), gate: freno, testo: l.testo });",
    "sostituisci": "",
    "test": "cervello/test/lezioni-su-misura.test.mjs"
   },
@@ -5082,6 +5082,15 @@
    "cerca": "REPO=\"${dir}\"; SCRIPT_DIR=\"${dir}\"",
    "sostituisci": "REPO=\"${dir}\"; SCRIPT_DIR=\"${join(REPO, \"cervello\")}\"",
    "test": "node cervello/test/lucchetto-che-non-si-libera.test.mjs"
+  },
+  {
+   "difetto": "AR-763 il-freno-che-non-arriva-al-lavoro",
+   "nome": "la scheda torna a leggere il campo che nessuno scrive: le lezioni arrivano al lavoro senza il comando che le fa rispettare",
+   "file": "cervello/contesto-lezioni.mjs",
+   "cerca": "  const g = typeof lezione.gate === \"string\" ? lezione.gate.trim() : \"\";",
+   "sostituisci": "  const g = typeof lezione.gate_attivo === \"string\" ? lezione.gate_attivo.trim() : \"\";",
+   "test": "node cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs",
+   "lezione": "L-2026-0816-01"
   }
  ]
 }

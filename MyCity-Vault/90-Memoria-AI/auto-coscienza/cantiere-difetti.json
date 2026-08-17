@@ -16105,6 +16105,43 @@
         "comando": "node cervello/test/lucchetto-che-non-si-libera.test.mjs",
         "nota": "Ripuntando SCRIPT_DIR al cervello vero il canale finto resta vuoto e due prove diventano rosse - verificato a mano."
       }
+    },
+    {
+      "id": "AR-763",
+      "stato": "aperto",
+      "dimensione": "apprendimento",
+      "gravita": "grave",
+      "titolo": "Le lezioni arrivano al lavoro senza il freno che le fa rispettare: un nome di campo le trasforma in prosa da leggere",
+      "causa_radice": "① Perche la scheda che parte a ogni richiesta non mostra il comando della lezione? Perche legge `l.gate_attivo`. ② Perche legge quel campo? Perche quando la scheda e nata (AR-533) l archivio marcava a mano le lezioni il cui freno era gia su main. ③ Perche quel campo non c e piu? Perche la porta ufficiale di scrittura (`lezione-nuova.mjs`, AR-651) e arrivata dopo e scrive `gate`, `gate_attivo` non lo scrive mai. ④ Perche non se ne e accorto nessuno? Perche un campo mancante non e un errore: `undefined` e falso, la riga esce senza il freno e senza un rumore. Era l unica riga di tutto il repo a leggere `gate_attivo` — sorvegliante, cancello-stop, contratto-prova e tasso-regole leggono tutti `gate`. Effetto: ogni lezione nata dalla porta era strutturalmente incapace di mostrare il proprio freno, e 44 lezioni su 69 che ne hanno uno non lo hanno mai mostrato.",
+      "fix_proposto": "🟡 (a) un solo posto che decide se una lezione ha un freno da mostrare (`frenoDi`), che legge `gate` e rispetta `gate_attivo:false` (= il freno esiste ma non e ancora su main); (b) usato da ENTRAMBE le porte che portano la memoria al lavoro — la scheda su misura e il blocco dei principi; (c) a parita di tema la lezione col freno sale di 2 punti, cosi in cima va cio che si puo eseguire — ma solo DOPO la soglia di pertinenza, o la scheda si riempie di roba fuori tema e si impara a scorrerla.",
+      "dove": "cervello/contesto-lezioni.mjs (lezioniSuMisura, bloccoPrincipi)",
+      "impatto_crescita": "e il difetto che spiega la frase di Nicola «la macchina non impara le lezioni»: il freno e l unica parte della lezione che cambia il comportamento, ed era proprio quella che non arrivava",
+      "nato": "2026-08-16 22:40",
+      "nato_come": "scoperta",
+      "nato_da": "richiesta di Nicola 16/8 «ripara il problema che la macchina non impara le lezioni» — misurato su 8 richieste tipiche: 52 righe di scheda servite, 11 di lezioni con un freno vero, 1 solo freno mostrato",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs"
+      },
+      "nota_fix": "Riparato in questo lotto. Misura prima/dopo sulle stesse richieste: freni mostrati 1 → tutti quelli serviti. Non-vacuita verificata due volte: a mano (4 casi su 8 rossi) e dal cancello (mutazione AR-763 in mutanti.json)."
+    },
+    {
+      "id": "AR-764",
+      "stato": "aperto",
+      "dimensione": "apprendimento",
+      "gravita": "medio",
+      "titolo": "Le lezioni che entrano in OGNI turno di chat vivono in un secondo archivio che non puo avere freni",
+      "causa_radice": "Gli archivi delle lezioni sono due e non si parlano. `apprendimento.json` e strutturato (id, tag, `gate`) e i suoi freni sono verificabili da gate-veri. `LEZIONI-CHAT.md` e prosa scritta a mano, 12 righe senza id e senza campo per il freno — e proprio quello e l archivio che il worker inietta in ogni turno di chat (le prime ~8 righe) e che `bloccoLezioni` mette in ogni avvio di sessione. Quindi la porta piu frequentata delle due e l unica dove un freno non puo nemmeno essere scritto: due righe su dodici citano un comando dentro il testo, a mano, e nessuno le verifica.",
+      "fix_proposto": "🟡 Da decidere fra due strade, non ancora scelta: (a) dare alle righe di LEZIONI-CHAT.md l id della lezione corrispondente in apprendimento.json, cosi il freno si cerca li e viaggia anche in chat; (b) generare LEZIONI-CHAT.md dall archivio strutturato invece di scriverlo a mano, e togliere del tutto il secondo archivio. La (b) chiude la malattia alla radice (una casa sola) ma tocca la metabolizzazione, quindi non entra nel lotto che ha riparato AR-762.",
+      "dove": "MyCity-Vault/90-Memoria-AI/LEZIONI-CHAT.md · cervello/contesto-lezioni.mjs (bloccoLezioni, --righe) · cervello/worker.sh",
+      "impatto_crescita": "e la stessa malattia di AR-763 sulla porta piu frequentata: la lezione arriva in chat come testo da leggere, non come comando che puo fallire",
+      "nato": "2026-08-16 23:05",
+      "nato_come": "trovato-riparando",
+      "nato_da": "secondo giro del lotto AR-763: cercando TUTTE le strade che portano una lezione al lavoro, non solo quella riparata",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Prova da scrivere insieme al fix: dipende da quale delle due strade si sceglie. Registrato senza prova invece che con un grep, che qui non frenerebbe niente (CLAUDE.md, l asticella)."
+      }
     }
   ],
   "meta": {
