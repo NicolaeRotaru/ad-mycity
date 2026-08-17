@@ -12,11 +12,11 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-17 08:34",
-      "esito": "non-pubblicato",
-      "codice": 2,
+      "quando": "2026-08-17 10:10",
+      "esito": "vincoli-attivi",
+      "codice": 3,
       "ai_rc": 0,
-      "push_ok": false,
+      "push_ok": true,
       "passi_ok": false,
       "vincoli_attivi": 10,
       "vincoli": [
@@ -73,5 +73,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-17 08:34"
+  "aggiornato": "2026-08-17 10:10"
 }
