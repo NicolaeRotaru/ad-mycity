@@ -967,7 +967,7 @@ Questa sezione non è scritta a mano: i numeri li conta `cervello/mappa-macchina
 
 | # | Parte | In una frase | Quanto è grande |
 | --- | --- | --- | --- |
-| 1 | 🖥️ **Il Pannello — la faccia** | Quello che vedi e dove firmi. | 240 file · 37.508 righe · 15 aree · 77 rotte |
+| 1 | 🖥️ **Il Pannello — la faccia** | Quello che vedi e dove firmi. | 240 file · 37.517 righe · 15 aree · 77 rotte |
 | 2 | 🦾 **Il worker e il VPS — le braccia** | L'unico pezzo che esegue davvero, 24 ore su 24. | 1823 righe · 14 servizi · 12 timer |
 | 3 | 🧠 **L'AD — la testa** | Chi decide, delega e scrive in memoria. | mansionario di 482 righe · giro di 1871 righe · 19 manuali |
 | 4 | 👥 **I senior — la squadra** | Gli specialisti a cui l'AD passa il lavoro invece di farlo tutto lei. | 120 senior · 125 quaderni di memoria |
@@ -1012,7 +1012,7 @@ Un'app web che **non decide niente**: mostra quello che la macchina ha scritto e
 | `report` *(scorciatoia)* | Vecchia area dei report — resta come scorciatoia: oggi i report vivono in Memoria/Archivio. |
 | `storico` *(scorciatoia)* | Vecchia area dello storico — resta come scorciatoia: oggi lo storico vive dentro Memoria. |
 
-> 📁 Dove: `pannello/` — ospitato su Vercel · 📏 Quanto: 240 file · 37.508 righe · 15 aree · 77 rotte
+> 📁 Dove: `pannello/` — ospitato su Vercel · 📏 Quanto: 240 file · 37.517 righe · 15 aree · 77 rotte
 
 ### 2. 🦾 Il worker e il VPS — le braccia
 
