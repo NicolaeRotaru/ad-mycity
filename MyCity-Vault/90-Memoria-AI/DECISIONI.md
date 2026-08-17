@@ -1956,3 +1956,41 @@ usata» si registra ancora a mano (`tasso-lezioni.mjs applica`) — l'ultima mar
 AR-051, aperto. Questo lotto fa arrivare il freno; non prova che venga tirato.
 
 **Stato:** 🟡 lotto consegnato, merge di Nicola.
+
+## 2026-08-17 11:45 — 🟡 Ottantotto regole promosse, otto consegnate (AR-765)
+
+**Origine:** Nicola, 17/8: «come mai la macchina non ha ancora imparato le 500 lezioni?».
+
+**Cosa ho trovato contando, invece di rispondere.** La catena dell'apprendimento ha tre anelli e il
+secondo era rotto. ① Delle 522 lezioni, 70 sono diventate un freno e 88 sono state promosse a
+principio. ② Ma i principi consegnati al lavoro erano **8 su 88**, scelti con `slice(0, 8)`
+sull'elenco così com'è scritto sul disco — per POSIZIONE, non per importanza. Tutti e otto promossi
+fra il 24 e il 26 luglio: le promozioni successive non le vedeva nessuno. ③ Il taglio era silenzioso:
+l'intestazione diceva «Principi (regole STABILI)» e sembrava l'elenco intero.
+
+**Il numero che avevo sbagliato, e la correzione.** Avevo detto a Nicola che «nessuno dei quattro
+principi col freno arrivava». Falso: ne arrivavano **due**. La prima misura l'avevo fatta sulla lista
+`principi` dell'archivio (voci-scheda senza testo) invece che su quella da cui il blocco pesca
+davvero. Il difetto resta — ottanta regole promosse non arrivavano mai — ma è più piccolo di come
+l'avevo raccontato, e la controprova l'ha trovato prima di me.
+
+**Cosa ho fatto (🟡, PR aperta):**
+- ordine per FORZA e non per posizione: chi porta un freno entra sempre, poi chi parla del lavoro di
+  adesso, poi il più recente (una regola promossa ieri descrive la macchina di oggi);
+- tetto da 8 a 12, e **dichiarato**: «12 dei 88 cristallizzati». Un taglio muto si legge come «ci
+  sono tutti», ed è la bugia più comoda che un blocco di contesto possa raccontare;
+- i principi in tema entrano anche nella scheda della singola richiesta, e **prima** delle lezioni:
+  un principio è una regola, una lezione è un episodio.
+
+**La prova:** `cervello/test/i-principi-che-non-arrivano-mai.test.mjs`, 7 casi. Rimettendo la scelta
+per posizione ne diventano rossi 4. Misura sull'archivio vero: principi col freno consegnati 2 su 4
+→ 4 su 4.
+
+**Quello che questo lotto NON risolve, e va detto.** Restano 452 lezioni senza freno e senza
+promozione: sono in gran parte fatti singoli e correzioni di giudizio, non errori di codice che si
+ripetono. Il conteggio «errori che si ripetono» le raggruppa per etichette-contenitore («nicola» sta
+su 308 lezioni) e per questo indica come «errore tornato 19 volte» un gruppo che, letto, contiene
+dodici cose diverse. Prossimo passo proposto a Nicola: smistarle in tre case — fatti nel registro
+(iniettato sempre), regole di comportamento fra i principi, tecniche verificabili in un freno.
+
+**Stato:** 🟡 lotto consegnato, merge di Nicola.

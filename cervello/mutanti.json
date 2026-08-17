@@ -5091,6 +5091,15 @@
    "sostituisci": "  const g = typeof lezione.gate_attivo === \"string\" ? lezione.gate_attivo.trim() : \"\";",
    "test": "node cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs",
    "lezione": "L-2026-0816-01"
+  },
+  {
+   "difetto": "AR-765 i-principi-che-non-arrivano-mai",
+   "nome": "i principi tornano a essere scelti per posizione nel file: ottanta regole promosse non arrivano piu a nessun lavoro",
+   "file": "cervello/contesto-lezioni.mjs",
+   "cerca": "    .sort((a, b) => b.punti - a.punti || quando(b.p).localeCompare(quando(a.p)) || a.i - b.i)",
+   "sostituisci": "    .sort(() => 0)",
+   "test": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs",
+   "lezione": "L-2026-0817-01"
   }
  ]
 }

@@ -38,7 +38,7 @@ import { test } from "node:test";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { frenoDi, lezioniSuMisura, righeDeiPrincipi } from "../contesto-lezioni.mjs";
+import { MAX_PRINCIPI, frenoDi, lezioniSuMisura, righeDeiPrincipi } from "../contesto-lezioni.mjs";
 
 const REPO = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const ARCHIVIO = join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json");
@@ -190,7 +190,7 @@ test("⑦ il principio col freno non ancora su main resta muto anche qui", () =>
   assert.doesNotMatch(righe[0], /freno/);
 });
 
-test("⑦ le due forme dell'archivio reggono entrambe, e il tetto di 8 tiene", () => {
+test("⑦ le due forme dell'archivio reggono entrambe, e il tetto tiene", () => {
   // forma vecchia: principi come stringhe
   assert.deepEqual(righeDeiPrincipi({ principi: ["una regola secca"] }), ["- una regola secca"]);
 
@@ -205,8 +205,11 @@ test("⑦ le due forme dell'archivio reggono entrambe, e il tetto di 8 tiene", (
   assert.equal(righe.length, 1, "solo le lezioni promosse a principio");
   assert.match(righe[0], /la regola vera · freno: `node cervello\/test\/y\.test\.mjs`/);
 
+  // Il tetto vive in MAX_PRINCIPI, non in un numero copiato qui: quando è stato alzato da 8 a 12
+  // (AR-765) questo caso è diventato rosso, ed è servito — ma un secondo numero scritto a mano è
+  // solo un altro posto da tenere allineato.
   const tante = righeDeiPrincipi({ principi: Array.from({ length: 20 }, (_, i) => `regola ${i}`) });
-  assert.equal(tante.length, 8, "il blocco resta corto: otto righe, non venti");
+  assert.equal(tante.length, MAX_PRINCIPI, "il blocco resta corto: non venti righe");
 
   assert.deepEqual(righeDeiPrincipi({}), [], "un archivio senza principi non produce righe, e non rompe");
   assert.deepEqual(righeDeiPrincipi(null), []);

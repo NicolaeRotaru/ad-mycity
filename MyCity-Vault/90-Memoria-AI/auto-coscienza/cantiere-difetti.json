@@ -16145,6 +16145,25 @@
         "tipo": "umano",
         "nota": "Prova da scrivere insieme al fix: dipende da quale delle due strade si sceglie. Registrato senza prova invece che con un grep, che qui non frenerebbe niente (CLAUDE.md, l asticella)."
       }
+    },
+    {
+      "id": "AR-765",
+      "stato": "aperto",
+      "dimensione": "apprendimento",
+      "gravita": "grave",
+      "titolo": "Ottantotto regole promosse, otto consegnate: i principi si sceglievano per posizione nel file",
+      "causa_radice": "① Perche una regola promossa non arriva al lavoro? Perche il blocco fa `slice(0, 8)` sull elenco. ② Perche otto? Perche il blocco e nato quando i principi erano quattro e il taglio non tagliava niente. ③ Perche sono diventati ottantotto senza che il taglio cambiasse? Perche `cristallizza` promuove e il blocco consegna, e nessuno dei due misura quanti ne restano fuori. ④ Perche nessuno se n e accorto? Perche il taglio e SILENZIOSO: l intestazione diceva «Principi (regole STABILI)» e sembrava l elenco intero. Misurato il 17/8: 88 cristallizzati, 8 consegnati, tutti e otto promossi fra il 24 e il 26 luglio — le promozioni successive non le vedeva nessuno. Dei quattro principi che portano un freno ne arrivavano due.",
+      "fix_proposto": "🟡 (a) ordinare per FORZA e non per posizione: chi porta un freno entra sempre (+100), poi chi parla del lavoro di adesso, poi il piu recente; (b) alzare il tetto da 8 a 12 e DICHIARARLO nell intestazione («12 dei 88»), perche un taglio muto si legge come «ci sono tutti»; (c) portare i principi in tema anche nella scheda della singola richiesta, prima delle lezioni: un principio e una regola, una lezione e un episodio.",
+      "dove": "cervello/contesto-lezioni.mjs (principiOrdinati, righeDeiPrincipi, intestazionePrincipi, principiSulTema)",
+      "impatto_crescita": "e il secondo anello della catena che fa dire a Nicola «la macchina non impara»: le poche lezioni che DIVENTANO regola poi non arrivano al lavoro, quindi promuoverle non cambiava niente",
+      "nato": "2026-08-17 11:40",
+      "nato_come": "scoperta",
+      "nato_da": "domanda di Nicola 17/8 «come mai la macchina non ha ancora imparato le 500 lezioni?» — contando cosa arriva davvero al lavoro invece di quanto e scritto in archivio",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs"
+      },
+      "nota_fix": "Riparato in questo lotto. Misura prima/dopo sull archivio vero: principi col freno consegnati 2 su 4 → 4 su 4; tetto 8 → 12 dichiarato in intestazione. Non-vacuita verificata: rimettendo la scelta per posizione, 4 casi su 7 diventano rossi."
     }
   ],
   "meta": {
