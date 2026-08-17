@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-17 16:28",
+ "aggiornato": "2026-08-17 17:18",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11767,6 +11767,14 @@
    "testo": "La memoria arrivava al lavoro senza la parte che cambia il comportamento. La scheda che parte a ogni richiesta leggeva un campo (gate_attivo) che la porta ufficiale di scrittura non scrive mai: 44 lezioni su 69 con un freno vero non lo hanno mai mostrato, e su 8 richieste tipiche i freni serviti erano 1 su 11. Le lezioni si leggevano come prosa e si dimenticavano.",
    "regola": "Quando la macchina porta una lezione dentro un lavoro, deve portarci il COMANDO che la fa rispettare, non solo il testo: chi legge un dato scritto da un altro pezzo legge il campo che quel pezzo scrive davvero, e a parita di tema vince la lezione che si puo eseguire.",
    "gate": "node cervello/test/il-freno-che-non-arriva-al-lavoro.test.mjs"
+  },
+  {
+   "id": "L-2026-0817-01",
+   "data": "2026-08-17 17:18",
+   "fonte": "domanda di Nicola 2026-08-17: «come mai la macchina non ha ancora imparato le 500 lezioni?»",
+   "testo": "Promuovere una lezione a principio non bastava: dei 88 principi cristallizzati ne arrivavano 8 al lavoro, scelti per posizione nel file. Le regole promosse dopo il 26 luglio non le vedeva nessuno, e dei quattro principi con un freno ne arrivavano due.",
+   "regola": "Ogni elenco di memoria che viene TAGLIATO prima di entrare in un lavoro deve ordinare per forza (prima cio che si puo eseguire, poi cio che parla del lavoro di adesso) e deve DICHIARARE il taglio: un taglio silenzioso si legge come «ci sono tutti».",
+   "gate": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs"
   }
  ],
  "principi": [

@@ -140,26 +140,68 @@ function leggiAppr() {
  * Due forme accettate, perché l'archivio le ha entrambe: `principi` come lista (voci-scheda che
  * spesso non portano il testo) e, se da lì non esce niente, le lezioni promosse a `principio`.
  */
-export function righeDeiPrincipi(dati) {
+export function principiDi(dati) {
   let pr = [];
   if (Array.isArray(dati?.principi))
     pr = dati.principi.map((p) => (typeof p === "string" ? { testo: p } : p?.testo ? p : null)).filter(Boolean);
   if (!pr.length && Array.isArray(dati?.lezioni))
     pr = dati.lezioni.filter((l) => l?.stato === "principio" && l.testo);
-  // AR-763: anche qui il freno viaggia col principio. Una regola stabile senza il comando che la
-  // fa rispettare è la stessa prosa di prima, solo promossa di grado.
-  return pr.slice(0, 8).map((p) => {
-    const freno = frenoDi(p);
-    return `- ${nucleoRegola(String(p.testo))}${freno ? ` · freno: \`${freno}\`` : ""}`;
-  });
+  return pr;
 }
 
-function bloccoPrincipi() {
+/** Quanti principi entrano nel blocco. Sopra questo numero il blocco smette di essere una regola e
+ *  diventa un capitolo: si legge in diagonale, ed è come non averlo. */
+export const MAX_PRINCIPI = 12;
+
+/**
+ * I principi in ORDINE DI FORZA, non di posizione nel file (AR-765).
+ *
+ * IL DIFETTO CHE CURA. Un principio è una lezione promossa: il grado più alto che questa casa dà a
+ * una regola. Ne erano stati promossi 88 e ne arrivavano 8 — i primi dell'array, cioè i più vecchi
+ * per come `cristallizza` scrive il file. Misurato il 17/8: gli 8 che arrivavano erano tutti del
+ * 24-26 luglio, e NESSUNO dei quattro che portano un freno era fra loro. Cioè: le regole che la
+ * macchina aveva dichiarato di aver imparato non le vedeva nessuno, e proprio le più forti — quelle
+ * con un comando che può fallire — erano tagliate fuori per un accidente di ordinamento.
+ *
+ * L'ORDINE, e il perché di ognuno:
+ *   · chi porta un FRENO va sempre dentro (+100): è l'unica parte che cambia il comportamento invece
+ *     di suggerirlo, e sono pochi — nell'archivio di oggi quattro su ottantotto;
+ *   · poi chi parla del lavoro di ADESSO (tag centrato +10, parola nel testo +1 con tetto 5);
+ *   · a pari punti, il più recente: una regola promossa ieri descrive la macchina di oggi.
+ */
+export function principiOrdinati(dati, richiesta = "") {
+  const quando = (p) => String(p?.promosso_il || p?.nato || "");
+  const punti = (p) => (frenoDi(p) ? 100 : 0) + punteggioTema(p, richiesta);
+  return principiDi(dati)
+    .map((p, i) => ({ p, i, punti: punti(p) }))
+    .sort((a, b) => b.punti - a.punti || quando(b.p).localeCompare(quando(a.p)) || a.i - b.i)
+    .map((x) => x.p);
+}
+
+export function righeDeiPrincipi(dati, richiesta = "", max = MAX_PRINCIPI) {
+  // AR-763: anche qui il freno viaggia col principio. Una regola stabile senza il comando che la
+  // fa rispettare è la stessa prosa di prima, solo promossa di grado.
+  return principiOrdinati(dati, richiesta)
+    .slice(0, max)
+    .map((p) => {
+      const freno = frenoDi(p);
+      return `- ${nucleoRegola(String(p.testo))}${freno ? ` · freno: \`${freno}\`` : ""}`;
+    });
+}
+
+/** L'intestazione dice quanti ne esistono e quanti ne sto mostrando: un taglio silenzioso si legge
+ *  come «ci sono tutti», ed è la bugia più comoda che un blocco di contesto possa raccontare. */
+export function intestazionePrincipi(totale, mostrati) {
+  if (mostrati >= totale) return "Principi (regole STABILI — valgono sempre, non solo se te le ricordi):";
+  return `Principi (regole STABILI — ${mostrati} dei ${totale} cristallizzati: prima quelli con un freno, poi quelli sul tema di adesso):`;
+}
+
+function bloccoPrincipi(richiesta = "") {
   const d = leggiAppr();
   if (!d) return null;
-  const righe = righeDeiPrincipi(d);
+  const righe = righeDeiPrincipi(d, richiesta);
   if (!righe.length) return null;
-  return `Principi (regole STABILI — valgono sempre, non solo se te le ricordi):\n${righe.join("\n")}`;
+  return `${intestazionePrincipi(principiDi(d).length, righe.length)}\n${righe.join("\n")}`;
 }
 
 // (0-ter) PREFERENZE DI NICOLA — «il segnale più prezioso» (il suo gusto/priorità). Finora vivevano SOLO
@@ -275,19 +317,67 @@ export function lezioniSuMisura(richiesta = "", lezioni = [], max = 8) {
 }
 
 /** Il blocco per l'hook UserPromptSubmit: la scheda su misura, o niente (il silenzio è la taratura). */
+/**
+ * I principi che parlano PROPRIO di questo lavoro (AR-765). Non tutti: solo quelli in tema, al
+ * massimo quattro. Un principio è la regola più stabile che ho — se ce n'è una su ciò che sto per
+ * fare, deve arrivare adesso, non restare in fondo a un elenco di ottantotto.
+ */
+export function principiSulTema(dati, richiesta, max = 4) {
+  if (!String(richiesta || "").trim()) return [];
+  // Si ordina per SOLO tema, senza il bonus del freno: altrimenti i quattro principi che un freno
+  // ce l'hanno entrerebbero qui a ogni richiesta, anche parlando d'altro, e la riga diventerebbe
+  // arredamento — la stessa malattia che la scheda cura con la soglia di pertinenza.
+  return principiDi(dati)
+    .map((p) => ({ p, punti: punteggioTema(p, richiesta) }))
+    .filter((x) => x.punti > 0)
+    .sort((a, b) => b.punti - a.punti)
+    .slice(0, max)
+    .map((x) => x.p);
+}
+
+/** Quanto un principio parla del tema della richiesta, SENZA il bonus del freno. */
+export function punteggioTema(p, richiesta) {
+  const tema = new Set(paroleChiave(richiesta));
+  if (!tema.size || !p) return 0;
+  let n = 0;
+  for (const t of Array.isArray(p.tag) ? p.tag : []) {
+    if (paroleChiave(String(t).replace(/-/g, " ")).some((w) => tema.has(w))) n += 10;
+  }
+  return n + Math.min(paroleChiave(p.testo).filter((w) => tema.has(w)).length, 5);
+}
+
 function bloccoSuMisura(richiesta) {
   const d = leggiAppr();
   if (!d || !Array.isArray(d.lezioni)) return null;
   const scelte = lezioniSuMisura(richiesta, d.lezioni);
-  if (!scelte.length) return null;
-  const righe = scelte.map(
-    (s) => `- [${s.id}]${s.nicola ? " (correzione di Nicola)" : ""} ${nucleoRegola(s.testo)}${s.gate ? ` · freno: \`${s.gate}\`` : ""}`,
-  );
-  return (
-    `🎯 LA SCHEDA PRIMA DI COMINCIARE — ${scelte.length} lezioni SUL TEMA di questa richiesta (pescate da ${d.lezioni.length} in memoria):\n` +
-    righe.join("\n") +
-    `\n(applicale nel lavoro che parte adesso: sono gli errori già pagati su questo tema.)`
-  );
+  const principi = principiSulTema(d, richiesta);
+  if (!scelte.length && !principi.length) return null;
+
+  const parti = [];
+  // AR-765: i principi in tema vanno PRIMA delle lezioni. Un principio è una regola già promossa e
+  // stabile; una lezione è un episodio. Se ce n'è uno su ciò che sto per fare, comanda lui.
+  if (principi.length) {
+    parti.push(
+      `📐 PRINCIPI SU QUESTO LAVORO (regole già promosse, valgono sempre):\n` +
+        principi
+          .map((p) => {
+            const freno = frenoDi(p);
+            return `- ${nucleoRegola(String(p.testo))}${freno ? ` · freno: \`${freno}\`` : ""}`;
+          })
+          .join("\n"),
+    );
+  }
+  if (scelte.length) {
+    const righe = scelte.map(
+      (s) => `- [${s.id}]${s.nicola ? " (correzione di Nicola)" : ""} ${nucleoRegola(s.testo)}${s.gate ? ` · freno: \`${s.gate}\`` : ""}`,
+    );
+    parti.push(
+      `🎯 LA SCHEDA PRIMA DI COMINCIARE — ${scelte.length} lezioni SUL TEMA di questa richiesta (pescate da ${d.lezioni.length} in memoria):\n` +
+        righe.join("\n") +
+        `\n(applicale nel lavoro che parte adesso: sono gli errori già pagati su questo tema.)`,
+    );
+  }
+  return parti.join("\n\n");
 }
 
 // (3) Esito del guardiano di coerenza (se ci sono copie vecchie in giro, dillo).
