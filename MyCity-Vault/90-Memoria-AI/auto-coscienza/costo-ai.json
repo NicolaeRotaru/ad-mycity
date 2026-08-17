@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-08-17 14:26",
+  "aggiornato": "2026-08-17 15:28",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
     "data": "2026-08-17",
-    "runs": 36,
+    "runs": 38,
     "token_totali": 0,
-    "durata_sec_totale": 12796,
+    "durata_sec_totale": 13376,
     "voci": [
       {
         "quando": "2026-08-17 00:06",
@@ -295,10 +295,26 @@
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-17 14:35",
+        "tipo": "giro",
+        "durata_sec": 528,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-17 15:28",
+        "tipo": "worker-analisi",
+        "durata_sec": 52,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
       }
     ],
-    "token_stimati": 1935000,
-    "token_per_gate": 1935000,
+    "token_stimati": 2035000,
+    "token_per_gate": 2035000,
     "token_fonte": "misura"
   },
   "storico_giorni": [
@@ -570,21 +586,13 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 1390000,
-    "runs_sessione": 27,
+    "token_sessione_rolling": 1440000,
+    "runs_sessione": 28,
     "finestra_min": 360,
     "voci_illeggibili": 0,
-    "aggiornato": "2026-08-17 14:26"
+    "aggiornato": "2026-08-17 15:28"
   },
   "voci_recenti": [
-    {
-      "quando": "2026-08-17 08:34",
-      "tipo": "giro",
-      "durata_sec": 486,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
     {
       "quando": "2026-08-17 10:10",
       "tipo": "giro",
@@ -789,6 +797,22 @@
       "quando": "2026-08-17 14:21",
       "tipo": "worker-analisi",
       "durata_sec": 27,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-17 14:35",
+      "tipo": "giro",
+      "durata_sec": 528,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-17 15:28",
+      "tipo": "worker-analisi",
+      "durata_sec": 52,
       "token": 50000,
       "modello": "claude",
       "stima_grezza": true
