@@ -90,6 +90,12 @@ export const ESENZIONI = {
   // deve rilanciarlo e leggerne l'esito, ed è il cancello stesso a pretenderlo (uscita ≠ 0 finché
   // non gira intero). L'esenzione vale per il gesto di fermare, non per la misura che salta.
   TaskStop: "ferma un processo di questa sessione: non scrive nel repo e non tocca il mondo. Se ferma un guardiano, la misura che salta la ripretende il cancello, che resta rosso finché non gira intero",
+  // Trovato dal cancello il 17/8, lavorando al PLAYBOOK Istituzioni (verifica bandi locali). Cercare
+  // sul web è sola lettura verso l'esterno, come Read/Grep lo sono verso il repo: non scrive nel
+  // repo né cambia lo stato di MyCity. Il punto vero da sorvegliare non è la ricerca in sé ma cosa
+  // FACCIO col risultato (un fatto in registro-fatti.json, un testo in una mail) — e quello passa
+  // dalle guardie di sempre (coerenza-fatti, cancello-senior, ecc.), non da questa mappa.
+  WebSearch: "cerca sul web: sola lettura verso l'esterno, non scrive nel repo né tocca il mondo. Le mosse che FACCIO col risultato le guardano le guardie di sempre",
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
