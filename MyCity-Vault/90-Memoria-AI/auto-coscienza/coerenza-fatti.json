@@ -1,10 +1,10 @@
 {
-  "data": "2026-08-17 12:27",
+  "data": "2026-08-17 13:11",
   "esito": "non_verificato",
   "copertura": 0,
-  "origine": "cloud",
+  "origine": "locale",
   "scritto_da": "coerenza-fatti.mjs",
-  "fatti_totali": 38,
+  "fatti_totali": 39,
   "cacce_aperte": 0,
   "file_scansionati": 0,
   "incoerenze": [],
