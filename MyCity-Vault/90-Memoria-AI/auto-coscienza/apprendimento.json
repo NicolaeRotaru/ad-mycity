@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-17 16:17",
+ "aggiornato": "2026-08-17 16:28",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -1500,14 +1500,15 @@
     "marketplace"
    ],
    "reparto": "@trust-safety",
-   "confidenza": 0.9,
+   "confidenza": 0.75,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-20",
    "ultima_conferma": "2026-07-20 14:45",
    "stato": "attiva",
-   "usi": []
+   "usi": [],
+   "decaduto_step_il": "2026-08-17 16:28"
   },
   {
    "id": "L-2026-0720-394",
@@ -13416,12 +13417,12 @@
   "promosse_a_principio": 88,
   "decadute": 0,
   "tasso_applicazione": 0.11,
-  "tasso_calcolato_il": "2026-08-17 16:17",
+  "tasso_calcolato_il": "2026-08-17 16:28",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-17 16:17",
+  "tick_leggero_il": "2026-08-17 16:27",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-17 14:26",
+  "cristallizzazione_ultima": "2026-08-17 16:28",
   "lezioni_totali": 522,
   "lezioni_per_stato": {
    "attiva": 416,

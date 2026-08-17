@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-17 14:25** — Automatico: **77 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-17 16:27** — Automatico: **77 aperte · 8 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -1326,7 +1326,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-17 14:25)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-17 16:27)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-17-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1338,7 +1338,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-17 14:25 · 8 card totali
+> Ultima pulizia: 2026-08-17 16:27 · 8 card totali
 
 ### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 
@@ -1622,3 +1622,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 116 | 2026-08-17 06:31 | @ad | Non riesco più ad aprire un esperimento vero senza ripetere lo stesso fallimento tre volte | 🟡 | `esperimenti-check.mjs` chiede da 3 giri di fila di aprirne uno nuovo (AR-041: "nessun esperimento aperto, il ciclo osserva→impara non misura mai nulla"). Ma l'unico ambito che conta oggi — il primo ordine pagato — è già stato provato tre volte di fila (EXP-013, EXP-014, EXP-015) e tutte e tre sono finite "mancata" per lo stesso identico motivo: siamo dentro la pausa concordata con te fino al 24/8-1/9, quindi nessun contatto nuovo può partire e l'esito è scontato prima ancora di aprire l'esperimento. Aprirne un 4° sullo stesso KPI produrrebbe solo una 4ª misura fallita, non un imparare vero. | manuale | in attesa | Finché resta così, il controllo continuerà a segnare rosso ogni giro fino al 24/8, anche se la macchina si sta comportando bene (rispettando la pausa che hai chiesto tu). | Dimmi se preferisci: ① lascio il controllo rosso fino alla ripresa (24/8-1/9), sapendo perché; ② mi indichi un ambito diverso da quello del primo ordine — non bloccato dalla pausa — su cui aprire un esperimento vero questa settimana (es. leggibilità dei testi, tempo di risposta della coda). |
 | 117 | 2026-08-17 10:22 | @ad | Oggi ho fatto lo stesso giro circa 26 volte, e voglio sapere se va bene così | 🟡 | Dalla mezzanotte a adesso ho eseguito circa 26 passaggi di giro completo in chat. Tutti finiscono sullo stesso risultato. Il business è fermo dal 24 giugno. Siamo dentro la pausa che mi hai chiesto tu, fino al 24/8-1/9. Ogni passaggio controlla comunque i sensori dal vivo: non è un dato vecchio ripetuto a pappagallo. Ma non trova niente di nuovo da fare, perché la pausa è fatta apposta così. Nel frattempo la quota AI di questa sessione è salita all'83%. La macchina è già passata in modalità risparmio, vedi la card #113. | manuale | in attesa (solo informativa, nessuna firma richiesta) | Ogni nuova richiesta di giro consuma quota AI per confermare una cosa già confermata poco prima. Non cambia il business. Accelera solo l'arrivo del limite della sessione. | Dimmi quale preferisci. Primo: continuo a rispondere a ogni richiesta di giro con una verifica lampo, come sto facendo ora — sensori e coerenza dati, niente riscritture pesanti. Secondo: se l'ultimo passaggio ha meno di un'ora ed è tutto invariato, rispondo con un richiamo breve al briefing di prima, invece di aprirne uno nuovo. |
 | 118 | 2026-08-17 13:10 | @tech | Merge PR #753 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/753 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 119 | 2026-08-17 16:33 | @tech | I test del cervello dicono no da tre giri di fila, e da qui in chat non riesco più a rilanciarli | 🟡 | `test-cervello.mjs` è entrato nell'elenco dei controlli "cronici" (AR-687: rosso da ≥3 giri senza mai essere riparato). Non riesco a verificarlo dal vivo in questa sessione: il comando resta fuori dall'elenco esatto dei programmi ammessi (stesso buco della card #104/#42), quindi ogni tentativo viene respinto prima ancora di girare. Quello che vedo indirettamente da `ci-stato.mjs` è coerente: le 5 PR aperte oggi (#754, #753, #749, #741, #735) falliscono tutte anche su "test-del-cervello", ognuna per colpa propria (non ereditata da `main`) — cinque rami diversi che rompono lo stesso controllo è il segnale che il problema non è un caso isolato. | manuale | in attesa | Finché resta rosso e non verificabile da qui, nessuna delle 5 PR di codice-macchina può dirsi davvero pronta al merge, anche quando sembra a posto: il cancello di serietà (CLAUDE.md) vieta di dichiarare "fatto" con i test rossi. | Applicando la card #104 (le 5 righe di permesso mancanti) sblocco `test-cervello.mjs` da qui e lo rilancio nello stesso giro in cui la card viene approvata; altrimenti serve una sessione dal VPS che lo rilanci e riporti l'esito. |
