@@ -16185,6 +16185,24 @@
         "comando": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs"
       },
       "nota_fix": "Riparato in questo lotto. Prima: «0 decadute — il decadimento non gira». Adesso: «0 decadute, ma il decadimento GIRA: 323 passi negli ultimi 14 giorni, la piu vicina alla soglia e a confidenza 0.33». Non-vacuita verificata: dichiarando sempre fermo, 2 casi su 6 diventano rossi."
+    },
+    {
+      "id": "AR-767",
+      "stato": "aperto",
+      "dimensione": "apprendimento",
+      "gravita": "minore",
+      "titolo": "Su un filo di chat che ha toccato molti argomenti la scheda si annacqua: pesa tutto il testo allo stesso modo",
+      "causa_radice": "La scheda misura la pertinenza sul testo INTERO della richiesta, con lo stesso peso dalla prima all ultima parola. In chat pero la richiesta e l intera conversazione: se il filo ha toccato molti temi diversi, il vocabolario si allarga e le lezioni che vincono sono quelle che pescano piu parole a caso, non quelle sull ultima cosa chiesta. Misurato il 17/8 con una conversazione vera ripetuta fino a 8.790 byte: nessun degrado (5 freni a ogni lunghezza, perche il vocabolario resta lo stesso). Con 4.000 parole di argomenti mescolati: 11 righe e ZERO freni. Il rischio quindi non e la lunghezza in se, e la varieta di argomenti dentro lo stesso filo.",
+      "fix_proposto": "🟡 Da valutare, non ancora scelto: pesare di piu la CODA del testo (l ultimo messaggio e quello a cui Nicola sta rispondendo adesso), oppure limitare la finestra agli ultimi N caratteri quando la richiesta supera una soglia. Serve una misura prima: quanto sono lunghi e quanto sono vari i fili di chat veri, che da qui non si vedono.",
+      "dove": "cervello/contesto-lezioni.mjs (lezioniSuMisura, principiSulTema)",
+      "impatto_crescita": "tocca la porta che Nicola usa di piu: se il filo e lungo e ha girato per molti temi, le regole che gli arrivano possono essere quelle sbagliate",
+      "nato": "2026-08-17 20:35",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo di fine lotto su AR-764: ho provato la scheda col caso grosso (una conversazione intera invece di una frase) invece di fermarmi al caso comodo",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Prova da scrivere insieme al fix: dipende da quale strada si sceglie, e prima serve una misura sui fili di chat veri (lunghezza e varieta), che da una sessione cloud non si vedono."
+      }
     }
   ],
   "meta": {
