@@ -2,29 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-12T21:08:47.940Z",
-      "scatti": 4602,
-      "voci": 9,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 6
-      },
-      "mai_risolte": [
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/test/test-cervello.test.mjs», che è la prova che deve diventare rossa per AR-450",
-          "ripetuta": 176
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/test/risposta-senza-rumore.test.mjs», che è il freno della lezione L-2026-0810-03",
-          "ripetuta": 15
-        }
-      ]
-    },
-    {
       "quando": "2026-08-12T21:15:54.819Z",
       "scatti": 4633,
       "voci": 9,
@@ -2431,7 +2408,19 @@
         "riparazione-parziale": 1
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-17T12:33:01.693Z",
+      "scatti": 11815,
+      "voci": 209,
+      "per_classe": {
+        "soglia-allentata": 4,
+        "difesa-rimossa": 201,
+        "prova-accecata": 3,
+        "riparazione-parziale": 1
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-17T12:21:44.243Z"
+  "aggiornato": "2026-08-17T12:33:01.694Z"
 }
