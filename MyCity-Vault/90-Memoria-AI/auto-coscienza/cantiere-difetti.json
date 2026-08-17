@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-17 06:38",
+  "aggiornato": "2026-08-17 09:45",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16086,6 +16086,25 @@
         "nota": "Serve un repo finto con due storie divergenti e un remoto scrivibile: da questa sessione non ho un remoto su cui provare il push del ramo di salvataggio. Debito dichiarato: il fix non si scrive finche non si puo provare."
       },
       "nota_rinumerazione": "Nato come AR-757, rinumerato il 16/8 alle 19:50: quel numero se l era gia preso un altro difetto arrivato su main mentre lavoravo."
+    },
+    {
+      "id": "AR-762",
+      "stato": "chiuso",
+      "dimensione": "trovato-riparando",
+      "gravita": "grave",
+      "titolo": "I test scrivevano nel canale dei segnali VERO, e la Cabina mostrava i loro numeri finti come se fossero la macchina",
+      "causa_radice": "Le scene di lucchetto-che-non-si-libera.test.mjs puntavano SCRIPT_DIR alla cartella cervello/ vera. Da li cadenza_lock e cadenza_sync_attendi prendono il modulo che scrive i segnali - quello di produzione, con le chiavi vere. Cosi ogni corsa dei test sul server scriveva su impostazioni «lucchetto orfano da 300 minuti rimosso da solo» e «lucchetto git occupato oltre 1s»: numeri inventati dentro il test, messi accanto ai segnali veri e indistinguibili da quelli. Il 16/8 alle 22:20 ho letto quei due segnali e ho detto a Nicola che la cura era scattata sul campo. Non era vero: era il test che si guardava allo specchio. Il lucchetto vero in quel momento aveva 524 minuti, non 300, e quella cifra sbagliata e stata l unico indizio. Il danno non e il file sporco: e che una prova puo fabbricare la propria conferma, e chi legge non ha modo di accorgersene.",
+      "fix_fatto": "Le scene montano un canale FINTO dentro la loro cartella temporanea (un git-github.mjs che scrive su file) e ci puntano SCRIPT_DIR. Nessun segnale puo piu uscire verso la produzione. In piu l asserzione diventa piu forte: i test ora PRETENDONO di trovare il segnale nel canale finto, quindi se qualcuno ripunta SCRIPT_DIR al cervello vero il file resta vuoto e due prove diventano rosse.",
+      "dove": "cervello/test/lucchetto-che-non-si-libera.test.mjs (canaleFinto)",
+      "impatto_crescita": "falsifica la Cabina, che e il posto dove Nicola guarda se la macchina sta bene: un segnale finto letto come vero porta a decisioni sbagliate",
+      "nato": "2026-08-16 23:35",
+      "nato_come": "scoperta",
+      "chiuso": "2026-08-16 23:40",
+      "nato_da": "controllo programmato: il segnale diceva 300 minuti mentre il lucchetto vero ne aveva 524",
+      "verifica": {
+        "comando": "node cervello/test/lucchetto-che-non-si-libera.test.mjs",
+        "nota": "Ripuntando SCRIPT_DIR al cervello vero il canale finto resta vuoto e due prove diventano rosse - verificato a mano."
+      }
     }
   ],
   "meta": {

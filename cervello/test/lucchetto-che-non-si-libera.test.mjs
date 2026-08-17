@@ -22,7 +22,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { execFileSync, spawnSync } from "node:child_process";
-import { mkdtempSync, rmSync, writeFileSync, existsSync } from "node:fs";
+import { mkdtempSync, rmSync, writeFileSync, readFileSync, existsSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -115,15 +115,44 @@ test("il motore parte senza portarsi dietro i lucchetti", () => {
 // una», cioè una nota informativa. Informativa vuol dire che nessuno la guarda. Un giro dura al
 // massimo poco più di un'ora — oltre le due, quel lucchetto non è una cadenza viva.
 
+/**
+ * Mette un canale dei segnali FINTO dentro `dir` e torna dove finiranno i segnali.
+ *
+ * ⚠️ PERCHÉ ESISTE, e costa poco impararlo: fino al 16/8 queste scene puntavano `SCRIPT_DIR` alla
+ * cartella `cervello/` VERA. `cadenza_lock` e `cadenza_sync_attendi` da lì prendono il modulo che
+ * scrive i segnali — quello vero, con le chiavi di produzione. Risultato: ogni corsa dei test sul
+ * server scriveva in Cabina «lucchetto orfano da 300 minuti rimosso da solo» e «lucchetto git
+ * occupato oltre 1s», cioè i numeri finti di QUESTO file, accanto ai segnali veri della macchina.
+ * Il 16/8 alle 22:20 quei due segnali mi hanno fatto dire a Nicola che la cura era scattata sul
+ * campo: non era vero, era il test che si guardava allo specchio. Il lucchetto vero in quel momento
+ * aveva 524 minuti, non 300 — la cifra sbagliata era l'unico indizio.
+ *
+ * Un test che scrive nel canale che il Pannello legge non è un test: è un guasto che si traveste da
+ * prova. E il canale finto rende anche l'asserzione più forte, perché il segnale si OSSERVA.
+ */
+function canaleFinto(dir) {
+  const segnali = join(dir, "segnali.txt");
+  writeFileSync(
+    join(dir, "git-github.mjs"),
+    `import { appendFileSync } from "node:fs";
+export async function stampSegnale(canale, stato, messaggio) {
+  appendFileSync(${JSON.stringify(segnali)}, JSON.stringify({ canale, stato, messaggio }) + "\\n");
+}
+`
+  );
+  return segnali;
+}
+
 /** Prende il lucchetto e ci scrive dentro una data vecchia, poi prova a prenderlo di nuovo. */
 function scenaLucchettoVecchioDi(minuti) {
   const dir = mkdtempSync(join(tmpdir(), "lucchetto-eta-"));
   try {
+    const segnali = canaleFinto(dir);
     const scena = join(dir, "scena.sh");
     writeFileSync(
       scena,
       `#!/usr/bin/env bash
-REPO="${dir}"; SCRIPT_DIR="${join(REPO, "cervello")}"
+REPO="${dir}"; SCRIPT_DIR="${dir}"
 mkdir -p "$REPO/.git"
 ts() { date '+%Y-%m-%d %H:%M:%S'; }
 . "${LIB}"
@@ -136,7 +165,10 @@ cadenza_lock giro; echo "RC=$?"
       { mode: 0o755 }
     );
     const r = spawnSync("bash", [scena], { encoding: "utf8", timeout: 30_000 });
-    return { out: `${r.stdout || ""}${r.stderr || ""}` };
+    return {
+      out: `${r.stdout || ""}${r.stderr || ""}`,
+      segnali: existsSync(segnali) ? readFileSync(segnali, "utf8") : "",
+    };
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
@@ -170,13 +202,17 @@ test("un lucchetto di ore è dichiarato orfano, e il blocco esce dalla macchina"
 // (altrimenti due cadenze scrivono lo stesso vault, che è il danno da cui nasce tutto il lucchetto).
 
 test("dopo averlo dichiarato orfano, il lucchetto lo rompe e la cadenza riparte", { skip: !haFlock && "flock assente" }, () => {
-  const { out } = scenaLucchettoVecchioDi(300);
+  const { out, segnali } = scenaLucchettoVecchioDi(300);
   assert.match(
     out,
     /RC=0/,
     "riconoscere l'orfano e poi uscire lascia la macchina ferma: dopo la diagnosi il lucchetto va rotto e la cadenza deve partire"
   );
   assert.match(out, /lucchetto orfano rimosso/, "e la ripartenza va detta, altrimenti sei ore di blocco spariscono dai log");
+  // Il segnale deve finire nel canale FINTO. Se questa riga diventa rossa vuol dire che la scena è
+  // tornata a puntare al `cervello/` vero, e allora i numeri inventati di questo file (300 minuti)
+  // stanno di nuovo comparendo in Cabina come se fossero la macchina — è successo il 16/8.
+  assert.match(segnali, /cadenza-giro/, "il segnale va nel canale finto del test, MAI in quello che legge il Pannello");
 });
 
 // ── L'ALTRO LUCCHETTO: quello che non gridava nemmeno ────────────────────────
@@ -189,6 +225,7 @@ test("dopo averlo dichiarato orfano, il lucchetto lo rompe e la cadenza riparte"
 function scenaSyncOccupato({ occupato }) {
   const dir = mkdtempSync(join(tmpdir(), "sync-lock-"));
   try {
+    const segnali = canaleFinto(dir);
     const scena = join(dir, "scena.sh");
     const tieni = occupato
       ? `( exec 7>"$REPO/.git/mycity-sync.lock"; flock 7; sleep 6 ) & HOLDER=$!\nsleep 1`
@@ -196,7 +233,7 @@ function scenaSyncOccupato({ occupato }) {
     writeFileSync(
       scena,
       `#!/usr/bin/env bash
-REPO="${dir}"; SCRIPT_DIR="${join(REPO, "cervello")}"
+REPO="${dir}"; SCRIPT_DIR="${dir}"
 mkdir -p "$REPO/.git"
 ts() { date '+%Y-%m-%d %H:%M:%S'; }
 . "${LIB}"
@@ -209,24 +246,28 @@ exit 0
       { mode: 0o755 }
     );
     const r = spawnSync("bash", [scena], { encoding: "utf8", timeout: 30_000 });
-    return `${r.stdout || ""}${r.stderr || ""}`;
+    return {
+      out: `${r.stdout || ""}${r.stderr || ""}`,
+      segnali: existsSync(segnali) ? readFileSync(segnali, "utf8") : "",
+    };
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
 }
 
 test("il lucchetto git che non arriva smette di essere un silenzio", { skip: !haFlock && "flock assente" }, () => {
-  const out = scenaSyncOccupato({ occupato: true });
+  const { out, segnali } = scenaSyncOccupato({ occupato: true });
   assert.match(out, /RC=1/, "se il lucchetto git non si prende, il turno non pubblica: va detto al chiamante");
   assert.match(
     out,
     /NON viene pubblicata/,
     "dieci minuti persi senza una riga sono indistinguibili da un giro andato bene: il fatto deve uscire dalla macchina"
   );
+  assert.match(segnali, /sync-giro/, "e il segnale resta nel canale finto: «occupato oltre 1s» in Cabina è il test, non la macchina");
 });
 
 test("col lucchetto git libero la cadenza tira dritto senza rumore", { skip: !haFlock && "flock assente" }, () => {
-  const out = scenaSyncOccupato({ occupato: false });
+  const { out } = scenaSyncOccupato({ occupato: false });
   assert.match(out, /RC=0/, "il caso normale deve restare normale");
   assert.doesNotMatch(out, /NON viene pubblicata/, "gridare quando va tutto bene insegna a ignorare il grido");
 });
