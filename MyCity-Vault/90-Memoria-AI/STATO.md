@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-08-17 06:31
+aggiornato: 2026-08-17 08:28
 fonte: AD digitale (chat)
 ---
+
+> 🔁 **17/8 08:28 — Giro completo richiesto in chat, ~2h dopo il passaggio 06:31. Business invariato, un buco di processo chiuso.** Riverificato dal vivo con `coerenza-fatti.mjs` (✅ verde) e `ci-stato.mjs` (stesse 3 PR rosse #749/#741/#735, nessun peggioramento): 1 ordine (CANCELED, 24/6), 0 pagati, 7 profili — stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Chiuso il vincolo chiusura-loop registrando l'ESITO di `@intelligence` nel suo quaderno (monitoraggio delle 06:33, 18/18 fonti, fermo senza esito da 3 giorni). Ricontrollati i 10 controlli cronici del vincolo di sistema (APPRENDIMENTO/CADENZE/CI/CORREZIONE_NICOLA/ESP/FRESCHEZZA/LETARGO/NORTH_STAR/TASSO/VOLANO): tutti hanno già una card aperta nei passaggi precedenti di oggi, nessuna duplicata. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
 
 > 🔁 **17/8 06:31 — Giro richiesto in chat, 26 minuti dopo il Piano del mattino (06:05). Business invariato, due righe di igiene chiuse.** Riconfermato dal vivo con `verifica-sensori.mjs` e `coerenza-fatti.mjs`: 1 ordine (CANCELED, 24/6), 0 pagati, 0 negli ultimi 7gg, 7 profili — stallo North Star **54 giorni**, dentro la pausa concordata fino al 24/8-1/9. Nessuna novità di business dal passaggio delle 06:05: dispatch `#36` su backend-dev già chiuso (migration+test scritti, branch locale non committato per limite di sandbox), come riportato lì. Due cose fatte in questo passaggio: ① chiuso il vincolo chiusura-loop registrando l'ESITO di backend-dev nel suo quaderno (fermo da 29 giorni); ② accodata la card **#116** — il controllo degli esperimenti (ESP) è diventato cronico (3 giri senza uno aperto), ma aprirne uno sul KPI del primo ordine sarebbe il 4° tentativo identico e già fallito per lo stesso motivo (pausa concordata): chiesto a Nicola come preferisce procedere. Mossa n.1 invariata: pratica pagamenti Pane Quotidiano (card #62). Dettaglio in [[Briefing/2026-08-17]].
 

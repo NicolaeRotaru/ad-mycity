@@ -1,28 +1,28 @@
 {
-  "data": "2026-08-04 11:30",
-  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati, stallo 41gg) — pausa concordata con Nicola fino al 24/8-1/9, non churn. Dal 30/7 a oggi Nicola ha lavorato soprattutto sulla macchina stessa: diagnosi e fix del blocco del timer del giro sul VPS (AR-530, PR #665 mergiata oggi 05:23), attivazione di quattro freni nuovi (pre-scrittura, intento-turno, cancello-senior, memoria-guardia) e altri correttivi di cantiere. Priorità di oggi: confermare che il riavvio del servizio sul VPS sia stato fatto (card #macchina-ferma-da-quattro-giorni), poi le 3 decisioni tecniche in coda su GitHub (merge PR #635, pulizia rami vecchi, modo di chiudere le PR). Il Worker in abbonamento ai negozi (seconda fonte di reddito) resta NON in agenda: Nicola la costruisce in sessioni dedicate più avanti, nessuna mossa. L'architettura a tre macchine (CENTRO→PIAZZA→BOTTEGA, dichiarata 3/8) resta visione registrata, nessuna fase avviata.",
+  "data": "2026-08-17 08:28",
+  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati, stallo 54gg) — pausa concordata con Nicola fino al 24/8-1/9, non è churn. Nelle ultime settimane il lavoro si è spostato quasi tutto sulla macchina stessa (cantiere difetti, PR di manutenzione, sensori, gate di processo), non sul business: nessuna mossa nuova verso i negozi finché la pausa non finisce. Priorità aperte oggi: la pratica pagamenti di Pane Quotidiano (card #62, il vero blocco al primo incasso), le tre falle sicurezza/soldi ferme da 19 giorni (#36/#37/#38), e tre PR croniche rosse (#749/#741/#735, card #109) che Nicola deve scegliere se riparare ora o congelare fino al 24/8-1/9. Il Worker in abbonamento ai negozi (seconda fonte di reddito) resta NON in agenda: nessuna mossa prevista.",
   "prossime_mosse": [
     {
-      "titolo": "Conferma che il giro sul server è ripartito",
-      "quando": "Card #macchina-ferma-da-quattro-giorni in attesa (accodata 4/8 03:10, aggiornata 05:55) — il fix è già mergiato, mancano solo i 3 comandi sul server o la loro conferma",
-      "come": "3 comandi bash già scritti nella card: git stash, fetch+reset, restart del servizio",
+      "titolo": "Sblocca la pratica pagamenti di Pane Quotidiano",
+      "quando": "Card #62, il vero blocco al primo incasso — aperta da settimane",
+      "come": "Verificare col fornaio il fascicolo Stripe (dati mai inviati, incassi e versamenti disattivati) e completare i passaggi mancanti",
       "priorita": "alta",
-      "ad_prepara": "Diagnosi completa e fix già in main; un banner rosso in Cabina avviserà da solo se la memoria resta ferma oltre 12 ore, da questa PR in poi",
-      "senior": "@devops-sre",
+      "ad_prepara": "Diagnosi già scritta nella card, pronta a partire appena il fascicolo Stripe è completo",
+      "senior": "@operations",
       "colore": "🔴"
     },
     {
-      "titolo": "Decidere sui 447 rami vecchi e su come si chiudono le PR",
-      "quando": "Card #7 e #8 in coda, accodate 3/8 22:45",
-      "come": "Scegliere fra le opzioni proposte nella card (recupero automatico della #598 + pulizia, poi squash con riallineamento automatico oppure merge normale)",
+      "titolo": "Decidi se riparare ora o congelare le tre PR rosse croniche",
+      "quando": "Card #109, ferma da tre giorni: PR #749/#741/#735 tutte rosse per colpa del proprio ramo",
+      "come": "Scegliere fra ① una sessione dedicata a chiudere i 3 rossi sullo stesso ramo di ciascuna PR, ② congelarle fino a dopo la pausa negozi del 24/8-1/9",
       "priorita": "media",
-      "ad_prepara": "Piano dettagliato già scritto nella card, pronto a eseguire dopo la scelta",
+      "ad_prepara": "Diagnosi precisa di ogni rosso già scritta nella card, pronta a eseguire dopo la scelta",
       "senior": "@tech",
-      "colore": "🔴"
+      "colore": "🟡"
     },
     {
       "titolo": "Ordine di prova su Pane Quotidiano",
-      "quando": "Card #ordine-test-dentro-o-fuori-dalla-pausa ancora in attesa (accodata 28/7) — resta dentro la pausa finché Nicola non dice diversamente",
+      "quando": "Resta dentro la pausa concordata finché Nicola non dice diversamente (fino al 24/8-1/9)",
       "come": "mycity-marketplace.com → prodotto PQ → checkout → COD o carta",
       "priorita": "bassa",
       "ad_prepara": "Flusso già verificato via REST, pronto a ripartire senza altro lavoro tecnico appena Nicola dà il via",
@@ -34,9 +34,11 @@
     {"nome": "Pane Quotidiano", "perche": "Unico negozio reale, faro di MyCity", "stato": "in attesa concordata fino al 24/8-1/9, non è churn"}
   ],
   "rischi": [
-    "Il timer del giro sul VPS è stato fermo 5 giorni prima del fix di oggi — se il riavvio non è confermato, la Cabina continua a mostrare briefing vecchi senza che nessuno se ne accorga (mitigato da un banner nuovo, ma solo dopo il riavvio)."
+    "Le tre falle di sicurezza/soldi del marketplace (#36/#37/#38) sono ferme da 19 giorni senza risposta: doppia vendita, coupon che si esauriscono sui tentativi, rider che si decide lo stipendio.",
+    "Tre PR di manutenzione (#749/#741/#735) restano rosse da giorni: debito che si accumula, ma non toccano il marketplace live (non deployate)."
   ],
   "serve_da_nicola": [
-    {"ambito": "infrastruttura", "cosa_manca": "Conferma che i 3 comandi sul server sono stati lanciati", "domanda_per_nicola": "Hai già riavviato mycity-giro.service con il fix di oggi, o serve ancora farlo?"}
+    {"ambito": "codice", "cosa_manca": "Scelta su come procedere con le 3 PR croniche rosse", "domanda_per_nicola": "Preferisci una sessione dedicata a ripararle ora, o le congeliamo fino a dopo la pausa negozi del 24/8-1/9? (card #109)"},
+    {"ambito": "macchina", "cosa_manca": "Conferma sul livello RISPARMIO", "domanda_per_nicola": "Va bene restare in modalità RISPARMIO (meno contenuti/esperimenti, giri più radi) fino alla ripresa del lavoro operativo, o preferisci tornare a pieno regime prima? (card #113)"}
   ]
 }
