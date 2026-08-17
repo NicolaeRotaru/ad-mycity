@@ -2034,3 +2034,45 @@ che consiglio non è promuoverli (i principi hanno 12 posti, i freni sono 70): �
 passare dalla porta a somiglianza di parole. Da decidere con Nicola.
 
 **Stato:** 🟡 lotto consegnato, merge di Nicola.
+
+## 2026-08-17 20:10 — 🟡 La chat riceve le regole sul tema, col loro freno (AR-764)
+
+**Origine:** Nicola, 17/8: «fai la chat per prima». Era la scelta fra i 37 freni invisibili e la
+porta della chat, e ha scelto la chat — la porta che usa lui.
+
+**Il difetto.** Le lezioni della chat venivano da `grep '^- ' LEZIONI-CHAT.md | head -8`: le prime
+otto righe di un file di prosa, sempre le stesse, senza freno (in quel file il campo non esiste) e
+senza nessun legame col messaggio. Le sessioni e il giro passavano già dall'archivio strutturato.
+**La porta più frequentata era l'unica rimasta cieca** — ed è il motivo per cui Nicola, dopo due
+lotti di lavoro sull'apprendimento, non vedeva cambiare niente.
+
+**Cosa ho fatto (🟡, PR aperta):** `contesto_macchina_chat` riceve il messaggio e chiede a
+`contesto-lezioni.mjs --richiesta --testo` le regole sul tema, coi loro freni. Se non esce niente —
+messaggio corto, nessuna lezione in tema — resta la lista di sempre: la chat non è mai muta.
+
+Il messaggio entra da stdin come testo semplice: niente `jq`, perché una strada che deve funzionare
+sempre non si appoggia a una dipendenza in più. E niente pipe con `|| true`, che avrebbe sepolto
+l'esito due volte (la mano si è fermata da sola su quella riga: malattia `esito-in-una-pipe`).
+
+**La strada scartata.** Generare `LEZIONI-CHAT.md` dall'archivio e togliere il secondo archivio.
+Avrebbe chiuso la malattia alla radice, ma avrebbe anche buttato le righe scritte a mano dalla
+metabolizzazione, che oggi sono l'unica memoria propria della chat. Meglio affiancare finché la
+scheda non ha dimostrato di bastare.
+
+**La prova:** `node cervello/test/la-chat-senza-freni.test.mjs`, 3 casi che eseguono la funzione
+VERA di `worker.sh` in un repo usa-e-getta (arriva la scheda coi freni · senza messaggio non cambia
+niente · strumento assente e la chat parla lo stesso). Staccando la chiamata, il primo diventa rosso.
+
+L'avevo scritta prima in bats, ed era la scelta sbagliata per due motivi: `bats` non è installato
+(`npx` se lo scarica al volo, e un freno che dipende da un download non è un freno), e la prova che
+chiude un difetto in questa casa è un comando `node cervello/…`. Riscritta in node, che esegue lo
+stesso bash; i tre casi bats doppioni sono stati tolti.
+
+**Un buco trovato per strada.** Il sorvegliante ha rifiutato il freno della lezione dicendo che «non
+nomina nessun file»: riconosceva `.mjs`, `.sh`, `.cjs` e non `.bats`. In casa ci sono **29 prove
+bats** e **cinque mutazioni** che ne usano una: nessuna di quelle era protetta dall'indice delle
+difese. Aggiunto `bats` al riconoscimento — i 139 casi del sorvegliante restano verdi. Alla fine il
+freno di questa lezione è diventato un comando `node`, quindi la correzione non serviva a me: serve
+alle cinque mutazioni che erano scoperte.
+
+**Stato:** 🟡 lotto consegnato, merge di Nicola.

@@ -345,7 +345,7 @@ export function indiceDifese({ lezioni = [], mutanti = [], guardiani = [] } = {}
     if (p && typeof p === "string" && !idx.has(p)) idx.set(p, perche);
   };
   for (const l of lezioni) {
-    const p = (String(l.gate || "").match(/[\w./-]+\.(?:m?js|sh|cjs)/) || [])[0];
+    const p = (String(l.gate || "").match(/[\w./-]+\.(?:m?js|sh|cjs|bats)/) || [])[0];
     segna(p, `è il freno della lezione ${l.id || "?"}`);
   }
   for (const mu of mutanti) {
@@ -891,7 +891,7 @@ export function sorveglia({
       const g = /"gate"\s*:\s*"([^"]+)"/.exec(r.testo);
       if (!g) continue;
       const cmd = g[1];
-      const percorso = (cmd.match(/[\w./-]+\.(?:m?js|sh|cjs)/) || [])[0];
+      const percorso = (cmd.match(/[\w./-]+\.(?:m?js|sh|cjs|bats)/) || [])[0];
       if (!percorso) {
         voci.push({
           classe: "gate-orfano",

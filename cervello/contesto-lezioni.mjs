@@ -37,6 +37,7 @@ const args = process.argv.slice(2);
 const HOOK = args.includes("--hook");
 const RICHIESTA = args.includes("--richiesta"); // la scheda su misura per UNA richiesta (UserPromptSubmit)
 const RIGHE = args.includes("--righe"); // solo le righe-regola nette (per l'iniezione in chat del worker)
+const TESTO = args.includes("--testo"); // AR-764: il blocco in chiaro invece che in JSON, per gli script di shell
 const maxIdx = args.indexOf("--max");
 const MAX_LEZIONI = maxIdx >= 0 && args[maxIdx + 1] ? Math.max(1, Number(args[maxIdx + 1]) || 12) : 12;
 const MAX_VAL = 220; // tronca i valori lunghi per tenere il blocco compatto
@@ -424,15 +425,23 @@ async function main() {
   // --richiesta: la scheda su misura per l'hook UserPromptSubmit. JSON o niente, mai un errore:
   // un hook che rompe l'arrivo di un prompt è peggio di nessuna scheda.
   if (RICHIESTA) {
+    const grezzo = await leggiStdin();
+    // Due chiamanti, due forme. L'hook manda JSON `{prompt}`; il worker manda il testo del messaggio
+    // così com'è (AR-764) — chiedergli di impacchettarlo in JSON solo per farlo spacchettare qui
+    // sarebbe un passaggio in più che si può rompere.
     let prompt = "";
     try {
-      prompt = String(JSON.parse(await leggiStdin())?.prompt || "");
+      prompt = String(JSON.parse(grezzo)?.prompt || "");
     } catch {
-      // stdin vuoto o non-JSON: nessuna richiesta da leggere, quindi nessuna scheda.
+      prompt = grezzo;
     }
     const su = prompt.trim().length >= 15 ? bloccoSuMisura(prompt) : null;
     if (su) {
-      process.stdout.write(JSON.stringify({ hookSpecificOutput: { hookEventName: "UserPromptSubmit", additionalContext: su } }));
+      // --testo: il blocco così com'è, per chi non sa leggere JSON (gli script di shell). Senza
+      // questo il worker avrebbe dovuto passare da `jq`, cioè da una dipendenza in più su una strada
+      // che deve funzionare sempre.
+      if (TESTO) process.stdout.write(su + "\n");
+      else process.stdout.write(JSON.stringify({ hookSpecificOutput: { hookEventName: "UserPromptSubmit", additionalContext: su } }));
     }
     process.exit(0);
   }
