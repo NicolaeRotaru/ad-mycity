@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-17 22:13",
+ "aggiornato": "2026-08-17 23:08",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11791,6 +11791,14 @@
    "testo": "La chat riceveva le lezioni con un grep sulle prime otto righe di un file di prosa: nessun freno e nessun legame col messaggio. Le sessioni e il giro passavano gia dall archivio strutturato. La porta piu frequentata era l unica rimasta cieca, e per questo Nicola non vedeva cambiare niente dopo due lotti di lavoro sull apprendimento.",
    "regola": "Quando si ripara il modo in cui la memoria arriva al lavoro, la prima porta da riparare e quella che la persona USA di piu, non quella piu facile da raggiungere dal codice: un miglioramento su una porta che Nicola non attraversa mai e invisibile, e quindi per lui non e successo.",
    "gate": "node cervello/test/la-chat-senza-freni.test.mjs"
+  },
+  {
+   "id": "L-2026-0817-04",
+   "data": "2026-08-17 23:08",
+   "fonte": "errore mio, 17/8: ho detto a Nicola che la cura della chat non era su main contando grep -c su una frase lunga uscita 0 — la riga c'era, la frase cercata no (una virgoletta di chiusura nel mezzo)",
+   "testo": "Uno zero da grep -c su una frase lunga non distingue «la cosa non c'e» da «ho scritto la frase sbagliata»: piu lunga e la frase, piu punti ha per non combaciare (virgolette, spazi, variabili espanse), e tutti finiscono nello stesso identico 0. Il rimedio e cercare prima un pezzo corto e inconfondibile, e allungare solo dopo.",
+   "regola": "Prima di concludere che una cosa NON c'e da un conteggio a zero, ripeti la ricerca con una parola sola: se anche quella e zero, allora manca davvero.",
+   "gate": "node --test cervello/test/misura-cieca.test.mjs"
   }
  ],
  "principi": [
