@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-08-17 04:54",
+  "aggiornato": "2026-08-17 06:12",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
     "data": "2026-08-17",
-    "runs": 4,
+    "runs": 5,
     "token_totali": 0,
-    "durata_sec_totale": 2983,
+    "durata_sec_totale": 3760,
     "voci": [
       {
         "quando": "2026-08-17 00:06",
@@ -39,10 +39,18 @@
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-17 06:12",
+        "tipo": "ritmo-mattino",
+        "durata_sec": 777,
+        "token": 65000,
+        "modello": "claude",
+        "stima_grezza": true
       }
     ],
-    "token_stimati": 280000,
-    "token_per_gate": 280000,
+    "token_stimati": 345000,
+    "token_per_gate": 345000,
     "token_fonte": "misura"
   },
   "storico_giorni": [
@@ -314,37 +322,13 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 380000,
-    "runs_sessione": 6,
+    "token_sessione_rolling": 280000,
+    "runs_sessione": 4,
     "finestra_min": 360,
     "voci_illeggibili": 0,
-    "aggiornato": "2026-08-17 04:54"
+    "aggiornato": "2026-08-17 06:12"
   },
   "voci_recenti": [
-    {
-      "quando": "2026-08-16 23:29",
-      "tipo": "worker-analisi",
-      "durata_sec": 254,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-16 23:44",
-      "tipo": "giro",
-      "durata_sec": 518,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 00:06",
-      "tipo": "giro",
-      "durata_sec": 864,
-      "token": 65000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
     {
       "quando": "2026-08-17 00:31",
       "tipo": "giro",
@@ -366,6 +350,14 @@
       "tipo": "worker-analisi",
       "durata_sec": 53,
       "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-17 06:12",
+      "tipo": "ritmo-mattino",
+      "durata_sec": 777,
+      "token": 65000,
       "modello": "claude",
       "stima_grezza": true
     }
