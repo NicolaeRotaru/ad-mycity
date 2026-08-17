@@ -131,20 +131,33 @@ function leggiAppr() {
 // (0-bis) PRINCIPI cristallizzati — le regole stabili promosse dall'apprendimento (da cristallizza-
 // apprendimento.mjs). Devono raggiungere OGNI contesto: è il vero «cristallizzato_in: memoria-persistente».
 // Un principio che non arriva alla mossa è inutile — questo è il pezzo che lo fa arrivare.
-function bloccoPrincipi() {
-  const d = leggiAppr();
-  if (!d) return null;
+/**
+ * Le righe dei principi, dall'archivio già letto. Pura apposta (AR-762): la decisione «questo
+ * principio porta un freno?» deve stare dove una prova la può ESEGUIRE, non dentro una funzione che
+ * legge il disco da un percorso fisso — altrimenti l'unico modo di provarla è cercare un pattern nel
+ * file, e un pattern non frena niente.
+ *
+ * Due forme accettate, perché l'archivio le ha entrambe: `principi` come lista (voci-scheda che
+ * spesso non portano il testo) e, se da lì non esce niente, le lezioni promosse a `principio`.
+ */
+export function righeDeiPrincipi(dati) {
   let pr = [];
-  if (Array.isArray(d.principi))
-    pr = d.principi.map((p) => (typeof p === "string" ? { testo: p } : p?.testo ? p : null)).filter(Boolean);
-  if (!pr.length && Array.isArray(d.lezioni))
-    pr = d.lezioni.filter((l) => l?.stato === "principio" && l.testo);
+  if (Array.isArray(dati?.principi))
+    pr = dati.principi.map((p) => (typeof p === "string" ? { testo: p } : p?.testo ? p : null)).filter(Boolean);
+  if (!pr.length && Array.isArray(dati?.lezioni))
+    pr = dati.lezioni.filter((l) => l?.stato === "principio" && l.testo);
   // AR-762: anche qui il freno viaggia col principio. Una regola stabile senza il comando che la
   // fa rispettare è la stessa prosa di prima, solo promossa di grado.
-  const righe = pr.slice(0, 8).map((p) => {
+  return pr.slice(0, 8).map((p) => {
     const freno = frenoDi(p);
     return `- ${nucleoRegola(String(p.testo))}${freno ? ` · freno: \`${freno}\`` : ""}`;
   });
+}
+
+function bloccoPrincipi() {
+  const d = leggiAppr();
+  if (!d) return null;
+  const righe = righeDeiPrincipi(d);
   if (!righe.length) return null;
   return `Principi (regole STABILI — valgono sempre, non solo se te le ricordi):\n${righe.join("\n")}`;
 }

@@ -25,10 +25,10 @@
 //      rumore, e il rumore spegne i freni veri;
 //   ⑤ sull'archivio VERO la scheda non serve più zero freni: è la misura end-to-end, non un finto.
 //
-// NON-VACUITÀ (verificata il 16/8 rompendo il fix apposta): in `cervello/contesto-lezioni.mjs`,
+// NON-VACUITÀ (verificata il 17/8 rompendo il fix apposta): in `cervello/contesto-lezioni.mjs`,
 // riportando `frenoDi` a leggere il campo vecchio (`const g = typeof lezione.gate_attivo === "string"
-// ? …`), i casi ① ③ ⑤ ⑥ diventano ROSSI — 4 falliti su 8. La mutazione registrata in
-// `cervello/mutanti.json` fa la stessa cosa dal cancello.
+// ? …`), i casi ① ③ ⑤ ⑥ ⑦ diventano ROSSI — 6 falliti su 11, cioè cadono entrambe le porte. La
+// mutazione registrata in `cervello/mutanti.json` fa la stessa cosa dal cancello.
 //
 // ⚠️ Nessun caso scrive: si legge l'archivio vero in sola lettura e per il resto si usano lezioni
 // finte costruite qui dentro.
@@ -38,7 +38,7 @@ import { test } from "node:test";
 import { readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
-import { frenoDi, lezioniSuMisura } from "../contesto-lezioni.mjs";
+import { frenoDi, lezioniSuMisura, righeDeiPrincipi } from "../contesto-lezioni.mjs";
 
 const REPO = dirname(dirname(dirname(fileURLToPath(import.meta.url))));
 const ARCHIVIO = join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json");
@@ -163,6 +163,53 @@ test("⑤ sull'archivio vero le richieste tipiche non servono più zero freni", 
     conFrenoVero,
     `ogni freno vero servito deve arrivare visibile: mostrati ${frenoMostrato} su ${conFrenoVero}`,
   );
+});
+
+// ── ⑦ La seconda porta: anche i PRINCIPI portano il loro freno ───────────────────────────────────
+//
+// Riparare una porta e lasciare l'altra e' il modo classico di far tornare il difetto: i principi
+// sono le lezioni promosse a regola stabile, e arrivavano anche loro come solo testo.
+
+test("⑦ un principio con un freno lo mostra, uno senza no", () => {
+  const righe = righeDeiPrincipi({
+    principi: [
+      { testo: "prima di dire fatto, guarda il valore che torna", gate: "node cervello/test/atto.test.mjs" },
+      { testo: "ogni numero porta la sua fonte" },
+    ],
+  });
+  assert.equal(righe.length, 2);
+  assert.match(righe[0], /· freno: `node cervello\/test\/atto\.test\.mjs`$/);
+  assert.doesNotMatch(righe[1], /freno/);
+});
+
+test("⑦ il principio col freno non ancora su main resta muto anche qui", () => {
+  const righe = righeDeiPrincipi({
+    principi: [{ testo: "una regola", gate: "node cervello/test/x.test.mjs", gate_attivo: false }],
+  });
+  assert.equal(righe.length, 1);
+  assert.doesNotMatch(righe[0], /freno/);
+});
+
+test("⑦ le due forme dell'archivio reggono entrambe, e il tetto di 8 tiene", () => {
+  // forma vecchia: principi come stringhe
+  assert.deepEqual(righeDeiPrincipi({ principi: ["una regola secca"] }), ["- una regola secca"]);
+
+  // forma vera di oggi: `principi` sono voci-scheda SENZA testo → si ricade sulle lezioni promosse
+  const righe = righeDeiPrincipi({
+    principi: [{ id: "L-1", tag: [], reparto: "ad", promosso_il: "2026-08-01" }],
+    lezioni: [
+      { id: "L-1", stato: "principio", testo: "la regola vera", gate: "node cervello/test/y.test.mjs" },
+      { id: "L-2", stato: "attiva", testo: "non è un principio" },
+    ],
+  });
+  assert.equal(righe.length, 1, "solo le lezioni promosse a principio");
+  assert.match(righe[0], /la regola vera · freno: `node cervello\/test\/y\.test\.mjs`/);
+
+  const tante = righeDeiPrincipi({ principi: Array.from({ length: 20 }, (_, i) => `regola ${i}`) });
+  assert.equal(tante.length, 8, "il blocco resta corto: otto righe, non venti");
+
+  assert.deepEqual(righeDeiPrincipi({}), [], "un archivio senza principi non produce righe, e non rompe");
+  assert.deepEqual(righeDeiPrincipi(null), []);
 });
 
 // ── il metro del metro: la porta di scrittura e la scheda devono parlare dello stesso campo ──────
