@@ -30,6 +30,9 @@ desktop.ini
 # Sentinella one-shot del delta-gate (AR-019): giro-ora.sh la crea, giro.sh la consuma. Mai versionarla.
 cervello/vps/.giro-force
 
+# Lock di istanza-singola del worker (18/8/2026): file vuoto, esiste solo per flock. Mai versionarlo.
+cervello/.worker.lock
+
 # File temporanei lasciati dalle sessioni AI (script di prova, appunti): mai su main.
 # (Il 10/7 un _tmp_create_pr.mjs improvvisato da una chat era finito committato dallo spazzino del ritmo.)
 _tmp_*

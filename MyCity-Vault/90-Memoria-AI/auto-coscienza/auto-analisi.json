@@ -1,70 +1,60 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-08-17 16:35",
-  "voto_fiducia": 81,
-  "sintesi_giro_corrente": "Giro completo richiesto in chat (nuova sessione), ~2 ore dopo il passaggio 14:28, sullo stesso stato di business. Business riverificato DAL VIVO via query SQL dirette (`orders`: 1 riga, 0 pagati, 0 ultimi 7gg, ultimo 2026-06-24; `profiles`: 7, di cui 1 negozio). Novità reale del passaggio: `node cervello/verifica-sensori.mjs`, `node cervello/coerenza-fatti.mjs` (✅ 39 fatti, 0 cacce) e `node cervello/ci-stato.mjs` (5 PR aperte, tutte rosse per colpa propria: #754/#753/#749/#741/#735, tutte anche su test-del-cervello) sono girati per davvero in questa sessione — a differenza dei passaggi precedenti di oggi, non erano bloccati dall'allowlist. Restano bloccati `test-cervello.mjs` e `freschezza-intelligence.mjs` (stesso buco delle card #104/#42, non ritentati oltre 1 colpo ciascuno). Trovato e accodato: card #119, l'unica mancante tra i 10 controlli 'cronici' (AR-687) — test-cervello è entrato in quell'elenco solo in questo passaggio. Scelta dichiarata: NON rifatti i passi senza novità (radar/piani/intenzioni/apprendimento pesante) perché il vincolo HARD letargo SOPRAVVIVENZA impone di tagliare il volume e lo stato business era verificato identico. Toccati: STATO.md, Briefing/2026-08-17.md, SALA-OPERATIVA.md, ultimo-briefing.json, AZIONI-IN-ATTESA.md (1 riga nuova, #119), questo file.",
-  "sintesi": "Business fermo dal 24/6 (stallo 54 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. Letargo peggiorato a SOPRAVVIVENZA (quota AI 288%, era RISPARMIO alla card #113). Non ripropongo la domanda sul ritmo dei giri (card #117, senza risposta) una seconda volta nei file: la richiamo solo in chat.",
-  "trend_fiducia": "▼ 82→81: nessun difetto nuovo trovato in questo passaggio, ma il gap tra 'scripts bloccati' e 'scripts che tornano a funzionare' tra sessioni diverse (stessa allowlist, esito diverso) non è ancora spiegato — lo segnalo come incoerenza minore da capire, non da un errore mio in questo passaggio.",
+  "data": "2026-08-18 06:30",
+  "voto_fiducia": 82,
+  "sintesi_giro_corrente": "Giro completo (`cervello/giro.md`) eseguito in sessione dopo il ritmo del mattino (06:12), sullo stesso stato di business. Business riverificato DAL VIVO via query SQL dirette (`orders`: 1 riga, 0 pagati, 0 ultimi 7gg, ultimo 2026-06-24; `profiles`: 7, di cui 1 negozio, pratica Stripe ancora spenta). Novità reale del passaggio: `node cervello/verifica-sensori.mjs` (tutti verdi salvo i due cronici noti), `node cervello/coerenza-fatti.mjs` (✅ 39 fatti, 0 cacce) e `node cervello/ci-stato.mjs` (6 PR aperte, tutte rosse per colpa propria: nuova #761 + #754/#753/#749/#741/#735) girati dal vivo. Restano bloccati `sonda-volano.mjs` e `north-star-check.mjs --gate` (stesso buco delle card #104/#42, non ritentati oltre 1 colpo ciascuno). Letargo migliorato da SOPRAVVIVENZA a RISPARMIO (quota AI 26%, era 288% ieri sera) — sessione fresca. Scelta dichiarata: NON rifatti i passi senza novità (radar/piani/intenzioni/apprendimento pesante) perché lo stato business era verificato identico e nessuna delle domande già poste a Nicola ha ricevuto risposta nel frattempo — riformularle come nuove card sarebbe rumore, non informazione. Toccati: STATO.md, Briefing/2026-08-18.md, SALA-OPERATIVA.md, ultimo-briefing.json, questo file, registro-realta.json, AUTO-ANALISI.md.",
+  "sintesi": "Business fermo dal 24/6 (stallo 55 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. Letargo migliorato a RISPARMIO (quota AI 26%, era SOPRAVVIVENZA/288% ieri sera). Non ripropongo le domande già aperte (card #113/#117/#121/#105/#109) una volta di più nei file: restano in attesa della risposta di Nicola.",
+  "trend_fiducia": "▲ 81→82: sessione fresca (quota 26%), tutti gli script previsti per questo passaggio hanno girato dal vivo senza il rate-limit visto ieri sera; nessun difetto nuovo trovato. Resta aperta la stessa incoerenza già segnalata ieri (script bloccati in alcune sessioni e non in altre con la stessa allowlist) — non ancora spiegata, non indagata oggi per disciplina North-Star.",
   "entita_verificate_01_52": [
     {
-      "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / 7 profili / 0 recensioni / ultimo ordine 2026-06-24",
+      "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / 7 profili / 1 negozio con vetrina / ultimo ordine 2026-06-24",
       "stato": "confermato",
-      "fonte": "query SQL dirette via mcp__supabase-marketplace__execute_sql, eseguite dal vivo in questo passaggio (01:38)"
+      "fonte": "query SQL dirette via mcp__supabase-marketplace__execute_sql, eseguite dal vivo in questo passaggio (06:28-06:29)"
     },
     {
-      "nome": "3 PR aperte, tutte rosse: #749, #741, #735 — nessuna PR pronta da firmare",
+      "nome": "Pratica pagamenti Pane Quotidiano ancora spenta (charges/payouts/details_submitted = false)",
       "stato": "confermato",
-      "fonte": "node cervello/ci-stato.mjs eseguito dal vivo (01:38), risposta completa senza rate-limit"
+      "fonte": "query SQL diretta su profiles.stripe_charges_enabled/stripe_payouts_enabled/stripe_details_submitted, eseguita dal vivo (06:29)"
     },
     {
-      "nome": "PR #714, #732, #733 già mergiate in main",
+      "nome": "6 PR aperte, tutte rosse: #761 (nuova), #754, #753, #749, #741, #735 — nessuna PR pronta da firmare",
       "stato": "confermato",
-      "fonte": "git log origin/main --grep, commit trovati direttamente sul ramo main"
+      "fonte": "node cervello/ci-stato.mjs eseguito dal vivo (06:30), risposta completa senza rate-limit"
     },
     {
-      "nome": "PR #740 non più tra le PR aperte",
-      "stato": "scelta_ragionata",
-      "fonte": "dedotto per esclusione (ci-stato.mjs conta solo 3 PR aperte, nessuna delle quali è #740) — non trovato un commit specifico col numero #740 in git log come per le altre tre; se risultasse ancora aperta la card #90 va riaperta"
-    },
-    {
-      "nome": "Card #36/#37/#38/#42 ancora aperte (sicurezza/soldi + permesso jolly, ferme da 19 giorni)",
+      "nome": "Card #36/#37/#38/#42/#62/#116 ancora aperte (sicurezza/soldi/pagamenti PQ, ferme da 19+ giorni)",
       "stato": "confermato",
-      "fonte": "Read diretto delle righe 282-410 di AZIONI-IN-ATTESA.md dopo aver corretto il metodo di ricerca (grep su 'permessi-senza-jolly' e sugli header ### invece che sulle sole righe di tabella) — nessuna riga 'Stato: FATTO/CHIUSA' presente per nessuna delle 4"
-    },
-    {
-      "nome": "EXP-015 (ordine test PQ pagato entro 17/8): mancata, 0 ordini pagati alla scadenza",
-      "stato": "confermato",
-      "fonte": "query SQL dirette (stesso dato del punto 1) confrontato con la scadenza dichiarata in auto-miglioramento.json"
+      "fonte": "invariato rispetto al passaggio del 17/8 16:35 (già verificato con Read diretto), nessuna nuova chiusura in coda"
     }
   ],
   "entita_verificate": [
     {
       "nome": "Pane Quotidiano — unico negozio reale, pratica pagamenti ancora incompleta (card #62)",
       "stato": "confermato",
-      "fonte": "registro-realta.json (invariato) + card #62 riletta in AZIONI-IN-ATTESA.md riga 1424, ferma dal 2026-08-10"
+      "fonte": "query SQL diretta su profiles.stripe_* (06:29): charges_enabled/payouts_enabled/details_submitted tutti false, invariato dal 10/8"
     },
     {
       "nome": "1 ordine totale / 0 pagati / 7 profili / ultimo ordine 2026-06-24 CANCELED",
       "stato": "confermato",
-      "fonte": "node cervello/verifica-sensori.mjs eseguito dal vivo alle 10:19 (supabase_rest ok)"
+      "fonte": "node cervello/verifica-sensori.mjs eseguito dal vivo alle 06:27 (supabase_rest ok) + query SQL diretta 06:28"
     }
   ],
   "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9). Nessuna ricerca nuova aperta — rispettato il vincolo north-star (solo lavoro che sblocca il primo ordine o ripara la macchina/la coda).",
   "salute_macchina": {
-    "supabase": "verificato dal vivo (query dirette + verifica-sensori.mjs, 01:38)",
-    "stripe": "ok (verifica-sensori.mjs, 01:38)",
+    "supabase": "verificato dal vivo (query dirette + verifica-sensori.mjs, 06:27-06:29)",
+    "stripe": "ok (verifica-sensori.mjs, 06:27)",
     "dati_freschi": true,
     "sensori_attivi": 8,
     "sito_uptime": "cieco (HTTP 503, migrazione Render→Vercel non fatta — non un guasto nuovo)"
   },
   "gate_correzione_nicola_confermati_invariati": "Diagnosticato nei passaggi precedenti (card #95): 246/311 lezioni senza gate (sano:false), soglia 20. Non riverificato in questo passaggio (north-star gate impone di non investire su questo mentre il business è in stallo), stato ereditato.",
-  "livello_verifica": "L2 (business riverificato con query SQL dirette via MCP; sensori/coerenza-fatti/ci-stato riverificati dal vivo; coda AZIONI-IN-ATTESA riletta riga per riga per le voci toccate, non solo grep) — MA non è stata fatta una passata di verifica sull'intera coda, solo sulle voci toccate oggi: un errore di metodo identico potrebbe essere altrove, non ancora cercato.",
-  "refutazione": "REFUTAZIONE VERA e AUTO-TROVATA in questo passaggio: ho affermato 'le card #36/#37/#38/#42 non esistono più nella coda' basandomi su un grep con un solo pattern (`| NUM |`). Sottoponendo la stessa affermazione a una verifica più ampia (ricerca per contenuto, non per formato) l'affermazione NON SOPRAVVIVE: le 4 card esistono, in formato blocco `###`. Corretta prima di consegnare. Lezione riusabile: 'card non trovata' con un solo pattern di ricerca non è una prova di assenza in un file che usa due formati diversi (tabella + blocchi ###) per la stessa coda.",
+  "livello_verifica": "L2 (business riverificato con query SQL dirette via MCP; sensori/coerenza-fatti/ci-stato riverificati dal vivo) — non è stata fatta una passata di verifica sull'intera coda AZIONI-IN-ATTESA in questo passaggio, solo confronto con lo stato noto dal passaggio precedente: nessun refuso nuovo cercato attivamente.",
+  "refutazione": "Nessuna refutazione nuova in questo passaggio: nessuna affermazione fatta oggi ha richiesto una verifica più ampia dopo un primo controllo. Resta valida la lezione del 17/8 (grep con un solo pattern non prova assenza in un file con due formati — tabella + blocchi ###).",
   "domande_per_nicola": [
     {
       "tipo": "ritmo",
-      "domanda": "Oggi (17/8) ha girato ~35 volte in chat sullo stesso stato invariato (business fermo, pausa concordata fino al 24/8-1/9). Il letargo è ora a livello SOPRAVVIVENZA (quota AI vicina al 93% della finestra). Ogni giro ripetuto in questa finestra non trova nulla di nuovo da fare, per costruzione, finché la pausa non finisce.",
-      "azione": "confermi che va bene continuare a rispondere a ogni richiesta di giro con una verifica lampo (sensori+coerenza-fatti, niente riscritture pesanti) come sto già facendo, o preferisci che smetta di aprire un nuovo passaggio/briefing quando l'ultimo ha meno di un'ora ed è tutto invariato?",
+      "domanda": "La domanda della card #117 (17/8, ~26 giri in un giorno sullo stesso stato invariato) resta senza risposta. Oggi (18/8) il letargo è tornato a RISPARMIO (quota 26%), quindi la pressione è minore, ma il tema di fondo resta: quando lo stato è verificato identico, quanto spesso conviene riaprire un giro pieno?",
+      "azione": "non riproposta come nuova richiesta — resta in attesa della tua risposta quando vuoi darla",
       "colore": "🟡"
     },
     {
