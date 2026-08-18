@@ -2094,3 +2094,24 @@ che mi ha ingannato; non-vacuita' dimostrata dalla mutazione AR-768.
 legittima. Sta scritto nell'intestazione del file perche' nessuno lo scambi per coperto: l'unico
 rimedio e' guardare una volta l'uscita vera prima di contarci dentro.
 **Lezione** L-2026-0817-04 · **Freno** `node --test cervello/test/misura-cieca.test.mjs`
+
+## 2026-08-18 08:15 — 🟡 «Non è cambiato niente»: aveva ragione, e la scheda era rotta (AR-769)
+**Cosa.** Nicola ha mandato lo screenshot della Cabina: «0 lezioni negli ultimi 7 giorni». In
+archivio ce n'erano NOVE in quella finestra, cinque scritte nelle 24 ore prima. Il conto giusto era 9
+e la schermata diceva 0.
+**Causa.** In `apprendimento.json` convivono due forme di lezione: quella storica con
+`nato`/`ultima_conferma`/`stato`, e quella scritta da `cervello/lezione-nuova.mjs` col solo campo
+`data`. Il lettore della Cabina cercava `ultima_conferma || nato`; una lezione senza data non è mai
+recente. Quindi il contatore non era impreciso: era muto **proprio sulle lezioni nuove** — le uniche
+che dicono se la macchina sta imparando adesso.
+**Riparato di là e di qua.** ① `pannello/src/lib/data-lezione.ts`: un solo posto che sa leggere la
+data in tutte le forme (`ultima_conferma` → `nato` → `data`), fuori dal componente perché una prova
+lo possa eseguire. ② `componiLezione` scrive `nato`, `ultima_conferma`, `stato: attiva`,
+`confidenza: 0.75`, `evidenze: 1` — le due forme convergono. Card: da 0 a 10.
+**Il guardiano ha bocciato la prima versione, e aveva ragione.** Marcare «attiva» senza confidenza
+faceva nascere la lezione a 0, sotto la soglia di morte (0,3): una lezione che nasce morta. L'ha
+trovato `archivi-senza-tetto` sul file vero, non io.
+**Debito dichiarato.** Le 16 lezioni già scritte nella forma vecchia non le migro: il lettore adesso
+le data lo stesso, ma nel conteggio interno per stato restano «senza-stato».
+**Lezione** L-2026-0818-01 · **Freni** `node cervello/test/porta-delle-lezioni.test.mjs` ·
+`npx tsx --test pannello/src/lib/data-lezione.test.mts`
