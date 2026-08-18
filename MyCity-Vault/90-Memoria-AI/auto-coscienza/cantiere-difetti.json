@@ -16269,20 +16269,39 @@
         "tipo": "comando",
         "comando": "node --test cervello/test/il-freno-che-scatta.test.mjs"
       }
+    },
+    {
+      "id": "AR-771",
+      "stato": "chiuso",
+      "dimensione": "memoria",
+      "gravita": "alto",
+      "titolo": "Il decadimento uccideva anche le lezioni che avevano prodotto un freno o che avevano appena fermato un errore",
+      "causa_radice": "Il decadimento guardava UNA cosa sola: da quanto tempo nessuno aveva confermato la lezione (`passoDovuto` leggeva solo ultimaConferma e ultimoPasso). Non guardava se la lezione avesse prodotto un guardiano, ne se fosse stata usata. E il campo `ultima_conferma` non lo aggiorna nessuno dopo la nascita: lo scrive solo lezione-nuova.mjs. Conseguenza misurata il 18/8 sull archivio vero: delle 522 lezioni vive, 433 erano gia oltre la soglia dei 28 giorni, e proiettando avanti il tempo 418 avrebbero preso un gradino entro 5 settimane — comprese 63 delle 75 con un freno e tutte e 6 quelle con un uso registrato. Cioe AR-770 (segna quando una lezione ferma un errore) e il decadimento tiravano in direzioni opposte sullo stesso archivio: uno registrava che la regola serve, l altro la buttava via il mese dopo.",
+      "fix_proposto": "Due cose che valgono quanto una riconferma, dentro `passoDovuto` (dove la decisione si prende, non in un bypass a monte). ① FRENO VIVO: se la lezione ha prodotto un guardiano e quel FILE esiste ancora, la regola e in vigore per definizione e non decade; se qualcuno toglie il guardiano la lezione riprende a invecchiare — l immortalita dura quanto la guardia. Chi chiama verifica l esistenza del file, non la presenza della stringa: una stringa non monta la guardia. ② L USO E UNA CONFERMA: non un eccezione separata, ma la data piu recente fra riconferma e ultimo uso. Cosi la traccia che lascia freno-scattato.mjs (AR-770) entra nel meccanismo che gia esiste invece di aggiungerne un altro.",
+      "dove": "cervello/tetti-archivio.mjs (passoDovuto) · cervello/cristallizza-apprendimento.mjs (frenoVivoDi, ultimoUsoDi)",
+      "impatto_crescita": "e la memoria che decide cosa la macchina si ricorda: senza questo, fra un mese sparivano proprio le lezioni che avevano dimostrato di funzionare, e restava l archivio di quelle mai servite a niente",
+      "nato": "2026-08-18 10:30",
+      "nato_come": "scoperta",
+      "nato_da": "analisi chiesta da Nicola sulla potatura dell archivio (la strada «a»): misurando e venuto fuori che la potatura arriva gia da sola, e che cosi com era avrebbe tolto le lezioni sbagliate",
+      "nota_fix": "Riparato in questo lotto. MISURA PRIMA/DOPO sull archivio vero, proiettando il tempo avanti: a 5 settimane prendevano un gradino 418 lezioni attive, adesso 359 — 59 salvate, tutte dal freno vivo. DICHIARATO: le lezioni salvate dall uso sono ZERO oggi, perche i 6 usi registrati sono vecchi; quella regola e armata ma non morde ancora, e mordera quando freno-scattato.mjs avra scritto usi freschi. Verificato anche che nessuna delle 59 lezioni attive con un freno scritto punti a un file inesistente: 59 su 59 hanno il guardiano davvero li. DEBITO EREDITATO E PAGATO: toccando cristallizza-apprendimento.mjs il cancello ha girato su di me un difetto che il file aveva gia — importarlo ne ESEGUIVA il programma, cioe bastava che una prova lo aprisse per far partire promozioni e decadimenti sull archivio vero. Messo sotto la guardia «sono stato lanciato io?»; verificato che da riga di comando l uscita sia IDENTICA a prima carattere per carattere, e che importarlo adesso non faccia partire niente. Prove: 6 casi nuovi in cervello/test/archivi-senza-tetto.test.mjs (29 verdi in tutto), incluso quello sul FILE VERO che diventa rosso se una lezione con freno vivo tornasse in fila per morire.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/archivi-senza-tetto.test.mjs"
+      }
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 761,
+    "totale": 762,
     "aperti": 106,
     "in_corso": 0,
     "da_riverificare": 56,
-    "chiusi": 599,
+    "chiusi": 600,
     "altri": 0,
     "da_fare": 162,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 599,
+      "chiuso": 600,
       "aperto": 106,
       "da-riverificare": 56
     },

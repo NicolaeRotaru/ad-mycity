@@ -33,7 +33,7 @@ import { giorniDa, passoDovuto, tettoDecadutePerGiro } from "./tetti-archivio.mj
 import { timbroOra } from "./ora-piacenza.mjs"; // AR-666: l'ora di casa da un posto solo
 import { lezioniVive } from "./misura-parziale.mjs"; // AR-362: una sola definizione di «lezione viva»
 import { dirname, join, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const APPR = join(ROOT, "MyCity-Vault", "90-Memoria-AI", "auto-coscienza", "apprendimento.json");
@@ -71,6 +71,12 @@ function fine(payload, exit = 0) {
   process.exit(exit);
 }
 
+// AR-771 — la guardia «sono stato lanciato io?». Prima, importare questo file ne ESEGUIVA il
+// programma: bastava che una prova lo aprisse per far partire promozioni e decadimenti sull'archivio
+// vero. Il guardiano di casa lo segnalava già, sotto un tetto tollerato; toccando il file in questo
+// lotto il debito è diventato mio, ed è giusto così — chi tocca una casa ne eredita le crepe.
+// Nessun `export` qui dentro e nessuno lo importa per usarne pezzi: i test lo leggono come testo.
+if (import.meta.url === pathToFileURL(process.argv[1] || "").href) {
 if (!existsSync(APPR)) fine({ esito: "assente" });
 
 let dati;
@@ -129,6 +135,26 @@ dati.principi = tuttiPrincipi.map((l) => ({
 // Ora il passo è legato al TEMPO (al massimo uno ogni DECAY_OGNI_GG giorni) e c'è un tetto per giro:
 // una memoria che si svuota a blocchi non sta invecchiando, sta perdendo pezzi — e va vista mentre
 // succede, non dopo.
+/**
+ * Il freno di una lezione monta ancora la guardia? (AR-771)
+ * Vero solo se lo script citato nel campo `gate` esiste sul disco. Una stringa non è un guardiano:
+ * se il file è stato tolto, la regola non è più in vigore e la lezione riprende a invecchiare.
+ */
+function frenoVivoDi(l) {
+  const g = typeof l?.gate === "string" ? l.gate : "";
+  const m = g.match(/([\w./-]*\/)?([\w.-]+\.(?:m?js|cjs|sh))\b/);
+  if (!m) return false;
+  const rel = (m[1] || "") + m[2];
+  return existsSync(join(ROOT, rel));
+}
+
+/** La data dell'uso più recente, o null. È la traccia che lascia `freno-scattato.mjs` (AR-770). */
+function ultimoUsoDi(l) {
+  const usi = Array.isArray(l?.usi) ? l.usi : Array.isArray(l?.applicata_in) ? l.applicata_in : [];
+  const date = usi.map((u) => (typeof u === "string" ? u : u?.quando)).filter(Boolean).sort();
+  return date.length ? date[date.length - 1] : null;
+}
+
 const decadute = [];
 const rimandate = [];
 for (const l of lezioni) {
@@ -138,6 +164,11 @@ for (const l of lezioni) {
     ultimoPasso: l.decaduto_step_il,
     giorniSoglia: DECAY_DAYS,
     giorniFraPassi: DECAY_OGNI_GG,
+    // AR-771 — le due cose che valgono quanto una riconferma. Il freno conta solo se il file del
+    // guardiano ESISTE davvero: una stringa scritta in una scheda non monta la guardia, e se qualcuno
+    // toglie il guardiano la lezione deve tornare a invecchiare come tutte le altre.
+    frenoVivo: frenoVivoDi(l),
+    ultimoUso: ultimoUsoDi(l),
   });
   if (!decade) continue;
   const { ammesse } = tettoDecadutePerGiro(decadute.length + 1, DECAY_MAX_PER_GIRO);
@@ -226,3 +257,4 @@ console.log(
 );
 if (!APPLICA) console.log("   (nulla scritto: anteprima)");
 process.exit(0);
+}

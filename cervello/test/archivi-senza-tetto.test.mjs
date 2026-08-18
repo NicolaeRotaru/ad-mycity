@@ -21,7 +21,7 @@
 // Qui si eseguono le funzioni VERE.
 
 import { execFileSync } from "node:child_process";
-import { readFileSync } from "node:fs";
+import { existsSync, readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import assert from "node:assert/strict";
@@ -69,6 +69,58 @@ prova("dopo sette giorni il passo si può ridare: il decadimento non si ferma, r
   assert.equal(r.decade, true, r.motivo);
   const no = T.passoDovuto({ ultimaConferma: fa(30), ultimoPasso: fa(3) });
   assert.equal(no.decade, false, "tre giorni dopo l'ultimo passo è troppo presto");
+});
+
+// ── AR-771: le due cose che valgono quanto una riconferma ───────────────────
+//
+// Il caso vero, misurato il 18/8 quando Nicola ha chiesto l'analisi della potatura: il decadimento
+// guardava SOLO da quanto tempo nessuno aveva confermato la lezione. Non guardava se la lezione
+// avesse prodotto un freno, né se avesse appena fermato un errore. Conseguenza sul file vero: 63
+// delle 75 lezioni con un freno sarebbero morte entro 35 giorni, e con loro tutte quelle con un uso
+// registrato — cioè il pezzo che segna «questa regola mi ha fermato» e il pezzo che decide chi resta
+// tiravano in direzioni opposte sullo stesso archivio.
+
+prova("una lezione il cui freno monta ancora la guardia non decade, per quanto vecchia sia", () => {
+  const r = T.passoDovuto({ ultimaConferma: fa(300), ultimoPasso: fa(90), frenoVivo: true });
+  assert.equal(r.decade, false, r.motivo);
+  assert.match(r.motivo, /guardia/);
+});
+
+prova("…ma se il guardiano non c'è più, torna a invecchiare come tutte: l'immortalità dura quanto la guardia", () => {
+  // È il motivo per cui chi chiama deve verificare che il FILE esista, non che la scheda porti
+  // scritta una stringa: una stringa non monta la guardia.
+  assert.equal(T.passoDovuto({ ultimaConferma: fa(300), ultimoPasso: fa(90), frenoVivo: false }).decade, true);
+});
+
+prova("un uso recente vale una riconferma: «nessuno la conferma da 28 giorni» e «mi ha fermato ieri» non stanno insieme", () => {
+  const r = T.passoDovuto({ ultimaConferma: fa(300), ultimoPasso: fa(90), ultimoUso: fa(3) });
+  assert.equal(r.decade, false, r.motivo);
+  assert.match(r.motivo, /usata/);
+});
+
+prova("un uso VECCHIO non salva nessuno: vale la data più recente, non il fatto che un uso esista", () => {
+  assert.equal(T.passoDovuto({ ultimaConferma: fa(300), ultimoPasso: fa(90), ultimoUso: fa(200) }).decade, true);
+});
+
+prova("una riconferma fresca vince su un uso vecchio, e viceversa: conta la più recente delle due", () => {
+  assert.equal(T.passoDovuto({ ultimaConferma: fa(3), ultimoPasso: fa(90), ultimoUso: fa(300) }).decade, false);
+  assert.equal(T.passoDovuto({ ultimaConferma: fa(300), ultimoPasso: fa(90), ultimoUso: fa(3) }).decade, false);
+});
+
+prova("sul file VERO: nessuna lezione con un freno vivo verrebbe messa in fila per morire", () => {
+  // Se questo torna rosso, il conto delle lezioni protette è cambiato senza che nessuno lo dicesse.
+  const j = JSON.parse(leggi("MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json"));
+  const attive = (j.lezioni || []).filter((l) => l && l.stato === "attiva");
+  const conFreno = attive.filter((l) => {
+    const m = (typeof l.gate === "string" ? l.gate : "").match(/([\w./-]*\/)?([\w.-]+\.(?:m?js|cjs|sh))\b/);
+    return m && existsSync(join(REPO, (m[1] || "") + m[2]));
+  });
+  assert.ok(conFreno.length > 10, `solo ${conFreno.length} lezioni attive hanno un freno vivo: l'aggancio non morde più`);
+  const fraCinqueSettimane = Date.now() + 35 * 24 * 3600 * 1000;
+  const morirebbero = conFreno.filter(
+    (l) => T.passoDovuto({ ultimaConferma: l.ultima_conferma || l.nato, ultimoPasso: l.decaduto_step_il, adessoMs: fraCinqueSettimane, frenoVivo: true }).decade,
+  );
+  assert.equal(morirebbero.length, 0, `${morirebbero.length} lezioni con un freno vivo morirebbero comunque entro 5 settimane`);
 });
 
 prova("sotto la soglia non si decade affatto", () => {

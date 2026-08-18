@@ -2138,3 +2138,24 @@ distinti: anche se ognuno scattasse una volta in 30 giorni, il tasso arriverebbe
 sotto la soglia di 30%. Questa mossa rende il numero **vero, non verde**. Per farlo salire davvero
 serve anche potare: 475 lezioni su 521 sono nate prima di agosto, molte su problemi già risolti.
 **Lezione** L-2026-0818-02 · **Freno** `node --test cervello/test/il-freno-che-scatta.test.mjs`
+
+## 2026-08-18 10:45 — 🟡 Il freno vivo e l'uso valgono quanto una riconferma (AR-771)
+**Da dove nasce.** Nicola: «fai l'analisi a», sulla potatura dell'archivio. Misurando è venuto fuori
+che la potatura **arriva già da sola** — 433 lezioni su 522 erano oltre la soglia dei 28 giorni — e
+che così com'era avrebbe tolto le lezioni sbagliate.
+**Il difetto.** `passoDovuto` guardava una cosa sola: da quanto tempo nessuno confermava la lezione.
+Non guardava il freno, non guardava gli usi. E `ultima_conferma` non lo aggiorna nessuno dopo la
+nascita. Proiettando il tempo avanti: entro 5 settimane prendevano un gradino 418 lezioni attive,
+comprese 63 delle 75 con un freno e tutte e 6 quelle con un uso registrato. Cioè AR-770 segnava «questa
+regola mi ha appena fermato» e il decadimento la buttava via il mese dopo: due forze opposte sullo
+stesso archivio.
+**La cura, dove la decisione si prende.** ① Freno vivo: se la lezione ha prodotto un guardiano e quel
+**file** esiste ancora, la regola è in vigore e non decade. Tolto il guardiano, riprende a invecchiare
+— l'immortalità dura quanto la guardia. Si verifica l'esistenza del file, non la presenza della
+stringa: una stringa non monta la guardia. ② L'uso è una conferma, non un'eccezione a parte: vale la
+data più recente fra riconferma e ultimo uso, così la traccia di AR-770 entra nel meccanismo che
+esiste già.
+**Prima/dopo, misurato.** A 5 settimane: 418 → 359 lezioni in fila per un gradino. **59 salvate**,
+tutte dal freno vivo. **Zero salvate dall'uso**, perché i 6 usi registrati sono vecchi: quella regola
+è armata ma non morde ancora, e morderà quando `freno-scattato.mjs` avrà scritto usi freschi.
+**Lezione** L-2026-0818-03 · **Freno** `node cervello/test/archivi-senza-tetto.test.mjs`

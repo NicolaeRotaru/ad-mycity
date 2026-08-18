@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-18 09:33",
+ "aggiornato": "2026-08-18 11:01",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11867,6 +11867,19 @@
    "testo": "**Un numero che misura le citazioni non puo' dire se una regola funziona.** Il tasso contava le lezioni il cui codice compariva scritto da qualche parte: 61 su 521, e di quelle solo 6 con una traccia vera. Un volano fermo e un volano che nessuno annota davano lo stesso numero. Il segnale onesto era gia' li' e non lo leggeva nessuno: il freno che diventa rosso. Quando il freno di una lezione fallisce, quella lezione ha appena fermato la macchina — e' un fatto, non un'opinione. La scorciatoia da rifiutare e' marcare l'uso alla CONSEGNA: porterebbe il numero a quasi 100% misurando «te l'ho mostrata» invece di «mi ha fermata».",
    "regola": "Prima di credere a una metrica, chiedi quale evento la fa salire. Se puo' salire senza che nessun comportamento cambi, non e' una misura: e' arredamento. E marca l'uso sull'inciampo evitato, mai sulla consegna.",
    "gate": "node --test cervello/test/il-freno-che-scatta.test.mjs"
+  },
+  {
+   "id": "L-2026-0818-03",
+   "data": "2026-08-18 11:01",
+   "nato": "2026-08-18",
+   "ultima_conferma": "2026-08-18 11:01",
+   "stato": "attiva",
+   "confidenza": 0.75,
+   "evidenze": 1,
+   "fonte": "Nicola, 18/8: «fai l'analisi a» sulla potatura dell'archivio — misurando e' venuto fuori che la potatura arrivava gia' da sola, e che avrebbe tolto le cose sbagliate",
+   "testo": "**Due meccanismi sullo stesso dato, che non si parlano, fanno il danno di uno rotto.** Un pezzo registrava che una lezione aveva fermato un errore; un altro, sullo stesso archivio, la buttava via un mese dopo perche' guardava solo la data dell'ultima conferma. Nessuno dei due era sbagliato da solo. Quando si aggiunge un segnale nuovo (l'uso), bisogna chiedersi CHI ALTRO decide su quel dato e non lo sta guardando — altrimenti si costruiscono due forze che tirano in direzioni opposte. E l'eccezione va messa dove la decisione si prende, non in un bypass a monte.",
+   "regola": "Quando aggiungi un segnale a un dato condiviso, cerca tutti quelli che decidono su quel dato e chiediti se il segnale nuovo li riguarda. E ogni privilegio va legato a una condizione verificabile che puo' decadere: qui il freno vale finche' il suo FILE esiste, non finche' la stringa e' scritta.",
+   "gate": "node cervello/test/archivi-senza-tetto.test.mjs"
   }
  ],
  "principi": [

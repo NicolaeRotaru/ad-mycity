@@ -74,9 +74,27 @@ export function passoDovuto({
   adessoMs = Date.now(),
   giorniSoglia = 28,
   giorniFraPassi = 7,
+  frenoVivo = false,
+  ultimoUso = null,
 } = {}) {
-  const eta = giorniDa(ultimaConferma, adessoMs);
-  if (eta <= giorniSoglia) return { decade: false, motivo: `riconfermata ${eta.toFixed(1)} giorni fa (soglia ${giorniSoglia})` };
+  // AR-771 — due cose che valgono quanto una riconferma, e che fino al 18/8 il decadimento non
+  // guardava affatto. Misurato quel giorno: 63 delle 75 lezioni con un freno sarebbero morte entro
+  // 35 giorni, e le 6 con un uso registrato pure — cioè la macchina segnava «questa regola mi ha
+  // appena fermato» e un mese dopo la buttava via lo stesso. Due lavori sullo stesso archivio che
+  // tiravano in direzioni opposte.
+  //
+  // ① IL FRENO VIVO. Se la lezione ha prodotto un guardiano e quel guardiano esiste ancora, la regola
+  // è in vigore per definizione: non è memoria vecchia, è memoria eseguita. Quando qualcuno toglie il
+  // guardiano, `frenoVivo` torna falso e la lezione riprende a invecchiare da sola — l'immortalità
+  // dura quanto la guardia, non un minuto di più. Chi chiama deve verificare che il file ESISTA, non
+  // che la lezione porti scritta una stringa: una stringa non monta la guardia.
+  if (frenoVivo) return { decade: false, motivo: "ha un freno che monta ancora la guardia: finché quel guardiano esiste, la regola è in vigore" };
+  // ② L'USO È UNA CONFERMA. Non un'eccezione a parte: la data più recente fra riconferma e uso è
+  // quella che conta. «Nessuno l'ha confermata da 28 giorni» e «mi ha fermato tre giorni fa» non
+  // possono essere veri insieme.
+  const quandoConta = [ultimaConferma, ultimoUso].map((d) => istante(d)).filter((t) => t != null);
+  const eta = quandoConta.length ? (adessoMs - Math.max(...quandoConta)) / GIORNO : Infinity;
+  if (eta <= giorniSoglia) return { decade: false, motivo: `riconfermata o usata ${eta.toFixed(1)} giorni fa (soglia ${giorniSoglia})` };
   // Mai decaduta prima: il primo passo si può dare subito.
   if (ultimoPasso == null || istante(ultimoPasso) == null) {
     return { decade: true, motivo: `${eta.toFixed(1)} giorni senza riconferma, primo passo` };
