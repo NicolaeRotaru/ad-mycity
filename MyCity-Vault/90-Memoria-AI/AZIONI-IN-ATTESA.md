@@ -47,13 +47,14 @@ più recente, quello avviato dal servizio. Ferma l'altro. Poi mergia la PR col l
 non può ripetersi nemmeno al prossimo riavvio manuale. Fermare un processo live lo lascio
 decidere a te: qui sotto il comando esatto, oppure autorizzami a farlo io.
 
-**Cosa non ho verificato:** perché sono partite due copie (riavvio manuale che non ha chiuso la
-vecchia? crash del servizio systemd che ne ha aperta una nuova senza killare la prima?) — non ho
-accesso ai log di systemd da questa sessione (sandbox limitata a `/opt/mycity/ad-mycity`). Ho
-anche trovato, mentre sistemavo questo, che `main` in locale e `main` su GitHub sono
-scollegati da 2.169 commit — quasi tutti la stessa tempesta di stanotte: sono rimasti solo sul
-disco della VPS, non hanno toccato GitHub. Serve una tua decisione su come pulirli prima di
-poterli pubblicare (vedi card successiva).
+**Cosa non ho verificato:** non so ancora perché sono partite due copie invece di una. Due ipotesi:
+un riavvio manuale che non ha chiuso la copia vecchia, oppure il servizio che gestisce il worker si
+è bloccato e ne ha aperta una nuova senza fermare la prima. Da questa sessione non riesco a vedere i
+log del servizio sulla VPS — vedo solo i file dentro questa cartella. Ho anche trovato, mentre
+sistemavo questo, che la copia di `main` sul mio computer e quella su GitHub sono scollegate da
+2.169 commit. Sono quasi tutti la stessa tempesta di stanotte: sono rimasti solo sul disco della
+VPS, non sono mai arrivati su GitHub. Serve una tua decisione su come pulirli prima di poterli
+pubblicare (vedi card successiva).
 
 **Comando per vedere i due processi (dalla VPS, utente mycity):**
 ```
@@ -64,8 +65,8 @@ Il PID con la data di avvio più vecchia (`Aug12`) è quasi certamente quello da
 kill <PID_del_processo_Aug12>
 ```
 
-- **Colore:** 🟡 — tocca un processo live sulla VPS (reversibile: si riavvia da solo al prossimo
-  ciclo del servizio), ma non è un dato o un cliente reale.
+- **Colore:** 🟡 — tocca un processo acceso in questo momento sulla VPS. È reversibile: si riavvia
+  da solo al prossimo ciclo del servizio. Non tocca né un dato né un cliente reale.
 - **Reparto:** devops-sre / builder-automazioni
 - **Origine:** `{origine:controllo-macchina-18-8, prova:"git log --oneline --since 2026-08-18 00:00 | grep -c 'worker: lavoro'" = 2160, ps aux mostra PID 52315 (Aug16) e PID 1339681 (Aug12), pr:760}`
 
