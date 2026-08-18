@@ -210,6 +210,47 @@ prova("⑥ `--secco` mostra cosa scriverebbe senza toccare il file", () => {
   assert.equal(readFileSync(file, "utf8"), prima);
 });
 
+// ── AR-769: la lezione nasce nella forma che gli altri sanno leggere ─────────────
+//
+// Il caso vero (18/8, Nicola: «non è cambiato niente», con lo screenshot della Cabina): la scheda
+// Apprendimento diceva «0 lezioni negli ultimi 7 giorni» mentre in archivio ce n'erano NOVE, cinque
+// scritte nelle 24 ore prima. Nessuna era rotta: uscivano di qui col solo campo `data`, e ogni
+// lettore cerca `nato`/`ultima_conferma`/`stato`. Una lezione che nessuno sa datare non compare da
+// nessuna parte — cioè viene scritta e non arriva.
+//
+// Nota su come queste tre prove sono quasi finite in vacca: le avevo scritte con `test(...)` e
+// appese in fondo al file, DOPO `process.exit`. Il conto diceva «# pass 1» e sembrava verde.
+// Qui l'esecutore si chiama `prova` e sta a metà file: una prova va dove il file la esegue.
+
+const ORA = new Date("2026-08-18T07:45:00");
+const nuova = () => componiLezione({ fonte: "chat", testo: "t", regola: "r" }, [], ORA);
+
+prova("una lezione nuova porta i campi che i lettori cercano, non solo quelli che il file scrive", () => {
+  const r = nuova();
+  assert.ok(r.ok, r.motivo || "");
+  assert.ok(r.lezione.nato, "senza `nato` la Cabina non sa quando è nata");
+  assert.ok(r.lezione.ultima_conferma, "senza `ultima_conferma` non entra nel conto degli ultimi 7 giorni");
+  assert.equal(r.lezione.stato, "attiva", "senza `stato` finisce nel bidone «senza-stato» e non è mai attiva");
+});
+
+prova("`nato` è il giorno secco: è la forma che ha l'archivio storico", () => {
+  assert.match(nuova().lezione.nato, /^\d{4}-\d{2}-\d{2}$/);
+});
+
+prova("una lezione nuova nasce VIVA: sopra la soglia di morte e sotto quella di principio", () => {
+  // Il buco della prima riparazione, trovato dal guardiano `archivi-senza-tetto` sul file vero:
+  // marcarla «attiva» senza confidenza la fa nascere a 0, cioe' gia' sotto la soglia di morte (0.3).
+  // Una lezione che nasce morta e' peggio di una senza stato: entra nei conti e sparisce al primo giro.
+  const l = nuova().lezione;
+  assert.ok(Number(l.confidenza) > 0.3, "sotto 0.3 il decadimento la dichiara morta al primo passo");
+  assert.ok(Number(l.confidenza) < 0.8, "da 0.8 in su verrebbe promossa a principio appena nata");
+  assert.equal(Number(l.evidenze), 1, "una lezione nuova ha una evidenza sola: la volta in cui e' successo");
+});
+
+prova("il campo `data` resta: si aggiunge alla forma vecchia, non la si sostituisce", () => {
+  assert.ok(nuova().lezione.data, "chi legge già `data` non deve rompersi");
+});
+
 let falliti = 0;
 for (const c of casi) {
   console.log(`${c.ok ? "  ok" : "not ok"} - ${c.nome}${c.ok ? "" : `\n      ${c.err}`}`);
@@ -217,3 +258,4 @@ for (const c of casi) {
 }
 console.log(`# pass ${casi.length - falliti}\n# fail ${falliti}`);
 process.exit(falliti ? 1 : 0);
+

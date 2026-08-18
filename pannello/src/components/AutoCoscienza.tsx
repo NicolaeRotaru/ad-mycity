@@ -28,6 +28,7 @@ import CasellaAnteprima, { anteprimaTesto } from "@/components/CasellaAnteprima"
 import { TestoUmano } from "@/components/TestoUmano";
 import { humanizzaErrore, traduciTestoCompleto } from "@/lib/radiografia-umana";
 import { listaSicura } from "@/lib/memoria-json";
+import { dataLezione, lezioneRecente } from "@/lib/data-lezione";
 import { classeCampo, classeComando, classeComandoSommario } from "@/lib/tocco-bersaglio";
 import {
   autonomiaLeggibile,
@@ -238,21 +239,10 @@ function barra(conf?: number) {
   );
 }
 
-function dataLezione(l: Lezione): Date | null {
-  const raw = (l.ultima_conferma || l.nato || "").slice(0, 10);
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(raw)) return null;
-  const dt = new Date(`${raw}T12:00:00`);
-  return Number.isNaN(dt.getTime()) ? null : dt;
-}
-
-function lezioneRecente(l: Lezione, giorni = 7): boolean {
-  const dt = dataLezione(l);
-  if (!dt) return false;
-  const lim = new Date();
-  lim.setDate(lim.getDate() - giorni);
-  lim.setHours(0, 0, 0, 0);
-  return dt >= lim;
-}
+// AR-769 — la data di una lezione vive in `lib/data-lezione.ts`, dove un test la puo' eseguire.
+// Qui stava una copia che leggeva solo `ultima_conferma || nato`, e le lezioni scritte da
+// `cervello/lezione-nuova.mjs` (che portano il solo campo `data`) risultavano senza data: la scheda
+// diceva «0 lezioni negli ultimi 7 giorni» mentre in archivio ce n'erano nove.
 
 export default function AutoCoscienza({
   fixedTab,

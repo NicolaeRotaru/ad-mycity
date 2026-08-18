@@ -5127,6 +5127,24 @@
    "sostituisci": "        if (false) return true;",
    "test": "node --test cervello/test/misura-cieca.test.mjs",
    "lezione": "L-2026-0817-04"
+  },
+  {
+   "difetto": "AR-769 lettore",
+   "nome": "la Cabina torna a non saper datare le lezioni scritte dalla macchina: il conto dei 7 giorni ridiventa muto",
+   "file": "pannello/src/lib/data-lezione.ts",
+   "cerca": "  const raw = String(l?.ultima_conferma || l?.nato || l?.data || \"\").slice(0, 10);",
+   "sostituisci": "  const raw = String(l?.ultima_conferma || l?.nato || \"\").slice(0, 10);",
+   "test": "npx tsx --test pannello/src/lib/data-lezione.test.mts",
+   "lezione": "L-2026-0818-01"
+  },
+  {
+   "difetto": "AR-769 scrittore",
+   "nome": "le lezioni nuove tornano a nascere senza nato e senza stato: nate in una forma che nessun lettore riconosce",
+   "file": "cervello/lezione-nuova.mjs",
+   "cerca": "    nato: giorno,",
+   "sostituisci": "",
+   "test": "node cervello/test/porta-delle-lezioni.test.mjs",
+   "lezione": "L-2026-0818-01"
   }
  ]
 }
