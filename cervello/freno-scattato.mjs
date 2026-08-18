@@ -22,9 +22,17 @@
 // una modifica marca le lezioni il cui freno è la prova del sorvegliante. È un'euristica, ed è per
 // questo che sta scritta: può unire due file che si chiamano uguale e fanno cose diverse.
 //
-// COSA NON PUÒ VEDERE, per non spacciarlo per completo: la volta in cui una lezione mi ha evitato
-// l'errore in silenzio, senza che nessun freno scattasse. Quella resta invisibile, e va bene così:
-// meglio un numero piccolo e vero che uno grande e gonfio.
+// COSA NON PUÒ VEDERE, per non spacciarlo per completo. Due buchi, dichiarati:
+//   ① la volta in cui una lezione mi ha evitato l'errore in silenzio, senza che nessun freno
+//      scattasse. Invisibile per costruzione, e va bene così: meglio un numero piccolo e vero.
+//   ② i blocchi che arrivano dagli HOOK (`mano-fermata` prima di una scrittura, `sorvegliante` sul
+//      delta, `cancello-stop` a fine turno). Sono i più frequenti — in una sola sessione mi hanno
+//      fermata una decina di volte — e NON passano da qui: girano fuori da `guardiano()` e da
+//      `esegui()`. Agganciarli vorrebbe dire scrivere nell'archivio a ogni singola modifica di file,
+//      sul percorso più caldo della macchina: latenza su ogni gesto e due processi che scrivono lo
+//      stesso file insieme. Scelta: non li aggancio adesso, e lo scrivo qui invece di lasciar
+//      credere che il conto li comprenda. Il sorvegliante è coperto solo quando gira come controllo
+//      del cancello (riga «sorvegliante del delta»), non quando rifiuta una modifica in faccia.
 //
 // Uso:
 //   node cervello/freno-scattato.mjs "<comando o script>" --rc <n> [--ref "<perché>"]
