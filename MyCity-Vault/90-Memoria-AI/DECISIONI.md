@@ -2115,3 +2115,26 @@ trovato `archivi-senza-tetto` sul file vero, non io.
 le data lo stesso, ma nel conteggio interno per stato restano «senza-stato».
 **Lezione** L-2026-0818-01 · **Freni** `node cervello/test/porta-delle-lezioni.test.mjs` ·
 `npx tsx --test pannello/src/lib/data-lezione.test.mts`
+
+## 2026-08-18 09:45 — 🟡 Una lezione si marca usata quando il suo freno diventa rosso (AR-770)
+**Da dove nasce.** Nicola, guardando la Cabina: «perché c'è solo il 12% delle lezioni citate?».
+Misurando la risposta è venuto fuori che il metro contava un'altra cosa.
+**Cosa misurava davvero.** Le CITAZIONI: una lezione risultava applicata se il suo codice compariva
+scritto in un briefing, una decisione, un esito o una consegna degli ultimi 30 giorni. Conto esatto:
+61 su 521, e di quelle 61 solo **sei** portavano una traccia esplicita. Le altre 55 contavano perché
+il loro codice capita di comparire in un file. Un volano fermo e un volano che nessuno annota davano
+lo stesso numero.
+**Il segnale onesto era già lì.** Ogni lezione seria porta un freno: un comando che diventa rosso se
+l'errore torna. Quando quel comando fallisce, quella lezione ha appena fermato la macchina — è un
+fatto osservabile. `cervello/freno-scattato.mjs` marca l'uso SOLO su quel fallimento, agganciato ai
+due punti unici dove un freno gira e si sa che è fallito: `guardiano()` in `giro-esito.sh` e
+`esegui()` in `cancello-lotto.mjs`. Mai sul verde. Nemmeno sul cieco: un controllo che non ha potuto
+misurare non è un inciampo evitato.
+**La scorciatoia rifiutata, scritta nel file perché non venga presa domani.** Marcare ogni lezione
+che la scheda CONSEGNA porterebbe il numero a quasi 100% in un giorno, misurando «te l'ho mostrata»
+invece di «mi ha fermata». È l'asticella di Nicola del 10/8.
+**Il tetto, dichiarato invece di scoperto dopo.** 74 lezioni vive su 521 hanno un freno, per 34 freni
+distinti: anche se ognuno scattasse una volta in 30 giorni, il tasso arriverebbe al massimo al **26%**,
+sotto la soglia di 30%. Questa mossa rende il numero **vero, non verde**. Per farlo salire davvero
+serve anche potare: 475 lezioni su 521 sono nate prima di agosto, molte su problemi già risolti.
+**Lezione** L-2026-0818-02 · **Freno** `node --test cervello/test/il-freno-che-scatta.test.mjs`

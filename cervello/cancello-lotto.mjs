@@ -565,6 +565,20 @@ export function righeMotivo(righe = []) {
   return motivi.length ? motivi.slice(-6) : righe.slice(-6);
 }
 
+/**
+ * Marca come usate le lezioni il cui freno è appena diventato rosso (AR-770).
+ * Best-effort e silenziosa sull'esito atteso: se la marcatura non riesce, il verdetto del cancello
+ * NON cambia — ma il fallimento si dice, invece di sparire come se non fosse successo niente.
+ */
+function segnaFrenoRosso(comando, codice, nome) {
+  const r = spawnSync("node", [join(AD_ROOT, "cervello/freno-scattato.mjs"), comando, "--rc", String(codice), "--ref", `freno rosso nel cancello: ${nome}`], {
+    cwd: AD_ROOT,
+    encoding: "utf8",
+    timeout: 30_000,
+  });
+  if (r.status !== 0) console.error(`⚠️  marcatura uso non riuscita per «${nome}» (rc=${r.status}): ${(r.stderr || "").trim().split("\n")[0] || "senza messaggio"}`);
+}
+
 function esegui(nome, cmd, args, opts = {}) {
   const r = spawnSync(cmd, args, {
     cwd: opts.cwd || AD_ROOT,
@@ -593,6 +607,11 @@ function esegui(nome, cmd, args, opts = {}) {
   // quello che si può saltare senza dirlo.
   const ucciso = r.status === null;
   const codice = ucciso ? 124 : r.status;
+  // AR-770 — questo è il posto dove un freno mi ferma davvero, quindi è il posto dove una lezione
+  // risulta USATA. Solo sul ROSSO: il cieco (2) non mi ha fermata, non ha potuto misurare — contarlo
+  // come inciampo evitato sarebbe gonfiare il numero con l'ignoranza. E mai sul verde, che è la
+  // scorciatoia disonesta («te l'ho mostrata» invece di «mi ha fermata»).
+  if (codice !== 0 && codice !== 2) segnaFrenoRosso(`${cmd} ${args.join(" ")}`.trim(), codice, nome);
   return {
     nome,
     comando: `${cmd} ${args.join(" ")}`.trim(),

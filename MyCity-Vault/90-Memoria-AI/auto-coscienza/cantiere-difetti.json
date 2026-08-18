@@ -16250,20 +16250,39 @@
         "tipo": "comando",
         "comando": "node cervello/test/porta-delle-lezioni.test.mjs"
       }
+    },
+    {
+      "id": "AR-770",
+      "stato": "chiuso",
+      "dimensione": "apprendimento",
+      "gravita": "medio",
+      "titolo": "Una lezione risultava usata solo se qualcuno ne scriveva il codice a mano: 6 tracce esplicite su 521",
+      "causa_radice": "Il tasso di applicazione contava le CITAZIONI, non gli inciampi evitati. Una lezione risultava applicata se il suo codice compariva in un briefing, una decisione, un esito o una consegna degli ultimi 30 giorni, oppure se qualcuno lanciava a mano `tasso-lezioni.mjs applica`. Misurato il 18/8: 61 lezioni su 521 contate come applicate, e di quelle 61 solo SEI portano una traccia esplicita — le altre 55 contano perche il loro codice capita di comparire in un file. Nessun processo marcava l uso da solo, e la scheda che consegna le lezioni in chat non marca niente: una lezione puo arrivare davanti a ogni singolo messaggio e restare contata come mai usata. Quindi il 12% non diceva «la macchina ignora le lezioni», diceva «quasi nessuno scrive che le ha usate»: due malattie diverse con lo stesso sintomo.",
+      "fix_proposto": "Nuovo `cervello/freno-scattato.mjs`: quando il freno di una lezione diventa ROSSO, quella lezione ha appena fermato la macchina, ed e un fatto osservabile. Marca l uso solo su quel fallimento. Agganciato ai due punti unici dove un freno gira e si sa che e fallito: `guardiano()` in cervello/giro-esito.sh e `esegui()` in cervello/cancello-lotto.mjs. Chiave di aggancio: il nome dello script senza `test/` e senza `.test`, cosi la PROVA di una lezione e il GUARDIANO che blocca in faccia contano come lo stesso mestiere. Sul verde non scrive niente, e sul cieco (uscita 2) nemmeno: un controllo che non ha potuto misurare non e un inciampo evitato.",
+      "dove": "cervello/freno-scattato.mjs · cervello/giro-esito.sh (guardiano) · cervello/cancello-lotto.mjs (esegui)",
+      "impatto_crescita": "e il numero con cui Nicola giudica se la macchina impara: finche misura le citazioni, un volano fermo e un volano che nessuno annota sono indistinguibili, e la decisione che ne segue e sbagliata in entrambi i casi",
+      "nato": "2026-08-18 09:30",
+      "nato_come": "scoperta",
+      "nato_da": "domanda di Nicola sulla Cabina: «perche c e solo il 12% delle lezioni citate?» — misurando la risposta e venuto fuori che il metro contava un altra cosa",
+      "nota_fix": "Riparato in questo lotto. Prova a 8 casi in cervello/test/il-freno-che-scatta.test.mjs, incluso il caso sull ARCHIVIO VERO (se il freno piu usato smette di agganciare lezioni, l aggancio e diventato decorativo e il test lo dice). LA CASA HA CONTESTATO LA PRIMA VERSIONE: `spazzata-fratelli` ha visto nel file nuovo un caso della malattia `fonte-troncata-letta-per-intera` — un `catch` che tornava 0 in silenzio quando l archivio non si legge, cioe un «non ho potuto misurare» travestito da «tutto a posto», dentro il pezzo che serve a rendere onesto un numero. Curato dicendolo: avviso su stderr e uscita 2, che qui vuol dire «non ho potuto misurare»; chi chiama stampa l avviso e tiene il proprio verdetto. Erano tre rossi con una radice sola: la stessa spazzata faceva cadere anche i test errore-ingoiato e freni-senza-fonte. LA SCORCIATOIA RIFIUTATA, scritta nel file perche non venga presa domani: far marcare ogni lezione che la scheda CONSEGNA porterebbe il numero a quasi 100% in un giorno misurando «te l ho mostrata» invece di «mi ha fermata» — e l asticella di Nicola del 10/8. TETTO DICHIARATO, misurato: 74 lezioni vive su 521 hanno un freno, per 34 freni distinti; anche se ogni freno scattasse una volta in 30 giorni il tasso arriverebbe al massimo al 26%, sotto la soglia di 30%. Quindi questa mossa rende il numero VERO, non verde: per farlo salire davvero serve anche potare le lezioni di luglio che parlano di problemi gia risolti (475 su 521 sono nate prima di agosto).",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-freno-che-scatta.test.mjs"
+      }
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 760,
+    "totale": 761,
     "aperti": 106,
     "in_corso": 0,
     "da_riverificare": 56,
-    "chiusi": 598,
+    "chiusi": 599,
     "altri": 0,
     "da_fare": 162,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 598,
+      "chiuso": 599,
       "aperto": 106,
       "da-riverificare": 56
     },

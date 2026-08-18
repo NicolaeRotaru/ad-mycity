@@ -5145,6 +5145,24 @@
    "sostituisci": "",
    "test": "node cervello/test/porta-delle-lezioni.test.mjs",
    "lezione": "L-2026-0818-01"
+  },
+  {
+   "difetto": "AR-770 marca-sul-verde",
+   "nome": "il freno torna a marcare anche quando e' verde: il numero misurerebbe «te l'ho mostrata» invece di «mi ha fermata»",
+   "file": "cervello/freno-scattato.mjs",
+   "cerca": "  if (Number(rc) === 0) return { marcate: [], motivo: \"il freno \u00e8 verde: non ha fermato niente\" };",
+   "sostituisci": "",
+   "test": "node --test cervello/test/il-freno-che-scatta.test.mjs",
+   "lezione": "L-2026-0818-02"
+  },
+  {
+   "difetto": "AR-770 chiave-cieca",
+   "nome": "la prova di una lezione smette di agganciarsi al guardiano che blocca in faccia: nessun rosso marca piu' niente",
+   "file": "cervello/freno-scattato.mjs",
+   "cerca": "  const nome = m[2].replace(/\\.test$/, \"\").trim();",
+   "sostituisci": "  const nome = \"\";",
+   "test": "node --test cervello/test/il-freno-che-scatta.test.mjs",
+   "lezione": "L-2026-0818-02"
   }
  ]
 }
