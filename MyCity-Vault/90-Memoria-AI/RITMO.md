@@ -1343,3 +1343,27 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - 🔴 Tre sì/no veloci, pronti da ieri: il post per Pane Quotidiano (`#107`), il comunicato stampa (`#118`), la segnalazione gratuita al fornaio (`#120`).
 
 **Dettagli tecnici** (opzionale) — dati riverificati 12:06 con query dirette (`orders`, `profiles`) via MCP Supabase. Bash non disponibile in questa sessione (errore ENOSPC sul filesystem temporaneo dell'harness) — `verifica-sensori.mjs`, `coerenza-fatti.mjs`, `ci-stato.mjs` non rilanciati, nessuna verifica PR/CI possibile da qui. Commit di recupero visti nello storico del ramo passato all'apertura sessione: `412230f9b`/`9e02c11ad` (08:56, sblocco+riconciliazione difetti) e `c254255f8` (10:50, giro AD aggiorna memoria).
+
+## Report della sera · 2026-08-18 18:04
+
+**Com'è andata oggi**
+- Il lucchetto che stamattina bloccava la memoria si è sbloccato. Ho controllato la causa vera nel codice, non solo nei commit. Due copie dello stesso programma giravano insieme da giorni, senza saperlo. Ora un blocco vero impedisce che succeda ancora.
+- Tre difetti trovati dalla macchina su sé stessa sono stati riparati stamattina. Ognuno ha una prova che gira davvero, non una parola cercata in un file. Uno era un mio errore: avevo detto a te che una riga non c'era. C'era. Avevo cercato la frase sbagliata.
+- Novità seria, non ancora chiusa. Il codice nuovo del sito è online da stamattina. Le quattro modifiche al database che dovevano andare insieme, no. Servono alla tua firma. Finché restano ferme, i rimborsi ai clienti non partono.
+
+**I numeri**
+- Invariati: 1 negozio, 5 prodotti, 7 clienti, 1 ordine mai pagato. Fermo da 55 giorni, dentro la pausa concordata con te fino al 24/8-1/9.
+
+**Da approvare**
+- Applica le quattro modifiche al database rimaste dal deploy di stamattina. I rimborsi sono fermi finché non lo fai.
+- Decidi sulle tre falle di sicurezza del sito, ferme da 20 giorni.
+- Correggi le cinque righe di permessi sul server, ferme da 14 giorni.
+
+**Lezione di oggi**
+- Il codice del sito e le modifiche al database sono due cose separate. Pubblicare l'uno non pubblica l'altra. Se te ne dimentichi, il sito sembra online ma alcune funzioni sono già rotte.
+
+**Domani**
+- La prima cosa utile è la tua decisione sulle migrazioni del database. Sono quelle che riaccendono i rimborsi.
+
+**Dettagli tecnici** (opzionale)
+- Fix verificato in `cervello/worker.sh:22-32` (PR #760, `flock` di istanza singola). Difetti chiusi oggi: AR-762, AR-763 (documentato in `#125`), AR-764. Card nuova: `#125` (🔴, migrazioni 114-117 del marketplace, PR ad-mycity #763 con l'elenco completo). Numeri riconfermati 18:04 con SQL diretta via MCP Supabase (`orders`/`profiles`/`products`), non ereditati.
