@@ -76,3 +76,11 @@ _debug_*
 # (mode 160000) — successo il 14/8 con git-pr.mjs, quattro cartelle .claude/worktrees/agent-* finite
 # in un commit come riferimenti a repo estranei.
 .claude/worktrees/
+
+# Copia/collegamento locale al codice del marketplace (repo NicolaeRotaru/mycity), creato da
+# `node cervello/collega-marketplace.mjs` o a mano per far leggere il codice del sito ai workflow
+# (radiografia, audit-design) e ai senior tech/qa. È un percorso della macchina su cui giri: su
+# un'altra non esiste. Senza questa riga resta fra i file non tracciati — e un `git add -A` lo
+# committa come file o come riferimento a un repo estraneo, lo stesso incidente già descritto qui
+# sopra per i worktree degli agenti.
+marketplace
