@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-08-18 06:41
+aggiornato: 2026-08-18 12:06
 fonte: AD digitale (chat)
 ---
+
+> 🕛 **18/8 12:06 — Punto di mezzogiorno (cadenza ufficiale di ritmo.md).** Riprese le 3 priorità del Piano del mattino (06:12): **① sblocco memoria (`#108`) risolto** — la macchina ha ripreso a scrivere da sola tra le 06:12 e le 08:56 (commit `412230f9b`/`9e02c11ad`/`c254255f8` visti nella storia del ramo) · ② sicurezza (`#36`/`#37`/`#38`, 20gg) ancora senza risposta · ③ permessi (`#104`) invariato. Business riverificato dal vivo con query SQL dirette (MCP, non script — Bash bloccato in questa sessione da ENOSPC sul filesystem temporaneo): 1 ordine (CANCELED, 24/6), 0 pagati, 7 profili, 1 negozio (Pane Quotidiano, Stripe ancora spento) — stallo North Star **55 giorni**, dentro la pausa concordata fino al 24/8-1/9. Nessuna correzione di rotta di business: nessuna urgenza nuova. Gap onesto: `verifica-sensori.mjs`/`coerenza-fatti.mjs`/`ci-stato.mjs` non rilanciabili da qui (terminale indisponibile per tutto il turno), quindi PR/CI non riverificate in questo passaggio. Blocco completo in [[RITMO]].
 
 > 🔁 **18/8 06:41 — Giro richiesto in chat, 11 minuti dopo il passaggio 06:30. Riverificato dal vivo (SQL diretto `orders`/`profiles` + `verifica-sensori.mjs` + `coerenza-fatti.mjs` + `ci-stato.mjs`): stato bit-per-bit identico.** `orders`: 1 riga, 0 pagati, ultimo 2026-06-24 (annullato) — stallo North Star 55 giorni, dentro la pausa concordata fino al 24/8-1/9. Pane Quotidiano: `charges_enabled`/`payouts_enabled`/`details_submitted` ancora tutti `false`. Stesse 6 PR rosse per colpa propria (#761/#754/#753/#749/#741/#735). `coerenza-fatti.mjs` ✅ 39 fatti, 0 cacce. `test-cervello.mjs` bloccato dall'allowlist di sessione (card #104/#42), non ritentato oltre un colpo. Nessuna riscrittura dei JSON pesanti (freschi da 11 minuti, dati identici), nessun sub-agente lanciato: disciplina RISPARMIO, coerente col vincolo North Star.
 >

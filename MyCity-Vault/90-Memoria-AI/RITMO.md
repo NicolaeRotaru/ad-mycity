@@ -1325,3 +1325,21 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - Lucchetto `.git/MYCITY_RUN_LOCK-giro` orfano dalle 22:20 del 17/8 (PID 352205, morto — verificato con `kill -0` alle 06:10). Nota aggiunta in coda alla card `#108`.
 - Business confermato invariato con query diretta alle 06:05: 1 negozio, 7 profili, 1 ordine CANCELED, 0 pagati, stallo 55 giorni. Sensori (REST/Stripe/Resend/n8n/Pannello) tutti verdi alle 06:01.
 - Card `#108` (in coda, oggi), `#36`, `#37`, `#38`, `#104`, `#107`, `#118`, `#120` in AZIONI-IN-ATTESA.
+
+## Punto di mezzogiorno · 2026-08-18 12:06
+
+**Le 3 priorità del mattino:**
+1. ✅ **Sblocca l'ingranaggio della memoria** (`#108`). Il lucchetto fermo da ieri sera 22:20 si è tolto da solo tra le 06:12 e le 08:56 — lo storico dei salvataggi mostra due recuperi automatici alle 08:56 e un giro completo tornato a scrivere da solo alle 10:50. La macchina pubblica di nuovo senza bisogno di un tuo tocco in più. Non so con certezza se è stata la cura automatica scritta dopo l'episodio del 16/8 o un tuo intervento diretto sul server: da qui non riesco a vederlo.
+2. ❌ **Le tre falle di sicurezza** (`#36`/`#37`/`#38`) — ferme da 20 giorni, ancora senza una tua risposta.
+3. ❌ **I permessi sul server** (`#104`) — invariato, stessa causa nota dei giri falliti da quasi due settimane.
+
+**Dati controllati ora, in diretta** (query dirette al database, non ereditati): 1 ordine in tutto, ancora mai pagato, del 24 giugno — stallo North Star **55 giorni**, dentro la pausa concordata fino al 24/8-1/9. 7 profili, 1 solo negozio (Pane Quotidiano), pratica pagamenti Stripe ancora tutta spenta. Tutto invariato rispetto a stamattina.
+
+**Correzioni di rotta:** nessuna urgenza nuova di business. Un avviso tecnico da segnalarti: in questa sessione il terminale è rimasto bloccato per tutto il turno — il disco temporaneo dell'ambiente era pieno. Non ho potuto rilanciare i controlli automatici (sensori, coerenza dei fatti, stato delle richieste di unione) né toccare git in nessun modo. Ho verificato comunque il business leggendo il database in diretta con un canale diverso (query dirette), quindi il numero sopra è vero — ma il resto del quadro di mezzogiorno (PR aperte, CI, sensori) resta cieco da questa sessione.
+
+**Serve da te entro sera:**
+- 🔴 Rispondi sulle tre falle di sicurezza (`#36`/`#37`/`#38`), ferme da 20 giorni.
+- 🟡 Correggi le 5 righe di permessi sul server (`#104`).
+- 🔴 Tre sì/no veloci, pronti da ieri: il post per Pane Quotidiano (`#107`), il comunicato stampa (`#118`), la segnalazione gratuita al fornaio (`#120`).
+
+**Dettagli tecnici** (opzionale) — dati riverificati 12:06 con query dirette (`orders`, `profiles`) via MCP Supabase. Bash non disponibile in questa sessione (errore ENOSPC sul filesystem temporaneo dell'harness) — `verifica-sensori.mjs`, `coerenza-fatti.mjs`, `ci-stato.mjs` non rilanciati, nessuna verifica PR/CI possibile da qui. Commit di recupero visti nello storico del ramo passato all'apertura sessione: `412230f9b`/`9e02c11ad` (08:56, sblocco+riconciliazione difetti) e `c254255f8` (10:50, giro AD aggiorna memoria).

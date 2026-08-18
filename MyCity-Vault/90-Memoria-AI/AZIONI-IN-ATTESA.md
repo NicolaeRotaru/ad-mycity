@@ -223,6 +223,8 @@ Il resto della macchina sta bene. Sensori, sincronizzazione con GitHub, coerenza
 - **Reparto:** devops-sre
 - **Origine:** `{origine:sessione-vps-2026-08-18-mattino, lucchetto:22:20-17-8, pid-morto:352205, ultima-riga-giro:22:33-17-8}`
 
+**Aggiornamento 18/8 12:06 (punto di mezzogiorno) — il sintomo di stanotte è sparito da solo.** Lo storico del ramo mostra la memoria tornata a scrivere tra le 06:12 e le 08:56 (due recuperi automatici + un giro completo alle 10:50). Non so con certezza se è intervenuta la cura automatica scritta dopo l'episodio del 16/8 o un tuo intervento diretto sul server: da questa sessione (terminale bloccato, disco pieno) non riesco a vederlo. Lascio la card aperta finché non è confermato **perché** lo scheduler non ha ritentato il lucchetto per 8 ore (la domanda tecnica di stamattina, ancora senza risposta) — il sintomo è passato, la causa no.
+
 ---
 
 ### 🔴 #107 — Pubblica il post "I fornelli restano spenti" per Pane Quotidiano · ⏳ accodata 2026-08-16 12:05
