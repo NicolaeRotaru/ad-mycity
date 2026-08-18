@@ -205,6 +205,24 @@ rm -f /opt/mycity/ad-mycity/.git/MYCITY_RUN_LOCK-giro
 
 La cura permanente del lucchetto sta in `cervello/lib-cadenza.sh`, funzione `cadenza_lock_rompi`. La prova è `node cervello/test/lucchetto-che-non-si-libera.test.mjs`. Reparto: devops-sre (sintesi AD).
 
+**Aggiornamento 18/8 06:10 — quell'episodio del 16/8 è chiuso.** La memoria tornò a pubblicarsi la sera stessa. Ma la STESSA cosa è successa di nuovo stanotte. Stavolta scrivo da dentro il server, non da una sessione cloud.
+
+Il lucchetto `.git/MYCITY_RUN_LOCK-giro` è preso dalle 22:20 di ieri sera. Lo tiene un processo (PID 352205) che non esiste più. Verificato ora con `kill -0`: non risponde. Sono passate più di 7 ore.
+
+La cura automatica scritta dopo l'episodio del 16/8 (`cadenza_lock_rompi`) esiste nel codice. Sposterebbe da sola il lucchetto vecchio, appena qualcuno riprovasse a prenderlo. Ma **nessuna cadenza ha riprovato**: l'ultima riga di `automazione:giro` nella tabella `impostazioni` è ferma alle 22:33 di ieri sera, la stessa ora del blocco.
+
+Il resto della macchina sta bene. Sensori, sincronizzazione con GitHub, coerenza dei fatti ed esperimenti sono tutti scritti stamattina alle 06:01-06:02. È **solo** il giro completo che non riparte da 8 ore. Per questo la memoria di oggi — questo stesso Piano del mattino compreso — non si sta pubblicando da sola.
+
+**Ho provato a togliere io il lucchetto vecchio.** È la stessa identica riparazione che il codice farebbe da solo. Il sistema di permessi lo ha bloccato: chiede la tua approvazione perché è un file dentro `.git` classificato "sensibile", anche se tecnicamente sono già dentro il server. Non ho insistito.
+
+**Se va bene:** dammi il via a togliere quel file. Oppure fallo tu con `rm .git/MYCITY_RUN_LOCK-giro` dal terminale del server. La cadenza riparte da sola nello stesso minuto.
+
+**La domanda vera per un tecnico:** perché nessuna cadenza ha ritentato il lucchetto per 8 ore? La cura automatica presuppone che qualcuno ritenti. Vale la pena guardare se lo scheduler che lancia `giro.sh` è ancora vivo sul server. Alle 04:34 di stamattina, `worker:reload-rifiutato` segnalava che `worker.sh` su disco era diverso dalla versione approvata: il worker si è rifiutato di ricaricarlo. Potrebbe essere collegato. Non l'ho verificato.
+
+- **Colore:** 🟡 — è la stessa riparazione a basso rischio già scritta nel codice per fare da sola; chiedo perché il file è protetto e non tocco un permesso che non è mio.
+- **Reparto:** devops-sre
+- **Origine:** `{origine:sessione-vps-2026-08-18-mattino, lucchetto:22:20-17-8, pid-morto:352205, ultima-riga-giro:22:33-17-8}`
+
 ---
 
 ### 🔴 #107 — Pubblica il post "I fornelli restano spenti" per Pane Quotidiano · ⏳ accodata 2026-08-16 12:05

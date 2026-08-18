@@ -1937,6 +1937,21 @@ fonte: AD digitale (chat)
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
 
+## Prossime priorità (☀️ aggiornato 18/8 06:12 — piano del mattino)
+Business INVARIATO dal 24/6, riconfermato ora con query SQL diretta (0 numeri inventati): 1 negozio (Pane Quotidiano), 7 profili, 1 ordine (mai pagato, del 24/6, CANCELED), 0 pagati — **stallo 55 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Novità vera trovata stamattina, scrivendo da dentro il server: il lucchetto del giro (`.git/MYCITY_RUN_LOCK-giro`) è orfano dalle 22:20 di ieri sera (processo morto, verificato con `kill -0`) e nessuna cadenza lo ha più ritentato da allora — la memoria non si pubblica da sola da 8 ore. Il resto del worker sta bene: sensori, sincronizzazione GitHub e coerenza dei fatti sono girati regolarmente stamattina alle 06:01-06:02.
+
+1. [ ] 🟡 **Sblocca di nuovo il lucchetto del giro** (aggiunto oggi al fondo di `#108`) — ho provato a toglierlo io stessa da dentro il server, il sistema di permessi lo ha impedito perché il file è "sensibile". Basta un comando o un tuo sì.
+2. [ ] 🔴 **Decidi sulle tre falle di sicurezza/affidabilità del sito** (`#36`/`#37`/`#38`) — ferme dal 29/7, **20 giorni**.
+3. [ ] 🟡 **Correggi 5 righe nel file dei permessi sul server** (`#104`) — 14 giorni, causa nota per cui gli script diagnostici (compreso `test-cervello.mjs`, ora cronico) restano bloccati.
+
+**Non dimenticare, invariata:** la mossa n.1 resta `#62`, la pratica pagamenti di Pane Quotidiano — il vero blocco del primo incasso, congelata fino al 24/8-1/9.
+
+**Da chiudere in fretta, ferme da ieri:** `#107` (post Pane Quotidiano, sì/no) · `#118` (comunicato stampa, servono due citazioni vere) · `#120` (segnalazione welfare al fornaio, a costo zero).
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 55gg, atteso — negozi in pausa) · cadenza giro 🟡 (ferma da 8 ore, lucchetto orfano) · REST/Stripe/Resend/n8n/Pannello ✅ (riverificati 06:01) · PostHog spento per scelta · sito 503 noto.
+
+---
+
 ## Prossime priorità (🕛 aggiornato 17/8 12:00 — punto di mezzogiorno)
 Business INVARIATO dal 24/6, riverificato ORA con `verifica-sensori.mjs` + `coerenza-fatti.mjs` (0 numeri inventati): 1 negozio (Pane Quotidiano), 5 prodotti, 7 profili, 1 ordine (mai pagato, del 24/6, CANCELED), 0 pagati — **stallo 54 giorni**. È la pausa concordata con Nicola fino al 24/8-1/9, non un allarme. Le 3 priorità del Piano del mattino (06:05) restano tutte e tre aperte a mezzogiorno, nessuna sbloccata: nessuna risposta di Nicola su nessuna delle tre.
 

@@ -1305,3 +1305,23 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - 🔴 Sì o no al post per Pane Quotidiano (`#107`), pronto da ieri.
 
 **Dettagli tecnici** (opzionale) — dati riverificati 12:01 con `verifica-sensori.mjs` (REST ok, 1 ordine) e `coerenza-fatti.mjs` (✅ coerente): business identico al passaggio delle 11:40. Commit di recupero automatico del worker `e306d8297` alle 12:00 (scritture pendenti di auto-coscienza).
+
+## Piano del mattino · 2026-08-18 06:12
+
+**In una riga:** il negozio resta fermo come previsto. Stanotte però la macchina si è incastrata di nuovo da sola. Stavolta scrivo da dentro il server, non da fuori.
+
+**Le 3 cose di oggi**
+1. Sblocca di nuovo l'ingranaggio che pubblica la memoria. Si è bloccato ieri sera alle 22:20. Nessuno l'ha più sturato da allora. Sono quasi 8 ore che la macchina non scrive più da sola. Ho provato a farlo io da qui dentro. Il sistema di sicurezza me lo ha impedito apposta.
+2. Decidi sulle tre falle di sicurezza del sito. Sono ferme da 20 giorni senza una tua risposta.
+3. Correggi cinque righe nel file dei permessi sul server. È la causa nota per cui molti controlli automatici restano bloccati da due settimane.
+
+**Serve da te**
+- Togli il lucchetto vecchio. Oppure dammi il via a farlo io. Il comando è nella card «Sblocca il server», in fondo, dentro «Da approvare».
+- Rispondi sulle tre falle di sicurezza. Toccano dati veri di negozi e clienti.
+- Correggi le cinque righe nel file dei permessi.
+- Tre sì/no veloci, pronti da ieri: il post per Pane Quotidiano. Il comunicato stampa, a cui mancano due frasi vere. La segnalazione gratuita al fornaio.
+
+**Dettagli tecnici** (opzionale)
+- Lucchetto `.git/MYCITY_RUN_LOCK-giro` orfano dalle 22:20 del 17/8 (PID 352205, morto — verificato con `kill -0` alle 06:10). Nota aggiunta in coda alla card `#108`.
+- Business confermato invariato con query diretta alle 06:05: 1 negozio, 7 profili, 1 ordine CANCELED, 0 pagati, stallo 55 giorni. Sensori (REST/Stripe/Resend/n8n/Pannello) tutti verdi alle 06:01.
+- Card `#108` (in coda, oggi), `#36`, `#37`, `#38`, `#104`, `#107`, `#118`, `#120` in AZIONI-IN-ATTESA.
