@@ -1,22 +1,21 @@
-# 📅 Eventi & Picchi di Domanda — 2026-08-17
+# 📅 Eventi & Picchi di Domanda — 2026-08-18
 
-> Aggiornato: 17 agosto 2026 06:33 · @intelligence · giro leggero (Ondata 3, `cervello/monitora.md`). Controllate le fonti giornaliere dovute oggi: Libertà Attualità, Libertà Città, PiacenzaSera, Comune (news+eventi, via WebSearch per il 403), CCIAA Emilia, Unione Commercianti (bandi), meteo. Novità di rilievo: la svolta meteo prevista è arrivata (instabilità/temporali lunedì), e un evento a 5 giorni con impatto food (Cotechino Festival Pianello, 22-23/8) — vedi sotto. Nessuna azione richiesta oggi. Precedente: 15/8 06:45.
+> Aggiornato: 18 agosto 2026 · @intelligence · giro leggero (Ondata 3, `cervello/monitora.md`). Controllate le fonti giornaliere dovute oggi: Libertà Attualità, Libertà Città, PiacenzaSera, Comune (news+eventi, via WebSearch per il 403), CCIAA Emilia, Unione Commercianti (bandi), meteo. Novità di rilievo: oggi 18/8 c'è l'allerta meteo gialla per temporali. La Protezione Civile ha spostato la finestra critica di un giorno rispetto a quanto atteso ieri — dettagli sotto. Nessuna azione richiesta oggi. Precedente: 17/8 06:33.
 
 ---
 
-## 🌡️ Meteo Piacenza 17-24/8 — la svolta prevista è arrivata: instabilità oggi, poi migliora, poi nuovo peggioramento da giovedì
+## 🌡️ Meteo Piacenza 18-25/8 — allerta gialla temporali proprio OGGI, poi torna a scaldare verso il weekend
 
-Confermato il pattern già segnalato il 10/8, 14/8 e 15/8: oggi lunedì 17/8 la circolazione cambia davvero.
+Aggiornamento 18/8: il Dipartimento Protezione Civile ha emesso un **bollettino di allerta gialla per rischio temporali**, valido su gran parte d'Italia. Riguarda proprio **oggi martedì 18/8**. È un giorno dopo rispetto a quanto il giro di ieri (17/8) aveva anticipato: la finestra critica si è spostata di 24 ore.
 
 | Data | Previsione |
 |------|------|
-| Lun 17/8 | **Giornata instabile**: nuvolosità in aumento dal pomeriggio, temporali sui rilievi che possono interessare anche fascia pedecollinare e pianura |
-| Mar 18/8 | Migliora, cielo sereno/poco nuvoloso, massime in leggero calo (32-33° in pianura) |
+| Mar 18/8 | **Allerta gialla, rischio temporali**: pomeriggio con nuvolosità diffusa e rovesci/temporali sparsi, non esclusi episodi di forte intensità; sgombra quasi ovunque in serata. Massime in calo, 32-34° |
 | Da gio 21/8 | Nuova onda depressionaria di origine atlantica: aumento nuvolosità, possibili precipitazioni (più probabili sul settore centro-occidentale della regione), lieve flessione delle temperature |
 
-**Impatto:** confermato il quadro già anticipato: fine del caldo intenso, non solo temperature più basse ma anche rischio temporali (oggi) e un nuovo peggioramento a fine settimana. Rilevante se/quando riparte la logistica bici (oggi non operativa). La bozza "ondata di caldo" per Pane Quotidiano perde attualità (il caldo estremo è finito) — da rivedere/archiviare alla ripresa 24/8-1/9, non da pubblicare oggi.
+**Impatto:** il rischio temporali/rovesci è concentrato oggi 18/8, non ieri come atteso. È rilevante solo se/quando riparte la logistica bici (oggi non operativa). Il caldo intenso resta comunque attenuato rispetto a Ferragosto. La bozza "ondata di caldo" per Pane Quotidiano resta superata: da rivedere o archiviare alla ripresa 24/8-1/9, non da pubblicare oggi.
 
-Fonte: ricerca aggregata (piacenzasera.it, 3bmeteo.com e altri portali meteo), consultata 17/8 via WebSearch (il fetch diretto su arpae.it resta senza dati previsionali diretti, solo un hub di link). Yellow alert per lunedì confermato anche da PiacenzaSera.
+Fonte: [meteo.it — Allerta meteo gialla per il 18 agosto 2026 in Italia: ecco dove](https://www.meteo.it/notizie/allerta-meteo-gialla-18-agosto-2026-italia-dove-e4219ba1) (18/8, WebSearch — il fetch diretto su arpae.it resta senza dati previsionali diretti, solo un hub di link).
 
 ---
 
@@ -100,11 +99,25 @@ Nessuna di queste tre richiede un'azione oggi (🟢 nota, coerente col vincolo p
 
 ---
 
+## 🆕 Novità di oggi (18/8) — allerta meteo spostata, nessuna novità commercio, nessuna azione
+
+**① Allerta gialla temporali proprio oggi** — vedi tabella meteo sopra: il bollettino Protezione Civile sposta di un giorno la finestra critica rispetto a quanto atteso ieri. Nessuna azione (bici non operativa).
+
+**② Libertà — Attualità e Città: nessuna novità su commercio/botteghe.** Le uniche notizie del giorno sono cronaca non pertinente (rafforzata sorveglianza al museo Alberoni dopo furti a Messina; furgone in fiamme a Montosero) e un'ordinanza anti-rumore su un autolavaggio per proteste dei residenti — zona/tema irrilevante per il delivery. Fonti: [liberta.it/attualita](https://www.liberta.it/attualita), [liberta.it/territorio/citta/piacenza — autolavaggio, ordinanza](https://www.liberta.it/news/territorio/citta/piacenza/quellautolavaggio-fa-troppo-rumore-i-residenti-protestano-scatta-lordinanza/109178) (18/8).
+
+**③ PiacenzaSera: solo eventi già di contesto, nessuna novità commercio.** Radio Sound Party (28-30/8), Summertime in Jazz a Bobbio (22/8), Settimana della Letteratura a Bobbio, Premio di poesia Valente Faustini (48ª edizione) — tutti fuori Piacenza città o non rilevanti per il delivery. Fonte: [piacenzasera.it](https://www.piacenzasera.it/) (18/8).
+
+**④ Comune di Piacenza — nessuna novità oltre quanto già noto**: WebSearch conferma solo le stesse notizie già registrate (chiusura estiva sportelli Digitale Facile, restrizioni Piazzetta Barozzieri, chiusure uffici/biblioteche di agosto). Nessun nuovo provvedimento ZTL/traffico/commercio. Fonte: WebSearch `site:comune.piacenza.it news commercio agosto 2026` (18/8).
+
+Nessuna di queste quattro richiede un'azione oggi (🟢 nota, coerente col vincolo pre-24/8).
+
+---
+
 ## 💰 Bandi — riconfermato tutto chiuso, nessuna apertura nuova
 
-Ricontrollati il 14/8, il 15/8 e di nuovo oggi (17/8) sia il sito CCIAA Emilia (via WebSearch, il fetch diretto resta 403) sia Unione Commercianti PC (RSS + WebSearch). Gli stati non cambiano: **BI26 chiuso l'11/6, PI26 e BE26 chiusi il 30/7, Bando Commercio Emilia-Romagna chiuso al limite delle 350 domande.** Nessuno di questi ha riaperto. Nessun bando nuovo per il commercio (negozi/botteghe) è comparso. Coerente con `registro-fatti.json` (`bandi.pi26.scadenza`, `bando.commercio-er.scadenza`).
+Ricontrollati il 14/8, il 15/8, il 17/8 e di nuovo oggi (18/8) sia il sito CCIAA Emilia (via WebSearch, il fetch diretto resta 403) sia Unione Commercianti PC (RSS + WebSearch). Gli stati non cambiano: **BI26 chiuso l'11/6, PI26 e BE26 chiusi il 30/7, Bando Commercio Emilia-Romagna chiuso al limite delle 350 domande.** Nessuno di questi ha riaperto. Nessun bando nuovo per il commercio (negozi/botteghe) è comparso. Coerente con `registro-fatti.json` (`bandi.pi26.scadenza`, `bando.commercio-er.scadenza`).
 
-Bando **non commercio** già segnalato l'11/8: "Fotovoltaico su parcheggi aziendali" (Regione ER, tramite Unione Commercianti). Copre il 35-40% a fondo perduto, fino a 100.000€. Le domande aprono dal 30/9/2026. Bassa rilevanza per le botteghe MyCity: serve un parcheggio aziendale, che i negozi del centro tipicamente non hanno. Nessuna azione. Nessun bando ulteriore trovato oggi (RSS `unionecommerciantipc.it/feed/` ricontrollato: stessi 5 bandi già noti, tutti chiusi salvo il fotovoltaico). Fonte: [unionecommerciantipc.it — Bando fotovoltaico imprese Emilia-Romagna](https://www.unionecommerciantipc.it/bando-fotovoltaico-imprese-emilia-romagna/) (11/8, riconfermato 17/8).
+Bando **non commercio** già segnalato l'11/8: "Fotovoltaico su parcheggi aziendali" (Regione ER, tramite Unione Commercianti). Copre il 35-40% a fondo perduto, fino a 100.000€. **Dettaglio nuovo trovato oggi: le domande aprono dal 30/9/2026 e chiudono il 16/11/2026** (prima si conosceva solo la data di apertura). Bassa rilevanza per le botteghe MyCity: serve un parcheggio aziendale, che i negozi del centro tipicamente non hanno. Nessuna azione. Nessun bando ulteriore trovato oggi (RSS `unionecommerciantipc.it/feed/` ricontrollato: stessi 5 bandi già noti, tutti chiusi salvo il fotovoltaico). Fonte: [unionecommerciantipc.it — Bando fotovoltaico imprese Emilia-Romagna](https://www.unionecommerciantipc.it/bando-fotovoltaico-imprese-emilia-romagna/) (11/8, riconfermato 18/8).
 
 ---
 
@@ -164,5 +177,11 @@ Report 27/7 → 30/7 → 10/8: versioni precedenti di questo file (in git histor
 - **17/8:** WebSearch site:comune.piacenza.it news commercio — nessuna novità oltre quanto già noto
 - **17/8:** unionecommerciantipc.it/feed/ (RSS) — stessi 5 bandi già noti, nessuno nuovo
 - **17/8:** WebSearch site:emilia.camcom.it bando 2026 — PI26/BE26/BI26 confermati chiusi
+- **18/8:** [meteo.it — Allerta meteo gialla per il 18 agosto 2026 in Italia](https://www.meteo.it/notizie/allerta-meteo-gialla-18-agosto-2026-italia-dove-e4219ba1) — bollettino Protezione Civile
+- **18/8:** liberta.it/attualita e liberta.it/territorio/citta/piacenza — nessuna novità commercio, solo cronaca non pertinente
+- **18/8:** piacenzasera.it — solo eventi già di contesto (Radio Sound Party, Summertime in Jazz, Settimana Letteratura, Premio Valente Faustini)
+- **18/8:** WebSearch site:comune.piacenza.it news commercio agosto 2026 — nessuna novità oltre quanto già noto
+- **18/8:** unionecommerciantipc.it/feed/ (RSS) — stessi 5 bandi già noti, dettaglio nuovo: scadenza fotovoltaico 16/11/2026
+- **18/8:** WebSearch site:emilia.camcom.it bando 2026 — PI26/BE26 confermati chiusi (finestra 20-30/7/2026)
 
 *Senior: @intelligence · nessuna azione da eseguire ora, tutto parcheggiato per la ripresa 24/8-1/9 salvo il monitoraggio bandi/meteo che resta sempre attivo*
