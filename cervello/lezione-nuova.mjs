@@ -112,9 +112,24 @@ export function componiLezione(campi = {}, lezioni = [], adesso = new Date()) {
   const giorno = campi.giorno || giornoPiacenza(adesso);
   const { id, motivo } = coniaId(lezioni, giorno);
   if (!id) return { ok: false, lezione: null, motivo };
+  // AR-769 — la forma DEVE essere quella che leggono gli altri. Fino al 18/8 qui usciva il solo
+  // campo `data`, mentre l'archivio storico (e chi lo legge: Cabina, conteggi, stati) cerca
+  // `nato`/`ultima_conferma`/`stato`. Risultato misurato: nove lezioni scritte negli ultimi 7 giorni
+  // e una scheda che diceva «0 lezioni negli ultimi 7 giorni». Una lezione in una forma che nessuno
+  // sa datare e' memoria che non arriva. `data` resta per chi gia' la legge: si aggiunge, non si toglie.
   const lezione = {
     id,
     data: campi.data || timbroOra(adesso),
+    nato: giorno,
+    ultima_conferma: campi.data || timbroOra(adesso),
+    stato: "attiva",
+    // Una lezione «attiva» senza confidenza nasce a zero, cioè GIÀ sotto la soglia di morte (0.3):
+    // il guardiano `archivi-senza-tetto` l'ha vista al primo colpo, sul file vero. 0.75 è il valore
+    // che l'archivio dà di fatto a una lezione con una sola evidenza (255 casi, la coda sta fra 0.75
+    // e 0.85) e resta sotto la soglia di promozione a principio (0.8): una lezione nuova deve poter
+    // vivere, non nascere principio.
+    confidenza: 0.75,
+    evidenze: 1,
     fonte: String(campi.fonte).trim(),
     testo: String(campi.testo).trim(),
     regola: String(campi.regola).trim(),

@@ -11841,6 +11841,19 @@
    "testo": "Uno zero da grep -c su una frase lunga non distingue «la cosa non c'e» da «ho scritto la frase sbagliata»: piu lunga e la frase, piu punti ha per non combaciare (virgolette, spazi, variabili espanse), e tutti finiscono nello stesso identico 0. Il rimedio e cercare prima un pezzo corto e inconfondibile, e allungare solo dopo.",
    "regola": "Prima di concludere che una cosa NON c'e da un conteggio a zero, ripeti la ricerca con una parola sola: se anche quella e zero, allora manca davvero.",
    "gate": "node --test cervello/test/misura-cieca.test.mjs"
+  },
+  {
+   "id": "L-2026-0818-01",
+   "data": "2026-08-18 07:54",
+   "nato": "2026-08-18",
+   "ultima_conferma": "2026-08-18 07:54",
+   "stato": "attiva",
+   "confidenza": 0.75,
+   "evidenze": 1,
+   "fonte": "Nicola, 18/8: ha mandato lo screenshot della Cabina dicendo «non e cambiato niente» — aveva ragione sulla card, e la card era rotta",
+   "testo": "**Una memoria scritta in una forma che nessuno sa leggere e memoria che non arriva.** La Cabina diceva «0 lezioni negli ultimi 7 giorni» mentre in archivio ce n'erano nove: le lezioni scritte dalla macchina uscivano col solo campo 'data', e ogni lettore cercava 'nato'/'ultima_conferma'. Due forme nello stesso archivio, e il contatore era muto proprio sulle lezioni nuove. Quando Nicola dice che non e cambiato niente, la prima cosa da controllare non e se il lavoro e stato fatto, ma se il numero che lui guarda sa vedere quel lavoro.",
+   "regola": "Chi scrive in un archivio condiviso usa la forma che i lettori cercano, e chi legge dichiara quali campi accetta. Prima di dire «e fatto», guarda il numero come lo vede Nicola, non come lo vedi tu.",
+   "gate": "node cervello/test/porta-delle-lezioni.test.mjs"
   }
  ],
  "principi": [
