@@ -139,5 +139,19 @@ guardiano() {
   local _script="$1"; shift
   GUARDIANO_OUT="$(node "${SCRIPT_DIR:-.}/$_script" "$@" 2>&1)"; GUARDIANO_RC=$?
   printf '%s\n' "$GUARDIANO_OUT" | tail -6
+  # AR-770 — un freno rosso È l'inciampo evitato: qui, e solo qui, una lezione risulta USATA.
+  # Prima l'unica traccia era un comando a mano che quasi nessuno lanciava: 6 lezioni su 521 ne
+  # portavano una. Su verde non scrive niente, apposta — marcare a ogni passaggio misurerebbe «te
+  # l'ho mostrata», non «mi ha fermata». Best-effort: se questa marcatura fallisce NON deve cambiare
+  # l'esito del guardiano, che è l'unica cosa che il chiamante legge.
+  if [ "$GUARDIANO_RC" -ne 0 ]; then
+    local _marca_out _marca_rc
+    _marca_out="$(node "${SCRIPT_DIR:-.}/freno-scattato.mjs" "$_script" --rc "$GUARDIANO_RC" --ref "freno rosso nel giro: $_script" 2>&1)"; _marca_rc=$?
+    # L'esito della marcatura NON si butta: se fallisce lo si dice. Buttarlo qui sarebbe la stessa
+    # malattia che questa funzione esiste per curare, commessa dentro la cura.
+    if [ "$_marca_rc" -ne 0 ]; then
+      printf '⚠️  marcatura uso non riuscita (rc=%s): %s\n' "$_marca_rc" "$_marca_out" >&2
+    fi
+  fi
   return "$GUARDIANO_RC"
 }
