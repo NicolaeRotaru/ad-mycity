@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
   "_cosa_NON_prova": "Non prova che la macchina sappia fare il mestiere: misura cinque proprietà della macchina stessa (difetti chiusi, prove, sensori, loop), tutte interne. Nessuno di questi cinque numeri sale perché è arrivato un ordine o è entrato un negozio — la pagella può dirsi pronta con il business fermo, e il 28/7 è esattamente così.",
-  "aggiornato": "2026-08-17 16:20",
+  "aggiornato": "2026-08-18 06:20",
   "pronta": false,
   "voci_superate": 0,
   "voci_totali": 5,
   "voci_cieche": 1,
-  "migliorate": 1,
+  "migliorate": 0,
   "peggiorate": 0,
   "soglie": {
     "lezioni_tasso_min": 0.7,
@@ -26,20 +26,20 @@
       "come_si_alza": "prendere una correzione di Nicola e chiuderla alla radice (principio + gate automatico): scrivere altre lezioni non aiuta, finiscono nel denominatore",
       "tasso_citazioni": 0.11,
       "valore": 0.15,
-      "etichetta": "15% (21/141 correzioni)",
+      "etichetta": "15% (20/132 correzioni)",
       "ok": false,
       "cieco": false,
       "ricadute": {
-        "correzioni": 141,
-        "su_tema_cronico": 108,
-        "quota": 0.77,
-        "temi_cronici": 77,
-        "temi_totali": 353
+        "correzioni": 132,
+        "su_tema_cronico": 100,
+        "quota": 0.76,
+        "temi_cronici": 71,
+        "temi_totali": 321
       },
       "gate": {
-        "correzioni": 141,
-        "con_gate": 34,
-        "quota": 0.24
+        "correzioni": 132,
+        "con_gate": 33,
+        "quota": 0.25
       },
       "precedente": 0.15,
       "movimento": "ferma"
@@ -94,14 +94,14 @@
       "cieco": false,
       "fonte": "auto-coscienza/chiusura-loop.json",
       "come_si_alza": "gate: non si chiude un lavoro 🟡/🔴 senza la riga ESITO nel quaderno (AR-154)",
-      "precedente": 0.13934426229508196,
-      "movimento": "migliorata"
+      "precedente": 0.16393442622950818,
+      "movimento": "ferma"
     },
     {
       "id": "salute",
       "titolo": "Voto salute che si dà da sola",
       "valore": 4,
-      "etichetta": "4/100 (misurato 2026-08-17)",
+      "etichetta": "4/100 (misurato 2026-08-18)",
       "soglia": "≥80/100",
       "ok": false,
       "cieco": false,
@@ -2454,6 +2454,18 @@
     },
     {
       "data": "2026-08-17 16:20",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.15,
+        "calibrazione": null,
+        "freni": 10,
+        "quaderni": 0.16393442622950818,
+        "salute": 4
+      }
+    },
+    {
+      "data": "2026-08-18 06:20",
       "voci_superate": 0,
       "pronta": false,
       "valori": {

@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-17 11:29",
+  "aggiornato": "2026-08-18 07:40",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16130,7 +16130,7 @@
     },
     {
       "id": "AR-764",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "apprendimento",
       "gravita": "medio",
       "titolo": "Le lezioni che entrano in OGNI turno di chat vivono in un secondo archivio che non puo avere freni",
@@ -16142,13 +16142,18 @@
       "nato_come": "scoperta",
       "nato_da": "secondo giro del lotto AR-763: cercando TUTTE le strade che portano una lezione al lavoro, non solo quella riparata",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Prova da scrivere insieme al fix: dipende da quale delle due strade si sceglie. Registrato senza prova invece che con un grep, che qui non frenerebbe niente (CLAUDE.md, l asticella)."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/la-chat-senza-freni.test.mjs"
+      },
+      "strada_scelta": "(a) la chat chiede la scheda sul messaggio di Nicola all archivio strutturato. Scartata la (b) generare LEZIONI-CHAT.md dall archivio: avrebbe tolto un archivio ma anche le righe scritte a mano dalla metabolizzazione, che oggi sono l unica memoria della chat — meglio affiancare che sostituire finche la scheda non ha dimostrato di bastare.",
+      "nota_fix": "Riparato in questo lotto. `contesto_macchina_chat` riceve il messaggio e chiede la scheda a contesto-lezioni.mjs --richiesta --testo; se non esce niente resta la lista di sempre, cosi la chat non e mai muta. Prova a 3 casi che esegue la funzione vera di worker.sh (arriva la scheda coi freni / senza messaggio nulla cambia / strumento assente e la chat parla lo stesso). Non-vacuita verificata: staccando la chiamata il primo caso diventa rosso.",
+      "chiuso_il": "2026-08-17 22:47",
+      "chiuso_come": "node cervello/test/la-chat-senza-freni.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-765",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "apprendimento",
       "gravita": "grave",
       "titolo": "Ottantotto regole promosse, otto consegnate: i principi si sceglievano per posizione nel file",
@@ -16163,11 +16168,14 @@
         "tipo": "comando",
         "comando": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs"
       },
-      "nota_fix": "Riparato in questo lotto. Misura prima/dopo sull archivio vero: principi col freno consegnati 2 su 4 → 4 su 4; tetto 8 → 12 dichiarato in intestazione. Non-vacuita verificata: rimettendo la scelta per posizione, 4 casi su 7 diventano rossi."
+      "nota_fix": "Riparato in questo lotto. Misura prima/dopo sull archivio vero: principi col freno consegnati 2 su 4 → 4 su 4; tetto 8 → 12 dichiarato in intestazione. Non-vacuita verificata: rimettendo la scelta per posizione, 4 casi su 7 diventano rossi.",
+      "chiuso_il": "2026-08-17 22:47",
+      "chiuso_come": "node cervello/test/i-principi-che-non-arrivano-mai.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-766",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "apprendimento",
       "gravita": "medio",
       "titolo": "Il guardiano diceva che il decadimento non gira, e stava girando: un motore giudicato dal conto dei morti",
@@ -16182,21 +16190,61 @@
         "tipo": "comando",
         "comando": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs"
       },
-      "nota_fix": "Riparato in questo lotto. Prima: «0 decadute — il decadimento non gira». Adesso: «0 decadute, ma il decadimento GIRA: 323 passi negli ultimi 14 giorni, la piu vicina alla soglia e a confidenza 0.33». Non-vacuita verificata: dichiarando sempre fermo, 2 casi su 6 diventano rossi."
+      "nota_fix": "Riparato in questo lotto. Prima: «0 decadute — il decadimento non gira». Adesso: «0 decadute, ma il decadimento GIRA: 323 passi negli ultimi 14 giorni, la piu vicina alla soglia e a confidenza 0.33». Non-vacuita verificata: dichiarando sempre fermo, 2 casi su 6 diventano rossi.",
+      "chiuso_il": "2026-08-17 22:47",
+      "chiuso_come": "node cervello/test/il-motore-giudicato-dai-morti.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
+    },
+    {
+      "id": "AR-767",
+      "stato": "aperto",
+      "dimensione": "apprendimento",
+      "gravita": "minore",
+      "titolo": "Su un filo di chat che ha toccato molti argomenti la scheda si annacqua: pesa tutto il testo allo stesso modo",
+      "causa_radice": "La scheda misura la pertinenza sul testo INTERO della richiesta, con lo stesso peso dalla prima all ultima parola. In chat pero la richiesta e l intera conversazione: se il filo ha toccato molti temi diversi, il vocabolario si allarga e le lezioni che vincono sono quelle che pescano piu parole a caso, non quelle sull ultima cosa chiesta. Misurato il 17/8 con una conversazione vera ripetuta fino a 8.790 byte: nessun degrado (5 freni a ogni lunghezza, perche il vocabolario resta lo stesso). Con 4.000 parole di argomenti mescolati: 11 righe e ZERO freni. Il rischio quindi non e la lunghezza in se, e la varieta di argomenti dentro lo stesso filo.",
+      "fix_proposto": "🟡 Da valutare, non ancora scelto: pesare di piu la CODA del testo (l ultimo messaggio e quello a cui Nicola sta rispondendo adesso), oppure limitare la finestra agli ultimi N caratteri quando la richiesta supera una soglia. Serve una misura prima: quanto sono lunghi e quanto sono vari i fili di chat veri, che da qui non si vedono.",
+      "dove": "cervello/contesto-lezioni.mjs (lezioniSuMisura, principiSulTema)",
+      "impatto_crescita": "tocca la porta che Nicola usa di piu: se il filo e lungo e ha girato per molti temi, le regole che gli arrivano possono essere quelle sbagliate",
+      "nato": "2026-08-17 20:35",
+      "nato_come": "scoperta",
+      "nato_da": "collaudo di fine lotto su AR-764: ho provato la scheda col caso grosso (una conversazione intera invece di una frase) invece di fermarmi al caso comodo",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Prova da scrivere insieme al fix: dipende da quale strada si sceglie, e prima serve una misura sui fili di chat veri (lunghezza e varieta), che da una sessione cloud non si vedono."
+      }
+    },
+    {
+      "id": "AR-768",
+      "stato": "chiuso",
+      "dimensione": "sensori",
+      "gravita": "medio",
+      "titolo": "Un conteggio a zero su una frase lunga non sa dire «non c'e» da «hai cercato la frase sbagliata»: ho riferito a Nicola una cosa falsa",
+      "causa_radice": "Dopo il merge della cura della chat ho controllato che fosse arrivata su main con `grep -c` su una frase di tre parole, e ho letto lo 0 come assenza. Nel codice vero fra `.mjs` e `--richiesta` c'e una virgoletta di chiusura, quindi quella frase esatta non esiste da nessuna parte: lo zero diceva «hai cercato una frase che non hai mai scritto», non «la riga non c'e». Piu lunga e la frase cercata, piu punti ha per non combaciare — virgolette, spazi, variabili espanse — e tutti finiscono nello stesso identico 0. E la stessa malattia che questo guardiano gia censiva (errore-ingoiato) commessa nel modo di misurare, non nel codice.",
+      "fix_proposto": "Sesta forma in cervello/misura-cieca.mjs: un `grep -c`/`-q` su una frase di almeno 3 parole e 20 caratteri fa scattare l'avviso, col rimedio (cerca prima un pezzo corto e inconfondibile, poi allunga). Restano fuori apposta i pattern corti e i grep che stampano le righe: li il vuoto si vede, e il rumore spegne i guardiani.",
+      "dove": "cervello/misura-cieca.mjs (TRAPPOLE, forma zero-su-una-frase-lunga)",
+      "impatto_crescita": "tocca cio che Nicola legge: una misura cieca non rompe una schermata, rompe il ragionamento che gli riferisco sopra — e questa volta gli ho detto che una cura mergiata non era arrivata",
+      "nato": "2026-08-17 21:20",
+      "nato_come": "scoperta",
+      "nato_da": "errore mio, trovato ricontrollando dopo il merge della PR #757: la verifica che la cura fosse su main e' uscita 0 e l'ho riferito a Nicola come assenza",
+      "nota_fix": "Riparato subito. Prova a 5 casi in cervello/test/misura-cieca.test.mjs, fra cui il comando esatto che mi ha fatto sbagliare, piu i tre casi che devono restare muti (parola sola, grep che stampa, due parole corte). Non-vacuita: mutazione AR-768 in mutanti.json — spegnendo la soglia il caso vero torna verde. Copertura dichiarata nel file: NON copre il caso gemello (frase corta ma marcatore inventato), e sta scritto li perche nessuno lo scambi per coperto.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/misura-cieca.test.mjs"
+      }
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 755,
+    "totale": 759,
     "aperti": 106,
     "in_corso": 0,
     "da_riverificare": 56,
-    "chiusi": 593,
+    "chiusi": 597,
     "altri": 0,
     "da_fare": 162,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 593,
+      "chiuso": 597,
       "aperto": 106,
       "da-riverificare": 56
     },

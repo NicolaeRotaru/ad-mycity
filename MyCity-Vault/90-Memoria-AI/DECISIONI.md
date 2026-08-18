@@ -2034,3 +2034,63 @@ che consiglio non è promuoverli (i principi hanno 12 posti, i freni sono 70): �
 passare dalla porta a somiglianza di parole. Da decidere con Nicola.
 
 **Stato:** 🟡 lotto consegnato, merge di Nicola.
+
+## 2026-08-17 20:10 — 🟡 La chat riceve le regole sul tema, col loro freno (AR-764)
+
+**Origine:** Nicola, 17/8: «fai la chat per prima». Era la scelta fra i 37 freni invisibili e la
+porta della chat, e ha scelto la chat — la porta che usa lui.
+
+**Il difetto.** Le lezioni della chat venivano da `grep '^- ' LEZIONI-CHAT.md | head -8`: le prime
+otto righe di un file di prosa, sempre le stesse, senza freno (in quel file il campo non esiste) e
+senza nessun legame col messaggio. Le sessioni e il giro passavano già dall'archivio strutturato.
+**La porta più frequentata era l'unica rimasta cieca** — ed è il motivo per cui Nicola, dopo due
+lotti di lavoro sull'apprendimento, non vedeva cambiare niente.
+
+**Cosa ho fatto (🟡, PR aperta):** `contesto_macchina_chat` riceve il messaggio e chiede a
+`contesto-lezioni.mjs --richiesta --testo` le regole sul tema, coi loro freni. Se non esce niente —
+messaggio corto, nessuna lezione in tema — resta la lista di sempre: la chat non è mai muta.
+
+Il messaggio entra da stdin come testo semplice: niente `jq`, perché una strada che deve funzionare
+sempre non si appoggia a una dipendenza in più. E niente pipe con `|| true`, che avrebbe sepolto
+l'esito due volte (la mano si è fermata da sola su quella riga: malattia `esito-in-una-pipe`).
+
+**La strada scartata.** Generare `LEZIONI-CHAT.md` dall'archivio e togliere il secondo archivio.
+Avrebbe chiuso la malattia alla radice, ma avrebbe anche buttato le righe scritte a mano dalla
+metabolizzazione, che oggi sono l'unica memoria propria della chat. Meglio affiancare finché la
+scheda non ha dimostrato di bastare.
+
+**La prova:** `node cervello/test/la-chat-senza-freni.test.mjs`, 3 casi che eseguono la funzione
+VERA di `worker.sh` in un repo usa-e-getta (arriva la scheda coi freni · senza messaggio non cambia
+niente · strumento assente e la chat parla lo stesso). Staccando la chiamata, il primo diventa rosso.
+
+L'avevo scritta prima in bats, ed era la scelta sbagliata per due motivi: `bats` non è installato
+(`npx` se lo scarica al volo, e un freno che dipende da un download non è un freno), e la prova che
+chiude un difetto in questa casa è un comando `node cervello/…`. Riscritta in node, che esegue lo
+stesso bash; i tre casi bats doppioni sono stati tolti.
+
+**Un buco trovato per strada.** Il sorvegliante ha rifiutato il freno della lezione dicendo che «non
+nomina nessun file»: riconosceva `.mjs`, `.sh`, `.cjs` e non `.bats`. In casa ci sono **29 prove
+bats** e **cinque mutazioni** che ne usano una: nessuna di quelle era protetta dall'indice delle
+difese. Aggiunto `bats` al riconoscimento — i 139 casi del sorvegliante restano verdi. Alla fine il
+freno di questa lezione è diventato un comando `node`, quindi la correzione non serviva a me: serve
+alle cinque mutazioni che erano scoperte.
+
+**Stato:** 🟡 lotto consegnato, merge di Nicola.
+
+## 2026-08-17 23:35 — 🟡 Un conteggio a zero non e' una prova di assenza: sesta forma nel guardiano delle misure cieche (AR-768)
+**Cosa.** Dopo il merge della cura della chat (PR #757) ho verificato che fosse arrivata su `main`
+contando con `grep -c` una frase di tre parole. E' uscito 0 e ho riferito a Nicola che la riga non
+c'era. La riga c'era: nel codice vero, fra `.mjs` e `--richiesta`, sta una virgoletta di chiusura,
+quindi quella frase esatta non esiste da nessuna parte. Lo zero diceva «hai cercato una frase che non
+hai mai scritto», e i due suonano identici.
+**Perche' un freno e non una frase.** E' la stessa malattia che `cervello/misura-cieca.mjs` gia'
+censiva (l'errore ingoiato dal canale che porta il verdetto), commessa nel modo di misurare invece
+che nel codice — e li' fa piu' danno, perche' rompe il ragionamento che riferisco a Nicola. Sesta
+forma: un `grep -c`/`-q` su una frase di almeno 3 parole e 20 caratteri fa scattare l'avviso, col
+rimedio (cercare prima un pezzo corto e inconfondibile). Prova a 5 casi, fra cui il comando esatto
+che mi ha ingannato; non-vacuita' dimostrata dalla mutazione AR-768.
+**Cosa resta scoperto, dichiarato.** Il caso gemello — frase corta ma marcatore inventato
+(`grep -c 'prova:'` dove il marcatore vero era `freno:`) — nessuna regola lo distingue da una ricerca
+legittima. Sta scritto nell'intestazione del file perche' nessuno lo scambi per coperto: l'unico
+rimedio e' guardare una volta l'uscita vera prima di contarci dentro.
+**Lezione** L-2026-0817-04 · **Freno** `node --test cervello/test/misura-cieca.test.mjs`

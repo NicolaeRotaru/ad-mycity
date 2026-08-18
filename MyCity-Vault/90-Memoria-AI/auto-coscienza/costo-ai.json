@@ -1,323 +1,59 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-08-17 16:28",
+  "aggiornato": "2026-08-18 06:49",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
-    "data": "2026-08-17",
-    "runs": 38,
+    "data": "2026-08-18",
+    "runs": 4,
     "token_totali": 0,
-    "durata_sec_totale": 13376,
+    "durata_sec_totale": 3216,
     "voci": [
       {
-        "quando": "2026-08-17 00:06",
-        "tipo": "giro",
-        "durata_sec": 864,
-        "token": 65000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 00:31",
-        "tipo": "giro",
-        "durata_sec": 850,
-        "token": 60000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 01:58",
-        "tipo": "giro",
-        "durata_sec": 1216,
-        "token": 105000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 04:54",
+        "quando": "2026-08-18 05:01",
         "tipo": "worker-analisi",
-        "durata_sec": 53,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 06:12",
-        "tipo": "ritmo-mattino",
-        "durata_sec": 777,
-        "token": 65000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 06:35",
-        "tipo": "monitora",
-        "durata_sec": 333,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 06:37",
-        "tipo": "worker-analisi",
-        "durata_sec": 80,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 06:46",
-        "tipo": "worker-analisi",
-        "durata_sec": 59,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 06:47",
-        "tipo": "worker-analisi",
-        "durata_sec": 47,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 08:34",
-        "tipo": "giro",
-        "durata_sec": 486,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 10:10",
-        "tipo": "giro",
-        "durata_sec": 514,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 10:26",
-        "tipo": "giro",
-        "durata_sec": 501,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 11:11",
-        "tipo": "giro",
-        "durata_sec": 360,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 11:25",
-        "tipo": "giro",
-        "durata_sec": 440,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 11:26",
-        "tipo": "worker-playbook",
-        "durata_sec": 78,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 11:27",
-        "tipo": "worker-playbook",
-        "durata_sec": 67,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 11:41",
-        "tipo": "giro",
-        "durata_sec": 440,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 11:44",
-        "tipo": "worker-playbook",
-        "durata_sec": 127,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 11:59",
-        "tipo": "worker-playbook",
         "durata_sec": 902,
         "token": 80000,
         "modello": "claude",
         "stima_grezza": true
       },
       {
-        "quando": "2026-08-17 12:05",
-        "tipo": "ritmo-mezzogiorno",
-        "durata_sec": 354,
+        "quando": "2026-08-18 06:08",
+        "tipo": "ritmo-mattino",
+        "durata_sec": 501,
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
       },
       {
-        "quando": "2026-08-17 12:13",
+        "quando": "2026-08-18 06:37",
+        "tipo": "monitora",
+        "durata_sec": 422,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-18 06:49",
         "tipo": "giro",
-        "durata_sec": 363,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 12:15",
-        "tipo": "worker-playbook",
-        "durata_sec": 112,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 12:17",
-        "tipo": "worker-playbook",
-        "durata_sec": 119,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 12:22",
-        "tipo": "worker-playbook",
-        "durata_sec": 315,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 12:25",
-        "tipo": "worker-playbook",
-        "durata_sec": 171,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 12:28",
-        "tipo": "worker-playbook",
-        "durata_sec": 137,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 12:32",
-        "tipo": "giro",
-        "durata_sec": 363,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 12:32",
-        "tipo": "worker-playbook",
-        "durata_sec": 269,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 12:47",
-        "tipo": "giro",
-        "durata_sec": 478,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 12:48",
-        "tipo": "worker-playbook",
-        "durata_sec": 60,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 13:14",
-        "tipo": "worker-playbook",
-        "durata_sec": 693,
-        "token": 60000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 13:17",
-        "tipo": "worker-playbook",
-        "durata_sec": 169,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 13:26",
-        "tipo": "worker-playbook",
-        "durata_sec": 568,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 13:31",
-        "tipo": "worker-playbook",
-        "durata_sec": 239,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 13:33",
-        "tipo": "worker-analisi",
-        "durata_sec": 165,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 14:21",
-        "tipo": "worker-analisi",
-        "durata_sec": 27,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 14:35",
-        "tipo": "giro",
-        "durata_sec": 528,
-        "token": 50000,
-        "modello": "claude",
-        "stima_grezza": true
-      },
-      {
-        "quando": "2026-08-17 15:28",
-        "tipo": "worker-analisi",
-        "durata_sec": 52,
-        "token": 50000,
+        "durata_sec": 1391,
+        "token": 105000,
         "modello": "claude",
         "stima_grezza": true
       }
     ],
-    "token_stimati": 2035000,
-    "token_per_gate": 2035000,
+    "token_stimati": 285000,
+    "token_per_gate": 285000,
     "token_fonte": "misura"
   },
   "storico_giorni": [
+    {
+      "data": "2026-08-17",
+      "runs": 38,
+      "token_totali": 0,
+      "token_stimati": 2035000,
+      "token_per_gate": 2035000,
+      "durata_sec_totale": 13376
+    },
     {
       "data": "2026-08-16",
       "runs": 25,
@@ -586,218 +322,42 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 1340000,
-    "runs_sessione": 26,
+    "token_sessione_rolling": 285000,
+    "runs_sessione": 4,
     "finestra_min": 360,
     "voci_illeggibili": 0,
-    "aggiornato": "2026-08-17 16:28"
+    "aggiornato": "2026-08-18 06:49"
   },
   "voci_recenti": [
     {
-      "quando": "2026-08-17 11:11",
-      "tipo": "giro",
-      "durata_sec": 360,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 11:25",
-      "tipo": "giro",
-      "durata_sec": 440,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 11:26",
-      "tipo": "worker-playbook",
-      "durata_sec": 78,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 11:27",
-      "tipo": "worker-playbook",
-      "durata_sec": 67,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 11:41",
-      "tipo": "giro",
-      "durata_sec": 440,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 11:44",
-      "tipo": "worker-playbook",
-      "durata_sec": 127,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 11:59",
-      "tipo": "worker-playbook",
+      "quando": "2026-08-18 05:01",
+      "tipo": "worker-analisi",
       "durata_sec": 902,
       "token": 80000,
       "modello": "claude",
       "stima_grezza": true
     },
     {
-      "quando": "2026-08-17 12:05",
-      "tipo": "ritmo-mezzogiorno",
-      "durata_sec": 354,
+      "quando": "2026-08-18 06:08",
+      "tipo": "ritmo-mattino",
+      "durata_sec": 501,
       "token": 50000,
       "modello": "claude",
       "stima_grezza": true
     },
     {
-      "quando": "2026-08-17 12:13",
+      "quando": "2026-08-18 06:37",
+      "tipo": "monitora",
+      "durata_sec": 422,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-18 06:49",
       "tipo": "giro",
-      "durata_sec": 363,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 12:15",
-      "tipo": "worker-playbook",
-      "durata_sec": 112,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 12:17",
-      "tipo": "worker-playbook",
-      "durata_sec": 119,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 12:22",
-      "tipo": "worker-playbook",
-      "durata_sec": 315,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 12:25",
-      "tipo": "worker-playbook",
-      "durata_sec": 171,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 12:28",
-      "tipo": "worker-playbook",
-      "durata_sec": 137,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 12:32",
-      "tipo": "giro",
-      "durata_sec": 363,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 12:32",
-      "tipo": "worker-playbook",
-      "durata_sec": 269,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 12:47",
-      "tipo": "giro",
-      "durata_sec": 478,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 12:48",
-      "tipo": "worker-playbook",
-      "durata_sec": 60,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 13:14",
-      "tipo": "worker-playbook",
-      "durata_sec": 693,
-      "token": 60000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 13:17",
-      "tipo": "worker-playbook",
-      "durata_sec": 169,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 13:26",
-      "tipo": "worker-playbook",
-      "durata_sec": 568,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 13:31",
-      "tipo": "worker-playbook",
-      "durata_sec": 239,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 13:33",
-      "tipo": "worker-analisi",
-      "durata_sec": 165,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 14:21",
-      "tipo": "worker-analisi",
-      "durata_sec": 27,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 14:35",
-      "tipo": "giro",
-      "durata_sec": 528,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-17 15:28",
-      "tipo": "worker-analisi",
-      "durata_sec": 52,
-      "token": 50000,
+      "durata_sec": 1391,
+      "token": 105000,
       "modello": "claude",
       "stima_grezza": true
     }
