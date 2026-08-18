@@ -19,6 +19,18 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(dirname "$SCRIPT_DIR")"
 cd "$REPO"
 
+# 🔒 ISTANZA SINGOLA — il 18/8/2026 due copie di questo script sono girate insieme per giorni
+# (una partita il 12/8, una il 16/8: nessuna sapeva dell'altra). Accavallandosi sugli stessi file
+# di memoria hanno prodotto 2.160 commit vuoti in ~2 ore. Il lock impedisce a una seconda copia di
+# partire finché la prima è viva. systemd (Restart=always) la farà ripartire da sola quando la
+# prima finisce per davvero: uscire con uno stato "ok" (non errore) evita di far sembrare questo
+# un guasto del servizio.
+exec 200>"$SCRIPT_DIR/.worker.lock"
+if ! flock -n 200; then
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] ⛔ Un'altra copia di worker.sh è già viva — esco senza avviarmi." >&2
+  exit 0
+fi
+
 # 🔒 AR-644 — i cancelli del commit vanno AGGANCIATI, non solo tentati. `>/dev/null 2>&1 || true`
 # buttava via sia l'output sia l'esito: se `core.hooksPath` non si attivava, il worker committava
 # senza scan dei segreti e senza perimetro di main, e nessuno lo diceva. Scoperto e muto insieme.
