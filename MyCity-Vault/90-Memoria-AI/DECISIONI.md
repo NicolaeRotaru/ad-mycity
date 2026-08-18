@@ -2159,3 +2159,58 @@ esiste già.
 tutte dal freno vivo. **Zero salvate dall'uso**, perché i 6 usi registrati sono vecchi: quella regola
 è armata ma non morde ancora, e morderà quando `freno-scattato.mjs` avrà scritto usi freschi.
 **Lezione** L-2026-0818-03 · **Freno** `node cervello/test/archivi-senza-tetto.test.mjs`
+
+## 2026-08-18 09:20 — 🔴 Le quattro modifiche 114-117 sul database vero
+**In due righe.** Il codice della richiesta #223 era gia online, le modifiche al database no: i
+rimborsi erano fermi. Nicola ha dato il via, applicate tutte e quattro, 13 oggetti su 13 verificati.
+
+**Cosa.** Su richiesta esplicita di Nicola («fai i 2 passi in ordine»), applicate in ordine al database
+del marketplace le migrazioni 114, 115, 116 e 117 — quelle nate dalla richiesta #223, unita poche ore
+prima. Il codice era gia online da solo su Vercel; le modifiche al database no, perche quelle sono un
+🔴 e aspettavano la firma.
+**Perche non si poteva rimandare.** Il codice online cercava dieci oggetti che nel database non
+esistevano. Verificato in sola lettura prima di intervenire: 0 su 10. Il piu grave era la colonna
+`orders.seller_payout_reversed_cents`: senza, `refundOrder` riceveva un errore e lanciava «ordine non
+trovato», quindi TUTTE E QUATTRO le strade che rimborsano un cliente erano ferme — annullamento dal
+pannello, decisione su un reso, risoluzione di una contestazione, ordini scaduti. Prima dell'unione
+funzionavano: era un peggioramento causato dalla pubblicazione.
+**Il raggio, misurato PRIMA di scrivere.** 7 profili in tutto, 1 ordine. La bonifica dell'approvazione toccava un solo profilo, il fattorino demo.
+Pane Quotidiano non era esposto: ha `approval_status='approved'`, scritto dal pannello. La vista `seller_storefronts` da cancellare non aveva dipendenti.
+**Esito.** Tutte e quattro al primo colpo. 13 oggetti su 13 verificati. Il controllo degli ordini non
+cita piu la colonna cancellata a giugno. Nessuna vista scrivibile senza account, codici sconto non piu
+scaricabili in blocco, il fattorino non vede piu la riga intera del cliente.
+**Errore mio, trovato dopo e corretto.** Ricopiando la 114 avevo scritto «EUR» dove il file diceva «€»
+nel messaggio della spesa minima: una divergenza fra repo e produzione su un testo che legge il
+cliente, cioe la malattia che quel lavoro curava. Rimesso a posto e ricontrollate tutte e 12 le frasi
+mostrate all'utente: ora identiche al repo.
+**Cosa mi porto dietro.** Ho ripreso dopo un'interruzione mentre stavo scrivendo in produzione. Su
+un'azione irreversibile quella e la richiesta di conferma, non un intoppo: nel voto del quaderno mi
+sono tolta il punto su «colore giusto» per questo.
+
+## 2026-08-18 11:55 — 🔴 La modifica 118 sul database vero
+**In due righe.** La disiscrizione che avevo scritto il giorno prima non disiscriveva nessuno.
+Nicola ha dato il via, applicata la riparazione, provata su quattro casi senza toccare dati veri.
+
+**Cosa.** Su «via» esplicito di Nicola, applicata al database di produzione la migrazione 118, subito
+dopo l'unione della richiesta #224. Contiene tre cose. La funzione `disiscrivi(email, ambito)`. Il percorso
+di ricerca dichiarato su `activity_key_sensibile`. E i commenti che spiegano perche tre viste girano
+coi permessi del proprietario.
+**Perche.** La radiografia del 18/8 ha trovato che la disiscrizione con un clic non disiscriveva.
+L'avevo scritta io il giorno prima. Aggiornava `profiles` filtrando su una colonna `email` che quella
+tabella non ha: le email stanno in `auth.users`. E il codice non guardava l'esito. In piu l'indirizzo
+di ritorno veniva da una variabile inesistente, quindi la pagina rispondeva errore. Chi chiedeva di smettere non veniva tolto da niente.
+Continuava a ricevere le email, fino a segnare il messaggio come spam.
+E la reputazione di chi spedisce e una sola.
+**Il caso, per esteso.** Una cliente riceve la newsletter del sabato. Clicca «Cancellami» e vede una
+pagina di errore. Riprova lunedi, stessa cosa. Il sabato dopo le arriva un'altra newsletter, perche
+sul suo profilo non e cambiato niente. A quel punto segna il messaggio come spam, e da li anche le
+conferme d'ordine rischiano la posta indesiderata per tutti.
+**Esito, provato e non dedotto.** Indirizzo inesistente → `ok:false` (non mente piu). Indirizzo vuoto
+→ non esplode. Il ponte email→profilo regge su un indirizzo vero, verificato in sola lettura senza
+toccare la riga. Il browser non puo chiamarla.
+**La lezione, che vale oltre questo caso.** Per quella funzione avevo scritto sette prove il giorno
+prima: tutte sulla firma del token, tutte verdi, nessuna che accendesse la rotta. Sette prove sulla
+parte facile non coprono la parte che gira. La prova nuova accende la rotta vera, e ho verificato che
+sappia fallire: con la versione vecchia ne diventano rossi 5 su 6, con l'errore di produzione.
+**Regola confermata.** Unire una richiesta pubblica il codice, non e la firma sul database. Le due
+cose vanno chieste separate, ogni volta: stamattina quella confusione ha lasciato i rimborsi fermi.
