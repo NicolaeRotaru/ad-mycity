@@ -5118,6 +5118,15 @@
    "sostituisci": "    if true; then",
    "test": "node cervello/test/la-chat-senza-freni.test.mjs",
    "lezione": "L-2026-0817-03"
+  },
+  {
+   "difetto": "AR-768 zero-su-una-frase-lunga",
+   "nome": "smette di vedere il conteggio a zero su una frase lunga: uno zero da frase sbagliata torna a sembrare «la cosa non c'e»",
+   "file": "cervello/misura-cieca.mjs",
+   "cerca": "        if (frase.length >= 20 && frase.split(/\\s+/).length >= 3) return true;",
+   "sostituisci": "        if (false) return true;",
+   "test": "node --test cervello/test/misura-cieca.test.mjs",
+   "lezione": "L-2026-0817-04"
   }
  ]
 }

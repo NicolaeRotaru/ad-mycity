@@ -25,8 +25,14 @@
 // COSA FA. Legge il testo di un comando di shell e segnala le forme che rendono cieco il verdetto.
 // Non giudica il comando: giudica se il comando POTRÀ dire di no.
 //
-// COPERTURA DICHIARATA: sono le cinque forme misurate sul campo, non una teoria della shell. Un
-// comando che passa non è «sicuro»: è «non contiene le cinque trappole già pagate».
+// COPERTURA DICHIARATA: sono le sei forme misurate sul campo, non una teoria della shell. Un
+// comando che passa non è «sicuro»: è «non contiene le sei trappole già pagate».
+//
+// COSA RESTA SCOPERTO, detto qui perché nessuno lo scambi per coperto: il 17/8, nello stesso giro
+// in cui è nata la sesta forma, ho sbagliato una seconda misura in modo che questo file NON vede —
+// `grep -c 'prova:'` su un'uscita in cui il marcatore vero era `freno:`. Frase corta, una parola
+// sola: nessuna regex la distingue da una ricerca legittima. L'unico rimedio è guardare UNA volta
+// l'uscita vera prima di contarci dentro. Un guardiano non può sostituire quel primo sguardo.
 //
 // E DAL 3/8 (AR-502) questo hook fa un secondo mestiere: fa girare anche il SORVEGLIANTE sul delta.
 // Non è un accorpamento di comodo. Il sorvegliante è agganciato a `Edit|Write|MultiEdit`, quindi un
@@ -87,6 +93,32 @@ export const TRAPPOLE = [
     prova: (c) => /JSON\.parse\([^)]*\)\s*(&&|;)?\s*(console\.log|echo)?[^\n]*(valido|ok|✅)/i.test(c) && !/(includes|grep|match|\.some\()/.test(c),
     cosa: "«il JSON è valido» non dimostra che contenga quello che cerchi: passerebbe identico sulla versione sbagliata",
     invece: "cerca il contenuto (grep -c, includes, .some): una prova deve poter dire di no",
+  },
+  {
+    id: "zero-su-una-frase-lunga",
+    // Il 17/8, dopo il merge della cura della chat, ho controllato che fosse arrivata su main con
+    // `git show origin/main:cervello/worker.sh | grep -c "contesto-lezioni.mjs --richiesta --testo"`.
+    // È uscito 0 e ho scritto a Nicola che la riga non c'era. La riga c'era: nel codice vero, fra
+    // `.mjs` e `--richiesta`, c'è una virgoletta di chiusura (`"$SCRIPT_DIR/contesto-lezioni.mjs"
+    // --richiesta`), quindi quella frase esatta non esiste da nessuna parte. Lo zero non stava
+    // dicendo «non c'è»: stava dicendo «hai cercato una frase che non hai mai scritto».
+    // Più lunga è la frase cercata, più punti ha per non combaciare — virgolette, spazi, `$VAR`
+    // espanse, a-capo — e tutti finiscono nello stesso identico 0.
+    prova: (c) => {
+      const re = /\bgrep\b([^\n;|&]*)/g;
+      for (let m = re.exec(c); m; m = re.exec(c)) {
+        // solo `-c`/`-q`: lì il verdetto È il conteggio. Con un grep che stampa le righe, il vuoto
+        // si vede a occhio e il rischio di scambiarlo per una risposta è molto minore.
+        if (!/(?:^|\s)-[A-Za-z]*[cq][A-Za-z]*(?:\s|$)/.test(m[1])) continue;
+        const virgolette = m[1].match(/(["'])(.*?)\1/);
+        if (!virgolette) continue;
+        const frase = virgolette[2].trim();
+        if (frase.length >= 20 && frase.split(/\s+/).length >= 3) return true;
+      }
+      return false;
+    },
+    cosa: "conti con grep -c una frase lunga: se esce 0 non sai se la cosa non c'è o se hai scritto la frase sbagliata",
+    invece: "cerca prima un pezzo corto e inconfondibile (una parola sola), poi allunga: se il pezzo corto è 0, allora manca davvero",
   },
 ];
 

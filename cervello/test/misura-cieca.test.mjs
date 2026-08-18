@@ -79,7 +79,39 @@ test("ogni trappola porta con sé cosa fare invece: un avviso senza rimedio è s
     assert.ok(t.invece && t.invece.length > 15, `${t.id} deve dire cosa fare al posto suo`);
     assert.ok(t.cosa && t.cosa.length > 15, `${t.id} deve spiegare il danno, non solo nominarlo`);
   }
-  assert.equal(TRAPPOLE.length, 5, "le cinque forme misurate sul campo, non una teoria della shell");
+  assert.equal(TRAPPOLE.length, 6, "le sei forme misurate sul campo, non una teoria della shell");
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LA SESTA FORMA (17/8). Il caso vero: dopo il merge della cura della chat ho contato su main
+// `grep -c "contesto-lezioni.mjs --richiesta --testo"`, è uscito 0, e ho detto a Nicola che la riga
+// non c'era. C'era: nel codice vero fra `.mjs` e `--richiesta` sta una virgoletta di chiusura,
+// quindi quella frase non esiste da nessuna parte. Lo zero non diceva «non c'è», diceva «hai
+// cercato una frase che non hai mai scritto» — e i due suonano identici.
+// ─────────────────────────────────────────────────────────────────────────────
+
+test("il caso vero: contare una frase lunga che una virgoletta può spezzare", () => {
+  assert.ok(
+    ids('git show origin/main:cervello/worker.sh | grep -c "contesto-lezioni.mjs --richiesta --testo"').includes("zero-su-una-frase-lunga"),
+    "è il comando esatto che mi ha fatto dire una cosa falsa a Nicola",
+  );
+});
+
+test("vale anche per grep -q, dove il verdetto è un sì/no e lo zero non si vede nemmeno", () => {
+  assert.ok(ids(`grep -q 'la funzione riceve il messaggio e chiede' cervello/worker.sh`).includes("zero-su-una-frase-lunga"));
+});
+
+test("una parola sola non viene segnalata: è il pezzo corto, cioè proprio il rimedio suggerito", () => {
+  assert.deepEqual(ids('grep -c "lezioni_tema" cervello/worker.sh'), []);
+  assert.deepEqual(ids(`grep -q "PostToolUse" .claude/settings.json`), []);
+});
+
+test("un grep che STAMPA le righe non viene segnalato: lì il vuoto si vede, non si scambia per una risposta", () => {
+  assert.deepEqual(ids('grep -n "contesto-lezioni.mjs --richiesta --testo" cervello/worker.sh'), []);
+});
+
+test("due parole corte non bastano: la trappola è la frase lunga, e il rumore spegne i guardiani", () => {
+  assert.deepEqual(ids('grep -c "node cervello" giro.sh'), []);
 });
 
 // ─────────────────────────────────────────────────────────────────────────────

@@ -2076,3 +2076,21 @@ freno di questa lezione è diventato un comando `node`, quindi la correzione non
 alle cinque mutazioni che erano scoperte.
 
 **Stato:** 🟡 lotto consegnato, merge di Nicola.
+
+## 2026-08-17 23:35 — 🟡 Un conteggio a zero non e' una prova di assenza: sesta forma nel guardiano delle misure cieche (AR-768)
+**Cosa.** Dopo il merge della cura della chat (PR #757) ho verificato che fosse arrivata su `main`
+contando con `grep -c` una frase di tre parole. E' uscito 0 e ho riferito a Nicola che la riga non
+c'era. La riga c'era: nel codice vero, fra `.mjs` e `--richiesta`, sta una virgoletta di chiusura,
+quindi quella frase esatta non esiste da nessuna parte. Lo zero diceva «hai cercato una frase che non
+hai mai scritto», e i due suonano identici.
+**Perche' un freno e non una frase.** E' la stessa malattia che `cervello/misura-cieca.mjs` gia'
+censiva (l'errore ingoiato dal canale che porta il verdetto), commessa nel modo di misurare invece
+che nel codice — e li' fa piu' danno, perche' rompe il ragionamento che riferisco a Nicola. Sesta
+forma: un `grep -c`/`-q` su una frase di almeno 3 parole e 20 caratteri fa scattare l'avviso, col
+rimedio (cercare prima un pezzo corto e inconfondibile). Prova a 5 casi, fra cui il comando esatto
+che mi ha ingannato; non-vacuita' dimostrata dalla mutazione AR-768.
+**Cosa resta scoperto, dichiarato.** Il caso gemello — frase corta ma marcatore inventato
+(`grep -c 'prova:'` dove il marcatore vero era `freno:`) — nessuna regola lo distingue da una ricerca
+legittima. Sta scritto nell'intestazione del file perche' nessuno lo scambi per coperto: l'unico
+rimedio e' guardare una volta l'uscita vera prima di contarci dentro.
+**Lezione** L-2026-0817-04 · **Freno** `node --test cervello/test/misura-cieca.test.mjs`

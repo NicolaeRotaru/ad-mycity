@@ -16212,20 +16212,39 @@
         "tipo": "umano",
         "nota": "Prova da scrivere insieme al fix: dipende da quale strada si sceglie, e prima serve una misura sui fili di chat veri (lunghezza e varieta), che da una sessione cloud non si vedono."
       }
+    },
+    {
+      "id": "AR-768",
+      "stato": "chiuso",
+      "dimensione": "sensori",
+      "gravita": "medio",
+      "titolo": "Un conteggio a zero su una frase lunga non sa dire «non c'e» da «hai cercato la frase sbagliata»: ho riferito a Nicola una cosa falsa",
+      "causa_radice": "Dopo il merge della cura della chat ho controllato che fosse arrivata su main con `grep -c` su una frase di tre parole, e ho letto lo 0 come assenza. Nel codice vero fra `.mjs` e `--richiesta` c'e una virgoletta di chiusura, quindi quella frase esatta non esiste da nessuna parte: lo zero diceva «hai cercato una frase che non hai mai scritto», non «la riga non c'e». Piu lunga e la frase cercata, piu punti ha per non combaciare — virgolette, spazi, variabili espanse — e tutti finiscono nello stesso identico 0. E la stessa malattia che questo guardiano gia censiva (errore-ingoiato) commessa nel modo di misurare, non nel codice.",
+      "fix_proposto": "Sesta forma in cervello/misura-cieca.mjs: un `grep -c`/`-q` su una frase di almeno 3 parole e 20 caratteri fa scattare l'avviso, col rimedio (cerca prima un pezzo corto e inconfondibile, poi allunga). Restano fuori apposta i pattern corti e i grep che stampano le righe: li il vuoto si vede, e il rumore spegne i guardiani.",
+      "dove": "cervello/misura-cieca.mjs (TRAPPOLE, forma zero-su-una-frase-lunga)",
+      "impatto_crescita": "tocca cio che Nicola legge: una misura cieca non rompe una schermata, rompe il ragionamento che gli riferisco sopra — e questa volta gli ho detto che una cura mergiata non era arrivata",
+      "nato": "2026-08-17 21:20",
+      "nato_come": "scoperta",
+      "nato_da": "errore mio, trovato ricontrollando dopo il merge della PR #757: la verifica che la cura fosse su main e' uscita 0 e l'ho riferito a Nicola come assenza",
+      "nota_fix": "Riparato subito. Prova a 5 casi in cervello/test/misura-cieca.test.mjs, fra cui il comando esatto che mi ha fatto sbagliare, piu i tre casi che devono restare muti (parola sola, grep che stampa, due parole corte). Non-vacuita: mutazione AR-768 in mutanti.json — spegnendo la soglia il caso vero torna verde. Copertura dichiarata nel file: NON copre il caso gemello (frase corta ma marcatore inventato), e sta scritto li perche nessuno lo scambi per coperto.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/misura-cieca.test.mjs"
+      }
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 758,
+    "totale": 759,
     "aperti": 106,
     "in_corso": 0,
     "da_riverificare": 56,
-    "chiusi": 596,
+    "chiusi": 597,
     "altri": 0,
     "da_fare": 162,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 596,
+      "chiuso": 597,
       "aperto": 106,
       "da-riverificare": 56
     },
