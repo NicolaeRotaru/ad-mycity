@@ -1,6 +1,6 @@
 # 📅 Eventi & Picchi di Domanda — 2026-08-18
 
-> Aggiornato: 18 agosto 2026 · @intelligence · giro leggero (Ondata 3, `cervello/monitora.md`). Controllate le fonti giornaliere dovute oggi: Libertà Attualità, Libertà Città, PiacenzaSera, Comune (news+eventi, via WebSearch per il 403), CCIAA Emilia, Unione Commercianti (bandi), meteo. Novità di rilievo: oggi 18/8 c'è l'allerta meteo gialla per temporali. La Protezione Civile ha spostato la finestra critica di un giorno rispetto a quanto atteso ieri — dettagli sotto. Nessuna azione richiesta oggi. Precedente: 17/8 06:33.
+> Aggiornato: 18 agosto 2026 · @intelligence · giro leggero (Ondata 3, `cervello/monitora.md`). Controllate le fonti giornaliere dovute oggi: Libertà Attualità, Libertà Città, PiacenzaSera, Comune (news+eventi, via WebSearch per il 403), CCIAA Emilia, Unione Commercianti (bandi), meteo. Novità di rilievo: oggi 18/8 c'è l'allerta meteo gialla per temporali. La Protezione Civile ha spostato la finestra critica di un giorno. Ieri la prevedeva per un altro giorno — dettagli sotto. Nessuna azione richiesta oggi. Precedente: 17/8 06:33.
 
 ---
 

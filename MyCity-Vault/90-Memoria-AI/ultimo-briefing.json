@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-18 06:30",
-  "situazione": "Business invariato, riconfermato dal vivo via SQL diretto: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 1 solo negozio (Pane Quotidiano) su 7 profili — stallo North Star 55 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Novità del passaggio: letargo migliorato da SOPRAVVIVENZA a RISPARMIO (quota AI 26%, era 288% ieri sera), sensori tutti verdi salvo i due cronici noti. Sesta PR rossa comparsa stanotte (#761, memoria) — stesso pattern delle altre 5 (test-del-cervello).",
+  "data": "2026-08-18 06:41",
+  "situazione": "Business invariato, riconfermato dal vivo via SQL diretto 11 minuti dopo il passaggio precedente: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 1 solo negozio (Pane Quotidiano) su 7 profili — stallo North Star 55 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Stato bit-per-bit identico al passaggio 06:30: stesse 6 PR rosse (#761/#754/#753/#749/#741/#735), memoria coerente (39 fatti), sensori verdi salvo i due cronici noti.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
