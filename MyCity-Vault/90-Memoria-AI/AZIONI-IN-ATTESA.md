@@ -22,6 +22,56 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🟡 #121 — Sulla VPS girano due copie del worker insieme: fermane una prima che continui a intasare la memoria · ⏳ accodata 2026-08-18 04:35
+
+**Cosa cambia:** ho trovato sulla VPS due processi del worker accesi insieme da giorni. Uno
+partito il 12/8. L'altro il 16/8. Nessuno dei due sapeva dell'altro. Niente glielo impediva.
+
+Nella notte tra le 02:22 e le 04:27 di oggi (18/8) i due si sono accavallati. Hanno toccato
+insieme gli stessi file di memoria (`coerenza-fatti.json`, `costo-ai.json`). Hanno prodotto
+**2.160 commit vuoti** in poco più di 2 ore. Uno ogni 3-4 secondi, invece del normale uno al
+minuto.
+
+Il contenuto dei commit è innocuo: solo numeri di sensori che si aggiornano da soli. Ma la
+cronologia di git è piena di rumore. E i due worker si rincorrono a vuoto invece di lavorare.
+
+Al momento in cui scrivo, la tempesta si è fermata da sola. Nessun nuovo commit da 2 minuti.
+Ma la causa resta: due copie vive insieme. Può ripartire in qualsiasi momento.
+
+**Il fix per non farlo ripetere è già pronto**: PR #760, un lucchetto nello script che impedisce
+a una seconda copia di partire finché la prima è viva. Manca solo la tua firma sul merge (vedi
+card #124 qui sotto).
+
+**Se va bene:** sulla VPS, trova quale dei due processi worker è quello giusto. Di solito è il
+più recente, quello avviato dal servizio. Ferma l'altro. Poi mergia la PR col lucchetto, così
+non può ripetersi nemmeno al prossimo riavvio manuale. Fermare un processo live lo lascio
+decidere a te: qui sotto il comando esatto, oppure autorizzami a farlo io.
+
+**Cosa non ho verificato:** non so ancora perché sono partite due copie invece di una. Due ipotesi:
+un riavvio manuale che non ha chiuso la copia vecchia, oppure il servizio che gestisce il worker si
+è bloccato e ne ha aperta una nuova senza fermare la prima. Da questa sessione non riesco a vedere i
+log del servizio sulla VPS — vedo solo i file dentro questa cartella. Ho anche trovato, mentre
+sistemavo questo, che la copia di `main` sul mio computer e quella su GitHub sono scollegate da
+2.169 commit. Sono quasi tutti la stessa tempesta di stanotte: sono rimasti solo sul disco della
+VPS, non sono mai arrivati su GitHub. Serve una tua decisione su come pulirli prima di poterli
+pubblicare (vedi card successiva).
+
+**Comando per vedere i due processi (dalla VPS, utente mycity):**
+```
+ps aux | grep worker.sh | grep -v grep
+```
+Il PID con la data di avvio più vecchia (`Aug12`) è quasi certamente quello da fermare:
+```
+kill <PID_del_processo_Aug12>
+```
+
+- **Colore:** 🟡 — tocca un processo acceso in questo momento sulla VPS. È reversibile: si riavvia
+  da solo al prossimo ciclo del servizio. Non tocca né un dato né un cliente reale.
+- **Reparto:** devops-sre / builder-automazioni
+- **Origine:** `{origine:controllo-macchina-18-8, prova:"git log --oneline --since 2026-08-18 00:00 | grep -c 'worker: lavoro'" = 2160, ps aux mostra PID 52315 (Aug16) e PID 1339681 (Aug12), pr:760}`
+
+---
+
 ### 🟡 #120 — Avvisa il fornaio: c'è un circuito welfare gratis a cui può iscriversi subito · ⏳ accodata 2026-08-17 14:05
 
 **Cosa cambia:** ho trovato che a Piacenza esiste già un programma chiamato "Piacenza Pay" —
@@ -1623,3 +1673,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 117 | 2026-08-17 10:22 | @ad | Oggi ho fatto lo stesso giro circa 26 volte, e voglio sapere se va bene così | 🟡 | Dalla mezzanotte a adesso ho eseguito circa 26 passaggi di giro completo in chat. Tutti finiscono sullo stesso risultato. Il business è fermo dal 24 giugno. Siamo dentro la pausa che mi hai chiesto tu, fino al 24/8-1/9. Ogni passaggio controlla comunque i sensori dal vivo: non è un dato vecchio ripetuto a pappagallo. Ma non trova niente di nuovo da fare, perché la pausa è fatta apposta così. Nel frattempo la quota AI di questa sessione è salita all'83%. La macchina è già passata in modalità risparmio, vedi la card #113. | manuale | in attesa (solo informativa, nessuna firma richiesta) | Ogni nuova richiesta di giro consuma quota AI per confermare una cosa già confermata poco prima. Non cambia il business. Accelera solo l'arrivo del limite della sessione. | Dimmi quale preferisci. Primo: continuo a rispondere a ogni richiesta di giro con una verifica lampo, come sto facendo ora — sensori e coerenza dati, niente riscritture pesanti. Secondo: se l'ultimo passaggio ha meno di un'ora ed è tutto invariato, rispondo con un richiamo breve al briefing di prima, invece di aprirne uno nuovo. |
 | 122 | 2026-08-17 13:10 | @tech | Merge PR #753 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/753 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 123 | 2026-08-17 16:33 | @tech | I test del cervello dicono no da tre giri di fila, e da qui in chat non riesco più a rilanciarli | 🟡 | `test-cervello.mjs` è entrato nell'elenco dei controlli "cronici" (AR-687: rosso da ≥3 giri senza mai essere riparato). Non riesco a verificarlo dal vivo in questa sessione: il comando resta fuori dall'elenco esatto dei programmi ammessi (stesso buco della card #104/#42), quindi ogni tentativo viene respinto prima ancora di girare. Quello che vedo indirettamente da `ci-stato.mjs` è coerente: le 5 PR aperte oggi (#754, #753, #749, #741, #735) falliscono tutte anche su "test-del-cervello", ognuna per colpa propria (non ereditata da `main`) — cinque rami diversi che rompono lo stesso controllo è il segnale che il problema non è un caso isolato. | manuale | in attesa | Finché resta rosso e non verificabile da qui, nessuna delle 5 PR di codice-macchina può dirsi davvero pronta al merge, anche quando sembra a posto: il cancello di serietà (CLAUDE.md) vieta di dichiarare "fatto" con i test rossi. | Applicando la card #104 (le 5 righe di permesso mancanti) sblocco `test-cervello.mjs` da qui e lo rilancio nello stesso giro in cui la card viene approvata; altrimenti serve una sessione dal VPS che lo rilanci e riporti l'esito. |
+| 124 | 2026-08-18 04:37 | @tech | Merge PR #760 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/760 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
