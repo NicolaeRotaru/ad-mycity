@@ -5163,6 +5163,24 @@
    "sostituisci": "  const nome = \"\";",
    "test": "node --test cervello/test/il-freno-che-scatta.test.mjs",
    "lezione": "L-2026-0818-02"
+  },
+  {
+   "difetto": "AR-771 freno-vivo",
+   "nome": "il decadimento torna a ignorare il freno: le lezioni che hanno prodotto un guardiano rimuoiono come le altre",
+   "file": "cervello/tetti-archivio.mjs",
+   "cerca": "  if (frenoVivo) return { decade: false, motivo: \"ha un freno che monta ancora la guardia: finch\u00e9 quel guardiano esiste, la regola \u00e8 in vigore\" };",
+   "sostituisci": "",
+   "test": "node cervello/test/archivi-senza-tetto.test.mjs",
+   "lezione": "L-2026-0818-03"
+  },
+  {
+   "difetto": "AR-771 uso-non-conferma",
+   "nome": "un uso torna a non valere come conferma: la lezione che mi ha fermato ieri risulta abbandonata da mesi",
+   "file": "cervello/tetti-archivio.mjs",
+   "cerca": "  const quandoConta = [ultimaConferma, ultimoUso].map((d) => istante(d)).filter((t) => t != null);",
+   "sostituisci": "  const quandoConta = [ultimaConferma].map((d) => istante(d)).filter((t) => t != null);",
+   "test": "node cervello/test/archivi-senza-tetto.test.mjs",
+   "lezione": "L-2026-0818-03"
   }
  ]
 }
