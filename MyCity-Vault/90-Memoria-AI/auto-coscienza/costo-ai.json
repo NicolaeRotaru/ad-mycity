@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-08-18 06:37",
+  "aggiornato": "2026-08-18 06:49",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
     "data": "2026-08-18",
-    "runs": 3,
+    "runs": 4,
     "token_totali": 0,
-    "durata_sec_totale": 1825,
+    "durata_sec_totale": 3216,
     "voci": [
       {
         "quando": "2026-08-18 05:01",
@@ -31,10 +31,18 @@
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-18 06:49",
+        "tipo": "giro",
+        "durata_sec": 1391,
+        "token": 105000,
+        "modello": "claude",
+        "stima_grezza": true
       }
     ],
-    "token_stimati": 180000,
-    "token_per_gate": 180000,
+    "token_stimati": 285000,
+    "token_per_gate": 285000,
     "token_fonte": "misura"
   },
   "storico_giorni": [
@@ -314,11 +322,11 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 180000,
-    "runs_sessione": 3,
+    "token_sessione_rolling": 285000,
+    "runs_sessione": 4,
     "finestra_min": 360,
     "voci_illeggibili": 0,
-    "aggiornato": "2026-08-18 06:37"
+    "aggiornato": "2026-08-18 06:49"
   },
   "voci_recenti": [
     {
@@ -342,6 +350,14 @@
       "tipo": "monitora",
       "durata_sec": 422,
       "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-18 06:49",
+      "tipo": "giro",
+      "durata_sec": 1391,
+      "token": 105000,
       "modello": "claude",
       "stima_grezza": true
     }
