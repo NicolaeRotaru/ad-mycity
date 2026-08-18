@@ -5,7 +5,7 @@
 - **Branch:** `fix/worker-lock-istanza-singola` → `main`
 - **URL:** https://github.com/NicolaeRotaru/ad-mycity/pull/760
 - **Titolo:** chore: fix/worker-lock-istanza-singola
-- **Creato:** 2026-08-18 04:52 (Europe/Rome)
+- **Creato:** 2026-08-18 04:53 (Europe/Rome)
 
 ## Merge
 🔴 **Non mergeare da solo.** Nicola approva dal Pannello → `node cervello/git-merge.mjs --repo ad-mycity --pr 760`
