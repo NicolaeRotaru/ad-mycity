@@ -4,7 +4,7 @@
 - **Repo:** NicolaeRotaru/ad-mycity
 - **Branch:** `fix/worker-lock-istanza-singola` → `main`
 - **URL:** https://github.com/NicolaeRotaru/ad-mycity/pull/760
-- **Titolo:** fix(pr#760): consegna in formato lettera-a-Nicola + riga di esito (AR-154/AR-478)
+- **Titolo:** fix(worker): lucchetto di istanza singola su worker.sh
 - **Creato:** 2026-08-18 04:52 (Europe/Rome)
 
 ## Merge
