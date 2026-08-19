@@ -2214,3 +2214,53 @@ parte facile non coprono la parte che gira. La prova nuova accende la rotta vera
 sappia fallire: con la versione vecchia ne diventano rossi 5 su 6, con l'errore di produzione.
 **Regola confermata.** Unire una richiesta pubblica il codice, non e la firma sul database. Le due
 cose vanno chieste separate, ogni volta: stamattina quella confusione ha lasciato i rimborsi fermi.
+
+## 2026-08-19 13:25 — 🟡 Centoquattro riparazioni sul sito, su ramo, in attesa di firma
+**In due righe.** Nicola ha chiesto di risolvere cento difetti del marketplace nel modo
+migliore possibile. Ne ho chiusi 104 su 245, fra cui 7 bloccanti su 12, su un ramo con le
+prove verdi. Non ho unito niente e non ho toccato il database.
+
+**Cosa.** Cinque commit sul ramo `claude/marketplace-100-difetti-ehne44` del repo
+`NicolaeRotaru/mycity`, sopra la fusione della richiesta #224. Referto in
+`consegne/audit/2026-08-19-marketplace-104-riparazioni.md`, copia applicabile del lavoro in
+`consegne/tech/2026-08-19-marketplace-104-difetti.patch`, registro aggiornato in
+`auto-coscienza/radiografia-marketplace.json` (campo `stato` per voce + blocco
+`stato_lotto_19_agosto`).
+
+**Perche' cosi'.** Ho lavorato per malattia e non per conteggio: una migrazione sola
+(`119_radiografia_18_agosto.sql`) chiude trentotto difetti di database che sono tutti la
+stessa famiglia — cose che il database lasciava decidere al browser. Il resto e' codice,
+raggruppato per reparto.
+
+**I tre difetti che costavano di piu'.** ① Il cliente poteva scriversi da solo il credito
+MyCity e spenderlo: `profiles` passa da lista di divieti a lista di permessi, cosi' ogni
+colonna nuova nasce chiusa. ② Il denaro poteva uscire due volte: il totale rimborsato veniva
+letto, sommato in memoria e riscritto, e due strade partite insieme rimborsavano entrambe
+l'intero. Ora la somma la fa il database in una riga sola, e chi non rivendica non chiama
+Stripe. ③ Un prodotto a disponibilita' illimitata non si poteva comprare: solo il checkout
+lo dichiarava esaurito, mentre scheda, griglia e server sapevano che illimitato vuol dire
+illimitato.
+
+**Il cancello che non c'era.** La Dichiarazione di Accessibilita' pubblica promette un audit
+periodico, e nel progetto non esisteva nessuna prova che potesse diventare rossa. Ora c'e':
+`eslint-plugin-jsx-a11y` acceso piu' una prova end-to-end con axe sulle quattro pagine con
+cui si compra. Le 96 segnalazioni preesistenti restano come avvisi contati — debito
+dichiarato, che puo' solo scendere.
+
+**Esito, provato e non dedotto.** 800 prove unitarie verdi, `tsc --noEmit` pulito,
+`next lint` zero errori. Quattro delle prove nuove le ho verificate al contrario: tolta la
+riparazione diventano rosse. Le altre no, e questo e' meno.
+
+**Cosa NON ho fatto, e perche'.** La migrazione 119 non e' stata applicata a nessun
+database: applicarla e' rosso e resta la tua firma (card #122). La richiesta di unione non
+l'ho aperta: il proxy di questa sessione nega le credenziali per il repo del marketplace, e
+la richiesta di aggiungerlo e' stata bloccata (card #121). Quattro bloccanti restano aperti
+perche' non dipendono dal codice: due numeri da decidere (il compenso del fattorino contro
+la tariffa di consegna), i dati veri dell'azienda per il piede di pagina, la riapprovazione
+dei negozi dal pannello, e un lavoro a se' sul ritiro in negozio.
+
+**La lezione che mi porto dietro.** Il referto del 18 agosto registrava come aperto un
+bloccante gia' riparato la sera prima dalla richiesta #224: era stato scritto due ore prima
+della riparazione. Prima di aprire un lotto va riconciliato il registro col codice vero,
+altrimenti si lavora su una fotografia vecchia. Segnato nel registro come
+`gia_riparato_prima` invece di contarlo fra i miei.

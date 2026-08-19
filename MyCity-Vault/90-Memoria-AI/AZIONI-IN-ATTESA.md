@@ -22,6 +22,45 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #122 — Applica al database del sito le trentotto riparazioni del 19 agosto · ⏳ accodata 2026-08-19 13:25
+
+**Cosa cambia:** oggi il cliente puo' alzarsi da solo il credito MyCity dal browser e poi
+spenderlo in un ordine in contanti. Il premio invito lo decide la pagina di registrazione,
+non il server. Il negoziante vede zero visite sui suoi prodotti anche quando le visite ci
+sono. Il pannello dei codici sconto e' una pagina vuota da quando e' passata la bonifica del
+14. Questo file ripara tutte e trentotto queste cose insieme, e non tocca nessun dato dei
+clienti.
+
+**Se va bene:** il credito si scrive solo dal server, le statistiche del negoziante tornano a
+contare, e il pannello dei codici sconto torna a funzionare. Poi resta da unire la richiesta
+sul ramo `claude/marketplace-100-difetti-ehne44`, che e' un'altra firma: unire il codice non
+e' applicare il database.
+
+**Contenuto:** il file `migrations/119_radiografia_18_agosto.sql` nel repo del marketplace,
+copia applicabile in `consegne/tech/2026-08-19-marketplace-104-difetti.patch`. E' scritto per
+essere rilanciabile: se qualcosa va storto a meta', si rilancia e riprende.
+
+**Cosa non ho verificato:** non l'ho eseguito su nessun database, nemmeno di prova. Le
+riparazioni che contiene non sono attive finche' non la applichi.
+
+---
+
+### 🟡 #121 — Autorizzami ad aprire la richiesta di unione sul repo del sito · ⏳ accodata 2026-08-19 13:25
+
+**Cosa cambia:** le centoquattro riparazioni di oggi sono su un ramo del repo del
+marketplace, e da questa sessione non posso aprirti la richiesta di unione: il proxy nega le
+credenziali per quel repository, perche' e' fuori dall'elenco autorizzato. Finche' resta
+cosi', il lavoro c'e' ma tu non lo vedi in una pagina dove poterlo approvare.
+
+**Se va bene:** apro la richiesta di unione con il referto dentro, e tu decidi guardando il
+diff. In alternativa, se preferisci non allargare i permessi, applichi tu la patch a mano:
+`git am < consegne/tech/2026-08-19-marketplace-104-difetti.patch`.
+
+**Cosa non ho verificato:** non so quale delle due strade tu preferisca, e non ho provato la
+seconda: la patch e' generata dai commit veri, ma non l'ho applicata a una copia pulita.
+
+---
+
 ### 🟡 #120 — Avvisa il fornaio: c'è un circuito welfare gratis a cui può iscriversi subito · ⏳ accodata 2026-08-17 14:05
 
 **Cosa cambia:** ho trovato che a Piacenza esiste già un programma chiamato "Piacenza Pay" —
