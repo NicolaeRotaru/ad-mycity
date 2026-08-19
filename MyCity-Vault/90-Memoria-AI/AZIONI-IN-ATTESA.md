@@ -22,6 +22,39 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #129 — Un pezzo del sito scrive in un cassetto che sul database vero non esiste · ⏳ accodata 2026-08-19 20:35
+
+**Cosa cambia:** applicando le riparazioni al database vero ho scoperto una cosa che nessuna
+prova poteva vedere da qui. Il sito ha una funzione che fa scrivere le schede prodotto
+all'intelligenza artificiale. Quella funzione salva il lavoro in un cassetto del database che si
+chiama `catalog_ai_jobs`.
+
+Sul database vero quel cassetto non c'e'. Non c'e' mai stato: le istruzioni per costruirlo sono
+state scritte a giugno e sono rimaste nel repo del sito senza essere mai eseguite.
+
+Tre pezzi del sito provano a scrivere in un posto che non c'e'. Uno fa partire il lavoro. Uno
+ne chiede lo stato. Uno lo applica al catalogo. Tutti e tre falliscono ogni volta.
+
+In pratica: se domani il fornaio prova a farsi scrivere le schede dei suoi prodotti
+dall'intelligenza artificiale, non succede niente.
+
+Perche' non l'avevo visto prima: i miei controlli automatici ricostruiscono il database da zero
+partendo da tutte le istruzioni, quindi da loro il cassetto c'e' sempre. Solo toccando il
+database vero si vede la differenza. E' esattamente il tipo di errore che si trova andando a
+guardare, non leggendo.
+
+**Se va bene:** dammi il via e applico al database vero le istruzioni che creano quel cassetto
+(il file `099_catalog_ai_jobs.sql`, gia' scritto e gia' provato). Prima pero' controllo se
+quella funzione la usa qualcuno oggi: se e' spenta, la scelta e' fra accenderla e toglierla dal
+sito, e quella e' una tua decisione, non mia.
+
+**Dettagli tecnici:** migrazione `099_catalog_ai_jobs.sql` presente in `marketplace/migrations/`,
+assente da `supabase_migrations.schema_migrations` del progetto `clmpyfvpvfjgeviworth`.
+Verificato con `select … from pg_class where relname='catalog_ai_jobs'` → 0 righe. Codice che la
+usa: `app/api/ai/catalog-batch/{start,status,apply}/route.ts`. Nella migrazione 119 ho messo una
+guardia `to_regclass` sul blocco che la tocca. Senza, quella riga annullava in blocco le altre
+sei riparazioni della stessa transazione. E' successo davvero il 19/8 alle 20:12.
+
 ### 🟡 #128 — Incolla una parola nei freni: lo strumento «Monitor» oggi non lo guarda nessuno · ⏳ accodata 2026-08-19 14:30
 
 **Cosa cambia:** ho uno strumento che si chiama `Monitor`. Avvia un comando di sistema e mi
@@ -51,7 +84,7 @@ testo del matcher, non una misura.
 
 ---
 
-### 🔴 #127 — Applica al database del sito le trentotto riparazioni del 19 agosto · ⏳ accodata 2026-08-19 13:25
+### ✅ #127 — Applicate al database del sito le riparazioni del 19 agosto. FATTO 2026-08-19 20:25, col tuo ok in chat · ⏳ accodata 2026-08-19 13:25
 
 **Cosa cambia:** oggi il cliente puo' alzarsi da solo il credito MyCity dal browser e poi
 spenderlo in un ordine in contanti. Il premio invito lo decide la pagina di registrazione,
@@ -74,7 +107,7 @@ riparazioni che contiene non sono attive finche' non la applichi.
 
 ---
 
-### 🟡 #126 — Autorizzami ad aprire la richiesta di unione sul repo del sito · ⏳ accodata 2026-08-19 13:25
+### ✅ #126 — Aperta la richiesta di unione sul repo del sito. FATTO 2026-08-19 19:10, col tuo ok in chat · ⏳ accodata 2026-08-19 13:25
 
 **Cosa cambia:** le centoquattro riparazioni di oggi sono su un ramo del repo del
 marketplace, e da questa sessione non posso aprirti la richiesta di unione: il proxy nega le
