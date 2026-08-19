@@ -102,8 +102,14 @@ e' applicare il database.
 copia applicabile in `consegne/tech/2026-08-19-marketplace-104-difetti.patch`. E' scritto per
 essere rilanciabile: se qualcosa va storto a meta', si rilancia e riprende.
 
-**Cosa non ho verificato:** non l'ho eseguito su nessun database, nemmeno di prova. Le
-riparazioni che contiene non sono attive finche' non la applichi.
+**Cosa non ho verificato (al momento in cui l'ho accodata):** non l'ho eseguito su nessun
+database, nemmeno di prova. Le riparazioni che contiene non sono attive finche' non la applichi.
+
+**Esito 2026-08-19 20:25:** applicata al database vero in sette blocchi, col tuo ok in chat.
+Verificata rileggendo il database: trentotto controlli, tutti col valore atteso. Un blocco si e'
+fermato e ha scoperto un cassetto mancante in produzione: da li' e' nata la carta #129. Restano
+fuori le riparazioni della vista che alimenta il riquadro in home, che vanno dopo la
+pubblicazione del codice.
 
 ---
 
@@ -118,8 +124,12 @@ cosi', il lavoro c'e' ma tu non lo vedi in una pagina dove poterlo approvare.
 diff. In alternativa, se preferisci non allargare i permessi, applichi tu la patch a mano:
 `git am < consegne/tech/2026-08-19-marketplace-104-difetti.patch`.
 
-**Cosa non ho verificato:** non so quale delle due strade tu preferisca, e non ho provato la
-seconda: la patch e' generata dai commit veri, ma non l'ho applicata a una copia pulita.
+**Cosa non ho verificato (al momento in cui l'ho accodata):** non so quale delle due strade tu
+preferisca, e non ho provato la seconda: la patch e' generata dai commit veri, ma non l'ho
+applicata a una copia pulita.
+
+**Esito 2026-08-19 19:10:** col tuo ok in chat ho aperto la richiesta #225 sul repo del sito.
+Tutti i controlli verdi. Resta da unire: quella firma e' tua.
 
 ---
 
