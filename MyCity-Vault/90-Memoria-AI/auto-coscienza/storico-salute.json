@@ -9,23 +9,6 @@
       "voto_misurato": true,
       "voto_provvisorio": 0,
       "voto_pieno": 0,
-      "firma": "AR-023,AR-045,AR-046,AR-047,AR-048,AR-050,AR-051,AR-052,AR-053,AR-054,AR-055,AR-056,AR-057,AR-058,AR-059,AR-060,AR-061,AR-062,AR-063,AR-064,AR-065,AR-067,AR-068,AR-069,AR-070,AR-071,AR-072,AR-073,AR-074,AR-075,AR-076,AR-077,AR-078,AR-079,AR-080,AR-081,AR-082,AR-083,AR-084,AR-085,AR-086,AR-087,AR-088,AR-089,AR-091,AR-092,AR-093,AR-094,AR-095,AR-096,AR-100,AR-102,AR-103,AR-104,AR-126,AR-158,AR-160,AR-161,AR-174,AR-184,AR-188,AR-193,AR-206,AR-216,AR-217,AR-220,AR-223,AR-224,AR-225,AR-234,AR-241,AR-244,AR-245,AR-248,AR-249,AR-263,AR-274,AR-278,AR-283,AR-285,AR-288,AR-289,AR-294,AR-295,AR-323,AR-345,AR-347,AR-349,AR-396,AR-404,AR-410,AR-411,AR-414,AR-420,AR-423,AR-425,AR-428,AR-435,AR-445,AR-456,AR-458,AR-460,AR-461,AR-464,AR-473,AR-504,AR-518,AR-521,AR-556,AR-557,AR-559,AR-560,AR-561",
-      "difetti_aperti": 163,
-      "difetti_chiusi": 332,
-      "pending_merge": 84,
-      "aperti_davvero": 113,
-      "bloccanti_umani": 23,
-      "tipo": "sonda",
-      "nota": "loop chiude (con prova) · briefing STALE (12h) · sensori max cecità 0 · salute pending-merge 0/100 (floor 0): 113 aperti-davvero · 84 in attesa merge · 23 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 44.75 (su 24/24 dimensioni)"
-    },
-    {
-      "data": "2026-08-10",
-      "voto_salute": 45,
-      "voto_copertura": "24/24",
-      "voto_parziale": false,
-      "voto_misurato": true,
-      "voto_provvisorio": 0,
-      "voto_pieno": 0,
       "firma": "AR-023,AR-045,AR-046,AR-047,AR-048,AR-050,AR-051,AR-052,AR-053,AR-054,AR-055,AR-056,AR-057,AR-058,AR-059,AR-060,AR-061,AR-062,AR-063,AR-064,AR-065,AR-067,AR-068,AR-069,AR-070,AR-071,AR-072,AR-073,AR-074,AR-075,AR-076,AR-077,AR-078,AR-079,AR-080,AR-081,AR-082,AR-083,AR-084,AR-085,AR-086,AR-087,AR-088,AR-089,AR-091,AR-092,AR-093,AR-094,AR-095,AR-096,AR-100,AR-102,AR-103,AR-104,AR-126,AR-128,AR-130,AR-131,AR-132,AR-133,AR-158,AR-160,AR-161,AR-174,AR-175,AR-181,AR-184,AR-185,AR-187,AR-188,AR-189,AR-190,AR-191,AR-192,AR-193,AR-194,AR-197,AR-198,AR-200,AR-202,AR-203,AR-206,AR-208,AR-209,AR-210,AR-215,AR-216,AR-217,AR-220,AR-223,AR-224,AR-225,AR-234,AR-236,AR-241,AR-244,AR-245,AR-248,AR-249,AR-263,AR-274,AR-278,AR-282,AR-283,AR-285,AR-286,AR-288,AR-289,AR-290,AR-294,AR-295,AR-304,AR-306,AR-321,AR-323,AR-324,AR-327,AR-328,AR-329,AR-336,AR-337,AR-345,AR-347,AR-348,AR-349,AR-350,AR-351,AR-352,AR-354,AR-355,AR-356,AR-359,AR-360,AR-363,AR-364,AR-365,AR-366,AR-367,AR-368,AR-369,AR-370,AR-378,AR-383,AR-384,AR-385,AR-386,AR-388,AR-390,AR-391,AR-392,AR-394,AR-395,AR-396,AR-398,AR-400,AR-402,AR-403,AR-404,AR-405,AR-407,AR-408,AR-410,AR-411,AR-412,AR-413,AR-414,AR-415,AR-416,AR-417,AR-418,AR-420,AR-421,AR-422,AR-423,AR-425,AR-428,AR-431,AR-432,AR-433,AR-434,AR-435,AR-436,AR-445,AR-456,AR-458,AR-460,AR-461,AR-464,AR-473,AR-504,AR-518,AR-521,AR-556,AR-557,AR-559,AR-560,AR-561",
       "difetti_aperti": 163,
       "difetti_chiusi": 332,
@@ -1426,6 +1409,23 @@
       "bloccanti_umani": 37,
       "tipo": "sonda",
       "nota": "le lezioni non si usano: tasso 12% sotto la soglia 30% · 9 esperimenti dichiarati misurati e mai testati · briefing 6h fa · cecità sensori 200 giri · salute pending-merge 0/100 (floor 0): 125 aperti-davvero · 0 in attesa merge · 37 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)"
+    },
+    {
+      "data": "2026-08-19",
+      "voto_salute": 4,
+      "voto_copertura": "radiografia",
+      "voto_parziale": false,
+      "voto_misurato": true,
+      "voto_provvisorio": 0,
+      "voto_pieno": 0,
+      "firma": "AR-045,AR-046,AR-047,AR-048,AR-050,AR-051,AR-052,AR-053,AR-054,AR-055,AR-056,AR-057,AR-058,AR-059,AR-060,AR-061,AR-062,AR-063,AR-064,AR-065,AR-067,AR-068,AR-069,AR-070,AR-071,AR-072,AR-073,AR-074,AR-075,AR-076,AR-077,AR-078,AR-079,AR-080,AR-081,AR-082,AR-083,AR-084,AR-085,AR-086,AR-087,AR-088,AR-089,AR-091,AR-092,AR-093,AR-094,AR-095,AR-096,AR-100,AR-102,AR-103,AR-104,AR-128,AR-131,AR-133,AR-142,AR-158,AR-160,AR-161,AR-174,AR-175,AR-181,AR-184,AR-190,AR-192,AR-193,AR-199,AR-200,AR-206,AR-210,AR-274,AR-283,AR-289,AR-290,AR-329,AR-351,AR-352,AR-354,AR-365,AR-366,AR-386,AR-394,AR-396,AR-398,AR-411,AR-436,AR-518,AR-521,AR-560,AR-561,AR-576,AR-584,AR-588,AR-598,AR-611,AR-618,AR-622,AR-640,AR-641,AR-684,AR-693,AR-726,AR-727,AR-728,AR-729,AR-730,AR-731,AR-732,AR-733,AR-734,AR-735,AR-736,AR-737,AR-738,AR-739,AR-740,AR-741,AR-742,AR-743,AR-744,AR-745,AR-746,AR-747,AR-748",
+      "difetti_aperti": 106,
+      "difetti_chiusi": 598,
+      "pending_merge": 0,
+      "aperti_davvero": 125,
+      "bloccanti_umani": 37,
+      "tipo": "sonda",
+      "nota": "le lezioni non si usano: tasso 11% sotto la soglia 30% · 9 esperimenti dichiarati misurati e mai testati · briefing STALE (32h) · cecità sensori 200 giri · salute pending-merge 0/100 (floor 0): 125 aperti-davvero · 0 in attesa merge · 37 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)"
     }
   ]
 }
