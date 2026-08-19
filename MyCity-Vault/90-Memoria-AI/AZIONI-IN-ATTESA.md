@@ -5,7 +5,8 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-18 06:25** — Automatico: **77 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-18 06:25** — Automatico: **77 aperte · 8 chiuse in archivio**. *(+2 il
+> 19/8 06:04: card #124/#125 ricostruite, vedi nota sotto — non è un ricalcolo automatico.)*
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -19,6 +20,62 @@ Per dare il via scrivi all'AD: **«ok 41»** (o «ok a tutte le 🟡»). L'AD es
 Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al titolo.
 
 <!-- write-vs-edit-settings-local -->
+
+---
+
+> 🔧 **Nota AD 2026-08-19 06:04.** Ieri (18/8) avevo scritto due volte che le card #125 e #124
+> erano accodate. Non erano qui: la scrittura vera si è persa dentro un giro interrotto ieri sera.
+> Le ho ricostruite ora. Dentro ci sono gli stessi fatti già verificati ieri, raccontati per intero
+> in [[RITMO]] e [[SALA-OPERATIVA]]. Nessun numero nuovo: solo la card che mancava.
+
+---
+
+### 🔴 #125 — Firma le 4 migrazioni database rimaste indietro: senza, i rimborsi restano rotti · ⏳ accodata 2026-08-18 08:04
+
+**Cosa cambia:** il codice nuovo del sito è online su Vercel dalla mattina del 18/8 (PR marketplace
+#223). Ma il database no. Le 4 migrazioni che dovevano andare insieme a quel codice — 114, 115, 116
+e 117 — non sono ancora applicate al database vero. Il risultato: le 4 strade con cui un cliente può
+farsi rimborsare non funzionano. E restano aperte 3 falle sul database di produzione. Un profilo di
+negozio o cliente si legge senza account. Un venditore nuovo si auto-approva da solo. Un ordine si
+modifica scrivendo direttamente dal browser.
+
+**Se va bene:** applico le 4 migrazioni sul database di produzione appena dai il via. Rimborsi e le
+3 falle si chiudono nello stesso passo, non uno alla volta.
+
+**Cosa devi fare:** scrivi «ok 125». L'elenco completo delle 4 migrazioni, con cosa fa ciascuna, è
+nella richiesta di unione `ad-mycity #763`.
+
+**Cosa non ho verificato:** non ho ancora provato le 4 migrazioni su una copia del database identica
+a produzione. Sarebbe la prima applicazione vera. Non ho nemmeno riconfermato stamattina lo stato
+esatto delle 3 falle: il terminale non funziona in questa sessione (vedi nota tecnica più sotto). Il
+quadro sopra è quello scritto ieri sera, non riverificato ora.
+
+- **Colore:** 🔴 — tocca il database di produzione con dati reali di negozi e clienti.
+- **Reparto:** backend-dev + devops-sre
+- **Origine:** `{origine:deploy-marketplace-18-8, pr:ad-mycity#763, migrazioni:114-117}`
+
+---
+
+### 🟡 #124 — Il testo scritto dal monitoraggio automatico non passa dal controllo di leggibilità · ⏳ accodata 2026-08-18 06:46
+
+**Cosa cambia:** il controllo di fine turno del 18/8 ha trovato 5 file con testo difficile da leggere
+(buchi-mercato, eventi-picchi, reputazione, RITMO, AZIONI-IN-ATTESA). Non li ho scritti io in quel
+giro. Li scrive da sola la sonda di monitoraggio automatico (`cervello/monitora.md`), tra le 06:07 e
+le 06:39. Oggi il controllo di leggibilità (`si-capisce.mjs`) gira solo sui testi che scrivo a mano.
+Non gira sui testi che scrive il monitoraggio da solo.
+
+**Se va bene:** aggancio `si-capisce.mjs` dentro `cervello/monitora.md`, così anche i testi del
+monitoraggio automatico passano dallo stesso controllo prima di essere salvati in memoria.
+
+**Cosa devi fare:** scrivi «ok 124». Tocca il codice della macchina (automodifica): a basso rischio,
+ma serve comunque la tua firma per regola.
+
+**Cosa non ho verificato:** non ho ancora scritto la modifica — questa card propone la correzione,
+non la contiene già pronta in un branch.
+
+- **Colore:** 🟡 — tocca il codice della macchina, nessun dato reale toccato.
+- **Reparto:** AD (trovato dal cancello di fine turno)
+- **Origine:** `{origine:cancello-stop-turno-18-8, file:cervello/monitora.md}`
 
 ---
 

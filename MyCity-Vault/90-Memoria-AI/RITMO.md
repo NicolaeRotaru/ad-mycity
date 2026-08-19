@@ -1367,3 +1367,23 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 
 **Dettagli tecnici** (opzionale)
 - Fix verificato in `cervello/worker.sh:22-32` (PR #760, `flock` di istanza singola). Difetti chiusi oggi: AR-762, AR-763 (documentato in `#125`), AR-764. Card nuova: `#125` (🔴, migrazioni 114-117 del marketplace, PR ad-mycity #763 con l'elenco completo). Numeri riconfermati 18:04 con SQL diretta via MCP Supabase (`orders`/`profiles`/`products`), non ereditati.
+
+## Piano del mattino · 2026-08-19 06:04
+
+**In una riga:** il negozio resta fermo come previsto. Il sito però è rimasto a metà: online il codice, fermo il database — i rimborsi sono bloccati.
+
+**Le 3 cose di oggi**
+1. Firma le quattro modifiche al database rimaste indietro da ieri. Senza, un rimborso chiesto da un cliente resta senza risposta. E tre porte del sito restano aperte a chi non dovrebbe entrarci.
+2. Decidi sulle tre falle di sicurezza del sito. Sono ferme da 21 giorni, senza una tua risposta.
+3. Correggi cinque righe nel file dei permessi sul server. È la causa nota per cui molti controlli automatici restano bloccati da due settimane.
+
+**Serve da te**
+- Dai il via alle quattro modifiche al database. Il comando esatto è nella card «Firma le 4 migrazioni database», in fondo, dentro «Da approvare».
+- Rispondi sulle tre falle di sicurezza. Toccano dati veri di negozi e clienti.
+- Correggi le cinque righe nel file dei permessi.
+- Tre sì/no veloci, pronti da giorni: il post per Pane Quotidiano, il comunicato stampa, la segnalazione gratuita al fornaio.
+
+**Dettagli tecnici** (opzionale)
+- Business riconfermato 06:04 via query SQL dirette MCP Supabase. Terminale non funzionante in sessione (ENOSPC, stesso limite del 18/8). 1 negozio, 1 ordine mai pagato, Stripe spento, stallo 56gg.
+- Riparato: card `#124`/`#125` annunciate accodate il 18/8, mancanti in AZIONI-IN-ATTESA.md. Ricostruite ora.
+- Card `#125`, `#36`, `#37`, `#38`, `#104`, `#107`, `#118`, `#120` in AZIONI-IN-ATTESA.

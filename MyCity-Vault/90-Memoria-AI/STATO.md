@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-08-18 12:06
+aggiornato: 2026-08-19 06:04
 fonte: AD digitale (chat)
 ---
+
+> ☀️ **19/8 06:04 — Piano del mattino.** Business riconfermato ora con query SQL dirette via MCP Supabase (Bash indisponibile in questa sessione, disco temporaneo dell'harness pieno — stesso limite del 18/8, non ancora risolto): 1 negozio (Pane Quotidiano), 1 ordine mai pagato del 24/6, 0 pagati, 7 profili, Stripe ancora tutto spento — stallo North Star **56 giorni**, dentro la pausa concordata fino al 24/8-1/9. Tre priorità di oggi: ① firma le 4 migrazioni database ferme (`#125`, il codice nuovo del sito è online ma il DB no — rimborsi rotti) ② decidi sulle tre falle di sicurezza (`#36`/`#37`/`#38`, 21gg) ③ correggi i permessi VPS (`#104`, 15gg). **Trovato e riparato:** le card `#124`/`#125`, annunciate come accodate nei report del 18/8, non risultavano scritte in [[AZIONI-IN-ATTESA]] — ricostruite ora dai fatti già verificati, senza inventare nulla di nuovo. **Nota anche:** il Report della sera del 18/8 (18:04, scritto in [[RITMO]]/[[SALA-OPERATIVA]]) non risulta mai arrivato in questo registro — stesso giro interrotto. Dettaglio completo in [[RITMO]].
 
 > 🕛 **18/8 12:06 — Punto di mezzogiorno (cadenza ufficiale di ritmo.md).** Riprese le 3 priorità del Piano del mattino (06:12): **① sblocco memoria (`#108`) risolto** — la macchina ha ripreso a scrivere da sola tra le 06:12 e le 08:56 (commit `412230f9b`/`9e02c11ad`/`c254255f8` visti nella storia del ramo) · ② sicurezza (`#36`/`#37`/`#38`, 20gg) ancora senza risposta · ③ permessi (`#104`) invariato. Business riverificato dal vivo con query SQL dirette (MCP, non script — Bash bloccato in questa sessione da ENOSPC sul filesystem temporaneo): 1 ordine (CANCELED, 24/6), 0 pagati, 7 profili, 1 negozio (Pane Quotidiano, Stripe ancora spento) — stallo North Star **55 giorni**, dentro la pausa concordata fino al 24/8-1/9. Nessuna correzione di rotta di business: nessuna urgenza nuova. Gap onesto: `verifica-sensori.mjs`/`coerenza-fatti.mjs`/`ci-stato.mjs` non rilanciabili da qui (terminale indisponibile per tutto il turno), quindi PR/CI non riverificate in questo passaggio. Blocco completo in [[RITMO]].
 
@@ -2005,6 +2007,42 @@ Business INVARIATO dal 24/6, riconfermato stanotte con query SQL diretta (0 nume
 **Nuovo da chiudere in fretta:** `#107`, il post per Pane Quotidiano, è pronto da ieri e aspetta solo un sì o un no.
 
 **Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 54gg, atteso — negozi in pausa) · `salute_bassa` 🟡 (lista difetti lunga, cantiere aperto) · REST/MCP Supabase ✅ (riconfermati stanotte con query diretta) · resto sensori invariato dall'ultima lettura di stanotte.
+
+---
+
+## Prossime priorità (☀️ aggiornato 19/8 06:04 — piano del mattino)
+Business INVARIATO dal 24/6, riconfermato ORA con query SQL dirette via MCP Supabase (0 numeri
+inventati): 1 negozio (Pane Quotidiano), 1 ordine (mai pagato, del 24/6), 0 pagati, 7 profili,
+Stripe ancora tutto spento (charges/payouts/details = false) — **stallo 56 giorni**. È la pausa
+concordata con Nicola fino al 24/8-1/9, non un allarme. Gap tecnico: in questa sessione **Bash è
+indisponibile per intero** (disco temporaneo dell'harness pieno, ENOSPC) — non ho potuto rilanciare
+`verifica-sensori.mjs`, `coerenza-fatti.mjs`, `ci-stato.mjs` né toccare git; il numero di business
+sopra è comunque vero (canale diretto MCP, non ereditato). Le priorità sotto ereditano lo stato PR/CI
+del report della sera del 18/8 (18:04), non riverificato stamattina.
+
+1. [ ] 🔴 **Firma le 4 migrazioni database rimaste indietro** (`#125`, nuova ieri) — senza, le 4
+   strade di rimborso cliente restano rotte e 3 falle di sicurezza restano aperte sul database vero
+   (profili leggibili senza account, venditori auto-approvati, ordini modificabili da browser).
+2. [ ] 🔴 **Decidi sulle tre falle di sicurezza/affidabilità del sito** (`#36`/`#37`/`#38`) — ferme
+   dal 29/7, **21 giorni** senza risposta.
+3. [ ] 🟡 **Correggi 5 righe nel file dei permessi sul server** (`#104`) — 15 giorni, causa nota per
+   cui i giri automatici falliscono e il checkup di salute resta fermo.
+
+**Non dimenticare, invariata:** la mossa n.1 resta `#62`/`#116`, la pratica pagamenti di Pane
+Quotidiano — il vero blocco del primo incasso, congelata fino al 24/8-1/9.
+
+**Tre sì/no veloci, pronti da giorni:** `#107` (post Pane Quotidiano) · `#118` (comunicato stampa,
+mancano 2 citazioni vere) · `#120` (segnalazione gratuita al fornaio sul circuito welfare).
+
+**Trovato e riparato stamattina:** le card `#124`/`#125` erano state annunciate come "accodate" nei
+report del 18/8 ma non risultavano scritte in [[AZIONI-IN-ATTESA]] — la scrittura era rimasta dentro
+il giro interrotto di ieri sera. Ricostruite ora dai fatti già verificati e narrati nel dettaglio in
+[[RITMO]]/[[SALA-OPERATIVA]] del 18/8: nessun numero nuovo, solo la card mancante.
+
+**Sentinelle attive:** loop business 🔴 (0 ordini reali, stallo 56gg, atteso — negozi in pausa) ·
+REST/MCP Supabase ✅ (riverificati ora con query diretta) · resto sensori **non riverificato** in
+questo passaggio (Bash indisponibile) — ultima lettura nota: 18/8 12:20, tutti ok salvo `sito_uptime`
+(503, migrazione Vercel nota) e `mcp_stripe` (cieco, noto).
 
 ---
 
