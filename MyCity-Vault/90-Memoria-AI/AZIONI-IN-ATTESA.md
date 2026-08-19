@@ -22,6 +22,32 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #130 — L'ultima riparazione del sito: il riquadro in home smette di essere un contatore di ordini · ⏳ accodata 2026-08-19 22:20
+
+**Cosa cambia:** in home c'e' il riquadro «cosa sta succedendo a Piacenza». Oggi, insieme a
+ognuna di quelle righe, il sito consegna anche il numero di riconoscimento dell'ordine e l'ora
+al secondo.
+
+Con quei due dati un concorrente puo' leggere il riquadro ogni tanto, riconoscere gli ordini uno
+per uno e tenere il conto. Non «qui si compra», ma «Pane Quotidiano oggi ha fatto quattordici
+ordini, il primo alle 9:12».
+
+Dopo: resta il negozio, la citta', lo stato della consegna e l'ora arrotondata. Basta a far
+vedere che il marketplace e' vivo, non basta a mettere gli ordini in fila.
+
+**Se va bene:** applico il file `120_vetrina_attivita_senza_id.sql` al database vero. Un minuto,
+reversibile.
+
+Aspettava una cosa sola, ed e' arrivata stasera: il codice della home non chiede piu' quel
+numero, e da quando hai unito la richiesta #226 alle 22:05 il sito pubblicato e' quello nuovo.
+Se avessi applicato prima, il riquadro sarebbe sparito dalla home.
+
+**Dettagli tecnici:** difetto 040 del referto del 18/8. La vista `live_activity_public` perde la
+colonna `id` e arrotonda `created_at` all'ora. Unico lettore:
+`components/LiveActivityFeed.tsx:54`, che dalla #225 seleziona cinque colonne senza `id`
+(verificato su `origin/main`). Pubblicazione in produzione: `dpl_E6FzECJdBCtcYzApB6rhf9SCHykZ`,
+stato READY.
+
 ### 🔴 #129 — Un pezzo del sito scrive in un cassetto che sul database vero non esiste · ⏳ accodata 2026-08-19 20:35
 
 **Cosa cambia:** applicando le riparazioni al database vero ho scoperto una cosa che nessuna
