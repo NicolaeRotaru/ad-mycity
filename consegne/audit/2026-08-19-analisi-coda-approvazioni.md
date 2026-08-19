@@ -8,17 +8,17 @@ fonte: AZIONI-IN-ATTESA.md + GitHub + file del cervello letti dal vivo
 # Cosa c'è davvero nella tua coda «Da approvare»
 
 > **In due righe:** le caselle aperte sono 62, ma sotto ce n'è una vecchia tabella con
-> altre 38 righe in attesa che nessuno conta. Sono cento voci in tutto.
+> altre 37 righe in attesa che nessuno conta. Sono novantanove voci in tutto.
 > Tre tue mosse ne svuotano più della metà: cinque minuti, mezz'ora, una decisione.
 
 ## In parole semplici
 
 Ho contato e letto tutto quello che aspetta la tua firma. Le caselle aperte sono 62.
-Ma in fondo alla pagina c'è una vecchia tabella con altre **38 righe ancora in
-attesa**. Fanno **cento voci**, e le ultime 38 non le conta nessuno.
+Ma in fondo alla pagina c'è una vecchia tabella con altre **37 righe ancora in
+attesa**. Fanno **novantanove voci**, e le ultime 37 non le conta nessuno.
 
 Anzi: nessuno sa quante siano. Il banner in cima alla pagina ne dichiara 77. Il
-programma che fa la pulizia, se glielo chiedi, ne conta 81. Io ne conto 62 più 38.
+programma che fa la pulizia, se glielo chiedi, ne conta 81. Io ne conto 62 più 37.
 Tre strumenti, tre numeri, e nessuno dei tre uguale a un altro.
 
 E non sono cento lavori diversi. Sono **cinque mucchi**. Tre di questi si svuotano
@@ -101,6 +101,12 @@ scritto male.
 
 ### 3 · Le cose che valgono soldi (ferme da 21 giorni)
 
+> **Aggiornamento delle 23:15, mentre scrivevo questa analisi.** Due di queste sono
+> partite davvero. La #127 è stata applicata al database vero alle 20:25 col tuo ok, e
+> la #126 alle 19:10. Restano le quattro qui sotto. Ed è nata una rossa nuova, la #129:
+> applicando quelle riparazioni è saltato fuori che un pezzo del sito scrive in un
+> cassetto del database che non è mai stato creato.
+
 - **#37** — quattro porte aperte sul sito vero. Senza account si possono cambiare o
   cancellare i dati di un negozio, e cancellarlo si porta via conversazioni,
   portafoglio e punti fedeltà. Sempre senza account si leggono nome, telefono e
@@ -110,8 +116,6 @@ scritto male.
 - **#38** — cinque punti dove il sito perde soldi da solo: doppia vendita, buoni
   sconto che si consumano sui carrelli abbandonati, un fattorino che potrebbe
   decidersi il compenso.
-- **#127** e **#126** — trentotto riparazioni scritte ieri, pronte in un file, che
-  aspettano il tuo via: una per il database, una per pubblicare il codice.
 - **#39** — la partita IVA nell'informativa privacy è ancora un segnaposto di zeri, e
   i documenti d'identità di chi cancella l'account restano in archivio per sempre.
 
@@ -167,10 +171,11 @@ stanno ancora fra le aperte.
 
 ## Dettagli tecnici
 
-**Conteggio (misurato, non stimato).** `AZIONI-IN-ATTESA.md`. Intestazioni `###`: **70**
-— 45 🟡, 16 🔴, 1 ⚠️, 8 ✅ → **62 card aperte** (63 con la #129 accodata oggi). Righe
-della tabella legacy con stato `in attesa`: **38** (righe 553-556 e 1636-1713). Totale
-voci in attesa: **100**. Gli altri due contatori danno numeri diversi: il banner in cima
+**Conteggio (misurato, non stimato).** `AZIONI-IN-ATTESA.md` dopo la fusione con `main`
+delle 23:10. Intestazioni `###`: **72** — 45 🟡, 16 🔴, 1 ⚠️, 10 ✅ → **62 card aperte**
+(comprese la #130 mia e la #129 di una sessione parallela; nel frattempo #126 e #127
+sono passate a ✅). Righe della tabella legacy con stato `in attesa`: **37**. Totale voci
+in attesa: **99**. Gli altri due contatori danno numeri diversi: il banner in cima
 al file dice «77 aperte · 8 chiuse» (scritto il 18/8), e
 `node cervello/housekeeping-azioni.mjs --dry-run` risponde «Card aperte: 81 · chiuse: 8»
 perché il suo `CARD_START` accetta anche le righe che iniziano con l'emoji senza `###`

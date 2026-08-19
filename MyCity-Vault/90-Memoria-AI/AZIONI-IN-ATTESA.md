@@ -22,17 +22,17 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🟡 #129 — In questa pagina ci sono cento cose, non sessantadue: dammi il via a fare ordine · ⏳ accodata 2026-08-19 22:55
+### 🟡 #130 — In questa pagina ci sono cento cose, non sessantadue: dammi il via a fare ordine · ⏳ accodata 2026-08-19 22:55
 
 **Cosa cambia:** ho letto e verificato una per una tutte le cose che aspettano la tua
 firma. Le caselle che vedi sono 62. Ma in fondo alla pagina c'è una vecchia tabella con
-altre 38 righe ancora in attesa che nessuno conta. Fanno cento voci in tutto.
+altre 37 righe ancora in attesa che nessuno conta. Fanno novantanove voci in tutto.
 
 E nessuno sa quante siano davvero. Il banner in cima ne dichiara 77. Il programma della
-pulizia, se glielo chiedi, ne conta 81. Io ne conto 62 più 38. Tre strumenti, tre numeri
+pulizia, se glielo chiedi, ne conta 81. Io ne conto 62 più 37. Tre strumenti, tre numeri
 diversi.
 
-Dentro quelle cento voci ho trovato **dieci cose già fatte o morte**. Le ho verificate
+Dentro quelle novantanove voci ho trovato **dieci cose già fatte o morte**. Le ho verificate
 una per una, adesso. La #17 chiede un lavoro che è già dentro il sito da settimane. La
 #31 chiedeva di salvare la memoria «entro domani»: quel domani era il 28 luglio, e la
 cura è entrata il 18 agosto. La #18 chiede una pulizia che esiste e ha girato ieri
@@ -62,9 +62,43 @@ testo, che dice «fatto». Non sono andato a controllare se quel «fatto» fosse
 - **Reparto:** AD + chief-of-staff
 - **Origine:** `{origine:analisi-coda-2026-08-19, referto:consegne/audit/2026-08-19-analisi-coda-approvazioni.md, pr:773}`
 
-🔧 Dettagli tecnici: 70 intestazioni `###`, cioè 45 🟡 più 16 🔴 più 1 ⚠️ più 8 ✅. Le card aperte sono quindi 62. Più 38 righe tabellari con stato `in attesa`, alle righe 553-556 e 1636-1713. Totale 100 voci. `housekeeping-azioni.mjs --dry-run` ne conta 81: il suo `CARD_START` accetta anche le righe che iniziano con l'emoji senza `###`, e trova 87 match di cui 17 sono righe ✅/❌ fuori formato. Causa radice: quello stesso script archivia solo ciò che matcha `/^### (✅|❌)/`. Non interroga mai `merged_at` su GitHub. È la card #11. Prove di chiusura nel referto: `pannello/src/app/page.tsx:1693` (#17), `cervello/cristallizza-apprendimento.mjs:49-51` (#31), `cervello/housekeeping-azioni.mjs` (#18), PR #422 chiusa 16/7 (#4), PR #733 mergiata 15/8, PR #714 chiusa senza merge il 14/8 (stesso lavoro della riga 85).
+🔧 Dettagli tecnici: 70 intestazioni `###`, cioè 45 🟡 più 16 🔴 più 1 ⚠️ più 8 ✅. Le card aperte sono quindi 62. Più 37 righe tabellari con stato `in attesa`. Totale 99 voci. `housekeeping-azioni.mjs --dry-run` ne conta 81: il suo `CARD_START` accetta anche le righe che iniziano con l'emoji senza `###`, e trova 87 match di cui 17 sono righe ✅/❌ fuori formato. Causa radice: quello stesso script archivia solo ciò che matcha `/^### (✅|❌)/`. Non interroga mai `merged_at` su GitHub. È la card #11. Prove di chiusura nel referto: `pannello/src/app/page.tsx:1693` (#17), `cervello/cristallizza-apprendimento.mjs:49-51` (#31), `cervello/housekeeping-azioni.mjs` (#18), PR #422 chiusa 16/7 (#4), PR #733 mergiata 15/8, PR #714 chiusa senza merge il 14/8 (stesso lavoro della riga 85).
 
 ---
+---
+
+### 🔴 #129 — Un pezzo del sito scrive in un cassetto che sul database vero non esiste · ⏳ accodata 2026-08-19 20:35
+
+**Cosa cambia:** applicando le riparazioni al database vero ho scoperto una cosa che nessuna
+prova poteva vedere da qui. Il sito ha una funzione che fa scrivere le schede prodotto
+all'intelligenza artificiale. Quella funzione salva il lavoro in un cassetto del database che si
+chiama `catalog_ai_jobs`.
+
+Sul database vero quel cassetto non c'e'. Non c'e' mai stato: le istruzioni per costruirlo sono
+state scritte a giugno e sono rimaste nel repo del sito senza essere mai eseguite.
+
+Tre pezzi del sito provano a scrivere in un posto che non c'e'. Uno fa partire il lavoro. Uno
+ne chiede lo stato. Uno lo applica al catalogo. Tutti e tre falliscono ogni volta.
+
+In pratica: se domani il fornaio prova a farsi scrivere le schede dei suoi prodotti
+dall'intelligenza artificiale, non succede niente.
+
+Perche' non l'avevo visto prima: i miei controlli automatici ricostruiscono il database da zero
+partendo da tutte le istruzioni, quindi da loro il cassetto c'e' sempre. Solo toccando il
+database vero si vede la differenza. E' esattamente il tipo di errore che si trova andando a
+guardare, non leggendo.
+
+**Se va bene:** dammi il via e applico al database vero le istruzioni che creano quel cassetto
+(il file `099_catalog_ai_jobs.sql`, gia' scritto e gia' provato). Prima pero' controllo se
+quella funzione la usa qualcuno oggi: se e' spenta, la scelta e' fra accenderla e toglierla dal
+sito, e quella e' una tua decisione, non mia.
+
+**Dettagli tecnici:** migrazione `099_catalog_ai_jobs.sql` presente in `marketplace/migrations/`,
+assente da `supabase_migrations.schema_migrations` del progetto `clmpyfvpvfjgeviworth`.
+Verificato con `select … from pg_class where relname='catalog_ai_jobs'` → 0 righe. Codice che la
+usa: `app/api/ai/catalog-batch/{start,status,apply}/route.ts`. Nella migrazione 119 ho messo una
+guardia `to_regclass` sul blocco che la tocca. Senza, quella riga annullava in blocco le altre
+sei riparazioni della stessa transazione. E' successo davvero il 19/8 alle 20:12.
 
 ### 🟡 #128 — Incolla una parola nei freni: lo strumento «Monitor» oggi non lo guarda nessuno · ⏳ accodata 2026-08-19 14:30
 
@@ -95,7 +129,7 @@ testo del matcher, non una misura.
 
 ---
 
-### 🔴 #127 — Applica al database del sito le trentotto riparazioni del 19 agosto · ⏳ accodata 2026-08-19 13:25
+### ✅ #127 — Applicate al database del sito le riparazioni del 19 agosto. FATTO 2026-08-19 20:25, col tuo ok in chat · ⏳ accodata 2026-08-19 13:25
 
 **Cosa cambia:** oggi il cliente puo' alzarsi da solo il credito MyCity dal browser e poi
 spenderlo in un ordine in contanti. Il premio invito lo decide la pagina di registrazione,
@@ -113,12 +147,18 @@ e' applicare il database.
 copia applicabile in `consegne/tech/2026-08-19-marketplace-104-difetti.patch`. E' scritto per
 essere rilanciabile: se qualcosa va storto a meta', si rilancia e riprende.
 
-**Cosa non ho verificato:** non l'ho eseguito su nessun database, nemmeno di prova. Le
-riparazioni che contiene non sono attive finche' non la applichi.
+**Cosa non ho verificato (al momento in cui l'ho accodata):** non l'ho eseguito su nessun
+database, nemmeno di prova. Le riparazioni che contiene non sono attive finche' non la applichi.
+
+**Esito 2026-08-19 20:25:** applicata al database vero in sette blocchi, col tuo ok in chat.
+Verificata rileggendo il database: trentotto controlli, tutti col valore atteso. Un blocco si e'
+fermato e ha scoperto un cassetto mancante in produzione: da li' e' nata la carta #129. Restano
+fuori le riparazioni della vista che alimenta il riquadro in home, che vanno dopo la
+pubblicazione del codice.
 
 ---
 
-### 🟡 #126 — Autorizzami ad aprire la richiesta di unione sul repo del sito · ⏳ accodata 2026-08-19 13:25
+### ✅ #126 — Aperta la richiesta di unione sul repo del sito. FATTO 2026-08-19 19:10, col tuo ok in chat · ⏳ accodata 2026-08-19 13:25
 
 **Cosa cambia:** le centoquattro riparazioni di oggi sono su un ramo del repo del
 marketplace, e da questa sessione non posso aprirti la richiesta di unione: il proxy nega le
@@ -129,8 +169,12 @@ cosi', il lavoro c'e' ma tu non lo vedi in una pagina dove poterlo approvare.
 diff. In alternativa, se preferisci non allargare i permessi, applichi tu la patch a mano:
 `git am < consegne/tech/2026-08-19-marketplace-104-difetti.patch`.
 
-**Cosa non ho verificato:** non so quale delle due strade tu preferisca, e non ho provato la
-seconda: la patch e' generata dai commit veri, ma non l'ho applicata a una copia pulita.
+**Cosa non ho verificato (al momento in cui l'ho accodata):** non so quale delle due strade tu
+preferisca, e non ho provato la seconda: la patch e' generata dai commit veri, ma non l'ho
+applicata a una copia pulita.
+
+**Esito 2026-08-19 19:10:** col tuo ok in chat ho aperto la richiesta #225 sul repo del sito.
+Tutti i controlli verdi. Resta da unire: quella firma e' tua.
 
 ---
 
