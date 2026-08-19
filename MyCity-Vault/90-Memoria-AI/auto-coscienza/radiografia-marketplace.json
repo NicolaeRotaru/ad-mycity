@@ -3047,7 +3047,7 @@
       "bloccante": 4
     },
     "ramo": "claude/marketplace-100-difetti-ehne44 (repo NicolaeRotaru/mycity)",
-    "nota": "La migrazione 119 e scritta ma NON applicata: applicarla al database di produzione resta una firma di Nicola (rosso).",
+    "nota": "La migrazione 119 e stata APPLICATA al database di produzione il 2026-08-19 alle 20:25, con la firma di Nicola in chat («applica la migrazione 119»). Trentotto controlli di verifica letti dal database vero, tutti col valore atteso. La migrazione 120 resta da applicare DOPO il merge e la pubblicazione della richiesta #225: cambia la forma di una vista che la home legge.",
     "bloccanti_ancora_aperti": [
       {
         "n": 28,
@@ -3065,6 +3065,16 @@
         "n": 154,
         "perche": "Serve una funzione nuova nel database (conferma del ritiro da parte del negoziante) piu un pulsante nella pagina ordine venditore: lavoro a se, non una toppa."
       }
-    ]
+    ],
+    "applicazione_produzione": {
+      "data": "2026-08-19 20:25",
+      "progetto": "clmpyfvpvfjgeviworth (marketplace)",
+      "come": "sette blocchi via Supabase, ognuno in transazione propria",
+      "esito": "applicata e verificata",
+      "intoppo": "Il sesto blocco si e fermato: la tabella catalog_ai_jobs sul database vero non esiste, perche la migrazione 099 che la crea sta nel repo ma non e mai stata applicata. La transazione e stata annullata per intero. Risolto con una guardia to_regclass e rilanciato.",
+      "scoperta": "La funzione di scrittura schede con AI (tre endpoint sotto app/api/ai/catalog-batch/) scrive oggi in una tabella che non esiste in produzione: non funziona. Aperta la carta #129.",
+      "perche_la_prova_locale_non_lo_vedeva": "tests/sql/harness/apply.sh ricostruisce lo schema da TUTTE le migrazioni del repo, quindi vede un database diverso da quello vero. Non e una prova debole: e una prova su un altro oggetto."
+    },
+    "migrazione_120_stato": "NON applicata — attende il merge e la pubblicazione della richiesta #225"
   }
 }

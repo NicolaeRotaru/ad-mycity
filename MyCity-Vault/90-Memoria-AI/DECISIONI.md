@@ -2264,3 +2264,35 @@ bloccante gia' riparato la sera prima dalla richiesta #224: era stato scritto du
 della riparazione. Prima di aprire un lotto va riconciliato il registro col codice vero,
 altrimenti si lavora su una fotografia vecchia. Segnato nel registro come
 `gia_riparato_prima` invece di contarlo fra i miei.
+
+
+---
+
+## 2026-08-19 20:25 — 🔴 Applicate al database vero le riparazioni del 19 agosto (carta #127)
+
+**Cosa.** Ho eseguito sul database di produzione del marketplace (progetto
+`clmpyfvpvfjgeviworth`) la migrazione 119, quella che chiude trentasette difetti trovati dalla
+radiografia del 18 agosto. Divisa in sette blocchi per poterla mandare senza rischiare errori di
+trascrizione su un file da quarantamila caratteri.
+
+**Perche' l'ho fatto.** Firma esplicita di Nicola in chat: «ti autorizzo sul repo del sito e
+applica la migrazione 119». Senza quella frase non si toccava: e' rosso, sono i dati veri dei
+clienti.
+
+**Com'e' andata.** Sei blocchi al primo colpo. Il sesto si e' fermato: `catalog_ai_jobs` sul
+database vero non esiste — la migrazione 099 che la crea sta nel repo del sito ma non e' mai
+stata applicata. Tutta la transazione e' stata annullata, come deve essere. Ho aggiunto la
+guardia `to_regclass` (la stessa forma gia' usata per `referrals` nello stesso file), rilanciato,
+verde.
+
+**Verificato leggendo il database, non fidandomi.** Trentotto controlli su tre interrogazioni:
+trigger presenti, vincoli presenti, policy presenti e quelle vecchie sparite, funzioni presenti,
+indici presenti, i due profili incoerenti tornati a zero, le notifiche promozionali che nascono
+spente. Tutti col valore atteso.
+
+**La lezione che mi porto dietro.** La prova locale ricostruisce lo schema da tutte le
+migrazioni, quindi vede un database che in produzione non esiste. Non e' una prova debole: e'
+una prova su un altro oggetto. Ogni migrazione che tocca una tabella non nata insieme allo
+schema di base va scritta con la guardia — perche' in una transazione sola un oggetto mancante
+non fa fallire una riga, fa fallire tutto. Da qui e' nata anche la carta #129: quel cassetto
+mancante e' un pezzo di sito che oggi non funziona, e nessuno se n'era accorto.
