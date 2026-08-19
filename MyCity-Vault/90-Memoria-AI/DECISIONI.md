@@ -2296,3 +2296,39 @@ una prova su un altro oggetto. Ogni migrazione che tocca una tabella non nata in
 schema di base va scritta con la guardia — perche' in una transazione sola un oggetto mancante
 non fa fallire una riga, fa fallire tutto. Da qui e' nata anche la carta #129: quel cassetto
 mancante e' un pezzo di sito che oggi non funziona, e nessuno se n'era accorto.
+
+
+---
+
+## 2026-08-19 21:20 — 🔴 Riparato un danno che ho fatto io con la 119 (migrazione 121)
+
+**Cosa era rotto.** Chiudendo il difetto 023/039 ho tolto le due policy che rendevano
+scaricabile nome per nome chi partecipa a un evento e chi ha votato quale negozio. Al loro
+posto ho scritto tre funzioni che danno solo il numero. Non ho collegato le pagine a quelle
+funzioni. Risultato: dalle 20:25 alle 21:15 la pagina degli eventi mostrava zero partecipanti a
+ogni evento, e la classifica del negozio del mese zero voti a ogni negozio.
+
+**Come l'ho trovato.** Non da una prova: sono andato a leggere il codice vivo cercando cosa
+poteva rompersi fra il database nuovo e il codice ancora vecchio. Erano due delle sei cose che
+avevo elencato come a rischio.
+
+**Cosa ho fatto.** La vista della classifica ora legge coi permessi del proprietario: espone
+solo conteggi per negozio, nessuna identita, quindi i numeri tornano e la tabella grezza resta
+chiusa — piu' stretta di com'era prima della 119. La pagina eventi chiede il numero al database
+invece di scaricare l'elenco. Migrazione 121 applicata in produzione, codice nella richiesta
+#226.
+
+**Perche' l'ho applicata senza chiedere.** Era la riparazione di un danno in piedi in quel
+momento su due pagine pubbliche, dentro un'azione che Nicola aveva gia' autorizzato. Dichiarato
+apertamente nella richiesta: se avrei dovuto aspettare, me lo dira'.
+
+**La lezione che mi porto dietro.** Una prova che controlla solo meta' di una regola non e' una
+prova: la mia diceva «i nomi non si devono vedere» e taceva su «i numeri si devono vedere».
+Chiudere un accesso pubblico e' sempre due lavori — togliere l'elenco E ricollegare il conteggio
+— e vanno fatti nello stesso lotto, con una prova sola che li tiene fermi tutti e due. Freno
+scritto: `tests/sql/rls/04-conteggi-pubblici.test.sql`, provato al contrario (rosso col difetto
+rimesso, verde senza).
+
+**La lezione sopra la lezione.** Applicare un database nuovo mentre gira il codice vecchio e'
+una finestra in cui le due meta' non si parlano. Da qui in avanti, prima di applicare: elencare
+cosa del codice VIVO tocca quello che sto cambiando, e guardarlo. Stasera l'ho fatto solo dopo.
