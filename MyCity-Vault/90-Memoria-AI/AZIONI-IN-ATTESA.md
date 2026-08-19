@@ -22,6 +22,35 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🟡 #128 — Incolla una parola nei freni: lo strumento «Monitor» oggi non lo guarda nessuno · ⏳ accodata 2026-08-19 14:30
+
+**Cosa cambia:** ho uno strumento che si chiama `Monitor`. Avvia un comando di sistema e mi
+manda una riga ogni volta che quel comando dice qualcosa. Fa girare comandi come `Bash`.
+
+Il freno che controlla `Bash` prima di lasciarlo partire pero' non lo conosce. Vuol dire che da
+li' posso far girare un comando senza che nessuna guardia lo veda passare.
+
+In questo turno non ha fatto girare niente. L'unica chiamata e' stata rifiutata prima di
+partire. Il buco pero' resta aperto per la prossima volta.
+
+**Se va bene:** basta aggiungere una parola nel file `.claude/settings.json`, alla riga del
+`PreToolUse`:
+
+`"matcher": "Bash|Task|mcp__.*"` → `"matcher": "Bash|Monitor|Task|mcp__.*"`
+
+Da quel momento lo strumento passa dallo stesso controllo di `Bash`, e il cancello dello Stop
+smette di segnalarlo.
+
+**Perche' non l'ho fatto io:** quel file e' nell'elenco di quelli che non posso toccare —
+stesso muro delle card #104 e #42. Ho provato, mi e' stato negato, e non ho girato intorno al
+divieto.
+
+**Cosa non ho verificato:** non ho potuto provare che con quella parola il freno scatti
+davvero, proprio perche' non posso modificare il file per provarlo. E' un ragionamento sul
+testo del matcher, non una misura.
+
+---
+
 ### 🔴 #127 — Applica al database del sito le trentotto riparazioni del 19 agosto · ⏳ accodata 2026-08-19 13:25
 
 **Cosa cambia:** oggi il cliente puo' alzarsi da solo il credito MyCity dal browser e poi
