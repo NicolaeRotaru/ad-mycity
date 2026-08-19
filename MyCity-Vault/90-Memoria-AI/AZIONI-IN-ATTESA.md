@@ -22,6 +22,51 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🟡 #130 — In questa pagina ci sono cento cose, non sessantadue: dammi il via a fare ordine · ⏳ accodata 2026-08-19 22:55
+
+**Cosa cambia:** ho letto e verificato una per una tutte le cose che aspettano la tua
+firma. Le caselle che vedi sono 62. Ma in fondo alla pagina c'è una vecchia tabella con
+altre 37 righe ancora in attesa che nessuno conta. Fanno novantanove voci in tutto.
+
+E nessuno sa quante siano davvero. Il banner in cima ne dichiara 77. Il programma della
+pulizia, se glielo chiedi, ne conta 81. Io ne conto 62 più 37. Tre strumenti, tre numeri
+diversi.
+
+Dentro quelle novantanove voci ho trovato **dieci cose già fatte o morte**. Le ho verificate
+una per una, adesso. La #17 chiede un lavoro che è già dentro il sito da settimane. La
+#31 chiedeva di salvare la memoria «entro domani»: quel domani era il 28 luglio, e la
+cura è entrata il 18 agosto. La #18 chiede una pulizia che esiste e ha girato ieri
+l'altro alle 06:25. Le #52 e #55 hanno già scritto «fatto» dentro, e stanno ancora fra
+le aperte.
+
+Ho anche trovato **perché la coda non cala mai**. Il programma che fa pulizia qui
+dentro sposta in archivio solo le caselle che qualcuno ha già marcato a mano. Non
+chiede mai a GitHub se una richiesta di unione è stata unita. È esattamente la cosa che
+mi avevi chiesto il 18 luglio, la casella #11: aperta da trentadue giorni.
+
+**Se va bene:** faccio tre cose in un lavoro solo. Chiudo le dieci verificate come già
+fatte, spiegando per ognuna dove si vede che è fatta. Porto le 38 righe della vecchia
+tabella nello stesso formato delle caselle, così le vedi anche tu nel Pannello invece
+che solo io nel file. E aggancio il controllo su GitHub che chiude da sola una casella
+«unisci la richiesta N» quando la unisci tu.
+
+**Cosa devi fare:** una parola. Le prime due cose le faccio subito. La terza è codice,
+quindi te la porto in una richiesta di unione come sempre.
+
+**Cosa non ho verificato:** delle otto righe «unisci la richiesta N» ne ho controllate
+tre su GitHub, non tutte e otto. Delle dieci che dichiaro morte ne ho provate otto, nel
+codice o su GitHub. Le altre due sono la #52 e la #55. Quelle le ho lette dal loro stesso
+testo, che dice «fatto». Non sono andato a controllare se quel «fatto» fosse vero.
+
+- **Colore:** 🟡 — tocca la pagina da cui approvi, che è tua: non chiudo niente senza il tuo ok.
+- **Reparto:** AD + chief-of-staff
+- **Origine:** `{origine:analisi-coda-2026-08-19, referto:consegne/audit/2026-08-19-analisi-coda-approvazioni.md, pr:773}`
+
+🔧 Dettagli tecnici: 70 intestazioni `###`, cioè 45 🟡 più 16 🔴 più 1 ⚠️ più 8 ✅. Le card aperte sono quindi 62. Più 37 righe tabellari con stato `in attesa`. Totale 99 voci. `housekeeping-azioni.mjs --dry-run` ne conta 81: il suo `CARD_START` accetta anche le righe che iniziano con l'emoji senza `###`, e trova 87 match di cui 17 sono righe ✅/❌ fuori formato. Causa radice: quello stesso script archivia solo ciò che matcha `/^### (✅|❌)/`. Non interroga mai `merged_at` su GitHub. È la card #11. Prove di chiusura nel referto: `pannello/src/app/page.tsx:1693` (#17), `cervello/cristallizza-apprendimento.mjs:49-51` (#31), `cervello/housekeeping-azioni.mjs` (#18), PR #422 chiusa 16/7 (#4), PR #733 mergiata 15/8, PR #714 chiusa senza merge il 14/8 (stesso lavoro della riga 85).
+
+---
+---
+
 ### 🔴 #129 — Un pezzo del sito scrive in un cassetto che sul database vero non esiste · ⏳ accodata 2026-08-19 20:35
 
 **Cosa cambia:** applicando le riparazioni al database vero ho scoperto una cosa che nessuna

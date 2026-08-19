@@ -2,76 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-13T05:03:22.036Z",
-      "scatti": 5019,
-      "voci": 9,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 6
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-13T05:09:30.528Z",
-      "scatti": 5020,
-      "voci": 9,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 6
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-13T06:13:35.468Z",
-      "scatti": 5059,
-      "voci": 9,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 6
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-13T06:27:26.200Z",
-      "scatti": 5108,
-      "voci": 9,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 6
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-13T06:41:16.825Z",
-      "scatti": 5176,
-      "voci": 9,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 6
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-13T06:44:19.962Z",
-      "scatti": 5178,
-      "voci": 9,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 6
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-13T06:56:14.743Z",
-      "scatti": 5226,
-      "voci": 9,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 6
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-13T06:59:39.927Z",
       "scatti": 5230,
       "voci": 9,
@@ -2420,12 +2350,61 @@
       "mai_risolte": []
     },
     {
+      "quando": "2026-08-19T20:52:22.099Z",
+      "scatti": 50,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-19T21:04:56.004Z",
+      "scatti": 64,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-19T21:17:07.707Z",
+      "scatti": 75,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-19T21:25:54.537Z",
+      "scatti": 79,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-19T21:34:38.782Z",
+      "scatti": 79,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
       "quando": "2026-08-19T21:45:42.982Z",
       "scatti": 202,
       "voci": 0,
       "per_classe": {},
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-19T21:50:15.498Z",
+      "scatti": 82,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-19T22:00:20.320Z",
+      "scatti": 82,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-19T21:45:42.984Z"
+  "aggiornato": "2026-08-19T22:00:20.320Z"
 }
