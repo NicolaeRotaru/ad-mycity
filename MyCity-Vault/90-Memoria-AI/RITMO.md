@@ -1405,3 +1405,27 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - Correggi le cinque righe nel file dei permessi (`#104`).
 
 **Dettagli tecnici** (opzionale). Business riconfermato alle 12:02 con query SQL dirette via MCP Supabase. Bash indisponibile in questa sessione, stesso limite ENOSPC del 18-19/8. Il worker ha comunque girato da solo a mezzogiorno. `delta-gate.json` è stato aggiornato alle 12:00, con la stessa firma di business: 1 ordine, 7 profili. GitHub, PR e CI non sono verificabili da qui. Il connettore non è disponibile in questa sessione.
+
+## Report della sera · 2026-08-19 18:00
+
+**Com'è andata oggi**
+- Giornata di sola manutenzione. Nessun ordine, nessun cliente nuovo. Il negozio resta fermo, come previsto dentro la pausa concordata.
+- Trovato e riparato un buco vero. Due card, `#124` e `#125`, ieri sera sembravano già scritte in coda. Non c'erano davvero: la scrittura si era persa dentro un giro interrotto. Le ho ricostruite con lo stesso contenuto già verificato, senza inventare nulla di nuovo.
+- Nel pomeriggio le richieste di unione del codice bloccate in rosso sono salite da 3 a 6. Non è colpa del sito del marketplace. È debito tecnico della macchina stessa. Tre delle sei hanno lo stesso motivo ripetuto.
+
+**I numeri**
+- Invariati: 1 negozio, 5 prodotti, 7 clienti, 1 ordine mai pagato. Fermo da 56 giorni. Dentro la pausa concordata con te fino al 24/8-1/9.
+
+**Da approvare**
+- Applica le quattro modifiche al database rimaste dal deploy di due giorni fa. I rimborsi ai clienti sono fermi finché non lo fai.
+- Decidi sulle tre falle di sicurezza del sito, ferme da 21 giorni.
+- Correggi le cinque righe di permessi sul server, ferme da 15 giorni. È la causa per cui molti controlli automatici restano bloccati.
+
+**Lezione di oggi**
+- Dire che un'azione è "accodata" non basta. Va controllato che sia arrivata davvero sul foglio, specie dopo un lavoro interrotto a metà. Altrimenti la richiesta sparisce e tu non la vedi mai.
+
+**Domani**
+- La prima cosa utile resta la tua decisione sulle quattro migrazioni del database: sono quelle che riaccendono i rimborsi.
+
+**Dettagli tecnici** (opzionale)
+- Numeri riconfermati 18:00 con SQL diretta via MCP Supabase (`orders`/`profiles`/`products`), non ereditati. CI: 6 PR rosse (#761/#754/#753/#749/#741/#735), 3 condividono `test-del-cervello` + ESITO mancante (AR-009). Card ricostruite oggi: `#124`, `#125`. File toccati: STATO.md (7 numeri + Prossime priorità + Ultime mosse), RITMO.md.
