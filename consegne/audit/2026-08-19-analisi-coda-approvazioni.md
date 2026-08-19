@@ -7,14 +7,19 @@ fonte: AZIONI-IN-ATTESA.md + GitHub + file del cervello letti dal vivo
 
 # Cosa c'è davvero nella tua coda «Da approvare»
 
-> **In due righe:** in attesa non ci sono le 62 caselle che vedi. Sono circa cento cose.
-> Sotto le caselle c'è una vecchia tabella con altre 38 righe che nessuno conta più.
+> **In due righe:** le caselle aperte sono 62, ma sotto ce n'è una vecchia tabella con
+> altre 38 righe in attesa che nessuno conta. Sono cento voci in tutto.
 > Tre tue mosse ne svuotano più della metà: cinque minuti, mezz'ora, una decisione.
 
 ## In parole semplici
 
-Ho contato e letto tutto quello che aspetta la tua firma. Il totale vero è
-**circa cento cose**, non le 62 caselle che si vedono aprendo la pagina.
+Ho contato e letto tutto quello che aspetta la tua firma. Le caselle aperte sono 62.
+Ma in fondo alla pagina c'è una vecchia tabella con altre **38 righe ancora in
+attesa**. Fanno **cento voci**, e le ultime 38 non le conta nessuno.
+
+Anzi: nessuno sa quante siano. Il banner in cima alla pagina ne dichiara 77. Il
+programma che fa la pulizia, se glielo chiedi, ne conta 81. Io ne conto 62 più 38.
+Tre strumenti, tre numeri, e nessuno dei tre uguale a un altro.
 
 E non sono cento lavori diversi. Sono **cinque mucchi**. Tre di questi si svuotano
 con tre tue mosse corte. Un quarto è roba già fatta che nessuno ha chiuso. Il quinto
@@ -162,10 +167,15 @@ stanno ancora fra le aperte.
 
 ## Dettagli tecnici
 
-**Conteggio.** `AZIONI-IN-ATTESA.md`, 1713 righe. Intestazioni `###`: 70 totali — 45 🟡,
-16 🔴, 1 ⚠️, 8 ✅. Aperte in formato card: **62**. Righe della tabella legacy con stato
-`in attesa`: **38** (righe 553-556 e 1636-1713). Totale in attesa: **~100**. Il banner
-in cima dice «77 aperte · 8 chiuse»: nessuno dei tre conteggi coincide con gli altri.
+**Conteggio (misurato, non stimato).** `AZIONI-IN-ATTESA.md`. Intestazioni `###`: **70**
+— 45 🟡, 16 🔴, 1 ⚠️, 8 ✅ → **62 card aperte** (63 con la #129 accodata oggi). Righe
+della tabella legacy con stato `in attesa`: **38** (righe 553-556 e 1636-1713). Totale
+voci in attesa: **100**. Gli altri due contatori danno numeri diversi: il banner in cima
+al file dice «77 aperte · 8 chiuse» (scritto il 18/8), e
+`node cervello/housekeeping-azioni.mjs --dry-run` risponde «Card aperte: 81 · chiuse: 8»
+perché il suo `CARD_START` accetta anche le righe che iniziano con l'emoji senza `###`
+(87 match totali, di cui 17 righe ✅/❌ fuori dal formato card). Nessuno dei tre coincide:
+non esiste oggi un conteggio unico di quante cose aspettano la firma.
 
 **Mucchio 1** — `.claude/settings.json` riga 120: `"matcher": "Bash|Task|mcp__.*"`.
 Va portata a `"Bash|Task|Agent|Monitor|mcp__.*"`. Chiude #119 (Agent), #128 (Monitor)
