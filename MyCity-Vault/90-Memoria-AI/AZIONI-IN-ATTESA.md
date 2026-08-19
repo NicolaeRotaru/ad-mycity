@@ -22,7 +22,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #122 — Applica al database del sito le trentotto riparazioni del 19 agosto · ⏳ accodata 2026-08-19 13:25
+### 🔴 #127 — Applica al database del sito le trentotto riparazioni del 19 agosto · ⏳ accodata 2026-08-19 13:25
 
 **Cosa cambia:** oggi il cliente puo' alzarsi da solo il credito MyCity dal browser e poi
 spenderlo in un ordine in contanti. Il premio invito lo decide la pagina di registrazione,
@@ -45,7 +45,7 @@ riparazioni che contiene non sono attive finche' non la applichi.
 
 ---
 
-### 🟡 #121 — Autorizzami ad aprire la richiesta di unione sul repo del sito · ⏳ accodata 2026-08-19 13:25
+### 🟡 #126 — Autorizzami ad aprire la richiesta di unione sul repo del sito · ⏳ accodata 2026-08-19 13:25
 
 **Cosa cambia:** le centoquattro riparazioni di oggi sono su un ramo del repo del
 marketplace, e da questa sessione non posso aprirti la richiesta di unione: il proxy nega le

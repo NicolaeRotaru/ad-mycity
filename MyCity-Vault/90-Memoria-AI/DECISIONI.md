@@ -2252,9 +2252,9 @@ dichiarato, che puo' solo scendere.
 riparazione diventano rosse. Le altre no, e questo e' meno.
 
 **Cosa NON ho fatto, e perche'.** La migrazione 119 non e' stata applicata a nessun
-database: applicarla e' rosso e resta la tua firma (card #122). La richiesta di unione non
+database: applicarla e' rosso e resta la tua firma (card #127). La richiesta di unione non
 l'ho aperta: il proxy di questa sessione nega le credenziali per il repo del marketplace, e
-la richiesta di aggiungerlo e' stata bloccata (card #121). Quattro bloccanti restano aperti
+la richiesta di aggiungerlo e' stata bloccata (card #126). Quattro bloccanti restano aperti
 perche' non dipendono dal codice: due numeri da decidere (il compenso del fattorino contro
 la tariffa di consegna), i dati veri dell'azienda per il piede di pagina, la riapprovazione
 dei negozi dal pannello, e un lavoro a se' sul ritiro in negozio.
