@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-08-19 06:04
+aggiornato: 2026-08-19 12:05
 fonte: AD digitale (chat)
 ---
+
+> 🕛 **19/8 12:05 — Punto di mezzogiorno (cadenza ufficiale di ritmo.md).** Riprese le 3 priorità del Piano del mattino (06:04): tutte e tre **ancora aperte**, nessuna sbloccata — `#125` (4 migrazioni database, rimborsi rotti) · `#36`/`#37`/`#38` (sicurezza, 21gg) · `#104` (permessi VPS, 15gg). Business riverificato dal vivo con query SQL dirette via MCP Supabase (Bash ancora indisponibile in questa sessione, stesso ENOSPC del 18-19/8): 1 negozio (Pane Quotidiano), 1 ordine mai pagato del 24/6, 0 pagati, 7 profili, Stripe tutto spento — stallo North Star **56 giorni**, dentro la pausa concordata fino al 24/8-1/9. Identico a stamattina. Nessuna correzione di rotta: nessuna urgenza nuova. Il worker ha comunque girato da solo a mezzogiorno (`delta-gate.json` aggiornato 12:00, stessa firma di business). Gap onesto: GitHub/PR/CI non verificabili da qui (connettore non disponibile in questa sessione). Blocco completo in [[RITMO]].
 
 > ☀️ **19/8 06:04 — Piano del mattino.** Business riconfermato ora con query SQL dirette via MCP Supabase (Bash indisponibile in questa sessione, disco temporaneo dell'harness pieno — stesso limite del 18/8, non ancora risolto): 1 negozio (Pane Quotidiano), 1 ordine mai pagato del 24/6, 0 pagati, 7 profili, Stripe ancora tutto spento — stallo North Star **56 giorni**, dentro la pausa concordata fino al 24/8-1/9. Tre priorità di oggi: ① firma le 4 migrazioni database ferme (`#125`, il codice nuovo del sito è online ma il DB no — rimborsi rotti) ② decidi sulle tre falle di sicurezza (`#36`/`#37`/`#38`, 21gg) ③ correggi i permessi VPS (`#104`, 15gg). **Trovato e riparato:** le card `#124`/`#125`, annunciate come accodate nei report del 18/8, non risultavano scritte in [[AZIONI-IN-ATTESA]] — ricostruite ora dai fatti già verificati, senza inventare nulla di nuovo. **Nota anche:** il Report della sera del 18/8 (18:04, scritto in [[RITMO]]/[[SALA-OPERATIVA]]) non risulta mai arrivato in questo registro — stesso giro interrotto. Dettaglio completo in [[RITMO]].
 

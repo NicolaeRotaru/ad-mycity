@@ -1387,3 +1387,21 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - Business riconfermato 06:04 via query SQL dirette MCP Supabase. Terminale non funzionante in sessione (ENOSPC, stesso limite del 18/8). 1 negozio, 1 ordine mai pagato, Stripe spento, stallo 56gg.
 - Riparato: card `#124`/`#125` annunciate accodate il 18/8, mancanti in AZIONI-IN-ATTESA.md. Ricostruite ora.
 - Card `#125`, `#36`, `#37`, `#38`, `#104`, `#107`, `#118`, `#120` in AZIONI-IN-ATTESA.
+
+## Punto di mezzogiorno · 2026-08-19 12:05
+
+**Le 3 priorità del mattino**
+1. ❌ Firma le 4 migrazioni database (`#125`). Ancora nessuna risposta. I rimborsi restano rotti. Tre falle sul database vero restano aperte.
+2. ❌ Le tre falle di sicurezza (`#36`/`#37`/`#38`). Ferme da 21 giorni. Ancora senza una tua risposta.
+3. ❌ I permessi sul server (`#104`). Invariato. Stessa causa nota dei controlli bloccati da 15 giorni.
+
+**Controllato ora, in diretta sul database:** 1 solo ordine, mai pagato, del 24 giugno. 7 profili. 1 negozio, Pane Quotidiano. Pagamenti Stripe ancora tutti spenti. Tutto invariato rispetto a stamattina. Stallo 56 giorni, dentro la pausa concordata fino al 24/8-1/9.
+
+**Correzioni di rotta:** nessuna. Non è emersa nessuna urgenza nuova da stamattina. Nessuna delle tre priorità si sblocca con altro lavoro mio. Aspettano solo la tua firma. O la tua correzione a mano sul server.
+
+**Serve da te entro sera**
+- Firma le quattro migrazioni database (`#125`). Sbloccano i rimborsi.
+- Rispondi sulle tre falle di sicurezza (`#36`/`#37`/`#38`).
+- Correggi le cinque righe nel file dei permessi (`#104`).
+
+**Dettagli tecnici** (opzionale). Business riconfermato alle 12:02 con query SQL dirette via MCP Supabase. Bash indisponibile in questa sessione, stesso limite ENOSPC del 18-19/8. Il worker ha comunque girato da solo a mezzogiorno. `delta-gate.json` è stato aggiornato alle 12:00, con la stessa firma di business: 1 ordine, 7 profili. GitHub, PR e CI non sono verificabili da qui. Il connettore non è disponibile in questa sessione.
