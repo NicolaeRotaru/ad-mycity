@@ -54,15 +54,15 @@ che solo io nel file. E aggancio il controllo su GitHub che chiude da sola una c
 quindi te la porto in una richiesta di unione come sempre.
 
 **Cosa non ho verificato:** delle otto righe «unisci la richiesta N» ne ho controllate
-tre su GitHub, non tutte e otto. Delle dieci che dichiaro morte, otto le ho provate nel
-codice o su GitHub; due (#52 e #55) le ho lette dal loro stesso testo, che dice «fatto»
-— non ho ricontrollato a valle se quel «fatto» era vero.
+tre su GitHub, non tutte e otto. Delle dieci che dichiaro morte ne ho provate otto, nel
+codice o su GitHub. Le altre due sono la #52 e la #55. Quelle le ho lette dal loro stesso
+testo, che dice «fatto». Non sono andato a controllare se quel «fatto» fosse vero.
 
 - **Colore:** 🟡 — tocca la pagina da cui approvi, che è tua: non chiudo niente senza il tuo ok.
 - **Reparto:** AD + chief-of-staff
 - **Origine:** `{origine:analisi-coda-2026-08-19, referto:consegne/audit/2026-08-19-analisi-coda-approvazioni.md, pr:773}`
 
-🔧 Dettagli tecnici: 70 intestazioni `###` (45 🟡 · 16 🔴 · 1 ⚠️ · 8 ✅) = 62 card aperte; 38 righe tabellari con stato `in attesa` (righe 553-556 e 1636-1713) = 100 voci. `housekeeping-azioni.mjs --dry-run` ne conta 81 perché il suo `CARD_START` accetta anche le righe che iniziano con l'emoji senza `###` (87 match, 17 dei quali righe ✅/❌ fuori formato). Causa radice: `cervello/housekeeping-azioni.mjs` matcha solo `/^### (✅|❌)/` e non interroga `merged_at` su GitHub — è la card #11. Prove di chiusura nel referto: `pannello/src/app/page.tsx:1693` (#17), `cervello/cristallizza-apprendimento.mjs:49-51` (#31), `cervello/housekeeping-azioni.mjs` (#18), PR #422 chiusa 16/7 (#4), PR #733 mergiata 15/8, PR #714 chiusa senza merge il 14/8 (stesso lavoro della riga 85).
+🔧 Dettagli tecnici: 70 intestazioni `###`, cioè 45 🟡 più 16 🔴 più 1 ⚠️ più 8 ✅. Le card aperte sono quindi 62. Più 38 righe tabellari con stato `in attesa`, alle righe 553-556 e 1636-1713. Totale 100 voci. `housekeeping-azioni.mjs --dry-run` ne conta 81: il suo `CARD_START` accetta anche le righe che iniziano con l'emoji senza `###`, e trova 87 match di cui 17 sono righe ✅/❌ fuori formato. Causa radice: quello stesso script archivia solo ciò che matcha `/^### (✅|❌)/`. Non interroga mai `merged_at` su GitHub. È la card #11. Prove di chiusura nel referto: `pannello/src/app/page.tsx:1693` (#17), `cervello/cristallizza-apprendimento.mjs:49-51` (#31), `cervello/housekeeping-azioni.mjs` (#18), PR #422 chiusa 16/7 (#4), PR #733 mergiata 15/8, PR #714 chiusa senza merge il 14/8 (stesso lavoro della riga 85).
 
 ---
 
