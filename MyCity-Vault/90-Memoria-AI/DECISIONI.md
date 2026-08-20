@@ -2442,3 +2442,41 @@ porte di sicurezza: era vero ma incompleto, e su una carta 🔴 incompleto vuol 
 si decide su meno di quello che serve.
 
 **Cosa resta a Nicola.** #133 (applicare la 122) e #134 (parola d'ordine del backup).
+
+---
+
+## 2026-08-20 13:30 — 🔴 Applicata la 122 al database vero, e ha scoperto un errore mio
+
+**L'ok.** Nicola in chat: «applica la migrazione 122». Prima firma rossa su un database di
+produzione in questo lotto.
+
+**Come l'ho fatta.** A blocchi, uno per volta, con una verifica dopo ognuno invece che tutta
+insieme. Progetto `clmpyfvpvfjgeviworth`, Postgres 17.6. Sette voci nel registro,
+`radiografia_20_agosto_01` fino a `_07`. Prima di ogni blocco ho controllato che ci fosse quello
+che gli serviva: `is_rider_approvato`, la colonna `notifications.category`, la tabella
+`sponsored_listings`, e i nomi veri delle quattro chiavi esterne. L'ultimo controllo mi ha
+risparmiato un guaio: se i nomi non avessero coinciso sarebbero rimaste due chiavi sulla stessa
+colonna, e quella vecchia a `CASCADE` avrebbe continuato a cancellare i resi.
+
+**Le prove sul database vero.** Il tetto degli sponsorizzati l'ho provato chiamandolo: 65
+chiamate, 60 passate; 20 clic, 10 passati. Righe di prova cancellate subito. `store_cards`
+risponde 4 prodotti su 5 veri per Pane Quotidiano.
+
+**L'errore che ho fatto io.** La stretta sulla lettura degli ordini rompe la presa dell'ordine da
+parte del fattorino. In PostgreSQL anche il `WHERE` di un `UPDATE` passa dalle policy di lettura:
+su un ordine libero `rider_id` e' vuoto, la riga non risulta sua, l'aggiornamento trova zero
+righe. Non l'avevo previsto e non l'avevo provato: la prova che avevo scritto per la 122
+controllava che il fattorino NON leggesse i recapiti, non che riuscisse ancora a lavorare.
+
+**La lezione.** Una prova che dimostra che una porta si e' chiusa non dimostra che le altre porte
+sono rimaste aperte. Quando una riparazione toglie un permesso, va provato anche il gesto che
+quel permesso serviva a fare.
+
+**Il rimedio.** Migrazione 123, funzione fidata `prendi_ordine`, piu' sei controlli nuovi rossi
+senza e verdi con. Uno dei sei prova apposta che l'`UPDATE` diretto continui a NON vedere la
+riga: se un giorno tornasse a vederla, vuol dire che la falla dei recapiti e' tornata. Richiesta
+`mycity#228`. Non applicata: e' una firma nuova, carta **#135**.
+
+**Perche' non l'ho applicata da solo.** L'ok era sulla 122. La 123 e' un'altra scrittura sul
+database vero, e la regola di casa dice che nel dubbio si sale di colore. Il costo di aspettare
+oggi e' zero: zero fattorini approvati, un ordine solo e annullato a giugno.
