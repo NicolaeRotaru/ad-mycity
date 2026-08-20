@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-08-20 13:30
+aggiornato: 2026-08-20 14:40
 fonte: AD digitale (chat)
 ---
+
+> ✅ **20/8 14:40 — Il database vero e' allineato al codice: applicata anche la 123.** Nicola in chat: «applica la 123», dopo aver unito `mycity#228` alle 14:25. Registrata come `presa_ordine_dal_fattorino`. **Prima:** la funzione non c'era, e il codice gia' online la chiamava. **Dopo:** `prendi_ordine` esiste, gira coi permessi del proprietario, ha il percorso di ricerca fissato, e la puo' chiamare solo chi e' entrato — **l'anonimo no**. Provata dal vivo su un utente che non e' un fattorino: risponde `NON_FATTORINO` senza toccare niente.
+>
+> **Gli otto pezzi del lotto, contati sul database vero:** bacheca senza recapiti ✅ · le due notifiche con la categoria ✅ · tetto sponsorizzati ✅ · sconti in una chiamata ✅ · vetrine per negozio ✅ · **4 chiavi esterne su 4 a `SET NULL`** ✅ · doppio clic in contanti ✅ · presa dell'ordine ✅. La policy del fattorino e' `rider_id = auth.uid()`, cioe' la stretta regge: la falla dei recapiti resta chiusa. L'unico ordine vero e' intatto, zero righe di prova rimaste.
+>
+> **La carta #135 e' chiusa. Resta una firma sola: #134**, i due segreti del backup. Piu' i quattro bloccanti che aspettano un numero o una scelta di Nicola.
 
 > 🔧 **20/8 13:30 — La migrazione 122 e' applicata al database vero, e ha scoperto un errore mio.** Nicola in chat: «applica la migrazione 122». Applicata a blocchi, uno per uno, con la verifica dopo ognuno (`radiografia_20_agosto_01` … `_07` nel registro Supabase, progetto `clmpyfvpvfjgeviworth`, Postgres 17.6). **Prima:** nessuno dei sette pezzi esisteva, 4 chiavi esterne a `CASCADE`. **Dopo:** vista `ordini_disponibili_rider` creata con 0 colonne sensibili e `anon` escluso · le due funzioni di notifica scrivono `category` · tetto sponsorizzati provato dal vivo, **60 su 65** visualizzazioni e **10 su 20** clic (righe di prova cancellate) · `product_active_discounts` e `store_cards` create, e `store_cards` risponde **4 prodotti su 5 veri** per Pane Quotidiano · **4 chiavi esterne a `SET NULL`, 0 rimaste a `CASCADE`** · `cod_checkout_attempts` creata.
 >

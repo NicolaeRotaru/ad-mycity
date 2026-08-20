@@ -22,7 +22,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #135 — Applica la 123: il fattorino vede l'ordine e non riesce a prenderlo · ⏳ accodata 2026-08-20 13:30
+### ✅ #135 — Applica la 123: il fattorino vede l'ordine e non riesce a prenderlo. FATTO 2026-08-20 14:40, col tuo ok in chat · ⏳ accodata 2026-08-20 13:30
 
 **Cosa cambia:** e' un errore mio, nato dalla 122 di stamattina. La 122 ha chiuso la falla dei
 recapiti stringendo la lettura degli ordini a «solo quelli che sono miei». Ma il database, per
