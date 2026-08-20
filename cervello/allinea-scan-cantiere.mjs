@@ -30,6 +30,10 @@ import { findingsFuoriContratto, timbraChiusura, timbroValido } from "./contratt
 // Questo file scriveva il suo conto a mano su tre stati e lasciava fuori le 56 schede
 // `da-riverificare`, dentro il blocco che il Pannello legge (AR-684 · AR-718).
 import { contaDifetti, sommaTorna } from "./stati-cantiere.mjs";
+// 🏪 I CONTI DEL SITO — «quanti difetti ha il marketplace» ha UNA casa
+// (cervello/radiografia-marketplace-conti.mjs), che sa leggere le due forme del referto e che NON
+// risponde zero quando non ha potuto leggere. Qui sotto c'era la terza definizione della parola.
+import { contoMarketplace } from "./radiografia-marketplace-conti.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
@@ -281,38 +285,80 @@ function allineaMacchina() {
   };
 }
 
+/**
+ * IL CONTO DEL SITO DENTRO `sync_scan` — il blocco che la Cabina legge nella «Salute sito».
+ *
+ * Qui c'erano due `if` scritti a mano che cercavano `f.stato === "chiuso"` dentro
+ * `dimensioni[].findings`. Il 18/8/2026 il referto ha cambiato forma — i problemi sono passati in un
+ * elenco unico (`problemi[]`) e gli stati da `chiuso` a `riparato`/`gia_riparato_prima` — e da quel
+ * giorno questa funzione cercava in un posto vuoto. Cercare dove non c'è niente non dà errore: dà
+ * ZERO. Al primo giro avrebbe scritto `findings_aperti: 0`, e siccome la rotta del Pannello fa
+ * `sync_scan.findings_aperti ?? meta.findings` — dove `0` non è nullish e vince su 245 — la Cabina
+ * sarebbe passata da «245, rosso» a «0, verde» senza che nessuno avesse riparato niente.
+ *
+ * Ora la regola sta in `cervello/radiografia-marketplace-conti.mjs`, sa leggere ENTRAMBE le forme, e
+ * soprattutto **non risponde zero quando non ha letto**: se il referto dichiara N problemi e la
+ * lista non si trova, i conti restano `null` col motivo, e il giro lo dice.
+ */
+/**
+ * IL BLOCCO `sync_scan` DEL SITO, come funzione PURA — così una prova lo può ESEGUIRE.
+ *
+ * È lo stesso motivo di `cantiereNelSyncScan` qui sopra: finché la decisione viveva incastrata fra
+ * la lettura e la scrittura di un file di memoria, una prova poteva solo cercarne la FORMA nel
+ * sorgente — e una ricerca di parole non fallisce nel modo in cui fallisce la realtà. Infatti non
+ * ha fallito: il conto ha smesso di funzionare il 18/8 e nessun guardiano se n'è accorto.
+ */
+export function syncScanMarketplace(digest, quando) {
+  const c = contoMarketplace(digest);
+  return {
+    aggiornato: quando,
+    // `letto` viaggia col numero: chi lo legge sa se lo zero è un fatto o un buco.
+    letto: c.letto,
+    motivo: c.motivo,
+    forma: c.forma,
+    findings_aperti: c.aperti,
+    findings_chiusi: c.chiusi,
+    findings_tot: c.totale,
+    aperti_per_severita: c.aperti_per_severita,
+    dichiarati_dal_referto: c.dichiarati,
+    divergenza_dal_dichiarato: c.divergenza_dal_dichiarato,
+    data_scan: digest?.data || null,
+    nota: "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione.",
+  };
+}
+
 function allineaMarketplace() {
   const mkp = readJson(MKP, null);
   if (!mkp) return { ok: false, motivo: "radiografia-marketplace.json assente" };
 
-  let aperti = 0;
-  let chiusi = 0;
-  for (const dim of mkp.dimensioni || []) {
-    for (const f of dim.findings || []) {
-      if (f.stato === "chiuso") chiusi++;
-      else aperti++;
-    }
-  }
-
-  mkp.sync_scan = {
-    aggiornato: nowPiacenza(),
-    findings_aperti: aperti,
-    findings_chiusi: chiusi,
-    findings_tot: aperti + chiusi,
-    data_scan: mkp.data || null,
-    nota: "Per aggiornare la lista serve un nuovo audit marketplace; i fix sul codice non la riscrivono da soli.",
-  };
+  const sync = syncScanMarketplace(mkp, nowPiacenza());
+  mkp.sync_scan = sync;
   writeJson(MKP, mkp);
-  return { ok: true, aperti, chiusi };
+  return {
+    ok: sync.letto,
+    aperti: sync.findings_aperti,
+    chiusi: sync.findings_chiusi,
+    totale: sync.findings_tot,
+    motivo: sync.motivo,
+    forma: sync.forma,
+  };
 }
 
 async function main() {
   const mac = allineaMacchina();
   const mkp = allineaMarketplace();
-  const ok = mac.ok;
-  const sintesi = mac.ok
+  // Il sito entra nel verdetto. Prima usciva solo dalla porta di servizio del `--json`: quando il
+  // suo conto si è rotto (18/8, cambio di forma del referto) il giro ha continuato a dire «ok» per
+  // un mese, perché nessuno gli chiedeva niente. Un contatore che non può far scattare un giallo
+  // è un contatore che nessuno guarda.
+  const ok = mac.ok && mkp.ok;
+  const sintesiMac = mac.ok
     ? `macchina: ${mac.aperti} aperti · ${mac.in_corso} in-corso · ${mac.chiusi} chiusi (${mac.aggiornati} aggiornati) · ${mac.non_instradabili} findings che il volano non sa instradare`
     : `macchina: ${mac.motivo}`;
+  const sintesiMkp = mkp.ok
+    ? `sito: ${mkp.aperti} aperti su ${mkp.totale} del referto`
+    : `sito: ${mkp.motivo}`;
+  const sintesi = `${sintesiMac} · ${sintesiMkp}`;
 
   await stampSegnale("allinea-scan-cantiere", ok ? "ok" : "warn", sintesi);
 

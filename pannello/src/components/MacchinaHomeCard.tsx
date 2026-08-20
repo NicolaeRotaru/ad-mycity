@@ -75,7 +75,15 @@ export default function MacchinaHomeCard() {
       const difetti = rad?.collegato ? listaSicura<any>(rad.cantiere?.difetti).filter((x) => x.stato !== "chiuso").length : 0;
       const votoRad = Number(rad?.live?.voto ?? rad?.radiografia?.voto_salute_architettura);
       const fiducia = Number(ac?.analisi?.voto_fiducia);
-      const blocc = sito?.meta?.bloccanti ?? 0;
+      // 🏪 SALUTE SITO — il numero è quello che RESTA, non quello che l'audit aveva trovato.
+      // Qui si leggeva `sito.meta.bloccanti`, cioè la fotografia del giorno del referto: il 20/8
+      // diceva «12 bloccanti» in rosso mentre i bloccanti ancora aperti erano 1, e 216 dei 245
+      // problemi erano già riparati. Il conto derivato dalla lista arriva dalla rotta come `conto`.
+      const contoSito = sito?.conto;
+      const sitoLetto = sito?.collegato && contoSito?.letto !== false && contoSito?.aperti != null;
+      const blocc = sitoLetto ? (contoSito?.aperti_per_severita?.bloccante ?? 0) : 0;
+      const gravi = sitoLetto ? (contoSito?.aperti_per_severita?.grave ?? 0) : 0;
+      const apertiSito = sitoLetto ? (contoSito?.aperti ?? 0) : null;
       setLinks([
         {
           label: "Radiografia macchina",
@@ -92,8 +100,16 @@ export default function MacchinaHomeCard() {
         {
           label: "Salute sito",
           vista: "salute-sito",
-          stat: blocc > 0 ? `${blocc} bloccanti` : sito?.meta?.findings ? `${sito.meta.findings} problemi` : "audit",
-          semaforo: blocc > 0 ? "rosso" : (sito?.meta?.gravi ?? 0) > 0 ? "giallo" : "verde",
+          // ⚪ non è mai un verde: se il conto non si è potuto leggere, il semaforo resta giallo e
+          // l'etichetta lo dice, invece di far passare un buco per «tutto a posto».
+          stat: !sitoLetto
+            ? "conto non leggibile"
+            : blocc > 0
+              ? `${blocc} ${blocc === 1 ? "bloccante aperto" : "bloccanti aperti"}`
+              : apertiSito
+                ? `${apertiSito} da riparare`
+                : "nessuno aperto",
+          semaforo: !sitoLetto ? "giallo" : blocc > 0 ? "rosso" : gravi > 0 ? "giallo" : "verde",
         },
       ]);
     }).catch(() => {

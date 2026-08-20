@@ -3207,27 +3207,25 @@
     "migrazione_120_stato": "NON applicata — attende il merge e la pubblicazione della richiesta #225"
   },
   "stato_lotto_20_agosto": {
-    "_cosa_e": "Conto del lotto di riparazioni del 20 agosto 2026 sul referto del 18 agosto.",
+    "_cosa_e": "Conto del LOTTO di riparazioni del 20 agosto 2026 (chiuso alle 11:20) sul referto del 18 agosto. È una fotografia di quel momento, non lo stato di adesso: le tre chiusure delle 17:00 sono più tarde di questo blocco. Lo stato VIVO non si legge qui — si deriva dall'elenco «problemi», ed è quello che il Pannello mostra (rotta radiografia-marketplace → lib/radiografia-marketplace-conti).",
     "data": "2026-08-20",
     "totale_referto": 245,
     "riparati_in_questo_lotto": 100,
-    "gia_riparati_prima_verificati": 8,
+    "gia_riparati_prima_verificati": 9,
     "riparati_in_totale": 204,
-    "aperti": 32,
-    "per_gravita_aperti": {
+    "aperti_a_fine_lotto": 32,
+    "per_gravita_aperti_a_fine_lotto": {
       "bloccante": 4,
       "grave": 15,
       "minore": 13
     },
     "ramo": "claude/marketplace-100-bugs-jpl7hw (repo NicolaeRotaru/mycity)",
-    "migrazione": "122_radiografia_20_agosto.sql — NON applicata: serve una firma a parte, unire la richiesta non basta",
+    "migrazione": "122 e 123 applicate al database vero il 20/8 (13:30 e 14:40). Registro Supabase: radiografia_20_agosto_01…_07 e presa_ordine_dal_fattorino.",
     "prove": "860 prove unitarie verdi (erano 800), typecheck e lint puliti, migrazioni riapplicate da zero su Postgres vero (123 su 123) e cinque file di controlli SQL verdi, fra cui uno nuovo che diventa rosso senza la 122.",
     "serve_da_nicola": [
-      "Applicare la migrazione 122 al database (azione separata dal merge).",
-      "Segreto BACKUP_PASSPHRASE su GitHub: senza, il backup notturno ora si ferma invece di uscire in chiaro.",
-      "Segreto SUPABASE_DB_URL per il controllo delle migrazioni dimenticate in produzione (gira ogni mattina).",
-      "Dati veri del titolare (denominazione, sede, P.IVA) per il difetto 70, ancora aperto.",
-      "Decisione sui numeri della consegna (difetto 47): 3 euro fissi non coprono un compenso che a 5 km vale 8,50.",
+      "Approvare il fattorino dal pannello (carta #137): è il clic che sblocca la bacheca delle consegne.",
+      "I due segreti del backup su GitHub, BACKUP_PASSPHRASE e SUPABASE_DB_URL (carta #134): senza, il backup notturno si ferma invece di uscire in chiaro.",
+      "Rispondere se la spedizione pagata dal cliente resta a distanza sotto i 30 euro o diventa fissa (carta #136).",
       "Rilettura legale della Dichiarazione di Accessibilita e dell informativa privacy aggiornata."
     ],
     "decisioni_nicola_20_agosto": {
@@ -3245,6 +3243,12 @@
         "i due segreti del backup",
         "se la spedizione del cliente diventa fissa"
       ]
-    }
+    },
+    "_serve_da_nicola_chiuse_il_20_agosto": [
+      "Dati veri del titolare per il difetto 70 — chiuso: senza partita IVA attiva la riga non si stampa affatto.",
+      "Decisione sui numeri della consegna, difetto 47 — chiusa: compenso fattorino 3 euro fissi, non piu a chilometro.",
+      "Applicare la migrazione 122 al database — fatta il 20/8 alle 13:30, e la 123 alle 14:40."
+    ],
+    "_la_somma_torna": "204 riparati + 9 gia a posto + 32 aperti = 245, il totale del referto. Prima diceva 8 gia a posto e la somma faceva 244: un difetto restava fuori dal conto. Il nono l'ha trovato l'elenco, non un ricalcolo a mano — e l'elenco resta l'unico giudice."
   }
 }
