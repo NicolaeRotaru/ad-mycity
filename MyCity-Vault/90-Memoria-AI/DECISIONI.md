@@ -2483,7 +2483,7 @@ oggi e' zero: zero fattorini approvati, un ordine solo e annullato a giugno.
 
 ---
 
-## 2026-08-20 18:20 — 🟡 Il Pannello era fermo perché ho spento io il worker dei lavori (carta #136)
+## 2026-08-20 18:20 — 🟡 Il Pannello era fermo perché ho spento io il worker dei lavori (carta #138)
 
 **Cosa ha chiesto Nicola.** «il pannello è bloccato da due giorni».
 
@@ -2525,7 +2525,8 @@ dell'incidente. `due-worker.bats` continua a passare (20 casi): nessuno dei suoi
 ed è la ragione per cui non ha visto arrivare il lucchetto.
 
 **Cosa resta a Nicola (🔴).** Unire e poi riavviare i due servizi sul server: una riparazione nel
-repository non riaccende un servizio spento. Comandi nella carta **#136**. Da questa sessione il
+repository non riaccende un servizio spento. Comandi nella carta **#138** (nata #136 alle 18:10, rinumerata
+unendo main: nel frattempo erano arrivate la #136 e la #137 di un'altra sessione). Da questa sessione il
 server non è raggiungibile: servizi, registri e disco restano ⚪ non visti, e la diagnosi è per
 tracce (coda Supabase, chiavi `worker:*`, referto del VPS, storia git).
 
@@ -2533,3 +2534,70 @@ tracce (coda Supabase, chiavi `worker:*`, referto del VPS, storia git).
 silenzioso io, scegliendo il codice di uscita per non sporcare lo stato del servizio. E un battito
 che non dice **chi** batte non è un battito: è la prova che qualcuno è vivo, non che il lavoro si
 sta facendo. Referto: `consegne/audit/2026-08-20-worker.md`.
+## 2026-08-20 14:40 — 🔴 Applicata la 123: il database vero e' allineato al codice
+
+**L'ok.** Nicola in chat: «applica la 123», dopo aver unito `mycity#228` alle 14:25.
+
+**Perche' serviva.** Il rilascio automatico aveva gia' portato online il codice che chiama
+`prendi_ordine`, e nel database quella funzione non c'era. Fra l'unione e questa firma il
+fattorino che premeva «Accetta» riceveva un errore di funzione mancante: rotto come prima, ma con
+un messaggio peggiore.
+
+**Come l'ho fatta.** Prima ho ricontrollato i prerequisiti sul database vero: `is_rider_approvato`
+c'e', la tabella degli ordini c'e', la macchina a stati c'e'. Poi applicata, registrata come
+`presa_ordine_dal_fattorino`.
+
+**Le prove sul database vero.** La funzione gira coi permessi del proprietario, ha il percorso di
+ricerca fissato, e la puo' chiamare solo chi e' entrato: l'anonimo no. Chiamata da un utente che
+non e' un fattorino risponde `NON_FATTORINO` senza toccare niente. Il conto finale degli otto
+pezzi del lotto torna: otto su otto. La policy del fattorino e' rimasta `rider_id = auth.uid()`,
+quindi la stretta regge e la falla dei recapiti resta chiusa. L'unico ordine vero non e' stato
+toccato, e non sono rimaste righe di prova.
+
+**Cosa NON ho provato, e va detto.** Il giro completo — fattorino approvato che vede l'ordine e lo
+prende davvero — sul database vero non l'ho potuto fare: ci sono zero fattorini approvati e un
+solo ordine, annullato a giugno. Costruire le condizioni avrebbe voluto dire scrivere dati veri,
+e non l'ho fatto. Quel giro e' provato solo su un database ricostruito da zero qui dentro, sei
+controlli su sei. Sul vero ho provato il guardiano, i permessi e l'esistenza.
+
+**Cosa resta a Nicola.** #134, i due segreti del backup. Piu' i quattro bloccanti che aspettano
+un suo numero o una sua scelta.
+
+---
+
+## 2026-08-20 17:00 — 🟡 Le quattro risposte di Nicola sui bloccanti, messe nel codice
+
+**Cosa ha deciso lui.** ① Il compenso del fattorino e' 3 euro fissi, non a chilometro. ② Risolvere
+il problema del fattorino e poter approvare tutto dal pannello admin. ③ Non c'e' ancora una partita
+IVA attiva, la attiva a 5.000 euro; il referente privacy e' lui, Nicolae Rotaru. ④ Togliere lo
+sconto del 10% sul ritiro in negozio, o metterlo da parte, perche' coi negozi non se n'e' parlato.
+
+**Dove ho fatto piu' di quanto chiesto, e perche'.** Due punti, dichiarati nella richiesta.
+
+Sul ④ ho messo da parte l'opzione intera e non il solo sconto. Il motivo che ha dato — non ne ha
+parlato coi negozi — vale per l'opzione, non per la percentuale. E togliendo solo lo sconto il
+vicolo cieco restava: un ordine ritirato in negozio non arriva mai a «consegnato», quindi il
+negoziante consegna a mano e resta senza incasso.
+
+Sul ③ ho allargato il guardiano a tutte le pagine. Guardava solo quella della privacy mentre la
+stessa partita IVA finta stava in altri quattro punti: e' la stessa malattia di sempre, un
+guardiano che sorveglia una porta sola.
+
+**La cosa che ho scoperto misurando invece di fidarmi.** Il referto diceva che la bonifica della
+114 aveva disapprovato tutti i negozi e i fattorini. Sul database vero i profili seller/rider sono
+DUE, e Pane Quotidiano e' approvato con la sua data: nessun negozio colpito. Il fermo era un
+fattorino iscritto il 25 maggio e mai approvato, e la causa era un'altra — nel pannello i pulsanti
+comparivano solo accanto ai negozi. L'endpoint non ha mai avuto un filtro sul ruolo: mancavano i
+bottoni. Se avessi lavorato sulla causa scritta nel referto avrei riparato la cosa sbagliata.
+
+**Cosa NON ho fatto, detto qui.** La spedizione pagata dal CLIENTE resta a distanza sotto i 30
+euro: Nicola ha parlato del compenso del fattorino, non del prezzo per il cliente. Adesso paghiamo
+fisso e chiediamo variabile. Non e' rotto, ma e' strano: accodata la domanda come carta #136
+invece di deciderlo io.
+
+**Debito dichiarato.** Senza partita IVA il sito non dichiara piu' il falso, ma non dichiara
+nulla. Un sito che incassa deve identificare chi vende: prima del primo incasso vero quella e' una
+domanda per un commercialista, non per me.
+
+**Cosa resta a Nicola.** #137 approvare il fattorino dal pannello, #134 i due segreti del backup,
+#136 la domanda sulla spedizione.
