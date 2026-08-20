@@ -22,6 +22,54 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #134 — Metti la parola d'ordine del backup, altrimenti stanotte il backup non parte · ⏳ accodata 2026-08-20 11:30
+
+**Cosa cambia:** la copia notturna del database contiene nomi, indirizzi, telefoni e ordini di
+tutti i clienti. Finora usciva in chiaro e restava trenta giorni fra i file di GitHub,
+scaricabile da chiunque abbia accesso al repository. Da oggi esce cifrata — ma se la parola
+d'ordine non c'e', il backup **non viene eseguito**: meglio un backup che manca e si vede, che un
+backup che espone tutti e non lo dice.
+
+**Se va bene:** scegli una parola d'ordine lunga. Non una parola sola, una frase intera. Salvala
+dove tieni le password. Poi mettila su GitHub col nome `BACKUP_PASSPHRASE`, nel pannello
+Settings → Secrets and variables → Actions. Da quella notte il backup riparte, cifrato.
+Attenzione: senza quella parola d'ordine il file non si riapre piu'. Se la perdi, hai perso il
+backup.
+
+---
+
+### 🔴 #133 — Applica al database la migrazione 122: unire la richiesta non basta · ⏳ accodata 2026-08-20 11:30
+
+**Cosa cambia:** sette riparazioni che vivono nel database e non nel codice. Due pesano piu'
+delle altre. La prima riguarda i fattorini. Oggi uno di loro puo' scaricare nome, telefono e
+indirizzo dei clienti di tutta la citta'. Anche degli ordini che non sono suoi. Dopo la
+migrazione vede solo i propri. La seconda riguarda le campagne sponsorizzate. Oggi chiunque puo'
+gonfiarne i contatori con un ciclo di richieste dal browser. Dopo c'e' un tetto: sessanta
+visualizzazioni e dieci clic al minuto. Finche' non applichi la migrazione, quelle due porte
+restano aperte anche dopo che il codice e' pubblicato.
+
+**Se va bene:** dimmi «applica la migrazione 122» e la eseguo io a blocchi, ognuno in una
+transazione sua, leggendo dal database vero il risultato di ogni pezzo. Il file e'
+`migrations/122_radiografia_20_agosto.sql` nel repo del marketplace. Va fatto DOPO aver unito la
+richiesta.
+
+---
+
+### 🟡 #132 — Cento riparazioni sul sito: la richiesta di unione e' pronta · ⏳ accodata 2026-08-20 11:30
+
+**Cosa cambia:** i difetti aperti del sito scendono da centoquarantuno a trentadue. Fra le cose
+riparate: il doppio clic che faceva due ordini in contanti, il «Non hai ancora ordini» dopo aver
+pagato con la carta, il registro dei consensi cookie che era vuoto da sempre, il controllo
+«negozio chiuso» che non scattava mai, e il catalogo che si fermava a novantasei prodotti senza
+dirlo.
+
+**Se va bene:** apri la richiesta di unione sul repo del marketplace, guarda il referto in
+`consegne/audit/2026-08-20-marketplace-100-riparazioni.md` e unisci. Le prove sono verdi:
+ottocentosessanta controlli automatici, piu' lo schema del database ricostruito da zero. Dopo il
+merge serve la firma separata sulla migrazione (card #133).
+
+---
+
 ### 🔴 #131 — L'ultima riparazione del sito: il riquadro in home smette di essere un contatore di ordini · ⏳ accodata 2026-08-19 22:20
 
 **Cosa cambia:** in home c'e' il riquadro «cosa sta succedendo a Piacenza». Oggi, insieme a

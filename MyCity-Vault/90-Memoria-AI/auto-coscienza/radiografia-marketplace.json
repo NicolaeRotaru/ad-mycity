@@ -134,7 +134,9 @@
       "descrizione": "VERIFICATO. Il punto unico dichiarato per leggere l'indirizzo del sito è `env.appUrl()` in lib/env.ts:73, che legge NEXT_PUBLIC_APP_URL. Quattro file leggono invece una seconda variabile, NEXT_PUBLIC_SITE_URL, che nel repo non esiste da nessuna parte: non è in .env.example (che ha solo NEXT_PUBLIC_APP_URL, riga 20), non è in render.yaml (che dichiara NEXT_PUBLIC_APP_URL = https://mycity-marketplace.com alle righe 106-107), non è in lib/env.ts. Due file cadono sul valore di scorta stringa vuota, quindi `NextResponse.redirect('/?disiscrizione=fatta')`. Ho riprodotto il crash con il Next installato nel repo (15.5.18): `NextResponse.redirect('/?disiscrizione=fatta')` lancia «URL is malformed \"/?disiscrizione=fatta\". Please use only absolute URLs» — la rotta muore con un 500. Gli altri due file cadono su un dominio scritto a mano, `https://mycity.it`, diverso da quello vero in render.yaml. Nel file compilato dentro .next la variabile risulta ancora non risolta (`process.env.NEXT_PUBLIC_SITE_URL??\"https://mycity.it\"`), segno che al momento della build non era impostata. Onestà: non ho potuto vedere il pannello di Render, quindi resta l'ipotesi che qualcuno l'abbia aggiunta lì a mano.",
       "impatto": "Chi clicca «Cancellami dalle email» viene tolto davvero dal database (l'UPDATE gira alle righe 24-35, PRIMA del redirect) ma vede una pagina di errore: crede che non abbia funzionato, riclicca, e alla fine segna l'email come spam. Ogni segnalazione di spam abbassa la reputazione del mittente e fa finire nella posta indesiderata anche le conferme d'ordine. Stessa cosa per la conferma dell'iscrizione: l'iscritto risulta confermato nel database ma vede un errore. E il link di disiscrizione stampato dentro le email punta a mycity.it, che non è il sito vero: un link di disiscrizione che non porta da nessuna parte è contestabile (art. 21 GDPR). Ho abbassato la gravità da «bloccante» a «grave»: il flusso rotto è quello delle email, non quello dei soldi, e resta il dubbio non verificabile da qui sul pannello di Render.",
       "fix": "Cancellare NEXT_PUBLIC_SITE_URL e usare in tutti e quattro i punti `env.appUrl()` di lib/env.ts (ha già la scorta http://localhost:3000 e in produzione legge NEXT_PUBLIC_APP_URL). Diff di 4 righe. Prova che gira: un test che chiama GET /api/unsubscribe con un token firmato valido e pretende stato 307 con header Location assoluto — oggi rosso, dopo il fix verde. Più una regola di lint `no-restricted-syntax` su `process.env.NEXT_PUBLIC_SITE_URL`, così la seconda variabile non può rinascere.",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Verificato nel codice il 20/8: era gia stato riparato nel lotto del 19 agosto, il referto del 18 non lo sapeva."
     },
     {
       "dimensione": "architettura",
@@ -156,7 +158,8 @@
       "descrizione": "VERIFICATO. lib/shipping.ts si presenta come «FONTE UNICA condivisa tra client (checkout UI) e server (/api/stripe/checkout, /api/orders/cod)». La pagina del checkout — l'unico client che quel commento nomina — non la importa: riscrive la formula a mano nella funzione `shippingFor` (righe 334-342) e ridichiara due costanti che esistono già, `const SHIPPING_PER_ORDER = 4.9` alla riga 43 (duplicato di lib/constants.ts:6) e `const PICKUP_DISCOUNT_PERCENT = 10` alla riga 331 (duplicato di lib/constants.ts:8). Dallo stesso file lib/constants importa però FREE_SHIPPING_THRESHOLD e PLATFORM_DELIVERY_FEE_CENTS: lo conosce e ne prende metà. C'è una divergenza viva, non solo un rischio: il server calcola la distanza SOLO con le coordinate degli indirizzi salvati (coordinateDaIndirizziSalvati, che torna null se il testo digitato non combacia con una riga di user_addresses), mentre la pagina usa form.lat/form.lng; e `handleChange` (righe 262-266) aggiorna il testo dell'indirizzo senza mai azzerare lat/lng. Precisazione rispetto alla segnalazione originale: chi digita un indirizzo nuovo da zero NON diverge (la pagina resta senza coordinate e mostra la tariffa fissa, come il server). Diverge chi parte da un indirizzo salvato — che viene precaricato da solo, righe 269-279 — e poi corregge via, città o CAP: la pagina continua a mostrare la tariffa a distanza delle coordinate vecchie, il server non riconosce più il testo e applica la tariffa fissa di 4,90 €.",
       "impatto": "Il totale scritto a schermo e quello davvero addebitato possono essere diversi (riderFee = 2,50 € + 1,20 €/km, quindi a 1 km sono 3,70 € contro 4,90 €). Con la carta il cliente vede il totale vero solo su Stripe e abbandona; con il contante alla consegna è peggio, perché il fattorino chiede una cifra diversa da quella promessa e la discussione la fa lui sulla porta. In più, il giorno in cui si porta lo sconto ritiro dal 10% al 15% cambiando lib/constants.ts, il server sconterà il 15% e la pagina continuerà a scrivere «-10%»: il difetto scatta da solo, senza che nessuno tocchi il checkout.",
       "fix": "① Cancellare le righe 43, 45 e 331 e importare SHIPPING_PER_ORDER e PICKUP_DISCOUNT_PERCENT da @/lib/constants. ② Sostituire il corpo di `shippingFor` con una chiamata a `shippingForEuro` di @/lib/shipping. ③ In `handleChange`, quando cambia address, city o zip, azzerare lat e lng. Prova che gira: un test che dà lo stesso carrello a `shippingForEuro` e alla funzione della pagina e pretende lo stesso centesimo — impossibile da scrivere finché la formula sta dentro il componente, ed è il motivo per cui va tirata fuori.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "architettura",
@@ -200,7 +203,8 @@
       "descrizione": "VERIFICATO, con due numeri corretti. Il caso vero è ErrorState: due componenti con lo stesso nome e interfacce incompatibili. components/ui/ErrorState.tsx esporta un componente nominato con `retry`, `backHref`, `supportHref` e usa next-intl; components/ErrorState.tsx è un export di default con `onRetry`, `variant`, `className`, nessuna traduzione e testo italiano fisso. Nessuno dei due nomina l'altro. Entrambi in uso: il primo in 8 file (tutti i confini d'errore app/*/error.tsx), il secondo in 6 (app/stores, app/orders, app/product/[id], app/favorites, components/ProductGrid, components/StoreShowcase) — la segnalazione diceva 9 e 4. Vero anche il resto: design-system/ contiene 10 componenti .jsx (non 13: Button, Card, Badge, Input, Select, Checkbox, Modal, EmptyState, ProductCard, OrderStatusBadge) che nessun file importa, ed è esclusa dal controllo dei tipi in tsconfig.json:23; lib/order-status.ts:44 dice che i colori sono «allineati a design-system OrderStatusBadge.jsx», cioè a un file che nessuno compila né prova. Da correggere invece l'affermazione che la radice components/ sia piena di doppioni della cartella ui: l'unica collisione di nome è ErrorState.",
       "impatto": "La schermata di errore cambia faccia a seconda della pagina: tradotta su alcune, italiano fisso su altre, con o senza il pulsante «Contatta il supporto». Per chi scrive codice, ogni componente nuovo comincia con la domanda «quale dei due uso?», e la risposta sbagliata si scopre in revisione.",
       "fix": "① Fondere i due ErrorState in components/ui/ErrorState.tsx tenendo l'interfaccia più ricca, accettando `onRetry` come sinonimo di `retry`, e aggiornare i 6 import. ② Cancellare i 10 .jsx di design-system/ dal ramo (restano nella storia di git) o dichiarare esplicitamente che sono mockup, spostandoli in docs/. Prova che gira: una regola ESLint `no-restricted-imports` che vieta `@/components/ErrorState` — diventa rossa se qualcuno riapre la strada vecchia.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "architettura",
@@ -261,7 +265,8 @@
       "descrizione": "VERIFICATI entrambi. ① Esistono insieme il file lib/shipping.ts e la cartella lib/shipping/ (che contiene label.ts). Ho controllato tutta la cartella lib: è l'unica collisione del genere. Si risolvono senza ambiguità, ma chi legge non sa dove cercare. ② In app/rider/orders/[id]/page.tsx la mutazione `transition` accetta un parametro `timestampField` (riga 104) e, se valorizzato, lo scrive nell'aggiornamento (riga 107). Nessuno lo passa: l'unica chiamata, alla riga 489, manda solo `newStatus`. È codice morto e per giunta una trappola: i campi che quel parametro servirebbe a scrivere, `delivered_at` e `picked_up_at`, sono nell'elenco delle colonne congelate del trigger `enforce_order_update_rules` (migrations/061, righe 130-131), che alla riga 138 alza un'eccezione di permessi «orders: modifica di un campo protetto non consentita». Se qualcuno un giorno lo usasse, il database rifiuterebbe l'intero aggiornamento e il fattorino non riuscirebbe più a far avanzare l'ordine.",
       "impatto": "Nessun danno oggi: sono trappole a scoppio ritardato. La seconda però è sulla strada del fattorino, dove un errore si vede subito e in strada, con il cliente che aspetta.",
       "fix": "① Spostare label.ts dentro lib/shipping.ts, oppure rinominare la cartella in lib/shipping-label/: sparisce la collisione, cambia un import. ② Cancellare il parametro `timestampField` e le due righe che lo usano: quei due orari li deve scrivere il database dentro `verify_pickup_code` e `verify_delivery_code` (dove già li scrive), mai il browser. Diff: -3 righe.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "architettura",
@@ -283,7 +288,8 @@
       "descrizione": "VERIFICATO uno per uno: cercando ogni nome nel repo (alias @/ e percorsi relativi) non compare nessun import. CategoriesDropdown è un menù a tendina delle categorie completo di 112 righe. StoreCard è stato sostituito da StorePreviewCard, che è quello davvero usato in app/stores, app/near, StoreListRow e StoreShowcase. StoryOfDay non è inserito in nessun renderer della home, e non c'è nemmeno un riferimento indiretto per nome. LocaleSwitcher è quello della scheda sul multilingua. Ho tolto dalla segnalazione originale l'affermazione sull'assenza di dipendenze circolari: non l'ho verificata.",
       "impatto": "Costo di manutenzione, non di funzionamento: file che compaiono nelle ricerche, che qualcuno legge credendoli vivi e ogni tanto aggiorna per niente. StoreCard è il più insidioso, perché il nome è quasi identico a StorePreviewCard e prima o poi qualcuno importerà quello sbagliato e passerà mezz'ora a chiedersi perché la pagina non cambia.",
       "fix": "Cancellarli: restano nella storia di git e si recuperano con un comando. Prima però decidere su CategoriesDropdown e StoryOfDay: sono componenti finiti, quindi o servivano a qualcosa che non è mai stato collegato — e allora la domanda è per @product-manager — oppure sono avanzi. Prova che gira: un passaggio in CI con `knip` o `ts-prune` che fallisce sui file mai importati, così il quinto file morto non nasce.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "sicurezza-auth",
@@ -307,7 +313,8 @@
       "descrizione": "CONFERMATO. Ho elencato tutte le regole di lettura su profiles nelle 118 migrazioni: dopo la 110 e la 112 restano solo \"Users can view their own profile\" (001:66) e \"Admins can read all profiles\" (012:37); la 115:30 ha tolto anche quella dei fattorini. Le policy che rendevano pubblico il profilo negozio (006, 018, 033) sono state tutte rimosse — giustamente, perche' esponevano IBAN e documenti. Il codice del server pero' e' rimasto indietro: le tre rotte leggono ancora la TABELLA profiles con il client legato alla sessione del compratore (`getServerSupabase()`, lib/supabase/server.ts:11, che rispetta le RLS). Per un compratore quelle righe non sono sue e non e' admin, quindi la risposta e' una lista vuota, senza errore. Da qui, a catena: (a) il ciclo `for (const s of sellers ?? [])` che chiama isStoreClosedForOrder non gira mai, quindi il blocco del negozio chiuso e' morto su entrambe le corsie, carta e contanti; (b) sellerCoordMap resta vuota, quindi shippingCentsFor e compensoRiderCents (lib/shipping.ts:30 e 62) cadono sempre sul ramo SHIPPING_PER_ORDER, cioe' tariffa piatta; (c) sellerNameMap vuota, quindi su Stripe il negozio si chiama \"Negozio\" (checkout route:242); (d) /api/chat/conversations fa `.single()` su una riga che non vede e risponde sempre \"Venditore non disponibile\". Come riprodurlo: da account compratore, con un negozio che ha orari configurati e risulta chiuso adesso, manda un carrello a /api/orders/cod — atteso 409, oggi risponde 200. Oppure premi \"Contatta il negozio\" su una vetrina: risponde sempre \"Venditore non disponibile\".",
       "impatto": "Ordini pagati verso negozi chiusi: il fattorino va a vuoto, il cliente aspetta, si apre un reso. Prezzo di consegna sbagliato su ogni ordine — sotto tariffa sulle consegne lontane e sopra su quelle vicine — e compenso del fattorino scollegato dalla distanza. La chat col negozio e' rotta per tutti. Non compare nessun errore nei log: il difetto non si vede, si vede solo il conto a fine mese.",
       "fix": "Nelle tre rotte leggere il negozio dalla vista pubblica `seller_public_profiles`, che espone gia' store_name, store_lat, store_lng e store_hours (migrations/112:18-40), oppure usare getAdminSupabase() limitando le colonne a quelle di vetrina. Poi aggiungere un test che, con un carrello verso un negozio chiuso, pretende il 409: oggi passerebbe 200. → @backend-dev.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "sicurezza-auth",
@@ -331,7 +338,8 @@
       "descrizione": "CONFERMATO. La regola dice: un fattorino approvato vede l'ordine se `rider_id = auth.uid()` OPPURE se lo stato e' ACCEPTED/READY e nessuno l'ha ancora preso. La RLS filtra le RIGHE, non le COLONNE, e sulla riga orders ci sono delivery_full_name, delivery_phone, delivery_address, delivery_zip, delivery_notes, delivery_lat/lng (migrations/011:69-71). Ho cercato una restrizione per colonna su orders: non c'e' (la 114:190 revoca solo INSERT/UPDATE/DELETE ad anon). Quindi un fattorino collegato puo' interrogare PostgREST in ciclo e raccogliere nome, indirizzo di casa e numero di telefono di ogni cliente con un ordine aperto, anche di ordini che non prendera' mai. Come riprodurlo: con il token di un fattorino approvato, GET /rest/v1/orders?select=delivery_full_name,delivery_phone,delivery_address&delivery_status=in.(ACCEPTED,READY)&rider_id=is.null. La migrazione 115 ha tolto proprio questo tipo di accesso sui profiles (\"il fattorino e il nome del cliente\", 115:25-30), ma su orders — dove gli stessi dati sono in chiaro — e' rimasto.",
       "impatto": "Minimizzazione dei dati violata (GDPR art. 5.1.c): un collaboratore esterno, spesso in partita IVA e ad alto ricambio, ha in mano un elenco continuo di indirizzi di casa e telefoni dei clienti di Piacenza. E' esattamente il dato che finisce rivenduto o usato per contattare i clienti fuori piattaforma. Nota: l'indirizzo sulla bacheca e' in parte voluto (app/rider/page.tsx:78-87 lo mostra gia' per stimare la distanza) — quello che non serve mai e' nome completo, telefono e note.",
       "fix": "Servire la bacheca degli ordini disponibili da una VISTA (security_invoker) che espone solo cio' che serve per decidere se accettare — negozio, zona/CAP, distanza, importo, fascia oraria — e lasciare i recapiti veri solo sull'ordine gia' assegnato (rider_id = auth.uid()). Stesso schema di rider_reviews_ricevute in migrations/115:34-49. → @backend-dev + @dpo per il registro dei trattamenti.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "sicurezza-auth",
@@ -342,7 +350,9 @@
       "descrizione": "CONFERMATO, con una correzione rispetto alla segnalazione. Il difetto vero: la rotta esegue `admin.from('profiles').update({email_marketing:false, notif_promos:false}).eq('email', dati.email)`, ma public.profiles NON ha una colonna email. Ho controllato la CREATE TABLE (001:3-12), tutte le ALTER TABLE public.profiles delle 118 migrazioni e i tipi generati (lib/database.types.ts, blocco profiles): l'indirizzo vive solo in auth.users. La chiamata fallisce con \"column does not exist\", l'errore non viene letto (nessun controllo su .error) e la persona viene comunque mandata su /?disiscrizione=fatta. La parte newsletter invece funziona: newsletter_subscribers ha davvero la colonna email (015:169). Il link con ambito 'marketing' e' quello nel footer di ogni email promozionale (lib/email/client.ts:57), e email_marketing e' proprio il campo che i lavori periodici controllano prima di spedire (app/api/cron/send-emails/route.ts:112, app/api/cron/abandoned-carts/route.ts:42). Come riprodurlo: apri il link \"non voglio piu' ricevere queste email\" di una promozionale, poi rileggi profiles.email_marketing di quell'utente — e' ancora true. CORREZIONE alla segnalazione: UNSUBSCRIBE_SECRET E' gia' dichiarato in render.yaml alla riga 90 (sync:false, da impostare a mano nel pannello Render), quindi non e' vero che manchi dalla configurazione. Resta vero che il codice ripiega su SUPABASE_SERVICE_ROLE_KEY e poi su 'mycity-dev' scritto nel file: se nel pannello la variabile e' vuota, i token di disiscrizione diventano fabbricabili da chiunque.",
       "impatto": "Chi clicca \"non voglio piu' ricevere queste email\" legge che e' fatto e continua a ricevere le promozionali: e' l'obbligo di opposizione (GDPR art. 21) non rispettato, con la prova a schermo che era stato chiesto. E' anche il tipo di segnalazione che arriva al Garante con lo screenshot allegato.",
       "fix": "(1) Risolvere l'id dall'indirizzo (admin.auth.admin.listUsers o una RPC) e aggiornare profiles per id, controllando .error e mostrando l'esito reale invece di un \"fatto\" fisso. (2) Aggiungere un test che dopo la chiamata rilegge email_marketing e pretende false. (3) Togliere i due ripieghi in lib/email/unsubscribe.ts:21: senza UNSUBSCRIBE_SECRET non si generano link — e verificare che la variabile sia davvero valorizzata nel pannello Render. → @backend-dev + @dpo.",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Verificato nel codice il 20/8: era gia stato riparato nel lotto del 19 agosto, il referto del 18 non lo sapeva."
     },
     {
       "dimensione": "sicurezza-auth",
@@ -418,7 +428,8 @@
       "descrizione": "CONFERMATO, con una correzione. Il GET non ha nessun controllo di accesso (per scelta: serve alle pagine cliente) ma dentro usa getAdminSupabase(), che ignora le RLS. Con un UUID valido chiunque ottiene external_data ed external_synced_at di QUALSIASI prodotto — anche in bozza (lo stato 'draft' esiste, migrations/071:37) o di un venditore non ancora approvato, che la policy 023 nasconde apposta. Il POST e' correttamente sotto withAdminAuth. CORREZIONE alla segnalazione: non si ricava l'esistenza di un prodotto qualunque, perche' la riga 74 risponde `{external: null}` sia per un id inesistente sia per un prodotto senza sorgente esterna — le due risposte sono identiche. Il travaso riguarda solo i prodotti importati da un listino esterno.",
       "impatto": "Un concorrente che conosce (o indovina) l'id di un prodotto vede il listino esterno e i dati di prodotti non ancora pubblicati. Non e' un dato personale, ma e' esattamente cio' che la migrazione 023 voleva nascondere.",
       "fix": "Nella loadRow usare il client legato alla sessione (getServerSupabase) invece di quello admin, cosi' e' la RLS a decidere cosa e' visibile; l'aggiornamento in background puo' restare sul client admin. → @backend-dev.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "sicurezza-auth",
@@ -505,7 +516,8 @@
       "impatto": "Un solo account fattorino approvato, o rubato, estrae in continuo la rubrica dei clienti della città: nome, telefono, indirizzo di casa e importo speso, anche per ordini che quel fattorino non prenderà mai. Violazione della minimizzazione dei dati e materia prima per truffe telefoniche fatte a nome di MyCity.",
       "fix": "Servire la lista degli ordini disponibili da una vista dedicata con le sole colonne che servono a decidere se accettare (id, negozio, zona/città, distanza, rider_fee_cents, fascia di consegna), sullo stesso schema di `rider_reviews_ricevute` della 115; la riga intera resta accessibile solo con `rider_id = (SELECT auth.uid())`. Prova: sessione fattorino approvato, `select=delivery_phone` su un ordine non suo → zero righe.",
       "file": "migrations/114_hardening_radiografia.sql:157-168,42-56 · app/rider/page.tsx:77-84 · migrations/011_orders_delivery.sql:69-75",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "rls-database",
@@ -516,7 +528,8 @@
       "impatto": "Chi spegne «promozioni» le riceve lo stesso: la promessa dell'impostazione è falsa, e su una comunicazione promozionale è anche un problema di consenso. Al contrario, chi spegne «aggiornamenti ordine» perde in un colpo solo anche promozioni, gruppi e avvisi di servizio, perché sono tutti etichettati 'order'. Il difetto risulta risolto dalla migrazione ma non lo è.",
       "fix": "Valorizzare `category` in ogni punto di inserimento: 'promo' per notify_favorite_price_drop e le campagne, 'group' per i gruppi d'acquisto, 'newsletter' per le email di ciclo di vita, 'system' per gli allarmi operativi, 'order' per il resto. Poi una prova che fallisce se si torna indietro: inserire una notifica di prezzo sceso per un utente con notif_promos=false e verificare che il cron la salti (`saltate` = 1).",
       "file": "migrations/115_privacy_radiografia.sql:210,218-234 · app/api/cron/send-push/route.ts:49-56 · migrations/029_welcome_credit_search_fts_price_alert.sql:152 · migrations/086_notify_buyer_on_order_status.sql:31-52 · lib/notifications.ts:17",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "rls-database",
@@ -553,7 +566,8 @@
       "impatto": "I numeri su cui il negoziante decide se rinnovare uno spazio a pagamento sono manipolabili gratis da chiunque, in due direzioni: un concorrente gonfia le impression per far sembrare pessimo il tasso di clic di un rivale, oppure gonfia i clic per far rinnovare una campagna che non ha funzionato. Il cruscotto /admin/sponsored somma quegli stessi contatori (app/admin/sponsored/page.tsx:58,100) e ci calcola CTR e CPC.",
       "fix": "Applicare alla scrittura dei contatori la stessa protezione della 117: tetto per campagna al minuto dentro la funzione, oppure spostare il tracciamento su una rotta server con limite per IP/sessione (`rateLimitAsync` esiste già in lib/rate-limit). Prova: 100 chiamate consecutive da anonimo devono muovere il contatore di molto meno di 100.",
       "file": "migrations/088_sponsored_paid_and_tracking.sql:35-48 · migrations/114_hardening_radiografia.sql:388,436 · components/SponsoredCarousel.tsx:46-47,75,98 · app/admin/sponsored/page.tsx:58,100",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "rls-database",
@@ -655,7 +669,8 @@
       "impatto": "Oggi nessun danno visibile, perché il trigger della 086 copre gli stessi avvisi. Il problema è che il codice mente: chi legge crede che la notifica parta di lì, e se domani il trigger viene toccato nessuno si accorge che l'avviso non arriva più. È anche un rischio di doppione se un giorno la policy di INSERT venisse aggiunta.",
       "fix": "Eliminare `notify()` e le sue quattro chiamate, lasciando le notifiche ai trigger e alle rotte server con client di servizio. Se si vuole tenerla, farla passare da una rotta server autenticata e farle restituire l'errore invece di ingoiarlo.",
       "file": "lib/notifications.ts:15-25 · migrations/008_notifications.sql:16-26 · migrations/012_admin_role.sql:80-83 · app/rider/page.tsx:181,187 · app/seller/orders/[id]/page.tsx:210",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "rls-database",
@@ -679,7 +694,9 @@
       "impatto": "Il guardiano che dovrebbe accorgersi che il database non corrisponde alle migrazioni può dare verde su un database che non corrisponde. È già successo, come racconta il commento in testa allo script: la 067 committata e mai applicata.",
       "fix": "Registrare e confrontare un'impronta del contenuto: alla registrazione salvare `md5(contenuto)` accanto al nome e far fallire il controllo se il file su disco ha un'impronta diversa da quella applicata. Confrontare inoltre il prefisso numerico completo, non solo il testo. E far distinguere nel referto «verde» da «saltato»: uno SKIP non è un controllo passato.",
       "file": "scripts/check-migration-drift.mjs:30,37,41-54,60-67",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Confronto su numero + nome e impronta md5 del contenuto stampata nel referto; SALTO_E_ERRORE=1 fa fallire il controllo quando manca la connessione, invece di mostrarlo come passato."
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -963,7 +980,8 @@
       "descrizione": "CONFERMATO ed ESEGUITO. lib/consent.ts:85 invia `versione: CONSENT_VERSION` e CONSENT_VERSION e' un numero (`export const CONSENT_VERSION = 1;`, riga 27). Lo schema alla riga 22 della route pretende una stringa. Ho eseguito zod (versione installata 3.25.76) con il payload reale: `success:false`, issue `invalid_type — Expected string, received number, path ['versione']`. Quindi il safeParse di riga 36 fallisce sempre e la route esce a riga 37 con 400: l'INSERT su consent_log (riga 64) non viene mai raggiunto. Il client non se ne accorge: `fetch` non rifiuta su 400 e il `.catch()` di riga 88 intercetta solo gli errori di rete. La tabella consent_log (115_privacy_radiografia.sql:169) e' referenziata in tutto il progetto solo due volte: questa insert e la lettura nell'export art. 20 (app/api/account/export/route.ts:92).",
       "impatto": "Il meccanismo di prova del consenso — creato apposta perche' 'il consenso viveva solo nel browser di chi lo dava' (115, sezione 5) — non ha mai scritto una riga. Non siamo in grado di dimostrare per nessun utente quando e a cosa ha acconsentito (art. 7.1 GDPR, onere della prova sul titolare) e la card 'consensi' dell'export mostra sempre []. Severita' corretta da bloccante a grave: non ferma nessun flusso utente e non espone dati: il consenso viene comunque raccolto e rispettato lato browser (cookie mc_consent + localStorage). Il danno e' documentale e si manifesta in un controllo o in un reclamo.",
       "fix": "1) In lib/consent.ts inviare `versione: String(CONSENT_VERSION)` (preferibile: il contratto resta stringa e regge versioni tipo '2.0'). 2) Loggare lato server il fallimento di validazione: oggi questa route e' muta. 3) Test d'integrazione che POSTa il payload esatto prodotto da writeConsent e verifica 200 + 2 righe in consent_log. 4) Al deploy del fix alzare CONSENT_VERSION per riproporre il banner: i consensi gia' dati non esistono da nessuna parte e vanno ricostruiti.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "privacy-legale",
@@ -1024,7 +1042,8 @@
       "descrizione": "CONFERMATO voce per voce. DICHIARATO MA INESISTENTE: `mc_pref_*` (cookies/page.tsx:60, unica voce della categoria 'funzionali') — cercato in tutto il progetto, compare SOLO in quella riga della policy. INSTALLATI E NON DICHIARATI: `mc_exp_home_hero` (lib/experiments.ts:40-46, durata 90 giorni) assegnato dal middleware a OGNI visitatore che non ce l'ha (middleware.ts:122-144), prima e a prescindere dal consenso, per la variante di un test A/B; `mycity_shopping_mode` (middleware.ts:153 e 237-251); `NEXT_LOCALE` (app/api/locale/route.ts:28), che e' proprio il cookie lingua attribuito dalla policy al fantomatico mc_pref_*; `mc_sid` in sessionStorage (ActivityTracker.tsx:35-48, scritto solo dopo il gate consenso) e `mc_consent_v1` in localStorage (lib/consent.ts:29), benche' la policy stessa avverta a riga 32 che localStorage e sessionStorage soggiacciono alle stesse regole.",
       "impatto": "La tabella dei cookie e' il primo documento che un'ispezione confronta con la scansione del sito, ed e' l'unico posto dove una discrepanza si vede in trenta secondi. Il caso piu' delicato e' mc_exp_home_hero: un cookie di 90 giorni per test A/B non e' tecnico (serve a ottimizzare, non a far funzionare il sito), viene scritto prima di qualunque scelta dell'utente e non e' nominato da nessuna parte. Art. 122 e, insieme, art. 13: informativa incompleta e in parte inventata.",
       "fix": "1) Rigenerare la tabella partendo dal codice, non dalla memoria: mc_consent, sb-*-auth-token, NEXT_LOCALE, mycity_shopping_mode, mc_vid, mc_exp_*, mc_sid, mc_consent_v1, piu' i terzi (Cloudflare, Stripe, GA, PostHog, Vimeo/YouTube). Togliere mc_pref_*. 2) Decidere su mc_exp_*: o sotto il consenso 'analytics' (il middleware puo' gia' leggere mc_consent con parseConsentCookie), oppure per-sessione e non persistente. Consiglio la prima, coerente con mc_vid. 3) Test che elenca i nomi dei cookie usati nel codice e fallisce se uno non compare in cookies/page.tsx: senza guardiano la tabella si disallinea di nuovo entro tre mesi.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "privacy-legale",
@@ -1035,7 +1054,9 @@
       "descrizione": "CONFERMATO. `startSharing` avvia `navigator.geolocation.watchPosition` e scrive latitudine e longitudine del fattorino sull'ordine, con throttle a 30 secondi (righe 195-203: rider_lat, rider_lng, rider_position_updated_at). L'informativa cita il dato nell'elenco delle categorie (privacy/page.tsx:76, 'posizione del Rider durante la consegna') ma la tabella di finalita', basi giuridiche e conservazione (righe 93-100, otto righe: account, ordini, fatturazione, KYC, sicurezza, newsletter, analytics, reclami) NON contiene alcuna riga sulla geolocalizzazione del rider: nessuna base giuridica, nessun periodo. Cercato in app/, components/ e docs/: non esiste un'informativa separata per i lavoratori ne' alcun riferimento all'art. 4 dello Statuto. Nota di merito confermata: la condivisione parte solo se il rider preme, e la posizione viene azzerata al rilascio dell'ordine (066_refund_status_and_rider_release.sql: rider_lat/rider_lng/rider_position_updated_at = NULL). La minimizzazione tecnica c'e', manca l'impianto giuridico.",
       "impatto": "In Italia la localizzazione di chi lavora e' il punto piu' caldo del delivery: l'art. 4 L.300/1970 richiede accordo sindacale o autorizzazione dell'Ispettorato per gli strumenti da cui deriva un controllo a distanza, e il consenso del lavoratore non e' base valida (squilibrio di potere, EDPB Opinion 2/2017): il pulsante 'condividi' non basta. Il Garante ha gia' sanzionato piattaforme di consegna proprio su geolocalizzazione e gestione algoritmica (Foodinho, Deliveroo, 2021). E' anche trattamento che richiede DPIA (art. 35.3.b, monitoraggio sistematico).",
       "fix": "Non e' codice, e' impianto: 1) aggiungere alla tabella dell'informativa la riga 'Geolocalizzazione rider durante la consegna — esecuzione del contratto e legittimo interesse alla sicurezza/tracciabilita' — cancellata alla chiusura dell'ordine'; 2) redigere un'informativa specifica per i rider (art. 13 GDPR + art. 4 co.3 St. Lav.: l'uso degli strumenti va comunicato per iscritto); 3) verificare l'inquadramento (se i rider sono autonomi con P.IVA l'art. 4 non si applica direttamente, ma il D.Lgs 101/2019 sulla gig economy si'); 4) predisporre la DPIA; 5) mostrare al rider, dentro l'app, cosa viene raccolto e per quanto. Fuori dal perimetro QA sul lato lavoro: coinvolgere @consulente-lavoro per l'inquadramento e @dpo per la DPIA prima di attivare rider veri.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Riparato quello che e codice e testo: riga dedicata nella tabella dell informativa (base giuridica e conservazione) e avviso dentro l app, dove il fattorino accende la posizione. DPIA e informativa da lavoratori ex art. 4 St. Lav. restano da fare con @dpo e @consulente-lavoro prima di avere fattorini veri."
     },
     {
       "dimensione": "privacy-legale",
@@ -1046,7 +1067,8 @@
       "descrizione": "CONFERMATO. lib/bg-removal/index.ts invia le foto prodotto a `https://api.remove.bg/v1.0/removebg` (riga 47) e `https://image-api.photoroom.com/v2/edit` (riga 89), usati dalla route app/api/image/remove-bg. La fabbrica e' fail-closed in produzione (senza provider reale -> 503), quindi se la funzione e' accesa le immagini escono davvero verso uno dei due. Nessuno dei due compare nell'elenco dei sub-responsabili dell'informativa (privacy/page.tsx:111-122), che nomina Supabase, Stripe, Resend, Cloudflare, Anthropic, provider KYC, OpenStreetMap, PostHog, Sentry e Google. Manca anche `unpkg.com`, whitelisted in CSP (middleware.ts:77) e usato per le tre icone marker di Leaflet in tre componenti mappa: quello si' e' incondizionato, ogni visitatore che apre una mappa fa una richiesta a quel CDN, che riceve IP e referrer. NON HO POTUTO VERIFICARE da qui quale provider di rimozione sfondo sia configurato in produzione (dipende da BG_REMOVAL_PROVIDER).",
       "impatto": "L'art. 13.1.e impone di indicare i destinatari e l'art. 28 un DPA con ciascuno: qui abbiamo due fornitori che trattano immagini caricate dagli utenti (le foto di un negozio contengono spesso persone sullo sfondo, e il ritratto del negoziante) e un CDN che riceve l'IP di ogni visitatore che guarda una mappa, senza consenso e senza menzione. L'informativa stessa, nel riquadro finale, avverte di verificare che i sub-responsabili integrati corrispondano a quelli elencati: qui non corrispondono.",
       "fix": "1) Aggiungere all'elenco Kaleido AI/Canva (remove.bg) e PhotoRoom con la finalita' reale ('rimozione dello sfondo dalle foto prodotto caricate dai venditori'), dichiarando quello effettivamente configurato. 2) Firmare e archiviare il DPA di entrambi. 3) Su unpkg la soluzione migliore non e' dichiararlo ma eliminarlo: le tre icone marker pesano pochi KB, si copiano in /public e si servono da noi. Sparisce un destinatario, sparisce una richiesta esterna, la mappa carica prima.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "privacy-legale",
@@ -1057,7 +1079,8 @@
       "descrizione": "CONFERMATO. La route legge l'identificativo anonimo dal cookie mc_vid della richiesta (riga 50). mc_vid nasce solo dentro /api/track (righe 106-113) e solo se `consent.analytics` e' gia' vero. Al primo clic sul banner quel cookie non esiste ancora: writeConsent (lib/consent.ts:79) chiama /api/consent subito, mentre ActivityTracker non riparte — ho verificato che l'unico ascolto di `mc:consent-change` in tutto il progetto e' in posthog.tsx:126 e GoogleAnalytics.tsx:38, non in ActivityTracker, il cui effetto dipende da pathname/searchParams (righe 89-101), che dopo il clic non cambiano. Quindi ogni riga di consent_log di un visitatore non loggato nascerebbe con user_id=null E anon_id=null: resterebbero solo IP e user-agent. Effetto collaterale confermato sull'analitica: la prima pagina vista dopo l'accettazione non viene mai registrata da ActivityTracker.",
       "impatto": "Anche una volta riparata la validazione (difetto separato), la prova del consenso resterebbe un elenco di righe senza soggetto: non potremmo dimostrare che quella specifica persona ha acconsentito, che e' esattamente cio' che l'art. 7.1 chiede. IP e user-agent non identificano un browser nel tempo (IP dinamici, reti mobili condivise). Minore perche' oggi la tabella e' comunque vuota: diventa concreto solo dopo il fix della validazione.",
       "fix": "Generare l'identificativo del browser PRIMA di chiedere il consenso, ma con la caratteristica giusta: un id casuale non persistente che serve solo a legare la scelta a chi l'ha fatta (ammesso: e' funzionale alla registrazione del consenso, non alla profilazione). In pratica /api/consent, se non trova mc_vid, ne crea uno proprio (es. `mc_cid`, httpOnly, durata pari a quella del consenso) e lo salva in anon_id. In piu' aggiungere in ActivityTracker il listener `mc:consent-change` che rilancia il page_view corrente: recupera anche la prima pagina, quella che dice da dove arriva il traffico.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "privacy-legale",
@@ -1081,7 +1104,8 @@
       "descrizione": "CONFERMATO. La casella c'e' ed e' obbligatoria lato browser (sign-up/page.tsx:175-186, blocco a riga 51 con toast se non spuntata), ma il flag non viene inviato: la route di signup legge solo email, password e captchaToken (righe 20-29) e non scrive nulla. Lo schema del registro consensi prevede esattamente questa categoria — `CHECK (categoria IN ('necessari','analytics','marketing','privacy_terms'))` (115:173) — e 'privacy_terms' non compare in nessuna riga di codice: cercato in tutto il progetto, l'unica occorrenza e' quella del CHECK. Esiste la colonna profiles.tos_accepted_at (021:81) ma l'unico punto che la valorizza e' l'onboarding venditore (app/sell/page.tsx:76): alla registrazione resta NULL.",
       "impatto": "Se domani un negoziante o un cliente contesta una clausola (commissioni, resi, foro competente) non siamo in grado di dimostrare quale VERSIONE dei Termini aveva davanti quando si e' registrato. E' il documento su cui poggiano i rapporti commerciali, ed e' l'unica accettazione che non tracciamo. Non e' rischio sanzionatorio immediato: e' rischio contrattuale.",
       "fix": "Far inviare al form il flag e la versione dei testi mostrati (privacy e terms hanno gia' una costante VERSION = '2.0': vanno esposte e passate). Nella route di signup, dopo la creazione dell'utente, scrivere una riga in consent_log con categoria 'privacy_terms', valore true, versione_testo 'privacy-2.0+terms-2.0', e valorizzare profiles.tos_accepted_at. Rifiutare la registrazione se il flag non arriva: oggi il controllo e' solo nel browser e si aggira chiamando la route direttamente.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "privacy-legale",
@@ -1105,7 +1129,8 @@
       "descrizione": "CONFERMATO. La query di lista (righe 96-102) chiede per TUTTI gli utenti `legal_first_name, legal_last_name, legal_fiscal_code, business_legal_name, business_vat_number, business_pec, business_address...` e ordina per data. Non e' un difetto di permessi: /admin e' protetto dal ruolo nel middleware (ROLE_PROTECTED, righe 38-42) e l'IBAN saggiamente non e' tra le colonne. E' un difetto di minimizzazione: per una lista servono nome e stato, non il codice fiscale di tutti. (Piccola correzione alla segnalazione: nel filtro di ricerca lato client, righe 257-266, entra business_vat_number, non legal_fiscal_code.) Inoltre il registro attivita' intercetta le MODIFICHE (trigger log_activity_change, 115:66-86) ma non le LETTURE: un accesso massivo ai dati identificativi non lascia traccia, mentre l'informativa dichiara 'accesso ai dati su base need-to-know, log di accesso' (privacy/page.tsx:159-161).",
       "impatto": "Rischio contenuto oggi con pochi amministratori, ma e' il punto che un audit contesta: la misura dichiarata (need-to-know) non e' implementata, e in caso di abuso interno o credenziali admin compromesse l'esposizione e' l'intero archivio identificativo in una schermata, senza memoria di chi l'ha guardato.",
       "fix": "1) Togliere legal_fiscal_code e business_vat_number dalla select di lista e caricarli solo nel dettaglio del singolo utente (e' anche piu' veloce). 2) Registrare in audit_logs l'apertura del dettaglio KYC, con actor_id e target: una riga per accesso, e la misura dichiarata diventa vera. 3) Il filtro di ricerca puo' restare su nome, email e telefono senza perdere nulla.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "privacy-legale",
@@ -1153,7 +1178,8 @@
       "descrizione": "Verificato riga per riga dentro la stessa funzione di caricamento del checkout. Le interrogazioni partono in fila: products (id, seller_id, stock, has_variants) alla riga 77, poi product_variants alla 94, poi profiles alla 109. Alle righe 177-179 si rileggono products e profiles — gli stessi identificativi appena letti — per prendere solo `express_enabled` e `offers_express`. Il commento sopra spiega il perché (difendersi dal caso in cui la migrazione 071 non sia applicata). Correggo un numero del collega: le due riletture sono dentro un Promise.all, quindi le attese in fila sono 4 (non 5) e le interrogazioni 5; a 80-150 millisecondi l'una fanno comunque 300-600 millisecondi prima che il riepilogo del carrello compaia, e su rete mobile di più. Il pezzo davvero sbagliato resta: due viaggi completi in più, per tutti, sulla pagina dove si paga, per una difesa che potrebbe scattare una volta sola.",
       "impatto": "Il checkout è l'unico punto del sito dove entrano i soldi ed è quello dove ogni attesa fa abbandonare il carrello. Qui l'attesa non è un caso limite: c'è a ogni caricamento, per tutti.",
       "fix": "① Chiedi subito le colonne che servono: aggiungi express_enabled alla select di riga 77 e offers_express a quella di riga 109, poi cancella il blocco 172-192. Se temi la migrazione mancante, prova la select ricca e ricadi su quella povera solo quando PostgREST risponde 42703 (colonna inesistente): un ripiego che scatta una volta, non due viaggi fissi per tutti. ② product_variants non dipende dal risultato di products: mettile insieme in un Promise.all. Restano 2 attese invece di 4.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "performance",
@@ -1164,7 +1190,8 @@
       "descrizione": "Verificato: fetchActiveDiscounts riceve la lista dei prodotti e lancia client.rpc('product_active_discount', { p_product: id }) una volta per prodotto, tutte insieme dentro un Promise.all (lib/promotions.ts:18-24). Un carrello da 20 articoli = 20 chiamate simultanee al database per una sola richiesta di pagamento, e succede su entrambe le vie d'incasso: carta (app/api/stripe/checkout/route.ts:113) e contanti alla consegna (app/api/orders/cod/route.ts:107). Tutto il resto delle stesse rotte è già scritto a blocco: products con .in() (riga 102 e 96), product_variants con .in() (124 e 118), profiles con .in() (140 e 134). Solo gli sconti sono rimasti uno per uno. E la versione a blocco esiste già nel database: migrations/056_active_promo_products.sql calcola la stessa logica su tutti i prodotti in una query sola (verificato: stessa fonte, seller_promotions attive con scope store/category/products).",
       "impatto": "Le connessioni aperte al database non crescono col numero di persone che pagano, ma con persone per articoli nel carrello. Dieci clienti che pagano insieme un carrello da dieci pezzi fanno cento chiamate contemporanee: è così che si esaurisce il pool di connessioni nell'ora di punta, e i pagamenti cominciano a fallire. Fa più danno il cliente che compra tanto, cioè quello che vale di più.",
       "fix": "Aggiungi la funzione SQL gemella che accetta l'elenco — product_active_discounts(p_products uuid[]) RETURNS TABLE(product_id uuid, discount_percent int) — copiando la logica già scritta in migrations/056 e filtrando con WHERE p.id = ANY(p_products). Poi in lib/promotions.ts sostituisci il Promise.all con una sola rpc. Da 20 chiamate a 1, comportamento visibile identico.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "performance",
@@ -1186,7 +1213,8 @@
       "descrizione": "Verificato: nel progetto ci sono 120 chiamate a supabase.auth.getUser(), 41 dentro components/. Non è una lettura locale: nella libreria installata (node_modules/@supabase/auth-js 2.106.1, GoTrueClient _getUser) ogni chiamata con sessione attiva fa GET /auth/v1/user per rivalidare il token, ed è serializzata da un lock interno — quindi le chiamate si mettono in coda invece di andare insieme. Su una scheda prodotto aperta da un cliente collegato si montano: useProfile, useFavorites, ProductViewTracker, RecentlyViewed, CartCrossDeviceSync, useNotificationsCount e useMessagesUnread due volte (Navbar in alto + MobileTabBar in basso, entrambi nel guscio app/layout.tsx:124 e :129). Correggo il conteggio del collega: sono 7-8 chiamate al montaggio, non dieci — AddToListButton.tsx:31 e ProductQA.tsx:80 partono solo all'apertura del pannello o all'invio, non al caricamento. Resta vero il pezzo peggiore: in useFavorites:14 e in ProductViewTracker:32 la getUser() è in fila PRIMA della query vera, quindi raddoppia l'attesa invece di aggiungersi. E tutto questo dopo che il middleware ha già risposto alla stessa domanda lato server.",
       "impatto": "Sette-otto richieste di rete sprecate per pagina, in coda una dietro l'altra, che ritardano preferiti, badge e tracciamento e tolgono banda al caricamento delle foto. Sul conto: sono chiamate di autenticazione contate a volume, e crescono con visitatori per componenti, non con gli ordini.",
       "fix": "Una sola fonte per l'identità. ① Nel QueryProvider (o in un contesto dedicato) esegui getUser() una volta sola, mettila in React Query con chiave fissa e staleTime 5 minuti, e fai leggere tutti gli altri da lì. ② Dove serve solo sapere SE c'è qualcuno collegato (badge, preferiti, tour) usa getSession(): legge il token già in memoria, zero rete. getUser() resta dove conta, cioè lato server prima di scrivere. ③ Rete di sicurezza: una regola ESLint che vieta auth.getUser() dentro components/**.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "performance",
@@ -1197,7 +1225,8 @@
       "descrizione": "Verificato aprendo tutte e due le pagine. I prodotti si caricano con una query sola su tutti i negozi insieme, ordinata per created_at decrescente e tagliata a 600 righe su /stores (riga 47) e 400 su /near (riga 38). Poi il ciclo di riga 61-65 raggruppa per negozio e da lì ricava sia l'anteprima delle foto sia countByStore, cioè il numero di prodotti mostrato in scheda (usato anche per l'ordinamento \"più prodotti\", righe 124 e 127). Il taglio però è globale, non per negozio: entrano i 600 prodotti più recenti del marketplace intero. Un negozio iscritto mesi fa che non carica prodotti da allora resta fuori dalla finestra e la sua scheda dice \"0 prodotti\", con nessuna foto. La soglia è bassa: bastano 12 negozi con 50 prodotti a testa. Confermo anche i due contorni: la query dei negozi alla riga 29 non ha nessun .limit, e /near scarica store_reviews riga per riga (riga 41, nessun limite) per fare la media nel browser al ciclo successivo, mentre /stores per la stessa cosa usa già la funzione aggregata store_review_stats (riga 48).",
       "impatto": "Un negoziante apre la pagina pubblica dei negozi e vede la propria vetrina vuota con scritto \"0 prodotti\" mentre in catalogo ne ha cinquanta. È la cosa che fa perdere fiducia a un commerciante appena convinto, e nessun cliente clicca su un negozio che dichiara di non avere niente. Oggi il catalogo è piccolo e non si vede; si presenta da solo il giorno in cui i prodotti superano 600 (400 su /near).",
       "fix": "Una funzione SQL con LATERAL, che è il costrutto per \"i primi N di ogni gruppo\": SELECT s.*, p.* FROM seller_public_profiles s LEFT JOIN LATERAL (SELECT id, name, price, images FROM products WHERE seller_id = s.id AND status = 'available' ORDER BY created_at DESC LIMIT 4) p ON true. Nella stessa funzione porta il conteggio vero per negozio (count(*) per seller_id) e le statistiche recensioni: sparisce il taglio globale, sparisce anche l'elenco lungo di identificativi passato al filtro, e le tre interrogazioni diventano una. Su /near, intanto, sostituisci la lettura grezza di store_reviews con store_review_stats già in uso su /stores.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "performance",
@@ -1208,7 +1237,9 @@
       "descrizione": "Verificato uno per uno. In app/admin/orders/page.tsx la query prende tutti gli ordini con due collegamenti annidati ai profili (negozio e fattorino), senza .limit e senza paginazione, e alla riga 51 c'è refetchInterval: 30_000; il filtro per stato è applicato dopo, nel browser (riga 74). Una scheda lasciata aperta riscarica la tabella 120 volte l'ora. Stesso schema altrove: admin/users:111 scarica tutti i profili con le colonne personali (legal_fiscal_code, business_vat_number, business_pec, indirizzo — righe 96-102); orders/page.tsx:46 scarica per il cliente tutti i suoi ordini con dentro righe, nomi e foto dei prodotti; seller/dashboard:69-70 scarica ogni riga d'ordine mai venduta dal venditore per sommarla nel browser; seller/analytics:61 scarica una riga per ogni visita degli ultimi 30 giorni e le conta con un ciclo; earnings, rider/history e seller/customers idem, senza limite. Il punto che aggiungo, perché lo scrive la casa stessa: migrations/117_visite_prodotto_e_numeri.sql:79-88 descrive esattamente questo difetto e avverte che PostgREST ha un tetto di righe per risposta, superato il quale la risposta arriva TRONCATA senza dirlo — quindi non è solo traffico sprecato: le somme di incasso del venditore cominciano a mentire per difetto e nessuno se ne accorge. La cura esiste già (funzione admin_kpi(), stessa migrazione riga 95) e non è stata estesa a queste pagine.",
       "impatto": "Doppio. Sui soldi: il traffico in uscita da Supabase si paga a gigabyte e qui cresce col quadrato (più ordini da riscaricare, per più schede aperte). Sulla fiducia nei numeri: quando la risposta viene troncata, il guadagno mostrato al venditore è più basso del vero e sembra un problema di pagamenti. Sull'uso: a qualche migliaio di ordini il pannello smette di aprirsi, e succede nel giorno di punta.",
       "fix": "Per ordine di urgenza. ① admin/orders: porta il ricaricamento a 2 minuti (o toglilo), aggiungi .range(0,49) con paginazione e sposta il filtro di stato nella query (.eq('delivery_status', filter)). ② admin/users: .range() con paginazione e ricerca fatta in SQL. ③ orders del cliente, seller/earnings, rider/history, seller/customers: .limit(20) con \"carica altri\". ④ seller/dashboard e seller/analytics: i totali si contano nel database, con una seller_kpi(p_seller uuid) sullo stampo di admin_kpi() che esiste già e funziona.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Riparati i punti urgenti: admin/orders (filtro nella query, 50 righe per volta, ricarica ogni 2 min invece di 30 s) e tetti espliciti su admin/users, ordini cliente, guadagni venditore, clienti venditore. Restano da spostare nel database i totali di seller/dashboard e seller/analytics."
     },
     {
       "dimensione": "performance",
@@ -1219,7 +1250,8 @@
       "descrizione": "Verificato. La select di riga 80 chiede id, name, description, price, compare_at_price, images, stock, has_variants, created_at, seller_id, category_id. La descrizione non viene mai mostrata: components/ProductCard.tsx la dichiara fra le proprietà (riga 20) ma non la stampa da nessuna parte — l'ho cercata in tutto il file, compare solo nella dichiarazione e nel passaggio da ProductGrid.tsx:365. Viene comunque scaricata per 96 prodotti a ogni griglia (home, ricerca, categoria, vetrina negozio). La seconda parte è più seria: alla riga 110 si scartano i prodotti dei negozi non approvati e alle righe 199-232 si applicano nel browser i filtri \"solo negozi aperti\", \"valutazione minima\", \"solo in promozione\", \"solo disponibili\" e gli ordinamenti per valutazione e per sconto — tutti DOPO il taglio a 96. Quindi 96 non è il numero di prodotti mostrati, è il numero di righe scaricate prima di scartare, e la pagina non ha modo di andare a prendere le successive. Il codice stesso lo ammette nel commento alle righe 250-258, dove il tracciamento della ricerca è stato corretto proprio perché contava le righe grezze invece di quelle viste.",
       "impatto": "Chi mette il filtro \"solo negozi aperti\" di lunedì mattina può vedere tre prodotti su un catalogo di mille e concludere che su MyCity non c'è niente. È un difetto che peggiora man mano che il catalogo cresce, perché cresce la quota che il taglio a 96 nasconde. In più, peso di rete sprecato su ogni pagina di catalogo per un testo che nessuno legge.",
       "fix": "① Subito: togli description dalla select (riga 80), nessun componente della griglia la usa. ② Sposta i filtri dove stanno i dati: is_approved si risolve leggendo da seller_public_profiles (che già filtra i negozi approvati); onlyInStock diventa .or('stock.is.null,stock.gt.0'); minRating e onlyPromo chiedono un collegamento con recensioni e promozioni, quindi vanno in una funzione SQL cerca_prodotti(...) che accetta tutti i filtri e ritorna già scremato, con LIMIT/OFFSET veri. ③ A quel punto il conteggio \"N prodotti\" e l'evento search_performed diventano finalmente veri.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "performance",
@@ -1230,7 +1262,8 @@
       "descrizione": "Verificato tutti e quattro i punti: sono <img src={img}> grezzi, senza sizedImage() e senza next/image, dentro riquadri da 48×48 (h-12 w-12 alla riga 273 di orders/page.tsx, w-12 h-12 alla 244) e 44×44 nel dettaglio. `img` è l'indirizzo originale del file su Supabase Storage. E le foto originali sono grandi davvero: in lib/products/uploadImages.ts:32-35 la ricompressione scatta solo sopra i 5 MB, quindi quello che il negoziante carica dal telefono resta com'è fino a 5 MB per foto. Nel resto del progetto la ricetta giusta c'è già: components/ProductCard.tsx:60 chiama sizedImage(rawImg, 'card') e lib/image-url.ts:16 definisce anche 'thumb' a 100 pixel. Nelle pagine ordini quel passaggio manca, e sopra ogni <img> c'è una riga // eslint-disable-next-line @next/next/no-img-element che zittisce l'avviso di Next (28 in tutto il progetto).",
       "impatto": "Una pagina con 5 ordini da 3 articoli scarica fino a decine di megabyte per mostrare francobolli. Chi apre \"I miei ordini\" dal telefono per controllare una consegna aspetta e consuma il proprio traffico dati — ed è il cliente che ha già comprato, quello da tenere. Sul conto Supabase è traffico in uscita fatturato a gigabyte, sprecato per intero.",
       "fix": "Sostituisci i quattro <img src={img}> con <Image src={sizedImage(img, 'thumb')} width={48} height={48} alt=\"\" />, dove 'thumb' è già definito a 100 pixel in lib/image-url.ts:16. Poi togli le righe eslint-disable che nascondevano l'avviso: era la regola di Next a segnalare esattamente questo.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "performance",
@@ -1241,7 +1274,8 @@
       "descrizione": "Verificato sia nel nostro codice sia in quello della libreria installata: in node_modules/@supabase/postgrest-js/dist/index.cjs il metodo in(column, values) compone `in.(valori)` e lo aggiunge ai parametri dell'indirizzo (this.url.searchParams.append), e la select parte in GET — quindi l'elenco viaggia davvero nell'URL, 37 caratteri per identificativo. In app/sitemap.ts:56-58 si leggono fino a 2000 negozi e alla riga 73 si passano tutti a .in('seller_id', ...): circa 74.000 caratteri, contro un limite pratico fra 8.000 e 16.000 davanti a Supabase. Stessa forma in /stores (riga 44, tutti i negozi approvati, e la query dei negozi alla riga 29 non ha nemmeno un limite), in /near (righe 35 e 42) e in admin/funnel:68, che passa tutti gli iscritti degli ultimi quattro mesi. Abbasso la gravità rispetto alla segnalazione: la soglia di rottura è intorno ai 200-400 identificativi e oggi MyCity ha pochi negozi e pochi iscritti, quindi il difetto non tocca nessuno adesso. È un rischio che si presenta il giorno in cui le cose vanno bene, e va chiuso prima di quel giorno.",
       "impatto": "Il modo in cui si romperà è la parte peggiore: non un errore visibile, ma un 414 o un 400 che il codice tratta come \"nessun risultato\". La sitemap smetterebbe di elencare i prodotti e Google di indicizzarli senza che nessuno se ne accorga, perché la sitemap continua a rispondere; /stores mostrerebbe negozi senza prodotti; il cruscotto del funnel zero ordini.",
       "fix": "Non passare gli identificativi al filtro: fai fare il collegamento al database. ① Sitemap: una funzione SQL sitemap_products(p_limit int) che unisce products e seller_public_profiles internamente (chiamata POST, nessun indirizzo lungo). ② /stores e /near: la stessa store_cards(p_limit int) con LATERAL già proposta per il difetto delle vetrine vuote. ③ admin/funnel: una funzione funnel_coorti(p_da timestamptz) che fa il conto in SQL. ④ Rete di sicurezza: dove il .in() deve restare, spezza in blocchi da 100.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "performance",
@@ -1278,7 +1312,8 @@
       "descrizione": "Verificato. Prima si carica la categoria (riga 25-34), poi le sottocategorie con enabled: !!category (riga 38-50): due attese in fila prima che parta qualunque richiesta di prodotti. Poi, alle righe 276-286, si disegna una ProductGrid per ogni sottocategoria più una finale \"Altri prodotti\", e ogni ProductGrid è autonoma: una query su products (riga 77) e dentro la stessa funzione fetchSellerPublicMap per i negozi (riga 105), quindi 2 richieste per fascia, con la mappa dei negozi riletta identica da ogni fascia. Correggo due numeri del collega: con i dati veri le sottocategorie per categoria sono al massimo 3 (migrations/002:109-120), quindi oggi sono 8 richieste, non 18; e l'argomento delle \"6 connessioni per dominio\" non regge, perché Supabase risponde in HTTP/2, che le multiplexa. Per questo scendo a minore: il difetto è la forma (attesa in fila + N+1), non un blocco.",
       "impatto": "La pagina da cui la gente entra nel catalogo si compone a pezzi: due giri di rete a vuoto prima che compaia un prodotto, e la stessa lista di negozi richiesta una volta per fascia. Cresce con le sottocategorie: se domani una categoria ne ha otto, le richieste diventano 18.",
       "fix": "① Nell'immediato togli la seconda attesa: carica categoria e sottocategorie in un colpo solo (.or('slug.eq.X,parent_id.eq...') o una funzione che ritorna entrambe). ② Poi spegni l'N+1: una funzione SQL prodotti_per_sottocategoria(p_parent uuid, p_per_gruppo int) che con LATERAL restituisce i primi 12 prodotti di ciascuna sottocategoria in una risposta sola, negozi già uniti. La stessa funzione serve poi anche alla home.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "performance",
@@ -1289,7 +1324,8 @@
       "descrizione": "Verificato: la query del dettaglio prodotto è supabase.from('products').select('*, categories(...), profiles!products_seller_id_fkey(...)'). Fra le colonne di products c'è search_tsv, un tsvector GENERATED ALWAYS AS ... STORED (migrations/027:364-370): è la rappresentazione interna per la ricerca, cioè tutte le parole di nome e descrizione con le loro posizioni e pesi. La pagina non la usa — la ricerca full-text la fa il database — ma con select('*') PostgREST la serializza e la manda al telefono a ogni apertura di scheda, insieme alle colonne di servizio dell'importazione esterna. Lo stesso select('*') su profiles c'è in app/seller/profile/page.tsx:28. Tolgo dalla segnalazione il riferimento a app/profile/settings/page.tsx:187: quello è l'export dati GDPR (handleDownloadData), cioè proprio il caso in cui il select('*') ci vuole. Metto minore perché il peso in più è di qualche kilobyte per scheda, non un blocco.",
       "impatto": "Su una descrizione lunga il tsvector può pesare quanto la descrizione stessa: peso raddoppiato sulla pagina più visitata del sito, e su rete mobile si sente. C'è anche un effetto di disciplina: con select('*') qualunque colonna aggiunta domani finisce nel browser senza che nessuno lo abbia deciso.",
       "fix": "Sostituisci select('*') con l'elenco esplicito delle colonne che la pagina usa (circa 15 su 25). Poi metti la regola in cassaforte: una costante condivisa PRODUCT_DETAIL_COLS (il precedente esiste già, PRODUCT_SNAPSHOT_COLS in app/api/ai/catalog-batch/apply/route.ts) e una regola di lint che vieta select('*') fuori dalla rotta di esportazione dati GDPR, dove invece serve.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "performance",
@@ -1480,7 +1516,8 @@
       "impatto": "Il cliente nuovo — quello che stiamo pagando per acquisire — compila l'indirizzo, si registra, va nella posta, clicca, e si ritrova sulla home senza sapere dov'è finito il suo ordine. Deve ricostruire tutto da capo. È il buco più grande del percorso verso il PRIMO ordine, cioè verso l'unico che conta per capire se il marketplace funziona.",
       "fix": "Leggere `returnTo` anche nel sign-up e passarlo come `emailRedirectTo = ${APP_URL}/auth/callback?next=${encodeURIComponent(returnTo)}` — la rotta di callback lo sanifica già (accetta solo path interni, riga 22). Mostrarlo anche nella pagina di verifica come «torna al tuo ordine». Spostare la bozza del checkout da `sessionStorage` a `localStorage`, così sopravvive alla scheda nuova aperta dal client di posta. Presidio: test end-to-end «ospite al checkout → registrazione → conferma email → riatterra sul checkout con l'indirizzo compilato».",
       "file": "app/sign-up/page.tsx:70 e :92 (zero occorrenze di returnTo nel file) · app/auth/callback/route.ts:20-22 · app/checkout/page.tsx:575-576 · app/sign-in/page.tsx:123-125 (il pezzo che funziona)",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "frontend-ux",
@@ -1491,7 +1528,8 @@
       "impatto": "Il carrello che il cliente ha appena messo insieme è la cosa più preziosa che abbiamo in quel momento, e sparisce con un tocco su un pulsante che sembra additivo («Riordina» suona come «aggiungi», non come «sostituisci»). Chi tocca per curiosità perde tutto il lavoro e spesso non ricompone. Il prezzo storico, poi, produce un totale a video diverso da quello che il server addebita davvero.",
       "fix": "Prima di svuotare, se il carrello non è vuoto, chiedere con `confirmDialog` (già disponibile in components/ConfirmDialog.tsx) offrendo due strade esplicite: «unisci al carrello» oppure «sostituisci». Rileggere i prezzi correnti dei prodotti prima di aggiungerli invece di usare `unit_price` storico. Meglio: estrarre una sola funzione `reorder(order, mode)` condivisa dai quattro punti, così la conferma non si può dimenticare nel quinto.",
       "file": "app/orders/[id]/page.tsx:281-298 · app/orders/page.tsx:143-165 · components/home-sections/ReorderRail.tsx:116-130 e :132-138",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "frontend-ux",
@@ -1502,7 +1540,8 @@
       "impatto": "Il cliente conferma 42,50 e sull'ordine ne trova 46,00. Non c'è nessun passaggio che glielo dica: lo scopre a cose fatte. Sul contrassegno se ne accorge il rider, sulla porta di casa, e la discussione la paghiamo noi in assistenza e in reputazione — con il negoziante in mezzo, che è la persona che meno possiamo permetterci di mettere in imbarazzo.",
       "fix": "Due mosse, la seconda è quella giusta. ① Subito: rileggere i prezzi correnti quando si apre il checkout — la query dei gruppi già interroga `products`, basta aggiungere `price` alla select di riga 78 e usarlo al posto di `it.price` in `groupSubtotal`. ② Presidio vero: far rispondere all'API i totali ricalcolati e, se differiscono da quelli mostrati, fermarsi su un passaggio esplicito «il prezzo è cambiato, confermi?» invece di procedere. Il campo di ritorno va concordato con @backend-dev.",
       "file": "app/checkout/page.tsx:77-79 (non legge price), :222-223 e :358 · app/api/orders/cod/route.ts:201",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "frontend-ux",
@@ -1513,7 +1552,8 @@
       "impatto": "Chi non riesce a caricare lo script non può né registrarsi né accedere né scriverci: perso all'ingresso, senza nemmeno un messaggio che spieghi perché. E per tutti gli altri il riquadro tremola e la sfida riparte a ogni carattere digitato, con il rischio concreto di finire nei limiti di frequenza di Cloudflare proprio mentre si digita la password. È il collo di bottiglia messo all'imbocco dell'imbuto: tutto quello che perdiamo qui non arriva mai a vedere un prodotto.",
       "fix": "Aggiungere `s.onerror` che alzi uno stato di errore visibile («verifica non disponibile, riprova o scrivici») e sblocchi l'invio lasciando il controllo al server — il gettone viene comunque validato lato server, quindi togliere la guardia client non apre un buco di sicurezza. Stabilizzare i callback: tenerli in un `useRef` aggiornato a ogni render e ridurre le dipendenze dell'effetto a `[siteKey, theme]`.",
       "file": "components/Turnstile.tsx:50-60 (nessun onerror) e :75 (dipendenze instabili) · app/sign-in/page.tsx:61 e :173 · app/sign-up/page.tsx:54 e :192 · app/contact/page.tsx:32 e :134",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "frontend-ux",
@@ -1524,7 +1564,8 @@
       "impatto": "Il cliente ha appena visto l'addebito sulla carta e il sito gli dice che non ha ordini. È il momento di massima ansia dell'intero percorso, e il messaggio è esattamente quello che conferma il sospetto peggiore. Da lì partono la telefonata, la mail arrabbiata e, nel caso peggiore, la contestazione alla banca — che costa a noi anche quando la vinciamo.",
       "fix": "Quando l'indirizzo contiene `?stripe=success`, entrare in uno stato dedicato «stiamo confermando il pagamento» e interrogare con attese crescenti (1-2-4-8-15 s, fino a circa 30 s) finché l'ordine compare; solo dopo mostrare un messaggio onesto con il riferimento della sessione e il tasto per l'assistenza. La regola da presidiare è una sola: non mostrare MAI lo stato vuoto dentro quella finestra.",
       "file": "app/orders/page.tsx:71-81 (le due sole ricariche) e :195-207 (lo stato vuoto che non dovrebbe comparire)",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "frontend-ux",
@@ -1535,7 +1576,8 @@
       "impatto": "Il cliente crede di stare filtrando e non sta filtrando niente: i risultati contraddicono quello che l'interfaccia afferma, e questo è il modo più veloce per far smettere di fidarsi della ricerca. E in ogni caso quel filtro nasconde prodotti perfettamente idonei alla spedizione gratis: nasconde catalogo proprio alla persona che sta cercando di spendere.",
       "fix": "Delle due l'una, e la prima è più onesta: ① togliere il filtro dalla ricerca, perché la spedizione gratis è una proprietà del carrello e non del prodotto, sostituendolo con un messaggio «spedizione gratis sopra 30 € per negozio»; ② oppure rinominarlo «prodotti sopra 30 €» e renderlo cumulabile con il prezzo minimo (`Math.max(minPrice, freeShipping ? 30 : 0)`) invece che alternativo. In entrambi i casi la pastiglia deve dire quello che il filtro fa davvero.",
       "file": "app/search/page.tsx:478 · app/search/page.tsx:139 (la pastiglia che resta) e :114 (il conteggio) · app/checkout/page.tsx:337 (la regola vera, per gruppo)",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "frontend-ux",
@@ -1546,7 +1588,8 @@
       "impatto": "Sfogliare i risultati toccando un prodotto e tornando indietro è il gesto più comune del commercio elettronico da telefono: si fa dieci volte per acquisto. Qui ogni ritorno costa al cliente il rifacimento di tutti i filtri, e dopo la seconda volta smette e se ne va. Perdiamo anche la possibilità di mandare un collegamento a una selezione precisa, cioè di far atterrare una campagna o un messaggio WhatsApp su «i formaggi sotto i 10 euro dei negozi aperti adesso».",
       "fix": "Portare lo stato dei filtri nei parametri dell'indirizzo con `router.replace` (senza ricaricare, `{ scroll: false }`) e inizializzarlo da `useSearchParams`: è esattamente lo schema già usato per `q`, quindi non introduce niente di nuovo nel progetto. Presidio: test «imposta due filtri → apri un prodotto → torna indietro → i filtri sono ancora lì».",
       "file": "app/search/page.tsx:66-75 (stato locale) e :474-489 (dove viene consumato) · nessun useRouter nel file",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "frontend-ux",
@@ -1557,7 +1600,8 @@
       "impatto": "Il cliente scopre che non può comprare solo all'ultimo passo, e per rimediare deve tornare indietro e indovinare la quantità giusta prodotto per prodotto: l'avviso dice quanti pezzi ci sono, ma la correzione è tutta manuale. È attrito messo esattamente nel punto in cui deve essercene zero — e la scheda prodotto dimostra che la soluzione esiste già in casa, semplicemente non è stata portata nel carrello.",
       "fix": "Portare la disponibilità reale dentro il carrello (una lettura dei prodotti a video basta, la stessa che fa già il checkout) e disabilitare il «+» al raggiungimento del limite, riusando la stessa etichetta della scheda prodotto. Nel checkout, accanto all'avviso, offrire un tasto «porta alla quantità disponibile» invece del solo blocco: se il sistema sa qual è il numero giusto, deve saperlo anche mettere.",
       "file": "app/cart/page.tsx:154-159 (nessun tetto, a differenza del «−» alla riga 149) · lib/cart.ts:53-54 e :80-83 · app/checkout/page.tsx:159-162 e :817 · confronto corretto: app/product/[id]/page.tsx:302 e :772-778",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "frontend-ux",
@@ -1568,7 +1612,8 @@
       "impatto": "Chi naviga da tastiera entra nel visore e non trova una via d'uscita ovvia; da telefono lo scorrimento sotto il visore muove la pagina dietro e il gesto sembra rotto. Non blocca la vendita, ma è proprio la galleria — l'elemento che convince a comprare un prodotto che non si può toccare — a comportarsi in modo poco solido.",
       "fix": "Riusare `components/ui/Modal.tsx`, che ha già Esc, blocco dello scorrimento, trappola e ritorno del fuoco; in alternativa aggiungere quei quattro comportamenti sul posto. Nessun intervento necessario sul riallineamento del carosello: funziona già.",
       "file": "app/product/[id]/page.tsx:484-535 (il visore) · confronto: components/ui/Modal.tsx:54-98 · NON è un difetto: app/product/[id]/page.tsx:179-185",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "frontend-ux",
@@ -1579,7 +1624,9 @@
       "impatto": "Il lettore di schermo promette un elenco di scelte e non ne trova nessuna: chi usa la tastiera o un ausilio deve ripiegare sul tabulatore alla cieca. La ricerca è la porta d'ingresso al catalogo, e questa è proprio la fetta di clienti — vista stanca, età alta — che nel commercio di quartiere pesa più che altrove.",
       "fix": "Mettere `role=\"option\"` con identificativo su ogni voce, gestire ArrowUp/ArrowDown/Enter aggiornando `aria-activedescendant`, dare lo stesso identificativo al pannello dei suggerimenti a campo corto (o togliere `aria-controls` quando non c'è elenco), e semplificare `aria-expanded` in `open`. Far ripassare il risultato a @accessibility.",
       "file": "components/SearchBar.tsx:159-164 · :161 (condizione sempre vera) · :168 (solo Escape) · :186 e :195-255 (listbox senza option) · :270-271 (pannello senza id)",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Verificato nel codice il 20/8: era gia stato riparato nel lotto del 19 agosto, il referto del 18 non lo sapeva."
     },
     {
       "dimensione": "frontend-ux",
@@ -1616,7 +1663,8 @@
       "impatto": "Il pulsante d'acquisto principale da telefono è coperto finché il banner non viene chiuso. Il banner è chiudibile, quindi il danno è limitato, ma cade proprio sul primo prodotto che il visitatore nuovo guarda — cioè sulla prima impressione, che è l'unica che non si può rifare.",
       "fix": "Coordinare i livelli usando i segnaposti già definiti in app/globals.css:118-120 invece dei numeri scritti a mano: la barra d'acquisto sopra il banner, o il banner sotto di essa. E agganciare lo stacco dal basso alla presenza reale della barra a schede (una classe sul body o una variabile impostata dal layout) invece che alla costante fissa.",
       "file": "components/CookieBanner.tsx:63 · components/StickyAddToCart.tsx:54-55 · app/globals.css:116 e :118-120 · app/product/[id]/page.tsx:1035",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "frontend-ux",
@@ -1640,7 +1688,9 @@
       "impatto": "Nessun danno oggi. Diventa un difetto di accessibilità reale il giorno in cui qualcuno userà quella proprietà — per esempio su una finestra di conferma pagamento che non deve chiudersi per sbaglio, cioè esattamente il caso in cui la trappola del fuoco serve di più. È una trappola per lo sviluppatore futuro: chiede una cosa, ne ottiene due.",
       "fix": "Separare i due effetti: uno per Esc, condizionato a `closeOnEsc`, e uno per la trappola del fuoco condizionato solo a `open`. Costa cinque righe adesso e toglie di mezzo un errore che sarebbe difficile da collegare alla causa.",
       "file": "components/ui/Modal.tsx:72-98 (la riga 74 governa anche il blocco 80-94)",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Verificato nel codice il 20/8: era gia stato riparato nel lotto del 19 agosto, il referto del 18 non lo sapeva."
     },
     {
       "dimensione": "frontend-ux",
@@ -1651,7 +1701,8 @@
       "impatto": "Oggi il catalogo è piccolo e il tetto non si vede. Ma cresce di un centinaio di prodotti per ogni negozio nuovo, e il giorno in cui lo supera i sintomi sono i peggiori possibili: prodotti che esistono ma non compaiono nella ricerca, e filtri che restituiscono risultati parziali senza dire che sono parziali. Meglio metterlo a posto adesso, quando costa poco, che dopo aver firmato il decimo negozio.",
       "fix": "Introdurre la paginazione (`.range()` con «carica altri» o scorrimento infinito) e spostare lato database i filtri esprimibili in query (promozione, disponibilità, valutazione tramite la vista di aggregazione già esistente), lasciando al browser solo gli orari di apertura, che dipendono dall'ora corrente. Sentire @backend-dev per gli indici prima di spostare i filtri, altrimenti si scambia un tetto con una lentezza.",
       "file": "components/ProductGrid.tsx:101 (nessun range, nessun load-more) e :199-231 (filtri lato browser dopo il taglio)",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "accessibilita",
@@ -1688,7 +1739,9 @@
       "descrizione": "VERIFICATO alla lettera, ogni affermazione confrontata col codice. La pagina è online e dichiara tra le «Funzionalità accessibili»: «Navigazione completa da tastiera su tutte le pagine principali», «Contrasto colore conforme WCAG AA sui testi principali», «Indicatori di focus visibili su tutti gli elementi interattivi»; e come «Metodologia di valutazione»: «Audit automatico con axe-core e pa11y» + «Test manuale con screen reader (VoiceOver su macOS, NVDA su Windows)». Controlli sul repo: `package.json` non contiene axe-core, @axe-core/*, pa11y, jest-axe né alcuno script Lighthouse (grep = 0 risultati); `.eslintrc.json` estende solo `next/core-web-vitals` e non abilita `eslint-plugin-jsx-a11y`; l'unico file a tema, `tests/e2e/06-seo-and-a11y.spec.ts`, ha 4 test SEO e 2 assert deboli (`img:not([alt])`, che un `alt=\"\"` soddisfa, e «main visibile»). Le tre affermazioni sono smentite punto per punto da questo stesso audit: fuoco azzerato in `components/seller/AttributesFields.tsx:103`, toggle password fuori dalla tastiera in `components/ui/Field.tsx:144`, `text-ink-400` (#78716C) su `cream-100` (#FBF7F0) = 4,49:1 sotto 4,5:1. In più `LAST_UPDATED = '2026-05-26'` (riga 30, quasi 3 mesi fa) e la sezione «Contenuti non accessibili» elenca 3 voci mentre i difetti reali sono ben di più. Nota di onestà: NON ho potuto verificare da qui se la casella `accessibilita@mycity-marketplace.com` (riga 116) esista e sia presidiata — il dominio compare nel repo solo come stringa di fallback in `components/ShareCartButton.tsx:28`. Va accertato, non l'ho provato.",
       "impatto": "È il rischio legale più serio trovato. L'European Accessibility Act (Dir. UE 2019/882) è in vigore dal 28/06/2025 e la dichiarazione è un documento pubblico su cui un cliente che reclama e l'autorità di vigilanza fanno affidamento. Descrivere un audit con axe-core e pa11y che nel repo non esistono non è una svista di forma: è una dichiarazione non veritiera resa da MyCity, e la pagina stessa indica AgID come canale di reclamo — cioè invita l'utente a un procedimento in cui quella pagina è la prima prova a carico. Non ferma il flusso di acquisto: per questo la classifico grave e non bloccante.",
       "fix": "🔴 Testo e valutazione giuridica a @legale-privacy (io porto le prove tecniche, non il parere legale). ① Riscrivere le sezioni «Funzionalità accessibili» e «Metodologia» togliendo tutto ciò che non è provato; la sezione «Contenuti non accessibili» deve elencare i difetti reali di questo audit (checkout muto, combobox ricerca, conteggio carrello non annunciato, contrasto ink-400 su cream, storie auto-avanzanti senza pausa). ② Accertare che `accessibilita@mycity-marketplace.com` esista e sia presidiata entro i 30 giorni dichiarati, altrimenti metterci un indirizzo reale. ③ Aggiornare `LAST_UPDATED` alla data dell'audit vero. ④ In parallelo rendere vera la metodologia (vedi il finding sul cancello automatico): finché non c'è un test che può fallire, la dichiarazione non è sostenibile.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Riscritta togliendo tutto cio che non ha una prova dietro e dichiarando per nome cio che non e stato fatto. Il testo e una dichiarazione pubblica: va riletto da chi risponde legalmente (Nicola / @legale-privacy) prima di considerarlo chiuso sul piano giuridico."
     },
     {
       "dimensione": "accessibilita",
@@ -1738,7 +1791,8 @@
       "descrizione": "VERIFICATO. `app/category/[slug]/page.tsx:366`: `<div className=\"md:hidden fixed inset-0 z-50\" role=\"dialog\" aria-modal=\"true\" aria-label={t('filters')}>`. Il pannello non ha: gestione del tasto Esc, focus trap, spostamento del fuoco all'interno all'apertura, ritorno del fuoco al trigger alla chiusura, blocco dello scroll. Verifica diretta: `grep -c Escape` su quel file = 0, `grep -n \"focus()\"` = nessun risultato. Il pannello gemello in `app/search/page.tsx:337` ha invece tutto questo grazie all'hook `useBottomSheetA11y` — che ho letto per intero alle righe 21-58 di `app/search/page.tsx`: sposta il fuoco dentro all'apertura, cicla il Tab su first/last, chiude su Escape, blocca `body.overflow` e restituisce il fuoco al trigger nel cleanup. È scritto, funziona, e non è mai stato estratto in un modulo condiviso: la correzione è a un file di distanza ed è stata persa nel copia-incolla. WCAG 2.1.2 (A), 2.4.3 (A), 2.1.1 (A).",
       "impatto": "`aria-modal=\"true\"` dice alla tecnologia assistiva di ignorare tutto ciò che sta fuori dal dialogo, ma il fuoco è rimasto sul pulsante «Filtri», che ora è fuori. L'utente apre i filtri su una pagina categoria da mobile e finisce in un limbo: il lettore non ha nulla da leggere, Esc non chiude, il Tab si muove in una zona che la tecnologia assistiva non annuncia. L'unica via d'uscita è ricaricare la pagina.",
       "fix": "@frontend-dev. Estrarre `useBottomSheetA11y` da `app/search/page.tsx:21-58` in `components/hooks/useBottomSheetA11y.ts` e importarlo in entrambe le pagine — è già scritto e già in uso. In `app/category/[slug]/page.tsx`: `const sheetRef = useRef<HTMLDivElement>(null); const filterTriggerRef = useRef<HTMLButtonElement>(null); useBottomSheetA11y(filtersOpen, sheetRef, filterTriggerRef, () => setFiltersOpen(false));`, `ref={filterTriggerRef}` sul bottone «Filtri» e `ref={sheetRef}` sul pannello di riga 367. Leva di sistema: ogni overlay del marketplace deve passare da `components/ui/Modal.tsx` o da questo hook — nessun `fixed inset-0` scritto a mano.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "accessibilita",
@@ -1749,7 +1803,8 @@
       "descrizione": "VERIFICATO. `app/product/[id]/page.tsx:485-502`: il lightbox a schermo intero dichiara `role=\"dialog\" aria-modal=\"true\" aria-label={`Foto di ${product.name}`}` (righe 499-501) ma non ha gestione di `Escape` (`grep -c Escape` su quel file = 0), né focus trap, né spostamento del fuoco all'apertura, né ripristino alla chiusura, né blocco dello scroll di fondo. Gestisce solo lo swipe touch (onTouchStart/onTouchEnd). Correlato, righe 426-431: il pulsante invisibile «Ingrandisci foto» (`className=\"absolute inset-0 z-[1] cursor-zoom-in\"`) è renderizzato DENTRO `images.map()`, quindi con 6 foto ci sono 6 pulsanti focalizzabili nel carosello a scorrimento orizzontale, di cui 5 fuori dalla viewport: il fuoco da tastiera si sposta su elementi non visibili. Confermata anche la riga 461: `images.slice(0, 5).map(...)` — con più di 5 foto le miniature successive esistono solo scorrendo con mouse o dito. WCAG 2.1.1 (A), 2.1.2 (A), 2.4.3 (A), 2.4.7 (A).",
       "impatto": "Aprire lo zoom di una foto da tastiera porta in un vicolo cieco: lo schermo è coperto da un overlay nero al 90%, `aria-modal=\"true\"` nasconde tutto il resto allo screen reader, ma il fuoco è rimasto sul pulsante sottostante ed Esc non funziona. Succede sulla scheda prodotto, cioè nel punto in cui si decide l'acquisto, e si esce solo ricaricando la pagina.",
       "fix": "@frontend-dev. Sostituire il div artigianale di riga 486 con `components/ui/Modal.tsx`, che ha già Esc + trap + ritorno del fuoco + scroll lock (correggendo prima il difetto di Modal segnalato a parte). In alternativa minima: `useEffect` con listener `keydown` per Escape e per il Tab ciclico dentro il contenitore, `ref.current?.querySelector('button')?.focus()` all'apertura, `previousActive.current?.focus()` alla chiusura, `document.body.style.overflow='hidden'` mentre è aperto; aggiungere ArrowLeft/ArrowRight per navigare le foto. Per il carosello: rendere focalizzabile un solo pulsante zoom, `tabIndex={i === activeImg ? 0 : -1}`.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "accessibilita",
@@ -1760,7 +1815,8 @@
       "descrizione": "VERIFICATO, con una correzione al report originale. ① Righe 48-52: `const tid = setTimeout(() => { if (index + 1 < stories.length) setIndex(index + 1); else onCloseRef.current(); }, 5000)` — avanzamento automatico ogni 5 secondi; `grep` di `paus|Paus` sul file = 0 risultati, quindi nessun controllo di pausa/stop/riavvio. Viola WCAG 2.2.2 (A) per contenuto in aggiornamento automatico e 2.2.1 (A), perché il limite di tempo non è disattivabile, regolabile né estendibile. ② Righe 127-134: l'immagine della storia, che È il contenuto (una promo, un'offerta), ha `alt=\"\"`; anche il logo del negozio (righe 138-144) ha `alt=\"\"`. WCAG 1.1.1 (A). ③ Riga 83: il contenitore `fixed inset-0 z-50 bg-black/90` non ha `role=\"dialog\"` né `aria-modal` (grep = 0), il fuoco non viene spostato dentro all'apertura né restituito alla chiusura, non c'è focus trap. Esc e le frecce sono invece gestiti correttamente (righe 67-75). ④ SCARTATA la quarta sotto-accusa del report originale: sostenere che lo stile inline della progress bar batte `prefers-reduced-motion` è sbagliato — `app/globals.css:202-208` usa `transition-duration: 0.01ms !important`, e una dichiarazione `!important` da foglio di stile prevale su uno stile inline senza `!important`. La barra viene neutralizzata; il vero problema di tempo resta il `setTimeout`, già coperto dal punto ①.",
       "impatto": "Cinque secondi non bastano a chi legge lentamente: ipovedenti che ingrandiscono, persone con dislessia o disturbi cognitivi, o semplicemente un anziano di Piacenza col telefono. La storia scappa mentre la stai leggendo e non c'è modo di fermarla. Per chi usa lo screen reader il danno è doppio: il contenuto principale è un'immagine senza descrizione, quindi anche fermandola non ci sarebbe niente da leggere. È il canale con cui i negozi comunicano le offerte del giorno.",
       "fix": "@frontend-dev per il codice, @ux-designer per il controllo di pausa. ① Pulsante Pausa/Riprendi visibile accanto alla X: `const [paused, setPaused] = useState(false)` e nell'effetto `if (paused) return;` prima del `setTimeout`; mettere in pausa automaticamente quando il viewer riceve il fuoco e quando `window.matchMedia('(prefers-reduced-motion: reduce)').matches`. ② `alt={active.caption ?? `Storia di ${active.seller?.store_name ?? 'un negozio'}`}` sull'immagine principale, e rendere obbligatorio un testo alternativo nel form di caricamento storia lato venditore. ③ Aggiungere `role=\"dialog\" aria-modal=\"true\" aria-label=\"Storie dei negozi\"` al div di riga 83, spostare il fuoco sul pulsante «Chiudi storia» (riga 100) all'apertura e restituirlo all'anello di lancio alla chiusura.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "accessibilita",
@@ -1836,7 +1892,8 @@
       "descrizione": "VERIFICATO, con severità corretta al ribasso. ① Riga 759: `<label className=\"text-sm font-medium\">Q.tà:</label>` è una `<label>` orfana — non ha `htmlFor` e non avvolge nessun controllo, quindi non è associata a nulla (WCAG 1.3.1, A). ② Riga 769: il valore corrente è `<span className=\"w-10 text-center font-semibold\">{qty}</span>` senza live region: premendo «Aumenta quantità» il numero cambia a schermo ma nulla viene annunciato (WCAG 4.1.3, AA). ③ Righe 652-676: il selettore varianti usa un `<p>` per l'etichetta del gruppo («Taglia», «Colore») e pulsanti senza `role=\"group\"`/`aria-labelledby` né `<fieldset>/<legend>`, quindi lo screen reader annuncia «Rosso, pulsante, premuto» senza dire di quale caratteristica si tratti (WCAG 1.3.1). ④ Righe 888-897: le stelle del form recensione sono pulsanti con `aria-label={`${n} stelle`}` ma senza `aria-pressed`, quindi il voto selezionato non è esposto (WCAG 4.1.2). Perché minore e non grave: i due pulsanti quantità hanno già `aria-label` corretti («Diminuisci/Aumenta quantità») e le varianti hanno già `aria-pressed`, quindi lo stato è recuperabile — manca la conferma immediata e il nome del gruppo, non la funzione.",
       "impatto": "Un cliente non vedente che vuole comprare 3 confezioni preme «+» tre volte alla cieca e deve tornare a rileggere per sapere a quanto è arrivato. Poi, se il prodotto ha taglie, sceglie un valore senza sentire a quale gruppo appartiene. Attrito reale sui due controlli che stanno tra la scheda prodotto e il carrello, ma nessuno dei due impedisce l'acquisto.",
       "fix": "@frontend-dev, `app/product/[id]/page.tsx`. ① Sostituire la label orfana con un gruppo etichettato `<div role=\"group\" aria-label=\"Quantità\">` e rendere il valore un `<output aria-live=\"polite\" aria-atomic=\"true\">{qty}</output>`. ② Varianti: `<p id={`opt-${g.name}`}>` e pulsanti avvolti in `<div role=\"group\" aria-labelledby={`opt-${g.name}`}>`. ③ Stelle recensione: `aria-pressed={n <= reviewRating}` e wrapper `<div role=\"group\" aria-label=\"Il tuo voto\">`.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "accessibilita",
@@ -1860,7 +1917,8 @@
       "descrizione": "VERIFICATO. `components/Navbar.tsx` (UserMenu): il trigger dichiara `aria-haspopup=\"menu\"` (riga 287) e `aria-expanded` (riga 288); il pannello usa `role=\"menu\"` (riga 337) con `role=\"menuitem\"` sui link (riga 362) e sul bottone Esci (riga 345), più `role=\"none\"` (342, 361) e `role=\"separator\"` (341). Ma il pattern ARIA menu impone frecce di navigazione, roving tabindex e chiusura con Esc: grep di `Escape|onKeyDown` su tutto `Navbar.tsx` = zero risultati, il fuoco non entra nel menu all'apertura, e la chiusura avviene solo su `mousedown` fuori (righe 269-276) o al cambio di pathname (riga 268). Con `role=\"menuitem\"` gli screen reader passano in modalità applicazione, dove le frecce non navigano più il contenuto come normali link. Severità corretta al ribasso rispetto al report originale: le voci restano comunque raggiungibili col Tab (il pannello è subito dopo il trigger nel DOM) e il menu si chiude cliccando fuori o navigando, quindi il difetto è attrito e ARIA scorretta, non irraggiungibilità. WCAG 4.1.2 (A), 2.1.1 (A).",
       "impatto": "Un utente NVDA apre il menu account, preme la freccia giù come gli suggerisce il ruolo dichiarato, e non succede nulla; Esc non chiude. Deve ripiegare sul Tab. È il menu da cui si arriva ai propri ordini e al logout: fastidio ripetuto a ogni accesso, non blocco.",
       "fix": "@frontend-dev. La strada giusta e più economica è togliere l'ARIA sbagliata: rimuovere `role=\"menu\"` (337), `role=\"menuitem\"` (345, 362), `role=\"none\"` e `role=\"separator\"`, lasciando un `<ul>` di `<li>` con `<Link>` normali, e portare il trigger a `aria-haspopup=\"true\"`. Aggiungere comunque un listener `keydown` per `Escape` che chiude e riporta il fuoco sul trigger, più la chiusura su `focusout` del contenitore. Se invece si vuole tenere `role=\"menu\"`, va implementato tutto il pattern (frecce su/giù, Home/End, roving tabindex, Esc): più costoso e senza benefici qui.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "accessibilita",
@@ -1962,7 +2020,8 @@
       "descrizione": "VERIFICATO uno per uno con grep mirato su `role=\"dialog\"|aria-modal|Escape|aria-describedby`. ① `components/AddToListButton.tsx:123`: `<div className=\"fixed inset-0 z-50 bg-black/40 …\">` senza `role=\"dialog\"`, senza `aria-modal`, senza Escape, senza focus trap — ed è montato sulla scheda prodotto (`app/product/[id]/page.tsx:582`, verificato). ② `components/SupportChatModal.tsx:82-85`: ha `role=\"dialog\"` e `aria-modal` ma nessuna gestione di Escape (grep = 0) e nessun trap. ③ `components/MobileAccountSheet.tsx:61`: ha dialog + aria-modal + Escape (riga 44) ma nessun focus trap. ④ `components/ConfirmDialog.tsx`: ottimo su quasi tutto — `role=\"dialog\"`, `aria-modal`, `aria-labelledby=\"confirm-title\"` (righe 114-116), Escape (riga 82), scroll lock (righe 85-90), con un commento che spiega bene perché Invio non conferma — ma manca il focus trap sul Tab, manca il ripristino del fuoco alla chiusura, e il messaggio (riga 144) non è collegato via `aria-describedby`. WCAG 4.1.2 (A), 2.1.1 (A), 2.4.3 (A).",
       "impatto": "In tutti i casi l'utente da tastiera può uscire dal dialogo col Tab e ritrovarsi a navigare la pagina sottostante mentre l'overlay copre lo schermo — e dove c'è `aria-modal=\"true\"` lo screen reader non annuncia più nulla, perché sta ignorando tutto ciò che è fuori dal dialogo. Nessuno di questi sta sul percorso di pagamento, quindi non blocca l'acquisto: è la stessa classe di difetto ripetuta quattro volte, segno che manca la regola, non la conoscenza.",
       "fix": "@frontend-dev. Migrare tutti e quattro su `components/ui/Modal.tsx` (che dopo il fix del suo focus trap li copre interamente): è meno codice da mantenere, non di più. Dove la migrazione non è immediata (SupportChatModal ha un layout proprio), aggiungere almeno il listener Esc e il ritorno del fuoco al trigger. In `ConfirmDialog.tsx` aggiungere `aria-describedby=\"confirm-message\"` sul contenitore e `id=\"confirm-message\"` sul `<p>` di riga 144, più il ciclo del Tab tra i due bottoni. Leva di sistema: vale la regola di lint proposta nel finding sul Modal.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "accessibilita",
@@ -2076,7 +2135,8 @@
       "descrizione": "VERIFICATO APRENDO I FILE. Quando si sceglie un indirizzo salvato, il form riceve anche `lat`/`lng` (riga 300). `handleChange` aggiorna solo il campo toccato e non azzera mai le coordinate; la ri-geocodifica avviene solo `if (deliveryLat == null || deliveryLng == null)` (riga 383), quindi non scatta mai su un indirizzo modificato a mano. Lato server, per il prezzo, le coordinate si cercano fra gli indirizzi salvati confrontando via, città e CAP normalizzati con un uguale esatto (`coordinateDaIndirizziSalvati`): se la persona ha cambiato anche una sola di quelle stringhe il confronto fallisce, `coordConsegna` è null e la spedizione ricade sulla tariffa fissa di 4,90. Ma per SCRIVERE le coordinate sull'ordine il ripiego è `coordConsegna?.lat ?? body.delivery.lat`, cioè proprio le coordinate vecchie rimaste nel form. Passi: 1) account con un indirizzo salvato in via Roma; 2) checkout, l'indirizzo si precompila; 3) cambi la via in «via Manzoni 12» perché consegni dalla nonna; 4) ordini. Atteso: prezzo e mappa riferiti a via Manzoni. Reale: il prezzo mostrato resta calcolato sulla distanza di via Roma, quello addebitato diventa la tariffa fissa, e sull'ordine finiscono le coordinate di via Roma col testo «via Manzoni 12». Anche `rider_fee_cents` viene calcolato sulle coordinate sbagliate (cod/route.ts:361-366).",
       "impatto": "Il fattorino apre la mappa e viene guidato a un indirizzo diverso da quello scritto: consegna in ritardo o mancata, telefonate, merce da riportare indietro. In più il cliente vede un prezzo di consegna e ne paga un altro.",
       "fix": "In `handleChange` azzerare `lat`/`lng` appena cambia uno fra `address`, `city` o `zip`, e ri-geocodificare (via /api/geocode) prima di mostrare il prezzo di consegna. Lato server, non usare mai `body.delivery.lat/lng` come ripiego per scrivere `delivery_lat/lng`: se le coordinate affidabili non ci sono, scrivere NULL e geocodificare lato server. Caso di regressione: indirizzo salvato modificato a mano → le coordinate salvate sull'ordine corrispondono al testo dell'indirizzo.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "qa-flussi",
@@ -2166,7 +2226,9 @@
       "impatto": "Nessuno puo' completare il doppio consenso alla newsletter: il link di conferma non arriva all'app. La disiscrizione con un clic — obbligo GDPR e requisito Gmail/Yahoo per chi invia in volume — non funziona, e il pulsante «Annulla iscrizione» del client di posta riceve un 500. Effetto a catena: reclami di spam, reputazione di invio in calo e a rischio finiscono anche le conferme d'ordine, che sono le email che contano davvero.",
       "fix": "Eliminare NEXT_PUBLIC_SITE_URL e usare ovunque `env.appUrl()` (lib/env.ts:73), che ha gia' il ripiego. Test di regressione: (1) chiamare GET /api/unsubscribe?token=... e verificare stato 307 con Location assoluto, non 500; (2) verificare che `linkDisiscrizione()` produca un URL assoluto sullo stesso host di `env.appUrl()`.",
       "file": "app/api/unsubscribe/route.ts:13,17,37 · app/api/newsletter/confirm/route.ts:15,18,31,32 · app/api/newsletter/route.ts:83 · lib/email/unsubscribe.ts:58 · render.yaml:106",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Verificato nel codice il 20/8: era gia stato riparato nel lotto del 19 agosto, il referto del 18 non lo sapeva."
     },
     {
       "dimensione": "api-backend",
@@ -2177,7 +2239,8 @@
       "impatto": "Un coupon a tiratura limitata (per esempio 100 usi) si esaurisce contando anche i tentativi finiti in errore. Il cliente che riprova legge «Coupon non disponibile: potrebbe essere esaurito nel frattempo» pur non avendo comprato nulla, e il negozio perde la vendita. La campagna promozionale risulta consumata senza ordini corrispondenti.",
       "fix": "Estrarre `rilasciaCoupon(code)` e chiamarlo in ogni uscita di errore successiva al claim, con try/finally sull'intero blocco dopo `claim_coupon`. Sul percorso contanti aggiungerlo dentro `rollbackCreatedCodOrders` accanto a restore_stock/wallet_credit. Meglio ancora: spostare il claim dentro la stessa funzione SQL che riserva la merce, cosi' o passano entrambi o nessuno dei due. Test: simulare reserve_stock in errore e verificare che il contatore d'uso del coupon torni al valore di partenza.",
       "file": "app/api/stripe/checkout/route.ts:272,379-386,416-420,456 · app/api/orders/cod/route.ts:224,261-279,301-317,394-407,421-437",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "api-backend",
@@ -2188,7 +2251,8 @@
       "impatto": "Il cliente clicca due volte, o la rete ritenta, e riceve due ordini identici: il negozio prepara merce doppia, lo stock viene decrementato due volte creando una rottura fittizia, e se ha usato il credito MyCity il portafoglio viene addebitato due volte.",
       "fix": "Accettare un header `Idempotency-Key` generato dal client per tentativo di checkout, persisterlo in `cod_checkout_attempts(key PRIMARY KEY, user_id, order_ids, created_at)` e restituire gli `orderIds` gia' creati se la chiave esiste. In alternativa creare un `pending_checkout` anche per il contante e riusare il vincolo unico esistente. Spostare inoltre email e notifiche fuori dal percorso sincrono, cosi' la risposta torna in centinaia di millisecondi e la finestra si chiude quasi del tutto.",
       "file": "app/api/orders/cod/route.ts:70-498 · migrations/042_multi_seller_checkout.sql:111-115",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "api-backend",
@@ -2225,7 +2289,9 @@
       "impatto": "`restore_stock` eseguito due volte sugli stessi articoli: lo stock a sistema diventa piu' alto di quello reale. Si vendono pezzi che non ci sono, il negozio deve annullare l'ordine e il cliente riceve un rimborso al posto della merce. Anche il coupon viene restituito due volte, gonfiando la tiratura della promozione.",
       "fix": "Sostituire lettura-poi-scrittura con la rivendicazione atomica gia' usata dal cron: `update({status:'EXPIRED'}).eq('id', pid).eq('status','PENDING').select('id')`; procedere con restore_stock e release_coupon SOLO se sono tornate righe, e lanciare in caso di errore cosi' Stripe ritenta. Estrarre la logica in una funzione unica condivisa fra webhook e cron: oggi la stessa regola e' scritta due volte in due modi diversi.",
       "file": "app/api/stripe/webhook/route.ts:960-984 · app/api/cron/expire-checkouts/route.ts:27-64 · lib/stripe/client.ts:181-186",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Verificato nel codice il 20/8: era gia stato riparato nel lotto del 19 agosto, il referto del 18 non lo sapeva."
     },
     {
       "dimensione": "api-backend",
@@ -2236,7 +2302,8 @@
       "impatto": "Stripe segna consegne fallite e ritenta; con fallimenti ripetuti disabilita l'endpoint. A endpoint disabilitato gli ordini pagati non vengono piu' creati: il cliente paga e non riceve nulla, e il negozio non sa che c'e' un ordine. E' il guasto piu' costoso possibile su questo sistema.",
       "fix": "Rispondere 200 subito dopo aver registrato l'evento e creato gli ordini, spostando email e notifiche in coda (`email_queue`/`notifications`) lavorata dal cron; in alternativa lanciarle senza await con `void Promise.allSettled([...])` dopo aver marcato l'evento come lavorato. In ogni caso aggiungere un timeout esplicito a `sendEmail` (AbortSignal.timeout(5000)) e registrare in log il tempo di risposta del webhook per vedere quanto si e' vicini al limite.",
       "file": "app/api/stripe/webhook/route.ts:38-140,266-460 · lib/email/client.ts:76-88",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "api-backend",
@@ -2260,7 +2327,8 @@
       "impatto": "Ogni utente cancellato dal pannello lascia per sempre nel secchio privato la carta d'identita' fronte e retro, il selfie, la patente e la polizza del fattorino. E' conservazione di dati particolarmente sensibili oltre lo scopo, proprio nel momento in cui si sta esercitando il diritto alla cancellazione (art. 17 GDPR). Restano anche recensioni e messaggi con dati personali in chiaro.",
       "fix": "Estrarre un modulo unico `lib/account/cancellazione.ts` con l'intera pipeline (anonimizza profilo + KYC completo, anonimizza testo libero, cancella i file dallo storage, elimina l'utente auth) e farlo chiamare da entrambe le route piu' da /api/account/delete. Test: dato un utente con file nei due secchi, dopo la cancellazione `storage.list(userId)` deve essere vuoto su entrambi i percorsi.",
       "file": "app/api/admin/users/[id]/delete/route.ts:37-55,83-106 · app/api/cron/process-deletions/route.ts:48-123,218-238",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "api-backend",
@@ -2271,7 +2339,8 @@
       "impatto": "Sparisce per sempre la prova dei rimborsi emessi e delle decisioni prese sui resi: scritture con rilevanza contabile, che vanno conservate ben oltre la vita dell'account. Se dopo la cancellazione arriva una contestazione, il fascicolo interno non c'e' piu'. Ed e' una perdita silenziosa: il codice sembra conservare, lo schema cancella.",
       "fix": "Migrazione che porta `returns.buyer_id`, `returns.seller_id`, `conversations.buyer_id` e `conversations.seller_id` da ON DELETE CASCADE a ON DELETE SET NULL, rendendo le colonne nullable, coerentemente con quanto gia' fatto su `orders`. Preparare lo script con il rollback e provarlo su copia. Test: dopo `deleteUser` le righe di `returns` devono esistere ancora e risultare anonime.",
       "file": "migrations/024_blockers_money_kyc_returns_cash.sql:78-81 · migrations/026_chat_messaging.sql:12-14 · migrations/001_create_tables.sql:4,29 · app/api/cron/process-deletions/route.ts:221-241",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "api-backend",
@@ -2282,7 +2351,8 @@
       "impatto": "Un utente autenticato (o chiunque, su /api/track, che accetta 120 richieste al minuto per indirizzo) puo' mandare un corpo da centinaia di megabyte e far esaurire la memoria del processo Node: il container viene ucciso e riavviato, e il marketplace resta irraggiungibile per tutti. Su /api/track si puo' anche gonfiare la tabella activity_events con oggetti arbitrari.",
       "fix": "Leggere il corpo in modo incrementale con un tetto reale, riusando il pattern gia' scritto in casa: `leggiConTetto` (lib/products/rehostImages.ts:60-85) interrompe la lettura appena si supera il limite. Estrarre un helper `leggiCorpoConTetto(req, maxBytes)` e usarlo in tutte le route che accettano file o JSON grandi. Su /api/track aggiungere un limite di byte su `metadata` (per esempio 2 KB) dopo la serializzazione.",
       "file": "app/api/kyc/upload-document/route.ts:39-54 · app/api/image/remove-bg/route.ts:59-72 · app/api/track/route.ts:65-94,142 · middleware.ts (matcher finale)",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "api-backend",
@@ -2306,7 +2376,9 @@
       "impatto": "Si accumulano conti Connect Express vuoti e non collegati a nessun profilo, ciascuno con l'email del venditore: sporcizia nella dashboard Stripe, riconciliazione piu' difficile e un dato personale conservato senza titolare.",
       "fix": "Passare una chiave di idempotenza stabile a `accounts.create`, per esempio `{ idempotencyKey: 'connect_' + sellerId }`: Stripe restituira' sempre lo stesso conto invece di crearne uno nuovo. In alternativa salvare `stripe_account_id` sul profilo subito dopo la creazione del conto e prima di generare il link. Aggiungere uno script di riconciliazione che elenchi i conti Connect senza profilo corrispondente.",
       "file": "lib/stripe/client.ts:233-253 · app/api/stripe/connect/onboarding/route.ts:35-52 · app/api/stripe/connect/rider-onboarding/route.ts:34-47",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Verificato nel codice il 20/8: era gia stato riparato nel lotto del 19 agosto, il referto del 18 non lo sapeva."
     },
     {
       "dimensione": "api-backend",
@@ -2473,7 +2545,8 @@
       "impatto": "Oggi nessuno in azienda può rispondere alla domanda «quanto abbiamo speso di AI questo mese e per cosa»: il dato non viene nemmeno scritto. Senza quel numero, il tetto del punto precedente non si può nemmeno tarare, e un consumo anomalo si scopre con la fattura. È un costo variabile su un servizio esterno, tenuto al buio.",
       "fix": "① Scrivere la spesa dove resta: una tabella ai_usage (feature, model, token, € stimati, seller_id) invece di una riga di log spenta — oppure, come minimo immediato, impostare LOG_LEVEL=info in render.yaml e portare 'ai_usage' a logger.warn così non dipende dal livello. ② Far passare anche il batch da un percorso che registri costo e budget: stimare a priori (n_prodotti × max_tokens) e verificare il budget PRIMA di inviare, poi registrare i token reali allo stream dei risultati. ③ Aggiungere a AiUsageTokens un campo webSearchRequests letto da response.usage.server_tool_use?.web_search_requests e sommarlo in estimateCostEur con la tariffa per ricerca, versionata accanto a PRICE_PER_MTOK.",
       "file": "/home/user/ad-mycity/marketplace/lib/ai/run.ts:200-214 · /home/user/ad-mycity/marketplace/lib/logger.ts:78-80 · /home/user/ad-mycity/marketplace/render.yaml:55-56 · /home/user/ad-mycity/marketplace/lib/ai/batch.ts:51-66 · /home/user/ad-mycity/marketplace/app/api/ai/catalog-batch/status/route.ts:67-79 · /home/user/ad-mycity/marketplace/lib/ai/client.ts:49-71",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "ai-endpoints",
@@ -2484,7 +2557,8 @@
       "impatto": "Se domani un prezzo risulta sbagliato o un prodotto sparisce dalla vetrina, non è ricostruibile chi l'ha fatto (venditore a mano, copilot, job massivo), quando, né quale fosse il valore prima. Toglie la possibilità di fare il post-mortem, di quantificare il danno e di tornare indietro — ed è esattamente ciò che rende irreversibile il difetto bloccante qui sopra.",
       "fix": "Poiché il buco è su tutta la tabella, la soluzione a costo minore è a livello database: un trigger AFTER UPDATE/INSERT su products che scrive riga vecchia + riga nuova + auth.uid() in una tabella products_history. In aggiunta, una riga writeAudit nelle quattro route AI con actorId = user.id, action product.update/product.create, targetId e metadata { before, after, origine: 'ai-copilot' | 'ai-batch:improve' | 'vision-create' }: è best-effort e non blocca la richiesta (lib/audit.ts:42). Con il valore precedente salvato diventa possibile anche un pulsante «annulla le ultime modifiche AI», oggi impossibile.",
       "file": "/home/user/ad-mycity/marketplace/app/api/ai/catalog-apply/route.ts:73-79 · /home/user/ad-mycity/marketplace/app/api/ai/catalog-batch/apply/route.ts:76-81,105-110 · /home/user/ad-mycity/marketplace/app/api/ai/catalog-create/route.ts:76-80 · /home/user/ad-mycity/marketplace/app/api/ai/catalog-create-bulk/route.ts:85-88 · /home/user/ad-mycity/marketplace/lib/audit.ts:17-18,42",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "ai-endpoints",
@@ -2495,7 +2569,8 @@
       "impatto": "Il gate dà una falsa sensazione di copertura a chi lo legge: sembra che il marketplace filtri i prodotti vietati, in realtà filtra solo chi passa dalla creazione-da-foto. Chi progetta il prossimo pezzo può darlo per acquisito e costruirci sopra.",
       "fix": "Rieseguire la classificazione lato server dentro catalog-create e catalog-create-bulk prima dell'insert, su nome+descrizione+categoria: la funzione esiste già ed è pronta, classifyProductPolicy in lib/ai/moderation.ts:93 (che nega correttamente in caso di verdetto mancante). Su verdetto negativo rispondere 400 con il motivo, come fa extract-product. Costa una chiamata Haiku da 128 token per prodotto. Nota di sistema: se l'obiettivo è filtrare davvero il catalogo, il controllo va messo alla pubblicazione (passaggio a status 'available'), non solo sui percorsi AI.",
       "file": "/home/user/ad-mycity/marketplace/app/api/ai/catalog-create/route.ts:47-85 · /home/user/ad-mycity/marketplace/app/api/ai/catalog-create-bulk/route.ts:51-97 · /home/user/ad-mycity/marketplace/app/api/vision/extract-products/route.ts:282 · /home/user/ad-mycity/marketplace/components/seller/BulkPhotoCreate.tsx:123",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "ai-endpoints",
@@ -2506,7 +2581,8 @@
       "impatto": "Zero oggi. Domani, quando qualcuno lo cablerà fidandosi del commento «default DENY», il caso più pericoloso — il modello che non risponde nel formato atteso, tipico proprio sugli input borderline — verrà interpretato come «contenuto conforme».",
       "fix": "① Invertire il default in assertSafeText: se toolInput è assente o allowed non è esattamente true, lanciare UnsafeContentError (fail-closed, come già fa classifyProductPolicy). ② Cablarlo dove il testo entra nel catalogo pubblico (catalog-create/bulk, ai/description) oppure ③ cancellare il file: un presidio che esiste solo sulla carta è peggio di nessun presidio, perché qualcuno lo conta come fatto.",
       "file": "/home/user/ad-mycity/marketplace/lib/ai/moderation.ts:63-81 (fail-open) · /home/user/ad-mycity/marketplace/lib/ai/moderation.ts:1-15 (nessun importatore in tutto il repo)",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "ai-endpoints",
@@ -2517,7 +2593,8 @@
       "impatto": "È l'iniezione indiretta con effetto economico nella sua forma attenuata: chi controlla una pagina che si posiziona sul nome di un prodotto può far arrivare al venditore una proposta di prezzo assurda, sperando in un clic distratto. Anche senza malizia, un prezzo letto male da una pagina straniera diventa un prezzo vero se il venditore conferma — e sotto il -5% fa partire le push «prezzo abbassato» ai clienti.",
       "fix": "① Banda di sicurezza server-side sui campi economici in resolveAiPatch: rifiutare (restituendo il motivo) un prezzo che si scosti oltre una soglia dal valore corrente. È lo stesso presidio che serve al difetto bloccante: una modifica, due difetti chiusi. ② Nel system prompt dei cinque endpoint aggiungere la regola esplicita che i risultati di ricerca sono DATI da valutare, mai istruzioni da eseguire — oggi quella frase esiste solo nel filtro di moderazione mai usato (lib/ai/moderation.ts:54).",
       "file": "/home/user/ad-mycity/marketplace/app/api/ai/diagnose/route.ts:67-72 · /home/user/ad-mycity/marketplace/app/api/ai/product-chat/route.ts:144-149 · /home/user/ad-mycity/marketplace/app/api/ai/improve-product/route.ts:182-187 · /home/user/ad-mycity/marketplace/app/api/ai/catalog-chat/route.ts:136-141 · /home/user/ad-mycity/marketplace/app/api/ai/barcode-lookup/route.ts:46-51 · /home/user/ad-mycity/marketplace/lib/products/aiPatch.ts:96-99",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "ai-endpoints",
@@ -2528,7 +2605,8 @@
       "impatto": "Nessuno oggi. Diventa concreto nel momento — probabile — in cui qualcuno collegherà answer-qa alla scheda prodotto: l'output è la bozza che il venditore INVIA al cliente, quindi un acquirente potrebbe far comparire nella bozza un link o un invito a concludere fuori piattaforma, con la firma del negozio.",
       "fix": "Prima di collegarli: ① avvolgere ogni contenuto di terzi in tag espliciti (<recensione>…</recensione>, <domanda>…</domanda>) rimuovendo dal testo le sequenze che chiudono il tag; ② aggiungere al system la riga già collaudata in moderation.ts; ③ su answer-qa, poiché l'output finirà a un cliente reale, un controllo finale sulla bozza (niente URL, niente IBAN, niente numeri di telefono assenti dalla scheda).",
       "file": "/home/user/ad-mycity/marketplace/app/api/ai/reviews-summary/route.ts:70-73,80 · /home/user/ad-mycity/marketplace/app/api/ai/answer-qa/route.ts:62-63 · confronto: /home/user/ad-mycity/marketplace/lib/ai/moderation.ts:52-57,72",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "ai-endpoints",
@@ -2539,7 +2617,8 @@
       "impatto": "Con il tetto di spesa disattivato (difetto sul budget), un account venditore può moltiplicare di due ordini di grandezza il costo delle proprie chiamate rispetto all'uso normale: 25 chiamate/ora su Sonnet in product-chat, 20 in improve-product. Sono anche gli unici punti in cui il numero di token dipende da un input che non è nostro.",
       "fix": "Usare buildProductContext anche in product-chat e improve-product invece di reimplementarlo: è la sorgente unica ed è già testata. Aggiungere lì (e quindi ovunque) i tagli mancanti: attributeSchema.slice(0, 40), topCategories.slice(0, 30). In ai/description tagliare anche name (es. 200 caratteri) e category (es. 100).",
       "file": "/home/user/ad-mycity/marketplace/app/api/ai/product-chat/route.ts:193,201-206,208 · /home/user/ad-mycity/marketplace/app/api/ai/improve-product/route.ts:235,252-257,260 · /home/user/ad-mycity/marketplace/app/api/ai/description/route.ts:70-73 · confronto: /home/user/ad-mycity/marketplace/lib/ai/productContext.ts:37-54",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "ai-endpoints",
@@ -2550,7 +2629,9 @@
       "impatto": "Superficie di spesa che nessuno sorveglia, perché nessuno si aspetta traffico su un endpoint che l'interfaccia non usa. Con la telemetria spenta (difetto sulla spesa) un abuso lì resterebbe invisibile a tempo indeterminato.",
       "fix": "Scegliere: o si disattivano finché non c'è la schermata che li usa, o si legano ai dati reali. Per reviews-summary in particolare: accettare in ingresso un productId/sellerId e caricare le recensioni dal database con verifica di proprietà, invece di fidarsi del testo del client — così l'endpoint può fare solo il lavoro per cui esiste. Per answer-qa: collegarlo alla funzione Domande e risposte che già esiste (components/ProductQA.tsx), che è la ragione per cui è stato scritto.",
       "file": "/home/user/ad-mycity/marketplace/app/api/ai/answer-qa/route.ts (nessun chiamante) · /home/user/ad-mycity/marketplace/app/api/ai/reviews-summary/route.ts:19-20,67-73 (nessun chiamante)",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Riparato il lato che contava: reviews-summary non accetta piu il testo dal client e verifica che il prodotto sia del venditore che chiede. answer-qa resta senza una schermata che lo usi (e ora recintato e limitato): il collegamento alla funzione Domande e risposte e una scelta di prodotto, non un difetto."
     },
     {
       "dimensione": "ai-endpoints",
@@ -2561,7 +2642,8 @@
       "impatto": "Il tetto si azzera a ogni riavvio o deploy e si moltiplica per il numero di istanze: chi vuole spendere di più deve solo aspettare un deploy. Il limite dichiarato nel codice (6 chiamate / 10 min su extract-products) non è quello che il sistema applica davvero.",
       "fix": "Sostituire rateLimit(...) con await rateLimitAsync(...) nei due file: la firma è identica, la funzione ricade da sola su in-memory se Upstash non è configurato (lib/rate-limit.ts:143-150), nessun altro comportamento cambia.",
       "file": "/home/user/ad-mycity/marketplace/app/api/vision/extract-products/route.ts:168 · /home/user/ad-mycity/marketplace/app/api/vision/photo-order/route.ts:61 · confronto: /home/user/ad-mycity/marketplace/lib/rate-limit.ts:126-150",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "ai-endpoints",
@@ -2572,7 +2654,8 @@
       "impatto": "Un errore tecnico invisibile diventa un dato di vendita sbagliato, e l'unico modo di accorgersene è che qualcuno riguardi la bozza. Se viene pubblicata così, si vende a 1 euro qualcosa che ne vale trenta.",
       "fix": "① In runMessage alzare l'eccezione (o restituire un flag esplicito) quando stop_reason vale 'max_tokens' o 'refusal', e nelle route rispondere con un errore chiaro invece di usare un output parziale. ② In buildDraftProductInsert non inventare un fallback silenzioso sul prezzo: lasciare il campo vuoto e obbligare il venditore a compilarlo prima di pubblicare. ③ In parseCatalogBatchEntry, verdetto di moderazione mancante = flagged (fail-closed), coerente con il resto.",
       "file": "/home/user/ad-mycity/marketplace/lib/ai/run.ts:50,219 (mai letto) · /home/user/ad-mycity/marketplace/app/api/vision/extract-product/route.ts:270 · /home/user/ad-mycity/marketplace/lib/products/draftFromVision.ts:102-107 · /home/user/ad-mycity/marketplace/lib/ai/catalogBatch.ts:165",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "ai-endpoints",
@@ -2583,7 +2666,8 @@
       "impatto": "Costo pagato per lavoro non nostro, schede prodotto con foto che un domani mostrano qualcos'altro (o niente) perché vivono su un server che non controlliamo, e l'host esterno che vede l'indirizzo IP di ogni cliente che apre la scheda.",
       "fix": "Applicare in sanitizeImageUrls (e far passare da lì anche gli altri quattro punti) la stessa lista di host di next.config.js: accettare solo l'host dello Storage Supabase del progetto. In catalog-create/catalog-create-bulk rifiutare l'insert se una foto non è ospitata da noi, oppure ricaricarla sullo Storage con il percorso già esistente (lib/products/rehostImages.ts).",
       "file": "/home/user/ad-mycity/marketplace/lib/ai/productContext.ts:23-27,68-70 · /home/user/ad-mycity/marketplace/app/api/ai/catalog-create/route.ts:60 · /home/user/ad-mycity/marketplace/lib/products/draftFromVision.ts:118 · /home/user/ad-mycity/marketplace/components/ProductCard.tsx:130-139 · confronto: /home/user/ad-mycity/marketplace/next.config.js:32-50",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "ai-endpoints",
@@ -2594,7 +2678,8 @@
       "impatto": "Appena qualcuno aggiungerà la memoria della conversazione al copilot — la cosa naturale da fare — il copilota risponderà al messaggio sbagliato, e chi chiama l'API a mano potrà mettere in bocca al modello frasi che non ha detto per indirizzare le modifiche proposte sul catalogo. È una mina innescata, non un incendio in corso.",
       "fix": "Allineare copilot alle altre due chat: normalizzare la cronologia (scartare i turni iniziali non-utente, rifiutare se l'ultimo non è dell'utente) e mettere l'istruzione corrente come ULTIMO messaggio, con il contesto del catalogo come primo.",
       "file": "/home/user/ad-mycity/marketplace/app/api/ai/copilot/route.ts:117-125 · confronto: /home/user/ad-mycity/marketplace/app/api/ai/catalog-chat/route.ts:185-188 e /home/user/ad-mycity/marketplace/app/api/ai/product-chat/route.ts:187-191",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "ai-endpoints",
@@ -2605,7 +2690,8 @@
       "impatto": "Chiamate a vuoto verso servizi a consumo e un errore generico mostrato al venditore («Errore nel servizio AI») al posto di un messaggio chiaro sul file sbagliato. Effetto piccolo, ma è spesa reale per un input che potevamo scartare noi.",
       "fix": "Validare l'intera stringa (una regex su 7 MB costa niente rispetto a una chiamata di rete a pagamento), oppure sostituire la regex con una decodifica reale del buffer più il controllo dei primi byte (magic number) per verificare che il tipo dichiarato corrisponda al contenuto. Già che si tocca: spostare la costante e il controllo in un'unica funzione condivisa invece di tre copie.",
       "file": "/home/user/ad-mycity/marketplace/app/api/vision/extract-product/route.ts:188,250 · /home/user/ad-mycity/marketplace/app/api/vision/extract-products/route.ts:133,184 · /home/user/ad-mycity/marketplace/app/api/image/remove-bg/route.ts:28,67",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "ai-endpoints",
@@ -2616,7 +2702,8 @@
       "impatto": "Oggi i prodotti importati sono pochi, quindi la spesa è piccola. Ma è l'unico punto in cui chi non ha un account può far spendere soldi a MyCity, e cresce linearmente con il catalogo importato: va tenuto d'occhio prima che il numero di prodotti lo renda interessante.",
       "fix": "Aggiungere un limite per IP sul GET (es. 30 richieste/minuto) usando getClientIp già disponibile in lib/rate-limit.ts:171, e far dipendere il refresh in background dal tetto globale di spesa una volta acceso: se il budget è oltre soglia, servire solo la cache senza rinfrescare.",
       "file": "/home/user/ad-mycity/marketplace/app/api/products/[id]/external-refresh/route.ts:69-101 · /home/user/ad-mycity/marketplace/lib/products/externalSync.ts:169-177 · /home/user/ad-mycity/marketplace/lib/products/externalSyncShared.ts:11",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2638,7 +2725,8 @@
       "descrizione": "VERIFICATO, ed e' un errore certo, non ipotetico. Il commento del checkout (righe 399-401) dichiara che gli importi li ricalcola il server e che «il client invia solo prodotti+quantita'... nessun importo»; infatti /api/orders/cod risponde `{ orderIds: createdOrderIds }` e basta (riga 498), nessun totale. Nonostante questo l'evento manda `Math.round(grandTotal * 100)` (riga 436). Il punto certo: riga 363 `grandTotal` e' il totale PRIMA del credito wallet, riga 367-368 `creditApplied`/`finalTotal` e' quello che il cliente paga davvero, e lato server la riga 335 di /api/orders/cod scrive `totalCents = grossTotalCents - walletAppliedCents` nell'ordine. L'evento usa `grandTotal`, l'ordine porta `finalTotal`: non torneranno mai. Sul percorso carta la riga 522 mette in sessionStorage lo stesso `grandTotal` (li' il wallet non si applica, ma resta un importo calcolato dal browser e mai riconciliato col totale ricalcolato dal server).",
       "impatto": "Il fatturato in PostHog e GA4 e' piu' alto di quello reale di tutto il credito wallet speso, e non riconcilia con `orders.total_price`. Chi guarda il ROI vede ricavi che in cassa non ci sono. Il credito wallet e' proprio la leva che si vuole misurare: viene contato due volte, come costo e come ricavo.",
       "fix": "Far tornare al client l'importo autorevole: /api/orders/cod risponde `{ orderIds, totals: [{orderId, totalCents}] }`; per la carta leggere `total_price` dalla riga `orders` recuperata via `stripe_session_id` (la query esiste gia' in app/orders/page.tsx:96-101). L'evento usa quel numero, mai `grandTotal`. Toppa immediata a costo zero: sostituire `grandTotal` con `finalTotal` alle righe 436 e 522.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2649,7 +2737,8 @@
       "descrizione": "VERIFICATO in tutti e quattro i punti, che usano la stessa formula sbagliata: `d.setDate(1); d.setHours(0,0,0,0); d.toISOString().slice(0,10)`. E' la mezzanotte del primo del mese in ora LOCALE convertita in UTC: a Piacenza siamo sempre a UTC+1 o +2, quindi il risultato scivola sempre al giorno prima (1 agosto 2026 ore 00:00 italiane = 2026-07-31T22:00Z, chiave '2026-07-31'). Il voto viene salvato con quel `month` (riga 110). La vista `shop_of_month_leaderboard` invece unisce su `v.month = DATE_TRUNC('month', now())::date`, che in Postgres vale '2026-08-01' (migrazione righe 58 e 62). Le due chiavi non coincidono mai. Conseguenza a valle confermata: poiche' anche la pagina admin scrive la chiave scivolata, la riga 146 stampa `new Date('2026-07-31')` → «luglio 2026» sotto la scelta della redazione mentre siamo ad agosto.",
       "impatto": "La classifica del negozio del mese mostra 0 voti per tutti, ogni mese, per sempre — e nessuno capisce perche', visto che i voti si salvano senza errore e la persona vede «Voto registrato — grazie!». La pagina scrive anche il mese sbagliato. In piu' il vincolo UNIQUE (voter_id, month) non protegge davvero: due dispositivi con fuso diverso generano due chiavi diverse, quindi due voti nello stesso mese.",
       "fix": "Non costruire mai chiavi di data con `toISOString()` partendo da un orario locale. Formattazione locale esplicita: `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-01`. Meglio: togliere il calcolo dal browser e mettere sulla colonna `shop_of_month_votes.month` un DEFAULT `DATE_TRUNC('month', now())::date`, cosi' chi scrive e chi legge usano per forza lo stesso orologio. Prima del rilascio verificare se esistono gia' voti con la chiave scivolata (backfill = firma di Nicola).",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2660,7 +2749,8 @@
       "descrizione": "VERIFICATO. `lib/analytics/events.ts` e' una facciata doppia: ogni evento di commercio va a PostHog e in parallelo a GA4 coi nomi standard (view_item, add_to_cart, begin_checkout, purchase con la lista articoli, add_shipping_info, add_payment_info, search). Ma render.yaml, che e' il blueprint da cui si deploya, dichiara `NEXT_PUBLIC_POSTHOG_KEY` e `NEXT_PUBLIC_POSTHOG_HOST` e NON dichiara `NEXT_PUBLIC_GA_MEASUREMENT_ID`: zero occorrenze nel file (grep eseguito su tutto il repo, la variabile compare solo in .env.example, lib/env.ts e GoogleAnalytics.tsx). E' una variabile `NEXT_PUBLIC_`, quindi viene incastonata nel bundle al momento della build: se non c'e' al build, `GA_ID` e' stringa vuota, il componente restituisce `null` alla riga 63, `window.gtag` non viene mai definito e la funzione `ga()` esce subito. LIMITE DELLA VERIFICA: da qui vedo il repo, non il pannello Render — la variabile potrebbe essere stata aggiunta a mano al servizio. Va confermato guardando le env del servizio o GA4 DebugView; il difetto nel blueprint resta comunque reale.",
       "impatto": "Se la variabile non e' stata messa a mano, tutto il lavoro sul lato GA4 — compreso il «Fix #16» che aggiunge gli articoli dentro `purchase` per abilitare i report prodotto — produce zero dati. Chi apre GA4 vede un sito senza commercio elettronico, e chi legge il codice crede che i dati ci siano: e' peggio di non averlo mai scritto, perche' induce a fidarsi di una fonte vuota.",
       "fix": "Decidere una cosa sola. O GA4 serve: si aggiunge `- key: NEXT_PUBLIC_GA_MEASUREMENT_ID` con `sync: false` in render.yaml e si verifica in DebugView che `purchase` arrivi. Oppure non serve: si tolgono la funzione `ga()` da events.ts e il componente GoogleAnalytics, cosi' il codice dice la verita'. Raccomandazione: tenere solo PostHog finche' non c'e' spesa pubblicitaria su Google, e togliere il codice morto.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2671,7 +2761,8 @@
       "descrizione": "VERIFICATO. Sia il contrassegno sia la carta creano N righe in `orders`, una per negozio: nel webhook Stripe il ciclo `for (const g of groups)` alla riga 280 inserisce un ordine per gruppo (riga 293-296), e /api/orders/cod fa lo stesso accumulando in `createdOrderIds`. Il tracciamento invece emette UN solo `order_placed`, sul primo id (`createdOrders[0]`, riga 435) e con `seller_id: 'multi'` quando i negozi sono piu' di uno (riga 438; identica riga 524 per lo stash della carta). Quel 'multi' e' una stringa inventata che non corrisponde a nessun UUID in `profiles`. Terza conseguenza confermata: in app/admin/funnel/page.tsx la riga 96 conta come cliente ricorrente chi ha `userOrders.length > 1`, cioe' anche chi ha fatto UN solo acquisto da due negozi.",
       "impatto": "Tre numeri rotti in una volta. ① Il conteggio degli acquisti non torna mai col COUNT su `orders`, e lo scarto cresce proprio coi carrelli multi-negozio, che sono il senso stesso di MyCity. ② Nessuna analisi di fatturato per negozio puo' funzionare: ogni carrello misto sparisce dalla ripartizione e finisce su un venditore fantasma. ③ Il tasso di riacquisto mostrato all'admin e' gonfiato.",
       "fix": "Separare l'identificativo di acquisto da quello di ordine: colonna `checkout_id` (uuid) su `orders`, uguale per tutte le righe dello stesso carrello (per la carta `stripe_session_id` fa gia' esattamente questo). Poi un `order_placed` per ogni riga ordine, con `seller_id` vero, `checkout_id` in comune e il totale della singola riga. Cosi' il fatturato per negozio e' corretto e il conteggio riconcilia riga per riga. I «ricorrenti» del funnel vanno calcolati su COUNT(DISTINCT checkout_id), non sulle righe.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2682,7 +2773,8 @@
       "descrizione": "VERIFICATO (due dei tre problemi segnalati; il terzo e' un falso positivo, vedi in fondo). ① La pagina di registrazione chiama `trackSignupCompleted` subito dopo `signUp()` (riga 90), cioe' PRIMA della conferma email — la riga 92 manda infatti a /auth/verify-email. Poi il link di conferma torna su /auth/callback (`emailRedirectTo` impostato alla riga 70), e li' la rotta guarda se l'utente e' nato da meno di 60 secondi e in tal caso aggiunge `?auth=signup` (righe 61-63): EventiAccessoOAuth emette un SECONDO `signup_completed` per la stessa persona (riga 37). Chi conferma entro un minuto — il caso normale — viene contato due volte; chi conferma dopo risulta un accesso. ② La rotta aggiunge `via=oauth` a TUTTI i rimbalzi, anche a chi con Google non c'entra nulla, e il componente lo legge solo per cancellarlo dall'indirizzo (riga 47): non finisce mai dentro l'evento, e `trackSignupCompleted(id, ruolo)` non ha un campo per il canale. FALSO POSITIVO CORRETTO: il reset password NON passa da /auth/callback — `resetPasswordForEmail` usa `redirectTo = origin + '/reset-password'` (app/sign-in/page.tsx:110 e app/reset-password/page.tsx:135), quindi non genera nessun `signed_in` spurio.",
       "impatto": "Il numero degli iscritti e' gonfiato fino al doppio, e non e' un errore costante: dipende da quanto in fretta la persona apre la mail, quindi non e' correggibile a posteriori con un coefficiente. Il tasso di attivazione (iscritti che poi comprano) risulta dimezzato per forza. E la domanda che serve al marketing — «Google porta piu' iscritti dell'email?» — resta senza risposta anche se il codice fa apposta il giro per rispondere.",
       "fix": "Una sola sorgente per l'evento: togliere `trackSignupCompleted` dalla pagina di registrazione (riga 90) e lasciarlo solo al rientro, cosi' si conta chi ha davvero confermato. Nella rotta callback mettere `via` solo quando e' vero, ricavandolo da `data.user.app_metadata.provider`. Passare il canale nell'evento: `trackSignupCompleted(id, ruolo, { metodo })`. Rete di sicurezza: `$insert_id` = `signup:<user_id>`, cosi' l'evento e' idempotente anche se parte due volte.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2693,7 +2785,8 @@
       "descrizione": "VERIFICATO. `trackExperimentExposed` mette `experiment`, `variant` e `home_hero_variant` fra le proprieta' DELL'EVENTO `experiment_exposed` e basta. Il commento sopra promette che «la conversione si lega via gli eventi di funnel gia' esistenti + le property home_hero_variant su PostHog», ma quella proprieta' vive solo su quell'evento: non c'e' nessuna `posthog.register` (super-property) ne' `$set` sulla persona — e infatti il wrapper lib/analytics/posthog.tsx esporta solo `track`, `identify` e `resetUser`, `register` non e' nemmeno esposto. Quindi su `add_to_cart` e su `order_placed` la variante non c'e'. Secondo difetto confermato: `assignVariant` (lib/experiments.ts:54-56) sorteggia con `crypto.getRandomValues` e il risultato vive in un cookie di 90 giorni: chi cancella i cookie, chi naviga in anonimo o chi apre il sito prima dal telefono e poi dal computer viene risorteggiato e finisce in tutte e due le varianti.",
       "impatto": "Non si puo' rispondere alla domanda per cui il test esiste — «la variante B vende di piu'?» — perche' in PostHog non c'e' modo di spezzare gli acquisti per variante. Si spende tempo a mantenere un esperimento che non produrra' mai un verdetto; e anche riuscendo a incrociarlo, l'assegnazione contaminata renderebbe il risultato non valido.",
       "fix": "Registrare la variante come super-property appena la si conosce, cosi' si attacca a tutti gli eventi successivi: in ExperimentExposure chiamare `posthog.register({ [`${experiment}_variant`]: variant })` — serve prima esporre `register` dal wrapper. Per l'assegnazione, derivarla in modo deterministico da un identificativo stabile: `hash(user_id ?? anon_id + experiment) % n_varianti`, cosi' la stessa persona ricade sempre nella stessa variante su ogni dispositivo. In alternativa usare le feature flag di PostHog, che fanno gia' entrambe le cose.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2704,7 +2797,8 @@
       "descrizione": "VERIFICATO. Il file si apre dichiarando la regola: «Mai esporre dettagli interni (table name, column name, stack trace)», e il messaggio mostrato all'utente viene infatti ripulito alle righe 68-71. Ma la riga che manda l'evento, `trackErrorShown(codice, e.message, context?.page)`, spedisce il messaggio ORIGINALE non ripulito, in ognuno degli otto rami. I messaggi di Postgres che finiscono li' contengono il valore che ha creato il conflitto, per esempio `duplicate key value violates unique constraint \"profiles_email_key\" Key (email)=(mario.rossi@gmail.com) already exists` — e il ramo `duplicate_key` (riga 42-43) e' esattamente quello che li intercetta. Il ramo `session_expired` (riga 62-63) intercetta i messaggi che contengono jwt/token/unauthor e li spedisce interi. PRECISAZIONE: la riga 91 segnalata nel report NON e' un problema, li' viene mandata la stringa `HTTP <status>`, che non contiene dati personali.",
       "impatto": "Due danni. Dati personali: indirizzi email, telefoni e frammenti di token dei clienti di Piacenza finiscono come proprieta' di eventi su un servizio ospitato negli Stati Uniti, senza base giuridica e senza comparire nel registro dei trattamenti. Qualita' del dato: `message` e' testo libero, quindi la proprieta' ha cardinalita' illimitata e in PostHog non si riesce a raggruppare — cioe' non si risponde a «quale errore colpisce di piu'», che e' il motivo per cui l'evento esiste.",
       "fix": "Mandare a PostHog solo il `code`, che e' gia' un'etichetta chiusa e sufficiente per raggruppare, piu' al massimo una versione normalizzata del messaggio: togliere tutto cio' che sta dentro `Key (...)=(...)`, mascherare le email con una regex e tagliare le stringhe oltre i 40 caratteri. Il messaggio integrale serve per il debug: quello e' il mestiere di Sentry, gia' collegato (lib/analytics/sentry.tsx), dove esistono lo scrubbing e la conservazione limitata. PASSO-A @legale-privacy e @dpo per la revisione prima del rilascio.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2715,7 +2809,9 @@
       "descrizione": "VERIFICATO con conteggio riga per riga: in tutte e tre le pagine `.limit(` = 0 occorrenze, `.range(` = 0 occorrenze, e la parola `error` = 0 occorrenze. Ovunque si scrive `const { data } = await ...` seguito da `data ?? []` (o `viewsRes.data ?? []`), quindi un errore di lettura diventa una lista vuota indistinguibile da «nessun dato». Le pagine calcolano le metriche nel browser scaricando le righe grezze, e PostgREST/Supabase taglia le risposte al tetto configurato (predefinito 1000 righe) senza segnalare nulla: si riceve una lista corta come se fosse completa. Secondo innesco confermato nel funnel: la riga 68 passa `.in('user_id', userIds)` con fino a mille UUID, cioe' un indirizzo di richiesta intorno ai 37.000 caratteri, molto oltre il limite tipico di 8-16 KB — la risposta torna 414 e `orders` diventa `null`, che il codice legge come «nessun ordine». Il progetto sa gia' come si risolve: migrations/052_perf_aggregation_rpcs.sql ha spostato lato server proprio le aggregazioni che «scaricavano tutte le righe», ma queste tre pagine non sono state convertite.",
       "impatto": "E' la peggior categoria di difetto: il guasto non si vede, si traveste da numero. Il pannello del funnel mostra «0% di attivazione» quando la query e' fallita, identico a un mese davvero brutto. Il venditore vede 0 visite e 0 fatturato quando la lettura si e' rotta e apre un ticket convinto che il negozio sia invisibile. E appena si superano le mille visite in 30 giorni o i mille articoli venduti, il tasso di conversione mostrato al negoziante diventa aritmeticamente falso.",
       "fix": "Spostare il conteggio nel database come gia' fatto in migrations/052: una `funnel_attivazione(da, a)` e una `metriche_venditore(seller_id, da, a)` che restituiscono le somme gia' fatte, in una riga — e' anche molto piu' veloce. Nell'immediato, come minimo: destrutturare sempre `error` e propagarlo (`throw error`) cosi' react-query mostra lo stato di errore invece di uno zero, e sostituire il `.in()` su mille id con una join lato server.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Riparato nei tre punti indicati dal referto (funnel admin, analisi venditore, riepilogo venditore): l errore risale invece di diventare uno zero. Lo spostamento dei conti dentro il database resta da fare."
     },
     {
       "dimensione": "dati-analytics",
@@ -2726,7 +2822,8 @@
       "descrizione": "VERIFICATO, quattro grandezze diverse. `lib/metriche-venditore.ts` e' stato scritto apposta per chiudere questo problema e lo racconta nella sua intestazione, ma solo /seller/analytics lo usa per il calcolo; la dashboard ne ha preso solo il filtro `ordineContaNelFatturato`, non la somma. Oggi: ① la dashboard mostra «Fatturato totale» (etichetta alla riga 212) = somma di `unit_price × quantity` sugli articoli, senza spedizione e SENZA togliere la commissione (riga 93); ② /seller/analytics mostra `metricheVenditore(...).tuoNettoCents`, cioe' il netto dopo commissione, spedizione e quota di consegna (riga 91); ③ /seller/earnings mostra «Fatturato lordo (carta)» = `total_price` dei soli ordini con carta (riga 95) e a fianco la commissione (riga 96); ④ dentro /seller/analytics il grafico dei 7 giorni (righe 126-131) somma `total_price` dei soli ordini DELIVERED, mentre la scheda sopra usa il netto degli ordini PAGATI: le barre non potranno mai sommare al numero scritto sopra di esse.",
       "impatto": "Il negoziante apre tre pagine e legge tre cifre diverse per la stessa domanda, e la piu' alta e' quella della schermata iniziale. E' esattamente il danno di fiducia che il file di definizione voleva evitare: se il negozio non sa quale numero e' il suo, non si fida di nessuno dei tre. Ed e' anche un problema interno, perche' chi decide le commissioni non sa a quale grandezza riferirsi.",
       "fix": "Far passare tutti e quattro i punti da `metricheVenditore()` e mostrare due grandezze dichiarate per nome, mai una sola ambigua: «Incassato» (lordo) e «Il tuo netto», come il file gia' prevede. Il grafico dei 7 giorni deve usare la stessa funzione e lo stesso filtro delle schede, cosi' la somma delle barre torna col totale. Poi allineare la definizione col GLOSSARIO-KPI insieme a @finanza: «fatturato del negozio» deve voler dire una cosa sola anche nel conto economico.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2737,7 +2834,8 @@
       "descrizione": "VERIFICATO. `track_sponsored_impression` e `track_sponsored_click` sono `SECURITY DEFINER` (righe 36 e 41) e la riga 47-48 fa `GRANT EXECUTE ... TO anon, authenticated`: chiunque, anche senza account, puo' chiamarle dal browser in un ciclo e incrementare i contatori di una campagna qualsiasi — e l'id della campagna e' in chiaro nella vista pubblica letta alle righe 46-58 del carosello (`select id, product_id, ...`). Non c'e' limite di frequenza, non c'e' chiave di sessione, non c'e' filtro sui bot. Il solo anti-doppione e' un `useRef` lato client (riga 70) che si azzera a ogni rimontaggio del componente: chi torna in home cinque volte genera cinque visualizzazioni per la stessa campagna. E l'impression parte dentro un `useEffect` sui dati caricati (righe 71-77), senza nessun controllo di visibilita' a schermo: viene contata anche se la persona non scorre mai fino al carosello.",
       "impatto": "Sono i numeri su cui un negoziante decide se rinnovare una campagna che ha pagato: se non sono difendibili, il prodotto pubblicitario non e' vendibile. Un concorrente puo' bruciare la reputazione di una campagna, o un venditore puo' gonfiare la propria per mostrare risultati. E anche senza malizia, oggi «visualizzazioni» significa «quante volte il carosello e' stato caricato», non «quante persone l'hanno visto»: il costo per visualizzazione comunicato al negozio e' falso per costruzione.",
       "fix": "Portare il conteggio su una tabella di eventi con chiave di deduplicazione invece che su un contatore incrementale: una riga per (campagna, sessione, giorno) con vincolo unico, cosi' il doppione e' impossibile per struttura e i totali si ricavano con un COUNT. Aggiungere un limite di frequenza per IP sulla funzione e scartare gli user-agent bot (il parser esiste gia', lib/user-agent.ts). L'impression deve partire solo quando l'elemento entra davvero nello schermo, con un IntersectionObserver e almeno il 50% visibile per un secondo: e' lo standard del settore ed e' cio' che il negozio crede di comprare. Da concordare con @growth-monetizzazione e @retail-media perche' tocca la fatturazione.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2748,7 +2846,8 @@
       "descrizione": "VERIFICATO. `identify(uid, { email: em })` compare due volte in useProfile — alla riga 35 al primo caricamento e alla riga 43 sull'evento SIGNED_IN — e scrive l'indirizzo email come proprieta' della persona su PostHog. L'host predefinito nel codice e' `https://us.i.posthog.com` (riga 25) e render.yaml lo conferma per la produzione con `value: https://us.i.posthog.com`. Dentro lo stesso file c'e' una contraddizione dichiarata: alle righe 61-64 la registrazione delle sessioni maschera apposta i campi email (`maskInputOptions: { email: true }`), quindi si e' deciso che l'email va protetta — e poi la si manda per un'altra strada. `useProfile` e' importato da 23 file, quindi identify puo' partire piu' volte per caricamento di pagina.",
       "impatto": "Dati personali diretti di cittadini di Piacenza trasferiti a un fornitore fuori dall'Unione Europea per una finalita' — l'analisi di prodotto — che non ne ha bisogno: per funnel e coorti basta l'identificativo utente. E' un trattamento che va nel registro e nell'informativa, e non c'e'. Da notare a favore del codice: `identify` e' correttamente subordinato al consenso, quindi non e' un invio senza consenso — e' un invio eccessivo rispetto allo scopo.",
       "fix": "Togliere l'email dalle proprieta': `identify(uid)` e basta. Se serve segmentare, mandare attributi non identificanti (ruolo, citta', mese di iscrizione). Se l'email serve davvero per collegare le campagne, va prima passata a @dpo e @legale-privacy e messa nell'informativa. In parallelo valutare l'ospitalita' europea di PostHog: e' una scelta di configurazione, non di codice, e toglie il problema alla radice.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2759,7 +2858,8 @@
       "descrizione": "VERIFICATO, tre punti nella stessa pagina. ① Riga 82: `const todayStr = new Date().toISOString().slice(0,10)` e' la data UTC, non quella italiana, e la riga 83 filtra le «visite di oggi» con quella. ② Riga 123: le colonne del grafico si costruiscono con la chiave `d.toISOString().slice(0,10)` (UTC) ma l'etichetta con `DAY_LABELS[d.getDay()]` (ora locale): due orologi diversi per la stessa colonna. ③ Riga 128: l'ordine viene messo nella colonna con `o.created_at.slice(0,10)`, cioe' ancora la data UTC. CORREZIONE AL REPORT ORIGINALE: la finestra sbagliata NON e' «tutta la sera», e' solo fra mezzanotte e le due del mattino (l'Italia e' avanti rispetto a UTC, quindi un ordine delle 21:00 resta nel giorno giusto). Sono i punti ① e ② a rompersi per chi apre la pagina in quella fascia, e il punto ③ per gli ordini fatti in quella fascia, che finiscono sempre nella colonna del giorno prima.",
       "impatto": "Gli ordini fatti dopo mezzanotte vengono attribuiti al giorno precedente, quindi il negoziante che guarda «quale giorno vendo di piu'» legge un grafico leggermente spostato e se ne accorge solo confrontando a mano con i suoi ordini. Chi apre la pagina prima delle due di notte vede sia «visite di oggi» sia le etichette dei sette giorni sfasate di uno. Volume basso, ma e' un numero mostrato al negozio come se fosse esatto.",
       "fix": "Fissare il fuso una volta sola e usarlo ovunque: costruire le chiavi giorno con `Intl.DateTimeFormat('sv-SE', { timeZone: 'Europe/Rome' }).format(d)` (restituisce gia' AAAA-MM-GG) sia per le colonne sia per l'ordine, cosi' i due lati usano lo stesso orologio. Meglio ancora: spostare il raggruppamento nel database con `date_trunc('day', created_at AT TIME ZONE 'Europe/Rome')`, che risolve il problema per tutte le pagine e toglie il calcolo dal browser.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2770,7 +2870,8 @@
       "descrizione": "VERIFICATO come fatto di codice, con impatto minore di quanto segnalato. PostHog non parte senza consenso (`getPosthog()` torna `null` alla riga 52). Il collegamento fra eventi e persona lo fa `identify(uid)`, chiamato da useProfile dentro `supabase.auth.getUser().then(...)`, che gira una volta sola al caricamento completo della pagina. Se una persona gia' autenticata arriva senza consenso, l'ordine dei fatti e' questo: identify parte a vuoto perche' PostHog non c'e' ancora, poi la persona accetta il banner, PostHog parte con un identificativo anonimo, e il gestore di `mc:consent-change` (righe 111-124) emette solo `$pageview` — non richiama mai identify. Con `person_profiles: 'identified_only'` (riga 58) per quegli eventi non nasce nemmeno un profilo persona. RIDIMENSIONAMENTO ONESTO: PostHog unisce l'identificativo anonimo alla persona alla prima `identify` successiva, quindi al ricaricamento seguente quegli eventi vengono comunque riattribuiti. Il buco reale e' la finestra fra l'accettazione e il ricaricamento, non una perdita definitiva.",
       "impatto": "Nella visita in cui la persona ha appena detto di si' al tracciamento, gli eventi restano senza profilo persona finche' non ricarica: i percorsi individuali e le coorti di quella sessione si vedono in ritardo o in modo incompleto. Danno contenuto, ma il fix costa cinque righe nello stesso punto che e' gia' stato toccato per lo stesso identico motivo.",
       "fix": "Nel gestore di `mc:consent-change` in posthog.tsx, dopo aver acceso la raccolta e prima del `$pageview`, leggere `supabase.auth.getUser()` e, se c'e' un utente, chiamare `ph.identify(uid)`.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2781,7 +2882,8 @@
       "descrizione": "VERIFICATO. L'intestazione di events.ts afferma: «gtag viene caricato da GoogleAnalytics.tsx solo col consenso, quindi ga() e' no-op se gtag non e' presente. Doppio gating coerente, nessun tracking senza consenso». Il codice dice altro: `GoogleAnalytics` esce con `null` solo se manca l'identificativo GA (riga 63); se l'identificativo c'e', lo script `ga-consent-default` viene reso SEMPRE, con strategia `beforeInteractive`, e definisce `window.gtag` a prescindere dal consenso (righe 68-81). Sotto consenso c'e' solo il caricamento di gtag.js (riga 83-102). E `ga()` controlla soltanto `!window.gtag` (riga 29), quindi senza consenso ogni evento di commercio viene comunque spinto dentro `dataLayer`. PRECISAZIONE IMPORTANTE che abbassa la gravita': `dataLayer.push` da solo non manda niente in rete — il trasporto e' gtag.js, che senza consenso non viene mai caricato. Quindi non c'e' un invio senza consenso; c'e' una coda che si accumula in memoria e viene presa in carico se e quando la persona accetta.",
       "impatto": "La regola scritta nel codice non e' quella che il codice applica, ed e' la forma peggiore di debito perche' chi legge si fida. In concreto: per chi accetta a meta' visita, gli eventi precedenti al consenso vengono presi in carico al momento dell'accettazione e arrivano con l'orario e l'ordine sbagliati, quindi il funnel di quella sessione e' inutilizzabile. Oggi il danno e' comunque latente perche' GA non risulta configurato in produzione: si arma nel momento esatto in cui qualcuno accende GA.",
       "fix": "Mettere il cancello dove va, cioe' dentro `ga()`: controllare `readConsent()?.analytics` come fa gia' `getPosthog()` in posthog.tsx:44, non la presenza di `window.gtag`. E' una riga. Poi correggere il commento di testa: un commento che descrive un comportamento inesistente e' esso stesso un difetto.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2792,7 +2894,8 @@
       "descrizione": "VERIFICATO con ricerca su tutto il progetto: `trackReviewSubmitted`, `trackReferralSent` e `trackShareCart` non hanno nessun chiamante fuori dal file che li definisce (zero occorrenze in app/, components/ e lib/). Non e' codice morto lasciato per sbaglio: i comportamenti corrispondenti esistono e funzionano. La recensione viene inserita in app/product/[id]/page.tsx:147 (`supabase.from('reviews').insert`), l'invito ha i pulsanti WhatsApp, email e copia in app/profile/referral/page.tsx, e la condivisione del carrello ha WhatsApp, email e copia in ShareCartButton.",
       "impatto": "Le due leve di crescita virale di MyCity — l'invito a un amico da 5 euro e la lista della spesa condivisa — sono completamente cieche: non si sa quante volte partono, da quale canale, ne' quante diventano un'iscrizione. Sono proprio le leve che costano poco e che vanno misurate per decidere se spingerle. Anche le recensioni, che reggono la fiducia del marketplace, non lasciano nessun segnale di funnel.",
       "fix": "Tre chiamate, una per punto: `trackReviewSubmitted(productId, rating, hasPhoto)` dopo l'inserimento riuscito della recensione; `trackReferralSent('whatsapp'|'email'|'copy_link')` sui tre pulsanti dell'invito; `trackShareCart(...)` sui tre della condivisione. Poi, per chiudere il cerchio dell'invito, aggiungere il codice referral come proprieta' su `signup_completed`, cosi' si lega l'invito partito all'iscrizione arrivata.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2803,7 +2906,8 @@
       "descrizione": "VERIFICATO. `trackCheckoutStarted` parte in un `useEffect` con lista di dipendenze vuota (righe 50-57), senza nessuna chiave di deduplicazione. Chi entra nel checkout, torna al carrello per correggere una quantita' e rientra, genera due `checkout_started` per un solo tentativo d'acquisto. Il punto non e' il doppione in se': e' che nella stessa base di codice gli altri due eventi dello stesso funnel ce l'hanno — l'acquisto usa `mc_purchase_tracked_<sessione>` (orders/page.tsx:86) e la vista prodotto usa `mc_viewed_<id>` (ProductViewTracker:26-28). La politica di deduplicazione cambia da uno scalino all'altro dello stesso imbuto.",
       "impatto": "Il tasso di conversione da avvio checkout ad acquisto — la metrica su cui si decide se il checkout va rifatto — risulta piu' basso del vero, e di quanto dipende da quante persone tornano indietro a correggere. Cioe' proprio il comportamento che segnala un checkout difficile fa sembrare il checkout ancora peggiore di com'e'.",
       "fix": "Applicare la stessa regola degli altri due: una chiave in sessionStorage legata al contenuto del carrello, per esempio `mc_checkout_started_<hash del carrello>`, cosi' un rientro sullo stesso carrello non riconta. E scrivere la politica nel dizionario dati: quali eventi sono deduplicati, su quale chiave, con quale finestra. Senza quella riga scritta, chi analizza non sa se sta contando eventi o persone.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2814,7 +2918,8 @@
       "descrizione": "VERIFICATO. `trackRemoveFromCart(id)` manda solo l'identificativo del prodotto (cart.ts:77), e l'evento GA4 corrispondente parte senza `currency` ne' `value` (events.ts:86) — mentre l'aggiunta al carrello li manda entrambi (events.ts:77-81). Da notare che la rimozione senza `variantId` cancella TUTTE le righe di quel prodotto (righe 71-75), quindi anche il numero di articoli tolti resta ignoto. Peggio: `updateQuantity` (righe 80-83) non emette nulla — chi porta un articolo da 1 a 5 pezzi, o da 5 a 1, non produce nessun segnale.",
       "impatto": "Non si puo' calcolare quanto valore esce dal carrello prima del checkout, che e' il numero che dice se il problema e' il prezzo, la spedizione o la disponibilita'. E il valore del carrello ricostruito dagli eventi non coincide mai con quello reale, perche' mancano tutte le modifiche di quantita': chi prova a incrociare gli eventi con `abandoned_carts` trova due cifre diverse e non capisce da dove venga lo scarto.",
       "fix": "Passare quantita' e prezzo anche alla rimozione e riportarli su GA4 con `currency` e `value`, come si fa gia' per l'aggiunta. In `updateQuantity` emettere la differenza: `add_to_cart` col delta se la quantita' sale, `remove_from_cart` col delta se scende — e' la convenzione GA4 standard, quindi i report funzionano senza altro lavoro.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2825,7 +2930,8 @@
       "descrizione": "VERIFICATO, tre punti che dicono tre cose diverse. `.env.example` propone `NEXT_PUBLIC_POSTHOG_HOST=https://eu.posthog.com`; render.yaml fissa `value: https://us.i.posthog.com`; il commento nel codice dice «account MyCity = US» e il valore di ripiego alla riga 25 e' `https://us.i.posthog.com`. In piu' `https://eu.posthog.com` e' l'indirizzo del pannello di PostHog, non quello che riceve gli eventi, che sarebbe `https://eu.i.posthog.com`. Le chiavi `phc_` sono legate alla regione, quindi una chiave di un progetto americano puntata su un host europeo non funziona — e posthog-js non fa rumore quando succede.",
       "impatto": "Chi mette in piedi un ambiente partendo dal file di esempio — uno sviluppatore nuovo, una copia di prova, un ambiente di collaudo — ottiene zero eventi senza nessun errore visibile, e ci perde mezza giornata prima di sospettare l'indirizzo. E chi legge i tre file non sa dove stiano davvero i dati, che e' un'informazione che serve per l'informativa privacy.",
       "fix": "Allineare i tre punti su un solo valore. Raccomandazione, vista la base clienti tutta italiana: `https://eu.i.posthog.com` ovunque, con la chiave rigenerata su un progetto europeo — cosi' si chiude anche il trasferimento extra-UE segnalato sopra. Aggiungere in posthog.tsx un controllo minimo all'avvio: se l'host non finisce con `.i.posthog.com`, scrivere un avviso in console, cosi' l'errore si vede subito invece di manifestarsi come silenzio.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "dati-analytics",
@@ -2836,7 +2942,8 @@
       "descrizione": "VERIFICATO. MyCity ha tre sistemi che registrano il comportamento. PostHog e' subordinato al consenso (posthog.tsx:44, `const consented = !!readConsent()?.analytics`); il beacon verso /api/track pure (ActivityTracker.tsx:56, `if (!hasConsent('analytics')) return;`). Il terzo, l'inserimento in `product_views` (ProductViewTracker righe 35-38), non controlla nulla: scrive `product_id` e `user_id` per ogni visita, anche di chi ha rifiutato. Sul lato integrita', la migrazione 060 conferma due cose nel suo stesso testo: la policy consente l'inserimento con `user_id IS NULL` a chiunque (riga 15-17) e il trigger di deduplicazione si applica solo agli utenti riconosciuti (riga 28, `IF NEW.user_id IS NOT NULL`), tanto che la nota iniziale ammette «per i guest non e' possibile deduplicare a livello DB». Un ospite — o chiunque finga di esserlo — puo' inserire righe senza limite.",
       "impatto": "Due danni distinti. Sul consenso: si registra il comportamento di chi ha detto no, con l'identificativo utente attaccato se e' entrato, ed e' incoerente con le altre due strade, quindi e' un buco che nessuno si aspetta. Sulla qualita': le visite di PostHog contano solo chi ha acconsentito, quelle di `product_views` contano tutti, quindi i due numeri non coincideranno mai e nessuno sapra' perche'. Ed e' `product_views` che alimenta il tasso di conversione mostrato al negoziante e la classifica dei prodotti di tendenza.",
       "fix": "Aggiungere `if (!hasConsent('analytics')) return;` in cima all'effetto di ProductViewTracker, come fa gia' ActivityTracker: una riga, e i tre sistemi tornano coerenti. Se il dato aggregato serve comunque, spostarlo dietro una funzione server che non scrive `user_id` e applica un limite di frequenza per IP, cosi' e' davvero anonimo e non e' gonfiabile. Infine dichiarare la differenza nel dizionario dati: `product_views` e `product_viewed` misurano popolazioni diverse e non vanno confrontati.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "deploy-sre",
@@ -2847,7 +2954,9 @@
       "fix": "① Togliere la variabile doppia: nei 4 punti sostituire process.env.NEXT_PUBLIC_SITE_URL con env.appUrl() (lib/env.ts:73), che legge NEXT_PUBLIC_APP_URL — la variabile già dichiarata in render.yaml con il dominio vero. ② Rendere impossibile il redirect relativo: costruirlo con new URL(percorso, env.appUrl()). ③ Prova che gira, da mettere in suite: chiamare GET /api/unsubscribe?token=<valido> con l'ambiente SENZA NEXT_PUBLIC_SITE_URL e pretendere 302, non 500. Oggi quel test è rosso.",
       "impatto": "Nessuna nuova iscrizione alla newsletter può essere confermata: la lista non cresce di un indirizzo. Chi vuole smettere di ricevere email vede una pagina rotta e crede di aver fallito, quindi riprova o segnala come spam. Il link nel piede di ogni email punta a un dominio che non è il nostro.",
       "file": "/home/user/ad-mycity/marketplace/app/api/unsubscribe/route.ts:13,37 · /home/user/ad-mycity/marketplace/app/api/newsletter/confirm/route.ts:15,32 · /home/user/ad-mycity/marketplace/lib/email/unsubscribe.ts:58 · /home/user/ad-mycity/marketplace/app/api/newsletter/route.ts:83",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "lotto": "2026-08-20",
+      "nota_riparazione": "Verificato nel codice il 20/8: era gia stato riparato nel lotto del 19 agosto, il referto del 18 non lo sapeva."
     },
     {
       "dimensione": "deploy-sre",
@@ -2869,7 +2978,8 @@
       "fix": "Aggiungere al runbook un paragrafo di 6 righe verificabili. ① Render → servizio → Events → individuare il rilascio precedente con la spunta verde → Rollback (i rilasci Render sono immutabili, è un clic). ② Se il guasto nasce da una migrazione di database, scrivere a chiare lettere che il ritorno del codice NON basta: va ripristinato prima il dato. ③ Dichiarare l'obiettivo: si decide entro 10 minuti dal primo segnale, si torna indietro in meno di 5. ④ Provarlo una volta a freddo fuori dall'orario di punta e scrivere quanto ci è voluto davvero.",
       "impatto": "Il tempo per rimettere in piedi il sito dopo un rilascio sbagliato oggi non è noto e dipende da chi c'è. Se l'on-call è la persona non tecnica prevista dal runbook, non ha nessuna istruzione per farlo. Ogni minuto di sito giù in fascia serale è fatturato che non torna.",
       "file": "/home/user/ad-mycity/marketplace/docs/runbook.md:118-136 (deploy d'emergenza senza il ritorno) · /home/user/ad-mycity/marketplace/docs/runbook.md:209-226 (on-call non tecnico) · unica menzione in /home/user/ad-mycity/marketplace/GO_LIVE_2026-06-23.md:76",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "deploy-sre",
@@ -2880,7 +2990,8 @@
       "fix": "Tre righe in lib/logger.ts, tutte reversibili. ① In redact(), trattare gli Error a parte PRIMA del ramo typeof === 'object': `if (value instanceof Error) return { name: value.name, message: value.message, stack: value.stack }`. ② In logger.error, se il primo argomento è una stringa e il secondo è un Error, invertirli: l'Error va a Sentry, la stringa resta come contesto. ③ Prova che gira: un test che chiama logger.error('x', new Error('boom')) e pretende che la riga JSON contenga 'boom'. Oggi fallisce.",
       "impatto": "Il tempo per capire la causa di un guasto passa da minuti a ore, e su alcuni casi la causa non si trova mai. Su un rimborso o un pagamento al negozio che non parte, è denaro fermo di cui non si conosce il motivo.",
       "file": "/home/user/ad-mycity/marketplace/lib/logger.ts:21-32 (redact) e 89-101 (logger.error) · 71 chiamate su 84 con gli argomenti invertiti · esempi: app/api/admin/orders/[id]/cancel/route.ts:76 e app/api/admin/disputes/[id]/resolve/route.ts:76",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "deploy-sre",
@@ -2891,7 +3002,8 @@
       "fix": "① Spostare il controllo dove serve: un lavoro dedicato che gira db:check-drift col segreto SUPABASE_DB_URL puntato al database di produzione (è sola lettura, fa una SELECT su una tabella di sistema), PRIMA del rilascio. ② Se il segreto manca il lavoro deve fallire con un messaggio chiaro, non saltare in silenzio: è la scelta già presa bene in backup-db.yml:37-40. ③ Nel database locale della CI il passo va tolto o rinominato: oggi è un verde che non prova niente, ed è peggio di nessun controllo perché rassicura.",
       "impatto": "Si può pubblicare codice che cerca una colonna che in produzione non esiste. L'utente vede pagine in errore su una funzione intera — per esempio i resi o i pagamenti ai negozi — e nessun controllo aveva avvisato prima.",
       "file": "/home/user/ad-mycity/marketplace/.github/workflows/ci.yml:153,174-175 · /home/user/ad-mycity/marketplace/tests/sql/harness/apply.sh:43-45 · /home/user/ad-mycity/marketplace/tests/sql/harness/00_shim_supabase.sql:139-145 · /home/user/ad-mycity/marketplace/scripts/check-migration-drift.mjs:60-67",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "deploy-sre",
@@ -2902,7 +3014,8 @@
       "fix": "① Aggiungere gli utenti al dump: togliere --exclude-schema=auth, oppure affiancare un secondo pg_dump del solo auth.users. ② Cifrare prima di caricare: `gpg --symmetric --passphrase \"$BACKUP_PASSPHRASE\"` sul file, con la passphrase come segreto GitHub. ③ La prova che il backup vale: una volta a trimestre ripristinarlo su un progetto Supabase di prova e verificare tre cose — un accesso funziona, un ordine si vede, una foto si apre. Un backup mai ripristinato non è un backup, è un file.",
       "impatto": "Nel giorno in cui serve davvero — cancellazione per errore, corruzione — si scopre che la copia non ricostruisce il servizio: i clienti non possono rientrare nei loro account. E nel frattempo la stessa copia è un rischio di violazione dei dati, con obbligo di notifica al Garante entro 72 ore, invece che una protezione.",
       "file": "/home/user/ad-mycity/marketplace/scripts/backup-db.sh:9,42-52 · /home/user/ad-mycity/marketplace/.github/workflows/backup-db.yml:50-56 · /home/user/ad-mycity/marketplace/migrations/001_create_tables.sql:4 (e altri 14 file che referenziano auth.users)",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "deploy-sre",
@@ -2926,7 +3039,8 @@
       "fix": "① Portare l'accensione fuori dal ciclo di vita di React: con Next 15 e Sentry 10 (installati: 15.5.18 e 10.60.0) il file giusto è instrumentation-client.ts, che parte prima del primo disegno di pagina. Il consenso per la registrazione dello schermo resta gestito dopo: non serve ritardare tutta l'accensione per quello. ② Aggiungere SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_PROJECT a render.yaml (sync: false), così le tracce diventano leggibili. ③ Verificare nel pannello Render che il DSN ci sia, e aggiungere alla pipeline un controllo che il caricamento delle mappe sia avvenuto.",
       "impatto": "La schermata bianca lato browser è il guasto che fa perdere più clienti e non lascia traccia: si scopre da un messaggio WhatsApp, ore dopo. E quando una traccia arriva, è compressa e illeggibile, quindi il tempo per capire si moltiplica.",
       "file": "/home/user/ad-mycity/marketplace/lib/analytics/sentry.tsx:87-94 · /home/user/ad-mycity/marketplace/app/layout.tsx:154 · /home/user/ad-mycity/marketplace/app/global-error.tsx:20-22 · /home/user/ad-mycity/marketplace/render.yaml:104 (mancano SENTRY_AUTH_TOKEN/ORG/PROJECT) · /home/user/ad-mycity/marketplace/next.config.js:30,92-101",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "deploy-sre",
@@ -2937,7 +3051,8 @@
       "fix": "① Correggere la pulizia: superato il tetto, cancellare per anzianità — le chiavi col colpo più vecchio per prime — fino a rientrare, sempre e comunque, non solo quelle più vecchie di un'ora. ② Non richiamarla a ogni inserimento: farla girare a intervalli (setInterval con unref, oppure ogni N inserimenti), così il costo non ricade sulla singola richiesta. ③ Collegare Upstash: le due variabili sono già dichiarate, servono solo i valori. È anche il prerequisito per una seconda istanza, oggi impossibile senza lasciare il limite aggirabile.",
       "impatto": "Sotto un abuso banale il sito può spegnersi da solo per memoria esaurita, e riavviandosi azzera proprio le difese sui tentativi di accesso. I clienti veri vedono il sito lento e poi giù.",
       "file": "/home/user/ad-mycity/marketplace/lib/rate-limit.ts:22-23,25-33,54-59,149 · /home/user/ad-mycity/marketplace/app/api/auth/signin/route.ts:41 · /home/user/ad-mycity/marketplace/render.yaml:112-115",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "deploy-sre",
@@ -2948,7 +3063,8 @@
       "fix": "① Aprire Supabase → Settings → Billing e Database → Backups e scrivere nel documento cosa c'è DAVVERO, con la data del controllo: due righe che valgono più di tre paragrafi. ② Se il ripristino al minuto non c'è, o si attiva (è la copertura vera contro una cancellazione per errore) o si toglie dal documento la promessa dei 5 minuti, perché è una bugia che qualcuno userà come piano. ③ Nel frattempo la copia notturna di GitHub Actions è l'unica rete reale, e va resa ripristinabile: vedi il difetto sullo schema auth escluso.",
       "impatto": "Nel giorno del guasto si scopre che la rete non c'era e si perde molto più di 5 minuti di dati: nel caso peggiore tutto quello che è successo dall'ultima copia notturna, cioè un'intera giornata di ordini.",
       "file": "/home/user/ad-mycity/marketplace/docs/backup-restore.md:9,20,33-36 · /home/user/ad-mycity/marketplace/docs/runbook.md:101-103 · in contraddizione con /home/user/ad-mycity/marketplace/scripts/backup-db.sh:5",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "deploy-sre",
@@ -2972,7 +3088,8 @@
       "fix": "① Rinominare i due segreti del lavoro e2e in SUPABASE_TEST_URL / SUPABASE_TEST_ANON_KEY, gli stessi dell'altro lavoro: una sola coppia di chiavi di prova per tutta la CI. ② Aggiungere un controllo che rifiuta di partire se l'indirizzo del database coincide con quello di produzione: tre righe di shell che confrontano l'host, e diventa impossibile sbagliare invece che sconsigliato.",
       "impatto": "Oggi nessuno: i test non scrivono. Domani, se qualcuno mette lì le chiavi vere per «far girare finalmente gli end-to-end» e aggiunge un test che registra un utente, quelle righe finiscono nei dati veri e sporcano i numeri di vendita.",
       "file": "/home/user/ad-mycity/marketplace/.github/workflows/ci.yml:201-202 e 218-219 e 226-227 (nomi di produzione) · da confrontare con /home/user/ad-mycity/marketplace/.github/workflows/ci.yml:94-96 (nomi di prova)",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "deploy-sre",
@@ -2983,7 +3100,8 @@
       "fix": "Due parametri in lib/stripe/client.ts:16-20 → `timeout: 10_000, maxNetworkRetries: 2`. Dieci secondi sono già generosi per Stripe e trasformano un'attesa lunghissima in un errore rapido e visibile, che si può mostrare al cliente («riprova») invece di lasciarlo appeso. Stessa verifica va fatta sul client Resend, che segue lo stesso schema.",
       "impatto": "Durante un rallentamento di Stripe il cliente che sta pagando aspetta fino a un minuto e mezzo senza capire cosa succede, e con ogni probabilità abbandona. Col tetto, lo stesso rallentamento diventa un errore gestito in dieci secondi.",
       "file": "/home/user/ad-mycity/marketplace/lib/stripe/client.ts:16-20 (verificato contro node_modules/stripe/cjs/stripe.core.js:17,79 — versione 16.12.0)",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "deploy-sre",
@@ -2994,7 +3112,8 @@
       "fix": "① Aggiungere external-price-alerts alle soglie, con 180 minuti (tre volte la cadenza). ② Per il guardiano che non può guardarsi da solo, usare un servizio di battito esterno gratuito (healthchecks.io o simile): operational-alerts lo chiama a fine giro, e se il battito manca l'avviso arriva da fuori. ③ Sostituire l'ignora-se-manca con una soglia di prima attivazione: dopo 24 ore senza il primo battito, il lavoro va segnalato come mai partito.",
       "impatto": "Un lavoro automatico può fermarsi e restare fermo per giorni senza che nessuno lo sappia. Sui prezzi importati significa vendere a prezzi sbagliati.",
       "file": "/home/user/ad-mycity/marketplace/lib/cron-health.ts:20-28 e 46 · da confrontare con /home/user/ad-mycity/marketplace/docs/crons.json e le nove cartelle in app/api/cron/",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "deploy-sre",
@@ -3005,7 +3124,8 @@
       "fix": "Una riga in .gitignore: `.env*` seguita da `!.env.example` — ignora tutto ciò che comincia con .env, tranne il foglio d'esempio che deve restare visibile. Se si vuole il guardiano vero, aggiungere alla CI una scansione dei segreti (gitleaks) che diventa rossa prima dell'unione invece che dopo.",
       "impatto": "Basta una distrazione perché le chiavi dei pagamenti e del database finiscano nella storia del repository. Il costo non è il file: è dover rigenerare ogni chiave e non poter escludere che qualcuno l'abbia già letta.",
       "file": "/home/user/ad-mycity/marketplace/.gitignore:26-31",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "deploy-sre",
@@ -3016,7 +3136,8 @@
       "fix": "① Aggiungere in testa a ogni workflow `permissions: contents: read` — una riga, e ogni lavoro parte col minimo indispensabile; deploy-dopo-ci.yml non ha bisogno di altro. ② Per il server della CI, avviare con `npm start & echo $! > app.pid` e chiudere il gruppo di processi (`kill -- -$(cat app.pid)`), oppure usare start-server-and-test.",
       "impatto": "Non è un guasto visibile al cliente: è la differenza fra un incidente contenuto e uno che si allarga. Un ambiente di compilazione compromesso, coi poteri di scrittura, può modificare il codice che poi va in produzione.",
       "file": "/home/user/ad-mycity/marketplace/.github/workflows/backup-db.yml · ci.yml · deploy-dopo-ci.yml (nessun blocco permissions in nessuno dei tre) · ci.yml:232,241",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     },
     {
       "dimensione": "deploy-sre",
@@ -3027,7 +3148,8 @@
       "fix": "Tenere il client da parte come si fa già per Stripe: una variabile a livello di modulo, creata alla prima chiamata e riusata. Attenzione a non fare lo stesso coi client che portano dentro la sessione dell'utente: solo quello amministrativo, che non ne ha. Cinque righe, e nessun cambio per chi la chiama.",
       "impatto": "Non si vede oggi. Si vedrebbe quando gli ordini crescono: oggetti creati e buttati di continuo sulla stessa istanza piccola che deve reggere il traffico serale.",
       "file": "/home/user/ad-mycity/marketplace/lib/supabase/server.ts:44-49 · chiamata in lib/api/middleware.ts:74-76 e app/api/health/route.ts:33 · da confrontare con lib/stripe/client.ts:5",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-20"
     }
   ],
   "stato_lotto_19_agosto": {
@@ -3076,5 +3198,30 @@
       "perche_la_prova_locale_non_lo_vedeva": "tests/sql/harness/apply.sh ricostruisce lo schema da TUTTE le migrazioni del repo, quindi vede un database diverso da quello vero. Non e una prova debole: e una prova su un altro oggetto."
     },
     "migrazione_120_stato": "NON applicata — attende il merge e la pubblicazione della richiesta #225"
+  },
+  "stato_lotto_20_agosto": {
+    "_cosa_e": "Conto del lotto di riparazioni del 20 agosto 2026 sul referto del 18 agosto.",
+    "data": "2026-08-20",
+    "totale_referto": 245,
+    "riparati_in_questo_lotto": 100,
+    "gia_riparati_prima_verificati": 8,
+    "riparati_in_totale": 204,
+    "aperti": 32,
+    "per_gravita_aperti": {
+      "bloccante": 4,
+      "grave": 15,
+      "minore": 13
+    },
+    "ramo": "claude/marketplace-100-bugs-jpl7hw (repo NicolaeRotaru/mycity)",
+    "migrazione": "122_radiografia_20_agosto.sql — NON applicata: serve una firma a parte, unire la richiesta non basta",
+    "prove": "860 prove unitarie verdi (erano 800), typecheck e lint puliti, migrazioni riapplicate da zero su Postgres vero (123 su 123) e cinque file di controlli SQL verdi, fra cui uno nuovo che diventa rosso senza la 122.",
+    "serve_da_nicola": [
+      "Applicare la migrazione 122 al database (azione separata dal merge).",
+      "Segreto BACKUP_PASSPHRASE su GitHub: senza, il backup notturno ora si ferma invece di uscire in chiaro.",
+      "Segreto SUPABASE_DB_URL per il controllo delle migrazioni dimenticate in produzione (gira ogni mattina).",
+      "Dati veri del titolare (denominazione, sede, P.IVA) per il difetto 70, ancora aperto.",
+      "Decisione sui numeri della consegna (difetto 47): 3 euro fissi non coprono un compenso che a 5 km vale 8,50.",
+      "Rilettura legale della Dichiarazione di Accessibilita e dell informativa privacy aggiornata."
+    ]
   }
 }
