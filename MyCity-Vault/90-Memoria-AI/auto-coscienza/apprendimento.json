@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-18 11:01",
+ "aggiornato": "2026-08-20 10:22",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -9555,14 +9555,22 @@
     "automazione"
    ],
    "reparto": "@AD",
-   "confidenza": 0.35,
+   "confidenza": 0.8,
    "evidenze": 2,
    "fonte": "auto-radiografia",
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-02",
+   "ultima_conferma": "2026-08-20T08:24:49.508Z",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "decaduto_step_il": null,
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:24:49.508Z",
+     "verbo": "conferma",
+     "perche": "Un elenco tenuto a mano diverge sempre: stanotte l'ho pagata due volte, con due carte che hanno preso lo stesso numero 130 e con il conteggio della coda che da' 62, 77 e 81 secondo quale strumento lo chiedi",
+     "prova": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md — collisione del numero 130 il 19/8 e referto della PR 773"
+    }
+   ]
   },
   {
    "id": "L-2026-0702-02",
@@ -9634,14 +9642,22 @@
     "esecuzione"
    ],
    "reparto": "@AD",
-   "confidenza": 0.3899999999999999,
+   "confidenza": 0.8,
    "evidenze": 1,
    "fonte": "giro",
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-02 10:19",
+   "ultima_conferma": "2026-08-20T08:26:09.331Z",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 10:22"
+   "decaduto_step_il": null,
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:26:09.331Z",
+     "verbo": "conferma",
+     "perche": "Firma non vuol dire fatto: e' la distinzione che ho usato tutta la notte fra aprire una richiesta di unione e unirla, e fra scrivere una migrazione e applicarla al database",
+     "prova": "CLAUDE.md — «aprire la PR non e' unirla. La firma sul merge e' sua»"
+    }
+   ]
   },
   {
    "id": "L-2026-0702-44",
@@ -9654,14 +9670,22 @@
     "nicola"
    ],
    "reparto": "@AD",
-   "confidenza": 0.4099999999999999,
+   "confidenza": 0.8,
    "evidenze": 2,
    "fonte": "giro",
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-02 08:36",
+   "ultima_conferma": "2026-08-20T08:26:09.416Z",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 10:22"
+   "decaduto_step_il": null,
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:26:09.416Z",
+     "verbo": "conferma",
+     "perche": "Tutti i controlli verdi non vuol dire che la cosa funziona: stanotte il database ha passato trentotto controlli mentre due pagine pubbliche del sito mostravano zero",
+     "prova": "DECISIONI.md, voce del 19/8 21:20 — il danno dei conteggi pubblici"
+    }
+   ]
   },
   {
    "id": "L-2026-0702-43",
@@ -9682,8 +9706,16 @@
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-02 08:17",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 10:22"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 10:22",
+   "ritirata_il": "2026-08-20T08:26:09.498Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:26:09.498Z",
+     "verbo": "ritira",
+     "perche": "Distingueva il canale Render dal permesso delle sue API: Render e' in dismissione e il marketplace e' passato a Vercel, quindi il canale di cui parla non esiste piu'"
+    }
+   ]
   },
   {
    "id": "L-2026-0702-41",
@@ -9725,8 +9757,16 @@
    "caso_studio_nicola": false,
    "nato": "2026-07-02",
    "ultima_conferma": "2026-07-02 07:35",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 10:22"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 10:22",
+   "ritirata_il": "2026-08-20T08:26:09.580Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:26:09.580Z",
+     "verbo": "ritira",
+     "perche": "Definiva «carrelli operativi» su quattro record di luglio e due dati di prova che oggi non ci sono piu': la definizione dei termini vive nel glossario dei KPI, che e' la casa giusta"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-40",
@@ -9745,8 +9785,16 @@
    "caso_studio_nicola": false,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 20:18",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 08:00",
+   "ritirata_il": "2026-08-20T08:25:11.349Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:25:11.349Z",
+     "verbo": "ritira",
+     "perche": "Parla della finestra di consegna del 1 luglio e del messaggio di ripiano: il lavoro operativo e' fermo fino al 24 agosto, e quando riprende il ripiano si riscrive sui negozi veri"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-39",
@@ -9766,8 +9814,16 @@
    "caso_studio_nicola": false,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 20:05",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 08:00",
+   "ritirata_il": "2026-08-20T08:25:11.442Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:25:11.442Z",
+     "verbo": "ritira",
+     "perche": "Spiegava dove trovare i numeri 14 e 15, che erano i due permessi GitHub: da allora apro le richieste di unione direttamente e quei due sono chiusi"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-38",
@@ -9809,8 +9865,16 @@
    "caso_studio_nicola": false,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 17:06",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 08:00",
+   "ritirata_il": "2026-08-20T08:25:11.528Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:25:11.528Z",
+     "verbo": "ritira",
+     "perche": "Chiedeva di sostituire i segnaposto della radiografia con dati veri: fatto da un pezzo, la radiografia di agosto ha solo numeri misurati"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-36",
@@ -10009,8 +10073,16 @@
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 09:43",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 08:00",
+   "ritirata_il": "2026-08-20T08:25:11.628Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:25:11.628Z",
+     "verbo": "ritira",
+     "perche": "Riguardava la messa in opera dei timer del ritmo, che sono installati sul server e girano da luglio"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-27",
@@ -10095,13 +10167,21 @@
     "chiarimento"
    ],
    "reparto": "@operations",
-   "confidenza": 0.32999999999999996,
+   "confidenza": 0.8,
    "evidenze": 1,
    "fonte": "chat",
    "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
+   "ultima_conferma": "2026-08-20T08:24:49.869Z",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "decaduto_step_il": null,
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:24:49.869Z",
+     "verbo": "conferma",
+     "perche": "Una carta deve bastare a se stessa: chi la legge non deve ricordarsi il contesto di un briefing di ieri. E' diventata la regola dei quattro blocchi",
+     "prova": "cervello/scrittura-umana.md"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-23",
@@ -10165,8 +10245,16 @@
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 17:06",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 08:00",
+   "ritirata_il": "2026-08-20T08:25:11.717Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:25:11.717Z",
+     "verbo": "ritira",
+     "perche": "Fotografava lo stato dei sensori del 1 luglio: oggi Supabase legge e Stripe non e' autorizzato, quindi l'inventario che descrive non esiste piu'"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-20",
@@ -10184,8 +10272,16 @@
    "fonte": "auto-analisi",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 08:00",
+   "ritirata_il": "2026-08-20T08:25:11.811Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:25:11.811Z",
+     "verbo": "ritira",
+     "perche": "Descriveva come alzare il tono durante lo stallo di luglio, contando le ore da un ordine fermo che non esiste piu'"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-19",
@@ -10204,8 +10300,16 @@
    "fonte": "auto-analisi",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 11:26",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 08:00",
+   "ritirata_il": "2026-08-20T08:25:11.909Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:25:11.909Z",
+     "verbo": "ritira",
+     "perche": "Diceva di non ripetere le domande dopo una notte di decisioni: e' rimasta vera ma come caso singolo di luglio, ed e' assorbita dalla regola generale di leggere STATO e DECISIONI prima di scrivere"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-17",
@@ -10225,8 +10329,16 @@
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 08:00",
+   "ritirata_il": "2026-08-20T08:25:11.997Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:25:11.997Z",
+     "verbo": "ritira",
+     "perche": "Definiva il comando radiografia e portava dentro i 46 problemi del 1 luglio: il comando sta in COMANDI.md, e quei problemi sono superati dal referto del 18 agosto"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-16",
@@ -10285,8 +10397,16 @@
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 08:00",
+   "ritirata_il": "2026-08-20T08:25:12.097Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:25:12.097Z",
+     "verbo": "ritira",
+     "perche": "Parla di un giro web su 42 senior: i senior oggi sono 120, quindi il numero e il metodo che descrive sono sbagliati"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-13",
@@ -10305,8 +10425,16 @@
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01 01:38",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 08:00",
+   "ritirata_il": "2026-08-20T08:25:12.190Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:25:12.190Z",
+     "verbo": "ritira",
+     "perche": "Rispondeva a una domanda sui siti che WebFetch non raggiungeva, risolta il 1 luglio stesso col permesso globale"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-12",
@@ -10347,8 +10475,16 @@
    "fonte": "chat",
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 08:00",
+   "ritirata_il": "2026-08-20T08:25:12.274Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:25:12.274Z",
+     "verbo": "ritira",
+     "perche": "Spiegava come aprire una richiesta di unione mandando la memoria sul ramo memoria-ad: quel ramo e' andato in pensione, oggi la memoria si pubblica su main"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-10",
@@ -10459,8 +10595,16 @@
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 08:00",
+   "ritirata_il": "2026-08-20T08:25:12.364Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:25:12.364Z",
+     "verbo": "ritira",
+     "perche": "Riguardava il foglio-firma del lancio e le date del 3 luglio, tutte passate"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-05",
@@ -10479,8 +10623,16 @@
    "caso_studio_nicola": true,
    "nato": "2026-07-01",
    "ultima_conferma": "2026-07-01",
-   "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "stato": "ritirata",
+   "decaduto_step_il": "2026-08-13 08:00",
+   "ritirata_il": "2026-08-20T08:25:12.446Z",
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:25:12.446Z",
+     "verbo": "ritira",
+     "perche": "Registrava perche' hai rimandato il presidio dei Venerdi Piacentini del 3 luglio: evento passato, e la lezione generale sul dare priorita' alle operazioni e' gia' in altre due"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-04",
@@ -10595,13 +10747,21 @@
     "calibrazione"
    ],
    "reparto": "@AD",
-   "confidenza": 0.35,
+   "confidenza": 0.8,
    "evidenze": 1,
    "fonte": "auto-analisi",
    "nato": "2026-06-30",
-   "ultima_conferma": "2026-06-30",
+   "ultima_conferma": "2026-08-20T08:24:49.684Z",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "decaduto_step_il": null,
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:24:49.684Z",
+     "verbo": "conferma",
+     "perche": "I sensori possono essere ciechi da una sessione all'altra, e in quel caso i numeri vecchi vanno dichiarati come baseline con la data, non spacciati per freschi",
+     "prova": "CLAUDE.md — «se entrambi ciechi: baseline STATO + Gap, MAI numeri inventati»"
+    }
+   ]
   },
   {
    "id": "L-2026-0629-03",
@@ -10698,13 +10858,21 @@
     "nicola"
    ],
    "reparto": "@AD",
-   "confidenza": 0.32999999999999996,
+   "confidenza": 0.8,
    "evidenze": 3,
    "fonte": "chat",
    "nato": "2026-06-28",
-   "ultima_conferma": "2026-07-01",
+   "ultima_conferma": "2026-08-20T08:24:49.597Z",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "decaduto_step_il": null,
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:24:49.597Z",
+     "verbo": "conferma",
+     "perche": "E' il criterio con cui separo quello che faccio da solo da quello che ti porto a firmare: stanotte ha deciso se applicare la 121 subito o aspettare la 120",
+     "prova": "CLAUDE.md — la regola d'oro verde/giallo/rosso"
+    }
+   ]
   },
   {
    "id": "L-2026-0629-01",
@@ -10751,13 +10919,21 @@
     "fesr"
    ],
    "reparto": "@vendite",
-   "confidenza": 0.3699999999999999,
+   "confidenza": 0.8,
    "evidenze": 2,
    "fonte": "radar",
    "nato": "2026-06-29",
-   "ultima_conferma": "2026-07-01",
+   "ultima_conferma": "2026-08-20T08:24:49.770Z",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-13 08:00"
+   "decaduto_step_il": null,
+   "revisioni": [
+    {
+     "quando": "2026-08-20T08:24:49.770Z",
+     "verbo": "conferma",
+     "perche": "Le scadenze esterne vanno accodate con la data visibile: e' il motivo per cui il registro dei fatti tiene le date dei bandi, e per cui non abbiamo promesso fondi su un bando gia' chiuso",
+     "prova": "MyCity-Vault/90-Memoria-AI/registro-fatti.json — voci bando.*.scadenza"
+    }
+   ]
   },
   {
    "id": "L-2026-0701-41",
@@ -13526,19 +13702,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 520,
+  "lezioni_attive": 523,
   "promosse_a_principio": 88,
   "decadute": 0,
-  "tasso_applicazione": 0.12,
-  "tasso_calcolato_il": "2026-08-18 08:56",
+  "tasso_applicazione": 0.11,
+  "tasso_calcolato_il": "2026-08-20 10:22",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-18 08:46",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
   "cristallizzazione_ultima": "2026-08-18 06:26",
-  "lezioni_totali": 526,
+  "lezioni_totali": 529,
   "lezioni_per_stato": {
-   "attiva": 416,
+   "attiva": 419,
    "principio": 88,
    "in-prova": 5,
    "decaduta": 0,
