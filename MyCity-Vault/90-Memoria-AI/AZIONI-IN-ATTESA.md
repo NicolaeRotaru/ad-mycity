@@ -22,25 +22,6 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### ✅ #135 — Applica la 123: il fattorino vede l'ordine e non riesce a prenderlo. FATTO 2026-08-20 14:40, col tuo ok in chat · ⏳ accodata 2026-08-20 13:30
-
-**Cosa cambia:** e' un errore mio, nato dalla 122 di stamattina. La 122 ha chiuso la falla dei
-recapiti stringendo la lettura degli ordini a «solo quelli che sono miei». Ma il database, per
-aggiornare una riga, prima deve leggerla. Su un ordine ancora libero il fattorino non c'e', quindi
-la riga risulta non sua, quindi invisibile. Risultato: preme «Accetta» e si sente rispondere
-«ordine gia' preso da un altro». Non e' vero, e nessuno puo' prenderlo.
-
-Oggi non fa danno: in produzione ci sono zero fattorini approvati e un solo ordine, annullato a
-giugno. Diventa un problema col primo fattorino vero.
-
-Il rimedio non riapre la lettura, perche' quella era la falla. La presa passa da una funzione
-fidata che gira coi permessi del database. La richiesta di unione e' `mycity#228`.
-
-**Se va bene:** dimmi «applica la 123» e la eseguo io, con la verifica dopo. Il file e'
-`migrations/123_presa_ordine_dal_fattorino.sql`. Va fatto dopo aver unito la richiesta.
-
----
-
 ### 🟡 #137 — Approva il fattorino dal pannello: adesso il pulsante c'e' · ⏳ accodata 2026-08-20 17:00
 
 **Cosa cambia:** c'e' una persona iscritta come fattorino dal 25 maggio, ferma in attesa. Non era
@@ -70,6 +51,25 @@ Non e' rotto e non perde soldi. E' solo strano, e prima o poi qualcuno lo chiede
 
 **Se va bene:** dimmi una cosa sola — spedizione fissa a 3 euro per tutti, oppure lasciamo la
 distanza. Se scegli fissa, e' una riga.
+
+---
+
+### ✅ #135 — Applica la 123: il fattorino vede l'ordine e non riesce a prenderlo. FATTO 2026-08-20 14:40, col tuo ok in chat · ⏳ accodata 2026-08-20 13:30
+
+**Cosa cambia:** e' un errore mio, nato dalla 122 di stamattina. La 122 ha chiuso la falla dei
+recapiti stringendo la lettura degli ordini a «solo quelli che sono miei». Ma il database, per
+aggiornare una riga, prima deve leggerla. Su un ordine ancora libero il fattorino non c'e', quindi
+la riga risulta non sua, quindi invisibile. Risultato: preme «Accetta» e si sente rispondere
+«ordine gia' preso da un altro». Non e' vero, e nessuno puo' prenderlo.
+
+Oggi non fa danno: in produzione ci sono zero fattorini approvati e un solo ordine, annullato a
+giugno. Diventa un problema col primo fattorino vero.
+
+Il rimedio non riapre la lettura, perche' quella era la falla. La presa passa da una funzione
+fidata che gira coi permessi del database. La richiesta di unione e' `mycity#228`.
+
+**Se va bene:** dimmi «applica la 123» e la eseguo io, con la verifica dopo. Il file e'
+`migrations/123_presa_ordine_dal_fattorino.sql`. Va fatto dopo aver unito la richiesta.
 
 ---
 
