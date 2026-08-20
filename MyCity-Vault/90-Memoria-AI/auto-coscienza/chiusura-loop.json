@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
   "_cosa_NON_prova": "Non prova che un ESITO sia VERO. Conta righe e date: se un reparto scrive «atteso 10 → reale 12» senza aver misurato niente, qui risulta vivo e puntuale. La verità del numero la giudica la calibrazione (che pretende una fonte esterna al quaderno), non questo conteggio.",
-  "aggiornato": "2026-08-20 20:55",
+  "aggiornato": "2026-08-20 21:05",
   "soglia_giorni": 7,
   "totale": 122,
   "mancanti": 0,
   "vuoti": 72,
-  "fermi": 103,
-  "vivi": 19,
+  "fermi": 104,
+  "vivi": 18,
   "reparti_fermi": [
     "accessibility",
     "account-security",
@@ -55,6 +55,7 @@
     "food-safety",
     "fp-and-a",
     "fraud-risk",
+    "frontend-dev",
     "fundraising-equity",
     "grant-writer",
     "influencer-partnership",
@@ -139,7 +140,6 @@
       "crm-lifecycle",
       "customer-success",
       "data-engineer",
-      "frontend-dev",
       "growth-monetizzazione",
       "prompt-engineer",
       "qa",
@@ -148,7 +148,7 @@
       "trust-safety",
       "vendite"
     ],
-    "reparti_muti_conteggio": 13,
+    "reparti_muti_conteggio": 12,
     "peer_review": {
       "richieste": 1,
       "con_risposta": 0,
@@ -605,8 +605,8 @@
       "deroga": false,
       "esiste": true,
       "mancante": false,
-      "righe_esito": 127,
-      "ultimo_esito": "2026-08-20 18:26",
+      "righe_esito": 128,
+      "ultimo_esito": "2026-08-20 20:48",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -748,11 +748,11 @@
       "deroga": false,
       "esiste": true,
       "mancante": false,
-      "righe_esito": 180,
-      "ultimo_esito": "2026-08-20 20:29",
-      "giorni_fa": 0,
+      "righe_esito": 179,
+      "ultimo_esito": "2026-08-13 20:28",
+      "giorni_fa": 7,
       "vuoto": false,
-      "fermo": false
+      "fermo": true
     },
     {
       "reparto": "fundraising-equity",
