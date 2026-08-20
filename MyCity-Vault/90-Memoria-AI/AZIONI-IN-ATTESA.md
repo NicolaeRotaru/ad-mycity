@@ -22,37 +22,34 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #138 — Fai ripartire il cervello della macchina: è fermo da martedì mattina · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-20 19:45
+### 🔴 #138 — Fai ripartire il cervello della macchina: è fermo da martedì mattina · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-20 19:55
 
-**Cosa cambia:** la riparazione l'hai unita, grazie. Ma unire la mette su GitHub, non sul server.
+**Cosa cambia:** la strada del merge che ti avevo dato prima **non funziona**. Provata sul server
+alle 19:48: otto file in conflitto, cartella lasciata dentro un merge a metà. Anche il push si è
+fermato, perché da lì chiede utente e password. Dopo quel tentativo nessuno dei due lavoratori batte
+più: il servizio risponde `active`, ma è il servizio che si rialza, non il lavoro che riparte.
 
-Il server non tira giù niente da dodici giorni: ha del lavoro suo mai pubblicato e si rifiuta di
-allinearsi per non buttarlo via. Lo scrive lui stesso nella memoria condivisa, un minuto fa:
-«allineamento fermo da 3423 giri». Quindi il codice nuovo lassù non è ancora arrivato, e il
-lavoratore dei lavori — giro, cadenze, analisi, azioni, memoria — è ancora giù da martedì alle 04:46.
-
-**Se va bene:** entra nel server e incolla questo primo pezzo:
+**Se va bene:** annulla il merge a metà — non perde niente, non era mai stato completato:
 
 ```
 cd /opt/mycity/ad-mycity
-sudo -u mycity git fetch origin main
-sudo -u mycity git merge origin/main -m "unisco main dopo la 782"
+sudo -u mycity git merge --abort
 ```
 
-Se stampa dei conflitti, **fermati e mandami quello che vedi**: li risolvo io. Se passa liscio,
-continua col secondo pezzo:
+Poi porta il solo file riparato, senza toccare le diciannove riparazioni ferme lì:
 
 ```
-sudo -u mycity git push origin main
+sudo -u mycity git checkout origin/main -- cervello/worker.sh
+sudo -u mycity git commit -m "porto qui solo worker.sh" cervello/worker.sh
 sudo systemctl restart mycity-worker mycity-worker-chat
-systemctl is-active mycity-worker mycity-worker-chat
+sudo journalctl -u mycity-worker -n 30 --no-pager
 ```
 
-L'ultimo comando deve rispondere `active` due volte. Entro un minuto il Pannello riparte e la coda
-comincia a smaltirsi.
+L'ultimo stampa il diario del lavoratore: mandamelo. Il semaforo vero è il battito nella memoria
+condivisa, non `active`.
 
-**Cosa non ho verificato:** il server da qui non lo vedo, quindi servizi e registri non li ho aperti.
-Il lucchetto invece l'ho provato davvero. Referto: `consegne/audit/2026-08-20-worker.md`
+**Cosa non ho verificato:** perché i due abbiano smesso di battere alle 19:31 non lo so ancora, e il
+diario me lo dirà. L'allineamento vero resta un lavoro a parte.
 
 ---
 
