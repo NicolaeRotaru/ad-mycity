@@ -1,8 +1,25 @@
 ---
 tipo: stato
-aggiornato: 2026-08-19 12:05
+aggiornato: 2026-08-20 06:15
 fonte: AD digitale (chat)
 ---
+
+> ☀️ **20/8 06:15 — Piano del mattino (cadenza ufficiale di ritmo.md).** Il business è invariato. L'ho
+> riconfermato ora con una query diretta al database. Il terminale resta bloccato in questa sessione,
+> stesso guasto del 18 e 19/8, non ancora risolto. C'è 1 negozio, Pane Quotidiano. C'è 1 ordine, mai
+> pagato, del 24 giugno. I pagamenti Stripe restano tutti spenti. Lo stallo del primo ordine pagato sale
+> a **57 giorni**. Siamo dentro la pausa concordata con te. Finisce il 24 agosto, mancano 4 giorni.
+> Nessuna novità dalla sera di ieri.
+>
+> Le tre priorità di oggi restano le stesse di ieri, ancora senza una tua risposta. Le quattro
+> migrazioni del database (`#125`) sono ferme da 2 giorni: senza, i rimborsi ai clienti non funzionano.
+> Le tre falle di sicurezza del sito (`#36`/`#37`/`#38`) sono ferme da **22 giorni**. Le cinque righe di
+> permessi sul server (`#104`) sono ferme da **16 giorni**: è la causa nota per cui gli script che
+> controllano la macchina restano bloccati.
+>
+> Non ho potuto riverificare oggi lo stato delle richieste di unione del codice: il terminale è
+> bloccato. Uso l'ultimo dato vero, di ieri sera. Erano 6 richieste rosse per un errore mio, nessuna
+> tocca il sito vero. Dettaglio completo in [[RITMO]].
 
 > 🕛 **19/8 12:05 — Punto di mezzogiorno (cadenza ufficiale di ritmo.md).** Riprese le 3 priorità del Piano del mattino (06:04): tutte e tre **ancora aperte**, nessuna sbloccata — `#125` (4 migrazioni database, rimborsi rotti) · `#36`/`#37`/`#38` (sicurezza, 21gg) · `#104` (permessi VPS, 15gg). Business riverificato dal vivo con query SQL dirette via MCP Supabase (Bash ancora indisponibile in questa sessione, stesso ENOSPC del 18-19/8): 1 negozio (Pane Quotidiano), 1 ordine mai pagato del 24/6, 0 pagati, 7 profili, Stripe tutto spento — stallo North Star **56 giorni**, dentro la pausa concordata fino al 24/8-1/9. Identico a stamattina. Nessuna correzione di rotta: nessuna urgenza nuova. Il worker ha comunque girato da solo a mezzogiorno (`delta-gate.json` aggiornato 12:00, stessa firma di business). Gap onesto: GitHub/PR/CI non verificabili da qui (connettore non disponibile in questa sessione). Blocco completo in [[RITMO]].
 
@@ -1952,6 +1969,21 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (☀️ aggiornato 20/8 06:15 — piano del mattino)
+Il business è invariato dal 24 giugno. L'ho riconfermato ora con una query diretta al database, zero numeri inventati. C'è 1 negozio, Pane Quotidiano. C'è 1 ordine, mai pagato, del 24 giugno. Ci sono 7 profili e 0 recensioni. I pagamenti Stripe restano tutti spenti. Lo stallo sale a **57 giorni**. Siamo dentro la pausa concordata con Nicola. Finisce il 24 agosto, mancano 4 giorni: non è un allarme. Il terminale resta bloccato in questa sessione, stesso guasto del 18-19/8. I dati sopra vengono da una query diretta, non da uno script. Lo stato di sensori/CI/PR è quello dell'ultima verifica vera, di ieri sera: non riverificato oggi.
+
+1. [ ] 🔴 **Applica le 4 migrazioni al database di produzione** (`#125`) — ferma da 2 giorni. Senza, i rimborsi ai clienti e 3 falle di sicurezza sul database vero restano aperte.
+2. [ ] 🔴 **Decidi sulle tre falle di sicurezza/affidabilità del sito** (`#36`/`#37`/`#38`) — ferme dal 29/7, **22 giorni**.
+3. [ ] 🟡 **Correggi 5 righe nel file dei permessi sul server** (`#104`) — **16 giorni**. È la causa nota per cui gli script che controllano la macchina restano bloccati da questa sessione.
+
+**Non dimenticare, invariata:** la mossa n.1 resta `#62`/`#116`, la pratica pagamenti di Pane Quotidiano. Congelata fino al 24/8-1/9.
+
+**Da chiudere in fretta, ferme da giorni:** `#107` (post Pane Quotidiano, sì/no) · `#118` (comunicato stampa, servono due citazioni vere) · `#120` (segnalazione welfare al fornaio, a costo zero) · `#124` (testi difficili scritti dal monitoraggio automatico).
+
+**Sentinelle attive:** loop business 🔴, 0 ordini reali, stallo 57gg, atteso perché i negozi sono in pausa. Rimborsi/DB 🔴, migrazioni ancora ferme. CI 🟡, 6 PR rosse al 19/8 18:00, non riverificato oggi. REST/MCP Supabase ✅, riverificati ora con query diretta. Il resto dei sensori non è stato riverificato in questo passaggio: il terminale è bloccato.
+
+---
 
 ## Prossime priorità (🌙 aggiornato 19/8 18:00 — report della sera)
 Business INVARIATO, riconfermato ora con SQL diretta: 1 negozio, 5 prodotti, 7 profili, 1 ordine (CANCELED, 24/6), 0 pagati — **stallo 56 giorni**, dentro la pausa concordata fino al 24/8-1/9. Giornata di sola manutenzione: nessun ordine, nessun cliente nuovo. Trovato e riparato stamattina un buco vero: due card date per accodate ieri sera (`#124`/`#125`) non erano mai state scritte davvero, perse dentro un giro interrotto — ricostruite col contenuto già verificato, nessun numero nuovo inventato. Nel pomeriggio le PR rosse in CI sono salite da 3 a 6, tutte per colpa propria (non del marketplace).

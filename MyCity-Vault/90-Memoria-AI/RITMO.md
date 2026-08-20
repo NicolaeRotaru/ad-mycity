@@ -1429,3 +1429,22 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 
 **Dettagli tecnici** (opzionale)
 - Numeri riconfermati 18:00 con SQL diretta via MCP Supabase (`orders`/`profiles`/`products`), non ereditati. CI: 6 PR rosse (#761/#754/#753/#749/#741/#735), 3 condividono `test-del-cervello` + ESITO mancante (AR-009). Card ricostruite oggi: `#124`, `#125`. File toccati: STATO.md (7 numeri + Prossime priorità + Ultime mosse), RITMO.md.
+
+## Piano del mattino · 2026-08-20 06:15
+
+**In una riga:** il negozio resta fermo come previsto. Mancano 4 giorni alla fine della pausa. Il blocco vero oggi sei tu. Tre firme restano ferme da settimane.
+
+**Le 3 cose di oggi**
+1. Firma le quattro modifiche al database rimaste indietro da due giorni. Senza, un rimborso chiesto da un cliente resta senza risposta.
+2. Decidi sulle tre falle di sicurezza del sito. Sono ferme da 22 giorni. Ancora senza una tua risposta.
+3. Correggi cinque righe nel file dei permessi sul server. È la causa nota per cui molti controlli automatici restano bloccati da due settimane.
+
+**Serve da te**
+- Dai il via alle quattro modifiche al database. Il comando è pronto nella card «Firma le 4 migrazioni database», in fondo alle azioni in attesa.
+- Rispondi sulle tre falle di sicurezza. Toccano dati veri di negozi e clienti.
+- Correggi le cinque righe nel file dei permessi.
+- Tre sì/no veloci, pronti da giorni. Il post per Pane Quotidiano. Il comunicato stampa. La segnalazione gratuita al fornaio.
+
+**Dettagli tecnici** (opzionale)
+- Business riconfermato alle 06:15 con una query diretta al database. Il terminale non funziona in questa sessione, stesso guasto del 18-19/8. 1 negozio, 1 ordine mai pagato, Stripe spento, stallo 57 giorni.
+- Card ancora aperte: `#125`, `#36`, `#37`, `#38`, `#104`, `#107`, `#118`, `#120`, `#124`. Tutte invariate.
