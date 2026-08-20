@@ -30,20 +30,23 @@ scaricabile da chiunque abbia accesso al repository. Da oggi esce cifrata — ma
 d'ordine non c'e', il backup **non viene eseguito**: meglio un backup che manca e si vede, che un
 backup che espone tutti e non lo dice.
 
-**Se va bene:** scegli una parola d'ordine lunga (una frase, non una parola), salvala dove tieni
-le password, e mettila su GitHub in Settings → Secrets and variables → Actions con il nome
-`BACKUP_PASSPHRASE`. Da quella notte il backup riparte, cifrato. Senza quella parola d'ordine il
-file non si riapre piu': se la perdi, hai perso il backup.
+**Se va bene:** scegli una parola d'ordine lunga. Non una parola sola, una frase intera. Salvala
+dove tieni le password. Poi mettila su GitHub col nome `BACKUP_PASSPHRASE`, nel pannello
+Settings → Secrets and variables → Actions. Da quella notte il backup riparte, cifrato.
+Attenzione: senza quella parola d'ordine il file non si riapre piu'. Se la perdi, hai perso il
+backup.
 
 ---
 
-### 🔴 #133 — Applica al database la migrazione 122 (unire la richiesta non basta) · ⏳ accodata 2026-08-20 11:30
+### 🔴 #133 — Applica al database la migrazione 122: unire la richiesta non basta · ⏳ accodata 2026-08-20 11:30
 
-**Cosa cambia:** sette riparazioni che vivono nel database e non nel codice. Le due che pesano di
-piu': i fattorini smettono di poter scaricare nome, telefono e indirizzo di casa dei clienti di
-tutti gli ordini liberi della citta'; e i contatori delle campagne sponsorizzate smettono di
-essere gonfiabili da chiunque con un ciclo di richieste dal browser. Finche' non la applichi,
-quelle due porte restano aperte anche dopo che il codice e' pubblicato.
+**Cosa cambia:** sette riparazioni che vivono nel database e non nel codice. Due pesano piu'
+delle altre. La prima riguarda i fattorini. Oggi uno di loro puo' scaricare nome, telefono e
+indirizzo dei clienti di tutta la citta'. Anche degli ordini che non sono suoi. Dopo la
+migrazione vede solo i propri. La seconda riguarda le campagne sponsorizzate. Oggi chiunque puo'
+gonfiarne i contatori con un ciclo di richieste dal browser. Dopo c'e' un tetto: sessanta
+visualizzazioni e dieci clic al minuto. Finche' non applichi la migrazione, quelle due porte
+restano aperte anche dopo che il codice e' pubblicato.
 
 **Se va bene:** dimmi «applica la migrazione 122» e la eseguo io a blocchi, ognuno in una
 transazione sua, leggendo dal database vero il risultato di ogni pezzo. Il file e'
