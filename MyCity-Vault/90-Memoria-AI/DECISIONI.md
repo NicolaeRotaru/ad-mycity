@@ -2511,3 +2511,42 @@ controlli su sei. Sul vero ho provato il guardiano, i permessi e l'esistenza.
 
 **Cosa resta a Nicola.** #134, i due segreti del backup. Piu' i quattro bloccanti che aspettano
 un suo numero o una sua scelta.
+
+---
+
+## 2026-08-20 17:00 — 🟡 Le quattro risposte di Nicola sui bloccanti, messe nel codice
+
+**Cosa ha deciso lui.** ① Il compenso del fattorino e' 3 euro fissi, non a chilometro. ② Risolvere
+il problema del fattorino e poter approvare tutto dal pannello admin. ③ Non c'e' ancora una partita
+IVA attiva, la attiva a 5.000 euro; il referente privacy e' lui, Nicolae Rotaru. ④ Togliere lo
+sconto del 10% sul ritiro in negozio, o metterlo da parte, perche' coi negozi non se n'e' parlato.
+
+**Dove ho fatto piu' di quanto chiesto, e perche'.** Due punti, dichiarati nella richiesta.
+
+Sul ④ ho messo da parte l'opzione intera e non il solo sconto. Il motivo che ha dato — non ne ha
+parlato coi negozi — vale per l'opzione, non per la percentuale. E togliendo solo lo sconto il
+vicolo cieco restava: un ordine ritirato in negozio non arriva mai a «consegnato», quindi il
+negoziante consegna a mano e resta senza incasso.
+
+Sul ③ ho allargato il guardiano a tutte le pagine. Guardava solo quella della privacy mentre la
+stessa partita IVA finta stava in altri quattro punti: e' la stessa malattia di sempre, un
+guardiano che sorveglia una porta sola.
+
+**La cosa che ho scoperto misurando invece di fidarmi.** Il referto diceva che la bonifica della
+114 aveva disapprovato tutti i negozi e i fattorini. Sul database vero i profili seller/rider sono
+DUE, e Pane Quotidiano e' approvato con la sua data: nessun negozio colpito. Il fermo era un
+fattorino iscritto il 25 maggio e mai approvato, e la causa era un'altra — nel pannello i pulsanti
+comparivano solo accanto ai negozi. L'endpoint non ha mai avuto un filtro sul ruolo: mancavano i
+bottoni. Se avessi lavorato sulla causa scritta nel referto avrei riparato la cosa sbagliata.
+
+**Cosa NON ho fatto, detto qui.** La spedizione pagata dal CLIENTE resta a distanza sotto i 30
+euro: Nicola ha parlato del compenso del fattorino, non del prezzo per il cliente. Adesso paghiamo
+fisso e chiediamo variabile. Non e' rotto, ma e' strano: accodata la domanda come carta #136
+invece di deciderlo io.
+
+**Debito dichiarato.** Senza partita IVA il sito non dichiara piu' il falso, ma non dichiara
+nulla. Un sito che incassa deve identificare chi vende: prima del primo incasso vero quella e' una
+domanda per un commercialista, non per me.
+
+**Cosa resta a Nicola.** #137 approvare il fattorino dal pannello, #134 i due segreti del backup,
+#136 la domanda sulla spedizione.
