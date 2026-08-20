@@ -1,8 +1,22 @@
 ---
 tipo: stato
-aggiornato: 2026-08-20 14:40
+aggiornato: 2026-08-20 17:00
 fonte: AD digitale (chat)
 ---
+
+> 🎯 **20/8 17:00 — I quattro bloccanti: tre chiusi, uno spento. Restano 29 aperti su 245, un solo bloccante.** Nicola ha risposto a tutti e quattro in chat e ho messo le risposte nel codice (`mycity#229`).
+>
+> **① Il compenso del fattorino e' 3 euro fissi**, non piu' 2,50 + 1,20 al km. Era il difetto dei soldi: sopra i 30 euro la spedizione e' gratis, restavano solo i 3 euro di fee di consegna, e bastavano fino a **420 metri**. Adesso la fee copre il compenso da sola, sempre. Prova su 6 subtotali per 3 distanze: col vecchio calcolo **15 casi scoperti**, verificato.
+>
+> **② I fattorini si approvano dal pannello.** La causa vera NON era la bonifica della 114: misurato sul database, i profili seller/rider sono due e Pane Quotidiano e' approvato regolarmente. Il fermo era un fattorino iscritto il **25 maggio** e mai approvato, perche' i pulsanti comparivano solo accanto ai negozi. L'endpoint sapeva gia' farlo. **Il clic resta a Nicola** — carta #137.
+>
+> **③ Niente partita IVA finta.** Nicola: «non c'e' ancora una partita IVA attiva, la attivo quando raggiungero i 5000 euro; per il responsabile di privacy sono io: Nicolae Rotaru». Le quattro pagine leggono la fonte unica: senza dati veri la riga non si stampa affatto. Il referente non e' dichiarato DPO, perche' quella nomina non c'e'. Il guardiano guardava una porta sola: ora scandisce **ogni pagina del sito** piu' il pie' di pagina.
+>
+> **④ Il ritiro in negozio e' messo da parte** — l'opzione intera, non il solo sconto, perche' il motivo di Nicola («non ne ho ancora parlato con i negozi») vale per l'opzione e perche' togliendo solo la percentuale il vicolo cieco restava. **Non e' riparato: e' spento.** Il difetto torna il giorno in cui si riaccende, ed e' l'unico bloccante ancora aperto nel registro.
+>
+> **Conti:** registro 207 riparati · 29 aperti (**1 bloccante**, 15 gravi, 13 minori) · **876 prove verdi** (erano 860) · typecheck pulito · lint 0 errori.
+>
+> **Restano a Nicola:** #137 (approvare il fattorino), #134 (i due segreti del backup), #136 (una domanda: la spedizione del cliente resta a distanza o diventa fissa?).
 
 > ✅ **20/8 14:40 — Il database vero e' allineato al codice: applicata anche la 123.** Nicola in chat: «applica la 123», dopo aver unito `mycity#228` alle 14:25. Registrata come `presa_ordine_dal_fattorino`. **Prima:** la funzione non c'era, e il codice gia' online la chiamava. **Dopo:** `prendi_ordine` esiste, gira coi permessi del proprietario, ha il percorso di ricerca fissato, e la puo' chiamare solo chi e' entrato — **l'anonimo no**. Provata dal vivo su un utente che non e' un fattorino: risponde `NON_FATTORINO` senza toccare niente.
 >

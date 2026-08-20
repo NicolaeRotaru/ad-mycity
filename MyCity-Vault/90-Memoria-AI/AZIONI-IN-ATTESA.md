@@ -22,6 +22,38 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🟡 #137 — Approva il fattorino dal pannello: adesso il pulsante c'e' · ⏳ accodata 2026-08-20 17:00
+
+**Cosa cambia:** c'e' una persona iscritta come fattorino dal 25 maggio, ferma in attesa. Non era
+colpa sua e non era colpa di una pulizia andata storta: nel pannello i pulsanti di approvazione
+comparivano solo accanto ai negozi, quindi un fattorino non era approvabile da nessuno.
+
+E' questo il motivo per cui ti ho ripetuto tutto il giorno «zero fattorini approvati». Senza uno
+approvato la bacheca delle consegne resta vuota per forza, e nessun ordine puo' essere preso.
+
+Il negozio invece sta bene: Pane Quotidiano risulta approvato con la sua data. La bonifica di
+luglio non aveva disapprovato nessuno.
+
+**Se va bene:** unisci la richiesta `mycity#229`, poi apri il pannello degli utenti, filtra «in
+attesa» e premi Approva. Da quel momento la bacheca puo' riempirsi.
+
+---
+
+### ⚪ #136 — Una domanda sola: la spedizione del cliente resta a distanza? · ⏳ accodata 2026-08-20 17:00
+
+**Cosa cambia:** mi hai detto che il fattorino prende 3 euro fissi, e l'ho fatto. Ma quanto paga il
+cliente per la spedizione non me l'hai detto, e l'ho lasciato com'era: a distanza, sotto i 30 euro.
+
+Cosi' paghiamo una cifra fissa e ne chiediamo una variabile. Un cliente vicino paga 2,50 euro, uno
+a 5 chilometri ne paga 8,50, e a noi la consegna costa 3 euro in tutti e due i casi.
+
+Non e' rotto e non perde soldi. E' solo strano, e prima o poi qualcuno lo chiede.
+
+**Se va bene:** dimmi una cosa sola — spedizione fissa a 3 euro per tutti, oppure lasciamo la
+distanza. Se scegli fissa, e' una riga.
+
+---
+
 ### ✅ #135 — Applica la 123: il fattorino vede l'ordine e non riesce a prenderlo. FATTO 2026-08-20 14:40, col tuo ok in chat · ⏳ accodata 2026-08-20 13:30
 
 **Cosa cambia:** e' un errore mio, nato dalla 122 di stamattina. La 122 ha chiuso la falla dei
