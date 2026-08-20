@@ -22,28 +22,34 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #138 — Fai ripartire il cervello della macchina: è fermo da martedì mattina · ⏳ accodata 2026-08-20 18:10
+### 🔴 #138 — Fai ripartire il cervello della macchina: è fermo da martedì mattina · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-20 19:45
 
-**Cosa cambia:** sul server lavorano in due. Uno risponde in chat, ed è vivo. L'altro fa il giro, le
-cadenze, le analisi e le azioni che firmi, e pubblica la memoria che il Pannello legge: quello è
-morto martedì alle 04:46 e non è più ripartito. L'ho spento io con un lucchetto messo dodici minuti
-prima. La memoria non arriva su GitHub da martedì alle 08:36 e sedici lavori aspettano in coda.
-Il racconto intero sta nel referto di oggi; la riparazione aspetta la tua firma.
+**Cosa cambia:** la riparazione l'hai unita, grazie. Ma unire la mette su GitHub, non sul server.
 
-**Se va bene:** un fix nel codice non riaccende un servizio spento. Dopo aver unito, entra nel server:
+Il server non tira giù niente da dodici giorni: ha del lavoro suo mai pubblicato e si rifiuta di
+allinearsi per non buttarlo via. Lo scrive lui stesso nella memoria condivisa, un minuto fa:
+«allineamento fermo da 3423 giri». Quindi il codice nuovo lassù non è ancora arrivato, e il
+lavoratore dei lavori — giro, cadenze, analisi, azioni, memoria — è ancora giù da martedì alle 04:46.
+
+**Se va bene:** entra nel server e incolla questo primo pezzo:
 
 ```
 cd /opt/mycity/ad-mycity
 sudo -u mycity git fetch origin main
-sudo -u mycity git log origin/main..HEAD --oneline
-sudo -u mycity git merge --ff-only origin/main
+sudo -u mycity git merge origin/main -m "unisco main dopo la 782"
+```
+
+Se stampa dei conflitti, **fermati e mandami quello che vedi**: li risolvo io. Se passa liscio,
+continua col secondo pezzo:
+
+```
+sudo -u mycity git push origin main
 sudo systemctl restart mycity-worker mycity-worker-chat
 systemctl is-active mycity-worker mycity-worker-chat
 ```
 
-Il terzo comando è un controllo: se stampa delle righe **fermati e mandamele** — è lavoro del server
-non ancora pubblicato, e va unito senza buttarlo. In quel caso il quarto comando si rifiuta da solo,
-quindi incollare tutto insieme è sicuro. L'ultimo deve rispondere `active` due volte.
+L'ultimo comando deve rispondere `active` due volte. Entro un minuto il Pannello riparte e la coda
+comincia a smaltirsi.
 
 **Cosa non ho verificato:** il server da qui non lo vedo, quindi servizi e registri non li ho aperti.
 Il lucchetto invece l'ho provato davvero. Referto: `consegne/audit/2026-08-20-worker.md`
