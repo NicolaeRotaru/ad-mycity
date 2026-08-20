@@ -41,19 +41,34 @@ fidata che gira coi permessi del database. La richiesta di unione e' `mycity#228
 
 ---
 
-### 🔴 #134 — Metti la parola d'ordine del backup, altrimenti stanotte il backup non parte · ⏳ accodata 2026-08-20 11:30
+### 🔴 #134 — Del database non esiste nessuna copia: mancano due segreti, non uno · ⏳ accodata 2026-08-20 11:30 · 🔁 corretta 2026-08-20 13:35
 
-**Cosa cambia:** la copia notturna del database contiene nomi, indirizzi, telefoni e ordini di
-tutti i clienti. Finora usciva in chiaro e restava trenta giorni fra i file di GitHub,
-scaricabile da chiunque abbia accesso al repository. Da oggi esce cifrata — ma se la parola
-d'ordine non c'e', il backup **non viene eseguito**: meglio un backup che manca e si vede, che un
-backup che espone tutti e non lo dice.
+**Cosa cambia:** oggi del database non c'e' **nessuna copia**, da nessuna parte. Il lavoro
+notturno esiste e parte ogni notte alle 4:17, ma si ferma subito. Le due volte che e' partito, il
+19 e il 20 agosto, si e' fermato dopo sedici secondi.
 
-**Se va bene:** scegli una parola d'ordine lunga. Non una parola sola, una frase intera. Salvala
-dove tieni le password. Poi mettila su GitHub col nome `BACKUP_PASSPHRASE`, nel pannello
-Settings → Secrets and variables → Actions. Da quella notte il backup riparte, cifrato.
-Attenzione: senza quella parola d'ordine il file non si riapre piu'. Se la perdi, hai perso il
-backup.
+Quando te l'ho accodata ti avevo detto che mancava la parola d'ordine. E' vero, ma non e' il
+motivo per cui si ferma: sono andata a leggere i registri delle due esecuzioni e il blocco e' un
+altro. Manca prima di tutto l'indirizzo del database. Il lavoro non arriva nemmeno a controllare
+la parola d'ordine.
+
+Il file di copia contiene nomi, indirizzi, telefoni e ordini di tutti i clienti, e resta trenta
+giorni fra i file di GitHub. Per questo la parola d'ordine serve comunque: senza, quel file
+starebbe li' in chiaro, scaricabile da chiunque abbia accesso al repository.
+
+**Se va bene:** vai su GitHub, nel pannello Settings → Secrets and variables → Actions del
+repository del sito, e aggiungi due voci.
+
+La prima si chiama `SUPABASE_DB_URL`. E' l'indirizzo di collegamento al database, quello che
+Supabase chiama stringa di connessione. Lo trovi nel pannello Supabase, alla voce delle
+impostazioni del database.
+
+La seconda si chiama `BACKUP_PASSPHRASE`. Scegli una parola d'ordine lunga: non una parola sola,
+una frase intera. Salvala dove tieni le password. Attenzione: senza quella frase il file non si
+riapre piu'. Se la perdi, hai perso il backup.
+
+Messe tutte e due, la notte dopo la copia parte per la prima volta. Poi dimmelo e controllo che
+sia andata davvero.
 
 ---
 
