@@ -83,7 +83,8 @@ if ! test -w "$REPO/.git/config" 2>/dev/null; then
   exit 1
 fi
 
-url="https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git"
+# GIT_REMOTE_URL: cucitura per i test (default invariato in produzione).
+url="${GIT_REMOTE_URL:-https://x-access-token:${GIT_PUSH_TOKEN}@github.com/${GIT_REPO}.git}"
 
 echo "[$(ts)] ▶ Allineamento codice da main (vault intatto) come $(id -un)..."
 exec 9>"$LOCK"
@@ -127,6 +128,33 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ] && [ -n "$(g
     fi
   fi
 fi
+
+# 🔓 IL CODICE SI ALLINEA ANCHE QUANDO LA MEMORIA NON SI PUBBLICA.
+# Portare il codice da main è a SENSO UNICO: tocca solo i path di codice, non sfiora la memoria del
+# server e non ha bisogno che il rebase o il push riescano. Pubblicare la memoria è un'altra cosa, e
+# può restare bloccata per giorni quando le due storie divergono.
+# Fino al 20/8 le due stavano dietro allo STESSO `exit`: quando il push dei commit pendenti falliva
+# si usciva PRIMA di arrivare all'allineamento del codice, e il server smetteva di ricevere fix.
+# Dodici giorni e 3442 tentativi dopo, la riparazione del lucchetto mergiata su main non era mai
+# arrivata al server — e la macchina non era più riparabile da remoto proprio mentre serviva
+# ripararla. Un guasto della memoria non deve togliere le mani a chi ripara.
+allinea_codice_da_main() {
+  local code_paths=() p f
+  while IFS= read -r p; do
+    case "$p" in MyCity-Vault|consegne|creativi|memoria-squadra) ;; *) code_paths+=("$p") ;; esac
+  done < <(git ls-tree --name-only FETCH_HEAD)
+  [ "${#code_paths[@]}" -gt 0 ] || return 0
+  # 1) Porta da main aggiunte + modifiche dei path di CODICE.
+  git checkout FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null || true
+  # 2) Propaga le CANCELLAZIONI: git checkout NON rimuove i file che main ha eliminato
+  #    (es. cervello/vps/.env.save di AR-004) → restavano vivi sul ramo che serve il Pannello.
+  while IFS= read -r f; do
+    [ -n "$f" ] && git rm -q -f --ignore-unmatch -- "$f" 2>/dev/null || true
+  done < <(git diff --name-only --diff-filter=D HEAD FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null)
+  git "${GIT_ID[@]}" commit -q -m "aggiorna-cervello: allinea codice a main ($(ts))" 2>/dev/null || true
+  echo "[$(ts)] Codice allineato a origin/main (incluse cancellazioni)."
+  return 0
+}
 
 # Commit locali già fatti ma non pushati: pubblicali PRIMA del checkout -f (altrimenti si perdono).
 if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
@@ -174,6 +202,14 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
       # stderr resterebbe nel journal del server, cioè invisibile a chiunque non possa entrarci.
       printf '%s (%s commit fermi qui)\n' "$(motivo_push_fallito "$_perche_rebase")" "$_ahead_pre" \
         > "$REPO/.git/mycity-allineamento-causa" 2>/dev/null || true
+      # La memoria resta qui, ma il CODICE si allinea lo stesso: è a senso unico e non tocca i
+      # commit del server. Senza questa riga un server che non riesce a pubblicare smette anche di
+      # RICEVERE le riparazioni — ed è così che si diventa irreparabili da remoto.
+      if git fetch "$url" main 2>/dev/null; then
+        allinea_codice_da_main
+      else
+        echo "[$(ts)]    (fetch di main fallito: il codice NON si allinea in questo giro)" >&2
+      fi
       exit "$_rc_all"
     fi
     rm -f "$REPO/.git/mycity-allineamento-causa" 2>/dev/null || true
@@ -274,22 +310,7 @@ if ! git fetch "$url" main; then
   echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all") — allineamento codice SALTATO." >&2
   exit "$_rc_all"
 else
-  code_paths=()
-  while IFS= read -r p; do
-    case "$p" in MyCity-Vault|consegne|creativi|memoria-squadra) ;; *) code_paths+=("$p") ;; esac
-  done < <(git ls-tree --name-only FETCH_HEAD)
-  if [ "${#code_paths[@]}" -gt 0 ]; then
-    # 1) Porta da main aggiunte + modifiche dei path di CODICE.
-    git checkout FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null || true
-    # 2) Propaga le CANCELLAZIONI: git checkout NON rimuove i file che main ha eliminato
-    #    (es. cervello/vps/.env.save di AR-004) → restavano vivi sul ramo che serve il Pannello.
-    #    Rimuoviamo esplicitamente i file presenti qui (HEAD) ma assenti su main (FETCH_HEAD).
-    while IFS= read -r f; do
-      [ -n "$f" ] && git rm -q -f --ignore-unmatch -- "$f" 2>/dev/null || true
-    done < <(git diff --name-only --diff-filter=D HEAD FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null)
-    git "${GIT_ID[@]}" commit -q -m "aggiorna-cervello: allinea codice a main ($(ts))" 2>/dev/null || true
-    echo "[$(ts)] Codice allineato a origin/main (incluse cancellazioni)."
-  fi
+  allinea_codice_da_main
 fi
 
 # AR-023: RICONCILIA IL CANTIERE appena il codice è allineato a main. È il percorso "immediato": watch-main
