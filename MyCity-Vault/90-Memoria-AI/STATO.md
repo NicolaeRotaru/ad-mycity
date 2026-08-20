@@ -1,8 +1,14 @@
 ---
 tipo: stato
-aggiornato: 2026-08-20 11:30
+aggiornato: 2026-08-20 12:35
 fonte: AD digitale (chat)
 ---
+
+> ✅ **20/8 12:27 — Nicola ha unito tutte e due le richieste.** `mycity#227` (le cento riparazioni, 10 commit) e `ad-mycity#777` (registro, referto, coda). La carta **#132 e' chiusa**. Il marketplace si pubblica da solo a ogni unione su `main` (`autoDeploy: true` in `render.yaml`): il codice nuovo e' **gia' in produzione**.
+>
+> **Attenzione, uno strascico vero:** la migrazione **122 non e' ancora applicata** al database. Il codice online chiede la vista `ordini_disponibili_rider`, che nel database non esiste: la **bacheca del fattorino resta vuota** e lui vede solo gli ordini che ha gia' preso. Le altre riparazioni della 122 hanno tutte un ripiego verificato nel codice (`store_cards` su `/stores` e `/near`, `product_active_discounts` in `lib/promotions.ts`, `cod_checkout_attempts` nel pagamento alla consegna): funzionano come prima, senza rompersi. Oggi il danno e' zero perche' non c'e' nessun ordine da prendere; diventa un problema al primo ordine vero. La carta **#133 e' salita di urgenza** ed e' stata riscritta con questa conseguenza dentro.
+>
+> **Restano due firme:** #133 (applicare la 122) e #134 (parola d'ordine del backup).
 
 > 🛠️ **20/8 11:30 — Cento difetti del sito riparati (lotto 2 sul referto del 18 agosto).** Richiesta di Nicola in chat: «risolvi 100 difetti del marketplace nel modo migliore ed efficiente che riesci». Gli aperti passano da **141 a 32** (4 bloccanti, 15 gravi, 13 minori). Otto dei 141 erano gia' a posto dal lotto del 19: verificati nel codice, marcati `gia_riparato_prima`, non ricontati. Ramo `claude/marketplace-100-bugs-jpl7hw` sul repo del marketplace, 10 commit. Cancelli: `tsc` pulito · `next lint` 0 errori (95 avvisi a11y preesistenti, erano 96) · **860 prove verdi su 860** (erano 800) · schema ricostruito da zero su Postgres 16, **123 migrazioni su 123** applicate · 5 file di controlli SQL verdi, fra cui uno nuovo che diventa **rosso senza la migrazione 122** (il fattorino legge il telefono di un ordine non suo). Referto: `consegne/audit/2026-08-20-marketplace-100-riparazioni.md`. **Tre firme accodate:** #132 (unire la richiesta), #133 (applicare la 122 — azione separata dal merge), #134 (parola d'ordine del backup: senza, da stanotte il backup non parte, per scelta). I 4 bloccanti che restano aspettano un numero o un dato di Nicola, non codice.
 >

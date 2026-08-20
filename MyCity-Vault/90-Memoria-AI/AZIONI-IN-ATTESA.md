@@ -38,24 +38,31 @@ backup.
 
 ---
 
-### 🔴 #133 — Applica al database la migrazione 122: unire la richiesta non basta · ⏳ accodata 2026-08-20 11:30
+### 🔴 #133 — Applica al database la migrazione 122: il codice e' gia' online, lei no · ⏳ accodata 2026-08-20 11:30
 
 **Cosa cambia:** sette riparazioni che vivono nel database e non nel codice. Due pesano piu'
 delle altre. La prima riguarda i fattorini. Oggi uno di loro puo' scaricare nome, telefono e
 indirizzo dei clienti di tutta la citta'. Anche degli ordini che non sono suoi. Dopo la
 migrazione vede solo i propri. La seconda riguarda le campagne sponsorizzate. Oggi chiunque puo'
 gonfiarne i contatori con un ciclo di richieste dal browser. Dopo c'e' un tetto: sessanta
-visualizzazioni e dieci clic al minuto. Finche' non applichi la migrazione, quelle due porte
-restano aperte anche dopo che il codice e' pubblicato.
+visualizzazioni e dieci clic al minuto.
 
-**Se va bene:** dimmi «applica la migrazione 122» e la eseguo io a blocchi, ognuno in una
+**Una cosa che non ti avevo detto.** Hai unito la richiesta del sito alle 12:27, e il sito si
+pubblica da solo a ogni unione. Quindi adesso il codice nuovo e' online e la migrazione no. Il
+codice chiede al database una vetrina degli ordini liberi che ancora non esiste. Effetto: la
+bacheca del fattorino resta vuota, e lui vede solo gli ordini che ha gia' preso. Non si rompe
+niente d'altro: le altre riparazioni hanno un ripiego e si comportano come prima. Oggi non fa
+danno, perche' non c'e' nessun ordine da prendere. Diventa un problema il giorno del primo
+ordine vero.
+
+**Se va bene:** dimmi «applica la migrazione 122» e la eseguo io a blocchi. Ogni blocco in una
 transazione sua, leggendo dal database vero il risultato di ogni pezzo. Il file e'
-`migrations/122_radiografia_20_agosto.sql` nel repo del marketplace. Va fatto DOPO aver unito la
-richiesta.
+`migrations/122_radiografia_20_agosto.sql` nel repo del marketplace. La richiesta e' gia' unita:
+questo e' l'ultimo passo.
 
 ---
 
-### 🟡 #132 — Cento riparazioni sul sito: la richiesta di unione e' pronta · ⏳ accodata 2026-08-20 11:30
+### ✅ #132 — Cento riparazioni sul sito: la richiesta di unione e' pronta. FATTO 2026-08-20 12:27, l'hai unita tu · ⏳ accodata 2026-08-20 11:30
 
 **Cosa cambia:** i difetti aperti del sito scendono da centoquarantuno a trentadue. Fra le cose
 riparate: il doppio clic che faceva due ordini in contanti, il «Non hai ancora ordini» dopo aver

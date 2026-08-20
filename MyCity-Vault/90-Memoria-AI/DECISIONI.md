@@ -2415,3 +2415,30 @@ d'impatto privacy per la posizione dei fattorini). Nessuna verifica e' stata fat
 sito in un browser.
 
 **Referto:** `consegne/audit/2026-08-20-marketplace-100-riparazioni.md`.
+
+---
+
+## 2026-08-20 12:35 — 🟡 Le due richieste sono unite, e la 122 diventa urgente
+
+**Cosa e' successo.** Nicola ha unito `mycity#227` e `ad-mycity#777` alle 12:27. La carta #132
+e' chiusa. Il marketplace si pubblica da solo a ogni unione su `main`, quindi il codice delle
+cento riparazioni e' gia' in produzione.
+
+**Cosa ho scoperto dopo, e perche' lo scrivo.** Il codice online chiede al database la vista
+`ordini_disponibili_rider`, che esiste solo dentro la migrazione 122. La 122 non e' applicata.
+Effetto reale: la bacheca del fattorino resta vuota, e lui vede solo gli ordini che ha gia'
+preso. Oggi non fa danno perche' non c'e' nessun ordine da prendere. Diventa un problema al
+primo ordine vero.
+
+**Perche' non si rompe altro.** Ho riletto uno per uno i punti del codice che chiedono qualcosa
+alla 122. `store_cards` su `/stores` e `/near` ripiega sul conteggio di prima.
+`product_active_discounts` in `lib/promotions.ts` ripiega sulla chiamata per singolo prodotto.
+`cod_checkout_attempts` nel pagamento alla consegna scrive un avviso nel registro e lascia
+passare l'ordine. Nessuno di questi lancia un errore.
+
+**Cosa ho fatto.** Riscritta la carta #133 con questa conseguenza dentro, invece di lasciarla
+scoprire. Aggiunto il blocco in cima a STATO. La carta diceva solo che restavano aperte due
+porte di sicurezza: era vero ma incompleto, e su una carta 🔴 incompleto vuol dire che la firma
+si decide su meno di quello che serve.
+
+**Cosa resta a Nicola.** #133 (applicare la 122) e #134 (parola d'ordine del backup).
