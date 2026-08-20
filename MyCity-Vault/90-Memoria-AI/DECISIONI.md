@@ -2371,3 +2371,47 @@ venti minuti prima.
 `node cervello/tasso-lezioni.mjs`: 59 lezioni usate su 523 negli ultimi 30 giorni = 0,11 contro
 una soglia di 0,3. Il volano e' fermo. Le diciotto erano il bordo di questo, non il problema.
 Da portare a Nicola come lavoro suo.
+
+
+---
+
+## 2026-08-20 11:30 · 🟡 Cento difetti del sito riparati, aperti da 141 a 32
+
+**Cosa.** Secondo lotto sul referto del 18 agosto: cento difetti riparati sul ramo
+`claude/marketplace-100-bugs-jpl7hw` del repo `NicolaeRotaru/mycity`, dieci commit. I difetti
+aperti passano da centoquarantuno a trentadue: quattro bloccanti (tutti in attesa di una
+decisione o di un dato di Nicola), quindici gravi, tredici minori.
+
+**Perche'.** Nicola ha chiesto cento difetti del marketplace, «nel modo migliore ed efficiente
+che riesci». La scelta e' stata lavorare per causa radice invece che per singola voce: dove un
+difetto nasceva da una regola scritta due volte — la spedizione, la cancellazione account, il
+riordino, l'identita' dell'utente — ho tolto la seconda copia, e con quella sono cadute anche le
+voci che ne discendevano.
+
+**Le tre riparazioni che valgono piu' delle altre.** ① Il doppio clic sul pulsante «Ordina» in
+contanti creava due ordini, riservava la merce due volte e scalava il credito due volte: ora una
+chiave per tentativo li riconosce. ② Ogni fattorino approvato poteva scaricare nome, telefono e
+indirizzo di casa dei clienti di tutti gli ordini liberi della citta': ora la bacheca non ha
+proprio quelle colonne. ③ Il registro dei consensi cookie era vuoto da sempre — il browser
+mandava un numero dove il server voleva un testo, e ogni scelta veniva buttata via in silenzio.
+
+**Il freno, non solo la frase.** Le riparazioni che si possono riaprire hanno un guardiano:
+regole di lint che vietano gli import tornati morti (`@/components/ErrorState`,
+`@/lib/notifications`), e una prova SQL che diventa rossa senza la migrazione 122 — sul database
+senza la 122 un fattorino legge `delivery_phone = 3331234567` di un ordine non suo, con la 122
+legge zero righe.
+
+**Cosa resta a Nicola.** Tre firme, accodate come card #132 (unire la richiesta), #133 (applicare
+la migrazione 122) e #134 (la parola d'ordine del backup, senza la quale da stanotte il backup
+non parte). Piu' i quattro bloccanti che aspettano un suo numero o un suo dato: la tariffa di
+consegna contro il compenso del fattorino, la partita IVA vera, i negozi da riapprovare dal
+pannello, e il ritiro in negozio che non arriva mai a «consegnato».
+
+**Cosa NON e' stato fatto, detto qui e non lasciato scoprire.** Cinquantatre delle cento
+riparazioni non hanno una prova automatica loro: sono coperte dal controllo dei tipi, dallo stile
+e dalle ottocentosessanta prove esistenti. Tre riparazioni sono parziali e la nota sta nel
+registro accanto a ognuna (totali del venditore, endpoint AI senza schermata, valutazione
+d'impatto privacy per la posizione dei fattorini). Nessuna verifica e' stata fatta aprendo il
+sito in un browser.
+
+**Referto:** `consegne/audit/2026-08-20-marketplace-100-riparazioni.md`.

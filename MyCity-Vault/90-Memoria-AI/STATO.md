@@ -1,8 +1,12 @@
 ---
 tipo: stato
-aggiornato: 2026-08-18 06:41
+aggiornato: 2026-08-20 11:30
 fonte: AD digitale (chat)
 ---
+
+> 🛠️ **20/8 11:30 — Cento difetti del sito riparati (lotto 2 sul referto del 18 agosto).** Richiesta di Nicola in chat: «risolvi 100 difetti del marketplace nel modo migliore ed efficiente che riesci». Gli aperti passano da **141 a 32** (4 bloccanti, 15 gravi, 13 minori). Otto dei 141 erano gia' a posto dal lotto del 19: verificati nel codice, marcati `gia_riparato_prima`, non ricontati. Ramo `claude/marketplace-100-bugs-jpl7hw` sul repo del marketplace, 10 commit. Cancelli: `tsc` pulito · `next lint` 0 errori (95 avvisi a11y preesistenti, erano 96) · **860 prove verdi su 860** (erano 800) · schema ricostruito da zero su Postgres 16, **123 migrazioni su 123** applicate · 5 file di controlli SQL verdi, fra cui uno nuovo che diventa **rosso senza la migrazione 122** (il fattorino legge il telefono di un ordine non suo). Referto: `consegne/audit/2026-08-20-marketplace-100-riparazioni.md`. **Tre firme accodate:** #132 (unire la richiesta), #133 (applicare la 122 — azione separata dal merge), #134 (parola d'ordine del backup: senza, da stanotte il backup non parte, per scelta). I 4 bloccanti che restano aspettano un numero o un dato di Nicola, non codice.
+>
+> **Il business e' invariato** e non e' stato ri-misurato in questo passaggio: questo e' un lotto di riparazioni sul codice, non un giro. Vale l'ultima misura sotto.
 
 > 🔁 **18/8 06:41 — Giro richiesto in chat, 11 minuti dopo il passaggio 06:30. Riverificato dal vivo (SQL diretto `orders`/`profiles` + `verifica-sensori.mjs` + `coerenza-fatti.mjs` + `ci-stato.mjs`): stato bit-per-bit identico.** `orders`: 1 riga, 0 pagati, ultimo 2026-06-24 (annullato) — stallo North Star 55 giorni, dentro la pausa concordata fino al 24/8-1/9. Pane Quotidiano: `charges_enabled`/`payouts_enabled`/`details_submitted` ancora tutti `false`. Stesse 6 PR rosse per colpa propria (#761/#754/#753/#749/#741/#735). `coerenza-fatti.mjs` ✅ 39 fatti, 0 cacce. `test-cervello.mjs` bloccato dall'allowlist di sessione (card #104/#42), non ritentato oltre un colpo. Nessuna riscrittura dei JSON pesanti (freschi da 11 minuti, dati identici), nessun sub-agente lanciato: disciplina RISPARMIO, coerente col vincolo North Star.
 >
