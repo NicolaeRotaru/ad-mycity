@@ -1448,3 +1448,25 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 **Dettagli tecnici** (opzionale)
 - Business riconfermato alle 06:15 con una query diretta al database. Il terminale non funziona in questa sessione, stesso guasto del 18-19/8. 1 negozio, 1 ordine mai pagato, Stripe spento, stallo 57 giorni.
 - Card ancora aperte: `#125`, `#36`, `#37`, `#38`, `#104`, `#107`, `#118`, `#120`, `#124`. Tutte invariate.
+
+## Punto di mezzogiorno · 2026-08-20 12:15
+
+**In una riga:** da stamattina non si è mossa una virgola. Aspetto ancora te su tre cose ferme.
+
+**Le 3 priorità di stamattina**
+1. ❌ Migrazioni database per i rimborsi. Ancora senza il tuo sì.
+2. ❌ Tre falle di sicurezza. 22 giorni senza risposta. Invariato.
+3. ❌ Permessi del server. Non li tocco da sola, nemmeno per un fix banale. Serve la tua firma.
+
+**Ho ricontrollato i dati veri.** Query diretta al database, il terminale resta rotto. Nessun ordine nuovo. Nessun cliente nuovo. Nessun allarme nuovo da stamattina. Pane Quotidiano è fermo come alle 6. Stallo a 57 giorni.
+
+**Non ho corretto la rotta.** Le tre priorità di stamattina restano quelle giuste. Non ho aperto nuove analisi. Tutto è fermo sulla tua firma: aprirne di nuove sarebbe rumore, non aiuto.
+
+**Serve da te entro sera**
+- Il sì alle 4 migrazioni database (card «Firma le 4 migrazioni database»).
+- Una risposta sulle tre falle di sicurezza.
+- La correzione dei permessi del server. 5 righe, comando già pronto.
+
+**Dettagli tecnici** (opzionale)
+- Verifica alle 12:15 via query diretta Supabase (`orders`, `audit_logs`, `operational_alert_log`). Unico ordine `58094956…` ancora CANCELED/PENDING, invariato dal 3/7. Nessuna azione admin in `audit_logs` da oggi. Nessun alert nuovo dal 30/7.
+- Card invariate: `#125`, `#36`, `#37`, `#38`, `#104`, `#107`, `#118`, `#120`, `#124`.
