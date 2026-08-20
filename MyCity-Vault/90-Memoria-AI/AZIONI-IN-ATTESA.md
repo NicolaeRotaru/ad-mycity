@@ -22,34 +22,34 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #138 — Fai ripartire il cervello della macchina: è fermo da martedì mattina · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-20 19:55
+### 🔴 #138 — Libera il disco del server: è pieno, ed è per questo che la macchina è ferma · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-20 20:05
 
-**Cosa cambia:** la strada del merge che ti avevo dato prima **non funziona**. Provata sul server
-alle 19:48: otto file in conflitto, cartella lasciata dentro un merge a metà. Anche il push si è
-fermato, perché da lì chiede utente e password. Dopo quel tentativo nessuno dei due lavoratori batte
-più: il servizio risponde `active`, ma è il servizio che si rialza, non il lavoro che riparte.
+**Cosa cambia:** il diario del server ha detto la causa vera, e non era il lucchetto. Il disco è
+pieno. Senza spazio non si scrive la chiave della memoria. Senza chiave il lavoratore non interroga
+il database. E allora non riesce a leggere se è in pausa o no. Si ferma da solo, apposta, e lo
+scrive: «meglio fermo che partito mentre Nicola crede di averlo messo in pausa». La pausa invece è
+spenta dal 5 agosto. Il freno scatta per il motivo sbagliato.
 
-**Se va bene:** annulla il merge a metà — non perde niente, non era mai stato completato:
+La riparazione unita ieri **funziona**. Alle 20:00:29 la corsia grande si è accesa, per la prima
+volta da martedì.
 
-```
-cd /opt/mycity/ad-mycity
-sudo -u mycity git merge --abort
-```
-
-Poi porta il solo file riparato, senza toccare le diciannove riparazioni ferme lì:
+**Se va bene:** guarda quanto spazio resta, poi svuota il diario di sistema:
 
 ```
-sudo -u mycity git checkout origin/main -- cervello/worker.sh
-sudo -u mycity git commit -m "porto qui solo worker.sh" cervello/worker.sh
-sudo systemctl restart mycity-worker mycity-worker-chat
-sudo journalctl -u mycity-worker -n 30 --no-pager
+df -h /
+sudo journalctl --vacuum-size=200M
+df -h /
 ```
 
-L'ultimo stampa il diario del lavoratore: mandamelo. Il semaforo vero è il battito nella memoria
-condivisa, non `active`.
+Se lo spazio libero resta sotto il dieci per cento, manda l'uscita di:
 
-**Cosa non ho verificato:** perché i due abbiano smesso di battere alle 19:31 non lo so ancora, e il
-diario me lo dirà. L'allineamento vero resta un lavoro a parte.
+```
+sudo du -xh --max-depth=1 / 2>/dev/null | sort -h | tail -12
+```
+
+**Cosa non ho verificato:** quanto disco resti non lo so, né cosa se lo sia mangiato. Da qui il
+server non lo vedo. Che liberare spazio basti a far ripartire tutto è la causa più probabile, non
+una certezza. L'allineamento dei diciannove commit fermi lassù resta un lavoro a parte.
 
 ---
 
