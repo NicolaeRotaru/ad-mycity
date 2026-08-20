@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-18 08:56",
+  "aggiornato": "2026-08-20 18:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16288,6 +16288,51 @@
         "tipo": "comando",
         "comando": "node cervello/test/archivi-senza-tetto.test.mjs"
       }
+    },
+    {
+      "id": "AR-772",
+      "stato": "aperto",
+      "dimensione": "worker-deep-dive",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "titolo": "Il lucchetto del worker era uno solo per due servizi: la corsia dei lavori è rimasta spenta due giorni e mezzo",
+      "causa_radice": "Il 18/8 alle 04:34 il commit add07ee ha messo un flock di istanza singola in cima a cervello/worker.sh per impedire a due copie dello stesso script di girare insieme. Il file del lucchetto però è uno solo — .worker.lock — mentre quello script lo eseguono DUE servizi systemd che si distinguono solo per la variabile WORKER_LANE: mycity-worker (lane all: giro, ritmo, analisi, azioni, pubblicazione della memoria) e mycity-worker-chat (lane chat). Da quel momento le due corsie si escludono a vicenda: la seconda ad avviarsi trova il lucchetto occupato ed esce. Alle 04:46 la corsia all ha battuto per l ultima volta (worker:ultimo:all fermo a 2026-08-18T04:46) e non è più ripartita; alle 06:50 la visita del VPS registrava già «non attivo: mycity-worker» come regressione del giorno. Il ramo che perde esce con codice 0 — scelta deliberata del commit, «per non far sembrare questo un guasto del servizio» — e infatti non lo sembrava: systemd lo riavviava ogni 10 secondi e ogni volta usciva pulito.",
+      "fix_proposto": "Il lucchetto porta il nome della corsia: .worker.$WORKER_LANE.lock invece di .worker.lock, con WORKER_LANE risolta in cima al file (serve prima del flock; la definizione canonica si sposta lì). Due corsie diverse convivono — che è il motivo per cui i due servizi esistono — e due copie della STESSA corsia restano escluse, cioè il male che il lucchetto era nato a curare resta curato. Il messaggio di esclusione dice quale corsia è rimasta fuori, così nel journal si capisce chi è morto.",
+      "dove": "cervello/worker.sh (blocco ISTANZA SINGOLA) · .gitignore · cervello/vps/mycity-worker.service + mycity-worker-chat.service (stesso ExecStart, WORKER_LANE diversa)",
+      "impatto_crescita": "è l organo che esegue: con la corsia all spenta non parte nessun giro, nessuna cadenza, nessuna azione firmata da Nicola, e la memoria non arriva su GitHub. Dal 18/8 al 20/8 sono rimasti in coda 16 lavori mai presi in carico (15 con tentativi=0 e nessun proprietario) e il Pannello ha mostrato a Nicola gli stessi numeri per due giorni",
+      "nato": "2026-08-20 18:05",
+      "nato_come": "regressione",
+      "nato_da": "add07ee — «fix(worker): lucchetto di istanza singola su worker.sh», 18/8/2026 04:34: il fix del doppio worker ha spento il worker",
+      "origine": "Nicola: «il pannello è bloccato da due giorni». Diagnosi per tracce da sessione cloud: coda Supabase memoria, chiavi worker:ultimo:<corsia>, referto del VPS in salute.json, storia git.",
+      "nota": "Codice riparato su questo ramo e prova verde (3 casi, 2 con processi bash veri). RESTA APERTO perché sul VPS il servizio è ancora giù: un fix nel repo non riavvia un servizio morto. Si chiude quando worker:ultimo:all torna a battere — card 🔴 in AZIONI-IN-ATTESA (Nicola: git pull + systemctl restart mycity-worker).",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/lucchetto-per-corsia.test.mjs"
+      },
+      "malattia": "non-pattern-izzabile",
+      "malattia_perche": "La forma non sta in una riga di codice: sta nel rapporto fra un file (il lucchetto) e due processi che nessun testo del file nomina insieme. Il pattern che la troverebbe — «un percorso di lucchetto senza variabile dentro» — sarebbe rosso su ogni lucchetto legittimo del repo, cioè un allarme che si impara a ignorare. La guardia è a runtime e sta in due posti: cervello/test/lucchetto-per-corsia.test.mjs avvia due processi veri e diventa rosso se le due corsie tornano a escludersi; AR-773 copre la CLASSE invece del caso, perche da adesso una corsia morta si vede nella Cabina qualunque sia la causa — lucchetto, quota, crash o mano umana."
+    },
+    {
+      "id": "AR-773",
+      "stato": "aperto",
+      "dimensione": "pannello-freschezza-dati",
+      "gravita": "grave",
+      "colore": "🟡",
+      "titolo": "La Cabina dava la macchina per viva leggendo il battito di chiunque, anche quando a battere era solo la chat",
+      "causa_radice": "Dall 11/7 ogni worker scrive due battiti: worker:ultimo:<corsia> (il suo) e worker:ultimo (il più recente di chiunque, tenuto per retrocompatibilità). Il commento nel worker diceva che la vista per-corsia era «un di più che il Pannello potrà mostrare»: il Pannello non l ha mai letta. macchinaViva() e comeStaLaMacchina() in pannello/src/lib/battito.ts leggevano solo worker:ultimo e prendevano la scorciatoia «il worker sta lavorando adesso» se quel battito era di meno di sei minuti. Con la corsia all morta (AR-772) e la corsia chat viva che batteva ogni minuto, quella scorciatoia ha risposto true per due giorni e mezzo, saltando il verdetto sull ultimo giro che avrebbe detto la verità («l ultimo giro è di 2 giorni fa: quello che vedi qui è di allora»). È la stessa malattia di AR-544 e AR-367 — una misura scritta e mai consumata — ripetuta sul battito.",
+      "fix_proposto": "La scorciatoia si chiede alla corsia che fa i lavori: verdettoCorsie() legge worker:ultimo:all e concede il verde solo se batte quella. Se batte qualcun altro ma non lei, la home lo dice con parole sue — «risponde in chat, ma il worker dei lavori è fermo da 2 giorni e 13 ore: giro, ritmo e azioni non partono» — invece di tacere. Se il battito per-corsia manca del tutto (worker con codice più vecchio dell 11/7) non si inventa un età e non si dà il verde: ⚪ non è ✅. La funzione sta in memoria-ferma.ts, che è puro e senza import apposta per essere provabile.",
+      "dove": "pannello/src/lib/battito.ts (macchinaViva, comeStaLaMacchina) · pannello/src/lib/memoria-ferma.ts (verdettoCorsie)",
+      "impatto_crescita": "è il difetto che ha fatto costare due giorni al primo: il guasto c era dal 18/8 alle 04:46, la Cabina ha continuato a mostrare il pallino verde, e chi se n è accorto è stato Nicola guardando i numeri fermi. Un Pannello che dice il falso sullo stato della macchina è peggio di un Pannello che non dice niente",
+      "nato": "2026-08-20 18:05",
+      "nato_come": "scoperta",
+      "nato_da": "AR-772 — cercando perché il blocco della corsia dei lavori non fosse stato segnalato da nessuno",
+      "origine": "Nicola: «il pannello è bloccato da due giorni» — la seconda metà della domanda: perché nessuno se n è accorto.",
+      "nota": "Codice riparato su questo ramo e prova verde (6 casi con i numeri veri dell incidente). RESTA APERTO finché il Pannello non è ripubblicato: su Vercel il deploy da git è disattivato (vercel.json: deploymentEnabled false), quindi la correzione non arriva online da sola.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/c6-giro-andato-male.test.mjs"
+      },
+      "nota_prova": "Due prove, non una. c6-giro-andato-male.test.mjs guida il battito.ts vero (store e vault sostituiti da doppi) e porta il caso nuovo con i numeri del 18/8: corsia all ferma da 61 ore, chat che batte adesso, macchina NON viva. Il caso vecchio di AR-367 diceva il contrario e passava worker:ultimo: era l assunto del guasto scritto dentro una prova, riscritto per chiedere la corsia giusta. Accanto, battito.corsie.test.mts (6 casi sulla funzione pura) gira con node cervello/test-pannello.mjs."
     }
   ],
   "meta": {

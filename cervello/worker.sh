@@ -19,15 +19,24 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO="$(dirname "$SCRIPT_DIR")"
 cd "$REPO"
 
-# 🔒 ISTANZA SINGOLA — il 18/8/2026 due copie di questo script sono girate insieme per giorni
-# (una partita il 12/8, una il 16/8: nessuna sapeva dell'altra). Accavallandosi sugli stessi file
-# di memoria hanno prodotto 2.160 commit vuoti in ~2 ore. Il lock impedisce a una seconda copia di
-# partire finché la prima è viva. systemd (Restart=always) la farà ripartire da sola quando la
-# prima finisce per davvero: uscire con uno stato "ok" (non errore) evita di far sembrare questo
-# un guasto del servizio.
-exec 200>"$SCRIPT_DIR/.worker.lock"
+# 🔒 ISTANZA SINGOLA — MA PER CORSIA, NON PER FILE.
+# Il 18/8/2026 due copie di questo script sono girate insieme per giorni (una partita il 12/8, una
+# il 16/8: nessuna sapeva dell'altra). Accavallandosi sugli stessi file di memoria hanno prodotto
+# 2.160 commit vuoti in ~2 ore. Il lucchetto impedisce a una seconda copia di partire finché la
+# prima è viva. systemd (Restart=always) la farà ripartire da sola quando la prima finisce per
+# davvero: uscire con uno stato "ok" (non errore) evita di far sembrare questo un guasto del servizio.
+#
+# ⚠️ IL LUCCHETTO DEVE PORTARE IL NOME DELLA CORSIA. Questo stesso file lo eseguono DUE servizi —
+# mycity-worker.service (WORKER_LANE=all) e mycity-worker-chat.service (WORKER_LANE=chat) — e devono
+# poter vivere INSIEME: è tutto il senso di averli separati. Con un lucchetto solo la seconda corsia
+# ad avviarsi restava fuori per sempre: dalle 04:46 del 18/8 la corsia `all` è morta a ogni riavvio
+# sulla riga qui sotto, mentre `chat` teneva il file. Il Pannello è rimasto fermo due giorni —
+# sedici lavori mai presi in carico, memoria non pubblicata dalle 08:36 — e nessuno se n'è accorto,
+# perché il ramo che perde esce con «ok». Prova: node cervello/test/lucchetto-per-corsia.test.mjs
+WORKER_LANE="${WORKER_LANE:-all}"   # risolta qui perché il lucchetto la usa; le due corsie sono spiegate più sotto
+exec 200>"$SCRIPT_DIR/.worker.$WORKER_LANE.lock"
 if ! flock -n 200; then
-  echo "[$(date '+%Y-%m-%d %H:%M:%S')] ⛔ Un'altra copia di worker.sh è già viva — esco senza avviarmi." >&2
+  echo "[$(date '+%Y-%m-%d %H:%M:%S')] ⛔ Un'altra copia della corsia '$WORKER_LANE' è già viva — esco senza avviarmi." >&2
   exit 0
 fi
 
@@ -412,7 +421,7 @@ AUTH=("${CURL_TIMEOUT[@]}" "${C4_CURL_AUTH[@]}" -H "Content-Type: application/js
 #                    il worker "all" è impegnato in un giro da 45 minuti, le tue chat vengono
 #                    risposte SUBITO dal worker-chat. Il claim atomico impedisce che i due prendano
 #                    lo stesso lavoro. Chi resta "all" continua a gestire chat come fallback.
-WORKER_LANE="${WORKER_LANE:-all}"
+# (Il valore è già risolto in cima al file: il lucchetto di istanza singola ne ha bisogno prima di qui.)
 
 # 🪪 IDENTITÀ DEL WORKER (radiografia 2026-07-11, fix due-worker). I due servizi (all + chat) devono
 # distinguersi: ogni processo si dà un ID stabile per il suo ciclo di vita (lane + host + pid). Lo

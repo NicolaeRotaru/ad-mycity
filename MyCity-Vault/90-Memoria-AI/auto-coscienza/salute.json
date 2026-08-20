@@ -1,18 +1,11 @@
 {
-  "aggiornato": "2026-08-18 06:50",
+  "aggiornato": "2026-08-20 17:44",
   "timbro": {
-    "quando": "2026-08-18 06:50",
+    "quando": "2026-08-20 17:44",
     "scade_dopo_ore": 26,
-    "ambiente": "locale",
+    "ambiente": "cloud",
     "scritto_da": "cervello/salute.mjs",
-    "chiavi_presenti": [
-      "SUPABASE_URL",
-      "SUPABASE_SERVICE_KEY",
-      "MARKETPLACE_SUPABASE_URL",
-      "MARKETPLACE_SUPABASE_KEY",
-      "STRIPE_SECRET_KEY",
-      "GIT_PUSH_TOKEN"
-    ]
+    "chiavi_presenti": []
   },
   "soglie": {
     "refertoVpsScadutoOre": 26,
@@ -29,12 +22,12 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-08-13 00:22",
-      "iso": "2026-08-12T22:22:42.834Z",
+      "quando": "2026-08-20 17:44",
+      "iso": "2026-08-20T15:44:34.681Z",
       "casa": "claude",
-      "modo": "completo",
-      "ok": 13,
-      "rotti": 1,
+      "modo": "rapido",
+      "ok": 9,
+      "rotti": 5,
       "guasti": 0,
       "nonvisti": 8,
       "copertura": 0.64,
@@ -45,19 +38,59 @@
           "titolo": "Il VPS si sta ancora visitando",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "l'ultima visita del VPS è di 66 ore fa: da lassù non si sta più controllando nessuno",
+          "detto": "l'ultima visita del VPS è di 59 ore fa: da lassù non si sta più controllando nessuno",
           "prova": null,
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 1,
+          "cronico": false
         },
         {
           "id": "worker.tracce",
           "organo": "worker",
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
-          "esito": "ok",
-          "detto": "ultima traccia 1 ore fa (sentinella-dati.json)",
+          "esito": "rotto",
+          "detto": "nessun processo automatico lascia tracce da 57 ore (l'ultima è sentinella-dati.json, 2026-08-18 08:55)",
           "prova": null,
-          "regressione": false
+          "regressione": true,
+          "rosso_da": 1,
+          "cronico": false
+        },
+        {
+          "id": "worker.cadenze",
+          "organo": "worker",
+          "titolo": "Le cadenze si alzano davvero",
+          "impatto": 2,
+          "esito": "rotto",
+          "detto": "il ritmo della macchina si è fermato: 6 cadenze su 6 non si alzano più (giro, ritmo-mattino, ritmo-mezzogiorno, ritmo-sera, ritmo-settimana, monitora), e 1 è uscita saltando dei passi (ritmo-settimana)",
+          "prova": "node cervello/freschezza-cadenze.mjs",
+          "regressione": false,
+          "rosso_da": 1,
+          "cronico": false
+        },
+        {
+          "id": "cervello.freschezza",
+          "organo": "cervello",
+          "titolo": "I file che la Cabina mostra sono ancora validi",
+          "impatto": 2,
+          "esito": "rotto",
+          "detto": "6 file che la Cabina mostra sono più vecchi della loro scadenza: Le mosse di Nicola (81h), Il referto del checkup (59h), Com'è andato l'ultimo giro (57h), Il battito delle cadenze (57h), L'ultimo briefing (59h), Il quaderno dei pezzi nuovi (1117h)",
+          "prova": null,
+          "regressione": false,
+          "rosso_da": 1,
+          "cronico": false
+        },
+        {
+          "id": "cervello.riti",
+          "organo": "cervello",
+          "titolo": "La review del venerdì lascia i suoi compiti",
+          "impatto": 3,
+          "esito": "rotto",
+          "detto": "la review del venerdì non lascia più i suoi compiti: Il confronto coi migliori (27 giorni), La peer review fra senior (27 giorni), La calibrazione previsto-vs-reale (26 giorni), La lettera a Nicola (22 giorni)",
+          "prova": null,
+          "regressione": false,
+          "rosso_da": 1,
+          "cronico": false
         },
         {
           "id": "worker.coda",
@@ -67,7 +100,9 @@
           "esito": "nonvisto",
           "detto": "manca SUPABASE_URL / SUPABASE_SERVICE_KEY in questo ambiente",
           "prova": null,
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "worker.battito",
@@ -77,17 +112,9 @@
           "esito": "nonvisto",
           "detto": "manca SUPABASE_URL / SUPABASE_SERVICE_KEY in questo ambiente",
           "prova": null,
-          "regressione": false
-        },
-        {
-          "id": "worker.automazione",
-          "organo": "worker",
-          "titolo": "Token, push e allineamento git",
-          "impatto": 2,
-          "esito": "nonvisto",
-          "detto": "manca GIT_PUSH_TOKEN in questo ambiente",
-          "prova": null,
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "cervello.fatti",
@@ -97,7 +124,9 @@
           "esito": "ok",
           "detto": "nessuna copia vecchia di un fatto in giro per i file vivi",
           "prova": "node cervello/coerenza-fatti.mjs",
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "cervello.segreti",
@@ -107,17 +136,9 @@
           "esito": "ok",
           "detto": "nessuna chiave o segreto committato",
           "prova": "node cervello/scan-segreti.mjs",
-          "regressione": false
-        },
-        {
-          "id": "cervello.test",
-          "organo": "cervello",
-          "titolo": "I test del cervello passano",
-          "impatto": 3,
-          "esito": "ok",
-          "detto": "tutti i test del cervello girano e passano",
-          "prova": "node cervello/test-cervello.mjs",
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "cervello.vault",
@@ -127,17 +148,21 @@
           "esito": "ok",
           "detto": "il vault è leggibile e coerente",
           "prova": "node cervello/vault-sanita.mjs MyCity-Vault",
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "cervello.sorvegliante",
           "organo": "cervello",
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
-          "esito": "ok",
-          "detto": "✅ ultimo scatto 2 min fa (2026-08-12T22:20:57.046Z) — 21 file guardati, 5 voci, 0 gravi.",
+          "esito": "nonvisto",
+          "detto": "il sorvegliante non ha ancora scattato in questa copia: il battito vive fuori da git, e da una sessione nuova non lo posso vedere",
           "prova": "node cervello/sorvegliante.mjs --battito",
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "cervello.guardiani",
@@ -145,9 +170,11 @@
           "titolo": "I guardiani del giro esistono tutti",
           "impatto": 3,
           "esito": "ok",
-          "detto": "65 guardiani del giro presenti",
+          "detto": "71 guardiani del giro presenti",
           "prova": null,
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "cervello.esiti",
@@ -157,7 +184,9 @@
           "esito": "nonvisto",
           "detto": "non ho potuto contare: ⚪ CIECO: clone superficiale (--depth). Qui git vede solo gli ultimi commit, quindi conterei le consegne mute di mezza storia e chiamerei que",
           "prova": null,
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "cervello.scrittura",
@@ -165,9 +194,11 @@
           "titolo": "Quando scrivo a Nicola, gli rispondo",
           "impatto": 2,
           "esito": "nonvisto",
-          "detto": "nessun messaggio che pretendesse le quattro risposte in questa finestra",
+          "detto": "non ho potuto contare: {\n  \"_cieco\": true,\n  \"_motivo\": \"nessuna trascrizione .jsonl degli ultimi 7 giorni sotto ~/.claude/projects. Qui non posso vedere come scri",
           "prova": null,
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "cervello.skill",
@@ -177,17 +208,9 @@
           "esito": "ok",
           "detto": "5 skill installate, tutte versionate o rigenerabili",
           "prova": null,
-          "regressione": false
-        },
-        {
-          "id": "cabina.test",
-          "organo": "cabina",
-          "titolo": "I test del Pannello passano",
-          "impatto": 2,
-          "esito": "ok",
-          "detto": "tutti i test del Pannello girano e passano",
-          "prova": "node cervello/test-pannello.mjs",
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "cabina.viva",
@@ -197,7 +220,9 @@
           "esito": "nonvisto",
           "detto": "la rete di QUESTO ambiente non arriva alla Cabina (https://ad-mycity.vercel.app): aggiungi il host alla allowlist di rete dell'ambiente — non è la Cabina a essere giù",
           "prova": null,
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "cabina.cuore",
@@ -207,7 +232,9 @@
           "esito": "nonvisto",
           "detto": "la rete di QUESTO ambiente non arriva alla Cabina (https://ad-mycity.vercel.app): aggiungi il host alla allowlist di rete dell'ambiente — non è la Cabina a essere giù",
           "prova": null,
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "senior.registro",
@@ -217,7 +244,9 @@
           "esito": "ok",
           "detto": "nessun agente orfano, il conteggio torna",
           "prova": "node cervello/agent-registry-check.mjs",
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "senior.owner",
@@ -227,7 +256,9 @@
           "esito": "ok",
           "detto": "nessun mandato conteso tra due senior",
           "prova": "node cervello/keyword-owner-check.mjs",
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "senior.loop",
@@ -235,9 +266,11 @@
           "titolo": "I senior chiudono il loop",
           "impatto": 3,
           "esito": "ok",
-          "detto": "15 senior con almeno un esito registrato",
+          "detto": "19 senior con almeno un esito registrato",
           "prova": null,
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "sensori.vista",
@@ -247,7 +280,9 @@
           "esito": "nonvisto",
           "detto": "nessuna chiave dei sensori in questo ambiente: da qui la macchina non può vedere il marketplace",
           "prova": null,
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         },
         {
           "id": "sensori.spenti",
@@ -257,9 +292,18 @@
           "esito": "ok",
           "detto": "ogni sensore spento dice perché è spento",
           "prova": "node cervello/sensori-spenti-check.mjs",
-          "regressione": false
+          "regressione": false,
+          "rosso_da": 0,
+          "cronico": false
         }
-      ]
+      ],
+      "cronicita": {
+        "worker.ponte": 1,
+        "worker.tracce": 1,
+        "worker.cadenze": 1,
+        "cervello.freschezza": 1,
+        "cervello.riti": 1
+      }
     },
     "vps": {
       "quando": "2026-08-18 06:50",
@@ -1092,6 +1136,17 @@
       "guasti": 1,
       "nonvisti": 1,
       "copertura": 0.92
+    },
+    {
+      "quando": "2026-08-20 17:44",
+      "iso": "2026-08-20T15:44:34.681Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 9,
+      "rotti": 5,
+      "guasti": 0,
+      "nonvisti": 8,
+      "copertura": 0.64
     }
   ]
 }

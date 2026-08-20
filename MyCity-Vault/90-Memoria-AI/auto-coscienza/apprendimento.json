@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-20 10:22",
+ "aggiornato": "2026-08-20 18:24",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11481,7 +11481,17 @@
     "collaudo dal vivo: giro 1 dice il debito + ⚪, giro 2 verde"
    ],
    "gate": "node --test cervello/test/cancello-stop.test.mjs",
-   "gate_nota": "2 mutazioni su AR-496 in mutanti.json: perimetro che torna al ramo ignorando l ancora, ancora che si sposta anche su un turno bloccato."
+   "gate_nota": "2 mutazioni su AR-496 in mutanti.json: perimetro che torna al ramo ignorando l ancora, ancora che si sposta anche su un turno bloccato.",
+   "usi": [
+    {
+     "quando": "2026-08-20 18:11",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-20 18:24",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    }
+   ]
   },
   {
    "tag": [
@@ -11533,7 +11543,17 @@
     "7 regressioni classificate a mano invece che messe in baseline: 2 con un nome, 5 con debito dichiarato"
    ],
    "gate": "node --test cervello/test/malattie-mancanti.test.mjs",
-   "gate_nota": "2 mutazioni su AR-499 in mutanti.json: la regressione che non deve piu rispondere, e «non-pattern-izzabile» senza perche che torna a bastare."
+   "gate_nota": "2 mutazioni su AR-499 in mutanti.json: la regressione che non deve piu rispondere, e «non-pattern-izzabile» senza perche che torna a bastare.",
+   "usi": [
+    {
+     "quando": "2026-08-20 18:11",
+     "ref": "freno rosso nel cancello: le malattie che mancano"
+    },
+    {
+     "quando": "2026-08-20 18:24",
+     "ref": "freno rosso nel cancello: le malattie che mancano"
+    }
+   ]
   },
   {
    "tag": [
@@ -11663,7 +11683,17 @@
    ],
    "gate": "node --test cervello/test/cancello-stop.test.mjs",
    "gate_attivo": true,
-   "gate_nota": "1 mutazione su AR-506 in mutanti.json: la nota che torna a contare come cieco e fa uscire 2 il cancello."
+   "gate_nota": "1 mutazione su AR-506 in mutanti.json: la nota che torna a contare come cieco e fa uscire 2 il cancello.",
+   "usi": [
+    {
+     "quando": "2026-08-20 18:11",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-20 18:24",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    }
+   ]
   },
   {
    "id": "L-2026-0803-546",
@@ -11686,7 +11716,17 @@
     "194 file e 10 commit nel perimetro, nessuno del turno"
    ],
    "gate": "node --test cervello/test/cancello-stop.test.mjs",
-   "gate_attivo": true
+   "gate_attivo": true,
+   "usi": [
+    {
+     "quando": "2026-08-20 18:11",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-20 18:24",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    }
+   ]
   },
   {
    "id": "L-2026-0803-547",

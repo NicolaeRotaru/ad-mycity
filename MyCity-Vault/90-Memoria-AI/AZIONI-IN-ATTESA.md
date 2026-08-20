@@ -22,6 +22,34 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #138 — Fai ripartire il cervello della macchina: è fermo da martedì mattina · ⏳ accodata 2026-08-20 18:10
+
+**Cosa cambia:** sul server lavorano in due. Uno risponde in chat, ed è vivo. L'altro fa il giro, le
+cadenze, le analisi e le azioni che firmi, e pubblica la memoria che il Pannello legge: quello è
+morto martedì alle 04:46 e non è più ripartito. L'ho spento io con un lucchetto messo dodici minuti
+prima. La memoria non arriva su GitHub da martedì alle 08:36 e sedici lavori aspettano in coda.
+Il racconto intero sta nel referto di oggi; la riparazione aspetta la tua firma.
+
+**Se va bene:** un fix nel codice non riaccende un servizio spento. Dopo aver unito, entra nel server:
+
+```
+cd /opt/mycity/ad-mycity
+sudo -u mycity git fetch origin main
+sudo -u mycity git log origin/main..HEAD --oneline
+sudo -u mycity git merge --ff-only origin/main
+sudo systemctl restart mycity-worker mycity-worker-chat
+systemctl is-active mycity-worker mycity-worker-chat
+```
+
+Il terzo comando è un controllo: se stampa delle righe **fermati e mandamele** — è lavoro del server
+non ancora pubblicato, e va unito senza buttarlo. In quel caso il quarto comando si rifiuta da solo,
+quindi incollare tutto insieme è sicuro. L'ultimo deve rispondere `active` due volte.
+
+**Cosa non ho verificato:** il server da qui non lo vedo, quindi servizi e registri non li ho aperti.
+Il lucchetto invece l'ho provato davvero. Referto: `consegne/audit/2026-08-20-worker.md`
+
+---
+
 ### 🟡 #137 — Approva il fattorino dal pannello: adesso il pulsante c'e' · ⏳ accodata 2026-08-20 17:00
 
 **Cosa cambia:** c'e' una persona iscritta come fattorino dal 25 maggio, ferma in attesa. Non era

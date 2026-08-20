@@ -1,6 +1,12 @@
 // Segnali vitali dell'AD: unifica cuore cron, giro VPS, worker e push della memoria.
 import { vaultToIso } from "@/lib/format";
-import { type SegnaleGiro, segnaleGiroDaJson, verdettoUltimoGiro } from "@/lib/memoria-ferma";
+import {
+  CORSIA_LAVORI,
+  type SegnaleGiro,
+  segnaleGiroDaJson,
+  verdettoCorsie,
+  verdettoUltimoGiro,
+} from "@/lib/memoria-ferma";
 import { getImpostazione } from "@/lib/store";
 import { readVaultFile } from "@/lib/vault";
 
@@ -47,17 +53,21 @@ function piuFresco(...lista: (SegnaleBattito | null)[]): SegnaleBattito | null {
 export async function raccogliSegnaliBattito(): Promise<{
   ultimoGiro: SegnaleBattito | null;
   autopilotaCron: SegnaleBattito | null;
+  /** Il battito più recente di CHIUNQUE (`worker:ultimo`): non dice quale corsia sia viva. */
   worker: SegnaleBattito | null;
+  /** Il battito della corsia che fa i lavori (`worker:ultimo:all`). `null` = non l'ho visto. */
+  workerLavori: SegnaleBattito | null;
   pushMemoria: SegnaleBattito | null;
   eseguiteAutopilota: number;
   /** AR-367 — com'è andato l'ultimo giro. `null` = non l'ho potuto leggere, che non è «bene». */
   esitoGiro: SegnaleGiro | null;
 }> {
-  const [cuoreUltimo, cuoreGiro, push, workerUltimo, eseguite] = await Promise.all([
+  const [cuoreUltimo, cuoreGiro, push, workerUltimo, workerLavoriUltimo, eseguite] = await Promise.all([
     getImpostazione("cuore:ultimo").catch(() => null),
     getImpostazione("cuore:ultimo_giro").catch(() => null),
     getImpostazione("memoria-ad:ultimo_push").catch(() => null),
     getImpostazione("worker:ultimo").catch(() => null),
+    getImpostazione(`worker:ultimo:${CORSIA_LAVORI}`).catch(() => null),
     getImpostazione("cuore:eseguite").catch(() => null),
   ]);
 
@@ -77,6 +87,7 @@ export async function raccogliSegnaliBattito(): Promise<{
   const autopilotaCron = segnale(cuoreUltimo, "autopilota Vercel");
   const pushMemoria = segnale(push, "push memoria");
   const worker = segnale(workerUltimo, "worker VPS");
+  const workerLavori = segnale(workerLavoriUltimo, `worker VPS (corsia ${CORSIA_LAVORI})`);
   const daBriefing = segnale(briefingData, "giro AD (briefing)");
   const daGiroKey = segnale(cuoreGiro, "giro AD (VPS)");
 
@@ -87,6 +98,7 @@ export async function raccogliSegnaliBattito(): Promise<{
     ultimoGiro,
     autopilotaCron,
     worker,
+    workerLavori,
     pushMemoria,
     eseguiteAutopilota: Number(eseguite ?? 0) || 0,
     esitoGiro,
@@ -103,12 +115,26 @@ export async function raccogliSegnaliBattito(): Promise<{
  * macchina che gira a vuoto — e chi legge la home deve poter distinguere le due cose.
  *
  * Il battito del worker resta una scorciatoia legittima: è un fatto misurato adesso, non un
- * racconto di com'è andata prima.
+ * racconto di com'è andata prima. Ma dev'essere il battito della corsia GIUSTA — vedi sotto.
+ *
+ * 18–20/8/2026 — LA SCORCIATOIA CHIEDEVA ALLA CORSIA SBAGLIATA. `worker:ultimo` è «il più recente
+ * di chiunque»: lo scrivono sia il worker dei lavori sia quello della chat. Quando la corsia `all`
+ * è morta (alle 04:46 del 18/8) e solo la chat è rimasta viva, questa riga ha continuato a
+ * rispondere `true` ogni minuto per due giorni e mezzo, mentre giro e ritmo non partivano, sedici
+ * lavori restavano in coda senza che nessuno li prendesse e la memoria non si pubblicava. Ora la
+ * domanda la si fa a `worker:ultimo:all`: chi batte non è chi lavora.
  */
 export function macchinaViva(segnali: Awaited<ReturnType<typeof raccogliSegnaliBattito>>): boolean {
-  const oreWorker = oreDaQuando(segnali.worker?.quando);
-  if (oreWorker != null && oreWorker <= 0.1) return true;
+  if (corsie(segnali).lavoraAdesso) return true;
   return verdettoUltimoGiro(oreDaQuando(segnali.ultimoGiro?.quando), segnali.esitoGiro ?? null).verde;
+}
+
+/** Chi sta battendo davvero: la corsia dei lavori, la sola chat, o nessuno. */
+function corsie(segnali: Awaited<ReturnType<typeof raccogliSegnaliBattito>>) {
+  return verdettoCorsie({
+    oreCorsiaLavori: oreDaQuando(segnali.workerLavori?.quando),
+    oreQualsiasiCorsia: oreDaQuando(segnali.worker?.quando),
+  });
 }
 
 /**
@@ -116,7 +142,10 @@ export function macchinaViva(segnali: Awaited<ReturnType<typeof raccogliSegnaliB
  * con 2 cancelli rossi» è un'informazione; un pallino verde non lo è.
  */
 export function comeStaLaMacchina(segnali: Awaited<ReturnType<typeof raccogliSegnaliBattito>>): string {
-  const oreWorker = oreDaQuando(segnali.worker?.quando);
-  if (oreWorker != null && oreWorker <= 0.1) return "il worker sta lavorando adesso";
+  const v = corsie(segnali);
+  if (v.lavoraAdesso) return "il worker sta lavorando adesso";
+  // La chat che risponde mentre i lavori sono fermi è la differenza che il 18/8 nessuno vedeva:
+  // detta ad alta voce vale due giorni.
+  if (v.soloChat && v.frase) return v.frase;
   return verdettoUltimoGiro(oreDaQuando(segnali.ultimoGiro?.quando), segnali.esitoGiro ?? null).frase;
 }
