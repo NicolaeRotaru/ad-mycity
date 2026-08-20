@@ -1,8 +1,19 @@
 ---
 tipo: stato
-aggiornato: 2026-08-20 06:15
+aggiornato: 2026-08-20 18:02
 fonte: AD digitale (chat)
 ---
+
+> 🌙 **20/8 18:02 — Report della sera (cadenza ufficiale di ritmo.md).** Giornata ferma, dentro la
+> pausa concordata con Nicola. Riverificato ora dal vivo con query dirette al database (terminale
+> ancora rotto, stesso guasto del 18-19/8): 1 negozio (Pane Quotidiano, pagamenti ancora spenti), 1
+> ordine mai pagato del 24 giugno — stallo North Star salito a **57 giorni** — e 8 profili (+1 oggi:
+> un account cliente nuovo alle 15:57, senza negozio, non cambia il business). Le tre priorità di
+> stamattina restano tutte aperte stasera, nessuna firma di Nicola arrivata: le quattro migrazioni
+> database (`#125`, ferme 2gg, servono ai rimborsi), le tre falle di sicurezza (`#36`/`#37`/`#38`,
+> ferme 22gg), i permessi del server (`#104`, fermi 16gg). Non ho potuto rilanciare gli script di
+> conteggio automatico (coda azioni, PR/CI): resta valido l'ultimo dato noto del 19/8. Dettaglio
+> completo in [[RITMO]].
 
 > ☀️ **20/8 06:15 — Piano del mattino (cadenza ufficiale di ritmo.md).** Il business è invariato. L'ho
 > riconfermato ora con una query diretta al database. Il terminale resta bloccato in questa sessione,

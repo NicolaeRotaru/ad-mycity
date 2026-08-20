@@ -1470,3 +1470,28 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 **Dettagli tecnici** (opzionale)
 - Verifica alle 12:15 via query diretta Supabase (`orders`, `audit_logs`, `operational_alert_log`). Unico ordine `58094956…` ancora CANCELED/PENDING, invariato dal 3/7. Nessuna azione admin in `audit_logs` da oggi. Nessun alert nuovo dal 30/7.
 - Card invariate: `#125`, `#36`, `#37`, `#38`, `#104`, `#107`, `#118`, `#120`, `#124`.
+
+## Report della sera · 2026-08-20 18:02
+
+**Com'è andata oggi**
+- Giornata ferma, dentro la pausa concordata con te. Nessun ordine, nessun negozio nuovo. L'unico movimento è un account cliente nuovo, senza negozio dietro. Non cambia niente sul business.
+- Il terminale è rimasto rotto tutto il giorno, stesso guasto del 18 e 19/8. Ho lavorato leggendo il database in diretta, non con gli script automatici.
+- Le tre priorità di stamattina sono ancora ferme stasera. Nessuna firma tua è arrivata.
+
+**I numeri**
+- 1 negozio (Pane Quotidiano), pagamenti ancora spenti. Invariato.
+- 1 ordine, mai pagato, fermo dal 24 giugno. Lo stallo è salito a 57 giorni.
+- 8 account clienti, uno in più di oggi. È il nuovo account senza negozio.
+
+**Da approvare**
+- Firma le quattro modifiche al database che sbloccano i rimborsi ai clienti.
+- Rispondi sulle tre falle di sicurezza del sito, ferme da 22 giorni.
+- Correggi le cinque righe di permessi sul server. Sono la causa per cui i controlli automatici restano bloccati.
+
+**Lezione di oggi**
+- Con il terminale rotto, il database in diretta mi basta per confermare i numeri veri. Quello che non riesco più a fare da qui è il conteggio automatico delle azioni in coda. Oggi non l'ho inventato: ho dichiarato che non l'ho verificato.
+
+**Domani**
+- Restiamo nella pausa. Mancano 4 giorni al 24 agosto. La prima cosa utile resta la tua firma sulle quattro modifiche al database.
+
+**Dettagli tecnici** (opzionale) — Numeri riconfermati 18:01 con SQL diretta via MCP Supabase (`orders`, `profiles`), non ereditati: `orders` 1/0 pagati/0 ultimi 7gg, `profiles` 8 (nuovo id `028ab961…`, creato 15:57, `store_name` nullo, Stripe non attivato). Pane Quotidiano: `stripe_charges_enabled`/`payouts_enabled`/`details_submitted` ancora tutti falsi. Bash indisponibile per tutto il turno (ENOSPC filesystem temporaneo, stesso guasto 18-19/8): `verifica-sensori.mjs`/`coerenza-fatti.mjs`/`ci-stato.mjs`/housekeeping coda non rilanciabili da qui — nessun numero di coda o di PR aggiornato oggi, resta valido l'ultimo noto (19/8).
