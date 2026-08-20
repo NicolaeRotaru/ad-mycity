@@ -22,6 +22,25 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #135 — Applica la 123: il fattorino vede l'ordine e non riesce a prenderlo · ⏳ accodata 2026-08-20 13:30
+
+**Cosa cambia:** e' un errore mio, nato dalla 122 di stamattina. La 122 ha chiuso la falla dei
+recapiti stringendo la lettura degli ordini a «solo quelli che sono miei». Ma il database, per
+aggiornare una riga, prima deve leggerla. Su un ordine ancora libero il fattorino non c'e', quindi
+la riga risulta non sua, quindi invisibile. Risultato: preme «Accetta» e si sente rispondere
+«ordine gia' preso da un altro». Non e' vero, e nessuno puo' prenderlo.
+
+Oggi non fa danno: in produzione ci sono zero fattorini approvati e un solo ordine, annullato a
+giugno. Diventa un problema col primo fattorino vero.
+
+Il rimedio non riapre la lettura, perche' quella era la falla. La presa passa da una funzione
+fidata che gira coi permessi del database. La richiesta di unione e' `mycity#228`.
+
+**Se va bene:** dimmi «applica la 123» e la eseguo io, con la verifica dopo. Il file e'
+`migrations/123_presa_ordine_dal_fattorino.sql`. Va fatto dopo aver unito la richiesta.
+
+---
+
 ### 🔴 #134 — Metti la parola d'ordine del backup, altrimenti stanotte il backup non parte · ⏳ accodata 2026-08-20 11:30
 
 **Cosa cambia:** la copia notturna del database contiene nomi, indirizzi, telefoni e ordini di
@@ -38,7 +57,7 @@ backup.
 
 ---
 
-### 🔴 #133 — Applica al database la migrazione 122: il codice e' gia' online, lei no · ⏳ accodata 2026-08-20 11:30
+### ✅ #133 — Applica al database la migrazione 122. FATTO 2026-08-20 13:10, col tuo ok in chat · ⏳ accodata 2026-08-20 11:30
 
 **Cosa cambia:** sette riparazioni che vivono nel database e non nel codice. Due pesano piu'
 delle altre. La prima riguarda i fattorini. Oggi uno di loro puo' scaricare nome, telefono e

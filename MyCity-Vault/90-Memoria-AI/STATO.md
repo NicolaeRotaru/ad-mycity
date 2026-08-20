@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-08-20 12:35
+aggiornato: 2026-08-20 13:30
 fonte: AD digitale (chat)
 ---
+
+> 🔧 **20/8 13:30 — La migrazione 122 e' applicata al database vero, e ha scoperto un errore mio.** Nicola in chat: «applica la migrazione 122». Applicata a blocchi, uno per uno, con la verifica dopo ognuno (`radiografia_20_agosto_01` … `_07` nel registro Supabase, progetto `clmpyfvpvfjgeviworth`, Postgres 17.6). **Prima:** nessuno dei sette pezzi esisteva, 4 chiavi esterne a `CASCADE`. **Dopo:** vista `ordini_disponibili_rider` creata con 0 colonne sensibili e `anon` escluso · le due funzioni di notifica scrivono `category` · tetto sponsorizzati provato dal vivo, **60 su 65** visualizzazioni e **10 su 20** clic (righe di prova cancellate) · `product_active_discounts` e `store_cards` create, e `store_cards` risponde **4 prodotti su 5 veri** per Pane Quotidiano · **4 chiavi esterne a `SET NULL`, 0 rimaste a `CASCADE`** · `cod_checkout_attempts` creata.
+>
+> **L'errore:** la stretta sulla lettura degli ordini rompe la **presa dell'ordine da parte del fattorino**. In PostgreSQL anche il `WHERE` di un `UPDATE` passa dalle regole di lettura: su un ordine libero `rider_id` e' vuoto, la riga risulta non sua, l'aggiornamento trova zero righe. Misurato su un database ricostruito dalle migrazioni: **bacheca 1 riga, presa 0 righe**. Il fattorino vede l'ordine e si sente rispondere «gia' preso da un altro». Oggi il danno e' zero (**0 fattorini approvati**, 1 ordine annullato a giugno), diventa reale col primo fattorino.
+>
+> **Rimedio pronto, non applicato:** migrazione **123** con la funzione fidata `prendi_ordine`, piu' sei controlli nuovi (`06-il-fattorino-prende-l-ordine.test.sql`) rossi senza e verdi con. Richiesta `mycity#228`. Cancelli: **124 migrazioni su 124** da zero, 6 file SQL su 6 verdi, 860 prove verdi, typecheck pulito. Carta **#135** in coda.
+>
+> **Restano due firme:** #135 (applicare la 123) e #134 (parola d'ordine del backup).
 
 > ✅ **20/8 12:27 — Nicola ha unito tutte e due le richieste.** `mycity#227` (le cento riparazioni, 10 commit) e `ad-mycity#777` (registro, referto, coda). La carta **#132 e' chiusa**. Il marketplace si pubblica da solo a ogni unione su `main` (`autoDeploy: true` in `render.yaml`): il codice nuovo e' **gia' in produzione**.
 >
