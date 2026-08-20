@@ -2480,3 +2480,34 @@ riga: se un giorno tornasse a vederla, vuol dire che la falla dei recapiti e' to
 **Perche' non l'ho applicata da solo.** L'ok era sulla 122. La 123 e' un'altra scrittura sul
 database vero, e la regola di casa dice che nel dubbio si sale di colore. Il costo di aspettare
 oggi e' zero: zero fattorini approvati, un ordine solo e annullato a giugno.
+
+---
+
+## 2026-08-20 14:40 — 🔴 Applicata la 123: il database vero e' allineato al codice
+
+**L'ok.** Nicola in chat: «applica la 123», dopo aver unito `mycity#228` alle 14:25.
+
+**Perche' serviva.** Il rilascio automatico aveva gia' portato online il codice che chiama
+`prendi_ordine`, e nel database quella funzione non c'era. Fra l'unione e questa firma il
+fattorino che premeva «Accetta» riceveva un errore di funzione mancante: rotto come prima, ma con
+un messaggio peggiore.
+
+**Come l'ho fatta.** Prima ho ricontrollato i prerequisiti sul database vero: `is_rider_approvato`
+c'e', la tabella degli ordini c'e', la macchina a stati c'e'. Poi applicata, registrata come
+`presa_ordine_dal_fattorino`.
+
+**Le prove sul database vero.** La funzione gira coi permessi del proprietario, ha il percorso di
+ricerca fissato, e la puo' chiamare solo chi e' entrato: l'anonimo no. Chiamata da un utente che
+non e' un fattorino risponde `NON_FATTORINO` senza toccare niente. Il conto finale degli otto
+pezzi del lotto torna: otto su otto. La policy del fattorino e' rimasta `rider_id = auth.uid()`,
+quindi la stretta regge e la falla dei recapiti resta chiusa. L'unico ordine vero non e' stato
+toccato, e non sono rimaste righe di prova.
+
+**Cosa NON ho provato, e va detto.** Il giro completo — fattorino approvato che vede l'ordine e lo
+prende davvero — sul database vero non l'ho potuto fare: ci sono zero fattorini approvati e un
+solo ordine, annullato a giugno. Costruire le condizioni avrebbe voluto dire scrivere dati veri,
+e non l'ho fatto. Quel giro e' provato solo su un database ricostruito da zero qui dentro, sei
+controlli su sei. Sul vero ho provato il guardiano, i permessi e l'esistenza.
+
+**Cosa resta a Nicola.** #134, i due segreti del backup. Piu' i quattro bloccanti che aspettano
+un suo numero o una sua scelta.
