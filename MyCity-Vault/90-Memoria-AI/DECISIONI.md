@@ -2332,3 +2332,42 @@ rimesso, verde senza).
 **La lezione sopra la lezione.** Applicare un database nuovo mentre gira il codice vecchio e'
 una finestra in cui le due meta' non si parlano. Da qui in avanti, prima di applicare: elencare
 cosa del codice VIVO tocca quello che sto cambiando, e guardarlo. Stasera l'ho fatto solo dopo.
+
+
+---
+
+## 2026-08-20 10:40 — 🟡 La CI rossa era la memoria che si stava perdendo (rivedi-lezione)
+
+**Cosa era rosso.** Un test solo, `archivi-senza-tetto`, sull'asserzione «nessuna lezione
+morirebbe oggi»: diciotto lezioni a un passo dal decadere. Rosso identico su `main` e gia' al
+commit di inizio sessione — nessuno l'aveva rotto, era invecchiato fino a li'.
+
+**La causa vera, che non e' il test.** La macchina sapeva fare UNA cosa sola con le sue lezioni:
+dimenticarle da sola. Non esisteva nessun modo di dire «questa vale ancora, ecco dove si vede»
+ne' «questa e' superata, la ritiro». Quindi tutto quello che nessuno riconfermava scivolava verso
+la morte, comprese regole vive come «il segnale piu' prezioso e' cosa Nicola approva vs ignora».
+
+**Cosa ho fatto.** Scritto `cervello/rivedi-lezione.mjs`: due verbi, `conferma` e `ritira`. Poi
+usato sulle ventidue vicine alla soglia — 7 confermate con la prova di dove sono ancora in
+vigore, 15 ritirate con il motivo per cui sono superate. «Ritirata» e' uno stato diverso da
+«decaduta»: la prima dice che qualcuno ha deciso, la seconda che nessuno se n'era accorto.
+
+**La scorciatoia che ho rifiutato.** Riconfermarle tutte in blocco: un comando, e il rosso
+spariva da ogni richiesta aperta. Sarebbe stato spegnere la spia. La regola che lo impedisce e'
+scritta nello strumento — una conferma senza un perche' E una prova viene rifiutata — e la prova
+`rivedi-lezione.test.mjs` la tiene ferma: tolto quel controllo, diventa rossa.
+
+**Tre errori miei, presi dai guardiani della casa mentre lavoravo.** ① Ho riscritto
+`apprendimento.json` con due spazi di rientro invece di uno, portandolo da 996 KB a 1.048 KB,
+oltre il tetto: e' la lezione AR-471, e il freno `indentazione-che-blocca-tutto` me l'ha detto.
+② Il mio strumento scriveva nel vault con una penna cruda, saltando il freno della memoria:
+cinquantesimo scrittore contro un tetto di 49, visto da `misura-che-non-sporca`. ③ Riparando ①
+avevo scritto una MIA copia della regola sull'indentazione, mentre esisteva gia' dentro
+`scrivi-json.mjs` — che cita `apprendimento.json` per nome. Tolta la mia: due copie della stessa
+regola divergono sempre, ed e' esattamente la lezione L-2026-0702-03 che avevo riconfermato
+venti minuti prima.
+
+**Il numero che resta aperto, e che vale piu' del rosso di stamattina.**
+`node cervello/tasso-lezioni.mjs`: 59 lezioni usate su 523 negli ultimi 30 giorni = 0,11 contro
+una soglia di 0,3. Il volano e' fermo. Le diciotto erano il bordo di questo, non il problema.
+Da portare a Nicola come lavoro suo.
