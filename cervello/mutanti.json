@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-16 23:40",
+ "aggiornato": "2026-08-20 18:35",
  "mutanti": [
   {
    "lotto": 30,
@@ -5150,7 +5150,7 @@
    "difetto": "AR-770 marca-sul-verde",
    "nome": "il freno torna a marcare anche quando e' verde: il numero misurerebbe «te l'ho mostrata» invece di «mi ha fermata»",
    "file": "cervello/freno-scattato.mjs",
-   "cerca": "  if (Number(rc) === 0) return { marcate: [], motivo: \"il freno \u00e8 verde: non ha fermato niente\" };",
+   "cerca": "  if (Number(rc) === 0) return { marcate: [], motivo: \"il freno è verde: non ha fermato niente\" };",
    "sostituisci": "",
    "test": "node --test cervello/test/il-freno-che-scatta.test.mjs",
    "lezione": "L-2026-0818-02"
@@ -5168,7 +5168,7 @@
    "difetto": "AR-771 freno-vivo",
    "nome": "il decadimento torna a ignorare il freno: le lezioni che hanno prodotto un guardiano rimuoiono come le altre",
    "file": "cervello/tetti-archivio.mjs",
-   "cerca": "  if (frenoVivo) return { decade: false, motivo: \"ha un freno che monta ancora la guardia: finch\u00e9 quel guardiano esiste, la regola \u00e8 in vigore\" };",
+   "cerca": "  if (frenoVivo) return { decade: false, motivo: \"ha un freno che monta ancora la guardia: finché quel guardiano esiste, la regola è in vigore\" };",
    "sostituisci": "",
    "test": "node cervello/test/archivi-senza-tetto.test.mjs",
    "lezione": "L-2026-0818-03"
@@ -5181,6 +5181,22 @@
    "sostituisci": "  const quandoConta = [ultimaConferma].map((d) => istante(d)).filter((t) => t != null);",
    "test": "node cervello/test/archivi-senza-tetto.test.mjs",
    "lezione": "L-2026-0818-03"
+  },
+  {
+   "difetto": "AR-772 lucchetto-per-corsia",
+   "nome": "il lucchetto torna a essere uno solo per tutte le corsie: la seconda che si avvia resta fuori per sempre",
+   "file": "cervello/worker.sh",
+   "cerca": "exec 200>\"$SCRIPT_DIR/.worker.$WORKER_LANE.lock\"",
+   "sostituisci": "exec 200>\"$SCRIPT_DIR/.worker.lock\"",
+   "test": "node cervello/test/lucchetto-per-corsia.test.mjs"
+  },
+  {
+   "difetto": "AR-773 battito-della-corsia-giusta",
+   "nome": "la Cabina torna a chiedere «batte qualcuno?» invece di «batte chi fa i lavori?»: la chat viva maschera il worker morto",
+   "file": "pannello/src/lib/memoria-ferma.ts",
+   "cerca": "  const lavoraAdesso = oreCorsiaLavori != null && oreCorsiaLavori <= adessoOre;",
+   "sostituisci": "  const lavoraAdesso = oreQualsiasiCorsia != null && oreQualsiasiCorsia <= adessoOre;",
+   "test": "node cervello/test/c6-giro-andato-male.test.mjs"
   }
  ]
 }

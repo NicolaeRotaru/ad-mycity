@@ -2480,3 +2480,56 @@ riga: se un giorno tornasse a vederla, vuol dire che la falla dei recapiti e' to
 **Perche' non l'ho applicata da solo.** L'ok era sulla 122. La 123 e' un'altra scrittura sul
 database vero, e la regola di casa dice che nel dubbio si sale di colore. Il costo di aspettare
 oggi e' zero: zero fattorini approvati, un ordine solo e annullato a giugno.
+
+---
+
+## 2026-08-20 18:20 — 🟡 Il Pannello era fermo perché ho spento io il worker dei lavori (carta #136)
+
+**Cosa ha chiesto Nicola.** «il pannello è bloccato da due giorni».
+
+**Cosa ho trovato.** Non il Pannello: la macchina dietro. Sul server girano due worker sullo stesso
+file `cervello/worker.sh`, distinti solo da `WORKER_LANE` — `all` (giro, cadenze, analisi, azioni,
+pubblicazione della memoria) e `chat`. La corsia `all` ha battuto l'ultima volta martedì 18 agosto
+alle 04:46 e non è più ripartita. La corsia `chat` è viva e batte ogni minuto.
+
+**La causa, che è mia.** Il commit `add07ee` del 18/8 alle 04:34 — «fix(worker): lucchetto di
+istanza singola su worker.sh», nato per impedire che due copie girassero insieme dopo i 2.160
+commit vuoti del 17/8 — ha messo **un solo** file di lucchetto, `.worker.lock`, per **due** servizi.
+Da quel momento la seconda corsia ad avviarsi trova il lucchetto occupato ed esce. Esce con codice
+0, per scelta esplicita del commit («per non far sembrare questo un guasto del servizio»): systemd
+la riavviava ogni 10 secondi e ogni volta usciva pulita. Dodici minuti dopo il commit, la corsia
+`all` era fuori.
+
+**Perché nessuno se n'è accorto per due giorni.** `macchinaViva()` nel Pannello leggeva
+`worker:ultimo` — «il battito più recente di chiunque» — e con la chat viva rispondeva sempre sì,
+saltando il verdetto sull'ultimo giro che avrebbe detto la verità. Il battito per-corsia
+`worker:ultimo:<lane>` esisteva dall'11/7 apposta per questo, e il Pannello non l'ha mai letto: il
+commento nel worker lo chiamava «un di più che il Pannello potrà mostrare». È la terza volta che
+questa malattia colpisce lo stesso punto (AR-544, AR-367): una misura scritta e mai consumata.
+
+**Il conto.** Memoria non pubblicata da martedì 08:36. Sedici lavori in coda dal 18 al 20 agosto —
+3 giri, 9 playbook, 4 analisi — di cui 15 con `tentativi = 0` e `worker_owner` vuoto: mai presi in
+carico da nessuno. È la firma del worker assente, non del worker che fallisce, ed è ciò che esclude
+quota e credenziali del motore AI.
+
+**Cosa ho riparato (🟡, in una richiesta di unione).** ① `cervello/worker.sh`: il lucchetto porta il
+nome della corsia (`.worker.$WORKER_LANE.lock`), le due corsie convivono e due copie della stessa
+restano escluse. ② `pannello/src/lib/battito.ts` + `memoria-ferma.ts`: la scorciatoia del battito si
+chiede a `worker:ultimo:all`, e quando batte solo la chat la home lo dice invece di tacere.
+Difetti registrati come AR-772 e AR-773, **lasciati aperti**: il codice è riparato, la macchina no.
+
+**Prove che girano.** `node cervello/test/lucchetto-per-corsia.test.mjs` — 3 casi, 2 con processi
+bash veri su un lucchetto vero; rossa prima del fix, verde dopo, e torna rossa rimettendo il difetto
+(mutazione verificata). `node cervello/test-pannello.mjs` — 6 casi nuovi con i numeri veri
+dell'incidente. `due-worker.bats` continua a passare (20 casi): nessuno dei suoi guardava l'avvio,
+ed è la ragione per cui non ha visto arrivare il lucchetto.
+
+**Cosa resta a Nicola (🔴).** Unire e poi riavviare i due servizi sul server: una riparazione nel
+repository non riaccende un servizio spento. Comandi nella carta **#136**. Da questa sessione il
+server non è raggiungibile: servizi, registri e disco restano ⚪ non visti, e la diagnosi è per
+tracce (coda Supabase, chiavi `worker:*`, referto del VPS, storia git).
+
+**La lezione.** Un guasto che esce con «tutto ok» non è un guasto silenzioso per caso: l'ho reso
+silenzioso io, scegliendo il codice di uscita per non sporcare lo stato del servizio. E un battito
+che non dice **chi** batte non è un battito: è la prova che qualcuno è vivo, non che il lavoro si
+sta facendo. Referto: `consegne/audit/2026-08-20-worker.md`.

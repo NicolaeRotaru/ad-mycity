@@ -148,3 +148,68 @@ export function etaTesto(ore: number): string {
   const resto = Math.round(ore - giorni * 24);
   return resto > 0 ? `${giorni} giorni e ${resto} ore` : `${giorni} giorni`;
 }
+
+// ─────────────────────────────────────────────────────────────────────────────
+// LE DUE CORSIE DEL WORKER — chi batte non è chi lavora (18–20/8/2026)
+// ─────────────────────────────────────────────────────────────────────────────
+//
+// Sul VPS girano due worker: `all` (mycity-worker: giro, ritmo, analisi, azioni, pubblicazione
+// della memoria) e `chat` (mycity-worker-chat: solo le risposte nel Pannello). Ognuno scrive il
+// suo battito in `worker:ultimo:<corsia>`, ed entrambi scrivono anche `worker:ultimo` — «il più
+// recente di chiunque», tenuto per retrocompatibilità.
+//
+// Il 18/8 alle 04:46 la corsia `all` è morta e non è più ripartita (un lucchetto condiviso la
+// escludeva a ogni riavvio: vedi cervello/worker.sh). La corsia `chat` è rimasta viva e ha
+// continuato a scrivere `worker:ultimo` ogni minuto. La home leggeva SOLO quella chiave, prendeva
+// la scorciatoia «il worker sta lavorando adesso» e mostrava il pallino verde — mentre la coda
+// accumulava sedici lavori mai presi in carico e la memoria non si pubblicava da due giorni.
+//
+// Chi batte non è chi lavora. La scorciatoia deve chiedere alla corsia CHE FA I LAVORI, e quando
+// quella tace bisogna dirlo con la frase giusta: «risponde in chat ma non lavora» è un'informazione
+// che il 18/8 avrebbe fatto guadagnare due giorni. Un battito che non viene dalla corsia giusta non
+// è un verde: è un battito di qualcun altro.
+
+/** La corsia che fa i lavori veri: giro, ritmo, azioni, pubblicazione della memoria. */
+export const CORSIA_LAVORI = "all";
+
+/** Entro quanto un battito vale come «adesso» (6 minuti). */
+export const BATTITO_ADESSO_ORE = 0.1;
+
+export type VerdettoCorsie = {
+  /** true = la corsia dei lavori sta battendo ADESSO: l'unico caso in cui la scorciatoia è lecita. */
+  lavoraAdesso: boolean;
+  /** true = qualcuno batte, ma non la corsia dei lavori. È il guasto del 18/8, visto da fuori. */
+  soloChat: boolean;
+  /** La frase da mostrare quando `soloChat`; `null` quando non c'è niente da aggiungere. */
+  frase: string | null;
+};
+
+/**
+ * Chi sta battendo, e se è quello che serve.
+ *
+ * @param oreCorsiaLavori ore dall'ultimo battito di `worker:ultimo:all` (null = non lo so).
+ * @param oreQualsiasiCorsia ore dall'ultimo battito di chiunque (`worker:ultimo`).
+ */
+export function verdettoCorsie({
+  oreCorsiaLavori,
+  oreQualsiasiCorsia,
+  adessoOre = BATTITO_ADESSO_ORE,
+}: {
+  oreCorsiaLavori: number | null;
+  oreQualsiasiCorsia: number | null;
+  adessoOre?: number;
+}): VerdettoCorsie {
+  const lavoraAdesso = oreCorsiaLavori != null && oreCorsiaLavori <= adessoOre;
+  if (lavoraAdesso) return { lavoraAdesso: true, soloChat: false, frase: null };
+
+  const qualcunoBatte = oreQualsiasiCorsia != null && oreQualsiasiCorsia <= adessoOre;
+  if (!qualcunoBatte) return { lavoraAdesso: false, soloChat: false, frase: null };
+
+  // Qualcuno batte ma non la corsia dei lavori. Se il battito per-corsia manca del tutto è un worker
+  // con codice vecchio: non lo do per vivo (⚪ non è ✅), ma non invento nemmeno da quanto è fermo.
+  const frase =
+    oreCorsiaLavori == null
+      ? "risponde in chat, ma da qui non vedo il worker dei lavori: giro, ritmo e azioni potrebbero essere fermi"
+      : `risponde in chat, ma il worker dei lavori è fermo da ${etaTesto(oreCorsiaLavori)}: giro, ritmo e azioni non partono`;
+  return { lavoraAdesso: false, soloChat: true, frase };
+}

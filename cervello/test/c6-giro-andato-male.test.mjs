@@ -47,8 +47,10 @@ const B = await import(join(REPO, "pannello/src/lib/battito.ts"));
 const MF = await import(join(REPO, "pannello/src/lib/memoria-ferma.ts"));
 
 /** Monta la situazione che il Pannello troverebbe, e restituisce i segnali VERI. */
-async function segnaliCon({ giro = null, esito = undefined, worker = null } = {}) {
-  globalThis.__c6_imp = { "worker:ultimo": worker };
+async function segnaliCon({ giro = null, esito = undefined, worker = null, workerLavori = null } = {}) {
+  // `worker:ultimo` è il battito di CHIUNQUE; `worker:ultimo:all` è quello della corsia che fa i
+  // lavori. Tenerli separati qui è il punto: dal 18/8/2026 sappiamo che confonderli costa due giorni.
+  globalThis.__c6_imp = { "worker:ultimo": worker, "worker:ultimo:all": workerLavori };
   globalThis.__c6_vault = {
     "90-Memoria-AI/ultimo-briefing.json": giro ? JSON.stringify({ data: giro }) : "{}",
     [B.PERCORSO_ESITO_GIRO]: esito === undefined ? null : JSON.stringify(esito),
@@ -87,9 +89,32 @@ test("se l'esito non si legge, la risposta è ⚪ e non un verde", async () => {
   assert.equal(MF.verdettoUltimoGiro(1, null).stato, "non_visto");
 });
 
-test("il worker che batte adesso resta un fatto misurato: quello sì tiene viva la macchina", async () => {
-  const s = await segnaliCon({ giro: quandoVault(1), esito: { data: quandoVault(1), pulito: false, gate_rossi: 3 }, worker: oreFa(0.01) });
-  assert.equal(B.macchinaViva(s), true, "il battito del worker è adesso, non è il racconto di com'è andata prima");
+test("il worker DEI LAVORI che batte adesso resta un fatto misurato: quello sì tiene viva la macchina", async () => {
+  // AR-773 — fino al 20/8/2026 questo caso passava `worker` e basta, perché `macchinaViva` leggeva
+  // `worker:ultimo`. Adesso la scorciatoia la concede solo la corsia `all`: il caso resta lo stesso
+  // — un battito misurato adesso batte il racconto di com'è andata prima — ma chiede alla corsia che
+  // i lavori li fa davvero.
+  const s = await segnaliCon({
+    giro: quandoVault(1),
+    esito: { data: quandoVault(1), pulito: false, gate_rossi: 3 },
+    worker: oreFa(0.01),
+    workerLavori: oreFa(0.01),
+  });
+  assert.equal(B.macchinaViva(s), true, "il battito della corsia dei lavori è adesso, non è il racconto di com'è andata prima");
+});
+
+test("AR-773: batte solo la chat mentre la corsia dei lavori è morta → NON è una macchina viva", async () => {
+  // I numeri veri del blocco 18→20/8/2026: la corsia `all` ferma da 61 ore, la chat che batte ogni
+  // minuto e tiene fresco `worker:ultimo`. Con la vecchia scorciatoia questa riga rispondeva `true`,
+  // e la home ha mostrato il pallino verde per due giorni e mezzo su una macchina che non lavorava.
+  const s = await segnaliCon({
+    giro: quandoVault(61),
+    esito: { data: quandoVault(61), pulito: false, gate_rossi: 13 },
+    worker: oreFa(0.01),
+    workerLavori: oreFa(61),
+  });
+  assert.equal(B.macchinaViva(s), false, "la chat viva non è la macchina viva");
+  assert.match(B.comeStaLaMacchina(s), /risponde in chat/, "e la home deve dire PERCHÉ, non tacere");
 });
 
 test("un giro pulito ma di tre giorni fa è vecchio: pulito non vuol dire recente", () => {
