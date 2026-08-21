@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-21 18:07",
+ "aggiornato": "2026-08-21 18:48",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12366,6 +12366,19 @@
    "testo": "**Riparare la risposta non basta: va riparato anche chi la chiede.** Il 16 agosto la coda diede il numero 81 a due card. Fu riparata la funzione che CALCOLA il numero, e la prova nacque lì. Il 21 agosto lo stesso guasto è tornato dall'altro capo: chi SCRIVE la riga se n'era tenuta una copia privata, che contava le righe della tabella e ignorava le card scritte come titolo. Risultato: la prova era verde e main era rosso. Una prova puntata su chi calcola non vede chi scrive. Ci sono due segnali che l'avrebbero fatta trovare prima: una funzione privata che risponde a una domanda già di qualcun altro, e una funzione che non si può chiamare da un test perché legge e scrive il file vero.",
    "regola": "Quando ripari una risposta condivisa, cerca tutte le copie di quella domanda prima di chiudere, e punta la prova su CHI SCRIVE il risultato, non solo su chi lo calcola. Se chi scrive non si può chiamare da una prova perché tocca il file vero, la parte che decide esce in una funzione a cui il testo entra come argomento: finché non si può chiamare, non si può vedere sbagliare.",
    "gate": "node cervello/test/carte-numerate.test.mjs"
+  },
+  {
+   "id": "L-2026-0821-02",
+   "data": "2026-08-21 18:48",
+   "nato": "2026-08-21",
+   "ultima_conferma": "2026-08-21 18:48",
+   "stato": "attiva",
+   "confidenza": 0.75,
+   "evidenze": 1,
+   "fonte": "correzione di Nicola (screenshot del terminale, 21/8)",
+   "testo": "**Un freno messo su una corsia sola non è un freno: è un promemoria (21/8).** Stessa scivolata tre volte in un giorno — do a Nicola un comando che nomina un percorso interno al repo (`node cervello/plugin-acceso.mjs`, `cp consegne/…`) senza dirgli da quale cartella lanciarlo. Lui lancia dal server, dalla sua home, e riceve uno stack trace di Node al posto di una risposta; era già successo il 4/8 (L-2026-0804-01) e ha dovuto mandare due screenshot per farmelo capire. La mattina ho costruito il guardiano `cervello/comandi-senza-casa.mjs` — e l'ho puntato SOLO sulle card di AZIONI-IN-ATTESA. Un'ora dopo gliel'ho rifatta in chat, cioè sulla corsia gemella che il guardiano non guardava. La chat non è meno di una card: è il posto dove Nicola legge di più, ed è comunque un file, che il cancello dello Stop leggeva già per un altro controllo. Secondo pezzo della stessa lezione, trovato rifacendo il lavoro: il terzo stato «in attesa di aggancio» era arrivato su main con la ragione scritta per esteso e ZERO prove — e quello che lo tiene in piedi è la data. Una data che nessuna prova prova a superare non ferma niente.",
+   "regola": "quando la malattia è un COMPORTAMENTO, il freno va su tutte le superfici dove quel comportamento passa (card E chat), e le superfici si contano prima di dire fatto; e una regola che perdona fino a una data vuole la prova che il giorno dopo smette di perdonare",
+   "gate": "node --test cervello/test/cancello-stop.test.mjs"
   }
  ],
  "principi": [
