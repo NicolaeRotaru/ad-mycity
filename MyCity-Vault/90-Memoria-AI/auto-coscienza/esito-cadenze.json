@@ -12,11 +12,11 @@
       "vincoli": []
     },
     "giro": {
-      "quando": "2026-08-18 08:36",
-      "esito": "vincoli-attivi",
-      "codice": 3,
+      "quando": "2026-08-21 06:40",
+      "esito": "non-pubblicato",
+      "codice": 2,
       "ai_rc": 0,
-      "push_ok": true,
+      "push_ok": false,
       "passi_ok": true,
       "vincoli_attivi": 13,
       "vincoli": [
@@ -26,9 +26,9 @@
         "CORREZIONE_NICOLA",
         "ESP",
         "FRESCHEZZA",
+        "LOOP",
         "TASSO",
         "TEST",
-        "VERIFICA",
         "VOLANO",
         "CI",
         "LETARGO",

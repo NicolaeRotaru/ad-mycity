@@ -4,9 +4,9 @@
   "soglia_giornaliera_token": 2000000,
   "oggi": {
     "data": "2026-08-21",
-    "runs": 39,
+    "runs": 40,
     "token_totali": 0,
-    "durata_sec_totale": 11961,
+    "durata_sec_totale": 12827,
     "voci": [
       {
         "quando": "2026-08-21 03:22",
@@ -319,10 +319,18 @@
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-21 06:40",
+        "tipo": "giro",
+        "durata_sec": 866,
+        "token": 65000,
+        "modello": "claude",
+        "stima_grezza": true
       }
     ],
-    "token_stimati": 2015000,
-    "token_per_gate": 2015000,
+    "token_stimati": 2080000,
+    "token_per_gate": 2080000,
     "token_fonte": "misura"
   },
   "storico_giorni": [
@@ -610,8 +618,8 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 2015000,
-    "runs_sessione": 39,
+    "token_sessione_rolling": 2080000,
+    "runs_sessione": 40,
     "finestra_min": 360,
     "voci_illeggibili": 0,
     "aggiornato": "2026-08-21 06:40"
@@ -926,6 +934,14 @@
       "tipo": "monitora",
       "durata_sec": 599,
       "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-21 06:40",
+      "tipo": "giro",
+      "durata_sec": 866,
+      "token": 65000,
       "modello": "claude",
       "stima_grezza": true
     }
