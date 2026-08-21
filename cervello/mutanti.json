@@ -5269,6 +5269,38 @@
    "cerca": "    troncato: typeof contenuto === \"string\" && contenuto.length >= TETTO_TESTO,",
    "sostituisci": "    troncato: false,",
    "test": "node cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-777 elenco-letto-dal-codice",
+   "nome": "torna l'elenco scritto a mano: le famiglie che hanno riempito il server tornano invisibili alla spazzata",
+   "file": "cervello/spazza-temporanei.mjs",
+   "cerca": "  return [...new Set([...PREFISSI, ...prefissiDalCodice(radice)])];",
+   "sostituisci": "  return [...PREFISSI];",
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
+  },
+  {
+   "difetto": "AR-777 scanner-cieco-sugli-sh",
+   "nome": "lo scanner smette di leggere gli script di shell: le cartelle create con mktemp tornano scoperte",
+   "file": "cervello/spazza-temporanei.mjs",
+   "cerca": "      if (!/\\.(mjs|js|sh)$/.test(v.name)) continue;",
+   "sostituisci": "      if (!/\\.(mjs|js)$/.test(v.name)) continue;",
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
+  },
+  {
+   "difetto": "AR-777 prefisso-troppo-corto",
+   "nome": "cade il filtro sui nomi corti: un prefisso di due lettere si porterebbe via roba di chiunque",
+   "file": "cervello/spazza-temporanei.mjs",
+   "cerca": "          if (nome.length >= MINIMO) trovati.add(nome);",
+   "sostituisci": "          trovati.add(nome);",
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
+  },
+  {
+   "difetto": "AR-777 roba-viva-protetta-per-prima",
+   "nome": "cade la protezione della roba viva mentre l'elenco derivato la nomina: si ricrea a mano il guasto del 20/8",
+   "file": "cervello/spazza-temporanei.mjs",
+   "cerca": "    if (MAI_TOCCARE.some((p) => nome.startsWith(p))) continue; // roba viva: prima di tutto il resto",
+   "sostituisci": "    // mutante: nessuna protezione per la roba viva",
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
   }
  ]
 }

@@ -592,7 +592,7 @@ Il resto della macchina sta bene. Sensori, sincronizzazione con GitHub, coerenza
 
 ---
 
-### 🟡 #104 — Correggi 5 righe nelle tue regole di permesso: è il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20
+### 🟡 #104 — Correggi 5 righe nelle tue regole di permesso: è il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20 · 🔄 refresh 2026-08-21 14:50
 
 *Nota: rinumerata da #81 alle 11:12 (collideva col vecchio #81 tabellare "Merge PR #714", mai riutilizzabile).*
 
@@ -612,7 +612,9 @@ Il file non è nel repo: è dentro `.gitignore`. Va modificato a mano sul VPS, n
 
 **Cosa non ho verificato:** non ho potuto testare il giro dopo la correzione. Serve il VPS, e io scrivo da un ambiente cloud senza quei permessi. Non so nemmeno se qualcos'altro, oltre a queste 5 righe, contribuisce ai fallimenti. Ho verificato solo che questo stesso errore compare in ogni fallimento registrato dal 12/8 in poi.
 
-(dettaglio: vedi memoria `project-settings-local-write-vs-edit-blocca-lavori.md`; prova: `MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json`)
+**Riconferma 21/8 14:50 — ancora aperta, 5 giorni dopo, e si allarga.** La sentinella macchina segnalava "6 cadenze ferme da quasi 14 giorni" (ritmo-mattino, giro, monitora, ritmo-mezzogiorno, ritmo-sera, ritmo-settimana). Ho controllato che non fosse un falso allarme (mi era già capitato con altri sensori): non lo è. `auto-coscienza/esito-cadenze.json` mostra davvero ogni cadenza ferma al 18/8 (l'ultima riga fresca è "giro" delle 08:36 di quel giorno), anche se il file stesso risulta toccato oggi e anche se in queste ore la memoria si sta pubblicando lo stesso (ultimi commit 14:40/14:44/14:48) — segno che il giro "leggero" di oggi gira, ma il passo che scrive il proprio esito in quel file resta bloccato, stessa causa di questa card. Prova in più di oggi: ho provato a lanciare `systemctl list-timers` per controllare i timer del ritmo sul VPS, come chiede questa stessa card, ed è stato respinto dal controllo permessi prima ancora di partire — il buco non blocca più solo le mie scritture in memoria/cervello/pannello, blocca anche i comandi con cui verificherei se i timer sono vivi. Non ho toccato altro: nessuna nuova card, la diagnosi e la cura restano quelle di sopra.
+
+(dettaglio: vedi memoria `project-settings-local-write-vs-edit-blocca-lavori.md`; prova: `MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json`, `MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-cadenze.json`)
 
 <!-- posthog-off-vps -->
 
