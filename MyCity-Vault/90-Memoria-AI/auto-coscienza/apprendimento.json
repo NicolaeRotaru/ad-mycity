@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-21 20:16",
+ "aggiornato": "2026-08-21 20:36",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -4825,7 +4825,7 @@
     "workaround"
    ],
    "reparto": "@frontend-dev",
-   "confidenza": 0.75,
+   "confidenza": 0.6,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
@@ -4833,7 +4833,7 @@
    "ultima_conferma": "2026-07-17 12:45",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-14 19:53"
+   "decaduto_step_il": "2026-08-21 20:26"
   },
   {
    "id": "L-2026-0717-254",
@@ -4848,7 +4848,7 @@
     "pulisci-coda"
    ],
    "reparto": "@builder-automazioni",
-   "confidenza": 0.7999999999999999,
+   "confidenza": 0.6499999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -4856,7 +4856,7 @@
    "ultima_conferma": "2026-07-17 13:00",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-14 19:53"
+   "decaduto_step_il": "2026-08-21 20:26"
   },
   {
    "id": "L-2026-0717-253",
@@ -4872,7 +4872,7 @@
     "arricchimento-catalogo"
    ],
    "reparto": "@builder-automazioni",
-   "confidenza": 0.7999999999999999,
+   "confidenza": 0.6499999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
@@ -4880,7 +4880,7 @@
    "ultima_conferma": "2026-07-17 12:40",
    "stato": "attiva",
    "usi": [],
-   "decaduto_step_il": "2026-08-14 19:53"
+   "decaduto_step_il": "2026-08-21 20:26"
   },
   {
    "id": "L-2026-0717-252",
@@ -8681,14 +8681,14 @@
     "preferenza-nicola"
    ],
    "reparto": "@AD",
-   "confidenza": 0.69,
+   "confidenza": 0.5399999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:55",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-14 19:53"
+   "decaduto_step_il": "2026-08-21 20:26"
   },
   {
    "id": "L-2026-0710-84",
@@ -8704,14 +8704,14 @@
     "commit-trigger"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.69,
+   "confidenza": 0.5399999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 19:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-14 19:53"
+   "decaduto_step_il": "2026-08-21 20:26"
   },
   {
    "id": "L-2026-0710-83",
@@ -8727,14 +8727,14 @@
     "pannello"
    ],
    "reparto": "@AD",
-   "confidenza": 0.6499999999999999,
+   "confidenza": 0.4999999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:45",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-14 19:53"
+   "decaduto_step_il": "2026-08-21 20:26"
   },
   {
    "id": "L-2026-0710-82",
@@ -8771,14 +8771,14 @@
     "git-pr.mjs"
    ],
    "reparto": "@AD",
-   "confidenza": 0.69,
+   "confidenza": 0.5399999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-14 19:53"
+   "decaduto_step_il": "2026-08-21 20:26"
   },
   {
    "id": "L-2026-0710-80",
@@ -8794,14 +8794,14 @@
     "errore"
    ],
    "reparto": "@AD",
-   "confidenza": 0.69,
+   "confidenza": 0.5399999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:24",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-14 19:53"
+   "decaduto_step_il": "2026-08-21 20:26"
   },
   {
    "id": "L-2026-0710-79",
@@ -8840,14 +8840,14 @@
     "AD"
    ],
    "reparto": "@AD",
-   "confidenza": 0.6699999999999999,
+   "confidenza": 0.5199999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-14 19:53"
+   "decaduto_step_il": "2026-08-21 20:26"
   },
   {
    "id": "L-2026-0710-77",
@@ -8959,14 +8959,14 @@
     "pannello"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.6499999999999999,
+   "confidenza": 0.4999999999999999,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 17:03",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-14 19:53"
+   "decaduto_step_il": "2026-08-21 20:26"
   },
   {
    "id": "L-2026-0710-71",
@@ -9029,14 +9029,14 @@
     "pannello"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.62,
+   "confidenza": 0.47,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:30",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-14 19:53"
+   "decaduto_step_il": "2026-08-21 20:26"
   },
   {
    "id": "L-2026-0709-69",
@@ -11005,14 +11005,14 @@
     "devops-sre"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.6699999999999999,
+   "confidenza": 0.5199999999999999,
    "evidenze": 2,
    "fonte": "chat",
    "caso_studio_nicola": true,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-14 19:53",
+   "decaduto_step_il": "2026-08-21 20:26",
    "id_precedente": "L-2026-0710-71",
    "nota_rinumero": "rinumerata da L-2026-0710-71 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)"
   },
@@ -11028,14 +11028,14 @@
     "devops-sre"
    ],
    "reparto": "@devops-sre",
-   "confidenza": 0.6,
+   "confidenza": 0.44999999999999996,
    "evidenze": 1,
    "fonte": "chat",
    "caso_studio_nicola": false,
    "nato": "2026-07-10",
    "ultima_conferma": "2026-07-10 18:00",
    "stato": "attiva",
-   "decaduto_step_il": "2026-08-14 19:53",
+   "decaduto_step_il": "2026-08-21 20:26",
    "id_precedente": "L-2026-0710-72",
    "nota_rinumero": "rinumerata da L-2026-0710-72 il 2026-08-13 (AR-580: id doppio, la prima copia tiene l'id; contenuto intatto)"
   },
@@ -14054,12 +14054,12 @@
   "promosse_a_principio": 89,
   "decadute": 0,
   "tasso_applicazione": 0.14,
-  "tasso_calcolato_il": "2026-08-21 20:16",
+  "tasso_calcolato_il": "2026-08-21 20:36",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-21 20:16",
+  "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-21 18:26",
+  "cristallizzazione_ultima": "2026-08-21 20:26",
   "lezioni_totali": 529,
   "lezioni_per_stato": {
    "attiva": 403,

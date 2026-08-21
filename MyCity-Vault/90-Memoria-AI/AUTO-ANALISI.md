@@ -1,11 +1,28 @@
-# 🔬 AUTO-ANALISI — 2026-08-21 14:45
+# 🔬 AUTO-ANALISI — 2026-08-21 20:31
+
+> Quinto passaggio di oggi. Ho riverificato il business dal vivo, con query SQL dirette via MCP.
+> `orders`: 1 riga, 0 pagati, ultimo il 2026-06-24. `profiles`: 8, nessuno nuovo dal 20/8 15:57.
+> `products`: 5 disponibili, su 1 solo venditore. Il risultato è **bit-per-bit identico** al
+> passaggio delle 16:27. Questa volta non ho trovato nessuna refutazione: solo conferma.
+>
+> Ho anche testato, non dedotto dalla memoria, quali script del cervello funzionano in questa
+> sessione. Vanno: `verifica-sensori.mjs`, `coerenza-fatti.mjs`, `chiusura-loop.mjs`. Restano
+> bloccati dai permessi: `test-cervello.mjs`, `lezione-nuova.mjs`, `esperimenti-check.mjs`.
+> È il buco già noto della card `#104` — non l'ho ridiagnosticato, solo riconfermato.
+
+## Voto di fiducia: 84/100
+
+> ▼1 punto dal passaggio delle 14:45. Il motivo: questo giro non ha trovato nessuna refutazione
+> vera, solo una conferma di stato invariato. Confermare vale meno che mettere alla prova.
+
+## Passaggio precedente (14:45)
 
 > Giro completo (`cervello/giro.md`) richiesto in chat. Business riverificato dal vivo: query dirette
 > MCP (`orders`: 1 riga, 0 pagati, ultimo 2026-06-24; `profiles`: 8, 1 negozio, pratica pagamenti Stripe
 > ancora spenta; profilo nuovo il 20/8 15:57). Lavoro vero del passaggio: verifica diretta sul database
 > di produzione delle card di sicurezza `#36`/`#37`/`#38`, ferme dal 29/7.
 
-## Voto di fiducia: 85/100 (▲3 dal passaggio 18/8 06:30)
+### Voto di fiducia: 85/100 (▲3 dal passaggio 18/8 06:30)
 
 ## Novità vera di questo passaggio
 Due card 🔴 date per "ancora aperte da 3 settimane" (`#36` pulsante ordini, `#37` 4 falle RLS) sono

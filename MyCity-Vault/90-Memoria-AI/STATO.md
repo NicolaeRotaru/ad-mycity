@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-08-21 18:03
-fonte: AD digitale (report della sera, cervello/ritmo.md)
+aggiornato: 2026-08-21 20:31
+fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔁 **21/8 20:31 — Passaggio lampo, stato identico al giro delle 18:03: 1 ordine (0 pagati), 8 profili, 1 negozio con vetrina, 5 prodotti. Macchina in SOPRAVVIVENZA, quota AI 191% (era 151% alle 16:27).**
 
 > 🌙 **21/8 18:03 — Report della sera. Business invariato, ma è la giornata con più riparazioni fatte sul codice del sito finora: registro difetti da 29 aperti a 3.**
 >

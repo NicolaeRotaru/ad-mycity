@@ -1,14 +1,12 @@
 {
-  "data": "2026-08-21 16:27",
-  "situazione": "Passaggio delle 16:27: stato bit-per-bit identico al giro delle 14:45 (1 ordine mai pagato del 24/6, 0 pagati, 8 profili, Pane Quotidiano ancora senza pagamenti attivi), riverificato dal vivo (sensori REST/Stripe/n8n ok, delta-gate senza cambi). Dentro la pausa concordata fino al 24/8-1/9 — non è un allarme. Macchina in SOPRAVVIVENZA (salute 4, quota AI 151%): questo passaggio è stato solo verifica lampo, senza riscritture pesanti perché nulla di nuovo da registrare rispetto al giro precedente dello stesso giorno.",
+  "data": "2026-08-21 20:31",
+  "situazione": "Passaggio delle 20:31 (quinto di oggi): stato bit-per-bit identico al giro delle 16:27 (1 ordine mai pagato del 24/6, 0 pagati, 8 profili, 1 negozio con vetrina, 5 prodotti disponibili, Pane Quotidiano ancora senza pagamenti attivi), riverificato dal vivo con query SQL dirette. Dentro la pausa concordata fino al 24/8-1/9 — non è un allarme. Macchina in SOPRAVVIVENZA (salute 4, quota AI 191%, più alta di stamattina): passaggio lampo, solo auto-analisi + chiusura-loop, nessuna ricerca nuova. Blocco tecnico noto e invariato: script diagnostici del cervello ancora bloccati dai permessi di questa sessione (card #104).",
   "opportunita": [
-    {"titolo": "Controllare a campione le card vecchie contro lo stato reale prima di richiedere ancora una firma", "motivo": "oggi 2 card su 3 vecchie di 3 settimane erano già risolte da un lotto successivo e nessuno l'aveva segnato", "impatto": "medio", "sforzo": "basso"}
+    {"titolo": "Controllare a campione le card vecchie contro lo stato reale prima di richiedere ancora una firma", "motivo": "il 21/8 2 card su 3 vecchie di 3 settimane erano già risolte da un lotto successivo e nessuno l'aveva segnato", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
-    {"titolo": "Applica la migrazione 124 sul database: senza, la vetrina dei negozi resta vuota", "motivo": "6 pagine del sito chiedono il bollino Verificato e il database rifiuta la richiesta intera senza quella colonna", "livello": "rosso"},
-    {"titolo": "Fai partire il rilascio solo a controlli verdi, non insieme a loro", "motivo": "oggi il codice rotto può finire online prima che i controlli lo dicano: 3 mosse pronte su Render/GitHub", "livello": "rosso"},
-    {"titolo": "Ripara le sette richieste di unione aperte sul repo della memoria: falliscono quasi tutte sullo stesso controllo dei test", "motivo": "PR #791/#761/#754/#753/#749/#741/#735 tutte rosse sullo stesso pattern test-del-cervello, bloccato dai permessi anche in questa sessione", "livello": "giallo"},
+    {"titolo": "Ripara l'allowlist dei permessi che blocca gli script diagnostici del cervello", "motivo": "test-cervello.mjs, lezione-nuova.mjs, esperimenti-check.mjs e gate-veri.mjs restano bloccati in questa sessione (card #104): la macchina non può verificare da sola il proprio lavoro finché non si allarga", "livello": "giallo"},
     {"titolo": "Verifica nel codice del sito i tre punti rimasti dove il marketplace rischia di perdere soldi", "motivo": "doppia vendita dopo checkout scaduto, rider mai pagato su spedizione gratis, reclamo che blocca il negozio per sempre — non verificabili dal solo database", "livello": "rosso"}
   ]
 }
