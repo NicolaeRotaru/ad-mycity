@@ -44,10 +44,10 @@
 // che chiede a QUESTO file quali famiglie dice di eseguire: così il guardiano e il runner non
 // possono divergere in silenzio.
 
-import { existsSync, readdirSync, readFileSync } from "node:fs";
+import { existsSync, readdirSync, readFileSync, mkdtempSync, rmSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
 import { spawn, spawnSync } from "node:child_process";
-import { cpus } from "node:os";
+import { cpus, tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 // 📏 Il contratto della prova, in un posto solo (contratto-prova.mjs). Qui si CHIAMA, non si
@@ -74,6 +74,36 @@ const PROFONDITA = Number(process.env.MYCITY_BANCO_PROFONDITA || 0);
 /** Un livello di annidamento serve (una prova che misura il banco). Due non serve a nessuno. */
 const PROFONDITA_MASSIMA = 1;
 const HOOK_TS = join(AD_ROOT, "cervello/test", "hook-ts.mjs");
+
+/**
+ * 🏖️ LA SABBIERA DI QUESTA CORSA — ogni prova scrive i suoi temporanei QUI DENTRO, e questa cartella
+ * muore alla fine del giro.
+ *
+ * Perché non basta spazzare. Trentadue prove creano una cartella con `mkdtempSync` e non la
+ * cancellano mai. La prima cura (una spazzata all'avvio, roba ferma da oltre un giorno) sembrava
+ * sufficiente e NON lo era: misurata sul server il 21/8 alle 12:00, /tmp era di nuovo al 100% otto
+ * ore dopo essere stato svuotato. Il motivo, col senno del comando: **la spazzatura nasce più in
+ * fretta di quanto invecchia.** Ogni giro lascia una trentina di cartelle nuove; la soglia di un
+ * giorno non le tocca mai, e nel frattempo il disco si riempie. Rincorrere non funziona.
+ *
+ * Questa è la cura alla radice, e non chiede niente alle prove: cambiando `TMPDIR` per i processi
+ * figli, `os.tmpdir()` dentro OGNI prova punta qui. Che il test pulisca o no diventa irrilevante —
+ * quando il giro finisce sparisce tutto insieme. Vale anche per le prove che verranno scritte
+ * domani, che è la parte che una correzione a mano dei trentadue file non avrebbe dato.
+ */
+const SABBIERA = mkdtempSync(join(tmpdir(), "mycity-banco-"));
+
+/** Butta la sabbiera. Idempotente: la chiamo alla fine e su ogni via d'uscita del processo. */
+function sgomberaSabbiera() {
+  try {
+    rmSync(SABBIERA, { recursive: true, force: true });
+  } catch {
+    /* se non ci riesco resta lì: la spazzata all'avvio la prende come orfana, ed è il suo mestiere */
+  }
+}
+for (const segnale of ["exit", "SIGINT", "SIGTERM"]) {
+  process.on(segnale, sgomberaSabbiera);
+}
 // Ogni file gira già nel suo processo: le corsie sono quanti processi tenere accesi insieme.
 const CORSIE = SERIALE ? 1 : Math.max(2, Math.min(8, cpus().length));
 
@@ -389,6 +419,8 @@ function eseguiTest(dir, f) {
     // peggio del difetto. Qui la profondità si CONTA: un livello di annidamento è quello che serve a
     // una prova per misurare il banco, due non servono a nessuno.
     ambiente.MYCITY_BANCO_PROFONDITA = String(PROFONDITA + 1);
+    // Ogni temporaneo di questa prova nasce nella sabbiera del giro, e muore con lei.
+    ambiente.TMPDIR = SABBIERA;
     const p = spawn(process.execPath, ["--import", HOOK_TS, "--test", "--test-reporter=tap", join(dir, f)], {
       cwd: AD_ROOT,
       env: ambiente,
@@ -461,7 +493,7 @@ export async function confermaIRossi(righe = [], rilancia) {
  */
 function eseguiBats(bin, dir, f) {
   return new Promise((risolvi) => {
-    const p = spawn(bin, ["--tap", join(dir, f)], { cwd: AD_ROOT });
+    const p = spawn(bin, ["--tap", join(dir, f)], { cwd: AD_ROOT, env: { ...process.env, TMPDIR: SABBIERA } });
     let uscita = "";
     p.stdout.on("data", (d) => (uscita += d));
     p.stderr.on("data", (d) => (uscita += d));

@@ -82,30 +82,30 @@ su GitHub: `SUPABASE_TEST_URL`, `SUPABASE_TEST_ANON_KEY`, `SUPABASE_TEST_SERVICE
 
 ---
 
-### 🟡 #138 — Rilancia il controllo della memoria: adesso vede anche quello che prima gli sfuggiva · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 04:05
+### 🟡 #138 — La spazzata del disco non bastava: adesso il posto dove si accumula non esiste più · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 12:20
 
-**Cosa cambia:** stanotte l'attrezzo ti ha detto «niente da salvare» mentre ventotto scritture del
-server erano appena state staccate dal ramo. Guardava solo il ramo, e il lavoro staccato dal ramo per
-lui non esisteva. Era un verde sbagliato, e arrivava un attimo prima di allineare: il momento
-peggiore per sbagliarsi.
+**Cosa cambia:** stanotte ti avevo dato il disco per risolto. **Non lo era.** Il tuo controllo delle
+12:00 l'ha dimostrato: la cartella temporanea era di nuovo piena al 100%, otto ore dopo averla
+svuotata.
 
-Adesso guarda anche nel registro dei movimenti, dove git tiene per tre mesi tutto quello che è stato
-staccato. E quando trova qualcosa non si limita ad archiviarlo: lo **aggancia a un ramo vero**, così
-non scade più. Un file di archivio si perde, un ramo no.
+È un mio errore di misura. La spazzata toglie ciò che è fermo da più di un giorno. Ma il banco delle
+prove crea trenta cartelle nuove a ogni giro, e i giri sono continui. La spazzatura nasceva più in
+fretta di quanto invecchiava, quindi la soglia non la toccava mai.
 
-**Se va bene:** rilancia lo stesso comando di stanotte. Non tocca niente:
+Adesso ogni giro scrive in una cartella sua, buttata quando il giro finisce. Non si rincorre più
+niente: il posto dove si accumulava non esiste.
+
+**Se va bene:** intanto libera spazio, che sei sul filo — restano 4,6 MB su 1,9 GB:
 
 ```
-cd /opt/mycity/ad-mycity
-bash cervello/vps/riconcilia-memoria.sh
+sudo find /tmp -maxdepth 1 \( -name 'mycity-campo-*' -o -name 'cancello-*' \) -mmin +30 -exec rm -rf {} +
+df -h /tmp
 ```
 
-Stavolta c'è una riga in più: «commit suoi rimasti senza ramo». Se quel numero è maggiore di zero, i
-ventotto sono ancora recuperabili — **mandamela** e li mettiamo al sicuro. Se è zero, allora erano già
-stati riassorbiti e te lo dico chiaro.
+Poi firma: la riparazione arriva sul server da sola entro cinque minuti.
 
-**Cosa non ho verificato:** se sul server quei commit siano ancora nel registro. Da qui non lo vedo:
-è la ragione per cui il comando parte in sola lettura e la risposta la dà lui, non io.
+**Cosa non ho verificato:** che regga per giorni. La conferma vera è riguardare quella riga domani a
+quest'ora: se è ferma sotto il 100%, è chiusa.
 
 ---
 

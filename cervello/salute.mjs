@@ -1338,6 +1338,27 @@ async function visita() {
 // ── Il referto ─────────────────────────────────────────────────────────────────
 
 const SEGNO = { ok: "✅", rotto: "❌", nonvisto: "⚪", guasto: "🔧" };
+/**
+ * Spezza in righe un elenco appiccicato dopo i due punti.
+ *
+ * I controlli scrivono frasi come «la review non lascia i suoi compiti: Il confronto coi migliori
+ * (28 giorni), La peer review fra senior (28 giorni), …»: quattro incisi in una frase sola, cioè
+ * quello che il misuratore boccia perché costringe a tenere in sospeso l'idea di partenza. Il
+ * contenuto è già un elenco — qui gli si dà la forma che ha.
+ */
+export function spezzaElenco(detto = "") {
+  const i = detto.indexOf(": ");
+  if (i < 0) return [detto];
+  const coda = detto.slice(i + 2);
+  const voci = coda.split(/,\s+(?=[A-ZÀ-Ù])/).map((v) => v.trim()).filter(Boolean);
+  if (voci.length < 3) return [detto]; // due cose in fila si leggono benissimo in una riga
+  // Le parentesi contano come incisi anche dentro un elenco puntato: «Il confronto coi migliori
+  // (28 giorni)» resta una frase con un inciso. Con il trattino la stessa informazione si legge
+  // dritta, senza aprire e chiudere niente.
+  const dritta = (v) => v.replace(/\s*\(([^)]+)\)\s*$/, " — $1");
+  return [`${detto.slice(0, i)}:`, "", ...voci.map((v) => `- ${dritta(v)}`)];
+}
+
 const ORGANI = { worker: "Worker", cervello: "Cervello", cabina: "Cabina", senior: "Senior", sensori: "Sensori" };
 
 /**
@@ -1505,16 +1526,27 @@ export function referto(v) {
   if (p.altriRotti.length) {
     righe.push("## ❌ Rotto — in ordine di quanto costa");
     righe.push("");
-    for (const r of p.altriRotti) {
-      // Titolo pulito e organo su una riga sua: prima erano un titolo con due incisi fra parentesi,
-      // cioè la forma che il misuratore boccia («chi legge deve tenere in sospeso l'idea di partenza»).
-      righe.push(`### ${r.titolo}`);
-      righe.push(`Organo: ${ORGANI[r.organo]}. Quanto costa: ${IMPATTO[r.impatto]}.`);
-      if (r.daQuanto) righe.push(`Da quanto: ${r.daQuanto}.`);
+    // 🔁 RAGGRUPPATI PER COSTO, e non uno per uno con la stessa riga sotto ciascuno. Prima ogni
+    // rosso si portava dietro «Quanto costa: …» e «Da quanto: …» per esteso: con cinque rossi dello
+    // stesso peso, Nicola leggeva la stessa frase cinque volte a distanza di paragrafi. È il difetto
+    // che `si-capisce.mjs` chiama «stessa idea a N frasi di distanza», e su un referto che legge lui
+    // vale come su qualunque altro testo (AR-478): il cancello del lotto l'ha bocciato, giustamente.
+    // Detto una volta come intestazione del gruppo, si legge meglio E si capisce cosa hanno in comune.
+    for (const impatto of [1, 2, 3, 4]) {
+      const delGruppo = p.altriRotti.filter((r) => r.impatto === impatto);
+      if (!delGruppo.length) continue;
+      righe.push(`### ${IMPATTO[impatto]}`);
       righe.push("");
-      righe.push(`${r.detto}`);
-      if (r.prova) righe.push(`Prova: \`${r.prova}\``);
-      righe.push("");
+      for (const r of delGruppo) {
+        // NIENTE «da quanto» qui: i rossi cronici hanno già una sezione tutta loro più sotto, e
+        // ripetere «acceso in N visite di fila» sotto ognuno voleva dire scrivere la stessa frase
+        // cinque volte nello stesso referto. Un ripasso sta accanto alla frase, non dieci frasi dopo.
+        righe.push(`**${r.titolo}** · ${ORGANI[r.organo]}`);
+        righe.push("");
+        righe.push(...spezzaElenco(r.detto));
+        if (r.prova) righe.push(`Prova: \`${r.prova}\``);
+        righe.push("");
+      }
     }
   }
 
