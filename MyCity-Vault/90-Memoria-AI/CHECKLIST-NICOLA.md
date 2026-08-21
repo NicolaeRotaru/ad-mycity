@@ -2,22 +2,24 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-08-17 06:20
+aggiornato: 2026-08-21 14:40
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata perché era ferma al 15/8 00:40 (oltre i 2 giorni della regola AR-030).
-> Business ancora **invariato**: 1 ordine totale (mai pagato, 24/6), 0 pagati, stallo **54 giorni**
-> — dentro la pausa concordata con te fino al 24/8-1/9, non è churn.
+> Rigenerata perché era ferma al 17/8 06:20 (oltre i 2 giorni della regola AR-030).
 >
-> ⚠️ **Autocorrezione in questo giro, la scrivo per onestà.** La prima stesura di questa checklist
-> diceva "le card #36/#37/#38/#42 non esistono più nella coda". Era **sbagliato**. Le avevo cercate
-> solo nel formato riga-di-tabella, cioè righe come `| 36 |`. Sono invece scritte come blocchi `###`.
-> È un formato diverso che la Cabina legge comunque, ma che il mio grep aveva saltato. Sono tutte e
-> quattro **ancora aperte**. Tutte e quattro sono accodate dal 29/7, 19 giorni senza una tua risposta.
-> Le rimetto in cima, dove stavano.
+> Business ancora **fermo**. 1 ordine totale, mai pagato, del 24/6. 0 ordini pagati.
+> Sei dentro la pausa concordata con te fino al 24/8-1/9: non è churn.
+>
+> **Novità vera:** un profilo nuovo si è registrato il 20/8 alle 15:57.
+> Email `nicolarotaru2000@gmail.com`. Sembra un tuo account di prova, non un cliente reale.
+> Dimmi se devo trattarlo diversamente.
+>
+> ✅ **Buona notizia di questo giro.** Ho riverificato le card `#36` e `#37` (sicurezza) sul database vero.
+> Sono **già risolte** dal grande lotto di riparazioni del 20-21/8. Le ho chiuse: non ti servono più firme lì.
+> La `#38` è per due quinti risolta. Restano tre punti da controllare nel codice.
 
 ---
 
@@ -28,31 +30,47 @@ aggiornato: 2026-08-17 06:20
 
 ---
 
-## 🔴 SICUREZZA E SOLDI DEL MARKETPLACE — ferme da 19 giorni senza risposta
+## 🔴 DAL LOTTO DI RIPARAZIONI DEL 20-21/8 — aspettano solo la tua firma
 
-- [ ] 🔴 **Ripara il pulsante che venditore e rider usano per far avanzare un ordine.** Oggi dà sempre errore. La causa: un campo fu cancellato a giugno. Un controllo di sicurezza lo cerca ancora e blocca tutto. Al primo ordine vero il negoziante non riuscirebbe ad accettarlo. Aggiornamento 17/8: la diagnosi è riverificata al 100%, la correzione è pronta in un branch locale, manca solo chi la porti su GitHub.
-  → Card `#36` in [[AZIONI-IN-ATTESA]]
+- [ ] 🔴 **Applica la migrazione 124 sul database**: senza, la vetrina dei negozi resta vuota (bollino "Verificato" mancante su 6 pagine).
+  → Card `#140` in [[AZIONI-IN-ATTESA]]
 
-- [ ] 🔴 **Chiudi le 4 porte aperte su dati di negozi e clienti.** Liste negozi scrivibili senza login. Indirizzi clienti leggibili senza login. Venditori e rider auto-approvati alla registrazione. Dati di consegna modificabili senza login. Verificate una per una sul database vero: rischio violazione dati personali.
-  → Card `#37` in [[AZIONI-IN-ATTESA]]
+- [ ] 🔴 **Fai partire il rilascio solo a controlli verdi**, non insieme a loro (3 mosse su Render/GitHub, tutte tue).
+  → Card `#141` in [[AZIONI-IN-ATTESA]]
 
-- [ ] 🔴 **Tappa i 5 punti dove il marketplace perde soldi da solo.** Doppia vendita dopo checkout scaduto. Coupon che si esauriscono sui tentativi e non sugli ordini. Il rider che può decidersi lo stipendio da solo. Il rider mai pagato sulla spedizione gratuita. Un reclamo che blocca il negozio per sempre.
+- [ ] 🟡 **Un Supabase di prova**, per i controlli che oggi si saltano da soli.
+  → Card `#139` in [[AZIONI-IN-ATTESA]]
+
+- [ ] 🟡 **Il server lavora ma non pubblica più niente da tre giorni.**
+  → Card `#138` in [[AZIONI-IN-ATTESA]]
+
+- [ ] 🟡 **Approva il fattorino dal pannello**: adesso il pulsante c'è.
+  → Card `#137` in [[AZIONI-IN-ATTESA]]
+
+- [ ] 🔴 **Del database non esiste nessuna copia**: mancano due segreti per farla partire.
+  → Card `#134` in [[AZIONI-IN-ATTESA]]
+
+- [ ] 🟡 **Fai valere anche domani il plugin acceso oggi** (2 righe in `.claude/settings.json`).
+  → Card `#142` in [[AZIONI-IN-ATTESA]]
+
+---
+
+## 🟡 Rimane da capire (parziale, non bloccante)
+
+- [ ] 🟡 **Card #38 — tre punti sui soldi non ancora verificabili da qui.** Doppia vendita dopo checkout scaduto. Rider mai pagato su spedizione gratis. Reclamo che blocca il negozio per sempre. Servirebbe leggere il codice del sito, non solo il database.
   → Card `#38` in [[AZIONI-IN-ATTESA]]
 
 ---
 
 ## 🔴 RICHIESTE DI UNIONE (PR) DA FIRMARE
 
-Attenzione al colore: nessuna delle tre sotto è pronta.
+Oggi nessuna è pronta.
 
-- [ ] 🔴 **NON mergiare ancora: PR #735.** CI rossa, 2 controlli su 2 falliti sul proprio ramo. Aspetta il verde.
-  → Card `#89` in [[AZIONI-IN-ATTESA]]
-- [ ] 🔴 **NON mergiare ancora: PR #741.** CI rossa, 2 controlli su 2 falliti sul proprio ramo.
-  → Card `#106` in [[AZIONI-IN-ATTESA]]
-- [ ] 🔴 **NON mergiare ancora: PR #749.** CI rossa, 2 controlli su 2 falliti sul proprio ramo.
-  → Card `#111` in [[AZIONI-IN-ATTESA]]
-
-> Sono le uniche 3 PR aperte oggi (confermato dal vivo con `ci-stato.mjs`). Nessuna PR è pronta da firmare in questo momento.
+Sul repo `ad-mycity` (memoria/cervello) ci sono **7 PR aperte, tutte rosse**: `#791`, `#761`, `#754`,
+`#753`, `#749`, `#741`, `#735`. Tutte falliscono lo stesso controllo, "test del cervello" — il vincolo
+HARD in cima a ogni giro. Nessuna è mergiabile oggi.
+Lo script che le ripara (`test-cervello.mjs`) resta bloccato dai permessi in questa sessione.
+È lo stesso buco delle card #104/#42. Serve una sessione con permessi più larghi sul VPS per chiuderlo.
 
 ---
 
@@ -60,16 +78,22 @@ Attenzione al colore: nessuna delle tre sotto è pronta.
 
 - [ ] 🟡 **Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola** — nel foglio dei permessi ci sono due righe col jolly. L'elenco esplicito di 75 programmi veri è già pronto da incollare (`consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`). Sbloccherebbe anche diversi comandi di controllo oggi bloccati in sessione chat.
   → Card `#42` in [[AZIONI-IN-ATTESA]]
+
 - [ ] 🟡 **Quale definizione di "margine" è quella giusta?** Un commit del 16/8 mattina ha cambiato cosa significa `burn_down_margine` nel codice, ma il test che lo controlla dice ancora la versione vecchia — il test del cervello resta rosso finché non scegli quale dei due è quello giusto.
   → Card `#105` in [[AZIONI-IN-ATTESA]]
+
 - [ ] 🟡 **Come vuoi procedere con le PR croniche rosse (#735/#741/#749)?** ① dedico una sessione a chiuderle per davvero, stesso ramo di ciascuna; ② le congelo fino a dopo la pausa negozi del 24/8-1/9.
   → Card `#109` in [[AZIONI-IN-ATTESA]]
+
 - [ ] 🟡 **Va bene che la macchina resti in modalità RISPARMIO fino alla ripresa (24/8-1/9)?** Oggi spegne da sola contenuti pesanti/reel ed esperimenti non essenziali, tiene acceso ordini/consegne/firme/sicurezza.
   → Card `#113` in [[AZIONI-IN-ATTESA]]
+
 - [ ] 🟡 **Il guardiano del primo ordine può imparare a riconoscere la pausa concordata?** Oggi dà sempre l'allarme rosso anche dentro la pausa che hai voluto tu. Se dici sì, preparo la modifica in branch + PR.
   → Card `#97` in [[AZIONI-IN-ATTESA]]
+
 - [ ] 🟡 **Vuoi dedicare una sessione a bonificare tutti i 45 casi di un difetto tecnico nel motore del giro** (`cervello/giro.sh` nasconde alcuni errori dentro una pipe), o preferisci farli a piccoli gruppi?
   → Card `#114` in [[AZIONI-IN-ATTESA]]
+
 - [ ] 🟡 **Apri il sito dal telefono** (`mycity-marketplace.com`) — il sensore lo vede spento (HTTP 503) dal 30/7, coerente con la migrazione a Vercel nota, ma nessuno l'ha mai riconfermato con un occhio umano.
   → Card `#79` in [[AZIONI-IN-ATTESA]]
 
