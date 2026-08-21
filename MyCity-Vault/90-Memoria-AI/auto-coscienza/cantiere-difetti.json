@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-20 18:05",
+  "aggiornato": "2026-08-21 15:00",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16291,7 +16291,7 @@
     },
     {
       "id": "AR-772",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "worker-deep-dive",
       "gravita": "bloccante",
       "colore": "🟡",
@@ -16310,11 +16310,14 @@
         "comando": "node cervello/test/lucchetto-per-corsia.test.mjs"
       },
       "malattia": "non-pattern-izzabile",
-      "malattia_perche": "La forma non sta in una riga di codice: sta nel rapporto fra un file (il lucchetto) e due processi che nessun testo del file nomina insieme. Il pattern che la troverebbe — «un percorso di lucchetto senza variabile dentro» — sarebbe rosso su ogni lucchetto legittimo del repo, cioè un allarme che si impara a ignorare. La guardia è a runtime e sta in due posti: cervello/test/lucchetto-per-corsia.test.mjs avvia due processi veri e diventa rosso se le due corsie tornano a escludersi; AR-773 copre la CLASSE invece del caso, perche da adesso una corsia morta si vede nella Cabina qualunque sia la causa — lucchetto, quota, crash o mano umana."
+      "malattia_perche": "La forma non sta in una riga di codice: sta nel rapporto fra un file (il lucchetto) e due processi che nessun testo del file nomina insieme. Il pattern che la troverebbe — «un percorso di lucchetto senza variabile dentro» — sarebbe rosso su ogni lucchetto legittimo del repo, cioè un allarme che si impara a ignorare. La guardia è a runtime e sta in due posti: cervello/test/lucchetto-per-corsia.test.mjs avvia due processi veri e diventa rosso se le due corsie tornano a escludersi; AR-773 copre la CLASSE invece del caso, perche da adesso una corsia morta si vede nella Cabina qualunque sia la causa — lucchetto, quota, crash o mano umana.",
+      "chiuso_il": "2026-08-21 15:00",
+      "chiuso_come": "node cervello/test/lucchetto-per-corsia.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-773",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "pannello-freschezza-dati",
       "gravita": "grave",
       "colore": "🟡",
@@ -16332,7 +16335,10 @@
         "tipo": "comando",
         "comando": "node cervello/test/c6-giro-andato-male.test.mjs"
       },
-      "nota_prova": "Due prove, non una. c6-giro-andato-male.test.mjs guida il battito.ts vero (store e vault sostituiti da doppi) e porta il caso nuovo con i numeri del 18/8: corsia all ferma da 61 ore, chat che batte adesso, macchina NON viva. Il caso vecchio di AR-367 diceva il contrario e passava worker:ultimo: era l assunto del guasto scritto dentro una prova, riscritto per chiedere la corsia giusta. Accanto, battito.corsie.test.mts (6 casi sulla funzione pura) gira con node cervello/test-pannello.mjs."
+      "nota_prova": "Due prove, non una. c6-giro-andato-male.test.mjs guida il battito.ts vero (store e vault sostituiti da doppi) e porta il caso nuovo con i numeri del 18/8: corsia all ferma da 61 ore, chat che batte adesso, macchina NON viva. Il caso vecchio di AR-367 diceva il contrario e passava worker:ultimo: era l assunto del guasto scritto dentro una prova, riscritto per chiedere la corsia giusta. Accanto, battito.corsie.test.mts (6 casi sulla funzione pura) gira con node cervello/test-pannello.mjs.",
+      "chiuso_il": "2026-08-21 15:00",
+      "chiuso_come": "node cervello/test/c6-giro-andato-male.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-774",
@@ -16399,20 +16405,42 @@
         "comando": "node cervello/test/cancello-stop.test.mjs"
       },
       "nota_prova": "Tre casi nuovi sui numeri veri del caso: un file oltre il tetto identico alla copia pubblicata non è lavoro mio · oltre il tetto i tre testi arrivano tagliati allo stesso modo e il taglio si dichiara · una differenza che vive oltre il tetto non la vedo e non fingo il contrario. Rotti apposta in due modi: rimesso il taglio su un solo lato → 2 rossi; spento il flag del troncamento → 1 rosso."
+    },
+    {
+      "id": "AR-777",
+      "stato": "chiuso",
+      "dimensione": "sensori-copertura",
+      "gravita": "grave",
+      "colore": "🟡",
+      "titolo": "La spazzata del disco conosceva dieci famiglie di cartelle su centocinquantacinque, e le due che hanno riempito il server non erano fra quelle",
+      "causa_radice": "L'elenco dei prefissi «nostri» in spazza-temporanei.mjs era scritto a mano: dieci voci. Misurato il 21/8 sul repo vero, le forme che creano davvero una cartella temporanea — mkdtempSync(join(tmpdir(), \"…\")) nei .mjs e mktemp -d -t nei .sh — sono 155. Copertura: il 6%. Il conto sul campo, letto sul server lo stesso giorno con /tmp di nuovo al 100%: a riempirlo erano `porta-lezioni-*` (circa duemila cartelle da quasi un mega, create da cervello/test/porta-delle-lezioni.test.mjs), e sotto `due-versi` 4142, `mut-mancante` 2826, `cronicita-giro` 1236, `coerenza` 947, `coda` 849, `hook` 782. Nessuna di queste era nell'elenco. Un elenco a mano non è una difesa che sta indietro: è una difesa che non c'è, perché chi scrive una prova nuova sceglie un nome nuovo e non ha nessun motivo per venire ad aggiornare un elenco che sta in un altro file.",
+      "fix_proposto": "L'elenco si LEGGE DAL CODICE che crea le cartelle (`prefissiDalCodice()`), invece di essere ricordato. Lo scanner cerca le due forme in uso e normalizza il segnaposto di mktemp (`mycity-auth.XXXXXX` → `mycity-auth.`); i nomi sotto i 4 caratteri si scartano, perché un prefisso corto si porterebbe via roba di chiunque. Quello scritto a mano resta come base e si unisce al derivato. Così una prova nuova è coperta il giorno stesso in cui viene scritta. La protezione della roba viva (MAI_TOCCARE) resta il primo controllo del ciclo e diventa ancora più importante, perché adesso `mycity-auth.` entra nell'elenco derivato: la prova lo lega esplicitamente.",
+      "dove": "cervello/spazza-temporanei.mjs (prefissiDalCodice, prefissiEffettivi, MINIMO, default di spazza)",
+      "impatto_crescita": "blocca gli incassi: è la stessa catena del 20/8 — disco pieno, chiave della memoria non scrivibile, worker fermo per il freno fail-closed. L'attrezzo costruito per impedirlo copriva il 6% del problema, quindi la seconda volta il disco si è riempito lo stesso",
+      "nato": "2026-08-21 14:35",
+      "nato_come": "scoperta",
+      "nato_da": "AR-775 — il referto di chi occupa il posto, letto sul server vero: i nomi che ha stampato non erano nell'elenco",
+      "origine": "Nicola, uscita di `du -xh --max-depth=1 /tmp` e `ls /tmp | uniq -c` sul VPS il 21/8 alle 14:26.",
+      "nota": "Trovato dal referto che AR-775 aveva appena aggiunto: la riga «e non è mio, quindi resta lì» è servita esattamente al primo uso reale. Il difetto vero non era il silenzio, era l'elenco.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/spazza-temporanei.test.mjs"
+      },
+      "nota_prova": "Quattro casi nuovi. Il primo porta i nomi veri letti sul server (porta-lezioni, due-versi, mut-mancante, cronicita-giro, coerenza, hook) e prima era rosso. Gli altri tre misurano il comportamento su una sabbiera: un prefisso scritto in una prova nuova è coperto lo stesso giorno (sia dal .mjs sia dallo .sh) · un prefisso sotto i 4 caratteri non entra · la roba viva è nell'elenco derivato e proprio per questo la protezione a parte deve reggere. Rotti apposta in quattro modi: tornato all'elenco a mano → 2 rossi; scanner cieco sugli .sh → 2 rossi; tolto il filtro sui nomi corti → 1 rosso; tolta la protezione della roba viva → 2 rossi."
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 762,
+    "totale": 768,
     "aperti": 106,
     "in_corso": 0,
     "da_riverificare": 56,
-    "chiusi": 600,
+    "chiusi": 606,
     "altri": 0,
     "da_fare": 162,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 600,
+      "chiuso": 606,
       "aperto": 106,
       "da-riverificare": 56
     },
