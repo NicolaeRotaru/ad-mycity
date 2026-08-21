@@ -60,8 +60,8 @@ L'ultimo dato certo su questo è di tre giorni fa. Non è la stessa causa della 
 card riguarda un permesso di scrittura della sessione AD. Questa riguarda un timer di sistema del
 server. Le ho tenute separate apposta.
 
-- **Colore:** 🟡 — tocca servizi veri sul server (restart), ma è reversibile e non tocca dati di
-  negozi o clienti.
+- **Colore:** 🟡 — tocca un servizio vero sul server: fa un restart. È reversibile. Non tocca dati
+  di negozi o clienti.
 - **Reparto:** devops-sre
 - **Origine:** `{origine:sentinella-checkup-fermo-21-8, referto:salute.json, ultimo_vps:2026-08-18T04:50:15Z, gap_ore:~70}`
 
@@ -127,18 +127,18 @@ iscriversi oggi stesso, senza aspettare che i nostri pagamenti Stripe siano acce
 di soldi in più che il fornaio oggi non sta prendendo.
 
 **Testo pronto da inoltrare (WhatsApp o di persona):**
-> «Ciao! Volevo segnalarti una cosa che ho trovato: a Piacenza c'è un programma gratuito chiamato
-> "Piacenza Pay" (lo gestisce 360Welfare insieme a Confindustria, Confapi, Confesercenti e
-> Confcommercio Piacenza) che fa arrivare ai negozi i buoni pasto e i buoni acquisto welfare dei
+> «Ciao! Volevo segnalarti una cosa che ho trovato. A Piacenza c'è un programma gratuito, si chiama
+> "Piacenza Pay". Lo gestisce 360Welfare, insieme a Confindustria, Confapi, Confesercenti e
+> Confcommercio Piacenza. Fa arrivare ai negozi i buoni pasto e i buoni acquisto welfare dei
 > dipendenti delle aziende della zona. Per il negozio è gratis iscriversi, non c'è nessun canone:
 > paghi solo una piccola percentuale quando un cliente spende davvero. Basta scrivere a
 > piacenzapay@360welfare.it per iscriverti. Non c'entra con MyCity, è un programma separato — ma
 > ti porta clienti e soldi in più senza costo, quindi ti conviene comunque farlo. Fammi sapere se
 > vuoi che ti aiuti a scrivere la mail.»
 
-**Se va bene:** lo mandi tu al fornaio (hai il suo numero, 0523388601) quando preferisci — ora o
-quando riprendi il lavoro operativo il 24/8-1/9. Non costa niente a MyCity e non tocca nessun
-paletto: è un consiglio a un partner su un servizio esterno.
+**Se va bene:** lo mandi tu al fornaio. Hai il suo numero, 0523388601. Scrivigli quando preferisci
+— ora, oppure quando riprendi il lavoro operativo il 24/8-1/9. Non costa niente a MyCity. Non tocca
+nessun paletto: è un consiglio a un partner su un servizio esterno.
 
 **Cosa non ho verificato:** se Piacenza Pay ha già negozi come panetterie/gastronomie bio nel suo
 circuito, e se la percentuale sulla transazione è alta o bassa — l'articolo dice solo "nessun
