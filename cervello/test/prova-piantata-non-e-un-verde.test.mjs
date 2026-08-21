@@ -51,11 +51,22 @@ prova("e dice QUALE file e per quanto: «qualcosa si è piantato» non è una di
   assert.match(v.rosse[0], /180s/, "il tempo va detto: distingue «lenta» da «piantata»");
 });
 
-prova("il tetto per prova sta sotto il tetto della suite anche con due prove piantate insieme", () => {
-  const perProva = Number(process.env.MYCITY_TEST_TETTO_MS || 180_000);
+prova("il tetto per prova lascia lavorare le prove lente e sta dentro il tetto della suite", () => {
+  const perProva = Number(process.env.MYCITY_TEST_TETTO_MS || 280_000);
   const tettoSuite = 600_000; // quello che la visita concede a test-cervello.mjs
-  assert.ok(perProva > 66_000, `${perProva}ms è sotto la prova più lenta che serve davvero (66s): falsi rossi`);
-  assert.ok(perProva * 2 < tettoSuite, `due prove piantate (${perProva * 2}ms) sfondano il tetto della suite`);
+  const suiteTipica = 307_000; // misurata il 21/8, tutta verde
+  // Il tetto serve a fermare chi si è PIANTATO, non a punire chi è lento: sotto la prova più lenta
+  // che serve davvero diventerebbe una fabbrica di falsi rossi, e un banco che grida al lupo si
+  // impara a ignorare. Il margine è largo apposta perché la misura dei 66s è a Pannello già
+  // compilato, e a freddo nessuno l'ha ancora cronometrata.
+  assert.ok(perProva >= 4 * 66_000, `${perProva}ms è troppo vicino alla prova più lenta misurata (66s): falsi rossi`);
+  // E dall'altra parte: una prova piantata non deve impedire alla suite di finire e di RACCONTARE
+  // chi si è piantato. Se il tetto della suite scatta prima, torniamo al «oltre 300s» che non dice
+  // niente — cioè al difetto che questo tetto esiste per chiudere.
+  assert.ok(
+    perProva + suiteTipica < tettoSuite,
+    `una prova piantata (${perProva}ms) più la suite tipica (${suiteTipica}ms) sfonda il tetto della visita: il referto non direbbe QUALE`,
+  );
 });
 
 let falliti = 0;

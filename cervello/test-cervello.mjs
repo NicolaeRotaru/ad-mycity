@@ -74,12 +74,28 @@ const CARTELLA = process.env.TEST_CERVELLO_DIR || "cervello/test";
 // non deve diventare un falso rosso, ma un valore c'è sempre: senza, una prova piantata si porta via
 // la suite intera e nessuno sa quale sia stata.
 //
-// Il numero non è a caso: misurate una per una il 21/8, la prova più lenta che serve davvero è
-// `c2-schermo` (il Pannello guidato dal browser) con 66s, e la seconda `misura-firmata` con 34s.
-// 180s è quasi tre volte la più lenta — abbastanza largo da non uccidere una prova che sta solo
-// facendo il suo lavoro su una macchina stanca, abbastanza stretto da stare dentro il tetto della
-// suite (600s) anche se due prove si piantano insieme.
-const TETTO_PROVA_MS = Number(process.env.MYCITY_TEST_TETTO_MS || 180_000);
+// Il numero non è a caso, e nemmeno preso alla larga.
+//
+// LA MISURA CHE HO: il 21/8, cronometrate una per una su questa macchina, la prova più lenta che
+// serve davvero è `c2-schermo` (il Pannello guidato dal browser) con 66s, la seconda
+// `misura-firmata` con 34s.
+//
+// LA MISURA CHE NON HO, e per cui il numero è largo: quei 66s sono con il Pannello già compilato.
+// A freddo — su un runner di CI, o sul VPS dopo un allineamento — Next ricompila la pagina al primo
+// caricamento, e quanto ci metta lì non l'ho misurato: sulla PR #801 il flusso col browser non è
+// partito, quindi il tetto non è mai stato provato a freddo. Un tetto tarato su una misura calda
+// ucciderebbe una prova che sta solo lavorando, e un falso rosso nel banco si impara a ignorare —
+// che è il modo in cui si perde la rete di sicurezza intera.
+//
+// Il numero non si sceglie a occhio: sta fra due limiti che si toccano quasi.
+//   · da sotto — almeno quattro volte la più lenta misurata (66s), cioè ≥ 264s, o è una fabbrica
+//     di falsi rossi il giorno che il Pannello parte a freddo;
+//   · da sopra — una prova piantata PIÙ la suite tipica (307s) deve stare sotto il tetto che la
+//     visita concede al banco (600s), cioè ≤ 293s. Se scatta prima il tetto di fuori, si torna al
+//     «oltre 300s» che non dice QUALE prova: esattamente il difetto che questo tetto chiude.
+// Fra 264s e 293s la scelta è 280s: 4,24 volte la più lenta, e 587s in tutto nel caso peggiore.
+// Chi ha una macchina più lenta lo alza da fuori senza toccare il codice.
+const TETTO_PROVA_MS = Number(process.env.MYCITY_TEST_TETTO_MS || 280_000);
 // Quanto si aspetta fra il «per favore chiudi» e il colpo di grazia: il tempo che serve a una prova
 // per spegnere quello che ha acceso (un browser, un server del Pannello). Vedi il commento nel kill.
 const RESPIRO_MS = Number(process.env.MYCITY_TEST_RESPIRO_MS || 5_000);
