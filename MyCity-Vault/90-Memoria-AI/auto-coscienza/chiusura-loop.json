@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
   "_cosa_NON_prova": "Non prova che un ESITO sia VERO. Conta righe e date: se un reparto scrive «atteso 10 → reale 12» senza aver misurato niente, qui risulta vivo e puntuale. La verità del numero la giudica la calibrazione (che pretende una fonte esterna al quaderno), non questo conteggio.",
-  "aggiornato": "2026-08-21 05:25",
+  "aggiornato": "2026-08-21 13:47",
   "soglia_giorni": 7,
   "totale": 122,
   "mancanti": 0,
   "vuoti": 72,
-  "fermi": 105,
-  "vivi": 17,
+  "fermi": 104,
+  "vivi": 18,
   "reparti_fermi": [
     "accessibility",
     "account-security",
@@ -24,7 +24,6 @@
     "bi-lead",
     "brand-protection",
     "broker-assicurativo",
-    "builder-automazioni",
     "business-plan-bancabile",
     "capacity-planning",
     "category-manager",
@@ -137,6 +136,7 @@
     "quota_voce_dominante": 0.91,
     "reparti_muti": [
       "account-negozi",
+      "builder-automazioni",
       "content-social",
       "crm-lifecycle",
       "customer-success",
@@ -148,7 +148,7 @@
       "trust-safety",
       "vendite"
     ],
-    "reparti_muti_conteggio": 11,
+    "reparti_muti_conteggio": 12,
     "peer_review": {
       "richieste": 1,
       "con_risposta": 0,
@@ -244,7 +244,7 @@
       "mancante": false,
       "righe_esito": 20,
       "ultimo_esito": "2026-08-03 18:57",
-      "giorni_fa": 17,
+      "giorni_fa": 18,
       "vuoto": false,
       "fermo": true
     },
@@ -310,7 +310,7 @@
       "mancante": false,
       "righe_esito": 8,
       "ultimo_esito": "2026-08-19 22:53",
-      "giorni_fa": 1,
+      "giorni_fa": 2,
       "vuoto": false,
       "fermo": false
     },
@@ -352,11 +352,11 @@
       "deroga": false,
       "esiste": true,
       "mancante": false,
-      "righe_esito": 76,
-      "ultimo_esito": "2026-08-04 04:47",
-      "giorni_fa": 17,
+      "righe_esito": 77,
+      "ultimo_esito": "2026-08-21 04:06",
+      "giorni_fa": 0,
       "vuoto": false,
-      "fermo": true
+      "fermo": false
     },
     {
       "reparto": "business-plan-bancabile",
@@ -497,7 +497,7 @@
       "mancante": false,
       "righe_esito": 4,
       "ultimo_esito": "2026-07-20 21:57",
-      "giorni_fa": 31,
+      "giorni_fa": 32,
       "vuoto": false,
       "fermo": true
     },
@@ -563,7 +563,7 @@
       "mancante": false,
       "righe_esito": 16,
       "ultimo_esito": "2026-08-13 22:00",
-      "giorni_fa": 7,
+      "giorni_fa": 8,
       "vuoto": false,
       "fermo": true
     },
@@ -605,8 +605,8 @@
       "deroga": false,
       "esiste": true,
       "mancante": false,
-      "righe_esito": 130,
-      "ultimo_esito": "2026-08-21 03:48",
+      "righe_esito": 132,
+      "ultimo_esito": "2026-08-21 12:58",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -684,7 +684,7 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-21 00:57",
-      "giorni_fa": 31,
+      "giorni_fa": 32,
       "vuoto": false,
       "fermo": true
     },
@@ -750,7 +750,7 @@
       "mancante": false,
       "righe_esito": 180,
       "ultimo_esito": "2026-08-20 20:29",
-      "giorni_fa": 0,
+      "giorni_fa": 1,
       "vuoto": false,
       "fermo": false
     },
@@ -816,7 +816,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-07-20 21:57",
-      "giorni_fa": 31,
+      "giorni_fa": 32,
       "vuoto": false,
       "fermo": true
     },
@@ -838,7 +838,7 @@
       "mancante": false,
       "righe_esito": 8,
       "ultimo_esito": "2026-07-29 21:05",
-      "giorni_fa": 22,
+      "giorni_fa": 23,
       "vuoto": false,
       "fermo": true
     },
@@ -882,7 +882,7 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-07-01 01:06",
-      "giorni_fa": 51,
+      "giorni_fa": 52,
       "vuoto": false,
       "fermo": true
     },
@@ -1047,7 +1047,7 @@
       "mancante": false,
       "righe_esito": 13,
       "ultimo_esito": "2026-07-20 18:32",
-      "giorni_fa": 31,
+      "giorni_fa": 32,
       "vuoto": false,
       "fermo": true
     },
@@ -1069,7 +1069,7 @@
       "mancante": false,
       "righe_esito": 4,
       "ultimo_esito": "2026-08-03 18:53",
-      "giorni_fa": 17,
+      "giorni_fa": 18,
       "vuoto": false,
       "fermo": true
     },
@@ -1146,7 +1146,7 @@
       "mancante": false,
       "righe_esito": 6,
       "ultimo_esito": "2026-07-13 22:28",
-      "giorni_fa": 38,
+      "giorni_fa": 39,
       "vuoto": false,
       "fermo": true
     },
@@ -1333,7 +1333,7 @@
       "mancante": false,
       "righe_esito": 4,
       "ultimo_esito": "2026-07-19 18:56",
-      "giorni_fa": 32,
+      "giorni_fa": 33,
       "vuoto": false,
       "fermo": true
     },
@@ -1366,7 +1366,7 @@
       "mancante": false,
       "righe_esito": 14,
       "ultimo_esito": "2026-08-13 22:00",
-      "giorni_fa": 7,
+      "giorni_fa": 8,
       "vuoto": false,
       "fermo": true
     },
@@ -1441,9 +1441,9 @@
       "deroga": false,
       "esiste": true,
       "mancante": false,
-      "righe_esito": 158,
-      "ultimo_esito": "2026-08-19 15:19",
-      "giorni_fa": 2,
+      "righe_esito": 159,
+      "ultimo_esito": "2026-08-21 05:37",
+      "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
     },
@@ -1465,7 +1465,7 @@
       "mancante": false,
       "righe_esito": 10,
       "ultimo_esito": "2026-07-13 23:32",
-      "giorni_fa": 38,
+      "giorni_fa": 39,
       "vuoto": false,
       "fermo": true
     },
@@ -1498,7 +1498,7 @@
       "mancante": false,
       "righe_esito": 4,
       "ultimo_esito": "2026-07-19 23:23",
-      "giorni_fa": 32,
+      "giorni_fa": 33,
       "vuoto": false,
       "fermo": true
     }

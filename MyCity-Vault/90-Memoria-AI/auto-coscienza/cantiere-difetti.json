@@ -16333,6 +16333,72 @@
         "comando": "node cervello/test/c6-giro-andato-male.test.mjs"
       },
       "nota_prova": "Due prove, non una. c6-giro-andato-male.test.mjs guida il battito.ts vero (store e vault sostituiti da doppi) e porta il caso nuovo con i numeri del 18/8: corsia all ferma da 61 ore, chat che batte adesso, macchina NON viva. Il caso vecchio di AR-367 diceva il contrario e passava worker:ultimo: era l assunto del guasto scritto dentro una prova, riscritto per chiedere la corsia giusta. Accanto, battito.corsie.test.mts (6 casi sulla funzione pura) gira con node cervello/test-pannello.mjs."
+    },
+    {
+      "id": "AR-774",
+      "stato": "chiuso",
+      "dimensione": "sensori-copertura",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "titolo": "La visita della salute non ha mai guardato quanto spazio resta sul disco — ed è il disco che ha fermato la macchina per tre giorni",
+      "causa_radice": "La visita (cervello/salute.mjs) controlla cinque organi — worker, cervello, Cabina, senior, sensori — e nessuno dei suoi controlli chiede al sistema quanto spazio libero c'è. Dal 18 al 21 agosto /tmp sul VPS è arrivato al 100%: senza spazio c4-segreti.sh non riusciva più a scrivere il file con la chiave della memoria (journalctl: «printf: write error: No space left on device»), quindi ogni chiamata autenticata falliva con rc=22, quindi lo stato di pausa non era leggibile, quindi il freno fail-closed fermava il worker. Un disco pieno travestito da interruttore di pausa. In quei tre giorni la visita ha continuato a girare mattina e sera senza mai poter vedere la causa: il guasto più banale che esista era l'unico senza un metro. L'ha trovato Nicola con un df da telefono, non la macchina.",
+      "fix_proposto": "Un controllo nuovo, worker.disco: misuraDisco() chiede a statfsSync i blocchi disponibili all'utente (bavail, non bfree: è quello che un processo non-root può davvero usare) e giudicaDisco() lo giudica con due soglie insieme — 200 MB fissi (un giro del banco delle prove ne chiede più o meno tanti tutti insieme) e il 10% del volume (su un disco grande 200 MB liberi sono già l'orlo). Rosso sotto la soglia, con dentro il comando per svuotare. soloSu vps: da una sessione in cloud misurerei il disco di un contenitore usa-e-getta e lo racconterei come se fosse il server, che è peggio di nessun numero. Una misura fallita è ⚪, mai verde.",
+      "dove": "cervello/salute.mjs (misuraDisco, giudicaDisco, controllo worker.disco) · SOGLIE.discoLiberoMinMB / discoLiberoMinFrazione",
+      "impatto_crescita": "blocca gli incassi: mentre il disco era pieno il worker era fermo, quindi niente giro, niente ritmo, niente azioni — e il Pannello mostrava a Nicola i numeri del 18 agosto come se fossero di oggi. Tre giorni di azienda ferma senza che nessun sensore lo dicesse",
+      "nato": "2026-08-21 12:40",
+      "nato_come": "scoperta",
+      "nato_da": "AR-772/AR-773 — la catena del blocco del Pannello, risalita fino alla causa ultima",
+      "origine": "Nicola: «il pannello è bloccato da due giorni», poi «controlla e verifica quella che devi controllare per assicurarti che tutto funziona bene».",
+      "nota": "Il freno che chiude la correzione di Nicola: la prossima volta che il disco si riempie lo dice la visita, non lui. Il sensore misura il VPS, quindi da qui l'ho provato sui numeri veri letti sul server il 21/8 (1,9 GB in tutto, 4,6 MB liberi) e non sul disco di questa sessione.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/salute.test.mjs"
+      },
+      "nota_prova": "Cinque casi con i numeri veri dell'incidente: il disco del 21/8 è rosso e il verdetto dice come svuotarlo · un disco con posto è verde e dice quanto ne resta · 500 MB su 100 GB sono rossi lo stesso (la percentuale, non solo la soglia fissa) · una misura fallita è ⚪ e mai verde · la misura vera risponde con numeri. Rotta apposta in tre modi: tolto il confronto con la soglia → 2 rossi; tolta la frazione e lasciata solo la soglia fissa → 1 rosso (proprio il caso del disco grande); fatta passare per buona una misura fallita → 1 rosso."
+    },
+    {
+      "id": "AR-775",
+      "stato": "chiuso",
+      "dimensione": "verdetti-che-mentono",
+      "gravita": "grave",
+      "colore": "🟡",
+      "titolo": "L'attrezzo che svuota il disco diceva «niente da spazzare» su un disco pieno al 100%",
+      "causa_radice": "spazza-temporanei.mjs salta le cartelle che non portano un nostro prefisso — giusto, non si tocca roba d'altri — ma poi riferiva SOLO su quelle che aveva riconosciuto. Lanciato sul server il 21/8 alle 12:25, con /tmp al 100% e 4,6 MB liberi, avrebbe stampato «✅ niente da spazzare»: vero e inutile insieme, perché il disco era pieno lo stesso e la riga non lo diceva. È la stessa cecità che Nicola mi aveva già fatto chiudere sull'attrezzo della memoria («chiudi il problema sul quale sei cieco»): uno strumento che salta ciò che non riconosce e poi riferisce solo su ciò che riconosce. Accanto, due misure che mentivano: i «byte liberati» sommavano statSync(cartella).size, che su Linux vale 4096 fissi qualunque cosa ci sia dentro, quindi il numero si muoveva col NUMERO delle cartelle e mai con lo spazio; e il tetto di file della pesatura, quando scattava, restituiva un totale parziale con la faccia di uno intero.",
+      "fix_proposto": "Il referto dice anche chi occupa il posto e non è nostro, il più grosso per primo, col suo peso — e quella riga esce anche quando non ha tolto niente, così il verde da solo su una cartella occupata non esiste più. Il peso è quello vero (pesa() cammina dentro la cartella) e viene misurato PRIMA di cancellare. Se il tetto dei file scatta, o se una cartella non è leggibile, il troncamento risale fino alla riga stampata, che scrive «almeno 300 MB» invece di «300 MB».",
+      "dove": "cervello/spazza-temporanei.mjs (pesa, pesaCompleto, spazza, referto a riga di comando)",
+      "impatto_crescita": "fa mentire il Pannello a Nicola: è l'attrezzo che gli ho messo in mano per riparare il guasto del 20/8, e gli avrebbe risposto verde sulla macchina ferma — mandandolo a cercare la causa da tutt'altra parte",
+      "nato": "2026-08-21 12:40",
+      "nato_come": "scoperta",
+      "nato_da": "AR-774 — rileggendo cosa avrebbe risposto l'attrezzo lanciato sul server in quel momento",
+      "origine": "Nicola: «controlla e verifica quella che devi controllare per assicurarti che tutto funziona bene».",
+      "nota": "La parte sul troncamento non l'ho trovata io: l'ha trovata il guardiano delle malattie ripetute (spazzata-fratelli.mjs), che ha bocciato la mia prima versione con «una fonte letta a metà produce un verdetto intero» — la stessa malattia che stavo riparando, riscritta da me mentre la riparavo.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/spazza-temporanei.test.mjs"
+      },
+      "nota_prova": "Cinque casi nuovi sui sette che c'erano: nomina chi occupa il posto e li ordina per peso · con niente di nostro da togliere non si ferma al verde (lanciato davvero a riga di comando, non chiamando la funzione) · il conto liberato è spazio vero e non voci di cartella · quando smetto di contare lo dico · il troncamento risale fino al referto. Rotte apposta in quattro modi, ognuno uccide esattamente i casi suoi: tolto il censimento delle sconosciute → 2 rossi; rimesso statSync(cartella).size → 1 rosso; tolta la marcatura del troncamento → 2 rossi; tolta la risalita al referto → 1 rosso."
+    },
+    {
+      "id": "AR-776",
+      "stato": "chiuso",
+      "dimensione": "verdetti-che-mentono",
+      "gravita": "grave",
+      "colore": "🟡",
+      "titolo": "Il cancello dava +1 punto difficile fisso a ogni file oltre i 200.000 caratteri, e nessuna riscrittura poteva toglierlo",
+      "causa_radice": "In cancello-stop.mjs il testo da misurare arrivava da tre strade. Quella del DISCO tagliava a 200.000 caratteri (`readFileSync(...).slice(0, 200_000)`); le altre due — il testo pubblicato su main e quello di inizio turno, che escono da `git show` — non tagliavano niente. Su un file più lungo del tetto si confrontava quindi un testo TAGLIATO con uno INTERO, e la differenza fra i due veniva chiamata «peggioramento». Misurato il 21/8 sulla coda delle azioni (203.237 caratteri): intera vale 273 punti, tagliata a 200.000 ne vale 274. Il verdetto in CI diceva «era 273, adesso 274» su un file che riga per riga era quello pubblicato più una card nuova con ZERO punti difficili. Il +1 era strutturale: nessuna riscrittura poteva toglierlo, perché non veniva da niente che fosse scritto nel file. Peggio, la scorciatoia `if (contenuto === suMain) return null` — la difesa scritta apposta perché una fusione non mi faccia il conto del testo di un altro (AR-755) — su un file oltre il tetto non poteva scattare MAI, per la stessa ragione: confrontava un tagliato con un intero. Era spenta proprio sui file grossi, cioè quelli che la fusione tocca sempre.",
+      "fix_proposto": "Il tetto vive in un posto solo (`TETTO_TESTO`) e si applica a tutti e tre i testi dentro `testoDaMisurare`, così il confronto è fra due cose misurate con lo stesso metro. Chi legge dal disco non taglia più per conto suo. Il taglio, quando c'è, viene dichiarato (`troncato: true`) e finisce nella riga del verdetto: di quel testo una parte non l'ho guardata, e un giudizio su una parte non è un giudizio sul tutto.",
+      "dove": "cervello/cancello-stop.mjs (TETTO_TESTO, alTetto, testoDaMisurare, testiIlleggibili, la riga del verdetto)",
+      "impatto_crescita": "fa sbagliare la macchina da sola: un rosso che non può diventare verde è un rosso che si impara ad aggirare, ed è così che un cancello muore. Ha bloccato la PR #795 su un difetto che non esisteva, e avrebbe bloccato ogni PR successiva che tocca la coda delle azioni — cioè quasi tutte",
+      "nato": "2026-08-21 13:45",
+      "nato_come": "scoperta",
+      "nato_da": "la CI rossa sulla PR #795, risalita fino alla causa invece di riscrivere il testo accusato",
+      "origine": "CI di NicolaeRotaru/ad-mycity#795, job «prove, guardiani e typecheck».",
+      "nota": "È la malattia che il repo ha già in elenco — «una fonte letta a metà produce un verdetto intero» — trovata stavolta dentro il guardiano. Il prezzo del tetto resta e adesso è dichiarato: una differenza che vive oltre i 200.000 caratteri non la vedo. Prima il prezzo era peggiore e nascosto.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/cancello-stop.test.mjs"
+      },
+      "nota_prova": "Tre casi nuovi sui numeri veri del caso: un file oltre il tetto identico alla copia pubblicata non è lavoro mio · oltre il tetto i tre testi arrivano tagliati allo stesso modo e il taglio si dichiara · una differenza che vive oltre il tetto non la vedo e non fingo il contrario. Rotti apposta in due modi: rimesso il taglio su un solo lato → 2 rossi; spento il flag del troncamento → 1 rosso."
     }
   ],
   "meta": {

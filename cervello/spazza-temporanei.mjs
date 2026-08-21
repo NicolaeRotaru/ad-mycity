@@ -24,6 +24,9 @@
 //   node cervello/spazza-temporanei.mjs            -> spazza e stampa cosa ha tolto
 //   node cervello/spazza-temporanei.mjs --prova    -> dice cosa toglierebbe, senza toccare niente
 //   node cervello/spazza-temporanei.mjs --json
+//
+// Comunque vada dice anche CHI OCCUPA IL POSTO che non ha saputo togliere: senza quella riga un
+// disco pieno di roba che non conosco e un disco pulito danno lo stesso identico verde.
 
 import { readdirSync, statSync, rmSync } from "node:fs";
 import { join } from "node:path";
@@ -65,29 +68,98 @@ export const MAI_TOCCARE = ["mycity-auth.", "mycity-allegati", "mycity-worker."]
 /** Ore dopo le quali una cartella temporanea è considerata orfana. */
 export const ORE_DEFAULT = 24;
 
+/** Quanti file guardare al massimo dentro una cartella. Oltre, si smette — e LO SI DICE. */
+export const TETTO_FILE = 40_000;
+
+/**
+ * Quanto pesa davvero una cartella, contando quello che ha dentro.
+ *
+ * `statSync(cartella).size` NON è questo: su Linux dà la dimensione della VOCE di directory —
+ * 4096 byte, sempre uguali, che ci sia dentro un file da 2 KB o un giro di prove da 6 MB. Il
+ * referto di prima sommava proprio quel numero e lo chiamava «byte liberati»: una cifra che si
+ * muoveva col NUMERO delle cartelle e mai con lo spazio vero. Su un disco pieno è la differenza
+ * fra sapere e credere di sapere.
+ *
+ * ⚠️ IL TETTO SI DICHIARA. C'è un limite di file oltre il quale smetto di contare, perché su una
+ * cartella temporanea gonfia potrei restarci dentro dieci minuti. La prima versione, quando lo
+ * raggiungeva, usciva dal ciclo e restituiva il totale parziale COME SE FOSSE INTERO: avrei
+ * scritto «roba d'altri — 300 MB» su tre giga. È lo stesso difetto che sto riparando da due
+ * giorni, scritto da me mentre lo riparavo — e a trovarlo non sono stata io, è stato il guardiano
+ * delle malattie ripetute. Adesso il troncamento risale fino alla riga stampata, che dice «almeno».
+ *
+ * `stato.troncata` diventa vero se il tetto è scattato: chi chiama lo legge e ne parla.
+ */
+export function pesa(percorso, stato = { file: TETTO_FILE, troncata: false }) {
+  let st;
+  try {
+    st = statSync(percorso);
+  } catch {
+    // Zero qui vorrebbe dire «pesa niente». La verità è «non sono riuscita a guardarla»: due cose
+    // diverse che nel totale hanno la stessa faccia, se non lo dico.
+    stato.troncata = true;
+    return 0;
+  }
+  if (!st.isDirectory()) return st.size || 0;
+  let tot = 0;
+  let voci = [];
+  try {
+    voci = readdirSync(percorso);
+  } catch {
+    stato.troncata = true; // permessi di un altro: quello che non posso leggere non lo conto, e lo dico
+    return tot;
+  }
+  for (const v of voci) {
+    if (stato.file <= 0) {
+      stato.troncata = true;
+      break;
+    }
+    stato.file -= 1;
+    tot += pesa(join(percorso, v), stato);
+  }
+  return tot;
+}
+
+/** Il peso di una cartella insieme alla dichiarazione se l'ho contata tutta. */
+export function pesaCompleto(percorso, tetto = TETTO_FILE) {
+  const stato = { file: tetto, troncata: false };
+  const byte = pesa(percorso, stato);
+  return { byte, troncata: stato.troncata };
+}
+
+/** Quante voci nominare nel referto di chi occupa il posto. Oltre diventa un elenco che nessuno legge. */
+export const QUANTE_SCONOSCIUTE = 8;
+
 /**
  * Spazza le cartelle orfane e ritorna il referto.
  *
  * `esegui: false` è la modalità prova: guarda e non tocca. La uso nel test per misurare la
  * SELEZIONE senza dipendere dal fatto che il filesystem cancelli davvero.
  */
-export function spazza({ dir = tmpdir(), prefissi = PREFISSI, oreMin = ORE_DEFAULT, adesso = null, esegui = true } = {}) {
+export function spazza({ dir = tmpdir(), prefissi = PREFISSI, oreMin = ORE_DEFAULT, adesso = null, esegui = true, tetto = TETTO_FILE } = {}) {
   const ora = adesso ?? Date.now();
   const limite = ora - oreMin * 3600_000;
   const tolte = [];
   const tenute = [];
+  const sconosciute = [];
   let byte = 0;
+  let troncato = false; // «ho smesso di contare»: non è un dettaglio, cambia il senso di ogni cifra qui sotto
 
   let voci = [];
   try {
     voci = readdirSync(dir);
   } catch {
-    return { dir, tolte, tenute, byte, leggibile: false };
+    return { dir, tolte, tenute, sconosciute, byte, byteSconosciuti: 0, troncato: false, leggibile: false };
   }
 
   for (const nome of voci) {
     if (MAI_TOCCARE.some((p) => nome.startsWith(p))) continue; // roba viva: prima di tutto il resto
-    if (!prefissi.some((p) => nome.startsWith(p))) continue;
+    if (!prefissi.some((p) => nome.startsWith(p))) {
+      // NON è mia, quindi non la tocco — ma la CONTO e la dico. È il buco che ho appena visto sul
+      // server: /tmp al 100% e questo attrezzo che stampava «niente da spazzare», cioè un verde
+      // perfetto sopra un disco pieno. Quello che non riconosco non sparisce solo perché lo salto.
+      sconosciute.push({ nome, ...pesaCompleto(join(dir, nome), tetto) });
+      continue;
+    }
     const percorso = join(dir, nome);
     let st;
     try {
@@ -109,6 +181,9 @@ export function spazza({ dir = tmpdir(), prefissi = PREFISSI, oreMin = ORE_DEFAU
       tenute.push(nome);
       continue;
     }
+    // Pesata PRIMA di cancellare: dopo non c'è più niente da misurare.
+    const suo = pesaCompleto(percorso, tetto);
+    if (suo.troncata) troncato = true;
     if (esegui) {
       try {
         rmSync(percorso, { recursive: true, force: true });
@@ -116,24 +191,41 @@ export function spazza({ dir = tmpdir(), prefissi = PREFISSI, oreMin = ORE_DEFAU
         continue; // permessi di un altro utente: la salto, non fingo di averla tolta
       }
     }
-    byte += st.size || 0;
+    byte += suo.byte;
     tolte.push(nome);
   }
 
-  return { dir, tolte, tenute, byte, leggibile: true };
+  sconosciute.sort((a, b) => b.byte - a.byte);
+  const byteSconosciuti = sconosciute.reduce((t, v) => t + v.byte, 0);
+  if (sconosciute.some((v) => v.troncata)) troncato = true;
+  return { dir, tolte, tenute, sconosciute, byte, byteSconosciuti, troncato, leggibile: true };
 }
 
 const eseguitoDaSolo = process.argv[1] && import.meta.url.endsWith(process.argv[1].split("/").pop());
 if (eseguitoDaSolo) {
   const prova = process.argv.includes("--prova");
   const r = spazza({ esegui: !prova });
+  // Un peso si scrive nell'unità in cui si legge: «0.0 MB» su 50 KB è un numero che mente per
+  // arrotondamento, ed è proprio il caso in cui vuoi vedere che qualcosa c'era.
+  const peso = (b, tronca = false) =>
+    `${tronca ? "almeno " : ""}${b >= 1024 * 1024 ? `${(b / 1024 / 1024).toFixed(1)} MB` : `${Math.round(b / 1024)} KB`}`;
   if (process.argv.includes("--json")) {
     console.log(JSON.stringify(r, null, 2));
   } else if (!r.leggibile) {
     console.log(`⚪ non ho potuto leggere ${r.dir}`);
-  } else if (r.tolte.length === 0) {
-    console.log(`✅ niente da spazzare in ${r.dir} (${r.tenute.length} cartelle nostre ancora fresche)`);
   } else {
-    console.log(`🧹 ${prova ? "toglierei" : "tolte"} ${r.tolte.length} cartelle orfane da ${r.dir}`);
+    if (r.tolte.length === 0) {
+      console.log(`✅ niente di mio da spazzare in ${r.dir} (${r.tenute.length} cartelle nostre ancora fresche)`);
+    } else {
+      console.log(`🧹 ${prova ? "toglierei" : "tolte"} ${r.tolte.length} ${r.tolte.length === 1 ? "cartella orfana" : "cartelle orfane"} da ${r.dir} — ${peso(r.byte, r.troncato)}`);
+    }
+    // La riga che mancava. Sopra ho detto cosa ho tolto; qui dico cosa RESTA e non è mio, perché è
+    // quello che decide se il disco si libera davvero o se la spazzata è stata un gesto a vuoto.
+    if (r.sconosciute.length > 0) {
+      console.log(`👀 e non è mio, quindi resta lì: ${r.sconosciute.length} ${r.sconosciute.length === 1 ? "voce" : "voci"} per ${peso(r.byteSconosciuti, r.troncato)}`);
+      for (const v of r.sconosciute.slice(0, QUANTE_SCONOSCIUTE)) {
+        console.log(`   · ${v.nome} — ${peso(v.byte, v.troncata)}`);
+      }
+    }
   }
 }

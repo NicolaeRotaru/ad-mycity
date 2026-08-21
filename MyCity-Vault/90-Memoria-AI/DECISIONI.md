@@ -2603,3 +2603,74 @@ domanda per un commercialista, non per me.
 
 **Cosa resta a Nicola.** #137 approvare il fattorino dal pannello, #134 i due segreti del backup,
 #136 la domanda sulla spedizione.
+
+---
+
+## 2026-08-21 13:05 — 🟡 Il disco adesso ha un allarme, e la spazzata non risponde piu' verde su un disco pieno
+
+**Cosa ho verificato, e cosa ho trovato invece.** Nicola: «controlla e verifica quella che devi
+controllare per assicurarti che tutto funziona bene». Mi aspettavo di confermare che dopo le
+riparazioni della notte fosse tutto a posto. Non lo e'.
+
+Il server e' vivo: dodici orologi partiti oggi, 27 lavori chiusi stamattina, le riparazioni gli
+arrivano. Ma **non pubblica dal 18 agosto alle 8 e 56**. Verificato sul ramo principale: l'ultimo
+commit firmato «AD MyCity VPS» e' 9e02c11 di quel giorno, e tutto quello che c'e' dopo l'ha messo
+Nicola firmando le mie richieste. E' per questo che il Pannello gli mostra ancora i numeri di
+lunedi': non e' rotto lui, e' che non gli arriva niente.
+
+**AR-774 — il guasto piu' banale era l'unico senza un metro.** Dal 18 al 21 la macchina e' stata
+ferma per un disco pieno. In quei tre giorni la visita della salute ha continuato a girare mattina
+e sera controllando cinque organi, e **lo spazio libero non lo guardava nessun controllo**. L'ha
+trovato Nicola con un `df` da telefono. Adesso c'e' `worker.disco`: rosso sotto i 200 MB liberi o
+sotto il 10% del volume, col comando per svuotare dentro il verdetto. Solo sul VPS, perche' da una
+sessione in cloud misurerei il disco di un contenitore usa-e-getta e lo racconterei come se fosse
+il server.
+
+**AR-775 — l'attrezzo che gli ho messo in mano gli avrebbe risposto verde.** La spazzata salta le
+cartelle che non riconosce (giusto) e poi riferiva solo su quelle che riconosce (sbagliato).
+Lanciata sul server in questo momento avrebbe stampato «niente da spazzare» sopra 4,6 MB liberi su
+1,9 GB. E' la stessa cecita' che Nicola mi aveva gia' fatto chiudere sull'attrezzo della memoria
+dieci ore fa. Adesso nomina chi occupa il posto, dal piu' grosso in giu'.
+
+**Un errore mio, trovato da un guardiano e non da me.** La prima versione della pesatura, quando
+raggiungeva il tetto dei file, restituiva un totale parziale con la faccia di uno intero: la stessa
+malattia che stavo riparando, riscritta mentre la riparavo. L'ha bocciata `spazzata-fratelli.mjs`.
+Adesso il troncamento risale fino alla riga stampata, che dice «almeno».
+
+**Cosa NON so.** Perche' il server non pubblica. Ho il fatto, non il motivo. Il disco e' il
+sospetto forte — con 4,6 MB il motore che fa il giro non parte — ma da qui non leggo ne' il diario
+ne' la memoria del server, e quello che non ho visto non lo chiamo verde.
+
+**Cosa resta a Nicola.** #138 le due righe sul disco e mandarmi cosa esce, #137 approvare il
+fattorino dal pannello, #134 i due segreti del backup, #136 la domanda sulla spedizione.
+
+---
+
+## 2026-08-21 13:50 — 🟡 Il cancello bocciava un difetto che non esisteva: riparato il metro, non il testo
+
+**Cosa e' successo.** La CI ha bocciato la richiesta #795 con «la coda ti ha aggiunto 1 punti
+difficili (era 273, adesso 274)». Il file era quello pubblicato piu' una card nuova che di punti
+difficili non ne aveva nemmeno uno. La tentazione era riscrivere la card finche' il numero scendeva.
+
+**La causa vera (AR-776).** Il guardiano leggeva il testo da tre strade. Quella del disco tagliava a
+200.000 caratteri, le altre due — la copia pubblicata e quella di inizio turno, che escono da git —
+non tagliavano niente. La coda delle azioni ne ha 203.237. Quindi si confrontava un testo TAGLIATO
+con uno INTERO e si chiamava «peggioramento» la differenza fra loro. Il +1 era strutturale: per ogni
+file oltre il tetto, sempre, e nessuna riscrittura poteva toglierlo.
+
+**La seconda meta' del difetto, peggiore.** La scorciatoia «identico alla copia pubblicata, quindi
+non e' lavoro mio» — scritta apposta perche' una fusione non mi faccia il conto del testo di un
+altro — confrontava gli stessi due testi disallineati. Su un file oltre il tetto non poteva scattare
+MAI: era spenta proprio sui file grossi, cioe' quelli che la fusione tocca sempre.
+
+**Riparato.** Il tetto vive in un posto solo e vale per tutti e tre i testi, cosi' il confronto e'
+fra due cose misurate con lo stesso metro. Il taglio, quando c'e', viene dichiarato e finisce nella
+riga del verdetto: di quel testo una parte non l'ho guardata.
+
+**Il prezzo, detto.** Una differenza che vive oltre i 200.000 caratteri non la vedo. Prima il prezzo
+era peggiore e nascosto — la stessa differenza usciva come un punto difficile in piu' su un file
+identico.
+
+**La lezione.** Un rosso che non puo' diventare verde e' un rosso che si impara ad aggirare. Quando
+il conto non torna su un testo che so di non aver peggiorato, la domanda giusta non e' «come faccio
+scendere il numero», e' «cosa sta misurando questo numero».

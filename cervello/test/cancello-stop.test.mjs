@@ -22,6 +22,7 @@ import {
   esitiScritti,
   testiIlleggibili,
   testoDaMisurare,
+  TETTO_TESTO,
   messaggioIlleggibile,
   ultimoTestoAssistente,
   testiAssistente,
@@ -674,6 +675,67 @@ test("un file che questo lotto ha davvero cambiato resta misurato", () => {
   assert.ok(t, "se il mio testo diverge dalla copia pubblicata, è mio e va misurato");
   assert.equal(t.contenuto, "testo mio, nuovo");
   assert.equal(t.contenutoPrima, "com'era prima");
+});
+
+// ── IL ROSSO CHE NON POTEVA DIVENTARE VERDE (21/8) ───────────────────────────
+//
+// Il cancello ha bocciato una PR con «la coda ti ha aggiunto 1 punti difficili (era 273, adesso
+// 274)». La coda era identica a quella pubblicata più una card nuova che di punti difficili non ne
+// aveva nemmeno uno. Il conto non tornava per un motivo solo: il testo di ADESSO arrivava tagliato a
+// 200.000 caratteri, i due di confronto arrivavano interi, e la coda ne ha 203.000.
+//
+// Si misuravano due testi diversi e si chiamava «peggioramento» la differenza fra loro. Per ogni
+// file oltre il tetto il verdetto era +1 fisso, e nessuna riscrittura poteva toglierlo.
+//
+// I due casi qui sotto sono quello stato, in piccolo: un tetto finto, un testo che lo supera.
+
+const oltreIlTetto = (coda = "") => "x".repeat(TETTO_TESTO) + coda;
+
+test("un file OLTRE IL TETTO identico alla copia pubblicata non è lavoro di questo lotto", () => {
+  const testo = oltreIlTetto("\n\nquesta coda nessuno la legge, sta oltre il tetto");
+  const t = testoDaMisurare("MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", {
+    ora: () => testo,
+    pubblicato: () => testo,
+    prima: () => "una versione vecchia e molto diversa",
+  });
+  assert.equal(t, null, "tagliato di qua e intero di là: la scorciatoia della fusione non scattava mai sui file grossi");
+});
+
+test("oltre il tetto si confrontano due testi tagliati allo stesso modo, non uno tagliato e uno intero", () => {
+  const quasi = "x".repeat(TETTO_TESTO - 100); // la differenza sta DENTRO il tetto, la lunghezza lo supera
+  const t = testoDaMisurare("MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", {
+    ora: () => `${quasi}\n\nUna riga mia, corta e chiara.${"y".repeat(5000)}`,
+    pubblicato: () => `${quasi}\n\nUna riga di un altro, corta.${"y".repeat(5000)}`,
+    prima: () => `${quasi}\n\nCom'era prima di tutto questo.${"y".repeat(5000)}`,
+  });
+  assert.ok(t, "i due testi differiscono dentro il tetto, quindi il file va misurato");
+  assert.equal(t.contenuto.length, TETTO_TESTO, "il testo di adesso arriva al tetto");
+  assert.equal(t.contenutoSuMain.length, TETTO_TESTO, "e anche quello pubblicato: stesso metro");
+  assert.equal(t.contenutoPrima.length, TETTO_TESTO, "e anche quello di partenza");
+  assert.equal(t.troncato, true, "e il taglio si dichiara: di quel testo una parte non l'ho guardata");
+});
+
+test("una differenza che vive OLTRE il tetto non la vedo, e non fingo il contrario", () => {
+  // Il prezzo del tetto, scritto qui perché non torni a sorpresa: quello che sta dopo i 200.000
+  // caratteri non lo guardo. Prima il prezzo era peggiore e nascosto — quella stessa differenza
+  // usciva come «+1 punto difficile» su un file identico, e nessuno poteva farla sparire.
+  const base = "x".repeat(TETTO_TESTO);
+  const t = testoDaMisurare("MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", {
+    ora: () => `${base}\n\nuna riga che sta tutta oltre il tetto`,
+    pubblicato: () => base,
+    prima: () => base,
+  });
+  assert.equal(t, null, "oltre il tetto i due testi sono indistinguibili: si tace, non si accusa");
+});
+
+test("sotto il tetto niente si taglia e niente si dichiara troncato", () => {
+  const t = testoDaMisurare("consegne/corta.md", {
+    ora: () => "testo mio, corto",
+    pubblicato: () => "testo di un altro",
+    prima: () => null,
+  });
+  assert.equal(t.troncato, false, "un testo intero non deve portarsi dietro l'avviso del taglio");
+  assert.equal(t.contenutoPrima, null, "e un file che prima non c'era resta null, non diventa stringa vuota");
 });
 
 test("un file che su main non esiste è tutto mio", () => {
