@@ -2,39 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-13T16:12:42.320Z",
-      "scatti": 5949,
-      "voci": 11,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 6,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-13T16:14:51.930Z",
-      "scatti": 5955,
-      "voci": 11,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 6,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-13T16:35:46.090Z",
-      "scatti": 5987,
-      "voci": 11,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 6,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-13T16:49:36.670Z",
       "scatti": 6025,
       "voci": 11,
@@ -2520,7 +2487,46 @@
         "gate-orfano": 3
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-21T03:22:45.060Z",
+      "scatti": 13385,
+      "voci": 224,
+      "per_classe": {
+        "soglia-allentata": 4,
+        "difesa-rimossa": 208,
+        "prova-accecata": 7,
+        "riparazione-parziale": 1,
+        "gate-orfano": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-21T03:23:28.777Z",
+      "scatti": 13386,
+      "voci": 224,
+      "per_classe": {
+        "soglia-allentata": 4,
+        "difesa-rimossa": 208,
+        "prova-accecata": 7,
+        "riparazione-parziale": 1,
+        "gate-orfano": 4
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-21T03:30:58.253Z",
+      "scatti": 13422,
+      "voci": 224,
+      "per_classe": {
+        "soglia-allentata": 4,
+        "difesa-rimossa": 208,
+        "prova-accecata": 7,
+        "riparazione-parziale": 1,
+        "gate-orfano": 4
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-21T03:02:59.928Z"
+  "aggiornato": "2026-08-21T03:30:58.255Z"
 }
