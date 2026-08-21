@@ -304,9 +304,7 @@ identico parola per parola: 63 permessi concessi, 15 vietati, 8 ganci — gli st
 
 > ⚠️ **Aggiornamento 21/8 18:15 — usa il blocco della carta #144, non questo.**
 >
-> È nata un'altra carta che tocca lo stesso file. Applicarle in due copie separate vorrebbe dire che
-> la seconda cancella la prima. Il file della #144 contiene già tutto quello che c'è qui dentro, più
-> una parola. Fai quella, e questa è chiusa.
+> Il file della #144 contiene già tutto quello che c'è qui dentro. Fai quella, e questa è chiusa.
 
 **Copia questo blocco intero, sul server.** Le prime due righe non sono decorazione: la prima ti
 porta nella cartella del progetto, la seconda tira giù il file da GitHub. Senza, i comandi cercano
