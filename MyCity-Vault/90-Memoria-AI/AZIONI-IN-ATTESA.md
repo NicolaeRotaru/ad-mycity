@@ -33,11 +33,11 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 ### 🔴 #125 — Firma le 4 migrazioni database rimaste indietro: senza, i rimborsi restano rotti · ⏳ accodata 2026-08-18 08:04
 
 **Cosa cambia:** il codice nuovo del sito è online su Vercel dalla mattina del 18/8 (PR marketplace
-#223). Ma il database no. Le 4 migrazioni che dovevano andare insieme a quel codice — 114, 115, 116
-e 117 — non sono ancora applicate al database vero. Il risultato: le 4 strade con cui un cliente può
-farsi rimborsare non funzionano. E restano aperte 3 falle sul database di produzione. Un profilo di
-negozio o cliente si legge senza account. Un venditore nuovo si auto-approva da solo. Un ordine si
-modifica scrivendo direttamente dal browser.
+#223). Ma il database no. Le 4 migrazioni che dovevano andare insieme a quel codice sono la 114, la
+115, la 116 e la 117: non sono ancora applicate al database vero. Il risultato: le 4 strade con cui
+un cliente può farsi rimborsare non funzionano. E restano aperte 3 falle sul database di produzione.
+Un profilo di negozio o cliente si legge senza account. Un venditore nuovo si auto-approva da solo.
+Un ordine si modifica scrivendo direttamente dal browser.
 
 **Se va bene:** applico le 4 migrazioni sul database di produzione appena dai il via. Rimborsi e le
 3 falle si chiudono nello stesso passo, non uno alla volta.
@@ -81,13 +81,13 @@ non la contiene già pronta in un branch.
 
 ### 🟡 #120 — Avvisa il fornaio: c'è un circuito welfare gratis a cui può iscriversi subito · ⏳ accodata 2026-08-17 14:05
 
-**Cosa cambia:** ho trovato che a Piacenza esiste già un programma chiamato "Piacenza Pay" —
-gestito da un'azienda nazionale di buoni pasto (360Welfare) insieme alle 4 associazioni di
-commercianti della città — che fa arrivare ai negozi i soldi del welfare aziendale dei
-dipendenti (buoni pasto, buoni acquisto). Per il negozio è **gratis aderire**, paga solo una
-piccola parte quando un cliente spende davvero. Non c'entra niente con MyCity: Pane Quotidiano
-potrebbe iscriversi oggi stesso, senza aspettare che i nostri pagamenti Stripe siano accesi. È
-un canale di soldi in più che il fornaio oggi non sta prendendo.
+**Cosa cambia:** ho trovato che a Piacenza esiste già un programma chiamato "Piacenza Pay". Lo
+gestisce un'azienda nazionale di buoni pasto, 360Welfare, insieme alle 4 associazioni di
+commercianti della città. Fa arrivare ai negozi i soldi del welfare aziendale dei dipendenti:
+buoni pasto, buoni acquisto. Per il negozio è **gratis aderire**, paga solo una piccola parte
+quando un cliente spende davvero. Non c'entra niente con MyCity: Pane Quotidiano potrebbe
+iscriversi oggi stesso, senza aspettare che i nostri pagamenti Stripe siano accesi. È un canale
+di soldi in più che il fornaio oggi non sta prendendo.
 
 **Testo pronto da inoltrare (WhatsApp o di persona):**
 > «Ciao! Volevo segnalarti una cosa che ho trovato: a Piacenza c'è un programma gratuito chiamato
