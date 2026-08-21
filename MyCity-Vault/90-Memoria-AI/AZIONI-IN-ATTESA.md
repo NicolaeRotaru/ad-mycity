@@ -22,6 +22,58 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🟡 #148 — Dimmi se apro il cantiere sui quindici difetti che fermano qualcuno · ⏳ accodata 2026-08-21 16:20
+
+**In parole semplici:** oggi ho rifatto la visita completa al sito, codice e grafica insieme.
+Ho trovato 351 problemi veri. Veri vuol dire che un secondo collega è andato a ricontrollarli
+uno per uno nel codice, e quelli che non ha confermato sono stati buttati via.
+
+Di quei 351, **quindici fermano qualcuno o costano soldi**. Gli altri 336 fanno danno ma si
+aggirano. Questa card chiede il via solo sui quindici.
+
+I quattro che pesano di più. **Uno:** chiunque, anche senza un account sul sito, può marcare un
+ordine come «già rimborsato», e quel numero è quello che il sito sottrae dai guadagni del negozio.
+**Due:** il codice di consegna a sei cifre si aggira mandando un valore vuoto, e la consegna
+sblocca il bonifico al negozio. **Tre:** un rimborso con carta non riaddebita mai la quota del
+negozio, quindi la differenza la mette MyCity. **Quattro:** il pulsante SOS del fattorino è
+coperto in pieno da quello dell'assistenza, e sul telefono non si può premere.
+
+Un esempio di cosa vuol dire il primo. Maria ordina 30 euro da Pane Quotidiano. Qualcuno scrive
+nel database che quell'ordine è già stato rimborsato per 30 euro. Il negozio apre la sua pagina
+guadagni e vede zero. Nessuno ha toccato i soldi, ma il conto che il negozio legge è falso.
+
+**Cosa cambia:** se dici di sì, i quindici li riparo in un ramo separato del sito, con le prove
+che diventano rosse se il difetto torna. Non tocco la produzione: alla fine ti arriva una
+richiesta di unione da guardare. Se dici di no, restano lì: nessuno di questi si chiude da solo,
+e tre di essi riguardano soldi che escono o non rientrano.
+
+**Se va bene:** scrivi «ok 148» e parto dai primi quattro, che sono la mezza giornata che vale
+di più. Ti riporto il conto dopo ogni blocco, non alla fine.
+
+Referti. Il codice, 199 problemi: `consegne/audit/2026-08-21-radiografia.md`.
+La grafica e i percorsi, 152 problemi: `consegne/design/2026-08-21-radiografia-design.md`.
+
+---
+### 🟡 #147 — Dimmi quanto ci mettiamo davvero a consegnare, perché il sito dice due cose diverse · ⏳ accodata 2026-08-21 16:20
+
+**In parole semplici:** il riquadro grosso in cima alla home promette la consegna in **30-60
+minuti**. Ogni altra pagina del sito promette **24-48 ore**. Sono la stessa promessa fatta due
+volte, con due numeri che non stanno insieme.
+
+La frase della home non è scritta nel codice: sta in un campo delle impostazioni del sito. Vuol
+dire che si cambia subito, senza pubblicare nulla e senza aspettare un rilascio.
+
+Non la cambio da sola perché non so quale delle due sia vera. È una promessa al cliente, e a
+sceglierla sei tu.
+
+**Cosa cambia:** oggi chi arriva sulla home legge un'ora e chi ordina scopre due giorni. È la
+prima cosa che una persona legge e l'ultima che verifica: la scopre quando ha già pagato. Finché
+restano due numeri diversi, uno dei due è una bugia, qualunque sia quello giusto.
+
+**Se va bene:** scrivi «ok 147» insieme al numero che vale. Per esempio: «ok 147, 24-48 ore».
+Allineo la home a quella promessa. È una modifica di configurazione, reversibile, e la vedi subito.
+
+---
 ### 🔴 #144 — Una riga da incollare: c'è uno strumento che nessuno controlla · ⏳ accodata 2026-08-21 16:40 · ✏️ riscritta 17:45
 
 > **In due righe.** Ho usato uno strumento che lancia comandi e che nessuno dei miei controllori
@@ -196,6 +248,7 @@ li leggo.
 
 ---
 
+
 ### 🟡 #142 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
 
 > **In due righe.** Devi lanciare un comando solo, e lo trovi qui sotto in «Se va bene». Sono dieci
@@ -235,15 +288,17 @@ Il file già pronto sta qui: `consegne/tech/settings-con-superpowers.json`. L'ho
 file di adesso, aggiungendo solo le due righe che servono. Ho controllato che tutto il resto sia
 identico parola per parola: 63 permessi concessi, 15 vietati, 8 ganci — gli stessi numeri di prima.
 
-**Copia questo blocco intero, sul server.** Le prime due righe non sono decorazione: la prima ti
-porta nella cartella del progetto, la seconda tira giù il file da GitHub. Senza, i comandi cercano
-nella tua home e non trovano niente — è successo davvero il 21/8 alle 16:32, ed era colpa mia che
-te li avevo dati nudi.
+**Un comando solo**, dalla cartella del repo:
 
 ```
 cd /opt/mycity/ad-mycity
-git pull origin main
 cp consegne/tech/settings-con-superpowers.json .claude/settings.json
+```
+
+Poi controlla di non aver rotto niente. Questo comando risponde in una riga sola:
+
+```
+cd /opt/mycity/ad-mycity
 node cervello/plugin-acceso.mjs
 ```
 
@@ -269,12 +324,8 @@ L'ultimo comando è quello della macchina, e fa tre cose. Committa sul ramo. Man
 usando la chiave che il server ha già, quindi non ti chiede nessuna password. Apre la richiesta di
 unione. Poi la firmi tu, come tutte le altre.
 
-Alla fine, un giro di sincronizzazione così sparisce anche lì la copia doppia delle due skill:
-
-```
-cd /opt/mycity/ad-mycity
-node cervello/sync-worker-plugins.mjs --specchia
-```
+Poi, sul server, un giro di `node cervello/sync-worker-plugins.mjs --specchia` così anche lì sparisce
+la copia doppia.
 
 **Cosa non ho verificato:** una cosa la devi sapere prima di firmare. Con quelle righe la macchina
 scarica il pacchetto da GitHub ogni volta, prendendo l'ultima versione che c'è in quel momento. Non

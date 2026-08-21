@@ -16471,6 +16471,28 @@
         "comando": "node --test cervello/test/carte-numerate.test.mjs"
       },
       "nota_prova": "Un caso nuovo (§5) che chiama rigaDaAccodare di git-pr.mjs con una coda finta dove la card-titolo (142) sta sopra ogni riga-tabella (125). Rimessa dentro la copia privata, la prova torna rossa dicendo il numero vero del guasto: «ha scelto 126». Mutazione dichiarata in cervello/mutanti.json e verificata con node cervello/non-vacuita.mjs."
+    },
+    {
+      "id": "AR-780",
+      "stato": "aperto",
+      "dimensione": "capacita-che-non-partono",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "titolo": "Le sei capacità grosse della macchina non partono, e nessun guardiano aveva mai provato ad avviarne una",
+      "causa_radice": "Il motore dei workflow pretende che `export const meta = {…}` sia la PRIMA istruzione dello script, e non accetta nessun import: né statico («Unexpected token '{'. import call expects one or two arguments») né dinamico («import() is not available in workflow scripts»). Tutti e sei i file in .claude/workflows/ aprono con tre import e mettono meta in quarta posizione, quindi il motore li rifiuta prima di eseguire una riga: «Invalid workflow script: `export const meta` must be the FIRST statement». La radice non è la riga sbagliata, è che NESSUN guardiano ha mai provato ad AVVIARE un workflow: i controlli esistenti misurano il file (che passi dalla porta dei senior, che i deferral esistano, che il conteggio torni) e passano tutti su uno script che il motore non lancerà mai. È la stessa malattia scritta nel commento di cervello/prompt-senior.mjs — si certifica l'INSTALLAZIONE e non l'ESECUZIONE — un piano più sotto, e per due mesi.",
+      "fix_proposto": "Rendere i sei script autonomi: `export const meta` in cima e nessun import. Il prompt dei senior non si può più importare da cervello/prompt-senior.mjs dentro lo script, quindi va GENERATO prima: uno script di build che legge i mansionari veri con promptSenior() e scrive lo workflow eseguibile con i prompt già dentro (è la strada percorsa a mano il 21/8, e ha funzionato: 48 agenti, 351 problemi confermati). Il guardiano della porta dei senior si sposta dallo script sorgente al generatore. Poi `node cervello/workflow-partono.mjs` va agganciato al cancello del lotto, così un workflow che non parte non passa più.",
+      "dove": ".claude/workflows/ (tutti e 6: radiografia.js, audit-design.js, auto-radiografia.js, audit-pannello.js, giro-operativo.js, radiografia-totale.js) · cervello/prompt-senior.mjs (--guardiano, misura il file e non l'avvio)",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-21 16:20",
+      "nato_come": "scoperta",
+      "nato_da": "Nicola: «fai una radiografia completa e profonda del marketplace, con la parte di design compresa» — le due radiografie non sono partite, e il motivo era lo stesso per tutti e sei i workflow",
+      "origine": "Provato ad avviare .claude/workflows/radiografia.js e audit-design.js: rifiutati entrambi dal motore prima di eseguire una riga. Poi provato import statico e dinamico dentro uno workflow di prova: rifiutati anche quelli.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/workflow-partono.mjs"
+      },
+      "nota_prova": "La prova applica al testo vero dei sei script la stessa condizione che il motore verifica prima di lanciare, saltando commenti e righe vuote come fa lui. Oggi è rossa su 6 file su 6; diventa verde solo quando quegli script partono davvero. NON è agganciata a nessun cancello: agganciarla è parte del fix, perché oggi renderebbe rossa la CI su un difetto ancora aperto. Debito dichiarato, non dimenticato.",
+      "nota": "Le due radiografie del 21/8 sono girate lo stesso, da copie generate al volo con gli stessi mansionari veri passando da cervello/prompt-senior.mjs. Il generatore usato è in scratchpad, non nel repo: farlo diventare stabile È il fix. Nato come AR-777 in una sessione con la storia git tagliata, dove quel numero sembrava libero: su main era già di un altro difetto."
     }
   ],
   "meta": {

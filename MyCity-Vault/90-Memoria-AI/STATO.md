@@ -12,6 +12,22 @@ fonte: AD digitale (report della sera, cervello/ritmo.md)
 >
 > **Restano da firmare:** `#134` (il database non ha nessuna copia di sicurezza — servono due chiavi) · `#141` (dire ai controlli automatici che il sito lo pubblica Vercel, non più Render) · `#142` (comando da dieci secondi per rendere permanente il lavoro di oggi) · `#137`/`#138`/`#136` dal lotto precedente · la pratica pagamenti di Pane Quotidiano (`#62`), il vero blocco al primo incasso.
 
+> 🔬 **21/8 16:20 — Radiografia completa del sito, codice e grafica insieme: 351 problemi veri, 15 che fermano qualcuno.** Richiesta di Nicola in chat: «fai una radiografia completa e profonda del marketplace, con la parte di design compresa».
+>
+> **Il conto.** Codice, 13 dimensioni: **199** problemi (12 bloccanti, 88 gravi, 99 minori), contro i 245 del 18 agosto. Grafica e percorsi, 11 dimensioni: **152** (4 bloccanti, 67 gravi, 81 minori). I bloccanti distinti sono **15**, non 16: il pulsante SOS del fattorino è stato trovato da due dimensioni diverse del design.
+>
+> **La cosa che conta più del numero: i dodici bloccanti del codice NON sono quelli del 18 agosto.** Quelli erano stati chiusi tutti, e il referto delle 3:30 di stamattina lo scrive: zero aperti. Questi sono nuovi, o mai visti dalle prime due visite. La lista si accorcia (262 → 245 → 199) ma il fondo non si svuota.
+>
+> **I quattro che pesano di più.** ① Chiunque, senza account, può marcare un ordine come «già rimborsato», e quel campo è il sottraendo dei guadagni mostrati al negozio. ② Il codice di consegna a sei cifre si aggira mandando un valore vuoto, e la consegna sblocca bonifico al negozio e paga al fattorino. ③ Un rimborso con carta non riaddebita mai la quota del negozio: la differenza la mette MyCity, e non è il caso raro (il bonifico parte 1 ora dopo la consegna, resi e reclami arrivano dopo). ④ Il pulsante SOS del fattorino è coperto in pieno da quello dell'assistenza: stesse coordinate, stesso livello, e sul telefono non si può premere.
+>
+> **Prove eseguite da me, non impressioni:** `tsc --noEmit` 0 errori · `vitest run` **943 verdi su 943** (114 file) · `next lint` 0 errori e 95 avvisi, **tutti di accessibilità** (52 etichette scollegate dal loro campo). Nessuna pagina aperta in un browser: tutto è letto nel codice e nel database.
+>
+> **Difetto della macchina trovato strada facendo:** i sei workflow in `.claude/workflows/` non partono su questo motore, perché hanno gli `import` sopra il blocco `meta`. Le due radiografie sono girate da copie generate al volo con gli stessi mansionari. Registrato come AR-780, non riparato: toccarlo è auto-modifica, quindi firma tua.
+>
+> **In coda per te:** **#148** (via libera al cantiere sui 15 bloccanti) · **#147** (quale promessa di consegna è vera, 30-60 minuti o 24-48 ore: oggi la home dice una cosa e il resto del sito un'altra).
+>
+> Referti: `consegne/audit/2026-08-21-radiografia.md` · `consegne/design/2026-08-21-radiografia-design.md`.
+
 ## Passaggi precedenti
 
 > 🔁 **21/8 16:27 — Passaggio di verifica lampo, stato identico al giro delle 14:40 (nessuna riscrittura pesante: macchina in SOPRAVVIVENZA, quota AI 151%).**
@@ -59,6 +75,7 @@ fonte: AD digitale (report della sera, cervello/ritmo.md)
 > **Perché conta:** senza questa verifica, `CHECKLIST-NICOLA.md` ti avrebbe chiesto ancora la firma su due lavori già fatti — tempo tuo sprecato su un problema che non c'è più. La checklist è stata rigenerata (era ferma dal 17/8, oltre i 2 giorni della regola).
 >
 > **Restano aperte, invariate:** 7 PR sul repo `ad-mycity` tutte rosse sullo stesso controllo (`test-cervello.mjs`, bloccato anche in questa sessione dai permessi) · card `#62` (pagamenti Pane Quotidiano, il vero blocco al primo incasso) · card `#140/#141/#139/#138/#137/#134/#142` dal lotto del 20-21/8, tutte in attesa di firma.
+
 
 > 🏁 **21/8 03:30 — Gli ultimi difetti del sito sono chiusi. Da 29 aperti a 3, e tutti e tre sono lavori a metà con un perché scritto.**
 >
