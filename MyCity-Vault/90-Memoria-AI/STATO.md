@@ -1,8 +1,20 @@
 ---
 tipo: stato
-aggiornato: 2026-08-21 03:26
+aggiornato: 2026-08-21 03:28
 fonte: AD digitale (chat)
 ---
+
+> 🌙 **21/8 03:28 — Verifica di continuità, nessuna richiesta nuova ricevuta.** Ripreso il controllo
+> di 2 minuti fa (checkup fermo, causa #104 confermata). Novità trovata: il ramo che leggo io qui
+> (`main` locale) e quello vero su GitHub (`origin/main`) si sono allontanati ancora — 22 commit miei
+> restano indietro fino al 18/8, mentre GitHub ne ha 21 nuovi che io da qui non vedo, tra cui uno che
+> dice "il server ha il disco pieno: è quello che tiene ferma la macchina" (`#785`) e uno sul lucchetto
+> che teneva spento il worker dei lavori (`#782`). È lo stesso schema già noto (vedi nota interna
+> `project-vps-main-divergente-da-origin`, causa nota `#104`): non ho toccato nulla, non ho tentato
+> rebase/merge da qui — è un'operazione delicata da fare con calma, non a metà di un controllo
+> notturno. Il punto pratico: mentre `#104` resta senza la tua firma, ogni sessione come questa lavora
+> su una fotografia sempre più vecchia della macchina — il server nel frattempo sta riparando cose
+> vere che io da qui non riesco a vedere. Nessuna card nuova: stesso sblocco unico, `#104`.
 
 > 🌙 **21/8 03:26 — Controllo notturno (sentinella "checkup fermo").** Una sentinella diceva che il
 > referto di salute della macchina non si aggiorna da quasi 3 giorni. L'ho verificato di persona,
