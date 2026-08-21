@@ -10,7 +10,8 @@
 // convertita in SKILL.md. I file specchiati sono GENERATI e ignorati da git (.gitignore).
 
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -105,6 +106,43 @@ export function patchMarketingSkillForMyCity(content) {
   return `${overlay}\n\n---\n\n${adapted}`;
 }
 
+// 🔌 ANTI-DOPPIONE (2026-08-21): alcune skill vendored qui arrivano dallo stesso repo di un
+// plugin Claude Code ufficiale (es. obra/superpowers). Se quel plugin è ATTIVO, Claude Code carica
+// già la sua copia — specchiare la nostra ne creerebbe una seconda con lo stesso `name` (doppione
+// che costa token e rende ambigua l'attivazione). Il vendored resta per il motore Cursor, che i
+// plugin Claude non li vede. Lettura da .claude/settings.json (progetto) + ~/.claude/settings.json
+// (utente): se il plugin non è installato su questa macchina, lo specchio riparte da solo.
+function leggiEnabledPlugins() {
+  const files = [
+    join(AD_ROOT, ".claude/settings.json"),
+    join(AD_ROOT, ".claude/settings.local.json"),
+    join(homedir(), ".claude/settings.json"),
+  ];
+  const attivi = new Set();
+  for (const f of files) {
+    if (!existsSync(f)) continue;
+    try {
+      const cfg = JSON.parse(readFileSync(f, "utf8"));
+      for (const [chiave, on] of Object.entries(cfg.enabledPlugins || {})) {
+        if (on) attivi.add(String(chiave).split("@")[0]);
+      }
+    } catch {
+      // settings illeggibile: non è un motivo per saltare lo specchio
+    }
+  }
+  return attivi;
+}
+
+export function pluginClaudeAttivo(nome) {
+  if (!nome) return false;
+  // seme per i test: SYNC_PLUGIN_ATTIVI="superpowers,altro" (stringa vuota = nessuno attivo)
+  const forzato = process.env.SYNC_PLUGIN_ATTIVI;
+  if (forzato !== undefined) {
+    return forzato.split(",").map((x) => x.trim()).filter(Boolean).includes(nome);
+  }
+  return leggiEnabledPlugins().has(nome);
+}
+
 // Path dello specchio Claude per un plugin del manifest (null = non si specchia).
 // .cursor/skills/<id>/SKILL.md → .claude/skills/<id>/SKILL.md; la rule ponytail (.mdc) diventa
 // una skill; caveman-internal resta un frammento prompt del worker (già engine-agnostico).
@@ -132,6 +170,21 @@ export function specchiaClaude({ dryRun = false } = {}) {
   for (const p of manifest.plugin || []) {
     const claudeTarget = claudeTargetFor(p);
     if (!claudeTarget) continue;
+    // il plugin Claude fornisce già questa skill: niente specchio, e via la copia vecchia
+    // (una macchina che aveva specchiato PRIMA di installare il plugin resterebbe col doppione)
+    if (pluginClaudeAttivo(p.fornito_da_plugin)) {
+      const vecchia = join(AD_ROOT, claudeTarget);
+      if (existsSync(vecchia)) {
+        if (dryRun) {
+          console.log(`[dry-run] doppione ${p.id}: rimuoverei ${claudeTarget} (lo dà il plugin ${p.fornito_da_plugin})`);
+        } else {
+          rmSync(dirname(vecchia), { recursive: true, force: true });
+          console.log(`✓ doppione rimosso ${p.id} → ${claudeTarget} (lo dà il plugin ${p.fornito_da_plugin})`);
+          scritti++;
+        }
+      }
+      continue;
+    }
     const sorgente = join(AD_ROOT, p.target);
     if (!existsSync(sorgente)) {
       console.error(`⚠ specchio: sorgente mancante per ${p.id} (${p.target}) — salto`);
