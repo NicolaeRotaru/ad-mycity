@@ -35,6 +35,7 @@ import { existsSync, mkdirSync, readFileSync, renameSync, unlinkSync, writeFileS
 import { dirname, join, basename } from "node:path";
 import { decidiDestinazione } from "./casa-memoria.mjs";
 import { decidiScrittura } from "./scrittura-misura.mjs";
+import { primaDiScrivere } from "./memoria-senza-perdite.mjs";
 
 /**
  * Il nome del temporaneo: nella stessa cartella del file finale, e diverso per ogni processo.
@@ -131,10 +132,16 @@ function coperturaAmmessa(percorso, dati) {
  * più). Se il rename fallisce, il temporaneo viene rimosso e l'errore risale: meglio un'eccezione
  * visibile che un file muto lasciato indietro.
  */
-export function scriviJsonAtomico(percorso, dati, env = process.env) {
+export function scriviJsonAtomico(percorso, dati, env = process.env, { dichiaraRimozioni = false } = {}) {
   const dove = decidiDestinazione(percorso, { env });
   if (!dove.scrivi) return null;
   percorso = dove.percorso;
+  // AR-296 metà ② — «il lavoro dell'altro cancellato», che questo file dichiarava aperta in cima.
+  // Chi arriva qui con una copia vecchia dell'archivio non se la porta via in silenzio: le voci che
+  // sparirebbero senza essere dichiarate vengono rimesse, e la cosa si grida. Misurata sei volte da
+  // fine giugno, undici lezioni. Dettagli e perché «rimette» invece di «rifiuta»:
+  // cervello/memoria-senza-perdite.mjs.
+  dati = primaDiScrivere(percorso, dati, { dichiaraRimozioni });
   const copertura = coperturaAmmessa(percorso, dati);
   if (!copertura.scrivi) {
     // Un rifiuto muto è un guasto: chi legge il log deve capire perché il file non è cambiato.
