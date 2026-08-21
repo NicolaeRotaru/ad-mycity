@@ -1,12 +1,12 @@
 {
-  "data": "2026-08-18 06:41",
-  "situazione": "Business invariato, riconfermato dal vivo via SQL diretto 11 minuti dopo il passaggio precedente: 1 ordine mai pagato/annullato del 24/6, 0 pagati, 1 solo negozio (Pane Quotidiano) su 7 profili — stallo North Star 55 giorni. Dentro la pausa concordata con Nicola fino al 24/8-1/9 — non è un allarme. Stato bit-per-bit identico al passaggio 06:30: stesse 6 PR rosse (#761/#754/#753/#749/#741/#735), memoria coerente (39 fatti), sensori verdi salvo i due cronici noti.",
+  "data": "2026-08-21 06:35",
+  "situazione": "Business invariato, riconfermato dal vivo via REST 25 minuti dopo il Piano del mattino: 1 negozio (Pane Quotidiano), 1 ordine mai pagato del 24/6, 0 pagati — stallo North Star 58 giorni, dentro la pausa concordata con Nicola fino al 24/8-1/9 (3 giorni residui). Unico numero mosso: profili 7→8 (un account cliente nuovo, senza negozio). La macchina è in modalità SOPRAVVIVENZA (quota AI 383% della soglia, salute 4/100): questo giro non ha aperto nessuna ricerca nuova, ha solo rigenerato la checklist scaduta e riscritto il briefing del giorno.",
   "opportunita": [],
   "azioni": [
     {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
-    {"titolo": "Ripara le sei richieste di unione aperte: falliscono quasi tutte sullo stesso controllo dei test", "motivo": "PR #761/#754/#753/#749/#741/#735 tutte rosse per colpa propria, la maggior parte anche su test-del-cervello — pattern comune, non sei problemi diversi", "livello": "giallo"},
-    {"titolo": "Correggi le righe nel foglio dei permessi che bloccano gli script diagnostici da quasi due settimane", "motivo": "card #104/#42, causa nota per cui test-cervello e altri controlli restano irraggiungibili da questa sessione; serve intervento manuale sul VPS", "livello": "giallo"},
-    {"titolo": "Tappa i cinque punti dove il marketplace perde soldi da solo", "motivo": "ferma da 20+ giorni senza risposta: doppia vendita, coupon che si esauriscono sui tentativi, rider che si decide lo stipendio", "livello": "rosso"},
-    {"titolo": "Chiudi le quattro porte aperte sui dati di negozi e clienti", "motivo": "falle RLS verificate sul database vero, ferme da 20+ giorni senza risposta", "livello": "rosso"}
+    {"titolo": "Correggi 5 righe nelle regole di permesso del server: è il motivo per cui il giro fallisce da quasi due settimane", "motivo": "oggi la stessa causa impedisce anche la riparazione dei difetti del cantiere e il checkup di salute programmato, non solo gli script diagnostici", "livello": "giallo"},
+    {"titolo": "Firma le 4 migrazioni database rimaste indietro: senza, i rimborsi restano rotti", "motivo": "codice online da 3 giorni ma database non allineato, PR ad-mycity#763 pronta", "livello": "rosso"},
+    {"titolo": "Tre controlli di 5 minuti su Render/Vercel per riaccendere il sito, giù da 22 giorni", "motivo": "runbook già pronto, servono solo tre risposte per preparare il fix esatto", "livello": "rosso"},
+    {"titolo": "Chiudi le quattro porte aperte sui dati di negozi e clienti", "motivo": "falle RLS verificate sul database vero, ferme da 23 giorni senza risposta", "livello": "rosso"}
   ]
 }

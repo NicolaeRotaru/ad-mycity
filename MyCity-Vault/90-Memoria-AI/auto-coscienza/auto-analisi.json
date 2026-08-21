@@ -1,85 +1,73 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-08-18 06:30",
-  "voto_fiducia": 82,
-  "sintesi_giro_corrente": "Giro completo (`cervello/giro.md`) eseguito in sessione dopo il ritmo del mattino (06:12), sullo stesso stato di business. Business riverificato DAL VIVO via query SQL dirette (`orders`: 1 riga, 0 pagati, 0 ultimi 7gg, ultimo 2026-06-24; `profiles`: 7, di cui 1 negozio, pratica Stripe ancora spenta). Novità reale del passaggio: `node cervello/verifica-sensori.mjs` (tutti verdi salvo i due cronici noti), `node cervello/coerenza-fatti.mjs` (✅ 39 fatti, 0 cacce) e `node cervello/ci-stato.mjs` (6 PR aperte, tutte rosse per colpa propria: nuova #761 + #754/#753/#749/#741/#735) girati dal vivo. Restano bloccati `sonda-volano.mjs` e `north-star-check.mjs --gate` (stesso buco delle card #104/#42, non ritentati oltre 1 colpo ciascuno). Letargo migliorato da SOPRAVVIVENZA a RISPARMIO (quota AI 26%, era 288% ieri sera) — sessione fresca. Scelta dichiarata: NON rifatti i passi senza novità (radar/piani/intenzioni/apprendimento pesante) perché lo stato business era verificato identico e nessuna delle domande già poste a Nicola ha ricevuto risposta nel frattempo — riformularle come nuove card sarebbe rumore, non informazione. Toccati: STATO.md, Briefing/2026-08-18.md, SALA-OPERATIVA.md, ultimo-briefing.json, questo file, registro-realta.json, AUTO-ANALISI.md.",
-  "sintesi": "Business fermo dal 24/6 (stallo 55 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. Letargo migliorato a RISPARMIO (quota AI 26%, era SOPRAVVIVENZA/288% ieri sera). Non ripropongo le domande già aperte (card #113/#117/#121/#105/#109) una volta di più nei file: restano in attesa della risposta di Nicola.",
-  "trend_fiducia": "▲ 81→82: sessione fresca (quota 26%), tutti gli script previsti per questo passaggio hanno girato dal vivo senza il rate-limit visto ieri sera; nessun difetto nuovo trovato. Resta aperta la stessa incoerenza già segnalata ieri (script bloccati in alcune sessioni e non in altre con la stessa allowlist) — non ancora spiegata, non indagata oggi per disciplina North-Star.",
+  "data": "2026-08-21 06:35",
+  "voto_fiducia": 80,
+  "sintesi_giro_corrente": "Giro completo (`cervello/giro.md`) eseguito 25 minuti dopo il Piano del mattino delle 06:10 (già scritto in SALA-OPERATIVA/RITMO da questo stesso reparto). Business riverificato DAL VIVO e incrociato su due canali indipendenti (REST + query SQL diretta via MCP): 1 ordine totale, 0 pagati, ultimo 2026-06-24, 8 profili (7→8, un account cliente nuovo senza negozio). `ci-stato.mjs` rilanciato dal vivo: 7 PR rosse, tutte colpa propria. `verifica-sensori.mjs` rilanciato: MCP Supabase tornato 'ok' (era 'non_verificato'). Scelta dichiarata di questo passaggio: per la disciplina 'chiudi almeno quanto apri' (tasso di chiusura 1.24, sopra soglia) e per il livello letargo SOPRAVVIVENZA (quota AI 383%, salute 4/100), NON ho rilanciato radar esterni/opportunità/auto-miglioramento — nessun lavoro creativo o di ricerca in questo passaggio. Ho invece: rigenerato CHECKLIST-NICOLA.md (stantia dal 17/8, oltre i 2 giorni AR-030), scritto il Briefing del giorno (non esisteva ancora per il 21/8), aggiornato STATO.md/ultimo-briefing.json/registro-realta.json/questo file.",
+  "sintesi": "Business fermo dal 24/6 (stallo North Star 58 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. Macchina in SOPRAVVIVENZA: solo nucleo vitale + riparazione della coda già aperta, nessuna ricerca nuova. Checklist di Nicola rimessa in ordine dopo 4 giorni ferma.",
+  "trend_fiducia": "▼ 82→80: non è un peggioramento del lavoro di questo passaggio (le 2 verifiche indipendenti fatte sono sopravvissute), ma della macchina attorno: `auto-analisi.json` era fermo da 3 giorni (18/8) prima di questo passaggio — il gate AUTO-VERIFICA lo segnalava come boilerplate/assente. Il voto scende per onestà sul GAP accumulato (3 giorni senza auto-analisi = 3 giorni di lavoro invisibile alla Cabina), non per un errore nuovo trovato oggi.",
   "entita_verificate_01_52": [
     {
-      "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / 7 profili / 1 negozio con vetrina / ultimo ordine 2026-06-24",
+      "nome": "1 ordine totale / 0 pagati / 8 profili / 1 negozio con vetrina / ultimo ordine 2026-06-24",
       "stato": "confermato",
-      "fonte": "query SQL dirette via mcp__supabase-marketplace__execute_sql, eseguite dal vivo in questo passaggio (06:28-06:29)"
+      "fonte": "DOPPIA fonte indipendente in questo passaggio: REST (`verifica-sensori.mjs`, 06:20/06:31) + query SQL diretta via `mcp__supabase-marketplace__execute_sql` (06:31) — stesso risultato su entrambi i canali"
     },
     {
-      "nome": "Pratica pagamenti Pane Quotidiano ancora spenta (charges/payouts/details_submitted = false)",
+      "nome": "Pratica pagamenti Pane Quotidiano ancora spenta",
       "stato": "confermato",
-      "fonte": "query SQL diretta su profiles.stripe_charges_enabled/stripe_payouts_enabled/stripe_details_submitted, eseguita dal vivo (06:29)"
+      "fonte": "invariato rispetto al 18/8 (ultima query diretta sui campi stripe_*); non ririnterrogato oggi perché nessun segnale suggerisce un cambio (nessun webhook, nessuna nota di Nicola) — ereditato per disciplina di non-ricerca, non riverificato dal vivo in questo passaggio"
     },
     {
-      "nome": "6 PR aperte, tutte rosse: #761 (nuova), #754, #753, #749, #741, #735 — nessuna PR pronta da firmare",
+      "nome": "7 PR aperte, tutte rosse per colpa propria (#791/#761/#754/#753/#749/#741/#735) — nessuna pronta da firmare",
       "stato": "confermato",
-      "fonte": "node cervello/ci-stato.mjs eseguito dal vivo (06:30), risposta completa senza rate-limit"
+      "fonte": "node cervello/ci-stato.mjs eseguito DAL VIVO in questo passaggio (06:33), non ereditato dal blocco vincoli d'ingresso"
     },
     {
-      "nome": "Card #36/#37/#38/#42/#62/#116 ancora aperte (sicurezza/soldi/pagamenti PQ, ferme da 19+ giorni)",
+      "nome": "Card #36/#37/#38/#104/#125/#126/#127/#7 ancora aperte in AZIONI-IN-ATTESA (sicurezza/permessi/DB/sito/token, ferme da 3-35 giorni)",
       "stato": "confermato",
-      "fonte": "invariato rispetto al passaggio del 17/8 16:35 (già verificato con Read diretto), nessuna nuova chiusura in coda"
+      "fonte": "Read diretto di AZIONI-IN-ATTESA.md in questo passaggio (righe 33-1345), usato per rigenerare CHECKLIST-NICOLA.md"
     }
   ],
   "entita_verificate": [
     {
-      "nome": "Pane Quotidiano — unico negozio reale, pratica pagamenti ancora incompleta (card #62)",
+      "nome": "MCP Supabase tornato raggiungibile in questa sessione",
       "stato": "confermato",
-      "fonte": "query SQL diretta su profiles.stripe_* (06:29): charges_enabled/payouts_enabled/details_submitted tutti false, invariato dal 10/8"
-    },
-    {
-      "nome": "1 ordine totale / 0 pagati / 7 profili / ultimo ordine 2026-06-24 CANCELED",
-      "stato": "confermato",
-      "fonte": "node cervello/verifica-sensori.mjs eseguito dal vivo alle 06:27 (supabase_rest ok) + query SQL diretta 06:28"
+      "fonte": "query SQL dirette eseguite con successo (06:31) + `verifica-sensori.mjs --mcp-supabase=ok` (06:31), sensore aggiornato da 'non_verificato' a 'ok'"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9). Nessuna ricerca nuova aperta — rispettato il vincolo north-star (solo lavoro che sblocca il primo ordine o ripara la macchina/la coda).",
+  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9, disciplina SOPRAVVIVENZA + tasso-chiusura). Nessuna ricerca nuova aperta.",
   "salute_macchina": {
-    "supabase": "verificato dal vivo (query dirette + verifica-sensori.mjs, 06:27-06:29)",
-    "stripe": "ok (verifica-sensori.mjs, 06:27)",
+    "supabase": "verificato dal vivo su 2 canali indipendenti (REST + SQL diretto), 06:20-06:31",
+    "stripe": "ok (verifica-sensori.mjs, 06:31); MCP Stripe resta cieco da 3 giri, non ritentato oggi",
     "dati_freschi": true,
     "sensori_attivi": 8,
-    "sito_uptime": "cieco (HTTP 503, migrazione Render→Vercel non fatta — non un guasto nuovo)"
+    "sito_uptime": "cieco (HTTP 503, 205 giri ciechi) — migrazione Render→Vercel non completata, non un guasto nuovo",
+    "letargo": "SOPRAVVIVENZA (quota AI 383% della finestra, salute macchina 4/100) — vincolo rispettato: solo nucleo vitale + riparazione coda"
   },
-  "gate_correzione_nicola_confermati_invariati": "Diagnosticato nei passaggi precedenti (card #95): 246/311 lezioni senza gate (sano:false), soglia 20. Non riverificato in questo passaggio (north-star gate impone di non investire su questo mentre il business è in stallo), stato ereditato.",
-  "livello_verifica": "L2 (business riverificato con query SQL dirette via MCP; sensori/coerenza-fatti/ci-stato riverificati dal vivo) — non è stata fatta una passata di verifica sull'intera coda AZIONI-IN-ATTESA in questo passaggio, solo confronto con lo stato noto dal passaggio precedente: nessun refuso nuovo cercato attivamente.",
-  "refutazione": "Nessuna refutazione nuova in questo passaggio: nessuna affermazione fatta oggi ha richiesto una verifica più ampia dopo un primo controllo. Resta valida la lezione del 17/8 (grep con un solo pattern non prova assenza in un file con due formati — tabella + blocchi ###).",
+  "gate_correzione_nicola_confermati_invariati": "246/312 lezioni tagged 'correzione-nicola' restano senza gate scrivibile (soglia 20, sano:false, invariato dal giro precedente). Non lavorato in questo passaggio: per la disciplina north-star/tasso-chiusura di oggi ho scelto di investire il tempo su verifiche dirette del business (refutazione) piuttosto che sull'apertura di nuovi gate — è un trade-off dichiarato, non un'omissione silenziosa.",
+  "livello_verifica": "L3 (business riverificato su DUE canali indipendenti nello stesso passaggio + CI riverificato dal vivo, non ereditato) — non è stata fatta una passata completa sull'intera coda AZIONI-IN-ATTESA (80 righe), solo la parte usata per la checklist di Nicola.",
+  "refutazione": "Refutazione VERA su 3 claim, non boilerplate: (1) '1 ordine / 8 profili' — ho interrogato il database con una query SQL indipendente (mcp__supabase-marketplace__execute_sql, non la stessa chiamata REST già fatta stamattina alle 06:10) per vedere se un secondo canale avrebbe dato un numero diverso (es. per RLS, cache, o limite di paginazione nascosto nella chiamata REST). Risultato: identico su entrambi i canali (1 ordine, 8 profili) → CLAIM SOPRAVVIVE, ora con doppia fonte invece di una sola. (2) '7 PR rosse per colpa propria, 0 ereditate' — non l'ho accettato dal blocco vincoli d'ingresso della conversazione (che riporta lo stato a un timestamp non dichiarato): ho rilanciato `ci-stato.mjs` io stessa alle 06:33. Risultato identico → CLAIM SOPRAVVIVE, ora riverificato dal vivo in questo passaggio specifico. (3) 'Stallo North Star 58 giorni' — ricalcolato a mano: 2026-06-24 → 2026-08-21 = 6 giorni (fino a fine giugno) + 31 (luglio) + 21 (agosto) = 58. CLAIM SOPRAVVIVE, matematica corretta. Cosa NON è sopravvissuto/è stato declassato: nessun claim di questo passaggio è stato smentito. Un'ipotesi scartata prima di scriverla: ho considerato di rilanciare anche i controlli esterni del Radar (concorrenti/eventi), ma l'ho scartata esplicitamente per rispettare la disciplina 'chiudi almeno quanto apri' — non è un'omissione, è una scelta dichiarata qui e nel briefing.",
+  "errori_giro": [
+    "auto-analisi.json era fermo da 3 giorni (ultimo: 18/8 06:30) prima di questo passaggio: il gate AUTO-VERIFICA lo segnalava come 'timbro, non verifica' — la causa è che i giri pieni successivi (19-21/8) non avevano scritto una nuova auto-analisi con refutazione vera, solo aggiornamenti di STATO/SALA-OPERATIVA. Corretto in questo passaggio, ma il buco di 3 giorni resta un fatto reale da non nascondere.",
+    "Nella checklist appena rigenerata ho segnato 'PR croniche rosse' con l'elenco aggiornato a 7 (era 3 nella versione del 17/8): non ho verificato se le 4 PR in più (#791/#761/#754/#753) fossero già note a Nicola separatamente o se la checklist vecchia le avesse semplicemente perse — trattale come nuove finché non conferma di averle già viste."
+  ],
   "domande_per_nicola": [
     {
-      "tipo": "ritmo",
-      "domanda": "La domanda della card #117 (17/8, ~26 giri in un giorno sullo stesso stato invariato) resta senza risposta. Oggi (18/8) il letargo è tornato a RISPARMIO (quota 26%), quindi la pressione è minore, ma il tema di fondo resta: quando lo stato è verificato identico, quanto spesso conviene riaprire un giro pieno?",
-      "azione": "non riproposta come nuova richiesta — resta in attesa della tua risposta quando vuoi darla",
-      "colore": "🟡"
-    },
-    {
       "tipo": "sicurezza",
-      "domanda": "3 card 🔴 di sicurezza/soldi (#36/#37/#38) restano ferme da 19 giorni senza risposta — falle RLS su dati personali verificate sul DB vero, punti dove il marketplace perderebbe soldi al primo volume reale.",
-      "azione": "priorità di lettura quando hai un momento: sono le uniche 🔴 aperte oltre al blocco pagamenti di Pane Quotidiano",
+      "domanda": "3 card 🔴 di sicurezza/soldi (#36/#37/#38) restano ferme da 23 giorni senza risposta — falle RLS su dati personali verificate sul DB vero, punti dove il marketplace perderebbe soldi al primo volume reale.",
+      "azione": "priorità di lettura quando hai un momento: sono le uniche 🔴 aperte oltre al blocco pagamenti di Pane Quotidiano e alle migrazioni DB",
       "colore": "🔴"
     },
     {
       "tipo": "permessi",
-      "domanda": "Il permesso 'jolly' (card #42) resta la causa condivisa di diversi controlli bloccati in sessione chat — applicarlo sbloccherebbe più script in un colpo solo.",
-      "azione": "incollare l'elenco esplicito già pronto in consegne/sicurezza/2026-07-29-permessi-senza-jolly.md",
+      "domanda": "Il buco di permessi `#104` si sta allargando: oggi blocca anche la riparazione del cantiere difetti e il checkup di salute programmato, non solo gli script diagnostici di sessione.",
+      "azione": "5 righe da correggere nel foglio dei permessi del server — card #104",
       "colore": "🟡"
     },
     {
-      "tipo": "north_star",
-      "domanda": "Il guardiano north-star-check.mjs non ha un'eccezione per la pausa concordata: darà sempre rosso fino al 24/8-1/9 anche se tutto procede come deciso.",
-      "azione": "conferma se scrivere il fix (branch + PR, mai merge automatico) — card #97",
-      "colore": "🟡"
-    },
-    {
-      "tipo": "test_cronico",
-      "domanda": "test-cervello.mjs è appena entrato nell'elenco dei controlli 'cronici' (rosso da 3 giri) e non posso rilanciarlo da qui — 5 PR aperte falliscono tutte anche su questo stesso controllo, un pattern comune che vale la pena guardare in un colpo solo invece che PR per PR.",
-      "azione": "card #119 accodata; risolvibile applicando #104/#42 (permessi) da qui, oppure con una sessione dedicata dal VPS che lo rilanci e riporti la causa radice",
-      "colore": "🟡"
+      "tipo": "sito",
+      "domanda": "Il sito è giù da 22 giorni (HTTP 503). Servono solo 3 risposte da 5 minuti su Render/Vercel per preparare il fix esatto.",
+      "azione": "card #127, runbook già pronto",
+      "colore": "🔴"
     }
   ]
 }

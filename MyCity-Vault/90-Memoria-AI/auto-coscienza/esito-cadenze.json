@@ -36,7 +36,7 @@
       ]
     },
     "monitora": {
-      "quando": "2026-08-18 06:37",
+      "quando": "2026-08-21 06:40",
       "esito": "non-pubblicato",
       "codice": 2,
       "ai_rc": 0,
@@ -76,5 +76,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-21 06:10"
+  "aggiornato": "2026-08-21 06:40"
 }

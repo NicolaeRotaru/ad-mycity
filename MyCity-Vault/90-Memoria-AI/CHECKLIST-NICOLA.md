@@ -9,10 +9,13 @@ aggiornato: 2026-08-21 06:35
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
 > Rigenerata perché era ferma al 17/8 06:20 (oltre i 2 giorni della regola AR-030).
-> Business ancora **invariato**: 1 negozio (Pane Quotidiano), 1 ordine mai pagato (24/6), 0 pagati
-> — stallo North Star **58 giorni**, dentro la pausa concordata con te fino al 24/8-1/9 (3 giorni
-> residui), non è churn. L'unico numero mosso da ieri: 8 profili invece di 7 (un account cliente
-> nuovo, senza negozio — non cambia il business).
+>
+> Business ancora **invariato**. 1 negozio, Pane Quotidiano. 1 ordine, mai pagato, del 24/6. 0 ordini
+> pagati. Stallo North Star: **58 giorni**. Siamo dentro la pausa concordata con te, fino al 24/8-1/9
+> (3 giorni residui): non è churn.
+>
+> L'unico numero mosso da ieri: i profili sono 8, prima erano 7. È un account cliente nuovo. Non ha
+> un negozio. Non cambia il business.
 
 ---
 
@@ -27,18 +30,18 @@ aggiornato: 2026-08-21 06:35
 
 - [ ] 🔴 **Ripara il pulsante che venditore e rider usano per far avanzare un ordine.** Correzione pronta in branch locale, manca solo chi la porti su GitHub.
   → Card `#36` in [[AZIONI-IN-ATTESA]]
-- [ ] 🔴 **Chiudi le 4 porte aperte su dati di negozi e clienti** (liste negozi scrivibili senza login, indirizzi clienti leggibili senza login, venditori/rider auto-approvati, dati di consegna modificabili senza login).
+- [ ] 🔴 **Chiudi le 4 porte aperte su dati di negozi e clienti.** Liste negozi scrivibili senza login. Indirizzi clienti leggibili senza login. Venditori e rider che si auto-approvano da soli. Dati di consegna modificabili senza login.
   → Card `#37` in [[AZIONI-IN-ATTESA]]
-- [ ] 🔴 **Tappa i 5 punti dove il marketplace perde soldi da solo** (doppia vendita dopo checkout scaduto, coupon consumati sui tentativi, rider che si autoassegna lo stipendio, spedizione gratuita mai pagata al rider, reclamo che blocca il negozio per sempre).
+- [ ] 🔴 **Tappa i 5 punti dove il marketplace perde soldi da solo.** Doppia vendita dopo checkout scaduto. Coupon che si consumano sui tentativi, non sugli ordini veri. Il rider può decidersi lo stipendio da solo. La spedizione gratuita non paga mai il rider. Un reclamo blocca il negozio per sempre.
   → Card `#38` in [[AZIONI-IN-ATTESA]]
 
 ---
 
 ## 🔴 DATABASE E SITO IN PRODUZIONE
 
-- [ ] 🔴 **Firma le 4 migrazioni database (114-117).** Senza, i rimborsi restano rotti e 3 falle sul DB di produzione restano aperte. Elenco completo nella PR `ad-mycity#763`.
+- [ ] 🔴 **Firma le 4 migrazioni database (114-117).** Senza, i rimborsi restano rotti. Restano aperte anche 3 falle sul database di produzione. Elenco completo nella PR `ad-mycity#763`.
   → Card `#125` in [[AZIONI-IN-ATTESA]] — scrivi «ok 125»
-- [ ] 🔴 **Il sito è giù da 22 giorni — servono 3 controlli di 5 minuti sul tuo Vercel/Render**, poi arriva il fix esatto pronto da firmare. Runbook già scritto: `consegne/devops/2026-07-31-sito-503.md`.
+- [ ] 🔴 **Il sito è giù da 22 giorni.** Servono 3 controlli di 5 minuti sul tuo Vercel/Render. Poi arriva il fix esatto, pronto da firmare. Runbook già scritto: `consegne/devops/2026-07-31-sito-503.md`.
   → Card `#127` in [[AZIONI-IN-ATTESA]]
 
 ---
@@ -56,7 +59,7 @@ aggiornato: 2026-08-21 06:35
 
 - [ ] 🔴 **Comunicato di lancio pronto per un giornale — mancano 2 cose che solo tu puoi dare:** la tua citazione da fondatore (proposta già scritta) e una frase vera del titolare di Pane Quotidiano col suo ok a comparire con nome e cognome.
   → Card `#118` in [[AZIONI-IN-ATTESA]]
-- [ ] 🔴 **Programma punti + gift card pronto da un mese, resta spento** — parte solo quando arrivano i 5 via libera già scritti (≥5 negozi veri, ordini pagati, Stripe in scrittura, % cashback firmata da te, parere legale sulla gift card). Nessuna azione richiesta finché quei 5 non si sbloccano.
+- [ ] 🔴 **Programma punti + gift card pronto da un mese, resta spento.** Parte solo quando arrivano 5 via libera già scritti: almeno 5 negozi veri, ordini pagati, Stripe in scrittura, la % di cashback firmata da te, un parere legale sulla gift card. Nessuna azione richiesta finché quei 5 non si sbloccano.
   → Card `#116` in [[AZIONI-IN-ATTESA]] (solo per conoscenza, non blocca nulla oggi)
 
 ---

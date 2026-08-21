@@ -1,8 +1,18 @@
 ---
 tipo: stato
-aggiornato: 2026-08-21 06:10
+aggiornato: 2026-08-21 06:35
 fonte: AD digitale (chat)
 ---
+
+> 🧭 **21/8 06:35 — Giro di perlustrazione (`cervello/giro.md`).** Riverificato dal vivo via REST:
+> business identico al Piano del mattino di 25 minuti fa — 1 negozio (Pane Quotidiano), 1 ordine mai
+> pagato del 24/6, stallo North Star **58 giorni**. Unico numero mosso: profili 7→8 (un account
+> cliente nuovo, senza negozio, non cambia il business). Per disciplina "chiudi almeno quanto apri"
+> (tasso di chiusura sopra soglia, 1.24 nel mese) e perché la macchina è in **SOPRAVVIVENZA** (quota
+> AI 383% della soglia, salute 4/100), questo giro **non ha aperto nessuna ricerca nuova**: ha solo
+> rigenerato [[CHECKLIST-NICOLA]] (era ferma dal 17/8, oltre i 2 giorni della regola AR-030) e
+> scritto il briefing del giorno in [[Briefing]]. Nessuna card nuova in coda: le priorità restano
+> `#104`/`#125`/`#36`-`#38`, con `#127` (sito giù, 3 domande da 5 minuti) come sblocco a basso sforzo.
 
 > ☀️ **21/8 06:10 — Piano del mattino (cadenza ufficiale di ritmo.md).** Business riverificato ora
 > con controllo diretto (`verifica-sensori.mjs` + lettura REST): 1 negozio (Pane Quotidiano), 1

@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-08-21 06:26",
+  "aggiornato": "2026-08-21 06:40",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
     "data": "2026-08-21",
-    "runs": 37,
+    "runs": 39,
     "token_totali": 0,
-    "durata_sec_totale": 10906,
+    "durata_sec_totale": 11961,
     "voci": [
       {
         "quando": "2026-08-21 03:22",
@@ -303,10 +303,26 @@
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-21 06:31",
+        "tipo": "worker-analisi",
+        "durata_sec": 456,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-21 06:40",
+        "tipo": "monitora",
+        "durata_sec": 599,
+        "token": 50000,
+        "modello": "claude",
+        "stima_grezza": true
       }
     ],
-    "token_stimati": 1915000,
-    "token_per_gate": 1915000,
+    "token_stimati": 2015000,
+    "token_per_gate": 2015000,
     "token_fonte": "misura"
   },
   "storico_giorni": [
@@ -594,11 +610,11 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 1915000,
-    "runs_sessione": 37,
+    "token_sessione_rolling": 2015000,
+    "runs_sessione": 39,
     "finestra_min": 360,
     "voci_illeggibili": 0,
-    "aggiornato": "2026-08-21 06:26"
+    "aggiornato": "2026-08-21 06:40"
   },
   "voci_recenti": [
     {
@@ -893,6 +909,22 @@
       "quando": "2026-08-21 06:23",
       "tipo": "worker-analisi",
       "durata_sec": 75,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-21 06:31",
+      "tipo": "worker-analisi",
+      "durata_sec": 456,
+      "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-21 06:40",
+      "tipo": "monitora",
+      "durata_sec": 599,
       "token": 50000,
       "modello": "claude",
       "stima_grezza": true
