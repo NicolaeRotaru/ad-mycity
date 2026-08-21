@@ -42,9 +42,12 @@ const REPO = join(QUI, "..", "..");
 const { attesaValida, coperturaDi, IN_ATTESA, ESENZIONI } = await import(join(REPO, "cervello/mappa-copertura.mjs"));
 
 const casi = [];
-const prova = (nome, fn) => {
+// `await` anche quando `fn` è sincrona (21/8 sera). Senza, un caso che diventa `async` si registra
+// VERDE prima di aver finito: la promessa che fallisce arriva dopo che il conteggio è già chiuso,
+// e la prova diventa un falso verde silenzioso — il difetto peggiore che una prova possa avere.
+const prova = async (nome, fn) => {
   try {
-    fn();
+    await fn();
     casi.push({ nome, ok: true });
   } catch (e) {
     casi.push({ nome, ok: false, err: (e.message || String(e)).split("\n")[0] });
@@ -60,11 +63,11 @@ const SENZA_FRENI = {}; // nessun hook: qualunque strumento qui è scoperto
 
 // ── ① e ② La data è tutto ───────────────────────────────────────────────────
 
-prova("un'attesa con perché e data futura vale", () => {
+await prova("un'attesa con perché e data futura vale", () => {
   assert.equal(attesaValida("Finto", "2026-08-21", ATTESE), true);
 });
 
-prova("scaduta la data torna a essere un buco, da sola", () => {
+await prova("scaduta la data torna a essere un buco, da sola", () => {
   assert.equal(attesaValida("Finto", "2026-09-04", ATTESE), true, "il giorno della scadenza vale ancora");
   assert.equal(
     attesaValida("Finto", "2026-09-05", ATTESE),
@@ -75,17 +78,17 @@ prova("scaduta la data torna a essere un buco, da sola", () => {
 
 // ── ③ e ④ Cosa NON è un'attesa ──────────────────────────────────────────────
 
-prova("senza data non è un'attesa: è un'esenzione travestita", () => {
+await prova("senza data non è un'attesa: è un'esenzione travestita", () => {
   assert.equal(attesaValida("SenzaData", "2026-08-21", ATTESE), false);
 });
 
-prova("e un perché di due parole non è un perché", () => {
+await prova("e un perché di due parole non è un perché", () => {
   assert.equal(attesaValida("PercheCorto", "2026-08-21", ATTESE), false);
 });
 
 // ── Lo stato che ne esce: non è un buco, e non è nemmeno «a posto» ──────────
 
-prova("in attesa NON è un buco, ma resta scoperto nei fatti", () => {
+await prova("in attesa NON è un buco, ma resta scoperto nei fatti", () => {
   const r = coperturaDi("Finto", SENZA_FRENI, { attese: ATTESE, oggi: "2026-08-21" });
   assert.equal(r.stato, "scoperto", "nessuno lo sta guardando davvero, e va detto");
   assert.equal(r.problema, false, "ma non è un buco: il freno esiste, manca una riga, ed è dichiarato entro quando");
@@ -93,7 +96,7 @@ prova("in attesa NON è un buco, ma resta scoperto nei fatti", () => {
   assert.equal(r.scade, "2026-09-04", "la data va portata fuori, o nessuno può accorgersi che è passata");
 });
 
-prova("e dopo la scadenza lo stesso strumento torna un buco", () => {
+await prova("e dopo la scadenza lo stesso strumento torna un buco", () => {
   const r = coperturaDi("Finto", SENZA_FRENI, { attese: ATTESE, oggi: "2026-09-05" });
   assert.equal(r.problema, true, "la data deve mordere da sola: è la differenza fra un debito e un condono");
 });
@@ -105,7 +108,7 @@ prova("e dopo la scadenza lo stesso strumento torna un buco", () => {
 // potesse affermare finché la riga che lo copre viveva in un file che la macchina non può scrivere.
 // Quella riga è arrivata su `main` da una richiesta di unione firmata da Nicola, quindi il debito
 // non c'è più — e una prova che pretendesse ancora di trovarlo terrebbe in vita una deroga estinta.
-prova("Monitor è coperto per davvero: né esente, né in attesa", () => {
+await prova("Monitor è coperto per davvero: né esente, né in attesa", () => {
   assert.equal(
     Object.prototype.hasOwnProperty.call(IN_ATTESA, "Monitor"),
     false,
@@ -125,7 +128,23 @@ prova("Monitor è coperto per davvero: né esente, né in attesa", () => {
   );
 });
 
-prova("l'attesa non regala copertura a chi non c'entra", () => {
+await // La copertura letta dal file con una regex dice che la parola c'è. Questo caso dice una cosa più
+// forte: che il CODICE che decide chi è guardato ci arriva davvero, e che Monitor finisce nelle
+// stesse mani di Bash — non in mani diverse, che sarebbe un'altra cosa travestita da uguale.
+//
+// È async apposta: è il caso che rende load-bearing l'`await` nel runner qui sopra. Togli l'await e
+// questo diventa verde anche quando fallisce.
+await prova("Monitor passa dalle STESSE mani di Bash, non solo dallo stesso file", async () => {
+  const { leggiFreni } = await import(join(REPO, "cervello/mappa-copertura.mjs"));
+  const { hooks } = leggiFreni();
+  const m = coperturaDi("Monitor", hooks, { oggi: "2026-08-21" });
+  const b = coperturaDi("Bash", hooks, { oggi: "2026-08-21" });
+  assert.ok(m.prima.length > 0, "esegue una shell: senza guardia PRIMA, la mossa parte e nessuno la vede");
+  assert.deepEqual(m.prima, b.prima, "stessa shell, stesse guardie: se divergono, una delle due è scoperta a metà");
+  assert.equal(m.problema, false);
+});
+
+await prova("l'attesa non regala copertura a chi non c'entra", () => {
   const r = coperturaDi("UnAltroStrumento", SENZA_FRENI, { attese: ATTESE, oggi: "2026-08-21" });
   assert.equal(r.problema, true, "chi non è dichiarato resta un buco: l'attesa vale per uno, non per tutti");
 });

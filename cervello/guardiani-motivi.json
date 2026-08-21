@@ -71,6 +71,11 @@
   "salute-onesta.mjs": {
    "motivo": "da-cablare",
    "perche": "AR-671 e il difetto nuovo registrato nel lotto 42: calcola il burn-down onesto del cantiere (quanti difetti erano aperti a una certa data) e nessun processo lo esegue. Il numero che il Pannello mostra viene da un'altra strada, quindi oggi il suo verdetto non lo legge nessuno. Buco vero, dichiarato: la corsia che l'ha toccato ha curato il meccanismo per sbagliare in direzione ottimista, non l'ha cablato — quello e un lavoro suo."
+  },
+  "riconcilia-perimetro.mjs": {
+   "motivo": "cablato",
+   "dove": "cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs",
+   "perche": "21/8: decide quali file può mettere in staging il commit automatico «riconcilia» del server. Lo esegue `cervello/vps/aggiorna-cervello.sh`, che è codice del server e non gira in CI — quindi la prova non si accontenta di leggerlo: RICREA un repo git vero, ci mette la stessa scena del 21/8 (il cantiere sporco insieme all'archivio delle lezioni), passa dalla stessa pipeline e verifica che il commit contenga un file solo. Il caso vero: quel commit portava quattro file e ha cancellato due lezioni arrivate da PR firmate, sotto un titolo che parlava di difetti. Gira su ogni push in CI, su ogni PR col cancello e a ogni giro."
   }
  },
  "verdetti_morti_dichiarati": {}

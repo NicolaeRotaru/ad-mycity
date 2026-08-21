@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-21 19:40",
+ "aggiornato": "2026-08-21 21:45",
  "mutanti": [
   {
    "lotto": 30,
@@ -5371,6 +5371,90 @@
    "cerca": "    problema: stato === \"scoperto\" && !esente && !inAttesa,",
    "sostituisci": "    problema: stato === \"scoperto\" && !esente,",
    "test": "node --test cervello/test/mappa-copertura.test.mjs"
+  },
+  {
+   "lezione": "L-2026-0821-02",
+   "difetto": "matcher-che-copre-solo-il-primo-nome",
+   "nome": "l'alternanza del matcher smette di funzionare e Monitor torna scoperto senza che nessuno tocchi i permessi",
+   "file": "cervello/mappa-copertura.mjs",
+   "cerca": "    return new RegExp(`^(?:${matcher})$`).test(strumento);",
+   "sostituisci": "    return new RegExp(`^(?:${matcher.split(\"|\")[0]})$`).test(strumento);",
+   "test": "node cervello/test/attesa-con-una-data.test.mjs"
+  },
+  {
+   "lezione": "L-2026-0821-02",
+   "difetto": "guardia-prima-sparita-dal-verdetto",
+   "nome": "il verdetto smette di riportare le guardie PreToolUse: uno strumento che esegue una shell risulta guardato senza esserlo",
+   "file": "cervello/mappa-copertura.mjs",
+   "cerca": "  const prima = [...new Set(guardieSu(\"PreToolUse\"))];",
+   "sostituisci": "  const prima = [];",
+   "test": "node cervello/test/attesa-con-una-data.test.mjs",
+   "nota_riaggancio": "Uccide il caso ASYNC, quindi prova due cose insieme: che la copertura è misurata davvero, e che l'`await` nel runner regge — senza await questo mutante resterebbe verde."
+  },
+  {
+   "lezione": "L-2026-0821-03",
+   "difetto": "commit-che-porta-piu-di-quel-che-dice",
+   "nome": "la riconciliazione torna a mettere in staging tutta la cartella, e un commit che dice «chiudo difetti» pubblica le lezioni di qualcun altro",
+   "file": "cervello/riconcilia-perimetro.mjs",
+   "cerca": "    (ammessi.includes(nome) ? miei : altrui).push(p);",
+   "sostituisci": "    miei.push(p);",
+   "test": "node --test cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs",
+   "nota_riaggancio": "È il bug del 21/8 rimesso identico: 4 casi rossi su 9, compreso quello che gira su un repo git vero."
+  },
+  {
+   "lezione": "L-2026-0821-03",
+   "difetto": "intrusi-taciuti-dalla-riconciliazione",
+   "nome": "i file di altri restano fuori dal commit ma nessuno lo dice: il server non ha più modo di accorgersi che qualcosa gli sta scrivendo sotto",
+   "file": "cervello/riconcilia-perimetro.mjs",
+   "cerca": "    if (altrui.length) {",
+   "sostituisci": "    if (false) {",
+   "test": "node --test cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs"
+  },
+  {
+   "lezione": "L-2026-0821-04",
+   "difetto": "memoria-persa-riscrivendo-tutto",
+   "nome": "il freno smette di rimettere le voci sparite: la copia vecchia torna a cancellare le lezioni di un altro",
+   "file": "cervello/memoria-senza-perdite.mjs",
+   "cerca": "  if (!perse.length) return { dati: nuovo, riaggiunte: [] };",
+   "sostituisci": "  return { dati: nuovo, riaggiunte: [] };",
+   "test": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs",
+   "nota_riaggancio": "È il difetto identico rimesso: 3 casi rossi su 11, compreso quello che passa dal vero scriviJsonAtomico."
+  },
+  {
+   "lezione": "L-2026-0821-04",
+   "difetto": "freno-memoria-staccato-dalla-scrittura",
+   "nome": "il freno resta scritto ma nessuno lo chiama: costruito e mai messo di guardia",
+   "file": "cervello/scrivi-json.mjs",
+   "cerca": "  dati = primaDiScrivere(percorso, dati, { dichiaraRimozioni });",
+   "sostituisci": "  // staccato",
+   "test": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
+  },
+  {
+   "lezione": "L-2026-0821-04",
+   "difetto": "voci-rimesse-senza-contenuto",
+   "nome": "le lezioni tornano come guscio vuoto: l'id c'è e il testo no, che è perdere lo stesso",
+   "file": "cervello/memoria-senza-perdite.mjs",
+   "cerca": "  const tornano = voci(vecchio, spec).filter((v) => persi.has(v?.[spec.chiave]));",
+   "sostituisci": "  const tornano = [...persi].map((id) => ({ [spec.chiave]: id }));",
+   "test": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
+  },
+  {
+   "lezione": "L-2026-0821-04",
+   "difetto": "potatore-che-non-pota-piu",
+   "nome": "il permesso di chi toglie apposta viene ignorato: il potatore non pota più e l'archivio sfonda il tetto della Cabina",
+   "file": "cervello/memoria-senza-perdite.mjs",
+   "cerca": "  if (!spec || dichiaraRimozioni) return dati;",
+   "sostituisci": "  if (!spec) return dati;",
+   "test": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
+  },
+  {
+   "lezione": "L-2026-0821-04",
+   "difetto": "memoria-salvata-in-silenzio",
+   "nome": "la voce viene rimessa senza dirlo: una memoria salvata in silenzio è indistinguibile dal difetto che non c'è",
+   "file": "cervello/memoria-senza-perdite.mjs",
+   "cerca": "  if (riaggiunte.length) {",
+   "sostituisci": "  if (false) {",
+   "test": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
   }
  ]
 }
