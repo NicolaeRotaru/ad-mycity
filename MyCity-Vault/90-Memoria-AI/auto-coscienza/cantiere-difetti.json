@@ -16377,6 +16377,28 @@
         "comando": "node cervello/test/spazza-temporanei.test.mjs"
       },
       "nota_prova": "Cinque casi nuovi sui sette che c'erano: nomina chi occupa il posto e li ordina per peso · con niente di nostro da togliere non si ferma al verde (lanciato davvero a riga di comando, non chiamando la funzione) · il conto liberato è spazio vero e non voci di cartella · quando smetto di contare lo dico · il troncamento risale fino al referto. Rotte apposta in quattro modi, ognuno uccide esattamente i casi suoi: tolto il censimento delle sconosciute → 2 rossi; rimesso statSync(cartella).size → 1 rosso; tolta la marcatura del troncamento → 2 rossi; tolta la risalita al referto → 1 rosso."
+    },
+    {
+      "id": "AR-776",
+      "stato": "chiuso",
+      "dimensione": "verdetti-che-mentono",
+      "gravita": "grave",
+      "colore": "🟡",
+      "titolo": "Il cancello dava +1 punto difficile fisso a ogni file oltre i 200.000 caratteri, e nessuna riscrittura poteva toglierlo",
+      "causa_radice": "In cancello-stop.mjs il testo da misurare arrivava da tre strade. Quella del DISCO tagliava a 200.000 caratteri (`readFileSync(...).slice(0, 200_000)`); le altre due — il testo pubblicato su main e quello di inizio turno, che escono da `git show` — non tagliavano niente. Su un file più lungo del tetto si confrontava quindi un testo TAGLIATO con uno INTERO, e la differenza fra i due veniva chiamata «peggioramento». Misurato il 21/8 sulla coda delle azioni (203.237 caratteri): intera vale 273 punti, tagliata a 200.000 ne vale 274. Il verdetto in CI diceva «era 273, adesso 274» su un file che riga per riga era quello pubblicato più una card nuova con ZERO punti difficili. Il +1 era strutturale: nessuna riscrittura poteva toglierlo, perché non veniva da niente che fosse scritto nel file. Peggio, la scorciatoia `if (contenuto === suMain) return null` — la difesa scritta apposta perché una fusione non mi faccia il conto del testo di un altro (AR-755) — su un file oltre il tetto non poteva scattare MAI, per la stessa ragione: confrontava un tagliato con un intero. Era spenta proprio sui file grossi, cioè quelli che la fusione tocca sempre.",
+      "fix_proposto": "Il tetto vive in un posto solo (`TETTO_TESTO`) e si applica a tutti e tre i testi dentro `testoDaMisurare`, così il confronto è fra due cose misurate con lo stesso metro. Chi legge dal disco non taglia più per conto suo. Il taglio, quando c'è, viene dichiarato (`troncato: true`) e finisce nella riga del verdetto: di quel testo una parte non l'ho guardata, e un giudizio su una parte non è un giudizio sul tutto.",
+      "dove": "cervello/cancello-stop.mjs (TETTO_TESTO, alTetto, testoDaMisurare, testiIlleggibili, la riga del verdetto)",
+      "impatto_crescita": "fa sbagliare la macchina da sola: un rosso che non può diventare verde è un rosso che si impara ad aggirare, ed è così che un cancello muore. Ha bloccato la PR #795 su un difetto che non esisteva, e avrebbe bloccato ogni PR successiva che tocca la coda delle azioni — cioè quasi tutte",
+      "nato": "2026-08-21 13:45",
+      "nato_come": "scoperta",
+      "nato_da": "la CI rossa sulla PR #795, risalita fino alla causa invece di riscrivere il testo accusato",
+      "origine": "CI di NicolaeRotaru/ad-mycity#795, job «prove, guardiani e typecheck».",
+      "nota": "È la malattia che il repo ha già in elenco — «una fonte letta a metà produce un verdetto intero» — trovata stavolta dentro il guardiano. Il prezzo del tetto resta e adesso è dichiarato: una differenza che vive oltre i 200.000 caratteri non la vedo. Prima il prezzo era peggiore e nascosto.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/cancello-stop.test.mjs"
+      },
+      "nota_prova": "Tre casi nuovi sui numeri veri del caso: un file oltre il tetto identico alla copia pubblicata non è lavoro mio · oltre il tetto i tre testi arrivano tagliati allo stesso modo e il taglio si dichiara · una differenza che vive oltre il tetto non la vedo e non fingo il contrario. Rotti apposta in due modi: rimesso il taglio su un solo lato → 2 rossi; spento il flag del troncamento → 1 rosso."
     }
   ],
   "meta": {

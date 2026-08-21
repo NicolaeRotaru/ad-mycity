@@ -5253,6 +5253,22 @@
    "cerca": "  if (sconosciute.some((v) => v.troncata)) troncato = true;",
    "sostituisci": "  // mutante: il referto non sa che ho smesso di contare",
    "test": "node cervello/test/spazza-temporanei.test.mjs"
+  },
+  {
+   "difetto": "AR-776 stesso-metro-per-tutti",
+   "nome": "torna il taglio su un lato solo: ogni file oltre i 200.000 caratteri riprende il suo +1 fisso",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  const suMain = alTetto(pubblicato());",
+   "sostituisci": "  const suMain = pubblicato();",
+   "test": "node cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-776 taglio-dichiarato",
+   "nome": "il testo arriva tagliato e il verdetto non lo dice: un giudizio su una parte torna a sembrare un giudizio sul tutto",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "    troncato: typeof contenuto === \"string\" && contenuto.length >= TETTO_TESTO,",
+   "sostituisci": "    troncato: false,",
+   "test": "node cervello/test/cancello-stop.test.mjs"
   }
  ]
 }

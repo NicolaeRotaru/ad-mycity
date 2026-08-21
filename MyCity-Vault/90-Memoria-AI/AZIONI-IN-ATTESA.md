@@ -147,13 +147,13 @@ su GitHub: `SUPABASE_TEST_URL`, `SUPABASE_TEST_ANON_KEY`, `SUPABASE_TEST_SERVICE
 
 ### 🟡 #138 — Il server lavora ma non pubblica più niente da tre giorni · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 13:05
 
-**Cosa cambia:** il server è vivo. I dodici orologi che hai fotografato sono partiti tutti oggi, e
-stamattina il worker ha chiuso 27 lavori su 27.
+**Cosa cambia:** il server è vivo. I dodici orologi che hai fotografato sono partiti tutti oggi, 21
+agosto, e il worker ha chiuso 27 lavori su 27.
 
 Ma quello che scrive non esce più. L'ultima volta che ha pubblicato è stata il 18 agosto alle 8 e
 56. Da allora sul ramo principale c'è solo roba tua, cioè le mie richieste che hai firmato.
 
-Ecco perché il Pannello ti mostra ancora i numeri di lunedì: non gli arriva niente di nuovo.
+Ecco perché il Pannello ti mostra ancora i numeri del 18 agosto: non gli arriva niente di nuovo.
 
 **Se va bene:** parti dal disco, che sei sul filo — 4,6 MB liberi su 1900. Due righe:
 

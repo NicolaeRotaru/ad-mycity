@@ -398,6 +398,7 @@ export function testiIlleggibili(testi = [], noteAGlossario = null) {
       prima,
       nuovi: m.problemi.length - prima,
       primi: m.problemi.slice(0, 3),
+      troncato: t.troncato === true,
     });
   }
   return fuori;
@@ -549,6 +550,7 @@ export function verdetto({
     accusa(
       `❌ ${t.file} lo leggerà Nicola e questo lavoro gli ha aggiunto ${t.nuovi} punti difficili` +
         ` (era ${t.prima}, adesso ${t.quanti} — AR-478)` +
+        (t.troncato ? `\n   → ⚪ il file supera i ${TETTO_TESTO} caratteri: ho guardato solo la prima parte, la coda non l'ho letta.` : "") +
         t.primi.map((p) => `\n   → ${p.dico}${p.frase ? `\n     «${p.frase}»` : ` (riga ${p.riga})`}`).join("") +
         `\n   → node cervello/si-capisce.mjs ${t.file}` +
         `\n   → la sostanza NON si toglie: i termini tecnici e i ragionamenti restano, si spiegano dove servono.`,
@@ -677,7 +679,7 @@ function fileDelLavoro() {
     try {
       const abs = join(REPO, p);
       if (!existsSync(abs)) continue;
-      file.push({ file: p, contenuto: readFileSync(abs, "utf8").slice(0, 200_000) });
+      file.push({ file: p, contenuto: alTetto(readFileSync(abs, "utf8")) });
     } catch {
       // Illeggibile: non è una colpa, è un file che non posso guardare. Taccio invece di accusare.
     }
@@ -950,11 +952,50 @@ function testoDiBase(percorso, da = null) {
  *
  * I tre lettori si passano da fuori perché la regola si possa provare senza un repo git.
  */
+/**
+ * Quanti caratteri di un testo si misurano. Oltre, si taglia — e chi legge il verdetto lo deve sapere.
+ * Il numero vive QUI e non dentro chi legge il file: era in due posti e uno solo dei due lo applicava.
+ */
+export const TETTO_TESTO = 200_000;
+
+/** Taglia al tetto. `null` resta `null`: «il file non c'è» non diventa «il file è vuoto». */
+const alTetto = (t) => (typeof t === "string" ? t.slice(0, TETTO_TESTO) : t);
+
+/**
+ * ⚠️ IL TETTO SI APPLICA A TUTTI E TRE, e la ragione è un rosso che nessuno poteva far diventare verde.
+ *
+ * Il 21/8 questo cancello ha bocciato una PR con «la coda ti ha aggiunto 1 punti difficili (era 273,
+ * adesso 274)» — su un file che riga per riga era identico a quello pubblicato più una card nuova che
+ * di punti difficili non ne aveva nemmeno uno. Il conto non tornava per un motivo solo: il testo di
+ * ADESSO arrivava tagliato a 200.000 caratteri (lo tagliava chi lo leggeva dal disco) e i due testi di
+ * confronto arrivavano INTERI (chi li tira fuori da git non taglia niente). La coda ne ha 203.000.
+ *
+ * Quindi si misuravano due testi diversi e si chiamava «peggioramento» la differenza fra loro. Per
+ * ogni file oltre il tetto il verdetto era +1 fisso, e nessuna riscrittura poteva toglierlo: un rosso
+ * che non può diventare verde è un rosso che si impara ad aggirare, che è il modo in cui un cancello
+ * muore.
+ *
+ * Peggio: la scorciatoia qui sotto — «identico a quello pubblicato, quindi non è lavoro mio» — su un
+ * file oltre il tetto non poteva scattare MAI, perché confrontava un testo tagliato con uno intero.
+ * La difesa scritta apposta per il caso della fusione era spenta proprio sui file grossi, cioè quelli
+ * che la fusione tocca sempre.
+ *
+ * È la malattia che il repo ha già in elenco: *una fonte letta a metà produce un verdetto intero*.
+ * Qui stava dentro il guardiano.
+ */
 export function testoDaMisurare(file, { ora, pubblicato, prima }) {
-  const contenuto = ora();
-  const suMain = pubblicato();
+  const contenuto = alTetto(ora());
+  const suMain = alTetto(pubblicato());
   if (contenuto === suMain) return null;
-  return { file, contenuto, contenutoPrima: prima(), contenutoSuMain: suMain };
+  return {
+    file,
+    contenuto,
+    contenutoPrima: alTetto(prima()),
+    contenutoSuMain: suMain,
+    // Il taglio non si nasconde: chi scrive il verdetto lo dice, perché di quel testo una parte non
+    // l'ho guardata e un giudizio su una parte non è un giudizio sul tutto.
+    troncato: typeof contenuto === "string" && contenuto.length >= TETTO_TESTO,
+  };
 }
 
 /**
@@ -1016,7 +1057,7 @@ function testiToccati(da = null) {
       const abs = join(REPO, p);
       if (!existsSync(abs)) continue;
       const t = testoDaMisurare(p, {
-        ora: () => readFileSync(abs, "utf8").slice(0, 200_000),
+        ora: () => readFileSync(abs, "utf8"),
         pubblicato: () => testoDiBase(p, "origin/main"),
         prima: () => testoDiBase(p, da),
       });
