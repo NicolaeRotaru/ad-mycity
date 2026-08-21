@@ -4,6 +4,15 @@ aggiornato: 2026-08-21 08:28
 fonte: AD digitale (chat)
 ---
 
+> 🕛 **21/8 12:06 — Punto di mezzogiorno (`cervello/ritmo.md`).** Riverificato su due canali diretti:
+> SQL via MCP Supabase e `ci-stato.mjs`. Business identico a stamattina: 1 negozio, 1 ordine mai
+> pagato, 0 pagati, 8 profili, stallo **58 giorni**. 7 PR rosse invariate. Le tre priorità del mattino
+> restano tutte ferme sulla firma di Nicola, nessuna sbloccabile da qui: `#104` (permessi server,
+> ho riletto io il file), `#125` (migrazioni DB), `#36`-`#38` (sicurezza). Trovato un piccolo difetto,
+> non ancora verificato: la card `#125` compare due volte in [[AZIONI-IN-ATTESA]]. Una è aperta ed è
+> quella vera. L'altra è una vecchia riga in fondo al file che la segna già chiusa. Non l'ho toccata.
+> Il terminale ha avuto un problema tecnico proprio mentre verificavo, la prova resta da fare.
+
 > 🧭 **21/8 08:28 — Riconferma (`cervello/giro.md`, passo dati via Supabase MCP).** Nessun cambiamento
 > dal passaggio delle 06:35: `orders`=1 (mai pagato), `profiles`=8, 1 negozio (Pane Quotidiano). In
 > questa sessione ho verificato in prima persona il blocco già noto in `#104`. Il gate obbligatorio

@@ -1517,3 +1517,22 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - Dimmi come vuoi procedere sulle tre falle di sicurezza
 
 **Dettagli tecnici** — Business: 1 negozio, 1 ordine mai pagato, stallo 58 giorni, pausa fino al 24/8-1/9. `#104`: manca `Edit` al posto di `Write` su 5 righe di `.claude/settings.local.json`. `#126`: `sudo bash /opt/mycity/ad-mycity/cervello/vps/install-ritmo-timers.sh`. 7 PR rosse in CI (colpa propria, nessuna sul sito vero) · cantiere 106 difetti aperti/9 bloccanti, 4 mai in coda (debito interno, non serve firma).
+
+## Punto di mezzogiorno · 2026-08-21 12:06
+
+**In breve:** Stessa fotografia di stamattina. Le tre priorità sono ferme. Aspettano solo la tua firma. Nessuna urgenza nuova.
+
+**Le 3 priorità di stamattina**
+1. ❌ Permessi sul server (`#104`). Ho controllato ora il file coi miei occhi. Le righe sono ancora quelle sbagliate. Blocca ancora il checkup di salute e le riparazioni della macchina.
+2. ❌ Le 4 modifiche al database (`#125`). Ancora ferme. I rimborsi restano rotti.
+3. ❌ Le tre falle di sicurezza del sito (`#36`/`#37`/`#38`). Ferme da 23 giorni. Nessuna risposta.
+
+**Correzioni di rotta**
+- Nessuna correzione grande. Il business è identico su due controlli diversi (1 negozio, 1 ordine mai pagato, 0 pagati, 8 profili). Nessuna azione nuova sul database da stamattina. 7 richieste di unione restano rosse, le stesse di stamattina. È un errore mio. Nessuna tocca il sito vero.
+- Ho trovato un piccolo difetto nel foglio delle azioni in attesa. La scheda `#125` compare due volte. Una è quella giusta, ancora aperta. L'altra è una riga vecchia, in fondo al file, che la segna già chiusa. Non l'ho toccata. Volevo verificare se confonde la Cabina, ma il terminale ha avuto un problema tecnico proprio in quel momento. Lo scrivo qui per chi riprende. Non è ancora un lavoro fatto.
+
+**Serve da te entro sera**
+- Le stesse tre firme di stamattina: permessi server (`#104`), migrazioni database (`#125`), sicurezza sito (`#36`/`#37`/`#38`).
+- Se hai un minuto in più: il comando che riaccende il checkup di salute (`#126`) è già pronto in coda.
+
+**Dettagli tecnici** — Riconfermato con query SQL diretta via MCP Supabase (tabelle `profiles`, `orders`) e con `ci-stato.mjs` dal vivo. `audit_logs`: nessuna azione admin dal 4/7. Il sensore del sito segna ancora HTTP 503, già coperto da `#127`.
