@@ -30,6 +30,42 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🟡 #126 — Rimetti in moto il checkup di salute: sul server è fermo da tre giorni · ⏳ accodata 2026-08-21 05:05
+
+**Cosa cambia:** il controllo automatico di salute della macchina dovrebbe girare da solo sul
+server, due volte al giorno, mattina e sera. L'ultima volta che ha davvero girato è stata il 18
+agosto alle 6:50 del mattino. Da allora — tre giorni, sei controlli mancati — non ha scritto più
+niente. Il referto che il Pannello mostra oggi è quello di tre giorni fa, non quello di adesso. In
+quell'ultimo referto vero (18/8) c'erano già due allarmi: il servizio che fa girare la macchina
+risultava spento, e la pubblicazione su GitHub era ferma da 422 giri di fila. Non so se sono ancora
+veri oggi, perché da allora nessuno li ha ricontrollati — è proprio questo il buco.
+
+**Se va bene:** con un comando solo, il server riaccende tutti i controlli automatici (mattina,
+mezzogiorno, sera, settimana, e anche questo checkup) e li rimette a girare da soli. Subito dopo
+lancio a mano un controllo fresco, per sapere davvero come sta la macchina oggi — non tre giorni fa.
+
+**Cosa devi fare:** dal terminale del server, come root:
+```
+sudo bash /opt/mycity/ad-mycity/cervello/vps/install-ritmo-timers.sh
+```
+Poi scrivimi «fatto» e ricontrollo subito con un referto fresco.
+
+**Cosa non ho verificato:** da questa sessione non ho accesso a `systemctl` né posso leggere i file
+di sistema del server (`/etc/systemd/system/...`) — è una protezione voluta, non un bug di questa
+richiesta. Quindi non so con certezza SE il timer è disattivato, fallito o solo silenzioso: lo
+deduco solo dal fatto che il referto ha smesso di aggiornarsi proprio il 18/8, lo stesso giorno
+dell'incidente del doppio worker (poi risolto la sera stessa). Non ho nemmeno potuto verificare se
+il servizio principale della macchina (mycity-worker) sia oggi acceso o spento: l'ultimo dato certo
+su questo è di tre giorni fa. Non è la stessa causa della card #104 (quella è un permesso di
+scrittura della sessione AD, questo è un timer di sistema del server): le ho tenute separate.
+
+- **Colore:** 🟡 — tocca servizi veri sul server (restart), ma è reversibile e non tocca dati di
+  negozi o clienti.
+- **Reparto:** devops-sre
+- **Origine:** `{origine:sentinella-checkup-fermo-21-8, referto:salute.json, ultimo_vps:2026-08-18T04:50:15Z, gap_ore:~70}`
+
+---
+
 ### 🔴 #125 — Firma le 4 migrazioni database rimaste indietro: senza, i rimborsi restano rotti · ⏳ accodata 2026-08-18 08:04
 
 **Cosa cambia:** il codice nuovo del sito è online su Vercel dalla mattina del 18/8 (PR marketplace
