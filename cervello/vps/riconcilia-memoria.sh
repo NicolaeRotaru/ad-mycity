@@ -46,12 +46,38 @@ git fetch origin "$RAMO" --quiet 2>/dev/null || { echo "❌ non riesco a scarica
 SOLO_QUI="$(git rev-list --count "origin/$RAMO..HEAD" 2>/dev/null || echo 0)"
 SOLO_LA="$(git rev-list --count "HEAD..origin/$RAMO" 2>/dev/null || echo 0)"
 
+# 🔦 LA ZONA CIECA CHE MI HA FREGATO, e come si guarda. Il 21/8 alle 03:35 il server dichiarava 28
+# commit di memoria fermi; alle 03:43 questo copione ne contava ZERO e diceva «niente da salvare».
+# Non erano stati pubblicati — su GitHub l'ultimo commit del server è del 18/8 alle 08:56. Erano
+# stati STACCATI dal ramo, quasi certamente da un riallineamento automatico che sposta il ramo su
+# origin/main. Il conto qui sopra guarda solo ciò che si raggiunge da HEAD: il lavoro staccato è
+# invisibile, e il verde che ne esce è la bugia peggiore che questo attrezzo possa dire, perché
+# arriva un istante prima di allineare.
+#
+# Il registro dei movimenti (`git reflog`) tiene ogni posizione passata di HEAD per ~90 giorni. Di
+# lì si ripescano i commit che non stanno né su origin/main né su HEAD: sono, per definizione, il
+# lavoro del server rimasto senza casa.
+ORFANI="$(git rev-list $(git reflog --format=%H 2>/dev/null | sort -u | tr '\n' ' ') HEAD --not "origin/$RAMO" 2>/dev/null | sort -u || true)"
+ORFANI_N="$(printf '%s' "$ORFANI" | grep -c . || true)"
+# Le PUNTE: i commit orfani che nessun altro orfano ha come antenato. Sono quelli da agganciare a un
+# ramo — attaccata la punta, tutta la catena sotto torna raggiungibile.
+PUNTE=""
+for c in $ORFANI; do
+  e_antenato=0
+  for altro in $ORFANI; do
+    [ "$c" = "$altro" ] && continue
+    if git merge-base --is-ancestor "$c" "$altro" 2>/dev/null; then e_antenato=1; break; fi
+  done
+  [ "$e_antenato" = "0" ] && PUNTE="$PUNTE $c"
+done
+
 echo "   commit che ha solo il server: $SOLO_QUI"
 echo "   commit che ha solo GitHub:    $SOLO_LA"
+echo "   commit suoi rimasti senza ramo (dal registro dei movimenti): $ORFANI_N"
 echo
 
-if [ "$SOLO_QUI" = "0" ]; then
-  echo "✅ il server non ha niente di suo da salvare: basta allinearsi."
+if [ "$SOLO_QUI" = "0" ] && [ "$ORFANI_N" = "0" ]; then
+  echo "✅ il server non ha niente di suo da salvare, né sul ramo né staccato: basta allinearsi."
   [ "$ESEGUI" = "1" ] && git reset --hard "origin/$RAMO" --quiet && echo "   allineato a origin/$RAMO"
   exit 0
 fi
@@ -87,8 +113,26 @@ fi
 
 # ① ARCHIVIO — prima di qualunque cosa, e verificato.
 mkdir -p "$ARCHIVIO"
-git bundle create "$ARCHIVIO/commit-del-server.bundle" "origin/$RAMO..HEAD" --quiet 2>/dev/null \
-  || git bundle create "$ARCHIVIO/commit-del-server.bundle" HEAD --quiet
+
+# ①a I COMMIT SENZA RAMO, agganciati a un ramo vero. Un file di archivio si può perdere; un ramo no:
+# finché un commit è raggiungibile da un ramo, git non lo tocca mai. Questo è il salvataggio che
+# conta, e va fatto PRIMA del bundle — se il resto della procedura si rompe a metà, il lavoro del
+# server è già al sicuro.
+RAMI_SALVATI=""
+if [ "$ORFANI_N" != "0" ]; then
+  i=0
+  for punta in $PUNTE; do
+    i=$((i + 1))
+    nome="memoria-server-$STAMPO-$i"
+    if git branch "$nome" "$punta" 2>/dev/null; then
+      RAMI_SALVATI="$RAMI_SALVATI $nome"
+      echo "   🌿 $ORFANI_N commit senza ramo agganciati a: $nome"
+    fi
+  done
+fi
+
+git bundle create "$ARCHIVIO/commit-del-server.bundle" "origin/$RAMO..HEAD" $RAMI_SALVATI --quiet 2>/dev/null \
+  || git bundle create "$ARCHIVIO/commit-del-server.bundle" HEAD $RAMI_SALVATI --quiet
 git log "origin/$RAMO..HEAD" > "$ARCHIVIO/elenco-commit.txt"
 # Anche la roba NON committata: `reset --hard` la porterebbe via, e sul server ce n'è spesso — file
 # portati a mano da main quando il cancello del commit li blocca. Se non l'archiviassi qui, sarebbe
@@ -111,5 +155,10 @@ echo "📦 archiviato e riletto: $ARCHIVIO"
 git reset --hard "origin/$RAMO" --quiet
 echo "✅ ramo allineato a origin/$RAMO — il server ricomincia a pubblicare dal prossimo giro."
 echo
-echo "   I venti commit non sono persi: stanno nel bundle, e si rileggono con"
+if [ -n "$RAMI_SALVATI" ]; then
+  echo "   Il lavoro che era rimasto senza ramo adesso vive qui:$RAMI_SALVATI"
+  echo "   (git log$RAMI_SALVATI  per rileggerlo — non scade e non si perde)"
+  echo
+fi
+echo "   E sta anche nel bundle, che si rilegge con"
 echo "   git log FETCH_HEAD dopo  git fetch \"$ARCHIVIO/commit-del-server.bundle\" HEAD"

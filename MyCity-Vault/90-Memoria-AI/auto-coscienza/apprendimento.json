@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-21 03:27",
+ "aggiornato": "2026-08-21 03:48",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11562,6 +11562,10 @@
     {
      "quando": "2026-08-21 03:27",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-21 03:48",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -11808,6 +11812,10 @@
     {
      "quando": "2026-08-21 03:27",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-21 03:48",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -11856,6 +11864,10 @@
     },
     {
      "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-21 03:48",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
