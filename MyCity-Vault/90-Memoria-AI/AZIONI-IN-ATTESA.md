@@ -22,30 +22,30 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🟡 #138 — Riconcilia la memoria ferma sul server: prima guarda, poi decidi · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 03:25
+### 🟡 #138 — Rilancia il controllo della memoria: adesso vede anche quello che prima gli sfuggiva · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 04:05
 
-**Cosa cambia:** la macchina è ripartita alle 02:48 e il disco adesso si spazza da solo, quindi quel
-blocco non torna. Resta l'ultima cosa: il server ha venti scritture di memoria che non è mai riuscito
-a pubblicare, e ogni cinque minuti riprova e fallisce.
+**Cosa cambia:** stanotte l'attrezzo ti ha detto «niente da salvare» mentre ventotto scritture del
+server erano appena state staccate dal ramo. Guardava solo il ramo, e il lavoro staccato dal ramo per
+lui non esisteva. Era un verde sbagliato, e arrivava un attimo prima di allineare: il momento
+peggiore per sbagliarsi.
 
-Ho costruito l'attrezzo che le riconcilia. Non le cancella: le mette prima in un archivio da cui si
-ripescano intere, e solo dopo riallinea il server. La prova che il ripescaggio funziona gira in
-automatico a ogni giro.
+Adesso guarda anche nel registro dei movimenti, dove git tiene per tre mesi tutto quello che è stato
+staccato. E quando trova qualcosa non si limita ad archiviarlo: lo **aggancia a un ramo vero**, così
+non scade più. Un file di archivio si perde, un ramo no.
 
-**Se va bene:** prima guarda cosa farebbe, senza toccare niente:
+**Se va bene:** rilancia lo stesso comando di stanotte. Non tocca niente:
 
 ```
 cd /opt/mycity/ad-mycity
 bash cervello/vps/riconcilia-memoria.sh
 ```
 
-Ti stampa i venti commit, e li divide in due: i report che i motori rifanno da soli, e la storia vera
-(briefing, decisioni) che non si rigenera. **Mandami quello che esce.** Se la storia è poca o zero,
-si esegue e finisce lì. Se invece c'è roba che vale, la recuperiamo prima.
+Stavolta c'è una riga in più: «commit suoi rimasti senza ramo». Se quel numero è maggiore di zero, i
+ventotto sono ancora recuperabili — **mandamela** e li mettiamo al sicuro. Se è zero, allora erano già
+stati riassorbiti e te lo dico chiaro.
 
-**Cosa non ho verificato:** cosa contengano davvero quei venti commit — da qui il server non lo vedo,
-e per questo l'attrezzo parte in sola lettura. L'archivio e il riallineamento li ho provati su una
-finta che riproduce la divergenza vera.
+**Cosa non ho verificato:** se sul server quei commit siano ancora nel registro. Da qui non lo vedo:
+è la ragione per cui il comando parte in sola lettura e la risposta la dà lui, non io.
 
 ---
 

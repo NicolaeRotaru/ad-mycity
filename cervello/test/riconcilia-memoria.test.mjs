@@ -148,6 +148,74 @@ prova("il lavoro del server si ripesca davvero dall'archivio", () => {
   }
 });
 
+// ── La zona cieca: il lavoro STACCATO dal ramo ────────────────────────────────────────────────────
+//
+// Il 21/8 il server dichiarava 28 commit di memoria fermi alle 03:35. Alle 03:43 questo copione ne
+// contava ZERO e diceva «niente da salvare» — mentre su GitHub l'ultimo commit del server era del
+// 18/8. Non erano stati pubblicati: erano stati staccati dal ramo da un riallineamento automatico.
+// Il conto guardava solo ciò che si raggiunge da HEAD, e un verde che arriva un istante prima di
+// allineare è il modo più diretto di buttare via il lavoro che si era promesso di salvare.
+//
+// Queste due prove diventano rosse se il copione smette di guardare nel registro dei movimenti.
+
+/** Come sul server: i commit del server esistono, poi qualcosa sposta il ramo su origin/main. */
+function seminaOrfani() {
+  const f = seminaDivergenza();
+  git(f.server, "fetch", "-q", "origin", "main");
+  git(f.server, "reset", "--hard", "origin/main"); // ← il riallineamento che stacca tutto
+  return f;
+}
+
+prova("vede il lavoro staccato dal ramo e NON dice «niente da salvare»", () => {
+  const { base, origin, server } = seminaOrfani();
+  try {
+    // il conto vecchio, quello che mi aveva ingannata, adesso è zero su entrambi i versi
+    assert.equal(git(server, "rev-list", "--count", "origin/main..HEAD").trim(), "0", "la finta non riproduce il caso");
+
+    const r = lancia(server, origin);
+    assert.doesNotMatch(
+      r.stdout,
+      /niente di suo da salvare/,
+      `dice che non c'è niente da salvare mentre il lavoro è staccato:\n${r.stdout}`,
+    );
+    assert.match(r.stdout, /rimasti senza ramo[^\n]*[1-9]/, `non conta gli orfani:\n${r.stdout}`);
+  } finally {
+    rmSync(base, { recursive: true, force: true });
+  }
+});
+
+prova("aggancia il lavoro staccato a un ramo vero, e da lì si rilegge", () => {
+  // Il bundle è un file e i file si perdono. Un ramo no: finché un commit è raggiungibile da un
+  // ramo, git non lo tocca. È QUESTO il salvataggio che conta.
+  const { base, origin, server } = seminaOrfani();
+  try {
+    const r = lancia(server, origin, "--esegui");
+    assert.equal(r.status, 0, `uscita ${r.status}\n${r.stdout}${r.stderr}`);
+
+    const rami = git(server, "branch", "--list", "memoria-server-*")
+      .split("\n")
+      .map((x) => x.replace("*", "").trim())
+      .filter(Boolean);
+    assert.ok(rami.length > 0, `nessun ramo di salvataggio creato:\n${r.stdout}`);
+
+    // il contenuto che esisteva SOLO nei commit staccati deve rileggersi da lì
+    let trovato = false;
+    for (const ramo of rami) {
+      const out = spawnSync("git", ["show", `${ramo}:MyCity-Vault/90-Memoria-AI/Briefing/2026-08-19.md`], {
+        cwd: server,
+        encoding: "utf8",
+      });
+      if (out.status === 0 && /IL-BRIEFING-CHE-SOLO-IL-SERVER-HA/.test(out.stdout)) trovato = true;
+    }
+    assert.ok(trovato, `i rami di salvataggio non contengono il lavoro del server: ${rami.join(", ")}`);
+
+    // e il ramo di lavoro resta allineato a GitHub: il server riparte
+    assert.equal(git(server, "rev-parse", "HEAD").trim(), git(server, "rev-parse", "origin/main").trim());
+  } finally {
+    rmSync(base, { recursive: true, force: true });
+  }
+});
+
 let falliti = 0;
 for (const c of casi) {
   console.log(`${c.ok ? "  ok" : "not ok"} - ${c.nome}${c.ok ? "" : `\n      ${c.err}`}`);
