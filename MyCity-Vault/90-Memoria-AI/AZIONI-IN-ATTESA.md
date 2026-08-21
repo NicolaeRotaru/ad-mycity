@@ -92,67 +92,91 @@ stesso che già guarda Bash, e che la lista è una sola.
 
 ---
 
-### 🔴 #143 — Riaccendi la macchina sul server: è ferma da tre giorni · ⏳ accodata 2026-08-21 15:02
+### 🔴 #143 — Il server lavora, ma cinque sveglie su sei non suonano più · ⏳ accodata 2026-08-21 15:02 · ✏️ riscritta 17:05
 
-**In parole semplici:** la macchina che lavora per MyCity non gira su questo computer, gira su un
-server acceso ventiquattro ore su ventiquattro. Quel server ha smesso di lavorare **lunedì 18 agosto
-alle 8:55 del mattino**. Da allora non ha fatto più niente: nessun giro, nessun piano del mattino,
-nessun report della sera. Sono settantasette ore.
+> **In due righe.** Il server è tornato a lavorare da solo. La prima versione di questa carta diceva
+> «riaccendilo», ed era sbagliata. Il guasto vero è un altro: cinque delle sue sei sveglie non
+> suonano più, e due erano già rotte da prima.
 
-Non se n'è accorto nessuno perché il Pannello continuava a mostrare i numeri dell'ultima volta che
-la macchina aveva lavorato, senza dire che erano vecchi. Un cruscotto che mostra la benzina di tre
-giorni fa non sembra rotto: sembra pieno.
+> ⚠️ **La correzione, e va detta per prima.** Alle 15:02 questa carta diceva «riaccendi il server, è
+> fermo da tre giorni». **Non è più vero.** Il server è ripartito da solo nel pomeriggio: ha scritto
+> l'ultima volta alle **16:46**, tre minuti prima che me ne accorgessi.
+>
+> L'avevo dato per morto guardando il suo riflesso. Il riflesso era l'ultimo referto che aveva
+> pubblicato, fermo a lunedì mattina. I suoi commit di oggi, intanto, erano lì da vedere.
+>
+> È lo stesso errore che ho passato la giornata a riparare negli altri: guardare un dato vecchio e
+> chiamarlo stato di adesso. E il merito del ritorno non è mio. Il disco era pieno, e l'hai liberato
+> tu a mano.
 
-**Cosa cambia:** finché il server è fermo, tutto quello che la macchina dovrebbe fare da sola non
-succede — controllare i negozi, guardare gli incassi, preparare le proposte da firmarti. Il lavoro
-non è perso, semplicemente non parte. E ogni giorno che passa il Pannello ti racconta una città più
-vecchia di quella vera.
+**In parole semplici.** Questa carta parla del server, cioè il computer sempre acceso che fa
+lavorare la macchina quando tu non ci sei. Serve a dirti quale sua parte funziona e quale no.
 
-**Cosa devi fare:** una cosa sola, sul server. Entra e lancia questo, che ti dice cosa sta
-succedendo prima di toccare niente:
+Il server adesso lavora. Il suo lavoro principale si chiama **giro**: guarda i dati e prepara le
+cose, ed è partito oggi alle 16:33. Quello che non funziona sono le **sveglie**. La macchina ha sei
+orari fissi in cui deve alzarsi da sola, e cinque non suonano più da lunedì 18 agosto.
+
+Quali dormono, e da quanto:
+
+| La sveglia | A che ora dovrebbe suonare | Ferma da |
+|---|---|---|
+| Piano del mattino | 06:00 | 83 ore |
+| Controllo di mezzogiorno | 12:00 | 101 ore |
+| Report della sera | 18:00 | **191 ore** (8 giorni) |
+| Review del venerdì | venerdì 15:00 | **338 ore** (14 giorni) |
+| Monitoraggio | 06:30 | 82 ore |
+| La visita di salute del server | 06:45 e 20:45 | 82 ore |
+
+L'ultima colonna dice una cosa in più. Il blocco del disco è cominciato lunedì 18, cioè circa 82 ore
+fa. Ma il report della sera è fermo da 191 ore e la review del venerdì da 338: **più del doppio e
+più del quadruplo.** Vuol dire che quei due erano già morti prima, e il disco pieno non c'entra.
+
+**Cosa cambia per te.** Non ricevi più il piano del mattino, né il report della sera. E la review
+del venerdì non lascia i suoi quattro compiti: il confronto coi migliori, la peer review fra senior,
+la calibrazione, e la lettera a te. Sono fermi da quasi un mese.
+
+Un esempio di cosa vuol dire in pratica. Venerdì 8 agosto la review avrebbe dovuto lasciarti una
+lettera con cosa era andato bene e cosa no nella settimana. Non l'ha lasciata. Nemmeno il 15. La
+prossima sarebbe venerdì 22, cioè domani, e senza questa carta non arriverebbe neanche quella.
+
+Il server intanto lavora, quindi da fuori sembra tutto acceso. È il motivo per cui nessuno se n'era
+accorto per quattordici giorni.
+
+**Cosa devi fare.** Un comando solo, che ti dice quali sveglie sono spente e perché:
 
 ```
-cd ~/ad-mycity && node cervello/salute.mjs --vps
+systemctl list-timers 'mycity-*' --all
 ```
 
-Poi, per far ripartire il cuore:
+Le sveglie da guardare sono queste cinque: `mycity-ritmo-mattino`, `mycity-ritmo-mezzogiorno`,
+`mycity-ritmo-sera`, `mycity-ritmo-settimana`, `mycity-monitora`, più `mycity-salute`. Se accanto
+leggi `disabled` o `not-found`, si riaccendono così:
 
 ```
-sudo systemctl status mycity-worker          # com'è messo
-sudo systemctl restart mycity-worker         # riaccendilo
-sudo systemctl list-timers 'mycity-*'        # e controlla che i timer siano tutti attivi
+sudo systemctl enable --now mycity-ritmo-mattino.timer mycity-ritmo-mezzogiorno.timer \
+  mycity-ritmo-sera.timer mycity-ritmo-settimana.timer mycity-monitora.timer mycity-salute.timer
 ```
 
-Due timer in particolare erano già morti **prima** del blocco, e vanno guardati con attenzione:
-`mycity-ritmo-sera` (fermo da otto giorni) e `mycity-ritmo-settimana` (fermo da quattordici). Se
-risultano `disabled` o `not-found`, si riattivano così:
+Se invece risultano `active` ma non partono, il problema è in quello che ci gira dentro e non nella
+sveglia: allora serve questo, che dice l'errore vero:
 
 ```
-sudo systemctl enable --now mycity-ritmo-sera.timer mycity-ritmo-settimana.timer
+systemctl status mycity-ritmo-sera.service && journalctl -u mycity-ritmo-sera -n 40 --no-pager
 ```
 
-**Se va bene:** entro un paio d'ore il Pannello torna a scrivere numeri di oggi, e i pallini rossi
-degli organi si spengono da soli — sono quasi tutti figli di questo unico fatto.
+**Se va bene:** domani mattina ricevi di nuovo il piano delle sei, e venerdì la review lascia i suoi
+compiti. Il pallino «le cadenze si alzano davvero» torna verde da solo.
 
-**Cosa non ho verificato:** non ho potuto guardare il server da qui. Da questa sessione vedo solo il
-suo riflesso — l'ultimo referto che ha pubblicato, che è di lunedì mattina. Quindi *non so* se il
-worker sia spento, in crash continuo, o vivo ma senza il motore AI collegato: sono tre guasti
-diversi con tre cure diverse, e il comando qui sopra è quello che lo distingue. So per certo solo
-che da lassù non scrive più nessuno, perché le tracce che ogni processo lascia nel repo sono ferme a
-lunedì 8:55.
+**Cosa non ho verificato.** Le sveglie non le posso vedere da qui: da questa sessione non arrivo a
+`systemctl`. Quello che ho misurato è **l'effetto** — l'orario dell'ultima volta che ognuna ha
+prodotto qualcosa, letto dentro i file che scrive. Quindi *non so* se siano spente, o accese ma con
+un errore dentro: sono due guasti diversi con due cure diverse, ed è per questo che il primo comando
+qui sopra guarda prima di toccare. So per certo che il worker è vivo, perché i suoi commit di oggi
+li leggo.
 
-**Una cosa l'ho già riparata da qui, ed è quella che secondo me l'ha inceppato.** La procedura che
-pubblica la memoria si era piantata: rimandava sé stessa da 422 giri di fila, cioè da circa sette
-ore, e ogni singolo rinvio risultava verde. Il motivo era un'uscita di sicurezza con un buco —
-bastava un file di codice lasciato a metà da una sessione interrotta perché il rinvio non scadesse
-mai. Era già successo il 30 luglio, con 1716 rinvii e trentun ore di blocco. Adesso l'attesa ha un
-tetto: oltre quattro ore la macchina mette il lavoro sporco al sicuro con un commit e riprende.
-Il codice è in questa PR, quindi arriverà sul server appena la unisci.
-
-**Dettagli tecnici** — referto: `consegne/salute/2026-08-21-1418-claude.md` · organi rossi da qui:
-`worker.ponte`, `worker.tracce`, `worker.cadenze` · dal referto VPS del 18/8: `worker.servizi`
-(mycity-worker non attivo), `worker.pubblicazione` (422 rinvii), `worker.automazione` (8 falliti) ·
-prova delle cadenze: `node cervello/freschezza-cadenze.mjs`.
+**Dettagli tecnici** — prova: `node cervello/freschezza-cadenze.mjs` · unità in
+`cervello/vps/mycity-*.timer`, tutte scritte correttamente nel repo (fuso dichiarato,
+`Persistent=true`), quindi la causa è sul server · ultimo commit del server: `66dab11`, 21/08 16:46.
 
 ---
 
@@ -2279,4 +2303,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 123 | 2026-08-17 16:33 | @tech | I test del cervello dicono no da tre giri di fila, e da qui in chat non riesco più a rilanciarli | 🟡 | `test-cervello.mjs` è entrato nell'elenco dei controlli "cronici" (AR-687: rosso da ≥3 giri senza mai essere riparato). Non riesco a verificarlo dal vivo in questa sessione: il comando resta fuori dall'elenco esatto dei programmi ammessi (stesso buco della card #104/#42), quindi ogni tentativo viene respinto prima ancora di girare. Quello che vedo indirettamente da `ci-stato.mjs` è coerente: le 5 PR aperte oggi (#754, #753, #749, #741, #735) falliscono tutte anche su "test-del-cervello", ognuna per colpa propria (non ereditata da `main`) — cinque rami diversi che rompono lo stesso controllo è il segnale che il problema non è un caso isolato. | manuale | in attesa | Finché resta rosso e non verificabile da qui, nessuna delle 5 PR di codice-macchina può dirsi davvero pronta al merge, anche quando sembra a posto: il cancello di serietà (CLAUDE.md) vieta di dichiarare "fatto" con i test rossi. | Applicando la card #104 (le 5 righe di permesso mancanti) sblocco `test-cervello.mjs` da qui e lo rilancio nello stesso giro in cui la card viene approvata; altrimenti serve una sessione dal VPS che lo rilanci e riporti l'esito. |
 | 124 | 2026-08-18 06:41 | @ad | Controlla perché il monitoraggio automatico scrive testi difficili da leggere | 🟡 | Il cancello di fine turno ha trovato frasi difficili in 5 file. Sono `Intelligence/buchi-mercato.md`, `Intelligence/eventi-picchi.md`, `Intelligence/reputazione.md`, `RITMO.md`, `AZIONI-IN-ATTESA.md`. Non li ho scritti io in questo giro. Le date sui file dicono 06:07-06:39 di oggi. Io in questo giro ho toccato solo altri quattro file, tra le 06:40 e le 06:45 — verificato con `stat` e `git status --short`. La causa più probabile è il monitoraggio che gira da solo, `cervello/monitora.md` ("Ondata 3"). Scrive dentro questi file senza passare da `si-capisce.mjs`. Quel controllo misura quanto un testo è difficile da leggere. Il problema tipico sono frasi lunghe con un'idea dentro l'altra. Un esempio vero, da `eventi-picchi.md`: "Media/bassa per MyCity — fuori Piacenza città (Val Tidone)". Il lettore deve tenere in sospeso "Media/bassa" fino alla fine della frase per capire di cosa parla. | manuale | in attesa | Se questi testi restano così, ogni volta che apri Intelligence o Ritmo fai più fatica del necessario per capirli. Il problema si accumula da solo, un giro dopo l'altro, perché nessuno lo controlla prima di scrivere. | Dimmi tu quale preferisci. Primo: aggiungo `si-capisce.mjs` come controllo dentro `cervello/monitora.md`, prima che scriva — così il problema si ferma alla radice. Secondo: lascio così per ora e lo correggo io a mano una volta a settimana. |
 | 125 | 2026-08-18 08:04 | @backend-dev | Il sito appena pubblicato chiede al database dieci cose che lì non ci sono, e i rimborsi non partono più | 🔴 | Hai unito la richiesta 223 del marketplace alle 07:33. Vercel ha subito messo online il codice nuovo, e la pubblicazione risulta pronta. Quel lavoro però era fatto di due metà. Una metà è il codice del sito. L'altra metà sono quattro modifiche al database, i file numerati da 114 a 117. Il codice è andato online da solo. Le quattro modifiche no, perché toccare il database vero è una firma tua. Ho letto il database di produzione senza scriverci niente. L'ultima modifica applicata è la 113. Il codice nuovo cerca dieci cose nel database, e non ne trova nessuna delle dieci. **Cosa è rotto adesso.** Primo, e più grave: i rimborsi. Il sito cerca l'ordine da rimborsare e chiede anche un dato che nel database non c'è ancora. Riceve un errore e si ferma dicendo «ordine non trovato». Sono ferme tutte e quattro le strade che restituiscono soldi a un cliente. La prima è annullare un ordine dal pannello. La seconda è decidere su un reso. La terza è risolvere una contestazione della banca. La quarta è rimborsare un ordine scaduto. Ieri funzionavano tutte e quattro. È un peggioramento nato stamattina con la pubblicazione. Secondo: i rimborsi pieni che arrivano da Stripe non trovano più l'ordine, e vengono ignorati in silenzio. Terzo: i codici sconto. Chi scrive un codice buono si sente rispondere «Codice non valido». Comprare funziona ancora, perché il conto vero lo rifà il server per un'altra strada. Quarto: il salvataggio dei consensi sui cookie risponde errore. Quinto: non caricano i numeri del pannello di amministrazione e la pagina recensioni del fattorino. Due cose invece reggono senza rompersi. Sono la vetrina «dal vivo» in home e il carosello degli sponsorizzati, che restano solo vuoti. **E la parte che pesa di più.** Le prime due modifiche, la 114 e la 115, sono quelle che chiudono i buchi di sicurezza. Finché non le applichi, quei buchi restano aperti sul database vero. Sono tre. Indirizzi e telefoni dei clienti si leggono senza avere un account. Chi si registra come venditore si approva da solo. Gli ordini si modificano dal browser. L'elenco preciso dei dieci pezzi mancanti sta nella richiesta di unione 763 della macchina. | supabase | ✅ CHIUSA 2026-08-18 09:20 — applicate tutte e quattro al database di produzione dopo il tuo via. Verificati 13 oggetti su 13. Il controllo degli ordini non cita piu il campo cancellato a giugno. Nessuna vetrina piu scrivibile senza account, codici sconto non piu scaricabili in blocco, ordini non piu modificabili dal browser, il fattorino non vede piu la riga intera del cliente. Pane Quotidiano resta approvato: e tornato in attesa un solo profilo, il fattorino demo. Correzione mia successiva: avevo scritto EUR dove il file diceva €, rimesso a posto e ricontrollate tutte e 12 le frasi che legge il cliente, ora identiche al repo. | I rimborsi ai clienti non partono più da nessuna delle quattro strade del sito. Se oggi qualcuno chiede indietro dei soldi, l'operazione fallisce con un errore. I soldi restano fermi. In più il database resta senza le tre protezioni che la richiesta appena unita doveva portargli. | Al tuo via applico i quattro file al database di produzione, nell'ordine da 114 a 117. Poi ricontrollo i dieci pezzi uno per uno e ti dico quanti ne trovo. I file sono già dentro il ramo principale del marketplace, nella cartella delle migrazioni. Girano puliti su un database vuoto: 118 file su 118, nessun errore. Se preferisci farlo tu, incollali in quell'ordine nell'editor di Supabase. |
-| 126 | 2026-08-21 16:35 | @tech | Merge PR #804 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/804 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 145 | 2026-08-21 16:35 | @tech | Merge PR #804 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/804 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
