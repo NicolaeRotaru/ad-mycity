@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-21 16:46",
+  "aggiornato": "2026-08-21 18:25",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16449,6 +16449,28 @@
         "comando": "node cervello/test/chi-va-in-turno.test.mjs"
       },
       "nota_prova": "Due casi nuovi accanto a quello che era già rosso: «i passaggi pendenti non possono prendersi tutto il turno» e «i passaggi pendenti ruotano anche fra loro». Servono tutti e due perché il fix ha due metà e una sola prova le confondeva: rotti apposta, tolto il tetto → rosso il primo; tolta la rotazione fra i passaggi → rosso il secondo; nessuno dei due uccide l'altro."
+    },
+    {
+      "id": "AR-779",
+      "stato": "chiuso",
+      "dimensione": "processi",
+      "gravita": "grave",
+      "colore": "🟡",
+      "titolo": "Chi scrive in coda si contava i numeri per conto suo, e ha dato a una card nuova un numero già in mano a un'altra",
+      "causa_radice": "In git-pr.mjs, accodaAzione() aveva la sua funzione privata nextAzioneNumber(): leggeva SOLO le righe della tabella (`| 42 | …`) e ignorava le card scritte come titolo (`### ✅ #126 — …`). I due elenchi vivono nello stesso spazio di numeri. Misurato il 21/8 sulla coda vera: righe-tabella fino a 125, card-titolo fino a 142. La copia privata ha risposto 126 — numero che una card del 19 agosto teneva già dal suo giorno di nascita. Da quel momento «ok 126» era una domanda con due risposte, e la prova carte-numerate.test.mjs è diventata rossa su main. La risposta giusta esisteva da giorni: prossimoNumero() in pausa-coda.mjs conta ENTRAMBE le forme, e il suo commento racconta lo stesso guasto capitato il 16 agosto col numero 81. Quel giorno la riparazione toccò un file solo, e la copia dentro git-pr.mjs non lo seppe. È la malattia che il repo chiama «una parola con due padroni».",
+      "fix_proposto": "Togliere la copia privata: accodaAzione chiede il numero a prossimoNumero(), unico padrone della domanda. Per poterlo provare, la costruzione della riga esce da accodaAzione in una funzione esportata rigaDaAccodare(content, …): finché il numero si sceglieva dentro una funzione che legge e scrive il file vero, nessun test poteva chiamarla — ed è per questo che la prova §4 era verde mentre main era rosso.",
+      "dove": "cervello/git-pr.mjs (accodaAzione, rigaDaAccodare)",
+      "impatto_crescita": "sporca il canale con cui Nicola firma: due card con lo stesso numero rendono ambiguo «ok 126», quindi una firma può eseguire l'azione sbagliata — e intanto la CI resta rossa su main, che è il ramo da cui il Pannello legge",
+      "nato": "2026-08-21 17:40",
+      "nato_come": "scoperta",
+      "nato_da": "CI rossa sulla PR #805 su carte-numerate.test.mjs («due card portano lo stesso numero — 142 !== 143»); verificato che il doppione esisteva già su main, scritto dal server alle 16:35, non dalla mia modifica",
+      "origine": "CI/cancello di NicolaeRotaru/ad-mycity, prova «ogni card ha un numero suo».",
+      "nota": "La prova che l'ha scoperto esisteva già dal 16 agosto e copriva prossimoNumero. Copriva chi CALCOLA il numero, non chi lo SCRIVE: il vero autore della riga non era mai stato provato.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/carte-numerate.test.mjs"
+      },
+      "nota_prova": "Un caso nuovo (§5) che chiama rigaDaAccodare di git-pr.mjs con una coda finta dove la card-titolo (142) sta sopra ogni riga-tabella (125). Rimessa dentro la copia privata, la prova torna rossa dicendo il numero vero del guasto: «ha scelto 126». Mutazione dichiarata in cervello/mutanti.json e verificata con node cervello/non-vacuita.mjs."
     }
   ],
   "meta": {

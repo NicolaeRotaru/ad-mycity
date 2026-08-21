@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-21 16:45",
+ "aggiornato": "2026-08-21 18:30",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12353,6 +12353,19 @@
    "testo": "**Due meccanismi sullo stesso dato, che non si parlano, fanno il danno di uno rotto.** Un pezzo registrava che una lezione aveva fermato un errore; un altro, sullo stesso archivio, la buttava via un mese dopo perche' guardava solo la data dell'ultima conferma. Nessuno dei due era sbagliato da solo. Quando si aggiunge un segnale nuovo (l'uso), bisogna chiedersi CHI ALTRO decide su quel dato e non lo sta guardando — altrimenti si costruiscono due forze che tirano in direzioni opposte. E l'eccezione va messa dove la decisione si prende, non in un bypass a monte.",
    "regola": "Quando aggiungi un segnale a un dato condiviso, cerca tutti quelli che decidono su quel dato e chiediti se il segnale nuovo li riguarda. E ogni privilegio va legato a una condizione verificabile che puo' decadere: qui il freno vale finche' il suo FILE esiste, non finche' la stringa e' scritta.",
    "gate": "node cervello/test/archivi-senza-tetto.test.mjs"
+  },
+  {
+   "id": "L-2026-0821-01",
+   "data": "2026-08-21 18:30",
+   "nato": "2026-08-21",
+   "ultima_conferma": "2026-08-21 18:30",
+   "stato": "attiva",
+   "confidenza": 0.8,
+   "evidenze": 2,
+   "fonte": "AR-779: la CI rossa su main il 21/8 per due card col numero 126 — stesso guasto del 16/8 col numero 81, riparato allora in un file solo",
+   "testo": "**Riparare la risposta non basta: va riparato anche chi la chiede.** Il 16 agosto la coda diede il numero 81 a due card. Fu riparata la funzione che CALCOLA il numero, e la prova nacque lì. Il 21 agosto lo stesso guasto è tornato dall'altro capo: chi SCRIVE la riga se n'era tenuta una copia privata, che contava le righe della tabella e ignorava le card scritte come titolo. Risultato: la prova era verde e main era rosso. Una prova puntata su chi calcola non vede chi scrive. Ci sono due segnali che l'avrebbero fatta trovare prima: una funzione privata che risponde a una domanda già di qualcun altro, e una funzione che non si può chiamare da un test perché legge e scrive il file vero.",
+   "regola": "Quando ripari una risposta condivisa, cerca tutte le copie di quella domanda prima di chiudere, e punta la prova su CHI SCRIVE il risultato, non solo su chi lo calcola. Se chi scrive non si può chiamare da una prova perché tocca il file vero, la parte che decide esce in una funzione a cui il testo entra come argomento: finché non si può chiamare, non si può vedere sbagliare.",
+   "gate": "node cervello/test/carte-numerate.test.mjs"
   }
  ],
  "principi": [

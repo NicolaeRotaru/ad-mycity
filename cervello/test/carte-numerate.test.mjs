@@ -14,7 +14,7 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { blocchiCoda, trovaAzione } from "../consenso-azione.mjs";
 import { lettoreDellaCabina } from "../coda-cabina.mjs";
-import { prossimoNumero } from "../pausa-coda.mjs";
+import { numeriUsati, prossimoNumero } from "../pausa-coda.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -162,4 +162,34 @@ test("nel file vero le card pendenti sono in ordine: la più nuova in alto", () 
     .map((r) => Number((r.match(/#(\d+)\s+[—–-]/u) || [])[1]));
   const ordinati = [...numeri].sort((a, b) => b - a);
   assert.deepEqual(numeri, ordinati, "le card pendenti non sono in ordine decrescente");
+});
+
+// ── 5) …e chi SCRIVE la riga deve chiedere a quello lì, non contarsi i numeri da sé ──────
+// Il 21/8 la prova §4 era verde e main era comunque rosso. Perché §4 provava `prossimoNumero`,
+// e chi scriveva davvero in coda era `git-pr.mjs`, che se n'era tenuta una copia privata: contava
+// le righe-tabella e ignorava le card scritte come titolo. Righe fino a 125, titoli fino a 142 →
+// ha scritto 126, numero che una card del 19 agosto aveva già.
+//
+// È la stessa malattia del 16 agosto (il numero 81), riparata allora in un file solo. Questa prova
+// guarda l'altro: mette in coda una card-titolo più alta di ogni riga-tabella e chiede a git-pr.mjs
+// che numero scriverebbe. Con una copia privata che conta solo le righe, torna rossa.
+test("git-pr.mjs chiede il numero a chi lo distribuisce, non se lo conta da solo", async () => {
+  const { rigaDaAccodare } = await import("../git-pr.mjs");
+  const coda = [
+    "### ✅ #142 — Una card scritta come titolo · ⏳ accodata 2026-08-19 09:10",
+    "",
+    "| 125 | 2026-08-21 16:35 | @tech | Una card scritta come riga | 🔴 | url | github | in attesa | x | y |",
+  ].join("\n");
+
+  const { num, row } = rigaDaAccodare(coda, {
+    prUrl: "https://github.com/NicolaeRotaru/ad-mycity/pull/999",
+    prNumber: 999,
+    base: "main",
+    repoLabel: "ad-mycity",
+    when: "2026-08-21 18:00",
+  });
+
+  assert.equal(num, 143, `ha scelto ${num}: sta guardando solo le righe-tabella, non le card-titolo`);
+  assert.ok(!numeriUsati(coda).has(num), `il numero ${num} è già di una card che esiste`);
+  assert.ok(row.startsWith(`| ${num} |`), "il numero scritto nella riga non è quello scelto");
 });
