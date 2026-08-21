@@ -2142,3 +2142,23 @@ lì finché #104 non è risolta e un push pulito è di nuovo possibile.
 restano bloccati dal permesso in questa sessione — stesso buco di card #104/#74, non ridiagnosticato.
 **Non fatto in questo turno:** il codice del fix (dormienti.mjs + wiring). Serve una sessione con
 main non divergente per aprire il branch da `origin/main` pulito.
+
+## 2026-08-21 06:05 — 🟡 CORREZIONE: AR-770 era un doppione — il fix vero esiste già, PR #791 già in coda (AR-770 chiuso come duplicato)
+**Cosa è successo davvero.** Guardando i branch locali per un altro motivo, ho trovato
+`fix/sentinella-comando-dormienti-sbagliato`: stesso identico difetto di AR-770, già diagnosticato
+e già riparato in un turno precedente di **questa stessa sessione**, prima che il contesto venisse
+riassunto — io l'ho rifatto da capo senza saperlo, perché il testo della card automatica (che non si
+autoaggiorna finché il fix non è mergiato) sembrava descrivere un problema ancora aperto.
+**Il fix vero, molto più semplice del mio.** Non serve un `dormienti.mjs` nuovo: `cervello/utilizzo-senior.mjs`
+esiste già e calcola già `dormienti_mai_usati`. Il difetto era solo il nome sbagliato scritto nel
+`prompt` della card (`sentinella-dati.mjs:634`): `letargo.mjs` → `utilizzo-senior.mjs`. Una riga.
+Testato: `node --test cervello/test/c6-quaderni-fermi.test.mjs` → 5/5 verdi (verificato sul branch).
+**Stato reale:** PR #791 già aperta su GitHub, già accodata in `AZIONI-IN-ATTESA.md` riga 1746
+(«Merge PR #791 ad-mycity → main», in attesa dal 21/8 05:16). **Non serve nessuna azione nuova da
+Nicola oltre a quella già in coda: approvare quella PR.**
+**Pulizia fatta.** Ho tolto AR-770 dal cantiere (proponeva di costruire una cosa che non serve) —
+non riscrivo la riga di sopra (05:52) perché il log è append-only, ma va letta sapendo che la sua
+diagnosi era giusta, la sua proposta di fix no, ed era comunque un lavoro già fatto da un'altra me.
+**Lezione.** Prima di re-indagare un tema che una card automatica descrive come aperto, controllare
+`git branch` e le PR aperte — soprattutto dentro la stessa sessione, dove un riassunto del contesto
+può aver cancellato il ricordo di un lavoro appena concluso senza cancellare il lavoro stesso.
