@@ -5301,6 +5301,22 @@
    "cerca": "    if (MAI_TOCCARE.some((p) => nome.startsWith(p))) continue; // roba viva: prima di tutto il resto",
    "sostituisci": "    // mutante: nessuna protezione per la roba viva",
    "test": "node cervello/test/spazza-temporanei.test.mjs"
+  },
+  {
+   "difetto": "AR-778 tetto-ai-passaggi",
+   "nome": "i passaggi pendenti tornano senza tetto e si riprendono tutto il turno: gli stessi sei nomi ogni giorno",
+   "file": "cervello/turno-senior.mjs",
+   "cerca": "  const quotaPassaggi = Math.max(1, Math.floor(quanti / 2));",
+   "sostituisci": "  const quotaPassaggi = quanti;",
+   "test": "node cervello/test/chi-va-in-turno.test.mjs"
+  },
+  {
+   "difetto": "AR-778 passaggi-che-ruotano",
+   "nome": "i passaggi smettono di ruotare fra loro: nove pendenti su tre posti tornano tre nomi fissi",
+   "file": "cervello/turno-senior.mjs",
+   "cerca": "  for (const h of rotazioneDelGiorno(pendenti, oggi)) aggiungi(h.a, \"passaggio-da-raccogliere\", quotaPassaggi, { handoff: h });",
+   "sostituisci": "  for (const h of pendenti) aggiungi(h.a, \"passaggio-da-raccogliere\", quotaPassaggi, { handoff: h });",
+   "test": "node cervello/test/chi-va-in-turno.test.mjs"
   }
  ]
 }
