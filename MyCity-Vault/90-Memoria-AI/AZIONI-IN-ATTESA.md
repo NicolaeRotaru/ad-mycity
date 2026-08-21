@@ -24,13 +24,11 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #141 — Fai partire il rilascio solo a controlli verdi, non insieme a loro · ⏳ accodata 2026-08-21 03:20
 
-**Cosa cambia:** oggi il rilascio in produzione parte insieme ai controlli, non dopo. Se un
-controllo diventa rosso, il codice rotto è già online.
+**Cosa cambia:** oggi il rilascio parte insieme ai controlli, non dopo. Se un controllo diventa
+rosso, il codice rotto è già online.
 
-La metà buona esiste già ed è scritta: c'è un lavoro che rilascia solo a controlli passati. È spento
-perché gli manca l'indirizzo di rilascio.
-
-Tre mosse, tutte tue perché toccano la produzione.
+La metà buona è già scritta: un lavoro che rilascia solo a controlli passati. È spento perché gli
+manca l'indirizzo di rilascio. Tre mosse, tutte tue perché toccano la produzione.
 
 - **Prima** — Render → il servizio → Settings → Deploy Hook: copia l'indirizzo. Mettilo su GitHub
   come segreto `RENDER_DEPLOY_HOOK`, sotto Settings → Secrets and variables → Actions.
@@ -40,8 +38,8 @@ Tre mosse, tutte tue perché toccano la produzione.
 
 **Se va bene:** in produzione arriva solo quello che ha passato i controlli.
 
-**Cosa non ho verificato:** non ho aperto il pannello di Render e non ho toccato le impostazioni di
-GitHub. Le tre mosse le ho lette dai file del progetto.
+**Cosa non ho verificato:** non ho aperto Render né toccato le impostazioni di GitHub. Le tre mosse
+le ho lette dai file del progetto.
 
 ---
 
@@ -56,17 +54,16 @@ rifiuta la richiesta intera quando una colonna non c'è. Quelle pagine non ricev
 senza bollino: non ricevevano nessun negozio.
 
 Dentro ci sono altre sei riparazioni: il rimborso che toglieva al negozio più del dovuto, il ritiro
-in negozio che arriva finalmente a «consegnato», i ritiri tolti dalla bacheca dei fattorini, gli
-stati del compenso che il database rifiutava, la tabella degli esiti dei pagamenti, il riquadro
-della home in una chiamata sola.
+in negozio che arriva a «consegnato», i ritiri tolti dalla bacheca dei fattorini, gli stati del
+compenso che il database rifiutava, gli esiti dei pagamenti, il riquadro della home.
 
-Il file si chiama `124_radiografia_21_agosto.sql`, nel ramo `claude/marketplace-bugs-njlgi8`.
+Il file è `124_radiografia_21_agosto.sql`, nel ramo `claude/marketplace-bugs-njlgi8`.
 
 **Se va bene:** dimmelo e ti passo il comando esatto.
 
-**Cosa non ho verificato:** non l'ho applicata a nessun database vero. L'ho provata solo su una
-copia di prova qui dentro, ricostruita da zero. Finché non la firmi, metà delle riparazioni non è
-attiva. Il racconto lungo sta in `consegne/audit/2026-08-21-marketplace-ultimi-difetti.md`.
+**Cosa non ho verificato:** non l'ho applicata a nessun database vero, solo a una copia di prova
+qui dentro. Finché non la firmi, metà delle riparazioni non è attiva. Il racconto lungo sta in
+`consegne/audit/2026-08-21-marketplace-ultimi-difetti.md`.
 
 ---
 
@@ -75,15 +72,13 @@ attiva. Il racconto lungo sta in `consegne/audit/2026-08-21-marketplace-ultimi-d
 **Cosa cambia:** due gruppi di controlli si saltano quando mancano i segreti di un progetto di
 prova. Sono quelli sui permessi del database e quelli che aprono il sito in un browser vero.
 
-Da oggi lo dicono in cima al riepilogo invece che dentro il log. Ma restano saltati.
-
-È anche il motivo per cui non ho potuto scrivere i tre giri nel browser che chiudono il difetto
-sulla catena dell'ordine.
+Da oggi lo dicono in cima al riepilogo invece che nel log. Ma restano saltati. È anche il motivo per
+cui non ho potuto scrivere i tre giri nel browser sulla catena dell'ordine.
 
 **Se va bene:** crea un progetto Supabase nuovo e vuoto, mai quello dei clienti. Mettine tre segreti
 su GitHub: `SUPABASE_TEST_URL`, `SUPABASE_TEST_ANON_KEY`, `SUPABASE_TEST_SERVICE_ROLE_KEY`.
 
-**Cosa non ho verificato:** non ho creato nessun progetto e non ho toccato i segreti di GitHub.
+**Cosa non ho verificato:** non ho creato il progetto né toccato i segreti.
 
 ---
 
