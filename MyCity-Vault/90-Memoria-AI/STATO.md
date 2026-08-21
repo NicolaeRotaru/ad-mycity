@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-08-21 20:25
-fonte: AD digitale (report della sera, cervello/ritmo.md)
+aggiornato: 2026-08-21 20:31
+fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔁 **21/8 20:31 — Passaggio lampo, stato identico al giro delle 18:03: 1 ordine (0 pagati), 8 profili, 1 negozio con vetrina, 5 prodotti. Macchina in SOPRAVVIVENZA, quota AI 191% (era 151% alle 16:27).**
 
 > 🔧 **21/8 20:25 — Cantiere chiuso sui difetti che fermano qualcuno: tredici riparati su quindici, ognuno con la sua prova.** Nicola in chat: «ok 148».
 >
@@ -14,7 +16,7 @@ fonte: AD digitale (report della sera, cervello/ritmo.md)
 >
 > **La promessa di consegna adesso è una sola.** Nicola ha risposto: **30-60 minuti**. Riscritte 36 frasi in 28 file. Tolto il riquadro che al momento di pagare mostrava due tempi diversi. Le pagine spedizioni e domande frequenti adesso dicono la verità: l'ora parte da quando il negozio conferma, dentro l'orario di apertura, e a negozio chiuso parte il giorno dopo.
 >
-> **I due che restano, e perché.** Il primo sono i due buchi del database: il codice della riparazione è scritto, ma sul sito vero si chiudono solo quando la applichi — è la carta **#150**. Il secondo è il rilascio automatico che parte prima dei controlli: era già in coda come **#141**, e lì l'ordine dei passi conta, quindi non l'ho toccato.
+> **I due che restano, e perché.** Il primo sono i due buchi del database: il codice della riparazione è scritto, ma sul sito vero si chiudono solo quando la applichi — è la carta **#152**. Il secondo è il rilascio automatico che parte prima dei controlli: era già in coda come **#141**, e lì l'ordine dei passi conta, quindi non l'ho toccato.
 >
 > **Cosa non ho verificato.** Non ho aperto nessuna pagina in un browser. Il sito vero risponde ancora 503 da tre settimane (carta #146), quindi nulla di questo è stato provato su produzione. Tutte le prove sono girate qui.
 >

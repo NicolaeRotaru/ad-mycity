@@ -2314,5 +2314,24 @@
       "fix": "Dichiarare le nove chiavi in render.yaml con `sync: false` e riempirle nel pannello Render, poi ripubblicare (per le NEXT_PUBLIC_ serve una nuova build, non basta cambiare il valore). In alternativa spostare quei dati in una tabella di configurazione letta lato server, dove un valore mancante si può segnalare a runtime.",
       "stato": "aperto"
     }
-  ]
+  ],
+  "sync_scan": {
+    "aggiornato": "2026-08-21 20:26",
+    "letto": true,
+    "motivo": null,
+    "forma": "elenco",
+    "findings_aperti": 199,
+    "findings_chiusi": 0,
+    "findings_tot": 199,
+    "aperti_per_severita": {
+      "bloccante": 12,
+      "grave": 88,
+      "minore": 99,
+      "altre": 0
+    },
+    "dichiarati_dal_referto": 199,
+    "divergenza_dal_dichiarato": 0,
+    "data_scan": "2026-08-21",
+    "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
+  }
 }

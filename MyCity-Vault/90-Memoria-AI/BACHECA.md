@@ -809,9 +809,9 @@ Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-incl
 
 ---
 
-## 🛡️ I guardiani della macchina · 2026-08-16 22:26
+## 🛡️ I guardiani della macchina · 2026-08-21 20:26
 
-A ogni giro, prima che l'AI scriva una riga, girano **87 controlli automatici**. **45** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
+A ogni giro, prima che l'AI scriva una riga, girano **88 controlli automatici**. **46** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
 
 Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato), **cieco** (non ha potuto misurare). Un guardiano cieco *non* vale come verde — è uno strumento rotto, e la macchina si ferma lo stesso: meglio memoria vecchia che memoria che mente.
 
@@ -890,6 +890,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | Controllo | Cosa guarda | Se dice no |
 | --- | --- | --- |
 | `firma-check` | Nessuno script può scriversi da solo la firma di Nicola: chi esegue non firma sé stesso. | ⛔ ferma il giro |
+| `no-path-cablati-check` | Un indirizzo di cartella che esiste solo sul computer di una persona, se finisce nel codice, su tutte le altre macchine punta al nulla in silenzio: qui viene fermato appena rientra. | ⛔ ferma il giro |
 | `percorsi-git` | I nomi dei file con l'accento tornano storpiati se li si chiede nel modo sbagliato: controlla che nessuno strumento lavori su file che non esistono, credendo di averli letti. | ⛔ ferma il giro |
 | `peso-contesto` | Sorveglia quanto testo la macchina si porta dietro: un contesto gonfio costa soldi e fa perdere il filo. | ⚠️ avvisa, non ferma |
 | `porte-check` | Trova i punti che pubblicano scavalcando il cancello: una porta scoperta non si vede, pubblica e basta. | ⛔ ferma il giro |
@@ -968,10 +969,10 @@ Questa sezione non è scritta a mano: i numeri li conta `cervello/mappa-macchina
 | # | Parte | In una frase | Quanto è grande |
 | --- | --- | --- | --- |
 | 1 | 🖥️ **Il Pannello — la faccia** | Quello che vedi e dove firmi. | 242 file · 37.996 righe · 15 aree · 77 rotte |
-| 2 | 🦾 **Il worker e il VPS — le braccia** | L'unico pezzo che esegue davvero, 24 ore su 24. | 1888 righe · 14 servizi · 12 timer |
-| 3 | 🧠 **L'AD — la testa** | Chi decide, delega e scrive in memoria. | mansionario di 482 righe · giro di 1871 righe · 19 manuali |
+| 2 | 🦾 **Il worker e il VPS — le braccia** | L'unico pezzo che esegue davvero, 24 ore su 24. | 1928 righe · 14 servizi · 12 timer |
+| 3 | 🧠 **L'AD — la testa** | Chi decide, delega e scrive in memoria. | mansionario di 482 righe · giro di 1887 righe · 19 manuali |
 | 4 | 👥 **I senior — la squadra** | Gli specialisti a cui l'AD passa il lavoro invece di farlo tutto lei. | 120 senior · 125 quaderni di memoria |
-| 5 | 🛡️ **Guardiani e sensori — il sistema immunitario** | Quello che impedisce alla macchina di raccontarti una bugia. | 343 script (80 nelle sottocartelle) · 11 sensori · 339 test + 29 prove bash |
+| 5 | 🛡️ **Guardiani e sensori — il sistema immunitario** | Quello che impedisce alla macchina di raccontarti una bugia. | 346 script (80 nelle sottocartelle) · 11 sensori · 348 test + 29 prove bash |
 | 6 | 📚 **La memoria — quello che ricorda** | Dove vive tutto ciò che la macchina sa e ha deciso. | 9 cartelle · 39 fatti-chiave · 44 file di auto-coscienza |
 | 7 | ✋ **Mani e sensi — come tocca il mondo** | Come legge la realtà e come, quando glielo permetti, la cambia. | 5 mani · 13 modelli grafici |
 | 8 | 🔄 **I flussi — come le parti si parlano** | I cicli veri: qui non ci sono file nuovi, c'è il «come funziona». | 5 cicli |
@@ -1044,7 +1045,7 @@ Quando premi «Approva» sul Pannello, il Pannello **non fa** la cosa: scrive un
 | `mycity-worker-chat` | sempre acceso | Il worker della chat: corsia separata, così una tua domanda non finisce in fila dietro un giro lungo. |
 | `mycity-worker` | sempre acceso | Il worker principale: sempre acceso, prende i lavori dalla coda e li fa eseguire all'AD. È quello che si muove quando premi «Approva». |
 
-> 📁 Dove: `cervello/worker.sh` + `cervello/vps/` — su un server sempre acceso · 📏 Quanto: 1888 righe · 14 servizi · 12 timer
+> 📁 Dove: `cervello/worker.sh` + `cervello/vps/` — su un server sempre acceso · 📏 Quanto: 1928 righe · 14 servizi · 12 timer
 
 ### 3. 🧠 L'AD — la testa
 
@@ -1057,7 +1058,7 @@ L'AD non è un programma: è un **mansionario** che l'intelligenza artificiale r
 - **3.5 L'auto-coscienza** — Quattro manuali: verificare il proprio lavoro, analizzare sé stessa, confrontarsi coi migliori, estrarre le lezioni.
 - **3.6 I cancelli di qualità** — Nessun numero senza fonte · nessuna entità inventata · il titolo di un'azione deve suonare come lo diresti a voce, senza sigle.
 
-> 📁 Dove: `CLAUDE.md` + i documenti in `cervello/` · 📏 Quanto: mansionario di 482 righe · giro di 1871 righe · 19 manuali
+> 📁 Dove: `CLAUDE.md` + i documenti in `cervello/` · 📏 Quanto: mansionario di 482 righe · giro di 1887 righe · 19 manuali
 
 ### 4. 👥 I senior — la squadra
 
@@ -1082,7 +1083,7 @@ Sono controlli automatici che girano **prima** che il lavoro si chiuda. Non dann
 - **5.2 I sensori (11)** — Gli occhi sul mondo. Un occhio cieco blocca i numeri nuovi: l'elenco è qui sotto.
 - **5.3 La visita di salute** — Tre risposte possibili per ogni controllo: ✅ provato, ❌ rotto, ⚪ non l'ho potuto vedere da qui. Il ⚪ non è mai un verde.
 - **5.4 Il cantiere dei difetti** — I difetti trovati sulla macchina stessa, con la loro causa radice e una prova che diventa rossa se il difetto torna.
-- **5.5 I test e la CI (339 + 29 + 4)** — I test girano a ogni giro, non solo quando qualcuno se li ricorda: un test che nessuno esegue è un file, non una rete.
+- **5.5 I test e la CI (348 + 29 + 4)** — I test girano a ogni giro, non solo quando qualcuno se li ricorda: un test che nessuno esegue è un file, non una rete.
 
 **I sensori, uno per uno:**
 
@@ -1100,7 +1101,7 @@ Sono controlli automatici che girano **prima** che il lavoro si chiuda. Non dann
 | `n8n_health` | Lo stato del motore delle automazioni: è lo strumento con cui i senior collegherebbero le mani ai servizi esterni. |
 | `mcp_supabase` | Il secondo canale verso i dati (comodità di sessione): utile quando c'è, mai la fonte di verità — quella resta il REST. |
 
-> 📁 Dove: `cervello/*.mjs` — girano prima che l'AI scriva una riga · 📏 Quanto: 343 script (80 nelle sottocartelle) · 11 sensori · 339 test + 29 prove bash
+> 📁 Dove: `cervello/*.mjs` — girano prima che l'AI scriva una riga · 📏 Quanto: 346 script (80 nelle sottocartelle) · 11 sensori · 348 test + 29 prove bash
 
 ### 6. 📚 La memoria — quello che ricorda
 

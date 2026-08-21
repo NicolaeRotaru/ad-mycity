@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-21 16:26** — Automatico: **85 aperte · 16 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-21 20:26** — Automatico: **86 aperte · 19 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -22,7 +22,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #150 — Applica al database vero le riparazioni dei due buchi piu' grossi · ⏳ accodata 2026-08-21 20:11
+### 🔴 #152 — Applica al database vero le riparazioni dei due buchi piu' grossi · ⏳ accodata 2026-08-21 20:11
 
 **In parole semplici:** ho riparato i quindici difetti che fermano qualcuno, e due di quelli
 vivono dentro il database, non nel codice del sito. Le riparazioni sono scritte in un file di
@@ -42,14 +42,14 @@ fattorino.
 Se non applichi, restano aperti: il codice nuovo che ho scritto li chiude solo nella parte che sta
 nel sito, non nella parte che sta nel database.
 
-**Se va bene:** scrivi «ok 150» e applico il file `migrations/125_radiografia_21_agosto_bloccanti.sql`
+**Se va bene:** scrivi «ok 152» e applico il file `migrations/125_radiografia_21_agosto_bloccanti.sql`
 al database di produzione, un blocco per volta, controllando dopo ognuno. Poi ti dico quanti pezzi
 trovo applicati sui pezzi attesi. L'ho già fatto girare su un database ricostruito da zero: 126
 modifiche su 126 applicate, e tredici controlli verdi che senza la 125 erano nove rossi.
 
 ---
 
-### 🔴 #149 — Dimmi se accendo la consegna veloce sul negozio, ora che la promessa è una sola · ⏳ accodata 2026-08-21 20:11
+### 🔴 #151 — Dimmi se accendo la consegna veloce sul negozio, ora che la promessa è una sola · ⏳ accodata 2026-08-21 20:11
 
 **In parole semplici:** hai deciso che la promessa di consegna è una sola, 30-60 minuti, e ho
 allineato tutto il sito. C'è però un interruttore nel database, per ogni negozio, che dice se quel
@@ -64,7 +64,7 @@ la fa o no.
 combaciare quello che promettiamo con quello che risulta scritto: oggi il sito dice un'ora e il
 database dice che quel negozio la consegna veloce non la offre.
 
-**Se va bene:** scrivi «ok 149» e accendo `offers_express` su Pane Quotidiano. È una riga sola sul
+**Se va bene:** scrivi «ok 151» e accendo `offers_express` su Pane Quotidiano. È una riga sola sul
 database vero, reversibile: si spegne allo stesso modo.
 
 Se preferisci il contrario — cioè che l'interruttore sparisca del tutto, perché con una promessa
@@ -73,12 +73,74 @@ del negoziante dove quell'interruttore si vede ancora.
 
 ---
 
+### 🟡 #150 — Il server tornerà a parlare con GitHub, e poi guardiamo cosa c'è nei 7.849 cassetti · ⏳ accodata 2026-08-21 20:05
+
+**In parole semplici:** questa carta parla del server, la macchina accesa che lavora quando tu non ci
+sei. Ogni minuto controlla se su GitHub è arrivato qualcosa di nuovo e se lo prende. Stasera abbiamo
+scoperto che ha smesso di farlo, e ho trovato il perché.
+
+Quando deve aggiornarsi e trova del lavoro a metà, il server lo mette in un cassetto per fare spazio.
+Poi dovrebbe riaprirlo. Non l'ha mai riaperto. Ne aveva **7.849**, e se n'è accorto da solo stasera.
+
+**Un esempio di cosa vuol dire.** Alle 19:31 hai lanciato il comando che allinea il server. Ha
+provato, ha messo un cassetto da parte, non ce l'ha fatta lo stesso, e ha lasciato lì il cassetto.
+Un minuto dopo ha rifatto la stessa cosa. Così dal 18 agosto.
+
+**Cosa cambia per te:** il server è indietro rispetto a GitHub e non riesce a recuperare. Ha quattro
+suoi lavori fermi che non ha mai pubblicato. Finché resta così, tutto quello che unisci non gli
+arriva — ed è il motivo per cui stasera nessun comando funzionava.
+
+**Cosa c'era rotto, in due pezzi.** Il primo: il server metteva nel cassetto le cose sbagliate.
+L'ostacolo vero restava dov'era, e l'aggiornamento falliva comunque. Il secondo è peggiore. Nessuno
+riapriva mai quel cassetto. In tutto il programma non esisteva una riga che lo facesse.
+
+**Cosa devi fare.** Prima metti in pausa le sentinelle per due minuti. Girano ogni minuto e usano
+git: è quello che ha fatto fallire il tuo commit di stasera.
+
+```
+sudo systemctl stop mycity-watch-main.timer mycity-sentinella.timer mycity-sentinella-dati.timer mycity-sentinella-motore.timer
+cd /opt/mycity/ad-mycity
+git fetch origin main && git checkout origin/main -- cervello/vps/aggiorna-cervello.sh cervello/allineamento-esito.sh
+sudo bash cervello/vps/aggiorna-cervello.sh
+```
+
+Cerca in fondo la frase **«✓ Commit pendenti pubblicati su GitHub»**. Se compare, il server è tornato
+in linea e i suoi quattro lavori sono salvi.
+
+**Poi guardiamo nei cassetti, senza buttare niente:**
+
+```
+cd /opt/mycity/ad-mycity
+node cervello/stash-dimenticate.mjs --riassunto
+```
+
+Ti dice quanti contengono **memoria vera**, cioè lavoro scritto dal server, e quanti solo file che si
+riscrivono da soli. I primi non si toccano finché non decidiamo insieme. Con quel numero ti dico io
+cosa recuperare.
+
+**Alla fine riaccendi le sentinelle:**
+
+```
+sudo systemctl start mycity-watch-main.timer mycity-sentinella.timer mycity-sentinella-dati.timer mycity-sentinella-motore.timer
+```
+
+**Cosa non ho verificato:** che sul server funzioni. Da qui non ci arrivo. Ho provato la riparazione
+su copie vere costruite apposta: rimettendo il difetto la prova diventa rossa e conta i cassetti che
+crescono, uno, due, tre. Con la riparazione restano zero e il server pubblica.
+
+**Se va bene:** il server torna a ricevere quello che unisci e a pubblicare quello che scrive. E da
+domani un guardiano suona da solo se i cassetti ricominciano ad accumularsi.
+
+*(La #144 e la #142 nel frattempo si sono chiuse per conto loro: le trovi segnate ✅ più sotto.)*
+
+---
+
 ### ✅ #148 — Dimmi se apro il cantiere sui quindici difetti che fermano qualcuno · ⏳ accodata 2026-08-21 16:20 · fatta 2026-08-21 20:25
 
 **Stato:** ✅ FATTO 2026-08-21 20:25 — col tuo «ok 148» in chat. Tredici dei quindici sono riparati,
 ognuno con una prova che ho visto diventare rossa prima e verde dopo. Il quattordicesimo sono i due
 buchi del database: il codice della riparazione è scritto, ma sul sito vero si chiudono solo quando
-applichi il file di modifiche — è la card **#150** qui sopra. Il quindicesimo, quello del rilascio
+applichi il file di modifiche — è la card **#152** qui sopra. Il quindicesimo, quello del rilascio
 automatico prima dei controlli, era già in coda da prima: è la card **#141**, e lì l'ordine dei passi
 conta (prima i segreti, poi si spegne l'automatismo), quindi non l'ho toccato.
 
@@ -141,6 +203,7 @@ restano due numeri diversi, uno dei due è una bugia, qualunque sia quello giust
 Allineo la home a quella promessa. È una modifica di configurazione, reversibile, e la vedi subito.
 
 ---
+
 ### 🔴 #144 — Una riga da incollare: c'è uno strumento che nessuno controlla · ⏳ accodata 2026-08-21 16:40 · ✏️ riscritta 17:45
 
 > **In due righe.** Ho usato uno strumento che lancia comandi e che nessuno dei miei controllori
@@ -185,17 +248,19 @@ L'ho portato anche agli strumenti. Monitor adesso è dichiarato lì: non è un b
 un'esenzione. È un debito con sopra scritto entro quando. Dopo il **4 settembre** torna a essere un
 buco da solo.
 
-**Cosa devi fare.** Non devi più modificare niente a mano: il file già pronto sta qui,
-`consegne/tech/settings-con-monitor.json`. **Copia questo blocco intero, sul server.**
-
-```
-cd /opt/mycity/ad-mycity
-git pull origin main
-cp consegne/tech/settings-con-monitor.json .claude/settings.json
-node cervello/mappa-copertura.mjs
-```
-
-L'ultimo comando risponde da solo: deve elencare **Monitor** fra gli strumenti guardati.
+> ✅ **FATTA — 21/8 20:20. Non devi più fare niente su questa carta.**
+>
+> Mentre lavoravo al server, un'altra sessione ha portato la modifica su GitHub per la sua strada
+> giusta: un ramo e una richiesta di unione. Ho confrontato le impostazioni su `main` col file che
+> avevo preparato: **identiche, riga per riga**. Dentro ci sono tutte e due le cose — la parola
+> `Monitor` (questa carta) e le righe del plugin (la #142). Anche la **#142 è chiusa**.
+>
+> **La lezione, che vale per la prossima volta.** Ti avevo scritto di copiare il file sopra le
+> impostazioni. L'hai fatto, e un minuto dopo era sparito: ogni minuto il server si riallinea a
+> GitHub e rimette i file versionati come stanno lì. `.claude/settings.json` è uno di quelli, quindi
+> la copia veniva riscritta in silenzio. Una modifica a quel file **regge solo se passa da una
+> richiesta di unione** — che è poi la regola che impedisce a chiunque, me compresa, di cambiare i
+> freni con un colpo di mano.
 
 ⚠️ **Questo file fa anche la carta #142**, quella del plugin. Le due carte toccano lo stesso file,
 quindi applicarle in due copie separate vorrebbe dire che la seconda cancella la prima. Con questo
@@ -329,7 +394,6 @@ li leggo.
 
 ---
 
-
 ### 🟡 #142 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
 
 > **In due righe.** Devi lanciare un comando solo, e lo trovi qui sotto in «Se va bene». Sono dieci
@@ -369,9 +433,13 @@ Il file già pronto sta qui: `consegne/tech/settings-con-superpowers.json`. L'ho
 file di adesso, aggiungendo solo le due righe che servono. Ho controllato che tutto il resto sia
 identico parola per parola: 63 permessi concessi, 15 vietati, 8 ganci — gli stessi numeri di prima.
 
-> ⚠️ **Aggiornamento 21/8 18:15 — usa il blocco della carta #144, non questo.**
+> ✅ **FATTA — 21/8 20:20, insieme alla #144: erano lo stesso file.**
 >
-> Il file della #144 contiene già tutto quello che c'è qui dentro. Fai quella, e questa è chiusa.
+> Le righe del plugin sono su `main`. Confrontato riga per riga: le impostazioni pubblicate sono
+> identiche al file che avevo preparato. Non devi fare niente.
+>
+> Il blocco qui sotto resta per storia, ma **non va applicato**: quella copia a mano il server la
+> cancella entro un minuto, riallineandosi a GitHub — provata e vista sparire il 21/8 alle 19:26.
 
 **Copia questo blocco intero, sul server.** Le prime due righe non sono decorazione: la prima ti
 porta nella cartella del progetto, la seconda tira giù il file da GitHub. Senza, i comandi cercano
@@ -466,49 +534,6 @@ Terzo, GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio 
 e l'ho scritto nel file invece di darlo per spento.
 
 ---
-
-### ✅ #139 — Le prove sui permessi girano, e non costano niente · ⏳ accodata 2026-08-21 03:20 · fatta 2026-08-21 15:45
-
-**Stato:** ✅ FATTO 2026-08-21 15:45 — senza comprare niente.
-
-**Cosa cambia:** questa carta diceva «crea un progetto Supabase di prova». Ho chiesto il prezzo
-prima di crearlo: 10 dollari al mese, per sempre, più tre chiavi da custodire su GitHub — fra cui
-quella che apre tutto. Il prezzo la carta non lo diceva.
-
-Strada scelta: i controlli si avviano un Supabase loro, dentro la macchina che li esegue. Ci
-applicano le 125 migrazioni. Ci mettono dentro un negozio e un ordine veri. Poi provano contro
-quello. Vive quanto il giro e poi sparisce: zero euro, nessuna chiave da custodire, e nasce vuoto
-ogni volta.
-
-**Cosa fa adesso:** venti prove che non giravano da sempre adesso girano a ogni controllo. Sono
-quelle che verificano che un estraneo non legga i dati dei clienti e non possa chiamare le funzioni
-riservate. Prima si saltavano in silenzio, e il verde diceva «provato» quando non era vero.
-
-**Cosa ho trovato accendendole:** due difetti che c'erano già e che nessuno vedeva, perché una prova
-che si salta non può diventare rossa. Le prove giravano su una versione di Node che non ha un pezzo
-che il client Supabase pretende, quindi sarebbero fallite anche col progetto a pagamento. E i
-controlli provavano su Node 20 mentre il sito in produzione gira su Node 24: quattro numeri di
-distanza fra quello che si prova e quello che serve i clienti.
-
-**Cosa non ho verificato:** i controlli adesso girano su Node 22, la produzione su 24. Meglio di
-prima, non uguale. Chiudere anche quel pezzo va provato, e qui non avevo un Node 24 con cui farlo.
-
----
-
-### ✅ #138 — Il server lavora ma non pubblica più niente da tre giorni. FATTO 2026-08-21 16:30, col tuo ok in chat · ⏳ accodata 2026-08-20 18:10
-
-**Com'è andata a finire.** Le due storie si erano separate: il server aveva 101 scritture sue che
-GitHub non aveva mai ricevuto, e gli mancavano 28 aggiornamenti che GitHub aveva. Nessuno dei due
-poteva copiarsi sopra l'altro, e fra i 28 che gli mancavano c'era proprio la riparazione scritta per
-questo caso. Un cane che si mordeva la coda.
-
-Nicola ha messo le 101 scritture al sicuro su un ramo, ha riallineato il server, e alle 14:26 il
-server ha pubblicato per la prima volta dal 18 agosto. Da lì pubblica ogni pochi minuti.
-
-I tre giorni di memoria sono tornati dentro con la richiesta 800. Il disco è sceso dal 100% all'86%.
-
-**Cosa resta, e non è più questa carta:** sei file grossi del ramo di salvataggio vanno letti e non
-fusi a occhi chiusi — Stato, coda azioni, Bacheca, Checklist, Ritmo e i piani.
 
 ### 🟡 #137 — Approva il fattorino dal pannello: adesso il pulsante c'e' · ⏳ accodata 2026-08-20 17:00
 
@@ -850,78 +875,6 @@ solo le caselle email ufficiali delle redazioni (via web, il 17/8), non i nomi d
 - **Origine:** `{origine:cancello-stop-2026-08-17, strumento:Agent, guardiano:mappa-copertura.mjs}`
 
 ---
-
-### ✅ #108 — Sblocca il server: è fermo da mezzogiorno e da solo non ne esce. FATTO 2026-08-21 16:30 · ⏳ accodata 2026-08-16 19:05
-
-**Chiusa insieme alla 138, ed è la stessa cosa.** Questa carta, scritta il 16 agosto, descriveva già l'incastro nei termini esatti: il server non riesce a pubblicare, quindi si rifiuta di allinearsi al codice nuovo, quindi non può ricevere la correzione. È rimasta qui cinque giorni. Il 18 agosto la macchina si è fermata per quel motivo, e ci è rimasta tre giorni.
-
-**La lezione, e non è tecnica.** La diagnosi giusta era già scritta e in coda. Non è mancata l'analisi: è mancato che qualcuno la leggesse mentre serviva. Una carta rossa che invecchia in una coda da 67 voci non è una segnalazione, è un archivio.
-
-<details><summary>Il testo originale del 16 agosto</summary>
-
-
-**Cosa cambia:** da oggi alle 12:10 la macchina non pubblica più niente. Non è morta: il worker batte ancora, l'ho visto alle 18:47. Sono due cose incastrate. La prima: alle 13:36 una cadenza ha preso il lucchetto del giro e non l'ha più mollato, e da lì nessuna cadenza parte. La seconda: il server ha dei commit di memoria che non è riuscito a pubblicare, e giustamente si rifiuta di allinearsi al codice nuovo, perché allinearsi li cancellerebbe. Il risultato è che il server è fermo **e** non può ricevere nessuna correzione, nemmeno quella che ho appena scritto.
-
-**Se va bene:** i giri ripartono da soli, la memoria torna a pubblicarsi e il Pannello smette di mostrarti i numeri di stamattina. E il server riceve la cura che ho scritto oggi: da quel momento un lucchetto rimasto appeso oltre due ore la macchina se lo toglie da sola, senza di te.
-
-**Cosa devi fare.** Sul server, in quest'ordine.
-
-Prima guarda cosa è rimasto fermo, senza toccare niente:
-```
-cd /opt/mycity/ad-mycity
-sudo -u mycity git log --oneline origin/main..HEAD
-```
-
-Poi porta a casa quel lavoro unendolo a quello che c'è già su GitHub:
-```
-sudo -u mycity git fetch origin main
-sudo -u mycity git merge origin/main
-sudo -u mycity git push origin HEAD:main
-```
-
-Se il merge si lamenta di conflitti, non insistere: metti il lavoro al sicuro su un ramo suo e basta, lo recupero io dopo.
-```
-sudo -u mycity git merge --abort
-sudo -u mycity git push origin HEAD:refs/heads/vps/salvataggio-16-8
-```
-
-Infine togli il lucchetto rimasto appeso, una volta sola:
-```
-rm -f /opt/mycity/ad-mycity/.git/MYCITY_RUN_LOCK-giro
-```
-
-**Cosa non ho verificato:** non ho provato nessuno di questi comandi, perché scrivo da una sessione in cloud e nel server non posso entrare. Li ho scritti leggendo gli script che li useranno. Non so nemmeno **quale** processo tenga il lucchetto da stamattina: da qui vedo che è preso e da quanto, non chi lo tiene. E non so se i commit fermi sul server siano solo memoria o anche altro: lo dice la prima riga qui sopra, guardala prima di unire.
-
-🔧 Dettagli tecnici — segnali letti dal vivo sulla tabella `impostazioni`, 16/8 fra le 18:24 e le 18:47:
-
-- `automazione:cadenza-giro` dice che il lucchetto è orfano da 300 minuti. Nessuna cadenza parte.
-- `automazione:watch-main` dice che l'allineamento è fermo da 72 giri, circa 360 minuti. Il commit `d9fe8a7` non è mai stato applicato.
-- `automazione:giro` dice «non-pubblicato», uscita 2.
-- `worker:ultimo` segna le 18:47. Il worker è vivo.
-
-La cura permanente del lucchetto sta in `cervello/lib-cadenza.sh`, funzione `cadenza_lock_rompi`. La prova è `node cervello/test/lucchetto-che-non-si-libera.test.mjs`. Reparto: devops-sre (sintesi AD).
-
-**Aggiornamento 18/8 06:10 — quell'episodio del 16/8 è chiuso.** La memoria tornò a pubblicarsi la sera stessa. Ma la STESSA cosa è successa di nuovo stanotte. Stavolta scrivo da dentro il server, non da una sessione cloud.
-
-Il lucchetto `.git/MYCITY_RUN_LOCK-giro` è preso dalle 22:20 di ieri sera. Lo tiene un processo (PID 352205) che non esiste più. Verificato ora con `kill -0`: non risponde. Sono passate più di 7 ore.
-
-La cura automatica scritta dopo l'episodio del 16/8 (`cadenza_lock_rompi`) esiste nel codice. Sposterebbe da sola il lucchetto vecchio, appena qualcuno riprovasse a prenderlo. Ma **nessuna cadenza ha riprovato**: l'ultima riga di `automazione:giro` nella tabella `impostazioni` è ferma alle 22:33 di ieri sera, la stessa ora del blocco.
-
-Il resto della macchina sta bene. Sensori, sincronizzazione con GitHub, coerenza dei fatti ed esperimenti sono tutti scritti stamattina alle 06:01-06:02. È **solo** il giro completo che non riparte da 8 ore. Per questo la memoria di oggi — questo stesso Piano del mattino compreso — non si sta pubblicando da sola.
-
-**Ho provato a togliere io il lucchetto vecchio.** È la stessa identica riparazione che il codice farebbe da solo. Il sistema di permessi lo ha bloccato: chiede la tua approvazione perché è un file dentro `.git` classificato "sensibile", anche se tecnicamente sono già dentro il server. Non ho insistito.
-
-**Se va bene:** dammi il via a togliere quel file. Oppure fallo tu con `rm .git/MYCITY_RUN_LOCK-giro` dal terminale del server. La cadenza riparte da sola nello stesso minuto.
-
-**La domanda vera per un tecnico:** perché nessuna cadenza ha ritentato il lucchetto per 8 ore? La cura automatica presuppone che qualcuno ritenti. Vale la pena guardare se lo scheduler che lancia `giro.sh` è ancora vivo sul server. Alle 04:34 di stamattina, `worker:reload-rifiutato` segnalava che `worker.sh` su disco era diverso dalla versione approvata: il worker si è rifiutato di ricaricarlo. Potrebbe essere collegato. Non l'ho verificato.
-
-- **Colore:** 🟡 — è la stessa riparazione a basso rischio già scritta nel codice per fare da sola; chiedo perché il file è protetto e non tocco un permesso che non è mio.
-- **Reparto:** devops-sre
-- **Origine:** `{origine:sessione-vps-2026-08-18-mattino, lucchetto:22:20-17-8, pid-morto:352205, ultima-riga-giro:22:33-17-8}`
-
----
-
-</details>
 
 ### 🔴 #107 — Pubblica il post "I fornelli restano spenti" per Pane Quotidiano · ⏳ accodata 2026-08-16 12:05
 
@@ -2016,7 +1969,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-21 16:26)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-21 20:26)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-21-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -2028,7 +1981,126 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-21 16:26 · 16 card totali
+> Ultima pulizia: 2026-08-21 20:26 · 19 card totali
+
+### ✅ #139 — Le prove sui permessi girano, e non costano niente · ⏳ accodata 2026-08-21 03:20 · fatta 2026-08-21 15:45
+
+**Stato:** ✅ FATTO 2026-08-21 15:45 — senza comprare niente.
+
+**Cosa cambia:** questa carta diceva «crea un progetto Supabase di prova». Ho chiesto il prezzo
+prima di crearlo: 10 dollari al mese, per sempre, più tre chiavi da custodire su GitHub — fra cui
+quella che apre tutto. Il prezzo la carta non lo diceva.
+
+Strada scelta: i controlli si avviano un Supabase loro, dentro la macchina che li esegue. Ci
+applicano le 125 migrazioni. Ci mettono dentro un negozio e un ordine veri. Poi provano contro
+quello. Vive quanto il giro e poi sparisce: zero euro, nessuna chiave da custodire, e nasce vuoto
+ogni volta.
+
+**Cosa fa adesso:** venti prove che non giravano da sempre adesso girano a ogni controllo. Sono
+quelle che verificano che un estraneo non legga i dati dei clienti e non possa chiamare le funzioni
+riservate. Prima si saltavano in silenzio, e il verde diceva «provato» quando non era vero.
+
+**Cosa ho trovato accendendole:** due difetti che c'erano già e che nessuno vedeva, perché una prova
+che si salta non può diventare rossa. Le prove giravano su una versione di Node che non ha un pezzo
+che il client Supabase pretende, quindi sarebbero fallite anche col progetto a pagamento. E i
+controlli provavano su Node 20 mentre il sito in produzione gira su Node 24: quattro numeri di
+distanza fra quello che si prova e quello che serve i clienti.
+
+**Cosa non ho verificato:** i controlli adesso girano su Node 22, la produzione su 24. Meglio di
+prima, non uguale. Chiudere anche quel pezzo va provato, e qui non avevo un Node 24 con cui farlo.
+
+---
+
+### ✅ #138 — Il server lavora ma non pubblica più niente da tre giorni. FATTO 2026-08-21 16:30, col tuo ok in chat · ⏳ accodata 2026-08-20 18:10
+
+**Com'è andata a finire.** Le due storie si erano separate: il server aveva 101 scritture sue che
+GitHub non aveva mai ricevuto, e gli mancavano 28 aggiornamenti che GitHub aveva. Nessuno dei due
+poteva copiarsi sopra l'altro, e fra i 28 che gli mancavano c'era proprio la riparazione scritta per
+questo caso. Un cane che si mordeva la coda.
+
+Nicola ha messo le 101 scritture al sicuro su un ramo, ha riallineato il server, e alle 14:26 il
+server ha pubblicato per la prima volta dal 18 agosto. Da lì pubblica ogni pochi minuti.
+
+I tre giorni di memoria sono tornati dentro con la richiesta 800. Il disco è sceso dal 100% all'86%.
+
+**Cosa resta, e non è più questa carta:** sei file grossi del ramo di salvataggio vanno letti e non
+fusi a occhi chiusi — Stato, coda azioni, Bacheca, Checklist, Ritmo e i piani.
+
+---
+
+### ✅ #108 — Sblocca il server: è fermo da mezzogiorno e da solo non ne esce. FATTO 2026-08-21 16:30 · ⏳ accodata 2026-08-16 19:05
+
+**Chiusa insieme alla 138, ed è la stessa cosa.** Questa carta, scritta il 16 agosto, descriveva già l'incastro nei termini esatti: il server non riesce a pubblicare, quindi si rifiuta di allinearsi al codice nuovo, quindi non può ricevere la correzione. È rimasta qui cinque giorni. Il 18 agosto la macchina si è fermata per quel motivo, e ci è rimasta tre giorni.
+
+**La lezione, e non è tecnica.** La diagnosi giusta era già scritta e in coda. Non è mancata l'analisi: è mancato che qualcuno la leggesse mentre serviva. Una carta rossa che invecchia in una coda da 67 voci non è una segnalazione, è un archivio.
+
+<details><summary>Il testo originale del 16 agosto</summary>
+
+
+**Cosa cambia:** da oggi alle 12:10 la macchina non pubblica più niente. Non è morta: il worker batte ancora, l'ho visto alle 18:47. Sono due cose incastrate. La prima: alle 13:36 una cadenza ha preso il lucchetto del giro e non l'ha più mollato, e da lì nessuna cadenza parte. La seconda: il server ha dei commit di memoria che non è riuscito a pubblicare, e giustamente si rifiuta di allinearsi al codice nuovo, perché allinearsi li cancellerebbe. Il risultato è che il server è fermo **e** non può ricevere nessuna correzione, nemmeno quella che ho appena scritto.
+
+**Se va bene:** i giri ripartono da soli, la memoria torna a pubblicarsi e il Pannello smette di mostrarti i numeri di stamattina. E il server riceve la cura che ho scritto oggi: da quel momento un lucchetto rimasto appeso oltre due ore la macchina se lo toglie da sola, senza di te.
+
+**Cosa devi fare.** Sul server, in quest'ordine.
+
+Prima guarda cosa è rimasto fermo, senza toccare niente:
+```
+cd /opt/mycity/ad-mycity
+sudo -u mycity git log --oneline origin/main..HEAD
+```
+
+Poi porta a casa quel lavoro unendolo a quello che c'è già su GitHub:
+```
+sudo -u mycity git fetch origin main
+sudo -u mycity git merge origin/main
+sudo -u mycity git push origin HEAD:main
+```
+
+Se il merge si lamenta di conflitti, non insistere: metti il lavoro al sicuro su un ramo suo e basta, lo recupero io dopo.
+```
+sudo -u mycity git merge --abort
+sudo -u mycity git push origin HEAD:refs/heads/vps/salvataggio-16-8
+```
+
+Infine togli il lucchetto rimasto appeso, una volta sola:
+```
+rm -f /opt/mycity/ad-mycity/.git/MYCITY_RUN_LOCK-giro
+```
+
+**Cosa non ho verificato:** non ho provato nessuno di questi comandi, perché scrivo da una sessione in cloud e nel server non posso entrare. Li ho scritti leggendo gli script che li useranno. Non so nemmeno **quale** processo tenga il lucchetto da stamattina: da qui vedo che è preso e da quanto, non chi lo tiene. E non so se i commit fermi sul server siano solo memoria o anche altro: lo dice la prima riga qui sopra, guardala prima di unire.
+
+🔧 Dettagli tecnici — segnali letti dal vivo sulla tabella `impostazioni`, 16/8 fra le 18:24 e le 18:47:
+
+- `automazione:cadenza-giro` dice che il lucchetto è orfano da 300 minuti. Nessuna cadenza parte.
+- `automazione:watch-main` dice che l'allineamento è fermo da 72 giri, circa 360 minuti. Il commit `d9fe8a7` non è mai stato applicato.
+- `automazione:giro` dice «non-pubblicato», uscita 2.
+- `worker:ultimo` segna le 18:47. Il worker è vivo.
+
+La cura permanente del lucchetto sta in `cervello/lib-cadenza.sh`, funzione `cadenza_lock_rompi`. La prova è `node cervello/test/lucchetto-che-non-si-libera.test.mjs`. Reparto: devops-sre (sintesi AD).
+
+**Aggiornamento 18/8 06:10 — quell'episodio del 16/8 è chiuso.** La memoria tornò a pubblicarsi la sera stessa. Ma la STESSA cosa è successa di nuovo stanotte. Stavolta scrivo da dentro il server, non da una sessione cloud.
+
+Il lucchetto `.git/MYCITY_RUN_LOCK-giro` è preso dalle 22:20 di ieri sera. Lo tiene un processo (PID 352205) che non esiste più. Verificato ora con `kill -0`: non risponde. Sono passate più di 7 ore.
+
+La cura automatica scritta dopo l'episodio del 16/8 (`cadenza_lock_rompi`) esiste nel codice. Sposterebbe da sola il lucchetto vecchio, appena qualcuno riprovasse a prenderlo. Ma **nessuna cadenza ha riprovato**: l'ultima riga di `automazione:giro` nella tabella `impostazioni` è ferma alle 22:33 di ieri sera, la stessa ora del blocco.
+
+Il resto della macchina sta bene. Sensori, sincronizzazione con GitHub, coerenza dei fatti ed esperimenti sono tutti scritti stamattina alle 06:01-06:02. È **solo** il giro completo che non riparte da 8 ore. Per questo la memoria di oggi — questo stesso Piano del mattino compreso — non si sta pubblicando da sola.
+
+**Ho provato a togliere io il lucchetto vecchio.** È la stessa identica riparazione che il codice farebbe da solo. Il sistema di permessi lo ha bloccato: chiede la tua approvazione perché è un file dentro `.git` classificato "sensibile", anche se tecnicamente sono già dentro il server. Non ho insistito.
+
+**Se va bene:** dammi il via a togliere quel file. Oppure fallo tu con `rm .git/MYCITY_RUN_LOCK-giro` dal terminale del server. La cadenza riparte da sola nello stesso minuto.
+
+**La domanda vera per un tecnico:** perché nessuna cadenza ha ritentato il lucchetto per 8 ore? La cura automatica presuppone che qualcuno ritenti. Vale la pena guardare se lo scheduler che lancia `giro.sh` è ancora vivo sul server. Alle 04:34 di stamattina, `worker:reload-rifiutato` segnalava che `worker.sh` su disco era diverso dalla versione approvata: il worker si è rifiutato di ricaricarlo. Potrebbe essere collegato. Non l'ho verificato.
+
+- **Colore:** 🟡 — è la stessa riparazione a basso rischio già scritta nel codice per fare da sola; chiedo perché il file è protetto e non tocco un permesso che non è mio.
+- **Reparto:** devops-sre
+- **Origine:** `{origine:sessione-vps-2026-08-18-mattino, lucchetto:22:20-17-8, pid-morto:352205, ultima-riga-giro:22:33-17-8}`
+
+---
+
+</details>
+
+---
 
 ### ✅ #140 — La migrazione è applicata al database vero · ⏳ accodata 2026-08-21 03:20 · fatta 2026-08-21 14:55
 
