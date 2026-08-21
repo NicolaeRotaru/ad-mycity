@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-20 18:05",
+  "aggiornato": "2026-08-21 16:20",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16399,6 +16399,28 @@
         "comando": "node cervello/test/cancello-stop.test.mjs"
       },
       "nota_prova": "Tre casi nuovi sui numeri veri del caso: un file oltre il tetto identico alla copia pubblicata non è lavoro mio · oltre il tetto i tre testi arrivano tagliati allo stesso modo e il taglio si dichiara · una differenza che vive oltre il tetto non la vedo e non fingo il contrario. Rotti apposta in due modi: rimesso il taglio su un solo lato → 2 rossi; spento il flag del troncamento → 1 rosso."
+    },
+    {
+      "id": "AR-777",
+      "stato": "aperto",
+      "dimensione": "capacita-che-non-partono",
+      "gravita": "bloccante",
+      "colore": "🟡",
+      "titolo": "Le sei capacità grosse della macchina non partono, e nessun guardiano aveva mai provato ad avviarne una",
+      "causa_radice": "Il motore dei workflow pretende che `export const meta = {…}` sia la PRIMA istruzione dello script, e non accetta nessun import: né statico («Unexpected token '{'. import call expects one or two arguments») né dinamico («import() is not available in workflow scripts»). Tutti e sei i file in .claude/workflows/ aprono con tre import e mettono meta in quarta posizione, quindi il motore li rifiuta prima di eseguire una riga: «Invalid workflow script: `export const meta` must be the FIRST statement». La radice non è la riga sbagliata, è che NESSUN guardiano ha mai provato ad AVVIARE un workflow: i controlli esistenti misurano il file (che passi dalla porta dei senior, che i deferral esistano, che il conteggio torni) e passano tutti su uno script che il motore non lancerà mai. È la stessa malattia scritta nel commento di cervello/prompt-senior.mjs — si certifica l'INSTALLAZIONE e non l'ESECUZIONE — un piano più sotto, e per due mesi.",
+      "fix_proposto": "Rendere i sei script autonomi: `export const meta` in cima e nessun import. Il prompt dei senior non si può più importare da cervello/prompt-senior.mjs dentro lo script, quindi va GENERATO prima: uno script di build che legge i mansionari veri con promptSenior() e scrive lo workflow eseguibile con i prompt già dentro (è la strada che ho percorso oggi a mano, e ha funzionato: 48 agenti, 351 problemi confermati). Il guardiano della porta dei senior si sposta dallo script sorgente al generatore. Poi `node cervello/workflow-partono.mjs` va agganciato al cancello del lotto, così un workflow che non parte non passa più.",
+      "dove": ".claude/workflows/ (tutti e 6: radiografia.js, audit-design.js, auto-radiografia.js, audit-pannello.js, giro-operativo.js, radiografia-totale.js) · cervello/prompt-senior.mjs (--guardiano, misura il file e non l'avvio)",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-21 16:20",
+      "nato_come": "scoperta",
+      "nato_da": "Nicola: «fai una radiografia completa e profonda del marketplace, con la parte di design compresa» — le due radiografie non sono partite, e il motivo era lo stesso per tutti e sei i workflow",
+      "origine": "Provato ad avviare .claude/workflows/radiografia.js e audit-design.js: rifiutati entrambi dal motore prima di eseguire una riga. Poi provato import statico e dinamico dentro uno workflow di prova: rifiutati anche quelli.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/workflow-partono.mjs"
+      },
+      "nota_prova": "La prova applica al testo vero dei sei script la stessa condizione che il motore verifica prima di lanciare, saltando commenti e righe vuote come fa lui. Oggi è rossa su 6 file su 6; diventa verde solo quando quegli script partono davvero. NON è agganciata a nessun cancello: agganciarla è parte del fix, perché oggi renderebbe rossa la CI su un difetto ancora aperto. Debito dichiarato, non dimenticato.",
+      "nota": "Le due radiografie del 21/8 sono girate lo stesso, da copie generate al volo con gli stessi mansionari veri passando da cervello/prompt-senior.mjs. Il generatore usato è in scratchpad, non nel repo: farlo diventare stabile È il fix."
     }
   ],
   "meta": {

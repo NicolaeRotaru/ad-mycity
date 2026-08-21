@@ -2674,3 +2674,41 @@ identico.
 **La lezione.** Un rosso che non puo' diventare verde e' un rosso che si impara ad aggirare. Quando
 il conto non torna su un testo che so di non aver peggiorato, la domanda giusta non e' «come faccio
 scendere il numero», e' «cosa sta misurando questo numero».
+
+---
+
+## 2026-08-21 16:20 — 🟢 Terza radiografia completa del sito, con la grafica dentro
+
+**Cosa.** Su richiesta di Nicola in chat («fai una radiografia completa e profonda del marketplace,
+con la parte di design compresa») ho fatto girare le due visite complete al sito, in sola lettura:
+tredici dimensioni sul codice e undici sulla grafica e sui percorsi. Quarantotto agenti in tutto.
+Ogni problema trovato e' stato ricontrollato da un collega diverso da chi l'aveva trovato, e cio'
+che non e' stato confermato e' stato scartato.
+
+**Il risultato.** 351 problemi confermati: 199 sul codice (12 bloccanti, 88 gravi, 99 minori) e 152
+sulla grafica (4 bloccanti, 67 gravi, 81 minori). I bloccanti distinti sono 15, non 16: il pulsante
+SOS del fattorino e' stato trovato due volte, da due dimensioni diverse.
+
+**Perche' conta.** I dodici bloccanti del codice non sono quelli del 18 agosto — quelli erano stati
+chiusi tutti alle 3:30 di stamattina. Sono nuovi, o mai visti prima. Il totale scende (262 → 245 →
+199) ma il numero dei bloccanti resta fermo a dodici in tutte e tre le visite. E' la prova che
+guardare meglio trova un altro strato, non che le riparazioni non funzionino.
+
+**Prove eseguite, non impressioni.** `tsc --noEmit` 0 errori · `vitest run` 943 test verdi su 114
+file · `next lint` 0 errori e 95 avvisi, tutti di accessibilita'. Nessuna pagina aperta in un
+browser: e' il limite dichiarato di questa visita, scritto in cima a tutti e due i referti.
+
+**Colore.** 🟢 per la visita: sola lettura, nessuna scrittura sul sito ne' sul database. Le
+riparazioni sono 🟡 e aspettano la firma di Nicola sulla card #143. La frase della home (card #144)
+e' l'unico problema che si cambia da una configurazione, ma serve prima la sua risposta su quale
+promessa di consegna sia quella vera.
+
+**Ostacolo trovato strada facendo.** I sei workflow in `.claude/workflows/` non partono su questo
+motore: hanno gli `import` sopra il blocco `meta`, e il motore rifiuta lo script. Le due radiografie
+sono girate da copie generate al volo con gli stessi mansionari veri, passando dalla porta dei
+senior (`cervello/prompt-senior.mjs`). Il difetto e' della macchina, non del sito, e ripararlo e'
+auto-modifica: proposto, non fatto.
+
+**Referti.** `consegne/audit/2026-08-21-radiografia.md` ·
+`consegne/design/2026-08-21-radiografia-design.md` · dati grezzi completi nei due
+`*-raw.json` accanto.
