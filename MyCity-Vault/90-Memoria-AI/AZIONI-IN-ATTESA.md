@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-21 14:27** — Automatico: **88 aperte · 13 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-21 16:26** — Automatico: **85 aperte · 16 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -78,6 +78,10 @@ La grafica e i percorsi, 152 problemi: `consegne/design/2026-08-21-radiografia-d
 
 ### 🟡 #142 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
 
+> **In due righe.** Devi lanciare un comando solo, e lo trovi qui sotto in «Se va bene». Sono dieci
+> secondi. Senza quello, il lavoro che ho fatto oggi riparte spento a ogni sessione. Il resto della
+> card spiega perché, e cosa rischi.
+
 **In parole semplici:** questa card parla di come lavoro io, non del sito e non dei negozi.
 Un plugin è un pacchetto di istruzioni già scritte da altri. Si aggancia alla macchina e le insegna
 un modo di lavorare. Superpowers è il più usato dei plugin, e porta quattordici metodi.
@@ -99,19 +103,32 @@ per questo te lo chiedo invece di farlo.
 luglio. Erano copie ferme a quella data. Col plugin arrivano aggiornate e si aggiornano da sole. Se
 non lo rendi permanente, ogni sessione riparte con le due copie vecchie e senza le altre dodici.
 
-**Se va bene:** apri `.claude/settings.json` e incolla queste righe subito dopo la prima parentesi
-graffa, prima di `"permissions"`:
+**Se va bene:** me l'hai chiesto tu di farlo io, e ho provato — il blocco ha tenuto. Quel file l'hai
+chiuso in scrittura apposta: è quello che accende e spegne tutti i miei freni insieme, e la regola
+serve proprio a impedire che io mi allarghi i permessi da sola. Ha funzionato come doveva.
 
-```json
-  "extraKnownMarketplaces": {
-    "superpowers-dev": {
-      "source": { "source": "github", "repo": "obra/superpowers" }
-    }
-  },
-  "enabledPlugins": {
-    "superpowers@superpowers-dev": true
-  },
+Il 4 agosto ci siamo già bruciati su questo. Ti avevo detto «aggiungi due righe lì dentro» e il
+testo si era rotto in silenzio: una virgola sbagliata, nessun errore a schermo, solo il lavoro che
+non funzionava. Quindi non ti faccio incollare niente a mano.
+
+Il file già pronto sta qui: `consegne/tech/settings-con-superpowers.json`. L'ho generato dal tuo
+file di adesso, aggiungendo solo le due righe che servono. Ho controllato che tutto il resto sia
+identico parola per parola: 63 permessi concessi, 15 vietati, 8 ganci — gli stessi numeri di prima.
+
+**Un comando solo:**
+
 ```
+cp consegne/tech/settings-con-superpowers.json .claude/settings.json
+```
+
+Poi controlla di non aver rotto niente. Questo comando risponde in una riga sola:
+
+```
+node cervello/plugin-acceso.mjs
+```
+
+Se dice **acceso**, è fatto. Se dice che il file è rotto, mandami la riga che esce e te lo
+raddrizzo io. Poi **riavvia la sessione**: i plugin si leggono all'avvio, non mentre lavori.
 
 Poi, sul server, un giro di `node cervello/sync-worker-plugins.mjs --specchia` così anche lì sparisce
 la copia doppia.
@@ -139,63 +156,60 @@ brevi, dimmelo e lo restringo ai lavori interni come facemmo allora.
 
 ---
 
-### 🔴 #141 — Fai partire il rilascio solo a controlli verdi, non insieme a loro · ⏳ accodata 2026-08-21 03:20
+### 🔴 #141 — Il rilascio va agganciato a Vercel, non a Render · ⏳ accodata 2026-08-21 03:20 · riscritta 2026-08-21 15:45
 
-**Cosa cambia:** oggi il rilascio parte insieme ai controlli, non dopo. Se un controllo diventa
-rosso, il codice rotto è già online.
+**Cosa cambia:** questa carta ti diceva tre mosse su Render. Erano puntate sul bersaglio sbagliato,
+e me ne sono accorto facendola.
 
-La metà buona è già scritta: un lavoro che rilascia solo a controlli passati. È spento perché gli
-manca l'indirizzo di rilascio. Tre mosse, tutte tue perché toccano la produzione.
+Ho guardato i rilasci veri. Il sito lo pubblica **Vercel**: ogni unione su `main` fa partire una
+pubblicazione in produzione entro pochi secondi, senza aspettare i controlli. Le tre unioni di oggi
+hanno fatto esattamente questo. Spegnere Render non avrebbe chiuso niente, e tu avresti creduto di
+essere protetto.
 
-- **Prima** — Render → il servizio → Settings → Deploy Hook: copia l'indirizzo. Mettilo su GitHub
-  come segreto `RENDER_DEPLOY_HOOK`, sotto Settings → Secrets and variables → Actions.
-- **Poi** — nel file `render.yaml` cambia una riga: `autoDeploy: true` diventa `autoDeploy: false`.
-  Va fatto dopo il passo di prima. Al contrario il rilascio si ferma e basta.
-- **Infine** — GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio su `main`.
+Il lavoro che rilascia solo a controlli verdi adesso punta su Vercel. È spento finché non ha le
+chiavi, come prima.
 
-**Se va bene:** in produzione arriva solo quello che ha passato i controlli.
+**Se va bene:** tre passi, e l'ordine conta perché al contrario il sito smette di aggiornarsi.
 
-**Cosa non ho verificato:** non ho aperto Render né toccato le impostazioni di GitHub. Le tre mosse
-le ho lette dai file del progetto.
+Primo, i segreti. Su GitHub vai in Settings → Secrets and variables → Actions. Servono tre nomi.
+`VERCEL_TOKEN` lo crei su Vercel, in Account Settings → Tokens → Create. `VERCEL_ORG_ID` e
+`VERCEL_PROJECT_ID` stanno su Vercel, dentro il progetto, in Settings → General, in fondo.
 
----
+Secondo, dimmelo e ti cambio io due parole: `"main": true` diventa `false` in `vercel.json`, e
+`autoDeploy: true` diventa `false` in `render.yaml`.
 
-### 🔴 #140 — Firma la migrazione sul database: senza, metà delle riparazioni resta spenta · ⏳ accodata 2026-08-21 03:20 · aggiornata 2026-08-21 13:30
+Terzo, GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio su `main`.
 
-**Cosa cambia:** unire una richiesta pubblica il codice. Non tocca il database. Sono due firme
-diverse, e la prima l'hai già data: il codice è online da stamattina.
-
-Poi ho provato cosa succede col codice nuovo e il database vecchio, e non nasceva nessun ordine.
-L'ho riparato, e adesso il sito regge in tutti e due i mondi: la riparazione è nella richiesta
-nuova sul sito.
-
-Firmare accende quello che oggi resta spento: sette riparazioni, e la prima costa più delle altre
-sei. È la vetrina dei negozi, che sei pagine del sito chiedono e che oggi risponde con zero negozi.
-Poi il rimborso che toglie al negozio più del dovuto, il ritiro in negozio che arriva a
-«consegnato», i ritiri tolti dalla bacheca dei fattorini, gli stati del compenso rifiutati dal
-database, gli esiti dei pagamenti, il riquadro della home.
-
-Il file è `migrations/124_radiografia_21_agosto.sql`, ora sul ramo principale.
-
-**Se va bene:** dimmelo e ti passo il comando esatto da incollare.
-
-**Cosa non ho verificato:** l'ho applicata solo a una copia di prova qui dentro, mai a un database
-vero, e non ho aperto il sito online per guardare la vetrina.
+**Cosa non ho verificato:** non so se il servizio Render sia ancora acceso. Da qui non lo raggiungo,
+e l'ho scritto nel file invece di darlo per spento.
 
 ---
 
-### 🟡 #139 — Un Supabase di prova, per i controlli che oggi si saltano da soli · ⏳ accodata 2026-08-21 03:20
+### ✅ #139 — Le prove sui permessi girano, e non costano niente · ⏳ accodata 2026-08-21 03:20 · fatta 2026-08-21 15:45
 
-**Cosa cambia:** due gruppi di controlli si saltano quando mancano i segreti di un progetto di
-prova. Sono quelli sui permessi del database e quelli che aprono il sito in un browser vero.
+**Stato:** ✅ FATTO 2026-08-21 15:45 — senza comprare niente.
 
-Da oggi lo dicono in cima al riepilogo invece che nel log. Ma restano saltati. È anche il motivo per
-cui non ho potuto scrivere i tre giri nel browser sulla catena dell'ordine.
+**Cosa cambia:** questa carta diceva «crea un progetto Supabase di prova». Ho chiesto il prezzo
+prima di crearlo: 10 dollari al mese, per sempre, più tre chiavi da custodire su GitHub — fra cui
+quella che apre tutto. Il prezzo la carta non lo diceva.
 
-**Se va bene:** crea un progetto Supabase nuovo e vuoto, mai quello dei clienti. Mettine tre segreti
-su GitHub: `SUPABASE_TEST_URL`, `SUPABASE_TEST_ANON_KEY`, `SUPABASE_TEST_SERVICE_ROLE_KEY`.
+Strada scelta: i controlli si avviano un Supabase loro, dentro la macchina che li esegue. Ci
+applicano le 125 migrazioni. Ci mettono dentro un negozio e un ordine veri. Poi provano contro
+quello. Vive quanto il giro e poi sparisce: zero euro, nessuna chiave da custodire, e nasce vuoto
+ogni volta.
 
-**Cosa non ho verificato:** non ho creato il progetto né toccato i segreti.
+**Cosa fa adesso:** venti prove che non giravano da sempre adesso girano a ogni controllo. Sono
+quelle che verificano che un estraneo non legga i dati dei clienti e non possa chiamare le funzioni
+riservate. Prima si saltavano in silenzio, e il verde diceva «provato» quando non era vero.
+
+**Cosa ho trovato accendendole:** due difetti che c'erano già e che nessuno vedeva, perché una prova
+che si salta non può diventare rossa. Le prove giravano su una versione di Node che non ha un pezzo
+che il client Supabase pretende, quindi sarebbero fallite anche col progetto a pagamento. E i
+controlli provavano su Node 20 mentre il sito in produzione gira su Node 24: quattro numeri di
+distanza fra quello che si prova e quello che serve i clienti.
+
+**Cosa non ho verificato:** i controlli adesso girano su Node 22, la produzione su 24. Meglio di
+prima, non uguale. Chiudere anche quel pezzo va provato, e qui non avevo un Node 24 con cui farlo.
 
 ---
 
@@ -429,34 +443,34 @@ testo del matcher, non una misura.
 
 ### 🟡 #120 — Avvisa il fornaio: c'è un circuito welfare gratis a cui può iscriversi subito · ⏳ accodata 2026-08-17 14:05
 
-**Cosa cambia:** ho trovato che a Piacenza esiste già un programma chiamato "Piacenza Pay" —
-gestito da un'azienda nazionale di buoni pasto (360Welfare) insieme alle 4 associazioni di
-commercianti della città — che fa arrivare ai negozi i soldi del welfare aziendale dei
-dipendenti (buoni pasto, buoni acquisto). Per il negozio è **gratis aderire**, paga solo una
-piccola parte quando un cliente spende davvero. Non c'entra niente con MyCity: Pane Quotidiano
-potrebbe iscriversi oggi stesso, senza aspettare che i nostri pagamenti Stripe siano accesi. È
-un canale di soldi in più che il fornaio oggi non sta prendendo.
+**Cosa cambia:** a Piacenza esiste già un programma chiamato "Piacenza Pay". Lo gestisce
+360Welfare, un'azienda nazionale di buoni pasto, insieme alle 4 associazioni di commercianti
+della città. Il programma fa arrivare ai negozi i soldi del welfare aziendale dei dipendenti:
+buoni pasto, buoni acquisto. Per il negozio aderire è **gratis**. Paga solo una piccola parte
+quando un cliente spende davvero. Non c'entra niente con MyCity: Pane Quotidiano potrebbe
+iscriversi oggi stesso, senza aspettare che i nostri pagamenti Stripe siano accesi. È un canale
+di soldi in più che il fornaio oggi non sta prendendo.
 
 **Testo pronto da inoltrare (WhatsApp o di persona):**
-> «Ciao! Volevo segnalarti una cosa che ho trovato: a Piacenza c'è un programma gratuito chiamato
-> "Piacenza Pay" (lo gestisce 360Welfare insieme a Confindustria, Confapi, Confesercenti e
-> Confcommercio Piacenza) che fa arrivare ai negozi i buoni pasto e i buoni acquisto welfare dei
-> dipendenti delle aziende della zona. Per il negozio è gratis iscriversi, non c'è nessun canone:
-> paghi solo una piccola percentuale quando un cliente spende davvero. Basta scrivere a
+> «Ciao! Volevo segnalarti una cosa che ho trovato. A Piacenza c'è un programma gratuito chiamato
+> "Piacenza Pay". Lo gestisce 360Welfare insieme a Confindustria, Confapi, Confesercenti e
+> Confcommercio Piacenza. Fa arrivare ai negozi i buoni pasto e i buoni acquisto welfare dei
+> dipendenti delle aziende della zona. Per il negozio è gratis iscriversi, non c'è nessun canone.
+> Paghi solo una piccola percentuale quando un cliente spende davvero. Basta scrivere a
 > piacenzapay@360welfare.it per iscriverti. Non c'entra con MyCity, è un programma separato — ma
 > ti porta clienti e soldi in più senza costo, quindi ti conviene comunque farlo. Fammi sapere se
 > vuoi che ti aiuti a scrivere la mail.»
 
-**Se va bene:** lo mandi tu al fornaio (hai il suo numero, 0523388601) quando preferisci — ora o
-quando riprendi il lavoro operativo il 24/8-1/9. Non costa niente a MyCity e non tocca nessun
-paletto: è un consiglio a un partner su un servizio esterno.
+**Se va bene:** lo mandi tu al fornaio. Hai il suo numero, 0523388601 — quando preferisci: ora,
+oppure quando riprendi il lavoro operativo il 24/8-1/9. Non costa niente a MyCity e non tocca
+nessun paletto: è un consiglio a un partner su un servizio esterno.
 
-**Cosa non ho verificato:** se Piacenza Pay ha già negozi come panetterie/gastronomie bio nel suo
-circuito, e se la percentuale sulla transazione è alta o bassa — l'articolo dice solo "nessun
-costo di ingresso", non parla della commissione sulla vendita.
+**Cosa non ho verificato:** due cose. Se Piacenza Pay ha già negozi come panetterie o gastronomie
+bio nel suo circuito. E se la percentuale sulla transazione è alta o bassa — l'articolo dice solo
+"nessun costo di ingresso", non parla della commissione sulla vendita.
 
-- **Colore:** 🟡 — è un messaggio a una persona reale fuori da MyCity (il fornaio), anche se a
-  costo/rischio quasi zero.
+- **Colore:** 🟡. È un messaggio a una persona reale fuori da MyCity (il fornaio), anche se il
+  costo e il rischio sono quasi zero.
 - **Reparto:** intelligence
 - **Origine:** `{origine:playbook-intelligence-17-8, fonte:piacenza24.eu+ilpiacenza.it+360welfare.it, briefing:90-Memoria-AI/Briefing/2026-08-17-intelligence.md}`
 
@@ -644,7 +658,7 @@ Il resto della macchina sta bene. Sensori, sincronizzazione con GitHub, coerenza
 
 ---
 
-### 🟡 #104 — Correggi 5 righe nelle tue regole di permesso: è il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20
+### 🟡 #104 — Correggi 5 righe nelle tue regole di permesso: è il motivo per cui il giro fallisce da quasi due settimane · ⏳ accodata 2026-08-16 07:20 · 🔄 refresh 2026-08-21 14:50
 
 *Nota: rinumerata da #81 alle 11:12 (collideva col vecchio #81 tabellare "Merge PR #714", mai riutilizzabile).*
 
@@ -664,7 +678,11 @@ Il file non è nel repo: è dentro `.gitignore`. Va modificato a mano sul VPS, n
 
 **Cosa non ho verificato:** non ho potuto testare il giro dopo la correzione. Serve il VPS, e io scrivo da un ambiente cloud senza quei permessi. Non so nemmeno se qualcos'altro, oltre a queste 5 righe, contribuisce ai fallimenti. Ho verificato solo che questo stesso errore compare in ogni fallimento registrato dal 12/8 in poi.
 
-(dettaglio: vedi memoria `project-settings-local-write-vs-edit-blocca-lavori.md`; prova: `MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json`)
+**Riconferma 21/8 14:50 — ancora aperta, 5 giorni dopo, e si allarga.** La sentinella macchina segnalava "6 cadenze ferme da quasi 14 giorni" (ritmo-mattino, giro, monitora, ritmo-mezzogiorno, ritmo-sera, ritmo-settimana). Ho controllato che non fosse un falso allarme (mi era già capitato con altri sensori): non lo è. `auto-coscienza/esito-cadenze.json` mostra davvero ogni cadenza ferma al 18/8 (l'ultima riga fresca è "giro" delle 08:36 di quel giorno), anche se il file stesso risulta toccato oggi e anche se in queste ore la memoria si sta pubblicando lo stesso (ultimi commit 14:40/14:44/14:48) — segno che il giro "leggero" di oggi gira, ma il passo che scrive il proprio esito in quel file resta bloccato, stessa causa di questa card. Prova in più di oggi: ho provato a lanciare `systemctl list-timers` per controllare i timer del ritmo sul VPS, come chiede questa stessa card, ed è stato respinto dal controllo permessi prima ancora di partire — il buco non blocca più solo le mie scritture in memoria/cervello/pannello, blocca anche i comandi con cui verificherei se i timer sono vivi. Non ho toccato altro: nessuna nuova card, la diagnosi e la cura restano quelle di sopra.
+
+(dettaglio: vedi memoria `project-settings-local-write-vs-edit-blocca-lavori.md`; prova: `MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json`, `MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-cadenze.json`)
+
+**Riconferma 21/8 15:35 — stesso blocco, e il freno verificabile esiste già.** Ho riprovato io stessa `node cervello/salute.mjs`: respinto subito, "richiede approvazione", nessuna scrittura possibile. Il file `.claude/settings.local.json` ha ancora le stesse 5 righe `Write(...)` alle righe 24-28. Non serve costruire un nuovo controllo: `cervello/permessi-check.mjs` (regola `forma-file-non-applicata`, AR-562) individua già esattamente questo pattern e diventa rosso se lo trova — è il freno che la card chiede, ma può leggerlo solo chi gira SUL VPS (il file è locale, fuori dal repo). **Cosa fare in più, in un solo giro:** dopo aver cambiato le 5 righe, lanciare sul VPS `node cervello/permessi-check.mjs` — se esce pulito (exit 0) la correzione è confermata dal proprio guardiano, non solo "a occhio".
 
 <!-- posthog-off-vps -->
 
@@ -928,11 +946,13 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🔴 #38 — Tappa i cinque punti dove il marketplace perde soldi da solo · ⏳ accodata 2026-07-29 13:30
+### 🔴 #38 — Tappa i cinque punti dove il marketplace perde soldi da solo · ⏳ accodata 2026-07-29 13:30 · 🔍 riverificata sul DB vero 2026-08-21 14:30
 
-**Cosa cambia:** cinque difetti che costano soldi veri appena arriva il primo volume. ① **Doppia vendita:** la merce viene "rimessa a scaffale" dopo 2 ore, ma la pagina di pagamento resta valida 24 — chi paga dopo compra roba già venduta. È lo stesso bloccante del 7 luglio, ancora lì. ② **Campagne che si spengono a un terzo:** ogni checkout abbandonato brucia un utilizzo del codice sconto per sempre, e nessuno lo restituisce. Un coupon da 100 usi si esaurisce dopo 100 *tentativi*, non 100 ordini. ③ **Il rider si decide lo stipendio:** il campo del suo compenso non è tra quelli congelati e finisce dritto in un bonifico Stripe. ④ **Il rider non viene mai pagato** sugli ordini con spedizione gratuita, e il programma automatico ci riprova all'infinito. ⑤ **Un reclamo blocca il negozio per sempre:** una volta aperto, lo stato del reclamo non torna mai indietro e il negoziante non viene più pagato. In più: gift card, sponsorizzazioni e abbonamenti pagati possono sparire in silenzio se il database fa i capricci, perché il sistema li segna come riusciti comunque.
+**Aggiornamento 2026-08-21:** ho controllato punto per punto sul database di produzione, dopo il grosso lotto di riparazioni del 20-21/8. **Due dei cinque sono già a posto**: ③ il campo del compenso rider (`rider_fee_cents`) NON è più tra quelli che rider/venditore possono cambiare — l'ho letto nella funzione che protegge gli ordini, la lista dei campi liberi non lo contiene; ② la funzione che restituisce l'uso di un coupon dopo un checkout abbandonato (`release_coupon`) ora esiste sul database, prima non c'era. **Gli altri tre non li ho potuti verificare da qui**: doppia vendita (①) e reclamo che blocca per sempre (⑤) dipendono dal codice del sito (cron, webhook) che da questa sessione non leggo — il trigger del reclamo che ho trovato (`dispute_block_payout`) blocca il pagamento all'apertura ma non mostra un modo per sbloccarlo, quindi il punto ⑤ potrebbe essere ancora aperto. **Non chiudo la card**: la declasso da "cinque falle" a "tre da verificare col codice, due già chiuse".
 
-**Se va bene:** apro un branch e li affronto in quest'ordine — prima il compenso rider e il reclamo bloccante (bastano poche righe), poi il coupon e la doppia vendita (serve una migration). Ti consegno l'anteprima con la lista di cosa ho toccato e mandi in produzione tu.
+**Cosa cambia:** cinque difetti che costano soldi veri appena arriva il primo volume. ① **Doppia vendita:** la merce viene "rimessa a scaffale" dopo 2 ore, ma la pagina di pagamento resta valida 24 — chi paga dopo compra roba già venduta. È lo stesso bloccante del 7 luglio, ancora lì. ~~② Campagne che si spengono a un terzo~~ — RISOLTO, vedi sopra. ~~③ Il rider si decide lo stipendio~~ — RISOLTO, vedi sopra. ④ **Il rider non viene mai pagato** sugli ordini con spedizione gratuita, e il programma automatico ci riprova all'infinito. ⑤ **Un reclamo blocca il negozio per sempre:** una volta aperto, lo stato del reclamo non torna mai indietro e il negoziante non viene più pagato. In più: gift card, sponsorizzazioni e abbonamenti pagati possono sparire in silenzio se il database fa i capricci, perché il sistema li segna come riusciti comunque.
+
+**Se va bene:** apro un branch e affronto solo i tre punti rimasti (①④⑤, doppia vendita/payout gratuito/reclamo permanente) leggendo il codice del sito. Ti consegno l'anteprima e mandi in produzione tu.
 
 **Nota tecnica:** ① `lib/stripe/client.ts` non passa `expires_at`, `migrations/042_multi_seller_checkout.sql:43` vs cron `expire-checkouts`; `app/api/stripe/webhook/route.ts:210` non gestisce EXPIRED/CANCELED. ② `claim_coupon` (migration 108) chiamata prima di `reserve_stock`, nessuna `release_coupon` esiste. ③ `rider_fee_cents` assente dal freeze di `enforce_order_update_rules` → `lib/stripe/payout.ts`. ④ `lib/stripe/payout.ts:161-166` + `app/api/cron/release-payouts/route.ts:113-136`. ⑤ trigger `dispute_block_payout`, `migrations/063_p1_db_hardening.sql:69-84`. Webhook: handler gift card/sponsor/abbonamento fanno `return` invece di `throw`, il dispatcher marca `processed=true`.
 - **Colore:** 🔴 (tocca pagamenti, payout e database di produzione)
@@ -940,38 +960,6 @@ in scrittura alla macchina, ed è giusto così.
 - **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:api-backend+pagamenti-stripe+qa-flussi}`
 
 <!-- radiografia-2026-07-29-porte-aperte -->
-
----
-
-### 🔴 #37 — Chiudi le quattro porte che lasciano entrare chiunque nei dati dei negozi e dei clienti · ⏳ accodata 2026-07-29 13:30
-
-**Cosa cambia:** quattro falle di sicurezza aperte sul sito vero, tutte confermate. ① Tre elenchi pubblici dei negozi sono scrivibili da un visitatore **senza account**: si possono cambiare telefono, indirizzo e nome di un negozio, o cancellarlo — e cancellarlo si porta dietro conversazioni, portafoglio e punti fedeltà. Ho verificato io sul database che il permesso di scrittura c'è davvero. ② Nome, telefono e indirizzo di casa dei clienti con una consegna in corso si leggono **senza login**: la regola scritta per far vedere ai rider gli ordini disponibili è troppo larga. ③ Chi si registra diventa venditore o rider **già approvato**: il controllo dell'admin è scavalcato. ④ Sempre senza login si possono modificare i dati di consegna degli ordini pronti. Queste sono le cose che, se qualcuno le trova prima di noi, chiudono l'azienda: sono dati personali di clienti veri e una violazione da notificare al Garante.
-
-**Se va bene:** apro un branch con le migration che mettono le tre viste in modalità "rispetta i permessi di chi legge", tolgono i permessi di scrittura ad anonimo, stringono la regola dei rider a chi è davvero un rider e rimettono l'approvazione dell'admin alla nascita dell'account. Ti mostro l'anteprima e le mandi in produzione tu, una per volta.
-
-**Nota tecnica:** ① viste `public_profiles`/`seller_public_profiles`/`seller_storefronts` senza `security_invoker` e con GRANT UPDATE/DELETE ad `anon` (migrations 108/110/112; `seller_storefronts` è drift: non esiste in nessun file del repo). ② policy «Riders can view available and own orders», `migrations/019_rider_visibility.sql:14-21`. ③ `public.handle_new_user`, `migrations/015_competitive_moats.sql:137-156`. ④ policy «Riders can update assigned or claim free orders», `migrations/011_orders_delivery.sql:128-134`. Nota collegata: l'hardening RLS delle migration 020 e 109 non ha mai avuto effetto — è scritto per nomi di policy che sul DB non esistono.
-- **Colore:** 🔴 (migration sul database di produzione, dati personali)
-- **Reparto:** security + backend-dev + dpo
-- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:sicurezza-auth+rls-database+privacy-legale+architettura}`
-
-<!-- radiografia-2026-07-29-ordini-bloccati -->
-
----
-
-### 🔴 #36 — Ripara il pulsante che venditore e rider usano per far avanzare un ordine · ⏳ accodata 2026-07-29 13:30
-
-**Cosa cambia:** in questo momento, sul sito vero, quando un negoziante accetta un ordine dalla sua pagina o un rider lo prende in carico, il database rifiuta la modifica e restituisce un errore. Non è un sospetto: l'ho verificato io con una query sul database di produzione. A giugno una modifica ha cancellato dagli ordini il campo "numero fattura", ma il controllo di sicurezza che protegge gli ordini continua a cercarlo, e va in errore proprio quando la modifica è **legittima**. Le API del server non sono toccate — muore solo quello che parte dal browser, cioè le due schermate che fanno camminare una consegna. Con un negozio solo e zero ordini pagati oggi non se ne accorge nessuno: al primo ordine vero, il negoziante non riesce ad accettarlo.
-
-**Se va bene:** apro un branch sul repo del sito con una migration che riscrive quel controllo togliendo il campo cancellato, più un test che diventa rosso se il controllo torna a citare una colonna che non esiste. Poi te lo mostro in anteprima e lo mandi in produzione tu.
-
-**Aggiornamento 2026-08-17 06:xx:** oggi ho fatto rileggere a backend-dev tutti i file citati sotto, uno per uno. La diagnosi è confermata al 100%, nessun dubbio residuo. Il branch `fix/enforce-order-update-invoice-number` esiste in locale con la migration pronta e un test nuovo. Non è ancora su GitHub: i permessi di questa sessione non includono `git commit`/`git push` sul repo del sito. Serve una sessione con quei permessi per finire il lavoro (commit, push, anteprima).
-
-**Nota tecnica:** `migrations/061_p0_security_rls_state_machine_reviews.sql:129` (funzione `enforce_order_update_rules`, tuttora viva sul DB) cita `NEW.invoice_number`, colonna droppata da `migrations/105_remove_invoicing.sql:27`. Nessuna migration successiva ridefinisce la funzione (063/064/094/096 la citano solo nei commenti). Verifica diretta sul progetto `clmpyfvpvfjgeviworth`: `colonna_esiste=false`, `trigger_la_cita=true`. Punti d'impatto: `app/seller/orders/[id]/page.tsx:205`, `app/rider/orders/[id]/page.tsx:108`. Uscita anticipata per admin/service_role alle righe 96-98 → route server salve. Migration pronta: `marketplace/migrations/107_fix_enforce_order_update_invoice_number.sql`. Test pronto: `marketplace/tests/unit/migrations-integrity.test.ts`.
-- **Colore:** 🔴 (migration sul database di produzione)
-- **Reparto:** backend-dev + security
-- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:rls-database}`
-
-<!-- radiografia-prova-non-vera-alla-nascita -->
 
 ---
 
@@ -1749,7 +1737,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-21 14:27)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-21 16:26)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-21-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1761,7 +1749,63 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-21 14:27 · 13 card totali
+> Ultima pulizia: 2026-08-21 16:26 · 16 card totali
+
+### ✅ #140 — La migrazione è applicata al database vero · ⏳ accodata 2026-08-21 03:20 · fatta 2026-08-21 14:55
+
+**Stato:** ✅ FATTO 2026-08-21 14:55 — me l'hai chiesto tu in chat («fallo tu»), l'ho applicata io.
+
+**Com'è andata.** Al primo colpo si è fermata, con questo errore: «orders: modifica di un campo
+protetto non consentita». Era dentro una transazione, quindi non si è scritto niente e il database
+è rimasto com'era. Il difetto era mio: la migrazione riempiva un campo nuovo sugli ordini già
+presenti, e quel campo è protetto dalla scrittura, che è esattamente ciò che lo difende dal
+browser. Riparata con la chiave che il progetto usa per il lavoro di servizio, e riapplicata.
+
+**Cosa è acceso adesso.** Nove controlli su nove verdi sul database vero: il lordo di vendita
+scritto sull'ordine, il ritiro in negozio che arriva a «consegnato», i ritiri tolti dalla bacheca
+dei fattorini, gli esiti dei pagamenti registrati, la vetrina dei negozi, il riquadro della home,
+i contatori dei bonifici. L'ordine che c'era è intatto e gli otto profili sono tutti lì.
+
+**Una cosa che ti avevo detto male.** In questa carta avevo scritto che la vetrina dei negozi
+«risponde con zero negozi». Sul database vero non era così: le due colonne c'erano già, e la
+vetrina rispondeva col suo negozio anche prima. Quel guasto lo vedevo ricostruendo il database da
+zero, dove la catena delle migrazioni le perdeva per strada. Vero come difetto del progetto, falso
+come descrizione del sito online.
+
+**Cosa non ho verificato:** non ho aperto il sito online con gli occhi, da qui non ci arrivo. Ho
+controllato il database, non le pagine.
+
+---
+
+### ✅ #37 — CHIUSA 2026-08-21 14:30 (verificata risolta sul DB vero) — Chiudi le quattro porte che lasciano entrare chiunque nei dati dei negozi e dei clienti · accodata 2026-07-29 13:30
+
+**Esito:** ho controllato le quattro falle una per una sul database di produzione reale, dopo il grosso lotto di riparazioni del 20-21/8, e sono **tutte e quattro chiuse**. ① La vista `public_profiles` scrivibile non esiste più (rimane solo `seller_public_profiles`, di sola lettura e filtrata su negozi approvati); su `profiles`/`orders` non c'è nessun permesso di scrittura per un visitatore senza account. ② La regola che faceva vedere ai rider gli ordini disponibili con tutti i dati del cliente ora limita la lettura al solo rider assegnato (`rider_id = chi ha fatto login`) — gli ordini disponibili passano da una vista separata senza dati sensibili. ③ Chi si registra oggi nasce **non approvato** (`is_approved=false`, `approval_status='pending'`): l'ho letto nel codice della funzione che crea il profilo alla registrazione. ④ Nessun permesso di scrittura sui dati di consegna per chi non ha fatto login. Nessuna azione resta da firmare: il fix è già nel database vero, non in un branch in attesa.
+
+**Cosa cambiava (per storico):** quattro falle di sicurezza aperte sul sito vero, tutte confermate. ① Tre elenchi pubblici dei negozi erano scrivibili da un visitatore senza account. ② Nome, telefono e indirizzo di casa dei clienti con una consegna in corso si leggevano senza login. ③ Chi si registrava diventava venditore o rider già approvato. ④ Si potevano modificare senza login i dati di consegna degli ordini pronti.
+
+**Nota tecnica:** ① viste `public_profiles`/`seller_public_profiles`/`seller_storefronts` senza `security_invoker` e con GRANT UPDATE/DELETE ad `anon` (migrations 108/110/112; `seller_storefronts` è drift: non esiste in nessun file del repo). ② policy «Riders can view available and own orders», `migrations/019_rider_visibility.sql:14-21`. ③ `public.handle_new_user`, `migrations/015_competitive_moats.sql:137-156`. ④ policy «Riders can update assigned or claim free orders», `migrations/011_orders_delivery.sql:128-134`. Nota collegata: l'hardening RLS delle migration 020 e 109 non ha mai avuto effetto — è scritto per nomi di policy che sul DB non esistono.
+- **Colore:** 🔴 (migration sul database di produzione, dati personali)
+- **Reparto:** security + backend-dev + dpo
+- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:sicurezza-auth+rls-database+privacy-legale+architettura}`
+
+<!-- radiografia-2026-07-29-ordini-bloccati -->
+
+---
+
+### ✅ #36 — CHIUSA 2026-08-21 14:30 (verificata risolta sul DB vero) — Ripara il pulsante che venditore e rider usano per far avanzare un ordine · accodata 2026-07-29 13:30
+
+**Esito:** ho riletto sul database di produzione la funzione che protegge gli ordini (`enforce_order_update_rules`): non cita più `invoice_number`. È stata riscritta con una lista bianca di campi che negozio/rider possono cambiare (stato consegna, rider assegnato, orari, posizione) — il vecchio controllo che cercava una colonna cancellata a giugno non c'è più. Il pulsante che fa avanzare un ordine funziona: nessuna azione resta da firmare, il fix è già nel database vero (probabilmente dentro il lotto di migrazioni 107-124 del 20-21/8), non in un branch locale come al 17/8.
+
+**Cosa cambiava (per storico):** sul sito vero, quando un negoziante accettava un ordine o un rider lo prendeva in carico, il database rifiutava la modifica per colpa di un controllo che cercava ancora il campo "numero fattura", cancellato a giugno.
+
+**Nota tecnica:** `migrations/061_p0_security_rls_state_machine_reviews.sql:129` (funzione `enforce_order_update_rules`, tuttora viva sul DB) cita `NEW.invoice_number`, colonna droppata da `migrations/105_remove_invoicing.sql:27`. Nessuna migration successiva ridefinisce la funzione (063/064/094/096 la citano solo nei commenti). Verifica diretta sul progetto `clmpyfvpvfjgeviworth`: `colonna_esiste=false`, `trigger_la_cita=true`. Punti d'impatto: `app/seller/orders/[id]/page.tsx:205`, `app/rider/orders/[id]/page.tsx:108`. Uscita anticipata per admin/service_role alle righe 96-98 → route server salve. Migration pronta: `marketplace/migrations/107_fix_enforce_order_update_invoice_number.sql`. Test pronto: `marketplace/tests/unit/migrations-integrity.test.ts`.
+- **Colore:** 🔴 (migration sul database di produzione)
+- **Reparto:** backend-dev + security
+- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:rls-database}`
+
+<!-- radiografia-prova-non-vera-alla-nascita -->
+
+---
 
 ### ✅ #135 — Applica la 123: il fattorino vede l'ordine e non riesce a prenderlo. FATTO 2026-08-20 14:40, col tuo ok in chat · ⏳ accodata 2026-08-20 13:30
 
@@ -2155,3 +2199,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 123 | 2026-08-17 16:33 | @tech | I test del cervello dicono no da tre giri di fila, e da qui in chat non riesco più a rilanciarli | 🟡 | `test-cervello.mjs` è entrato nell'elenco dei controlli "cronici" (AR-687: rosso da ≥3 giri senza mai essere riparato). Non riesco a verificarlo dal vivo in questa sessione: il comando resta fuori dall'elenco esatto dei programmi ammessi (stesso buco della card #104/#42), quindi ogni tentativo viene respinto prima ancora di girare. Quello che vedo indirettamente da `ci-stato.mjs` è coerente: le 5 PR aperte oggi (#754, #753, #749, #741, #735) falliscono tutte anche su "test-del-cervello", ognuna per colpa propria (non ereditata da `main`) — cinque rami diversi che rompono lo stesso controllo è il segnale che il problema non è un caso isolato. | manuale | in attesa | Finché resta rosso e non verificabile da qui, nessuna delle 5 PR di codice-macchina può dirsi davvero pronta al merge, anche quando sembra a posto: il cancello di serietà (CLAUDE.md) vieta di dichiarare "fatto" con i test rossi. | Applicando la card #104 (le 5 righe di permesso mancanti) sblocco `test-cervello.mjs` da qui e lo rilancio nello stesso giro in cui la card viene approvata; altrimenti serve una sessione dal VPS che lo rilanci e riporti l'esito. |
 | 124 | 2026-08-18 06:41 | @ad | Controlla perché il monitoraggio automatico scrive testi difficili da leggere | 🟡 | Il cancello di fine turno ha trovato frasi difficili in 5 file. Sono `Intelligence/buchi-mercato.md`, `Intelligence/eventi-picchi.md`, `Intelligence/reputazione.md`, `RITMO.md`, `AZIONI-IN-ATTESA.md`. Non li ho scritti io in questo giro. Le date sui file dicono 06:07-06:39 di oggi. Io in questo giro ho toccato solo altri quattro file, tra le 06:40 e le 06:45 — verificato con `stat` e `git status --short`. La causa più probabile è il monitoraggio che gira da solo, `cervello/monitora.md` ("Ondata 3"). Scrive dentro questi file senza passare da `si-capisce.mjs`. Quel controllo misura quanto un testo è difficile da leggere. Il problema tipico sono frasi lunghe con un'idea dentro l'altra. Un esempio vero, da `eventi-picchi.md`: "Media/bassa per MyCity — fuori Piacenza città (Val Tidone)". Il lettore deve tenere in sospeso "Media/bassa" fino alla fine della frase per capire di cosa parla. | manuale | in attesa | Se questi testi restano così, ogni volta che apri Intelligence o Ritmo fai più fatica del necessario per capirli. Il problema si accumula da solo, un giro dopo l'altro, perché nessuno lo controlla prima di scrivere. | Dimmi tu quale preferisci. Primo: aggiungo `si-capisce.mjs` come controllo dentro `cervello/monitora.md`, prima che scriva — così il problema si ferma alla radice. Secondo: lascio così per ora e lo correggo io a mano una volta a settimana. |
 | 125 | 2026-08-18 08:04 | @backend-dev | Il sito appena pubblicato chiede al database dieci cose che lì non ci sono, e i rimborsi non partono più | 🔴 | Hai unito la richiesta 223 del marketplace alle 07:33. Vercel ha subito messo online il codice nuovo, e la pubblicazione risulta pronta. Quel lavoro però era fatto di due metà. Una metà è il codice del sito. L'altra metà sono quattro modifiche al database, i file numerati da 114 a 117. Il codice è andato online da solo. Le quattro modifiche no, perché toccare il database vero è una firma tua. Ho letto il database di produzione senza scriverci niente. L'ultima modifica applicata è la 113. Il codice nuovo cerca dieci cose nel database, e non ne trova nessuna delle dieci. **Cosa è rotto adesso.** Primo, e più grave: i rimborsi. Il sito cerca l'ordine da rimborsare e chiede anche un dato che nel database non c'è ancora. Riceve un errore e si ferma dicendo «ordine non trovato». Sono ferme tutte e quattro le strade che restituiscono soldi a un cliente. La prima è annullare un ordine dal pannello. La seconda è decidere su un reso. La terza è risolvere una contestazione della banca. La quarta è rimborsare un ordine scaduto. Ieri funzionavano tutte e quattro. È un peggioramento nato stamattina con la pubblicazione. Secondo: i rimborsi pieni che arrivano da Stripe non trovano più l'ordine, e vengono ignorati in silenzio. Terzo: i codici sconto. Chi scrive un codice buono si sente rispondere «Codice non valido». Comprare funziona ancora, perché il conto vero lo rifà il server per un'altra strada. Quarto: il salvataggio dei consensi sui cookie risponde errore. Quinto: non caricano i numeri del pannello di amministrazione e la pagina recensioni del fattorino. Due cose invece reggono senza rompersi. Sono la vetrina «dal vivo» in home e il carosello degli sponsorizzati, che restano solo vuoti. **E la parte che pesa di più.** Le prime due modifiche, la 114 e la 115, sono quelle che chiudono i buchi di sicurezza. Finché non le applichi, quei buchi restano aperti sul database vero. Sono tre. Indirizzi e telefoni dei clienti si leggono senza avere un account. Chi si registra come venditore si approva da solo. Gli ordini si modificano dal browser. L'elenco preciso dei dieci pezzi mancanti sta nella richiesta di unione 763 della macchina. | supabase | ✅ CHIUSA 2026-08-18 09:20 — applicate tutte e quattro al database di produzione dopo il tuo via. Verificati 13 oggetti su 13. Il controllo degli ordini non cita piu il campo cancellato a giugno. Nessuna vetrina piu scrivibile senza account, codici sconto non piu scaricabili in blocco, ordini non piu modificabili dal browser, il fattorino non vede piu la riga intera del cliente. Pane Quotidiano resta approvato: e tornato in attesa un solo profilo, il fattorino demo. Correzione mia successiva: avevo scritto EUR dove il file diceva €, rimesso a posto e ricontrollate tutte e 12 le frasi che legge il cliente, ora identiche al repo. | I rimborsi ai clienti non partono più da nessuna delle quattro strade del sito. Se oggi qualcuno chiede indietro dei soldi, l'operazione fallisce con un errore. I soldi restano fermi. In più il database resta senza le tre protezioni che la richiesta appena unita doveva portargli. | Al tuo via applico i quattro file al database di produzione, nell'ordine da 114 a 117. Poi ricontrollo i dieci pezzi uno per uno e ti dico quanti ne trovo. I file sono già dentro il ramo principale del marketplace, nella cartella delle migrazioni. Girano puliti su un database vuoto: 118 file su 118, nessun errore. Se preferisci farlo tu, incollali in quell'ordine nell'editor di Supabase. |
+| 126 | 2026-08-21 16:35 | @tech | Merge PR #804 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/804 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |

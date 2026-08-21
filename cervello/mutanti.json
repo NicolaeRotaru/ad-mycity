@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-21 16:35",
+ "aggiornato": "2026-08-21 17:37",
  "mutanti": [
   {
    "lotto": 30,
@@ -5271,13 +5271,61 @@
    "test": "node cervello/test/cancello-stop.test.mjs"
   },
   {
-   "difetto": "AR-777 workflow-che-non-partono",
+   "difetto": "AR-777 elenco-letto-dal-codice",
+   "nome": "torna l'elenco scritto a mano: le famiglie che hanno riempito il server tornano invisibili alla spazzata",
+   "file": "cervello/spazza-temporanei.mjs",
+   "cerca": "  return [...new Set([...PREFISSI, ...prefissiDalCodice(radice)])];",
+   "sostituisci": "  return [...PREFISSI];",
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
+  },
+  {
+   "difetto": "AR-777 scanner-cieco-sugli-sh",
+   "nome": "lo scanner smette di leggere gli script di shell: le cartelle create con mktemp tornano scoperte",
+   "file": "cervello/spazza-temporanei.mjs",
+   "cerca": "      if (!/\\.(mjs|js|sh)$/.test(v.name)) continue;",
+   "sostituisci": "      if (!/\\.(mjs|js)$/.test(v.name)) continue;",
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
+  },
+  {
+   "difetto": "AR-777 prefisso-troppo-corto",
+   "nome": "cade il filtro sui nomi corti: un prefisso di due lettere si porterebbe via roba di chiunque",
+   "file": "cervello/spazza-temporanei.mjs",
+   "cerca": "          if (nome.length >= MINIMO) trovati.add(nome);",
+   "sostituisci": "          trovati.add(nome);",
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
+  },
+  {
+   "difetto": "AR-777 roba-viva-protetta-per-prima",
+   "nome": "cade la protezione della roba viva mentre l'elenco derivato la nomina: si ricrea a mano il guasto del 20/8",
+   "file": "cervello/spazza-temporanei.mjs",
+   "cerca": "    if (MAI_TOCCARE.some((p) => nome.startsWith(p))) continue; // roba viva: prima di tutto il resto",
+   "sostituisci": "    // mutante: nessuna protezione per la roba viva",
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
+  },
+  {
+   "difetto": "AR-778 tetto-ai-passaggi",
+   "nome": "i passaggi pendenti tornano senza tetto e si riprendono tutto il turno: gli stessi sei nomi ogni giorno",
+   "file": "cervello/turno-senior.mjs",
+   "cerca": "  const quotaPassaggi = Math.max(1, Math.floor(quanti / 2));",
+   "sostituisci": "  const quotaPassaggi = quanti;",
+   "test": "node cervello/test/chi-va-in-turno.test.mjs"
+  },
+  {
+   "difetto": "AR-778 passaggi-che-ruotano",
+   "nome": "i passaggi smettono di ruotare fra loro: nove pendenti su tre posti tornano tre nomi fissi",
+   "file": "cervello/turno-senior.mjs",
+   "cerca": "  for (const h of rotazioneDelGiorno(pendenti, oggi)) aggiungi(h.a, \"passaggio-da-raccogliere\", quotaPassaggi, { handoff: h });",
+   "sostituisci": "  for (const h of pendenti) aggiungi(h.a, \"passaggio-da-raccogliere\", quotaPassaggi, { handoff: h });",
+   "test": "node cervello/test/chi-va-in-turno.test.mjs"
+  },
+  {
+   "difetto": "AR-779 workflow-che-non-partono",
    "nome": "il controllo torna cieco: dice che uno script parte anche quando il motore lo rifiuta",
    "file": "cervello/workflow-partono.mjs",
    "cerca": "  return senzaIntestazione.startsWith(\"export const meta\");",
    "sostituisci": "  return true;",
    "test": "node cervello/test/workflow-che-non-partono.test.mjs",
-   "nota_riaggancio": "AR-777 e' un difetto APERTO, non riparato: il guardiano `node cervello/workflow-partono.mjs` e' rosso adesso, su 6 file su 6, ed e' quello il segnale. Questa mutazione non rompe un fix che non c'e': rompe il CONTROLLO, e pretende che la prova se ne accorga. Serve a impedire il modo piu' facile di far sparire il difetto senza ripararlo, cioe' allargare `partirebbe()` finche' dice si' a tutto."
+   "nota_riaggancio": "AR-779 e' un difetto APERTO, non riparato: il guardiano `node cervello/workflow-partono.mjs` e' rosso adesso, su 6 file su 6, ed e' quello il segnale. Questa mutazione non rompe un fix che non c'e': rompe il CONTROLLO, e pretende che la prova se ne accorga. Serve a impedire il modo piu' facile di far sparire il difetto senza ripararlo, cioe' allargare `partirebbe()` finche' dice si' a tutto."
   }
  ]
 }

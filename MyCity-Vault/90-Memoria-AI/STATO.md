@@ -1,8 +1,21 @@
 ---
 tipo: stato
-aggiornato: 2026-08-21 16:20
-fonte: AD digitale (chat)
+aggiornato: 2026-08-21 17:37
+fonte: AD digitale (giro completo + radiografia su richiesta in chat)
 ---
+
+> 🔁 **21/8 16:27 — Passaggio di verifica lampo, stato identico al giro delle 14:40 (nessuna riscrittura pesante: macchina in SOPRAVVIVENZA, quota AI 151%).**
+
+> 🔁 **21/8 14:40 — Giro completo. Business invariato (1 ordine, 0 pagati, stallo dentro la pausa concordata), ma due card di sicurezza da 3 settimane erano già risolte e nessuno l'aveva segnato.**
+>
+> **I 7 numeri chiave** (via MCP Supabase, query dirette 14:29-14:31): ordini totali **1** (invariato), ordini pagati **0** (invariato), ultimo ordine 2026-06-24 (annullato, invariato), profili totali **8** (▲ da 7 — nuovo il 20/8 15:57, email `nicolarotaru2000@gmail.com`, quasi certamente un account di prova di Nicola stesso, non un cliente reale — nessun negozio nuovo), negozi con vetrina **1** (Pane Quotidiano, invariato), pratica pagamenti Stripe di Pane Quotidiano **ancora tutta spenta** (`charges_enabled`/`payouts_enabled`/`details_submitted` = false, invariato), sensori **9 ok / 3 ciechi per motivo noto** (PostHog spento per scelta, sito 503 per migrazione Vercel, Telegram non configurato — nessuna cecità nuova).
+>
+> **Il lavoro vero di questo giro: ho riverificato sul database reale, non sulla carta, le tre card di sicurezza aperte dal 29/7** (`#36` pulsante ordini, `#37` 4 falle RLS, `#38` 5 fughe di soldi) per capire se il grande lotto di riparazioni del 20-21/8 (migrazioni 107-124) le avesse già chiuse senza che nessuno lo controllasse. Risultato: **`#36` e `#37` erano già completamente risolte** — le ho chiuse — e **`#38` per due quinti** (compenso rider protetto, coupon restituito dopo checkout abbandonato; restano da verificare nel codice doppia-vendita, payout su spedizione gratis, reclamo che blocca per sempre). Dettaglio tecnico in [[AZIONI-IN-ATTESA]] card #36/#37/#38, esito registrato nel quaderno `@security` (`memoria-squadra/security.md`).
+>
+> **Perché conta:** senza questa verifica, `CHECKLIST-NICOLA.md` ti avrebbe chiesto ancora la firma su due lavori già fatti — tempo tuo sprecato su un problema che non c'è più. La checklist è stata rigenerata (era ferma dal 17/8, oltre i 2 giorni della regola).
+>
+> **Restano aperte, invariate:** 7 PR sul repo `ad-mycity` tutte rosse sullo stesso controllo (`test-cervello.mjs`, bloccato anche in questa sessione dai permessi) · card `#62` (pagamenti Pane Quotidiano, il vero blocco al primo incasso) · card `#140/#141/#139/#138/#137/#134/#142` dal lotto del 20-21/8, tutte in attesa di firma.
+
 
 > 🔬 **21/8 16:20 — Radiografia completa del sito, codice e grafica insieme: 351 problemi veri, 15 che fermano qualcuno.** Richiesta di Nicola in chat: «fai una radiografia completa e profonda del marketplace, con la parte di design compresa».
 >
@@ -19,6 +32,8 @@ fonte: AD digitale (chat)
 > **In coda per te:** **#143** (via libera al cantiere sui 15 bloccanti) · **#144** (quale promessa di consegna è vera, 30-60 minuti o 24-48 ore: oggi la home dice una cosa e il resto del sito un'altra).
 >
 > Referti: `consegne/audit/2026-08-21-radiografia.md` · `consegne/design/2026-08-21-radiografia-design.md`.
+
+## Passaggi precedenti
 
 > 🏁 **21/8 03:30 — Gli ultimi difetti del sito sono chiusi. Da 29 aperti a 3, e tutti e tre sono lavori a metà con un perché scritto.**
 >

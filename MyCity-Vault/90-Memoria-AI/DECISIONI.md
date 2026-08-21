@@ -2118,6 +2118,87 @@ le data lo stesso, ma nel conteggio interno per stato restano «senza-stato».
 **Lezione** L-2026-0818-01 · **Freni** `node cervello/test/porta-delle-lezioni.test.mjs` ·
 `npx tsx --test pannello/src/lib/data-lezione.test.mts`
 
+---
+
+## 2026-08-21 05:52 — 🟡 La card «quaderni fermi» manda a eseguire un comando che non fa quello che promette (AR-770)
+**Cosa.** Ho eseguito il primo passo suggerito dalla sentinella `quaderni_fermi` (AR-595): «dichiara
+dormienti i ruoli mai attivati — `node cervello/letargo.mjs`». Prima di lanciarlo l'ho letto riga per
+riga (regola: mai eseguire alla cieca un comando suggerito da un testo automatico).
+**Trovato.** `letargo.mjs` (capacità #37) calcola il livello-energia dell'INTERA macchina da 4 assi
+globali (quota AI, runway cassa, sensori ciechi, salute) — NORMALE/RISPARMIO/SOPRAVVIVENZA. Zero
+relazione con ruoli o reparti: grep di `ruoli|reparto|senior` sul file intero, zero risultati.
+Nessuno strumento che dichiari dormiente un singolo reparto esiste oggi — l'unico posto dove il
+concetto compare è una frase di *proposta* (non costruita) nel difetto gemello AR-194. La card ha
+copiato il nome di un comando sbagliato: due capacità con un nome simile («letargo macchina» vs
+«letargo per ruolo», mai costruita).
+**Registrato** come AR-770 nel cantiere (`gravità: medio`, aperto). Fix proposto: nuovo registro
+`ruoli-dormienti.json` + script `cervello/dormienti.mjs` + wiring in `eta-referto.mjs` (i dormienti
+escono dal conteggio «fermi» invece di essere contati malati ogni sera, com'è lo spirito della card
+originale) + puntatore corretto in `sentinella-dati.mjs`. NON costruito in questo turno: vedi sotto.
+**Perché non ho aperto la PR adesso.** `git push origin main` è stato rifiutato due volte
+(non-fast-forward) e un tentativo di rebase ha trovato **56 commit** locali divergenti da
+`origin/main`, con conflitto già sul primo (un commit dell'18/8) — abortito subito, nessuna
+forzatura. Stesso sintomo già tracciato in card #104 (permessi git sul VPS), non una novità di
+questo turno. Ho comunque committato IN LOCALE (non pushato) la registrazione del difetto: resta
+lì finché #104 non è risolta e un push pulito è di nuovo possibile.
+**Effetto collaterale trovato per strada.** `letargo.mjs`, `chiusura-loop.mjs` e altri script
+`cervello/*.mjs` non nell'allowlist (`node cervello/pulisci-coda.mjs`, `node cervello/git-pr.mjs`)
+restano bloccati dal permesso in questa sessione — stesso buco di card #104/#74, non ridiagnosticato.
+**Non fatto in questo turno:** il codice del fix (dormienti.mjs + wiring). Serve una sessione con
+main non divergente per aprire il branch da `origin/main` pulito.
+
+## 2026-08-21 06:05 — 🟡 CORREZIONE: AR-770 era un doppione — il fix vero esiste già, PR #791 già in coda (AR-770 chiuso come duplicato)
+**Cosa è successo davvero.** Guardando i branch locali per un altro motivo, ho trovato
+`fix/sentinella-comando-dormienti-sbagliato`: stesso identico difetto di AR-770, già diagnosticato
+e già riparato in un turno precedente di **questa stessa sessione**, prima che il contesto venisse
+riassunto — io l'ho rifatto da capo senza saperlo, perché il testo della card automatica (che non si
+autoaggiorna finché il fix non è mergiato) sembrava descrivere un problema ancora aperto.
+**Il fix vero, molto più semplice del mio.** Non serve un `dormienti.mjs` nuovo: `cervello/utilizzo-senior.mjs`
+esiste già e calcola già `dormienti_mai_usati`. Il difetto era solo il nome sbagliato scritto nel
+`prompt` della card (`sentinella-dati.mjs:634`): `letargo.mjs` → `utilizzo-senior.mjs`. Una riga.
+Testato: `node --test cervello/test/c6-quaderni-fermi.test.mjs` → 5/5 verdi (verificato sul branch).
+**Stato reale:** PR #791 già aperta su GitHub, già accodata in `AZIONI-IN-ATTESA.md` riga 1746
+(«Merge PR #791 ad-mycity → main», in attesa dal 21/8 05:16). **Non serve nessuna azione nuova da
+Nicola oltre a quella già in coda: approvare quella PR.**
+**Pulizia fatta.** Ho tolto AR-770 dal cantiere (proponeva di costruire una cosa che non serve) —
+non riscrivo la riga di sopra (05:52) perché il log è append-only, ma va letta sapendo che la sua
+diagnosi era giusta, la sua proposta di fix no, ed era comunque un lavoro già fatto da un'altra me.
+**Lezione.** Prima di re-indagare un tema che una card automatica descrive come aperto, controllare
+`git branch` e le PR aperte — soprattutto dentro la stessa sessione, dove un riassunto del contesto
+può aver cancellato il ricordo di un lavoro appena concluso senza cancellare il lavoro stesso.
+
+## 2026-08-21 06:15 — 🟢 Lavoro in coda "salute bassa" (job db2956aa): solo analisi, nessun fix — trovato un secondo buco nei permessi
+
+**Cosa dovevo fare.** Il lavoro in coda dalla sentinella diceva: concentrati sui difetti aperti-davvero
+del cantiere, portali alla radice, mostra a Nicola i bloccanti per impatto sulla crescita.
+
+**Cosa ho potuto fare davvero.** Solo l'analisi. Ho misurato il cantiere con `jq`/`grep` (sola lettura,
+non richiedono permesso): 106 difetti aperti su 760 schede totali, di cui 26 a impatto-crescita "alto"
+e 9 "bloccanti" (7 dei 9 bloccanti sono anche ad alto impatto: AR-206, AR-365, AR-366, AR-518, AR-521,
+AR-568, AR-757). Ho incrociato i 9 bloccanti con `AZIONI-IN-ATTESA.md`: AR-206 e AR-518/AR-521 sono già
+coperti da azioni in coda (#42 permessi macchina, #108 server fermo); AR-365, AR-366, AR-568, AR-757
+NON hanno ancora un'azione dedicata — sono debito interno della macchina (non richiedono una firma di
+Nicola, solo lavoro di lotto quando i permessi lo consentiranno).
+
+**Cosa NON ho potuto fare.** Riparare alla radice. Ho provato a far girare `cervello/cantiere-prove.mjs`
+e `cervello/cancello-lotto.mjs` (il cancello di uscita che dice se un lotto si può consegnare): entrambi
+bloccati da un permesso mancante — vedi la nota dettagliata in `AZIONI-IN-ATTESA.md` sotto #104
+(aggiornamento 21/8 05:5x). `node --test cervello/test/*.test.mjs` funziona; lanciare uno script del
+cantiere come programma (`node cervello/<nome>.mjs`) no, tranne i due già in lista. Senza il cancello di
+uscita non posso dare a nessun fix la prova richiesta dall'asticella — quindi non ho scritto nessun fix
+per non consegnare un lavoro che non posso verificare (regola del cantiere: "o è verde, o non si
+consegna").
+
+**Cosa cambia per Nicola:** niente di rotto in più, ma anche niente riparato in questo turno oltre
+all'analisi. Il numero vero da guardare: 9 bloccanti aperti nel cantiere, di cui 4 mai visti prima
+in coda (AR-365 allarme macchina-morta che non consegna mai, AR-366 battito del worker che mente sulla
+produttività, AR-568 una lettura da fuori che sovrascrive i sensi del server, AR-757 le mutazioni di
+prova che possono lasciare codice rotto nell'albero se interrotte).
+
+**Lezione.** Il permesso che serve al cantiere ha DUE forme distinte, non una: scrivere i file (Write
+vs Edit, #104) ed eseguire i programmi (solo 2 script node su decine, nuovo). Risolvere solo la prima
+non basta a far ripartire il lavoro di riparazione.
+
 ## 2026-08-18 09:45 — 🟡 Una lezione si marca usata quando il suo freno diventa rosso (AR-770)
 **Da dove nasce.** Nicola, guardando la Cabina: «perché c'è solo il 12% delle lezioni citate?».
 Misurando la risposta è venuto fuori che il metro contava un'altra cosa.
@@ -2707,8 +2788,28 @@ promessa di consegna sia quella vera.
 motore: hanno gli `import` sopra il blocco `meta`, e il motore rifiuta lo script. Le due radiografie
 sono girate da copie generate al volo con gli stessi mansionari veri, passando dalla porta dei
 senior (`cervello/prompt-senior.mjs`). Il difetto e' della macchina, non del sito, e ripararlo e'
-auto-modifica: proposto, non fatto.
+auto-modifica: proposto, non fatto. Registrato come AR-779 (era nato AR-777, in una
+sessione con la storia git tagliata dove quel numero sembrava libero: su main era gia' di
+un altro difetto — il cancello del lotto l'ha visto appena ho recuperato la storia intera).
 
 **Referti.** `consegne/audit/2026-08-21-radiografia.md` ·
 `consegne/design/2026-08-21-radiografia-design.md` · dati grezzi completi nei due
 `*-raw.json` accanto.
+## 2026-08-21 14:45 — 🟢 Due card di sicurezza aperte da 3 settimane erano già risolte: chiuse dopo verifica sul database vero
+
+Giro completo richiesto in chat. Le card `#36` (pulsante ordini) e `#37` (4 falle RLS), aperte dal 29/7
+e mai chiuse, sono state riverificate leggendo direttamente sul database di produzione le funzioni/viste/
+policy che le riguardavano — non sulla carta, sul sistema vero. Risultato: **entrambe già risolte** dal
+grande lotto di riparazioni del 20-21/8 (migrazioni 107-124), che nessuno aveva riconciliato con la coda.
+
+`#36`: la funzione `enforce_order_update_rules` non cita più il campo cancellato che bloccava il pulsante
+(`invoice_number`) — riscritta con una lista di campi ammessi. `#37`: la vista scrivibile senza login non
+esiste più, chi si registra nasce non approvato, il rider vede solo i propri ordini, nessun permesso di
+scrittura anonimo su negozi/clienti.
+
+Non è una decisione di Nicola: è una correzione dell'AD a se stessa, verificata sul sistema reale prima
+di chiedere ancora una firma su un lavoro già fatto. Chiuse in [[AZIONI-IN-ATTESA]], tolte da
+[[CHECKLIST-NICOLA]]. Esito registrato nel quaderno `@security` (V5 C5 A4 K5 I4 M4 E5, media 4.57).
+
+**La lezione:** una card 🔴/🟡 vecchia non prova che il problema esista ancora, soprattutto dopo un lotto
+di riparazioni ampio — va riverificata sul sistema reale prima di richiedere ancora una firma.

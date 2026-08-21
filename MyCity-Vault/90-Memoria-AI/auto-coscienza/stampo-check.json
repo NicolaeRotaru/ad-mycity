@@ -1,23 +1,23 @@
 {
   "_cosa_e": "Guardiano stampo senior: legge il CONTENUTO di mansionario, kit e quaderno di ogni agente e lo confronta col debito dichiarato in cervello/stampo-baseline.json.",
   "_cosa_NON_prova": "Non prova che un kit sia BUONO né che un ESITO sia vero: misura spessore relativo, fotocopie, struttura e presenza di righe ESITO datate. Un kit lungo e originale può essere sbagliato, e una riga ESITO può contenere un numero inventato — quella parte la giudicano il direttore-creativo e la calibrazione, non questo controllo.",
-  "aggiornato": "2026-08-21 16:26",
-  "origine": "cloud",
+  "aggiornato": "2026-08-21 16:25",
+  "origine": "locale",
   "copertura": 120,
   "scritto_da": "stampo-check.mjs",
   "totale_agenti": 120,
   "soglia_sottile_byte": 7025,
   "quaderni": {
-    "vivi": 30,
-    "vuoti": 71,
-    "fermi": 19,
+    "vivi": 26,
+    "vuoti": 72,
+    "fermi": 22,
     "assenti": 0
   },
-  "con_difetti": 90,
-  "senza_difetti": 30,
+  "con_difetti": 94,
+  "senza_difetti": 26,
   "per_tipo": {
-    "quaderno_vuoto": 71,
-    "quaderno_fermo": 19,
+    "quaderno_vuoto": 72,
+    "quaderno_fermo": 22,
     "kit_sottile": 10,
     "kit_fotocopia": 10,
     "kit_struttura_rotta": 9
@@ -34,6 +34,10 @@
       "difetto": "quaderno_fermo"
     },
     {
+      "nome": "ai-designer",
+      "difetto": "quaderno_fermo"
+    },
+    {
       "nome": "ai-video",
       "difetto": "quaderno_fermo"
     },
@@ -43,6 +47,10 @@
     },
     {
       "nome": "corporate-strategy",
+      "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "cro",
       "difetto": "quaderno_fermo"
     },
     {
@@ -100,6 +108,10 @@
     {
       "nome": "supporto",
       "difetto": "quaderno_fermo"
+    },
+    {
+      "nome": "ux-designer",
+      "difetto": "quaderno_fermo"
     }
   ],
   "regressioni": [],
@@ -111,6 +123,11 @@
     },
     {
       "nome": "ai-copywriter",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "ai-designer",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
@@ -128,6 +145,11 @@
       "nome": "corporate-strategy",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-20, era 2026-07-20): a muoversi è stato il calendario"
+    },
+    {
+      "nome": "cro",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
       "nome": "dispatch",
@@ -198,13 +220,13 @@
       "nome": "supporto",
       "difetto": "quaderno_fermo",
       "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
-    }
-  ],
-  "debito_riparato_da_togliere": [
+    },
     {
-      "nome": "mobile-app",
-      "difetto": "quaderno_vuoto"
+      "nome": "ux-designer",
+      "difetto": "quaderno_fermo",
+      "perche": "nessun esito è sparito (ultimo 2026-07-13, era 2026-07-13): a muoversi è stato il calendario"
     }
   ],
+  "debito_riparato_da_togliere": [],
   "baseline_letta": true
 }
