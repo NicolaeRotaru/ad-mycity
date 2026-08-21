@@ -30,6 +30,11 @@
    "dove": "cervello/test/guardiano-mai-messo-di-guardia.test.mjs",
    "perche": "Il guardiano di questa corsia non poteva nascere nella condizione che cura: il suo verdetto sul repo vero è una prova della suite, cioè gira su ogni push (CI), su ogni PR (cancello) e a ogni giro."
   },
+  "comandi-senza-casa.mjs": {
+   "motivo": "cablato",
+   "dove": "cervello/test/comandi-senza-casa.test.mjs",
+   "perche": "21/8: controlla che una card aperta non dia a Nicola un comando con dentro un percorso del repo senza dire da quale cartella lanciarlo. Il caso vero è capitato due volte — 4/8 e 21/8 alle 16:32 — e la seconda Nicola ha dovuto mandare uno screenshot per farmelo capire: lui lancia dal server, dalla sua home, e `node cervello/…` da lì fallisce con uno stack trace che non spiega niente. La lezione L-2026-0804-01 lo diceva già, ma era una frase e ha retto una volta sola. Il suo verdetto sul file VERO è l'ultima prova della suite (`sul file VERO nessuna card aperta lascia un comando senza casa`), quindi gira su ogni push in CI, su ogni PR col cancello e a ogni giro."
+  },
   "chiusure-audit.mjs": {
    "motivo": "da-cablare",
    "perche": "AR-151: riguarda le chiusure già fatte quando lo standard di verifica migliora. Nessun processo lo esegue: un difetto chiuso male resta chiuso male finché qualcuno non lo lancia a mano. Buco vero, fuori dalla malattia di questa corsia."
