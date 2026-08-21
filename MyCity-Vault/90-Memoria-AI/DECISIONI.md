@@ -2719,6 +2719,25 @@ scendere il numero», e' «cosa sta misurando questo numero».
   guardiano `cervello/no-path-cablati-check.mjs` scritto davvero, agganciato a `giro.sh` come gate
   hard con vincolo al motore. → `cervello/test/percorso-cablato-che-rientra.test.mjs`
 
+  **⑤ Il blocco che sparisce sempre** (trovato al collaudo, non nella prima passata). `cervello.scrittura`
+  era rosso: «Cosa non ho verificato» mancava nell'80% dei messaggi che lo pretendevano — e nel 100%
+  di quelli usciti dal server. Il freno c'era già, ma **da un lato solo**: il cancello dello Stop
+  misura i messaggi della chat, il worker non ci passa. È la malattia
+  «porta-laterale-senza-i-freni-della-principale», e `conta-blocco-mancante.mjs` misura il PASSATO,
+  cioè dice quanti messaggi erano fatti male dopo che sono partiti. Ora il worker chiede a
+  `si-capisce.mjs` — **la stessa testa del cancello**, non un secondo misuratore — quali blocchi
+  mancano, e lo scrive nel messaggio. Non blocca: buttare via una risposta già scritta per Nicola
+  sarebbe peggio del difetto, e un freno che perde lavoro viene spento entro la settimana. Il freno
+  è la visibilità. → `cervello/test/il-blocco-che-sparisce-sempre.test.mjs`
+
+  **Cosa mi ha corretto il collaudo.** La prima stesura di ⑤ chiudeva con `catch { return []; }`:
+  se la misura falliva, rispondeva «non manca niente» — un verde uscito da un controllo mai
+  avvenuto. È la malattia `fonte-troncata-letta-per-intera`, e me l'ha contestata il guardiano dei
+  fratelli, non io. Ora la funzione risponde due cose separate: *misurato* e *cosa manca*. Stesso
+  giro: il referto della visita è passato da 6 punti difficili a **zero** — l'elenco dei file
+  stantii chiudeva le righe puntate senza punto e veniva letto come una frase sola con cinque
+  incisi, e i cronici comparivano col titolo due volte a venti frasi di distanza.
+
   **La lezione, che è una sola.** Tre dei quattro guasti erano **verdi ripetuti**: un rinvio che si
   rimanda, una cancellazione che si rifà, un'attesa che riparte. Nessuno era un errore — erano tutti
   «riprovo da solo» senza un tetto. *Un'operazione che può rimandarsi deve avere un limite oltre il

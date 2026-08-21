@@ -1426,7 +1426,11 @@ export function spezzaElenco(detto = "") {
   // (28 giorni)» resta una frase con un inciso. Con il trattino la stessa informazione si legge
   // dritta, senza aprire e chiudere niente.
   const dritta = (v) => v.replace(/\s*\(([^)]+)\)\s*$/, " — $1");
-  return [`${detto.slice(0, i)}:`, "", ...voci.map((v) => `- ${dritta(v)}`)];
+  // 2026-08-21 — e ogni voce si CHIUDE. Misurato: cinque righe puntate senza punto finale vengono
+  // lette come una frase sola con cinque trattini dentro, e `si-capisce` le boccia giustamente
+  // («5 incisi in una frase»). Col punto sono cinque frasi da un'idea l'una, che è quello che sono.
+  const chiusa = (v) => (/[.!?:]$/.test(v) ? v : `${v}.`);
+  return [`${detto.slice(0, i)}:`, "", ...voci.map((v) => `- ${chiusa(dritta(v))}`)];
 }
 
 const ORGANI = { worker: "Worker", cervello: "Cervello", cabina: "Cabina", senior: "Senior", sensori: "Sensori" };
@@ -1540,10 +1544,19 @@ export function quattroRisposte(v) {
   righe.push("");
   righe.push(peggiore ? "Apri la card in coda: porta lo stesso titolo, e dentro c'è il comando pronto." : "Niente.");
   if (p.cronici.length) {
+    // 2026-08-21 — QUI C'ERANO I TITOLI, ED ERANO GIÀ SCRITTI SOTTO.
+    // Ogni cronico compariva col suo titolo in questa riga e poi di nuovo, identico, nella sezione
+    // «Rotto — in ordine di quanto costa» venti frasi più giù. `si-capisce` lo misura come «stessa
+    // idea a 24 frasi di distanza», ed è la stessa malattia che il piano del referto aveva già
+    // curato altrove: un ripasso sta accanto alla frase, non dieci frasi dopo.
+    // Il numero resta — è la notizia, «da quanto suonano» — e il dettaglio si legge dove sta.
+    const daQuanto = Math.max(...p.cronici.map((r) => Number(r.rossoDa) || 0));
     righe.push("");
-    righe.push(p.cronici.length === 1 ? "E guarda anche questo, che suona da un pezzo:" : `E guarda anche questi ${p.cronici.length}, che suonano da un pezzo:`);
-    righe.push("");
-    for (const r of p.cronici) righe.push(`- ${r.titolo}: ${r.rossoDa} visite di fila.`);
+    righe.push(
+      p.cronici.length === 1
+        ? `Ce n'è anche un altro che suona da ${daQuanto} visite di fila: lo trovi qui sotto, in ordine di quanto costa.`
+        : `Ce ne sono altri ${p.cronici.length} che suonano da un pezzo, il più vecchio da ${daQuanto} visite di fila. Li trovi qui sotto, in ordine di quanto costano.`,
+    );
   }
   righe.push("");
 
