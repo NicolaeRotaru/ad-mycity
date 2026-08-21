@@ -46,6 +46,10 @@
    "motivo": "decisione",
    "perche": "Manda frasi vere a `claude -p` per vedere se la skill si accende: costa token del motore AI a ogni esecuzione. Tenerlo fuori dai processi automatici è una scelta di costo, non una dimenticanza — si lancia quando si tocca la description di una skill."
   },
+  "plugin-acceso.mjs": {
+   "motivo": "decisione",
+   "perche": "21/8: dice se un plugin Claude è acceso, e da quale dei tre file di impostazioni. Lo si lancia a mano subito dopo aver incollato il blocco in `.claude/settings.json` — è la riga che manca fra «ho incollato» e «funziona», e serve perché il 4/8 (L-2026-0804-01) un JSON incollato a mano si ruppe per una virgola SENZA dare errore. Fuori dai processi automatici per una ragione che non è pigrizia: lo stato che misura vive in un file che la macchina NON può scrivere apposta. Cablato a un giro darebbe rosso a chiunque finché Nicola non incolla, e quel rosso nessun processo potrebbe chiuderlo — un freno che nessuno può rilasciare non è un freno, è una porta bloccata. Dopo l'incollata direbbe verde per sempre, cioè zero informazione. Il suo valore sta tutto nell'istante dell'incollata e nelle mani di chi l'ha fatta. La sua LOGICA invece è di guardia davvero: cervello/test/plugin-acceso.test.mjs la prova su otto casi, e la distinzione che conta — rotto ≠ spento — cade se qualcuno la toglie."
+  },
   "redattore-segreti.mjs": {
    "motivo": "libreria",
    "perche": "Non giudica: REDIGE. Riusa le regex di scan-segreti via segreti-pattern.mjs e serve a ripulire un testo prima di scriverlo. Il cancello sui segreti è scan-segreti, che è cablato nel giro e nel cancello di pubblicazione."
