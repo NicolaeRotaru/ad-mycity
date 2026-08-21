@@ -24,9 +24,9 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🟡 #142 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
 
-> **In due righe.** Devi sostituire tre righe con dodici dentro `.claude/settings.json` — il testo
-> esatto è più sotto, sotto «Se va bene». Sono trenta secondi, e senza quelle righe il lavoro che
-> ho fatto oggi riparte spento a ogni sessione. Il resto della card spiega perché e cosa rischi.
+> **In due righe.** Devi lanciare un comando solo, e lo trovi qui sotto in «Se va bene». Sono dieci
+> secondi. Senza quello, il lavoro che ho fatto oggi riparte spento a ogni sessione. Il resto della
+> card spiega perché, e cosa rischi.
 
 **In parole semplici:** questa card parla di come lavoro io, non del sito e non dei negozi.
 Un plugin è un pacchetto di istruzioni già scritte da altri. Si aggancia alla macchina e le insegna
@@ -55,30 +55,16 @@ serve proprio a impedire che io mi allarghi i permessi da sola. Ha funzionato co
 
 Il 4 agosto ci siamo già bruciati su questo. Ti avevo detto «aggiungi due righe lì dentro» e il
 testo si era rotto in silenzio: una virgola sbagliata, nessun errore a schermo, solo il lavoro che
-non funzionava. Stavolta niente frammenti.
+non funzionava. Quindi non ti faccio incollare niente a mano.
 
-Apri `.claude/settings.json`. Le prime tre righe adesso sono queste:
+Il file già pronto sta qui: `consegne/tech/settings-con-superpowers.json`. L'ho generato dal tuo
+file di adesso, aggiungendo solo le due righe che servono. Ho controllato che tutto il resto sia
+identico parola per parola: 63 permessi concessi, 15 vietati, 8 ganci — gli stessi numeri di prima.
 
-```json
-{
-  "permissions": {
-    "allow": [
+**Un comando solo:**
+
 ```
-
-**Sostituisci quelle tre con queste dodici.** Non toccare altro: il resto del file resta identico.
-
-```json
-{
-  "extraKnownMarketplaces": {
-    "superpowers-dev": {
-      "source": { "source": "github", "repo": "obra/superpowers" }
-    }
-  },
-  "enabledPlugins": {
-    "superpowers@superpowers-dev": true
-  },
-  "permissions": {
-    "allow": [
+cp consegne/tech/settings-con-superpowers.json .claude/settings.json
 ```
 
 Poi controlla di non aver rotto niente. Questo comando risponde in una riga sola:
