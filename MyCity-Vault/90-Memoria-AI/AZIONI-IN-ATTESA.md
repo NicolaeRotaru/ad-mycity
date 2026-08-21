@@ -22,73 +22,86 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #144 — Una riga da incollare: c'è uno strumento che nessuno controlla · ⏳ accodata 2026-08-21 16:40
+### 🔴 #144 — Una riga da incollare: c'è uno strumento che nessuno controlla · ⏳ accodata 2026-08-21 16:40 · ✏️ riscritta 17:45
 
-**In parole semplici.** Ho una lista di controllori che mi guardano le mani. Ogni volta che sto per
-fare qualcosa che tocca il mondo — lanciare un comando, chiamare un servizio esterno — uno di loro si
-mette in mezzo e chiede il permesso. La lista di *quali* strumenti guardare è scritta a mano in un
-file di configurazione, e dice: «Bash, Task, e tutto quello che comincia per mcp».
+> **In due righe.** Ho usato uno strumento che lancia comandi e che nessuno dei miei controllori
+> guarda. La riga che lo copre è una parola sola in un file che io non posso toccare.
 
-Oggi ho usato uno strumento che si chiama **Monitor**, che serve a tenere d'occhio una cosa che sta
-girando. Non è in quella lista. Quindi nessuno l'ha guardato — e Monitor lancia comandi esattamente
-come Bash. Questa volta non è successo niente, perché il permesso me l'ha negato l'ambiente per
-conto suo. Ma è stato un caso, non un controllo.
+**In parole semplici.** Questa carta parla dei miei freni, non del sito e non dei negozi. Serve a
+chiuderne uno che manca.
 
-**Cosa cambia:** finché resta così, c'è una porta di servizio senza il campanello che ha la porta
-principale. Non è che io farei cose diverse — è che se le facessi, nessuno se ne accorgerebbe.
+Ho una lista di controllori che mi guardano le mani. Prima che io faccia una cosa che tocca il mondo,
+uno di loro si mette in mezzo e chiede il permesso. Quali strumenti sorvegliare è scritto a mano in
+un file, e la lista dice: Bash, Task, e tutto quello che comincia per mcp.
 
-**Ho provato a farla io, e il sistema mi ha detto di no.** Me l'hai chiesto tu — «fai tu la 144» —
-e ci ho provato per la strada giusta. La risposta è stata: *«File is in a directory that is denied by
-your permission settings»*. Non è una mia esitazione: è una regola scritta **dentro quel file**, alle
-righe 80-83, che vieta a me di modificarlo. L'hai messa lì apposta, ed è la regola giusta: quello è
-il file che, se lo toccassi io, potrebbe staccare tutti i freni insieme — compreso il divieto di
-leggere le password.
+Oggi ho usato uno strumento che si chiama **Monitor**. Serve a tenere d'occhio una cosa che sta
+girando. Non è in quella lista, quindi non l'ha guardato nessuno. E Monitor lancia comandi
+esattamente come Bash.
 
-C'era una scorciatoia: scrivere il file da un'altra parte, con un comando invece che con lo
-strumento che ha il divieto. **Non l'ho presa.** Aggirare un divieto perché è scomodo è esattamente
-ciò che i divieti servono a impedire, e questa casa quel difetto ce l'ha già in elenco con un nome:
-*la porta laterale senza i freni della principale*.
+**Cosa cambia per te.** C'è una porta di servizio senza il campanello che ha la porta principale.
+Non è che io farei cose diverse: è che se le facessi, nessuno se ne accorgerebbe.
 
-**Quello che ho fatto invece.** La macchina aveva già la risposta a questo caso, un piano più giù:
-per i guardiani esiste lo stato «in attesa di aggancio», che vuol dire *il freno c'è, manca una riga
-che solo Nicola può incollare* — e vale **solo con una data di scadenza**. L'ho portato anche agli
-strumenti. Adesso Monitor è dichiarato lì: non è un buco silenzioso, non è un'esenzione (sarebbe una
-bugia, esegue comandi), è un debito con sopra scritto **entro quando**. Dopo il **4 settembre** torna
-a essere un buco da solo, senza che nessuno debba ricordarsene.
+Un esempio di cosa vuol dire. Oggi alle 15:10 ho chiesto a Monitor di tenere d'occhio i controlli
+automatici della PR. Se avessi sbagliato a scrivere quel comando, nessuno me l'avrebbe fermato. Non è
+successo niente solo perché l'ambiente mi ha negato il permesso per conto suo — un caso, non un
+controllo.
 
-**Cosa devi fare.** Aprire `.claude/settings.json` e aggiungere una parola. Cerca questa riga:
+**Ho provato a farla io, e il sistema mi ha detto di no.** Me l'hai chiesto tu, e ci ho provato per
+la strada giusta. La risposta è stata: *«File is in a directory that is denied by your permission
+settings»*. Non è una mia esitazione. È una regola scritta dentro quel file, alle righe 80-83, che
+vieta a me di modificarlo.
+
+Quella regola l'hai messa tu ed è quella giusta. Quel file può staccare tutti i freni insieme,
+compreso il divieto di leggermi le password.
+
+C'era una scorciatoia: scrivere il file da un'altra parte, con un comando invece che con lo strumento
+che ha il divieto. **Non l'ho presa.** Aggirare un divieto perché è scomodo è la cosa che i divieti
+servono a impedire.
+
+**Quello che ho fatto invece.** La macchina aveva già la risposta a questo caso, un piano più giù.
+Per i guardiani esiste lo stato «in attesa di aggancio»: vuol dire *il freno c'è, manca una riga che
+solo Nicola può incollare*. E vale solo con una data di scadenza.
+
+L'ho portato anche agli strumenti. Monitor adesso è dichiarato lì: non è un buco silenzioso, e non è
+un'esenzione. È un debito con sopra scritto entro quando. Dopo il **4 settembre** torna a essere un
+buco da solo.
+
+**Cosa devi fare.** Aprire `.claude/settings.json` e cambiare una parola. Cerca questa riga:
 
 ```
 "matcher": "Bash|Task|mcp__.*"
 ```
 
-e falla diventare:
+e falla diventare così:
 
 ```
 "matcher": "Bash|Monitor|Task|mcp__.*"
 ```
 
-È l'unica modifica. Quel file lo incolli tu apposta: è quello che, se lo toccassi io, potrebbe
-staccare tutti i freni insieme — e un freno che si stacca da solo non è un freno.
+**Se va bene:** Monitor passa dalle stesse mani di Bash, e io tolgo la dichiarazione d'attesa. Per
+controllare che sia servito, dal server:
 
-**Se va bene:** Monitor passa dalle stesse mani di Bash, e io tolgo la dichiarazione d'attesa.
-Se invece preferisci che sia io a poterlo fare, la strada è un'altra e la decidi tu: togliere il
-divieto su quel file. Non te lo consiglio — quel divieto vale più di questa comodità.
+```
+cd /opt/mycity/ad-mycity
+node cervello/mappa-copertura.mjs
+```
 
-**Una domanda più grande, se hai voglia di guardarla.** Quella lista è fatta di nomi scritti a mano.
-Vuol dire che **ogni strumento nuovo nasce senza controllo** finché qualcuno non si ricorda di
-aggiungerlo — ed è così che è passato Monitor. Il contrario sarebbe: controlla tutto, e scrivi
-l'elenco di quelli che non servono (leggere un file, cercare in una cartella). Si chiama chiudere
-invece di aprire. Non l'ho fatto perché è una scelta tua e cambia il comportamento di ogni singola
-mossa, non solo di una: dimmelo e la preparo.
+Deve elencare Monitor fra gli strumenti guardati.
 
-**Cosa non ho verificato.** Non ho provato che il freno funzioni su Monitor una volta aggiunto: da
-qui non posso modificare quel file, quindi non posso nemmeno collaudarlo. So che il controllore è lo
+**Una domanda più grande, se hai voglia.** Quella lista è fatta di nomi scritti a mano. Vuol dire che
+ogni strumento nuovo nasce senza controllo, finché qualcuno non si ricorda di aggiungerlo. È così che
+è passato Monitor. Il contrario sarebbe: sorveglia tutto, e scrivi l'elenco di quelli che non
+servono. Non l'ho fatto perché cambia il comportamento di ogni singola mossa, non solo di una: dimmi
+tu.
+
+**Cosa non ho verificato.** Non ho potuto provare che il freno funzioni su Monitor dopo l'aggiunta.
+Per collaudarlo dovrei modificare proprio il file che non posso toccare. So che il controllore è lo
 stesso che già guarda Bash, e che la lista è una sola.
 
-**Dettagli tecnici** — file: `.claude/settings.json`, blocco `PreToolUse`, guardia
-`cervello/pre-scrittura.mjs --hook`. Verifica dopo l'incolla: `node cervello/mappa-copertura.mjs`
-(deve elencare Monitor come guardato) e `node cervello/hooks-check.mjs`.
+**Dettagli tecnici** — blocco `PreToolUse` in `.claude/settings.json`, guardia
+`cervello/pre-scrittura.mjs --hook` · dichiarazione in `IN_ATTESA` dentro
+`cervello/mappa-copertura.mjs`, scadenza `2026-09-04` · prova
+`cervello/test/attesa-con-una-data.test.mjs`.
 
 ---
 
@@ -145,6 +158,7 @@ accorto per quattordici giorni.
 **Cosa devi fare.** Un comando solo, che ti dice quali sveglie sono spente e perché:
 
 ```
+cd /opt/mycity/ad-mycity
 systemctl list-timers 'mycity-*' --all
 ```
 
@@ -153,6 +167,7 @@ Le sveglie da guardare sono queste cinque: `mycity-ritmo-mattino`, `mycity-ritmo
 leggi `disabled` o `not-found`, si riaccendono così:
 
 ```
+cd /opt/mycity/ad-mycity
 sudo systemctl enable --now mycity-ritmo-mattino.timer mycity-ritmo-mezzogiorno.timer \
   mycity-ritmo-sera.timer mycity-ritmo-settimana.timer mycity-monitora.timer mycity-salute.timer
 ```
@@ -161,6 +176,7 @@ Se invece risultano `active` ma non partono, il problema è in quello che ci gir
 sveglia: allora serve questo, che dice l'errore vero:
 
 ```
+cd /opt/mycity/ad-mycity
 systemctl status mycity-ritmo-sera.service && journalctl -u mycity-ritmo-sera -n 40 --no-pager
 ```
 
@@ -219,23 +235,28 @@ Il file già pronto sta qui: `consegne/tech/settings-con-superpowers.json`. L'ho
 file di adesso, aggiungendo solo le due righe che servono. Ho controllato che tutto il resto sia
 identico parola per parola: 63 permessi concessi, 15 vietati, 8 ganci — gli stessi numeri di prima.
 
-**Un comando solo:**
+**Copia questo blocco intero, sul server.** Le prime due righe non sono decorazione: la prima ti
+porta nella cartella del progetto, la seconda tira giù il file da GitHub. Senza, i comandi cercano
+nella tua home e non trovano niente — è successo davvero il 21/8 alle 16:32, ed era colpa mia che
+te li avevo dati nudi.
 
 ```
+cd /opt/mycity/ad-mycity
+git pull origin main
 cp consegne/tech/settings-con-superpowers.json .claude/settings.json
-```
-
-Poi controlla di non aver rotto niente. Questo comando risponde in una riga sola:
-
-```
 node cervello/plugin-acceso.mjs
 ```
 
-Se dice **acceso**, è fatto. Se dice che il file è rotto, mandami la riga che esce e te lo
-raddrizzo io. Poi **riavvia la sessione**: i plugin si leggono all'avvio, non mentre lavori.
+L'ultimo comando risponde in una riga sola. Se dice **acceso**, è fatto. Se dice **spento** o che il
+file è rotto, mandami quella riga e te lo raddrizzo io. Poi **riavvia la sessione**: i plugin si
+leggono all'avvio, non mentre lavori.
 
-Poi, sul server, un giro di `node cervello/sync-worker-plugins.mjs --specchia` così anche lì sparisce
-la copia doppia.
+Alla fine, un giro di sincronizzazione così sparisce anche lì la copia doppia delle due skill:
+
+```
+cd /opt/mycity/ad-mycity
+node cervello/sync-worker-plugins.mjs --specchia
+```
 
 **Cosa non ho verificato:** una cosa la devi sapere prima di firmare. Con quelle righe la macchina
 scarica il pacchetto da GitHub ogni volta, prendendo l'ultima versione che c'è in quel momento. Non
