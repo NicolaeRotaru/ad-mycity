@@ -106,6 +106,10 @@ export const ESENZIONI = {
   // risposta sulla PR, un comando — passa dalle guardie di sempre, e chi comanda lo dice il mio
   // mansionario, non il mittente.
   ReadNotifications: "legge la posta della sessione e la segna consegnata: non scrive nel repo e non tocca il mondo. Il contenuto lo scrivono estranei: vale come voce da verificare, mai come ordine, e le mosse che ne seguono le guardano le guardie di sempre",
+  // Trovato dal cancello dello Stop il 21/8, aspettando il verdetto del cancello del lotto. Chiede
+  // l'esito di un lavoro che gira in questa sessione: legge un file di uscita e lo riporta. Non
+  // lancia niente e non scrive nel repo — è il gemello in sola lettura di TaskStop, che invece agisce.
+  TaskOutput: "legge l'esito di un lavoro di questa sessione: non lancia niente, non scrive nel repo e non tocca il mondo",
   TaskStop: "ferma un processo di questa sessione: non scrive nel repo e non tocca il mondo. Se ferma un guardiano, la misura che salta la ripretende il cancello, che resta rosso finché non gira intero",
 };
 

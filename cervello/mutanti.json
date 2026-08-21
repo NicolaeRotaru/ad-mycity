@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-21 17:55",
+ "aggiornato": "2026-08-21 19:40",
  "mutanti": [
   {
    "lotto": 30,
@@ -5335,6 +5335,42 @@
    "sostituisci": "  return true;",
    "test": "node cervello/test/workflow-che-non-partono.test.mjs",
    "nota_riaggancio": "AR-780 e' un difetto APERTO, non riparato: il guardiano `node cervello/workflow-partono.mjs` e' rosso adesso, su 6 file su 6, ed e' quello il segnale. Questa mutazione non rompe un fix che non c'e': rompe il CONTROLLO, e pretende che la prova se ne accorga. Serve a impedire il modo piu' facile di far sparire il difetto senza ripararlo, cioe' allargare `partirebbe()` finche' dice si' a tutto."
+  },
+  {
+   "lezione": "L-2026-0821-02",
+   "difetto": "comando-senza-casa-in-chat",
+   "nome": "il cancello dello Stop torna a lasciar partire un comando in chat che non dice da quale cartella si lancia",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "    if (cmd) trovati.push(cmd);",
+   "sostituisci": "    if (false) trovati.push(cmd);",
+   "test": "node --test cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "lezione": "L-2026-0821-02",
+   "difetto": "comando-senza-casa-in-chat (un blocco solo)",
+   "nome": "guarda solo il primo blocco del messaggio e lascia Nicola bloccato al secondo passo",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  return trovati.length ? { quanti: trovati.length, primi: trovati.slice(0, 3) } : null;",
+   "sostituisci": "  return null;",
+   "test": "node --test cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "lezione": "L-2026-0821-02",
+   "difetto": "attesa-di-aggancio-senza-scadenza",
+   "nome": "lo strumento in attesa di una guardia non scade più: l'attesa diventa un'esenzione eterna",
+   "file": "cervello/mappa-copertura.mjs",
+   "cerca": "  return String(oggi).slice(0, 10) <= scade;",
+   "sostituisci": "  return true;",
+   "test": "node --test cervello/test/mappa-copertura.test.mjs"
+  },
+  {
+   "lezione": "L-2026-0821-02",
+   "difetto": "attesa-di-aggancio-non-perdona",
+   "nome": "un freno che aspetta la mano di Nicola fa rosso dal primo giorno, e una CI rossa per costruzione si impara ad aggirarla",
+   "file": "cervello/mappa-copertura.mjs",
+   "cerca": "    problema: stato === \"scoperto\" && !esente && !inAttesa,",
+   "sostituisci": "    problema: stato === \"scoperto\" && !esente,",
+   "test": "node --test cervello/test/mappa-copertura.test.mjs"
   }
  ]
 }
