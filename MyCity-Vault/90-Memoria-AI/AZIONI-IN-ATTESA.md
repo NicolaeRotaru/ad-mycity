@@ -24,6 +24,10 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🟡 #142 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
 
+> **In due righe.** Devi sostituire tre righe con dodici dentro `.claude/settings.json` — il testo
+> esatto è più sotto, sotto «Se va bene». Sono trenta secondi, e senza quelle righe il lavoro che
+> ho fatto oggi riparte spento a ogni sessione. Il resto della card spiega perché e cosa rischi.
+
 **In parole semplici:** questa card parla di come lavoro io, non del sito e non dei negozi.
 Un plugin è un pacchetto di istruzioni già scritte da altri. Si aggancia alla macchina e le insegna
 un modo di lavorare. Superpowers è il più usato dei plugin, e porta quattordici metodi.
@@ -45,10 +49,26 @@ per questo te lo chiedo invece di farlo.
 luglio. Erano copie ferme a quella data. Col plugin arrivano aggiornate e si aggiornano da sole. Se
 non lo rendi permanente, ogni sessione riparte con le due copie vecchie e senza le altre dodici.
 
-**Se va bene:** apri `.claude/settings.json` e incolla queste righe subito dopo la prima parentesi
-graffa, prima di `"permissions"`:
+**Se va bene:** me l'hai chiesto tu di farlo io, e ho provato — il blocco ha tenuto. Quel file l'hai
+chiuso in scrittura apposta: è quello che accende e spegne tutti i miei freni insieme, e la regola
+serve proprio a impedire che io mi allarghi i permessi da sola. Ha funzionato come doveva.
+
+Il 4 agosto ci siamo già bruciati su questo. Ti avevo detto «aggiungi due righe lì dentro» e il
+testo si era rotto in silenzio: una virgola sbagliata, nessun errore a schermo, solo il lavoro che
+non funzionava. Stavolta niente frammenti.
+
+Apri `.claude/settings.json`. Le prime tre righe adesso sono queste:
 
 ```json
+{
+  "permissions": {
+    "allow": [
+```
+
+**Sostituisci quelle tre con queste dodici.** Non toccare altro: il resto del file resta identico.
+
+```json
+{
   "extraKnownMarketplaces": {
     "superpowers-dev": {
       "source": { "source": "github", "repo": "obra/superpowers" }
@@ -57,7 +77,18 @@ graffa, prima di `"permissions"`:
   "enabledPlugins": {
     "superpowers@superpowers-dev": true
   },
+  "permissions": {
+    "allow": [
 ```
+
+Poi controlla di non aver rotto niente. Questo comando risponde in una riga sola:
+
+```
+node cervello/plugin-acceso.mjs
+```
+
+Se dice **acceso**, è fatto. Se dice che il file è rotto, mandami la riga che esce e te lo
+raddrizzo io. Poi **riavvia la sessione**: i plugin si leggono all'avvio, non mentre lavori.
 
 Poi, sul server, un giro di `node cervello/sync-worker-plugins.mjs --specchia` così anche lì sparisce
 la copia doppia.
