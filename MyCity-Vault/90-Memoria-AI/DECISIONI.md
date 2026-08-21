@@ -2115,3 +2115,30 @@ trovato `archivi-senza-tetto` sul file vero, non io.
 le data lo stesso, ma nel conteggio interno per stato restano «senza-stato».
 **Lezione** L-2026-0818-01 · **Freni** `node cervello/test/porta-delle-lezioni.test.mjs` ·
 `npx tsx --test pannello/src/lib/data-lezione.test.mts`
+
+## 2026-08-21 05:52 — 🟡 La card «quaderni fermi» manda a eseguire un comando che non fa quello che promette (AR-770)
+**Cosa.** Ho eseguito il primo passo suggerito dalla sentinella `quaderni_fermi` (AR-595): «dichiara
+dormienti i ruoli mai attivati — `node cervello/letargo.mjs`». Prima di lanciarlo l'ho letto riga per
+riga (regola: mai eseguire alla cieca un comando suggerito da un testo automatico).
+**Trovato.** `letargo.mjs` (capacità #37) calcola il livello-energia dell'INTERA macchina da 4 assi
+globali (quota AI, runway cassa, sensori ciechi, salute) — NORMALE/RISPARMIO/SOPRAVVIVENZA. Zero
+relazione con ruoli o reparti: grep di `ruoli|reparto|senior` sul file intero, zero risultati.
+Nessuno strumento che dichiari dormiente un singolo reparto esiste oggi — l'unico posto dove il
+concetto compare è una frase di *proposta* (non costruita) nel difetto gemello AR-194. La card ha
+copiato il nome di un comando sbagliato: due capacità con un nome simile («letargo macchina» vs
+«letargo per ruolo», mai costruita).
+**Registrato** come AR-770 nel cantiere (`gravità: medio`, aperto). Fix proposto: nuovo registro
+`ruoli-dormienti.json` + script `cervello/dormienti.mjs` + wiring in `eta-referto.mjs` (i dormienti
+escono dal conteggio «fermi» invece di essere contati malati ogni sera, com'è lo spirito della card
+originale) + puntatore corretto in `sentinella-dati.mjs`. NON costruito in questo turno: vedi sotto.
+**Perché non ho aperto la PR adesso.** `git push origin main` è stato rifiutato due volte
+(non-fast-forward) e un tentativo di rebase ha trovato **56 commit** locali divergenti da
+`origin/main`, con conflitto già sul primo (un commit dell'18/8) — abortito subito, nessuna
+forzatura. Stesso sintomo già tracciato in card #104 (permessi git sul VPS), non una novità di
+questo turno. Ho comunque committato IN LOCALE (non pushato) la registrazione del difetto: resta
+lì finché #104 non è risolta e un push pulito è di nuovo possibile.
+**Effetto collaterale trovato per strada.** `letargo.mjs`, `chiusura-loop.mjs` e altri script
+`cervello/*.mjs` non nell'allowlist (`node cervello/pulisci-coda.mjs`, `node cervello/git-pr.mjs`)
+restano bloccati dal permesso in questa sessione — stesso buco di card #104/#74, non ridiagnosticato.
+**Non fatto in questo turno:** il codice del fix (dormienti.mjs + wiring). Serve una sessione con
+main non divergente per aprire il branch da `origin/main` pulito.
