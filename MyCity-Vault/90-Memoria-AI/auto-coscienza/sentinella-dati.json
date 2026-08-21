@@ -1,6 +1,6 @@
 {
   "_cosa_e": "👁️ SENTINELLA DATI: stato per dedup/cooldown/tetto delle 10 sentinelle (5 macchina + 5 azioni) che svegliano il cervello. Scritto da cervello/sentinella-dati.mjs.",
-  "aggiornato": "2026-08-21 05:45",
+  "aggiornato": "2026-08-21 05:48",
   "regole": {
     "sensori_ciechi": {
       "ultima_firma": "84",
@@ -91,20 +91,19 @@
       "ambito": "macchina"
     },
     "checkup_fermo": {
-      "ultima_firma": "checkup-3",
-      "ultimo_accodato": "2026-08-17 06:46",
-      "ultimo_accodato_iso": "2026-08-17T04:46:21.944Z",
-      "ultimo_job": "a83950ce-f866-488a-9578-be8848681482",
+      "ultima_firma": "checkup-2",
+      "ultimo_accodato": "2026-08-21 05:46",
+      "ultimo_accodato_iso": "2026-08-21T03:46:16.054Z",
+      "ultimo_job": "cff0fc9e-7389-492f-b0fa-a15e7d3c74fa",
       "colore": "🔴",
       "ambito": "macchina"
     }
   },
   "accodati_giorno": {
     "giorno": "2026-08-21",
-    "n": 1
+    "n": 2
   },
   "accodati_ts": [
-    "2026-07-24T22:03:04.324Z",
     "2026-07-25T12:20:41.268Z",
     "2026-07-25T20:20:14.986Z",
     "2026-07-27T10:20:15.823Z",
@@ -153,29 +152,12 @@
     "2026-08-17T12:21:16.845Z",
     "2026-08-17T13:27:44.797Z",
     "2026-08-18T04:08:25.615Z",
-    "2026-08-21T03:44:15.340Z"
+    "2026-08-21T03:44:15.340Z",
+    "2026-08-21T03:46:16.054Z"
   ],
   "ultima_recensione_vista": "2026-07-18T11:28:59.844Z",
-  "tick": 27632,
+  "tick": 27635,
   "storia": [
-    {
-      "quando": "2026-08-18 10:05",
-      "eventi": 7,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-08-18 10:06",
-      "eventi": 7,
-      "accodati": 0,
-      "allertati": 0
-    },
-    {
-      "quando": "2026-08-18 12:00",
-      "eventi": 7,
-      "accodati": 0,
-      "allertati": 0
-    },
     {
       "quando": "2026-08-18 12:01",
       "eventi": 7,
@@ -757,10 +739,28 @@
       "eventi": 7,
       "accodati": 0,
       "allertati": 0
+    },
+    {
+      "quando": "2026-08-21 05:46",
+      "eventi": 7,
+      "accodati": 1,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-21 05:47",
+      "eventi": 7,
+      "accodati": 0,
+      "allertati": 0
+    },
+    {
+      "quando": "2026-08-21 05:48",
+      "eventi": 7,
+      "accodati": 0,
+      "allertati": 0
     }
   ],
   "ultimo_stato": {
-    "quando": "2026-08-21 05:45",
+    "quando": "2026-08-21 05:48",
     "dati_leggibili": true,
     "ordini_tot": 1,
     "ordini_24h": 0,
@@ -768,14 +768,14 @@
     "recensioni_basse": 0,
     "negozi_fermi": 0,
     "carrelli": null,
-    "worker_eta_min": 1,
+    "worker_eta_min": 3,
     "sensori_max_ciechi": 0,
     "salute_voto": 4,
     "radiografia_gg": 10,
     "volano_tasso": 0.11
   },
   "timbro": {
-    "quando": "2026-08-21 05:45",
+    "quando": "2026-08-21 05:48",
     "scade_dopo_ore": 3,
     "ambiente": "locale",
     "scritto_da": "cervello/sentinella-dati.mjs",
@@ -786,5 +786,5 @@
       "MARKETPLACE_SUPABASE_KEY"
     ]
   },
-  "senior_giri_sotto": 2499
+  "senior_giri_sotto": 2502
 }
