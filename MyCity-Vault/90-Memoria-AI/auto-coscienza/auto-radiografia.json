@@ -4811,7 +4811,7 @@
     }
   ],
   "sonda": {
-    "data": "2026-08-21 10:20",
+    "data": "2026-08-21 12:54",
     "loop_chiude": false,
     "tasso_applicazione": 0.11,
     "soglia_applicazione": 0.3,
@@ -4842,10 +4842,10 @@
     ],
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 237,
-    "ore_da_ultimo_briefing": 2,
-    "max_giri_ciechi_sensori": 205,
-    "giri_tasso_basso": 177,
+    "ore_da_ultima_completa": 239,
+    "ore_da_ultimo_briefing": 4,
+    "max_giri_ciechi_sensori": 206,
+    "giri_tasso_basso": 178,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
@@ -4855,7 +4855,7 @@
     "bloccanti_umani": 37,
     "salute_firma": "AR-045,AR-046,AR-047,AR-048,AR-050,AR-051,AR-052,AR-053,AR-054,AR-055,AR-056,AR-057,AR-058,AR-059,AR-060,AR-061,AR-062,AR-063,AR-064,AR-065,AR-067,AR-068,AR-069,AR-070,AR-071,AR-072,AR-073,AR-074,AR-075,AR-076,AR-077,AR-078,AR-079,AR-080,AR-081,AR-082,AR-083,AR-084,AR-085,AR-086,AR-087,AR-088,AR-089,AR-091,AR-092,AR-093,AR-094,AR-095,AR-096,AR-100,AR-102,AR-103,AR-104,AR-128,AR-131,AR-133,AR-142,AR-158,AR-160,AR-161,AR-174,AR-175,AR-181,AR-184,AR-190,AR-192,AR-193,AR-199,AR-200,AR-206,AR-210,AR-274,AR-283,AR-289,AR-290,AR-329,AR-351,AR-352,AR-354,AR-365,AR-366,AR-386,AR-394,AR-396,AR-398,AR-411,AR-436,AR-518,AR-521,AR-560,AR-561,AR-576,AR-584,AR-588,AR-598,AR-611,AR-618,AR-622,AR-640,AR-641,AR-684,AR-693,AR-726,AR-727,AR-728,AR-729,AR-730,AR-731,AR-732,AR-733,AR-734,AR-735,AR-736,AR-737,AR-738,AR-739,AR-740,AR-741,AR-742,AR-743,AR-744,AR-745,AR-746,AR-747,AR-748",
     "verdetto": "serve-completa",
-    "nota": "le lezioni non si usano: tasso 11% sotto la soglia 30% · 9 esperimenti dichiarati misurati e mai testati · briefing 2h fa · cecità sensori 205 giri · salute pending-merge 0/100 (floor 0): 125 aperti-davvero · 0 in attesa merge · 37 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)",
+    "nota": "le lezioni non si usano: tasso 11% sotto la soglia 30% · 9 esperimenti dichiarati misurati e mai testati · briefing 4h fa · cecità sensori 206 giri · salute pending-merge 0/100 (floor 0): 125 aperti-davvero · 0 in attesa merge · 37 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)",
     "voto_salute": 4,
     "voto_salute_copertura": "radiografia",
     "voto_salute_parziale": false,
@@ -4970,8 +4970,8 @@
     "data_scan": "2026-08-11 13:37"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 177,
-    "aggiornato": "2026-08-21 10:20"
+    "giri_tasso_basso": 178,
+    "aggiornato": "2026-08-21 12:54"
   },
   "zone_non_viste": [
     "Il worker e il VPS: da questa sessione non si vedono. Non ho potuto verificare se lo script che scrive AZIONI-IN-ATTESA sul server si comporti come la copia locale che ho letto, né se là il file sia più grande o più piccolo.",
