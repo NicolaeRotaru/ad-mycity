@@ -85,24 +85,32 @@ brevi, dimmelo e lo restringo ai lavori interni come facemmo allora.
 
 ---
 
-### 🔴 #141 — Fai partire il rilascio solo a controlli verdi, non insieme a loro · ⏳ accodata 2026-08-21 03:20
+### 🔴 #141 — Il rilascio va agganciato a Vercel, non a Render · ⏳ accodata 2026-08-21 03:20 · riscritta 2026-08-21 15:45
 
-**Cosa cambia:** oggi il rilascio parte insieme ai controlli, non dopo. Se un controllo diventa
-rosso, il codice rotto è già online.
+**Cosa cambia:** questa carta ti diceva tre mosse su Render. Erano puntate sul bersaglio sbagliato,
+e me ne sono accorto facendola.
 
-La metà buona è già scritta: un lavoro che rilascia solo a controlli passati. È spento perché gli
-manca l'indirizzo di rilascio. Tre mosse, tutte tue perché toccano la produzione.
+Ho guardato i rilasci veri. Il sito lo pubblica **Vercel**: ogni unione su `main` fa partire una
+pubblicazione in produzione entro pochi secondi, senza aspettare i controlli. Le tre unioni di oggi
+hanno fatto esattamente questo. Spegnere Render non avrebbe chiuso niente, e tu avresti creduto di
+essere protetto.
 
-- **Prima** — Render → il servizio → Settings → Deploy Hook: copia l'indirizzo. Mettilo su GitHub
-  come segreto `RENDER_DEPLOY_HOOK`, sotto Settings → Secrets and variables → Actions.
-- **Poi** — nel file `render.yaml` cambia una riga: `autoDeploy: true` diventa `autoDeploy: false`.
-  Va fatto dopo il passo di prima. Al contrario il rilascio si ferma e basta.
-- **Infine** — GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio su `main`.
+Il lavoro che rilascia solo a controlli verdi adesso punta su Vercel. È spento finché non ha le
+chiavi, come prima.
 
-**Se va bene:** in produzione arriva solo quello che ha passato i controlli.
+**Se va bene:** tre passi, e l'ordine conta perché al contrario il sito smette di aggiornarsi.
 
-**Cosa non ho verificato:** non ho aperto Render né toccato le impostazioni di GitHub. Le tre mosse
-le ho lette dai file del progetto.
+Primo, i segreti. Su GitHub vai in Settings → Secrets and variables → Actions. Servono tre nomi.
+`VERCEL_TOKEN` lo crei su Vercel, in Account Settings → Tokens → Create. `VERCEL_ORG_ID` e
+`VERCEL_PROJECT_ID` stanno su Vercel, dentro il progetto, in Settings → General, in fondo.
+
+Secondo, dimmelo e ti cambio io due parole: `"main": true` diventa `false` in `vercel.json`, e
+`autoDeploy: true` diventa `false` in `render.yaml`.
+
+Terzo, GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio su `main`.
+
+**Cosa non ho verificato:** non so se il servizio Render sia ancora acceso. Da qui non lo raggiungo,
+e l'ho scritto nel file invece di darlo per spento.
 
 ---
 
@@ -132,18 +140,31 @@ controllato il database, non le pagine.
 
 ---
 
-### 🟡 #139 — Un Supabase di prova, per i controlli che oggi si saltano da soli · ⏳ accodata 2026-08-21 03:20
+### ✅ #139 — Le prove sui permessi girano, e non costano niente · ⏳ accodata 2026-08-21 03:20 · fatta 2026-08-21 15:45
 
-**Cosa cambia:** due gruppi di controlli si saltano quando mancano i segreti di un progetto di
-prova. Sono quelli sui permessi del database e quelli che aprono il sito in un browser vero.
+**Stato:** ✅ FATTO 2026-08-21 15:45 — senza comprare niente.
 
-Da oggi lo dicono in cima al riepilogo invece che nel log. Ma restano saltati. È anche il motivo per
-cui non ho potuto scrivere i tre giri nel browser sulla catena dell'ordine.
+**Cosa cambia:** questa carta diceva «crea un progetto Supabase di prova». Ho chiesto il prezzo
+prima di crearlo: 10 dollari al mese, per sempre, più tre chiavi da custodire su GitHub — fra cui
+quella che apre tutto. Il prezzo la carta non lo diceva.
 
-**Se va bene:** crea un progetto Supabase nuovo e vuoto, mai quello dei clienti. Mettine tre segreti
-su GitHub: `SUPABASE_TEST_URL`, `SUPABASE_TEST_ANON_KEY`, `SUPABASE_TEST_SERVICE_ROLE_KEY`.
+Strada scelta: i controlli si avviano un Supabase loro, dentro la macchina che li esegue. Ci
+applicano le 125 migrazioni. Ci mettono dentro un negozio e un ordine veri. Poi provano contro
+quello. Vive quanto il giro e poi sparisce: zero euro, nessuna chiave da custodire, e nasce vuoto
+ogni volta.
 
-**Cosa non ho verificato:** non ho creato il progetto né toccato i segreti.
+**Cosa fa adesso:** venti prove che non giravano da sempre adesso girano a ogni controllo. Sono
+quelle che verificano che un estraneo non legga i dati dei clienti e non possa chiamare le funzioni
+riservate. Prima si saltavano in silenzio, e il verde diceva «provato» quando non era vero.
+
+**Cosa ho trovato accendendole:** due difetti che c'erano già e che nessuno vedeva, perché una prova
+che si salta non può diventare rossa. Le prove giravano su una versione di Node che non ha un pezzo
+che il client Supabase pretende, quindi sarebbero fallite anche col progetto a pagamento. E i
+controlli provavano su Node 20 mentre il sito in produzione gira su Node 24: quattro numeri di
+distanza fra quello che si prova e quello che serve i clienti.
+
+**Cosa non ho verificato:** i controlli adesso girano su Node 22, la produzione su 24. Meglio di
+prima, non uguale. Chiudere anche quel pezzo va provato, e qui non avevo un Node 24 con cui farlo.
 
 ---
 
