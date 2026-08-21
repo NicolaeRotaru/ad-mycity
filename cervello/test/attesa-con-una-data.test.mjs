@@ -35,6 +35,7 @@
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
+import { readFileSync } from "node:fs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -99,13 +100,28 @@ prova("e dopo la scadenza lo stesso strumento torna un buco", () => {
 
 // ── ⑤ e ⑥ Il caso vero ──────────────────────────────────────────────────────
 
-prova("Monitor è dichiarato in attesa, e NON fra gli esenti", () => {
-  assert.ok(IN_ATTESA.Monitor, "il caso che ha fatto nascere tutto questo va scritto, non ricordato");
-  assert.ok(/^\d{4}-\d{2}-\d{2}$/.test(IN_ATTESA.Monitor.scade), "un'attesa senza data non è un'attesa");
+// 21/8 20:20 — IL DEBITO È STATO PAGATO, e la prova dice adesso la cosa più forte.
+// Questa prova nasceva così: «Monitor è dichiarato in attesa, con una data». Era il massimo che si
+// potesse affermare finché la riga che lo copre viveva in un file che la macchina non può scrivere.
+// Quella riga è arrivata su `main` da una richiesta di unione firmata da Nicola, quindi il debito
+// non c'è più — e una prova che pretendesse ancora di trovarlo terrebbe in vita una deroga estinta.
+prova("Monitor è coperto per davvero: né esente, né in attesa", () => {
+  assert.equal(
+    Object.prototype.hasOwnProperty.call(IN_ATTESA, "Monitor"),
+    false,
+    "il debito è stato pagato il 21/8: una deroga che sopravvive alla sua causa è un buco con una scusa sopra",
+  );
   assert.equal(
     Object.prototype.hasOwnProperty.call(ESENZIONI, "Monitor"),
     false,
     "Monitor esegue una shell: chiamarlo esente sarebbe un'etichetta su un buco",
+  );
+  // e la copertura vera non si deduce: si legge dal file delle impostazioni.
+  const impostazioni = readFileSync(join(REPO, ".claude/settings.json"), "utf8");
+  assert.match(
+    impostazioni,
+    /"matcher":\s*"[^"]*\bMonitor\b/,
+    "Monitor non compare in nessun matcher: la guardia non lo intercetta, ed è di nuovo un buco",
   );
 });
 

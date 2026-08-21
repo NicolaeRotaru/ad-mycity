@@ -12353,6 +12353,48 @@
    "testo": "**Due meccanismi sullo stesso dato, che non si parlano, fanno il danno di uno rotto.** Un pezzo registrava che una lezione aveva fermato un errore; un altro, sullo stesso archivio, la buttava via un mese dopo perche' guardava solo la data dell'ultima conferma. Nessuno dei due era sbagliato da solo. Quando si aggiunge un segnale nuovo (l'uso), bisogna chiedersi CHI ALTRO decide su quel dato e non lo sta guardando — altrimenti si costruiscono due forze che tirano in direzioni opposte. E l'eccezione va messa dove la decisione si prende, non in un bypass a monte.",
    "regola": "Quando aggiungi un segnale a un dato condiviso, cerca tutti quelli che decidono su quel dato e chiediti se il segnale nuovo li riguarda. E ogni privilegio va legato a una condizione verificabile che puo' decadere: qui il freno vale finche' il suo FILE esiste, non finche' la stringa e' scritta.",
    "gate": "node cervello/test/archivi-senza-tetto.test.mjs"
+  },
+  {
+   "id": "L-2026-0821-01",
+   "data": "2026-08-21 20:35",
+   "nato": "2026-08-21",
+   "ultima_conferma": "2026-08-21 20:35",
+   "stato": "attiva",
+   "confidenza": 0.8,
+   "evidenze": 2,
+   "reparto": "tech",
+   "fonte": "21/8: due carte nate con lo stesso numero, due volte nella stessa giornata. Il contatore leggeva solo le righe-tabella e ignorava le card scritte come titolo.",
+   "regola": "Un numero che identifica qualcosa si legge da UNA casa sola, e chi lo assegna deve guardare tutte le forme in cui quel numero puo' comparire.",
+   "testo": "**Un contatore che guarda meta' del file conta meta' delle cose, e non lo dice.** La coda delle azioni porta i numeri in due forme: righe di tabella e titoli di card. Chi assegnava il numero successivo leggeva solo le righe di tabella, quindi rispondeva un numero gia' usato da una card-titolo. Due carte con lo stesso numero vogliono dire che «ok 126» ha due risposte possibili. La causa piu' profonda sta un passo indietro: due sessioni assegnavano numeri guardando due COPIE diverse della coda, e nessuna delle due poteva sapere dell'altra. Il freno chiude la prima meta' (si contano entrambe le forme); la seconda resta aperta finche' non esiste una casa unica per il prossimo numero.",
+   "gate": "node --test cervello/test/carte-numerate.test.mjs",
+   "gate_attivo": true,
+   "tag": [
+    "numerazione",
+    "coda-azioni",
+    "contatore-parziale"
+   ],
+   "gate_nota": "Lezione scritta il 21/8 20:35 per chiudere il filo: la mutazione `AR-779 un-numero-solo-per-la-coda` la citava e la lezione non era mai stata scritta. Il freno esisteva, la ragione no."
+  },
+  {
+   "id": "L-2026-0821-02",
+   "data": "2026-08-21 20:35",
+   "nato": "2026-08-21",
+   "ultima_conferma": "2026-08-21 20:35",
+   "stato": "attiva",
+   "confidenza": 0.75,
+   "evidenze": 4,
+   "reparto": "AD",
+   "fonte": "21/8: quattro freni nati in giornata su due temi diversi — un comando dato a Nicola senza dire da quale cartella lanciarlo, e uno strumento scoperto dichiarato «in attesa» di una guardia.",
+   "regola": "Quello che la macchina consegna a un umano dev'essere eseguibile e onesto: un comando porta la sua cartella, un buco dichiarato porta la sua scadenza.",
+   "testo": "**Una cosa consegnata a meta' sembra finita, e costa piu' di una non consegnata.** Due facce dello stesso difetto, viste lo stesso giorno. Un comando dato in chat senza la cartella da cui lanciarlo: Nicola lo incolla, non trova niente, e l'errore sembra suo — successo il 21/8 alle 16:32. Uno strumento senza guardia dichiarato «in attesa» senza una data: l'attesa non scade mai e diventa un'esenzione eterna, cioe' un buco con una scusa sopra. In tutti e due i casi la forma sembra completa e il contenuto no. Il rimedio e' lo stesso: la cosa consegnata deve poter essere ESEGUITA da chi la riceve, e quello che manca deve avere un termine oltre il quale torna a essere rosso.",
+   "gate": "node --test cervello/test/cancello-stop.test.mjs && node --test cervello/test/mappa-copertura.test.mjs",
+   "gate_attivo": true,
+   "tag": [
+    "scrittura-umana",
+    "debito-dichiarato",
+    "consegna-a-meta"
+   ],
+   "gate_nota": "Lezione scritta il 21/8 20:35 per chiudere il filo: quattro mutazioni la citavano e la lezione non era mai stata scritta. Il testo e' ricostruito da cio' che quei quattro freni proteggono, non da una frase originale — dichiarato qui perche' chi legge sappia di che qualita' e' la fonte."
   }
  ],
  "principi": [

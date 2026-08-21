@@ -256,6 +256,7 @@ PORTE_VINCOLO=""         # AR-127: un push verso main che non passa dal cancello
 FIRMA_VINCOLO=""         # AR-119: uno script del cervello che può scriversi la firma di Nicola
 PORTA_GIT_VINCOLO=""     # AR-339: uno script che chiede elenchi a git senza -z (nomi con l'accento riscritti)
 CABLATI_VINCOLO=""       # 21/8: un percorso di UNA macchina sola rientrato nel codice (correzione Nicola 4/7)
+STASH_VINCOLO=""         # 21/8: messe da parte che nessuno riprende — 7.849 sul server, e nessun sensore
 DEFERRAL_VINCOLO=""      # AR-186: il roster di CLAUDE.md e le schede dei senior si rimandano cose diverse
 STAMPO_VINCOLO=""        # AR-291: verdetto dello stampo senior, prima buttato in un `|| true` (AR-129/287/289)
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
@@ -373,6 +374,16 @@ if command -v node >/dev/null 2>&1; then
   if ! guardiano no-path-cablati-check.mjs; then
     CABLATI_VINCOLO="$(vincolo_da_rc "no-path-cablati" "$GUARDIANO_RC" "⛔ PERCORSO CABLATO SU UNA MACCHINA SOLA (no-path-cablati-check.mjs rc=$GUARDIANO_RC): nel codice è rientrato un percorso che vale solo sul PC di qualcuno (C:\\Users\\… o /Users/<nome>/). Su tutte le altre macchine quel codice punta al nulla, in silenzio — ed è la ricaduta che Nicola ha già corretto il 4/7. Chiedi la posizione a chi la sa: resolveMarketplaceRepo() in cervello/marketplace-repo.mjs. Dettaglio: node cervello/no-path-cablati-check.mjs")"
     echo "[$(ts)] ⚠️  percorsi cablati rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
+  # 21/8 — IL SENSORE CHE NON C'ERA MENTRE IL LAVORO SPARIVA.
+  # Il server ha accumulato 7.849 messe da parte senza che nessuno se ne accorgesse: l'allineamento
+  # ne creava una al minuto per far partire un rebase, e in tutto il repo non esisteva un `git stash
+  # pop`. Il difetto è riparato; questo è l'occhio che mancava, perché un guasto che nessuno misura
+  # torna e non lo sa nessuno. Una messa da parte è un prestito: se non torna, è lavoro perso.
+  echo "[$(ts)] Guardiano delle messe da parte mai riprese (gate hard)..."
+  if ! guardiano stash-dimenticate.mjs; then
+    STASH_VINCOLO="$(vincolo_da_rc "stash-dimenticate" "$GUARDIANO_RC" "⛔ MESSE DA PARTE MAI RIPRESE (stash-dimenticate.mjs rc=$GUARDIANO_RC): ci sono modifiche messe da parte con git stash che nessuno ha ripreso. È il guasto che il 21/8 ha tenuto il server scollegato da GitHub per giorni, 7.849 volte: chi crea una messa da parte deve restituirla, sempre, riuscito o fallito il lavoro. NON buttarle: dentro può esserci memoria vera. Guarda cosa contengono con node cervello/stash-dimenticate.mjs --dettaglio")"
+    echo "[$(ts)] ⚠️  stash dimenticate rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
   # AR-186 — i due elenchi che governano i 120: la riga-roster di CLAUDE.md (la legge Nicola) e il
   # campo description del mansionario (lo legge il router). Un rimando presente in uno solo dei due
@@ -1199,6 +1210,12 @@ if [ -n "${CABLATI_VINCOLO:-}" ]; then
 
 ## Vincolo percorsi cablati (HARD — 21/8: una correzione di Nicola del 4/7 rientrata dalla finestra)
 $CABLATI_VINCOLO"
+fi
+if [ -n "${STASH_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo messe da parte (HARD — 21/8: 7.849 stash mai riprese, e nessun sensore che guardasse)
+$STASH_VINCOLO"
 fi
 if [ -n "${STAMPO_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

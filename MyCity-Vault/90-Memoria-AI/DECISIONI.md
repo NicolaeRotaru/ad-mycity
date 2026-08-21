@@ -2891,3 +2891,59 @@ l'ha trovata il cancello sul numero AR-777, la seconda l'ha trovata la prova `ca
 Entrambe nascono dallo stesso fatto — due sessioni che assegnano numeri guardando due copie diverse
 della coda — ed e' un difetto che non ho ancora registrato perche' non so ancora dire quale sia la
 casa unica del prossimo numero.
+
+---
+
+## 2026-08-21 20:10 — 🟡 La sincronizzazione del server: 7.849 cassetti che nessuno riapriva
+
+**Cosa.** Riparata alla radice la sincronizzazione fra il server e GitHub, ferma da giorni. Nato anche
+il sensore che mancava. Nicola aveva scelto lui la priorità: «fai la sincronizzazione, è più
+importante» delle due carte sulle impostazioni.
+
+**Come l'abbiamo scoperto.** Non da un sensore: **per caso**. Il server, provando a pubblicare, ha
+scritto da solo la card #149 — «7.849 stash mai riprese dall'auto-sync» — e quella riga è finita
+sotto gli occhi mentre si guardava un altro errore. Per giorni nessuno strumento aveva guardato lì.
+
+**La causa, due difetti nelle stesse cinque righe di `cervello/vps/aggiorna-cervello.sh`:**
+
+① **Il rimedio agiva sull'ostacolo sbagliato.** Prima del rebase si mettevano da parte le modifiche
+tracciate, e il commento affermava: «I file NON tracciati non contano: non bloccano il rebase». Il
+server rispondeva ogni minuto `untracked working tree files would be overwritten`. Un file non
+tracciato non blocca finché nessuno lo rivendica — ma quando i commit in arrivo *aggiungono* un file
+con quel nome, git si ferma. L'affermazione nel commento era falsa, e il codice le credeva.
+
+② **Il prestito non tornava mai indietro.** In tutto il repo non esisteva un solo `git stash pop`:
+due `stash push` e zero riprese, con commenti che spacciavano il non-riprendere per prudenza («mai si
+buttano: la stash resta»). Il giro dopo trovava l'albero pulito, concludeva che il guasto fosse
+passato, e ricominciava. Una al minuto.
+
+**La lezione, che vale oltre questo caso.** *Un commento che afferma un fatto sul mondo è codice non
+verificato.* «I file non tracciati non bloccano il rebase» era una riga di prosa che nessuna prova
+poteva contraddire, e ha retto una decisione sbagliata per mesi. La prima prova nuova non testa la
+riparazione: **chiede a git se la premessa è vera**.
+
+E la seconda: *una messa da parte è un prestito, non un archivio.* Chi la crea deve restituirla nello
+stesso giro, riuscito o fallito il lavoro. Se non torna, il conto cresce e nessuno lo vede.
+
+**I freni, che sono la parte che resta:**
+- `cervello/test/stash-che-nessuno-riprende.test.mjs` — pilota git vero. Rimettendo il difetto ① la
+  prova dice «i commit di main NON sono entrati»; rimettendo il ② dice «le stash crescono a ogni
+  giro: 1 → 2 → 3». Non vuota su entrambi, verificato rimettendoli uno per uno.
+- `cervello/stash-dimenticate.mjs` — il sensore che non c'era, agganciato a `giro.sh` con vincolo
+  hard e descritto in bacheca. Rosso sopra 3 messe da parte, o quando la più vecchia supera il giorno.
+- `cervello/test/sensore-stash-che-non-suona.test.mjs` — prova che il sensore può diventare rosso nei
+  tre modi in cui il guasto si presenta, e che senza git dice ⚪ e mai ✅.
+
+**Tre errori miei, presi durante il lavoro e non dopo:**
+1. Il primo rimedio metteva da parte con la forma a percorsi, che copre **solo** quei percorsi: il
+   file tracciato sporco restava fuori e il rebase non partiva lo stesso. Riparato metà ostacolo.
+2. La mia finta non metteva i copioni su `origin/main`: dal secondo giro l'allineamento propagava la
+   loro cancellazione e il copione usciva **127**. La prova misurava tre giri di cui due mai avvenuti,
+   ed era verde per quel motivo.
+3. Il sensore misurava sempre il repo dell'AD ignorando dove veniva lanciato: dentro un repo con
+   quattro messe da parte rispondeva «zero, tutto a posto».
+Tutti e tre li ha trovati una prova, non una rilettura. È l'argomento per cui la prova si scrive
+prima di dire «fatto».
+
+**Cosa resta a Nicola:** la card #150 (due comandi sul server, poi si guarda dentro i 7.849 cassetti
+senza buttarli). Le carte #142 e #144 restano aperte: si chiudono dopo, in due minuti.

@@ -22,6 +22,68 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🟡 #150 — Il server tornerà a parlare con GitHub, e poi guardiamo cosa c'è nei 7.849 cassetti · ⏳ accodata 2026-08-21 20:05
+
+**In parole semplici:** questa carta parla del server, la macchina accesa che lavora quando tu non ci
+sei. Ogni minuto controlla se su GitHub è arrivato qualcosa di nuovo e se lo prende. Stasera abbiamo
+scoperto che ha smesso di farlo, e ho trovato il perché.
+
+Quando deve aggiornarsi e trova del lavoro a metà, il server lo mette in un cassetto per fare spazio.
+Poi dovrebbe riaprirlo. Non l'ha mai riaperto. Ne aveva **7.849**, e se n'è accorto da solo stasera.
+
+**Un esempio di cosa vuol dire.** Alle 19:31 hai lanciato il comando che allinea il server. Ha
+provato, ha messo un cassetto da parte, non ce l'ha fatta lo stesso, e ha lasciato lì il cassetto.
+Un minuto dopo ha rifatto la stessa cosa. Così dal 18 agosto.
+
+**Cosa cambia per te:** il server è indietro rispetto a GitHub e non riesce a recuperare. Ha quattro
+suoi lavori fermi che non ha mai pubblicato. Finché resta così, tutto quello che unisci non gli
+arriva — ed è il motivo per cui stasera nessun comando funzionava.
+
+**Cosa c'era rotto, in due pezzi.** Il primo: il server metteva nel cassetto le cose sbagliate.
+L'ostacolo vero restava dov'era, e l'aggiornamento falliva comunque. Il secondo è peggiore. Nessuno
+riapriva mai quel cassetto. In tutto il programma non esisteva una riga che lo facesse.
+
+**Cosa devi fare.** Prima metti in pausa le sentinelle per due minuti. Girano ogni minuto e usano
+git: è quello che ha fatto fallire il tuo commit di stasera.
+
+```
+sudo systemctl stop mycity-watch-main.timer mycity-sentinella.timer mycity-sentinella-dati.timer mycity-sentinella-motore.timer
+cd /opt/mycity/ad-mycity
+git fetch origin main && git checkout origin/main -- cervello/vps/aggiorna-cervello.sh cervello/allineamento-esito.sh
+sudo bash cervello/vps/aggiorna-cervello.sh
+```
+
+Cerca in fondo la frase **«✓ Commit pendenti pubblicati su GitHub»**. Se compare, il server è tornato
+in linea e i suoi quattro lavori sono salvi.
+
+**Poi guardiamo nei cassetti, senza buttare niente:**
+
+```
+cd /opt/mycity/ad-mycity
+node cervello/stash-dimenticate.mjs --riassunto
+```
+
+Ti dice quanti contengono **memoria vera**, cioè lavoro scritto dal server, e quanti solo file che si
+riscrivono da soli. I primi non si toccano finché non decidiamo insieme. Con quel numero ti dico io
+cosa recuperare.
+
+**Alla fine riaccendi le sentinelle:**
+
+```
+sudo systemctl start mycity-watch-main.timer mycity-sentinella.timer mycity-sentinella-dati.timer mycity-sentinella-motore.timer
+```
+
+**Cosa non ho verificato:** che sul server funzioni. Da qui non ci arrivo. Ho provato la riparazione
+su copie vere costruite apposta: rimettendo il difetto la prova diventa rossa e conta i cassetti che
+crescono, uno, due, tre. Con la riparazione restano zero e il server pubblica.
+
+**Se va bene:** il server torna a ricevere quello che unisci e a pubblicare quello che scrive. E da
+domani un guardiano suona da solo se i cassetti ricominciano ad accumularsi.
+
+*(La #144 e la #142 nel frattempo si sono chiuse per conto loro: le trovi segnate ✅ più sotto.)*
+
+---
+
 ### 🟡 #148 — Dimmi se apro il cantiere sui quindici difetti che fermano qualcuno · ⏳ accodata 2026-08-21 16:20
 
 **In parole semplici:** oggi ho rifatto la visita completa al sito, codice e grafica insieme.
@@ -118,17 +180,19 @@ L'ho portato anche agli strumenti. Monitor adesso è dichiarato lì: non è un b
 un'esenzione. È un debito con sopra scritto entro quando. Dopo il **4 settembre** torna a essere un
 buco da solo.
 
-**Cosa devi fare.** Non devi più modificare niente a mano: il file già pronto sta qui,
-`consegne/tech/settings-con-monitor.json`. **Copia questo blocco intero, sul server.**
-
-```
-cd /opt/mycity/ad-mycity
-git pull origin main
-cp consegne/tech/settings-con-monitor.json .claude/settings.json
-node cervello/mappa-copertura.mjs
-```
-
-L'ultimo comando risponde da solo: deve elencare **Monitor** fra gli strumenti guardati.
+> ✅ **FATTA — 21/8 20:20. Non devi più fare niente su questa carta.**
+>
+> Mentre lavoravo al server, un'altra sessione ha portato la modifica su GitHub per la sua strada
+> giusta: un ramo e una richiesta di unione. Ho confrontato le impostazioni su `main` col file che
+> avevo preparato: **identiche, riga per riga**. Dentro ci sono tutte e due le cose — la parola
+> `Monitor` (questa carta) e le righe del plugin (la #142). Anche la **#142 è chiusa**.
+>
+> **La lezione, che vale per la prossima volta.** Ti avevo scritto di copiare il file sopra le
+> impostazioni. L'hai fatto, e un minuto dopo era sparito: ogni minuto il server si riallinea a
+> GitHub e rimette i file versionati come stanno lì. `.claude/settings.json` è uno di quelli, quindi
+> la copia veniva riscritta in silenzio. Una modifica a quel file **regge solo se passa da una
+> richiesta di unione** — che è poi la regola che impedisce a chiunque, me compresa, di cambiare i
+> freni con un colpo di mano.
 
 ⚠️ **Questo file fa anche la carta #142**, quella del plugin. Le due carte toccano lo stesso file,
 quindi applicarle in due copie separate vorrebbe dire che la seconda cancella la prima. Con questo
@@ -302,9 +366,13 @@ Il file già pronto sta qui: `consegne/tech/settings-con-superpowers.json`. L'ho
 file di adesso, aggiungendo solo le due righe che servono. Ho controllato che tutto il resto sia
 identico parola per parola: 63 permessi concessi, 15 vietati, 8 ganci — gli stessi numeri di prima.
 
-> ⚠️ **Aggiornamento 21/8 18:15 — usa il blocco della carta #144, non questo.**
+> ✅ **FATTA — 21/8 20:20, insieme alla #144: erano lo stesso file.**
 >
-> Il file della #144 contiene già tutto quello che c'è qui dentro. Fai quella, e questa è chiusa.
+> Le righe del plugin sono su `main`. Confrontato riga per riga: le impostazioni pubblicate sono
+> identiche al file che avevo preparato. Non devi fare niente.
+>
+> Il blocco qui sotto resta per storia, ma **non va applicato**: quella copia a mano il server la
+> cancella entro un minuto, riallineandosi a GitHub — provata e vista sparire il 21/8 alle 19:26.
 
 **Copia questo blocco intero, sul server.** Le prime due righe non sono decorazione: la prima ti
 porta nella cartella del progetto, la seconda tira giù il file da GitHub. Senza, i comandi cercano

@@ -167,12 +167,28 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
     for _a in 1 2 3; do
       # AR-469 — il rebase NON parte se restano modifiche tracciate non messe in staging, e sul server
       # ce ne sono sempre: i file dati che la macchina si riscrive vivono in `cervello/`, che non entra
-      # mai in staging. Si mettono da parte (mai si buttano: la stash resta, e `git stash list` la
-      # mostra). Niente elenco di file — la domanda è generale, così un quarto file dati domani non
-      # rimette la trappola.
-      if [ "$(serve_mettere_da_parte "$(git status --porcelain 2>/dev/null)")" = si ]; then
-        if git "${GIT_ID[@]}" stash push -m "aggiorna-cervello: da parte prima del rebase ($(ts))" >/dev/null 2>&1; then
-          echo "[$(ts)] 📦 Modifiche locali messe da parte per far partire il rebase (git stash list per rivederle)."
+      # mai in staging. Niente elenco di file — la domanda è generale, così un quarto file dati domani
+      # non rimette la trappola.
+      #
+      # 2026-08-21 — DUE BUCHI IN QUESTE RIGHE, pagati con 7.849 stash e giorni di server fermo:
+      #   ① si metteva da parte solo il TRACCIATO, ma il server veniva respinto da file NON tracciati
+      #      («untracked working tree files would be overwritten»). Il rimedio spostava l'ostacolo
+      #      sbagliato: il rebase restava fermo e la stash nasceva lo stesso, ogni minuto.
+      #   ② la stash non si riprendeva MAI — in tutto il repo non esisteva un `git stash pop`. Il giro
+      #      dopo ritrovava l'albero pulito, credeva che il guasto fosse passato, e ricominciava.
+      # Adesso è un PRESTITO: si mette da parte ciò che blocca DAVVERO (incluso il non tracciato che i
+      # commit in arrivo rivendicano) e si restituisce sempre, riuscito o fallito che sia il rebase.
+      _stash_fatta=0
+      _in_arrivo="$(git ls-tree -r --name-only FETCH_HEAD 2>/dev/null || true)"
+      _da_parte="$(paths_da_mettere_da_parte "$(git status --porcelain 2>/dev/null)" "$_in_arrivo")"
+      if [ -n "$_da_parte" ]; then
+        # -u perché nell'elenco possono esserci file NON tracciati; i percorsi perché il perimetro
+        # deve restare stretto: mai portare via il non tracciato che nessuno rivendica.
+        _stash_argv=(stash push -u -m "aggiorna-cervello: prestito prima del rebase ($(ts))" --)
+        while IFS= read -r _p; do [ -n "$_p" ] && _stash_argv+=("$_p"); done <<< "$_da_parte"
+        if git "${GIT_ID[@]}" "${_stash_argv[@]}" >/dev/null 2>&1; then
+          _stash_fatta=1
+          echo "[$(ts)] 📦 Prestito prima del rebase: $(printf '%s' "$_da_parte" | tr '\n' ' ')" >&2
         fi
       fi
       # AR-468 — l'uscita del rebase si TIENE. Prima finiva in /dev/null e il messaggio d'errore
@@ -184,10 +200,27 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
           _perche_rebase=""
         fi
       fi
+      _push_ok=0
       if git push "$url" "HEAD:${branch}" 2>&1; then
         echo "[$(ts)] ✓ Commit pendenti pubblicati su GitHub."
-        _ok_pre=1; break
+        _push_ok=1
       fi
+      # 🔁 IL PRESTITO SI RESTITUISCE — riuscito o fallito che sia il tentativo.
+      # Questa è la riga che non esisteva. Senza, ogni minuto nasceva una stash e nessuno la
+      # riprendeva: 7.849 messe da parte, e il giro dopo ripartiva da un albero pulito credendo che
+      # il guasto fosse passato. Se il pop CONFLIGGE la stash resta — ma allora lo si DICE, invece di
+      # lasciarla in silenzio come prima.
+      if [ "$_stash_fatta" = 1 ]; then
+        if git "${GIT_ID[@]}" stash pop >/dev/null 2>&1; then
+          _stash_fatta=0
+        else
+          # NON si "ripulisce" con checkout/reset: sarebbero comandi che buttano, e qui dentro c'è
+          # lavoro vero. Il pop fallito lascia la stash intatta — quindi il lavoro c'è ancora, e la
+          # cosa giusta è dirlo forte invece di sistemare a tentoni.
+          echo "[$(ts)] ⚠️  Il prestito NON è tornato indietro pulito: la stash resta ed è ancora tutta lì (git stash list). Va guardata a mano." >&2
+        fi
+      fi
+      [ "$_push_ok" = 1 ] && { _ok_pre=1; break; }
       sleep 3
     done
     # AR-311 — qui prima c'era solo un echo, e l'esecuzione TIRAVA DRITTO fino al `checkout -f`

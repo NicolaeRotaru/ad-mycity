@@ -178,9 +178,14 @@ test("senza data non è un'attesa, e senza perché nemmeno", () => {
   assert.equal(attesaValida("Mai", "2026-08-21", ATTESE), false);
 });
 
-test("Monitor è dichiarato per davvero, con data e perché", () => {
-  const a = IN_ATTESA.Monitor;
-  assert.ok(a, "è lo strumento che ha fatto nascere il terzo stato");
-  assert.match(a.scade, /^\d{4}-\d{2}-\d{2}$/);
-  assert.ok(a.perche.includes("settings.json"), "chi legge deve sapere COSA manca, non solo che manca");
+// 21/8 20:20 — Monitor è uscito dall'elenco perché il debito è stato pagato: la riga che lo copre è
+// su `main`. Il MECCANISMO del terzo stato resta provato qui sopra su ingressi finti; questa prova
+// adesso sorveglia la cosa che conta — che l'elenco non si riempia di deroghe senza scadenza.
+// Un'attesa è una promessa con una data: se qualcuna resta senza, l'elenco torna a essere un posto
+// dove i buchi si nascondono.
+test("ogni attesa dichiarata ha una data vera e un perché che dice cosa manca", () => {
+  for (const [strumento, a] of Object.entries(IN_ATTESA)) {
+    assert.match(a.scade || "", /^\d{4}-\d{2}-\d{2}$/, `${strumento}: un'attesa senza data non è un'attesa`);
+    assert.ok((a.perche || "").length > 40, `${strumento}: chi legge deve sapere COSA manca, non solo che manca`);
+  }
 });
