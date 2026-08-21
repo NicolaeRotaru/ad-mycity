@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Manifest plugin approvati per il worker (motore Claude o Cursor). Ogni voce ha scope (dove si applica) e target (dove finisce nel repo, fonte unica in .cursor/). Sync: node cervello/sync-worker-plugins.mjs · Specchio per Claude Code (.claude/skills/, generato, non versionato): node cervello/sync-worker-plugins.mjs --specchia — gira da solo a ogni avvio di worker/giro/ritmo.",
-  "aggiornato": "2026-07-20 04:04",
+  "aggiornato": "2026-08-21 03:12",
   "plugin": [
     {
       "id": "grilling",
@@ -115,7 +115,9 @@
         "codice"
       ],
       "quando": "Piani strutturati, brainstorming, subagent — metodologia obra per task complessi.",
-      "licenza": "MIT"
+      "licenza": "MIT",
+      "fornito_da_plugin": "superpowers",
+      "nota_plugin": "Se il plugin Claude superpowers è attivo, questa copia NON si specchia in .claude/skills (doppione): resta per il motore Cursor."
     },
     {
       "id": "differential-review",
@@ -236,7 +238,9 @@
         "marketplace/**"
       ],
       "quando": "Prima di ogni fix: 4 fasi root-cause (non patch sintomo). Complementa diagnosing-bugs.",
-      "licenza": "MIT"
+      "licenza": "MIT",
+      "fornito_da_plugin": "superpowers",
+      "nota_plugin": "Se il plugin Claude superpowers è attivo, questa copia NON si specchia in .claude/skills (doppione): resta per il motore Cursor."
     },
     {
       "id": "codebase-design",

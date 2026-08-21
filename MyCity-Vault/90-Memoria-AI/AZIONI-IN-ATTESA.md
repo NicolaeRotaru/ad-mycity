@@ -22,6 +22,69 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🟡 #142 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
+
+**In parole semplici:** questa card parla di come lavoro io, non del sito e non dei negozi.
+Un plugin è un pacchetto di istruzioni già scritte da altri. Si aggancia alla macchina e le insegna
+un modo di lavorare. Superpowers è il più usato dei plugin, e porta quattordici metodi.
+
+Un esempio di cosa cambia in pratica. Il 20 agosto il server si era fermato per il disco pieno.
+Senza quei metodi io guardo l'errore e libero spazio: il sintomo. Il metodo «cerca la causa vera»
+mi obbliga prima a chiedermi *perché* si riempie, e a scrivere la risposta. È la differenza fra
+liberare il disco oggi e non doverlo più liberare.
+
+L'ho installato e da adesso è acceso: in questa sessione la macchina ce li ha. Il problema è che
+l'ho acceso nella parte della macchina che vive un giorno solo. Quando questa sessione finisce, il
+plugin sparisce con lei, e la prossima riparte senza.
+
+Per farlo restare va scritta una riga in un file di configurazione del progetto. Quel file, tu, l'hai
+messo apposta nella lista di quelli che io non posso toccare da sola. È una tua regola e la rispetto:
+per questo te lo chiedo invece di farlo.
+
+**Cosa cambia:** oggi due delle quattordici skill le avevamo già, copiate a mano dentro il repo a
+luglio. Erano copie ferme a quella data. Col plugin arrivano aggiornate e si aggiornano da sole. Se
+non lo rendi permanente, ogni sessione riparte con le due copie vecchie e senza le altre dodici.
+
+**Se va bene:** apri `.claude/settings.json` e incolla queste righe subito dopo la prima parentesi
+graffa, prima di `"permissions"`:
+
+```json
+  "extraKnownMarketplaces": {
+    "superpowers-dev": {
+      "source": { "source": "github", "repo": "obra/superpowers" }
+    }
+  },
+  "enabledPlugins": {
+    "superpowers@superpowers-dev": true
+  },
+```
+
+Poi, sul server, un giro di `node cervello/sync-worker-plugins.mjs --specchia` così anche lì sparisce
+la copia doppia.
+
+**Cosa non ho verificato:** una cosa la devi sapere prima di firmare. Con quelle righe la macchina
+scarica il pacchetto da GitHub ogni volta, prendendo l'ultima versione che c'è in quel momento. Non
+è una versione bloccata: se domani chi lo scrive cambia qualcosa, noi ce lo prendiamo senza che
+nessuno l'abbia riletto. Le due copie a mano di luglio avevano il difetto opposto — vecchie, ma
+lette da noi. Oggi è un progetto serio e diffuso, quindi il rischio è basso; non è zero, e la
+scelta è tua. Se preferisci il blocco, dimmelo e fisso la versione di oggi, la 6.3.0.
+
+E non ho potuto provare il server da qui: che le quattordici skill si accendano davvero l'ho visto
+solo su questa sessione.
+
+C'è un secondo punto che ho trovato guardandoci dentro, e conta per la firma. Il plugin non aspetta
+di essere chiamato. A ogni avvio di sessione mi infila un'istruzione fissa, scritta in maiuscolo.
+Dice di controllare se c'è un metodo da applicare **prima** di qualunque risposta. Anche prima
+delle domande che ti farei per capire cosa vuoi.
+
+Sul lavoro lungo è il comportamento giusto. Su una domanda secca tua, rischia di mettermi un
+passaggio in mezzo prima di risponderti. È lo stesso problema che avemmo a luglio con *caveman*, che
+poi spegnemmo nella chat con te e lasciammo solo sui lavori interni. Qui non tocca il modo in cui
+ti scrivo, solo quanto giro faccio prima. Lo tengo d'occhio: se lo vedi appesantire le risposte
+brevi, dimmelo e lo restringo ai lavori interni come facemmo allora.
+
+---
+
 ### 🔴 #141 — Fai partire il rilascio solo a controlli verdi, non insieme a loro · ⏳ accodata 2026-08-21 03:20
 
 **Cosa cambia:** oggi il rilascio parte insieme ai controlli, non dopo. Se un controllo diventa
