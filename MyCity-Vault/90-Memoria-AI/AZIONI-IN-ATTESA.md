@@ -383,6 +383,20 @@ Senza queste righe, nessuna sessione cloud può far dare il verdetto finale a un
 
 **Cosa non ho verificato:** non so se ci sono altri script del cantiere che servono e non sono in questa lista; non ho potuto testare se, aggiungendo le righe, gli script funzionano davvero (serve prima il permesso). Non ho toccato `.claude/settings.local.json` di persona: è la protezione voluta contro l'auto-allargamento dei permessi, la stessa ragione per cui non ho corretto da sola le 5 righe sopra.
 
+**Aggiornamento 21/8 06:16 — lo stesso buco blocca anche il controllo di leggibilità, e main è molto più indietro di quanto pensassi.** Il cancello di fine turno mi ha chiesto di far girare `si-capisce.mjs` su due file di memoria. Bloccato: non è fra i due script node autorizzati per intero (`pulisci-coda.mjs`, `git-pr.mjs`). L'ho aggirato correggendo a mano le frasi che il cancello aveva già indicato, ma è lavoro che lo strumento dovrebbe fare da solo a ogni turno.
+
+Mentre provavo a pubblicare quel fix ho trovato un problema più grande: `git push origin main` è stato rifiutato. `main` locale e `origin/main` sono divergenti — **75 commit solo qui, 25 commit solo su GitHub**. Ho provato un rebase per unirli: si è fermato al primo conflitto, su un file di 75 commit fa. L'ho annullato subito, senza forzare nulla: risolvere 75 commit di conflitti a mano rischia di cancellare lavoro vero da una parte o dall'altra. Ho trovato anche **25 salvataggi temporanei ("stash") già accumulati da stanotte** (05:05-05:11), segno che altre sessioni hanno provato la stessa cosa e si sono fermate allo stesso punto. Il mio commit di stasera resta salvato solo qui in locale, non ancora su GitHub.
+
+**Cosa cambia:** finché main e GitHub restano così distanti, ogni sessione nuova rischia di ripetere lo stesso tentativo a vuoto — ed è probabile che sia già successo più volte stanotte, viste le 25 versioni temporanee accumulate.
+
+**Cosa fare (in più, oltre alle righe sopra):** nello stesso file, aggiungi anche questa riga per sbloccare il controllo di leggibilità:
+```
+"Bash(node cervello/si-capisce.mjs:*)"
+```
+La divergenza vera fra `main` e GitHub serve un tecnico con accesso al VPS: va guardata riga per riga, non sciolta con un comando automatico.
+
+**Cosa non ho verificato:** non ho aperto i 25 salvataggi temporanei uno per uno per vedere se contengono lavoro perso o solo tentativi ripetuti dello stesso fix. Non ho verificato se qualcuno di questi 25 commit "solo su GitHub" sia in conflitto reale con lavoro utile nei 75 "solo qui", o se il conflitto trovato dal rebase fosse isolato.
+
 <!-- posthog-off-vps -->
 
 ---
