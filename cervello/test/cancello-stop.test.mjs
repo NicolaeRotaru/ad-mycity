@@ -819,3 +819,55 @@ test("se non so cosa c'è sul ramo non assolvo in silenzio", () => {
   const miei = testiMiei({ disco: [], nelTurno: ["a.md", "b.md"], sulRamo: null });
   assert.deepEqual(miei, ["a.md", "b.md"], "senza la misura del ramo si accusa troppo, non si tace: il cieco lo dichiara chi chiama");
 });
+
+// ── 21/8: il comando che gli scrivo IN CHAT e che non dice da dove si lancia ────────────────────
+//
+// Il guardiano `comandi-senza-casa.mjs` è nato oggi per le card, e le card le ha sistemate. Poi
+// gliel'ho rifatta in chat un'ora dopo averlo costruito: `node cervello/plugin-acceso.mjs` senza il
+// `cd`, Nicola nella sua home sul server, e uno stack trace di Node al posto di una risposta.
+//
+// È la lezione L-2026-0810-03 pagata di nuovo — il freno va su TUTTE le corsie che hanno quel
+// comportamento, non solo su quella che ha bruciato per prima. La chat è una corsia: è un file, e
+// questo cancello lo legge già.
+
+import { comandoSenzaCasaInChat } from "../cancello-stop.mjs";
+
+const inChat = (blocco) => `Ecco cosa fare:\n\n\`\`\`bash\n${blocco}\n\`\`\`\n`;
+
+test("IL CASO DEL 21/8: il comando in chat senza il cd viene fermato prima di partire", () => {
+  const m = comandoSenzaCasaInChat(inChat("node cervello/plugin-acceso.mjs"));
+  assert.notEqual(m, null, "è il messaggio che Nicola ha davvero incollato, e ha risposto MODULE_NOT_FOUND");
+  assert.equal(m.quanti, 1);
+  assert.equal(m.primi[0], "node cervello/plugin-acceso.mjs");
+});
+
+test("col cd nello stesso blocco sta zitto", () => {
+  // Se strillasse anche sui blocchi giusti diventerebbe rumore, e il rumore spegne i freni.
+  assert.equal(comandoSenzaCasaInChat(inChat("cd /opt/mycity/ad-mycity\nnode cervello/plugin-acceso.mjs")), null);
+});
+
+test("un blocco che non nomina il repo non lo riguarda", () => {
+  assert.equal(comandoSenzaCasaInChat(inChat("git status\nsudo systemctl restart mycity-worker")), null);
+});
+
+test("un messaggio senza blocchi, vuoto o assente non accusa nessuno", () => {
+  assert.equal(comandoSenzaCasaInChat("Fatto, il sito è di nuovo online."), null);
+  assert.equal(comandoSenzaCasaInChat("   "), null);
+  assert.equal(comandoSenzaCasaInChat(null), null);
+});
+
+test("conta TUTTI i blocchi rotti del messaggio, non solo il primo", () => {
+  // In chat i blocchi sono passi diversi: sistemarne uno solo lascia Nicola bloccato al secondo.
+  const testo = `${inChat("cp consegne/tech/x.json .claude/settings.json")}\npoi:\n${inChat("node cervello/plugin-acceso.mjs")}`;
+  const m = comandoSenzaCasaInChat(testo);
+  assert.equal(m.quanti, 2);
+  assert.equal(m.primi.length, 2);
+});
+
+test("il verdetto dice il rimedio, non solo il torto", () => {
+  const v = verdetto({ comandiInChat: { quanti: 1, primi: ["node cervello/plugin-acceso.mjs"] } });
+  assert.equal(v.blocca, true);
+  const t = v.righe.join("\n");
+  assert.match(t, /cd/, "il rimedio è una riga sola: dire da dove si parte");
+  assert.match(t, /stack trace/, "deve ricordare cosa riceve Nicola quando manca");
+});
