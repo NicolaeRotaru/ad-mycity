@@ -138,32 +138,20 @@ su GitHub: `SUPABASE_TEST_URL`, `SUPABASE_TEST_ANON_KEY`, `SUPABASE_TEST_SERVICE
 
 ---
 
-### 🟡 #138 — Il server lavora ma non pubblica più niente da tre giorni · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 13:05
+### ✅ #138 — Il server lavora ma non pubblica più niente da tre giorni. FATTO 2026-08-21 16:30, col tuo ok in chat · ⏳ accodata 2026-08-20 18:10
 
-**Cosa cambia:** il server è vivo. I dodici orologi che hai fotografato sono partiti tutti oggi, 21
-agosto, e il worker ha chiuso 27 lavori su 27.
+**Com'è andata a finire.** Le due storie si erano separate: il server aveva 101 scritture sue che
+GitHub non aveva mai ricevuto, e gli mancavano 28 aggiornamenti che GitHub aveva. Nessuno dei due
+poteva copiarsi sopra l'altro, e fra i 28 che gli mancavano c'era proprio la riparazione scritta per
+questo caso. Un cane che si mordeva la coda.
 
-Ma quello che scrive non esce più. L'ultima volta che ha pubblicato è stata il 18 agosto alle 8 e
-56. Da allora sul ramo principale c'è solo roba tua, cioè le mie richieste che hai firmato.
+Nicola ha messo le 101 scritture al sicuro su un ramo, ha riallineato il server, e alle 14:26 il
+server ha pubblicato per la prima volta dal 18 agosto. Da lì pubblica ogni pochi minuti.
 
-Ecco perché il Pannello ti mostra ancora i numeri del 18 agosto: non gli arriva niente di nuovo.
+I tre giorni di memoria sono tornati dentro con la richiesta 800. Il disco è sceso dal 100% all'86%.
 
-**Se va bene:** parti dal disco, che sei sul filo — 4,6 MB liberi su 1900. Due righe:
-
-```
-node /opt/mycity/ad-mycity/cervello/spazza-temporanei.mjs
-df -h /tmp
-```
-
-La prima adesso dice anche chi occupa il posto che non può toccare. Prima taceva: mi avrebbe
-risposto «niente da spazzare» sopra un disco pieno.
-
-Mandami quello che esce. Se lo spazio torna, guardiamo il giro delle 14:20.
-
-**Cosa non ho verificato:** perché non pubblica. Il fatto ce l'ho, il motivo no. Da qui non posso
-leggere il diario del server.
-
----
+**Cosa resta, e non è più questa carta:** sei file grossi del ramo di salvataggio vanno letti e non
+fusi a occhi chiusi — Stato, coda azioni, Bacheca, Checklist, Ritmo e i piani.
 
 ### 🟡 #137 — Approva il fattorino dal pannello: adesso il pulsante c'e' · ⏳ accodata 2026-08-20 17:00
 
@@ -506,7 +494,14 @@ solo le caselle email ufficiali delle redazioni (via web, il 17/8), non i nomi d
 
 ---
 
-### 🔴 #108 — Sblocca il server: è fermo da mezzogiorno e da solo non ne esce · ⏳ accodata 2026-08-16 19:05
+### ✅ #108 — Sblocca il server: è fermo da mezzogiorno e da solo non ne esce. FATTO 2026-08-21 16:30 · ⏳ accodata 2026-08-16 19:05
+
+**Chiusa insieme alla 138, ed è la stessa cosa.** Questa carta, scritta il 16 agosto, descriveva già l'incastro nei termini esatti: il server non riesce a pubblicare, quindi si rifiuta di allinearsi al codice nuovo, quindi non può ricevere la correzione. È rimasta qui cinque giorni. Il 18 agosto la macchina si è fermata per quel motivo, e ci è rimasta tre giorni.
+
+**La lezione, e non è tecnica.** La diagnosi giusta era già scritta e in coda. Non è mancata l'analisi: è mancato che qualcuno la leggesse mentre serviva. Una carta rossa che invecchia in una coda da 67 voci non è una segnalazione, è un archivio.
+
+<details><summary>Il testo originale del 16 agosto</summary>
+
 
 **Cosa cambia:** da oggi alle 12:10 la macchina non pubblica più niente. Non è morta: il worker batte ancora, l'ho visto alle 18:47. Sono due cose incastrate. La prima: alle 13:36 una cadenza ha preso il lucchetto del giro e non l'ha più mollato, e da lì nessuna cadenza parte. La seconda: il server ha dei commit di memoria che non è riuscito a pubblicare, e giustamente si rifiuta di allinearsi al codice nuovo, perché allinearsi li cancellerebbe. Il risultato è che il server è fermo **e** non può ricevere nessuna correzione, nemmeno quella che ho appena scritto.
 
@@ -568,6 +563,8 @@ Il resto della macchina sta bene. Sensori, sincronizzazione con GitHub, coerenza
 - **Origine:** `{origine:sessione-vps-2026-08-18-mattino, lucchetto:22:20-17-8, pid-morto:352205, ultima-riga-giro:22:33-17-8}`
 
 ---
+
+</details>
 
 ### 🔴 #107 — Pubblica il post "I fornelli restano spenti" per Pane Quotidiano · ⏳ accodata 2026-08-16 12:05
 
