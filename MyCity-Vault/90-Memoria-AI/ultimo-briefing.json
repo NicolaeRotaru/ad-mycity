@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-21 14:45",
-  "situazione": "Business invariato, riconfermato dal vivo via query dirette al database: 1 ordine mai pagato del 24/6, 0 pagati, 1 solo negozio (Pane Quotidiano) su 8 profili (nuovo un profilo il 20/8, probabile account di prova di Nicola). Dentro la pausa concordata fino al 24/8-1/9 — non è un allarme. Novità vera del giro: due card di sicurezza aperte dal 29/7 (pulsante ordini, 4 falle RLS) sono risultate GIÀ RISOLTE dal lotto di riparazioni del 20-21/8, verificate sul database vero e chiuse in coda — Nicola non deve più firmarle.",
+  "data": "2026-08-21 16:27",
+  "situazione": "Passaggio delle 16:27: stato bit-per-bit identico al giro delle 14:45 (1 ordine mai pagato del 24/6, 0 pagati, 8 profili, Pane Quotidiano ancora senza pagamenti attivi), riverificato dal vivo (sensori REST/Stripe/n8n ok, delta-gate senza cambi). Dentro la pausa concordata fino al 24/8-1/9 — non è un allarme. Macchina in SOPRAVVIVENZA (salute 4, quota AI 151%): questo passaggio è stato solo verifica lampo, senza riscritture pesanti perché nulla di nuovo da registrare rispetto al giro precedente dello stesso giorno.",
   "opportunita": [
     {"titolo": "Controllare a campione le card vecchie contro lo stato reale prima di richiedere ancora una firma", "motivo": "oggi 2 card su 3 vecchie di 3 settimane erano già risolte da un lotto successivo e nessuno l'aveva segnato", "impatto": "medio", "sforzo": "basso"}
   ],

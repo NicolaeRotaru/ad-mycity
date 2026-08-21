@@ -3341,7 +3341,7 @@
     "migrazione_124_applicata": "Applicata al database di produzione il 21/8 alle 14:55, su richiesta esplicita di Nicola in chat («fallo tu»). Al primo tentativo si e' fermata — «orders: modifica di un campo protetto non consentita», codice 42501 — dentro una transazione, quindi senza scrivere niente. Difetto mio: il riempimento di gross_total_cents sugli ordini gia' presenti urtava enforce_order_update_rules. Nessuna prova l'aveva visto perche' il grilletto scatta per RIGA e la ricostruzione da zero parte da orders VUOTA. Riparata con set_config('mycity.allow_order_write','1',true) dentro un blocco DO, la stessa chiave che usa confirm_pickup_by_seller, e riapplicata: nove controlli su nove verdi, un ordine e otto profili intatti. Freno: tests/sql/harness/migrazione-su-database-pieno.sh, in CI, rosso col difetto rimesso (richiesta mycity#232)."
   },
   "sync_scan": {
-    "aggiornato": "2026-08-21 14:27",
+    "aggiornato": "2026-08-21 16:26",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
