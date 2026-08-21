@@ -66,27 +66,27 @@ L'ho portato anche agli strumenti. Monitor adesso è dichiarato lì: non è un b
 un'esenzione. È un debito con sopra scritto entro quando. Dopo il **4 settembre** torna a essere un
 buco da solo.
 
-**Cosa devi fare.** Aprire `.claude/settings.json` e cambiare una parola. Cerca questa riga:
-
-```
-"matcher": "Bash|Task|mcp__.*"
-```
-
-e falla diventare così:
-
-```
-"matcher": "Bash|Monitor|Task|mcp__.*"
-```
-
-**Se va bene:** Monitor passa dalle stesse mani di Bash, e io tolgo la dichiarazione d'attesa. Per
-controllare che sia servito, dal server:
+**Cosa devi fare.** Non devi più modificare niente a mano: il file già pronto sta qui,
+`consegne/tech/settings-con-monitor.json`. **Copia questo blocco intero, sul server.**
 
 ```
 cd /opt/mycity/ad-mycity
+git pull origin main
+cp consegne/tech/settings-con-monitor.json .claude/settings.json
 node cervello/mappa-copertura.mjs
 ```
 
-Deve elencare Monitor fra gli strumenti guardati.
+L'ultimo comando risponde da solo: deve elencare **Monitor** fra gli strumenti guardati.
+
+⚠️ **Questo file fa anche la carta #142**, quella del plugin. Le due carte toccano lo stesso file,
+quindi applicarle in due copie separate vorrebbe dire che la seconda cancella la prima. Con questo
+blocco le fai tutte e due insieme, e la #142 puoi darla per chiusa.
+
+Cosa c'è dentro, controllato numero per numero: **63 permessi concessi, 15 vietati, 10 gruppi di
+guardie** — gli stessi identici di adesso. Le uniche differenze sono le due righe del plugin e la
+parola `Monitor` nel matcher.
+
+**Se va bene:** Monitor passa dalle stesse mani di Bash, e io tolgo la dichiarazione d'attesa.
 
 **Una domanda più grande, se hai voglia.** Quella lista è fatta di nomi scritti a mano. Vuol dire che
 ogni strumento nuovo nasce senza controllo, finché qualcuno non si ricorda di aggiungerlo. È così che
@@ -162,15 +162,29 @@ cd /opt/mycity/ad-mycity
 systemctl list-timers 'mycity-*' --all
 ```
 
-Le sveglie da guardare sono queste cinque: `mycity-ritmo-mattino`, `mycity-ritmo-mezzogiorno`,
-`mycity-ritmo-sera`, `mycity-ritmo-settimana`, `mycity-monitora`, più `mycity-salute`. Se accanto
-leggi `disabled` o `not-found`, si riaccendono così:
+Le sveglie da guardare sono sei: `mycity-ritmo-mattino`, `mycity-ritmo-mezzogiorno`,
+`mycity-ritmo-sera`, `mycity-ritmo-settimana`, `mycity-monitora`, `mycity-salute`.
+
+Se accanto leggi `disabled` o `not-found`, **non serve digitarle a mano**: c'è già un copione che le
+rimette a posto tutte insieme.
 
 ```
 cd /opt/mycity/ad-mycity
-sudo systemctl enable --now mycity-ritmo-mattino.timer mycity-ritmo-mezzogiorno.timer \
-  mycity-ritmo-sera.timer mycity-ritmo-settimana.timer mycity-monitora.timer mycity-salute.timer
+sudo bash cervello/vps/install-ritmo-timers.sh
+sudo systemctl enable --now mycity-monitora.timer
 ```
+
+⚠️ **La terza riga non è un doppione, ed è la cosa che ho scoperto preparando questa carta.** Il
+copione del ritmo rimette in piedi tutte le sveglie tranne una: **il monitoraggio non è nel suo
+elenco.**
+
+Le sveglie del server le installano due copioni diversi. Ognuno ha il suo elenco scritto a mano: il
+ritmo in uno, il giro e il monitoraggio nell'altro. Chi rilancia solo il primo si ritrova il
+monitoraggio spento e non se ne accorge. Una sveglia che non esiste non dà errore: non fa niente, e
+da fuori sembra che vada bene.
+
+Ho messo un freno perché non succeda con la prossima: `cervello/test/sveglia-che-nessuno-installa.test.mjs`
+diventa rosso se qualcuno aggiunge una sveglia e si dimentica di metterla in uno dei due elenchi.
 
 Se invece risultano `active` ma non partono, il problema è in quello che ci gira dentro e non nella
 sveglia: allora serve questo, che dice l'errore vero:
@@ -234,6 +248,12 @@ non funzionava. Quindi non ti faccio incollare niente a mano.
 Il file già pronto sta qui: `consegne/tech/settings-con-superpowers.json`. L'ho generato dal tuo
 file di adesso, aggiungendo solo le due righe che servono. Ho controllato che tutto il resto sia
 identico parola per parola: 63 permessi concessi, 15 vietati, 8 ganci — gli stessi numeri di prima.
+
+> ⚠️ **Aggiornamento 21/8 18:15 — usa il blocco della carta #144, non questo.**
+>
+> È nata un'altra carta che tocca lo stesso file. Applicarle in due copie separate vorrebbe dire che
+> la seconda cancella la prima. Il file della #144 contiene già tutto quello che c'è qui dentro, più
+> una parola. Fai quella, e questa è chiusa.
 
 **Copia questo blocco intero, sul server.** Le prime due righe non sono decorazione: la prima ti
 porta nella cartella del progetto, la seconda tira giù il file da GitHub. Senza, i comandi cercano
