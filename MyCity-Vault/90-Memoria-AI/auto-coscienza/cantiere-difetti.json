@@ -16250,28 +16250,47 @@
         "tipo": "comando",
         "comando": "node cervello/test/porta-delle-lezioni.test.mjs"
       }
+    },
+    {
+      "id": "AR-770",
+      "stato": "aperto",
+      "dimensione": "apprendimento",
+      "gravita": "medio",
+      "titolo": "La sentinella dei quaderni fermi (AR-595) manda l'AD a eseguire un comando che non fa quello che promette: letargo.mjs non sa dichiarare dormiente un ruolo",
+      "causa_radice": "cervello/sentinella-dati.mjs riga ~634 (regola M12, chiave quaderni_fermi) scrive nel prompt della card: «dichiara dormienti i ruoli mai attivati... (node cervello/letargo.mjs)». Ho letto cervello/letargo.mjs riga per riga (capacita #37): calcola il LIVELLO-ENERGIA dell'INTERA macchina da 4 assi globali (quota AI, runway cassa, sensori ciechi, salute) — NORMALE/RISPARMIO/SOPRAVVIVENZA. Non contiene nessun concetto di ruolo/reparto/senior, nessun parametro per nome-reparto, nessuna scrittura di registro per-ruolo. Grep di 'ruoli|reparto|senior' su tutto il file: zero risultati. L'unico punto in cui 'mettere in letargo dichiarato' un singolo reparto sotto-utilizzato compare e' il fix_proposto (non ancora implementato) del difetto gemello AR-194/M11 (senior_mai_usati, riga ~616): una proposta di TESTO da accodare a people-talent, non uno strumento che esiste. La card M12 ha copiato il nome del comando sbagliato da un'altra capacita con un nome simile ('letargo macchina' invece di 'letargo per ruolo', che non e mai stato costruito).",
+      "fix_proposto": "🟡 Costruire davvero il pezzo che manca, non solo correggere la frase: ① nuovo registro MyCity-Vault/90-Memoria-AI/auto-coscienza/ruoli-dormienti.json (reparto, motivo, dichiarato_il, condizione_risveglio) + script cervello/dormienti.mjs con sotto-comandi 'dichiara <reparto> \"<motivo>\" \"<condizione-risveglio>\"' e 'lista'; ② cervello/eta-referto.mjs (verdettoSquadra, usato da chiusura-loop.mjs) esclude i reparti dormienti dal conteggio fermi/vuoti invece di contarli malati ogni sera, coerente con come la stessa card lo chiede; ③ sentinella-dati.mjs M12 punta al comando vero (dormienti.mjs), non a letargo.mjs; ④ aggiornare cervello/test/c6-quaderni-fermi.test.mjs (l'assert su /dormienti/ nel prompt resta valido ma va aggiunto un test che verdettoSquadra tratta i dormienti come categoria a parte, non come fermi) + un test nuovo per dormienti.mjs stesso. Non toccare letargo.mjs: fa gia bene il suo mestiere (energia dell'intera macchina), e un'altra capacita.",
+      "dove": "cervello/sentinella-dati.mjs:~630-635 (M12) · cervello/letargo.mjs (intero file, verificato che non c'entra) · cervello/eta-referto.mjs (verdettoSquadra) · cervello/chiusura-loop.mjs · cervello/test/c6-quaderni-fermi.test.mjs:50",
+      "impatto_crescita": "chi legge la card (AD o Nicola dal Pannello) e prova a eseguire la prima mossa suggerita non ottiene nessun effetto sul problema descritto: la card resta aperta per sempre perche il comando che dovrebbe chiuderla non fa la cosa promessa. Danno diretto piccolo (nessun soldo in gioco), ma corrode la fiducia nelle istruzioni automatiche della macchina stessa — lo stesso tipo di errore che l'asticella (CLAUDE.md) chiede di non ripetere: un'istruzione verificata solo a parole, non a fatti.",
+      "nato": "2026-08-21 05:31",
+      "nato_come": "scoperta",
+      "nato_da": "eseguendo il lavoro proposto dalla card quaderni_fermi stessa: ho letto cervello/letargo.mjs riga per riga prima di lanciarlo e ho trovato che non ha nessuna relazione con 'dichiarare dormiente un ruolo' — la card manda a eseguire uno strumento che non fa quello che dice",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Prova da scrivere col fix: node --test cervello/test/c6-quaderni-fermi.test.mjs (aggiornato) + un test nuovo su dormienti.mjs che dichiara un reparto dormiente e verifica che verdettoSquadra non lo conti piu fra i 'fermi'. Blocco reale per costruirlo ORA in questa sessione: il repo (main locale) risultava divergente da origin/main durante questo stesso turno (rebase su 56 commit con conflitto sul primissimo, abortito subito per sicurezza) — stesso sintomo gia tracciato nella card #104 (permessi git). Aprire il branch da origin/main fresco in una sessione dove #104 e risolta, non da questo stato."
+      }
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 760,
-    "aperti": 106,
+    "totale": 761,
+    "aperti": 107,
     "in_corso": 0,
     "da_riverificare": 56,
     "chiusi": 598,
     "altri": 0,
-    "da_fare": 162,
+    "da_fare": 163,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 598,
-      "aperto": 106,
+      "aperto": 107,
       "da-riverificare": 56
     },
     "stati_ignoti": [],
-    "senza_owner": 162,
-    "senza_scadenza": 162,
+    "senza_owner": 163,
+    "senza_scadenza": 163,
     "scaduti": 0,
     "derivato_dalla_lista": true,
-    "somma_torna": true
+    "somma_torna": true,
+    "nota_aggiornamento_manuale": "AR-770 aggiunto a mano 2026-08-21 05:xx (git divergente, script di ricalcolo non lanciabile in questa sessione) — ricalcolare con lo script ufficiale appena possibile"
   }
 }
