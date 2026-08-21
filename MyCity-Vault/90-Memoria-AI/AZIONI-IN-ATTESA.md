@@ -37,6 +37,25 @@ conto suo. Ma è stato un caso, non un controllo.
 **Cosa cambia:** finché resta così, c'è una porta di servizio senza il campanello che ha la porta
 principale. Non è che io farei cose diverse — è che se le facessi, nessuno se ne accorgerebbe.
 
+**Ho provato a farla io, e il sistema mi ha detto di no.** Me l'hai chiesto tu — «fai tu la 144» —
+e ci ho provato per la strada giusta. La risposta è stata: *«File is in a directory that is denied by
+your permission settings»*. Non è una mia esitazione: è una regola scritta **dentro quel file**, alle
+righe 80-83, che vieta a me di modificarlo. L'hai messa lì apposta, ed è la regola giusta: quello è
+il file che, se lo toccassi io, potrebbe staccare tutti i freni insieme — compreso il divieto di
+leggere le password.
+
+C'era una scorciatoia: scrivere il file da un'altra parte, con un comando invece che con lo
+strumento che ha il divieto. **Non l'ho presa.** Aggirare un divieto perché è scomodo è esattamente
+ciò che i divieti servono a impedire, e questa casa quel difetto ce l'ha già in elenco con un nome:
+*la porta laterale senza i freni della principale*.
+
+**Quello che ho fatto invece.** La macchina aveva già la risposta a questo caso, un piano più giù:
+per i guardiani esiste lo stato «in attesa di aggancio», che vuol dire *il freno c'è, manca una riga
+che solo Nicola può incollare* — e vale **solo con una data di scadenza**. L'ho portato anche agli
+strumenti. Adesso Monitor è dichiarato lì: non è un buco silenzioso, non è un'esenzione (sarebbe una
+bugia, esegue comandi), è un debito con sopra scritto **entro quando**. Dopo il **4 settembre** torna
+a essere un buco da solo, senza che nessuno debba ricordarsene.
+
 **Cosa devi fare.** Aprire `.claude/settings.json` e aggiungere una parola. Cerca questa riga:
 
 ```
@@ -52,8 +71,9 @@ e falla diventare:
 È l'unica modifica. Quel file lo incolli tu apposta: è quello che, se lo toccassi io, potrebbe
 staccare tutti i freni insieme — e un freno che si stacca da solo non è un freno.
 
-**Se va bene:** il controllo dello Stop smette di segnalarlo, e Monitor passa dalle stesse mani di
-Bash.
+**Se va bene:** Monitor passa dalle stesse mani di Bash, e io tolgo la dichiarazione d'attesa.
+Se invece preferisci che sia io a poterlo fare, la strada è un'altra e la decidi tu: togliere il
+divieto su quel file. Non te lo consiglio — quel divieto vale più di questa comodità.
 
 **Una domanda più grande, se hai voglia di guardarla.** Quella lista è fatta di nomi scritti a mano.
 Vuol dire che **ogni strumento nuovo nasce senza controllo** finché qualcuno non si ricorda di
