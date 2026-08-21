@@ -1,7 +1,7 @@
 {
-  "aggiornato": "2026-08-21 12:08",
+  "aggiornato": "2026-08-21 12:18",
   "timbro": {
-    "quando": "2026-08-21 12:08",
+    "quando": "2026-08-21 12:18",
     "scade_dopo_ore": 26,
     "ambiente": "cloud",
     "scritto_da": "cervello/salute.mjs",
@@ -22,15 +22,15 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-08-21 12:08",
-      "iso": "2026-08-21T10:08:15.994Z",
+      "quando": "2026-08-21 12:18",
+      "iso": "2026-08-21T10:18:08.487Z",
       "casa": "claude",
       "modo": "rapido",
-      "ok": 10,
+      "ok": 9,
       "rotti": 5,
       "guasti": 0,
-      "nonvisti": 7,
-      "copertura": 0.68,
+      "nonvisti": 8,
+      "copertura": 0.64,
       "controlli": [
         {
           "id": "worker.ponte",
@@ -41,8 +41,8 @@
           "detto": "l'ultima visita del VPS è di 77 ore fa: da lassù non si sta più controllando nessuno",
           "prova": null,
           "regressione": false,
-          "rosso_da": 2,
-          "cronico": false
+          "rosso_da": 4,
+          "cronico": true
         },
         {
           "id": "worker.tracce",
@@ -53,8 +53,8 @@
           "detto": "nessun processo automatico lascia tracce da 75 ore (l'ultima è sentinella-dati.json, 2026-08-18 08:55)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 2,
-          "cronico": false
+          "rosso_da": 4,
+          "cronico": true
         },
         {
           "id": "worker.cadenze",
@@ -65,8 +65,8 @@
           "detto": "il ritmo della macchina si è fermato: 6 cadenze su 6 non si alzano più (giro, ritmo-mattino, ritmo-mezzogiorno, ritmo-sera, ritmo-settimana, monitora), e 1 è uscita saltando dei passi (ritmo-settimana)",
           "prova": "node cervello/freschezza-cadenze.mjs",
           "regressione": false,
-          "rosso_da": 2,
-          "cronico": false
+          "rosso_da": 4,
+          "cronico": true
         },
         {
           "id": "cervello.freschezza",
@@ -74,11 +74,11 @@
           "titolo": "I file che la Cabina mostra sono ancora validi",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "5 file che la Cabina mostra sono più vecchi della loro scadenza: Le mosse di Nicola (100h), Com'è andato l'ultimo giro (76h), Il battito delle cadenze (76h), L'ultimo briefing (77h), Il quaderno dei pezzi nuovi (1135h)",
+          "detto": "5 file che la Cabina mostra sono più vecchi della loro scadenza: Le mosse di Nicola (100h), Com'è andato l'ultimo giro (76h), Il battito delle cadenze (76h), L'ultimo briefing (78h), Il quaderno dei pezzi nuovi (1135h)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 2,
-          "cronico": false
+          "rosso_da": 4,
+          "cronico": true
         },
         {
           "id": "cervello.riti",
@@ -89,8 +89,8 @@
           "detto": "la review del venerdì non lascia più i suoi compiti: Il confronto coi migliori (28 giorni), La peer review fra senior (28 giorni), La calibrazione previsto-vs-reale (27 giorni), La lettera a Nicola (22 giorni)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 2,
-          "cronico": false
+          "rosso_da": 4,
+          "cronico": true
         },
         {
           "id": "worker.coda",
@@ -133,8 +133,8 @@
           "organo": "cervello",
           "titolo": "Nessun segreto nel repo",
           "impatto": 1,
-          "esito": "ok",
-          "detto": "nessuna chiave o segreto committato",
+          "esito": "nonvisto",
+          "detto": "il controllo non ha potuto misurare: 🔒 SCAN SEGRETI — 2026-08-21 12:18 · 1 file grossi letti a blocchi: MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json (2185 kB: si legge un pezzo per volta)",
           "prova": "node cervello/scan-segreti.mjs",
           "regressione": false,
           "rosso_da": 0,
@@ -158,7 +158,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 3 min fa (2026-08-21T10:05:27.112Z) — 6 file guardati, 2 voci, 0 gravi.",
+          "detto": "✅ ultimo scatto 13 min fa (2026-08-21T10:05:27.112Z) — 6 file guardati, 2 voci, 0 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false,
           "rosso_da": 0,
@@ -298,11 +298,11 @@
         }
       ],
       "cronicita": {
-        "worker.ponte": 2,
-        "worker.tracce": 2,
-        "worker.cadenze": 2,
-        "cervello.freschezza": 2,
-        "cervello.riti": 2
+        "worker.ponte": 4,
+        "worker.tracce": 4,
+        "worker.cadenze": 4,
+        "cervello.freschezza": 4,
+        "cervello.riti": 4
       }
     },
     "vps": {
@@ -1158,6 +1158,28 @@
       "guasti": 0,
       "nonvisti": 7,
       "copertura": 0.68
+    },
+    {
+      "quando": "2026-08-21 12:17",
+      "iso": "2026-08-21T10:17:16.267Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 9,
+      "rotti": 5,
+      "guasti": 0,
+      "nonvisti": 8,
+      "copertura": 0.64
+    },
+    {
+      "quando": "2026-08-21 12:18",
+      "iso": "2026-08-21T10:18:08.487Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 9,
+      "rotti": 5,
+      "guasti": 0,
+      "nonvisti": 8,
+      "copertura": 0.64
     }
   ]
 }
