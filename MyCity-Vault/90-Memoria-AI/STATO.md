@@ -1,8 +1,28 @@
 ---
 tipo: stato
-aggiornato: 2026-08-21 03:28
+aggiornato: 2026-08-21 06:10
 fonte: AD digitale (chat)
 ---
+
+> ☀️ **21/8 06:10 — Piano del mattino (cadenza ufficiale di ritmo.md).** Business riverificato ora
+> con controllo diretto (`verifica-sensori.mjs` + lettura REST): 1 negozio (Pane Quotidiano), 1
+> ordine mai pagato del 24 giugno — stallo North Star **58 giorni**, dentro la pausa concordata con
+> Nicola fino al 24/8-1/9 (3 giorni residui). `ci-stato.mjs` confermato dal vivo: **7 PR rosse per
+> colpa propria** (`#791`/`#761`/`#754`/`#753`/`#749`/`#741`/`#735`), nessuna tocca il marketplace live.
+>
+> **Novità reale di stamattina:** il lavoro della sentinella "salute bassa" delle 06:15 (già scritto
+> in [[AZIONI-IN-ATTESA]] e sopra in questa pagina) ha trovato che lo stesso buco di permessi che
+> blocca `#104` **si sta allargando**: ora impedisce anche di riparare i difetti del cantiere
+> (`cervello/cancello-lotto.mjs` non parte) e di far girare i controlli di salute programmati sul
+> server (card `#126`, ferma da 3 giorni). Tre firme diverse, una sola causa: sbloccare `#104` oggi
+> vale più delle altre due priorità messe insieme, perché le altre restano ferme finché quella non
+> si muove.
+>
+> Le tre priorità di oggi: ① `#104` (permessi VPS, ferma da 5 giorni, causa a monte di due nuovi
+> blocchi) ② `#125` (le 4 migrazioni database, rimborsi rotti, ferma da 3 giorni) ③ `#36`/`#37`/`#38`
+> (sicurezza del sito, ferme da 23 giorni). Nessuna azione nuova accodata: la coda è già completa,
+> aprirne di nuove senza chiudere le vecchie peggiora il tasso di chiusura. Dettaglio completo in
+> [[RITMO]].
 
 > 🌙 **21/8 03:28 — Verifica di continuità, nessuna richiesta nuova ricevuta.** Ripreso il controllo
 > di 2 minuti fa (checkup fermo, causa #104 confermata). Novità trovata: il ramo che leggo io qui
@@ -1936,6 +1956,7 @@ fonte: AD digitale (chat)
 | Loop business | 🔴 in corso | #16 **ANNULLATO** — il 1° ordine reale va creato ex-novo; parte operativa 13/7, aggancio VEN 17/7 |
 
 ## Ultime mosse dell'AD
+0. **☀️ 21/8 06:10 — Piano del mattino: stesso freno di sempre, ma oggi si vede che si sta allargando.** Business riverificato dal vivo (`verifica-sensori.mjs`, REST): 1 negozio, 1 ordine mai pagato, stallo North Star **58 giorni**, dentro la pausa fino al 24/8-1/9. `ci-stato.mjs`: 7 PR rosse per colpa propria, nessuna sul sito vero. Le tre priorità scelte: ① `#104` (permessi VPS, 5gg, causa a monte) ② `#125` (migrazioni database, rimborsi rotti, 3gg) ③ `#36`/`#37`/`#38` (sicurezza, 23gg). **Perché #104 prima delle altre due:** il lavoro "salute bassa" di poco fa (voce sotto) ha trovato che lo stesso buco di permessi ora ferma anche le riparazioni del cantiere e il checkup di salute (`#126`) — sbloccarlo sblocca tre cose insieme, non una. Nessuna azione nuova accodata: la coda è già completa e il tasso di chiusura resta il vincolo, non la ricerca. Scritto in [[RITMO]] (blocco «Piano del mattino · 2026-08-21 06:10») e qui sotto in «Prossime priorità».
 0. **🚧 21/8 06:15 — Lavoro in coda "salute cantiere" (sentinella): solo analisi, nessun fix — trovato un secondo buco nei permessi, diverso da #104.** Il lavoro accodato dalla sentinella chiedeva di riparare alla radice i difetti del cantiere e mostrare i bloccanti per impatto sulla crescita. Fatto solo il secondo pezzo: 106 difetti aperti (su 760 schede), **26 a impatto-crescita "alto"**, **9 "bloccanti"** (7 dei 9 sono anche alto-impatto). Di questi 9: AR-206 e AR-518/AR-521 hanno già un'azione in coda (#42, #108); **AR-365, AR-366, AR-568, AR-757 sono nuovi, senza azione dedicata** (debito tecnico interno, non servono una firma — solo lavoro di lotto). Non riparato niente: `node cervello/cancello-lotto.mjs` (il cancello che dice se un lotto si può consegnare) e gli altri script del cantiere lanciati come programma sono bloccati dai permessi di questa sessione — buco diverso dalle 5 righe Write/Edit di #104, dettaglio in [[AZIONI-IN-ATTESA]] sotto #104. `node --test` per le singole prove funziona; il cancello di lotto no. Senza il cancello non c'è modo di dare a un fix la prova richiesta dall'asticella, quindi niente fix scritto stavolta. Vedi [[DECISIONI]] 06:15.
 0. **🌙 19/8 18:00 — Report della sera: giornata di sola manutenzione, business fermo com'era già scritto, due card ricostruite dopo un giro interrotto.** Riverificato dal vivo via SQL diretto: 1 negozio, 5 prodotti, 7 profili, 1 ordine (CANCELED, 24/6), 0 pagati — stallo North Star **56 giorni**, dentro la pausa concordata con Nicola fino al 24/8-1/9. Fatto oggi: al Piano del mattino (06:04) trovato un buco vero — le card `#124` e `#125`, dichiarate "accodate" nei report di ieri sera, non erano mai state scritte davvero in [[AZIONI-IN-ATTESA]]: la scrittura si era persa dentro un giro interrotto ieri sera. Ricostruite col contenuto già verificato, senza inventare numeri nuovi. Al Punto di mezzogiorno (12:05) nessuna novità: le 3 priorità del mattino restavano tutte aperte. Il giro completo delle 14:33 ha confermato lo stesso stato e segnalato un peggioramento tecnico: le PR rosse in CI sono salite da 3 a 6, tutte per colpa propria della macchina (non del marketplace), 3 delle 6 per lo stesso doppio difetto (test rosso + riga ESITO mancante). **Lezione del giorno:** dire che un'azione è "accodata" non basta — va verificato che la scrittura sia arrivata davvero sul disco, specie dopo un giro interrotto; altrimenti la card sparisce e Nicola non la vede mai. **Non fatto:** nessuna delle azioni in coda è stata firmata oggi (nessuna risposta di Nicola); la mossa n.1 (pagamenti Pane Quotidiano) resta congelata fino al 24/8-1/9 come da accordo.
 0. **🗓️ 10/8 12:00 — I piani non erano aggiornati: nove su dieci fermi dal 24-25 giugno. Ora ognuno dice da quanto.** Su richiesta di Nicola: «guarda tutti i piani, non sono stati aggiornati, aggiungi la data con l'ultima volta in cui sono stati aggiornati». **Il conto vero:** i piani sono dieci. Nove non venivano rivisti da 45-47 giorni. Il decimo è il Piano Vendite. Lì è cambiata una riga sola il 20/7: la commissione da 12% a 10%. È l'allineamento di un fatto, non una revisione del piano. **Perché nessuno se n'era accorto:** i file sembravano vivissimi. Il Piano Operativo ha 22 commit. Ma a ogni giro l'AD rigenera un blocco in fondo al file. Il file veniva toccato di continuo, il piano no. Contare i commit rispondeva alla domanda sbagliata. **Fatto:** ogni piano porta ora in cima la riga «Ultimo aggiornamento». La data è misurata da git sul testo del piano. Il blocco automatico non conta più. Il Pannello mostra l'etichetta «fermo da N giorni» accanto al nome del piano. I giorni li conta quando apri la pagina, non stanno scritti nel file. Lo strumento è agganciato al giro, così la data resta vera da sola. Se la storia di git è troncata dice «cieco» e non scrive niente. **Cosa NON è stato fatto:** i piani non sono stati riscritti nel merito. Dentro c'è ancora il bando ER come sportello aperto. C'è ancora Garetti come negozio-faro. C'è ancora scritto «oggi 25/06/2026». Riscrivere quei testi è una revisione dei piani di Nicola, e la firma è sua.
@@ -2004,6 +2025,21 @@ fonte: AD digitale (chat)
 3. **Giro 2/7 10:19** — KPI live REST stallo 191,9h. #19 LIVE. ok 16 in esecuzione. Automazione verde.
 4. **ok merge #19 2/7 08:40** — PR #211 merged `f84fc70` → Render auto-deploy fix ruoli.
 5. **ok 16 2/7 08:38** — Nicola approva esecuzione #16 · pacchetto pranzo + passi #20–#22 accodati.
+
+## Prossime priorità (☀️ aggiornato 21/8 06:10 — piano del mattino)
+Il business è invariato dal 24 giugno. Riconfermato ora dal vivo (`verifica-sensori.mjs`, REST): 1 negozio (Pane Quotidiano), 1 ordine mai pagato, 0 pagati. Lo stallo sale a **58 giorni**. Siamo dentro la pausa concordata con Nicola, finisce il 24 agosto: mancano 3 giorni, non è un allarme. `ci-stato.mjs` riverificato dal vivo: 7 richieste di unione rosse, tutte per un errore mio, nessuna tocca il sito vero. Novità di stamattina: un lavoro automatico in coda ha trovato che il permesso mancante (`#104`) ora blocca anche la riparazione dei difetti della macchina e il controllo di salute programmato sul server — non è più solo gli script diagnostici.
+
+1. [ ] 🟡 **Correggi 5 righe nel file dei permessi sul server** (`#104`) — **5 giorni**. Oggi vale doppio: blocca anche le riparazioni del cantiere e il checkup di salute (`#126`).
+2. [ ] 🔴 **Applica le 4 migrazioni al database di produzione** (`#125`) — ferma da 3 giorni. Senza, i rimborsi ai clienti e 3 falle di sicurezza sul database vero restano aperte.
+3. [ ] 🔴 **Decidi sulle tre falle di sicurezza/affidabilità del sito** (`#36`/`#37`/`#38`) — ferme dal 29/7, **23 giorni**.
+
+**Non dimenticare, invariata:** la mossa n.1 resta `#62`/`#116`, la pratica pagamenti di Pane Quotidiano. Congelata fino al 24/8-1/9.
+
+**Da chiudere in fretta, ferme da giorni:** `#126` (checkup di salute fermo sul server, nuova) · `#107` (post Pane Quotidiano, sì/no) · `#118` (comunicato stampa, servono due citazioni vere) · `#120` (segnalazione welfare al fornaio, a costo zero) · `#124` (testi difficili scritti dal monitoraggio automatico).
+
+**Sentinelle attive:** loop business 🔴, 0 ordini reali, stallo 58gg, atteso perché i negozi sono in pausa. Rimborsi/DB 🔴, migrazioni ancora ferme. CI 🟡, 7 PR rosse (verificato ora). Salute/cantiere 🟡, checkup fermo da 3 giorni + riparazioni bloccate dallo stesso permesso di `#104` (dettaglio nel lavoro "salute bassa" delle 06:15). REST/Stripe/Resend/Pannello/n8n/watchdog ✅, riverificati ora dal vivo.
+
+---
 
 ## Prossime priorità (☀️ aggiornato 20/8 06:15 — piano del mattino)
 Il business è invariato dal 24 giugno. L'ho riconfermato ora con una query diretta al database, zero numeri inventati. C'è 1 negozio, Pane Quotidiano. C'è 1 ordine, mai pagato, del 24 giugno. Ci sono 7 profili e 0 recensioni. I pagamenti Stripe restano tutti spenti. Lo stallo sale a **57 giorni**. Siamo dentro la pausa concordata con Nicola. Finisce il 24 agosto, mancano 4 giorni: non è un allarme. Il terminale resta bloccato in questa sessione, stesso guasto del 18-19/8. I dati sopra vengono da una query diretta, non da uno script. Lo stato di sensori/CI/PR è quello dell'ultima verifica vera, di ieri sera: non riverificato oggi.

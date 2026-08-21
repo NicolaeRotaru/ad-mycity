@@ -2,42 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-13T17:25:33.052Z",
-      "scatti": 6125,
-      "voci": 15,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 10,
-        "prova-accecata": 2
-      },
-      "mai_risolte": [
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/test/archivi-senza-tetto.test.mjs», che è la prova che deve diventare rossa per AR-471",
-          "ripetuta": 20
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «node cervello/test/archivi-senza-tetto.test.mjs», che è la prova che deve diventare rossa per AR-416",
-          "ripetuta": 20
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/test/regola-scrittura-nei-senior.test.mjs», che è la prova che deve diventare rossa per AR-480",
-          "ripetuta": 20
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «node cervello/test/regola-scrittura-nei-senior.test.mjs», che è la prova che deve diventare rossa per AR-574",
-          "ripetuta": 20
-        }
-      ]
-    },
-    {
       "quando": "2026-08-13T17:27:43.675Z",
       "scatti": 6132,
       "voci": 15,
@@ -2534,7 +2498,20 @@
         "gate-orfano": 4
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-21T04:05:34.885Z",
+      "scatti": 13597,
+      "voci": 224,
+      "per_classe": {
+        "soglia-allentata": 4,
+        "difesa-rimossa": 208,
+        "prova-accecata": 7,
+        "riparazione-parziale": 1,
+        "gate-orfano": 4
+      },
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-21T03:59:27.325Z"
+  "aggiornato": "2026-08-21T04:05:34.890Z"
 }
