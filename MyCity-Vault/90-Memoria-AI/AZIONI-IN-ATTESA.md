@@ -22,6 +22,56 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #144 — Una riga da incollare: c'è uno strumento che nessuno controlla · ⏳ accodata 2026-08-21 16:40
+
+**In parole semplici.** Ho una lista di controllori che mi guardano le mani. Ogni volta che sto per
+fare qualcosa che tocca il mondo — lanciare un comando, chiamare un servizio esterno — uno di loro si
+mette in mezzo e chiede il permesso. La lista di *quali* strumenti guardare è scritta a mano in un
+file di configurazione, e dice: «Bash, Task, e tutto quello che comincia per mcp».
+
+Oggi ho usato uno strumento che si chiama **Monitor**, che serve a tenere d'occhio una cosa che sta
+girando. Non è in quella lista. Quindi nessuno l'ha guardato — e Monitor lancia comandi esattamente
+come Bash. Questa volta non è successo niente, perché il permesso me l'ha negato l'ambiente per
+conto suo. Ma è stato un caso, non un controllo.
+
+**Cosa cambia:** finché resta così, c'è una porta di servizio senza il campanello che ha la porta
+principale. Non è che io farei cose diverse — è che se le facessi, nessuno se ne accorgerebbe.
+
+**Cosa devi fare.** Aprire `.claude/settings.json` e aggiungere una parola. Cerca questa riga:
+
+```
+"matcher": "Bash|Task|mcp__.*"
+```
+
+e falla diventare:
+
+```
+"matcher": "Bash|Monitor|Task|mcp__.*"
+```
+
+È l'unica modifica. Quel file lo incolli tu apposta: è quello che, se lo toccassi io, potrebbe
+staccare tutti i freni insieme — e un freno che si stacca da solo non è un freno.
+
+**Se va bene:** il controllo dello Stop smette di segnalarlo, e Monitor passa dalle stesse mani di
+Bash.
+
+**Una domanda più grande, se hai voglia di guardarla.** Quella lista è fatta di nomi scritti a mano.
+Vuol dire che **ogni strumento nuovo nasce senza controllo** finché qualcuno non si ricorda di
+aggiungerlo — ed è così che è passato Monitor. Il contrario sarebbe: controlla tutto, e scrivi
+l'elenco di quelli che non servono (leggere un file, cercare in una cartella). Si chiama chiudere
+invece di aprire. Non l'ho fatto perché è una scelta tua e cambia il comportamento di ogni singola
+mossa, non solo di una: dimmelo e la preparo.
+
+**Cosa non ho verificato.** Non ho provato che il freno funzioni su Monitor una volta aggiunto: da
+qui non posso modificare quel file, quindi non posso nemmeno collaudarlo. So che il controllore è lo
+stesso che già guarda Bash, e che la lista è una sola.
+
+**Dettagli tecnici** — file: `.claude/settings.json`, blocco `PreToolUse`, guardia
+`cervello/pre-scrittura.mjs --hook`. Verifica dopo l'incolla: `node cervello/mappa-copertura.mjs`
+(deve elencare Monitor come guardato) e `node cervello/hooks-check.mjs`.
+
+---
+
 ### 🔴 #143 — Riaccendi la macchina sul server: è ferma da tre giorni · ⏳ accodata 2026-08-21 15:02
 
 **In parole semplici:** la macchina che lavora per MyCity non gira su questo computer, gira su un
