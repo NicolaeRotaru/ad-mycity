@@ -40,6 +40,30 @@ if ! flock -n 200; then
   exit 0
 fi
 
+# 🧹 LA SPAZZATA DEI TEMPORANEI, all'avvio. Il 20/8 /tmp sul server è arrivato al 100% e la macchina
+# si è fermata per quasi tre giorni: senza spazio la chiave della memoria non si scriveva, il worker
+# non riusciva a leggere lo stato di pausa e si fermava apposta. Un disco pieno travestito da
+# kill-switch. Due spazzate, perché le famiglie sono due e nascono da posti diversi:
+#   · i temporanei di QUESTO worker (mycity-worker.*, mycity-allegati), puliti qui in bash;
+#   · quelli lasciati dalle prove, molti di più, spazzati dal motore condiviso.
+# Non bloccante ma NON MUTA, ed è il cancello del commit ad avermelo fatto notare: avevo scritto
+# `|| true` su tutte e tre le righe. Un worker che non parte perché non ha potuto pulire sarebbe la
+# cura peggiore del male — ma una spazzata che fallisce ogni volta in silenzio è come non averla:
+# /tmp torna a riempirsi e nessuno lo sa finché la macchina non si ferma di nuovo. Stessa forma di
+# AR-644 qui sotto: l'avvio prosegue, il guasto si legge nel diario.
+_spazz_out="$(find /tmp -maxdepth 1 -name 'mycity-worker.*' -mtime +1 -delete 2>&1)" || {
+  echo "⚠️  spazzata dei temporanei del worker non riuscita — /tmp può riempirsi e fermare la macchina." >&2
+  printf '%s\n' "$_spazz_out" | tail -3 >&2
+}
+_spazz_out="$(find /tmp/mycity-allegati -maxdepth 1 -mindepth 1 -mtime +1 -exec rm -rf {} + 2>&1)" || {
+  echo "⚠️  spazzata degli allegati vecchi non riuscita — controlla /tmp/mycity-allegati." >&2
+  printf '%s\n' "$_spazz_out" | tail -3 >&2
+}
+_spazz_out="$(node "$SCRIPT_DIR/spazza-temporanei.mjs" 2>&1)" || {
+  echo "⚠️  la spazzata delle cartelle lasciate dalle prove non è riuscita: è quella che il 20/8 ha riempito il disco." >&2
+  printf '%s\n' "$_spazz_out" | tail -3 >&2
+}
+
 # 🔒 AR-644 — i cancelli del commit vanno AGGANCIATI, non solo tentati. `>/dev/null 2>&1 || true`
 # buttava via sia l'output sia l'esito: se `core.hooksPath` non si attivava, il worker committava
 # senza scan dei segreti e senza perimetro di main, e nessuno lo diceva. Scoperto e muto insieme.

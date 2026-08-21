@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-20 20:51",
+ "aggiornato": "2026-08-21 03:27",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11250,7 +11250,21 @@
    "stato": "attiva",
    "gate": "node cervello/test/sorvegliante.test.mjs",
    "gate_attivo": true,
-   "gate_nota": "Freno suo, non riciclato: 20 prove comportamentali + 5 mutazioni in mutanti.json (tutte rendono rosso il loro test) + il pre-commit provato a runtime (un commit con una malattia nuova e stato bloccato davvero). Agganciato a cancello-lotto.mjs e a .githooks/pre-commit. Il pezzo in TEMPO REALE (hook PostToolUse) e debito dichiarato: AR-455, serve una riga in .claude/settings.json che la macchina non puo scriversi da se."
+   "gate_nota": "Freno suo, non riciclato: 20 prove comportamentali + 5 mutazioni in mutanti.json (tutte rendono rosso il loro test) + il pre-commit provato a runtime (un commit con una malattia nuova e stato bloccato davvero). Agganciato a cancello-lotto.mjs e a .githooks/pre-commit. Il pezzo in TEMPO REALE (hook PostToolUse) e debito dichiarato: AR-455, serve una riga in .claude/settings.json che la macchina non puo scriversi da se.",
+   "usi": [
+    {
+     "quando": "2026-08-21 03:23",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:26",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    }
+   ]
   },
   {
    "id": "L-2026-0730-532",
@@ -11331,7 +11345,21 @@
    "stato": "attiva",
    "gate": "node cervello/test/sorvegliante.test.mjs",
    "gate_attivo": true,
-   "gate_nota": "3 mutazioni in mutanti.json su AR-465: busta che torna testo semplice, nome evento sbagliato, canale mai scattato che vale verde."
+   "gate_nota": "3 mutazioni in mutanti.json su AR-465: busta che torna testo semplice, nome evento sbagliato, canale mai scattato che vale verde.",
+   "usi": [
+    {
+     "quando": "2026-08-21 03:23",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:26",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    }
+   ]
   },
   {
    "id": "L-2026-0731-535",
@@ -11429,7 +11457,21 @@
     "5 mutazioni verificate rosse con non-vacuita.mjs"
    ],
    "gate": "node cervello/test/sorvegliante.test.mjs",
-   "gate_nota": "5 mutazioni su AR-495 in mutanti.json: file cancellato invisibile, riga-che-toglie ignorata, spostamento punito (falso rosso), file morto che si assolve da solo, minimo allentato non visto."
+   "gate_nota": "5 mutazioni su AR-495 in mutanti.json: file cancellato invisibile, riga-che-toglie ignorata, spostamento punito (falso rosso), file morto che si assolve da solo, minimo allentato non visto.",
+   "usi": [
+    {
+     "quando": "2026-08-21 03:23",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:26",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    }
+   ]
   },
   {
    "tag": [
@@ -11455,7 +11497,21 @@
     "3 mutazioni verificate rosse"
    ],
    "gate": "node cervello/test/sorvegliante.test.mjs",
-   "gate_nota": "3 mutazioni su AR-497 in mutanti.json: chiave che torna a dipendere dalla riga, raggio contato nel registro, voce gia curata ancora rinfacciata."
+   "gate_nota": "3 mutazioni su AR-497 in mutanti.json: chiave che torna a dipendere dalla riga, raggio contato nel registro, voce gia curata ancora rinfacciata.",
+   "usi": [
+    {
+     "quando": "2026-08-21 03:23",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:26",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    }
+   ]
   },
   {
    "tag": [
@@ -11501,6 +11557,10 @@
     },
     {
      "quando": "2026-08-20 20:51",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-21 03:27",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -11617,7 +11677,21 @@
     "1 mutazione verificata rossa"
    ],
    "gate": "node --test cervello/test/sorvegliante.test.mjs",
-   "gate_nota": "1 mutazione su AR-501: la soglia della deriva resa irraggiungibile, il controllo non si accorge piu di niente."
+   "gate_nota": "1 mutazione su AR-501: la soglia della deriva resa irraggiungibile, il controllo non si accorge piu di niente.",
+   "usi": [
+    {
+     "quando": "2026-08-21 03:23",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:26",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    }
+   ]
   },
   {
    "tag": [
@@ -11669,7 +11743,21 @@
    ],
    "gate": "node --test cervello/test/sorvegliante.test.mjs",
    "gate_attivo": true,
-   "gate_nota": "1 mutazione su AR-503 in mutanti.json: la prosa che torna a contare come chiamata."
+   "gate_nota": "1 mutazione su AR-503 in mutanti.json: la prosa che torna a contare come chiamata.",
+   "usi": [
+    {
+     "quando": "2026-08-21 03:23",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:26",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    }
+   ]
   },
   {
    "id": "L-2026-0803-545",
@@ -11716,6 +11804,10 @@
     {
      "quando": "2026-08-20 20:51",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -11761,6 +11853,10 @@
     {
      "quando": "2026-08-20 20:51",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -11785,7 +11881,21 @@
     "306 ms il giro completo, tetto hook 15 s"
    ],
    "gate": "node --test cervello/test/sorvegliante.test.mjs",
-   "gate_attivo": true
+   "gate_attivo": true,
+   "usi": [
+    {
+     "quando": "2026-08-21 03:23",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:26",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    }
+   ]
   },
   {
    "id": "L-2026-0803-548",
@@ -11808,7 +11918,21 @@
     "9 prove, 3 delle quali provano il NON scattare"
    ],
    "gate": "node --test cervello/test/sorvegliante.test.mjs",
-   "gate_attivo": true
+   "gate_attivo": true,
+   "usi": [
+    {
+     "quando": "2026-08-21 03:23",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:26",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    }
+   ]
   },
   {
    "id": "L-2026-0803-549",
@@ -11949,7 +12073,21 @@
     "13 e 15 menzioni vive del test accusato nei due file, e gate-veri.mjs con uscita 0"
    ],
    "gate": "node --test cervello/test/sorvegliante.test.mjs",
-   "gate_attivo": true
+   "gate_attivo": true,
+   "usi": [
+    {
+     "quando": "2026-08-21 03:23",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:26",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    }
+   ]
   },
   {
    "id": "L-2026-0804-555",
