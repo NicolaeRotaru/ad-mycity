@@ -106,27 +106,29 @@ le ho lette dai file del progetto.
 
 ---
 
-### 🔴 #140 — Firma la migrazione sul database: senza, metà delle riparazioni resta spenta · ⏳ accodata 2026-08-21 03:20 · aggiornata 2026-08-21 13:30
+### ✅ #140 — La migrazione è applicata al database vero · ⏳ accodata 2026-08-21 03:20 · fatta 2026-08-21 14:55
 
-**Cosa cambia:** unire una richiesta pubblica il codice. Non tocca il database. Sono due firme
-diverse, e la prima l'hai già data: il codice è online da stamattina.
+**Stato:** ✅ FATTO 2026-08-21 14:55 — me l'hai chiesto tu in chat («fallo tu»), l'ho applicata io.
 
-Poi ho provato cosa succede col codice nuovo e il database vecchio, e non nasceva nessun ordine.
-L'ho riparato, e adesso il sito regge in tutti e due i mondi: la riparazione è nella richiesta
-nuova sul sito.
+**Com'è andata.** Al primo colpo si è fermata, con questo errore: «orders: modifica di un campo
+protetto non consentita». Era dentro una transazione, quindi non si è scritto niente e il database
+è rimasto com'era. Il difetto era mio: la migrazione riempiva un campo nuovo sugli ordini già
+presenti, e quel campo è protetto dalla scrittura, che è esattamente ciò che lo difende dal
+browser. Riparata con la chiave che il progetto usa per il lavoro di servizio, e riapplicata.
 
-Firmare accende quello che oggi resta spento: sette riparazioni, e la prima costa più delle altre
-sei. È la vetrina dei negozi, che sei pagine del sito chiedono e che oggi risponde con zero negozi.
-Poi il rimborso che toglie al negozio più del dovuto, il ritiro in negozio che arriva a
-«consegnato», i ritiri tolti dalla bacheca dei fattorini, gli stati del compenso rifiutati dal
-database, gli esiti dei pagamenti, il riquadro della home.
+**Cosa è acceso adesso.** Nove controlli su nove verdi sul database vero: il lordo di vendita
+scritto sull'ordine, il ritiro in negozio che arriva a «consegnato», i ritiri tolti dalla bacheca
+dei fattorini, gli esiti dei pagamenti registrati, la vetrina dei negozi, il riquadro della home,
+i contatori dei bonifici. L'ordine che c'era è intatto e gli otto profili sono tutti lì.
 
-Il file è `migrations/124_radiografia_21_agosto.sql`, ora sul ramo principale.
+**Una cosa che ti avevo detto male.** In questa carta avevo scritto che la vetrina dei negozi
+«risponde con zero negozi». Sul database vero non era così: le due colonne c'erano già, e la
+vetrina rispondeva col suo negozio anche prima. Quel guasto lo vedevo ricostruendo il database da
+zero, dove la catena delle migrazioni le perdeva per strada. Vero come difetto del progetto, falso
+come descrizione del sito online.
 
-**Se va bene:** dimmelo e ti passo il comando esatto da incollare.
-
-**Cosa non ho verificato:** l'ho applicata solo a una copia di prova qui dentro, mai a un database
-vero, e non ho aperto il sito online per guardare la vetrina.
+**Cosa non ho verificato:** non ho aperto il sito online con gli occhi, da qui non ci arrivo. Ho
+controllato il database, non le pagine.
 
 ---
 
