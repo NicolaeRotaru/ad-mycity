@@ -194,3 +194,79 @@ motivo_allineamento() {
     *) echo "allineamento fallito (rc=$1)" ;;
   esac
 }
+
+# ─────────────────────────────────────────────────────────────────────────────
+# paths_non_tracciati_che_bloccano <porcelain> <file in arrivo, uno per riga> → i path, uno per riga
+#
+# 2026-08-21 — LA MESSA DA PARTE CHE NON TOGLIE L'OSTACOLO, E CHE NESSUNO RIPRENDE.
+#
+# Il server è rimasto fermo per giorni ripetendo questo, ogni minuto:
+#
+#   error: The following untracked working tree files would be overwritten by checkout:
+#
+# Sopra, `serve_mettere_da_parte` mette da parte le modifiche TRACCIATE, e il suo commento dice:
+# «I file NON tracciati non contano: non bloccano il rebase». **Non è vero, e il server lo ha
+# dimostrato 7.849 volte.** Un file non tracciato NON blocca finché nessuno lo rivendica; nel momento
+# in cui i commit in arrivo AGGIUNGONO un file con quel nome, git si ferma piuttosto che sovrascrivere
+# lavoro che non ha mai visto. È la stessa prudenza che ci salva altrove.
+#
+# Il conto di quell'errore nel commento: un rimedio che agisce sull'ostacolo sbagliato lascia
+# l'ostacolo dov'è, ma **crea comunque la stash**. Ogni minuto una in più, mai ripresa da nessuno:
+# in tutto il repo non esisteva un solo `git stash pop`. Settemilaottocentoquarantanove messe da parte
+# e zero riprese non sono prudenza — sono una perdita che si traveste da cautela.
+#
+# Qui NON si mette da parte tutto ciò che non è tracciato: sarebbe la mossa che il vecchio commento
+# temeva a ragione (portarsi via il lavoro di qualcun altro). Si mettono da parte SOLO i file non
+# tracciati che i commit in arrivo rivendicano — cioè esattamente quelli che git nomina nel rifiuto.
+paths_non_tracciati_che_bloccano() {
+  local porcelain="${1:-}" in_arrivo="${2:-}"
+  [ -n "$porcelain" ] && [ -n "$in_arrivo" ] || return 0
+  local riga path
+  printf '%s\n' "$porcelain" | while IFS= read -r riga; do
+    case "$riga" in
+      '??'*) ;;            # solo i non tracciati: i tracciati li copre serve_mettere_da_parte
+      *) continue ;;
+    esac
+    path="${riga#?? }"
+    path="${path%\"}"; path="${path#\"}"
+    [ -n "$path" ] || continue
+    printf '%s\n' "$in_arrivo" | grep -qxF -- "$path" && printf '%s\n' "$path"
+  done
+  # L'uscita della funzione NON è quella dell'ultimo grep: con `set -e` nel chiamante un file che
+  # non collide farebbe morire l'allineamento. Qui si risponde «ho guardato», non «ho trovato».
+  return 0
+}
+
+# paths_da_mettere_da_parte <porcelain> <file in arrivo> → tutti i path che fermano il rebase
+#
+# 2026-08-21, seconda passata — il primo rimedio che ho scritto per questo difetto ne aveva uno suo,
+# e l'ha trovato la prova: mettendo da parte con la forma `stash push -u -- <percorsi>` si mette da
+# parte SOLO quei percorsi, e il tracciato sporco resta dov'è. Il rebase continuava a rispondere
+# «l'albero di lavoro ha modifiche non messe in staging». Un rimedio che toglie metà ostacolo lascia
+# il server fermo esattamente come prima.
+#
+# Qui l'elenco è uno solo e li copre tutti e due: i tracciati sporchi (qualunque essi siano — niente
+# elenco letterale, è la trappola di AR-347) e i non tracciati che i commit in arrivo rivendicano.
+# Fuori restano i non tracciati che nessuno reclama: quelli non bloccano, e portarli via sarebbe
+# rubare il lavoro di chi sta scrivendo.
+paths_da_mettere_da_parte() {
+  local porcelain="${1:-}" in_arrivo="${2:-}" riga path
+  [ -n "$porcelain" ] || return 0
+  printf '%s\n' "$porcelain" | while IFS= read -r riga; do
+    [ -n "$riga" ] || continue
+    path="${riga:3}"
+    path="${path%\"}"; path="${path#\"}"
+    [ -n "$path" ] || continue
+    case "$riga" in
+      '??'*)
+        # non tracciato: entra solo se i commit in arrivo lo rivendicano
+        [ -n "$in_arrivo" ] && printf '%s\n' "$in_arrivo" | grep -qxF -- "$path" && printf '%s\n' "$path"
+        ;;
+      *)
+        # tracciato sporco: entra sempre, è quello che AR-469 aveva già visto
+        printf '%s\n' "$path"
+        ;;
+    esac
+  done
+  return 0
+}
