@@ -291,7 +291,26 @@ export function turnoDelGiro(opzioni = {}) {
   };
 
   for (const c of opzioni.convocati || []) aggiungi(c, "convocato", quanti);
-  for (const h of pendenti) aggiungi(h.a, "passaggio-da-raccogliere", quanti, { handoff: h });
+
+  // ⛔ I PASSAGGI NON POSSONO PRENDERSI TUTTO IL TURNO — 21/8.
+  //
+  // Il conto, misurato sul repo vero: nella Sala Operativa ci sono NOVE passaggi pendenti e nel
+  // turno ci stanno SEI. Venivano aggiunti per primi e senza tetto, quindi riempivano da soli ogni
+  // posto disponibile — gli stessi sei nomi, tutti i giorni, e tutto il codice della rotazione qui
+  // sotto non veniva mai raggiunto. Su centoventi senior, centoquattordici non entravano in turno
+  // MAI, e nessun conteggio lo diceva: il turno era pieno, quindi sembrava sano.
+  //
+  // Un passaggio resta pendente finché qualcuno non lo raccoglie. Se nessuno lo raccoglie, quel
+  // nome si è comprato un posto fisso per sempre: la coda non è una convocazione, è un'eredità.
+  //
+  // Il tetto è lo stesso mestiere della quota dei motori di soldi, dieci righe più sotto, e per la
+  // stessa ragione già scritta lì: *un criterio solo li avrebbe schiacciati*. Metà turno ai
+  // passaggi, metà sempre libera per chi è fermo da più tempo e per chi non è mai stato chiamato.
+  // E dentro la loro metà i passaggi RUOTANO anche fra loro: nove pendenti su tre posti, presi
+  // sempre nello stesso ordine, sono comunque tre nomi fissi — il difetto in piccolo. Con la
+  // rotazione del giorno, in tre giri passano tutti e nove.
+  const quotaPassaggi = Math.max(1, Math.floor(quanti / 2));
+  for (const h of rotazioneDelGiorno(pendenti, oggi)) aggiungi(h.a, "passaggio-da-raccogliere", quotaPassaggi, { handoff: h });
 
   // Il più fermo per primo; a parità, l'ordine ruota col giorno così ogni giro ne pesca altri.
   const perAttesa = (a, b) => {

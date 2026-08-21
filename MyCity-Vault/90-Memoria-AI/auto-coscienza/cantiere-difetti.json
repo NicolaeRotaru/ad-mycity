@@ -16421,6 +16421,28 @@
         "comando": "node cervello/test/spazza-temporanei.test.mjs"
       },
       "nota_prova": "Quattro casi nuovi. Il primo porta i nomi veri letti sul server (porta-lezioni, due-versi, mut-mancante, cronicita-giro, coerenza, hook) e prima era rosso. Gli altri tre misurano il comportamento su una sabbiera: un prefisso scritto in una prova nuova è coperto lo stesso giorno (sia dal .mjs sia dallo .sh) · un prefisso sotto i 4 caratteri non entra · la roba viva è nell'elenco derivato e proprio per questo la protezione a parte deve reggere. Rotti apposta in quattro modi: tornato all'elenco a mano → 2 rossi; scanner cieco sugli .sh → 2 rossi; tolto il filtro sui nomi corti → 1 rosso; tolta la protezione della roba viva → 2 rossi."
+    },
+    {
+      "id": "AR-778",
+      "stato": "chiuso",
+      "dimensione": "senior-organigramma",
+      "gravita": "grave",
+      "colore": "🟡",
+      "titolo": "Nove passaggi pendenti riempivano un turno da sei: su centoventi senior ne lavoravano sempre gli stessi sei",
+      "causa_radice": "In turnoDelGiro() i passaggi da raccogliere della Sala Operativa venivano aggiunti per primi e SENZA TETTO (`aggiungi(h.a, …, quanti)`, cioè il tetto era il turno intero). Misurato sul repo il 21/8: nove passaggi pendenti, sei posti nel turno. I nove riempivano da soli ogni posto, quindi tutto il codice della rotazione scritto sotto — la quota dei motori di soldi, la coda per attesa, il ripescaggio dei mai-chiamati — non veniva MAI raggiunto. Sette giri consecutivi (13-19/8) davano gli stessi identici sei nomi: relazioni-istituzionali, marketing, content-social, builder-automazioni, devops-sre, backend-dev. Centoquattordici senior su centoventi non entravano in turno mai, e nessun conteggio lo diceva: il turno risultava pieno, quindi sembrava sano. Un passaggio resta pendente finché qualcuno non lo raccoglie: se nessuno lo raccoglie, quel nome si è comprato un posto fisso per sempre — la coda non è una convocazione, è un'eredità. Il commento del file, dieci righe più sotto, descriveva già questa malattia per i motori di soldi («un criterio solo li avrebbe schiacciati») senza accorgersi che i passaggi la stavano subendo per intero.",
+      "fix_proposto": "Due tetti, non uno. ① I passaggi prendono al massimo metà turno (`Math.floor(quanti/2)`), stesso mestiere della quota dei motori già presente sotto: metà resta sempre libera per chi è fermo da più tempo e per chi non è mai stato chiamato. ② Dentro la loro metà i passaggi ruotano anche fra loro (`rotazioneDelGiorno`): nove pendenti su tre posti, presi sempre nello stesso ordine, sarebbero comunque tre nomi fissi — lo stesso difetto un piano più sotto. Misura dopo: da 6 senior diversi in sette giri a 15.",
+      "dove": "cervello/turno-senior.mjs (turnoDelGiro, quotaPassaggi)",
+      "impatto_crescita": "fa sbagliare la macchina da sola: il giro chiama sempre gli stessi sei reparti, quindi i mandati degli altri centoquattordici non vengono mai esercitati — vendite, onboarding, account e gli altri motori di soldi restavano fuori dal turno per settimane senza che nessuno se ne accorgesse",
+      "nato": "2026-08-21 15:15",
+      "nato_come": "scoperta",
+      "nato_da": "il cancello del lotto rosso su chi-va-in-turno.test.mjs durante la consegna del recupero memoria — misurato prima su main pulito, per non attribuirmi un difetto altrui",
+      "origine": "CI/cancello di NicolaeRotaru/ad-mycity, prova «il turno ruota: in una settimana la squadra cambia».",
+      "nota": "La prova che l'ha scoperto esisteva già ed era ROSSA su main: diceva «in sette giri hanno lavorato solo 6 senior». Il difetto non era invisibile — era visibile e non guardato.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/chi-va-in-turno.test.mjs"
+      },
+      "nota_prova": "Due casi nuovi accanto a quello che era già rosso: «i passaggi pendenti non possono prendersi tutto il turno» e «i passaggi pendenti ruotano anche fra loro». Servono tutti e due perché il fix ha due metà e una sola prova le confondeva: rotti apposta, tolto il tetto → rosso il primo; tolta la rotazione fra i passaggi → rosso il secondo; nessuno dei due uccide l'altro."
     }
   ],
   "meta": {
