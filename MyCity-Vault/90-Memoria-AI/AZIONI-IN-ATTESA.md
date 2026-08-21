@@ -22,6 +22,180 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #144 — Una riga da incollare: c'è uno strumento che nessuno controlla · ⏳ accodata 2026-08-21 16:40 · ✏️ riscritta 17:45
+
+> **In due righe.** Ho usato uno strumento che lancia comandi e che nessuno dei miei controllori
+> guarda. La riga che lo copre è una parola sola in un file che io non posso toccare.
+
+**In parole semplici.** Questa carta parla dei miei freni, non del sito e non dei negozi. Serve a
+chiuderne uno che manca.
+
+Ho una lista di controllori che mi guardano le mani. Prima che io faccia una cosa che tocca il mondo,
+uno di loro si mette in mezzo e chiede il permesso. Quali strumenti sorvegliare è scritto a mano in
+un file, e la lista dice: Bash, Task, e tutto quello che comincia per mcp.
+
+Oggi ho usato uno strumento che si chiama **Monitor**. Serve a tenere d'occhio una cosa che sta
+girando. Non è in quella lista, quindi non l'ha guardato nessuno. E Monitor lancia comandi
+esattamente come Bash.
+
+**Cosa cambia per te.** C'è una porta di servizio senza il campanello che ha la porta principale.
+Non è che io farei cose diverse: è che se le facessi, nessuno se ne accorgerebbe.
+
+Un esempio di cosa vuol dire. Oggi alle 15:10 ho chiesto a Monitor di tenere d'occhio i controlli
+automatici della PR. Se avessi sbagliato a scrivere quel comando, nessuno me l'avrebbe fermato. Non è
+successo niente solo perché l'ambiente mi ha negato il permesso per conto suo — un caso, non un
+controllo.
+
+**Ho provato a farla io, e il sistema mi ha detto di no.** Me l'hai chiesto tu, e ci ho provato per
+la strada giusta. La risposta è stata: *«File is in a directory that is denied by your permission
+settings»*. Non è una mia esitazione. È una regola scritta dentro quel file, alle righe 80-83, che
+vieta a me di modificarlo.
+
+Quella regola l'hai messa tu ed è quella giusta. Quel file può staccare tutti i freni insieme,
+compreso il divieto di leggermi le password.
+
+C'era una scorciatoia: scrivere il file da un'altra parte, con un comando invece che con lo strumento
+che ha il divieto. **Non l'ho presa.** Aggirare un divieto perché è scomodo è la cosa che i divieti
+servono a impedire.
+
+**Quello che ho fatto invece.** La macchina aveva già la risposta a questo caso, un piano più giù.
+Per i guardiani esiste lo stato «in attesa di aggancio»: vuol dire *il freno c'è, manca una riga che
+solo Nicola può incollare*. E vale solo con una data di scadenza.
+
+L'ho portato anche agli strumenti. Monitor adesso è dichiarato lì: non è un buco silenzioso, e non è
+un'esenzione. È un debito con sopra scritto entro quando. Dopo il **4 settembre** torna a essere un
+buco da solo.
+
+**Cosa devi fare.** Aprire `.claude/settings.json` e cambiare una parola. Cerca questa riga:
+
+```
+"matcher": "Bash|Task|mcp__.*"
+```
+
+e falla diventare così:
+
+```
+"matcher": "Bash|Monitor|Task|mcp__.*"
+```
+
+**Se va bene:** Monitor passa dalle stesse mani di Bash, e io tolgo la dichiarazione d'attesa. Per
+controllare che sia servito, dal server:
+
+```
+cd /opt/mycity/ad-mycity
+node cervello/mappa-copertura.mjs
+```
+
+Deve elencare Monitor fra gli strumenti guardati.
+
+**Una domanda più grande, se hai voglia.** Quella lista è fatta di nomi scritti a mano. Vuol dire che
+ogni strumento nuovo nasce senza controllo, finché qualcuno non si ricorda di aggiungerlo. È così che
+è passato Monitor. Il contrario sarebbe: sorveglia tutto, e scrivi l'elenco di quelli che non
+servono. Non l'ho fatto perché cambia il comportamento di ogni singola mossa, non solo di una: dimmi
+tu.
+
+**Cosa non ho verificato.** Non ho potuto provare che il freno funzioni su Monitor dopo l'aggiunta.
+Per collaudarlo dovrei modificare proprio il file che non posso toccare. So che il controllore è lo
+stesso che già guarda Bash, e che la lista è una sola.
+
+**Dettagli tecnici** — blocco `PreToolUse` in `.claude/settings.json`, guardia
+`cervello/pre-scrittura.mjs --hook` · dichiarazione in `IN_ATTESA` dentro
+`cervello/mappa-copertura.mjs`, scadenza `2026-09-04` · prova
+`cervello/test/attesa-con-una-data.test.mjs`.
+
+---
+
+### 🔴 #143 — Il server lavora, ma cinque sveglie su sei non suonano più · ⏳ accodata 2026-08-21 15:02 · ✏️ riscritta 17:05
+
+> **In due righe.** Il server è tornato a lavorare da solo. La prima versione di questa carta diceva
+> «riaccendilo», ed era sbagliata. Il guasto vero è un altro: cinque delle sue sei sveglie non
+> suonano più, e due erano già rotte da prima.
+
+> ⚠️ **La correzione, e va detta per prima.** Alle 15:02 questa carta diceva «riaccendi il server, è
+> fermo da tre giorni». **Non è più vero.** Il server è ripartito da solo nel pomeriggio: ha scritto
+> l'ultima volta alle **16:46**, tre minuti prima che me ne accorgessi.
+>
+> L'avevo dato per morto guardando il suo riflesso. Il riflesso era l'ultimo referto che aveva
+> pubblicato, fermo a lunedì mattina. I suoi commit di oggi, intanto, erano lì da vedere.
+>
+> È lo stesso errore che ho passato la giornata a riparare negli altri: guardare un dato vecchio e
+> chiamarlo stato di adesso. E il merito del ritorno non è mio. Il disco era pieno, e l'hai liberato
+> tu a mano.
+
+**In parole semplici.** Questa carta parla del server, cioè il computer sempre acceso che fa
+lavorare la macchina quando tu non ci sei. Serve a dirti quale sua parte funziona e quale no.
+
+Il server adesso lavora. Il suo lavoro principale si chiama **giro**: guarda i dati e prepara le
+cose, ed è partito oggi alle 16:33. Quello che non funziona sono le **sveglie**. La macchina ha sei
+orari fissi in cui deve alzarsi da sola, e cinque non suonano più da lunedì 18 agosto.
+
+Quali dormono, e da quanto:
+
+| La sveglia | A che ora dovrebbe suonare | Ferma da |
+|---|---|---|
+| Piano del mattino | 06:00 | 83 ore |
+| Controllo di mezzogiorno | 12:00 | 101 ore |
+| Report della sera | 18:00 | **191 ore** (8 giorni) |
+| Review del venerdì | venerdì 15:00 | **338 ore** (14 giorni) |
+| Monitoraggio | 06:30 | 82 ore |
+| La visita di salute del server | 06:45 e 20:45 | 82 ore |
+
+L'ultima colonna dice una cosa in più. Il blocco del disco è cominciato lunedì 18, cioè circa 82 ore
+fa. Ma il report della sera è fermo da 191 ore e la review del venerdì da 338: **più del doppio e
+più del quadruplo.** Vuol dire che quei due erano già morti prima, e il disco pieno non c'entra.
+
+**Cosa cambia per te.** Non ricevi più il piano del mattino, né il report della sera. E la review
+del venerdì non lascia i suoi quattro compiti: il confronto coi migliori, la peer review fra senior,
+la calibrazione, e la lettera a te. Sono fermi da quasi un mese.
+
+Un esempio di cosa vuol dire in pratica. Venerdì 8 agosto la review avrebbe dovuto lasciarti una
+lettera con cosa era andato bene e cosa no nella settimana. Non l'ha lasciata. Nemmeno il 15. La
+prossima sarebbe venerdì 22, cioè domani, e senza questa carta non arriverebbe neanche quella.
+
+Il server intanto lavora, quindi da fuori sembra tutto acceso. È il motivo per cui nessuno se n'era
+accorto per quattordici giorni.
+
+**Cosa devi fare.** Un comando solo, che ti dice quali sveglie sono spente e perché:
+
+```
+cd /opt/mycity/ad-mycity
+systemctl list-timers 'mycity-*' --all
+```
+
+Le sveglie da guardare sono queste cinque: `mycity-ritmo-mattino`, `mycity-ritmo-mezzogiorno`,
+`mycity-ritmo-sera`, `mycity-ritmo-settimana`, `mycity-monitora`, più `mycity-salute`. Se accanto
+leggi `disabled` o `not-found`, si riaccendono così:
+
+```
+cd /opt/mycity/ad-mycity
+sudo systemctl enable --now mycity-ritmo-mattino.timer mycity-ritmo-mezzogiorno.timer \
+  mycity-ritmo-sera.timer mycity-ritmo-settimana.timer mycity-monitora.timer mycity-salute.timer
+```
+
+Se invece risultano `active` ma non partono, il problema è in quello che ci gira dentro e non nella
+sveglia: allora serve questo, che dice l'errore vero:
+
+```
+cd /opt/mycity/ad-mycity
+systemctl status mycity-ritmo-sera.service && journalctl -u mycity-ritmo-sera -n 40 --no-pager
+```
+
+**Se va bene:** domani mattina ricevi di nuovo il piano delle sei, e venerdì la review lascia i suoi
+compiti. Il pallino «le cadenze si alzano davvero» torna verde da solo.
+
+**Cosa non ho verificato.** Le sveglie non le posso vedere da qui: da questa sessione non arrivo a
+`systemctl`. Quello che ho misurato è **l'effetto** — l'orario dell'ultima volta che ognuna ha
+prodotto qualcosa, letto dentro i file che scrive. Quindi *non so* se siano spente, o accese ma con
+un errore dentro: sono due guasti diversi con due cure diverse, ed è per questo che il primo comando
+qui sopra guarda prima di toccare. So per certo che il worker è vivo, perché i suoi commit di oggi
+li leggo.
+
+**Dettagli tecnici** — prova: `node cervello/freschezza-cadenze.mjs` · unità in
+`cervello/vps/mycity-*.timer`, tutte scritte correttamente nel repo (fuso dichiarato,
+`Persistent=true`), quindi la causa è sul server · ultimo commit del server: `66dab11`, 21/08 16:46.
+
+---
+
 ### 🟡 #142 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
 
 > **In due righe.** Devi lanciare un comando solo, e lo trovi qui sotto in «Se va bene». Sono dieci
@@ -73,9 +247,27 @@ cp consegne/tech/settings-con-superpowers.json .claude/settings.json
 node cervello/plugin-acceso.mjs
 ```
 
-L'ultimo comando risponde in una riga sola. Se dice **acceso**, è fatto. Se dice **spento** o che il
-file è rotto, mandami quella riga e te lo raddrizzo io. Poi **riavvia la sessione**: i plugin si
-leggono all'avvio, non mentre lavori.
+L'ultimo comando risponde in una riga sola. Se dice **acceso**, è fatto sul server. Se dice **spento**
+o che il file è rotto, mandami quella riga e te lo raddrizzo io. Poi **riavvia la sessione**: i plugin
+si leggono all'avvio, non mentre lavori.
+
+**Manca ancora di salvarlo.** Quel file lo segue git. Finché resta solo sul server è una modifica
+viva ma non registrata: alla prima pulizia sparisce. E le sessioni fuori dal server ripartono
+comunque spente.
+
+Su `main` però non si può committare a mano. È una regola nostra: il codice ci arriva solo da una
+richiesta di unione. Quindi si passa da un ramo di lavoro.
+
+```
+cd /opt/mycity/ad-mycity
+git reset HEAD -- .claude/settings.json
+git checkout -b accendi-superpowers
+node cervello/git-pr.mjs --repo ad-mycity --base main --branch accendi-superpowers --title "Accendi il plugin superpowers per tutte le sessioni" --message "Accendi il plugin superpowers per tutte le sessioni"
+```
+
+L'ultimo comando è quello della macchina, e fa tre cose. Committa sul ramo. Manda il ramo su GitHub
+usando la chiave che il server ha già, quindi non ti chiede nessuna password. Apre la richiesta di
+unione. Poi la firmi tu, come tutte le altre.
 
 Alla fine, un giro di sincronizzazione così sparisce anche lì la copia doppia delle due skill:
 
@@ -2147,5 +2339,5 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 123 | 2026-08-17 16:33 | @tech | I test del cervello dicono no da tre giri di fila, e da qui in chat non riesco più a rilanciarli | 🟡 | `test-cervello.mjs` è entrato nell'elenco dei controlli "cronici" (AR-687: rosso da ≥3 giri senza mai essere riparato). Non riesco a verificarlo dal vivo in questa sessione: il comando resta fuori dall'elenco esatto dei programmi ammessi (stesso buco della card #104/#42), quindi ogni tentativo viene respinto prima ancora di girare. Quello che vedo indirettamente da `ci-stato.mjs` è coerente: le 5 PR aperte oggi (#754, #753, #749, #741, #735) falliscono tutte anche su "test-del-cervello", ognuna per colpa propria (non ereditata da `main`) — cinque rami diversi che rompono lo stesso controllo è il segnale che il problema non è un caso isolato. | manuale | in attesa | Finché resta rosso e non verificabile da qui, nessuna delle 5 PR di codice-macchina può dirsi davvero pronta al merge, anche quando sembra a posto: il cancello di serietà (CLAUDE.md) vieta di dichiarare "fatto" con i test rossi. | Applicando la card #104 (le 5 righe di permesso mancanti) sblocco `test-cervello.mjs` da qui e lo rilancio nello stesso giro in cui la card viene approvata; altrimenti serve una sessione dal VPS che lo rilanci e riporti l'esito. |
 | 124 | 2026-08-18 06:41 | @ad | Controlla perché il monitoraggio automatico scrive testi difficili da leggere | 🟡 | Il cancello di fine turno ha trovato frasi difficili in 5 file. Sono `Intelligence/buchi-mercato.md`, `Intelligence/eventi-picchi.md`, `Intelligence/reputazione.md`, `RITMO.md`, `AZIONI-IN-ATTESA.md`. Non li ho scritti io in questo giro. Le date sui file dicono 06:07-06:39 di oggi. Io in questo giro ho toccato solo altri quattro file, tra le 06:40 e le 06:45 — verificato con `stat` e `git status --short`. La causa più probabile è il monitoraggio che gira da solo, `cervello/monitora.md` ("Ondata 3"). Scrive dentro questi file senza passare da `si-capisce.mjs`. Quel controllo misura quanto un testo è difficile da leggere. Il problema tipico sono frasi lunghe con un'idea dentro l'altra. Un esempio vero, da `eventi-picchi.md`: "Media/bassa per MyCity — fuori Piacenza città (Val Tidone)". Il lettore deve tenere in sospeso "Media/bassa" fino alla fine della frase per capire di cosa parla. | manuale | in attesa | Se questi testi restano così, ogni volta che apri Intelligence o Ritmo fai più fatica del necessario per capirli. Il problema si accumula da solo, un giro dopo l'altro, perché nessuno lo controlla prima di scrivere. | Dimmi tu quale preferisci. Primo: aggiungo `si-capisce.mjs` come controllo dentro `cervello/monitora.md`, prima che scriva — così il problema si ferma alla radice. Secondo: lascio così per ora e lo correggo io a mano una volta a settimana. |
 | 125 | 2026-08-18 08:04 | @backend-dev | Il sito appena pubblicato chiede al database dieci cose che lì non ci sono, e i rimborsi non partono più | 🔴 | Hai unito la richiesta 223 del marketplace alle 07:33. Vercel ha subito messo online il codice nuovo, e la pubblicazione risulta pronta. Quel lavoro però era fatto di due metà. Una metà è il codice del sito. L'altra metà sono quattro modifiche al database, i file numerati da 114 a 117. Il codice è andato online da solo. Le quattro modifiche no, perché toccare il database vero è una firma tua. Ho letto il database di produzione senza scriverci niente. L'ultima modifica applicata è la 113. Il codice nuovo cerca dieci cose nel database, e non ne trova nessuna delle dieci. **Cosa è rotto adesso.** Primo, e più grave: i rimborsi. Il sito cerca l'ordine da rimborsare e chiede anche un dato che nel database non c'è ancora. Riceve un errore e si ferma dicendo «ordine non trovato». Sono ferme tutte e quattro le strade che restituiscono soldi a un cliente. La prima è annullare un ordine dal pannello. La seconda è decidere su un reso. La terza è risolvere una contestazione della banca. La quarta è rimborsare un ordine scaduto. Ieri funzionavano tutte e quattro. È un peggioramento nato stamattina con la pubblicazione. Secondo: i rimborsi pieni che arrivano da Stripe non trovano più l'ordine, e vengono ignorati in silenzio. Terzo: i codici sconto. Chi scrive un codice buono si sente rispondere «Codice non valido». Comprare funziona ancora, perché il conto vero lo rifà il server per un'altra strada. Quarto: il salvataggio dei consensi sui cookie risponde errore. Quinto: non caricano i numeri del pannello di amministrazione e la pagina recensioni del fattorino. Due cose invece reggono senza rompersi. Sono la vetrina «dal vivo» in home e il carosello degli sponsorizzati, che restano solo vuoti. **E la parte che pesa di più.** Le prime due modifiche, la 114 e la 115, sono quelle che chiudono i buchi di sicurezza. Finché non le applichi, quei buchi restano aperti sul database vero. Sono tre. Indirizzi e telefoni dei clienti si leggono senza avere un account. Chi si registra come venditore si approva da solo. Gli ordini si modificano dal browser. L'elenco preciso dei dieci pezzi mancanti sta nella richiesta di unione 763 della macchina. | supabase | ✅ CHIUSA 2026-08-18 09:20 — applicate tutte e quattro al database di produzione dopo il tuo via. Verificati 13 oggetti su 13. Il controllo degli ordini non cita piu il campo cancellato a giugno. Nessuna vetrina piu scrivibile senza account, codici sconto non piu scaricabili in blocco, ordini non piu modificabili dal browser, il fattorino non vede piu la riga intera del cliente. Pane Quotidiano resta approvato: e tornato in attesa un solo profilo, il fattorino demo. Correzione mia successiva: avevo scritto EUR dove il file diceva €, rimesso a posto e ricontrollate tutte e 12 le frasi che legge il cliente, ora identiche al repo. | I rimborsi ai clienti non partono più da nessuna delle quattro strade del sito. Se oggi qualcuno chiede indietro dei soldi, l'operazione fallisce con un errore. I soldi restano fermi. In più il database resta senza le tre protezioni che la richiesta appena unita doveva portargli. | Al tuo via applico i quattro file al database di produzione, nell'ordine da 114 a 117. Poi ricontrollo i dieci pezzi uno per uno e ti dico quanti ne trovo. I file sono già dentro il ramo principale del marketplace, nella cartella delle migrazioni. Girano puliti su un database vuoto: 118 file su 118, nessun errore. Se preferisci farlo tu, incollali in quell'ordine nell'editor di Supabase. |
-| 143 | 2026-08-21 16:35 | @tech | Merge PR #804 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/804 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 144 | 2026-08-21 05:35 | @devops-sre | Il sito è giù da 22 giorni, non da adesso: 3 controlli di 5 minuti sul tuo Vercel, poi ti dico il fix esatto | 🔴 | Riprende la card #79 del 13/8, mai risposta. C'è già un runbook pronto: `consegne/devops/2026-07-31-sito-503.md`. `mycity-marketplace.com` risponde HTTP 503 dal 2026-07-30 08:20. L'ho confermato ora in diretta con WebFetch. Anche il sensore automatico lo conferma: 202 controlli ciechi di fila. Causa probabile: la migrazione Render→Vercel approvata il 20/7 non risulta completata. Nel repo del marketplace non c'è `vercel.json`. In `DECISIONI.md` non c'è nessuna riga che confermi «Render spento, DNS ripuntato». Da qui non ho accesso alle dashboard. Mi servono tre risposte tue, 5 minuti in tutto. Primo: apri Render, progetto `mycity-marketplace`. È sospeso, eliminato, o ha un deploy fallito? Secondo: apri Vercel. Esiste un progetto per il marketplace, non per il Pannello? L'ultimo deploy è «Ready» o «Error»? Se è «Error», quali variabili mancano? Terzo: controlla il DNS di `mycity-marketplace.com`. Punta ancora a Render, o è già su Vercel? Appena rispondi preparo il fix esatto in un branch, pronto da firmare. **Nota del recupero (21/8 17:55).** Questa card l'aveva scritta il server alle 05:35 e non era mai arrivata su GitHub: era rimasta sul ramo di sicurezza, e per di più col numero 127, che una card del 19 agosto aveva già. L'ho rimessa in coda col primo numero libero. Il controllo del sito non ho potuto rifarlo da questa sessione: la chiamata verso l'esterno viene bloccata. Quello che ho potuto vedere è il DNS, e punta ancora a Render (216.24.57.1), coerente con quanto scritto qui. | manuale | in attesa | Ogni giorno che passa, chi cerca MyCity trova un sito morto. Può essere un cliente, un negoziante, o un giornalista. È un danno di credibilità che cresce col tempo. Oggi non c'è ancora un ordine vero da perdere: i negozi sono in pausa concordata fino al 24/8-1/9. | Appena rispondi ai 3 punti preparo il fix pronto. Può essere riattivare Render. Oppure completare Vercel con le variabili mancanti e poi ripuntare il DNS, solo a deploy verificato verde. La firma finale resta comunque tua: tocca produzione. |
+| 145 | 2026-08-21 16:35 | @tech | Merge PR #804 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/804 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 146 | 2026-08-21 05:35 | @devops-sre | Il sito è giù da 22 giorni, non da adesso: 3 controlli di 5 minuti sul tuo Vercel, poi ti dico il fix esatto | 🔴 | Riprende la card #79 del 13/8, mai risposta. C'è già un runbook pronto: `consegne/devops/2026-07-31-sito-503.md`. `mycity-marketplace.com` risponde HTTP 503 dal 2026-07-30 08:20. L'ho confermato ora in diretta con WebFetch. Anche il sensore automatico lo conferma: 202 controlli ciechi di fila. Causa probabile: la migrazione Render→Vercel approvata il 20/7 non risulta completata. Nel repo del marketplace non c'è `vercel.json`. In `DECISIONI.md` non c'è nessuna riga che confermi «Render spento, DNS ripuntato». Da qui non ho accesso alle dashboard. Mi servono tre risposte tue, 5 minuti in tutto. Primo: apri Render, progetto `mycity-marketplace`. È sospeso, eliminato, o ha un deploy fallito? Secondo: apri Vercel. Esiste un progetto per il marketplace, non per il Pannello? L'ultimo deploy è «Ready» o «Error»? Se è «Error», quali variabili mancano? Terzo: controlla il DNS di `mycity-marketplace.com`. Punta ancora a Render, o è già su Vercel? Appena rispondi preparo il fix esatto in un branch, pronto da firmare. **Nota del recupero (21/8 17:55).** Questa card l'aveva scritta il server alle 05:35 e non era mai arrivata su GitHub: era rimasta sul ramo di sicurezza, e per di più col numero 127, che una card del 19 agosto aveva già. L'ho rimessa in coda col primo numero libero. Il controllo del sito non ho potuto rifarlo da questa sessione: la chiamata verso l'esterno viene bloccata. Quello che ho potuto vedere è il DNS, e punta ancora a Render (216.24.57.1), coerente con quanto scritto qui. | manuale | in attesa | Ogni giorno che passa, chi cerca MyCity trova un sito morto. Può essere un cliente, un negoziante, o un giornalista. È un danno di credibilità che cresce col tempo. Oggi non c'è ancora un ordine vero da perdere: i negozi sono in pausa concordata fino al 24/8-1/9. | Appena rispondi ai 3 punti preparo il fix pronto. Può essere riattivare Render. Oppure completare Vercel con le variabili mancanti e poi ripuntare il DNS, solo a deploy verificato verde. La firma finale resta comunque tua: tocca produzione. |

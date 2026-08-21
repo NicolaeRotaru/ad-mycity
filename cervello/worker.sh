@@ -1763,6 +1763,46 @@ $richiesta"
     fi
   fi
 
+  # 3a-quater) 🧱 LE QUATTRO RISPOSTE, CONTROLLATE PRIMA DI CONSEGNARE (21/8).
+  #
+  # La regola dei quattro blocchi — «In parole semplici · Cosa cambia per te · Cosa devi fare · Cosa
+  # non ho verificato» — ha già un freno per la CHAT: il cancello dello Stop misura il messaggio
+  # prima che parta. Il worker però non passa da lì: è una porta laterale senza i freni della
+  # principale, che in `cervello/malattie.json` ha un nome suo. Il conto sta nel mansionario:
+  # «Cosa non ho verificato» mancava nel 100% dei 26 messaggi usciti dal server, mentre gli altri
+  # tre c'erano sempre. Sparisce sempre lo stesso, ed è quello che dice a Nicola di quanto fidarsi.
+  #
+  # Qui NON si blocca e non si riscrive niente: la risposta è già in mano e buttarla via sarebbe un
+  # danno peggiore del difetto (un freno che perde il lavoro viene spento entro la settimana). Il
+  # freno è la VISIBILITÀ — il buco smette di essere invisibile e arriva a Nicola insieme al testo,
+  # dove `conta-blocco-mancante.mjs` lo conta al giro dopo. La decisione su QUALI blocchi mancano e
+  # su QUANDO si pretendono non è scritta qui: la prende `si-capisce.mjs`, che è la stessa testa che
+  # usa il cancello della chat — due misuratori della stessa cosa divergono al primo ritocco.
+  if [ "$stato" = "fatto" ] && [ -n "${out:-}" ] && command -v node >/dev/null 2>&1; then
+    _blocchi_f="$(mktemp 2>/dev/null || echo "/tmp/mycity-blocchi-$$")"
+    printf '%s' "$out" > "$_blocchi_f" 2>/dev/null || true
+    # Due esiti, non uno: 0 = misurato · 2 = NON ho potuto misurare. Confonderli vorrebbe dire far
+    # passare per «a posto» un controllo che non è avvenuto — ⚪ non è mai ✅.
+    _blocchi_out="$(node "$SCRIPT_DIR/si-capisce.mjs" --blocchi "$_blocchi_f" 2>/dev/null)"; _blocchi_rc=$?
+    rm -f "$_blocchi_f" 2>/dev/null || true
+    _blocchi_mancanti="$(printf '%s' "$_blocchi_out" | paste -sd '· ' -)"
+    if [ "$_blocchi_rc" != 0 ]; then
+      echo "[$(ts)] Lavoro $id: NON ho potuto controllare le quattro risposte (rc=$_blocchi_rc)." >&2
+      out="$out
+
+---
+🧱 **Non ho potuto controllare** se questa risposta ha tutte e quattro le parti. Non vuol dire che
+vanno bene: vuol dire che il controllo non è partito."
+    elif [ -n "$_blocchi_mancanti" ]; then
+      echo "[$(ts)] Lavoro $id: risposta consegnata SENZA — $_blocchi_mancanti" >&2
+      out="$out
+
+---
+🧱 **Manca una delle quattro risposte:** $_blocchi_mancanti. Te lo dico io perché tu non debba
+accorgertene da solo: su un testo di questa lunghezza quel pezzo va sempre messo."
+    fi
+  fi
+
   # 3a-ter) ERRORE IN LINGUA UMANA: se il motore muore, Nicola non deve leggere solo il vomito
   # tecnico della CLI — prima una spiegazione chiara (🩺 diagnosi AI, se ottenibile; altrimenti la
   # riga standard), poi il dettaglio grezzo (che resta in coda: serve alla retry-policy, che ci

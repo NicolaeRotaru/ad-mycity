@@ -55,11 +55,11 @@
       "vincoli": []
     },
     "ritmo-sera": {
-      "quando": "2026-08-13 18:05",
-      "esito": "non-pubblicato",
-      "codice": 2,
+      "quando": "2026-08-21 18:07",
+      "esito": "pulito",
+      "codice": 0,
       "ai_rc": 0,
-      "push_ok": false,
+      "push_ok": true,
       "passi_ok": true,
       "vincoli_attivi": 0,
       "vincoli": []
@@ -75,5 +75,5 @@
       "vincoli": []
     }
   },
-  "aggiornato": "2026-08-21 16:33"
+  "aggiornato": "2026-08-21 18:07"
 }

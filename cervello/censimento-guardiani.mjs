@@ -147,6 +147,7 @@ export const DESCRIZIONI = {
   "senior-sola-lettura": { famiglia: "squadra", cosa: "Controlla che i senior che promettono di lavorare in sola lettura non abbiano gli strumenti per scrivere: la promessa e i permessi devono dire la stessa cosa." },
   "deferral-agenti": { famiglia: "squadra", cosa: "L'organigramma è scritto in due posti: la mappa che leggi tu e la scheda che legge chi smista il lavoro. Se un rimando esiste in uno solo dei due, il lavoro finisce da un senior che non lo rivendica." },
   "percorsi-git": { famiglia: "sicurezza", cosa: "I nomi dei file con l'accento tornano storpiati se li si chiede nel modo sbagliato: controlla che nessuno strumento lavori su file che non esistono, credendo di averli letti." },
+  "no-path-cablati-check": { famiglia: "sicurezza", cosa: "Un indirizzo di cartella che esiste solo sul computer di una persona, se finisce nel codice, su tutte le altre macchine punta al nulla in silenzio: qui viene fermato appena rientra." },
   "keyword-owner-check": { famiglia: "squadra", cosa: "Ogni mandato ha un padrone solo: se due senior rivendicano la stessa cosa, il lavoro va a chi capita." },
   "stampo-check": { famiglia: "squadra", cosa: "Controlla la qualità dei mansionari: kit fotocopia, quaderni mai scritti, senior più sottili della media." },
   "guardiano-capacita": { famiglia: "squadra", cosa: "Verifica che i comandi e le capacità promesse nei documenti esistano davvero come file eseguibili." },
