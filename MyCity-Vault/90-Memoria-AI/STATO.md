@@ -11,17 +11,16 @@ fonte: AD digitale (chat)
 > colpa propria** (`#791`/`#761`/`#754`/`#753`/`#749`/`#741`/`#735`), nessuna tocca il marketplace live.
 >
 > **Novità reale di stamattina:** il lavoro della sentinella "salute bassa" delle 06:15 (già scritto
-> in [[AZIONI-IN-ATTESA]] e sopra in questa pagina) ha trovato che lo stesso buco di permessi che
-> blocca `#104` **si sta allargando**: ora impedisce anche di riparare i difetti del cantiere
-> (`cervello/cancello-lotto.mjs` non parte) e di far girare i controlli di salute programmati sul
-> server (card `#126`, ferma da 3 giorni). Tre firme diverse, una sola causa: sbloccare `#104` oggi
-> vale più delle altre due priorità messe insieme, perché le altre restano ferme finché quella non
-> si muove.
+> in [[AZIONI-IN-ATTESA]] e sopra in questa pagina) ha trovato che il buco di permessi dietro `#104`
+> **si sta allargando**. Ora impedisce anche di riparare i difetti del cantiere
+> (`cervello/cancello-lotto.mjs` non parte). Impedisce anche di far girare i controlli di salute
+> programmati sul server (card `#126`, ferma da 3 giorni). Tre firme diverse, una sola causa:
+> sbloccare `#104` oggi vale più delle altre due priorità messe insieme.
 >
 > Le tre priorità di oggi: ① `#104` (permessi VPS, ferma da 5 giorni, causa a monte di due nuovi
 > blocchi) ② `#125` (le 4 migrazioni database, rimborsi rotti, ferma da 3 giorni) ③ `#36`/`#37`/`#38`
-> (sicurezza del sito, ferme da 23 giorni). Nessuna azione nuova accodata: la coda è già completa,
-> aprirne di nuove senza chiudere le vecchie peggiora il tasso di chiusura. Dettaglio completo in
+> (sicurezza del sito, ferme da 23 giorni). Nessuna azione nuova accodata: la coda è già completa.
+> Aprirne di nuove senza chiudere le vecchie peggiora il tasso di chiusura. Dettaglio completo in
 > [[RITMO]].
 
 > 🌙 **21/8 03:28 — Verifica di continuità, nessuna richiesta nuova ricevuta.** Ripreso il controllo

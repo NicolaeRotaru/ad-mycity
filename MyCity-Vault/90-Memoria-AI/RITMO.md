@@ -1504,12 +1504,12 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 
 ## Piano del mattino · 2026-08-21 06:10
 
-**In una riga:** Stesso freno di sempre, ma oggi si vede che si sta allargando — sbloccalo e ripartono tre cose insieme, non una.
+**In una riga:** Il solito freno sta bloccando sempre più cose. Sbloccalo e ripartono insieme.
 
 **Le 3 cose di oggi**
-1. Sblocca il permesso sul server (`#104`) — non ferma più solo i controlli diagnostici: da oggi risulta fermo anche il controllo di salute della macchina (3 giorni) e la riparazione dei suoi difetti.
-2. Firma le 4 migrazioni del database (`#125`) — senza, un cliente che vuole un rimborso non può ottenerlo. Ferma da 3 giorni.
-3. Decidi sulle tre falle di sicurezza del sito (`#36`/`#37`/`#38`) — ferme da 23 giorni.
+1. Sblocca il permesso sul server (`#104`). Prima bloccava solo i controlli diagnostici. Da oggi ferma anche il controllo di salute (3 giorni) e la riparazione dei difetti della macchina.
+2. Firma le 4 migrazioni del database (`#125`). Senza, un cliente che vuole un rimborso non può ottenerlo. Ferma da 3 giorni.
+3. Decidi sulle tre falle di sicurezza del sito (`#36`/`#37`/`#38`). Ferme da 23 giorni.
 
 **Serve da te**
 - Incolla il comando che riaccende il controllo di salute sul server (sotto, in Dettagli tecnici)
