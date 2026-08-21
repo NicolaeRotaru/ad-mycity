@@ -1,10 +1,12 @@
 {
   "_cosa_e": "Quanto è vecchia ogni scheda della card «Intelligence & opportunità». La soglia è DERIVATA dalle cadenze delle fonti in radar-fonti.json, non scritta a mano: cambiando la cadenza di una fonte, la soglia si aggiorna da sola.",
-  "aggiornato": "2026-08-18 06:47",
-  "oggi": "2026-08-18",
+  "aggiornato": "2026-08-21 06:26",
+  "oggi": "2026-08-21",
   "scadute": [
+    "eventi",
     "buchi",
-    "leve"
+    "leve",
+    "reputazione"
   ],
   "non_misurabili": [],
   "schede": [
@@ -15,10 +17,10 @@
       "soglia": 8,
       "fonti": 4,
       "stato": "fresca",
-      "giorni": 1,
+      "giorni": 4,
       "data": "2026-08-17",
       "scaduta": false,
-      "frase": "aggiornata ieri"
+      "frase": "aggiornata 4 giorni fa"
     },
     {
       "id": "eventi",
@@ -26,11 +28,11 @@
       "etichetta": "Eventi & picchi",
       "soglia": 2,
       "fonti": 6,
-      "stato": "fresca",
-      "giorni": 0,
+      "stato": "scaduta",
+      "giorni": 3,
       "data": "2026-08-18",
-      "scaduta": false,
-      "frase": "aggiornata oggi"
+      "scaduta": true,
+      "frase": "aggiornata 3 giorni fa"
     },
     {
       "id": "buchi",
@@ -39,10 +41,10 @@
       "soglia": 2,
       "fonti": 1,
       "stato": "scaduta",
-      "giorni": 8,
+      "giorni": 11,
       "data": "2026-08-10",
       "scaduta": true,
-      "frase": "aggiornata 8 giorni fa"
+      "frase": "aggiornata 11 giorni fa"
     },
     {
       "id": "leve",
@@ -51,10 +53,10 @@
       "soglia": 2,
       "fonti": 5,
       "stato": "scaduta",
-      "giorni": 8,
+      "giorni": 11,
       "data": "2026-08-10",
       "scaduta": true,
-      "frase": "aggiornata 8 giorni fa"
+      "frase": "aggiornata 11 giorni fa"
     },
     {
       "id": "reputazione",
@@ -62,11 +64,11 @@
       "etichetta": "Reputazione",
       "soglia": 2,
       "fonti": 2,
-      "stato": "fresca",
-      "giorni": 0,
+      "stato": "scaduta",
+      "giorni": 3,
       "data": "2026-08-18",
-      "scaduta": false,
-      "frase": "aggiornata oggi"
+      "scaduta": true,
+      "frase": "aggiornata 3 giorni fa"
     }
   ]
 }

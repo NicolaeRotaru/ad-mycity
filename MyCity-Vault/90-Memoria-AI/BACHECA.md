@@ -967,7 +967,7 @@ Questa sezione non è scritta a mano: i numeri li conta `cervello/mappa-macchina
 
 | # | Parte | In una frase | Quanto è grande |
 | --- | --- | --- | --- |
-| 1 | 🖥️ **Il Pannello — la faccia** | Quello che vedi e dove firmi. | 240 file · 37.517 righe · 15 aree · 77 rotte |
+| 1 | 🖥️ **Il Pannello — la faccia** | Quello che vedi e dove firmi. | 241 file · 37.549 righe · 15 aree · 77 rotte |
 | 2 | 🦾 **Il worker e il VPS — le braccia** | L'unico pezzo che esegue davvero, 24 ore su 24. | 1855 righe · 14 servizi · 12 timer |
 | 3 | 🧠 **L'AD — la testa** | Chi decide, delega e scrive in memoria. | mansionario di 482 righe · giro di 1871 righe · 19 manuali |
 | 4 | 👥 **I senior — la squadra** | Gli specialisti a cui l'AD passa il lavoro invece di farlo tutto lei. | 120 senior · 125 quaderni di memoria |
@@ -984,7 +984,7 @@ Un'app web che **non decide niente**: mostra quello che la macchina ha scritto e
 - **1.1 Le aree (15)** — Le stanze in cui è divisa la Cabina — più 3 vecchie scorciatoie che oggi rimandano altrove. L'elenco qui sotto è letto dal codice, non scritto a mano.
 - **1.2 Le caselle (63 componenti)** — I riquadri dentro le aree: bacheca, cuore della macchina, chat, autopilota, quaderni, volano.
 - **1.3 Le rotte interne (77)** — Ogni casella ha la sua fonte: memoria, metriche, lavori, marketplace, controllo. Nessuna scrive sul sito dei negozi.
-- **1.4 La logica (105 moduli)** — Dove vivono le regole vere: firma di un'azione, chat unificata, autopilota, controllo di onestà, economia.
+- **1.4 La logica (107 moduli)** — Dove vivono le regole vere: firma di un'azione, chat unificata, autopilota, controllo di onestà, economia.
 - **1.5 Il contratto di navigazione** — La regola che fa funzionare il tasto INDIETRO sul telefono: ogni area, scheda e pannello sovrapposto è una tappa di cronologia, non un interruttore nascosto.
 - **1.6 Deploy e installazione** — Va online solo quando cambia `pannello/`, via Deploy Hook. È installabile sul telefono come un'app (PWA).
 - **1.7 Il database della Cabina (5 file SQL)** — Supabase **separato** da quello del marketplace: coda dei lavori, chat, diario, impostazioni, briefing. I dati dei negozi non si toccano da qui.
@@ -1012,7 +1012,7 @@ Un'app web che **non decide niente**: mostra quello che la macchina ha scritto e
 | `report` *(scorciatoia)* | Vecchia area dei report — resta come scorciatoia: oggi i report vivono in Memoria/Archivio. |
 | `storico` *(scorciatoia)* | Vecchia area dello storico — resta come scorciatoia: oggi lo storico vive dentro Memoria. |
 
-> 📁 Dove: `pannello/` — ospitato su Vercel · 📏 Quanto: 240 file · 37.517 righe · 15 aree · 77 rotte
+> 📁 Dove: `pannello/` — ospitato su Vercel · 📏 Quanto: 241 file · 37.549 righe · 15 aree · 77 rotte
 
 ### 2. 🦾 Il worker e il VPS — le braccia
 

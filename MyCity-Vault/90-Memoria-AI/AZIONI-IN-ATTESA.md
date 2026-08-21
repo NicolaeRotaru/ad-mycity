@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-18 06:25** — Automatico: **77 aperte · 8 chiuse in archivio**. *(+2 il
+> 🧹 **Housekeeping 2026-08-21 06:25** — Automatico: **80 aperte · 8 chiuse in archivio**.
 > 19/8 06:04: card #124/#125 ricostruite, vedi nota sotto — non è un ricalcolo automatico.)*
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
@@ -396,6 +396,10 @@ Mentre provavo a pubblicare quel fix ho trovato un problema più grande: `git pu
 La divergenza vera fra `main` e GitHub serve un tecnico con accesso al VPS: va guardata riga per riga, non sciolta con un comando automatico.
 
 **Cosa non ho verificato:** non ho aperto i 25 salvataggi temporanei uno per uno per vedere se contengono lavoro perso o solo tentativi ripetuti dello stesso fix. Non ho verificato se qualcuno di questi 25 commit "solo su GitHub" sia in conflitto reale con lavoro utile nei 75 "solo qui", o se il conflitto trovato dal rebase fosse isolato.
+
+**Aggiornamento 21/8 06:2x — il distacco da GitHub sta crescendo, non solo restando fermo.** Ho rifatto `git fetch` + `git status`: ora sono **81 commit solo qui, 25 solo su GitHub** (7 minuti fa erano 75 e 25). In quei 7 minuti il worker ha prodotto 5 commit di allarme in fila — LOOP APERTO, CHECKUP FERMO, BATTITO FERMO, SENSORI FERMI — sempre sullo stesso problema mai risolto, e ognuno si somma al conteggio "solo qui" perché nessuno di quei commit riesce a raggiungere GitHub. È un circolo vizioso misurato: più il permesso resta com'è, più cresce il numero di commit da riconciliare, più diventa rischioso e lento sistemarli quando qualcuno se ne occupa. Non ho ritentato il rebase: chi l'ha già provato oggi si è fermato al primo conflitto e ha annullato in sicurezza; ripeterlo ora senza tempo dedicato rischierebbe di perdere lavoro da una delle due parti. Non ho aperto una card nuova, resta questa.
+
+**Cosa fare (proposta, tua firma):** oltre alle righe di permesso già elencate sopra, valuta di mettere in pausa i timer automatici (`mycity-giro.timer`, `mycity-ritmo-*.timer`) finché non è sistemato — ferma l'accumulo mentre qualcuno risolve con calma la divergenza (idea già proposta in una nota precedente: tenere solo l'ultima fotografia di ogni file di auto-coscienza invece di far quadrare tutti i commit intermedi, che sono fotografie ripetute nel tempo, non storia che serve davvero).
 
 <!-- posthog-off-vps -->
 
@@ -1480,8 +1484,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-18 06:25)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-18-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-21 06:25)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-21-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1492,7 +1496,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-18 06:25 · 8 card totali
+> Ultima pulizia: 2026-08-21 06:25 · 8 card totali
 
 ### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 

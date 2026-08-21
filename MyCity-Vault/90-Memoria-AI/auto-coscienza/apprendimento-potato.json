@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-08-21 06:26",
+      "byte_prima": 1100380,
+      "byte_dopo": 990046,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0702-03",
+            "testo": "Un numero/elenco mantenuto A MANO diverge sempre (15 agenti orfani, conteggio 40 vs 42, vo"
+          },
+          {
+            "id": "L-2026-0702-45",
+            "testo": "**Firma ≠ esecuzione (giro 2/7 10:19):** Nicola approva **ok 16** alle 08:38 ma 1h40 dopo "
+          },
+          {
+            "id": "L-2026-0702-44",
+            "testo": "**Automazione tutto verde ≠ loop business chiuso (giro 2/7 08:20):** `verifica-automazione"
+          },
+          {
+            "id": "L-2026-0702-43",
+            "testo": "**Canale Render Pannello ≠ token API (Nicola 2/7 08:16 — casella #19):** «come collego il "
+          },
+          {
+            "id": "L-2026-0702-42",
+            "testo": "**Carrelli «operativi» — terminologia (Nicola 2/7, domanda informativa):** nel playbook CR"
+          }
+        ],
+        "copie_di_principi": 88
+      }
+    },
+    {
       "quando": "2026-08-18 06:26",
       "byte_prima": 1097429,
       "byte_dopo": 992080,
