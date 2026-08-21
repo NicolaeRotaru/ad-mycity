@@ -320,6 +320,10 @@ Il file non è nel repo: è dentro `.gitignore`. Va modificato a mano sul VPS, n
 
 (dettaglio: vedi memoria `project-settings-local-write-vs-edit-blocca-lavori.md`; prova: `MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json`)
 
+**Aggiornamento 21/8 03:46 — ancora rotto, ed è la causa del nuovo allarme "battito fermo".** Ho riletto ora `.claude/settings.local.json`: le 5 righe sono ANCORA `Write(...)`, identiche a quelle di 5 giorni fa. Nel frattempo il danno si è allargato: il file che registra l'uscita di ogni cadenza (`esito-cadenze.json`) non riceve una riga nuova dal 18/8 alle 08:56 — **3 giorni fermo**, su TUTTE le 6 cadenze (mattino, giro, monitora, mezzogiorno, sera, settimana), non più solo 2 su 6 come il 15/8. La sentinella lo segnala da sola stanotte come "BATTITO FERMO" (regola AR-592, `cervello/sentinella-dati.mjs`) — è il freno automatico che chiedevo, e ha funzionato: si è acceso da solo, senza bisogno di una frase mia. Il worker che risponde alla chat resta vivo (i commit di stasera ci sono), è solo la parte a orario (i timer che lanciano `giro.sh`/`ritmo-*.sh` da soli) che non riesce più a scrivere in memoria — stesso identico sintomo di 5 giorni fa, stessa causa mai corretta.
+
+**Cosa non ho verificato adesso:** non ho potuto controllare lo stato reale dei timer systemd (`mycity-ritmo-*.timer`, `mycity-giro.timer`) né lo spazio disco: i comandi `systemctl`/`journalctl` sono bloccati dai permessi di questa sessione (lo stesso tipo di blocco descritto sopra, non un problema del server). Dai commit di stanotte risulta che un disco pieno sul server è stato trovato e ripulito con uno strumento nuovo — ma non vedo ancora una riga nuova in `esito-cadenze.json` successiva a quel fix, quindi non so se i timer sono ripartiti da soli o se serve comunque il tuo intervento sulle 5 righe sopra.
+
 <!-- posthog-off-vps -->
 
 ---
