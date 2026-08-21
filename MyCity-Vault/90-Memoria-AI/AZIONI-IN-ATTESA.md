@@ -43,27 +43,27 @@ le ho lette dai file del progetto.
 
 ---
 
-### 🔴 #140 — Applica al database la migrazione 124: senza, la vetrina dei negozi resta vuota · ⏳ accodata 2026-08-21 03:20
+### 🔴 #140 — Firma la migrazione sul database: senza, metà delle riparazioni resta spenta · ⏳ accodata 2026-08-21 03:20 · aggiornata 2026-08-21 13:30
 
 **Cosa cambia:** unire una richiesta pubblica il codice. Non tocca il database. Sono due firme
-diverse, e questa è la seconda.
+diverse, e la prima l'hai già data: il codice è online da stamattina.
 
-La riparazione più urgente non era nemmeno nel referto, l'ho trovata lavorando. **La vetrina
-pubblica dei negozi aveva perso due colonne.** Sei pagine del sito le chiedono, e il database
-rifiuta la richiesta intera quando una colonna non c'è. Quelle pagine non ricevevano un negozio
-senza bollino: non ricevevano nessun negozio.
+Poi ho provato cosa succede col codice nuovo e il database vecchio, e non nasceva nessun ordine.
+L'ho riparato, e adesso il sito regge in tutti e due i mondi: la riparazione è nella richiesta
+nuova sul sito.
 
-Dentro ci sono altre sei riparazioni: il rimborso che toglieva al negozio più del dovuto, il ritiro
-in negozio che arriva a «consegnato», i ritiri tolti dalla bacheca dei fattorini, gli stati del
-compenso che il database rifiutava, gli esiti dei pagamenti, il riquadro della home.
+Firmare accende quello che oggi resta spento: sette riparazioni, e la prima costa più delle altre
+sei. È la vetrina dei negozi, che sei pagine del sito chiedono e che oggi risponde con zero negozi.
+Poi il rimborso che toglie al negozio più del dovuto, il ritiro in negozio che arriva a
+«consegnato», i ritiri tolti dalla bacheca dei fattorini, gli stati del compenso rifiutati dal
+database, gli esiti dei pagamenti, il riquadro della home.
 
-Il file è `124_radiografia_21_agosto.sql`, nel ramo `claude/marketplace-bugs-njlgi8`.
+Il file è `migrations/124_radiografia_21_agosto.sql`, ora sul ramo principale.
 
-**Se va bene:** dimmelo e ti passo il comando esatto.
+**Se va bene:** dimmelo e ti passo il comando esatto da incollare.
 
-**Cosa non ho verificato:** non l'ho applicata a nessun database vero, solo a una copia di prova
-qui dentro. Finché non la firmi, metà delle riparazioni non è attiva. Il racconto lungo sta in
-`consegne/audit/2026-08-21-marketplace-ultimi-difetti.md`.
+**Cosa non ho verificato:** l'ho applicata solo a una copia di prova qui dentro, mai a un database
+vero, e non ho aperto il sito online per guardare la vetrina.
 
 ---
 
