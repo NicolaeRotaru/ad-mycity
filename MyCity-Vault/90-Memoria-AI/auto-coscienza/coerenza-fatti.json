@@ -1,8 +1,8 @@
 {
-  "data": "2026-08-18 12:20",
+  "data": "2026-08-21 03:31",
   "esito": "non_verificato",
   "copertura": 0,
-  "origine": "locale",
+  "origine": "cloud",
   "scritto_da": "coerenza-fatti.mjs",
   "fatti_totali": 39,
   "cacce_aperte": 0,
