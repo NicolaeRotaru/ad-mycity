@@ -349,16 +349,26 @@ export function giudicaCadenze(r) {
   const ferme = d.invecchiate.map((x) => x.tipo);
   const saltate = (d.passiSaltati || []).map((x) => x.tipo);
   if (ferme.length || saltate.length) {
-    const pezzi = [];
+    // 2026-08-21 — QUESTA FRASE LA LEGGE NICOLA, e il metro della scrittura l'aveva bocciata.
+    // Prima era un periodo solo con DUE elenchi fra parentesi incastrati dentro: «5 cadenze su 6 non
+    // si alzano più (a, b, c, d, e), e 2 sono uscite saltando dei passi (f, g)». Chi legge deve
+    // tenere in sospeso l'idea di partenza per tutta la prima parentesi, e quando arriva alla
+    // seconda l'ha già persa. Il contenuto non cambia di una parola: cambia che ogni elenco si
+    // prende la sua frase, e che i due punti sostituiscono le parentesi.
+    const frasi = ["il ritmo della macchina si è fermato."];
     if (ferme.length)
-      pezzi.push(
+      frasi.push(
         ferme.length === 1
-          ? `1 cadenza su ${d.totali} non si alza più (${ferme[0]})`
-          : `${ferme.length} cadenze su ${d.totali} non si alzano più (${ferme.join(", ")})`,
+          ? `Non si alza più 1 cadenza su ${d.totali}: ${ferme[0]}.`
+          : `Non si alzano più ${ferme.length} cadenze su ${d.totali}: ${ferme.join(", ")}.`,
       );
     if (saltate.length)
-      pezzi.push(saltate.length === 1 ? `1 è uscita saltando dei passi (${saltate[0]})` : `${saltate.length} sono uscite saltando dei passi (${saltate.join(", ")})`);
-    return { ...rotto(`il ritmo della macchina si è fermato: ${pezzi.join(", e ")}`, { ferme, saltate, totali: d.totali }), prova };
+      frasi.push(
+        saltate.length === 1
+          ? `Un'altra è uscita saltando dei passi: ${saltate[0]}.`
+          : `Altre ${saltate.length} sono uscite saltando dei passi: ${saltate.join(", ")}.`,
+      );
+    return { ...rotto(frasi.join(" "), { ferme, saltate, totali: d.totali }), prova };
   }
   const maiViste = (d.maiViste || []).length;
   return {

@@ -1,7 +1,7 @@
 {
-  "aggiornato": "2026-08-21 17:01",
+  "aggiornato": "2026-08-21 17:21",
   "timbro": {
-    "quando": "2026-08-21 17:01",
+    "quando": "2026-08-21 17:21",
     "scade_dopo_ore": 26,
     "ambiente": "cloud",
     "scritto_da": "cervello/salute.mjs",
@@ -24,8 +24,8 @@
   },
   "ultime": {
     "claude": {
-      "quando": "2026-08-21 17:01",
-      "iso": "2026-08-21T15:01:51.185Z",
+      "quando": "2026-08-21 17:21",
+      "iso": "2026-08-21T15:21:35.959Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 11,
@@ -40,10 +40,10 @@
           "titolo": "Il VPS si sta ancora visitando",
           "impatto": 1,
           "esito": "rotto",
-          "detto": "l'ultima visita del VPS è di 82 ore fa: da lassù non si sta più controllando nessuno",
+          "detto": "l'ultima visita del VPS è di 83 ore fa: da lassù non si sta più controllando nessuno",
           "prova": null,
           "regressione": false,
-          "rosso_da": 10,
+          "rosso_da": 11,
           "cronico": true
         },
         {
@@ -52,7 +52,7 @@
           "titolo": "La macchina lascia tracce di essere passata",
           "impatto": 1,
           "esito": "ok",
-          "detto": "ultima traccia 0 ore fa (sentinella-dati.json)",
+          "detto": "ultima traccia 1 ore fa (sentinella-dati.json)",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -64,10 +64,10 @@
           "titolo": "Le cadenze si alzano davvero",
           "impatto": 2,
           "esito": "rotto",
-          "detto": "il ritmo della macchina si è fermato: 5 cadenze su 6 non si alzano più (ritmo-mattino, ritmo-mezzogiorno, ritmo-sera, ritmo-settimana, monitora), e 2 sono uscite saltando dei passi (giro, ritmo-settimana)",
+          "detto": "il ritmo della macchina si è fermato. Non si alzano più 5 cadenze su 6: ritmo-mattino, ritmo-mezzogiorno, ritmo-sera, ritmo-settimana, monitora. Altre 2 sono uscite saltando dei passi: giro, ritmo-settimana.",
           "prova": "node cervello/freschezza-cadenze.mjs",
           "regressione": false,
-          "rosso_da": 10,
+          "rosso_da": 11,
           "cronico": true
         },
         {
@@ -79,7 +79,7 @@
           "detto": "1 file che la Cabina mostra sono più vecchi della loro scadenza: Il quaderno dei pezzi nuovi (1140h)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 10,
+          "rosso_da": 11,
           "cronico": true
         },
         {
@@ -88,10 +88,10 @@
           "titolo": "La review del venerdì lascia i suoi compiti",
           "impatto": 3,
           "esito": "rotto",
-          "detto": "la review del venerdì non lascia più i suoi compiti: Il confronto coi migliori (28 giorni), La peer review fra senior (28 giorni), La calibrazione previsto-vs-reale (27 giorni), La lettera a Nicola (22 giorni)",
+          "detto": "la review del venerdì non lascia più i suoi compiti: Il confronto coi migliori (28 giorni), La peer review fra senior (28 giorni), La calibrazione previsto-vs-reale (27 giorni), La lettera a Nicola (23 giorni)",
           "prova": null,
           "regressione": false,
-          "rosso_da": 10,
+          "rosso_da": 11,
           "cronico": true
         },
         {
@@ -160,7 +160,7 @@
           "titolo": "La guardia in tempo reale ha davvero scattato",
           "impatto": 3,
           "esito": "ok",
-          "detto": "✅ ultimo scatto 0 min fa (2026-08-21T15:01:28.594Z) — 66 file guardati, 7 voci, 0 gravi.",
+          "detto": "✅ ultimo scatto 0 min fa (2026-08-21T15:21:05.570Z) — 0 file guardati, 0 voci, 0 gravi.",
           "prova": "node cervello/sorvegliante.mjs --battito",
           "regressione": false,
           "rosso_da": 0,
@@ -268,7 +268,7 @@
           "titolo": "I senior chiudono il loop",
           "impatto": 3,
           "esito": "ok",
-          "detto": "19 senior con almeno un esito registrato",
+          "detto": "20 senior con almeno un esito registrato",
           "prova": null,
           "regressione": false,
           "rosso_da": 0,
@@ -300,10 +300,10 @@
         }
       ],
       "cronicita": {
-        "worker.ponte": 10,
-        "worker.cadenze": 10,
-        "cervello.freschezza": 10,
-        "cervello.riti": 10
+        "worker.ponte": 11,
+        "worker.cadenze": 11,
+        "cervello.freschezza": 11,
+        "cervello.riti": 11
       }
     },
     "vps": {
@@ -1240,6 +1240,17 @@
     {
       "quando": "2026-08-21 17:01",
       "iso": "2026-08-21T15:01:51.185Z",
+      "casa": "claude",
+      "modo": "rapido",
+      "ok": 11,
+      "rotti": 4,
+      "guasti": 0,
+      "nonvisti": 7,
+      "copertura": 0.68
+    },
+    {
+      "quando": "2026-08-21 17:21",
+      "iso": "2026-08-21T15:21:35.959Z",
       "casa": "claude",
       "modo": "rapido",
       "ok": 11,
