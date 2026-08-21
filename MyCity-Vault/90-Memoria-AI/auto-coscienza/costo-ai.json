@@ -1,12 +1,12 @@
 {
   "_cosa_e": "🪙 COSTO AI — consumo della macchina (token/durata per run) e totale giornaliero (AR-020). Lo aggiorna cervello/costo-ai.mjs a fine giro/ritmo; una sentinella allerta oltre la soglia. Seed iniziale: il primo giro VPS lo popola.",
-  "aggiornato": "2026-08-21 11:25",
+  "aggiornato": "2026-08-21 12:10",
   "soglia_giornaliera_token": 2000000,
   "oggi": {
     "data": "2026-08-21",
-    "runs": 41,
+    "runs": 42,
     "token_totali": 0,
-    "durata_sec_totale": 13492,
+    "durata_sec_totale": 14136,
     "voci": [
       {
         "quando": "2026-08-21 03:22",
@@ -335,10 +335,18 @@
         "token": 50000,
         "modello": "claude",
         "stima_grezza": true
+      },
+      {
+        "quando": "2026-08-21 12:10",
+        "tipo": "ritmo-mezzogiorno",
+        "durata_sec": 644,
+        "token": 55000,
+        "modello": "claude",
+        "stima_grezza": true
       }
     ],
-    "token_stimati": 2130000,
-    "token_per_gate": 2130000,
+    "token_stimati": 2185000,
+    "token_per_gate": 2185000,
     "token_fonte": "misura"
   },
   "storico_giorni": [
@@ -626,69 +634,13 @@
   "modello_quota": "sessione-rolling",
   "sessione_rolling_min": 360,
   "sessione_rolling": {
-    "token_sessione_rolling": 845000,
-    "runs_sessione": 16,
+    "token_sessione_rolling": 525000,
+    "runs_sessione": 10,
     "finestra_min": 360,
     "voci_illeggibili": 0,
-    "aggiornato": "2026-08-21 11:25"
+    "aggiornato": "2026-08-21 12:10"
   },
   "voci_recenti": [
-    {
-      "quando": "2026-08-21 05:30",
-      "tipo": "worker-analisi",
-      "durata_sec": 446,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-21 05:44",
-      "tipo": "worker-analisi",
-      "durata_sec": 780,
-      "token": 70000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-21 05:45",
-      "tipo": "worker-analisi",
-      "durata_sec": 82,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-21 05:49",
-      "tipo": "worker-analisi",
-      "durata_sec": 216,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-21 05:59",
-      "tipo": "worker-analisi",
-      "durata_sec": 607,
-      "token": 55000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-21 06:05",
-      "tipo": "worker-analisi",
-      "durata_sec": 362,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
-    {
-      "quando": "2026-08-21 06:09",
-      "tipo": "worker-analisi",
-      "durata_sec": 215,
-      "token": 50000,
-      "modello": "claude",
-      "stima_grezza": true
-    },
     {
       "quando": "2026-08-21 06:10",
       "tipo": "ritmo-mattino",
@@ -758,6 +710,14 @@
       "tipo": "giro",
       "durata_sec": 665,
       "token": 50000,
+      "modello": "claude",
+      "stima_grezza": true
+    },
+    {
+      "quando": "2026-08-21 12:10",
+      "tipo": "ritmo-mezzogiorno",
+      "durata_sec": 644,
+      "token": 55000,
       "modello": "claude",
       "stima_grezza": true
     }
