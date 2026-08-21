@@ -974,7 +974,13 @@ export const CONTROLLI = [
     impatto: 3,
     modi: ["completo", "vps"],
     async prova() {
-      const r = eseguiNode("test-cervello.mjs", [], 300_000);
+      // 2026-08-21 — il tetto era 300s e la suite ne misurava 822: il controllo non partiva e
+      // usciva 🔧 GUASTO, cioè «non ho potuto misurare», che manda a indagare da nessuna parte.
+      // Tolte le due attese cieche sul Pannello la suite sta in 316s, misurati. 600s è il doppio
+      // del tempo che serve davvero: lascia respiro a una macchina lenta e resta abbastanza stretto
+      // da accorgersi di una suite che raddoppia. Il caso «una prova si pianta» adesso lo ferma il
+      // tetto per-prova dentro il banco, che la uccide e la NOMINA invece di mangiarsi tutto.
+      const r = eseguiNode("test-cervello.mjs", [], 600_000);
       return daGuardiano(r, {
         comando: "node cervello/test-cervello.mjs",
         dettoOk: "tutti i test del cervello girano e passano",
@@ -1733,13 +1739,43 @@ function scriviMemoria(v) {
 
 /** Due visite al giorno fanno settecento file l'anno. La tendenza vive nello storico di salute.json;
  *  i referti vecchi sono carta. Ne restano gli ultimi, il resto si butta. */
+/**
+ * 2026-08-21 — LA SPAZZATA CHE CANCELLA E NON LO DICE A GIT.
+ *
+ * `potaReferti` toglieva il file dal DISCO e basta. Ma i referti sono versionati (stanno in
+ * `consegne/`, che è memoria): tolto il file, `git ls-files` continuava a elencarlo, perché elenca
+ * l'indice e non il disco. Da lì in poi chiunque scorra l'elenco di git e provi ad aprire i file
+ * trova una porta che non si apre — e `scan-segreti` ci si accecava sopra, uscendo 2 a ogni giro:
+ * «1 file elencato da git che NON sono riuscito ad aprire… non posso dire pulito». Il controllo
+ * `cervello.segreti` era ⚪ da giorni, e la causa non era un segreto né un permesso: era questa
+ * cancellazione lasciata a metà, che ogni visita rinnovava cancellando il referto successivo.
+ *
+ * Una cancellazione è finita quando disco e indice dicono la stessa cosa. Qui si chiude: si segna
+ * la rimozione nell'indice, così il commit di memoria del worker la porta fuori come qualunque
+ * altra modifica. `--ignore-unmatch` rende l'operazione muta sui referti mai versionati (quelli
+ * appena scritti in una sessione), e l'errore non è MAI un motivo per far fallire una visita.
+ */
+export function dimenticaDaGit(relativo, radice = AD_ROOT) {
+  try {
+    if (existsSync(join(radice, relativo))) return; // c'è ancora: non si tocca l'indice
+    spawnSync("git", ["rm", "--cached", "--quiet", "--ignore-unmatch", "--", relativo], {
+      cwd: radice,
+      encoding: "utf8",
+    });
+  } catch {
+    /* indice non aggiornabile (repo assente, permessi): la visita non si ferma per questo */
+  }
+}
+
 function potaReferti() {
   try {
     const nomi = readdirSync(CARTELLA_REFERTI)
       .filter((f) => f.endsWith(".md"))
       .sort(); // i nomi iniziano con la data: l'ordine alfabetico È l'ordine cronologico
     for (const vecchio of nomi.slice(0, Math.max(0, nomi.length - SOGLIE.refertiTenuti))) {
-      rmSync(join(CARTELLA_REFERTI, vecchio), { force: true });
+      const percorso = join(CARTELLA_REFERTI, vecchio);
+      rmSync(percorso, { force: true });
+      dimenticaDaGit(`consegne/salute/${vecchio}`);
     }
   } catch {
     /* la potatura non è mai un motivo per far fallire una visita */

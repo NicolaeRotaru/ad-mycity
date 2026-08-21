@@ -22,6 +22,70 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #143 — Riaccendi la macchina sul server: è ferma da tre giorni · ⏳ accodata 2026-08-21 15:02
+
+**In parole semplici:** la macchina che lavora per MyCity non gira su questo computer, gira su un
+server acceso ventiquattro ore su ventiquattro. Quel server ha smesso di lavorare **lunedì 18 agosto
+alle 8:55 del mattino**. Da allora non ha fatto più niente: nessun giro, nessun piano del mattino,
+nessun report della sera. Sono settantasette ore.
+
+Non se n'è accorto nessuno perché il Pannello continuava a mostrare i numeri dell'ultima volta che
+la macchina aveva lavorato, senza dire che erano vecchi. Un cruscotto che mostra la benzina di tre
+giorni fa non sembra rotto: sembra pieno.
+
+**Cosa cambia:** finché il server è fermo, tutto quello che la macchina dovrebbe fare da sola non
+succede — controllare i negozi, guardare gli incassi, preparare le proposte da firmarti. Il lavoro
+non è perso, semplicemente non parte. E ogni giorno che passa il Pannello ti racconta una città più
+vecchia di quella vera.
+
+**Cosa devi fare:** una cosa sola, sul server. Entra e lancia questo, che ti dice cosa sta
+succedendo prima di toccare niente:
+
+```
+cd ~/ad-mycity && node cervello/salute.mjs --vps
+```
+
+Poi, per far ripartire il cuore:
+
+```
+sudo systemctl status mycity-worker          # com'è messo
+sudo systemctl restart mycity-worker         # riaccendilo
+sudo systemctl list-timers 'mycity-*'        # e controlla che i timer siano tutti attivi
+```
+
+Due timer in particolare erano già morti **prima** del blocco, e vanno guardati con attenzione:
+`mycity-ritmo-sera` (fermo da otto giorni) e `mycity-ritmo-settimana` (fermo da quattordici). Se
+risultano `disabled` o `not-found`, si riattivano così:
+
+```
+sudo systemctl enable --now mycity-ritmo-sera.timer mycity-ritmo-settimana.timer
+```
+
+**Se va bene:** entro un paio d'ore il Pannello torna a scrivere numeri di oggi, e i pallini rossi
+degli organi si spengono da soli — sono quasi tutti figli di questo unico fatto.
+
+**Cosa non ho verificato:** non ho potuto guardare il server da qui. Da questa sessione vedo solo il
+suo riflesso — l'ultimo referto che ha pubblicato, che è di lunedì mattina. Quindi *non so* se il
+worker sia spento, in crash continuo, o vivo ma senza il motore AI collegato: sono tre guasti
+diversi con tre cure diverse, e il comando qui sopra è quello che lo distingue. So per certo solo
+che da lassù non scrive più nessuno, perché le tracce che ogni processo lascia nel repo sono ferme a
+lunedì 8:55.
+
+**Una cosa l'ho già riparata da qui, ed è quella che secondo me l'ha inceppato.** La procedura che
+pubblica la memoria si era piantata: rimandava sé stessa da 422 giri di fila, cioè da circa sette
+ore, e ogni singolo rinvio risultava verde. Il motivo era un'uscita di sicurezza con un buco —
+bastava un file di codice lasciato a metà da una sessione interrotta perché il rinvio non scadesse
+mai. Era già successo il 30 luglio, con 1716 rinvii e trentun ore di blocco. Adesso l'attesa ha un
+tetto: oltre quattro ore la macchina mette il lavoro sporco al sicuro con un commit e riprende.
+Il codice è in questa PR, quindi arriverà sul server appena la unisci.
+
+**Dettagli tecnici** — referto: `consegne/salute/2026-08-21-1418-claude.md` · organi rossi da qui:
+`worker.ponte`, `worker.tracce`, `worker.cadenze` · dal referto VPS del 18/8: `worker.servizi`
+(mycity-worker non attivo), `worker.pubblicazione` (422 rinvii), `worker.automazione` (8 falliti) ·
+prova delle cadenze: `node cervello/freschezza-cadenze.mjs`.
+
+---
+
 ### 🟡 #142 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
 
 **In parole semplici:** questa card parla di come lavoro io, non del sito e non dei negozi.

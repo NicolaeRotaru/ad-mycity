@@ -13,6 +13,7 @@
 //
 // Exit: 0 = pulito · 1 = trovato almeno un segreto (BLOCCA) · 2 = errore interno
 
+import { spawnSync } from "node:child_process";
 import { readFileSync, statSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
@@ -173,7 +174,7 @@ function trovaInPezzi(rel, pezzi) {
   return esito;
 }
 
-export function verdetto({ letti = 0, nonRaggiunti = [], trovati = [] } = {}) {
+export function verdetto({ letti = 0, nonRaggiunti = [], trovati = [], cancellati = [] } = {}) {
   if (trovati.length) {
     const file = new Set(trovati.map((t) => t.file)).size;
     return { esito: "trovato", codice: 1, sintesi: `${trovati.length} possibili segreti in ${file} file` };
@@ -198,7 +199,34 @@ export function verdetto({ letti = 0, nonRaggiunti = [], trovati = [] } = {}) {
         `su ${letti} letti non posso dire «pulito»`,
     };
   }
-  return { esito: "pulito", codice: 0, sintesi: `nessun segreto in ${letti} file versionabili` };
+  // 2026-08-21 — IL FILE CANCELLATO, LETTO DALL'INDICE INVECE CHE DAL DISCO.
+  // `git ls-files` elenca l'INDICE, non il disco: un file tolto dall'albero di lavoro resta
+  // nell'elenco e `statSync` risponde ENOENT. Prima finiva fra i «non raggiunti» e rendeva CIECA
+  // tutta la scansione — esito 2, per sempre, per un file che non c'è più sul disco.
+  //
+  // La cura NON è dichiararlo pulito: sarebbe un buco vero, ed è il caso che AR-339 aveva già
+  // inchiodato. Un file messo in staging e poi cancellato ha ancora il suo CONTENUTO dentro
+  // l'indice, e quel contenuto finisce nel commit: dire «non c'è sul disco, quindi è a posto»
+  // farebbe passare una chiave dritta dentro il repo.
+  //
+  // La cura è guardare dove il contenuto sta davvero: nell'indice (`git show :percorso`). Così il
+  // file cancellato viene LETTO — conta fra i letti, e se ha un segreto lo blocca — e resta cieco
+  // solo il caso che merita di esserlo: un percorso che git elenca e di cui non si riesce a
+  // recuperare il contenuto da nessuna delle due parti.
+  const coda = cancellati.length
+    ? ` · ${cancellati.length} non più sul disco, letti dall'indice di git (${cancellati[0]}${cancellati.length > 1 ? `, e altri ${cancellati.length - 1}` : ""})`
+    : "";
+  return { esito: "pulito", codice: 0, sintesi: `nessun segreto in ${letti} file versionabili${coda}` };
+}
+
+/**
+ * Il contenuto che git ha nell'INDICE per un percorso, o null se non ce l'ha.
+ * È ciò che finirebbe nel commit: per un file cancellato dal disco è l'unica copia che conta.
+ */
+function contenutoDallIndice(rel) {
+  const r = spawnSync("git", ["show", `:${rel}`], { cwd: REPO, encoding: "utf8", maxBuffer: SOGLIA_TROPPO_GRANDE });
+  if (r.status !== 0 || typeof r.stdout !== "string") return null;
+  return r.stdout;
 }
 
 function main() {
@@ -217,6 +245,9 @@ function main() {
   // NOSTRO: un percorso che git ci ha dato e che non riusciamo ad aprire significa che abbiamo letto
   // male l'elenco, non che il file è pulito.
   const nonRaggiunti = [];
+  // Elencati da git ma spariti dal disco: il contenuto si recupera dall'INDICE e si legge come gli
+  // altri, perché è quello che finirebbe nel commit. Vedi la nota in `verdetto`.
+  const cancellati = [];
   // AR-441 — i file letti a blocchi si dichiarano. Non è un buco (sono letti eccome): è la
   // trasparenza su COME li ho guardati, e il posto dove si vede crescere il problema vero, cioè i
   // JSON generati che si gonfiano a ogni giro.
@@ -228,7 +259,19 @@ function main() {
     let st;
     try {
       st = statSync(abs);
-    } catch {
+    } catch (e) {
+      // Non c'è sul disco: il contenuto che conta è quello dell'indice, ed è lì che si guarda.
+      if (e && e.code === "ENOENT") {
+        const daIndice = contenutoDallIndice(rel);
+        if (daIndice === null) {
+          nonRaggiunti.push(rel); // né sul disco né nell'indice: questo sì che è un buco
+          continue;
+        }
+        trovati.push(...trovaInPezzi(rel, [daIndice]));
+        cancellati.push(rel);
+        letti++;
+        continue;
+      }
       nonRaggiunti.push(rel);
       continue;
     }
@@ -247,13 +290,17 @@ function main() {
     letti++;
   }
 
-  const { esito, sintesi, codice } = verdetto({ letti, nonRaggiunti, trovati });
+  const { esito, sintesi, codice } = verdetto({ letti, nonRaggiunti, trovati, cancellati });
 
   if (!REPO_FINTO) stampSegnale("scan-segreti", codice === 0 ? "ok" : "errore", `${sintesi} · ${quando}`).catch(() => {});
 
   if (JSON_MODE) {
     console.log(
-      JSON.stringify({ esito, quando, sintesi, trovati, letti, non_raggiunti: nonRaggiunti, letti_a_blocchi: aBlocchi }, null, 2),
+      JSON.stringify(
+        { esito, quando, sintesi, trovati, letti, non_raggiunti: nonRaggiunti, cancellati, letti_a_blocchi: aBlocchi },
+        null,
+        2,
+      ),
     );
   } else {
     console.log(`\n🔒 SCAN SEGRETI — ${quando}\n`);

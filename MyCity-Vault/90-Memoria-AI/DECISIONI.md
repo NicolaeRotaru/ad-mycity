@@ -2674,3 +2674,55 @@ identico.
 **La lezione.** Un rosso che non puo' diventare verde e' un rosso che si impara ad aggirare. Quando
 il conto non torna su un testo che so di non aver peggiorato, la domanda giusta non e' «come faccio
 scendere il numero», e' «cosa sta misurando questo numero».
+
+---
+
+- 2026-08-21 15:10 · 🟡 · [AD/DevOps] · **«Risolvi tutti questi problemi e dico tutti» — i 12 organi rossi della visita.**
+  Nicola manda lo schermo della Cabina: 12 rotti · 10 non visti · copertura 79%. La visita rifatta dal
+  vivo (`node cervello/salute.mjs`, exit 1) conferma, e separa le cause invece di contarle.
+
+  **Otto rossi su dodici hanno UN padre solo:** il server ha smesso di lavorare **lunedì 18/8 alle
+  08:55** (77 ore). Da una sessione cloud il VPS non si tocca: → **card 🔴 #143** con la diagnosi e i
+  comandi pronti. `worker.ponte`, `worker.tracce`, `worker.cadenze`, `worker.servizi`,
+  `worker.automazione` e la parte cadenzata di `cervello.freschezza`/`cervello.riti` si spengono da
+  soli quando riparte.
+
+  **Quattro erano guasti di codice, e sono chiusi qui — ognuno con una prova che diventa rossa se il
+  difetto torna** (mai un grep in un file):
+  ① **La spazzata che cancellava e non lo diceva a git.** `potaReferti` in `salute.mjs` toglieva il
+  referto più vecchio dal disco e lasciava git a nominarlo. `scan-segreti` scorre l'elenco di git,
+  trovava una porta che non si apre e si dichiarava CIECO: `cervello.segreti` era ⚪ da giorni, cioè
+  **il controllo delle chiavi nel repo era spento**, e ogni visita lo rinnovava cancellando il
+  referto dopo. Curato in due punti: la spazzata chiude la cancellazione; e un file che git elenca ma
+  che non è sul disco si legge **dall'indice** — non si dichiara pulito (sarebbe il buco vero: il
+  contenuto in staging finisce nel commit) e non acceca più. La prova di AR-339 è diventata più
+  severa, non più permissiva: quel segreto ora viene **trovato**, non «non misurato».
+  → `cervello/test/spazzata-che-non-lo-dice-a-git.test.mjs`
+  ② **Il rinvio che non scadeva mai.** L'allineamento del server rimandava da **422 giri di fila** —
+  la memoria si scriveva e non usciva più, con ogni rinvio verde. Causa: la fuga anti-stallo si
+  spegneva del tutto se restava **un solo** file di codice sporco, e nessun tetto contava l'attesa.
+  Già successo il 30/7: 1716 rinvii, 31 ore, 1519 commit mai pubblicati. **Seconda volta = guardiano
+  alla radice**, non terza riparazione: la decisione è ora una funzione pura (`azione_ramo_vivo`) con
+  un tetto a 4 ore, oltre il quale il lavoro sporco si **parcheggia** con un commit sul suo ramo (si
+  recupera con un checkout) e si allinea. → `cervello/test/allineamento-rinvio-che-non-scade.test.mjs`
+  ③ **La suite che non finiva più.** `cervello.test` era 🔧 GUASTO «oltre 300s»: misurata, ci metteva
+  **822s**. Due prove del Pannello aspettavano 180s a testa un `npm run dev` **già morto**, con
+  l'uscita del processo buttata in `ignore`. Ora l'avvio sta in un posto solo
+  (`cervello/test/aiuto-pannello.mjs`), si accorge se il processo muore e dice il perché. Suite:
+  **822s rossa → 316s verde**. E il banco ha un tetto **per prova**: una prova piantata viene uccisa e
+  **nominata**, invece di mangiarsi la rete di sicurezza intera.
+  ④ **La correzione del 4/7 rientrata dalla finestra.** Nicola: «togli il cablato su Windows una
+  volta per sempre, **impedisci che riaccada**». Il registro dava per fatte la pulizia e un guardiano
+  agganciato al giro. Il 21/8 `C:\Users\InfinitaPossibilita\mycity-live` era di nuovo dentro
+  `marketplace-repo.mjs` — proprio il file ripulito — e **il guardiano non esisteva nel repo**.
+  Chiusa con una frase, quindi rientrata. Ora: path tolti (anche i 3 loghi di `creativi/brand.mjs`),
+  guardiano `cervello/no-path-cablati-check.mjs` scritto davvero, agganciato a `giro.sh` come gate
+  hard con vincolo al motore. → `cervello/test/percorso-cablato-che-rientra.test.mjs`
+
+  **La lezione, che è una sola.** Tre dei quattro guasti erano **verdi ripetuti**: un rinvio che si
+  rimanda, una cancellazione che si rifà, un'attesa che riparte. Nessuno era un errore — erano tutti
+  «riprovo da solo» senza un tetto. *Un'operazione che può rimandarsi deve avere un limite oltre il
+  quale smette di essere paziente e diventa un rosso*, altrimenti è indistinguibile da una macchina
+  ferma. E il quarto dice il resto: **una correzione di Nicola chiusa con una frase rientra da sola.**
+
+  · Non riproporre come «da fare»: fatto, con prova · Nicola (chat, schermo della Cabina)

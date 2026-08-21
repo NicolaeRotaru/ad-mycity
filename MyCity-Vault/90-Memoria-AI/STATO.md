@@ -1,8 +1,34 @@
 ---
 tipo: stato
-aggiornato: 2026-08-21 03:30
+aggiornato: 2026-08-21 15:15
 fonte: AD digitale (chat)
 ---
+
+> 🩺 **21/8 15:15 — La macchina è ferma dal 18 mattina, e quattro dei dodici pallini rossi erano guasti miei. Quelli li ho chiusi.**
+>
+> Nicola manda lo schermo della Cabina: dodici organi rossi. Rifatta la visita dal vivo, i dodici non
+> sono dodici problemi: **otto hanno un padre solo**, cioè il server che ha smesso di lavorare
+> **lunedì 18 agosto alle 8:55** — settantasette ore senza un giro, un piano del mattino, un report
+> della sera. Da qui il server non lo tocco: è la **carta 🔴 #143**, con la diagnosi e i comandi già
+> scritti. Quegli otto si spengono da soli quando riparte.
+>
+> **Gli altri quattro erano difetti di codice, e sono chiusi con una prova che diventa rossa se
+> tornano.** ① Il controllo che cerca le chiavi finite nel repo era **spento** da giorni senza dirlo:
+> la spazzata dei referti cancellava un file dal disco e lasciava che git continuasse a nominarlo, e
+> chi cercava di aprirlo si dichiarava cieco. ② La pubblicazione della memoria si era inceppata:
+> **422 rinvii di fila**, tutti verdi, perché l'uscita di sicurezza si spegneva per un solo file di
+> codice lasciato a metà — già successo il 30 luglio, 1716 rinvii e 31 ore. Ora l'attesa ha un tetto.
+> ③ La macchina non riusciva più a provare sé stessa: la suite ci metteva **822 secondi** contro un
+> tetto di 300, perché due prove aspettavano tre minuti a testa un programma già morto. Adesso sono
+> **316 secondi, verde**. ④ Il percorso del vecchio PC Windows era **rientrato** nel codice: Nicola
+> l'aveva fatto togliere il 4 luglio chiedendo di impedire che riaccadesse, e il guardiano che doveva
+> impedirlo non era mai stato scritto. Adesso c'è, e gira a ogni giro.
+>
+> **La cosa da ricordare:** tre di questi quattro non erano errori, erano **verdi ripetuti** — un
+> «riprovo da solo» senza limite. Una macchina che rimanda all'infinito è indistinguibile da una
+> macchina ferma.
+>
+> Referto: `consegne/salute/2026-08-21-1418-claude.md` · ramo `claude/risolvi-tutti-problemi-nddcnp`.
 
 > 🏁 **21/8 03:30 — Gli ultimi difetti del sito sono chiusi. Da 29 aperti a 3, e tutti e tre sono lavori a metà con un perché scritto.**
 >
