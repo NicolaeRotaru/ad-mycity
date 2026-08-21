@@ -147,7 +147,9 @@
       "descrizione": "VERIFICATO riga per riga. La stessa procedura di cancellazione GDPR è copiata in due file e solo una copia è stata aggiornata. La versione del lavoro notturno azzera anche i sei indirizzi dei documenti (kyc_id_doc_front_url, kyc_id_doc_back_url, kyc_selfie_url, rider_license_url, rider_insurance_url, rider_haccp_url — righe 69-74), cancella i file veri dai secchi `kyc-docs` e `cod-proof` (funzione cancellaFilePersonali, righe 88-123) e ripulisce il testo libero in reviews, store_reviews, rider_reviews, returns, messages e contact_messages (righe 221-231). La versione dell'admin si ferma alle liste vecchie: 15 campi SAFE + 17 KYC, nessun URL di documento, nessuna chiamata a storage.remove, nessuna pulizia del testo libero. Confermato anche l'errore nel commento in cima al file admin («Pipeline = a /api/account/delete»): /api/account/delete si limita ad alzare la bandierina deletion_requested_at (riga 52), la procedura vera vive nel cron.",
       "impatto": "Quando un admin cancella un utente dal pannello — la strada normale quando arriva «cancellate i miei dati» — la scansione fronte/retro della carta d'identità, il selfie di verifica, la patente e l'assicurazione del fattorino e l'attestato alimentare restano scritti nel profilo E i file restano per sempre nell'archivio. La riga in auth.users invece sparisce (riga 99), quindi l'utente diventa irraggiungibile mentre i suoi documenti d'identità sono ancora lì: davanti a un controllo del Garante l'azienda non può nemmeno dimostrare di chi sono. Art. 17 e art. 5.1.e GDPR.",
       "fix": "Estrarre una funzione condivisa, per esempio lib/gdpr/anonimizza.ts con `anonimizzaUtente(admin, userId)`, che contenga liste, file e testo libero, e farla chiamare da tutte e due le rotte: le due copie diventano una. Prova che gira: un test che crea un profilo con i sei URL documento pieni, chiama la rotta admin e pretende che ognuno sia null e che storage.remove sia stato invocato — oggi rosso sulla strada admin. Circa 60 righe spostate, 2 chiamate.",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Verificato nel codice il 21/8: le due strade di cancellazione erano gia state unite in lib/account/cancellazione.ts. Il referto del 18 non lo sapeva."
     },
     {
       "dimensione": "architettura",
@@ -170,7 +172,9 @@
       "descrizione": "VERIFICATO, tutti e tre i punti. ① Ripartizione dello sconto: la rotta carta usa `riduciAlTetto` + `ripartisciCentesimi` (checkout/route.ts:330-332, metodo del resto più grande); la rotta contanti alle righe 285-286 usa ancora `Math.round(couponDiscountCents * portion)` per ciascun negozio — proprio il difetto che lib/stripe/ripartizione.ts dichiara di chiudere nel suo commento in cima. Ho fatto il conto: un buono da 10,00 € su tre negozi di pari importo dà una somma di quote di 9,99 €; da 10,01 € dà 10,02 €. ② Tetto allo sconto: la rotta carta limita lo sconto a subtotale+spedizione-1 centesimo (righe 318-322); la rotta contanti non ha nessun tetto. Con un buono PERCENT al 100% (lib/coupons.ts:80 non lo limita) più il 10% del ritiro in negozio, `grossTotalCents` alla riga 291 va a zero e nasce un ordine da 0,00 €. ③ Restituzione del codice: la rotta carta, se la sessione non nasce, chiama `release_coupon` (riga 456); la rotta contanti no — `rollbackCreatedCodOrders` (righe 261-279) cancella ordini, ripristina la merce e riaccredita il credito, ma il buono resta consumato. Cercato in tutto il repo: `release_coupon` compare solo in expire-checkouts, nel webhook e nella rotta carta.",
       "impatto": "Sull'arrotondamento: la somma dei discount_amount dei singoli ordini non torna col valore del buono, quindi la contabilità del contante che il fattorino riporta in cassa non quadra al centesimo. Sul tetto: un buono al 100% (di lancio o di rimborso) genera un ordine dove il negoziante consegna merce vera e incassa zero. Sul codice sconto: se la merce finisce mentre l'ordine si sta creando, il cliente vede l'errore e ha perso il buono per sempre — e il supporto non ha un modo per ridarglielo.",
       "fix": "Il fix vero è togliere la copia: estrarre lib/orders/preparaOrdine.ts con la parte comune (validazione gruppi, prezzi dal DB, coupon, spedizione, ripartizione, tetto) e lasciare alle due rotte solo ciò che è davvero diverso. Toppa immediata in 3 pezzi: sostituire le righe 285-286 con `ripartisciCentesimi` calcolato una volta prima del ciclo; aggiungere lo stesso clamp della rotta carta; chiamare `release_coupon` dentro `rollbackCreatedCodOrders`. Prove che girano: un test che passa un buono da 10,01 € su tre negozi a entrambe le rotte e pretende 1001 centesimi esatti in tutte e due (oggi rosso sul contante), e un test che fa fallire `reserve_stock` sul secondo negozio e pretende che `release_coupon` sia stato chiamato.",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Verificato nel codice il 21/8: la rotta contanti usa gia ripartisciCentesimi + riduciAlTetto e chiama release_coupon nel rollback."
     },
     {
       "dimensione": "architettura",
@@ -181,7 +185,9 @@
       "descrizione": "VERIFICATO, e ho trovato una prova in più che la segnalazione non aveva. Il file dei tipi è generato da scripts/gen-db-types.mjs a partire dalle migrazioni; l'unico riferimento in tutto il repo è un test che ne verifica l'esistenza. Nessun client è tipizzato: `createClient<Database>`, `createServerClient<Database>`, `createBrowserClient<Database>` → zero occorrenze. Il codice compensa a mano con 93 `as unknown as` in app/ e lib/. La squadra lo sa e lo ha scritto nel test (righe 6-17): i tipi derivano dalle migrazioni, non dal DB vivo, e collegarli produrrebbe circa 320 errori falsi — è debito dichiarato, non una svista. La prova nuova: il generatore ha già dei buchi silenziosi. `seller_payout_cents` è usato in 5 file di codice e NON compare nei tipi; stessa cosa per `kyc_selfie_url` (4 file) e `discount_amount` (2 file). Tutte e tre nascono in migrations/024, scritta in minuscolo (`add column if not exists`), che il parser non riconosce. Il test dichiara di garantire che «la generazione non si rompa silenziosamente», ma controlla solo i nomi delle tabelle, non le colonne: il buco passa.",
       "impatto": "Nessun danno per l'utente oggi — per questo ho abbassato la gravità da «grave» a «minore». Il costo è di sicurezza dello sviluppo: se una migrazione rinomina o toglie una colonna, il codice che la nomina continua a compilare, `npm run verify` resta verde e il guasto esce in produzione sulla strada dei soldi. Il controllo di deriva in CI confronta le migrazioni col database, non il codice con lo schema: questo buco non lo copre nessuno. E chi oggi si fidasse del file per derivare un tipo sul payout troverebbe una colonna che «non esiste».",
       "fix": "Un comando, non un refactor: generare i tipi dal database vivo con `supabase gen types typescript --project-id <id> > lib/database.types.ts` (quella versione ha relazioni e nullabilità giuste), poi tipizzare i tre punti d'ingresso. Farlo su un ramo e contare gli errori: quelli veri sono difetti trovati prima del cliente. Intanto, subito e a costo zero: correggere la regex del generatore perché legga anche l'SQL in minuscolo, e aggiungere al test l'asserzione su tre colonne dei soldi (seller_payout_cents fra queste) — oggi diventa rosso. Poi `npm run db:types && git diff --exit-code lib/database.types.ts` in CI.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Il generatore leggeva una sola colonna per istruzione: le colonne dei soldi dichiarate in fila sparivano in silenzio. Ora sono 740 invece di 191, e la CI fallisce se i tipi non sono rigenerati."
     },
     {
       "dimensione": "architettura",
@@ -192,7 +198,9 @@
       "descrizione": "CONFERMATO A METÀ, e ho corretto la parte falsa. Vero: lib/ai/moderation.ts contiene un filtro Trust & Safety completo (`assertSafeText`, `classifyProductPolicy`, `UnsafeContentError`, categorie vietate esplicite, regola «nel dubbio si blocca»); il suo commento alla riga 8 dice «Da cablare nelle route in PR successive» e quelle PR non sono mai arrivate — cercando i tre nomi in tutto il repo si trovano zero occorrenze fuori dal file stesso. FALSO invece che «nessuna delle rotte AI abbia un filtro di alcun tipo»: app/api/vision/extract-product/route.ts:357-365 ha un cancello che BLOCCA il prodotto vietato («Gate policy: blocca i prodotti vietati prima di compilare l'annuncio») e app/api/vision/extract-products/route.ts marca ogni prodotto con policy_ok. E la rotta che crea la scheda (ai/catalog-create) richiede venditore autenticato, ha un limite di 30 chiamate/ora e nasce come BOZZA non pubblica. Restano senza cancello ai/description, ai/product-chat, ai/catalog-create, catalog-apply e catalog-create-bulk. Per questo ho abbassato la gravità da «grave» a «minore»: il rischio esiste ma non è scoperto come descritto.",
       "impatto": "La strada scoperta è il testo libero (descrizione e chat sul prodotto), non la pubblicazione del prodotto vietato, che il cancello della vision intercetta. Il costo vero è di posizione: c'è un modulo di moderazione scritto e spento, e in un'ispezione DSA un filtro che esiste ma non gira è peggio di uno che non c'è, perché prova che il rischio era stato riconosciuto.",
       "fix": "Collegare `assertSafeText` nei due punti di testo libero (ai/description, ai/product-chat) e `classifyProductPolicy` in catalog-create / catalog-create-bulk / catalog-apply, che oggi si fidano di quanto arriva dal client: sono circa 5 punti, 2-3 righe l'uno. Prova che gira: un test che manda alla rotta di descrizione un testo palesemente vietato e pretende un 4xx — oggi risponde 200. Se il costo della chiamata in più preoccupa, è una scelta di Nicola: ma allora va scritto nel file che il filtro è spento apposta, perché oggi sembra acceso.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Il filtro Trust & Safety e collegato: assertSafeText su ai/description e ai/product-chat, classifyProductPolicy su catalog-apply. Prova comportamentale: un testo rifiutato non arriva al modello."
     },
     {
       "dimensione": "architettura",
@@ -215,7 +223,9 @@
       "descrizione": "VERIFICATO in tutti i punti. next-intl è collegato per intero (plugin, i18n.ts con riconoscimento da cookie e da header, rotta /api/locale, due file di messaggi), ma solo 29 file su 347 fra pagine e componenti usano davvero le traduzioni: l'8%. Il selettore è stato tolto apposta — Footer.tsx:249-255 dice «LocaleSwitcher NON esposto finché la migrazione i18n non è completa» — e components/LocaleSwitcher.tsx è ora un file che nessuno importa. Intanto tests/e2e/10-security-and-i18n.spec.ts:93 contiene ancora il test «LocaleSwitcher è presente in Footer» che pretende di vederlo; non fallisce solo perché il lavoro E2E in CI si auto-salta quando mancano i segreti del Supabase di prova (ci.yml, passo «Check E2E secrets», righe 198-209). E app/layout.tsx:104 scrive `<html lang={locale}>` con il locale risolto anche dall'header del browser (i18n.ts:38-43).",
       "impatto": "Due cose concrete. Un visitatore col browser in inglese riceve una pagina marcata lang=\"en\" con dentro il 92% di testo italiano: i lettori per non vedenti provano a pronunciare l'italiano con la fonetica inglese, e Google indicizza come inglese una pagina italiana. E il giorno in cui si accendono i test end-to-end configurando i segreti, la CI diventa rossa su un test che descrive una scelta presa apposta.",
       "fix": "Prima la parte che danneggia davvero: finché il contenuto è italiano, i18n.ts deve restituire 'it' come lingua del documento a prescindere dall'header (il cookie scelto dall'utente può restare). Poi scegliere una strada e scriverla: se il multilingua serve fra sei mesi, marcare `test.skip` la riga 93 con la spiegazione (2 righe); se non serve, togliere next-intl, i18n.ts, messages/, LocaleSwitcher e i 29 usi.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Il rilevamento della lingua e spento e dichiarato: la pagina si marca italiana perche il contenuto e italiano. I due test end-to-end che pretendevano il contrario sono stati corretti."
     },
     {
       "dimensione": "architettura",
@@ -277,7 +287,9 @@
       "descrizione": "VERIFICATO. Un unico file contiene la verifica della firma, il controllo anti-doppione, lo smistamento e diciannove gestori senza rapporto fra loro: creazione ordini (handleCheckoutCompleted, 259 righe), buoni regalo, spazi sponsorizzati, abbonamenti dei venditori, rimborsi, contestazioni carta, storni di bonifico, esiti dei pagamenti e aggiornamenti degli account Connect. Va detto ciò che è fatto bene, perché è la parte difficile: il controllo anti-doppione è corretto (righe 56-76 — l'evento si marca come lavorato solo dopo che il gestore è riuscito, quindi un nuovo tentativo di Stripe riprocessa invece di rispondere «già visto»). Il problema è solo il confine: non ce n'è nessuno fra gli otto mestieri.",
       "impatto": "Ogni modifica ai buoni regalo si porta dietro il rischio di toccare la creazione degli ordini, perché stanno nello stesso file e la revisione mostra un diff dentro un blocco da mille righe. È la strada su cui passano tutti i soldi del marketplace: è l'ultimo posto dove si vuole una revisione difficile da leggere.",
       "fix": "Nessuna riscrittura, solo spostamenti meccanici: portare i gestori in lib/stripe/webhook/ordini.ts, giftcard.ts, abbonamenti.ts, dispute.ts, payout.ts, e lasciare in route.ts firma, anti-doppione e smistamento (meno di 100 righe). Nessuna logica cambia, quindi i test esistenti sul webhook restano verdi e sono la prova che lo spostamento non ha rotto niente. Da fare in 5 PR separate, non una.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "La rotta fa solo firma, anti-doppione e smistamento (178 righe); i gestori vivono in lib/stripe/webhook/, uno per mestiere. Le prove esistenti sul webhook restano verdi: e la dimostrazione che lo spostamento non ha rotto niente."
     },
     {
       "dimensione": "architettura",
@@ -826,7 +838,9 @@
       "descrizione": "CONFERMATO. Nel COD grossTotalCents (riga 292) e' il totale PRIMA del credito MyCity; totalCents (riga 335) e' il totale DOPO lo scomputo del wallet. computeOrderSplit riceve grossTotalCents (righe 342-346) e produce seller_payout_cents sul lordo, mentre orders.total_price viene scritto con totalCents/100 (riga 353), cioe' il netto. refundOrder costruisce pero' tutta la sua matematica su total_price: orderTotalCents (payout.ts:452), il clamp safeAmountCents (454) e la quota da recuperare dal venditore sellerShare = safeAmount * sellerNet / orderTotalCents (479-480). Numeratore e denominatore vengono da due basi diverse. Esempio: ordine lordo 50 EUR con 20 EUR di credito -> total_price 30, netto venditore calcolato su 50. Un rimborso di 10 EUR recupera dal negozio 10*netto/30 invece di 10*netto/50: circa il 67% in piu' del dovuto.",
       "impatto": "Due difetti concreti. (1) Su un ordine COD pagato in parte col credito, un rimborso parziale recupera dal negozio molto piu' del dovuto (il clamp Math.min lo ferma solo al netto intero): soldi tolti al negoziante senza motivo. (2) Su un ordine COD coperto INTERAMENTE dal credito (gift card da 50 su un ordine da 50) total_price vale 0, quindi safeAmountCents e' 0 e refundOrder lancia 'importo rimborso non valido' (riga 455): quell'ordine non e' rimborsabile in nessun modo, ne' dal reso ne' dal reclamo.",
       "fix": "Persistere sull'ordine sia il lordo di vendita sia il netto incassato (colonna gross_total_cents accanto a total_price) e usare il lordo come denominatore in refundOrder per sellerShare, tenendo total_price solo come cassa attesa dal fattorino. Per il rimborso di un ordine coperto dal credito, il tetto deve essere il lordo e la restituzione deve tornare sul wallet. Cambia la base imponibile registrata: coordinare con @contabilita. @backend-dev.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Colonna gross_total_cents (migrazione 124): il rimborso divide per il lordo di vendita. Un ordine coperto per intero dal credito torna rimborsabile."
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -889,7 +903,9 @@
       "descrizione": "CONFERMATO. paidCents (righe 101-103) somma seller_payout_cents per gli ordini 'TRANSFERRED' senza sottrarre seller_payout_reversed_cents — colonna che non e' nemmeno nella select di riga 72 — mentre dalla migrazione 116 e' li' che si accumula il recuperato. Un ordine parzialmente stornato resta 'TRANSFERRED' (payout.ts:316-323 mette 'REVERSED' solo sullo storno pieno), quindi entra per intero. activeCard (90-93) esclude solo payout_status REFUNDED/REVERSED: payment_status non e' nemmeno selezionato, quindi un ordine 'PARTIALLY_REFUNDED' conta pieno nel lordo. E gli ordini in 'PROCESSING' spariscono da entrambe le colonne (ne' HELD ne' TRANSFERRED).",
       "impatto": "Il negoziante vede un incassato piu' alto di quello arrivato sull'IBAN e, quando confronta con la sua dashboard Stripe Express, i conti non tornano. E' la telefonata 'dove sono i miei soldi', che sul payout erode la fiducia piu' di qualunque altra cosa.",
       "fix": "Aggiungere seller_payout_reversed_cents alla select e calcolare paidCents come somma di (seller_payout_cents - seller_payout_reversed_cents); mostrare una riga esplicita 'storni' invece di nasconderli; contare 'PROCESSING' dentro 'in arrivo'. Cambio di sola lettura, ma allineare la definizione con @bi-lead (GLOSSARIO-KPI) prima di pubblicarlo. @frontend-dev.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "I conti stanno in lib/guadagni/negozio.ts: tolti gli storni e i rimborsi parziali, contati gli ordini col bonifico in corso."
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -926,7 +942,9 @@
       "descrizione": "CONFERMATO. Lo switch gestisce checkout.session.completed, charge.refunded, charge.dispute.*, account.updated, customer.subscription.*, invoice.payment_failed, transfer.reversed, checkout.session.expired, payout.failed, payment_intent.payment_failed. Manca charge.refund.updated (o refund.failed), l'evento che Stripe emette quando un rimborso gia' creato viene poi rifiutato dalla banca del cliente. refundOrder scrive pero' payment_status='REFUNDED'/'PARTIALLY_REFUNDED' e refunded_amount_cents subito dopo refunds.create (righe 560-576), cioe' su un rimborso ancora in stato 'pending'.",
       "impatto": "Se il rimborso fallisce a valle (carta chiusa, conto non piu' valido), il database continua a dichiarare il cliente rimborsato mentre i soldi rientrano alla piattaforma: il cliente non riceve nulla, chiama, e ai nostri occhi risulta gia' liquidato. E' l'innesco tipico di un chargeback che poi si perde, perche' le nostre prove dicono il contrario di quello che e' successo.",
       "fix": "Registrare charge.refund.updated: su status 'failed'/'canceled' riportare indietro refunded_amount_cents e payment_status, e notificare gli admin. Superficie piccola, chiude un buco di verita' sui rimborsi. @backend-dev.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "charge.refund.updated gestito: un rimborso rifiutato dalla banca torna indietro nei conti e gli admin lo sanno."
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -950,7 +968,9 @@
       "descrizione": "CONFERMATO. Il checkout calcola expectedChargeCents come somma dei totali per gruppo (riga 370) e lo salva in pending_checkouts.total_cents (riga 393). Il webhook lo seleziona (riga 202) ma non lo rilegge mai: grep su tutto il file, `total_cents` compare solo li'. session.amount_total viene usato unicamente nel ramo del carrello scaduto (riga 227). Il confronto conterebbe perche' le due cifre possono divergere: i totali per gruppo passano da Math.max(0, ...) (checkout 340-343) mentre Stripe applica lo sconto come amount_off sull'intera sessione (client.ts:160-171), quindi quando il clamp per gruppo scatta la somma dei totalCents non coincide piu' con l'addebito.",
       "impatto": "Non e' sfruttabile dall'esterno (gli importi sono ricalcolati server-side), ma manca l'unico controllo di quadratura fra ordine e incasso: se un prezzo cambia fra la creazione della sessione e il pagamento, o se il clamp scatta, gli ordini vengono creati con importi che non corrispondono a quanto e' entrato in cassa e nessuno se ne accorge fino alla riconciliazione.",
       "fix": "In handleCheckoutCompleted confrontare session.amount_total con pending.total_cents e, se lo scarto supera 1 centesimo, non creare gli ordini: notificare gli admin e lasciare l'evento non processed. E' il controllo di quadratura piu' economico che esista sul percorso soldi. @backend-dev.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Quadratura fra incasso Stripe e preventivo: se lo scarto supera un centesimo non nasce nessun ordine e parte l avviso."
     },
     {
       "dimensione": "pagamenti-stripe",
@@ -961,7 +981,9 @@
       "descrizione": "CONFERMATO. L'unico handler dei pagamenti falliti scrive un logger.warn con last_payment_error.message e nient'altro. Grep su tutto il repo (app, lib, migrations): la stringa `decline_code` non compare mai, non esiste nessuna tabella di tentativi di pagamento, non e' registrato l'esito 3DS/SCA. Il logger (lib/logger.ts) instrada verso Sentry e stdout, non verso il database. L'evento payment_intent.succeeded non e' nemmeno sottoscritto nello switch. Le uniche tracce residue sono pending_checkouts.status, che misura l'abbandono del checkout, non l'esito dell'autorizzazione. Severita' corretta da grave a minore: non e' un difetto che rompe qualcosa, e' un buco di misura — ma va dichiarato perche' senza non si puo' governare questa dimensione.",
       "impatto": "Non si puo' rispondere alla domanda base del prodotto pagamenti: quanti tentativi vanno a buon fine e perche' falliscono gli altri. Senza la distribuzione dei motivi di rifiuto (fondi insufficienti vs rifiuto dell'emittente vs 3DS non completato) ogni intervento sul checkout e' una scommessa, e un'eventuale interruzione dei pagamenti si vedrebbe solo dal calo degli ordini.",
       "fix": "Tabella `payment_attempts` (payment_intent_id, pending_checkout_id, amount_cents, status, decline_code, network_status, esito 3DS, created_at) alimentata da payment_intent.payment_failed e payment_intent.succeeded (da sottoscrivere). Sopra ci si costruisce il tasso di autorizzazione = riusciti / (riusciti + falliti) e la distribuzione per motivo. @data-engineer per la pipeline, @backend-dev per gli handler.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Tabella payment_attempts (migrazione 124), alimentata da payment_intent.succeeded e .payment_failed col motivo del rifiuto."
     },
     {
       "dimensione": "privacy-legale",
@@ -1173,7 +1195,9 @@
       "descrizione": "Verificato aprendo i file e misurando la build già compilata nel repo (build del 17/8, .next presente). ① Le sei pagine che portano soldi iniziano tutte con 'use client': confermato riga 1 di ciascuna. In totale 96 file page.tsx su 112 sono client. ② Nel manifest delle pagine pre-scritte (.next/prerender-manifest.json) ci sono 2 sole voci, /robots.txt e /sitemap.xml, su 202 rotte dell'applicazione (.next/app-path-routes-manifest.json): tutto il resto, comprese /privacy /terms /about /faq, viene ricalcolato dal server a ogni richiesta. ③ La causa è una sola: il guscio comune chiama getLocale() e getMessages() (app/layout.tsx:100-101) e i18n.ts:46-47 legge cookie e intestazione accept-language a ogni render, quindi ogni rotta diventa dinamica. Lo dice già il commento in app/page.tsx:52 (\"ISR non applicabile\"), e si vede dall'effetto: i tre `export const revalidate` scritti in app/product/[id]/layout.tsx:4, app/store/[id]/layout.tsx:4 e app/category/[slug]/layout.tsx:4 non producono nessuna pagina in cache. ④ Il peso l'ho misurato comprimendo i pezzi elencati in .next/app-build-manifest.json: guscio /layout 299 KB compressi (il collega diceva 266, il metodo di somma cambia il numero ma non l'ordine di grandezza), scheda prodotto 243 KB, checkout 227 KB, ricerca 226 KB, home 238 KB. Il riferimento Google per un telefono di fascia media è circa 150-170 KB. ⑤ Il riquadro negozio in cima alla home (components/home/HeroStoreCard.tsx:41-99) fa 3 giri in fila prima di sapere quale foto caricare (shop_of_month, eventuale ripiego su seller_public_profiles, poi il dettaglio del negozio); solo l'ultimo passo — prodotti e recensioni — è in parallelo, quindi il collega qui ha contato una attesa di troppo.",
       "impatto": "Chi arriva da telefono su rete lenta vede la pagina vuota finché non ha scaricato e avviato il JavaScript: è il momento in cui la gente se ne va. Sui costi: anche /privacy, che non cambia mai, consuma tempo di calcolo del server a ogni visita invece di essere servita dalla cache, quindi le macchine da pagare crescono con le visite e non con gli ordini. Su Google: scheda prodotto e pagina negozio arrivano al crawler senza contenuto nell'HTML.",
       "fix": "Tre passi, ognuno rilasciabile da solo. ① Sposta la lingua dal cookie all'indirizzo (localePrefix 'always' di next-intl) togliendo la lettura dei cookie da i18n.ts: le pagine ferme tornano statiche subito. ② Trasforma in componenti server le tre pagine che portano soldi (scheda prodotto, categoria, negozio): il primo blocco di dati lo scrive il server nell'HTML, i pezzi interattivi restano client; su queste rotte metti revalidate 60-300. ③ HeroStoreCard: una sola funzione SQL che torna negozio + prodotti + recensioni, caricata dal server.",
-      "stato": "aperto"
+      "stato": "riparato_in_parte",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "PARZIALE. Fatto il passo 1, che era la causa radice: tolta la lettura di cookie e intestazioni dal guscio comune, le pagine servite dalla cache passano da 2 a 96 su 203 (misurato con una build vera). Fatto il passo 3: il riquadro della home in una chiamata sola. Del passo 2 e fatta la parte che serve al crawler — i dati strutturati del prodotto passano nel guscio server — mentre la conversione delle tre pagine a componenti server resta aperta: sono milleduecento righe con trenta punti interattivi, e senza poter aprire il sito in un browser non si riscrive alla cieca."
     },
     {
       "dimensione": "performance",
@@ -1208,7 +1232,9 @@
       "descrizione": "Verificato in tutti e due i file. Alla riga 168 c'è l'uscita rapida col commento \"Perf: la maggior parte del traffico pubblico esce subito (solo CSP)\", ma scatta solo se needsAuth e needsSellerGate sono entrambi falsi; needsSellerGate viene da isMarketplaceBrowsePath(), che in lib/shopping-access.ts:33-38 torna vero per '/' e per i prefissi elencati alle righe 16-30 (/product, /store, /cart, /checkout, /search, /category, /favorites, /lists, /events, /collections, /shop-of-month, /shared-cart, /daily-drops). Cioè per tutte le pagine che contano: sul catalogo la scorciatoia non scatta mai. Per chi ha una sessione attiva partono allora due attese di rete infilate davanti a ogni pagina: supabase.auth.getUser() alla riga 199 — che non legge un cookie, va a validare il token (verificato nel codice della libreria installata, node_modules/@supabase/auth-js 2.106.1: _getUser fa GET /auth/v1/user quando c'è una sessione) — e subito dopo la SELECT su profiles (role, is_approved) alle righe 223-227. Correggo un punto del collega: per i visitatori anonimi la stessa getUser() non fa nessuna chiamata di rete (senza sessione la libreria torna AuthSessionMissingError sul posto), quindi il costo vero è tutto sull'utente collegato — che è comunque la persona che compra.",
       "impatto": "Il cliente che ha fatto l'accesso è quello che aspetta di più: due giri di rete in più prima ancora che la pagina cominci a essere composta, su ogni passaggio di pagina, home compresa. Non ho potuto misurare i millisecondi reali da qui (serve l'ambiente in esecuzione): il fatto certo è il codice, la stima resta stima.",
       "fix": "① Fai scattare il controllo venditore solo quando esiste davvero una sessione: prima della riga 168 verifica la presenza di un cookie che inizia per `sb-` e finisce per `-auth-token`; se non c'è, esci subito (così si evita anche di costruire il client Supabase per ogni visitatore anonimo e ogni crawler). ② Per chi è collegato, smetti di rileggere profiles a ogni pagina: scrivi ruolo e approvazione in un cookie firmato di 10-15 minuti la prima volta, e nel middleware fidati di quello. Resta una lettura vera al primo passaggio e a ogni scadenza.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Senza cookie di sessione non si costruisce nemmeno il client Supabase; per chi ha fatto l accesso il ruolo sta in un cookie firmato di dieci minuti, ma solo per il catalogo: nelle aree protette il profilo si rilegge sempre."
     },
     {
       "dimensione": "performance",
@@ -1368,7 +1394,9 @@
       "descrizione": "Verificato con il conteggio: 29 usi di unoptimized su 68 componenti <Image> del progetto, e fra questi ci sono proprio la scheda della griglia (ProductCard.tsx:138) e la foto grande del dettaglio (product/[id]/page.tsx:423). La scelta ha una logica: sizedImage() gira già l'indirizzo verso la trasformazione immagini di Supabase (lib/image-url.ts:33-40), quindi il ridimensionamento avviene sul loro CDN invece che sulla CPU del server. Ma ha due effetti che nessuno ha messo per iscritto. Primo: con unoptimized Next non genera il srcset, quindi l'attributo sizes scritto alla riga 135 di ProductCard non fa più niente e la foto resta a 400 pixel per tutti; su un telefono a 3× che mostra la scheda a 45vw ne servirebbero circa 540, quindi l'immagine viene ingrandita. Secondo: formats: ['image/avif','image/webp'] e minimumCacheTTL: 31536000 scritti in next.config.js:52-56 non si applicano a nessuna di quelle 29 immagini — sembrano attivi e non lo sono.",
       "impatto": "Foto di prodotto leggermente sgranate sui telefoni recenti, sulla scheda che deve far venire voglia di comprare. E due righe di configurazione che chi legge il progetto crede efficaci: è il malinteso che porta a cercare un problema nel posto sbagliato.",
       "fix": "① In lib/image-url.ts fai generare a sizedImage anche le varianti di densità e passale come srcSet esplicito accanto a src (la trasformazione Supabase accetta già ?width=, basta chiamarla a 400, 800 e 1200). ② Metti un commento sopra formats e minimumCacheTTL in next.config.js che dica per quali immagini valgono davvero. ③ Registra la scelta \"trasformazioni su Supabase invece che su Render\" come decisione scritta, col motivo (costo CPU) e il segnale che la farebbe rivedere (il conto delle trasformazioni Supabase che supera il risparmio).",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Sostituito unoptimized con un caricatore che chiede a Supabase la larghezza giusta: srcSet e sizes tornano a funzionare, il ridimensionamento resta sul loro CDN. Documentato in next.config.js che formats e minimumCacheTTL non valgono per quelle immagini."
     },
     {
       "dimensione": "performance",
@@ -2064,8 +2092,9 @@
       "descrizione": "VERIFICATO APRENDO I FILE. Il ritiro in negozio è una scelta viva e incentivata (sconto 10%, app/checkout/page.tsx:331 e components/checkout/PaymentMethodSelector.tsx:114-134) e viene scritta sull'ordine come `pickup_in_store`. Un `grep -rn pickup_in_store` su app/, lib/, components/, migrations/ trova SOLO scritture (orders/cod/route.ts:376, stripe/checkout/route.ts:410, webhook/route.ts:305) e la definizione di colonna: nessuna lettura nel flusso di stato. Le uniche transizioni verso DELIVERED sono `verify_delivery_code` (083, che pretende `rider_id = auth.uid()` e stato PICKED_UP/OUT_FOR_DELIVERY) e la sua versione precedente in 061/063: nessuna via per il venditore. Le transizioni consentite ai client dal trigger `enforce_order_update_rules` sono solo NEW→ACCEPTED e ACCEPTED→READY (venditore), READY→ASSIGNED (claim rider), PICKED_UP→OUT_FOR_DELIVERY. Passi: 1) carrello di un negozio; 2) in checkout scegli «Ritiro in negozio»; 3) ordina; 4) dal pannello venditore «Accetta» poi «Pronto»; 5) il cliente ritira in negozio. Atteso: ordine «Consegnato» e pagamento al negozio. Reale: resta in READY per sempre (la pagina venditore mostra perfino «In attesa che un rider prenda in carico questo ordine», riga 341); il cron payout filtra `delivery_status = 'DELIVERED'` e non lo vede mai; il cron expire-stale-orders chiude solo gli ordini fermi in NEW. Sul contrassegno il buco è doppio: `confirm_cod_remittance` sblocca solo ordini con `rider_id = p_rider`. Il pannello admin ordini (app/admin/orders/page.tsx) ha solo «Annulla». In più la dashboard rider non filtra i ritiri: `available = orders.filter(o => !o.rider_id && o.delivery_status === 'READY')` (riga 160) su una query che non esclude `pickup_in_store`, quindi un fattorino può portarsi via merce che il cliente sta andando a ritirare.",
       "impatto": "Il negoziante consegna la merce a mano, incassa zero e vede il pagamento fermo per sempre; il cliente vede l'ordine «in corso» all'infinito e non può recensire (le recensioni pretendono DELIVERED, migrations/093). Sui ritiri in contanti i soldi restano fuori da ogni riconciliazione. È il difetto che brucia la fiducia del primo negozio.",
       "fix": "Aggiungere una RPC `confirm_pickup_by_seller(p_order_id)` SECURITY DEFINER che, solo per `pickup_in_store = true` e solo per il venditore proprietario, verifichi il codice di ritiro già esistente (`order_pickup_codes`) e porti l'ordine a DELIVERED con `delivered_at = now()` impostando `mycity.allow_order_write`; più il bottone «Consegnato al cliente» nella pagina ordine venditore. Estendere `confirm_cod_remittance` (o creare il gemello per il contante incassato in cassa dal negozio) al caso `rider_id IS NULL`. Escludere gli ordini `pickup_in_store` dalla lista disponibili del fattorino. Caso di regressione: ordine con ritiro → accettato → pronto → confermato dal venditore → risulta DELIVERED e il payout parte.",
-      "stato": "aperto",
-      "nota_riparazione": "NON riparato, ma non piu' raggiungibile. Nicola, 20/8: «togli il 10% di sconto per ritira in negozio, o mettilo da parte per il momento, perche non ne ho ancora parlato con i negozi». Messa da parte l'opzione INTERA e non il solo sconto, perche' il motivo vale per l'opzione e perche' togliendo solo la percentuale il vicolo cieco restava: RITIRO_IN_NEGOZIO_ATTIVO=false, PICKUP_DISCOUNT_PERCENT=0, tessera nascosta in cassa e pickupInStore spento sul server subito dopo la convalida. Prova: ritiro-in-negozio-messo-da-parte.test.ts. IL DIFETTO TORNA il giorno in cui si riaccende: prima di riaccendere serve la via del venditore verso «consegnato» (confirm_pickup_by_seller + bottone nella pagina ordine venditore)."
+      "stato": "riparato",
+      "nota_riparazione": "RPC confirm_pickup_by_seller (migrazione 124) + bottone nella pagina ordine del venditore + i ritiri spariti dalla bacheca dei fattorini. Sul contante il negozio ha gia incassato in cassa: stato CASH_IN_STORE, nessun bonifico. Sette controlli SQL, rossi senza la 124.",
+      "lotto": "2026-08-21"
     },
     {
       "dimensione": "qa-flussi",
@@ -2076,7 +2105,9 @@
       "descrizione": "VERIFICATO APRENDO I FILE. Sul contrassegno il fattorino deve rimettere TUTTO il contante: `expectedCents = Math.round(Number(order.total_price) * 100)` (cash-confirm riga 81) e la riconciliazione giornaliera somma i `total_price` interi degli ordini consegnati, con MISMATCH oltre 50 centesimi (righe 160-172). Ma `total_price` comprende spedizione e fee di consegna. L'unica funzione che paga un fattorino, `releaseRiderPayout`, esce subito con `BAD_STATE` se `payment_method !== 'card'` (riga 179, commento «COD: il rider incassa i contanti»), e nel cron il giro dei fattorini interroga solo `.eq('payment_method','card')` (riga 115). Cercando in tutto il repo `rider_payout_status|releaseRiderPayout|rider_fee_cents` (app/, lib/, components/, migrations/) non esiste nessun altro punto che versi un compenso al fattorino. Passi: 1) ordine in contanti con consegna a domicilio; 2) il fattorino consegna e conferma l'incasso; 3) un admin conferma la rimessa. Atteso: il compenso gli resta o gli viene versato. Reale: ha rimesso il 100% del contante, `rider_payout_status` resta NULL per sempre, nessun bonifico parte.",
       "impatto": "Il fattorino lavora gratis su ogni consegna pagata in contanti — e il contrassegno è il metodo naturale del cliente anziano di Piacenza. Alla prima settimana i fattorini smettono di prendere gli ordini in contanti e la consegna si ferma.",
       "fix": "Scegliere il modello e implementarlo: (a) il fattorino trattiene `rider_fee_cents` dal contante e l'atteso diventa `total_price − rider_fee_cents` (va cambiato sia in cash-confirm sia in `upsertReconciliation`), oppure (b) rimette tutto e il cron gli versa `rider_fee_cents` dal saldo piattaforma — togliendo il blocco su `payment_method` in `releaseRiderPayout` e aggiungendo il giro contrassegno dopo la conferma della rimessa. Test: ordine in contanti consegnato e rimesso → il compenso risulta pagato.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Il fattorino trattiene il compenso dal contante e rimette il resto: l atteso scende sia nella conferma dell incasso sia nella quadratura di fine giornata, e sull ordine resta scritto CASH_WITHHELD."
     },
     {
       "dimensione": "qa-flussi",
@@ -2087,7 +2118,9 @@
       "descrizione": "VERIFICATO APRENDO I FILE per la parte di codice; la reazione di Stripe è l'unico anello non percorso da qui (confidenza ~70%). Il commento in lib/stripe/client.ts:302 dichiara l'invariante «spedizione = compenso del rider», ma la migrazione 111 le ha separate e il codice lo conferma: `shippingForEuro` restituisce 0 sopra i 30 euro di spesa o con coupon di spedizione gratuita, mentre `compensoRiderCents` resta la tariffa a distanza 2,50 + 1,20/km, senza tetto. Entrambi i bonifici (venditore, payout.ts:78; fattorino, payout.ts:222) sono creati con `source_transaction: order.stripe_charge_id`, che li lega alla singola charge. Conto su un caso reale: spesa 30 euro, spedizione gratis, fee di consegna 3 euro → charge 33 euro; `computeOrderSplit` (lib/stripe/client.ts:310-318) dà al negozio il 90% di 30 = 27 euro; al fattorino, per 4 km, spettano 2,50 + 4,80 = 7,30. 27 + 7,30 = 34,30 su 33 disponibili sulla charge: mancano 1,30. Il punto di rottura è a ~2,9 km su un ordine da 30 euro; sopra i 3 km è sistematico. Se Stripe rifiuta il secondo transfer, il `catch` di riga 244 riporta lo stato a HELD, che è dentro `STATI_RIDER_RITENTABILI` (riga 163): il cron ci riprova a ogni giro, per sempre, contando solo `riderFailed` nel log senza avvisare nessuno.",
       "impatto": "Sugli ordini sopra i 30 euro — quelli che vogliamo di più — il fattorino rischia di non essere pagato e nessuno se ne accorge. In ogni caso il conto non torna: la piattaforma incassa 3 euro di consegna e ne promette 7,30, senza nessun punto che registri la consegna in perdita.",
       "fix": "Coprire il compenso del fattorino con la fee di consegna (alzare `PLATFORM_DELIVERY_FEE_CENTS` a copertura) oppure fare il transfer al fattorino SENZA `source_transaction`, dal saldo piattaforma, accettando la differenza come costo commerciale. In più un guardiano alla creazione dell'ordine che verifichi `sellerPayout + applicationFee + deliveryFee ≥ riderFee` e marchi l'ordine come «consegna in perdita» quando non torna. Prima del fix, provare il caso in ambiente di test Stripe: ordine 30 euro + 4 km + spedizione gratis → il transfer al fattorino va a buon fine o no.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Il compenso fisso a 3 euro (deciso da Nicola il 20/8) chiude il buco del conto. Restava il ritentativo a vuoto: lo stato HELD era rifiutato dal vincolo del database e l errore non lo guardava nessuno, quindi un bonifico fallito restava in PROCESSING per sempre. La 124 aggiunge lo stato e l errore ora si vede."
     },
     {
       "dimensione": "qa-flussi",
@@ -2098,7 +2131,9 @@
       "descrizione": "VERIFICATO APRENDO I FILE. `refundOrder` recupera la quota del venditore solo tramite `reverseOrderTransfer`, che alla riga 294 esce con `{reversalId: null, reversedCents: 0}` quando `payout_status !== 'TRANSFERRED'`. Se il pagamento al negozio non è ancora partito, il rimborso parziale non tocca né `seller_payout_cents` né `payout_status`: l'aggiornamento di stato è dentro `...(isFull ? {…} : {})` (riga 518 per il contrassegno, riga 566 per la carta). Il reso passa a REFUNDED (decide/route.ts:93), quindi esce da `OPEN_RETURN_STATUSES = ['REQUESTED','APPROVED','SHIPPED_BACK','RECEIVED']` che è l'unica lista con cui il cron blocca i payout: al giro successivo il cron versa al negozio l'intero `seller_payout_cents`. Passi: 1) ordine da 50 euro in contrassegno, consegnato; 2) reso parziale approvato con `refundAmountCents = 2000`; 3) il cliente riceve 20 euro di credito sul portafoglio; 4) un admin conferma la rimessa (AWAITING_REMITTANCE → HELD); 5) gira il cron. Atteso: al negozio va il netto ridotto della sua quota dei 20 euro. Reale: al negozio va il 90% di 50 euro pieno. Sul contrassegno la finestra dura giorni (si aspetta la rimessa), quindi è la norma; sulla carta è l'ora di attesa più tutto il tempo in PENDING_SELLER_ONBOARDING.",
       "impatto": "Ogni reso parziale è una perdita secca per MyCity, silenziosa e non riconciliata: nessun avviso, nessuna riga in rosso. Dieci resi parziali da 20 euro sono 200 euro usciti senza che nessun cruscotto lo mostri.",
       "fix": "In `refundOrder`, quando il claw-back non è possibile perché il pagamento non è ancora partito, scalare la quota dal dovuto — `seller_payout_cents = seller_payout_cents − sellerShare`, oppure accumulare in una colonna `seller_payout_withheld_cents` letta da `releaseOrderPayout` — nella stessa transazione del rimborso. Test: ordine in HELD + rimborso parziale → l'importo trasferito al giro di cron è il netto ridotto.",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Verificato nel codice il 21/8: refundOrder accumula gia seller_payout_reversed_cents quando il pagamento non e ancora partito, e releaseOrderPayout versa il residuo."
     },
     {
       "dimensione": "qa-flussi",
@@ -2109,7 +2144,9 @@
       "descrizione": "VERIFICATO APRENDO I FILE. All'apertura del chargeback il webhook chiama `reverseRiderTransfer(o)` su ogni ordine (riga 851), che porta `rider_payout_status` a 'REVERSED' se il compenso era già stato versato — ed è il caso normale, visto che il bonifico parte un'ora dopo la consegna mentre la contestazione arriva settimane dopo. Quando la contestazione si chiude con `status === 'won'`, il codice rimette in coda SOLO il venditore: `const daRipagare = orders.filter(o => o.payout_status === 'REVERSED')` → `payout_status: 'HELD'` (righe 891-902). Per il fattorino non c'è niente di equivalente, e 'REVERSED' non compare in `STATI_RIDER_RITENTABILI = ['HELD','PENDING_RIDER_ONBOARDING','FAILED']`, quindi il filtro `FILTRO_RIDER_RITENTABILI` usato dal cron (release-payouts:121) non lo ripesca mai più. Passi: 1) ordine con carta consegnato da un fattorino, compenso versato; 2) il cliente apre una contestazione in banca; 3) MyCity vince. Atteso: la piattaforma tiene l'incasso e ripaga sia negozio sia fattorino. Reale: il negozio viene ripagato, il fattorino resta a 'REVERSED' per sempre. Secondo strato: la chiave di idempotenza del transfer al fattorino è `payout_rider_<orderId>` (riga 227), quindi anche forzando un nuovo tentativo Stripe restituirebbe il vecchio transfer stornato.",
       "impatto": "Il fattorino ha fatto la consegna, la piattaforma ha tenuto i soldi e lui non viene pagato — senza nessun avviso. Su un lavoratore pagato a consegna questo diventa subito abbandono.",
       "fix": "Nel ramo 'won' fare per il fattorino quello che si fa per il venditore: `rider_payout_status = 'HELD'` e `rider_transfer_id = null` per gli ordini in 'REVERSED'; aggiungere 'REVERSED' a `STATI_RIDER_RITENTABILI`; rendere la chiave di idempotenza sensibile al tentativo (come già fatto per `reversal_<id>_tot_<totale>`). Caso di regressione: contestazione aperta e poi vinta → il compenso del fattorino risulta versato una seconda volta.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Nel ramo vinto torna in coda anche il compenso del fattorino, e il numero del tentativo entra nella chiave di idempotenza: senza, Stripe restituiva il bonifico gia stornato e nessuno veniva pagato. Vale anche per il venditore, che aveva lo stesso difetto."
     },
     {
       "dimensione": "qa-flussi",
@@ -2120,7 +2157,9 @@
       "descrizione": "VERIFICATO APRENDO I FILE. Il ciclo che crea gli ordini in contanti invia, per ogni negozio e prima di passare al successivo: notifica in-app al venditore (riga 438), email al venditore (riga 447), notifica al cliente (riga 468) ed email di conferma al cliente (riga 477). Se un gruppo successivo fallisce — merce finita (riga 302, `reserve_stock` fallita), insert ordine fallito (riga 394) o insert righe fallito (riga 420) — parte `rollbackCreatedCodOrders`, che cancella `order_items` e `orders`, ripristina la merce e riaccredita il credito, ma NON tocca la tabella `notifications` e non può richiamare le email già partite. I link restano `/seller/orders/<id-cancellato>` e `/orders/<id-cancellato>`, cioè pagine non trovate. Passi: 1) carrello con un articolo del negozio A e l'ultimo pezzo del negozio B; 2) da un'altra sessione compra quell'ultimo pezzo di B; 3) manda l'ordine in contanti. Atteso: o nasce tutto o non nasce niente, e nessuno riceve avvisi. Reale: il cliente vede «Alcuni articoli non sono più disponibili» e crede di non aver ordinato, ma ha in casella «Ordine ricevuto» del negozio A; il negozio A ha campanella ed email «Nuovo ordine» con link rotto. Il percorso carta lo fa già bene: invia solo dopo il controllo `createdOrderIds.length !== groups.length`.",
       "impatto": "Il negoziante inizia a preparare un ordine che non esiste (pane, fiori, gastronomia: merce che si prepara subito e si butta) e telefona per capire; il cliente non sa se ha ordinato o no. È il tipo di confusione che brucia la fiducia al primo giorno di prova.",
       "fix": "Spostare notifiche ed email FUORI dal ciclo, dopo che tutti i gruppi sono stati creati, esattamente come fa il webhook della carta; o accumularle in un array e inviarle solo alla fine. Caso di regressione: ordine a due negozi col secondo che fallisce → zero email inviate e zero righe in `notifications`.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Campanelle ed email spostate fuori dal ciclo: se un negozio successivo fallisce non resta in giro la posta di un ordine cancellato."
     },
     {
       "dimensione": "qa-flussi",
@@ -2131,7 +2170,9 @@
       "descrizione": "VERIFICATO APRENDO I FILE. Il carrello salva `price` dentro localStorage al momento in cui l'articolo viene aggiunto e non lo aggiorna mai. La query di validazione del checkout legge dal database solo `id, seller_id, stock, has_variants`: il prezzo non c'è. Quindi `grandSubtotal`, la soglia di spedizione gratuita, lo sconto ritiro e la cifra scritta sul bottone nascono tutti dal prezzo vecchio. Il server invece ricalcola da capo, promozioni comprese. Passi: 1) metti un prodotto da 10 euro nel carrello e lascia la scheda aperta; 2) dal pannello venditore porta il prezzo a 14 euro (oppure lascia scadere una promozione attiva); 3) torna al checkout — mostra ancora 10 euro — e ordina in contanti. Atteso: prezzo aggiornato, o almeno un avviso «il prezzo è cambiato». Reale: l'ordine nasce a 14 euro, il cliente ha letto 10 e il fattorino gliene chiede 14 alla porta. Con la carta il cliente vede la cifra vera solo sulla pagina Stripe, cioè dopo aver deciso. Non esiste nessun controllo di divergenza: le due route ignorano di proposito gli importi mandati dal client.",
       "impatto": "Sul contrassegno è una discussione sulla soglia di casa e un ordine rifiutato con merce da riportare indietro. Sulla carta è un abbandono in pagina Stripe. In tutti i casi a sembrare disonesta è la piattaforma, non il negozio.",
       "fix": "Aggiungere `price` (e le promozioni attive, con la stessa fonte del server) alla query di riga 78, ricalcolare i totali con i prezzi del database e, se differiscono da quelli del carrello, aggiornare il carrello e mostrare un avviso esplicito «Il prezzo di X è cambiato: ora è …» prima di lasciar premere «Ordina». Caso di regressione: prezzo cambiato dopo l'aggiunta al carrello → il checkout mostra il nuovo prezzo e chiede una conferma.",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Verificato nel codice il 21/8: il checkout rilegge gia i prezzi dal database e mostra l avviso quando sono cambiati (#114)."
     },
     {
       "dimensione": "qa-flussi",
@@ -2154,7 +2195,9 @@
       "descrizione": "VERIFICATO APRENDO I FILE. La riserva della merce dura due ore. Se il pagamento riesce ma la creazione degli ordini fallisce su un gruppo, il webhook lancia un errore e il record resta PENDING (viene messo a COMPLETED solo dopo il controllo `createdOrderIds.length !== groups.length`, riga 382), mentre gli ordini dei gruppi precedenti esistono davvero e non vengono cancellati da nessuna parte (il webhook, a differenza della route contanti, non ha rollback). Il cron `expire-checkouts` seleziona per `status = 'PENDING'` e `expires_at` scaduto senza controllare se nel frattempo sono nati degli ordini: rimette in magazzino la merce di TUTTI i gruppi, compresi quelli già venduti, e libera il codice sconto già consumato. Poi, al tentativo successivo di Stripe, il record è EXPIRED e il ramo di riga 224 emette un rimborso totale con motivazione «riserva scaduta» senza annullare gli ordini già creati, che restano PAID e NEW in mano al venditore. Passi: 1) carrello da due negozi pagato con carta; 2) far fallire il webhook (database non raggiungibile) per oltre due ore; 3) lasciar girare il cron e poi arrivare il tentativo di Stripe. Atteso: il tentativo completa gli ordini mancanti. Reale: giacenze gonfiate su prodotti già venduti e rimborso di un ordine che il negozio sta preparando.",
       "impatto": "Doppia vendita della stessa merce e un cliente rimborsato mentre il negozio prepara. Poco probabile (serve un guasto di oltre due ore) ma devastante quando capita, e oggi nessuno se ne accorgerebbe se non da una riga di log.",
       "fix": "Nel cron, prima di ripristinare le giacenze, verificare che per quel pending non esistano già ordini (`select id from orders where stripe_session_id = …`): se ce ne sono, non toccare le giacenze, non scadere il record e alzare un avviso agli admin. Nel ramo EXPIRED del webhook fare lo stesso controllo prima di rimborsare, e annullare esplicitamente gli ordini già creati. Caso di regressione: pending scaduto ma con un ordine già creato → il cron non ripristina nulla e apre un avviso.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Il giro che scade i carrelli controlla prima se sono gia nati degli ordini, e in quel caso non tocca niente e avvisa. Stesso controllo nel ramo scaduto del webhook, prima di rimborsare."
     },
     {
       "dimensione": "qa-flussi",
@@ -2165,7 +2208,9 @@
       "descrizione": "VERIFICATO APRENDO I FILE. La pagina somma `shipping_cost`, cioè quanto ha pagato il CLIENTE per la spedizione, mentre il bonifico è di `rider_fee_cents`, il compenso a distanza deciso alla creazione dell'ordine. Da quando le due grandezze sono state separate (migrazione 111) non coincidono più: sopra i 30 euro di spesa, o con un coupon di spedizione gratuita, `shipping_cost` è zero mentre `rider_fee_cents` vale 2,50 + 1,20 al chilometro. Passi: 1) consegna un ordine da 35 euro (spedizione gratis) a 3 km; 2) apri /rider/earnings. Atteso: 6,10 euro di compenso. Reale: la consegna compare a 0,00 e non entra nel totale. Il caso opposto vale per gli ordini in contanti, che entrano in `totalEarned` (riga 59, nessun filtro sul metodo di pagamento) pur non essendo mai pagati da nessuna funzione, e non compaiono né fra i «pagati» (riga 61, filtra `rider_payout_status === 'TRANSFERRED'`, che sul contante non arriva mai) né fra i «da incassare» (riga 62, filtra `payment_method === 'card'`).",
       "impatto": "Il fattorino non ha modo di controllare se è stato pagato: il numero grande in cima alla pagina non corrisponde né a quanto gli arriva sul conto né a quanto gli è dovuto. È il numero su cui decide se continuare a lavorare con noi.",
       "fix": "Leggere `rider_fee_cents` (con ripiego su `shipping_cost * 100` solo per gli ordini precedenti alla migrazione 111, come già fa `releaseRiderPayout`), separare in modo esplicito le voci «pagato», «in attesa di bonifico» e «trattenuto in contanti», e non conteggiare come guadagnato ciò che nessuna funzione paga. Test: consegna sopra soglia con spedizione gratis → la pagina mostra il compenso a distanza, non zero.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "I conti stanno in lib/guadagni/fattorino.ts: si legge rider_fee_cents, e versati, in arrivo e tenuti in contanti sono tre voci separate."
     },
     {
       "dimensione": "qa-flussi",
@@ -2176,7 +2221,9 @@
       "descrizione": "VERIFICATO APRENDO I FILE. `handleCheckoutCompleted` crea un ordine per ogni negozio. Se il secondo fallisce, la funzione solleva un errore, il webhook risponde 500 e l'evento resta `processed = false`, così Stripe riprova e il codice riprocessa (comportamento voluto, righe 57-72). Al nuovo tentativo il primo ordine esiste già: l'insert va in violazione di unicità (23505), il codice lo ripesca (riga 341) e lo aggiunge a `createdOrderIds` con `continue`. Ma il ciclo finale delle comunicazioni (riga 406) scorre tutti i `createdOrderIds` senza distinguere i nuovi dai già esistenti, quindi rimanda al cliente l'email «Ordine confermato», al venditore l'email «Nuovo ordine» e inserisce un'altra riga in `notifications`. Il record `pending_checkouts` diventa COMPLETED solo alla fine, quindi l'idempotenza a livello di carrello non copre la finestra. Passi: 1) carrello da due negozi pagato con carta; 2) far fallire l'inserimento del secondo ordine; 3) lasciare che Stripe riprovi con successo. Atteso: una sola comunicazione per ordine. Reale: due «Nuovo ordine ricevuto» e due campanelle per lo stesso ordine.",
       "impatto": "Nessun soldo perso e nessun ordine doppio (l'ID è lo stesso in entrambe le email), ma il negoziante telefona per capire se sono due ordini e il cliente teme il doppio addebito. Richiede un guasto durante la creazione, quindi è raro: fastidio e chiamata al supporto, non danno economico.",
       "fix": "Distinguere i gruppi appena creati da quelli ripescati: aggiungere un campo `nuovo: boolean` all'elemento inserito in `createdOrderIds` (false nel ramo 23505) e inviare email e notifiche solo per i nuovi. Caso di regressione: seconda esecuzione dello stesso evento col primo ordine già presente → zero email per quel primo ordine.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Gli ordini ripescati perche gia esistenti portano nuovo:false: al secondo tentativo del webhook non ripartono email e campanelle."
     },
     {
       "dimensione": "qa-flussi",
@@ -2200,7 +2247,9 @@
       "descrizione": "VERIFICATO APRENDO I FILE. La pagina di checkout importa da `@/lib/constants` solo `FREE_SHIPPING_THRESHOLD` e `PLATFORM_DELIVERY_FEE_CENTS` (riga 14), poi ridichiara localmente `PICKUP_DISCOUNT_PERCENT = 10` (riga 331) e ci calcola lo sconto mostrato; le due route di ordine usano invece la costante condivisa per calcolare lo sconto vero. Oggi i valori coincidono, quindi non si vede nulla; nel momento in cui qualcuno cambia lo sconto ritiro in `lib/constants.ts` — che è il posto dove verrebbe naturale cambiarlo — il cliente vedrà una percentuale e ne pagherà un'altra, senza nessun controllo che le riconcilii.",
       "impatto": "È una bomba a orologeria silenziosa: la prima modifica commerciale allo sconto ritiro produce un totale mostrato diverso dal totale addebitato, proprio sul percorso in contanti dove il cliente non rivede la cifra prima di pagare.",
       "fix": "Cancellare la costante locale e importare `PICKUP_DISCOUNT_PERCENT` da `@/lib/constants`, come già si fa per le altre due. Aggiungere alla suite un test che confronti la costante usata dalla pagina con quella usata dalle due route di ordine.",
-      "stato": "aperto"
+      "stato": "gia_riparato_prima",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Verificato nel codice il 21/8: la pagina di cassa importa gia PICKUP_DISCOUNT_PERCENT da lib/constants."
     },
     {
       "dimensione": "qa-flussi",
@@ -2211,7 +2260,9 @@
       "descrizione": "VERIFICATO APRENDO I FILE, controllo per controllo. Il cron degli avvisi copre: ordini fermi in NEW da oltre un'ora, rider in consegna da oltre 45 minuti, contante COD non confermato del giorno prima, KYC venditore pendente da oltre 48 ore, payout in PROCESSING/FAILED da oltre un'ora, ordini ASSIGNED non ritirati da oltre 30 minuti, riconciliazioni in MISMATCH, cron fermi e coda email arretrata. Non copre i due stati in cui oggi i soldi si fermano davvero: `payout_status = 'PENDING_SELLER_ONBOARDING'` (negozio che non ha completato l'attivazione dei pagamenti: l'ordine resta lì per giorni senza che nessuno lo solleciti) e `AWAITING_REMITTANCE` (contanti in mano al fattorino di cui nessun admin ha confermato la rimessa). Non copre nemmeno gli ordini fermi in READY senza fattorino assegnato — che è lo stato terminale del difetto sul ritiro in negozio.",
       "impatto": "Un pagamento bloccato non si scopre finché non telefona il negoziante arrabbiato. Su un marketplace appena partito è il tipo di silenzio che costa un negozio.",
       "fix": "Tre controlli in più, dello stesso identico stampo di quelli già presenti: ordini con `payout_status = 'PENDING_SELLER_ONBOARDING'` da più di 24 ore (col nome del negozio, così qualcuno lo chiama), ordini in `AWAITING_REMITTANCE` da più di 48 ore, ordini in READY da più di 2 ore senza fattorino assegnato.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "Tre controlli in piu nel giro degli avvisi: attivazione del negozio incompleta da oltre un giorno, rimessa contanti mai confermata da oltre due, ordine pronto da oltre due ore senza fattorino."
     },
     {
       "dimensione": "qa-flussi",
@@ -2222,7 +2273,9 @@
       "descrizione": "VERIFICATO APRENDO I FILE. Il file che si chiama «checkout-and-flows» verifica soltanto che con il carrello vuoto compaia la scritta «carrello vuoto» e che gli indicatori di passo si vedano; il commento in cima lo dichiara («no checkout completo, serve auth+DB»). I progetti Playwright sono due (Desktop Chrome e iPhone 14) e nessuno ha `storageState`: non esiste nessun percorso autenticato. `tests/integration` contiene solo la cartella `security` (permessi del database). Non esiste quindi nessuna prova, né automatica né documentata, che percorra la catena ordine → accettazione → pronto → presa in carico → codice di ritiro → codice di consegna → pagamento al negozio, né per la carta né per il contante. È la ragione per cui i due difetti bloccanti di questo referto — scorte illimitate e ritiro in negozio senza sbocco — sono potuti restare in piedi pur avendo 91 file di test unitari.",
       "impatto": "Ogni modifica al checkout o alla macchina degli stati può rompere l'incasso senza che nessun controllo diventi rosso. È la differenza fra «non l'ho visto rompersi» e «non si rompe».",
       "fix": "Creare un ambiente di prova con dati preparati (un negozio approvato con pagamenti attivi, un fattorino, un cliente con email confermata, un prodotto a scorta finita e uno a scorta illimitata) e scrivere tre percorsi Playwright autenticati: (1) contanti a domicilio fino alla rimessa confermata, (2) carta con webhook simulato fino al bonifico al negozio, (3) ritiro in negozio fino allo stato consegnato. Legarli a `npm run verify` così diventano il cancello prima di ogni pubblicazione: è il presidio che spegne alla radice la classe di difetti «percorso che non arriva in fondo» trovata qui.",
-      "stato": "aperto"
+      "stato": "riparato_in_parte",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "PARZIALE. Il difetto vero era che nessuna prova percorreva la catena dell ordine fino in fondo: adesso c e, ed e un controllo SQL che gira in CI senza chiavi (tests/sql/rls/08). Percorre ordine, accettazione, pronto, presa in carico, codice di ritiro, codice di consegna, pagabilita al negozio. I tre percorsi Playwright autenticati restano da fare: servono un progetto Supabase di prova e i suoi segreti, che sono di Nicola."
     },
     {
       "dimensione": "api-backend",
@@ -2721,7 +2774,9 @@
       "descrizione": "VERIFICATO. `order_placed` (PostHog) e `purchase` (GA4) partono solo dal browser: dal checkout COD (app/checkout/page.tsx:433-441) e dal rientro su /orders?stripe=success. Non c'e' nessuna emissione lato server: `posthog-node` non compare in package.json (zero occorrenze in tutto il repo) e nel webhook Stripe non c'e' nessuna chiamata a track/posthog/analytics, pur essendo il punto dove gli ordini con carta vengono davvero creati (riga 293). Tre inneschi confermati leggendo il file: ① se il cliente chiude la scheda dopo aver pagato, l'ordine esiste in `orders` ma non esiste in PostHog; ② il valore arriva da `sessionStorage.getItem('mc_pending_purchase')` e la guardia e' `if (p?.valueCents)` — sessionStorage vuoto (browser in-app, scheda diversa) = nessun evento; ③ `sessionStorage.setItem(dedupKey,'1')` viene eseguito in modo sincrono subito dopo aver AVVIATO la lettura su `orders`, prima che la promessa si risolva: se la pagina si ricarica in quel mezzo secondo l'evento e' perso ma risulta gia' tracciato.",
       "impatto": "Il numero di acquisti in PostHog e GA4 e' piu' basso di quello vero di una quantita' che nessuno conosce, e non riconcilia con la tabella `orders`. Ogni tasso di conversione e ogni ROI di campagna poggia su un fatturato sotto-contato. Diventa un bloccante il giorno in cui parte spesa pubblicitaria vera: si deciderebbe il budget su un numero falso.",
       "fix": "Emettere l'acquisto dove il fatto e' certo, cioe' sul server: aggiungere `posthog-node`, chiamare `capture({distinctId: user_id, event:'order_placed'})` dentro il webhook Stripe (dopo la creazione dell'ordine) e dentro /api/orders/cod. Il client resta solo per GA4. Usare l'UUID dell'ordine come `$insert_id` cosi' un doppio invio non gonfia i conti. Poi un controllo settimanale che confronti gli eventi `order_placed` col COUNT(*) su `orders`: se divergono oltre il 2%, e' un buco aperto. PASSO-A @backend-dev per il webhook.",
-      "stato": "aperto"
+      "stato": "riparato",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "L acquisto si conta anche dal server, dove il fatto e certo, con la stessa chiave del browser: se lo mandano tutti e due resta un acquisto solo."
     },
     {
       "dimensione": "dati-analytics",
@@ -2974,7 +3029,9 @@
       "fix": "Tre mosse, tocca produzione quindi serve la firma. ① Render → servizio → Settings → Deploy Hook: copiare l'indirizzo e metterlo in GitHub come segreto RENDER_DEPLOY_HOOK. ② In render.yaml riga 43: autoDeploy: false. ③ GitHub → Settings → Branches: rendere il controllo «CI» obbligatorio su main. Dopo, il rilascio parte solo a controlli verdi.",
       "impatto": "Un errore che i test avrebbero preso arriva ai clienti prima che qualcuno se ne accorga. Sul percorso di pagamento sono ordini persi nella finestra fra il rilascio e la scoperta, e la scoperta oggi la fa il cliente.",
       "file": "/home/user/ad-mycity/marketplace/render.yaml:43 · /home/user/ad-mycity/marketplace/.github/workflows/deploy-dopo-ci.yml:40-46 · /home/user/ad-mycity/marketplace/.github/workflows/ci.yml:108,212",
-      "stato": "aperto"
+      "stato": "riparato_in_parte",
+      "lotto": "2026-08-21",
+      "nota_riparazione": "PARZIALE. Fatta la parte che non tocca la produzione: la CI dichiara nel riepilogo quali gruppi di prove NON hanno girato, invece di dirlo solo dentro il log. Le due mosse che restano toccano la produzione e aspettano la firma di Nicola: autoDeploy a false in render.yaml piu il segreto RENDER_DEPLOY_HOOK, e il controllo CI reso obbligatorio su main."
     },
     {
       "dimensione": "deploy-sre",
@@ -3250,5 +3307,34 @@
       "Applicare la migrazione 122 al database — fatta il 20/8 alle 13:30, e la 123 alle 14:40."
     ],
     "_la_somma_torna": "204 riparati + 9 gia a posto + 32 aperti = 245, il totale del referto. Prima diceva 8 gia a posto e la somma faceva 244: un difetto restava fuori dal conto. Il nono l'ha trovato l'elenco, non un ricalcolo a mano — e l'elenco resta l'unico giudice."
+  },
+  "stato_lotto_21_agosto": {
+    "_cosa_e": "Conto del LOTTO di riparazioni del 21 agosto 2026 sui difetti rimasti aperti dal referto del 18 agosto. Fotografia di quel momento: lo stato VIVO si deriva dall elenco «problemi».",
+    "data": "2026-08-21",
+    "aperti_a_inizio_lotto": 29,
+    "gia_riparati_prima_verificati": 5,
+    "riparati_in_questo_lotto": 21,
+    "riparati_in_parte": 3,
+    "aperti_a_fine_lotto": 0,
+    "ramo": "claude/marketplace-bugs-njlgi8 (repo NicolaeRotaru/mycity)",
+    "migrazione": "124_radiografia_21_agosto.sql — DA APPLICARE al database vero",
+    "difetto_nuovo_trovato": "La vetrina pubblica dei negozi aveva perso i due booleani di stato pagamento: la migrazione 108b li aveva messi, la 112 ha ricreato la vista senza, rimandando alla 114 dove non sono mai arrivati. Sei punti del sito li chiedono e il database rifiutava la richiesta intera: quelle pagine non ricevevano nessun negozio. Riparato nella 124, con controllo SQL che diventa rosso se qualcuno li toglie ancora.",
+    "prove": "933 prove unitarie verdi (erano 876), otto file di controlli SQL verdi contro un Postgres vero con tutte e 125 le migrazioni applicate da zero, typecheck e lint puliti (95 avvisi di accessibilita preesistenti, invariati), due build di produzione riuscite.",
+    "misure": {
+      "pagine_servite_dalla_cache": "da 2 su 203 a 96 su 203, misurato confrontando due build vere",
+      "righe_della_rotta_webhook": "da 1002 a 178",
+      "colonne_nei_tipi_del_database": "da 191 a 740"
+    },
+    "serve_da_nicola": [
+      "Applicare la migrazione 124 al database vero: senza, meta di queste riparazioni non e attiva e la vetrina dei negozi resta vuota.",
+      "Decidere sul rilascio: autoDeploy a false in render.yaml + segreto RENDER_DEPLOY_HOOK + controllo CI obbligatorio su main.",
+      "Un progetto Supabase di prova coi suoi segreti, per far girare in CI le prove d integrazione e quelle nel browser.",
+      "Se e quando riaccendere il ritiro in negozio (RITIRO_IN_NEGOZIO_ATTIVO): adesso la strada per chiuderlo c e."
+    ],
+    "resta_aperto_e_perche": [
+      "Difetto 83, passo 2: convertire scheda prodotto, categoria e negozio in componenti server. Sono milleduecento righe con trenta punti interattivi: senza poter aprire il sito in un browser non si riscrive alla cieca. Fatta la parte che serve al crawler.",
+      "Difetto 168, percorsi nel browser: i tre giri Playwright autenticati servono un progetto Supabase di prova. La catena dell ordine e comunque provata da un controllo SQL che gira in CI oggi.",
+      "Difetto 229, le due mosse in produzione: firma di Nicola."
+    ]
   }
 }

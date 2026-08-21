@@ -22,7 +22,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🟡 #139 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
+### 🟡 #142 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
 
 **In parole semplici:** questa card parla di come lavoro io, non del sito e non dei negozi.
 Un plugin è un pacchetto di istruzioni già scritte da altri. Si aggancia alla macchina e le insegna
@@ -85,30 +85,90 @@ brevi, dimmelo e lo restringo ai lavori interni come facemmo allora.
 
 ---
 
-### 🟡 #138 — Rilancia il controllo della memoria: adesso vede anche quello che prima gli sfuggiva · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 04:05
+### 🔴 #141 — Fai partire il rilascio solo a controlli verdi, non insieme a loro · ⏳ accodata 2026-08-21 03:20
 
-**Cosa cambia:** stanotte l'attrezzo ti ha detto «niente da salvare» mentre ventotto scritture del
-server erano appena state staccate dal ramo. Guardava solo il ramo, e il lavoro staccato dal ramo per
-lui non esisteva. Era un verde sbagliato, e arrivava un attimo prima di allineare: il momento
-peggiore per sbagliarsi.
+**Cosa cambia:** oggi il rilascio parte insieme ai controlli, non dopo. Se un controllo diventa
+rosso, il codice rotto è già online.
 
-Adesso guarda anche nel registro dei movimenti, dove git tiene per tre mesi tutto quello che è stato
-staccato. E quando trova qualcosa non si limita ad archiviarlo: lo **aggancia a un ramo vero**, così
-non scade più. Un file di archivio si perde, un ramo no.
+La metà buona è già scritta: un lavoro che rilascia solo a controlli passati. È spento perché gli
+manca l'indirizzo di rilascio. Tre mosse, tutte tue perché toccano la produzione.
 
-**Se va bene:** rilancia lo stesso comando di stanotte. Non tocca niente:
+- **Prima** — Render → il servizio → Settings → Deploy Hook: copia l'indirizzo. Mettilo su GitHub
+  come segreto `RENDER_DEPLOY_HOOK`, sotto Settings → Secrets and variables → Actions.
+- **Poi** — nel file `render.yaml` cambia una riga: `autoDeploy: true` diventa `autoDeploy: false`.
+  Va fatto dopo il passo di prima. Al contrario il rilascio si ferma e basta.
+- **Infine** — GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio su `main`.
+
+**Se va bene:** in produzione arriva solo quello che ha passato i controlli.
+
+**Cosa non ho verificato:** non ho aperto Render né toccato le impostazioni di GitHub. Le tre mosse
+le ho lette dai file del progetto.
+
+---
+
+### 🔴 #140 — Applica al database la migrazione 124: senza, la vetrina dei negozi resta vuota · ⏳ accodata 2026-08-21 03:20
+
+**Cosa cambia:** unire una richiesta pubblica il codice. Non tocca il database. Sono due firme
+diverse, e questa è la seconda.
+
+La riparazione più urgente non era nemmeno nel referto, l'ho trovata lavorando. **La vetrina
+pubblica dei negozi aveva perso due colonne.** Sei pagine del sito le chiedono, e il database
+rifiuta la richiesta intera quando una colonna non c'è. Quelle pagine non ricevevano un negozio
+senza bollino: non ricevevano nessun negozio.
+
+Dentro ci sono altre sei riparazioni: il rimborso che toglieva al negozio più del dovuto, il ritiro
+in negozio che arriva a «consegnato», i ritiri tolti dalla bacheca dei fattorini, gli stati del
+compenso che il database rifiutava, gli esiti dei pagamenti, il riquadro della home.
+
+Il file è `124_radiografia_21_agosto.sql`, nel ramo `claude/marketplace-bugs-njlgi8`.
+
+**Se va bene:** dimmelo e ti passo il comando esatto.
+
+**Cosa non ho verificato:** non l'ho applicata a nessun database vero, solo a una copia di prova
+qui dentro. Finché non la firmi, metà delle riparazioni non è attiva. Il racconto lungo sta in
+`consegne/audit/2026-08-21-marketplace-ultimi-difetti.md`.
+
+---
+
+### 🟡 #139 — Un Supabase di prova, per i controlli che oggi si saltano da soli · ⏳ accodata 2026-08-21 03:20
+
+**Cosa cambia:** due gruppi di controlli si saltano quando mancano i segreti di un progetto di
+prova. Sono quelli sui permessi del database e quelli che aprono il sito in un browser vero.
+
+Da oggi lo dicono in cima al riepilogo invece che nel log. Ma restano saltati. È anche il motivo per
+cui non ho potuto scrivere i tre giri nel browser sulla catena dell'ordine.
+
+**Se va bene:** crea un progetto Supabase nuovo e vuoto, mai quello dei clienti. Mettine tre segreti
+su GitHub: `SUPABASE_TEST_URL`, `SUPABASE_TEST_ANON_KEY`, `SUPABASE_TEST_SERVICE_ROLE_KEY`.
+
+**Cosa non ho verificato:** non ho creato il progetto né toccato i segreti.
+
+---
+
+### 🟡 #138 — La spazzata del disco non bastava: adesso il posto dove si accumula non esiste più · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 12:20
+
+**Cosa cambia:** stanotte ti avevo dato il disco per risolto. **Non lo era.** Il tuo controllo delle
+12:00 l'ha dimostrato: la cartella temporanea era di nuovo piena al 100%, otto ore dopo averla
+svuotata.
+
+È un mio errore di misura. La spazzata toglie ciò che è fermo da più di un giorno. Ma il banco delle
+prove crea trenta cartelle nuove a ogni giro, e i giri sono continui. La spazzatura nasceva più in
+fretta di quanto invecchiava, quindi la soglia non la toccava mai.
+
+Adesso ogni giro scrive in una cartella sua, buttata quando il giro finisce. Non si rincorre più
+niente: il posto dove si accumulava non esiste.
+
+**Se va bene:** intanto libera spazio, che sei sul filo — restano 4,6 MB su 1,9 GB:
 
 ```
-cd /opt/mycity/ad-mycity
-bash cervello/vps/riconcilia-memoria.sh
+sudo find /tmp -maxdepth 1 \( -name 'mycity-campo-*' -o -name 'cancello-*' \) -mmin +30 -exec rm -rf {} +
+df -h /tmp
 ```
 
-Stavolta c'è una riga in più: «commit suoi rimasti senza ramo». Se quel numero è maggiore di zero, i
-ventotto sono ancora recuperabili — **mandamela** e li mettiamo al sicuro. Se è zero, allora erano già
-stati riassorbiti e te lo dico chiaro.
+Poi firma: la riparazione arriva sul server da sola entro cinque minuti.
 
-**Cosa non ho verificato:** se sul server quei commit siano ancora nel registro. Da qui non lo vedo:
-è la ragione per cui il comando parte in sola lettura e la risposta la dà lui, non io.
+**Cosa non ho verificato:** che regga per giorni. La conferma vera è riguardare quella riga domani a
+quest'ora: se è ferma sotto il 100%, è chiusa.
 
 ---
 
