@@ -1,8 +1,10 @@
 ---
 tipo: stato
-aggiornato: 2026-08-21 14:40
+aggiornato: 2026-08-21 16:27
 fonte: AD digitale (giro completo, cervello/giro.md)
 ---
+
+> 🔁 **21/8 16:27 — Passaggio di verifica lampo, stato identico al giro delle 14:40 (nessuna riscrittura pesante: macchina in SOPRAVVIVENZA, quota AI 151%).**
 
 > 🔁 **21/8 14:40 — Giro completo. Business invariato (1 ordine, 0 pagati, stallo dentro la pausa concordata), ma due card di sicurezza da 3 settimane erano già risolte e nessuno l'aveva segnato.**
 >
