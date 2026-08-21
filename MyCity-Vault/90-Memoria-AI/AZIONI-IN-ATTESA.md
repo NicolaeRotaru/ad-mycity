@@ -102,39 +102,60 @@ brevi, dimmelo e lo restringo ai lavori interni come facemmo allora.
 
 ---
 
-### 🔴 #141 — Fai partire il rilascio solo a controlli verdi, non insieme a loro · ⏳ accodata 2026-08-21 03:20
+### 🔴 #141 — Il rilascio va agganciato a Vercel, non a Render · ⏳ accodata 2026-08-21 03:20 · riscritta 2026-08-21 15:45
 
-**Cosa cambia:** oggi il rilascio parte insieme ai controlli, non dopo. Se un controllo diventa
-rosso, il codice rotto è già online.
+**Cosa cambia:** questa carta ti diceva tre mosse su Render. Erano puntate sul bersaglio sbagliato,
+e me ne sono accorto facendola.
 
-La metà buona è già scritta: un lavoro che rilascia solo a controlli passati. È spento perché gli
-manca l'indirizzo di rilascio. Tre mosse, tutte tue perché toccano la produzione.
+Ho guardato i rilasci veri. Il sito lo pubblica **Vercel**: ogni unione su `main` fa partire una
+pubblicazione in produzione entro pochi secondi, senza aspettare i controlli. Le tre unioni di oggi
+hanno fatto esattamente questo. Spegnere Render non avrebbe chiuso niente, e tu avresti creduto di
+essere protetto.
 
-- **Prima** — Render → il servizio → Settings → Deploy Hook: copia l'indirizzo. Mettilo su GitHub
-  come segreto `RENDER_DEPLOY_HOOK`, sotto Settings → Secrets and variables → Actions.
-- **Poi** — nel file `render.yaml` cambia una riga: `autoDeploy: true` diventa `autoDeploy: false`.
-  Va fatto dopo il passo di prima. Al contrario il rilascio si ferma e basta.
-- **Infine** — GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio su `main`.
+Il lavoro che rilascia solo a controlli verdi adesso punta su Vercel. È spento finché non ha le
+chiavi, come prima.
 
-**Se va bene:** in produzione arriva solo quello che ha passato i controlli.
+**Se va bene:** tre passi, e l'ordine conta perché al contrario il sito smette di aggiornarsi.
 
-**Cosa non ho verificato:** non ho aperto Render né toccato le impostazioni di GitHub. Le tre mosse
-le ho lette dai file del progetto.
+Primo, i segreti. Su GitHub vai in Settings → Secrets and variables → Actions. Servono tre nomi.
+`VERCEL_TOKEN` lo crei su Vercel, in Account Settings → Tokens → Create. `VERCEL_ORG_ID` e
+`VERCEL_PROJECT_ID` stanno su Vercel, dentro il progetto, in Settings → General, in fondo.
+
+Secondo, dimmelo e ti cambio io due parole: `"main": true` diventa `false` in `vercel.json`, e
+`autoDeploy: true` diventa `false` in `render.yaml`.
+
+Terzo, GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio su `main`.
+
+**Cosa non ho verificato:** non so se il servizio Render sia ancora acceso. Da qui non lo raggiungo,
+e l'ho scritto nel file invece di darlo per spento.
 
 ---
 
-### 🟡 #139 — Un Supabase di prova, per i controlli che oggi si saltano da soli · ⏳ accodata 2026-08-21 03:20
+### ✅ #139 — Le prove sui permessi girano, e non costano niente · ⏳ accodata 2026-08-21 03:20 · fatta 2026-08-21 15:45
 
-**Cosa cambia:** due gruppi di controlli si saltano quando mancano i segreti di un progetto di
-prova. Sono quelli sui permessi del database e quelli che aprono il sito in un browser vero.
+**Stato:** ✅ FATTO 2026-08-21 15:45 — senza comprare niente.
 
-Da oggi lo dicono in cima al riepilogo invece che nel log. Ma restano saltati. È anche il motivo per
-cui non ho potuto scrivere i tre giri nel browser sulla catena dell'ordine.
+**Cosa cambia:** questa carta diceva «crea un progetto Supabase di prova». Ho chiesto il prezzo
+prima di crearlo: 10 dollari al mese, per sempre, più tre chiavi da custodire su GitHub — fra cui
+quella che apre tutto. Il prezzo la carta non lo diceva.
 
-**Se va bene:** crea un progetto Supabase nuovo e vuoto, mai quello dei clienti. Mettine tre segreti
-su GitHub: `SUPABASE_TEST_URL`, `SUPABASE_TEST_ANON_KEY`, `SUPABASE_TEST_SERVICE_ROLE_KEY`.
+Strada scelta: i controlli si avviano un Supabase loro, dentro la macchina che li esegue. Ci
+applicano le 125 migrazioni. Ci mettono dentro un negozio e un ordine veri. Poi provano contro
+quello. Vive quanto il giro e poi sparisce: zero euro, nessuna chiave da custodire, e nasce vuoto
+ogni volta.
 
-**Cosa non ho verificato:** non ho creato il progetto né toccato i segreti.
+**Cosa fa adesso:** venti prove che non giravano da sempre adesso girano a ogni controllo. Sono
+quelle che verificano che un estraneo non legga i dati dei clienti e non possa chiamare le funzioni
+riservate. Prima si saltavano in silenzio, e il verde diceva «provato» quando non era vero.
+
+**Cosa ho trovato accendendole:** due difetti che c'erano già e che nessuno vedeva, perché una prova
+che si salta non può diventare rossa. Le prove giravano su una versione di Node che non ha un pezzo
+che il client Supabase pretende, quindi sarebbero fallite anche col progetto a pagamento. E i
+controlli provavano su Node 20 mentre il sito in produzione gira su Node 24: quattro numeri di
+distanza fra quello che si prova e quello che serve i clienti.
+
+**Cosa non ho verificato:** i controlli adesso girano su Node 22, la produzione su 24. Meglio di
+prima, non uguale. Chiudere anche quel pezzo va provato, e qui non avevo un Node 24 con cui farlo.
 
 ---
 
@@ -2121,3 +2142,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 123 | 2026-08-17 16:33 | @tech | I test del cervello dicono no da tre giri di fila, e da qui in chat non riesco più a rilanciarli | 🟡 | `test-cervello.mjs` è entrato nell'elenco dei controlli "cronici" (AR-687: rosso da ≥3 giri senza mai essere riparato). Non riesco a verificarlo dal vivo in questa sessione: il comando resta fuori dall'elenco esatto dei programmi ammessi (stesso buco della card #104/#42), quindi ogni tentativo viene respinto prima ancora di girare. Quello che vedo indirettamente da `ci-stato.mjs` è coerente: le 5 PR aperte oggi (#754, #753, #749, #741, #735) falliscono tutte anche su "test-del-cervello", ognuna per colpa propria (non ereditata da `main`) — cinque rami diversi che rompono lo stesso controllo è il segnale che il problema non è un caso isolato. | manuale | in attesa | Finché resta rosso e non verificabile da qui, nessuna delle 5 PR di codice-macchina può dirsi davvero pronta al merge, anche quando sembra a posto: il cancello di serietà (CLAUDE.md) vieta di dichiarare "fatto" con i test rossi. | Applicando la card #104 (le 5 righe di permesso mancanti) sblocco `test-cervello.mjs` da qui e lo rilancio nello stesso giro in cui la card viene approvata; altrimenti serve una sessione dal VPS che lo rilanci e riporti l'esito. |
 | 124 | 2026-08-18 06:41 | @ad | Controlla perché il monitoraggio automatico scrive testi difficili da leggere | 🟡 | Il cancello di fine turno ha trovato frasi difficili in 5 file. Sono `Intelligence/buchi-mercato.md`, `Intelligence/eventi-picchi.md`, `Intelligence/reputazione.md`, `RITMO.md`, `AZIONI-IN-ATTESA.md`. Non li ho scritti io in questo giro. Le date sui file dicono 06:07-06:39 di oggi. Io in questo giro ho toccato solo altri quattro file, tra le 06:40 e le 06:45 — verificato con `stat` e `git status --short`. La causa più probabile è il monitoraggio che gira da solo, `cervello/monitora.md` ("Ondata 3"). Scrive dentro questi file senza passare da `si-capisce.mjs`. Quel controllo misura quanto un testo è difficile da leggere. Il problema tipico sono frasi lunghe con un'idea dentro l'altra. Un esempio vero, da `eventi-picchi.md`: "Media/bassa per MyCity — fuori Piacenza città (Val Tidone)". Il lettore deve tenere in sospeso "Media/bassa" fino alla fine della frase per capire di cosa parla. | manuale | in attesa | Se questi testi restano così, ogni volta che apri Intelligence o Ritmo fai più fatica del necessario per capirli. Il problema si accumula da solo, un giro dopo l'altro, perché nessuno lo controlla prima di scrivere. | Dimmi tu quale preferisci. Primo: aggiungo `si-capisce.mjs` come controllo dentro `cervello/monitora.md`, prima che scriva — così il problema si ferma alla radice. Secondo: lascio così per ora e lo correggo io a mano una volta a settimana. |
 | 125 | 2026-08-18 08:04 | @backend-dev | Il sito appena pubblicato chiede al database dieci cose che lì non ci sono, e i rimborsi non partono più | 🔴 | Hai unito la richiesta 223 del marketplace alle 07:33. Vercel ha subito messo online il codice nuovo, e la pubblicazione risulta pronta. Quel lavoro però era fatto di due metà. Una metà è il codice del sito. L'altra metà sono quattro modifiche al database, i file numerati da 114 a 117. Il codice è andato online da solo. Le quattro modifiche no, perché toccare il database vero è una firma tua. Ho letto il database di produzione senza scriverci niente. L'ultima modifica applicata è la 113. Il codice nuovo cerca dieci cose nel database, e non ne trova nessuna delle dieci. **Cosa è rotto adesso.** Primo, e più grave: i rimborsi. Il sito cerca l'ordine da rimborsare e chiede anche un dato che nel database non c'è ancora. Riceve un errore e si ferma dicendo «ordine non trovato». Sono ferme tutte e quattro le strade che restituiscono soldi a un cliente. La prima è annullare un ordine dal pannello. La seconda è decidere su un reso. La terza è risolvere una contestazione della banca. La quarta è rimborsare un ordine scaduto. Ieri funzionavano tutte e quattro. È un peggioramento nato stamattina con la pubblicazione. Secondo: i rimborsi pieni che arrivano da Stripe non trovano più l'ordine, e vengono ignorati in silenzio. Terzo: i codici sconto. Chi scrive un codice buono si sente rispondere «Codice non valido». Comprare funziona ancora, perché il conto vero lo rifà il server per un'altra strada. Quarto: il salvataggio dei consensi sui cookie risponde errore. Quinto: non caricano i numeri del pannello di amministrazione e la pagina recensioni del fattorino. Due cose invece reggono senza rompersi. Sono la vetrina «dal vivo» in home e il carosello degli sponsorizzati, che restano solo vuoti. **E la parte che pesa di più.** Le prime due modifiche, la 114 e la 115, sono quelle che chiudono i buchi di sicurezza. Finché non le applichi, quei buchi restano aperti sul database vero. Sono tre. Indirizzi e telefoni dei clienti si leggono senza avere un account. Chi si registra come venditore si approva da solo. Gli ordini si modificano dal browser. L'elenco preciso dei dieci pezzi mancanti sta nella richiesta di unione 763 della macchina. | supabase | ✅ CHIUSA 2026-08-18 09:20 — applicate tutte e quattro al database di produzione dopo il tuo via. Verificati 13 oggetti su 13. Il controllo degli ordini non cita piu il campo cancellato a giugno. Nessuna vetrina piu scrivibile senza account, codici sconto non piu scaricabili in blocco, ordini non piu modificabili dal browser, il fattorino non vede piu la riga intera del cliente. Pane Quotidiano resta approvato: e tornato in attesa un solo profilo, il fattorino demo. Correzione mia successiva: avevo scritto EUR dove il file diceva €, rimesso a posto e ricontrollate tutte e 12 le frasi che legge il cliente, ora identiche al repo. | I rimborsi ai clienti non partono più da nessuna delle quattro strade del sito. Se oggi qualcuno chiede indietro dei soldi, l'operazione fallisce con un errore. I soldi restano fermi. In più il database resta senza le tre protezioni che la richiesta appena unita doveva portargli. | Al tuo via applico i quattro file al database di produzione, nell'ordine da 114 a 117. Poi ricontrollo i dieci pezzi uno per uno e ti dico quanti ne trovo. I file sono già dentro il ramo principale del marketplace, nella cartella delle migrazioni. Girano puliti su un database vuoto: 118 file su 118, nessun errore. Se preferisci farlo tu, incollali in quell'ordine nell'editor di Supabase. |
+| 126 | 2026-08-21 16:35 | @tech | Merge PR #804 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/804 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
