@@ -1,22 +1,6 @@
-# 📅 Eventi & Picchi di Domanda — 2026-08-21
+# 📅 Eventi & Picchi di Domanda — 2026-08-18
 
-> Aggiornato: 21 agosto 2026 06:32 · @intelligence · giro leggero (Ondata 3, `cervello/monitora.md`). Controllate le fonti giornaliere dovute oggi. Salto di 3 giorni dal 18/8: non erano dovute nel mezzo. Fonti: Libertà Attualità, Libertà Città, PiacenzaSera, Comune (news+eventi, via WebSearch per il 403), CCIAA Emilia, Unione Commercianti (feed RSS), meteo. Nessuna allerta meteo attiva oggi: quella gialla del 18/8 è rientrata. Solo pioggia sparsa venerdì 21/8, poi torna il caldo nel weekend. Una sola novità operativa: senso unico su via Morigi dal 24/8, vedi sotto. Nessuna azione richiesta oggi. Precedente: 18/8.
-
----
-
-## 🆕 Novità di oggi (21/8)
-
-**① Meteo 21-23/8** — nessuna allerta della Protezione Civile attiva oggi. Quella gialla del 18/8 è rientrata. Venerdì 21/8: nuvolosità con qualche pioggia, circa 22°. Weekend 22-23/8: torna il caldo, punte di 29°. Impatto MyCity: nullo oggi. La bici non è operativa, 0 consegne attive.
-Fonte: aggregazione meteo.it/ilmeteo.it (21/8, WebSearch). Nessun bollettino di allerta regionale in corso.
-
-**② Via Morigi, senso unico dal 24/8** — dal lunedì 24 agosto entra in vigore un nuovo senso unico su via Morigi, in centro storico. La data coincide quasi esattamente col ritorno di Nicola (24/8-1/9). Da tenere a mente per l'eventuale rerouting cargo-bike quando la logistica riparte. Oggi è irrilevante: 0 consegne attive.
-Fonte: [liberta.it — Via Morigi, da lunedì 24 agosto al via il senso unico](https://liberta.it/news/territorio/citta/piacenza/via-morigi-da-lunedi-24-agosto-al-via-il-senso-unico/109233) (consultato 21/8).
-
-**③ Nessun bando nuovo, nessuna riapertura** — CCIAA Emilia (PI26/BI26/BE26) e Unione Commercianti PC (via feed RSS) ricontrollati. Stesso quadro del 17-18/8: tutti chiusi. L'unico bando aperto sul territorio resta il fotovoltaico su parcheggi aziendali, domande dal 30/9 al 16/11/2026. Resta irrilevante per le botteghe — dettaglio in `leve-uscita.md`.
-
-**④ Nessun evento di massa nuovo in centro**, oltre a quelli già mappati: Cotechino Festival Pianello 22-23/8, fuori città. Il weekend 21-23/8 ha solo eventi minori in provincia, Val Trebbia e Bobbio. Nessuna rilevanza per le rotte di consegna MyCity.
-
-**Nessuna di queste quattro richiede un'azione oggi** (🟢 nota, coerente col vincolo pre-24/8).
+> Aggiornato: 18 agosto 2026 · @intelligence · giro leggero (Ondata 3, `cervello/monitora.md`). Controllate le fonti giornaliere dovute oggi: Libertà Attualità, Libertà Città, PiacenzaSera, Comune (news+eventi, via WebSearch per il 403), CCIAA Emilia, Unione Commercianti (bandi), meteo. Novità di rilievo: oggi 18/8 c'è l'allerta meteo gialla per temporali. La Protezione Civile ha spostato la finestra critica di un giorno. Ieri la prevedeva per un altro giorno — dettagli sotto. Nessuna azione richiesta oggi. Precedente: 17/8 06:33.
 
 ---
 
