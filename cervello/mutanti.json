@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-21 19:40",
+ "aggiornato": "2026-08-21 21:05",
  "mutanti": [
   {
    "lotto": 30,
@@ -5371,6 +5371,25 @@
    "cerca": "    problema: stato === \"scoperto\" && !esente && !inAttesa,",
    "sostituisci": "    problema: stato === \"scoperto\" && !esente,",
    "test": "node --test cervello/test/mappa-copertura.test.mjs"
+  },
+  {
+   "lezione": "L-2026-0821-02",
+   "difetto": "matcher-che-copre-solo-il-primo-nome",
+   "nome": "l'alternanza del matcher smette di funzionare e Monitor torna scoperto senza che nessuno tocchi i permessi",
+   "file": "cervello/mappa-copertura.mjs",
+   "cerca": "    return new RegExp(`^(?:${matcher})$`).test(strumento);",
+   "sostituisci": "    return new RegExp(`^(?:${matcher.split(\"|\")[0]})$`).test(strumento);",
+   "test": "node cervello/test/attesa-con-una-data.test.mjs"
+  },
+  {
+   "lezione": "L-2026-0821-02",
+   "difetto": "guardia-prima-sparita-dal-verdetto",
+   "nome": "il verdetto smette di riportare le guardie PreToolUse: uno strumento che esegue una shell risulta guardato senza esserlo",
+   "file": "cervello/mappa-copertura.mjs",
+   "cerca": "  const prima = [...new Set(guardieSu(\"PreToolUse\"))];",
+   "sostituisci": "  const prima = [];",
+   "test": "node cervello/test/attesa-con-una-data.test.mjs",
+   "nota_riaggancio": "Uccide il caso ASYNC, quindi prova due cose insieme: che la copertura è misurata davvero, e che l'`await` nel runner regge — senza await questo mutante resterebbe verde."
   }
  ]
 }
