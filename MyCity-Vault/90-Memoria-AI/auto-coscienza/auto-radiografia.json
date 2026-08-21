@@ -4908,7 +4908,7 @@
     "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
   },
   "sync_scan": {
-    "aggiornato": "2026-08-18 06:26",
+    "aggiornato": "2026-08-21 14:27",
     "findings_aperti": 258,
     "findings_non_instradabili": 163,
     "findings_non_instradabili_ids": [
@@ -4956,13 +4956,13 @@
     "findings_in_corso": 0,
     "findings_chiusi": 28,
     "findings_tot": 286,
-    "cantiere_totale": 758,
-    "cantiere_aperti": 106,
+    "cantiere_totale": 767,
+    "cantiere_aperti": 108,
     "cantiere_in_corso": 0,
     "cantiere_da_riverificare": 56,
     "cantiere_altri": 0,
-    "cantiere_chiusi": 596,
-    "cantiere_da_fare": 162,
+    "cantiere_chiusi": 603,
+    "cantiere_da_fare": 164,
     "cantiere_somma_torna": true,
     "cantiere_stati_ignoti": [],
     "match_aggiornati": 0,
