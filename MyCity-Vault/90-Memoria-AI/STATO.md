@@ -1,8 +1,19 @@
 ---
 tipo: stato
-aggiornato: 2026-08-20 18:02
+aggiornato: 2026-08-21 03:26
 fonte: AD digitale (chat)
 ---
+
+> 🌙 **21/8 03:26 — Controllo notturno (sentinella "checkup fermo").** Una sentinella diceva che il
+> referto di salute della macchina non si aggiorna da quasi 3 giorni. L'ho verificato di persona,
+> leggendo il file vero (`salute.json`): confermato, è reale. L'ultimo controllo dal server è del
+> 18/8 alle 06:50, ora sono le 03:26 del 21/8 — **oltre 68 ore ferme**, contro un limite di 26. La
+> causa è quella di sempre, `#104`: ho provato io stessa a rilanciare il controllo di salute e anche
+> solo a guardare i servizi del server da questa sessione, ed entrambi i tentativi sono stati
+> respinti come "serve un permesso" — lo stesso identico blocco descritto in `#104`, confermato di
+> nuovo oggi dopo **5 giorni** fermo (dal 16/8). Non ho aperto una card nuova: è la stessa già in
+> coda, non serve duplicarla. Nessuna azione mia necessaria oltre a questa verifica; l'unico sblocco
+> resta la tua firma su `#104`.
 
 > 🌙 **20/8 18:02 — Report della sera (cadenza ufficiale di ritmo.md).** Giornata ferma, dentro la
 > pausa concordata con Nicola. Riverificato ora dal vivo con query dirette al database (terminale
