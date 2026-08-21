@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-21 14:45** — Automatico: **86 aperte · 15 chiuse in archivio** (chiuse oggi: `#36`, `#37`, verificate risolte sul database vero — vedi [[DECISIONI]] 14:45).
+> 🧹 **Housekeeping 2026-08-21 16:26** — Automatico: **85 aperte · 16 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -24,9 +24,9 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🟡 #142 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
 
-> **In due righe.** Devi sostituire tre righe con dodici dentro `.claude/settings.json` — il testo
-> esatto è più sotto, sotto «Se va bene». Sono trenta secondi, e senza quelle righe il lavoro che
-> ho fatto oggi riparte spento a ogni sessione. Il resto della card spiega perché e cosa rischi.
+> **In due righe.** Devi lanciare un comando solo, e lo trovi qui sotto in «Se va bene». Sono dieci
+> secondi. Senza quello, il lavoro che ho fatto oggi riparte spento a ogni sessione. Il resto della
+> card spiega perché, e cosa rischi.
 
 **In parole semplici:** questa card parla di come lavoro io, non del sito e non dei negozi.
 Un plugin è un pacchetto di istruzioni già scritte da altri. Si aggancia alla macchina e le insegna
@@ -55,30 +55,16 @@ serve proprio a impedire che io mi allarghi i permessi da sola. Ha funzionato co
 
 Il 4 agosto ci siamo già bruciati su questo. Ti avevo detto «aggiungi due righe lì dentro» e il
 testo si era rotto in silenzio: una virgola sbagliata, nessun errore a schermo, solo il lavoro che
-non funzionava. Stavolta niente frammenti.
+non funzionava. Quindi non ti faccio incollare niente a mano.
 
-Apri `.claude/settings.json`. Le prime tre righe adesso sono queste:
+Il file già pronto sta qui: `consegne/tech/settings-con-superpowers.json`. L'ho generato dal tuo
+file di adesso, aggiungendo solo le due righe che servono. Ho controllato che tutto il resto sia
+identico parola per parola: 63 permessi concessi, 15 vietati, 8 ganci — gli stessi numeri di prima.
 
-```json
-{
-  "permissions": {
-    "allow": [
+**Un comando solo:**
+
 ```
-
-**Sostituisci quelle tre con queste dodici.** Non toccare altro: il resto del file resta identico.
-
-```json
-{
-  "extraKnownMarketplaces": {
-    "superpowers-dev": {
-      "source": { "source": "github", "repo": "obra/superpowers" }
-    }
-  },
-  "enabledPlugins": {
-    "superpowers@superpowers-dev": true
-  },
-  "permissions": {
-    "allow": [
+cp consegne/tech/settings-con-superpowers.json .claude/settings.json
 ```
 
 Poi controlla di non aver rotto niente. Questo comando risponde in una riga sola:
@@ -142,32 +128,6 @@ Terzo, GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio 
 
 **Cosa non ho verificato:** non so se il servizio Render sia ancora acceso. Da qui non lo raggiungo,
 e l'ho scritto nel file invece di darlo per spento.
-
----
-
-### ✅ #140 — La migrazione è applicata al database vero · ⏳ accodata 2026-08-21 03:20 · fatta 2026-08-21 14:55
-
-**Stato:** ✅ FATTO 2026-08-21 14:55 — me l'hai chiesto tu in chat («fallo tu»), l'ho applicata io.
-
-**Com'è andata.** Al primo colpo si è fermata, con questo errore: «orders: modifica di un campo
-protetto non consentita». Era dentro una transazione, quindi non si è scritto niente e il database
-è rimasto com'era. Il difetto era mio: la migrazione riempiva un campo nuovo sugli ordini già
-presenti, e quel campo è protetto dalla scrittura, che è esattamente ciò che lo difende dal
-browser. Riparata con la chiave che il progetto usa per il lavoro di servizio, e riapplicata.
-
-**Cosa è acceso adesso.** Nove controlli su nove verdi sul database vero: il lordo di vendita
-scritto sull'ordine, il ritiro in negozio che arriva a «consegnato», i ritiri tolti dalla bacheca
-dei fattorini, gli esiti dei pagamenti registrati, la vetrina dei negozi, il riquadro della home,
-i contatori dei bonifici. L'ordine che c'era è intatto e gli otto profili sono tutti lì.
-
-**Una cosa che ti avevo detto male.** In questa carta avevo scritto che la vetrina dei negozi
-«risponde con zero negozi». Sul database vero non era così: le due colonne c'erano già, e la
-vetrina rispondeva col suo negozio anche prima. Quel guasto lo vedevo ricostruendo il database da
-zero, dove la catena delle migrazioni le perdeva per strada. Vero come difetto del progetto, falso
-come descrizione del sito online.
-
-**Cosa non ho verificato:** non ho aperto il sito online con gli occhi, da qui non ci arrivo. Ho
-controllato il database, non le pagine.
 
 ---
 
@@ -447,16 +407,16 @@ di soldi in più che il fornaio oggi non sta prendendo.
 > ti porta clienti e soldi in più senza costo, quindi ti conviene comunque farlo. Fammi sapere se
 > vuoi che ti aiuti a scrivere la mail.»
 
-**Se va bene:** lo mandi tu al fornaio (hai il suo numero, 0523388601) quando preferisci — ora o
-quando riprendi il lavoro operativo il 24/8-1/9. Non costa niente a MyCity e non tocca nessun
-paletto: è un consiglio a un partner su un servizio esterno.
+**Se va bene:** lo mandi tu al fornaio. Hai il suo numero, 0523388601 — quando preferisci: ora,
+oppure quando riprendi il lavoro operativo il 24/8-1/9. Non costa niente a MyCity e non tocca
+nessun paletto: è un consiglio a un partner su un servizio esterno.
 
-**Cosa non ho verificato:** se Piacenza Pay ha già negozi come panetterie/gastronomie bio nel suo
-circuito, e se la percentuale sulla transazione è alta o bassa — l'articolo dice solo "nessun
-costo di ingresso", non parla della commissione sulla vendita.
+**Cosa non ho verificato:** due cose. Se Piacenza Pay ha già negozi come panetterie o gastronomie
+bio nel suo circuito. E se la percentuale sulla transazione è alta o bassa — l'articolo dice solo
+"nessun costo di ingresso", non parla della commissione sulla vendita.
 
-- **Colore:** 🟡 — è un messaggio a una persona reale fuori da MyCity (il fornaio), anche se a
-  costo/rischio quasi zero.
+- **Colore:** 🟡. È un messaggio a una persona reale fuori da MyCity (il fornaio), anche se il
+  costo e il rischio sono quasi zero.
 - **Reparto:** intelligence
 - **Origine:** `{origine:playbook-intelligence-17-8, fonte:piacenza24.eu+ilpiacenza.it+360welfare.it, briefing:90-Memoria-AI/Briefing/2026-08-17-intelligence.md}`
 
@@ -946,36 +906,6 @@ in scrittura alla macchina, ed è giusto così.
 - **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:api-backend+pagamenti-stripe+qa-flussi}`
 
 <!-- radiografia-2026-07-29-porte-aperte -->
-
----
-
-### ✅ #37 — CHIUSA 2026-08-21 14:30 (verificata risolta sul DB vero) — Chiudi le quattro porte che lasciano entrare chiunque nei dati dei negozi e dei clienti · accodata 2026-07-29 13:30
-
-**Esito:** ho controllato le quattro falle una per una sul database di produzione reale, dopo il grosso lotto di riparazioni del 20-21/8, e sono **tutte e quattro chiuse**. ① La vista `public_profiles` scrivibile non esiste più (rimane solo `seller_public_profiles`, di sola lettura e filtrata su negozi approvati); su `profiles`/`orders` non c'è nessun permesso di scrittura per un visitatore senza account. ② La regola che faceva vedere ai rider gli ordini disponibili con tutti i dati del cliente ora limita la lettura al solo rider assegnato (`rider_id = chi ha fatto login`) — gli ordini disponibili passano da una vista separata senza dati sensibili. ③ Chi si registra oggi nasce **non approvato** (`is_approved=false`, `approval_status='pending'`): l'ho letto nel codice della funzione che crea il profilo alla registrazione. ④ Nessun permesso di scrittura sui dati di consegna per chi non ha fatto login. Nessuna azione resta da firmare: il fix è già nel database vero, non in un branch in attesa.
-
-**Cosa cambiava (per storico):** quattro falle di sicurezza aperte sul sito vero, tutte confermate. ① Tre elenchi pubblici dei negozi erano scrivibili da un visitatore senza account. ② Nome, telefono e indirizzo di casa dei clienti con una consegna in corso si leggevano senza login. ③ Chi si registrava diventava venditore o rider già approvato. ④ Si potevano modificare senza login i dati di consegna degli ordini pronti.
-
-**Nota tecnica:** ① viste `public_profiles`/`seller_public_profiles`/`seller_storefronts` senza `security_invoker` e con GRANT UPDATE/DELETE ad `anon` (migrations 108/110/112; `seller_storefronts` è drift: non esiste in nessun file del repo). ② policy «Riders can view available and own orders», `migrations/019_rider_visibility.sql:14-21`. ③ `public.handle_new_user`, `migrations/015_competitive_moats.sql:137-156`. ④ policy «Riders can update assigned or claim free orders», `migrations/011_orders_delivery.sql:128-134`. Nota collegata: l'hardening RLS delle migration 020 e 109 non ha mai avuto effetto — è scritto per nomi di policy che sul DB non esistono.
-- **Colore:** 🔴 (migration sul database di produzione, dati personali)
-- **Reparto:** security + backend-dev + dpo
-- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:sicurezza-auth+rls-database+privacy-legale+architettura}`
-
-<!-- radiografia-2026-07-29-ordini-bloccati -->
-
----
-
-### ✅ #36 — CHIUSA 2026-08-21 14:30 (verificata risolta sul DB vero) — Ripara il pulsante che venditore e rider usano per far avanzare un ordine · accodata 2026-07-29 13:30
-
-**Esito:** ho riletto sul database di produzione la funzione che protegge gli ordini (`enforce_order_update_rules`): non cita più `invoice_number`. È stata riscritta con una lista bianca di campi che negozio/rider possono cambiare (stato consegna, rider assegnato, orari, posizione) — il vecchio controllo che cercava una colonna cancellata a giugno non c'è più. Il pulsante che fa avanzare un ordine funziona: nessuna azione resta da firmare, il fix è già nel database vero (probabilmente dentro il lotto di migrazioni 107-124 del 20-21/8), non in un branch locale come al 17/8.
-
-**Cosa cambiava (per storico):** sul sito vero, quando un negoziante accettava un ordine o un rider lo prendeva in carico, il database rifiutava la modifica per colpa di un controllo che cercava ancora il campo "numero fattura", cancellato a giugno.
-
-**Nota tecnica:** `migrations/061_p0_security_rls_state_machine_reviews.sql:129` (funzione `enforce_order_update_rules`, tuttora viva sul DB) cita `NEW.invoice_number`, colonna droppata da `migrations/105_remove_invoicing.sql:27`. Nessuna migration successiva ridefinisce la funzione (063/064/094/096 la citano solo nei commenti). Verifica diretta sul progetto `clmpyfvpvfjgeviworth`: `colonna_esiste=false`, `trigger_la_cita=true`. Punti d'impatto: `app/seller/orders/[id]/page.tsx:205`, `app/rider/orders/[id]/page.tsx:108`. Uscita anticipata per admin/service_role alle righe 96-98 → route server salve. Migration pronta: `marketplace/migrations/107_fix_enforce_order_update_invoice_number.sql`. Test pronto: `marketplace/tests/unit/migrations-integrity.test.ts`.
-- **Colore:** 🔴 (migration sul database di produzione)
-- **Reparto:** backend-dev + security
-- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:rls-database}`
-
-<!-- radiografia-prova-non-vera-alla-nascita -->
 
 ---
 
@@ -1753,7 +1683,7 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-21 14:27)
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-21 16:26)
 Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-21-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
@@ -1765,7 +1695,63 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-21 14:27 · 13 card totali
+> Ultima pulizia: 2026-08-21 16:26 · 16 card totali
+
+### ✅ #140 — La migrazione è applicata al database vero · ⏳ accodata 2026-08-21 03:20 · fatta 2026-08-21 14:55
+
+**Stato:** ✅ FATTO 2026-08-21 14:55 — me l'hai chiesto tu in chat («fallo tu»), l'ho applicata io.
+
+**Com'è andata.** Al primo colpo si è fermata, con questo errore: «orders: modifica di un campo
+protetto non consentita». Era dentro una transazione, quindi non si è scritto niente e il database
+è rimasto com'era. Il difetto era mio: la migrazione riempiva un campo nuovo sugli ordini già
+presenti, e quel campo è protetto dalla scrittura, che è esattamente ciò che lo difende dal
+browser. Riparata con la chiave che il progetto usa per il lavoro di servizio, e riapplicata.
+
+**Cosa è acceso adesso.** Nove controlli su nove verdi sul database vero: il lordo di vendita
+scritto sull'ordine, il ritiro in negozio che arriva a «consegnato», i ritiri tolti dalla bacheca
+dei fattorini, gli esiti dei pagamenti registrati, la vetrina dei negozi, il riquadro della home,
+i contatori dei bonifici. L'ordine che c'era è intatto e gli otto profili sono tutti lì.
+
+**Una cosa che ti avevo detto male.** In questa carta avevo scritto che la vetrina dei negozi
+«risponde con zero negozi». Sul database vero non era così: le due colonne c'erano già, e la
+vetrina rispondeva col suo negozio anche prima. Quel guasto lo vedevo ricostruendo il database da
+zero, dove la catena delle migrazioni le perdeva per strada. Vero come difetto del progetto, falso
+come descrizione del sito online.
+
+**Cosa non ho verificato:** non ho aperto il sito online con gli occhi, da qui non ci arrivo. Ho
+controllato il database, non le pagine.
+
+---
+
+### ✅ #37 — CHIUSA 2026-08-21 14:30 (verificata risolta sul DB vero) — Chiudi le quattro porte che lasciano entrare chiunque nei dati dei negozi e dei clienti · accodata 2026-07-29 13:30
+
+**Esito:** ho controllato le quattro falle una per una sul database di produzione reale, dopo il grosso lotto di riparazioni del 20-21/8, e sono **tutte e quattro chiuse**. ① La vista `public_profiles` scrivibile non esiste più (rimane solo `seller_public_profiles`, di sola lettura e filtrata su negozi approvati); su `profiles`/`orders` non c'è nessun permesso di scrittura per un visitatore senza account. ② La regola che faceva vedere ai rider gli ordini disponibili con tutti i dati del cliente ora limita la lettura al solo rider assegnato (`rider_id = chi ha fatto login`) — gli ordini disponibili passano da una vista separata senza dati sensibili. ③ Chi si registra oggi nasce **non approvato** (`is_approved=false`, `approval_status='pending'`): l'ho letto nel codice della funzione che crea il profilo alla registrazione. ④ Nessun permesso di scrittura sui dati di consegna per chi non ha fatto login. Nessuna azione resta da firmare: il fix è già nel database vero, non in un branch in attesa.
+
+**Cosa cambiava (per storico):** quattro falle di sicurezza aperte sul sito vero, tutte confermate. ① Tre elenchi pubblici dei negozi erano scrivibili da un visitatore senza account. ② Nome, telefono e indirizzo di casa dei clienti con una consegna in corso si leggevano senza login. ③ Chi si registrava diventava venditore o rider già approvato. ④ Si potevano modificare senza login i dati di consegna degli ordini pronti.
+
+**Nota tecnica:** ① viste `public_profiles`/`seller_public_profiles`/`seller_storefronts` senza `security_invoker` e con GRANT UPDATE/DELETE ad `anon` (migrations 108/110/112; `seller_storefronts` è drift: non esiste in nessun file del repo). ② policy «Riders can view available and own orders», `migrations/019_rider_visibility.sql:14-21`. ③ `public.handle_new_user`, `migrations/015_competitive_moats.sql:137-156`. ④ policy «Riders can update assigned or claim free orders», `migrations/011_orders_delivery.sql:128-134`. Nota collegata: l'hardening RLS delle migration 020 e 109 non ha mai avuto effetto — è scritto per nomi di policy che sul DB non esistono.
+- **Colore:** 🔴 (migration sul database di produzione, dati personali)
+- **Reparto:** security + backend-dev + dpo
+- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:sicurezza-auth+rls-database+privacy-legale+architettura}`
+
+<!-- radiografia-2026-07-29-ordini-bloccati -->
+
+---
+
+### ✅ #36 — CHIUSA 2026-08-21 14:30 (verificata risolta sul DB vero) — Ripara il pulsante che venditore e rider usano per far avanzare un ordine · accodata 2026-07-29 13:30
+
+**Esito:** ho riletto sul database di produzione la funzione che protegge gli ordini (`enforce_order_update_rules`): non cita più `invoice_number`. È stata riscritta con una lista bianca di campi che negozio/rider possono cambiare (stato consegna, rider assegnato, orari, posizione) — il vecchio controllo che cercava una colonna cancellata a giugno non c'è più. Il pulsante che fa avanzare un ordine funziona: nessuna azione resta da firmare, il fix è già nel database vero (probabilmente dentro il lotto di migrazioni 107-124 del 20-21/8), non in un branch locale come al 17/8.
+
+**Cosa cambiava (per storico):** sul sito vero, quando un negoziante accettava un ordine o un rider lo prendeva in carico, il database rifiutava la modifica per colpa di un controllo che cercava ancora il campo "numero fattura", cancellato a giugno.
+
+**Nota tecnica:** `migrations/061_p0_security_rls_state_machine_reviews.sql:129` (funzione `enforce_order_update_rules`, tuttora viva sul DB) cita `NEW.invoice_number`, colonna droppata da `migrations/105_remove_invoicing.sql:27`. Nessuna migration successiva ridefinisce la funzione (063/064/094/096 la citano solo nei commenti). Verifica diretta sul progetto `clmpyfvpvfjgeviworth`: `colonna_esiste=false`, `trigger_la_cita=true`. Punti d'impatto: `app/seller/orders/[id]/page.tsx:205`, `app/rider/orders/[id]/page.tsx:108`. Uscita anticipata per admin/service_role alle righe 96-98 → route server salve. Migration pronta: `marketplace/migrations/107_fix_enforce_order_update_invoice_number.sql`. Test pronto: `marketplace/tests/unit/migrations-integrity.test.ts`.
+- **Colore:** 🔴 (migration sul database di produzione)
+- **Reparto:** backend-dev + security
+- **Origine:** `{origine:radiografia-marketplace-2026-07-29, dimensioni:rls-database}`
+
+<!-- radiografia-prova-non-vera-alla-nascita -->
+
+---
 
 ### ✅ #135 — Applica la 123: il fattorino vede l'ordine e non riesce a prenderlo. FATTO 2026-08-20 14:40, col tuo ok in chat · ⏳ accodata 2026-08-20 13:30
 

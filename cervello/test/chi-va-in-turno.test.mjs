@@ -67,6 +67,35 @@ test("il turno ruota: in una settimana la squadra cambia", () => {
   assert.ok(visti.size > 6, `in sette giri hanno lavorato solo ${visti.size} senior: la rotazione non gira`);
 });
 
+// ── I PASSAGGI CHE SI ERANO PRESI TUTTO IL TURNO (21/8) ──────────────────────
+//
+// Misurato sul repo vero: nella Sala Operativa c'erano NOVE passaggi pendenti e nel turno ci
+// stanno SEI. Venivano aggiunti per primi e senza tetto, quindi riempivano da soli ogni posto:
+// gli stessi sei nomi tutti i giorni, e la rotazione più sotto non veniva mai raggiunta. Su 120
+// senior ne lavoravano 6, e nessun conteggio lo diceva — il turno era pieno, quindi sembrava sano.
+
+test("i passaggi pendenti non possono prendersi tutto il turno", () => {
+  const { turno, copertura } = turnoDelGiro({ radice: RADICE, oggi: OGGI });
+  const daPassaggio = turno.filter((v) => v.motivo === "passaggio-da-raccogliere");
+  assert.ok(
+    daPassaggio.length < turno.length,
+    `i passaggi hanno preso tutti i ${turno.length} posti: la rotazione non arriva mai a girare ` +
+      `(${copertura.passaggiPendenti} pendenti su ${copertura.perGiro} posti)`,
+  );
+});
+
+test("i passaggi pendenti ruotano anche fra loro", () => {
+  // Nove pendenti su tre posti, presi sempre nello stesso ordine, sono comunque tre nomi fissi:
+  // è lo stesso difetto un piano più sotto. In giorni diversi devono toccare a persone diverse.
+  const visti = new Set();
+  for (const g of ["2026-08-13", "2026-08-15", "2026-08-17", "2026-08-19"]) {
+    for (const v of turnoDelGiro({ radice: RADICE, oggi: g }).turno) {
+      if (v.motivo === "passaggio-da-raccogliere") visti.add(v.key);
+    }
+  }
+  assert.ok(visti.size > 3, `in quattro giri i passaggi sono andati sempre ai soliti ${visti.size}: ${[...visti].join(", ")}`);
+});
+
 test("il giro resta il motore dei soldi: metà turno ai motori dell'organigramma", () => {
   const { turno, copertura } = turnoDelGiro({ radice: RADICE, oggi: OGGI });
   assert.ok(copertura.motoriInTurno >= 2, `solo ${copertura.motoriInTurno} motori di soldi in turno su ${turno.length}`);
