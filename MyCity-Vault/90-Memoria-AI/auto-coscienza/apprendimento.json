@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-21 14:01",
+ "aggiornato": "2026-08-21 14:26",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -13988,24 +13988,24 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 523,
+  "lezioni_attive": 508,
   "promosse_a_principio": 88,
   "decadute": 0,
-  "tasso_applicazione": 0.11,
-  "tasso_calcolato_il": "2026-08-20 10:22",
+  "tasso_applicazione": 0.14,
+  "tasso_calcolato_il": "2026-08-21 14:26",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-18 08:46",
+  "tick_leggero_il": "2026-08-21 14:26",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
   "cristallizzazione_ultima": "2026-08-18 06:26",
   "lezioni_totali": 529,
   "lezioni_per_stato": {
-   "attiva": 419,
+   "attiva": 404,
    "principio": 88,
    "in-prova": 5,
    "decaduta": 0,
    "senza-stato": 16,
-   "altro": 1
+   "altro": 16
   },
   "lezioni_conteggio_quadra": true,
   "nota_11_10": "2026-08-15 11:10 (giro AD, passaggio breve — strategia snella, business invariato): aggiunte 2 lezioni nuove (L-2026-0815-001, L-2026-0815-002) che chiudono il debito HARD segnalato da freschezza-cadenze.mjs — il passaggio delle 10:45 aveva riparato per davvero 2 bug (guardia-viva-check.mjs, censimento-macchina.mjs) ma non li aveva ancora scritti come lezioni riusabili con gate. Entrambe hanno un gate REALE: un test di regressione GIÀ ESISTENTE nel repo (non scritto per l'occasione) che va rosso se il difetto originale ritorna — coerente con l'asticella (CLAUDE.md §⭐), non un grep. Nessuna lezione dell'area correzione-nicola promossa a gate in questo passaggio: i 5 esempi segnalati dal vincolo HARD sono gli stessi già controllati nel passaggio delle 10:45 (giudizio/UX, non misurabili senza una mutazione vera in mutanti.json — vedi L-2026-0813-02 su cosa rende un gate onesto per gate-veri.mjs); non ri-litigato per evitare di duplicare la stessa indagine a distanza di 25 minuti su uno stato invariato."
