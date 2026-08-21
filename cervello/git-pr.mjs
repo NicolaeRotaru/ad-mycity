@@ -30,6 +30,22 @@ import {
   CORPO_PR_CONDIVISO,
   REFERTI_RIGENERATI,
 } from "./file-della-macchina.mjs";
+// IL NUMERO DELLA CARTA NON SE LO SCEGLIE OGNUNO PER CONTO SUO.
+//
+// Qui c'era una copia privata: contava SOLO le righe della tabella (`| 42 | …`) e ignorava le card
+// scritte come titolo (`### 🟡 #142 — …`). I due elenchi vivono nello stesso spazio di numeri.
+//
+// Il conto del 21/8: le righe-tabella arrivavano a 125, i titoli a 142. Questa funzione ha detto
+// 126 — un numero che una card del 19 agosto aveva già. Da quel momento «ok 126» era una domanda
+// con due risposte, e la prova `carte-numerate` è diventata rossa su main.
+//
+// Non è la prima volta: è successo identico il 16 agosto col numero 81, ed era stato riparato —
+// ma dentro `prossimoNumero` di pausa-coda.mjs, che ha il commento con quella storia. Questa copia
+// non l'ha saputo. È la malattia che il repo chiama «una parola con due padroni»: la stessa domanda
+// con due risposte in due file, e solo una viene curata quando si scopre l'errore.
+//
+// Adesso la domanda ha un padrone solo.
+import { prossimoNumero } from "./pausa-coda.mjs";
 
 const AZIONI_PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
 const TECH_DIR = join(AD_ROOT, "consegne/tech");
@@ -153,13 +169,20 @@ function sanitize(err, token) {
   return token ? msg.split(token).join("***") : msg;
 }
 
-function nextAzioneNumber(content) {
-  let max = 0;
-  for (const line of content.split("\n")) {
-    const m = line.match(/^\|\s*(\d+)\s*\|/);
-    if (m) max = Math.max(max, Number(m[1]));
-  }
-  return max + 1;
+
+/** La riga che finisce in coda, numero compreso. Sta fuori da `accodaAzione` per un motivo solo:
+ * `accodaAzione` legge il file vero e scrive sul file vero, quindi da una prova non si può chiamare.
+ * Finché il numero si sceglieva là dentro, nessun test poteva vederlo sbagliare — e infatti non l'ha
+ * visto. Qui il testo della coda entra come argomento: una prova gli passa una coda finta e legge il
+ * numero che ne esce. */
+export function rigaDaAccodare(content, { prUrl, prNumber, base, repoLabel, when }) {
+  const num = prossimoNumero(content);
+  const dove = repoLabel === "mycity" ? "Render (sito)" : "Vercel (Pannello)";
+  const row =
+    `| ${num} | ${when} | @tech | Merge PR #${prNumber} ${repoLabel} → ${base} | 🔴 | ${prUrl} | github | in attesa | ` +
+    `Il codice in anteprima va online su ${dove} dopo il merge. | ` +
+    `Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |\n`;
+  return { num, row };
 }
 
 function accodaAzione({ prUrl, prNumber, cfg, base, branch, title, dryRun }) {
@@ -168,13 +191,13 @@ function accodaAzione({ prUrl, prNumber, cfg, base, branch, title, dryRun }) {
     return;
   }
   const content = readFileSync(AZIONI_PATH, "utf8");
-  const num = nextAzioneNumber(content);
-  const when = nowPiacenza();
-  const repoLabel = cfg.key === "mycity" ? "mycity" : "ad-mycity";
-  const row =
-    `| ${num} | ${when} | @tech | Merge PR #${prNumber} ${repoLabel} → ${base} | 🔴 | ${prUrl} | github | in attesa | ` +
-    `Il codice in anteprima va online su ${repoLabel === "mycity" ? "Render (sito)" : "Vercel (Pannello)"} dopo il merge. | ` +
-    `Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |\n`;
+  const { num, row } = rigaDaAccodare(content, {
+    prUrl,
+    prNumber,
+    base,
+    repoLabel: cfg.key === "mycity" ? "mycity" : "ad-mycity",
+    when: nowPiacenza(),
+  });
 
   if (dryRun) {
     console.log("[DRY-RUN] Riga AZIONI-IN-ATTESA:\n" + row);
