@@ -20,9 +20,9 @@
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
-import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { avviaPannello, spegniPannello } from "./aiuto-pannello.mjs";
 
 // Il percorso era scritto a mano — `/opt/node22/lib/node_modules/` — cioè la cartella di UNA
 // macchina sola: la mia. In CI non esiste, quindi Playwright non si trovava e la prova moriva
@@ -92,29 +92,18 @@ if (!browserDisponibile()) {
 }
 
 before(async () => {
-  if (!(await raggiungibile())) {
-    server = spawn("npm", ["run", "dev"], {
-      cwd: join(RADICE, "pannello"),
-      env: { ...process.env, PORT: String(PORTA) },
-      stdio: "ignore",
-      detached: true,
-    });
-    const scadenza = Date.now() + 180000;
-    while (Date.now() < scadenza) {
-      await new Promise((r) => setTimeout(r, 2000));
-      if (await raggiungibile()) break;
-    }
-    assert.ok(await raggiungibile(), `il Pannello non risponde su ${URL_BASE}: non posso guardare, quindi non posso dire che è a posto`);
-  }
+  // L'avvio sta in `aiuto-pannello.mjs`, in un posto solo: prima questo blocco era copiato identico
+  // anche in `c4-schermo-coda`, e nessuna delle due copie si accorgeva se «npm run dev» moriva
+  // subito — aspettavano tre minuti a testa un server già morto, e da sole sfondavano il tetto di
+  // tempo dell'intera suite del cervello.
+  ({ server } = await avviaPannello({ radice: RADICE, porta: PORTA, urlBase: URL_BASE }));
   const { chromium } = risolviPlaywright();
   browser = await chromium.launch({ headless: true });
 });
 
 after(async () => {
   if (browser) await browser.close();
-  if (server?.pid) {
-    try { process.kill(-server.pid); } catch {}
-  }
+  spegniPannello(server);
 });
 
 /** Apre una pagina e restituisce {p, errori} — un errore in console È un risultato. */

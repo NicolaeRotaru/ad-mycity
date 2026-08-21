@@ -255,6 +255,7 @@ SENSORI_SPENTI_VINCOLO="" # AR-105/108: un sensore spento senza un perché dichi
 PORTE_VINCOLO=""         # AR-127: un push verso main che non passa dal cancello condiviso
 FIRMA_VINCOLO=""         # AR-119: uno script del cervello che può scriversi la firma di Nicola
 PORTA_GIT_VINCOLO=""     # AR-339: uno script che chiede elenchi a git senza -z (nomi con l'accento riscritti)
+CABLATI_VINCOLO=""       # 21/8: un percorso di UNA macchina sola rientrato nel codice (correzione Nicola 4/7)
 DEFERRAL_VINCOLO=""      # AR-186: il roster di CLAUDE.md e le schede dei senior si rimandano cose diverse
 STAMPO_VINCOLO=""        # AR-291: verdetto dello stampo senior, prima buttato in un `|| true` (AR-129/287/289)
 TASSO_VINCOLO=""         # AR-178: lezioni accumulate e mai applicate (l'altra metà, sfuggita al lotto 10)
@@ -363,6 +364,15 @@ if command -v node >/dev/null 2>&1; then
   if ! guardiano percorsi-git.mjs --check; then
     PORTA_GIT_VINCOLO="$(vincolo_da_rc "percorsi-git" "$GUARDIANO_RC" "⛔ PORTA DEGLI ELENCHI GIT SCAVALCATA (percorsi-git.mjs rc=$GUARDIANO_RC, AR-339/340/341): uno script chiede a git un elenco di percorsi senza -z, quindi riceve i nomi con l'accento riscritti in ottali e lavora su file che non esistono — in silenzio. Fallo passare da percorsiDaGit() in cervello/percorsi-git.mjs. Dettaglio: node cervello/percorsi-git.mjs --check")"
     echo "[$(ts)] ⚠️  AR-339: percorsi-git rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
+  # 21/8 — IL FRENO DELLA CORREZIONE DEL 4/7, che quella volta non era stato messo.
+  # Nicola: «togli il cablato su Windows una volta per sempre, impedisci che riaccada». Il registro
+  # dava per fatto sia la pulizia sia questo guardiano; il 21/8 il path era rientrato in
+  # marketplace-repo.mjs e il guardiano non esisteva. Una correzione chiusa con una frase rientra.
+  echo "[$(ts)] Guardiano dei percorsi cablati su una macchina sola (gate hard)..."
+  if ! guardiano no-path-cablati-check.mjs; then
+    CABLATI_VINCOLO="$(vincolo_da_rc "no-path-cablati" "$GUARDIANO_RC" "⛔ PERCORSO CABLATO SU UNA MACCHINA SOLA (no-path-cablati-check.mjs rc=$GUARDIANO_RC): nel codice è rientrato un percorso che vale solo sul PC di qualcuno (C:\\Users\\… o /Users/<nome>/). Su tutte le altre macchine quel codice punta al nulla, in silenzio — ed è la ricaduta che Nicola ha già corretto il 4/7. Chiedi la posizione a chi la sa: resolveMarketplaceRepo() in cervello/marketplace-repo.mjs. Dettaglio: node cervello/no-path-cablati-check.mjs")"
+    echo "[$(ts)] ⚠️  percorsi cablati rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
   # AR-186 — i due elenchi che governano i 120: la riga-roster di CLAUDE.md (la legge Nicola) e il
   # campo description del mansionario (lo legge il router). Un rimando presente in uno solo dei due
@@ -1183,6 +1193,12 @@ if [ -n "${PORTA_GIT_VINCOLO:-}" ]; then
 
 ## Vincolo porta degli elenchi git (HARD — AR-339: percorsi con l'accento letti male, in silenzio)
 $PORTA_GIT_VINCOLO"
+fi
+if [ -n "${CABLATI_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo percorsi cablati (HARD — 21/8: una correzione di Nicola del 4/7 rientrata dalla finestra)
+$CABLATI_VINCOLO"
 fi
 if [ -n "${STAMPO_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

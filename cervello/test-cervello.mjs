@@ -70,6 +70,35 @@ const SOLO = (() => {
 // del repo, non della fixture.
 const CARTELLA = process.env.TEST_CERVELLO_DIR || "cervello/test";
 /** Quante volte questo banco è già stato lanciato da dentro sé stesso. Zero = lancio in cima. */
+// Il tetto di tempo per UNA prova (vedi `verdettoPiantato`). Regolabile perché una macchina lenta
+// non deve diventare un falso rosso, ma un valore c'è sempre: senza, una prova piantata si porta via
+// la suite intera e nessuno sa quale sia stata.
+//
+// Il numero non è a caso, e nemmeno preso alla larga.
+//
+// LA MISURA CHE HO: il 21/8, cronometrate una per una su questa macchina, la prova più lenta che
+// serve davvero è `c2-schermo` (il Pannello guidato dal browser) con 66s, la seconda
+// `misura-firmata` con 34s.
+//
+// LA MISURA CHE NON HO, e per cui il numero è largo: quei 66s sono con il Pannello già compilato.
+// A freddo — su un runner di CI, o sul VPS dopo un allineamento — Next ricompila la pagina al primo
+// caricamento, e quanto ci metta lì non l'ho misurato: sulla PR #801 il flusso col browser non è
+// partito, quindi il tetto non è mai stato provato a freddo. Un tetto tarato su una misura calda
+// ucciderebbe una prova che sta solo lavorando, e un falso rosso nel banco si impara a ignorare —
+// che è il modo in cui si perde la rete di sicurezza intera.
+//
+// Il numero non si sceglie a occhio: sta fra due limiti che si toccano quasi.
+//   · da sotto — almeno quattro volte la più lenta misurata (66s), cioè ≥ 264s, o è una fabbrica
+//     di falsi rossi il giorno che il Pannello parte a freddo;
+//   · da sopra — una prova piantata PIÙ la suite tipica (307s) deve stare sotto il tetto che la
+//     visita concede al banco (600s), cioè ≤ 293s. Se scatta prima il tetto di fuori, si torna al
+//     «oltre 300s» che non dice QUALE prova: esattamente il difetto che questo tetto chiude.
+// Fra 264s e 293s la scelta è 280s: 4,24 volte la più lenta, e 587s in tutto nel caso peggiore.
+// Chi ha una macchina più lenta lo alza da fuori senza toccare il codice.
+const TETTO_PROVA_MS = Number(process.env.MYCITY_TEST_TETTO_MS || 280_000);
+// Quanto si aspetta fra il «per favore chiudi» e il colpo di grazia: il tempo che serve a una prova
+// per spegnere quello che ha acceso (un browser, un server del Pannello). Vedi il commento nel kill.
+const RESPIRO_MS = Number(process.env.MYCITY_TEST_RESPIRO_MS || 5_000);
 const PROFONDITA = Number(process.env.MYCITY_BANCO_PROFONDITA || 0);
 /** Un livello di annidamento serve (una prova che misura il banco). Due non serve a nessuno. */
 const PROFONDITA_MASSIMA = 1;
@@ -323,6 +352,31 @@ export function righeRosse(out = "", max = 8) {
  * Verdetto da un esito di spawn. Distingue ROTTO (asserzioni rosse: il codice ha un difetto) da
  * INESEGUIBILE (il file non parte affatto): sono due guasti diversi e chiedono due mosse diverse.
  */
+/**
+ * 2026-08-21 — LA PROVA CHE NON FINISCE, E SI PORTA VIA TUTTA LA RETE.
+ *
+ * Il banco lanciava ogni file con `spawn` e nessun tetto di tempo. Finché una prova finisce sempre,
+ * non si vede; il giorno in cui una si pianta, si pianta la SUITE INTERA — e il controllo della
+ * salute non può dire quale, perché non riceve niente: dice solo «il controllo non è partito: oltre
+ * 300s», che è un 🔧 guasto e manda a indagare da nessuna parte.
+ *
+ * È successo: `c2-schermo` e `c4-schermo-coda` avviavano il Pannello e lo aspettavano per tre
+ * minuti a testa anche quando il processo era già morto. Misurata il 21/8, la suite ci metteva 822
+ * secondi contro un tetto di 300 e la macchina aveva smesso di potersi provare.
+ *
+ * Una prova che non finisce NON è una prova passata. Qui prende un tetto suo, viene uccisa, e il suo
+ * nome finisce nel referto: da «la suite non parte» a «questo file si è piantato dopo Xs».
+ */
+export function verdettoPiantato(file, ms) {
+  return {
+    esito: "rosso",
+    motivo: `non è finita entro ${Math.round(ms / 1000)}s: uccisa. Una prova che non finisce non è una prova passata.`,
+    passati: null,
+    falliti: 1,
+    rosse: [`${file} si è piantata: nessun esito entro ${Math.round(ms / 1000)}s`],
+  };
+}
+
 export function verdetto(status, out) {
   const { passati, falliti } = leggiTap(out);
 
@@ -428,10 +482,41 @@ function eseguiTest(dir, f) {
     let uscita = "";
     p.stdout.on("data", (d) => (uscita += d));
     p.stderr.on("data", (d) => (uscita += d));
+    // Il tetto per UNA prova. La più lenta che serve davvero (il Pannello guidato dal browser) sta
+    // sotto il minuto e mezzo: due minuti lasciano margine e restano lontani dal tetto della suite.
+    const scadenza = setTimeout(() => {
+      // Prima si BUSSA, poi si sfonda. SIGKILL secco è quello che ha lasciato in giro un server del
+      // Pannello acceso e muto sulla porta 3939, che poi ha fatto fallire tre corse di seguito per un
+      // motivo che non c'entrava niente: una prova uccisa di netto non arriva mai al suo `after`, e
+      // quello che ha acceso resta acceso. Con SIGTERM la prova può sganciare quello che ha avviato;
+      // se dopo il respiro è ancora lì, allora SIGKILL.
+      try {
+        p.kill("SIGTERM");
+      } catch {
+        /* già morto */
+      }
+      const colpoDiGrazia = setTimeout(() => {
+        try {
+          p.kill("SIGKILL");
+        } catch {
+          /* già morto */
+        }
+      }, RESPIRO_MS);
+      colpoDiGrazia.unref?.();
+      risolvi({ file: `${CARTELLA}/${f}`, ...verdettoPiantato(`${CARTELLA}/${f}`, TETTO_PROVA_MS) });
+    }, TETTO_PROVA_MS);
+    scadenza.unref?.();
+    const fine = () => clearTimeout(scadenza);
     // Un processo che non parte proprio (`error`) non è «zero asserzioni fallite»: è ineseguibile,
     // e `verdetto` lo classifica così solo se gli arriva un'uscita non nulla e nessun TAP.
-    p.on("error", (e) => risolvi({ file: `${CARTELLA}/${f}`, ...verdetto(1, `${uscita}\n${e.message}`) }));
-    p.on("close", (code) => risolvi({ file: `${CARTELLA}/${f}`, ...verdetto(code, uscita) }));
+    p.on("error", (e) => {
+      fine();
+      risolvi({ file: `${CARTELLA}/${f}`, ...verdetto(1, `${uscita}\n${e.message}`) });
+    });
+    p.on("close", (code) => {
+      fine();
+      risolvi({ file: `${CARTELLA}/${f}`, ...verdetto(code, uscita) });
+    });
   });
 }
 

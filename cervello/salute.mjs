@@ -349,16 +349,26 @@ export function giudicaCadenze(r) {
   const ferme = d.invecchiate.map((x) => x.tipo);
   const saltate = (d.passiSaltati || []).map((x) => x.tipo);
   if (ferme.length || saltate.length) {
-    const pezzi = [];
+    // 2026-08-21 — QUESTA FRASE LA LEGGE NICOLA, e il metro della scrittura l'aveva bocciata.
+    // Prima era un periodo solo con DUE elenchi fra parentesi incastrati dentro: «5 cadenze su 6 non
+    // si alzano più (a, b, c, d, e), e 2 sono uscite saltando dei passi (f, g)». Chi legge deve
+    // tenere in sospeso l'idea di partenza per tutta la prima parentesi, e quando arriva alla
+    // seconda l'ha già persa. Il contenuto non cambia di una parola: cambia che ogni elenco si
+    // prende la sua frase, e che i due punti sostituiscono le parentesi.
+    const frasi = ["il ritmo della macchina si è fermato."];
     if (ferme.length)
-      pezzi.push(
+      frasi.push(
         ferme.length === 1
-          ? `1 cadenza su ${d.totali} non si alza più (${ferme[0]})`
-          : `${ferme.length} cadenze su ${d.totali} non si alzano più (${ferme.join(", ")})`,
+          ? `Non si alza più 1 cadenza su ${d.totali}: ${ferme[0]}.`
+          : `Non si alzano più ${ferme.length} cadenze su ${d.totali}: ${ferme.join(", ")}.`,
       );
     if (saltate.length)
-      pezzi.push(saltate.length === 1 ? `1 è uscita saltando dei passi (${saltate[0]})` : `${saltate.length} sono uscite saltando dei passi (${saltate.join(", ")})`);
-    return { ...rotto(`il ritmo della macchina si è fermato: ${pezzi.join(", e ")}`, { ferme, saltate, totali: d.totali }), prova };
+      frasi.push(
+        saltate.length === 1
+          ? `Un'altra è uscita saltando dei passi: ${saltate[0]}.`
+          : `Altre ${saltate.length} sono uscite saltando dei passi: ${saltate.join(", ")}.`,
+      );
+    return { ...rotto(frasi.join(" "), { ferme, saltate, totali: d.totali }), prova };
   }
   const maiViste = (d.maiViste || []).length;
   return {
@@ -974,7 +984,13 @@ export const CONTROLLI = [
     impatto: 3,
     modi: ["completo", "vps"],
     async prova() {
-      const r = eseguiNode("test-cervello.mjs", [], 300_000);
+      // 2026-08-21 — il tetto era 300s e la suite ne misurava 822: il controllo non partiva e
+      // usciva 🔧 GUASTO, cioè «non ho potuto misurare», che manda a indagare da nessuna parte.
+      // Tolte le due attese cieche sul Pannello la suite sta in 316s, misurati. 600s è il doppio
+      // del tempo che serve davvero: lascia respiro a una macchina lenta e resta abbastanza stretto
+      // da accorgersi di una suite che raddoppia. Il caso «una prova si pianta» adesso lo ferma il
+      // tetto per-prova dentro il banco, che la uccide e la NOMINA invece di mangiarsi tutto.
+      const r = eseguiNode("test-cervello.mjs", [], 600_000);
       return daGuardiano(r, {
         comando: "node cervello/test-cervello.mjs",
         dettoOk: "tutti i test del cervello girano e passano",
@@ -1420,7 +1436,11 @@ export function spezzaElenco(detto = "") {
   // (28 giorni)» resta una frase con un inciso. Con il trattino la stessa informazione si legge
   // dritta, senza aprire e chiudere niente.
   const dritta = (v) => v.replace(/\s*\(([^)]+)\)\s*$/, " — $1");
-  return [`${detto.slice(0, i)}:`, "", ...voci.map((v) => `- ${dritta(v)}`)];
+  // 2026-08-21 — e ogni voce si CHIUDE. Misurato: cinque righe puntate senza punto finale vengono
+  // lette come una frase sola con cinque trattini dentro, e `si-capisce` le boccia giustamente
+  // («5 incisi in una frase»). Col punto sono cinque frasi da un'idea l'una, che è quello che sono.
+  const chiusa = (v) => (/[.!?:]$/.test(v) ? v : `${v}.`);
+  return [`${detto.slice(0, i)}:`, "", ...voci.map((v) => `- ${chiusa(dritta(v))}`)];
 }
 
 const ORGANI = { worker: "Worker", cervello: "Cervello", cabina: "Cabina", senior: "Senior", sensori: "Sensori" };
@@ -1534,10 +1554,19 @@ export function quattroRisposte(v) {
   righe.push("");
   righe.push(peggiore ? "Apri la card in coda: porta lo stesso titolo, e dentro c'è il comando pronto." : "Niente.");
   if (p.cronici.length) {
+    // 2026-08-21 — QUI C'ERANO I TITOLI, ED ERANO GIÀ SCRITTI SOTTO.
+    // Ogni cronico compariva col suo titolo in questa riga e poi di nuovo, identico, nella sezione
+    // «Rotto — in ordine di quanto costa» venti frasi più giù. `si-capisce` lo misura come «stessa
+    // idea a 24 frasi di distanza», ed è la stessa malattia che il piano del referto aveva già
+    // curato altrove: un ripasso sta accanto alla frase, non dieci frasi dopo.
+    // Il numero resta — è la notizia, «da quanto suonano» — e il dettaglio si legge dove sta.
+    const daQuanto = Math.max(...p.cronici.map((r) => Number(r.rossoDa) || 0));
     righe.push("");
-    righe.push(p.cronici.length === 1 ? "E guarda anche questo, che suona da un pezzo:" : `E guarda anche questi ${p.cronici.length}, che suonano da un pezzo:`);
-    righe.push("");
-    for (const r of p.cronici) righe.push(`- ${r.titolo}: ${r.rossoDa} visite di fila.`);
+    righe.push(
+      p.cronici.length === 1
+        ? `Ce n'è anche un altro che suona da ${daQuanto} visite di fila: lo trovi qui sotto, in ordine di quanto costa.`
+        : `Ce ne sono altri ${p.cronici.length} che suonano da un pezzo, il più vecchio da ${daQuanto} visite di fila. Li trovi qui sotto, in ordine di quanto costano.`,
+    );
   }
   righe.push("");
 
@@ -1733,13 +1762,43 @@ function scriviMemoria(v) {
 
 /** Due visite al giorno fanno settecento file l'anno. La tendenza vive nello storico di salute.json;
  *  i referti vecchi sono carta. Ne restano gli ultimi, il resto si butta. */
+/**
+ * 2026-08-21 — LA SPAZZATA CHE CANCELLA E NON LO DICE A GIT.
+ *
+ * `potaReferti` toglieva il file dal DISCO e basta. Ma i referti sono versionati (stanno in
+ * `consegne/`, che è memoria): tolto il file, `git ls-files` continuava a elencarlo, perché elenca
+ * l'indice e non il disco. Da lì in poi chiunque scorra l'elenco di git e provi ad aprire i file
+ * trova una porta che non si apre — e `scan-segreti` ci si accecava sopra, uscendo 2 a ogni giro:
+ * «1 file elencato da git che NON sono riuscito ad aprire… non posso dire pulito». Il controllo
+ * `cervello.segreti` era ⚪ da giorni, e la causa non era un segreto né un permesso: era questa
+ * cancellazione lasciata a metà, che ogni visita rinnovava cancellando il referto successivo.
+ *
+ * Una cancellazione è finita quando disco e indice dicono la stessa cosa. Qui si chiude: si segna
+ * la rimozione nell'indice, così il commit di memoria del worker la porta fuori come qualunque
+ * altra modifica. `--ignore-unmatch` rende l'operazione muta sui referti mai versionati (quelli
+ * appena scritti in una sessione), e l'errore non è MAI un motivo per far fallire una visita.
+ */
+export function dimenticaDaGit(relativo, radice = AD_ROOT) {
+  try {
+    if (existsSync(join(radice, relativo))) return; // c'è ancora: non si tocca l'indice
+    spawnSync("git", ["rm", "--cached", "--quiet", "--ignore-unmatch", "--", relativo], {
+      cwd: radice,
+      encoding: "utf8",
+    });
+  } catch {
+    /* indice non aggiornabile (repo assente, permessi): la visita non si ferma per questo */
+  }
+}
+
 function potaReferti() {
   try {
     const nomi = readdirSync(CARTELLA_REFERTI)
       .filter((f) => f.endsWith(".md"))
       .sort(); // i nomi iniziano con la data: l'ordine alfabetico È l'ordine cronologico
     for (const vecchio of nomi.slice(0, Math.max(0, nomi.length - SOGLIE.refertiTenuti))) {
-      rmSync(join(CARTELLA_REFERTI, vecchio), { force: true });
+      const percorso = join(CARTELLA_REFERTI, vecchio);
+      rmSync(percorso, { force: true });
+      dimenticaDaGit(`consegne/salute/${vecchio}`);
     }
   } catch {
     /* la potatura non è mai un motivo per far fallire una visita */

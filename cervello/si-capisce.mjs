@@ -1107,8 +1107,60 @@ function scansione(radice) {
   return 0;
 }
 
+/**
+ * QUALI DELLE QUATTRO RISPOSTE MANCANO — la domanda che il worker deve poter fare da bash.
+ *
+ * 2026-08-21. La regola dei quattro blocchi ha un freno per la chat: il cancello dello Stop misura
+ * il messaggio prima che parta. Ma il worker sul server NON passa da lì — è una porta laterale
+ * senza i freni della principale, che è una malattia con un nome nel registro. Il conto è nel
+ * mansionario: «Cosa non ho verificato» mancava nel 100% dei 26 messaggi del VPS, mentre gli altri
+ * tre c'erano sempre. Il blocco che sparisce è sempre lo stesso, ed è quello che dice a Nicola di
+ * quanto fidarsi.
+ *
+ * `conta-blocco-mancante.mjs` lo MISURA, ma misura il passato: dice quanti messaggi erano fatti
+ * male dopo che sono partiti. Questa funzione serve prima, sul messaggio in mano.
+ *
+ * Non è un misuratore nuovo: chiede a `misura()`, la stessa che usa il cancello. Due misuratori
+ * della stessa cosa divergono al primo ritocco, e questo file lo dice già di sé stesso.
+ *
+ * `mancanti` è vuoto anche per i testi corti, dove i blocchi NON si pretendono (AR-530): la regola
+ * su quando servono vive in un posto solo, dentro `misura`.
+ *
+ * ⚠️ `misurato` NON è un dettaglio. Se la misura non riesce, «non manca niente» sarebbe un verde
+ * uscito da un controllo che non è avvenuto — la malattia che questo repo chiama
+ * «fonte-troncata-letta-per-intera», e che il guardiano dei fratelli mi ha giustamente contestato
+ * alla prima stesura di questa funzione. Non misurabile e a posto sono due risposte diverse, e chi
+ * chiama deve poterle distinguere: ⚪ non è mai ✅.
+ */
+export function blocchiMancanti(testo) {
+  if (!testo || !String(testo).trim()) return { misurato: true, mancanti: [] }; // niente testo, niente accusa
+  try {
+    return {
+      misurato: true,
+      mancanti: misura(String(testo)).problemi.filter((p) => p.tipo === "manca-una-risposta").map((p) => p.trovato),
+    };
+  } catch (e) {
+    return { misurato: false, mancanti: [], perche: e?.message || String(e) };
+  }
+}
+
 function main() {
   const argv = process.argv.slice(2);
+  // `--blocchi <file>` — stampa i titoli mancanti, uno per riga.
+  //   uscita 0 = misurato (stdout vuoto significa: non manca niente)
+  //   uscita 2 = NON ho potuto misurare — che non è «va bene», ed è il motivo per cui i due casi
+  //              hanno due codici diversi invece di un `[]` buono per entrambi.
+  // Nessuno dei due è 1: chi chiama è il worker, che ha già in mano la risposta per Nicola. Un
+  // rosso lì farebbe buttare via la risposta, e un freno che perde il lavoro viene spento entro la
+  // settimana. Il freno qui è la VISIBILITÀ: il buco arriva a Nicola insieme al testo.
+  if (argv.includes("--blocchi")) {
+    const file = argv.find((a) => !a.startsWith("--"));
+    if (!file || !existsSync(file)) return 2; // il file non c'è: non ho misurato niente
+    const esito = blocchiMancanti(readFileSync(file, "utf8"));
+    if (!esito.misurato) return 2;
+    for (const b of esito.mancanti) console.log(b);
+    return 0;
+  }
   const radice = process.env.RADICE_REPO || ".";
 
   if (argv.includes("--scansione")) return scansione(radice);

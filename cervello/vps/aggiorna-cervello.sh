@@ -231,11 +231,38 @@ if [ "$_cur_branch" != "$branch" ] && [ "$_cur_branch" != "HEAD" ]; then
   if git status --porcelain 2>/dev/null | cut -c4- | grep -qvE '^(MyCity-Vault|consegne|creativi|memoria-squadra)/'; then
     _dirty_codice=1
   fi
-  if [ "$_tip_age_min" -lt 30 ] || [ "$_dirty_codice" = 1 ]; then
-    echo "[$(ts)] ⏸ Allineamento RIMANDATO: lavoro in corso sul branch '$_cur_branch' (ultimo commit ${_tip_age_min} min fa, sporco codice=$_dirty_codice) — riprovo al prossimo watch-main."
-    exit 3
-  fi
-  echo "[$(ts)] Branch '$_cur_branch' fermo da ${_tip_age_min} min e senza sporco di codice: lo considero abbandonato, allineo a main."
+  # 2026-08-21 — la decisione non si improvvisa più qui dentro: la prende `azione_ramo_vivo`, che è
+  # pura e che una prova può ESEGUIRE. Il buco che chiude: prima bastava UN file di codice sporco per
+  # spegnere del tutto la fuga anti-stallo, e il rinvio non scadeva mai (422 rinvii il 18/8, 1716 il
+  # 30/7). Ora l'attesa ha un tetto: oltre, il lavoro si PARCHEGGIA e si allinea.
+  _azione="$(azione_ramo_vivo "$_cur_branch" "$branch" "$_tip_age_min" "$_dirty_codice" \
+      "${ALLINEAMENTO_LAVORO_MIN:-30}" "${ALLINEAMENTO_STALLO_MAX_MIN:-240}")"
+  case "$_azione" in
+    rimanda)
+      echo "[$(ts)] ⏸ Allineamento RIMANDATO: lavoro in corso sul branch '$_cur_branch' (ultimo commit ${_tip_age_min} min fa, sporco codice=$_dirty_codice) — riprovo al prossimo watch-main."
+      exit 3
+      ;;
+    libera)
+      # Il worktree è piantato da ore su un ramo che nessuno sta più toccando, ma con roba non
+      # committata sopra. Non si butta NIENTE: si committa dov'è — il ramo resta nel repo e il
+      # lavoro si riprende con `git checkout '$_cur_branch'` — e solo dopo si allinea.
+      echo "[$(ts)] ⛔ Branch '$_cur_branch' PIANTATO da ${_tip_age_min} min con modifiche di codice non committate: parcheggio il lavoro e allineo (la memoria non usciva più)." >&2
+      git add -A 2>/dev/null || true
+      if git "${GIT_ID[@]}" commit -q -m "parcheggio automatico: lavoro fermo da ${_tip_age_min} min su ${_cur_branch} ($(ts))" 2>/dev/null; then
+        echo "[$(ts)] Lavoro parcheggiato su '$_cur_branch': si recupera con 'git checkout $_cur_branch'." >&2
+      else
+        # Non sono riuscita a metterlo al sicuro: allora NON allineo. Rimandare lascia il server
+        # indietro; tirare dritto col checkout -f cancellerebbe il lavoro. La prima è recuperabile.
+        echo "[$(ts)] ⛔ Parcheggio FALLITO su '$_cur_branch': NON allineo, il checkout cancellerebbe lavoro non salvato." >&2
+        printf 'parcheggio fallito sul ramo %s: lavoro non committato a rischio, allineamento fermo\n' "$_cur_branch" \
+          > "$REPO/.git/mycity-allineamento-causa" 2>/dev/null || true
+        exit 3
+      fi
+      ;;
+    *)
+      echo "[$(ts)] Branch '$_cur_branch' fermo da ${_tip_age_min} min e senza sporco di codice: lo considero abbandonato, allineo a main."
+      ;;
+  esac
 fi
 
 # AR-312 — il fetch NON si silenzia più con un `|| true`: se fallisce, il ramo verrebbe "allineato"
