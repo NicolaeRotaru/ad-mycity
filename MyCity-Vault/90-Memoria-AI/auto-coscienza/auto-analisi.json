@@ -46,10 +46,6 @@
   "gate_correzione_nicola_confermati_invariati": "246/312 lezioni tagged 'correzione-nicola' restano senza gate scrivibile (soglia 20, sano:false, invariato dal giro precedente). Non lavorato in questo passaggio: per la disciplina north-star/tasso-chiusura di oggi ho scelto di investire il tempo su verifiche dirette del business (refutazione) piuttosto che sull'apertura di nuovi gate — è un trade-off dichiarato, non un'omissione silenziosa.",
   "livello_verifica": "L3 (business riverificato su DUE canali indipendenti nello stesso passaggio + CI riverificato dal vivo, non ereditato) — non è stata fatta una passata completa sull'intera coda AZIONI-IN-ATTESA (80 righe), solo la parte usata per la checklist di Nicola.",
   "refutazione": "Refutazione VERA su 3 claim, non boilerplate: (1) '1 ordine / 8 profili' — ho interrogato il database con una query SQL indipendente (mcp__supabase-marketplace__execute_sql, non la stessa chiamata REST già fatta stamattina alle 06:10) per vedere se un secondo canale avrebbe dato un numero diverso (es. per RLS, cache, o limite di paginazione nascosto nella chiamata REST). Risultato: identico su entrambi i canali (1 ordine, 8 profili) → CLAIM SOPRAVVIVE, ora con doppia fonte invece di una sola. (2) '7 PR rosse per colpa propria, 0 ereditate' — non l'ho accettato dal blocco vincoli d'ingresso della conversazione (che riporta lo stato a un timestamp non dichiarato): ho rilanciato `ci-stato.mjs` io stessa alle 06:33. Risultato identico → CLAIM SOPRAVVIVE, ora riverificato dal vivo in questo passaggio specifico. (3) 'Stallo North Star 58 giorni' — ricalcolato a mano: 2026-06-24 → 2026-08-21 = 6 giorni (fino a fine giugno) + 31 (luglio) + 21 (agosto) = 58. CLAIM SOPRAVVIVE, matematica corretta. Cosa NON è sopravvissuto/è stato declassato: nessun claim di questo passaggio è stato smentito. Un'ipotesi scartata prima di scriverla: ho considerato di rilanciare anche i controlli esterni del Radar (concorrenti/eventi), ma l'ho scartata esplicitamente per rispettare la disciplina 'chiudi almeno quanto apri' — non è un'omissione, è una scelta dichiarata qui e nel briefing.",
-  "errori_giro": [
-    "auto-analisi.json era fermo da 3 giorni (ultimo: 18/8 06:30) prima di questo passaggio: il gate AUTO-VERIFICA lo segnalava come 'timbro, non verifica' — la causa è che i giri pieni successivi (19-21/8) non avevano scritto una nuova auto-analisi con refutazione vera, solo aggiornamenti di STATO/SALA-OPERATIVA. Corretto in questo passaggio, ma il buco di 3 giorni resta un fatto reale da non nascondere.",
-    "Nella checklist appena rigenerata ho segnato 'PR croniche rosse' con l'elenco aggiornato a 7 (era 3 nella versione del 17/8): non ho verificato se le 4 PR in più (#791/#761/#754/#753) fossero già note a Nicola separatamente o se la checklist vecchia le avesse semplicemente perse — trattale come nuove finché non conferma di averle già viste."
-  ],
   "domande_per_nicola": [
     {
       "tipo": "sicurezza",
@@ -69,5 +65,9 @@
       "azione": "card #127, runbook già pronto",
       "colore": "🔴"
     }
+  ],
+  "errori": [
+    "auto-analisi.json era fermo da 3 giorni (ultimo: 18/8 06:30) prima di questo passaggio: il gate AUTO-VERIFICA lo segnalava come 'timbro, non verifica' — la causa è che i giri pieni successivi (19-21/8) non avevano scritto una nuova auto-analisi con refutazione vera, solo aggiornamenti di STATO/SALA-OPERATIVA. Corretto in questo passaggio, ma il buco di 3 giorni resta un fatto reale da non nascondere.",
+    "Nella checklist appena rigenerata ho segnato 'PR croniche rosse' con l'elenco aggiornato a 7 (era 3 nella versione del 17/8): non ho verificato se le 4 PR in più (#791/#761/#754/#753) fossero già note a Nicola separatamente o se la checklist vecchia le avesse semplicemente perse — trattale come nuove finché non conferma di averle già viste."
   ]
 }

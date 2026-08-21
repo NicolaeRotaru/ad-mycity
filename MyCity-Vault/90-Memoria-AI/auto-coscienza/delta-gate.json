@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚦 DELTA-GATE (AR-019): firma dello stato reale per saltare i giri pesanti quando NULLA è cambiato dall'ultimo giro pieno. Scritto da cervello/delta-gate.mjs.",
-  "aggiornato": "2026-08-21 06:26",
+  "aggiornato": "2026-08-21 08:27",
   "ultimo_pieno": {
     "firma": {
       "ordini": 1,
@@ -20,20 +20,15 @@
     "ultimo_ordine": "2026-06-24T08:28:40.166644+00:00",
     "clienti": 8,
     "sensori": {
-      "stati": "mcp_stripe:cieco,mcp_supabase:non_verificato,n8n_health:ok,pannello_uptime:ok,posthog_api:non_configurato,resend_api:ok,sito_uptime:cieco,stripe_api:ok,supabase_memoria:ok,supabase_rest:ok,telegram_bot:non_configurato,watchdog_esterno:ok",
+      "stati": "mcp_stripe:cieco,mcp_supabase:ok,n8n_health:ok,pannello_uptime:ok,posthog_api:non_configurato,resend_api:ok,sito_uptime:cieco,stripe_api:ok,supabase_memoria:ok,supabase_rest:ok,telegram_bot:non_configurato,watchdog_esterno:ok",
       "almeno_un_dato": true
     },
     "dati_leggibili": true
   },
   "giri_saltati_consecutivi": 0,
   "_nota_segna_pieno_manuale": "2026-08-15 01:32: `node cervello/delta-gate.mjs --segna-pieno` di nuovo bloccato da permessi non allowlistati — non ritentato un 2° colpo alla cieca (lezione L-agenti-background). Promozione di ultimo_pieno fatta a mano via Edit (stessa scrittura che avrebbe fatto lo script): la baseline del 29/7 (`sito_uptime:ok`, senza `watchdog_esterno`) teneva il gate acceso da 398 ore consecutive (398 giri pieni sprecati) perché il sito è cieco dal 30/7 per la migrazione Vercel — non un guasto reale. Baseline ora allineata allo stato corrente identico (ordini=1, clienti=7, sito_uptime:cieco, watchdog_esterno:ok). Business ancora fermo a ordini=1 dal 24/6.",
-  "giri_valutati": 325,
+  "giri_valutati": 326,
   "storia": [
-    {
-      "quando": "2026-08-08 12:25",
-      "esegui_pieno": true,
-      "motivo": "cambiato: stato sensori/sentinelle"
-    },
     {
       "quando": "2026-08-08 14:21",
       "esegui_pieno": true,
@@ -278,12 +273,17 @@
       "quando": "2026-08-21 06:26",
       "esegui_pieno": true,
       "motivo": "cambiato: clienti 7→8, stato sensori/sentinelle"
+    },
+    {
+      "quando": "2026-08-21 08:27",
+      "esegui_pieno": true,
+      "motivo": "cambiato: clienti 7→8, stato sensori/sentinelle"
     }
   ],
   "ultima_decisione": {
-    "quando": "2026-08-21 06:26",
+    "quando": "2026-08-21 08:27",
     "esegui_pieno": true,
     "motivo": "cambiato: clienti 7→8, stato sensori/sentinelle",
-    "ore_da_pieno": 149
+    "ore_da_pieno": 151
   }
 }

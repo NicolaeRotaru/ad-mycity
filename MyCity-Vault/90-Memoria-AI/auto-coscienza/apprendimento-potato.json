@@ -1,6 +1,37 @@
 {
   "potature": [
     {
+      "quando": "2026-08-21 08:27",
+      "byte_prima": 1095698,
+      "byte_dopo": 984867,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0701-40",
+            "testo": "**Finestra slot scaduta senza #16 (1/7 20:18):** alle 18:18 l'AD segnalava «ultima chance "
+          },
+          {
+            "id": "L-2026-0701-39",
+            "testo": "**Nicola chiede «cosa sono #14 e #15 e dove li trovo?» (1/7 20:02):** i numeri **#N** = ri"
+          },
+          {
+            "id": "L-2026-0701-37",
+            "testo": "**Casella benchmark AI ops (Nicola 1/7 17:05):** «Aggiungi dati reali — cosa ti serve?» → "
+          },
+          {
+            "id": "L-2026-0701-28",
+            "testo": "**Ok timer ritmo (Nicola 1/7 09:43 — casella cadenza-esecuzione):** dopo rettifica classif"
+          },
+          {
+            "id": "L-2026-0701-24",
+            "testo": "Su card 🔴 **decisione ordine** (es. zombie €19,05): se l'anteprima casella non nomina **n"
+          }
+        ],
+        "copie_di_principi": 88
+      }
+    },
+    {
       "quando": "2026-08-21 06:26",
       "byte_prima": 1100380,
       "byte_dopo": 990046,

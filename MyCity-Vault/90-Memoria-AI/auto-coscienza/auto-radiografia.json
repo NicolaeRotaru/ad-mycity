@@ -4811,7 +4811,7 @@
     }
   ],
   "sonda": {
-    "data": "2026-08-21 06:40",
+    "data": "2026-08-21 08:38",
     "loop_chiude": false,
     "tasso_applicazione": 0.11,
     "soglia_applicazione": 0.3,
@@ -4842,10 +4842,10 @@
     ],
     "giro_a_cadenza": true,
     "sentinelle_scattano": true,
-    "ore_da_ultima_completa": 233,
+    "ore_da_ultima_completa": 235,
     "ore_da_ultimo_briefing": 0,
     "max_giri_ciechi_sensori": 205,
-    "giri_tasso_basso": 174,
+    "giri_tasso_basso": 176,
     "serve_radiografia_completa": true,
     "salute_stato": "pending-merge",
     "voto_provvisorio": 0,
@@ -4908,7 +4908,7 @@
     "sonda_da": "giro delle 11:00 su main (la completa e mia, la sonda e del giro)"
   },
   "sync_scan": {
-    "aggiornato": "2026-08-21 06:26",
+    "aggiornato": "2026-08-21 08:27",
     "findings_aperti": 258,
     "findings_non_instradabili": 163,
     "findings_non_instradabili_ids": [
@@ -4970,8 +4970,8 @@
     "data_scan": "2026-08-11 13:37"
   },
   "sonda_meta": {
-    "giri_tasso_basso": 174,
-    "aggiornato": "2026-08-21 06:40"
+    "giri_tasso_basso": 176,
+    "aggiornato": "2026-08-21 08:38"
   },
   "zone_non_viste": [
     "Il worker e il VPS: da questa sessione non si vedono. Non ho potuto verificare se lo script che scrive AZIONI-IN-ATTESA sul server si comporti come la copia locale che ho letto, né se là il file sia più grande o più piccolo.",

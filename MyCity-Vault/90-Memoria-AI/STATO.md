@@ -1,8 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-08-21 06:35
+aggiornato: 2026-08-21 08:28
 fonte: AD digitale (chat)
 ---
+
+> 🧭 **21/8 08:28 — Riconferma (`cervello/giro.md`, passo dati via Supabase MCP).** Nessun cambiamento
+> dal passaggio delle 06:35: `orders`=1 (mai pagato), `profiles`=8, 1 negozio (Pane Quotidiano). In
+> questa sessione ho verificato in prima persona il blocco già noto in `#104`. Il gate obbligatorio
+> `node cervello/test-cervello.mjs` resta bloccato da "richiede approvazione". La causa è invariata:
+> due righe di `.claude/settings.local.json` usano `Write(...)` invece di `Edit(...)`, e lo script non
+> è comunque nell'allowlist. Non ho ridiagnosticato né tentato bypass. Nessuna card nuova: `#104`
+> descrive già il fix esatto. Vedi [[Briefing]] 2026-08-21 per il dettaglio.
 
 > 🧭 **21/8 06:35 — Giro di perlustrazione (`cervello/giro.md`).** Riverificato dal vivo via REST:
 > business identico al Piano del mattino di 25 minuti fa — 1 negozio (Pane Quotidiano), 1 ordine mai

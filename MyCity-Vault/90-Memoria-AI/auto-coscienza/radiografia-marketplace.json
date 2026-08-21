@@ -2175,11 +2175,22 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-21 06:26",
+    "aggiornato": "2026-08-21 08:27",
+    "letto": true,
+    "motivo": null,
+    "forma": "dimensioni",
     "findings_aperti": 262,
     "findings_chiusi": 0,
     "findings_tot": 262,
+    "aperti_per_severita": {
+      "bloccante": 21,
+      "grave": 137,
+      "minore": 104,
+      "altre": 0
+    },
+    "dichiarati_dal_referto": 262,
+    "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-07-29",
-    "nota": "Per aggiornare la lista serve un nuovo audit marketplace; i fix sul codice non la riscrivono da soli."
+    "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
   }
 }
