@@ -28,16 +28,26 @@
 // Comunque vada dice anche CHI OCCUPA IL POSTO che non ha saputo togliere: senza quella riga un
 // disco pieno di roba che non conosco e un disco pulito danno lo stesso identico verde.
 
-import { readdirSync, statSync, rmSync } from "node:fs";
-import { join } from "node:path";
+import { readdirSync, readFileSync, statSync, rmSync } from "node:fs";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
 
 /**
- * I prefissi che nascono da noi. Chi ne aggiunge uno nuovo lo mette qui: la prova
- * `spazza-temporanei.test.mjs` misura che ogni famiglia dichiarata venga davvero spazzata.
+ * I prefissi scritti a mano. Restano perché due o tre nascono fuori dal codice del cervello, ma NON
+ * sono più l'elenco: quello lo legge `prefissiDalCodice()` qui sotto.
+ *
+ * IL CONTO CHE HA UCCISO L'ELENCO A MANO. Il 21/8, sul server, /tmp era pieno per la seconda volta.
+ * Le cartelle che lo riempivano si chiamavano `porta-lezioni-*` — circa duemila, quasi un mega
+ * l'una — e questo elenco non le conteneva. Sotto c'erano `due-versi` (4142), `mut-mancante` (2826),
+ * `cronicita-giro` (1236) e altre: nessuna qui dentro. **Dieci prefissi dichiarati su
+ * centocinquantacinque usati davvero, cioè il 6%.**
+ *
+ * Un elenco a mano non è una difesa che sta indietro: è una difesa che non c'è. Chi scrive una prova
+ * nuova sceglie un nome nuovo e non passa mai di qui — e non ha nessun motivo per passarci.
  */
 export const PREFISSI = [
-  "mycity-campo-", // finte dei test: sono queste che hanno riempito il disco
+  "mycity-campo-", // finte dei test: sono queste che hanno riempito il disco la prima volta
   "mycity-banco-", // la sabbiera di un giro di prove morto a metà, che non ha fatto in tempo a sgomberarsi
   "cancello-",
   "cadenza-ai-",
@@ -48,6 +58,70 @@ export const PREFISSI = [
   "riconcilia-",
   "ripesca-",
 ];
+
+/** Da dove si legge il codice che crea cartelle temporanee. */
+const QUI = dirname(fileURLToPath(import.meta.url));
+
+/** Un prefisso troppo corto matcherebbe mezzo /tmp: sotto questa lunghezza non lo prendo. */
+const MINIMO = 4;
+
+/**
+ * I prefissi LETTI DAL CODICE che li crea, invece che da un elenco che qualcuno deve ricordarsi di
+ * aggiornare.
+ *
+ * Cerca le due forme con cui in questa casa si crea una cartella temporanea:
+ *   · `mkdtempSync(join(tmpdir(), "qualcosa-"))` nei file .mjs
+ *   · `mktemp -d -t qualcosa.XXXXXX` negli script .sh
+ *
+ * Così una prova nuova è coperta il giorno stesso in cui viene scritta, senza che nessuno tocchi
+ * questo file. È l'unico modo perché la difesa non stia indietro rispetto a chi la riempie.
+ */
+export function prefissiDalCodice(radice = QUI) {
+  const trovati = new Set();
+  const daJs = /mkdtempSync\(\s*join\(\s*tmpdir\(\)\s*,\s*["'`]([^"'`]+)["'`]/g;
+  const daSh = /mktemp\s+-d\s+-t\s+"?([A-Za-z0-9._-]+)/g;
+  const visita = (dir, resta = { file: 3000 }) => {
+    let voci = [];
+    try {
+      voci = readdirSync(dir, { withFileTypes: true });
+    } catch {
+      return; // cartella illeggibile: quello che non posso leggere non lo invento
+    }
+    for (const v of voci) {
+      if (resta.file <= 0) return;
+      const percorso = join(dir, v.name);
+      if (v.isDirectory()) {
+        if (v.name === "node_modules" || v.name.startsWith(".")) continue;
+        visita(percorso, resta);
+        continue;
+      }
+      if (!/\.(mjs|js|sh)$/.test(v.name)) continue;
+      resta.file -= 1;
+      let testo = "";
+      try {
+        testo = readFileSync(percorso, "utf8");
+      } catch {
+        continue;
+      }
+      for (const re of [daJs, daSh]) {
+        re.lastIndex = 0;
+        let m;
+        while ((m = re.exec(testo)) !== null) {
+          // `mycity-auth.XXXXXX` → `mycity-auth.`: le X sono il segnaposto di mktemp, non il nome.
+          const nome = m[1].replace(/X{3,}$/, "");
+          if (nome.length >= MINIMO) trovati.add(nome);
+        }
+      }
+    }
+  };
+  visita(radice);
+  return trovati;
+}
+
+/** L'elenco vero: quello scritto a mano più quello letto dal codice. */
+export function prefissiEffettivi(radice = QUI) {
+  return [...new Set([...PREFISSI, ...prefissiDalCodice(radice)])];
+}
 
 /**
  * Le cartelle che NON si toccano mai, per quanto vecchie sembrino. È la lista che mi sono scritta
@@ -135,7 +209,10 @@ export const QUANTE_SCONOSCIUTE = 8;
  * `esegui: false` è la modalità prova: guarda e non tocca. La uso nel test per misurare la
  * SELEZIONE senza dipendere dal fatto che il filesystem cancelli davvero.
  */
-export function spazza({ dir = tmpdir(), prefissi = PREFISSI, oreMin = ORE_DEFAULT, adesso = null, esegui = true, tetto = TETTO_FILE } = {}) {
+export function spazza({ dir = tmpdir(), prefissi = null, oreMin = ORE_DEFAULT, adesso = null, esegui = true, tetto = TETTO_FILE } = {}) {
+  // `null` non è «nessun prefisso»: è «chiedili al codice». Un elenco passato a mano resta possibile,
+  // e le prove lo usano per misurare la selezione senza dipendere da com'è fatto il repo oggi.
+  prefissi = prefissi ?? prefissiEffettivi();
   const ora = adesso ?? Date.now();
   const limite = ora - oreMin * 3600_000;
   const tolte = [];
