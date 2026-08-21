@@ -1,0 +1,162 @@
+{
+  "_cosa_e": "Verbale dei tre lotti di riparazione sul referto del 18 agosto 2026 (245 problemi). Stava dentro radiografia-marketplace.json, che il 21/8 e passato al referto nuovo: nessun programma leggeva questi blocchi, ma sono il racconto di come quei 245 sono stati chiusi, e non vanno persi con la sostituzione del file.",
+  "referto": "consegne/audit/2026-08-18-radiografia.md",
+  "archiviato": "2026-08-21 18:15",
+  "meta_del_referto": {
+    "findings": 245,
+    "bloccanti": 12,
+    "gravi": 114,
+    "minori": 119,
+    "agenti": 26
+  },
+  "confronto_precedente": {
+    "data": "2026-07-29",
+    "findings": 262,
+    "bloccanti": 21,
+    "gravi": 137,
+    "minori": 104
+  },
+  "ultimo_sync_scan": {
+    "aggiornato": "2026-08-21 16:26",
+    "letto": true,
+    "motivo": null,
+    "forma": "elenco",
+    "findings_aperti": 3,
+    "findings_chiusi": 242,
+    "findings_tot": 245,
+    "aperti_per_severita": {
+      "bloccante": 0,
+      "grave": 2,
+      "minore": 1,
+      "altre": 0
+    },
+    "dichiarati_dal_referto": 245,
+    "divergenza_dal_dichiarato": 0,
+    "data_scan": "2026-08-18",
+    "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
+  },
+  "stato_lotto_19_agosto": {
+    "_cosa_e": "Conto del lotto di riparazioni del 19 agosto 2026 sul referto del 18 agosto.",
+    "data": "2026-08-19",
+    "totale_referto": 245,
+    "riparati": 104,
+    "aperti": 141,
+    "per_gravita_riparati": {
+      "minore": 59,
+      "bloccante": 7,
+      "grave": 38
+    },
+    "per_gravita_aperti": {
+      "grave": 76,
+      "minore": 60,
+      "bloccante": 4
+    },
+    "ramo": "claude/marketplace-100-difetti-ehne44 (repo NicolaeRotaru/mycity)",
+    "nota": "La migrazione 119 e stata APPLICATA al database di produzione il 2026-08-19 alle 20:25, con la firma di Nicola in chat («applica la migrazione 119»). Trentotto controlli di verifica letti dal database vero, tutti col valore atteso. La migrazione 120 resta da applicare DOPO il merge e la pubblicazione della richiesta #225: cambia la forma di una vista che la home legge.",
+    "bloccanti_ancora_aperti": [
+      {
+        "n": 28,
+        "perche": "La rimessa in piedi di chi la bonifica ha rimesso in attesa si fa dal pannello admin, non dal codice. Il vincolo che impediva la divergenza e nella 119."
+      },
+      {
+        "n": 47,
+        "perche": "Serve una decisione di Nicola sui numeri: 3 euro fissi di consegna non coprono un compenso che a 5 km vale 8,50. O sale la fee, o sale la soglia della spedizione gratis."
+      },
+      {
+        "n": 69,
+        "perche": "Servono i dati veri: denominazione, sede, partita IVA, e se un responsabile della protezione dati esista oppure no."
+      },
+      {
+        "n": 154,
+        "perche": "Serve una funzione nuova nel database (conferma del ritiro da parte del negoziante) piu un pulsante nella pagina ordine venditore: lavoro a se, non una toppa."
+      }
+    ],
+    "applicazione_produzione": {
+      "data": "2026-08-19 20:25",
+      "progetto": "clmpyfvpvfjgeviworth (marketplace)",
+      "come": "sette blocchi via Supabase, ognuno in transazione propria",
+      "esito": "applicata e verificata",
+      "intoppo": "Il sesto blocco si e fermato: la tabella catalog_ai_jobs sul database vero non esiste, perche la migrazione 099 che la crea sta nel repo ma non e mai stata applicata. La transazione e stata annullata per intero. Risolto con una guardia to_regclass e rilanciato.",
+      "scoperta": "La funzione di scrittura schede con AI (tre endpoint sotto app/api/ai/catalog-batch/) scrive oggi in una tabella che non esiste in produzione: non funziona. Aperta la carta #129.",
+      "perche_la_prova_locale_non_lo_vedeva": "tests/sql/harness/apply.sh ricostruisce lo schema da TUTTE le migrazioni del repo, quindi vede un database diverso da quello vero. Non e una prova debole: e una prova su un altro oggetto."
+    },
+    "migrazione_120_stato": "NON applicata — attende il merge e la pubblicazione della richiesta #225"
+  },
+  "stato_lotto_20_agosto": {
+    "_cosa_e": "Conto del LOTTO di riparazioni del 20 agosto 2026 (chiuso alle 11:20) sul referto del 18 agosto. È una fotografia di quel momento, non lo stato di adesso: le tre chiusure delle 17:00 sono più tarde di questo blocco. Lo stato VIVO non si legge qui — si deriva dall'elenco «problemi», ed è quello che il Pannello mostra (rotta radiografia-marketplace → lib/radiografia-marketplace-conti).",
+    "data": "2026-08-20",
+    "totale_referto": 245,
+    "riparati_in_questo_lotto": 100,
+    "gia_riparati_prima_verificati": 9,
+    "riparati_in_totale": 204,
+    "aperti_a_fine_lotto": 32,
+    "per_gravita_aperti_a_fine_lotto": {
+      "bloccante": 4,
+      "grave": 15,
+      "minore": 13
+    },
+    "ramo": "claude/marketplace-100-bugs-jpl7hw (repo NicolaeRotaru/mycity)",
+    "migrazione": "122 e 123 applicate al database vero il 20/8 (13:30 e 14:40). Registro Supabase: radiografia_20_agosto_01…_07 e presa_ordine_dal_fattorino.",
+    "prove": "860 prove unitarie verdi (erano 800), typecheck e lint puliti, migrazioni riapplicate da zero su Postgres vero (123 su 123) e cinque file di controlli SQL verdi, fra cui uno nuovo che diventa rosso senza la 122.",
+    "serve_da_nicola": [
+      "Approvare il fattorino dal pannello (carta #137): è il clic che sblocca la bacheca delle consegne.",
+      "I due segreti del backup su GitHub, BACKUP_PASSPHRASE e SUPABASE_DB_URL (carta #134): senza, il backup notturno si ferma invece di uscire in chiaro.",
+      "Rispondere se la spedizione pagata dal cliente resta a distanza sotto i 30 euro o diventa fissa (carta #136).",
+      "Rilettura legale della Dichiarazione di Accessibilita e dell informativa privacy aggiornata."
+    ],
+    "decisioni_nicola_20_agosto": {
+      "quando": "2026-08-20 17:00",
+      "chiusi": [
+        "compenso fattorino fisso",
+        "fattorini approvabili dal pannello",
+        "identita legale senza segnaposti"
+      ],
+      "aggirato_non_riparato": [
+        "ritiro in negozio: opzione spenta, il vicolo cieco resta sotto"
+      ],
+      "resta_a_nicola": [
+        "approvare il fattorino dal pannello",
+        "i due segreti del backup",
+        "se la spedizione del cliente diventa fissa"
+      ]
+    },
+    "_serve_da_nicola_chiuse_il_20_agosto": [
+      "Dati veri del titolare per il difetto 70 — chiuso: senza partita IVA attiva la riga non si stampa affatto.",
+      "Decisione sui numeri della consegna, difetto 47 — chiusa: compenso fattorino 3 euro fissi, non piu a chilometro.",
+      "Applicare la migrazione 122 al database — fatta il 20/8 alle 13:30, e la 123 alle 14:40."
+    ],
+    "_la_somma_torna": "204 riparati + 9 gia a posto + 32 aperti = 245, il totale del referto. Prima diceva 8 gia a posto e la somma faceva 244: un difetto restava fuori dal conto. Il nono l'ha trovato l'elenco, non un ricalcolo a mano — e l'elenco resta l'unico giudice."
+  },
+  "stato_lotto_21_agosto": {
+    "_cosa_e": "Conto del LOTTO di riparazioni del 21 agosto 2026 sui difetti rimasti aperti dal referto del 18 agosto. Fotografia di quel momento: lo stato VIVO si deriva dall elenco «problemi».",
+    "data": "2026-08-21",
+    "aperti_a_inizio_lotto": 29,
+    "gia_riparati_prima_verificati": 5,
+    "riparati_in_questo_lotto": 21,
+    "riparati_in_parte": 3,
+    "aperti_a_fine_lotto": 0,
+    "ramo": "claude/marketplace-bugs-njlgi8 (repo NicolaeRotaru/mycity)",
+    "migrazione": "124_radiografia_21_agosto.sql — DA APPLICARE al database vero",
+    "difetto_nuovo_trovato": "La vetrina pubblica dei negozi aveva perso i due booleani di stato pagamento: la migrazione 108b li aveva messi, la 112 ha ricreato la vista senza, rimandando alla 114 dove non sono mai arrivati. Sei punti del sito li chiedono e il database rifiutava la richiesta intera: quelle pagine non ricevevano nessun negozio. Riparato nella 124, con controllo SQL che diventa rosso se qualcuno li toglie ancora.",
+    "prove": "943 prove unitarie verdi (erano 876), otto file di controlli SQL verdi contro un Postgres vero con tutte e 125 le migrazioni applicate da zero, typecheck e lint puliti (95 avvisi di accessibilita preesistenti, invariati), due build di produzione riuscite.",
+    "misure": {
+      "pagine_servite_dalla_cache": "da 2 su 203 a 96 su 203, misurato confrontando due build vere",
+      "righe_della_rotta_webhook": "da 1002 a 178",
+      "colonne_nei_tipi_del_database": "da 191 a 740"
+    },
+    "serve_da_nicola": [
+      "FATTO il 21/8 alle 14:55: la migrazione 124 e' applicata al database vero.",
+      "Decidere sul rilascio: autoDeploy a false in render.yaml + segreto RENDER_DEPLOY_HOOK + controllo CI obbligatorio su main.",
+      "Un progetto Supabase di prova coi suoi segreti, per far girare in CI le prove d integrazione e quelle nel browser.",
+      "Se e quando riaccendere il ritiro in negozio (RITIRO_IN_NEGOZIO_ATTIVO): adesso la strada per chiuderlo c e."
+    ],
+    "resta_aperto_e_perche": [
+      "Difetto 83, passo 2: convertire scheda prodotto, categoria e negozio in componenti server. Sono milleduecento righe con trenta punti interattivi: senza poter aprire il sito in un browser non si riscrive alla cieca. Fatta la parte che serve al crawler.",
+      "Difetto 168, percorsi nel browser: i tre giri Playwright autenticati servono un progetto Supabase di prova. La catena dell ordine e comunque provata da un controllo SQL che gira in CI oggi.",
+      "Difetto 229, le due mosse in produzione: firma di Nicola."
+    ],
+    "difetto_mio_trovato_dopo_l_unione": "Il lotto si era chiuso con l'unione della richiesta, e l'unione pubblica il codice ma non tocca il database. Fra le due firme c'e' una finestra, e questo lotto e' l'unico che non l'aveva coperta: le colonne nuove della 124 finivano dentro le istruzioni senza condizioni. Provato sul database di prova col codice unito e lo schema vecchio, la risposta e' «column gross_total_cents of relation orders does not exist»: PostgreSQL non ignora una colonna che non conosce, fa fallire l'istruzione intera. Per tutta quella finestra non nasceva nessun ordine, ne' in contanti ne' con la carta, non si confermava nessun incasso e non partiva nessun pagamento. Riparato con un ripiego nel codice (lib/db/migrazione-124.ts) sui sei punti dove le colonne della 124 entrano in un'istruzione. Prova: 8 controlli unitari, rossi con il ripiego spento e rossi col ripiego sempre acceso — due mutanti, tutti e due uccisi. Poi ho aggiunto il freno che impedisce il ripetersi: un controllo che diventa rosso se un file nomina una colonna della 124 dentro un'istruzione senza importare il ripiego. Ha lavorato subito e ha trovato un settimo punto che avevo mancato — il rimborso rifiutato dalla banca leggeva una colonna che non usava nemmeno, e prima della migrazione quella lettura falliva intera: l'ordine risultava «non trovato», il rifiuto non veniva registrato e nessuno avvisava l'admin.",
+    "rettifica_2026_08_21": "RETTIFICA. Sopra, il «difetto_nuovo_trovato» dice che sei pagine del sito non ricevevano nessun negozio. E' vero come difetto della catena delle migrazioni — ricostruendo il database da zero le due colonne si perdono per strada — ma NON descriveva il sito online: sul database vero le due colonne c'erano gia', verificato il 21/8 alle 14:50 leggendo la definizione della vista in produzione, e la vetrina rispondeva col suo negozio anche prima. L'avevo dato per vero della produzione senza averlo guardato la'. La riparazione resta giusta e serve: allinea il database vero alla catena delle migrazioni, cosi' la prossima ricostruzione non riapre il buco.",
+    "migrazione_124_applicata": "Applicata al database di produzione il 21/8 alle 14:55, su richiesta esplicita di Nicola in chat («fallo tu»). Al primo tentativo si e' fermata — «orders: modifica di un campo protetto non consentita», codice 42501 — dentro una transazione, quindi senza scrivere niente. Difetto mio: il riempimento di gross_total_cents sugli ordini gia' presenti urtava enforce_order_update_rules. Nessuna prova l'aveva visto perche' il grilletto scatta per RIGA e la ricostruzione da zero parte da orders VUOTA. Riparata con set_config('mycity.allow_order_write','1',true) dentro un blocco DO, la stessa chiave che usa confirm_pickup_by_seller, e riapplicata: nove controlli su nove verdi, un ordine e otto profili intatti. Freno: tests/sql/harness/migrazione-su-database-pieno.sh, in CI, rosso col difetto rimesso (richiesta mycity#232)."
+  }
+}
