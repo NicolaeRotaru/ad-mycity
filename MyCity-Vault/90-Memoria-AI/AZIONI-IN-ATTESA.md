@@ -59,6 +59,7 @@ in linea e i suoi quattro lavori sono salvi.
 **Poi guardiamo nei cassetti, senza buttare niente:**
 
 ```
+cd /opt/mycity/ad-mycity
 node cervello/stash-dimenticate.mjs --riassunto
 ```
 

@@ -18,7 +18,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import assert from "node:assert/strict";
-import { verdetto, leggiStash, TETTO_PREDEFINITO, GIORNI_TROPPI } from "../stash-dimenticate.mjs";
+import { verdetto, leggiStash, riassumi, TETTO_PREDEFINITO, GIORNI_TROPPI } from "../stash-dimenticate.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -118,6 +118,40 @@ prova("fuori da un repo git è ⚪, non verde", () => {
   const dir = mkdtempSync(join(tmpdir(), "senza-git-"));
   try {
     assert.equal(leggiStash(dir), null, "fuori da un repo deve dire 'non ho potuto misurare'");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+// ── il riassunto deve LEGGERE dentro, non dire «non leggibile» ───────────────
+// Questa prova nasce da un difetto mio, trovato provando e non rileggendo: chiedevo i file con
+// `git stash show --name-only`, ma la porta unica dei percorsi infila `-z` dopo la PRIMA parola e
+// `git stash -z show` non è un comando. Il riassunto rispondeva «4 non leggibili» su quattro messe
+// da parte sanissime — cioè avrebbe detto a Nicola «non so cosa c'è dentro» proprio mentre decideva
+// se buttarle. Un errore silenzioso nel punto esatto in cui serve la verità.
+prova("il riassunto legge dentro anche coi nomi accentati e i file non tracciati", () => {
+  const dir = mkdtempSync(join(tmpdir(), "riassunto-stash-"));
+  try {
+    execFileSync("git", ["init", "-q", dir]);
+    git(dir, "config", "user.email", "t@t");
+    git(dir, "config", "user.name", "t");
+    execFileSync("mkdir", ["-p", join(dir, "MyCity-Vault")]);
+    writeFileSync(join(dir, "MyCity-Vault", "però-così.md"), "memoria\n");
+    writeFileSync(join(dir, "dati.json"), "{}\n");
+    git(dir, "add", "-A");
+    git(dir, "commit", "-q", "-m", "base");
+
+    writeFileSync(join(dir, "MyCity-Vault", "però-così.md"), "memoria cambiata\n");
+    git(dir, "stash", "push", "-q", "-m", "tracciato con l'accento");
+    writeFileSync(join(dir, "MyCity-Vault", "mai-visto.md"), "memoria nuova\n");
+    git(dir, "stash", "push", "-q", "-u", "-m", "non tracciato");
+    writeFileSync(join(dir, "dati.json"), '{"a":1}\n');
+    git(dir, "stash", "push", "-q", "-m", "solo dati");
+
+    const r = riassumi(dir, leggiStash(dir));
+    assert.equal(r.illeggibili, 0, "dice «non leggibile» su messe da parte sane: non può dirlo a chi decide se buttarle");
+    assert.equal(r.con_memoria, 2, `attese 2 con memoria dentro, trovate ${r.con_memoria}`);
+    assert.equal(r.solo_dati, 1, `attesa 1 con soli dati, trovate ${r.solo_dati}`);
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }

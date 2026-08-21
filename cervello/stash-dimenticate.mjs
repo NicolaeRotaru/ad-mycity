@@ -24,6 +24,7 @@
 
 import { spawnSync } from "node:child_process";
 import { AD_ROOT } from "./git-github.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 
 // Quante se ne tollerano. Una in corso durante un rebase è normale; tre già dicono che qualcuna non
 // è tornata indietro. Il numero è basso apposta: il guasto che questo sensore cerca non è «tante
@@ -70,12 +71,44 @@ export function verdetto(stash, adessoEpoch, tetto = TETTO_PREDEFINITO, giorniTr
   return { esito: "pulito", quante, giorni };
 }
 
+/**
+ * I file dentro una messa da parte.
+ * Passa dalla PORTA (`percorsiDaGit`) e non da un `spawnSync` proprio: la prima versione chiedeva a
+ * git `--name-only` per conto suo, e la prova dei segreti l'ha respinta a ragione. Senza `-z` git
+ * cita i nomi con l'accento — proprio i file che qui vanno contati per capire se dentro c'è memoria
+ * vera. Una regola che vale per il repository non si aggira perché fa comodo a un file solo.
+ */
+function fileNellaStash(radice, rif) {
+  // NON `git stash show`: la porta infila `-z` subito dopo la PRIMA parola, e `git stash -z show`
+  // non è un comando. Misurato: rispondeva «4 non leggibili» su quattro messe da parte sane.
+  // Una messa da parte è un commit con due o tre genitori: ^1 è da dove si è partiti (il tracciato),
+  // ^3 c'è solo se erano stati messi da parte anche file non tracciati — ed è proprio il caso che
+  // questa riparazione ha introdotto, quindi va guardato o il conto salta.
+  let file = null;
+  try {
+    file = percorsiDaGit(["diff", "--name-only", `${rif}^1`, rif], { cwd: radice });
+  } catch {
+    return null; // non leggibile: si dichiara, non si finge vuota
+  }
+  try {
+    const nonTracciati = percorsiDaGit(["diff", "--name-only", `${rif}^3`], { cwd: radice });
+    file = [...new Set([...file, ...nonTracciati])];
+  } catch {
+    /* nessun terzo genitore: la messa da parte non conteneva file non tracciati */
+  }
+  return file;
+}
+
 function dettaglio(radice, stash) {
   const righe = [];
   for (const s of stash.slice(0, 10)) {
-    const r = spawnSync("git", ["stash", "show", "--name-only", s.rif], { cwd: radice, encoding: "utf8" });
-    const file = r.status === 0 ? (r.stdout || "").split("\n").filter(Boolean) : ["(non leggibile)"];
-    righe.push({ rif: s.rif, quandoEpoch: s.epoch, file: file.slice(0, 8), quanti: file.length });
+    const file = fileNellaStash(radice, s.rif);
+    righe.push({
+      rif: s.rif,
+      quandoEpoch: s.epoch,
+      file: (file || ["(non leggibile)"]).slice(0, 8),
+      quanti: file ? file.length : 0,
+    });
   }
   return righe;
 }
@@ -104,9 +137,8 @@ export function riassumi(radice, stash, quanteAlMassimo = 400) {
   let conMemoria = 0;
   let illeggibili = 0;
   for (const s of campione) {
-    const r = spawnSync("git", ["stash", "show", "--name-only", s.rif], { cwd: radice, encoding: "utf8" });
-    if (r.status !== 0) { illeggibili++; continue; }
-    const file = (r.stdout || "").split("\n").filter(Boolean);
+    const file = fileNellaStash(radice, s.rif);
+    if (file === null) { illeggibili++; continue; }
     let memoria = false;
     for (const f of file) {
       const testa = f.split("/")[0];
