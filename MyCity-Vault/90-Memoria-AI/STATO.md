@@ -1,8 +1,22 @@
 ---
 tipo: stato
-aggiornato: 2026-08-20 17:00
+aggiornato: 2026-08-21 03:30
 fonte: AD digitale (chat)
 ---
+
+> 🏁 **21/8 03:30 — Gli ultimi difetti del sito sono chiusi. Da 29 aperti a 3, e tutti e tre sono lavori a metà con un perché scritto.**
+>
+> Dei ventinove rimasti: **cinque erano già riparati** e nessuno l'aveva segnato (cancellazione account dall'admin, ripartizione dello sconto in contanti, rimborso parziale prima del pagamento, prezzo riletto in cassa, sconto ritiro scritto due volte). **Ventuno chiusi oggi. Tre restano a metà**, e sono difetti che non si chiudono senza qualcosa che non ho: aprire il sito in un browser (83 e 168) o toccare la produzione (229).
+>
+> **Il difetto nuovo, più grosso di tutti quelli sulla lista: la vetrina dei negozi non mostrava nessun negozio.** Trovato riparando il riquadro della home. La migrazione 108b aveva messo sulla vetrina pubblica i due booleani di stato pagamento — servono al bollino «Verificato». La 112 ha ricreato la vista senza, rimandando alla 114, dove non sono mai arrivati. **Sei pagine li chiedono** (elenco negozi, negozi vicini, pagina negozio, riquadro home, scheda venditore, vetrina home) e il database rifiuta la richiesta intera quando una colonna manca: quelle pagine non ricevevano un negozio senza bollino, **non ricevevano niente**. Riparato nella 124, con controllo SQL che diventa rosso se qualcuno li toglie ancora.
+>
+> **Le cinque riparazioni sui soldi.** ① Il fattorino non veniva pagato per **nessuna** consegna in contanti: ora trattiene il compenso dall'incasso e rimette il resto. ② Il ritiro in negozio non arrivava mai a «consegnato»: ora lo chiude il venditore col codice del cliente, e sul contante l'ordine finisce in `CASH_IN_STORE` invece di generare un bonifico a un negozio che ha già incassato. ③ Il rimborso divideva per due basi diverse: su un ordine da 50 euro con 20 di credito toglieva al negozio **15 euro invece di 9**, e un ordine coperto per intero da gift card non era rimborsabile affatto. ④ Contestazione vinta: tornava in coda solo il negozio, il fattorino restava «stornato» per sempre — e la chiave di idempotenza avrebbe restituito il bonifico già stornato a entrambi. ⑤ Ordine in contanti da due negozi: gli avvisi partivano dentro il ciclo, quindi il primo negozio riceveva la posta di un ordine poi cancellato.
+>
+> **Le misure, non le impressioni.** Pagine servite dalla cache: **da 2 a 96 su 203** (misurato con due build vere; la causa era una riga che leggeva la lingua del browser a ogni caricamento). Righe della rotta del webhook: **da 1002 a 178**, gli otto mestieri divisi in `lib/stripe/webhook/`. Colonne nei tipi del database: **da 191 a 740** (il generatore leggeva una sola colonna per istruzione e perdeva `seller_payout_cents`). Prove: **933 verdi** (erano 876), **otto file di controlli SQL**, fra cui uno nuovo che percorre la catena dell'ordine dall'inizio alla fine.
+>
+> **Restano a Nicola:** **#140** applicare la migrazione 124 (senza, la vetrina resta vuota) · **#141** far partire il rilascio solo a controlli verdi · **#139** un Supabase di prova · più le carte già in coda #137, #134, #136.
+>
+> Referto: `consegne/audit/2026-08-21-marketplace-ultimi-difetti.md` · ramo `claude/marketplace-bugs-njlgi8`.
 
 > 🎯 **20/8 17:00 — I quattro bloccanti: tre chiusi, uno spento. Restano 29 aperti su 245, un solo bloccante.** Nicola ha risposto a tutti e quattro in chat e ho messo le risposte nel codice (`mycity#229`).
 >

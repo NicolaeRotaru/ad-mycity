@@ -22,6 +22,129 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🟡 #142 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
+
+**In parole semplici:** questa card parla di come lavoro io, non del sito e non dei negozi.
+Un plugin è un pacchetto di istruzioni già scritte da altri. Si aggancia alla macchina e le insegna
+un modo di lavorare. Superpowers è il più usato dei plugin, e porta quattordici metodi.
+
+Un esempio di cosa cambia in pratica. Il 20 agosto il server si era fermato per il disco pieno.
+Senza quei metodi io guardo l'errore e libero spazio: il sintomo. Il metodo «cerca la causa vera»
+mi obbliga prima a chiedermi *perché* si riempie, e a scrivere la risposta. È la differenza fra
+liberare il disco oggi e non doverlo più liberare.
+
+L'ho installato e da adesso è acceso: in questa sessione la macchina ce li ha. Il problema è che
+l'ho acceso nella parte della macchina che vive un giorno solo. Quando questa sessione finisce, il
+plugin sparisce con lei, e la prossima riparte senza.
+
+Per farlo restare va scritta una riga in un file di configurazione del progetto. Quel file, tu, l'hai
+messo apposta nella lista di quelli che io non posso toccare da sola. È una tua regola e la rispetto:
+per questo te lo chiedo invece di farlo.
+
+**Cosa cambia:** oggi due delle quattordici skill le avevamo già, copiate a mano dentro il repo a
+luglio. Erano copie ferme a quella data. Col plugin arrivano aggiornate e si aggiornano da sole. Se
+non lo rendi permanente, ogni sessione riparte con le due copie vecchie e senza le altre dodici.
+
+**Se va bene:** apri `.claude/settings.json` e incolla queste righe subito dopo la prima parentesi
+graffa, prima di `"permissions"`:
+
+```json
+  "extraKnownMarketplaces": {
+    "superpowers-dev": {
+      "source": { "source": "github", "repo": "obra/superpowers" }
+    }
+  },
+  "enabledPlugins": {
+    "superpowers@superpowers-dev": true
+  },
+```
+
+Poi, sul server, un giro di `node cervello/sync-worker-plugins.mjs --specchia` così anche lì sparisce
+la copia doppia.
+
+**Cosa non ho verificato:** una cosa la devi sapere prima di firmare. Con quelle righe la macchina
+scarica il pacchetto da GitHub ogni volta, prendendo l'ultima versione che c'è in quel momento. Non
+è una versione bloccata: se domani chi lo scrive cambia qualcosa, noi ce lo prendiamo senza che
+nessuno l'abbia riletto. Le due copie a mano di luglio avevano il difetto opposto — vecchie, ma
+lette da noi. Oggi è un progetto serio e diffuso, quindi il rischio è basso; non è zero, e la
+scelta è tua. Se preferisci il blocco, dimmelo e fisso la versione di oggi, la 6.3.0.
+
+E non ho potuto provare il server da qui: che le quattordici skill si accendano davvero l'ho visto
+solo su questa sessione.
+
+C'è un secondo punto che ho trovato guardandoci dentro, e conta per la firma. Il plugin non aspetta
+di essere chiamato. A ogni avvio di sessione mi infila un'istruzione fissa, scritta in maiuscolo.
+Dice di controllare se c'è un metodo da applicare **prima** di qualunque risposta. Anche prima
+delle domande che ti farei per capire cosa vuoi.
+
+Sul lavoro lungo è il comportamento giusto. Su una domanda secca tua, rischia di mettermi un
+passaggio in mezzo prima di risponderti. È lo stesso problema che avemmo a luglio con *caveman*, che
+poi spegnemmo nella chat con te e lasciammo solo sui lavori interni. Qui non tocca il modo in cui
+ti scrivo, solo quanto giro faccio prima. Lo tengo d'occhio: se lo vedi appesantire le risposte
+brevi, dimmelo e lo restringo ai lavori interni come facemmo allora.
+
+---
+
+### 🔴 #141 — Fai partire il rilascio solo a controlli verdi, non insieme a loro · ⏳ accodata 2026-08-21 03:20
+
+**Cosa cambia:** oggi il rilascio parte insieme ai controlli, non dopo. Se un controllo diventa
+rosso, il codice rotto è già online.
+
+La metà buona è già scritta: un lavoro che rilascia solo a controlli passati. È spento perché gli
+manca l'indirizzo di rilascio. Tre mosse, tutte tue perché toccano la produzione.
+
+- **Prima** — Render → il servizio → Settings → Deploy Hook: copia l'indirizzo. Mettilo su GitHub
+  come segreto `RENDER_DEPLOY_HOOK`, sotto Settings → Secrets and variables → Actions.
+- **Poi** — nel file `render.yaml` cambia una riga: `autoDeploy: true` diventa `autoDeploy: false`.
+  Va fatto dopo il passo di prima. Al contrario il rilascio si ferma e basta.
+- **Infine** — GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio su `main`.
+
+**Se va bene:** in produzione arriva solo quello che ha passato i controlli.
+
+**Cosa non ho verificato:** non ho aperto Render né toccato le impostazioni di GitHub. Le tre mosse
+le ho lette dai file del progetto.
+
+---
+
+### 🔴 #140 — Applica al database la migrazione 124: senza, la vetrina dei negozi resta vuota · ⏳ accodata 2026-08-21 03:20
+
+**Cosa cambia:** unire una richiesta pubblica il codice. Non tocca il database. Sono due firme
+diverse, e questa è la seconda.
+
+La riparazione più urgente non era nemmeno nel referto, l'ho trovata lavorando. **La vetrina
+pubblica dei negozi aveva perso due colonne.** Sei pagine del sito le chiedono, e il database
+rifiuta la richiesta intera quando una colonna non c'è. Quelle pagine non ricevevano un negozio
+senza bollino: non ricevevano nessun negozio.
+
+Dentro ci sono altre sei riparazioni: il rimborso che toglieva al negozio più del dovuto, il ritiro
+in negozio che arriva a «consegnato», i ritiri tolti dalla bacheca dei fattorini, gli stati del
+compenso che il database rifiutava, gli esiti dei pagamenti, il riquadro della home.
+
+Il file è `124_radiografia_21_agosto.sql`, nel ramo `claude/marketplace-bugs-njlgi8`.
+
+**Se va bene:** dimmelo e ti passo il comando esatto.
+
+**Cosa non ho verificato:** non l'ho applicata a nessun database vero, solo a una copia di prova
+qui dentro. Finché non la firmi, metà delle riparazioni non è attiva. Il racconto lungo sta in
+`consegne/audit/2026-08-21-marketplace-ultimi-difetti.md`.
+
+---
+
+### 🟡 #139 — Un Supabase di prova, per i controlli che oggi si saltano da soli · ⏳ accodata 2026-08-21 03:20
+
+**Cosa cambia:** due gruppi di controlli si saltano quando mancano i segreti di un progetto di
+prova. Sono quelli sui permessi del database e quelli che aprono il sito in un browser vero.
+
+Da oggi lo dicono in cima al riepilogo invece che nel log. Ma restano saltati. È anche il motivo per
+cui non ho potuto scrivere i tre giri nel browser sulla catena dell'ordine.
+
+**Se va bene:** crea un progetto Supabase nuovo e vuoto, mai quello dei clienti. Mettine tre segreti
+su GitHub: `SUPABASE_TEST_URL`, `SUPABASE_TEST_ANON_KEY`, `SUPABASE_TEST_SERVICE_ROLE_KEY`.
+
+**Cosa non ho verificato:** non ho creato il progetto né toccato i segreti.
+
+---
+
 ### 🟡 #138 — Il server lavora ma non pubblica più niente da tre giorni · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 13:05
 
 **Cosa cambia:** il server è vivo. I dodici orologi che hai fotografato sono partiti tutti oggi, e
@@ -46,6 +169,8 @@ Mandami quello che esce. Se lo spazio torna, guardiamo il giro delle 14:20.
 
 **Cosa non ho verificato:** perché non pubblica. Il fatto ce l'ho, il motivo no. Da qui non posso
 leggere il diario del server.
+
+---
 
 ### 🟡 #137 — Approva il fattorino dal pannello: adesso il pulsante c'e' · ⏳ accodata 2026-08-20 17:00
 

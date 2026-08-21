@@ -79,14 +79,22 @@ const pb = (stato, severita = "grave", extra = {}) => ({ stato, severita, titolo
 
 // ── ① IL REFERTO VERO ────────────────────────────────────────────────────────────────────────────
 
-test("① sul referto vero il conto è 29 aperti su 245, e la somma torna", () => {
+test("① sul referto vero la somma torna, e il conto è quello che dice l'elenco", () => {
   const c = contoMarketplace(VERO);
   assert.equal(c.letto, true, "il referto vero deve essere leggibile");
   assert.equal(c.totale, 245);
-  assert.equal(c.aperti, 29);
-  assert.equal(c.chiusi, 216);
+
+  // Il numero degli aperti cambia a ogni lotto di riparazioni: fissarlo qui
+  // vorrebbe dire una prova rossa a ogni giro di lavoro, e una prova che si
+  // aggiorna per abitudine smette di essere una prova. Si controlla invece
+  // l'invariante: il conto deve essere ESATTAMENTE quello che si ricava
+  // contando a mano l'elenco, con lo stesso vocabolario di stati.
+  const apertiAMano = VERO.problemi.filter(
+    (p) => !["chiuso", "riparato", "gia_riparato_prima"].includes(String(p.stato ?? "").trim().toLowerCase()),
+  ).length;
+  assert.equal(c.aperti, apertiAMano, "gli aperti devono coincidere col conto a mano sull'elenco");
+  assert.equal(c.chiusi, VERO.problemi.length - apertiAMano);
   assert.equal(c.aperti + c.chiusi, c.totale, "aperti + chiusi deve fare il totale");
-  assert.deepEqual(c.aperti_per_severita, { bloccante: 1, grave: 15, minore: 13, altre: 0 });
   assert.equal(c.divergenza_dal_dichiarato, 0, "il file deve essere coerente col totale che dichiara");
   const s = c.aperti_per_severita;
   assert.equal(s.bloccante + s.grave + s.minore + s.altre, c.aperti, "i rami di gravità devono fare gli aperti");
@@ -100,8 +108,10 @@ test("② la logica vecchia, sullo stesso referto vero, risponde zero: è il dif
   assert.equal(v.chiusi, 0);
   // E questo è il punto che rendeva lo zero peggiore del 245: nella rotta `0 ?? 245` vale 0.
   assert.equal(v.aperti ?? VERO.meta.findings, 0, "«0 non è nullish»: lo zero vince sul totale del referto");
-  // La casa unica, sullo stesso file, non ci casca.
-  assert.equal(contoMarketplace(VERO).aperti, 29);
+  // La casa unica, sullo stesso file, non ci casca: legge l'elenco e trova
+  // quello che c'è davvero, qualunque numero sia oggi.
+  assert.ok(contoMarketplace(VERO).aperti > 0, "sul referto vero devono restare dei problemi da leggere");
+  assert.equal(contoMarketplace(VERO).letto, true);
 });
 
 // ── ③ NON LETTO NON È ZERO ───────────────────────────────────────────────────────────────────────
@@ -135,12 +145,14 @@ test("④ il blocco sync_scan del giro non scrive mai uno zero non letto", () =>
   assert.notEqual(s.findings_aperti, 0);
   assert.ok(s.motivo, "e deve portarsi dietro il motivo, non solo il null");
 
-  // Sul referto vero, invece, il blocco porta il numero giusto.
+  // Sul referto vero, invece, il blocco porta il numero giusto — che è quello
+  // dell'elenco, non un numero fissato qui (vedi il controllo ①).
   const buono = syncScanMarketplace(VERO, "2026-08-20 19:00");
+  const conto = contoMarketplace(VERO);
   assert.equal(buono.letto, true);
-  assert.equal(buono.findings_aperti, 29);
+  assert.equal(buono.findings_aperti, conto.aperti);
   assert.equal(buono.findings_tot, 245);
-  assert.equal(buono.aperti_per_severita.bloccante, 1);
+  assert.deepEqual(buono.aperti_per_severita, conto.aperti_per_severita);
   assert.equal(buono.data_scan, "2026-08-18");
 });
 
@@ -193,12 +205,15 @@ test("⑧ alla scheda arrivano solo gli aperti, col numero dei riparati e il «d
   const dims = dimensioniDaDisegnare(VERO);
   const mostrati = dims.reduce((a, d) => a + d.findings.length, 0);
   const chiusiContati = dims.reduce((a, d) => a + d.problemi_chiusi, 0);
-  assert.equal(mostrati, 29, "la scheda disegna i 29 aperti, non i 245 del referto");
-  assert.equal(chiusiContati, 216, "e dei riparati resta il numero, che è un dato che serve");
+  const conto = contoMarketplace(VERO);
+  // Come nel controllo ①: il numero cambia a ogni lotto, l'invariante no.
+  assert.equal(mostrati, conto.aperti, "la scheda disegna gli aperti, non tutti i problemi del referto");
+  assert.equal(chiusiContati, conto.chiusi, "e dei riparati resta il numero, che è un dato che serve");
+  assert.equal(mostrati + chiusiContati, conto.totale, "quello che si disegna piu quello che si conta fa il totale");
 
   // Il «dove» dei referti nuovi sta nel campo `file`: senza la normalizzazione la colonna resta vuota.
   const conDove = dims.flatMap((d) => d.findings).filter((f) => f.dove);
-  assert.equal(conDove.length, 29, "tutti e 29 devono sapere dire dove sono");
+  assert.equal(conDove.length, mostrati, "ognuno deve sapere dire dove sta");
   assert.equal(doveDi({ file: "app/x.ts:1" }), "app/x.ts:1");
   assert.equal(doveDi({ dove: "vecchio.ts:2" }), "vecchio.ts:2");
 
