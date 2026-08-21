@@ -72,6 +72,17 @@ scelta è tua. Se preferisci il blocco, dimmelo e fisso la versione di oggi, la 
 E non ho potuto provare il server da qui: che le quattordici skill si accendano davvero l'ho visto
 solo su questa sessione.
 
+C'è un secondo punto che ho trovato guardandoci dentro, e conta per la firma. Il plugin non aspetta
+di essere chiamato: a ogni avvio di sessione mi infila un'istruzione fissa, scritta in maiuscolo,
+che dice di controllare se c'è un metodo da applicare **prima** di qualunque risposta — comprese le
+domande che ti farei per capire cosa vuoi.
+
+Sul lavoro lungo è il comportamento giusto. Su una domanda secca tua, rischia di mettermi un
+passaggio in mezzo prima di risponderti. È lo stesso problema che avemmo a luglio con *caveman*, che
+poi spegnemmo nella chat con te e lasciammo solo sui lavori interni. Qui non tocca il modo in cui
+ti scrivo, solo quanto giro faccio prima. Lo tengo d'occhio: se lo vedi appesantire le risposte
+brevi, dimmelo e lo restringo ai lavori interni come facemmo allora.
+
 ---
 
 ### 🟡 #138 — Riconcilia la memoria ferma sul server: prima guarda, poi decidi · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 03:25
