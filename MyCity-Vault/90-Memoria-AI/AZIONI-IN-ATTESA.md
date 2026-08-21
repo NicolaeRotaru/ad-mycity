@@ -77,8 +77,10 @@ sudo systemctl start mycity-watch-main.timer mycity-sentinella.timer mycity-sent
 su copie vere costruite apposta: rimettendo il difetto la prova diventa rossa e conta i cassetti che
 crescono, uno, due, tre. Con la riparazione restano zero e il server pubblica.
 
-**Se va bene:** dopo questa, la carta #144 si chiude in due minuti. E da domani un guardiano suona da
-solo se i cassetti ricominciano ad accumularsi.
+**Se va bene:** il server torna a ricevere quello che unisci e a pubblicare quello che scrive. E da
+domani un guardiano suona da solo se i cassetti ricominciano ad accumularsi.
+
+*(La #144 e la #142 nel frattempo si sono chiuse per conto loro: le trovi segnate ✅ più sotto.)*
 
 ---
 
@@ -178,39 +180,19 @@ L'ho portato anche agli strumenti. Monitor adesso è dichiarato lì: non è un b
 un'esenzione. È un debito con sopra scritto entro quando. Dopo il **4 settembre** torna a essere un
 buco da solo.
 
-> ⚠️ **Correzione del 21/8 20:15 — la copia a mano non funziona, e l'abbiamo scoperto provandola.**
+> ✅ **FATTA — 21/8 20:20. Non devi più fare niente su questa carta.**
 >
-> Ti avevo scritto di copiare il file sopra le impostazioni. L'hai fatto, e un minuto dopo era sparito.
-> Il motivo: ogni minuto il server si riallinea a GitHub e rimette i file versionati come stanno lì.
-> `.claude/settings.json` è uno di quelli. La copia veniva riscritta senza dire niente a nessuno.
+> Mentre lavoravo al server, un'altra sessione ha portato la modifica su GitHub per la sua strada
+> giusta: un ramo e una richiesta di unione. Ho confrontato le impostazioni su `main` col file che
+> avevo preparato: **identiche, riga per riga**. Dentro ci sono tutte e due le cose — la parola
+> `Monitor` (questa carta) e le righe del plugin (la #142). Anche la **#142 è chiusa**.
 >
-> Perché la modifica resti, deve **stare su GitHub**. E su `main` un file di questo tipo entra solo da
-> una richiesta di unione: è la regola che impedisce a chiunque, me compresa, di cambiare i freni con
-> un colpo di mano.
-
-**Cosa devi fare.** Prima la carta **#150** (il server deve tornare a sincronizzarsi, se no il ramo
-nasce da una copia vecchia). Poi:
-
-```
-cd /opt/mycity/ad-mycity
-git checkout -b impostazioni/monitor origin/main
-cp consegne/tech/settings-con-monitor.json .claude/settings.json
-git add .claude/settings.json
-git commit -m "impostazioni: Monitor sorvegliato e plugin attivi"
-git push -u origin impostazioni/monitor
-```
-
-Poi unisci la richiesta su GitHub, come hai fatto con la #810. **Da lì in avanti resta**: il
-riallineamento del server la conserva invece di cancellarla.
-
-⚠️ Se `git add` o `git commit` rispondono `index.lock: File exists`, sono le sentinelle che stanno
-usando git nello stesso momento. Fermale due minuti — il comando sta nella carta #150 — e riprova.
-
-**Come sai che ha attecchito:** cerca la parola nel file, non un messaggio generico.
-
-```
-grep -n '"matcher": "Bash|Monitor' .claude/settings.json
-```
+> **La lezione, che vale per la prossima volta.** Ti avevo scritto di copiare il file sopra le
+> impostazioni. L'hai fatto, e un minuto dopo era sparito: ogni minuto il server si riallinea a
+> GitHub e rimette i file versionati come stanno lì. `.claude/settings.json` è uno di quelli, quindi
+> la copia veniva riscritta in silenzio. Una modifica a quel file **regge solo se passa da una
+> richiesta di unione** — che è poi la regola che impedisce a chiunque, me compresa, di cambiare i
+> freni con un colpo di mano.
 
 ⚠️ **Questo file fa anche la carta #142**, quella del plugin. Le due carte toccano lo stesso file,
 quindi applicarle in due copie separate vorrebbe dire che la seconda cancella la prima. Con questo
@@ -384,11 +366,13 @@ Il file già pronto sta qui: `consegne/tech/settings-con-superpowers.json`. L'ho
 file di adesso, aggiungendo solo le due righe che servono. Ho controllato che tutto il resto sia
 identico parola per parola: 63 permessi concessi, 15 vietati, 8 ganci — gli stessi numeri di prima.
 
-> ⚠️ **Aggiornamento 21/8 20:15 — usa il blocco della carta #144, non questo.**
+> ✅ **FATTA — 21/8 20:20, insieme alla #144: erano lo stesso file.**
 >
-> Il file della #144 contiene già tutto quello che c'è qui dentro. Fai quella, e questa è chiusa.
-> Il blocco qui sotto è rimasto per storia, ma **non applicarlo**: la copia a mano viene cancellata
-> dal riallineamento del server entro un minuto — provata e vista sparire il 21/8 alle 19:26.
+> Le righe del plugin sono su `main`. Confrontato riga per riga: le impostazioni pubblicate sono
+> identiche al file che avevo preparato. Non devi fare niente.
+>
+> Il blocco qui sotto resta per storia, ma **non va applicato**: quella copia a mano il server la
+> cancella entro un minuto, riallineandosi a GitHub — provata e vista sparire il 21/8 alle 19:26.
 
 **Copia questo blocco intero, sul server.** Le prime due righe non sono decorazione: la prima ti
 porta nella cartella del progetto, la seconda tira giù il file da GitHub. Senza, i comandi cercano

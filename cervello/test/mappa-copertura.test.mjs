@@ -140,3 +140,52 @@ test("uno strumento scoperto diventa un ❌ che dice cosa fare", () => {
 test("turno pulito: nessuna riga, il cancello non parla per parlare", () => {
   assert.deepEqual(righeSorveglianza({ buchi: [], scoperti: [], mosse: 30 }), []);
 });
+
+// ── 21/8: il terzo stato — «il freno è a una riga di distanza» — non aveva prove ────────────────
+//
+// La regola è arrivata su main con la sua ragione scritta per esteso e nessun caso che la esegua.
+// È il punto in cui una distinzione onesta diventa una frase: quello che tiene in piedi `IN_ATTESA`
+// è la DATA, e una data che nessuno prova a superare non ferma niente. Queste prove tengono le due
+// direzioni — l'attesa perdona PRIMA della scadenza, e smette di perdonare DOPO, da sola.
+
+import { attesaValida, IN_ATTESA } from "../mappa-copertura.mjs";
+
+const ATTESE = { Monitor: { scade: "2026-09-04", perche: "esegue una shell come Bash, quindi NON è esente: gli serve lo stesso freno" } };
+const soloBash = freni([["Bash", "node blocca.mjs"]]);
+
+test("uno strumento in attesa non fa rosso finché la data non è passata", () => {
+  const r = coperturaDi("Monitor", soloBash, { ...OPZ, attese: ATTESE, oggi: "2026-08-21" });
+  assert.equal(r.stato, "scoperto", "resta scoperto nei fatti: nessuno lo guarda");
+  assert.equal(r.problema, false, "un cancello rosso per costruzione viene aggirato al secondo giro");
+  assert.equal(r.in_attesa, true);
+  assert.equal(r.scade, "2026-09-04");
+});
+
+test("il giorno dopo la scadenza torna rosso da solo", () => {
+  const r = coperturaDi("Monitor", soloBash, { ...OPZ, attese: ATTESE, oggi: "2026-09-05" });
+  assert.equal(r.problema, true, "se non scatta qui, l'attesa è un'esenzione eterna con una data finta sopra");
+  assert.equal(r.in_attesa, false);
+});
+
+test("il giorno DELLA scadenza vale ancora: la data è l'ultimo giorno buono", () => {
+  assert.equal(attesaValida("Monitor", "2026-09-04", ATTESE), true);
+});
+
+test("senza data non è un'attesa, e senza perché nemmeno", () => {
+  assert.equal(attesaValida("X", "2026-08-21", { X: { perche: "esegue una shell come Bash e va frenato" } }), false, "un debito senza scadenza è un buco con una scusa più lunga");
+  assert.equal(attesaValida("X", "2026-08-21", { X: { scade: "2026-12-31", perche: "boh" } }), false, "un'etichetta non è un perché");
+  assert.equal(attesaValida("X", "2026-08-21", { X: { scade: "fra un po'", perche: "esegue una shell come Bash e va frenato" } }), false);
+  assert.equal(attesaValida("Mai", "2026-08-21", ATTESE), false);
+});
+
+// 21/8 20:20 — Monitor è uscito dall'elenco perché il debito è stato pagato: la riga che lo copre è
+// su `main`. Il MECCANISMO del terzo stato resta provato qui sopra su ingressi finti; questa prova
+// adesso sorveglia la cosa che conta — che l'elenco non si riempia di deroghe senza scadenza.
+// Un'attesa è una promessa con una data: se qualcuna resta senza, l'elenco torna a essere un posto
+// dove i buchi si nascondono.
+test("ogni attesa dichiarata ha una data vera e un perché che dice cosa manca", () => {
+  for (const [strumento, a] of Object.entries(IN_ATTESA)) {
+    assert.match(a.scade || "", /^\d{4}-\d{2}-\d{2}$/, `${strumento}: un'attesa senza data non è un'attesa`);
+    assert.ok((a.perche || "").length > 40, `${strumento}: chi legge deve sapere COSA manca, non solo che manca`);
+  }
+});

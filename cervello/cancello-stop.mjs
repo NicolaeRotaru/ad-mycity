@@ -66,6 +66,7 @@ import { fileURLToPath } from "node:url";
 import { percorsiDaGit } from "./percorsi-git.mjs";
 import { misura, parolePeggioNoteAGlossario } from "./si-capisce.mjs";
 import { BATTITO, vociInsistenti } from "./sorvegliante.mjs";
+import { blocchi, orfano } from "./comandi-senza-casa.mjs";
 import { collaudoAlloStop } from "./collaudo.mjs";
 import { abbina, buchi, delTurno, leggiRegistroConEsito, strumentiVisti } from "./libro-mastro.mjs";
 import { leggiFreni, mappa, righeSorveglianza, strumentiDaTrascrizione } from "./mappa-copertura.mjs";
@@ -405,6 +406,31 @@ export function testiIlleggibili(testi = [], noteAGlossario = null) {
 }
 
 /**
+ * ⑥-bis IL COMANDO CHE GLI SCRIVO IN CHAT E CHE NON DICE DA DOVE SI LANCIA (21/8).
+ *
+ * Stessa malattia di `comandi-senza-casa.mjs`, altra superficie. Quel guardiano nasce oggi per le
+ * card, e le card le ha sistemate. Poi gliel'ho rifatta TRE VOLTE in chat, l'ultima un'ora dopo
+ * averlo costruito: `node cervello/plugin-acceso.mjs` senza il `cd`, Nicola nella sua home, e uno
+ * stack trace di Node al posto di una risposta.
+ *
+ * È la lezione L-2026-0810-03 pagata di nuovo: quando la malattia riguarda un COMPORTAMENTO, il
+ * freno va messo su TUTTE le corsie che quel comportamento ce l'hanno, non solo su quella che ha
+ * bruciato per prima. La chat è una corsia come le altre: è un file, e questo cancello lo legge già.
+ *
+ * Riuso `blocchi` e `orfano` invece di riscriverli: due copie della stessa regola divergono al primo
+ * ritocco, ed è un difetto che questa casa ha già censito.
+ */
+export function comandoSenzaCasaInChat(testo) {
+  if (!testo || !testo.trim()) return null;
+  const trovati = [];
+  for (const b of blocchi(testo)) {
+    const cmd = orfano(b);
+    if (cmd) trovati.push(cmd);
+  }
+  return trovati.length ? { quanti: trovati.length, primi: trovati.slice(0, 3) } : null;
+}
+
+/**
  * ⑥ IL MESSAGGIO CHE STO PER MANDARE A NICOLA IN CHAT (AR-481).
  *
  * Era il buco dichiarato di AR-478: «la chat non è misurabile, non è un file, nessun controllo può
@@ -457,6 +483,7 @@ export function verdetto({
   insistenti = [],
   illeggibili = [],
   messaggio = null,
+  comandiInChat = null,
   collaudo = [],
   ciechi = [],
   note = [],
@@ -564,6 +591,15 @@ export function verdetto({
         messaggio.primi.map((p) => `\n   → ${p.dico}${p.frase ? `\n     «${p.frase}»` : ""}`).join("") +
         `\n   → riscrivilo PRIMA di chiudere il turno: la chat è il posto dove Nicola legge di più.` +
         `\n   → la sostanza resta tutta: si riscrive la forma, non si toglie il contenuto.`,
+    );
+  }
+  if (comandiInChat) {
+    righe.push(
+      `❌ sto per dargli ${comandiInChat.quanti} comando/i senza dire da QUALE cartella si lanciano` +
+        comandiInChat.primi.map((c) => `\n   → ${c}`).join("") +
+        `\n   → quei percorsi esistono solo dentro la cartella del progetto, e lui lancia dal server.` +
+        `\n   → metti il \`cd\` nello stesso blocco: è successo il 4/8 e due volte il 21/8, e ogni` +
+        `\n     volta lui riceve uno stack trace di Node al posto di una risposta.`,
     );
   }
   // ⚪ CIECO NON È VERDE (limite ③ della prima stesura). Quando non trovo un ramo con cui confrontarmi
@@ -1280,6 +1316,12 @@ async function main() {
     }
   })();
 
+  // I MIEI messaggi di questo turno, letti UNA volta sola: la trascrizione è un file che cresce
+  // con la sessione, e due controlli che la rileggono ciascuno per conto suo la fanno pagare due
+  // volte per la stessa risposta.
+  const mieiMessaggi = testiAssistente(leggiTrascrizione(trascrizione) || []);
+  const ultimoMio = mieiMessaggi[mieiMessaggi.length - 1] || null;
+
   const v = verdetto({
     sorveglianza,
     senzaEsito: committati && righeQuaderni ? consegnaSenzaEsito(committati, righeQuaderni.flatMap((f) => f.righe), base ? codiceDopoUltimoEsito(base) : null) : null,
@@ -1293,14 +1335,10 @@ async function main() {
     // `Stop` (sto chiudendo IL MIO turno) e senza ancora. Fuori dall'hook resta certa anche col
     // perimetro largo, perché lì chi chiede è la CI e l'unità di consegna è il ramo, non il turno.
     attribuzione: { certa: perimetro.turno || !hook, nota: perimetro.nota },
-    messaggio: (() => {
-      const righeT = leggiTrascrizione(trascrizione) || [];
-      const miei = testiAssistente(righeT);
-      // Gli ultimi 8 messaggi bastano: più indietro di così Nicola non ricorda, e confrontare tutta
-      // la sessione renderebbe rosso ogni riepilogo legittimo.
-      const precedenti = miei.slice(-9, -1);
-      return messaggioIlleggibile(miei[miei.length - 1] || null, parolePeggioNoteAGlossario(REPO), precedenti);
-    })(),
+    // Gli ultimi 8 messaggi bastano: più indietro di così Nicola non ricorda, e confrontare tutta
+    // la sessione renderebbe rosso ogni riepilogo legittimo.
+    messaggio: messaggioIlleggibile(ultimoMio, parolePeggioNoteAGlossario(REPO), mieiMessaggi.slice(-9, -1)),
+    comandiInChat: comandoSenzaCasaInChat(ultimoMio),
     ciechi,
     note,
     giaBloccato,
