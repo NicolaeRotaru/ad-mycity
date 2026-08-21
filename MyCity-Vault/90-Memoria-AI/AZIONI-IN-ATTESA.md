@@ -50,14 +50,15 @@ sudo bash /opt/mycity/ad-mycity/cervello/vps/install-ritmo-timers.sh
 ```
 Poi scrivimi «fatto» e ricontrollo subito con un referto fresco.
 
-**Cosa non ho verificato:** da questa sessione non ho accesso a `systemctl` né posso leggere i file
-di sistema del server (`/etc/systemd/system/...`) — è una protezione voluta, non un bug di questa
-richiesta. Quindi non so con certezza SE il timer è disattivato, fallito o solo silenzioso: lo
-deduco solo dal fatto che il referto ha smesso di aggiornarsi proprio il 18/8, lo stesso giorno
-dell'incidente del doppio worker (poi risolto la sera stessa). Non ho nemmeno potuto verificare se
-il servizio principale della macchina (mycity-worker) sia oggi acceso o spento: l'ultimo dato certo
-su questo è di tre giorni fa. Non è la stessa causa della card #104 (quella è un permesso di
-scrittura della sessione AD, questo è un timer di sistema del server): le ho tenute separate.
+**Cosa non ho verificato:** da questa sessione non ho accesso a `systemctl`. Non posso nemmeno
+leggere i file di sistema del server (`/etc/systemd/system/...`). È una protezione voluta: non è un
+bug di questa richiesta. Per questo non so con certezza se il timer è disattivato, fallito o solo
+silenzioso. Lo deduco solo da un fatto: il referto ha smesso di aggiornarsi proprio il 18/8. Quel
+giorno c'è stato l'incidente del doppio worker, risolto la sera stessa. Non ho nemmeno potuto
+verificare se oggi il servizio principale della macchina (mycity-worker) è acceso o spento.
+L'ultimo dato certo su questo è di tre giorni fa. Non è la stessa causa della card #104. Quella
+card riguarda un permesso di scrittura della sessione AD. Questa riguarda un timer di sistema del
+server. Le ho tenute separate apposta.
 
 - **Colore:** 🟡 — tocca servizi veri sul server (restart), ma è reversibile e non tocca dati di
   negozi o clienti.
