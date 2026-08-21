@@ -1,0 +1,218 @@
+{
+  "extraKnownMarketplaces": {
+    "superpowers-dev": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "superpowers@superpowers-dev": true
+  },
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch",
+      "PowerShell(Get-PSDrive C | Select-Object Used,Free,@{N='FreeGB';E={[math]::Round\\($_.Free/1GB,2\\)}},@{N='UsedGB';E={[math]::Round\\($_.Used/1GB,2\\)}})",
+      "Bash(git status:*)",
+      "Bash(git log:*)",
+      "Bash(git fetch:*)",
+      "Bash(git remote:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git checkout:*)",
+      "Bash(git switch:*)",
+      "Bash(git branch:*)",
+      "Bash(git stash:*)",
+      "Bash(git rebase:*)",
+      "Bash(git pull --rebase:*)",
+      "Bash(git cat-file:*)",
+      "Bash(git diff:*)",
+      "Bash(git show:*)",
+      "Bash(git rev-parse:*)",
+      "Bash(node cervello/*.mjs:*)",
+      "Bash(bash cervello/*.sh:*)",
+      "Bash(node cervello/git-pr.mjs:*)",
+      "Bash(node cervello/git-github.mjs:*)",
+      "Bash(node cervello/esegui-azione.mjs:*)",
+      "Bash(node cervello/marketplace.mjs:*)",
+      "Bash(node cervello/coerenza-fatti.mjs:*)",
+      "Bash(node cervello/chiusura-loop.mjs:*)",
+      "Bash(node cervello/verifica-sensori.mjs:*)",
+      "Bash(node cervello/banco-ai.mjs:*)",
+      "Bash(node cervello/supervisione-negozi.mjs:*)",
+      "Bash(node cervello/auto-fix.mjs:*)",
+      "Bash(node cervello/allocazione-check.mjs:*)",
+      "Bash(node cervello/agent-registry-check.mjs:*)",
+      "Bash(git -C marketplace checkout:*)",
+      "Bash(git -C marketplace/ checkout:*)",
+      "Bash(git -C marketplace branch:*)",
+      "Bash(git -C marketplace status:*)",
+      "Bash(git -C marketplace log:*)",
+      "Bash(node --test:*)",
+      "Bash(npx bats:*)",
+      "Bash(npx tsc --noEmit:*)",
+      "Bash(npm --prefix pannello run build:*)",
+      "Bash(npm --prefix pannello ci:*)",
+      "mcp__supabase-marketplace__list_tables",
+      "mcp__supabase-marketplace__list_migrations",
+      "mcp__supabase-marketplace__get_logs",
+      "mcp__supabase-memoria__list_tables",
+      "mcp__Supabase__execute_sql",
+      "mcp__github__list_pull_requests",
+      "mcp__github__pull_request_read",
+      "mcp__github__list_commits",
+      "mcp__github__get_commit",
+      "mcp__github__actions_list",
+      "mcp__github__create_pull_request",
+      "mcp__github__update_pull_request",
+      "mcp__github__add_issue_comment",
+      "mcp__github__subscribe_pr_activity",
+      "mcp__github__unsubscribe_pr_activity",
+      "mcp__claude_ai_Vercel__list_teams",
+      "mcp__claude_ai_Vercel__list_projects",
+      "mcp__claude_ai_Vercel__list_deployments",
+      "mcp__claude_ai_Vercel__get_deployment",
+      "mcp__claude_ai_Vercel__get_project"
+    ],
+    "deny": [
+      "Bash(gh:*)",
+      "Bash(*api.github.com*)",
+      "Read(./cervello/vps/.env)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Edit(./cervello/vps/.env)",
+      "Edit(**/.env)",
+      "Edit(**/.env.*)",
+      "Write(./cervello/vps/.env)",
+      "Write(**/.env)",
+      "Write(**/.env.*)",
+      "Edit(./.claude/settings.json)",
+      "Write(./.claude/settings.json)",
+      "Edit(./.claude/settings.local.json)",
+      "Write(./.claude/settings.local.json)"
+    ]
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash cervello/installa-hooks.sh >/dev/null 2>&1; node cervello/contesto-lezioni.mjs --hook"
+          },
+          {
+            "type": "command",
+            "command": "node cervello/memoria-guardia.mjs --apri --hook",
+            "timeout": 15
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/intento-turno.mjs --hook",
+            "timeout": 10
+          },
+          {
+            "type": "command",
+            "command": "node cervello/contesto-lezioni.mjs --richiesta",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Monitor|Task|mcp__.*",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/pre-scrittura.mjs --hook",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "matcher": "Edit|Write|MultiEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/mano-fermata.mjs --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|NotebookEdit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/sorvegliante.mjs --hook",
+            "timeout": 15
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/misura-cieca.mjs --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/cancello-senior.mjs --hook",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/memoria-guardia.mjs --consegna --hook",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/cancello-stop.mjs --hook",
+            "timeout": 20
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node cervello/memoria-guardia.mjs --chiudi --hook",
+            "timeout": 15
+          }
+        ]
+      }
+    ]
+  }
+}
