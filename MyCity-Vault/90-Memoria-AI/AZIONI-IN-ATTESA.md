@@ -73,9 +73,9 @@ E non ho potuto provare il server da qui: che le quattordici skill si accendano 
 solo su questa sessione.
 
 C'è un secondo punto che ho trovato guardandoci dentro, e conta per la firma. Il plugin non aspetta
-di essere chiamato: a ogni avvio di sessione mi infila un'istruzione fissa, scritta in maiuscolo,
-che dice di controllare se c'è un metodo da applicare **prima** di qualunque risposta — comprese le
-domande che ti farei per capire cosa vuoi.
+di essere chiamato. A ogni avvio di sessione mi infila un'istruzione fissa, scritta in maiuscolo.
+Dice di controllare se c'è un metodo da applicare **prima** di qualunque risposta. Anche prima
+delle domande che ti farei per capire cosa vuoi.
 
 Sul lavoro lungo è il comportamento giusto. Su una domanda secca tua, rischia di mettermi un
 passaggio in mezzo prima di risponderti. È lo stesso problema che avemmo a luglio con *caveman*, che

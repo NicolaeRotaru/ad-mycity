@@ -57,3 +57,23 @@ SKILLS="$ROOT/../.claude/skills"
   [ "$status" -eq 0 ]
   [[ "$output" == *"0 file aggiornati"* ]]
 }
+
+@test "specchio: la pulizia tocca un file solo, non spazza la cartella" {
+  # una voce marcata per sbaglio non deve poter cancellare roba di altri:
+  # si toglie il SKILL.md specchiato, e la cartella solo se resta vuota
+  SYNC_PLUGIN_ATTIVI= node "$SYNC" --specchia >/dev/null
+  echo "roba mia" > "$SKILLS/systematic-debugging/APPUNTI.md"
+  SYNC_PLUGIN_ATTIVI=superpowers run node "$SYNC" --specchia
+  [ "$status" -eq 0 ]
+  [ ! -f "$SKILLS/systematic-debugging/SKILL.md" ]
+  [ -f "$SKILLS/systematic-debugging/APPUNTI.md" ]
+  rm -rf "$SKILLS/systematic-debugging"
+}
+
+@test "specchio: le skill di progetto versionate restano intatte" {
+  SYNC_PLUGIN_ATTIVI=superpowers run node "$SYNC" --specchia
+  [ "$status" -eq 0 ]
+  for s in verify cantiere salute worker senior; do
+    [ -f "$SKILLS/$s/SKILL.md" ]
+  done
+}

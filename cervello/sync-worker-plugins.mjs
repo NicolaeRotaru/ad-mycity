@@ -10,7 +10,7 @@
 // convertita in SKILL.md. I file specchiati sono GENERATI e ignorati da git (.gitignore).
 
 import { createHash } from "node:crypto";
-import { existsSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, rmdirSync, rmSync, writeFileSync } from "node:fs";
 import { homedir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -178,7 +178,15 @@ export function specchiaClaude({ dryRun = false } = {}) {
         if (dryRun) {
           console.log(`[dry-run] doppione ${p.id}: rimuoverei ${claudeTarget} (lo dà il plugin ${p.fornito_da_plugin})`);
         } else {
-          rmSync(dirname(vecchia), { recursive: true, force: true });
+          // solo il file, poi la cartella SE resta vuota. Un rmSync ricorsivo sulla cartella
+          // spazzerebbe via anche le skill di progetto versionate (verify, cantiere, salute,
+          // worker, senior) se una voce del manifest venisse marcata per sbaglio.
+          rmSync(vecchia, { force: true });
+          try {
+            rmdirSync(dirname(vecchia));
+          } catch {
+            // cartella non vuota: c'è dell'altro dentro, non è roba mia — la lascio stare
+          }
           console.log(`✓ doppione rimosso ${p.id} → ${claudeTarget} (lo dà il plugin ${p.fornito_da_plugin})`);
           scritti++;
         }
