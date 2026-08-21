@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-21 20:57",
+ "aggiornato": "2026-08-21 21:15",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12408,6 +12408,19 @@
    "testo": "**`git add <cartella>` non mette in staging quello che hai fatto: mette quello che è sporco (21/8 20:07).** Il commit automatico del server, intitolato «riconcilia: chiude difetti risolti nel codice», conteneva QUATTRO file. Uno era il cantiere — l'unica cosa che quel lavoro scrive. Gli altri tre erano saliti a bordo perché la riga in staging prendeva l'intera cartella `auto-coscienza`. Fra loro `apprendimento.json`, passato da 531 lezioni a 529: due lezioni arrivate su main da altrettante PR firmate, cancellate da un commit che parlava d'altro (confronto id per id: aggiunte 0, modificate 0, perse 2). Non conta chi avesse sporcato il file — conta che sporcarlo bastasse a pubblicarlo. Su una macchina che gira in continuo, qualcos'altro scrive sempre in quella cartella. Il sintomo era una CI rossa a intermittenza, e l'avevo chiamata traffico: era il freno che segnalava una memoria persa.",
    "regola": "in un processo automatico si mette in staging l'elenco dei file che quel lavoro SCRIVE, mai una cartella; e ciò che è sporco fuori da quell'elenco si dichiara invece di portarselo dietro, perché un commit deve contenere solo ciò che il suo messaggio dichiara",
    "gate": "node --test cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs"
+  },
+  {
+   "id": "L-2026-0821-04",
+   "data": "2026-08-21 21:15",
+   "nato": "2026-08-21",
+   "ultima_conferma": "2026-08-21 21:15",
+   "stato": "attiva",
+   "confidenza": 0.75,
+   "evidenze": 1,
+   "fonte": "richiesta di Nicola: «scava anche a monte» (21/8)",
+   "testo": "**Chi risalva un archivio intero cancella quello che un altro ci ha messo mentre lui lavorava (AR-296 metà ②).** `scrivi-json.mjs` lo dichiarava aperto in cima a sé stesso da luglio, come seconda metà di un difetto di cui era stata chiusa solo la prima. Misurato il 21/8 su TUTTE le 1.489 revisioni di `apprendimento.json` da fine giugno: il conto delle lezioni è sceso **sei volte, per undici lezioni** — 4/7 cutover (−2), 6/7 riconcilia (−1), 13/7 chore (−2), 16/7 una risposta del worker (−1), 13/8 giro (−3), 21/8 riconcilia (−2). Nessuno di quei sei lavori era il potatore, e nessuno voleva togliere niente: ognuno aveva in mano una copia vecchia e l'ha risalvata intera. Cercare CHI scrive era la domanda sbagliata — sono sei processi diversi, e domani un settimo.",
+   "regola": "un archivio tenuto a id non si difende cercando il colpevole ma al punto unico di scrittura: prima di salvare si confronta con ciò che c'è sul disco ADESSO, e le voci che sparirebbero senza essere dichiarate si rimettono e si gridano — rimettere invece di rifiutare, perché un rifiuto fermerebbe il server per un difetto che non è suo e verrebbe aggirato",
+   "gate": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
   }
  ],
  "principi": [

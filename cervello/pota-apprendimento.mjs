@@ -206,7 +206,9 @@ function main() {
       tolte: p.tolte,
     });
     scriviJsonAtomico(STORICO, precedente);
-    scriviJsonAtomico(FILE, p.nuovo);
+    // Il potatore è l'unico che toglie APPOSTA, e lo dichiara: senza questo permesso il freno di
+    // AR-296 metà ② gli rimetterebbe dentro tutto ciò che ha appena potato (memoria-senza-perdite.mjs).
+    scriviJsonAtomico(FILE, p.nuovo, process.env, { dichiaraRimozioni: true });
     console.log(`\n   Scritto: ${FILE}\n   Storico di ciò che ho tolto: ${STORICO}`);
   }
 
