@@ -35,6 +35,7 @@ import { tmpdir } from "node:os";
  */
 export const PREFISSI = [
   "mycity-campo-", // finte dei test: sono queste che hanno riempito il disco
+  "mycity-banco-", // la sabbiera di un giro di prove morto a metà, che non ha fatto in tempo a sgomberarsi
   "cancello-",
   "cadenza-ai-",
   "repo-finto-",

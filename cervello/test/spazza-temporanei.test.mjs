@@ -141,6 +141,58 @@ prova("il banco delle prove la lancia davvero all\'avvio", () => {
   }
 });
 
+// ── La cura alla radice: una prova che perde NON deve lasciare niente in giro ─────────────────────
+//
+// La prima versione della spazzata sembrava sufficiente e non lo era. Misurata sul server il 21/8
+// alle 12:00: /tmp di nuovo al 100%, otto ore dopo essere stato svuotato a mano. Il motivo è che la
+// spazzata toglie ciò che è fermo da oltre un giorno, mentre il banco crea trenta cartelle nuove a
+// ogni giro — la spazzatura nasceva più in fretta di quanto invecchiava, e la soglia non la toccava
+// mai. Rincorrere non funziona: bisogna togliere il posto dove si accumula.
+//
+// Questa prova misura la proprietà che sul server era falsa: dopo un giro del banco, nella cartella
+// temporanea VERA non resta niente — nemmeno se la prova dentro perde apposta.
+
+prova("una prova che perde non lascia niente nella cartella temporanea", () => {
+  const fuori = mkdtempSync(join(tmpdir(), "sabbiera-fuori-"));
+  const finte = mkdtempSync(join(tmpdir(), "sabbiera-prove-"));
+  try {
+    // una prova che fa ESATTAMENTE quello che fanno i 32 file veri: crea e non cancella
+    writeFileSync(
+      join(finte, "perde.test.mjs"),
+      [
+        'import { test } from "node:test";',
+        'import assert from "node:assert/strict";',
+        'import { mkdtempSync, writeFileSync } from "node:fs";',
+        'import { tmpdir } from "node:os";',
+        'import { join } from "node:path";',
+        'test("perde apposta", () => {',
+        '  const d = mkdtempSync(join(tmpdir(), "mycity-campo-"));',
+        '  writeFileSync(join(d, "roba.txt"), "x");',
+        "  assert.ok(true); // e non la cancella mai, come i 32 veri",
+        "});",
+      ].join("\n"),
+    );
+
+    const r = spawnSync("node", ["cervello/test-cervello.mjs", "--solo", "perde"], {
+      cwd: REPO,
+      encoding: "utf8",
+      env: { ...process.env, TMPDIR: fuori, TEST_CERVELLO_DIR: finte },
+      timeout: 120_000,
+    });
+
+    const rimasti = readdirSync(fuori);
+    assert.deepEqual(
+      rimasti,
+      [],
+      `il banco ha lasciato ${rimasti.length} cartelle nella temporanea vera: ${rimasti.join(", ")}\n` +
+        `è il difetto che il 21/8 ha riempito /tmp sul server.\n${r.stdout}${r.stderr}`,
+    );
+  } finally {
+    rmSync(fuori, { recursive: true, force: true });
+    rmSync(finte, { recursive: true, force: true });
+  }
+});
+
 let falliti = 0;
 for (const c of casi) {
   console.log(`${c.ok ? "  ok" : "not ok"} - ${c.nome}${c.ok ? "" : `\n      ${c.err}`}`);
