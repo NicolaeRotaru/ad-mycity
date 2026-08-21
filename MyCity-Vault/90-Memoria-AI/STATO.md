@@ -1,8 +1,18 @@
 ---
 tipo: stato
-aggiornato: 2026-08-21 16:27
-fonte: AD digitale (giro completo, cervello/giro.md)
+aggiornato: 2026-08-21 18:03
+fonte: AD digitale (report della sera, cervello/ritmo.md)
 ---
+
+> 🌙 **21/8 18:03 — Report della sera. Business invariato, ma è la giornata con più riparazioni fatte sul codice del sito finora: registro difetti da 29 aperti a 3.**
+>
+> **I 7 numeri chiave** (via MCP Supabase, query diretta 18:02): ordini totali **1** (invariato), ordini pagati **0** (invariato), ultimo ordine 2026-06-24 (annullato, invariato), profili totali **8** (invariato da ieri sera), negozi con vetrina **1** (Pane Quotidiano, invariato), prodotti disponibili **5** (invariato). Stallo North Star **58 giorni**, dentro la pausa concordata fino al 24/8-1/9.
+>
+> **Il lavoro vero di oggi: cantiere di riparazione sul sito e sulla sicurezza.** Chiuse le card `#36` e `#37` (due falle di sicurezza ferme da 23 giorni, verificate risolte sul database vero) e `#140` (migrazione applicata: la vetrina dei negozi era sparita, ora torna a mostrarli). Accesa la prova gratuita in CI che verifica i permessi (card `#139`): ha trovato subito due difetti reali che nessun controllo saltato poteva vedere. Acceso il plugin di metodi di lavoro "superpowers" per la macchina, con un primo errore corretto in giornata.
+>
+> **Restano da firmare:** `#134` (il database non ha nessuna copia di sicurezza — servono due chiavi) · `#141` (dire ai controlli automatici che il sito lo pubblica Vercel, non più Render) · `#142` (comando da dieci secondi per rendere permanente il lavoro di oggi) · `#137`/`#138`/`#136` dal lotto precedente · la pratica pagamenti di Pane Quotidiano (`#62`), il vero blocco al primo incasso.
+
+## Passaggi precedenti
 
 > 🔁 **21/8 16:27 — Passaggio di verifica lampo, stato identico al giro delle 14:40 (nessuna riscrittura pesante: macchina in SOPRAVVIVENZA, quota AI 151%).**
 
@@ -49,8 +59,6 @@ fonte: AD digitale (giro completo, cervello/giro.md)
 > **Perché conta:** senza questa verifica, `CHECKLIST-NICOLA.md` ti avrebbe chiesto ancora la firma su due lavori già fatti — tempo tuo sprecato su un problema che non c'è più. La checklist è stata rigenerata (era ferma dal 17/8, oltre i 2 giorni della regola).
 >
 > **Restano aperte, invariate:** 7 PR sul repo `ad-mycity` tutte rosse sullo stesso controllo (`test-cervello.mjs`, bloccato anche in questa sessione dai permessi) · card `#62` (pagamenti Pane Quotidiano, il vero blocco al primo incasso) · card `#140/#141/#139/#138/#137/#134/#142` dal lotto del 20-21/8, tutte in attesa di firma.
-
-## Passaggi precedenti
 
 > 🏁 **21/8 03:30 — Gli ultimi difetti del sito sono chiusi. Da 29 aperti a 3, e tutti e tre sono lavori a metà con un perché scritto.**
 >
