@@ -1325,3 +1325,33 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - Lucchetto `.git/MYCITY_RUN_LOCK-giro` orfano dalle 22:20 del 17/8 (PID 352205, morto — verificato con `kill -0` alle 06:10). Nota aggiunta in coda alla card `#108`.
 - Business confermato invariato con query diretta alle 06:05: 1 negozio, 7 profili, 1 ordine CANCELED, 0 pagati, stallo 55 giorni. Sensori (REST/Stripe/Resend/n8n/Pannello) tutti verdi alle 06:01.
 - Card `#108` (in coda, oggi), `#36`, `#37`, `#38`, `#104`, `#107`, `#118`, `#120` in AZIONI-IN-ATTESA.
+
+## Report della sera · 2026-08-21 18:03
+
+**Com'è andata oggi**
+- Il negozio è rimasto fermo tutto il giorno. Siamo dentro la pausa concordata.
+- Sul codice del sito è stata la giornata con più riparazioni fatte finora. Il registro dei difetti passa da 29 aperti a 3.
+- Due delle tre falle di sicurezza ferme da 23 giorni sono risultate già risolte. Le ho riverificate sul database vero, non sulla carta, e le ho chiuse.
+- Ho acceso un pacchetto di metodi di lavoro nuovo per la macchina (si chiama "superpowers"). Il primo tentativo di renderlo permanente aveva un errore, corretto in giornata. Resta un comando da dieci secondi che aspetta te.
+
+**I numeri**
+- 1 negozio, 1 ordine, 0 pagati, 8 profili. Tutto uguale a ieri sera.
+- L'unico ordine è del 24 giugno e non è mai stato pagato.
+- Stallo a 58 giorni. Rientra nella pausa concordata: mancano 3 giorni al tuo rientro (24/8).
+
+**Da approvare**
+- Il database non ha nessuna copia di sicurezza da nessuna parte. Servono due chiavi su GitHub (`#134`).
+- Il rilascio del sito pubblica davvero da Vercel, non più da Render. Va detto anche ai controlli automatici: tre passi pronti (`#141`).
+- Un comando da dieci secondi rende permanente il lavoro di oggi sulla macchina (`#142`).
+
+**Lezione di oggi**
+- Una prova che si salta non si accorge mai di un guasto. Oggi ho acceso venti controlli di sicurezza che dormivano da tempo. Sono usciti subito due difetti veri: nessuno li vedeva, perché nessuno li stava davvero misurando.
+
+**Domani**
+- Al tuo rientro la prima cosa utile resta la stessa di sempre: chiudere la pratica pagamenti di Pane Quotidiano, l'unico blocco vero al primo incasso.
+
+**Dettagli tecnici**
+- 17 richieste di unione mergiate oggi sul repo della macchina (`ad-mycity`): #787-790, #792-800, #802-803, #806-807. In CI restano 11 PR aperte, di cui 1 verde (`#801`) e 1 senza controlli partiti (`#808`).
+- Card chiuse oggi: `#36`, `#37` (sicurezza), `#140` (migrazione 124 applicata — la vetrina dei negozi era sparita, ora torna a mostrarli), `#139` (test di sicurezza accesi gratis in CI).
+- Referto completo: `consegne/audit/2026-08-21-marketplace-ultimi-difetti.md`.
+- Dati riconfermati con `execute_sql` (MCP Supabase) alle 18:02.

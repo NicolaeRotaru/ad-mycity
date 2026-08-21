@@ -22,7 +22,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🟡 #144 — Dimmi quanto ci mettiamo davvero a consegnare, perché il sito dice due cose diverse · ⏳ accodata 2026-08-21 16:20
+### 🟡 #147 — Dimmi quanto ci mettiamo davvero a consegnare, perché il sito dice due cose diverse · ⏳ accodata 2026-08-21 16:20
 
 **In parole semplici:** il riquadro grosso in cima alla home promette la consegna in **30-60
 minuti**. Ogni altra pagina del sito promette **24-48 ore**. Sono la stessa promessa fatta due
@@ -38,11 +38,11 @@ sceglierla sei tu.
 prima cosa che una persona legge e l'ultima che verifica: la scopre quando ha già pagato. Finché
 restano due numeri diversi, uno dei due è una bugia, qualunque sia quello giusto.
 
-**Se va bene:** scrivi «ok 144» insieme al numero che vale. Per esempio: «ok 144, 24-48 ore».
+**Se va bene:** scrivi «ok 147» insieme al numero che vale. Per esempio: «ok 147, 24-48 ore».
 Allineo la home a quella promessa. È una modifica di configurazione, reversibile, e la vedi subito.
 
 ---
-### 🟡 #143 — Dimmi se apro il cantiere sui quindici difetti che fermano qualcuno · ⏳ accodata 2026-08-21 16:20
+### 🟡 #146 — Dimmi se apro il cantiere sui quindici difetti che fermano qualcuno · ⏳ accodata 2026-08-21 16:20
 
 **In parole semplici:** oggi ho rifatto la visita completa al sito, codice e grafica insieme.
 Ho trovato 351 problemi veri. Veri vuol dire che un secondo collega è andato a ricontrollarli
@@ -67,11 +67,184 @@ che diventano rosse se il difetto torna. Non tocco la produzione: alla fine ti a
 richiesta di unione da guardare. Se dici di no, restano lì: nessuno di questi si chiude da solo,
 e tre di essi riguardano soldi che escono o non rientrano.
 
-**Se va bene:** scrivi «ok 143» e parto dai primi quattro, che sono la mezza giornata che vale
+**Se va bene:** scrivi «ok 146» e parto dai primi quattro, che sono la mezza giornata che vale
 di più. Ti riporto il conto dopo ogni blocco, non alla fine.
 
 Referti. Il codice, 199 problemi: `consegne/audit/2026-08-21-radiografia.md`.
 La grafica e i percorsi, 152 problemi: `consegne/design/2026-08-21-radiografia-design.md`.
+
+---
+### 🔴 #144 — Una riga da incollare: c'è uno strumento che nessuno controlla · ⏳ accodata 2026-08-21 16:40 · ✏️ riscritta 17:45
+
+> **In due righe.** Ho usato uno strumento che lancia comandi e che nessuno dei miei controllori
+> guarda. La riga che lo copre è una parola sola in un file che io non posso toccare.
+
+**In parole semplici.** Questa carta parla dei miei freni, non del sito e non dei negozi. Serve a
+chiuderne uno che manca.
+
+Ho una lista di controllori che mi guardano le mani. Prima che io faccia una cosa che tocca il mondo,
+uno di loro si mette in mezzo e chiede il permesso. Quali strumenti sorvegliare è scritto a mano in
+un file, e la lista dice: Bash, Task, e tutto quello che comincia per mcp.
+
+Oggi ho usato uno strumento che si chiama **Monitor**. Serve a tenere d'occhio una cosa che sta
+girando. Non è in quella lista, quindi non l'ha guardato nessuno. E Monitor lancia comandi
+esattamente come Bash.
+
+**Cosa cambia per te.** C'è una porta di servizio senza il campanello che ha la porta principale.
+Non è che io farei cose diverse: è che se le facessi, nessuno se ne accorgerebbe.
+
+Un esempio di cosa vuol dire. Oggi alle 15:10 ho chiesto a Monitor di tenere d'occhio i controlli
+automatici della PR. Se avessi sbagliato a scrivere quel comando, nessuno me l'avrebbe fermato. Non è
+successo niente solo perché l'ambiente mi ha negato il permesso per conto suo — un caso, non un
+controllo.
+
+**Ho provato a farla io, e il sistema mi ha detto di no.** Me l'hai chiesto tu, e ci ho provato per
+la strada giusta. La risposta è stata: *«File is in a directory that is denied by your permission
+settings»*. Non è una mia esitazione. È una regola scritta dentro quel file, alle righe 80-83, che
+vieta a me di modificarlo.
+
+Quella regola l'hai messa tu ed è quella giusta. Quel file può staccare tutti i freni insieme,
+compreso il divieto di leggermi le password.
+
+C'era una scorciatoia: scrivere il file da un'altra parte, con un comando invece che con lo strumento
+che ha il divieto. **Non l'ho presa.** Aggirare un divieto perché è scomodo è la cosa che i divieti
+servono a impedire.
+
+**Quello che ho fatto invece.** La macchina aveva già la risposta a questo caso, un piano più giù.
+Per i guardiani esiste lo stato «in attesa di aggancio»: vuol dire *il freno c'è, manca una riga che
+solo Nicola può incollare*. E vale solo con una data di scadenza.
+
+L'ho portato anche agli strumenti. Monitor adesso è dichiarato lì: non è un buco silenzioso, e non è
+un'esenzione. È un debito con sopra scritto entro quando. Dopo il **4 settembre** torna a essere un
+buco da solo.
+
+**Cosa devi fare.** Aprire `.claude/settings.json` e cambiare una parola. Cerca questa riga:
+
+```
+"matcher": "Bash|Task|mcp__.*"
+```
+
+e falla diventare così:
+
+```
+"matcher": "Bash|Monitor|Task|mcp__.*"
+```
+
+**Se va bene:** Monitor passa dalle stesse mani di Bash, e io tolgo la dichiarazione d'attesa. Per
+controllare che sia servito, dal server:
+
+```
+cd /opt/mycity/ad-mycity
+node cervello/mappa-copertura.mjs
+```
+
+Deve elencare Monitor fra gli strumenti guardati.
+
+**Una domanda più grande, se hai voglia.** Quella lista è fatta di nomi scritti a mano. Vuol dire che
+ogni strumento nuovo nasce senza controllo, finché qualcuno non si ricorda di aggiungerlo. È così che
+è passato Monitor. Il contrario sarebbe: sorveglia tutto, e scrivi l'elenco di quelli che non
+servono. Non l'ho fatto perché cambia il comportamento di ogni singola mossa, non solo di una: dimmi
+tu.
+
+**Cosa non ho verificato.** Non ho potuto provare che il freno funzioni su Monitor dopo l'aggiunta.
+Per collaudarlo dovrei modificare proprio il file che non posso toccare. So che il controllore è lo
+stesso che già guarda Bash, e che la lista è una sola.
+
+**Dettagli tecnici** — blocco `PreToolUse` in `.claude/settings.json`, guardia
+`cervello/pre-scrittura.mjs --hook` · dichiarazione in `IN_ATTESA` dentro
+`cervello/mappa-copertura.mjs`, scadenza `2026-09-04` · prova
+`cervello/test/attesa-con-una-data.test.mjs`.
+
+---
+
+### 🔴 #143 — Il server lavora, ma cinque sveglie su sei non suonano più · ⏳ accodata 2026-08-21 15:02 · ✏️ riscritta 17:05
+
+> **In due righe.** Il server è tornato a lavorare da solo. La prima versione di questa carta diceva
+> «riaccendilo», ed era sbagliata. Il guasto vero è un altro: cinque delle sue sei sveglie non
+> suonano più, e due erano già rotte da prima.
+
+> ⚠️ **La correzione, e va detta per prima.** Alle 15:02 questa carta diceva «riaccendi il server, è
+> fermo da tre giorni». **Non è più vero.** Il server è ripartito da solo nel pomeriggio: ha scritto
+> l'ultima volta alle **16:46**, tre minuti prima che me ne accorgessi.
+>
+> L'avevo dato per morto guardando il suo riflesso. Il riflesso era l'ultimo referto che aveva
+> pubblicato, fermo a lunedì mattina. I suoi commit di oggi, intanto, erano lì da vedere.
+>
+> È lo stesso errore che ho passato la giornata a riparare negli altri: guardare un dato vecchio e
+> chiamarlo stato di adesso. E il merito del ritorno non è mio. Il disco era pieno, e l'hai liberato
+> tu a mano.
+
+**In parole semplici.** Questa carta parla del server, cioè il computer sempre acceso che fa
+lavorare la macchina quando tu non ci sei. Serve a dirti quale sua parte funziona e quale no.
+
+Il server adesso lavora. Il suo lavoro principale si chiama **giro**: guarda i dati e prepara le
+cose, ed è partito oggi alle 16:33. Quello che non funziona sono le **sveglie**. La macchina ha sei
+orari fissi in cui deve alzarsi da sola, e cinque non suonano più da lunedì 18 agosto.
+
+Quali dormono, e da quanto:
+
+| La sveglia | A che ora dovrebbe suonare | Ferma da |
+|---|---|---|
+| Piano del mattino | 06:00 | 83 ore |
+| Controllo di mezzogiorno | 12:00 | 101 ore |
+| Report della sera | 18:00 | **191 ore** (8 giorni) |
+| Review del venerdì | venerdì 15:00 | **338 ore** (14 giorni) |
+| Monitoraggio | 06:30 | 82 ore |
+| La visita di salute del server | 06:45 e 20:45 | 82 ore |
+
+L'ultima colonna dice una cosa in più. Il blocco del disco è cominciato lunedì 18, cioè circa 82 ore
+fa. Ma il report della sera è fermo da 191 ore e la review del venerdì da 338: **più del doppio e
+più del quadruplo.** Vuol dire che quei due erano già morti prima, e il disco pieno non c'entra.
+
+**Cosa cambia per te.** Non ricevi più il piano del mattino, né il report della sera. E la review
+del venerdì non lascia i suoi quattro compiti: il confronto coi migliori, la peer review fra senior,
+la calibrazione, e la lettera a te. Sono fermi da quasi un mese.
+
+Un esempio di cosa vuol dire in pratica. Venerdì 8 agosto la review avrebbe dovuto lasciarti una
+lettera con cosa era andato bene e cosa no nella settimana. Non l'ha lasciata. Nemmeno il 15. La
+prossima sarebbe venerdì 22, cioè domani, e senza questa carta non arriverebbe neanche quella.
+
+Il server intanto lavora, quindi da fuori sembra tutto acceso. È il motivo per cui nessuno se n'era
+accorto per quattordici giorni.
+
+**Cosa devi fare.** Un comando solo, che ti dice quali sveglie sono spente e perché:
+
+```
+cd /opt/mycity/ad-mycity
+systemctl list-timers 'mycity-*' --all
+```
+
+Le sveglie da guardare sono queste cinque: `mycity-ritmo-mattino`, `mycity-ritmo-mezzogiorno`,
+`mycity-ritmo-sera`, `mycity-ritmo-settimana`, `mycity-monitora`, più `mycity-salute`. Se accanto
+leggi `disabled` o `not-found`, si riaccendono così:
+
+```
+cd /opt/mycity/ad-mycity
+sudo systemctl enable --now mycity-ritmo-mattino.timer mycity-ritmo-mezzogiorno.timer \
+  mycity-ritmo-sera.timer mycity-ritmo-settimana.timer mycity-monitora.timer mycity-salute.timer
+```
+
+Se invece risultano `active` ma non partono, il problema è in quello che ci gira dentro e non nella
+sveglia: allora serve questo, che dice l'errore vero:
+
+```
+cd /opt/mycity/ad-mycity
+systemctl status mycity-ritmo-sera.service && journalctl -u mycity-ritmo-sera -n 40 --no-pager
+```
+
+**Se va bene:** domani mattina ricevi di nuovo il piano delle sei, e venerdì la review lascia i suoi
+compiti. Il pallino «le cadenze si alzano davvero» torna verde da solo.
+
+**Cosa non ho verificato.** Le sveglie non le posso vedere da qui: da questa sessione non arrivo a
+`systemctl`. Quello che ho misurato è **l'effetto** — l'orario dell'ultima volta che ognuna ha
+prodotto qualcosa, letto dentro i file che scrive. Quindi *non so* se siano spente, o accese ma con
+un errore dentro: sono due guasti diversi con due cure diverse, ed è per questo che il primo comando
+qui sopra guarda prima di toccare. So per certo che il worker è vivo, perché i suoi commit di oggi
+li leggo.
+
+**Dettagli tecnici** — prova: `node cervello/freschezza-cadenze.mjs` · unità in
+`cervello/vps/mycity-*.timer`, tutte scritte correttamente nel repo (fuso dichiarato,
+`Persistent=true`), quindi la causa è sul server · ultimo commit del server: `66dab11`, 21/08 16:46.
 
 ---
 
@@ -129,8 +302,27 @@ cd /opt/mycity/ad-mycity
 node cervello/plugin-acceso.mjs
 ```
 
-Se dice **acceso**, è fatto. Se dice che il file è rotto, mandami la riga che esce e te lo
-raddrizzo io. Poi **riavvia la sessione**: i plugin si leggono all'avvio, non mentre lavori.
+L'ultimo comando risponde in una riga sola. Se dice **acceso**, è fatto sul server. Se dice **spento**
+o che il file è rotto, mandami quella riga e te lo raddrizzo io. Poi **riavvia la sessione**: i plugin
+si leggono all'avvio, non mentre lavori.
+
+**Manca ancora di salvarlo.** Quel file lo segue git. Finché resta solo sul server è una modifica
+viva ma non registrata: alla prima pulizia sparisce. E le sessioni fuori dal server ripartono
+comunque spente.
+
+Su `main` però non si può committare a mano. È una regola nostra: il codice ci arriva solo da una
+richiesta di unione. Quindi si passa da un ramo di lavoro.
+
+```
+cd /opt/mycity/ad-mycity
+git reset HEAD -- .claude/settings.json
+git checkout -b accendi-superpowers
+node cervello/git-pr.mjs --repo ad-mycity --base main --branch accendi-superpowers --title "Accendi il plugin superpowers per tutte le sessioni" --message "Accendi il plugin superpowers per tutte le sessioni"
+```
+
+L'ultimo comando è quello della macchina, e fa tre cose. Committa sul ramo. Manda il ramo su GitHub
+usando la chiave che il server ha già, quindi non ti chiede nessuna password. Apre la richiesta di
+unione. Poi la firmi tu, come tutte le altre.
 
 Poi, sul server, un giro di `node cervello/sync-worker-plugins.mjs --specchia` così anche lì sparisce
 la copia doppia.

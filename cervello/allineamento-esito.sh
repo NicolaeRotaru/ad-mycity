@@ -86,6 +86,46 @@ deve_committare_recupero() {
   echo si
 }
 
+# azione_ramo_vivo <ramo_corrente> <ramo_bersaglio> <eta_tip_min> <sporco_codice> [min_lavoro] [max_stallo]
+#   → allinea | rimanda | libera
+#
+# 2026-08-21 — L'USCITA DI SICUREZZA CHE NON SCADEVA MAI (422 rinvii, e prima 1716).
+#
+# Quando HEAD sul server sta su un ramo diverso da main, l'allineamento si rimanda: giusto, perché
+# `checkout -f` strapperebbe il lavoro a una chat che sta scrivendo ORA. Contro lo stallo c'era già
+# una fuga: «un ramo fermo da più di mezz'ora e senza sporco di CODICE è abbandonato, allineo lo
+# stesso». Ma quella fuga si spegneva del tutto appena c'era un solo file di codice sporco — e senza
+# nessun tetto sull'attesa. Un file avanzato da una sessione uccisa a metà, e il rinvio diventava
+# eterno: la macchina scriveva e non pubblicava più, con ogni singolo rinvio verde.
+#
+# Il conto: il 30/7 sono stati 1716 rinvii consecutivi, 31 ore, 1519 commit mai usciti. Il 18/8 il
+# referto del server contava 422 rinvii — cioè lo stesso guasto, la seconda volta. È la regola della
+# skill: un difetto tornato due volte non si ripara una terza, gli si mette un guardiano alla radice.
+#
+# Il guardiano è un tetto sull'attesa. Sotto `min_lavoro` c'è davvero qualcuno che lavora: si
+# rimanda. Senza sporco di codice il ramo è abbandonato: si allinea (fuga di prima, invariata). Con
+# sporco di codice si rimanda ancora — ma non per sempre: oltre `max_stallo` non è più «una chat che
+# lavora», è un worktree piantato, e la risposta diventa `libera`.
+#
+# `libera` NON vuol dire «butta»: chi la riceve deve prima PARCHEGGIARE il lavoro sporco con un
+# commit sul ramo dov'è (niente va perso, si recupera con un checkout di quel ramo) e solo dopo
+# allineare. La differenza fra `allinea` e `libera` è tutta lì: la prima trova il ramo pulito, la
+# seconda ha delle cose da mettere al sicuro prima di passare.
+azione_ramo_vivo() {
+  local cur="${1:-}" bersaglio="${2:-}" eta="${3:-0}" sporco="${4:-0}"
+  local min_lavoro="${5:-30}" max_stallo="${6:-240}"
+  # Già sul ramo giusto, o HEAD staccato (non è il lavoro di nessuno): non c'è niente da proteggere.
+  [ "$cur" = "$bersaglio" ] && { echo allinea; return; }
+  [ "$cur" = "HEAD" ] && { echo allinea; return; }
+  [ -z "$cur" ] && { echo allinea; return; }
+  # Un numero che non è un numero non compra un allineamento: nel dubbio si rimanda.
+  [ "$eta" -ge 0 ] 2>/dev/null || { echo rimanda; return; }
+  [ "$eta" -lt "$min_lavoro" ] && { echo rimanda; return; }
+  [ "$sporco" != 1 ] && { echo allinea; return; }
+  [ "$eta" -ge "$max_stallo" ] && { echo libera; return; }
+  echo rimanda
+}
+
 # serve_mettere_da_parte <uscita di git status --porcelain> → si | no
 #
 # AR-469 — `git rebase` si rifiuta di partire se ci sono modifiche TRACCIATE non messe in staging. Sul

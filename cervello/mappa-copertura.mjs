@@ -40,6 +40,8 @@ import { existsSync, readFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { abbina, delTurno, leggiRegistro, strumentiVisti, turnoCorrente } from "./libro-mastro.mjs";
+// L'orologio di casa, puro a sua volta: l'ora di Piacenza si chiede in un posto solo.
+import { giornoPiacenza } from "./ora-piacenza.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 export const REPO = join(QUI, "..");
@@ -107,6 +109,49 @@ export const ESENZIONI = {
   TaskStop: "ferma un processo di questa sessione: non scrive nel repo e non tocca il mondo. Se ferma un guardiano, la misura che salta la ripretende il cancello, che resta rosso finché non gira intero",
 };
 
+/**
+ * IL TERZO STATO: «il freno è a una riga di distanza, e quella riga la incolla Nicola».
+ *
+ * 2026-08-21. Il cancello dello Stop mi ha trovato ad aver usato `Monitor`, che nessuna guardia
+ * sorveglia. Le due strade che offriva erano una sola in pratica: agganciare un freno in
+ * `.claude/settings.json`, oppure dichiarare lo strumento in ESENZIONI col motivo.
+ *
+ * La seconda non si poteva scrivere onestamente: `Monitor` ESEGUE UNA SHELL, esattamente come
+ * `Bash`. Chiamarlo esente sarebbe stato mettere un'etichetta su un buco — che è precisamente ciò
+ * che il commento sopra ESENZIONI vieta. E la prima non la può fare la macchina: quel file la
+ * respinge per regola scritta (`deny` su Edit e Write, righe 80-83), perché è il file che può
+ * staccare tutti i freni insieme, divieto sui `.env` compreso.
+ *
+ * Ma questo caso la casa l'aveva già risolto altrove, per i guardiani: `guardia-viva.mjs` ha il
+ * motivo `in-attesa-di-aggancio`, con la sua ragione scritta per esteso — «fra "l'ho costruito" e
+ * "Nicola l'ha incollato" passa del tempo vero, e in quel tempo chiamarlo buco vorrebbe dire dare
+ * rosso al comportamento giusto; un cancello rosso per costruzione viene aggirato al secondo giro».
+ * Qui è lo stesso identico caso, un piano più su: invece di un guardiano, uno strumento.
+ *
+ * E vale la stessa clausola, che è tutta la differenza fra un'attesa e un'esenzione: **SOLO con una
+ * data**. Passata quella, torna a essere quello che è — uno strumento che nessuno guarda. Un debito
+ * senza scadenza non è un debito, è un buco con una scusa più lunga.
+ */
+export const IN_ATTESA = {
+  Monitor: {
+    perche:
+      "esegue una shell come Bash, quindi NON è esente: gli serve lo stesso freno. La riga che lo copre " +
+      "è una parola sola nel matcher PreToolUse di .claude/settings.json — «Bash|Task|mcp__.*» che diventa " +
+      "«Bash|Monitor|Task|mcp__.*» — e quel file la macchina non lo può scrivere apposta. Carta #143bis (#144) per Nicola.",
+    scade: "2026-09-04",
+  },
+};
+
+/** Un'attesa vale finché ha una data ANCORA da venire, e un perché scritto. Pura. */
+export function attesaValida(strumento, oggi, attese = IN_ATTESA) {
+  const a = attese?.[strumento];
+  if (!a) return false;
+  if (String(a.perche || "").trim().length < 20) return false; // un'etichetta non è un perché
+  const scade = String(a.scade || "").trim();
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(scade)) return false; // senza data non è un'attesa: è un'esenzione travestita
+  return String(oggi).slice(0, 10) <= scade;
+}
+
 // ─────────────────────────────────────────────────────────────────────────────
 // IL CUORE — puro: niente disco, così le prove possono girare ogni caso.
 // ─────────────────────────────────────────────────────────────────────────────
@@ -163,7 +208,7 @@ export function guardieIgnote(hooks, poteri = POTERI) {
 }
 
 /** La riga di mappa per UNO strumento: chi lo guarda prima, chi dopo, e se qualcuno può fermarlo. */
-export function coperturaDi(strumento, hooks, { poteri = POTERI, esenzioni = ESENZIONI } = {}) {
+export function coperturaDi(strumento, hooks, { poteri = POTERI, esenzioni = ESENZIONI, attese = IN_ATTESA, oggi = "" } = {}) {
   const guardieSu = (evento) =>
     agganci(hooks, evento)
       .filter((a) => copre(a.matcher, strumento))
@@ -179,6 +224,8 @@ export function coperturaDi(strumento, hooks, { poteri = POTERI, esenzioni = ESE
   if (tutte.length && puoFermare) stato = "sorvegliato";
   else if (tutte.length) stato = "solo-avviso";
 
+  const inAttesa = attesaValida(strumento, oggi || giornoPiacenza(), attese);
+
   return {
     strumento,
     prima,
@@ -186,8 +233,13 @@ export function coperturaDi(strumento, hooks, { poteri = POTERI, esenzioni = ESE
     stato,
     esente,
     perche_esente: esente ? esenzioni[strumento] : "",
+    in_attesa: inAttesa,
+    scade: inAttesa ? attese[strumento].scade : "",
+    perche_attesa: inAttesa ? attese[strumento].perche : "",
     // Un esente resta scoperto nei fatti: l'esenzione dice che va bene così, non che qualcuno guarda.
-    problema: stato === "scoperto" && !esente,
+    // Un'attesa nemmeno: dice che il freno esiste, che manca una riga, e ENTRO QUANDO. Scaduta la
+    // data la riga qui sotto smette di perdonare da sola — è il senso della data.
+    problema: stato === "scoperto" && !esente && !inAttesa,
   };
 }
 
@@ -228,6 +280,7 @@ export function mappa(strumenti, hooks, opzioni = {}) {
     righe,
     guardie_ignote: ignote,
     scoperti: righe.filter((r) => r.problema).map((r) => r.strumento),
+    in_attesa: righe.filter((r) => r.in_attesa).map((r) => ({ strumento: r.strumento, scade: r.scade })),
     solo_avviso: righe.filter((r) => r.stato === "solo-avviso").map((r) => r.strumento),
     ok: righe.every((r) => !r.problema) && ignote.length === 0,
   };

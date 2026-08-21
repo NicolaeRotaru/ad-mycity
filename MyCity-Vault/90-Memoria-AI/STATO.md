@@ -1,21 +1,16 @@
 ---
 tipo: stato
-aggiornato: 2026-08-21 17:37
-fonte: AD digitale (giro completo + radiografia su richiesta in chat)
+aggiornato: 2026-08-21 18:03
+fonte: AD digitale (report della sera, cervello/ritmo.md)
 ---
 
-> 🔁 **21/8 16:27 — Passaggio di verifica lampo, stato identico al giro delle 14:40 (nessuna riscrittura pesante: macchina in SOPRAVVIVENZA, quota AI 151%).**
-
-> 🔁 **21/8 14:40 — Giro completo. Business invariato (1 ordine, 0 pagati, stallo dentro la pausa concordata), ma due card di sicurezza da 3 settimane erano già risolte e nessuno l'aveva segnato.**
+> 🌙 **21/8 18:03 — Report della sera. Business invariato, ma è la giornata con più riparazioni fatte sul codice del sito finora: registro difetti da 29 aperti a 3.**
 >
-> **I 7 numeri chiave** (via MCP Supabase, query dirette 14:29-14:31): ordini totali **1** (invariato), ordini pagati **0** (invariato), ultimo ordine 2026-06-24 (annullato, invariato), profili totali **8** (▲ da 7 — nuovo il 20/8 15:57, email `nicolarotaru2000@gmail.com`, quasi certamente un account di prova di Nicola stesso, non un cliente reale — nessun negozio nuovo), negozi con vetrina **1** (Pane Quotidiano, invariato), pratica pagamenti Stripe di Pane Quotidiano **ancora tutta spenta** (`charges_enabled`/`payouts_enabled`/`details_submitted` = false, invariato), sensori **9 ok / 3 ciechi per motivo noto** (PostHog spento per scelta, sito 503 per migrazione Vercel, Telegram non configurato — nessuna cecità nuova).
+> **I 7 numeri chiave** (via MCP Supabase, query diretta 18:02): ordini totali **1** (invariato), ordini pagati **0** (invariato), ultimo ordine 2026-06-24 (annullato, invariato), profili totali **8** (invariato da ieri sera), negozi con vetrina **1** (Pane Quotidiano, invariato), prodotti disponibili **5** (invariato). Stallo North Star **58 giorni**, dentro la pausa concordata fino al 24/8-1/9.
 >
-> **Il lavoro vero di questo giro: ho riverificato sul database reale, non sulla carta, le tre card di sicurezza aperte dal 29/7** (`#36` pulsante ordini, `#37` 4 falle RLS, `#38` 5 fughe di soldi) per capire se il grande lotto di riparazioni del 20-21/8 (migrazioni 107-124) le avesse già chiuse senza che nessuno lo controllasse. Risultato: **`#36` e `#37` erano già completamente risolte** — le ho chiuse — e **`#38` per due quinti** (compenso rider protetto, coupon restituito dopo checkout abbandonato; restano da verificare nel codice doppia-vendita, payout su spedizione gratis, reclamo che blocca per sempre). Dettaglio tecnico in [[AZIONI-IN-ATTESA]] card #36/#37/#38, esito registrato nel quaderno `@security` (`memoria-squadra/security.md`).
+> **Il lavoro vero di oggi: cantiere di riparazione sul sito e sulla sicurezza.** Chiuse le card `#36` e `#37` (due falle di sicurezza ferme da 23 giorni, verificate risolte sul database vero) e `#140` (migrazione applicata: la vetrina dei negozi era sparita, ora torna a mostrarli). Accesa la prova gratuita in CI che verifica i permessi (card `#139`): ha trovato subito due difetti reali che nessun controllo saltato poteva vedere. Acceso il plugin di metodi di lavoro "superpowers" per la macchina, con un primo errore corretto in giornata.
 >
-> **Perché conta:** senza questa verifica, `CHECKLIST-NICOLA.md` ti avrebbe chiesto ancora la firma su due lavori già fatti — tempo tuo sprecato su un problema che non c'è più. La checklist è stata rigenerata (era ferma dal 17/8, oltre i 2 giorni della regola).
->
-> **Restano aperte, invariate:** 7 PR sul repo `ad-mycity` tutte rosse sullo stesso controllo (`test-cervello.mjs`, bloccato anche in questa sessione dai permessi) · card `#62` (pagamenti Pane Quotidiano, il vero blocco al primo incasso) · card `#140/#141/#139/#138/#137/#134/#142` dal lotto del 20-21/8, tutte in attesa di firma.
-
+> **Restano da firmare:** `#134` (il database non ha nessuna copia di sicurezza — servono due chiavi) · `#141` (dire ai controlli automatici che il sito lo pubblica Vercel, non più Render) · `#142` (comando da dieci secondi per rendere permanente il lavoro di oggi) · `#137`/`#138`/`#136` dal lotto precedente · la pratica pagamenti di Pane Quotidiano (`#62`), il vero blocco al primo incasso.
 
 > 🔬 **21/8 16:20 — Radiografia completa del sito, codice e grafica insieme: 351 problemi veri, 15 che fermano qualcuno.** Richiesta di Nicola in chat: «fai una radiografia completa e profonda del marketplace, con la parte di design compresa».
 >
@@ -29,11 +24,58 @@ fonte: AD digitale (giro completo + radiografia su richiesta in chat)
 >
 > **Difetto della macchina trovato strada facendo:** i sei workflow in `.claude/workflows/` non partono su questo motore, perché hanno gli `import` sopra il blocco `meta`. Le due radiografie sono girate da copie generate al volo con gli stessi mansionari. Registrato, non riparato: toccarlo è auto-modifica, quindi firma tua.
 >
-> **In coda per te:** **#143** (via libera al cantiere sui 15 bloccanti) · **#144** (quale promessa di consegna è vera, 30-60 minuti o 24-48 ore: oggi la home dice una cosa e il resto del sito un'altra).
+> **In coda per te:** **#146** (via libera al cantiere sui 15 bloccanti) · **#147** (quale promessa di consegna è vera, 30-60 minuti o 24-48 ore: oggi la home dice una cosa e il resto del sito un'altra).
 >
 > Referti: `consegne/audit/2026-08-21-radiografia.md` · `consegne/design/2026-08-21-radiografia-design.md`.
 
 ## Passaggi precedenti
+
+> 🔁 **21/8 16:27 — Passaggio di verifica lampo, stato identico al giro delle 14:40 (nessuna riscrittura pesante: macchina in SOPRAVVIVENZA, quota AI 151%).**
+
+
+> 🩺 **21/8 16:05 — La macchina è ferma dal 18 mattina, e cinque dei dodici pallini rossi erano guasti miei. Quelli li ho chiusi.**
+>
+> Nicola manda lo schermo della Cabina: dodici organi rossi. Rifatta la visita dal vivo, i dodici non
+> sono dodici problemi: **otto hanno un padre solo**, cioè il server che ha smesso di lavorare
+> **lunedì 18 agosto alle 8:55** — settantasette ore senza un giro, un piano del mattino, un report
+> della sera. Da qui il server non lo tocco: è la **carta 🔴 #143**, con la diagnosi e i comandi già
+> scritti. Quegli otto si spengono da soli quando riparte.
+>
+> **Gli altri cinque erano difetti di codice, e sono chiusi con una prova che diventa rossa se
+> tornano.** ① Il controllo che cerca le chiavi finite nel repo era **spento** da giorni senza dirlo:
+> la spazzata dei referti cancellava un file dal disco e lasciava che git continuasse a nominarlo, e
+> chi cercava di aprirlo si dichiarava cieco. ② La pubblicazione della memoria si era inceppata:
+> **422 rinvii di fila**, tutti verdi, perché l'uscita di sicurezza si spegneva per un solo file di
+> codice lasciato a metà — già successo il 30 luglio, 1716 rinvii e 31 ore. Ora l'attesa ha un tetto.
+> ③ La macchina non riusciva più a provare sé stessa: la suite ci metteva **822 secondi** contro un
+> tetto di 300, perché due prove aspettavano tre minuti a testa un programma già morto. Adesso sono
+> **316 secondi, verde**. ④ Il percorso del vecchio PC Windows era **rientrato** nel codice: Nicola
+> l'aveva fatto togliere il 4 luglio chiedendo di impedire che riaccadesse, e il guardiano che doveva
+> impedirlo non era mai stato scritto. Adesso c'è, e gira a ogni giro. ⑤ Nelle risposte lunghe che
+> ti mando mancava quasi sempre il pezzo che dice **di quanto fidarti** — cosa non ho provato. Il
+> freno c'era per la chat, non per i messaggi che scrive il server: adesso c'è da tutte e due le
+> parti.
+>
+> **Cosa mi ha corretto il collaudo, e va detto.** La prima stesura del quinto rispondeva «non manca
+> niente» anche quando il controllo non era riuscito a partire: un verde regalato. Me l'ha
+> contestato un guardiano di casa, non io. Ora dice due cose separate: se ha misurato, e cosa manca.
+>
+> **La cosa da ricordare:** tre di questi quattro non erano errori, erano **verdi ripetuti** — un
+> «riprovo da solo» senza limite. Una macchina che rimanda all'infinito è indistinguibile da una
+> macchina ferma.
+>
+> Referto: `consegne/salute/2026-08-21-1418-claude.md` · ramo `claude/risolvi-tutti-problemi-nddcnp`.
+
+> 🔁 **21/8 14:40 — Giro completo. Business invariato (1 ordine, 0 pagati, stallo dentro la pausa concordata), ma due card di sicurezza da 3 settimane erano già risolte e nessuno l'aveva segnato.**
+>
+> **I 7 numeri chiave** (via MCP Supabase, query dirette 14:29-14:31): ordini totali **1** (invariato), ordini pagati **0** (invariato), ultimo ordine 2026-06-24 (annullato, invariato), profili totali **8** (▲ da 7 — nuovo il 20/8 15:57, email `nicolarotaru2000@gmail.com`, quasi certamente un account di prova di Nicola stesso, non un cliente reale — nessun negozio nuovo), negozi con vetrina **1** (Pane Quotidiano, invariato), pratica pagamenti Stripe di Pane Quotidiano **ancora tutta spenta** (`charges_enabled`/`payouts_enabled`/`details_submitted` = false, invariato), sensori **9 ok / 3 ciechi per motivo noto** (PostHog spento per scelta, sito 503 per migrazione Vercel, Telegram non configurato — nessuna cecità nuova).
+>
+> **Il lavoro vero di questo giro: ho riverificato sul database reale, non sulla carta, le tre card di sicurezza aperte dal 29/7** (`#36` pulsante ordini, `#37` 4 falle RLS, `#38` 5 fughe di soldi) per capire se il grande lotto di riparazioni del 20-21/8 (migrazioni 107-124) le avesse già chiuse senza che nessuno lo controllasse. Risultato: **`#36` e `#37` erano già completamente risolte** — le ho chiuse — e **`#38` per due quinti** (compenso rider protetto, coupon restituito dopo checkout abbandonato; restano da verificare nel codice doppia-vendita, payout su spedizione gratis, reclamo che blocca per sempre). Dettaglio tecnico in [[AZIONI-IN-ATTESA]] card #36/#37/#38, esito registrato nel quaderno `@security` (`memoria-squadra/security.md`).
+>
+> **Perché conta:** senza questa verifica, `CHECKLIST-NICOLA.md` ti avrebbe chiesto ancora la firma su due lavori già fatti — tempo tuo sprecato su un problema che non c'è più. La checklist è stata rigenerata (era ferma dal 17/8, oltre i 2 giorni della regola).
+>
+> **Restano aperte, invariate:** 7 PR sul repo `ad-mycity` tutte rosse sullo stesso controllo (`test-cervello.mjs`, bloccato anche in questa sessione dai permessi) · card `#62` (pagamenti Pane Quotidiano, il vero blocco al primo incasso) · card `#140/#141/#139/#138/#137/#134/#142` dal lotto del 20-21/8, tutte in attesa di firma.
+
 
 > 🏁 **21/8 03:30 — Gli ultimi difetti del sito sono chiusi. Da 29 aperti a 3, e tutti e tre sono lavori a metà con un perché scritto.**
 >

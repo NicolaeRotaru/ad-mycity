@@ -38,9 +38,9 @@
 import { test, before, after } from "node:test";
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
-import { spawn } from "node:child_process";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { avviaPannello, spegniPannello } from "./aiuto-pannello.mjs";
 
 const require = createRequire(import.meta.url);
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -77,21 +77,15 @@ if (!risolviPlaywright()) {
 }
 
 before(async () => {
-  if (!(await raggiungibile())) {
-    server = spawn("npm", ["run", "dev"], { cwd: join(RADICE, "pannello"), env: { ...process.env, PORT: String(PORTA) }, stdio: "ignore", detached: true });
-    const scadenza = Date.now() + 180000;
-    while (Date.now() < scadenza) {
-      await new Promise((r) => setTimeout(r, 2000));
-      if (await raggiungibile()) break;
-    }
-    assert.ok(await raggiungibile(), `il Pannello non risponde su ${URL_BASE}: non posso guardare, quindi non posso dire che è a posto`);
-  }
+  // Vedi la nota in `c2-schermo`: l'avvio del Pannello vive in `aiuto-pannello.mjs`, in un posto
+  // solo, e si accorge subito se il server non parte invece di aspettarlo per tre minuti.
+  ({ server } = await avviaPannello({ radice: RADICE, porta: PORTA, urlBase: URL_BASE }));
   browser = await risolviPlaywright().chromium.launch({ headless: true });
 });
 
 after(async () => {
   if (browser) await browser.close();
-  if (server?.pid) { try { process.kill(-server.pid); } catch {} }
+  spegniPannello(server);
 });
 
 /** Apre l'area e aspetta che le schede della coda siano montate davvero. */

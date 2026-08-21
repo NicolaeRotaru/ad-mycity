@@ -2780,7 +2780,7 @@ file · `next lint` 0 errori e 95 avvisi, tutti di accessibilita'. Nessuna pagin
 browser: e' il limite dichiarato di questa visita, scritto in cima a tutti e due i referti.
 
 **Colore.** 🟢 per la visita: sola lettura, nessuna scrittura sul sito ne' sul database. Le
-riparazioni sono 🟡 e aspettano la firma di Nicola sulla card #143. La frase della home (card #144)
+riparazioni sono 🟡 e aspettano la firma di Nicola sulla card #146. La frase della home (card #147)
 e' l'unico problema che si cambia da una configurazione, ma serve prima la sua risposta su quale
 promessa di consegna sia quella vera.
 
@@ -2795,6 +2795,74 @@ un altro difetto — il cancello del lotto l'ha visto appena ho recuperato la st
 **Referti.** `consegne/audit/2026-08-21-radiografia.md` ·
 `consegne/design/2026-08-21-radiografia-design.md` · dati grezzi completi nei due
 `*-raw.json` accanto.
+- 2026-08-21 15:10 · 🟡 · [AD/DevOps] · **«Risolvi tutti questi problemi e dico tutti» — i 12 organi rossi della visita.**
+  Nicola manda lo schermo della Cabina: 12 rotti · 10 non visti · copertura 79%. La visita rifatta dal
+  vivo (`node cervello/salute.mjs`, exit 1) conferma, e separa le cause invece di contarle.
+
+  **Otto rossi su dodici hanno UN padre solo:** il server ha smesso di lavorare **lunedì 18/8 alle
+  08:55** (77 ore). Da una sessione cloud il VPS non si tocca: → **card 🔴 #143** con la diagnosi e i
+  comandi pronti. `worker.ponte`, `worker.tracce`, `worker.cadenze`, `worker.servizi`,
+  `worker.automazione` e la parte cadenzata di `cervello.freschezza`/`cervello.riti` si spengono da
+  soli quando riparte.
+
+  **Quattro erano guasti di codice, e sono chiusi qui — ognuno con una prova che diventa rossa se il
+  difetto torna** (mai un grep in un file):
+  ① **La spazzata che cancellava e non lo diceva a git.** `potaReferti` in `salute.mjs` toglieva il
+  referto più vecchio dal disco e lasciava git a nominarlo. `scan-segreti` scorre l'elenco di git,
+  trovava una porta che non si apre e si dichiarava CIECO: `cervello.segreti` era ⚪ da giorni, cioè
+  **il controllo delle chiavi nel repo era spento**, e ogni visita lo rinnovava cancellando il
+  referto dopo. Curato in due punti: la spazzata chiude la cancellazione; e un file che git elenca ma
+  che non è sul disco si legge **dall'indice** — non si dichiara pulito (sarebbe il buco vero: il
+  contenuto in staging finisce nel commit) e non acceca più. La prova di AR-339 è diventata più
+  severa, non più permissiva: quel segreto ora viene **trovato**, non «non misurato».
+  → `cervello/test/spazzata-che-non-lo-dice-a-git.test.mjs`
+  ② **Il rinvio che non scadeva mai.** L'allineamento del server rimandava da **422 giri di fila** —
+  la memoria si scriveva e non usciva più, con ogni rinvio verde. Causa: la fuga anti-stallo si
+  spegneva del tutto se restava **un solo** file di codice sporco, e nessun tetto contava l'attesa.
+  Già successo il 30/7: 1716 rinvii, 31 ore, 1519 commit mai pubblicati. **Seconda volta = guardiano
+  alla radice**, non terza riparazione: la decisione è ora una funzione pura (`azione_ramo_vivo`) con
+  un tetto a 4 ore, oltre il quale il lavoro sporco si **parcheggia** con un commit sul suo ramo (si
+  recupera con un checkout) e si allinea. → `cervello/test/allineamento-rinvio-che-non-scade.test.mjs`
+  ③ **La suite che non finiva più.** `cervello.test` era 🔧 GUASTO «oltre 300s»: misurata, ci metteva
+  **822s**. Due prove del Pannello aspettavano 180s a testa un `npm run dev` **già morto**, con
+  l'uscita del processo buttata in `ignore`. Ora l'avvio sta in un posto solo
+  (`cervello/test/aiuto-pannello.mjs`), si accorge se il processo muore e dice il perché. Suite:
+  **822s rossa → 316s verde**. E il banco ha un tetto **per prova**: una prova piantata viene uccisa e
+  **nominata**, invece di mangiarsi la rete di sicurezza intera.
+  ④ **La correzione del 4/7 rientrata dalla finestra.** Nicola: «togli il cablato su Windows una
+  volta per sempre, **impedisci che riaccada**». Il registro dava per fatte la pulizia e un guardiano
+  agganciato al giro. Il 21/8 `C:\Users\InfinitaPossibilita\mycity-live` era di nuovo dentro
+  `marketplace-repo.mjs` — proprio il file ripulito — e **il guardiano non esisteva nel repo**.
+  Chiusa con una frase, quindi rientrata. Ora: path tolti (anche i 3 loghi di `creativi/brand.mjs`),
+  guardiano `cervello/no-path-cablati-check.mjs` scritto davvero, agganciato a `giro.sh` come gate
+  hard con vincolo al motore. → `cervello/test/percorso-cablato-che-rientra.test.mjs`
+
+  **⑤ Il blocco che sparisce sempre** (trovato al collaudo, non nella prima passata). `cervello.scrittura`
+  era rosso: «Cosa non ho verificato» mancava nell'80% dei messaggi che lo pretendevano — e nel 100%
+  di quelli usciti dal server. Il freno c'era già, ma **da un lato solo**: il cancello dello Stop
+  misura i messaggi della chat, il worker non ci passa. È la malattia
+  «porta-laterale-senza-i-freni-della-principale», e `conta-blocco-mancante.mjs` misura il PASSATO,
+  cioè dice quanti messaggi erano fatti male dopo che sono partiti. Ora il worker chiede a
+  `si-capisce.mjs` — **la stessa testa del cancello**, non un secondo misuratore — quali blocchi
+  mancano, e lo scrive nel messaggio. Non blocca: buttare via una risposta già scritta per Nicola
+  sarebbe peggio del difetto, e un freno che perde lavoro viene spento entro la settimana. Il freno
+  è la visibilità. → `cervello/test/il-blocco-che-sparisce-sempre.test.mjs`
+
+  **Cosa mi ha corretto il collaudo.** La prima stesura di ⑤ chiudeva con `catch { return []; }`:
+  se la misura falliva, rispondeva «non manca niente» — un verde uscito da un controllo mai
+  avvenuto. È la malattia `fonte-troncata-letta-per-intera`, e me l'ha contestata il guardiano dei
+  fratelli, non io. Ora la funzione risponde due cose separate: *misurato* e *cosa manca*. Stesso
+  giro: il referto della visita è passato da 6 punti difficili a **zero** — l'elenco dei file
+  stantii chiudeva le righe puntate senza punto e veniva letto come una frase sola con cinque
+  incisi, e i cronici comparivano col titolo due volte a venti frasi di distanza.
+
+  **La lezione, che è una sola.** Tre dei quattro guasti erano **verdi ripetuti**: un rinvio che si
+  rimanda, una cancellazione che si rifà, un'attesa che riparte. Nessuno era un errore — erano tutti
+  «riprovo da solo» senza un tetto. *Un'operazione che può rimandarsi deve avere un limite oltre il
+  quale smette di essere paziente e diventa un rosso*, altrimenti è indistinguibile da una macchina
+  ferma. E il quarto dice il resto: **una correzione di Nicola chiusa con una frase rientra da sola.**
+
+  · Non riproporre come «da fare»: fatto, con prova · Nicola (chat, schermo della Cabina)
 ## 2026-08-21 14:45 — 🟢 Due card di sicurezza aperte da 3 settimane erano già risolte: chiuse dopo verifica sul database vero
 
 Giro completo richiesto in chat. Le card `#36` (pulsante ordini) e `#37` (4 falle RLS), aperte dal 29/7
@@ -2813,3 +2881,12 @@ di chiedere ancora una firma su un lavoro già fatto. Chiuse in [[AZIONI-IN-ATTE
 
 **La lezione:** una card 🔴/🟡 vecchia non prova che il problema esista ancora, soprattutto dopo un lotto
 di riparazioni ampio — va riverificata sul sistema reale prima di richiedere ancora una firma.
+
+**Nota del 2026-08-21 18:30 — le due carte hanno cambiato numero.** Nate come #143 e #144, ma
+mentre lavoravo `main` ha assegnato quegli stessi due numeri ad altre due carte. Le mie esistevano
+solo sul ramo, quindi ho rinumerato le mie: ora sono **#146** (cantiere sui 15 bloccanti) e **#147**
+(quale promessa di consegna è vera). E' la seconda collisione di numeri della giornata: la prima
+l'ha trovata il cancello sul numero AR-777, la seconda l'ha trovata la prova `carte-numerate`.
+Entrambe nascono dallo stesso fatto — due sessioni che assegnano numeri guardando due copie diverse
+della coda — ed e' un difetto che non ho ancora registrato perche' non so ancora dire quale sia la
+casa unica del prossimo numero.

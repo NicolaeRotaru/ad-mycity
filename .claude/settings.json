@@ -1,4 +1,15 @@
 {
+  "extraKnownMarketplaces": {
+    "superpowers-dev": {
+      "source": {
+        "source": "github",
+        "repo": "obra/superpowers"
+      }
+    }
+  },
+  "enabledPlugins": {
+    "superpowers@superpowers-dev": true
+  },
   "permissions": {
     "allow": [
       "WebSearch",
@@ -83,7 +94,7 @@
       "Write(./.claude/settings.local.json)"
     ]
   },
-"hooks": {
+  "hooks": {
     "SessionStart": [
       {
         "hooks": [
@@ -129,7 +140,11 @@
       {
         "matcher": "Edit|Write|MultiEdit",
         "hooks": [
-          { "type": "command", "command": "node cervello/mano-fermata.mjs --hook", "timeout": 10 }
+          {
+            "type": "command",
+            "command": "node cervello/mano-fermata.mjs --hook",
+            "timeout": 10
+          }
         ]
       }
     ],

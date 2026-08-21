@@ -99,23 +99,62 @@ prova("un file con l'accento e SENZA segreti resta verde: il fix non è un allar
 
 // ── Il secondo difetto: il silenzio ─────────────────────────────────────────
 
-prova("un file elencato da git ma non apribile NON è un file pulito", () => {
+// 2026-08-21 — QUESTO CASO È DIVENTATO PIÙ SEVERO, non più permissivo.
+// Prima chiedeva: un file che git elenca e che non si riesce ad aprire non deve passare per pulito
+// → rc=2, «cieco». Giusto come divieto, ma debole come garanzia: «non lo so» lascia comunque uscire
+// la chiave, perché nessuno l'ha guardata. E c'era un effetto collaterale caro: bastava una
+// cancellazione qualunque non ancora committata — per esempio la spazzata dei referti della salute,
+// che ne cancella uno a ogni visita — perché TUTTA la scansione dei segreti diventasse cieca. Il
+// controllo `cervello.segreti` è stato ⚪ per giorni per questo motivo, cioè spento.
+//
+// La cura non è dichiarare pulito il file sparito (sarebbe il buco vero: il contenuto è ancora
+// nell'INDICE e finirebbe nel commit). La cura è LEGGERLO dove sta davvero, cioè dall'indice. Così
+// il caso di AR-339 è coperto meglio di prima: il segreto non viene «non misurato», viene TROVATO e
+// bloccato. Resta cieco solo ciò che merita di esserlo — un percorso che git elenca e di cui non si
+// recupera il contenuto da nessuna delle due parti.
+prova("un file messo in staging e poi cancellato viene LETTO dall'indice, non dichiarato pulito", () => {
   const dir = mkdtempSync(join(tmpdir(), "mycity-segreti-"));
   try {
     spawnSync("git", ["init", "-q", "."], { cwd: dir });
     spawnSync("git", ["config", "user.email", "prova@mycity.local"], { cwd: dir });
     spawnSync("git", ["config", "user.name", "prova"], { cwd: dir });
-    writeFileSync(join(dir, "sparito.md"), "roba\n");
+    writeFileSync(join(dir, "sparito.md"), `chiave di prova: ${campioneFinto()}\n`);
     spawnSync("git", ["add", "-A"], { cwd: dir });
-    unlinkSync(join(dir, "sparito.md")); // git lo elenca ancora, il disco no
+    unlinkSync(join(dir, "sparito.md")); // git lo elenca ancora, il disco no — ma il commit lo porta
     const r = spawnSync("node", [SCANNER, "--json"], {
       encoding: "utf8",
       env: { ...process.env, SCAN_SEGRETI_REPO: dir },
     });
-    assert.equal(r.status, 2, `atteso «non ho potuto misurare» (rc=2), avuto ${r.status}:\n${r.stdout}${r.stderr}`);
+    assert.equal(
+      r.status,
+      1,
+      `il segreto è dentro l'indice e finirebbe nel commit: va TROVATO (rc=1), avuto ${r.status}:\n${r.stdout}${r.stderr}`,
+    );
     const j = JSON.parse(r.stdout);
-    assert.equal(j.esito, "cieco");
-    assert.deepEqual(j.non_raggiunti, ["sparito.md"]);
+    assert.equal(j.esito, "trovato");
+    assert.equal(j.trovati[0].file, "sparito.md");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+prova("e se quel file cancellato è pulito, non acceca l'intera scansione", () => {
+  const dir = mkdtempSync(join(tmpdir(), "mycity-segreti-"));
+  try {
+    spawnSync("git", ["init", "-q", "."], { cwd: dir });
+    spawnSync("git", ["config", "user.email", "prova@mycity.local"], { cwd: dir });
+    spawnSync("git", ["config", "user.name", "prova"], { cwd: dir });
+    writeFileSync(join(dir, "sparito.md"), "solo prosa\n");
+    spawnSync("git", ["add", "-A"], { cwd: dir });
+    unlinkSync(join(dir, "sparito.md"));
+    const r = spawnSync("node", [SCANNER, "--json"], {
+      encoding: "utf8",
+      env: { ...process.env, SCAN_SEGRETI_REPO: dir },
+    });
+    assert.equal(r.status, 0, `una cancellazione pendente e pulita non deve spegnere il controllo:\n${r.stdout}${r.stderr}`);
+    const j = JSON.parse(r.stdout);
+    assert.deepEqual(j.non_raggiunti, []);
+    assert.equal(j.letti, 1, "il file va contato fra i LETTI: è stato letto davvero, dall'indice");
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
