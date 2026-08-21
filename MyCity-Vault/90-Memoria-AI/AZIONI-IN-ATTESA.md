@@ -61,23 +61,28 @@ Il file già pronto sta qui: `consegne/tech/settings-con-superpowers.json`. L'ho
 file di adesso, aggiungendo solo le due righe che servono. Ho controllato che tutto il resto sia
 identico parola per parola: 63 permessi concessi, 15 vietati, 8 ganci — gli stessi numeri di prima.
 
-**Un comando solo:**
+**Copia questo blocco intero, sul server.** Le prime due righe non sono decorazione: la prima ti
+porta nella cartella del progetto, la seconda tira giù il file da GitHub. Senza, i comandi cercano
+nella tua home e non trovano niente — è successo davvero il 21/8 alle 16:32, ed era colpa mia che
+te li avevo dati nudi.
 
 ```
+cd /opt/mycity/ad-mycity
+git pull origin main
 cp consegne/tech/settings-con-superpowers.json .claude/settings.json
-```
-
-Poi controlla di non aver rotto niente. Questo comando risponde in una riga sola:
-
-```
 node cervello/plugin-acceso.mjs
 ```
 
-Se dice **acceso**, è fatto. Se dice che il file è rotto, mandami la riga che esce e te lo
-raddrizzo io. Poi **riavvia la sessione**: i plugin si leggono all'avvio, non mentre lavori.
+L'ultimo comando risponde in una riga sola. Se dice **acceso**, è fatto. Se dice **spento** o che il
+file è rotto, mandami quella riga e te lo raddrizzo io. Poi **riavvia la sessione**: i plugin si
+leggono all'avvio, non mentre lavori.
 
-Poi, sul server, un giro di `node cervello/sync-worker-plugins.mjs --specchia` così anche lì sparisce
-la copia doppia.
+Alla fine, un giro di sincronizzazione così sparisce anche lì la copia doppia delle due skill:
+
+```
+cd /opt/mycity/ad-mycity
+node cervello/sync-worker-plugins.mjs --specchia
+```
 
 **Cosa non ho verificato:** una cosa la devi sapere prima di firmare. Con quelle righe la macchina
 scarica il pacchetto da GitHub ogni volta, prendendo l'ultima versione che c'è in quel momento. Non
