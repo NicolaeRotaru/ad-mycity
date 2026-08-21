@@ -375,20 +375,20 @@ testo del matcher, non una misura.
 
 ### 🟡 #120 — Avvisa il fornaio: c'è un circuito welfare gratis a cui può iscriversi subito · ⏳ accodata 2026-08-17 14:05
 
-**Cosa cambia:** ho trovato che a Piacenza esiste già un programma chiamato "Piacenza Pay" —
-gestito da un'azienda nazionale di buoni pasto (360Welfare) insieme alle 4 associazioni di
-commercianti della città — che fa arrivare ai negozi i soldi del welfare aziendale dei
-dipendenti (buoni pasto, buoni acquisto). Per il negozio è **gratis aderire**, paga solo una
-piccola parte quando un cliente spende davvero. Non c'entra niente con MyCity: Pane Quotidiano
-potrebbe iscriversi oggi stesso, senza aspettare che i nostri pagamenti Stripe siano accesi. È
-un canale di soldi in più che il fornaio oggi non sta prendendo.
+**Cosa cambia:** a Piacenza esiste già un programma chiamato "Piacenza Pay". Lo gestisce
+360Welfare, un'azienda nazionale di buoni pasto, insieme alle 4 associazioni di commercianti
+della città. Il programma fa arrivare ai negozi i soldi del welfare aziendale dei dipendenti:
+buoni pasto, buoni acquisto. Per il negozio aderire è **gratis**. Paga solo una piccola parte
+quando un cliente spende davvero. Non c'entra niente con MyCity: Pane Quotidiano potrebbe
+iscriversi oggi stesso, senza aspettare che i nostri pagamenti Stripe siano accesi. È un canale
+di soldi in più che il fornaio oggi non sta prendendo.
 
 **Testo pronto da inoltrare (WhatsApp o di persona):**
-> «Ciao! Volevo segnalarti una cosa che ho trovato: a Piacenza c'è un programma gratuito chiamato
-> "Piacenza Pay" (lo gestisce 360Welfare insieme a Confindustria, Confapi, Confesercenti e
-> Confcommercio Piacenza) che fa arrivare ai negozi i buoni pasto e i buoni acquisto welfare dei
-> dipendenti delle aziende della zona. Per il negozio è gratis iscriversi, non c'è nessun canone:
-> paghi solo una piccola percentuale quando un cliente spende davvero. Basta scrivere a
+> «Ciao! Volevo segnalarti una cosa che ho trovato. A Piacenza c'è un programma gratuito chiamato
+> "Piacenza Pay". Lo gestisce 360Welfare insieme a Confindustria, Confapi, Confesercenti e
+> Confcommercio Piacenza. Fa arrivare ai negozi i buoni pasto e i buoni acquisto welfare dei
+> dipendenti delle aziende della zona. Per il negozio è gratis iscriversi, non c'è nessun canone.
+> Paghi solo una piccola percentuale quando un cliente spende davvero. Basta scrivere a
 > piacenzapay@360welfare.it per iscriverti. Non c'entra con MyCity, è un programma separato — ma
 > ti porta clienti e soldi in più senza costo, quindi ti conviene comunque farlo. Fammi sapere se
 > vuoi che ti aiuti a scrivere la mail.»
@@ -874,11 +874,13 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🔴 #38 — Tappa i cinque punti dove il marketplace perde soldi da solo · ⏳ accodata 2026-07-29 13:30
+### 🔴 #38 — Tappa i cinque punti dove il marketplace perde soldi da solo · ⏳ accodata 2026-07-29 13:30 · 🔍 riverificata sul DB vero 2026-08-21 14:30
 
-**Cosa cambia:** cinque difetti che costano soldi veri appena arriva il primo volume. ① **Doppia vendita:** la merce viene "rimessa a scaffale" dopo 2 ore, ma la pagina di pagamento resta valida 24 — chi paga dopo compra roba già venduta. È lo stesso bloccante del 7 luglio, ancora lì. ② **Campagne che si spengono a un terzo:** ogni checkout abbandonato brucia un utilizzo del codice sconto per sempre, e nessuno lo restituisce. Un coupon da 100 usi si esaurisce dopo 100 *tentativi*, non 100 ordini. ③ **Il rider si decide lo stipendio:** il campo del suo compenso non è tra quelli congelati e finisce dritto in un bonifico Stripe. ④ **Il rider non viene mai pagato** sugli ordini con spedizione gratuita, e il programma automatico ci riprova all'infinito. ⑤ **Un reclamo blocca il negozio per sempre:** una volta aperto, lo stato del reclamo non torna mai indietro e il negoziante non viene più pagato. In più: gift card, sponsorizzazioni e abbonamenti pagati possono sparire in silenzio se il database fa i capricci, perché il sistema li segna come riusciti comunque.
+**Aggiornamento 2026-08-21:** ho controllato punto per punto sul database di produzione, dopo il grosso lotto di riparazioni del 20-21/8. **Due dei cinque sono già a posto**: ③ il campo del compenso rider (`rider_fee_cents`) NON è più tra quelli che rider/venditore possono cambiare — l'ho letto nella funzione che protegge gli ordini, la lista dei campi liberi non lo contiene; ② la funzione che restituisce l'uso di un coupon dopo un checkout abbandonato (`release_coupon`) ora esiste sul database, prima non c'era. **Gli altri tre non li ho potuti verificare da qui**: doppia vendita (①) e reclamo che blocca per sempre (⑤) dipendono dal codice del sito (cron, webhook) che da questa sessione non leggo — il trigger del reclamo che ho trovato (`dispute_block_payout`) blocca il pagamento all'apertura ma non mostra un modo per sbloccarlo, quindi il punto ⑤ potrebbe essere ancora aperto. **Non chiudo la card**: la declasso da "cinque falle" a "tre da verificare col codice, due già chiuse".
 
-**Se va bene:** apro un branch e li affronto in quest'ordine — prima il compenso rider e il reclamo bloccante (bastano poche righe), poi il coupon e la doppia vendita (serve una migration). Ti consegno l'anteprima con la lista di cosa ho toccato e mandi in produzione tu.
+**Cosa cambia:** cinque difetti che costano soldi veri appena arriva il primo volume. ① **Doppia vendita:** la merce viene "rimessa a scaffale" dopo 2 ore, ma la pagina di pagamento resta valida 24 — chi paga dopo compra roba già venduta. È lo stesso bloccante del 7 luglio, ancora lì. ~~② Campagne che si spengono a un terzo~~ — RISOLTO, vedi sopra. ~~③ Il rider si decide lo stipendio~~ — RISOLTO, vedi sopra. ④ **Il rider non viene mai pagato** sugli ordini con spedizione gratuita, e il programma automatico ci riprova all'infinito. ⑤ **Un reclamo blocca il negozio per sempre:** una volta aperto, lo stato del reclamo non torna mai indietro e il negoziante non viene più pagato. In più: gift card, sponsorizzazioni e abbonamenti pagati possono sparire in silenzio se il database fa i capricci, perché il sistema li segna come riusciti comunque.
+
+**Se va bene:** apro un branch e affronto solo i tre punti rimasti (①④⑤, doppia vendita/payout gratuito/reclamo permanente) leggendo il codice del sito. Ti consegno l'anteprima e mandi in produzione tu.
 
 **Nota tecnica:** ① `lib/stripe/client.ts` non passa `expires_at`, `migrations/042_multi_seller_checkout.sql:43` vs cron `expire-checkouts`; `app/api/stripe/webhook/route.ts:210` non gestisce EXPIRED/CANCELED. ② `claim_coupon` (migration 108) chiamata prima di `reserve_stock`, nessuna `release_coupon` esiste. ③ `rider_fee_cents` assente dal freeze di `enforce_order_update_rules` → `lib/stripe/payout.ts`. ④ `lib/stripe/payout.ts:161-166` + `app/api/cron/release-payouts/route.ts:113-136`. ⑤ trigger `dispute_block_payout`, `migrations/063_p1_db_hardening.sql:69-84`. Webhook: handler gift card/sponsor/abbonamento fanno `return` invece di `throw`, il dispatcher marca `processed=true`.
 - **Colore:** 🔴 (tocca pagamenti, payout e database di produzione)
@@ -889,11 +891,11 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🔴 #37 — Chiudi le quattro porte che lasciano entrare chiunque nei dati dei negozi e dei clienti · ⏳ accodata 2026-07-29 13:30
+### ✅ #37 — CHIUSA 2026-08-21 14:30 (verificata risolta sul DB vero) — Chiudi le quattro porte che lasciano entrare chiunque nei dati dei negozi e dei clienti · accodata 2026-07-29 13:30
 
-**Cosa cambia:** quattro falle di sicurezza aperte sul sito vero, tutte confermate. ① Tre elenchi pubblici dei negozi sono scrivibili da un visitatore **senza account**: si possono cambiare telefono, indirizzo e nome di un negozio, o cancellarlo — e cancellarlo si porta dietro conversazioni, portafoglio e punti fedeltà. Ho verificato io sul database che il permesso di scrittura c'è davvero. ② Nome, telefono e indirizzo di casa dei clienti con una consegna in corso si leggono **senza login**: la regola scritta per far vedere ai rider gli ordini disponibili è troppo larga. ③ Chi si registra diventa venditore o rider **già approvato**: il controllo dell'admin è scavalcato. ④ Sempre senza login si possono modificare i dati di consegna degli ordini pronti. Queste sono le cose che, se qualcuno le trova prima di noi, chiudono l'azienda: sono dati personali di clienti veri e una violazione da notificare al Garante.
+**Esito:** ho controllato le quattro falle una per una sul database di produzione reale, dopo il grosso lotto di riparazioni del 20-21/8, e sono **tutte e quattro chiuse**. ① La vista `public_profiles` scrivibile non esiste più (rimane solo `seller_public_profiles`, di sola lettura e filtrata su negozi approvati); su `profiles`/`orders` non c'è nessun permesso di scrittura per un visitatore senza account. ② La regola che faceva vedere ai rider gli ordini disponibili con tutti i dati del cliente ora limita la lettura al solo rider assegnato (`rider_id = chi ha fatto login`) — gli ordini disponibili passano da una vista separata senza dati sensibili. ③ Chi si registra oggi nasce **non approvato** (`is_approved=false`, `approval_status='pending'`): l'ho letto nel codice della funzione che crea il profilo alla registrazione. ④ Nessun permesso di scrittura sui dati di consegna per chi non ha fatto login. Nessuna azione resta da firmare: il fix è già nel database vero, non in un branch in attesa.
 
-**Se va bene:** apro un branch con le migration che mettono le tre viste in modalità "rispetta i permessi di chi legge", tolgono i permessi di scrittura ad anonimo, stringono la regola dei rider a chi è davvero un rider e rimettono l'approvazione dell'admin alla nascita dell'account. Ti mostro l'anteprima e le mandi in produzione tu, una per volta.
+**Cosa cambiava (per storico):** quattro falle di sicurezza aperte sul sito vero, tutte confermate. ① Tre elenchi pubblici dei negozi erano scrivibili da un visitatore senza account. ② Nome, telefono e indirizzo di casa dei clienti con una consegna in corso si leggevano senza login. ③ Chi si registrava diventava venditore o rider già approvato. ④ Si potevano modificare senza login i dati di consegna degli ordini pronti.
 
 **Nota tecnica:** ① viste `public_profiles`/`seller_public_profiles`/`seller_storefronts` senza `security_invoker` e con GRANT UPDATE/DELETE ad `anon` (migrations 108/110/112; `seller_storefronts` è drift: non esiste in nessun file del repo). ② policy «Riders can view available and own orders», `migrations/019_rider_visibility.sql:14-21`. ③ `public.handle_new_user`, `migrations/015_competitive_moats.sql:137-156`. ④ policy «Riders can update assigned or claim free orders», `migrations/011_orders_delivery.sql:128-134`. Nota collegata: l'hardening RLS delle migration 020 e 109 non ha mai avuto effetto — è scritto per nomi di policy che sul DB non esistono.
 - **Colore:** 🔴 (migration sul database di produzione, dati personali)
@@ -904,13 +906,11 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🔴 #36 — Ripara il pulsante che venditore e rider usano per far avanzare un ordine · ⏳ accodata 2026-07-29 13:30
+### ✅ #36 — CHIUSA 2026-08-21 14:30 (verificata risolta sul DB vero) — Ripara il pulsante che venditore e rider usano per far avanzare un ordine · accodata 2026-07-29 13:30
 
-**Cosa cambia:** in questo momento, sul sito vero, quando un negoziante accetta un ordine dalla sua pagina o un rider lo prende in carico, il database rifiuta la modifica e restituisce un errore. Non è un sospetto: l'ho verificato io con una query sul database di produzione. A giugno una modifica ha cancellato dagli ordini il campo "numero fattura", ma il controllo di sicurezza che protegge gli ordini continua a cercarlo, e va in errore proprio quando la modifica è **legittima**. Le API del server non sono toccate — muore solo quello che parte dal browser, cioè le due schermate che fanno camminare una consegna. Con un negozio solo e zero ordini pagati oggi non se ne accorge nessuno: al primo ordine vero, il negoziante non riesce ad accettarlo.
+**Esito:** ho riletto sul database di produzione la funzione che protegge gli ordini (`enforce_order_update_rules`): non cita più `invoice_number`. È stata riscritta con una lista bianca di campi che negozio/rider possono cambiare (stato consegna, rider assegnato, orari, posizione) — il vecchio controllo che cercava una colonna cancellata a giugno non c'è più. Il pulsante che fa avanzare un ordine funziona: nessuna azione resta da firmare, il fix è già nel database vero (probabilmente dentro il lotto di migrazioni 107-124 del 20-21/8), non in un branch locale come al 17/8.
 
-**Se va bene:** apro un branch sul repo del sito con una migration che riscrive quel controllo togliendo il campo cancellato, più un test che diventa rosso se il controllo torna a citare una colonna che non esiste. Poi te lo mostro in anteprima e lo mandi in produzione tu.
-
-**Aggiornamento 2026-08-17 06:xx:** oggi ho fatto rileggere a backend-dev tutti i file citati sotto, uno per uno. La diagnosi è confermata al 100%, nessun dubbio residuo. Il branch `fix/enforce-order-update-invoice-number` esiste in locale con la migration pronta e un test nuovo. Non è ancora su GitHub: i permessi di questa sessione non includono `git commit`/`git push` sul repo del sito. Serve una sessione con quei permessi per finire il lavoro (commit, push, anteprima).
+**Cosa cambiava (per storico):** sul sito vero, quando un negoziante accettava un ordine o un rider lo prendeva in carico, il database rifiutava la modifica per colpa di un controllo che cercava ancora il campo "numero fattura", cancellato a giugno.
 
 **Nota tecnica:** `migrations/061_p0_security_rls_state_machine_reviews.sql:129` (funzione `enforce_order_update_rules`, tuttora viva sul DB) cita `NEW.invoice_number`, colonna droppata da `migrations/105_remove_invoicing.sql:27`. Nessuna migration successiva ridefinisce la funzione (063/064/094/096 la citano solo nei commenti). Verifica diretta sul progetto `clmpyfvpvfjgeviworth`: `colonna_esiste=false`, `trigger_la_cita=true`. Punti d'impatto: `app/seller/orders/[id]/page.tsx:205`, `app/rider/orders/[id]/page.tsx:108`. Uscita anticipata per admin/service_role alle righe 96-98 → route server salve. Migration pronta: `marketplace/migrations/107_fix_enforce_order_update_invoice_number.sql`. Test pronto: `marketplace/tests/unit/migrations-integrity.test.ts`.
 - **Colore:** 🔴 (migration sul database di produzione)
