@@ -22,34 +22,30 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #138 — Libera il disco del server: è pieno, ed è per questo che la macchina è ferma · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-20 20:05
+### 🟡 #138 — Riconcilia la memoria ferma sul server: prima guarda, poi decidi · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 03:25
 
-**Cosa cambia:** il diario del server ha detto la causa vera, e non era il lucchetto. Il disco è
-pieno. Senza spazio non si scrive la chiave della memoria. Senza chiave il lavoratore non interroga
-il database. E allora non riesce a leggere se è in pausa o no. Si ferma da solo, apposta, e lo
-scrive: «meglio fermo che partito mentre Nicola crede di averlo messo in pausa». La pausa invece è
-spenta dal 5 agosto. Il freno scatta per il motivo sbagliato.
+**Cosa cambia:** la macchina è ripartita alle 02:48 e il disco adesso si spazza da solo, quindi quel
+blocco non torna. Resta l'ultima cosa: il server ha venti scritture di memoria che non è mai riuscito
+a pubblicare, e ogni cinque minuti riprova e fallisce.
 
-La riparazione unita ieri **funziona**. Alle 20:00:29 la corsia grande si è accesa, per la prima
-volta da martedì.
+Ho costruito l'attrezzo che le riconcilia. Non le cancella: le mette prima in un archivio da cui si
+ripescano intere, e solo dopo riallinea il server. La prova che il ripescaggio funziona gira in
+automatico a ogni giro.
 
-**Se va bene:** guarda quanto spazio resta, poi svuota il diario di sistema:
-
-```
-df -h /
-sudo journalctl --vacuum-size=200M
-df -h /
-```
-
-Se lo spazio libero resta sotto il dieci per cento, manda l'uscita di:
+**Se va bene:** prima guarda cosa farebbe, senza toccare niente:
 
 ```
-sudo du -xh --max-depth=1 / 2>/dev/null | sort -h | tail -12
+cd /opt/mycity/ad-mycity
+bash cervello/vps/riconcilia-memoria.sh
 ```
 
-**Cosa non ho verificato:** quanto disco resti non lo so, né cosa se lo sia mangiato. Da qui il
-server non lo vedo. Che liberare spazio basti a far ripartire tutto è la causa più probabile, non
-una certezza. L'allineamento dei diciannove commit fermi lassù resta un lavoro a parte.
+Ti stampa i venti commit, e li divide in due: i report che i motori rifanno da soli, e la storia vera
+(briefing, decisioni) che non si rigenera. **Mandami quello che esce.** Se la storia è poca o zero,
+si esegue e finisce lì. Se invece c'è roba che vale, la recuperiamo prima.
+
+**Cosa non ho verificato:** cosa contengano davvero quei venti commit — da qui il server non lo vedo,
+e per questo l'attrezzo parte in sola lettura. L'archivio e il riallineamento li ho provati su una
+finta che riproduce la divergenza vera.
 
 ---
 

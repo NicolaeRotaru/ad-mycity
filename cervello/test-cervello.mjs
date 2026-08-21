@@ -55,6 +55,7 @@ import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 // «questo rosso è la prova di una scheda dichiarata chiusa?» — hanno una risposta sola per tutti.
 import { canaleAllargato, casiSpenti, chiusureDaRiverificare } from "./contratto-prova.mjs";
 import { fileDelComando } from "./cancello-lotto.mjs";
+import { spazza } from "./spazza-temporanei.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const SERIALE = process.argv.includes("--seriale");
@@ -580,6 +581,19 @@ async function main() {
     else console.error(messaggio);
     process.exit(2);
   }
+  // 🧹 LA SPAZZATA, PRIMA DI TUTTO. Trentadue prove di questa cartella creano una cartella
+  // temporanea con `mkdtempSync` e non la cancellano mai. Il banco gira a ogni giro, quindi ogni
+  // giro ne lascia indietro una trentina da qualche mega: in mesi hanno riempito /tmp sul server
+  // fino al 100% e fermato la macchina per quasi tre giorni (20/8). La spazzata sta QUI e non nei
+  // singoli test perché questo è l'unico punto da cui passano tutte le prove — comprese quelle che
+  // muoiono a metà senza arrivare al proprio `finally`, che sono esattamente quelle che perdono.
+  // Tocca solo cartelle coi nostri prefissi e ferme da oltre un giorno: mai quelle di un banco che
+  // sta girando adesso, mai quelle di qualcun altro.
+  const spazzata = spazza();
+  if (spazzata.tolte.length && !JSON_MODE) {
+    console.log(`🧹 tolte ${spazzata.tolte.length} cartelle temporanee orfane da ${spazzata.dir}`);
+  }
+
   const quando = nowPiacenza();
   // `resolve` e non `join`: con TEST_CERVELLO_DIR assoluto, `join` incollerebbe il percorso in coda
   // alla radice e la cartella non esisterebbe — un banco che non trova le prove dice «0 passati».
