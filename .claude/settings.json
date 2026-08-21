@@ -128,7 +128,7 @@
     ],
     "PreToolUse": [
       {
-        "matcher": "Bash|Task|mcp__.*",
+        "matcher": "Bash|Monitor|Task|mcp__.*",
         "hooks": [
           {
             "type": "command",
