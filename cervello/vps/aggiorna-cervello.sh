@@ -380,8 +380,27 @@ fi
 if command -v node >/dev/null 2>&1; then
   node cervello/auto-fix.mjs verifica --applica 2>&1 | tail -6 || true
   ac="MyCity-Vault/90-Memoria-AI/auto-coscienza"
-  if [ -n "$(git status --porcelain "$ac" 2>/dev/null)" ]; then
-    git add "$ac" 2>/dev/null || true
+  # 2026-08-21 — UN COMMIT METTE DENTRO SOLO CIÒ CHE IL SUO MESSAGGIO DICHIARA.
+  # Qui c'era `git add "$ac"`: tutta la cartella. Alle 20:07 quel commit — intitolato «chiude difetti
+  # risolti nel codice» — ha pubblicato QUATTRO file, e fra questi `apprendimento.json` è passato da
+  # 531 lezioni a 529. Due lezioni arrivate su main da altrettante PR firmate, cancellate da un commit
+  # che parlava d'altro (confronto id per id: aggiunte 0, modificate 0, perse 2).
+  #
+  # `git add <cartella>` non mette in staging quello che il lavoro ha fatto: mette quello che nella
+  # cartella è sporco. Su una macchina che gira in continuo qualcos'altro scrive sempre lì dentro, e
+  # sporcare un file bastava a pubblicarlo. Adesso il perimetro è dichiarato in
+  # `cervello/riconcilia-perimetro.mjs` (i due archivi che auto-fix.mjs scrive davvero) e provato da
+  # `cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs`.
+  _da_committare="$(git status --porcelain "$ac" 2>/dev/null | node cervello/riconcilia-perimetro.mjs 2>/tmp/riconcilia-intrusi.$$)"
+  if [ -s /tmp/riconcilia-intrusi.$$ ]; then
+    # Gli intrusi si DICHIARANO, non si portano dietro: restano sporchi sul disco e chi li ha scritti
+    # se li pubblica sotto il proprio nome. Il silenzio qui è come li abbiamo persi.
+    sed "s/^/[$(ts)] /" /tmp/riconcilia-intrusi.$$ >&2
+  fi
+  rm -f /tmp/riconcilia-intrusi.$$
+  if [ -n "$_da_committare" ]; then
+    # shellcheck disable=SC2086 # percorsi senza spazi, uno per riga, prodotti dal perimetro
+    echo "$_da_committare" | while IFS= read -r _f; do [ -n "$_f" ] && git add -- "$_f" 2>/dev/null || true; done
     git "${GIT_ID[@]}" commit -q -m "riconcilia: chiude difetti risolti nel codice ($(ts))" 2>/dev/null || true
     echo "[$(ts)] 🔧 Riconciliazione cantiere: difetti verificati chiusi (verranno pubblicati su ${branch})."
   fi
