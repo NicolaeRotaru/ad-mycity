@@ -22,7 +22,7 @@ import assert from "node:assert/strict";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
-const { spazza, PREFISSI, MAI_TOCCARE, ORE_DEFAULT } = await import(join(QUI, "..", "spazza-temporanei.mjs"));
+const { spazza, pesaCompleto, PREFISSI, MAI_TOCCARE, ORE_DEFAULT } = await import(join(QUI, "..", "spazza-temporanei.mjs"));
 
 const casi = [];
 const prova = (nome, fn) => {
@@ -190,6 +190,116 @@ prova("una prova che perde non lascia niente nella cartella temporanea", () => {
   } finally {
     rmSync(fuori, { recursive: true, force: true });
     rmSync(finte, { recursive: true, force: true });
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// IL VERDE SOPRA IL DISCO PIENO — 21/8, ore 12:25
+//
+// Le riparazioni erano tutte sul server e /tmp segnava ancora 100%, 4,6 MB liberi. Ho riletto cosa
+// avrebbe detto questo attrezzo lanciato lì in quel momento: «✅ niente da spazzare». Vero e
+// inutile — vero perché di suo non c'era più niente da togliere, inutile perché il disco era pieno
+// lo stesso e la riga non lo diceva.
+//
+// È lo stesso difetto che Nicola mi aveva già fatto chiudere sull'attrezzo della memoria («chiudi
+// il problema sul quale sei cieco»): uno strumento che salta quello che non riconosce e poi
+// riferisce solo su quello che riconosce. Il salto è giusto — non tocco roba d'altri — ma il
+// silenzio no: quello che non riconosco occupa il posto comunque.
+//
+// Le due prove qui sotto misurano il comportamento nuovo: chi resta viene NOMINATO, e il verde da
+// solo non esiste più su una cartella occupata.
+// ─────────────────────────────────────────────────────────────────────────────
+
+prova("dice chi occupa il posto e non è nostro, il piu' grosso per primo", () => {
+  const base = mkdtempSync(join(tmpdir(), "sabbiera-spazza-"));
+  try {
+    mkdirSync(join(base, "roba-piccola"), { recursive: true });
+    writeFileSync(join(base, "roba-piccola", "a.bin"), Buffer.alloc(10_000));
+    mkdirSync(join(base, "roba-grossa"), { recursive: true });
+    writeFileSync(join(base, "roba-grossa", "b.bin"), Buffer.alloc(400_000));
+
+    const r = spazza({ dir: base, esegui: false });
+    const nomi = r.sconosciute.map((v) => v.nome);
+    assert.deepEqual(nomi, ["roba-grossa", "roba-piccola"], `ordine per peso sbagliato: ${nomi.join(", ")}`);
+    assert.ok(
+      r.sconosciute[0].byte > 300_000,
+      `il peso della cartella grossa e' ${r.sconosciute[0].byte}: sta contando la voce di cartella, non il contenuto`,
+    );
+    assert.ok(r.byteSconosciuti > 400_000, `totale non nostro ${r.byteSconosciuti}, troppo poco`);
+  } finally {
+    rmSync(base, { recursive: true, force: true });
+  }
+});
+
+prova("con niente di nostro da togliere non si ferma al verde: nomina chi resta", () => {
+  const base = mkdtempSync(join(tmpdir(), "sabbiera-spazza-"));
+  try {
+    mkdirSync(join(base, "occupante-sconosciuto"), { recursive: true });
+    writeFileSync(join(base, "occupante-sconosciuto", "g.bin"), Buffer.alloc(2_000_000));
+
+    const r = spawnSync("node", ["cervello/spazza-temporanei.mjs"], {
+      cwd: REPO,
+      encoding: "utf8",
+      env: { ...process.env, TMPDIR: base },
+      timeout: 60_000,
+    });
+    const detto = `${r.stdout}${r.stderr}`;
+    assert.ok(
+      detto.includes("occupante-sconosciuto"),
+      `l'attrezzo non ha nominato chi occupa il posto — e' il verde sopra il disco pieno:\n${detto}`,
+    );
+    assert.ok(detto.includes("MB"), `non ha detto quanto pesa quello che resta:\n${detto}`);
+  } finally {
+    rmSync(base, { recursive: true, force: true });
+  }
+});
+
+prova("il conto di quello che ha liberato e' spazio vero, non voci di cartella", () => {
+  const base = mkdtempSync(join(tmpdir(), "sabbiera-spazza-"));
+  try {
+    const vecchia = cartella(base, "mycity-campo-pesante", ORE_DEFAULT + 5);
+    writeFileSync(join(vecchia, "grosso.bin"), Buffer.alloc(500_000));
+    const quando = new Date(Date.now() - (ORE_DEFAULT + 5) * 3600_000);
+    utimesSync(vecchia, quando, quando);
+
+    const r = spazza({ dir: base, esegui: false });
+    assert.deepEqual(r.tolte, ["mycity-campo-pesante"]);
+    assert.ok(
+      r.byte > 400_000,
+      `dice di liberare ${r.byte} byte per mezzo mega di roba: sta sommando la voce di cartella (4096 fissi), non il contenuto`,
+    );
+  } finally {
+    rmSync(base, { recursive: true, force: true });
+  }
+});
+
+prova("quando smetto di contare lo dico: una misura a meta' non passa per intera", () => {
+  const base = mkdtempSync(join(tmpdir(), "sabbiera-spazza-"));
+  try {
+    mkdirSync(join(base, "tanta-roba"), { recursive: true });
+    for (let i = 0; i < 6; i++) writeFileSync(join(base, "tanta-roba", `f${i}.bin`), Buffer.alloc(20_000));
+
+    const intera = pesaCompleto(join(base, "tanta-roba"));
+    assert.equal(intera.troncata, false, "contata tutta, non dovrebbe dirsi troncata");
+    assert.ok(intera.byte > 100_000, `peso intero sbagliato: ${intera.byte}`);
+
+    const meta = pesaCompleto(join(base, "tanta-roba"), 2);
+    assert.equal(meta.troncata, true, "col tetto a 2 file DEVE dire che ha smesso di contare");
+    assert.ok(meta.byte < intera.byte, "una misura troncata non può pesare quanto quella intera");
+  } finally {
+    rmSync(base, { recursive: true, force: true });
+  }
+});
+
+prova("il troncamento risale fino al referto, non resta nel conto", () => {
+  const base = mkdtempSync(join(tmpdir(), "sabbiera-spazza-"));
+  try {
+    mkdirSync(join(base, "roba-di-altri"), { recursive: true });
+    for (let i = 0; i < 6; i++) writeFileSync(join(base, "roba-di-altri", `f${i}.bin`), Buffer.alloc(20_000));
+    assert.equal(spazza({ dir: base, esegui: false, tetto: 40_000 }).troncato, false, "contata tutta");
+    assert.equal(spazza({ dir: base, esegui: false, tetto: 2 }).troncato, true, "il referto deve portarselo su");
+  } finally {
+    rmSync(base, { recursive: true, force: true });
   }
 });
 

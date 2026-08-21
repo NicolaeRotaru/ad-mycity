@@ -23,6 +23,8 @@ const {
   giudicaBattito,
   giudicaBattitoGuardia,
   giudicaPubblicazione,
+  giudicaDisco,
+  misuraDisco,
   giudicaCabina,
   giudicaCuore,
   guardianiMancanti,
@@ -144,6 +146,45 @@ prova("la macchina che non scrive da 20 ore è rossa", () => {
 prova("nessuna traccia con orario = ⚪, non verde", () => {
   uguale(giudicaBattito([{ chiave: "x" }], ORA).esito, "nonvisto", "senza orario");
   uguale(giudicaBattito([], ORA).esito, "nonvisto", "nessuna riga");
+});
+
+// ── Il disco (21/8) ───────────────────────────────────────────────────────────
+//
+// Dal 18 al 21 agosto la macchina è stata ferma perché /tmp era pieno al 100%. La visita della
+// salute, in quei tre giorni, ha continuato a controllare worker, cervello, Cabina, senior e
+// sensori — e a NON guardare il disco, che non aveva nessun metro. Il guasto l'ha trovato Nicola
+// con un `df` da telefono.
+//
+// I numeri di questi casi sono quelli veri letti sul server il 21/8 alle 12:25: 1,9 GB in tutto,
+// 4,6 MB liberi. Devono essere rossi.
+
+prova("il disco vero del 21/8 (4,6 MB liberi su 1,9 GB) è rosso", () => {
+  const r = giudicaDisco({ dir: "/tmp", liberi: 4_600_000, totali: 1_907 * 1024 * 1024, leggibile: true });
+  uguale(r.esito, "rotto", "disco pieno");
+  if (!/spazza-temporanei/.test(r.detto)) throw new Error(`il verdetto deve dire come svuotarlo: ${r.detto}`);
+});
+
+prova("un disco con posto è verde, e dice quanto ne resta", () => {
+  const r = giudicaDisco({ dir: "/tmp", liberi: 1_500 * 1024 * 1024, totali: 1_907 * 1024 * 1024, leggibile: true });
+  uguale(r.esito, "ok", "disco libero");
+  if (!/1500 MB/.test(r.detto)) throw new Error(`il verdetto deve dire il numero: ${r.detto}`);
+});
+
+prova("su un disco grande vale anche la percentuale, non solo i 200 MB", () => {
+  // 500 MB liberi su 100 GB: sopra la soglia fissa, ma è lo 0,5% — l'orlo del burrone.
+  const r = giudicaDisco({ dir: "/tmp", liberi: 500 * 1024 * 1024, totali: 100 * 1024 * 1024 * 1024, leggibile: true });
+  uguale(r.esito, "rotto", "mezzo per cento");
+});
+
+prova("un disco che non so misurare è ⚪, mai verde", () => {
+  uguale(giudicaDisco({ dir: "/tmp", leggibile: false, perche: "boh" }).esito, "nonvisto", "misura fallita");
+  uguale(giudicaDisco(null).esito, "nonvisto", "niente misura");
+});
+
+prova("la misura vera del disco risponde con numeri, non con una promessa", () => {
+  const m = misuraDisco();
+  uguale(m.leggibile, true, "leggibile");
+  if (!(m.totali > 0) || !(m.liberi >= 0)) throw new Error(`misura senza numeri: ${JSON.stringify(m)}`);
 });
 
 // ── La pubblicazione del server (AR-470) ──────────────────────────────────────

@@ -22,6 +22,69 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🟡 #142 — Fai valere anche domani il plugin che ho acceso oggi · ⏳ accodata 2026-08-21 03:35
+
+**In parole semplici:** questa card parla di come lavoro io, non del sito e non dei negozi.
+Un plugin è un pacchetto di istruzioni già scritte da altri. Si aggancia alla macchina e le insegna
+un modo di lavorare. Superpowers è il più usato dei plugin, e porta quattordici metodi.
+
+Un esempio di cosa cambia in pratica. Il 20 agosto il server si era fermato per il disco pieno.
+Senza quei metodi io guardo l'errore e libero spazio: il sintomo. Il metodo «cerca la causa vera»
+mi obbliga prima a chiedermi *perché* si riempie, e a scrivere la risposta. È la differenza fra
+liberare il disco oggi e non doverlo più liberare.
+
+L'ho installato e da adesso è acceso: in questa sessione la macchina ce li ha. Il problema è che
+l'ho acceso nella parte della macchina che vive un giorno solo. Quando questa sessione finisce, il
+plugin sparisce con lei, e la prossima riparte senza.
+
+Per farlo restare va scritta una riga in un file di configurazione del progetto. Quel file, tu, l'hai
+messo apposta nella lista di quelli che io non posso toccare da sola. È una tua regola e la rispetto:
+per questo te lo chiedo invece di farlo.
+
+**Cosa cambia:** oggi due delle quattordici skill le avevamo già, copiate a mano dentro il repo a
+luglio. Erano copie ferme a quella data. Col plugin arrivano aggiornate e si aggiornano da sole. Se
+non lo rendi permanente, ogni sessione riparte con le due copie vecchie e senza le altre dodici.
+
+**Se va bene:** apri `.claude/settings.json` e incolla queste righe subito dopo la prima parentesi
+graffa, prima di `"permissions"`:
+
+```json
+  "extraKnownMarketplaces": {
+    "superpowers-dev": {
+      "source": { "source": "github", "repo": "obra/superpowers" }
+    }
+  },
+  "enabledPlugins": {
+    "superpowers@superpowers-dev": true
+  },
+```
+
+Poi, sul server, un giro di `node cervello/sync-worker-plugins.mjs --specchia` così anche lì sparisce
+la copia doppia.
+
+**Cosa non ho verificato:** una cosa la devi sapere prima di firmare. Con quelle righe la macchina
+scarica il pacchetto da GitHub ogni volta, prendendo l'ultima versione che c'è in quel momento. Non
+è una versione bloccata: se domani chi lo scrive cambia qualcosa, noi ce lo prendiamo senza che
+nessuno l'abbia riletto. Le due copie a mano di luglio avevano il difetto opposto — vecchie, ma
+lette da noi. Oggi è un progetto serio e diffuso, quindi il rischio è basso; non è zero, e la
+scelta è tua. Se preferisci il blocco, dimmelo e fisso la versione di oggi, la 6.3.0.
+
+E non ho potuto provare il server da qui: che le quattordici skill si accendano davvero l'ho visto
+solo su questa sessione.
+
+C'è un secondo punto che ho trovato guardandoci dentro, e conta per la firma. Il plugin non aspetta
+di essere chiamato. A ogni avvio di sessione mi infila un'istruzione fissa, scritta in maiuscolo.
+Dice di controllare se c'è un metodo da applicare **prima** di qualunque risposta. Anche prima
+delle domande che ti farei per capire cosa vuoi.
+
+Sul lavoro lungo è il comportamento giusto. Su una domanda secca tua, rischia di mettermi un
+passaggio in mezzo prima di risponderti. È lo stesso problema che avemmo a luglio con *caveman*, che
+poi spegnemmo nella chat con te e lasciammo solo sui lavori interni. Qui non tocca il modo in cui
+ti scrivo, solo quanto giro faccio prima. Lo tengo d'occhio: se lo vedi appesantire le risposte
+brevi, dimmelo e lo restringo ai lavori interni come facemmo allora.
+
+---
+
 ### 🔴 #141 — Fai partire il rilascio solo a controlli verdi, non insieme a loro · ⏳ accodata 2026-08-21 03:20
 
 **Cosa cambia:** oggi il rilascio parte insieme ai controlli, non dopo. Se un controllo diventa
@@ -82,30 +145,30 @@ su GitHub: `SUPABASE_TEST_URL`, `SUPABASE_TEST_ANON_KEY`, `SUPABASE_TEST_SERVICE
 
 ---
 
-### 🟡 #138 — La spazzata del disco non bastava: adesso il posto dove si accumula non esiste più · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 12:20
+### 🟡 #138 — Il server lavora ma non pubblica più niente da tre giorni · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 13:05
 
-**Cosa cambia:** stanotte ti avevo dato il disco per risolto. **Non lo era.** Il tuo controllo delle
-12:00 l'ha dimostrato: la cartella temporanea era di nuovo piena al 100%, otto ore dopo averla
-svuotata.
+**Cosa cambia:** il server è vivo. I dodici orologi che hai fotografato sono partiti tutti oggi, 21
+agosto, e il worker ha chiuso 27 lavori su 27.
 
-È un mio errore di misura. La spazzata toglie ciò che è fermo da più di un giorno. Ma il banco delle
-prove crea trenta cartelle nuove a ogni giro, e i giri sono continui. La spazzatura nasceva più in
-fretta di quanto invecchiava, quindi la soglia non la toccava mai.
+Ma quello che scrive non esce più. L'ultima volta che ha pubblicato è stata il 18 agosto alle 8 e
+56. Da allora sul ramo principale c'è solo roba tua, cioè le mie richieste che hai firmato.
 
-Adesso ogni giro scrive in una cartella sua, buttata quando il giro finisce. Non si rincorre più
-niente: il posto dove si accumulava non esiste.
+Ecco perché il Pannello ti mostra ancora i numeri del 18 agosto: non gli arriva niente di nuovo.
 
-**Se va bene:** intanto libera spazio, che sei sul filo — restano 4,6 MB su 1,9 GB:
+**Se va bene:** parti dal disco, che sei sul filo — 4,6 MB liberi su 1900. Due righe:
 
 ```
-sudo find /tmp -maxdepth 1 \( -name 'mycity-campo-*' -o -name 'cancello-*' \) -mmin +30 -exec rm -rf {} +
+node /opt/mycity/ad-mycity/cervello/spazza-temporanei.mjs
 df -h /tmp
 ```
 
-Poi firma: la riparazione arriva sul server da sola entro cinque minuti.
+La prima adesso dice anche chi occupa il posto che non può toccare. Prima taceva: mi avrebbe
+risposto «niente da spazzare» sopra un disco pieno.
 
-**Cosa non ho verificato:** che regga per giorni. La conferma vera è riguardare quella riga domani a
-quest'ora: se è ferma sotto il 100%, è chiusa.
+Mandami quello che esce. Se lo spazio torna, guardiamo il giro delle 14:20.
+
+**Cosa non ho verificato:** perché non pubblica. Il fatto ce l'ho, il motivo no. Da qui non posso
+leggere il diario del server.
 
 ---
 

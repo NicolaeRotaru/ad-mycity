@@ -5197,6 +5197,78 @@
    "cerca": "  const lavoraAdesso = oreCorsiaLavori != null && oreCorsiaLavori <= adessoOre;",
    "sostituisci": "  const lavoraAdesso = oreQualsiasiCorsia != null && oreQualsiasiCorsia <= adessoOre;",
    "test": "node cervello/test/c6-giro-andato-male.test.mjs"
+  },
+  {
+   "difetto": "AR-774 sensore-disco",
+   "nome": "il disco pieno torna a non essere un rosso: la visita guarda cinque organi e non lo spazio, come nei tre giorni di blocco",
+   "file": "cervello/salute.mjs",
+   "cerca": "  if (m.liberi < minimo) {",
+   "sostituisci": "  if (false) { // mutante: nessuna soglia, il disco pieno passa per buono",
+   "test": "node cervello/test/salute.test.mjs"
+  },
+  {
+   "difetto": "AR-774 sensore-disco-percentuale",
+   "nome": "resta solo la soglia fissa: 500 MB liberi su 100 GB (lo 0,5%) tornano verdi",
+   "file": "cervello/salute.mjs",
+   "cerca": "Math.max(soglie.discoLiberoMinMB * 1024 * 1024, m.totali * soglie.discoLiberoMinFrazione)",
+   "sostituisci": "soglie.discoLiberoMinMB * 1024 * 1024",
+   "test": "node cervello/test/salute.test.mjs"
+  },
+  {
+   "difetto": "AR-774 misura-cieca-non-e-verde",
+   "nome": "una misura del disco fallita torna a comprare il via libera invece di dichiararsi cieca",
+   "file": "cervello/salute.mjs",
+   "cerca": "  if (!m || m.leggibile !== true) return nonVisto(",
+   "sostituisci": "  if (false) return nonVisto(",
+   "test": "node cervello/test/salute.test.mjs"
+  },
+  {
+   "difetto": "AR-775 chi-occupa-il-posto",
+   "nome": "la spazzata torna a tacere su cio' che non riconosce: «niente da spazzare» sopra un disco pieno",
+   "file": "cervello/spazza-temporanei.mjs",
+   "cerca": "      sconosciute.push({ nome, ...pesaCompleto(join(dir, nome), tetto) });",
+   "sostituisci": "      // mutante: salto in silenzio, come prima",
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
+  },
+  {
+   "difetto": "AR-775 peso-vero-non-voce-di-cartella",
+   "nome": "i byte liberati tornano a essere la voce di directory: 4096 fissi qualunque cosa ci sia dentro",
+   "file": "cervello/spazza-temporanei.mjs",
+   "cerca": "    byte += suo.byte;",
+   "sostituisci": "    byte += st.size || 0; // mutante: la voce di cartella al posto del contenuto",
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
+  },
+  {
+   "difetto": "AR-775 troncamento-dichiarato",
+   "nome": "il tetto dei file scatta e non lo dice: un totale parziale torna ad avere la faccia di uno intero",
+   "file": "cervello/spazza-temporanei.mjs",
+   "cerca": "    if (stato.file <= 0) {\n      stato.troncata = true;\n      break;\n    }",
+   "sostituisci": "    if (stato.file <= 0) break; // mutante: smetto di contare e non lo dico",
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
+  },
+  {
+   "difetto": "AR-775 troncamento-che-arriva-al-referto",
+   "nome": "il troncamento resta dentro la pesatura e non risale al referto, che continua a dire un numero secco",
+   "file": "cervello/spazza-temporanei.mjs",
+   "cerca": "  if (sconosciute.some((v) => v.troncata)) troncato = true;",
+   "sostituisci": "  // mutante: il referto non sa che ho smesso di contare",
+   "test": "node cervello/test/spazza-temporanei.test.mjs"
+  },
+  {
+   "difetto": "AR-776 stesso-metro-per-tutti",
+   "nome": "torna il taglio su un lato solo: ogni file oltre i 200.000 caratteri riprende il suo +1 fisso",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  const suMain = alTetto(pubblicato());",
+   "sostituisci": "  const suMain = pubblicato();",
+   "test": "node cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "difetto": "AR-776 taglio-dichiarato",
+   "nome": "il testo arriva tagliato e il verdetto non lo dice: un giudizio su una parte torna a sembrare un giudizio sul tutto",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "    troncato: typeof contenuto === \"string\" && contenuto.length >= TETTO_TESTO,",
+   "sostituisci": "    troncato: false,",
+   "test": "node cervello/test/cancello-stop.test.mjs"
   }
  ]
 }
