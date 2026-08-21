@@ -28,7 +28,8 @@
 //       per dare un verdetto (cieca — che NON è verde, stessa semantica del cancello del cantiere).
 
 import { spawnSync } from "node:child_process";
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, statfsSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { GIRI_PER_CRONICO, dilloAVoce, quadroCronicita, statoAllarme } from "./cronicita-allarmi.mjs";
@@ -75,6 +76,8 @@ const SOGLIE = {
   tracceFermeOre: 8, // i processi automatici girano più volte al giorno: 8h di silenzio è un guasto
   rinviiRossi: 10, // watch-main gira ogni minuto: 10 rinvii di fila non è traffico, è un inceppo
   commitNonPubblicati: 50, // un giro normale ne lascia pochi; 50 vuol dire che il push non passa più
+  discoLiberoMinMB: 200, // un giro del banco crea ~32 cartelle da qualche mega: sotto 200 MB si rischia
+  discoLiberoMinFrazione: 0.1, // e su un disco grande il 10% conta più dei 200 MB fissi
 };
 
 // Impatto sulla crescita — l'ordine con cui si legge il referto (stessa scala del cantiere).
@@ -713,6 +716,53 @@ export function codiceUscita({ rotti, guasti, copertura }, soglie = SOGLIE) {
   return 0;
 }
 
+/**
+ * Quanto spazio resta sul disco temporaneo, chiesto al sistema.
+ *
+ * `statfsSync` dà i blocchi disponibili all'utente (`bavail`), non quelli totalmente liberi:
+ * è il numero che conta, perché è quello che un processo non-root può davvero usare.
+ */
+export function misuraDisco(dir = tmpdir()) {
+  try {
+    const f = statfsSync(dir);
+    return { dir, liberi: f.bavail * f.bsize, totali: f.blocks * f.bsize, leggibile: true };
+  } catch (e) {
+    return { dir, leggibile: false, perche: String(e?.message || e) };
+  }
+}
+
+/**
+ * IL SENSORE CHE NON C'ERA — e la macchina è stata ferma quasi tre giorni per questo.
+ *
+ * Dal 18 al 21 agosto il Pannello non si è aggiornato. La catena, tutta verificata: `/tmp` pieno al
+ * 100% → `c4-segreti.sh` non riesce più a scrivere il file con la chiave della memoria → ogni
+ * chiamata autenticata fallisce → lo stato di pausa non è leggibile → il freno fail-closed ferma il
+ * worker. Un disco pieno travestito da interruttore di pausa.
+ *
+ * In quei tre giorni la visita della salute controllava worker, cervello, Cabina, senior e sensori:
+ * **il disco non lo guardava nessuno**. Il guasto più banale che esista era anche l'unico senza un
+ * metro, ed è per questo che l'ha trovato Nicola con un `df` e non la macchina.
+ *
+ * Due soglie insieme, perché una sola sbaglia da una parte o dall'altra: 200 MB fissi (un giro del
+ * banco delle prove ne chiede più o meno tanti tutti insieme) e il 10% del volume (su un disco
+ * grande 200 MB liberi sono già l'orlo del burrone).
+ */
+export function giudicaDisco(m, soglie = SOGLIE) {
+  if (!m || m.leggibile !== true) return nonVisto(`non ho potuto misurare lo spazio su ${m?.dir || "?"}: ${m?.perche || "sconosciuto"}`);
+  const mb = (b) => Math.round(b / 1024 / 1024);
+  const minimo = Math.max(soglie.discoLiberoMinMB * 1024 * 1024, m.totali * soglie.discoLiberoMinFrazione);
+  const percento = m.totali > 0 ? Math.round((m.liberi / m.totali) * 100) : 0;
+  const dati = { dir: m.dir, liberiMB: mb(m.liberi), totaliMB: mb(m.totali), percentoLibero: percento };
+  if (m.liberi < minimo) {
+    return rotto(
+      `su ${m.dir} restano ${mb(m.liberi)} MB su ${mb(m.totali)} (${percento}%): sotto i ${mb(minimo)} MB che servono. ` +
+        "È il guasto che il 20 agosto ha fermato la macchina per tre giorni. Svuota con: node cervello/spazza-temporanei.mjs",
+      dati,
+    );
+  }
+  return ok(`su ${m.dir} restano ${mb(m.liberi)} MB su ${mb(m.totali)} (${percento}%)`, dati);
+}
+
 // ── I controlli ────────────────────────────────────────────────────────────────
 // Ognuno dichiara: quale organo, quanto pesa, dove può girare, e come si prova.
 // `soloSu` esiste perché un controllo eseguito dove non può vedere produce rumore, non conoscenza.
@@ -804,6 +854,20 @@ export const CONTROLLI = [
       if (!r) return nonVisto("memoria non configurata");
       if (r.errore) return nonVisto(`non ho potuto leggere la memoria: ${r.errore}`);
       return giudicaBattito(r.righe || []);
+    },
+  },
+  {
+    // Il metro del disco. Sta fra i controlli del worker perché la domanda è la sua: «la macchina ha
+    // ancora il posto per lavorare?». Solo sul VPS: da una sessione in cloud misurerei il disco di un
+    // contenitore usa-e-getta e lo racconterei come se fosse il server — un verde su una macchina che
+    // non è quella di Nicola è peggio di nessun numero.
+    id: "worker.disco",
+    organo: "worker",
+    titolo: "Il disco temporaneo ha ancora posto per lavorare",
+    impatto: 1,
+    soloSu: "vps",
+    async prova() {
+      return giudicaDisco(misuraDisco());
     },
   },
   {

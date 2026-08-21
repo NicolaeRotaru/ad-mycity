@@ -22,32 +22,30 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🟡 #138 — La spazzata del disco non bastava: adesso il posto dove si accumula non esiste più · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 12:20
+### 🟡 #138 — Il server lavora ma non pubblica più niente da tre giorni · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 13:05
 
-**Cosa cambia:** stanotte ti avevo dato il disco per risolto. **Non lo era.** Il tuo controllo delle
-12:00 l'ha dimostrato: la cartella temporanea era di nuovo piena al 100%, otto ore dopo averla
-svuotata.
+**Cosa cambia:** il server è vivo. I dodici orologi che hai fotografato sono partiti tutti oggi, e
+stamattina il worker ha chiuso 27 lavori su 27.
 
-È un mio errore di misura. La spazzata toglie ciò che è fermo da più di un giorno. Ma il banco delle
-prove crea trenta cartelle nuove a ogni giro, e i giri sono continui. La spazzatura nasceva più in
-fretta di quanto invecchiava, quindi la soglia non la toccava mai.
+Ma quello che scrive non esce più. L'ultima volta che ha pubblicato è stata il 18 agosto alle 8 e
+56. Da allora sul ramo principale c'è solo roba tua, cioè le mie richieste che hai firmato.
 
-Adesso ogni giro scrive in una cartella sua, buttata quando il giro finisce. Non si rincorre più
-niente: il posto dove si accumulava non esiste.
+Ecco perché il Pannello ti mostra ancora i numeri di lunedì: non gli arriva niente di nuovo.
 
-**Se va bene:** intanto libera spazio, che sei sul filo — restano 4,6 MB su 1,9 GB:
+**Se va bene:** parti dal disco, che sei sul filo — 4,6 MB liberi su 1900. Due righe:
 
 ```
-sudo find /tmp -maxdepth 1 \( -name 'mycity-campo-*' -o -name 'cancello-*' \) -mmin +30 -exec rm -rf {} +
+node /opt/mycity/ad-mycity/cervello/spazza-temporanei.mjs
 df -h /tmp
 ```
 
-Poi firma: la riparazione arriva sul server da sola entro cinque minuti.
+La prima adesso dice anche chi occupa il posto che non può toccare. Prima taceva: mi avrebbe
+risposto «niente da spazzare» sopra un disco pieno.
 
-**Cosa non ho verificato:** che regga per giorni. La conferma vera è riguardare quella riga domani a
-quest'ora: se è ferma sotto il 100%, è chiusa.
+Mandami quello che esce. Se lo spazio torna, guardiamo il giro delle 14:20.
 
----
+**Cosa non ho verificato:** perché non pubblica. Il fatto ce l'ho, il motivo no. Da qui non posso
+leggere il diario del server.
 
 ### 🟡 #137 — Approva il fattorino dal pannello: adesso il pulsante c'e' · ⏳ accodata 2026-08-20 17:00
 

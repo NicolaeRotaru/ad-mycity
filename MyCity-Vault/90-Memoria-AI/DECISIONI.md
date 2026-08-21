@@ -2601,3 +2601,43 @@ domanda per un commercialista, non per me.
 
 **Cosa resta a Nicola.** #137 approvare il fattorino dal pannello, #134 i due segreti del backup,
 #136 la domanda sulla spedizione.
+
+---
+
+## 2026-08-21 13:05 — 🟡 Il disco adesso ha un allarme, e la spazzata non risponde piu' verde su un disco pieno
+
+**Cosa ho verificato, e cosa ho trovato invece.** Nicola: «controlla e verifica quella che devi
+controllare per assicurarti che tutto funziona bene». Mi aspettavo di confermare che dopo le
+riparazioni della notte fosse tutto a posto. Non lo e'.
+
+Il server e' vivo: dodici orologi partiti oggi, 27 lavori chiusi stamattina, le riparazioni gli
+arrivano. Ma **non pubblica dal 18 agosto alle 8 e 56**. Verificato sul ramo principale: l'ultimo
+commit firmato «AD MyCity VPS» e' 9e02c11 di quel giorno, e tutto quello che c'e' dopo l'ha messo
+Nicola firmando le mie richieste. E' per questo che il Pannello gli mostra ancora i numeri di
+lunedi': non e' rotto lui, e' che non gli arriva niente.
+
+**AR-774 — il guasto piu' banale era l'unico senza un metro.** Dal 18 al 21 la macchina e' stata
+ferma per un disco pieno. In quei tre giorni la visita della salute ha continuato a girare mattina
+e sera controllando cinque organi, e **lo spazio libero non lo guardava nessun controllo**. L'ha
+trovato Nicola con un `df` da telefono. Adesso c'e' `worker.disco`: rosso sotto i 200 MB liberi o
+sotto il 10% del volume, col comando per svuotare dentro il verdetto. Solo sul VPS, perche' da una
+sessione in cloud misurerei il disco di un contenitore usa-e-getta e lo racconterei come se fosse
+il server.
+
+**AR-775 — l'attrezzo che gli ho messo in mano gli avrebbe risposto verde.** La spazzata salta le
+cartelle che non riconosce (giusto) e poi riferiva solo su quelle che riconosce (sbagliato).
+Lanciata sul server in questo momento avrebbe stampato «niente da spazzare» sopra 4,6 MB liberi su
+1,9 GB. E' la stessa cecita' che Nicola mi aveva gia' fatto chiudere sull'attrezzo della memoria
+dieci ore fa. Adesso nomina chi occupa il posto, dal piu' grosso in giu'.
+
+**Un errore mio, trovato da un guardiano e non da me.** La prima versione della pesatura, quando
+raggiungeva il tetto dei file, restituiva un totale parziale con la faccia di uno intero: la stessa
+malattia che stavo riparando, riscritta mentre la riparavo. L'ha bocciata `spazzata-fratelli.mjs`.
+Adesso il troncamento risale fino alla riga stampata, che dice «almeno».
+
+**Cosa NON so.** Perche' il server non pubblica. Ho il fatto, non il motivo. Il disco e' il
+sospetto forte — con 4,6 MB il motore che fa il giro non parte — ma da qui non leggo ne' il diario
+ne' la memoria del server, e quello che non ho visto non lo chiamo verde.
+
+**Cosa resta a Nicola.** #138 le due righe sul disco e mandarmi cosa esce, #137 approvare il
+fattorino dal pannello, #134 i due segreti del backup, #136 la domanda sulla spedizione.
