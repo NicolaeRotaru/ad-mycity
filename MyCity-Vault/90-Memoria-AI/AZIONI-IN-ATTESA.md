@@ -24,82 +24,64 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ### 🔴 #141 — Fai partire il rilascio solo a controlli verdi, non insieme a loro · ⏳ accodata 2026-08-21 03:20
 
-**Cosa cambia:** oggi, appena una modifica finisce sul ramo principale, il rilascio in produzione
-parte da solo e non aspetta i controlli. I due corrono in parallelo: se un controllo diventa rosso,
-il codice rotto è già online. Il referto arriva dopo il funerale.
+**Cosa cambia:** oggi il rilascio in produzione parte insieme ai controlli, non dopo. Se un
+controllo diventa rosso, il codice rotto è già online.
 
-La metà buona esiste già ed è scritta: c'è un lavoro che rilascia SOLO a controlli passati. È spento
+La metà buona esiste già ed è scritta: c'è un lavoro che rilascia solo a controlli passati. È spento
 perché gli manca l'indirizzo di rilascio.
 
-Tre mosse, tutte tue perché toccano la produzione:
+Tre mosse, tutte tue perché toccano la produzione.
 
 - **Prima** — Render → il servizio → Settings → Deploy Hook: copia l'indirizzo. Mettilo su GitHub
   come segreto `RENDER_DEPLOY_HOOK`, sotto Settings → Secrets and variables → Actions.
-- **Poi** — nel file `render.yaml` cambia una riga sola: `autoDeploy: true` diventa
-  `autoDeploy: false`. Va fatto dopo il passo di prima. Al contrario il rilascio si ferma e basta.
+- **Poi** — nel file `render.yaml` cambia una riga: `autoDeploy: true` diventa `autoDeploy: false`.
+  Va fatto dopo il passo di prima. Al contrario il rilascio si ferma e basta.
 - **Infine** — GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio su `main`.
 
-**Se va bene:** da lì in poi in produzione ci arriva solo quello che ha passato i controlli. E i
-controlli, da oggi, dicono in cima al riepilogo quali gruppi di prove NON hanno girato: un verde non
-vuol più dire «tutto provato» quando non lo è.
+**Se va bene:** in produzione arriva solo quello che ha passato i controlli.
 
 **Cosa non ho verificato:** non ho aperto il pannello di Render e non ho toccato le impostazioni di
-GitHub. Le tre mosse le ho lette dai file del progetto, non le ho eseguite.
+GitHub. Le tre mosse le ho lette dai file del progetto.
 
 ---
 
 ### 🔴 #140 — Applica al database la migrazione 124: senza, la vetrina dei negozi resta vuota · ⏳ accodata 2026-08-21 03:20
 
-**Cosa cambia:** il file si chiama `124_radiografia_21_agosto.sql` ed è nel ramo
-`claude/marketplace-bugs-njlgi8` del sito. Unire la richiesta pubblica il codice, non tocca il
-database: sono due firme diverse, e questa è la seconda.
+**Cosa cambia:** unire una richiesta pubblica il codice. Non tocca il database. Sono due firme
+diverse, e questa è la seconda.
 
-Dentro ci sono sette riparazioni. La più urgente non era nemmeno nel referto, l'ho trovata
-lavorando: **la vetrina pubblica dei negozi aveva perso due colonne**. A marzo erano state messe,
-una migrazione più tarda ha ricreato la vista senza, rimandando a una terza dove non sono mai
-arrivate. Sei punti del sito le chiedono — l'elenco negozi, i negozi vicini, la pagina del negozio,
-il riquadro in cima alla home, la scheda del venditore, la vetrina in home — e il database rifiuta
-la richiesta intera quando una colonna non c'è. Quelle pagine non ricevevano un negozio senza
-bollino: **non ricevevano nessun negozio**.
+La riparazione più urgente non era nemmeno nel referto, l'ho trovata lavorando. **La vetrina
+pubblica dei negozi aveva perso due colonne.** Sei pagine del sito le chiedono, e il database
+rifiuta la richiesta intera quando una colonna non c'è. Quelle pagine non ricevevano un negozio
+senza bollino: non ricevevano nessun negozio.
 
-Le altre sei, una per riga.
+Dentro ci sono altre sei riparazioni: il rimborso che toglieva al negozio più del dovuto, il ritiro
+in negozio che arriva finalmente a «consegnato», i ritiri tolti dalla bacheca dei fattorini, gli
+stati del compenso che il database rifiutava, la tabella degli esiti dei pagamenti, il riquadro
+della home in una chiamata sola.
 
-- Il lordo di vendita scritto sull'ordine. Il rimborso divideva per due basi diverse, e toglieva al
-  negozio più del dovuto.
-- Il ritiro in negozio arriva finalmente a «consegnato».
-- I ritiri spariscono dalla bacheca dei fattorini: quella merce la ritira il cliente.
-- Gli stati del compenso del fattorino che il codice usava e il database rifiutava.
-- La tabella che tiene l'esito di ogni tentativo di pagamento.
-- Il riquadro in cima alla home in una chiamata sola invece di tre.
+Il file si chiama `124_radiografia_21_agosto.sql`, nel ramo `claude/marketplace-bugs-njlgi8`.
 
 **Se va bene:** dimmelo e ti passo il comando esatto.
 
-L'ho già applicata a un database di prova qui dentro, ricostruito da zero. Sono partito da vuoto e
-ho rimesso in fila **tutte e 125 le modifiche al database mai fatte, 125 su 125 riuscite**. Poi otto
-file di controlli, tutti verdi.
-
-**Cosa non ho verificato:** non l'ho applicata a nessun database vero, e non ho aperto il sito in un
-browser. Finché non la firmi, metà delle riparazioni di questo lotto non è attiva.
+**Cosa non ho verificato:** non l'ho applicata a nessun database vero. L'ho provata solo su una
+copia di prova qui dentro, ricostruita da zero. Finché non la firmi, metà delle riparazioni non è
+attiva. Il racconto lungo sta in `consegne/audit/2026-08-21-marketplace-ultimi-difetti.md`.
 
 ---
 
-### 🟡 #139 — Un Supabase di prova, per far girare i controlli che oggi si saltano da soli · ⏳ accodata 2026-08-21 03:20
+### 🟡 #139 — Un Supabase di prova, per i controlli che oggi si saltano da soli · ⏳ accodata 2026-08-21 03:20
 
-**Cosa cambia:** due gruppi di controlli si saltano da soli quando mancano i segreti di un progetto
-di prova. Sono quelli sui permessi del database e quelli che aprono il sito in un browser vero.
+**Cosa cambia:** due gruppi di controlli si saltano quando mancano i segreti di un progetto di
+prova. Sono quelli sui permessi del database e quelli che aprono il sito in un browser vero.
 
-Da oggi lo dicono in cima al riepilogo invece che dentro il log, quindi almeno si vede. Ma restano
-saltati.
+Da oggi lo dicono in cima al riepilogo invece che dentro il log. Ma restano saltati.
 
 È anche il motivo per cui non ho potuto scrivere i tre giri nel browser che chiudono il difetto
-sulla catena dell'ordine: servono un negozio approvato, un fattorino, un cliente e dei prodotti veri
-su cui girare. La catena l'ho provata lo stesso, con un controllo sul database che gira già oggi
-senza chiavi — ma provare il database non è provare quello che vede il cliente.
+sulla catena dell'ordine.
 
-**Se va bene:** crea un progetto Supabase **nuovo e vuoto** (mai quello dei clienti) e mettine tre
-segreti su GitHub: `SUPABASE_TEST_URL`, `SUPABASE_TEST_ANON_KEY`,
-`SUPABASE_TEST_SERVICE_ROLE_KEY`. C'è già un controllo che si rifiuta di partire se l'indirizzo
-coincide con quello di produzione.
+**Se va bene:** crea un progetto Supabase nuovo e vuoto, mai quello dei clienti. Mettine tre segreti
+su GitHub: `SUPABASE_TEST_URL`, `SUPABASE_TEST_ANON_KEY`, `SUPABASE_TEST_SERVICE_ROLE_KEY`.
 
 **Cosa non ho verificato:** non ho creato nessun progetto e non ho toccato i segreti di GitHub.
 
