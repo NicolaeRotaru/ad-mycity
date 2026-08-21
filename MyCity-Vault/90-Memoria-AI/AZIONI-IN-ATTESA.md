@@ -22,27 +22,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🟡 #147 — Dimmi quanto ci mettiamo davvero a consegnare, perché il sito dice due cose diverse · ⏳ accodata 2026-08-21 16:20
-
-**In parole semplici:** il riquadro grosso in cima alla home promette la consegna in **30-60
-minuti**. Ogni altra pagina del sito promette **24-48 ore**. Sono la stessa promessa fatta due
-volte, con due numeri che non stanno insieme.
-
-La frase della home non è scritta nel codice: sta in un campo delle impostazioni del sito. Vuol
-dire che si cambia subito, senza pubblicare nulla e senza aspettare un rilascio.
-
-Non la cambio da sola perché non so quale delle due sia vera. È una promessa al cliente, e a
-sceglierla sei tu.
-
-**Cosa cambia:** oggi chi arriva sulla home legge un'ora e chi ordina scopre due giorni. È la
-prima cosa che una persona legge e l'ultima che verifica: la scopre quando ha già pagato. Finché
-restano due numeri diversi, uno dei due è una bugia, qualunque sia quello giusto.
-
-**Se va bene:** scrivi «ok 147» insieme al numero che vale. Per esempio: «ok 147, 24-48 ore».
-Allineo la home a quella promessa. È una modifica di configurazione, reversibile, e la vedi subito.
-
----
-### 🟡 #146 — Dimmi se apro il cantiere sui quindici difetti che fermano qualcuno · ⏳ accodata 2026-08-21 16:20
+### 🟡 #148 — Dimmi se apro il cantiere sui quindici difetti che fermano qualcuno · ⏳ accodata 2026-08-21 16:20
 
 **In parole semplici:** oggi ho rifatto la visita completa al sito, codice e grafica insieme.
 Ho trovato 351 problemi veri. Veri vuol dire che un secondo collega è andato a ricontrollarli
@@ -67,11 +47,31 @@ che diventano rosse se il difetto torna. Non tocco la produzione: alla fine ti a
 richiesta di unione da guardare. Se dici di no, restano lì: nessuno di questi si chiude da solo,
 e tre di essi riguardano soldi che escono o non rientrano.
 
-**Se va bene:** scrivi «ok 146» e parto dai primi quattro, che sono la mezza giornata che vale
+**Se va bene:** scrivi «ok 148» e parto dai primi quattro, che sono la mezza giornata che vale
 di più. Ti riporto il conto dopo ogni blocco, non alla fine.
 
 Referti. Il codice, 199 problemi: `consegne/audit/2026-08-21-radiografia.md`.
 La grafica e i percorsi, 152 problemi: `consegne/design/2026-08-21-radiografia-design.md`.
+
+---
+### 🟡 #147 — Dimmi quanto ci mettiamo davvero a consegnare, perché il sito dice due cose diverse · ⏳ accodata 2026-08-21 16:20
+
+**In parole semplici:** il riquadro grosso in cima alla home promette la consegna in **30-60
+minuti**. Ogni altra pagina del sito promette **24-48 ore**. Sono la stessa promessa fatta due
+volte, con due numeri che non stanno insieme.
+
+La frase della home non è scritta nel codice: sta in un campo delle impostazioni del sito. Vuol
+dire che si cambia subito, senza pubblicare nulla e senza aspettare un rilascio.
+
+Non la cambio da sola perché non so quale delle due sia vera. È una promessa al cliente, e a
+sceglierla sei tu.
+
+**Cosa cambia:** oggi chi arriva sulla home legge un'ora e chi ordina scopre due giorni. È la
+prima cosa che una persona legge e l'ultima che verifica: la scopre quando ha già pagato. Finché
+restano due numeri diversi, uno dei due è una bugia, qualunque sia quello giusto.
+
+**Se va bene:** scrivi «ok 147» insieme al numero che vale. Per esempio: «ok 147, 24-48 ore».
+Allineo la home a quella promessa. È una modifica di configurazione, reversibile, e la vedi subito.
 
 ---
 ### 🔴 #144 — Una riga da incollare: c'è uno strumento che nessuno controlla · ⏳ accodata 2026-08-21 16:40 · ✏️ riscritta 17:45
@@ -407,32 +407,20 @@ prima, non uguale. Chiudere anche quel pezzo va provato, e qui non avevo un Node
 
 ---
 
-### 🟡 #138 — Il server lavora ma non pubblica più niente da tre giorni · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 13:05
+### ✅ #138 — Il server lavora ma non pubblica più niente da tre giorni. FATTO 2026-08-21 16:30, col tuo ok in chat · ⏳ accodata 2026-08-20 18:10
 
-**Cosa cambia:** il server è vivo. I dodici orologi che hai fotografato sono partiti tutti oggi, 21
-agosto, e il worker ha chiuso 27 lavori su 27.
+**Com'è andata a finire.** Le due storie si erano separate: il server aveva 101 scritture sue che
+GitHub non aveva mai ricevuto, e gli mancavano 28 aggiornamenti che GitHub aveva. Nessuno dei due
+poteva copiarsi sopra l'altro, e fra i 28 che gli mancavano c'era proprio la riparazione scritta per
+questo caso. Un cane che si mordeva la coda.
 
-Ma quello che scrive non esce più. L'ultima volta che ha pubblicato è stata il 18 agosto alle 8 e
-56. Da allora sul ramo principale c'è solo roba tua, cioè le mie richieste che hai firmato.
+Nicola ha messo le 101 scritture al sicuro su un ramo, ha riallineato il server, e alle 14:26 il
+server ha pubblicato per la prima volta dal 18 agosto. Da lì pubblica ogni pochi minuti.
 
-Ecco perché il Pannello ti mostra ancora i numeri del 18 agosto: non gli arriva niente di nuovo.
+I tre giorni di memoria sono tornati dentro con la richiesta 800. Il disco è sceso dal 100% all'86%.
 
-**Se va bene:** parti dal disco, che sei sul filo — 4,6 MB liberi su 1900. Due righe:
-
-```
-node /opt/mycity/ad-mycity/cervello/spazza-temporanei.mjs
-df -h /tmp
-```
-
-La prima adesso dice anche chi occupa il posto che non può toccare. Prima taceva: mi avrebbe
-risposto «niente da spazzare» sopra un disco pieno.
-
-Mandami quello che esce. Se lo spazio torna, guardiamo il giro delle 14:20.
-
-**Cosa non ho verificato:** perché non pubblica. Il fatto ce l'ho, il motivo no. Da qui non posso
-leggere il diario del server.
-
----
+**Cosa resta, e non è più questa carta:** sei file grossi del ramo di salvataggio vanno letti e non
+fusi a occhi chiusi — Stato, coda azioni, Bacheca, Checklist, Ritmo e i piani.
 
 ### 🟡 #137 — Approva il fattorino dal pannello: adesso il pulsante c'e' · ⏳ accodata 2026-08-20 17:00
 
@@ -775,7 +763,14 @@ solo le caselle email ufficiali delle redazioni (via web, il 17/8), non i nomi d
 
 ---
 
-### 🔴 #108 — Sblocca il server: è fermo da mezzogiorno e da solo non ne esce · ⏳ accodata 2026-08-16 19:05
+### ✅ #108 — Sblocca il server: è fermo da mezzogiorno e da solo non ne esce. FATTO 2026-08-21 16:30 · ⏳ accodata 2026-08-16 19:05
+
+**Chiusa insieme alla 138, ed è la stessa cosa.** Questa carta, scritta il 16 agosto, descriveva già l'incastro nei termini esatti: il server non riesce a pubblicare, quindi si rifiuta di allinearsi al codice nuovo, quindi non può ricevere la correzione. È rimasta qui cinque giorni. Il 18 agosto la macchina si è fermata per quel motivo, e ci è rimasta tre giorni.
+
+**La lezione, e non è tecnica.** La diagnosi giusta era già scritta e in coda. Non è mancata l'analisi: è mancato che qualcuno la leggesse mentre serviva. Una carta rossa che invecchia in una coda da 67 voci non è una segnalazione, è un archivio.
+
+<details><summary>Il testo originale del 16 agosto</summary>
+
 
 **Cosa cambia:** da oggi alle 12:10 la macchina non pubblica più niente. Non è morta: il worker batte ancora, l'ho visto alle 18:47. Sono due cose incastrate. La prima: alle 13:36 una cadenza ha preso il lucchetto del giro e non l'ha più mollato, e da lì nessuna cadenza parte. La seconda: il server ha dei commit di memoria che non è riuscito a pubblicare, e giustamente si rifiuta di allinearsi al codice nuovo, perché allinearsi li cancellerebbe. Il risultato è che il server è fermo **e** non può ricevere nessuna correzione, nemmeno quella che ho appena scritto.
 
@@ -837,6 +832,8 @@ Il resto della macchina sta bene. Sensori, sincronizzazione con GitHub, coerenza
 - **Origine:** `{origine:sessione-vps-2026-08-18-mattino, lucchetto:22:20-17-8, pid-morto:352205, ultima-riga-giro:22:33-17-8}`
 
 ---
+
+</details>
 
 ### 🔴 #107 — Pubblica il post "I fornelli restano spenti" per Pane Quotidiano · ⏳ accodata 2026-08-16 12:05
 
@@ -2394,3 +2391,4 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 124 | 2026-08-18 06:41 | @ad | Controlla perché il monitoraggio automatico scrive testi difficili da leggere | 🟡 | Il cancello di fine turno ha trovato frasi difficili in 5 file. Sono `Intelligence/buchi-mercato.md`, `Intelligence/eventi-picchi.md`, `Intelligence/reputazione.md`, `RITMO.md`, `AZIONI-IN-ATTESA.md`. Non li ho scritti io in questo giro. Le date sui file dicono 06:07-06:39 di oggi. Io in questo giro ho toccato solo altri quattro file, tra le 06:40 e le 06:45 — verificato con `stat` e `git status --short`. La causa più probabile è il monitoraggio che gira da solo, `cervello/monitora.md` ("Ondata 3"). Scrive dentro questi file senza passare da `si-capisce.mjs`. Quel controllo misura quanto un testo è difficile da leggere. Il problema tipico sono frasi lunghe con un'idea dentro l'altra. Un esempio vero, da `eventi-picchi.md`: "Media/bassa per MyCity — fuori Piacenza città (Val Tidone)". Il lettore deve tenere in sospeso "Media/bassa" fino alla fine della frase per capire di cosa parla. | manuale | in attesa | Se questi testi restano così, ogni volta che apri Intelligence o Ritmo fai più fatica del necessario per capirli. Il problema si accumula da solo, un giro dopo l'altro, perché nessuno lo controlla prima di scrivere. | Dimmi tu quale preferisci. Primo: aggiungo `si-capisce.mjs` come controllo dentro `cervello/monitora.md`, prima che scriva — così il problema si ferma alla radice. Secondo: lascio così per ora e lo correggo io a mano una volta a settimana. |
 | 125 | 2026-08-18 08:04 | @backend-dev | Il sito appena pubblicato chiede al database dieci cose che lì non ci sono, e i rimborsi non partono più | 🔴 | Hai unito la richiesta 223 del marketplace alle 07:33. Vercel ha subito messo online il codice nuovo, e la pubblicazione risulta pronta. Quel lavoro però era fatto di due metà. Una metà è il codice del sito. L'altra metà sono quattro modifiche al database, i file numerati da 114 a 117. Il codice è andato online da solo. Le quattro modifiche no, perché toccare il database vero è una firma tua. Ho letto il database di produzione senza scriverci niente. L'ultima modifica applicata è la 113. Il codice nuovo cerca dieci cose nel database, e non ne trova nessuna delle dieci. **Cosa è rotto adesso.** Primo, e più grave: i rimborsi. Il sito cerca l'ordine da rimborsare e chiede anche un dato che nel database non c'è ancora. Riceve un errore e si ferma dicendo «ordine non trovato». Sono ferme tutte e quattro le strade che restituiscono soldi a un cliente. La prima è annullare un ordine dal pannello. La seconda è decidere su un reso. La terza è risolvere una contestazione della banca. La quarta è rimborsare un ordine scaduto. Ieri funzionavano tutte e quattro. È un peggioramento nato stamattina con la pubblicazione. Secondo: i rimborsi pieni che arrivano da Stripe non trovano più l'ordine, e vengono ignorati in silenzio. Terzo: i codici sconto. Chi scrive un codice buono si sente rispondere «Codice non valido». Comprare funziona ancora, perché il conto vero lo rifà il server per un'altra strada. Quarto: il salvataggio dei consensi sui cookie risponde errore. Quinto: non caricano i numeri del pannello di amministrazione e la pagina recensioni del fattorino. Due cose invece reggono senza rompersi. Sono la vetrina «dal vivo» in home e il carosello degli sponsorizzati, che restano solo vuoti. **E la parte che pesa di più.** Le prime due modifiche, la 114 e la 115, sono quelle che chiudono i buchi di sicurezza. Finché non le applichi, quei buchi restano aperti sul database vero. Sono tre. Indirizzi e telefoni dei clienti si leggono senza avere un account. Chi si registra come venditore si approva da solo. Gli ordini si modificano dal browser. L'elenco preciso dei dieci pezzi mancanti sta nella richiesta di unione 763 della macchina. | supabase | ✅ CHIUSA 2026-08-18 09:20 — applicate tutte e quattro al database di produzione dopo il tuo via. Verificati 13 oggetti su 13. Il controllo degli ordini non cita piu il campo cancellato a giugno. Nessuna vetrina piu scrivibile senza account, codici sconto non piu scaricabili in blocco, ordini non piu modificabili dal browser, il fattorino non vede piu la riga intera del cliente. Pane Quotidiano resta approvato: e tornato in attesa un solo profilo, il fattorino demo. Correzione mia successiva: avevo scritto EUR dove il file diceva €, rimesso a posto e ricontrollate tutte e 12 le frasi che legge il cliente, ora identiche al repo. | I rimborsi ai clienti non partono più da nessuna delle quattro strade del sito. Se oggi qualcuno chiede indietro dei soldi, l'operazione fallisce con un errore. I soldi restano fermi. In più il database resta senza le tre protezioni che la richiesta appena unita doveva portargli. | Al tuo via applico i quattro file al database di produzione, nell'ordine da 114 a 117. Poi ricontrollo i dieci pezzi uno per uno e ti dico quanti ne trovo. I file sono già dentro il ramo principale del marketplace, nella cartella delle migrazioni. Girano puliti su un database vuoto: 118 file su 118, nessun errore. Se preferisci farlo tu, incollali in quell'ordine nell'editor di Supabase. |
 | 145 | 2026-08-21 16:35 | @tech | Merge PR #804 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/804 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+| 146 | 2026-08-21 05:35 | @devops-sre | Il sito è giù da 22 giorni, non da adesso: 3 controlli di 5 minuti sul tuo Vercel, poi ti dico il fix esatto | 🔴 | Riprende la card #79 del 13/8, mai risposta. C'è già un runbook pronto: `consegne/devops/2026-07-31-sito-503.md`. `mycity-marketplace.com` risponde HTTP 503 dal 2026-07-30 08:20. L'ho confermato ora in diretta con WebFetch. Anche il sensore automatico lo conferma: 202 controlli ciechi di fila. Causa probabile: la migrazione Render→Vercel approvata il 20/7 non risulta completata. Nel repo del marketplace non c'è `vercel.json`. In `DECISIONI.md` non c'è nessuna riga che confermi «Render spento, DNS ripuntato». Da qui non ho accesso alle dashboard. Mi servono tre risposte tue, 5 minuti in tutto. Primo: apri Render, progetto `mycity-marketplace`. È sospeso, eliminato, o ha un deploy fallito? Secondo: apri Vercel. Esiste un progetto per il marketplace, non per il Pannello? L'ultimo deploy è «Ready» o «Error»? Se è «Error», quali variabili mancano? Terzo: controlla il DNS di `mycity-marketplace.com`. Punta ancora a Render, o è già su Vercel? Appena rispondi preparo il fix esatto in un branch, pronto da firmare. **Nota del recupero (21/8 17:55).** Questa card l'aveva scritta il server alle 05:35 e non era mai arrivata su GitHub: era rimasta sul ramo di sicurezza, e per di più col numero 127, che una card del 19 agosto aveva già. L'ho rimessa in coda col primo numero libero. Il controllo del sito non ho potuto rifarlo da questa sessione: la chiamata verso l'esterno viene bloccata. Quello che ho potuto vedere è il DNS, e punta ancora a Render (216.24.57.1), coerente con quanto scritto qui. | manuale | in attesa | Ogni giorno che passa, chi cerca MyCity trova un sito morto. Può essere un cliente, un negoziante, o un giornalista. È un danno di credibilità che cresce col tempo. Oggi non c'è ancora un ordine vero da perdere: i negozi sono in pausa concordata fino al 24/8-1/9. | Appena rispondi ai 3 punti preparo il fix pronto. Può essere riattivare Render. Oppure completare Vercel con le variabili mancanti e poi ripuntare il DNS, solo a deploy verificato verde. La firma finale resta comunque tua: tocca produzione. |

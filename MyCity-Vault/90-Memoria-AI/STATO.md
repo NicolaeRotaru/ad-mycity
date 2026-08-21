@@ -22,9 +22,9 @@ fonte: AD digitale (report della sera, cervello/ritmo.md)
 >
 > **Prove eseguite da me, non impressioni:** `tsc --noEmit` 0 errori · `vitest run` **943 verdi su 943** (114 file) · `next lint` 0 errori e 95 avvisi, **tutti di accessibilità** (52 etichette scollegate dal loro campo). Nessuna pagina aperta in un browser: tutto è letto nel codice e nel database.
 >
-> **Difetto della macchina trovato strada facendo:** i sei workflow in `.claude/workflows/` non partono su questo motore, perché hanno gli `import` sopra il blocco `meta`. Le due radiografie sono girate da copie generate al volo con gli stessi mansionari. Registrato, non riparato: toccarlo è auto-modifica, quindi firma tua.
+> **Difetto della macchina trovato strada facendo:** i sei workflow in `.claude/workflows/` non partono su questo motore, perché hanno gli `import` sopra il blocco `meta`. Le due radiografie sono girate da copie generate al volo con gli stessi mansionari. Registrato come AR-780, non riparato: toccarlo è auto-modifica, quindi firma tua.
 >
-> **In coda per te:** **#146** (via libera al cantiere sui 15 bloccanti) · **#147** (quale promessa di consegna è vera, 30-60 minuti o 24-48 ore: oggi la home dice una cosa e il resto del sito un'altra).
+> **In coda per te:** **#148** (via libera al cantiere sui 15 bloccanti) · **#147** (quale promessa di consegna è vera, 30-60 minuti o 24-48 ore: oggi la home dice una cosa e il resto del sito un'altra).
 >
 > Referti: `consegne/audit/2026-08-21-radiografia.md` · `consegne/design/2026-08-21-radiografia-design.md`.
 
@@ -1955,18 +1955,18 @@ fonte: AD digitale (chat)
 >
 >
 
-## I 7 numeri (✅ riconfermati query diretta 30/7 06:30 · invariati dal 20/7 20:22 · negozi in pausa volontaria fino al 24/8-1/9)
-| Numero | Oggi (30/7 06:30) | Δ vs 27/7 18:00 | "Riuscito" | Note |
+## I 7 numeri (✅ riconfermati query diretta 19/8 18:00 · le righe «Ordini pagati» e «Nuovi clienti reali» riportate alla misura del 21/8 14:29-14:31 · negozi in pausa volontaria fino al 24/8-1/9)
+| Numero | Oggi (19/8 18:00) | Δ vs ieri | "Riuscito" | Note |
 |---|---|---|---|---|
-| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `seller` confermato `mcp__supabase-marketplace execute_sql` 06:30 |
+| Negozi REALI approvati | **1** (Pane Quotidiano) | = | ≥1 LIVE vero | 1 profilo `role='seller'` confermato SQL diretta 19/8 18:00 |
 | Negozi con payout attivo | **0 reali** | = | 1 | PQ Stripe collegato, payout-test su ordine vero |
-| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato query diretta 06:30 |
-| Ordini creati | **1** (annullato) | = | ≥1 valido | COD €19,05 24/6 CANCELED — ultimo ordine tuttora il 24/6 08:28 |
-| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **36 giorni** · EXP-013 chiuso mancata, rinnovato in EXP-014 (scade 6/8) · ordine test in coda per la parola di Nicola (dentro/fuori) |
+| Prodotti VERI del faro pubblicati | **5** | = | ≥5 | confermato query diretta 19/8 18:00 |
+| Ordini creati | **1** (annullato) | = | ≥1 valido | id `58094956`, €19,05, `payment_status=PENDING`/`delivery_status=CANCELED`, creato 24/6 08:28 — ultimo ordine tuttora quello |
+| Ordini pagati | **0** | = | 1 | **North Star 0** · stallo **58 giorni** dal 24/6 (misurato 21/8 14:29-14:31, query MCP) · pausa concordata con Nicola fino al 24/8-1/9 |
 | Ordini consegnati | **0** | = | 1 | nessuna consegna mai avvenuta |
 | Payout testato | **0** | = | 1 | payout-test sandbox su ordine vero |
-| Nuovi clienti reali | **7 profili** (0 ultimi 7g) | = | crescita | confermato query diretta 06:30 |
-| **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | confermato query diretta 06:30 (`max(created_at)`) |
+| Nuovi clienti reali | **8 profili** (0 ultimi 7g) | ▲ da 7 | crescita | il nuovo è del 20/8 15:57, `nicolarotaru2000@gmail.com`, quasi certamente un account di prova di Nicola: nessun negozio nuovo (misurato 21/8 14:29-14:31, query MCP) |
+| **Lead negozi nel DB** | **407** (fermi dal 24/5) | = | lavorarli | invariato, non ricontrollato oggi (tabella lead non nel giro SQL di stasera) |
 
 ## Sensori MCP (inventario 2026-07-02 10:19)
 | Sensore | Config | Stato | Sblocco |

@@ -2780,7 +2780,7 @@ file · `next lint` 0 errori e 95 avvisi, tutti di accessibilita'. Nessuna pagin
 browser: e' il limite dichiarato di questa visita, scritto in cima a tutti e due i referti.
 
 **Colore.** 🟢 per la visita: sola lettura, nessuna scrittura sul sito ne' sul database. Le
-riparazioni sono 🟡 e aspettano la firma di Nicola sulla card #146. La frase della home (card #147)
+riparazioni sono 🟡 e aspettano la firma di Nicola sulla card #148. La frase della home (card #147)
 e' l'unico problema che si cambia da una configurazione, ma serve prima la sua risposta su quale
 promessa di consegna sia quella vera.
 
@@ -2884,8 +2884,9 @@ di riparazioni ampio — va riverificata sul sistema reale prima di richiedere a
 
 **Nota del 2026-08-21 18:30 — le due carte hanno cambiato numero.** Nate come #143 e #144, ma
 mentre lavoravo `main` ha assegnato quegli stessi due numeri ad altre due carte. Le mie esistevano
-solo sul ramo, quindi ho rinumerato le mie: ora sono **#146** (cantiere sui 15 bloccanti) e **#147**
-(quale promessa di consegna è vera). E' la seconda collisione di numeri della giornata: la prima
+solo sul ramo, quindi ho rinumerato le mie: ora sono **#148** (cantiere sui 15 bloccanti) e **#147**
+(quale promessa di consegna è vera) — la 146 e' durata un'ora, poi main ha dato anche quel
+numero a un'altra carta. E' la seconda collisione di numeri della giornata: la prima
 l'ha trovata il cancello sul numero AR-777, la seconda l'ha trovata la prova `carte-numerate`.
 Entrambe nascono dallo stesso fatto — due sessioni che assegnano numeri guardando due copie diverse
 della coda — ed e' un difetto che non ho ancora registrato perche' non so ancora dire quale sia la

@@ -1,4 +1,4 @@
-// 🧪 LA PROVA CHE IL CONTROLLO SUI WORKFLOW VEDA DAVVERO (AR-779).
+// 🧪 LA PROVA CHE IL CONTROLLO SUI WORKFLOW VEDA DAVVERO (AR-780).
 //
 // Il difetto: tutti e sei i file in `.claude/workflows/` vengono rifiutati dal motore prima di
 // eseguire una riga, perché aprono con degli `import` e mettono `export const meta` in quarta
