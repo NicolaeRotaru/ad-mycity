@@ -5328,6 +5328,15 @@
    "lezione": "L-2026-0821-01"
   },
   {
+   "difetto": "AR-780 workflow-che-non-partono",
+   "nome": "il controllo torna cieco: dice che uno script parte anche quando il motore lo rifiuta",
+   "file": "cervello/workflow-partono.mjs",
+   "cerca": "  return senzaIntestazione.startsWith(\"export const meta\");",
+   "sostituisci": "  return true;",
+   "test": "node cervello/test/workflow-che-non-partono.test.mjs",
+   "nota_riaggancio": "AR-780 e' un difetto APERTO, non riparato: il guardiano `node cervello/workflow-partono.mjs` e' rosso adesso, su 6 file su 6, ed e' quello il segnale. Questa mutazione non rompe un fix che non c'e': rompe il CONTROLLO, e pretende che la prova se ne accorga. Serve a impedire il modo piu' facile di far sparire il difetto senza ripararlo, cioe' allargare `partirebbe()` finche' dice si' a tutto."
+  },
+  {
    "lezione": "L-2026-0821-02",
    "difetto": "comando-senza-casa-in-chat",
    "nome": "il cancello dello Stop torna a lasciar partire un comando in chat che non dice da quale cartella si lancia",
