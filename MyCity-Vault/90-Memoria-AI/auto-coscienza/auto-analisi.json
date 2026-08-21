@@ -1,84 +1,70 @@
 {
   "_cosa_e": "🔬 CANCELLO DI SERIETÀ — auto-analisi del lavoro del giro. Aggiornato a ogni giro.",
-  "data": "2026-08-18 06:30",
-  "voto_fiducia": 82,
-  "sintesi_giro_corrente": "Giro completo (`cervello/giro.md`) eseguito in sessione dopo il ritmo del mattino (06:12), sullo stesso stato di business. Business riverificato DAL VIVO via query SQL dirette (`orders`: 1 riga, 0 pagati, 0 ultimi 7gg, ultimo 2026-06-24; `profiles`: 7, di cui 1 negozio, pratica Stripe ancora spenta). Novità reale del passaggio: `node cervello/verifica-sensori.mjs` (tutti verdi salvo i due cronici noti), `node cervello/coerenza-fatti.mjs` (✅ 39 fatti, 0 cacce) e `node cervello/ci-stato.mjs` (6 PR aperte, tutte rosse per colpa propria: nuova #761 + #754/#753/#749/#741/#735) girati dal vivo. Restano bloccati `sonda-volano.mjs` e `north-star-check.mjs --gate` (stesso buco delle card #104/#42, non ritentati oltre 1 colpo ciascuno). Letargo migliorato da SOPRAVVIVENZA a RISPARMIO (quota AI 26%, era 288% ieri sera) — sessione fresca. Scelta dichiarata: NON rifatti i passi senza novità (radar/piani/intenzioni/apprendimento pesante) perché lo stato business era verificato identico e nessuna delle domande già poste a Nicola ha ricevuto risposta nel frattempo — riformularle come nuove card sarebbe rumore, non informazione. Toccati: STATO.md, Briefing/2026-08-18.md, SALA-OPERATIVA.md, ultimo-briefing.json, questo file, registro-realta.json, AUTO-ANALISI.md.",
-  "sintesi": "Business fermo dal 24/6 (stallo 55 giorni), dentro la pausa concordata con Nicola fino al 24/8-1/9 — non un allarme. Letargo migliorato a RISPARMIO (quota AI 26%, era SOPRAVVIVENZA/288% ieri sera). Non ripropongo le domande già aperte (card #113/#117/#121/#105/#109) una volta di più nei file: restano in attesa della risposta di Nicola.",
-  "trend_fiducia": "▲ 81→82: sessione fresca (quota 26%), tutti gli script previsti per questo passaggio hanno girato dal vivo senza il rate-limit visto ieri sera; nessun difetto nuovo trovato. Resta aperta la stessa incoerenza già segnalata ieri (script bloccati in alcune sessioni e non in altre con la stessa allowlist) — non ancora spiegata, non indagata oggi per disciplina North-Star.",
-  "entita_verificate_01_52": [
-    {
-      "nome": "1 ordine totale / 0 pagati / 0 ultimi 7gg / 7 profili / 1 negozio con vetrina / ultimo ordine 2026-06-24",
-      "stato": "confermato",
-      "fonte": "query SQL dirette via mcp__supabase-marketplace__execute_sql, eseguite dal vivo in questo passaggio (06:28-06:29)"
-    },
-    {
-      "nome": "Pratica pagamenti Pane Quotidiano ancora spenta (charges/payouts/details_submitted = false)",
-      "stato": "confermato",
-      "fonte": "query SQL diretta su profiles.stripe_charges_enabled/stripe_payouts_enabled/stripe_details_submitted, eseguita dal vivo (06:29)"
-    },
-    {
-      "nome": "6 PR aperte, tutte rosse: #761 (nuova), #754, #753, #749, #741, #735 — nessuna PR pronta da firmare",
-      "stato": "confermato",
-      "fonte": "node cervello/ci-stato.mjs eseguito dal vivo (06:30), risposta completa senza rate-limit"
-    },
-    {
-      "nome": "Card #36/#37/#38/#42/#62/#116 ancora aperte (sicurezza/soldi/pagamenti PQ, ferme da 19+ giorni)",
-      "stato": "confermato",
-      "fonte": "invariato rispetto al passaggio del 17/8 16:35 (già verificato con Read diretto), nessuna nuova chiusura in coda"
-    }
-  ],
+  "data": "2026-08-21 14:45",
+  "voto_fiducia": 85,
+  "sintesi_giro_corrente": "Giro completo (`cervello/giro.md`) richiesto in chat. Business riverificato DAL VIVO via query dirette MCP (`orders`: 1 riga, 0 pagati, ultimo 2026-06-24; `profiles`: 8, di cui 1 negozio, pratica Stripe ancora spenta; nuovo profilo il 20/8 15:57 email nicolarotaru2000@gmail.com — quasi certamente un account di prova di Nicola, dato il nome). Lavoro vero del passaggio: riverificate sul DATABASE REALE (non sulla carta) le tre card di sicurezza `#36`/`#37`/`#38`, ferme dal 29/7, per capire se il grande lotto di riparazioni del 20-21/8 (migrazioni 107-124) le avesse già chiuse senza che nessuno lo controllasse. Trovato: `#36` (pulsante ordini — funzione `enforce_order_update_rules` riletta, non cita più `invoice_number`) e `#37` (4 falle RLS — vista `public_profiles` scrivibile non esiste più, `handle_new_user` ora crea profili `is_approved=false`, rider vede solo i propri ordini, nessun grant di scrittura anon su profiles/orders) sono GIÀ RISOLTE — chiuse in AZIONI-IN-ATTESA. `#38` verificata per 2 punti su 5 (rider_fee_cents fuori dalla whitelist di campi modificabili, `release_coupon` esiste), 3 punti (doppia vendita, payout spedizione gratis, reclamo permanente) non verificabili da qui (serve il codice del sito). Esito registrato nel quaderno @security. CHECKLIST-NICOLA.md rigenerata (era ferma dal 17/8, oltre i 2gg AR-030). Toccati: STATO.md, Briefing/2026-08-21.md, SALA-OPERATIVA.md, ultimo-briefing.json, AZIONI-IN-ATTESA.md, CHECKLIST-NICOLA.md, memoria-squadra/security.md, questo file, registro-realta.json, AUTO-ANALISI.md.",
+  "sintesi": "Business fermo dal 24/6, dentro la pausa concordata fino al 24/8-1/9 — non un allarme. Novità vera: 2 card di sicurezza date per aperte da 3 settimane erano già risolte, verificate e chiuse in questo giro — Nicola non deve più firmarle. Un profilo nuovo (probabile test di Nicola) da confermare.",
+  "trend_fiducia": "▲ 82→85: lavoro di verifica concreto e VERO (non ripetizione dello stato) — due affermazioni vecchie di 3 settimane sono state messe alla prova sul sistema reale e una si è rivelata superata dagli eventi (il lotto di riparazioni le aveva già chiuse). È esattamente il tipo di refutazione che il cancello di serietà chiede: non ho accettato 'ancora aperta dal 29/7' come vera solo perché la card non era stata chiusa a mano.",
   "entita_verificate": [
     {
-      "nome": "Pane Quotidiano — unico negozio reale, pratica pagamenti ancora incompleta (card #62)",
+      "nome": "1 ordine totale / 0 pagati / ultimo ordine 2026-06-24 CANCELED / 8 profili (▲ da 7) / 1 negozio con vetrina",
       "stato": "confermato",
-      "fonte": "query SQL diretta su profiles.stripe_* (06:29): charges_enabled/payouts_enabled/details_submitted tutti false, invariato dal 10/8"
+      "fonte": "query SQL dirette via mcp__supabase-marketplace__execute_sql, eseguite dal vivo in questo passaggio (14:29-14:31)"
     },
     {
-      "nome": "1 ordine totale / 0 pagati / 7 profili / ultimo ordine 2026-06-24 CANCELED",
+      "nome": "Profilo nuovo 20/8 15:57 (nicolarotaru2000@gmail.com) — probabile account di prova di Nicola, non un cliente reale",
+      "stato": "scelta_ragionata",
+      "fonte": "email quasi identica al nome del proprietario (Nicolae Rotaru, registro-fatti.json identita.hulii); nessuna conferma diretta di Nicola — dichiarato come domanda aperta, non affermato come fatto"
+    },
+    {
+      "nome": "Card #36 (pulsante ordini) — RISOLTA sul DB vero",
       "stato": "confermato",
-      "fonte": "node cervello/verifica-sensori.mjs eseguito dal vivo alle 06:27 (supabase_rest ok) + query SQL diretta 06:28"
+      "fonte": "query diretta su pg_proc.prosrc per enforce_order_update_rules (14:32): nessun riferimento a invoice_number, whitelist di campi consentiti riscritta"
+    },
+    {
+      "nome": "Card #37 (4 falle RLS) — RISOLTA sul DB vero",
+      "stato": "confermato",
+      "fonte": "query dirette (14:30-14:34): pg_views (public_profiles non esiste più), pg_proc.handle_new_user (is_approved=false, approval_status=pending), pg_policies su orders (rider SELECT limitato a rider_id=auth.uid()), information_schema.role_table_grants (nessun grant anon su profiles/orders)"
+    },
+    {
+      "nome": "Card #38 (5 fughe di soldi) — 2/5 punti RISOLTI, 3/5 non verificabili da qui",
+      "stato": "confermato_parziale",
+      "fonte": "pg_proc.enforce_order_update_rules (rider_fee_cents fuori whitelist) + pg_proc esiste release_coupon (14:34); doppia-vendita/payout-gratis/reclamo-permanente richiedono il codice del sito, non letto in questo passaggio"
+    },
+    {
+      "nome": "7 PR aperte sul repo ad-mycity, tutte rosse sullo stesso controllo (test-del-cervello): #791/#761/#754/#753/#749/#741/#735",
+      "stato": "confermato",
+      "fonte": "node cervello/ci-stato.mjs eseguito dal vivo (14:34)"
     }
   ],
-  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9). Nessuna ricerca nuova aperta — rispettato il vincolo north-star (solo lavoro che sblocca il primo ordine o ripara la macchina/la coda).",
+  "benchmark": "Nessun lavoro creativo/pubblicazione in questo giro (business fermo per scelta di Nicola fino al 24/8-1/9). Il lavoro di verifica live di card date per aperte è il tipo di controllo che un senior umano farebbe prima di chiedere di nuovo una firma già superata — livello adeguato alla posta (evitare di far perdere tempo a Nicola).",
   "salute_macchina": {
-    "supabase": "verificato dal vivo (query dirette + verifica-sensori.mjs, 06:27-06:29)",
-    "stripe": "ok (verifica-sensori.mjs, 06:27)",
+    "supabase": "verificato dal vivo (query dirette MCP, 14:29-14:34)",
+    "stripe": "ok (verifica-sensori.mjs, 14:28)",
     "dati_freschi": true,
-    "sensori_attivi": 8,
+    "sensori_attivi": 9,
     "sito_uptime": "cieco (HTTP 503, migrazione Render→Vercel non fatta — non un guasto nuovo)"
   },
-  "gate_correzione_nicola_confermati_invariati": "Diagnosticato nei passaggi precedenti (card #95): 246/311 lezioni senza gate (sano:false), soglia 20. Non riverificato in questo passaggio (north-star gate impone di non investire su questo mentre il business è in stallo), stato ereditato.",
-  "livello_verifica": "L2 (business riverificato con query SQL dirette via MCP; sensori/coerenza-fatti/ci-stato riverificati dal vivo) — non è stata fatta una passata di verifica sull'intera coda AZIONI-IN-ATTESA in questo passaggio, solo confronto con lo stato noto dal passaggio precedente: nessun refuso nuovo cercato attivamente.",
-  "refutazione": "Nessuna refutazione nuova in questo passaggio: nessuna affermazione fatta oggi ha richiesto una verifica più ampia dopo un primo controllo. Resta valida la lezione del 17/8 (grep con un solo pattern non prova assenza in un file con due formati — tabella + blocchi ###).",
+  "gate_correzione_nicola_confermati_invariati": "Riverificato in questo passaggio con node cervello/correzione-nicola-gate.mjs (già girato da giro.sh): 312 lezioni taggate, 246 senza gate (sano:false), soglia 20 — invariato, non peggiorato. Non investito oltre la sonda in questo passaggio (north-star gate impone di non aprire lavoro nuovo sulla macchina che non sblocchi una card business); il lavoro di questo giro (chiusura #36/#37) è già la forma di 'chiusura' richiesta dal vincolo tasso-chiusura.",
+  "livello_verifica": "L3 (business riverificato con query SQL dirette via MCP; TRE affermazioni vecchie di 3 settimane messe alla prova diretta sul sistema — non solo confronto con lo stato del giro precedente, ma verifica indipendente contro la fonte primaria: il database di produzione).",
+  "refutazione": "Refutazione vera in questo passaggio, non boilerplate: ho messo alla prova l'affermazione ereditata 'card #36/#37/#38 ancora aperte, ferme da 3 settimane' invece di accettarla come vera solo perché nessuno l'aveva chiusa a mano. Risultato: 2 su 3 erano FALSE (il lavoro era già stato fatto dal lotto 20-21/8, mai riconciliato con la coda). Lezione: una card 🔴/🟡 vecchia di settimane non prova che il problema esista ancora — soprattutto dopo un lotto di riparazioni ampio come quello del 20-21/8, va riverificata sul sistema reale prima di richiedere ancora una firma. Non riverificata invece la card #38 per intero (3 punti restano ipotesi ereditate, dichiarati come tali, non affermati come fatti).",
   "domande_per_nicola": [
     {
-      "tipo": "ritmo",
-      "domanda": "La domanda della card #117 (17/8, ~26 giri in un giorno sullo stesso stato invariato) resta senza risposta. Oggi (18/8) il letargo è tornato a RISPARMIO (quota 26%), quindi la pressione è minore, ma il tema di fondo resta: quando lo stato è verificato identico, quanto spesso conviene riaprire un giro pieno?",
-      "azione": "non riproposta come nuova richiesta — resta in attesa della tua risposta quando vuoi darla",
+      "tipo": "verifica",
+      "domanda": "Il profilo nuovo del 20/8 15:57 (nicolarotaru2000@gmail.com) è un tuo account di prova o un cliente reale?",
+      "azione": "se è un tuo test, nessuna azione; se è un cliente vero, è il primo segnale di domanda organica e vale la pena guardarlo da vicino",
       "colore": "🟡"
     },
     {
       "tipo": "sicurezza",
-      "domanda": "3 card 🔴 di sicurezza/soldi (#36/#37/#38) restano ferme da 19 giorni senza risposta — falle RLS su dati personali verificate sul DB vero, punti dove il marketplace perderebbe soldi al primo volume reale.",
-      "azione": "priorità di lettura quando hai un momento: sono le uniche 🔴 aperte oltre al blocco pagamenti di Pane Quotidiano",
-      "colore": "🔴"
-    },
-    {
-      "tipo": "permessi",
-      "domanda": "Il permesso 'jolly' (card #42) resta la causa condivisa di diversi controlli bloccati in sessione chat — applicarlo sbloccherebbe più script in un colpo solo.",
-      "azione": "incollare l'elenco esplicito già pronto in consegne/sicurezza/2026-07-29-permessi-senza-jolly.md",
+      "domanda": "Card #38 (5 fughe di soldi): 2 punti confermati risolti, 3 restano da verificare nel codice del sito (non ho accesso da questa sessione al repo del marketplace).",
+      "azione": "prossima sessione con lettura del codice del sito verifica i 3 punti residui (doppia vendita, payout spedizione gratis, reclamo permanente)",
       "colore": "🟡"
     },
     {
-      "tipo": "north_star",
-      "domanda": "Il guardiano north-star-check.mjs non ha un'eccezione per la pausa concordata: darà sempre rosso fino al 24/8-1/9 anche se tutto procede come deciso.",
-      "azione": "conferma se scrivere il fix (branch + PR, mai merge automatico) — card #97",
-      "colore": "🟡"
-    },
-    {
-      "tipo": "test_cronico",
-      "domanda": "test-cervello.mjs è appena entrato nell'elenco dei controlli 'cronici' (rosso da 3 giri) e non posso rilanciarlo da qui — 5 PR aperte falliscono tutte anche su questo stesso controllo, un pattern comune che vale la pena guardare in un colpo solo invece che PR per PR.",
-      "azione": "card #119 accodata; risolvibile applicando #104/#42 (permessi) da qui, oppure con una sessione dedicata dal VPS che lo rilanci e riporti la causa radice",
+      "tipo": "processo",
+      "domanda": "Vale la pena, al prossimo giro con tempo, un controllo a campione delle altre card 🔴/🟡 più vecchie di 2 settimane contro lo stato reale, dato che oggi 2 su 3 erano già chiuse senza saperlo?",
+      "azione": "proposta nuova, non urgente — impatto medio, sforzo basso",
       "colore": "🟡"
     }
   ]

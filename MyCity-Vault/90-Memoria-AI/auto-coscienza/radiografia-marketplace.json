@@ -3319,14 +3319,14 @@
     "ramo": "claude/marketplace-bugs-njlgi8 (repo NicolaeRotaru/mycity)",
     "migrazione": "124_radiografia_21_agosto.sql — DA APPLICARE al database vero",
     "difetto_nuovo_trovato": "La vetrina pubblica dei negozi aveva perso i due booleani di stato pagamento: la migrazione 108b li aveva messi, la 112 ha ricreato la vista senza, rimandando alla 114 dove non sono mai arrivati. Sei punti del sito li chiedono e il database rifiutava la richiesta intera: quelle pagine non ricevevano nessun negozio. Riparato nella 124, con controllo SQL che diventa rosso se qualcuno li toglie ancora.",
-    "prove": "933 prove unitarie verdi (erano 876), otto file di controlli SQL verdi contro un Postgres vero con tutte e 125 le migrazioni applicate da zero, typecheck e lint puliti (95 avvisi di accessibilita preesistenti, invariati), due build di produzione riuscite.",
+    "prove": "943 prove unitarie verdi (erano 876), otto file di controlli SQL verdi contro un Postgres vero con tutte e 125 le migrazioni applicate da zero, typecheck e lint puliti (95 avvisi di accessibilita preesistenti, invariati), due build di produzione riuscite.",
     "misure": {
       "pagine_servite_dalla_cache": "da 2 su 203 a 96 su 203, misurato confrontando due build vere",
       "righe_della_rotta_webhook": "da 1002 a 178",
       "colonne_nei_tipi_del_database": "da 191 a 740"
     },
     "serve_da_nicola": [
-      "Applicare la migrazione 124 al database vero: senza, meta di queste riparazioni non e attiva e la vetrina dei negozi resta vuota.",
+      "FATTO il 21/8 alle 14:55: la migrazione 124 e' applicata al database vero.",
       "Decidere sul rilascio: autoDeploy a false in render.yaml + segreto RENDER_DEPLOY_HOOK + controllo CI obbligatorio su main.",
       "Un progetto Supabase di prova coi suoi segreti, per far girare in CI le prove d integrazione e quelle nel browser.",
       "Se e quando riaccendere il ritiro in negozio (RITIRO_IN_NEGOZIO_ATTIVO): adesso la strada per chiuderlo c e."
@@ -3335,6 +3335,28 @@
       "Difetto 83, passo 2: convertire scheda prodotto, categoria e negozio in componenti server. Sono milleduecento righe con trenta punti interattivi: senza poter aprire il sito in un browser non si riscrive alla cieca. Fatta la parte che serve al crawler.",
       "Difetto 168, percorsi nel browser: i tre giri Playwright autenticati servono un progetto Supabase di prova. La catena dell ordine e comunque provata da un controllo SQL che gira in CI oggi.",
       "Difetto 229, le due mosse in produzione: firma di Nicola."
-    ]
+    ],
+    "difetto_mio_trovato_dopo_l_unione": "Il lotto si era chiuso con l'unione della richiesta, e l'unione pubblica il codice ma non tocca il database. Fra le due firme c'e' una finestra, e questo lotto e' l'unico che non l'aveva coperta: le colonne nuove della 124 finivano dentro le istruzioni senza condizioni. Provato sul database di prova col codice unito e lo schema vecchio, la risposta e' «column gross_total_cents of relation orders does not exist»: PostgreSQL non ignora una colonna che non conosce, fa fallire l'istruzione intera. Per tutta quella finestra non nasceva nessun ordine, ne' in contanti ne' con la carta, non si confermava nessun incasso e non partiva nessun pagamento. Riparato con un ripiego nel codice (lib/db/migrazione-124.ts) sui sei punti dove le colonne della 124 entrano in un'istruzione. Prova: 8 controlli unitari, rossi con il ripiego spento e rossi col ripiego sempre acceso — due mutanti, tutti e due uccisi. Poi ho aggiunto il freno che impedisce il ripetersi: un controllo che diventa rosso se un file nomina una colonna della 124 dentro un'istruzione senza importare il ripiego. Ha lavorato subito e ha trovato un settimo punto che avevo mancato — il rimborso rifiutato dalla banca leggeva una colonna che non usava nemmeno, e prima della migrazione quella lettura falliva intera: l'ordine risultava «non trovato», il rifiuto non veniva registrato e nessuno avvisava l'admin.",
+    "rettifica_2026_08_21": "RETTIFICA. Sopra, il «difetto_nuovo_trovato» dice che sei pagine del sito non ricevevano nessun negozio. E' vero come difetto della catena delle migrazioni — ricostruendo il database da zero le due colonne si perdono per strada — ma NON descriveva il sito online: sul database vero le due colonne c'erano gia', verificato il 21/8 alle 14:50 leggendo la definizione della vista in produzione, e la vetrina rispondeva col suo negozio anche prima. L'avevo dato per vero della produzione senza averlo guardato la'. La riparazione resta giusta e serve: allinea il database vero alla catena delle migrazioni, cosi' la prossima ricostruzione non riapre il buco.",
+    "migrazione_124_applicata": "Applicata al database di produzione il 21/8 alle 14:55, su richiesta esplicita di Nicola in chat («fallo tu»). Al primo tentativo si e' fermata — «orders: modifica di un campo protetto non consentita», codice 42501 — dentro una transazione, quindi senza scrivere niente. Difetto mio: il riempimento di gross_total_cents sugli ordini gia' presenti urtava enforce_order_update_rules. Nessuna prova l'aveva visto perche' il grilletto scatta per RIGA e la ricostruzione da zero parte da orders VUOTA. Riparata con set_config('mycity.allow_order_write','1',true) dentro un blocco DO, la stessa chiave che usa confirm_pickup_by_seller, e riapplicata: nove controlli su nove verdi, un ordine e otto profili intatti. Freno: tests/sql/harness/migrazione-su-database-pieno.sh, in CI, rosso col difetto rimesso (richiesta mycity#232)."
+  },
+  "sync_scan": {
+    "aggiornato": "2026-08-21 16:26",
+    "letto": true,
+    "motivo": null,
+    "forma": "elenco",
+    "findings_aperti": 3,
+    "findings_chiusi": 242,
+    "findings_tot": 245,
+    "aperti_per_severita": {
+      "bloccante": 0,
+      "grave": 2,
+      "minore": 1,
+      "altre": 0
+    },
+    "dichiarati_dal_referto": 245,
+    "divergenza_dal_dichiarato": 0,
+    "data_scan": "2026-08-18",
+    "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
   }
 }
