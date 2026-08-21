@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-18 06:25** — Automatico: **77 aperte · 8 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-21 14:27** — Automatico: **88 aperte · 13 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -204,25 +204,6 @@ distanza. Se scegli fissa, e' una riga.
 
 ---
 
-### ✅ #135 — Applica la 123: il fattorino vede l'ordine e non riesce a prenderlo. FATTO 2026-08-20 14:40, col tuo ok in chat · ⏳ accodata 2026-08-20 13:30
-
-**Cosa cambia:** e' un errore mio, nato dalla 122 di stamattina. La 122 ha chiuso la falla dei
-recapiti stringendo la lettura degli ordini a «solo quelli che sono miei». Ma il database, per
-aggiornare una riga, prima deve leggerla. Su un ordine ancora libero il fattorino non c'e', quindi
-la riga risulta non sua, quindi invisibile. Risultato: preme «Accetta» e si sente rispondere
-«ordine gia' preso da un altro». Non e' vero, e nessuno puo' prenderlo.
-
-Oggi non fa danno: in produzione ci sono zero fattorini approvati e un solo ordine, annullato a
-giugno. Diventa un problema col primo fattorino vero.
-
-Il rimedio non riapre la lettura, perche' quella era la falla. La presa passa da una funzione
-fidata che gira coi permessi del database. La richiesta di unione e' `mycity#228`.
-
-**Se va bene:** dimmi «applica la 123» e la eseguo io, con la verifica dopo. Il file e'
-`migrations/123_presa_ordine_dal_fattorino.sql`. Va fatto dopo aver unito la richiesta.
-
----
-
 ### 🔴 #134 — Del database non esiste nessuna copia: mancano due segreti, non uno · ⏳ accodata 2026-08-20 11:30 · 🔁 corretta 2026-08-20 13:35
 
 **Cosa cambia:** oggi del database non c'e' **nessuna copia**, da nessuna parte. Il lavoro
@@ -251,45 +232,6 @@ riapre piu'. Se la perdi, hai perso il backup.
 
 Messe tutte e due, la notte dopo la copia parte per la prima volta. Poi dimmelo e controllo che
 sia andata davvero.
-
----
-
-### ✅ #133 — Applica al database la migrazione 122. FATTO 2026-08-20 13:10, col tuo ok in chat · ⏳ accodata 2026-08-20 11:30
-
-**Cosa cambia:** sette riparazioni che vivono nel database e non nel codice. Due pesano piu'
-delle altre. La prima riguarda i fattorini. Oggi uno di loro puo' scaricare nome, telefono e
-indirizzo dei clienti di tutta la citta'. Anche degli ordini che non sono suoi. Dopo la
-migrazione vede solo i propri. La seconda riguarda le campagne sponsorizzate. Oggi chiunque puo'
-gonfiarne i contatori con un ciclo di richieste dal browser. Dopo c'e' un tetto: sessanta
-visualizzazioni e dieci clic al minuto.
-
-**Una cosa che non ti avevo detto.** Hai unito la richiesta del sito alle 12:27, e il sito si
-pubblica da solo a ogni unione. Quindi adesso il codice nuovo e' online e la migrazione no. Il
-codice chiede al database una vetrina degli ordini liberi che ancora non esiste. Effetto: la
-bacheca del fattorino resta vuota, e lui vede solo gli ordini che ha gia' preso. Non si rompe
-niente d'altro: le altre riparazioni hanno un ripiego e si comportano come prima. Oggi non fa
-danno, perche' non c'e' nessun ordine da prendere. Diventa un problema il giorno del primo
-ordine vero.
-
-**Se va bene:** dimmi «applica la migrazione 122» e la eseguo io a blocchi. Ogni blocco in una
-transazione sua, leggendo dal database vero il risultato di ogni pezzo. Il file e'
-`migrations/122_radiografia_20_agosto.sql` nel repo del marketplace. La richiesta e' gia' unita:
-questo e' l'ultimo passo.
-
----
-
-### ✅ #132 — Cento riparazioni sul sito: la richiesta di unione e' pronta. FATTO 2026-08-20 12:27, l'hai unita tu · ⏳ accodata 2026-08-20 11:30
-
-**Cosa cambia:** i difetti aperti del sito scendono da centoquarantuno a trentadue. Fra le cose
-riparate: il doppio clic che faceva due ordini in contanti, il «Non hai ancora ordini» dopo aver
-pagato con la carta, il registro dei consensi cookie che era vuoto da sempre, il controllo
-«negozio chiuso» che non scattava mai, e il catalogo che si fermava a novantasei prodotti senza
-dirlo.
-
-**Se va bene:** apri la richiesta di unione sul repo del marketplace, guarda il referto in
-`consegne/audit/2026-08-20-marketplace-100-riparazioni.md` e unisci. Le prove sono verdi:
-ottocentosessanta controlli automatici, piu' lo schema del database ricostruito da zero. Dopo il
-merge serve la firma separata sulla migrazione (card #133).
 
 ---
 
@@ -364,6 +306,7 @@ testo, che dice «fatto». Non sono andato a controllare se quel «fatto» fosse
 🔧 Dettagli tecnici: 70 intestazioni `###`, cioè 45 🟡 più 16 🔴 più 1 ⚠️ più 8 ✅. Le card aperte sono quindi 62. Più 37 righe tabellari con stato `in attesa`. Totale 99 voci. `housekeeping-azioni.mjs --dry-run` ne conta 81: il suo `CARD_START` accetta anche le righe che iniziano con l'emoji senza `###`, e trova 87 match di cui 17 sono righe ✅/❌ fuori formato. Causa radice: quello stesso script archivia solo ciò che matcha `/^### (✅|❌)/`. Non interroga mai `merged_at` su GitHub. È la card #11. Prove di chiusura nel referto: `pannello/src/app/page.tsx:1693` (#17), `cervello/cristallizza-apprendimento.mjs:49-51` (#31), `cervello/housekeeping-azioni.mjs` (#18), PR #422 chiusa 16/7 (#4), PR #733 mergiata 15/8, PR #714 chiusa senza merge il 14/8 (stesso lavoro della riga 85).
 
 ---
+
 ---
 
 ### 🔴 #129 — Un pezzo del sito scrive in un cassetto che sul database vero non esiste · ⏳ accodata 2026-08-19 20:35
@@ -399,6 +342,8 @@ usa: `app/api/ai/catalog-batch/{start,status,apply}/route.ts`. Nella migrazione 
 guardia `to_regclass` sul blocco che la tocca. Senza, quella riga annullava in blocco le altre
 sei riparazioni della stessa transazione. E' successo davvero il 19/8 alle 20:12.
 
+---
+
 ### 🟡 #128 — Incolla una parola nei freni: lo strumento «Monitor» oggi non lo guarda nessuno · ⏳ accodata 2026-08-19 14:30
 
 **Cosa cambia:** ho uno strumento che si chiama `Monitor`. Avvia un comando di sistema e mi
@@ -428,71 +373,22 @@ testo del matcher, non una misura.
 
 ---
 
-### ✅ #127 — Applicate al database del sito le riparazioni del 19 agosto. FATTO 2026-08-19 20:25, col tuo ok in chat · ⏳ accodata 2026-08-19 13:25
-
-**Cosa cambia:** oggi il cliente puo' alzarsi da solo il credito MyCity dal browser e poi
-spenderlo in un ordine in contanti. Il premio invito lo decide la pagina di registrazione,
-non il server. Il negoziante vede zero visite sui suoi prodotti anche quando le visite ci
-sono. Il pannello dei codici sconto e' una pagina vuota da quando e' passata la bonifica del
-14. Questo file ripara tutte e trentotto queste cose insieme, e non tocca nessun dato dei
-clienti.
-
-**Se va bene:** il credito si scrive solo dal server, le statistiche del negoziante tornano a
-contare, e il pannello dei codici sconto torna a funzionare. Poi resta da unire la richiesta
-sul ramo `claude/marketplace-100-difetti-ehne44`, che e' un'altra firma: unire il codice non
-e' applicare il database.
-
-**Contenuto:** il file `migrations/119_radiografia_18_agosto.sql` nel repo del marketplace,
-copia applicabile in `consegne/tech/2026-08-19-marketplace-104-difetti.patch`. E' scritto per
-essere rilanciabile: se qualcosa va storto a meta', si rilancia e riprende.
-
-**Cosa non ho verificato (al momento in cui l'ho accodata):** non l'ho eseguito su nessun
-database, nemmeno di prova. Le riparazioni che contiene non sono attive finche' non la applichi.
-
-**Esito 2026-08-19 20:25:** applicata al database vero in sette blocchi, col tuo ok in chat.
-Verificata rileggendo il database: trentotto controlli, tutti col valore atteso. Un blocco si e'
-fermato e ha scoperto un cassetto mancante in produzione: da li' e' nata la carta #129. Restano
-fuori le riparazioni della vista che alimenta il riquadro in home, che vanno dopo la
-pubblicazione del codice.
-
----
-
-### ✅ #126 — Aperta la richiesta di unione sul repo del sito. FATTO 2026-08-19 19:10, col tuo ok in chat · ⏳ accodata 2026-08-19 13:25
-
-**Cosa cambia:** le centoquattro riparazioni di oggi sono su un ramo del repo del
-marketplace, e da questa sessione non posso aprirti la richiesta di unione: il proxy nega le
-credenziali per quel repository, perche' e' fuori dall'elenco autorizzato. Finche' resta
-cosi', il lavoro c'e' ma tu non lo vedi in una pagina dove poterlo approvare.
-
-**Se va bene:** apro la richiesta di unione con il referto dentro, e tu decidi guardando il
-diff. In alternativa, se preferisci non allargare i permessi, applichi tu la patch a mano:
-`git am < consegne/tech/2026-08-19-marketplace-104-difetti.patch`.
-
-**Cosa non ho verificato (al momento in cui l'ho accodata):** non so quale delle due strade tu
-preferisca, e non ho provato la seconda: la patch e' generata dai commit veri, ma non l'ho
-applicata a una copia pulita.
-
-**Esito 2026-08-19 19:10:** col tuo ok in chat ho aperto la richiesta #225 sul repo del sito.
-Tutti i controlli verdi. Resta da unire: quella firma e' tua.
-
----
-
 ### 🟡 #120 — Avvisa il fornaio: c'è un circuito welfare gratis a cui può iscriversi subito · ⏳ accodata 2026-08-17 14:05
 
-**Cosa cambia:** ho trovato che a Piacenza esiste già un programma chiamato "Piacenza Pay" —
-gestito da un'azienda nazionale di buoni pasto (360Welfare) insieme alle 4 associazioni di
-commercianti della città — che fa arrivare ai negozi i soldi del welfare aziendale dei
-dipendenti (buoni pasto, buoni acquisto). Per il negozio è **gratis aderire**, paga solo una
-piccola parte quando un cliente spende davvero. Non c'entra niente con MyCity: Pane Quotidiano
-potrebbe iscriversi oggi stesso, senza aspettare che i nostri pagamenti Stripe siano accesi. È
-un canale di soldi in più che il fornaio oggi non sta prendendo.
+**Cosa cambia:** a Piacenza esiste già un programma chiamato "Piacenza Pay". Lo gestisce
+360Welfare, un'azienda nazionale di buoni pasto, insieme alle 4 associazioni di commercianti
+della città. Il programma fa arrivare ai negozi i soldi del welfare aziendale dei dipendenti:
+buoni pasto, buoni acquisto. Per il negozio aderire è **gratis**. Paga solo una piccola parte
+quando un cliente spende davvero. Non c'entra niente con MyCity: Pane Quotidiano potrebbe
+iscriversi oggi stesso, senza aspettare che i nostri pagamenti Stripe siano accesi. È un canale
+di soldi in più che il fornaio oggi non sta prendendo.
 
 **Testo pronto da inoltrare (WhatsApp o di persona):**
-> «Ciao! Volevo segnalarti una cosa che ho trovato: a Piacenza c'è un programma gratuito chiamato
-> "Piacenza Pay" (lo gestisce 360Welfare insieme a Confindustria, Confapi, Confesercenti e
-> Confcommercio Piacenza) che fa arrivare ai negozi i buoni pasto e i buoni acquisto welfare dei
-> dipendenti delle aziende della zona. Per il negozio è gratis iscriversi, non c'è nessun canone:
-> paghi solo una piccola percentuale quando un cliente spende davvero. Basta scrivere a
+> «Ciao! Volevo segnalarti una cosa che ho trovato. A Piacenza c'è un programma gratuito chiamato
+> "Piacenza Pay". Lo gestisce 360Welfare insieme a Confindustria, Confapi, Confesercenti e
+> Confcommercio Piacenza. Fa arrivare ai negozi i buoni pasto e i buoni acquisto welfare dei
+> dipendenti delle aziende della zona. Per il negozio è gratis iscriversi, non c'è nessun canone.
+> Paghi solo una piccola percentuale quando un cliente spende davvero. Basta scrivere a
 > piacenzapay@360welfare.it per iscriverti. Non c'entra con MyCity, è un programma separato — ma
 > ti porta clienti e soldi in più senza costo, quindi ti conviene comunque farlo. Fammi sapere se
 > vuoi che ti aiuti a scrivere la mail.»
@@ -978,11 +874,13 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🔴 #38 — Tappa i cinque punti dove il marketplace perde soldi da solo · ⏳ accodata 2026-07-29 13:30
+### 🔴 #38 — Tappa i cinque punti dove il marketplace perde soldi da solo · ⏳ accodata 2026-07-29 13:30 · 🔍 riverificata sul DB vero 2026-08-21 14:30
 
-**Cosa cambia:** cinque difetti che costano soldi veri appena arriva il primo volume. ① **Doppia vendita:** la merce viene "rimessa a scaffale" dopo 2 ore, ma la pagina di pagamento resta valida 24 — chi paga dopo compra roba già venduta. È lo stesso bloccante del 7 luglio, ancora lì. ② **Campagne che si spengono a un terzo:** ogni checkout abbandonato brucia un utilizzo del codice sconto per sempre, e nessuno lo restituisce. Un coupon da 100 usi si esaurisce dopo 100 *tentativi*, non 100 ordini. ③ **Il rider si decide lo stipendio:** il campo del suo compenso non è tra quelli congelati e finisce dritto in un bonifico Stripe. ④ **Il rider non viene mai pagato** sugli ordini con spedizione gratuita, e il programma automatico ci riprova all'infinito. ⑤ **Un reclamo blocca il negozio per sempre:** una volta aperto, lo stato del reclamo non torna mai indietro e il negoziante non viene più pagato. In più: gift card, sponsorizzazioni e abbonamenti pagati possono sparire in silenzio se il database fa i capricci, perché il sistema li segna come riusciti comunque.
+**Aggiornamento 2026-08-21:** ho controllato punto per punto sul database di produzione, dopo il grosso lotto di riparazioni del 20-21/8. **Due dei cinque sono già a posto**: ③ il campo del compenso rider (`rider_fee_cents`) NON è più tra quelli che rider/venditore possono cambiare — l'ho letto nella funzione che protegge gli ordini, la lista dei campi liberi non lo contiene; ② la funzione che restituisce l'uso di un coupon dopo un checkout abbandonato (`release_coupon`) ora esiste sul database, prima non c'era. **Gli altri tre non li ho potuti verificare da qui**: doppia vendita (①) e reclamo che blocca per sempre (⑤) dipendono dal codice del sito (cron, webhook) che da questa sessione non leggo — il trigger del reclamo che ho trovato (`dispute_block_payout`) blocca il pagamento all'apertura ma non mostra un modo per sbloccarlo, quindi il punto ⑤ potrebbe essere ancora aperto. **Non chiudo la card**: la declasso da "cinque falle" a "tre da verificare col codice, due già chiuse".
 
-**Se va bene:** apro un branch e li affronto in quest'ordine — prima il compenso rider e il reclamo bloccante (bastano poche righe), poi il coupon e la doppia vendita (serve una migration). Ti consegno l'anteprima con la lista di cosa ho toccato e mandi in produzione tu.
+**Cosa cambia:** cinque difetti che costano soldi veri appena arriva il primo volume. ① **Doppia vendita:** la merce viene "rimessa a scaffale" dopo 2 ore, ma la pagina di pagamento resta valida 24 — chi paga dopo compra roba già venduta. È lo stesso bloccante del 7 luglio, ancora lì. ~~② Campagne che si spengono a un terzo~~ — RISOLTO, vedi sopra. ~~③ Il rider si decide lo stipendio~~ — RISOLTO, vedi sopra. ④ **Il rider non viene mai pagato** sugli ordini con spedizione gratuita, e il programma automatico ci riprova all'infinito. ⑤ **Un reclamo blocca il negozio per sempre:** una volta aperto, lo stato del reclamo non torna mai indietro e il negoziante non viene più pagato. In più: gift card, sponsorizzazioni e abbonamenti pagati possono sparire in silenzio se il database fa i capricci, perché il sistema li segna come riusciti comunque.
+
+**Se va bene:** apro un branch e affronto solo i tre punti rimasti (①④⑤, doppia vendita/payout gratuito/reclamo permanente) leggendo il codice del sito. Ti consegno l'anteprima e mandi in produzione tu.
 
 **Nota tecnica:** ① `lib/stripe/client.ts` non passa `expires_at`, `migrations/042_multi_seller_checkout.sql:43` vs cron `expire-checkouts`; `app/api/stripe/webhook/route.ts:210` non gestisce EXPIRED/CANCELED. ② `claim_coupon` (migration 108) chiamata prima di `reserve_stock`, nessuna `release_coupon` esiste. ③ `rider_fee_cents` assente dal freeze di `enforce_order_update_rules` → `lib/stripe/payout.ts`. ④ `lib/stripe/payout.ts:161-166` + `app/api/cron/release-payouts/route.ts:113-136`. ⑤ trigger `dispute_block_payout`, `migrations/063_p1_db_hardening.sql:69-84`. Webhook: handler gift card/sponsor/abbonamento fanno `return` invece di `throw`, il dispatcher marca `processed=true`.
 - **Colore:** 🔴 (tocca pagamenti, payout e database di produzione)
@@ -993,11 +891,11 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🔴 #37 — Chiudi le quattro porte che lasciano entrare chiunque nei dati dei negozi e dei clienti · ⏳ accodata 2026-07-29 13:30
+### ✅ #37 — CHIUSA 2026-08-21 14:30 (verificata risolta sul DB vero) — Chiudi le quattro porte che lasciano entrare chiunque nei dati dei negozi e dei clienti · accodata 2026-07-29 13:30
 
-**Cosa cambia:** quattro falle di sicurezza aperte sul sito vero, tutte confermate. ① Tre elenchi pubblici dei negozi sono scrivibili da un visitatore **senza account**: si possono cambiare telefono, indirizzo e nome di un negozio, o cancellarlo — e cancellarlo si porta dietro conversazioni, portafoglio e punti fedeltà. Ho verificato io sul database che il permesso di scrittura c'è davvero. ② Nome, telefono e indirizzo di casa dei clienti con una consegna in corso si leggono **senza login**: la regola scritta per far vedere ai rider gli ordini disponibili è troppo larga. ③ Chi si registra diventa venditore o rider **già approvato**: il controllo dell'admin è scavalcato. ④ Sempre senza login si possono modificare i dati di consegna degli ordini pronti. Queste sono le cose che, se qualcuno le trova prima di noi, chiudono l'azienda: sono dati personali di clienti veri e una violazione da notificare al Garante.
+**Esito:** ho controllato le quattro falle una per una sul database di produzione reale, dopo il grosso lotto di riparazioni del 20-21/8, e sono **tutte e quattro chiuse**. ① La vista `public_profiles` scrivibile non esiste più (rimane solo `seller_public_profiles`, di sola lettura e filtrata su negozi approvati); su `profiles`/`orders` non c'è nessun permesso di scrittura per un visitatore senza account. ② La regola che faceva vedere ai rider gli ordini disponibili con tutti i dati del cliente ora limita la lettura al solo rider assegnato (`rider_id = chi ha fatto login`) — gli ordini disponibili passano da una vista separata senza dati sensibili. ③ Chi si registra oggi nasce **non approvato** (`is_approved=false`, `approval_status='pending'`): l'ho letto nel codice della funzione che crea il profilo alla registrazione. ④ Nessun permesso di scrittura sui dati di consegna per chi non ha fatto login. Nessuna azione resta da firmare: il fix è già nel database vero, non in un branch in attesa.
 
-**Se va bene:** apro un branch con le migration che mettono le tre viste in modalità "rispetta i permessi di chi legge", tolgono i permessi di scrittura ad anonimo, stringono la regola dei rider a chi è davvero un rider e rimettono l'approvazione dell'admin alla nascita dell'account. Ti mostro l'anteprima e le mandi in produzione tu, una per volta.
+**Cosa cambiava (per storico):** quattro falle di sicurezza aperte sul sito vero, tutte confermate. ① Tre elenchi pubblici dei negozi erano scrivibili da un visitatore senza account. ② Nome, telefono e indirizzo di casa dei clienti con una consegna in corso si leggevano senza login. ③ Chi si registrava diventava venditore o rider già approvato. ④ Si potevano modificare senza login i dati di consegna degli ordini pronti.
 
 **Nota tecnica:** ① viste `public_profiles`/`seller_public_profiles`/`seller_storefronts` senza `security_invoker` e con GRANT UPDATE/DELETE ad `anon` (migrations 108/110/112; `seller_storefronts` è drift: non esiste in nessun file del repo). ② policy «Riders can view available and own orders», `migrations/019_rider_visibility.sql:14-21`. ③ `public.handle_new_user`, `migrations/015_competitive_moats.sql:137-156`. ④ policy «Riders can update assigned or claim free orders», `migrations/011_orders_delivery.sql:128-134`. Nota collegata: l'hardening RLS delle migration 020 e 109 non ha mai avuto effetto — è scritto per nomi di policy che sul DB non esistono.
 - **Colore:** 🔴 (migration sul database di produzione, dati personali)
@@ -1008,13 +906,11 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🔴 #36 — Ripara il pulsante che venditore e rider usano per far avanzare un ordine · ⏳ accodata 2026-07-29 13:30
+### ✅ #36 — CHIUSA 2026-08-21 14:30 (verificata risolta sul DB vero) — Ripara il pulsante che venditore e rider usano per far avanzare un ordine · accodata 2026-07-29 13:30
 
-**Cosa cambia:** in questo momento, sul sito vero, quando un negoziante accetta un ordine dalla sua pagina o un rider lo prende in carico, il database rifiuta la modifica e restituisce un errore. Non è un sospetto: l'ho verificato io con una query sul database di produzione. A giugno una modifica ha cancellato dagli ordini il campo "numero fattura", ma il controllo di sicurezza che protegge gli ordini continua a cercarlo, e va in errore proprio quando la modifica è **legittima**. Le API del server non sono toccate — muore solo quello che parte dal browser, cioè le due schermate che fanno camminare una consegna. Con un negozio solo e zero ordini pagati oggi non se ne accorge nessuno: al primo ordine vero, il negoziante non riesce ad accettarlo.
+**Esito:** ho riletto sul database di produzione la funzione che protegge gli ordini (`enforce_order_update_rules`): non cita più `invoice_number`. È stata riscritta con una lista bianca di campi che negozio/rider possono cambiare (stato consegna, rider assegnato, orari, posizione) — il vecchio controllo che cercava una colonna cancellata a giugno non c'è più. Il pulsante che fa avanzare un ordine funziona: nessuna azione resta da firmare, il fix è già nel database vero (probabilmente dentro il lotto di migrazioni 107-124 del 20-21/8), non in un branch locale come al 17/8.
 
-**Se va bene:** apro un branch sul repo del sito con una migration che riscrive quel controllo togliendo il campo cancellato, più un test che diventa rosso se il controllo torna a citare una colonna che non esiste. Poi te lo mostro in anteprima e lo mandi in produzione tu.
-
-**Aggiornamento 2026-08-17 06:xx:** oggi ho fatto rileggere a backend-dev tutti i file citati sotto, uno per uno. La diagnosi è confermata al 100%, nessun dubbio residuo. Il branch `fix/enforce-order-update-invoice-number` esiste in locale con la migration pronta e un test nuovo. Non è ancora su GitHub: i permessi di questa sessione non includono `git commit`/`git push` sul repo del sito. Serve una sessione con quei permessi per finire il lavoro (commit, push, anteprima).
+**Cosa cambiava (per storico):** sul sito vero, quando un negoziante accettava un ordine o un rider lo prendeva in carico, il database rifiutava la modifica per colpa di un controllo che cercava ancora il campo "numero fattura", cancellato a giugno.
 
 **Nota tecnica:** `migrations/061_p0_security_rls_state_machine_reviews.sql:129` (funzione `enforce_order_update_rules`, tuttora viva sul DB) cita `NEW.invoice_number`, colonna droppata da `migrations/105_remove_invoicing.sql:27`. Nessuna migration successiva ridefinisce la funzione (063/064/094/096 la citano solo nei commenti). Verifica diretta sul progetto `clmpyfvpvfjgeviworth`: `colonna_esiste=false`, `trigger_la_cita=true`. Punti d'impatto: `app/seller/orders/[id]/page.tsx:205`, `app/rider/orders/[id]/page.tsx:108`. Uscita anticipata per admin/service_role alle righe 96-98 → route server salve. Migration pronta: `marketplace/migrations/107_fix_enforce_order_update_invoice_number.sql`. Test pronto: `marketplace/tests/unit/migrations-integrity.test.ts`.
 - **Colore:** 🔴 (migration sul database di produzione)
@@ -1799,8 +1695,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-18 06:25)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-18-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-21 14:27)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-21-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -1811,7 +1707,114 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-18 06:25 · 8 card totali
+> Ultima pulizia: 2026-08-21 14:27 · 13 card totali
+
+### ✅ #135 — Applica la 123: il fattorino vede l'ordine e non riesce a prenderlo. FATTO 2026-08-20 14:40, col tuo ok in chat · ⏳ accodata 2026-08-20 13:30
+
+**Cosa cambia:** e' un errore mio, nato dalla 122 di stamattina. La 122 ha chiuso la falla dei
+recapiti stringendo la lettura degli ordini a «solo quelli che sono miei». Ma il database, per
+aggiornare una riga, prima deve leggerla. Su un ordine ancora libero il fattorino non c'e', quindi
+la riga risulta non sua, quindi invisibile. Risultato: preme «Accetta» e si sente rispondere
+«ordine gia' preso da un altro». Non e' vero, e nessuno puo' prenderlo.
+
+Oggi non fa danno: in produzione ci sono zero fattorini approvati e un solo ordine, annullato a
+giugno. Diventa un problema col primo fattorino vero.
+
+Il rimedio non riapre la lettura, perche' quella era la falla. La presa passa da una funzione
+fidata che gira coi permessi del database. La richiesta di unione e' `mycity#228`.
+
+**Se va bene:** dimmi «applica la 123» e la eseguo io, con la verifica dopo. Il file e'
+`migrations/123_presa_ordine_dal_fattorino.sql`. Va fatto dopo aver unito la richiesta.
+
+---
+
+### ✅ #133 — Applica al database la migrazione 122. FATTO 2026-08-20 13:10, col tuo ok in chat · ⏳ accodata 2026-08-20 11:30
+
+**Cosa cambia:** sette riparazioni che vivono nel database e non nel codice. Due pesano piu'
+delle altre. La prima riguarda i fattorini. Oggi uno di loro puo' scaricare nome, telefono e
+indirizzo dei clienti di tutta la citta'. Anche degli ordini che non sono suoi. Dopo la
+migrazione vede solo i propri. La seconda riguarda le campagne sponsorizzate. Oggi chiunque puo'
+gonfiarne i contatori con un ciclo di richieste dal browser. Dopo c'e' un tetto: sessanta
+visualizzazioni e dieci clic al minuto.
+
+**Una cosa che non ti avevo detto.** Hai unito la richiesta del sito alle 12:27, e il sito si
+pubblica da solo a ogni unione. Quindi adesso il codice nuovo e' online e la migrazione no. Il
+codice chiede al database una vetrina degli ordini liberi che ancora non esiste. Effetto: la
+bacheca del fattorino resta vuota, e lui vede solo gli ordini che ha gia' preso. Non si rompe
+niente d'altro: le altre riparazioni hanno un ripiego e si comportano come prima. Oggi non fa
+danno, perche' non c'e' nessun ordine da prendere. Diventa un problema il giorno del primo
+ordine vero.
+
+**Se va bene:** dimmi «applica la migrazione 122» e la eseguo io a blocchi. Ogni blocco in una
+transazione sua, leggendo dal database vero il risultato di ogni pezzo. Il file e'
+`migrations/122_radiografia_20_agosto.sql` nel repo del marketplace. La richiesta e' gia' unita:
+questo e' l'ultimo passo.
+
+---
+
+### ✅ #132 — Cento riparazioni sul sito: la richiesta di unione e' pronta. FATTO 2026-08-20 12:27, l'hai unita tu · ⏳ accodata 2026-08-20 11:30
+
+**Cosa cambia:** i difetti aperti del sito scendono da centoquarantuno a trentadue. Fra le cose
+riparate: il doppio clic che faceva due ordini in contanti, il «Non hai ancora ordini» dopo aver
+pagato con la carta, il registro dei consensi cookie che era vuoto da sempre, il controllo
+«negozio chiuso» che non scattava mai, e il catalogo che si fermava a novantasei prodotti senza
+dirlo.
+
+**Se va bene:** apri la richiesta di unione sul repo del marketplace, guarda il referto in
+`consegne/audit/2026-08-20-marketplace-100-riparazioni.md` e unisci. Le prove sono verdi:
+ottocentosessanta controlli automatici, piu' lo schema del database ricostruito da zero. Dopo il
+merge serve la firma separata sulla migrazione (card #133).
+
+---
+
+### ✅ #127 — Applicate al database del sito le riparazioni del 19 agosto. FATTO 2026-08-19 20:25, col tuo ok in chat · ⏳ accodata 2026-08-19 13:25
+
+**Cosa cambia:** oggi il cliente puo' alzarsi da solo il credito MyCity dal browser e poi
+spenderlo in un ordine in contanti. Il premio invito lo decide la pagina di registrazione,
+non il server. Il negoziante vede zero visite sui suoi prodotti anche quando le visite ci
+sono. Il pannello dei codici sconto e' una pagina vuota da quando e' passata la bonifica del
+14. Questo file ripara tutte e trentotto queste cose insieme, e non tocca nessun dato dei
+clienti.
+
+**Se va bene:** il credito si scrive solo dal server, le statistiche del negoziante tornano a
+contare, e il pannello dei codici sconto torna a funzionare. Poi resta da unire la richiesta
+sul ramo `claude/marketplace-100-difetti-ehne44`, che e' un'altra firma: unire il codice non
+e' applicare il database.
+
+**Contenuto:** il file `migrations/119_radiografia_18_agosto.sql` nel repo del marketplace,
+copia applicabile in `consegne/tech/2026-08-19-marketplace-104-difetti.patch`. E' scritto per
+essere rilanciabile: se qualcosa va storto a meta', si rilancia e riprende.
+
+**Cosa non ho verificato (al momento in cui l'ho accodata):** non l'ho eseguito su nessun
+database, nemmeno di prova. Le riparazioni che contiene non sono attive finche' non la applichi.
+
+**Esito 2026-08-19 20:25:** applicata al database vero in sette blocchi, col tuo ok in chat.
+Verificata rileggendo il database: trentotto controlli, tutti col valore atteso. Un blocco si e'
+fermato e ha scoperto un cassetto mancante in produzione: da li' e' nata la carta #129. Restano
+fuori le riparazioni della vista che alimenta il riquadro in home, che vanno dopo la
+pubblicazione del codice.
+
+---
+
+### ✅ #126 — Aperta la richiesta di unione sul repo del sito. FATTO 2026-08-19 19:10, col tuo ok in chat · ⏳ accodata 2026-08-19 13:25
+
+**Cosa cambia:** le centoquattro riparazioni di oggi sono su un ramo del repo del
+marketplace, e da questa sessione non posso aprirti la richiesta di unione: il proxy nega le
+credenziali per quel repository, perche' e' fuori dall'elenco autorizzato. Finche' resta
+cosi', il lavoro c'e' ma tu non lo vedi in una pagina dove poterlo approvare.
+
+**Se va bene:** apro la richiesta di unione con il referto dentro, e tu decidi guardando il
+diff. In alternativa, se preferisci non allargare i permessi, applichi tu la patch a mano:
+`git am < consegne/tech/2026-08-19-marketplace-104-difetti.patch`.
+
+**Cosa non ho verificato (al momento in cui l'ho accodata):** non so quale delle due strade tu
+preferisca, e non ho provato la seconda: la patch e' generata dai commit veri, ma non l'ho
+applicata a una copia pulita.
+
+**Esito 2026-08-19 19:10:** col tuo ok in chat ho aperto la richiesta #225 sul repo del sito.
+Tutti i controlli verdi. Resta da unire: quella firma e' tua.
+
+---
 
 ### ✅ #75 — La visita del server era viva: il guasto vero era il push dei referti · ⏳ accodata 2026-08-13 00:15 · ✅ chiusa 2026-08-13 20:45 (verificata coi 4 screenshot di Nicola)
 
