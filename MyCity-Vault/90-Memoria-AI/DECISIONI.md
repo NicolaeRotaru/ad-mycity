@@ -2892,6 +2892,48 @@ Entrambe nascono dallo stesso fatto — due sessioni che assegnano numeri guarda
 della coda — ed e' un difetto che non ho ancora registrato perche' non so ancora dire quale sia la
 casa unica del prossimo numero.
 
+## 2026-08-21 20:25 — 🟡 Cantiere sui quindici bloccanti: tredici riparati con prova, due restano in coda per firma
+
+Nicola in chat: «ok 148» — via libera al cantiere aperto dalla radiografia del 21/8 (351 problemi veri,
+15 bloccanti distinti). Nella stessa risposta ha sciolto anche la card `#147`: **la promessa di consegna
+è 30-60 minuti**, e alla domanda successiva ha scelto **una promessa sola**, non due fasce.
+
+**Metodo, uguale per tutti e tredici.** Prima la prova che diventa rossa col difetto presente, poi la
+riparazione, poi la stessa prova verde. Nessuna chiusura per «ho cambiato il codice». I due difetti del
+database li ho riprodotti dal vivo su uno schema ricostruito da zero (126 migrazioni su 126 applicate):
+`verify_delivery_code(ordine, NULL)` rispondeva `{"ok": true}` e marcava l'ordine CONSEGNATO. Dopo la
+migrazione 125 lo stesso tentativo viene respinto — 13 controlli verdi, 9 dei quali rossi senza di lei.
+
+**Le riparazioni, in ordine di commit sul ramo `claude/marketplace-radiografia-design-9kj69c` del sito
+(PR #236):** promessa unica 30-60 min su 36 stringhe in 28 file · migrazione 125 (permessi tolti a
+`PUBLIC`/`anon`/`authenticated` su sei funzioni, e i due codici di consegna riscritti con `IS DISTINCT
+FROM` invece di `!=`, che su NULL non scattava mai) · quota venditore riaddebitata anche sul ramo carta,
+con il rimborso Stripe protetto dal fallimento · chiave di tentativo per ordine, non per carrello, così il
+doppio clic non genera due ordini · rotta di annullamento per il cliente che restituisce davvero i soldi ·
+SOS del fattorino sopra l'assistenza e giro guidato che non si apre dentro un acquisto · consenso
+statistiche letto dal server e acquisto contato una volta sola · riempimento automatico del catalogo che
+non può toccare i campi economici.
+
+**I due che non ho chiuso, e perché.** I due buchi del database sono riparati nel codice ma non sul
+sistema vero: applicare una migrazione in produzione è 🔴, quindi è la card **#152**. Il rilascio
+automatico che parte prima dei controlli era già in coda come **#141**, con l'ordine dei passi vincolato
+(prima i segreti su Vercel, poi si spegne l'automatismo): riaprirlo qui avrebbe creato una seconda verità
+sullo stesso lavoro.
+
+**Nuova card aperta:** **#151** — l'interruttore `offers_express` di Pane Quotidiano è spento mentre il
+sito promette un'ora a tutti. Non cambia nulla di visibile, ma è l'unico posto dove è registrato se quel
+negozio la velocità la fa davvero. Chiedo a Nicola se accenderlo o togliere del tutto l'interruttore.
+
+**La lezione, agganciata a un freno.** Il difetto della macchina trovato strada facendo — i sei workflow
+in `.claude/workflows/` non partono su questo motore perché hanno gli `import` sopra il blocco `meta` — è
+registrato come **AR-780** con il guardiano `cervello/workflow-partono.mjs`, oggi rosso su 6 workflow su 6,
+e la mutazione che prova che il guardiano scatta. Non l'ho riparato: toccare i propri workflow è
+auto-modifica, quindi firma di Nicola.
+
+**Cosa non ho verificato:** nessuna pagina aperta in un browser, e nulla provato in produzione — il sito
+vero risponde 503 dal 30 luglio (card #146).
+
+· Non riproporre come «da fare»: fatto, con prova · Nicola (chat)
 ---
 
 ## 2026-08-21 20:10 — 🟡 La sincronizzazione del server: 7.849 cassetti che nessuno riapriva
@@ -2947,3 +2989,12 @@ prima di dire «fatto».
 
 **Cosa resta a Nicola:** la card #150 (due comandi sul server, poi si guarda dentro i 7.849 cassetti
 senza buttarli). Le carte #142 e #144 restano aperte: si chiudono dopo, in due minuti.
+
+**Nota del 2026-08-21 21:05 — le mie due carte hanno cambiato numero, ed è la terza volta oggi.**
+Nate come #150 e #149. Mentre lavoravo, `main` ha pubblicato una sua carta #150 (il server e i 7.849
+cassetti). Le mie esistevano solo sul ramo, quindi ho rinumerato le mie: adesso sono **#152** (applica
+la migrazione 125 al database vero) e **#151** (l'interruttore della consegna veloce). Sopra ho
+corretto i due riferimenti nello stesso verbale, invece di lasciare due numeri che puntano a carte di
+un altro. È lo stesso difetto già registrato oggi come AR-779: chi scrive in coda si conta i numeri
+guardando la propria copia. Il freno esiste (`carte-numerate`), e ferma il doppione dopo, non prima.
+

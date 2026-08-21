@@ -22,6 +22,57 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #152 — Applica al database vero le riparazioni dei due buchi piu' grossi · ⏳ accodata 2026-08-21 20:11
+
+**In parole semplici:** ho riparato i quindici difetti che fermano qualcuno, e due di quelli
+vivono dentro il database, non nel codice del sito. Le riparazioni sono scritte in un file di
+modifiche, la 125, ma un file non fa niente finché non lo si applica. Finché non lo applichi,
+quei due buchi sul sito vero restano aperti.
+
+Il primo. Certe funzioni potenti del database erano chiamabili **senza avere un account**. Una di
+quelle decide quanto risulta già rimborsato di un ordine, cioè il numero che il sito sottrae dai
+guadagni del negozio.
+
+Il secondo, e l'ho provato dal vivo su una copia del database. Il codice di consegna a sei cifre
+si aggirava mandando un valore vuoto: la funzione rispondeva «va bene» e l'ordine risultava
+consegnato. La consegna sblocca due cose che sono soldi, il bonifico al negozio e la paga del
+fattorino.
+
+**Cosa cambia:** se applichi, quei due buchi si chiudono e nient'altro cambia per chi usa il sito.
+Se non applichi, restano aperti: il codice nuovo che ho scritto li chiude solo nella parte che sta
+nel sito, non nella parte che sta nel database.
+
+**Se va bene:** scrivi «ok 152» e applico il file `migrations/125_radiografia_21_agosto_bloccanti.sql`
+al database di produzione, un blocco per volta, controllando dopo ognuno. Poi ti dico quanti pezzi
+trovo applicati sui pezzi attesi. L'ho già fatto girare su un database ricostruito da zero: 126
+modifiche su 126 applicate, e tredici controlli verdi che senza la 125 erano nove rossi.
+
+---
+
+### 🔴 #151 — Dimmi se accendo la consegna veloce sul negozio, ora che la promessa è una sola · ⏳ accodata 2026-08-21 20:11
+
+**In parole semplici:** hai deciso che la promessa di consegna è una sola, 30-60 minuti, e ho
+allineato tutto il sito. C'è però un interruttore nel database, per ogni negozio, che dice se quel
+negozio la consegna veloce la fa davvero. Su Pane Quotidiano — l'unico negozio esistente — è
+**spento**.
+
+Adesso quell'interruttore non cambia più nessuna scritta: il sito promette 30-60 minuti a tutti,
+perché così hai deciso. Resta però l'unico posto in cui è registrato se il negozio quella velocità
+la fa o no.
+
+**Cosa cambia:** accenderlo non modifica niente di quello che il cliente legge. Serve a far
+combaciare quello che promettiamo con quello che risulta scritto: oggi il sito dice un'ora e il
+database dice che quel negozio la consegna veloce non la offre.
+
+**Se va bene:** scrivi «ok 151» e accendo `offers_express` su Pane Quotidiano. È una riga sola sul
+database vero, reversibile: si spegne allo stesso modo.
+
+Se preferisci il contrario — cioè che l'interruttore sparisca del tutto, perché con una promessa
+sola non serve più — dimmelo e ti preparo quel lavoro invece: è più grande, tocca anche la pagina
+del negoziante dove quell'interruttore si vede ancora.
+
+---
+
 ### 🟡 #150 — Il server tornerà a parlare con GitHub, e poi guardiamo cosa c'è nei 7.849 cassetti · ⏳ accodata 2026-08-21 20:05
 
 **In parole semplici:** questa carta parla del server, la macchina accesa che lavora quando tu non ci
@@ -84,7 +135,17 @@ domani un guardiano suona da solo se i cassetti ricominciano ad accumularsi.
 
 ---
 
-### 🟡 #148 — Dimmi se apro il cantiere sui quindici difetti che fermano qualcuno · ⏳ accodata 2026-08-21 16:20
+### ✅ #148 — Dimmi se apro il cantiere sui quindici difetti che fermano qualcuno · ⏳ accodata 2026-08-21 16:20 · fatta 2026-08-21 20:25
+
+**Stato:** ✅ FATTO 2026-08-21 20:25 — col tuo «ok 148» in chat. Tredici dei quindici sono riparati,
+ognuno con una prova che ho visto diventare rossa prima e verde dopo. Il quattordicesimo sono i due
+buchi del database: il codice della riparazione è scritto, ma sul sito vero si chiudono solo quando
+applichi il file di modifiche — è la card **#152** qui sopra. Il quindicesimo, quello del rilascio
+automatico prima dei controlli, era già in coda da prima: è la card **#141**, e lì l'ordine dei passi
+conta (prima i segreti, poi si spegne l'automatismo), quindi non l'ho toccato.
+
+Il lavoro sta nel ramo `claude/marketplace-radiografia-design-9kj69c` del sito, richiesta di unione
+**#236**. Niente è andato in produzione.
 
 **In parole semplici:** oggi ho rifatto la visita completa al sito, codice e grafica insieme.
 Ho trovato 351 problemi veri. Veri vuol dire che un secondo collega è andato a ricontrollarli
@@ -116,8 +177,13 @@ Referti. Il codice, 199 problemi: `consegne/audit/2026-08-21-radiografia.md`.
 La grafica e i percorsi, 152 problemi: `consegne/design/2026-08-21-radiografia-design.md`.
 
 ---
+### ✅ #147 — Dimmi quanto ci mettiamo davvero a consegnare, perché il sito dice due cose diverse · ⏳ accodata 2026-08-21 16:20 · fatta 2026-08-21 18:40
 
-### 🟡 #147 — Dimmi quanto ci mettiamo davvero a consegnare, perché il sito dice due cose diverse · ⏳ accodata 2026-08-21 16:20
+**Stato:** ✅ FATTO 2026-08-21 18:40 — hai risposto «30-60 min», e hai scelto **una promessa sola**.
+Ho riscritto 36 frasi in 28 file del sito, tolto il riquadro che al momento di pagare mostrava due
+tempi diversi, e riscritto le pagine spedizioni e domande frequenti dicendo la verità: l'ora parte
+da quando il negozio conferma, dentro l'orario di apertura, e a negozio chiuso parte il giorno dopo.
+Un controllo automatico adesso diventa rosso se «24-48» ricompare da qualche parte.
 
 **In parole semplici:** il riquadro grosso in cima alla home promette la consegna in **30-60
 minuti**. Ogni altra pagina del sito promette **24-48 ore**. Sono la stessa promessa fatta due

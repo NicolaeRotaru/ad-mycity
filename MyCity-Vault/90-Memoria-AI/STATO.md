@@ -6,6 +6,22 @@ fonte: AD digitale (giro, cervello/giro.md)
 
 > 🔁 **21/8 20:31 — Passaggio lampo, stato identico al giro delle 18:03: 1 ordine (0 pagati), 8 profili, 1 negozio con vetrina, 5 prodotti. Macchina in SOPRAVVIVENZA, quota AI 191% (era 151% alle 16:27).**
 
+> 🔧 **21/8 20:25 — Cantiere chiuso sui difetti che fermano qualcuno: tredici riparati su quindici, ognuno con la sua prova.** Nicola in chat: «ok 148».
+>
+> **Come li ho chiusi.** Per ogni difetto ho prima scritto una prova che diventa **rossa** finché il difetto c'è. Poi ho riparato. Poi ho guardato la stessa prova diventare verde. Nessuno è chiuso perché «ho cambiato il codice»: è chiuso perché un comando che prima falliva adesso passa.
+>
+> **I due del database li ho provati dal vivo.** Ho ricostruito lo schema da zero su un database locale, 126 modifiche su 126 applicate. Il codice di consegna a sei cifre si aggirava davvero: mandando un valore vuoto la funzione rispondeva «va bene» e l'ordine risultava consegnato. Adesso quello stesso tentativo viene respinto. Tredici controlli verdi, che senza la riparazione erano nove rossi.
+>
+> **Cosa ho riparato, in parole semplici.** ① Le funzioni potenti del database non sono più chiamabili senza un account. ② Il codice di consegna vuoto non passa più. ③ Il rimborso con carta adesso riaddebita la quota del negozio, e un rifiuto della banca non blocca più l'ordine per sempre. ④ Il doppio clic al momento di pagare non fa più due ordini. ⑤ Chi annulla un ordine pagato con carta riprende i suoi soldi. ⑥ Il pulsante SOS del fattorino si può premere, e il giro guidato non si apre più mentre stai pagando. ⑦ Chi ha detto no ai cookie non finisce più nel programma di statistiche, e ogni acquisto si conta una volta sola. ⑧ Il riempimento automatico del catalogo non può più toccare i prezzi.
+>
+> **La promessa di consegna adesso è una sola.** Nicola ha risposto: **30-60 minuti**. Riscritte 36 frasi in 28 file. Tolto il riquadro che al momento di pagare mostrava due tempi diversi. Le pagine spedizioni e domande frequenti adesso dicono la verità: l'ora parte da quando il negozio conferma, dentro l'orario di apertura, e a negozio chiuso parte il giorno dopo.
+>
+> **I due che restano, e perché.** Il primo sono i due buchi del database: il codice della riparazione è scritto, ma sul sito vero si chiudono solo quando la applichi — è la carta **#152**. Il secondo è il rilascio automatico che parte prima dei controlli: era già in coda come **#141**, e lì l'ordine dei passi conta, quindi non l'ho toccato.
+>
+> **Cosa non ho verificato.** Non ho aperto nessuna pagina in un browser. Il sito vero risponde ancora 503 da tre settimane (carta #146), quindi nulla di questo è stato provato su produzione. Tutte le prove sono girate qui.
+>
+> Il lavoro è nella richiesta di unione **#236** del sito, ramo `claude/marketplace-radiografia-design-9kj69c`. Niente è andato in produzione.
+
 > 🌙 **21/8 18:03 — Report della sera. Business invariato, ma è la giornata con più riparazioni fatte sul codice del sito finora: registro difetti da 29 aperti a 3.**
 >
 > **I 7 numeri chiave** (via MCP Supabase, query diretta 18:02): ordini totali **1** (invariato), ordini pagati **0** (invariato), ultimo ordine 2026-06-24 (annullato, invariato), profili totali **8** (invariato da ieri sera), negozi con vetrina **1** (Pane Quotidiano, invariato), prodotti disponibili **5** (invariato). Stallo North Star **58 giorni**, dentro la pausa concordata fino al 24/8-1/9.
