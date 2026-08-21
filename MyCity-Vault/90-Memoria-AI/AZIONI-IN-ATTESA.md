@@ -22,6 +22,81 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #141 — Fai partire il rilascio solo a controlli verdi, non insieme a loro · ⏳ accodata 2026-08-21 03:20
+
+**Cosa cambia:** oggi, appena una modifica finisce sul ramo principale, il rilascio in produzione
+parte da solo e non aspetta i controlli. I due corrono in parallelo: se un controllo diventa rosso,
+il codice rotto è già online. Il referto arriva dopo il funerale.
+
+La metà buona esiste già ed è scritta: c'è un lavoro che rilascia SOLO a controlli passati. È spento
+perché gli manca l'indirizzo di rilascio.
+
+Tre mosse, tutte tue perché toccano la produzione:
+
+1. **Render → il servizio → Settings → Deploy Hook**: copia l'indirizzo e mettilo su GitHub come
+   segreto `RENDER_DEPLOY_HOOK` (Settings → Secrets and variables → Actions).
+2. **Nel file `render.yaml`, riga 43**: `autoDeploy: true` diventa `autoDeploy: false`. Fallo DOPO
+   il punto 1, altrimenti il rilascio si ferma e basta.
+3. **GitHub → Settings → Branches**: rendi il controllo «CI» obbligatorio su `main`.
+
+**Se va bene:** da lì in poi in produzione ci arriva solo quello che ha passato i controlli. E i
+controlli, da oggi, dicono in cima al riepilogo quali gruppi di prove NON hanno girato: un verde non
+vuol più dire «tutto provato» quando non lo è.
+
+**Cosa non ho verificato:** non ho aperto il pannello di Render e non ho toccato le impostazioni di
+GitHub. Le tre mosse le ho lette dai file del progetto, non le ho eseguite.
+
+---
+
+### 🔴 #140 — Applica al database la migrazione 124: senza, la vetrina dei negozi resta vuota · ⏳ accodata 2026-08-21 03:20
+
+**Cosa cambia:** il file si chiama `124_radiografia_21_agosto.sql` ed è nel ramo
+`claude/marketplace-bugs-njlgi8` del sito. Unire la richiesta pubblica il codice, non tocca il
+database: sono due firme diverse, e questa è la seconda.
+
+Dentro ci sono sette riparazioni. La più urgente non era nemmeno nel referto, l'ho trovata
+lavorando: **la vetrina pubblica dei negozi aveva perso due colonne**. A marzo erano state messe,
+una migrazione più tarda ha ricreato la vista senza, rimandando a una terza dove non sono mai
+arrivate. Sei punti del sito le chiedono — l'elenco negozi, i negozi vicini, la pagina del negozio,
+il riquadro in cima alla home, la scheda del venditore, la vetrina in home — e il database rifiuta
+la richiesta intera quando una colonna non c'è. Quelle pagine non ricevevano un negozio senza
+bollino: **non ricevevano nessun negozio**.
+
+Le altre sei: il lordo di vendita scritto sull'ordine, perché il rimborso divideva per due basi
+diverse e toglieva al negozio più del dovuto; il ritiro in negozio che finalmente arriva a
+«consegnato»; i ritiri tolti dalla bacheca dei fattorini; gli stati del compenso del fattorino che
+il codice usava e il database rifiutava; la tabella degli esiti dei pagamenti; il riquadro della
+home in una chiamata sola.
+
+**Se va bene:** dimmelo e ti passo il comando esatto. La migrazione è già stata applicata da zero a
+un Postgres di prova, con tutte e 125 le migrazioni in fila e otto file di controlli verdi.
+
+**Cosa non ho verificato:** non l'ho applicata a nessun database vero, e non ho aperto il sito in un
+browser. Finché non la firmi, metà delle riparazioni di questo lotto non è attiva.
+
+---
+
+### 🟡 #139 — Un Supabase di prova, per far girare i controlli che oggi si saltano da soli · ⏳ accodata 2026-08-21 03:20
+
+**Cosa cambia:** due gruppi di controlli — quelli sui permessi del database e quelli che aprono il
+sito in un browser vero — si saltano da soli quando mancano i segreti di un progetto di prova. Da
+oggi lo dicono in cima al riepilogo invece che dentro il log, quindi almeno si vede. Ma restano
+saltati.
+
+È anche il motivo per cui non ho potuto scrivere i tre giri nel browser che chiudono il difetto
+sulla catena dell'ordine: servono un negozio approvato, un fattorino, un cliente e dei prodotti veri
+su cui girare. La catena l'ho provata lo stesso, con un controllo sul database che gira già oggi
+senza chiavi — ma provare il database non è provare quello che vede il cliente.
+
+**Se va bene:** crea un progetto Supabase **nuovo e vuoto** (mai quello dei clienti) e mettine tre
+segreti su GitHub: `SUPABASE_TEST_URL`, `SUPABASE_TEST_ANON_KEY`,
+`SUPABASE_TEST_SERVICE_ROLE_KEY`. C'è già un controllo che si rifiuta di partire se l'indirizzo
+coincide con quello di produzione.
+
+**Cosa non ho verificato:** non ho creato nessun progetto e non ho toccato i segreti di GitHub.
+
+---
+
 ### 🟡 #138 — Rilancia il controllo della memoria: adesso vede anche quello che prima gli sfuggiva · ⏳ accodata 2026-08-20 18:10 · 🔁 riscritta 2026-08-21 04:05
 
 **Cosa cambia:** stanotte l'attrezzo ti ha detto «niente da salvare» mentre ventotto scritture del
