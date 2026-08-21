@@ -616,6 +616,8 @@ Il file non è nel repo: è dentro `.gitignore`. Va modificato a mano sul VPS, n
 
 (dettaglio: vedi memoria `project-settings-local-write-vs-edit-blocca-lavori.md`; prova: `MyCity-Vault/90-Memoria-AI/auto-coscienza/motore-errori.json`, `MyCity-Vault/90-Memoria-AI/auto-coscienza/esito-cadenze.json`)
 
+**Riconferma 21/8 15:35 — stesso blocco, e il freno verificabile esiste già.** Ho riprovato io stessa `node cervello/salute.mjs`: respinto subito, "richiede approvazione", nessuna scrittura possibile. Il file `.claude/settings.local.json` ha ancora le stesse 5 righe `Write(...)` alle righe 24-28. Non serve costruire un nuovo controllo: `cervello/permessi-check.mjs` (regola `forma-file-non-applicata`, AR-562) individua già esattamente questo pattern e diventa rosso se lo trova — è il freno che la card chiede, ma può leggerlo solo chi gira SUL VPS (il file è locale, fuori dal repo). **Cosa fare in più, in un solo giro:** dopo aver cambiato le 5 righe, lanciare sul VPS `node cervello/permessi-check.mjs` — se esce pulito (exit 0) la correzione è confermata dal proprio guardiano, non solo "a occhio".
+
 <!-- posthog-off-vps -->
 
 ---
