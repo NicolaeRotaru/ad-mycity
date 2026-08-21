@@ -361,6 +361,21 @@ Il file non è nel repo: è dentro `.gitignore`. Va modificato a mano sul VPS, n
 
 **Cosa non ho verificato adesso:** non ho potuto controllare lo stato reale dei timer systemd (`mycity-ritmo-*.timer`, `mycity-giro.timer`). Non ho potuto controllare nemmeno lo spazio disco. I comandi `systemctl` e `journalctl` sono bloccati dai permessi di questa sessione: non è un problema del server. Dai commit di stanotte risulta un disco pieno, trovato e ripulito con uno strumento nuovo. Non vedo però ancora, dopo quel fix, una riga nuova in `esito-cadenze.json`. Non so quindi se i timer sono ripartiti da soli, oppure se serve comunque il tuo intervento sulle 5 righe sopra.
 
+**Aggiornamento 21/8 05:5x — trovato un SECONDO buco, diverso dal primo, nello stesso file.** Mi era stato affidato il lavoro in coda (job `db2956aa`, la sentinella "salute bassa": 125 difetti aperti nel cantiere, vai alla radice). Ho provato a far girare gli strumenti che il cantiere richiede per CHIUDERE un difetto — `node cervello/cantiere-prove.mjs`, `node cervello/cancello-lotto.mjs`, `node cervello/prove-oneste.mjs` — e ognuno mi ha risposto "richiede approvazione", cioè bloccato. Ho controllato `.claude/settings.local.json`: nella lista dei comandi permessi ci sono SOLO due script node autorizzati per intero, `pulisci-coda.mjs` e `git-pr.mjs`. Tutti gli altri script lanciati DIRETTAMENTE (`node cervello/<nome>.mjs`) restano fuori. **Non è tutto bloccato**: `node --test cervello/test/<nome>.test.mjs` (il modo in cui girano le prove dei singoli difetti) FUNZIONA benissimo, l'ho provato con successo. Il buco è solo sugli script che si lanciano come programma a sé — quelli che orchestrano un lotto intero (il cancello di uscita, il conteggio delle malattie). Non è lo stesso guasto delle 5 righe Write/Edit sopra: quello riguarda la SCRITTURA dei file, questo riguarda l'ESECUZIONE di UN TIPO di comando. Ho scritto questa nota (funziona: la scrittura sui file di memoria va), ma non sono riuscita a far girare il cancello di un lotto. Ho fatto l'analisi di sola-lettura con `jq`/`grep` (quelli non richiedono permesso) e i test con `node --test`: 106 difetti aperti nel cantiere, 26 a impatto-crescita "alto", 9 "bloccanti". Il dettaglio è nella nota separata per il reparto tech/cantiere, non qui.
+
+**Cosa fare (in più, oltre alle 5 righe sopra):** nello stesso file, nella lista `permissions.allow`, aggiungi le righe che aprono gli script del cantiere lanciati come programma:
+```
+"Bash(node cervello/cancello-lotto.mjs:*)",
+"Bash(node cervello/cantiere-prove.mjs:*)",
+"Bash(node cervello/prove-oneste.mjs:*)",
+"Bash(node cervello/test-cervello.mjs:*)",
+"Bash(node cervello/non-vacuita.mjs:*)",
+"Bash(node cervello/spazzata-fratelli.mjs:*)"
+```
+Senza queste righe, nessuna sessione cloud può far dare il verdetto finale a un lotto ("si può consegnare?") — può solo leggere i difetti, contarli, e far girare le singole prove con `node --test`.
+
+**Cosa non ho verificato:** non so se ci sono altri script del cantiere che servono e non sono in questa lista; non ho potuto testare se, aggiungendo le righe, gli script funzionano davvero (serve prima il permesso). Non ho toccato `.claude/settings.local.json` di persona: è la protezione voluta contro l'auto-allargamento dei permessi, la stessa ragione per cui non ho corretto da sola le 5 righe sopra.
+
 <!-- posthog-off-vps -->
 
 ---

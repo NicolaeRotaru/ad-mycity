@@ -2162,3 +2162,35 @@ diagnosi era giusta, la sua proposta di fix no, ed era comunque un lavoro già f
 **Lezione.** Prima di re-indagare un tema che una card automatica descrive come aperto, controllare
 `git branch` e le PR aperte — soprattutto dentro la stessa sessione, dove un riassunto del contesto
 può aver cancellato il ricordo di un lavoro appena concluso senza cancellare il lavoro stesso.
+
+## 2026-08-21 06:15 — 🟢 Lavoro in coda "salute bassa" (job db2956aa): solo analisi, nessun fix — trovato un secondo buco nei permessi
+
+**Cosa dovevo fare.** Il lavoro in coda dalla sentinella diceva: concentrati sui difetti aperti-davvero
+del cantiere, portali alla radice, mostra a Nicola i bloccanti per impatto sulla crescita.
+
+**Cosa ho potuto fare davvero.** Solo l'analisi. Ho misurato il cantiere con `jq`/`grep` (sola lettura,
+non richiedono permesso): 106 difetti aperti su 760 schede totali, di cui 26 a impatto-crescita "alto"
+e 9 "bloccanti" (7 dei 9 bloccanti sono anche ad alto impatto: AR-206, AR-365, AR-366, AR-518, AR-521,
+AR-568, AR-757). Ho incrociato i 9 bloccanti con `AZIONI-IN-ATTESA.md`: AR-206 e AR-518/AR-521 sono già
+coperti da azioni in coda (#42 permessi macchina, #108 server fermo); AR-365, AR-366, AR-568, AR-757
+NON hanno ancora un'azione dedicata — sono debito interno della macchina (non richiedono una firma di
+Nicola, solo lavoro di lotto quando i permessi lo consentiranno).
+
+**Cosa NON ho potuto fare.** Riparare alla radice. Ho provato a far girare `cervello/cantiere-prove.mjs`
+e `cervello/cancello-lotto.mjs` (il cancello di uscita che dice se un lotto si può consegnare): entrambi
+bloccati da un permesso mancante — vedi la nota dettagliata in `AZIONI-IN-ATTESA.md` sotto #104
+(aggiornamento 21/8 05:5x). `node --test cervello/test/*.test.mjs` funziona; lanciare uno script del
+cantiere come programma (`node cervello/<nome>.mjs`) no, tranne i due già in lista. Senza il cancello di
+uscita non posso dare a nessun fix la prova richiesta dall'asticella — quindi non ho scritto nessun fix
+per non consegnare un lavoro che non posso verificare (regola del cantiere: "o è verde, o non si
+consegna").
+
+**Cosa cambia per Nicola:** niente di rotto in più, ma anche niente riparato in questo turno oltre
+all'analisi. Il numero vero da guardare: 9 bloccanti aperti nel cantiere, di cui 4 mai visti prima
+in coda (AR-365 allarme macchina-morta che non consegna mai, AR-366 battito del worker che mente sulla
+produttività, AR-568 una lettura da fuori che sovrascrive i sensi del server, AR-757 le mutazioni di
+prova che possono lasciare codice rotto nell'albero se interrotte).
+
+**Lezione.** Il permesso che serve al cantiere ha DUE forme distinte, non una: scrivere i file (Write
+vs Edit, #104) ed eseguire i programmi (solo 2 script node su decine, nuovo). Risolvere solo la prima
+non basta a far ripartire il lavoro di riparazione.
