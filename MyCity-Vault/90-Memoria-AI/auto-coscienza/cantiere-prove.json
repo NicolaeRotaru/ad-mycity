@@ -1,7 +1,7 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-21 14:14",
+  "aggiornato": "2026-08-21 14:30",
   "giorni_sospetto": 3,
   "difetti_aperti": 164,
   "per_classe": {
@@ -2114,6 +2114,10 @@
     },
     {
       "id": "AR-776",
+      "chiuso_il": null
+    },
+    {
+      "id": "AR-777",
       "chiuso_il": null
     }
   ],

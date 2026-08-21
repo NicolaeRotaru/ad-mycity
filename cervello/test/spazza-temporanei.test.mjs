@@ -22,7 +22,7 @@ import assert from "node:assert/strict";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
-const { spazza, pesaCompleto, PREFISSI, MAI_TOCCARE, ORE_DEFAULT } = await import(join(QUI, "..", "spazza-temporanei.mjs"));
+const { spazza, pesaCompleto, prefissiDalCodice, prefissiEffettivi, PREFISSI, MAI_TOCCARE, ORE_DEFAULT } = await import(join(QUI, "..", "spazza-temporanei.mjs"));
 
 const casi = [];
 const prova = (nome, fn) => {
@@ -298,6 +298,77 @@ prova("il troncamento risale fino al referto, non resta nel conto", () => {
     for (let i = 0; i < 6; i++) writeFileSync(join(base, "roba-di-altri", `f${i}.bin`), Buffer.alloc(20_000));
     assert.equal(spazza({ dir: base, esegui: false, tetto: 40_000 }).troncato, false, "contata tutta");
     assert.equal(spazza({ dir: base, esegui: false, tetto: 2 }).troncato, true, "il referto deve portarselo su");
+  } finally {
+    rmSync(base, { recursive: true, force: true });
+  }
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// L'ELENCO A MANO NON È UNA DIFESA — 21/8, il disco pieno la seconda volta
+//
+// Sul server /tmp era di nuovo al 100%. A riempirlo erano `porta-lezioni-*`: circa duemila
+// cartelle da quasi un mega, create da una prova nostra che non le cancella. Sotto c'erano
+// `due-versi` (4142), `mut-mancante` (2826), `cronicita-giro` (1236).
+//
+// Nessuna di queste era nell'elenco scritto a mano. Contati: dieci prefissi dichiarati su
+// centocinquantacinque usati davvero, il 6%. Chi scrive una prova nuova sceglie un nome nuovo e
+// non ha nessun motivo per venire ad aggiornare un elenco altrove.
+//
+// Il primo caso qui sotto porta i nomi veri letti sul server quel giorno: era ROSSO prima.
+// ─────────────────────────────────────────────────────────────────────────────
+
+prova("le famiglie che hanno riempito il server il 21/8 sono coperte", () => {
+  const coperti = new Set(prefissiEffettivi());
+  const mancano = ["porta-lezioni-", "due-versi-", "mut-mancante-", "cronicita-giro-", "coerenza-", "hook-"].filter(
+    (p) => !coperti.has(p),
+  );
+  assert.deepEqual(
+    mancano,
+    [],
+    `queste famiglie hanno riempito /tmp sul server e la spazzata non le vedrebbe: ${mancano.join(", ")}`,
+  );
+});
+
+prova("un prefisso scritto in una prova nuova e' coperto lo stesso giorno", () => {
+  const finto = mkdtempSync(join(tmpdir(), "sabbiera-prove-"));
+  try {
+    writeFileSync(
+      join(finto, "nuova.test.mjs"),
+      ['import { mkdtempSync } from "node:fs";', 'const d = mkdtempSync(join(tmpdir(), "nome-mai-visto-"));'].join("\n"),
+    );
+    writeFileSync(join(finto, "cadenza.sh"), 'dir="$(mktemp -d -t altro-nome-mai-visto.XXXXXX)"\n');
+    const letti = prefissiDalCodice(finto);
+    assert.ok(letti.has("nome-mai-visto-"), `dal .mjs non ha letto niente: ${[...letti].join(", ")}`);
+    assert.ok(letti.has("altro-nome-mai-visto."), `dallo .sh non ha letto niente: ${[...letti].join(", ")}`);
+  } finally {
+    rmSync(finto, { recursive: true, force: true });
+  }
+});
+
+prova("un prefisso troppo corto non entra: matcherebbe mezzo disco", () => {
+  const finto = mkdtempSync(join(tmpdir(), "sabbiera-prove-"));
+  try {
+    writeFileSync(join(finto, "corta.test.mjs"), 'mkdtempSync(join(tmpdir(), "ab"));\n');
+    assert.ok(!prefissiDalCodice(finto).has("ab"), "«ab» come prefisso si porterebbe via roba di chiunque");
+  } finally {
+    rmSync(finto, { recursive: true, force: true });
+  }
+});
+
+prova("la roba viva e' nell'elenco letto dal codice, e proprio per questo va protetta a parte", () => {
+  // Leggere i prefissi dal codice fa entrare anche `mycity-auth.`, che il worker usa VIVO. Non e' un
+  // difetto dello scanner: e' la ragione per cui MAI_TOCCARE viene controllata per prima. Questo caso
+  // lega le due cose, cosi' chi togliesse la lista di protezione vedrebbe rosso invece di scoprirlo
+  // ricreando con le proprie mani il guasto del 20/8.
+  const coperti = new Set(prefissiEffettivi());
+  const vive = MAI_TOCCARE.filter((p) => coperti.has(p));
+  assert.ok(vive.length > 0, "mi aspetto che almeno una famiglia viva sia nominata dal codice");
+
+  const base = mkdtempSync(join(tmpdir(), "sabbiera-spazza-"));
+  try {
+    for (const p of vive) cartella(base, `${p}XXXXXX`, ORE_DEFAULT + 100);
+    const r = spazza({ dir: base, esegui: false });
+    assert.deepEqual(r.tolte, [], `stava per portarsi via roba viva: ${r.tolte.join(", ")}`);
   } finally {
     rmSync(base, { recursive: true, force: true });
   }
