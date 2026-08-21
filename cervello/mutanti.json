@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-21 21:05",
+ "aggiornato": "2026-08-21 21:20",
  "mutanti": [
   {
    "lotto": 30,
@@ -5390,6 +5390,25 @@
    "sostituisci": "  const prima = [];",
    "test": "node cervello/test/attesa-con-una-data.test.mjs",
    "nota_riaggancio": "Uccide il caso ASYNC, quindi prova due cose insieme: che la copertura è misurata davvero, e che l'`await` nel runner regge — senza await questo mutante resterebbe verde."
+  },
+  {
+   "lezione": "L-2026-0821-03",
+   "difetto": "commit-che-porta-piu-di-quel-che-dice",
+   "nome": "la riconciliazione torna a mettere in staging tutta la cartella, e un commit che dice «chiudo difetti» pubblica le lezioni di qualcun altro",
+   "file": "cervello/riconcilia-perimetro.mjs",
+   "cerca": "    (ammessi.includes(nome) ? miei : altrui).push(p);",
+   "sostituisci": "    miei.push(p);",
+   "test": "node --test cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs",
+   "nota_riaggancio": "È il bug del 21/8 rimesso identico: 4 casi rossi su 9, compreso quello che gira su un repo git vero."
+  },
+  {
+   "lezione": "L-2026-0821-03",
+   "difetto": "intrusi-taciuti-dalla-riconciliazione",
+   "nome": "i file di altri restano fuori dal commit ma nessuno lo dice: il server non ha più modo di accorgersi che qualcosa gli sta scrivendo sotto",
+   "file": "cervello/riconcilia-perimetro.mjs",
+   "cerca": "    if (altrui.length) {",
+   "sostituisci": "    if (false) {",
+   "test": "node --test cervello/test/commit-che-porta-piu-di-quel-che-dice.test.mjs"
   }
  ]
 }
