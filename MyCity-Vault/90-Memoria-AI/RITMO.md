@@ -1501,3 +1501,19 @@ PR #709 e #711 mergiate oggi (confermato via `git log`). PR #710/#708: stato non
 - Restiamo nella pausa. Mancano 4 giorni al 24 agosto. La prima cosa utile resta la tua firma sulle quattro modifiche al database.
 
 **Dettagli tecnici** (opzionale) — Numeri riconfermati 18:01 con SQL diretta via MCP Supabase (`orders`, `profiles`), non ereditati: `orders` 1/0 pagati/0 ultimi 7gg, `profiles` 8 (nuovo id `028ab961…`, creato 15:57, `store_name` nullo, Stripe non attivato). Pane Quotidiano: `stripe_charges_enabled`/`payouts_enabled`/`details_submitted` ancora tutti falsi. Bash indisponibile per tutto il turno (ENOSPC filesystem temporaneo, stesso guasto 18-19/8): `verifica-sensori.mjs`/`coerenza-fatti.mjs`/`ci-stato.mjs`/housekeeping coda non rilanciabili da qui — nessun numero di coda o di PR aggiornato oggi, resta valido l'ultimo noto (19/8).
+
+## Piano del mattino · 2026-08-21 06:10
+
+**In una riga:** Stesso freno di sempre, ma oggi si vede che si sta allargando — sbloccalo e ripartono tre cose insieme, non una.
+
+**Le 3 cose di oggi**
+1. Sblocca il permesso sul server (`#104`) — non ferma più solo i controlli diagnostici: da oggi risulta fermo anche il controllo di salute della macchina (3 giorni) e la riparazione dei suoi difetti.
+2. Firma le 4 migrazioni del database (`#125`) — senza, un cliente che vuole un rimborso non può ottenerlo. Ferma da 3 giorni.
+3. Decidi sulle tre falle di sicurezza del sito (`#36`/`#37`/`#38`) — ferme da 23 giorni.
+
+**Serve da te**
+- Incolla il comando che riaccende il controllo di salute sul server (sotto, in Dettagli tecnici)
+- Scrivi «ok 125» per far partire le migrazioni database
+- Dimmi come vuoi procedere sulle tre falle di sicurezza
+
+**Dettagli tecnici** — Business: 1 negozio, 1 ordine mai pagato, stallo 58 giorni, pausa fino al 24/8-1/9. `#104`: manca `Edit` al posto di `Write` su 5 righe di `.claude/settings.local.json`. `#126`: `sudo bash /opt/mycity/ad-mycity/cervello/vps/install-ritmo-timers.sh`. 7 PR rosse in CI (colpa propria, nessuna sul sito vero) · cantiere 106 difetti aperti/9 bloccanti, 4 mai in coda (debito interno, non serve firma).
