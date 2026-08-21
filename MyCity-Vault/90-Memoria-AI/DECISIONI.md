@@ -2674,3 +2674,22 @@ identico.
 **La lezione.** Un rosso che non puo' diventare verde e' un rosso che si impara ad aggirare. Quando
 il conto non torna su un testo che so di non aver peggiorato, la domanda giusta non e' «come faccio
 scendere il numero», e' «cosa sta misurando questo numero».
+
+## 2026-08-21 14:45 — 🟢 Due card di sicurezza aperte da 3 settimane erano già risolte: chiuse dopo verifica sul database vero
+
+Giro completo richiesto in chat. Le card `#36` (pulsante ordini) e `#37` (4 falle RLS), aperte dal 29/7
+e mai chiuse, sono state riverificate leggendo direttamente sul database di produzione le funzioni/viste/
+policy che le riguardavano — non sulla carta, sul sistema vero. Risultato: **entrambe già risolte** dal
+grande lotto di riparazioni del 20-21/8 (migrazioni 107-124), che nessuno aveva riconciliato con la coda.
+
+`#36`: la funzione `enforce_order_update_rules` non cita più il campo cancellato che bloccava il pulsante
+(`invoice_number`) — riscritta con una lista di campi ammessi. `#37`: la vista scrivibile senza login non
+esiste più, chi si registra nasce non approvato, il rider vede solo i propri ordini, nessun permesso di
+scrittura anonimo su negozi/clienti.
+
+Non è una decisione di Nicola: è una correzione dell'AD a se stessa, verificata sul sistema reale prima
+di chiedere ancora una firma su un lavoro già fatto. Chiuse in [[AZIONI-IN-ATTESA]], tolte da
+[[CHECKLIST-NICOLA]]. Esito registrato nel quaderno `@security` (V5 C5 A4 K5 I4 M4 E5, media 4.57).
+
+**La lezione:** una card 🔴/🟡 vecchia non prova che il problema esista ancora, soprattutto dopo un lotto
+di riparazioni ampio — va riverificata sul sistema reale prima di richiedere ancora una firma.

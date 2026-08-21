@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-21 14:27** — Automatico: **88 aperte · 13 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-21 14:45** — Automatico: **86 aperte · 15 chiuse in archivio** (chiuse oggi: `#36`, `#37`, verificate risolte sul database vero — vedi [[DECISIONI]] 14:45).
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 

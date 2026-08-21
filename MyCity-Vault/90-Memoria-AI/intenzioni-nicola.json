@@ -1,6 +1,6 @@
 {
-  "data": "2026-08-17 08:28",
-  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati, stallo 54gg) — pausa concordata con Nicola fino al 24/8-1/9, non è churn. Nelle ultime settimane il lavoro si è spostato quasi tutto sulla macchina stessa (cantiere difetti, PR di manutenzione, sensori, gate di processo), non sul business: nessuna mossa nuova verso i negozi finché la pausa non finisce. Priorità aperte oggi: la pratica pagamenti di Pane Quotidiano (card #62, il vero blocco al primo incasso), le tre falle sicurezza/soldi ferme da 19 giorni (#36/#37/#38), e tre PR croniche rosse (#749/#741/#735, card #109) che Nicola deve scegliere se riparare ora o congelare fino al 24/8-1/9. Il Worker in abbonamento ai negozi (seconda fonte di reddito) resta NON in agenda: nessuna mossa prevista.",
+  "data": "2026-08-21 14:45",
+  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati) — pausa concordata con Nicola fino al 24/8-1/9, non è churn. Novità 21/8: due delle tre falle sicurezza/soldi (#36/#37) erano già risolte dal lotto di riparazioni del 20-21/8, verificate sul database vero e chiuse — non servono più firme lì. Priorità aperte oggi: la pratica pagamenti di Pane Quotidiano (card #62, il vero blocco al primo incasso), i 3 punti residui della card #38, le 7 firme del lotto 20-21/8 (migrazione 124, deploy a controlli verdi, backup, ecc. — vedi [[CHECKLIST-NICOLA]]) e 7 PR croniche rosse sullo stesso controllo (card #109). Il Worker in abbonamento ai negozi (seconda fonte di reddito) resta NON in agenda: nessuna mossa prevista.",
   "prossime_mosse": [
     {
       "titolo": "Sblocca la pratica pagamenti di Pane Quotidiano",
@@ -34,8 +34,8 @@
     {"nome": "Pane Quotidiano", "perche": "Unico negozio reale, faro di MyCity", "stato": "in attesa concordata fino al 24/8-1/9, non è churn"}
   ],
   "rischi": [
-    "Le tre falle di sicurezza/soldi del marketplace (#36/#37/#38) sono ferme da 19 giorni senza risposta: doppia vendita, coupon che si esauriscono sui tentativi, rider che si decide lo stipendio.",
-    "Tre PR di manutenzione (#749/#741/#735) restano rosse da giorni: debito che si accumula, ma non toccano il marketplace live (non deployate)."
+    "3 punti residui della card #38 (doppia vendita dopo checkout scaduto, rider mai pagato su spedizione gratis, reclamo che blocca il negozio per sempre) non verificabili dal solo database — restano da controllare nel codice del sito.",
+    "7 PR di manutenzione sul repo ad-mycity restano rosse sullo stesso controllo: debito che si accumula, ma non tocca il marketplace live (non deployate)."
   ],
   "serve_da_nicola": [
     {"ambito": "codice", "cosa_manca": "Scelta su come procedere con le 3 PR croniche rosse", "domanda_per_nicola": "Preferisci una sessione dedicata a ripararle ora, o le congeliamo fino a dopo la pausa negozi del 24/8-1/9? (card #109)"},
