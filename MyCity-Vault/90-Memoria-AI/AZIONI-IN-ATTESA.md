@@ -73,9 +73,27 @@ cp consegne/tech/settings-con-superpowers.json .claude/settings.json
 node cervello/plugin-acceso.mjs
 ```
 
-L'ultimo comando risponde in una riga sola. Se dice **acceso**, è fatto. Se dice **spento** o che il
-file è rotto, mandami quella riga e te lo raddrizzo io. Poi **riavvia la sessione**: i plugin si
-leggono all'avvio, non mentre lavori.
+L'ultimo comando risponde in una riga sola. Se dice **acceso**, è fatto sul server. Se dice **spento**
+o che il file è rotto, mandami quella riga e te lo raddrizzo io. Poi **riavvia la sessione**: i plugin
+si leggono all'avvio, non mentre lavori.
+
+**Manca ancora di salvarlo.** Quel file lo segue git. Finché resta solo sul server è una modifica
+viva ma non registrata: alla prima pulizia sparisce. E le sessioni fuori dal server ripartono
+comunque spente.
+
+Su `main` però non si può committare a mano. È una regola nostra: il codice ci arriva solo da una
+richiesta di unione. Quindi si passa da un ramo di lavoro.
+
+```
+cd /opt/mycity/ad-mycity
+git reset HEAD -- .claude/settings.json
+git checkout -b accendi-superpowers
+node cervello/git-pr.mjs --repo ad-mycity --base main --branch accendi-superpowers --title "Accendi il plugin superpowers per tutte le sessioni" --message "Accendi il plugin superpowers per tutte le sessioni"
+```
+
+L'ultimo comando è quello della macchina, e fa tre cose. Committa sul ramo. Manda il ramo su GitHub
+usando la chiave che il server ha già, quindi non ti chiede nessuna password. Apre la richiesta di
+unione. Poi la firmi tu, come tutte le altre.
 
 Alla fine, un giro di sincronizzazione così sparisce anche lì la copia doppia delle due skill:
 
