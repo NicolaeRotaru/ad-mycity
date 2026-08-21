@@ -140,12 +140,12 @@ di soldi in più che il fornaio oggi non sta prendendo.
 — ora, oppure quando riprendi il lavoro operativo il 24/8-1/9. Non costa niente a MyCity. Non tocca
 nessun paletto: è un consiglio a un partner su un servizio esterno.
 
-**Cosa non ho verificato:** se Piacenza Pay ha già negozi come panetterie/gastronomie bio nel suo
-circuito, e se la percentuale sulla transazione è alta o bassa — l'articolo dice solo "nessun
-costo di ingresso", non parla della commissione sulla vendita.
+**Cosa non ho verificato:** se Piacenza Pay ha già negozi come panetterie o gastronomie bio nel suo
+circuito. E se la percentuale sulla transazione è alta o bassa. L'articolo dice solo "nessun
+costo di ingresso": non parla della commissione sulla vendita.
 
-- **Colore:** 🟡 — è un messaggio a una persona reale fuori da MyCity (il fornaio), anche se a
-  costo/rischio quasi zero.
+- **Colore:** 🟡. È un messaggio a una persona reale fuori da MyCity, il fornaio. Il costo e il
+  rischio per MyCity sono quasi zero.
 - **Reparto:** intelligence
 - **Origine:** `{origine:playbook-intelligence-17-8, fonte:piacenza24.eu+ilpiacenza.it+360welfare.it, briefing:90-Memoria-AI/Briefing/2026-08-17-intelligence.md}`
 
@@ -157,10 +157,11 @@ costo di ingresso", non parla della commissione sulla vendita.
 `.claude/settings.json` dice a una guardia (`pre-scrittura.mjs`) di svegliarsi prima che io usi lo
 strumento chiamato "Task". Ma in questa sessione lo strumento che uso per delegare lavoro a un senior
 si chiama "Agent", non "Task". La guardia non riconosce il nome e non si sveglia mai: ogni volta che
-delego un compito a un senior, quella guardia salta senza che nessuno se ne accorga. Non è grave da
-solo — un'altra guardia (`cancello-senior.mjs`) controlla comunque il risultato quando il senior
-finisce — ma il controllo PRIMA della delega manca sempre, silenziosamente, da quando esiste questo
-file.
+delego un compito a un senior, quella guardia salta senza che nessuno se ne accorga.
+
+Da sola questa cosa non è grave: un'altra guardia (`cancello-senior.mjs`) controlla comunque il
+risultato quando il senior finisce. Ma il controllo PRIMA della delega manca sempre. Manca
+silenziosamente, da quando esiste questo file.
 
 **Se va bene:** incolli tu il blocco corretto (non posso scrivere `.claude/settings.json` da sola, è
 bloccato apposta). Basta aggiungere `Agent` accanto a `Task` nella riga del matcher. Nel file, cerca

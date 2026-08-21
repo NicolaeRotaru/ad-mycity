@@ -46,8 +46,8 @@ nota: "Il battito quotidiano. L'AD aggiunge in fondo un blocco per ogni cadenza.
   da Nicola l'1/7 alle 11:05. Il ripiano è per **2/7 mattina**: WhatsApp al buyer 348 642 1766, poi
   accetta da dashboard, poi consegna COD entro pranzo. Obiettivo: **North Star, 1° ordine
   consegnato**.
-- **Priorità n°2:** **Deploy #19 fix ruoli acquisto** — admin bloccato + seller solo via «Vai al marketplace» (branch `fix/ruoli-acquisto-admin-seller-2026-07-02` pronto) → CRM pulito (1 solo carrello buyer reale).
-- **Priorità n°3:** **SQL 107 policy** (~30s Supabase) + **presidio onboarding 6/7** — piattaforma sicura e pronta per batch negozi dopo la prima transazione.
+- **Priorità n°2:** **Deploy #19 fix ruoli acquisto.** L'admin resta bloccato. Il seller passa solo da «Vai al marketplace» (branch `fix/ruoli-acquisto-admin-seller-2026-07-02` pronto). Risultato: CRM pulito, un solo carrello di un buyer reale.
+- **Priorità n°3:** **SQL 107 policy** (~30s su Supabase). Insieme: **presidio onboarding 6/7**. Obiettivo: piattaforma sicura e pronta per il batch negozi dopo la prima transazione.
 - **Sentinelle:** ordine in ritardo · 1 carrello buyer reale (samir €10, 3 interni SKIP) · negozio LIVE 0 pagati · stallo **>177h** (+9,8h oltre 168h) · loop business 🔴 (0 consegnati, ~20 azioni ok/0 inviate).
 - **Assegnazioni:** @operations+#16 🔴 · @tech deploy #19 🔴 · @qa smoke post-deploy 🟢 · @customer-success feedback post-consegna 🟢 · @crm-lifecycle samir post-#19 🟢 · @onboarding-negozi checklist 6/7 🟢 · @devops-sre root sync #17 🟡 · @finanza payout-test **03/7 mattina** 🔴 · @analista snapshot fine giornata 🟢.
 - **Cosa serve da Nicola:** 🔴 **`ok 16`** (consegna mattina/pranzo) · 🔴 **`ok merge fix ruoli-acquisto`** · 🟡 **SQL 107** (30s) · 🟡 **Console Hetzner root** (1× `install-sync-vps.sh`, già ok 17) · 🟢 inserimento negozi 6/7 (nessuna approvazione).
