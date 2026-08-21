@@ -9,7 +9,7 @@ aggiornato: 2026-08-16 10:26
 > Ogni senior **possiede** un KPI, ha un target e un budget. Lo legge nella Carta del Dipendente (regola #3).
 > North Star dell'azienda: **ordini qualificati consegnati / settimana** (vedi [[Metriche & KPI]] e [[Piano d'Azione]] §7).
 > Fase attuale: **0→1 (primo passo)** — faro **Pane Quotidiano** (unico negozio reale, 5 prodotti). Budget spese reali = **🔴 sempre da firmare**; il "budget" qui è soprattutto tempo.
-> ⚠️ **North Star in stallo 53 giorni** (0 ordini pagati dal 24/6, misurato al 2026-08-16): non è abbandono — è la pausa che Nicola ha deciso fino al **24/8-1/9** (prima completa/perfeziona Pannello+AD+worker+marketplace, poi si concentra solo sul business — fatto `ripresa.lavoro-operativo`). Il gate azionabile resta `#ordine-test-dentro-o-fuori-dalla-pausa`: Nicola ha già risposto il 28/7 («resta dentro la pausa, collaudo a settembre» — card #35 chiusa il 13/8), nessuna scadenza nuova finché non riprende il lavoro operativo.
+> ⚠️ **North Star in stallo 58 giorni** (0 ordini pagati dal 24/6, misurato al 2026-08-21 14:29-14:31, query diretta MCP): non è abbandono — è la pausa che Nicola ha deciso fino al **24/8-1/9** (prima completa/perfeziona Pannello+AD+worker+marketplace, poi si concentra solo sul business — fatto `ripresa.lavoro-operativo`). Il gate azionabile resta `#ordine-test-dentro-o-fuori-dalla-pausa`: Nicola ha già risposto il 28/7 («resta dentro la pausa, collaudo a settembre» — card #35 chiusa il 13/8), nessuna scadenza nuova finché non riprende il lavoro operativo.
 
 | Senior | KPI che possiede | Target (fase 1 — gate, non scadenza fissa) | Budget |
 |---|---|---|---|

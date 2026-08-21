@@ -2758,6 +2758,43 @@ scendere il numero», e' «cosa sta misurando questo numero».
 
 ---
 
+## 2026-08-21 16:20 — 🟢 Terza radiografia completa del sito, con la grafica dentro
+
+**Cosa.** Su richiesta di Nicola in chat («fai una radiografia completa e profonda del marketplace,
+con la parte di design compresa») ho fatto girare le due visite complete al sito, in sola lettura:
+tredici dimensioni sul codice e undici sulla grafica e sui percorsi. Quarantotto agenti in tutto.
+Ogni problema trovato e' stato ricontrollato da un collega diverso da chi l'aveva trovato, e cio'
+che non e' stato confermato e' stato scartato.
+
+**Il risultato.** 351 problemi confermati: 199 sul codice (12 bloccanti, 88 gravi, 99 minori) e 152
+sulla grafica (4 bloccanti, 67 gravi, 81 minori). I bloccanti distinti sono 15, non 16: il pulsante
+SOS del fattorino e' stato trovato due volte, da due dimensioni diverse.
+
+**Perche' conta.** I dodici bloccanti del codice non sono quelli del 18 agosto — quelli erano stati
+chiusi tutti alle 3:30 di stamattina. Sono nuovi, o mai visti prima. Il totale scende (262 → 245 →
+199) ma il numero dei bloccanti resta fermo a dodici in tutte e tre le visite. E' la prova che
+guardare meglio trova un altro strato, non che le riparazioni non funzionino.
+
+**Prove eseguite, non impressioni.** `tsc --noEmit` 0 errori · `vitest run` 943 test verdi su 114
+file · `next lint` 0 errori e 95 avvisi, tutti di accessibilita'. Nessuna pagina aperta in un
+browser: e' il limite dichiarato di questa visita, scritto in cima a tutti e due i referti.
+
+**Colore.** 🟢 per la visita: sola lettura, nessuna scrittura sul sito ne' sul database. Le
+riparazioni sono 🟡 e aspettano la firma di Nicola sulla card #148. La frase della home (card #147)
+e' l'unico problema che si cambia da una configurazione, ma serve prima la sua risposta su quale
+promessa di consegna sia quella vera.
+
+**Ostacolo trovato strada facendo.** I sei workflow in `.claude/workflows/` non partono su questo
+motore: hanno gli `import` sopra il blocco `meta`, e il motore rifiuta lo script. Le due radiografie
+sono girate da copie generate al volo con gli stessi mansionari veri, passando dalla porta dei
+senior (`cervello/prompt-senior.mjs`). Il difetto e' della macchina, non del sito, e ripararlo e'
+auto-modifica: proposto, non fatto. Registrato come AR-779 (era nato AR-777, in una
+sessione con la storia git tagliata dove quel numero sembrava libero: su main era gia' di
+un altro difetto — il cancello del lotto l'ha visto appena ho recuperato la storia intera).
+
+**Referti.** `consegne/audit/2026-08-21-radiografia.md` ·
+`consegne/design/2026-08-21-radiografia-design.md` · dati grezzi completi nei due
+`*-raw.json` accanto.
 - 2026-08-21 15:10 · 🟡 · [AD/DevOps] · **«Risolvi tutti questi problemi e dico tutti» — i 12 organi rossi della visita.**
   Nicola manda lo schermo della Cabina: 12 rotti · 10 non visti · copertura 79%. La visita rifatta dal
   vivo (`node cervello/salute.mjs`, exit 1) conferma, e separa le cause invece di contarle.
@@ -2844,3 +2881,13 @@ di chiedere ancora una firma su un lavoro già fatto. Chiuse in [[AZIONI-IN-ATTE
 
 **La lezione:** una card 🔴/🟡 vecchia non prova che il problema esista ancora, soprattutto dopo un lotto
 di riparazioni ampio — va riverificata sul sistema reale prima di richiedere ancora una firma.
+
+**Nota del 2026-08-21 18:30 — le due carte hanno cambiato numero.** Nate come #143 e #144, ma
+mentre lavoravo `main` ha assegnato quegli stessi due numeri ad altre due carte. Le mie esistevano
+solo sul ramo, quindi ho rinumerato le mie: ora sono **#148** (cantiere sui 15 bloccanti) e **#147**
+(quale promessa di consegna è vera) — la 146 e' durata un'ora, poi main ha dato anche quel
+numero a un'altra carta. E' la seconda collisione di numeri della giornata: la prima
+l'ha trovata il cancello sul numero AR-777, la seconda l'ha trovata la prova `carte-numerate`.
+Entrambe nascono dallo stesso fatto — due sessioni che assegnano numeri guardando due copie diverse
+della coda — ed e' un difetto che non ho ancora registrato perche' non so ancora dire quale sia la
+casa unica del prossimo numero.

@@ -82,7 +82,13 @@ const pb = (stato, severita = "grave", extra = {}) => ({ stato, severita, titolo
 test("① sul referto vero la somma torna, e il conto è quello che dice l'elenco", () => {
   const c = contoMarketplace(VERO);
   assert.equal(c.letto, true, "il referto vero deve essere leggibile");
-  assert.equal(c.totale, 245);
+  // Il totale non si fissa qui: si chiede al referto stesso. Era scritto 245 — la misura del 18/8 —
+  // e il 21/8, alla prima radiografia nuova (199), questa prova e' diventata rossa senza che niente
+  // fosse rotto. Un numero copiato dentro una prova scade il giorno in cui la realta' cambia, ed e'
+  // la stessa ragione per cui gli aperti, qui sotto, si contano a mano sull'elenco invece di essere
+  // scritti. Il testimone e' `meta.findings`: il referto dichiara quanti sono, e il conto deve
+  // tornare con quello.
+  assert.equal(c.totale, VERO.meta.findings);
 
   // Il numero degli aperti cambia a ogni lotto di riparazioni: fissarlo qui
   // vorrebbe dire una prova rossa a ogni giro di lavoro, e una prova che si
@@ -151,9 +157,9 @@ test("④ il blocco sync_scan del giro non scrive mai uno zero non letto", () =>
   const conto = contoMarketplace(VERO);
   assert.equal(buono.letto, true);
   assert.equal(buono.findings_aperti, conto.aperti);
-  assert.equal(buono.findings_tot, 245);
+  assert.equal(buono.findings_tot, VERO.meta.findings);
   assert.deepEqual(buono.aperti_per_severita, conto.aperti_per_severita);
-  assert.equal(buono.data_scan, "2026-08-18");
+  assert.equal(buono.data_scan, VERO.data);
 });
 
 // ── ⑤ ⑥ NIENTE SPARISCE ──────────────────────────────────────────────────────────────────────────

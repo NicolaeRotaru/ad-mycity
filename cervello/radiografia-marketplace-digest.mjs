@@ -27,28 +27,81 @@ const rawName = raws[raws.length - 1];
 const data = rawName.slice(0, 10); // AAAA-MM-GG dal nome file
 const raw = JSON.parse(readFileSync(path.join(AUDIT_DIR, rawName), "utf-8"));
 
-// 2) Normalizza: dimensioni → findings col campo `dove` (come la radiografia della macchina).
-const dimensioni = (Array.isArray(raw.result) ? raw.result : []).map((d) => ({
-  key: String(d.dimensione || "").trim() || "senza-nome",
-  findings: (Array.isArray(d.findings) ? d.findings : []).map((f) => ({
+// 2) Normalizza nella forma VIVA del referto, quella nata il 18/8/2026: l'elenco dei problemi sta
+//    in `problemi[]`, uno solo, e `dimensioni[]` porta i CONTATORI. Non e' un dettaglio di gusto:
+//    `cervello/radiografia-marketplace-conti.mjs` legge `problemi[]` per sapere quanti sono aperti,
+//    e ogni lotto di riparazioni scrive lo stato dentro quelle voci. Finche' questo script scriveva
+//    la forma vecchia (`dimensioni[].findings`), il primo digest dopo una radiografia nuova
+//    cancellava lo stato di tutte le riparazioni fatte fino a quel momento. E' successo il 21/8/2026.
+const REPARTI = {
+  architettura: "Architettura",
+  "sicurezza-auth": "Sicurezza e accessi",
+  "rls-database": "Permessi sul database",
+  "pagamenti-stripe": "Pagamenti",
+  "privacy-legale": "Privacy e legale",
+  performance: "Velocita'",
+  "frontend-ux": "Interfaccia",
+  accessibilita: "Accessibilita'",
+  "qa-flussi": "Flussi critici",
+  "api-backend": "API",
+  "ai-endpoints": "Endpoint AI",
+  "dati-analytics": "Dati e analitica",
+  "deploy-sre": "Rilascio e affidabilita'",
+};
+
+const conta = (elenco, sev) => elenco.filter((f) => f.severita === sev).length;
+
+const problemi = [];
+const dimensioni = (Array.isArray(raw.result) ? raw.result : []).map((d) => {
+  const chiave = String(d.dimensione || "").trim() || "senza-nome";
+  const voci = (Array.isArray(d.findings) ? d.findings : []).map((f) => ({
+    dimensione: chiave,
+    reparto: REPARTI[chiave] || chiave,
     titolo: f.titolo || "",
     severita: f.severita || "minore",
+    file: f.file || f.dove || "",
     descrizione: f.descrizione || "",
     impatto: f.impatto || "",
     fix: f.fix || "",
-    dove: f.dove || f.file || "",
-  })),
-}));
+    stato: "aperto",
+  }));
+  problemi.push(...voci);
+  return {
+    chiave,
+    nome: REPARTI[chiave] || chiave,
+    totale: voci.length,
+    bloccanti: conta(voci, "bloccante"),
+    gravi: conta(voci, "grave"),
+    minori: conta(voci, "minore"),
+  };
+});
 
-const tutti = dimensioni.flatMap((d) => d.findings);
-const conta = (sev) => tutti.filter((f) => f.severita === sev).length;
+const tutti = problemi;
 const meta = {
   findings: tutti.length,
-  bloccanti: conta("bloccante"),
-  gravi: conta("grave"),
-  minori: conta("minore"),
+  bloccanti: conta(tutti, "bloccante"),
+  gravi: conta(tutti, "grave"),
+  minori: conta(tutti, "minore"),
   agenti: Number(raw.agentCount) || null,
 };
+
+// 2-bis) Il confronto con la visita precedente: si legge dal digest che sto per sostituire, cosi'
+//        la serie storica non si perde a ogni radiografia nuova. Se il file non c'e', resta null.
+let confrontoPrecedente = null;
+if (existsSync(OUT)) {
+  try {
+    const vecchio = JSON.parse(readFileSync(OUT, "utf-8"));
+    if (vecchio?.data && vecchio.data !== data && vecchio?.meta?.findings) {
+      confrontoPrecedente = {
+        data: vecchio.data,
+        findings: vecchio.meta.findings,
+        bloccanti: vecchio.meta.bloccanti ?? null,
+        gravi: vecchio.meta.gravi ?? null,
+        minori: vecchio.meta.minori ?? null,
+      };
+    }
+  } catch { /* digest precedente illeggibile: nessun confronto, mai un numero inventato */ }
+}
 
 // 3) La sintesi: se auto-radiografia.json ha già il riassunto di QUESTO stesso audit
 //    (salute_marketplace.fonte con la stessa data), riusala — una verità sola, non due.
@@ -67,17 +120,20 @@ const report = existsSync(path.join(AUDIT_DIR, reportName)) ? `consegne/audit/${
 
 const digest = {
   _cosa_e:
-    "Digest canonico dell'ultima radiografia PROFONDA del marketplace (workflow `radiografia`, 13 dimensioni in sola lettura, ogni problema verificato). Generato da cervello/radiografia-marketplace-digest.mjs a partire dal raw in consegne/audit/. Il Pannello lo legge in Macchina → Radiografia marketplace.",
+    "Digest canonico dell'ultima radiografia PROFONDA del marketplace (workflow `radiografia`, 13 dimensioni in sola lettura, ogni problema verificato). Generato da cervello/radiografia-marketplace-digest.mjs a partire dal raw in consegne/audit/. L'elenco vivo sta in `problemi[]`: i lotti di riparazione ci scrivono dentro lo stato. `dimensioni[]` porta solo i contatori. Il Pannello lo legge in Macchina → Radiografia marketplace.",
   data,
   fonte_raw: `consegne/audit/${rawName}`,
   report,
   sintesi,
   meta,
+  confronto_precedente: confrontoPrecedente,
   dimensioni,
+  problemi,
 };
 
 writeFileSync(OUT, JSON.stringify(digest, null, 2) + "\n");
 console.log(
   `radiografia-marketplace.json scritto: ${data} · ${dimensioni.length} dimensioni · ${meta.findings} findings ` +
-  `(${meta.bloccanti} bloccanti · ${meta.gravi} gravi · ${meta.minori} minori)${meta.agenti ? ` · ${meta.agenti} agenti` : ""}`
+  `(${meta.bloccanti} bloccanti · ${meta.gravi} gravi · ${meta.minori} minori)${meta.agenti ? ` · ${meta.agenti} agenti` : ""}` +
+  `${confrontoPrecedente ? ` · prima (${confrontoPrecedente.data}): ${confrontoPrecedente.findings}` : ""}`
 );
