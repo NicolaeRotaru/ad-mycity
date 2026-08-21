@@ -1,8 +1,22 @@
 ---
 tipo: stato
-aggiornato: 2026-08-21 20:31
+aggiornato: 2026-08-21 21:22
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🔴 **21/8 21:22 — I due bloccanti più cari adesso sono chiusi sul database VERO, non solo nel codice.** Nicola in chat: «fai la 151 e la 152».
+>
+> **Prima di toccare ho misurato, e non erano teorici.** Sul database di produzione `accumula_rimborso` risultava chiamabile **senza account**, insieme ad altre cinque funzioni potenti. È il numero che il sito sottrae dai guadagni mostrati al negozio. E tutte e tre le funzioni del codice di consegna portavano ancora il confronto che con un valore vuoto non sa dire di no.
+>
+> **Applicata in tre blocchi, controllando dopo ognuno**, come la carta prometteva. ① I permessi: sei funzioni su sei chiuse a chi non ha l'accesso, il server continua a poterle usare, i numeri di vendita restano visibili a chi ha fatto l'accesso. ② Il codice di consegna: tutte e tre fermano il valore vuoto per nome e usano il confronto che risponde sempre. ③ La funzione nuova che disfa un rimborso quando la banca lo rifiuta, usabile solo dal server.
+>
+> **Il conto: dieci controlli su dieci verdi**, letti dal database vero dopo l'ultimo blocco.
+>
+> **La consegna veloce di Pane Quotidiano è accesa.** Nicola ha scelto di accenderla, non di togliere l'interruttore. Una riga sola, da spento ad acceso, e la vetrina pubblica lo vede. Il valore di prima era spento: è la strada del ritorno.
+>
+> **Dei quindici bloccanti della radiografia di oggi ne resta aperto uno solo**, il rilascio automatico prima dei controlli — carta #141, dove l'ordine dei passi conta.
+>
+> **Cosa non ho verificato.** Non ho lanciato il file di prova SQL contro la produzione: quel file crea ordini e utenti finti, e non si fa sul database di un'azienda. Ho verificato leggendo i permessi veri e le definizioni vere delle funzioni, che è quello che il file misura. E non ho provato niente dal browser: il sito vero non risponde dal 30 luglio.
 
 > 🔁 **21/8 20:31 — Passaggio lampo, stato identico al giro delle 18:03: 1 ordine (0 pagati), 8 profili, 1 negozio con vetrina, 5 prodotti. Macchina in SOPRAVVIVENZA, quota AI 191% (era 151% alle 16:27).**
 

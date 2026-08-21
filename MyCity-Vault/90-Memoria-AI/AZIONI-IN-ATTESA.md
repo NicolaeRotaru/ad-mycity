@@ -22,7 +22,21 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🔴 #152 — Applica al database vero le riparazioni dei due buchi piu' grossi · ⏳ accodata 2026-08-21 20:11
+### ✅ #152 — Applica al database vero le riparazioni dei due buchi piu' grossi · ⏳ accodata 2026-08-21 20:11 · fatta 2026-08-21 21:20
+
+**Stato:** ✅ FATTO 2026-08-21 21:20 — col tuo «fai la 151 e la 152» in chat. Applicata al database
+di produzione in tre blocchi, controllando dopo ognuno, come avevo promesso qui sotto.
+
+Prima di toccare niente ho misurato, e i due buchi erano vivi davvero. Sei funzioni potenti erano
+chiamabili senza account, `accumula_rimborso` compresa. E tutte e tre le funzioni del codice di
+consegna usavano il confronto che con un valore vuoto non sa dire di no.
+
+Adesso: sei funzioni su sei chiuse a chi non ha l'accesso, il server continua a poterle usare, e la
+pagina dei numeri di vendita resta aperta a chi ha fatto l'accesso — com'era previsto. Tutte e tre le
+funzioni del codice fermano il valore vuoto per nome e usano il confronto che risponde sempre. E c'è
+la funzione nuova che disfa un rimborso se la banca lo rifiuta, usabile solo dal server.
+
+**Il conto finale: dieci controlli su dieci verdi**, misurati sul database vero dopo l'ultimo blocco.
 
 **In parole semplici:** ho riparato i quindici difetti che fermano qualcuno, e due di quelli
 vivono dentro il database, non nel codice del sito. Le riparazioni sono scritte in un file di
@@ -49,7 +63,16 @@ modifiche su 126 applicate, e tredici controlli verdi che senza la 125 erano nov
 
 ---
 
-### 🔴 #151 — Dimmi se accendo la consegna veloce sul negozio, ora che la promessa è una sola · ⏳ accodata 2026-08-21 20:11
+### ✅ #151 — Dimmi se accendo la consegna veloce sul negozio, ora che la promessa è una sola · ⏳ accodata 2026-08-21 20:11 · fatta 2026-08-21 21:22
+
+**Stato:** ✅ FATTO 2026-08-21 21:22 — hai scelto di accenderlo, non di togliere l'interruttore.
+`offers_express` su Pane Quotidiano è passato da spento ad acceso: una riga sola, e ho controllato
+che i negozi con la consegna veloce accesa siano uno su uno. La vetrina pubblica lo vede.
+
+**Come si torna indietro:** il valore di prima era **spento**. Basta rimetterlo, ed è la stessa
+riga al contrario.
+
+Adesso quello che il sito promette e quello che il database registra dicono la stessa cosa.
 
 **In parole semplici:** hai deciso che la promessa di consegna è una sola, 30-60 minuti, e ho
 allineato tutto il sito. C'è però un interruttore nel database, per ogni negozio, che dice se quel
