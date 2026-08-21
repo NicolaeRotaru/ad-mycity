@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-21 18:30",
+ "aggiornato": "2026-08-21 17:55",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -12356,9 +12356,9 @@
   },
   {
    "id": "L-2026-0821-01",
-   "data": "2026-08-21 18:30",
+   "data": "2026-08-21 17:55",
    "nato": "2026-08-21",
-   "ultima_conferma": "2026-08-21 18:30",
+   "ultima_conferma": "2026-08-21 17:55",
    "stato": "attiva",
    "confidenza": 0.8,
    "evidenze": 2,
@@ -14025,9 +14025,9 @@
   "promosse_a_principio": 89,
   "decadute": 0,
   "tasso_applicazione": 0.14,
-  "tasso_calcolato_il": "2026-08-21 16:45",
+  "tasso_calcolato_il": "2026-08-21 17:25",
   "tasso_finestra_giorni": 30,
-  "tick_leggero_il": "2026-08-21 16:45",
+  "tick_leggero_il": "2026-08-21 17:25",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
   "cristallizzazione_ultima": "2026-08-21 16:26",
