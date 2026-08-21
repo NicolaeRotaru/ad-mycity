@@ -115,15 +115,17 @@ Il file già pronto sta qui: `consegne/tech/settings-con-superpowers.json`. L'ho
 file di adesso, aggiungendo solo le due righe che servono. Ho controllato che tutto il resto sia
 identico parola per parola: 63 permessi concessi, 15 vietati, 8 ganci — gli stessi numeri di prima.
 
-**Un comando solo:**
+**Un comando solo**, dalla cartella del repo:
 
 ```
+cd /opt/mycity/ad-mycity
 cp consegne/tech/settings-con-superpowers.json .claude/settings.json
 ```
 
 Poi controlla di non aver rotto niente. Questo comando risponde in una riga sola:
 
 ```
+cd /opt/mycity/ad-mycity
 node cervello/plugin-acceso.mjs
 ```
 
