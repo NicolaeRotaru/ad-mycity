@@ -34,11 +34,11 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 **Cosa cambia:** il controllo automatico di salute della macchina dovrebbe girare da solo sul
 server, due volte al giorno, mattina e sera. L'ultima volta che ha davvero girato è stata il 18
-agosto alle 6:50 del mattino. Da allora — tre giorni, sei controlli mancati — non ha scritto più
-niente. Il referto che il Pannello mostra oggi è quello di tre giorni fa, non quello di adesso. In
+agosto alle 6:50 del mattino. Da allora sono passati tre giorni. In quei tre giorni sono saltati sei
+controlli di fila. Non ha scritto più niente. Il referto che il Pannello mostra oggi è quello di tre giorni fa, non quello di adesso. In
 quell'ultimo referto vero (18/8) c'erano già due allarmi: il servizio che fa girare la macchina
 risultava spento, e la pubblicazione su GitHub era ferma da 422 giri di fila. Non so se sono ancora
-veri oggi, perché da allora nessuno li ha ricontrollati — è proprio questo il buco.
+veri oggi. Nessuno li ha ricontrollati da allora. Questo è proprio il buco.
 
 **Se va bene:** con un comando solo, il server riaccende tutti i controlli automatici (mattina,
 mezzogiorno, sera, settimana, e anche questo checkup) e li rimette a girare da soli. Subito dopo
