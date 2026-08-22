@@ -3521,3 +3521,27 @@ Le due le ho riscritte. Quante altre siano fatte così **non lo sa nessuno**: no
 **Cosa non ho verificato:** il conto delle altre prove scritte sulla presenza del difetto — serve
 prima un guardiano che le sappia riconoscere, e quello non c'è ancora. E la data del 29 settembre che
 Nicola ha dato stasera è registrata come fatto, ma il piano per arrivarci non è ancora scritto.
+
+## 2026-08-22 21:25 · 🟡 Dopo il merge: sette difetti chiusi, e due li ho sbloccati io
+
+**Cosa ho fatto.** Unito il lotto 49, ho applicato le chiusure. Lo strumento ne proponeva cinque; ne
+sono uscite **sette**, e le due in più le ho sbloccate a mano dopo aver guardato il codice.
+
+**Perché due erano bloccati.** Qualcuno prima di me aveva scritto su AR-394 e AR-684 «questo resta
+aperto», con il motivo. Sono blocchi che si tolgono solo con un'altra decisione umana, ed è giusto
+così. Ma i motivi scritti descrivevano condizioni **che nel frattempo erano state risolte**: AR-684
+aspettava tre difetti che oggi risultano chiusi, e AR-394 aspettava che l'ambito del controllo fosse
+ristretto — cosa che questo lotto ha fatto. Ho verificato entrambe le condizioni sul codice, non
+sulla nota, e ho scritto il perché dentro la scheda insieme al motivo vecchio, che resta leggibile.
+
+**La cosa che ho fermato in tempo.** AR-788 si sarebbe chiuso da solo, e la sua prova è verde davvero
+— ma nella scheda avevo scritto che restava aperto per due pezzi non fatti. Chiudendolo, quei due
+pezzi sarebbero spariti senza che nessuno se ne accorgesse. Li ho registrati come difetto a sé
+(AR-792) **prima** di applicare, poi ho lasciato chiudere. Niente si perde, e la scheda non mente.
+
+**Una nota vecchia letta come se fosse di adesso.** Il blocco di AR-394 diceva «onesta-check segnala
+2 violazioni, tutte dentro il diario». Oggi la parte viva da sola ne portava 35, e 33 erano pezzi di
+data e di orario. Un numero lasciato in coda a una scheda invecchia senza avvisare.
+
+**Cosa non ho verificato:** le 321 chiusure vecchie che il registro segnala come «senza
+corroborazione». Non sono accusate di niente, ma nessuno le ha mai riesaminate.
