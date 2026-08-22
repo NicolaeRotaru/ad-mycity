@@ -1,15 +1,15 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 10:54",
+  "aggiornato": "2026-08-22 11:05",
   "giorni_sospetto": 3,
   "difetti_aperti": 164,
   "per_classe": {
     "umana": 119,
-    "auto-sospetta": 21,
-    "auto-comando": 24
+    "auto-sospetta": 19,
+    "auto-comando": 26
   },
-  "non_auto_chiudibili": 140,
+  "non_auto_chiudibili": 138,
   "bloccanti_ciechi": [
     "AR-072",
     "AR-518",
@@ -1769,9 +1769,9 @@
       "gravita": "grave",
       "eta_giorni": 37,
       "titolo": "Il segnale onesto (lower_bound di Wilson) è calcolato ma nascosto: al Pannello Nicola vede la barra verde del ",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 37 giorni (pannello/src/components/AutoCoscienza.tsx ~ /lower_bound/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-132",
@@ -1859,9 +1859,9 @@
       "gravita": "grave",
       "eta_giorni": 26,
       "titolo": "Alla domanda «come sto?» la Cabina risponde con due numeri diversi: quarantatré e zero",
-      "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 26 giorni (cervello/pagella-intelligenza.mjs ~ /voto_pieno/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-181",

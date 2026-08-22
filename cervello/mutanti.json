@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-22 11:00",
+ "aggiornato": "2026-08-22 11:30",
  "mutanti": [
   {
    "lotto": 30,
@@ -5551,6 +5551,38 @@
    "cerca": "  if (banale(voce)) motivi.push(ESCLUSA.BANALE);",
    "sostituisci": "  if (banale(voce)) motivi.push(ESCLUSA.BANALE); // fonte non piu richiesta",
    "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-131",
+   "nome": "la barra della Cabina torna a disegnare la proporzione grezza: tre su tre e di nuovo verde piena",
+   "file": "pannello/src/lib/confidenza-calibrazione.ts",
+   "cerca": "    valore: conf,",
+   "sostituisci": "    valore: grezzo,",
+   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+  },
+  {
+   "difetto": "AR-131",
+   "nome": "il lower-bound mancante torna a ripiegare in silenzio sul grezzo, spacciato per confidenza",
+   "file": "pannello/src/lib/confidenza-calibrazione.ts",
+   "cerca": "  if (!Number.isFinite(conf)) {",
+   "sostituisci": "  if (false) {",
+   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+  },
+  {
+   "difetto": "AR-131",
+   "nome": "il componente torna a passare il punteggio grezzo alla barra",
+   "file": "pannello/src/components/AutoCoscienza.tsx",
+   "cerca": "{barra(barraConfidenza(r).valore ?? undefined)}",
+   "sostituisci": "{barra(r.punteggio)}",
+   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+  },
+  {
+   "difetto": "AR-175",
+   "nome": "un voto di salute mai misurato torna a uscire come 0 su 100, cioe come una bocciatura",
+   "file": "cervello/pagella-intelligenza.mjs",
+   "cerca": "  const misurato = grezzo !== null && grezzo !== undefined && Number.isFinite(Number(grezzo));",
+   "sostituisci": "  const misurato = true;",
+   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
   }
  ]
 }

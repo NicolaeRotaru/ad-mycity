@@ -1365,12 +1365,12 @@
       "nato": "2026-07-16 23:58",
       "chiuso_il": "",
       "verifica": {
-        "file": "pannello/src/components/AutoCoscienza.tsx",
-        "pattern": "lower_bound",
-        "presente": true
+        "tipo": "comando",
+        "comando": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
       },
       "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Lotto 45 (22/8). RIPARATO. Il difetto aveva DUE pezzi e il primo era il piu silenzioso: il campo lower_bound esiste in calibrazione.json dal 3/7 e il type Calibrazione in AutoCoscienza.tsx non lo dichiarava — un campo che il type non nomina e un campo che la Cabina non puo mostrare nemmeno volendo. Secondo pezzo: la barra si disegnava su punteggio (la proporzione grezza). CURA: la decisione «su che numero si disegna la barra e cosa dice l etichetta» sta in pannello/src/lib/confidenza-calibrazione.ts, funzione pura — dentro il JSX nessuna prova poteva eseguirla, ed e la stessa malattia della famiglia. La barra disegna la confidenza; quando grezzo e confidenza divergono di piu di 15 punti si mostrano ENTRAMBI («confidenza 38% · grezzo 100% su 3»), perche e il confronto che spiega tutto. Due casi che tengono onesta la cura: «nessuna previsione chiusa» torna null e non zero (zero direbbe «ha sbagliato tutto»), e se il lower_bound manca NON si ripiega in silenzio sul grezzo — ripiegare in silenzio E il difetto. 3 mutazioni, tutte rendono rossa la prova; la terza rompe il COMPONENTE, cosi la prova non misura solo il modulo ma anche che il punto malato lo chiami davvero. typecheck del Pannello verde."
     },
     {
       "id": "AR-132",
@@ -2276,14 +2276,14 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "file": "cervello/pagella-intelligenza.mjs",
-        "pattern": "voto_pieno",
-        "presente": true
+        "tipo": "comando",
+        "comando": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
       },
       "nota": "Dove: cervello/pagella-intelligenza.mjs:336 (legge voto_salute) · cervello/salute-onesta.mjs:5-8 (dice perché quel voto è quello sbagliato) · pannello/src/components/cervello/RadiografiaDiSe.tsx:452,470 (grafico su voto_salute) · pannello/src/components/cervello/SaluteOnesta.tsx:63 (mostra voto_pieno) · Impatto: Il meccanismo di confronto della pagella marcherà la voce salute come «migliorata» ogni volta che il voto creditato si muove, anche se quello onesto resta inchiodato a zero: il gate anti-illusione, che serve proprio a dire «il fix era finto», può essere soddisfatto dal numero che ammette da solo di essere gonfiato. E Nicola, guardando la Radiografia, vede una serie storica che sale o scende su un metro che nessuno ha dichiarato essere quello creditato. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
       "chiuso_come": "",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Lotto 45 (22/8). RIPARATO IN PARTE, e la parte che resta e dichiarata. NON HO FATTO QUELLO CHE CHIEDEVA LA SCHEDA, e il motivo va letto: la scheda proponeva di passare la quinta voce della pagella al voto onesto (voto_pieno). Verificato PRIMA di eseguire — voto_pieno vale 0 in tutti e 90 gli snapshot di storico-salute.json, non e mai stato popolato da nessuno. Passarci sopra avrebbe mostrato a Nicola «0/100» come se fosse un giudizio: una bugia sostituita con una peggiore. QUELLO CHE HO CHIUSO: misuraSalute faceva «Number(voto_salute) || 0», cioe la stessa cosa per due situazioni opposte — un voto misurato che vale zero, e un voto che nessuno ha misurato. Il secondo usciva «0/100» con cieco:false, cioe una BOCCIATURA al posto di un buco: e la malattia censita «cieco-che-torna-una-misura», per giunta nella voce che risponde a «come sto?». Adesso e una funzione pura esportata (voceSalute) che dice «non misurato» e alza cieco:true, mentre uno zero MISURATO resta uno zero — c e un caso apposta, senza il quale la cura comprerebbe il bianco su ogni bocciatura. RESTA APERTO: quale sia il metro giusto fra voto_salute (4), voto_pieno (mai popolato) e il 28,22 che compare nella nota della sonda. E una decisione sul significato, non sul codice, e non la prendo da sola."
     },
     {
       "id": "AR-176",
