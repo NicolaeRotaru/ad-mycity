@@ -39,19 +39,64 @@ const leggi = (p) => readFileSync(join(REPO, p), "utf8");
 const json = (p) => JSON.parse(leggi(p));
 
 const { lezioniVive } = await import(join(REPO, "cervello/misura-parziale.mjs"));
+const { senzaCommenti } = await import(join(REPO, "cervello/prove-regole.mjs"));
 
 // ── IL VOLANO ────────────────────────────────────────────────────────────────────────────────────
 
-test("AR-046 · lo storico salute porta il conteggio vero delle chiusure, non uno stimato", () => {
+test("AR-046 / AR-782 · «quanti chiusi» vuol dire la stessa cosa chiunque lo scriva", () => {
   const serie = json("MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json").serie;
-  const ultimo = serie[serie.length - 1];
-  assert.ok(Number.isFinite(ultimo.difetti_chiusi), "il punto deve portare il numero, o non è una serie");
   const cantiere = json("MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json").difetti;
   const chiusiVeri = cantiere.filter((d) => d.stato === "chiuso").length;
-  // Non pretendo l'uguaglianza al difetto (il lotto in corso ne muove): pretendo che non sia una
-  // stima campata in aria — il difetto era uno scarto strutturale, «3 registrate su 5 vere».
-  assert.ok(Math.abs(ultimo.difetti_chiusi - chiusiVeri) <= 5,
-    `storico dice ${ultimo.difetti_chiusi}, il cantiere ne ha ${chiusiVeri}: lo scarto è tornato strutturale`);
+
+  // ⚠️ I PUNTI VECCHI SONO AMBIGUI, e non li riscrivo: la storia non si riscrive. Fino al 22/8 la
+  // sonda scriveva in `difetti_chiusi` il TOTALE e auto-fix ci scriveva quanti ne aveva chiusi in
+  // quella passata (600, 606, 608… poi 50). Chi leggeva la serie come un andamento vedeva un crollo
+  // di 558 chiusure mai avvenuto — ed è la serie che disegna il grafico in Cabina.
+  //
+  // Un punto scritto DOPO la cura si riconosce da sé: porta il campo del flusso col suo nome.
+  const nonAmbiguo = (x) => x.tipo !== "auto-fix" || x.chiusi_in_questa_passata !== undefined;
+  const ultimo = [...serie].reverse().find(nonAmbiguo);
+  assert.ok(ultimo, "deve esistere almeno un punto leggibile senza indovinare");
+  assert.ok(Number.isFinite(ultimo.difetti_chiusi), "il punto deve portare il numero, o non è una serie");
+
+  // ⚠️ QUI PRIMA C'ERA UN CONFRONTO NUMERICO col cantiere di adesso, e non era una proprietà: era una
+  // fotografia. Basta una chiusura in blocco — cinquanta il 22/8 — e la sonda che non ha ancora
+  // rigirato per farlo diventare rosso senza che nulla sia rotto. Una prova che dipende da CHI ha
+  // girato per ultimo misura la fortuna, non la cura.
+  //
+  // L'invariante vero di uno stock è che non torna indietro: i chiusi non si "s-chiudono". È questo
+  // che AR-046 violava — la serie raccontava MENO chiusure di quante ce ne fossero.
+  // IL TAGLIO, e il perché — stessa regola di `INVARIANTE_DAL` in calibrazione.mjs. La storia prima
+  // del 15/8 è esente e dichiarata tale: senza il taglio questa prova nasce rossa su un fatto che
+  // nessuno può più riparare, e una prova che non può diventare verde si impara ad aggirare.
+  //
+  // ⚠️ COSA C'È NELLA PARTE ESENTE, perché esentare non vuol dire tacere: il 14/8 il totale scende
+  // da 424 a 422 fra due punti della sonda nello stesso giorno. Due chiusure sparite. Non so dire da
+  // qui se sia una carta riaperta, un ripristino o una scrittura persa — e inventare quale sarebbe
+  // peggio del non saperlo. Da oggi in avanti un caso così fa rossa questa prova nel momento in cui
+  // accade, invece di essere trovato sette giorni dopo.
+  const DAL = "2026-08-15";
+  const stock = serie.filter(nonAmbiguo).filter((x) => String(x.data || "") >= DAL).map((x) => x.difetti_chiusi).filter(Number.isFinite);
+  const scesi = stock.map((n, i) => (i > 0 && n < stock[i - 1] ? `${stock[i - 1]} → ${n}` : null)).filter(Boolean);
+  assert.deepEqual(scesi, [], "un totale di chiusi che scende: o è un altro significato, o è una perdita");
+  assert.ok(ultimo.difetti_chiusi <= chiusiVeri,
+    `storico dice ${ultimo.difetti_chiusi} e il cantiere ne ha ${chiusiVeri}: la serie non può contarne PIÙ del vero`);
+
+  // E dentro la singola riga: uno stock non può stare sotto il flusso di una sola passata.
+  for (const x of serie.filter((y) => Number.isFinite(y.chiusi_in_questa_passata))) {
+    assert.ok(x.difetti_chiusi >= x.chiusi_in_questa_passata,
+      `punto ${x.data}: totale ${x.difetti_chiusi} sotto la passata ${x.chiusi_in_questa_passata} — sono due unità di misura diverse`);
+  }
+
+  // E la cura di AR-782, sul CODICE: chi scrive quel campo ci mette uno stock, e il flusso ha un nome
+  // suo. Se torna `difetti_chiusi: chiusiOra`, la serie ricomincia a mescolare due unità di misura.
+  // ⚠️ Guardato SENZA COMMENTI, e il motivo è divertente: la prima versione cercava la vecchia riga
+  // nel file intero e la trovava — dentro il commento che spiega perché è stata tolta. È AR-355, la
+  // frase scambiata per la cura, dentro la prova del lotto che cura le copie. Qui si usa proprio la
+  // funzione che quel difetto ha prodotto.
+  const af = senzaCommenti(leggi("cervello/auto-fix.mjs"));
+  assert.match(af, /chiusi_in_questa_passata: chiusiOra/, "il flusso deve avere un nome tutto suo");
+  assert.doesNotMatch(af, /difetti_chiusi: chiusiOra/, "e non deve più occupare il campo dello stock");
 });
 
 test("AR-050 · «attive» e «vive» non sono più sinonimi a caso, e il conto QUADRA", () => {

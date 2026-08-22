@@ -327,24 +327,20 @@ test("AR-737 — il rebase che ingoia i suoi tre esiti: rossa oggi, verde se il 
   });
 });
 
-test("AR-743 — il confronto della prova copiato a mano: rossa oggi, verde se i copisti importano la casa", () => {
-  siRibaltaConPiuFix({
-    flag: "--ar-743",
-    file: "cervello/prove-regole.mjs",
-    fix: [
-      {
-        file: "cervello/chiusure-audit.mjs",
-        cerca: 'import',
-        sostituisci: 'import { patternTrovato } from "./prove-regole.mjs";\nimport',
-      },
-      {
-        file: "cervello/allinea-scan-cantiere.mjs",
-        cerca: 'import',
-        sostituisci: 'import { patternTrovato } from "./prove-regole.mjs";\nimport',
-      },
-    ],
-  });
-});
+// AR-743 — IL CASO È STATO RITIRATO IL 22/8, e non perché desse fastidio: perché il difetto è curato.
+//
+// Una prova a due versi pretende che il difetto ci sia OGGI («rosso adesso») e che il fix finto la
+// ribalti. È la forma giusta finché il difetto è aperto. Nel lotto 46 i tre copisti hanno smesso di
+// rifare il confronto a mano e chiamano `provaSoddisfatta`: da quel momento il primo verso è falso
+// per costruzione, e tenerlo qui vorrebbe dire pretendere che un difetto riparato risulti ancora
+// vivo. Sarebbe una prova che chiede alla macchina di restare rotta.
+//
+// La difesa NON sparisce, si sposta: `cervello/test/un-freno-con-piu-copie.test.mjs` esegue le due
+// cure che i copisti non avevano (il testo letterale di AR-151, il commento di AR-355) e ha una rete
+// larga che cerca sul dato — se domani nasce un quarto padrone del confronto, cade lì.
+//
+// `node cervello/prove-difetti.mjs --ar-743` continua a girare e adesso risponde «il confronto della
+// prova ha una casa sola: chi ne ha bisogno la importa».
 
 test("AR-744 — gli esperimenti misurati senza che il gate parta: rossa oggi, verde se lo stato dice la verità", () => {
   siRibaltaConPiuFix({

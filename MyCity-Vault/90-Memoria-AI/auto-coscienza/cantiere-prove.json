@@ -1,15 +1,15 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 12:28",
+  "aggiornato": "2026-08-22 13:55",
   "giorni_sospetto": 3,
-  "difetti_aperti": 164,
+  "difetti_aperti": 114,
   "per_classe": {
-    "umana": 77,
+    "umana": 80,
     "auto-sospetta": 19,
-    "auto-comando": 68
+    "auto-comando": 15
   },
-  "non_auto_chiudibili": 96,
+  "non_auto_chiudibili": 99,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-521",
@@ -1444,15 +1444,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-131",
-      "gravita": "grave",
-      "eta_giorni": 37,
-      "titolo": "Il segnale onesto (lower_bound di Wilson) è calcolato ma nascosto: al Pannello Nicola vede la barra verde del ",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-132",
       "gravita": "grave",
       "eta_giorni": 37,
@@ -1487,15 +1478,6 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-148",
-      "gravita": "grave",
-      "eta_giorni": 30,
-      "titolo": "AR-015 (registro rischi) chiuso dichiarando 14/14 rischi con sentinella — in realtà 6/14 hanno il campo vuoto",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/un-rischio-che-nessuno-vedra-arrivare.test.mjs",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-158",
@@ -1538,9 +1520,9 @@
       "gravita": "grave",
       "eta_giorni": 26,
       "titolo": "Alla domanda «come sto?» la Cabina risponde con due numeri diversi: quarantatré e zero",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-181",
@@ -1867,15 +1849,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-437",
-      "gravita": "grave",
-      "eta_giorni": 24,
-      "titolo": "Il cancello che decide se un lotto si può consegnare è rosso per costruzione: due guardiani su quattro non han",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-045",
       "gravita": "minore",
       "eta_giorni": 50,
@@ -1883,15 +1856,6 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-046",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "storico-salute.json incompleto: l'ultimo punto registrava 3 chiusure ma il cantiere ne aveva chiuse 5",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-047",
@@ -1921,427 +1885,22 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-050",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "apprendimento.json: meta.lezioni_attive=10 gonfia il conteggio (solo 4 lezioni hanno stato 'attiva')",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-051",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "tasso_applicazione è scritto a mano, nessuno lo calcola: la metrica che governa il volano è auto-dichiarata e ",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-052",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "prova_chiusura usa contatori STOCK all-time, mai la recency: loop_chiude resta true per sempre anche se il loo",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-053",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "La calibrazione non ha uno sweep automatico di esito/scadute: le previsioni marciscono aperte e contano come '",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-054",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "Gli esperimenti di auto-miglioramento sono un array vuoto senza schema né motore: il loop benchmark→torneo→mis",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-055",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "Le proposte di auto-riscrittura non hanno lifecycle né stato: la lista contiene proposte GIÀ chiuse nel cantie",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-056",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "Nessun guardiano vigila che il battito 2h (mycity-giro.timer) sia vivo: la staleness del giro è solo un displa",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-057",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "mycity-verifica.timer e mycity-watch-main.timer sono unit orfane: nessun installer le abilita, e verifica-auto",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-058",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "I timeout esterni (worker 2700s, systemd 3600s) sono più corti del budget dei 3 tentativi interni di giro.sh (",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-059",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "aggiorna-cervello.sh non ripropaga le unit systemd: cambi di cadenza / nuovi timer restano inerti sul VPS",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-060",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "Stato e orari del battito documentati in modo contraddittorio: giro 'DISATTIVATO' vs 'RIATTIVATO', ritmo 06/12",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-061",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "L'autonomia si guadagna anche quando i sensori che misurano il 'reale' sono ciechi",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-062",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "L'esito 'reale' entra senza fonte: la macchina puo auto-alimentare il proprio punteggio",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-063",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "La sonda del volano si auto-certifica 'loop chiude' con previsioni ANCORA APERTE",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-064",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "Le previsioni scadute senza esito non penalizzano: survivorship bias sul voto",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-065",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "Autonomia 'alta' concessa con soli 3 esiti (campione minuscolo, nessun intervallo di confidenza)",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-066",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "Previsioni banali/status-quo azzeccabili a costo zero (atteso=1 su entita gia payout-ready)",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-067",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "Nessun sensore di raggiungibilità/uptime del sito: se il marketplace è giù, la macchina è cieca",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-068",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "I rischi 🔴 di compliance (HACCP, rider, età 18+, bus factor) non hanno owner né monitor nella macchina",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-069",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "proposte_nuovi_pezzi (l'output della dimensione META) non ha un backlog tracciato a chiusura",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-070",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Funnel e conversione al checkout senza sensore live: l'abbandono che brucia ordini è invisibile alla sentinell",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-071",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "Puntualità delle consegne (la promessa core del modello Glovo) senza alcun sensore",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-072",
-      "gravita": "bloccante",
-      "eta_giorni": 50,
-      "titolo": "Autopilot pubblica da solo i 🟡 (post pubblici sul brand) in LIVE — contraddice \"pubblicare = 🔴\" di CLAUDE.md",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-073",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "Gate colore fail-open: colore mancante o scritto male → l'autopilot pubblica lo stesso",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-074",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "Il colore è auto-dichiarato nel JSON e scollegato dal canale reale: nessuna fonte-di-verità canale→rischio",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-075",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "ONESTA-RULES senza alcun guardiano machine-checkable nel percorso di pubblicazione",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-076",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "🟡 senza \"avvisa\": l'autopilot pubblica i 🟡 in LIVE ma non notifica Nicola",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-077",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "\"STOP automatico se un reparto brucia budget\" è solo prosa: nessun sensore di spesa, nessun blocco reale",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-078",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "esegui-azione.mjs: mano grezza senza gate colore, senza legame all'azione approvata e senza traccia in DECISIO",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-079",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "Silo di allocazione conclamato ma mai corretto: 13 asset pesanti su Garetti (prospect non firmato) vs 1-2 sui ",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-080",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "La regola ROI/STOP automatico e la North Star vivono solo come prosa in OKR-Squadra: nessuno script misura se ",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-081",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "Il pre-mortem cross-silo (\"il rischio n°1\") è un rituale manuale senza forcing-function: la coda AZIONI-IN-ATT",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-082",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "Il router costo (banco-ai.mjs / routing.json) è codice morto: nessun compito viene mai instradato al modello e",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-083",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "Il budget token (AR-020) è cieco: nessuno passa mai i token reali, la soglia da 2M non scatta mai",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-084",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "La metabolizzazione raddoppia il costo di OGNI chat con motore premium, senza alcun gate di valore",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-085",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "Rilanci ciechi: i loop 3× di giro.sh/ritmo.sh riprovano anche su quota ignorando retry-policy, bruciando tenta",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-086",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "Il delta-gate (salta il giro se nulla è cambiato) protegge solo 'giro', non ritmo né monitora: run premium a s",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-087",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "Nessun circuit-breaker di budget: al superamento della soglia costo non si ferma né si dirada nulla",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-088",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "monitora.sh incolla l'intero monitora.md nel prompt, contro la regola anti-prompt-enorme che giro.sh applica",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-089",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "Lo scanner-segreti (AR-021, ultima difesa prima di committare il vault) NON riconosce il token più potente del",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-090",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Un solo token di GESTIONE Supabase (sbp_) sovra-privilegiato serve entrambi gli MCP — le chiavi di tutta l'org",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-091",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "L'MCP della memoria è in LETTURA+SCRITTURA senza alcun cancello: il cervello può DROP/DELETE la propria memori",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-092",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "worker.sh risolve i conflitti di merge con `--theirs` cieco: può cancellare il 'FATTO' e causare un DOPPIO inv",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-093",
-      "gravita": "grave",
-      "eta_giorni": 50,
-      "titolo": "Il kill-switch (PAUSA) fallisce APERTO: se le credenziali memoria mancano, il giro parte lo stesso",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-094",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "La documentazione (.env.example) prescrive ancora 'force-push' su memoria-ad — la causa esatta della perdita d",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-095",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "Permessi in .claude/settings.json stantii e legati a un'altra macchina (path Windows) — igiene dei permessi",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-096",
-      "gravita": "minore",
-      "eta_giorni": 50,
-      "titolo": "Il voto di salute architettura si auto-gonfia: +2 a ogni chiusura, solo in salita, scollegato dalla radiografi",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
-      "auto_chiudibile": true
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     },
     {
       "id": "AR-100",
@@ -2790,7 +2349,7 @@
       "eta_giorni": 7,
       "titolo": "Il confronto che decide se una prova è soddisfatta ha sei copie, e cinque non ereditano le cure",
       "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/prove-difetti.mjs --ar-743",
+      "perche": "prova eseguibile: node --test cervello/test/un-freno-con-piu-copie.test.mjs",
       "auto_chiudibile": true
     },
     {
@@ -2890,15 +2449,6 @@
       "titolo": "Le sei capacità grosse della macchina non partono, e nessun guardiano aveva mai provato ad avviarne una",
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/workflow-partono.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-781",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "Una prova che dichiarava di non aver potuto guardare veniva contata fra quelle passate",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs",
       "auto_chiudibile": true
     }
   ]

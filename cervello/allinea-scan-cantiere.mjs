@@ -34,6 +34,7 @@ import { contaDifetti, sommaTorna } from "./stati-cantiere.mjs";
 // (cervello/radiografia-marketplace-conti.mjs), che sa leggere le due forme del referto e che NON
 // risponde zero quando non ha potuto leggere. Qui sotto c'era la terza definizione della parola.
 import { contoMarketplace } from "./radiografia-marketplace-conti.mjs";
+import { provaSoddisfatta } from "./prove-regole.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
@@ -128,15 +129,23 @@ function verificaFinding(f) {
   } catch (e) {
     return { esito: "aperto", dettaglio: `illeggibile: ${e.message}` };
   }
-  let re;
-  try {
-    re = new RegExp(v.pattern);
-  } catch (e) {
-    return { esito: "manuale", dettaglio: `pattern non valido: ${e.message}` };
-  }
-  const trovato = re.test(txt);
+  // AR-743 — IL CONFRONTO LO DECIDE LA CASA, non questo file.
+  //
+  // Qui c'era una copia a mano di «la prova combacia?». Erano quattro copie della stessa
+  // decisione — la casa più tre — e le tre non ereditavano niente di quello che la casa aveva
+  // imparato:
+  //
+  //   · AR-151, il testo letterale: un pattern scritto come testo, con un dollaro in mezzo,
+  //     compilato come regex non può mai combaciare (quel simbolo asserisce fine-stringa) mentre
+  //     il fix nel codice c'è davvero. La casa prova la regex E il letterale.
+  //   · AR-355, il commento: due difetti del worker risultavano chiusi perché la prova citava una
+  //     frase che nel file esisteva — dentro un commento scritto da chi aveva fatto il fix. C'era
+  //     la descrizione della cura, non la cura. La casa cerca solo dove il computer esegue.
+  //
+  // Ogni difesa aggiunta là proteggeva la metà dei chiamanti. È la malattia censita «una parola
+  // con due padroni», dentro il metro che giudica tutte le altre.
+  const risolto = provaSoddisfatta(v, txt);
   const vuolePresente = v.presente !== false;
-  const risolto = vuolePresente ? trovato : !trovato;
   return {
     esito: risolto ? "risolto" : "aperto",
     dettaglio: `${v.file} ${vuolePresente ? "contiene" : "NON contiene"} /${v.pattern}/ → ${trovato ? "trovato" : "assente"}`,

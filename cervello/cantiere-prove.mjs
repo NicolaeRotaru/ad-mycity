@@ -50,6 +50,7 @@ import { codiceDiUscita, esitoDellaFonte } from "./esito-guardiano.mjs";
 // 📏 E il contratto della PROVA (contratto-prova.mjs): «questa prova vale?» ha una risposta sola,
 // e non la riscrive ogni file che se la chiede — è la malattia della corsia C del lotto 42.
 import { classificaProva } from "./contratto-prova.mjs";
+import { provaSoddisfatta } from "./prove-regole.mjs";
 import {
   NON_MISURABILE,
   aliasFuoriContratto,
@@ -139,13 +140,22 @@ function provaCombacia(v) {
   } catch {
     return { combacia: false, fileAssente: false, illeggibile: true };
   }
-  let trovato = false;
-  try {
-    trovato = new RegExp(v.pattern).test(testo);
-  } catch {
-    return { combacia: false, fileAssente: false, patternRotto: true };
-  }
-  return { combacia: trovato === vuolePresente, fileAssente: false };
+  // AR-743 — IL CONFRONTO LO DECIDE LA CASA, non questo file.
+  //
+  // Qui c'era una copia a mano di «la prova combacia?». Erano quattro copie della stessa
+  // decisione — la casa più tre — e le tre non ereditavano niente di quello che la casa aveva
+  // imparato:
+  //
+  //   · AR-151, il testo letterale: un pattern scritto come testo, con un dollaro in mezzo,
+  //     compilato come regex non può mai combaciare (quel simbolo asserisce fine-stringa) mentre
+  //     il fix nel codice c'è davvero. La casa prova la regex E il letterale.
+  //   · AR-355, il commento: due difetti del worker risultavano chiusi perché la prova citava una
+  //     frase che nel file esisteva — dentro un commento scritto da chi aveva fatto il fix. C'era
+  //     la descrizione della cura, non la cura. La casa cerca solo dove il computer esegue.
+  //
+  // Ogni difesa aggiunta là proteggeva la metà dei chiamanti. È la malattia censita «una parola
+  // con due padroni», dentro il metro che giudica tutte le altre.
+  return { combacia: provaSoddisfatta(v, testo), fileAssente: false };
 }
 
 /**

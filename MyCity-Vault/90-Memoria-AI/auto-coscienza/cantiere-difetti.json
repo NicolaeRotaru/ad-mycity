@@ -15859,9 +15859,10 @@
       "dove": "cervello/cantiere-prove.mjs:144 · cervello/chiusure-audit.mjs · cervello/allinea-scan-cantiere.mjs · cervello/sorvegliante.mjs · cervello/spazzata-fratelli.mjs",
       "verifica": {
         "tipo": "comando",
-        "comando": "node cervello/prove-difetti.mjs --ar-743"
+        "comando": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
       },
-      "nota_prova": "Nasce ROSSA, ed e il suo stato giusto: il difetto e aperto. Diventa verde quando qualcuno lo ripara davvero, non quando qualcuno scrive la parola giusta da qualche parte."
+      "nota_prova": "Nasce ROSSA, ed e il suo stato giusto: il difetto e aperto. Diventa verde quando qualcuno lo ripara davvero, non quando qualcuno scrive la parola giusta da qualche parte.",
+      "nota_fix": "Lotto 46 (22/8). RIPARATO. VERIFICATO SUL CODICE, e la scheda era piu larga del vero: diceva sei copie,\nne ho trovate QUATTRO della stessa decisione (la casa piu tre: allinea-scan-cantiere, cantiere-prove,\nchiusure-audit). Le altre due che il conteggio includeva stanno in sorvegliante.mjs e decidono una cosa\nDIVERSA — i pattern delle malattie su un diff, non le prove delle schede — quindi non appartengono a\nquesto difetto. Registrato perche scheda e codice divergevano e comanda il codice. (Fra quelle due pero\nc'e una asimmetria vera: una passa da senzaCommenti e l'altra no. E la stessa malattia in un altro\npunto, e non l'ho toccata qui per non allargare il lotto.)\n\nLE TRE COPIE ERANO TUTTE DIVERSE, ed e il punto: allinea-scan e cantiere-prove facevano la regex nuda,\nchiusure-audit aveva il letterale (AR-037/AR-151) ma non la cura del commento. Cioe le due cure che la\ncasa aveva imparato proteggevano meta dei chiamanti.\n\nCOSA COSTAVANO, e non sono simmetriche: senza il letterale un pattern col dollaro in mezzo non combacia\nmai e un difetto RIPARATO risulta aperto per sempre; senza la cura del commento una prova che cita una\nfrase scritta dentro un commento CHIUDE un difetto rotto. Il secondo e il danno peggiore — e proprio il\ncaso di AR-355, due difetti del worker chiusi sulla descrizione della cura invece che sulla cura.\n\nCURA: i tre chiamano provaSoddisfatta (cervello/prove-regole.mjs), che gia contiene entrambe le difese —\nquindi collegarli e un guadagno secco, nessuna cura persa. PROVA: i due casi che hanno rotto eseguiti sui\ndati veri, piu la rete larga che cerca sul DATO e non sui tre nomi noti: se domani nasce un quarto\npadrone, la prova cade. 5 mutazioni, tutte la rendono rossa.\n\nTROVATO SBAGLIANDO, e vale la pena scriverlo: al primo tentativo la nota che stavo inserendo conteneva un\ndollaro seguito da un apice inverso. Dentro una stringa di sostituzione quella coppia significa «tutto il\ntesto PRIMA della corrispondenza», e mi sono incollata mezzo file dentro un commento in tutti e tre. I file\nnon compilavano piu. Ripristinati e rifatto passando una funzione, che non interpreta niente."
     },
     {
       "id": "AR-744",
@@ -16666,6 +16667,26 @@
       "nota_fix": "Meccanismo consegnato e provato nel lotto 45 (5 mutazioni rosse). Lo stato lo applica auto-fix dopo il merge.",
       "chiuso_come": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs → exit 0 (guardiano soddisfatto)",
       "corroborata": true
+    },
+    {
+      "id": "AR-782",
+      "titolo": "Nel grafico della salute lo stesso campo porta un totale o un conteggio del momento, secondo chi scrive",
+      "dimensione": "integrita-memoria",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "storico-salute.json e una serie sola scritta da DUE programmi. La sonda del volano scrive in difetti_chiusi il TOTALE dei chiusi nel cantiere; auto-fix ci scrive quanti ne ha chiusi in QUELLA passata. Misurato il 22/8: 600, 606, 608 dalla sonda, poi 50 da auto-fix. Chi legge la serie come un andamento vede un crollo di 558 chiusure mai avvenuto, e quella serie disegna il grafico che Nicola guarda in Cabina. Perche nessuno se n era accorto: i due scrittori non si incontrano mai — la sonda gira nel giro, auto-fix dopo un merge — e il campo ha lo stesso nome, quindi da fuori sembra una serie sola. Era incoerente anche dentro la singola riga: difetti_aperti sulla stessa riga e uno stock (meta.da_fare), difetti_chiusi era un flusso.",
+      "fix_proposto": "Fatto nel lotto 46: in auto-fix il campo porta lo STOCK come lo scrive la sonda, e il conteggio della passata prende un nome suo (chiusi_in_questa_passata). RESTA DA FARE: i punti gia scritti in passato restano ambigui — chi legge lo storico vecchio non puo sapere quale dei due significati aveva ogni riga. Non li riscrivo: la storia non si riscrive.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-22",
+      "chiuso_il": "",
+      "nato_come": "scoperta",
+      "provenienza": "Scoperto il 22/8 nel lotto 46: applicando le chiusure del lotto 45, auto-fix ha scritto 50 dove la sonda scriveva 608, e la prova di AR-046 (scritta nel lotto 45, che pretende che lo scarto fra storico e cantiere non sia strutturale) e diventata rossa. Non l ha introdotto questo lotto: c era da sempre. E la prova che ha fatto il suo mestiere — era stata scritta apposta per accorgersi di questo.",
+      "nota_fix": "Cura consegnata e provata nel lotto 46. Lo stato lo applica auto-fix dopo il merge."
     }
   ],
   "meta": {
