@@ -21,6 +21,54 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- write-vs-edit-settings-local -->
 
 ---
+### 🔴 #164 — Scrivi i dati veri del titolare: l'informativa privacy esce col nome «MyCity» e basta · ⏳ accodata 2026-08-22 14:10
+
+**Cosa cambia:** l'informativa privacy, i termini e la pagina dei contatti leggono il nome, la sede,
+la partita IVA, il numero camerale, la PEC e il capitale sociale da nove caselle di configurazione.
+Nessuna delle nove era dichiarata. Il codice ripiega su un generico «MyCity» e le righe che non ha
+le salta, quindi la pagina esce senza errori e sembra a posto.
+
+Un'informativa privacy senza i dati di chi tratta i dati non è un'informativa. È la prima cosa che
+un'ispezione guarda.
+
+Adesso le nove caselle sono dichiarate, ma vuote, e la pagina di salute del sito risponde
+«degradato» finché restano vuote: almeno la cosa si vede.
+
+**Cosa devi fare:** darmi i valori veri. Servono: denominazione esatta, indirizzo della sede,
+partita IVA, numero REA se c'è, PEC, capitale sociale, l'indirizzo email per le questioni di
+privacy, e il nome di chi risponde (tu, se resta come hai detto il 20 agosto).
+
+⚠️ **Una cosa importante sui tempi:** questi valori entrano dentro il sito nel momento in cui viene
+**ricompilato**, non quando li scrivi. Vanno messi **prima** della prossima pubblicazione,
+altrimenti restano vuoti nel sito pubblicato anche se sono scritti nel pannello.
+
+**Se va bene:** li metto fra le variabili del progetto e faccio ripubblicare. Poi controllo
+l'informativa e i termini a schermo, e la pagina di salute torna verde.
+
+---
+### 🟡 #163 — Guarda cosa dice Supabase sulle copie di sicurezza: sono cinque minuti e chiudono quattro righe vuote · ⏳ accodata 2026-08-22 14:10
+
+**Cosa cambia:** il documento che spiega come si ripristinano i dati ha quattro righe che dicono
+«da verificare», e la data del controllo dice «mai fatto». Sono le righe che rispondono alla
+domanda più importante del documento: se domani succede qualcosa ai dati, da dove si riparte.
+
+Oggi ho tolto da quel file una contraddizione: in cima diceva «sul piano gratuito il ripristino al
+minuto non c'è», e venti righe più sotto lo elencava fra le cose che ci sono. Due righe che si
+escludono, nello stesso documento. Adesso ne resta una sola. Ma resta un buco: cosa c'è davvero non
+lo sa nessuno.
+
+Nello stesso giro ho scoperto che **la copia notturna del database non partiva più**, e l'ho
+riparata: il programma che la fa era di una versione più vecchia del database e si rifiutava di
+lavorare. Il primo collaudo vero è stanotte.
+
+**Cosa devi fare:** aprire Supabase, andare su **Settings → Billing** e poi su **Database →
+Backups**, e dirmi tre cose: che piano abbiamo, se c'è il ripristino al minuto, quante copie
+giornaliere conserva.
+
+**Se va bene:** riempio le quattro righe con la data del controllo, e da lì si vede se conviene
+passare al piano a pagamento oppure no.
+
+---
 ### 🔴 #162 — Un posto dove tenere una copia delle foto dei prodotti · ⏳ accodata 2026-08-22 09:20
 
 **Cosa cambia:** le immagini dei prodotti **non hanno nessuna copia**. Né uno script, né un passo
