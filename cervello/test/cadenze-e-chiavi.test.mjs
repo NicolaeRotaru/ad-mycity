@@ -120,7 +120,7 @@ test("AR-091 · l'MCP della memoria NON può scrivere: era il cervello che potev
   }
 });
 
-test("AR-090 · ogni MCP è ristretto al SUO progetto, così un token solo non apre tutta l'organizzazione", () => {
+test("ogni MCP è ristretto al SUO progetto: il perimetro del token (AR-090 resta aperto sul token unico)", () => {
   const mcp = JSON.parse(leggi(".mcp.json"));
   const server = mcp.mcpServers || mcp;
   const ref = [];

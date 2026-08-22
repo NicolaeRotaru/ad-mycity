@@ -25,6 +25,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { provaSoddisfatta } from "./prove-regole.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const GATE = process.argv.includes("--gate");
@@ -54,15 +55,22 @@ export function riverifica(dif, leggiFile) {
   if (txt == null) return "file-assente";
   // Stessa regola di auto-fix.mjs: regex OPPURE testo letterale (vedi AR-037, la prova con il `$`
   // in mezzo che come regex non può mai matchare mentre il fix nel codice c'è).
-  let re = null;
-  try {
-    re = new RegExp(v.pattern);
-  } catch {
-    re = null;
-  }
-  const trovato = (re ? re.test(txt) : false) || txt.includes(v.pattern);
-  const vuolePresente = v.presente !== false;
-  return (vuolePresente ? trovato : !trovato) ? "ok" : "regredito";
+  // AR-743 — IL CONFRONTO LO DECIDE LA CASA, non questo file.
+  //
+  // Qui c'era una copia a mano di «la prova combacia?». Erano quattro copie della stessa
+  // decisione — la casa più tre — e le tre non ereditavano niente di quello che la casa aveva
+  // imparato:
+  //
+  //   · AR-151, il testo letterale: un pattern scritto come testo, con un dollaro in mezzo,
+  //     compilato come regex non può mai combaciare (quel simbolo asserisce fine-stringa) mentre
+  //     il fix nel codice c'è davvero. La casa prova la regex E il letterale.
+  //   · AR-355, il commento: due difetti del worker risultavano chiusi perché la prova citava una
+  //     frase che nel file esisteva — dentro un commento scritto da chi aveva fatto il fix. C'era
+  //     la descrizione della cura, non la cura. La casa cerca solo dove il computer esegue.
+  //
+  // Ogni difesa aggiunta là proteggeva la metà dei chiamanti. È la malattia censita «una parola
+  // con due padroni», dentro il metro che giudica tutte le altre.
+  return provaSoddisfatta(v, txt) ? "ok" : "regredito";
 }
 
 function leggiFileRepo(rel) {

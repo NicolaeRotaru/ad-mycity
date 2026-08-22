@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-21 20:49",
+  "aggiornato": "2026-08-22 13:47",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -1361,16 +1361,18 @@
       "causa_radice": "Dove: cervello/calibrazione.mjs:189-202 (calcola e salva lower_bound) · cervello/auto-coscienza.md:150 (schema doc senza lower_bound/banale/sensore_stato) · pannello/src/components/AutoCoscienza.tsx:157 (type Calibrazione senz — Perché il Pannello non mostra lower_bound? Il type e la UI sono stati scritti prima di AR-065 e mai aggiornati. Perché nessuno se n'è accorto? Lo schema in auto-coscienza.md (la fonte per il Pannello) è rimasto indietro di generazioni di campi (manca lower_bound, banale, sensore_stato, fonte, causa). Causa di sistema: aggiungere un campo al motore-dato e mostrarlo all'umano sono due passi separati senza un contratto c",
       "fix_proposto": "🟡 (firma Nicola) Aggiornare lo schema in auto-coscienza.md:150 coi campi reali (lower_bound, banale, sensore_stato, causa...) e il type Calibrazione nel Pannello; disegnare la barra su lower_bound (o mostrare entrambi: punteggio grezzo + confidenza), così la barra verde piena scompare quando il campione è minuscolo. Aggiungere alla checklist del cantiere la voce 'schema doc allineato al JSON reale'.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-16 23:58",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
       },
       "origine": "auto-radiografia 2026-07-16 (performance, tempo 2)",
       "nato_come": "scoperta",
-      "nota_fix": "Lotto 45 (22/8). RIPARATO. Il difetto aveva DUE pezzi e il primo era il piu silenzioso: il campo lower_bound esiste in calibrazione.json dal 3/7 e il type Calibrazione in AutoCoscienza.tsx non lo dichiarava — un campo che il type non nomina e un campo che la Cabina non puo mostrare nemmeno volendo. Secondo pezzo: la barra si disegnava su punteggio (la proporzione grezza). CURA: la decisione «su che numero si disegna la barra e cosa dice l etichetta» sta in pannello/src/lib/confidenza-calibrazione.ts, funzione pura — dentro il JSX nessuna prova poteva eseguirla, ed e la stessa malattia della famiglia. La barra disegna la confidenza; quando grezzo e confidenza divergono di piu di 15 punti si mostrano ENTRAMBI («confidenza 38% · grezzo 100% su 3»), perche e il confronto che spiega tutto. Due casi che tengono onesta la cura: «nessuna previsione chiusa» torna null e non zero (zero direbbe «ha sbagliato tutto»), e se il lower_bound manca NON si ripiega in silenzio sul grezzo — ripiegare in silenzio E il difetto. 3 mutazioni, tutte rendono rossa la prova; la terza rompe il COMPONENTE, cosi la prova non misura solo il modulo ma anche che il punto malato lo chiami davvero. typecheck del Pannello verde."
+      "nota_fix": "Lotto 45 (22/8). RIPARATO. Il difetto aveva DUE pezzi e il primo era il piu silenzioso: il campo lower_bound esiste in calibrazione.json dal 3/7 e il type Calibrazione in AutoCoscienza.tsx non lo dichiarava — un campo che il type non nomina e un campo che la Cabina non puo mostrare nemmeno volendo. Secondo pezzo: la barra si disegnava su punteggio (la proporzione grezza). CURA: la decisione «su che numero si disegna la barra e cosa dice l etichetta» sta in pannello/src/lib/confidenza-calibrazione.ts, funzione pura — dentro il JSX nessuna prova poteva eseguirla, ed e la stessa malattia della famiglia. La barra disegna la confidenza; quando grezzo e confidenza divergono di piu di 15 punti si mostrano ENTRAMBI («confidenza 38% · grezzo 100% su 3»), perche e il confronto che spiega tutto. Due casi che tengono onesta la cura: «nessuna previsione chiusa» torna null e non zero (zero direbbe «ha sbagliato tutto»), e se il lower_bound manca NON si ripiega in silenzio sul grezzo — ripiegare in silenzio E il difetto. 3 mutazioni, tutte rendono rossa la prova; la terza rompe il COMPONENTE, cosi la prova non misura solo il modulo ma anche che il punto malato lo chiami davvero. typecheck del Pannello verde.",
+      "chiuso_come": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-132",
@@ -1710,7 +1712,7 @@
       "causa_radice": "AR-015 fu chiuso lo stesso giorno verificando solo che il file esistesse, non la completezza semantica; nessuna sonda periodica ri-apre i difetti chiusi per un controllo di qualità nel tempo.",
       "fix_proposto": "🟡 compilare le 6 sentinelle mancanti (N2 KYC/AML, N4 inquadramento rider, N5 IVA, N6 alcolici, N7 allergeni, B5 stagionalità) in cervello/sentinelle.md; riaprire AR-015 finché non è vero al 100%.",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione copertura-cieca) — riapre parzialmente AR-015 (chiuso 2/7)",
       "verifica": {
@@ -1718,7 +1720,10 @@
         "comando": "node --test cervello/test/un-rischio-che-nessuno-vedra-arrivare.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_fix": "Lotto 45 (22/8). RIPARATO — ed era ancora vivo, identico a com era stato scritto il 3 luglio. Misurato: 14 rischi nel registro canonico, 14 con owner, e SEI con la sentinella vuota — N2 KYC/antiriciclaggio, N4 inquadramento rider, N5 IVA, N6 alcolici, N7 allergeni, B5 stagionalita. Cinque su sei normativi. Sette settimane senza che nessuno se ne accorgesse, perche nessuno guardava. FATTO ① le sei sentinelle sono scritte, e descrivono una condizione OSSERVABILE, non una parola di riempimento (esempio N6: «un ordine con alcolici viene consegnato senza che la verifica dei 18 anni risulti fatta, in checkout o alla consegna»). ② LA CAUSA, che e il pezzo che conta: AR-015 fu dichiarato chiuso verificando che il FILE esistesse, non che le sue righe dicessero qualcosa — il guardiano coerenza-rischi.mjs controllava che il registro avesse una casa sola, mai la completezza semantica. Adesso rischiSenzaSentinella (funzione pura esportata) e cablata nel guardiano, che ESCE ROSSO se un rischio ha un proprietario e nessuna condizione che lo svegli. Due clausole che tengono onesto il freno: un rischio archiviato o chiuso non entra nel conto (sarebbe un rosso che non si puo togliere), e un rischio senza owner nemmeno (lo denuncia gia l altro controllo, e due rossi per un problema solo non si diagnosticano). PROVA a due versi: il guardiano vero gira su un registro finto bucato e deve uscire rosso nominando la riga, poi sullo stesso registro tappato e deve uscire verde. TROVATO RIPARANDO: coerenza-rischi.mjs non aveva la guardia sul main — importarlo per una funzione pura ne eseguiva il programma, scriveva il report e chiamava process.exit. Aggiunta. 2 mutazioni, entrambe rendono rossa la prova."
+      "nota_fix": "Lotto 45 (22/8). RIPARATO — ed era ancora vivo, identico a com era stato scritto il 3 luglio. Misurato: 14 rischi nel registro canonico, 14 con owner, e SEI con la sentinella vuota — N2 KYC/antiriciclaggio, N4 inquadramento rider, N5 IVA, N6 alcolici, N7 allergeni, B5 stagionalita. Cinque su sei normativi. Sette settimane senza che nessuno se ne accorgesse, perche nessuno guardava. FATTO ① le sei sentinelle sono scritte, e descrivono una condizione OSSERVABILE, non una parola di riempimento (esempio N6: «un ordine con alcolici viene consegnato senza che la verifica dei 18 anni risulti fatta, in checkout o alla consegna»). ② LA CAUSA, che e il pezzo che conta: AR-015 fu dichiarato chiuso verificando che il FILE esistesse, non che le sue righe dicessero qualcosa — il guardiano coerenza-rischi.mjs controllava che il registro avesse una casa sola, mai la completezza semantica. Adesso rischiSenzaSentinella (funzione pura esportata) e cablata nel guardiano, che ESCE ROSSO se un rischio ha un proprietario e nessuna condizione che lo svegli. Due clausole che tengono onesto il freno: un rischio archiviato o chiuso non entra nel conto (sarebbe un rosso che non si puo togliere), e un rischio senza owner nemmeno (lo denuncia gia l altro controllo, e due rossi per un problema solo non si diagnosticano). PROVA a due versi: il guardiano vero gira su un registro finto bucato e deve uscire rosso nominando la riga, poi sullo stesso registro tappato e deve uscire verde. TROVATO RIPARANDO: coerenza-rischi.mjs non aveva la guardia sul main — importarlo per una funzione pura ne eseguiva il programma, scriveva il report e chiamava process.exit. Aggiunta. 2 mutazioni, entrambe rendono rossa la prova.",
+      "chiuso_il": "2026-08-22 13:47",
+      "chiuso_come": "node --test cervello/test/un-rischio-che-nessuno-vedra-arrivare.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-149",
@@ -2278,8 +2283,8 @@
       "nato": "2026-07-27",
       "origine": "auto-radiografia 2026-07-27 09:40 (24 dimensioni: macchina + Pannello + worker)",
       "verifica": {
-        "tipo": "comando",
-        "comando": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+        "tipo": "umano",
+        "nota": "RESTA APERTO — verifica UMANA apposta. Fatto nel lotto 45: un voto MAI MISURATO non esce piu come «0/100», cioe come una bocciatura (voceSalute, funzione pura, con la sua prova e la sua mutazione). QUELLO CHE MANCA e la domanda della scheda, che e ancora vera: alla domanda «come sto?» girano TRE numeri diversi — voto_salute 4, voto_pieno 0 (mai popolato in 90 snapshot), e il 28,22 che compare nella nota della sonda. Quale sia il metro giusto e una decisione sul significato, non sul codice, e va presa con Nicola. ⚠️ Stessa trappola di AR-070: la prova a comando verifica il pezzo curato e passa, mentre la divergenza dei tre numeri resta."
       },
       "nota": "Dove: cervello/pagella-intelligenza.mjs:336 (legge voto_salute) · cervello/salute-onesta.mjs:5-8 (dice perché quel voto è quello sbagliato) · pannello/src/components/cervello/RadiografiaDiSe.tsx:452,470 (grafico su voto_salute) · pannello/src/components/cervello/SaluteOnesta.tsx:63 (mostra voto_pieno) · Impatto: Il meccanismo di confronto della pagella marcherà la voce salute come «migliorata» ogni volta che il voto creditato si muove, anche se quello onesto resta inchiodato a zero: il gate anti-illusione, che serve proprio a dire «il fix era finto», può essere soddisfatto dal numero che ammette da solo di essere gonfiato. E Nicola, guardando la Radiografia, vede una serie storica che sale o scende su un metro che nessuno ha dichiarato essere quello creditato. · RIAPERTO 2026-07-27 12:30: era stato chiuso in automatico 60 secondi dopo il merge della radiografia, ma fra la nascita del difetto (09:40) e la chiusura (12:15) su main non e atterrato NESSUN fix — i soli commit sul codice erano Update settings.json e due recuperi di memoria. La verifica descriveva la presenza del BUG invece della presenza del FIX, quindi risultava gia soddisfatta alla nascita; e stata invertita.",
       "chiuso_il": "",
@@ -7916,7 +7921,7 @@
     },
     {
       "id": "AR-437",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "grave",
       "dimensione": "processi",
       "nato": "2026-07-29 17:02",
@@ -7931,7 +7936,10 @@
       "nato_come": "scoperta",
       "impatto_crescita": "medio",
       "impatto_crescita_nota": "scelta ragionata (B-impatto, AR-582): Il cancello-lotto rosso per costruzione ferma la CONSEGNA di ogni lotto di riparazione: non tocca ordini o negozi oggi, ma rallenta tutta la velocità con cui la macchina si ripara — la stessa leva del tasso di chiusura. Non 'alto' perché non tocca direttamente ricavi/clienti; non 'basso' perché blocca un processo intero.",
-      "nota_fix": "STORICO (lotto 32, conservato): MECCANISMO CONSEGNATO E PROVATO, NUMERO NON DICHIARABILE DA QUI. Costruito cervello/tetto-guardiano.mjs — la regola come funzione PURA, con dentro la causa radice della scheda (il tetto era proprieta della MISURA, non regola del CANCELLO, quindi ogni guardiano agganciato dopo nasce senza). Sette esiti: ok · cieco (il cieco vince sempre) · violazione del-lotto · non-contato · lotto-sconosciuto · oltre-il-tetto · debito. Cablato in cancello-lotto.mjs su entrambi i guardiani via applicaTetto. Mancavano due chiavi in cervello/tetti-lotto.json, fuori territorio di quella corsia.\n\nLotto 45 (22/8). La scheda diceva «due guardiani su quattro non hanno un tetto»: i tetti nel frattempo ci sono (prove_oneste 0, test_cervello 0) e il rosso di adesso era un ALTRO, piu grave. Misurato su main pulito: cancello exit 1, «test-del-cervello: 2 rosso/i contro un tetto di 0» su c2-schermo e c4-schermo-coda. Non erano rotte: bastava «npm install --prefix pannello» e passavano, 6 casi su 6. Erano CIECHE, e la cecita usciva ROSSA perche il freno stava dentro i comandi invece che sul dato: il typecheck sapeva dire ⚪, il banco sapeva dirlo per un import mancante, ma una prova che guida il Pannello fa partire «npm run dev» in un PROCESSO FIGLIO — li «next: not found» e testo dentro un log, e non lo vedeva nessuno dei due freni. CURA: la risposta «posso guardare da qui?» vive in cervello/ambiente-prova.mjs (casa unica; ambientePannello spostata li da cancello-lotto, che ora la ri-esporta) e la leggono tutti e tre i canali; avviaPannello RIFIUTA di accendere un Pannello che non puo partire, con ambienteNonPronto:true, cosi nessun chiamante — nemmeno una prova scritta domani — puo aggirarla. ESITO: cancello da exit 1 a exit 2, «test del cervello» ✅ e le due prove passano da ROSSE a ⚪ in 0,4s invece che dopo tre minuti. 5 mutazioni, tutte rendono rossa la prova. CORREZIONE DEL SECONDO GIRO (22/8): avevo scritto qui e nella PR che «nessun workflow gira cancello-lotto su pull_request», copiandolo dalla scheda di AR-346 senza verificarlo. E FALSO: .github/workflows/cancello-lotto.yml esiste, gira su pull_request, e la clausola (b) di AR-346 era gia chiusa. Me ne sono accorta perche la CI e partita da sola su questa richiesta. Un affermazione non verificata e un numero senza fonte, e questa e nata proprio dal fidarmi di una scheda invece che del codice — cioe dall errore che questo lotto ha passato la giornata a curare."
+      "nota_fix": "STORICO (lotto 32, conservato): MECCANISMO CONSEGNATO E PROVATO, NUMERO NON DICHIARABILE DA QUI. Costruito cervello/tetto-guardiano.mjs — la regola come funzione PURA, con dentro la causa radice della scheda (il tetto era proprieta della MISURA, non regola del CANCELLO, quindi ogni guardiano agganciato dopo nasce senza). Sette esiti: ok · cieco (il cieco vince sempre) · violazione del-lotto · non-contato · lotto-sconosciuto · oltre-il-tetto · debito. Cablato in cancello-lotto.mjs su entrambi i guardiani via applicaTetto. Mancavano due chiavi in cervello/tetti-lotto.json, fuori territorio di quella corsia.\n\nLotto 45 (22/8). La scheda diceva «due guardiani su quattro non hanno un tetto»: i tetti nel frattempo ci sono (prove_oneste 0, test_cervello 0) e il rosso di adesso era un ALTRO, piu grave. Misurato su main pulito: cancello exit 1, «test-del-cervello: 2 rosso/i contro un tetto di 0» su c2-schermo e c4-schermo-coda. Non erano rotte: bastava «npm install --prefix pannello» e passavano, 6 casi su 6. Erano CIECHE, e la cecita usciva ROSSA perche il freno stava dentro i comandi invece che sul dato: il typecheck sapeva dire ⚪, il banco sapeva dirlo per un import mancante, ma una prova che guida il Pannello fa partire «npm run dev» in un PROCESSO FIGLIO — li «next: not found» e testo dentro un log, e non lo vedeva nessuno dei due freni. CURA: la risposta «posso guardare da qui?» vive in cervello/ambiente-prova.mjs (casa unica; ambientePannello spostata li da cancello-lotto, che ora la ri-esporta) e la leggono tutti e tre i canali; avviaPannello RIFIUTA di accendere un Pannello che non puo partire, con ambienteNonPronto:true, cosi nessun chiamante — nemmeno una prova scritta domani — puo aggirarla. ESITO: cancello da exit 1 a exit 2, «test del cervello» ✅ e le due prove passano da ROSSE a ⚪ in 0,4s invece che dopo tre minuti. 5 mutazioni, tutte rendono rossa la prova. CORREZIONE DEL SECONDO GIRO (22/8): avevo scritto qui e nella PR che «nessun workflow gira cancello-lotto su pull_request», copiandolo dalla scheda di AR-346 senza verificarlo. E FALSO: .github/workflows/cancello-lotto.yml esiste, gira su pull_request, e la clausola (b) di AR-346 era gia chiusa. Me ne sono accorta perche la CI e partita da sola su questa richiesta. Un affermazione non verificata e un numero senza fonte, e questa e nata proprio dal fidarmi di una scheda invece che del codice — cioe dall errore che questo lotto ha passato la giornata a curare.",
+      "chiuso_il": "2026-08-22 13:47",
+      "chiuso_come": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-438",
@@ -9497,10 +9505,10 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
-      "chiuso_come": "Bonifica in radiografia 3/7: corretto il punto 2/7 a difetti_chiusi=5 e aggiunto il punto 3/7. Resta il fix di PROCESSO (entry-point atomico) come proposta 🟡.",
+      "chiuso_il": "2026-08-22 13:47",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9509,7 +9517,8 @@
         "pattern": "\"difetti_chiusi\":\\s*5",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: lo storico salute porta il conteggio delle chiusure e non uno stimato — misurato oggi, storico 608 contro 608 nel cantiere. La prova non pretende l uguaglianza al difetto (un lotto in corso ne muove) ma che lo scarto non sia strutturale: il difetto originale era «3 registrate su 5 vere»."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: lo storico salute porta il conteggio delle chiusure e non uno stimato — misurato oggi, storico 608 contro 608 nel cantiere. La prova non pretende l uguaglianza al difetto (un lotto in corso ne muove) ma che lo scarto non sia strutturale: il difetto originale era «3 registrate su 5 vere».",
+      "corroborata": true
     },
     {
       "id": "AR-047",
@@ -9590,9 +9599,9 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9601,7 +9610,9 @@
         "pattern": "\"lezioni_attive\":\\s*4",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ed era gia curato da AR-362, con una cura piu profonda di quella proposta: il problema non era un numero gonfiato, era UN CAMPO CON DUE SIGNIFICATI scritto da due script a turno (uno contava stato==attiva, l altro stato!=decaduta: 381 contro 476 sullo stesso file, e la Cabina mostrava quello di chi aveva girato per ultimo). Adesso la definizione e una sola (lezioniVive, funzione pura) e accanto al numero viaggia la PARTIZIONE COMPLETA con quadra:true. Misurato oggi: 512 vive, 407 attive, e i due numeri si vedono entrambi invece di sovrapporsi. La prova pretende che siano diversi: se tornassero uguali, l ambiguita sarebbe tornata."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ed era gia curato da AR-362, con una cura piu profonda di quella proposta: il problema non era un numero gonfiato, era UN CAMPO CON DUE SIGNIFICATI scritto da due script a turno (uno contava stato==attiva, l altro stato!=decaduta: 381 contro 476 sullo stesso file, e la Cabina mostrava quello di chi aveva girato per ultimo). Adesso la definizione e una sola (lezioniVive, funzione pura) e accanto al numero viaggia la PARTIZIONE COMPLETA con quadra:true. Misurato oggi: 512 vive, 407 attive, e i due numeri si vedono entrambi invece di sovrapporsi. La prova pretende che siano diversi: se tornassero uguali, l ambiguita sarebbe tornata.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-051",
@@ -9616,9 +9627,9 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9627,7 +9638,9 @@
         "pattern": "tasso_applicazione",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: tasso-lezioni.mjs CALCOLA il tasso, e nel file viaggiano anche tasso_calcolato_il e tasso_finestra_giorni. La prova pretende tutti e tre: un numero senza l istante e senza la finestra su cui e stato misurato torna a essere un opinione, che era il difetto."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: tasso-lezioni.mjs CALCOLA il tasso, e nel file viaggiano anche tasso_calcolato_il e tasso_finestra_giorni. La prova pretende tutti e tre: un numero senza l istante e senza la finestra su cui e stato misurato torna a essere un opinione, che era il difetto.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-052",
@@ -9642,9 +9655,9 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9653,7 +9666,9 @@
         "pattern": "chiusi_recenti|ultimi_?\\d+_?g|finestra",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: sonda-volano.mjs conta le chiusure RECENTI dentro una finestra (oreFinestra), non i contatori di sempre. Il difetto era che loop_chiude restasse true per sempre anche a loop fermo. Mutazione che rimette il contatore all-time."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: sonda-volano.mjs conta le chiusure RECENTI dentro una finestra (oreFinestra), non i contatori di sempre. Il difetto era che loop_chiude restasse true per sempre anche a loop fermo. Mutazione che rimette il contatore all-time.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-053",
@@ -9668,9 +9683,9 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9679,7 +9694,9 @@
         "pattern": "calibrazione\\.mjs scadute",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh lancia lo sweep deterministico delle previsioni scadute a ogni giro. Senza, marciscono aperte contando come «in corso» — cioe il volano si dichiara vivo con lavoro che nessuno ha misurato."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh lancia lo sweep deterministico delle previsioni scadute a ogni giro. Senza, marciscono aperte contando come «in corso» — cioe il volano si dichiara vivo con lavoro che nessuno ha misurato.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-054",
@@ -9694,9 +9711,9 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9705,7 +9722,9 @@
         "pattern": "data_misura",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: auto-coscienza.md dichiara lo schema degli esperimenti con gli stati ammessi (aperto|misurato|chiuso) e la data_misura obbligatoria. Un esperimento che non dice QUANDO e stato misurato non si chiude mai: il torneo benchmark-misura resterebbe aperto all infinito."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: auto-coscienza.md dichiara lo schema degli esperimenti con gli stati ammessi (aperto|misurato|chiuso) e la data_misura obbligatoria. Un esperimento che non dice QUANDO e stato misurato non si chiude mai: il torneo benchmark-misura resterebbe aperto all infinito.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-055",
@@ -9720,9 +9739,9 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9731,7 +9750,9 @@
         "pattern": "proposte_auto_riscrittura[\\s\\S]{0,120}\"stato\"",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: le proposte di auto-riscrittura hanno uno stato dichiarato (proposta|firmata|implementata|rifiutata), quindi possono chiudersi. Senza stato la lista conteneva proposte gia chiuse nel cantiere."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: le proposte di auto-riscrittura hanno uno stato dichiarato (proposta|firmata|implementata|rifiutata), quindi possono chiudersi. Senza stato la lista conteneva proposte gia chiuse nel cantiere.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-056",
@@ -9746,9 +9767,9 @@
         "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9757,7 +9778,9 @@
         "pattern": "mycity-giro\\.timer",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: mycity-giro.timer e nell elenco che verifica-automazione.mjs vigila, insieme a watch-main e sentinella-dati. Un battito che nessuno guarda puo morire in silenzio — era esattamente il difetto. Mutazione che lo toglie dall elenco."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: mycity-giro.timer e nell elenco che verifica-automazione.mjs vigila, insieme a watch-main e sentinella-dati. Un battito che nessuno guarda puo morire in silenzio — era esattamente il difetto. Mutazione che lo toglie dall elenco.",
+      "chiuso_come": "node --test cervello/test/cadenze-e-chiavi.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-057",
@@ -9772,9 +9795,9 @@
         "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9783,7 +9806,9 @@
         "pattern": "watch-main\\.timer",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: install-ritmo-timers.sh abilita e avvia verifica.timer e watch-main.timer, con la nota AR-057 accanto che spiega perche (verifica-automazione le da per attive: se nessuno le accende restano orfane, cioe censite e morte). Mutazione che rimuove l abilitazione."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: install-ritmo-timers.sh abilita e avvia verifica.timer e watch-main.timer, con la nota AR-057 accanto che spiega perche (verifica-automazione le da per attive: se nessuno le accende restano orfane, cioe censite e morte). Mutazione che rimuove l abilitazione.",
+      "chiuso_come": "node --test cervello/test/cadenze-e-chiavi.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-058",
@@ -9798,9 +9823,9 @@
         "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9809,7 +9834,9 @@
         "pattern": "budget|GIRO_AI_TIMEOUT=\\$\\{GIRO_AI_TIMEOUT:-8|GIRO_AI_TIMEOUT:-800",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE, ed e la cura piu bella della famiglia: il tempo per tentativo non e scelto a caso, e DERIVATO dal budget esterno — GIRO_BUDGET_SEC 2700 (deve combaciare con worker/systemd), GIRO_AI_TIMEOUT 800, e il conto 3×800+60=2460 sta dentro. La prova ESEGUE il conto invece di cercare le parole, e verifica anche che systemd non conceda meno di quanto il giro pianifica. Mutazione che allarga il tempo per tentativo: 3×1500+60 sfonda il budget e la prova diventa rossa."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE, ed e la cura piu bella della famiglia: il tempo per tentativo non e scelto a caso, e DERIVATO dal budget esterno — GIRO_BUDGET_SEC 2700 (deve combaciare con worker/systemd), GIRO_AI_TIMEOUT 800, e il conto 3×800+60=2460 sta dentro. La prova ESEGUE il conto invece di cercare le parole, e verifica anche che systemd non conceda meno di quanto il giro pianifica. Mutazione che allarga il tempo per tentativo: 3×1500+60 sfonda il budget e la prova diventa rossa.",
+      "chiuso_come": "node --test cervello/test/cadenze-e-chiavi.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-059",
@@ -9824,9 +9851,9 @@
         "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9835,7 +9862,9 @@
         "pattern": "daemon-reload",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: aggiorna-cervello.sh ripropaga le unit e lancia systemctl daemon-reload, quindi una cadenza nuova diventa attiva sul server invece di restare inerte. Mutazione che toglie il reload."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: aggiorna-cervello.sh ripropaga le unit e lancia systemctl daemon-reload, quindi una cadenza nuova diventa attiva sul server invece di restare inerte. Mutazione che toglie il reload.",
+      "chiuso_come": "node --test cervello/test/cadenze-e-chiavi.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-060",
@@ -9850,9 +9879,9 @@
         "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9861,7 +9890,9 @@
         "pattern": "timer automatico \\(mycity-giro\\.timer\\) è DISATTIVATO",
         "presente": false
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh dichiara «il battito e ATTIVO» in un punto solo. La prova pretende anche che la vecchia riga contraddittoria («DISATTIVATO») non torni: due dichiarazioni opposte nello stesso file sono peggio di nessuna. Mutazione che rimette la contraddizione."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh dichiara «il battito e ATTIVO» in un punto solo. La prova pretende anche che la vecchia riga contraddittoria («DISATTIVATO») non torni: due dichiarazioni opposte nello stesso file sono peggio di nessuna. Mutazione che rimette la contraddizione.",
+      "chiuso_come": "node --test cervello/test/cadenze-e-chiavi.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-061",
@@ -9876,9 +9907,9 @@
         "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9887,7 +9918,9 @@
         "pattern": "sensori-cecita|cecita|sensore_stato",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE, non sulla scheda: la cura c era gia (statoSensori/quotaCiechiAlta in calibrazione.mjs, e l esclusione SENSORE_CIECO in contaNelPunteggio). Mancava la PROVA: la scheda era ferma a una verifica del 3/7 che puntava a codice cambiato da allora, quindi «da-riverificare» — un difetto curato che nessun guardiano poteva dichiarare curato, ne accorgersi se tornava. Adesso la cura viene ESEGUITA sui dati. Il punto piu importante e il DEFAULT rovesciato: uno stato di sensore che non si riconosce NON e un permesso (prima si escludeva solo il «cieco» riconosciuto, e 41 voci chiuse su 42 cadevano nel ramo umano — 36 venivano dal quaderno che la macchina scrive da se). Mutazione dedicata: rimettendo il vecchio confronto, la prova diventa rossa."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE, non sulla scheda: la cura c era gia (statoSensori/quotaCiechiAlta in calibrazione.mjs, e l esclusione SENSORE_CIECO in contaNelPunteggio). Mancava la PROVA: la scheda era ferma a una verifica del 3/7 che puntava a codice cambiato da allora, quindi «da-riverificare» — un difetto curato che nessun guardiano poteva dichiarare curato, ne accorgersi se tornava. Adesso la cura viene ESEGUITA sui dati. Il punto piu importante e il DEFAULT rovesciato: uno stato di sensore che non si riconosce NON e un permesso (prima si escludeva solo il «cieco» riconosciuto, e 41 voci chiuse su 42 cadevano nel ramo umano — 36 venivano dal quaderno che la macchina scrive da se). Mutazione dedicata: rimettendo il vecchio confronto, la prova diventa rossa.",
+      "chiuso_come": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-062",
@@ -9902,9 +9935,9 @@
         "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9913,7 +9946,9 @@
         "pattern": "arg\\(\"fonte\"|--fonte|fonti_ammesse",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: --fonte e obbligatoria in cmdEsito (exit 2 se manca o non e fra le ammesse di registro-realta.json), e contaNelPunteggio esclude gli esiti senza fonte verificabile. La scheda era ferma al 3/7. Prova comportamentale che esegue il giudizio sulla fonte, piu mutazione che lo toglie e rende rossa la prova. Il conflitto di interesse che la scheda descriveva — chi produce l esito e chi ne beneficia in autonomia coincidono — resta chiuso dal fatto che l esito porti addosso da DOVE viene."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: --fonte e obbligatoria in cmdEsito (exit 2 se manca o non e fra le ammesse di registro-realta.json), e contaNelPunteggio esclude gli esiti senza fonte verificabile. La scheda era ferma al 3/7. Prova comportamentale che esegue il giudizio sulla fonte, piu mutazione che lo toglie e rende rossa la prova. Il conflitto di interesse che la scheda descriveva — chi produce l esito e chi ne beneficia in autonomia coincidono — resta chiuso dal fatto che l esito porti addosso da DOVE viene.",
+      "chiuso_come": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-063",
@@ -9928,9 +9963,9 @@
         "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9939,7 +9974,9 @@
         "pattern": "azzeccata|mancata|stato\\s*===\\s*\"chius",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: sonda-volano.mjs usa previsioneValida (volano-regole.mjs), che pretende stato azzeccata|mancata — aver PREVISTO non e aver IMPARATO. La scheda era ferma al 3/7. Prova che esegue il filtro sui due casi, piu mutazione che riammette le aperte."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: sonda-volano.mjs usa previsioneValida (volano-regole.mjs), che pretende stato azzeccata|mancata — aver PREVISTO non e aver IMPARATO. La scheda era ferma al 3/7. Prova che esegue il filtro sui due casi, piu mutazione che riammette le aperte.",
+      "chiuso_come": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-064",
@@ -9954,9 +9991,9 @@
         "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9965,7 +10002,9 @@
         "pattern": "scadut\\w+[^\\n]{0,60}(mancata|penal|previsioni)",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE, e la cura e diversa (e migliore) da quella proposta nella scheda: invece di contare le scadute come «mancate» nel punteggio, esiste debitoDiMisura() piu il vincolo --gate cablato in giro.sh e round6-applica.mjs — lasciar scadere una previsione non e piu gratis perche BLOCCA il giro finche non se ne chiude una. Registrato qui perche scheda e codice divergevano e comanda il codice. Prova che esegue il conto del debito sui quattro casi (dovuta, scaduta senza reale, misurata, ancora nei tempi), piu mutazione che fa sparire le scadute."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE, e la cura e diversa (e migliore) da quella proposta nella scheda: invece di contare le scadute come «mancate» nel punteggio, esiste debitoDiMisura() piu il vincolo --gate cablato in giro.sh e round6-applica.mjs — lasciar scadere una previsione non e piu gratis perche BLOCCA il giro finche non se ne chiude una. Registrato qui perche scheda e codice divergevano e comanda il codice. Prova che esegue il conto del debito sui quattro casi (dovuta, scaduta senza reale, misurata, ancora nei tempi), piu mutazione che fa sparire le scadute.",
+      "chiuso_come": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-065",
@@ -9980,9 +10019,9 @@
         "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -9991,7 +10030,9 @@
         "pattern": "wilson|lower.?bound|intervallo|campione_minimo|penalit",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: wilsonLowerBound (z 1.2816, confidenza 90%) piu MIN_CAMPIONE_ALTA=8, entrambi in ricalcolaReparti. La scheda era ferma al 3/7. Servivano DUE freni e la prova li separa: 3 su 3 non passa per il lower-bound, 7 su 7 passerebbe per il lower-bound e non passa per il campione. Due mutazioni distinte, una per freno — con una sola, togliere l altro sarebbe restato invisibile. NOTA DI METODO: le funzioni non erano esportate, quindi nessun test poteva ESEGUIRLE; esportate in questo lotto (regola: la logica che decide deve stare dove una prova la puo eseguire)."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: wilsonLowerBound (z 1.2816, confidenza 90%) piu MIN_CAMPIONE_ALTA=8, entrambi in ricalcolaReparti. La scheda era ferma al 3/7. Servivano DUE freni e la prova li separa: 3 su 3 non passa per il lower-bound, 7 su 7 passerebbe per il lower-bound e non passa per il campione. Due mutazioni distinte, una per freno — con una sola, togliere l altro sarebbe restato invisibile. NOTA DI METODO: le funzioni non erano esportate, quindi nessun test poteva ESEGUIRLE; esportate in questo lotto (regola: la logica che decide deve stare dove una prova la puo eseguire).",
+      "chiuso_come": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-066",
@@ -10006,13 +10047,15 @@
         "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: isPrevisioneBanale marca banale una previsione tautologica, e --baseline in cmdPrevedi avvisa quando atteso e uguale al valore di partenza. La scheda era ferma al 3/7. Prova che esegue il giudizio su una tautologia e su una scommessa vera, piu mutazione che rende di nuovo azzeccabile a costo zero il «prevedo che lo zero resti zero»."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: isPrevisioneBanale marca banale una previsione tautologica, e --baseline in cmdPrevedi avvisa quando atteso e uguale al valore di partenza. La scheda era ferma al 3/7. Prova che esegue il giudizio su una tautologia e su una scommessa vera, piu mutazione che rende di nuovo azzeccabile a costo zero il «prevedo che lo zero resti zero».",
+      "chiuso_come": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-067",
@@ -10027,9 +10070,9 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10038,7 +10081,9 @@
         "pattern": "checkSito|storefront|MARKETPLACE_SITE_URL|checkMarketplaceUp|uptime",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: verifica-sensori.mjs ha sito_uptime e checkSito, che bussa a MARKETPLACE_SITE_URL. Il difetto era che se il marketplace fosse giu la macchina restava cieca sugli ordini senza dirlo. La prova pretende anche che l indirizzo sia una variabile e non una costante: un sensore che bussa a un indirizzo scolpito misura il posto sbagliato appena qualcosa si sposta."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: verifica-sensori.mjs ha sito_uptime e checkSito, che bussa a MARKETPLACE_SITE_URL. Il difetto era che se il marketplace fosse giu la macchina restava cieca sugli ordini senza dirlo. La prova pretende anche che l indirizzo sia una variabile e non una costante: un sensore che bussa a un indirizzo scolpito misura il posto sbagliato appena qualcosa si sposta.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-068",
@@ -10053,9 +10098,9 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10064,7 +10109,9 @@
         "pattern": "\"owner\"",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: tutti e 14 i rischi del registro canonico hanno un owner, e l altro file e un PUNTATORE (_canonico) invece di un secondo registro che diverge. La prova scorre tutte le righe: se domani ne entra una senza owner, diventa rossa. (Le sentinelle mancanti erano un difetto separato, AR-148, riparato in questo stesso lotto.)"
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: tutti e 14 i rischi del registro canonico hanno un owner, e l altro file e un PUNTATORE (_canonico) invece di un secondo registro che diverge. La prova scorre tutte le righe: se domani ne entra una senza owner, diventa rossa. (Le sentinelle mancanti erano un difetto separato, AR-148, riparato in questo stesso lotto.)",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-069",
@@ -10079,9 +10126,9 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10090,7 +10137,9 @@
         "pattern": "\"stato\"",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: cantiere-pezzi.json esiste con 14 pezzi, tutti con uno stato. Il difetto era che «aggiustarsi» avesse un contratto di chiusura e «crescere» fosse solo un elenco descrittivo. Prova che pretende lo stato su OGNI pezzo: uno senza stato non si puo chiudere, ed e il difetto con un nome nuovo."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: cantiere-pezzi.json esiste con 14 pezzi, tutti con uno stato. Il difetto era che «aggiustarsi» avesse un contratto di chiusura e «crescere» fosse solo un elenco descrittivo. Prova che pretende lo stato su OGNI pezzo: uno senza stato non si puo chiudere, ed e il difetto con un nome nuovo.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-070",
@@ -10101,8 +10150,8 @@
       "causa_radice": "La definizione operativa di 'sensore' è 'conta righe su una tabella DB via REST', mentre il funnel vive in PostHog (eventi), collegato come health-check ma mai come fonte di soglie. Nel passaggio da 'sensore configurato' a 'sensore che alimenta una sentinella' PostHog è rimasto a metà (configurato-ma-non-usato).",
       "fix_proposto": "Aggiungere in sentinella-dati.mjs (o in un sensore-funnel dedicato) la lettura degli eventi PostHog checkout_start/order_completed con soglia 🟡 su drop-rate a 7gg, così cro/ux ricevono un lavoro quando la conversione crolla. Finché PostHog è non_configurato, tenerlo esplicito come 'sensore spento che alza il livello' nella lettera a Nicola.",
       "verifica": {
-        "tipo": "comando",
-        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+        "tipo": "umano",
+        "nota": "RESTA APERTO — verifica UMANA apposta, e il motivo va letto prima di ridargli una prova a comando. Il sensore del funnel non puo esistere finche PostHog e spento, e PostHog l ha spento Nicola il 5/7 («togli PostHog»). Chi giudica deve vedere DUE cose: (a) PostHog riacceso da Nicola, (b) un sensore che legge davvero gli eventi di checkout e alza una soglia quando la conversione crolla. ⚠️ NEL LOTTO 45 QUESTA SCHEDA STAVA PER CHIUDERSI DA SOLA: le avevo dato come prova il test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs, che verifica una cosa DIVERSA e giusta — che uno spento si legga come spento e mai come verde — e quindi passa mentre il difetto e vivo. Una prova che descrive lo stato onesto non e una prova che il difetto e curato. Il guardiano di quella proprieta resta nel file di prova, dove serve; questa scheda no."
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10131,9 +10180,9 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10142,7 +10191,9 @@
         "pattern": "expected_delivery|delivered_at|ritard|slot.{0,15}(scadut|super)",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: sentinella-dati.mjs ha ordini_slot_scaduto, misurato sul dato vero (expected_delivery passato E delivered_at nullo). E la promessa centrale del modello — se le consegne arrivano tardi il marketplace muore — e non aveva nessun sensore. La prova pretende la query, non la parola."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: sentinella-dati.mjs ha ordini_slot_scaduto, misurato sul dato vero (expected_delivery passato E delivered_at nullo). E la promessa centrale del modello — se le consegne arrivano tardi il marketplace muore — e non aveva nessun sensore. La prova pretende la query, non la parola.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-072",
@@ -10157,9 +10208,9 @@
         "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10168,7 +10219,9 @@
         "pattern": "colore\\s*!==\\s*[\"']verde[\"']",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ed era gia curato: autopilot.mjs, cancello semaforo fail-closed — in LIVE parte da solo SOLO il verde, e il verde deve reggere anche dal lato del CANALE, non solo dichiararsi tale nel file-dati. Giallo, rosso, colore mancante o scritto male si accodano per la firma. La scheda risultava «ancora viva» a un controllo per parole perche cercava «colore !== \"verde\"» mentre il codice usa gli emoji: e il motivo per cui un grep non e una prova. PROVA: si fa girare l autopilot VERO in LIVE, con le chiavi valorizzate, su un calendario e una coda temporanei — se il freno cade qualcosa parte davvero. Tre casi: un post pubblico giallo, uno che si dichiara verde su canale pubblico, uno con un colore che non si capisce. Due mutazioni, entrambe rendono rossa la prova."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ed era gia curato: autopilot.mjs, cancello semaforo fail-closed — in LIVE parte da solo SOLO il verde, e il verde deve reggere anche dal lato del CANALE, non solo dichiararsi tale nel file-dati. Giallo, rosso, colore mancante o scritto male si accodano per la firma. La scheda risultava «ancora viva» a un controllo per parole perche cercava «colore !== \"verde\"» mentre il codice usa gli emoji: e il motivo per cui un grep non e una prova. PROVA: si fa girare l autopilot VERO in LIVE, con le chiavi valorizzate, su un calendario e una coda temporanei — se il freno cade qualcosa parte davvero. Tre casi: un post pubblico giallo, uno che si dichiara verde su canale pubblico, uno con un colore che non si capisce. Due mutazioni, entrambe rendono rossa la prova.",
+      "chiuso_come": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-073",
@@ -10183,9 +10236,9 @@
         "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10194,7 +10247,9 @@
         "pattern": "[\"']verde[\"']\\s*,\\s*[\"']giallo[\"']\\s*,\\s*[\"']rosso[\"']",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: normalizzaColore restituisce 🔴 per qualunque valore mancante o non riconosciuto — fail-closed contro l enum, non testo libero fidato. Copertura gia esistente in autopilot-colore.test.mjs, piu il caso end-to-end nella prova della famiglia (una voce «verdino» viene accodata, non pubblicata). Mutazione dedicata: rimettendo il ramo permissivo la prova diventa rossa."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: normalizzaColore restituisce 🔴 per qualunque valore mancante o non riconosciuto — fail-closed contro l enum, non testo libero fidato. Copertura gia esistente in autopilot-colore.test.mjs, piu il caso end-to-end nella prova della famiglia (una voce «verdino» viene accodata, non pubblicata). Mutazione dedicata: rimettendo il ramo permissivo la prova diventa rossa.",
+      "chiuso_come": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-074",
@@ -10209,9 +10264,9 @@
         "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10220,7 +10275,9 @@
         "pattern": "coloreMinimo",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: coloreMinimoPer vive nei publishers — il rischio e una proprieta del CANALE, non un campo che la voce si scrive da sola — e coloreEffettivo prende il PEGGIORE fra il minimo del canale e il colore dichiarato. Email verso un indirizzo reale resta 🔴 anche se la voce si dichiara verde; un canale che nessun publisher dichiara vale 🔴. Prova che esegue i casi, piu mutazione che toglie il max e fa tornare la voce padrona del proprio colore."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: coloreMinimoPer vive nei publishers — il rischio e una proprieta del CANALE, non un campo che la voce si scrive da sola — e coloreEffettivo prende il PEGGIORE fra il minimo del canale e il colore dichiarato. Email verso un indirizzo reale resta 🔴 anche se la voce si dichiara verde; un canale che nessun publisher dichiara vale 🔴. Prova che esegue i casi, piu mutazione che toglie il max e fa tornare la voce padrona del proprio colore.",
+      "chiuso_come": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-075",
@@ -10235,9 +10292,9 @@
         "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10246,7 +10303,9 @@
         "pattern": "segnaposto|\\[ESEMPIO\\]|fonte",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: onesta-check.mjs esiste, e un guardiano che ESCE DIVERSO DA ZERO su un numero senza fonte, ed e cablato nel percorso di pubblicazione (gate-pubblicazione.sh). Prova a due versi: «gia 500 famiglie ordinano» viene fermato, «vieni a scoprire le botteghe» passa — senza il secondo caso il guardiano potrebbe essere sempre rosso, e un guardiano sempre rosso viene spento entro la settimana. Mutazione che gli toglie il riconoscimento della fonte."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: onesta-check.mjs esiste, e un guardiano che ESCE DIVERSO DA ZERO su un numero senza fonte, ed e cablato nel percorso di pubblicazione (gate-pubblicazione.sh). Prova a due versi: «gia 500 famiglie ordinano» viene fermato, «vieni a scoprire le botteghe» passa — senza il secondo caso il guardiano potrebbe essere sempre rosso, e un guardiano sempre rosso viene spento entro la settimana. Mutazione che gli toglie il riconoscimento della fonte.",
+      "chiuso_come": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-076",
@@ -10261,9 +10320,9 @@
         "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10272,7 +10331,9 @@
         "pattern": "avvis|notific",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). CURATO DAL DIFETTO PADRE, e va detto invece di lasciarlo aperto: la scheda chiedeva che l autopilot AVVISASSE Nicola dopo aver pubblicato un 🟡. Con AR-072 il 🟡 non parte piu da solo — quindi non c e piu niente da notificare a cose fatte: c e una card da firmare in coda, che e meglio. La prova pretende che la card ci sia E che porti scritto il motivo («il canale facebook vale almeno 🟡»): un no muto non si firma. Mutazione che fa sparire la scrittura in coda."
+      "nota_fix": "Lotto 45 (22/8). CURATO DAL DIFETTO PADRE, e va detto invece di lasciarlo aperto: la scheda chiedeva che l autopilot AVVISASSE Nicola dopo aver pubblicato un 🟡. Con AR-072 il 🟡 non parte piu da solo — quindi non c e piu niente da notificare a cose fatte: c e una card da firmare in coda, che e meglio. La prova pretende che la card ci sia E che porti scritto il motivo («il canale facebook vale almeno 🟡»): un no muto non si firma. Mutazione che fa sparire la scrittura in coda.",
+      "chiuso_come": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-077",
@@ -10287,9 +10348,9 @@
         "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10298,7 +10359,9 @@
         "pattern": "speso|budget|STOP",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: cervello/sentinella-budget.mjs esiste, gira, riporta reparto per reparto quanto e stato speso contro il budget e accoda uno STOP 🔴 in coda quando si sfora — la soglia e un numero configurabile (soglia_stop), non prosa nel mansionario. Prova che lo esegue davvero. Mutazione che scollega la soglia dalla configurazione. NOTA TROVATA VERIFICANDO: questo file non ha la guardia sul main, quindi importarlo ne ESEGUE il programma (malattia censita «programma-che-parte-importando», tetto 63): per questo la prova lo lancia come processo, non lo importa."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: cervello/sentinella-budget.mjs esiste, gira, riporta reparto per reparto quanto e stato speso contro il budget e accoda uno STOP 🔴 in coda quando si sfora — la soglia e un numero configurabile (soglia_stop), non prosa nel mansionario. Prova che lo esegue davvero. Mutazione che scollega la soglia dalla configurazione. NOTA TROVATA VERIFICANDO: questo file non ha la guardia sul main, quindi importarlo ne ESEGUE il programma (malattia censita «programma-che-parte-importando», tetto 63): per questo la prova lo lancia come processo, non lo importa.",
+      "chiuso_come": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-078",
@@ -10313,9 +10376,9 @@
         "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10324,7 +10387,9 @@
         "pattern": "AZIONI-IN-ATTESA|DECISIONI",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: esegui-azione.mjs passa dal cancello di consenso per-azione (consenso-azione.mjs, AR-103), cita AZIONE_ID e scrive una riga append-only in DECISIONI.md al momento dell esecuzione LIVE. Prova comportamentale: si esegue consensoInvio con azione non firmata e senza credenziali per verificare la PAUSA — deve NEGARE e dire perche, fail-closed. Mutazione che lo rende fail-open: la prova diventa rossa."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: esegui-azione.mjs passa dal cancello di consenso per-azione (consenso-azione.mjs, AR-103), cita AZIONE_ID e scrive una riga append-only in DECISIONI.md al momento dell esecuzione LIVE. Prova comportamentale: si esegue consensoInvio con azione non firmata e senza credenziali per verificare la PAUSA — deve NEGARE e dire perche, fail-closed. Mutazione che lo rende fail-open: la prova diventa rossa.",
+      "chiuso_come": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-079",
@@ -10339,9 +10404,9 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10350,7 +10415,9 @@
         "pattern": "allocazione-check[\\s\\S]{0,120}(_alloc|rc=\\$\\?|VINCOLO)",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh lancia allocazione-check.mjs a ogni giro e ne RACCOGLIE il verdetto (_alloc_rc). Il difetto era che il silo fosse conclamato e mai corretto: adesso e un guardiano che gira, non una constatazione in una lettera."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh lancia allocazione-check.mjs a ogni giro e ne RACCOGLIE il verdetto (_alloc_rc). Il difetto era che il silo fosse conclamato e mai corretto: adesso e un guardiano che gira, non una constatazione in una lettera.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-080",
@@ -10365,9 +10432,9 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10376,7 +10443,9 @@
         "pattern": "ordini|consegnat|north",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ESEGUENDOLO: north-star-check.mjs gira e stampa i numeri (negozi live, ordini creati, ordini pagati = stella polare) CON la fonte accanto. La prova lo lancia davvero. Il difetto era che la North Star vivesse come prosa in OKR-Squadra e nessuno script la misurasse. Nota onesta dall esecuzione: oggi la fonte dichiarata e «baseline STATO.md, sensori ciechi» — cioe il motore c e e dice anche quando NON sta guardando i dati veri, che e il comportamento giusto."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ESEGUENDOLO: north-star-check.mjs gira e stampa i numeri (negozi live, ordini creati, ordini pagati = stella polare) CON la fonte accanto. La prova lo lancia davvero. Il difetto era che la North Star vivesse come prosa in OKR-Squadra e nessuno script la misurasse. Nota onesta dall esecuzione: oggi la fonte dichiarata e «baseline STATO.md, sensori ciechi» — cioe il motore c e e dice anche quando NON sta guardando i dati veri, che e il comportamento giusto.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-081",
@@ -10391,9 +10460,9 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10402,7 +10471,9 @@
         "pattern": "[Ii]mpatto.?sistema|spillover|intasa|brucia margine",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: il verdetto dell allocazione diventa ALLOC_VINCOLO, cioe un vincolo hard per il motore, non un avviso. Il difetto era che il pre-mortem cross-silo fosse un rituale manuale senza forcing-function — e un rituale che si puo saltare viene saltato proprio quando servirebbe."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: il verdetto dell allocazione diventa ALLOC_VINCOLO, cioe un vincolo hard per il motore, non un avviso. Il difetto era che il pre-mortem cross-silo fosse un rituale manuale senza forcing-function — e un rituale che si puo saltare viene saltato proprio quando servirebbe.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-082",
@@ -10417,9 +10488,9 @@
         "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10428,7 +10499,9 @@
         "pattern": "scegliModello|banco-ai\\.mjs",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: il router costo non e piu morto — worker.sh importa scegliModello da banco-ai.mjs e lo interroga (riga ~121), e c e un uso reale sul compito «testi-volume». PROVA a due pezzi, e servono entrambi: (a) il router risponde DIVERSO per compiti diversi — se rispondesse la stessa cosa a tutto sarebbe di nuovo codice morto con un nome nuovo; (b) il punto che spende lo CHIAMA — un router che nessuno interroga resta morto anche se funziona benissimo. Mutazione che commenta l import."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: il router costo non e piu morto — worker.sh importa scegliModello da banco-ai.mjs e lo interroga (riga ~121), e c e un uso reale sul compito «testi-volume». PROVA a due pezzi, e servono entrambi: (a) il router risponde DIVERSO per compiti diversi — se rispondesse la stessa cosa a tutto sarebbe di nuovo codice morto con un nome nuovo; (b) il punto che spende lo CHIAMA — un router che nessuno interroga resta morto anche se funziona benissimo. Mutazione che commenta l import.",
+      "chiuso_come": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-083",
@@ -10443,9 +10516,9 @@
         "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10454,7 +10527,9 @@
         "pattern": "GIRO_TOKEN=",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh raccoglie GIRO_TOKEN e lo PASSA a costo-ai.mjs (--token). Il difetto era esattamente il passaggio mancante: il contatore riceveva zero, quindi la soglia da 2M non poteva scattare nemmeno in teoria. La prova pretende tutte e due le meta — raccolto E passato. Mutazione che toglie il passaggio."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh raccoglie GIRO_TOKEN e lo PASSA a costo-ai.mjs (--token). Il difetto era esattamente il passaggio mancante: il contatore riceveva zero, quindi la soglia da 2M non poteva scattare nemmeno in teoria. La prova pretende tutte e due le meta — raccolto E passato. Mutazione che toglie il passaggio.",
+      "chiuso_come": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-084",
@@ -10469,9 +10544,9 @@
         "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10480,7 +10555,9 @@
         "pattern": "metabolizz[\\s\\S]{0,400}(scegliModello|GROQ|MODELLO_ECON|length|caratteri)",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE, e la cura e diversa da quella proposta: non un gate di valore, ma una PRECEDENZA — una chat in attesa passa sempre davanti a giro/ritmo/metabolizza. Prima era FIFO stretto: una metabolizzazione accodata prima si mangiava il turno premium mentre Nicola aspettava. Registrato perche scheda e codice divergevano e comanda il codice. Mutazione che toglie la precedenza."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE, e la cura e diversa da quella proposta: non un gate di valore, ma una PRECEDENZA — una chat in attesa passa sempre davanti a giro/ritmo/metabolizza. Prima era FIFO stretto: una metabolizzazione accodata prima si mangiava il turno premium mentre Nicola aspettava. Registrato perche scheda e codice divergevano e comanda il codice. Mutazione che toglie la precedenza.",
+      "chiuso_come": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-085",
@@ -10495,9 +10572,9 @@
         "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10506,7 +10583,9 @@
         "pattern": "classificaErrore|classe.*quota|retry-policy",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: retry-policy.mjs classifica l errore e giro.sh gli CHIEDE prima di riprovare, fermandosi quando la policy dice STOP. Il cuore della cura, che la scheda non nominava: le classi hanno budget DIVERSI (quota 6 tentativi col backoff verso il reset, altro 3) — prima erano 3 rilanci ciechi per tutti, e su quota si sbatteva contro un muro tre volte bruciando la finestra. La prova pretende anche il verso opposto: sotto il tetto si ritenta, e col QUANDO — un ritento senza istante e un rilancio cieco con un altro nome. Mutazione che riallinea i due budget."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: retry-policy.mjs classifica l errore e giro.sh gli CHIEDE prima di riprovare, fermandosi quando la policy dice STOP. Il cuore della cura, che la scheda non nominava: le classi hanno budget DIVERSI (quota 6 tentativi col backoff verso il reset, altro 3) — prima erano 3 rilanci ciechi per tutti, e su quota si sbatteva contro un muro tre volte bruciando la finestra. La prova pretende anche il verso opposto: sotto il tetto si ritenta, e col QUANDO — un ritento senza istante e un rilancio cieco con un altro nome. Mutazione che riallinea i due budget.",
+      "chiuso_come": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-086",
@@ -10521,9 +10600,9 @@
         "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10532,7 +10611,9 @@
         "pattern": "delta-gate",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: ritmo.sh chiama delta-gate.mjs. Con la clausola che era costata cara e che la prova pretende sia scritta: il gate resta SOLO sul mezzogiorno, perche applicandolo anche a mattino e sera il report non veniva piu riscritto e il Pannello restava fermo all ultima data. Mutazione che scollega il gate dal ritmo."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: ritmo.sh chiama delta-gate.mjs. Con la clausola che era costata cara e che la prova pretende sia scritta: il gate resta SOLO sul mezzogiorno, perche applicandolo anche a mattino e sera il report non veniva piu riscritto e il Pannello restava fermo all ultima data. Mutazione che scollega il gate dal ritmo.",
+      "chiuso_come": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-087",
@@ -10547,9 +10628,9 @@
         "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10558,7 +10639,9 @@
         "pattern": "costo-ai\\.mjs --json|COSTO_SOGLIA|budget.*stop|gate.budget",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh legge lo stato da costo-ai.mjs --json e se i token di oggi hanno superato la soglia il giro premium non parte. Il pezzo piu importante e una riga sola: GATE-BUDGET non bypassa GIRO_FORCE — la forzatura salta il throttle, mai il tetto di spesa. Senza quella distinzione il circuit-breaker sarebbe aggirabile dalla scorciatoia piu usata. Mutazione che toglie la distinzione."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh legge lo stato da costo-ai.mjs --json e se i token di oggi hanno superato la soglia il giro premium non parte. Il pezzo piu importante e una riga sola: GATE-BUDGET non bypassa GIRO_FORCE — la forzatura salta il throttle, mai il tetto di spesa. Senza quella distinzione il circuit-breaker sarebbe aggirabile dalla scorciatoia piu usata. Mutazione che toglie la distinzione.",
+      "chiuso_come": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-088",
@@ -10573,9 +10656,9 @@
         "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10584,7 +10667,9 @@
         "pattern": "cat \"\\$SCRIPT_DIR/monitora.md\"",
         "presente": false
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: monitora.sh passa un PUNTATORE — l AI apre monitora.md dal disco con Read — invece di incollare tutto il file nel prompt. La prova pretende due cose: che il perche sia scritto accanto alla cura, e che il vecchio «cat» non torni. Mutazione sulla nota che porta la cura."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: monitora.sh passa un PUNTATORE — l AI apre monitora.md dal disco con Read — invece di incollare tutto il file nel prompt. La prova pretende due cose: che il perche sia scritto accanto alla cura, e che il vecchio «cat» non torni. Mutazione sulla nota che porta la cura.",
+      "chiuso_come": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-089",
@@ -10599,9 +10684,9 @@
         "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10610,7 +10695,9 @@
         "pattern": "sbp_",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ed era gia curato — la scheda risultava «ancora viva» a un controllo per parole solo perche le regole sono state spostate: non stanno piu dentro scan-segreti.mjs ma in segreti-pattern.mjs, che riconosce sbp_ (Supabase management token). E il motivo per cui un grep non chiude niente in questa casa. PROVA: si costruisce un token finto e si pretende che almeno una regola lo riconosca; piu il controllo che lo scanner USI quelle regole invece di avere la sua copia (una parola con due padroni diverge in silenzio). Mutazione che toglie la regola."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ed era gia curato — la scheda risultava «ancora viva» a un controllo per parole solo perche le regole sono state spostate: non stanno piu dentro scan-segreti.mjs ma in segreti-pattern.mjs, che riconosce sbp_ (Supabase management token). E il motivo per cui un grep non chiude niente in questa casa. PROVA: si costruisce un token finto e si pretende che almeno una regola lo riconosca; piu il controllo che lo scanner USI quelle regole invece di avere la sua copia (una parola con due padroni diverge in silenzio). Mutazione che toglie la regola.",
+      "chiuso_come": "node --test cervello/test/cadenze-e-chiavi.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-090",
@@ -10621,8 +10708,8 @@
       "causa_radice": "L'MCP Supabase ufficiale nasce con il management token e si è preso quello che 'funzionava' per far partire velocemente la memoria. Non è stato ristretto dopo perché non esiste un inventario/rotazione delle credenziali con livello di privilegio richiesto. Causa di sistema: manca una policy di least-privilege sulle chiavi (una chiave = un ambito) e un registro delle credenziali.",
       "fix_proposto": "Decisione di Nicola: (a) ruotare SUPABASE_ACCESS_TOKEN e sostituirlo con credenziali a privilegio minimo separate per progetto; (b) documentarlo in .env.example con l'ambito richiesto; (c) NON riusare lo stesso token per marketplace e memoria. Resta 🔴 (rotazione di credenziali reali = firma Nicola).",
       "verifica": {
-        "tipo": "comando",
-        "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
+        "tipo": "umano",
+        "nota": "RESTA APERTO IN PARTE — verifica UMANA apposta. Fatto nel lotto 45: entrambi gli MCP sono in sola lettura e ristretti ognuno al suo progetto (--project-ref diversi), quindi il perimetro del token e chiuso su due lati e quella parte ha la sua prova. QUELLO CHE MANCA e fuori dal codice: il token di gestione e ancora UNO per tutti e due. Separarlo e un azione sul conto Supabase di Nicola — 🔴 — e da qui non si puo fare ne provare. Chi giudica deve vedere due token distinti, ognuno col suo progetto. ⚠️ Stessa trappola di AR-070: la prova a comando che avevo messo verifica il perimetro (vero e utile) e passa mentre la separazione delle credenziali non esiste."
       },
       "colore": "🔴",
       "stato": "da-riverificare",
@@ -10646,9 +10733,9 @@
         "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10657,7 +10744,9 @@
         "pattern": "read-only[\\s\\S]*read-only",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: entrambi gli MCP portano --read-only. Il difetto diceva che il cervello poteva DROP/DELETE la propria memoria: adesso non puo. Prova che scorre tutti i server dichiarati — se domani se ne aggiunge uno senza sola lettura, diventa rossa. Mutazione che toglie il flag alla memoria."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: entrambi gli MCP portano --read-only. Il difetto diceva che il cervello poteva DROP/DELETE la propria memoria: adesso non puo. Prova che scorre tutti i server dichiarati — se domani se ne aggiunge uno senza sola lettura, diventa rossa. Mutazione che toglie il flag alla memoria.",
+      "chiuso_come": "node --test cervello/test/cadenze-e-chiavi.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-092",
@@ -10672,9 +10761,9 @@
         "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10683,7 +10772,9 @@
         "pattern": "checkout --theirs",
         "presente": false
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: worker.sh non contiene piu «checkout --theirs». Il difetto era che un conflitto si risolvesse cancellando ciecamente il lavoro dell altro lato — poteva cancellare un «FATTO» e causare un DOPPIO invio verso il mondo reale. Mutazione che rimette la riga."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: worker.sh non contiene piu «checkout --theirs». Il difetto era che un conflitto si risolvesse cancellando ciecamente il lavoro dell altro lato — poteva cancellare un «FATTO» e causare un DOPPIO invio verso il mondo reale. Mutazione che rimette la riga.",
+      "chiuso_come": "node --test cervello/test/cadenze-e-chiavi.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-093",
@@ -10698,9 +10789,9 @@
         "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10709,7 +10800,9 @@
         "pattern": "pausa non verificabile|PAUSA_FAIL_CLOSED|non verificabile.*fermo",
         "presente": true
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ed era gia curato — la scheda risultava «ancora viva» a un controllo per parole perche cercava una frase mai scritta cosi. pausa_consenti_partenza (kill-switch.sh) e fail-closed: quando lo stato non e verificabile torna 1, cioe NON parte. E c e il pezzo aggiunto dopo, che rende il freno utile invece che solo corretto: pausa_segnala_cieco fa USCIRE il fail-closed dalla macchina, perche in Cabina «Nicola ha messo in pausa» e «non riesco a leggere se e in pausa» erano indistinguibili — due cose molto diverse, una normale e una un guasto. La prova pretende anche il confine opposto scritto: senza credenziali il kill-switch non e collegato affatto (clone locale, CI) e li si parte, o il freno bloccherebbe ogni sessione. Mutazione che rimette il fail-open."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ed era gia curato — la scheda risultava «ancora viva» a un controllo per parole perche cercava una frase mai scritta cosi. pausa_consenti_partenza (kill-switch.sh) e fail-closed: quando lo stato non e verificabile torna 1, cioe NON parte. E c e il pezzo aggiunto dopo, che rende il freno utile invece che solo corretto: pausa_segnala_cieco fa USCIRE il fail-closed dalla macchina, perche in Cabina «Nicola ha messo in pausa» e «non riesco a leggere se e in pausa» erano indistinguibili — due cose molto diverse, una normale e una un guasto. La prova pretende anche il confine opposto scritto: senza credenziali il kill-switch non e collegato affatto (clone locale, CI) e li si parte, o il freno bloccherebbe ogni sessione. Mutazione che rimette il fail-open.",
+      "chiuso_come": "node --test cervello/test/cadenze-e-chiavi.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-094",
@@ -10724,9 +10817,9 @@
         "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10735,7 +10828,9 @@
         "pattern": "force-push",
         "presente": false
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: .env.example non prescrive piu il force-push. Era la documentazione che insegnava esattamente il gesto che aveva causato la perdita di memoria. La prova dichiara il caso in cui il file non esiste invece di fingere di aver guardato. Mutazione che rimette la prescrizione."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: .env.example non prescrive piu il force-push. Era la documentazione che insegnava esattamente il gesto che aveva causato la perdita di memoria. La prova dichiara il caso in cui il file non esiste invece di fingere di aver guardato. Mutazione che rimette la prescrizione.",
+      "chiuso_come": "node --test cervello/test/cadenze-e-chiavi.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-095",
@@ -10750,9 +10845,9 @@
         "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10761,7 +10856,9 @@
         "pattern": "InfinitaPossibilita",
         "presente": false
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: .claude/settings.json non contiene piu percorsi di un altra macchina. Permessi legati a una macchina che non esiste piu sono permessi che nessuno rilegge — e un permesso non riletto e un permesso non capito. La prova cerca anche qualunque percorso Windows assoluto, non solo quello specifico. Mutazione che ne rimette uno."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: .claude/settings.json non contiene piu percorsi di un altra macchina. Permessi legati a una macchina che non esiste piu sono permessi che nessuno rilegge — e un permesso non riletto e un permesso non capito. La prova cerca anche qualunque percorso Windows assoluto, non solo quello specifico. Mutazione che ne rimette uno.",
+      "chiuso_come": "node --test cervello/test/cadenze-e-chiavi.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-096",
@@ -10776,9 +10873,9 @@
         "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
-      "stato": "da-riverificare",
+      "stato": "chiuso",
       "nato": "2026-07-03",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
       "nato_come": "scoperta",
@@ -10787,7 +10884,9 @@
         "pattern": "votoPrima \\+ 2 \\* chiusiOra",
         "presente": false
       },
-      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: votoSaluteDaRegistrare (auto-fix.mjs) e una funzione pura ed esportata, e copre entrambe le direzioni — la salita (+2 fisso, il difetto originale) e la DISCESA, che il round 3 aveva scoperto essere peggio: chiudere un freno di sicurezza faceva crollare il voto da 43 a 0, punendo esattamente il comportamento voluto. La scheda era ferma al 3/7. Prova che esegue i tre casi (misura vera, misura assente, misura a zero), piu mutazione che riporta l azzeramento."
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: votoSaluteDaRegistrare (auto-fix.mjs) e una funzione pura ed esportata, e copre entrambe le direzioni — la salita (+2 fisso, il difetto originale) e la DISCESA, che il round 3 aveva scoperto essere peggio: chiudere un freno di sicurezza faceva crollare il voto da 43 a 0, punendo esattamente il comportamento voluto. La scheda era ferma al 3/7. Prova che esegue i tre casi (misura vera, misura assente, misura a zero), piu mutazione che riporta l azzeramento.",
+      "chiuso_come": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-023",
@@ -15765,9 +15864,10 @@
       "dove": "cervello/cantiere-prove.mjs:144 · cervello/chiusure-audit.mjs · cervello/allinea-scan-cantiere.mjs · cervello/sorvegliante.mjs · cervello/spazzata-fratelli.mjs",
       "verifica": {
         "tipo": "comando",
-        "comando": "node cervello/prove-difetti.mjs --ar-743"
+        "comando": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
       },
-      "nota_prova": "Nasce ROSSA, ed e il suo stato giusto: il difetto e aperto. Diventa verde quando qualcuno lo ripara davvero, non quando qualcuno scrive la parola giusta da qualche parte."
+      "nota_prova": "Nasce ROSSA, ed e il suo stato giusto: il difetto e aperto. Diventa verde quando qualcuno lo ripara davvero, non quando qualcuno scrive la parola giusta da qualche parte.",
+      "nota_fix": "Lotto 46 (22/8). RIPARATO. VERIFICATO SUL CODICE, e la scheda era piu larga del vero: diceva sei copie,\nne ho trovate QUATTRO della stessa decisione (la casa piu tre: allinea-scan-cantiere, cantiere-prove,\nchiusure-audit). Le altre due che il conteggio includeva stanno in sorvegliante.mjs e decidono una cosa\nDIVERSA — i pattern delle malattie su un diff, non le prove delle schede — quindi non appartengono a\nquesto difetto. Registrato perche scheda e codice divergevano e comanda il codice. (Fra quelle due pero\nc'e una asimmetria vera: una passa da senzaCommenti e l'altra no. E la stessa malattia in un altro\npunto, e non l'ho toccata qui per non allargare il lotto.)\n\nLE TRE COPIE ERANO TUTTE DIVERSE, ed e il punto: allinea-scan e cantiere-prove facevano la regex nuda,\nchiusure-audit aveva il letterale (AR-037/AR-151) ma non la cura del commento. Cioe le due cure che la\ncasa aveva imparato proteggevano meta dei chiamanti.\n\nCOSA COSTAVANO, e non sono simmetriche: senza il letterale un pattern col dollaro in mezzo non combacia\nmai e un difetto RIPARATO risulta aperto per sempre; senza la cura del commento una prova che cita una\nfrase scritta dentro un commento CHIUDE un difetto rotto. Il secondo e il danno peggiore — e proprio il\ncaso di AR-355, due difetti del worker chiusi sulla descrizione della cura invece che sulla cura.\n\nCURA: i tre chiamano provaSoddisfatta (cervello/prove-regole.mjs), che gia contiene entrambe le difese —\nquindi collegarli e un guadagno secco, nessuna cura persa. PROVA: i due casi che hanno rotto eseguiti sui\ndati veri, piu la rete larga che cerca sul DATO e non sui tre nomi noti: se domani nasce un quarto\npadrone, la prova cade. 5 mutazioni, tutte la rendono rossa.\n\nTROVATO SBAGLIANDO, e vale la pena scriverlo: al primo tentativo la nota che stavo inserendo conteneva un\ndollaro seguito da un apice inverso. Dentro una stringa di sostituzione quella coppia significa «tutto il\ntesto PRIMA della corrispondenza», e mi sono incollata mezzo file dentro un commento in tutti e tre. I file\nnon compilavano piu. Ripristinati e rifatto passando una funzione, che non interpreta niente."
     },
     {
       "id": "AR-744",
@@ -16564,12 +16664,14 @@
         "comando": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-22",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 13:47",
       "nato_come": "scoperta",
       "provenienza": "Scoperto il 22/8 riparando AR-437, togliendo pannello/node_modules per misurare una sessione appena aperta: il banco stampava «✅ 2 file su 2 girano e passano» per c2-schermo e c4-schermo-coda, che avevano appena dichiarato di non aver guardato niente. Non l ha introdotto questo lotto: c era dal 14/8, da quando esiste il meccanismo del salto. Peggio del rosso da cui si partiva — un rosso e rumoroso, questo era muto.",
-      "nota_fix": "Meccanismo consegnato e provato nel lotto 45 (5 mutazioni rosse). Lo stato lo applica auto-fix dopo il merge."
+      "nota_fix": "Meccanismo consegnato e provato nel lotto 45 (5 mutazioni rosse). Lo stato lo applica auto-fix dopo il merge.",
+      "chiuso_come": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-782",
@@ -16609,6 +16711,26 @@
         "comando": "node cervello/test/cancello-che-accusa-di-cose-non-tue.test.mjs"
       },
       "nota_fix": "Quattro prove non vuote (senza il ramo ⚪ 3/4; senza il marcatore di taglio 3/4). ⚠️ DEBITO DICHIARATO: finche' la coda supera il tetto, il cricchetto della leggibilita' su quel file non protegge — esce ⚪. E' una perdita vera sul file che Nicola legge di piu', e la prova ② la tiene visibile invece di lasciarla passare per verde."
+    },
+    {
+      "id": "AR-784",
+      "titolo": "Nel grafico della salute lo stesso campo porta un totale o un conteggio del momento, secondo chi scrive",
+      "dimensione": "integrita-memoria",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "storico-salute.json e una serie sola scritta da DUE programmi. La sonda del volano scrive in difetti_chiusi il TOTALE dei chiusi nel cantiere; auto-fix ci scrive quanti ne ha chiusi in QUELLA passata. Misurato il 22/8: 600, 606, 608 dalla sonda, poi 50 da auto-fix. Chi legge la serie come un andamento vede un crollo di 558 chiusure mai avvenuto, e quella serie disegna il grafico che Nicola guarda in Cabina. Perche nessuno se n era accorto: i due scrittori non si incontrano mai — la sonda gira nel giro, auto-fix dopo un merge — e il campo ha lo stesso nome, quindi da fuori sembra una serie sola. Era incoerente anche dentro la singola riga: difetti_aperti sulla stessa riga e uno stock (meta.da_fare), difetti_chiusi era un flusso.",
+      "fix_proposto": "Fatto nel lotto 46: in auto-fix il campo porta lo STOCK come lo scrive la sonda, e il conteggio della passata prende un nome suo (chiusi_in_questa_passata). RESTA DA FARE: i punti gia scritti in passato restano ambigui — chi legge lo storico vecchio non puo sapere quale dei due significati aveva ogni riga. Non li riscrivo: la storia non si riscrive.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+      },
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-22",
+      "chiuso_il": "",
+      "nato_come": "scoperta",
+      "provenienza": "Scoperto il 22/8 nel lotto 46: applicando le chiusure del lotto 45, auto-fix ha scritto 50 dove la sonda scriveva 608, e la prova di AR-046 (scritta nel lotto 45, che pretende che lo scarto fra storico e cantiere non sia strutturale) e diventata rossa. Non l ha introdotto questo lotto: c era da sempre. E la prova che ha fatto il suo mestiere — era stata scritta apposta per accorgersi di questo.",
+      "nota_fix": "Cura consegnata e provata nel lotto 46. Lo stato lo applica auto-fix dopo il merge."
     }
   ],
   "meta": {
