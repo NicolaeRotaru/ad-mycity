@@ -40,7 +40,9 @@ import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { existsSync } from "node:fs";
 import { avviaPannello, spegniPannello } from "./aiuto-pannello.mjs";
+import { possoGuidareIlPannello, rigaSalto } from "../ambiente-prova.mjs";
 
 const require = createRequire(import.meta.url);
 const QUI = dirname(fileURLToPath(import.meta.url));
@@ -70,9 +72,19 @@ async function raggiungibile() {
 }
 
 // Va fatto QUI, prima che node:test registri i casi: dopo, il salto non si legge più.
-if (!risolviPlaywright()) {
+//
+// La domanda era UNA SOLA — «c'è Playwright?» — e le cose da avere sono DUE: il browser e
+// `pannello/node_modules`, senza cui `npm run dev` esce subito con `next: not found`. Chi non aveva
+// il browser saltava dichiarando ⚪; chi ce l'aveva ma non poteva accendere il Pannello usciva
+// ROSSO — stessa cecità, due colori, e il secondo bloccava il cancello di tutti (AR-437). Adesso
+// la risposta è una sola e vive in `cervello/ambiente-prova.mjs`.
+const possibile = possoGuidareIlPannello({
+  esisteInPannello: (f) => existsSync(join(RADICE, "pannello", f)),
+  playwright: Boolean(risolviPlaywright()),
+});
+if (!possibile.puoi) {
   console.log("TAP version 13");
-  console.log("1..0 # SKIP nessun browser su questa macchina: i tre difetti di schermo (AR-613 comandi annidati, AR-614 tema scuro, AR-673 salto del collegamento) NON sono stati verificati qui");
+  console.log(rigaSalto({ motivo: possibile.motivo, comando: possibile.comando, difetti: ["AR-613", "AR-614", "AR-673"] }));
   process.exit(0);
 }
 

@@ -19,6 +19,7 @@ import {
   Loader2,
   ArrowRight,
 } from "lucide-react";
+import { barraConfidenza } from "@/lib/confidenza-calibrazione";
 import { dataVault, dataVaultRecente } from "@/lib/format";
 import { ancoraChiesta, vaiArea } from "@/lib/nav";
 import { usePanelSync } from "@/lib/panel-sync";
@@ -159,7 +160,9 @@ type AppMeta = {
   tick_leggero_il?: string;
 };
 type Apprendimento = { data?: string; aggiornato?: string; lezioni?: Lezione[]; principi?: string[]; preferenze_nicola?: string[]; meta?: AppMeta };
-type Calibrazione = { per_reparto?: { reparto?: string; previsioni?: number; azzeccate?: number; punteggio?: number; autonomia?: string; nota?: string }[] };
+// AR-131 — `lower_bound` esiste in calibrazione.json dal 3/7 e questo type non lo dichiarava:
+// un campo che il type non nomina è un campo che la Cabina non può mostrare, per costruzione.
+type Calibrazione = { per_reparto?: { reparto?: string; previsioni?: number; azzeccate?: number; punteggio?: number; lower_bound?: number; autonomia?: string; nota?: string }[] };
 type Benchmark = {
   reparto?: string;
   ambito?: string;
@@ -861,8 +864,12 @@ export default function AutoCoscienza({
                         <div className="flex items-center gap-2 text-[12px] flex-wrap">
                           <span className="font-medium">{repartoLeggibile(r.reparto)}</span>
                           <span className="t-eti">{r.azzeccate}/{r.previsioni} previsioni azzeccate</span>
-                          <span className="ml-auto flex items-center gap-1.5">{barra(r.punteggio)}<span className="t-eti">{autonomiaLeggibile(r.autonomia)}</span></span>
+                          {/* AR-131 — la barra disegna la CONFIDENZA, non la proporzione grezza: su tre
+                              esiti azzeccati su tre il grezzo è 100% e la confidenza 38%, e la barra
+                              verde piena diceva il massimo della fiducia dove ce n'era meno. */}
+                          <span className="ml-auto flex items-center gap-1.5">{barra(barraConfidenza(r).valore ?? undefined)}<span className="t-eti">{autonomiaLeggibile(r.autonomia)}</span></span>
                         </div>
+                        <div className="t-eti mt-0.5">{barraConfidenza(r).etichetta}</div>
                         {r.nota && <TestoUmano testo={r.nota} className="text-[11.5px] text-black/55 mt-1" />}
                       </div>
                     ))}

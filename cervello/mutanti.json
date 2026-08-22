@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-21 21:45",
+ "aggiornato": "2026-08-22 14:00",
  "mutanti": [
   {
    "lotto": 30,
@@ -5455,6 +5455,486 @@
    "cerca": "  if (riaggiunte.length) {",
    "sostituisci": "  if (false) {",
    "test": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
+  },
+  {
+   "difetto": "AR-437",
+   "nome": "il banco torna a leggere ROSSO una cecita del processo figlio: c2-schermo e c4-schermo-coda ribloccano il cancello di tutti",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "  const cecita = cecitaDaAmbiente(testo);",
+   "sostituisci": "  const cecita = { cieco: false };",
+   "test": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
+  },
+  {
+   "difetto": "AR-781",
+   "nome": "il salto mascherato dal reporter torna a comprare il verde: una prova che non ha guardato niente conta come passata",
+   "file": "cervello/ambiente-prova.mjs",
+   "cerca": "  const m = /^\\s*(?:#\\s+)?1\\.\\.0(?:\\s+\\\\?#\\s*SKIP\\b(.*))?\\s*$/im.exec(String(uscita || \"\"));",
+   "sostituisci": "  const m = /^\\s*1\\.\\.0(?:\\s+#\\s*SKIP\\b(.*))?\\s*$/im.exec(String(uscita || \"\"));",
+   "test": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
+  },
+  {
+   "difetto": "AR-437",
+   "nome": "il freno sul dato sparisce: si riaccende un Pannello che non puo partire e si aspetta tre minuti un cadavere",
+   "file": "cervello/test/aiuto-pannello.mjs",
+   "cerca": "  if (!amb.pronto) {",
+   "sostituisci": "  if (false) {",
+   "test": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
+  },
+  {
+   "difetto": "AR-781",
+   "nome": "non-vacuita torna ad avere la SUA copia della lettura del salto: due copie di un freno non sono un freno",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "  if (leggiSalto(uscita).salto) return true;",
+   "sostituisci": "  if (/^\\s*1\\.\\.0\\b[^\\n]*#\\s*skip/im.test(String(uscita))) return true;",
+   "test": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
+  },
+  {
+   "difetto": "AR-065",
+   "nome": "la confidenza torna a essere la proporzione grezza: tre colpi fortunati ricomprano l autonomia alta",
+   "file": "cervello/calibrazione.mjs",
+   "cerca": "  return Math.max(0, (centro - margine) / denom);",
+   "sostituisci": "  return p;",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-065",
+   "nome": "sparisce il campione minimo: sette esiti bastano di nuovo per l autonomia alta",
+   "file": "cervello/calibrazione.mjs",
+   "cerca": "export const MIN_CAMPIONE_ALTA = 8;",
+   "sostituisci": "export const MIN_CAMPIONE_ALTA = 3;",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-061",
+   "nome": "un esito misurato da un sensore che non vedeva torna a contare nel punteggio",
+   "file": "cervello/previsione-verificabile.mjs",
+   "cerca": "  if (voce.sensore_stato !== \"ok\" && voce.sensore_stato !== \"n/d\") motivi.push(ESCLUSA.SENSORE_CIECO);",
+   "sostituisci": "  if (voce.sensore_stato === \"cieco\") motivi.push(ESCLUSA.SENSORE_CIECO);",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-066",
+   "nome": "la tautologia torna a valere quanto una scommessa: atteso 0 e reale 0 conta",
+   "file": "cervello/calibrazione.mjs",
+   "cerca": "  if (entry.atteso === 0 && reale === 0) return true;",
+   "sostituisci": "  if (false) return true;",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-096",
+   "nome": "il voto di salute torna ad azzerarsi quando la radiografia non misura: chiudere un freno fa peggiorare il voto",
+   "file": "cervello/auto-fix.mjs",
+   "cerca": "  const ultimoNoto = [...(serie || [])].reverse().find((v) => Number(v?.voto_salute) > 0);",
+   "sostituisci": "  const ultimoNoto = null;",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-063",
+   "nome": "una previsione ancora APERTA torna a valere come prova che il volano chiude",
+   "file": "cervello/volano-regole.mjs",
+   "cerca": "  if (e.stato !== \"azzeccata\" && e.stato !== \"mancata\") return false;",
+   "sostituisci": "  if (false) return false;",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-064",
+   "nome": "una previsione scaduta senza esito torna a sparire invece di restare un debito",
+   "file": "cervello/calibrazione.mjs",
+   "cerca": "  const scadute = registro.filter((e) => e.stato === \"scaduta\" && e.reale == null);",
+   "sostituisci": "  const scadute = [];",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-062",
+   "nome": "un esito senza fonte torna a coniare autonomia: chi produce il numero e chi ne beneficia coincidono",
+   "file": "cervello/previsione-verificabile.mjs",
+   "cerca": "  if (banale(voce)) motivi.push(ESCLUSA.BANALE);",
+   "sostituisci": "  if (banale(voce)) motivi.push(ESCLUSA.BANALE); // fonte non piu richiesta",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-131",
+   "nome": "la barra della Cabina torna a disegnare la proporzione grezza: tre su tre e di nuovo verde piena",
+   "file": "pannello/src/lib/confidenza-calibrazione.ts",
+   "cerca": "    valore: conf,",
+   "sostituisci": "    valore: grezzo,",
+   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+  },
+  {
+   "difetto": "AR-131",
+   "nome": "il lower-bound mancante torna a ripiegare in silenzio sul grezzo, spacciato per confidenza",
+   "file": "pannello/src/lib/confidenza-calibrazione.ts",
+   "cerca": "  if (!Number.isFinite(conf)) {",
+   "sostituisci": "  if (false) {",
+   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+  },
+  {
+   "difetto": "AR-131",
+   "nome": "il componente torna a passare il punteggio grezzo alla barra",
+   "file": "pannello/src/components/AutoCoscienza.tsx",
+   "cerca": "{barra(barraConfidenza(r).valore ?? undefined)}",
+   "sostituisci": "{barra(r.punteggio)}",
+   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+  },
+  {
+   "difetto": "AR-175",
+   "nome": "un voto di salute mai misurato torna a uscire come 0 su 100, cioe come una bocciatura",
+   "file": "cervello/pagella-intelligenza.mjs",
+   "cerca": "  const misurato = grezzo !== null && grezzo !== undefined && Number.isFinite(Number(grezzo));",
+   "sostituisci": "  const misurato = true;",
+   "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+  },
+  {
+   "difetto": "AR-072",
+   "nome": "l autopilot torna a pubblicare da solo i gialli in LIVE: post pubblici sul brand senza firma",
+   "file": "cervello/autopilot.mjs",
+   "cerca": "    if (LIVE && effettivo !== \"🟢\") {",
+   "sostituisci": "    if (LIVE && effettivo === \"🔴\") {",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-072",
+   "nome": "un colore che non si capisce torna a essere un permesso invece che un rosso",
+   "file": "cervello/autopilot.mjs",
+   "cerca": "  return PAROLA_A_EMOJI[s] || \"🔴\";",
+   "sostituisci": "  return PAROLA_A_EMOJI[s] || \"🟢\";",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-074",
+   "nome": "la voce torna a potersi dichiarare piu sicura del proprio canale",
+   "file": "cervello/autopilot.mjs",
+   "cerca": "  return coloreMax(coloreMinimoPer(voce.canale, voce), voce.colore);",
+   "sostituisci": "  return normalizzaColore(voce.colore);",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-076",
+   "nome": "un giallo fermato torna a sparire in silenzio: nessuna card in coda, nessun motivo",
+   "file": "cervello/autopilot.mjs",
+   "cerca": "      const ok = accoda(voce);",
+   "sostituisci": "      const ok = true;",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-073",
+   "nome": "il colore torna a essere testo libero fidato invece di un enum validato: verdino apre il cancello",
+   "file": "cervello/autopilot.mjs",
+   "cerca": "  if (SCALA[s] !== undefined) return s;",
+   "sostituisci": "  if (SCALA[s] !== undefined) return s;\n  if (s) return \"🟢\";",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-075",
+   "nome": "il controllo di onesta smette di riconoscere una fonte: ogni numero passa, anche inventato",
+   "file": "cervello/onesta-check.mjs",
+   "cerca": "const RE_FONTE = /(fonte\\s*:|\\(fonte|\\[dati\\]|\\[fonte|supabase|stripe|posthog|registro-fatti|registro-realt|\\{fonte:)/i;",
+   "sostituisci": "const RE_FONTE = /[\\s\\S]/i;",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-077",
+   "nome": "la soglia di STOP del budget torna a essere prosa: nessun numero configurabile",
+   "file": "cervello/sentinella-budget.mjs",
+   "cerca": "  const soglia = cfg && typeof cfg.soglia_stop === \"number\" ? cfg.soglia_stop : 1.0;",
+   "sostituisci": "  const soglia = 1.0; // soglia_stop non piu letta",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-078",
+   "nome": "un invio senza azione firmata torna a passare: il cancello del consenso diventa fail-open",
+   "file": "cervello/consenso-azione.mjs",
+   "cerca": "    return { live: false, motivo: \"nessun AZIONE_ID: l'invio non è agganciato a una casella firmata (AZIONE_ID mancante)\" };",
+   "sostituisci": "    return { live: true, motivo: \"\" };",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-082",
+   "nome": "il worker smette di interrogare il router costo: ogni compito torna al motore piu caro",
+   "file": "cervello/worker.sh",
+   "cerca": "import { scegliModello } from \"./cervello/banco-ai.mjs\";",
+   "sostituisci": "// import { scegliModello } from \"./cervello/banco-ai.mjs\";",
+   "test": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
+  },
+  {
+   "difetto": "AR-085",
+   "nome": "le classi di errore tornano ad avere lo stesso budget: rilanci ciechi anche su quota",
+   "file": "cervello/retry-policy.mjs",
+   "cerca": "export const MAX_TENTATIVI_QUOTA = 6;",
+   "sostituisci": "export const MAX_TENTATIVI_QUOTA = 3;",
+   "test": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
+  },
+  {
+   "difetto": "AR-083",
+   "nome": "i token reali non arrivano piu al contatore: la soglia non puo scattare",
+   "file": "cervello/giro.sh",
+   "cerca": "${GIRO_TOKEN:+--token=\"$GIRO_TOKEN\"}",
+   "sostituisci": "",
+   "test": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
+  },
+  {
+   "difetto": "AR-086",
+   "nome": "il ritmo torna fuori dal delta-gate: cadenze premium a vuoto",
+   "file": "cervello/ritmo.sh",
+   "cerca": "delta-gate.mjs",
+   "sostituisci": "delta-gate-spento.mjs",
+   "test": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
+  },
+  {
+   "difetto": "AR-088",
+   "nome": "monitora torna a incollare tutto il file nel prompt",
+   "file": "cervello/monitora.sh",
+   "cerca": "# AR-088: NON incollare tutto monitora.md nel prompt",
+   "sostituisci": "# nota rimossa",
+   "test": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
+  },
+  {
+   "difetto": "AR-084",
+   "nome": "la precedenza sparisce: una chat di Nicola torna ad aspettare dietro una metabolizzazione premium",
+   "file": "cervello/worker.sh",
+   "cerca": "una chat in attesa passa SEMPRE davanti a giro/ritmo/metabolizza",
+   "sostituisci": "nota rimossa",
+   "test": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
+  },
+  {
+   "difetto": "AR-087",
+   "nome": "la forzatura del giro torna a bypassare anche il tetto di spesa, non solo il throttle",
+   "file": "cervello/giro.sh",
+   "cerca": "# GATE-BUDGET non bypassa GIRO_FORCE",
+   "sostituisci": "# nota rimossa",
+   "test": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
+  },
+  {
+   "difetto": "AR-056",
+   "nome": "il battito da due ore esce dall elenco di cio che viene vigilato: puo morire in silenzio",
+   "file": "cervello/verifica-automazione.mjs",
+   "cerca": "  \"mycity-giro.timer\",",
+   "sostituisci": "",
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
+  },
+  {
+   "difetto": "AR-057",
+   "nome": "i due timer tornano orfani: censiti nel guardiano e mai abilitati da nessuno",
+   "file": "cervello/vps/install-ritmo-timers.sh",
+   "cerca": "  mycity-watch-main.service mycity-watch-main.timer",
+   "sostituisci": "",
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
+  },
+  {
+   "difetto": "AR-058",
+   "nome": "il tempo per tentativo torna piu largo del budget esterno: i tre tentativi muoiono a meta",
+   "file": "cervello/giro.sh",
+   "cerca": "GIRO_AI_TIMEOUT=\"${GIRO_AI_TIMEOUT:-800}\"",
+   "sostituisci": "GIRO_AI_TIMEOUT=\"${GIRO_AI_TIMEOUT:-1500}\"",
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
+  },
+  {
+   "difetto": "AR-059",
+   "nome": "l aggiornamento del server smette di ricaricare systemd: una cadenza nuova resta inerte",
+   "file": "cervello/vps/aggiorna-cervello.sh",
+   "cerca": "    systemctl daemon-reload",
+   "sostituisci": "    true # daemon-reload rimosso",
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
+  },
+  {
+   "difetto": "AR-060",
+   "nome": "torna la contraddizione sullo stato del battito",
+   "file": "cervello/giro.sh",
+   "cerca": "# AR-060: il battito è ATTIVO.",
+   "sostituisci": "# AR-060: il timer automatico (mycity-giro.timer) è DISATTIVATO.",
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
+  },
+  {
+   "difetto": "AR-089",
+   "nome": "lo scanner dei segreti smette di riconoscere il token piu potente di tutti",
+   "file": "cervello/segreti-pattern.mjs",
+   "cerca": "{ nome: \"Supabase management token (sbp_)\", re: /sbp_[A-Za-z0-9]{20,}/g, sostituto: \"sbp_…[REDATTO]\" },",
+   "sostituisci": "",
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
+  },
+  {
+   "difetto": "AR-092",
+   "nome": "il worker torna a risolvere i conflitti con --theirs cieco: puo cancellare un FATTO e causare un doppio invio",
+   "file": "cervello/worker.sh",
+   "cerca": "MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra)",
+   "sostituisci": "MEM_DIRS=(MyCity-Vault consegne creativi memoria-squadra) # git checkout --theirs",
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
+  },
+  {
+   "difetto": "AR-093",
+   "nome": "il kill-switch torna a fallire APERTO: senza poter leggere l interruttore il giro parte lo stesso",
+   "file": "cervello/kill-switch.sh",
+   "cerca": "       pausa_segnala_cieco \"$etichetta\" \"$rc\"\n       return 1 ;;",
+   "sostituisci": "       return 0 ;;",
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
+  },
+  {
+   "difetto": "AR-090",
+   "nome": "un MCP perde la restrizione al suo progetto: un token solo torna ad aprire tutta l organizzazione",
+   "file": ".mcp.json",
+   "cerca": "\"--project-ref=xjljcsorpbqwttrejqte\"",
+   "sostituisci": "\"--project-ref=clmpyfvpvfjgeviworth\"",
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
+  },
+  {
+   "difetto": "AR-091",
+   "nome": "l MCP della memoria torna in scrittura: il cervello puo cancellarsi la propria memoria",
+   "file": ".mcp.json",
+   "cerca": "        \"--read-only\",\n        \"--project-ref=xjljcsorpbqwttrejqte\"",
+   "sostituisci": "        \"--project-ref=xjljcsorpbqwttrejqte\"",
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
+  },
+  {
+   "difetto": "AR-094",
+   "nome": "la documentazione torna a prescrivere il force-push che aveva cancellato la memoria",
+   "file": "cervello/vps/.env.example",
+   "cerca": "GIT_BRANCH",
+   "sostituisci": "GIT_BRANCH # pubblica con git push --force",
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
+  },
+  {
+   "difetto": "AR-095",
+   "nome": "tornano i permessi legati a un altra macchina: percorsi che nessuno rilegge",
+   "file": ".claude/settings.json",
+   "cerca": "\"permissions\"",
+   "sostituisci": "\"_vecchio\": \"C:\\\\InfinitaPossibilita\", \"permissions\"",
+   "test": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
+  },
+  {
+   "difetto": "AR-148",
+   "nome": "il guardiano torna a non guardare le sentinelle: un rischio con owner e senza allarme passa come coerente",
+   "file": "cervello/coerenza-rischi.mjs",
+   "cerca": "  const senzaSentinella = rischiSenzaSentinella(rischiCanonici);",
+   "sostituisci": "  const senzaSentinella = [];",
+   "test": "node --test cervello/test/un-rischio-che-nessuno-vedra-arrivare.test.mjs"
+  },
+  {
+   "difetto": "AR-148",
+   "nome": "la sentinella vuota torna a contare come piena: uno spazio basta a soddisfare il controllo",
+   "file": "cervello/coerenza-rischi.mjs",
+   "cerca": "    return !String(r.sentinella || \"\").trim();",
+   "sostituisci": "    return r.sentinella === undefined;",
+   "test": "node --test cervello/test/un-rischio-che-nessuno-vedra-arrivare.test.mjs"
+  },
+  {
+   "difetto": "AR-050",
+   "nome": "«attive» e «vive» tornano a essere lo stesso numero: un campo con due significati",
+   "file": "cervello/misura-parziale.mjs",
+   "cerca": "export function lezioniVive(dati) {",
+   "sostituisci": "export function lezioniVive(dati) {\n  if (globalThis.__mut050) return { vive: 0, totale: 0, per_stato: {}, quadra: false };",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-051",
+   "nome": "il tasso di applicazione perde l istante in cui e stato calcolato: torna un opinione",
+   "file": "cervello/tasso-lezioni.mjs",
+   "cerca": "tasso_applicazione",
+   "sostituisci": "tasso_applicazione_disattivato",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-052",
+   "nome": "la prova di chiusura torna ai contatori di sempre: «il loop chiude» resta vero per sempre",
+   "file": "cervello/sonda-volano.mjs",
+   "cerca": "oreFa(d.chiuso_il) <= oreFinestra",
+   "sostituisci": "true",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-053",
+   "nome": "sparisce lo sweep delle previsioni scadute: marciscono aperte contando come in corso",
+   "file": "cervello/giro.sh",
+   "cerca": "calibrazione.mjs scadute",
+   "sostituisci": "calibrazione.mjs report",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-054",
+   "nome": "gli esperimenti perdono la data di misura: il torneo resta aperto all infinito",
+   "file": "cervello/auto-coscienza.md",
+   "cerca": "\"data_misura\":\"AAAA-MM-GG\"",
+   "sostituisci": "\"nota\":\"…\"",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-055",
+   "nome": "le proposte di auto-riscrittura perdono lo stato: la lista contiene cose gia chiuse",
+   "file": "cervello/auto-coscienza.md",
+   "cerca": "\"stato\":\"proposta|firmata|implementata|rifiutata\"",
+   "sostituisci": "\"nota\":\"…\"",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-067",
+   "nome": "sparisce il sensore di raggiungibilita del sito: se il marketplace e giu la macchina e cieca",
+   "file": "cervello/verifica-sensori.mjs",
+   "cerca": "  sito_uptime: \"uptime\",",
+   "sostituisci": "",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-071",
+   "nome": "sparisce la puntualita delle consegne: la promessa del modello torna senza sensore",
+   "file": "cervello/sentinella-dati.mjs",
+   "cerca": "ordini_slot_scaduto",
+   "sostituisci": "ordini_slot_scaduto_spento",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-079",
+   "nome": "il verdetto dell allocazione torna a essere buttato invece che raccolto",
+   "file": "cervello/giro.sh",
+   "cerca": "_alloc_rc=$?",
+   "sostituisci": "_alloc_rc=0",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-081",
+   "nome": "il pre-mortem torna un rituale: il verdetto non diventa piu un vincolo per il motore",
+   "file": "cervello/giro.sh",
+   "cerca": "ALLOC_VINCOLO=\"\"",
+   "sostituisci": "ALLOC_VINCOLO_SPENTO=\"\"",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-046",
+   "nome": "lo storico salute torna a registrare un numero di chiusure scollegato dal cantiere",
+   "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json",
+   "cerca": "\"difetti_chiusi\": 608",
+   "sostituisci": "\"difetti_chiusi\": 3",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-068",
+   "nome": "un rischio di compliance torna senza owner: un rischio di nessuno",
+   "file": "MyCity-Vault/05-Soldi-Rischi/REGISTRO-RISCHI.json",
+   "cerca": "\"owner\": \"@finanza + @legale-privacy\"",
+   "sostituisci": "\"owner\": \"\"",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-069",
+   "nome": "un pezzo nuovo torna senza stato: la proposta non si puo piu chiudere",
+   "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-pezzi.json",
+   "cerca": "\"stato\"",
+   "sostituisci": "\"stato_disattivato\"",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-070",
+   "nome": "uno spento torna a leggersi come verde: un sensore che tace e uno che dice tutto bene diventano la stessa riga",
+   "file": "cervello/verifica-sensori.mjs",
+   "cerca": "  posthog_api: \"optional\",",
+   "sostituisci": "  posthog_api: \"required\",",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-080",
+   "nome": "la stella polare smette di dire la fonte del numero: torna un numero orfano",
+   "file": "cervello/north-star-check.mjs",
+   "cerca": "Fonte del numero",
+   "sostituisci": "Nota",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   }
  ]
 }

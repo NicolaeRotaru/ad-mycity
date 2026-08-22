@@ -43,14 +43,14 @@ const PATH = join(VAULT, "calibrazione.json");
 const CECITA_PATH = join(VAULT, "sensori-cecita.json"); // AR-061
 const REGISTRO_REALTA_PATH = join(VAULT, "registro-realta.json"); // AR-062
 const TOLLERANZA_DEFAULT = 0.25;
-const MIN_PER_AUTONOMIA = 3;
+export const MIN_PER_AUTONOMIA = 3;
 // AR-065: campione minimo per concedere autonomia "alta" (3 esiti sono troppo pochi per fidarsi).
-const MIN_CAMPIONE_ALTA = 8;
+export const MIN_CAMPIONE_ALTA = 8;
 
 // AR-065: lower-bound di Wilson (one-sided, z≈1.2816 → confidenza 90%) sulla proporzione di azzeccate.
 // Penalizza i campioni minuscoli: con pochi esiti l'intervallo di confidenza è largo e il lower_bound
 // crolla, così "ha azzeccato spesso" non basta — serve che sia SOLIDO. Evita l'autonomia "alta" al buio.
-function wilsonLowerBound(azzeccate, previsioni, z = 1.2816) {
+export function wilsonLowerBound(azzeccate, previsioni, z = 1.2816) {
   if (previsioni <= 0) return 0;
   const p = azzeccate / previsioni;
   const z2 = z * z;
@@ -83,7 +83,7 @@ function readJsonSafe(percorso, fallback) {
 }
 
 // AR-062: fonti ammesse per un esito misurato ("nessun numero senza fonte").
-function fontiAmmesse() {
+export function fontiAmmesse() {
   const reg = readJsonSafe(REGISTRO_REALTA_PATH, {});
   const f = reg?.numeri_da_non_inventare?.fonti_ammesse;
   return Array.isArray(f) && f.length
@@ -170,7 +170,7 @@ function readCalibrazione() {
 // AR-044: previsioni status-quo (es. «N numeri invariati») non gonfiano l'autonomia.
 const RE_PREVISIONE_BANALE = /invariati|status[- ]quo|numeri fermi|nessun camb/i;
 
-function isPrevisioneBanale(entry, reale) {
+export function isPrevisioneBanale(entry, reale) {
   if (entry.banale === true) return true;
   const testo = `${entry.azione || ""} ${entry.metrica || ""} ${entry.nota || ""}`;
   if (entry.atteso === 0 && reale === 0) return true;

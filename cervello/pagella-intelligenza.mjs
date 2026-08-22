@@ -332,18 +332,51 @@ function misuraSalute(soglie) {
       come_si_alza: "sale da solo quando salgono le altre 4 voci — non si tocca a mano",
     };
   }
-  const ultimo = serie[serie.length - 1];
-  const voto = Number(ultimo.voto_salute) || 0;
-  return {
+  return voceSalute(serie[serie.length - 1], soglie);
+}
+
+/**
+ * La quinta voce, come funzione PURA — così una prova la può eseguire (AR-175).
+ *
+ * IL DIFETTO, misurato il 22/8. `Number(ultimo.voto_salute) || 0` fa una cosa sola per due
+ * situazioni opposte: un voto misurato che vale zero, e un voto che nessuno ha misurato. Il secondo
+ * usciva come «0/100», con `cieco: false` e `ok: false` — cioè una BOCCIATURA. È la malattia
+ * censita «cieco-che-torna-una-misura»: un buco nei dati travestito da giudizio, e per giunta nella
+ * voce che risponde a «come sto?».
+ *
+ * ⚠️ PERCHÉ NON HO FATTO QUELLO CHE CHIEDEVA LA SCHEDA. AR-175 proponeva di passare la voce al voto
+ * onesto (`voto_pieno`). Verificato prima di farlo: `voto_pieno` vale 0 in TUTTI E 90 gli snapshot
+ * della serie — non è mai stato popolato. Passarci sopra avrebbe mostrato a Nicola «0/100» come se
+ * fosse un giudizio, cioè avrebbe sostituito una bugia con una peggiore. Il metro giusto resta da
+ * decidere (è la parte che resta aperta sulla scheda); quello che si può chiudere oggi è che un
+ * numero non misurato smetta di presentarsi come un voto.
+ */
+export function voceSalute(ultimo = {}, soglie = { salute_min: 80 }) {
+  const grezzo = ultimo?.voto_salute;
+  const misurato = grezzo !== null && grezzo !== undefined && Number.isFinite(Number(grezzo));
+  const base = {
     id: "salute",
     titolo: "Voto salute che si dà da sola",
-    valore: voto,
-    etichetta: `${voto}/100 (misurato ${ultimo.data || "?"})`,
     soglia: `≥${soglie.salute_min}/100`,
-    ok: voto >= soglie.salute_min,
-    cieco: false,
     fonte: "auto-coscienza/storico-salute.json",
     come_si_alza: "sale da solo quando salgono le altre 4 voci — non si tocca a mano",
+  };
+  if (!misurato) {
+    return {
+      ...base,
+      valore: null,
+      etichetta: `non misurato (ultimo punto: ${ultimo?.data || "senza data"})`,
+      ok: false,
+      cieco: true,
+    };
+  }
+  const voto = Number(grezzo);
+  return {
+    ...base,
+    valore: voto,
+    etichetta: `${voto}/100 (misurato ${ultimo.data || "?"})`,
+    ok: voto >= soglie.salute_min,
+    cieco: false,
   };
 }
 

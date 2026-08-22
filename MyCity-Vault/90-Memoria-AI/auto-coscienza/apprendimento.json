@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-22 10:29",
+ "aggiornato": "2026-08-22 10:53",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11274,6 +11274,14 @@
     {
      "quando": "2026-08-21 03:27",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:13",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:21",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11303,7 +11311,13 @@
    "stato": "attiva",
    "gate": "node cervello/test/nascita-difetti.test.mjs",
    "gate_attivo": true,
-   "gate_nota": "Freno suo: 10 prove comportamentali su cantieri finti + 4 mutazioni (tutte rendono rosso il loro test), agganciato a cancello-lotto.mjs come passo «nascita dei difetti». Il tetto per NOME in cervello/nascita-baseline.json: un ID nuovo senza nascita fallisce anche se il conteggio non sale."
+   "gate_nota": "Freno suo: 10 prove comportamentali su cantieri finti + 4 mutazioni (tutte rendono rosso il loro test), agganciato a cancello-lotto.mjs come passo «nascita dei difetti». Il tetto per NOME in cervello/nascita-baseline.json: un ID nuovo senza nascita fallisce anche se il conteggio non sale.",
+   "usi": [
+    {
+     "quando": "2026-08-22 10:13",
+     "ref": "freno rosso nel cancello: nascita dei difetti"
+    }
+   ]
   },
   {
    "id": "L-2026-0730-533",
@@ -11368,6 +11382,14 @@
     },
     {
      "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:13",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:21",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11481,6 +11503,14 @@
     {
      "quando": "2026-08-21 03:27",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:13",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:21",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11520,6 +11550,14 @@
     },
     {
      "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:13",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:21",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11604,6 +11642,18 @@
     },
     {
      "quando": "2026-08-22 10:29",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:30",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:47",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:53",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -11733,6 +11783,14 @@
     {
      "quando": "2026-08-21 03:27",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:13",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:21",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11798,6 +11856,14 @@
     },
     {
      "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:13",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:21",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11883,6 +11949,18 @@
     {
      "quando": "2026-08-22 10:29",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:30",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:47",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:53",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -11964,6 +12042,18 @@
     {
      "quando": "2026-08-22 10:29",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:30",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:47",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:53",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12001,6 +12091,14 @@
     {
      "quando": "2026-08-21 03:27",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:13",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:21",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -12037,6 +12135,14 @@
     },
     {
      "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:13",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:21",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12192,6 +12298,14 @@
     },
     {
      "quando": "2026-08-21 03:27",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:13",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-22 10:21",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12426,6 +12540,18 @@
     },
     {
      "quando": "2026-08-22 10:29",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:30",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:47",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:53",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]

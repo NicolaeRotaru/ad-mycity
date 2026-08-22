@@ -141,8 +141,10 @@ export function eseguiProvaComando(comando, run = spawnSync) {
       dettaglio: `comando non ammesso: "${c}" (${MOTIVO_COMANDO_NON_AMMESSO}) — NON HO POTUTO MISURARE: questa prova non è stata eseguita, quindi non dice né verde né rosso`,
     };
   }
-  const argomenti = m[2] ? m[2].trim().split(/\s+/) : [];
-  const r = run(process.execPath, [join(AD_ROOT, m[1]), ...argomenti], {
+  const argomenti = m[3] ? m[3].trim().split(/\s+/) : [];
+  // `--test` va PRIMA del percorso: si esegue esattamente il comando scritto sulla scheda (AR-559).
+  const prefisso = m[1] ? [m[1].trim()] : [];
+  const r = run(process.execPath, [...prefisso, join(AD_ROOT, m[2]), ...argomenti], {
     cwd: AD_ROOT,
     encoding: "utf8",
     timeout: 120000,

@@ -294,7 +294,7 @@ export function timbriStorti(difetti = []) {
 /** Il file che un comando di prova esegue (`node cervello/x.mjs --flag` → `cervello/x.mjs`). */
 export function fileDellaProva(comando) {
   const m = FORMA_COMANDO_PROVA.exec(String(comando || "").trim());
-  return m ? m[1] : null;
+  return m ? m[2] : null;
 }
 
 /** Una prova che vive nella suite viene rilanciata da `test-cervello` a ogni lotto. */
