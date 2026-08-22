@@ -3043,3 +3043,51 @@ quindici, restano aperti solo il rilascio automatico prima dei controlli (carta 
 vincolato) e niente altro.
 
 · Non riproporre come «da fare»: fatto, con prova · Nicola (chat)
+
+---
+
+## 2026-08-22 09:20 — 🟡 Cento difetti del marketplace riparati: tutti i bloccanti, tutti i gravi
+
+**Cosa.** Su richiesta di Nicola («risolvi 100 difetti del marketplace nel modo migliore e più
+efficiente») ho preso i cento difetti che pesano fra i centonovantanove della radiografia del 21
+agosto — i **dodici bloccanti** e gli **ottantotto gravi** — e li ho chiusi. Restano i novantanove
+minori. Ramo `claude/marketplace-100-difetti-c62gmv` sul repo `NicolaeRotaru/mycity`.
+
+**Perché quei cento e non altri cento.** Non è una scelta di comodità: bloccanti + gravi fa
+esattamente cento, ed è la selezione che lascia fuori solo ciò che nessuno paga. Prendere «i primi
+cento della lista» avrebbe mescolato un allergene mancante con un margine di due pixel.
+
+**Come.** Dodici gruppi per area, non per numero: le riparazioni che toccano lo stesso file si
+fanno insieme o divergono. Quindici dei cento erano già stati riparati dal lotto della sera prima e
+il referto era stato scritto due ore prima: li ho aperti uno per uno nel codice invece di
+ricontarli come lavoro nuovo — è la stessa disciplina del 20 agosto.
+
+**L'asticella, rispettata.** Cinque riparazioni hanno una prova verificata avversarialmente:
+rimessa la riga sbagliata, la prova diventa rossa. Le altre poggiano su 1016 prove unitarie e su 12
+file di controlli che girano contro un database ricostruito dalle migrazioni vere. Nessuna prova è
+un grep.
+
+**Cinque freni nuovi**, che è la parte che conta più delle riparazioni: una funzione potente aperta
+agli anonimi, una rotta senza tetto sul corpo, una colonna che non esiste, una cassa che torna a
+farsi i conti in casa, un recapito scritto a mano in una pagina legale — ognuna di queste cose fa
+diventare rossa la CI il giorno in cui entra nel repo, invece di aspettare la prossima radiografia.
+
+**Due cose che i freni hanno trovato da soli, il giorno stesso:** una colonna inesistente in un
+allarme che avevo appena scritto io, e un difetto nel generatore dei tipi del database — le colonne
+dichiarate su più righe sparivano in silenzio. È così che `notifications.category` non era nei tipi
+pur essendo usata in cinque punti del codice.
+
+**Cosa NON ho fatto, e va detto.** Non ho aperto il sito in un browser: le riparazioni
+sull'interfaccia sono verificate leggendo il codice. Non ho misurato l'LCP da un telefono in 4G,
+quindi il pezzo grosso del difetto sul rendering (portare sul server la prima schermata delle sei
+pagine commerciali) resta **aperto e dichiarato** invece di essere spacciato per chiuso — la sua
+stessa scheda dice di misurare prima. Non ho toccato il database di produzione.
+
+**Cinque firme in coda** (#153-#157): applicare la migrazione 126, applicare la 120 (scritta il 18
+agosto e mai applicata), il segreto `SUPABASE_DB_URL` che fa applicare le migrazioni prima di ogni
+pubblicazione, le tre chiavi di Vercel + la parola in `vercel.json`, e un posto dove tenere una
+copia delle foto dei prodotti — che oggi vivono in un posto solo.
+
+**Referto**: `consegne/audit/2026-08-22-marketplace-100-riparazioni.md`.
+
+· Non riproporre come «da fare»: fatto, con prova · Nicola (chat, 22/8)

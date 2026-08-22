@@ -22,6 +22,117 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #153 — Applica al database la migrazione 126, quella del lotto dei cento difetti · ⏳ accodata 2026-08-22 09:20
+
+**Cosa cambia:** senza questa firma restano fuori cinque riparazioni che oggi sono solo scritte:
+il credito MyCity che torna al cliente quando il negozio rifiuta l'ordine (oggi evapora), il
+controllo che impedisce di pagare il negozio per contanti che nessuno ha registrato, il blocco su
+un alimentare pubblicato senza allergeni, i dati del venditore (ragione sociale, sede, partita IVA)
+sulle pagine prodotto e negozio, e il registro delle segnalazioni di contenuti illeciti. Il codice
+regge anche prima — è scritto apposta per non rompersi nella finestra in mezzo — ma quelle
+riparazioni non fanno effetto finché la migrazione non è applicata.
+
+**Se va bene:** i cento difetti chiusi diventano cento davvero, e non novantacinque.
+
+**Il comando** (dal VPS, o da chi ha la stringa di connessione):
+
+```
+psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f migrations/126_radiografia_22_agosto.sql
+```
+
+È idempotente: riapplicarla non fa danni. Gira già, così com'è, su un database ricostruito da zero
+qui dentro — 127 migrazioni applicate, zero fallite — e su un database che ha già dentro degli
+ordini.
+
+**Come si controlla che sia andata:**
+
+```
+psql "$SUPABASE_DB_URL" -c "select count(*) from public.segnalazioni;"
+psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_del_negozio';"
+```
+
+---
+
+### 🔴 #154 — Applica la migrazione 120: la vetrina non deve più dare l'identificativo degli ordini · ⏳ accodata 2026-08-22 09:20
+
+**Cosa cambia:** il riquadro «attività dal vivo» in home restituisce ancora, a chiunque e senza
+account, l'identificativo di ogni ordine recente e l'ora al secondo. Servono a due cose sbagliate:
+un concorrente li legge a intervalli e conta quanti ordini fa ogni negozio e a che ora; e quegli
+identificativi erano la materia prima del difetto sul rimborso che abbiamo chiuso ieri.
+
+Questa migrazione è **scritta dal 18 agosto e mai applicata**. Il codice che la bloccava — il sito
+chiedeva ancora quella colonna — è in produzione da giorni: adesso si può applicare senza rompere
+la home.
+
+**Se va bene:** la vetrina resta identica a vedersi (dice «poco fa» invece dell'ora esatta) e
+smette di essere un contatore degli ordini altrui.
+
+```
+psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f migrations/120_vetrina_attivita_senza_id.sql
+psql "$SUPABASE_DB_URL" -c "select pg_get_viewdef('public.live_activity_public'::regclass, true);"
+```
+
+Nella definizione che torna indietro **non** ci deve essere `id`.
+
+---
+
+### 🔴 #155 — Il segreto che fa applicare le migrazioni prima di ogni pubblicazione · ⏳ accodata 2026-08-22 09:20
+
+**Cosa cambia:** oggi il rilascio pubblica il codice e basta. Le migrazioni si applicano a mano, in
+un momento qualsiasi: fra l'unione e la firma sul database c'è sempre una finestra in cui gira
+codice che chiede colonne che non esistono ancora. In PostgreSQL una colonna che non c'è non viene
+ignorata: fa fallire l'istruzione intera. È così che il 21 agosto, per un po', **non si poteva
+creare nessun ordine**.
+
+Il passo è già scritto nel rilascio (`.github/workflows/deploy-dopo-ci.yml`) e oggi non fa niente,
+perché gli manca il segreto.
+
+**Cosa devi fare:** GitHub → il repo `mycity` → Settings → Secrets and variables → Actions → New
+repository secret. Nome: `SUPABASE_DB_URL`. Valore: la stringa di connessione diretta del database
+(Supabase → Settings → Database → Connection string → Direct).
+
+**Se va bene:** da quel momento ogni rilascio applica le migrazioni **prima** di pubblicare, e se
+non si applicano non pubblica. Quella finestra si chiude per sempre.
+
+---
+
+### 🔴 #156 — Le tre chiavi di Vercel, e poi una parola: così in produzione ci va solo ciò che ha passato i controlli · ⏳ accodata 2026-08-22 09:20
+
+**Cosa cambia:** oggi ogni unione su `main` fa partire una pubblicazione di produzione entro pochi
+secondi, **senza aspettare i controlli**. I due corrono in parallelo: un test rosso finisce in
+produzione lo stesso, e il referto arriva dopo il funerale.
+
+**Cosa devi fare, in questo ordine** (al contrario il sito smette di aggiornarsi e basta):
+
+1. GitHub → Settings → Secrets → Actions, tre segreti:
+   · `VERCEL_TOKEN` (Vercel → Account Settings → Tokens → Create)
+   · `VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` (Vercel → il progetto → Settings → General, in fondo)
+2. **Solo dopo**, in `vercel.json`: `"main": true` diventa `"main": false`.
+
+**Se va bene:** l'unica strada per la produzione diventa «controlli verdi → migrazioni applicate →
+pubblicazione». Le tre cose in fila, nell'ordine giusto.
+
+---
+
+### 🔴 #157 — Un posto dove tenere una copia delle foto dei prodotti · ⏳ accodata 2026-08-22 09:20
+
+**Cosa cambia:** le immagini dei prodotti **non hanno nessuna copia**. Né uno script, né un passo
+del lavoro notturno, né un secchio nostro. La documentazione diceva il contrario — «perdita zero,
+ripristino immediato» — ed è il tipo di riga più pericoloso che ci sia in un documento di
+emergenza, perché chi lo legge smette di cercare la copia. Quella riga adesso dice la verità.
+
+Se il progetto Supabase sparisce, spariscono con lui tutte le foto, e con loro ogni scheda del
+catalogo: rifarle vuol dire richiamare **ogni** negoziante a rifotografare tutto.
+
+**Cosa devi fare:** dire dove metterle. Serve un secchio di destinazione (un altro fornitore, non
+lo stesso) e le sue chiavi. Il comando di copia è già scritto in `docs/backup-restore.md`, sezione
+«Storage backup»: oggi è un piano, non una rete.
+
+**Se va bene:** aggancio la copia delle foto al lavoro notturno che già fa quella del database, e
+la prova di ripristino mensile — che da oggi gira da sola — comincia a coprire anche le immagini.
+
+---
+
 ### ✅ #152 — Applica al database vero le riparazioni dei due buchi piu' grossi · ⏳ accodata 2026-08-21 20:11 · fatta 2026-08-21 21:20
 
 **Stato:** ✅ FATTO 2026-08-21 21:20 — col tuo «fai la 151 e la 152» in chat. Applicata al database
