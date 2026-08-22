@@ -1,8 +1,28 @@
 ---
 tipo: stato
-aggiornato: 2026-08-21 21:22
+aggiornato: 2026-08-22 09:56
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🚚 **22/8 09:56 — Il sito era su Vercel, ma lavorava ancora come se fosse su Render. E due cose che solo tu puoi fare tengono ferma la cassa.** Richiesta di Nicola in chat: «ho cambiato il server da render a vercel, fai un'analisi completa e profonda e cambia tutto quello che c'è da cambiare».
+>
+> **La differenza che nessuno aveva tradotto.** Su Render c'era **una macchina accesa**, sempre la stessa, con la sua memoria. Su Vercel non c'è una macchina: c'è una funzione che si accende quando arriva qualcuno e si spegne appena ha finito. L'indirizzo era cambiato a luglio, il modo di lavorare no — e quasi tutto quello che ho trovato viene da lì.
+>
+> **Le cinque cose riparate nel codice del sito.** ① Le funzioni giravano a **Washington** mentre il database sta a **Parigi**: ogni domanda al database attraversava l'Atlantico e tornava, una volta per query. L'ho letto nell'intestazione della produzione, `x-vercel-id: iad1`. Adesso girano a Parigi, stessa città del database. ② I **lavori periodici** — mandare le email, pagare i negozi, scadere i carrelli — li faceva partire un servizio esterno gratuito, nato perché su Render il cron si pagava a parte. Ora li fa Vercel, che li ha inclusi. ③ Cinque di quelle nove rotte rispondevano **solo al POST**, e Vercel bussa solo in GET: sarebbero partite tutte prendendosi un «metodo non ammesso» — il giro risulta andato, e non ha fatto niente. ④ Nessun lavoro dichiarava **quanto può durare**: oltre il tetto la funzione viene tagliata a metà, senza un errore da nessuna parte. ⑤ Il **freno anti-abuso** contava su una memoria che non esiste più: «dieci tentativi al minuto» adesso sono dieci per ogni copia, e quante copie ci sono lo decide il traffico.
+>
+> **La cosa più brutta l'ho vista guardando l'HTML che il sito serviva davvero.** Ogni pagina diceva a Google che il suo indirizzo ufficiale è `http://localhost:3000` — il computer di chi sviluppa — e ogni link condiviso mostrava l'anteprima rotta. Il sito rispondeva 200 e sembrava a posto. Ho messo un paracadute nel codice: se l'indirizzo non è configurato, adesso usa quello che Vercel dichiara da solo invece di localhost.
+>
+> **🔴 Le due cose che il codice non può fare, e sono le più care.** Sono le carte **#153** e **#154**.
+>
+> La prima: **mancano delle chiavi fra le variabili su Vercel**, e una è quella con cui il sito scrive nel database quando ci avvisa Stripe che un cliente ha pagato. Senza, **un pagamento riuscito non diventa un ordine**. Non è un'ipotesi: nei registri della produzione fra il 18 e il 21 agosto ci sono **70 errori** con dentro il nome di quella chiave.
+>
+> La seconda: **il dominio `mycity-marketplace.com` punta ancora all'indirizzo di Render** (`216.24.57.1`). Il sito nuovo funziona — l'ho aperto, risponde — ma vive a `mycity-phi.vercel.app`, che non conosce nessuno. Il trasloco è finito, il cartello con l'indirizzo è rimasto sulla porta vecchia. È anche il motivo per cui la sentinella del sito è cieca da 146 giri: sta misurando Render.
+>
+> **Il freno che ho lasciato.** Una prova nuova diventa rossa se qualcuno aggiunge un lavoro periodico senza agganciarlo a Vercel, se una rotta smette di rispondere al GET (anche solo commentando la riga), o se sparisce la regione o il tetto di durata. Provato rompendo ognuna delle quattro cose, una alla volta, e guardandola diventare rossa.
+>
+> **Cosa non ho verificato.** Non ho potuto aprire il pannello di Vercel: so che quelle due chiavi mancano perché il sito **si comporta** come se mancassero, non perché ho letto la lista — potrebbero mancarne altre più silenziose. Che `216.24.57.1` sia di Render l'ho dedotto dall'indirizzo pubblico di Render e dalla storia, non da un pannello Render. E non ho aperto nessuna pagina in un browser: le prove sono girate qui.
+>
+> **Verificato:** 979 prove verdi sul sito, typecheck pulito, lint senza errori, build di produzione riuscita. Memoria coerente, 0 cacce aperte. Niente è andato in produzione: il lavoro è nei due rami `claude/render-to-vercel-migration-hf0nyj`.
 
 > 🔴 **21/8 21:22 — I due bloccanti più cari adesso sono chiusi sul database VERO, non solo nel codice.** Nicola in chat: «fai la 151 e la 152».
 >

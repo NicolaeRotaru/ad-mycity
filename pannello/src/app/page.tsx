@@ -722,11 +722,11 @@ const LEGALE_KPI: Kpi[] = [
 
 // === TECH & AFFIDABILITÀ SITO ===
 const TECH_KPI: Kpi[] = [
-  { icon: <Server size={16} />, label: "Uptime", fonte: "Render/monitor", tipo: "perc" },
-  { icon: <AlertTriangle size={16} />, label: "Errori in produzione", fonte: "Render/Sentry", tipo: "n" },
+  { icon: <Server size={16} />, label: "Uptime", fonte: "Vercel/monitor", tipo: "perc" },
+  { icon: <AlertTriangle size={16} />, label: "Errori in produzione", fonte: "Vercel/Sentry", tipo: "n" },
   { icon: <Gauge size={16} />, label: "Velocità (LCP)", fonte: "Web Vitals", tipo: "durata" },
   { icon: <Bug size={16} />, label: "Bug aperti", fonte: "tech", tipo: "n" },
-  { icon: <Rocket size={16} />, label: "Deploy", fonte: "CI/Render", tipo: "n" },
+  { icon: <Rocket size={16} />, label: "Deploy", fonte: "CI/Vercel", tipo: "n" },
   { icon: <Eye size={16} />, label: "Core Web Vitals ok", fonte: "Web Vitals", tipo: "perc" },
 ];
 
