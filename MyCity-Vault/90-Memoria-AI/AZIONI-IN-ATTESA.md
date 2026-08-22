@@ -48,9 +48,10 @@ produzione lo stesso, e il referto arriva dopo il funerale.
 
 **Cosa devi fare, in questo ordine** (al contrario il sito smette di aggiornarsi e basta):
 
-1. GitHub → Settings → Secrets → Actions, tre segreti:
-   · `VERCEL_TOKEN` (Vercel → Account Settings → Tokens → Create)
-   · `VERCEL_ORG_ID` e `VERCEL_PROJECT_ID` (Vercel → il progetto → Settings → General, in fondo)
+1. GitHub → Settings → Secrets → Actions. Servono tre segreti.
+   · `VERCEL_TOKEN`: lo crei su Vercel, in Account Settings, alla voce Tokens.
+   · `VERCEL_ORG_ID` e `VERCEL_PROJECT_ID`: su Vercel, dentro il progetto, in Settings → General.
+     Stanno in fondo alla pagina.
 2. **Solo dopo**, in `vercel.json`: `"main": true` diventa `"main": false`.
 
 **Se va bene:** l'unica strada per la produzione diventa «controlli verdi → migrazioni applicate →
@@ -82,12 +83,12 @@ non si applicano non pubblica. Quella finestra si chiude per sempre.
 
 **Cosa cambia:** il riquadro «attività dal vivo» in home restituisce ancora, a chiunque e senza
 account, l'identificativo di ogni ordine recente e l'ora al secondo. Servono a due cose sbagliate:
-un concorrente li legge a intervalli e conta quanti ordini fa ogni negozio e a che ora; e quegli
-identificativi erano la materia prima del difetto sul rimborso che abbiamo chiuso ieri.
+un concorrente li legge a intervalli. Così conta quanti ordini fa ogni negozio, e a che ora. E
+quegli stessi identificativi erano la materia prima del difetto sul rimborso chiuso ieri.
 
-Questa migrazione è **scritta dal 18 agosto e mai applicata**. Il codice che la bloccava — il sito
-chiedeva ancora quella colonna — è in produzione da giorni: adesso si può applicare senza rompere
-la home.
+Questa migrazione è **scritta dal 18 agosto e mai applicata**. La bloccava il sito, che chiedeva
+ancora quella colonna. Il codice nuovo è in produzione da giorni: adesso si può applicare senza
+rompere la home.
 
 **Se va bene:** la vetrina resta identica a vedersi (dice «poco fa» invece dell'ora esatta) e
 smette di essere un contatore degli ordini altrui.
@@ -103,12 +104,15 @@ Nella definizione che torna indietro **non** ci deve essere `id`.
 
 ### 🔴 #158 — Applica al database la migrazione 126, quella del lotto dei cento difetti · ⏳ accodata 2026-08-22 09:20
 
-**Cosa cambia:** senza questa firma restano fuori cinque riparazioni che oggi sono solo scritte:
-il credito MyCity che torna al cliente quando il negozio rifiuta l'ordine (oggi evapora), il
-controllo che impedisce di pagare il negozio per contanti che nessuno ha registrato, il blocco su
-un alimentare pubblicato senza allergeni, i dati del venditore (ragione sociale, sede, partita IVA)
-sulle pagine prodotto e negozio, e il registro delle segnalazioni di contenuti illeciti. Il codice
-regge anche prima — è scritto apposta per non rompersi nella finestra in mezzo — ma quelle
+**Cosa cambia:** senza questa firma restano fuori cinque riparazioni che oggi sono solo scritte.
+
+- Il credito MyCity torna al cliente quando il negozio rifiuta l'ordine. Oggi evapora.
+- Il negozio non viene più pagato per contanti che nessuno ha registrato.
+- Un alimentare senza allergeni non si può pubblicare.
+- Sulle pagine prodotto e negozio compaiono i dati del venditore: ragione sociale, sede, partita IVA.
+- Nasce il registro delle segnalazioni di contenuti illeciti.
+
+Il codice regge anche prima: è scritto apposta per non rompersi nella finestra in mezzo. Ma quelle
 riparazioni non fanno effetto finché la migrazione non è applicata.
 
 **Se va bene:** i cento difetti chiusi diventano cento davvero, e non novantacinque.
@@ -119,9 +123,9 @@ riparazioni non fanno effetto finché la migrazione non è applicata.
 psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f migrations/126_radiografia_22_agosto.sql
 ```
 
-È idempotente: riapplicarla non fa danni. Gira già, così com'è, su un database ricostruito da zero
-qui dentro — 127 migrazioni applicate, zero fallite — e su un database che ha già dentro degli
-ordini.
+È idempotente: riapplicarla non fa danni. L'ho già fatta girare due volte, così com'è. Una su un
+database ricostruito da zero qui dentro: 127 migrazioni applicate, zero fallite. Una su un database
+che ha già dentro degli ordini.
 
 **Come si controlla che sia andata:**
 
@@ -134,8 +138,8 @@ psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_
 
 ### 🔴 #155 — Il dominio del sito punta ancora a Render: va spostato su Vercel · ⏳ accodata 2026-08-22 09:56
 
-**Cosa cambia:** `mycity-marketplace.com` — il dominio vero, quello sui volantini e nei messaggi ai
-negozianti — risponde ancora dall'indirizzo di Render, che non è più pagato. È per questo che dal 30
+**Cosa cambia:** `mycity-marketplace.com` è il dominio vero, quello sui volantini e nei messaggi ai
+negozianti. Risponde ancora dall'indirizzo di Render, che non è più pagato. È per questo che dal 30
 luglio dà errore.
 
 Il sito nuovo su Vercel **funziona**: l'ho aperto, risponde, le pagine si vedono. Solo che vive a
@@ -144,9 +148,9 @@ progetto Vercel il tuo non c'è: ci sono solo i tre indirizzi che Vercel assegna
 
 In pratica: il trasloco è finito, ma il cartello con l'indirizzo è rimasto sulla porta vecchia.
 
-Finché resta così succedono tre cose: chi digita il dominio trova un sito morto; la sentinella che
-controlla se il sito è su continua a misurare Render, quindi resta cieca; e Google, che il dominio lo
-ha già indicizzato, continua a trovarlo giù.
+Finché resta così succedono tre cose. Chi digita il dominio trova un sito morto. La sentinella che
+controlla se il sito è su continua a misurare Render, quindi resta cieca. E Google, che il dominio
+lo ha già indicizzato, continua a trovarlo giù.
 
 **Se va bene:** due passi, in quest'ordine.
 
