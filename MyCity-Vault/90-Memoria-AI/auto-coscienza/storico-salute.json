@@ -1405,16 +1405,6 @@
       "chiusi_in_questa_passata": 2,
       "tipo": "auto-fix",
       "nota": "Auto-fix: chiusi AR-365, AR-366 (verificati nel codice)."
-    },
-    {
-      "data": "2026-08-22",
-      "voto_salute": 4,
-      "voto_riportato": false,
-      "difetti_aperti": 115,
-      "difetti_chiusi": 667,
-      "chiusi_in_questa_passata": 0,
-      "tipo": "lotto",
-      "nota": "Lotto 49: sei difetti riparati (AR-354, AR-394, AR-436, AR-684, AR-703, AR-744) — le chiusure le applica auto-fix dopo il merge, quindi qui contano ancora come aperti. Il numero SALE di 5 perche il lotto ha REGISTRATO cinque difetti nuovi trovati riparando (AR-787..AR-791): il cantiere che cresce mentre si ripara non e un peggioramento, e la macchina che vede cose che prima non poteva vedere."
     }
   ]
 }
