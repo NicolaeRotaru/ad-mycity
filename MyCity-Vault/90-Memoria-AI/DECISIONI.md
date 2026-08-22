@@ -3346,3 +3346,51 @@ e non `origin/main`: fermarsi al primo esistente avrebbe bocciato proprio il cas
 
 Sesta prova aggiunta, non vuota: rimettendo il buco diventa rossa con «il perimetro si aggira con un
 fetch». Suite dopo: 355 file su 384, zero rossi.
+
+---
+
+## 2026-08-22 12:10 · 🟡 Il lavoro intrappolato adesso ha un'uscita (AR-761), e un debito dichiarato è stato estinto
+
+**Cosa ho fatto.** Nicola: «ci sono dei difetti». Sono andata a guardare: **164 aperti, 11
+bloccanti**. Tre degli undici erano la malattia su cui stavo già lavorando — il server che non
+riesce né a pubblicare né a ricevere. Ho scelto per malattia, come dice il mansionario, non per
+conteggio.
+
+**AR-761 — il fix che non era mai stato scritto, e il perché.** La scheda portava una frase onesta:
+*«Serve un repo finto con due storie divergenti e un remoto scrivibile: da questa sessione non ho un
+remoto su cui provare il push del ramo di salvataggio. Debito dichiarato: il fix non si scrive
+finché non si può provare.»* Quel debito è estinto: il banco che ho costruito stamattina per un
+altro difetto costruisce esattamente quello. Il fix è `salva_il_lavoro_intrappolato`: dopo tre
+tentativi falliti i commit locali finiscono su `vps/salvataggio-<data>`, quindi il lavoro esiste in
+due copie e un `checkout -f` non può più cancellarlo.
+
+**Il tetto, e l'errore mio che la mutazione ha trovato.** Questo gira ogni cinque minuti: un ramo
+per giro farebbe 288 rami al giorno — la stessa malattia che stiamo curando. Avevo scritto che il
+tetto era il memo della punta già salvata. **Falso**, e la mutazione l'ha dimostrato: togliendo il
+memo la prova restava verde. Il tetto sono due pezzi distinti e fanno cose diverse — il **nome per
+giorno** tiene i rami a uno, il **memo** evita di ri-spingere un lavoro identico. La mia prova
+diceva di misurare il secondo e misurava il primo. Riscritta: adesso il memo si misura puntando a un
+remoto rotto, che farebbe fallire qualunque push davvero tentato. Senza memo: 4 su 5.
+
+*Il passo che rompe il fix apposta ha trovato un difetto nel metro, non nel codice. È la terza volta
+in due giorni.*
+
+**Cosa NON ho fatto, apposta.** Nessun reset automatico del server dopo il salvataggio. Buttare via
+commit locali è irreversibile: resta 🔴 e resta di Nicola.
+
+**AR-521 e AR-518** non li ho chiusi: ho aggiornato `verifica` e `nota_fix` dichiarando cosa è fatto
+e cosa no. Di AR-521 è fatta la metà (b) — la via di fuga, che esisteva e non funzionava. La (a),
+lo sblocco a mano sul server, è la carta #153 ed è di Nicola.
+
+**AR-782, registrato e NON incluso nel lotto.** Il cancello è uscito rosso su due prove dello
+schermo, e il rosso non era del mio lavoro: `c2-schermo` e `c4-schermo-coda` si contendono la porta
+fissa 3939, e il cancello le fa girare in parallelo. Misurato spegnendo il server rimasto acceso e
+rilanciandole in fila: verdi tutte e due. Allargare il lotto a metà è il modo classico di non
+finirlo, quindi è registrato per il lotto dopo.
+
+**Il cancello del lotto:** exit 2 — si consegna dichiarando i buchi. Zero rossi. I tre ⚪ sono la
+cecità nota del clone superficiale (`prove-oneste`, `il cantiere non perde difetti`, `consegne senza
+esito`): non sono miei, e li dichiaro.
+
+**Cosa non ho verificato:** che sul server vada. Il ramo di salvataggio l'ho provato su un remoto
+vero costruito apposta, non sul VPS.

@@ -5935,6 +5935,30 @@
    "cerca": "Fonte del numero",
    "sostituisci": "Nota",
    "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "difetto": "AR-761",
+   "nome": "il lavoro intrappolato non ha piu' uscita: il ramo di salvataggio non parte",
+   "file": "cervello/vps/aggiorna-cervello.sh",
+   "cerca": "if perche=\"$(git push \"$url\" \"HEAD:refs/heads/${ramo}\" 2>&1)\"; then",
+   "sostituisci": "if false; then",
+   "test": "node cervello/test/lavoro-intrappolato-senza-uscita.test.mjs"
+  },
+  {
+   "difetto": "AR-761-tetto",
+   "nome": "tolto il memo, il server ri-spinge lo stesso lavoro ogni cinque minuti",
+   "file": "cervello/vps/aggiorna-cervello.sh",
+   "cerca": "if [ -f \"$memo\" ] && [ \"$(cat \"$memo\" 2>/dev/null)\" = \"$testa\" ]; then",
+   "sostituisci": "if false; then",
+   "test": "node cervello/test/lavoro-intrappolato-senza-uscita.test.mjs"
+  },
+  {
+   "difetto": "AR-521",
+   "nome": "l'allineamento del codice non si posa: il commit non viene guardato",
+   "file": "cervello/vps/aggiorna-cervello.sh",
+   "cerca": "if _perche_commit=\"$(git \"${GIT_ID[@]}\" commit -q -m \"aggiorna-cervello: allinea codice a main ($(ts))\" 2>&1)\"; then",
+   "sostituisci": "git \"${GIT_ID[@]}\" commit -q -m \"x\" 2>/dev/null || true\n  if true; then",
+   "test": "node cervello/test/server-che-non-puo-ricevere-riparazioni.test.mjs"
   }
  ]
 }

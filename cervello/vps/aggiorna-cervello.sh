@@ -204,6 +204,55 @@ allinea_codice_da_main() {
   return 1
 }
 
+# ── AR-761 — LA VIA D'USCITA PER IL LAVORO INTRAPPOLATO ──────────────────────
+#
+# `aggiorna-cervello.sh` fa la cosa giusta a fermarsi: se i commit locali non si pubblicano,
+# allinearsi li cancellerebbe. Ma da lì in poi non esisteva NESSUNA uscita automatica. Il server
+# restava sulla versione vecchia e ci restava per sempre, riprovando la stessa cosa ogni cinque
+# minuti — 72 volte il 16/8. Il lavoro non era perso, ma esisteva in una copia sola, sul server.
+#
+# La scheda diceva: «il fix non si scrive finché non si può provare — non ho un remoto su cui provare
+# il push del ramo di salvataggio». Quel debito è estinto: il banco in
+# `cervello/test/server-che-non-puo-ricevere-riparazioni.test.mjs` costruisce un remoto vero.
+#
+# IL TETTO, che è la metà importante. Questo gira ogni cinque minuti: un ramo per giro farebbe 288
+# rami al giorno, cioè la stessa malattia che stiamo curando — un'operazione che si ripete e nessuno
+# la ferma. Il tetto sono DUE pezzi distinti, e vale la pena tenerli distinti perché fanno cose
+# diverse (l'ho scoperto rompendoli uno per uno: il primo commento che avevo scritto qui li
+# confondeva, e attribuiva al secondo il merito del primo):
+#   ① il NOME per giorno — `vps/salvataggio-<data>` — è ciò che tiene il conto dei rami a uno.
+#      Quattro giri fanno quattro push sullo stesso ramo, non quattro rami.
+#   ② il MEMO della punta già salvata — è ciò che evita di ri-spingere ogni cinque minuti un lavoro
+#      che non è cambiato. Non riduce i rami: riduce il traffico e il rumore.
+# Il ramo avanza per fast-forward, mai forzato.
+ramo_di_salvataggio() { printf 'vps/salvataggio-%s' "$(date '+%Y-%m-%d')"; }
+
+salva_il_lavoro_intrappolato() {
+  local url="$1" quanti="$2" ramo perche="" testa memo
+  testa="$(git rev-parse HEAD 2>/dev/null || echo '')"
+  [ -n "$testa" ] || return 1
+  memo="$REPO/.git/mycity-ultimo-salvataggio"
+  # Già salvato questo identico lavoro: non si ripete. È il tetto.
+  if [ -f "$memo" ] && [ "$(cat "$memo" 2>/dev/null)" = "$testa" ]; then
+    return 0
+  fi
+  ramo="$(ramo_di_salvataggio)"
+  # Push NON forzato di proposito: se il ramo di oggi esiste già e la punta è più avanti, git lo
+  # porta avanti da solo; se le storie divergono, git rifiuta — e un rifiuto è meglio di uno
+  # schiacciamento, perché qui dentro c'è lavoro vero che non è da nessun'altra parte.
+  if perche="$(git push "$url" "HEAD:refs/heads/${ramo}" 2>&1)"; then
+    printf '%s\n' "$testa" > "$memo" 2>/dev/null || true
+    echo "[$(ts)] 🛟 I ${quanti} commit che non passavano su ${branch} sono al sicuro su GitHub," >&2
+    echo "[$(ts)]    nel ramo «${ramo}». Un checkout -f non può più cancellarli." >&2
+    return 0
+  fi
+  # Non riuscito: si DICE. Un salvataggio che fallisce in silenzio è peggio di nessun salvataggio,
+  # perché toglie l'allarme lasciando il pericolo.
+  echo "[$(ts)] ⛔ Nemmeno il ramo di salvataggio è passato: i ${quanti} commit restano SOLO qui." >&2
+  [ -n "$perche" ] && printf '%s\n' "$perche" | head -4 | sed "s/^/[$(ts)]    /" >&2
+  return 1
+}
+
 # Commit locali già fatti ma non pushati: pubblicali PRIMA del checkout -f (altrimenti si perdono).
 if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
   git fetch "$url" "$branch" 2>/dev/null || true
@@ -305,6 +354,9 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
     # stderr non è una difesa. Ora ci si ferma con un codice dedicato: watch-main NON segna lo SHA,
     # il lavoro resta sul server e si riprova al prossimo giro.
     if [ "$_ok_pre" != 1 ]; then
+      # AR-761 — prima di dichiarare il muro, si mette il lavoro al sicuro. Tre tentativi sono
+      # falliti: il lavoro esiste in una copia sola, su questo disco. Da qui in poi ne esistono due.
+      salva_il_lavoro_intrappolato "$url" "$_ahead_pre" || true
       _rc_all="$(esito_allineamento 0 1 0)"
       echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all") — ${_ahead_pre} commit restano qui." >&2
       echo "[$(ts)]    Causa: $(motivo_push_fallito "$_perche_rebase")" >&2
