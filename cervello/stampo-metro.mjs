@@ -24,10 +24,18 @@
 // La soglia dello spessore è **relativa alla mediana del parco**, non un numero fisso: se i kit
 // migliorano, la soglia sale da sola. È l'opposto di un pavimento tarato sul risultato voluto.
 //
-// Nessuna dipendenza e nessun I/O: si esegue su testo passato da fuori, così una prova può misurare un
-// parco finto invece di com'è il repo adesso.
+// Nessuna dipendenza esterna e nessun I/O (l'unico import è il modulo fratello `mansionario-misure.mjs`,
+// puro anche lui): si esegue su testo passato da fuori, così una prova può misurare un parco finto
+// invece di com'è il repo adesso.
+
+// AR-436 — le misure di SOSTANZA del mansionario (modelli, loop, galleria, trappole, carburante)
+// vivono in un file loro, puro come questo, così una prova le può eseguire su un mansionario finto.
+import { DIFETTO_SOSTANZA, difettiSostanza, parteDiMestiere } from "./mansionario-misure.mjs";
+
+export { DIFETTO_SOSTANZA, difettiSostanza, misureMansionario, parteDiMestiere } from "./mansionario-misure.mjs";
 
 export const DIFETTO = {
+  ...DIFETTO_SOSTANZA,
   SCHEDA_ASSENTE: "scheda_mestiere_assente",
   HOOK_RUBRICA_ASSENTE: "hook_rubrica_assente",
   SCORECARD_ASSENTE: "scorecard_assente",
@@ -166,14 +174,49 @@ export function difettiKit({ testo, bytes, soglia, blocchiCopiati = 0 } = {}) {
   return d;
 }
 
-/** I difetti che un mansionario può avere per conto suo (erano già qui, restano). */
-export function difettiAgente(testo = "") {
+/**
+ * I difetti di un singolo mansionario.
+ *
+ * AR-436 — LE PRIME QUATTRO RIGHE NON POTEVANO BOCCIARE NESSUNO, e per costruzione. Cercavano i
+ * quattro titoli che il template di rollout incollava in ogni file: misurato il 22/8 sul parco vero,
+ * **120 su 120** li avevano tutti e quattro. Il metro era nato per certificare la FINE del rollout —
+ * «ci sono i titoli?» — e da lì in poi ha continuato a rispondere «120/120 completi» a una domanda
+ * che nessuno stava più facendo. Restano, perché un titolo che sparisce è ancora un difetto: ma da
+ * soli erano un timbro, non un giudizio.
+ *
+ * Sotto arrivano le misure di SOSTANZA (`cervello/mansionario-misure.mjs`): contano le voci dentro i
+ * titoli invece dei titoli. Col metro nuovo passano **38 mansionari su 120** — e il conto sta in una
+ * prova che gira, `cervello/test/metro-mansionari-puo-bocciare.test.mjs`, non in questo commento.
+ *
+ * @param {string} testo
+ * @param {{blocchiCopiati?: number}} [opzioni] `blocchiCopiati` arriva da fuori come per i kit: la
+ *   fotocopia è una misura relativa al parco, e un file solo non può vederla (vedi `fotocopieMansionari`).
+ */
+export function difettiAgente(testo = "", opzioni = {}) {
   const d = [];
   if (!/##\s*🎓\s*SCHEDA MESTIERE/i.test(testo)) d.push(DIFETTO.SCHEDA_ASSENTE);
   if (!/RUBRICA-LIVELLI/i.test(testo)) d.push(DIFETTO.HOOK_RUBRICA_ASSENTE);
   if (!/scorecard/i.test(testo)) d.push(DIFETTO.SCORECARD_ASSENTE);
   if (!/RITUALE DI FINE/i.test(testo)) d.push(DIFETTO.RITUALE_ASSENTE);
+  d.push(...difettiSostanza(testo, opzioni));
   return d;
+}
+
+/**
+ * AR-436 — la caccia alle fotocopie, applicata ai MANSIONARI e non solo ai kit.
+ *
+ * Si confronta la sola parte di mestiere: la Carta del Dipendente e il doer mode sono identici su
+ * tutti e 120 **per progetto**, e misurare il file intero dichiara fotocopia 120 mansionari su 120
+ * (misurato). Un metro che boccia tutti e un metro che promuove tutti hanno lo stesso difetto: non
+ * distinguono. Sulla sola scheda mestiere, oggi, il parco vero è pulito — zero fotocopie.
+ *
+ * @param {Record<string,string>} mansionariPerNome
+ * @returns {Record<string, number>} nome → quanti blocchi condivisi con altri due o più
+ */
+export function fotocopieMansionari(mansionariPerNome = {}, opzioni = {}) {
+  const soloMestiere = {};
+  for (const [nome, testo] of Object.entries(mansionariPerNome)) soloMestiere[nome] = parteDiMestiere(testo);
+  return fotocopie(soloMestiere, opzioni);
 }
 
 /**

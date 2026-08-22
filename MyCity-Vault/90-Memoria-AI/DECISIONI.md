@@ -3498,3 +3498,26 @@ un avviso che arriva a Nicola, quella scheda torna aperta.
 ho le chiavi per guardarci dentro, e non l'ho fatto passare per un no. Le tre parti ⚪ del cancello
 (prove oneste, cantiere che non perde difetti, consegne senza esito) sono cieche per il clone
 superficiale, non per il lavoro.
+## 2026-08-22 20:05 · 🟡 Il metro degli esperimenti sotto-contava di un terzo, e la macchina lo sapeva
+
+**Cosa ho fatto.** Nel registro degli esperimenti nove schede su dieci dicevano «misurato» mentre la
+loro stessa nota diceva che il cancello non era mai partito — cioè il volano contava come cose
+imparate delle cose che non erano mai successe. Adesso quei nove dicono «non-testato», con la parola
+di prima conservata accanto e il racconto intatto.
+
+**La cosa che non mi aspettavo.** La regola per riconoscerli esiste dal 15 agosto e ha una casa sola.
+Ma il programma che doveva contarli non la chiamava: se n'era scritta una copia in casa propria, e le
+due non erano d'accordo. La copia ne vedeva **sei**, la casa unica **nove**. Tre esperimenti erano
+invisibili proprio al metro incaricato di contarli — e il metro stampava un numero preciso, che è il
+modo in cui un errore così sopravvive. La cura non è stata correggere la copia: è stata cancellarla.
+
+**Perché conta più del difetto.** Un conteggio sbagliato in meno non suona mai l'allarme: sembra che
+le cose vadano meglio. È lo stesso motivo per cui questi difetti li trovava Nicola e non la macchina.
+
+**Trovato riparando, e registrato come AR-787.** Due prove del banco pretendevano che la bugia fosse
+ancora sul disco. Curare il difetto le ha fatte diventare rosse — cioè il banco puniva chi guarisce.
+Le due le ho riscritte. Quante altre siano fatte così **non lo sa nessuno**: non è mai stato contato.
+
+**Cosa non ho verificato:** il conto delle altre prove scritte sulla presenza del difetto — serve
+prima un guardiano che le sappia riconoscere, e quello non c'è ancora. E la data del 29 settembre che
+Nicola ha dato stasera è registrata come fatto, ma il piano per arrivarci non è ancora scritto.

@@ -23,8 +23,8 @@
 //   ⑦ il gemello TypeScript del Pannello si ferma sullo stesso ⚪, con lo stesso motivo
 //
 // I DUE DIFETTI CHE QUESTO FILE CHIUDE, e quali casi li misurano:
-//   · AR-787 — il referto del design che nessuno legge, e il conto che risponde zero → casi ① ② ④ ⑤ ⑦
-//   · AR-788 — rifare la casa cancellava le riparazioni già fatte → casi ③ ⑥
+//   · AR-792 — il referto del design che nessuno legge, e il conto che risponde zero → casi ① ② ④ ⑤ ⑦
+//   · AR-793 — rifare la casa cancellava le riparazioni già fatte → casi ③ ⑥
 //
 // NON-VACUITÀ (eseguita): i casi ② e ③ eseguono la logica di PRIMA del fix sugli stessi dati veri e
 // pretendono che sbagli. Se un giorno smettessero di sbagliare, la prova te lo direbbe diventando

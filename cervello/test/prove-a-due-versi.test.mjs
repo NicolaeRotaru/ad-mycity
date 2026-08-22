@@ -342,22 +342,17 @@ test("AR-737 — il rebase che ingoia i suoi tre esiti: rossa oggi, verde se il 
 // `node cervello/prove-difetti.mjs --ar-743` continua a girare e adesso risponde «il confronto della
 // prova ha una casa sola: chi ne ha bisogno la importa».
 
-test("AR-744 — gli esperimenti misurati senza che il gate parta: rossa oggi, verde se lo stato dice la verità", () => {
-  siRibaltaConPiuFix({
-    flag: "--ar-744",
-    file: "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
-    // La cura vera è che un esperimento il cui gate non è partito NON si chiami «misurato». Si simula
-    // sul dato — e su TUTTI: sono sei, e sistemarne uno lascerebbe il difetto in piedi cinque volte.
-    fix: [
-      {
-        file: "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json",
-        cerca: '"stato": "misurato"',
-        sostituisci: '"stato": "non_testato"',
-        tutte: true,
-      },
-    ],
-  });
-});
+// AR-744 non abita più qui, per la stessa ragione di AR-749: era una prova a due versi perché il
+// difetto era APERTO, e il 22/8 (lotto 49) è stato riparato per davvero. Le nove etichette smentite
+// dal proprio racconto adesso dicono «non-testato» sul disco, `esperimenti-check.mjs` corregge da solo
+// quelle che rientrano, e `prove-difetti.mjs` ha smesso di rifarsi in casa la regola — la sua copia
+// privata ne vedeva sei dove la casa unica ne vede nove.
+//
+// Il caso qui era anche una piccola istanza di AR-787: pretendeva `rossa oggi`, cioè che il difetto
+// fosse ancora lì, e curarlo lo faceva fallire. La prova comportamentale che lo sostituisce è
+// `node cervello/test/esperimento-smentito-si-corregge.test.mjs` (sette casi, due mutazioni verificate
+// rosse), e `node cervello/prove-difetti.mjs --ar-744` continua a girare rispondendo «nessun
+// esperimento porta un'etichetta che il suo stesso racconto smentisce».
 
 // AR-749 non abita più qui: era una prova a due versi perché il difetto era APERTO, e la cura
 // ipotizzata («conta la copertura possibile») si è rivelata sbagliata — avrebbe spento la guardia di

@@ -7,8 +7,8 @@
   "da-cablare": "riconosciuto come BUCO, non come stato. Vive solo sotto `tetto_da_cablare`, che è assoluto e scende: un buco in più non si consegna.",
   "in-attesa-di-aggancio": "è un HOOK: non lo mette di guardia un processo del repo, lo mette una riga in `.claude/settings.json` — file che la macchina non può scrivere apposta, perché è quello che può staccare tutti i freni insieme. Vale SOLO col campo `scade`: passata quella data torna a essere un freno costruito e mai collegato. Non conta contro `tetto_da_cablare` perché quel tetto governa i buchi senza data; qui la disciplina è la data, che è più severa di un numero. AR-526."
  },
- "tetto_da_cablare": 4,
- "_tetto_perche": "Quattro strumenti trovati costruiti e mai messi di guardia dalla corsia A del lotto 34, oltre ai due che il lotto ha cablato davvero (permessi-check, non-vacuita) e ai tre che sono una scelta scritta (libreria/decisione). Non sono stati riparati qui di proposito: allargare un lotto oltre la sua malattia è il modo in cui i lotti non finiscono. Il tetto esiste perché da qui in avanti il numero possa solo scendere — chi ne cabla uno abbassa questo numero nello stesso lavoro.",
+ "tetto_da_cablare": 3,
+ "_tetto_perche": "Quattro strumenti trovati costruiti e mai messi di guardia dalla corsia A del lotto 34, oltre ai due che il lotto ha cablato davvero (permessi-check, non-vacuita) e ai tre che sono una scelta scritta (libreria/decisione). Non sono stati riparati qui di proposito: allargare un lotto oltre la sua malattia è il modo in cui i lotti non finiscono. Il tetto esiste perché da qui in avanti il numero possa solo scendere — chi ne cabla uno abbassa questo numero nello stesso lavoro. Sceso da 4 a 3 il 22/8/2026 (AR-703): `salute-onesta.mjs` adesso lo esegue la visita, e la sua voce qui non serve più.",
  "motivi": {
   "collaudo.mjs": {
    "motivo": "libreria",
@@ -67,10 +67,6 @@
    "motivo": "cablato",
    "dove": "cervello/test/porta-delle-lezioni.test.mjs",
    "perche": "AR-651: la porta da cui entra una lezione. Prima non esisteva nessun punto di scrittura nel codice — gli id si coniavano a mano in sessione, ed è la causa radice dei doppioni. La prova la esegue sul serio: due scritture di fila su una copia dell'archivio vero, il rifiuto di un id già usato, e l'uscita cieca su un archivio illeggibile. Gira a ogni giro con la suite."
-  },
-  "salute-onesta.mjs": {
-   "motivo": "da-cablare",
-   "perche": "AR-671 e il difetto nuovo registrato nel lotto 42: calcola il burn-down onesto del cantiere (quanti difetti erano aperti a una certa data) e nessun processo lo esegue. Il numero che il Pannello mostra viene da un'altra strada, quindi oggi il suo verdetto non lo legge nessuno. Buco vero, dichiarato: la corsia che l'ha toccato ha curato il meccanismo per sbagliare in direzione ottimista, non l'ha cablato — quello e un lavoro suo."
   },
   "riconcilia-perimetro.mjs": {
    "motivo": "cablato",

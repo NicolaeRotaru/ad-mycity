@@ -23,6 +23,10 @@
 
 import { existsSync, readFileSync } from "node:fs";
 import process from "node:process";
+// 🚧 AR-394 — L'AMBITO e le ESENZIONI DICHIARATE, in un modulo puro e senza dipendenze, perché una
+// prova possa ESEGUIRE la decisione invece di cercarla con un grep. Vedi cervello/onesta-ambito.mjs:
+// è il pezzo che mancava perché il quarto posto del verdetto potesse bocciare senza bocciare tutto.
+import { esenzioneDelRilievo, parteVivaDelFile } from "./onesta-ambito.mjs";
 
 const args = process.argv.slice(2);
 const JSON_MODE = args.includes("--json");
@@ -112,27 +116,56 @@ export function regolePer(tipo) {
 
 function esamina(nome, testo, tipoForzato = null) {
   const violazioni = [];
+  // Ciò che il metro ha visto e ha messo da parte, col PERCHÉ accanto. Un'esenzione muta è la
+  // malattia che AR-394 cura: qui viaggia sempre insieme al suo motivo, e finisce nel referto.
+  const esentati = [];
   const tipo = tipoForzato || tipoDocumento(nome);
   const regole = regolePer(tipo);
 
+  // 🚧 AR-394 — L'AMBITO, prima di ogni regola. La memoria della macchina ha due tempi: la storia
+  // append-only, che per contratto non si riscrive, e la parte che il giro riscrive ADESSO. Fino a
+  // qui il metro li giudicava insieme, quindi chiedeva di riscrivere giugno per poter pubblicare
+  // oggi — ed è la ragione per cui il controllo era stato staccato del tutto invece che ristretto.
+  const ambito = parteVivaDelFile(nome, testo);
+  if (ambito.natura === "storico") {
+    return {
+      file: nome,
+      tipo,
+      natura: ambito.natura,
+      ambito: ambito.motivo,
+      regole_applicate: regole,
+      violazioni: [],
+      esentati: [{ id: "file-storico", regola: "tutte", motivo: ambito.motivo, esempi: [] }],
+    };
+  }
+  const daGiudicare = ambito.vivo;
+
   // Rimuovi i wikilink [[...]] dal controllo segnaposto (sono link interni legittimi, non placeholder).
-  const senzaWikilink = testo.replace(/\[\[[^\]]+\]\]/g, "");
+  const senzaWikilink = daGiudicare.replace(/\[\[[^\]]+\]\]/g, "");
+
+  const scarta = (regola, rilievo) => {
+    const es = esenzioneDelRilievo({ regola, ...rilievo });
+    if (es.esente) esentati.push({ id: es.id, regola, motivo: es.motivo, esempio: rilievo.raw });
+    return es.esente;
+  };
 
   for (const { nome: rn, re } of RE_SEGNAPOSTO) {
     re.lastIndex = 0;
     const m = senzaWikilink.match(re);
-    if (m) violazioni.push({ tipo: "segnaposto", regola: rn, esempi: [...new Set(m)].slice(0, 3) });
+    const veri = (m || []).filter((s) => !scarta("segnaposto", { raw: s }));
+    if (veri.length) violazioni.push({ tipo: "segnaposto", regola: rn, esempi: [...new Set(veri)].slice(0, 3) });
   }
   for (const { nome: rn, re } of RE_SPIA) {
     re.lastIndex = 0;
-    const m = testo.match(re);
-    if (m) violazioni.push({ tipo: "claim-non-verificato", regola: rn, esempi: [...new Set(m)].slice(0, 3) });
+    const m = daGiudicare.match(re);
+    const veri = (m || []).filter((s) => !scarta("claim-non-verificato", { raw: s }));
+    if (veri.length) violazioni.push({ tipo: "claim-non-verificato", regola: rn, esempi: [...new Set(veri)].slice(0, 3) });
   }
 
   // Numeri senza fonte: per ogni numero significativo, controlla se c'è un marcatore di fonte vicino.
   // AR-433: si guarda il testo MASCHERATO — i riferimenti a codice, le sigle e il codice fra apici
   // non sono numeri orfani, sono la fonte. E su un documento di audit la regola non si applica.
-  const testoNumeri = regole.numeri ? mascheraRiferimenti(testo) : "";
+  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare) : "";
   RE_NUMERO.lastIndex = 0;
   let mm;
   const orfani = new Set();
@@ -143,14 +176,26 @@ function esamina(nome, testo, tipoForzato = null) {
     if (!soloNum) continue;
     if (/^(19|20)\d{2}$/.test(soloNum) && !/[€%]|euro|negozi|famiglie|clienti|ordini/i.test(raw)) continue;
     if (soloNum.length < 2 && !/[€%]/.test(raw)) continue;
-    const ctx = testo.slice(Math.max(0, mm.index - 60), mm.index + raw.length + 60);
-    if (!RE_FONTE.test(ctx)) orfani.add(raw);
+    const ctx = daGiudicare.slice(Math.max(0, mm.index - 60), mm.index + raw.length + 60);
+    if (RE_FONTE.test(ctx)) continue;
+    // 🚧 AR-394 — QUI il metro smetteva di poter essere acceso. Sulla parte VIVA di STATO.md (misura
+    // del 22/8) 33 dei 35 «numeri senza fonte» erano pezzi di data o di orario: con quel rumore il
+    // quarto controllo non poteva bloccare senza fermare per sempre la pubblicazione della memoria.
+    // I falsi positivi noti diventano ESENZIONI DICHIARATE COL MOTIVO (cervello/onesta-ambito.mjs),
+    // non un guardiano staccato in silenzio.
+    // Il contorno si misura sul numero VERO (`raw`), non sul match grezzo: `\s?` davanti all'unità
+    // fa sì che «21 agosto» esca come «21 » con lo spazio dentro, e chi legge il contorno dal fondo
+    // del match si perde proprio la parola che dice che quel 21 è un giorno.
+    const prima = daGiudicare.slice(Math.max(0, mm.index - 16), mm.index);
+    const dopo = daGiudicare.slice(mm.index + raw.length, mm.index + raw.length + 16);
+    if (scarta("numero-senza-fonte", { raw, prima, dopo })) continue;
+    orfani.add(raw);
   }
   if (orfani.size) {
     violazioni.push({ tipo: "numero-senza-fonte", regola: "ogni numero deve avere una fonte", esempi: [...orfani].slice(0, 5) });
   }
 
-  return { file: nome, tipo, regole_applicate: regole, violazioni };
+  return { file: nome, tipo, natura: ambito.natura, ambito: ambito.motivo, regole_applicate: regole, violazioni, esentati };
 }
 
 async function leggiStdin() {
@@ -181,21 +226,52 @@ async function main() {
   }
 
   const totali = risultati.reduce((n, r) => n + r.violazioni.length, 0);
+  const esentatiTotali = risultati.reduce((n, r) => n + (r.esentati ? r.esentati.length : 0), 0);
   const ok = totali === 0;
 
+  // 🚧 AR-394 — un'esenzione si DICE. Il difetto di partenza non era esentare: era esentare in
+  // silenzio, lasciando in piedi la forma del controllo. Qui ogni rilievo messo da parte esce col
+  // suo motivo, raggruppato per esenzione, sia a schermo sia in JSON.
+  const perEsenzione = (esentati = []) => {
+    const m = new Map();
+    for (const e of esentati) {
+      const v = m.get(e.id) || { id: e.id, motivo: e.motivo, quanti: 0, esempi: [] };
+      v.quanti++;
+      if (e.esempio && v.esempi.length < 3 && !v.esempi.includes(e.esempio)) v.esempi.push(e.esempio);
+      m.set(e.id, v);
+    }
+    return [...m.values()];
+  };
+
   if (JSON_MODE) {
-    console.log(JSON.stringify({ ok, violazioni_totali: totali, risultati }, null, 2));
+    const conEsenzioni = risultati.map((r) => ({ ...r, esenzioni_applicate: perEsenzione(r.esentati) }));
+    console.log(JSON.stringify({ ok, violazioni_totali: totali, esentati_totali: esentatiTotali, risultati: conEsenzioni }, null, 2));
   } else {
     for (const r of risultati) {
       const comeMisurato = r.tipo === "audit" ? " [audit: regole dei claim, non quella dei numeri di business]" : "";
+      const dilloAncheSeVerde = () => {
+        for (const e of perEsenzione(r.esentati)) {
+          const quanti = e.quanti === 1 ? "1 rilievo esentato" : `${e.quanti} rilievi esentati`;
+          console.log(`   ↩︎ ${quanti} [${e.id}]${e.esempi.length ? " → " + e.esempi.join(" · ") : ""}`);
+          console.log(`      perché: ${e.motivo}`);
+        }
+      };
+      if (r.natura === "storico") {
+        // Non «onesto»: NON GIUDICATO, e col perché. Dire verde su ciò che non si è misurato è la
+        // forma esatta del difetto che AR-394 cura.
+        console.log(`↩︎ ${r.file}: non giudicato — ${r.ambito}`);
+        continue;
+      }
       if (!r.violazioni.length) {
         console.log(`✅ ${r.file}: onesto (nessun segnaposto, nessun numero senza fonte)${comeMisurato}`);
+        dilloAncheSeVerde();
         continue;
       }
       console.log(`❌ ${r.file}: ${r.violazioni.length} violazione/i${comeMisurato}`);
       for (const v of r.violazioni) {
         console.log(`   [${v.tipo}] ${v.regola}${v.esempi.length ? " → " + v.esempi.join(" · ") : ""}`);
       }
+      dilloAncheSeVerde();
     }
     console.log(ok ? "\n🟢 Testo pubblicabile." : `\n🔴 ${totali} problema/i: NON pubblicare finché non risolvi (segnaposto/[ESEMPIO]/numeri senza fonte).`);
   }

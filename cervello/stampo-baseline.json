@@ -3,8 +3,8 @@
   "_come_si_legge": "debito[nome-agente] = elenco dei difetti già noti per quel nome. Il guardiano FALLISCE quando compare una coppia nome+difetto che non è qui dentro.",
   "_perche_per_nome": "Per NOME e non per conteggio: a parità di numero, «uno riparato + uno nuovo» è un peggioramento travestito da pareggio. E un'esenzione da un punteggio può solo abbassarlo, mai alzarlo — allargare questa lista è una decisione visibile, non un effetto collaterale.",
   "_come_si_riduce": "Riparando un kit, o scrivendo il primo ESITO di un quaderno con `node cervello/chiusura-loop.mjs registra <reparto> …`, poi togliendo la riga da qui. `node cervello/stampo-check.mjs` stampa i nomi GUARITI da togliere. Non si riscrive mai da solo.",
-  "dichiarato_il": "2026-07-28 16:05",
-  "dichiarato_da": "lotto 24 — AR-129 / AR-287 / AR-289 / AR-291, mandato cantiere continuo di Nicola",
+  "dichiarato_il": "2026-08-22 20:30",
+  "dichiarato_da": "lotto 49 — AR-436: il metro dei mansionari e stato irrigidito e adesso puo bocciare. I 120 su 120 che passavano erano quattro titoli garantiti dal template di rollout; col metro nuovo passano 38. Gli 87 difetti di sostanza che emergono NON sono nati oggi: erano li e nessuno li poteva vedere. Entrano nel debito dichiarato per nome, come si fa per i kit, e il cricchetto scende da qui.",
   "riepilogo_alla_dichiarazione": {
     "quaderno_vuoto": 72,
     "kit_sottile": 10,
@@ -13,81 +13,102 @@
   },
   "debito": {
     "accessibility": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "account-security": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "analytics-engineering": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "authentication-prodotti": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "avvocato-civile": [
       "kit_sottile",
       "kit_fotocopia",
       "kit_struttura_rotta",
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "avvocato-ip": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "avvocato-lavoro": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "bi-lead": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "brand-protection": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "broker-assicurativo": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "business-plan-bancabile": [
       "kit_sottile",
       "kit_fotocopia",
       "kit_struttura_rotta",
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "capacity-planning": [
       "quaderno_vuoto"
     ],
     "category-manager": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "cfo": [
       "quaderno_vuoto"
     ],
     "city-manager": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "commercialista": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "computer-vision": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "consulente-bancario": [
       "kit_sottile",
       "kit_fotocopia",
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti",
+      "galleria_senza_perche"
     ],
     "consulente-lavoro": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "courier-acquisition": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "credito-impresa": [
       "kit_sottile",
       "kit_fotocopia",
       "kit_struttura_rotta",
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "demand-forecasting": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "developer-platform": [
       "quaderno_vuoto"
@@ -96,27 +117,33 @@
       "quaderno_vuoto"
     ],
     "dpo": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "enterprise-risk": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "finanza-agevolata": [
       "kit_sottile",
       "kit_fotocopia",
-      "kit_struttura_rotta"
+      "kit_struttura_rotta",
+      "loop_senza_varianti"
     ],
     "fiscalista-iva-ecommerce": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "fondo-garanzia-pmi": [
       "kit_sottile",
       "kit_fotocopia",
       "kit_struttura_rotta",
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "food-safety": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "fp-and-a": [
       "quaderno_vuoto"
@@ -128,37 +155,48 @@
       "kit_sottile",
       "kit_fotocopia",
       "kit_struttura_rotta",
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti",
+      "galleria_senza_perche"
     ],
     "grant-writer": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "infosec-soc": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "investor-relations": [
       "kit_sottile",
       "kit_fotocopia",
       "kit_struttura_rotta",
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "kyc-aml": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "legale-contrattualista": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "live-ops": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "localization": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "loyalty-membership": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "marketplace-payments": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "marketplace-policy": [
       "quaderno_vuoto"
@@ -167,97 +205,184 @@
       "kit_sottile",
       "kit_fotocopia",
       "kit_struttura_rotta",
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti",
+      "galleria_senza_perche"
     ],
     "medico-competente": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "ml-engineer": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "mobile-app": [
       "quaderno_vuoto"
     ],
     "new-verticals": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "notaio": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "office-manager": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "personalization": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "modelli_mentali_poveri",
+      "loop_senza_varianti"
     ],
     "platform-infra": [
       "quaderno_vuoto"
     ],
     "pricing-scientist": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "private-label": [
       "quaderno_vuoto"
     ],
     "procurement": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "public-policy": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "q-commerce-ops": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "qa-designer": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "rating-centrale-rischi": [
       "kit_sottile",
       "kit_fotocopia",
       "kit_struttura_rotta",
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti",
+      "galleria_senza_perche"
     ],
     "registro-imprese": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "retail-media": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "reverse-logistics": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "revisore-conti": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "revops": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "rspp": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "sales-ops": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "scadenzario": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "search-reco-scientist": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "search-relevance": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "segreteria-ea": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "seller-financing": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "seller-standards": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
     ],
     "sustainability-esg": [
-      "quaderno_vuoto"
+      "quaderno_vuoto",
+      "loop_senza_varianti"
+    ],
+    "analista": [
+      "loop_senza_varianti"
+    ],
+    "chief-of-staff": [
+      "loop_senza_varianti"
+    ],
+    "contabilita": [
+      "loop_senza_varianti"
+    ],
+    "data-engineer": [
+      "loop_senza_varianti"
+    ],
+    "dispute": [
+      "loop_senza_varianti"
+    ],
+    "finanza": [
+      "loop_senza_varianti"
+    ],
+    "innovation-lab": [
+      "loop_senza_varianti"
+    ],
+    "intelligence": [
+      "loop_senza_varianti"
+    ],
+    "internal-audit": [
+      "loop_senza_varianti"
+    ],
+    "legale-privacy": [
+      "loop_senza_varianti"
+    ],
+    "onboarding-negozi": [
+      "loop_senza_varianti"
+    ],
+    "operations": [
+      "loop_senza_varianti"
+    ],
+    "partner-management": [
+      "loop_senza_varianti"
+    ],
+    "people-talent": [
+      "loop_senza_varianti"
+    ],
+    "product-manager": [
+      "loop_senza_varianti"
+    ],
+    "qa": [
+      "loop_senza_varianti"
+    ],
+    "sdet": [
+      "loop_senza_varianti"
+    ],
+    "security": [
+      "loop_senza_varianti"
+    ],
+    "trust-safety": [
+      "loop_senza_varianti"
     ]
   },
   "_come_si_distingue_una_regressione": "AR-472 — il debito qui sopra dice QUALI difetti aveva un agente; questi due blocchi dicono DA QUANTO e QUANTO PESAVA. Servono a `classificaNuovi` (cervello/stampo-metro.mjs) per separare chi e peggiorato (righe di esito sparite, kit rimpicciolito → REGRESSIONE, blocca) da chi e rimasto identico mentre si muoveva il metro attorno (il calendario dei 30 giorni, la mediana del parco → DEBITO INVECCHIATO, conta e non blocca). Senza il valore di un agente qui dentro, il suo difetto nuovo e trattato come regressione: cieco non e verde.",

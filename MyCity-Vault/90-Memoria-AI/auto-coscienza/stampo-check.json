@@ -1,7 +1,7 @@
 {
   "_cosa_e": "Guardiano stampo senior: legge il CONTENUTO di mansionario, kit e quaderno di ogni agente e lo confronta col debito dichiarato in cervello/stampo-baseline.json.",
   "_cosa_NON_prova": "Non prova che un kit sia BUONO né che un ESITO sia vero: misura spessore relativo, fotocopie, struttura e presenza di righe ESITO datate. Un kit lungo e originale può essere sbagliato, e una riga ESITO può contenere un numero inventato — quella parte la giudicano il direttore-creativo e la calibrazione, non questo controllo.",
-  "aggiornato": "2026-08-22 16:30",
+  "aggiornato": "2026-08-22 20:14",
   "origine": "cloud",
   "copertura": 120,
   "scritto_da": "stampo-check.mjs",
@@ -13,17 +13,20 @@
     "fermi": 19,
     "assenti": 0
   },
-  "con_difetti": 90,
-  "senza_difetti": 30,
+  "con_difetti": 100,
+  "senza_difetti": 20,
   "per_tipo": {
+    "loop_senza_varianti": 82,
     "quaderno_vuoto": 71,
     "quaderno_fermo": 19,
     "kit_sottile": 10,
     "kit_fotocopia": 10,
-    "kit_struttura_rotta": 9
+    "kit_struttura_rotta": 9,
+    "galleria_senza_perche": 4,
+    "modelli_mentali_poveri": 1
   },
   "_come_si_leggono_i_nuovi": "AR-472 — `nuovi_rispetto_al_debito` è la somma: tutto ciò che non era nel debito dichiarato. Non è il verdetto. Il verdetto sono le `regressioni` (qualcuno ha peggiorato il suo pezzo: righe di esito sparite, kit rimpicciolito → il guardiano esce 1) separate dagli `invecchiati` (il pezzo è intatto, si è mosso il metro attorno: i 30 giorni del calendario, la mediana del parco → si contano e non bloccano). Chi conta la lista intera per decidere legge 12 difetti nuovi dove non c'è nessun autore.",
-  "debito_dichiarato_il": "2026-07-28 16:05",
+  "debito_dichiarato_il": "2026-08-22 20:30",
   "nuovi_rispetto_al_debito": [
     {
       "nome": "ads-performance",

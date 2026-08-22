@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-08-22 09:57",
+  "aggiornato": "2026-08-22 20:11",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -148,6 +148,46 @@
         "memoria-squadra/",
         "consegne/"
       ]
+    },
+    {
+      "id": "cantiere.scadenza-zero",
+      "nome": "Data zero del cantiere: 29 settembre 2026",
+      "valore": "Quattro cose entro il 29 settembre 2026, dette da Nicola il 22/8: (1) i 112 difetti aperti della macchina; (2) i 208 difetti aperti del design del marketplace; (3) COSTRUIRE il worker per le botteghe, che non esiste ancora (linea di ricavo #2, la macchina BOTTEGA di architettura.tre-macchine); (4) il design della parte venditore del marketplace, mai lavorato. 320 difetti + due costruzioni da zero in 38 giorni. Il ritmo sui soli difetti e ~8,4 chiusi al giorno, festivi inclusi, e non tiene conto delle due costruzioni.",
+      "fonte": "Nicola (chat 2026-08-22 19:42-19:47) — cinque messaggi: la data, i difetti del marketplace, la conferma della data, worker botteghe + design seller, «voglio riuscire a fare tutto questo entro il 29 settembre»",
+      "aggiornato": "2026-08-22 19:44",
+      "storia": [
+        {
+          "valore": "Nicola vuole TUTTI i difetti della macchina risolti entro il 29 settembre 2026. Al 22/8/2026: 112 difetti non chiusi, 38 giorni utili = ritmo minimo ~3 difetti chiusi al giorno, ogni giorno, festivi inclusi.",
+          "fino_a": "2026-08-22 19:43"
+        },
+        {
+          "valore": "Nicola vuole TUTTI i difetti risolti entro il 29 settembre 2026 — macchina E marketplace. Conto al 22/8/2026: 112 difetti della macchina non chiusi (cantiere-difetti.json) + 208 del design del marketplace aperti (radiografia 22/8: 2 bloccanti, 86 gravi, 120 minori) = 320 aperti. I 199 della radiografia del sito del 21/8 risultano gia chiusi. 38 giorni utili = ritmo minimo ~8,4 difetti chiusi al giorno, ogni giorno, festivi inclusi.",
+          "fino_a": "2026-08-22 19:44"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "38 giorni utili = ritmo minimo ~3 difetti chiusi al giorno",
+          "dal": "2026-08-22 19:43",
+          "chiusa": "2026-08-22 19:43"
+        },
+        {
+          "pattern": "Nicola vuole TUTTI i difetti della macchina risolti entro il 29 settembre 2026. Al 22/8/2026: 112 difetti non chiusi, 38 giorni utili = ritmo minimo ~3 difetti chiusi al giorno, ogni giorno, festivi inclusi.",
+          "dal": "2026-08-22 19:43",
+          "chiusa": "2026-08-22 19:43"
+        },
+        {
+          "pattern": "38 giorni utili = ritmo minimo ~8,4 difetti chiusi al giorno",
+          "dal": "2026-08-22 19:44",
+          "chiusa": "2026-08-22 20:11"
+        },
+        {
+          "pattern": "Nicola vuole TUTTI i difetti risolti entro il 29 settembre 2026 — macchina E marketplace. Conto al 22/8/2026: 112 difetti della macchina non chiusi (cantiere-difetti.json) + 208 del design del marketplace aperti (radiografia 22/8: 2 bloccanti, 86 gravi, 120 minori) = 320 aperti. I 199 della radiografia del sito del 21/8 risultano gia chiusi. 38 giorni utili = ritmo minimo ~8,4 difetti chiusi al giorno, ogni giorno, festivi inclusi.",
+          "dal": "2026-08-22 19:44",
+          "chiusa": "2026-08-22 20:11"
+        }
+      ],
+      "esenzioni": []
     },
     {
       "id": "consegna.promessa",

@@ -30,6 +30,7 @@
 
 import { existsSync, readFileSync, readdirSync, statSync, writeFileSync, mkdirSync } from "node:fs";
 import { basename, join } from "node:path";
+import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 // AR-464 — la penna condivisa, che consulta il freno della memoria (`cervello/casa-memoria.mjs`).
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
@@ -41,6 +42,7 @@ import {
   difettiAgente,
   difettiKit,
   fotocopie,
+  fotocopieMansionari,
   nuoviRispettoAlDebito,
   quaderniInPiuCase,
   sogliaSottile,
@@ -125,13 +127,23 @@ async function main() {
   const soglia = sogliaSottile(Object.values(kitBytes));
   const copiati = fotocopie(kitTesto);
 
+  // AR-436 — le fotocopie anche fra MANSIONARI, non solo fra kit. La caccia era già scritta e non la
+  // chiamava nessuno: `difettiAgente` non riceveva `blocchiCopiati`, quindi quel difetto non poteva
+  // comparire nel rapporto nemmeno esistendo. Un modulo importato e mai chiamato somiglia moltissimo
+  // a una difesa attiva — ed è la metà del fix che salta più facilmente, perché arriva quando il
+  // lavoro sembra finito. Sul parco vero oggi non cambia niente (zero mansionari fotocopia): è un
+  // canarino, non un debito. Guarda la sola scheda mestiere: la Carta del Dipendente è condivisa
+  // apposta, e contarla come copia boccerebbe tutti e 120 per un testo che DEVE essere uguale.
+  const testiAgenti = Object.fromEntries(roster.map((n) => [n, readFileSync(join(AGENTS_DIR, `${n}.md`), "utf8")]));
+  const copiatiAgenti = fotocopieMansionari(testiAgenti);
+
   const quadro = {};
   const quaderni = { vivi: 0, vuoti: 0, fermi: 0, assenti: 0 };
   // L'ultimo esito di ognuno serve DOPO, per sapere se un quaderno fermo è fermo da sempre o se
   // qualcuno gli ha appena tolto delle righe: sono due cose diverse e finora erano lo stesso numero.
   const ultimoOggi = {};
   for (const n of roster) {
-    const d = [...difettiAgente(readFileSync(join(AGENTS_DIR, `${n}.md`), "utf8"))];
+    const d = [...difettiAgente(testiAgenti[n], { blocchiCopiati: copiatiAgenti[n] || 0 })];
     d.push(...difettiKit({ testo: kitTesto[n] ?? null, bytes: kitBytes[n], soglia, blocchiCopiati: copiati[n] || 0 }));
     const s = statoQuaderno(leggi(join(SQUADRA_DIR, `${n}.md`)), { adessoIso: oggiIso });
     quaderni[s.stato === "vivo" ? "vivi" : s.stato === "vuoto" ? "vuoti" : s.stato === "fermo" ? "fermi" : "assenti"]++;
@@ -244,4 +256,9 @@ async function main() {
   process.exit(rc);
 }
 
-await main();
+// AR-680 — il programma parte solo se qualcuno LANCIA questo file, non se qualcuno lo importa.
+// Senza questa guardia, importare il modulo per leggerne una funzione ne esegue il gate (e qui il
+// gate finisce con `process.exit`, quindi si porta dietro anche chi l'ha importato): è la malattia
+// censita `programma-che-parte-importando`. Il difetto era ereditato; toccando il file in questo
+// lotto diventa mio, e nessun tetto assolve un rosso che il lotto sta toccando adesso.
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) await main();

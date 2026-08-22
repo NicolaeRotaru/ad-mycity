@@ -370,7 +370,7 @@ test("il codice d'uscita: un cieco vero resta 2, un problema vero resta 1", () =
   assert.equal(uscitaFuoriDallHook({ cieco: false, righe: ["❌ un allarme non accodato"] }), 1);
 });
 
-test("AR-789 — un ⚪ da solo non blocca, anche quando la bandiera «cieco» è falsa", () => {
+test("AR-794 — un ⚪ da solo non blocca, anche quando la bandiera «cieco» è falsa", () => {
   // IL CASO VERO, dalla CI della PR #831: l'unico rilievo era il ⚪ del file oltre il tetto, che
   // nasce fra le «incerte» e quindi arriva qui con `cieco: false`. Il ramo chiedeva la bandiera,
   // non guardava le righe, e usciva 1: pipeline rossa con una sola riga che comincia per ⚪.
