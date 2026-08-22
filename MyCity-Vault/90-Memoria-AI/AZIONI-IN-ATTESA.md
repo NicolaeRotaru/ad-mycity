@@ -21,6 +21,44 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- write-vs-edit-settings-local -->
 
 ---
+### 🟡 #163 — La coda è diventata lunga tre ore, e un controllo ne guarda solo due terzi · ⏳ accodata 2026-08-22 13:20
+
+> **In due righe.** Questo file è cresciuto fino a tre ore di lettura. Un controllo che dovrebbe
+> tenerlo leggibile riesce a guardarne solo i primi due terzi, quindi su questo file non protegge più.
+
+**In parole semplici.** C'è un controllo che sorveglia i testi che leggi tu. Il suo compito è uno
+solo: impedire che diventino più difficili di com'erano. Oggi su questo file non ci riesce, perché
+il file è più lungo di quanto lui sappia leggere.
+
+**Facciamo un esempio di cosa vuol dire.** Stamattina quel controllo mi ha accusata due volte di
+averti reso il file più difficile. Ho tirato fuori i punti che indicava, uno per uno: **nessuno era
+nel mio testo.** Stavano in carte scritte giorni prima. Il controllo confrontava due porzioni diverse
+del file e attribuiva a me la differenza. Ho perso due giri a limare un testo che non era il problema.
+
+**Cosa ho già fatto.** Il controllo adesso, quando non riesce a leggere tutto, lo dice invece di
+accusare. Non mi manda più a cercare dalla parte sbagliata.
+
+**Cosa NON ho fatto, e perché te lo chiedo.** Accorciare il file. Ci ho provato, spostando le 23
+carte già chiuse in un archivio. Ha rotto due controlli: alcune carte chiuse vengono ancora cercate
+qui dentro da altri pezzi della macchina. *«Chiusa» non vuol dire «archiviabile»*, e non lo sapevo.
+Ho annullato tutto e ricontato le carte: 99, tutte al loro posto.
+
+**Cosa cambia per te se dici di sì.** Il file torna a leggersi in un'ora invece che in tre, e il
+controllo torna a proteggerlo davvero. Le carte non si buttano: si spostano in un archivio, parola
+per parola come stanno.
+
+**Cosa devi fare.** Rispondimi «ok 163» e lo progetto per bene: prima la regola su quali carte chiuse sono
+davvero archiviabili, poi lo spostamento, poi i controlli verdi. Se preferisci lasciare tutto com'è,
+dimmelo e chiudo la carta: il debito resta scritto e visibile.
+
+**Cosa non ho verificato.** Quante carte siano archiviabili davvero. So solo che 23 sono chiuse e che
+almeno 3 di quelle servono ancora dov'è. Il conto vero lo faccio dopo il tuo ok.
+
+**Se va bene:** la coda torna corta, e il controllo che ti protegge la leggibilità ricomincia a
+funzionare su di lei.
+
+---
+
 ### 🔴 #162 — Un posto dove tenere una copia delle foto dei prodotti · ⏳ accodata 2026-08-22 09:20
 
 **Cosa cambia:** le immagini dei prodotti **non hanno nessuna copia**. Né uno script, né un passo

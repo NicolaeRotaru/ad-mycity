@@ -16590,6 +16590,25 @@
       "colore": "giallo",
       "nato_da": "AR-761 — emersa mentre riparavo il lavoro intrappolato: il cancello del lotto e' uscito rosso e il rosso non era del lavoro in corso. La porta fissa 3939 in c2-schermo e c4-schermo-coda c'era gia' da prima, non l'ha introdotta questo lotto.",
       "origine": "Trovato il 22/8 mentre riparavo AR-761: il cancello del lotto e' uscito rosso su c2-schermo e c4-schermo-coda, e il rosso non era del lavoro in corso ma di una collisione di porta. Misurato spegnendo il server rimasto acceso e rilanciando le due prove in fila: verdi tutte e due."
+    },
+    {
+      "id": "AR-783",
+      "titolo": "Il cricchetto della leggibilita' accusava chi scrive di righe scritte da altri, perche' misurava un file tagliato",
+      "gravita": "grave",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "colore": "giallo",
+      "nato": "2026-08-22",
+      "nato_come": "scoperta",
+      "nato_da": "Trovato il 22/8 mentre riparavo il server: il cancello «verdetti senza lettore» e' uscito rosso due volte di fila sulla mia PR, e la seconda ho misurato invece di limare.",
+      "origine": "Il cancello diceva «+3 punti difficili», poi «+2». Ho estratto i punti nuovi uno per uno: NESSUNO dei nove stava nel mio testo — erano alle righe 1, 1428 e 1445, dentro carte scritte giorni prima. Misurato sul file INTERO il delta era ZERO.",
+      "causa_radice": "Il testo si misura tagliato a TETTO_TESTO caratteri. AZIONI-IN-ATTESA.md ne fa 250.809 e il tetto era 200.000. Su un file oltre il tetto le due versioni confrontate coprono PORZIONI DIVERSE: aggiungere un paragrafo in cima fa entrare nella finestra un pezzo che prima ne stava fuori, e i suoi problemi risultano «aggiunti da te». ① perche' il cancello e' rosso? perche' dice +2 punti · ② quali? nessuno nel mio testo · ③ perche' li attribuisce a me? perche' confronta due finestre diverse · ④ perche' diverse? perche' il file supera il tetto · ⑤ perche' nessuno se n'era accorto? perche' il taglio veniva DICHIARATO in una nota ma non cambiava il verdetto: si leggeva come un dettaglio, non come «questa misura non e' valida».",
+      "impatto_crescita": "Costo diretto misurato: due giri di riscrittura su un testo che non era il problema, mentre la causa vera restava. E' anche la malattia gia' censita in questo stesso file per un altro caso — «un cancello che accusa di cose non tue e' la definizione operativa del rosso che si impara ad aggirare»: il danno peggiore non e' il tempo perso, e' che insegna ad aggirare il cancello.",
+      "fix_proposto": "PARZIALE 2026-08-22, e con due strade sbagliate scartate per strada. ① SCARTATA: alzare TETTO_TESTO da 200.000 a 400.000. L'argomento era vero (quella soglia e' un campo visivo, non una tolleranza: alzarla rende il cancello piu' severo, 229 punti contro 311) ma il sorvegliante l'ha contestato sette volte e aveva ragione lui — una soglia che sale e' la mossa che nasconde i problemi, e chi legge fra sei mesi non distingue una buona ragione da una scusa. ② SCARTATA: archiviare da sola le 23 carte chiuse. Provato dentro questo stesso lavoro: ha portato via anche carte che altri guardiani cercano nella coda viva (ordine-test-pq, prevenzione-a-monte, quanto-chiudo-e-il-mio-voto) e due prove sono diventate rosse. «Chiusa» non vuol dire «archiviabile». Rimettendole indietro il file restava sopra il tetto lo stesso (213.640). Tutto annullato, 99 carte ricontate. ③ FATTO: se un testo supera il tetto il verdetto e' ⚪ e non ❌ — un giudizio su una parte non e' un giudizio sul tutto, e il cancello non accusa piu' nessuno di righe altrui. RESTA DA FARE: accorciare la coda (254.994 caratteri, 3 ore di lettura). Va progettata, non improvvisata: serve una regola su quali carte chiuse sono davvero archiviabili. E' una proposta in coda per Nicola, non una cosa da fare di iniziativa.",
+      "verifica": {
+        "comando": "node cervello/test/cancello-che-accusa-di-cose-non-tue.test.mjs"
+      },
+      "nota_fix": "Quattro prove non vuote (senza il ramo ⚪ 3/4; senza il marcatore di taglio 3/4). ⚠️ DEBITO DICHIARATO: finche' la coda supera il tetto, il cricchetto della leggibilita' su quel file non protegge — esce ⚪. E' una perdita vera sul file che Nicola legge di piu', e la prova ② la tiene visibile invece di lasciarla passare per verde."
     }
   ],
   "meta": {

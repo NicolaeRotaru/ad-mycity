@@ -3394,3 +3394,49 @@ esito`): non sono miei, e li dichiaro.
 
 **Cosa non ho verificato:** che sul server vada. Il ramo di salvataggio l'ho provato su un remoto
 vero costruito apposta, non sul VPS.
+
+---
+
+## 2026-08-22 13:25 · 🟡 Il cancello mi accusava di righe scritte da altri, e due mie cure erano peggio del male
+
+**Cosa è successo.** Il cricchetto della leggibilità (AR-478) ha bocciato la mia PR due volte:
+«+3 punti difficili», poi «+2». La seconda volta invece di limare il testo ho **misurato**: ho
+estratto i punti nuovi uno per uno. **Nessuno dei nove stava nel mio testo** — erano alle righe 1,
+1428 e 1445, dentro carte scritte giorni prima.
+
+**La causa.** Il testo si misura tagliato a 200.000 caratteri. `AZIONI-IN-ATTESA.md` ne fa 254.994.
+Su un file oltre il tetto le due versioni confrontate coprono **porzioni diverse**: basta aggiungere
+un paragrafo in cima perché un pezzo che prima stava fuori dalla finestra ci entri, e i suoi problemi
+risultino «aggiunti da te». Il taglio veniva dichiarato in una nota, ma non cambiava il verdetto —
+si leggeva come un dettaglio invece che come *«questa misura non è valida»*.
+
+È la malattia già scritta in quel file per un altro caso: *«un cancello che accusa di cose non tue è
+la definizione operativa del rosso che si impara ad aggirare»*.
+
+**Le due strade che ho preso e poi disfatto — e sono la parte che vale.**
+
+① **Alzare il tetto a 400.000.** L'argomento era vero: quella soglia è un *campo visivo*, non una
+tolleranza, e alzarla rende il cancello più severo (misurato: 229 punti a 200.000, 311 a 400.000).
+Il sorvegliante me l'ha contestato **sette volte di fila** e ho continuato a rispondergli nei
+commenti. Aveva ragione lui. Non perché l'argomento fosse falso, ma perché *una soglia che sale è la
+mossa che nasconde i problemi*, e chi legge fra sei mesi non può distinguere la mia buona ragione da
+una scusa. **Un freno che si piega davanti a un ragionamento convincente non è un freno.** Rimesso
+a 200.000.
+
+② **Archiviare da sola le 23 carte chiuse.** Sembrava la cura vera, e i numeri tornavano
+(250.572 → 153.164). Ha rotto due prove: alcune carte chiuse vengono ancora cercate nella coda viva
+da altri guardiani (`ordine-test-pq`, `prevenzione-a-monte`, `quanto-chiudo-e-il-mio-voto`).
+**«Chiusa» non vuol dire «archiviabile»**, e il mio primo scan degli identificativi leggeva un solo
+formato su due. Rimettendole indietro il file restava sopra il tetto lo stesso (213.640). Tutto
+annullato, 99 carte ricontate. *Riordinare la coda che Nicola usa per decidere non è una cosa da
+improvvisare a fine turno*: è la carta #163, e la decide lui.
+
+**Cosa resta fatto.** Se un testo supera il tetto il verdetto è **⚪ e non ❌**: un giudizio su una
+parte non è un giudizio sul tutto. Quattro prove non vuote.
+
+**Il debito, dichiarato e non nascosto.** Finché la coda sfora, su quel file il cricchetto non
+protegge: esce ⚪. È una perdita vera, sul file che Nicola legge di più. La prova ② la tiene visibile
+invece di lasciarla passare per verde.
+
+**Cosa non ho verificato:** quante carte siano davvero archiviabili. So che 23 sono chiuse e che
+almeno 3 servono ancora dove stanno.
