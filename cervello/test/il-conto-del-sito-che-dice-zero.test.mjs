@@ -24,7 +24,9 @@
 //   ⑨ il gemello TypeScript del Pannello dà gli STESSI numeri, campo per campo
 //
 // NON-VACUITÀ (eseguita, non dedotta): il caso ② fallisce se la logica vecchia smettesse di dare
-// zero, cioè è la misura viva del difetto. Rimettendo `STATI_CHIUSI = ["chiuso"]` in
+// zero, cioè è la misura viva del difetto. Il caso ② non guarda più QUANTI problemi restano aperti:
+// il 22/8 sono arrivati a zero e la prova è diventata rossa sul lavoro finito, che è l'errore che
+// questo stesso file denuncia due volte (un numero fissato dentro una prova scade). Rimettendo `STATI_CHIUSI = ["chiuso"]` in
 // `cervello/radiografia-marketplace-conti.mjs` diventano rossi ① ④ ⑨; togliendo il ramo
 // «dichiarati > 0 → illeggibile» diventano rossi ③ ④; togliendo `altre` diventa rosso ⑥;
 // togliendo `doveDi` diventa rosso ⑧.
@@ -116,8 +118,31 @@ test("② la logica vecchia, sullo stesso referto vero, risponde zero: è il dif
   assert.equal(v.aperti ?? VERO.meta.findings, 0, "«0 non è nullish»: lo zero vince sul totale del referto");
   // La casa unica, sullo stesso file, non ci casca: legge l'elenco e trova
   // quello che c'è davvero, qualunque numero sia oggi.
-  assert.ok(contoMarketplace(VERO).aperti > 0, "sul referto vero devono restare dei problemi da leggere");
-  assert.equal(contoMarketplace(VERO).letto, true);
+  //
+  // 22/8/2026 — QUI C'ERA SCRITTO `aperti > 0`, E IL 22 AGOSTO È DIVENTATO ROSSO
+  // PERCHÉ I DIFETTI SONO FINITI.
+  //
+  // È lo stesso errore che questo file denuncia due volte più sopra — un numero
+  // fissato dentro una prova scade il giorno in cui la realtà cambia — solo
+  // travestito da disuguaglianza: `> 0` è «c'è sempre del lavoro aperto»,
+  // scritto a mano. Il giorno in cui il cantiere arriva a zero, la prova
+  // accusa il lavoro finito.
+  //
+  // La differenza fra le due logiche non è mai stata «quanti aperti ci sono».
+  // È che la vecchia NON LEGGE l'elenco e la nuova sì. Quello si misura senza
+  // dipendere da quanto lavoro resta: il totale letto (199 oggi, un altro
+  // numero domani) contro lo zero cieco di prima.
+  const nuovo = contoMarketplace(VERO);
+  assert.equal(nuovo.letto, true, "la casa unica deve leggere l'elenco, non arrendersi");
+  assert.ok(
+    nuovo.totale > 0,
+    "il referto vero contiene dei problemi: la casa unica li trova, chiusi o aperti che siano",
+  );
+  assert.equal(
+    nuovo.totale,
+    VERO.problemi.length,
+    "e li trova tutti, mentre la logica vecchia ne trovava zero",
+  );
 });
 
 // ── ③ NON LETTO NON È ZERO ───────────────────────────────────────────────────────────────────────
