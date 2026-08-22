@@ -218,7 +218,7 @@ async function main() {
     console.log("→ Pannello: se il merge tocca pannello/, l'action deploy-pannello chiama il Deploy Hook Vercel (i deploy git sono spenti per non bruciare la quota).");
     console.log("→ VPS: watch-main.sh allineerà il codice entro pochi minuti.");
   } else {
-    console.log("→ Render deployerà il sito al merge su main.");
+    console.log("→ Vercel pubblicherà il sito al merge su main.");
   }
 
   await stampSegnale("merge", "ok", `PR #${prNum} ${cfg.slug} → ${pr.base.ref} (${result.sha.slice(0, 7)}) · ${nowPiacenza()}`);

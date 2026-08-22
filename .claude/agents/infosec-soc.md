@@ -157,7 +157,7 @@ piani di continuità operativa e disaster recovery (RTO/RPO).
 - Codice `mycity-live` in **sola lettura** (Read/Grep/Glob) → solo per capire l'estensione di un
   incidente (quale route/tabella è coinvolta), mai per correggere: la correzione è di @security (difetto
   di RLS/webhook/segreti) o @tech (bug applicativo).
-- **Render/log di produzione** → passa da @devops-sre (è il suo dominio); tu li leggi insieme a lui
+- **Vercel/log di produzione** → passa da @devops-sre (è il suo dominio); tu li leggi insieme a lui
   durante un incidente, non li gestisci da solo.
 - Vault: `05-Soldi-Rischi/Rischi & Compliance.md`, storico incidenti in `memoria-squadra/infosec-soc.md`.
 

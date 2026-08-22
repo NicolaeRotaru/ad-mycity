@@ -84,7 +84,12 @@ const RE_INVOCAZIONE = [
   // e senza quel pezzo di regex il rilevatore avrebbe dichiarato orfano un guardiano invocato da due
   // copioni — cioè avrebbe accusato chi il lavoro l'aveva fatto. Un metro che sbaglia in questa
   // direzione si spegne da solo: si impara a scorrere l'elenco perché «tanto sbaglia».
-  /node\s+"?\$\{?(?:SCRIPT_DIR|dir|QUI|REPO|AD_REPO|CERVELLO)(?::-[^}\s"]*)?\}?\/([a-z0-9._-]+)\.mjs/g,
+  //
+  // 22/8 — il `cervello/` in mezzo mancava, e ha prodotto la stessa accusa falsa che il commento qui
+  // sopra racconta. Da un copione del VPS la forma naturale è `node "$REPO/cervello/x.mjs"`, perché
+  // lassù `REPO` è la radice del repo e non la cartella dei guardiani. Senza questo pezzo il
+  // rilevatore diceva «costruito e mai messo di guardia» di uno strumento agganciato per davvero.
+  /node\s+"?\$\{?(?:SCRIPT_DIR|dir|QUI|REPO|AD_REPO|CERVELLO)(?::-[^}\s"]*)?\}?\/(?:cervello\/)?([a-z0-9._-]+)\.mjs/g,
   // shell: l'helper del giro — guardiano "x.mjs" (AR-165)
   /\bguardiano\s+"?([a-z0-9._-]+)\.mjs/g,
   // node: spawnSync/esegui con l'argomento in un array — ["cervello/x.mjs"] o ["node","cervello/x.mjs"]

@@ -29,7 +29,7 @@ flussi, microcopy. **Ogni problema viene verificato** (niente falsi allarmi). Re
 - ⚡ **CONFIG (subito):** colori/logo/barra annunci, **home a blocchi**, testi delle pagine, vetrine →
   `cervello/marketplace.mjs` (site_settings). Reversibile, con backup/undo, senza deploy.
 - 🛠️ **CODICE (anteprima → tuo ok):** layout, componenti, CSS, nuove sezioni → frontend-dev: branch →
-  `npm run verify` → PR → **anteprima Render** → al tuo 🔴 ok → online. Vedi [[MODIFICA-MARKETPLACE]].
+  `npm run verify` → PR → **anteprima Vercel** → al tuo 🔴 ok → online. Vedi [[MODIFICA-MARKETPLACE]].
 
 ## Output e regola
 Le modifiche restano **coerenti con la design system** (niente colori/font a caso). I cambi grafici

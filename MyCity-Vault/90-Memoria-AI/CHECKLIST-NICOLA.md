@@ -23,6 +23,16 @@ aggiornato: 2026-08-21 14:40
 
 ---
 
+## 🔴 IL SITO E' SU VERCEL, MA GLI MANCANO DUE COSE PER FUNZIONARE DAVVERO
+
+- [ ] 🔴 **Metti le chiavi che mancano fra le variabili su Vercel.** Ne manca una senza cui **un pagamento riuscito non diventa un ordine**: il sito non riesce a scrivere quando Stripe ci avvisa che qualcuno ha pagato. Nei registri della produzione, fra il 18 e il 21 agosto, ci sono 70 errori con dentro il nome di quella chiave.
+  → Card `#154` in [[AZIONI-IN-ATTESA]]
+
+- [ ] 🔴 **Sposta il dominio su Vercel.** `mycity-marketplace.com` punta ancora all'indirizzo di Render, che non è più pagato: per questo dal 30 luglio non risponde. Il sito nuovo funziona, ma vive a un indirizzo che non conosce nessuno.
+  → Card `#155` in [[AZIONI-IN-ATTESA]]
+
+---
+
 ## 🔴 IL BLOCCO VERO AL PRIMO INCASSO
 
 - [ ] 🔴 **Fai finire a Pane Quotidiano la pratica dei pagamenti Stripe.** Oggi il negozio non può incassare: dati mai inviati, incassi disattivati, versamenti disattivati. Serve che il fornaio completi la pratica coi suoi dati (documento, azienda, conto per l'accredito).
@@ -35,7 +45,7 @@ aggiornato: 2026-08-21 14:40
 - [ ] 🔴 **Applica la migrazione 124 sul database**: senza, la vetrina dei negozi resta vuota (bollino "Verificato" mancante su 6 pagine).
   → Card `#140` in [[AZIONI-IN-ATTESA]]
 
-- [ ] 🔴 **Fai partire il rilascio solo a controlli verdi**, non insieme a loro (3 mosse su Render/GitHub, tutte tue).
+- [ ] 🔴 **Fai partire il rilascio solo a controlli verdi**, non insieme a loro (3 mosse su Vercel/GitHub, tutte tue).
   → Card `#141` in [[AZIONI-IN-ATTESA]]
 
 - [ ] 🟡 **Un Supabase di prova**, per i controlli che oggi si saltano da soli.

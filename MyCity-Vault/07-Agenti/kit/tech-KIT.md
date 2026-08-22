@@ -77,7 +77,7 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · MyCity-Vault/07-Agent
 - **`main` = produzione. Non si tocca mai direttamente.** Ogni lavoro nasce da un branch (`fix/...` o `feat/...`)
   da `main` aggiornato. ⚠️ **Più sessioni editano `mycity-live` in parallelo:** branch dedicato e mirato =
   niente conflitti, niente file condivisi toccati a caso.
-- **Il giro:** branch → diff minima → `npm run verify` (typecheck+lint+test) → push → PR → **anteprima Render
+- **Il giro:** branch → diff minima → `npm run verify` (typecheck+lint+test) → push → PR → **anteprima Vercel
   automatica** → porti all'AD link+diff. **Il merge su `main` (= deploy in produzione) è 🔴: lo firma Nicola.**
 - **Mai:** `git push --force`, merge/deploy da solo, migrazioni distruttive, stampare/committare segreti.
 - **Segregazione dei poteri:** DB del marketplace = **sola lettura** (Supabase MCP per leggere/diagnosticare,
@@ -152,7 +152,7 @@ bug ha un volto: *il cliente che non riesce a pagare, il negoziante che non vede
 ## TOOL 6 — IL GIRO BRANCH → ANTEPRIMA → OK (corsia CODICE)
 1. **Da `main` aggiornato**, crea il branch: `fix/<bug>` o `feat/<funzione>`. ⚠️ Branch dedicato (sessioni parallele su mycity-live).
 2. **Implementa il minimo** che risolve + il test. `npm run verify`.
-3. **`git push` del branch → PR** → Render genera l'**anteprima automatica**.
+3. **`git push` del branch → PR** → Vercel genera l'**anteprima automatica** (Preview Deployment).
 4. **Porta all'AD:** link anteprima + diff + cosa cambia + effetto atteso. **Merge su `main` = 🔴 (firma Nicola).** Mai da solo.
 > Le semplici **CONFIG** (banner, coupon, home, testi pagine) **NON passano da qui** → `cervello/marketplace.mjs`.
 > Solo nuove funzioni/logica/componenti passano dalla corsia CODICE. Dettagli: `MyCity-Vault/07-Agenti/MODIFICA-MARKETPLACE.md`.
@@ -216,9 +216,9 @@ merge/deploy/`push --force` da solo · segreto in diff o log · "funziona sulla 
 | Carburante | A cosa serve | Dove si innesta |
 |---|---|---|
 | **Passi di riproduzione / screenshot / errore reale** | trasformare "a volte" in un bug riproducibile | Tool 1 (riproduci), Tool 3 |
-| **Log / stack-trace di produzione** (Render, Supabase) | trovare la causa vera, non indovinarla | Tool 1 (isola/causa), Tool 5 (query lente) |
+| **Log / stack-trace di produzione** (Vercel, Supabase) | trovare la causa vera, non indovinarla | Tool 1 (isola/causa), Tool 5 (query lente) |
 | **Accesso read-only al repo `mycity-live`** + allo schema DB | leggere il codice e i dati reali per la diagnosi | tutto lo Strato 4 (Read/Grep/Glob) |
-| **URL dell'anteprima** (PR Render) | verificare il fix prima della firma | Tool 6 (branch→anteprima→ok) |
+| **URL dell'anteprima** (PR Vercel) | verificare il fix prima della firma | Tool 6 (branch→anteprima→ok) |
 | **`npm run verify` funzionante** (typecheck+lint+test) | provare il fix + regressione, niente "compila e sembra andare" | Tool 4, Tool 1 (test) |
 | **Baseline di performance** (Lighthouse/log query) | il "numero PRIMA" senza cui non si ottimizza | Tool 5 |
 | **Storico git / git bisect** | isolare quale commit ha introdotto la regressione | Tool 1 (isola) |

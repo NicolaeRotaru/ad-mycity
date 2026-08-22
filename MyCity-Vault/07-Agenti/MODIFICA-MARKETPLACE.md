@@ -20,8 +20,8 @@ coupon, pagine (FAQ/termini…), daily-drops, shop-of-month, sponsored.
 Per cose nuove che non esistono nel sito (es. punti fedeltà, nuovo checkout, nuova sezione).
 1. Team Engineering crea un **branch** da `main` aggiornato (⚠️ 2 sessioni stanno editando ora → branch dedicato).
 2. Implementa il minimo che serve → `npm run verify` (typecheck + lint + test).
-3. `git push` → **PR** → **Render genera l'anteprima automatica**.
-4. Ti porto **link anteprima + diff**. Al tuo **🔴 ok** → merge su `main` → online (Render + CI).
+3. `git push` → **PR** → **Vercel genera l'anteprima automatica** (Preview Deployment).
+4. Ti porto **link anteprima + diff**. Al tuo **🔴 ok** → merge su `main` → online (Vercel + CI).
 > Il merge in produzione è **sempre** una tua firma. Mai deploy senza il tuo ok.
 
 ## 🧭 Mappa "cosa chiedi → quale corsia"

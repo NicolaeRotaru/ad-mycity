@@ -22,6 +22,139 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #155 — Il dominio del sito punta ancora a Render: va spostato su Vercel · ⏳ accodata 2026-08-22 09:56
+
+**Cosa cambia:** `mycity-marketplace.com` — il dominio vero, quello sui volantini e nei messaggi ai
+negozianti — risponde ancora dall'indirizzo di Render, che non è più pagato. È per questo che dal 30
+luglio dà errore.
+
+Il sito nuovo su Vercel **funziona**: l'ho aperto, risponde, le pagine si vedono. Solo che vive a
+`mycity-phi.vercel.app`, e quell'indirizzo non lo conosce nessuno. Fra i domini registrati nel
+progetto Vercel il tuo non c'è: ci sono solo i tre indirizzi che Vercel assegna da solo.
+
+In pratica: il trasloco è finito, ma il cartello con l'indirizzo è rimasto sulla porta vecchia.
+
+Finché resta così succedono tre cose: chi digita il dominio trova un sito morto; la sentinella che
+controlla se il sito è su continua a misurare Render, quindi resta cieca; e Google, che il dominio lo
+ha già indicizzato, continua a trovarlo giù.
+
+**Se va bene:** due passi, in quest'ordine.
+
+Primo, su Vercel: progetto **mycity** → Settings → Domains → Add, e scrivi `mycity-marketplace.com`
+(aggiungi anche `www.mycity-marketplace.com`). Vercel ti dice esattamente quale record DNS mettere.
+
+Secondo, dal gestore del dominio — nel runbook risulta **Netsons** — cambia il record che oggi punta
+a `216.24.57.1` (Render) e mettici quello che ti ha dato Vercel. Il cambio ci mette da pochi minuti a
+qualche ora a girare per il mondo.
+
+Quando è fatto dimmelo: rifaccio il controllo e aggiorno la memoria, così la sentinella del sito
+smette di essere cieca.
+
+**Cosa non ho verificato:** che `216.24.57.1` sia di Render l'ho dedotto — è l'indirizzo che Render
+dà pubblicamente per i domini principali, e combacia con la storia (Render non rinnovato, sito giù
+dal giorno dopo). Non ho un pannello Render da aprire per confermarlo. E non so chi gestisce davvero
+il DNS: Netsons l'ho preso dalla tabella dei fornitori nel runbook del sito, potrebbe essere
+cambiato.
+
+---
+### 🔴 #154 — Metti le chiavi mancanti su Vercel: senza una di quelle il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56
+
+**Cosa cambia:** il sito è passato su Vercel, ma le chiavi che aveva su Render non sono state
+ricopiate tutte. Ne mancano almeno due, e una è quella grossa.
+
+La prima si chiama `SUPABASE_SERVICE_ROLE_KEY`. È la chiave con cui il sito scrive nel database
+quando non c'è nessun utente collegato a farlo — ed è esattamente il momento in cui Stripe ci avvisa
+che un cliente ha pagato. Senza quella chiave, quell'avviso arriva e non riesce a scrivere niente:
+**un pagamento riuscito non diventa un ordine.** Non è un'ipotesi. Nei registri della produzione, fra
+il 18 e il 21 agosto, ci sono 70 errori con scritto dentro il nome di quella chiave, su quattro
+persone diverse. Nessuno se n'è accorto perché il sito risponde e le pagine si vedono: il buco è
+sotto, dove si incassa.
+
+La seconda si chiama `NEXT_PUBLIC_APP_URL`, ed è l'indirizzo con cui il sito si presenta. Manca
+anche quella, e il ripiego scritto nel codice puntava al computer di chi sviluppa. Risultato: ogni
+pagina diceva a Google che il suo indirizzo ufficiale è `http://localhost:3000`, e ogni link
+condiviso su WhatsApp mostrava l'anteprima rotta. L'ho letto nell'HTML che il sito serviva davvero,
+non in un file di configurazione.
+
+Il ripiego l'ho già sistemato io: da ora, se la variabile manca, il sito usa il dominio che Vercel
+dichiara da solo invece di localhost. Ma è un paracadute. Il dominio giusto lo sai solo tu.
+
+**Se va bene:** Vercel → progetto **mycity** → Settings → Environment Variables, ambiente
+**Production**. Confronta la lista con `.env.example` nel repo del sito: lì c'è scritta ognuna a cosa
+serve e cosa succede se manca. Le due sopra sono obbligatorie. Guarda anche che ci siano
+`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, `CRON_SECRET` e `UNSUBSCRIBE_SECRET`.
+
+⚠️ **Una variabile aggiunta non entra in vigore da sola:** vale dalla pubblicazione successiva. Dopo
+averle messe, fai ripubblicare (Deployments → l'ultima → Redeploy).
+
+Poi come si controlla se ha funzionato, senza chiedere a me: apri
+`https://mycity-phi.vercel.app/api/health`. Adesso risponde `"status":"unhealthy"`. Quando le chiavi
+ci sono tutte deve rispondere `"status":"ok"`.
+
+**Cosa non ho verificato:** non ho potuto vedere l'elenco delle variabili sul pannello di Vercel — da
+qui non ci arrivo. So che quelle due mancano perché il sito si comporta come se mancassero, non
+perché ho letto la lista. Potrebbero mancarne altre che non lasciano tracce così evidenti.
+
+---
+
+
+### 🟡 #153 — I dodici lavori fermi sul server: adesso c'è chi scioglie il nodo, ma prima guardiamo qual è · ⏳ accodata 2026-08-22 10:15
+
+**In parole semplici:** stamattina hai lanciato i comandi della carta #150 e la riparazione di ieri
+sera ha funzionato. Si vede da come è cambiato l'errore. Prima il server non riusciva nemmeno a
+**cominciare** a rimettere in fila i suoi lavori. Adesso comincia, va avanti, e si ferma più in là:
+
+```
+Causa: il rebase ha trovato conflitti: vanno risolti a mano
+```
+
+**Cosa vuol dire «conflitto».** Il server e GitHub hanno scritto tutti e due sullo stesso foglio.
+Git non sceglie da solo quale versione tenere. Si ferma e chiede a una persona. Sul server una
+persona non c'è mai, quindi si ferma e basta. Per sempre.
+
+**Un esempio, il 21 agosto alle 20:02.** Il server ha scritto nel suo quaderno «visita di salute
+fatta». Nello stesso minuto io scrivevo, sullo stesso quaderno, la riga della riparazione. Due righe
+diverse, tutte e due vere, sulla stessa pagina. Git ha alzato le mani. Da quel momento sono
+**dodici** i lavori del server bloccati lì dentro: ieri sera erano quattro.
+
+**Cosa cambia per te:** finché quei dodici non escono, quello che il server scrive resta solo lì
+dentro. Non lo vedi nel Pannello e non lo vedo io.
+
+**Cosa ho fatto.** Ho scritto chi scioglie quel nodo al posto tuo, ma **solo dove la risposta è
+meccanica e non è un giudizio**. Tre casi, e nient'altro:
+
+- **registri che la macchina rifà da sola** → si tiene quello di GitHub. Il vecchio è una fotografia scaduta.
+- **quaderni e diari**, dove si scrive solo in fondo → si tengono **entrambe** le righe. Sono vere tutte e due.
+- **archivio delle lezioni** → si uniscono. Nessuna sparisce.
+
+**Su tutto il resto si ferma e non tocca niente**, codice compreso. Prendi la coda di queste carte:
+lì serve giudizio, non una regola. Meglio dodici lavori fermi che una riga decisa a caso.
+
+**Cosa devi fare. Prima guarda, poi agisci:** non so ancora *quali* fogli siano in conflitto sul
+server, e se sono fuori da quei tre casi questa riparazione non li scioglie. Il primo comando te lo
+dice in una riga.
+
+```
+cd /opt/mycity/ad-mycity
+git fetch origin main && git checkout origin/main -- cervello/ && sudo bash cervello/vps/aggiorna-cervello.sh
+```
+
+Cerca in fondo una di queste due righe:
+
+- **«🧩 Conflitti di MEMORIA risolti da soli»** seguita da «✓ Commit pendenti pubblicati»: è fatta, i
+  dodici lavori sono usciti.
+- **«🧩 I conflitti NON si risolvono da soli»** seguita da un elenco di fogli: mandami quell'elenco.
+  Vuol dire che serve giudizio, e lì la mano è tua o mia, non della macchina.
+
+**Cosa non ho verificato:** che sul server vada. Ho provato la catena intera su copie vere costruite
+apposta. Server e GitHub si scontrano sullo stesso foglio, e alla fine il lavoro del server arriva
+su GitHub senza perdere la riga dell'altro. Togliendo la riparazione la prova torna rossa. Ma i
+fogli veri del tuo server non li ho visti.
+
+**Se va bene:** il server torna a pubblicare da solo, e questo nodo non si riforma più.
+
+---
+
 ### ✅ #152 — Applica al database vero le riparazioni dei due buchi piu' grossi · ⏳ accodata 2026-08-21 20:11 · fatta 2026-08-21 21:20
 
 **Stato:** ✅ FATTO 2026-08-21 21:20 — col tuo «fai la 151 e la 152» in chat. Applicata al database
@@ -548,13 +681,17 @@ Primo, i segreti. Su GitHub vai in Settings → Secrets and variables → Action
 `VERCEL_TOKEN` lo crei su Vercel, in Account Settings → Tokens → Create. `VERCEL_ORG_ID` e
 `VERCEL_PROJECT_ID` stanno su Vercel, dentro il progetto, in Settings → General, in fondo.
 
-Secondo, dimmelo e ti cambio io due parole: `"main": true` diventa `false` in `vercel.json`, e
-`autoDeploy: true` diventa `false` in `render.yaml`.
+Secondo, dimmelo e ti cambio io una parola: `"main": true` diventa `false` in `vercel.json`.
 
 Terzo, GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio su `main`.
 
-**Cosa non ho verificato:** non so se il servizio Render sia ancora acceso. Da qui non lo raggiungo,
-e l'ho scritto nel file invece di darlo per spento.
+**Aggiornamento 2026-08-22 09:56:** qui c'era anche un quarto passo su `render.yaml`. Quel file non
+esiste più, e Render è dismesso: verificato guardando i progetti Vercel, dove il sito pubblica
+davvero. Il passo è stato tolto — una strada morta lasciata in una carta è una trappola per chi la
+legge di corsa.
+
+**Cosa non ho verificato:** se il servizio Render sia stato chiuso davvero o solo lasciato scadere.
+Da qui non lo raggiungo. So che il dominio ci punta ancora (vedi la carta #154).
 
 ---
 
