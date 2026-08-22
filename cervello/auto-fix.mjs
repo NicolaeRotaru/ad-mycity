@@ -282,7 +282,7 @@ function bumpSalute(chiusiOra, note) {
     // `aperto`: questa serie disegna il grafico dell'andamento nella Cabina, e per mesi ha lasciato
     // fuori le 56 `da-riverificare`, cioè ha fatto sembrare il cantiere più corto di quanto fosse.
     difetti_aperti: cantiere.meta?.da_fare ?? 0,
-    // AR-782 — LO STESSO CAMPO NON PUÒ VOLER DIRE DUE COSE.
+    // AR-784 — LO STESSO CAMPO NON PUÒ VOLER DIRE DUE COSE.
     //
     // Qui c'era `difetti_chiusi: chiusiOra`, cioè quanti ne ha chiusi QUESTA passata. Ma la sonda
     // scrive nello stesso campo della stessa serie il TOTALE dei chiusi nel cantiere. Misurato il

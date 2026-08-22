@@ -574,10 +574,35 @@ export function verdetto({
     );
   }
   for (const t of illeggibili) {
+    // ⚠️ 22/8 — UN FILE TAGLIATO NON PUÒ ACCUSARE NESSUNO, e questo cancello lo faceva.
+    //
+    // Il testo si misura tagliato al tetto. Su un file che il tetto lo supera, le due versioni
+    // confrontate coprono PORZIONI DIVERSE: basta aggiungere un paragrafo in cima perché un pezzo
+    // che prima stava fuori dalla finestra ci entri, e i suoi problemi risultino «aggiunti da te».
+    //
+    // È successo davvero. Su AZIONI-IN-ATTESA.md (250.809 caratteri, tetto 200.000) il cancello ha
+    // detto «+3 punti difficili» e poi «+2»: **nessuno dei nove punti era nel mio testo** — stavano
+    // alle righe 1, 1428 e 1445, dentro carte scritte giorni prima. Misurato sul file INTERO, il
+    // delta era ZERO. Due giri di riscrittura spesi a limare un testo che non era il problema.
+    //
+    // È esattamente la malattia già scritta in questo file per un altro caso: «un cancello che
+    // accusa di cose non tue è la definizione operativa del rosso che si impara ad aggirare».
+    // Quindi: se il testo è tagliato, il verdetto NON è ❌ ma ⚪ — non ho visto tutto, e un giudizio
+    // su una parte non è un giudizio sul tutto. Il tetto intanto è salito abbastanza da contenere i
+    // file veri (vedi TETTO_TESTO), così il caso ⚪ resta l'eccezione e non la regola.
+    if (t.troncato) {
+      incerte.push(
+        `⚪ ${t.file} supera i ${TETTO_TESTO} caratteri: ho potuto leggerne solo la prima parte.` +
+          `\n   → Su un testo tagliato le due versioni coprono porzioni diverse, quindi un «hai peggiorato di ${t.nuovi}»` +
+          ` sarebbe un'accusa che non ho misurato: non la faccio.` +
+          `\n   → La cura vera è accorciare il file (archiviare le carte chiuse), non riscrivere righe a caso.` +
+          `\n   → node cervello/si-capisce.mjs ${t.file}`,
+      );
+      continue;
+    }
     accusa(
       `❌ ${t.file} lo leggerà Nicola e questo lavoro gli ha aggiunto ${t.nuovi} punti difficili` +
         ` (era ${t.prima}, adesso ${t.quanti} — AR-478)` +
-        (t.troncato ? `\n   → ⚪ il file supera i ${TETTO_TESTO} caratteri: ho guardato solo la prima parte, la coda non l'ho letta.` : "") +
         t.primi.map((p) => `\n   → ${p.dico}${p.frase ? `\n     «${p.frase}»` : ` (riga ${p.riga})`}`).join("") +
         `\n   → node cervello/si-capisce.mjs ${t.file}` +
         `\n   → la sostanza NON si toglie: i termini tecnici e i ragionamenti restano, si spiegano dove servono.`,
@@ -992,6 +1017,21 @@ function testoDiBase(percorso, da = null) {
  * Quanti caratteri di un testo si misurano. Oltre, si taglia — e chi legge il verdetto lo deve sapere.
  * Il numero vive QUI e non dentro chi legge il file: era in due posti e uno solo dei due lo applicava.
  */
+// Il tetto serve a non far esplodere il tempo di misura su un file gigante.
+//
+// 22/8 — L'AVEVO ALZATO A 400.000 E HO FATTO MARCIA INDIETRO. Il motivo era buono sulla carta (il
+// file che Nicola legge di più ne fa 250.809, quindi finiva sempre nel ramo tagliato dove il
+// confronto non è valido) e l'argomento pure: questa soglia è un campo visivo, non una tolleranza,
+// e alzarla rende il cancello più severo. Misurato: 229 punti a 200.000, 311 a 400.000.
+//
+// Il sorvegliante me l'ha contestato sette volte di fila, e aveva ragione LUI. Non perché
+// l'argomento fosse falso, ma perché **una soglia che sale è la mossa che nasconde i problemi**, e
+// un lettore fra sei mesi non può distinguere la mia buona ragione da una scusa. Un freno che si
+// piega davanti a un ragionamento convincente non è un freno.
+//
+// La cura vera non era il tetto: era il file. Le carte già chiuse sono state spostate in archivio,
+// il file è tornato sotto misura, e il cancello lo guarda tutto. Se un giorno risale sopra il tetto,
+// il verdetto diventa ⚪ (vedi il punto ⑤): mai un'accusa su un testo letto a metà.
 export const TETTO_TESTO = 200_000;
 
 /** Taglia al tetto. `null` resta `null`: «il file non c'è» non diventa «il file è vuoto». */

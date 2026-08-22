@@ -1600,7 +1600,7 @@ export function referto(v) {
   // controlli, copertura 68%»: vero, ma è il numero prima della notizia.
   righe.push(`# Visita della macchina — ${ts()}`);
   righe.push("");
-  righe.push(...quattroRisposte(v));
+
 
   if (p.mancantiAutotest.length) {
     righe.push(`> 🔧 **Attenzione ai miei stessi strumenti:** mancano ${p.mancantiAutotest.join(", ")}. Il verdetto qui sotto è parziale.`);

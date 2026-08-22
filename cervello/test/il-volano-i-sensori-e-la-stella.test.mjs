@@ -43,7 +43,7 @@ const { senzaCommenti } = await import(join(REPO, "cervello/prove-regole.mjs"));
 
 // ── IL VOLANO ────────────────────────────────────────────────────────────────────────────────────
 
-test("AR-046 / AR-782 · «quanti chiusi» vuol dire la stessa cosa chiunque lo scriva", () => {
+test("AR-046 / AR-784 · «quanti chiusi» vuol dire la stessa cosa chiunque lo scriva", () => {
   const serie = json("MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json").serie;
   const cantiere = json("MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json").difetti;
   const chiusiVeri = cantiere.filter((d) => d.stato === "chiuso").length;
@@ -88,7 +88,7 @@ test("AR-046 / AR-782 · «quanti chiusi» vuol dire la stessa cosa chiunque lo 
       `punto ${x.data}: totale ${x.difetti_chiusi} sotto la passata ${x.chiusi_in_questa_passata} — sono due unità di misura diverse`);
   }
 
-  // E la cura di AR-782, sul CODICE: chi scrive quel campo ci mette uno stock, e il flusso ha un nome
+  // E la cura di AR-784, sul CODICE: chi scrive quel campo ci mette uno stock, e il flusso ha un nome
   // suo. Se torna `difetti_chiusi: chiusiOra`, la serie ricomincia a mescolare due unità di misura.
   // ⚠️ Guardato SENZA COMMENTI, e il motivo è divertente: la prima versione cercava la vecchia riga
   // nel file intero e la trovava — dentro il commento che spiega perché è stata tolta. È AR-355, la

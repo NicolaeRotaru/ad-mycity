@@ -21,6 +21,92 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- write-vs-edit-settings-local -->
 
 ---
+### 🔴 #165 — Scrivi i dati veri del titolare: l'informativa privacy esce col nome «MyCity» e basta · ⏳ accodata 2026-08-22 14:10
+
+**Cosa cambia:** l'informativa privacy, i termini e la pagina dei contatti leggono il nome, la sede,
+la partita IVA, il numero camerale, la PEC e il capitale sociale da nove caselle di configurazione.
+Nessuna delle nove era dichiarata. Il codice ripiega su un generico «MyCity» e le righe che non ha
+le salta, quindi la pagina esce senza errori e sembra a posto.
+
+Un'informativa privacy senza i dati di chi tratta i dati non è un'informativa. È la prima cosa che
+un'ispezione guarda.
+
+Adesso le nove caselle sono dichiarate, ma vuote, e la pagina di salute del sito risponde
+«degradato» finché restano vuote: almeno la cosa si vede.
+
+**Cosa devi fare:** darmi i valori veri. Servono: denominazione esatta, indirizzo della sede,
+partita IVA, numero REA se c'è, PEC, capitale sociale, l'indirizzo email per le questioni di
+privacy, e il nome di chi risponde (tu, se resta come hai detto il 20 agosto).
+
+⚠️ **Una cosa importante sui tempi:** questi valori entrano dentro il sito nel momento in cui viene
+**ricompilato**, non quando li scrivi. Vanno messi **prima** della prossima pubblicazione,
+altrimenti restano vuoti nel sito pubblicato anche se sono scritti nel pannello.
+
+**Se va bene:** li metto fra le variabili del progetto e faccio ripubblicare. Poi controllo
+l'informativa e i termini a schermo, e la pagina di salute torna verde.
+
+---
+### 🟡 #164 — Guarda cosa dice Supabase sulle copie di sicurezza: sono cinque minuti e chiudono quattro righe vuote · ⏳ accodata 2026-08-22 14:10
+
+**Cosa cambia:** il documento che spiega come si ripristinano i dati ha quattro righe che dicono
+«da verificare», e la data del controllo dice «mai fatto». Sono le righe che rispondono alla
+domanda più importante del documento: se domani succede qualcosa ai dati, da dove si riparte.
+
+Oggi ho tolto da quel file una contraddizione: in cima diceva «sul piano gratuito il ripristino al
+minuto non c'è», e venti righe più sotto lo elencava fra le cose che ci sono. Due righe che si
+escludono, nello stesso documento. Adesso ne resta una sola. Ma resta un buco: cosa c'è davvero non
+lo sa nessuno.
+
+Nello stesso giro ho scoperto che **la copia notturna del database non partiva più**, e l'ho
+riparata: il programma che la fa era di una versione più vecchia del database e si rifiutava di
+lavorare. Il primo collaudo vero è stanotte.
+
+**Cosa devi fare:** aprire Supabase, andare su **Settings → Billing** e poi su **Database →
+Backups**, e dirmi tre cose: che piano abbiamo, se c'è il ripristino al minuto, quante copie
+giornaliere conserva.
+
+**Se va bene:** riempio le quattro righe con la data del controllo, e da lì si vede se conviene
+passare al piano a pagamento oppure no.
+
+---
+### 🟡 #163 — La coda è diventata lunga tre ore, e un controllo ne guarda solo due terzi · ⏳ accodata 2026-08-22 13:20
+
+> **In due righe.** Questo file è cresciuto fino a tre ore di lettura. Un controllo che dovrebbe
+> tenerlo leggibile riesce a guardarne solo i primi due terzi, quindi su questo file non protegge più.
+
+**In parole semplici.** C'è un controllo che sorveglia i testi che leggi tu. Il suo compito è uno
+solo: impedire che diventino più difficili di com'erano. Oggi su questo file non ci riesce, perché
+il file è più lungo di quanto lui sappia leggere.
+
+**Facciamo un esempio di cosa vuol dire.** Stamattina quel controllo mi ha accusata due volte di
+averti reso il file più difficile. Ho tirato fuori i punti che indicava, uno per uno: **nessuno era
+nel mio testo.** Stavano in carte scritte giorni prima. Il controllo confrontava due porzioni diverse
+del file e attribuiva a me la differenza. Ho perso due giri a limare un testo che non era il problema.
+
+**Cosa ho già fatto.** Il controllo adesso, quando non riesce a leggere tutto, lo dice invece di
+accusare. Non mi manda più a cercare dalla parte sbagliata.
+
+**Cosa NON ho fatto, e perché te lo chiedo.** Accorciare il file. Ci ho provato, spostando le 23
+carte già chiuse in un archivio. Ha rotto due controlli: alcune carte chiuse vengono ancora cercate
+qui dentro da altri pezzi della macchina. *«Chiusa» non vuol dire «archiviabile»*, e non lo sapevo.
+Ho annullato tutto e ricontato le carte: 99, tutte al loro posto.
+
+**Cosa cambia per te se dici di sì.** Il file torna a leggersi in un'ora invece che in tre, e il
+controllo torna a proteggerlo davvero. Le carte non si buttano: si spostano in un archivio, parola
+per parola come stanno.
+
+**Cosa devi fare.** Rispondimi «ok 163» e lo progetto per bene: prima la regola su quali carte chiuse sono
+davvero archiviabili, poi lo spostamento, poi i controlli verdi. Se preferisci lasciare tutto com'è,
+dimmelo e chiudo la carta: il debito resta scritto e visibile.
+
+**Cosa non ho verificato.** Quante carte siano archiviabili davvero. So solo che 23 sono chiuse e che
+almeno 3 di quelle servono ancora dov'è. Il conto vero lo faccio dopo il tuo ok.
+
+**Se va bene:** la coda torna corta, e il controllo che ti protegge la leggibilità ricomincia a
+funzionare su di lei.
+
+---
+
 ### 🔴 #162 — Un posto dove tenere una copia delle foto dei prodotti · ⏳ accodata 2026-08-22 09:20
 
 **Cosa cambia:** le immagini dei prodotti **non hanno nessuna copia**. Né uno script, né un passo
@@ -212,60 +298,81 @@ perché ho letto la lista. Potrebbero mancarne altre che non lasciano tracce cos
 ---
 
 
-### 🟡 #153 — I dodici lavori fermi sul server: adesso c'è chi scioglie il nodo, ma prima guardiamo qual è · ⏳ accodata 2026-08-22 10:15
+### 🟡 #153 — Il comando che ti avevo dato spegneva la riparazione mentre la lanciava · ⏳ accodata 2026-08-22 10:15 · riscritta 2026-08-22 12:15
 
-**In parole semplici:** stamattina hai lanciato i comandi della carta #150 e la riparazione di ieri
-sera ha funzionato. Si vede da come è cambiato l'errore. Prima il server non riusciva nemmeno a
-**cominciare** a rimettere in fila i suoi lavori. Adesso comincia, va avanti, e si ferma più in là:
+> **In due righe.** Il comando che ti avevo dato si spegneva da solo mentre girava. È riparato, ma
+> prima devi unire la richiesta di unione **#822**: senza, il server non riesce a posare il codice.
 
-```
-Causa: il rebase ha trovato conflitti: vanno risolti a mano
-```
+**In parole semplici:** questa carta parla del server, la macchina accesa che lavora quando tu non ci
+sei. Stamattina alle 11:56 hai lanciato il comando che ti avevo dato. Non ha funzionato, e la colpa
+è del comando, non della riparazione.
 
-**Cosa vuol dire «conflitto».** Il server e GitHub hanno scritto tutti e due sullo stesso foglio.
-Git non sceglie da solo quale versione tenere. Si ferma e chiede a una persona. Sul server una
-persona non c'è mai, quindi si ferma e basta. Per sempre.
+**Cosa è successo davvero.** Il comando faceva due cose in fila: scaricare il codice nuovo, e poi
+lanciare il programma di allineamento. Ma quel programma, per fare il suo lavoro, mette da parte i
+file che trova cambiati — e i file appena scaricati erano proprio quelli. Si è messo da parte da
+solo, mentre girava.
 
-**Un esempio, il 21 agosto alle 20:02.** Il server ha scritto nel suo quaderno «visita di salute
-fatta». Nello stesso minuto io scrivevo, sullo stesso quaderno, la riga della riparazione. Due righe
-diverse, tutte e due vere, sulla stessa pagina. Git ha alzato le mani. Da quel momento sono
-**dodici** i lavori del server bloccati lì dentro: ieri sera erano quattro.
+**Facciamo un esempio.** Immagina di leggere ad alta voce da un foglio, e che a metà
+qualcuno te lo sostituisca con una versione più corta. Tu continui a leggere dal punto in cui eri,
+trovi la fine, e smetti. Non ti accorgi di aver saltato niente. È esattamente quello che fa il
+programma che esegue quei comandi: si ferma a metà e **chiude dichiarando successo**, senza stampare
+un solo errore.
 
-**Cosa cambia per te:** finché quei dodici non escono, quello che il server scrive resta solo lì
-dentro. Non lo vedi nel Pannello e non lo vedo io.
+L'ho provato in laboratorio, su un programma di quattro righe che si accorcia da solo: ne esegue
+**una** e finisce con successo. Nessun errore.
 
-**Cosa ho fatto.** Ho scritto chi scioglie quel nodo al posto tuo, ma **solo dove la risposta è
-meccanica e non è un giudizio**. Tre casi, e nient'altro:
+**Cosa cambia per te:** la riparazione era arrivata sul server e non è stata letta. Adesso i lavori
+fermi sono **29**, erano dodici stamattina e quattro ieri sera.
 
-- **registri che la macchina rifà da sola** → si tiene quello di GitHub. Il vecchio è una fotografia scaduta.
-- **quaderni e diari**, dove si scrive solo in fondo → si tengono **entrambe** le righe. Sono vere tutte e due.
-- **archivio delle lezioni** → si uniscono. Nessuna sparisce.
+**Cosa ho corretto.** Due cose. Il programma adesso lavora su una **copia di sé stesso**, che nessuno
+può cambiare mentre gira. E il comando che ti do qui sotto non scarica più niente prima: ci pensa il
+programma stesso, che il codice da GitHub se lo prende da solo.
 
-**Su tutto il resto si ferma e non tocca niente**, codice compreso. Prendi la coda di queste carte:
-lì serve giudizio, non una regola. Meglio dodici lavori fermi che una riga decisa a caso.
+**⚠️ Aggiornamento 2026-08-22 11:30.** Continuando a controllare ho trovato un **quarto** guasto.
+Finché c'è, questa carta non può funzionare. Cambia l'ordine dei passi, quindi te lo racconto.
 
-**Cosa devi fare. Prima guarda, poi agisci:** non so ancora *quali* fogli siano in conflitto sul
-server, e se sono fuori da quei tre casi questa riparazione non li scioglie. Il primo comando te lo
-dice in una riga.
+Il server sta sul ramo principale, dove un cancello controlla chi scrive. Quel cancello ha una
+regola giusta, ed è proprio per questo che fermava la cosa sbagliata: per riallinearsi il server deve
+scrivere del codice, e lì scrivere codice non è permesso. Glielo rifiutava. La riga che lo fa buttava via l'errore, e
+subito dopo stampava «Codice allineato». Il codice restava a mezz'aria. Al giro dopo se lo riportava
+via il prestito.
+
+L'ho provato su un server finto, con il cancello vero. Il commit non atterra. Il file resta sporco.
+E lo schermo dice che è andata bene. Quarto difetto di fila della stessa famiglia — *il programma
+dice che qualcuno farà una cosa, e quel qualcuno non c'è.*
+
+La riparazione è nella richiesta di unione **#822**. La deroga è la più stretta che si possa
+scrivere. Il commit passa **solo se è identico, byte per byte, a quello che il ramo principale ha
+già**. Non può quindi far entrare niente che tu non abbia visto in una richiesta di unione.
+
+**L'ordine adesso è: ① unisci la #822 · ② poi i due lanci qui sotto.** Prima della #822 non lanciare
+niente: perderesti un altro giro.
+
+**Cosa devi fare (dopo aver unito la #822).** Lancialo **due volte**. La prima porta il codice nuovo
+sul server, la seconda lo usa.
 
 ```
 cd /opt/mycity/ad-mycity
-git fetch origin main && git checkout origin/main -- cervello/ && sudo bash cervello/vps/aggiorna-cervello.sh
+sudo bash cervello/vps/aggiorna-cervello.sh
+sudo bash cervello/vps/aggiorna-cervello.sh
 ```
 
-Cerca in fondo una di queste due righe:
+Guarda le ultime righe della **seconda**. Cerca una di queste tre:
 
-- **«🧩 Conflitti di MEMORIA risolti da soli»** seguita da «✓ Commit pendenti pubblicati»: è fatta, i
-  dodici lavori sono usciti.
-- **«🧩 I conflitti NON si risolvono da soli»** seguita da un elenco di fogli: mandami quell'elenco.
-  Vuol dire che serve giudizio, e lì la mano è tua o mia, non della macchina.
+- **«✓ Commit pendenti pubblicati»** → è fatta, i 29 lavori sono usciti.
+- **«🧩 Conflitti di MEMORIA risolti da soli»** seguita dalla riga sopra → è fatta anche così.
+- **«🧩 I conflitti NON si risolvono da soli»** con un elenco di file → mandami quell'elenco. Vuol
+  dire che serve giudizio, e lì decidiamo insieme.
 
-**Cosa non ho verificato:** che sul server vada. Ho provato la catena intera su copie vere costruite
-apposta. Server e GitHub si scontrano sullo stesso foglio, e alla fine il lavoro del server arriva
-su GitHub senza perdere la riga dell'altro. Togliendo la riparazione la prova torna rossa. Ma i
-fogli veri del tuo server non li ho visti.
+Se non compare **nessuna** di queste tre, mandami lo schermo lo stesso: vuol dire che la riparazione
+ancora non viene eseguita, e il motivo è un altro da cercare.
+
+**Cosa non ho verificato:** che sul server vada. Da qui non ci arrivo. Quello che ho provato è la
+protezione, su copie vere: un programma che si accorcia da solo si ferma a una riga; lo stesso
+programma, protetto, arriva in fondo. Togliendo la protezione la prova torna rossa.
 
 **Se va bene:** il server torna a pubblicare da solo, e questo nodo non si riforma più.
+
 ---
 
 ### ✅ #152 — Applica al database vero le riparazioni dei due buchi piu' grossi · ⏳ accodata 2026-08-21 20:11 · fatta 2026-08-21 21:20

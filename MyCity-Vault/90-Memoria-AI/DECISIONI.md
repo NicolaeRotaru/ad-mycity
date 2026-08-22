@@ -3,6 +3,8 @@ tipo: log-decisioni
 fonte: AD digitale
 ---
 
+2026-08-22 14:10 · 🟡 · [AD/tech/backend-dev/devops-sre] · **Chiusi anche i 99 difetti minori: la radiografia del sito è a zero, e dentro i minori ce n'era uno che minore non era.** Nicola: «risolvi anche i 99 minori». **Il conto:** la radiografia del 21/8 aveva trovato 199 difetti (12 bloccanti, 88 gravi, 99 minori); i 100 grossi erano chiusi stamattina alle 9:20, i 99 piccoli sono chiusi adesso. Aperti: **zero**. **Due dei 99 erano già chiusi** dal lotto precedente (195: il rilascio fissa già la versione provata dalla CI e non usa più il gancio di Render; 197: il ripiego del segreto del cookie di ruolo su `UNSUBSCRIBE_SECRET` era già stato tolto) — verificati nel codice, non ricontati come lavoro nuovo. **La scoperta che vale più di tutto il lotto:** la copia notturna del database **non partiva più**. Il lavoro installava `postgresql-client` senza versione, che su Ubuntu 24.04 è la 16; il database di produzione, letto oggi via MCP Supabase (progetto «Mycity», ref `clmpyfvpvfjgeviworth`, eu-west-3), gira **PostgreSQL 17.6.1**, e `pg_dump` si rifiuta di copiare un server più recente di sé. Falliva di notte, dove non guarda nessuno. Adesso il client è agganciato al deposito PGDG con la versione scritta, più un controllo che ferma il lavoro se `pg_dump --version` non combacia. **Gli altri che si vedono:** nella chat del prodotto la risposta mostrata era la prosa del modello («cerco sul web…») invece del campo curato, perché con la ricerca web attiva quella prosa c'è quasi sempre — la chat del catalogo faceva già il contrario; la query digitata nella ricerca partiva integra verso PostHog (Stati Uniti) mentre la funzione di pulizia esisteva già nello stesso file per gli errori; la tabella delle coorti dell'admin usava il fuso di chi guarda invece di quello di Piacenza, mostrava «0%» dove la finestra non era ancora conclusa, e dava lo stesso numero a due etichette diverse; il freno anti-abuso scattava dopo il controllo del login, quindi mille tentativi finti facevano mille domande al database; un rimborso pieno si scriveva in sei update separati senza transazione; la regola anti-manipolazione mancava in cinque prompt su otto e l'istruzione del copilot stava fra virgolette invece che nel recinto. **Prove che girano:** 1136 unitarie verdi (erano 1092), 17 file di controlli SQL contro Postgres vero, typecheck e lint puliti. **Otto verifiche avversariali**: tolta la regola dai quattro prompt → rossi; controlli di conformità rimessi in fila → il contatore dei paralleli da 12 a 1; lotto che scrive senza filtro → 2 rossi; versione sbagliata nel lavoro notturno → rosso; ricerca senza pulizia → rosso; freno dopo l'autenticazione → rosso. **Coperture dichiarate, non nascoste:** il filtro dei prodotti vietati adesso c'è anche sul lavoro massivo, ma **non copre la scrittura diretta dal browser** con RLS — è una decisione da prendere a monte, non una riga da aggiungere; nessuna pagina vista a schermo; nessuna chiamata al modello vero; la copia notturna non l'ho vista riuscire, solo corretta. **🔴/🟡 in attesa di Nicola:** #164 i nove dati del titolare (l'informativa privacy esce col nome generico «MyCity»; entrano nel pacchetto alla compilazione, quindi vanno messi **prima** di ripubblicare — nel frattempo `/api/health` risponde «degradato» invece di tacere) e #163 il controllo su Supabase → Settings → Billing e Database → Backups, che chiude quattro righe «da verificare» nel documento del ripristino. Ramo `claude/marketplace-100-difetti-c62gmv` (11 salvataggi, 316 file), referto in `consegne/audit/2026-08-22-marketplace-99-minori.md`. Niente in produzione. · Nicola (chat 22/8)
+
 2026-08-21 03:30 · 🟡 · [AD/tech/backend-dev] · **Chiusi gli ultimi difetti del sito: da 29 aperti a 3, e trovato un difetto nuovo che nessuna radiografia aveva visto.** Nicola: «risolvi tutti i difetti del markeplace che sono rimasti». Dei 29 aperti nel registro, **5 erano già riparati** e il referto del 18/8 non lo sapeva (difetti 1, 3, 157, 160, 166 — verificati riga per riga nel codice, non ricontati come lavoro nuovo). **21 chiusi oggi** (4, 5, 7, 12, 55, 60, 63, 65, 66, 86, 99, 154, 155, 156, 158, 159, 162, 163, 164, 167, 208). **3 restano a metà, dichiarati**: 83 (il passo 2 è convertire tre pagine da milleduecento righe in componenti server: senza poter aprire il sito in un browser non si riscrive alla cieca — fatti il passo 1, che era la causa radice, e il passo 3), 168 (la catena dell'ordine è ora provata da un controllo SQL che gira in CI senza chiavi; i tre percorsi Playwright autenticati richiedono un progetto Supabase di prova), 229 (le due mosse toccano la produzione: firma di Nicola). **Difetto nuovo trovato lavorando, più grave di tutti quelli sulla lista:** la vetrina pubblica dei negozi aveva perso i due booleani di stato pagamento — la 108b li aveva messi, la 112 ha ricreato la vista senza rimandando alla 114 dove non sono mai arrivati. Sei pagine del sito li chiedono e PostgREST rifiuta la richiesta intera: **quelle pagine non ricevevano nessun negozio**. **Prove che girano:** 933 unitarie verdi (erano 876), 8 file di controlli SQL contro Postgres vero con 125 migrazioni applicate da zero, di cui due nuovi (`07-ritiro-in-negozio`, `08-la-vetrina-e-la-catena-dell-ordine`) rossi senza la migrazione 124; typecheck e lint puliti; due build di produzione. **Misurato, non stimato:** pagine servite dalla cache da 2 a 96 su 203 · rotta webhook da 1002 a 178 righe · colonne nei tipi del database da 191 a 740. **🔴 in attesa di Nicola:** applicare la migrazione 124 (#140), decidere sul rilascio (#141), un Supabase di prova (#139). Ramo `claude/marketplace-bugs-njlgi8`, referto in `consegne/audit/2026-08-21-marketplace-ultimi-difetti.md`. · Nicola (chat 21/8 ~02:00)
 
 2026-08-11 10:25 · 🟡 · [AD/strategia] · **Nicola chiude i tre punti aperti della PR #701, e chiede di leggere davvero i due PDF.** Risposte in chat: ① «c'è il 10% sulle vendite tramite piattaforma, serve per pagare la delivery» → `pricing.commissione` aggiornato: il numero resta 10%, cambia il perché — copre il costo della consegna, sta solo sugli ordini portati da MyCity (denaro nuovo), non sull'incasso preesistente del negozio; regge insieme al paletto «zero commissioni», e la frase non si usa mai da sola in un pitch. ② «i negozi di prova pagano 50€ di abbonamento come tutti» → `pilot.worker-negozi` aggiornato: il prezzo bloccato a 149 €/m del 29/7 **non esiste più**; I Frutti della Terra, Enoteca La Canteina e Il Pollivendolo pagano il canone normale e restano entità da fondare (non nei dati). ③ «hulii è un nome scritto a caso quando avevo creato questo account di claude» → nuovo fatto `identita.hulii`: non è una persona, il proprietario è Nicola; il nome non esce di casa. **④ PDF letti per intero** (20 pagine: 11 + 9) — estratti con `pdfjs-dist`, i font a codifica propria rendevano ciechi gli estrattori semplici. Verdetto in `consegne/strategia/2026-08-11-verifica-sintesi-contro-ricerche.md`: sintesi fedele, 18 numeri su 20 confermati; **2 senza riscontro** («~84% ama il locale», «POS-registratori telematici obbligatori dal 2026») lasciati nel testo perché è di Nicola; **9 soglie operative presenti solo nei PDF** portate alla luce (3-5 negozi fresco con numeri entro 60gg · conversione porta-a-porta <20% = rivedere il pitch · agenda >60% ricorrenti = momento giusto per il booking · churn coorte <5%/mese = spingere l'upsell · una sola PMI welfare basta a fare il caso replicabile · 55% delle PMI non lavora con fornitori esterni · accordo Confcommercio/Confesercenti come moltiplicatore · niente ads a freddo/gergo/promesse numeriche). **Non registrate come fatti**: sono raccomandazioni delle ricerche, diventano fatti solo se Nicola le adotta. **Prova che gira:** `coerenza-fatti.mjs` da exit 3 (1 copia vecchia del prezzo pilota in BACHECA:233) a exit 0 su 1.224 file.
@@ -3228,3 +3230,215 @@ perché se stanno fuori dalle tre classi questa riparazione non li scioglie — 
 server e main che si scontrano sullo stesso file, e alla fine il lavoro del server arriva su GitHub
 senza perdere la riga dell'altro — e l'ho provata al contrario tre volte. I file veri del server non
 li ho visti.
+
+---
+
+## 2026-08-22 12:20 — 🟡 Il copione che si toglie il foglio da sotto mentre legge, e chiude dicendo che è andata bene
+
+**Cosa.** La riparazione dei conflitti era arrivata sul server e **non è stata eseguita**. Non per un
+difetto suo: per un difetto del comando che avevo scritto io nella carta.
+
+**La catena, in ordine.** Il comando era `git checkout origin/main -- cervello/ && sudo bash
+cervello/vps/aggiorna-cervello.sh`. Il primo pezzo scarica il codice nuovo; da quel momento quei file
+risultano **sporchi** rispetto al commit del server. Il secondo pezzo lancia l'allineamento, che —
+per far partire il rebase — mette da parte tutto il tracciato sporco. Cioè: **sé stesso e il
+risolutore**.
+
+**E qui il pezzo che non sapevo, e che ho chiesto a bash invece di dedurlo.** Bash non carica il
+copione in memoria: lo legge a pezzi, tenendo la posizione nel file. Se il file si accorcia sotto,
+bash arriva alla fine e **chiude uscendo 0**. Provato: un copione di quattro righe che riscrive sé
+stesso con una versione più corta esegue **solo la prima riga** e finisce con successo. Nessun
+errore, nessun avviso.
+
+**Perché è il guasto peggiore di questa serie.** Gli altri due si vedevano — un errore stampato, un
+conteggio che cresce. Questo no: il programma dice di aver finito. Per due giri ho creduto che la
+riparazione non funzionasse, mentre non veniva nemmeno letta. *Un pezzo di codice che non viene
+eseguito e non lo dice a nessuno è peggio di un errore, perché manda a cercare dalla parte sbagliata.*
+
+**La cura.** `aggiorna-cervello.sh` si esegue da una **copia di sé** in una cartella temporanea, che
+nessuno può cambiare mentre gira. È il rimedio classico per i copioni che si aggiornano da soli. Se
+la copia non riesce, prosegue lo stesso e lo dichiara: meglio un allineamento fragile che nessuno.
+
+**Il freno.** `cervello/test/copione-che-sparisce-mentre-gira.test.mjs`, quattro prove. La prima non
+testa la riparazione: **chiede a bash** se la premessa è vera, così se un giorno cambiasse
+comportamento lo saprei da lì e non dal server. L'ultima tiene insieme le due metà — finché la messa
+da parte è generale (e deve restarlo, AR-347), la copia non è un'opzione. Togliendo la protezione la
+prova diventa rossa.
+
+**L'errore mio, detto per intero.** Il comando che ho dato a Nicola **causava** il guasto che la
+carta doveva riparare. Non era un dettaglio di forma: era la carta a rompere il lavoro. La carta
+adesso non scarica più niente prima — ci pensa l'allineamento, che il codice da main se lo prende da
+sé — e chiede due lanci di fila: il primo porta il codice nuovo, il secondo lo usa.
+
+**Cosa non ho verificato:** che sul server funzioni. Da qui non ci arrivo, e i 29 commit fermi non li
+ho visti sciogliersi. Ho provato la protezione, non l'esito.
+
+---
+
+## 2026-08-22 11:35 · 🟡 Il quarto difetto: il server non poteva RICEVERE una riparazione, e diceva di averla ricevuta
+
+**Cosa ho fatto.** Riparato il guasto che teneva bloccato il server anche dopo i tre di ieri e
+stamattina, e messo due freni che diventano rossi se torna. Codice nel ramo
+`claude/risolvi-tutti-problemi-nddcnp`, richiesta di unione #822. La firma sul merge è di Nicola.
+
+**Come l'ho trovato.** Non da un errore: stavo verificando se la carta #153 potesse funzionare, e
+ho seguito il codice invece di fidarmi. L'allineatore (`allinea_codice_da_main`) esiste apposta per
+il caso «il server non riesce a pubblicare»: allinea comunque il CODICE, perché — parole scritte il
+20/8 dentro quella funzione — *«un server che non riesce a pubblicare smette anche di RICEVERE le
+riparazioni»*. Ma il server sta su `main`, e su `main` il perimetro AR-332 rifiuta i commit di
+codice. Il commit veniva respinto, l'errore finiva in `/dev/null` dietro un `|| true`, e la riga
+successiva stampava «Codice allineato a origin/main».
+
+**La prova, prima della diagnosi.** Repo vero, cancello vero, la sequenza esatta dell'allineatore:
+il commit non atterra, il file resta `M` (sporco), il contenuto committato è ancora la versione
+vecchia. Al giro dopo il prestito — generale apposta, AR-347 — se lo porta via, e torna il copione
+vecchio. Il cerchio si chiude: la riparazione arriva, non si posa, e nessuno lo dice.
+
+**Perché è il quarto della stessa famiglia in due giorni.**
+
+| difetto | il «qualcuno» che non esisteva |
+|---|---|
+| 21/8 sera | chi doveva riprendere la messa da parte |
+| 22/8 mattina | chi doveva risolvere i conflitti di memoria |
+| 22/8 mezzogiorno | chi doveva leggere il copione fino in fondo |
+| 22/8 pomeriggio | **chi doveva far atterrare il commit** |
+
+La lezione è sempre quella, e adesso ha quattro casi: *ogni volta che il codice dice «lo farà
+qualcuno», bisogna chiedersi chi — e se quel qualcuno esiste.* Il corollario nuovo, che questo caso
+aggiunge: **un `|| true` è una promessa che nessuno mantiene.** Trasforma «rifiutato» e «riuscito»
+nella stessa cosa, e la riga di successo subito dopo diventa una bugia stampata.
+
+**La deroga, e perché non è un buco.** Il perimetro serve a fermare il codice che nessuno ha
+rivisto. Il server che si ricopia addosso `main` non è quel caso: quei byte una richiesta di unione
+li ha già visti. Quindi `solo_copia_di_main` (in `cervello/gate-pubblicazione.sh`, importata dal
+cancello — non ricopiata) passa **solo se ciò che si committa è identico byte per byte a main**. Se
+è identico, per costruzione non entra niente di nuovo. Senza un riferimento a main non indovina:
+blocca (cieco non è verde, AR-322).
+
+**I freni** — `cervello/test/server-che-non-puo-ricevere-riparazioni.test.mjs`, cinque prove
+sull'hook vero dentro repo usa-e-getta:
+① la deroga esiste e il commit ATTERRA (non basta che non dia errore: si guarda la storia);
+② una riga diversa da main e il perimetro ferma tutto;
+③ senza riferimento a main, blocca;
+④ l'allineatore non dichiara più successo se il commit non è atterrato;
+⑤ il cardine della carta #153: il cancello appena scaricato vale già per il commit di quello stesso
+lancio — chiesto a git, non dedotto. È questo che permette al server di sbloccarsi da solo.
+
+Non vuote, verificato rimettendo i difetti: senza la deroga 4/5, senza il controllo dell'esito 4/5.
+I sette casi di `perimetro-main.test.mjs` restano verdi: il perimetro non si è allargato.
+
+**Conseguenza sulla carta #153.** Aveva un ordine sbagliato e l'ho corretto: prima si unisce la
+#822, poi i due lanci. Lanciarla prima avrebbe fatto perdere a Nicola un altro giro — il terzo.
+
+**Cosa non ho verificato:** che sul server funzioni. Da qui non ci arrivo. Ho provato il meccanismo
+su repo veri costruiti apposta, non l'esito sul server: i 29 commit fermi non li ho visti sciogliersi.
+
+**Aggiunta 11:55 — un buco che mi ero scavata da sola, trovato dal collaudo.** La prima stesura di
+`solo_copia_di_main` accettava `FETCH_HEAD` come «main». Ma `FETCH_HEAD` vuol dire soltanto
+«l'ultima cosa scaricata». Chiunque poteva fare `git fetch origin un-suo-ramo` e poi committare su
+`main` del codice identico a quel ramo: **il perimetro si aggirava con un fetch.** Una deroga che si
+apre con un comando qualunque non è una deroga, è una porta.
+
+Non l'ha trovato un errore: l'ha trovato il collaudo di fine lavoro, rileggendo il mio stesso diff
+in cerca di cosa potesse andare storto. Riparato chiedendo a git di che ramo è quel FETCH_HEAD —
+si legge il file che git stesso scrive, e la riga senza `not-for-merge` deve dire `branch 'main'`.
+E i candidati adesso si provano tutti, perché sul server `git fetch <url> main` aggiorna FETCH_HEAD
+e non `origin/main`: fermarsi al primo esistente avrebbe bocciato proprio il caso per cui la deroga
+è nata.
+
+Sesta prova aggiunta, non vuota: rimettendo il buco diventa rossa con «il perimetro si aggira con un
+fetch». Suite dopo: 355 file su 384, zero rossi.
+
+---
+
+## 2026-08-22 12:10 · 🟡 Il lavoro intrappolato adesso ha un'uscita (AR-761), e un debito dichiarato è stato estinto
+
+**Cosa ho fatto.** Nicola: «ci sono dei difetti». Sono andata a guardare: **164 aperti, 11
+bloccanti**. Tre degli undici erano la malattia su cui stavo già lavorando — il server che non
+riesce né a pubblicare né a ricevere. Ho scelto per malattia, come dice il mansionario, non per
+conteggio.
+
+**AR-761 — il fix che non era mai stato scritto, e il perché.** La scheda portava una frase onesta:
+*«Serve un repo finto con due storie divergenti e un remoto scrivibile: da questa sessione non ho un
+remoto su cui provare il push del ramo di salvataggio. Debito dichiarato: il fix non si scrive
+finché non si può provare.»* Quel debito è estinto: il banco che ho costruito stamattina per un
+altro difetto costruisce esattamente quello. Il fix è `salva_il_lavoro_intrappolato`: dopo tre
+tentativi falliti i commit locali finiscono su `vps/salvataggio-<data>`, quindi il lavoro esiste in
+due copie e un `checkout -f` non può più cancellarlo.
+
+**Il tetto, e l'errore mio che la mutazione ha trovato.** Questo gira ogni cinque minuti: un ramo
+per giro farebbe 288 rami al giorno — la stessa malattia che stiamo curando. Avevo scritto che il
+tetto era il memo della punta già salvata. **Falso**, e la mutazione l'ha dimostrato: togliendo il
+memo la prova restava verde. Il tetto sono due pezzi distinti e fanno cose diverse — il **nome per
+giorno** tiene i rami a uno, il **memo** evita di ri-spingere un lavoro identico. La mia prova
+diceva di misurare il secondo e misurava il primo. Riscritta: adesso il memo si misura puntando a un
+remoto rotto, che farebbe fallire qualunque push davvero tentato. Senza memo: 4 su 5.
+
+*Il passo che rompe il fix apposta ha trovato un difetto nel metro, non nel codice. È la terza volta
+in due giorni.*
+
+**Cosa NON ho fatto, apposta.** Nessun reset automatico del server dopo il salvataggio. Buttare via
+commit locali è irreversibile: resta 🔴 e resta di Nicola.
+
+**AR-521 e AR-518** non li ho chiusi: ho aggiornato `verifica` e `nota_fix` dichiarando cosa è fatto
+e cosa no. Di AR-521 è fatta la metà (b) — la via di fuga, che esisteva e non funzionava. La (a),
+lo sblocco a mano sul server, è la carta #153 ed è di Nicola.
+
+**AR-782, registrato e NON incluso nel lotto.** Il cancello è uscito rosso su due prove dello
+schermo, e il rosso non era del mio lavoro: `c2-schermo` e `c4-schermo-coda` si contendono la porta
+fissa 3939, e il cancello le fa girare in parallelo. Misurato spegnendo il server rimasto acceso e
+rilanciandole in fila: verdi tutte e due. Allargare il lotto a metà è il modo classico di non
+finirlo, quindi è registrato per il lotto dopo.
+
+**Il cancello del lotto:** exit 2 — si consegna dichiarando i buchi. Zero rossi. I tre ⚪ sono la
+cecità nota del clone superficiale (`prove-oneste`, `il cantiere non perde difetti`, `consegne senza
+esito`): non sono miei, e li dichiaro.
+
+**Cosa non ho verificato:** che sul server vada. Il ramo di salvataggio l'ho provato su un remoto
+vero costruito apposta, non sul VPS.
+
+---
+
+## 2026-08-22 13:25 · 🟡 Il cancello mi accusava di righe scritte da altri, e due mie cure erano peggio del male
+
+**Cosa è successo.** Il cricchetto della leggibilità (AR-478) ha bocciato la mia PR due volte:
+«+3 punti difficili», poi «+2». La seconda volta invece di limare il testo ho **misurato**: ho
+estratto i punti nuovi uno per uno. **Nessuno dei nove stava nel mio testo** — erano alle righe 1,
+1428 e 1445, dentro carte scritte giorni prima.
+
+**La causa.** Il testo si misura tagliato a 200.000 caratteri. `AZIONI-IN-ATTESA.md` ne fa 254.994.
+Su un file oltre il tetto le due versioni confrontate coprono **porzioni diverse**: basta aggiungere
+un paragrafo in cima perché un pezzo che prima stava fuori dalla finestra ci entri, e i suoi problemi
+risultino «aggiunti da te». Il taglio veniva dichiarato in una nota, ma non cambiava il verdetto —
+si leggeva come un dettaglio invece che come *«questa misura non è valida»*.
+
+È la malattia già scritta in quel file per un altro caso: *«un cancello che accusa di cose non tue è
+la definizione operativa del rosso che si impara ad aggirare»*.
+
+**Le due strade che ho preso e poi disfatto — e sono la parte che vale.**
+
+① **Alzare il tetto a 400.000.** L'argomento era vero: quella soglia è un *campo visivo*, non una
+tolleranza, e alzarla rende il cancello più severo (misurato: 229 punti a 200.000, 311 a 400.000).
+Il sorvegliante me l'ha contestato **sette volte di fila** e ho continuato a rispondergli nei
+commenti. Aveva ragione lui. Non perché l'argomento fosse falso, ma perché *una soglia che sale è la
+mossa che nasconde i problemi*, e chi legge fra sei mesi non può distinguere la mia buona ragione da
+una scusa. **Un freno che si piega davanti a un ragionamento convincente non è un freno.** Rimesso
+a 200.000.
+
+② **Archiviare da sola le 23 carte chiuse.** Sembrava la cura vera, e i numeri tornavano
+(250.572 → 153.164). Ha rotto due prove: alcune carte chiuse vengono ancora cercate nella coda viva
+da altri guardiani (`ordine-test-pq`, `prevenzione-a-monte`, `quanto-chiudo-e-il-mio-voto`).
+**«Chiusa» non vuol dire «archiviabile»**, e il mio primo scan degli identificativi leggeva un solo
+formato su due. Rimettendole indietro il file restava sopra il tetto lo stesso (213.640). Tutto
+annullato, 99 carte ricontate. *Riordinare la coda che Nicola usa per decidere non è una cosa da
+improvvisare a fine turno*: è la carta #163, e la decide lui.
+
+**Cosa resta fatto.** Se un testo supera il tetto il verdetto è **⚪ e non ❌**: un giudizio su una
+parte non è un giudizio sul tutto. Quattro prove non vuote.
+
+**Il debito, dichiarato e non nascosto.** Finché la coda sfora, su quel file il cricchetto non
+protegge: esce ⚪. È una perdita vera, sul file che Nicola legge di più. La prova ② la tiene visibile
+invece di lasciarla passare per verde.
+
+**Cosa non ho verificato:** quante carte siano davvero archiviabili. So che 23 sono chiuse e che
+almeno 3 servono ancora dove stanno.

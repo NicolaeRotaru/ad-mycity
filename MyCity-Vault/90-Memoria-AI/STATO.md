@@ -1,8 +1,24 @@
 ---
 tipo: stato
-aggiornato: 2026-08-22 09:56
+aggiornato: 2026-08-22 14:10
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🧹 **22/8 14:10 — La radiografia del sito è a zero: tutti e centonovantanove i difetti sono chiusi. E dentro gli ultimi novantanove ce n'era uno che minore non era.** Richiesta di Nicola in chat: «risolvi anche i 99 minori».
+>
+> **Il conto, dall'inizio.** Il 21 agosto la radiografia aveva trovato 199 difetti: 12 bloccanti, 88 gravi, 99 minori. Stamattina alle 9:20 erano chiusi i 100 che pesano. Adesso sono chiusi anche i 99 piccoli. **Aperti: zero.**
+>
+> **La cosa più grossa non era piccola: la copia notturna del database non partiva più.** Ogni notte alle 02:17 un lavoro copia tutto il database e lo mette al sicuro, cifrato. È la rete che sta sotto a tutto il resto. Il programma che fa la copia si ferma se il database è più recente di lui, e installava «qualunque versione ci sia nel computer di turno»: la sedici. Il database vero — letto oggi con lo strumento di Supabase — gira la **diciassette**. Quindi la copia falliva, e falliva di notte, dove non guarda nessuno. Adesso la versione è scritta dentro il lavoro, con un controllo che lo ferma se il programma installato è quello sbagliato.
+>
+> **Le altre che si vedono.** ① Nella chat del prodotto al negoziante arrivava il **diario di bordo** dell'assistente («cerco sul web», «ho trovato tre schede simili») invece della risposta. ② Quello che la gente scrive nella **casella di ricerca** partiva così com'era verso il sistema di analisi negli Stati Uniti, email e numeri d'ordine compresi. ③ Nella tua tabella delle coorti il mese in corso mostrava «0%», che si legge «non è tornato nessuno», mentre la verità era «il mese non è ancora finito»: adesso c'è un trattino. ④ Il freno anti-abuso scattava **dopo** il controllo del login, quindi mille tentativi finti facevano mille domande al database prima di prendersi mille rifiuti.
+>
+> **🔴 Due cose che solo tu puoi fare**, accodate come carte. La prima: aprire Supabase → Settings → Database → Backups e scrivere cosa c'è davvero (che piano, se c'è il ripristino al minuto, quante copie giornaliere). Sono cinque minuti e chiudono quattro righe vuote nel documento del ripristino. La seconda: i **dati del titolare** — nome, indirizzo, partita IVA, PEC — che l'informativa privacy legge da nove variabili mai dichiarate. Adesso sono dichiarate ma vuote, e l'informativa esce col nome generico «MyCity». Vanno messe **prima** di ripubblicare, perché entrano nel sito quando viene ricompilato.
+>
+> **Il freno che ho lasciato.** Sedici prove nuove in questi ultimi tre lotti, e ognuna diventa rossa se il suo difetto torna. Otto le ho verificate **al contrario**: rimesso il difetto, guardata la prova diventare rossa, rimesso il codice com'era.
+>
+> **Cosa non ho verificato.** Niente di tutto questo l'ho visto girare in produzione. Non ho mai parlato con l'AI vera: in tutte le prove il modello è finto. Le pagine non le ho viste a schermo, ho letto il codice. E la copia notturna non l'ho vista riuscire: so che la versione adesso è quella giusta, il resto lo dirà stanotte.
+>
+> **Verificato:** 1136 prove unitarie verdi, 17 file di prova sul database verdi, controllo dei tipi pulito, lint senza errori. Niente in produzione: il lavoro è sul ramo `claude/marketplace-100-difetti-c62gmv` del sito. Referto: `consegne/audit/2026-08-22-marketplace-99-minori.md`.
 
 > 🚚 **22/8 09:56 — Il sito era su Vercel, ma lavorava ancora come se fosse su Render. E due cose che solo tu puoi fare tengono ferma la cassa.** Richiesta di Nicola in chat: «ho cambiato il server da render a vercel, fai un'analisi completa e profonda e cambia tutto quello che c'è da cambiare».
 >
