@@ -3089,10 +3089,10 @@ se sparisce il tetto di durata o la regione. Provato rompendo le quattro cose un
 
 **Cosa resta a Nicola (🔴, accodato):**
 
-- **#153** — le chiavi mancanti fra le variabili su Vercel. Manca `SUPABASE_SERVICE_ROLE_KEY`: 70
+- **#154** — le chiavi mancanti fra le variabili su Vercel. Manca `SUPABASE_SERVICE_ROLE_KEY`: 70
   errori veri nei log di produzione fra il 18 e il 21 agosto, su `/api/track` e `/api/consent`. Senza
   quella, il webhook di Stripe non scrive: **un pagamento riuscito non diventa un ordine**.
-- **#154** — il dominio `mycity-marketplace.com` risolve ancora su `216.24.57.1`, l'indirizzo di
+- **#155** — il dominio `mycity-marketplace.com` risolve ancora su `216.24.57.1`, l'indirizzo di
   Render. Va aggiunto su Vercel e ripuntato dal DNS.
 
 **Fatti aggiornati nel registro:** `marketplace.hosting` (non è più «migrazione pianificata»: è fatta,
@@ -3104,3 +3104,51 @@ il sito si comporta come se mancassero, non perché ho letto la lista. Che `216.
 l'ho dedotto. E non ho aperto nessuna pagina in un browser.
 
 · Verificato: 979 prove verdi, typecheck pulito, lint senza errori, build di produzione riuscita · Nicola (chat)
+## 2026-08-22 10:20 — 🟡 I conflitti di memoria che nessuno risolveva: il secondo nodo, sotto il primo
+
+**Cosa.** La riparazione di ieri sera è arrivata sul server e **funziona**. Lo dice l'errore, che è
+cambiato: prima il rebase non partiva affatto (`untracked working tree files would be overwritten`),
+adesso parte, va avanti, e si ferma su `conflitti: vanno risolti a mano`.
+
+**Perché è un difetto e non un'attesa.** Sul server «a mano» vuol dire **mai**: lassù non entra
+nessuno tutti i giorni. Da quattro commit fermi ieri sera a dodici stamattina, +8 in quattordici ore.
+È la stessa malattia del giorno prima in un altro punto: *un'operazione che sa rimandarsi e non ha un
+tetto rimanda per sempre, e da fuori è indistinguibile da una macchina ferma.* Ieri erano le messe da
+parte, oggi i conflitti. Vale la pena scriverlo come forma generale, perché ricompare: **ogni volta
+che il codice dice «lo farà qualcuno», bisogna chiedersi chi, e se quel qualcuno esiste.**
+
+**Il rimedio, e soprattutto il suo confine.** `cervello/conflitti-memoria.mjs` risolve i conflitti
+solo dove la risposta è meccanica e non è un giudizio — registri che la macchina rigenera (vince la
+copia di main), file append-only (si tengono entrambe le parti), archivi tenuti a id (unione, nessuna
+voce sparisce). **Su tutto il resto rifiuta e non tocca niente, nemmeno gli altri file**: una
+risoluzione a metà lascia il rebase in uno stato che nessuno ha scelto. La coda delle carte è
+deliberatamente fuori: i numeri e le chiusure sono giudizio, e li ho risolti a mano due volte in due
+giorni proprio guardando il contenuto.
+
+**Quattro errori miei, tutti trovati da una prova o da un guardiano, nessuno da una rilettura:**
+1. `apprendimento.json` **vive dentro** `auto-coscienza/`, quindi con i controlli nell'ordine
+   sbagliato finiva in «prendi la versione di main»: le lezioni scritte dal server cancellate in
+   silenzio, cioè esattamente il danno che l'attrezzo esiste per evitare. L'ha visto la prova a vuoto
+   prima che il codice toccasse un repo.
+2. **I lati del rebase erano invertiti.** Avevo scritto «stadio 3» per «la versione di main»; durante
+   un rebase lo stadio 3 è il commit *del server*. Il codice avrebbe fatto l'opposto del suo commento.
+   È la trappola che questo repo ha già pagato una volta (`rebase-che-non-parte`), e la cura è la
+   stessa: su questa domanda **si chiede a git**, non a sé stessi. L'ho chiesto, su un repo vero.
+3. Mandavo l'uscita del risolutore in `/dev/null`: così «ha rifiutato perché c'è del codice» e «non è
+   nemmeno partito» diventavano la stessa cosa. È successo davvero — un modulo mancante lo uccideva
+   prima di accendersi e da fuori sembrava una decisione. Stesso errore di AR-468, in un file nuovo.
+4. Il sorvegliante ha trovato una **malattia nella riga che stavo scrivendo**: un attrezzo invocato
+   solo `if [ -f ... ]` sparisce in silenzio quando il file non c'è. Curata, non dichiarata esente.
+
+Il terzo errore ha una conseguenza che vale oltre il caso: **un attrezzo di riparazione deve avere il
+minor numero possibile di ragioni per non accendersi.** Importava `AD_ROOT` da `git-github.mjs`, che
+tira dentro mezza cartella, per sapere un valore predefinito. Adesso se lo calcola da sé.
+
+**Cosa resta a Nicola:** la card #153. Prima un comando che *guarda* quali fogli sono in conflitto,
+perché se stanno fuori dalle tre classi questa riparazione non li scioglie — e in quel caso la mano
+è di una persona. Non lo so ancora, e non fingo di saperlo.
+
+**Cosa non ho verificato:** che sul server funzioni. Ho provato la catena intera su repo veri —
+server e main che si scontrano sullo stesso file, e alla fine il lavoro del server arriva su GitHub
+senza perdere la riga dell'altro — e l'ho provata al contrario tre volte. I file veri del server non
+li ho visti.

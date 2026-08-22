@@ -26,10 +26,10 @@ aggiornato: 2026-08-21 14:40
 ## 🔴 IL SITO E' SU VERCEL, MA GLI MANCANO DUE COSE PER FUNZIONARE DAVVERO
 
 - [ ] 🔴 **Metti le chiavi che mancano fra le variabili su Vercel.** Ne manca una senza cui **un pagamento riuscito non diventa un ordine**: il sito non riesce a scrivere quando Stripe ci avvisa che qualcuno ha pagato. Nei registri della produzione, fra il 18 e il 21 agosto, ci sono 70 errori con dentro il nome di quella chiave.
-  → Card `#153` in [[AZIONI-IN-ATTESA]]
+  → Card `#154` in [[AZIONI-IN-ATTESA]]
 
 - [ ] 🔴 **Sposta il dominio su Vercel.** `mycity-marketplace.com` punta ancora all'indirizzo di Render, che non è più pagato: per questo dal 30 luglio non risponde. Il sito nuovo funziona, ma vive a un indirizzo che non conosce nessuno.
-  → Card `#154` in [[AZIONI-IN-ATTESA]]
+  → Card `#155` in [[AZIONI-IN-ATTESA]]
 
 ---
 

@@ -12,7 +12,7 @@ fonte: AD digitale (giro, cervello/giro.md)
 >
 > **La cosa più brutta l'ho vista guardando l'HTML che il sito serviva davvero.** Ogni pagina diceva a Google che il suo indirizzo ufficiale è `http://localhost:3000` — il computer di chi sviluppa — e ogni link condiviso mostrava l'anteprima rotta. Il sito rispondeva 200 e sembrava a posto. Ho messo un paracadute nel codice: se l'indirizzo non è configurato, adesso usa quello che Vercel dichiara da solo invece di localhost.
 >
-> **🔴 Le due cose che il codice non può fare, e sono le più care.** Sono le carte **#153** e **#154**.
+> **🔴 Le due cose che il codice non può fare, e sono le più care.** Sono le carte **#154** e **#155**.
 >
 > La prima: **mancano delle chiavi fra le variabili su Vercel**, e una è quella con cui il sito scrive nel database quando ci avvisa Stripe che un cliente ha pagato. Senza, **un pagamento riuscito non diventa un ordine**. Non è un'ipotesi: nei registri della produzione fra il 18 e il 21 agosto ci sono **70 errori** con dentro il nome di quella chiave.
 >

@@ -195,7 +195,36 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
       # accusava il token: 31 ore mandate a cercare dove non c'era niente.
       if git fetch "$url" "$branch" 2>/dev/null; then
         if ! _perche_rebase="$(git "${GIT_ID[@]}" rebase FETCH_HEAD 2>&1)"; then
-          git rebase --abort 2>/dev/null || true
+          # 22/8 — I CONFLITTI CHE NESSUNO RISOLVEVA.
+          # Il giorno prima avevamo tolto l'ostacolo che impediva al rebase di PARTIRE. Il mattino
+          # dopo parte, e si ferma qui: «il rebase ha trovato conflitti: vanno risolti a mano». Sul
+          # server «a mano» vuol dire mai, e i commit si accumulano — erano 12 alle 09:20. È la
+          # stessa malattia di ieri in un altro punto: chi sa rimandarsi, senza un tetto, rimanda
+          # per sempre.
+          # Sui file di MEMORIA la risposta è meccanica e sta in `conflitti-memoria.mjs`: registri
+          # rigenerati → la copia di main; quaderni e diari → entrambe le parti; archivi a id →
+          # unione. Su tutto il resto quell'attrezzo RIFIUTA e non tocca niente: se fra i conflitti
+          # c'è del codice, si torna ad annullare come prima. Meglio fermi che risolti a caso.
+          # ⚠️ L'uscita del risolutore si TIENE. Al primo tentativo finiva in /dev/null, e cosi'
+          # «ha rifiutato perche' c'e' del codice fra i conflitti» e «non e' nemmeno partito» erano
+          # la stessa cosa: due guasti diversi con due cure diverse, resi indistinguibili da un
+          # reindirizzamento. E' successo davvero — un modulo mancante lo uccideva prima di
+          # accendersi, e da fuori sembrava una decisione. E' lo stesso errore di AR-468.
+          # Nessun «se il file esiste» davanti alla chiamata: un attrezzo invocato solo quando c'è
+          # sparisce in silenzio quando non c'è, e il silenzio somiglia a una decisione. Si prova e
+          # basta — se manca il file o manca node, l'errore lo dice la riga sotto, con il suo nome.
+          _perche_conflitti=""
+          if _perche_conflitti="$(node "$REPO/cervello/conflitti-memoria.mjs" --applica --repo "$REPO" 2>&1)"; then
+            if _perche_rebase="$(GIT_EDITOR=true git "${GIT_ID[@]}" rebase --continue 2>&1)"; then
+              echo "[$(ts)] 🧩 Conflitti di MEMORIA risolti da soli (nessuna riga persa): il rebase è andato avanti." >&2
+              _perche_rebase=""
+            else
+              git rebase --abort 2>/dev/null || true
+            fi
+          else
+            [ -n "$_perche_conflitti" ] && echo "[$(ts)] 🧩 I conflitti NON si risolvono da soli: $(printf '%s' "$_perche_conflitti" | head -2 | tr '\n' ' ')" >&2
+            git rebase --abort 2>/dev/null || true
+          fi
         else
           _perche_rebase=""
         fi
