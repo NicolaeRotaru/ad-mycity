@@ -370,6 +370,19 @@ test("il codice d'uscita: un cieco vero resta 2, un problema vero resta 1", () =
   assert.equal(uscitaFuoriDallHook({ cieco: false, righe: ["❌ un allarme non accodato"] }), 1);
 });
 
+test("AR-789 — un ⚪ da solo non blocca, anche quando la bandiera «cieco» è falsa", () => {
+  // IL CASO VERO, dalla CI della PR #831: l'unico rilievo era il ⚪ del file oltre il tetto, che
+  // nasce fra le «incerte» e quindi arriva qui con `cieco: false`. Il ramo chiedeva la bandiera,
+  // non guardava le righe, e usciva 1: pipeline rossa con una sola riga che comincia per ⚪.
+  const soloIncerta = ["⚪ AZIONI-IN-ATTESA.md supera i 200000 caratteri: ho potuto leggerne solo la prima parte."];
+  assert.equal(uscitaFuoriDallHook({ cieco: false, righe: soloIncerta }), 2);
+  assert.equal(uscitaFuoriDallHook({ cieco: false, righe: ["ℹ️  nota", ...soloIncerta] }), 2);
+  // E la controprova, o il caso sopra sarebbe soddisfatto anche da un «torna sempre 2»:
+  // basta UNA riga vera perché si torni a bloccare.
+  assert.equal(uscitaFuoriDallHook({ cieco: false, righe: [...soloIncerta, "❌ grave"] }), 1);
+  assert.equal(uscitaFuoriDallHook({ cieco: true, righe: [...soloIncerta, "❌ grave"] }), 1);
+});
+
 test("una nota accanto a un problema non lo declassa: si guarda la sostanza", () => {
   assert.equal(uscitaFuoriDallHook({ cieco: false, righe: ["ℹ️  perimetro largo", "❌ grave"] }), 1);
   assert.equal(uscitaFuoriDallHook({ cieco: true, righe: ["ℹ️  perimetro largo", "⚪ base assente"] }), 2);

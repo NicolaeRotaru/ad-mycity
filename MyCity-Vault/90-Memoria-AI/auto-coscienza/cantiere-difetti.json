@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-22 19:35",
+  "aggiornato": "2026-08-22 21:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16830,21 +16830,39 @@
       },
       "nota_fix": "Il caso ③ esegue la fusione VECCHIA sugli stessi dati veri e pretende che cancelli almeno una riparazione: finché è verde, il difetto è misurato e non solo raccontato.",
       "origine": "trovato provando a riparare AR-787: senza questo, leggere la seconda fonte avrebbe cancellato 199 riparazioni"
+    },
+    {
+      "id": "AR-789",
+      "titolo": "Il cancello bocciava mostrando come unica ragione una riga che dice «non ho potuto guardare»",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-22",
+      "nato_come": "scoperta",
+      "origine": "trovato dalla CI della PR #831: rossa con un solo rilievo, e quel rilievo era un ⚪",
+      "impatto_crescita": "indiretto e caro: blocca la consegna di chiunque aggiunga una card in cima ad AZIONI-IN-ATTESA.md — cioè il gesto più frequente della macchina, sul file che Nicola legge di più. Un rosso che non nasce da nessuna accusa è il rosso che si impara ad aggirare, e allora non frena più nemmeno quando ha ragione.",
+      "causa_radice": "`uscitaFuoriDallHook` decideva il codice d'uscita guardando la BANDIERA `cieco` invece delle righe: `if (cieco && sostanza.every(r => r.startsWith(\"⚪\"))) return 2`. Ma le «incerte» — fra cui il ⚪ nato il 22/8 per il file oltre il tetto — sono dichiarate NON cieche apposta: il commento accanto a `noteCieche` dice «si leggono, non bloccano, e NON contano come cieco». Quindi un verdetto fatto di quel solo ⚪ arrivava con `cieco: false`, cadeva nel `return 1` finale e bloccava. Il ramo ⚪ e la bandiera sono stati scritti da due mani in due momenti, e nessuno ha eseguito la combinazione: le prove di casa coprivano `cieco:true`+⚪ e `cieco:false`+❌, mai `cieco:false`+⚪. RIPRODOTTO eseguendo la funzione con la riga esatta uscita dalla CI: torna 1.",
+      "fix_proposto": "Fatto. La regola non ha bisogno della bandiera: se OGNI riga di sostanza comincia per ⚪, il verdetto è 2 — non ho visto tutto, e un giudizio su una parte non è un giudizio sul tutto. Basta una riga vera (❌ o 🛑) e si torna a 1. Tolto il `cieco &&`.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cancello-stop.test.mjs"
+      },
+      "nota_fix": "La prova porta il caso vero della CI e la sua controprova (una ❌ accanto al ⚪ deve tornare a bloccare), o sarebbe soddisfatta anche da un «torna sempre 2». 98 prove verdi nel file. Resta APERTO il debito che ha fatto emergere il difetto: AZIONI-IN-ATTESA.md sta a 266.221 caratteri contro un tetto di 200.000, quindi su quel file il cricchetto non protegge ed esce ⚪. Accorciarlo è la carta #163 e la decide Nicola: non l'ho toccato."
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 779,
-    "aperti": 102,
+    "totale": 780,
+    "aperti": 103,
     "in_corso": 0,
     "da_riverificare": 10,
     "chiusi": 667,
     "altri": 0,
-    "da_fare": 112,
+    "da_fare": 113,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 667,
-      "aperto": 102,
+      "aperto": 103,
       "da-riverificare": 10
     },
     "stati_ignoti": [],
