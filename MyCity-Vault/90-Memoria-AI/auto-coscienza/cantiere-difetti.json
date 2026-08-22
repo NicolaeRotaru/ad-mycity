@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-22 13:47",
+  "aggiornato": "2026-08-22 18:06",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -11210,7 +11210,7 @@
     },
     {
       "id": "AR-521",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "bloccante",
       "colore": "🔴",
       "dimensione": "processi-e-cadenze",
@@ -11225,7 +11225,10 @@
       "verifica": {
         "comando": "node cervello/test/server-che-non-puo-ricevere-riparazioni.test.mjs"
       },
-      "nota_fix": "PARZIALE 2026-08-22 — la meta' (b) e' fatta, la (a) resta di Nicola. (b) chiedeva «la via di fuga: l'aggiornamento del CODICE si separa dalla pubblicazione della MEMORIA». Quella separazione ESISTEVA gia' (allinea_codice_da_main, 20/8) ma NON FUNZIONAVA, e nessuno se n'era accorto perche' dichiarava successo: il server sta su main, su main il perimetro AR-332 rifiuta i commit di codice, il commit veniva respinto, l'errore finiva in /dev/null dietro un `|| true` e la riga dopo stampava «Codice allineato». Provato su repo vero col cancello vero: commit non atterrato, file sporco, contenuto ancora vecchio. Riparato con solo_copia_di_main (deroga che passa SOLO se identico byte per byte a main) piu' il controllo dell'esito del commit. Sei prove non vuote, inclusa quella che chiude un buco che avevo aperto io: FETCH_HEAD non vuol dire main, e senza il controllo del ramo il perimetro si aggirava con un fetch. (a) LO SBLOCCO A MANO sul server resta rosso e resta a Nicola: e' la carta #153, da lanciare DOPO il merge della PR #822."
+      "nota_fix": "PARZIALE 2026-08-22 — la meta' (b) e' fatta, la (a) resta di Nicola. (b) chiedeva «la via di fuga: l'aggiornamento del CODICE si separa dalla pubblicazione della MEMORIA». Quella separazione ESISTEVA gia' (allinea_codice_da_main, 20/8) ma NON FUNZIONAVA, e nessuno se n'era accorto perche' dichiarava successo: il server sta su main, su main il perimetro AR-332 rifiuta i commit di codice, il commit veniva respinto, l'errore finiva in /dev/null dietro un `|| true` e la riga dopo stampava «Codice allineato». Provato su repo vero col cancello vero: commit non atterrato, file sporco, contenuto ancora vecchio. Riparato con solo_copia_di_main (deroga che passa SOLO se identico byte per byte a main) piu' il controllo dell'esito del commit. Sei prove non vuote, inclusa quella che chiude un buco che avevo aperto io: FETCH_HEAD non vuol dire main, e senza il controllo del ramo il perimetro si aggirava con un fetch. (a) LO SBLOCCO A MANO sul server resta rosso e resta a Nicola: e' la carta #153, da lanciare DOPO il merge della PR #822.",
+      "chiuso_il": "2026-08-22 18:06",
+      "chiuso_come": "node cervello/test/server-che-non-puo-ricevere-riparazioni.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-525",
@@ -15850,7 +15853,7 @@
     },
     {
       "id": "AR-743",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "trovato-riparando",
       "gravita": "grave",
       "titolo": "Il confronto che decide se una prova è soddisfatta ha sei copie, e cinque non ereditano le cure",
@@ -15867,7 +15870,10 @@
         "comando": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
       },
       "nota_prova": "Nasce ROSSA, ed e il suo stato giusto: il difetto e aperto. Diventa verde quando qualcuno lo ripara davvero, non quando qualcuno scrive la parola giusta da qualche parte.",
-      "nota_fix": "Lotto 46 (22/8). RIPARATO. VERIFICATO SUL CODICE, e la scheda era piu larga del vero: diceva sei copie,\nne ho trovate QUATTRO della stessa decisione (la casa piu tre: allinea-scan-cantiere, cantiere-prove,\nchiusure-audit). Le altre due che il conteggio includeva stanno in sorvegliante.mjs e decidono una cosa\nDIVERSA — i pattern delle malattie su un diff, non le prove delle schede — quindi non appartengono a\nquesto difetto. Registrato perche scheda e codice divergevano e comanda il codice. (Fra quelle due pero\nc'e una asimmetria vera: una passa da senzaCommenti e l'altra no. E la stessa malattia in un altro\npunto, e non l'ho toccata qui per non allargare il lotto.)\n\nLE TRE COPIE ERANO TUTTE DIVERSE, ed e il punto: allinea-scan e cantiere-prove facevano la regex nuda,\nchiusure-audit aveva il letterale (AR-037/AR-151) ma non la cura del commento. Cioe le due cure che la\ncasa aveva imparato proteggevano meta dei chiamanti.\n\nCOSA COSTAVANO, e non sono simmetriche: senza il letterale un pattern col dollaro in mezzo non combacia\nmai e un difetto RIPARATO risulta aperto per sempre; senza la cura del commento una prova che cita una\nfrase scritta dentro un commento CHIUDE un difetto rotto. Il secondo e il danno peggiore — e proprio il\ncaso di AR-355, due difetti del worker chiusi sulla descrizione della cura invece che sulla cura.\n\nCURA: i tre chiamano provaSoddisfatta (cervello/prove-regole.mjs), che gia contiene entrambe le difese —\nquindi collegarli e un guadagno secco, nessuna cura persa. PROVA: i due casi che hanno rotto eseguiti sui\ndati veri, piu la rete larga che cerca sul DATO e non sui tre nomi noti: se domani nasce un quarto\npadrone, la prova cade. 5 mutazioni, tutte la rendono rossa.\n\nTROVATO SBAGLIANDO, e vale la pena scriverlo: al primo tentativo la nota che stavo inserendo conteneva un\ndollaro seguito da un apice inverso. Dentro una stringa di sostituzione quella coppia significa «tutto il\ntesto PRIMA della corrispondenza», e mi sono incollata mezzo file dentro un commento in tutti e tre. I file\nnon compilavano piu. Ripristinati e rifatto passando una funzione, che non interpreta niente."
+      "nota_fix": "Lotto 46 (22/8). RIPARATO. VERIFICATO SUL CODICE, e la scheda era piu larga del vero: diceva sei copie,\nne ho trovate QUATTRO della stessa decisione (la casa piu tre: allinea-scan-cantiere, cantiere-prove,\nchiusure-audit). Le altre due che il conteggio includeva stanno in sorvegliante.mjs e decidono una cosa\nDIVERSA — i pattern delle malattie su un diff, non le prove delle schede — quindi non appartengono a\nquesto difetto. Registrato perche scheda e codice divergevano e comanda il codice. (Fra quelle due pero\nc'e una asimmetria vera: una passa da senzaCommenti e l'altra no. E la stessa malattia in un altro\npunto, e non l'ho toccata qui per non allargare il lotto.)\n\nLE TRE COPIE ERANO TUTTE DIVERSE, ed e il punto: allinea-scan e cantiere-prove facevano la regex nuda,\nchiusure-audit aveva il letterale (AR-037/AR-151) ma non la cura del commento. Cioe le due cure che la\ncasa aveva imparato proteggevano meta dei chiamanti.\n\nCOSA COSTAVANO, e non sono simmetriche: senza il letterale un pattern col dollaro in mezzo non combacia\nmai e un difetto RIPARATO risulta aperto per sempre; senza la cura del commento una prova che cita una\nfrase scritta dentro un commento CHIUDE un difetto rotto. Il secondo e il danno peggiore — e proprio il\ncaso di AR-355, due difetti del worker chiusi sulla descrizione della cura invece che sulla cura.\n\nCURA: i tre chiamano provaSoddisfatta (cervello/prove-regole.mjs), che gia contiene entrambe le difese —\nquindi collegarli e un guadagno secco, nessuna cura persa. PROVA: i due casi che hanno rotto eseguiti sui\ndati veri, piu la rete larga che cerca sul DATO e non sui tre nomi noti: se domani nasce un quarto\npadrone, la prova cade. 5 mutazioni, tutte la rendono rossa.\n\nTROVATO SBAGLIANDO, e vale la pena scriverlo: al primo tentativo la nota che stavo inserendo conteneva un\ndollaro seguito da un apice inverso. Dentro una stringa di sostituzione quella coppia significa «tutto il\ntesto PRIMA della corrispondenza», e mi sono incollata mezzo file dentro un commento in tutti e tre. I file\nnon compilavano piu. Ripristinati e rifatto passando una funzione, che non interpreta niente.",
+      "chiuso_il": "2026-08-22 18:06",
+      "chiuso_come": "node --test cervello/test/un-freno-con-piu-copie.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-744",
@@ -16156,10 +16162,10 @@
       "causa_radice": "① Perché nel Pannello c'era un bottone finto? Perché `non-vacuita.mjs` applica la mutazione scrivendo davvero il file, lancia il test, e poi ripristina. ② Perché non ha ripristinato? Perché è stato ucciso dal timeout mentre girava (568 mutazioni superano i due minuti). ③ Perché la morte lascia il danno? Perché il ripristino vive nel flusso normale del processo, non in un gestore di uscita che scatti anche su SIGTERM/SIGINT. ④ Perché nessuno se ne accorge? Perché il file mutato è codice valido: compila, il typecheck passa, e `git status` lo mostra in mezzo ai timbri d'orario riscritti dagli strumenti — dove sembra rumore. ⑤ Causa di sistema: uno strumento che ROMPE il codice apposta deve trattare il ripristino come un obbligo che sopravvive alla propria morte, non come l'ultima riga di una funzione. Finché non lo fa, ogni interruzione — timeout, Ctrl-C, sessione che scade — è un candidato a mandare in produzione una mutazione.",
       "fix_proposto": "🟡 (a) `non-vacuita.mjs` registra un gestore su `SIGTERM`/`SIGINT`/`exit` che ripristina i file toccati prima di morire, e tiene un elenco su disco di ciò che ha mutato, così anche un `kill -9` lascia una traccia recuperabile. (b) Un controllo che confronta l'albero di lavoro col ramo pubblicato cercando le stringhe di `sostituisci` dei mutanti: se una compare nel codice fuori da una corsa in atto, il commit si blocca. È il freno vero, perché non si fida del processo che è appena morto. (c) Nel frattempo, il pre-commit dovrebbe almeno gridare quando un file del Pannello cambia in un lotto che dichiara di non toccarlo.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Non ho una prova automatica per questo: dimostrarla vuol dire uccidere il banco a metà corsa e guardare cosa resta sul disco, che è un test che sporca l'albero di chi lo lancia. Il sintomo qui sopra è il sensore e gira da solo; la prova che il FIX funziona nascerà col fix (a), quando ci sarà un gestore di uscita da poter disattivare apposta."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
       },
-      "nota_fix": "16/8: il residuo trovato è stato ripristinato a mano prima di committare. Nessun fix applicato: registrato e basta, per non allargare il lotto 45 che era già in consegna.",
+      "nota_fix": "16/8: il residuo trovato è stato ripristinato a mano prima di committare. Nessun fix applicato: registrato e basta, per non allargare il lotto 45 che era già in consegna.\n\n22/8 lotto 47 — RIPARATO, e il difetto si e' ripresentato mentre lo riparavo.\n\nE' successo di nuovo, e stavolta l'ho fatto io: ho committato l'unione della richiesta 826 mentre\nuna corsa del banco girava ancora in sottofondo. `cervello/salute.mjs` e' entrato nella storia senza\nla riga che stampa le quattro risposte del referto, ed e' stato SPINTO. L'ha trovato il cancello,\ndopo. Nessun processo era morto: erano in DUE a scrivere lo stesso albero — un caso che i gestori di\nsegnale di AR-523 non coprono, perche' li' nessuno riceve nessun segnale.\n\nLA PROPOSTA SCRITTA SU QUESTA SCHEDA NON AVREBBE PRESO IL CASO VERO. Diceva: cercare nell'albero le\nstringhe di `sostituisci`. Misurato: la mutazione del 22/8 ha `sostituisci: \"\"` — cancella una riga.\nCercare la stringa vuota trova tutto e quindi non distingue niente. C'e' un caso di prova che lo\ndimostra invece di dirlo.\n\nLA DOMANDA GIUSTA e' piu' stretta: l'albero e' ESATTAMENTE l'archivio con la mutazione addosso?\nSe si', quella non e' roba tua: e' la sabotatura della macchina rimasta accesa. Se `cerca` e' sparito\nma il testo non combacia, hai spostato tu il codice — e quella e' la domanda di mutazioni-orfane.mjs,\nnon di questa: qui non si blocca niente, altrimenti il freno ferma il lavoro vero e qualcuno lo spegne.\n\nCOSA E' STATO FATTO. Nuovo `cervello/mutazione-vagante.mjs` (puro, con `eVagante` che un test esegue),\nagganciato al gancio del pre-commit come cancello 1c. `muta` si e' spostata li' da non-vacuita.mjs e\nnon-vacuita la importa: una casa sola, perche' importare non-vacuita da un gancio di commit\naccenderebbe i suoi gestori di segnale in un processo che non muta niente.\n\nPERCHE' AL COMMIT E NON AL CANCELLO. Il cancello la domanda la fa gia', e l'avrebbe presa: provato,\nexit 1 su salute.mjs mutata. Ma gira all'ULTIMA porta, e fra il commit e il cancello c'e' il push —\nil 22/8 il rosso e' arrivato quando la mutazione era gia' spinta. E la sintassi non bastava: una riga\ncancellata da una mutazione e' JavaScript validissimo.\n\nPROVATO END-TO-END: messa in scena `cervello/salute.mjs` mutata, il freno esce 1 e nomina la\nmutazione. Cinque mutazioni registrate, tutte rendono rossa la prova — compresa quella che stacca il\nfreno dal gancio, perche' una funzione giusta che nessuno chiama non ha mai fermato niente.\n\nCOSA RESTA APERTO E NON NASCONDO: `git commit --no-verify` salta il gancio, e stamattina ho usato\nproprio quello. Il salto viene contato (cancelli-commit.mjs lo registra) e il cancello del lotto\nresta la seconda rete prima della consegna, ma il buco esiste ed e' dichiarato: questo freno chiude\nil caso accidentale, che e' quello che capita davvero, non quello deliberato.",
       "sensore_proposto": {
         "misura": "node -e \"const{execSync}=require('node:child_process');const m=require('./cervello/mutanti.json').mutanti;const d=execSync('git diff',{encoding:'utf8',maxBuffer:1e9});let n=0;for(const x of m){const s=String(x.sostituisci||'').trim();if(s.length>25&&d.includes(s))n++}console.log(n)\"",
         "cosa_misura": "quante stringhe di sostituisci dei mutanti sono nel diff dell albero: se una c e, una mutazione e rimasta applicata",
@@ -16227,7 +16233,7 @@
     },
     {
       "id": "AR-761",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "trovato-riparando",
       "gravita": "bloccante",
       "titolo": "Quando i commit del server non si pubblicano, la macchina non puo piu ricevere nessuna correzione",
@@ -16242,7 +16248,10 @@
         "comando": "node cervello/test/lavoro-intrappolato-senza-uscita.test.mjs"
       },
       "nota_rinumerazione": "Nato come AR-757, rinumerato il 16/8 alle 19:50: quel numero se l era gia preso un altro difetto arrivato su main mentre lavoravo.",
-      "nota_fix": "RIPARATO 2026-08-22. La scheda dichiarava un debito onesto: «non ho un remoto su cui provare il push del ramo di salvataggio, quindi il fix non si scrive». Quel debito e' estinto: cervello/test/lavoro-intrappolato-senza-uscita.test.mjs costruisce un remoto vero (--bare) e due storie divergenti. Il fix e' `salva_il_lavoro_intrappolato` in cervello/vps/aggiorna-cervello.sh: dopo tre tentativi falliti i commit locali finiscono su vps/salvataggio-<data>, quindi il lavoro esiste in due copie e un checkout -f non puo' piu' cancellarlo. IL TETTO E' DUE PEZZI DISTINTI, e confonderli e' stato un mio errore trovato dalla mutazione: il NOME per giorno tiene i rami a uno (senza, 288 al giorno), il MEMO della punta gia' salvata evita di ri-spingere ogni cinque minuti un lavoro identico. La prima stesura della prova diceva di misurare il memo e misurava il nome: restava verde togliendo il memo. Riscritta. Cinque prove, non vuote: senza l'uscita 1/5, senza il memo 4/5. NON FATTO APPOSTA: nessun reset automatico del server dopo il salvataggio — buttare via commit locali e' irreversibile e resta una decisione di Nicola (rosso)."
+      "nota_fix": "RIPARATO 2026-08-22. La scheda dichiarava un debito onesto: «non ho un remoto su cui provare il push del ramo di salvataggio, quindi il fix non si scrive». Quel debito e' estinto: cervello/test/lavoro-intrappolato-senza-uscita.test.mjs costruisce un remoto vero (--bare) e due storie divergenti. Il fix e' `salva_il_lavoro_intrappolato` in cervello/vps/aggiorna-cervello.sh: dopo tre tentativi falliti i commit locali finiscono su vps/salvataggio-<data>, quindi il lavoro esiste in due copie e un checkout -f non puo' piu' cancellarlo. IL TETTO E' DUE PEZZI DISTINTI, e confonderli e' stato un mio errore trovato dalla mutazione: il NOME per giorno tiene i rami a uno (senza, 288 al giorno), il MEMO della punta gia' salvata evita di ri-spingere ogni cinque minuti un lavoro identico. La prima stesura della prova diceva di misurare il memo e misurava il nome: restava verde togliendo il memo. Riscritta. Cinque prove, non vuote: senza l'uscita 1/5, senza il memo 4/5. NON FATTO APPOSTA: nessun reset automatico del server dopo il salvataggio — buttare via commit locali e' irreversibile e resta una decisione di Nicola (rosso).",
+      "chiuso_il": "2026-08-22 18:06",
+      "chiuso_come": "node cervello/test/lavoro-intrappolato-senza-uscita.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-762",
@@ -16697,7 +16706,7 @@
       "id": "AR-783",
       "titolo": "Il cricchetto della leggibilita' accusava chi scrive di righe scritte da altri, perche' misurava un file tagliato",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "colore": "giallo",
       "nato": "2026-08-22",
@@ -16710,7 +16719,10 @@
       "verifica": {
         "comando": "node cervello/test/cancello-che-accusa-di-cose-non-tue.test.mjs"
       },
-      "nota_fix": "Quattro prove non vuote (senza il ramo ⚪ 3/4; senza il marcatore di taglio 3/4). ⚠️ DEBITO DICHIARATO: finche' la coda supera il tetto, il cricchetto della leggibilita' su quel file non protegge — esce ⚪. E' una perdita vera sul file che Nicola legge di piu', e la prova ② la tiene visibile invece di lasciarla passare per verde."
+      "nota_fix": "Quattro prove non vuote (senza il ramo ⚪ 3/4; senza il marcatore di taglio 3/4). ⚠️ DEBITO DICHIARATO: finche' la coda supera il tetto, il cricchetto della leggibilita' su quel file non protegge — esce ⚪. E' una perdita vera sul file che Nicola legge di piu', e la prova ② la tiene visibile invece di lasciarla passare per verde.",
+      "chiuso_il": "2026-08-22 18:06",
+      "chiuso_come": "node cervello/test/cancello-che-accusa-di-cose-non-tue.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-784",
@@ -16725,32 +16737,66 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-22",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 18:06",
       "nato_come": "scoperta",
       "provenienza": "Scoperto il 22/8 nel lotto 46: applicando le chiusure del lotto 45, auto-fix ha scritto 50 dove la sonda scriveva 608, e la prova di AR-046 (scritta nel lotto 45, che pretende che lo scarto fra storico e cantiere non sia strutturale) e diventata rossa. Non l ha introdotto questo lotto: c era da sempre. E la prova che ha fatto il suo mestiere — era stata scritta apposta per accorgersi di questo.",
-      "nota_fix": "Cura consegnata e provata nel lotto 46. Lo stato lo applica auto-fix dopo il merge."
+      "nota_fix": "Cura consegnata e provata nel lotto 46. Lo stato lo applica auto-fix dopo il merge.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
+    },
+    {
+      "id": "AR-785",
+      "titolo": "Il censimento di chi mette di guardia i guardiani sceglie i file per estensione, e i ganci di git non ne hanno una",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-22",
+      "nato_come": "scoperta",
+      "impatto_crescita": "indiretto: e' debito della macchina, ma toglie di guardia proprio i freni piu' vicini al danno",
+      "causa_radice": "guardia-viva-check.mjs raccoglie i file da leggere con un filtro sull'ESTENSIONE (.sh .mjs .yml .service …). Git pretende che i suoi ganci si chiamino esatti — `pre-commit`, `post-commit` — senza niente dopo, quindi nessuno di loro entrava nel censimento. ① perche' un guardiano agganciato al commit risultava orfano? perche' il file che lo chiama non veniva letto · ② perche' non veniva letto? perche' non ha estensione · ③ perche' il filtro guarda l'estensione? perche' e' nato elencando le forme note quel giorno · ④ perche' nessuno se n'era accorto in un anno? perche' ogni altro guardiano del gancio (scan-segreti, sorvegliante, forma-json) e' eseguito ANCHE dal giro: restavano verdi per un'altra strada, e il buco si vede solo col primo freno che vive li' e basta. AR-757 e' stato quel primo. ⑤ causa di sistema: un censimento che decide cosa leggere da un elenco di forme note e' cieco sulla prima forma nuova — ed e' cieco proprio dove il codice e' piu' vicino al danno, perche' i ganci di git sono gli script piu' eseguiti del repo.",
+      "fix_proposto": "FATTO nel lotto 47, in modo minimo: i cinque nomi dei ganci di git entrano nell'elenco dei file letti anche senza estensione. RESTA DA FARE la cura vera: il censimento dovrebbe leggere CHI ESEGUE (le forme di invocazione), non selezionare i file per come si chiamano. Finche' e' un elenco di nomi noti, la prossima forma nuova ripete lo stesso errore — ed e' gia' il quarto caso della stessa famiglia (le tre variabili aggiunte a mano nella regex + questo).",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+      }
+    },
+    {
+      "id": "AR-786",
+      "titolo": "L'elenco delle forme con cui un guardiano puo' essere chiamato e' scritto a mano, e ha gia' sbagliato tre volte di fila",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "stato": "aperto",
+      "nato": "2026-08-22",
+      "nato_come": "scoperta",
+      "impatto_crescita": "indiretto: ogni accusa falsa insegna a scorrere l'elenco senza leggerlo, e allora il guardiano vero non lo vede piu' nessuno",
+      "causa_radice": "guardia-viva.mjs riconosce chi esegue un guardiano con un elenco di espressioni scritte a mano, fra cui i nomi delle variabili di shell ammesse. Tre volte su tre l'elenco era incompleto e ha prodotto un'accusa FALSA: mancava `REPO` (i copioni del VPS), mancava il `cervello/` in mezzo, e il 22/8 mancava `ROOT` — la variabile con cui il gancio del pre-commit chiama i suoi guardiani. Il verso dell'errore e' quello che fa danno: accusa chi il lavoro l'ha fatto. Un metro che sbaglia cosi' si spegne da solo, perche' si impara a scorrere l'elenco «tanto sbaglia» — ed e' allora che il guardiano davvero orfano passa inosservato. Lo dicono i commenti del file stesso, due volte, prima che succedesse la terza.",
+      "fix_proposto": "Non allungare l'elenco una quarta volta. Due strade da pesare: ① risolvere la variabile invece di riconoscerla — un copione di shell si puo' leggere cercando le assegnazioni e sostituendole prima di cercare le invocazioni; ② rovesciare la domanda: invece di «questo testo chiama il guardiano?», chiedere al guardiano «qualcuno ti ha eseguito negli ultimi N giri?» leggendo una traccia che ogni esecuzione lascia. La ② e' piu' cara ma non ha forme note da mantenere.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Non ho una prova automatica: dimostrare il difetto vuol dire inventare una forma di invocazione NUOVA e legittima, e qualunque ne scelga finirebbe nell'elenco chiudendo il caso singolo senza toccare la malattia. Chi giudica deve guardare il conto: 3 accuse false su 3 forme aggiunte, tutte scoperte da chi si vedeva accusato."
+      }
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 771,
-    "aperti": 107,
+    "totale": 775,
+    "aperti": 102,
     "in_corso": 0,
-    "da_riverificare": 56,
-    "chiusi": 608,
+    "da_riverificare": 10,
+    "chiusi": 663,
     "altri": 0,
-    "da_fare": 163,
+    "da_fare": 112,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 608,
-      "aperto": 107,
-      "da-riverificare": 56
+      "chiuso": 663,
+      "aperto": 102,
+      "da-riverificare": 10
     },
     "stati_ignoti": [],
-    "senza_owner": 163,
-    "senza_scadenza": 163,
+    "senza_owner": 112,
+    "senza_scadenza": 112,
     "scaduti": 0,
     "derivato_dalla_lista": true,
     "somma_torna": true

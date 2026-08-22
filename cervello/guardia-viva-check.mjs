@@ -72,6 +72,16 @@ const FUORI = new Set([
 /** Estensioni che possono contenere un'esecuzione. */
 const ESEGUIBILI = /\.(sh|mjs|js|ts|yml|yaml|bats|service|timer|json)$/;
 
+// I GANCI DI GIT NON HANNO ESTENSIONE, E SONO GLI SCRIPT PIU' ESEGUITI DEL REPO (AR-757, 22/8).
+//
+// Il filtro qui sopra sceglie per estensione, e git pretende che i suoi ganci si chiamino esatti:
+// `pre-commit`, `post-commit`, senza niente dopo. Risultato: `.githooks/` non entrava nel
+// censimento, e un guardiano agganciato SOLO li' risultava «costruito e mai messo di guardia»
+// mentre girava a ogni singolo commit. Non era emerso prima perche' gli altri guardiani del gancio
+// (scan-segreti, sorvegliante, forma-json) sono eseguiti anche dal giro: restavano verdi per
+// un'altra strada, e il buco si e' visto solo col primo freno che vive li' e basta.
+const SENZA_ESTENSIONE_MA_ESEGUITI = new Set(["pre-commit", "post-commit", "pre-push", "commit-msg", "prepare-commit-msg"]);
+
 export function elenca(dir, dentro = []) {
   let voci;
   try {
@@ -83,7 +93,7 @@ export function elenca(dir, dentro = []) {
     if (FUORI.has(v.name)) continue;
     const p = join(dir, v.name);
     if (v.isDirectory()) elenca(p, dentro);
-    else if (v.isFile() && ESEGUIBILI.test(v.name)) dentro.push(p);
+    else if (v.isFile() && (ESEGUIBILI.test(v.name) || SENZA_ESTENSIONE_MA_ESEGUITI.has(v.name))) dentro.push(p);
   }
   return dentro;
 }

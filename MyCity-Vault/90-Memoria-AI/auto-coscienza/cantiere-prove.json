@@ -1,19 +1,18 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 16:45",
+  "aggiornato": "2026-08-22 18:28",
   "giorni_sospetto": 3,
-  "difetti_aperti": 117,
+  "difetti_aperti": 114,
   "per_classe": {
     "umana": 79,
     "auto-sospetta": 19,
-    "auto-comando": 19
+    "auto-comando": 16
   },
   "non_auto_chiudibili": 98,
   "bloccanti_ciechi": [
     "AR-518",
-    "AR-568",
-    "AR-757"
+    "AR-568"
   ],
   "schede_incomplete": [
     {
@@ -1941,15 +1940,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-521",
-      "gravita": "bloccante",
-      "eta_giorni": 18,
-      "titolo": "La riparazione che sbloccherebbe il server non puo' arrivarci, perche' ad essere rotto e' proprio il modo in c",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/server-che-non-puo-ricevere-riparazioni.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-560",
       "gravita": "grave",
       "eta_giorni": 12,
@@ -2337,15 +2327,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-743",
-      "gravita": "grave",
-      "eta_giorni": 7,
-      "titolo": "Il confronto che decide se una prova è soddisfatta ha sei copie, e cinque non ereditano le cure",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/un-freno-con-piu-copie.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-744",
       "gravita": "grave",
       "eta_giorni": 7,
@@ -2413,17 +2394,8 @@
       "gravita": "bloccante",
       "eta_giorni": 6,
       "titolo": "Se il banco delle mutazioni viene interrotto a metà, il codice mutato resta nell'albero — e la volta scorsa er",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-761",
-      "gravita": "bloccante",
-      "eta_giorni": 6,
-      "titolo": "Quando i commit del server non si pubblicano, la macchina non puo piu ricevere nessuna correzione",
       "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/lavoro-intrappolato-senza-uscita.test.mjs",
+      "perche": "prova eseguibile: node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs",
       "auto_chiudibile": true
     },
     {
@@ -2454,22 +2426,22 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-783",
+      "id": "AR-785",
       "gravita": "grave",
       "eta_giorni": 0,
-      "titolo": "Il cricchetto della leggibilita' accusava chi scrive di righe scritte da altri, perche' misurava un file tagli",
+      "titolo": "Il censimento di chi mette di guardia i guardiani sceglie i file per estensione, e i ganci di git non ne hanno",
       "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/cancello-che-accusa-di-cose-non-tue.test.mjs",
+      "perche": "prova eseguibile: node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs",
       "auto_chiudibile": true
     },
     {
-      "id": "AR-784",
-      "gravita": "grave",
+      "id": "AR-786",
+      "gravita": "medio",
       "eta_giorni": 0,
-      "titolo": "Nel grafico della salute lo stesso campo porta un totale o un conteggio del momento, secondo chi scrive",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
-      "auto_chiudibile": true
+      "titolo": "L'elenco delle forme con cui un guardiano puo' essere chiamato e' scritto a mano, e ha gia' sbagliato tre volt",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     }
   ]
 }
