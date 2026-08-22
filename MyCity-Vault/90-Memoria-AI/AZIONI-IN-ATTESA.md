@@ -21,6 +21,26 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- write-vs-edit-settings-local -->
 
 ---
+### 🔴 #164 — Dimmi quali delle otto richieste ferme in coda unisco e quali chiudo · ⏳ accodata 2026-08-22 12:05
+
+**Cosa cambia:** in coda ci sono otto pacchetti di lavoro in attesa della tua firma. Il più vecchio
+è fermo da sette giorni. Li ho aperti uno per uno e provati a unire davvero, in una copia
+usa-e-getta, facendo girare i controlli.
+
+Servono ancora **tre su otto**. Uno ripara un blocco di fine turno che si ripete da giorni: senza
+la riparazione tre controlli sono rossi, con la riparazione tornano verdi tutti e 118.
+
+Gli altri cinque no. Uno ti chiede la firma su un pacchetto che hai già firmato il 18 agosto alle
+04:08. Un altro, unito oggi, renderebbe **rosso** un controllo che adesso è verde.
+
+**Cosa devi fare:** dirmi se sei d'accordo. Sono quattro da unire e quattro da chiudere. La scheda
+con la prova di ogni verdetto sta nella richiesta di unione 824.
+
+**Se va bene:** unisco i quattro buoni in fila. Ho già provato che non si pestano fra loro. Poi
+chiudo gli altri quattro, e in ognuno scrivo il perché.
+
+---
+
 ### 🟡 #163 — La coda è diventata lunga tre ore, e un controllo ne guarda solo due terzi · ⏳ accodata 2026-08-22 13:20
 
 > **In due righe.** Questo file è cresciuto fino a tre ore di lettura. Un controllo che dovrebbe
@@ -57,25 +77,6 @@ almeno 3 di quelle servono ancora dov'è. Il conto vero lo faccio dopo il tuo ok
 **Se va bene:** la coda torna corta, e il controllo che ti protegge la leggibilità ricomincia a
 funzionare su di lei.
 
----
-
-### 🔴 #164 — Dimmi quali delle otto richieste ferme in coda unisco e quali chiudo · ⏳ accodata 2026-08-22 12:05
-
-**Cosa cambia:** in coda ci sono otto pacchetti di lavoro in attesa della tua firma. Il più vecchio
-è fermo da sette giorni. Li ho aperti uno per uno e provati a unire davvero, in una copia
-usa-e-getta, facendo girare i controlli.
-
-Servono ancora **tre su otto**. Uno ripara un blocco di fine turno che si ripete da giorni: senza
-la riparazione tre controlli sono rossi, con la riparazione tornano verdi tutti e 118.
-
-Gli altri cinque no. Uno ti chiede la firma su un pacchetto che hai già firmato il 18 agosto alle
-04:08. Un altro, unito oggi, renderebbe **rosso** un controllo che adesso è verde.
-
-**Cosa devi fare:** dirmi se sei d'accordo. Sono quattro da unire e quattro da chiudere. La scheda
-con la prova di ogni verdetto sta nella richiesta di unione 824.
-
-**Se va bene:** unisco i quattro buoni in fila. Ho già provato che non si pestano fra loro. Poi
-chiudo gli altri quattro, e in ognuno scrivo il perché.
 
 ---
 
