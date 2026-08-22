@@ -1,15 +1,15 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 11:28",
+  "aggiornato": "2026-08-22 11:38",
   "giorni_sospetto": 3,
   "difetti_aperti": 164,
   "per_classe": {
-    "umana": 112,
+    "umana": 105,
     "auto-sospetta": 19,
-    "auto-comando": 33
+    "auto-comando": 40
   },
-  "non_auto_chiudibili": 131,
+  "non_auto_chiudibili": 124,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-521",
@@ -529,62 +529,6 @@
     },
     {
       "id": "AR-081",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-082",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-083",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-084",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-085",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-086",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-087",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-088",
       "stato": "da-riverificare",
       "gravita": "minore",
       "causa": "da-riverificare",
@@ -2477,63 +2421,63 @@
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Il router costo (banco-ai.mjs / routing.json) è codice morto: nessun compito viene mai instradato al modello e",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-083",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Il budget token (AR-020) è cieco: nessuno passa mai i token reali, la soglia da 2M non scatta mai",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-084",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "La metabolizzazione raddoppia il costo di OGNI chat con motore premium, senza alcun gate di valore",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-085",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Rilanci ciechi: i loop 3× di giro.sh/ritmo.sh riprovano anche su quota ignorando retry-policy, bruciando tenta",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-086",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Il delta-gate (salta il giro se nulla è cambiato) protegge solo 'giro', non ritmo né monitora: run premium a s",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-087",
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "Nessun circuit-breaker di budget: al superamento della soglia costo non si ferma né si dirada nulla",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-088",
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "monitora.sh incolla l'intero monitora.md nel prompt, contro la regola anti-prompt-enorme che giro.sh applica",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-089",

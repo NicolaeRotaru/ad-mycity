@@ -10391,8 +10391,8 @@
       "causa_radice": "banco-ai.mjs è nato come decisore consultivo (stampa un consiglio a schermo) e non come dispatcher eseguibile; manca lo strato-mani che invoca realmente Groq/Gemini, quindi il router resta un'etichetta e non un interruttore agganciato a worker.sh.",
       "fix_proposto": "🟡 Costruire (builder-automazioni) l'adattatore mani per i modelli economici (Groq/Gemini via chiave) e agganciare scegliModello() in worker.sh: per tipo=metabolizza/classificazione/testi-volume, se la chiave economica è collegata instrada lì, altrimenti fallback premium con log del motivo. Registrare l'uso reale in routing.json (--log esiste già).",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10405,7 +10405,8 @@
         "file": "cervello/worker.sh",
         "pattern": "scegliModello|banco-ai\\.mjs",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: il router costo non e piu morto — worker.sh importa scegliModello da banco-ai.mjs e lo interroga (riga ~121), e c e un uso reale sul compito «testi-volume». PROVA a due pezzi, e servono entrambi: (a) il router risponde DIVERSO per compiti diversi — se rispondesse la stessa cosa a tutto sarebbe di nuovo codice morto con un nome nuovo; (b) il punto che spende lo CHIAMA — un router che nessuno interroga resta morto anche se funziona benissimo. Mutazione che commenta l import."
     },
     {
       "id": "AR-083",
@@ -10416,8 +10417,8 @@
       "causa_radice": "Il monitoraggio del costo è stato agganciato alla dimensione facile (tempo) e non a quella che conta per il budget (token): lo script non estrae mai il conteggio token dall'output del motore, così il parse è rimasto un TODO e il guardrail sembra attivo ma non misura la variabile giusta.",
       "fix_proposto": "🟡 Estrarre il conteggio token dall'output del motore (claude -p --output-format json espone usage; per agent stimare da caratteri prompt+output) e assegnare *_TOKEN prima della chiamata a costo-ai; far chiamare costo-ai anche a worker.sh per chat/metabolizza/esegui-azione. Finché il parse non c'è usare una STIMA da lunghezza prompt+risposta invece di null.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10430,7 +10431,8 @@
         "file": "cervello/giro.sh",
         "pattern": "GIRO_TOKEN=",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh raccoglie GIRO_TOKEN e lo PASSA a costo-ai.mjs (--token). Il difetto era esattamente il passaggio mancante: il contatore riceveva zero, quindi la soglia da 2M non poteva scattare nemmeno in teoria. La prova pretende tutte e due le meta — raccolto E passato. Mutazione che toglie il passaggio."
     },
     {
       "id": "AR-084",
@@ -10441,8 +10443,8 @@
       "causa_radice": "L'apprendimento è stato reso una forcing-function 'a ogni chat' senza gate costo/valore e con un solo motore disponibile: l'iniziativa buona (metabolizzare) diventa spreco sistematico perché non distingue una chat sostanziale da un saluto.",
       "fix_proposto": "🟡 Gate su metabolizza: (a) instradarla al modello economico (scegliModello 'testi-volume'/'classificazione'); (b) saltarla se la chat è sotto una soglia minima di lunghezza/contenuto; (c) farla registrare in costo-ai.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10455,7 +10457,8 @@
         "file": "cervello/worker.sh",
         "pattern": "metabolizz[\\s\\S]{0,400}(scegliModello|GROQ|MODELLO_ECON|length|caratteri)",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE, e la cura e diversa da quella proposta: non un gate di valore, ma una PRECEDENZA — una chat in attesa passa sempre davanti a giro/ritmo/metabolizza. Prima era FIFO stretto: una metabolizzazione accodata prima si mangiava il turno premium mentre Nicola aspettava. Registrato perche scheda e codice divergevano e comanda il codice. Mutazione che toglie la precedenza."
     },
     {
       "id": "AR-085",
@@ -10466,8 +10469,8 @@
       "causa_radice": "Due strati di retry non coordinati (loop-shell aggiunto per i timeout AR-005 + policy-coda del worker) senza una regola unica di classificazione applicata in entrambi: l'insistenza si somma invece di essere governata.",
       "fix_proposto": "🟡 Nel loop interno di giro.sh/ritmo.sh classificare l'errore riusando classificaErrore di retry-policy: se classe=quota interrompere subito il loop (niente 3 colpi a 30s) e lasciare la riprogrammazione alla policy del worker; ritentare in-loop solo su transitori non-quota.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10480,7 +10483,8 @@
         "file": "cervello/giro.sh",
         "pattern": "classificaErrore|classe.*quota|retry-policy",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: retry-policy.mjs classifica l errore e giro.sh gli CHIEDE prima di riprovare, fermandosi quando la policy dice STOP. Il cuore della cura, che la scheda non nominava: le classi hanno budget DIVERSI (quota 6 tentativi col backoff verso il reset, altro 3) — prima erano 3 rilanci ciechi per tutti, e su quota si sbatteva contro un muro tre volte bruciando la finestra. La prova pretende anche il verso opposto: sotto il tetto si ritenta, e col QUANDO — un ritento senza istante e un rilancio cieco con un altro nome. Mutazione che riallinea i due budget."
     },
     {
       "id": "AR-086",
@@ -10491,8 +10495,8 @@
       "causa_radice": "Manca un throttle unico 'niente-di-nuovo→salta/riusa' applicato a TUTTI i runner premium e un coordinatore che deduplichi run ravvicinate: AR-019 è stato scritto guardando solo il timer del giro, e ritmo/monitora sono trattati come cadenze fisse dovute anziché giri throttlabili.",
       "fix_proposto": "🟡 Estendere il delta-gate (o una variante 'soft': se stato invariato produci un report minimo senza motore premium) a ritmo.sh e monitora.sh; far leggere a ritmo/monitora l'ultimo briefing recente invece di rianalizzare da zero; riallineare gli orari per non clusterizzare 3 run premium alle 06:00-06:30.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10505,7 +10509,8 @@
         "file": "cervello/ritmo.sh",
         "pattern": "delta-gate",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: ritmo.sh chiama delta-gate.mjs. Con la clausola che era costata cara e che la prova pretende sia scritta: il gate resta SOLO sul mezzogiorno, perche applicandolo anche a mattino e sera il report non veniva piu riscritto e il Pannello restava fermo all ultima data. Mutazione che scollega il gate dal ritmo."
     },
     {
       "id": "AR-087",
@@ -10516,8 +10521,8 @@
       "causa_radice": "La governance del costo vive nella prosa (CLAUDE.md/OKR) ma non ha un guardiano deterministico che la applichi, a differenza di allocazione/registro-agenti; costo-ai è nato come contatore passivo per dare visibilità, non per governare.",
       "fix_proposto": "🟡 Aggiungere un gate-budget: giro/ritmo/monitora leggono costo-ai.json (o una soglia %) e, se superata, degradano a passaggio minimo o allargano la cadenza finché il giorno non si resetta; i 🔴/controlli restano sempre attivi (sotto budget si taglia il volume, non la sicurezza).",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10530,7 +10535,8 @@
         "file": "cervello/giro.sh",
         "pattern": "costo-ai\\.mjs --json|COSTO_SOGLIA|budget.*stop|gate.budget",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh legge lo stato da costo-ai.mjs --json e se i token di oggi hanno superato la soglia il giro premium non parte. Il pezzo piu importante e una riga sola: GATE-BUDGET non bypassa GIRO_FORCE — la forzatura salta il throttle, mai il tetto di spesa. Senza quella distinzione il circuit-breaker sarebbe aggirabile dalla scorciatoia piu usata. Mutazione che toglie la distinzione."
     },
     {
       "id": "AR-088",
@@ -10541,8 +10547,8 @@
       "causa_radice": "Manca un'astrazione unica per costruire il prompt dei runner (i tre script condividono motore-ai.sh ma NON la costruzione del prompt): la correzione fatta su giro dopo la lezione di instabilità agent non si è propagata a monitora.",
       "fix_proposto": "🟡 Uniformare monitora.sh al pattern puntatore (prompt corto che dice all'AI di aprire cervello/monitora.md dal disco con Read); idealmente estrarre un helper condiviso di costruzione-prompt per giro/ritmo/monitora così la regola vive in un posto solo.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/i-freni-di-spesa-scollegati.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10555,7 +10561,8 @@
         "file": "cervello/monitora.sh",
         "pattern": "cat \"\\$SCRIPT_DIR/monitora.md\"",
         "presente": false
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: monitora.sh passa un PUNTATORE — l AI apre monitora.md dal disco con Read — invece di incollare tutto il file nel prompt. La prova pretende due cose: che il perche sia scritto accanto alla cura, e che il vecchio «cat» non torni. Mutazione sulla nota che porta la cura."
     },
     {
       "id": "AR-089",
