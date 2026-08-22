@@ -1,0 +1,1813 @@
+---
+data: 2026-08-22 16:00
+tipo: radiografia-design
+ramo_analizzato: main del marketplace (commit 3913204, con le 99 riparazioni gia' dentro)
+dimensioni: 11
+problemi_confermati: 208
+bloccanti: 2
+gravi: 86
+minori: 120
+---
+
+# Radiografia del design: 208 problemi veri, e due bloccano il caricamento delle foto
+
+**In due righe.** Undici esperti hanno guardato il design del sito, ognuno la sua
+parte, e un dodicesimo ha smontato quello che dicevano di aver trovato. Restano
+208 problemi confermati col file davanti. Due impediscono di caricare le
+immagini, e hanno la stessa causa.
+
+## In parole semplici
+
+| Gravita | Quanti | Cosa vuol dire |
+|---|---:|---|
+| **Bloccanti** | **2** | Qualcosa non funziona proprio |
+| **Gravi** | **86** | Costa vendite, o fa perdere fiducia |
+| **Minori** | **120** | Imperfezione che si vede |
+| **Totale** | **208** | |
+
+Di questi, **205 richiedono di toccare il codice** e **3 si risolvono dai
+contenuti configurabili**, senza ripubblicare il sito.
+
+## Cosa cambia per te
+
+Un negoziante che vuole mettere la foto di copertina alla sua vetrina, oggi, non
+ci riesce: il caricamento viene rifiutato e la pagina resta sul colore di
+ripiego. Tu, dall'amministrazione, non riesci a caricare le copertine degli
+Eventi ne' quella del Negozio del mese.
+
+Sul resto il sito funziona, ma dice cose che poi non fa: nel carrello scrive
+«Gratis*» sulla spedizione e intanto la mette nel totale.
+
+## Cosa devi fare
+
+Niente, adesso. Questa e' una radiografia: trova, non ripara.
+
+Dimmi tu da dove parto. Il mio consiglio sono i due bloccanti: sono la stessa
+riparazione fatta in tre punti. Subito dopo il carrello, che dice una cifra e
+ne fa pagare un'altra.
+
+## I due bloccanti hanno la stessa radice
+
+Il magazzino delle immagini ha una regola: accetta un file solo se la **prima
+cartella del percorso** e' l'identificativo di chi carica. Per gli
+amministratori c'e' una sola eccezione, la cartella `home`.
+
+Tre punti del sito non rispettano quella regola, e caricano in cartelle che si
+chiamano `store-media`, `events` e `shop`. Il magazzino li rifiuta.
+
+Un esempio concreto. Il negoziante di Pane Quotidiano sceglie la foto del
+bancone e la carica. Il file parte verso una cartella che si chiama
+`store-media`. Il magazzino guarda la prima cartella, non ci trova
+l'identificativo del negoziante, e rifiuta. Al negoziante non arriva nessun
+errore utile: la foto semplicemente non compare.
+
+La riparazione e' la stessa per tutti e tre: mettere l'identificativo (o la
+cartella `home`, per l'admin) come prima cartella del percorso. Nello stesso
+progetto ci sono gia' due file che lo fanno giusto e lo spiegano nel commento.
+
+## Le cose piu' care fra le 86 gravi
+
+Le ho raggruppate per quello che costano, non per area.
+
+**Il carrello dice una cifra e ne fa pagare un'altra.** Con due negozi diversi
+il riepilogo scrive «Gratis*» sulla spedizione e intanto mette 9,80 € nel
+totale. Sulle vetrine c'e' scritto «spedizione gratuita», ma su ogni consegna a
+domicilio si pagano 3 € di «Consegna MyCity».
+
+**Promesse che il sito non mantiene.** La scheda prodotto dice «carta o contanti
+alla consegna, decidi tu»: la carta alla consegna non esiste. Dice «reso
+gratuito entro 14 giorni», mentre la pagina dei resi dice che il ripensamento lo
+paga il cliente. Le domande frequenti promettono il ritiro in negozio col 10% di
+sconto: al momento di pagare quell'opzione non c'e'.
+
+**Si puo' ordinare due volte.** Dopo un ordine riuscito il pulsante di conferma
+torna attivo.
+
+**Il carrello dice «sei vuoto» quando e' pieno.** Al primo disegno della pagina,
+prima che parta il programma, carrello e cassa scrivono «Il tuo carrello e'
+vuoto».
+
+**Dopo le 20:00 l'ordine parte con una fascia di consegna gia' passata.**
+
+**Chi si accorge di dover entrare perde tutto.** Al muro dell'accesso si
+perdono codice sconto, metodo di pagamento e fascia oraria: al ritorno il totale
+e' piu' alto di prima.
+
+**Sul telefono, nella scheda prodotto, nome e prezzo arrivano dopo** il riquadro
+del negozio, il link «Segnala» e la partita IVA.
+
+**Una home con un negozio inventato.** Mentre carica, il riquadro grande mostra
+«Salumeria del Borgo, Via Calzolai» con prezzi finti, senza dire che e' un
+esempio.
+
+**La chat di assistenza esiste, ma il cliente non ha nessun modo di aprirla.**
+
+## Cosa non ho verificato
+
+**Non ho aperto nessuna pagina in un browser.** Questa radiografia legge il
+codice. Certi difetti si vedono solo a schermo: un bottone che si sovrappone a
+una certa larghezza, per esempio. Quelli li ho dedotti dai valori scritti nel
+codice, non li ho visti.
+
+**I conti sui pixel sono calcoli, non misure.** Dove ho scritto «a 360 pixel la
+riga sborda di 24», quel numero viene da una somma fatta leggendo il codice. La
+larghezza del carattere e' stimata. La direzione e' giusta; la cifra esatta va
+confermata aprendo la pagina.
+
+**Non ho toccato niente.** L'audit e' in sola lettura, come deve essere: trova,
+non ripara.
+
+**Le tre voci «config» non le ho provate sul pannello vero.** Ho letto che quel
+contenuto e' configurabile, non ho verificato che il pannello lo esponga
+davvero.
+
+## Come e' stato fatto
+
+Undici dimensioni, un senior ciascuna, tutte in sola lettura sul ramo principale
+del sito aggiornato: layout e adattamento · coerenza col marchio · tipografia ·
+accessibilita' visiva · stati dell'interfaccia · immagini e media · esperienza da
+telefono · flussi di acquisto · testi dell'interfaccia · navigazione e gerarchia
+visiva · velocita' percepita.
+
+Chi trova non conferma: ogni elenco e' passato da un secondo esperto, che ha
+riaperto i file citati e ha tenuto solo quello che ha visto coi propri occhi. La
+regola era «nel dubbio, scarta»: un problema falso fa perdere piu' tempo di uno
+mancato.
+
+Ventidue esperti in tutto, nessuno fallito.
+
+---
+
+Sotto, tutti e 208 per gravita', con il file, la riga e come si riparano.
+
+## Bloccanti (2)
+
+### La copertina del negozio non si carica: lo storage rifiuta il percorso
+
+**Dove:** `components/StoreMediaManager.tsx:54 (path `store-media/${user.id}/…`) contro migrations/114_hardening_radiografia.sql:479-488` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO. L'unica regola di scrittura sul secchio `products` (policy «Authenticated users can upload product images», riscritta dalla migrazione 114 con lo stesso nome della vecchia 002, quindi la vecchia permissiva non esiste più) accetta solo percorsi la cui PRIMA cartella è l'identificativo dell'utente, oppure `home` se sei admin. Qui la prima cartella è la parola fissa `store-media`: ogni caricamento della copertina viene respinto, per qualunque negoziante. Senza copertina la pagina negozio resta sul gradiente di ripiego (components/store-sections/HeroSection.tsx:88-105). Due file vicini hanno il percorso giusto e lo spiegano nel commento — components/VendorForm.tsx:121 e components/seller/site/ImageUpload.tsx:25 — segno che la correzione non è arrivata fin qui. Confermata anche la seconda metà: la schermata promette «fino a 3 immagini e 1 video» (righe 17-18 e 95) ma migrations/070_storage_and_rls_hardening.sql:36-42 ammette sul secchio solo tipi immagine, quindi il video è rifiutato anche col percorso corretto.
+
+**Come si ripara:** Cambiare il percorso in `${user.id}/store-media/${Date.now()}…`. Per il video: toglierlo dalla schermata oppure creare un secchio dedicato con i tipi video ammessi.
+
+### Dall'admin non si caricano le copertine di Eventi e Negozio del mese
+
+**Dove:** `components/ImageUrlField.tsx:44 (`path = ${pathPrefix}/${Date.now()}.${ext}`), con pathPrefix="events" in app/admin/events/page.tsx:290 e pathPrefix="shop" in app/admin/shop-of-month/page.tsx:166` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO. Stessa regola del punto precedente (migrations/114_hardening_radiografia.sql:483-487): passa solo la cartella con l'identificativo utente o la cartella `home` per gli amministratori. I prefissi `events` e `shop` non rientrano in nessuno dei due casi, quindi il caricamento fallisce anche per l'admin. La prova del contrario è nello stesso componente usato con pathPrefix="home" (components/admin/home/HomeSectionConfigForm.tsx:246 e :279), che rientra nell'unica eccezione scritta nella regola. All'admin resta la strada di incollare un indirizzo esterno, che però si rompe (difetto successivo).
+
+**Come si ripara:** Usare `home/events/…` e `home/shop/…` (l'eccezione già esistente per gli admin), oppure `${user.id}/events/…`.
+
+
+## Gravi (86)
+
+### In home la fila dei prodotti popolari carica come griglia e poi diventa una riga: la pagina salta di oltre un metro
+
+**Dove:** `components/ProductGrid.tsx:357 e 380-396 + components/home-sections/HomeSectionRenderer.tsx:219` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO col file davanti. HomeSectionRenderer riga 219 chiama <ProductGrid limit={c.limit ?? 12} rail /> senza title; in ProductGrid riga 357 isSection = !!rail && !!title, quindi false. Il ramo di caricamento a riga 382 (if (isSection)) viene saltato e si finisce alla riga 396: return <SkeletonGrid count={limit ?? 8} />. SkeletonGrid (components/SkeletonCard.tsx:16) e' grid-cols-2 sm:grid-cols-3 md:grid-cols-4: su telefono 12 schede finte su 6 righe. A dati arrivati (riga 476) si passa a una riga orizzontale sola di card w-40. ProductGrid e' un client component con useQuery (riga 130), quindi lo scheletro si vede sempre al primo render. La sezione popularProducts e' nella home di default (lib/home-site.ts:239, config limit 12), quindi il salto avviene su ogni visita alla pagina piu' vista del sito.
+
+**Come si ripara:** Nel ramo isLoading di ProductGrid usare la forma rail quando rail e' true, non solo quando c'e' anche il titolo: alla riga 382 sostituire `if (isSection)` con `if (rail)`, tenendo l'intestazione di sezione condizionata a isSection ({isSection && sectionHeader}).
+
+### Sul tablet il riquadro «Aggiungi al carrello» finisce sotto la foto, con mezza pagina vuota accanto
+
+**Dove:** `app/product/[id]/page.tsx:485 (griglia) e :851 (terzo figlio)` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO. La griglia a riga 485 e' `grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_320px]` e ha tre figli in flusso: galleria (487-570), colonna informazioni (634-848) e riquadro d'acquisto (851, `lg:sticky lg:top-[var(--header-height)] h-fit`). Il quarto elemento (lightbox, riga 573) e' `fixed`, quindi non occupa celle. Fra 768px e 1023px le colonne sono due e i figli tre: il riquadro con prezzo, quantita' e i due pulsanti d'acquisto scende in riga 2 colonna 1, dopo tutta l'altezza della colonna informazioni, e la seconda cella resta vuota. In quella fascia non c'e' rete di sicurezza: StickyAddToCart e' `md:hidden` (components/StickyAddToCart.tsx:54) e la card diventa sticky solo da lg.
+
+**Come si ripara:** Aggiungere `md:col-span-2 lg:col-span-1` al div di riga 851, cosi' sotto lg il riquadro d'acquisto occupa l'intera larghezza invece di finire in una cella spaiata. In alternativa alzare la soglia della barra sticky da `md:hidden` a `lg:hidden`.
+
+### Sui prodotti scontati il pulsante «+» della card viene tagliato sul telefono
+
+**Dove:** `components/ProductCard.tsx:125 (overflow-hidden), :179 (p-2.5) e :207-227 (riga prezzo)` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO. La riga prezzo (207) e' `flex items-center gap-1.5`; con sconto contiene prezzo text-base extrabold, prezzo barrato text-[11px] e il pulsante h-11 w-11 shrink-0 (ml-auto, ultimo elemento). Nessuno dei due prezzi ha min-w-0 o truncate, e formatPrice (lib/format.ts:1) produce «€129.90», una parola sola senza punti di rottura: gli span non possono scendere sotto la loro larghezza minima. Nella griglia catalogo (ProductGrid.tsx:525, `grid ${gridCols} gap-4` con grid-cols-2, dentro container px-4) a 360px la card e' 156px e, tolto il p-2.5 della riga 179, restano 136px. Con Inter, «€129.90» a 16px extrabold misura ~62px, il barrato a 11px ~42px, piu' 44px di pulsante e 12px di spazi: 160px. La riga sborda di ~24px e la card, `overflow-hidden` alla riga 125, taglia il pulsante. Il conto resta in negativo anche con prezzi a due cifre (~144px contro 136). I prodotti senza sconto stanno dentro.
+
+**Come si ripara:** Mettere prezzo e barrato in un contenitore `min-w-0 flex-1` (con truncate sul barrato) o mandare a capo la coppia prezzi sotto una certa soglia, lasciando il pulsante shrink-0. In parallelo far usare a formatPrice Intl.NumberFormat('it-IT'), piu' compatto. Verificare a 360px con un prodotto scontato a tre cifre.
+
+### La barra d'acquisto in fondo alla scheda prodotto e' troppo stretta: la scritta del pulsante va a capo e il prezzo tocca lo stepper
+
+**Dove:** `components/StickyAddToCart.tsx:60-106, montata sempre con lo stepper da app/product/[id]/page.tsx:1160-1170` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO. La barra e' `container mx-auto px-3` (riga 60) con dentro una card `p-3 flex items-center gap-3` (61) e tre elementi: blocco prezzo con min-w-0 e nessun truncate (62), stepper `shrink-0` (73: due bottoni w-9, numero min-w-[1.5rem], bordi = ~98px) e il pulsante `px-5 py-3 text-sm` con icona 18 (99-106, ~206px alla larghezza naturale). La scheda prodotto passa sempre qty/onDec/onInc (page.tsx:1166-1168), quindi hasStepper e' sempre vero. A 360px lo spazio dentro la card e' 312px contro 98+206+24 = 328px richiesti dal solo stepper piu' pulsante, prima del prezzo: il pulsante (senza whitespace-nowrap) si comprime e manda «Aggiungi al carrello» su due righe, mentre il blocco prezzo con min-w-0 si stringe sotto la larghezza della cifra e il testo esce dal proprio riquadro. Il conto resta negativo anche a 375 e 390px.
+
+**Come si ripara:** Ridurre l'ingombro sotto i 400px: etichetta corta sul telefono («Aggiungi») con aria-label completo, `whitespace-nowrap` sul pulsante e `truncate` sul blocco prezzo, oppure stepper su una seconda riga. Provare a 360px con prezzo a tre cifre e quantita' 2.
+
+### La tendina «dove consegniamo» esce dallo schermo e fa scorrere la pagina di lato
+
+**Dove:** `components/LocationPill.tsx:105 (pannello) e :81 (suggerimento) + components/Navbar.tsx:176-178` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO. Su telefono la pill sta dentro `min-w-0 flex-1 flex justify-center` (Navbar.tsx:176-178), cioe' centrata fra logo e icona carrello, dentro `container mx-auto px-3`. Il pannello che si apre e' `absolute left-0 top-full mt-2 w-72` (LocationPill.tsx:105), 288px ancorati al bordo sinistro della pill, che su uno schermo da 360px parte intorno a 150px: il pannello arriva quindi ben oltre il bordo destro. Stesso schema per il suggerimento `w-64` a riga 81. Ne' html ne' body ne' l'header hanno overflow-x hidden (verificato: nessun overflow-x in app/globals.css), quindi lo scorrimento orizzontale e' reale e meta' del campo CAP resta fuori. Succede su tutti i telefoni sotto i ~440px.
+
+**Come si ripara:** Ancorare il pannello in modo sicuro: `left-1/2 -translate-x-1/2` con `w-[min(18rem,calc(100vw-1.5rem))]` sotto sm, oppure trasformarlo in un pannello a scomparsa dal basso come MobileAccountSheet. Verificare che a 360px non compaia piu' scorrimento orizzontale.
+
+### Checkout: tre sistemi di colore diversi per gli avvisi, nella stessa colonna
+
+**Dove:** `app/checkout/page.tsx:945, 954, 980, 991, 1002, 1012` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO riga per riga. 945 = token di brand (bg-accent-50/border-accent-200/text-accent-800). 980, 991, 1002 = giallo Tailwind (bg-amber-50/border-amber-200/text-amber-900). 954 e 1012 = rosa Tailwind (bg-rose-50/border-rose-200/text-rose-800), e dentro il riquadro 954 c'è anche un pulsante bg-rose-600. Verificato che amber e rose NON sono famiglie di brand: tailwind.config.ts definisce primary/accent/olive/cream/surface/ink/secondary e nient'altro, e i token dichiarano --warning: var(--accent-500) e --danger: #DC2626. Precisazione onesta rispetto al collega: la differenza fra accent-50 (#FEF8EC) e amber-50 (#FFFBEB) a schermo è quasi impercettibile; il salto che si vede davvero è il rosso rosa (rose) usato come colore d'errore al posto del vino di brand, proprio nel momento in cui il cliente decide se pagare.
+
+**Come si ripara:** Portare i sei riquadri a due sole varianti di brand: avviso = bg-accent-50/border-accent-200/text-accent-800; errore = bg-secondary-50/border-secondary-200/text-secondary-800 (e il pulsante di riga 963 a bg-secondary-600). Meglio ancora: un componente Alert in components/ui/ con variant 'warning'|'error'|'success', così il colore non si riscrive più a mano.
+
+### Checkout: le card di sinistra e il riepilogo di destra hanno raggio e bordo diversi, affiancati
+
+**Dove:** `components/checkout/StepCard.tsx:22 + components/ui/Card.tsx:17,43 vs app/checkout/page.tsx:1021` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO. StepCard.tsx:22 rende <Card variant="bordered" padding="lg">; Card.tsx:17 definisce bordered = 'bg-white border border-cream-300' (sabbia #EEDFBA) e Card.tsx:43 applica 'rounded-lg' (12px), senza ombra. Il riepilogo di destra a page.tsx:1021 è scritto a mano: 'bg-white border border-surface-200 rounded-xl shadow-card' = bordo grigio neutro #EAE8E4, 16px e ombra. Le due colonne stanno nella stessa griglia (la destra è lg:sticky), quindi su desktop si vedono insieme: angoli diversi, bordi di due tinte diverse, ombra su una sola.
+
+**Come si ripara:** Una sola card per il funnel d'acquisto. Estendere components/ui/Card.tsx con una variante 'funnel' ('bg-white border border-surface-200 rounded-xl shadow-card') e farci passare sia StepCard sia il riepilogo, togliendo le classi a mano alla riga 1021.
+
+### Il cuore dei preferiti è vino sulla card e rosa sulla scheda prodotto
+
+**Dove:** `components/ProductCard.tsx:173 vs app/product/[id]/page.tsx:676-679` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO. ProductCard.tsx:173: cuore attivo 'fill-secondary-500 text-secondary-500' = #D63E3B (vino), esattamente come prescrive docs/mockup/components/commerce/ProductCard.jsx:58 (fill 'var(--secondary-500)'). app/product/[id]/page.tsx:676-679: lo stesso gesto è 'bg-rose-500 border-rose-500' = #F43F5E (fucsia), con 'focus-visible:ring-rose-400' e 'hover:text-rose-400 hover:border-rose-200'. Il cliente vede il cuore vino sulla griglia e lo trova rosa un clic dopo. tailwind.config.ts scrive per iscritto il contrario nel commento della rampa secondary: «burgundy/vino … NON la rose Tailwind default (era anti-pattern Mediterranean)».
+
+**Come si ripara:** In app/product/[id]/page.tsx:676-679 sostituire rose-500/400/200 con secondary-500/400/200 e 'focus-visible:ring-rose-400' con 'focus-visible:ring-primary-700', che è l'anello di fuoco usato ovunque altrove.
+
+### Tre rossi diversi per lo stesso ruolo «pericolo» in tutto il sito
+
+**Dove:** `components/ui/Button.tsx:29 · app/orders/[id]/page.tsx:392,420 · components/ConfirmDialog.tsx:107,172` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO. Button.tsx:29 danger = 'bg-red-600' (#DC2626, che coincide col token --danger). app/orders/[id]/page.tsx:420 «Annulla ordine» = 'bg-rose-600' (#E11D48) e 392 «Apri reclamo» = border-rose-300/text-rose-700. Il vino di brand (secondary-*) è invece il rosso di badge sconto, errori di campo e preferiti. Tre rossi per lo stesso ruolo. In ConfirmDialog.tsx:107 c'è il caso peggiore, un gradiente che mescola i due mondi: 'from-rose-100 to-accent-100' (rosa Tailwind sfumato nella mostarda di brand); riga 172 il pulsante di conferma distruttiva è di nuovo bg-rose-600. Censimento rifatto da me: 126 occorrenze rose-* e 28 red-* in app/ e components/ (il collega diceva 125 e 28).
+
+**Come si ripara:** Una regola sola: pericolo/distruttivo = secondary (vino) OPPURE --danger #DC2626, mai entrambi e mai rose. Poi sostituzione in blocco rose-* → secondary-* (le rampe hanno gli stessi passi) e allineamento di Button.tsx:29 alla scelta fatta. Il gradiente di ConfirmDialog:107 va a 'from-secondary-100 to-accent-100'.
+
+### La vetrina del negozio può diventare verde-acqua, blu, prugna o marrone: quattro colori fuori palette
+
+**Dove:** `lib/store-customization.ts:25-28 (ACCENT_PRESETS)` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO. I primi quattro preset sono token veri (#C0492C primary-600, #B82A28 secondary-600, #C4801F accent-600, #5A7C42 olive-600). Gli altri quattro no: #2F6F6A (salvia), #3B4A7A (notte), #6B3A5B (prugna), #5C4033 (cacao). Ho cercato i quattro hex in tailwind.config.ts, app/globals.css e docs/mockup/tokens/colors.css: zero occorrenze. Il colore non è decorativo, viene applicato inline: BannerSection.tsx:20 come sfondo del pulsante ('backgroundColor: ctx.accent'), HeroSection.tsx:86 come striscia della vetrina, ContactSection.tsx:26 e 37 come colore delle icone. Un negozio su «Notte» ha pulsanti indaco dentro una pagina con navbar terracotta e footer crema.
+
+**Come si ripara:** Ridurre ACCENT_PRESETS ai quattro colori di brand e, se servono più opzioni, ricavarle dalle rampe esistenti (olive-700 #456236, primary-800 #7F2F1F, secondary-800 #7A1F1D, accent-700 #9D621C). Nessuna migrazione dati per i negozi già sui primi quattro; per gli altri, rimappare al preset più vicino.
+
+### Due terracotte diverse per lo stesso pulsante principale
+
+**Dove:** `components/ui/Button.tsx:24 vs app/search/page.tsx:387 e app/category/[slug]/page.tsx:412` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO, con una correzione all'etichetta. Button.tsx:24 definisce primary = 'bg-primary-700 hover:bg-primary-800' (#A03B25), lo stesso valore del token semantico --color-cta. Ma in app/search/page.tsx:387 e app/category/[slug]/page.tsx:412 il pulsante pieno è scritto a mano 'bg-primary-600 hover:bg-primary-700 … rounded-xl' (#C0492C, e 16px invece degli 8px di Button). Non è «Applica filtri» come scriveva il collega: è il pulsante «Mostra risultati» in fondo al pannello filtri. Conteggio rifatto: 92 usi di bg-primary-700 contro 61 di bg-primary-600 in app/ e components/. Nella stessa pagina di ricerca convivono primary-700 (anelli di fuoco, prezzi, riga 316/343) e primary-600 (pulsanti e chip, righe 245, 342, 387).
+
+**Come si ripara:** Sostituire i pulsanti scritti a mano con <Button variant="primary">. Dove non è possibile, allineare almeno a 'bg-primary-700 hover:bg-primary-800 rounded'. Lasciare bg-primary-600 solo dove non è un pulsante (pallini, badge di conteggio, indicatori).
+
+### L'anteprima del link su WhatsApp e Facebook mostra il logo in un carattere che non è quello del brand
+
+**Dove:** `app/opengraph-image.tsx:25 e 29` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO. Riga 25: fontFamily 'system-ui, sans-serif'. Riga 29: «MyCity» a fontSize 128 e fontWeight 900. A ImageResponse non viene passata nessuna opzione fonts (l'unico secondo argomento è { ...size }), quindi next/og non ha Fraunces e ripiega sul carattere di sistema. Il marchio ufficiale è Fraunces 800: docs/mockup/assets/wordmark-light.svg dichiara font-family="Fraunces, Georgia, serif" e font-weight="800". Il peso 900 non esiste nemmeno nel prodotto: app/layout.tsx carica Fraunces con i pesi 400-800 e la scala arriva a --weight-extrabold 800. Ogni link incollato in chat mostra quindi il logo in un carattere che non è del brand.
+
+**Come si ripara:** Passare il file di Fraunces a ImageResponse: caricare il .ttf e aggiungere { fonts: [{ name: 'Fraunces', data, weight: 800, style: 'normal' }] }, poi fontFamily 'Fraunces' e fontWeight 800 alla riga 29. Il colore #F4BC53 della «My» è invece corretto: coincide con wordmark-ondark.svg.
+
+### Il corsivo del sito è finto: nessun font in corsivo viene caricato
+
+**Dove:** `app/layout.tsx:28-34 (caricamento Inter e Fraunces) · usato in app/page.tsx:21 e :39, components/ui/AuthShell.tsx:82, app/come-funziona/page.tsx:47 — 17 punti in tutto` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO col file davanti. In app/layout.tsx Inter è caricato senza opzione di stile e Fraunces solo con i pesi 400-800: nessuno dei due chiede il corsivo. Nel CSS già compilato (.next/static/css/18d4e9bd2e28f2d9.css) ho contato 24 dichiarazioni @font-face e tutte e 24 dicono font-style:normal — zero italic. Ho contato 17 punti nel codice che scrivono la classe `italic`. Il browser, non trovando un corsivo vero, inclina le lettere dritte (corsivo sintetico). Il punto più visibile è il titolone della home (app/page.tsx:21): la parola «veri» è l'unica in corsivo del claim, sta in Fraunces a 36px su telefono e 60px su schermo grande, e Fraunces ha un corsivo vero e disegnato che qui non arriva mai. Stessa cosa nella colonna a fianco del modulo di accesso (AuthShell.tsx:82).
+
+**Come si ripara:** In app/layout.tsx aggiungere `style: ['normal','italic']` alla chiamata di Fraunces e di Inter. Poi ricompilare e verificare che nel CSS generato compaia almeno un @font-face con font-style:italic (oggi sono 24 su 24 normal).
+
+### I titoli senza dimensione dichiarata escono a 30px, anche dove serve una scritta piccola
+
+**Dove:** `app/globals.css:156-157 (regola di partenza) · effetti verificati: components/ui/Modal.tsx:143, app/search/page.tsx:305 e :362, app/category/[slug]/page.tsx:339 e :387, components/store-sections/PromotionsSection.tsx:14` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO. In app/globals.css le righe 156-157 dicono h2 = --text-3xl (30px) e h3 = --text-xl (20px), in Fraunces, ed è CSS normale fuori dai layer: vale ovunque non ci sia una classe di dimensione. Tre effetti aperti uno per uno: ① components/ui/Modal.tsx:143 — il titolo di OGNI finestra di dialogo è `font-bold text-ink-900 truncate` senza dimensione, quindi esce a 30px, mentre la sua descrizione appena sotto è text-xs (12px): due volte e mezza di scarto dentro la stessa intestazione, e per giunta il titolo a 30px è pure troncato. ② app/search/page.tsx:305 (e il gemello nel pannello a scomparsa alla riga 362, più le due copie in category/[slug] alle righe 339 e 387) — la parola «Filtri» è un h2 `font-serif font-bold` senza dimensione, quindi 30px, con accanto il contatore a text-[10px]. ③ components/store-sections/PromotionsSection.tsx:14 — «Promozioni attive» è un h2 senza dimensione (30px), mentre tutte le altre intestazioni della stessa vetrina passano da SectionHeading.tsx, che è text-xl sm:text-2xl (20/24px): due titoli di pari grado sulla stessa pagina con due dimensioni diverse.
+
+**Come si ripara:** Due mosse. Prima: abbassare i valori di partenza in globals.css (h2 → 1.5rem, h3 → 1.125rem); i titoli grandi hanno già la loro classe esplicita e non cambiano, come dice il commento sopra la regola. Seconda: dare la classe mancante ai punti verificati (Modal.tsx:143 → text-base, le intestazioni dei filtri → text-sm, PromotionsSection → riusare SectionHeading come le altre sezioni della vetrina).
+
+### Sette caselle di testo a 14px: su iPhone la pagina si ingrandisce da sola al tocco
+
+**Dove:** `components/SearchBar.tsx:174 · components/checkout/CouponInput.tsx:63 · components/NewsletterForm.tsx:78 · components/ProductQA.tsx:162 e :243 · app/product/[id]/page.tsx:1029 · app/stores/page.tsx:249` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO riga per riga: tutte e sette hanno `text-sm` (14px) sull'elemento di input. E la pagina permette lo zoom — app/layout.tsx:72 dichiara maximumScale: 5 — quindi la regola di Safari su iPhone scatta: toccando una casella con caratteri sotto i 16px ingrandisce tutta la pagina e non la rimpicciolisce più da sola. Il sito questa cosa la sa già: components/ui/Field.tsx, la casella condivisa da cui passano accesso, registrazione, indirizzi e dati del checkout, ha il commento «mobile: text-base (≥16px) per non innescare lo zoom automatico su iOS» alla riga 22 e usa davvero `text-base` nella classe base del controllo. Le sette qui sopra sono quelle scritte a mano che non passano dalla primitiva. La più pesante è SearchBar, perché la barra di ricerca sta in cima a ogni pagina.
+
+**Come si ripara:** Portare le sette righe da text-sm a text-base; dove il campo diventa troppo alto, ridurre il riempimento verticale (py) invece del carattere. Meglio ancora: far passare CouponInput, ProductQA e NewsletterForm dalla primitiva components/ui/Field.tsx, che il difetto non ce l'ha.
+
+### Scritte bianche sul verde oliva chiaro: 3,69 contro il 4,5 richiesto
+
+**Dove:** `components/store-sections/HeroSection.tsx:130 · components/checkout/PaymentMethodSelector.tsx:153 · components/checkout/StepIndicator.tsx:24 · app/stores/page.tsx:254 · app/profile/referral/page.tsx:115 · components/OrderTimeline.tsx:67 · components/Navbar.tsx:331 e :357 · components/MobileAccountSheet.tsx:71 · app/seller/dashboard/page.tsx:211` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO. olive-500 è #7C8B5A (tailwind.config.ts:66); rifatto io il conto del contrasto col bianco viene 3,69 a 1, mentre per un testo normale la soglia è 4,5. Ho aperto tutti e dieci i punti: sono tutti `bg-olive-500 text-white` su testo piccolo, quindi nessuno rientra nell'eccezione del testo grande (che parte da 18,66px in grassetto). Due stanno sul percorso d'acquisto: la pastiglia «Aperto ora» in copertina alla vetrina del negozio (HeroSection.tsx:130, text-sm grassetto — è il segnale che dice al cliente se può ordinare adesso) e la pastiglia dello sconto per il ritiro in negozio in cassa (PaymentMethodSelector.tsx:153, text-xs grassetto). Nella stessa riga di codice, il badge alternativo «Sconto 10%» usa un verde più scuro: olive-600 (#5A7C42) misura 4,78 e passa. Due verdi affiancati, uno buono e uno no.
+
+**Come si ripara:** Sostituire bg-olive-500 con bg-olive-600 (#5A7C42, 4,78 a 1) nei dieci punti; dove il testo è a 11-12px, olive-700 (#456236) è più sicuro. Il colore è già nella tavolozza, non serve inventare nulla.
+
+### Nella copertina della vetrina il nome del negozio viene tagliato invece di andare a capo
+
+**Dove:** `components/store-sections/HeroSection.tsx:163-165` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO nel file. Il nome del negozio è l'h1 della sua pagina: `font-serif text-[28px] font-extrabold ... sm:text-[34px]` alla riga 163, e alla riga 165 lo span che lo contiene ha la classe `truncate` — una riga sola, il resto tagliato con tre puntini, mai a capo. Il conto dello spazio su un telefono da 375px: 375 meno 40 di riempimento della barra (px-5), meno 72 del riquadro del logo, meno 16 di distanza = circa 247px, da dividere anche col bollino «negozio verificato» che sta nello stesso h1. A 28px in Fraunces extrabold ci stanno all'incirca quattordici-diciassette lettere. «Salumeria del Borgo» — negozio vero, l'ho trovato in seeds/001_piacenza_stores.sql — ne ha diciannove: viene tagliato. La misura in pixel è una stima mia, ma il taglio è certo per i nomi lunghi, perché truncate taglia sempre appena il testo eccede.
+
+**Come si ripara:** Togliere `truncate` dallo span alla riga 165 (il contenitore è già flex-wrap, quindi il resto della copertina si adatta) o al massimo sostituirlo con line-clamp-2. E far partire la dimensione da text-[24px] su telefono con sm:text-[34px].
+
+### Nella dashboard del negozio le righe sotto i numeri sono bianco trasparente e non si leggono
+
+**Dove:** `app/seller/dashboard/page.tsx:327 e :329 (funzione HeroStat) · stessa pagina riga 209` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO, e i numeri sono anche peggio di quelli segnalati. Il riquadro in cima alla dashboard del negoziante è una sfumatura terracotta (riga 201: from-primary-700 via-primary-600 to-secondary-700) e le targhette dentro hanno sfondo bg-white/10, quindi il fondo reale sotto il testo è più chiaro del solo primary-600. Rifatti i conti sul punto medio con la targhetta: riga 329 `text-[11px] text-white/60` misura 2,50 a 1 (il collega diceva 2,75); riga 327 `text-[11px] text-white/70` misura 2,87; riga 209 `text-white/75 text-sm` misura 3,35. La soglia è 4,5: sono tutte e tre sotto, e le prime due sono a 11px, il carattere più piccolo del sito. È lo schermo che il negoziante apre ogni mattina, e la riga che non si legge è proprio quella che spiega il numero.
+
+**Come si ripara:** Togliere la trasparenza: colore pieno (text-cream-200) al posto di text-white/60 e text-white/70, e text-white pieno alla riga 209. Portare gli 11px a 12px (text-xs), che è il gradino minimo dichiarato dal sistema.
+
+### L'anello di fuoco della tastiera è invisibile su tutta la barra in alto (1,34:1)
+
+**Dove:** `app/globals.css:160-163 (`:focus-visible { outline: 2px solid #C0492C; outline-offset: 2px }`) + components/Navbar.tsx:98 (logo), :180 e :193 (carrello mobile), :230 (IconButton Preferiti/Messaggi/Notifiche), :248 (CartButton desktop), :319 (pulsante Menu account)` · **Area:** Accessibilita visiva · **Corsia:** codice
+
+CONFERMATO col file davanti. Il fuoco globale è terracotta #C0492C (globals.css:161, non 164 come indicato). L'header è `bg-primary-700` #A03B25 (Navbar.tsx:93 e :214). Rapporto ricalcolato da me: 1,34:1; sul CartButton (bg-accent-500 #E8A33D, riga 248) resta 2,30:1. Confermata anche la disparità interna: `focus-visible:outline-white` c'è su Accedi/Registrati (Navbar.tsx:112-113, :136, :142, :148, :201), CategoryBar.tsx:97 e :116, LocationPill.tsx:65 — le sei righe elencate no. Chi naviga con Tab perde il segno su carrello, notifiche e menu account. WCAG 2.4.11 Focus Appearance (AA, soglia 3:1 contro il colore adiacente).
+
+**Come si ripara:** Aggiungere `focus-visible:outline-white` alle sei classi elencate. Fix durevole: una regola unica in globals.css che dia l'anello bianco a ogni `:focus-visible` dentro l'header su fondo primary-700, così i controlli nuovi lo ereditano.
+
+### Il selettore delle stelle nella pagina recensione non dice quale voto è scelto
+
+**Dove:** `app/orders/[id]/review/page.tsx:17-30 (componente `StarRating`)` · **Area:** Accessibilita visiva · **Corsia:** codice
+
+CONFERMATO. I cinque pulsanti hanno solo `aria-label` («3 stelle»), nessun `aria-pressed`/`aria-checked` e nessun contenitore con ruolo: uno screen reader annuncia la stessa cosa prima e dopo il tocco, e il form parte con 5 preselezionato senza dirlo. Il gemello in app/product/[id]/page.tsx:1010-1021 ha già `role="group" aria-label="Il tuo voto"` + `aria-pressed`, con il commento #142 che spiega perché: la correzione non è stata portata qui. Confermato anche il colore: stelle non scelte `text-ink-300` (#A8A29E su bianco = 2,52:1, ricalcolato). WCAG 4.1.2 Name-Role-Value (A).
+
+**Come si ripara:** In `StarRating` (riga 17): avvolgere i pulsanti in `<div role="group" aria-label="Il tuo voto">`, aggiungere `aria-pressed={n <= value}` a ogni `<button>`, cambiare `text-ink-300` in `text-ink-400`. Tre righe, copiate da app/product/[id]/page.tsx:1010-1021.
+
+### Il carrello dice «sei vuoto» al primo disegno, anche quando è pieno
+
+**Dove:** `/home/user/mycity/app/cart/page.tsx:24 e :120-131 · /home/user/mycity/app/checkout/page.tsx:46 e :809-816` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO col file davanti. In tutte e due le pagine lo stato parte vuoto — `const [items, setItems] = useState<CartItem[]>([])` (cart:24), `const [cart, setCart] = useState<CartItem[]>([])` (checkout:46) — e il carrello vero si legge dentro `useEffect` (cart:35-41, checkout:47-66), che React esegue dopo il primo disegno. Il ritorno anticipato arriva prima: `if (items.length === 0)` mostra l'EmptyState «Il tuo carrello è vuoto — Esplora i prodotti» (cart:120-131), e `if (cart.length === 0)` mostra «Il tuo carrello è vuoto. Torna al negozio» (checkout:809-816). Su /checkout il difetto è peggiore perché il vero stato di attesa esiste ma sta DOPO (`if (loadingGroups) return <LoadingState />`, riga 818): il vuoto vince sempre sul caricamento. Nessuno stato intermedio fra «vuoto» e «pieno».
+
+**Come si ripara:** Aggiungere una bandierina di montaggio (`const [letto, setLetto] = useState(false)`, messa a true nello stesso `useEffect` che chiama `getCart()`) e finché è false mostrare uno scheletro del carrello, non l'empty state — su /checkout spostando il controllo prima del blocco a riga 809. In alternativa leggere il carrello con `useSyncExternalStore`, così il primo render ha già il valore vero.
+
+### Dopo l'ordine riuscito il pulsante di conferma torna attivo: si può ordinare due volte
+
+**Dove:** `/home/user/mycity/app/checkout/page.tsx:749 (`isCheckingOut`), :646-664 (onSuccess contanti), :739-742 (onSuccess carta), :764-808 (handleSubmit) · barra mobile :1079-1092 · /home/user/mycity/components/checkout/OrderSummary.tsx:98-104` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO, catena completa. ① Il blocco è solo `const isCheckingOut = placeOrders.isPending || payWithStripe.isPending` (riga 749). ② In React Query 5 lo stato «in corso» si spegne DOPO `onSuccess`: in node_modules/@tanstack/query-core/build/modern/mutation.js il `this.#dispatch({ type: "success", data })` (riga 143) sta a valle di `await this.options.onSuccess?.(…)` (riga 123). ③ Ramo contanti: `onSuccess` chiama `chiudiIlTentativo()` (riga 650 — butta la chiave anti-doppione, confermato l'import da `@/lib/ordini/tentativo` a riga 12 e l'uso come header `idempotency-key` a riga 593), poi `clearCart()` e `router.push`; la pagina NON ascolta `cart:updated` (grep: zero occorrenze in checkout/page.tsx), quindi lo stato `cart` resta pieno, `groups.length > 0` e il pulsante si riaccende durante il cambio pagina. ④ `handleSubmit` (764-808) non ha nessuna guardia tipo `if (isCheckingOut) return`. ⑤ Ramo carta: dopo `window.location.assign(url)` (riga 741) il dispatch success riabilita il pulsante mentre il browser naviga. ⑥ Vale sia per OrderSummary (`disabled={isCheckingOut}`, riga 102, con `type` che torna 'submit' appena `disabled` è falso) sia per la barra fissa mobile (riga 1082). Un secondo tocco crea un secondo ordine vero, con chiave nuova.
+
+**Come si ripara:** Aggiungere uno stato che non si spegne: `const [inPartenza, setInPartenza] = useState(false)`, messo a true come PRIMA riga di entrambi gli `onSuccess` e mai rimesso a false, e includerlo in `isCheckingOut` insieme a `placeOrders.isSuccess || payWithStripe.isSuccess`. In più una guardia `if (isCheckingOut) return;` in cima a `handleSubmit`.
+
+### Il riquadro grande della home, mentre carica, mostra un negozio finto con prezzi finti
+
+**Dove:** `/home/user/mycity/components/home/HeroStoreCard.tsx:63-65 e :72 · HeroStorePlaceholder :191-256` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO parola per parola. `if (!data?.store) return <HeroStorePlaceholder />` (riga 72) usa come stato di caricamento un negozio inventato e credibile: `Salumeria del Borgo` (riga 217), `Via Calzolai` (riga 222), pallino verde `animate-pulse-soft` con «Aperto ora» (riga 211-213), etichette «Negozio locale» e «Consegna oggi» (225-230), sei prodotti con prezzi scritti a mano nell'array `demo` (192-199: Coppa DOP €9,50, Prosciutto crudo €15,00, Bresaola €18,00) e «Consegna stimata — oggi, entro 18:00» (riga 249-250). Nessun `aria-hidden` sul blocco, nessuno scintillio, nessuna parola «esempio». E la funzione della query restituisce `null` anche in errore (righe 63-65, col commento «Il riquadro non è mai vuoto»): se la RPC `vetrina_home` fallisce, quel negozio inventato con quei prezzi inventati resta sulla home a tempo indeterminato. È un problema di onestà, non solo di stato di caricamento.
+
+**Come si ripara:** Distinguere i due casi con `isLoading`/`isError` (e togliere il `return null` sull'errore, così `isError` esiste davvero). Mentre carica: scheletro neutro della stessa forma e altezza (classe `.skeleton` già in globals.css:183), senza nomi né prezzi. Senza negozio o in errore: un riquadro onesto («Stiamo scegliendo il negozio in vetrina») o la CTA generica. Mai nomi e prezzi inventati.
+
+### Home, sezione categorie: il titolo resta con il vuoto sotto mentre carica, e per sempre se la lettura fallisce
+
+**Dove:** `/home/user/mycity/components/home-sections/HomeSectionRenderer.tsx:174-188 · /home/user/mycity/components/CategoryShowcase.tsx:75-96` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO. Il renderer disegna sempre il titolo «Cosa cerchi oggi?» e il sottotitolo «Tutte le categorie del mercato locale» e poi mette dentro `<CategoryShowcase />` (righe 176-186). Il componente fa `const { data: categories = [] } = useQuery({…})` (riga 75) senza leggere né `isLoading` né `isError`, e restituisce comunque `<div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">` con `categories.slice(0, 6).map(...)` (righe 94-96): finché la risposta non arriva il contenitore è alto zero, poi arrivano sei tessere `aspect-[4/3]` che spingono giù la pagina — scostamento di impaginazione sulla pagina più vista. In errore (`if (error) throw error`, riga 85) il risultato a schermo è identico e permanente. Verificato anche l'ultimo pezzo: `MaybeSection` è importato a riga 20 ma usato solo nel `case 'dropOfDay'` (righe 194-196), non nel `case 'categories'`, quindi il titolo non può nemmeno sparire.
+
+**Come si ripara:** In CategoryShowcase prendere `isLoading` e `isError`: mentre carica disegnare sei tessere-scheletro con la stessa `aspect-[4/3]`, in errore restituire `null`. E avvolgere il `case 'categories'` in `MaybeSection` come già fa dropOfDay.
+
+### Notifiche: qualunque errore di rete butta la persona fuori, sulla pagina di accesso
+
+**Dove:** `/home/user/mycity/app/notifications/page.tsx:62-76 e :101-104` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO. La funzione della query lancia in due casi che a valle non si distinguono: `throw new Error('Non autenticato')` se manca l'utente (riga 66) e `throw error` se la lettura di `notifications` fallisce (riga 73). Il render li tratta uguali: `if (error) { if (typeof window !== 'undefined') router.push('/sign-in'); return null; }` (righe 101-104). A un cliente regolarmente collegato basta un errore RLS, un timeout o una rete storta perché la pagina lo scarichi sulla schermata di accesso, senza messaggio e senza «Riprova» — e chi lo vive pensa di aver perso l'account. Nessun `ErrorState` da nessuna parte in questo file. In più il `router.push` è chiamato dentro il render, non in un effetto.
+
+**Come si ripara:** Nella query lanciare un marcatore riconoscibile per il non-autenticato (`throw new Error('AUTH_REQUIRED')`) e nel render fare il redirect dentro un `useEffect` SOLO su quello; per tutto il resto mostrare `<ErrorState title="Non riusciamo a caricare le notifiche" onRetry={() => refetch()} />`, come già fa /stores.
+
+### «Vicino a te»: se la lettura fallisce la pagina dice che a Piacenza non c'è nessun negozio
+
+**Dove:** `/home/user/mycity/app/near/page.tsx:36-45 (errore ingoiato), :124-131, :204-207, :260-266` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO il difetto, ma la causa è più a monte di quanto scritto dal collega. In `fetchNearData` la lettura dei negozi è `const { data: storesRaw } = await conRipiegoSchema(...)` (riga 36): il campo `error` non viene mai letto, e `conRipiegoSchema` (lib/db/migrazione-124.ts:71-84) non lancia — restituisce il risultato così com'è. Quindi una lettura fallita non diventa mai un errore: la query va a buon fine con `stores: []` (riga 45-47). A schermo si vede «0 negozi a Piacenza» (righe 204-207) e il riquadro «Nessun negozio entro 5 km. Aumenta il raggio per vederne di più» (righe 260-266), senza nessun pulsante per riprovare: un guasto presentato come un fatto commerciale, su una delle porte d'ingresso alla scoperta dei negozi. Il caso del permesso di posizione negato invece è gestito bene (`permError`, righe 209-215).
+
+**Come si ripara:** Il solo `isError` nella pagina NON basta, perché la query non fallisce mai: prima far emergere l'errore in `fetchNearData` (leggere `error` dal risultato e lanciarlo), poi prendere `isError`/`refetch` a riga 124 e mostrare `<ErrorState title="Non riusciamo a caricare i negozi" onRetry={() => refetch()} />` prima del blocco «Nessun negozio» — lo stesso trattamento di app/stores/page.tsx:219-227.
+
+### Il cuore dei preferiti non ha attesa, non ha errore e non si aggiorna subito
+
+**Dove:** `/home/user/mycity/components/hooks/useFavorites.ts:28-41 · /home/user/mycity/components/ProductCard.tsx:95-107 · /home/user/mycity/app/product/[id]/page.tsx:116` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO su tutti e tre i punti. ① Nessun aggiornamento ottimista: la mutazione ha solo `onSuccess: () => qc.invalidateQueries(...)` (riga 39), quindi il cuore si riempie dopo `auth.getUser()` → insert → invalidazione → nuova lettura. Nel frattempo l'unico segnale è l'animazione `heartBeat` di 600 ms (ProductCard 98-100), che finisce prima. ② Gli errori sono ingoiati: `await supabase.from('favorites').delete()...` e `.insert(...)` (righe 33-36) non controllano il campo `error`, quindi anche a scrittura fallita la mutazione riesce, parte `onSuccess`, il cuore torna vuoto e nessun messaggio compare — salvataggio perso in silenzio. La chiave primaria è `(user_id, product_id)` (migrations/014_mvp_sprint.sql:38-42), quindi un doppio tocco produce davvero un errore di duplicato che nessuno vede. ③ `toggle.isPending` non è usato da nessuna parte: `grep isPending` su ProductCard.tsx non dà risultati e su app/product/[id]/page.tsx trova solo `submitReview.isPending` (riga 1039). A due file di distanza il modello giusto c'è già: useFollowStore.ts:70-100 ha `if (error) throw error`, `onMutate` ottimista e rollback in `onError`.
+
+**Come si ripara:** Copiare useFollowStore: `if (error) throw error` dopo insert e delete, un `onMutate` che ribalta subito l'insieme in cache, un `onError` che lo rimette a posto e mostra il messaggio, e `disabled={toggle.isPending}` sul pulsante del cuore in ProductCard e nella scheda prodotto.
+
+### Se incolli l'indirizzo di un'immagine esterna, la pagina mostra un buco senza dire perché
+
+**Dove:** `components/ImageUrlField.tsx:99-106 (campo «oppure incolla un URL https://…»), reso poi da app/events/page.tsx:161-168, app/shop-of-month/page.tsx:165-174, components/home/HomeEvents.tsx:65-67` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO. Il campo invita a incollare un indirizzo qualsiasi, ma il sito accetta immagini solo da quattro domini: `*.supabase.co`, `placehold.co`, `api.iconify.design`, `images.pexels.com` (next.config.js:33-49). Ogni altro indirizzo fa rispondere 400 all'ottimizzatore di Next, e sarebbe comunque fermato dal browser perché la politica di sicurezza elenca gli stessi domini (middleware.ts:196). Nessun avviso all'admin: salva, e la copertina resta vuota sulla home e sulla pagina eventi. Il precedente citato è vero ed è scritto nel codice: i QR presi da api.qrserver.com venivano bloccati dalla stessa politica (components/SimpleQR.tsx:11-17).
+
+**Come si ripara:** Validare il dominio dentro il campo e mostrare l'errore subito («questo indirizzo non è ammesso, carica il file»); oppure scaricare l'immagine lato server e riversarla nello Storage.
+
+### Il logo del negozio viene ritagliato a quadrato: i marchi con la scritta diventano illeggibili
+
+**Dove:** `lib/image-url.ts:44-51 e :63-67 (ritaglio quadrato per thumb/card con height=width e resize=cover) + i punti che lo usano: components/products/SellerCard.tsx:144, components/home/StoriesCarousel.tsx:73, components/StoryViewer.tsx:203, components/home/ShopOfMonthHero.tsx:117, app/shop-of-month/page.tsx:208, app/orders/page.tsx:301, app/orders/[id]/page.tsx:612` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO, con una correzione al collega. Il taglio vero è UNO e lo fa il CDN: per le misure `thumb` e `card` l'indirizzo viene riscritto con width=height e `resize=cover`, cioè il server tiene solo il quadrato centrale. Su un marchio 1000×300 tipo «Panificio Garetti» restano i 300 pixel centrali: si legge un pezzo di parola. Il successivo `object-cover` nel cerchio non toglie altro, perché l'immagine arriva già quadrata — quindi non è un doppio taglio. Nei punti che passano l'indirizzo grezzo (components/StoreAvatar.tsx:33-39, components/Navbar.tsx:326 e :352, components/MobileAccountSheet.tsx:66, components/account/AccountSidebar.tsx:116-120) il taglio lo fa solo il CSS, ma il risultato per un logo largo è lo stesso. Confermato anche che al caricamento non c'è né quadratura né ritaglio guidato (components/VendorForm.tsx:110-130): il negoziante carica il marchio così com'è e lo ritrova mozzato ovunque.
+
+**Come si ripara:** Per i loghi usare `object-contain` su fondo bianco con un po' di margine (il cerchio resta) e chiedere al CDN `resize=contain`. In alternativa, ritaglio guidato al caricamento con anteprima di come verrà.
+
+### Le foto di «Ultimi visti», «Completa con» e degli sponsorizzati sono ingrandite da 100 pixel
+
+**Dove:** `components/RecentlyViewed.tsx:78-88 · components/cart/CartUpsell.tsx:99-108 · components/SponsoredCarousel.tsx:146-147 · app/cart/page.tsx:229-237 · app/seller/promote/page.tsx:139-140` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO in ogni punto. Queste immagini mettono insieme due cose incompatibili: la misura `thumb`, che chiede al CDN una foto larga 100 pixel (lib/image-url.ts:16), e l'attributo `unoptimized`. Il secondo azzera sia l'elenco delle varianti sia l'attributo `sizes` — controllato nel codice installato, node_modules/next/dist/shared/lib/get-img-props.js:96-104 — quindi resta quell'unico indirizzo da 100 pixel. I riquadri sono più grandi: 144 e 160 pixel in «Ultimi visti», 144 in «Completa con», 128-144 negli sponsorizzati, 96 nel carrello. La foto viene ingrandita già su uno schermo normale e di due o tre volte su un telefono moderno — e lo spazio sponsorizzato per giunta si fa pagare.
+
+**Come si ripara:** Togliere `unoptimized` e passare `loader={caricatoreFotoRemote}`, come già fa components/ProductCard.tsx:161. Next chiede la larghezza giusta e il ridimensionamento resta sul CDN di Supabase, senza costi in più.
+
+### Sulla home le schede negozio scaricano la foto grande e la marcano urgente, sei volte
+
+**Dove:** `components/StoreMediaCarousel.tsx:67-73 (`sizedImage(m.url,'hero')`, `sizes="…1024px"`, `priority={i === 0}`) usato in scheda piccola da components/StorePreviewCard.tsx:58-62 con altezza h-24/h-28, per i 6 negozi di components/StoreShowcase.tsx:20 e :106` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO. Lo stesso componente serve due usi diversi: la copertina a tutta pagina del negozio e la miniatura dentro la scheda della vetrina. Ma la misura è scritta fissa nel componente: chiede sempre la versione da 1200 pixel e dichiara al browser 1024 pixel di occupazione, mentre nella scheda la copertina è alta 112 pixel e larga circa 270. In più `priority` è fisso sulla prima foto di ogni carosello: con sei negozi in vetrina sono sei immagini grandi marcate «urgenti» e precaricate nell'intestazione, pur stando sotto la piega.
+
+**Come si ripara:** Aggiungere due proprietà al componente: la misura richiesta (`hero` o `card`) e `priority`, decise da chi lo usa. Nella scheda: `card`, `sizes="(max-width:640px) 50vw, 280px"`, niente priority.
+
+### Le copertine degli eventi in home vengono tagliate e restano una fascia centrale
+
+**Dove:** `components/home/HomeEvents.tsx:65-67 (riquadro `aspect-[16/9]` con `sizedImage(e.cover_image_url,'card')`), da confrontare con app/events/page.tsx:161-168 che usa 'detail'` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO. La misura `card` fa impostare al CDN altezza uguale a larghezza con `resize=cover` (lib/image-url.ts:48-50): su una copertina 16:9 il server butta via le due fasce laterali, poi il riquadro 16:9 con `object-cover` butta via sopra e sotto. Di una locandina 1600×900 resta circa la metà centrale. Titoli, date e loghi messi ai lati spariscono. Che sia un errore e non una scelta lo dimostra la pagina Eventi, che sulla stessa copertina usa 'detail' e non ritaglia: la stessa immagine appare in due modi diversi nelle due pagine. E il pannello admin chiede proprio il 16:9 (app/admin/events/page.tsx:291). Nota tecnica: il caricatore su misura presente qui non salva la situazione, perché l'altezza è già scritta nell'indirizzo e lib/image-loader.ts:60 la riallinea alla larghezza.
+
+**Come si ripara:** In HomeEvents usare `sizedImage(e.cover_image_url, 'detail')`, come fa già la pagina Eventi.
+
+### Il banner della home chiede un'immagine 16:9 e poi la mostra in una fascia da 3,5:1
+
+**Dove:** `components/admin/home/HomeSectionConfigForm.tsx:246 («Consigliato 16:9») contro components/home-sections/HomeSectionRenderer.tsx:409-410 e components/cms/CmsBlockRenderer.tsx:38-39 (riquadro `h-56 sm:h-72`)` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO. Il riquadro del banner ha altezza fissa — 224 pixel su telefono, 288 sul computer — e larghezza piena del contenitore (circa 1024-1150 pixel sul desktop). Fa un rapporto vicino a tre volte e mezzo a uno. Chi carica il 16:9 che il pannello gli ha chiesto (1600×900) si vede tagliare più della metà dell'altezza: sparisce quello che sta in alto e in basso. L'istruzione data all'admin e il riquadro vero non vanno d'accordo, e chi carica non ha modo di accorgersene prima di pubblicare.
+
+**Come si ripara:** O si allinea il riquadro all'immagine (`aspect-[16/9]` con un tetto di altezza), o si cambia il consiglio in «3:1, per esempio 1600×540». Meglio ancora: anteprima ritagliata dentro il pannello.
+
+### Le tessere delle categorie in home sono foto d'archivio scritte a mano nel codice
+
+**Dove:** `components/CategoryShowcase.tsx:43-58 (undici indirizzi Pexels fissi) e :118 (`onError` che nasconde l'immagine)` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO parola per parola. La griglia illustrata delle categorie mostra undici foto stock Pexels incollate nel codice, e il commento sopra l'elenco lo ammette: «Scelte “a stima” e NON verificabili dalla sandbox». Sono immagini che potrebbe avere qualunque sito, e non sono modificabili dal pannello: la tabella `categories` non ha nessuna colonna immagine (migrations/002_categories_and_extras.sql:4-11, e la 076 aggiunge solo `sort_order` e `featured`), quindi per cambiarne una serve pubblicare di nuovo il sito. Se una foto sparisce da Pexels la tessera resta un gradiente e nessuno se ne accorge, perché l'errore viene nascosto mettendo l'immagine a display:none.
+
+**Come si ripara:** Spostare le foto in una colonna `image_url` della tabella categorie (o in site_settings) così si cambiano dal pannello, e sostituirle con foto vere fatte nei negozi di Piacenza. Nel frattempo tenere il gradiente di categoria, che almeno è del brand.
+
+### Sulla scheda prodotto, da telefono, nome e prezzo arrivano dopo negozio, «Segnala» e partita IVA
+
+**Dove:** `app/product/[id]/page.tsx:485 (griglia `grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_320px]`), 634-660 (colonna INFO), 662 (h1), 712 (prezzo)` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato col file davanti. La griglia è `grid-cols-1` su telefono, quindi i figli si impilano nell'ordine del codice. Dentro la colonna INFO l'ordine scritto è: `<SellerCard>` (riga 638) → `<Segnala tipo="prodotto">` (riga 651) → `<VendutoDa>` (ragione sociale, sede, P.IVA — riga 655) → SOLO ORA l'`<h1>` col nome del prodotto (riga 662) e il prezzo (riga 712). Sopra la colonna INFO c'è già la galleria quadrata (`aspect-square`, riga 488) più le miniature, la barra in alto e le briciole di pane. Chi apre il prodotto da telefono vede quindi foto, negozio, un link per segnalare abusi e una partita IVA prima di leggere COSA sta guardando e QUANTO costa. (Non ho misurato i pixel su un dispositivo vero: la distanza esatta è una stima, l'ordine dei blocchi no.)
+
+**Come si ripara:** Riordinare i figli della colonna INFO: h1 + prezzo + badge sconto subito sotto la galleria, poi SellerCard, e spostare «Venduto da» e «Segnala» in fondo alla colonna (o dentro la fisarmonica delle informazioni legali). Nessuna logica cambia: è solo l'ordine dei blocchi JSX dentro il div `space-y-4`.
+
+### Tra 768 e 1023px il riquadro d'acquisto scivola da solo su una seconda riga, e la barra fissa è già sparita
+
+**Dove:** `app/product/[id]/page.tsx:485 (griglia) e 850-851 (terzo figlio, «CTA STICKY»); components/StickyAddToCart.tsx:53 (`md:hidden`)` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato. La griglia ha tre figli in flusso — galleria (488), INFO (634), riquadro d'acquisto (851) — ma alla misura `md` è a DUE colonne: prima riga galleria|INFO, e il riquadro col prezzo, la quantità e «Aggiungi al carrello» finisce da solo in seconda riga, sotto la colonna INFO che è altissima. Nella stessa fascia di larghezza `StickyAddToCart` è `md:hidden` (riga 53), quindi la barra d'acquisto in fondo non c'è. Su un iPad in verticale (768px) e su un telefono grande girato in orizzontale non resta nessun pulsante d'acquisto visibile senza scorrere sotto tutta la colonna INFO.
+
+**Come si ripara:** Alla misura `md` far occupare al riquadro d'acquisto la seconda colonna della prima riga (`md:row-span-2 md:col-start-2`), oppure passare da 1 colonna direttamente a 3 (`lg`) tenendo `md` a colonna singola. In alternativa nascondere StickyAddToCart solo da `lg` in su, dove la colonna appiccicata a destra esiste davvero.
+
+### Nel carrello, da telefono, «Procedi al checkout» sta in fondo a tutto e non c'è nessuna barra fissa
+
+**Dove:** `app/cart/page.tsx:194 (`grid-cols-1 lg:grid-cols-3`), 357 (colonna riepilogo, secondo figlio), 411-419 (link al checkout)` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato. La colonna del riepilogo è il secondo figlio della griglia e ha `lg:sticky` — cioè si incolla SOLO da 1024px in su. Su telefono la griglia è a una colonna e il riepilogo si impila dopo tutti i prodotti e dopo i blocchi della colonna sinistra. Il grep `fixed bottom-` / `sticky bottom-` / `fixed left-0 right-0` su app/cart non trova nulla: a differenza della scheda prodotto (StickyAddToCart) e del checkout (barra fissa a app/checkout/page.tsx:1072), il carrello è l'unico dei tre passaggi del funnel senza CTA sempre visibile.
+
+**Come si ripara:** Aggiungere una barra fissa `lg:hidden` in fondo al carrello con totale + «Procedi al checkout», copiando il pattern già collaudato di StickyAddToCart (stesso `bottom: calc(env(safe-area-inset-bottom) + var(--tabbar-height) + var(--altezza-banner-cookie))`, così non finisce sotto la barra a schede né sotto il banner cookie).
+
+### Il pannello per cambiare il CAP esce dal bordo destro dello schermo
+
+**Dove:** `components/LocationPill.tsx:105 (`absolute left-0 top-full mt-2 w-72`) e 82 (riquadro suggerimento `w-64`); components/Navbar.tsx:176 (la pillola è centrata su mobile)` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato. Nella riga mobile della barra in alto la pillola sta dentro `<div className="min-w-0 flex-1 flex justify-center">` (Navbar.tsx:176), quindi è centrata fra logo e icona carrello: su uno schermo da 360px il suo bordo sinistro cade oltre metà larghezza. Il pannello che si apre è ancorato `left-0` alla pillola ed è largo `w-72` (288px), quindi sfora il bordo destro. In app/globals.css non c'è nessun `overflow-x: hidden` (né su html né su body, verificato col grep): la pagina guadagna scorrimento laterale e la parte destra del campo CAP e del pulsante di conferma resta fuori schermo. Stessa costruzione per il riquadro suggerimento `w-64` alla riga 82.
+
+**Come si ripara:** Su mobile ancorare il pannello allo schermo invece che alla pillola: `fixed inset-x-3 top-[var(--header-height)] w-auto sm:absolute sm:left-0 sm:w-72`, oppure `w-[min(18rem,calc(100vw-1.5rem))]` con `left-1/2 -translate-x-1/2`. Stesso trattamento al riquadro `w-64`.
+
+### I campi di ricerca sono a 14px: iPhone ingrandisce la pagina da solo appena li tocchi
+
+**Dove:** `components/SearchBar.tsx:174 (`text-sm`, campo presente in tutte le pagine); components/checkout/CouponInput.tsx:63; components/StoreProductExplorer.tsx:75; app/stores/page.tsx:249; components/ProductQA.tsx:162; components/NewsletterForm.tsx:78; components/LocationPill.tsx:121` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato uno per uno: tutti e sette gli `<input>` citati hanno `text-sm` (14px). Safari su iPhone ingrandisce la pagina quando si mette a fuoco un campo sotto i 16px e non torna indietro da solo. Il progetto conosce già la regola: components/ui/Field.tsx:22 dichiara in commento «mobile: `text-base` (≥16px) per non innescare lo zoom automatico su iOS» e la riga 30 usa `text-base` — ma questi campi non passano dalla primitiva. Il più esposto è quello di SearchBar, montato nella barra in alto di ogni pagina (Navbar.tsx:207); il secondo è il campo coupon dentro il checkout.
+
+**Come si ripara:** Portare questi campi a `text-base` (o `text-base sm:text-sm` per tenere il compatto sul desktop). Meglio: farli passare dalla primitiva `Input` di components/ui/Field.tsx, e aggiungere una regola di lint che vieti `text-sm`/`text-xs` su `<input>`, `<select>`, `<textarea>`.
+
+### Il banner dei cookie in modalità «Personalizza» torna a coprire il pulsante «Aggiungi al carrello»
+
+**Dove:** `components/CookieBanner.tsx:65-80 (effetto che misura l'altezza, dipendenze `[show]`), 106-128 (il pannello `mode === 'custom'` con quattro righe di consenso)` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato. L'effetto misura `contenitoreRef.current?.offsetHeight` e lo pubblica in `--altezza-banner-cookie` (riga 75), ma le sue dipendenze sono `[show]` (riga 80), non `[show, mode]`. Quando la persona tocca «Personalizza», il blocco `mode === 'custom'` aggiunge quattro righe dentro un riquadro `mt-4 … p-3` (righe 106-128) e il banner cresce, mentre la variabile resta ferma al valore compatto. Il banner è `z-[100]` (riga 93), StickyAddToCart è `z-30` e calcola il proprio `bottom` proprio da quella variabile (StickyAddToCart.tsx:53-57): la barra d'acquisto finisce sotto al banner e il pulsante che fa incassare torna non premibile — è il rientro dalla finestra della correzione #124, citata nei commenti di entrambi i file.
+
+**Come si ripara:** Aggiungere `mode` alle dipendenze dell'effetto e ri-misurare a ogni cambio di dimensione del contenitore (ResizeObserver), così `--altezza-banner-cookie` segue l'altezza reale.
+
+### «Vicino a te» chiede la posizione a freddo, blocca la pagina con un caricamento e mostra l'errore del browser in inglese
+
+**Dove:** `app/near/page.tsx:112-123 (getCurrentPosition dentro useEffect al montaggio), 172-179 (schermata «Calcolo distanze…»), 119 e 209 (messaggio d'errore)` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato, tre difetti nello stesso punto. ① `navigator.geolocation.getCurrentPosition` parte dentro un `useEffect(..., [])` al montaggio (riga 117): il popup di sistema arriva prima di qualsiasi contenuto e senza una riga che spieghi perché — un permesso chiesto a freddo viene negato molto più spesso, e una volta negato il browser non lo richiede più. ② La guardia `if (isLoading || (!pos && !permError))` (riga 172) mostra SOLO «Calcolo distanze…» finché la persona non risponde al popup, fino ai 10 secondi di `timeout` dichiarati alla riga 121, anche se l'elenco dei negozi sarebbe già disponibile senza posizione (il codice alla riga 156 prevede già il caso «senza posizione mostriamo tutti»). ③ Il messaggio concatena `err.message` (riga 119), che il browser scrive in inglese: «Impossibile ottenere la posizione: User denied Geolocation».
+
+**Come si ripara:** ① Mostrare prima l'elenco e chiamare getCurrentPosition solo al tocco di un pulsante «Usa la mia posizione» che spiega a cosa serve. ② Togliere `!pos && !permError` dalla condizione di caricamento: la lista si mostra subito, la distanza si aggiunge quando arriva. ③ Tradurre l'errore per `err.code` (1 permesso negato, 2 posizione non disponibile, 3 tempo scaduto) invece di stampare `err.message`.
+
+### Su iPhone non esiste nessun modo per installare l'app: il banner non compare mai
+
+**Dove:** `components/PWAInstallBanner.tsx:48-59 (ascolto di `beforeinstallprompt`), 70-72 (`setShow(!!promptEvent && …)`), 87 (`if (!show) return null`)` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato. Il banner si mostra solo se `promptEvent` è valorizzato, e `promptEvent` si valorizza solo dentro il gestore di `beforeinstallprompt` (righe 52-57), evento che Safari su iOS non emette: su iPhone il banner non compare mai e nel file non c'è nessun ramo alternativo. Il grep su app/ e components/ per `apple-mobile-web-app`, `standalone` e per istruzioni d'installazione non trova nessuna spiegazione tipo «tocca Condividi → Aggiungi alla schermata Home» da nessuna parte (gli unici `standalone` sono i due controlli dentro questo stesso file e due commenti). Con la strategia «PWA invece di app native», su iOS l'installazione non è proprio offerta.
+
+**Come si ripara:** Aggiungere un ramo iOS: riconoscere Safari su iPhone/iPad fuori da `display-mode: standalone` e mostrare lo stesso banner con le istruzioni Condividi → Aggiungi alla schermata Home, con la stessa regola delle 3 visite e lo stesso «Più tardi». Contare separatamente le due strade.
+
+### Il «+» delle vetrine aggiunge prodotti con varianti senza variante, e le istruzioni del checkout per sbloccarsi non funzionano
+
+**Dove:** `components/ProductGrid.tsx:469 (unico punto che passa hasVariants); mancante in components/store-sections/CollectionSection.tsx:52-66, components/home/PromoDeals.tsx:56-66, app/promozioni/page.tsx:100-110, components/StoreFeaturedStrip.tsx:65-76, app/favorites/page.tsx:91-102; app/checkout/page.tsx:249-251 + 1055 + 1082; lib/cart.ts:17` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO col file davanti. `grep hasVariants=` restituisce UNA sola occorrenza in tutto il progetto: ProductGrid.tsx:469. Nelle altre cinque vetrine ProductCard riceve hasVariants=undefined, quindi handleAdd (ProductCard.tsx:76-79) non porta alla scheda e aggiunge la riga senza variante. Al checkout `variantIssues` spegne sia il pulsante desktop (prop disabled di OrderSummary) sia quello della barra mobile, e il riquadro dice «Apri il prodotto, seleziona la variante e aggiungilo di nuovo al carrello». Ma `sameLine` in lib/cart.ts:17 confronta prodotto E variante: la riga nuova si aggiunge, quella rotta resta, e il blocco non si scioglie. Nel riquadro variantIssues non c'è nessun pulsante di rimozione (gli orfani ce l'hanno, righe 959-969). Correzione alla severità del collega: NON è bloccante per sempre — dal carrello la riga si può cancellare col cestino — ma chi segue le istruzioni scritte non ne esce.
+
+**Come si ripara:** ① Passare `hasVariants` (e `stock`) alla ProductCard nei cinque punti elencati. ② Aggiungere nel riquadro variantIssues i pulsanti «Apri il prodotto» e «Togli dal carrello» (stesso removeFromCart della riga 962). ③ Stesso pulsante nel riquadro stockIssues.
+
+### Con due negozi il riepilogo del carrello scrive «Gratis*» e intanto mette 9,80 € di spedizione nel Totale
+
+**Dove:** `app/cart/page.tsx:118 (freeShipping globale), 172-185 (shippingCost per negozio + finalTotal), 382-384 (etichetta); lib/shipping.ts:29; app/checkout/page.tsx:1031 (FreeShippingProgress con grandSubtotal)` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. `freeShipping = total >= FREE_SHIPPING_THRESHOLD` è calcolato sul totale globale, mentre `shippingCost` somma `shippingForEuro` per gruppo-negozio, e shippingForEuro azzera solo se il subtotale DEL GRUPPO supera la soglia. Con 20 € da un negozio e 15 € da un altro (35 € totali) l'etichetta stampa «Gratis*» e `finalTotal` (riga 185) contiene comunque 4,90+4,90 = 9,80 €, senza una riga che li spieghi. Il codice mitiga solo a metà: scrive «Spedizione stimata», «Gratis*» e «stima · potrebbe variare al checkout», ma l'asterisco non ha legenda e il numero resta nel totale. Stesso difetto al checkout: FreeShippingProgress riceve `grandSubtotal` globale e scrive «Hai la spedizione gratis» mentre OrderSummary poco sotto addebita la spedizione.
+
+**Come si ripara:** Calcolare `freeShipping` per gruppo come già fa `shippingCost`: «Gratis» solo se OGNI gruppo supera la soglia, altrimenti stampare formatPrice(shippingCost). Al checkout passare a FreeShippingProgress il subtotale del gruppo che non ha ancora raggiunto la soglia, o nasconderla nel multi-negozio.
+
+### «Spedizione gratuita» in vetrina, ma 3 € di «Consegna MyCity» si pagano su ogni ordine a domicilio
+
+**Dove:** `lib/constants.ts:64 (PLATFORM_DELIVERY_FEE_CENTS=300); components/ProductCard.tsx:119 e 200-204; app/product/[id]/page.tsx:363 e 854-856; components/ui/FreeShippingProgress.tsx:34-38; app/checkout/page.tsx:470; components/checkout/OrderSummary.tsx:60-65 e 146` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. `platformDeliveryFee = groups.length * 3 €` è sempre addebitato quando non c'è ritiro in negozio, anche sopra i 30 €. Intanto ProductCard mostra il badge «Sped. gratis» quando `price >= 30`, la scheda prodotto mostra «Spedizione gratuita» e FreeShippingProgress scrive «Hai la spedizione gratis». Nella scheda prodotto — l'ultimo schermo prima dell'aggiunta al carrello — i 3 € non compaiono da nessuna parte: il primo posto dove si vedono è il carrello. Al checkout il riepilogo scrive «Spedizione: Gratis» e subito sotto «Consegna MyCity 3,00 €», con la rassicurazione «Pagamento sicuro con Stripe. Niente costi nascosti» (OrderSummary:146) appoggiata sopra il costo mai annunciato prima. Per il cliente «spedizione» e «consegna» sono la stessa cosa.
+
+**Come si ripara:** Una strada sola: (a) chiamare il costo col suo nome già su card e scheda prodotto («Spedizione gratis sopra 30 € · 3 € di consegna»), oppure (b) far rientrare i 3 € nella soglia e tenere il claim. In ogni caso mostrare la riga «Consegna MyCity 3,00 €» nel riquadro rassicurazione della scheda prodotto (page.tsx:734-745).
+
+### «Carta o contanti alla consegna, decidi tu»: la carta alla consegna non esiste
+
+**Dove:** `app/product/[id]/page.tsx:739; app/cart/page.tsx:428; components/checkout/PaymentMethodSelector.tsx:81-83 e 114-117` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO parola per parola. Scheda prodotto: «Puoi pagare alla consegna — carta o contanti, decidi tu». Carrello: «Carta o contanti alla consegna, decidi tu». Al checkout le opzioni reali sono due e diverse: «Carta di credito / debito — pagamento sicuro su Stripe» (anticipato, si esce dal sito) e «Contanti alla consegna — paghi al rider quando ricevi il pacco». Chi si è fidato proprio perché non voleva anticipare i soldi scopre alla cassa che con la carta deve pagare subito. Anche lib/constants.ts:79 (VALUE_PROPS) dice la cosa giusta — «in contanti» — quindi le due righe sono le uniche fuori riga.
+
+**Come si ripara:** Uniformare il claim al vero: «Paghi in contanti alla consegna, oppure con carta adesso». Correggere app/product/[id]/page.tsx:739 e app/cart/page.tsx:428.
+
+### Nel checkout convivono tre promesse di consegna diverse, e una resta scritta anche se scegli «Domani»
+
+**Dove:** `app/checkout/page.tsx:883; components/checkout/DeliverySlotPicker.tsx:44 (NOW_LABEL «~30–45 min»), 103 (subtitle «~30–45 min»), 33-36 (fasce di oggi); lib/delivery.ts:13 (EXPRESS_ETA_LABEL «30-60 min»)` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. Dentro l'unico riquadro «Quando vuoi riceverlo»: la mattonella «Adesso» dice «~30–45 min», la riga «Consegna a domicilio» sotto dice «In 30-60 minuti dalla conferma del negozio», la fascia preselezionata è «In giornata · 15:00–18:00» (slotDay parte da 'today', page.tsx:409). La riga dei 30-60 minuti è un testo FISSO: se la persona sceglie «Domani · 9:00–12:00» continua a dire «In 30-60 minuti». Tre risposte diverse alla stessa domanda nel momento della decisione, e una è falsa. Il commento del file stesso dichiara che la promessa deve essere una sola.
+
+**Come si ripara:** Fonte unica: usare EXPRESS_ETA_LABEL (lib/delivery.ts:13) anche in DeliverySlotPicker righe 44 e 103, e rendere la riga «Consegna a domicilio» dipendente dalla fascia scelta («Consegna {deliverySlot}») invece del testo fisso.
+
+### Dopo le 20:00 l'ordine parte con una fascia di consegna già passata
+
+**Dove:** `components/checkout/DeliverySlotPicker.tsx:47-50, 87-92, 225-231, 236-239 (SLOT_DEFAULTS); app/checkout/page.tsx:409-413 e 612` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO riga per riga. `todayTimesAvailable()` tiene solo le fasce con endHour > ora corrente: le due fasce di oggi finiscono alle 18 e alle 20, quindi dalle 20:00 in poi la lista è vuota. L'effetto che riallinea la selezione esce subito (`if (todayTimes.length === 0) return`), il giorno resta 'today' (default), e `slotTodayTime` era stato inizializzato da `defaultTodayTime()` che, senza fasce future, ripiega su TODAY_SLOTS[0] = «In giornata · 15:00–18:00». `resolveSlotLabel` restituisce quella stringa, che finisce nel corpo della richiesta (page.tsx:612) e su orders.delivery_slot. La mattonella «Oggi» non è disabilitata (lo è solo «Adesso», fuori dalla finestra 8-21) e nulla blocca la conferma: l'ordine nasce con un appuntamento nel passato.
+
+**Come si ripara:** Quando todayTimes.length === 0: chiamare onDayChange('tomorrow') nell'effetto oppure disabilitare la mattonella «Oggi» come si fa con «Adesso», e bloccare la conferma finché non c'è una fascia valida.
+
+### Carrello e checkout scrivono «Il tuo carrello è vuoto» prima che parta il JavaScript
+
+**Dove:** `app/cart/page.tsx:24 e 36-42 e 120-134; app/checkout/page.tsx:46-49 e 808-816` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. Entrambe le pagine partono da `useState<CartItem[]>([])` e leggono il carrello solo dentro useEffect; lib/cart.ts legge localStorage e sul server ritorna sempre []. Il ramo «vuoto» è il PRIMO controllo del render (nel checkout precede perfino `if (loadingGroups) return <LoadingState/>`), quindi l'HTML pre-renderizzato di /cart contiene l'EmptyState «Il tuo carrello è vuoto» col pulsante «Esplora i prodotti», e quello di /checkout contiene «Il tuo carrello è vuoto. Torna al negozio». Su rete lenta la persona legge, alla cassa, che il suo carrello non esiste — e il pulsante offerto la porta via dal checkout.
+
+**Come si ripara:** Terzo stato: `const [carrelloLetto, setCarrelloLetto] = useState(false)` messo a true nell'effetto; finché è false mostrare scheletro/LoadingState. Il ramo «vuoto» solo con carrelloLetto === true && items.length === 0.
+
+### Al muro dell'accesso si perdono codice sconto, metodo di pagamento e fascia: al ritorno il totale è più alto
+
+**Dove:** `app/checkout/page.tsx:797-800 (salva solo `form`), 369-384 (ripristino), 424 (paymentMethod torna al default), 492-512 (ri-verifica del coupon già esistente)` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. Alla riga 798 la bozza salvata è `JSON.stringify(form)` e basta: nome, indirizzo, città, CAP, telefono, note. `couponCode`/`appliedCoupon`, `paymentMethod` e slotDay/slotTodayTime/slotTomorrowTime non vengono salvati né ripristinati (l'effetto di ripristino fa solo `setForm`). Chi accede o si registra proprio nel momento di confermare torna con lo sconto sparito e il metodo riportato a 'card'. Un totale che sale dopo il login è la definizione del carrello abbandonato.
+
+**Come si ripara:** Salvare nella stessa bozza couponCode, paymentMethod e le tre variabili della fascia; al ripristino ri-verificare il codice con validateCouponFromBrowser (la ri-verifica esiste già alle righe 492-512, basta agganciarla).
+
+### «Reso gratuito entro 14 giorni» sulla scheda prodotto, ma la politica dice che il ripensamento lo paga il cliente
+
+**Dove:** `app/product/[id]/page.tsx:742-744; app/returns/page.tsx:69-70 e 87` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. Il riquadro rassicurazione della scheda prodotto promette «Reso gratuito entro 14 giorni» su ogni prodotto. La pagina resi dice l'opposto in due punti: «Cambio idea: le spese di restituzione sono a tuo carico» e «Non si applica a: prodotti deperibili (alimentari freschi)…» — cioè la categoria centrale di un marketplace di negozi di quartiere. Carrello («Reso facile entro 14 giorni») e checkout («Reso entro 14 giorni») sono già corretti: la scheda prodotto è l'unica che promette la gratuità.
+
+**Come si ripara:** Allineare app/product/[id]/page.tsx:743 agli altri due passi: «Reso entro 14 giorni» con link a /returns. Per tenere «gratuito» va prima cambiata la politica, e i freschi restano comunque fuori.
+
+### «Ordina entro 02:14:31 e arriva oggi in 30-60 min» anche con il negozio chiuso — poi il server rifiuta l'ordine all'ultimo clic
+
+**Dove:** `lib/products/express.ts:27-34 (isExpressEligible); app/product/[id]/page.tsx:410-414 e 736; app/api/orders/cod/route.ts:278-284 e app/api/stripe/checkout/route.ts:181-186 (rifiuto «negozio chiuso»); components/store-sections/HeroSection.tsx:54 (isOpenNow esiste già)` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO, con una correzione al collega: dopo le 18:00 il countdown non parte (deliveryWindow passa a «Arriva domani»), quindi l'esempio delle 22:30 è sbagliato. Il difetto vero resta: `isExpressEligible` guarda solo products.express_enabled e profiles.offers_express, mai store_hours. Un negozio chiuso di mattina (giorno di chiusura, prima dell'apertura, domenica) mostra sulla scheda prodotto «Ordina entro …:… e arriva oggi in 30-60 min» mentre la pagina dello stesso negozio dice «Chiuso ora». Il funnel prosegue fino in fondo — nemmeno il checkout controlla gli orari — e il rifiuto arriva dal server al clic finale: «Il negozio è chiuso in questo momento» (409). Percorso completo per un muro all'ultimo passo.
+
+**Come si ripara:** Portare store_hours nel funnel: passare a DeliveryCutoff un `available` che includa isOpenNow(hours[oggi]) e, a negozio chiuso, scrivere «Il negozio riapre alle {orario}» invece del countdown; stesso controllo sulle mattonelle del checkout, così il muro arriva prima e non dopo l'indirizzo.
+
+### L'upsell del carrello propone prodotti finiti e il «+» li aggiunge, bloccando il checkout
+
+**Dove:** `components/cart/CartUpsell.tsx:51-68 (select senza `stock`) e 73-83; components/products/FrequentlyBoughtTogether.tsx:54 e 122-125 (fa la cosa giusta)` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO, con una precisazione: CartUpsell ESCLUDE già i prodotti con varianti (`!p.has_variants`), quindi il problema è solo la giacenza. La select è `id, name, price, images, seller_id, has_variants` con filtro `status = 'available'`, e lo stock è una colonna a parte: nessun trigger porta lo status a 'out_of_stock' quando lo stock arriva a zero (in migrations c'è solo l'auto-ripubblicazione al rientro, 071:55-80, e in tutto app/ nessuno scrive 'out_of_stock'). Un prodotto disponibile-ma-finito compare senza badge, col pulsante attivo, si aggiunge al carrello e al checkout il riquadro «Disponibilità insufficiente» spegne la conferma. Nello stesso repo «Spesso comprati insieme» legge stock, scrive «Esaurito» e disabilita.
+
+**Come si ripara:** Aggiungere `stock` alla select di CartUpsell e filtrare (`p.stock === null || p.stock > 0`), oppure disabilitare il pulsante e scrivere «Esaurito» come FrequentlyBoughtTogether.
+
+### Le vetrine delle promozioni non sanno se un prodotto è finito né se ha varianti: manca alla fonte SQL
+
+**Dove:** `migrations/056_active_promo_products.sql:12-20 e 27-34 (RETURNS TABLE e SELECT senza stock e has_variants); components/home/PromoDeals.tsx:56-66; app/promozioni/page.tsx:100-110` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. La RPC `active_promo_products` ritorna product_id, name, price, images, seller_id, store_name, discount_percent: né `stock` né `has_variants`. La sezione «Sconti attivi» in home e la pagina /promozioni — il traffico più caldo, quello attirato dallo sconto — costruiscono quindi card senza stock: `isOutOfStock` resta falso, il badge «Esaurito» non compare mai, il «+» è sempre premibile, e per i prodotti con varianti aggiunge la riga rotta del primo difetto. Il muro arriva al checkout. Le altre griglie (ProductGrid.tsx:459) il dato lo passano: qui manca alla sorgente.
+
+**Come si ripara:** Nuova migrazione che aggiunge `p.stock` e `p.has_variants` alla RETURNS TABLE e alla SELECT di active_promo_products, e passarli alla ProductCard in PromoDeals.tsx e app/promozioni/page.tsx.
+
+### Sull'ordine confermato i conti non tornano: mancano le righe «Consegna MyCity», sconto e credito
+
+**Dove:** `app/orders/[id]/page.tsx:233 e 595-598; app/api/orders/cod/route.ts:543 e 567; lib/ordini/prezzi.ts:118-130` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. Il riepilogo della pagina ordine ha tre righe: Subtotale (somma di quantity × unit_price), Spedizione (shipping_cost) e Totale (total_price). Ma `total_price` nasce da `totalCents` di prezzi.ts, che somma subtotale + spedizione + `deliveryFeeCents` (3 €) e sottrae coupon e sconto ritiro; e sull'ordine sono scritte anche `discount_amount` (cod/route.ts:567) e `wallet_applied_cents`. Nessuna di queste voci ha una riga. Tipico: 20,00 + 4,90 in colonna e 27,90 come Totale — tre euro comparsi dal nulla nella schermata che serve a fidarsi, e in un ordine in contanti è anche la cifra che il cliente conta in mano al rider.
+
+**Come si ripara:** Aggiungere al riepilogo le voci già presenti sulla riga d'ordine: «Consegna MyCity» (delivery_fee_cents), «Sconto codice» (discount_amount), «Credito MyCity» (wallet_applied_cents) — le stesse che mostra OrderSummary al checkout.
+
+### Anche su un ordine già pagato con carta la pagina dice «Paghi X in contanti al rider»
+
+**Dove:** `app/orders/[id]/page.tsx:599-604 (riquadro senza condizione) e 89 (la query legge payment_status ma non lo usa, e non legge il metodo)` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. Il riquadro verde «Paghi {totale} in contanti al rider alla consegna» è renderizzato per ogni ordine, senza nessun controllo. `payment_status` compare nella select della riga 89 e nel tipo (riga 48) ma non è usato da nessuna parte nella pagina; il metodo di pagamento non è nemmeno selezionato. Gli ordini con carta esistono e arrivano qui: Stripe rimanda su /orders?stripe=success (api/stripe/checkout/route.ts:466) e da quella lista si apre /orders/{id} (app/orders/page.tsx:295). Chi ha appena pagato legge che dovrà pagare di nuovo in contanti.
+
+**Come si ripara:** Selezionare metodo e stato del pagamento e mostrare il riquadro solo per gli ordini in contanti non ancora pagati; per la carta scrivere «Già pagato con carta · {totale}».
+
+### Nel carrello la spedizione dice «Gratis*» mentre il totale te la fa pagare
+
+**Dove:** `/home/user/mycity/app/cart/page.tsx righe 118, 172-185, 383 (barra per negozio a riga 224)` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO col file davanti. Riga 118: `freeShipping = total >= FREE_SHIPPING_THRESHOLD` (30 €) usa il totale di TUTTO il carrello. Riga 172: `shippingCost` somma `shippingForEuro` chiamata per ogni gruppo-negozio, e `shippingForEuro` azzera solo se il subtotale DEL NEGOZIO ≥ 30. Riga 185: `finalTotal = total + shippingCost + platformDeliveryFee`. Caso reale: 20 € dal fornaio + 15 € dal macellaio → freeShipping=true, multiStore=true → riga 383 stampa «Gratis*», mentre shippingCost = 4,90+4,90 = 9,80 € già dentro il Totale. Il conto a schermo non torna di 9,80 €. Venti pixel sopra, la barra FreeShippingProgress di ogni negozio dice «Ti mancano X alla spedizione gratis» (components/ui/FreeShippingProgress.tsx righe 44-45): due frasi opposte nella stessa schermata. Ho cercato l'asterisco in tutta la pagina: nessuna nota lo spiega.
+
+**Come si ripara:** Calcolare la parola sulla stessa base del numero: `shippingCost > 0` → mostrare l'importo, mai «Gratis»; «Gratis» solo se `shippingCost === 0`. Togliere l'asterisco orfano; se serve la nota, per esteso: «Gratis sopra i 30 € di spesa nello stesso negozio».
+
+### FAQ e pagina Spedizioni promettono il ritiro in negozio col 10% di sconto, ma al checkout l'opzione non c'è
+
+**Dove:** `/home/user/mycity/app/faq/page.tsx riga 43 · /home/user/mycity/app/shipping/page.tsx righe 37-40 e 95-98 · /home/user/mycity/lib/constants.ts riga 39 (RITIRO_IN_NEGOZIO_ATTIVO = false) · /home/user/mycity/components/checkout/PaymentMethodSelector.tsx riga 134` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO. FAQ: «Sì, e ottieni il 10% di sconto. Seleziona "Ritiro in negozio" al checkout: ti avviseremo appena l'ordine sarà pronto.» Pagina Spedizioni: riquadro «Ritiro in negozio — 10% di sconto sull'ordine» (righe 37-40) e paragrafo «Scegliendo il ritiro in negozio ottieni il 10% di sconto sull'intero ordine e non paghi spese di spedizione» (righe 95-98). Nel checkout il blocco è dentro `{RITIRO_IN_NEGOZIO_ATTIVO && (` con la costante a false, e i commenti in constants.ts e PaymentMethodSelector spiegano il perché (sconto mai concordato coi negozi, e un ritiro non arriva mai a «consegnato»). Il cliente legge un'istruzione che non può eseguire e uno sconto che non esiste.
+
+**Come si ripara:** Togliere il riquadro e il paragrafo da shipping/page.tsx e la domanda dalla FAQ finché la costante è false. Meglio: far leggere quei tre punti dalla stessa costante, così il testo si spegne insieme alla funzione.
+
+### «Se il negozio è chiuso l'ordine parte alla riapertura»: in realtà il checkout lo rifiuta
+
+**Dove:** `/home/user/mycity/app/shipping/page.tsx riga 52 e /home/user/mycity/app/faq/page.tsx riga 39, contro /home/user/mycity/app/api/orders/cod/route.ts righe 278-284 e /home/user/mycity/app/api/stripe/checkout/route.ts righe 181-187` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO. Le due pagine pubbliche promettono: «Se il negozio è chiuso, l'ordine parte alla riapertura e te lo diciamo prima che tu paghi». Le due rotte che creano l'ordine fanno l'opposto: entrambe, se `!body.pickupInStore` e `isStoreClosedForOrder(s.store_hours)`, restituiscono `ApiErrors.conflict('<negozio> è chiuso in questo momento. Riprova durante gli orari di apertura indicati sulla pagina del negozio.')`. Nessun ordine viene messo in coda. Verificato anche il secondo pezzo: in app/cart/page.tsx e app/checkout/page.tsx non c'è nessun riferimento a isOpenNow né alla parola «chiuso» né a store_hours — il rifiuto arriva solo dopo che il cliente ha compilato indirizzo e telefono e premuto paga.
+
+**Come si ripara:** ① Riscrivere le due frasi con quello che succede: «Se il negozio è chiuso non puoi ordinare adesso: torna negli orari di apertura». ② Spostare l'avviso a monte: banner sul carrello e sulla scheda prodotto quando il negozio è chiuso.
+
+### La newsletter dice «Iscritto!» ma l'iscrizione non è ancora avvenuta: manca la conferma via email
+
+**Dove:** `/home/user/mycity/messages/it.json righe 161-162 (newsletter.subscribed e subscribedBox; stesse righe in en.json) · /home/user/mycity/components/NewsletterForm.tsx riga 41 · /home/user/mycity/app/api/newsletter/route.ts righe 67-99` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO. La rotta inserisce la riga con `active: false` e `confirm_token`, poi manda l'email «Confermi l'iscrizione…» col link e la frase «senza conferma non ti scriveremo»: finché il link non viene cliccato l'indirizzo resta non confermato. Il modulo però fa `setSubscribed(true)` + `toast.success(t('subscribed'))` → «Iscritto! Riceverai la newsletter ogni venerdì.», e il riquadro verde mostra «Sei iscritto. Riceverai presto le ricette di Piacenza nella tua mail.» Nessuna delle due frasi nomina l'email di conferma: chi si iscrive pensa di aver finito e non conferma mai.
+
+**Come si ripara:** Cambiare le due stringhe in it.json e en.json: «Ti abbiamo scritto: apri l'email e clicca il link per confermare l'iscrizione» e «Controlla la posta — l'iscrizione si attiva col link che ti abbiamo mandato». Aggiungere «non trovi l'email? guarda nello spam».
+
+### Gli errori di registrazione e di cambio password escono in inglese
+
+**Dove:** `/home/user/mycity/app/sign-up/page.tsx riga 152 · /home/user/mycity/app/profile/settings/page.tsx righe 150 e 167 · /home/user/mycity/lib/errors.ts righe 30-88 · translateAuthError non esportata in /home/user/mycity/app/sign-in/page.tsx righe 21-36` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO leggendo lib/errors.ts per intero. `translateAuthError` è dichiarata dentro sign-in/page.tsx e non esportata: la usa solo quella pagina. Registrazione, cambio password e cambio email chiamano `friendlyError`, che ha mappe per i codici Postgres (23505, 42501…) e per duplicate key / foreign key / permission / network / rate-limit / jwt, ma nessuna regola per gli errori di Supabase Auth. Il messaggio grezzo supera i filtri finali (lunghezza < 200, nessun a-capo, inizia con lettera) e viene restituito tale e quale: l'errore più comune della registrazione, «User already registered», arriva così al cliente piacentino.
+
+**Come si ripara:** Spostare translateAuthError in lib/errors.ts, esportarla e chiamarla dentro friendlyError per gli errori di supabase.auth. Coprire almeno: user already registered, password should be at least N characters, unable to validate email address, email rate limit exceeded.
+
+### Chi scrive all'assistenza può vedersi rispondere «[object Object]»
+
+**Dove:** `/home/user/mycity/components/SupportChatModal.tsx righe 70 e 77 · /home/user/mycity/app/api/support/conversation/route.ts (ApiErrors alle righe 29, 34, 47, 48, 65, 74) · /home/user/mycity/lib/api/responses.ts riga 14` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO. Il tipo ApiError in responses.ts è `{ ok:false; error:{ code; message; details? } }`: `error` è un OGGETTO. Il modale fa `throw new Error(j.error ?? j.message ?? 'Impossibile aprire la chat')`: `j.error` è pieno e vince, e la conversione a stringa produce «[object Object]». La riga 77 fa `toast.error(e instanceof Error ? e.message : 'Errore')` senza passare da friendlyError, quindi quella scritta arriva a schermo. Succede sul limite di richieste (riga 29) e su ogni errore interno della rotta (righe 65 e 74). La funzione giusta, `apiErrorMessage`, esiste già in lib/errors.ts con un commento che avverte esattamente di questo caso, e qui non è usata.
+
+**Come si ripara:** Riga 70: `throw new Error(apiErrorMessage(j, 'Impossibile aprire la chat'))`; riga 77: `toast.error(friendlyError(e))`.
+
+### Quando non puoi annullare un ordine, il motivo vero non ti arriva mai
+
+**Dove:** `/home/user/mycity/app/orders/[id]/page.tsx righe 193-194 · /home/user/mycity/app/api/orders/[id]/cancel/route.ts righe 40, 50, 61 · stesso schema in /home/user/mycity/components/seller/ReturnRequestCard.tsx riga 78` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO. Il server scrive messaggi precisi via ApiErrors: «Il negozio ha già accettato l ordine, non puoi più annullarlo.» (riga 50) e «Ordine già incassato in contanti: scrivi all assistenza per la restituzione.» (riga 61). Il client legge il corpo come `{ error?: string }` e fa `throw new Error(corpo.error || 'Impossibile annullare')`: `corpo.error` è l'oggetto `{code,message}`, truthy, quindi il messaggio diventa «[object Object]». Poi `onError` chiama friendlyError, che scarta quella stringa perché il filtro `/^[a-zA-ZÀ-ſ]/` di lib/errors.ts respinge la parentesi quadra, e restituisce il generico «Qualcosa non ha funzionato. Riprova fra un momento.» Il cliente riprova all'infinito una cosa che non funzionerà mai, e chi ha pagato in contanti non viene mai indirizzato all'assistenza. ReturnRequestCard riga 78 ha lo stesso `j.error ?? j.message`.
+
+**Come si ripara:** Riga 194: `throw new Error(apiErrorMessage(corpo, 'Impossibile annullare'))` importando apiErrorMessage da @/lib/errors. Stesso fix in components/seller/ReturnRequestCard.tsx riga 78.
+
+### Il campo «Password attuale» viene chiesto ma non viene mai controllato
+
+**Dove:** `/home/user/mycity/app/profile/settings/page.tsx righe 396-401 (il campo), riga 147 (l'invio), riga 419 (il disabled); `currentPassword` compare solo alle righe 61 e 398` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO con grep: `currentPassword` compare in tutto il file solo due volte — la dichiarazione dello stato (riga 61) e il binding del campo (riga 398). `handleChangePassword` controlla lunghezza e coincidenza della nuova password, poi chiama `supabase.auth.updateUser({ password: newPassword })` e basta: il valore della password attuale non viene mai letto. Il pulsante è `disabled={!newPassword || !confirmPassword}`, quindi il campo si può lasciare vuoto e la password cambia lo stesso. È un'etichetta che promette un controllo inesistente su una schermata di sicurezza dell'account.
+
+**Come si ripara:** O si toglie il campo, o si fa quello che dice: prima di updateUser verificare con `signInWithPassword({ email, password: currentPassword })` e, se fallisce, «Password attuale non corretta». Va reso obbligatorio anche nel disabled del pulsante.
+
+### Il SOS del fattorino dice «Stiamo chiamando il 112», ma l'app apre solo il tastierino
+
+**Dove:** `/home/user/mycity/components/rider/SOSButton.tsx righe 71-79, contro il dialogo di conferma a riga 135` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO. L'azione vera è `window.location.href = 'tel:112'` (riga 71): apre il compositore del telefono col numero scritto, la chiamata parte solo se il fattorino preme il tasto verde. Subito dopo, riga 76: `toast.success('SOS inviato. Stiamo chiamando il 112 e abbiamo allertato MyCity.')` — al presente, come se la chiamata fosse in corso. Il ramo di ripiego (riga 79) dice «Chiamata al 112 in corso. Se non parte, chiama subito il 112 dal telefono.», stesso difetto. Venti righe più in basso il dialogo di conferma è scritto giusto: «Verrà avviata la chiamata al 112». Il fattorino può restare ad aspettare una chiamata che nessuno ha fatto partire, nel momento peggiore.
+
+**Come si ripara:** «SOS registrato, MyCity è stata avvisata. Ora premi CHIAMA sul telefono per parlare col 112». Stessa correzione al ramo di ripiego a riga 79.
+
+### Il carrello dice «Niente intermediari, niente commissioni nascoste» venti righe sotto la riga «Consegna MyCity»
+
+**Dove:** `/home/user/mycity/app/cart/page.tsx riga 440, contro le righe 389-398 dello stesso riquadro · commissione dichiarata in /home/user/mycity/app/seller/layout.tsx riga 56 e /home/user/mycity/components/SellerApplicationForm.tsx riga 220` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO. Riquadro «Lo sapevi?»: «Acquistando qui sostieni direttamente i commercianti della tua città. Niente intermediari, niente commissioni nascoste.» Nello stesso riepilogo, poche righe sopra, la voce «Consegna MyCity» con `platformDeliveryFee` = 3 € per negozio. E nella parte venditori il sito scrive «Abbonamento €50/mese e commissione del 10% sulle vendite» (seller/layout.tsx riga 56, SellerApplicationForm riga 220). MyCity È l'intermediario e trattiene una commissione: la contraddizione si vede senza uscire dalla schermata, nel punto in cui la fiducia decide se si paga.
+
+**Come si ripara:** «Ogni euro di questo carrello va ai commercianti di Piacenza. La nostra parte è solo la consegna, ed è scritta qui sopra: nessun costo a sorpresa.» Toglie la bugia e tiene la promessa.
+
+### La home mostra un negozio inventato — «Salumeria del Borgo, Via Calzolai» — senza dire che è un esempio
+
+**Dove:** `/home/user/mycity/components/home/HeroStoreCard.tsx righe 191-258 (HeroStorePlaceholder), innesco a riga 72 (`if (!data?.store) return <HeroStorePlaceholder />`)` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO. Quando la RPC `vetrina_home` va in errore o non torna un negozio, la funzione ritorna null e l'hero mostra HeroStorePlaceholder: nome «Salumeria del Borgo», indirizzo «Via Calzolai», pill verde lampeggiante «Aperto ora», bollini «Negozio locale» e «Consegna oggi», sei prodotti con prezzi inventati (Coppa DOP €9,50, Prosciutto crudo €15,00, Bresaola €18,00…), riga «Consegna stimata — oggi, entro 18:00» e il bollino «100% locale». In tutta la scheda non c'è una parola che dica «esempio». È la prima cosa che si vede aprendo il sito (visibile da md in su) e con pochi negozi a catalogo il ripiego scatta spesso.
+
+**Come si ripara:** Scritta inequivocabile dentro la scheda — «Esempio di vetrina» al posto del bollino «100% locale» — e via «Aperto ora» e «Consegna stimata oggi». Meglio ancora: quando non c'è nessun negozio mostrare un invito vero («Stiamo aprendo le prime vetrine di Piacenza — sei un negoziante?»).
+
+### Sulla scheda prodotto «Segnala questo contenuto» e il riquadro «Venduto da» stanno sopra il nome e il prezzo
+
+**Dove:** `app/product/[id]/page.tsx:635 (colonna INFO) → SellerCard :639 → Segnala :651 → VendutoDa :655 → <h1> :662; components/products/VendutoDa.tsx:56 (<h2> «Venduto da»)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO col file davanti. Nella colonna informazioni l'ordine dei figli è esattamente: SellerCard (639), link Segnala (651), riquadro VendutoDa (655), e solo alla riga 662 l'<h1> col nome prodotto. Su telefono la griglia è a una colonna (grid-cols-1 alla riga 485), quindi dopo la foto si legge prima l'invito a segnalare e la partita IVA, poi cosa si sta comprando. Confermata anche la gerarchia dei titoli invertita: VendutoDa apre con un <h2> (riga 56 del suo file) renderizzato prima dell'<h1> della pagina.
+
+**Come si ripara:** Spostare <h1> + prezzo come primo blocco della colonna informazioni; SellerCard subito sotto il titolo; VendutoDa e Segnala in fondo alla colonna, dopo descrizione e caratteristiche.
+
+### Tra 768 e 1023 px la scheda d'acquisto finisce sotto la galleria e non c'è nessuna barra fissa
+
+**Dove:** `app/product/[id]/page.tsx:485 (grid-cols-1 md:grid-cols-2 lg:grid-cols-[1fr_1fr_320px]) con i 3 figli a :487, :635, :851 (lg:sticky) · components/StickyAddToCart.tsx:53 (md:hidden)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO. La griglia alla riga 485 ha esattamente tre figli diretti: galleria (487), informazioni (635), scheda acquisto (851). A md la griglia è a 2 colonne, quindi il terzo figlio va a capo in riga 2 sotto la galleria, cioè dopo tutta la colonna informazioni. La scheda diventa appiccicosa solo da lg (riga 851: lg:sticky lg:top-[var(--header-height)]) e la barra d'acquisto mobile è md:hidden (StickyAddToCart riga 53): nella fascia 768-1023 px non c'è né la scheda in vista né la barra fissa.
+
+**Come si ripara:** Portare la scheda acquisto a colonna dedicata già da md (md:grid-cols-[1fr_320px] con galleria e informazioni impilate), oppure alzare la soglia di StickyAddToCart da md:hidden a lg:hidden.
+
+### Nel carrello «Procedi al checkout» arriva dopo gli articoli, l'upsell e «Continua lo shopping»
+
+**Dove:** `app/cart/page.tsx:194 (grid-cols-1 lg:grid-cols-3), :347 CartUpsell, :353 «← Continua lo shopping», :358 (lg:sticky riepilogo), :418 «Procedi al checkout»; grep di 'fixed' su tutto il file: zero occorrenze` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO. La griglia è impilata fino a lg (riga 194), la colonna sinistra contiene articoli → CartUpsell (347) → «Continua lo shopping» (353), e solo dopo arriva la colonna riepilogo (358) col pulsante alla riga 418. Sotto i 1024 px l'utente incontra quindi due inviti a NON concludere prima del pulsante d'ordine. Verificato anche il confronto: app/cart/page.tsx non contiene nessun elemento 'fixed', mentre app/checkout/page.tsx:1072 ha la barra 'lg:hidden fixed inset-x-0 bottom-0' e la scheda prodotto ha StickyAddToCart. Il carrello è l'unica delle tre pagine del funnel senza barra fissa.
+
+**Come si ripara:** Aggiungere al carrello la stessa barra fissa del checkout (totale + «Procedi al checkout», lg:hidden, con lo stesso calcolo di bottom su tabbar e banner cookie) e spostare «Continua lo shopping» sotto il riepilogo.
+
+### Il banner «Installa MyCity» copre la barra «Aggiungi al carrello» sul telefono
+
+**Dove:** `components/PWAInstallBanner.tsx:92 (fixed bottom-20 … z-30) · components/StickyAddToCart.tsx:53-57 (z-30, bottom = safe-area + var(--tabbar-height) + banner cookie) · app/globals.css:116 (--tabbar-height: 72px) · tailwind.config.ts:129 ('banner': '35' con commento «PWAInstallBanner») · app/layout.tsx:127 <main> e :134 <PWAInstallBanner />` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO su tutti e quattro i file. La barra d'acquisto parte da 72 px dal fondo (--tabbar-height dichiarato a 72px in globals.css riga 116) con z-30; il banner parte da bottom-20 (80 px) con z-30 ed è alto circa 120 px: le due fasce si sovrappongono proprio dove sta il pulsante d'acquisto. A parità di z-index vince chi viene dopo nel documento, e in app/layout.tsx il banner (riga 134) è dopo <main> (riga 127). Confermato anche il dettaglio della scala: tailwind.config.ts riga 129 dichiara 'banner': '35' citando esplicitamente PWAInstallBanner, ma il componente usa il valore grezzo z-30, lo stesso della barra.
+
+**Come si ripara:** Ancorare il banner sopra le barre fisse come già fa StickyAddToCart (bottom = calc(env(safe-area-inset-bottom) + var(--tabbar-height) + altezza barra acquisto)), oppure non mostrarlo su /product, /cart e /checkout.
+
+### La tendina dell'indirizzo di consegna esce dallo schermo sul telefono
+
+**Dove:** `components/LocationPill.tsx:105 (absolute left-0 top-full mt-2 w-72) · components/Navbar.tsx:176-178 (<div className="min-w-0 flex-1 flex justify-center"><LocationPill compact /></div>)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO. Il pannello è 'absolute left-0 top-full mt-2 w-72' (riga 105): larghezza fissa 288 px ancorata al bordo sinistro della pillola. In Navbar la pillola mobile è dentro un contenitore centrato fra logo e carrello (righe 176-178), quindi su uno schermo da 360 px il pannello parte da circa metà larghezza e sfora il bordo destro. Dentro ci sono il campo CAP e il pulsante Salva a larghezza piena, quindi tagliati. Nessun overflow-x nascosto sugli antenati (grep su globals.css: nessuna regola).
+
+**Come si ripara:** Su mobile ancorare il pannello a destra o centrarlo rispetto alla finestra, e limitarne la larghezza a min(288px, calc(100vw - 24px)).
+
+### Sulla barra categorie mobile si vede solo la prima voce e niente dice che la riga scorre
+
+**Dove:** `components/CategoryBar.tsx:90 (flex items-center gap-1 overflow-x-auto scrollbar-hide) e :21-29 (sette DESTINATIONS) · components/Navbar.tsx:86 e :213-216 (barra mostrata su tutti i formati)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO, con una correzione di riga: la riga scorrevole è alla riga 90, non 101. Contiene il pulsante «Tutte le categorie» più sette destinazioni (Tutti i negozi, Promozioni, Novità, Regali, Vicino a te, Più venduti, Piccoli prezzi, righe 21-29), tutte con shrink-0 e whitespace-nowrap. La classe scrollbar-hide toglie la barra di scorrimento e nel file non esiste nessuna affordance sostitutiva: grep di 'gradient', 'fade', 'ChevronLeft/Right' sul componente non trova nulla. La barra è renderizzata su tutti i formati (Navbar riga 214, nessun hidden md:block).
+
+**Come si ripara:** Aggiungere l'affordance: sfumatura sui bordi quando c'è altro da scorrere, o lasciare visibile una barra sottile, o mandare a capo le voci in due righe compatte sotto sm.
+
+### La chat di assistenza esiste ma il cliente non ha nessun modo per aprirla
+
+**Dove:** `components/MobileTabBar.tsx:95-102 (schede del compratore) e :245 (SupportChatModal con supportOpen) · components/SupportChatButton.tsx:27-36 (hidden se isBuyer) · lib/account-menu.ts:82-85 (solo Impostazioni e FAQ)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO, ed è peggio di come descritto. Il flag isSupport compare nel tipo Tab (riga 17) e nel render (righe 176, 191, 194), ma NESSUN array di schede lo imposta — né quello del compratore autenticato (95-102: Home, Cerca, Carrello, Ordini, Io), né quello dell'ospite (104-111), né quelli di venditore/rider. Quindi setSupportOpen (unica chiamata alla riga 194) non viene mai eseguito e il SupportChatModal della riga 245 non si apre mai. In parallelo SupportChatButton è nascosto esplicitamente ai compratori (riga 31: isBuyer nella condizione hidden) e il menu account offre solo FAQ (account-menu.ts riga 84). Risultato: canale di assistenza caricato nel pacchetto e irraggiungibile.
+
+**Come si ripara:** Decidere una porta sola e aprirla: rimettere la scheda «Assistenza» fra quelle del compratore, o togliere isBuyer dalla condizione di SupportChatButton, o aggiungere la voce nel menu account. Se la chat non deve esistere per i clienti, rimuovere il modale morto dalla barra.
+
+### Nel piè di pagina l'icona WhatsApp porta a un numero segnaposto
+
+**Dove:** `components/Footer.tsx:74 (href 'https://wa.me/393000000000' scritto a mano) · Footer.tsx:164 (stesso canale via NEXT_PUBLIC_WHATSAPP_NUMBER) · .env.example:127 (variabile presente ma vuota)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO, con una correzione al ragionamento del collega. Alla riga 74 il link WhatsApp della fila social è scritto a mano con 393000000000, un numero finto: chi tocca l'icona verde apre WhatsApp su un contatto inesistente, e la fila social sta su ogni pagina. Il secondo punto va corretto: il link della colonna Aiuto non è alla riga 196 ma alla 164, e NON è «costruito correttamente» — ha come fallback lo stesso segnaposto (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '393000000000'), e in .env.example:127 la variabile è dichiarata vuota. Quindi finché la variabile non è configurata sono rotti entrambi i punti di contatto, non uno solo.
+
+**Come si ripara:** Usare la variabile d'ambiente in tutti e due i punti e non mostrare né l'icona né la voce quando la variabile non è configurata, come già si fa per i dati legali del titolare (Footer, blocco dati legali).
+
+### Sulla home il primo prodotto acquistabile arriva dopo tre sezioni intere
+
+**Dove:** `lib/home-site.ts:238-241 (DEFAULT_ORDER) · components/home-sections/ReorderRail.tsx:61 (ospite → self-hide) · components/home-sections/HomeSectionRenderer.tsx:88-165 (hero), :174-188 (categorie), :192-197 (dropOfDay)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** config
+
+CONFERMATO nella struttura. DEFAULT_ORDER (lib/home-site.ts righe 238-241) è: hero, reorder, howItWorks, categories, dropOfDay, popularProducts, … Per un visitatore nuovo la sezione reorder si auto-nasconde davvero (ReorderRail.tsx riga 61: 'if (!user) return null; // ospite → self-hide'), quindi l'ordine reale è hero → come funziona → categorie → primo prodotto. Sono tre sezioni piene prima di qualsiasi articolo con foto e prezzo, su una home di marketplace. Nota onesta: i pixel citati dal collega (~1000 px di hero, ~2000 px al primo prodotto) sono stime che NON ho misurato in un browser — ho confermato solo l'ordine delle sezioni e il contenuto dell'hero (occhiello, titolo, sottotitolo, due pulsanti, chip categorie, banner orario, tre rassicurazioni, card negozio: righe 88-165).
+
+**Come si ripara:** Dal Home builder (/admin/home) spostare «Prodotti popolari» subito dopo l'hero e portare «Come funziona» sotto i prodotti: è un riordino salvato in site_settings.home_site, non richiede una nuova pubblicazione del sito.
+
+### Sentry finisce nel pacchetto di tutte e 245 le pagine anche senza DSN configurato
+
+**Dove:** `instrumentation-client.ts:13 e :20 — chunk .next/static/chunks/8359-fc97602f615bd966.js, presente in 245/245 voci di .next/app-build-manifest.json (incluso /layout)` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato col file davanti. La riga 13 è `import * as Sentry from '@sentry/nextjs'` (import statico) e la riga 20 riesporta `Sentry.captureRouterTransitionStart`: entrambe finiscono nel pacchetto a prescindere dalla condizione `if (SENTRY_DSN)` di riga 16. Il commento del file («senza il DSN configurato questo file non fa niente e non costa niente») è smentito dal build presente nella cartella: nel repo non esiste nessun .env con il DSN (c'è solo .env.example), eppure il chunk 8359 contiene codice dell'SDK browser di Sentry (stringhe `browserTracingIntegration`, `sentry-trace`, `sentry.sdk.version`) ed è elencato in tutte e 245 le voci del manifest, /layout compreso — quindi lo scarica anche chi apre solo la home o il checkout. CORREZIONE al collega: il chunk pesa 426 KB non compressi e 137.904 byte compressi (134 KB), ma è un chunk CONDIVISO — contiene anche moduli interni di Next (il primo modulo è `createRenderParamsFromClient`) — quindi quei 134 KB non sono tutti Sentry: la parte di Sentry è consistente ma non l'ho isolata. Resta vero e verificato il difetto: codice inerte spedito a ogni pagina.
+
+**Come si ripara:** Togliere l'import statico e accendere Sentry solo col DSN presente, via import dinamico: `if (SENTRY_DSN) { import('@sentry/nextjs').then((S) => S.init(opzioniSentry())); }`. Per `onRouterTransitionStart` esportare una funzione che inoltra al modulo caricato a runtime invece di riesportare il simbolo. NON seguire il consiglio di «escludere l'integrazione Replay»: nel chunk `replayIntegration` non compare (Sentry la carica a parte), quindi non è lì che sta il peso. Misurare il prima/dopo con `ANALYZE=true npm run build` sul chunk condiviso del layout.
+
+### La foto grande della scheda prodotto viene scaricata due volte: il preload chiede 800 pixel, una misura che Next non chiederà mai
+
+**Dove:** `app/product/[id]/layout.tsx:138-147 (preload) contro app/product/[id]/page.tsx:500-508 (immagine con `loader`) e lib/image-loader.ts:47-63, lib/image-url.ts:18` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato. Il guscio server calcola `sizedImage(product.images[0], 'detail')` e lo mette in `<link rel="preload" as="image" … fetchPriority="high">`; `detail` vale 800 (SIZE_PX in lib/image-url.ts), quindi l'URL preloadato porta `width=800` (o `w=800&h=800` su Pexels). Nella pagina la stessa immagine ha `loader={caricatoreFotoRemote}` e un attributo `sizes`, e il caricatore riscrive `width`/`w`/`height`/`h` con la larghezza che sceglie Next (image-loader.ts:57-61). In next.config.js non c'è nessun `images.deviceSizes`, quindi valgono i valori predefiniti (640, 750, 828, 1080, 1200, 1920, 2048, 3840 più gli imageSizes): 800 non è in quella lista e non verrà mai richiesto. Il telefono scarica il file da 800 pixel del preload E poi il candidato del srcSet (750 o 828): due foto di prodotto invece di una, proprio nel momento che decide se la pagina sembra veloce. Il commento a layout.tsx:135 («l'indirizzo è lo STESSO che chiederà la pagina») non è più vero da quando esiste il caricatore.
+
+**Come si ripara:** Far combaciare le due richieste, una strada sola: (a) nel preload usare la stessa larghezza che Next chiederà e aggiungere `imageSrcSet`/`imageSizes` identici a quelli dell'immagine; oppure (b) fissare in next.config.js `images.deviceSizes` includendo 800. Poi un controllo automatico Playwright sulla scheda prodotto che fallisca se partono due richieste immagine per la stessa foto.
+
+### Scheda prodotto, negozio e checkout sono pagine client: l'HTML che parte è vuoto, i dati arrivano dopo il JavaScript
+
+**Dove:** `app/product/[id]/page.tsx:1 e :128, app/store/[id]/page.tsx:1 e :35-41, app/checkout/page.tsx:1 e :69` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato riga per riga. Tutte e tre le pagine aprono con `'use client'` e prendono i dati con `useQuery` dal browser (`supabase.from('products')…` a page.tsx:128, la query del negozio in store/[id]/page.tsx, `queryKeys.checkout.groups` a checkout/page.tsx:69). Ho cercato `HydrationBoundary`, `prefetchQuery` e `dehydrate` in tutto `app/` e `components/`: zero risultati, quindi nessun prefetch server con idratazione da nessuna parte. Durante il rendering server `isLoading` è vero e l'HTML contiene solo lo scheletro: nome, prezzo, disponibilità e foto non ci sono. La catena diventa HTML → JavaScript → idratazione → Supabase → disegno → solo ORA parte la foto. Il `priority` su page.tsx:504 non produce nessun preload nel documento — è esattamente la ragione per cui il preload è stato scritto a mano nel guscio (lo dice il commento a layout.tsx:120-131).
+
+**Come si ripara:** Prefetch sul server con idratazione: nel `layout.tsx` della rotta (che già interroga il prodotto per lo schema) fare `queryClient.prefetchQuery` con la stessa `queryKey` della pagina e avvolgere in `<HydrationBoundary state={dehydrate(queryClient)}>`. La pagina resta client ma nasce coi dati dentro, e il preload torna a essere quello automatico di Next. Cominciare dalla scheda prodotto e misurare LCP prima/dopo con Lighthouse in throttling.
+
+### Lo scheletro della griglia non ha la forma delle schede vere: al caricamento la pagina salta
+
+**Dove:** `components/SkeletonCard.tsx:3 (`w-full h-48`) e :17 (`grid-cols-2 sm:grid-cols-3 md:grid-cols-4`) contro components/ProductCard.tsx:153 (`aspect-square w-full`), components/ProductGrid.tsx:496-499 (colonne vere) e :386-391 vs :477-481 (rail)` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato, tre disallineamenti misurabili. ① Altezza foto: lo scheletro fissa `h-48` (192 px sempre), la scheda vera usa `aspect-square` (altezza = larghezza). Su un telefono da 360 px a due colonne la scheda è larga ~156 px, quindi la foto vera è alta ~156 e non 192: ogni riga si accorcia di ~36 px quando i prodotti arrivano. ② Rail: lo stato di caricamento (ProductGrid.tsx:386-391) mette SkeletonCard dentro un contenitore `w-40 sm:w-44`, e il rail vero (righe 477-481) usa lo stesso `w-40 sm:w-44` con ProductCard aspect-square: 160 px di foto vera contro 192 di scheletro, 32 px di salto. ③ Colonne: `SkeletonGrid` si ferma a `md:grid-cols-4`, mentre `gridCols` in ProductGrid.tsx:496-499 arriva a `lg:grid-cols-5 xl:grid-cols-6`: su desktop lo scheletro mostra 4 colonne larghe e i prodotti ne mostrano 6 strette, e la pagina si ridisegna tutta. È CLS, quello che Google misura e che fa cadere il dito sul bottone sbagliato.
+
+**Come si ripara:** Far riusare allo scheletro le stesse classi della scheda vera: sostituire `w-full h-48` con `aspect-square w-full`, e in `SkeletonGrid` usare la stessa stringa di colonne di `gridCols`, estratta in una costante condivisa in un file solo così non possono più divergere. Aggiungere un test che confronti l'altezza della griglia in caricamento e a caricamento finito e fallisca oltre pochi pixel di differenza.
+
+### Le miniature del carrello, dell'upsell e dei caroselli sono a 100 pixel dentro riquadri da 128-160: escono sfocate
+
+**Dove:** `app/cart/page.tsx:229-237 (riquadro 96px), components/cart/CartUpsell.tsx:99-107 (w-36 = 144px), components/RecentlyViewed.tsx:78-87 (w-36/w-40, aspect-square), components/SponsoredCarousel.tsx:146-147 (w-32/w-36, aspect-square); marginali: components/checkout/CartGroupsList.tsx:32-40 (40px) e components/products/SellerCard.tsx:142-149 (48px)` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato in tutti e sei i punti: ognuno scrive `sizedImage(img, 'thumb')` insieme a `unoptimized`. `thumb` vale 100 px (lib/image-url.ts:16) e `unoptimized` azzera sia `srcSet` sia `sizes` — è lo stesso difetto già documentato e corretto altrove, sta scritto nel commento di lib/image-loader.ts:14-22 — quindi gli attributi `sizes="144px"`/`sizes="160px"` accanto a queste immagini non fanno più niente. Nell'upsell del carrello il riquadro è largo 144 px e la sorgente resta 100: sfocata già a 1×. In RecentlyViewed il riquadro è 144-160 px quadrato, nel carosello sponsorizzato 128-144: idem. Nel carrello il riquadro è 96 px, quindi su un telefono a 3× servirebbero 288 px e ne arrivano 100. CORREZIONE al collega: i due casi da 40 px (CartGroupsList) e 48 px (SellerCard) sono marginali — a 1× e 2× i 100 px bastano, mancano solo a 3× — vanno sistemati con gli altri ma non sono il problema visibile. Sono le foto che il cliente guarda mentre decide se confermare l'ordine.
+
+**Come si ripara:** Ovunque ci sia `unoptimized` su una foto di prodotto o logo negozio: toglierlo e mettere `loader={caricatoreFotoRemote}` (import da '@/lib/image-loader'), lasciando `sizes` con la misura reale del riquadro — così il caricatore torna a chiedere a Supabase la larghezza giusta e `sizes` ricomincia a funzionare. Poi una regola di lint (o un test grep sul repo) che vieti `unoptimized` insieme a `sizedImage`: è la combinazione che si contraddice.
+
+### Sulla scheda prodotto partono subito dieci richieste, quattro delle quali servono solo a fondo pagina
+
+**Dove:** `app/product/[id]/page.tsx:128, :166, :186 (3 query) più SimilarProducts.tsx:36, RecentlyViewed.tsx:39, ProductQA.tsx:59, products/FrequentlyBoughtTogether.tsx:48, products/SellerCard.tsx:57, products/VendutoDa.tsx:20, ActivePromoBadge.tsx:29` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato contando le `useQuery` nei file. Dalla pagina partono in blocco dieci interrogazioni a Supabase (tre nella pagina: prodotto, varianti, recensioni; sette dai componenti), più quelle del guscio. Le quattro più grosse — «prodotti simili», «visti di recente», «domande e risposte», «spesso comprati insieme» — riguardano sezioni che stanno sotto la piega, e nessuna è condizionata alla visibilità: le uniche `enabled` che ho trovato sono `!!productId`, `!!userId`, `!!sellerId`, cioè l'esistenza dell'id. In tutto il progetto `IntersectionObserver` compare in un file solo (components/SponsoredCarousel.tsx). Su rete mobile queste richieste occupano le connessioni nello stesso istante in cui devono arrivare prezzo e foto grande. CORREZIONE al collega: le richieste sono dieci, non undici, e AddToListButton NON va nell'elenco — le sue due query hanno già `enabled: open` (righe 33 e 48), cioè partono solo all'apertura del menu.
+
+**Come si ripara:** Rimandare le sezioni sotto la piega: avvolgere SimilarProducts, RecentlyViewed, ProductQA e FrequentlyBoughtTogether in un componente che monta il figlio solo quando entra nel viewport (IntersectionObserver con `rootMargin: '200px'`), oppure passare `enabled: visibile` alle loro `useQuery`. Regola da scrivere una volta e riusare: sopra la piega si carica subito, sotto la piega quando ci si arriva. Misurare con Lighthouse in throttling 4G il tempo fino al prezzo visibile, prima e dopo.
+
+### Le tessere delle categorie in home compaiono dal nulla: nessuno stato di caricamento, la pagina si allunga di colpo
+
+**Dove:** `components/CategoryShowcase.tsx:75 (`const { data: categories = [] } = useQuery`) e :95-96, richiamato da components/home-sections/HomeSectionRenderer.tsx:174-188` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato. Il componente destruttura `data: categories = []` e non legge mai `isLoading`: non esiste nessun ramo di caricamento. Finché la richiesta non torna, la `div` con `grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6` esiste ma è vuota, quindi altezza zero; poi arrivano sei tessere `aspect-[4/3]` tutte insieme e la sezione si apre. Il titolo «Cosa cerchi oggi?» e il sottotitolo sono scritti nel renderer (HomeSectionRenderer.tsx:178-185), che non è un componente client: arrivano nell'HTML dal server. Quindi il cliente legge una domanda sopra il vuoto e tutto ciò che sta sotto scende. È la sezione subito dopo l'hero, cioè nella parte alta della home. Nello stesso repo StoreShowcase.tsx:69-83 fa già la cosa giusta.
+
+**Come si ripara:** Aggiungere il ramo `isLoading` come in StoreShowcase.tsx:69-83: sei riquadri `aspect-[4/3]` con la classe `.skeleton` di globals.css, nella stessa griglia `grid-cols-2 sm:grid-cols-3 lg:grid-cols-6`, così lo spazio è occupato prima. Ancora meglio: le categorie cambiano di rado, leggerle nel componente server della home e passarle come props, togliendo del tutto la richiesta dal browser.
+
+### Pagina negozio: prima uno scheletro a schede, poi un cerchietto che gira, poi il negozio — tre impaginazioni in fila
+
+**Dove:** `app/store/[id]/loading.tsx:4-10 contro app/store/[id]/page.tsx:35-41 (`<LoadingState />`, variante predefinita 'spinner') e components/store-sections/HeroSection.tsx:89 (`h-60`)` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato aprendo i tre file. ① `loading.tsx` disegna una banda `h-48` (192 px) più una griglia di otto quadrati `aspect-square`. ② Appena il componente client monta, `data.isLoading` è vero e la pagina diventa `container … py-16` con dentro `<LoadingState />` senza prop: il default di `variant` è `'spinner'` (components/ui/LoadingState.tsx:29 e :44-49), cioè una `div` `py-12 text-center` con un cerchietto e la scritta di attesa — la pagina si accorcia da schermo pieno a poche righe. ③ Poi arriva il negozio vero, la cui copertina è `h-60` (240 px), non 192. Tre impaginazioni in sequenza sono peggio di una lenta: comunicano che il sito non sa cosa sta facendo.
+
+**Come si ripara:** Uno stato di caricamento solo, e che assomigli alla pagina finita. Alla riga 36 di page.tsx sostituire `<LoadingState />` con lo stesso scheletro di `loading.tsx`, e in `loading.tsx` portare la banda da `h-48` a `h-60` per combaciare con l'hero vero. Col prefetch server del negozio (vedi la voce sulle pagine client) lo stato ② sparisce del tutto.
+
+### Nel checkout, mentre arrivano i gruppi del carrello, la pagina diventa un cerchietto in mezzo al bianco
+
+**Dove:** `app/checkout/page.tsx:818-820 (`if (loadingGroups) return <LoadingState />;`) con components/ui/LoadingState.tsx:29 e :43-49` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato. `LoadingState` senza prop usa `variant = 'spinner'` (valore di default nella firma, riga 29): una `div` `py-12 text-center` con `Loader2` e la scritta di attesa. Nel checkout quel `return` sostituisce l'INTERA pagina — titolo, indicatore dei passi, riepilogo, bottone di pagamento — con poche righe al centro: la pagina collassa e poi si riapre, e chi sta pagando vede il contenuto sparire nel punto in cui è più teso. È anche l'unica pagina del percorso d'acquisto senza scheletro, mentre home, ricerca, prodotto e negozio ne hanno uno.
+
+**Come si ripara:** Sostituire con uno scheletro che ricalchi la struttura vera: barra dei passi (è statica, si può disegnare subito), due o tre blocchi `.skeleton` per indirizzo/consegna/pagamento e il riquadro riepilogo a destra. In più `StepIndicator` e il titolo non dipendono dai dati, quindi possono restare a schermo sempre: solo la parte centrale mostra lo scheletro.
+
+### Il cuore dei preferiti non si riempie subito: tre giri di rete prima che l'utente veda un effetto
+
+**Dove:** `components/hooks/useFavorites.ts:28-40, usato da components/ProductCard.tsx:64, :68 e :96-108` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato. La `mutationFn` (riga 30) fa `await supabase.auth.getUser()`, che è una chiamata di rete, poi l'insert o la delete (seconda chiamata), e solo `onSuccess` (riga 40) invalida la cache — che scatena la terza richiesta per rileggere l'elenco. Non c'è nessun `onMutate`, cioè nessun aggiornamento ottimistico: `isFav` (ProductCard.tsx:68) legge il Set della cache, quindi il cuore resta grigio per tutto il giro. L'unica cosa immediata è l'animazione `heartBeat` (righe 99-101), che pulsa su un cuore che non è cambiato. Su rete lenta il cliente tocca due o tre volte convinto di aver sbagliato mira. Effetto collaterale: l'invalidazione fa ridisegnare insieme tutte le schede della griglia (fino a 96 per pagina, ProductGrid.tsx:132 e :189). Nota: la query di lettura (riga 17) usa già `idUtenteInMemoria()`, che non chiama la rete — la `getUser()` nel percorso critico della scrittura è un'incoerenza interna al file.
+
+**Come si ripara:** Aggiornamento ottimistico standard di React Query: `onMutate` che annulla le richieste in volo, salva il Set precedente e lo aggiorna subito, `onError` che rimette indietro, `onSettled` che invalida. E togliere `supabase.auth.getUser()` dal percorso critico usando `idUtenteInMemoria()`, già importato alla riga 7 dello stesso file.
+
+
+## Minori (120)
+
+### Il menu laterale dell'area cliente si incolla troppo in alto e finisce sotto la barra del sito
+
+**Dove:** `components/account/AccountShell.tsx:108 e components/ui/LegalLayout.tsx:78 (entrambi lg:sticky lg:top-24)` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO come incoerenza interna, non come stima di pixel. Le due colonne si fermano a 96px dal bordo (`lg:top-24`), mentre l'intestazione del sito e' `md:sticky md:top-0` (Navbar.tsx:89) e il progetto stesso dichiara la sua altezza in --header-height = 9rem = 144px (app/globals.css:107), valore usato da tutte le altre colonne sticky (search:304, category:337, cart:358, checkout:1020, product:851, profile/settings:310). Con 96 contro 144, scorrendo, i primi ~48px del menu account — angolo arrotondato, bordo e prima voce — passano sotto l'intestazione e non sono piu' cliccabili. Identico sull'indice laterale delle pagine legali. Severita' abbassata da grave a minore: e' un'occlusione parziale su desktop, non un blocco del percorso d'acquisto.
+
+**Come si ripara:** Sostituire `lg:top-24` con `lg:top-[var(--header-height)]` in entrambi i file, cosi' l'altezza dell'intestazione ha una casa sola.
+
+### Nel costruttore della vetrina l'anteprima scorre sotto la barra del pannello venditore
+
+**Dove:** `components/seller/site/SitePreview.tsx:51, usata da components/seller/site/PageEditor.tsx:117 dentro components/seller/SellerShell.tsx:333` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO nel rapporto fra i due valori (l'altezza esatta della barra non l'ho misurata a schermo). L'anteprima e' `lg:sticky lg:top-4`, cioe' si ferma a 16px dal bordo, mentre la barra dell'area venditore e' `sticky top-0 z-sticky` (SellerShell.tsx:333) con `px-4 py-3` e dentro un campo di ricerca: 24px di padding piu' l'altezza dell'input, quindi ben oltre 16px in qualunque conto. L'anteprima non ha z-index proprio, la barra ha z-sticky: scorrendo, la barra le passa sopra e copre il bordo superiore dell'anteprima. Severita' abbassata da grave a minore: strumento interno, contenuto solo parzialmente coperto.
+
+**Come si ripara:** Introdurre una variabile --seller-topbar-height scritta da SellerShell (come si fa gia' con --header-height sul sito pubblico) e usarla qui al posto di `lg:top-4`.
+
+### Sulla dashboard del negoziante l'incasso esce dal suo riquadro sopra i cento euro
+
+**Dove:** `app/seller/dashboard/page.tsx:249 (grid grid-cols-3) e :324-331 (HeroStat)` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO con una correzione. I tre riquadri sono `grid grid-cols-3 gap-2.5 sm:gap-3` senza alcuna variante responsive, dentro un hero `p-6 sm:p-8` dentro un main `px-4` (SellerShell.tsx:401). A 360px: 360 - 32 - 48 = 280px, meno 20px di spazi diviso 3 = ~87px per riquadro; tolto il px-3 di HeroStat restano ~63px. Il valore e' `text-lg font-bold` (18px) e formatPrice (lib/format.ts:1) produce «€234.56», una parola sola senza punti di rottura: con Inter misura ~70px, «€1234.56» ~81px. Il numero esce quindi dal riquadro semitrasparente e va a sovrapporsi al bordo del riquadro accanto (il gap e' 10px). Correggo il collega su un punto: il testo NON viene tagliato dall'overflow-hidden dell'hero (riga 201), perche' fra l'ultimo riquadro e il bordo restano i 24px del p-6; il difetto e' lo sbordo, non il taglio. Per questo scendo da grave a minore.
+
+**Come si ripara:** Rendere responsive la griglia (`grid-cols-1 sm:grid-cols-3`, oppure `grid-cols-2 sm:grid-cols-3` col terzo a tutta larghezza) e ridurre il corpo sul telefono (`text-base sm:text-2xl`); in aggiunta far usare a formatPrice il formato italiano. Verificare a 360px con un valore a quattro cifre.
+
+### Le schede finte del caricamento non hanno la forma di quelle vere: la griglia si riassesta due volte
+
+**Dove:** `components/SkeletonCard.tsx:3 e :17 contro components/ProductCard.tsx:153 e components/ProductGrid.tsx:496-499` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO, due scarti leggibili nei file. Altezza: la scheda finta ha la foto `w-full h-48` (192px fissi), la card vera usa `aspect-square` (ProductCard.tsx:153), quindi la foto e' alta quanto la card e' larga — 156px in griglia a due colonne su 360px, 160px nelle rail w-40. A prodotti caricati ogni riga si accorcia di circa 34px. Colonne: SkeletonGrid si ferma a `md:grid-cols-4` mentre la griglia vera (ProductGrid.tsx:499, ramo default) arriva a `lg:grid-cols-5 xl:grid-cols-6`: su un monitor largo si passa da 4 colonne di segnaposti a 6 di prodotti.
+
+**Come si ripara:** Allineare i due componenti: `aspect-square` al posto di `h-48` nella scheda finta, e in SkeletonGrid le stesse classi di colonna della griglia vera (lg e xl compresi), meglio estraendo la stringa delle colonne in una costante condivisa.
+
+### La barra dei tre passi del checkout va a capo su tutti i telefoni
+
+**Dove:** `components/checkout/StepIndicator.tsx:19-33 e :56-68, usata in app/checkout/page.tsx:833 e app/cart/page.tsx:192` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO. Il contenitore e' `flex items-center justify-center gap-4 sm:gap-8 mb-8 flex-wrap` e ogni passo e' avvolto in un `flex items-center gap-4 sm:gap-8` che tiene insieme il passo e il trattino `w-8`. Ogni passo e' pallino w-7 h-7 + gap-2 + etichetta text-sm. A 14px con Inter i tre blocchi misurano circa 142 + 150 + 94 px, piu' 32px di spazi esterni: oltre 400px contro i 328 disponibili a 360px di schermo e i 358 a 390px. Il terzo blocco va a capo e in fondo alla prima riga resta un trattino sospeso. Succede sia nel carrello (currentStep 1) sia nel checkout (currentStep 2).
+
+**Come si ripara:** Nascondere i trattini sul telefono (`hidden sm:block` sul div di riga 67) e stringere gli spazi (`gap-2 sm:gap-8`), oppure sostituire l'indicatore con la forma compatta «Passo 2 di 3» sotto i 640px.
+
+### Toccando «N recensioni» sul telefono il titolo si ferma con 144px di vuoto sopra
+
+**Dove:** `app/product/[id]/page.tsx:950 (scroll-mt-[var(--header-height)]) e :699 (il link) contro components/Navbar.tsx:89` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO, ma solo per meta' del rilievo del collega. La parte che tengo: la sezione recensioni ha `scroll-mt-[var(--header-height)]` (riga 950), cioe' 144px di margine di scorrimento a tutti i breakpoint, e il link `<a href="#recensioni">` di riga 699 e' visibile anche su telefono; ma l'intestazione e' `relative md:sticky md:top-0` (Navbar.tsx:89), quindi sotto md NON e' fissa e quel margine diventa vuoto inutile (con scroll-behavior: smooth attivo, globals.css:130). La parte che SCARTO: che --header-height (9rem) sia piu' bassa dell'intestazione vera di 5-9px non l'ho potuto confermare leggendo il codice — dipende dal rendering reale dei font e va misurata a schermo, non dedotta.
+
+**Come si ripara:** Usare uno scroll-margin che valga zero dove l'intestazione non e' fissa: `scroll-mt-4 md:scroll-mt-[var(--header-height)]` sulla sezione di riga 950.
+
+### In fondo a ogni pagina mobile restano ~14px di vuoto: l'altezza della barra a schede e' dichiarata piu' alta di quella vera
+
+**Dove:** `app/globals.css:117 e :207-209 (--tabbar-height: 72px) contro components/MobileTabBar.tsx:139-142 e :169` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO. La variabile vale 72px e regola il padding inferiore del body sotto i 768px (globals.css:207-209), l'offset di StickyAddToCart (riga 57) e quello del banner cookie. La barra vera: `tabClass` (MobileTabBar.tsx:140) e' `flex flex-col items-center justify-center gap-0.5 py-2`, dentro icona 22px e etichetta text-[11px] con interlinea ereditata 1.5, piu' il bordo superiore della nav (riga 169) — circa 58px in tutto. Ne segue una striscia vuota di ~14px in fondo a tutte le pagine mobile e una barra d'acquisto che galleggia sopra la barra a schede invece di appoggiarcisi.
+
+**Come si ripara:** Portare --tabbar-height a 3.5rem, oppure farla scrivere da MobileTabBar misurando la propria altezza reale, come gia' fatto per --altezza-banner-cookie.
+
+### Su iPhone lo spazio della barra di sistema viene contato due volte sotto le barre d'acquisto
+
+**Dove:** `components/StickyAddToCart.tsx:54 e :57; app/checkout/page.tsx:1071-1073` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO in entrambi i punti. In StickyAddToCart il contenitore ha la classe `pb-safe` (che in globals.css:198 applica padding-bottom: env(safe-area-inset-bottom)) e insieme lo stile inline `bottom: calc(env(safe-area-inset-bottom, 0px) + var(--tabbar-height) + var(--altezza-banner-cookie, 0px))`. La barra di conferma del checkout ha sia `pb-[calc(0.75rem+env(safe-area-inset-bottom))]` sia `bottom: calc(env(safe-area-inset-bottom, 0px) + var(--altezza-banner-cookie, 0px))`. Su un iPhone con 34px di safe area la barra viene sollevata di 34px e ne aggiunge altri 34 di padding interno: sotto la card resta circa il doppio del vuoto previsto.
+
+**Come si ripara:** Contare la safe area una volta sola: togliere `pb-safe` da StickyAddToCart (riga 54) lasciando il calcolo nell'offset, e nella barra del checkout togliere env(safe-area-inset-bottom) dal padding lasciando il py-3.
+
+### La vetrina del negozio sborda di 8px per lato e fa comparire lo scorrimento orizzontale sui tablet
+
+**Dove:** `components/store-sections/CollectionSection.tsx:70 dentro app/store/[id]/page.tsx:109 e app/store/[id]/[slug]/page.tsx:69` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO. La riga scorrevole della collezione usa `-mx-4 px-4 sm:-mx-6 sm:px-6`, schema corretto solo se il contenitore ha `px-4 sm:px-6` (come ProductGrid.tsx:477). Le due pagine vetrina usano invece `container mx-auto px-4 py-6 max-w-5xl`, con px-4 a tutti i breakpoint. Da 640px in su la riga si allarga di 24px per lato mentre il contenitore ne ha 16: 8px di sbordo per lato. Il progetto non personalizza `container` in tailwind.config.ts, quindi a 640, 768 e 1024px il container coincide col viewport e non c'e' margine che assorba lo sbordo; ne' html ne' body hanno overflow-x hidden, quindi lo scorrimento e' reale.
+
+**Come si ripara:** Allineare le due classi: `px-4 sm:px-6` sul contenitore delle due pagine store, oppure togliere la variante sm dalla riga scorrevole lasciando `-mx-4 px-4`.
+
+### Le schede della vetrina («Prodotti · N», «Info & orari», «Recensioni · N») si spezzano su due righe
+
+**Dove:** `components/store-sections/SectionRenderer.tsx:163 (tablist) e :180 (bottoni)` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO. Il tablist e' `flex gap-1 border-b border-cream-300`, senza flex-wrap e senza overflow-x-auto, e ogni scheda e' `-mb-px border-b-2 px-4 py-2.5 text-sm` senza whitespace-nowrap. Le etichette portano i conteggi (tabLabel, righe 115-119: «Recensioni · N», «Prodotti · N»). Con tre schede attive la larghezza naturale supera i 380px, contro i 328 disponibili a 360px di schermo e i 358 a 390px: i bottoni si comprimono e l'etichetta va a capo dentro la scheda, lasciando una barra a due righe disallineata. Sopra i ~400px il problema sparisce.
+
+**Come si ripara:** Rendere la barra scorrevole come le altre del sito: `overflow-x-auto scrollbar-hide` sul tablist e `whitespace-nowrap shrink-0` sui bottoni — lo stesso schema di components/store-sections/StoreNav.tsx:15.
+
+### Nella ricerca su telefono i pulsanti Ordina e Filtri compaiono sopra il titolo della pagina
+
+**Dove:** `app/search/page.tsx:301-325 contro app/category/[slug]/page.tsx:314-318` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO. La ricerca e' una griglia `grid-cols-1 md:grid-cols-4` (riga 301): il primo figlio e' l'aside dei filtri, `hidden` sotto md (riga 304); il secondo e' il blocco `md:hidden` coi due pulsanti allineati a destra (riga 324); solo il terzo (riga 432) contiene briciole di pane, titolo e conteggio. Su telefono si vedono quindi due pulsanti sospesi prima di sapere su che pagina si e'. La pagina categoria fa il contrario: `<div className="md:col-span-4">{header}</div>` a riga 318, prima dell'aside e dei pulsanti. Due pagine gemelle che si comportano in modo diverso.
+
+**Come si ripara:** Spostare il blocco dei pulsanti dopo il blocco risultati, o dargli `order-2` con `order-1` sul blocco risultati, allineando la ricerca al comportamento gia' corretto della categoria.
+
+### Il piede di pagina non e' allineato col resto del sito sul telefono
+
+**Dove:** `components/Footer.tsx:99 (px-6) contro le pagine pubbliche (px-4 sm:px-6)` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO. Il contenitore del piede e' `container mx-auto px-6 py-12 grid ...` (riga 99): 24px di margine laterale a tutti i breakpoint. Le pagine pubbliche usano `px-4 sm:px-6` (search:301, category:314, cart:189, checkout, store, home): 16px sul telefono. Sotto i 640px il testo del piede e' quindi rientrato di 8px rispetto a tutto quello che sta sopra, e il bordo sinistro dei contenuti si sposta a fine pagina.
+
+**Come si ripara:** Sostituire `px-6` con `px-4 sm:px-6` alla riga 99.
+
+### La barra «modifica in blocco» del venditore finisce sotto la barra di sistema dell'iPhone
+
+**Dove:** `app/seller/products/page.tsx:453` · **Area:** Layout e adattamento agli schermi · **Corsia:** codice
+
+CONFERMATO. La barra e' `fixed inset-x-0 bottom-0 z-sticky flex items-center justify-between gap-3 border-t border-cream-300 bg-surface-0 px-5 py-3 shadow-warm-xl` e non prevede alcuna safe area, ne' con pb-safe ne' con env(safe-area-inset-bottom) nell'offset. Su un iPhone con barra gestuale i pulsanti «Annulla» e «Salva modifiche» cadono negli ultimi ~34px riservati dal sistema. Tutte le altre barre in fondo del progetto la gestiscono (MobileTabBar.tsx:169, StickyAddToCart.tsx:54-57, checkout:1072). Lo spazio in pagina c'e' gia' (`pb-24` alla riga 170): manca solo il padding dentro la barra.
+
+**Come si ripara:** Sostituire il py-3 in basso con `pb-[calc(0.75rem+env(safe-area-inset-bottom))]`, oppure aggiungere la classe `pb-safe` gia' definita in app/globals.css:198.
+
+### Checkout: riquadri interni con angoli più tondi del contenitore che li contiene
+
+**Dove:** `app/checkout/page.tsx:863, 880, 908 (dentro gli StepCard alle righe 861 e 894)` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO, con una correzione all'etichetta del collega. Gli StepCard sono rounded-lg (12px, da Card.tsx:43). Dentro: 863 = conferma ritiro in negozio 'rounded-xl border border-olive-200'; 880 = riquadro consegna a domicilio 'rounded-xl border border-cream-300'; 908 NON è la scelta del pagamento (quella è il componente PaymentMethodSelector) ma il riquadro del credito MyCity, 'rounded-xl border-2 border-cream-300'. Tutti e tre 16px dentro un contenitore da 12px: il raggio cresce andando verso l'interno.
+
+**Come si ripara:** Portare i tre riquadri interni a rounded-lg (12px); se si adotta il punto precedente e le card del funnel passano a rounded-xl (16px), tenerli comunque un gradino sotto. Regola: il raggio diminuisce verso l'interno, mai il contrario.
+
+### Il bordo grigio freddo di Tailwind al posto del bordo sabbia del brand
+
+**Dove:** `app/stores/page.tsx:249, 263 (contro la riga 242) · app/shipping/page.tsx:63-88 · app/profile/settings/page.tsx · app/orders/[id]/review/page.tsx` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO nel meccanismo e nei punti campione, ma il conteggio del collega non l'ho potuto riprodurre. Meccanismo: Tailwind 3.4.19 (node_modules/tailwindcss/package.json) e preflight.css applica border-color: theme('borderColor.DEFAULT', currentColor); in tailwind.config.ts non c'è nessun borderColor, quindi 'border' senza colore vale gray-200 #E5E7EB, un grigio freddo, mentre il token è --border: var(--cream-300) = #EEDFBA. Caso verificato su /stores: la scheda filtri alla riga 242 è 'bg-white border border-cream-300' e dentro di essa il campo di ricerca (249) e il menu a tendina (263) hanno 'border' nudo, cioè grigio. Stessa cosa nella tabella di app/shipping/page.tsx (celle 'border p-2'). Sul numero: il collega dice 94 occorrenze su 30 file, io con due conteggi diversi ho ottenuto valori molto più alti perché il grep prende anche i 'border' seguiti dal colore — quindi il difetto è vero, il numero preciso resta da misurare. Ho abbassato la gravità da grave a minore: è un filetto di 1px a basso contrasto, si nota solo mettendo i due bordi vicini come nel caso /stores.
+
+**Come si ripara:** Due mosse. Chiudere il rubinetto: in tailwind.config.ts aggiungere theme.extend.borderColor = { DEFAULT: '#EEDFBA' }, così ogni 'border' futuro nasce sabbia. Poi, dove serve il neutro del funnel d'acquisto, scrivere esplicitamente 'border-surface-200'.
+
+### La scala tipografica è aggirata 330 volte con misure a mano
+
+**Dove:** `330 occorrenze text-[Npx] in app/ e components/ — components/seller/SellerShell.tsx, app/rider/earnings/page.tsx, app/search/page.tsx, components/admin/AdminSidebar.tsx fra i primi` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO, conteggio rifatto e coincidente: 330 occorrenze totali di text-[Npx]. Distribuzione verificata: 13px 115 volte, 11px 70, 10px 50, 15px 22, 17px 16, 32px 8, 26px 8, 34px 7, 14px 7, 22px 6, 13.5px 4, 12px 4, 12.5px 2. La scala del design system (docs/mockup/tokens/typography.css) è 10/12/14/16/18/20/24/30/36/48/60. Ci sono quindi misure fuori scala (13, 11, 15, 17, 22, 34), misure che duplicano un token esistente (12px = text-xs, 14px = text-sm, 10px = text-2xs) e perfino mezzi pixel (13.5px, 12.5px). Effetto pratico: la stessa etichetta secondaria è 13px in una pagina e 14px in un'altra.
+
+**Come si ripara:** Non serve riscrivere tutto. Prima le sostituzioni identiche (text-[10px]→text-2xs, [12px]→text-xs, [14px]→text-sm, [16px]→text-base, [18px]→text-lg, [24px]→text-2xl), poi arrotondare le vicine al gradino più prossimo (13→14, 15→16, 17→18, 22→24, 34→36) ed eliminare i mezzi pixel.
+
+### Le etichette maiuscole respirano in quattro modi diversi, e il nome del token inganna
+
+**Dove:** `components/ui/Badge.tsx:26-29 e 38 · tracking-* in app/ e components/` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO. Il design system ha un token solo per le maiuscole: --tracking-wide 0.04em (docs/mockup/tokens/typography.css:47), esposto in tailwind.config.ts come 'tracking-label'. Conteggio mio: tracking-label 9 volte, tracking-wide 47, tracking-wider 49, tracking-widest 3 (il collega diceva 9/43/46/3). Il tranello è reale e verificato: tailwind.config.ts estende letterSpacing solo con display/editorial/label, quindi l'utility 'tracking-wide' resta il default Tailwind 0.025em e NON vale 0.04em come la variabile CSS omonima — chi la scrive crede di usare il token. Badge.tsx:26-29 usa tracking-wide su tutte e quattro le varianti maiuscole, quindi i badge del sito sono già fuori token; alla riga 38 la taglia sm è 'text-[10px]' invece di 'text-2xs', che vale esattamente 10px.
+
+**Come si ripara:** Sostituire tracking-wide/wider/widest con tracking-label su tutto ciò che è maiuscolo, a partire da Badge.tsx:26-29, e portare la riga 38 a 'text-2xs'. Per togliere il tranello alla radice, ridefinire letterSpacing.wide = '0.04em' in tailwind.config.ts così i due nomi coincidono.
+
+### Il prezzo grande della home è in Inter, quello del prodotto in Fraunces
+
+**Dove:** `components/home/DropOfDay.tsx:117 vs app/product/[id]/page.tsx:711, app/cart/page.tsx:409, app/checkout/page.tsx:1077` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO. Il prodotto rispetta la regola dei prezzi editoriali in Fraunces: page.tsx:711 'text-4xl font-extrabold font-serif', totale carrello cart/page.tsx:409 'font-serif text-2xl font-extrabold', totale checkout page.tsx:1077 'font-serif text-xl font-extrabold'. Il «Drop del giorno» no: DropOfDay.tsx:117 è 'text-4xl md:text-5xl font-extrabold text-accent-300', senza font-serif, quindi Inter. È il numero più grosso del banner e sta otto righe sotto un titolo (108) che è invece 'font-serif': due caratteri diversi dentro lo stesso riquadro.
+
+**Come si ripara:** Aggiungere 'font-serif' alla riga 117 di components/home/DropOfDay.tsx. Il prezzo barrato della riga 120 può restare in Inter, come sulla card prodotto.
+
+### Il marchio «MyCity» è disegnato in quattro modi diversi, e l'anteprima nel pannello ne mostra un quinto
+
+**Dove:** `components/Navbar.tsx:99,174 · components/Footer.tsx:103 · components/admin/AdminSidebar.tsx:73-75 · app/admin/branding/page.tsx:153` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO in tutti e quattro i punti più l'anteprima. Il marchio ufficiale (docs/mockup/assets/wordmark-*.svg) è Fraunces 800, «My» in mostarda. Navbar 99 e 174: 'font-serif font-bold' + text-accent-300 — colore giusto, peso 700 invece di 800. Footer 103: 'font-serif font-bold' + text-accent-700 (#9D621C), che non è il colore ufficiale (la scelta si spiega col contrasto su crema, ma allora al design system manca la variante «su crema»). AdminSidebar 73-75: 'font-serif font-extrabold' + text-accent-300, peso giusto, MA le parole «My» e «City» sono scritte a mano mentre Navbar e Footer leggono branding.wordmark — verificato: se dal pannello si rinomina il marketplace, la sidebar admin continua a dire MyCity. app/admin/branding/page.tsx:153: l'anteprima mostrata a chi rinomina usa 'text-primary-700', terracotta, un colore che il logo non ha in nessuna delle quattro rese reali.
+
+**Come si ripara:** Un solo componente <Wordmark surface="dark|light|cream" /> in components/ui/, che legga branding.wordmark, usi sempre font-serif + font-extrabold e mappi il colore: dark → accent-300, light → accent-500, cream → accent-700. Sostituirlo nei quattro punti, anteprima del pannello compresa. Se il caso «su crema» resta accent-700, aggiungere wordmark-oncream.svg e documentarlo.
+
+### La lista di sicurezza di Tailwind tiene in vita 72 classi fuori brand che non usa nessuno
+
+**Dove:** `tailwind.config.ts:24-29` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO. Il safelist forza (bg|text|border) × (sky, violet, emerald, amber, indigo, rose, slate, pink, blue) × (100,200,600,700) = 108 classi. Ho contato le occorrenze reali in app/, components/, lib/ e stories/: sky 0, violet 0, indigo 0, slate 0, pink 0, blue 0 — sei famiglie su nove non le usa nessuno, cioè 72 classi generate a vuoto (amber 25, emerald 14, rose 118 sono invece usate). Il commento alle righe 21-23 le giustifica dicendo che le dashboard admin compongono classi dinamiche 'text-${color}-600': motivazione decaduta, verificata sui due file citati — app/admin/activity/page.tsx e app/admin/funnel/page.tsx ora usano mappe statiche e lo dichiarano nei commenti («Classi STATICHE per tono», «Mappa STATICA dei toni»). Il danno non è il peso ma il fatto che il safelist legittimi classi blu/indaco/ardesia in un sistema che quei colori li ha esclusi.
+
+**Come si ripara:** Eliminare le righe 24-29 di tailwind.config.ts. Le famiglie ancora usate (amber, emerald, rose) sono scritte in chiaro nel codice, quindi il JIT le genera comunque. Verifica: dopo il build, '.bg-sky-600' non deve più comparire nel CSS compilato.
+
+### Ombre nere fredde accanto alle ombre calde del brand; il token creato apposta non è usato mai
+
+**Dove:** `app/orders/[id]/page.tsx:435 · components/ProductCard.tsx:168 · e le altre occorrenze di shadow/shadow-sm/md/lg/2xl` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO nella sostanza, con i numeri corretti al ribasso. tailwind.config.ts definisce 'sm-neutral' rgba(28,26,24,0.06) e 'card' esattamente per le superfici bianche: ho cercato shadow-sm-neutral in app/, components/ e lib/ — ZERO occorrenze, il token è nato inerte. Le ombre calde (shadow-warm*/shadow-card) sono ~185. Accanto ci sono le ombre nere della scala Tailwind: i miei conteggi danno una trentina di occorrenze fra shadow nudo, shadow-sm, shadow-md, shadow-lg e shadow-2xl, non 52 come diceva il collega. Il caso più visibile è confermato: app/orders/[id]/page.tsx:435, il riquadro verde del codice di consegna ha 'shadow-lg' (nera) mentre le card intorno hanno ombre terracotta.
+
+**Come si ripara:** Mappare le occorrenze sui token: shadow/shadow-sm → shadow-sm-neutral (su bianco) o shadow-warm-sm (su crema); shadow-md/lg → shadow-warm o shadow-card; shadow-xl/2xl → shadow-warm-lg. In alternativa ridefinire boxShadow.sm/DEFAULT/md/lg in tailwind.config.ts con le versioni inchiostro, così anche le classi generiche cadono dentro il sistema.
+
+### Il codice di consegna usa un terzo carattere che il design system non prevede
+
+**Dove:** `app/orders/[id]/page.tsx:439 · app/profile/referral/page.tsx:87 · tailwind.config.ts (fontFamily)` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO nel fatto, ridimensionato nell'effetto. Il design system ammette due caratteri, Inter e Fraunces (docs/mockup/_adherence.oxlintrc.json li elenca come gli unici disponibili). Il codice di consegna — l'elemento più grande della pagina ordine — è 'font-mono text-4xl … sm:text-5xl' (riga 439), e lo stesso vale per il codice invito (referral:87). Verificato che tailwind.config.ts estende fontFamily solo con 'sans' e 'serif': 'mono' non è mappato, quindi font-mono non legge il token --font-mono di app/globals.css:17. CORREZIONE al collega: la pila predefinita di Tailwind (ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas…) e il token (ui-monospace, 'SF Mono', Menlo, Consolas) sono praticamente identiche, quindi la resa non cambia in modo apprezzabile — il difetto vero non è «un carattere diverso su ogni telefono», è un terzo carattere usato in due punti prominenti senza che il design system lo dichiari.
+
+**Come si ripara:** Se il monospaziato serve (per un codice a cifre è una scelta difendibile), formalizzarlo: aggiungere mono: ['var(--font-mono)', 'ui-monospace', 'SF Mono', 'Menlo', 'Consolas', 'monospace'] in tailwind.config.ts e citarlo nel design system come terzo carattere ammesso, con uso circoscritto ai codici. Altrimenti 'font-sans tabular-nums tracking-[0.3em]', che allinea le cifre restando in Inter.
+
+### Gli sfondi dei badge di stato ordine sono otto colori Tailwind scritti a mano, malgrado il commento dica il contrario
+
+**Dove:** `lib/order-status.ts:52-59 · commento in components/ui/OrderStatusBadge.tsx:70-72` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO. Il commento sopra ORDER_STATUS_COLOR e quello in OrderStatusBadge dichiarano «Niente classi off-palette: i colori vivono nei token del design system». È vero a metà: il campo 'color' usa davvero var(--status-new), var(--status-accepted)… (definiti in app/globals.css:76 e in docs/mockup/tokens/colors.css), ma il campo 'bg' è otto hex a mano — #FFFBEB, #EFF6FF, #F5F3FF, #EEF2FF, #ECFEFF, #FAF5FF, #ECFDF5, #FFF1F2, cioè i gradini 50 di amber, blue, violet, indigo, cyan, purple, emerald e rose. Verificato: nessuno degli otto esiste come token in app/globals.css, tailwind.config.ts o docs/mockup/tokens/colors.css. Metà del sistema degli stati vive fuori dai token.
+
+**Come si ripara:** Aggiungere in app/globals.css e in docs/mockup/tokens/colors.css gli otto token --status-*-bg con quei valori e sostituire gli hex di lib/order-status.ts:52-59 con var(--status-*-bg). Aggiornare anche docs/mockup/guidelines/cards/color-status.html, che li ripete a mano.
+
+### La variabile del colore della vetrina viene impostata su entrambe le pagine negozio e non la legge nessuno
+
+**Dove:** `app/store/[id]/page.tsx:108 · app/store/[id]/[slug]/page.tsx:68 · commento in app/globals.css:295` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO. Le due pagine impostano style={{ ['--store-accent']: accent }} sul contenitore e il commento a globals.css:295 la presenta come il meccanismo con cui l'accento del negozio sopravvive ai temi. Ho cercato --store-accent in tutto app/, components/ e lib/ (css compresi): gli unici tre riscontri sono le due dichiarazioni inline e il commento — nessun consumatore. Le sezioni prendono il colore dalla prop ctx.accent (BannerSection.tsx:20, HeroSection.tsx:86, ContactSection.tsx:26 e 37). È codice morto che documenta un meccanismo inesistente: chi scriverà una sezione nuova fidandosi del commento userà var(--store-accent) e otterrà un colore vuoto.
+
+**Come si ripara:** O rimuovere le due dichiarazioni inline e il commento a globals.css:295, o — strada più pulita — far leggere alle sezioni var(--store-accent) invece della prop, così il colore si propaga per cascata e le sezioni nuove funzionano senza passarsi ctx.
+
+### Il design system di riferimento è incompleto: mancano Button, Badge e Card e un file importa un componente che non esiste
+
+**Dove:** `docs/mockup/components/ (manca core/) · docs/mockup/components/commerce/ProductCard.jsx:2 · docs/mockup/_ds_manifest.json` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO. docs/mockup/components/ contiene solo commerce/, feedback/ e forms/: la cartella core/ non c'è. Il manifesto _ds_manifest.json però elenca Badge (components/core/Badge.jsx), Button (components/core/Button.jsx), Card (components/core/Card.jsx) e la scheda «Core · Button · Badge · Card» con previewPath components/core/core.card.html. Di conseguenza docs/mockup/components/commerce/ProductCard.jsx alla riga 2 fa import { Badge } from '../core/Badge.jsx' su un file assente. Il deck si apre perché le versioni compilate stanno in _ds_bundle.js, ma la fonte consultabile non c'è: chi deve fare un pulsante non ha una specifica da guardare — il che spiega bene la deriva misurata negli altri punti.
+
+**Come si ripara:** Ricostruire docs/mockup/components/core/ (Button.jsx, Badge.jsx, Card.jsx, core.card.html) estraendoli da _ds_bundle.js che li contiene già compilati, verificare che l'import a ProductCard.jsx:2 si risolva, e tenere le varianti allineate a components/ui/Button.tsx e components/ui/Card.tsx del prodotto.
+
+### Sulla pagina spedizioni due classi tipografiche non fanno niente e un verde è fuori palette
+
+**Dove:** `app/shipping/page.tsx:44 e 29` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO su entrambi i punti. Riga 44: la sezione è 'prose prose-gray max-w-none space-y-6 …', ma il plugin @tailwindcss/typography non è installato — package.json elenca solo tailwind-scrollbar-hide e tailwind.config.ts carica solo quello. Le classi prose sono quindi inerti: la spaziatura interna di titoli, paragrafi ed elenchi che ci si aspetterebbe non viene applicata (regge solo space-y-6, che spazia i blocchi ma non il loro interno). Riga 29: «Spedizione GRATIS» è 'text-green-900', il verde Tailwind, dentro un riquadro che per il resto usa correttamente olive-50, olive-200, olive-600 e olive-700.
+
+**Come si ripara:** Riga 44: togliere 'prose prose-gray' e definire esplicitamente la spaziatura di titoli ed elenchi, oppure installare @tailwindcss/typography e configurarne i colori sui token ink/cream. Riga 29: 'text-green-900' → 'text-olive-900'.
+
+### Il foglio di stile globale scrive a mano i valori dei token che dichiara poche righe sopra
+
+**Dove:** `app/globals.css:161 (contro 105) · 184-189 · 228 (contro 103) · 305` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO tutte e quattro. Riga 161: ':focus-visible { outline: 2px solid #C0492C }' mentre alla riga 105 esiste --focus-outline: 2px solid var(--primary-600); verificato che né --focus-outline né --focus-ring (riga 104) sono usati da nessuna parte in app/ e components/ (zero occorrenze di var(--focus-outline)/var(--focus-ring)). Righe 184-189: il gradiente dello scheletro di caricamento usa #F5EDD9 e #FBF7F0 invece di var(--cream-200) e var(--cream-100). Riga 228: '.card-hover:hover' ripete 'box-shadow: 0 12px 32px -8px rgba(192,73,44,0.18)', che è già --shadow-hover alla riga 103. Riga 305: il tema «caldo» della vetrina usa background-color #FBF7F0 invece di var(--cream-100). Nessuna produce oggi un errore visibile — i valori coincidono — ma sono quattro copie che divergeranno alla prima modifica di palette.
+
+**Come si ripara:** Sostituire con le rispettive var(): riga 161 → 'outline: var(--focus-outline)'; 184-189 → var(--cream-200)/var(--cream-100); 228 → 'box-shadow: var(--shadow-hover)'; 305 → var(--cream-100).
+
+### La primitiva Card è usata in 10 file, mentre 141 card sono ridisegnate a mano con quattro raggi diversi
+
+**Dove:** `components/ui/Card.tsx:43 · riquadri 'bg-white border border-cream-300|surface-200 rounded-*' in app/ e components/` · **Area:** Coerenza col marchio · **Corsia:** codice
+
+CONFERMATO, conteggi rifatti e coincidenti. Solo 10 file importano components/ui/Card. Le card scritte a mano con lo stesso schema (bg-white + border cream-300/surface-200) si distribuiscono così: rounded-2xl (20px) 71 volte, rounded-xl (16px) 56, rounded-lg (12px) 14, più i pochi rounded-full. La primitiva usa rounded-lg, cioè il raggio meno frequente: i 10 posti che passano di lì hanno 12px, 56 ne hanno 16 e 71 ne hanno 20. Nessuno è illegale preso da solo (il design system ammette 12-20px per le card), ma non esiste una regola che dica quale raggio in quale contesto — ed è la causa radice del difetto del checkout qui sopra.
+
+**Come si ripara:** Fissare la regola per contesto e scriverla nel design system: card di contenuto = rounded-xl (16px), card prodotto/negozio = rounded-2xl (20px), riquadri interni = rounded-lg (12px). Allineare components/ui/Card.tsx:43 a rounded-xl con una prop 'radius' per il caso prodotto, e migrare a <Card> almeno le pagine del funnel d'acquisto.
+
+### Le stelle da cliccare per votare sono sotto la soglia di contrasto (2,52 contro 3 richiesto)
+
+**Dove:** `app/product/[id]/page.tsx:1020 · app/orders/[id]/review/page.tsx:27` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO nel codice, con una correzione alla soglia. Nei due moduli di recensione le stelle non ancora scelte usano `text-ink-300`, cioè #A8A29E (tailwind.config.ts:98): sul bianco ho rimisurato 2,52 a 1, lo stesso numero del collega. La soglia però non è 4,5 come scritto nella segnalazione: le stelle sono a text-3xl (30px) e text-4xl (36px), quindi contano come testo grande — e come comando da toccare — e la soglia giusta è 3 a 1. Anche con la soglia più permissiva il valore non passa. Prima del clic sono grigie tutte e cinque, quindi l'unico comando di quella schermata è nel grigio più chiaro della tavolozza. Difetto reale, ma meno drammatico di come era raccontato: a 30-36px le stelle si vedono, sono sbiadite, non invisibili — per questo scendo da grave a minore.
+
+**Come si ripara:** Portare le stelle spente da text-ink-300 a text-ink-400 (#78716C, 4,80 a 1 sul bianco), o disegnare il contorno della stella invece del pieno. Le stelle accese (text-accent-700) vanno bene così.
+
+### I titoli delle file di prodotti vengono tagliati invece di andare su due righe
+
+**Dove:** `components/ProductGrid.tsx:362 e :367 · si vede in app/category/[slug]/page.tsx e app/search/page.tsx` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO. Tutte e due le varianti dell'intestazione di sezione (con link e senza) hanno `truncate` insieme a `font-serif text-xl font-bold ... md:text-2xl`: una riga sola, il resto mozzato. Il titolo divide la riga con il collegamento «Vedi tutto», che è `shrink-0` e quindi non cede spazio. Su uno schermo da 320px restano circa 180px per il titolo, cioè undici-dodici lettere a 20px in Fraunces grassetto: nomi di sottocategoria come «Abbigliamento sportivo» o «Latticini & Formaggi» non ci stanno. Su 375px il caso è al limite. La misura in pixel è una stima; il comportamento (taglio a una riga, mai a capo) è certo dal codice.
+
+**Come si ripara:** Sostituire `truncate` con `line-clamp-2` in tutte e due le righe e far partire la dimensione da text-lg su telefono (text-lg sm:text-xl md:text-2xl).
+
+### La scala delle dimensioni del testo viene scavalcata circa trecentotrenta volte
+
+**Dove:** `app/globals.css:22-32 (la scala dichiarata) · scavalcata in tutto il sito, in particolare components/ProductCard.tsx:182/185/188/211` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO, conteggio rifatto da me. La scala dichiarata in globals.css righe 22-32 ha undici gradini (10, 12, 14, 16, 18, 20, 24, 30, 36, 48, 60px). Contando le dimensioni scritte a mano nel codice: text-[13px] 115 volte, text-[11px] 70, text-[10px] 50, text-[15px] 22, text-[17px] 16, poi 32, 26, 34, 14, 22, 13.5, 12, 9, 28, 12.5, 8, 54, 46, 30, 24, 18, 16px — circa 330 punti in tutto, di cui ~280 su gradini che nella scala non esistono (13, 11, 15, 17px). Non ho verificato l'affermazione del collega sulle 227 righe senza altezza di riga: quella la lascio fuori. L'effetto concreto l'ho aperto su components/ProductCard.tsx: nome del prodotto a 13px (riga 188), nome del negozio a 11px (riga 185), prezzo barrato a 11px (riga 211), prezzo pieno text-base (16px) — quattro dimensioni in una scheda alta pochi centimetri, e due su quattro fuori scala.
+
+**Come si ripara:** Aggiungere in tailwind.config.ts i due gradini realmente usati — '2sm': 0.8125rem (13px) e 'xxs': 0.6875rem (11px), ciascuno con la sua altezza di riga — poi sostituire text-[13px] e text-[11px] con le nuove classi e ricondurre i residui (15, 17, 22, 26, 28, 32, 34) al gradino più vicino.
+
+### Nel carrello le righe che spiegano il prezzo sono a 10px
+
+**Dove:** `app/cart/page.tsx:380, :392 e :410` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO. Riga 380: «stima · potrebbe variare al checkout» in `text-2xs` (10px, il gradino più piccolo del sistema) — ed è proprio l'avviso che dice al cliente che la spedizione può cambiare. Riga 392: il conto dei negozi e del costo per ciascuno, sempre text-2xs. Riga 410: «IVA inclusa» in `text-[10px] text-ink-400 uppercase`, cioè maiuscolo a 10px senza nessuna spaziatura fra le lettere, che a quella misura si impastano. (L'affermazione del collega che sia «l'unico maiuscolo del sito senza spaziatura» non l'ho verificata e la lascio fuori: resta vero che qui la spaziatura manca.)
+
+**Come si ripara:** Portare le tre righe a text-xs (12px) e aggiungere alla riga 410 `tracking-label`, la spaziatura che il sistema definisce apposta per le etichette maiuscole (tailwind.config.ts:151).
+
+### Le iniziali del negozio sulla scheda prodotto sono a 8px
+
+**Dove:** `components/ProductCard.tsx:182` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO: `h-4 w-4` (un cerchio da 16 pixel) con dentro le due iniziali in `text-[8px] font-bold text-white`. Otto pixel è il carattere più piccolo di tutto il sito — l'ho cercato, c'è una volta sola, ed è questa — cioè metà del testo di lettura, con due maiuscole dentro 16 pixel e quasi nessuna aria. A quella misura non si legge una sigla, si vede una macchia. E l'informazione non manca: il nome del negozio per esteso sta già subito a destra, alla riga 185.
+
+**Come si ripara:** O si toglie il pallino con le iniziali, visto che il nome è già lì accanto, o si porta il cerchio a 20px (h-5 w-5) con le lettere a 10px (text-2xs), che è il minimo dichiarato dal sistema.
+
+### Sulla scheda prodotto due titoli di pari grado escono a 14px e a 20px
+
+**Dove:** `app/product/[id]/page.tsx:802 e :817 · confronto con :662, :952 e :994` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO aprendo le cinque righe. Il nome del prodotto è un h1 (riga 662). Subito dopo arrivano «Descrizione» (riga 802) e «Caratteristiche» (riga 817), che sono h3 con classe `font-bold text-sm uppercase tracking-wide text-ink-500`: 14px grigi, mentre il paragrafo che intestano (riga 803) è a 16px in ink-700, quindi più grande e più scuro. L'h2 compare solo dopo, alla riga 952 («Recensioni»), quindi la scaletta salta un gradino: h1 → h3 → h2. E alla riga 994 c'è un altro h3, «Lascia la tua recensione», senza classe di dimensione: quello esce a 20px in Fraunces per via della regola di globals.css. Risultato: due titoli dello stesso grado, 14px e 20px, sulla stessa schermata. Il piccolo maiuscolo in sé è uno stile legittimo; il difetto oggettivo sono il salto di livello e le due dimensioni per lo stesso grado.
+
+**Come si ripara:** Rinumerare «Descrizione» e «Caratteristiche» come h2 (scaletta h1 → h2 → h3 senza salti) e dare a tutti i titoli di sezione della pagina la stessa classe, incluso quello della riga 994.
+
+### Otto spaziature diverse per la stessa etichetta maiuscola
+
+**Dove:** `Tutto il sito · il valore dichiarato è tracking-label (0.04em) in tailwind.config.ts:151` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO, conteggio rifatto: tracking-wide 47 volte (99 meno le 49 di tracking-wider e le 3 di tracking-widest, che contengono la stessa stringa), tracking-wider 49, tracking-[0.03em] 17, tracking-[0.05em] 8, tracking-[0.08em] 5, tracking-[0.04em] 4, tracking-[0.06em] 3, tracking-widest 3. Otto valori diversi, che tradotti in em vanno da 0,025 a 0,1. Il sistema dichiara un valore solo per questo scopo, `tracking-label` = 0.04em (tailwind.config.ts:151), e viene usato appena 9 volte. Ho verificato anche la copia-incolla segnalata: il blocco `text-xs font-bold uppercase tracking-[0.05em] text-primary-700` è identico in otto file (app/orders, app/profile, app/profile/addresses, app/notifications, app/returns, app/messages, app/favorites e components/CollectionHeader.tsx:94). La stessa etichetta respira in modo diverso da una pagina all'altra.
+
+**Come si ripara:** Usare tracking-label su tutto il testo maiuscolo e tenere tracking-wide/wider per il testo normale. Meglio ancora: estrarre un componente Eyebrow unico dal blocco già ripetuto in otto file e usare quello.
+
+### Nel profilo l'email può uscire dal bordo della scheda: manca break-words
+
+**Dove:** `app/profile/page.tsx:133` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO nel file, con la portata ridotta rispetto alla segnalazione. Alla riga 133 l'email dell'utente è stampata in `font-mono` dentro una scheda con `p-6` (24px per lato) e nessuna classe che permetta di spezzare la parola. In tutto il sito ho trovato 7 usi di break-words/break-all, tutti in zone interne (admin, messaggi). I browser non spezzano né sulla chiocciola né sul punto, quindi un'email lunga esce dal bordo bianco della scheda: su un telefono da 375px restano circa 295px, cioè una trentina di caratteri a spaziatura fissa. Ho scartato invece la parte della segnalazione che presentava questo come «regola del design non copiata»: il file citato (docs/mockup/ui_kits/_mobile.css) è un foglio di correzione dei mockup con selettori #root/#mc-app e !important, non una fonte di token del sito.
+
+**Come si ripara:** Aggiungere `break-words` alla riga 133 e agli altri punti dove si stampa un'email o un codice ordine per intero.
+
+### Il tema «editoriale» della vetrina scende sotto i 16px del testo base
+
+**Dove:** `app/globals.css:309` · **Area:** Tipografia e leggibilita · **Corsia:** codice
+
+CONFERMATO: è l'ultima riga del file — `[data-theme='editoriale'] .store-richtext { font-size: 0.95rem; line-height: 1.75; }` — cioè 15,2 pixel. Il sistema fissa il testo di lettura a 16px (--text-base alla riga 26) e questo tema lo porta sotto. Il blocco .store-richtext (definito alle righe 279-288) è il testo libero che il negoziante scrive nella sua vetrina: presentazione, storia, avvisi — cioè proprio il testo lungo, quello che si legge davvero. Chi sceglie un tema chiamato «editoriale» si aspetta di leggere meglio e ottiene caratteri più piccoli del resto del sito. L'altezza di riga 1.75 invece è giusta.
+
+**Come si ripara:** Portare font-size a 1rem e tenere line-height: 1.75. L'effetto «rivista» si ottiene con l'interlinea e la larghezza della colonna (max-w-[65ch]), non rimpicciolendo le lettere.
+
+### Verde oliva-500 con testo bianco: 3,69:1 sul badge «Aperto ora» e sul filtro «Aperti ora»
+
+**Dove:** `components/store-sections/HeroSection.tsx:130 (badge «Aperto ora») e app/stores/page.tsx:254 (filtro «Aperti ora» attivo)` · **Area:** Accessibilita visiva · **Corsia:** codice
+
+CONFERMATO SOLO IN PARTE, e per questo ridimensionato. `bg-olive-500` (#7C8B5A) con `text-white` misura 3,69:1 (ricalcolato): sotto 4,5:1 per testo piccolo in grassetto. Vero nei due punti qui sopra, dove sull'oliva c'è TESTO. Gli altri quattro punti segnalati dal collega sono FALSI POSITIVI: StepIndicator.tsx:24 e OrderTimeline.tsx:67 nello stato «fatto» rendono un'icona `<Check>`, non testo, e Navbar.tsx:331/:357 col ramo oliva rendono l'icona `<Bike>` (il testo del nome utente sta fuori dalla pastiglia) — sono elementi grafici, soglia 3:1, e 3,69:1 la passa. Cade quindi anche l'aggravante del «ripetuto sei volte nel percorso d'acquisto». WCAG 1.4.3 (AA).
+
+**Come si ripara:** Sostituire `bg-olive-500` con `bg-olive-600` (#5A7C42, 4,78:1, già definito come «success brand» nel design system) nelle due righe con testo: HeroSection.tsx:130 e app/stores/page.tsx:254. Nessun cambio di layout.
+
+### Il pulsante «pulisci» della barra di ricerca è un bersaglio da 16×16 pixel
+
+**Dove:** `components/SearchBar.tsx:177-184 (className a riga 181)` · **Area:** Accessibilita visiva · **Corsia:** codice
+
+CONFERMATO (righe 177-184, non 175-182). Il pulsante che svuota la ricerca ha `className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-400 hover:text-ink-700"` e dentro una `<X size={16} />`: nessun padding, area premibile 16×16 CSS px. WCAG 2.2 SC 2.5.8 Target Size Minimum (AA) chiede 24×24, e l'eccezione di spaziatura non regge perché il cerchio da 24px intersecherebbe il campo di ricerca stesso. La barra è in cima a ogni pagina. Nello stesso repo la soglia è già riconosciuta: components/StoreMediaCarousel.tsx:96 porta i pallini a `w-6 h-6` con la nota «la soglia riconosciuta è 24».
+
+**Come si ripara:** Portare la classe a `absolute right-2 top-1/2 -translate-y-1/2 flex h-6 w-6 items-center justify-center rounded-full text-ink-400 hover:text-ink-700 hover:bg-cream-100`. Il campo ha già `pr-11` (44px) a destra: l'icona resta di 16px, cresce solo l'area premibile.
+
+### Il cuore «non nei preferiti» della scheda prodotto è a 2,52:1
+
+**Dove:** `app/product/[id]/page.tsx:679` · **Area:** Accessibilita visiva · **Corsia:** codice
+
+CONFERMATO alla riga esatta. Nello stato non-preferito il cuore è `text-ink-300` (#A8A29E) su `bg-white`: 2,52:1 ricalcolato, sotto la soglia 3:1 per gli elementi grafici. È l'unico indicatore visivo dello stato (l'`aria-pressed` c'è a riga 675 e copre chi ascolta, non chi vede male). La card di listino ha già la versione giusta: components/ProductCard.tsx:173 usa `text-ink-400` (4,87:1) per lo stesso cuore. WCAG 1.4.11 (AA).
+
+**Come si ripara:** In app/product/[id]/page.tsx:679 sostituire `text-ink-300` con `text-ink-400`, allineandosi a ProductCard.tsx:173.
+
+### Nella cronologia dell'ordine i numeri dei passi futuri sono a 4,11:1
+
+**Dove:** `components/OrderTimeline.tsx:70 (`bg-cream-200 text-ink-400`)` · **Area:** Accessibilita visiva · **Corsia:** codice
+
+CONFERMATO per OrderTimeline: il numero del passo futuro è ink-400 (#78716C) su cream-200 (#F5EDD9) = 4,11:1 ricalcolato, sotto 4,5:1 per un testo di 11px in grassetto (WCAG 1.4.3, che non ammette eccezioni di ridondanza perché è testo). SCARTATA invece la seconda metà della segnalazione: app/orders/[id]/page.tsx:483 è dentro un contenitore `aria-hidden` (riga 476) e lo stato è veicolato anche a parole nel blocco accanto (commento a riga 492), quindi l'icona non è «richiesta per capire il contenuto» e l'eccezione di 1.4.11 si applica.
+
+**Come si ripara:** OrderTimeline.tsx:70 → `bg-cream-200 text-ink-600`. Solo il numero della tonalità, nessun cambio di forma.
+
+### Il pulsante «Utile» votato nella vetrina scende fino a 2,88:1 (e il commento sui preset dichiara più di quello che i colori fanno)
+
+**Dove:** `components/store-sections/ReviewsSection.tsx:162-175 (stile a riga 171); commento in lib/store-customization.ts:10-12 e preset a :19-29` · **Area:** Accessibilita visiva · **Corsia:** codice
+
+CONFERMATO, numeri ricalcolati uno per uno. A riga 171, quando la recensione è votata, il pulsante diventa `color: accent` su `color-mix(in srgb, accent 12%, white)`: terracotta #C0492C 4,20:1, oliva #5A7C42 4,10:1, senape #C4801F 2,88:1 — tutti sotto 4,5:1 per un testo di 12px in grassetto (WCAG 1.4.3). Confermata anche la nota collegata: il docblock a lib/store-customization.ts:10-12 dichiara i preset «tutti a livello ~-600 per garantire contrasto su testo bianco», ma «Senape» #C4801F misura 3,25:1 su bianco (gli altri sette reggono: bordeaux 6,18, terracotta 4,96, oliva 4,78). L'affermazione nel codice è più forte dei colori.
+
+**Come si ripara:** In ReviewsSection.tsx:171 scurire il testo invece di usare l'accent puro: `color: color-mix(in srgb, ${accent} 70%, #1C1A18)` sullo stesso velo al 12% (porta tutti i preset sopra 6:1), lasciando `borderColor: accent` per l'identità del negozio. In parallelo correggere il commento di lib/store-customization.ts:10-12 oppure sostituire «Senape» #C4801F con accent-700 #9D621C (5,00:1 su bianco).
+
+### L'`aria-label` della barra d'acquisto sticky sta su un `<div>` senza ruolo: viene ignorato
+
+**Dove:** `components/StickyAddToCart.tsx:58 (`aria-label="Aggiungi al carrello (sticky)"`) e :75 (`aria-label="Quantità"`)` · **Area:** Accessibilita visiva · **Corsia:** codice
+
+CONFERMATO (righe 58 e 75, non 57 e 74). Sono due `<div>` generici senza `role`: un `aria-label` lì non viene esposto dagli screen reader, quindi le due etichette non arrivano a nessuno. Il gemello desktop è già a posto — app/product/[id]/page.tsx:879 ha `<div role="group" aria-label="Quantità">` col commento #142 che spiega perché — la copia mobile è rimasta indietro. Impatto reale limitato, come dichiarava già il collega (i pulsanti +/− hanno il loro `aria-label`), ma oggi è ARIA morta che dà falsa sicurezza.
+
+**Come si ripara:** Riga 75: `<div role="group" aria-label="Quantità" …>`. Riga 58: togliere l'`aria-label` dal contenitore oppure trasformarlo in `<div role="region" aria-label="Acquisto rapido">`.
+
+### La striscia che scorre in cima non si può fermare da telefono né da tastiera
+
+**Dove:** `components/PromoTicker.tsx:84-90 + app/globals.css:251-261 (`.animate-marquee { animation: marquee 24s linear infinite }`)` · **Area:** Accessibilita visiva · **Corsia:** codice
+
+CONFERMATO. La striscia è renderizzata sempre (components/Navbar.tsx:90, quindi in cima a ogni pagina) e scorre in loop infinito da 24s. L'unica pausa è `:hover`, `:focus-within`, `:active` (globals.css:258-261): su telefono l'hover non esiste, e il focus-within serve solo se dentro c'è un link, cioè solo con una promozione attiva (`showPromo`, riga 40). Testo in movimento automatico per più di 5 secondi, in parallelo ad altro contenuto, deve avere un modo per essere fermato: WCAG 2.2.2 Pause, Stop, Hide (A). Attenuante confermata nel file: `prefers-reduced-motion` è gestito a globals.css:213-220 e di fatto ferma l'animazione per chi ha quell'impostazione — per tutti gli altri no.
+
+**Come si ripara:** Aggiungere nella striscia un pulsante «‖ / ▶» (con `aria-label="Metti in pausa gli annunci"`, minimo 24×24) che alterna una classe con `animation-play-state: paused`. Alternativa più economica: far scorrere solo con almeno 3 annunci e fermarsi dopo due giri.
+
+### Il banner della home non ha un campo per il testo alternativo dell'immagine
+
+**Dove:** `components/home-sections/HomeSectionRenderer.tsx:410 (`alt={c.heading ?? ''}`); schema `bannerConfig` in lib/home-site.ts:159-165 senza `alt`; nessun campo alt nel form banner di components/admin/home/HomeSectionConfigForm.tsx` · **Area:** Accessibilita visiva · **Corsia:** codice
+
+CONFERMATO alla riga esatta. L'immagine del banner (larghezza piena, h-56/h-72) prende come testo alternativo il titolo, che è già scritto a video subito sotto a riga 412: uno screen reader legge la stessa frase due volte. Se il titolo è vuoto l'alt diventa `""`. Confermata anche l'asimmetria: `galleryConfig` ha il campo `alt` (lib/home-site.ts:167-173) e l'editor lo espone (HomeSectionConfigForm.tsx:280), il banner è l'unico blocco immagine rimasto senza. WCAG 1.1.1 (A).
+
+**Come si ripara:** Aggiungere `alt` a `bannerConfig` in lib/home-site.ts:159, un `<Input label="Testo alternativo">` nel form del banner, e usare `alt={c.alt ?? ''}` a HomeSectionRenderer.tsx:410 — alt vuoto quando l'immagine è solo sfondo, così non si duplica il titolo.
+
+### Le stelle del voto medio della vetrina negozio sono a 1,17:1 (vuote) e 2,16:1 (piene)
+
+**Dove:** `components/store-sections/ReviewsSection.tsx:16-28 (funzione `AverageStars`, usata a riga 196)` · **Area:** Accessibilita visiva · **Corsia:** codice
+
+CONFERMATO nel codice, ma la severità va abbassata. Vero: le stelle vuote sono `fill-cream-200 text-cream-200` (#F5EDD9 su bianco = 1,17:1 ricalcolato) e le piene `accent-500` (#E8A33D = 2,16:1), sotto la soglia 3:1 di WCAG 1.4.11. Vero anche il doppione: `RatingStars` è importato a riga 10 dello stesso file, usato a riga 119 per le singole recensioni, e porta il commento #149 che risolveva esattamente questo («accent-500 misurava 2,16:1… accent-700 misura 5,00:1»). Attenuante che il collega non aveva pesato: a riga 197-199, accanto alle stelle, c'è il voto in chiaro («4,5 (12)») in ink-600, quindi il dato non è veicolato dal solo colore — per questo è minore e non grave.
+
+**Come si ripara:** Cancellare `AverageStars` (righe 16-28) e sostituire l'uso a riga 196 con `<RatingStars rating={avgRating} size={16} />`, già importato e già a norma (accent-700 5,00:1, vuote ink-400 4,87:1). Meno codice, una sola casa per la regola.
+
+### Al checkout il modulo indirizzo si apre vuoto e poi sparisce sotto le dita
+
+**Dove:** `/home/user/mycity/app/checkout/page.tsx:309-322 (query indirizzi) e :845-853 · /home/user/mycity/components/checkout/ShippingAddressForm.tsx:76 e :154` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO in parte, con severità corretta. Il pezzo che regge: la query `savedAddresses` ha `enabled: !!authUser?.id` (riga 311), quindi parte per forza DOPO che è tornata `authUser`, cioè più tardi della query dei gruppi che sblocca il render. Quando il modulo si disegna, `savedAddresses` è ancora `[]`, e in ShippingAddressForm `const editing = manualOpen || conErrori || savedAddresses.length === 0` (riga 76) vale true: si vede il modulo vuoto. All'arrivo degli indirizzi `editing` diventa false e il `<form>` riceve la classe `hidden` (riga 154), mentre l'effetto di checkout:356-365 riempie i campi. Il passo 1 si riorganizza davanti alla persona. NON confermo invece la seconda metà della segnalazione: il riquadro ospite `{!authUser && …}` sta a riga 845, cioè dopo `if (loadingGroups) return <LoadingState />` (riga 818), e `supabase.auth.getUser()` parte al montaggio prima della query dei gruppi — quindi il lampo del riquadro verde a un cliente già collegato non è dimostrabile. Resta un difetto di stato mancante, ma di impatto minore.
+
+**Come si ripara:** Passare a ShippingAddressForm una prop `caricamento` presa da `isLoading` della query `savedAddresses`, e finché è vera mostrare due mattonelle-scheletro invece del modulo, senza calcolare `editing`.
+
+### Cambiando un filtro, la griglia prodotti resta identica senza dare nessun segno che sta lavorando
+
+**Dove:** `/home/user/mycity/components/ProductGrid.tsx:130-132, :522, :535-538` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO nei fatti, severità abbassata. La query ha `placeholderData: keepPreviousData` (riga 131) e la `queryKey` (riga 132) contiene prezzo, disponibilità, negozio aperto, voto minimo, ordinamento e testo cercato: al cambio filtro parte una lettura nuova ma `isLoading` resta falso e a schermo restano i prodotti di prima. `isFetching` è preso a riga 130 e usato in un punto solo, il pulsante «Carica altri prodotti» (righe 535-538); il contenitore della griglia (riga 522, `<div className={\`grid ${gridCols} gap-4\`}>`) non ha né opacità ridotta né `aria-busy`. Confermato anche che nel progetto non esiste un indicatore globale: `grep useIsFetching` su app/ e components/ non trova nulla. Abbasso a minore perché un segnale c'è comunque — il chip/filtro cambia stato subito al tocco — quindi non è il «pulsante muto» descritto.
+
+**Come si ripara:** Sul contenitore della griglia: `className={\`grid ${gridCols} gap-4 transition-opacity ${isFetching ? 'opacity-50 pointer-events-none' : ''}\`}` con `aria-busy={isFetching}`, più una riga `role="status"` («Aggiorno i risultati…») per chi non vede. Stesso trattamento alla variante rail.
+
+### Messaggi: un errore di lettura viene mostrato come «Nessuna conversazione»
+
+**Dove:** `/home/user/mycity/app/messages/page.tsx:54, :69, :107-109, :121-129` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO, ma solo per l'errore — non per il caricamento. La destrutturazione è `const { data: conversations = [], isLoading, refetch } = useQuery(...)` (riga 54) e non prende `isError`, mentre la funzione lancia su errore (`if (error) throw error`, riga 69). Il caricamento è coperto (`if (!userId || isLoading) return <LoadingState />`, righe 107-109), quindi nessun lampo all'apertura; ma se la lettura FALLISCE `isLoading` è falso e l'elenco è vuoto, e la pagina mostra «Nessuna conversazione — Scrivi a un negozio dalla scheda prodotto…» (righe 121-129). Chi ha conversazioni aperte legge che non ne ha nessuna, senza pulsante per riprovare.
+
+**Come si ripara:** Prendere `isError` e mostrare `<ErrorState title="Non riusciamo a caricare i messaggi" onRetry={() => refetch()} />` prima del controllo su `conversations.length === 0`.
+
+### «Non hai ancora liste» lampeggia a chi le liste ce le ha
+
+**Dove:** `/home/user/mycity/app/lists/page.tsx:45, :62, :79, :178-185 · /home/user/mycity/components/AddToListButton.tsx:31, :143-145, :148-153` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO. Le tre query della pagina — `featuredLists` (riga 45), `publicLists` (62), `myLists` (79) — ricadono tutte su `= []` e nessuna legge `isLoading` o `isError`; non c'è nessun ritorno anticipato di caricamento nel file. Finché le risposte non arrivano `myLists.length === 0` è vero e compare il riquadro «Non hai ancora liste. Inizia a crearne una» col pulsante «Crea la prima lista» (righe 178-185), che poi sparisce. Stessa cosa nel pannello «Aggiungi alle tue liste»: la query ha `enabled: open` (riga 33), quindi all'apertura `lists` è `[]` e si legge «Non hai ancora liste. Creane una qui sotto» (righe 143-145) prima dell'elenco vero. In più i pulsanti delle liste (righe 148-153) chiamano `toggle.mutate(l.id)` senza nessun `disabled`, quindi si possono premere due volte.
+
+**Come si ripara:** Prendere `isLoading` dalle query e mostrare riquadri-scheletro finché è vera, tenendo l'empty state solo per il vuoto verificato. In AddToListButton passare `disabled={toggle.isPending}` alle righe dell'elenco.
+
+### Il carrello dice «toglilo per continuare» ma lascia continuare lo stesso
+
+**Dove:** `/home/user/mycity/app/cart/page.tsx:254-262 e :414-419 · confronto con /home/user/mycity/components/checkout/OrderSummary.tsx:98-112` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO. Quando la disponibilità letta è zero la riga mostra in rosso «Non più disponibile · toglilo per continuare» (righe 256-262). Ma il «Procedi al checkout» è un `<Link href="/checkout">` sempre attivo (righe 414-419): non si spegne, non avvisa, non porta l'attenzione sulla riga da sistemare. Al checkout il muro c'è davvero (handleSubmit blocca con `stockIssues.length > 0` e OrderSummary mette `aria-disabled`), quindi non è un vicolo cieco: è un'istruzione che si contraddice da sola e costa un passaggio in più a fine percorso.
+
+**Come si ripara:** Calcolare gli articoli bloccanti (`massimo(i.id, i.variantId) === 0`) e, se ce ne sono, sostituire il Link con un pulsante `aria-disabled` che porta sulla prima riga da correggere — come già fa OrderSummary.tsx:104-112 — oppure offrire lì un «Rimuovi gli articoli esauriti».
+
+### Lo scheletro della griglia non ha la forma delle schede vere: al caricamento i prodotti saltano
+
+**Dove:** `/home/user/mycity/components/SkeletonCard.tsx:1-20 · /home/user/mycity/components/ProductCard.tsx:153 e :179 · /home/user/mycity/components/ProductGrid.tsx:396 e :496-499` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO, due scarti misurabili. ① Altezza: SkeletonCard fissa la foto a `w-full h-48` (riga 3, 192 px sempre) mentre ProductCard usa `relative aspect-square w-full` (riga 153), cioè quanto è larga la scheda — su un telefono stretto la foto vera è molto più bassa dei 192 px dello scheletro; e il corpo è `p-3` nello scheletro (riga 4) contro `p-2.5` nella scheda vera (riga 179). Quando i prodotti arrivano la pagina si accorcia. ② Colonne: `SkeletonGrid` è fissata a `grid-cols-2 sm:grid-cols-3 md:grid-cols-4` (riga 16) mentre la griglia dei risultati arriva a `lg:grid-cols-5 xl:grid-cols-6` (ProductGrid 499) ed è proprio SkeletonGrid a essere usata come stato di attesa (ProductGrid 396): su schermo grande quattro colonne di scheletri diventano sei colonne di prodotti.
+
+**Come si ripara:** In SkeletonCard sostituire `w-full h-48` con `aspect-square` e portare il corpo a `p-2.5`; far accettare a `SkeletonGrid` le classi di colonne che ProductGrid calcola in `gridCols` e passargliele dalla riga 396, invece di riscriverle a mano.
+
+### Gli scheletri di rotta non dicono niente a chi non vede lo schermo, e usano un'animazione diversa dal resto
+
+**Dove:** `/home/user/mycity/app/product/[id]/loading.tsx:8 · /home/user/mycity/app/orders/[id]/loading.tsx:3 · /home/user/mycity/app/store/[id]/loading.tsx:3 · confronto con /home/user/mycity/components/ui/LoadingState.tsx:34-80 e /home/user/mycity/app/globals.css:182-192` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO su tutti e tre i file. ① Nessuno dei tre `loading.tsx` ha `role="status"`, `aria-busy` o un testo nascosto: chi usa un lettore di schermo apre una scheda prodotto, un ordine o un negozio e non sente nulla finché la pagina non è pronta. Il componente condiviso lo fa bene — `role="status" aria-live="polite"` in tutte e quattro le varianti di LoadingState (righe 34, 43, 53, 72) — ma i tre file di rotta non lo usano. ② Sono scritti con `animate-pulse` e sfondi `bg-cream-200`, mentre LoadingState e app/loading.tsx usano la classe `.skeleton` con lo scintillio orizzontale definito in globals.css:183-192: nella stessa navigazione si vedono in fila due scheletri con due animazioni diverse.
+
+**Come si ripara:** Aggiungere `role="status" aria-live="polite" aria-label="Caricamento in corso"` ai tre `loading.tsx` e sostituire `animate-pulse bg-cream-200` con la classe `.skeleton` già esistente.
+
+### Con «riduci le animazioni» attivo tutte le rotelline di caricamento si congelano
+
+**Dove:** `/home/user/mycity/app/globals.css:213-220 · effetto su /home/user/mycity/components/ui/Button.tsx:77 e /home/user/mycity/components/ui/LoadingState.tsx:35, :44, :54` · **Area:** Stati dell interfaccia · **Corsia:** codice
+
+CONFERMATO. Il blocco `@media (prefers-reduced-motion: reduce)` azzera tutto senza eccezioni: `*, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; … }` (globals.css:214-219). Colpisce anche `animate-spin`, cioè l'icona `Loader2` usata da ogni stato di attesa — Button.tsx:77 (`{loading && <Loader2 … className="animate-spin" />}`) e LoadingState righe 35, 44, 54 — e la classe `.skeleton`, che è `animation: shimmer 2s linear infinite` (globals.css:192). Per chi ha quell'impostazione, un pulsante che sta lavorando appare come un pulsante grigio con un cerchietto immobile. Su LoadingState resta almeno il testo; sui pulsanti senza cambio di etichetta il segnale sparisce del tutto.
+
+**Come si ripara:** Dentro il blocco `@media (prefers-reduced-motion: reduce)` aggiungere `.animate-spin, .skeleton { animation-duration: 1.5s !important; animation-iteration-count: infinite !important; }` — lenti, non fermi — e comunque accompagnare sempre lo stato di attesa con un cambio di testo, come fa già il codice sconto («Verifico…»).
+
+### Quattro foto sotto la piega vengono chieste come «urgenti» su ogni home
+
+**Dove:** `components/ProductGrid.tsx:470 (`priority={i < 4}`), stesso schema in components/home/PromoDeals.tsx:65, components/store-sections/CollectionSection.tsx:64 e app/promozioni/page.tsx:109 (sei)` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO, con una correzione di dettaglio: l'ordine di serie della home sta in lib/home-site.ts:238-241 (non 42-43) e «Prodotti popolari» è la sesta sezione, non la quinta — quindi il punto regge, è sempre sotto la piega. Le sue prime quattro foto vengono marcate a priorità alta e precaricate (components/ProductCard.tsx:159-160 gira `priority` a next/image), in gara con quello che l'utente sta davvero guardando. Sulla pagina di un negozio si moltiplica: ogni collezione è una sezione e ognuna marca quattro foto. È lo stesso schema del punto sulle schede negozio: `priority` è deciso dal componente invece che da chi lo mette in pagina.
+
+**Come si ripara:** Aggiungere una proprietà tipo `primaSezione` a ProductGrid e a PromoDeals: solo la prima griglia della pagina passa `priority` alle prime foto, le altre restano a caricamento pigro.
+
+### Il segnaposto «foto mancante» arriva da un sito esterno e ha tre stili diversi
+
+**Dove:** `components/ProductCard.tsx:61 · app/cart/page.tsx:231 · components/checkout/CartGroupsList.tsx:34 · app/product/[id]/page.tsx:343 · components/home/DropOfDay.tsx:90 · app/seller/products/page.tsx:266 e :363 · components/seller/FeaturedProductsPicker.tsx:71` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO: otto punti, carrello e cassa compresi, chiedono l'immagine di ripiego a placehold.co, e lib/image-url.ts:79-80 li lascia passare intatti. Due conseguenze. Nel momento del pagamento c'è una chiamata a un sito che non controlliamo: se è lento o bloccato, il cliente vede un riquadro rotto proprio lì. E i colori chiesti sono tre diversi — `FBF7F0/C0492C` sulla scheda prodotto, `F5EDD9/78716C` in carrello e cassa, `eee/aaa` cioè grigio fuori palette nelle pagine del venditore. Lo stesso stato «manca la foto» ha tre facce.
+
+**Come si ripara:** Un solo file SVG locale in public/ (per esempio `/foto-mancante.svg`) nei colori del brand, usato in tutti e otto i punti. Zero chiamate esterne, zero attese.
+
+### Nella lista dei desideri il riquadro senza foto si accartoccia attorno all'icona
+
+**Dove:** `app/lists/[id]/page.tsx:279 e :281 (classi `w-18 h-18`)` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO, compreso il controllo che rendeva il difetto dubbio: il progetto usa Tailwind 3.4.19 (package.json:58, node_modules/tailwindcss/package.json), dove la scala di serie passa da 16 a 20 e la misura 18 non esiste; in Tailwind 4 sarebbe stata valida. E tailwind.config.ts non ha nessuna voce `spacing` fra le estensioni. Sull'immagine non si nota, perché restano gli attributi width e height a 72 pixel. Sul ramo «prodotto senza foto», invece, il riquadro grigio non ha nessuna misura e si stringe attorno all'icona da 24 pixel: la riga risulta disallineata rispetto a tutte le altre.
+
+**Come si ripara:** Mettere `h-[72px] w-[72px]` (o `h-20 w-20`) su entrambi i rami, immagine e segnaposto.
+
+### «Ingrandisci foto» non mostra un pixel in più di quelli che si vedevano già
+
+**Dove:** `app/product/[id]/page.tsx:601-606 (lightbox con `sizedImage(images[activeImg],'hero')`), tetto definito in lib/image-url.ts:19` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO. La finestra a schermo intero apre l'immagine a 90% dell'altezza e 95% della larghezza, ma chiede al CDN la versione da 1200 pixel, e lo fa con un `<img>` semplice, senza caricatore che possa alzare la larghezza. Su un portatile con schermo fine ne servirebbero fra 1600 e 2500. Chi clicca su «Ingrandisci» per guardare l'etichetta di un salume vede la stessa immagine di prima, solo più grande e più morbida. L'originale a piena risoluzione è già nello Storage e non lo stiamo usando.
+
+**Come si ripara:** Nel lightbox usare l'indirizzo originale, oppure `width=2000`, aggiungendo una misura 'zoom' a SIZE_PX in lib/image-url.ts.
+
+### Le foto in galleria e le anteprime restano al loro tetto anche sugli schermi fini
+
+**Dove:** `lib/image-url.ts:15-20 (thumb=100, card=400) · components/home-sections/HomeSectionRenderer.tsx:438 · components/cms/CmsBlockRenderer.tsx:63 · components/seller/site/ImageUpload.tsx:59 · components/seller/site/GalleryFields.tsx:60 · components/store-sections/HeroSection.tsx:91-95` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO, incluso il pezzo di Next citato: node_modules/next/dist/server/image-optimizer.js:826 usa `withoutEnlargement: true`, cioè Next non ingrandisce mai. Dove non c'è il caricatore su misura, l'indirizzo che arriva a Next è già ridotto e il tetto della sorgente diventa il tetto della qualità. Casi concreti confermati: la galleria della home dichiara di occupare il 33% della larghezza partendo da una sorgente di 400 pixel; l'anteprima del venditore dichiara 480 partendo da 400; la galleria del negozio dichiara 160 partendo da 100; la copertina del negozio dichiara 1024 partendo da 1200, che su schermo fine ne vorrebbe il doppio. Il risultato è una morbidezza diffusa.
+
+**Come si ripara:** Aggiungere `loader={caricatoreFotoRemote}` anche a queste immagini — è il caricatore che già esiste in lib/image-loader.ts e che fa decidere la larghezza a Next lasciando il lavoro al CDN di Supabase.
+
+### Nell'anteprima di condivisione del negozio il logo viene tagliato a quadrato
+
+**Dove:** `app/store/[id]/opengraph-image.tsx:69 (`objectFit: 'cover'` in un riquadro 220×220), da confrontare con app/product/[id]/opengraph-image.tsx:70 che usa 'contain'` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO. Quando qualcuno manda su WhatsApp il link di un negozio, l'anteprima mostra il logo dentro un riquadro di 220 per 220 pixel con ritaglio a riempimento: un marchio largo perde i lati. La scheda prodotto, generata dallo stesso meccanismo e dallo stesso tipo di file, usa il ritaglio a contenimento. Due file gemelli, due comportamenti — e quello che esce peggio è proprio il momento in cui il negoziante mostra ai suoi clienti che è online.
+
+**Come si ripara:** Cambiare in `objectFit: 'contain'`, uguale alla scheda prodotto.
+
+### L'anteprima social del prodotto scarica la foto a piena risoluzione per un riquadro da 460 pixel
+
+**Dove:** `app/product/[id]/opengraph-image.tsx:40 (`photo` grezzo, non passa da sizedImage) usato a :63-71, con `export const runtime = 'edge'` a riga 4` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO. L'immagine di anteprima viene generata su runtime edge, che ha un tempo massimo stretto, e prende la foto originale del prodotto — quella caricata dal telefono del negoziante, fino a 5 MB dopo la ricompressione lato client — per disegnarla in un riquadro di 460 pixel. Su una foto pesante la generazione rallenta o scade, e chi incolla il link su WhatsApp vede l'anteprima senza foto. Basterebbe chiedere la versione ridotta, come fa tutto il resto del sito.
+
+**Come si ripara:** Sostituire con `sizedImage(photo, 'detail')`.
+
+### Le foto caricate scadono dalla cache dopo un'ora anche se l'indirizzo non cambia mai
+
+**Dove:** `lib/products/uploadImages.ts:42 · components/VendorForm.tsx:123 · components/SellerApplicationForm.tsx:166 · components/seller/site/ImageUpload.tsx:27 · components/PhotoReviewUpload.tsx:47 · lib/products/rehostImages.ts:153 · components/ImageUrlField.tsx:44-48 (non lo imposta affatto)` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO, con una precisazione al collega: il valore da un anno in next.config.js:64 NON è una promessa contraddetta, perché il commento sopra (righe 50-62) dichiara già che quelle due righe valgono solo per l'ottimizzatore di Next e non per queste foto. Il difetto vero resta e sta altrove: ogni caricamento scrive `cacheControl: '3600'`, un'ora, su un indirizzo che è unico per upload e quindi non cambia mai contenuto. Le stiamo facendo riscaricare ogni ora senza motivo, e ogni riscaricamento è un lampeggio in più su una connessione lenta. I punti sono sette, non cinque.
+
+**Come si ripara:** Portare `cacheControl` a '31536000' in tutti i punti di caricamento, e impostarlo anche in ImageUrlField che oggi lo lascia al valore di serie.
+
+### Nessun controllo sulla risoluzione minima delle foto prodotto
+
+**Dove:** `components/seller/ProductImagesField.tsx:91-107 (controlla solo tipo e tetto di 30 MB) e lib/products/uploadImages.ts:33-37 (ricomprime solo quelle troppo grandi)` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO. Il controllo esiste solo verso l'alto: si rifiutano i file oltre i 30 MB e si ricomprimono quelli sopra i 5. Verso il basso non c'è niente. Un negoziante che salva dal suo sito vecchio una foto da 300 pixel la carica senza un avviso, e quella foto finisce sulla scheda prodotto in un riquadro che sul computer arriva a 220 pixel e su telefono occupa quasi mezza larghezza: sgranata nel punto che deve far comprare. Il venditore non ha modo di accorgersene finché non guarda la sua pagina da cliente.
+
+**Come si ripara:** Al caricamento leggere le dimensioni con `createImageBitmap` e mostrare un avviso — non un blocco — se il lato lungo è sotto gli 800 pixel: «questa foto è piccola, sulla scheda si vedrà sgranata».
+
+### Sulle foto Pexels il ritaglio quadrato viene forzato anche nelle viste grandi
+
+**Dove:** `lib/image-url.ts:24-32 (buildPexelsUrl) contro lib/image-url.ts:34-52 (buildSupabaseStorageUrl, che rispetta il flag `square`)` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO. Il commento della funzione (righe 44-47) dice che per le viste grandi l'altezza non si imposta «per mostrare l'intero prodotto nel dettaglio», ma la regola è applicata solo al ramo Supabase: il ramo Pexels imposta sempre `w` e `h` uguali con `fit=crop`, ignorando il parametro. Il catalogo dimostrativo usa proprio foto Pexels (seeds/003_pexels_images.sql), quindi su quei prodotti la finestra di ingrandimento — che il commento a app/product/[id]/page.tsx:572 descrive come «vede la foto intera» — mostra un quadrato ritagliato. Effetto limitato ai contenuti dimostrativi, ma l'incoerenza è nel codice.
+
+**Come si ripara:** Passare il flag `square` anche a buildPexelsUrl e impostare l'altezza solo quando è vero.
+
+### L'icona del sito è testo disegnato col font di sistema, e manca il favicon classico
+
+**Dove:** `public/icon-192.svg e public/icon-512.svg (byte per byte identici, entrambi con viewBox 512) · dichiarati in app/layout.tsx:46-52 · stesso difetto negli originali docs/mockup/assets/logo-icon.svg, logo-icon-512.svg, wordmark-light.svg, wordmark-ondark.svg` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO, compreso il confronto byte a byte (i due SVG sono identici, quindi la variante «192» non esiste davvero) e la ricerca del favicon (nessun favicon.ico né in public/ né in app/: i lettori più vecchi e diversi aggregatori chiedono quell'indirizzo e prendono un 404). Le due icone disegnano la sigla «My» con un elemento di testo e `font-family="system-ui, -apple-system, Helvetica, Arial"`: il marchio prende la forma del font di sistema di chi guarda — Segoe UI su Windows, San Francisco su macOS, DejaVu su Linux — e nessuno dei tre è il font del brand (Fraunces, caricato in app/layout.tsx:29). Un logo non deve dipendere da cosa è installato sul computer di chi lo vede. Nota: le versioni PNG (icon-192.png 192×192, icon-512.png 512×512) sono corrette e diverse fra loro; il problema è sugli SVG, che sono i primi dichiarati.
+
+**Come si ripara:** Convertire il testo in tracciati dentro l'SVG, così il disegno è sempre lo stesso ovunque, e aggiungere app/icon.ico. Vale anche per gli originali in docs/mockup/assets/.
+
+### Lo scheletro di caricamento ha una forma diversa dalla scheda vera e la pagina salta
+
+**Dove:** `components/SimilarProducts.tsx:87 (scheletro `aspect-[3/4]` senza righe di testo) contro la scheda vera a :108-124 (`aspect-square` più tre righe) · components/StoreShowcase.tsx:75 (quattro scheletri `aspect-[4/3]`) contro components/StorePreviewCard.tsx:58-61 (copertina `h-28` fissa, logo sporgente, tre miniature) con sei negozi caricati (StoreShowcase.tsx:20)` · **Area:** Immagini e media · **Corsia:** codice
+
+VERIFICATO. Lo scheletro serve a tenere ferma la pagina mentre i dati arrivano, e il commento in StoreShowcase.tsx:69 lo dice («evita il CLS»). Ma le due forme non coincidono: lo scheletro disegna una copertina in rapporto 4:3 (su una colonna da 270 pixel fanno circa 200 di altezza) mentre la scheda vera ha la copertina fissa a 112 pixel e sotto molto più contenuto; in più gli scheletri sono quattro e le schede sei. Al momento del caricamento la sezione cambia altezza e quello che sta sotto si sposta sotto il dito. Stessa cosa, più contenuta, in «Potrebbe piacerti».
+
+**Come si ripara:** Allineare lo scheletro alla scheda: copertina `h-28`, stesso numero di elementi e stesse righe di contenuto. Per «Potrebbe piacerti» basta `aspect-square` più due righe di testo.
+
+### Le mappe si mangiano lo scorrimento del dito: sopra la mappa la pagina non scorre
+
+**Dove:** `components/DeliveryMap.tsx:61 (`L.map(divRef.current)` senza opzioni); components/NearbyStoresMap.tsx:63 (idem) e 33 (`h-[70vh]`); usi reali: app/orders/[id]/page.tsx:528 (`h-44`), app/near/page.tsx:243` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato: entrambe le mappe sono create con `L.map(div).setView(...)` senza passare nessuna opzione, quindi restano i valori predefiniti di Leaflet (trascinamento col dito attivo, nessun `gestureHandling`, `scrollWheelZoom` attivo). Sul telefono uno scorrimento verticale iniziato sopra la mappa muove la mappa, non la pagina. Il caso che dà fastidio davvero è la pagina di stato ordine (app/orders/[id]/page.tsx:528), dove la mappa è `h-44 w-full` in mezzo alla cronologia della consegna, con contenuto sopra e sotto. Abbasso la severità rispetto alla segnalazione: è attrito recuperabile (si può iniziare lo scorrimento fuori dalla mappa), non un blocco; e su /near la mappa si vede solo se la persona sceglie la vista Mappa, dove trascinare è ciò che vuole fare.
+
+**Come si ripara:** Passare le opzioni a Leaflet: su touch `dragging: false` con un tocco esplicito «attiva la mappa», oppure il plugin gestureHandling; in ogni caso `scrollWheelZoom: false`. Priorità alla mappa dentro la pagina di stato ordine, che sta in mezzo al contenuto.
+
+### Il codice per la «zona sicura» dell'iPhone c'è dappertutto ma non funziona: manca viewport-fit
+
+**Dove:** `app/layout.tsx:69-74 (export `viewport`, senza `viewportFit`); dipendono da lui app/globals.css:199 e 208, components/StickyAddToCart.tsx:53-57, app/checkout/page.tsx:1072-1073, app/rider/orders/[id]/page.tsx:269, components/ConfirmDialog.tsx:123, components/orders/ContactSheet.tsx:87` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato. L'export `viewport` di app/layout.tsx dichiara solo `width`, `initialScale`, `maximumScale` e `themeColor`: nessun `viewportFit`. Il grep su app/, components/, next.config.js e public/ per `viewportFit`/`viewport-fit` non trova nulla in tutto il progetto. Senza `viewport-fit=cover` le `env(safe-area-inset-*)` valgono zero, quindi la classe `.pb-safe` e tutti i `calc(...)` elencati oggi non fanno niente. Da correggere insieme al doppione, perché due punti conterebbero l'inset DUE volte appena lo si accende: la barra del checkout ha sia `pb-[calc(0.75rem+env(safe-area-inset-bottom))]` (riga 1072) sia `style={{bottom:'calc(env(safe-area-inset-bottom,0px) + …)'}}` (riga 1073), e StickyAddToCart ha `pb-safe` nella classe (riga 53) più lo stesso inset dentro il `bottom` (riga 57).
+
+**Come si ripara:** Aggiungere `viewportFit: 'cover'` all'export `viewport` di app/layout.tsx e, nello stesso lavoro, togliere il doppione: nella barra del checkout tenere solo il padding e mettere `bottom: var(--altezza-banner-cookie)`; in StickyAddToCart togliere `pb-safe` OPPURE l'inset dentro il `calc`, non tutti e due.
+
+### Le notifiche push usano un'icona SVG che Chrome su Android non disegna
+
+**Dove:** `public/sw.js:171-172 (`icon: data.icon || '/icon-192.svg'`, `badge: '/icon-192.svg'`)` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato. Il service worker punta a `/icon-192.svg` sia per `icon` sia per `badge` della notifica; Chrome su Android non renderizza SVG nelle notifiche e mostra l'icona generica del browser al posto del marchio. Il file giusto esiste già: `public/icon-192.png` (6 KB, presente nella cartella) ed è già dichiarato nel manifest. Il `badge`, che è la sagoma nella barra di stato, andrebbe inoltre monocromatico su trasparente.
+
+**Come si ripara:** Usare `/icon-192.png` nel campo `icon` e preparare un `badge-96.png` monocromatico da 96×96 per il campo `badge`.
+
+### Il manifest blocca l'app in verticale e non ha le schermate per la finestra d'installazione
+
+**Dove:** `public/manifest.json:9 (`"orientation": "portrait"`); assenti nel file: `screenshots`, `id`, `display_override`` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato leggendo tutto il manifest. ① `"orientation": "portrait"` impone il verticale all'app installata: chi tiene il telefono fissato in orizzontale non può girare la vetrina, e WCAG 1.3.4 chiede di non vincolare il contenuto a un solo verso quando non è essenziale — per un catalogo di negozi non lo è. ② Non esistono i campi `screenshots` (quindi Chrome su Android mostra la finestra d'installazione ridotta invece di quella ricca), né `id`, né `display_override`.
+
+**Come si ripara:** Togliere `orientation` (o metterlo su `any`) e aggiungere `screenshots` con 2-3 immagini `form_factor: "narrow"` più una `"wide"`, oltre a un `id` stabile (es. `"/?pwa"`) perché aggiornamenti futuri del manifest non creino una seconda installazione.
+
+### «Rimuovi» nel carrello è alto quanto una riga di testo: si sbaglia mira col pollice
+
+**Dove:** `app/cart/page.tsx:328-334 (`className="text-ink-500 hover:text-secondary-600 text-sm ml-2 flex items-center gap-1"`)` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato: la classe è esattamente quella citata, senza nessun padding verticale. L'area toccabile è quindi l'altezza della riga a `text-sm` (circa 20px), sotto il minimo di 24×24 di WCAG 2.5.8 e molto sotto i 44px consigliati sul telefono. Sta inoltre a `ml-2` (8px) dal pulsante «−» dello stepper, che è invece `w-10 h-10` (40px, riga 295): bersaglio piccolo accanto a un bersaglio grande, con conseguenze diverse (togliere il prodotto invece di scalare la quantità).
+
+**Come si ripara:** Aggiungere padding al pulsante (es. `px-2 py-2 -mx-2` per non spostare l'allineamento visivo) e portare la distanza dallo stepper ad almeno 12px.
+
+### Nella barra d'acquisto della scheda prodotto i tasti «+» e «−» sono 36px, nel carrello 40px
+
+**Dove:** `components/StickyAddToCart.tsx:82 e 92 (`w-9 h-9`); confronto: app/cart/page.tsx:295 e 315 (`w-10 h-10`)` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato. I due tasti della quantità dentro la barra fissa in fondo sono `w-9 h-9` (36×36px), attaccati l'uno all'altro dentro la stessa pillola bordata, sotto i 44px indicati da Apple e Google come minimo per il dito. Lo stesso identico comando nella pagina carrello è `w-10 h-10` (40px): due misure diverse per lo stesso gesto nello stesso funnel.
+
+**Come si ripara:** Portarli a `w-11 h-11` (44px) qui e nel carrello, così la misura è una sola in tutto il funnel.
+
+### I menù a tendina si chiudono solo con `mousedown`, e il mega-menu delle categorie non ha nessuna X su mobile
+
+**Dove:** `components/CategoryBar.tsx:74 (mega-menu) e 131-188 (il pannello, senza pulsante di chiusura e senza velo); components/Navbar.tsx:283 (menù account); components/SearchBar.tsx:140 (suggerimenti)` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato in parte col file, in parte per comportamento noto di Safari iOS. Fatti dal codice: tutti e tre i pannelli si chiudono solo con `document.addEventListener('mousedown', …)` — nessun `touchstart` né `pointerdown` in nessuno dei tre file (grep). Il pannello del mega-menu (CategoryBar.tsx:131-188) non ha nessun pulsante di chiusura e il suo contenitore è `pointer-events-none` senza velo dietro: le uniche vie d'uscita sono toccare una categoria o ritoccare il pulsante «Tutte le categorie», e la CategoryBar è montata anche su mobile (Navbar.tsx:213-216). Su Safari iOS gli eventi del mouse vengono sintetizzati solo per elementi considerati cliccabili, quindi un tocco su un `<div>` qualunque può non chiudere il pannello — questa parte non l'ho potuta provare su un iPhone vero.
+
+**Come si ripara:** Passare da `mousedown` a `pointerdown` (o affiancare `touchstart`) nei tre file e aggiungere al pannello del mega-menu una X di chiusura visibile su mobile, come già fanno il pannello filtri e quello account.
+
+### Ogni pagina corta scorre a vuoto: il contenuto principale è forzato a un'intera schermata
+
+**Dove:** `app/layout.tsx:127 (`<main id="main-content" className="min-h-screen">`); app/globals.css:207-209 (padding di `--tabbar-height` in fondo al body su mobile)` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato. Il `<main>` ha `min-h-screen` (almeno 100vh) ma sopra di lui, nello stesso flusso, ci sono `<Navbar>` con dentro PromoTicker, riga logo+ricerca e CategoryBar (la variabile `--header-height` in globals.css:106 dichiara ~144px), e sotto ci sono `<Footer>` più il `padding-bottom: calc(var(--tabbar-height) + …)` del body (globals.css:208, `--tabbar-height: 72px`). Il documento supera quindi SEMPRE l'altezza dello schermo, anche su pagine con due righe di contenuto (carrello vuoto, pagina non trovata, conferma d'ordine): resta un blocco di sfondo vuoto prima del piè di pagina.
+
+**Come si ripara:** Sostituire `min-h-screen` con `min-h-[calc(100vh-var(--header-height)-var(--tabbar-height))]`, oppure rendere il body un flex a colonna con `flex-1` sul main.
+
+### In cima a ogni pagina scorre una striscia con dentro un link in movimento
+
+**Dove:** `components/PromoTicker.tsx:72-79 (il link «Promozioni attive · Scopri» dentro la traccia animata) e 84-90; app/globals.css:250-261 (`animation: marquee 24s linear infinite` e le sole pause `:hover`, `:focus-within`, `:active`)` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato. La striscia è montata dentro la Navbar (Navbar.tsx:90), quindi in cima a tutte le pagine, e la traccia ha `animate-marquee` = `marquee 24s linear infinite`. Quando ci sono promozioni attive (`showPromo`) la traccia contiene un vero `<Link href="/promozioni">` che si sposta insieme al testo: su telefono è un bersaglio in movimento. Le uniche pause dichiarate in globals.css sono `:hover`, `:focus-within` e `:active`: sul touch non c'è hover, e non esiste nessun comando di pausa visibile, che è quello che chiede WCAG 2.2.2 per un movimento automatico più lungo di cinque secondi. (Resta attiva la scorciatoia `prefers-reduced-motion` a globals.css:213, che però copre solo chi ha impostato quella preferenza.)
+
+**Come si ripara:** Fermare la marquee sotto la misura `md` (annunci fissi, eventualmente a rotazione lenta con dissolvenza) oppure aggiungere un pulsante pausa/riprendi sempre visibile. In ogni caso il link «Promozioni attive» non dovrebbe stare dentro la parte che si muove.
+
+### Il banner d'installazione promette le «notifiche ordini», ma installare non attiva nessuna notifica
+
+**Dove:** `components/PWAInstallBanner.tsx:100-102 («Accesso veloce + notifiche ordini. Niente app store.»); components/PushNotificationOptIn.tsx, richiamato solo da app/profile/settings/page.tsx:9 e 484` · **Area:** Esperienza da telefono · **Corsia:** codice
+
+Verificato. Il testo del banner è esattamente quello citato, e il grep su app/ e components/ mostra che `PushNotificationOptIn` è importato e usato in un solo punto di tutto il sito: la pagina /profile/settings (riga 484). L'iscrizione alle notifiche non viene mai proposta dopo l'installazione né nel momento in cui servirebbe (ordine appena confermato, rider che parte). Chi installa credendo di aver attivato le notifiche non riceverà niente.
+
+**Come si ripara:** Due cose piccole e separate: correggere il testo del banner («accesso veloce dall'icona, funziona anche con rete debole») e proporre l'attivazione delle notifiche nel momento giusto — nella pagina di conferma ordine, dicendo a cosa servono («ti avvisiamo quando il rider parte») — riusando il componente che esiste già.
+
+### «Compra ora · paghi alla consegna» atterra su un checkout con la carta già selezionata
+
+**Dove:** `app/product/[id]/page.tsx:914-921 (handleBuyNow → /checkout); app/checkout/page.tsx:424 (useState(stripeAvailable ? 'card' : 'cod'))` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. Il pulsante ad alta intenzione della scheda prodotto dichiara il metodo nel suo testo, ma il checkout inizializza `paymentMethod` a 'card' ogni volta che NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY è configurata. Chi ha cliccato proprio per non pagare online trova preselezionato il pagamento anticipato. Abbasso la severità rispetto al collega: la scelta è visibile e cambiabile nello step 3, non è un blocco né una cifra sbagliata — resta una promessa disattesa nel testo del pulsante.
+
+**Come si ripara:** handleBuyNow salva l'intenzione (es. sessionStorage 'mc_metodo_scelto' = 'cod') e il checkout inizializza paymentMethod da lì; in alternativa il pulsante diventa «Compra ora» e la scelta resta al checkout.
+
+### Su telefono il pulsante «Procedi al checkout» sta in fondo, dopo tutti i prodotti e il carosello di upsell
+
+**Dove:** `app/cart/page.tsx:194 (grid-cols-1 lg:grid-cols-3), 196-355 (colonna prodotti + CartUpsell), 414-419 (CTA nella colonna destra); components/MobileTabBar.tsx:48-56` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO come struttura: su mobile la griglia collassa a una colonna e il riepilogo con «Procedi al checkout» viene dopo l'elenco articoli, l'upsell «Completa con» e il resto. Il checkout una barra fissa in basso ce l'ha (page.tsx:1071-1094) e la scheda prodotto pure (StickyAddToCart), il carrello no; la MobileTabBar resta visibile su /cart (nasconde solo /checkout, /seller, /rider, auth). Tengo la severità a minore: è una perdita di conversione per posizionamento, non un dato falso né un blocco.
+
+**Come si ripara:** Aggiungere al carrello la stessa barra fissa del checkout («Totale {finalTotal}» + «Procedi al checkout», lg:hidden fixed inset-x-0 bottom-0) con l'offset di StickyAddToCart (env(safe-area-inset-bottom) + var(--tabbar-height) + var(--altezza-banner-cookie)) e pb-28 lg:pb-8 sul contenitore.
+
+### Su telefono il pulsante di conferma si spegne senza dire perché (sul desktop è già stato corretto)
+
+**Dove:** `app/checkout/page.tsx:1082 (disabled vero sulla barra mobile); components/checkout/OrderSummary.tsx:98-113 (aria-disabled + scroll sul primo [role="alert"])` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. Il pulsante desktop usa `type={disabled ? 'button' : 'submit'}`, `disabled={isCheckingOut}`, `aria-disabled` e un onClick che porta sul primo riquadro che spiega il blocco. La barra fissa mobile — l'unico pulsante visibile su telefono — usa il `disabled` vero: esce dal giro del Tab, non risponde al tocco e non spiega niente. Abbasso a minore perché i riquadri esplicativi sono comunque nella pagina, sopra: la persona che scorre li trova.
+
+**Come si ripara:** Riportare sulla barra mobile lo schema di OrderSummary: disabled={isCheckingOut}, aria-disabled={bloccato || isCheckingOut}, type={bloccato ? 'button' : 'submit'} e onClick che scorre e mette il fuoco sul primo [role="alert"].
+
+### Per registrarsi e finire l'ordine bisogna prima dichiarare se si è Acquirente, Venditore o Rider
+
+**Dove:** `app/sign-up/page.tsx:175-196 (il fieldset non guarda returnTo), 262-264 (testo del pulsante), 53 (returnTo già letto)` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. Il modulo di registrazione è identico per tutti e apre con «Come vuoi usare MyCity?» e tre mattonelle; il pulsante finale dice «Registrati come acquirente». Chi ci arriva dal checkout — uno che vuole solo pagare il pane — si trova una scelta di ruolo che non lo riguarda, dentro il funnel d'acquisto. Il ruolo di default è già 'buyer', quindi non nasce nessun dato sbagliato: è attrito, per questo minore e non grave. L'informazione per toglierlo c'è già: `returnTo` è letto alla riga 53.
+
+**Come si ripara:** Se returnTo inizia con /checkout (o /cart): forzare role='buyer', nascondere il fieldset dei ruoli e cambiare il testo del pulsante in «Crea l'account e continua l'ordine».
+
+### Nel riepilogo del checkout due varianti dello stesso prodotto sono due righe identiche
+
+**Dove:** `components/checkout/CartGroupsList.tsx:31 (key={item.id}) e 43-46 (nessun variantLabel); confronto app/cart/page.tsx:246` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. La lista di destra del checkout stampa foto, nome, «×quantità» e prezzo: `item.variantLabel` non compare mai, mentre il carrello lo mostra. Un carrello con «Maglietta (M)» e «Maglietta (L)» mostra due righe indistinguibili. In più la key è `item.id`, che per due varianti dello stesso prodotto è duplicata (nel carrello la chiave giusta è `${id}::${variantId}`). Minore e non grave: nessun importo sbagliato e la variante è visibile un passo prima, nel carrello.
+
+**Come si ripara:** Stampare item.variantLabel sotto il nome, come fa il carrello, e usare key={`${item.id}::${item.variantId ?? ''}`}.
+
+### Due numerazioni degli step nella stessa schermata, e lo step «Conferma» non si accende mai
+
+**Dove:** `components/checkout/StepIndicator.tsx:38-42 (CHECKOUT_STEPS) e 55-72; app/checkout/page.tsx:833 (currentStep={2}), app/cart/page.tsx:192 (currentStep={1}); StepCard n={1}/n={2}/n={3} alle righe 849, 861, 894` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO (il collega cita StepIndicator.tsx:207-211, ma il file è lungo 72 righe: il contenuto però è quello). In cima al checkout la barra dice «1 Carrello · 2 Indirizzo · 3 Conferma» con il 2 acceso; subito sotto partono le schede numerate «1 Indirizzo di consegna», «2 Quando vuoi riceverlo», «3 Come paghi». Due numerazioni sovrapposte in cui il «3» in alto e il «3» in basso significano cose diverse. E `grep currentStep=` dà solo due chiamate in tutto il progetto (cart=1, checkout=2): lo step 3 non è mai attivo, la barra resta per sempre a «2 di 3» e fa credere che dopo il pagamento ci sia un altro passo.
+
+**Come si ripara:** Togliere la numerazione dalle StepCard (icona + titolo bastano) oppure togliere la barra dal checkout; e rendere «Conferma» attivo quando indirizzo e metodo sono a posto.
+
+### La barra fissa in basso conta due volte la safe-area dell'iPhone
+
+**Dove:** `app/checkout/page.tsx:1072-1073; components/StickyAddToCart.tsx:54 e 57; app/globals.css:199 (.pb-safe)` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO in entrambi i punti. La barra di conferma del checkout ha insieme la classe `pb-[calc(0.75rem+env(safe-area-inset-bottom))]` e lo stile `bottom: calc(env(safe-area-inset-bottom, 0px) + var(--altezza-banner-cookie, 0px))`. StickyAddToCart ha la classe `pb-safe` (che in globals.css:199 è padding-bottom: env(safe-area-inset-bottom)) e lo stesso `bottom: calc(env(safe-area-inset-bottom, 0px) + …)`. Su un iPhone con la barra gestuale l'elemento è sollevato di 34px e ne ha altri 34 di vuoto dentro: la CTA si alza e ruba spazio nella parte più preziosa dello schermo.
+
+**Come si ripara:** Tenere una sola compensazione: se l'elemento è già spostato con bottom: calc(env(safe-area-inset-bottom) + …), togliere pb-safe / il pb-[calc(...+env(safe-area-inset-bottom))] e lasciare un padding fisso.
+
+### Sulla scheda prodotto la barra «ti mancano X alla spedizione gratis» ignora il carrello, e il badge accanto la contraddice
+
+**Dove:** `app/product/[id]/page.tsx:748 (subtotal={price * qty}), 363 (freeShipping = price >= soglia) e 854-856 (badge)` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. FreeShippingProgress riceve `price * qty`, cioè solo il prodotto aperto: con 25 € già nel carrello e un articolo da 6 € scrive «Ti mancano 24,00 € alla spedizione gratis» quando in realtà la soglia è superata. Nella stessa colonna il badge «Spedizione gratuita» usa `freeShipping = price >= FREE_SHIPPING_THRESHOLD`, cioè il prezzo UNITARIO: con due pezzi da 18 € la barra dice «Hai la spedizione gratis» e il badge non compare. Due indicatori sulla stessa cosa che dicono il contrario.
+
+**Come si ripara:** Passare alla barra cartTotal(getCart()) + price * qty e usare la stessa grandezza per il badge, così i due segnali dicono sempre la stessa cosa.
+
+### «Niente intermediari, niente commissioni nascoste» scritto sotto la riga «Consegna MyCity 3,00 €»
+
+**Dove:** `app/cart/page.tsx:435-442 (riquadro «Lo sapevi?»); lib/constants.ts:64 (fee 3 €) e 74 (MARKETPLACE_FEE_BPS = 1000, cioè 10%)` · **Area:** Flussi di acquisto · **Corsia:** codice
+
+CONFERMATO. Il riquadro sta nella colonna del riepilogo, poche righe sotto quella che addebita 3 € di «Consegna MyCity», su una piattaforma che trattiene anche il 10% al negozio. La frase non regge il confronto con i numeri che le stanno sopra, e in questo carrello la fiducia è l'unica leva.
+
+**Come si ripara:** Riscrivere su un vantaggio vero e verificabile («Ogni ordine va direttamente al negozio della tua città: preparano loro, consegna un rider di Piacenza») togliendo «niente commissioni nascoste», oppure dichiarare le due voci in una nota trasparente.
+
+### Il claim «Carta o contanti, decidi tu» in home si corregge subito dal Home builder, senza pubblicare
+
+**Dove:** `app/page.tsx:42-46 (sottotitolo di ripiego, variante hero B) e 89 (heroDefaults); components/home-sections/HomeSectionRenderer.tsx:85 (c.subhead vince sul default); components/admin/home/HomeSectionConfigForm.tsx:129 (campo «Sottotitolo»)` · **Area:** Flussi di acquisto · **Corsia:** config
+
+CONFERMATO, corsia config compresa. Il sottotitolo della variante B promette «Carta o contanti, decidi tu: … puoi pagare alla consegna», che non corrisponde ai metodi reali del checkout. A differenza di scheda prodotto e carrello, qui è solo un ripiego: HomeSectionRenderer usa `c.subhead ? c.subhead : heroDefaults.subhead`, quindi un sottotitolo scritto nella sezione hero del Home builder vince e la home cambia senza toccare il codice.
+
+**Come si ripara:** Da /admin/home, sezione hero, campo «Sottotitolo»: «Ordini dai negozi della tua città e paghi in contanti alla consegna — oppure con carta, subito. A casa in 30-60 minuti.» Poi allineare anche il ripiego in app/page.tsx alla prossima modifica di codice.
+
+### La pagina di reset password mostra il messaggio tecnico inglese preceduto da «Errore:»
+
+**Dove:** `/home/user/mycity/app/reset-password/page.tsx righe 31-47` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO, ma severità abbassata da grave a minore. `translateError` copre sei casi (same as/should be different, weak/at least, expired/jwt, invalid+token, rate/too many, not authenticated/no session); il ripiego finale è `return msg ? \`Errore: ${msg}\` : 'Errore durante l'aggiornamento della password'`, col commento «Niente match: mostra il messaggio originale per debug» rimasto in produzione. Chi ci cade legge il testo grezzo di Supabase in inglese preceduto da «Errore:». Abbasso la severità perché i sei casi coprono gli errori frequenti del reset: il ramo grezzo è residuale, non la strada principale.
+
+**Come si ripara:** Sostituire il ripiego con «Non siamo riusciti ad aggiornare la password. Richiedi un nuovo link qui sotto», mandando il messaggio originale a Sentry (captureError) invece che a schermo.
+
+### L'ordinamento «Più recensiti» ordina in realtà per voto medio
+
+**Dove:** `/home/user/mycity/messages/it.json riga 121 (search.sort.rating = «Più recensiti») e en.json riga 121 («Most reviewed») · usato in /home/user/mycity/app/search/page.tsx riga 186 · ordinamento in /home/user/mycity/components/ProductGrid.tsx righe 314-320` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO, severità abbassata da grave a minore (etichetta fuorviante su un ordinamento, nessun effetto su soldi o fiducia). ProductGrid: `if (sort === 'rating') arr.sort((a,b) => (ratings[b.id]?.avg ?? 0) - (ratings[a.id]?.avg ?? 0))` — ordina per MEDIA dei voti, non per numero di recensioni. Un prodotto con una sola recensione a 5 stelle scavalca uno con quaranta recensioni a 4,8. La prova che l'etichetta è sbagliata è dentro il sito: lo stesso ordinamento nella scheda prodotto si chiama «Voto più alto» (app/product/[id]/page.tsx riga 1056).
+
+**Come si ripara:** it.json → «Voto più alto», en.json → «Highest rated». Se invece si vuole davvero l'ordinamento per numero di recensioni, ordinare per `count` e tenere la parola attuale.
+
+### Refusi nei messaggi d'errore sulla strada dei soldi: «l ordine», «gia», «all assistenza»
+
+**Dove:** `/home/user/mycity/app/api/orders/cod/route.ts righe 157, 202, 207 · /home/user/mycity/app/api/orders/[id]/cancel/route.ts righe 40, 50, 61` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO con grep sui due file. Sei messaggi che arrivano davvero al browser: «Impossibile registrare l ordine, riprova.» (cod 157), «Ordine gia in corso, attendi qualche secondo.» (cod 202 e 207), «Impossibile leggere l ordine» (cancel 40), «Il negozio ha già accettato l ordine, non puoi più annullarlo.» (cancel 50), «Ordine già incassato in contanti: scrivi all assistenza per la restituzione.» (cancel 61). Apostrofi e accenti mancanti proprio dove si crea o si annulla un ordine.
+
+**Come si ripara:** «l'ordine», «già in corso», «all'assistenza», con apostrofo tipografico o escape, come già fa app/seller/orders/[id]/page.tsx.
+
+### Due refusi visibili: «e scaduto: e stato» all'accesso e «piu tardi» nelle impostazioni
+
+**Dove:** `/home/user/mycity/app/sign-in/page.tsx riga 27 · /home/user/mycity/app/profile/settings/page.tsx righe 221 e 233 · /home/user/mycity/components/Segnala.tsx riga 58` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO riga per riga. sign-in riga 27: «Il controllo anti-bot e scaduto: e stato rigenerato, premi di nuovo Accedi.» — due accenti mancanti in una riga sola, sulla schermata di accesso, e la legge chi ha appena sbagliato la password. settings righe 221 e 233: «Esportazione non riuscita. Riprova piu tardi.» ripetuto due volte. Segnala riga 58: «Segnalazione ricevuta. La guardiamo e ti diciamo com è andata.» — «com'è».
+
+**Come si ripara:** «è scaduto: è stato», «più tardi», «com'è andata».
+
+### Il carrello scrive «1 articoli»
+
+**Dove:** `/home/user/mycity/app/cart/page.tsx righe 198 (titolo) e 362 (riepilogo), contro riga 403` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO. Riga 198: `({count} articoli)` nel titolo «Il tuo carrello»; riga 362: `{count} articoli` nel riepilogo. Nessuna delle due distingue il singolare, quindi col caso più frequente — un solo prodotto — si legge «Il tuo carrello (1 articoli)». La forma giusta esiste già nella stessa pagina ma solo nel testo per i lettori di schermo (riga 403: `{count === 1 ? 'articolo' : 'articoli'}`).
+
+**Come si ripara:** Usare l'espressione della riga 403 anche alle righe 198 e 362.
+
+### Un avviso d'errore che dice soltanto «Errore»
+
+**Dove:** `/home/user/mycity/components/ProductCard.tsx riga 104 · stesso ripiego in /home/user/mycity/app/orders/[id]/return/page.tsx riga 88, /home/user/mycity/components/PushNotificationOptIn.tsx riga 119, /home/user/mycity/components/rider/CashConfirmDialog.tsx riga 89, /home/user/mycity/app/rider/onboarding/page.tsx riga 126 e altri` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO, con una precisazione sul conteggio. In ProductCard riga 104 è il ripiego pieno: `if (err.message === 'AUTH_REQUIRED') … else toast.error('Errore')` — qualunque altro errore diventa la parola «Errore», senza dire cosa è successo né cosa fare, mentre il cuoricino ha già fatto l'animazione come se avesse funzionato. Negli altri punti la stringa è il ramo `e instanceof Error ? e.message : 'Errore'`, quindi scatta solo quando viene lanciato qualcosa che non è un Error: reale ma più raro dei «altri 19 punti» dichiarati. In tutto la stringa 'Errore' compare 23 volte fra app/ e components/. Il messaggio buono esiste già in lib/errors.ts («Qualcosa non ha funzionato. Riprova fra un momento.»).
+
+**Come si ripara:** Sostituire ogni `'Errore'` secco con `friendlyError(err)`, già importato in quasi tutti quei file.
+
+### La regola della password è scritta nel testo grigio che sparisce appena scrivi
+
+**Dove:** `/home/user/mycity/app/sign-up/page.tsx riga 226 · proprietà `hint` disponibile in /home/user/mycity/components/ui/Field.tsx (tipo Common, righe 88-95)` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO. Il PasswordInput della registrazione ha `placeholder="Almeno 8 caratteri"`: il segnaposto sparisce al primo carattere digitato, cioè proprio quando la regola servirebbe. Il tipo Common di Field.tsx espone `hint`, che resta sempre visibile sotto il campo, e qui non viene usato. Se poi la password è corta, l'errore torna da Supabase in inglese (vedi il difetto sulle traduzioni degli errori di autenticazione).
+
+**Come si ripara:** `hint="Almeno 8 caratteri"` e segnaposto vuoto.
+
+### Il tempo di risposta dell'assistenza è promesso in due modi diversi
+
+**Dove:** `/home/user/mycity/app/contact/page.tsx righe 91, 69 e 53 · /home/user/mycity/app/help/page.tsx riga 117 · /home/user/mycity/app/faq/page.tsx riga 190 · /home/user/mycity/app/seller/help/page.tsx riga 83 · /home/user/mycity/app/rider/help/page.tsx riga 165 · /home/user/mycity/app/seller/layout.tsx righe 55 e 137` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO con grep. Quattro schede di contatto dicono «Risposta entro 24h» secco (contact 91, help 117, seller/help 83, rider/help 165); la conferma dopo l'invio dice «entro 24h lavorative» (contact 69) e la FAQ «entro 24 ore lavorative» (faq 190). Sono due promesse diverse: chi scrive venerdì sera legge 24 ore e ne aspetta 72. Stessa doppia versione per i venditori dentro lo stesso file: «Approvazione entro 48h» (seller/layout riga 55) contro «entro 48 ore lavorative» (riga 137).
+
+**Come si ripara:** Una sola formula ovunque, quella vera: «Risposta entro 24 ore lavorative» e «Approvazione entro 48 ore lavorative».
+
+### Tre puntini normali dove tutto il resto del sito usa il carattere puntini di sospensione
+
+**Dove:** `/home/user/mycity/components/SearchBar.tsx riga 34 · /home/user/mycity/components/Navbar.tsx riga 207 · /home/user/mycity/app/sign-in/page.tsx riga 254 · /home/user/mycity/app/sign-up/page.tsx riga 263 · /home/user/mycity/app/profile/settings/page.tsx righe 586 e 619 · /home/user/mycity/app/messages/[id]/page.tsx riga 297 · /home/user/mycity/app/shared-cart/page.tsx riga 92 · /home/user/mycity/components/StoreLocationPicker.tsx riga 234` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO riga per riga (esclusi gli spread operator del codice). I punti fuori riga sono fra i più visti del sito: «Cerca prodotti, negozi, categorie...» (SearchBar 34), «Cerca a Piacenza...» (Navbar 207), «Accesso in corso...» (sign-in 254), «Registrazione in corso...» (sign-up 263), «Annullamento...» e «Invio richiesta...» (settings 586 e 619), «Scrivi un messaggio...» (messages 297), «Carico la lista...» (shared-cart 92), «Ricerca posizione...» (StoreLocationPicker 234). Nel resto del sito il carattere «…» compare 118 volte nei .tsx: la convenzione c'è, questi la rompono e la differenza di spaziatura si vede.
+
+**Come si ripara:** Sostituire «...» con «…» in questi punti.
+
+### Al venditore si parla di «buyer» e di «Upload»
+
+**Dove:** `/home/user/mycity/app/seller/promotions/page.tsx riga 98 · /home/user/mycity/app/seller/stories/page.tsx righe 189 e 219` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO. promotions riga 98: `toast.success('Promozione creata! È già attiva e visibile ai buyer.')`. stories riga 189: il pulsante durante il caricamento mostra `{uploading ? 'Upload…' : 'Pubblica (24h)'}`. stories riga 219: `label="Link prodotto/categoria (opz.)"`. Il resto della sezione venditore è in italiano piano, quindi queste tre stonano davanti a negozianti che non hanno chiesto di imparare l'inglese.
+
+**Come si ripara:** «…visibile ai clienti», «Carico…», «(facoltativo)».
+
+### Due conferme di cancellazione senza dire cosa si perde
+
+**Dove:** `/home/user/mycity/app/lists/[id]/page.tsx riga 246 · /home/user/mycity/app/seller/stories/page.tsx riga 167` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO. Le due chiamate sono `confirmDialog({ title: 'Eliminare la lista?', danger: true })` e `confirmDialog({ title: 'Rimuovere storia?', danger: true })`: solo il titolo, pulsante rosso, nessun campo `message`. Le altre conferme del sito la conseguenza la spiegano — per esempio in app/admin/users/page.tsx il message dice cosa viene cancellato e che l'azione è irreversibile. Su un'azione che non si può annullare il titolo da solo non basta a decidere.
+
+**Come si ripara:** Aggiungere il campo message: «La lista e i prodotti salvati dentro andranno persi. Non si può annullare.» e «La storia sparirà subito dalla tua vetrina.»
+
+### Testi tecnici che escono dal database e finiscono davanti a una persona
+
+**Dove:** `/home/user/mycity/app/admin/users/page.tsx righe 519 e 619 · /home/user/mycity/app/api/returns/[id]/decide/route.ts righe 47 e 148` · **Area:** Testi dell interfaccia · **Corsia:** codice
+
+CONFERMATO. admin/users righe 519 e 619: il message della conferma dice «<nome> verrà rimosso da auth.users e il profilo anonimizzato…» — «auth.users» è il nome di una tabella, non una frase (chi legge è però lo staff, non il cliente: per questo resta minore). Rotta resi riga 47: `ApiErrors.conflict(\`Reso gia' in stato ${ret.status}\`)` → il venditore che decide due volte legge «Reso gia' in stato APPROVED», con lo stato grezzo in inglese maiuscolo e l'apostrofo battuto a macchina. Riga 148: `ApiErrors.badGateway('Rimborso fallito: ' + err.message)` → il testo d'errore di Stripe, in inglese, arriva a schermo.
+
+**Come si ripara:** «L'account verrà cancellato e i dati personali anonimizzati»; «Questo reso è già stato deciso» senza lo stato grezzo; «Il rimborso non è partito: riprova o scrivi all'assistenza», mandando il testo di Stripe ai log.
+
+### Il mega-menu «Tutte le categorie» è un pannello lunghissimo senza altezza massima
+
+**Dove:** `components/CategoryBar.tsx:133-190 (pannello absolute z-50, max-w-[900px], grid-cols-2 su mobile); grep di 'max-h' e 'overflow-y' sul file: zero occorrenze` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO nella sostanza, severità corretta al ribasso. Il pannello (righe 133-190) non ha né max-height né overflow-y: elenca tutte le categorie principali (8 nel seed di migrations/002, riga 98-106, più quelle aggiunte dopo) con fino a sei sottocategorie ciascuna, in griglia a 2 colonne su telefono: molto più alto di uno schermo. Correggo però la gravità: essendo il pannello 'absolute' e l'intestazione 'relative' su mobile (Navbar:89), il contenuto in fondo È raggiungibile scorrendo la pagina — è scomodo e si sovrappone ai contenuti sotto, non è irraggiungibile. Difetto reale ma non bloccante.
+
+**Come si ripara:** Dare al pannello max-h-[70vh] overflow-y-auto con overscroll-contain, oppure su mobile aprirlo come foglio a scomparsa dal basso.
+
+### Le stesse quattro promesse sono ripetute tre volte sulla home e una quarta nel piè di pagina
+
+**Dove:** `components/home-sections/HomeSectionRenderer.tsx:54-60 (DEFAULT_TRUST_BULLETS), usato a :230 (liveActivity) e a :261 (trustRow), entrambi in lib/home-site.ts:239-240 · hero :146-158 · components/Footer.tsx:213-222` · **Area:** Navigazione e gerarchia visiva · **Corsia:** config
+
+CONFERMATO. L'array DEFAULT_TRUST_BULLETS (righe 54-60: pagamento alla consegna, 100% commercianti locali, consegna in 30-60 min, reso entro 14 giorni) è mappato due volte: nella card «Perché scegliere MyCity» dentro liveActivity (riga 230) e nella banda trustRow (riga 261). Entrambe le sezioni sono nell'ordine di default (lib/home-site.ts righe 239-240). Le stesse promesse in forma abbreviata sono nell'hero (righe 146-158: «Paghi alla consegna», «In 30-60 minuti…», «Account solo per confermare») e una quarta volta nel piè di pagina — dove la riga esatta è 213-222, non 229-241 come indicato.
+
+**Come si ripara:** Tenere una sola occorrenza: togliere la banda trustRow dall'ordine di default nel Home builder (la card dentro Attività live la copre già), o viceversa.
+
+### Due pulsanti primari identici «Inizia a esplorare» sulla stessa home, e portano a un indice senza foto
+
+**Dove:** `components/home-sections/HomeSectionRenderer.tsx:105-113 (hero, href /categorie, testo = heroDefaults.ctaPrimary) · app/page.tsx:32 (ctaPrimary: 'Inizia a esplorare') · components/home/HowItWorks.tsx:86-95 (stesso testo scritto a mano, stesso href, stesse classi) · app/categorie/page.tsx` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO, con un caveat. Il pulsante di HowItWorks (righe 86-95) ha testo «Inizia a esplorare» scritto a mano, href /categorie e le stesse identiche classi del primario dell'hero ('bg-primary-700 hover:bg-primary-800 text-white px-6 py-3 rounded-full font-semibold shadow-warm'). Il testo dell'hero viene da heroDefaults.ctaPrimary, che in app/page.tsx riga 32 vale esattamente 'Inizia a esplorare' — quindi i due pulsanti sono gemelli. Caveat verificato: esiste una seconda variante dell'hero (app/page.tsx riga 48, 'Scopri cosa c'è oggi'), quindi la sovrapposizione perfetta riguarda la variante di default, non il 100% delle visite. Confermata anche la destinazione povera: app/categorie/page.tsx non contiene nessun <Image>/img (grep a vuoto), è un elenco testuale, mentre due sezioni più giù CategoryShowcase mostra le stesse categorie con le foto.
+
+**Come si ripara:** Lasciare una sola chiamata primaria (nell'hero) e mandarla dove ci sono i prodotti (/search o la categoria più venduta); in «Come funziona» sostituirla con un link testuale secondario.
+
+### La sezione «Cosa cerchi oggi? — Tutte le categorie» ne mostra sei e non ha il link per vedere le altre
+
+**Dove:** `components/CategoryShowcase.tsx:97 (categories.slice(0, 6)) dentro il blocco 'categories' di components/home-sections/HomeSectionRenderer.tsx:174-188 (sottotitolo 'Tutte le categorie del mercato locale' alla riga 183) · migrations/002_categories_and_extras.sql:98-106` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO. CategoryShowcase taglia a sei (riga 97: categories.slice(0, 6)) mentre il sottotitolo di default della sezione promette «Tutte le categorie del mercato locale» (renderer riga 183). Il seed di migrations/002 inserisce otto categorie principali (righe 98-106: alimentari, abbigliamento, casa, elettronica, libri, giardino, bellezza, sport) — la ICON_MAP di CategoryBar ne cita anche giocattoli — quindi almeno due o tre restano tagliate. Confermato anche che manca la via d'uscita: grep di 'Vedi tutt' su CategoryShowcase.tsx non trova nulla, mentre «Prodotti popolari» ha il suo HomeCtaLink 'Vedi tutto' (renderer riga 215).
+
+**Come si ripara:** Aggiungere l'intestazione con «Vedi tutte le categorie →» verso /categorie, come nelle altre due sezioni. Nel frattempo correggere il sottotitolo dal Home builder in «Le categorie più cercate».
+
+### La barra dei tre passi va a capo sui telefoni stretti e il terzo passo non si accende mai
+
+**Dove:** `components/checkout/StepIndicator.tsx:57-72 (flex … gap-4 sm:gap-8 flex-wrap, trattini w-8 sm:w-16, cerchi w-7 h-7) · app/cart/page.tsx:192 (currentStep 1) · app/checkout/page.tsx:833 (currentStep 2)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO, con distinzione fra la parte provata e la parte calcolata. Parte provata: grep di 'StepIndicator' su tutto app/ e components/ restituisce solo due usi, currentStep 1 (cart:192) e currentStep 2 (checkout:833). Nessuna pagina passa currentStep 3, quindi il pallino «Conferma» (CHECKOUT_STEPS riga 40) resta grigio per tutto il percorso e la barra non si completa mai. Parte calcolata (non misurata in browser ma coerente col file): tre passi da cerchio 28 px + gap 8 px + etichetta text-sm, più due trattini w-8 e i gap-4 del contenitore, superano i ~343-358 px utili di un iPhone SE/12, e il contenitore ha flex-wrap alla riga 58, quindi il terzo passo va a capo.
+
+**Come si ripara:** Sotto sm mostrare la forma compatta («Passo 2 di 3 · Indirizzo») o accorciare etichette e trattini; montare l'indicatore con currentStep 3 sulla pagina dell'ordine confermato.
+
+### La colonna del menu account si infila sotto l'intestazione fissa
+
+**Dove:** `components/account/AccountShell.tsx:108 (lg:sticky lg:top-24) contro app/globals.css:106 (--header-height: 9rem) · confronto: app/product/[id]/page.tsx:851 e app/cart/page.tsx:358 usano top-[var(--header-height)]` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO. L'aside dell'area account si blocca a top-24 (96 px, riga 108) mentre il token --header-height dichiara 9rem ≈ 144 px (globals.css riga 106) proprio per l'intestazione sticky di desktop (Navbar riga 89: md:sticky md:top-0 z-sticky). Sono 48 px di scarto, quindi la parte alta della card identità finisce dietro la barra terracotta, che avendo z-sticky sta sopra. Confermato che tutte le altre colonne appiccicose usano il token: scheda acquisto prodotto (riga 851) e riepilogo carrello (riga 358).
+
+**Come si ripara:** Sostituire lg:top-24 con lg:top-[var(--header-height)] più un piccolo margine, così l'offset resta scritto in un posto solo.
+
+### Nella pagina dei risultati il carosello sponsorizzato sta sopra il briciolo di pane e sopra il titolo
+
+**Dove:** `app/search/page.tsx:433 (<SponsoredCarousel placement="search_top" />), :435-446 (nav Breadcrumb), :450 (<h1>) · components/SponsoredCarousel.tsx:119 (if (items.length === 0) return null)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO. Nella colonna risultati il primo figlio è il carosello a pagamento (riga 433); solo dopo arrivano la nav Breadcrumb «Home › Ricerca» (435-446), l'<h1> «Risultati per …» (450) e la riga conteggio. Chi ha appena cercato non trova subito la conferma di cosa sta guardando. Confermata anche l'attenuante indicata dal collega: con zero campagne il componente si nasconde da solo (SponsoredCarousel riga 119), quindi il difetto si manifesta solo a retail media acceso.
+
+**Come si ripara:** Invertire l'ordine: briciolo di pane, titolo e riga conteggio prima, carosello sponsorizzato subito sotto (resta sopra la griglia, quindi la visibilità venduta non cala).
+
+### La pagina «Tutti i negozi» è l'unica vetrina senza briciolo di pane, e il contatore non segue i filtri
+
+**Dove:** `app/stores/page.tsx:230-239 (intestazione scritta a mano, riga 237 stampa stores.length) · :185 (const filtered) e :295-302 (la griglia usa filtered) · confronto: components/CollectionHeader.tsx usato da /categorie, /category/[slug], /novita, /piu-venduti, /piccoli-prezzi, /promozioni, /regali` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO su entrambi i punti. Primo: l'intestazione è scritta a mano (righe 230-239) — solo <h1> e una riga, nessun CollectionHeader, quindi niente «Home › Negozi», niente occhiello, niente riquadro icona; è la prima voce della barra categorie e non offre nessuna scala per risalire. Secondo: la riga sotto il titolo stampa stores.length (riga 237), cioè il totale non filtrato, mentre i filtri di ricerca/settore alimentano 'filtered' (riga 185) che è quello davvero renderizzato (righe 295 e 302). Con un filtro attivo la pagina continua a dichiarare il totale mentre a schermo restano pochi negozi. Confermato anche il passo orizzontale fuori scala: riga 230 usa 'px-4' senza sm:px-6.
+
+**Come si ripara:** Usare CollectionHeader con breadcrumb [Home, Negozi] come le altre vetrine, e stampare filtered.length nella riga di conteggio tenendo il totale come testo secondario.
+
+### La larghezza del contenuto cambia tre volte lungo il percorso d'acquisto
+
+**Dove:** `app/categorie/page.tsx:35 (max-w-5xl, px-4) · app/store/[id]/page.tsx:109 (max-w-5xl, px-4) · app/checkout/page.tsx:823 (max-w-6xl, px-4 sm:px-6) · app/cart/page.tsx:190 e app/product/[id]/page.tsx:476 (container pieno, px-4 sm:px-6) · app/stores/page.tsx:230 (max-w-7xl, px-4)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO riga per riga. Su un monitor largo il blocco di contenuto passa da 1280 px (home, prodotto, carrello, container di default) a 1024 px (max-w-5xl su /categorie riga 35 e sulla pagina negozio riga 109) a 1152 px (max-w-6xl sul checkout riga 823): il bordo sinistro si sposta a ogni passaggio mentre intestazione e piè di pagina restano larghi. Confermato anche il passo orizzontale disallineato: /categorie, /store/[id] e /stores usano 'px-4' fisso, mentre prodotto, carrello e checkout usano 'px-4 sm:px-6'.
+
+**Come si ripara:** Fissare due larghezze sole e documentarle: piena (container) per catalogo e scoperta, ristretta per i percorsi a modulo; e usare ovunque lo stesso px-4 sm:px-6.
+
+### Nella scheda prodotto il prezzo è quasi grande quanto il titolo e pesa meno del pulsante «+»
+
+**Dove:** `components/ProductCard.tsx:188 (titolo text-[13px]), :208 e :215 (prezzo text-base font-extrabold), :217-222 (pulsante h-11 w-11 bg-primary-600)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO. Il prezzo è 'text-base font-extrabold' (16 px, righe 208 e 215) contro un titolo 'text-[13px] font-semibold' (riga 188): tre pixel di differenza. Accanto, il pulsante di aggiunta rapida è un quadrato pieno 'h-11 w-11 rounded-lg bg-primary-600 text-white' (44×44 px, righe 217-222). In una fila di card l'occhio cade sui quadrati colorati e non sui prezzi. Confermato anche il cambio di colore in caso di sconto: il prezzo scontato è text-secondary-600 (riga 208) contro text-ink-900 (riga 215), quindi la colonna dei prezzi non è omogenea.
+
+**Come si ripara:** Portare il prezzo a text-lg/text-xl e tenere il pulsante «+» come contorno o tono più tenue, così il colore pieno resta al prezzo.
+
+### La lente nella barra di ricerca non si può toccare e non c'è nessun pulsante «Cerca»
+
+**Dove:** `components/SearchBar.tsx:164 (icona Search con pointer-events-none) · :163-185 (il <form> non contiene nessun elemento type="submit") · :176-183 (crocetta Pulisci, icona 16 px senza padding)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO. L'icona della lente alla riga 164 ha esplicitamente 'pointer-events-none': toccarla non fa nulla. Dentro il <form role="search"> (righe 163-185) gli unici elementi sono l'input e, quando c'è testo, un <button type="button"> di pulizia: nessun submit visibile, quindi l'unico modo di cercare è premere Invio o toccare un suggerimento. La crocetta «Pulisci» (righe 176-183) è un bottone con la sola icona X da 16 px e nessuna classe di padding o dimensione minima, quindi con area di tocco molto sotto i 44 px.
+
+**Come si ripara:** Trasformare la lente in un <button type="submit"> con area minima 44×44, e dare alla crocetta lo stesso ingombro minimo.
+
+### Dopo l'accesso la voce «Negozi» sparisce dalla barra in basso
+
+**Dove:** `components/MobileTabBar.tsx:95-102 (autenticato: Home, Cerca, Carrello, Ordini, Io) contro :104-111 (ospite: Home, Cerca, Negozi, Carrello, Accedi)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO col file davanti. L'array dell'ospite (righe 104-111) contiene '/stores' con etichetta t('stores'); quello dell'utente autenticato (righe 95-102) la sostituisce con '/orders' e '/profile'. Il cliente che ha imparato dove stavano i negozi, dopo il login non li trova più nello stesso posto e deve passare dalla barra categorie in cima — che però soffre già del difetto di scorrimento senza affordance — o dal piè di pagina.
+
+**Come si ripara:** Tenere le stesse cinque destinazioni per ospite e utente registrato (Home, Cerca, Negozi, Carrello, Io) e spostare «Ordini» dentro il foglio «Io», dove c'è già.
+
+### La striscia in cima scorre di continuo ed è l'elemento più in movimento sopra logo e ricerca
+
+**Dove:** `components/PromoTicker.tsx:85-89 (animate-marquee, nessun return null nel file) montata sempre da components/Navbar.tsx:90 · app/globals.css:254-261 (animazione 24s infinita, pausa solo su hover/focus-within/active) · mitigazione a globals.css:213-219` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO. Il ticker è la prima riga di ogni pagina (Navbar riga 90) e non ha nessun 'return null' nel componente, quindi è sempre montato; il contenuto scorre con 'animate-marquee' (riga 86) definito in globals.css righe 254-256 come animazione lineare infinita di 24 secondi, con pausa dichiarata solo per hover, focus-within e active (righe 258-261) — nessuna di queste esiste su un telefono. Onestà: esiste una mitigazione che il collega non cita, il blocco prefers-reduced-motion di globals.css righe 213-219 azzera durata e iterazioni, quindi chi ha attivato l'impostazione di sistema è coperto; tutti gli altri no.
+
+**Come si ripara:** Fermare lo scorrimento quando gli annunci ci stanno in una riga, oppure ruotarli a scatti con dissolvenza, oppure aggiungere un pulsante pausa.
+
+### Nell'intestazione per l'ospite il carrello e «Registrati» sono due pillole gialle identiche affiancate
+
+**Dove:** `components/Navbar.tsx:113-115 (Registrati: bg-accent-500 hover:bg-accent-600 text-ink-900 px-4 py-2 rounded-full) e :248 (CartButton: bg-accent-500 hover:bg-accent-600 text-ink-900 px-3 py-2 rounded-full)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO. Nel ramo dell'ospite il carrello (CartButton, riga 248) e il pulsante «Registrati» (righe 113-115) sono resi uno accanto all'altro con esattamente lo stesso riempimento 'bg-accent-500', lo stesso testo scuro 'text-ink-900' e la stessa forma 'rounded-full'; cambia solo il padding orizzontale (px-3 contro px-4). Due azioni di valore molto diverso hanno lo stesso peso visivo nell'angolo in alto a destra.
+
+**Come si ripara:** Tenere il pieno giallo al carrello e rendere «Registrati» un contorno bianco su terracotta, così nella stessa riga c'è un solo pieno.
+
+### Due componenti diversi disegnano lo stesso briciolo di pane, con separatore e misure diverse
+
+**Dove:** `components/ui/Breadcrumb.tsx:38-60 (text-sm, chevron PRIMA della voce alla riga 45, JSON-LD BreadcrumbList alle righe 24-27 e 62) contro components/CollectionHeader.tsx:64-83 (text-[13px], chevron DOPO la voce alla riga 79, nessun dato strutturato) e app/search/page.tsx:435-446 (terza copia a mano, text-[13px], chevron dopo)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO, tre implementazioni distinte. Il componente condiviso Breadcrumb usa text-sm, disegna il ChevronRight prima di ogni voce successiva (riga 45, dentro il blocco idx > 0) ed emette lo schema BreadcrumbList per Google (costruito alle righe 24-27, stampato in un <script type="application/ld+json"> alla riga 62). CollectionHeader lo riscrive a mano con text-[13px] e il chevron dopo la voce (riga 79), senza dati strutturati; app/search/page.tsx righe 435-446 è una terza copia identica alla seconda. Passando da una categoria a un prodotto lo stesso elemento di orientamento cambia dimensione e ritmo.
+
+**Come si ripara:** Usare ovunque components/ui/Breadcrumb, dandogli una proprietà per l'uso dentro CollectionHeader; cancellare le due copie a mano.
+
+### Le spaziature verticali fra i blocchi della home non seguono nessuna scala, e il «Drop del giorno» non ha aria sopra
+
+**Dove:** `components/home-sections/HomeSectionRenderer.tsx: hero py-6 md:py-10 (:92), categorie py-6 (:177), dropOfDay pb-2 senza padding superiore (:194), prodotti py-6 (:203), attività live py-6 (:232), banda fiducia py-6 (:260), newsletter py-6 md:py-8 (:313), venditori py-5 (:343), blocchi editoriali py-4 (:369-377), blocchi di contenuto py-5 (:386, :408, :433, :454)` · **Area:** Navigazione e gerarchia visiva · **Corsia:** codice
+
+CONFERMATO, con i numeri di riga corretti (il collega li aveva spostati di qualche riga). Le sezioni della home usano cinque passi verticali diversi — py-4, py-5, py-6, py-6 md:py-8/md:py-10, pb-2 — senza una regola. Il caso peggiore è «Drop del giorno» alla riga 194: 'container mx-auto px-4 sm:px-6 pb-2', cioè padding solo in basso, quindi la sezione si incolla alla precedente mentre tutte le altre hanno respiro simmetrico.
+
+**Come si ripara:** Definire due soli passi (sezione normale py-8, sezione a piena larghezza con fondo py-10) e applicarli dal renderer invece di scriverli caso per caso.
+
+### La vetrina negozi in home mostra 4 scheletri per 6 negozi, e il riquadro foto ha proporzioni sbagliate
+
+**Dove:** `components/StoreShowcase.tsx:69-83 (scheletro) contro :20 e :29 (`.limit(6)`) e components/StorePreviewCard.tsx:59-63 (copertina `h-28`)` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato. Lo scheletro cicla `Array.from({ length: 4 })`, mentre entrambe le query della vetrina chiedono `.limit(6)`: su due colonne da telefono sono due righe che diventano tre, quindi nasce una riga intera e tutto ciò che sta sotto scende. In più il riquadro-foto dello scheletro è `aspect-[4/3]`, mentre la copertina vera passa da `StoreMediaCarousel` con `heightClass={compact ? 'h-24' : 'h-28'}` (StorePreviewCard.tsx:61), cioè 112 px fissi: su desktop a quattro colonne larghe ~280 px lo scheletro è alto ~210 px contro i 112 veri. Il commento alla riga 68 dice che lo scheletro serve «a evitare il CLS»: lo riduce, non lo evita.
+
+**Come si ripara:** Portare il conteggio degli scheletri a 6 — meglio: leggerlo dalla stessa costante che alimenta il `limit`, così non possono divergere — e sostituire `aspect-[4/3]` con `h-28`, la stessa classe della copertina vera.
+
+### Il riquadro «cosa sta succedendo» non esiste finché non arrivano i dati, poi si apre e spinge giù la colonna
+
+**Dove:** `components/LiveActivityFeed.tsx:84 (`if (activities.length === 0) return null;`), inserito da components/home-sections/HomeSectionRenderer.tsx:226-229` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato. Il componente torna `null` sia quando è davvero vuoto sia mentre sta caricando: `activities` parte da `[]` e `isLoading` non viene mai letto, quindi i due casi non sono distinti. Il riquadro sta in una griglia a due colonne insieme al blocco fiducia: finché è `null` la colonna è vuota, poi nasce una scheda `bg-white border rounded-2xl p-5` con intestazione e righe di attività, e la riga della griglia si alza. Da telefono, dove le due colonne diventano una sotto l'altra, tutto quello che sta sotto scende di colpo.
+
+**Come si ripara:** Distinguere i due casi: leggere `isLoading` dalla `useQuery` e, durante il caricamento, disegnare la scheda con la sua intestazione e cinque righe `.skeleton` dell'altezza giusta. Restituire `null` solo quando la risposta è arrivata ed è davvero vuota.
+
+### Mentre l'hero carica, la home mostra un negozio inventato con prezzi inventati
+
+**Dove:** `components/home/HeroStoreCard.tsx:72 (`if (!data?.store) return <HeroStorePlaceholder />`) e :191-258 (il segnaposto)` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato aprendo il file. Finché la richiesta è in volo — e anche quando la RPC fallisce, perché la queryFn torna `null` in caso di errore (righe 61-64) — la home disegna `HeroStorePlaceholder`: un negozio che non esiste, «Salumeria del Borgo» in Via Calzolai (riga 217), con sei prodotti e prezzi finti (Coppa DOP €9,50, Salame €12,00, Prosciutto crudo €15,00 — righe 193-199) e la riga «Consegna stimata · oggi, entro 18:00». Se la rete è lenta il cliente li legge come veri, ed è un problema di credibilità prima che di grafica. CORREZIONI al collega, verificate: ① la copertina del segnaposto è `h-44` esattamente come quella della card vera (righe 205 e 100), quindi il salto NON è lì — la differenza di altezza può nascere solo dal corpo, dove la card vera ha una riga meta condizionata (`{(reviews || zone) && …}`, righe 122-139) e un numero variabile di prodotti; ② l'assenza di `priority` sulla copertina non è un difetto sfruttabile, perché la card è un componente client che nasce dopo il JavaScript: `priority` lì non produrrebbe comunque nessun preload.
+
+**Come si ripara:** Sostituire il segnaposto con uno scheletro neutro — stessa scatola, stessa copertina `h-44`, blocchi `.skeleton` al posto di nome, indirizzo e prodotti, nessun nome e nessun prezzo inventato — e fissare un'altezza minima pari a quella della card piena, così l'hero non si muove quando arriva il negozio vero.
+
+### Il banner «Ordina entro…» nasce a una riga e ne diventa due dopo l'idratazione
+
+**Dove:** `components/ui/DeliveryCutoff.tsx:83-96 (i rami del testo) e :100-110 (il banner), usato nell'hero della home da components/home-sections/HomeSectionRenderer.tsx:143` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato. Prima dell'idratazione l'hook torna `{ hydrated: false, day: 'oggi' }` (riga 51), quindi la condizione `day === 'oggi' && hydrated` è falsa e il testo cade sul ramo finale: «Arriva oggi», undici caratteri. Dopo l'idratazione, con `day === 'oggi'`, diventa «Ordina entro 02:14:31 e arriva oggi in 30-60 min», circa quarantotto. Il banner è `flex items-center gap-2 … px-3 py-2 text-sm` con `max-w-sm` (384 px) passato dal renderer, meno icona da 18 px e padding: a quella misura il testo lungo non ci sta su una riga, va a capo e la scatola cresce, spingendo giù le tre righe di rassicurazione sotto (Paghi alla consegna / In 30-60 minuti / …). Il commento alla riga 82 dichiara «no layout shift»: vale per il carattere a larghezza fissa del contatore, non per la lunghezza della frase, che quadruplica.
+
+**Come si ripara:** Riservare lo spazio dall'inizio: dare al banner un'altezza minima pari a quella del testo lungo, oppure — meglio — usare pre-idratazione una frase della stessa lunghezza («Ordina entro le 18:00 e arriva oggi in 30-60 min», senza contatore), così l'unica cosa che cambia sono le cifre dentro uno spazio già occupato.
+
+### Il service worker riscarica ogni foto già vista a ogni visita, e tiene in cache solo 60 immagini
+
+**Dove:** `public/sw.js:28 (`MAX_IMAGE_ENTRIES = 60`), :49-56 (`trimCache`), :58-82 (`staleWhileRevalidate`), :138-142 (la regola sulle immagini Supabase)` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato, tre cose misurabili. ① `staleWhileRevalidate` chiama `fetch(req)` sempre, anche quando `cached` c'è (righe 61-63): ogni foto già in cache viene comunque riscaricata in sottofondo a ogni apertura di pagina. Su una griglia di ricerca sono decine di richieste che occupano la banda mentre stanno ancora arrivando le immagini nuove. ② Il limite è 60 voci mentre una pagina di ricerca arriva a 96 prodotti (il tetto `limit ?? 96` in ProductGrid.tsx:132 e :189): la cache si riempie e si svuota dentro la stessa schermata, quindi non serve quasi mai. ③ `trimCache` fa `requests.slice(0, requests.length - maxEntries)`, cioè cancella le chiavi restituite per prime da `cache.keys()` — ordine di inserimento, FIFO — mentre il commento alla riga 48 la chiama «LRU».
+
+**Come si ripara:** Per le foto di prodotto, che hanno indirizzo versionato e cache lunga, usare cache-first con scadenza invece di stale-while-revalidate: se la copia c'è ed è recente, nessuna richiesta. Alzare `MAX_IMAGE_ENTRIES` almeno a 200 (una griglia piena più due navigazioni). E o si riscrive `trimCache` aggiornando l'ordine a ogni lettura, o si corregge il commento: oggi dice una cosa che il codice non fa.
+
+### Ogni prodotto senza foto fa una richiesta a placehold.co, dominio esterno non preconnesso
+
+**Dove:** `components/ProductCard.tsx:61, app/cart/page.tsx:231 e components/checkout/CartGroupsList.tsx:35; app/layout.tsx:105-108 (l'elenco dei preconnect)` · **Area:** Velocita percepita · **Corsia:** codice
+
+Confermato. Quando `images[0]` manca, ProductCard ripiega su `'https://placehold.co/400x400/FBF7F0/C0492C?text=Foto'`; l'indirizzo attraversa `sizedImage` senza essere toccato (lib/image-url.ts:78-80 lascia placehold.co com'è, e il caricatore non trova parametri `width`/`w` da riscrivere), quindi parte una richiesta vera a un dominio terzo per ogni scheda senza foto. Nel `<head>` (app/layout.tsx:105-108) sono preconnessi solo l'host Supabase e js.stripe.com, con dns-prefetch per api.stripe.com e challenges.cloudflare.com: placehold.co non c'è. La prima richiesta paga DNS più handshake TLS, e se il servizio è lento o giù la griglia resta coi buchi. Gli stessi segnaposto compaiono nel carrello e nel riepilogo del checkout, cioè sul percorso d'acquisto.
+
+**Come si ripara:** Sostituire l'indirizzo remoto con un segnaposto locale servito dal nostro dominio (un SVG in `public/`, che il service worker già mette in cache-first alla regola 3 di sw.js): zero richieste esterne, non può cadere, e si disegna on-brand. Il `preconnect` a placehold.co è solo una toppa.

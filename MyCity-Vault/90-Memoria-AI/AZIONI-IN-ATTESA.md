@@ -21,6 +21,30 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- write-vs-edit-settings-local -->
 
 ---
+### 🟡 #167 — Nessun negoziante riesce a mettere la foto di copertina alla sua vetrina · ⏳ accodata 2026-08-22 16:05
+
+**Cosa cambia:** il magazzino delle immagini accetta un file solo se la **prima cartella** del
+percorso è l'identificativo di chi carica. Per gli amministratori c'è una sola eccezione, la
+cartella `home`.
+
+Tre punti del sito caricano invece in cartelle che si chiamano `store-media`, `events` e `shop`.
+Il magazzino li rifiuta, e non arriva nessun errore utile.
+
+Un esempio. Il negoziante di Pane Quotidiano sceglie la foto del bancone e la carica. Il file parte
+verso `store-media`, il magazzino guarda la prima cartella, non ci trova il suo identificativo, e
+rifiuta. La copertina semplicemente non compare, e la vetrina resta sul colore di ripiego.
+
+Lo stesso vale per te dall'amministrazione: non si caricano le copertine degli **Eventi** né quella
+del **Negozio del mese**.
+
+**Cosa devi fare:** dirmi se la riparo. È una riga per punto, tre punti in tutto: basta mettere
+l'identificativo (o `home`, per l'admin) come prima cartella. Nello stesso progetto ci sono già due
+file che lo fanno giusto e lo spiegano nel commento, quindi non è una scelta nuova: è allinearsi a
+quella già presa.
+
+**Se va bene:** correggo i tre percorsi in un ramo, apro la richiesta di unione e ti dico cosa
+controllare. Non tocco la regola del magazzino: quella è giusta, sono i tre percorsi a essere fuori.
+
 ### 🔴 #166 — Dimmi quali delle otto richieste ferme in coda unisco e quali chiudo · ⏳ accodata 2026-08-22 12:05
 
 **Cosa cambia:** in coda ci sono otto pacchetti di lavoro in attesa della tua firma. Il più vecchio

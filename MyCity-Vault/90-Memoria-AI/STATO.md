@@ -1,8 +1,20 @@
 ---
 tipo: stato
-aggiornato: 2026-08-22 14:10
+aggiornato: 2026-08-22 16:05
 fonte: AD digitale (giro, cervello/giro.md)
 ---
+
+> 🎨 **22/8 16:05 — Radiografia del design: 208 problemi veri, e due impediscono di caricare le foto.** Richiesta di Nicola in chat: «ora fai la radiografia del design».
+>
+> **Il conto.** Undici dimensioni in sola lettura sul ramo principale del sito, ognuna con un senior che cerca e un secondo che smonta: **208 problemi confermati** — 2 bloccanti, 86 gravi, 120 minori. Di questi 205 chiedono di toccare il codice, 3 si risolvono dai contenuti configurabili senza ripubblicare.
+>
+> **I due bloccanti hanno la stessa radice.** Il magazzino delle immagini accetta un file solo se la **prima cartella** del percorso è l'identificativo di chi carica (per gli amministratori c'è una sola eccezione, la cartella `home`). Tre punti del sito caricano invece in cartelle che si chiamano `store-media`, `events` e `shop`: il magazzino li rifiuta. Risultato: **un negoziante non riesce a mettere la copertina alla sua vetrina**, e dall'amministrazione non si caricano le copertine di Eventi e Negozio del mese. Nello stesso progetto ci sono già due file che usano il percorso giusto e lo spiegano nel commento.
+>
+> **Le gravi che costano di più.** Il carrello con due negozi scrive «Gratis*» sulla spedizione e intanto mette 9,80 € nel totale · le vetrine dicono «spedizione gratuita» mentre su ogni consegna a domicilio si pagano 3 € di «Consegna MyCity» · la scheda prodotto promette «carta o contanti alla consegna» ma la carta alla consegna non esiste · dopo un ordine riuscito il pulsante di conferma torna attivo, quindi **si può ordinare due volte** · carrello e cassa scrivono «Il tuo carrello è vuoto» prima che parta il programma, anche quando è pieno · dopo le 20:00 l'ordine parte con una fascia di consegna già passata · al muro dell'accesso si perdono codice sconto, metodo di pagamento e fascia, e al ritorno il totale è più alto · sul telefono, nella scheda prodotto, **nome e prezzo arrivano dopo** il riquadro del negozio, «Segnala» e la partita IVA · la chat di assistenza esiste ma il cliente non ha nessun modo di aprirla.
+>
+> **Cosa non ho verificato.** Non ho aperto nessuna pagina in un browser: questa radiografia legge il codice. I conti sui pixel sono calcoli fatti leggendo le classi, con la larghezza del carattere stimata: la direzione è giusta, la cifra esatta va confermata a schermo. Non ho toccato niente — l'audit è in sola lettura, trova e non ripara. Le tre voci «config» non le ho provate sul pannello vero.
+>
+> **Come.** 22 esperti, nessuno fallito, 11 dimensioni: layout e adattamento · coerenza col marchio · tipografia · accessibilità visiva · stati dell'interfaccia · immagini e media · esperienza da telefono · flussi di acquisto · testi dell'interfaccia · navigazione e gerarchia visiva · velocità percepita. Chi trova non conferma: ogni elenco è passato da un secondo esperto con la regola «nel dubbio scarta». Referto: `consegne/design/2026-08-22-radiografia-design.md`.
 
 > 🧹 **22/8 14:10 — La radiografia del sito è a zero: tutti e centonovantanove i difetti sono chiusi. E dentro gli ultimi novantanove ce n'era uno che minore non era.** Richiesta di Nicola in chat: «risolvi anche i 99 minori».
 >
