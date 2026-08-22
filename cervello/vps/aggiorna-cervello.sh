@@ -8,6 +8,35 @@ set -euo pipefail
 export TZ="${TZ:-Europe/Rome}"
 ts() { date '+%Y-%m-%d %H:%M'; }
 
+# ─────────────────────────────────────────────────────────────────────────────
+# 🪞 SI ESEGUE DA UNA COPIA DI SÉ, e non dal file nel repo.
+#
+# IL GUASTO, visto sul server il 22/8 alle 11:57 e riprodotto in laboratorio.
+# Più sotto questo copione mette da parte i file sporchi per far partire il rebase. Fra quei file può
+# esserci — e quel giorno c'era — **sé stesso**, insieme a `conflitti-memoria.mjs`. Bash però NON
+# tiene il copione in memoria: lo legge un pezzo alla volta, tenendo la posizione nel file. Se il
+# file si accorcia sotto i suoi piedi, bash arriva alla fine e **si ferma in silenzio, uscendo 0**.
+#
+# Provato, non dedotto: un copione di quattro righe che riscrive sé stesso con una versione più corta
+# esegue SOLO la prima riga e finisce con successo. Nessun errore, nessun avviso.
+#
+# Sul server è successo esattamente questo: la riparazione dei conflitti era arrivata, il file la
+# conteneva, e non è stata eseguita — perché quando l'esecuzione ci è arrivata quel pezzo di file non
+# esisteva più. Da fuori sembrava che la riparazione non funzionasse. Funzionava: non veniva letta.
+#
+# La cura è quella classica per i copioni che si aggiornano da soli: si lavora su una copia, che
+# nessuno può cambiare mentre gira. Il marcatore evita il ciclo infinito.
+if [ -z "${AGGIORNA_DA_COPIA:-}" ]; then
+  _copia="$(mktemp -t aggiorna-cervello.XXXXXX.sh)"
+  if cp -- "${BASH_SOURCE[0]}" "$_copia" 2>/dev/null; then
+    trap 'rm -f -- "$_copia"' EXIT
+    AGGIORNA_DA_COPIA=1 bash "$_copia" "$@"
+    exit $?
+  fi
+  # Se la copia non riesce si prosegue lo stesso: meglio un allineamento fragile che nessuno.
+  echo "[$(ts)] ⚠️  Non sono riuscita a lavorare su una copia di me stessa: proseguo dal file nel repo." >&2
+fi
+
 REPO="${REPO:-/opt/mycity/ad-mycity}"
 APP_USER="${APP_USER:-mycity}"
 ENV_FILE="$REPO/cervello/vps/.env"
@@ -151,9 +180,77 @@ allinea_codice_da_main() {
   while IFS= read -r f; do
     [ -n "$f" ] && git rm -q -f --ignore-unmatch -- "$f" 2>/dev/null || true
   done < <(git diff --name-only --diff-filter=D HEAD FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null)
-  git "${GIT_ID[@]}" commit -q -m "aggiorna-cervello: allinea codice a main ($(ts))" 2>/dev/null || true
-  echo "[$(ts)] Codice allineato a origin/main (incluse cancellazioni)."
-  return 0
+  # ⚠️ 22/8 — QUI stava il quarto difetto della settimana, e viveva dentro un `|| true`.
+  # Il server sta su `main`, e su `main` il cancello del perimetro (AR-332) rifiuta i commit di
+  # codice. Questo commit veniva quindi respinto, l'errore finiva in /dev/null, e la riga qui sotto
+  # stampava «Codice allineato» lo stesso. Il codice nuovo restava SPORCO: al giro dopo il prestito
+  # se lo portava via e tornava la versione vecchia. Un server che non riesce a pubblicare smetteva
+  # anche di RICEVERE le riparazioni — cioè diventava irreparabile da remoto — dichiarando il
+  # contrario. Ora il cancello ha la deroga giusta (`solo_copia_di_main`: passa solo se identico a
+  # main) e qui l'esito del commit si GUARDA. Se non atterra, non si dichiara riuscito.
+  local _perche_commit=""
+  if [ -z "$(git diff --cached --name-only 2>/dev/null)" ]; then
+    echo "[$(ts)] Codice già allineato a origin/main: niente da committare."
+    return 0
+  fi
+  if _perche_commit="$(git "${GIT_ID[@]}" commit -q -m "aggiorna-cervello: allinea codice a main ($(ts))" 2>&1)"; then
+    echo "[$(ts)] Codice allineato a origin/main (incluse cancellazioni)."
+    return 0
+  fi
+  # Un allineamento che non si posa è peggio di un allineamento saltato: sembra fatto.
+  echo "[$(ts)] ⛔ Il codice è stato scaricato da main ma NON si è potuto committare: resta sporco," >&2
+  echo "[$(ts)]    quindi al prossimo giro il prestito se lo riporta via e torna la versione vecchia." >&2
+  [ -n "$_perche_commit" ] && printf '%s\n' "$_perche_commit" | head -6 | sed "s/^/[$(ts)]    /" >&2
+  return 1
+}
+
+# ── AR-761 — LA VIA D'USCITA PER IL LAVORO INTRAPPOLATO ──────────────────────
+#
+# `aggiorna-cervello.sh` fa la cosa giusta a fermarsi: se i commit locali non si pubblicano,
+# allinearsi li cancellerebbe. Ma da lì in poi non esisteva NESSUNA uscita automatica. Il server
+# restava sulla versione vecchia e ci restava per sempre, riprovando la stessa cosa ogni cinque
+# minuti — 72 volte il 16/8. Il lavoro non era perso, ma esisteva in una copia sola, sul server.
+#
+# La scheda diceva: «il fix non si scrive finché non si può provare — non ho un remoto su cui provare
+# il push del ramo di salvataggio». Quel debito è estinto: il banco in
+# `cervello/test/server-che-non-puo-ricevere-riparazioni.test.mjs` costruisce un remoto vero.
+#
+# IL TETTO, che è la metà importante. Questo gira ogni cinque minuti: un ramo per giro farebbe 288
+# rami al giorno, cioè la stessa malattia che stiamo curando — un'operazione che si ripete e nessuno
+# la ferma. Il tetto sono DUE pezzi distinti, e vale la pena tenerli distinti perché fanno cose
+# diverse (l'ho scoperto rompendoli uno per uno: il primo commento che avevo scritto qui li
+# confondeva, e attribuiva al secondo il merito del primo):
+#   ① il NOME per giorno — `vps/salvataggio-<data>` — è ciò che tiene il conto dei rami a uno.
+#      Quattro giri fanno quattro push sullo stesso ramo, non quattro rami.
+#   ② il MEMO della punta già salvata — è ciò che evita di ri-spingere ogni cinque minuti un lavoro
+#      che non è cambiato. Non riduce i rami: riduce il traffico e il rumore.
+# Il ramo avanza per fast-forward, mai forzato.
+ramo_di_salvataggio() { printf 'vps/salvataggio-%s' "$(date '+%Y-%m-%d')"; }
+
+salva_il_lavoro_intrappolato() {
+  local url="$1" quanti="$2" ramo perche="" testa memo
+  testa="$(git rev-parse HEAD 2>/dev/null || echo '')"
+  [ -n "$testa" ] || return 1
+  memo="$REPO/.git/mycity-ultimo-salvataggio"
+  # Già salvato questo identico lavoro: non si ripete. È il tetto.
+  if [ -f "$memo" ] && [ "$(cat "$memo" 2>/dev/null)" = "$testa" ]; then
+    return 0
+  fi
+  ramo="$(ramo_di_salvataggio)"
+  # Push NON forzato di proposito: se il ramo di oggi esiste già e la punta è più avanti, git lo
+  # porta avanti da solo; se le storie divergono, git rifiuta — e un rifiuto è meglio di uno
+  # schiacciamento, perché qui dentro c'è lavoro vero che non è da nessun'altra parte.
+  if perche="$(git push "$url" "HEAD:refs/heads/${ramo}" 2>&1)"; then
+    printf '%s\n' "$testa" > "$memo" 2>/dev/null || true
+    echo "[$(ts)] 🛟 I ${quanti} commit che non passavano su ${branch} sono al sicuro su GitHub," >&2
+    echo "[$(ts)]    nel ramo «${ramo}». Un checkout -f non può più cancellarli." >&2
+    return 0
+  fi
+  # Non riuscito: si DICE. Un salvataggio che fallisce in silenzio è peggio di nessun salvataggio,
+  # perché toglie l'allarme lasciando il pericolo.
+  echo "[$(ts)] ⛔ Nemmeno il ramo di salvataggio è passato: i ${quanti} commit restano SOLO qui." >&2
+  [ -n "$perche" ] && printf '%s\n' "$perche" | head -4 | sed "s/^/[$(ts)]    /" >&2
+  return 1
 }
 
 # Commit locali già fatti ma non pushati: pubblicali PRIMA del checkout -f (altrimenti si perdono).
@@ -257,6 +354,9 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
     # stderr non è una difesa. Ora ci si ferma con un codice dedicato: watch-main NON segna lo SHA,
     # il lavoro resta sul server e si riprova al prossimo giro.
     if [ "$_ok_pre" != 1 ]; then
+      # AR-761 — prima di dichiarare il muro, si mette il lavoro al sicuro. Tre tentativi sono
+      # falliti: il lavoro esiste in una copia sola, su questo disco. Da qui in poi ne esistono due.
+      salva_il_lavoro_intrappolato "$url" "$_ahead_pre" || true
       _rc_all="$(esito_allineamento 0 1 0)"
       echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all") — ${_ahead_pre} commit restano qui." >&2
       echo "[$(ts)]    Causa: $(motivo_push_fallito "$_perche_rebase")" >&2
@@ -268,7 +368,11 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
       # commit del server. Senza questa riga un server che non riesce a pubblicare smette anche di
       # RICEVERE le riparazioni — ed è così che si diventa irreparabili da remoto.
       if git fetch "$url" main 2>/dev/null; then
-        allinea_codice_da_main
+        # `|| true` di proposito, e solo qui: siamo già sul ramo d'uscita con un suo codice
+        # (`$_rc_all`) che dice «la memoria non è passata». L'allineatore, se non si posa, lo urla
+        # da sé sopra queste righe — quello che NON deve fare è uccidere lo script con `set -e`
+        # prima dell'`exit` qui sotto, perché quell'uscita è il segnale che watch-main legge.
+        allinea_codice_da_main || true
       else
         echo "[$(ts)]    (fetch di main fallito: il codice NON si allinea in questo giro)" >&2
       fi
@@ -398,8 +502,13 @@ if ! git fetch "$url" main; then
   _rc_all="$(esito_allineamento 1 0 0)"
   echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all") — allineamento codice SALTATO." >&2
   exit "$_rc_all"
-else
-  allinea_codice_da_main
+elif ! allinea_codice_da_main; then
+  # Stessa regola della riga sopra, per lo stesso motivo: se un passo non è riuscito, lo SHA non si
+  # segna. Prima l'allineatore non poteva fallire — dichiarava sempre successo — quindi questo ramo
+  # non esisteva e un allineamento respinto passava per fatto.
+  _rc_all="$(esito_allineamento 1 0 0)"
+  echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all") — il codice NON si è posato." >&2
+  exit "$_rc_all"
 fi
 
 # AR-023: RICONCILIA IL CANTIERE appena il codice è allineato a main. È il percorso "immediato": watch-main
