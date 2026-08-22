@@ -226,7 +226,7 @@ lanciare il programma di allineamento. Ma quel programma, per fare il suo lavoro
 file che trova cambiati — e i file appena scaricati erano proprio quelli. Si è messo da parte da
 solo, mentre girava.
 
-**Un esempio di cosa vuol dire.** Immagina di leggere ad alta voce da un foglio, e che a metà
+**Facciamo un esempio.** Immagina di leggere ad alta voce da un foglio, e che a metà
 qualcuno te lo sostituisca con una versione più corta. Tu continui a leggere dal punto in cui eri,
 trovi la fine, e smetti. Non ti accorgi di aver saltato niente. È esattamente quello che fa il
 programma che esegue quei comandi: si ferma a metà e **chiude dichiarando successo**, senza stampare
@@ -245,9 +245,9 @@ programma stesso, che il codice da GitHub se lo prende da solo.
 **⚠️ Aggiornamento 2026-08-22 11:30.** Continuando a controllare ho trovato un **quarto** guasto.
 Finché c'è, questa carta non può funzionare. Cambia l'ordine dei passi, quindi te lo racconto.
 
-Il server sta sul ramo principale. Su quel ramo c'è un cancello con una regola giusta: il codice ci
-arriva da una richiesta di unione, non da un commit a mano. Ma il server, per riallinearsi, deve fare
-proprio un commit di codice. Il cancello glielo rifiutava. La riga che lo fa buttava via l'errore, e
+Il server sta sul ramo principale, dove un cancello controlla chi scrive. Quel cancello ha una
+regola giusta, ed è proprio per questo che fermava la cosa sbagliata: per riallinearsi il server deve
+scrivere del codice, e lì scrivere codice non è permesso. Glielo rifiutava. La riga che lo fa buttava via l'errore, e
 subito dopo stampava «Codice allineato». Il codice restava a mezz'aria. Al giro dopo se lo riportava
 via il prestito.
 
