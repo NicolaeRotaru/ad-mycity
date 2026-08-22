@@ -4,15 +4,6 @@
     {
       "data": "2026-08-12",
       "voto_salute": 4,
-      "voto_riportato": false,
-      "difetti_aperti": 165,
-      "difetti_chiusi": 1,
-      "tipo": "auto-fix",
-      "nota": "Auto-fix: chiusi AR-217 (verificati nel codice)."
-    },
-    {
-      "data": "2026-08-12",
-      "voto_salute": 4,
       "voto_copertura": "radiografia",
       "voto_parziale": false,
       "voto_misurato": true,
@@ -1404,6 +1395,16 @@
       "chiusi_in_questa_passata": 2,
       "tipo": "auto-fix",
       "nota": "Auto-fix: chiusi AR-757, AR-785 (verificati nel codice)."
+    },
+    {
+      "data": "2026-08-22",
+      "voto_salute": 4,
+      "voto_riportato": false,
+      "difetti_aperti": 110,
+      "difetti_chiusi": 667,
+      "chiusi_in_questa_passata": 2,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-365, AR-366 (verificati nel codice)."
     }
   ]
 }
