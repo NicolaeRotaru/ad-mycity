@@ -1,15 +1,15 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 12:00",
+  "aggiornato": "2026-08-22 12:11",
   "giorni_sospetto": 3,
   "difetti_aperti": 164,
   "per_classe": {
-    "umana": 92,
+    "umana": 77,
     "auto-sospetta": 19,
-    "auto-comando": 53
+    "auto-comando": 68
   },
-  "non_auto_chiudibili": 111,
+  "non_auto_chiudibili": 96,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-521",
@@ -360,14 +360,6 @@
       "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
     },
     {
-      "id": "AR-046",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
       "id": "AR-047",
       "stato": "da-riverificare",
       "gravita": "minore",
@@ -377,118 +369,6 @@
     },
     {
       "id": "AR-048",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-050",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-051",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-052",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-053",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-054",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-055",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-067",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-068",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-069",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-070",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-071",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-079",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-080",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-081",
       "stato": "da-riverificare",
       "gravita": "minore",
       "causa": "da-riverificare",
@@ -2009,9 +1889,9 @@
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "storico-salute.json incompleto: l'ultimo punto registrava 3 chiusure ma il cantiere ne aveva chiuse 5",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-047",
@@ -2045,54 +1925,54 @@
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "apprendimento.json: meta.lezioni_attive=10 gonfia il conteggio (solo 4 lezioni hanno stato 'attiva')",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-051",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "tasso_applicazione è scritto a mano, nessuno lo calcola: la metrica che governa il volano è auto-dichiarata e ",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-052",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "prova_chiusura usa contatori STOCK all-time, mai la recency: loop_chiude resta true per sempre anche se il loo",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-053",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "La calibrazione non ha uno sweep automatico di esito/scadute: le previsioni marciscono aperte e contano come '",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-054",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Gli esperimenti di auto-miglioramento sono un array vuoto senza schema né motore: il loop benchmark→torneo→mis",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-055",
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "Le proposte di auto-riscrittura non hanno lifecycle né stato: la lista contiene proposte GIÀ chiuse nel cantie",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-056",
@@ -2198,45 +2078,45 @@
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Nessun sensore di raggiungibilità/uptime del sito: se il marketplace è giù, la macchina è cieca",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-068",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "I rischi 🔴 di compliance (HACCP, rider, età 18+, bus factor) non hanno owner né monitor nella macchina",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-069",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "proposte_nuovi_pezzi (l'output della dimensione META) non ha un backlog tracciato a chiusura",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-070",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Funnel e conversione al checkout senza sensore live: l'abbandono che brucia ordini è invisibile alla sentinell",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-071",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Puntualità delle consegne (la promessa core del modello Glovo) senza alcun sensore",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-072",
@@ -2306,27 +2186,27 @@
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Silo di allocazione conclamato ma mai corretto: 13 asset pesanti su Garetti (prospect non firmato) vs 1-2 sui ",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-080",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "La regola ROI/STOP automatico e la North Star vivono solo come prosa in OKR-Squadra: nessuno script misura se ",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-081",
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "Il pre-mortem cross-silo (\"il rischio n°1\") è un rituale manuale senza forcing-function: la coda AZIONI-IN-ATT",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-082",

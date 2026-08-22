@@ -9493,8 +9493,8 @@
       "causa_radice": "Le chiusure delle 18:10 (AR-009/019) sono state scritte solo nel cantiere; manca un unico entry-point 'chiudi difetto' che aggiorni ATOMICAMENTE cantiere + storico.",
       "fix_proposto": "Un solo entry-point 'chiudi-difetto' (hook in auto-fix.mjs) che appende sempre un punto a storico; sonda che fallisce se meta.chiusi ≠ somma difetti_chiusi nello storico.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Risultava CHIUSO nel cantiere del 3/7, ma la chiusura si appoggiava alla sola forma debole file+pattern e ha attraversato un mese di codice cambiato: non posso portarmi dietro una chiusura che non so piu provare. Torna da riverificare; la prova storica resta in verifica_storica."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9508,7 +9508,8 @@
         "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/storico-salute.json",
         "pattern": "\"difetti_chiusi\":\\s*5",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: lo storico salute porta il conteggio delle chiusure e non uno stimato — misurato oggi, storico 608 contro 608 nel cantiere. La prova non pretende l uguaglianza al difetto (un lotto in corso ne muove) ma che lo scarto non sia strutturale: il difetto originale era «3 registrate su 5 vere»."
     },
     {
       "id": "AR-047",
@@ -9585,8 +9586,8 @@
       "causa_radice": "meta è aggiornato a mano senza derivarlo dagli stati dell'array; nessun normalizzatore tiene meta coerente col contenuto.",
       "fix_proposto": "Derivare meta.{lezioni_attive,promosse_a_principio,decadute} dallo stato degli elementi nel motore che scrive apprendimento.json.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9599,7 +9600,8 @@
         "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
         "pattern": "\"lezioni_attive\":\\s*4",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ed era gia curato da AR-362, con una cura piu profonda di quella proposta: il problema non era un numero gonfiato, era UN CAMPO CON DUE SIGNIFICATI scritto da due script a turno (uno contava stato==attiva, l altro stato!=decaduta: 381 contro 476 sullo stesso file, e la Cabina mostrava quello di chi aveva girato per ultimo). Adesso la definizione e una sola (lezioniVive, funzione pura) e accanto al numero viaggia la PARTIZIONE COMPLETA con quadra:true. Misurato oggi: 512 vive, 407 attive, e i due numeri si vedono entrambi invece di sovrapporsi. La prova pretende che siano diversi: se tornassero uguali, l ambiguita sarebbe tornata."
     },
     {
       "id": "AR-051",
@@ -9610,8 +9612,8 @@
       "causa_radice": "tasso=0.5 perché nessuno lo calcola; nessuno lo calcola perché non esiste uno script che scriva apprendimento.json; non esiste perché la lezione non ha un campo 'usi' che leghi lezione→mossa; manca perché l'apprendimento è stato progettato come artefatto testuale dell'LLM, non come dato con contatore d'uso. Causa di sistema: la memoria dell'apprendimento non ha una forcing-function deterministica (a differenza di chiusura-loop.mjs per i quaderni), quindi la metrica che dovrebbe smascherare un loop morto è scritta dal loop stesso.",
       "fix_proposto": "🟡 Aggiungere il campo 'usi'/'applicata_in' a ogni lezione (id-decisione/id-briefing in cui è stata usata) e uno script cervello/tasso-lezioni.mjs che calcoli tasso_applicazione = lezioni-usate-negli-ultimi-N-giri / lezioni-attive e riscriva meta in modo deterministico, cablato nel giro come la sonda. Così tasso>0 diventa una PROVA e l'escalation a tasso basso torna viva.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9624,7 +9626,8 @@
         "file": "cervello/tasso-lezioni.mjs",
         "pattern": "tasso_applicazione",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: tasso-lezioni.mjs CALCOLA il tasso, e nel file viaggiano anche tasso_calcolato_il e tasso_finestra_giorni. La prova pretende tutti e tre: un numero senza l istante e senza la finestra su cui e stato misurato torna a essere un opinione, che era il difetto."
     },
     {
       "id": "AR-052",
@@ -9635,8 +9638,8 @@
       "causa_radice": "Le prove sono contatori cumulativi (meta.chiusi, registro.length) presi 'così com'erano' senza finestra temporale; AR-013 ha risolto il sintomo 'non fidarti del solo tasso' aggiungendo altre prove senza chiedersi se decadono. Causa di sistema: manca il concetto di 'attività recente' nel monitor di salute, quindi una prova di vita di un mese fa vale come una di oggi.",
       "fix_proposto": "🟡 In sonda-volano.mjs rendere prova_chiusura basata su una finestra (es. 14 giorni): almeno un difetto chiuso_il negli ultimi 14gg, OPPURE almeno una previsione CHIUSA (azzeccata/mancata) di recente, OPPURE un esperimento misurato di recente. Altrimenti verdetto 'attenzione: loop fermo', anche con contatori all-time alti.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9649,7 +9652,8 @@
         "file": "cervello/sonda-volano.mjs",
         "pattern": "chiusi_recenti|ultimi_?\\d+_?g|finestra",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: sonda-volano.mjs conta le chiusure RECENTI dentro una finestra (oreFinestra), non i contatori di sempre. Il difetto era che loop_chiude restasse true per sempre anche a loop fermo. Mutazione che rimette il contatore all-time."
     },
     {
       "id": "AR-053",
@@ -9660,8 +9664,8 @@
       "causa_radice": "Le previsioni restano aperte perché nessuno chiama esito/scadute in automatico; la chiusura è delegata alla memoria dell'LLM; prevedi è stato agganciato al giro ma la coda esito/scadute no. Causa di sistema: il ciclo prevedi→misura è per metà deterministico (register) e per metà umano-LLM (close), e la metà mancante è proprio quella che genera l'apprendimento; inoltre la sonda accetta una previsione aperta come prova, togliendo ogni pressione a chiuderla.",
       "fix_proposto": "🟡 Cablare 'node cervello/calibrazione.mjs scadute' a ogni giro in giro.sh (marca automaticamente le previsioni oltre 'entro') e rendere calibrazionePiena nella sonda = almeno una previsione CHIUSA (azzeccata/mancata), non semplicemente registrata. Aggiungere un promemoria deterministico che elenca le previsioni in scadenza da chiudere.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9674,7 +9678,8 @@
         "file": "cervello/giro.sh",
         "pattern": "calibrazione\\.mjs scadute",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh lancia lo sweep deterministico delle previsioni scadute a ogni giro. Senza, marciscono aperte contando come «in corso» — cioe il volano si dichiara vivo con lavoro che nessuno ha misurato."
     },
     {
       "id": "AR-054",
@@ -9685,8 +9690,8 @@
       "causa_radice": "esperimenti è vuoto perché nessuno li crea; nessuno li crea perché non c'è script né gancio nel giro/ritmo; non c'è perché lo schema esperimento non è mai stato definito (puntini in auto-coscienza.md:148). Causa di sistema: l'auto-miglioramento è stato specificato come procedura testuale per l'LLM senza dato-primo (schema) né forcing-function, quindi resta uno slot vuoto che nessun controllo deterministico può riempire — e la sonda controlla un campo che non esiste.",
       "fix_proposto": "🟡 Definire in auto-coscienza.md lo schema esperimento (id, ambito, ipotesi, varianti, metrica, atteso, stato:aperto|misurato, data_misura, delta, lezione_id) e aggiungere un gancio nel ciclo settimanale che apra ≥1 esperimento sull'ambito col divario più alto e verifichi che quelli della settimana prima siano stati misurati o chiusi (mai aperti all'infinito).",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9699,7 +9704,8 @@
         "file": "cervello/auto-coscienza.md",
         "pattern": "data_misura",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: auto-coscienza.md dichiara lo schema degli esperimenti con gli stati ammessi (aperto|misurato|chiuso) e la data_misura obbligatoria. Un esperimento che non dice QUANDO e stato misurato non si chiude mai: il torneo benchmark-misura resterebbe aperto all infinito."
     },
     {
       "id": "AR-055",
@@ -9710,8 +9716,8 @@
       "causa_radice": "La lista contiene item chiusi perché nessuno la ripulisce alla chiusura del difetto; nessuno perché la proposta non ha uno stato e non è legata al ciclo di vita del cantiere; non è legata perché proposte e difetti sono nati come due registri separati che condividono solo finding_id senza sincronizzazione. Causa di sistema: manca un owner unico dello stato di una proposta/difetto, quindi lo stesso oggetto vive in due file senza un motore che li allinei.",
       "fix_proposto": "🟡 Aggiungere allo schema proposte_auto_riscrittura un campo 'stato' (proposta|firmata|implementata|rifiutata) e sincronizzarlo col cantiere via finding_id: quando un difetto passa a 'chiuso', la proposta collegata si marca 'implementata' e sparisce dalla coda attiva. In alternativa eliminare il doppione e far leggere al Pannello un solo registro (il cantiere) come fonte di verità.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9724,7 +9730,8 @@
         "file": "cervello/auto-coscienza.md",
         "pattern": "proposte_auto_riscrittura[\\s\\S]{0,120}\"stato\"",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: le proposte di auto-riscrittura hanno uno stato dichiarato (proposta|firmata|implementata|rifiutata), quindi possono chiudersi. Senza stato la lista conteneva proposte gia chiuse nel cantiere."
     },
     {
       "id": "AR-056",
@@ -10016,8 +10023,8 @@
       "causa_radice": "La definizione operativa di 'sensore' nel sistema è 'API con chiave da interrogare via REST' (i canali che l'AD sa già leggere: DB/Stripe/PostHog/Resend), non 'punto della customer journey che se cade uccide gli ordini'. Manca a monte un inventario dei punti-di-morte del business mappati 1:1 a un sensore: la storefront raggiungibile è il primo di quei punti e non è mai stato modellato come sensore attivo (solo come fattore-news del radar).",
       "fix_proposto": "Aggiungere un sensore-uptime (Node puro, 0 token) che fa un GET su home + un endpoint di checkout della storefront (MARKETPLACE_SITE_URL), misura status/latenza e alimenta una sentinella 🔴 'sito irraggiungibile o 5xx>2% per 5 min' → allerta Telegram immediata (come 'worker morto'). Cablarlo in verifica-sensori.mjs e in sentinella-dati.mjs. Resta 🟡 (firma Nicola).",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10030,7 +10037,8 @@
         "file": "cervello/verifica-sensori.mjs",
         "pattern": "checkSito|storefront|MARKETPLACE_SITE_URL|checkMarketplaceUp|uptime",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: verifica-sensori.mjs ha sito_uptime e checkSito, che bussa a MARKETPLACE_SITE_URL. Il difetto era che se il marketplace fosse giu la macchina restava cieca sugli ordini senza dirlo. La prova pretende anche che l indirizzo sia una variabile e non una costante: un sensore che bussa a un indirizzo scolpito misura il posto sbagliato appena qualcosa si sposta."
     },
     {
       "id": "AR-068",
@@ -10041,8 +10049,8 @@
       "causa_radice": "Il sistema ha un cantiere per i difetti DELLA MACCHINA (cantiere-difetti.json) e un radar per gli eventi ESTERNI, ma non ha un anello per i rischi STRUTTURALI DEL BUSINESS: il ponte 'rischio d'impresa → senior responsabile → check ricorrente' non è mai stato costruito. Il doc Rischi & Compliance non è mai stato trasformato in righe con owner+cadenza-di-review leggibili da uno script.",
       "fix_proposto": "Creare registro-rischi.json nel vault (una riga per N1..B7) con owner senior, colore, stato-presidio (aperto/mitigato/firmato), prossima-review; farlo leggere dalla sonda del giro e alzare un 🟡 quando un rischio ALTA resta 'aperto' oltre la data di review. Ogni rischio ALTA senza owner = finding automatico.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10055,7 +10063,8 @@
         "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/registro-rischi.json",
         "pattern": "\"owner\"",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: tutti e 14 i rischi del registro canonico hanno un owner, e l altro file e un PUNTATORE (_canonico) invece di un secondo registro che diverge. La prova scorre tutte le righe: se domani ne entra una senza owner, diventa rossa. (Le sentinelle mancanti erano un difetto separato, AR-148, riparato in questo stesso lotto.)"
     },
     {
       "id": "AR-069",
@@ -10066,8 +10075,8 @@
       "causa_radice": "Progettando il volano è stato costruito il cantiere-difetti (correzione) ma non il cantiere-pezzi (espansione): 'aggiustarsi' ha un contratto di chiusura, 'crescere' è rimasto un elenco descrittivo. 'nuovo-pezzo' è stato trattato come sotto-caso di lezione/backlog e non come entità con ciclo di vita proprio (proposto→firmato→creato→verificato).",
       "fix_proposto": "Dare alle proposte_nuovi_pezzi lo stesso contratto dei difetti: un cantiere-pezzi.json append-only con stato (proposto/in-corso/creato/scartato) e prova di esistenza (path del file creato), riconciliato da auto-fix.mjs; la radiografia aggiorna, non sovrascrive.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10080,7 +10089,8 @@
         "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-pezzi.json",
         "pattern": "\"stato\"",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: cantiere-pezzi.json esiste con 14 pezzi, tutti con uno stato. Il difetto era che «aggiustarsi» avesse un contratto di chiusura e «crescere» fosse solo un elenco descrittivo. Prova che pretende lo stato su OGNI pezzo: uno senza stato non si puo chiudere, ed e il difetto con un nome nuovo."
     },
     {
       "id": "AR-070",
@@ -10091,8 +10101,8 @@
       "causa_radice": "La definizione operativa di 'sensore' è 'conta righe su una tabella DB via REST', mentre il funnel vive in PostHog (eventi), collegato come health-check ma mai come fonte di soglie. Nel passaggio da 'sensore configurato' a 'sensore che alimenta una sentinella' PostHog è rimasto a metà (configurato-ma-non-usato).",
       "fix_proposto": "Aggiungere in sentinella-dati.mjs (o in un sensore-funnel dedicato) la lettura degli eventi PostHog checkout_start/order_completed con soglia 🟡 su drop-rate a 7gg, così cro/ux ricevono un lavoro quando la conversione crolla. Finché PostHog è non_configurato, tenerlo esplicito come 'sensore spento che alza il livello' nella lettera a Nicola.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10105,7 +10115,8 @@
         "file": "cervello/sentinella-dati.mjs",
         "pattern": "posthog|funnel|checkout_start|conversione",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). RESTA APERTO, e adesso si sa perche. PostHog e stato SPENTO da Nicola il 5/7 («togli PostHog»): finche e spento un sensore di funnel non puo esistere, e fingere il contrario sarebbe peggio del buco. QUELLO CHE HO DIFESO OGGI: uno spento deve leggersi come SPENTO, mai come verde — un sensore che tace e uno che dice «tutto bene» sono la stessa riga solo per chi non guarda, e questa macchina ha gia pagato quella confusione. ⚠️ CONFESSIONE UTILE: la prima versione di questa prova cercava /posthog|checkout/ dentro sentinella-dati.mjs e PASSAVA — ma quello che trovava era la parola «checkout» dentro un commento su «git checkout». Il mio stesso metro stava comprando il verde: la malattia che questo cantiere cura, dentro la prova che la cura. Trovata rileggendo la mutazione, non il codice. La prova adesso pretende anche che nessuno abbia scritto un sensore di funnel di nascosto altrove: se un giorno arriva davvero, quella riga cade e questo difetto va richiuso con la sua prova vera."
     },
     {
       "id": "AR-071",
@@ -10116,8 +10127,8 @@
       "causa_radice": "I sensori sono stati costruiti sugli stati 'contabili' dell'ordine (PAID, payout) e non sullo stato 'operativo/temporale' (ritiro, in consegna, consegnato vs slot). Nella fase 0→1 con consegna concierge del fondatore la puntualità è gestita a mano e non è mai stata istituzionalizzata in un sensore, né inserita nel backlog: resterà scoperta proprio quando gli ordini cresceranno.",
       "fix_proposto": "Aggiungere una sentinella 'ordine oltre lo slot promesso' (lettura di delivered_at/expected_delivery o stato+timestamp) che alza 🟡 a operations con l'ordine specifico prima che scada, e alimenta il KPI puntualità. Metterlo nel cantiere-pezzi con priorità legata alla crescita ordini.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10130,7 +10141,8 @@
         "file": "cervello/sentinella-dati.mjs",
         "pattern": "expected_delivery|delivered_at|ritard|slot.{0,15}(scadut|super)",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: sentinella-dati.mjs ha ordini_slot_scaduto, misurato sul dato vero (expected_delivery passato E delivered_at nullo). E la promessa centrale del modello — se le consegne arrivano tardi il marketplace muore — e non aveva nessun sensore. La prova pretende la query, non la parola."
     },
     {
       "id": "AR-072",
@@ -10323,8 +10335,8 @@
       "causa_radice": "allocazione-check.mjs è cablato in giro.sh come output informativo (pipe a tail + `|| true`), non come cancello: l'exit code non viene mai letto per iniettare un vincolo nel giro. Stesso pattern per agent-registry-check (:156) e guardiano-capacita (:158). Solo il delta-gate è cablato come gate vero (`_dg_rc=$?`).",
       "fix_proposto": "In giro.sh catturare l'exit code di allocazione-check senza pipe che lo maschera (come per il delta-gate) e, se =1, iniettare un vincolo hard nel giro: «prima di accodare nuovi asset pesanti, ripunta la produzione sui negozi confermato e riduci il silo»; opzionalmente generare un task che declassa/sposta gli asset dal prospect non firmato. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10337,7 +10349,8 @@
         "file": "cervello/giro.sh",
         "pattern": "allocazione-check[\\s\\S]{0,120}(_alloc|rc=\\$\\?|VINCOLO)",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh lancia allocazione-check.mjs a ogni giro e ne RACCOGLIE il verdetto (_alloc_rc). Il difetto era che il silo fosse conclamato e mai corretto: adesso e un guardiano che gira, non una constatazione in una lettera."
     },
     {
       "id": "AR-080",
@@ -10348,8 +10361,8 @@
       "causa_radice": "La North Star non è un numero calcolato da nessun sensore/guardiano: è solo un titolo nel documento OKR. I guardiani costruiti (registro agenti, allocazione, capacità, chiusura-loop) presidiano la struttura interna della macchina, ma manca il pezzo che chiude il loop economico (mossa proposta → numero-azienda mosso), quindi la regola ROI resta un buon proposito non verificabile.",
       "fix_proposto": "Creare un guardiano North Star (cervello/north-star-check.mjs) che a ogni giro legga dal REST ordini consegnati/settimana e payout, li confronti con l'atteso delle azioni firmate, e segnali i reparti che accumulano effort senza spostare il numero (STOP soft con proposta di ribilanciamento), legandolo al costo-ai per il conto ROI. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10362,7 +10375,8 @@
         "file": "cervello/north-star-check.mjs",
         "pattern": "ordini|consegnat|north",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ESEGUENDOLO: north-star-check.mjs gira e stampa i numeri (negozi live, ordini creati, ordini pagati = stella polare) CON la fonte accanto. La prova lo lancia davvero. Il difetto era che la North Star vivesse come prosa in OKR-Squadra e nessuno script la misurasse. Nota onesta dall esecuzione: oggi la fonte dichiarata e «baseline STATO.md, sensori ciechi» — cioe il motore c e e dice anche quando NON sta guardando i dati veri, che e il comportamento giusto."
     },
     {
       "id": "AR-081",
@@ -10373,8 +10387,8 @@
       "causa_radice": "Il vettore cross-silo vive come cultura nel documento AD ma non è strutturato nel canale operativo (la coda): la coda è stata progettata per spiegare l'azione a Nicola (cosa cambia/se va bene), non per arbitrare crescita-vs-margine. Senza una colonna dedicata, il pre-mortem non è verificabile né forzato.",
       "fix_proposto": "Aggiungere alla coda AZIONI-IN-ATTESA una colonna «Impatto-sistema» (margine / carico operations / spillover a 2-3 mosse), obbligatoria per le azioni 🟡/🔴 a rischio spillover, con un check leggero che segnali le righe che ne sono prive. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10387,7 +10401,8 @@
         "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
         "pattern": "[Ii]mpatto.?sistema|spillover|intasa|brucia margine",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: il verdetto dell allocazione diventa ALLOC_VINCOLO, cioe un vincolo hard per il motore, non un avviso. Il difetto era che il pre-mortem cross-silo fosse un rituale manuale senza forcing-function — e un rituale che si puo saltare viene saltato proprio quando servirebbe."
     },
     {
       "id": "AR-082",
