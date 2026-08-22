@@ -75,21 +75,21 @@ test("AR-131 · il type della Cabina NOMINA lower_bound, o il campo non è mostr
 
 // ── AR-175 · un voto non misurato non è una bocciatura ───────────────────────────────────────────
 
-test("AR-175 · il caso che ha rotto: voto assente usciva «0/100», cioè bocciato", () => {
+test("un voto MAI MISURATO non esce come bocciatura (il metro vero di AR-175 resta da scegliere)", () => {
   const v = voceSalute({ data: "2026-08-21" }, { salute_min: 80 });
   assert.equal(v.valore, null, "prima era 0: un buco nei dati travestito da giudizio");
   assert.equal(v.cieco, true, "e con `cieco: false`, cioè indistinguibile da una misura vera");
   assert.match(v.etichetta, /non misurato/);
 });
 
-test("AR-175 · uno zero MISURATO resta uno zero: ⚪ non è una scusa", () => {
+test("uno zero MISURATO resta uno zero: ⚪ non è una scusa", () => {
   const v = voceSalute({ voto_salute: 0, data: "2026-08-21" }, { salute_min: 80 });
   assert.equal(v.valore, 0);
   assert.equal(v.cieco, false, "senza questo caso, la cura comprerebbe il bianco su ogni bocciatura");
   assert.equal(v.ok, false);
 });
 
-test("AR-175 · un voto vero passa dritto, sopra e sotto la soglia", () => {
+test("un voto vero passa dritto, sopra e sotto la soglia", () => {
   assert.equal(voceSalute({ voto_salute: 4, data: "x" }, { salute_min: 80 }).ok, false);
   assert.equal(voceSalute({ voto_salute: 91, data: "x" }, { salute_min: 80 }).ok, true);
   assert.equal(voceSalute({ voto_salute: 91, data: "x" }, { salute_min: 80 }).cieco, false);

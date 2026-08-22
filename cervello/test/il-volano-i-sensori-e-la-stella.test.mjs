@@ -125,7 +125,7 @@ test("AR-067 · esiste un sensore che dice se il sito è irraggiungibile", () =>
 // Quello che si può difendere oggi, e che si difende qui: uno spento deve leggersi come SPENTO, mai
 // come verde. Un sensore che tace e uno che dice «tutto bene» sono la stessa riga solo per chi non
 // guarda, e questa macchina ha già pagato quella confusione.
-test("AR-070 · il sensore del funnel è SPENTO per decisione, e si legge come spento (non come verde)", () => {
+test("uno spento si legge come SPENTO, mai come verde (il buco di AR-070 resta aperto)", () => {
   const src = leggi("cervello/verifica-sensori.mjs");
   assert.match(src, /posthog_api: "optional"/, "dev'essere dichiarato facoltativo, non dato per scontato");
   assert.match(src, /non_configurato/, "spento ≠ ok: un sensore che tace non deve comprare il verde");
