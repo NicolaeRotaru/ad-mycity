@@ -152,15 +152,26 @@ if [ "$_ramo" = "main" ] && [ -f "$ROOT/cervello/gate-pubblicazione.sh" ]; then
   _staged="$(git diff --cached --name-only 2>/dev/null || true)"
   if [ -n "$_staged" ] && ! perimetro_ok "$_staged"; then
     _fuori="$(printf '%s\n' "$_staged" | grep -vE '^(MyCity-Vault|consegne|creativi|memoria-squadra)/' | grep -v '^$')"
-    echo "" >&2
-    echo "⛔ COMMIT BLOCCATO — su main il CODICE passa da una PR, non da un commit a mano (AR-332):" >&2
-    printf '%s\n' "$_fuori" | head -8 | sed 's/^/  → /' >&2
-    echo "" >&2
-    echo "Spostali su un ramo di lavoro e aprine una PR:" >&2
-    echo "  git reset HEAD -- <file>   ·   git checkout -b fix/<nome>   ·   git add <file> && git commit" >&2
-    echo "" >&2
-    echo "$FORZARE_E_CONTATO" >&2
-    exit 1
+    # Prima di bloccare, una domanda sola: è codice NUOVO, o è il server che si sta ricopiando
+    # addosso main? Vedi `solo_copia_di_main` in gate-pubblicazione.sh — passa solo se identico
+    # byte per byte a main, quindi non può far entrare niente che una PR non abbia già visto.
+    # Senza questa deroga un server che non riesce a pubblicare non riesce nemmeno più a RICEVERE
+    # le riparazioni: è il difetto che il 22/8 teneva fermi 29 suoi commit.
+    _fuori_argv=()
+    while IFS= read -r _f; do [ -n "$_f" ] && _fuori_argv+=("$_f"); done <<< "$_fuori"
+    if [ "${#_fuori_argv[@]}" -gt 0 ] && solo_copia_di_main "$ROOT" "${_fuori_argv[@]}"; then
+      echo "🔁 Perimetro di main: passa perché è una COPIA IDENTICA di main (riallineamento), non codice nuovo." >&2
+    else
+      echo "" >&2
+      echo "⛔ COMMIT BLOCCATO — su main il CODICE passa da una PR, non da un commit a mano (AR-332):" >&2
+      printf '%s\n' "$_fuori" | head -8 | sed 's/^/  → /' >&2
+      echo "" >&2
+      echo "Spostali su un ramo di lavoro e aprine una PR:" >&2
+      echo "  git reset HEAD -- <file>   ·   git checkout -b fix/<nome>   ·   git add <file> && git commit" >&2
+      echo "" >&2
+      echo "$FORZARE_E_CONTATO" >&2
+      exit 1
+    fi
   fi
 fi
 

@@ -32,6 +32,7 @@
 // Uscita: 0 risolti tutti (o niente da fare) · 1 restano conflitti fuori perimetro · 2 non misurabile.
 
 import { dirname, join } from "node:path";
+import { existsSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { spawnSync } from "node:child_process";
 import { percorsiDaGit } from "./percorsi-git.mjs";
@@ -140,8 +141,36 @@ export function inConflitto(radice) {
  * (`rebase-che-non-parte.test.mjs`: «il codice diceva teniamo la base e teneva il ramo»), e la
  * lezione è che su questa domanda si chiede a git, non a sé stessi.
  */
-const STADIO_MAIN = 2;
-const STADIO_SERVER = 3;
+const STADIO_MAIN_NEL_REBASE = 2;
+const STADIO_SERVER_NEL_REBASE = 3;
+
+/**
+ * ⚠️ IN UNA FUSIONE I LATI SONO L'OPPOSTO, e ci sono inciampata addosso il 22/8 a mezzogiorno.
+ *
+ * Risolvendo a mano dei conflitti su una PR mi sono chiesta se potevo usare questo attrezzo, e la
+ * risposta era NO: lì era un `git merge`, non un rebase. Nel merge lo stadio 2 è il RAMO su cui si
+ * sta (il mio) e il 3 è quello che arriva (main) — esattamente il contrario. Chi l'avesse lanciato
+ * lì avrebbe tenuto, sui registri rigenerati, la copia vecchia credendo di tenere quella di main.
+ *
+ * Quindi l'attrezzo non indovina: CHIEDE a git in che operazione si trova, guardando i marcatori che
+ * git stesso lascia nella cartella .git. Se non è un rebase e non è un merge, non decide: si ferma.
+ */
+export function versoDeiLati(radice) {
+  const dove = (n) => {
+    const r = spawnSync("git", ["rev-parse", "--git-path", n], { cwd: radice, encoding: "utf8" });
+    if (r.status !== 0) return null;
+    const p = (r.stdout || "").trim();
+    return p && existsSync(p.startsWith("/") ? p : join(radice, p));
+  };
+  if (dove("rebase-merge") || dove("rebase-apply")) {
+    return { operazione: "rebase", main: STADIO_MAIN_NEL_REBASE, altro: STADIO_SERVER_NEL_REBASE };
+  }
+  if (dove("MERGE_HEAD")) {
+    // fusione: «nostro» è il ramo su cui si sta, «loro» è quello che arriva.
+    return { operazione: "merge", main: 3, altro: 2 };
+  }
+  return null;
+}
 
 function lato(radice, stadio, percorso) {
   const r = spawnSync("git", ["show", `:${stadio}:${percorso}`], {
@@ -161,17 +190,17 @@ export function piano(radice, file) {
   return file.map((f) => ({ file: f, come: classifica(f) }));
 }
 
-function risolviUno(radice, f, come) {
+function risolviUno(radice, f, come, lati) {
   if (come === "rigenerato") {
     // la versione di MAIN: è una fotografia che la macchina rifà comunque, e quella pubblicata è la
     // più recente. Lo stadio è il 2, verificato su git — vedi la nota sopra.
-    const testo = lato(radice, STADIO_MAIN, f);
+    const testo = lato(radice, lati.main, f);
     if (testo === null) return false;
     scriviTestoAtomico(join(radice, f), testo);
     return true;
   }
-  const daMain = lato(radice, STADIO_MAIN, f);
-  const dalServer = lato(radice, STADIO_SERVER, f);
+  const daMain = lato(radice, lati.main, f);
+  const dalServer = lato(radice, lati.altro, f);
   if (daMain === null || dalServer === null) return false;
   if (come === "append-only") {
     // main prima, il server dopo: le due parti si tengono entrambe, l'ordine dice solo chi apre.
@@ -199,14 +228,21 @@ export function risolvi(radice, { applica = false } = {}) {
   if (fuori.length) return { esito: "fuori-perimetro", fuori, risolti: [] };
   if (!applica) return { esito: "risolvibile", risolti: p.map((x) => x.file), fuori: [], piano: p };
 
+  // Prima di scrivere: in che operazione siamo? Se non è né rebase né merge non si tocca niente —
+  // senza saperlo, «la versione di main» è un tiro a indovinare fra due lati.
+  const lati = versoDeiLati(radice);
+  if (!lati) {
+    return { esito: "verso-ignoto", motivo: "non è in corso né un rebase né una fusione: non so quale lato sia main", risolti: [] };
+  }
+
   const risolti = [];
   for (const { file: f, come } of p) {
-    if (!risolviUno(radice, f, come)) return { esito: "non-riuscito", file: f, come, risolti };
+    if (!risolviUno(radice, f, come, lati)) return { esito: "non-riuscito", file: f, come, risolti };
     const r = spawnSync("git", ["add", "--", f], { cwd: radice, encoding: "utf8" });
     if (r.status !== 0) return { esito: "non-riuscito", file: f, come, risolti };
     risolti.push({ file: f, come });
   }
-  return { esito: "risolti", risolti, fuori: [] };
+  return { esito: "risolti", risolti, fuori: [], operazione: lati.operazione };
 }
 
 function main() {
@@ -227,6 +263,10 @@ function main() {
   if (r.esito === "fuori-perimetro") {
     console.error(`⛔ conflitti fuori dal perimetro della memoria: ${r.fuori.join(", ")}`);
     console.error("   Qui non decido io: vanno guardati da una persona. Nessun file è stato toccato.");
+    process.exit(1);
+  }
+  if (r.esito === "verso-ignoto") {
+    console.error(`⛔ ${r.motivo}. Non tocco niente.`);
     process.exit(1);
   }
   if (r.esito === "non-riuscito") {
