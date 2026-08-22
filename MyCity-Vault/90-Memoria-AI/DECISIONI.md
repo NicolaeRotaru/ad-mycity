@@ -2998,3 +2998,48 @@ corretto i due riferimenti nello stesso verbale, invece di lasciare due numeri c
 un altro. È lo stesso difetto già registrato oggi come AR-779: chi scrive in coda si conta i numeri
 guardando la propria copia. Il freno esiste (`carte-numerate`), e ferma il doppione dopo, non prima.
 
+
+## 2026-08-21 21:22 — 🔴 Le carte #152 e #151 eseguite sul database di produzione, col via di Nicola
+
+Nicola in chat: «fai la 151 e la 152». Sono le due firme che mancavano per portare nel mondo vero il
+cantiere di stasera.
+
+**#152 — la migrazione 125, applicata in tre blocchi.** Non l'ho lanciata tutta insieme: la carta
+prometteva «un blocco per volta, controllando dopo ognuno», e così è andata.
+
+*Prima di toccare, ho misurato.* Sul database vero `accumula_rimborso` risultava eseguibile da `anon`,
+insieme a `consolida_visite_prodotto`, `documenti_da_cancellare_respinti`, `pota_consent_log`,
+`visite_prodotti_venditore` e `subscription_orders_campi_bloccati`. E tutte e tre le funzioni del
+codice di consegna portavano ancora il confronto `!= trim(p_code)` / `<> trim(p_code)`, senza nessuna
+guardia sul valore vuoto. **I due bloccanti erano vivi, non teorici.**
+
+· **Blocco ①** (`125a_divieti_che_vietano_davvero`): `REVOKE ALL … FROM PUBLIC, anon, authenticated`
+  sulle sei funzioni, poi `GRANT` solo a chi serve. Verificato subito dopo: sei su sei chiuse ad
+  `anon`, `service_role` conserva l'accesso, `visite_prodotti_venditore` resta aperta a
+  `authenticated` come previsto dal disegno.
+· **Blocco ②** (`125b_codice_consegna_non_si_aggira`): riscritte `verify_delivery_code` e
+  `verify_pickup_code`; `confirm_pickup_by_seller` patchata col `DO` che legge la propria definizione
+  e solleva se non trova la riga bersaglio. Verificato: tutte e tre fermano il vuoto per nome e usano
+  `IS DISTINCT FROM btrim(p_code)`; nessuna porta più il confronto vecchio.
+· **Blocco ③** (`125c_storna_rimborso`): creata `storna_rimborso`, `service_role` soltanto.
+
+**Il conto finale: dieci controlli su dieci verdi**, letti dal database di produzione dopo l'ultimo
+blocco. Sono gli stessi che sullo schema ricostruito erano nove rossi senza la 125.
+
+**#151 — l'interruttore della consegna veloce.** Nicola ha scelto di accenderlo, non di togliere
+l'interruttore. `profiles.offers_express` di Pane Quotidiano (`c0b240c0-…`) da `false` a `true`, una
+riga sola, con la clausola sul nome oltre che sull'id. Verificato: negozi con la consegna veloce
+accesa 1 su 1 totali, e `seller_public_profiles` — la vista che legge la vetrina — riporta `true`.
+**Valore di prima: `false`.** È la strada del ritorno, se serve.
+
+**Cosa NON ho fatto, e va detto.** Non ho eseguito il file di prova SQL contro la produzione: quel
+file crea ordini e utenti finti, e non si fa sul database di un'azienda. Ho verificato invece leggendo
+i permessi reali e le definizioni reali delle funzioni, che è ciò che quel file misura. E non ho
+provato niente dal browser: il sito vero non risponde dal 30 luglio, quindi la strada dell'utente non
+l'ho vista.
+
+**I due bloccanti della radiografia del 21/8 adesso sono chiusi ovunque**, non solo nel codice. Dei
+quindici, restano aperti solo il rilascio automatico prima dei controlli (carta #141, ordine dei passi
+vincolato) e niente altro.
+
+· Non riproporre come «da fare»: fatto, con prova · Nicola (chat)
