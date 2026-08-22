@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-22 13:47",
+  "aggiornato": "2026-08-22 18:06",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -11210,7 +11210,7 @@
     },
     {
       "id": "AR-521",
-      "stato": "aperto",
+      "stato": "chiuso",
       "gravita": "bloccante",
       "colore": "🔴",
       "dimensione": "processi-e-cadenze",
@@ -11225,7 +11225,10 @@
       "verifica": {
         "comando": "node cervello/test/server-che-non-puo-ricevere-riparazioni.test.mjs"
       },
-      "nota_fix": "PARZIALE 2026-08-22 — la meta' (b) e' fatta, la (a) resta di Nicola. (b) chiedeva «la via di fuga: l'aggiornamento del CODICE si separa dalla pubblicazione della MEMORIA». Quella separazione ESISTEVA gia' (allinea_codice_da_main, 20/8) ma NON FUNZIONAVA, e nessuno se n'era accorto perche' dichiarava successo: il server sta su main, su main il perimetro AR-332 rifiuta i commit di codice, il commit veniva respinto, l'errore finiva in /dev/null dietro un `|| true` e la riga dopo stampava «Codice allineato». Provato su repo vero col cancello vero: commit non atterrato, file sporco, contenuto ancora vecchio. Riparato con solo_copia_di_main (deroga che passa SOLO se identico byte per byte a main) piu' il controllo dell'esito del commit. Sei prove non vuote, inclusa quella che chiude un buco che avevo aperto io: FETCH_HEAD non vuol dire main, e senza il controllo del ramo il perimetro si aggirava con un fetch. (a) LO SBLOCCO A MANO sul server resta rosso e resta a Nicola: e' la carta #153, da lanciare DOPO il merge della PR #822."
+      "nota_fix": "PARZIALE 2026-08-22 — la meta' (b) e' fatta, la (a) resta di Nicola. (b) chiedeva «la via di fuga: l'aggiornamento del CODICE si separa dalla pubblicazione della MEMORIA». Quella separazione ESISTEVA gia' (allinea_codice_da_main, 20/8) ma NON FUNZIONAVA, e nessuno se n'era accorto perche' dichiarava successo: il server sta su main, su main il perimetro AR-332 rifiuta i commit di codice, il commit veniva respinto, l'errore finiva in /dev/null dietro un `|| true` e la riga dopo stampava «Codice allineato». Provato su repo vero col cancello vero: commit non atterrato, file sporco, contenuto ancora vecchio. Riparato con solo_copia_di_main (deroga che passa SOLO se identico byte per byte a main) piu' il controllo dell'esito del commit. Sei prove non vuote, inclusa quella che chiude un buco che avevo aperto io: FETCH_HEAD non vuol dire main, e senza il controllo del ramo il perimetro si aggirava con un fetch. (a) LO SBLOCCO A MANO sul server resta rosso e resta a Nicola: e' la carta #153, da lanciare DOPO il merge della PR #822.",
+      "chiuso_il": "2026-08-22 18:06",
+      "chiuso_come": "node cervello/test/server-che-non-puo-ricevere-riparazioni.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-525",
@@ -15850,7 +15853,7 @@
     },
     {
       "id": "AR-743",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "trovato-riparando",
       "gravita": "grave",
       "titolo": "Il confronto che decide se una prova è soddisfatta ha sei copie, e cinque non ereditano le cure",
@@ -15867,7 +15870,10 @@
         "comando": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
       },
       "nota_prova": "Nasce ROSSA, ed e il suo stato giusto: il difetto e aperto. Diventa verde quando qualcuno lo ripara davvero, non quando qualcuno scrive la parola giusta da qualche parte.",
-      "nota_fix": "Lotto 46 (22/8). RIPARATO. VERIFICATO SUL CODICE, e la scheda era piu larga del vero: diceva sei copie,\nne ho trovate QUATTRO della stessa decisione (la casa piu tre: allinea-scan-cantiere, cantiere-prove,\nchiusure-audit). Le altre due che il conteggio includeva stanno in sorvegliante.mjs e decidono una cosa\nDIVERSA — i pattern delle malattie su un diff, non le prove delle schede — quindi non appartengono a\nquesto difetto. Registrato perche scheda e codice divergevano e comanda il codice. (Fra quelle due pero\nc'e una asimmetria vera: una passa da senzaCommenti e l'altra no. E la stessa malattia in un altro\npunto, e non l'ho toccata qui per non allargare il lotto.)\n\nLE TRE COPIE ERANO TUTTE DIVERSE, ed e il punto: allinea-scan e cantiere-prove facevano la regex nuda,\nchiusure-audit aveva il letterale (AR-037/AR-151) ma non la cura del commento. Cioe le due cure che la\ncasa aveva imparato proteggevano meta dei chiamanti.\n\nCOSA COSTAVANO, e non sono simmetriche: senza il letterale un pattern col dollaro in mezzo non combacia\nmai e un difetto RIPARATO risulta aperto per sempre; senza la cura del commento una prova che cita una\nfrase scritta dentro un commento CHIUDE un difetto rotto. Il secondo e il danno peggiore — e proprio il\ncaso di AR-355, due difetti del worker chiusi sulla descrizione della cura invece che sulla cura.\n\nCURA: i tre chiamano provaSoddisfatta (cervello/prove-regole.mjs), che gia contiene entrambe le difese —\nquindi collegarli e un guadagno secco, nessuna cura persa. PROVA: i due casi che hanno rotto eseguiti sui\ndati veri, piu la rete larga che cerca sul DATO e non sui tre nomi noti: se domani nasce un quarto\npadrone, la prova cade. 5 mutazioni, tutte la rendono rossa.\n\nTROVATO SBAGLIANDO, e vale la pena scriverlo: al primo tentativo la nota che stavo inserendo conteneva un\ndollaro seguito da un apice inverso. Dentro una stringa di sostituzione quella coppia significa «tutto il\ntesto PRIMA della corrispondenza», e mi sono incollata mezzo file dentro un commento in tutti e tre. I file\nnon compilavano piu. Ripristinati e rifatto passando una funzione, che non interpreta niente."
+      "nota_fix": "Lotto 46 (22/8). RIPARATO. VERIFICATO SUL CODICE, e la scheda era piu larga del vero: diceva sei copie,\nne ho trovate QUATTRO della stessa decisione (la casa piu tre: allinea-scan-cantiere, cantiere-prove,\nchiusure-audit). Le altre due che il conteggio includeva stanno in sorvegliante.mjs e decidono una cosa\nDIVERSA — i pattern delle malattie su un diff, non le prove delle schede — quindi non appartengono a\nquesto difetto. Registrato perche scheda e codice divergevano e comanda il codice. (Fra quelle due pero\nc'e una asimmetria vera: una passa da senzaCommenti e l'altra no. E la stessa malattia in un altro\npunto, e non l'ho toccata qui per non allargare il lotto.)\n\nLE TRE COPIE ERANO TUTTE DIVERSE, ed e il punto: allinea-scan e cantiere-prove facevano la regex nuda,\nchiusure-audit aveva il letterale (AR-037/AR-151) ma non la cura del commento. Cioe le due cure che la\ncasa aveva imparato proteggevano meta dei chiamanti.\n\nCOSA COSTAVANO, e non sono simmetriche: senza il letterale un pattern col dollaro in mezzo non combacia\nmai e un difetto RIPARATO risulta aperto per sempre; senza la cura del commento una prova che cita una\nfrase scritta dentro un commento CHIUDE un difetto rotto. Il secondo e il danno peggiore — e proprio il\ncaso di AR-355, due difetti del worker chiusi sulla descrizione della cura invece che sulla cura.\n\nCURA: i tre chiamano provaSoddisfatta (cervello/prove-regole.mjs), che gia contiene entrambe le difese —\nquindi collegarli e un guadagno secco, nessuna cura persa. PROVA: i due casi che hanno rotto eseguiti sui\ndati veri, piu la rete larga che cerca sul DATO e non sui tre nomi noti: se domani nasce un quarto\npadrone, la prova cade. 5 mutazioni, tutte la rendono rossa.\n\nTROVATO SBAGLIANDO, e vale la pena scriverlo: al primo tentativo la nota che stavo inserendo conteneva un\ndollaro seguito da un apice inverso. Dentro una stringa di sostituzione quella coppia significa «tutto il\ntesto PRIMA della corrispondenza», e mi sono incollata mezzo file dentro un commento in tutti e tre. I file\nnon compilavano piu. Ripristinati e rifatto passando una funzione, che non interpreta niente.",
+      "chiuso_il": "2026-08-22 18:06",
+      "chiuso_come": "node --test cervello/test/un-freno-con-piu-copie.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-744",
@@ -16227,7 +16233,7 @@
     },
     {
       "id": "AR-761",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "trovato-riparando",
       "gravita": "bloccante",
       "titolo": "Quando i commit del server non si pubblicano, la macchina non puo piu ricevere nessuna correzione",
@@ -16242,7 +16248,10 @@
         "comando": "node cervello/test/lavoro-intrappolato-senza-uscita.test.mjs"
       },
       "nota_rinumerazione": "Nato come AR-757, rinumerato il 16/8 alle 19:50: quel numero se l era gia preso un altro difetto arrivato su main mentre lavoravo.",
-      "nota_fix": "RIPARATO 2026-08-22. La scheda dichiarava un debito onesto: «non ho un remoto su cui provare il push del ramo di salvataggio, quindi il fix non si scrive». Quel debito e' estinto: cervello/test/lavoro-intrappolato-senza-uscita.test.mjs costruisce un remoto vero (--bare) e due storie divergenti. Il fix e' `salva_il_lavoro_intrappolato` in cervello/vps/aggiorna-cervello.sh: dopo tre tentativi falliti i commit locali finiscono su vps/salvataggio-<data>, quindi il lavoro esiste in due copie e un checkout -f non puo' piu' cancellarlo. IL TETTO E' DUE PEZZI DISTINTI, e confonderli e' stato un mio errore trovato dalla mutazione: il NOME per giorno tiene i rami a uno (senza, 288 al giorno), il MEMO della punta gia' salvata evita di ri-spingere ogni cinque minuti un lavoro identico. La prima stesura della prova diceva di misurare il memo e misurava il nome: restava verde togliendo il memo. Riscritta. Cinque prove, non vuote: senza l'uscita 1/5, senza il memo 4/5. NON FATTO APPOSTA: nessun reset automatico del server dopo il salvataggio — buttare via commit locali e' irreversibile e resta una decisione di Nicola (rosso)."
+      "nota_fix": "RIPARATO 2026-08-22. La scheda dichiarava un debito onesto: «non ho un remoto su cui provare il push del ramo di salvataggio, quindi il fix non si scrive». Quel debito e' estinto: cervello/test/lavoro-intrappolato-senza-uscita.test.mjs costruisce un remoto vero (--bare) e due storie divergenti. Il fix e' `salva_il_lavoro_intrappolato` in cervello/vps/aggiorna-cervello.sh: dopo tre tentativi falliti i commit locali finiscono su vps/salvataggio-<data>, quindi il lavoro esiste in due copie e un checkout -f non puo' piu' cancellarlo. IL TETTO E' DUE PEZZI DISTINTI, e confonderli e' stato un mio errore trovato dalla mutazione: il NOME per giorno tiene i rami a uno (senza, 288 al giorno), il MEMO della punta gia' salvata evita di ri-spingere ogni cinque minuti un lavoro identico. La prima stesura della prova diceva di misurare il memo e misurava il nome: restava verde togliendo il memo. Riscritta. Cinque prove, non vuote: senza l'uscita 1/5, senza il memo 4/5. NON FATTO APPOSTA: nessun reset automatico del server dopo il salvataggio — buttare via commit locali e' irreversibile e resta una decisione di Nicola (rosso).",
+      "chiuso_il": "2026-08-22 18:06",
+      "chiuso_come": "node cervello/test/lavoro-intrappolato-senza-uscita.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-762",
@@ -16697,7 +16706,7 @@
       "id": "AR-783",
       "titolo": "Il cricchetto della leggibilita' accusava chi scrive di righe scritte da altri, perche' misurava un file tagliato",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "guardiani-e-guardrail",
       "colore": "giallo",
       "nato": "2026-08-22",
@@ -16710,7 +16719,10 @@
       "verifica": {
         "comando": "node cervello/test/cancello-che-accusa-di-cose-non-tue.test.mjs"
       },
-      "nota_fix": "Quattro prove non vuote (senza il ramo ⚪ 3/4; senza il marcatore di taglio 3/4). ⚠️ DEBITO DICHIARATO: finche' la coda supera il tetto, il cricchetto della leggibilita' su quel file non protegge — esce ⚪. E' una perdita vera sul file che Nicola legge di piu', e la prova ② la tiene visibile invece di lasciarla passare per verde."
+      "nota_fix": "Quattro prove non vuote (senza il ramo ⚪ 3/4; senza il marcatore di taglio 3/4). ⚠️ DEBITO DICHIARATO: finche' la coda supera il tetto, il cricchetto della leggibilita' su quel file non protegge — esce ⚪. E' una perdita vera sul file che Nicola legge di piu', e la prova ② la tiene visibile invece di lasciarla passare per verde.",
+      "chiuso_il": "2026-08-22 18:06",
+      "chiuso_come": "node cervello/test/cancello-che-accusa-di-cose-non-tue.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-784",
@@ -16725,32 +16737,34 @@
         "comando": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
       },
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-22",
-      "chiuso_il": "",
+      "chiuso_il": "2026-08-22 18:06",
       "nato_come": "scoperta",
       "provenienza": "Scoperto il 22/8 nel lotto 46: applicando le chiusure del lotto 45, auto-fix ha scritto 50 dove la sonda scriveva 608, e la prova di AR-046 (scritta nel lotto 45, che pretende che lo scarto fra storico e cantiere non sia strutturale) e diventata rossa. Non l ha introdotto questo lotto: c era da sempre. E la prova che ha fatto il suo mestiere — era stata scritta apposta per accorgersi di questo.",
-      "nota_fix": "Cura consegnata e provata nel lotto 46. Lo stato lo applica auto-fix dopo il merge."
+      "nota_fix": "Cura consegnata e provata nel lotto 46. Lo stato lo applica auto-fix dopo il merge.",
+      "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 771,
-    "aperti": 107,
+    "totale": 775,
+    "aperti": 102,
     "in_corso": 0,
-    "da_riverificare": 56,
-    "chiusi": 608,
+    "da_riverificare": 10,
+    "chiusi": 663,
     "altri": 0,
-    "da_fare": 163,
+    "da_fare": 112,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 608,
-      "aperto": 107,
-      "da-riverificare": 56
+      "chiuso": 663,
+      "aperto": 102,
+      "da-riverificare": 10
     },
     "stati_ignoti": [],
-    "senza_owner": 163,
-    "senza_scadenza": 163,
+    "senza_owner": 112,
+    "senza_scadenza": 112,
     "scaduti": 0,
     "derivato_dalla_lista": true,
     "somma_torna": true
