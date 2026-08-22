@@ -3239,3 +3239,63 @@ sé — e chiede due lanci di fila: il primo porta il codice nuovo, il secondo l
 
 **Cosa non ho verificato:** che sul server funzioni. Da qui non ci arrivo, e i 29 commit fermi non li
 ho visti sciogliersi. Ho provato la protezione, non l'esito.
+
+---
+
+## 2026-08-22 11:35 · 🟡 Il quarto difetto: il server non poteva RICEVERE una riparazione, e diceva di averla ricevuta
+
+**Cosa ho fatto.** Riparato il guasto che teneva bloccato il server anche dopo i tre di ieri e
+stamattina, e messo due freni che diventano rossi se torna. Codice nel ramo
+`claude/risolvi-tutti-problemi-nddcnp`, richiesta di unione #822. La firma sul merge è di Nicola.
+
+**Come l'ho trovato.** Non da un errore: stavo verificando se la carta #153 potesse funzionare, e
+ho seguito il codice invece di fidarmi. L'allineatore (`allinea_codice_da_main`) esiste apposta per
+il caso «il server non riesce a pubblicare»: allinea comunque il CODICE, perché — parole scritte il
+20/8 dentro quella funzione — *«un server che non riesce a pubblicare smette anche di RICEVERE le
+riparazioni»*. Ma il server sta su `main`, e su `main` il perimetro AR-332 rifiuta i commit di
+codice. Il commit veniva respinto, l'errore finiva in `/dev/null` dietro un `|| true`, e la riga
+successiva stampava «Codice allineato a origin/main».
+
+**La prova, prima della diagnosi.** Repo vero, cancello vero, la sequenza esatta dell'allineatore:
+il commit non atterra, il file resta `M` (sporco), il contenuto committato è ancora la versione
+vecchia. Al giro dopo il prestito — generale apposta, AR-347 — se lo porta via, e torna il copione
+vecchio. Il cerchio si chiude: la riparazione arriva, non si posa, e nessuno lo dice.
+
+**Perché è il quarto della stessa famiglia in due giorni.**
+
+| difetto | il «qualcuno» che non esisteva |
+|---|---|
+| 21/8 sera | chi doveva riprendere la messa da parte |
+| 22/8 mattina | chi doveva risolvere i conflitti di memoria |
+| 22/8 mezzogiorno | chi doveva leggere il copione fino in fondo |
+| 22/8 pomeriggio | **chi doveva far atterrare il commit** |
+
+La lezione è sempre quella, e adesso ha quattro casi: *ogni volta che il codice dice «lo farà
+qualcuno», bisogna chiedersi chi — e se quel qualcuno esiste.* Il corollario nuovo, che questo caso
+aggiunge: **un `|| true` è una promessa che nessuno mantiene.** Trasforma «rifiutato» e «riuscito»
+nella stessa cosa, e la riga di successo subito dopo diventa una bugia stampata.
+
+**La deroga, e perché non è un buco.** Il perimetro serve a fermare il codice che nessuno ha
+rivisto. Il server che si ricopia addosso `main` non è quel caso: quei byte una richiesta di unione
+li ha già visti. Quindi `solo_copia_di_main` (in `cervello/gate-pubblicazione.sh`, importata dal
+cancello — non ricopiata) passa **solo se ciò che si committa è identico byte per byte a main**. Se
+è identico, per costruzione non entra niente di nuovo. Senza un riferimento a main non indovina:
+blocca (cieco non è verde, AR-322).
+
+**I freni** — `cervello/test/server-che-non-puo-ricevere-riparazioni.test.mjs`, cinque prove
+sull'hook vero dentro repo usa-e-getta:
+① la deroga esiste e il commit ATTERRA (non basta che non dia errore: si guarda la storia);
+② una riga diversa da main e il perimetro ferma tutto;
+③ senza riferimento a main, blocca;
+④ l'allineatore non dichiara più successo se il commit non è atterrato;
+⑤ il cardine della carta #153: il cancello appena scaricato vale già per il commit di quello stesso
+lancio — chiesto a git, non dedotto. È questo che permette al server di sbloccarsi da solo.
+
+Non vuote, verificato rimettendo i difetti: senza la deroga 4/5, senza il controllo dell'esito 4/5.
+I sette casi di `perimetro-main.test.mjs` restano verdi: il perimetro non si è allargato.
+
+**Conseguenza sulla carta #153.** Aveva un ordine sbagliato e l'ho corretto: prima si unisce la
+#822, poi i due lanci. Lanciarla prima avrebbe fatto perdere a Nicola un altro giro — il terzo.
+
+**Cosa non ho verificato:** che sul server funzioni. Da qui non ci arrivo. Ho provato il meccanismo
+su repo veri costruiti apposta, non l'esito sul server: i 29 commit fermi non li ho visti sciogliersi.

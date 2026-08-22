@@ -180,9 +180,28 @@ allinea_codice_da_main() {
   while IFS= read -r f; do
     [ -n "$f" ] && git rm -q -f --ignore-unmatch -- "$f" 2>/dev/null || true
   done < <(git diff --name-only --diff-filter=D HEAD FETCH_HEAD -- "${code_paths[@]}" 2>/dev/null)
-  git "${GIT_ID[@]}" commit -q -m "aggiorna-cervello: allinea codice a main ($(ts))" 2>/dev/null || true
-  echo "[$(ts)] Codice allineato a origin/main (incluse cancellazioni)."
-  return 0
+  # ⚠️ 22/8 — QUI stava il quarto difetto della settimana, e viveva dentro un `|| true`.
+  # Il server sta su `main`, e su `main` il cancello del perimetro (AR-332) rifiuta i commit di
+  # codice. Questo commit veniva quindi respinto, l'errore finiva in /dev/null, e la riga qui sotto
+  # stampava «Codice allineato» lo stesso. Il codice nuovo restava SPORCO: al giro dopo il prestito
+  # se lo portava via e tornava la versione vecchia. Un server che non riesce a pubblicare smetteva
+  # anche di RICEVERE le riparazioni — cioè diventava irreparabile da remoto — dichiarando il
+  # contrario. Ora il cancello ha la deroga giusta (`solo_copia_di_main`: passa solo se identico a
+  # main) e qui l'esito del commit si GUARDA. Se non atterra, non si dichiara riuscito.
+  local _perche_commit=""
+  if [ -z "$(git diff --cached --name-only 2>/dev/null)" ]; then
+    echo "[$(ts)] Codice già allineato a origin/main: niente da committare."
+    return 0
+  fi
+  if _perche_commit="$(git "${GIT_ID[@]}" commit -q -m "aggiorna-cervello: allinea codice a main ($(ts))" 2>&1)"; then
+    echo "[$(ts)] Codice allineato a origin/main (incluse cancellazioni)."
+    return 0
+  fi
+  # Un allineamento che non si posa è peggio di un allineamento saltato: sembra fatto.
+  echo "[$(ts)] ⛔ Il codice è stato scaricato da main ma NON si è potuto committare: resta sporco," >&2
+  echo "[$(ts)]    quindi al prossimo giro il prestito se lo riporta via e torna la versione vecchia." >&2
+  [ -n "$_perche_commit" ] && printf '%s\n' "$_perche_commit" | head -6 | sed "s/^/[$(ts)]    /" >&2
+  return 1
 }
 
 # Commit locali già fatti ma non pushati: pubblicali PRIMA del checkout -f (altrimenti si perdono).
@@ -297,7 +316,11 @@ if [ "$(git rev-parse --abbrev-ref HEAD 2>/dev/null)" = "$branch" ]; then
       # commit del server. Senza questa riga un server che non riesce a pubblicare smette anche di
       # RICEVERE le riparazioni — ed è così che si diventa irreparabili da remoto.
       if git fetch "$url" main 2>/dev/null; then
-        allinea_codice_da_main
+        # `|| true` di proposito, e solo qui: siamo già sul ramo d'uscita con un suo codice
+        # (`$_rc_all`) che dice «la memoria non è passata». L'allineatore, se non si posa, lo urla
+        # da sé sopra queste righe — quello che NON deve fare è uccidere lo script con `set -e`
+        # prima dell'`exit` qui sotto, perché quell'uscita è il segnale che watch-main legge.
+        allinea_codice_da_main || true
       else
         echo "[$(ts)]    (fetch di main fallito: il codice NON si allinea in questo giro)" >&2
       fi
@@ -427,8 +450,13 @@ if ! git fetch "$url" main; then
   _rc_all="$(esito_allineamento 1 0 0)"
   echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all") — allineamento codice SALTATO." >&2
   exit "$_rc_all"
-else
-  allinea_codice_da_main
+elif ! allinea_codice_da_main; then
+  # Stessa regola della riga sopra, per lo stesso motivo: se un passo non è riuscito, lo SHA non si
+  # segna. Prima l'allineatore non poteva fallire — dichiarava sempre successo — quindi questo ramo
+  # non esisteva e un allineamento respinto passava per fatto.
+  _rc_all="$(esito_allineamento 1 0 0)"
+  echo "[$(ts)] ⛔ $(motivo_allineamento "$_rc_all") — il codice NON si è posato." >&2
+  exit "$_rc_all"
 fi
 
 # AR-023: RICONCILIA IL CANTIERE appena il codice è allineato a main. È il percorso "immediato": watch-main

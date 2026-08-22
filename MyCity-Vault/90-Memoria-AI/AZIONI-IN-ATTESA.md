@@ -214,6 +214,9 @@ perché ho letto la lista. Potrebbero mancarne altre che non lasciano tracce cos
 
 ### 🟡 #153 — Il comando che ti avevo dato spegneva la riparazione mentre la lanciava · ⏳ accodata 2026-08-22 10:15 · riscritta 2026-08-22 12:15
 
+> **In due righe.** Il comando che ti avevo dato si spegneva da solo mentre girava. È riparato, ma
+> prima devi unire la richiesta di unione **#822**: senza, il server non riesce a posare il codice.
+
 **In parole semplici:** questa carta parla del server, la macchina accesa che lavora quando tu non ci
 sei. Stamattina alle 11:56 hai lanciato il comando che ti avevo dato. Non ha funzionato, e la colpa
 è del comando, non della riparazione.
@@ -239,8 +242,28 @@ fermi sono **29**, erano dodici stamattina e quattro ieri sera.
 può cambiare mentre gira. E il comando che ti do qui sotto non scarica più niente prima: ci pensa il
 programma stesso, che il codice da GitHub se lo prende da solo.
 
-**Cosa devi fare.** Lancialo **due volte**. La prima porta il codice nuovo sul server, la seconda lo
-usa.
+**⚠️ Aggiornamento 2026-08-22 11:30.** Continuando a controllare ho trovato un **quarto** guasto.
+Finché c'è, questa carta non può funzionare. Cambia l'ordine dei passi, quindi te lo racconto.
+
+Il server sta sul ramo principale. Su quel ramo c'è un cancello con una regola giusta: il codice ci
+arriva da una richiesta di unione, non da un commit a mano. Ma il server, per riallinearsi, deve fare
+proprio un commit di codice. Il cancello glielo rifiutava. La riga che lo fa buttava via l'errore, e
+subito dopo stampava «Codice allineato». Il codice restava a mezz'aria. Al giro dopo se lo riportava
+via il prestito.
+
+L'ho provato su un server finto, con il cancello vero. Il commit non atterra. Il file resta sporco.
+E lo schermo dice che è andata bene. Quarto difetto di fila della stessa famiglia — *il programma
+dice che qualcuno farà una cosa, e quel qualcuno non c'è.*
+
+La riparazione è nella richiesta di unione **#822**. La deroga è la più stretta che si possa
+scrivere. Il commit passa **solo se è identico, byte per byte, a quello che il ramo principale ha
+già**. Non può quindi far entrare niente che tu non abbia visto in una richiesta di unione.
+
+**L'ordine adesso è: ① unisci la #822 · ② poi i due lanci qui sotto.** Prima della #822 non lanciare
+niente: perderesti un altro giro.
+
+**Cosa devi fare (dopo aver unito la #822).** Lancialo **due volte**. La prima porta il codice nuovo
+sul server, la seconda lo usa.
 
 ```
 cd /opt/mycity/ad-mycity
