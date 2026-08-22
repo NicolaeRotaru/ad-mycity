@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-22 18:06",
+  "aggiornato": "2026-08-22 18:45",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16156,7 +16156,7 @@
       "nato_come": "scoperta",
       "nato_da": "trovata nel collaudo del lotto 45, verificando il diff intero invece dei file che ricordavo",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "malattia": "non-pattern-izzabile",
       "malattia_perche": "Non è una forma che si trova leggendo il codice: è ciò che resta sul disco quando un processo muore fra l'applicazione della mutazione e il suo ripristino. Nessun pattern può vederla, perché il file mutato è sintatticamente valido — infatti compilava. Si vede solo confrontando l'albero col ramo pubblicato, che è esattamente il controllo che manca.",
       "causa_radice": "① Perché nel Pannello c'era un bottone finto? Perché `non-vacuita.mjs` applica la mutazione scrivendo davvero il file, lancia il test, e poi ripristina. ② Perché non ha ripristinato? Perché è stato ucciso dal timeout mentre girava (568 mutazioni superano i due minuti). ③ Perché la morte lascia il danno? Perché il ripristino vive nel flusso normale del processo, non in un gestore di uscita che scatti anche su SIGTERM/SIGINT. ④ Perché nessuno se ne accorge? Perché il file mutato è codice valido: compila, il typecheck passa, e `git status` lo mostra in mezzo ai timbri d'orario riscritti dagli strumenti — dove sembra rumore. ⑤ Causa di sistema: uno strumento che ROMPE il codice apposta deve trattare il ripristino come un obbligo che sopravvive alla propria morte, non come l'ultima riga di una funzione. Finché non lo fa, ogni interruzione — timeout, Ctrl-C, sessione che scade — è un candidato a mandare in produzione una mutazione.",
@@ -16170,7 +16170,10 @@
         "misura": "node -e \"const{execSync}=require('node:child_process');const m=require('./cervello/mutanti.json').mutanti;const d=execSync('git diff',{encoding:'utf8',maxBuffer:1e9});let n=0;for(const x of m){const s=String(x.sostituisci||'').trim();if(s.length>25&&d.includes(s))n++}console.log(n)\"",
         "cosa_misura": "quante stringhe di sostituisci dei mutanti sono nel diff dell albero: se una c e, una mutazione e rimasta applicata",
         "perche_non_e_un_sintomo": "Misura la RICADUTA (ce n e una adesso?), non il difetto (il ripristino e garantito?). Come sintomo direbbe SANO ogni volta che l albero e pulito, e il motore lo stamperebbe fra i guariti mentre il ripristino resta non garantito: sarebbe il falso guarito di AR-216 rifatto, nello stesso giorno in cui l ho curato. Vale come guardiano da agganciare al pre-commit — quello si, e sta nel fix (b)."
-      }
+      },
+      "chiuso_il": "2026-08-22 18:45",
+      "chiuso_come": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-758",
@@ -16751,7 +16754,7 @@
       "titolo": "Il censimento di chi mette di guardia i guardiani sceglie i file per estensione, e i ganci di git non ne hanno una",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-22",
       "nato_come": "scoperta",
       "impatto_crescita": "indiretto: e' debito della macchina, ma toglie di guardia proprio i freni piu' vicini al danno",
@@ -16760,7 +16763,10 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
-      }
+      },
+      "chiuso_il": "2026-08-22 18:45",
+      "chiuso_come": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-786",
@@ -16781,16 +16787,16 @@
   ],
   "meta": {
     "letto": true,
-    "totale": 775,
+    "totale": 777,
     "aperti": 102,
     "in_corso": 0,
     "da_riverificare": 10,
-    "chiusi": 663,
+    "chiusi": 665,
     "altri": 0,
     "da_fare": 112,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 663,
+      "chiuso": 665,
       "aperto": 102,
       "da-riverificare": 10
     },
