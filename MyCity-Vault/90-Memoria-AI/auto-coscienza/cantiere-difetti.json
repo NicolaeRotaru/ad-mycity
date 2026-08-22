@@ -10134,8 +10134,8 @@
       "causa_radice": "Le regole guardrail vivono in due luoghi scollegati (CLAUDE.md a parole, autopilot.mjs in codice) senza una singola fonte-di-verità canale→colore-minimo condivisa. Causa di sistema: il cancello di pubblicazione — il più critico — non ha un contratto guardrail verificato che riconcili prosa e codice, così il codice ha potuto codificare \"🟡 auto-fire\" in contraddizione col manuale senza che nulla lo segnalasse.",
       "fix_proposto": "Rendere l'autopilot fail-closed: in LIVE pubblica da solo SOLO i 🟢 verso canali interni/te stesso; OGNI 🟡/🔴 verso canale pubblico o clienti si ACCODA in AZIONI-IN-ATTESA per la firma. Allineare header/commenti alla regola \"pubblicare=🔴\". Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10148,7 +10148,8 @@
         "file": "cervello/autopilot.mjs",
         "pattern": "colore\\s*!==\\s*[\"']verde[\"']",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ed era gia curato: autopilot.mjs, cancello semaforo fail-closed — in LIVE parte da solo SOLO il verde, e il verde deve reggere anche dal lato del CANALE, non solo dichiararsi tale nel file-dati. Giallo, rosso, colore mancante o scritto male si accodano per la firma. La scheda risultava «ancora viva» a un controllo per parole perche cercava «colore !== \"verde\"» mentre il codice usa gli emoji: e il motivo per cui un grep non e una prova. PROVA: si fa girare l autopilot VERO in LIVE, con le chiavi valorizzate, su un calendario e una coda temporanei — se il freno cade qualcosa parte davvero. Tre casi: un post pubblico giallo, uno che si dichiara verde su canale pubblico, uno con un colore che non si capisce. Due mutazioni, entrambe rendono rossa la prova."
     },
     {
       "id": "AR-073",
@@ -10159,8 +10160,8 @@
       "causa_radice": "I cancelli di sicurezza qui non seguono il principio fail-closed/whitelist applicato altrove nella macchina (es. scan-segreti, allocazione-check): il campo colore è trattato come testo libero fidato invece che come input di sicurezza validato contro un enum.",
       "fix_proposto": "Fail-closed: validare `colore` contro l'enum {verde,giallo,rosso}; qualsiasi valore mancante o non riconosciuto va trattato come 🔴 (accoda per firma), non eseguito. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10173,7 +10174,8 @@
         "file": "cervello/autopilot.mjs",
         "pattern": "[\"']verde[\"']\\s*,\\s*[\"']giallo[\"']\\s*,\\s*[\"']rosso[\"']",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: normalizzaColore restituisce 🔴 per qualunque valore mancante o non riconosciuto — fail-closed contro l enum, non testo libero fidato. Copertura gia esistente in autopilot-colore.test.mjs, piu il caso end-to-end nella prova della famiglia (una voce «verdino» viene accodata, non pubblicata). Mutazione dedicata: rimettendo il ramo permissivo la prova diventa rossa."
     },
     {
       "id": "AR-074",
@@ -10184,8 +10186,8 @@
       "causa_radice": "Il rischio intrinseco e irreversibile di un canale (email/social verso il pubblico) è modellato come metadato editabile a mano invece che come vincolo di sistema: manca una tabella canale→colore-minimo applicata al momento dell'invio, e il contratto scritto nell'header di email.mjs non è tradotto in codice.",
       "fix_proposto": "Ogni publisher espone `coloreMinimo` (email a destinatario ≠ TEST = 🔴; social/gbp pubblico = 🔴 in ottica \"pubblicare=🔴\"); l'autopilot usa max(coloreMinimo del canale, colore della voce); email.mjs invia a `voce.to`≠TEST_TO SOLO se accodato/firmato. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10198,7 +10200,8 @@
         "file": "cervello/publishers/email.mjs",
         "pattern": "coloreMinimo",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: coloreMinimoPer vive nei publishers — il rischio e una proprieta del CANALE, non un campo che la voce si scrive da sola — e coloreEffettivo prende il PEGGIORE fra il minimo del canale e il colore dichiarato. Email verso un indirizzo reale resta 🔴 anche se la voce si dichiara verde; un canale che nessun publisher dichiara vale 🔴. Prova che esegue i casi, piu mutazione che toglie il max e fa tornare la voce padrona del proprio colore."
     },
     {
       "id": "AR-075",
@@ -10209,8 +10212,8 @@
       "causa_radice": "Asimmetria storica nella costruzione dei guardiani: il valore fondante del brand (verità) è affidato a una checklist umana invece che a una forcing-function deterministica agganciata al percorso di pubblicazione. Il ciclo \"Verifica (cancello di serietà 🔬)\" è descritto ma non strumentato per l'onestà.",
       "fix_proposto": "Nuovo pezzo `cervello/onesta-check.mjs` che scansiona il testo in uscita (calendario, AZIONI-IN-ATTESA, consegne/content) per segnaposto `[...]`/`[ESEMPIO]` non risolti, cifre senza tag-fonte e parole-spia (\"già N\", \"500 famiglie\"), esce ≠0 e blocca accodamento/pubblicazione; agganciato in autopilot prima di publisher/accoda e nel giro. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10223,7 +10226,8 @@
         "file": "cervello/onesta-check.mjs",
         "pattern": "segnaposto|\\[ESEMPIO\\]|fonte",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: onesta-check.mjs esiste, e un guardiano che ESCE DIVERSO DA ZERO su un numero senza fonte, ed e cablato nel percorso di pubblicazione (gate-pubblicazione.sh). Prova a due versi: «gia 500 famiglie ordinano» viene fermato, «vieni a scoprire le botteghe» passa — senza il secondo caso il guardiano potrebbe essere sempre rosso, e un guardiano sempre rosso viene spento entro la settimana. Mutazione che gli toglie il riconoscimento della fonte."
     },
     {
       "id": "AR-076",
@@ -10234,8 +10238,8 @@
       "causa_radice": "La semantica dei colori (🟡 = fai + avvisa) è definita nel manuale ma non tradotta in comportamento del runner: manca un canale di notifica post-azione dell'autopilot; il log jsonl è scambiato per notifica.",
       "fix_proposto": "Dopo ogni azione 🟡 eseguita in LIVE, scrivere una riga \"FATTO — avviso\" in un registro visibile dal Pannello (e Telegram se collegato). Se si adotta il fix 1, il problema si estingue. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10248,7 +10252,8 @@
         "file": "cervello/autopilot.mjs",
         "pattern": "avvis|notific",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). CURATO DAL DIFETTO PADRE, e va detto invece di lasciarlo aperto: la scheda chiedeva che l autopilot AVVISASSE Nicola dopo aver pubblicato un 🟡. Con AR-072 il 🟡 non parte piu da solo — quindi non c e piu niente da notificare a cose fatte: c e una card da firmare in coda, che e meglio. La prova pretende che la card ci sia E che porti scritto il motivo («il canale facebook vale almeno 🟡»): un no muto non si firma. Mutazione che fa sparire la scrittura in coda."
     },
     {
       "id": "AR-077",
@@ -10259,8 +10264,8 @@
       "causa_radice": "Gap tra capacità dichiarata a regime e sensore mancante, non segnalato onestamente: manca un guardiano-capacità che distingua \"promesso\" da \"implementato\" per il budget, così il mansionario descrive un freno che non c'è come se fosse attivo.",
       "fix_proposto": "Finché ads/Stripe-write sono scollegati, marcare esplicitamente la capacità come \"non attiva\" invece di \"automatica\"; quando esistono spese reali, nuovo pezzo `cervello/sentinella-budget.mjs` che somma speso vs KPI reso per reparto e, oltre soglia, accoda uno STOP 🔴. Domanda a Nicola se/quando collegare la lettura-spesa. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10273,7 +10278,8 @@
         "file": "cervello/sentinella-budget.mjs",
         "pattern": "speso|budget|STOP",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: cervello/sentinella-budget.mjs esiste, gira, riporta reparto per reparto quanto e stato speso contro il budget e accoda uno STOP 🔴 in coda quando si sfora — la soglia e un numero configurabile (soglia_stop), non prosa nel mansionario. Prova che lo esegue davvero. Mutazione che scollega la soglia dalla configurazione. NOTA TROVATA VERIFICANDO: questo file non ha la guardia sul main, quindi importarlo ne ESEGUE il programma (malattia censita «programma-che-parte-importando», tetto 63): per questo la prova lo lancia come processo, non lo importa."
     },
     {
       "id": "AR-078",
@@ -10284,8 +10290,8 @@
       "causa_radice": "L'invio reale non è legato per costruzione al percorso proponi→firma→registra: l'esecutore è una utility a basso livello disaccoppiata dalla coda per semplicità implementativa, e nessuno step impone la scrittura in DECISIONI, quindi il registro append-only può restare incompleto.",
       "fix_proposto": "Legare ogni invio reale a un id-azione della coda e appendere automaticamente una riga in DECISIONI.md (data+ora, cosa, perché) al momento dell'esecuzione LIVE; opzionale passaggio da onesta-check. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10298,7 +10304,8 @@
         "file": "cervello/esegui-azione.mjs",
         "pattern": "AZIONI-IN-ATTESA|DECISIONI",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: esegui-azione.mjs passa dal cancello di consenso per-azione (consenso-azione.mjs, AR-103), cita AZIONE_ID e scrive una riga append-only in DECISIONI.md al momento dell esecuzione LIVE. Prova comportamentale: si esegue consensoInvio con azione non firmata e senza credenziali per verificare la PAUSA — deve NEGARE e dire perche, fail-closed. Mutazione che lo rende fail-open: la prova diventa rossa."
     },
     {
       "id": "AR-079",

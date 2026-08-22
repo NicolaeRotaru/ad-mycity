@@ -1,17 +1,16 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 11:05",
+  "aggiornato": "2026-08-22 11:28",
   "giorni_sospetto": 3,
   "difetti_aperti": 164,
   "per_classe": {
-    "umana": 119,
+    "umana": 112,
     "auto-sospetta": 19,
-    "auto-comando": 26
+    "auto-comando": 33
   },
-  "non_auto_chiudibili": 138,
+  "non_auto_chiudibili": 131,
   "bloccanti_ciechi": [
-    "AR-072",
     "AR-518",
     "AR-521",
     "AR-568",
@@ -508,62 +507,6 @@
       "id": "AR-071",
       "stato": "da-riverificare",
       "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-072",
-      "stato": "da-riverificare",
-      "gravita": "bloccante",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-073",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-074",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-075",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-076",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-077",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-078",
-      "stato": "da-riverificare",
-      "gravita": "minore",
       "causa": "da-riverificare",
       "comando": null,
       "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
@@ -2444,63 +2387,63 @@
       "gravita": "bloccante",
       "eta_giorni": 50,
       "titolo": "Autopilot pubblica da solo i 🟡 (post pubblici sul brand) in LIVE — contraddice \"pubblicare = 🔴\" di CLAUDE.md",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-073",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Gate colore fail-open: colore mancante o scritto male → l'autopilot pubblica lo stesso",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-074",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Il colore è auto-dichiarato nel JSON e scollegato dal canale reale: nessuna fonte-di-verità canale→rischio",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-075",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "ONESTA-RULES senza alcun guardiano machine-checkable nel percorso di pubblicazione",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-076",
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "🟡 senza \"avvisa\": l'autopilot pubblica i 🟡 in LIVE ma non notifica Nicola",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-077",
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "\"STOP automatico se un reparto brucia budget\" è solo prosa: nessun sensore di spesa, nessun blocco reale",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-078",
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "esegui-azione.mjs: mano grezza senza gate colore, senza legame all'azione approvata e senza traccia in DECISIO",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-079",

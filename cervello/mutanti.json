@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-22 11:30",
+ "aggiornato": "2026-08-22 12:10",
  "mutanti": [
   {
    "lotto": 30,
@@ -5583,6 +5583,70 @@
    "cerca": "  const misurato = grezzo !== null && grezzo !== undefined && Number.isFinite(Number(grezzo));",
    "sostituisci": "  const misurato = true;",
    "test": "node --test cervello/test/due-numeri-per-la-stessa-domanda.test.mjs"
+  },
+  {
+   "difetto": "AR-072",
+   "nome": "l autopilot torna a pubblicare da solo i gialli in LIVE: post pubblici sul brand senza firma",
+   "file": "cervello/autopilot.mjs",
+   "cerca": "    if (LIVE && effettivo !== \"🟢\") {",
+   "sostituisci": "    if (LIVE && effettivo === \"🔴\") {",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-072",
+   "nome": "un colore che non si capisce torna a essere un permesso invece che un rosso",
+   "file": "cervello/autopilot.mjs",
+   "cerca": "  return PAROLA_A_EMOJI[s] || \"🔴\";",
+   "sostituisci": "  return PAROLA_A_EMOJI[s] || \"🟢\";",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-074",
+   "nome": "la voce torna a potersi dichiarare piu sicura del proprio canale",
+   "file": "cervello/autopilot.mjs",
+   "cerca": "  return coloreMax(coloreMinimoPer(voce.canale, voce), voce.colore);",
+   "sostituisci": "  return normalizzaColore(voce.colore);",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-076",
+   "nome": "un giallo fermato torna a sparire in silenzio: nessuna card in coda, nessun motivo",
+   "file": "cervello/autopilot.mjs",
+   "cerca": "      const ok = accoda(voce);",
+   "sostituisci": "      const ok = true;",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-073",
+   "nome": "il colore torna a essere testo libero fidato invece di un enum validato: verdino apre il cancello",
+   "file": "cervello/autopilot.mjs",
+   "cerca": "  if (SCALA[s] !== undefined) return s;",
+   "sostituisci": "  if (SCALA[s] !== undefined) return s;\n  if (s) return \"🟢\";",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-075",
+   "nome": "il controllo di onesta smette di riconoscere una fonte: ogni numero passa, anche inventato",
+   "file": "cervello/onesta-check.mjs",
+   "cerca": "const RE_FONTE = /(fonte\\s*:|\\(fonte|\\[dati\\]|\\[fonte|supabase|stripe|posthog|registro-fatti|registro-realt|\\{fonte:)/i;",
+   "sostituisci": "const RE_FONTE = /[\\s\\S]/i;",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-077",
+   "nome": "la soglia di STOP del budget torna a essere prosa: nessun numero configurabile",
+   "file": "cervello/sentinella-budget.mjs",
+   "cerca": "  const soglia = cfg && typeof cfg.soglia_stop === \"number\" ? cfg.soglia_stop : 1.0;",
+   "sostituisci": "  const soglia = 1.0; // soglia_stop non piu letta",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
+  },
+  {
+   "difetto": "AR-078",
+   "nome": "un invio senza azione firmata torna a passare: il cancello del consenso diventa fail-open",
+   "file": "cervello/consenso-azione.mjs",
+   "cerca": "    return { live: false, motivo: \"nessun AZIONE_ID: l'invio non è agganciato a una casella firmata (AZIONE_ID mancante)\" };",
+   "sostituisci": "    return { live: true, motivo: \"\" };",
+   "test": "node --test cervello/test/il-semaforo-che-lascia-passare.test.mjs"
   }
  ]
 }
