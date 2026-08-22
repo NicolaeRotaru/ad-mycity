@@ -1,40 +1,40 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 20:56",
+  "aggiornato": "2026-08-22 21:25",
   "giorni_sospetto": 3,
-  "difetti_aperti": 115,
-  "difetti_da_fare": 115,
+  "difetti_aperti": 109,
+  "difetti_da_fare": 109,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 782,
-    "chiusi": 667,
-    "aperti": 105,
+    "totale": 783,
+    "chiusi": 674,
+    "aperti": 99,
     "in_corso": 0,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 115,
+    "da_fare": 109,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 667,
-      "aperto": 105,
+      "chiuso": 674,
+      "aperto": 99,
       "da-riverificare": 10
     },
     "stati_ignoti": []
   },
   "bilancio": {
     "torna": true,
-    "attese": 115,
-    "viste": 115,
+    "attese": 109,
+    "viste": 109,
     "fuori": 0,
-    "motivo": "bilancio a posto: 667 chiuse + 115 classificate = 782 schede, e ogni stato vivo è dentro (105 aperto · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 674 chiuse + 109 classificate = 783 schede, e ogni stato vivo è dentro (99 aperto · 10 da-riverificare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 20,
     "auto-sospetta": 10,
-    "umana": 69,
-    "auto-comando": 16
+    "umana": 70,
+    "auto-comando": 9
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
@@ -161,7 +161,7 @@
     }
   ],
   "chiuderebbe_lo_stesso": [],
-  "non_auto_chiudibili": 99,
+  "non_auto_chiudibili": 100,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568"
@@ -234,14 +234,6 @@
     {
       "id": "AR-695",
       "gravita": "medio",
-      "manca": [
-        "impatto_crescita",
-        "nato"
-      ]
-    },
-    {
-      "id": "AR-703",
-      "gravita": "grave",
       "manca": [
         "impatto_crescita",
         "nato"
@@ -1981,18 +1973,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-436",
-      "gravita": "grave",
-      "eta_giorni": 24,
-      "impatto_crescita": "medio",
-      "prova_esegue": true,
-      "prova_obbligatoria": false,
-      "titolo": "Il metro dei mansionari conta quattro titoli che il template garantisce: 120 su 120 passano e nessuno puo esse",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/metro-mansionari-puo-bocciare.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-350",
       "gravita": "grave",
       "eta_giorni": 24,
@@ -2032,18 +2012,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-354",
-      "gravita": "grave",
-      "eta_giorni": 24,
-      "impatto_crescita": "alto",
-      "prova_esegue": true,
-      "prova_obbligatoria": true,
-      "titolo": "Tutti i novantanove difetti aperti hanno una prova del tipo debole, e quattro citano file che non esistono",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/prova-debole-non-chiude.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-375",
       "gravita": "grave",
       "eta_giorni": 24,
@@ -2069,18 +2037,6 @@
       "classe": "auto-sospetta",
       "perche": "prova mai soddisfatta da 24 giorni (cervello/autopilot.mjs ~ /if \\(effettivo !== \"🟢\"\\)/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-394",
-      "gravita": "grave",
-      "eta_giorni": 24,
-      "impatto_crescita": "alto",
-      "prova_esegue": true,
-      "prova_obbligatoria": true,
-      "titolo": "Il cancello comune promette quattro controlli e ne fa tre: il quarto è un parametro morto",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/quarto-controllo-promesso.test.mjs",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-396",
@@ -2488,18 +2444,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-684",
-      "gravita": "grave",
-      "eta_giorni": 8,
-      "impatto_crescita": "medio",
-      "prova_esegue": true,
-      "prova_obbligatoria": false,
-      "titolo": "Il cantiere conta 595 schede su 653: 56 in un terzo stato non entrano in nessun totale",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/prova-debole-non-chiude.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-688",
       "gravita": "minore",
       "eta_giorni": 8,
@@ -2534,18 +2478,6 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-703",
-      "gravita": "grave",
-      "eta_giorni": null,
-      "impatto_crescita": null,
-      "prova_esegue": true,
-      "prova_obbligatoria": false,
-      "titolo": "Lo strumento che risponde a «sto migliorando?» non lo esegue nessuno",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/salute-onesta-e-cablata.test.mjs",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-712",
@@ -2812,18 +2744,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-744",
-      "gravita": "grave",
-      "eta_giorni": 7,
-      "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
-      "prova_esegue": true,
-      "prova_obbligatoria": false,
-      "titolo": "Otto esperimenti su nove si dichiarano misurati mentre il gate non è mai partito, e nessuno riscrive lo stato",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/esperimento-smentito-si-corregge.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-745",
       "gravita": "medio",
       "eta_giorni": 7,
@@ -2956,18 +2876,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-788",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "impatto_crescita": "indiretto ma sul metro: e la difesa che impedisce a una sessione senza chiavi di sovrascrivere i numeri veri del server, cioe di far mentire il Pannello a Nicola",
-      "prova_esegue": true,
-      "prova_obbligatoria": false,
-      "titolo": "Il timbro di provenienza scriveva «ho guardato zero cose» su ogni misura che non dichiara quanto ha guardato",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/misura-che-non-sporca.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-789",
       "gravita": "grave",
       "eta_giorni": 0,
@@ -3005,6 +2913,18 @@
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "titolo": "Il metro dell'onesta ha due case che non si parlano, e le cure sono atterrate solo in una",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-792",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "impatto_crescita": "indiretto: e la difesa che impedisce a una sessione senza chiavi di sovrascrivere i numeri veri del server, cioe di far mentire il Pannello a Nicola",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "titolo": "La copertura di una misura sopravvive solo grazie all'ordine dei campi, e nessuno obbliga chi scrive a dichiar",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
