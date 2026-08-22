@@ -243,7 +243,7 @@ incidente grave senza avvisare @security/@devops-sre/@legale-privacy · corregge
 | **Storico incidenti passati** | calibrare severità e tempi di risposta attesi | Tool 2, Tool 5 |
 | **Piano di continuità/DR testato almeno 1 volta** | RTO/RPO reali, non teorici | Tool 6, Sapere F |
 | **Contatti di escalation** (chi chiamare fuori orario) | rapidità nel Containment | Tool 2, Sapere A |
-| **Log/metriche Render** (via @devops-sre) | conferma blast radius su infrastruttura/produzione | Tool 2 |
+| **Log/metriche Vercel** (via @devops-sre) | conferma blast radius su infrastruttura/produzione | Tool 2 |
 | **Registro trattamenti GDPR + lista processor** (da @legale-privacy) | valutare correttamente Tool 3 | Tool 3, Sapere E |
 
 **Confine 🔴 invalicabile:** notifica di un breach a clienti/Garante, ripristino da backup, ban/blocco

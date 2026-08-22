@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-21 21:15",
+ "aggiornato": "2026-08-22 10:29",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11597,6 +11597,14 @@
     {
      "quando": "2026-08-21 14:01",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:23",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:29",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -11867,6 +11875,14 @@
     {
      "quando": "2026-08-21 14:01",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:23",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:29",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -11939,6 +11955,14 @@
     },
     {
      "quando": "2026-08-21 14:01",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:23",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:29",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -12394,7 +12418,17 @@
     "debito-dichiarato",
     "consegna-a-meta"
    ],
-   "gate_nota": "Lezione scritta il 21/8 20:35 per chiudere il filo: quattro mutazioni la citavano e la lezione non era mai stata scritta. Il testo e' ricostruito da cio' che quei quattro freni proteggono, non da una frase originale — dichiarato qui perche' chi legge sappia di che qualita' e' la fonte."
+   "gate_nota": "Lezione scritta il 21/8 20:35 per chiudere il filo: quattro mutazioni la citavano e la lezione non era mai stata scritta. Il testo e' ricostruito da cio' che quei quattro freni proteggono, non da una frase originale — dichiarato qui perche' chi legge sappia di che qualita' e' la fonte.",
+   "usi": [
+    {
+     "quando": "2026-08-22 10:23",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-22 10:29",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    }
+   ]
   },
   {
    "id": "L-2026-0821-03",

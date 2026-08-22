@@ -497,12 +497,12 @@ Lista completa per Nicola — **✅ = confermato da te** · **📊 = stima orien
 | **Dominio** | **~2** ✅ | **20 €/anno** ammortizzato |
 | **Totale fisso mensile** | **~302** | 300 €/m servizi + dominio |
 
-### In transizione
+### Da confermare con Nicola
 
 | Voce | Stima | Note |
 | --- | ---: | --- |
-| **Render** (marketplace) | **0** (chiusura) | Spegni quando migri — oggi **~7–25 €/m** se ancora attivo 📊 |
-| **Vercel totale** (Pannello + sito) | **~50–70 €/m** 📊 | Dopo migrazione marketplace — oggi paghi 30 €; il piano può salire con traffico |
+| **Render** (marketplace) | **0** | **Dismesso.** Il sito è su Vercel dal 22/8/2026 (verificato: pubblicazione di produzione pronta). Da confermare che l'abbonamento sia chiuso davvero e non solo scaduto |
+| **Vercel totale** (Pannello + sito) | **~50–70 €/m** 📊 | I due progetti stanno nello stesso account (piano Pro). Oggi in Bacheca risultano 30 €: da confermare se coprono già entrambi o se il conto è salito col marketplace dentro |
 
 ### Materiali fisici, volantini e stampa (🔴 on-demand — non nel burn mensile)
 

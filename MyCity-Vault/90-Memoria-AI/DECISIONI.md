@@ -3083,7 +3083,7 @@ quindi il pezzo grosso del difetto sul rendering (portare sul server la prima sc
 pagine commerciali) resta **aperto e dichiarato** invece di essere spacciato per chiuso — la sua
 stessa scheda dice di misurare prima. Non ho toccato il database di produzione.
 
-**Cinque firme in coda** (#153-#157): applicare la migrazione 126, applicare la 120 (scritta il 18
+**Cinque firme in coda** (#158-#162, rinumerate al momento dell'unione: sul ramo principale i numeri 153-155 erano già andati ad altre carte): applicare la migrazione 126, applicare la 120 (scritta il 18
 agosto e mai applicata), il segreto `SUPABASE_DB_URL` che fa applicare le migrazioni prima di ogni
 pubblicazione, le tre chiavi di Vercel + la parola in `vercel.json`, e un posto dove tenere una
 copia delle foto dei prodotti — che oggi vivono in un posto solo.
@@ -3091,3 +3091,109 @@ copia delle foto dei prodotti — che oggi vivono in un posto solo.
 **Referto**: `consegne/audit/2026-08-22-marketplace-100-riparazioni.md`.
 
 · Non riproporre come «da fare»: fatto, con prova · Nicola (chat, 22/8)
+## 2026-08-22 09:56 · 🟡 Il sito adesso lavora da Vercel, non solo su Vercel
+
+**Chi ha chiesto:** Nicola, in chat: «ho cambiato il server da render a vercel, fai un'analisi
+completa e profonda e cambia tutto quello che c'è da cambiare».
+
+**Perché era una decisione e non solo un lavoro.** Il trasloco era stato dichiarato a luglio e il
+codice era già online su Vercel. Quello che nessuno aveva tradotto è la differenza di forma: su
+Render c'era una macchina accesa con la sua memoria e il suo orologio, su Vercel c'è una funzione che
+vive quanto una richiesta. Cinque pezzi del sito davano ancora per scontata la macchina.
+
+**Cosa ho cambiato nel codice del sito** (ramo `claude/render-to-vercel-migration-hf0nyj`, richiesta
+di unione aperta, niente in produzione):
+
+- **Regione delle funzioni: da Washington a Parigi.** Il database è a Parigi (`eu-west-3`): ogni
+  query attraversava l'Atlantico due volte. Ora `regions: ["cdg1"]`. Provato leggendo il campo
+  `regions` del registro dei rilasci — produzione `["iad1"]`, anteprima del ramo nuovo `["cdg1"]`.
+  ⚠️ **Correzione 10:20:** avevo scritto «provato guardando `x-vercel-id: iad1`». Quell'intestazione
+  non lo prova — il suo primo pezzo segue chi chiama, non dove gira la funzione — e me ne sono
+  accorto leggendo `iad1` sull'anteprima, che gira a Parigi. Chi lo rifarà: si guarda il rilascio,
+  non l'intestazione.
+- **I nove lavori periodici agganciati a Vercel** (`vercel.json` → `crons`), con le stesse cadenze di
+  prima. Prima li faceva partire cron-job.org, servizio esterno nato perché su Render il cron si
+  pagava a parte.
+- **Cinque rotte su nove rispondevano solo al POST**, e Vercel bussa solo in GET: sarebbero partite
+  tutte prendendosi un 405 — il giro risulta eseguito e non fa niente. Ora rispondono a entrambi, così
+  durante il passaggio i due mondi convivono.
+- **Tetti di durata dichiarati** per lavori periodici, chiamate all'AI e webhook. Senza, oltre il
+  tetto del piano la funzione viene troncata a metà senza alcun errore.
+- **Il freno anti-abuso dichiarato per quello che è.** Senza Upstash, «dieci tentativi al minuto»
+  diventano dieci per ogni copia. Non l'ho lasciato scritto in un commento: `/api/health` adesso
+  risponde «degradato» finché quelle due variabili mancano.
+- **L'indirizzo del sito non ripiega più su localhost.** In produzione ogni pagina dichiarava a Google
+  `<link rel="canonical" href="http://localhost:3000">`. Ora il ripiego è il dominio che Vercel
+  dichiara da solo.
+- **Node allineato a 24** nei tre posti che devono dire lo stesso numero: prima la produzione girava
+  su 24 e il passo che costruisce prima di pubblicare usava 20.
+
+**Il freno, perché la lezione non resti una frase.** `tests/unit/lavori-periodici-agganciati-a-vercel.test.ts`
+diventa rosso se una rotta cron non è in `vercel.json`, se non risponde al GET (anche solo commentata),
+se sparisce il tetto di durata o la regione. Provato rompendo le quattro cose una alla volta.
+
+**Cosa resta a Nicola (🔴, accodato):**
+
+- **#154** — le chiavi mancanti fra le variabili su Vercel. Manca `SUPABASE_SERVICE_ROLE_KEY`: 70
+  errori veri nei log di produzione fra il 18 e il 21 agosto, su `/api/track` e `/api/consent`. Senza
+  quella, il webhook di Stripe non scrive: **un pagamento riuscito non diventa un ordine**.
+- **#155** — il dominio `mycity-marketplace.com` risolve ancora su `216.24.57.1`, l'indirizzo di
+  Render. Va aggiunto su Vercel e ripuntato dal DNS.
+
+**Fatti aggiornati nel registro:** `marketplace.hosting` (non è più «migrazione pianificata»: è fatta,
+con due code aperte fuori dal codice) e `finanza.costi_infrastruttura` (Render dismesso; da confermare
+con Nicola se i 30 €/m di Vercel coprono già i due progetti).
+
+**Cosa NON ho verificato.** Non ho aperto il pannello di Vercel: so che quelle chiavi mancano perché
+il sito si comporta come se mancassero, non perché ho letto la lista. Che `216.24.57.1` sia di Render
+l'ho dedotto. E non ho aperto nessuna pagina in un browser.
+
+· Verificato: 979 prove verdi, typecheck pulito, lint senza errori, build di produzione riuscita · Nicola (chat)
+## 2026-08-22 10:20 — 🟡 I conflitti di memoria che nessuno risolveva: il secondo nodo, sotto il primo
+
+**Cosa.** La riparazione di ieri sera è arrivata sul server e **funziona**. Lo dice l'errore, che è
+cambiato: prima il rebase non partiva affatto (`untracked working tree files would be overwritten`),
+adesso parte, va avanti, e si ferma su `conflitti: vanno risolti a mano`.
+
+**Perché è un difetto e non un'attesa.** Sul server «a mano» vuol dire **mai**: lassù non entra
+nessuno tutti i giorni. Da quattro commit fermi ieri sera a dodici stamattina, +8 in quattordici ore.
+È la stessa malattia del giorno prima in un altro punto: *un'operazione che sa rimandarsi e non ha un
+tetto rimanda per sempre, e da fuori è indistinguibile da una macchina ferma.* Ieri erano le messe da
+parte, oggi i conflitti. Vale la pena scriverlo come forma generale, perché ricompare: **ogni volta
+che il codice dice «lo farà qualcuno», bisogna chiedersi chi, e se quel qualcuno esiste.**
+
+**Il rimedio, e soprattutto il suo confine.** `cervello/conflitti-memoria.mjs` risolve i conflitti
+solo dove la risposta è meccanica e non è un giudizio — registri che la macchina rigenera (vince la
+copia di main), file append-only (si tengono entrambe le parti), archivi tenuti a id (unione, nessuna
+voce sparisce). **Su tutto il resto rifiuta e non tocca niente, nemmeno gli altri file**: una
+risoluzione a metà lascia il rebase in uno stato che nessuno ha scelto. La coda delle carte è
+deliberatamente fuori: i numeri e le chiusure sono giudizio, e li ho risolti a mano due volte in due
+giorni proprio guardando il contenuto.
+
+**Quattro errori miei, tutti trovati da una prova o da un guardiano, nessuno da una rilettura:**
+1. `apprendimento.json` **vive dentro** `auto-coscienza/`, quindi con i controlli nell'ordine
+   sbagliato finiva in «prendi la versione di main»: le lezioni scritte dal server cancellate in
+   silenzio, cioè esattamente il danno che l'attrezzo esiste per evitare. L'ha visto la prova a vuoto
+   prima che il codice toccasse un repo.
+2. **I lati del rebase erano invertiti.** Avevo scritto «stadio 3» per «la versione di main»; durante
+   un rebase lo stadio 3 è il commit *del server*. Il codice avrebbe fatto l'opposto del suo commento.
+   È la trappola che questo repo ha già pagato una volta (`rebase-che-non-parte`), e la cura è la
+   stessa: su questa domanda **si chiede a git**, non a sé stessi. L'ho chiesto, su un repo vero.
+3. Mandavo l'uscita del risolutore in `/dev/null`: così «ha rifiutato perché c'è del codice» e «non è
+   nemmeno partito» diventavano la stessa cosa. È successo davvero — un modulo mancante lo uccideva
+   prima di accendersi e da fuori sembrava una decisione. Stesso errore di AR-468, in un file nuovo.
+4. Il sorvegliante ha trovato una **malattia nella riga che stavo scrivendo**: un attrezzo invocato
+   solo `if [ -f ... ]` sparisce in silenzio quando il file non c'è. Curata, non dichiarata esente.
+
+Il terzo errore ha una conseguenza che vale oltre il caso: **un attrezzo di riparazione deve avere il
+minor numero possibile di ragioni per non accendersi.** Importava `AD_ROOT` da `git-github.mjs`, che
+tira dentro mezza cartella, per sapere un valore predefinito. Adesso se lo calcola da sé.
+
+**Cosa resta a Nicola:** la card #153. Prima un comando che *guarda* quali fogli sono in conflitto,
+perché se stanno fuori dalle tre classi questa riparazione non li scioglie — e in quel caso la mano
+è di una persona. Non lo so ancora, e non fingo di saperlo.
+
+**Cosa non ho verificato:** che sul server funzioni. Ho provato la catena intera su repo veri —
+server e main che si scontrano sullo stesso file, e alla fine il lavoro del server arriva su GitHub
+senza perdere la riga dell'altro — e l'ho provata al contrario tre volte. I file veri del server non
+li ho visti.

@@ -117,7 +117,7 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · 05-Soldi-Rischi/Risch
 - **Consenso e base giuridica tracciati** (consenso marketing ≠ dato per esecuzione del contratto): il consenso
   ha timestamp, versione dell'informativa, e revocabilità. Registro dei trattamenti aggiornato.
 - **Data residency & sub-responsabili:** dove gira il DB (regione Supabase), chi sono i processor (Stripe,
-  Resend, Render, PostHog) → DPA in ordine. È compliance tecnica, non solo legale.
+  Resend, Vercel, PostHog) → DPA in ordine. È compliance tecnica, non solo legale.
 
 ## H. Privilege escalation — la classe di bug che ti rovina la giornata
 - **`profiles.role` (o equivalente) è l'obiettivo numero uno.** Se un utente può **scrivere il proprio ruolo**

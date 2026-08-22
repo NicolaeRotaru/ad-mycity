@@ -2,7 +2,7 @@
 tipo: kit-mestiere
 ruolo: devops-sre
 fonte: AD digitale (strati 3-6 del professionista — installati, non descritti)
-stato: v1 2026-06-27 · carburante reale atteso (accessi Render/log/alert)
+stato: v1 2026-06-27 · agg. 2026-08-22 (hosting Render → Vercel) · carburante reale atteso (accessi Vercel/log/alert)
 collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · .claude/agents/devops-sre.md · [[PLAYBOOK-ECCEZIONI]]
 ---
 
@@ -22,7 +22,8 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · .claude/agents/devops
   che riporta indietro e in quanti secondi. Se non lo sai, **non sei pronto a partire** — qualunque sia la pressione.
 - **Reversibile ≠ "rifaccio il deploy con il fix".** Quello è *roll-forward* e sotto incidente è lento e
   rischioso (devi scrivere codice giusto, mentre il sito è giù). Il **rollback** è tornare a un artefatto già
-  noto-buono: su Render = *Rollback to previous deploy* / *redeploy* del commit precedente. Sempre la prima opzione.
+  noto-buono: su Vercel = **Instant Rollback** su un rilascio precedente *Ready* (i rilasci sono immutabili: rimette il
+  dominio su file che esistono gia', non ricostruisce niente — per questo e' questione di secondi). Sempre la prima opzione.
 - **Le migrazioni DB sono la trappola della reversibilità.** Una `DROP COLUMN` / `ALTER` distruttiva non torna
   indietro con un click: il codice si rollbacka, lo schema no. → **Migrazioni espand-poi-contrai** (expand/contract):
   prima aggiungi (compatibile col vecchio codice), deploy, *poi* in un secondo tempo rimuovi il vecchio. Mai
@@ -50,8 +51,9 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · .claude/agents/devops
 - **Feature flag = deploy senza rischio.** Spedisci codice *spento*, lo accendi con un flag (non un deploy).
   Se va male, spegni il flag in 1 secondo — niente rollback, niente rebuild. Per ogni feature rischiosa: flag.
 - **Canary / rollout graduale.** Accendi al 5% degli utenti, guarda i Golden Signals, poi 25% → 100%. Se i 5xx
-  salgono al 5%, ti sei bruciato 1 cliente su 20, non tutti. (Su Render piano base il canary nativo non c'è →
-  surrogato: feature flag + deploy in orario di basso traffico + presidio.)
+  salgono al 5%, ti sei bruciato 1 cliente su 20, non tutti. (Su Vercel il canary a percentuale non c'e' nel
+  piano Pro → surrogato: feature flag + rilascio in orario di basso traffico + presidio. Quello che Vercel ti da'
+  gratis e' l'anteprima per ogni proposta di modifica: guardala prima, e' un canary a zero utenti.)
 - **Idempotenza sui soldi.** Webhook Stripe e creazione ordini devono essere **idempotenti** (stesso evento due
   volte = un solo effetto): un retry non deve generare doppio addebito o doppio ordine. È sicurezza *e* affidabilità.
 - **Niente single point of failure ignorato.** Una sola chiave, un solo cron, un solo servizio che se cade
@@ -96,7 +98,7 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · .claude/agents/devops
 - **Un segreto committato è un segreto compromesso — per sempre.** Resta nello storico git anche se lo cancelli
   dopo. Se succede: **ruota la chiave** (rigenerala), non basta cancellare il commit. Mai `console.log` di un segreto.
 - **Config nell'ambiente, non nel codice** (12-factor). Chiavi Stripe, Supabase service-role, Resend, DB URL →
-  **solo** in env Render / secret manager, **mai** nel repo, mai in un file `.env` committato. `.env` in `.gitignore`.
+  **solo** fra le variabili del progetto su Vercel / secret manager, **mai** nel repo, mai in un file `.env` committato. `.env` in `.gitignore`.
 - **Separa per ambiente.** Chiavi *test* di Stripe in staging, *live* in prod — mai mischiate. Una `sk_live_`
   in dev è un incidente in attesa.
 - **Least privilege.** La `service_role` di Supabase bypassa la RLS: vive **solo** lato server, mai nel client,
@@ -105,7 +107,8 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · .claude/agents/devops
   servizio si riavvia perdendo la vecchia. → cambio env = prepara, fai validare, accoda alla firma, presidia il restart.
 
 ## H. L'aggancio MyCity (dove il sapere diventa il NOSTRO)
-- **Stack reale:** sito in `mycity-live` (Render per hosting/deploy), **Supabase** (DB + RLS + log), **Stripe**
+- **Stack reale:** sito in `mycity-live` (**Vercel** per hosting/deploy, regione `cdg1` Parigi — la stessa del
+  database), **Supabase** (DB + RLS + log, `eu-west-3`), **Stripe**
   (pagamenti + webhook), **Resend** (email). Leggi `04-Prodotto-Ops/Tecnologia & Stack.md` per la verità aggiornata.
 - **Il percorso critico del soldo** è: vetrina → carrello → checkout → **webhook Stripe** → ordine confermato →
   payout negozio. Ogni anello è un punto da monitorare; il webhook Stripe è il più subdolo (fallisce in silenzio).
@@ -120,10 +123,12 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · .claude/agents/devops
 ## TOOL 1 — CHECKLIST DI DEPLOY (rollback pronto PRIMA) — il deploy in prod resta 🔴
 **PRIMA (preflight, tutto verde o non parti):**
 - [ ] CI verde sul commit esatto (lint+type+test+build). Rosso = STOP.
-- [ ] **So il rollback in 1 click e l'ho scritto:** "torno a deploy/commit `<hash>` via Render *Rollback*; tempo ~Ns".
+- [ ] **So il rollback in 1 click e l'ho scritto:** "torno a deploy/commit `<hash>` via Vercel *Instant Rollback*; tempo ~Ns".
 - [ ] Cambio **piccolo e isolato** (1 cosa). Se grosso → spezzalo o mettilo dietro **feature flag**.
 - [ ] **Migrazioni DB?** Sono expand/contract e compatibili col codice attuale? La distruttiva è separata e 🔴.
-- [ ] **Env nuove/cambiate?** Configurate in Render *prima* (mai segreti nel repo)? Validate? Cambio env = 🔴.
+- [ ] **Env nuove/cambiate?** Configurate su Vercel *prima* (mai segreti nel repo)? Validate? Cambio env = 🔴.
+      ⚠️ Su Vercel una variabile cambiata **non entra in vigore da sola**: vale dalla pubblicazione successiva.
+      Cambiarla e non ripubblicare e' il modo piu' comune di credere di aver risolto senza aver risolto.
 - [ ] **Finestra giusta:** basso traffico, NON venerdì sera, qualcuno presidia. Avvisato @operations se impatta ordini.
 - [ ] So **quali segnali guardare dopo** (5xx, p95, ordini/ora, webhook Stripe) e dove leggerli.
 **DURANTE:** deploy → osserva il build → al *live* parte il cronometro di presidio.
@@ -137,7 +142,7 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · .claude/agents/devops
 ## TOOL 2 — SETUP MONITORAGGIO & ALERT (calibrati, no rumore)
 1. **Uptime esterno** (sintetico): ping ogni 1-5 min su `/` e su un endpoint *reale* (es. healthcheck che tocca
    DB). Alert se down ≥ 2 check consecutivi (evita il falso positivo del singolo timeout). → *page*.
-2. **Tasso errore 5xx** (Render/app log): alert *5xx > 2% per 5 min* → *page*. È il segnale-re.
+2. **Tasso errore 5xx** (Vercel → Logs / Observability): alert *5xx > 2% per 5 min* → *page*. È il segnale-re.
 3. **Latenza p95** sul percorso critico: alert se p95 checkout > soglia (es. 2s) per 5 min → *ticket/page* secondo gravità.
 4. **Segnale di business:** *ordini/ora = 0 in fascia di punta* o *checkout-error spike* → *page* (cattura down "verdi").
 5. **Webhook Stripe** non-200 / coda che cresce → *page* (i soldi non si confermano in silenzio).
@@ -164,7 +169,7 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · .claude/agents/devops
 ## TOOL 4 — CHECKLIST CI (il guardrail prima della prod)
 - [ ] Trigger su ogni PR e su push del branch di deploy.
 - [ ] Step: install → **lint** → **type-check** → **test** → **build**. Uno rosso = merge bloccato (no override silenzioso).
-- [ ] Segreti della CI in **secret store** del runner (GitHub Actions secrets / Render env), **mai** nel YAML/repo.
+- [ ] Segreti della CI in **secret store** del runner (GitHub Actions secrets / variabili del progetto Vercel), **mai** nel YAML/repo.
 - [ ] Build **una volta**, promuovi lo **stesso artefatto/commit** verso staging→prod (no rebuild divergente).
 - [ ] La CI **non deploya in prod da sola**: il go-live prod resta **firma di Nicola** (🔴, segregazione).
 - [ ] Tempo CI ragionevole (cache deps): una CI lenta viene aggirata, e una CI aggirata non protegge.
@@ -172,7 +177,7 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · .claude/agents/devops
 
 ## TOOL 5 — GESTIONE SEGRETI / ENV (zona a errore catastrofico)
 1. **Inventario:** elenca le env per ambiente (dev/staging/prod) e **cosa** sono — senza MAI stamparne il valore.
-2. **Posizione:** tutte in Render/secret store; `.env` in `.gitignore`; zero segreti nel repo o nei log.
+2. **Posizione:** tutte su Vercel/secret store; `.env` in `.gitignore`; zero segreti nel repo o nei log.
 3. **Scope corretto:** `service_role` Supabase e `sk_live` Stripe = **solo server**; mai in `NEXT_PUBLIC_*`/client.
 4. **Separazione ambienti:** chiavi *test* in staging, *live* in prod, mai incrociate.
 5. **Cambio env in prod = 🔴:** prepara il valore (validato), accoda in [[AZIONI-IN-ATTESA]], al via presidia il
@@ -214,7 +219,7 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · .claude/agents/devops
   down vero nessuno lo guarda più. Un alert ignorato è peggio di nessun alert.
 
 ## SEGRETI / ENV
-- ✅ **GOLD — chiavi in Render env per ambiente, `.env` in gitignore, `service_role` solo server.** *Perché:*
+- ✅ **GOLD — chiavi fra le variabili Vercel, separate per ambiente, `.env` in gitignore, `service_role` solo server.** *Perché:*
   config nell'ambiente (12-factor), least privilege, niente da rubare nel repo.
 - ❌ **SPAZZATURA — `sk_live_…` committata o `console.log(process.env.STRIPE_KEY)`.** *Perché muore:* compromessa
   per sempre nello storico/nei log → **vai ruotata**. Cancellare il commit non basta.
@@ -249,7 +254,7 @@ segreto committato/loggato/in chat · migrazione distruttiva accoppiata al codic
 
 | Carburante | A cosa serve | Dove si innesta |
 |---|---|---|
-| **Accesso Render** (dashboard/log, sola lettura) | stato servizi, deploy, 5xx, env, runbook rollback reale | Tool 1, Tool 3, Galleria Deploy |
+| **Accesso Vercel** (dashboard/log/deployments, sola lettura) | stato dei rilasci, 5xx, variabili, lavori periodici, rollback reale | Tool 1, Tool 3, Galleria Deploy |
 | **Log applicativi + request-id** | diagnosi end-to-end, isolare l'anello rotto | Sapere B, Tool 3 |
 | **Supabase MCP** (log/advisor, sola lettura) | errori lato dati, advisor RLS/perf, salute DB | Tool 3, Sapere H |
 | **Accesso repo `mycity-live`** (Read/Grep/Glob; branch `ops/...`) | leggere CI/config, fix in branch, mai `main` | Tool 4, Sapere H |
@@ -265,4 +270,4 @@ Finché manca, **NON intervenire sull'infra "alla cieca" e NON consegnare un dep
 ---
 *Manutenzione: questo kit è vivo. Ogni incidente lascia un runbook + post-mortem in `90-Memoria-AI/Briefing/` e una
 riga ESITO in `memoria-squadra/devops-sre.md`. Quando un alert suona a vuoto, ritaralo. RIASSUMI/POTA mensile:
-resta denso e affilato. Il tetto sale solo con gli accessi reali (Render/log/alert) — chiedili come carburante.*
+resta denso e affilato. Il tetto sale solo con gli accessi reali (Vercel/log/alert) — chiedili come carburante.*
