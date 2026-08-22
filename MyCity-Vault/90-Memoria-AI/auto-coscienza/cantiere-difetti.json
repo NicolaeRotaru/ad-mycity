@@ -9733,8 +9733,8 @@
       "causa_radice": "5 perché: (1) il giro muore e nessuno se ne accorge → (2) nessun processo attivo controlla la freschezza del battito → (3) verifica-automazione è nata per l'automazione PR/merge e non è mai stata estesa al giro → (4) 'macchina viva' è stato implementato come indicatore visivo nel Pannello invece che come sentinella attiva → (5) manca a monte il principio 'ogni cadenza critica ha un watchdog che la ri-arma', quindi il battito più importante è l'unico senza guardiano.",
       "fix_proposto": "Aggiungere a verifica-automazione.mjs un check 'systemctl is-active mycity-giro.timer' + soglia di freschezza su cuore:ultimo_giro (>4h senza giro pieno = FAIL); e una sentinella che se il giro non gira da >N ore accoda un lavoro 'giro' o allerta Nicola. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9747,7 +9747,8 @@
         "file": "cervello/verifica-automazione.mjs",
         "pattern": "mycity-giro\\.timer",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: mycity-giro.timer e nell elenco che verifica-automazione.mjs vigila, insieme a watch-main e sentinella-dati. Un battito che nessuno guarda puo morire in silenzio — era esattamente il difetto. Mutazione che lo toglie dall elenco."
     },
     {
       "id": "AR-057",
@@ -9758,8 +9759,8 @@
       "causa_radice": "5 perché: (1) verifica e watch-main non partono → (2) nessun installer li abilita → (3) la lista delle unit è duplicata a mano in DUE script diversi (setup.sh + install-ritmo-timers.sh) → (4) quando sono state aggiunte le unit verifica/watch-main nessuno ha aggiornato gli installer → (5) manca una fonte-di-verità unica dell'elenco unit (un manifest) da cui gli installer derivino.",
       "fix_proposto": "Creare un unico manifest delle unit (array in un solo file, letto sia da setup.sh sia da install-ritmo-timers.sh) e includere verifica.timer + watch-main.timer nell'enable/start; in alternativa aggiungerle esplicitamente a install-ritmo-timers.sh. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9772,7 +9773,8 @@
         "file": "cervello/vps/install-ritmo-timers.sh",
         "pattern": "watch-main\\.timer",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: install-ritmo-timers.sh abilita e avvia verifica.timer e watch-main.timer, con la nota AR-057 accanto che spiega perche (verifica-automazione le da per attive: se nessuno le accende restano orfane, cioe censite e morte). Mutazione che rimuove l abilitazione."
     },
     {
       "id": "AR-058",
@@ -9783,8 +9785,8 @@
       "causa_radice": "5 perché: (1) i 3 tentativi non si eseguono mai per intero → (2) l'invocatore uccide giro.sh prima → (3) i timeout sono stati fissati indipendentemente in 3 punti (worker.sh, mycity-giro.service, loop interno di giro.sh) → (4) nessuno ha sommato i tempi per verificare la coerenza del budget → (5) manca un budget-tempo unico e documentato per il giro da cui derivare tutti i timeout.",
       "fix_proposto": "Definire un unico budget-tempo del giro e derivarne i valori: o abbassare GIRO_AI_TIMEOUT (es. 800s) così che 3 tentativi stiano dentro il timeout esterno, o alzare worker/systemd al budget interno (≥8400s). Documentare la relazione. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9797,7 +9799,8 @@
         "file": "cervello/giro.sh",
         "pattern": "budget|GIRO_AI_TIMEOUT=\\$\\{GIRO_AI_TIMEOUT:-8|GIRO_AI_TIMEOUT:-800",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE, ed e la cura piu bella della famiglia: il tempo per tentativo non e scelto a caso, e DERIVATO dal budget esterno — GIRO_BUDGET_SEC 2700 (deve combaciare con worker/systemd), GIRO_AI_TIMEOUT 800, e il conto 3×800+60=2460 sta dentro. La prova ESEGUE il conto invece di cercare le parole, e verifica anche che systemd non conceda meno di quanto il giro pianifica. Mutazione che allarga il tempo per tentativo: 3×1500+60 sfonda il budget e la prova diventa rossa."
     },
     {
       "id": "AR-059",
@@ -9808,8 +9811,8 @@
       "causa_radice": "5 perché: (1) un cambio di cadenza non si attiva → (2) l'update non copia le unit né fa daemon-reload → (3) aggiorna-cervello.sh copre solo il codice applicativo, non gli artefatti di sistema → (4) la propagazione dei timer è stata delegata al setup iniziale una-tantum → (5) non è mai stato modellato che il ritmo è auto-modificabile e va ri-sincronizzato a ogni update come il codice.",
       "fix_proposto": "aggiorna-cervello.sh, se i file unit del repo differiscono da quelli installati, deve ricopiarli in /etc/systemd/system + 'systemctl daemon-reload' + restart dei timer toccati (o richiamare gli installer). Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9822,7 +9825,8 @@
         "file": "cervello/vps/aggiorna-cervello.sh",
         "pattern": "daemon-reload",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: aggiorna-cervello.sh ripropaga le unit e lancia systemctl daemon-reload, quindi una cadenza nuova diventa attiva sul server invece di restare inerte. Mutazione che toglie il reload."
     },
     {
       "id": "AR-060",
@@ -9833,8 +9837,8 @@
       "causa_radice": "5 perché: (1) i documenti dicono orari/stati sbagliati → (2) sono stati toccati solo i file unit senza aggiornare i puntatori testuali → (3) lo stesso fatto (cadenza) è scritto a mano in 3+ posti (unit + commento in giro.sh + SETUP-VPS.md) → (4) nessuna regola impone di aggiornare i testi quando cambia un'unit → (5) manca il principio 'il file .timer è l'unica fonte di verità della cadenza; i testi la citano, non la duplicano'.",
       "fix_proposto": "Allineare giro.sh:5 e SETUP-VPS.md allo stato reale (giro 2h attivo; ritmo 06/12/18+ven15) oppure rimuovere gli orari dai testi e puntare ai file .timer come unica fonte. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9847,7 +9851,8 @@
         "file": "cervello/giro.sh",
         "pattern": "timer automatico \\(mycity-giro\\.timer\\) è DISATTIVATO",
         "presente": false
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: giro.sh dichiara «il battito e ATTIVO» in un punto solo. La prova pretende anche che la vecchia riga contraddittoria («DISATTIVATO») non torni: due dichiarazioni opposte nello stesso file sono peggio di nessuna. Mutazione che rimette la contraddizione."
     },
     {
       "id": "AR-061",
@@ -10573,8 +10578,8 @@
       "causa_radice": "Le regex sono state scritte guardando i segreti 'famosi' (Stripe/GitHub/AWS), non facendo l'inventario dei segreti REALI di QUESTA macchina. La lista REGOLE è statica e nessun test la confronta con le chiavi effettivamente presenti negli .env.example/.mcp.json. Causa di sistema: manca un controllo che tenga allineato lo scanner all'insieme reale dei segreti che il cervello maneggia.",
       "fix_proposto": "Aggiungere a REGOLE i pattern mancanti: `sbp_[A-Za-z0-9]{20,}` (Supabase management PAT), `re_[A-Za-z0-9_]{20,}` (Resend), `\\d{6,}:AA[A-Za-z0-9_-]{30,}` (Telegram bot), `ph[xc]_[A-Za-z0-9]{30,}` (PostHog); e aggiungere una sentinella che FALLISCE se un nome-chiave presente negli *.env.example non ha una regola corrispondente nello scanner.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10587,7 +10592,8 @@
         "file": "cervello/scan-segreti.mjs",
         "pattern": "sbp_",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ed era gia curato — la scheda risultava «ancora viva» a un controllo per parole solo perche le regole sono state spostate: non stanno piu dentro scan-segreti.mjs ma in segreti-pattern.mjs, che riconosce sbp_ (Supabase management token). E il motivo per cui un grep non chiude niente in questa casa. PROVA: si costruisce un token finto e si pretende che almeno una regola lo riconosca; piu il controllo che lo scanner USI quelle regole invece di avere la sua copia (una parola con due padroni diverge in silenzio). Mutazione che toglie la regola."
     },
     {
       "id": "AR-090",
@@ -10598,7 +10604,8 @@
       "causa_radice": "L'MCP Supabase ufficiale nasce con il management token e si è preso quello che 'funzionava' per far partire velocemente la memoria. Non è stato ristretto dopo perché non esiste un inventario/rotazione delle credenziali con livello di privilegio richiesto. Causa di sistema: manca una policy di least-privilege sulle chiavi (una chiave = un ambito) e un registro delle credenziali.",
       "fix_proposto": "Decisione di Nicola: (a) ruotare SUPABASE_ACCESS_TOKEN e sostituirlo con credenziali a privilegio minimo separate per progetto; (b) documentarlo in .env.example con l'ambito richiesto; (c) NON riusare lo stesso token per marketplace e memoria. Resta 🔴 (rotazione di credenziali reali = firma Nicola).",
       "verifica": {
-        "tipo": "umano"
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🔴",
       "stato": "da-riverificare",
@@ -10606,7 +10613,8 @@
       "chiuso_il": "",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Lotto 45 (22/8). RIPARATO IN PARTE, e la parte che resta e dichiarata. VERIFICATO SUL CODICE: entrambi gli MCP sono ristretti al LORO progetto (--project-ref diversi) e in sola lettura, quindi il perimetro del token e chiuso su due lati. QUELLO CHE RESTA: il token e ancora UNO. Separare le credenziali e un azione sul conto Supabase — 🔴 di Nicola — e non si puo fare da qui. La prova pretende che ogni MCP dichiari il suo progetto e che i due non puntino allo stesso: due MCP sullo stesso progetto sarebbero un permesso doppio inutile. Mutazione che li fa puntare entrambi allo stesso."
     },
     {
       "id": "AR-091",
@@ -10617,8 +10625,8 @@
       "causa_radice": "All'accensione serviva scrivere e si è tolto il --read-only 'per far funzionare la scrittura'. Non è stato richiuso dopo aver spostato le scritture su REST perché nessuno ha verificato che il percorso reale non usa più l'MCP per scrivere. Causa di sistema: le capacità pericolose vengono concesse per sbloccare e mai revocate quando il percorso reale cambia (creep di privilegi non riconciliato).",
       "fix_proposto": "Aggiungere `--read-only` anche a supabase-memoria in .mcp.json (le scritture reali passano già da REST con SERVICE_KEY su tabelle specifiche, quindi non si rompe nulla). Resta 🟡 (auto-modifica config → firma Nicola).",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10631,7 +10639,8 @@
         "file": ".mcp.json",
         "pattern": "read-only[\\s\\S]*read-only",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: entrambi gli MCP portano --read-only. Il difetto diceva che il cervello poteva DROP/DELETE la propria memoria: adesso non puo. Prova che scorre tutti i server dichiarati — se domani se ne aggiunge uno senza sola lettura, diventa rossa. Mutazione che toglie il flag alla memoria."
     },
     {
       "id": "AR-092",
@@ -10642,8 +10651,8 @@
       "causa_radice": "Si è scelta la resolution che 'non blocca mai il push', assumendo che union coprisse tutto — ma AZIONI-IN-ATTESA e gli snapshot NON sono union. Causa di sistema: la strategia di conflitto è unica per tutti i file di memoria, mentre i file hanno semantiche diverse (append-only union vs stato vs coda idempotente) che richiedono gestioni diverse.",
       "fix_proposto": "Non usare --theirs cieco: per i file non-union (AZIONI-IN-ATTESA, STATO, JSON auto-coscienza) in caso di conflitto abortire e ri-applicare la sola riga del worker in modo idempotente, oppure marcare le azioni come eseguite con un ID idempotente nel DB (non solo nel .md) così un doppio invio è impossibile a prescindere dal merge. Resta 🟡.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10656,7 +10665,8 @@
         "file": "cervello/worker.sh",
         "pattern": "checkout --theirs",
         "presente": false
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: worker.sh non contiene piu «checkout --theirs». Il difetto era che un conflitto si risolvesse cancellando ciecamente il lavoro dell altro lato — poteva cancellare un «FATTO» e causare un DOPPIO invio verso il mondo reale. Mutazione che rimette la riga."
     },
     {
       "id": "AR-093",
@@ -10667,8 +10677,8 @@
       "causa_radice": "Il controllo pausa è stato innestato dentro il blocco 'se ho le credenziali' pensato per il battito/diagnostica, non trattato come safety-gate a sé. Priorità implicita: 'il battito non si deve fermare', quindi ogni incertezza si risolve continuando. Causa di sistema: manca il principio 'i controlli di sicurezza falliscono CHIUSI' — sotto incertezza si sceglie di procedere invece di fermarsi.",
       "fix_proposto": "Trattare la pausa come gate indipendente e fail-closed: se non riesco a leggere lo stato pausa (env mancanti o REST ko dopo retry), NON girare (o girare solo in modalità minima non-scrivente), loggando 'pausa non verificabile → mi fermo per sicurezza'. Resta 🟡.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10681,7 +10691,8 @@
         "file": "cervello/giro.sh",
         "pattern": "pausa non verificabile|PAUSA_FAIL_CLOSED|non verificabile.*fermo",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE ed era gia curato — la scheda risultava «ancora viva» a un controllo per parole perche cercava una frase mai scritta cosi. pausa_consenti_partenza (kill-switch.sh) e fail-closed: quando lo stato non e verificabile torna 1, cioe NON parte. E c e il pezzo aggiunto dopo, che rende il freno utile invece che solo corretto: pausa_segnala_cieco fa USCIRE il fail-closed dalla macchina, perche in Cabina «Nicola ha messo in pausa» e «non riesco a leggere se e in pausa» erano indistinguibili — due cose molto diverse, una normale e una un guasto. La prova pretende anche il confine opposto scritto: senza credenziali il kill-switch non e collegato affatto (clone locale, CI) e li si parte, o il freno bloccherebbe ogni sessione. Mutazione che rimette il fail-open."
     },
     {
       "id": "AR-094",
@@ -10692,8 +10703,8 @@
       "causa_radice": "Il fix da force→rebase è stato applicato al codice ma non al commento dell'.env.example, perché non c'è un controllo che verifichi la coerenza tra le affermazioni della doc e il comportamento del codice sui punti di sicurezza. Causa di sistema: le correzioni di sicurezza aggiornano il codice ma non i documenti che le descrivono.",
       "fix_proposto": "Correggere il commento in .env.example: memoria-ad usa push NON-force con rebase sotto lock (mai force-push, causa di perdita memoria). Resta 🟡.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10706,7 +10717,8 @@
         "file": "cervello/vps/.env.example",
         "pattern": "force-push",
         "presente": false
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: .env.example non prescrive piu il force-push. Era la documentazione che insegnava esattamente il gesto che aveva causato la perdita di memoria. La prova dichiara il caso in cui il file non esiste invece di fingere di aver guardato. Mutazione che rimette la prescrizione."
     },
     {
       "id": "AR-095",
@@ -10717,8 +10729,8 @@
       "causa_radice": "La allow-list è stata popolata in una sessione locale di Nicola su Windows e mai ripulita al passaggio al VPS, perché non c'è una revisione periodica dei permessi. Causa di sistema: la allow-list cresce per accumulo di sessioni e nessuno la pota, così si scollega dall'ambiente reale.",
       "fix_proposto": "Rimuovere le voci legate a c:\\Users\\InfinitaPossibilita e sostituire eventuali permessi con voci relative allo scopo (path della copia /marketplace/ del VPS). Resta 🟡.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cadenze-e-chiavi.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10731,7 +10743,8 @@
         "file": ".claude/settings.json",
         "pattern": "InfinitaPossibilita",
         "presente": false
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: .claude/settings.json non contiene piu percorsi di un altra macchina. Permessi legati a una macchina che non esiste piu sono permessi che nessuno rilegge — e un permesso non riletto e un permesso non capito. La prova cerca anche qualunque percorso Windows assoluto, non solo quello specifico. Mutazione che ne rimette uno."
     },
     {
       "id": "AR-096",

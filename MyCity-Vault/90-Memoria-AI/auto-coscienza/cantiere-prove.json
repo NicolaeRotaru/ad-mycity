@@ -1,15 +1,15 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 11:38",
+  "aggiornato": "2026-08-22 11:48",
   "giorni_sospetto": 3,
   "difetti_aperti": 164,
   "per_classe": {
-    "umana": 105,
+    "umana": 93,
     "auto-sospetta": 19,
-    "auto-comando": 40
+    "auto-comando": 52
   },
-  "non_auto_chiudibili": 124,
+  "non_auto_chiudibili": 112,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-521",
@@ -432,46 +432,6 @@
       "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
     },
     {
-      "id": "AR-056",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-057",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-058",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-059",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-060",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
       "id": "AR-067",
       "stato": "da-riverificare",
       "gravita": "grave",
@@ -529,54 +489,6 @@
     },
     {
       "id": "AR-081",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-089",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-091",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-092",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-093",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-094",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-095",
       "stato": "da-riverificare",
       "gravita": "minore",
       "causa": "da-riverificare",
@@ -2187,45 +2099,45 @@
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Nessun guardiano vigila che il battito 2h (mycity-giro.timer) sia vivo: la staleness del giro è solo un displa",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-057",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "mycity-verifica.timer e mycity-watch-main.timer sono unit orfane: nessun installer le abilita, e verifica-auto",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-058",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "I timeout esterni (worker 2700s, systemd 3600s) sono più corti del budget dei 3 tentativi interni di giro.sh (",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-059",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "aggiorna-cervello.sh non ripropaga le unit systemd: cambi di cadenza / nuovi timer restano inerti sul VPS",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-060",
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "Stato e orari del battito documentati in modo contraddittorio: giro 'DISATTIVATO' vs 'RIATTIVATO', ritmo 06/12",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-061",
@@ -2484,63 +2396,63 @@
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Lo scanner-segreti (AR-021, ultima difesa prima di committare il vault) NON riconosce il token più potente del",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-090",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Un solo token di GESTIONE Supabase (sbp_) sovra-privilegiato serve entrambi gli MCP — le chiavi di tutta l'org",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-091",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "L'MCP della memoria è in LETTURA+SCRITTURA senza alcun cancello: il cervello può DROP/DELETE la propria memori",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-092",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "worker.sh risolve i conflitti di merge con `--theirs` cieco: può cancellare il 'FATTO' e causare un DOPPIO inv",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-093",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "Il kill-switch (PAUSA) fallisce APERTO: se le credenziali memoria mancano, il giro parte lo stesso",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-094",
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "La documentazione (.env.example) prescrive ancora 'force-push' su memoria-ad — la causa esatta della perdita d",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-095",
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "Permessi in .claude/settings.json stantii e legati a un'altra macchina (path Windows) — igiene dei permessi",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cadenze-e-chiavi.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-096",
