@@ -33,6 +33,7 @@ import { existsSync, readFileSync, writeFileSync, rmSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { isAbsolute, join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
+import { leggiSalto } from "./ambiente-prova.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const iLotto = process.argv.indexOf("--lotto");
@@ -247,7 +248,10 @@ export function muta(testo, cerca, sostituisci) {
  *   · `# pass 0` + `# fail 0` + `# skipped N` (N>0)  → i casi c'erano e sono stati saltati tutti
  */
 export function haDichiaratoDiNonGuardare(uscita = "") {
-  if (/^\s*1\.\.0\b[^\n]*#\s*skip/im.test(String(uscita))) return true;
+  // La lettura del salto vive in `cervello/ambiente-prova.mjs`, in una casa sola: qui c'era una
+  // seconda copia della stessa regola, e come l'altra non riconosceva la forma mascherata dal
+  // reporter (`# 1..0 \# SKIP`). Due copie di un freno non sono un freno.
+  if (leggiSalto(uscita).salto) return true;
   const quanti = (chiave) => {
     const m = String(uscita).match(new RegExp(`^#\\s*${chiave}\\s+(\\d+)\\s*$`, "im"));
     return m ? Number(m[1]) : null;

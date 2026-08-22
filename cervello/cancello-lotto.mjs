@@ -495,28 +495,12 @@ function gitShow(spec) {
 /**
  * L'ambiente del Pannello è pronto per un typecheck che voglia dire qualcosa?
  *
- * Pura: riceve la domanda «questo file esiste?» e non tocca il disco da sé, così la prova può
- * simulare una sessione appena aperta senza svuotare `node_modules` per davvero.
+ * La risposta VIVE in `cervello/ambiente-prova.mjs` e da qui si ri-esporta soltanto: se la stessa
+ * domanda avesse due definizioni, il cancello e le prove a runtime potrebbero rispondersi in modo
+ * diverso sulla stessa macchina — ed è esattamente la malattia «una parola con due padroni».
  */
-export function ambientePannello(esiste) {
-  if (!esiste("node_modules")) {
-    return {
-      pronto: false,
-      caso: "assente",
-      motivo: "pannello/node_modules assente: `tsc` sbaglierebbe su ogni import, e non è il tuo lavoro",
-      comando: "npm ci --prefix pannello",
-    };
-  }
-  if (!esiste("node_modules/@types/node")) {
-    return {
-      pronto: false,
-      caso: "incompleto",
-      motivo: "pannello/node_modules c'è ma senza @types/node: `process` e i moduli Node risulterebbero sconosciuti",
-      comando: "npm ci --prefix pannello",
-    };
-  }
-  return { pronto: true };
-}
+import { ambientePannello } from "./ambiente-prova.mjs";
+export { ambientePannello };
 
 /**
  * Le righe da mostrare quando un controllo è rosso o cieco: il MOTIVO, non la coda.
