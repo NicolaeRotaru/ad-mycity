@@ -1,6 +1,6 @@
 {
   "ok": true,
-  "quando": "2026-08-14 22:20",
+  "quando": "2026-08-16 11:38",
   "fonti_dovute": 9,
   "fonti_totali": 18,
   "agenda": [
@@ -154,19 +154,19 @@
       "file": "radar-concorrenti",
       "path": "radar-concorrenti.md",
       "ultimo": "2026-08-10",
-      "giorni": 4
+      "giorni": 6
     },
     {
       "file": "buchi-mercato",
       "path": "buchi-mercato.md",
       "ultimo": "2026-08-10",
-      "giorni": 4
+      "giorni": 6
     },
     {
       "file": "leve-uscita",
       "path": "leve-uscita.md",
       "ultimo": "2026-08-10",
-      "giorni": 4
+      "giorni": 6
     }
   ],
   "prossimo_passo": "Esegui monitora.md sulle fonti in agenda (WebSearch se 403)"
