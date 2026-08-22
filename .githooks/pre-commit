@@ -126,6 +126,31 @@ if command -v node >/dev/null 2>&1; then
 fi
 
 # ─────────────────────────────────────────────────────────────────────────────
+# 1c) 🩸 UNA MUTAZIONE LASCIATA IN GIRO (AR-757) — il codice che il banco rompe APPOSTA non entra
+#     nella storia. È successo due volte: il 16/8 un banco ammazzato dal timeout ha lasciato un
+#     bottone finto dentro il Pannello; il 22/8 ho committato l'unione mentre una corsa girava
+#     ancora, e `cervello/salute.mjs` è entrato senza la riga che stampa le quattro risposte.
+#
+#     PERCHÉ QUI E NON AL CANCELLO. Il cancello del lotto la domanda la fa già, e l'avrebbe presa
+#     (provato: exit 1). Ma gira all'ULTIMA porta, e fra il commit e il cancello c'è il push: il
+#     22/8 il rosso è arrivato quando la mutazione era già spinta. Il commit è la prima porta, ed è
+#     l'unica che sta prima del danno.
+#
+#     PERCHÉ LA SINTASSI NON BASTAVA. Una riga cancellata da una mutazione è JavaScript validissimo:
+#     il cancello 1b qui sopra la lascia passare senza battere ciglio.
+#
+#     Blocca SOLO quando l'albero è ESATTAMENTE l'archivio con la mutazione addosso — cioè quando
+#     non c'è dubbio che sia sabotatura della macchina e non lavoro tuo. Un refactoring che sposta
+#     il codice sorvegliato non viene toccato da qui (è la domanda di `mutazioni-orfane.mjs`).
+#     Senza node non blocca: avvisa e passa, come gli altri.
+if command -v node >/dev/null 2>&1 && [ -f "$ROOT/cervello/mutazione-vagante.mjs" ]; then
+  if ! node "$ROOT/cervello/mutazione-vagante.mjs" >&2; then
+    echo "" >&2
+    echo "$FORZARE_E_CONTATO" >&2
+    exit 1
+  fi
+fi
+# ─────────────────────────────────────────────────────────────────────────────
 # 2) 🧱 PERIMETRO DI MAIN (AR-332) — su `main` si committa MEMORIA, non codice.
 #
 # Il 27/7, lavorando al lotto 6, un modulo nuovo è finito su main dentro un commit di memoria invece

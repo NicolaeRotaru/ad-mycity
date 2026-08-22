@@ -16162,10 +16162,10 @@
       "causa_radice": "① Perché nel Pannello c'era un bottone finto? Perché `non-vacuita.mjs` applica la mutazione scrivendo davvero il file, lancia il test, e poi ripristina. ② Perché non ha ripristinato? Perché è stato ucciso dal timeout mentre girava (568 mutazioni superano i due minuti). ③ Perché la morte lascia il danno? Perché il ripristino vive nel flusso normale del processo, non in un gestore di uscita che scatti anche su SIGTERM/SIGINT. ④ Perché nessuno se ne accorge? Perché il file mutato è codice valido: compila, il typecheck passa, e `git status` lo mostra in mezzo ai timbri d'orario riscritti dagli strumenti — dove sembra rumore. ⑤ Causa di sistema: uno strumento che ROMPE il codice apposta deve trattare il ripristino come un obbligo che sopravvive alla propria morte, non come l'ultima riga di una funzione. Finché non lo fa, ogni interruzione — timeout, Ctrl-C, sessione che scade — è un candidato a mandare in produzione una mutazione.",
       "fix_proposto": "🟡 (a) `non-vacuita.mjs` registra un gestore su `SIGTERM`/`SIGINT`/`exit` che ripristina i file toccati prima di morire, e tiene un elenco su disco di ciò che ha mutato, così anche un `kill -9` lascia una traccia recuperabile. (b) Un controllo che confronta l'albero di lavoro col ramo pubblicato cercando le stringhe di `sostituisci` dei mutanti: se una compare nel codice fuori da una corsa in atto, il commit si blocca. È il freno vero, perché non si fida del processo che è appena morto. (c) Nel frattempo, il pre-commit dovrebbe almeno gridare quando un file del Pannello cambia in un lotto che dichiara di non toccarlo.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Non ho una prova automatica per questo: dimostrarla vuol dire uccidere il banco a metà corsa e guardare cosa resta sul disco, che è un test che sporca l'albero di chi lo lancia. Il sintomo qui sopra è il sensore e gira da solo; la prova che il FIX funziona nascerà col fix (a), quando ci sarà un gestore di uscita da poter disattivare apposta."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
       },
-      "nota_fix": "16/8: il residuo trovato è stato ripristinato a mano prima di committare. Nessun fix applicato: registrato e basta, per non allargare il lotto 45 che era già in consegna.",
+      "nota_fix": "16/8: il residuo trovato è stato ripristinato a mano prima di committare. Nessun fix applicato: registrato e basta, per non allargare il lotto 45 che era già in consegna.\n\n22/8 lotto 47 — RIPARATO, e il difetto si e' ripresentato mentre lo riparavo.\n\nE' successo di nuovo, e stavolta l'ho fatto io: ho committato l'unione della richiesta 826 mentre\nuna corsa del banco girava ancora in sottofondo. `cervello/salute.mjs` e' entrato nella storia senza\nla riga che stampa le quattro risposte del referto, ed e' stato SPINTO. L'ha trovato il cancello,\ndopo. Nessun processo era morto: erano in DUE a scrivere lo stesso albero — un caso che i gestori di\nsegnale di AR-523 non coprono, perche' li' nessuno riceve nessun segnale.\n\nLA PROPOSTA SCRITTA SU QUESTA SCHEDA NON AVREBBE PRESO IL CASO VERO. Diceva: cercare nell'albero le\nstringhe di `sostituisci`. Misurato: la mutazione del 22/8 ha `sostituisci: \"\"` — cancella una riga.\nCercare la stringa vuota trova tutto e quindi non distingue niente. C'e' un caso di prova che lo\ndimostra invece di dirlo.\n\nLA DOMANDA GIUSTA e' piu' stretta: l'albero e' ESATTAMENTE l'archivio con la mutazione addosso?\nSe si', quella non e' roba tua: e' la sabotatura della macchina rimasta accesa. Se `cerca` e' sparito\nma il testo non combacia, hai spostato tu il codice — e quella e' la domanda di mutazioni-orfane.mjs,\nnon di questa: qui non si blocca niente, altrimenti il freno ferma il lavoro vero e qualcuno lo spegne.\n\nCOSA E' STATO FATTO. Nuovo `cervello/mutazione-vagante.mjs` (puro, con `eVagante` che un test esegue),\nagganciato al gancio del pre-commit come cancello 1c. `muta` si e' spostata li' da non-vacuita.mjs e\nnon-vacuita la importa: una casa sola, perche' importare non-vacuita da un gancio di commit\naccenderebbe i suoi gestori di segnale in un processo che non muta niente.\n\nPERCHE' AL COMMIT E NON AL CANCELLO. Il cancello la domanda la fa gia', e l'avrebbe presa: provato,\nexit 1 su salute.mjs mutata. Ma gira all'ULTIMA porta, e fra il commit e il cancello c'e' il push —\nil 22/8 il rosso e' arrivato quando la mutazione era gia' spinta. E la sintassi non bastava: una riga\ncancellata da una mutazione e' JavaScript validissimo.\n\nPROVATO END-TO-END: messa in scena `cervello/salute.mjs` mutata, il freno esce 1 e nomina la\nmutazione. Cinque mutazioni registrate, tutte rendono rossa la prova — compresa quella che stacca il\nfreno dal gancio, perche' una funzione giusta che nessuno chiama non ha mai fermato niente.\n\nCOSA RESTA APERTO E NON NASCONDO: `git commit --no-verify` salta il gancio, e stamattina ho usato\nproprio quello. Il salto viene contato (cancelli-commit.mjs lo registra) e il cancello del lotto\nresta la seconda rete prima della consegna, ma il buco esiste ed e' dichiarato: questo freno chiude\nil caso accidentale, che e' quello che capita davvero, non quello deliberato.",
       "sensore_proposto": {
         "misura": "node -e \"const{execSync}=require('node:child_process');const m=require('./cervello/mutanti.json').mutanti;const d=execSync('git diff',{encoding:'utf8',maxBuffer:1e9});let n=0;for(const x of m){const s=String(x.sostituisci||'').trim();if(s.length>25&&d.includes(s))n++}console.log(n)\"",
         "cosa_misura": "quante stringhe di sostituisci dei mutanti sono nel diff dell albero: se una c e, una mutazione e rimasta applicata",
@@ -16745,6 +16745,38 @@
       "nota_fix": "Cura consegnata e provata nel lotto 46. Lo stato lo applica auto-fix dopo il merge.",
       "chiuso_come": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs → exit 0 (guardiano soddisfatto)",
       "corroborata": true
+    },
+    {
+      "id": "AR-785",
+      "titolo": "Il censimento di chi mette di guardia i guardiani sceglie i file per estensione, e i ganci di git non ne hanno una",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-22",
+      "nato_come": "scoperta",
+      "impatto_crescita": "indiretto: e' debito della macchina, ma toglie di guardia proprio i freni piu' vicini al danno",
+      "causa_radice": "guardia-viva-check.mjs raccoglie i file da leggere con un filtro sull'ESTENSIONE (.sh .mjs .yml .service …). Git pretende che i suoi ganci si chiamino esatti — `pre-commit`, `post-commit` — senza niente dopo, quindi nessuno di loro entrava nel censimento. ① perche' un guardiano agganciato al commit risultava orfano? perche' il file che lo chiama non veniva letto · ② perche' non veniva letto? perche' non ha estensione · ③ perche' il filtro guarda l'estensione? perche' e' nato elencando le forme note quel giorno · ④ perche' nessuno se n'era accorto in un anno? perche' ogni altro guardiano del gancio (scan-segreti, sorvegliante, forma-json) e' eseguito ANCHE dal giro: restavano verdi per un'altra strada, e il buco si vede solo col primo freno che vive li' e basta. AR-757 e' stato quel primo. ⑤ causa di sistema: un censimento che decide cosa leggere da un elenco di forme note e' cieco sulla prima forma nuova — ed e' cieco proprio dove il codice e' piu' vicino al danno, perche' i ganci di git sono gli script piu' eseguiti del repo.",
+      "fix_proposto": "FATTO nel lotto 47, in modo minimo: i cinque nomi dei ganci di git entrano nell'elenco dei file letti anche senza estensione. RESTA DA FARE la cura vera: il censimento dovrebbe leggere CHI ESEGUE (le forme di invocazione), non selezionare i file per come si chiamano. Finche' e' un elenco di nomi noti, la prossima forma nuova ripete lo stesso errore — ed e' gia' il quarto caso della stessa famiglia (le tre variabili aggiunte a mano nella regex + questo).",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+      }
+    },
+    {
+      "id": "AR-786",
+      "titolo": "L'elenco delle forme con cui un guardiano puo' essere chiamato e' scritto a mano, e ha gia' sbagliato tre volte di fila",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "stato": "aperto",
+      "nato": "2026-08-22",
+      "nato_come": "scoperta",
+      "impatto_crescita": "indiretto: ogni accusa falsa insegna a scorrere l'elenco senza leggerlo, e allora il guardiano vero non lo vede piu' nessuno",
+      "causa_radice": "guardia-viva.mjs riconosce chi esegue un guardiano con un elenco di espressioni scritte a mano, fra cui i nomi delle variabili di shell ammesse. Tre volte su tre l'elenco era incompleto e ha prodotto un'accusa FALSA: mancava `REPO` (i copioni del VPS), mancava il `cervello/` in mezzo, e il 22/8 mancava `ROOT` — la variabile con cui il gancio del pre-commit chiama i suoi guardiani. Il verso dell'errore e' quello che fa danno: accusa chi il lavoro l'ha fatto. Un metro che sbaglia cosi' si spegne da solo, perche' si impara a scorrere l'elenco «tanto sbaglia» — ed e' allora che il guardiano davvero orfano passa inosservato. Lo dicono i commenti del file stesso, due volte, prima che succedesse la terza.",
+      "fix_proposto": "Non allungare l'elenco una quarta volta. Due strade da pesare: ① risolvere la variabile invece di riconoscerla — un copione di shell si puo' leggere cercando le assegnazioni e sostituendole prima di cercare le invocazioni; ② rovesciare la domanda: invece di «questo testo chiama il guardiano?», chiedere al guardiano «qualcuno ti ha eseguito negli ultimi N giri?» leggendo una traccia che ogni esecuzione lascia. La ② e' piu' cara ma non ha forme note da mantenere.",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Non ho una prova automatica: dimostrare il difetto vuol dire inventare una forma di invocazione NUOVA e legittima, e qualunque ne scelga finirebbe nell'elenco chiudendo il caso singolo senza toccare la malattia. Chi giudica deve guardare il conto: 3 accuse false su 3 forme aggiunte, tutte scoperte da chi si vedeva accusato."
+      }
     }
   ],
   "meta": {

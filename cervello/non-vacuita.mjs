@@ -34,6 +34,7 @@ import { spawnSync } from "node:child_process";
 import { isAbsolute, join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
 import { leggiSalto } from "./ambiente-prova.mjs";
+import { muta } from "./mutazione-vagante.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const iLotto = process.argv.indexOf("--lotto");
@@ -229,11 +230,10 @@ const TEMPO_MAX = Number(process.env.NON_VACUITA_TIMEOUT_MS || 420_000);
 /** Il file da rompere. Assoluto se la mutazione lo dà assoluto (è così che il test usa una fixture). */
 const viaDi = (f) => (isAbsolute(String(f)) ? String(f) : join(AD_ROOT, String(f)));
 
-/** Applica la mutazione al testo. Torna null se il pattern non c'è (puntatore rotto o fix cambiato). */
-export function muta(testo, cerca, sostituisci) {
-  if (!testo.includes(cerca)) return null;
-  return testo.split(cerca).join(sostituisci);
-}
+// `muta` vive in ./mutazione-vagante.mjs (AR-757): il gancio del commit deve poterla usare senza
+// importare QUESTO file, che all'import accende i gestori di segnale. Qui si ri-esporta, cosi' chi
+// la cercava dove e' sempre stata la trova ancora — ma la casa e' una sola.
+export { muta };
 
 /**
  * ⚪ LA CORSA SI È TIRATA INDIETRO? — AR-707.

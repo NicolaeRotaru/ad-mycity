@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-22 14:00",
+ "aggiornato": "2026-08-22 18:30",
  "mutanti": [
   {
    "lotto": 30,
@@ -6015,6 +6015,69 @@
    "cerca": "    difetti_chiusi: cantiere.difetti?.filter?.((d) => d.stato === \"chiuso\").length ?? 0,\n    chiusi_in_questa_passata: chiusiOra,",
    "sostituisci": "    difetti_chiusi: chiusiOra,",
    "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
+  },
+  {
+   "lotto": 47,
+   "difetto": "AR-757",
+   "nome": "il freno smette di riconoscere la sabotatura: l'albero rotto apposta passa come lavoro tuo",
+   "file": "cervello/mutazione-vagante.mjs",
+   "cerca": "  return rotto === albero;",
+   "sostituisci": "  return false;",
+   "test": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
+  },
+  {
+   "lotto": 47,
+   "difetto": "AR-757",
+   "nome": "un file mai toccato diventa vagante: il freno blocca chi non ha fatto niente e viene spento per fastidio",
+   "file": "cervello/mutazione-vagante.mjs",
+   "cerca": "  if (archivio === albero) return false;",
+   "sostituisci": "",
+   "test": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
+  },
+  {
+   "lotto": 47,
+   "difetto": "AR-757",
+   "nome": "un file nuovo torna a contare come cieco: ogni commit che aggiunge un file resta bloccato",
+   "file": "cervello/mutazione-vagante.mjs",
+   "cerca": "    if (archivio === NUOVO) { nuovi.push(file); continue; }",
+   "sostituisci": "",
+   "test": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
+  },
+  {
+   "lotto": 47,
+   "difetto": "AR-757",
+   "nome": "un file che non si legge torna a contare come pulito: il cieco spacciato per verde",
+   "file": "cervello/mutazione-vagante.mjs",
+   "cerca": "      ciechi.push(`${file}: non ho potuto leggerne le due versioni, quindi non so se porta una mutazione`);",
+   "sostituisci": "",
+   "test": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
+  },
+  {
+   "lotto": 47,
+   "difetto": "AR-757",
+   "nome": "il gancio del commit smette di chiamare il freno: la funzione resta giusta e non ferma piu' niente",
+   "file": ".githooks/pre-commit",
+   "cerca": "  if ! node \"$ROOT/cervello/mutazione-vagante.mjs\" >&2; then",
+   "sostituisci": "  if false; then",
+   "test": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs"
+  },
+  {
+   "lotto": 47,
+   "difetto": "AR-785",
+   "nome": "i ganci di git tornano fuori dal censimento: un freno agganciato al commit risulta orfano mentre gira a ogni commit",
+   "file": "cervello/guardia-viva-check.mjs",
+   "cerca": " || SENZA_ESTENSIONE_MA_ESEGUITI.has(v.name)",
+   "sostituisci": "",
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
+  },
+  {
+   "lotto": 47,
+   "difetto": "AR-785",
+   "nome": "la variabile del gancio del commit sparisce dalle forme riconosciute: torna la terza accusa falsa",
+   "file": "cervello/guardia-viva.mjs",
+   "cerca": "|CERVELLO|ROOT)",
+   "sostituisci": "|CERVELLO)",
+   "test": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
   }
  ]
 }
