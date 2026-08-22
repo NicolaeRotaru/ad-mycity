@@ -56,6 +56,7 @@ import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { canaleAllargato, casiSpenti, chiusureDaRiverificare } from "./contratto-prova.mjs";
 import { fileDelComando } from "./cancello-lotto.mjs";
 import { spazza } from "./spazza-temporanei.mjs";
+import { cecitaDaAmbiente, leggiSalto } from "./ambiente-prova.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const SERIALE = process.argv.includes("--seriale");
@@ -390,11 +391,26 @@ export function verdetto(status, out) {
   // acceso, e lì la risposta onesta non è «rotto» (manda a cercare un bug che non c'è) né «a posto»
   // (dichiara provato ciò che nessuno ha visto). È «non l'ho potuto vedere», e va contata a parte.
   const testoTap = String(out || "");
-  const salto = /^\s*1\.\.0(\s+#\s*SKIP\b(.*))?\s*$/m.exec(testoTap);
-  if (salto) {
+  // ⚠️ LA FORMA MASCHERATA, e il difetto che ci ha vissuto dentro dal 14/8 al 22/8.
+  //
+  // Una prova dichiara «non ho potuto guardare» stampando `1..0 # SKIP <perché>` PRIMA che
+  // `node:test` registri un caso. Ma quando il banco la lancia — `node --test
+  // --test-reporter=tap` — quella riga è stdout del figlio, e il reporter di Node la ripubblica
+  // COMMENTATA e con il cancelletto protetto: `# 1..0 \# SKIP <perché>`. Poi, non avendo trovato
+  // nessun caso da fallire, chiude con `ok 1 - <file>` e esce ZERO.
+  //
+  // Risultato misurato il 22/8, con `pannello/node_modules` tolto di mezzo: il banco stampava
+  // «✅ 2 file su 2 girano e passano» per due prove che avevano appena dichiarato di NON aver
+  // guardato niente. Peggio del rosso da cui si partiva: un rosso è rumoroso, questo è muto.
+  // Il salto comprava il verde — esattamente la bugia che questo banco esiste per non dire.
+  //
+  // Quindi si accettano tutte e due le forme: quella cruda (la prova letta da sola) e quella
+  // mascherata (la prova letta dal banco). Il `\\?#` è il cancelletto protetto dal reporter.
+  const salto = leggiSalto(testoTap);
+  if (salto.salto) {
     return {
       esito: "non-eseguito",
-      motivo: (salto[2] || "").trim() || "la prova ha dichiarato di non aver potuto girare qui",
+      motivo: salto.motivo || "la prova ha dichiarato di non aver potuto girare qui",
       passati,
       falliti,
     };
@@ -441,6 +457,30 @@ export function verdetto(status, out) {
   if (passati === null) {
     return { esito: "ineseguibile", motivo: "il file non è nemmeno partito", passati, falliti };
   }
+
+  // ⚪ ULTIMA RETE — la cecità che arriva da un PROCESSO FIGLIO (AR-437).
+  //
+  // Il ramo qui sopra riconosce lo strumento mancante quando rompe un `import`. Ma una prova che
+  // guida il Pannello vero non importa niente: fa partire `npm run dev` in un processo figlio, e lì
+  // `next: not found` è testo dentro un log — nessun `Cannot find module`, nessuna cecità
+  // riconosciuta. Misurato il 22/8 su `main` pulito: `c2-schermo` e `c4-schermo-coda` uscivano
+  // ROSSE contro un tetto di zero, e bastava `npm install --prefix pannello` per averle verdi, sei
+  // casi su sei. Non erano rotte: erano cieche, e un cancello che nasce rosso senza colpa di
+  // nessuno si impara ad aggirare.
+  //
+  // Le impronte stanno in `cervello/ambiente-prova.mjs` e sono strette apposta: devono nominare uno
+  // strumento assente. Una rete larga qui comprerebbe il verde su rossi veri, che è il difetto
+  // opposto e costa di più.
+  const cecita = cecitaDaAmbiente(testo);
+  if (cecita.cieco) {
+    return {
+      esito: "non-eseguito",
+      motivo: `${cecita.motivo}: la prova esiste e nessuno l'ha fatta girare (rimedio: ${cecita.comando})`,
+      passati,
+      falliti,
+    };
+  }
+
   return { esito: "rosso", motivo: `${falliti ?? "?"} asserzioni fallite`, passati, falliti, rosse: righeRosse(testo) };
 }
 

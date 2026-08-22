@@ -22,6 +22,10 @@
 // scusa» — vale ancora. Qui cambia solo QUANTO ci mette a dirlo e SE dice perché.
 
 import { spawn } from "node:child_process";
+import { existsSync } from "node:fs";
+import { join } from "node:path";
+
+import { ambientePannello } from "../ambiente-prova.mjs";
 
 // I server avviati da questo processo. Servono al guinzaglio qui sotto.
 const AVVIATI = new Set();
@@ -67,8 +71,32 @@ export async function raggiungibile(urlBase, msTetto = 4000) {
  * sue ultime righe), oppure è vivo ma non ha aperto la porta in tempo. Sono due guasti diversi e
  * portano a due cure diverse — `npm install` contro «è solo lento».
  */
-export async function avviaPannello({ radice, porta, urlBase, msTetto = 180000 }) {
+export async function avviaPannello({ radice, porta, urlBase, msTetto = 180000, esisteInPannello }) {
   if (await raggiungibile(urlBase)) return { server: null, gia: true };
+
+  // ⛔ IL FRENO STA QUI, sul dato, non dentro la singola prova (AR-437).
+  //
+  // Se `pannello/node_modules` non c'è, `npm run dev` esce dopo mezzo secondo con `next: not found`
+  // e da lì in poi ogni esito è una bugia: la prova diventa ROSSA per una cecità d'ambiente, cioè
+  // manda a cercare un difetto che non esiste — e con un tetto a zero blocca il cancello di tutti.
+  // Misurato il 22/8 su `main` pulito: `c2-schermo` e `c4-schermo-coda` rosse, sei casi su sei; con
+  // `npm install --prefix pannello` verdi, sei su sei. Non erano rosse, erano cieche.
+  //
+  // Ogni chiamante passa da qui, quindi nessuno può accendere il Pannello con un ambiente che non
+  // sa accenderlo — nemmeno una prova scritta domani che si dimenticasse il controllo a monte.
+  // L'errore porta `ambienteNonPronto: true`: è il segno con cui chi chiama distingue ⚪ da ❌.
+  const esiste = esisteInPannello || ((f) => existsSync(join(radice, "pannello", f)));
+  const amb = ambientePannello(esiste);
+  if (!amb.pronto) {
+    const err = new Error(
+      `non posso accendere il Pannello da qui: ${amb.motivo}.\n` +
+        `   Non è un difetto del codice: è uno strumento che manca su questa macchina. Rimedio: ${amb.comando}`,
+    );
+    err.ambienteNonPronto = true;
+    err.caso = amb.caso;
+    err.comando = amb.comando;
+    throw err;
+  }
 
   // `pipe` e non `ignore`: l'uscita del processo è la diagnosi. Buttarla via è la malattia.
   const server = spawn("npm", ["run", "dev"], {

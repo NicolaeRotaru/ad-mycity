@@ -22,7 +22,9 @@ import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
+import { existsSync } from "node:fs";
 import { avviaPannello, spegniPannello } from "./aiuto-pannello.mjs";
+import { possoGuidareIlPannello, rigaSalto } from "../ambiente-prova.mjs";
 
 // Il percorso era scritto a mano — `/opt/node22/lib/node_modules/` — cioè la cartella di UNA
 // macchina sola: la mia. In CI non esiste, quindi Playwright non si trovava e la prova moriva
@@ -85,9 +87,21 @@ async function raggiungibile() {
 
 // Prima di qualunque cosa: se non c'è niente da guidare, si dichiara e si esce. Va fatto QUI, prima
 // che `node:test` registri i casi — altrimenti il TAP contiene già dei test e il salto non si legge.
-if (!browserDisponibile()) {
+// Prima di qualunque cosa: gli strumenti per guardare ci sono, su questa macchina?
+//
+// La domanda era UNA SOLA — «c'è Playwright?» — e le cose da avere sono DUE: il browser da guidare
+// e `pannello/node_modules`, senza cui `npm run dev` esce subito con `next: not found`. Chi non
+// aveva il browser saltava in un secondo dichiarando ⚪; chi aveva il browser ma non il Pannello
+// installabile aspettava che il server morisse e usciva ROSSO — stessa cecità, due colori diversi,
+// e il secondo bloccava il cancello di tutti (AR-437). Adesso la domanda è una e sta in
+// `cervello/ambiente-prova.mjs`, dove la leggono anche il cancello e il banco.
+const possibile = possoGuidareIlPannello({
+  esisteInPannello: (f) => existsSync(join(RADICE, "pannello", f)),
+  playwright: browserDisponibile(),
+});
+if (!possibile.puoi) {
   console.log("TAP version 13");
-  console.log("1..0 # SKIP nessun Playwright su questa macchina: i tre difetti di schermo (AR-225 safe-area, AR-417 colonna fuori schermo, AR-244 link che atterra) NON sono stati verificati qui");
+  console.log(rigaSalto({ motivo: possibile.motivo, comando: possibile.comando, difetti: ["AR-225", "AR-417", "AR-244"] }));
   process.exit(0);
 }
 

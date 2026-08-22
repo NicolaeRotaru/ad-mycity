@@ -90,7 +90,13 @@ test("AR-559 · «non so eseguirlo» ha un codice suo (2), diverso da «verifica
   // È IL CUORE. Prima erano la stessa parola — `esito: "manuale"` — e per questo 53 schede si sono
   // chiuse su una prova che nessuno ha eseguito: un metro rotto e una scelta scritta finivano nello
   // stesso cassetto. Se questi due codici tornano uguali, il difetto è tornato.
-  const rotta = C.verdettoProva({ comando: "node --test cervello/test/cancello-stop.test.mjs" });
+  // ⚠️ L'ESEMPIO È CAMBIATO NEL LOTTO 45, e il motivo va scritto o il prossimo lo rimette com'era.
+  // Qui c'era `node --test cervello/test/cancello-stop.test.mjs`, che nel frattempo è diventato
+  // ESEGUIBILE: era la clausola che restava di AR-559 — 57 schede chiuse su una prova che nessuno
+  // poteva far girare, quasi tutte per cinque caratteri. Ammettere `--test` non allarga il buco
+  // che questa forma difende: il pericolo sono i CARICATORI, con cui chi scrive una scheda fa
+  // eseguire codice suo. Quindi l'esempio del «non so eseguirlo» adesso è un caricatore vero.
+  const rotta = C.verdettoProva({ comando: "node --import ./mio.mjs cervello/test/cancello-stop.test.mjs" });
   const umana = C.verdettoProva({ tipo: "umano", nota: "la guarda Nicola" });
   assert.equal(rotta.codice, C.NON_MISURABILE, "un comando fuori forma NON è misurato: è cieco");
   assert.equal(umana.codice, C.PASSATO, "una verifica umana DICHIARATA è una scelta, non un metro rotto");
@@ -101,6 +107,12 @@ test("AR-559 · «non so eseguirlo» ha un codice suo (2), diverso da «verifica
 test("AR-559 · una prova eseguibile passa, una che dichiara una forma che non ha è violazione", () => {
   assert.equal(C.verdettoProva({ comando: "node cervello/test/x.test.mjs" }).codice, C.PASSATO);
   assert.equal(C.verdettoProva({ comando: "node cervello/salute.mjs --completo" }).codice, C.PASSATO);
+  // AR-559, la clausola chiusa nel lotto 45: la forma con cui è scritta quasi tutta la suite.
+  assert.equal(C.verdettoProva({ comando: "node --test cervello/test/x.test.mjs" }).codice, C.PASSATO,
+    "57 schede chiuse poggiavano su questa forma: se torna rifiutata, tornano tutte non misurate");
+  // …e il confine resta dov'era: un caricatore fa eseguire codice scelto da chi scrive la scheda.
+  assert.equal(C.verdettoProva({ comando: "node --import ./mio.mjs cervello/a.mjs" }).codice, C.NON_MISURABILE);
+  assert.equal(C.verdettoProva({ comando: "node --require x --test cervello/a.mjs" }).codice, C.NON_MISURABILE);
   // Il caso AR-592: dichiara `tipo:"comando"` e il comando non c'è. Mente sulla propria forma.
   const bugiarda = C.verdettoProva({ tipo: "comando", esito: "riprodotto" });
   assert.equal(bugiarda.codice, C.VIOLAZIONE);
@@ -110,7 +122,7 @@ test("AR-559 · una prova eseguibile passa, una che dichiara una forma che non h
 test("AR-559 · il MOTORE dichiara di non aver misurato, invece di dire «manuale»", () => {
   // Il punto che chiama, non solo la funzione: `eseguiProvaComando` è ciò che auto-fix usa per
   // decidere se un difetto si chiude. Non gli si passa `run`, quindi non esegue niente.
-  const cieco = eseguiProvaComando("node --test cervello/test/cancello-stop.test.mjs");
+  const cieco = eseguiProvaComando("node --import ./mio.mjs cervello/test/cancello-stop.test.mjs");
   assert.equal(cieco.codice, C.NON_MISURABILE, "il verdetto sta nel CODICE: è il campo su cui il programma decide");
   assert.equal(cieco.misurato, false);
   assert.match(cieco.dettaglio, /NON HO POTUTO MISURARE/);
@@ -159,7 +171,7 @@ test("AR-336 · la copertura delle prove dei CHIUSI è divisa per rischio, non i
   const cop = C.coperturaChiusi([
     { id: "S1", stato: "chiuso", verifica: { comando: "node cervello/test/a.test.mjs" } }, // suite
     { id: "S2", stato: "chiuso", verifica: { comando: "node cervello/peso-contesto.mjs" } }, // fuori suite
-    { id: "S3", stato: "chiuso", verifica: { comando: "node --test cervello/test/b.test.mjs" } }, // cieca
+    { id: "S3", stato: "chiuso", verifica: { comando: "node --import ./x.mjs cervello/test/b.test.mjs" } }, // cieca (caricatore)
     { id: "S4", stato: "chiuso", verifica: { file: "a.mjs", pattern: "x" } }, // debole
     { id: "S5", stato: "chiuso" }, // niente
     { id: "S6", stato: "aperto", verifica: { comando: "node cervello/x.mjs" } }, // non chiusa: fuori
@@ -311,7 +323,8 @@ test("normalizzaScheda dà UN verdetto solo, e la violazione batte il cieco", ()
   // Una scheda solo CIECA: il contratto regge, il metro no.
   const cieca = C.normalizzaScheda({
     id: "AR-2", stato: "aperto", gravita: "grave", impatto_crescita: "alto",
-    nato: "2026-08-01 09:00", verifica: { comando: "node --test cervello/test/x.test.mjs" },
+    // Caricatore: è ciò che resta giustamente non eseguibile dopo il lotto 45 (vedi AR-559 sopra).
+    nato: "2026-08-01 09:00", verifica: { comando: "node --import ./x.mjs cervello/test/x.test.mjs" },
   });
   assert.equal(cieca.codice, C.NON_MISURABILE);
 
