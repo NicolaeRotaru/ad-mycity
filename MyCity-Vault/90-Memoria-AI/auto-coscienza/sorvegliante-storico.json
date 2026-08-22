@@ -2,75 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-13T17:18:06.046Z",
-      "scatti": 6105,
-      "voci": 11,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 6,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-13T17:25:33.052Z",
-      "scatti": 6125,
-      "voci": 15,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 10,
-        "prova-accecata": 2
-      },
-      "mai_risolte": [
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/test/archivi-senza-tetto.test.mjs», che è la prova che deve diventare rossa per AR-471",
-          "ripetuta": 20
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «node cervello/test/archivi-senza-tetto.test.mjs», che è la prova che deve diventare rossa per AR-416",
-          "ripetuta": 20
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «cervello/test/regola-scrittura-nei-senior.test.mjs», che è la prova che deve diventare rossa per AR-480",
-          "ripetuta": 20
-        },
-        {
-          "classe": "difesa-rimossa",
-          "file": "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json",
-          "cosa": "ho tolto la riga che chiamava «node cervello/test/regola-scrittura-nei-senior.test.mjs», che è la prova che deve diventare rossa per AR-574",
-          "ripetuta": 20
-        }
-      ]
-    },
-    {
-      "quando": "2026-08-13T17:27:43.675Z",
-      "scatti": 6132,
-      "voci": 15,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 10,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-13T17:28:32.178Z",
-      "scatti": 6133,
-      "voci": 15,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 10,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-13T18:35:44.981Z",
       "scatti": 6165,
       "voci": 15,
@@ -2418,12 +2349,33 @@
       "mai_risolte": []
     },
     {
+      "quando": "2026-08-22T12:12:40.654Z",
+      "scatti": 50,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
       "quando": "2026-08-22T12:30:34.771Z",
       "scatti": 893,
       "voci": 1,
       "per_classe": {
         "malattia-nuova": 1
       },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-22T12:31:54.450Z",
+      "scatti": 50,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-22T12:53:16.840Z",
+      "scatti": 50,
+      "voci": 0,
+      "per_classe": {},
       "mai_risolte": []
     },
     {
@@ -2436,7 +2388,14 @@
         "prova-accecata": 2
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-22T14:36:44.853Z",
+      "scatti": 106,
+      "voci": 0,
+      "per_classe": {},
+      "mai_risolte": []
     }
   ],
-  "aggiornato": "2026-08-22T13:28:15.664Z"
+  "aggiornato": "2026-08-22T14:36:44.856Z"
 }
