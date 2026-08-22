@@ -4895,7 +4895,7 @@
    "file": "cervello/prove-difetti.mjs",
    "cerca": "        return rifa && !importa;",
    "sostituisci": "        return false;",
-   "test": "cervello/test/prove-a-due-versi.test.mjs"
+   "test": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
   },
   {
    "lotto": 44,
@@ -5975,6 +5975,46 @@
    "cerca": "      troncato: testo.length >= TETTO_TESTO,",
    "sostituisci": "      troncato: false,",
    "test": "node cervello/test/cancello-che-accusa-di-cose-non-tue.test.mjs"
+  },
+  {
+   "difetto": "AR-743",
+   "nome": "torna la cura del commento fuori dalla casa: una prova soddisfatta DENTRO un commento richiude il difetto",
+   "file": "cervello/prove-regole.mjs",
+   "cerca": "  return patternOvunque(pattern, senzaCommenti(testo));",
+   "sostituisci": "  return patternOvunque(pattern, testo);",
+   "test": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
+  },
+  {
+   "difetto": "AR-743",
+   "nome": "sparisce il confronto letterale: un pattern col dollaro in mezzo non combacia piu e il difetto riparato risulta aperto",
+   "file": "cervello/prove-regole.mjs",
+   "cerca": "  return (re ? re.test(t) : false) || t.includes(p);",
+   "sostituisci": "  return re ? re.test(t) : false;",
+   "test": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
+  },
+  {
+   "difetto": "AR-743",
+   "nome": "un chiamante torna ad avere la SUA copia del confronto: le cure della casa smettono di proteggerlo",
+   "file": "cervello/chiusure-audit.mjs",
+   "cerca": "  return provaSoddisfatta(v, txt) ? \"ok\" : \"regredito\";",
+   "sostituisci": "  const trovato = new RegExp(v.pattern).test(txt);\n  return ((v.presente !== false) ? trovato : !trovato) ? \"ok\" : \"regredito\";",
+   "test": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
+  },
+  {
+   "difetto": "AR-743",
+   "nome": "la funzione di alto livello smette di poggiare su quella di basso: due metri con lo stesso nome",
+   "file": "cervello/prove-regole.mjs",
+   "cerca": "  const trovato = patternTrovato(v.pattern, testo);",
+   "sostituisci": "  const trovato = patternOvunque(v.pattern, testo);",
+   "test": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
+  },
+  {
+   "difetto": "AR-784",
+   "nome": "il campo dello stock torna a portare il conteggio di UNA passata: la serie mescola due unita di misura e il grafico mente",
+   "file": "cervello/auto-fix.mjs",
+   "cerca": "    difetti_chiusi: cantiere.difetti?.filter?.((d) => d.stato === \"chiuso\").length ?? 0,\n    chiusi_in_questa_passata: chiusiOra,",
+   "sostituisci": "    difetti_chiusi: chiusiOra,",
+   "test": "node --test cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   }
  ]
 }

@@ -282,7 +282,20 @@ function bumpSalute(chiusiOra, note) {
     // `aperto`: questa serie disegna il grafico dell'andamento nella Cabina, e per mesi ha lasciato
     // fuori le 56 `da-riverificare`, cioè ha fatto sembrare il cantiere più corto di quanto fosse.
     difetti_aperti: cantiere.meta?.da_fare ?? 0,
-    difetti_chiusi: chiusiOra,
+    // AR-784 — LO STESSO CAMPO NON PUÒ VOLER DIRE DUE COSE.
+    //
+    // Qui c'era `difetti_chiusi: chiusiOra`, cioè quanti ne ha chiusi QUESTA passata. Ma la sonda
+    // scrive nello stesso campo della stessa serie il TOTALE dei chiusi nel cantiere. Misurato il
+    // 22/8 sugli ultimi punti: 600, 606, 608 dalla sonda, poi 50 da qui. Chi legge la serie come un
+    // andamento vede un crollo di 558 chiusure che non è mai avvenuto — e quella serie disegna il
+    // grafico che Nicola guarda.
+    //
+    // Era incoerente perfino con il suo vicino di riga: `difetti_aperti` è un totale, preso da
+    // `meta.da_fare`. Sulla stessa riga, uno stock e un flusso con nomi che non lo dicono.
+    //
+    // Adesso il campo porta lo STOCK, come chiunque altro lo scriva, e il flusso ha un nome suo.
+    difetti_chiusi: cantiere.difetti?.filter?.((d) => d.stato === "chiuso").length ?? 0,
+    chiusi_in_questa_passata: chiusiOra,
     tipo: "auto-fix",
     nota: misurato
       ? note

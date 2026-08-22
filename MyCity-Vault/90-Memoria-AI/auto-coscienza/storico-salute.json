@@ -4,15 +4,6 @@
     {
       "data": "2026-08-12",
       "voto_salute": 4,
-      "voto_riportato": false,
-      "difetti_aperti": 166,
-      "difetti_chiusi": 2,
-      "tipo": "auto-fix",
-      "nota": "Auto-fix: chiusi AR-562, AR-563 (verificati nel codice)."
-    },
-    {
-      "data": "2026-08-12",
-      "voto_salute": 4,
       "voto_copertura": "radiografia",
       "voto_parziale": false,
       "voto_misurato": true,
@@ -1418,6 +1409,15 @@
       "bloccanti_umani": 37,
       "tipo": "sonda",
       "nota": "le lezioni non si usano: tasso 14% sotto la soglia 30% · 9 esperimenti dichiarati misurati e mai testati · briefing 0h fa · cecità sensori 203 giri · salute pending-merge 0/100 (floor 0): 126 aperti-davvero · 0 in attesa merge · 37 bloccanti umani · tasso basso 3+ giri → radiografia completa · voto salute 28.22 (su 41/41 dimensioni)"
+    },
+    {
+      "data": "2026-08-22",
+      "voto_salute": 4,
+      "voto_riportato": false,
+      "difetti_aperti": 114,
+      "difetti_chiusi": 50,
+      "tipo": "auto-fix",
+      "nota": "Auto-fix: chiusi AR-131, AR-148, AR-437, AR-046, AR-050, AR-051, AR-052, AR-053, AR-054, AR-055, AR-056, AR-057, AR-058, AR-059, AR-060, AR-061, AR-062, AR-063, AR-064, AR-065, AR-066, AR-067, AR-068, AR-069, AR-071, AR-072, AR-073, AR-074, AR-075, AR-076, AR-077, AR-078, AR-079, AR-080, AR-081, AR-082, AR-083, AR-084, AR-085, AR-086, AR-087, AR-088, AR-089, AR-091, AR-092, AR-093, AR-094, AR-095, AR-096, AR-781 (verificati nel codice)."
     }
   ]
 }
