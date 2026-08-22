@@ -3484,8 +3484,15 @@ fa diventare la Cabina grigia, non verde. Registrati AR-787 (bloccante) e AR-788
 ore, non 24. Da qui non lo posso né vedere né riavviare: è la carta #168, ed è sua. La parte che
 riguarda me è che **la macchina lo sapeva**. La sentinella ha scritto «battito fermo» quattro volte
 il pomeriggio del 21, la visita della salute segna lo stesso rosso da dodici giri di fila, e non è
-arrivato a nessuno. È AR-365, aperto dal 29 luglio, quando il conto era 36 ore. Annotato lì il nuovo
-prezzo invece di aprire una scheda nuova.
+arrivato a nessuno. È AR-365, nato il 29 luglio quando il conto era 36 ore.
+
+**Aggiornamento delle 20:45, dopo che main si è mosso.** Mentre lavoravo, il lotto 48 ha CHIUSO
+AR-365 (unito alle 19:48). Non l'ho riaperto — le chiusure altrui non si toccano — ma la sua stessa
+nota dice: *«la cura vale quando il worker viene allineato: finché quel codice non gira lassù, il
+timbro nuovo non viene scritto da nessuno»*. Il worker non gira da quattro giorni. **La cura è
+scritta e non gira**, e il difetto che descrive ha appena colpito più forte di quando è nato.
+Annotato lì, con la condizione per riaprirla: se il primo giro dopo il ritorno del server non produce
+un avviso che arriva a Nicola, quella scheda torna aperta.
 
 **Cosa non ho verificato.** Se il server sia spento, in crash o solo in pausa: in questa sessione non
 ho le chiavi per guardarci dentro, e non l'ho fatto passare per un no. Le tre parti ⚪ del cancello

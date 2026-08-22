@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 20:21",
+  "aggiornato": "2026-08-22 20:45",
   "giorni_sospetto": 3,
-  "difetti_aperti": 114,
+  "difetti_aperti": 112,
   "per_classe": {
     "umana": 79,
     "auto-sospetta": 19,
-    "auto-comando": 16
+    "auto-comando": 14
   },
   "non_auto_chiudibili": 98,
   "bloccanti_ciechi": [
@@ -1749,24 +1749,6 @@
       "classe": "auto-sospetta",
       "perche": "prova mai soddisfatta da 24 giorni (cervello/cantiere-prove.mjs ~ /provaComportamentaleObbligatoria/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-365",
-      "gravita": "bloccante",
-      "eta_giorni": 24,
-      "titolo": "L'unico allarme previsto per la macchina morta esce da un canale che è spento, e la macchina scrive lo stesso ",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-366",
-      "gravita": "bloccante",
-      "eta_giorni": 24,
-      "titolo": "Il battito del worker dice «sono vivo» anche quando non riesce più a fare niente, e la sentinella crede al bat",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-375",
