@@ -141,25 +141,25 @@ ripristino gira da sola ogni mese e scrive quanto ci mette davvero.
 
 ## Cosa devi fare
 
-Cinque firme. Le prime due sono le più importanti.
+Cinque firme, in quest'ordine. Le prime due sono le più importanti.
 
-1. **Applicare la migrazione 126 al database** (`migrations/126_radiografia_22_agosto.sql`).
+- **Applicare la migrazione 126 al database** (`migrations/126_radiografia_22_agosto.sql`).
    Senza, restano fuori: il credito che torna al cliente, il controllo sulla
    cassa del fattorino, il blocco sugli allergeni, i dati del venditore sulle
    pagine, il registro delle segnalazioni. Il codice regge anche prima: è
    scritto per non rompersi nella finestra in mezzo. Ma quelle riparazioni non
    fanno effetto finché la migrazione non è applicata.
-2. **Applicare la migrazione 120**, quella scritta il 18 agosto e mai applicata:
+- **Applicare la migrazione 120**, quella scritta il 18 agosto e mai applicata:
    toglie l'identificativo degli ordini dalla vetrina «attività dal vivo». Il
    codice che la bloccava è in produzione da giorni: si può applicare adesso.
-3. **Il segreto `SUPABASE_DB_URL` su GitHub** (Settings → Secrets → Actions).
+- **Il segreto `SUPABASE_DB_URL` su GitHub** (Settings → Secrets → Actions).
    Da quel momento il rilascio applica le migrazioni **prima** di pubblicare, e
    se non si applicano non pubblica. È la riparazione del difetto per cui il
    codice nuovo arrivava su un database vecchio.
-4. **I tre segreti di Vercel + la parola in `vercel.json`** (in quest'ordine,
+- **I tre segreti di Vercel + la parola in `vercel.json`** (in quest'ordine,
    al contrario il sito smette di aggiornarsi): da quel momento l'unica strada
    per la produzione è la CI verde.
-5. **Un posto dove mettere la copia delle foto** (un secchio e le sue chiavi).
+- **Un posto dove mettere la copia delle foto** (un secchio e le sue chiavi).
    Oggi le immagini dei prodotti vivono in un posto solo: se sparisce quello,
    spariscono con lui, e rifarle vuol dire richiamare ogni negoziante a
    rifotografare tutto.
