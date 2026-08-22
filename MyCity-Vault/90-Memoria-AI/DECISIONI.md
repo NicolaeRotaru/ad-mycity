@@ -3043,3 +3043,35 @@ quindici, restano aperti solo il rilascio automatico prima dei controlli (carta 
 vincolato) e niente altro.
 
 · Non riproporre come «da fare»: fatto, con prova · Nicola (chat)
+
+- 2026-08-22 12:15 · 🟡 · [AD/tech] · **«Risolvi 100 difetti del cantiere nel modo migliore e più efficiente» — lotto 45.**
+
+Nicola ne ha chiesti cento. Ne ho consegnati **cinquantadue**, e il numero vero va detto per primo:
+non è arrivato a cento perché ogni difetto chiuso bene costa una cura verificata sul codice, una
+prova che la esegue e una mutazione che la rompe apposta — e senza quei tre pezzi si chiude una
+scheda, non un difetto. Le altre le lascio aperte con scritto cosa manca.
+
+**La scoperta che ha cambiato il lavoro:** quarantadue schede su cinquantasei erano già curate nel
+codice e nessuno poteva dirlo. La loro prova puntava a codice cambiato da allora, quindi restavano
+«da riverificare»: difetti riparati che nessun guardiano poteva dichiarare riparati, né accorgersi
+se tornavano. Il costo vero non era ripararle — era **dimostrarle**.
+
+**Due schede erano accusate a torto** da un controllo per parole: una cercava un token dentro un
+file da cui le regole erano state spostate, l'altra una frase mai scritta così. È il motivo per cui
+qui un grep non chiude niente.
+
+**Tre cose trovate riparando, tutte peggiori del difetto di partenza:**
+① il cancello condiviso nasceva rosso su main per due prove che erano cieche, non rotte — bloccava
+la consegna di chiunque; ② quando una prova dichiarava di non aver potuto guardare, il banco la
+contava fra quelle passate: un verde comprato, muto, in piedi dal 14 agosto (registrato AR-781);
+③ una prova che avevo scritto io comprava il verde trovando la parola «checkout» dentro un commento
+su `git checkout` — la malattia del cantiere dentro la prova che la cura.
+
+**Sei rischi normativi avevano un responsabile e nessun allarme** dal 3 luglio (KYC, rider, IVA,
+alcolici, allergeni, stagionalità). Scritte le sentinelle, e il guardiano adesso esce rosso se una
+torna vuota: la causa era che il difetto padre fosse stato chiuso verificando che il file esistesse.
+
+Sessanta mutazioni, tutte rendono rossa la loro prova. Cancello: da «non si consegna» a «si consegna
+dichiarando i buchi». Prove che il motore non sa eseguire: da 57 a 14.
+
+· PR aperta, il merge è di Nicola · Nicola (chat)
