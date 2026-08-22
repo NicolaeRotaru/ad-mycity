@@ -177,7 +177,7 @@ function sanitize(err, token) {
  * numero che ne esce. */
 export function rigaDaAccodare(content, { prUrl, prNumber, base, repoLabel, when }) {
   const num = prossimoNumero(content);
-  const dove = repoLabel === "mycity" ? "Render (sito)" : "Vercel (Pannello)";
+  const dove = repoLabel === "mycity" ? "Vercel (sito)" : "Vercel (Pannello)";
   const row =
     `| ${num} | ${when} | @tech | Merge PR #${prNumber} ${repoLabel} → ${base} | 🔴 | ${prUrl} | github | in attesa | ` +
     `Il codice in anteprima va online su ${dove} dopo il merge. | ` +
@@ -670,7 +670,7 @@ function writeConsegna(meta, dryRun) {
 🔴 **Non mergeare da solo.** Nicola approva dal Pannello → \`node cervello/git-merge.mjs --repo ${meta.cfg.key} --pr ${meta.prNumber}\`
 
 ## Anteprima
-${meta.cfg.key === "mycity" ? "Render genera l'anteprima automaticamente al push del branch (controlla i check GitHub)." : "Vercel Preview se configurato sul repo ad-mycity."}
+${meta.cfg.key === "mycity" ? "Vercel genera l'anteprima automaticamente al push del branch (Preview Deployment: controlla i check GitHub)." : "Vercel Preview se configurato sul repo ad-mycity."}
 `;
   if (dryRun) {
     console.log("[DRY-RUN] Consegna:\n" + body);

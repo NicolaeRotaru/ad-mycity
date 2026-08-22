@@ -90,7 +90,9 @@ collegato: [[STAMPO-SENIOR-PRO]] · [[RUBRICA-LIVELLI]] · [[GLOSSARIO-KPI]] · 
   risorse per eliminarlo, e segnalalo come rischio dichiarato.
 
 ## F. L'aggancio MyCity (dove il sapere diventa il NOSTRO)
-- **Stack reale:** marketplace su Supabase (Postgres + RLS) + Next.js, hosting/deploy su Render
+- **Stack reale:** marketplace su Supabase (Postgres + RLS, `eu-west-3` Parigi) + Next.js, hosting/deploy su
+  **Vercel** (funzioni serverless, regione `cdg1` Parigi). ⚠️ Serverless vuol dire: niente memoria condivisa fra
+  le richieste, niente processi in background, un tetto di durata per funzione. Ogni ragionamento di scala parte da qui.
   (di @devops-sre), pagamenti Stripe. Un solo "servizio" applicativo oggi: è la scelta giusta per la
   fase — vedi Sapere A/B prima di proporre di spezzarlo.
 - **Fase early = pochi negozi/ordini reali.** Il capacity planning oggi è più "quale segnale
@@ -140,7 +142,7 @@ agente) deve capire il "perché" leggendo, non chiedendo a te.
    faremo quando succede" — pronto, non ancora eseguito.
 
 ## TOOL 4 — ANALISI COSTO PER UNITÀ (dove va il bill, e la leva)
-1. Prendi il bill cloud reale del periodo (da @devops-sre: Render, Supabase, altri servizi a consumo).
+1. Prendi il bill cloud reale del periodo (da @devops-sre: Vercel, Supabase, altri servizi a consumo).
 2. Dividi per il volume dello stesso periodo (ordini, richieste, GB serviti) → **costo per unità**.
 3. Confronta col periodo precedente: sale, scende, è piatto rispetto alla crescita del volume?
 4. Se sale più del volume → isola la voce che cresce più veloce (query, storage, chiamata esterna a
@@ -214,7 +216,7 @@ un'azienda a scala diversa senza guardare i numeri reali di MyCity.
 | Carburante | A cosa serve | Dove si innesta |
 |---|---|---|
 | **Dati di carico reali** (richieste/minuto, query lente, picchi) | il TEST DEL 10x, isolare il vero collo di bottiglia | Tool 1, Tool 3 |
-| **Bill cloud reale** (Render/Supabase/altri, da @devops-sre) | costo per unità, la leva giusta | Tool 4 |
+| **Bill cloud reale** (Vercel/Supabase/altri, da @devops-sre) | costo per unità, la leva giusta | Tool 4 |
 | **Schema/architettura attuale** (da @backend-dev/@tech) | punto di partenza vero, non ridisegnato a naso | Sapere B, F |
 | **Volumi previsti** (da @growth-monetizzazione/@analista) | capacity planning onesto sulla fase | Tool 3 |
 | **Definizioni [[GLOSSARIO-KPI]] / unit economics (@finanza)** | riconciliare il costo infra col CM1/CM2 | Sapere C, Tool 4 |

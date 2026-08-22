@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-08-21 19:18",
+  "aggiornato": "2026-08-22 09:57",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -172,9 +172,9 @@
     {
       "id": "finanza.costi_infrastruttura",
       "nome": "Costi infrastruttura mensili (burn parziale)",
-      "valore": "Burn fisso ~302 €/m (Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2). Render in dismissione — marketplace → Vercel (importo Vercel post-migrazione da confermare). Bacheca 21/7: stime 📊 su tutte le voci (admin, stampa, consegne, scaling) — ✅ solo cifre Nicola. Opzionali fuori burn: app store ~120 € 1° anno poi ~99 €/anno Apple; SMS pay-per-use 0 € oggi; email automatiche Resend 0 € fino 3000/m; casella Google Workspace ~7–8 €/m. PostHog/Telegram/GitHub 0 €.",
-      "fonte": "Nicola chat 2026-07-21 00:37 + BACHECA.md + listini Resend/Google IT",
-      "aggiornato": "2026-07-21 00:37",
+      "valore": "Burn fisso ~302 €/m (Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2). Render DISMESSO ad agosto 2026: il marketplace e il Pannello stanno tutti e due su Vercel, stesso account (team nicolaerotarus-projects, piano Pro). Da confermare con Nicola: se i 30 €/m di Vercel gia' coprono entrambi i progetti o se il conto sale ora che c'e' anche il marketplace — e se i 25 €/m che erano di Render escono davvero dal burn. Bacheca 21/7: stime su tutte le voci (admin, stampa, consegne, scaling) — solo le cifre di Nicola sono confermate. Opzionali fuori burn: app store ~120 € 1 anno poi ~99 €/anno Apple; SMS pay-per-use 0 € oggi; email automatiche Resend 0 € fino 3000/m; casella Google Workspace ~7-8 €/m. PostHog/Telegram/GitHub 0 €.",
+      "fonte": "Sessione di migrazione 2026-08-22: progetti Vercel letti via MCP (mycity + ad-mycity, stesso team, piano Pro)",
+      "aggiornato": "2026-08-22 09:56",
       "storia": [
         {
           "valore": "Stima burn env 150 €/m (DECISIONI 16/7 — non verificata da Nicola)",
@@ -187,6 +187,10 @@
         {
           "valore": "Confermati Nicola 20/7: Claude Max 200 + Vercel 30 + Supabase 50 + VPS 20 = 300 €/m fissi; dominio 20 €/anno (~2 €/m). Totale ~302 €/m. Render in dismissione — marketplace → Vercel (importo Vercel post-migrazione da confermare). Manca Resend. PostHog/Telegram/GitHub 0 €.",
           "fino_a": "2026-07-21 00:37"
+        },
+        {
+          "valore": "Burn fisso ~302 €/m (Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2). Render in dismissione — marketplace → Vercel (importo Vercel post-migrazione da confermare). Bacheca 21/7: stime 📊 su tutte le voci (admin, stampa, consegne, scaling) — ✅ solo cifre Nicola. Opzionali fuori burn: app store ~120 € 1° anno poi ~99 €/anno Apple; SMS pay-per-use 0 € oggi; email automatiche Resend 0 € fino 3000/m; casella Google Workspace ~7–8 €/m. PostHog/Telegram/GitHub 0 €.",
+          "fino_a": "2026-08-22 09:56"
         }
       ],
       "caccia": [
@@ -214,6 +218,16 @@
           "pattern": "Confermati da Nicola 20/7/2026: Claude Max 200 €/m + Vercel 30 €/m + Supabase 50 €/m = 280 €/m (parziale). Mancano ancora: Render, VPS worker, dominio/DNS, Resend — burn completo e BURN_MENSILE_EUR env VPS da completare. PostHog/Telegram/GitHub 0 € oggi; Stripe solo commissione transazione.",
           "dal": "2026-07-20 23:46",
           "chiusa": "2026-07-23 11:36"
+        },
+        {
+          "pattern": "Render in dismissione — marketplace → Vercel",
+          "dal": "2026-08-22 09:56",
+          "chiusa": "2026-08-22 09:57"
+        },
+        {
+          "pattern": "Burn fisso ~302 €/m (Claude 200 + Vercel 30 + Supabase 50 + VPS 20 + dominio ~2). Render in dismissione — marketplace → Vercel (importo Vercel post-migrazione da confermare). Bacheca 21/7: stime 📊 su tutte le voci (admin, stampa, consegne, scaling) — ✅ solo cifre Nicola. Opzionali fuori burn: app store ~120 € 1° anno poi ~99 €/anno Apple; SMS pay-per-use 0 € oggi; email automatiche Resend 0 € fino 3000/m; casella Google Workspace ~7–8 €/m. PostHog/Telegram/GitHub 0 €.",
+          "dal": "2026-08-22 09:56",
+          "chiusa": "2026-08-22 09:57"
         }
       ],
       "esenzioni": [
@@ -314,11 +328,27 @@
     {
       "id": "marketplace.hosting",
       "nome": "marketplace.hosting",
-      "valore": "Sito mycity-marketplace.com GIU dal 2026-07-30 08:20 (HTTP 503) — NON e un guasto: Nicola non ha rinnovato Render perche sposta il marketplace su Vercel. Migrazione pianificata in una sessione dedicata. Il sensore sito_uptime resta cieco fino ad allora: non e un allarme da alzare, e non va contato come downtime subito.",
-      "fonte": "Nicola, chat 31/7 22:15",
-      "aggiornato": "2026-07-31 22:21",
-      "storia": [],
-      "caccia": [],
+      "valore": "Marketplace su VERCEL (progetto 'mycity', team nicolaerotarus-projects, piano Pro, Node 24.x). Render dismesso. Verificato 2026-08-22 07:40: l'ultima pubblicazione di produzione e' Ready e la home risponde 200 su mycity-phi.vercel.app. DUE COSE ANCORA APERTE, entrambe fuori dal codice: (1) mancano variabili d'ambiente sul progetto Vercel — SUPABASE_SERVICE_ROLE_KEY assente (70 errori nei log di produzione su /api/track e /api/consent, 18-21/8) e NEXT_PUBLIC_APP_URL assente (il sito serviva canonical e og:url = http://localhost:3000); /api/health risponde 503 'unhealthy'. Senza la service key il webhook Stripe non scrive: il sito NON registra un ordine. (2) il dominio mycity-marketplace.com risolve ancora su 216.24.57.1, che e' l'indirizzo di Render: va aggiunto su Vercel e ripuntato dal DNS. Il sensore sito_uptime, finche' punta al dominio, misura Render e resta cieco.",
+      "fonte": "Sessione di migrazione 2026-08-22: progetto Vercel via MCP, log runtime di produzione, HTML servito, DNS del dominio",
+      "aggiornato": "2026-08-22 09:56",
+      "storia": [
+        {
+          "valore": "Sito mycity-marketplace.com GIU dal 2026-07-30 08:20 (HTTP 503) — NON e un guasto: Nicola non ha rinnovato Render perche sposta il marketplace su Vercel. Migrazione pianificata in una sessione dedicata. Il sensore sito_uptime resta cieco fino ad allora: non e un allarme da alzare, e non va contato come downtime subito.",
+          "fino_a": "2026-08-22 09:56"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "non ha rinnovato Render perche sposta il marketplace su Vercel",
+          "dal": "2026-08-22 09:56",
+          "chiusa": "2026-08-22 09:57"
+        },
+        {
+          "pattern": "Sito mycity-marketplace.com GIU dal 2026-07-30 08:20 (HTTP 503) — NON e un guasto: Nicola non ha rinnovato Render perche sposta il marketplace su Vercel. Migrazione pianificata in una sessione dedicata. Il sensore sito_uptime resta cieco fino ad allora: non e un allarme da alzare, e non va contato come downtime subito.",
+          "dal": "2026-08-22 09:56",
+          "chiusa": "2026-08-22 09:57"
+        }
+      ],
       "esenzioni": []
     },
     {
