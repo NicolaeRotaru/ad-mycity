@@ -89,7 +89,16 @@ const RE_INVOCAZIONE = [
   // sopra racconta. Da un copione del VPS la forma naturale è `node "$REPO/cervello/x.mjs"`, perché
   // lassù `REPO` è la radice del repo e non la cartella dei guardiani. Senza questo pezzo il
   // rilevatore diceva «costruito e mai messo di guardia» di uno strumento agganciato per davvero.
-  /node\s+"?\$\{?(?:SCRIPT_DIR|dir|QUI|REPO|AD_REPO|CERVELLO)(?::-[^}\s"]*)?\}?\/(?:cervello\/)?([a-z0-9._-]+)\.mjs/g,
+  // 22/8 (lotto 47) — la TERZA volta che questo elenco manca di una forma vera, e ogni volta
+  // l'accusa e' falsa allo stesso modo. Mancava `ROOT`, che e' la variabile con cui il gancio del
+  // pre-commit chiama i suoi guardiani: `node "$ROOT/cervello/x.mjs"`. Appena AR-757 ha agganciato
+  // il primo freno che vive SOLO li', il rilevatore l'ha chiamato «costruito e mai messo di
+  // guardia» — mentre girava a ogni commit. Perche' non era emerso prima: scan-segreti sta nello
+  // stesso gancio, ma e' eseguito anche dal giro, quindi restava verde per un'altra strada. Il
+  // difetto di fondo resta e va detto: questo e' un elenco di forme NOTE, e un elenco di forme note
+  // sbaglia sempre sulla prima forma nuova. La cura vera sarebbe leggere chi esegue, non come e'
+  // scritto — non la faccio qui per non allargare il lotto, ma il conto e' 3 su 3.
+  /node\s+"?\$\{?(?:SCRIPT_DIR|dir|QUI|REPO|AD_REPO|CERVELLO|ROOT)(?::-[^}\s"]*)?\}?\/(?:cervello\/)?([a-z0-9._-]+)\.mjs/g,
   // shell: l'helper del giro — guardiano "x.mjs" (AR-165)
   /\bguardiano\s+"?([a-z0-9._-]+)\.mjs/g,
   // node: spawnSync/esegui con l'argomento in un array — ["cervello/x.mjs"] o ["node","cervello/x.mjs"]
