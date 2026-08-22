@@ -8,6 +8,35 @@ set -euo pipefail
 export TZ="${TZ:-Europe/Rome}"
 ts() { date '+%Y-%m-%d %H:%M'; }
 
+# ─────────────────────────────────────────────────────────────────────────────
+# 🪞 SI ESEGUE DA UNA COPIA DI SÉ, e non dal file nel repo.
+#
+# IL GUASTO, visto sul server il 22/8 alle 11:57 e riprodotto in laboratorio.
+# Più sotto questo copione mette da parte i file sporchi per far partire il rebase. Fra quei file può
+# esserci — e quel giorno c'era — **sé stesso**, insieme a `conflitti-memoria.mjs`. Bash però NON
+# tiene il copione in memoria: lo legge un pezzo alla volta, tenendo la posizione nel file. Se il
+# file si accorcia sotto i suoi piedi, bash arriva alla fine e **si ferma in silenzio, uscendo 0**.
+#
+# Provato, non dedotto: un copione di quattro righe che riscrive sé stesso con una versione più corta
+# esegue SOLO la prima riga e finisce con successo. Nessun errore, nessun avviso.
+#
+# Sul server è successo esattamente questo: la riparazione dei conflitti era arrivata, il file la
+# conteneva, e non è stata eseguita — perché quando l'esecuzione ci è arrivata quel pezzo di file non
+# esisteva più. Da fuori sembrava che la riparazione non funzionasse. Funzionava: non veniva letta.
+#
+# La cura è quella classica per i copioni che si aggiornano da soli: si lavora su una copia, che
+# nessuno può cambiare mentre gira. Il marcatore evita il ciclo infinito.
+if [ -z "${AGGIORNA_DA_COPIA:-}" ]; then
+  _copia="$(mktemp -t aggiorna-cervello.XXXXXX.sh)"
+  if cp -- "${BASH_SOURCE[0]}" "$_copia" 2>/dev/null; then
+    trap 'rm -f -- "$_copia"' EXIT
+    AGGIORNA_DA_COPIA=1 bash "$_copia" "$@"
+    exit $?
+  fi
+  # Se la copia non riesce si prosegue lo stesso: meglio un allineamento fragile che nessuno.
+  echo "[$(ts)] ⚠️  Non sono riuscita a lavorare su una copia di me stessa: proseguo dal file nel repo." >&2
+fi
+
 REPO="${REPO:-/opt/mycity/ad-mycity}"
 APP_USER="${APP_USER:-mycity}"
 ENV_FILE="$REPO/cervello/vps/.env"

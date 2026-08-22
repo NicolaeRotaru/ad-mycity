@@ -22,60 +22,57 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### 🟡 #153 — I dodici lavori fermi sul server: adesso c'è chi scioglie il nodo, ma prima guardiamo qual è · ⏳ accodata 2026-08-22 10:15
+### 🟡 #153 — Il comando che ti avevo dato spegneva la riparazione mentre la lanciava · ⏳ accodata 2026-08-22 10:15 · riscritta 2026-08-22 12:15
 
-**In parole semplici:** stamattina hai lanciato i comandi della carta #150 e la riparazione di ieri
-sera ha funzionato. Si vede da come è cambiato l'errore. Prima il server non riusciva nemmeno a
-**cominciare** a rimettere in fila i suoi lavori. Adesso comincia, va avanti, e si ferma più in là:
+**In parole semplici:** questa carta parla del server, la macchina accesa che lavora quando tu non ci
+sei. Stamattina alle 11:56 hai lanciato il comando che ti avevo dato. Non ha funzionato, e la colpa
+è del comando, non della riparazione.
 
-```
-Causa: il rebase ha trovato conflitti: vanno risolti a mano
-```
+**Cosa è successo davvero.** Il comando faceva due cose in fila: scaricare il codice nuovo, e poi
+lanciare il programma di allineamento. Ma quel programma, per fare il suo lavoro, mette da parte i
+file che trova cambiati — e i file appena scaricati erano proprio quelli. Si è messo da parte da
+solo, mentre girava.
 
-**Cosa vuol dire «conflitto».** Il server e GitHub hanno scritto tutti e due sullo stesso foglio.
-Git non sceglie da solo quale versione tenere. Si ferma e chiede a una persona. Sul server una
-persona non c'è mai, quindi si ferma e basta. Per sempre.
+**Un esempio di cosa vuol dire.** Immagina di leggere ad alta voce da un foglio, e che a metà
+qualcuno te lo sostituisca con una versione più corta. Tu continui a leggere dal punto in cui eri,
+trovi la fine, e smetti. Non ti accorgi di aver saltato niente. È esattamente quello che fa il
+programma che esegue quei comandi: si ferma a metà e **chiude dichiarando successo**, senza stampare
+un solo errore.
 
-**Un esempio, il 21 agosto alle 20:02.** Il server ha scritto nel suo quaderno «visita di salute
-fatta». Nello stesso minuto io scrivevo, sullo stesso quaderno, la riga della riparazione. Due righe
-diverse, tutte e due vere, sulla stessa pagina. Git ha alzato le mani. Da quel momento sono
-**dodici** i lavori del server bloccati lì dentro: ieri sera erano quattro.
+L'ho provato in laboratorio, su un programma di quattro righe che si accorcia da solo: ne esegue
+**una** e finisce con successo. Nessun errore.
 
-**Cosa cambia per te:** finché quei dodici non escono, quello che il server scrive resta solo lì
-dentro. Non lo vedi nel Pannello e non lo vedo io.
+**Cosa cambia per te:** la riparazione era arrivata sul server e non è stata letta. Adesso i lavori
+fermi sono **29**, erano dodici stamattina e quattro ieri sera.
 
-**Cosa ho fatto.** Ho scritto chi scioglie quel nodo al posto tuo, ma **solo dove la risposta è
-meccanica e non è un giudizio**. Tre casi, e nient'altro:
+**Cosa ho corretto.** Due cose. Il programma adesso lavora su una **copia di sé stesso**, che nessuno
+può cambiare mentre gira. E il comando che ti do qui sotto non scarica più niente prima: ci pensa il
+programma stesso, che il codice da GitHub se lo prende da solo.
 
-- **registri che la macchina rifà da sola** → si tiene quello di GitHub. Il vecchio è una fotografia scaduta.
-- **quaderni e diari**, dove si scrive solo in fondo → si tengono **entrambe** le righe. Sono vere tutte e due.
-- **archivio delle lezioni** → si uniscono. Nessuna sparisce.
-
-**Su tutto il resto si ferma e non tocca niente**, codice compreso. Prendi la coda di queste carte:
-lì serve giudizio, non una regola. Meglio dodici lavori fermi che una riga decisa a caso.
-
-**Cosa devi fare. Prima guarda, poi agisci:** non so ancora *quali* fogli siano in conflitto sul
-server, e se sono fuori da quei tre casi questa riparazione non li scioglie. Il primo comando te lo
-dice in una riga.
+**Cosa devi fare.** Lancialo **due volte**. La prima porta il codice nuovo sul server, la seconda lo
+usa.
 
 ```
 cd /opt/mycity/ad-mycity
-git fetch origin main && git checkout origin/main -- cervello/ && sudo bash cervello/vps/aggiorna-cervello.sh
+sudo bash cervello/vps/aggiorna-cervello.sh
+sudo bash cervello/vps/aggiorna-cervello.sh
 ```
 
-Cerca in fondo una di queste due righe:
+Guarda le ultime righe della **seconda**. Cerca una di queste tre:
 
-- **«🧩 Conflitti di MEMORIA risolti da soli»** seguita da «✓ Commit pendenti pubblicati»: è fatta, i
-  dodici lavori sono usciti.
-- **«🧩 I conflitti NON si risolvono da soli»** seguita da un elenco di fogli: mandami quell'elenco.
-  Vuol dire che serve giudizio, e lì la mano è tua o mia, non della macchina.
+- **«✓ Commit pendenti pubblicati»** → è fatta, i 29 lavori sono usciti.
+- **«🧩 Conflitti di MEMORIA risolti da soli»** seguita dalla riga sopra → è fatta anche così.
+- **«🧩 I conflitti NON si risolvono da soli»** con un elenco di file → mandami quell'elenco. Vuol
+  dire che serve giudizio, e lì decidiamo insieme.
 
-**Cosa non ho verificato:** che sul server vada. Ho provato la catena intera su copie vere costruite
-apposta. Server e GitHub si scontrano sullo stesso foglio, e alla fine il lavoro del server arriva
-su GitHub senza perdere la riga dell'altro. Togliendo la riparazione la prova torna rossa. Ma i
-fogli veri del tuo server non li ho visti.
+Se non compare **nessuna** di queste tre, mandami lo schermo lo stesso: vuol dire che la riparazione
+ancora non viene eseguita, e il motivo è un altro da cercare.
 
-**Se va bene:** il server torna a pubblicare da solo, e questo nodo non si riforma più.
+**Cosa non ho verificato:** che sul server vada. Da qui non ci arrivo. Quello che ho provato è la
+protezione, su copie vere: un programma che si accorcia da solo si ferma a una riga; lo stesso
+programma, protetto, arriva in fondo. Togliendo la protezione la prova torna rossa.
+
+**Se va bene:** il server torna a pubblicare da solo.
 
 ---
 

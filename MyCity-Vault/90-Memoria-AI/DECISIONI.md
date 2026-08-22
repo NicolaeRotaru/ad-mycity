@@ -3094,3 +3094,45 @@ perché se stanno fuori dalle tre classi questa riparazione non li scioglie — 
 server e main che si scontrano sullo stesso file, e alla fine il lavoro del server arriva su GitHub
 senza perdere la riga dell'altro — e l'ho provata al contrario tre volte. I file veri del server non
 li ho visti.
+
+---
+
+## 2026-08-22 12:20 — 🟡 Il copione che si toglie il foglio da sotto mentre legge, e chiude dicendo che è andata bene
+
+**Cosa.** La riparazione dei conflitti era arrivata sul server e **non è stata eseguita**. Non per un
+difetto suo: per un difetto del comando che avevo scritto io nella carta.
+
+**La catena, in ordine.** Il comando era `git checkout origin/main -- cervello/ && sudo bash
+cervello/vps/aggiorna-cervello.sh`. Il primo pezzo scarica il codice nuovo; da quel momento quei file
+risultano **sporchi** rispetto al commit del server. Il secondo pezzo lancia l'allineamento, che —
+per far partire il rebase — mette da parte tutto il tracciato sporco. Cioè: **sé stesso e il
+risolutore**.
+
+**E qui il pezzo che non sapevo, e che ho chiesto a bash invece di dedurlo.** Bash non carica il
+copione in memoria: lo legge a pezzi, tenendo la posizione nel file. Se il file si accorcia sotto,
+bash arriva alla fine e **chiude uscendo 0**. Provato: un copione di quattro righe che riscrive sé
+stesso con una versione più corta esegue **solo la prima riga** e finisce con successo. Nessun
+errore, nessun avviso.
+
+**Perché è il guasto peggiore di questa serie.** Gli altri due si vedevano — un errore stampato, un
+conteggio che cresce. Questo no: il programma dice di aver finito. Per due giri ho creduto che la
+riparazione non funzionasse, mentre non veniva nemmeno letta. *Un pezzo di codice che non viene
+eseguito e non lo dice a nessuno è peggio di un errore, perché manda a cercare dalla parte sbagliata.*
+
+**La cura.** `aggiorna-cervello.sh` si esegue da una **copia di sé** in una cartella temporanea, che
+nessuno può cambiare mentre gira. È il rimedio classico per i copioni che si aggiornano da soli. Se
+la copia non riesce, prosegue lo stesso e lo dichiara: meglio un allineamento fragile che nessuno.
+
+**Il freno.** `cervello/test/copione-che-sparisce-mentre-gira.test.mjs`, quattro prove. La prima non
+testa la riparazione: **chiede a bash** se la premessa è vera, così se un giorno cambiasse
+comportamento lo saprei da lì e non dal server. L'ultima tiene insieme le due metà — finché la messa
+da parte è generale (e deve restarlo, AR-347), la copia non è un'opzione. Togliendo la protezione la
+prova diventa rossa.
+
+**L'errore mio, detto per intero.** Il comando che ho dato a Nicola **causava** il guasto che la
+carta doveva riparare. Non era un dettaglio di forma: era la carta a rompere il lavoro. La carta
+adesso non scarica più niente prima — ci pensa l'allineamento, che il codice da main se lo prende da
+sé — e chiede due lanci di fila: il primo porta il codice nuovo, il secondo lo usa.
+
+**Cosa non ho verificato:** che sul server funzioni. Da qui non ci arrivo, e i 29 commit fermi non li
+ho visti sciogliersi. Ho provato la protezione, non l'esito.
