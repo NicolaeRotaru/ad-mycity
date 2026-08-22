@@ -3059,9 +3059,13 @@ vive quanto una richiesta. Cinque pezzi del sito davano ancora per scontata la m
 **Cosa ho cambiato nel codice del sito** (ramo `claude/render-to-vercel-migration-hf0nyj`, richiesta
 di unione aperta, niente in produzione):
 
-- **Regione delle funzioni: da Washington a Parigi.** Provato leggendo l'intestazione della
-  produzione: `x-vercel-id: iad1`. Il database è a Parigi (`eu-west-3`): ogni query attraversava
-  l'Atlantico due volte. Ora `regions: ["cdg1"]`.
+- **Regione delle funzioni: da Washington a Parigi.** Il database è a Parigi (`eu-west-3`): ogni
+  query attraversava l'Atlantico due volte. Ora `regions: ["cdg1"]`. Provato leggendo il campo
+  `regions` del registro dei rilasci — produzione `["iad1"]`, anteprima del ramo nuovo `["cdg1"]`.
+  ⚠️ **Correzione 10:20:** avevo scritto «provato guardando `x-vercel-id: iad1`». Quell'intestazione
+  non lo prova — il suo primo pezzo segue chi chiama, non dove gira la funzione — e me ne sono
+  accorto leggendo `iad1` sull'anteprima, che gira a Parigi. Chi lo rifarà: si guarda il rilascio,
+  non l'intestazione.
 - **I nove lavori periodici agganciati a Vercel** (`vercel.json` → `crons`), con le stesse cadenze di
   prima. Prima li faceva partire cron-job.org, servizio esterno nato perché su Render il cron si
   pagava a parte.
