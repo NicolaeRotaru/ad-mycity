@@ -43,6 +43,20 @@ test("sul repo VERO ogni guardiano è eseguito da qualcuno, o dice perché no", 
   assert.equal(r.status, 0, "il guardiano della guardia deve uscire 0 quando non ha trovato buchi");
 });
 
+test("una chiamata da un copione del VPS conta: node \"$REPO/cervello/x.mjs\"", () => {
+  // 22/8 — il rilevatore non riconosceva questa forma e ha accusato «costruito e mai messo di
+  // guardia» uno strumento agganciato per davvero. Da un copione del server `REPO` è la RADICE del
+  // repo, quindi in mezzo c'è `cervello/`: la forma naturale lassù era proprio quella che mancava.
+  // È lo stesso errore del `:-default` raccontato accanto alla regex, ripetuto un anno dopo.
+  const trovati = [...invocazioniIn('node "$REPO/cervello/conflitti-memoria.mjs" --applica --repo "$REPO"')];
+  assert.ok(
+    trovati.includes("conflitti-memoria.mjs"),
+    `un metro che accusa chi il cablaggio ce l'ha si spegne da solo: trovati ${JSON.stringify(trovati)}`,
+  );
+  // e la forma senza `cervello/` in mezzo deve continuare a funzionare
+  assert.ok([...invocazioniIn('node "$SCRIPT_DIR/salute.mjs"')].includes("salute.mjs"));
+});
+
 test("i due strumenti del difetto sono adesso di guardia davvero", () => {
   const r = spawnSync("node", [CHECK, "--json"], { cwd: REPO, encoding: "utf8", timeout: 120_000 });
   const j = JSON.parse(r.stdout);

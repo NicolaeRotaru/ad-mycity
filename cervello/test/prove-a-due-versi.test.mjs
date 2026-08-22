@@ -307,10 +307,16 @@ test("AR-737 — il rebase che ingoia i suoi tre esiti: rossa oggi, verde se il 
     flag: "--ar-737",
     file: "cervello/vps/aggiorna-cervello.sh",
     fix: [
+      // 22/8 — l'ancora si è spostata, e non per caso: il ramo del rebase adesso prova a risolvere i
+      // conflitti di memoria prima di arrendersi, quindi gli abort che ingoiano il loro esito sono
+      // DUE, uno dentro l'altro. Si curano con UNA voce marcata `tutte`, che è l'opzione fatta
+      // apposta per i difetti in N punti identici: senza, si sostituiva solo il primo e il verdetto
+      // restava rosso sul secondo — la prova sembrava inchiodata mentre stava dicendo la verità.
       {
         file: "cervello/vps/aggiorna-cervello.sh",
-        cerca: "          git rebase --abort 2>/dev/null || true",
-        sostituisci: '          if ! git rebase --abort 2>/dev/null; then echo "[$(ts)] ⛔ abort del rebase FALLITO: albero a metà" >&2; return 1; fi',
+        cerca: "            git rebase --abort 2>/dev/null || true",
+        sostituisci: '            if ! git rebase --abort 2>/dev/null; then echo "[$(ts)] ⛔ abort del rebase FALLITO: albero a metà" >&2; return 1; fi',
+        tutte: true,
       },
       {
         file: "cervello/vps/aggiorna-cervello.sh",
