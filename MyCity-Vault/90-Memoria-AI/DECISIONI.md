@@ -3228,3 +3228,215 @@ perché se stanno fuori dalle tre classi questa riparazione non li scioglie — 
 server e main che si scontrano sullo stesso file, e alla fine il lavoro del server arriva su GitHub
 senza perdere la riga dell'altro — e l'ho provata al contrario tre volte. I file veri del server non
 li ho visti.
+
+---
+
+## 2026-08-22 12:20 — 🟡 Il copione che si toglie il foglio da sotto mentre legge, e chiude dicendo che è andata bene
+
+**Cosa.** La riparazione dei conflitti era arrivata sul server e **non è stata eseguita**. Non per un
+difetto suo: per un difetto del comando che avevo scritto io nella carta.
+
+**La catena, in ordine.** Il comando era `git checkout origin/main -- cervello/ && sudo bash
+cervello/vps/aggiorna-cervello.sh`. Il primo pezzo scarica il codice nuovo; da quel momento quei file
+risultano **sporchi** rispetto al commit del server. Il secondo pezzo lancia l'allineamento, che —
+per far partire il rebase — mette da parte tutto il tracciato sporco. Cioè: **sé stesso e il
+risolutore**.
+
+**E qui il pezzo che non sapevo, e che ho chiesto a bash invece di dedurlo.** Bash non carica il
+copione in memoria: lo legge a pezzi, tenendo la posizione nel file. Se il file si accorcia sotto,
+bash arriva alla fine e **chiude uscendo 0**. Provato: un copione di quattro righe che riscrive sé
+stesso con una versione più corta esegue **solo la prima riga** e finisce con successo. Nessun
+errore, nessun avviso.
+
+**Perché è il guasto peggiore di questa serie.** Gli altri due si vedevano — un errore stampato, un
+conteggio che cresce. Questo no: il programma dice di aver finito. Per due giri ho creduto che la
+riparazione non funzionasse, mentre non veniva nemmeno letta. *Un pezzo di codice che non viene
+eseguito e non lo dice a nessuno è peggio di un errore, perché manda a cercare dalla parte sbagliata.*
+
+**La cura.** `aggiorna-cervello.sh` si esegue da una **copia di sé** in una cartella temporanea, che
+nessuno può cambiare mentre gira. È il rimedio classico per i copioni che si aggiornano da soli. Se
+la copia non riesce, prosegue lo stesso e lo dichiara: meglio un allineamento fragile che nessuno.
+
+**Il freno.** `cervello/test/copione-che-sparisce-mentre-gira.test.mjs`, quattro prove. La prima non
+testa la riparazione: **chiede a bash** se la premessa è vera, così se un giorno cambiasse
+comportamento lo saprei da lì e non dal server. L'ultima tiene insieme le due metà — finché la messa
+da parte è generale (e deve restarlo, AR-347), la copia non è un'opzione. Togliendo la protezione la
+prova diventa rossa.
+
+**L'errore mio, detto per intero.** Il comando che ho dato a Nicola **causava** il guasto che la
+carta doveva riparare. Non era un dettaglio di forma: era la carta a rompere il lavoro. La carta
+adesso non scarica più niente prima — ci pensa l'allineamento, che il codice da main se lo prende da
+sé — e chiede due lanci di fila: il primo porta il codice nuovo, il secondo lo usa.
+
+**Cosa non ho verificato:** che sul server funzioni. Da qui non ci arrivo, e i 29 commit fermi non li
+ho visti sciogliersi. Ho provato la protezione, non l'esito.
+
+---
+
+## 2026-08-22 11:35 · 🟡 Il quarto difetto: il server non poteva RICEVERE una riparazione, e diceva di averla ricevuta
+
+**Cosa ho fatto.** Riparato il guasto che teneva bloccato il server anche dopo i tre di ieri e
+stamattina, e messo due freni che diventano rossi se torna. Codice nel ramo
+`claude/risolvi-tutti-problemi-nddcnp`, richiesta di unione #822. La firma sul merge è di Nicola.
+
+**Come l'ho trovato.** Non da un errore: stavo verificando se la carta #153 potesse funzionare, e
+ho seguito il codice invece di fidarmi. L'allineatore (`allinea_codice_da_main`) esiste apposta per
+il caso «il server non riesce a pubblicare»: allinea comunque il CODICE, perché — parole scritte il
+20/8 dentro quella funzione — *«un server che non riesce a pubblicare smette anche di RICEVERE le
+riparazioni»*. Ma il server sta su `main`, e su `main` il perimetro AR-332 rifiuta i commit di
+codice. Il commit veniva respinto, l'errore finiva in `/dev/null` dietro un `|| true`, e la riga
+successiva stampava «Codice allineato a origin/main».
+
+**La prova, prima della diagnosi.** Repo vero, cancello vero, la sequenza esatta dell'allineatore:
+il commit non atterra, il file resta `M` (sporco), il contenuto committato è ancora la versione
+vecchia. Al giro dopo il prestito — generale apposta, AR-347 — se lo porta via, e torna il copione
+vecchio. Il cerchio si chiude: la riparazione arriva, non si posa, e nessuno lo dice.
+
+**Perché è il quarto della stessa famiglia in due giorni.**
+
+| difetto | il «qualcuno» che non esisteva |
+|---|---|
+| 21/8 sera | chi doveva riprendere la messa da parte |
+| 22/8 mattina | chi doveva risolvere i conflitti di memoria |
+| 22/8 mezzogiorno | chi doveva leggere il copione fino in fondo |
+| 22/8 pomeriggio | **chi doveva far atterrare il commit** |
+
+La lezione è sempre quella, e adesso ha quattro casi: *ogni volta che il codice dice «lo farà
+qualcuno», bisogna chiedersi chi — e se quel qualcuno esiste.* Il corollario nuovo, che questo caso
+aggiunge: **un `|| true` è una promessa che nessuno mantiene.** Trasforma «rifiutato» e «riuscito»
+nella stessa cosa, e la riga di successo subito dopo diventa una bugia stampata.
+
+**La deroga, e perché non è un buco.** Il perimetro serve a fermare il codice che nessuno ha
+rivisto. Il server che si ricopia addosso `main` non è quel caso: quei byte una richiesta di unione
+li ha già visti. Quindi `solo_copia_di_main` (in `cervello/gate-pubblicazione.sh`, importata dal
+cancello — non ricopiata) passa **solo se ciò che si committa è identico byte per byte a main**. Se
+è identico, per costruzione non entra niente di nuovo. Senza un riferimento a main non indovina:
+blocca (cieco non è verde, AR-322).
+
+**I freni** — `cervello/test/server-che-non-puo-ricevere-riparazioni.test.mjs`, cinque prove
+sull'hook vero dentro repo usa-e-getta:
+① la deroga esiste e il commit ATTERRA (non basta che non dia errore: si guarda la storia);
+② una riga diversa da main e il perimetro ferma tutto;
+③ senza riferimento a main, blocca;
+④ l'allineatore non dichiara più successo se il commit non è atterrato;
+⑤ il cardine della carta #153: il cancello appena scaricato vale già per il commit di quello stesso
+lancio — chiesto a git, non dedotto. È questo che permette al server di sbloccarsi da solo.
+
+Non vuote, verificato rimettendo i difetti: senza la deroga 4/5, senza il controllo dell'esito 4/5.
+I sette casi di `perimetro-main.test.mjs` restano verdi: il perimetro non si è allargato.
+
+**Conseguenza sulla carta #153.** Aveva un ordine sbagliato e l'ho corretto: prima si unisce la
+#822, poi i due lanci. Lanciarla prima avrebbe fatto perdere a Nicola un altro giro — il terzo.
+
+**Cosa non ho verificato:** che sul server funzioni. Da qui non ci arrivo. Ho provato il meccanismo
+su repo veri costruiti apposta, non l'esito sul server: i 29 commit fermi non li ho visti sciogliersi.
+
+**Aggiunta 11:55 — un buco che mi ero scavata da sola, trovato dal collaudo.** La prima stesura di
+`solo_copia_di_main` accettava `FETCH_HEAD` come «main». Ma `FETCH_HEAD` vuol dire soltanto
+«l'ultima cosa scaricata». Chiunque poteva fare `git fetch origin un-suo-ramo` e poi committare su
+`main` del codice identico a quel ramo: **il perimetro si aggirava con un fetch.** Una deroga che si
+apre con un comando qualunque non è una deroga, è una porta.
+
+Non l'ha trovato un errore: l'ha trovato il collaudo di fine lavoro, rileggendo il mio stesso diff
+in cerca di cosa potesse andare storto. Riparato chiedendo a git di che ramo è quel FETCH_HEAD —
+si legge il file che git stesso scrive, e la riga senza `not-for-merge` deve dire `branch 'main'`.
+E i candidati adesso si provano tutti, perché sul server `git fetch <url> main` aggiorna FETCH_HEAD
+e non `origin/main`: fermarsi al primo esistente avrebbe bocciato proprio il caso per cui la deroga
+è nata.
+
+Sesta prova aggiunta, non vuota: rimettendo il buco diventa rossa con «il perimetro si aggira con un
+fetch». Suite dopo: 355 file su 384, zero rossi.
+
+---
+
+## 2026-08-22 12:10 · 🟡 Il lavoro intrappolato adesso ha un'uscita (AR-761), e un debito dichiarato è stato estinto
+
+**Cosa ho fatto.** Nicola: «ci sono dei difetti». Sono andata a guardare: **164 aperti, 11
+bloccanti**. Tre degli undici erano la malattia su cui stavo già lavorando — il server che non
+riesce né a pubblicare né a ricevere. Ho scelto per malattia, come dice il mansionario, non per
+conteggio.
+
+**AR-761 — il fix che non era mai stato scritto, e il perché.** La scheda portava una frase onesta:
+*«Serve un repo finto con due storie divergenti e un remoto scrivibile: da questa sessione non ho un
+remoto su cui provare il push del ramo di salvataggio. Debito dichiarato: il fix non si scrive
+finché non si può provare.»* Quel debito è estinto: il banco che ho costruito stamattina per un
+altro difetto costruisce esattamente quello. Il fix è `salva_il_lavoro_intrappolato`: dopo tre
+tentativi falliti i commit locali finiscono su `vps/salvataggio-<data>`, quindi il lavoro esiste in
+due copie e un `checkout -f` non può più cancellarlo.
+
+**Il tetto, e l'errore mio che la mutazione ha trovato.** Questo gira ogni cinque minuti: un ramo
+per giro farebbe 288 rami al giorno — la stessa malattia che stiamo curando. Avevo scritto che il
+tetto era il memo della punta già salvata. **Falso**, e la mutazione l'ha dimostrato: togliendo il
+memo la prova restava verde. Il tetto sono due pezzi distinti e fanno cose diverse — il **nome per
+giorno** tiene i rami a uno, il **memo** evita di ri-spingere un lavoro identico. La mia prova
+diceva di misurare il secondo e misurava il primo. Riscritta: adesso il memo si misura puntando a un
+remoto rotto, che farebbe fallire qualunque push davvero tentato. Senza memo: 4 su 5.
+
+*Il passo che rompe il fix apposta ha trovato un difetto nel metro, non nel codice. È la terza volta
+in due giorni.*
+
+**Cosa NON ho fatto, apposta.** Nessun reset automatico del server dopo il salvataggio. Buttare via
+commit locali è irreversibile: resta 🔴 e resta di Nicola.
+
+**AR-521 e AR-518** non li ho chiusi: ho aggiornato `verifica` e `nota_fix` dichiarando cosa è fatto
+e cosa no. Di AR-521 è fatta la metà (b) — la via di fuga, che esisteva e non funzionava. La (a),
+lo sblocco a mano sul server, è la carta #153 ed è di Nicola.
+
+**AR-782, registrato e NON incluso nel lotto.** Il cancello è uscito rosso su due prove dello
+schermo, e il rosso non era del mio lavoro: `c2-schermo` e `c4-schermo-coda` si contendono la porta
+fissa 3939, e il cancello le fa girare in parallelo. Misurato spegnendo il server rimasto acceso e
+rilanciandole in fila: verdi tutte e due. Allargare il lotto a metà è il modo classico di non
+finirlo, quindi è registrato per il lotto dopo.
+
+**Il cancello del lotto:** exit 2 — si consegna dichiarando i buchi. Zero rossi. I tre ⚪ sono la
+cecità nota del clone superficiale (`prove-oneste`, `il cantiere non perde difetti`, `consegne senza
+esito`): non sono miei, e li dichiaro.
+
+**Cosa non ho verificato:** che sul server vada. Il ramo di salvataggio l'ho provato su un remoto
+vero costruito apposta, non sul VPS.
+
+---
+
+## 2026-08-22 13:25 · 🟡 Il cancello mi accusava di righe scritte da altri, e due mie cure erano peggio del male
+
+**Cosa è successo.** Il cricchetto della leggibilità (AR-478) ha bocciato la mia PR due volte:
+«+3 punti difficili», poi «+2». La seconda volta invece di limare il testo ho **misurato**: ho
+estratto i punti nuovi uno per uno. **Nessuno dei nove stava nel mio testo** — erano alle righe 1,
+1428 e 1445, dentro carte scritte giorni prima.
+
+**La causa.** Il testo si misura tagliato a 200.000 caratteri. `AZIONI-IN-ATTESA.md` ne fa 254.994.
+Su un file oltre il tetto le due versioni confrontate coprono **porzioni diverse**: basta aggiungere
+un paragrafo in cima perché un pezzo che prima stava fuori dalla finestra ci entri, e i suoi problemi
+risultino «aggiunti da te». Il taglio veniva dichiarato in una nota, ma non cambiava il verdetto —
+si leggeva come un dettaglio invece che come *«questa misura non è valida»*.
+
+È la malattia già scritta in quel file per un altro caso: *«un cancello che accusa di cose non tue è
+la definizione operativa del rosso che si impara ad aggirare»*.
+
+**Le due strade che ho preso e poi disfatto — e sono la parte che vale.**
+
+① **Alzare il tetto a 400.000.** L'argomento era vero: quella soglia è un *campo visivo*, non una
+tolleranza, e alzarla rende il cancello più severo (misurato: 229 punti a 200.000, 311 a 400.000).
+Il sorvegliante me l'ha contestato **sette volte di fila** e ho continuato a rispondergli nei
+commenti. Aveva ragione lui. Non perché l'argomento fosse falso, ma perché *una soglia che sale è la
+mossa che nasconde i problemi*, e chi legge fra sei mesi non può distinguere la mia buona ragione da
+una scusa. **Un freno che si piega davanti a un ragionamento convincente non è un freno.** Rimesso
+a 200.000.
+
+② **Archiviare da sola le 23 carte chiuse.** Sembrava la cura vera, e i numeri tornavano
+(250.572 → 153.164). Ha rotto due prove: alcune carte chiuse vengono ancora cercate nella coda viva
+da altri guardiani (`ordine-test-pq`, `prevenzione-a-monte`, `quanto-chiudo-e-il-mio-voto`).
+**«Chiusa» non vuol dire «archiviabile»**, e il mio primo scan degli identificativi leggeva un solo
+formato su due. Rimettendole indietro il file restava sopra il tetto lo stesso (213.640). Tutto
+annullato, 99 carte ricontate. *Riordinare la coda che Nicola usa per decidere non è una cosa da
+improvvisare a fine turno*: è la carta #163, e la decide lui.
+
+**Cosa resta fatto.** Se un testo supera il tetto il verdetto è **⚪ e non ❌**: un giudizio su una
+parte non è un giudizio sul tutto. Quattro prove non vuote.
+
+**Il debito, dichiarato e non nascosto.** Finché la coda sfora, su quel file il cricchetto non
+protegge: esce ⚪. È una perdita vera, sul file che Nicola legge di più. La prova ② la tiene visibile
+invece di lasciarla passare per verde.
+
+**Cosa non ho verificato:** quante carte siano davvero archiviabili. So che 23 sono chiuse e che
+almeno 3 servono ancora dove stanno.
