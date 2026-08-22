@@ -109,7 +109,15 @@ export function improntaLavoro({ testa = "", diff = "", nuovi = [] } = {}) {
  * correzioni e l'ancora dello Stop si sposta, il diff del turno dopo è vuoto — ma il registro
  * «chiesto» ricorda che quel lavoro non è mai uscito pulito, e il ricontrollo resta dovuto.
  */
-export function verdettoCollaudo({ lavoro = false, impronta = "", registro = null, giaBloccato = false } = {}) {
+export function verdettoCollaudo({ lavoro = false, impronta = "", registro = null, giaBloccato = false, headUgualeABase = false } = {}) {
+  // HEAD già pubblicato (origin/main) = niente di non pubblicato da ricollaudare — qualunque cosa
+  // dica un registro rimasto «chiesto» sul disco da una sessione precedente. Quel registro esiste
+  // per portare il collaudo attraverso più «fatto» dello STESSO turno (la scheda ①②③ qui sopra); non
+  // è fatto per sopravvivere al turno che l'ha scritto. Senza questo bypass, un `registro.da` vecchio
+  // resta antenato di ogni HEAD futuro per sempre (è storia vera), `baseDelCollaudo` lo ripesca ogni
+  // volta, e il collaudo torna dovuto su lavoro che nessuna sessione ha mai aperto — il gemello
+  // esatto del ciclo che `scegliPerimetro` risolve in cancello-stop.mjs, sull'altra metà del sistema.
+  if (headUgualeABase) return { azione: "niente" };
   const pendente = registro?.esito === "chiesto";
   if (!lavoro && !pendente) return { azione: "niente" };
   const stessa = Boolean(registro) && registro.impronta === impronta;
@@ -225,7 +233,14 @@ function scriviRegistro(voce) {
  * correzioni che il giro di collaudo committa. Limite dichiarato: ciò che un turno senza ancora ha
  * committato PRIMA del suo primo «fatto» resta fuori dal primo giro.
  */
-function baseDelCollaudo(registro, da, turno) {
+function baseDelCollaudo(registro, da, turno, headUgualeABase = false) {
+  if (headUgualeABase) {
+    try {
+      return git(["rev-parse", "HEAD"]).trim();
+    } catch {
+      return da;
+    }
+  }
   const memorizzata = registro?.esito === "chiesto" ? registro.da : null;
   if (memorizzata) {
     try {
@@ -247,14 +262,19 @@ function baseDelCollaudo(registro, da, turno) {
  * L'ingresso che usa il cancello dello Stop. Torna righe (bloccano), note (si leggono) e ciechi
  * (⚪, «non ho potuto misurare»), già nelle tre forme che il verdetto dello Stop conosce.
  */
-export function collaudoAlloStop({ da = null, turno = false, giaBloccato = false } = {}) {
+export function collaudoAlloStop({ da = null, turno = false, giaBloccato = false, headUgualeABase = false } = {}) {
   const registro = leggiRegistro();
-  const base = baseDelCollaudo(registro, da, turno);
+  const base = baseDelCollaudo(registro, da, turno, headUgualeABase);
   const stato = statoDelLavoro(base);
   if (!stato) {
     return { righe: [], note: [], ciechi: ["il collaudo non ha potuto leggere git: non so se il lavoro finito sia stato ricontrollato."] };
   }
-  const v = verdettoCollaudo({ lavoro: stato.lavoro, impronta: stato.impronta, registro, giaBloccato });
+  const v = verdettoCollaudo({ lavoro: stato.lavoro, impronta: stato.impronta, registro, giaBloccato, headUgualeABase });
+  // Pulisce il registro poisoned (AR-vedi commento sopra in verdettoCollaudo): senza, il prossimo
+  // turno che trova il ramo davvero sporco leggerebbe ancora un `registro.da` vecchio di giorni.
+  if (v.azione === "niente" && headUgualeABase && registro) {
+    scriviRegistro({ impronta: stato.impronta, esito: "pulito", giro: registro.giro || 0 });
+  }
   if (v.azione === "promuovi") {
     scriviRegistro({ impronta: stato.impronta, esito: "pulito", giro: v.giro });
     return { righe: [], note: [`collaudo superato al giro ${v.giro}: lavoro ricontrollato per intero, niente da cambiare — confermato.`], ciechi: [] };

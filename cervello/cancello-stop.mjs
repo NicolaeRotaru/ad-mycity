@@ -302,7 +302,22 @@ export const ANCORA = "cervello/_tmp_stop-ancora.json";
  * Da dove guardo. Pura: prende ciò che l'I/O ha già accertato e torna il perimetro + cosa dichiarare.
  * @returns {{da:string|null, turno:boolean, nota:string|null}}
  */
-export function scegliPerimetro({ ancora = null, ancoraUsabile = false, base = null } = {}) {
+export function scegliPerimetro({ ancora = null, ancoraUsabile = false, base = null, headUgualeABase = false } = {}) {
+  // IL CICLO CHE NON SI ROMPEVA MAI DA SOLO (46+ conferme in memoria, 16/8). L'ancora si sposta solo
+  // sui turni puliti (`siPiantaAncora`) — giusto quando il turno è davvero sporco. Ma quando HEAD è
+  // già identico a `base` (origin/main), non c'è NESSUN lavoro non pubblicato: tutto ciò che
+  // l'ancora-vecchia...HEAD contiene è già sul ramo principale, quindi il collaudo trova sempre
+  // «lavoro» che non è mai stato aperto da nessuna sessione interattiva — il turno risulta sempre
+  // sporco per costruzione, l'ancora non si sposta mai, e il prossimo giro vede un diff ancora più
+  // grande. Qui, prima di fidarsi dell'ancora, si controlla se non serve proprio: HEAD pubblicato =
+  // niente da lasciare indietro, il perimetro riparte da lì e l'ancora si ripianta (regola ②).
+  if (headUgualeABase && base) {
+    return {
+      da: base,
+      turno: false,
+      nota: `HEAD è già uguale a «${base}»: nessun lavoro non pubblicato da ricollaudare — l'ancora del turno era rimasta indietro, la riporto qui.`,
+    };
+  }
   if (ancora && ancoraUsabile) return { da: ancora, turno: true, nota: null };
   if (!base) return { da: null, turno: false, nota: null };
   return {
@@ -1256,9 +1271,20 @@ async function main() {
   const committati = base ? fileCommittatiSulRamo(base) : null;
   const righeQuaderni = base ? righeAggiunteNelle(base, "memoria-squadra") : null;
 
+  // HEAD già pubblicato = niente non pubblicato da ricollaudare, qualunque cosa dica l'ancora vecchia
+  // (vedi il commento dentro scegliPerimetro). `rev-parse` su un ref che non esiste torna false, non
+  // rompe: è lo stesso stile difensivo del resto di questo file.
+  const headUgualeABase = Boolean(base) && (() => {
+    try {
+      return git(["rev-parse", "--verify", "--quiet", base]).trim() === git(["rev-parse", "HEAD"]).trim();
+    } catch {
+      return false;
+    }
+  })();
+
   // L'allarme è una domanda sul TURNO («stavo per lasciarlo indietro adesso»), l'esito è una domanda
   // sulla CONSEGNA (il ramo verso main). Due perimetri diversi perché sono due domande diverse.
-  const perimetro = scegliPerimetro({ ...ancoraDelTurno(), base });
+  const perimetro = scegliPerimetro({ ...ancoraDelTurno(), base, headUgualeABase });
   const consegneModificate = perimetro.da ? righeAggiunteNelle(perimetro.da, "consegne") : null;
 
   // IL BUCO TROVATO IL 4/8: `codaToccata` (sopra, da `fileDelLavoro`) guarda SOLO `git status
@@ -1304,7 +1330,7 @@ async function main() {
   let collaudo = { righe: [], note: [], ciechi: [] };
   if (hook) {
     try {
-      collaudo = collaudoAlloStop({ da: perimetro.da, turno: perimetro.turno, giaBloccato });
+      collaudo = collaudoAlloStop({ da: perimetro.da, turno: perimetro.turno, giaBloccato, headUgualeABase });
     } catch {
       collaudo = { righe: [], note: [], ciechi: ["il collaudo del lavoro finito non ha girato: non so se questo lavoro sia stato ricontrollato."] };
     }
