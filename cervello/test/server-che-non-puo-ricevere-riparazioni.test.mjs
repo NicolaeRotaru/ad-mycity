@@ -188,6 +188,35 @@ prova("l'allineatore non dichiara «Codice allineato» se il commit non e' atter
   );
 });
 
+// ── ⑥ IL BUCO CHE MI ERO SCAVATA DA SOLA ─────────────────────────────────────
+// La prima stesura accettava `FETCH_HEAD` come «main». Ma FETCH_HEAD è solo «l'ultima cosa
+// scaricata». Chiunque poteva fare `git fetch origin un-suo-ramo` e poi committare su main del
+// codice identico a QUEL ramo: il perimetro si aggirava con un fetch, cioè non era più un perimetro.
+// L'ho trovato rileggendo il mio stesso diff, non da un errore. Questa prova tiene chiusa la porta.
+prova("scaricare un RAMO QUALUNQUE non apre il perimetro (FETCH_HEAD non vuol dire main)", () =>
+  con({}, (b) => {
+    // Un ramo con dentro del codice che NESSUNA richiesta di unione ha visto.
+    execFileSync("git", ["clone", "-q", join(b.server, "../remoto.git"), join(b.server, "../altro")], {
+      encoding: "utf8",
+    });
+    const altro = join(b.server, "../altro");
+    const ga = (...a) => execFileSync("git", a, { cwd: altro, encoding: "utf8", stdio: "pipe" });
+    ga("config", "user.email", "t@m.local");
+    ga("config", "user.name", "t");
+    ga("checkout", "-q", "-b", "ramo-di-qualcuno");
+    writeFileSync(join(altro, "cervello/riparazione.sh"), "CODICE MAI RIVISTO DA NESSUNO\n");
+    ga("add", "-A");
+    ga("commit", "-q", "-m", "roba mia", "--no-verify");
+    ga("push", "-q", "origin", "ramo-di-qualcuno");
+
+    // Il gesto dell'aggiratore: scarico il MIO ramo, poi committo su main il suo contenuto.
+    b.g("fetch", "origin", "ramo-di-qualcuno");
+    const r = b.provaACommittare("CODICE MAI RIVISTO DA NESSUNO\n");
+    assert.notEqual(r.rc, 0, "il perimetro si aggira con un fetch: la deroga e' una porta, non una deroga");
+    assert.match(r.out, /AR-332/);
+    assert.equal(b.committato(), "VERSIONE VECCHIA\n", "il codice mai rivisto e' atterrato su main");
+  }));
+
 // ── ⑤ IL CARDINE DELLA CARTA #153 ────────────────────────────────────────────
 // Il server è fermo col copione VECCHIO e il cancello VECCHIO, e non può pullare. La domanda che
 // decide se se ne esce: quando l'allineatore scarica il codice da main, il cancello che gira sul

@@ -81,19 +81,42 @@ perimetro_ok() {
 # passa SOLO se ciò che sto per committare è **identico a quello che main ha già**. Se è identico,
 # per definizione non sta entrando niente di nuovo — sta solo tornando dov'era. Se manca il
 # riferimento a main non si indovina: si blocca (cieco non è verde, AR-322).
+# ⚠️ `FETCH_HEAD` NON VUOL DIRE `main`. È il buco che la prima stesura di questa funzione aveva, e
+# l'ho trovato rileggendo il mio stesso diff: `FETCH_HEAD` è semplicemente «l'ultima cosa scaricata».
+# Chi faceva `git fetch origin un-mio-ramo` e poi committava su main del codice identico a QUEL ramo
+# sarebbe passato — cioè il perimetro si aggirava con un fetch. Una deroga che si apre con un
+# comando qualunque non è una deroga: è una porta.
+# Quindi FETCH_HEAD si accetta solo dopo aver CHIESTO a git di che ramo è, leggendo il file che git
+# stesso scrive: la riga senza `not-for-merge` è quella appena scaricata, e deve dire `branch 'main'`.
+_fetch_head_e_davvero_main() {
+  local repo="${1:-.}" f
+  f="$(git -C "$repo" rev-parse --git-path FETCH_HEAD 2>/dev/null)" || return 1
+  [ -f "$f" ] || return 1
+  grep -v 'not-for-merge' "$f" 2>/dev/null | head -1 | grep -q "branch 'main'"
+}
+
 solo_copia_di_main() {
   local repo="${1:-.}"; shift
-  local rif="" r
-  for r in FETCH_HEAD refs/remotes/origin/main origin/main; do
-    if git -C "$repo" rev-parse --verify --quiet "${r}^{commit}" >/dev/null 2>&1; then rif="$r"; break; fi
-  done
-  # Senza un riferimento a main non ho niente con cui confrontare: blocco.
-  [ -n "$rif" ] || return 1
   # Senza percorsi la domanda non ha oggetto: un elenco vuoto NON è una risposta affermativa
   # (è lo stesso errore di `perimetro_ok ""` che per mesi ha detto verde senza guardare niente).
   [ "$#" -gt 0 ] || return 1
-  # Differenza fra ciò che sto per committare e main, ristretta a questi percorsi. Vuota = copia.
-  [ -z "$(git -C "$repo" diff --cached --name-only "$rif" -- "$@" 2>/dev/null)" ]
+
+  # I candidati sono TUTTI e soli i riferimenti che sono davvero main. Si provano uno per uno perché
+  # sul server `git fetch <url> main` aggiorna FETCH_HEAD e NON `origin/main`, che resta indietro:
+  # fermarsi al primo che esiste boccerebbe proprio il caso per cui questa deroga è nata.
+  local candidati=() r
+  if _fetch_head_e_davvero_main "$repo"; then candidati+=("FETCH_HEAD"); fi
+  for r in refs/remotes/origin/main; do
+    git -C "$repo" rev-parse --verify --quiet "${r}^{commit}" >/dev/null 2>&1 && candidati+=("$r")
+  done
+  # Nessun riferimento a main: non ho niente con cui confrontare, quindi blocco.
+  [ "${#candidati[@]}" -gt 0 ] || return 1
+
+  for r in "${candidati[@]}"; do
+    # Differenza fra ciò che sto per committare e main, ristretta a questi percorsi. Vuota = copia.
+    if [ -z "$(git -C "$repo" diff --cached --name-only "$r" -- "$@" 2>/dev/null)" ]; then return 0; fi
+  done
+  return 1
 }
 
 # Verdetto finale del cancello, dati gli esiti dei singoli guardiani.

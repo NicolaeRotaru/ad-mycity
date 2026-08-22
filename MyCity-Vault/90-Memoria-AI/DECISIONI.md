@@ -3299,3 +3299,19 @@ I sette casi di `perimetro-main.test.mjs` restano verdi: il perimetro non si è 
 
 **Cosa non ho verificato:** che sul server funzioni. Da qui non ci arrivo. Ho provato il meccanismo
 su repo veri costruiti apposta, non l'esito sul server: i 29 commit fermi non li ho visti sciogliersi.
+
+**Aggiunta 11:55 — un buco che mi ero scavata da sola, trovato dal collaudo.** La prima stesura di
+`solo_copia_di_main` accettava `FETCH_HEAD` come «main». Ma `FETCH_HEAD` vuol dire soltanto
+«l'ultima cosa scaricata». Chiunque poteva fare `git fetch origin un-suo-ramo` e poi committare su
+`main` del codice identico a quel ramo: **il perimetro si aggirava con un fetch.** Una deroga che si
+apre con un comando qualunque non è una deroga, è una porta.
+
+Non l'ha trovato un errore: l'ha trovato il collaudo di fine lavoro, rileggendo il mio stesso diff
+in cerca di cosa potesse andare storto. Riparato chiedendo a git di che ramo è quel FETCH_HEAD —
+si legge il file che git stesso scrive, e la riga senza `not-for-merge` deve dire `branch 'main'`.
+E i candidati adesso si provano tutti, perché sul server `git fetch <url> main` aggiorna FETCH_HEAD
+e non `origin/main`: fermarsi al primo esistente avrebbe bocciato proprio il caso per cui la deroga
+è nata.
+
+Sesta prova aggiunta, non vuota: rimettendo il buco diventa rossa con «il perimetro si aggira con un
+fetch». Suite dopo: 355 file su 384, zero rossi.
