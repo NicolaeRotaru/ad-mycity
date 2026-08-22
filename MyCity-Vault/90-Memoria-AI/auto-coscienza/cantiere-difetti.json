@@ -1714,9 +1714,11 @@
       "nato": "2026-07-23 22:20",
       "origine": "auto-radiografia 2026-07-23 (dimensione copertura-cieca) — riapre parzialmente AR-015 (chiuso 2/7)",
       "verifica": {
-        "tipo": "umano"
+        "tipo": "comando",
+        "comando": "node --test cervello/test/un-rischio-che-nessuno-vedra-arrivare.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Lotto 45 (22/8). RIPARATO — ed era ancora vivo, identico a com era stato scritto il 3 luglio. Misurato: 14 rischi nel registro canonico, 14 con owner, e SEI con la sentinella vuota — N2 KYC/antiriciclaggio, N4 inquadramento rider, N5 IVA, N6 alcolici, N7 allergeni, B5 stagionalita. Cinque su sei normativi. Sette settimane senza che nessuno se ne accorgesse, perche nessuno guardava. FATTO ① le sei sentinelle sono scritte, e descrivono una condizione OSSERVABILE, non una parola di riempimento (esempio N6: «un ordine con alcolici viene consegnato senza che la verifica dei 18 anni risulti fatta, in checkout o alla consegna»). ② LA CAUSA, che e il pezzo che conta: AR-015 fu dichiarato chiuso verificando che il FILE esistesse, non che le sue righe dicessero qualcosa — il guardiano coerenza-rischi.mjs controllava che il registro avesse una casa sola, mai la completezza semantica. Adesso rischiSenzaSentinella (funzione pura esportata) e cablata nel guardiano, che ESCE ROSSO se un rischio ha un proprietario e nessuna condizione che lo svegli. Due clausole che tengono onesto il freno: un rischio archiviato o chiuso non entra nel conto (sarebbe un rosso che non si puo togliere), e un rischio senza owner nemmeno (lo denuncia gia l altro controllo, e due rossi per un problema solo non si diagnosticano). PROVA a due versi: il guardiano vero gira su un registro finto bucato e deve uscire rosso nominando la riga, poi sullo stesso registro tappato e deve uscire verde. TROVATO RIPARANDO: coerenza-rischi.mjs non aveva la guardia sul main — importarlo per una funzione pura ne eseguiva il programma, scriveva il report e chiamava process.exit. Aggiunta. 2 mutazioni, entrambe rendono rossa la prova."
     },
     {
       "id": "AR-149",
