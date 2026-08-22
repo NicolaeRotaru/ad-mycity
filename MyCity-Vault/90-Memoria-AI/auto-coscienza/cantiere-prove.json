@@ -1,40 +1,40 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 20:36",
+  "aggiornato": "2026-08-22 20:44",
   "giorni_sospetto": 3,
-  "difetti_aperti": 117,
-  "difetti_da_fare": 117,
+  "difetti_aperti": 115,
+  "difetti_da_fare": 115,
   "conto": {
     "letto": true,
     "motivo": null,
     "totale": 782,
-    "chiusi": 665,
-    "aperti": 107,
+    "chiusi": 667,
+    "aperti": 105,
     "in_corso": 0,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 117,
+    "da_fare": 115,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 665,
-      "aperto": 107,
+      "chiuso": 667,
+      "aperto": 105,
       "da-riverificare": 10
     },
     "stati_ignoti": []
   },
   "bilancio": {
     "torna": true,
-    "attese": 117,
-    "viste": 117,
+    "attese": 115,
+    "viste": 115,
     "fuori": 0,
-    "motivo": "bilancio a posto: 665 chiuse + 117 classificate = 782 schede, e ogni stato vivo è dentro (107 aperto · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 667 chiuse + 115 classificate = 782 schede, e ogni stato vivo è dentro (105 aperto · 10 da-riverificare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 20,
     "auto-sospetta": 10,
     "umana": 69,
-    "auto-comando": 18
+    "auto-comando": 16
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
@@ -2041,30 +2041,6 @@
       "titolo": "Tutti i novantanove difetti aperti hanno una prova del tipo debole, e quattro citano file che non esistono",
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/test/prova-debole-non-chiude.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-365",
-      "gravita": "bloccante",
-      "eta_giorni": 24,
-      "impatto_crescita": "alto",
-      "prova_esegue": true,
-      "prova_obbligatoria": true,
-      "titolo": "L'unico allarme previsto per la macchina morta esce da un canale che è spento, e la macchina scrive lo stesso ",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-366",
-      "gravita": "bloccante",
-      "eta_giorni": 24,
-      "impatto_crescita": "alto",
-      "prova_esegue": true,
-      "prova_obbligatoria": true,
-      "titolo": "Il battito del worker dice «sono vivo» anche quando non riesce più a fare niente, e la sentinella crede al bat",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs",
       "auto_chiudibile": true
     },
     {
