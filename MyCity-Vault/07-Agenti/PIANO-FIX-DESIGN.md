@@ -24,7 +24,7 @@ report-dettagli: consegne/design/2026-06-24-audit-design.md
 2. L'AD legge questo piano + il report (per dove/fix), crea un **worktree git isolato** di mycity-live
    (`fix/groupN-…`) così non disturba altre sessioni, e **delega al frontend-dev** l'implementazione.
 3. L'AD fa **push del branch e apre la PR** (via API GitHub — `gh` non serve) e ti dà il link.
-4. **Render genera l'anteprima** automatica sulla PR → la controlli (specie in **mobile**) → se ok, **Merge** = online.
+4. **Vercel genera l'anteprima** automatica sulla PR → la controlli (specie in **mobile**) → se ok, **Merge** = online.
 5. **Ordine consigliato:** 2 → 3 → 4 → 5. ⚠️ I gruppi **3 e 4 toccano gli stessi token** (`tailwind.config.ts`,
    `design-system/tokens`, `globals.css`): mergiali in sequenza e risolvi eventuali piccoli conflitti.
 

@@ -76,7 +76,7 @@
 | Errore/eccezione sul sito (Sentry) | nuovo | tech | diagnosi (sola lettura) + segnalazione | 🟡 |
 | Stock prodotto fresco | = 0 | operations | proponi di nascondere il prodotto | 🟢 |
 | Spesa di un reparto vs budget | ≥ 100% | finanza/AD | STOP automatico + avviso | 🔴 |
-| Errori 5xx in produzione (Render) | >2% per 5 min | devops-sre | allerta + rollback pronto | 🔴 |
+| Errori 5xx in produzione (Vercel) | >2% per 5 min | devops-sre | allerta + rollback pronto | 🔴 |
 | Abbandono al checkout | >65-70% per 7gg | cro / ux-designer | audit + A/B test in branch | 🟡 |
 | Negozio attivo in calo | −40% ordini o 0 per 14gg | account-negozi | check-in personalizzato | 🟡 |
 | Negozio iscritto non LIVE | >36h | onboarding-negozi | completa i passi mancanti | 🟡 |

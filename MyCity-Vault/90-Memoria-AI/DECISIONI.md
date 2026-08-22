@@ -3046,6 +3046,64 @@ vincolato) e niente altro.
 
 ---
 
+## 2026-08-22 09:56 · 🟡 Il sito adesso lavora da Vercel, non solo su Vercel
+
+**Chi ha chiesto:** Nicola, in chat: «ho cambiato il server da render a vercel, fai un'analisi
+completa e profonda e cambia tutto quello che c'è da cambiare».
+
+**Perché era una decisione e non solo un lavoro.** Il trasloco era stato dichiarato a luglio e il
+codice era già online su Vercel. Quello che nessuno aveva tradotto è la differenza di forma: su
+Render c'era una macchina accesa con la sua memoria e il suo orologio, su Vercel c'è una funzione che
+vive quanto una richiesta. Cinque pezzi del sito davano ancora per scontata la macchina.
+
+**Cosa ho cambiato nel codice del sito** (ramo `claude/render-to-vercel-migration-hf0nyj`, richiesta
+di unione aperta, niente in produzione):
+
+- **Regione delle funzioni: da Washington a Parigi.** Il database è a Parigi (`eu-west-3`): ogni
+  query attraversava l'Atlantico due volte. Ora `regions: ["cdg1"]`. Provato leggendo il campo
+  `regions` del registro dei rilasci — produzione `["iad1"]`, anteprima del ramo nuovo `["cdg1"]`.
+  ⚠️ **Correzione 10:20:** avevo scritto «provato guardando `x-vercel-id: iad1`». Quell'intestazione
+  non lo prova — il suo primo pezzo segue chi chiama, non dove gira la funzione — e me ne sono
+  accorto leggendo `iad1` sull'anteprima, che gira a Parigi. Chi lo rifarà: si guarda il rilascio,
+  non l'intestazione.
+- **I nove lavori periodici agganciati a Vercel** (`vercel.json` → `crons`), con le stesse cadenze di
+  prima. Prima li faceva partire cron-job.org, servizio esterno nato perché su Render il cron si
+  pagava a parte.
+- **Cinque rotte su nove rispondevano solo al POST**, e Vercel bussa solo in GET: sarebbero partite
+  tutte prendendosi un 405 — il giro risulta eseguito e non fa niente. Ora rispondono a entrambi, così
+  durante il passaggio i due mondi convivono.
+- **Tetti di durata dichiarati** per lavori periodici, chiamate all'AI e webhook. Senza, oltre il
+  tetto del piano la funzione viene troncata a metà senza alcun errore.
+- **Il freno anti-abuso dichiarato per quello che è.** Senza Upstash, «dieci tentativi al minuto»
+  diventano dieci per ogni copia. Non l'ho lasciato scritto in un commento: `/api/health` adesso
+  risponde «degradato» finché quelle due variabili mancano.
+- **L'indirizzo del sito non ripiega più su localhost.** In produzione ogni pagina dichiarava a Google
+  `<link rel="canonical" href="http://localhost:3000">`. Ora il ripiego è il dominio che Vercel
+  dichiara da solo.
+- **Node allineato a 24** nei tre posti che devono dire lo stesso numero: prima la produzione girava
+  su 24 e il passo che costruisce prima di pubblicare usava 20.
+
+**Il freno, perché la lezione non resti una frase.** `tests/unit/lavori-periodici-agganciati-a-vercel.test.ts`
+diventa rosso se una rotta cron non è in `vercel.json`, se non risponde al GET (anche solo commentata),
+se sparisce il tetto di durata o la regione. Provato rompendo le quattro cose una alla volta.
+
+**Cosa resta a Nicola (🔴, accodato):**
+
+- **#154** — le chiavi mancanti fra le variabili su Vercel. Manca `SUPABASE_SERVICE_ROLE_KEY`: 70
+  errori veri nei log di produzione fra il 18 e il 21 agosto, su `/api/track` e `/api/consent`. Senza
+  quella, il webhook di Stripe non scrive: **un pagamento riuscito non diventa un ordine**.
+- **#155** — il dominio `mycity-marketplace.com` risolve ancora su `216.24.57.1`, l'indirizzo di
+  Render. Va aggiunto su Vercel e ripuntato dal DNS.
+
+**Fatti aggiornati nel registro:** `marketplace.hosting` (non è più «migrazione pianificata»: è fatta,
+con due code aperte fuori dal codice) e `finanza.costi_infrastruttura` (Render dismesso; da confermare
+con Nicola se i 30 €/m di Vercel coprono già i due progetti).
+
+**Cosa NON ho verificato.** Non ho aperto il pannello di Vercel: so che quelle chiavi mancano perché
+il sito si comporta come se mancassero, non perché ho letto la lista. Che `216.24.57.1` sia di Render
+l'ho dedotto. E non ho aperto nessuna pagina in un browser.
+
+· Verificato: 979 prove verdi, typecheck pulito, lint senza errori, build di produzione riuscita · Nicola (chat)
 ## 2026-08-22 10:20 — 🟡 I conflitti di memoria che nessuno risolveva: il secondo nodo, sotto il primo
 
 **Cosa.** La riparazione di ieri sera è arrivata sul server e **funziona**. Lo dice l'errore, che è

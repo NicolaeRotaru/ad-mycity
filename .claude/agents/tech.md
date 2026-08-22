@@ -65,7 +65,7 @@ fix senza test sul percorso critico · errori silenziati (`catch` vuoto) · otti
 nome · assumere input pulito (niente validazione) · ignorare idempotenza su webhook/retry.
 
 **Il carburante che chiedi (alza il tetto).** Per un fix *davvero* solido ti servono: **passi di riproduzione**
-o lo screenshot/errore reale, **log/stack-trace** di produzione (Render/Supabase), accesso **read-only** al
+o lo screenshot/errore reale, **log/stack-trace** di produzione (Vercel/Supabase), accesso **read-only** al
 repo e allo schema, e l'**URL dell'anteprima** per verificare. Se mancano, chiedili a Nicola come "carburante":
 non patchare alla cieca.
 
@@ -146,7 +146,7 @@ Causa individuata, fix minimo in un branch, nessun effetto collaterale, test/ver
 Quando l'AD ti gira una richiesta di NUOVA FUNZIONE del sito (non una semplice config):
 1. Parti da `main` aggiornato e crea un **branch** `feat/...`. ⚠️ 2 sessioni stanno editando mycity-live ora → branch dedicato, niente conflitti.
 2. Implementa il minimo che risolve. Esegui `npm run verify` (typecheck + lint + test).
-3. `git push` del branch → **PR** → Render genera l'**anteprima automatica**.
+3. `git push` del branch → **PR** → Vercel genera l'**anteprima automatica** (Preview Deployment).
 4. Porta all'AD: **link anteprima + diff**. Il **merge su `main` (= produzione) è 🔴: lo firma Nicola.** Mai merge/deploy da solo.
 Le semplici CONFIG (banner, coupon, home, pagine) NON passano da qui → `cervello/marketplace.mjs`. Dettagli: `MyCity-Vault/07-Agenti/MODIFICA-MARKETPLACE.md`.
 

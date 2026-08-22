@@ -28,7 +28,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { tmpdir } from "node:os";
 import assert from "node:assert/strict";
-import { classifica, fondiAppendOnly, fondiArchivioAId, risolvi } from "../conflitti-memoria.mjs";
+import { classifica, fondiAppendOnly, fondiArchivioAId, risolvi, versoDeiLati } from "../conflitti-memoria.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 
@@ -291,6 +291,72 @@ prova("fondere un archivio non duplica un id già presente", () => {
 
 prova("un archivio malformato fa rumore invece di risolvere a caso", () => {
   assert.throws(() => fondiArchivioAId('{"altro":[]}', '{"altro":[]}', { campo: "lezioni", chiave: "id" }));
+});
+
+// ── ⑤ IL VERSO DEI LATI: rebase e fusione sono OPPOSTI ──────────────────────
+// Il 22/8 a mezzogiorno stavo risolvendo dei conflitti a mano su una PR e mi sono chiesta se potevo
+// usare questo attrezzo. No: lì era un `git merge`, e nel merge lo stadio 2 è il ramo su cui si sta,
+// non main. Lanciandolo avrebbe tenuto, sui registri rigenerati, la copia VECCHIA credendo di tenere
+// quella di main — un danno silenzioso, dello stesso tipo che questo attrezzo esiste per evitare.
+// Adesso non indovina: chiede a git in che operazione si trova, e se non lo sa non tocca niente.
+prova("in un REBASE main è lo stadio 2; in una FUSIONE è il 3", () => {
+  const dir = repoInConflitto(); // lascia un rebase in corso
+  try {
+    const l = versoDeiLati(dir);
+    assert.equal(l?.operazione, "rebase", `atteso rebase, arrivato ${JSON.stringify(l)}`);
+    assert.equal(l.main, 2, "nel rebase main è lo stadio 2");
+    git(dir, "rebase", "--abort");
+
+    // adesso la stessa collisione, ma come FUSIONE
+    git(dir, "checkout", "-q", "server");
+    let esploso = false;
+    try {
+      git(dir, "merge", "main");
+    } catch {
+      esploso = true;
+    }
+    assert.ok(esploso, "la fusione doveva confliggere: senza conflitto questa prova non misura niente");
+    const m = versoDeiLati(dir);
+    assert.equal(m?.operazione, "merge", `atteso merge, arrivato ${JSON.stringify(m)}`);
+    assert.equal(m.main, 3, "nella fusione il lato che ARRIVA è il 3, non il 2");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+prova("fuori da rebase e fusione non decide: non sa quale lato sia main", () => {
+  const dir = mkdtempSync(join(tmpdir(), "senza-operazione-"));
+  try {
+    execFileSync("git", ["init", "-q", dir]);
+    git(dir, "config", "user.email", "t@t");
+    git(dir, "config", "user.name", "t");
+    writeFileSync(join(dir, "a.txt"), "x\n");
+    git(dir, "add", "-A");
+    git(dir, "commit", "-q", "-m", "base");
+    assert.equal(versoDeiLati(dir), null, "senza operazione in corso deve dire «non lo so», non indovinare");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+prova("anche con la fusione in corso vince la copia di main, non quella vecchia", () => {
+  const dir = repoInConflitto();
+  try {
+    git(dir, "rebase", "--abort");
+    git(dir, "checkout", "-q", "server");
+    try {
+      git(dir, "merge", "main");
+    } catch {
+      /* atteso */
+    }
+    const r = risolvi(dir, { applica: true });
+    assert.equal(r.esito, "risolti", `atteso risolti, arrivato ${r.esito}`);
+    assert.equal(r.operazione, "merge");
+    const salute = leggi(dir, "MyCity-Vault/90-Memoria-AI/auto-coscienza/salute.json");
+    assert.match(salute, /main, il piu recente/, `ha tenuto la copia sbagliata nella fusione: ${salute.trim()}`);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
 });
 
 let falliti = 0;

@@ -22,6 +22,82 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+### 🔴 #155 — Il dominio del sito punta ancora a Render: va spostato su Vercel · ⏳ accodata 2026-08-22 09:56
+
+**Cosa cambia:** `mycity-marketplace.com` — il dominio vero, quello sui volantini e nei messaggi ai
+negozianti — risponde ancora dall'indirizzo di Render, che non è più pagato. È per questo che dal 30
+luglio dà errore.
+
+Il sito nuovo su Vercel **funziona**: l'ho aperto, risponde, le pagine si vedono. Solo che vive a
+`mycity-phi.vercel.app`, e quell'indirizzo non lo conosce nessuno. Fra i domini registrati nel
+progetto Vercel il tuo non c'è: ci sono solo i tre indirizzi che Vercel assegna da solo.
+
+In pratica: il trasloco è finito, ma il cartello con l'indirizzo è rimasto sulla porta vecchia.
+
+Finché resta così succedono tre cose: chi digita il dominio trova un sito morto; la sentinella che
+controlla se il sito è su continua a misurare Render, quindi resta cieca; e Google, che il dominio lo
+ha già indicizzato, continua a trovarlo giù.
+
+**Se va bene:** due passi, in quest'ordine.
+
+Primo, su Vercel: progetto **mycity** → Settings → Domains → Add, e scrivi `mycity-marketplace.com`
+(aggiungi anche `www.mycity-marketplace.com`). Vercel ti dice esattamente quale record DNS mettere.
+
+Secondo, dal gestore del dominio — nel runbook risulta **Netsons** — cambia il record che oggi punta
+a `216.24.57.1` (Render) e mettici quello che ti ha dato Vercel. Il cambio ci mette da pochi minuti a
+qualche ora a girare per il mondo.
+
+Quando è fatto dimmelo: rifaccio il controllo e aggiorno la memoria, così la sentinella del sito
+smette di essere cieca.
+
+**Cosa non ho verificato:** che `216.24.57.1` sia di Render l'ho dedotto — è l'indirizzo che Render
+dà pubblicamente per i domini principali, e combacia con la storia (Render non rinnovato, sito giù
+dal giorno dopo). Non ho un pannello Render da aprire per confermarlo. E non so chi gestisce davvero
+il DNS: Netsons l'ho preso dalla tabella dei fornitori nel runbook del sito, potrebbe essere
+cambiato.
+
+---
+### 🔴 #154 — Metti le chiavi mancanti su Vercel: senza una di quelle il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56
+
+**Cosa cambia:** il sito è passato su Vercel, ma le chiavi che aveva su Render non sono state
+ricopiate tutte. Ne mancano almeno due, e una è quella grossa.
+
+La prima si chiama `SUPABASE_SERVICE_ROLE_KEY`. È la chiave con cui il sito scrive nel database
+quando non c'è nessun utente collegato a farlo — ed è esattamente il momento in cui Stripe ci avvisa
+che un cliente ha pagato. Senza quella chiave, quell'avviso arriva e non riesce a scrivere niente:
+**un pagamento riuscito non diventa un ordine.** Non è un'ipotesi. Nei registri della produzione, fra
+il 18 e il 21 agosto, ci sono 70 errori con scritto dentro il nome di quella chiave, su quattro
+persone diverse. Nessuno se n'è accorto perché il sito risponde e le pagine si vedono: il buco è
+sotto, dove si incassa.
+
+La seconda si chiama `NEXT_PUBLIC_APP_URL`, ed è l'indirizzo con cui il sito si presenta. Manca
+anche quella, e il ripiego scritto nel codice puntava al computer di chi sviluppa. Risultato: ogni
+pagina diceva a Google che il suo indirizzo ufficiale è `http://localhost:3000`, e ogni link
+condiviso su WhatsApp mostrava l'anteprima rotta. L'ho letto nell'HTML che il sito serviva davvero,
+non in un file di configurazione.
+
+Il ripiego l'ho già sistemato io: da ora, se la variabile manca, il sito usa il dominio che Vercel
+dichiara da solo invece di localhost. Ma è un paracadute. Il dominio giusto lo sai solo tu.
+
+**Se va bene:** Vercel → progetto **mycity** → Settings → Environment Variables, ambiente
+**Production**. Confronta la lista con `.env.example` nel repo del sito: lì c'è scritta ognuna a cosa
+serve e cosa succede se manca. Le due sopra sono obbligatorie. Guarda anche che ci siano
+`STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `RESEND_API_KEY`, `CRON_SECRET` e `UNSUBSCRIBE_SECRET`.
+
+⚠️ **Una variabile aggiunta non entra in vigore da sola:** vale dalla pubblicazione successiva. Dopo
+averle messe, fai ripubblicare (Deployments → l'ultima → Redeploy).
+
+Poi come si controlla se ha funzionato, senza chiedere a me: apri
+`https://mycity-phi.vercel.app/api/health`. Adesso risponde `"status":"unhealthy"`. Quando le chiavi
+ci sono tutte deve rispondere `"status":"ok"`.
+
+**Cosa non ho verificato:** non ho potuto vedere l'elenco delle variabili sul pannello di Vercel — da
+qui non ci arrivo. So che quelle due mancano perché il sito si comporta come se mancassero, non
+perché ho letto la lista. Potrebbero mancarne altre che non lasciano tracce così evidenti.
+
+---
+
+
 ### 🟡 #153 — Il comando che ti avevo dato spegneva la riparazione mentre la lanciava · ⏳ accodata 2026-08-22 10:15 · riscritta 2026-08-22 12:15
 
 **In parole semplici:** questa carta parla del server, la macchina accesa che lavora quando tu non ci
@@ -602,13 +678,17 @@ Primo, i segreti. Su GitHub vai in Settings → Secrets and variables → Action
 `VERCEL_TOKEN` lo crei su Vercel, in Account Settings → Tokens → Create. `VERCEL_ORG_ID` e
 `VERCEL_PROJECT_ID` stanno su Vercel, dentro il progetto, in Settings → General, in fondo.
 
-Secondo, dimmelo e ti cambio io due parole: `"main": true` diventa `false` in `vercel.json`, e
-`autoDeploy: true` diventa `false` in `render.yaml`.
+Secondo, dimmelo e ti cambio io una parola: `"main": true` diventa `false` in `vercel.json`.
 
 Terzo, GitHub → Settings → Branches: rendi il controllo «CI» obbligatorio su `main`.
 
-**Cosa non ho verificato:** non so se il servizio Render sia ancora acceso. Da qui non lo raggiungo,
-e l'ho scritto nel file invece di darlo per spento.
+**Aggiornamento 2026-08-22 09:56:** qui c'era anche un quarto passo su `render.yaml`. Quel file non
+esiste più, e Render è dismesso: verificato guardando i progetti Vercel, dove il sito pubblica
+davvero. Il passo è stato tolto — una strada morta lasciata in una carta è una trappola per chi la
+legge di corsa.
+
+**Cosa non ho verificato:** se il servizio Render sia stato chiuso davvero o solo lasciato scadere.
+Da qui non lo raggiungo. So che il dominio ci punta ancora (vedi la carta #154).
 
 ---
 
