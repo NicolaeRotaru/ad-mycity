@@ -9858,8 +9858,8 @@
       "causa_radice": "Manca un contratto che leghi 'ogni esito misurato' allo 'stato di visibilita del sensore-fonte' al momento della misura: cmdEsito accetta un numero nudo perche calibrazione e verifica-sensori sono due sottosistemi che non si parlano.",
       "fix_proposto": "In cmdEsito leggere sensori-cecita.json e registrare nell'entry il campo 'sensore_stato' al momento della misura; in ricalcolaReparti scontare/escludere dal punteggio gli esiti prodotti con sensore-fonte cieco e cappare l'autonomia a 'media' finche >=2/3 sensori sono ciechi. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9872,7 +9872,8 @@
         "file": "cervello/calibrazione.mjs",
         "pattern": "sensori-cecita|cecita|sensore_stato",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE, non sulla scheda: la cura c era gia (statoSensori/quotaCiechiAlta in calibrazione.mjs, e l esclusione SENSORE_CIECO in contaNelPunteggio). Mancava la PROVA: la scheda era ferma a una verifica del 3/7 che puntava a codice cambiato da allora, quindi «da-riverificare» — un difetto curato che nessun guardiano poteva dichiarare curato, ne accorgersi se tornava. Adesso la cura viene ESEGUITA sui dati. Il punto piu importante e il DEFAULT rovesciato: uno stato di sensore che non si riconosce NON e un permesso (prima si escludeva solo il «cieco» riconosciuto, e 41 voci chiuse su 42 cadevano nel ramo umano — 36 venivano dal quaderno che la macchina scrive da se). Mutazione dedicata: rimettendo il vecchio confronto, la prova diventa rossa."
     },
     {
       "id": "AR-062",
@@ -9883,8 +9884,8 @@
       "causa_radice": "Conflitto di interesse non mitigato: chi produce l'esito e chi ne beneficia in autonomia coincidono (l'AD stessa), e lo schema entry non ha campo 'fonte' ne requisito di provenienza machine-checkable.",
       "fix_proposto": "Rendere --fonte obbligatorio in cmdEsito, validarlo contro fonti_ammesse di registro-realta.json e rifiutare (exit!=0) un esito senza fonte ammessa; salvare 'fonte' nell'entry cosi il Pannello lo mostra accanto al reale. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9897,7 +9898,8 @@
         "file": "cervello/calibrazione.mjs",
         "pattern": "arg\\(\"fonte\"|--fonte|fonti_ammesse",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: --fonte e obbligatoria in cmdEsito (exit 2 se manca o non e fra le ammesse di registro-realta.json), e contaNelPunteggio esclude gli esiti senza fonte verificabile. La scheda era ferma al 3/7. Prova comportamentale che esegue il giudizio sulla fonte, piu mutazione che lo toglie e rende rossa la prova. Il conflitto di interesse che la scheda descriveva — chi produce l esito e chi ne beneficia in autonomia coincidono — resta chiuso dal fatto che l esito porti addosso da DOVE viene."
     },
     {
       "id": "AR-063",
@@ -9908,8 +9910,8 @@
       "causa_radice": "Il predicato di 'prova di chiusura' misura l'attivita (aver previsto), non l'apprendimento (aver chiuso con esito): intenzione e risultato non sono distinti, quindi il criterio contraddice il proprio scopo dichiarato in AR-013.",
       "fix_proposto": "Cambiare calibrazionePiena in modo che conti SOLO previsioni chiuse con esito (stato 'azzeccata' o 'mancata'), non la mera esistenza di righe nel registro/per_reparto. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9922,7 +9924,8 @@
         "file": "cervello/sonda-volano.mjs",
         "pattern": "azzeccata|mancata|stato\\s*===\\s*\"chius",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: sonda-volano.mjs usa previsioneValida (volano-regole.mjs), che pretende stato azzeccata|mancata — aver PREVISTO non e aver IMPARATO. La scheda era ferma al 3/7. Prova che esegue il filtro sui due casi, piu mutazione che riammette le aperte."
     },
     {
       "id": "AR-064",
@@ -9933,8 +9936,8 @@
       "causa_radice": "Manca accountability sulla CHIUSURA: 'non misurato' e trattato come 'neutro' invece che come debito, quindi lasciar scadere una previsione perdente e gratis.",
       "fix_proposto": "Contare le 'scaduta' come 'mancata' nel punteggio (o cappare l'autonomia se il tasso di scadute supera es. 20%), cosi lasciar scadere una previsione non e piu gratis. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9947,7 +9950,8 @@
         "file": "cervello/calibrazione.mjs",
         "pattern": "scadut\\w+[^\\n]{0,60}(mancata|penal|previsioni)",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE, e la cura e diversa (e migliore) da quella proposta nella scheda: invece di contare le scadute come «mancate» nel punteggio, esiste debitoDiMisura() piu il vincolo --gate cablato in giro.sh e round6-applica.mjs — lasciar scadere una previsione non e piu gratis perche BLOCCA il giro finche non se ne chiude una. Registrato qui perche scheda e codice divergevano e comanda il codice. Prova che esegue il conto del debito sui quattro casi (dovuta, scaduta senza reale, misurata, ancora nei tempi), piu mutazione che fa sparire le scadute."
     },
     {
       "id": "AR-065",
@@ -9958,8 +9962,8 @@
       "causa_radice": "Manca il concetto di CONFIDENZA STATISTICA nel voto: il design equipara 'ha azzeccato spesso' a 'e affidabile', misurando la frequenza e non la sua solidita.",
       "fix_proposto": "Sostituire la proporzione grezza con un lower-bound (Wilson al 90%) e/o alzare MIN_PER_AUTONOMIA a >=8 per l'autonomia 'alta'; sotto quella soglia il tetto resta 'media'. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9972,7 +9976,8 @@
         "file": "cervello/calibrazione.mjs",
         "pattern": "wilson|lower.?bound|intervallo|campione_minimo|penalit",
         "presente": true
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: wilsonLowerBound (z 1.2816, confidenza 90%) piu MIN_CAMPIONE_ALTA=8, entrambi in ricalcolaReparti. La scheda era ferma al 3/7. Servivano DUE freni e la prova li separa: 3 su 3 non passa per il lower-bound, 7 su 7 passerebbe per il lower-bound e non passa per il campione. Due mutazioni distinte, una per freno — con una sola, togliere l altro sarebbe restato invisibile. NOTA DI METODO: le funzioni non erano esportate, quindi nessun test poteva ESEGUIRLE; esportate in questo lotto (regola: la logica che decide deve stare dove una prova la puo eseguire)."
     },
     {
       "id": "AR-066",
@@ -9983,7 +9988,8 @@
       "causa_radice": "Manca la nozione di 'skill vs baseline': il design conta la frequenza delle azzeccate, non la loro informativita/difficolta, quindi una tautologia vale quanto una scommessa informativa.",
       "fix_proposto": "Richiedere in cmdPrevedi che l'atteso rappresenti un DELTA rispetto al baseline attuale (non lo status quo) e scartare/segnalare previsioni atteso=0 o gia soddisfatte al momento della registrazione. Resta 🟡 da firmare.",
       "verifica": {
-        "tipo": "umano"
+        "tipo": "comando",
+        "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -9991,7 +9997,8 @@
       "chiuso_il": "",
       "ripristinato_il": "2026-08-03",
       "provenienza": "Ripristinato il 2026-08-03: era nel cantiere del 3/7 (commit 0398aa9d, radiografia 12/12) ed è sparito il 4/7 col commit afcb8d5d «cutover ramo unico», che ha riscritto il file intero da 78 a 24 difetti. Stato «da-riverificare»: nessuno ha ancora provato se il difetto è ancora vivo dopo un mese.",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: isPrevisioneBanale marca banale una previsione tautologica, e --baseline in cmdPrevedi avvisa quando atteso e uguale al valore di partenza. La scheda era ferma al 3/7. Prova che esegue il giudizio su una tautologia e su una scommessa vera, piu mutazione che rende di nuovo azzeccabile a costo zero il «prevedo che lo zero resti zero»."
     },
     {
       "id": "AR-067",
@@ -10721,8 +10728,8 @@
       "causa_radice": "Si è aggiunto un incentivo positivo alla chiusura senza un contro-segnale (nuovi difetti, regressioni) che lo abbassi, perché il voto è un contatore locale in auto-fix invece di un output della radiografia che vede l'insieme. Causa di sistema: una metrica di salute è calcolata dal processo che ha interesse a farla salire, non da un valutatore indipendente.",
       "fix_proposto": "Far derivare voto_salute_architettura dalla radiografia completa (aperti/gravità/nuovi difetti), non da un +2 fisso per chiusura; auto-fix aggiorna solo il conteggio chiusi e lascia il voto alla radiografia. Resta 🟡.",
       "verifica": {
-        "tipo": "da-riverificare",
-        "nota": "Prova da ricostruire: la verifica del 3/7 è conservata in `verifica_storica`, ma punta a un codice cambiato da allora — lasciarla attiva farebbe chiudere il difetto ad auto-fix su un pattern stantio, senza che nessuno abbia riparato niente (AR-330). Chi riverifica scrive qui il comando che può fallire."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
       },
       "colore": "🟡",
       "stato": "da-riverificare",
@@ -10735,7 +10742,8 @@
         "file": "cervello/auto-fix.mjs",
         "pattern": "votoPrima \\+ 2 \\* chiusiOra",
         "presente": false
-      }
+      },
+      "nota_fix": "Lotto 45 (22/8). VERIFICATO SUL CODICE: votoSaluteDaRegistrare (auto-fix.mjs) e una funzione pura ed esportata, e copre entrambe le direzioni — la salita (+2 fisso, il difetto originale) e la DISCESA, che il round 3 aveva scoperto essere peggio: chiudere un freno di sicurezza faceva crollare il voto da 43 a 0, punendo esattamente il comportamento voluto. La scheda era ferma al 3/7. Prova che esegue i tre casi (misura vera, misura assente, misura a zero), piu mutazione che riporta l azzeramento."
     },
     {
       "id": "AR-023",

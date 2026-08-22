@@ -1,15 +1,15 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 10:38",
+  "aggiornato": "2026-08-22 10:54",
   "giorni_sospetto": 3,
   "difetti_aperti": 164,
   "per_classe": {
-    "umana": 126,
+    "umana": 119,
     "auto-sospetta": 21,
-    "auto-comando": 17
+    "auto-comando": 24
   },
-  "non_auto_chiudibili": 147,
+  "non_auto_chiudibili": 140,
   "bloccanti_ciechi": [
     "AR-072",
     "AR-518",
@@ -473,46 +473,6 @@
       "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
     },
     {
-      "id": "AR-061",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-062",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-063",
-      "stato": "da-riverificare",
-      "gravita": "grave",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-064",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-065",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
       "id": "AR-067",
       "stato": "da-riverificare",
       "gravita": "grave",
@@ -730,14 +690,6 @@
     },
     {
       "id": "AR-095",
-      "stato": "da-riverificare",
-      "gravita": "minore",
-      "causa": "da-riverificare",
-      "comando": null,
-      "motivo": "dichiarata da riverificare: nessuno l'ha ancora misurata"
-    },
-    {
-      "id": "AR-096",
       "stato": "da-riverificare",
       "gravita": "minore",
       "causa": "da-riverificare",
@@ -2393,54 +2345,54 @@
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "L'autonomia si guadagna anche quando i sensori che misurano il 'reale' sono ciechi",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-062",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "L'esito 'reale' entra senza fonte: la macchina puo auto-alimentare il proprio punteggio",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-063",
       "gravita": "grave",
       "eta_giorni": 50,
       "titolo": "La sonda del volano si auto-certifica 'loop chiude' con previsioni ANCORA APERTE",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-064",
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "Le previsioni scadute senza esito non penalizzano: survivorship bias sul voto",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-065",
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "Autonomia 'alta' concessa con soli 3 esiti (campione minuscolo, nessun intervallo di confidenza)",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-066",
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "Previsioni banali/status-quo azzeccabili a costo zero (atteso=1 su entita gia payout-ready)",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-067",
@@ -2708,9 +2660,9 @@
       "gravita": "minore",
       "eta_giorni": 50,
       "titolo": "Il voto di salute architettura si auto-gonfia: +2 a ogni chiusura, solo in salita, scollegato dalla radiografi",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-100",

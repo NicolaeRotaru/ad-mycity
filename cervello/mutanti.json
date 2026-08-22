@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-22 10:12",
+ "aggiornato": "2026-08-22 11:00",
  "mutanti": [
   {
    "lotto": 30,
@@ -5487,6 +5487,70 @@
    "cerca": "  if (leggiSalto(uscita).salto) return true;",
    "sostituisci": "  if (/^\\s*1\\.\\.0\\b[^\\n]*#\\s*skip/im.test(String(uscita))) return true;",
    "test": "node --test cervello/test/cieco-di-ambiente-non-e-rosso.test.mjs"
+  },
+  {
+   "difetto": "AR-065",
+   "nome": "la confidenza torna a essere la proporzione grezza: tre colpi fortunati ricomprano l autonomia alta",
+   "file": "cervello/calibrazione.mjs",
+   "cerca": "  return Math.max(0, (centro - margine) / denom);",
+   "sostituisci": "  return p;",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-065",
+   "nome": "sparisce il campione minimo: sette esiti bastano di nuovo per l autonomia alta",
+   "file": "cervello/calibrazione.mjs",
+   "cerca": "export const MIN_CAMPIONE_ALTA = 8;",
+   "sostituisci": "export const MIN_CAMPIONE_ALTA = 3;",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-061",
+   "nome": "un esito misurato da un sensore che non vedeva torna a contare nel punteggio",
+   "file": "cervello/previsione-verificabile.mjs",
+   "cerca": "  if (voce.sensore_stato !== \"ok\" && voce.sensore_stato !== \"n/d\") motivi.push(ESCLUSA.SENSORE_CIECO);",
+   "sostituisci": "  if (voce.sensore_stato === \"cieco\") motivi.push(ESCLUSA.SENSORE_CIECO);",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-066",
+   "nome": "la tautologia torna a valere quanto una scommessa: atteso 0 e reale 0 conta",
+   "file": "cervello/calibrazione.mjs",
+   "cerca": "  if (entry.atteso === 0 && reale === 0) return true;",
+   "sostituisci": "  if (false) return true;",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-096",
+   "nome": "il voto di salute torna ad azzerarsi quando la radiografia non misura: chiudere un freno fa peggiorare il voto",
+   "file": "cervello/auto-fix.mjs",
+   "cerca": "  const ultimoNoto = [...(serie || [])].reverse().find((v) => Number(v?.voto_salute) > 0);",
+   "sostituisci": "  const ultimoNoto = null;",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-063",
+   "nome": "una previsione ancora APERTA torna a valere come prova che il volano chiude",
+   "file": "cervello/volano-regole.mjs",
+   "cerca": "  if (e.stato !== \"azzeccata\" && e.stato !== \"mancata\") return false;",
+   "sostituisci": "  if (false) return false;",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-064",
+   "nome": "una previsione scaduta senza esito torna a sparire invece di restare un debito",
+   "file": "cervello/calibrazione.mjs",
+   "cerca": "  const scadute = registro.filter((e) => e.stato === \"scaduta\" && e.reale == null);",
+   "sostituisci": "  const scadute = [];",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
+  },
+  {
+   "difetto": "AR-062",
+   "nome": "un esito senza fonte torna a coniare autonomia: chi produce il numero e chi ne beneficia coincidono",
+   "file": "cervello/previsione-verificabile.mjs",
+   "cerca": "  if (banale(voce)) motivi.push(ESCLUSA.BANALE);",
+   "sostituisci": "  if (banale(voce)) motivi.push(ESCLUSA.BANALE); // fonte non piu richiesta",
+   "test": "node --test cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
   }
  ]
 }
