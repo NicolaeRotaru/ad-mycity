@@ -341,7 +341,20 @@ export function scegliPerimetro({ ancora = null, ancoraUsabile = false, base = n
 export function uscitaFuoriDallHook({ cieco = false, righe = [] } = {}) {
   const sostanza = righe.filter((r) => !String(r).startsWith("ℹ️"));
   if (!sostanza.length) return 0;
-  if (cieco && sostanza.every((r) => String(r).startsWith("⚪"))) return 2;
+  // ⚠️ 22/8 — QUI UN ⚪ DIVENTAVA UN ❌, e il ramo che lo impediva era spento su metà dei casi.
+  //
+  // Il ramo chiedeva `cieco && …`, cioè si fidava della BANDIERA invece che delle righe. Ma le
+  // «incerte» — fra cui il ⚪ scritto quel giorno stesso per il file oltre il tetto — sono
+  // dichiarate NON cieche apposta (vedi il commento a `noteCieche`: «si leggono, non bloccano»).
+  // Quindi un verdetto fatto di quel solo ⚪ arrivava qui con `cieco: false` e usciva 1: la CI
+  // bocciava, dicendo come unica ragione una riga che comincia per ⚪. Successo davvero sulla PR
+  // #831: bastava aggiungere una card in cima ad AZIONI-IN-ATTESA.md — il file che Nicola legge di
+  // più, e che sta sopra il tetto — perché il cancello diventasse rosso senza nessuna accusa dentro.
+  //
+  // La regola non ha bisogno della bandiera: **se ogni riga di sostanza è un ⚪, non ho visto tutto,
+  // e un giudizio su una parte non è un giudizio sul tutto.** Basta una riga vera (❌ o 🛑) e si
+  // torna a 1, che è l'unico caso in cui bloccare significa qualcosa.
+  if (sostanza.every((r) => String(r).startsWith("⚪"))) return 2;
   return 1;
 }
 

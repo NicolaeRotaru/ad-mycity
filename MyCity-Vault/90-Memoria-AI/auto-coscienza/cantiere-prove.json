@@ -1,40 +1,40 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 21:25",
+  "aggiornato": "2026-08-22 22:11",
   "giorni_sospetto": 3,
-  "difetti_aperti": 109,
-  "difetti_da_fare": 109,
+  "difetti_aperti": 112,
+  "difetti_da_fare": 112,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 783,
+    "totale": 786,
     "chiusi": 674,
-    "aperti": 99,
+    "aperti": 102,
     "in_corso": 0,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 109,
+    "da_fare": 112,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 674,
-      "aperto": 99,
+      "aperto": 102,
       "da-riverificare": 10
     },
     "stati_ignoti": []
   },
   "bilancio": {
     "torna": true,
-    "attese": 109,
-    "viste": 109,
+    "attese": 112,
+    "viste": 112,
     "fuori": 0,
-    "motivo": "bilancio a posto: 674 chiuse + 109 classificate = 783 schede, e ogni stato vivo è dentro (99 aperto · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 674 chiuse + 112 classificate = 786 schede, e ogni stato vivo è dentro (102 aperto · 10 da-riverificare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 20,
     "auto-sospetta": 10,
     "umana": 70,
-    "auto-comando": 9
+    "auto-comando": 12
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
@@ -2928,6 +2928,42 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
+    },
+    {
+      "id": "AR-795",
+      "gravita": "bloccante",
+      "eta_giorni": 0,
+      "impatto_crescita": "diretto: due dei 208 problemi impediscono a QUALUNQUE negoziante di caricare la foto di copertina della vetrina, e dall'amministrazione quelle di Eventi e Negozio del mese. Finché il conto dice zero, quel blocco non compare da nessuna parte e nessuno lo lavora.",
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "titolo": "La radiografia del design trova 208 problemi veri e la Cabina dice zero: quel referto non lo legge nessuno",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-referto-che-nessuno-legge.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-793",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "indiretto ma caro: il numero dei difetti del sito sarebbe risalito da 0 a 199 senza che nessuno avesse rotto niente, e il lavoro di un giorno intero sparisce dalla memoria. Un conto che risale da solo insegna a non fidarsi del conto.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "titolo": "Rifare l'elenco dei difetti del sito cancellava le riparazioni già fatte, e il numero tornava su da solo",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-referto-che-nessuno-legge.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-794",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "indiretto e caro: un verdetto fatto del solo ⚪ esce 1 invece di 2, cioè boccia senza avere nessuna accusa dentro. Un rosso che non nasce da un'accusa è il rosso che si impara ad aggirare, e allora non frena più nemmeno quando ha ragione.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "titolo": "Il cancello bocciava mostrando come unica ragione una riga che dice «non ho potuto guardare»",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cancello-stop.test.mjs",
+      "auto_chiudibile": true
     }
   ]
 }
