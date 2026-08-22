@@ -21,11 +21,125 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- write-vs-edit-settings-local -->
 
 ---
+### 🔴 #162 — Un posto dove tenere una copia delle foto dei prodotti · ⏳ accodata 2026-08-22 09:20
+
+**Cosa cambia:** le immagini dei prodotti **non hanno nessuna copia**. Né uno script, né un passo
+del lavoro notturno, né un secchio nostro. La documentazione diceva il contrario: «perdita zero,
+ripristino immediato». È il tipo di riga più pericoloso in un documento di emergenza. Chi la legge
+smette di cercare la copia. Quella riga adesso dice la verità.
+
+Se il progetto Supabase sparisce, spariscono con lui tutte le foto, e con loro ogni scheda del
+catalogo: rifarle vuol dire richiamare **ogni** negoziante a rifotografare tutto.
+
+**Cosa devi fare:** dire dove metterle. Serve un secchio di destinazione (un altro fornitore, non
+lo stesso) e le sue chiavi. Il comando di copia è già scritto in `docs/backup-restore.md`, sezione
+«Storage backup»: oggi è un piano, non una rete.
+
+**Se va bene:** aggancio la copia delle foto al lavoro notturno che già copia il database. Poi la
+prova di ripristino mensile, che da oggi gira da sola, comincia a coprire anche le immagini.
+
+---
+
+### 🔴 #161 — Le tre chiavi di Vercel, e poi una parola: così in produzione ci va solo ciò che ha passato i controlli · ⏳ accodata 2026-08-22 09:20
+
+**Cosa cambia:** oggi ogni unione su `main` fa partire una pubblicazione di produzione entro pochi
+secondi, **senza aspettare i controlli**. I due corrono in parallelo: un test rosso finisce in
+produzione lo stesso, e il referto arriva dopo il funerale.
+
+**Cosa devi fare, in questo ordine** (al contrario il sito smette di aggiornarsi e basta):
+
+1. GitHub → Settings → Secrets → Actions. Servono tre segreti.
+   · `VERCEL_TOKEN`: lo crei su Vercel, in Account Settings, alla voce Tokens.
+   · `VERCEL_ORG_ID` e `VERCEL_PROJECT_ID`: su Vercel, dentro il progetto, in Settings → General.
+     Stanno in fondo alla pagina.
+2. **Solo dopo**, in `vercel.json`: `"main": true` diventa `"main": false`.
+
+**Se va bene:** l'unica strada per la produzione diventa «controlli verdi → migrazioni applicate →
+pubblicazione». Le tre cose in fila, nell'ordine giusto.
+
+---
+
+### 🔴 #160 — Il segreto che fa applicare le migrazioni prima di ogni pubblicazione · ⏳ accodata 2026-08-22 09:20
+
+**Cosa cambia:** oggi il rilascio pubblica il codice e basta. Le migrazioni si applicano a mano, in
+un momento qualsiasi: fra l'unione e la firma sul database c'è sempre una finestra in cui gira
+codice che chiede colonne che non esistono ancora. In PostgreSQL una colonna che non c'è non viene
+ignorata: fa fallire l'istruzione intera. È così che il 21 agosto, per un po', **non si poteva
+creare nessun ordine**.
+
+Il passo è già scritto nel rilascio (`.github/workflows/deploy-dopo-ci.yml`) e oggi non fa niente,
+perché gli manca il segreto.
+
+**Cosa devi fare:** GitHub → il repo `mycity` → Settings → Secrets and variables → Actions → New
+repository secret. Nome: `SUPABASE_DB_URL`. Valore: la stringa di connessione diretta del database
+(Supabase → Settings → Database → Connection string → Direct).
+
+**Se va bene:** da quel momento ogni rilascio applica le migrazioni **prima** di pubblicare, e se
+non si applicano non pubblica. Quella finestra si chiude per sempre.
+
+---
+
+### 🔴 #159 — Applica la migrazione 120: la vetrina non deve più dare l'identificativo degli ordini · ⏳ accodata 2026-08-22 09:20
+
+**Cosa cambia:** il riquadro «attività dal vivo» in home restituisce ancora, a chiunque e senza
+account, l'identificativo di ogni ordine recente e l'ora al secondo. Servono a due cose sbagliate:
+un concorrente li legge a intervalli. Così conta quanti ordini fa ogni negozio, e a che ora. E
+quegli stessi identificativi erano la materia prima del difetto sul rimborso chiuso ieri.
+
+Questa migrazione è **scritta dal 18 agosto e mai applicata**. La bloccava il sito, che chiedeva
+ancora quella colonna. Il codice nuovo è in produzione da giorni: adesso si può applicare senza
+rompere la home.
+
+**Se va bene:** la vetrina resta identica a vedersi (dice «poco fa» invece dell'ora esatta) e
+smette di essere un contatore degli ordini altrui.
+
+```
+psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f migrations/120_vetrina_attivita_senza_id.sql
+psql "$SUPABASE_DB_URL" -c "select pg_get_viewdef('public.live_activity_public'::regclass, true);"
+```
+
+Nella definizione che torna indietro **non** ci deve essere `id`.
+
+---
+
+### 🔴 #158 — Applica al database la migrazione 126, quella del lotto dei cento difetti · ⏳ accodata 2026-08-22 09:20
+
+**Cosa cambia:** senza questa firma restano fuori cinque riparazioni che oggi sono solo scritte.
+
+- Il credito MyCity torna al cliente quando il negozio rifiuta l'ordine. Oggi evapora.
+- Il negozio non viene più pagato per contanti che nessuno ha registrato.
+- Un alimentare senza allergeni non si può pubblicare.
+- Sulle pagine prodotto e negozio compaiono i dati del venditore: ragione sociale, sede, partita IVA.
+- Nasce il registro delle segnalazioni di contenuti illeciti.
+
+Il codice regge anche prima: è scritto apposta per non rompersi nella finestra in mezzo. Ma quelle
+riparazioni non fanno effetto finché la migrazione non è applicata.
+
+**Se va bene:** i cento difetti chiusi diventano cento davvero, e non novantacinque.
+
+**Il comando** (dal VPS, o da chi ha la stringa di connessione):
+
+```
+psql "$SUPABASE_DB_URL" -v ON_ERROR_STOP=1 -f migrations/126_radiografia_22_agosto.sql
+```
+
+È idempotente: riapplicarla non fa danni. L'ho già fatta girare due volte, così com'è. Una su un
+database ricostruito da zero qui dentro: 127 migrazioni applicate, zero fallite. Una su un database
+che ha già dentro degli ordini.
+
+**Come si controlla che sia andata:**
+
+```
+psql "$SUPABASE_DB_URL" -c "select count(*) from public.segnalazioni;"
+psql "$SUPABASE_DB_URL" -c "select proname from pg_proc where proname = 'numeri_del_negozio';"
+```
+
+---
 
 ### 🔴 #155 — Il dominio del sito punta ancora a Render: va spostato su Vercel · ⏳ accodata 2026-08-22 09:56
 
-**Cosa cambia:** `mycity-marketplace.com` — il dominio vero, quello sui volantini e nei messaggi ai
-negozianti — risponde ancora dall'indirizzo di Render, che non è più pagato. È per questo che dal 30
+**Cosa cambia:** `mycity-marketplace.com` è il dominio vero, quello sui volantini e nei messaggi ai
+negozianti. Risponde ancora dall'indirizzo di Render, che non è più pagato. È per questo che dal 30
 luglio dà errore.
 
 Il sito nuovo su Vercel **funziona**: l'ho aperto, risponde, le pagine si vedono. Solo che vive a
@@ -34,9 +148,9 @@ progetto Vercel il tuo non c'è: ci sono solo i tre indirizzi che Vercel assegna
 
 In pratica: il trasloco è finito, ma il cartello con l'indirizzo è rimasto sulla porta vecchia.
 
-Finché resta così succedono tre cose: chi digita il dominio trova un sito morto; la sentinella che
-controlla se il sito è su continua a misurare Render, quindi resta cieca; e Google, che il dominio lo
-ha già indicizzato, continua a trovarlo giù.
+Finché resta così succedono tre cose. Chi digita il dominio trova un sito morto. La sentinella che
+controlla se il sito è su continua a misurare Render, quindi resta cieca. E Google, che il dominio
+lo ha già indicizzato, continua a trovarlo giù.
 
 **Se va bene:** due passi, in quest'ordine.
 
@@ -148,7 +262,7 @@ ancora non viene eseguita, e il motivo è un altro da cercare.
 protezione, su copie vere: un programma che si accorcia da solo si ferma a una riga; lo stesso
 programma, protetto, arriva in fondo. Togliendo la protezione la prova torna rossa.
 
-**Se va bene:** il server torna a pubblicare da solo.
+**Se va bene:** il server torna a pubblicare da solo, e questo nodo non si riforma più.
 
 ---
 
