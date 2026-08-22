@@ -85,6 +85,26 @@ export function dichiaratiDalReferto(digest: Digest): number | null {
 export function problemiDelReferto(digest: Digest): Estrazione {
   const dichiarati = dichiaratiDalReferto(digest);
 
+  // ⚠️ PRIMA DI TUTTO: esiste un audit del sito che nessuno ha saputo leggere? Il 22/8/2026 la
+  // Cabina diceva «0 problemi aperti» mentre in consegne/design/ c'erano 208 problemi verificati,
+  // due dei quali impedivano a ogni negoziante di caricare la copertina della vetrina: il digest
+  // guardava una cartella sola, e non guardare non è un errore, è uno zero. Finché
+  // `fonti_non_lette` non è vuoto, qui non esce nessun numero.
+  const nonLetteRaw = digest?.fonti_non_lette;
+  const nonLette = Array.isArray(nonLetteRaw) ? (nonLetteRaw as Problema[]).filter(Boolean) : [];
+  if (nonLette.length) {
+    const files = nonLette.map((r) => String((r as Record<string, unknown>)?.file ?? "?")).join(", ");
+    return {
+      forma: "incompleto",
+      problemi: null,
+      dichiarati,
+      motivo:
+        `${nonLette.length} referto/i di audit del sito non sono entrati in questo conto (${files}): ` +
+        `il numero sarebbe parziale, e un parziale presentato come totale è peggio di un non-letto. ` +
+        `Dichiara la fonte in cervello/referti-sito.mjs e rilancia node cervello/radiografia-marketplace-digest.mjs.`,
+    };
+  }
+
   const elenco = digest?.problemi;
   if (Array.isArray(elenco)) {
     const vivi = (elenco as Problema[]).filter(Boolean);

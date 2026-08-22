@@ -21,6 +21,61 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- write-vs-edit-settings-local -->
 
 ---
+### 🔴 #168 — Il server che fa lavorare la macchina è fermo da quattro giorni: guarda per primo l'interruttore di pausa · ⏳ accodata 2026-08-22 20:25
+
+**Cosa cambia:** il server non alza più le cadenze dal 18 agosto alle 06:50, cioè da 109 ore. Il
+worker ha continuato ancora tre giorni a girare i soli lavori della sentinella, e poi si è fermato
+anche lui: l'ultima traccia che un processo automatico ha lasciato è del 21 agosto alle 20:41.
+
+Finché resta così non si alza più niente da solo: né il giro, né il piano del mattino, né quello di
+mezzogiorno, né la review del venerdì, né il controllo che gira ogni ora. La review del venerdì non
+lascia i suoi compiti da 29 giorni. Tutto quello che vedi accadere in questi giorni lo sto facendo io
+da qui, a mano, quando mi scrivi.
+
+La cosa che fa più male non è il fermo: è che la macchina se n'era accorta e non è arrivata a te. Il
+pomeriggio del 21 agosto la sentinella ha scritto quattro volte «battito fermo, 4 cadenze su 6». La
+visita della salute segna lo stesso rosso da dodici giri di fila. L'allarme funzionava. Usciva da un
+canale spento, e l'hai scoperto tu quattro giorni dopo. È un difetto già registrato dal 29 luglio
+(quella volta erano 36 ore, questa 109) e resta il più urgente che ho.
+
+**Cosa devi fare:** tre cose in fila, la prima è di cinque secondi.
+
+1. Apri la Cabina e guarda **l'interruttore di pausa**. Se è acceso, la macchina è ferma perché
+   gliel'hai chiesto tu e va solo rispento. Da qui non lo posso vedere: in questa sessione non ho le
+   chiavi del database della memoria, quindi non è un «no», è un «non lo so».
+2. Se la pausa è spenta, entra nel server e chiedi come sta il worker.
+3. Dimmi cosa risponde e riparto da lì.
+
+**Se va bene:** appena il worker torna su, il primo giro rimette in fila da solo tutte le cadenze
+arretrate e la memoria torna a pubblicarsi. Poi ti propongo di riparare per prima cosa l'allarme
+che non ti ha avvisato. Finché quello resta rotto, il prossimo fermo lo scopri di nuovo tu. E di
+nuovo giorni dopo.
+
+**Cosa non ho verificato:** da questa sessione non ho nessuna delle chiavi che servono per guardare
+dentro il server. Non so se il worker è spento, in crash o solo in pausa. Non so se il database della
+memoria risponde. Non ho potuto aprire la Cabina, perché la rete di questo ambiente non ci arriva.
+Quello che ho misurato davvero sono le tracce lasciate nel repo: quelle non mentono, e dicono che da
+23 ore non è passato nessuno.
+
+**Dettagli tecnici** (per chi esegue, dal terminale del server):
+
+```bash
+ssh root@INDIRIZZO-IP-DEL-VPS          # l'IP è nella console Hetzner
+systemctl status mycity-worker         # è vivo? quante volte è ripartito?
+systemctl list-timers 'mycity-*'       # quali cadenze sono ancora armate
+journalctl -u mycity-worker -n 50 --no-pager
+sudo bash /opt/mycity/ad-mycity/cervello/vps/diagnostica-completa.sh
+```
+
+Se il worker è morto: `sudo systemctl start mycity-worker`. Se riparte e ricade, il log dice perché —
+il 20 agosto era il disco pieno, e quel caso si vede in tre righe con `df -h`.
+
+Misurato da questa sessione il 2026-08-22 alle 19:40 con `node cervello/salute.mjs` (referto in
+`consegne/salute/2026-08-22-1940-claude.md`) e `node cervello/freschezza-cadenze.mjs`: giro 27h,
+ritmo-mattino 110h, ritmo-mezzogiorno 128h, monitora 109h, ritmo-settimana 364h. Difetto di sistema
+già aperto e bloccante: AR-365. Dice che l'unico allarme previsto per la macchina morta esce da un
+canale spento, e che la macchina mette a verbale di averlo mandato lo stesso.
+
 ### 🟡 #167 — Nessun negoziante riesce a mettere la foto di copertina alla sua vetrina · ⏳ accodata 2026-08-22 16:05
 
 **Cosa cambia:** il magazzino delle immagini accetta un file solo se la **prima cartella** del

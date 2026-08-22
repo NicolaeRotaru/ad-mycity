@@ -3444,3 +3444,50 @@ invece di lasciarla passare per verde.
 
 **Cosa non ho verificato:** quante carte siano davvero archiviabili. So che 23 sono chiuse e che
 almeno 3 servono ancora dove stanno.
+
+---
+
+## 2026-08-22 20:30 · 🟡 Il conto dei difetti del sito leggeva una cartella sola, e rispondeva zero
+
+**Come è arrivata.** Nicola, alle 19:39: *«la macchina è ferma da 24 ore e nel cantiere del
+marketplace ci sono 0 difetti quando non è vero»*. Due cose in una frase, e tutte e due vere. La
+seconda era peggio di come suonava.
+
+**Cosa ho trovato.** La Cabina diceva zero problemi aperti sul sito. Nella stessa ora, in
+`consegne/design/2026-08-22-radiografia-design-raw.json`, c'erano **208 problemi verificati** — 2
+bloccanti, 86 gravi, 120 minori. Due dei bloccanti impediscono a qualunque negoziante di caricare la
+foto di copertina della vetrina. Cercato in tutto il repo: **nessuno leggeva quel file.** Il digest
+sceglieva i referti con un suffisso scritto dentro a un `filter`, su una cartella sola. La
+radiografia del design ne usa un altro, in un'altra cartella. E non leggere non è un errore che si
+vede: è uno zero.
+
+**La radice sotto la radice.** Quella riga era già stata trovata. La malattia
+`perimetro-dedotto-non-misurato` (lotto 33) l'aveva pescata col suo pattern, e qualcuno l'aveva
+dichiarata **esente**, scrivendo: *«allargare la scansione non troverebbe niente di più»*. Allargata
+il 22/8, ha trovato 208 problemi in più. L'esenzione era il difetto. Tolta, e il perché sbagliato
+scritto nella nota della malattia, così nessuno lo riscrive.
+
+**Il secondo difetto, trovato provando a curare il primo.** Rifare la casa dei difetti cancellava le
+riparazioni: il digest riscriveva `stato: "aperto"` su tutto. Misurato eseguendolo su un albero
+pulito — i 199 problemi chiusi quel giorno tornavano aperti. Ed è il comando che il messaggio
+d'errore del Pannello stesso suggerisce di lanciare. Senza curare anche questo, leggere la seconda
+fonte avrebbe cancellato un giorno intero di lavoro.
+
+**Cosa ho fatto.** Le fonti sono un elenco dichiarato (`cervello/referti-sito.mjs`), non un suffisso
+in un `filter`. La casa ora tiene 407 problemi: 199 chiusi e 208 aperti, di cui 2 bloccanti. Il freno
+sta sul dato e non sul comando: un referto grezzo che nessuna fonte riconosce finisce in
+`fonti_non_lette`, e finché quell'elenco non è vuoto il conto si rifiuta di dare un numero — ⚪ col
+nome del file, in tutte e due le case (cervello e Pannello). La prossima famiglia di audit che nasce
+fa diventare la Cabina grigia, non verde. Registrati AR-787 (bloccante) e AR-788 (grave).
+
+**Sull'altra metà — la macchina ferma.** Il server non alza le cadenze dal 18 agosto alle 06:50: 109
+ore, non 24. Da qui non lo posso né vedere né riavviare: è la carta #168, ed è sua. La parte che
+riguarda me è che **la macchina lo sapeva**. La sentinella ha scritto «battito fermo» quattro volte
+il pomeriggio del 21, la visita della salute segna lo stesso rosso da dodici giri di fila, e non è
+arrivato a nessuno. È AR-365, aperto dal 29 luglio, quando il conto era 36 ore. Annotato lì il nuovo
+prezzo invece di aprire una scheda nuova.
+
+**Cosa non ho verificato.** Se il server sia spento, in crash o solo in pausa: in questa sessione non
+ho le chiavi per guardarci dentro, e non l'ho fatto passare per un no. Le tre parti ⚪ del cancello
+(prove oneste, cantiere che non perde difetti, consegne senza esito) sono cieche per il clone
+superficiale, non per il lavoro.
