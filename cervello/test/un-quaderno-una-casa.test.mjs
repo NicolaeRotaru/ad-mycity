@@ -79,9 +79,32 @@ function parcoFinto({ casaAlt = [] } = {}) {
 
   // Un mansionario che soddisfa tutti gli altri controlli, così l'unico difetto possibile è quello
   // in prova: se il parco fosse malato d'altro, un rosso non direbbe niente sulla regola nuova.
+  // I quattro titoli non bastano più (AR-436): un mansionario "sano" ha anche gli ingredienti dello
+  // stampo, altrimenti il parco è malato d'altro e un rosso non direbbe niente sulla regola in prova.
+  // La convinzione che i quattro titoli facessero un mansionario completo era passata DENTRO la
+  // finzione: è AR-436 stesso, propagato nel banco che avrebbe dovuto misurarlo.
   const mansionario = [
-    "## 🎓 SCHEDA MESTIERE", "roba", "", "## Rubrica", "RUBRICA-LIVELLI",
-    "", "SCORECARD", "", "## RITUALE DI FINE", "chiusura-loop.mjs registra",
+    "## 🎓 SCHEDA MESTIERE — fuoriclasse del forno", "",
+    "Il tuo metro è RUBRICA-LIVELLI.", "",
+    "**Come pensi (modelli mentali).**",
+    "- **Il pane fresco vende sé stesso**: se è caldo alle sette la fila si forma da sola in via Roma.",
+    "- **Densità prima di varietà**: dieci pezzi di tre tipi battono tre pezzi di dieci tipi, sempre.",
+    "- **Il cliente delle sette non è quello delle undici**: due mestieri nello stesso negozio, davvero.", "",
+    "**Il tuo loop interno (NON consegni la prima bozza).**",
+    "1. Genera **almeno 3 angoli diversi** per l'offerta del giorno.",
+    "2. Criticali contro il TASTE-FILE-NICOLA e la memoria del reparto, non contro il tuo gusto.",
+    "3. Tieni 1. Domanda-ghigliottina: **«Lo comprerebbe un piacentino di 60 anni di fretta?»** → se no, rifai.", "",
+    "**Galleria di riferimento.**",
+    "- ✅ GOLD: «Focaccia calda dalle 7, tre pezzi a 5 euro, finita alle 9» — perché funziona: dice l'ora,",
+    "  il prezzo e la scarsità vera, e chi passa capisce in tre secondi se gli conviene correre adesso.",
+    "- ❌ SPAZZATURA: «Vieni a scoprire le nostre specialità artigianali» — perché muore: nessun orario,",
+    "  nessun prezzo, nessuna ragione per muoversi adesso invece che domani o mai più.", "",
+    "**Trappole del mestiere.** Promettere il caldo col forno spento · annunciare quantità che non hai ·",
+    "sconti a pioggia che bruciano il margine · scrivere «artigianale» senza dire cosa cambia.", "",
+    "**Il carburante che chiedi.** Ti servono: le **quantità sfornate per fascia oraria**, le **foto del",
+    "banco delle sette**, il **prezzo di costo della farina**, l'orario vero di chiusura.", "",
+    "SCORECARD 6 assi.", "",
+    "## 🧬 Carta del Dipendente", "✅ RITUALE DI FINE — auto-verifica.",
   ].join("\n");
   const kitTesto = `# Kit\n\n## E. Roba\n${"x".repeat(9000)}\n`;
   for (const n of ["tech", "vendite"]) {

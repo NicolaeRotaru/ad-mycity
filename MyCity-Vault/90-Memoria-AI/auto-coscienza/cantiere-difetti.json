@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-22 18:45",
+  "aggiornato": "2026-08-22 20:35",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -6083,11 +6083,11 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/stampo-metro.mjs:169-177 (`difettiAgente`: solo 4 regex — SCHEDA MESTIERE, RUBRICA-LIVELLI, scorecard, RITUALE DI FINE) contro MyCity-Vault/07-Agenti/STAMPO-SENIOR-PRO.md (stampo a piu ingredienti) · cervello/stampo-check.mjs:145-160 (il verdetto). Sintomo: Confermato leggendo la funzione: quattro presenze di parola, nessuna misura di sostanza. Misurato adesso sui 120 file reali: SCHEDA MESTIERE 120/120, RUBRICA-LIVELLI 120/120, scorecard 120/120, RITUALE DI FINE 120/120 — e anche gli ingredienti NON misurati sono presenti come titolo in 120/120 (loop interno, Trappole del mestiere, GOLD, carburante, modelli mentali). Nessuno di questi controlli puo bocciare qualcuno. Il lato KIT dello stesso file e invece severo (soglia relativa alla mediana, blocchi copiati, strati duplicati): la severita e stata installata solo dove il sintomo del giorno era visibile (i kit fotocopia del cluster banche, AR-289). Distinto da AR-288 (assi della scorecard mai usati a valle) e da AR-289 (kit fotocopia): qui l'oggetto e il metro del mansionario.",
       "verifica": {
-        "file": "cervello/stampo-metro.mjs",
-        "pattern": "MODELLI_MENTALI",
-        "presente": true
+        "tipo": "comando",
+        "comando": "node cervello/test/metro-mansionari-puo-bocciare.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "Le cinque misure di sostanza + la caccia alle fotocopie vivono in un modulo puro nuovo, cervello/mansionario-misure.mjs (nessun I/O, nessuna dipendenza esterna), e difettiAgente in cervello/stampo-metro.mjs le chiama: modelli mentali >=3 voci di elenco · loop interno con un numero di varianti E una domanda-ghigliottina vera (parola + punto interrogativo) · galleria con >=1 GOLD e >=1 SPAZZATURA ciascuno ANNOTATO col perche · trappole >=3 · carburante come elenco di dati/foto/chiavi e non una frase · fotocopie fra mansionari misurate sulla SOLA scheda mestiere (la Carta del Dipendente e condivisa per progetto: sul file intero il rilevatore dichiara fotocopia 120 su 120, misurato). Ogni misura torna anche il PERCHE in italiano, cosi il rapporto dice cosa manca e non solo che manca. Prima: 120 mansionari su 120 passavano quattro presenze di parola che il template garantiva. Adesso ne passano 38 su 120."
     },
     {
       "id": "AR-347",
@@ -6248,11 +6248,11 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json (99 difetti non chiusi) — cancello da mettere in cervello/cantiere-prove.mjs; regola scritta solo in prosa in cervello/prove-oneste.mjs:102 e cervello/giro.sh:327. Sintomo: Classificata la prova di ogni difetto aperto: 85 su 99 sono file+pattern, 13 sono `tipo: umano` (nessun guardiano potrà mai chiuderli), 1 non ha prova, ZERO usano `{comando: …}`. Fra i chiusi le prove a comando sono 96 su 183 (52%): il metro è peggiorato, non migliorato. Quattro prove aperte sono già impossibili perché puntano a file che non esistono: AR-132→cervello/mappa-copertura.mjs, AR-189→cervello/sonda-acquisto.mjs, AR-216→MyCity-Vault/90-Memoria-AI/memoria-squadra/account-negozi.md, AR-336→cervello/prove-uniche.mjs. La regola giusta la macchina se la scrive da sola nel testo dei vincoli («meglio ancora, sostituiscila con una prova comportamentale») ma nessun cancello la applica.",
       "verifica": {
-        "file": "cervello/cantiere-prove.mjs",
-        "pattern": "provaComportamentaleObbligatoria",
-        "presente": true
+        "tipo": "comando",
+        "comando": "node cervello/test/prova-debole-non-chiude.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "COSA HO CAMBIATO. Ho creato il modulo puro `cervello/prova-ammissibile.mjs` (nessun I/O, nessun orologio) con la decisione che prima non esisteva da nessuna parte: `provaComportamentaleObbligatoria(d)` (questo difetto pretende una prova che ESEGUE? -> gravita `bloccante` OPPURE impatto_crescita esattamente `alto`), `provaCheEsegue(v)` (e' un `{comando}` che il motore sa far girare? forma + eseguibilita' insieme: `{comando:\"chiedere a Nicola\"}` non passa) e `ammissibilitaProva(d, {fileEsiste})`, che emette UN verdetto solo per tutt'e due i cancelli della scheda. In `cervello/cantiere-prove.mjs` la chiamata sta IN CIMA a `classifica()`, prima di ogni ramo: sotto ci sono cinque strade che tornano `auto_chiudibile: true`, e mettere la regola su una sola le lascia aperte le altre quattro. Ho tolto la seconda copia della domanda 'il file esiste?' che stava dentro il ramo del pattern (era il secondo lettore della stessa regola, cioe' la malattia in miniatura). Il referto porta adesso i due numeri, sempre, anche a zero: `prove_da_alzare` (19 oggi) e `prove_impossibili`/`difetti_senza_controllo` (0 oggi), piu' la marca sulla singola voce (`prova_debole_su_grave`, `prova_impossibile`, `senza_controllo`) e due colonne nuove (`prova_esegue`, `prova_obbligatoria`). CLAUSOLA PER CLAUSOLA: (a) bloccante o impatto alto + prova non-comando -> `auto_chiudibile:false`, classe `prova-debole-su-grave` = FATTO; (b) prova file+pattern su file inesistente -> marcata `prova_impossibile` = FATTO, contata come difetto SENZA controllo (`difetti_senza_controllo`) = FATTO, mai come difetto in attesa = FATTO (il test lo pretende esplicitamente su `presente:true` e `presente:false`).\n\nDIFFERENZE FRA SCHEDA E CODICE VERO (comanda il codice). (1) Il titolo dice «tutti i novantanove difetti aperti hanno una prova del tipo debole»: FALSO oggi. Sulle 113 schede da fare del 22/8 sono 19 a pattern, 14 a comando, 53 con verifica umana dichiarata e 26 senza NESSUN campo `verifica`. La popolazione vera del cancello (a) sono 19 schede su 27 «pesanti» (bloccante o impatto alto) senza prova che esegue. (2) Il titolo dice «quattro citano file che non esistono» (AR-132, AR-189, AR-216, AR-336): oggi ZERO prove a pattern aperte puntano al vuoto — quelle quattro sono diventate `{tipo:\"umano\"}` nel frattempo. L'unica prova orfana rimasta in tutto il registro e' AR-110, ed e' CHIUSA (`pannello/src/app/api/approva/route.ts`). Quindi la clausola (b) oggi protegge un insieme vuoto: e' un meccanismo, non un conto vivo — e l'ho scritto nel referto tenendo il numero visibile a zero, perche' un numero che compare solo quando e' brutto non si puo' guardare scendere. (3) La clausola (b) era gia' meta' fatta da AR-686: la classe `prova-orfana` e `auto_chiudibile:false` c'erano. Mancavano la MARCA col nome che la scheda chiede e il CONTO separato. Ho tenuto il nome di classe storico `prova-orfana` e messo la marca come campo: due prove vive (`prova-che-non-puo-fallire.test.mjs`) pretendono quel nome, e rinominare una classe per far somigliare il codice al testo di una scheda romperebbe un metro che funziona.\n\nIL BUCO CHE RESTA, ED E' NEL REFERTO, NON NELLA MIA TESTA. Questo guardiano CLASSIFICA; chi CHIUDE davvero e' `cervello/auto-fix.mjs`, che non passa da `prova-ammissibile.mjs` e non e' nel mio territorio. Il campo nuovo `chiuderebbe_lo_stesso` conta le schede che auto-fix chiuderebbe comunque, e oggi ne contiene UNA: **AR-354 stessa**. La sua `verifica` sulla scheda e' `{file:\"cervello/cantiere-prove.mjs\", pattern:\"provaComportamentaleObbligatoria\"}`, e adesso quella parola nel file c'e' — perche' il fix la importa. Cioe': il difetto che dice «una parola in un file non e' una prova» si chiuderebbe con una parola in un file, al prossimo `auto-fix.mjs verifica --applica`. La sua `verifica` va sostituita col comando qui sopra: e' una modifica al registro condiviso, vietata alla corsia.\n\nDUE ALTRI FILE HO DOVUTO RISPETTARLI SENZA TOCCARLI: la prima riga di `base` in `classifica()` non si riformatta (la mutazione di AR-650 in mutanti.json la cerca carattere per carattere: spezzarla l'aveva resa cieca, e `prova-che-non-puo-fallire` e' diventato rosso finche' non l'ho rimessa a posto), e la riga stampata «Difetti non chiusi: N» tiene l'attacco originale (`cantiere-che-non-si-apre-non-e-un-cantiere-sporco.test.mjs` la cerca cosi'): il denominatore e gli stati li ho aggiunti DOPO. Ho anche rinominato il campo di referto `da_riverificare` in `prove_da_riverificare`, perche' con AR-684 gli e' finito accanto `conto.da_riverificare` e le due cose non sono la stessa (7 prove dichiarate da riverificare contro 10 schede in stato da-riverificare): verificato prima che nessuno fuori da questo file lo leggesse."
     },
     {
       "id": "AR-355",
@@ -7089,7 +7089,7 @@
         "tipo": "comando",
         "comando": "node cervello/test/quarto-controllo-promesso.test.mjs"
       },
-      "nota_fix": "Il CODICE era già stato raddrizzato in un lotto precedente (ambito ristretto alla parte viva con `parteViva`, modo dichiarato con `esitoOnesta`, `rc_one` che riceve una misura vera). Quello che mancava era la prova del CABLAGGIO: `cervello/test/istante-cancello.test.mjs` esegue le due funzioni pure, ma che il cancello le USI era verificato contando quante volte la parola `rc_one` compare nel file — un conteggio, non un comportamento, cioè esattamente la forma di prova che questa scheda denuncia. Adesso il cancello VERO viene eseguito in una cartella usa-e-getta: i tre guardiani storici sono finti e passano, il metro dell'onestà dice quello che serve al caso, e la TESTA che classifica è quella vera copiata dal repo. Si guarda una cosa sola: pubblica o no. Quattro casi — bocciata in modo blocca (non pubblica), bocciata in modo avvisa (pubblica ma il valore è misurato e detto), pulita (pubblica: la prova non è vacua), metro assente (in blocca è cieco e ferma, in avvisa non spegne gli altri tre). ⚪ NON VERIFICATO DA QUI: sul server il modo di fabbrica è `avvisa`, quindi in produzione oggi l'onestà MISURA e DICE ma non ferma; passare a `GATE_ONESTA=blocca` è una decisione di Nicola e va presa guardando quante violazioni vere restano su STATO.md — dal clone `node cervello/onesta-check.mjs` sulla parte viva non l'ho rimisurato in questo lotto.",
+      "nota_fix": "La scheda indicava cancello-lotto.mjs; il codice vero dice altro: gate_verdetto e rc_one vivono in cervello/gate-pubblicazione.sh, e tre clausole su quattro erano già cablate lì (esecuzione, rc_one misurato, ambito via parteViva, modo dichiarato con GATE_ONESTA). Mancava la QUARTA: le esenzioni. Misurato il 22/8 sulla parte VIVA di STATO.md, onesta-check segnalava 35 numeri senza fonte, 33 dei quali erano pezzi di data o di orario — quindi GATE_ONESTA=blocca non poteva essere acceso senza fermare per sempre la pubblicazione della memoria, e il quarto controllo restava di fatto incapace di bocciare. Ho creato cervello/onesta-ambito.mjs (puro: nessun import, nessun I/O) con le due decisioni: (a) questo file è storico o vivo, (b) questo rilievo è un falso positivo DICHIARATO. Tre esenzioni per i rilievi + una per i file storici, ognuna col motivo scritto per esteso; verificaEsenzioni() gira all'import e fa esplodere il modulo se qualcuno ne aggiunge una muta — il metro non parte, invece di tacere. cervello/onesta-check.mjs chiama il modulo al CONFINE DELL'ATTO (nel punto esatto in cui un numero sta per diventare violazione, e nel punto in cui sceglie cosa giudicare del file), applica l'ambito ristretto anche quando lo chiama giro.sh sul file intero, e STAMPA ogni rilievo esentato col suo perché (a schermo e in --json, campo esenzioni_applicate). Effetto misurato: parte viva di STATO.md da 35 rilievi a 2; ultimo briefing da 33 a 5. Il metro adesso può bocciare, e boccia numeri veri.",
       "chiusura": "bloccata",
       "chiusura_motivo": "Dichiarato aperto nella PR #621. Il lotto 35 ha chiuso solo la RICADUTA (ogni verdetto morto nuovo fa rosso), non la ferita: tutte e quattro le clausole di riparazione vivono in cervello/gate-pubblicazione.sh, fuori dal territorio della corsia. Nota per chi lo riprendera': onesta-check su STATO.md segnala oggi 2 violazioni, tutte dentro il diario append-only — collegarlo cosi' com'e' bloccherebbe la pubblicazione, quindi l'ambito va ristretto PRIMA.",
       "nato_come": "scoperta",
@@ -14740,9 +14740,9 @@
       "fix_proposto": "",
       "verifica": {
         "tipo": "comando",
-        "comando": "node cervello/test/un-totale-che-salta-uno-stato.test.mjs"
+        "comando": "node cervello/test/prova-debole-non-chiude.test.mjs"
       },
-      "nota_fix": "LA SCHEDA HA RAGIONE E LA NOTA DEL LOTTO 42 ERA OTTIMISTA. Il terzo stato si chiama `da-riverificare` e oggi sono 56 su 699 schede (476 chiuse, 167 aperte). La porta unica esiste — `contaDifetti` in cervello/atti-veri.mjs — e il Pannello ci passa. Ma i CONTATORI SCRITTI DENTRO IL CANTIERE non ci passano: `cantiere.meta` dice `{aperti:156, in_corso:0, chiusi:476}`, somma 632 contro 699 schede vere, cioè 67 difetti fuori dal numero che sta scritto nel registro stesso. Chi lo scrive è `ricalcolaMeta` in cervello/auto-fix.mjs (riga 76), che filtra a mano `stato === \"aperto\"`. E non è l'unico lettore che si fa la regola da sé: cervello/allinea-scan-cantiere.mjs riga 225 scrive `cantiere_aperti/in_corso/chiusi` in auto-radiografia.json con lo stesso filtro, e cervello/chiusura-dichiarata.mjs riga 87 conta il debito delle prove deboli solo sugli `aperto`, quindi le 56 da-riverificare con la prova debole stanno fuori dal tetto. NON HO POTUTO RIPARARLO: nessuno di quei tre file è nel territorio della corsia E, e la prova condivisa cervello/test/parola-senza-padrone.test.mjs mi è vietata. La cura è una riga per file: far tornare i tre conti da `contaDifetti` e pretendere `sommaTorna(conto) === true`. Testo pronto in note_ricucitura.\nRESTA APERTO: La porta unica c'è, ma tre scrittori in cervello/ contano ancora a modo loro e uno di essi (auto-fix.mjs) scrive il conto sbagliato DENTRO il cantiere: 632 contro 699. Nessuno dei tre file è nel mio territorio. ⚠️ ALL'AD: togli dalla scheda la vecchia `verifica` {comando: parola-senza-padrone.test.mjs} — quel test è verde e non parla di questi tre punti, quindi al prossimo `auto-fix verifica --applica` AR-684 si richiude da solo smentendo questa nota.",
+      "nota_fix": "IL TERZO STATO SI CHIAMA `da-riverificare`, verificato sul JSON vero: 778 schede = 665 `chiuso` + 103 `aperto` + 10 `da-riverificare` (AR-045, AR-047, AR-048, AR-049, AR-070, AR-090, AR-100, AR-102, AR-103, AR-104).\n\nLA SCHEDA E' VECCHIA DI DUE LOTTI, E I TRE PUNTI CHE ACCUSA SONO GIA' RIPARATI. La `nota_fix` della scheda diceva che tre scrittori contavano ancora a modo loro: `auto-fix.mjs` (`ricalcolaMeta`), `allinea-scan-cantiere.mjs` e `chiusura-dichiarata.mjs`. Li ho letti tutti e tre: passano dalla casa unica `cervello/stati-cantiere.mjs` (`metaCantiere` alla riga 94 di auto-fix, `contaDifetti` alla 74 di allinea-scan, `eDaFare` in `contaProveDeboli`). E `cantiere.meta` dentro il registro oggi torna: `somma_torna: true`, 778 = 665+103+10. Anche i numeri della scheda sono vecchi (595 su 653, 56 nel terzo stato: oggi sono 10).\n\nQUELLO CHE RESTAVA ROTTO ERA NEL MIO TERRITORIO, E NON L'AVEVA GUARDATO NESSUNO. `cervello/cantiere-prove.mjs` contava con un filtro scritto a mano — `cantiere.difetti.filter((d) => d.stato !== \"chiuso\")` — e pubblicava il risultato nel referto sotto il nome `difetti_aperti: 112`, mentre `cantiere-difetti.json` accanto dichiarava `aperti: 102` con lo STESSO nome. Due numeri con lo stesso nome in due file, diversi di esattamente uno stato. Il difetto vero non e' il numero: e' che nessuno se ne poteva accorgere, perche' quel referto non aveva ne' totale ne' denominatore — e un conto che non puo' sbilanciarsi non puo' neanche denunciare uno stato saltato.\n\nCOSA HO CAMBIATO. Il filtro adesso e' `eDaFare` (la casa), il conto per stato e' `contaDifetti` (la casa), e il referto porta `conto` (totale/chiusi/aperti/in_corso/da_riverificare/altri/da_fare/per_stato/stati_ignoti), `difetti_da_fare` col nome onesto accanto al nome storico, e `bilancio`. Il freno vero e' `bilancioDelReferto(conto, voci.length)` in `cervello/prova-ammissibile.mjs`, funzione pura: pretende che **chiuse + classificate = totale**, e su un conto non letto risponde `torna: null` («non lo so»), non `false` — su un cieco non si emette un verdetto. E' rosso sotto `--gate-campi` e lo stampa: se domani nasce un sesto stato e qualcuno lo dimentica in un `.filter()`, la somma non torna e il referto lo dice invece di lasciarlo scoprire a una radiografia sei settimane dopo. La riga stampata dice adesso «Difetti non chiusi: 113 su 778 schede (665 chiuse) — bilancio a posto: ... (103 aperto · 10 da-riverificare)»; se compare uno stato ignoto, viene stampato per nome con il suo numero.\n\nATTENZIONE PER L'AD: la `verifica` sulla scheda punta a `cervello/test/un-totale-che-salta-uno-stato.test.mjs`, che e' VERDE e non parla del referto del guardiano delle prove — e' la trappola che la nota_fix della corsia E aveva gia' segnalato. Va sostituita col comando qui sopra, oppure aggiunta accanto. La scheda porta `chiusura: \"bloccata\"` con motivo, quindi auto-fix non la richiude da sola: il rischio e' contenuto, ma il metro dichiarato resta quello sbagliato.",
       "nato_come": "scoperta",
       "corroborata": true,
       "lotto_riparazione": 44,
@@ -15131,10 +15131,11 @@
       "causa_radice": "`salute-onesta.mjs` ha lo shebang, il contratto d'uscita e il process.exit, quindi la macchina lo riconosce come guardiano — ma nessun processo lo lancia. È il numero con cui si risponde alla domanda «il cantiere sta calando davvero?»: se non lo esegue nessuno, quella domanda non ha risposta, e il burn-down che il Pannello mostra arriva da un'altra strada. Misurato togliendo di mezzo i file nuovi del lotto: la segnalazione resta identica, quindi non l'ha causato questo lavoro. Nel lotto 42 l'ho DICHIARATO come buco vero in `guardiani-motivi.json` — che è la cosa onesta, non la cura. — visto in `node cervello/guardia-viva-check.mjs --json` → senza_guardia: [\"salute-onesta.mjs\"]",
       "fix_proposto": "Cablarlo dove il numero serve davvero: nel giro, o nella visita, o nel cancello del lotto. Prova: il guardiano esce 1 su un cantiere che peggiora, e quel verdetto deve arrivare a qualcuno.",
       "verifica": {
-        "tipo": "umano",
-        "nota": "nato nel lotto 42 mentre si riparava un altro difetto: causa da verificare sul codice prima di scrivere la prova"
+        "tipo": "comando",
+        "comando": "node cervello/test/salute-onesta-e-cablata.test.mjs"
       },
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "CAUSA CONFERMATA SUL CODICE, e il difetto era piu grande della scheda: mancavano DUE meta. (1) Nessun processo lo eseguiva — grep su cervello/*.sh, cervello/*.mjs, .claude/, .github/workflows/, .githooks/: zero invocazioni fuori dai test; `node cervello/guardia-viva-check.mjs --json` lo dava in `debito_da_cablare` con la voce «da-cablare» in guardiani-motivi.json. (2) E anche cablandolo non sarebbe servito a niente: la sua uscita non conosceva l'1 — `const USCITA = conto.letto ? 0 : 2` — quindi un cantiere che CRESCE usciva 0, cioe con la faccia del verde, e lo diceva solo a una console. Cura in tre pezzi: (a) `cervello/verdetto-burn-down.mjs`, funzione pura senza dipendenze e senza I/O (`giudicaBurnDown({letto, apertiOra, apertiSettimanaFa, margine})`) che un test puo eseguire su un cantiere finto che peggiora; tratta il margine di AR-671 come parte del verdetto — una differenza dentro il margine e CIECA (2), non verde: la direzione non la so; (b) `salute-onesta.mjs` la chiama, mette il verdetto nel referto (`sintesi`, `verdetto_burn_down`, `cantiere_peggiora`) e con `--gate` lo fa diventare il codice d'uscita (0 cala/fermo · 1 CRESCE · 2 cieco); senza `--gate` resta un metro, cosi il Pannello e le due prove che gia lo chiamano non si prendono un rosso in faccia (stessa forma di tasso-chiusura.mjs --gate); (c) la VISITA lo esegue: nuovo controllo `cervello.burndown` in `cervello/salute.mjs`, che gira anche nella visita rapida (quella che sul VPS parte mattina e sera) e porta il rosso nel referto di Nicola e in auto-coscienza/salute.json. EFFETTO COLLATERALE NECESSARIO: cablandolo davvero, la sua voce «da-cablare» in cervello/guardiani-motivi.json diventava una `voce_fantasma` e faceva uscire 1 `guardia-viva-check` (e rosso il test guardiano-mai-messo-di-guardia). Tolta la voce e abbassato `tetto_da_cablare` da 4 a 3 — il cricchetto che il file stesso prescrive. TRAPPOLA TROVATA STRADA FACENDO: riscrivendo l'intestazione avevo rotto la riga «Uscita:» da cui `guardia-viva.mjs` riconosce un guardiano — il file spariva dal censimento (97 guardiani -> 96), cioe il difetto preso dall'altro capo. Ripristinata la forma e lasciato un avviso nel file."
     },
     {
       "id": "AR-704",
@@ -15895,9 +15896,10 @@
       "dove": "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json — EXP-001, EXP-002, EXP-003, EXP-004, EXP-005, EXP-006, EXP-013, EXP-014",
       "verifica": {
         "tipo": "comando",
-        "comando": "node cervello/prove-difetti.mjs --ar-744"
+        "comando": "node cervello/test/esperimento-smentito-si-corregge.test.mjs"
       },
-      "nota_prova": "Nasce ROSSA, ed e il suo stato giusto: il difetto e aperto. Diventa verde quando qualcuno lo ripara davvero, non quando qualcuno scrive la parola giusta da qualche parte."
+      "nota_prova": "Nasce ROSSA, ed e il suo stato giusto: il difetto e aperto. Diventa verde quando qualcuno lo ripara davvero, non quando qualcuno scrive la parola giusta da qualche parte.",
+      "nota_fix": "Lotto 49 (22/8). LA SCHEDA ERA IMPRECISA IN DUE PUNTI, e il secondo era un difetto dentro il difetto. (1) Diceva «otto esperimenti su nove»: sono NOVE su dieci dichiarati finiti (EXP-001,002,003,004,005,006,013,014,015). (2) Diceva di aggiungere lo stato nuovo al contratto in valida-contratti.mjs: li' auto-miglioramento.json ha `obbligatori: []`, cioe' nessun contratto sugli stati — non c'era niente da estendere. Lo stato `non-testato` esisteva gia' in esperimenti-regole.mjs dal 15/8 (AR-150).\n\nIL DIFETTO DENTRO IL DIFETTO: prove-difetti.mjs non chiamava la casa unica, si era scritto una copia privata della regola (`const maiPartito = /in pausa|mai partito|.../`). Le due divergevano: la copia vedeva SEI esperimenti bugiardi dove esperimenti-regole.mjs ne vedeva NOVE — EXP-006, EXP-013 ed EXP-015 erano invisibili proprio al metro incaricato di contarli, che sotto-contava del 33% stampando un numero preciso. E' la malattia `una-parola-con-due-padroni`, gia' censita, il cui pattern pero' trova solo il caso da cui e' nata.\n\nCOSA E' STATO FATTO. (a) Due funzioni nuove nella casa unica esperimenti-regole.mjs: `esperimentiSmentiti` (la CONTRADDIZIONE fra etichetta e racconto — sparisce quando e' sanata, quindi puo' fare da prova, a differenza di `esperimentiNonTestati` che resterebbe rosso per sempre) e `correggiStati`, il correttore puro. (b) prove-difetti.mjs importa la regola invece di rifarsela: la copia privata e' sparita e il test lo controlla. (c) I nove stati sul disco riscritti da `misurato` a `non-testato`, con la parola di prima conservata in `stato_dichiarato` e nota/delta/motivo intatti: la storia non si riscrive, e la correzione non e' silenziosa. (d) Prova comportamentale a sei casi, incluso il rientro della bugia dalla porta (un EXP nuovo che si dichiara chiuso senza essere partito viene visto) e la stabilita' del correttore alla seconda passata.\n\nTROVATO RIPARANDO: due casi di il-voto-del-volano-com-due-metri.test.mjs pretendevano che la bugia fosse ANCORA sul disco (`assert.equal(exp.stato, 'misurato')`), quindi curare il difetto li faceva diventare rossi — una prova verde solo a macchina malata. Riscritti sulla capacita' di rilevare invece che sulla presenza del difetto. Il conto delle altre prove scritte cosi' non lo ha mai fatto nessuno: registrato come AR-787.\n\nANCHE: la mutazione del lotto 44 per AR-744 puntava alla copia privata cancellata ed era diventata orfana — riagganciata al nuovo cuore (`const bugiardi = esperimentiSmentiti(lista)`). Entrambe le mutazioni verificate rosse."
     },
     {
       "id": "AR-745",
@@ -16786,6 +16788,102 @@
       "verifica": {
         "tipo": "umano",
         "nota": "Non ho una prova automatica: dimostrare il difetto vuol dire inventare una forma di invocazione NUOVA e legittima, e qualunque ne scelga finirebbe nell'elenco chiudendo il caso singolo senza toccare la malattia. Chi giudica deve guardare il conto: 3 accuse false su 3 forme aggiunte, tutte scoperte da chi si vedeva accusato."
+      }
+    },
+    {
+      "id": "AR-787",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "titolo": "Ci sono prove che possono essere verdi solo finché il difetto c'è, e curarlo le fa diventare rosse",
+      "causa_radice": "① Perche riparare AR-744 ha fatto diventare rossi due casi del test del volano? Perche quei casi asserivano che la bugia fosse ANCORA sul disco: `assert.equal(exp.stato, 'misurato', \"il registro lo dichiara misurato: e il difetto, non un refuso\")` e `conto.misurati < dichiaratiMisurati`. ② Perche erano scritti cosi? Perche sono nati insieme al rilevatore, quando il modo piu diretto di dimostrare che il rilevatore VEDE era puntarlo sul caso vero che aveva davanti. ③ Perche nessuno se n'e accorto? Perche finche il difetto resta aperto quella prova e verde, e una prova verde non viene riletta. ④ Perche e grave? Perche inverte il senso del cancello: la suite diventa un incentivo a NON curare: chi ripara si vede diventare rosso il banco e legge quel rosso come «ho rotto qualcosa». ⑤ Quante altre prove sono scritte cosi? NON SI SA: nessuno lo misura. Le due trovate sono uscite per caso, perche capitava che quel difetto lo stessi curando io.",
+      "fix_proposto": "🟡 (a) Un guardiano che misura quante prove asseriscono la PRESENZA di un difetto invece della CAPACITA di rilevarlo — il segno riconoscibile e un assert su un file di memoria vero che pretende un valore CATTIVO (`assert.equal(x.stato, 'misurato')` dove misurato e proprio la bugia). (b) La regola scritta nel mansionario del cantiere: una prova si scrive sulla capacita del rilevatore, usando un caso costruito, e sul dato vero si asserisce solo che la contraddizione NON c'e. (c) La spazzata dei fratelli sulle 100+ prove di cervello/test/ con il tetto che scende. Le due istanze note sono gia riparate nel lotto 49 (il-voto-del-volano-con-due-metri.test.mjs): il difetto resta aperto per il conto delle altre, che nessuno ha ancora fatto.",
+      "impatto_crescita": "indiretto ma sul metro: e la macchina che si misura da sola, e un banco che punisce chi cura rallenta ogni lotto da qui al 29 settembre",
+      "nato": "2026-08-22 20:05",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 49: trovato riparando AR-744 — curare il registro degli esperimenti ha fatto diventare rossi due casi che pretendevano la bugia sul disco",
+      "lotto_scoperta": 49,
+      "dove": "cervello/test/il-voto-del-volano-con-due-metri.test.mjs (righe ~123 e ~138 prima del lotto 49) — le altre istanze sono da contare in tutto cervello/test/",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "serve prima il guardiano che le conta: finche non esiste, non c'e niente di eseguibile da puntare. Le due istanze note sono riparate, il conto delle altre no."
+      }
+    },
+    {
+      "id": "AR-788",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "titolo": "Il timbro di provenienza scriveva «ho guardato zero cose» su ogni misura che non dichiara quanto ha guardato",
+      "causa_radice": "① Perche coerenza-fatti scriveva `copertura: 0` dopo aver letto 1.310 file vivi? Perche il timbro di provenienza si spargeva DOPO il campo vero nell'oggetto del referto e lo sovrascriveva. ② Perche il timbro metteva zero? Perche la guardia era `Number.isFinite(Number(copertura))` e il valore di default e `null`: `Number(null)` vale 0, non NaN, quindi la guardia era vera anche quando la copertura non era mai stata passata. ③ Perche nessuno se n'e accorto? Perche su main il referto aveva ANCHE `file_scansionati: 0` (nessuna caccia aperta), quindi i due zeri concordavano e sembravano una misura coerente: il difetto era visibile solo eseguendo il guardiano per davvero. ④ Perche e grave? Perche la regola AR-568 «cieco non sovrascrive vedente» confronta ESATTAMENTE questo numero: con ogni misura timbrata a zero confrontava zeri, cioe la difesa contro una sessione cieca che calpesta la misura di una vedente era spenta per tutti i chiamanti che non passano la copertura a mano (2 su 5). Una guardia che confronta sempre zero non puo dire di no.",
+      "fix_proposto": "🟡 FATTO nel lotto 49: distinguere «non dichiarata» da «zero» — la guardia diventa `copertura !== null && copertura !== undefined && Number.isFinite(...)`. Uno zero passato apposta resta (e una misura: «ho guardato e non c'era niente»), una copertura mai passata non si timbra. RESTA DA FARE: (a) i due chiamanti di coerenza-fatti.mjs dovrebbero passare la copertura esplicitamente invece di appoggiarsi al fatto che il campo vero sopravvive allo spread — il fix regge, ma l'ordine dei campi in un oggetto letterale e una difesa fragile; (b) un guardiano che verifichi che ogni scrittore di misura dichiari la propria copertura, cosi il buco non si riapre da un chiamante nuovo.",
+      "impatto_crescita": "indiretto ma sul metro: e la difesa che impedisce a una sessione senza chiavi di sovrascrivere i numeri veri del server, cioe di far mentire il Pannello a Nicola",
+      "nato": "2026-08-22 20:18",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 49: trovato riparando AR-744 — memoria-che-mente.test.mjs e diventato rosso («ha letto 0 file ma dichiara ok») dopo che eseguire coerenza-fatti per davvero ha reso i due zeri discordanti",
+      "lotto_scoperta": 49,
+      "dove": "cervello/scrittura-misura.mjs (timbroProvenienza) — effetto misurato su cervello/coerenza-fatti.mjs:263 e :347",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/misura-che-non-sporca.test.mjs"
+      },
+      "nota_fix": "Lotto 49: guardia corretta + tre casi comportamentali in misura-che-non-sporca.test.mjs, incluso quello che verifica che decidiScrittura torni a rifiutare una misura senza copertura contro una da 1310. Mutazione registrata e verificata rossa. Il difetto resta APERTO per le due clausole (a) e (b) del fix_proposto, che nessuno ha ancora fatto."
+    },
+    {
+      "id": "AR-789",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "titolo": "Quaranta schede scrivono un paragrafo dove il cancello si aspetta una parola, e il cancello le salta in silenzio",
+      "causa_radice": "`impatto_crescita` non ha un contratto: 40 schede ci scrivono un paragrafo in prosa. Ogni guardiano che decide con `impatto_crescita === \"alto\"` non le riconosce e le lascia passare senza dirlo — un confronto esatto su un campo libero. E' la stessa forma di AR-171 (41 voci su 42 sbagliavano ramo per un confronto esatto su testo libero). Il danno: il cancello nuovo di AR-354, che pretende una prova che ESEGUE sui difetti a impatto alto, oggi non vede quelle 40 schede.",
+      "fix_proposto": "🟡 (a) Un elenco chiuso di valori per `impatto_crescita` (alto|medio|basso|indiretto) con la prosa spostata in un campo suo. (b) Una funzione unica nella casa dei cantieri che risponda «questo difetto e ad alto impatto?» leggendo il valore normalizzato, e ogni cancello la chiama invece di confrontare stringhe. (c) Una migrazione delle 40 schede, con la prosa conservata.",
+      "impatto_crescita": "alto",
+      "dove": "cantiere-difetti.json (campo impatto_crescita) — consumato da cervello/prova-ammissibile.mjs e da ogni gate con === \"alto\"",
+      "nato_da": "lotto 49, corsia A: trovato riparando AR-354",
+      "stato": "aperto",
+      "nato": "2026-08-22 20:30",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 49,
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 49 mentre si riparava un altro difetto: la causa e verificata sul codice, la prova eseguibile va scritta con il fix."
+      }
+    },
+    {
+      "id": "AR-790",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "titolo": "La gravita ha nove nomi diversi, e due di quelli che vogliono dire «gravissimo» non contano mai come tali",
+      "causa_radice": "Il campo `gravita` porta nove valori diversi nelle schede vive. `critica` (1 scheda) e `alta` (28) NON sono ne `bloccante` ne `grave`, quindi ogni cancello che filtra su quei due nomi le salta: 29 schede pesanti trattate come leggere. E' AR-650 ripetuto sui valori invece che sui nomi dei campi — un elenco chiuso mai chiuso.",
+      "fix_proposto": "🟡 (a) Normalizzare i nove valori sui quattro veri (bloccante|grave|medio|minore) nella casa `stati-cantiere.mjs`, con la mappa degli alias dichiarata e non intuita. (b) Un guardiano che FALLISCE su un valore di gravita fuori elenco, cosi il decimo nome non entra. (c) Le 29 schede rilette una per una: `alta` non e per forza `grave`.",
+      "impatto_crescita": "alto",
+      "dove": "cantiere-difetti.json (campo gravita) — 9 valori distinti, `critica` x1 e `alta` x28",
+      "nato_da": "lotto 49, corsia A: trovato riparando AR-354",
+      "stato": "aperto",
+      "nato": "2026-08-22 20:30",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 49,
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 49 mentre si riparava un altro difetto: la causa e verificata sul codice, la prova eseguibile va scritta con il fix."
+      }
+    },
+    {
+      "id": "AR-791",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "titolo": "Il metro dell'onesta ha due case che non si parlano, e le cure sono atterrate solo in una",
+      "causa_radice": "`cervello/onesta-check.mjs` e `pannello/src/lib/onesta-check.ts` portano `RE_NUMERO` e `RE_FONTE` copiati identici. Nel lotto 49 l'ambito ristretto e le esenzioni dichiarate sono atterrati solo nella prima: da oggi le due divergono. E' la malattia gia censita `una-parola-con-due-padroni`, e nello stesso lotto se n'e trovata una terza istanza (la copia privata della regola degli esperimenti dentro prove-difetti.mjs, che sotto-contava del 33%). Il pattern della malattia pero' trova solo il caso da cui e nata, quindi la spazzata non li avrebbe mai visti: sono usciti tutti e tre a mano, cioe per caso.",
+      "fix_proposto": "🟡 (a) DECIDERE se le due copie devono avere le stesse regole: quella del Pannello giudica il canale clienti, quindi la divergenza puo' essere legittima — ma va scelta, non ereditata. (b) Se sono la stessa cosa, una casa sola importata da entrambe. (c) In ogni caso ALLARGARE il pattern della malattia `una-parola-con-due-padroni` perche' trovi la forma generale (una costante o una regexp con lo stesso nome definita in due file), non solo il caso del 2026-08. Senza (c) la spazzata resta cieca e ogni copia nuova va trovata a mano.",
+      "impatto_crescita": "indiretto: il metro che decide se la memoria puo' essere pubblicata, e una delle due copie giudica cio' che vedono i clienti",
+      "dove": "cervello/onesta-check.mjs + pannello/src/lib/onesta-check.ts; malattia in cervello/malattie.json (una-parola-con-due-padroni)",
+      "nato_da": "lotto 49, corsia C: trovato riparando AR-394; terza istanza della stessa malattia nello stesso lotto",
+      "stato": "aperto",
+      "nato": "2026-08-22 20:30",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 49,
+      "verifica": {
+        "tipo": "umano",
+        "nota": "nato nel lotto 49 mentre si riparava un altro difetto: la causa e verificata sul codice, la prova eseguibile va scritta con il fix."
       }
     }
   ],

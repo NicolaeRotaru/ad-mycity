@@ -120,33 +120,60 @@ prova("AR-149: il tasso porta con sé chi c'è dentro e chi no", () => {
 
 // ─────────────────── AR-150 · un test mai fatto non è una misura ───────────────────
 
-prova("AR-150: EXP-004 dice «misurato» e la sua stessa nota dice che il gate non è mai partito", () => {
+prova("AR-150: un esperimento che dice «misurato» mentre la sua nota lo smentisce non vale come apprendimento", () => {
+  // 22/8 (AR-744) — questo caso PRETENDEVA che EXP-004 fosse ancora `misurato` sul disco: cioè che il
+  // difetto fosse ancora lì. Era una prova che poteva restare verde solo finché la macchina era
+  // malata, e infatti è diventata rossa nel momento in cui il registro è stato corretto. Una prova
+  // scritta sulla PRESENZA del difetto si mette di traverso alla sua cura.
+  //
+  // Adesso misura la CAPACITÀ di riconoscerlo, su EXP-004 vero se porta ancora la contraddizione e
+  // altrimenti su un caso costruito con le sue stesse parole. Quello che non cambia è la domanda:
+  // un gate mai partito può valere come prova che la macchina impara? No.
   const reg = JSON.parse(
     readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json"), "utf8"),
   );
-  const exp = (reg.esperimenti || []).find((e) => e.id === "EXP-004");
-  assert.ok(exp, "EXP-004 deve esistere nel registro vero");
-  assert.equal(exp.stato, "misurato", "il registro lo dichiara misurato: è il difetto, non un refuso");
-  assert.equal(E.statoEffettivo(exp), "non-testato");
+  const vero = (reg.esperimenti || []).find((e) => e.id === "EXP-004");
+  assert.ok(vero, "EXP-004 deve esistere nel registro vero");
+  assert.match(
+    E.raccontoEsperimento(vero),
+    E.RE_GATE_MAI_PARTITO,
+    "EXP-004 resta il caso-scuola: la sua nota deve continuare a dire che il gate non è mai partito",
+  );
+  // la stessa scheda, con l'etichetta di prima rimessa sopra: è così che il difetto si presenterebbe
+  const comeEra = { ...vero, stato: "misurato" };
+  assert.equal(E.statoEffettivo(comeEra), "non-testato");
   assert.equal(
-    E.esperimentoProvaApprendimento(exp),
+    E.esperimentoProvaApprendimento(comeEra),
     false,
     "un esperimento mai eseguito non può valere come prova che la macchina impara",
   );
+  // e il registro vero non deve più portare quella contraddizione
+  assert.equal(E.statoEffettivo(vero), vero.stato, "sul disco l'etichetta di EXP-004 non deve più essere smentita");
 });
 
-prova("AR-150: sul registro vero i non-testati sono contati, non nascosti dentro i misurati", () => {
+prova("AR-150: i non-testati sono contati a parte, non nascosti dentro i misurati", () => {
+  // 22/8 (AR-744) — anche qui il caso pretendeva `misurati veri < dichiarati`, cioè che sul disco
+  // ci fosse ancora almeno una bugia da smascherare. Corretto il registro i due numeri coincidono, ed
+  // è il risultato GIUSTO: il conto ora è onesto in partenza. La misura che conta non è «quanti
+  // stiamo smascherando oggi», è «il conto sa tenerli separati».
   const reg = JSON.parse(
     readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json"), "utf8"),
   );
   const conto = E.contaEsperimenti(reg.esperimenti);
-  const dichiaratiMisurati = (reg.esperimenti || []).filter((e) => e.stato === "misurato").length;
   assert.ok(conto.non_testati > 0, "il registro contiene esperimenti mai testati: se sono zero, il rilevatore è cieco");
-  assert.ok(
-    conto.misurati < dichiaratiMisurati,
-    `i misurati veri (${conto.misurati}) devono essere meno dei dichiarati (${dichiaratiMisurati})`,
+  assert.equal(
+    conto.misurati + conto.non_testati + conto.chiusi,
+    (reg.esperimenti || []).filter((e) => ["misurato", "chiuso", "non-testato"].includes(String(e.stato).trim())).length,
+    "il conto deve quadrare: nessun esperimento finito può sparire dai totali",
   );
-  assert.equal(conto.misurati + conto.non_testati + conto.chiusi, dichiaratiMisurati, "il conto deve quadrare");
+  // e la separazione deve reggere anche quando la bugia rientra: due misurati, uno dei quali mai corso
+  const misto = E.contaEsperimenti([
+    { id: "A", stato: "misurato", nota: "gate partito, 12 aperture su 40" },
+    { id: "B", stato: "misurato", nota: "MANCATA (non testata): il gate non è mai stato pubblicato" },
+  ]);
+  assert.equal(misto.misurati, 1, "solo quello davvero corso conta come misurato");
+  assert.equal(misto.non_testati, 1, "l'altro va contato a parte, non sommato ai misurati");
+  assert.equal(misto.resa, 0.5, "la resa deve dire che metà di ciò che si dichiarava finito non è mai partito");
 });
 
 prova("AR-150: un esperimento davvero misurato continua a valere", () => {

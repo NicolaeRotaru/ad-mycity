@@ -48,9 +48,25 @@ import { codiceDiUscita, esitoDellaFonte } from "./esito-guardiano.mjs";
 // rileggeva a modo suo: è per questo che i nomi dei campi divergevano e il registro non sapeva
 // leggere sé stesso. Qui si LEGGE il contratto, non lo si riscrive.
 // 📏 E il contratto della PROVA (contratto-prova.mjs): «questa prova vale?» ha una risposta sola,
-// e non la riscrive ogni file che se la chiede — è la malattia della corsia C del lotto 42.
-import { classificaProva } from "./contratto-prova.mjs";
+// e non la riscrive ogni file che se la chiede — è la malattia della corsia C del lotto 42. Da
+// AR-354 questo file non lo interroga più a mano: la domanda passa da `prova-ammissibile.mjs`, che
+// la fa una volta per tutt'e due i cancelli. Due chiamanti indipendenti dello stesso contratto sono
+// già mezza divergenza.
 import { provaSoddisfatta } from "./prove-regole.mjs";
+// 🚦 AR-354 — I DUE CANCELLI SULLA PROVA vivono in un modulo puro, non in mezzo a questo programma.
+// La ragione è la malattia stessa: una regola scritta dentro uno script si può solo GUARDARE, e per
+// provarla bisognerebbe far girare il guardiano intero sul cantiere vero. Là un test la ESEGUE.
+import {
+  MARCA_DEBOLE_SU_GRAVE,
+  MARCA_IMPOSSIBILE,
+  ammissibilitaProva,
+  bilancioDelReferto,
+  provaCheEsegue,
+  provaComportamentaleObbligatoria,
+} from "./prova-ammissibile.mjs";
+// 🚧 AR-684 — «quante schede ci sono» ha UNA casa (stati-cantiere.mjs). Qui c'era un filtro scritto
+// a mano, `d.stato !== "chiuso"`, ed è il modo esatto in cui il terzo stato spariva dai totali.
+import { contaDifetti, eDaFare } from "./stati-cantiere.mjs";
 import {
   NON_MISURABILE,
   aliasFuoriContratto,
@@ -181,7 +197,45 @@ export function classifica(d) {
   // radiografia del 13/8 usano `severita`, quindi per lui erano tutte senza gravità — e il conto dei
   // BLOCCANTI ciechi (che legge `v.gravita`) ne saltava uno vero, AR-592. Un guardiano che conta zero
   // perché guarda il campo sbagliato non dice «non lo so»: dice «va tutto bene».
-  const base = { id: d.id, gravita: gravitaDi(d), eta_giorni: eta, titolo: (d.titolo || "").slice(0, 110) };
+  // ⚠️ LA PRIMA RIGA NON SI RIFORMATTA: la mutazione di AR-650 (`mutanti.json`, lotto 38) cerca
+  // esattamente `const base = { id: d.id, gravita: gravitaDi(d), eta_giorni: eta,` per rimettere
+  // il difetto e vedere se il test diventa rosso. Spezzarla in tre righe la rende cieca — e una
+  // mutazione cieca non dice «verde», dice «non ho potuto misurare», che qui vale come rosso.
+  const base = { id: d.id, gravita: gravitaDi(d), eta_giorni: eta,
+    impatto_crescita: d.impatto_crescita ?? null,
+    // AR-354 — le due colonne che mancavano: la sua prova ESEGUE qualcosa, e questo difetto ne
+    // pretende una? Senza, «prova debole» e «prova che gira» arrivavano a chi legge uguali.
+    prova_esegue: provaCheEsegue(v),
+    prova_obbligatoria: provaComportamentaleObbligatoria(d).obbligatoria,
+    titolo: (d.titolo || "").slice(0, 110) };
+
+  // ── AR-354 — I DUE CANCELLI, PRIMA DI OGNI ALTRA COSA ────────────────────────────────────
+  //
+  // Stanno in cima apposta, e non dentro il ramo del pattern dove il caso si vede meglio: qui sotto
+  // ci sono cinque strade che tornano `auto_chiudibile: true`, e una regola messa su una sola le
+  // lascia aperte tutte le altre. È la lezione già pagata (AR-172): la porta a mano riparata e
+  // quella automatica lasciata aperta. Il freno sta sul DATO — la scheda — non sul ramo comodo.
+  //
+  //   (b) prova che poggia su un file inesistente → `prova_impossibile`, difetto SENZA controllo;
+  //   (a) bloccante o impatto ALTO con una prova che non esegue niente → non chiudibile.
+  //
+  // ⚠️ QUESTO GUARDIANO NON CHIUDE NIENTE: chi chiude è `auto-fix.mjs`, e non passa ancora di qui.
+  // Il referto lo dichiara nel campo `chiuderebbe_lo_stesso` invece di lasciarlo intuire.
+  const amm = ammissibilitaProva(d, { fileEsiste: (f) => existsSync(join(AD_ROOT, f)) });
+  if (!amm.ammessa) {
+    return {
+      ...base,
+      classe: amm.classe,
+      // Le due marche che la scheda AR-354 chiede per nome, scritte per esteso e non come chiave
+      // calcolata: chi cerca `prova_impossibile` nel referto deve poterla trovare anche leggendo
+      // questo file, non solo eseguendolo.
+      prova_impossibile: amm.marca === MARCA_IMPOSSIBILE,
+      prova_debole_su_grave: amm.marca === MARCA_DEBOLE_SU_GRAVE,
+      senza_controllo: amm.senza_controllo,
+      perche: amm.motivo,
+      auto_chiudibile: false,
+    };
+  }
 
   // AR-344 — la forma di una prova la legge UN solo modulo (chiusura-dichiarata.mjs), non due lettori
   // indipendenti. Prima qui c'era `if (!v || !v.file || !v.pattern)`: tutto ciò che non fosse
@@ -251,10 +305,11 @@ export function classifica(d) {
   // (auto-fix.mjs qui non chiude: su file assente dice «aperto». Erano due metri sullo stesso caso —
   // questo diceva «lo chiuderà», quello non lo chiudeva — e un metro che promette una chiusura che
   // non arriva è come si costruisce un numero di cui nessuno si fida.)
-  const c = classificaProva(v, { fileEsiste: (f) => existsSync(join(AD_ROOT, f)) });
-  if (c.tipo === "orfana") {
-    return { ...base, classe: "prova-orfana", perche: c.motivo, auto_chiudibile: false };
-  }
+  //
+  // AR-354 — LA DOMANDA ADESSO È GIÀ STATA FATTA, IN CIMA. Qui c'era la sua seconda copia, dentro il
+  // ramo del pattern: teneva il caso a valle di cinque righe che potevano tornare prima di lei.
+  // Lasciarla sarebbe stata la malattia in miniatura — due lettori della stessa regola, e quello
+  // dimenticato è sempre il secondo.
   if (r.combacia) {
     return { ...base, classe: "auto-ok", perche: `prova soddisfatta ora (${dove}): auto-fix lo chiuderà`, auto_chiudibile: true };
   }
@@ -292,12 +347,42 @@ if (lettura.esito.stato !== "verde") {
 }
 const cantiere = lettura.valore;
 
-const aperti = cantiere.difetti.filter((d) => d.stato !== "chiuso");
+// AR-684 — IL CONTO LO FA LA CASA, e questo referto ci si misura contro.
+//
+// Qui c'era `cantiere.difetti.filter((d) => d.stato !== "chiuso")`, un filtro scritto a mano, e il
+// numero che ne usciva si pubblicava sotto il nome `difetti_aperti`. Sul registro vero del 22/8 gli
+// stati sono TRE — 665 `chiuso`, 102 `aperto`, 10 `da-riverificare` — quindi quel campo diceva 112
+// chiamandoli «aperti», mentre il registro accanto ne dichiarava 102 con lo stesso nome. Due numeri
+// con lo stesso nome in due file, diversi di esattamente uno stato: è così che il terzo stato
+// sparisce, e sparisce sempre dalla parte comoda.
+//
+// Adesso: `eDaFare` (la casa) decide chi è lavoro, `contaDifetti` (la casa) fa il conto per stato, e
+// `bilancioDelReferto` pretende che **chiuse + classificate = totale**. Se domani nasce un sesto
+// stato e qualcuno lo dimentica in un `.filter()`, la somma non torna e il referto lo dice da solo.
+const conto = contaDifetti(cantiere.difetti);
+const aperti = cantiere.difetti.filter(eDaFare);
 const voci = aperti.map(classifica);
+const bilancio = bilancioDelReferto(conto, voci.length);
 
 const perClasse = voci.reduce((a, v) => ((a[v.classe] = (a[v.classe] || 0) + 1), a), {});
 const bloccantiCiechiOra = bloccantiCiechi(voci);
 const nonChiudibili = voci.filter((v) => !v.auto_chiudibile);
+// AR-354 ② — LE PROVE IMPOSSIBILI: poggiano su un file che non esiste, quindi non possono dire né
+// sì né no. Sono difetti SENZA controllo, e stanno in una colonna loro apposta: mescolarle ai «fix
+// in attesa» è il travestimento che AR-686 ha smascherato una volta e che questo numero impedisce.
+const proveImpossibili = voci.filter((v) => v.prova_impossibile === true);
+// AR-354 ① — I DIFETTI CHE PESANO CON LA PROVA PIÙ DEBOLE: bloccanti o a impatto di crescita alto
+// la cui prova non esegue niente. È il numero che deve scendere, e scende solo scrivendo dei test.
+const daAlzare = voci.filter((v) => v.prova_debole_su_grave === true);
+// ⚠️ IL BUCO CHE RESTA, DETTO COME NUMERO invece che sperato: questo guardiano dichiara «non
+// chiudibile», ma chi CHIUDE è `auto-fix.mjs`, che non passa da `prova-ammissibile.mjs`. Le schede
+// qui sotto sono quelle che auto-fix chiuderebbe lo stesso, oggi, perché la loro prova a pattern
+// combacia adesso. Finché il numero è 0 il buco è teorico; il giorno che sale, è una chiusura falsa
+// in arrivo — e si vede prima, non dopo.
+const chiuderebbeLoStesso = daAlzare.filter((v) => {
+  const d = aperti.find((x) => x.id === v.id);
+  return formaProva(d?.verifica) === "pattern" && provaCombacia(d.verifica).combacia === true;
+});
 // AR-582 — le schede a cui manca un campo del contratto (impatto_crescita/nato sui non-minori):
 // senza quei campi la coda per priorità e il conto mensile non sanno dove metterle.
 const incomplete = schedeIncomplete(cantiere.difetti);
@@ -332,8 +417,22 @@ const report = {
     "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
   aggiornato: nowPiacenza(),
   giorni_sospetto: GIORNI_SOSPETTO,
+  // AR-684 — il nome storico resta perché fuori da qui c'è chi lo legge, ma NON vuol dire «aperto»:
+  // vuol dire «tutto ciò che non è chiuso». Il nome onesto gli sta accanto, e sotto c'è il conto per
+  // stato con la somma che si controlla da sola. Un numero senza denominatore non può sbilanciarsi,
+  // quindi non può neanche denunciare uno stato saltato.
   difetti_aperti: aperti.length,
+  difetti_da_fare: aperti.length,
+  conto,
+  bilancio,
   per_classe: perClasse,
+  // ── AR-354 — i due debiti che questo lotto rende contabili ────────────────────────────────
+  // Stanno nel referto SEMPRE, anche a zero: un numero che compare solo quando è brutto non si può
+  // guardare scendere, e questi devono scendere.
+  difetti_senza_controllo: proveImpossibili.length,
+  prove_impossibili: proveImpossibili.map((v) => ({ id: v.id, gravita: v.gravita, perche: v.perche })),
+  prove_da_alzare: daAlzare.map((v) => ({ id: v.id, gravita: v.gravita, impatto_crescita: v.impatto_crescita, perche: v.perche })),
+  chiuderebbe_lo_stesso: chiuderebbeLoStesso.map((v) => v.id),
   non_auto_chiudibili: nonChiudibili.length,
   bloccanti_ciechi: bloccantiCiechiOra.map((v) => v.id),
   // AR-582 — schede non-minori senza impatto_crescita e/o nato: fuori da ogni ordinamento per
@@ -344,7 +443,12 @@ const report = {
   // guardare scendere, e questi devono scendere.
   schede_senza_prova: senzaProva, // AR-023
   prove_non_misurabili: nonMisurabili, // AR-559 — codice 2: non è verde, è cieco
-  da_riverificare: daRiverificare, // codice 2 dell'altro tipo: la scheda aspetta qualcuno
+  // ⚠️ NOME CAMBIATO, e la ragione è la malattia di questo lotto. Si chiamava `da_riverificare`,
+  // esattamente come `conto.da_riverificare` che adesso gli sta due righe sopra — e le due cose non
+  // sono la stessa: questa è la PROVA dichiarata `{tipo:"da-riverificare"}` (7 schede), quella è lo
+  // STATO della scheda (10 schede). Una parola con due padroni dentro lo stesso referto è come
+  // nascono i numeri che litigano. Nessuno fuori da qui la leggeva: verificato prima di rinominarla.
+  prove_da_riverificare: daRiverificare, // codice 2 dell'altro tipo: la scheda aspetta qualcuno
   alias_fuori_contratto: alias, // AR-649 — `severita` dove il registro dice `gravita`
   timbri_storti: timbriRotti, // AR-655 — chiuse con una data senza ora (o senza data)
   voci,
@@ -356,7 +460,15 @@ if (JSON_MODE) {
   console.log(JSON.stringify(report, null, 2));
 } else {
   console.log(`\n🔎 PROVE DEL CANTIERE — ${report.aggiornato}\n`);
-  console.log(`   Difetti non chiusi: ${aperti.length}`);
+  // AR-684 — il numero con il suo denominatore e i suoi stati. Un «112 difetti non chiusi» da solo
+  // non lascia vedere che 10 di quelli stanno in un terzo stato che per mesi nessuno contava.
+  // ⚠️ «Difetti non chiusi: N» resta l'attacco della riga: `cantiere-che-non-si-apre…test.mjs` la
+  // cerca così per sapere che il guardiano ha davvero contato. Il denominatore e gli stati si
+  // aggiungono DOPO — allargare una riga è gratis, rinominarla rompe chi la legge.
+  console.log(`   Difetti non chiusi: ${aperti.length} su ${conto.totale} schede (${conto.chiusi} chiuse) — ${bilancio.motivo}`);
+  if (conto.altri) {
+    console.log(`   ⚠️  ${conto.altri} scheda/e in uno stato che non so nominare: ${(conto.stati_ignoti || []).map((s) => `${s.stato} (${s.quante})`).join(", ")}`);
+  }
   for (const [k, n] of Object.entries(perClasse).sort()) console.log(`   · ${k}: ${n}`);
   console.log("");
   const problemi = voci.filter((v) => !v.auto_chiudibile);
@@ -374,6 +486,20 @@ if (JSON_MODE) {
       ? `❌ ${bloccantiCiechiOra.length} BLOCCANTI non verificabili (${bloccantiCiechiOra.map((v) => v.id).join(", ")}): gonfiano il conteggio senza che nessuno possa abbassarlo.`
       : "✅ Ogni bloccante ha una prova che un guardiano può verificare.",
   );
+  // ── AR-354 — i due cancelli, stampati anche a zero ────────────────────────────────────────
+  console.log(
+    `\n🚦 PROVE AMMISSIBILI — ${daAlzare.length} difetti gravi (bloccante o impatto ALTO) la cui prova non esegue niente · ${proveImpossibili.length} difetti SENZA controllo (la prova punta a un file che non esiste)`,
+  );
+  for (const v of daAlzare.slice(0, 8)) console.log(`   · ${v.id} [${v.gravita}/${v.impatto_crescita ?? "?"}] ${v.perche}`);
+  if (daAlzare.length > 8) console.log(`   … e altri ${daAlzare.length - 8}`);
+  for (const v of proveImpossibili.slice(0, 6)) console.log(`   🕳️  ${v.id} — ${v.perche}`);
+  if (chiuderebbeLoStesso.length) {
+    // Il buco fra il metro e l'atto, detto come numero. Qui si CLASSIFICA; chi chiude è auto-fix.mjs,
+    // e non passa da `prova-ammissibile.mjs`: fino ad allora queste si chiudono lo stesso.
+    console.log(
+      `   ❗ ${chiuderebbeLoStesso.length} di quelli li chiuderebbe LO STESSO \`auto-fix.mjs\` (${chiuderebbeLoStesso.map((v) => v.id).join(", ")}): la loro prova a pattern combacia ORA, e auto-fix non passa da questo cancello. Il freno vive qui, l'atto vive là.`,
+    );
+  }
   if (incomplete.length) {
     console.log(`\n📇 ${incomplete.length} schede NON minori senza i campi del contratto (la coda per priorità non sa dove metterle):`);
     for (const s of incomplete.slice(0, 12)) console.log(`   · ${s.id} [${s.gravita}] — manca ${s.manca.join(" e ")}`);
@@ -424,6 +550,15 @@ if (GATE && bloccantiCiechiOra.length) process.exitCode = 1;
 // sta fuori contratto. Separato apposta: il debito di oggi non deve far diventare rosso il giro
 // che usa `--gate`, ma chi vuole il contratto duro ce l'ha.
 if (GATE_CAMPI && (incomplete.length || senzaProva.length || alias.length)) process.exitCode = 1;
+// AR-684 — E IL BILANCIO, sotto lo stesso flag. Un referto le cui schede classificate più le chiuse
+// non fanno il totale sta lasciando fuori uno stato: è il buco che ha tenuto 56 schede (10 oggi)
+// fuori dai conti per mesi. Sta sotto `--gate-campi` e non sotto il `--gate` storico apposta —
+// quello guarda i bloccanti, questo guarda il contratto — e resta fuori dalla corsa senza flag, che
+// deve continuare a uscire 0 (`scheda-mal-formata-chiude-da-sola.test.mjs` lo pretende).
+if (GATE_CAMPI && bilancio.torna !== true) {
+  console.error(`\n❌ ${bilancio.motivo}`);
+  process.exitCode = 1;
+}
 // AR-559 — il freno delle prove cieche, di nuovo separato: `--gate-prove` è ROSSO finché esiste
 // una scheda (aperta O CHIUSA) la cui prova il motore non sa eseguire. Terzo flag e non un ramo
 // dei due esistenti perché è l'unico che guarda anche l'archivio, e mescolare i tre renderebbe

@@ -102,3 +102,49 @@ export function contaEsperimenti(esperimenti = []) {
       : null,
   };
 }
+
+/**
+ * Gli esperimenti la cui ETICHETTA è smentita dal loro stesso racconto.
+ *
+ * AR-744. È diverso da `esperimentiNonTestati`, e la differenza è tutta qui: quella funzione elenca
+ * gli esperimenti che NON hanno reso conto — e continua a elencarli anche dopo che il registro è
+ * stato corretto, perché resta vero che non hanno reso conto. Questa elenca invece la CONTRADDIZIONE
+ * fra ciò che la scheda dichiara e ciò che la scheda racconta: sparisce quando la contraddizione è
+ * stata sanata, ed è per questo che può fare da prova a un difetto.
+ *
+ * Un metro che non può mai tornare verde viene aggirato al secondo giro; un metro che torna verde
+ * appena qualcuno scrive la parola giusta non prova niente. Questo torna verde solo quando il dato
+ * sul disco smette di dire una cosa e il suo contrario.
+ */
+export function esperimentiSmentiti(esperimenti = []) {
+  return (Array.isArray(esperimenti) ? esperimenti : []).filter(
+    (e) => statoEffettivo(e) !== String(e?.stato || "").trim(),
+  );
+}
+
+/**
+ * Il correttore: riscrive l'etichetta là dove il racconto la smentisce.
+ *
+ * La causa di AR-744 non è che la macchina non sapesse: `statoEffettivo` lo sa dal 15/8. È che
+ * sapeva e lasciava il dato sbagliato sul disco, perché il rilevatore era un LETTORE. Chi legge il
+ * file senza passare di qui — il Pannello, un giro futuro, una radiografia — leggeva ancora nove
+ * esperimenti misurati.
+ *
+ * Non riscrive la storia: `nota`, `delta`, `motivo` ed `esito` restano intatti (sono il racconto di
+ * ciò che è accaduto, e infatti sono la fonte da cui la correzione è dedotta). Tocca solo `stato`, e
+ * lascia in `stato_dichiarato` la parola di prima, perché una correzione silenziosa è una perdita.
+ *
+ * Pura: prende la lista e ne ritorna una nuova. Chi scrive su disco è il chiamante.
+ */
+export function correggiStati(esperimenti = []) {
+  const lista = Array.isArray(esperimenti) ? esperimenti : [];
+  const corretti = [];
+  const nuova = lista.map((e) => {
+    const dichiarato = String(e?.stato || "").trim();
+    const effettivo = statoEffettivo(e);
+    if (effettivo === dichiarato) return e;
+    corretti.push({ id: e?.id ?? "(senza id)", da: dichiarato, a: effettivo });
+    return { ...e, stato: effettivo, stato_dichiarato: dichiarato };
+  });
+  return { esperimenti: nuova, corretti };
+}

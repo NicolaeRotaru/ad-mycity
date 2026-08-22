@@ -390,7 +390,7 @@
     {
       "id": "EXP-001",
       "titolo": "Primo ordine consegnato entro il 25 luglio",
-      "stato": "misurato",
+      "stato": "non-testato",
       "ambito": "north-star",
       "ipotesi": "Se facciamo l'ordine test su Pane Quotidiano e mandiamo 3 WhatsApp agli anchor (Garetti, Peretti, Amendolara), il primo ordine consegnato arriva entro il 25 luglio.",
       "metrica": "ordini_consegnati",
@@ -405,12 +405,13 @@
         "#ordine-test-pq",
         "#whatsapp-3-anchor-pi26"
       ],
-      "nota": "MANCATA — verificato con query SQL diretta MCP (orders, 25/7 ~06:30): 1 solo ordine in tabella, zombie CANCELED del 24/6, 0 consegnati, 0 pagati. Nessun WhatsApp anchor risulta inviato (gate #whatsapp-3-anchor-pi26 mai eseguito — 🔴 manuale di Nicola, non partito). Stesso pattern di EXP-004/EXP-005: esperimento gated su un'azione 🔴 non approvata scade a vuoto. North Star ferma a 0 da ~31 giorni. Resta aperto EXP-013 (ordini_pagati, gate 30/7) come prossima finestra di misura."
+      "nota": "MANCATA — verificato con query SQL diretta MCP (orders, 25/7 ~06:30): 1 solo ordine in tabella, zombie CANCELED del 24/6, 0 consegnati, 0 pagati. Nessun WhatsApp anchor risulta inviato (gate #whatsapp-3-anchor-pi26 mai eseguito — 🔴 manuale di Nicola, non partito). Stesso pattern di EXP-004/EXP-005: esperimento gated su un'azione 🔴 non approvata scade a vuoto. North Star ferma a 0 da ~31 giorni. Resta aperto EXP-013 (ordini_pagati, gate 30/7) come prossima finestra di misura.",
+      "stato_dichiarato": "misurato"
     },
     {
       "id": "EXP-002",
       "titolo": "WhatsApp anchor → risposta entro 48h",
-      "stato": "misurato",
+      "stato": "non-testato",
       "ambito": "acquisizione-negozi",
       "ipotesi": "Mandando 3 WhatsApp personalizzati a Garetti, Peretti e Amendolara, almeno 1 risponde e fissa un appuntamento entro 48h dall'invio.",
       "metrica": "risposte_whatsapp_anchor",
@@ -424,12 +425,13 @@
       "azioni_gate": [
         "#whatsapp-3-anchor-pi26"
       ],
-      "nota": "MANCATA (stesso pattern di EXP-004/005/007): il gate `#whatsapp-3-anchor-pi26` risulta ancora ⏸ in pausa in AZIONI-IN-ATTESA (rinvio negozi 24/8-1/9) — i 3 WhatsApp non sono mai stati inviati, quindi nessuna risposta era possibile. Non un fallimento dell'ipotesi: superato dalla pausa negozi concordata con Nicola. Non riaprire un EXP-002-bis prima della ripresa (`ripresa.lavoro-operativo`)."
+      "nota": "MANCATA (stesso pattern di EXP-004/005/007): il gate `#whatsapp-3-anchor-pi26` risulta ancora ⏸ in pausa in AZIONI-IN-ATTESA (rinvio negozi 24/8-1/9) — i 3 WhatsApp non sono mai stati inviati, quindi nessuna risposta era possibile. Non un fallimento dell'ipotesi: superato dalla pausa negozi concordata con Nicola. Non riaprire un EXP-002-bis prima della ripresa (`ripresa.lavoro-operativo`).",
+      "stato_dichiarato": "misurato"
     },
     {
       "id": "EXP-003",
       "titolo": "Welcome email 4 iscritti → tasso apertura >50%",
-      "stato": "misurato",
+      "stato": "non-testato",
       "ambito": "crm-activation",
       "ipotesi": "Una welcome email personalizzata ai 4 iscritti (con storia MyCity + cosa li aspetta) ottiene un tasso di apertura >50% e almeno 5 click sulla CTA.",
       "metrica": "email_open_rate",
@@ -442,12 +444,13 @@
       "azioni_gate": [
         "#welcome-email-23"
       ],
-      "nota": "Misura via Gmail/tracking. Baseline industria food-delivery welcome email: ~35-40%. MANCATA (chiusura ritardata: già dichiarata mancata in SALA-OPERATIVA/AUTO-ANALISI del 28/7 ma la scrittura su questo file non era mai arrivata a destinazione — sanata ora): il gate `#welcome-email-23` resta ⏸ in pausa (rinvio negozi 24/8-1/9), l'email non è mai partita."
+      "nota": "Misura via Gmail/tracking. Baseline industria food-delivery welcome email: ~35-40%. MANCATA (chiusura ritardata: già dichiarata mancata in SALA-OPERATIVA/AUTO-ANALISI del 28/7 ma la scrittura su questo file non era mai arrivata a destinazione — sanata ora): il gate `#welcome-email-23` resta ⏸ in pausa (rinvio negozi 24/8-1/9), l'email non è mai partita.",
+      "stato_dichiarato": "misurato"
     },
     {
       "id": "EXP-004",
       "titolo": "Post pioggia 20/7 → nuovi iscritti al marketplace",
-      "stato": "misurato",
+      "stato": "non-testato",
       "ambito": "acquisizione-clienti",
       "ipotesi": "Un post social il 20 luglio che lega il maltempo previsto alla comodità della consegna a casa porta almeno 3 nuovi iscritti al marketplace nelle 24h successive.",
       "metrica": "nuovi_iscritti_24h",
@@ -461,12 +464,13 @@
       "azioni_gate": [
         "#post-meteo-pioggia-20lug"
       ],
-      "nota": "MANCATA (non testata): il gate `#post-meteo-pioggia-20lug` non è mai stato pubblicato (Nicola non l'ha ancora approvato) — il post resta in coda in [[AZIONI-IN-ATTESA]]. Buyer REST invariati a 4 dal 18/7. Lezione: un esperimento gated su un'azione 🔴 non approvata scade prima di poter essere testato — la data_misura andrebbe legata all'esecuzione del gate, non a un timer fisso da apertura."
+      "nota": "MANCATA (non testata): il gate `#post-meteo-pioggia-20lug` non è mai stato pubblicato (Nicola non l'ha ancora approvato) — il post resta in coda in [[AZIONI-IN-ATTESA]]. Buyer REST invariati a 4 dal 18/7. Lezione: un esperimento gated su un'azione 🔴 non approvata scade prima di poter essere testato — la data_misura andrebbe legata all'esecuzione del gate, non a un timer fisso da apertura.",
+      "stato_dichiarato": "misurato"
     },
     {
       "id": "EXP-005",
       "titolo": "Post 'Siamo in 23' → engagement e nuovi iscritti",
-      "stato": "misurato",
+      "stato": "non-testato",
       "ambito": "acquisizione-clienti",
       "ipotesi": "Il post «Siamo in 23» che racconta la storia dei primi iscritti ottiene almeno 20 like/reazioni e porta 5 nuovi iscritti nei 3 giorni successivi.",
       "metrica": "nuovi_iscritti_3gg",
@@ -480,12 +484,13 @@
       "azioni_gate": [
         "#post-siamo-in-23"
       ],
-      "nota": "MANCATA (non testata, stesso pattern di EXP-004): il gate `#post-siamo-in-23` è ancora ⏸ in pausa dal 18/7 (rinvio negozi 24/8-1/9, confermato in AZIONI-IN-ATTESA riga 303) — mai pubblicato. Profili REST invariati a 7 (4 buyer) dal 18/7. Verificato con query diretta `select count(*) from profiles` 24/7 11:0x. Lezione ribadita: un esperimento gated su un'azione 🔴 non approvata scade a vuoto — legare data_misura all'esecuzione del gate, non a un timer fisso."
+      "nota": "MANCATA (non testata, stesso pattern di EXP-004): il gate `#post-siamo-in-23` è ancora ⏸ in pausa dal 18/7 (rinvio negozi 24/8-1/9, confermato in AZIONI-IN-ATTESA riga 303) — mai pubblicato. Profili REST invariati a 7 (4 buyer) dal 18/7. Verificato con query diretta `select count(*) from profiles` 24/7 11:0x. Lezione ribadita: un esperimento gated su un'azione 🔴 non approvata scade a vuoto — legare data_misura all'esecuzione del gate, non a un timer fisso.",
+      "stato_dichiarato": "misurato"
     },
     {
       "id": "EXP-006",
       "titolo": "Domanda PI26 CCIAA entro il 20/7 → esito positivo",
-      "stato": "misurato",
+      "stato": "non-testato",
       "ambito": "finanza-agevolata",
       "ipotesi": "Inviando la domanda PI26 il 20 luglio (apertura sportello ore 10:00), MyCity ottiene il cofinanziamento CCIAA entro 30 giorni.",
       "metrica": "esito_bando_pi26",
@@ -498,7 +503,8 @@
       "azioni_gate": [
         "#bandi-cciaa-2007"
       ],
-      "nota": "Bando a sportello: il prima possibile dopo le 10:00 del 20/7. Scadenza 30/7. 🔴 richiede firma Nicola sul portale. Chiuso in ANTICIPO sulla data_misura: l'esito è già certo (non idoneo, decisione di Nicola 29/7), aspettare il 20/8 sarebbe stato solo ritardare un dato già noto. La card `#bandi-cciaa-2007` in AZIONI-IN-ATTESA è stata rimossa il 30/7 06:05 per lo stesso motivo."
+      "nota": "Bando a sportello: il prima possibile dopo le 10:00 del 20/7. Scadenza 30/7. 🔴 richiede firma Nicola sul portale. Chiuso in ANTICIPO sulla data_misura: l'esito è già certo (non idoneo, decisione di Nicola 29/7), aspettare il 20/8 sarebbe stato solo ritardare un dato già noto. La card `#bandi-cciaa-2007` in AZIONI-IN-ATTESA è stata rimossa il 30/7 06:05 per lo stesso motivo.",
+      "stato_dichiarato": "misurato"
     },
     {
       "id": "EXP-007",
@@ -600,7 +606,7 @@
     {
       "id": "EXP-013",
       "titolo": "Ordine test PQ pagato entro 7 giorni",
-      "stato": "misurato",
+      "stato": "non-testato",
       "ambito": "north-star",
       "ipotesi": "Se Nicola chiude l'ordine test su Pane Quotidiano (checkout reale, anche €3-5), il 1° ordine PAGATO del marketplace arriva entro 7 giorni dall'apertura di questo esperimento.",
       "metrica": "ordini_pagati",
@@ -613,12 +619,13 @@
       "azioni_gate": [
         "#ordine-test-pq"
       ],
-      "nota": "Aperto per AR-041/AR-106 (esperimenti-check.mjs): il volano non può misurare esiti senza esperimenti attivi sul KPI più critico. Complementare a EXP-001 (ordini_consegnati, gate 25/7) — questo misura il pagamento, distinto dalla consegna. Stallo attuale: 0 ordini pagati da 36 giorni. Sostituito da EXP-014 (stessa ipotesi, finestra rinnovata) per non lasciare il KPI più critico senza un esperimento attivo."
+      "nota": "Aperto per AR-041/AR-106 (esperimenti-check.mjs): il volano non può misurare esiti senza esperimenti attivi sul KPI più critico. Complementare a EXP-001 (ordini_consegnati, gate 25/7) — questo misura il pagamento, distinto dalla consegna. Stallo attuale: 0 ordini pagati da 36 giorni. Sostituito da EXP-014 (stessa ipotesi, finestra rinnovata) per non lasciare il KPI più critico senza un esperimento attivo.",
+      "stato_dichiarato": "misurato"
     },
     {
       "id": "EXP-014",
       "titolo": "Ordine test PQ pagato entro 7 giorni (rinnovo di EXP-013)",
-      "stato": "misurato",
+      "stato": "non-testato",
       "ambito": "north-star",
       "ipotesi": "Se Nicola chiude l'ordine test su Pane Quotidiano (checkout reale, anche €3-5), il 1° ordine PAGATO del marketplace arriva entro 7 giorni da oggi.",
       "metrica": "ordini_pagati",
@@ -631,12 +638,13 @@
       "azioni_gate": [
         "#ordine-test-dentro-o-fuori-dalla-pausa"
       ],
-      "nota": "Rinnovo di EXP-013 (mancata: il gate non è mai partito, non un'ipotesi respinta). La domanda a Nicola è in coda dal 28/7 (13 giorni), ⏳. Sostituito da EXP-015 (stessa ipotesi, finestra rinnovata) per non lasciare il KPI più critico senza un esperimento attivo."
+      "nota": "Rinnovo di EXP-013 (mancata: il gate non è mai partito, non un'ipotesi respinta). La domanda a Nicola è in coda dal 28/7 (13 giorni), ⏳. Sostituito da EXP-015 (stessa ipotesi, finestra rinnovata) per non lasciare il KPI più critico senza un esperimento attivo.",
+      "stato_dichiarato": "misurato"
     },
     {
       "id": "EXP-015",
       "titolo": "Ordine test PQ pagato entro 7 giorni (2° rinnovo, di EXP-013/014)",
-      "stato": "misurato",
+      "stato": "non-testato",
       "ambito": "north-star",
       "ipotesi": "Se Nicola chiude l'ordine test su Pane Quotidiano (checkout reale, anche €3-5), il 1° ordine PAGATO del marketplace arriva entro 7 giorni da oggi.",
       "metrica": "ordini_pagati",
@@ -649,11 +657,12 @@
       "azioni_gate": [
         "#ordine-test-dentro-o-fuori-dalla-pausa"
       ],
-      "nota": "3° apertura consecutiva della stessa ipotesi (EXP-013 30/7, EXP-014 30/7-6/8, EXP-015 10/8-17/8, tutte mancate per lo stesso motivo). Non riaperta una 4ª volta ora: il prossimo esperimento su questo KPI va aperto quando la pausa concordata finisce (24/8-1/9), non prima — riaprirlo oggi produrrebbe solo una 4ª misura 'mancata' identica. Il rischio strutturale è già tracciato in coda (card #62, pratica pagamenti Pane Quotidiano)."
+      "nota": "3° apertura consecutiva della stessa ipotesi (EXP-013 30/7, EXP-014 30/7-6/8, EXP-015 10/8-17/8, tutte mancate per lo stesso motivo). Non riaperta una 4ª volta ora: il prossimo esperimento su questo KPI va aperto quando la pausa concordata finisce (24/8-1/9), non prima — riaprirlo oggi produrrebbe solo una 4ª misura 'mancata' identica. Il rischio strutturale è già tracciato in coda (card #62, pratica pagamenti Pane Quotidiano).",
+      "stato_dichiarato": "misurato"
     }
   ],
   "meta_esperimenti": {
-    "aggiornato": "2026-08-21 20:36",
+    "aggiornato": "2026-08-22 20:04",
     "totale": 15,
     "aperti": 0,
     "in_scadenza": 0,
@@ -672,6 +681,7 @@
       "EXP-015"
     ],
     "resa_esperimenti": 0.1,
+    "etichette_corrette": [],
     "_cosa_significa_non_testati": "esperimenti che si dichiarano misurati/chiusi mentre la loro stessa nota dice che il gate non è mai partito: l'ipotesi non è stata respinta, non è mai stata provata (AR-150)."
   },
   "_giro_30_07_0630": "GIRO 30/7 06:30 (continuazione del piano del mattino 06:05-06:24, interrotto prima di questo passo): misurati i 3 esperimenti in scadenza/scaduti trovati aperti nel file nonostante la narrativa del 28/7 li dicesse già chiusi (scrittura mai arrivata su questo JSON — bug di persistenza, non di analisi) — EXP-003 (welcome email, scaduta 28/7) → mancata, EXP-006 (esito PI26, scaduta 20/8 ma esito già certo: non idoneo, decisione Nicola 29/7) → mancata anticipata, EXP-013 (ordine test PQ pagato, scaduta oggi) → mancata (gate mai partito, non un'ipotesi respinta). Riaperto EXP-014 come rinnovo di EXP-013 sullo stesso gate, per non lasciare il KPI north-star senza un esperimento attivo. 8/14 misurati (tutti mancata finora), 1 aperto (EXP-014, scade 6/8), 0 in scadenza residui.",
@@ -955,7 +965,7 @@
   "_nota": "Aggiornato 18/7 con batteria completa: 11 benchmark (tutti i reparti chiave) + 12 esperimenti (7 aperti, 5 pianificati). Backlog ordinato per impatto sulla crescita. Al primo ciclo completo del volano: calibrazione popolata + torneo tra varianti dei senior + esperimenti misurati.",
   "_review_settimanale_24_07": "REVIEW SETTIMANALE 24/7 16:00 — benchmark @AD aggiornato (43, radiografia completa 23/7). 2 nuove peer_review (PR-006 tech/frontend-dev sullo sprint Pannello, PR-007 valutatore indipendente sulla bozza PI26 → DA SISTEMARE). Torneo tra senior ancora rinviato (stesso motivo del 3/7: nessun esito di business reale da confrontare, negozi in pausa fino al 24/8-1/9). Verifica loop-chiuso esperimenti: 2 misurati su 13 aperti (EXP-004 e EXP-005, entrambi mancata) — il volano-business osserva ma continua a non chiudere sui numeri.",
   "_giro_25_07_0631": "GIRO 25/7 06:31 — misurati i 2 esperimenti in scadenza oggi: EXP-001 (ordini_consegnati, MANCATA, reale 0 vs atteso 1 — North Star ferma) ed EXP-007 (check-in PQ concordato, MANCATA, superato dalla pausa concordata coi negozi fino al 24/8-1/9, non un fallimento operativo). 4/13 esperimenti ora misurati, tutti e 4 mancata — nessun esito positivo del volano-business finché la pausa negozi resta attiva. 0 esperimenti in scadenza residui oggi.",
-  "aggiornato": "2026-08-21 20:36",
+  "aggiornato": "2026-08-22 20:04",
   "proposte_sync": {
     "aggiornato": "2026-08-21 20:26",
     "totale": 13,
