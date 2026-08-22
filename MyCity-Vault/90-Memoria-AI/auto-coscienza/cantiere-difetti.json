@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-22 18:06",
+  "aggiornato": "2026-08-22 18:45",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -6485,10 +6485,12 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/sentinella-dati.mjs:634-641 (ramo soloAllerta) · cervello/sentinella-dati.mjs:572-581 (pingTelegram, `if (!tok || !chat) return;` alla riga 575) · cervello/sentinella-dati.mjs:303 (M1 worker morto, soloAllerta) e :417 (M7 REST cieco, soloAllerta) · cervello/sensori-motivi.json:6-11 (telegram «da-chiedere» dal 2026-07-28). Sintomo: VERIFICATO riga per riga. Le due sole regole 🔴 che sorvegliano la macchina stessa — M1 «worker morto» (riga 301-309) e M7 «REST cieco ORA» (riga 416-423) — sono `soloAllerta: true`. Il ramo che le gestisce (righe 634-641) fa esattamente due cose: `await pingTelegram(...)` e `state.regole[ev.chiave] = { …, ultimo_accodato: quando, … }`. Non accoda un lavoro, non scrive in `impostazioni`, non tocca AZIONI-IN-ATTESA: il Pannello non le vede. E `pingTelegram` (572) inizia con `if (!tok || !chat) return;` — ritorna in silenzio. Il token non c'è: `sensori-cecita.json` dà telegram_bot `non_configurato` e `cervello/sensori-motivi.json` scrive «Il bot Telegram è costruito e mai acceso… nessuno gliel'ha mai chiesto», card in coda dal 28/7. Percorso completo dell'unico allarme 🔴 sulla morte della macchina: condizione vera → funzione che ritorna subito → riga 637 che registra nello stato «allertato alle HH:MM», il che spegne pure il dedup e brucia la seconda occasione di accorgersene.",
       "verifica": {
-        "comando": "node cervello/prove-difetti.mjs --ar-365"
+        "tipo": "comando",
+        "comando": "node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_prova": "Prova convertita il 2026-08-11 00:45 (AR-564, l'asticella). Prima era un grep: cervello/sentinella-dati.mjs ~ /consegnaAllerta\\(/. bastava definire una funzione con quel nome e lasciarla vuota per chiudere il difetto. La prova nuova la ESERCITA in un processo a parte: chiede la consegna con zero canali configurati e pretende l'elenco dei canali raggiunti. Da una sessione senza le chiavi della memoria il modulo si spegne prima di rispondere: da lì la prova esce ⚪ (non misurata), sul server misura."
+      "nota_prova": "Prova convertita il 2026-08-11 00:45 (AR-564, l'asticella). Prima era un grep: cervello/sentinella-dati.mjs ~ /consegnaAllerta\\(/. bastava definire una funzione con quel nome e lasciarla vuota per chiudere il difetto. La prova nuova la ESERCITA in un processo a parte: chiede la consegna con zero canali configurati e pretende l'elenco dei canali raggiunti. Da una sessione senza le chiavi della memoria il modulo si spegne prima di rispondere: da lì la prova esce ⚪ (non misurata), sul server misura.",
+      "nota_fix": "\n\n22/8 lotto 48 — RIPARATO.\n\nConfermato sul codice, riga per riga: `pingTelegram` faceva `return` muto se mancava il token, e\nla riga SUBITO DOPO scriveva state.regole[chiave] con l'ora. Da quel momento il dedup considerava\nl'allerta gia' mandata. Nessuno mentiva: semplicemente nessuno chiedeva la ricevuta.\n\nCURA: `cervello/consegna-allerta.mjs`, puro. `esitoConsegna` torna chi ha davvero ricevuto, e\n`vaSegnataComeData` e' la riga che il difetto ha reso famosa, tirata fuori e resa interrogabile:\nfinche' stava dentro il flusso della sentinella nessuno poteva eseguirla, e infatti per mesi\nnessuno l'ha fatto. La sentinella ora scrive «data» SOLO dietro la ricevuta; se nessun canale ha\nricevuto non scrive niente e al giro dopo riprova.\n\nIL RIPIEGO CHE NON PUO' MANCARE: una card in AZIONI-IN-ATTESA, che e' un file della memoria dell'AD\ne che il Pannello legge per riempire «Da approvare» — cioe' la cosa che Nicola guarda davvero. Un\nripiego che nessuno guarda sarebbe stato peggio del difetto, perche' sembrava risolto. Un caso di\nprova pretende che stia PRIMA di Telegram nella cascata.\n\nI canali si provano tutti, non ci si ferma al primo che riesce: se Telegram funziona ma la card no,\nquello e' un difetto da vedere, non un dettaglio da nascondere dietro un successo altrui.\n\nPROVATO: 15 casi verdi, 10 mutazioni tutte rosse.\n\nCOSA NON HO POTUTO PROVARE DA QUI, e conta piu' di quello che ho provato:\nil worker gira sul VPS, e da una sessione cloud non ci arrivo. Le decisioni sono provate qui,\neseguendole; il CABLAGGIO sul server no. Quindi la cura vale quando il worker viene allineato:\nfinche' quel codice non gira lassu', il timbro nuovo non viene scritto da nessuno e la regola\nguarda un campo vuoto. Il primo giro dopo l'allineamento e' la verifica vera, e la fa il server.\nDUE COSE CHE HO SBAGLIATO IO, e le ha trovate il cancello:\n① il ripiego scriveva la card con un writeFileSync crudo, saltando la penna condivisa: sarei stata\nil cinquantesimo scrittore che salta il freno della sola lettura, e il cricchetto che li conta me\nl'ha detto mentre lo aggiungevo. Ora passa da scriviTestoAtomico e dalla porta dei percorsi.\n② la chiamata a Telegram non aveva un tetto di tempo. Un canale che non risponde avrebbe tenuto\nappesa la sentinella impedendole di arrivare al canale che funziona — cioe' di nuovo un'allerta\nche non parte, che e' il difetto che questo lotto ripara. Otto secondi e via.\n\nTre volte in un giorno ho scavalcato una porta unica mentre curavo la malattia delle porte\nscavalcate. Il conto dice che il freno serve piu' a me di quanto pensassi."
     },
     {
       "id": "AR-366",
@@ -6503,10 +6505,12 @@
       "nato": "2026-07-29 13:05",
       "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/worker.sh:390-401 (battito_worker) · cervello/worker.sh:1067-1073 (battito in cima al ciclo, throttle WORKER_BATTITO_SEC default 20s) · cervello/sentinella-dati.mjs:301 (regola M1) e :66 (WORKER_MORTO_MIN default 3) · MyCity-Vault/90-Memoria-AI/auto-coscienza/sentinella-dati.json (`worker_eta_min: 0`, `regole` senza la chiave `worker_morto`). Sintomo: VERIFICATO. `battito_worker` (worker.sh:390-401) scrive `worker:ultimo` e `worker:ultimo:<lane>` in cima al ciclo principale (righe 1067-1073), PRIMA di sapere se c'è lavoro e senza mai consultare lo stato del motore AI; il ciclo gira ogni 5s anche a coda vuota. La regola M1 (sentinella-dati.mjs:301) è `worker_eta_min > WORKER_MORTO_MIN && lavori_in_corso === 0`. Conseguenza esatta: un worker il cui motore AI ha esaurito la quota — la causa diagnosticata in STATO.md per queste 36 ore — continua a battere ogni 20 secondi, `worker_eta_min` resta 0, M1 non scatta mai. Lo conferma il file di stato: `sentinella-dati.json` ha cinque chiavi in `regole` (sensori_ciechi, salute_bassa, volano_fermo, cassa_sconosciuta, negozio_fermo) e `worker_morto` NON c'è — non è mai scattata; `ultimo_stato.worker_eta_min` è 0. Grep confermato: non esiste nessuna chiave tipo `worker:ultimo:lavoro-riuscito`. Il battito misura che il processo respira, non che produce; la sentinella lo interpreta come «il cervello funziona».",
       "verifica": {
-        "comando": "node cervello/prove-difetti.mjs --ar-366"
+        "tipo": "comando",
+        "comando": "node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
       },
       "nato_come": "scoperta",
-      "nota_prova": "Prova convertita il 2026-08-11 00:45 (AR-564, l'asticella). Prima era un grep: cervello/worker.sh ~ /worker:ultimo:lavoro-riuscito/. quella stringa scritta in un commento avrebbe chiuso il difetto. La prova nuova estrae da worker.sh la funzione che timbra il lavoro riuscito e la ESEGUE due volte con uno scrittore finto — una con lavoro fallito, una con lavoro riuscito — pretendendo il timbro solo nel secondo caso. Provata in entrambi i versi: con un finto fix diventa verde, senza torna rossa."
+      "nota_prova": "Prova convertita il 2026-08-11 00:45 (AR-564, l'asticella). Prima era un grep: cervello/worker.sh ~ /worker:ultimo:lavoro-riuscito/. quella stringa scritta in un commento avrebbe chiuso il difetto. La prova nuova estrae da worker.sh la funzione che timbra il lavoro riuscito e la ESEGUE due volte con uno scrittore finto — una con lavoro fallito, una con lavoro riuscito — pretendendo il timbro solo nel secondo caso. Provata in entrambi i versi: con un finto fix diventa verde, senza torna rossa.",
+      "nota_fix": "\n\n22/8 lotto 48 — RIPARATO, nello stesso lotto di AR-365 perche' e' la stessa malattia: un segnale\nche dichiara una cosa senza che sia vera.\n\nCURA: un SECONDO segnale, non un allarme in piu'. `battito_worker` resta a systemd (e' nato per\nquella domanda); il worker timbra `worker:ultimo:lavoro-riuscito` solo dopo un esito «fatto», e la\nsentinella ha la regola M1b che legge quello.\n\nTRE CONDIZIONI, e servono tutte e tre — le prime due erano ovvie, la terza e' quella che decide se\nl'allarme sopravvive: ① battito FRESCO (se e' vecchio suona gia' M1, e due allarmi per lo stesso\nguasto insegnano a ignorarli entrambi) ② ultimo lavoro riuscito VECCHIO o mai visto ③ qualcosa IN\nCODA. Senza la terza, l'allarme griderebbe di notte su una macchina che sta solo riposando — e un\nallarme cosi' lo spegne qualcuno entro una settimana.\n\nSoglia a 90 minuti, sopra la durata del lavoro piu' lungo (un giro puo' prendere 45 minuti) piu'\nmargine: sotto quella si suonerebbe mentre il cervello sta davvero lavorando.\n\nPROVATO: 15 casi verdi, 10 mutazioni tutte rosse.\n\nCOSA NON HO POTUTO PROVARE DA QUI, e conta piu' di quello che ho provato:\nil worker gira sul VPS, e da una sessione cloud non ci arrivo. Le decisioni sono provate qui,\neseguendole; il CABLAGGIO sul server no. Quindi la cura vale quando il worker viene allineato:\nfinche' quel codice non gira lassu', il timbro nuovo non viene scritto da nessuno e la regola\nguarda un campo vuoto. Il primo giro dopo l'allineamento e' la verifica vera, e la fa il server."
     },
     {
       "id": "AR-367",
@@ -16156,7 +16160,7 @@
       "nato_come": "scoperta",
       "nato_da": "trovata nel collaudo del lotto 45, verificando il diff intero invece dei file che ricordavo",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "malattia": "non-pattern-izzabile",
       "malattia_perche": "Non è una forma che si trova leggendo il codice: è ciò che resta sul disco quando un processo muore fra l'applicazione della mutazione e il suo ripristino. Nessun pattern può vederla, perché il file mutato è sintatticamente valido — infatti compilava. Si vede solo confrontando l'albero col ramo pubblicato, che è esattamente il controllo che manca.",
       "causa_radice": "① Perché nel Pannello c'era un bottone finto? Perché `non-vacuita.mjs` applica la mutazione scrivendo davvero il file, lancia il test, e poi ripristina. ② Perché non ha ripristinato? Perché è stato ucciso dal timeout mentre girava (568 mutazioni superano i due minuti). ③ Perché la morte lascia il danno? Perché il ripristino vive nel flusso normale del processo, non in un gestore di uscita che scatti anche su SIGTERM/SIGINT. ④ Perché nessuno se ne accorge? Perché il file mutato è codice valido: compila, il typecheck passa, e `git status` lo mostra in mezzo ai timbri d'orario riscritti dagli strumenti — dove sembra rumore. ⑤ Causa di sistema: uno strumento che ROMPE il codice apposta deve trattare il ripristino come un obbligo che sopravvive alla propria morte, non come l'ultima riga di una funzione. Finché non lo fa, ogni interruzione — timeout, Ctrl-C, sessione che scade — è un candidato a mandare in produzione una mutazione.",
@@ -16170,7 +16174,10 @@
         "misura": "node -e \"const{execSync}=require('node:child_process');const m=require('./cervello/mutanti.json').mutanti;const d=execSync('git diff',{encoding:'utf8',maxBuffer:1e9});let n=0;for(const x of m){const s=String(x.sostituisci||'').trim();if(s.length>25&&d.includes(s))n++}console.log(n)\"",
         "cosa_misura": "quante stringhe di sostituisci dei mutanti sono nel diff dell albero: se una c e, una mutazione e rimasta applicata",
         "perche_non_e_un_sintomo": "Misura la RICADUTA (ce n e una adesso?), non il difetto (il ripristino e garantito?). Come sintomo direbbe SANO ogni volta che l albero e pulito, e il motore lo stamperebbe fra i guariti mentre il ripristino resta non garantito: sarebbe il falso guarito di AR-216 rifatto, nello stesso giorno in cui l ho curato. Vale come guardiano da agganciare al pre-commit — quello si, e sta nel fix (b)."
-      }
+      },
+      "chiuso_il": "2026-08-22 18:45",
+      "chiuso_come": "node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-758",
@@ -16751,7 +16758,7 @@
       "titolo": "Il censimento di chi mette di guardia i guardiani sceglie i file per estensione, e i ganci di git non ne hanno una",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-22",
       "nato_come": "scoperta",
       "impatto_crescita": "indiretto: e' debito della macchina, ma toglie di guardia proprio i freni piu' vicini al danno",
@@ -16760,7 +16767,10 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs"
-      }
+      },
+      "chiuso_il": "2026-08-22 18:45",
+      "chiuso_come": "node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs → exit 0 (guardiano soddisfatto)",
+      "corroborata": true
     },
     {
       "id": "AR-786",
@@ -16781,16 +16791,16 @@
   ],
   "meta": {
     "letto": true,
-    "totale": 775,
+    "totale": 777,
     "aperti": 102,
     "in_corso": 0,
     "da_riverificare": 10,
-    "chiusi": 663,
+    "chiusi": 665,
     "altri": 0,
     "da_fare": 112,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 663,
+      "chiuso": 665,
       "aperto": 102,
       "da-riverificare": 10
     },

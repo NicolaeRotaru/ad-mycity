@@ -1,13 +1,13 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 18:49",
+  "aggiornato": "2026-08-22 19:24",
   "giorni_sospetto": 3,
-  "difetti_aperti": 114,
+  "difetti_aperti": 112,
   "per_classe": {
     "umana": 79,
     "auto-sospetta": 19,
-    "auto-comando": 16
+    "auto-comando": 14
   },
   "non_auto_chiudibili": 98,
   "bloccanti_ciechi": [
@@ -1756,7 +1756,7 @@
       "eta_giorni": 24,
       "titolo": "L'unico allarme previsto per la macchina morta esce da un canale che è spento, e la macchina scrive lo stesso ",
       "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/prove-difetti.mjs --ar-365",
+      "perche": "prova eseguibile: node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs",
       "auto_chiudibile": true
     },
     {
@@ -1765,7 +1765,7 @@
       "eta_giorni": 24,
       "titolo": "Il battito del worker dice «sono vivo» anche quando non riesce più a fare niente, e la sentinella crede al bat",
       "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/prove-difetti.mjs --ar-366",
+      "perche": "prova eseguibile: node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs",
       "auto_chiudibile": true
     },
     {
@@ -2390,15 +2390,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-757",
-      "gravita": "bloccante",
-      "eta_giorni": 6,
-      "titolo": "Se il banco delle mutazioni viene interrotto a metà, il codice mutato resta nell'albero — e la volta scorsa er",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/una-mutazione-lasciata-in-giro.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
       "id": "AR-767",
       "gravita": "minore",
       "eta_giorni": 5,
@@ -2424,15 +2415,6 @@
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-785",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "titolo": "Il censimento di chi mette di guardia i guardiani sceglie i file per estensione, e i ganci di git non ne hanno",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/guardiano-mai-messo-di-guardia.test.mjs",
-      "auto_chiudibile": true
     },
     {
       "id": "AR-786",

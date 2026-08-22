@@ -488,6 +488,24 @@ battito_worker() {
     >/dev/null 2>&1 || true
 }
 
+# 🏁 IL SECONDO SEGNALE: «HO FINITO UN LAVORO», non «sono acceso» (AR-366).
+#
+# `battito_worker` sta in CIMA al ciclo, dove non sa ancora cosa succedera'. E' nato per rispondere a
+# systemd — «devo riavviarti?» — che e' una domanda sul PROCESSO. Poi lo stesso segnale e' stato letto
+# anche come «il cervello sta lavorando?», che e' un'altra domanda. Cosi' il modo di fallire piu'
+# probabile di questa macchina (processo su, motore AI giu') cade nel punto cieco fra le due: il
+# processo batte, la sentinella legge il battito, e nessuno suona. E' successo per 36 ore.
+#
+# Questo timbro si mette SOLO dopo un lavoro chiuso bene. Non sostituisce il battito: gli sta accanto,
+# perche' rispondono a due domande diverse e un segnale solo per due domande e' esattamente il difetto.
+lavoro_riuscito() {
+  local now; now="$(date -Iseconds)"
+  curl -fsS -X POST "$SUPABASE_URL/rest/v1/impostazioni?on_conflict=chiave" "${AUTH[@]}" \
+    -H "Prefer: resolution=merge-duplicates,return=minimal" \
+    -d "{\"chiave\":\"worker:ultimo:lavoro-riuscito\",\"valore\":\"$now\",\"updated_at\":\"$now\"}" \
+    >/dev/null 2>&1 || true
+}
+
 # Battito verso systemd (watchdog hardware del cervello). Se il .service ha WatchdogSec=N, systemd
 # aspetta un WATCHDOG=1 entro N secondi: se il loop si impicca (qualsiasi causa, non solo curl),
 # systemd ammazza e RIAVVIA il worker da solo — la rete di sicurezza che il 9/7 è mancata.
@@ -1910,6 +1928,9 @@ $_sync_nota"
     body="$(jq -n --arg stato "$stato" --arg risultato "$out" '{stato:$stato, risultato:$risultato}')"
     scrivi_esito_lavoro "$id" "$body" "esito ($stato)" \
       && echo "[$(ts)] Lavoro $id: $stato."
+    # AR-366 — il timbro va SOLO sul lavoro andato bene: e' il segnale che dice «sto producendo»,
+    # e un lavoro finito in errore non lo dice.
+    [ "$stato" = "fatto" ] && lavoro_riuscito
   fi
 
   # Dopo un giro, giro.sh potrebbe aver allineato worker.sh da main → ricarica al giro dopo.

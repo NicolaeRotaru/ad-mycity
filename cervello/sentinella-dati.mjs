@@ -47,12 +47,14 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
 import { dirname, join } from "node:path";
-import { scriviJsonAtomico } from "./scrivi-json.mjs";
+import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
 import { giorniDa } from "./fonte-numero.mjs"; // AR-280: i giorni si contano da un timestamp, in un posto solo
 import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 // AR-363: una misura ha una scadenza · AR-337: e chi non l'ha potuta prendere non la cancella
 import { conservaSeCieco, misuraScaduta } from "./misura-o-cieco.mjs";
+import { consegnaAllerta, vaSegnataComeData, refertoConsegna, vivoMaNonProduce } from "./consegna-allerta.mjs";
+import { fileMemoria, fileMemoriaDaLeggere } from "./casa-memoria.mjs";
 // AR-215/286/578/592/595: quanto è vecchio un referto, e a che età smette di valere
 import {
   STANTIO,
@@ -76,6 +78,11 @@ const COOLDOWN_ORE = Number(process.env.SENTINELLA_DATI_COOLDOWN_ORE || 6);
 const MAX_GIORNO = Number(process.env.SENTINELLA_DATI_MAX_GIORNO || 8);
 const MAX_ORA = Number(process.env.SENTINELLA_DATI_MAX_ORA || 3);
 const CALO_MIN_BASE = Number(process.env.SENTINELLA_DATI_CALO_MIN_BASE || 3);
+// AR-366 — oltre quanti minuti senza UN LAVORO CHIUSO BENE si suona, a battito fresco e coda piena.
+// Sta sopra la durata del lavoro piu' lungo (un giro puo' prendere 45 minuti) piu' un margine: sotto
+// quella soglia si suonerebbe mentre il cervello sta davvero lavorando, e un allarme che grida su una
+// macchina sana e' un allarme che qualcuno spegne.
+const WORKER_MUTO_MIN = Number(process.env.WORKER_MUTO_MIN || 90);
 const WORKER_MORTO_MIN = Number(process.env.SENTINELLA_DATI_WORKER_MORTO_MIN || 3);
 const SALUTE_MIN = Number(process.env.SENTINELLA_DATI_SALUTE_MIN || 60);
 const RADIOGRAFIA_MAX_GG = Number(process.env.SENTINELLA_DATI_RADIOGRAFIA_MAX_GG || 10);
@@ -210,6 +217,7 @@ export async function leggiStatoReale(state) {
     dati_leggibili: false,
     // macchina
     worker_ultimo: null, worker_eta_min: null, lavori_in_corso: null,
+    lavoro_riuscito_ultimo: null, lavoro_riuscito_eta_min: null, lavori_in_attesa: null,
     sensori_max_ciechi: 0, salute_voto: null, radiografia_ore: null, volano_tasso: null,
     // AR-035: cassa/runway (rischio esistenziale n.1) — la sentinella deve LEGGERE cassa-runway.json
     runway_mesi: null, runway_stato: null, runway_soglia: null, giri_sconosciuto: null,
@@ -284,6 +292,16 @@ export async function leggiStatoReale(state) {
     s.worker_eta_min = Number.isNaN(t) ? null : Math.round((Date.now() - t) / 60000);
   }
   s.lavori_in_corso = await conta(MEM_URL, MEM_KEY, "lavori?stato=eq.in_corso");
+
+  // AR-366 — l'ALTRO segnale: non «sono acceso» ma «ho chiuso un lavoro bene». Il worker lo timbra
+  // solo dopo un esito `fatto`, quindi un processo su col motore AI giu' NON lo aggiorna. Insieme
+  // alla coda in attesa e' quello che distingue «fermo» da «riposo».
+  s.lavoro_riuscito_ultimo = await leggiImpostazione("worker:ultimo:lavoro-riuscito");
+  if (s.lavoro_riuscito_ultimo) {
+    const tl = new Date(s.lavoro_riuscito_ultimo).getTime();
+    s.lavoro_riuscito_eta_min = Number.isNaN(tl) ? null : Math.round((Date.now() - tl) / 60000);
+  }
+  s.lavori_in_attesa = await conta(MEM_URL, MEM_KEY, "lavori?stato=eq.in_attesa");
 
   const cecita = readJson(CECITA_PATH, {});
   // M2: solo fonti-di-verità dati (max_giri_ciechi_dati), non mani n8n / MCP / uptime.
@@ -415,6 +433,29 @@ export function valutaRegole(s, state) {
       firma: String(s.worker_ultimo),
       prompt: `Il worker AD non batte da ${s.worker_eta_min} minuti e non ha lavori in corso: il cervello è probabilmente giù. systemd dovrebbe riavviarlo (Restart=always) — se non torna, controlla mycity-worker.service sul VPS.`,
     });
+  }
+
+  // M1b — VIVO MA NON PRODUCE (AR-366). E' il guasto piu' probabile di questa macchina, ed e' quello
+  //       che M1 per costruzione NON puo' vedere: processo su, motore AI giu'. Il battito continua,
+  //       `worker_eta_min` resta 0, e M1 tace. Questa regola legge l'ALTRO segnale — l'ultimo lavoro
+  //       chiuso bene — e suona solo se c'e' anche qualcosa in coda: senza lavoro da fare, non
+  //       produrre non e' un guasto, e' riposo. Un allarme che grida di notte lo spegne qualcuno.
+  {
+    const v = vivoMaNonProduce({
+      battitoMin: s.worker_eta_min,
+      lavoroRiuscitoMin: s.lavoro_riuscito_eta_min,
+      inAttesa: s.lavori_in_attesa || 0,
+      sogliaMin: WORKER_MUTO_MIN,
+    });
+    if (v.allerta) {
+      eventi.push({
+        ambito: "macchina", chiave: "worker_vivo_ma_muto", colore: "🔴", reparto: "devops-sre", soloAllerta: true,
+        cooldownOre: 0.5,
+        titolo: `Il cervello è acceso ma non finisce più niente da ${s.lavoro_riuscito_eta_min ?? "sempre"} min`,
+        firma: String(s.lavoro_riuscito_ultimo || "mai"),
+        prompt: `Il worker batte (quindi il processo è vivo e systemd non lo riavvierà), ma ${v.perche}. Il caso tipico è il motore AI giù mentre il processo resta su: controlla la quota, le chiavi e i log di mycity-worker.service sul VPS.`,
+      });
+    }
   }
 
   // M2 — Sensori dati ciechi ≥3 giri. dedupPersistente + firma stabile (AR-114, come cassa_sconosciuta
@@ -783,6 +824,71 @@ async function accodaLavoro(ev) {
   return arr?.[0]?.id || "?";
 }
 
+/**
+ * I CANALI VERI, in cascata. Il primo NON PUO' MANCARE (AR-365).
+ *
+ * `AZIONI-IN-ATTESA.md` e' un file nella memoria dell'AD e il Pannello lo legge per riempire «Da
+ * approvare»: e' la cosa che Nicola guarda davvero. Telegram viene dopo, e puo' non esserci — ma se
+ * non c'e' lo dice, invece di uscire muto.
+ */
+export function canaliAllerta() {
+  return [
+    {
+      nome: "card in AZIONI-IN-ATTESA",
+      manda: async (ev) => scriviCardAllerta(ev),
+    },
+    {
+      nome: "telegram",
+      manda: async (ev) => {
+        const tok = process.env.TELEGRAM_BOT_TOKEN?.trim();
+        const chat = process.env.TELEGRAM_CHAT_ID?.trim();
+        if (!tok || !chat) throw new Error("non configurato: manca il token o la chat");
+        const r = await fetch(`https://api.telegram.org/bot${tok}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: chat, text: `🔴 MyCity — ${ev.titolo}\n${ev.prompt}`.slice(0, 3500) }),
+          // AR-439 — un'attesa senza tetto. Se Telegram non risponde, senza questo la sentinella
+          // resta appesa e non arriva mai al canale che invece funziona: sarebbe di nuovo un'allerta
+          // che non parte, cioe' esattamente il difetto che questo lotto ripara.
+          signal: AbortSignal.timeout(8000),
+        });
+        if (!r.ok) throw new Error(`telegram ha risposto ${r.status}`);
+      },
+    },
+  ];
+}
+
+/** Scrive la card dell'allerta in coda. Se non riesce, LANCIA: un canale muto e' il difetto. */
+function scriviCardAllerta(ev) {
+  // AR-668/AR-446 — il percorso della memoria si CHIEDE alla porta, non si calcola con un join.
+  // Ci ero cascata scrivendo questa funzione, ed e' la terza volta oggi che scavalco una porta unica
+  // mentre curo proprio quella malattia. La porta serve a una cosa concreta: un test che vuole
+  // provare questa scrittura deve poterla deviare in una sabbiera, altrimenti l'unico modo di
+  // provarla e' scrivere davvero nella coda vera di Nicola.
+  const via = fileMemoria("MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
+  const ora = nowIsoMinuti();
+  const blocco = [
+    "",
+    `## 🔴 ${ev.titolo}`,
+    `- Quando: ${ora}`,
+    `- Reparto: ${ev.reparto || "devops-sre"}`,
+    `- Cosa cambia: ${ev.prompt}`,
+    `- Se va bene: la macchina torna a lavorare e questa card sparisce da sola al controllo dopo.`,
+    "",
+  ].join("\n");
+  const prima = readFileSync(fileMemoriaDaLeggere("MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md", { esiste: existsSync }), "utf8");
+  if (prima.includes(`## 🔴 ${ev.titolo}`)) return; // gia' in coda: consegnata lo stesso
+  // La penna e' quella condivisa (AR-639): scrive in modo atomico e rispetta il freno della sola
+  // lettura. Un writeFileSync crudo qui dentro sarebbe il cinquantesimo scrittore che salta il freno
+  // — e il cricchetto che conta quegli scrittori me l'ha fatto notare mentre lo aggiungevo.
+  scriviTestoAtomico(via, prima + blocco);
+}
+
+/** L'ora al minuto, come la vuole la memoria (AAAA-MM-GG HH:MM). */
+function nowIsoMinuti() {
+  return new Date().toISOString().slice(0, 16).replace("T", " ");
+}
+
 async function pingTelegram(testo) {
   const tok = process.env.TELEGRAM_BOT_TOKEN?.trim();
   const chat = process.env.TELEGRAM_CHAT_ID?.trim();
@@ -847,8 +953,16 @@ async function main() {
     // 2) SOLO-ALLERTA (es. worker morto): non accoda nulla, avvisa e registra il dedup.
     if (ev.soloAllerta) {
       if (LIVE) {
-        await pingTelegram(`🔴 MyCity — ${ev.titolo}\n${ev.prompt}`);
-        state.regole[ev.chiave] = { ultima_firma: ev.firma, ultimo_accodato: quando, ultimo_accodato_iso: nowIso, colore: ev.colore, soloAllerta: true };
+        // AR-365 — «emessa» non e' «consegnata». Prima qui si pingava Telegram (che se non e'
+        // configurato esce muto) e la riga dopo scriveva comunque «data»: da quel momento il dedup
+        // la considerava mandata e non ci riprovava piu'. La macchina e' rimasta morta 36 ore cosi'.
+        // Adesso comanda la RICEVUTA: se nessun canale ha ricevuto, non si scrive niente e al giro
+        // dopo si riprova.
+        const esito = await consegnaAllerta(ev, canaliAllerta());
+        console.log(refertoConsegna(ev, esito));
+        if (vaSegnataComeData(esito)) {
+          state.regole[ev.chiave] = { ultima_firma: ev.firma, ultimo_accodato: quando, ultimo_accodato_iso: nowIso, colore: ev.colore, soloAllerta: true, consegnata_a: esito.riusciti };
+        }
       }
       allertati.push(ev);
       continue;
