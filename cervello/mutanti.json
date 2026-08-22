@@ -4895,7 +4895,7 @@
    "file": "cervello/prove-difetti.mjs",
    "cerca": "        return rifa && !importa;",
    "sostituisci": "        return false;",
-   "test": "cervello/test/prove-a-due-versi.test.mjs"
+   "test": "node --test cervello/test/un-freno-con-piu-copie.test.mjs"
   },
   {
    "lotto": 44,

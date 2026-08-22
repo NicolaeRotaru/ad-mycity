@@ -112,3 +112,23 @@ test("AR-743 · `provaSoddisfatta` passa da `patternTrovato`: una catena sola, n
   assert.equal(patternTrovato(pattern, testo), provaSoddisfatta({ pattern }, testo),
     "la funzione di alto livello deve poggiare su quella di basso, non rifarla");
 });
+
+// ── ⑤ Il RILEVATORE che risponde «questo difetto è ancora vivo?» deve dire la verità ─────────────
+//
+// `prove-difetti.mjs --ar-743` è lo strumento che il cantiere interroga per sapere se il difetto c'è
+// ancora. Dentro ha la sua decisione: un file «rifà a mano» il confronto e non «importa» la casa.
+//
+// Prima del lotto 46 questa difesa era agganciata al caso di AR-743 dentro `prove-a-due-versi`, che
+// pretendeva il difetto PRESENTE — la forma giusta finché era aperto. Curandolo, quel verso è
+// diventato falso per costruzione e il caso è stato ritirato: la mutazione del rilevatore è rimasta
+// senza nessuno che la potesse prendere. Adesso è agganciata qui, dove il verso è quello nuovo.
+
+test("AR-743 · lo strumento che risponde «è ancora vivo?» dice CURATO, e lo dice eseguendo", async () => {
+  const { spawnSync } = await import("node:child_process");
+  const r = spawnSync(process.execPath, [join(REPO, "cervello/prove-difetti.mjs"), "--ar-743"], { encoding: "utf8" });
+  const out = `${r.stdout || ""}${r.stderr || ""}`;
+
+  assert.match(out, /AR-743/, "lo strumento deve pronunciarsi su questo difetto");
+  assert.match(out, /✅/, `il rilevatore dice ancora che il difetto c'è: ${out.trim().slice(0, 200)}`);
+  assert.doesNotMatch(out, /❌ AR-743/, "se torna ❌, o il difetto è tornato o il rilevatore si è rotto");
+});
