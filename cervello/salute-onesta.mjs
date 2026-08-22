@@ -22,25 +22,57 @@
 //     confronto con «una settimana fa» dichiara il proprio margine invece di dare un numero secco.
 // Le due definizioni vivono in `cervello/stati-cantiere.mjs`, dove un test le può eseguire.
 //
-// USO:
-//   node cervello/salute-onesta.mjs           -> report umano
-//   node cervello/salute-onesta.mjs --json     -> output macchina (serie KPI per il Pannello)
+// ── AR-703 — LO STRUMENTO CHE RISPONDE A «STO MIGLIORANDO?» NON LO ESEGUIVA NESSUNO ─────────────
+// Aveva tutto per essere un guardiano — shebang, contratto d'uscita, `process.exit` — tranne
+// qualcuno che lo lanciasse. Il numero c'era, il freno no: un cantiere che CRESCE usciva 0, cioè
+// con la faccia del verde, e lo diceva a una console che non leggeva nessuno. Adesso:
+//   · la decisione «cala o cresce?» è una funzione pura in `cervello/verdetto-burn-down.mjs`, che
+//     un test può eseguire su un cantiere finto che peggiora;
+//   · con `--gate` quel verdetto DIVENTA il codice d'uscita, quindi può fermare qualcuno;
+//   · la visita (`cervello/salute.mjs`, controllo `cervello.burndown`) lo esegue a ogni giro e
+//     porta il rosso nel referto che legge Nicola e in `auto-coscienza/salute.json`.
 //
-// Sola lettura. Uscita: 0 = ho misurato · 2 = il cantiere non si è lasciato leggere (CIECO, mai un
-// verde: un errore di lettura non deve poter uscire dalla porta con la faccia di uno zero).
+// USO:
+//   node cervello/salute-onesta.mjs            -> report umano
+//   node cervello/salute-onesta.mjs --json     -> output macchina (serie KPI per il Pannello)
+//   node cervello/salute-onesta.mjs --gate     -> il verdetto diventa il codice d'uscita (il freno)
+//
+// Sola lettura: non scrive niente e non tocca il mondo.
+//
+// Uscita: senza `--gate` → 0 = ho misurato · 2 = il cantiere non si è lasciato leggere (CIECO, mai
+// un verde: un errore di lettura non deve poter uscire dalla porta con la faccia di uno zero).
+// Con `--gate` il verdetto DIVENTA il codice → 0 = il cantiere cala o è fermo · 1 = CRESCE ·
+// 2 = non l'ho potuto misurare (cantiere illeggibile, o differenza dentro il margine d'incertezza).
+//
+// ⚠️ Quella riga qui sopra non è decorazione: `guardia-viva.mjs` riconosce un guardiano dal
+// contratto d'uscita dichiarato in testa («Uscita:» entro le prime 80 righe) più shebang e
+// `process.exit`. Riscrivendola in un'altra forma questo file sparisce dal censimento dei
+// guardiani — cioè torna invisibile, che è il difetto AR-703 preso dall'altro capo.
+//
+// PERCHÉ IL FRENO STA SOTTO UNA BANDIERINA E NON SEMPRE. Senza `--gate` questo comando è un METRO:
+// lo chiamano il Pannello e le prove per avere i numeri, e un metro che esce 1 perché la cosa
+// misurata sta male fa fallire chi voleva solo leggerla. Con `--gate` è un FRENO, e allora il
+// verdetto è il codice d'uscita. Stessa forma di `cervello/tasso-chiusura.mjs --gate`.
 
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 
 import { apertiAllaData, contaDifetti } from "./stati-cantiere.mjs";
+import { giudicaBurnDown } from "./verdetto-burn-down.mjs";
 
 const ROOT = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const AC = join(ROOT, "MyCity-Vault", "90-Memoria-AI", "auto-coscienza");
 const STORICO = join(AC, "storico-salute.json");
-const CANTIERE = join(AC, "cantiere-difetti.json");
+// `CANTIERE_FILE` esiste per una ragione sola, ed è la stessa di `GUARDIANI_MOTIVI_FILE` in
+// guardia-viva-check: una prova deve poter far girare QUESTO comando su un cantiere finto che
+// peggiora. Senza, l'unico cantiere misurabile sarebbe quello vero — e il giorno in cui va bene,
+// il ramo rosso non lo eseguirebbe nessuno. Nei processi veri la variabile non è mai impostata.
+const CANTIERE = process.env.CANTIERE_FILE || join(AC, "cantiere-difetti.json");
 
 const JSON_OUT = process.argv.includes("--json");
+/** Con `--gate` il verdetto sul burn-down diventa il codice d'uscita: da metro a freno. */
+const GATE = process.argv.includes("--gate");
 
 function leggi(p) {
   try {
@@ -103,8 +135,25 @@ const margineOra = difetti
   ? difetti.filter(Boolean).filter((d) => String(d?.stato ?? "").trim() !== "chiuso" && giorno(d?.nato) == null).length
   : null;
 
+// ── IL VERDETTO (AR-703) ─────────────────────────────────────────────────────────────────────────
+// Qui il file smette di raccontare numeri e ne DEDUCE uno solo: il cantiere sta calando, sta
+// crescendo, o non lo so. La deduzione non abita qui — sta in `verdetto-burn-down.mjs`, dove una
+// prova la può eseguire su un cantiere che peggiora senza dover peggiorare quello vero.
+const verdetto = giudicaBurnDown({
+  letto: conto.letto,
+  apertiOra,
+  apertiSettimanaFa,
+  margine: ignotiSettimanaFa,
+});
+
 const report = {
   esito: conto.letto ? "ok" : "cieco",
+  // `sintesi` è il campo che chi legge un guardiano cerca per primo (salute.mjs → motivoDelGuasto):
+  // è la riga che finisce nel referto di Nicola quando questo controllo diventa rosso. Senza, al
+  // suo posto ci finirebbero le prime due righe del JSON — cioè una parentesi graffa.
+  sintesi: verdetto.detto,
+  verdetto_burn_down: verdetto.stato,
+  cantiere_peggiora: verdetto.peggiora,
   voto_onesto_ultimo: ultimoPieno,
   voto_onesto_trend: trend,
   rilevazioni_con_voto_pieno: conPieno.length,
@@ -132,8 +181,13 @@ const report = {
   cantiere_meta: cj?.meta ?? null,
 };
 
-/** 0 = ho misurato · 2 = non ho potuto guardare. Il cieco non esce mai con la faccia del verde. */
-const USCITA = conto.letto ? 0 : 2;
+/**
+ * SENZA `--gate`: 0 = ho misurato · 2 = non ho potuto guardare. Il cieco non esce mai con la faccia
+ * del verde. CON `--gate`: il verdetto sul cantiere È il codice d'uscita — 1 quando cresce. È la
+ * riga che trasforma questo file da metro a freno (AR-703): finché l'uscita non conosceva l'1,
+ * cablarlo da qualche parte non sarebbe servito a niente, perché non aveva modo di dire «no».
+ */
+const USCITA = GATE ? verdetto.uscita : conto.letto ? 0 : 2;
 
 /**
  * Il referto è calcolato qui sopra e si può leggere importando il file. Quello che invece NON deve
@@ -167,14 +221,14 @@ function main() {
       ` (di cui ${conto.aperti} aperte, ${conto.in_corso} in corso, ${conto.da_riverificare} da riverificare` +
       `${conto.altri ? `, ${conto.altri} in stati che non so nominare` : ""}).`,
   );
-  if (burnDown != null) {
-    if (burnDown > 0) console.log(`   ✅ il cantiere CALA (${burnDown} difetti chiusi netti nella settimana).`);
-    else if (burnDown < 0) console.log(`   ⚠️  il cantiere CRESCE (${-burnDown} difetti aperti netti in più): non va a zero.`);
-    else console.log("   ⏸️  cantiere fermo (né su né giù).");
-  }
+  // AR-703 — la riga che Nicola legge e il codice d'uscita dicono ORA la stessa cosa, perché
+  // vengono dallo stesso verdetto. Prima la console diceva «CRESCE» e la porta usciva 0.
+  const SEGNO = { cala: "✅", fermo: "⏸️ ", cresce: "❌", incerto: "⚪", cieco: "⚪" };
+  console.log(`   ${SEGNO[verdetto.stato] || "⚪"} ${verdetto.detto}`);
   // AR-671 — il confronto con «una settimana fa» dice quanto può sbagliare. Prima quei difetti
-  // uscivano dal conto in silenzio, e il burn-down migliorava da solo.
-  if (ignotiSettimanaFa) {
+  // uscivano dal conto in silenzio, e il burn-down migliorava da solo. Quando il verdetto è
+  // «incerto» il margine l'ha già detto lui: ripeterlo qui sarebbe la stessa idea due volte.
+  if (ignotiSettimanaFa && verdetto.stato !== "incerto") {
     console.log(
       `   ⚠️  ${ignotiSettimanaFa} difetti su ${conto.totale} non hanno una data di nascita leggibile:` +
         ` non so dove stavano una settimana fa, quindi il confronto qui sopra può sbagliare fino a ${ignotiSettimanaFa}.`,

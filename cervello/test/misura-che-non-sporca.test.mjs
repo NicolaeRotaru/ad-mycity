@@ -419,6 +419,35 @@ prova("⑲ AR-639 · IL TETTO: quanti scrittori del vault saltano ancora il fren
     "esperimenti-check è la terza porta di AR-668: se torna a scrivere crudo, il freno non la attraversa più");
 });
 
+// ── AR-788: il timbro che azzerava la copertura di chi non la dichiara ──────
+
+prova("AR-788: «copertura non dichiarata» non diventa «copertura zero»", () => {
+  // `Number(null)` è 0, non NaN. La guardia era `Number.isFinite(Number(copertura))`, quindi era vera
+  // anche a copertura mai passata, e il timbro stampava `copertura: 0`. In coerenza-fatti.mjs quel
+  // campo si spargeva DOPO quello vero: 1.310 file vivi letti, e scritto di averne letti zero.
+  const senza = timbroProvenienza({ env: {}, scrittoDa: "prova" });
+  assert.ok(!("copertura" in senza), `una copertura non dichiarata non si timbra, invece: ${JSON.stringify(senza)}`);
+});
+
+prova("AR-788: uno zero DICHIARATO resta zero (è una misura, non un'assenza)", () => {
+  // L'altra metà, e non è simmetrica per caso: «ho guardato e non c'era niente» è un'informazione,
+  // «non ho guardato» no. Confonderle in un verso spegne la guardia, nell'altro cancella una misura.
+  const zero = timbroProvenienza({ env: {}, copertura: 0, scrittoDa: "prova" });
+  assert.equal(zero.copertura, 0, "uno zero passato apposta deve restare nel timbro");
+  const vera = timbroProvenienza({ env: {}, copertura: 1310, scrittoDa: "prova" });
+  assert.equal(vera.copertura, 1310);
+});
+
+prova("AR-788: la guardia «cieco non sovrascrive vedente» torna a poter dire di no", () => {
+  // È il danno vero: AR-568 confronta proprio questo numero. Con ogni misura timbrata a zero
+  // confrontava zeri, cioè una sessione cieca poteva calpestare la misura di una vedente senza che
+  // niente si opponesse. Qui si verifica sul comportamento, non sul campo.
+  const vedente = { ...timbroProvenienza({ env: {}, copertura: 1310, scrittoDa: "vps" }), esito: "ok" };
+  const cieca = { ...timbroProvenienza({ env: {}, scrittoDa: "cloud" }), esito: "ok" };
+  const scelta = decidiScrittura({ solaLettura: false, misuraNuova: cieca, misuraVecchia: vedente, vecchiaLeggibile: true });
+  assert.equal(scelta.scrivi, false, `una misura senza copertura non deve sostituire una da 1310: ${scelta.motivo}`);
+});
+
 // ── il conto ────────────────────────────────────────────────────────────────
 rmSync(sabbiera, { recursive: true, force: true });
 for (const c of casi) console.log(`  ${c.ok ? "✓" : "✗"} ${c.nome}${c.ok ? "" : ` → ${c.err}`}`);

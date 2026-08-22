@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-22 16:05
+aggiornato: 2026-08-22 20:25
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -137,6 +137,54 @@ tre controlli usano per capire se l'attivita' e' ferma.
 > Referti: `consegne/audit/2026-08-21-radiografia.md` · `consegne/design/2026-08-21-radiografia-design.md`.
 
 ## Passaggi precedenti
+
+> 🔧 **22/8 20:25 — Lotto 49. Il metro sotto-contava di un terzo, e la macchina lo sapeva.**
+>
+> **In parole semplici.** Alcuni strumenti con cui la macchina si misura non potevano bocciare
+> nessuno. Uno contava nove errori e ne vedeva sei. Un altro promuoveva tutti e centoventi i
+> mansionari. Adesso possono dire di no, e infatti lo dicono.
+>
+> **Cosa cambia per te.** I numeri che leggi nella Cabina sull'apprendimento erano gonfiati: nove
+> esperimenti risultavano «misurati» senza essere mai partiti. Adesso dicono il vero. E il metro dei
+> mansionari, che ti diceva «120 su 120 a posto», ora te ne segnala 82 da sistemare.
+>
+> **Cosa devi fare.** Guardare la richiesta di unione e decidere se va bene. Nient'altro: nessuna
+> azione sul mondo reale, nessuna spesa, nessun messaggio a nessuno.
+>
+> **Cosa non ho verificato.** Quante altre prove siano scritte sulla presenza del difetto invece che
+> sulla capacità di riconoscerlo. Per contarle serve prima un guardiano che le sappia vedere, e non
+> c'è. E il typecheck del Pannello qui non gira: manca l'installazione delle librerie.
+>
+> ---
+>
+> Malattia del lotto: **un metro che non può fallire**. Quattro corsie in parallelo più il lavoro
+> dell'AD, ognuna coi suoi file, nessuna autorizzata a toccare i registri condivisi.
+>
+> **Il caso che dà il nome al lotto.** Nel registro degli esperimenti nove schede su dieci dicevano
+> «misurato». La loro stessa nota diceva un'altra cosa: che il cancello non era mai partito. Cioè il
+> volano contava come imparate delle cose mai successe. Esempio vero: EXP-004 diceva «misurato» e
+> sotto scriveva «il post non è mai stato pubblicato».
+>
+> **La regola per riconoscerli c'è dal 15 agosto, e ha una casa sola.** Ma il programma che doveva
+> contarli non la chiamava: se n'era scritta una copia in casa propria. Le due non erano d'accordo.
+> La copia ne vedeva **sei**, la casa unica **nove**. Tre esperimenti erano invisibili proprio al metro
+> che doveva contarli. E il metro stampava un numero preciso: è così che un errore del genere
+> sopravvive. La copia privata è stata cancellata, non corretta.
+>
+> **Il secondo giro ha trovato il buco vero, e non era nel difetto.** I nove li avevo corretti a mano.
+> Il correttore non lo chiamava nessuno nella macchina viva. Riparare la porta a mano e lasciare
+> aperta quella automatica è il modo più sicuro di far tornare un difetto da solo. Adesso il guardiano
+> degli esperimenti corregge da sé, e **dichiara** quali etichette ha corretto.
+>
+> **Il metro dei mansionari, prima, promuoveva tutti: 120 su 120.** Contava quattro titoli che il
+> modello di partenza garantisce per costruzione. Adesso ne passano **38**. Gli 82 bocciati non sono
+> peggiorati stanotte: erano così, e nessuno li poteva vedere.
+>
+> **Due difetti nuovi, nati guardando.** ① Ci sono prove verdi **solo finché il difetto c'è**:
+> pretendono che la bugia sia ancora sul disco. Curarla le fa diventare rosse. Il banco puniva chi
+> guarisce. Le tre trovate sono riscritte. ② Il timbro che marca ogni misura scriveva «ho guardato zero
+> cose» su chi non dichiarava quanto aveva guardato. La difesa che impedisce a una sessione cieca di
+> calpestare i numeri veri del server confronta proprio quel numero: confrontava zeri.
 
 > 🔁 **21/8 16:27 — Passaggio di verifica lampo, stato identico al giro delle 14:40 (nessuna riscrittura pesante: macchina in SOPRAVVIVENZA, quota AI 151%).**
 

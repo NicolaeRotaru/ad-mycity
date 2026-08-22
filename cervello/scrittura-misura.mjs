@@ -292,7 +292,21 @@ export function affiancaMisura(documento, misuraNuova, { origine, quando, campiT
  */
 export function timbroProvenienza({ env = {}, copertura = null, scrittoDa = "" } = {}) {
   const t = { origine: origineCorrente(env) };
-  if (Number.isFinite(Number(copertura))) t.copertura = Number(copertura);
+  // `Number(null)` è 0, non NaN — quindi la guardia `Number.isFinite(Number(copertura))` era vera
+  // ANCHE quando la copertura non era stata passata, e il timbro stampava `copertura: 0` su ogni
+  // misura che non la dichiara. Non è un dettaglio di forma: il campo veniva sparso DOPO quello vero
+  // nell'oggetto del referto, quindi lo sovrascriveva. `coerenza-fatti.mjs` leggeva 1.310 file vivi e
+  // scriveva di averne letti zero.
+  //
+  // E il danno peggiore è più in su: la regola «cieco non sovrascrive vedente» (AR-568) confronta
+  // proprio questo numero. Con ogni misura timbrata a zero, confrontava zeri — cioè la difesa contro
+  // una sessione cieca che calpesta la misura di una vedente era spenta per tutti i chiamanti che non
+  // passano la copertura a mano. Una guardia che confronta sempre zero non può dire di no.
+  //
+  // «Non dichiarata» e «zero» sono due cose diverse e vanno tenute diverse: la prima non si timbra.
+  if (copertura !== null && copertura !== undefined && Number.isFinite(Number(copertura))) {
+    t.copertura = Number(copertura);
+  }
   if (scrittoDa) t.scritto_da = String(scrittoDa);
   return t;
 }

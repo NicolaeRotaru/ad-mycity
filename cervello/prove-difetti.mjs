@@ -38,6 +38,7 @@ import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { pathToFileURL } from "node:url";
 import { AD_ROOT } from "./git-github.mjs";
+import { esperimentiSmentiti } from "./esperimenti-regole.mjs";
 
 // La radice su cui le prove guardano. Di norma è il repo vero; la prova a due versi la punta su una
 // COPIA temporanea, dove può simulare il fix senza toccare niente di vivo. Serve perché una prova che
@@ -768,18 +769,24 @@ const PROVE = {
       }
       const lista = reg.esperimenti || [];
       if (!lista.length) return { cieco: "il registro non contiene esperimenti: non ho niente da misurare" };
-      // «Misurato» dovrebbe voler dire che l'esperimento è stato CORSO. Qui si contano quelli che si
-      // dichiarano misurati e la cui stessa nota dice che il gate non è mai partito — un verde
-      // comprato: il volano conta come apprendimento una cosa che non è mai successa.
-      const maiPartito = /in pausa|⏸|mai (partit|scatt|gir)|non (è |e )?(mai )?(partit|scatt|gir)|non testat/i;
-      const bugiardi = lista.filter((e) => String(e?.stato ?? "").toLowerCase() === "misurato" && maiPartito.test(String(e?.nota ?? "")));
+      // «Misurato» dovrebbe voler dire che l'esperimento è stato CORSO. Qui si contano quelli la cui
+      // etichetta è smentita dal loro stesso racconto — un verde comprato: il volano conta come
+      // apprendimento una cosa che non è mai successa.
+      //
+      // La regola NON sta qui. Stava, ed era il difetto dentro il difetto: questa prova si era
+      // scritta la sua copia privata («in pausa|⏸|mai partito|…») e quella copia vedeva SEI
+      // esperimenti dove la casa unica ne vedeva NOVE — EXP-006, EXP-013 ed EXP-015 erano invisibili
+      // al metro che avrebbe dovuto contarli. Due case per la stessa decisione divergono sempre, e
+      // quella che diverge in silenzio è il metro. Adesso la decisione è una sola, in
+      // esperimenti-regole.mjs, e chi ne ha bisogno la importa.
+      const bugiardi = esperimentiSmentiti(lista);
       if (!bugiardi.length) {
-        return { ...RIPARATO, detto: "nessun esperimento si dichiara misurato mentre la sua nota dice che il cancello non è partito" };
+        return { ...RIPARATO, detto: "nessun esperimento porta un'etichetta che il suo stesso racconto smentisce" };
       }
-      const misurati = lista.filter((e) => String(e?.stato ?? "").toLowerCase() === "misurato").length;
+      const dichiaratiFiniti = lista.filter((e) => ["misurato", "chiuso"].includes(String(e?.stato ?? "").trim().toLowerCase())).length;
       return {
         ...APERTO,
-        detto: `${bugiardi.length} esperimenti su ${misurati} dichiarati «misurato» hanno una nota che dice che il gate non è mai partito (${bugiardi.map((e) => e.id).join(", ")}): il volano conta come appreso ciò che non è successo`,
+        detto: `${bugiardi.length} esperimenti su ${dichiaratiFiniti} dichiarati finiti sono smentiti dalla loro stessa nota (${bugiardi.map((e) => e.id).join(", ")}): il volano conta come appreso ciò che non è successo`,
       };
     },
   },

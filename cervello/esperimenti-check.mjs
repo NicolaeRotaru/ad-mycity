@@ -30,7 +30,7 @@ import { scriviJsonAtomico } from "./scrivi-json.mjs";
 // AR-150 — «misurato» era una parola che il motore si scriveva da solo. Nove esperimenti su quindici
 // la portavano mentre la loro stessa nota diceva «mai testata: il gate non è mai partito». Qui il
 // conto passa dallo stato EFFETTIVO, e i non-testati diventano un numero invece di sparire nei misurati.
-import { contaEsperimenti, esperimentiNonTestati, statoEffettivo } from "./esperimenti-regole.mjs";
+import { contaEsperimenti, correggiStati, esperimentiNonTestati, statoEffettivo } from "./esperimenti-regole.mjs";
 
 const PATH = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/auto-miglioramento.json");
 const JSON_MODE = process.argv.includes("--json");
@@ -83,7 +83,7 @@ async function main() {
     process.exit(1);
   }
 
-  const esperimenti = Array.isArray(dati.esperimenti) ? dati.esperimenti : [];
+  let esperimenti = Array.isArray(dati.esperimenti) ? dati.esperimenti : [];
   const aperti = esperimenti.filter((e) => e.stato === "aperto");
   let datati = 0;
 
@@ -102,6 +102,27 @@ async function main() {
   // AR-150 — `misurati` era il conto di chi si dichiarava misurato. Ora è il conto di chi lo è
   // davvero, e accanto compare `non_testati`: gli esperimenti scaduti col gate mai partito. Il numero
   // che prima si nascondeva dentro «misurati» adesso ha un nome suo, e il Pannello lo può mostrare.
+  // (2b) AR-744 — l'etichetta smentita dal proprio racconto viene CORRETTA, non solo contata.
+  //
+  // Fino al 22/8 questo file sapeva riconoscerli (`statoEffettivo` dal 15/8) e li lasciava sbagliati
+  // sul disco: nove schede su dieci dicevano `misurato` mentre la loro stessa nota diceva che il gate
+  // non era mai partito. Chi leggeva il registro senza passare da qui — il Pannello, un giro futuro,
+  // una radiografia — leggeva nove esperimenti misurati. Il rilevatore era un LETTORE.
+  //
+  // Questo NON viola il confine dichiarato sopra («la MISURA resta al motore/AD»): non si decide
+  // nessun esito, non si legge nessun numero. Si toglie una contraddizione fra due campi della stessa
+  // scheda, usando come fonte il campo che descrive un fatto accaduto (la nota) contro quello che
+  // dichiara un'etichetta. La parola di prima resta in `stato_dichiarato`, la nota non si tocca.
+  //
+  // E sta QUI, sul dato, invece che dentro un comando a mano: la correzione fatta una volta a mano il
+  // 22/8 avrebbe rimesso le stesse nove schede nella stessa condizione al primo esperimento nuovo
+  // scritto con la stessa bugia. Un freno dentro il comando non lo eredita nessun altro scrittore.
+  const corretta = correggiStati(esperimenti);
+  if (corretta.corretti.length) {
+    esperimenti = corretta.esperimenti;
+    dati.esperimenti = esperimenti;
+  }
+
   const conto = contaEsperimenti(esperimenti);
   const nonTestati = esperimentiNonTestati(esperimenti);
   dati.meta_esperimenti = {
@@ -114,6 +135,7 @@ async function main() {
     non_testati: conto.non_testati,
     non_testati_ids: nonTestati.map((e) => e.id).filter(Boolean),
     resa_esperimenti: conto.resa,
+    etichette_corrette: corretta.corretti,
     _cosa_significa_non_testati:
       "esperimenti che si dichiarano misurati/chiusi mentre la loro stessa nota dice che il gate non è mai partito: l'ipotesi non è stata respinta, non è mai stata provata (AR-150).",
   };

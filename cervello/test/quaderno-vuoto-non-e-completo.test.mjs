@@ -19,6 +19,34 @@ import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
 import { DIFETTO, esiti, statoQuaderno, ultimoEsito } from "../stampo-metro.mjs";
 
+// AR-436 (lotto 49) — i quattro titoli non bastano più a fare un mansionario sano: il metro adesso
+// misura anche la sostanza. Questa prova parla del QUADERNO, quindi l'agente finto dev'essere sano di
+// tutto il resto, o un rosso non direbbe niente sulla regola in prova. Una costante sola invece di tre
+// copie: tre copie della stessa finzione divergono, ed è la malattia che questo lotto sta curando.
+const MANSIONARIO_SANO = [
+  "## 🎓 SCHEDA MESTIERE — fuoriclasse del forno", "",
+  "Il tuo metro è RUBRICA-LIVELLI scorecard.", "",
+  "**Come pensi (modelli mentali).**",
+  "- **Il pane fresco vende sé stesso**: se è caldo alle sette la fila si forma da sola in via Roma.",
+  "- **Densità prima di varietà**: dieci pezzi di tre tipi battono tre pezzi di dieci tipi, sempre.",
+  "- **Il cliente delle sette non è quello delle undici**: due mestieri nello stesso negozio, davvero.", "",
+  "**Il tuo loop interno (NON consegni la prima bozza).**",
+  "1. Genera **almeno 3 angoli diversi** per l'offerta del giorno.",
+  "2. Criticali contro il TASTE-FILE-NICOLA, non contro il tuo gusto.",
+  "3. Tieni 1. Domanda-ghigliottina: **«Lo comprerebbe un piacentino di 60 anni di fretta?»** → se no, rifai.", "",
+  "**Galleria di riferimento.**",
+  "- ✅ GOLD: «Focaccia calda dalle 7, tre pezzi a 5 euro, finita alle 9» — perché funziona: dice l'ora,",
+  "  il prezzo e la scarsità vera, e chi passa capisce in tre secondi se gli conviene correre adesso.",
+  "- ❌ SPAZZATURA: «Vieni a scoprire le nostre specialità artigianali» — perché muore: nessun orario,",
+  "  nessun prezzo, nessuna ragione per muoversi adesso invece che domani o mai più.", "",
+  "**Trappole del mestiere.** Promettere il caldo col forno spento · annunciare quantità che non hai ·",
+  "sconti a pioggia che bruciano il margine · scrivere «artigianale» senza dire cosa cambia.", "",
+  "**Il carburante che chiedi.** Ti servono: le **quantità sfornate per fascia oraria**, le **foto del",
+  "banco delle sette**, il **prezzo di costo della farina**, l'orario vero di chiusura.", "",
+  "## 🧬 Carta del Dipendente", "✅ RITUALE DI FINE — auto-verifica.",
+].join("\n");
+
+
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
 const OGGI = "2026-07-28";
@@ -118,7 +146,7 @@ prova("il guardiano sa dire di NO: un quaderno vuoto non dichiarato lo fa uscire
   const dir = mkdtempSync(join(tmpdir(), "mycity-stampo-"));
   try {
     for (const d of ["agents", "kit", "squadra"]) mkdirSync(join(dir, d));
-    writeFileSync(join(dir, "agents/nuovo.md"), "## 🎓 SCHEDA MESTIERE\nRUBRICA-LIVELLI scorecard\nRITUALE DI FINE\n");
+    writeFileSync(join(dir, "agents/nuovo.md"), MANSIONARIO_SANO);
     writeFileSync(join(dir, "kit/nuovo-KIT.md"), `# k\n\n## E. aggancio\n${"x".repeat(30000)}\n`);
     writeFileSync(join(dir, "squadra/nuovo.md"), "## Esiti\n- (ancora vuoto)\n");
     writeFileSync(join(dir, "baseline.json"), JSON.stringify({ dichiarato_il: "2026-07-28", debito: {} }));
@@ -144,7 +172,7 @@ prova("senza il debito dichiarato è CIECO (2), non verde", () => {
   const dir = mkdtempSync(join(tmpdir(), "mycity-stampo-cieco-"));
   try {
     for (const d of ["agents", "kit", "squadra"]) mkdirSync(join(dir, d));
-    writeFileSync(join(dir, "agents/nuovo.md"), "## 🎓 SCHEDA MESTIERE\nRUBRICA-LIVELLI scorecard\nRITUALE DI FINE\n");
+    writeFileSync(join(dir, "agents/nuovo.md"), MANSIONARIO_SANO);
     writeFileSync(join(dir, "kit/nuovo-KIT.md"), `# k\n\n## E. aggancio\n${"x".repeat(30000)}\n`);
     writeFileSync(join(dir, "squadra/nuovo.md"), "## Esiti\n- 2026-07-28 10:00 · x · atteso a → reale b\n");
     const r = spawnSync("node", [join(REPO, "cervello/stampo-check.mjs")], {
@@ -161,7 +189,7 @@ prova("provare il guardiano non sporca la misura vera", () => {
   const dir = mkdtempSync(join(tmpdir(), "mycity-stampo-pulito-"));
   try {
     for (const d of ["agents", "kit", "squadra"]) mkdirSync(join(dir, d));
-    writeFileSync(join(dir, "agents/nuovo.md"), "## 🎓 SCHEDA MESTIERE\nRUBRICA-LIVELLI scorecard\nRITUALE DI FINE\n");
+    writeFileSync(join(dir, "agents/nuovo.md"), MANSIONARIO_SANO);
     spawnSync("node", [join(REPO, "cervello/stampo-check.mjs")], {
       cwd: REPO, encoding: "utf8",
       env: { ...process.env, STAMPO_AGENTS_DIR: join(dir, "agents"), STAMPO_KIT_DIR: join(dir, "kit"), STAMPO_SQUADRA_DIR: join(dir, "squadra"), STAMPO_BASELINE: join(dir, "nb.json") },

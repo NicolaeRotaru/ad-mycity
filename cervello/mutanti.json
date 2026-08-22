@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-22 19:10",
+ "aggiornato": "2026-08-22 20:45",
  "mutanti": [
   {
    "lotto": 30,
@@ -3581,9 +3581,10 @@
    "difetto": "AR-433",
    "nome": "i riferimenti a codice tornano a contare come numeri senza fonte",
    "file": "cervello/onesta-check.mjs",
-   "cerca": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(testo) : \"\";",
-   "sostituisci": "  const testoNumeri = regole.numeri ? testo : \"\";",
-   "test": "node cervello/test/c5-metro-che-boccia-tutto.test.mjs"
+   "cerca": "  const testoNumeri = regole.numeri ? mascheraRiferimenti(daGiudicare) : \"\";",
+   "sostituisci": "  const testoNumeri = \"\";",
+   "test": "node cervello/test/c5-metro-che-boccia-tutto.test.mjs",
+   "nota_riaggancio": "Riagganciata il 2026-08-22 (lotto 49): il metro ora giudica `daGiudicare` (la parte VIVA del file) invece del testo intero — AR-394 ha portato qui l'ambito ristretto. Il comportamento difeso e lo stesso, il puntatore era rimasto sul nome vecchio della variabile."
   },
   {
    "lotto": 41,
@@ -4900,11 +4901,11 @@
   {
    "lotto": 44,
    "difetto": "AR-744",
-   "nome": "il rilevatore smette di leggere la nota: un esperimento che si dichiara misurato col gate mai partito torna a contare come apprendimento",
+   "nome": "il rilevatore smette di chiedere alla casa unica chi e smentito, e dichiara verde un registro bugiardo",
    "file": "cervello/prove-difetti.mjs",
-   "cerca": "      const bugiardi = lista.filter((e) => String(e?.stato ?? \"\").toLowerCase() === \"misurato\" && maiPartito.test(String(e?.nota ?? \"\")));",
+   "cerca": "      const bugiardi = esperimentiSmentiti(lista);",
    "sostituisci": "      const bugiardi = [];",
-   "test": "cervello/test/prove-a-due-versi.test.mjs"
+   "test": "node cervello/test/esperimento-smentito-si-corregge.test.mjs"
   },
   {
    "lotto": 44,
@@ -6150,6 +6151,78 @@
    "cerca": "    const v = vivoMaNonProduce({",
    "sostituisci": "    const v = { allerta: false, perche: \"\" } || vivoMaNonProduce({",
    "test": "node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
+  },
+  {
+   "lotto": 49,
+   "difetto": "AR-744",
+   "nome": "il correttore torna a essere un lettore: sa che l'etichetta è smentita e lascia il dato sbagliato sul disco",
+   "file": "cervello/esperimenti-regole.mjs",
+   "cerca": "    return { ...e, stato: effettivo, stato_dichiarato: dichiarato };",
+   "sostituisci": "    return e;",
+   "test": "node cervello/test/esperimento-smentito-si-corregge.test.mjs"
+  },
+  {
+   "lotto": 49,
+   "difetto": "AR-744",
+   "nome": "la porta automatica si riapre: il guardiano torna a contare senza correggere, e la bugia rientra al primo esperimento nuovo",
+   "file": "cervello/esperimenti-check.mjs",
+   "cerca": "  const corretta = correggiStati(esperimenti);",
+   "sostituisci": "  const corretta = { esperimenti, corretti: [] };",
+   "test": "node cervello/test/esperimento-smentito-si-corregge.test.mjs"
+  },
+  {
+   "lotto": 49,
+   "difetto": "AR-788",
+   "nome": "il timbro torna ad azzerare la copertura di chi non la dichiara, e la guardia cieco-vs-vedente confronta zeri",
+   "file": "cervello/scrittura-misura.mjs",
+   "cerca": "  if (copertura !== null && copertura !== undefined && Number.isFinite(Number(copertura))) {",
+   "sostituisci": "  if (Number.isFinite(Number(copertura))) {",
+   "test": "node cervello/test/misura-che-non-sporca.test.mjs"
+  },
+  {
+   "lotto": 49,
+   "difetto": "AR-354",
+   "nome": "il fix di AR-354 viene scollegato: il punto malato torna a decidere da solo",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "  const amm = ammissibilitaProva(d, { fileEsiste: (f) => existsSync(join(AD_ROOT, f)) });",
+   "sostituisci": "  const amm = { ammessa: true, marca: null, classe: null, senza_controllo: false, motivo: \"\" };",
+   "test": "node cervello/test/prova-debole-non-chiude.test.mjs"
+  },
+  {
+   "lotto": 49,
+   "difetto": "AR-684",
+   "nome": "il fix di AR-684 viene scollegato: il punto malato torna a decidere da solo",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "const aperti = cantiere.difetti.filter(eDaFare);",
+   "sostituisci": "const aperti = cantiere.difetti.filter((d) => d.stato === \"aperto\");",
+   "test": "node cervello/test/prova-debole-non-chiude.test.mjs"
+  },
+  {
+   "lotto": 49,
+   "difetto": "AR-394",
+   "nome": "il fix di AR-394 viene scollegato: il punto malato torna a decidere da solo",
+   "file": "cervello/onesta-check.mjs",
+   "cerca": "if (scarta(\"numero-senza-fonte\", { raw, prima, dopo })) continue;",
+   "sostituisci": "if (true) continue;",
+   "test": "node cervello/test/quarto-controllo-promesso.test.mjs"
+  },
+  {
+   "lotto": 49,
+   "difetto": "AR-703",
+   "nome": "il fix di AR-703 viene scollegato: il punto malato torna a decidere da solo",
+   "file": "cervello/salute-onesta.mjs",
+   "cerca": "const USCITA = GATE ? verdetto.uscita : conto.letto ? 0 : 2;",
+   "sostituisci": "const USCITA = conto.letto ? 0 : 2;",
+   "test": "node cervello/test/salute-onesta-e-cablata.test.mjs"
+  },
+  {
+   "lotto": 49,
+   "difetto": "AR-436",
+   "nome": "il metro dei mansionari torna a contare i quattro titoli che il template garantisce: 120 su 120 passano di nuovo",
+   "file": "cervello/stampo-metro.mjs",
+   "cerca": "  d.push(...difettiSostanza(testo, opzioni));",
+   "sostituisci": "  // MUTANTE: il metro torna a contare i quattro titoli del template",
+   "test": "node cervello/test/metro-mansionari-puo-bocciare.test.mjs"
   }
  ]
 }

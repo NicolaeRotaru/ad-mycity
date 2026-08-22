@@ -1094,6 +1094,39 @@ export const CONTROLLI = [
   },
 
   {
+    // AR-703 — IL NUMERO CON CUI SI RISPONDE A «STO MIGLIORANDO?», E CHI LO ASCOLTA.
+    //
+    // `salute-onesta.mjs` conta i difetti aperti adesso e quelli aperti una settimana fa: è la
+    // risposta alla domanda che Nicola fa più spesso sul cantiere — «sta calando davvero?». Aveva
+    // il contratto d'uscita di un guardiano e non lo lanciava NESSUN processo: il verdetto veniva
+    // stampato su una console che non leggeva nessuno, e il burn-down che il Pannello mostra
+    // arrivava da un'altra strada, cioè non era controllato da niente.
+    //
+    // Sta QUI, nella visita, e non nel cancello del lotto: il cantiere che cresce non è un motivo
+    // per rifiutare una consegna (una PR che ripara un difetto non deve essere bloccata perché la
+    // settimana scorsa se ne sono aperti altri) — è una notizia da dare a Nicola nel referto che
+    // legge. E la visita gira due volte al giorno sul VPS, cioè più spesso di qualunque altra cosa
+    // che possa leggere quel numero.
+    //
+    // `--gate` è la bandierina che trasforma quel comando da metro a freno: senza, esce 0 anche
+    // quando il cantiere cresce, perché lo chiamano anche il Pannello e le prove per leggere i
+    // numeri. `--json` serve a far arrivare qui il PERCHÉ: `motivoDelGuasto` cerca il campo
+    // `sintesi`, ed è quella frase che finisce nel referto sotto il titolo di questo controllo.
+    id: "cervello.burndown",
+    organo: "cervello",
+    titolo: "Il cantiere dei difetti sta calando",
+    impatto: 2,
+    async prova() {
+      const r = eseguiNode("salute-onesta.mjs", ["--json", "--gate"], 60_000);
+      return daGuardiano(r, {
+        comando: "node cervello/salute-onesta.mjs --gate",
+        dettoOk: "il cantiere dei difetti cala rispetto a una settimana fa",
+        dettoRotto: "il cantiere dei difetti CRESCE invece di calare",
+      });
+    },
+  },
+
+  {
     // AR-513/AR-514 — l'altro contatore d'abitudine: non «ho consegnato senza dire com'è andata», ma
     // «ho scritto a Nicola senza rispondergli». Nasce dalla sua domanda del 3/8 — «come fai in modo
     // che non ti dimentichi mai di quel blocco? un misuratore, un cancello, o cosa?» — e la risposta
