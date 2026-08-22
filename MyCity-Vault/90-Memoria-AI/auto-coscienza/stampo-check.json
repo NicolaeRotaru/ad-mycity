@@ -1,7 +1,7 @@
 {
   "_cosa_e": "Guardiano stampo senior: legge il CONTENUTO di mansionario, kit e quaderno di ogni agente e lo confronta col debito dichiarato in cervello/stampo-baseline.json.",
   "_cosa_NON_prova": "Non prova che un kit sia BUONO né che un ESITO sia vero: misura spessore relativo, fotocopie, struttura e presenza di righe ESITO datate. Un kit lungo e originale può essere sbagliato, e una riga ESITO può contenere un numero inventato — quella parte la giudicano il direttore-creativo e la calibrazione, non questo controllo.",
-  "aggiornato": "2026-08-22 16:29",
+  "aggiornato": "2026-08-22 16:30",
   "origine": "cloud",
   "copertura": 120,
   "scritto_da": "stampo-check.mjs",
@@ -107,97 +107,97 @@
     {
       "nome": "ads-performance",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
       "nome": "ai-copywriter",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
       "nome": "ai-video",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
       "nome": "contabilita",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
       "nome": "corporate-strategy",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-20, era 2026-07-20): a muoversi è stato il calendario"
     },
     {
       "nome": "dispatch",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
       "nome": "dispute",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
       "nome": "finanza-agevolata",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-21, era 2026-07-21): a muoversi è stato il calendario"
     },
     {
       "nome": "influencer-partnership",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
       "nome": "innovation-lab",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-20, era 2026-07-20): a muoversi è stato il calendario"
     },
     {
       "nome": "legale-privacy",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
       "nome": "marketing",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-20, era 2026-07-20): a muoversi è stato il calendario"
     },
     {
       "nome": "onboarding-negozi",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-14, era 2026-07-14): a muoversi è stato il calendario"
     },
     {
       "nome": "operations",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-20, era 2026-07-20): a muoversi è stato il calendario"
     },
     {
       "nome": "partner-management",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-20, era 2026-07-20): a muoversi è stato il calendario"
     },
     {
       "nome": "product-manager",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-13, era 2026-07-13): a muoversi è stato il calendario"
     },
     {
       "nome": "rider-fleet",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     },
     {
       "nome": "sdet",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-19, era 2026-07-19): a muoversi è stato il calendario"
     },
     {
       "nome": "supporto",
       "difetto": "quaderno_fermo",
-      "perche": "tutto invecchiato"
+      "perche": "nessun esito è sparito (ultimo 2026-07-01, era 2026-07-01): a muoversi è stato il calendario"
     }
   ],
   "debito_riparato_da_togliere": [
