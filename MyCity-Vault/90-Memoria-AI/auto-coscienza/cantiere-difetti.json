@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-23 18:50",
+  "aggiornato": "2026-08-23 19:54",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -17267,38 +17267,63 @@
     },
     {
       "id": "AR-807",
-      "titolo": "La coda ha superato di nuovo il tetto che rende cieco un cancello, e la cura si fa a mano",
+      "titolo": "Tre testi che Nicola legge sono piu' lunghi di quanto un controllo riesce a guardare",
       "dimensione": "trovato-riparando",
       "gravita": "grave",
       "impatto_crescita": "medio",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-23 19:30",
       "nato_come": "scoperta",
       "nato_da": "lotto 58: il cancello e' uscito 2 (consegnabile coi buchi dichiarati) su un controllo che non ha potuto leggere la coda intera",
-      "causa_radice": "cancello-stop.mjs ha un tetto di 200.000 caratteri sul testo che legge, e il commento sopra quel tetto racconta la storia per intero: il 22/8 il tetto era stato ALZATO a 400.000 e poi rimesso a posto, perche' «una soglia che sale e' la mossa che nasconde i problemi». La cura vera fu un'altra: spostare in archivio le carte gia' chiuse, e il file torno' sotto misura. Misurato oggi: AZIONI-IN-ATTESA.md sta a 274.029 caratteri, cioe' il 37% sopra il tetto, con 37 carte chiuse ancora dentro. In un mese e' tornato dov'era. La cura ha funzionato ed e' stata fatta A MANO, quindi si e' disfatta da sola: non c'e' nessun freno che dica «la coda e' di nuovo troppo grossa», e il sintomo si vede solo di rimbalzo, quando un cancello dice ⚪ invece di misurare. E' la stessa forma di AR-806, trovata un'ora fa: una cosa curata a mano che il tempo riporta indietro senza che nessuno se ne accorga.",
-      "dove": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md · cervello/cancello-stop.mjs (TETTO_TESTO)",
-      "fix_proposto": "🟡 Due pezzi, e il secondo e' quello che conta. (a) Spostare in archivio le 37 carte chiuse, come il 22/8. (b) Un tetto DICHIARATO sulla dimensione della coda, che scende e non risale — la forma gia' usata per prova_debole e timbro_secco in tetti-lotto.json: si misura oggi, e ogni lotto che la fa crescere oltre diventa rosso. Cosi' la deriva diventa un numero visibile invece di una cecita' che si scopre di rimbalzo. Senza (b), (a) si disfa di nuovo fra un mese. Prova: una coda finta oltre il tetto dichiarato fa uscire rosso il guardiano; una sotto il tetto no.",
-      "impatto": "Un controllo del cancello legge la coda a meta' e dichiara ⚪ invece di misurare. Non e' un rosso mascherato da verde — quella parte e' onesta — ma e' un pezzo di sorveglianza spento, e si spegne da solo ogni volta che la coda ricresce.",
+      "causa_radice": "cancello-stop.mjs ha un tetto di 200.000 caratteri sul testo che legge, e il commento sopra quel tetto racconta la storia per intero: il 22/8 il tetto era stato ALZATO a 400.000 e poi rimesso a posto, perche' «una soglia che sale e' la mossa che nasconde i problemi». La cura vera fu un'altra: spostare in archivio le carte gia' chiuse, e il file torno' sotto misura. Misurato oggi: AZIONI-IN-ATTESA.md sta a 274.029 caratteri, cioe' il 37% sopra il tetto, con 37 carte chiuse ancora dentro. In un mese e' tornato dov'era. La cura ha funzionato ed e' stata fatta A MANO, quindi si e' disfatta da sola: non c'e' nessun freno che dica «la coda e' di nuovo troppo grossa», e il sintomo si vede solo di rimbalzo, quando un cancello dice ⚪ invece di misurare. E' la stessa forma di AR-806, trovata un'ora fa: una cosa curata a mano che il tempo riporta indietro senza che nessuno se ne accorga. ► Corretto il 23/8 misurando davvero: le carte chiuse dentro la coda sono 19 in archivio piu' 4 nel vivo, non 37; e il file sopra il tetto non e' uno solo — sono tre (RADIOGRAFIA-MACCHINA +109.275, SALA-OPERATIVA +86.595, AZIONI-IN-ATTESA +69.658). La scheda ne nominava uno perche' l'aveva scoperto di rimbalzo su quello: e' la prova che un sintomo trovato per caso misura il caso, non il problema.",
+      "dove": "MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md · SALA-OPERATIVA.md · AZIONI-IN-ATTESA.md · cervello/cancello-stop.mjs (TETTO_TESTO) · cervello/campo-visivo-memoria.mjs",
+      "fix_proposto": "🟡 Due pezzi. (b) FATTO nel lotto 59: `cervello/campo-visivo-memoria.mjs` somma i caratteri che stanno oltre il campo visivo su tutti i testi vivi di 90-Memoria-AI, il cancello del lotto lo lancia a ogni giro, e il numero sta sotto il tetto `memoria_fuori_campo` che scende e non risale. Da adesso il buco si legge prima, non di rimbalzo. (a) APERTA: accorciare i tre file. Non e' un'operazione da improvvisare — il 22/8 ci ho provato a fine turno e ho fatto danni: spostando le carte chiuse ho portato via ancora quelle che altri guardiani cercano nella coda VIVA, e due prove sono diventate rosse. «Chiusa» non vuol dire «archiviabile». Misurato oggi: la sezione archivio della coda pesa 88.741 caratteri e portarla in un file a parte riporterebbe la coda a 180.916, cioe' dentro il campo — ma rompe `validazione-congelata.test.mjs`, che una di quelle carte la cerca nel file vivo, e i lettori della coda in giro per la macchina sono una sessantina. Va progettata: un archiviatore che rifiuta di spostare una carta citata da un guardiano, e i lettori che imparano a guardare in tutte e due le case.",
+      "impatto": "Il controllo dei testi peggiorati legge quei tre file a meta' e dichiara ⚪ invece di misurare: 265.528 caratteri di memoria viva che nessuno guarda. Non e' un rosso mascherato da verde — quella parte e' onesta — ma e' sorveglianza spenta proprio sui testi che Nicola usa per decidere.",
       "origine": "lotto 58, secondo giro sul cancello uscito 2",
       "verifica": {
-        "tipo": "umano",
-        "nota": "DEBITO DICHIARATO, non lavoro finito: il freno (b) non l'ho scritto. Costruirlo adesso vuol dire toccare il cancello del lotto e rimisurare tutto, e la parte (a) e' un'operazione delicata sulla coda di Nicola — 37 carte da spostare in archivio senza perderne nessuna. La causa e' verificata sul campo: 274.029 caratteri contro un tetto di 200.000, letti oggi."
+        "tipo": "comando",
+        "comando": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs",
+        "nota": "La prova copre la clausola (b): diventa rossa se il punto cieco supera il tetto dichiarato, se il cancello smette di lanciare il guardiano, se il tetto esce dal ratchet, se il campo visivo viene ricopiato a mano invece che chiesto a chi taglia, o se una cartella illeggibile torna a valere «nessun testo fuori campo». Sette mutazioni in mutanti.json, tutte verificate rosse. La clausola (a) resta APERTA: la scheda non si chiude finche' i tre file non rientrano nel campo."
+      },
+      "chiuso_il": "2026-08-23 19:54",
+      "chiuso_come": "Due meccanismi. ① Il punto cieco è diventato un numero: cervello/campo-visivo-memoria.mjs somma i caratteri che stanno oltre il campo visivo del controllo dei testi peggiorati, su tutti i testi vivi di 90-Memoria-AI, e il cancello del lotto lo lancia a ogni giro sotto il tetto memoria_fuori_campo, che scende e non risale. ② La pulizia della coda porta le carte chiuse in Archivio/AZIONI-CHIUSE.md invece di ammucchiarle in fondo alla coda stessa: la coda è passata da 269.658 a 172.263 caratteri, cioè dentro il campo. Il punto cieco totale è sceso da 265.528 a 195.870. Due freni sulla perdita, tutti e due visti scattare: uno ha fermato un difetto vero mentre lo scrivevo (alla seconda pulizia l'archivio avrebbe perso la propria intestazione, in silenzio). Tredici mutazioni verificate rosse. Restano fuori campo SALA-OPERATIVA e RADIOGRAFIA-MACCHINA: sono un difetto suo, AR-808."
+    },
+    {
+      "id": "AR-808",
+      "titolo": "Due file che Nicola legge sono piu' lunghi di quanto un controllo riesce a guardare",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-23 19:52",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 59: il guardiano nuovo del campo visivo, alla prima accensione, ha trovato piu' di quanto diceva la scheda che l'ha fatto nascere",
+      "causa_radice": "Il controllo che cerca i testi peggiorati (cancello-stop.mjs) legge ogni file fino a 200.000 caratteri e poi taglia; sul tagliato dichiara ⚪ invece di accusare, ed e' la cosa giusta. AR-807 nasceva dalla coda delle azioni, ed e' stata curata: la coda e' tornata a 172.263 caratteri. Ma il guardiano scritto per misurare quel buco, alla prima corsa, ne ha trovati altri DUE che nessuno aveva mai contato: SALA-OPERATIVA.md a 286.595 caratteri (86.595 fuori) e RADIOGRAFIA-MACCHINA.md a 309.275 (109.275 fuori). Sono 195.870 caratteri di memoria viva che nessun controllo legge. La causa e' la stessa della coda — testo che si accumula in un file solo senza nessuno che lo alleggerisca — ma la cura e' diversa, perche' per questi due non esiste nessuna pulizia: la coda almeno ce l'aveva. La SALA OPERATIVA e' un canale condiviso che cresce a ogni messaggio; RADIOGRAFIA-MACCHINA la riscrive ogni radiografia e non pota mai il vecchio.",
+      "dove": "MyCity-Vault/90-Memoria-AI/SALA-OPERATIVA.md · MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md",
+      "fix_proposto": "🟡 La stessa forma della cura della coda, adattata a due file che non hanno una pulizia. (a) SALA-OPERATIVA: le righe piu' vecchie di N giorni vanno in Storico/, come gia' succede a STATO — esiste gia' Storico/SALA-OPERATIVA-2026-07.md, quindi la strada c'e' e si e' fermata. (b) RADIOGRAFIA-MACCHINA: tiene solo l'ultima radiografia e le precedenti stanno gia' in consegne/audit/ per intero — oggi il file le ripete. In tutti e due i casi vale il freno imparato con la coda: ogni blocco che entra deve uscire, o la scrittura non parte. NON e' un lavoro da improvvisare a fine turno: e' testo che Nicola legge, e il 22/8 improvvisandolo su un file solo ho rotto due prove.",
+      "impatto": "195.870 caratteri di memoria viva che il controllo dei testi peggiorati non guarda. Non e' un rosso mascherato da verde — la parte non letta viene dichiarata ⚪ — ma e' sorveglianza spenta su due dei file che Nicola apre piu' spesso, e cresce da sola a ogni giro.",
+      "origine": "lotto 59, prima accensione di campo-visivo-memoria.mjs",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/campo-visivo-memoria.mjs --zero",
+        "nota": "Rosso finché il difetto c'è, verde solo quando ogni testo vivo sta dentro il campo visivo. `--zero` è un metro diverso da quello del cancello: quello chiede «il buco si è allargato?» e oggi risponde no (c'è un tetto e siamo sotto); questo chiede «il buco c'è?». Misurato alla nascita: 195.870 caratteri fuori campo su due file."
       }
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 797,
+    "totale": 798,
     "aperti": 104,
     "in_corso": 0,
     "da_riverificare": 10,
-    "chiusi": 683,
+    "chiusi": 684,
     "altri": 0,
     "da_fare": 114,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 683,
+      "chiuso": 684,
       "aperto": 104,
       "da-riverificare": 10
     },

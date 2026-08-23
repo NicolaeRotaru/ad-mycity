@@ -1,15 +1,15 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-23 19:18",
+  "aggiornato": "2026-08-23 20:10",
   "giorni_sospetto": 3,
   "difetti_aperti": 115,
   "difetti_da_fare": 115,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 798,
-    "chiusi": 683,
+    "totale": 799,
+    "chiusi": 684,
     "aperti": 105,
     "in_corso": 0,
     "da_riverificare": 10,
@@ -17,7 +17,7 @@
     "da_fare": 115,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 683,
+      "chiuso": 684,
       "aperto": 105,
       "da-riverificare": 10
     },
@@ -28,13 +28,13 @@
     "attese": 115,
     "viste": 115,
     "fuori": 0,
-    "motivo": "bilancio a posto: 683 chiuse + 115 classificate = 798 schede, e ogni stato vivo è dentro (105 aperto · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 684 chiuse + 115 classificate = 799 schede, e ogni stato vivo è dentro (105 aperto · 10 da-riverificare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 21,
     "auto-sospetta": 10,
-    "umana": 74,
-    "auto-comando": 10
+    "umana": 73,
+    "auto-comando": 11
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
@@ -352,7 +352,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 105,
+  "non_auto_chiudibili": 104,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -3260,17 +3260,17 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-807",
+      "id": "AR-808",
       "gravita": "grave",
       "eta_giorni": 0,
-      "impatto_crescita": "medio",
-      "prova_esegue": false,
+      "impatto_crescita": "basso",
+      "prova_esegue": true,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
-      "titolo": "La coda ha superato di nuovo il tetto che rende cieco un cancello, e la cura si fa a mano",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "titolo": "Due file che Nicola legge sono piu' lunghi di quanto un controllo riesce a guardare",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/campo-visivo-memoria.mjs --zero",
+      "auto_chiudibile": true
     }
   ]
 }

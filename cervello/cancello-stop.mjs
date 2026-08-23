@@ -378,7 +378,14 @@ export function siPiantaAncora(righe = [], perimetroTurno = false) {
  * sono il registro di cosa è successo: riscriverli sarebbe cambiare il passato, non spiegarsi meglio.
  */
 export const CARTELLE_DI_NICOLA = ["MyCity-Vault/90-Memoria-AI/", "consegne/"];
-export const STORIA_ESENTE = /(Briefing\/|DECISIONI\.md|SALA-OPERATIVA\.md|archivio|quaderni\/)/;
+// `Archivio/` con la maiuscola è entrato il 23/8, e non è un allargamento: è la stessa intenzione
+// scritta sopra («esclusa la storia») applicata alla cartella che si chiama archivio. Prima passava
+// solo `STATO-archivio.md`, e per caso — perché quel nome contiene «archivio» minuscolo, non perché
+// qualcuno avesse esentato la cartella. Quando le card chiuse della coda ci sono finite (AR-807), il
+// guardiano le ha lette come un testo nuovo di 115 punti difficili scritto per Nicola. Non lo è: è
+// testo già scritto mesi fa, già risposto, spostato lì proprio per toglierlo dalla lettura di tutti i
+// giorni. Riscriverlo sarebbe cambiare il passato, che è esattamente ciò che l'esenzione protegge.
+export const STORIA_ESENTE = /(Briefing\/|DECISIONI\.md|SALA-OPERATIVA\.md|[Aa]rchivio|quaderni\/)/;
 
 export function testiIlleggibili(testi = [], noteAGlossario = null) {
   const fuori = [];
@@ -602,7 +609,8 @@ export function verdetto({
     // accusa di cose non tue è la definizione operativa del rosso che si impara ad aggirare».
     // Quindi: se il testo è tagliato, il verdetto NON è ❌ ma ⚪ — non ho visto tutto, e un giudizio
     // su una parte non è un giudizio sul tutto. Il tetto intanto è salito abbastanza da contenere i
-    // file veri (vedi TETTO_TESTO), così il caso ⚪ resta l'eccezione e non la regola.
+    // file veri (vedi TETTO_TESTO). Oggi ⚪ NON è l'eccezione: tre testi vivi lo sfondano, e quanto
+    // testo resti fuori lo dice `cervello/campo-visivo-memoria.mjs` a ogni lotto (AR-807).
     if (t.troncato) {
       incerte.push(
         `⚪ ${t.file} supera i ${TETTO_TESTO} caratteri: ho potuto leggerne solo la prima parte.` +
@@ -1042,9 +1050,11 @@ function testoDiBase(percorso, da = null) {
 // un lettore fra sei mesi non può distinguere la mia buona ragione da una scusa. Un freno che si
 // piega davanti a un ragionamento convincente non è un freno.
 //
-// La cura vera non era il tetto: era il file. Le carte già chiuse sono state spostate in archivio,
-// il file è tornato sotto misura, e il cancello lo guarda tutto. Se un giorno risale sopra il tetto,
-// il verdetto diventa ⚪ (vedi il punto ⑤): mai un'accusa su un testo letto a metà.
+// La cura vera non è il tetto: è il file. E NON È FATTA — questa riga il 22/8 diceva «il file è
+// tornato sotto misura», e il 23/8 non era più vero: la coda è di nuovo a 269.658 caratteri, e con
+// lei SALA-OPERATIVA e RADIOGRAFIA-MACCHINA. Il ⚪ è tornato a essere la regola su tre testi vivi.
+// Da qui in poi quel buco non si scopre più di rimbalzo: `cervello/campo-visivo-memoria.mjs` lo
+// somma a ogni lotto sotto un tetto che scende e non risale (AR-807).
 export const TETTO_TESTO = 200_000;
 
 /** Taglia al tetto. `null` resta `null`: «il file non c'è» non diventa «il file è vuoto». */

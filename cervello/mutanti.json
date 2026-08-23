@@ -6654,6 +6654,132 @@
    "cerca": "export function mancantiNellaConsegna(elenco, testoConsegna) {",
    "sostituisci": "export function mancantiNellaConsegna(elenco, testoConsegna) {\n  if (!testoConsegna) return [];",
    "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il punto cieco torna a contarsi in file invece che in caratteri",
+   "file": "cervello/campo-visivo-memoria.mjs",
+   "cerca": "    fuoriCampo += eccesso;",
+   "sostituisci": "    fuoriCampo += 1;",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il file esente sparisce invece di restare dichiarato",
+   "file": "cervello/campo-visivo-memoria.mjs",
+   "cerca": "      esentati.push({ nome, caratteri, eccesso });",
+   "sostituisci": "      // esentati.push({ nome, caratteri, eccesso });",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "crescere oltre il tetto torna a essere un avviso invece di un rosso",
+   "file": "cervello/campo-visivo-memoria.mjs",
+   "cerca": "  if (fuoriCampo > tetto) {",
+   "sostituisci": "  if (false && fuoriCampo > tetto) {",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "una cartella illeggibile torna a valere «nessun testo fuori campo»",
+   "file": "cervello/campo-visivo-memoria.mjs",
+   "cerca": "    return null; // «non ho potuto guardare» non diventa «non c'è niente»",
+   "sostituisci": "    return [];",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il campo visivo torna a essere un numero riscritto a mano",
+   "file": "cervello/campo-visivo-memoria.mjs",
+   "cerca": "import { TETTO_TESTO } from \"./cancello-stop.mjs\";",
+   "sostituisci": "const TETTO_TESTO = 200000;",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il cancello del lotto smette di lanciare il guardiano",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "    passi.push(esegui(\"memoria fuori dal campo visivo (tetto)\", \"node\", [\"cervello/campo-visivo-memoria.mjs\"]));",
+   "sostituisci": "    // passi.push(esegui(\"memoria fuori dal campo visivo (tetto)\", \"node\", [\"cervello/campo-visivo-memoria.mjs\"]));",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il tetto smette di scendere: la voce sparisce dal ratchet",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "      memoria_fuori_campo: Math.min(fuoriCampoOra, tetti.memoria_fuori_campo ?? fuoriCampoOra),",
+   "sostituisci": "      // memoria_fuori_campo: tolta",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "l'archivio torna a essere una sezione della coda invece di un file suo",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "writeFileSync(ARCHIVIO, archivio, 'utf8');",
+   "sostituisci": "// archivio non scritto",
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "la coda smette di dire dove sono finite le carte chiuse",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "  RIGA_PUNTATORE,\n",
+   "sostituisci": "",
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il cartello vecchio non si toglie e la pulizia allunga il file che pulisce",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": ".filter((l) => !l.startsWith('> 🗄️ Le card chiuse stanno in'))",
+   "sostituisci": "",
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "le carte gia' archiviate non si rileggono e spariscono alla pulizia dopo",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "  righeArchivio = letto.righe;",
+   "sostituisci": "  righeArchivio = [];",
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "un archivio senza card torna a valere «archivio vuoto» invece di fermare tutto",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "  if (inizio === -1) return { righe: [], illeggibile: testo.trim().length > 0, caratteri: testo.length };",
+   "sostituisci": "  if (inizio === -1) return { righe: [], illeggibile: false, caratteri: testo.length };",
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il freno sull'archivio illeggibile avvisa invece di fermarsi",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "  if (archivioIlleggibile !== null) {\n    console.error(",
+   "sostituisci": "  if (false && archivioIlleggibile !== null) {\n    console.error(",
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-808",
+   "nome": "il metro della scheda aperta torna a essere quello del cancello, e la scheda si chiude da sola",
+   "file": "cervello/campo-visivo-memoria.mjs",
+   "cerca": "  if (ZERO_MODE) process.exit(c.fuoriCampo === 0 ? 0 : 1);",
+   "sostituisci": "  if (ZERO_MODE) process.exit(v.esito === \"violazione\" ? 1 : 0);",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
   }
  ]
 }

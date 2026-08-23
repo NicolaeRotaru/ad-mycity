@@ -21,6 +21,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import assert from "node:assert/strict";
 import { CLASSI, ambitoDelFatto, congelamentoLegittimo, leggiCard } from "../pausa-coda.mjs";
+import { testoDelleDueCase } from "../coda-e-archivio.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -123,7 +124,15 @@ prova("nella coda vera l'ordine di prova è dichiarato «validazione», non «bu
 });
 
 prova("e la domanda a Nicola è in coda, con la decisione lasciata a lui", () => {
-  const testo = readFileSync(CODA, "utf8");
+  // Si guarda in TUTTE E DUE le case, e il motivo è la storia di questa riga. Dal 23/8 le carte
+  // chiuse vivono in `Archivio/AZIONI-CHIUSE.md`, non più in fondo alla coda (AR-807). Questa carta
+  // ha avuto la sua risposta, quindi si è spostata — ma il fatto che la prova difende non è
+  // «la domanda è ancora aperta»: è «la domanda gliela ho fatta, e la decisione è stata sua». Quel
+  // fatto non scade quando la carta cambia casa. Cercarla solo nella coda vorrebbe dire pretendere
+  // che una domanda resti aperta per sempre per poter dire che è stata posta.
+  const due = testoDelleDueCase();
+  assert.deepEqual(due.mancanti, [], "una delle due case non si legge: non posso dire che la carta non c'è");
+  const testo = due.testo;
   assert.match(testo, /\{congelamento-da-confermare: ordine-test-pq\}/, "il marcatore lega la domanda alla card congelata");
   const card = leggiCard(testo).find((x) => x.id === "ordine-test-dentro-o-fuori-dalla-pausa");
   assert.ok(card, "serve una card, non una riga di log");

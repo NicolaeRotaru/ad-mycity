@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-23 19:03",
+ "aggiornato": "2026-08-23 20:02",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11352,6 +11352,10 @@
     {
      "quando": "2026-08-23 16:01",
      "ref": "freno rosso nel cancello: nascita dei difetti"
+    },
+    {
+     "quando": "2026-08-23 20:02",
+     "ref": "freno rosso nel cancello: nascita dei difetti"
     }
    ]
   },
@@ -11775,6 +11779,10 @@
     {
      "quando": "2026-08-22 20:15",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-23 20:02",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12141,6 +12149,10 @@
     {
      "quando": "2026-08-22 20:15",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-23 20:02",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12245,6 +12257,10 @@
     },
     {
      "quando": "2026-08-22 20:15",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-23 20:02",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -12828,6 +12844,10 @@
     },
     {
      "quando": "2026-08-22 20:15",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-23 20:02",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
