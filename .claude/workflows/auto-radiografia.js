@@ -1,3 +1,16 @@
+// AR-780 — PERCHE' QUESTO FILE NON HA IMPORT.
+//
+// Fino al 23/8/2026 apriva con degli `import` e metteva `meta` piu' in basso. Il motore dei workflow
+// pretende che `export const meta` sia la PRIMA istruzione e non accetta nessun import: rifiutava lo
+// script prima di eseguirne una riga. Tutti e sei i workflow erano cosi', da due mesi.
+//
+// I mansionari NON si incollano piu' nel prompt: il motore li carica da se' con `agentType`, che
+// risolve dallo stesso registro del comando di delega — il senior riceve il suo mansionario come
+// identita', non come testo dentro un messaggio.
+//
+// E il percorso del repo non si calcola qui: nel motore il disco non si legge. L'agente ci gira
+// dentro e gli strumenti ce li ha.
+
 // La radiografia della macchina su sé stessa.
 //
 // Cosa è cambiato qui (lotto corsia G — AR-434, AR-435): ogni dimensione dichiara il SENIOR che la
@@ -5,7 +18,6 @@
 // revisore era «il senior più esperto per la dimensione X» — una frase, non un mestiere: i 120
 // mansionari non arrivavano a chi lavorava. E la radice del repo era scritta a mano (vera qui, falsa
 // sul VPS): ora si risolve a runtime.
-import { promptSenior, radiceRepo } from '../../cervello/prompt-senior.mjs'
 
 export const meta = {
   name: 'auto-radiografia',
@@ -61,7 +73,6 @@ const FINDINGS = {
 }
 
 // La macchina è QUESTO repo (il cervello dell'AD), non il marketplace. Sola lettura.
-const REPO = radiceRepo()
 
 // Ogni dimensione ha il senior che la sa fare: `senior` è il nome del file in .claude/agents/, e da
 // lì esce il prompt. Se un nome qui non esiste come mansionario, la porta si ferma e lo dice — è il
@@ -85,37 +96,38 @@ phase('Auto-radiografia')
 const reviewed = await pipeline(
   DIMS,
   (d) => agent(
-    promptSenior(d.senior, { radice: REPO, focus: `Radiografia della macchina, dimensione "${d.key}": ${d.focus}`, compito:
-    `Analizza in SOLA LETTURA la MACCHINA stessa (il cervello dell'AD) nel repo \`${REPO}\` (usa Read/Grep/Glob).
+    `Radiografia della macchina, dimensione "${d.key}": ${d.focus}
+
+Analizza in SOLA LETTURA la MACCHINA stessa (il cervello dell'AD): sei dentro il repo dell'AD, usa Read/Grep/Glob.
 ⛔ NON modificare nulla, nessun git, nessun file: è un audit di sé, in sola lettura.
 Cerca con accuratezza MILLIMETRICA i difetti STRUTTURALI REALI della tua dimensione: incoerenze, buchi, sprechi, rischi, processi che non chiudono.
 Per ognuno: titolo · dove (file:riga/componente) · severità (bloccante/grave/minore) · descrizione · impatto sulla macchina/azienda · CAUSA RADICE (i "5 perché" fino alla causa di sistema, non il sintomo) · fix del PROCESSO (resta 🟡 da firmare) · impatto_crescita (alto/medio/basso = quanto frena ordini/negozi/margine) · genera (lezione/auto-riscrittura/sentinella/nuovo-pezzo/domanda-nicola/solo-report).
 Dove ti accorgi che MANCA un pezzo (un sensore, un agente, una capacità, una sentinella), segnalalo con genera:nuovo-pezzo.
 Sii esaustiva ma concreta: SOLO difetti che vedi davvero nei file, niente teoria. Se non trovi nulla di reale, lista vuota.` }),
-    { label: `rivedi:${d.key}`, phase: 'Auto-radiografia', schema: FINDINGS }
+    { label: `rivedi:${d.key}`, phase: 'Auto-radiografia', schema: FINDINGS, agentType: d.senior }
   ),
   // Chi trova non conferma: la verifica è del controllo interno, che ha il suo mestiere e il suo mansionario.
   (rev, d) => agent(
-    promptSenior('internal-audit', {
-      radice: REPO,
-      focus: `Verifica avversariale dei difetti che un collega dichiara di aver trovato nella dimensione "${d.key}".`,
-      compito: `Ecco i difetti segnalati sulla macchina stessa:
+    `Verifica avversariale dei difetti che un collega dichiara di aver trovato nella dimensione "${d.key}".
+
+Ecco i difetti segnalati sulla macchina stessa:
 ${JSON.stringify(rev?.findings || [], null, 2)}
-Per CIASCUNO, controllalo nei file reali in \`${REPO}\` (sola lettura) e TIENI SOLO quelli VERI: scarta i falsi positivi e ciò che non riesci a confermare. Correggi la severità e la causa_radice se sbagliate. In caso di dubbio, scarta.
+
+Per CIASCUNO, controllalo nei file reali (sola lettura, sei dentro il repo dell'AD) e TIENI SOLO quelli VERI: scarta i falsi positivi e ciò che non riesci a confermare. Correggi la severità e la causa_radice se sbagliate. In caso di dubbio, scarta.
 Restituisci {dimensione:"${d.key}", findings:[...solo quelli confermati...]}.`,
-    }),
-    { label: `verifica:${d.key}`, phase: 'Verifica', schema: FINDINGS }
+    { label: `verifica:${d.key}`, phase: 'Verifica', schema: FINDINGS, agentType: 'internal-audit' }
   )
 )
 
 // Pre-mortem: simula i disastri peggiori che la macchina potrebbe causare, e le difese da mettere PRIMA.
 phase('Pre-mortem')
 const preMortem = await agent(
-  promptSenior('enterprise-risk', { radice: REPO, focus: 'Pre-mortem della macchina: i disastri che l\'AD digitale potrebbe causare, e le difese da mettere PRIMA.', compito:
-  `Fai un PRE-MORTEM della macchina (repo \`${REPO}\`, sola lettura).
+  `Pre-mortem della macchina: i disastri che l'AD digitale potrebbe causare, e le difese da mettere PRIMA.
+
+Fai un PRE-MORTEM della macchina (sola lettura, sei dentro il repo dell'AD).
 Immagina che tra una settimana sia successo un disastro causato dall'AD digitale: messaggi sbagliati a clienti reali, soldi mossi per errore, memoria corrotta, un'azione 🔴 partita senza firma, un loop che brucia budget.
 Elenca i 3-6 disastri più PLAUSIBILI dato com'è fatta oggi la macchina, e per ognuno: probabilità (alta/media/bassa), come potrebbe accadere (dove nel sistema), e la DIFESA da mettere PRIMA (🟡, da firmare Nicola).` }),
-  { label: 'pre-mortem', phase: 'Pre-mortem', schema: {
+  { label: 'pre-mortem', phase: 'Pre-mortem', agentType: 'enterprise-risk', schema: {
     type: 'object',
     properties: { scenari: { type: 'array', items: { type: 'object', properties: {
       disastro: { type: 'string' }, probabilita: { type: 'string', enum: ['alta', 'media', 'bassa'] },
@@ -126,11 +138,13 @@ Elenca i 3-6 disastri più PLAUSIBILI dato com'è fatta oggi la macchina, e per 
 // Benchmark: come operano i MIGLIORI (locali + mondo) per ogni mestiere; il divario e come colmarlo.
 phase('Benchmark')
 const benchmark = await agent(
-  promptSenior('intelligence', { radice: REPO, focus: 'Benchmark: come operano i migliori, locali e mondiali, per ogni mestiere dell\'azienda — e dov\'è il nostro divario.', compito:
+  `Benchmark: come operano i migliori, locali e mondiali, per ogni mestiere dell'azienda — e dov'è il nostro divario.
+
+`+
   `Confronta come OPERA la macchina con i MIGLIORI, per i mestieri chiave dell'azienda (contenuti, prezzi, onboarding negozi, funnel/CRO, email/CRM, SEO, PR, consegne, cura clienti, e il modo stesso di gestire un'azienda in autonomia con agenti AI).
 Due livelli per ogni ambito: (a) i concorrenti LOCALI di Piacenza (Glovo, GDO con consegna, marketplace locali) e (b) il MEGLIO DEL MONDO per quel mestiere. Usa WebSearch/WebFetch dove serve; leggi anche MyCity-Vault/90-Memoria-AI/auto-coscienza/watchlist-riferimenti.json se presente.
 Per ogni ambito: come fanno i migliori (con 1-2 ESEMPI concreti: link/descrizione), il nostro divario (alto/medio/basso), un OBIETTIVO concreto per colmarlo, e il primo passo. Impara il principio, non copiare alla lettera. Mai sazia: dove siamo già bravi, chiediti "c'è un 10× qui?".` }),
-  { label: 'benchmark-vs-migliori', phase: 'Benchmark', schema: {
+  { label: 'benchmark-vs-migliori', phase: 'Benchmark', agentType: 'intelligence', schema: {
     type: 'object',
     properties: { ambiti: { type: 'array', items: { type: 'object', properties: {
       ambito: { type: 'string' }, come_fanno_i_migliori: { type: 'string' },

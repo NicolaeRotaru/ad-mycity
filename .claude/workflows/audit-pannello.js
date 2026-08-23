@@ -1,10 +1,20 @@
+// AR-780 — PERCHE' QUESTO FILE NON HA IMPORT.
+//
+// Fino al 23/8/2026 apriva con degli `import` e metteva `meta` piu' in basso. Il motore dei workflow
+// pretende che `export const meta` sia la PRIMA istruzione e non accetta nessun import, ne' statico
+// ne' dinamico: rifiutava lo script prima di eseguirne una riga. Tutti e sei i workflow erano cosi',
+// da due mesi, mentre CLAUDE.md li nomina per nome nei comandi rapidi.
+//
+// I mansionari dei senior NON si incollano piu' nel prompt: il motore li carica da se' con
+// `agentType`, che risolve dallo stesso registro del comando di delega. Il senior riceve il suo
+// mansionario come identita', non come testo dentro un messaggio — ed e' anche piu' corretto.
+
 // La radiografia del Pannello, la faccia dell'AD.
 //
 // Cosa è cambiato qui (lotto corsia G — AR-434, AR-435): ogni dimensione dichiara il senior che la
 // sa fare e il prompt esce dal suo mansionario (`cervello/prompt-senior.mjs`), invece della frase
 // «sei il senior frontend più esperto» che non apriva nessun mansionario; e la radice del repo si
 // risolve a runtime invece di essere scritta a mano (qui era vera, sul VPS no).
-import { promptSenior, radiceRepo } from '../../cervello/prompt-senior.mjs'
 
 export const meta = {
   name: 'audit-pannello',
@@ -41,8 +51,9 @@ const FINDINGS = {
 }
 
 // Il Pannello vive in QUESTO repo (l'AD), cartella pannello/. Sola lettura.
-const REPO = radiceRepo()
-const APP = `${REPO}/pannello/src`
+// Il percorso non si calcola qui: nel motore dei workflow non si legge il disco. L'agente ha gli
+// strumenti per trovarlo da se', e il repo dell'AD e' quello in cui gira.
+const APP = 'pannello/src (dentro il repo dell\'AD; se non lo trovi, dillo e fermati)'
 
 const DIMS = [
   { key: 'navigazione-routing', senior: 'frontend-dev', focus: 'navigazione e cronologia: il tasto INDIETRO del browser porta altrove invece che alla vista precedente; cambio area/tab (lib/nav.ts vaiArea, useSearchParams, history.pushState/replaceState) che non aggiorna l\'URL o rompe back/forward; deep-link che non ripristina lo stato; router.push vs history. Cerca dove lo stato di navigazione vive solo in useState e non nell\'URL.' },
@@ -59,25 +70,25 @@ phase('Audit')
 const reviewed = await pipeline(
   DIMS,
   (d) => agent(
-    promptSenior(d.senior, { radice: REPO, focus: `Radiografia del Pannello di Controllo, dimensione "${d.key}": ${d.focus}`, compito:
-    `Analizza in SOLA LETTURA l'app Next.js in \`${APP}\` (usa Read/Grep/Glob; è React 18 + Next App Router + Tailwind, memoria via Supabase REST in lib/store.ts). ⛔ NON modificare nulla.
+    `Radiografia del Pannello di Controllo, dimensione "${d.key}": ${d.focus}
+
+Analizza in SOLA LETTURA l'app Next.js in \`${APP}\` (usa Read/Grep/Glob; è React 18 + Next App Router + Tailwind, memoria via Supabase REST in lib/store.ts). ⛔ NON modificare nulla.
 Cerca i BUG REALI della tua dimensione con precisione millimetrica. Per ognuno:
 - titolo · dove (file:riga in pannello/src) · severità (bloccante/grave/minore) · descrizione = il SINTOMO per Nicola (cosa vede/subisce) · CAUSA RADICE nel codice (i 5 perché) · FIX concreto (quale file, cosa cambiare) · impatto_crescita.
 Casi noti da Nicola da confermare/localizzare nel codice: (a) il tasto INDIETRO porta altrove; (b) le RISPOSTE del worker spariscono cambiando chat; (c) le liste non si aggiornano (cose già fatte restano). Se li trovi, indicane il file:riga e il fix.
-SOLO bug che vedi davvero nei file, niente teoria. Se non trovi nulla, lista vuota.` }),
-    { label: `audit:${d.key}`, phase: 'Audit', schema: FINDINGS }
+SOLO bug che vedi davvero nei file, niente teoria. Se non trovi nulla, lista vuota.`,
+    { label: `audit:${d.key}`, phase: 'Audit', schema: FINDINGS, agentType: d.senior }
   ),
   // Chi trova non conferma: la verifica la fa il collaudo, con il suo mansionario.
   (rev, d) => agent(
-    promptSenior('qa', {
-      radice: REPO,
-      focus: `Verifica avversariale dei bug che un collega dichiara di aver trovato nel Pannello, dimensione "${d.key}".`,
-      compito: `Ecco i bug segnalati:
+    `Verifica avversariale dei bug che un collega dichiara di aver trovato nel Pannello, dimensione "${d.key}".
+
+Ecco i bug segnalati:
 ${JSON.stringify(rev?.findings || [], null, 2)}
+
 Per CIASCUNO, controllalo nei file reali in \`${APP}\` (sola lettura) e TIENI SOLO quelli VERI: scarta i falsi positivi e ciò che non riesci a confermare col codice. Correggi severità/causa_radice/dove se sbagliati. In caso di dubbio, scarta.
 Restituisci {dimensione:"${d.key}", findings:[...solo quelli confermati...]}.`,
-    }),
-    { label: `verifica:${d.key}`, phase: 'Verifica', schema: FINDINGS }
+    { label: `verifica:${d.key}`, phase: 'Verifica', schema: FINDINGS, agentType: 'qa' }
   )
 )
 

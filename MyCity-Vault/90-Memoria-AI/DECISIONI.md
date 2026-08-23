@@ -3841,3 +3841,44 @@ non si misura da dentro la suite. Registrata come debito dichiarato, non spaccia
 
 **Cosa non ho verificato:** che le nove riparazioni si vedano davvero in produzione. Le prove
 eseguono le funzioni; il browser non l'ho aperto.
+
+## 2026-08-23 15:35 · 🟡 Le sei capacità grosse della macchina non partivano. Tutte e sei, da due mesi
+
+**Cosa ho fatto.** Riparato **AR-780**, un bloccante. `radiografia`, `audit-design`,
+`auto-radiografia`, `audit-pannello`, `giro-operativo`, `radiografia-totale`: CLAUDE.md le nomina
+per nome nei comandi rapidi, e il motore le rifiutava tutte prima di eseguirne una riga.
+
+**La causa non era una riga sbagliata: erano due regole di casa che si contraddicono.** La porta dei
+senior (AR-434) *pretende* che chi mette al lavoro un agente importi `cervello/prompt-senior.mjs`. Il
+motore dei workflow non accetta **nessun** import, e vuole `export const meta` come prima istruzione.
+Un workflow poteva soddisfare la porta **oppure** partire. Mai tutt'e due. La cura di un difetto ne
+causava un altro, e nessuno dei due guardiani poteva vederlo perché ognuno guardava metà del
+problema.
+
+**La seconda porta.** `agentType` fa la stessa cosa meglio: il motore risolve il senior dallo stesso
+registro del comando di delega e gli dà il mansionario come **identità**, non come testo incollato
+dentro un messaggio d'utente. Ho insegnato alla porta dei senior a riconoscerla — pretendendo che
+`agentType` ci sia su **ogni** chiamata, non su una qualsiasi.
+
+**Ho fatto diversamente da quello che proponeva la scheda, e il conto lo spiega.** Chiedeva uno
+script di build che generasse i workflow coi prompt dei senior già dentro. Un prompt di senior è
+**21 KB**, e `auto-radiografia` ne usa quattro: file da centinaia di kilobyte, più una disciplina
+nuova sui file generati e un guardiano per farla rispettare. Con `agentType` non nasce nessun file
+generato.
+
+**E l'ho rifatta io, un piano sotto, nella stessa ora.** Tolti gli import, ho rilanciato il
+guardiano: verde, sei su sei. Ma quattro di quegli script **chiamavano ancora** `promptSenior`, e a
+runtime sarebbero morti su un ReferenceError. Il guardiano diceva «partono» di script che non
+partivano — che è esattamente la malattia che AR-780 denuncia: *certificare l'installazione invece
+dell'esecuzione*. Adesso guarda tre cose: la prima istruzione, gli import ovunque nel file, e i nomi
+che il motore non fornisce, ognuno col suo perché.
+
+**Un passo non era più dell'AD.** `giro-operativo` diceva a un sotto-agente «Sei l'AD digitale, il
+tuo manuale è CLAUDE.md»: ma un sotto-agente CLAUDE.md non ce l'ha. Era un generico a cui si chiedeva
+di recitare l'AD. Quel mestiere ha un senior vero — `@chief-of-staff` — e la decisione finale resta
+comunque mia: il workflow produce una proposta.
+
+**Cosa non ho verificato:** non ho lanciato nessuno dei sei workflow. Non posso: farlo è una scelta
+di Nicola, non mia. Ho verificato che il motore li accetterebbe — le due regole che applica prima di
+partire, misurate sul testo vero — e che non nominano più niente che il motore non dia. Il primo che
+verrà lanciato dirà se basta.

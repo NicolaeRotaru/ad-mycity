@@ -1,6 +1,16 @@
-import { existsSync } from 'node:fs'
-import { join } from 'node:path'
-import { promptSenior, radiceRepo } from '../../cervello/prompt-senior.mjs'
+// 🩻 RADIOGRAFIA DEL MARKETPLACE — 13 dimensioni in sola lettura, ogni problema verificato.
+//
+// AR-780 — PERCHE' QUESTO FILE NON HA IMPORT.
+//
+// Fino al 23/8/2026 apriva con tre `import` e metteva `meta` in quarta posizione. Il motore dei
+// workflow pretende che `export const meta` sia la PRIMA istruzione e non accetta nessun import,
+// ne' statico ne' dinamico: rifiutava lo script prima di eseguirne una riga. Tutti e sei i workflow
+// erano cosi', da due mesi, mentre CLAUDE.md li nomina per nome nei comandi rapidi.
+//
+// I mansionari dei senior NON si incollano piu' nel prompt: il motore sa caricarli da se' con
+// `agentType`, che risolve dallo stesso registro del comando di delega. Il senior riceve il suo
+// mansionario come identita', non come testo dentro un messaggio — ed e' anche piu' corretto.
+// (Incollarli avrebbe voluto dire 21 KB per senior dentro questo file.)
 
 export const meta = {
   name: 'radiografia',
@@ -34,22 +44,13 @@ const FINDINGS = {
   required: ['dimensione', 'findings'],
 }
 
-// Percorso del codice del marketplace (repo NicolaeRotaru/mycity).
-// Ordine: MARKETPLACE_REPO (env, per VPS/CI) → copia locale <ad-repo>/marketplace creata da
-// `node cervello/collega-marketplace.mjs`.
-// Se non c'è né l'uno né l'altra, il codice del marketplace NON è collegato: prima si diceva ai
-// senior di andare a leggere il vecchio percorso Windows del PC di Nicola — su qualunque altra
-// macchina è una cartella che non esiste, e l'agente ci lavorava sopra al buio invece di dirlo.
-function resolveMarketplaceRepo() {
-  if (process.env.MARKETPLACE_REPO) return process.env.MARKETPLACE_REPO
-  const local = join(radiceRepo(), 'marketplace')
-  return existsSync(local) ? local : null
-}
-const REPO = resolveMarketplaceRepo()
-// `log` è una globale del motore dei workflow e qui siamo prima della prima fase: se non c'è, il
-// messaggio esce comunque invece di far cadere la radiografia sulla riga di un avviso.
-const avvisa = (m) => (typeof log === 'function' ? log(m) : console.log(m))
-if (!REPO) avvisa('⚠️ marketplace non collegato: nessun MARKETPLACE_REPO e nessuna copia in marketplace/ — lancia prima `node cervello/collega-marketplace.mjs`')
+// Dove sta il codice del marketplace non lo calcola piu' questo script: qui non si puo' leggere ne'
+// il disco ne' l'ambiente. Lo trova l'agente, che gli strumenti ce li ha — e se non lo trova DEVE
+// dirlo e fermarsi invece di dedurre. Prima si diceva ai senior di andare a leggere il vecchio
+// percorso Windows del PC di Nicola: su qualunque altra macchina e' una cartella che non esiste, e
+// l'agente ci lavorava sopra al buio.
+const DOVE_E_IL_CODICE = `Il codice del marketplace sta in \`$MARKETPLACE_REPO\` se quella variabile d'ambiente c'e', altrimenti nella copia locale \`marketplace/\` dentro il repo dell'AD.
+Controllalo PRIMA di cominciare (\`ls\`). Se non c'e' ne' l'una ne' l'altra il codice NON e' collegato: dillo, restituisci lista vuota e FERMATI — non dedurre niente da un percorso che non esiste. Per collegarlo: \`node cervello/collega-marketplace.mjs\`.`
 
 const DIMS = [
   { key: 'architettura', senior: 'tech', focus: 'architettura: struttura del codice, accoppiamenti, duplicazioni, coerenza, dipendenze fragili, dead code' },
@@ -71,25 +72,29 @@ phase('Radiografia')
 const reviewed = await pipeline(
   DIMS,
   (d) => agent(
-    promptSenior(d.senior, { radice: radiceRepo(), focus: `Radiografia del marketplace, dimensione "${d.key}": ${d.focus}`, compito:
-    `Analizza in SOLA LETTURA il marketplace MyCity nel repo \`${REPO}\` (usa Read/Grep/Glob; per RLS/dati usa il Supabase MCP in sola lettura). Se quel percorso è vuoto o nullo, il codice NON è collegato: dillo e fermati, non dedurre.
+    `Radiografia del marketplace MyCity, dimensione "${d.key}": ${d.focus}
+
+${DOVE_E_IL_CODICE}
+
+Analizza in SOLA LETTURA (Read/Grep/Glob; per RLS e dati usa il Supabase MCP in sola lettura).
 ⛔ NON modificare nulla, nessun git, nessun file.
 Cerca con accuratezza MILLIMETRICA tutti i problemi REALI della tua dimensione: bug, errori, rischi, anti-pattern, casi limite non gestiti.
 Per ognuno: titolo · file (e riga se possibile) · severità (bloccante/grave/minore) · descrizione · impatto su utente/business · fix consigliato.
-Sii esaustivo ma concreto: SOLO problemi che vedi davvero nel codice, niente teoria generica. Se non trovi nulla di reale, restituisci lista vuota.` }),
-    { label: `rivedi:${d.key}`, phase: 'Radiografia', schema: FINDINGS }
+Sii esaustivo ma concreto: SOLO problemi che vedi davvero nel codice, niente teoria generica. Se non trovi nulla di reale, restituisci lista vuota.`,
+    { label: `rivedi:${d.key}`, phase: 'Radiografia', schema: FINDINGS, agentType: d.senior }
   ),
   // Chi trova non conferma: la verifica la fa il collaudo, col suo mansionario.
   (rev, d) => agent(
-    promptSenior('qa', {
-      radice: radiceRepo(),
-      focus: `Verifica avversariale dei problemi che un collega dichiara di aver trovato nel marketplace, dimensione "${d.key}".`,
-      compito: `Ecco i problemi segnalati:
+    `Verifica avversariale dei problemi che un collega dichiara di aver trovato nel marketplace, dimensione "${d.key}".
+
+${DOVE_E_IL_CODICE}
+
+Ecco i problemi segnalati:
 ${JSON.stringify(rev?.findings || [], null, 2)}
-Per CIASCUNO, controllalo nel codice reale in \`${REPO}\` (sola lettura) e TIENI SOLO quelli VERI: scarta i falsi positivi e ciò che non sei riuscito a confermare. Correggi la severità se sbagliata.
+
+Per CIASCUNO, controllalo nel codice reale (sola lettura) e TIENI SOLO quelli VERI: scarta i falsi positivi e ciò che non sei riuscito a confermare. Correggi la severità se sbagliata.
 Restituisci {dimensione:"${d.key}", findings:[...solo quelli confermati...]}. In caso di dubbio, scarta.`,
-    }),
-    { label: `verifica:${d.key}`, phase: 'Verifica', schema: FINDINGS }
+    { label: `verifica:${d.key}`, phase: 'Verifica', schema: FINDINGS, agentType: 'qa' }
   )
 )
 

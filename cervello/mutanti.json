@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-23 13:35",
+ "aggiornato": "2026-08-23 15:20",
  "mutanti": [
   {
    "lotto": 30,
@@ -2991,19 +2991,21 @@
    "lotto": 40,
    "difetto": "AR-435",
    "nome": "La scheda dice TRE workflow: il codice ne diceva QUATTRO con `/home/user/ad-mycity` (giro-operativo, auto-radi",
-   "file": ".claude/workflows/giro-operativo.js",
-   "cerca": "const REPO = radiceRepo()",
-   "sostituisci": "const REPO = '/home/user/ad-mycity'",
-   "test": "node cervello/test/porta-dei-senior.test.mjs"
+   "file": "cervello/prepara-giro.mjs",
+   "cerca": "export function bagaglioDelGiro({ radice = radiceRepo() } = {}) {",
+   "sostituisci": "export function bagaglioDelGiro({ radice = '/home/user/ad-mycity' } = {}) {",
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs",
+   "nota_riaggancio": "23/8, lotto 52 (AR-780): il pezzo cercato non esiste piu' in giro-operativo.js. Il motore dei workflow non accetta import, quindi il calcolo che questa mutazione sorvegliava e' stato SPOSTATO — non tolto — in cervello/prepara-giro.mjs, che gira dove il disco si legge e passa il risultato al workflow come `args`. La mutazione segue la protezione nella sua casa nuova: spegne sempre la stessa cosa, cioe' il valore preso dal vero invece che scritto a mano."
   },
   {
    "lotto": 40,
    "difetto": "AR-126",
    "nome": "Verificato prima nei fatti-chiave, in sola lettura: `negozio.faro` = «Pane Quotidiano (unico negozio reale; la",
-   "file": ".claude/workflows/giro-operativo.js",
-   "cerca": "const FATTI = fattiVivi(FATTI_DEL_GIRO, REPO)",
-   "sostituisci": "const FATTI = [{ id: 'negozio.faro', nome: 'Negozio faro', valore: 'Casa Linda payout-ready', aggiornato: '' }]",
-   "test": "node cervello/test/porta-dei-senior.test.mjs"
+   "file": "cervello/prepara-giro.mjs",
+   "cerca": "    fatti = fattiVivi(FATTI_DEL_GIRO, radice);",
+   "sostituisci": "    fatti = [{ id: 'negozio.faro', valore: 'Casa Linda payout-ready' }];",
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs",
+   "nota_riaggancio": "23/8, lotto 52 (AR-780): il pezzo cercato non esiste piu' in giro-operativo.js. Il motore dei workflow non accetta import, quindi il calcolo che questa mutazione sorvegliava e' stato SPOSTATO — non tolto — in cervello/prepara-giro.mjs, che gira dove il disco si legge e passa il risultato al workflow come `args`. La mutazione segue la protezione nella sua casa nuova: spegne sempre la stessa cosa, cioe' il valore preso dal vero invece che scritto a mano."
   },
   {
    "lotto": 40,
@@ -6337,6 +6339,33 @@
    "sostituisci": "  chiuse_su_prova_non_ammessa: 0,",
    "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
    "lezione": "L-2026-0823-01"
+  },
+  {
+   "lotto": 52,
+   "difetto": "AR-780",
+   "nome": "torna un import sopra `meta`: il motore rifiuta lo script come faceva da due mesi",
+   "file": ".claude/workflows/radiografia.js",
+   "cerca": "export const meta = {\n  name: 'radiografia',",
+   "sostituisci": "import { existsSync } from 'node:fs'\n\nexport const meta = {\n  name: 'radiografia',",
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs"
+  },
+  {
+   "lotto": 52,
+   "difetto": "AR-780",
+   "nome": "il guardiano torna a guardare solo la prima istruzione, e dice «parte» di uno script che muore a runtime",
+   "file": "cervello/workflow-partono.mjs",
+   "cerca": "    for (const { nome, perche } of nomiAssenti(testo)) motivi.push(`usa \\`${nome}\\` — ${perche}`);",
+   "sostituisci": "    void nomiAssenti;",
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs"
+  },
+  {
+   "lotto": 52,
+   "difetto": "AR-780",
+   "nome": "il giro torna a indovinare il turno invece di fermarsi quando `args` non lo porta",
+   "file": ".claude/workflows/giro-operativo.js",
+   "cerca": "if (!turno.length) {",
+   "sostituisci": "if (false) {",
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs"
   }
  ]
 }

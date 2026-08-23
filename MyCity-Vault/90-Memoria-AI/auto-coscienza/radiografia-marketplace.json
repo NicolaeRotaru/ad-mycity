@@ -5611,17 +5611,17 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-23 13:33",
+    "aggiornato": "2026-08-23 14:56",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 211,
-    "findings_chiusi": 199,
+    "findings_aperti": 200,
+    "findings_chiusi": 210,
     "findings_tot": 410,
     "aperti_per_severita": {
-      "bloccante": 2,
-      "grave": 88,
-      "minore": 121,
+      "bloccante": 0,
+      "grave": 81,
+      "minore": 119,
       "altre": 0
     },
     "dichiarati_dal_referto": 410,
