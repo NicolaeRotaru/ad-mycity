@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-23 09:10",
+ "aggiornato": "2026-08-23 13:35",
  "mutanti": [
   {
    "lotto": 30,
@@ -631,9 +631,10 @@
    "difetto": "AR-444",
    "nome": "un difetto dichiarato aperto da un umano torna a richiudersi da solo",
    "file": "cervello/chiusura-dichiarata.mjs",
-   "cerca": "  if (b.bloccata) {\n    return { chiude: false, debole: false, bloccata: true, motivo: `dichiarato aperto da un umano — ${b.motivo}` };\n  }",
-   "sostituisci": "  if (false) {\n    return { chiude: false, debole: false, bloccata: true, motivo: `dichiarato aperto da un umano — ${b.motivo}` };\n  }",
-   "test": "cervello/test/dichiarato-aperto-si-richiude.test.mjs"
+   "cerca": "  if (b.bloccata) {\n    return { chiude: false, debole: false, bloccata: true, inammissibile: false, marca: null, motivo: `dichiarato aperto da un umano — ${b.motivo}` };\n  }",
+   "sostituisci": "  if (false) {\n    return { chiude: false, debole: false, bloccata: true, inammissibile: false, marca: null, motivo: `dichiarato aperto da un umano — ${b.motivo}` };\n  }",
+   "test": "cervello/test/dichiarato-aperto-si-richiude.test.mjs",
+   "nota_riaggancio": "23/8, lotto 51: il pezzo cercato non combaciava piu'. Il ramo della dichiarazione umana e' lo stesso, ma il verdetto adesso porta due campi in piu' (`inammissibile`, `marca`) perche' `verdettoChiusura` ha un terzo modo di dire no. La mutazione non cambia significato: spegne sempre il ramo che fa vincere chi ha guardato la scheda."
   },
   {
    "lotto": 36,
@@ -6277,6 +6278,65 @@
    "cerca": "const campiIlleggibili = schedeNonGiudicabili(aperti);",
    "sostituisci": "const campiIlleggibili = nonGiudicabili;",
    "test": "node cervello/test/campo-illeggibile-non-e-un-no.test.mjs"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
+   "nome": "il cancello delle prove torna a non essere consultato dal verdetto di chiusura",
+   "file": "cervello/chiusura-dichiarata.mjs",
+   "cerca": "  const amm = ammissibilitaProva(dif, { fileEsiste });\n  if (!amm.ammessa) {",
+   "sostituisci": "  const amm = ammissibilitaProva(dif, { fileEsiste });\n  if (false) {",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "lezione": "L-2026-0823-01"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
+   "nome": "chi chiude torna a rifare la decisione a mano invece di leggere il verdetto",
+   "file": "cervello/auto-fix.mjs",
+   "cerca": "else if (vc.chiude && g.ammessa) daChiudere.push",
+   "sostituisci": "else if (r.esito === \"risolto\" && g.ammessa) daChiudere.push",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "lezione": "L-2026-0823-01"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
+   "nome": "la porta A MANO torna a chiudere senza dire che il cancello non l'ammetteva",
+   "file": "cervello/auto-fix.mjs",
+   "cerca": "    d.chiusa_su_prova_non_ammessa = amm.motivo;",
+   "sostituisci": "    void amm;",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "lezione": "L-2026-0823-01"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
+   "nome": "la TERZA strada (l'allineatore) torna a chiudere un finding bloccante senza chiedere al cancello",
+   "file": "cervello/allinea-scan-cantiere.mjs",
+   "cerca": "        if (r.esito === \"risolto\" && !amm.ammessa) {",
+   "sostituisci": "        if (false) {",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "lezione": "L-2026-0823-01"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-798",
+   "nome": "torna la variabile che non esiste dentro il return: chi verifica i findings del sito riesplode",
+   "file": "cervello/allinea-scan-cantiere.mjs",
+   "cerca": "${risolto ? \"combacia\" : \"non combacia\"}`,",
+   "sostituisci": "${trovato ? \"trovato\" : \"assente\"}`,",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
+   "nome": "la dichiarazione della porta a mano torna a non finire in nessun conto",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "  chiuse_su_prova_non_ammessa: chiuseForzate.length,",
+   "sostituisci": "  chiuse_su_prova_non_ammessa: 0,",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "lezione": "L-2026-0823-01"
   }
  ]
 }

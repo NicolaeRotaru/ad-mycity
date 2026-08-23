@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-22 20:15",
+ "aggiornato": "2026-08-23 12:20",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11294,6 +11294,10 @@
     {
      "quando": "2026-08-22 20:15",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 11:53",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11422,6 +11426,10 @@
     },
     {
      "quando": "2026-08-22 20:15",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 11:53",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11555,6 +11563,10 @@
     {
      "quando": "2026-08-22 20:15",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 11:53",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11614,6 +11626,10 @@
     },
     {
      "quando": "2026-08-22 20:15",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 11:53",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11871,6 +11887,10 @@
     {
      "quando": "2026-08-22 20:15",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 11:53",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11956,6 +11976,10 @@
     },
     {
      "quando": "2026-08-22 20:15",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 11:53",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12227,6 +12251,10 @@
     {
      "quando": "2026-08-22 20:15",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 11:53",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -12283,6 +12311,10 @@
     },
     {
      "quando": "2026-08-22 20:15",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 11:53",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12458,6 +12490,10 @@
     },
     {
      "quando": "2026-08-22 20:15",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 11:53",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12745,6 +12781,19 @@
    "testo": "**Chi risalva un archivio intero cancella quello che un altro ci ha messo mentre lui lavorava (AR-296 metà ②).** `scrivi-json.mjs` lo dichiarava aperto in cima a sé stesso da luglio, come seconda metà di un difetto di cui era stata chiusa solo la prima. Misurato il 21/8 su TUTTE le 1.489 revisioni di `apprendimento.json` da fine giugno: il conto delle lezioni è sceso **sei volte, per undici lezioni** — 4/7 cutover (−2), 6/7 riconcilia (−1), 13/7 chore (−2), 16/7 una risposta del worker (−1), 13/8 giro (−3), 21/8 riconcilia (−2). Nessuno di quei sei lavori era il potatore, e nessuno voleva togliere niente: ognuno aveva in mano una copia vecchia e l'ha risalvata intera. Cercare CHI scrive era la domanda sbagliata — sono sei processi diversi, e domani un settimo.",
    "regola": "un archivio tenuto a id non si difende cercando il colpevole ma al punto unico di scrittura: prima di salvare si confronta con ciò che c'è sul disco ADESSO, e le voci che sparirebbero senza essere dichiarate si rimettono e si gridano — rimettere invece di rifiutare, perché un rifiuto fermerebbe il server per un difetto che non è suo e verrebbe aggirato",
    "gate": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
+  },
+  {
+   "id": "L-2026-0823-01",
+   "data": "2026-08-23 12:20",
+   "nato": "2026-08-23",
+   "ultima_conferma": "2026-08-23 12:20",
+   "stato": "attiva",
+   "confidenza": 0.8,
+   "evidenze": 1,
+   "fonte": "lotto 51, AR-796: il secondo giro del lotto 50 ha chiesto «ogni strada che arriva all'atto passa dal freno?» e la risposta era no",
+   "testo": "**Un cancello si giudica da chi lo attraversa, non da come e' scritto (AR-796).** I due cancelli sulle prove — prova orfana, prova debole su difetto pesante — sono nati nel lotto 49 e si sono raffinati nel lotto 50: funzioni pure, ben provate, con i tre esiti. Per due lotti li ha chiamati una cosa sola, `cantiere-prove.mjs`, che e' il REFERTO: guarda e racconta. Chi CHIUDE davvero e' `auto-fix.mjs`, e non li nominava affatto — zero occorrenze col grep. Il referto pubblicava perfino il conto `chiuderebbe_lo_stesso`, cioe' misurava la propria impotenza, e nessuno leggeva quel numero come un difetto. Peggio: `auto-fix` chiamava gia' `verdettoChiusura`, la funzione pura giusta, ma ne usava solo due campi su tre e la decisione la rifaceva a mano — quindi ogni cancello aggiunto alla funzione pura moriva dentro un `chiude` calcolato e buttato via. Due lotti di lavoro corretto, montati sulla porta che non si apre.",
+   "regola": "quando aggiungi un freno, la prova non e' che il freno sappia giudicare — e' che CHI AGISCE ci passi: si scrive facendo girare l'attore vero (auto-fix, il worker, il publisher) su un caso costruito, e pretendendo che l'atto NON avvenga. E un verdetto che il chiamante ricalcola non decide niente: se una funzione pura torna `chiude`, chi la chiama deve dispacciare su quel campo, non su una condizione riscritta accanto",
+   "gate": "node --test cervello/test/il-freno-non-era-sulla-strada.test.mjs"
   }
  ],
  "principi": [

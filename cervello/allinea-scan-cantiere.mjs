@@ -35,11 +35,23 @@ import { contaDifetti, sommaTorna } from "./stati-cantiere.mjs";
 // risponde zero quando non ha potuto leggere. Qui sotto c'era la terza definizione della parola.
 import { contoMarketplace } from "./radiografia-marketplace-conti.mjs";
 import { provaSoddisfatta } from "./prove-regole.mjs";
+// ⛔ AR-796 — LA TERZA STRADA CHE ARRIVA ALL'ATTO. Il freno è stato montato su tutt'e due le porte
+// di auto-fix.mjs; questo file è il SECONDO che scrive `stato: "chiuso"` (lo dice da sé in cima), e
+// una delle sue due chiusure decide su una prova. Lasciarla fuori sarebbe AR-172 per la terza
+// volta nello stesso lotto. Misurato il 23/8: oggi ZERO dei 208 findings aperti porta un campo
+// `verifica`, quindi quella strada non si percorre mai e il cancello qui non toglie niente a
+// nessuno — è il momento giusto per montarlo, non quello sbagliato.
+import { ammissibilitaProva } from "./prova-ammissibile.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
-const RAD = join(VAULT, "auto-radiografia.json");
-const CANTIERE = join(VAULT, "cantiere-difetti.json");
+// AR-796 — i due registri si possono puntare altrove, con la stessa chiave che usano già
+// `salute-onesta.mjs` e `auto-fix.mjs` (`CANTIERE_FILE`). Serve alla prova del cancello su QUESTA
+// strada: la lezione del lotto 51 è che un freno si prova facendo girare chi agisce, non la
+// funzione che sa giudicare — e chi agisce qui legge da percorsi fissi. Fuori dai test nessuno le
+// usa e i percorsi restano quelli di sempre.
+const RAD = process.env.RADIOGRAFIA_FILE || join(VAULT, "auto-radiografia.json");
+const CANTIERE = process.env.CANTIERE_FILE || join(VAULT, "cantiere-difetti.json");
 const MKP = join(VAULT, "radiografia-marketplace.json");
 
 function readJson(path, fallback) {
@@ -148,7 +160,14 @@ function verificaFinding(f) {
   const vuolePresente = v.presente !== false;
   return {
     esito: risolto ? "risolto" : "aperto",
-    dettaglio: `${v.file} ${vuolePresente ? "contiene" : "NON contiene"} /${v.pattern}/ → ${trovato ? "trovato" : "assente"}`,
+    // AR-798 — qui c'era `${trovato ? …}`, e `trovato` non esisteva: AR-743 aveva sostituito il
+    // confronto scritto a mano con `provaSoddisfatta` e portato via la variabile, lasciandone il
+    // nome dentro la frase. Non era un refuso cosmetico: la riga sta nel `return`, quindi OGNI
+    // finding con una prova faceva esplodere `verificaFinding` con un ReferenceError, e l'errore
+    // saliva fino ad abortire l'allineamento intero. La strada era morta, non dormiente. Nessuno
+    // se n'era accorto perché nessun finding porta un campo `verifica` — cioè la difesa era il
+    // fatto che quel ramo non si percorresse mai.
+    dettaglio: `${v.file} ${vuolePresente ? "contiene" : "NON contiene"} /${v.pattern}/ → ${risolto ? "combacia" : "non combacia"}`,
   };
 }
 
@@ -205,6 +224,11 @@ function allineaMacchina() {
   const byId = Object.fromEntries(difetti.filter((d) => d.id).map((d) => [d.id, d]));
   let aggiornati = 0;
   let chiusiVerifica = 0;
+  // AR-796 — le chiusure che il cancello delle prove ha fermato. Contate a parte e pubblicate: un
+  // rifiuto che non esce in nessun numero è un silenzio, e un silenzio somiglia a «non è successo
+  // niente». Oggi vale zero perché nessun finding porta una prova, e se domani sale vuol dire che
+  // qualcuno ha dato una prova a grep a un bloccante del sito.
+  let rifiutatiDalCancello = 0;
   let aperti = 0;
   let chiusi = 0;
   let inCorso = 0;
@@ -225,7 +249,15 @@ function allineaMacchina() {
         }
       } else if (f.stato !== "chiuso" && f.verifica) {
         const r = verificaFinding(f);
-        if (r.esito === "risolto") {
+        // ⛔ AR-796 — il cancello delle prove, PRIMA del timbro. Un finding `bloccante` (la gravità
+        // dei findings si chiama `severita`, e il contratto legge tutt'e due i nomi) non si chiude
+        // su una parola cercata in un file: sono i difetti del sito che fermano un ordine, e sono
+        // esattamente quelli su cui una prova a grep mente meglio.
+        const amm = ammissibilitaProva(f, { fileEsiste: (x) => existsSync(join(AD_ROOT, x)) });
+        if (r.esito === "risolto" && !amm.ammessa) {
+          f.chiusura_rifiutata = amm.motivo;
+          rifiutatiDalCancello++;
+        } else if (r.esito === "risolto") {
           // Anche questa strada passa dal timbro unico: erano DUE le chiusure in questo file, e
           // ripararne una sola è l'errore già pagato (AR-172, «la porta a mano riparata e quella
           // automatica lasciata aperta»).
@@ -270,6 +302,7 @@ function allineaMacchina() {
     ...cantiereNelSyncScan(difetti),
     match_aggiornati: aggiornati,
     chiusi_verifica: chiusiVerifica,
+    chiusure_rifiutate_dal_cancello: rifiutatiDalCancello,
     data_scan: rad.data || null,
     // AR-105: voto_salute_architettura aggiornato solo dalla radiografia completa, non qui
   };
@@ -279,6 +312,7 @@ function allineaMacchina() {
     ok: true,
     aggiornati,
     chiusi_verifica: chiusiVerifica,
+    chiusure_rifiutate_dal_cancello: rifiutatiDalCancello,
     aperti,
     in_corso: inCorso,
     chiusi,

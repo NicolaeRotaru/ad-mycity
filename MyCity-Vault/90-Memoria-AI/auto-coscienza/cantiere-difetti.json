@@ -17027,10 +17027,67 @@
       "nato_da": "lotto 50, secondo giro: la domanda «ogni strada che arriva all'atto passa dal freno?» ha trovato che l'atto (la chiusura) non ci passa affatto. Segnalato dalla corsia A nel lotto 49 e non registrato allora.",
       "dove": "cervello/auto-fix.mjs (chiude senza consultare cervello/prova-ammissibile.mjs)",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Nessuna prova a comando finche il freno non e collegato. Una prova che punta al test del lotto 50 sarebbe VERDE oggi — e auto-fix chiuderebbe AR-793 al primo giro senza che nessuno abbia collegato niente, che e esattamente il difetto descritto qui dentro. La prova si scrive col fix: un difetto finto bloccante con prova a pattern che NON deve chiudersi passando da auto-fix."
+        "comando": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+        "nota": "La prova che il freno FRENA, come la scheda chiedeva. Fa girare auto-fix.mjs per davvero su un registro finto (CANTIERE_FILE) con due schede identiche in tutto tranne la gravita: la bloccante deve uscire ⛔ e non chiudersi, la minore deve chiudersi. Se il freno non e sulla strada si chiudono tutt'e due; se e troppo largo non si chiude nessuna. Due mutazioni registrate in mutanti.json lo rendono rosso."
       },
-      "nota_fix": "RINUMERATO il 2026-08-23 09:05 da AR-793 a AR-796. Il lotto 50 e la PR #831 sono stati aperti nello stesso periodo e hanno preso lo stesso numero libero, ognuno dalla propria copia del registro: due difetti diversi con lo stesso id. La #831 e stata unita per prima, quindi il numero resta suo (il suo AR-793 parla dell'elenco dei difetti del sito). E il caso descritto nel mansionario del cantiere: prima di prendere un id nuovo va letto da origin/main aggiornato, non dalla copia che si ha in mano. Qui il numero era stato letto da main alle 20:20 del 22/8, e la #831 lo ha usato dopo."
+      "nota_fix": "RINUMERATO il 2026-08-23 09:05 da AR-793 a AR-796. Il lotto 50 e la PR #831 sono stati aperti nello stesso periodo e hanno preso lo stesso numero libero, ognuno dalla propria copia del registro: due difetti diversi con lo stesso id. La #831 e stata unita per prima, quindi il numero resta suo (il suo AR-793 parla dell'elenco dei difetti del sito). E il caso descritto nel mansionario del cantiere: prima di prendere un id nuovo va letto da origin/main aggiornato, non dalla copia che si ha in mano. Qui il numero era stato letto da main alle 20:20 del 22/8, e la #831 lo ha usato dopo. — RIPARATO il 2026-08-23 (lotto 51). Il freno e' montato dentro `verdettoChiusura` (cervello/chiusura-dichiarata.mjs), cioe' sull'unica funzione che auto-fix gia' chiamava per decidere: prima ne usava solo `bloccata` e `debole` e il campo `chiude` veniva calcolato e buttato via, con la decisione rifatta a mano dal chiamante. Un verdetto che il chiamante ricalcola non decide niente — ed e' il motivo per cui i cancelli aggiunti nei lotti 49 e 50 non sono mai arrivati all'atto. SUL PUNTO (b) DELLA SCHEDA HO FATTO DIVERSAMENTE, e il conto lo spiega: la scheda temeva di bloccare 20 chiusure in un colpo e chiedeva un elenco di debito dichiarato per nome. Misurato il 23/8 sul cantiere vero: le schede pesanti con prova debole sono 19, e di quelle **zero** avevano la prova soddisfatta in questo momento. Accendere il freno oggi non toglie nemmeno una chiusura, quindi l'esenzione per nome non serve — e un elenco di esenzioni sarebbe stato proprio il modo di far chiudere su un grep i 19 difetti piu' pesanti del registro. Il loro numero e' gia' contato da `tetti-lotto.json` (`prova_debole`) sotto un tetto che scende: un secondo registro sarebbe una seconda casa per lo stesso numero. SPAZZATA DEI FRATELLI: cercati gli altri cancelli puri che nessun attore chiama (19 moduli-verdetto in cervello/, incrociati con chi li importa). Due candidati, tutt'e due falsi allarmi: `ci-lettura.mjs` lo chiama `git-merge.mjs` alla riga 159 prima di unire, e `ramo-pulito.mjs` lo lancia `git-pr.mjs` come processo separato (riga 771) — cioe' un arco che il grafo degli import non vede. Nessun fratello vero. La spazzata pero' e' stata fatta a mano e vede solo gli import: il buco e' registrato come difetto a se'."
+    },
+    {
+      "id": "AR-797",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "impatto_crescita": "indiretto: e' il controllo che impedisce a un freno di nascere gia' scollegato, cioe' la ricaduta di AR-796",
+      "titolo": "Nessuno controlla che un cancello nuovo sia collegato a chi agisce",
+      "causa_radice": "① Perche' AR-796 e' potuto restare aperto per due lotti? Perche' nessuno misura se un modulo che DECIDE sia chiamato da qualcuno che AGISCE: il lotto 49 ha costruito il cancello, il 50 gli ha aggiunto il terzo esito, e tutt'e due hanno guardato il lato che misura. ② Perche' non se n'e' accorto un guardiano? Perche' quel guardiano non esiste. La spazzata dei fratelli del lotto 51 l'ha fatta l'AD a mano, con uno script usa-e-getta, e il risultato non e' rimasto da nessuna parte: il prossimo cancello nascera' scollegato e nessuno lo sapra'. ③ Perche' non basta il grafo degli import? Perche' un cancello puo' essere lanciato come processo separato: `ramo-pulito.mjs` non e' importato da nessuno e ciononostante e' collegato — lo esegue `git-pr.mjs` con spawnSync. Cercando i soli import si accusano innocenti, e un elenco che accusa innocenti si impara a scorrere senza leggere (e' AR-786). ④ Quanto vale oggi? Misurato il 23/8: 19 moduli-verdetto puri in cervello/, tutti collegati a qualcuno che agisce. Zero fratelli veri. Ma il conto e' stato fatto a mano una volta sola.",
+      "fix_proposto": "🟡 Un guardiano `node cervello/cancelli-collegati.mjs` che (a) trova i moduli puri che esportano un verdetto, (b) segue DUE tipi di arco — l'import e l'esecuzione come processo (`spawnSync`/`execSync` col percorso del file) — e (c) fallisce quando un cancello non ha nessun attore a valle. Tre esiti, non due: collegato / scollegato / non lo so (l'arco potrebbe essere di una forma che non conosco), e il terzo non e' un verde. Prova comportamentale: un cancello finto collegato solo via spawnSync deve risultare COLLEGATO, e uno importato da soli lettori deve risultare SCOLLEGATO.",
+      "nato": "2026-08-23 12:05",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 51,
+      "nato_da": "lotto 51, spazzata dei fratelli di AR-796: la spazzata ha funzionato e non e' rimasta. Due falsi allarmi su due candidati hanno mostrato anche come dev'essere fatta.",
+      "dove": "cervello/ (nessun guardiano: il controllo oggi non esiste)",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Nessuna prova a comando finche' il guardiano non esiste: una prova che punta al test del lotto 51 sarebbe verde oggi e chiuderebbe questa scheda al primo giro senza che nessuno abbia scritto niente. La prova si scrive col guardiano."
+      }
+    },
+    {
+      "id": "AR-798",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto: e' il ponte fra i difetti del sito e il cantiere, e quando esplode l'allineamento intero non gira — cioe' i 208 difetti del marketplace restano fermi allo stato di ieri",
+      "titolo": "Chi verifica i difetti del sito esplode alla prima prova che incontra, e nessuno lo sapeva",
+      "causa_radice": "① Cosa succede? `verificaFinding` in cervello/allinea-scan-cantiere.mjs cita la variabile `trovato` dentro la frase che TORNA, e quella variabile non esiste. Ogni finding con un campo `verifica` fa scattare un ReferenceError. ② Perche' non e' un refuso cosmetico? Perche' la riga sta dentro il `return`, quindi non salta la frase: salta la funzione. E l'errore non e' catturato — sale fino a main e ABORTISCE l'allineamento intero («ERRORE allinea-scan-cantiere: trovato is not defined», provato il 23/8 su un registro finto). Non e' un finding che non si chiude: e' l'allineamento di tutti. ③ Da dove viene? Da AR-743, che ha sostituito il confronto scritto a mano con `provaSoddisfatta` e ha portato via la variabile locale lasciandone il nome nella frase. Una cura giusta che ha rotto il vicino di riga. ④ Perche' nessuno se n'e' accorto? Perche' ZERO dei 208 findings aperti porta un campo `verifica`, quindi quel ramo non si percorre mai. La difesa era il fatto che la strada fosse deserta — e una strada deserta non e' una strada sicura, e' una strada non ancora usata. ⑤ Cosa lo ha trovato? Il lotto 51, montando il cancello delle prove su questa stessa strada: la prova del freno ha dovuto percorrerla, e la strada e' esplosa.",
+      "fix_proposto": "🟡 Fatto nel lotto 51: la frase usa `risolto`, che e' la risposta che `provaSoddisfatta` ha gia' dato. Prova comportamentale: far girare l'allineatore vero su un referto finto con findings che portano una prova — se la variabile torna a mancare, il processo muore e la prova e' rossa.",
+      "nato": "2026-08-23 12:55",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 51,
+      "nato_da": "lotto 51, secondo giro di AR-796: montando il freno sulla terza strada che scrive «chiuso», la prova ha percorso un ramo che non era mai stato eseguito da nessuno.",
+      "dove": "cervello/allinea-scan-cantiere.mjs, funzione verificaFinding",
+      "verifica": {
+        "comando": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+        "nota": "Il caso «l'allineatore non chiude un finding BLOCCANTE su una prova a pattern» fa girare allinea-scan-cantiere.mjs per davvero (RADIOGRAFIA_FILE + CANTIERE_FILE) su due findings che portano una prova. Col ReferenceError rimesso, il processo muore e nessuno dei due findings cambia stato: la prova diventa rossa."
+      }
+    },
+    {
+      "id": "AR-799",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto: la serie della salute e' il grafico che Nicola guarda in Cabina, e una prova che ci scrive dentro gli fa vedere un crollo mai avvenuto",
+      "titolo": "Chi prova la macchina scrive nella memoria vera, perche' si puo' deviare solo meta' dei registri",
+      "causa_radice": "① Cosa e' successo? Le prove del lotto 51 fanno girare `auto-fix.mjs chiudi` su un cantiere finto (CANTIERE_FILE). Ma `auto-fix` scrive in DUE registri: il cantiere e `storico-salute.json`. Del secondo non esisteva nessuna maniglia, quindi ogni esecuzione della prova ha aggiunto un punto VERO nella serie della salute: quattro voci «chiuso AR-FINTO-MANO», e il totale dei chiusi che nella serie crolla da 679 a 1. ② Chi l'ha trovato? Non io: la prova del volano (`il-volano-i-sensori-e-la-stella`), che pretende che lo stock dei chiusi non torni indietro. Ha fatto esattamente il lavoro per cui esiste. ③ Perche' e' un difetto di sistema e non una mia distrazione? Perche' una maniglia che apre meta' porta e' peggio di nessuna maniglia: chi la usa crede di essere al riparo. Chiunque scriva la prossima prova su uno strumento a due registri cadra' nello stesso punto. ④ Quanti strumenti scrivono in piu' di un registro? Non lo so, e non l'ho contato: e' la domanda che questo difetto lascia aperta. `auto-fix.mjs` e `allinea-scan-cantiere.mjs` ne scrivono due ciascuno; degli altri non ho misurato.",
+      "fix_proposto": "🟡 (a) FATTO nel lotto 51 per auto-fix: `STORICO_FILE` accanto a `CANTIERE_FILE`, e le prove lo usano. (b) DA FARE: contare gli strumenti che scrivono in piu' di un registro e verificare che ognuno sia deviabile INTERAMENTE. (c) Meglio ancora: un guardiano che faccia girare la suite e poi controlli `git status` sui file di memoria — una prova che sporca la memoria vera deve diventare rossa da se', invece di essere trovata per caso da un'altra prova.",
+      "nato": "2026-08-23 13:10",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 51,
+      "nato_da": "lotto 51: le mie stesse prove hanno sporcato storico-salute.json, e l'ha scoperto la prova del volano.",
+      "dove": "cervello/auto-fix.mjs (riparato) · gli altri strumenti a due registri: non misurati",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "La meta' (a) e' riparata e la sua prova gira dentro il-freno-non-era-sulla-strada (le tre chiamate deviano anche lo storico). Ma il difetto e' il CONTO — quanti strumenti scrivono in piu' di un registro senza essere deviabili del tutto — e quel conto non l'ha fatto nessuno. Una prova a comando qui sarebbe verde senza che il conto esista: e' il caso che AR-787 descrive."
+      }
     }
   ],
   "meta": {

@@ -19,10 +19,11 @@
 // messaggio si obbedisce solo quando c'è tempo. Qui diventa una funzione che qualcuno chiama, cioè
 // un cancello che può dire di no.
 //
-// ⚠️ QUESTO FILE DECIDE, NON AGISCE. Il guardiano che lo chiama oggi è `cervello/cantiere-prove.mjs`
-// (classifica e conta). **Chi CHIUDE davvero le schede è `cervello/auto-fix.mjs`**, e quello non
-// passa ancora di qui: finché non lo fa, questo è il metro onesto e quella è la porta aperta. Sta
-// scritto nel referto (`chiuderebbe_lo_stesso`) invece che nella testa di chi legge.
+// QUESTO FILE DECIDE, NON AGISCE — e per due lotti nessuno che agisse lo chiamava. Lo leggeva solo
+// `cervello/cantiere-prove.mjs`, che classifica e conta; **chi CHIUDE davvero le schede è
+// `cervello/auto-fix.mjs`**, e quello non passava di qui: il metro era onesto e la porta era aperta
+// accanto. Riparato il 23/8/2026 (AR-796): `auto-fix` chiama `verdettoChiusura`, e `verdettoChiusura`
+// chiama questo. Il freno adesso sta sulla strada dell'atto, non accanto.
 //
 // 🟢 Modulo PURO: nessun file, nessuna rete, nessun processo, nessun `process.env`, nessun
 // orologio. Tutto ciò che serve arriva dagli argomenti — così un test lo può ESEGUIRE invece di

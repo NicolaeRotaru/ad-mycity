@@ -3616,3 +3616,49 @@ hanno una verifica umana apposta, così nessuno strumento può richiuderli mentr
 **Cosa non ho verificato:** il merito delle tre chiusure altrui, cioè se quelle riparazioni siano
 quelle giuste. Ho verificato che le loro prove esistono, girano e passano — non ho riletto il
 ragionamento di chi le ha scritte.
+
+## 2026-08-23 13:45 · 🟡 Il freno c'era da due lotti, e non era su nessuna delle porte
+
+**Cosa ho fatto.** Il programma che chiude i difetti adesso chiede il permesso prima di chiudere.
+Fino a stamattina non lo chiedeva a nessuno.
+
+**Il difetto, in una frase.** Nei lotti 49 e 50 avevo costruito un cancello che decide se una prova
+basta a chiudere un difetto: un difetto grave non si chiude perché una parola compare dentro un
+file. Il cancello era scritto bene, provato, coi tre esiti. Lo chiamava una cosa sola — il referto,
+che guarda e racconta. **Chi chiude davvero non lo nominava affatto.** Il referto pubblicava perfino
+il conto delle schede che «si chiuderebbero lo stesso»: misurava la propria impotenza, e nessuno
+leggeva quel numero come un difetto.
+
+**La cosa che mi ha fatto perdere due lotti.** Il chiuditore chiamava già la funzione giusta, ma ne
+usava due campi su tre: il campo `chiude` — la risposta — veniva calcolato e buttato via, e la
+decisione la rifaceva a mano una riga sotto. Un verdetto che il chiamante ricalcola non decide
+niente, e ogni cancello aggiunto alla funzione moriva lì dentro.
+
+**Il secondo giro ha trovato altre due porte.** Avevo montato il freno su quella automatica e stavo
+per consegnare. Ce n'erano tre: la porta a mano (`chiudi --id=…`) e l'allineatore, che è il secondo
+file della macchina a scrivere «chiuso». Sulla porta a mano il freno **non sbarra** — davanti c'è
+una persona che ha scritto l'id — ma dichiara, e la dichiarazione adesso finisce in un conto.
+
+**Percorrendo la terza porta è esplosa.** `verificaFinding` citava una variabile che non esiste dal
+giorno di AR-743: ogni difetto del sito con una prova faceva morire l'allineamento intero. Non era
+dormiente, era morta — e nessuno l'aveva vista perché nessuno dei 208 difetti del sito porta una
+prova. La difesa era che quella strada fosse deserta.
+
+**Le mie prove hanno sporcato la memoria vera, e l'ha scoperto un'altra prova.** Facendo girare il
+chiuditore su un cantiere finto ho scritto quattro punti falsi nella storia della salute — quella
+che disegna il grafico in Cabina — perché lo strumento scrive in due registri e se ne poteva deviare
+uno solo. Rimesso a posto, e registrato: una maniglia che apre metà porta è peggio di nessuna
+maniglia, perché fa credere di essere al riparo.
+
+**Il conto.** Il freno oggi non toglie **nessuna** chiusura: 19 schede pesanti hanno una prova
+debole, e di quelle zero avevano la prova soddisfatta adesso. La scheda temeva di bloccarne venti in
+un colpo e chiedeva un elenco di esenzioni per nome; il conto dice che il giorno per accenderlo è
+oggi, e che un elenco di esenzioni sarebbe stato il modo di far chiudere su una parola i 19 difetti
+più pesanti del registro.
+
+**Difetti nuovi registrati:** AR-797 (nessuno controlla che un cancello nuovo sia collegato a chi
+agisce), AR-798 (la strada morta), AR-799 (gli strumenti deviabili a metà).
+
+**Cosa non ho verificato:** quanti altri strumenti della macchina scrivono in più di un registro
+senza essere deviabili del tutto. Ne ho contati due, e sono i due che ho toccato oggi; degli altri
+non ho guardato. Sta scritto in AR-799 come la domanda che resta aperta, non come una cosa fatta.

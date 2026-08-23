@@ -35,8 +35,10 @@
 // di questa corsia. I casi reali servono all'altra metà — che la regola governi schede vere e che
 // il bilancio torni sul registro intero.
 //
-// NON prova che `auto-fix.mjs` rispetti questi cancelli: quel file non passa da
-// `prova-ammissibile.mjs`, ed è scritto nel referto (`chiuderebbe_lo_stesso`) invece che sperato.
+// NON prova che `auto-fix.mjs` rispetti questi cancelli — e per due lotti non li rispettava affatto.
+// Quel buco è diventato la scheda AR-796 e si è chiuso il 23/8/2026: adesso `auto-fix` ci passa, e a
+// provarlo è `cervello/test/il-freno-non-era-sulla-strada.test.mjs`, che fa girare il chiuditore
+// vero su un registro finto. Questo file resta il metro della REGOLA; quello è il metro della PORTA.
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
