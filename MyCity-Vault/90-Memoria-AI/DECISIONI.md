@@ -3779,3 +3779,39 @@ gravità, cioè invisibile in ogni riga che qualcuno legge.
 
 **Cosa non ho verificato:** che il caricamento funzioni davvero in produzione. Va provato a mano da
 Nicola: entrare come negoziante e caricare una copertina.
+
+## 2026-08-23 14:30 · 🟡 Il carrello diceva «sei vuoto» a chi ce l'aveva pieno
+
+**Cosa ho fatto.** Secondo lotto sul design del sito, dentro la richiesta **#241**: sette difetti
+gravi, una malattia sola. L'assenza di dati veniva disegnata come se fosse un dato.
+
+**Gli stati sono tre, il sito ne usava due.** Carico, vuoto, rotto. Con due soli stati «non lo so
+ancora» e «la lettura è fallita» finiscono tutt'e due dentro «non c'è niente» — e il sito afferma
+cose che nessuno ha potuto guardare.
+
+**Il peggiore, coi numeri.** Lo stato del carrello parte da una lista vuota perché deve partire da
+qualcosa; il carrello vero si legge dopo il primo disegno; e il primo controllo del render era «se
+la lista è vuota». Quindi **l'HTML che parte dal server dice «Il tuo carrello è vuoto»** a chi ce
+l'ha pieno, col pulsante «Esplora i prodotti». Al checkout quel ramo veniva perfino prima del
+controllo di caricamento.
+
+**La home mostrava un negozio inventato.** «Salumeria del Borgo», «Via Calzolai», sei prodotti con
+prezzi scritti a mano, «Aperto ora», «Consegna oggi entro le 18:00». Primo schermo del sito, numeri
+che non vengono da nessuna parte — è la regola di casa violata nel posto più visibile.
+
+**La cura.** `lib/stato-vista.ts`: «vuoto» esce **solo** con `letto: true`. È un'affermazione sul
+mondo — *ho guardato e non c'è niente* — e non si può fare prima di aver guardato. Non è che
+sbagliare diventa improbabile: è irraggiungibile, perché la funzione lo pretende.
+
+**Ho fatto diversamente da una scheda, e il motivo è misurato.** Per le categorie proponeva
+`MaybeSection`. Non funziona: quel componente decide guardando se c'è del testo, e il titolo scritto
+dal renderer *è* testo — la sezione risulterebbe piena anche con zero categorie sotto. L'ho
+verificato leggendolo, non dedotto. Il titolo è passato al figlio, che è l'unico che sa se c'è
+qualcosa.
+
+**Un falso rosso me lo sono dato da solo.** Il filtro dei commenti nella mia prova toglieva le righe
+che *cominciano* con un marcatore: un commento JSX su più righe ha le righe di mezzo che non
+cominciano con niente. Riparato togliendo i blocchi per esteso.
+
+**Cosa non ho verificato:** niente su un browser. Le prove eseguono le funzioni e guardano cosa
+producono; che a schermo si veda quello che mi aspetto va provato dopo il merge.

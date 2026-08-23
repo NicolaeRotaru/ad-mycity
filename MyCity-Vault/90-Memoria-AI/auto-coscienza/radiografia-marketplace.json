@@ -3841,7 +3841,9 @@
       "impatto": "",
       "fix": "Aggiungere una bandierina di montaggio (`const [letto, setLetto] = useState(false)`, messa a true nello stesso `useEffect` che chiama `getCart()`) e finché è false mostrare uno scheletro del carrello, non l'empty state — su /checkout spostando il controllo prima del blocco a riga 809. In alternativa leggere il carrello con `useSyncExternalStore`, così il primo render ha già il valore vero.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:25",
+      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. Sette gravi, una malattia sola: l'assenza di dati disegnata come se fosse un dato. Gli stati sono TRE — carico, vuoto, rotto — e il sito ne usava due, quindi «non lo so ancora» e «lettura fallita» finivano tutt'e due in «non c'e' niente». La cura e' lib/stato-vista.ts, dove «vuoto» esce SOLO con letto:true: e' un'affermazione sul mondo e non si puo' fare prima di aver guardato. Si chiudono quando la #241 e' unita, non prima."
     },
     {
       "dimensione": "stati-ui",
@@ -3877,7 +3879,9 @@
       "impatto": "",
       "fix": "Distinguere i due casi con `isLoading`/`isError` (e togliere il `return null` sull'errore, così `isError` esiste davvero). Mentre carica: scheletro neutro della stessa forma e altezza (classe `.skeleton` già in globals.css:183), senza nomi né prezzi. Senza negozio o in errore: un riquadro onesto («Stiamo scegliendo il negozio in vetrina») o la CTA generica. Mai nomi e prezzi inventati.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:25",
+      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. Sette gravi, una malattia sola: l'assenza di dati disegnata come se fosse un dato. Gli stati sono TRE — carico, vuoto, rotto — e il sito ne usava due, quindi «non lo so ancora» e «lettura fallita» finivano tutt'e due in «non c'e' niente». La cura e' lib/stato-vista.ts, dove «vuoto» esce SOLO con letto:true: e' un'affermazione sul mondo e non si puo' fare prima di aver guardato. Si chiudono quando la #241 e' unita, non prima."
     },
     {
       "dimensione": "stati-ui",
@@ -3889,7 +3893,9 @@
       "impatto": "",
       "fix": "In CategoryShowcase prendere `isLoading` e `isError`: mentre carica disegnare sei tessere-scheletro con la stessa `aspect-[4/3]`, in errore restituire `null`. E avvolgere il `case 'categories'` in `MaybeSection` come già fa dropOfDay.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:25",
+      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. Sette gravi, una malattia sola: l'assenza di dati disegnata come se fosse un dato. Gli stati sono TRE — carico, vuoto, rotto — e il sito ne usava due, quindi «non lo so ancora» e «lettura fallita» finivano tutt'e due in «non c'e' niente». La cura e' lib/stato-vista.ts, dove «vuoto» esce SOLO con letto:true: e' un'affermazione sul mondo e non si puo' fare prima di aver guardato. Si chiudono quando la #241 e' unita, non prima."
     },
     {
       "dimensione": "stati-ui",
@@ -3901,7 +3907,9 @@
       "impatto": "",
       "fix": "Nella query lanciare un marcatore riconoscibile per il non-autenticato (`throw new Error('AUTH_REQUIRED')`) e nel render fare il redirect dentro un `useEffect` SOLO su quello; per tutto il resto mostrare `<ErrorState title=\"Non riusciamo a caricare le notifiche\" onRetry={() => refetch()} />`, come già fa /stores.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:25",
+      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. Sette gravi, una malattia sola: l'assenza di dati disegnata come se fosse un dato. Gli stati sono TRE — carico, vuoto, rotto — e il sito ne usava due, quindi «non lo so ancora» e «lettura fallita» finivano tutt'e due in «non c'e' niente». La cura e' lib/stato-vista.ts, dove «vuoto» esce SOLO con letto:true: e' un'affermazione sul mondo e non si puo' fare prima di aver guardato. Si chiudono quando la #241 e' unita, non prima."
     },
     {
       "dimensione": "stati-ui",
@@ -3913,7 +3921,9 @@
       "impatto": "",
       "fix": "Il solo `isError` nella pagina NON basta, perché la query non fallisce mai: prima far emergere l'errore in `fetchNearData` (leggere `error` dal risultato e lanciarlo), poi prendere `isError`/`refetch` a riga 124 e mostrare `<ErrorState title=\"Non riusciamo a caricare i negozi\" onRetry={() => refetch()} />` prima del blocco «Nessun negozio» — lo stesso trattamento di app/stores/page.tsx:219-227.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:25",
+      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. Sette gravi, una malattia sola: l'assenza di dati disegnata come se fosse un dato. Gli stati sono TRE — carico, vuoto, rotto — e il sito ne usava due, quindi «non lo so ancora» e «lettura fallita» finivano tutt'e due in «non c'e' niente». La cura e' lib/stato-vista.ts, dove «vuoto» esce SOLO con letto:true: e' un'affermazione sul mondo e non si puo' fare prima di aver guardato. Si chiudono quando la #241 e' unita, non prima."
     },
     {
       "dimensione": "stati-ui",
@@ -4571,7 +4581,9 @@
       "impatto": "",
       "fix": "Terzo stato: `const [carrelloLetto, setCarrelloLetto] = useState(false)` messo a true nell'effetto; finché è false mostrare scheletro/LoadingState. Il ramo «vuoto» solo con carrelloLetto === true && items.length === 0.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:25",
+      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. Sette gravi, una malattia sola: l'assenza di dati disegnata come se fosse un dato. Gli stati sono TRE — carico, vuoto, rotto — e il sito ne usava due, quindi «non lo so ancora» e «lettura fallita» finivano tutt'e due in «non c'e' niente». La cura e' lib/stato-vista.ts, dove «vuoto» esce SOLO con letto:true: e' un'affermazione sul mondo e non si puo' fare prima di aver guardato. Si chiudono quando la #241 e' unita, non prima."
     },
     {
       "dimensione": "flussi-conversione",
