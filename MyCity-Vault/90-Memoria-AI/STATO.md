@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-22 20:25
+aggiornato: 2026-08-23 11:50
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -31,6 +31,18 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 ---
 
+
+> ⏰ **23/8 11:50 — La data zero è il 29 agosto, non il 29 settembre. Sei giorni, non trentotto.** Correzione di Nicola in chat: «29 agosto» e «va finito tutto quello che ho detto».
+>
+> **Cosa è cambiato.** Ieri sera avevo registrato il 29 settembre. Oggi Nicola ha corretto: la data è il **29 agosto 2026**. Restano **sei giorni più oggi**. Le quattro cose restano tutte e quattro: i difetti della macchina, i difetti del design del sito, il worker per le botteghe da costruire, il design della parte venditore mai lavorato.
+>
+> **Il conto vero.** 103 difetti aperti della macchina (più 10 da riverificare) e 208 del design del sito fanno **311 difetti** in sette giorni contando oggi: **44 al giorno**, festivi compresi. Il ritmo misurato finora è **8,4 al giorno**. Cinque volte meno. E le due costruzioni non sono in quel conto.
+>
+> **Il muro prima di tutto.** Il server è fermo dal 18 agosto alle 06:50. Finché è giù non si alza nessuna cadenza da sola. Un piano a 44 difetti al giorno con la macchina spenta non è un piano. Tre firme moltiplicano tutto il resto. La #168 riaccende il server. La #154 mette le chiavi mancanti su Vercel, quelle che tengono ferma la cassa. La #155 sposta il dominio, che punta ancora al server vecchio.
+>
+> **Cosa non ho verificato.** Il conto dei difetti l'ho letto dai file del cantiere alle 09:05 di oggi, non ho riaperto i difetti uno per uno. I 208 del design li ha trovati un esame del codice riga per riga. Non so se il server è ancora fermo adesso: l'ultima traccia è del 22 agosto alle 20:41.
+>
+> **Dettagli tecnici.** Fatto `cantiere.scadenza-zero` aggiornato alle 11:45 con `coerenza-fatti.mjs registra` e la caccia sul valore vecchio. Guardiano verde, exit 0 su 1310 file vivi. Piano dei sei giorni in `MyCity-Vault/90-Memoria-AI/PIANO-29-AGOSTO.md`.
 
 > 🎨 **22/8 16:05 — Radiografia del design: 208 problemi veri, e due impediscono di caricare le foto.** Richiesta di Nicola in chat: «ora fai la radiografia del design».
 >
