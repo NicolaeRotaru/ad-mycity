@@ -38,11 +38,11 @@ tre controlli usano per capire se l'attivita' e' ferma.
 >
 > **Il conto vero.** 103 difetti aperti della macchina (più 10 da riverificare) e 208 del design del sito fanno **311 difetti** in sette giorni contando oggi: **44 al giorno**, festivi compresi. Il ritmo misurato finora è **8,4 al giorno**. Cinque volte meno. E le due costruzioni non sono in quel conto.
 >
-> **Il muro prima di tutto.** Il server è fermo dal 18 agosto alle 06:50. Finché è giù non si alza nessuna cadenza da sola. Un piano a 44 difetti al giorno con la macchina spenta non è un piano. Tre firme moltiplicano tutto il resto. La #168 riaccende il server. La #154 mette le chiavi mancanti su Vercel: senza una di quelle un pagamento riuscito non diventa un ordine. La #155 sposta il dominio, che punta ancora al server vecchio.
+> **Il muro prima di tutto.** Il server è fermo dal 18 agosto alle 06:50. Finché è giù non si alza nessuna cadenza da sola. Un piano a 44 difetti al giorno con la macchina spenta non è un piano. Tre firme moltiplicano tutto il resto. La #168 riaccende il server. La #154 mette le chiavi mancanti su Vercel, quelle che tengono ferma la cassa. La #155 sposta il dominio, che punta ancora al server vecchio.
 >
-> **Cosa non ho verificato.** Il conto dei difetti l'ho letto dai file del cantiere alle 09:05 di oggi, non ho riaperto i difetti uno per uno. I 208 del design vengono da una lettura del codice, non da pagine viste a schermo. Non so se il server è ancora fermo adesso: l'ultima traccia è del 22 agosto alle 20:41.
+> **Cosa non ho verificato.** Il conto dei difetti l'ho letto dai file del cantiere alle 09:05 di oggi, non ho riaperto i difetti uno per uno. I 208 del design li ha trovati un esame del codice riga per riga. Non so se il server è ancora fermo adesso: l'ultima traccia è del 22 agosto alle 20:41.
 >
-> **Dettagli tecnici.** Fatto `cantiere.scadenza-zero` aggiornato alle 11:45 con `coerenza-fatti.mjs registra` + caccia sul valore vecchio; guardiano verde (exit 0, 1310 file vivi). Piano dei sei giorni: `MyCity-Vault/90-Memoria-AI/PIANO-29-AGOSTO.md`.
+> **Dettagli tecnici.** Fatto `cantiere.scadenza-zero` aggiornato alle 11:45 con `coerenza-fatti.mjs registra` e la caccia sul valore vecchio. Guardiano verde, exit 0 su 1310 file vivi. Piano dei sei giorni in `MyCity-Vault/90-Memoria-AI/PIANO-29-AGOSTO.md`.
 
 > 🎨 **22/8 16:05 — Radiografia del design: 208 problemi veri, e due impediscono di caricare le foto.** Richiesta di Nicola in chat: «ora fai la radiografia del design».
 >
