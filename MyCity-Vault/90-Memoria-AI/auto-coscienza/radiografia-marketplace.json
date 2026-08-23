@@ -26,12 +26,12 @@
   "fonti_non_lette": [],
   "sintesi": "Terza radiografia profonda del sito, 21 agosto: 13 dimensioni in sola lettura, ogni problema ricontrollato da un collega diverso da chi l'ha trovato. 199 problemi confermati (12 bloccanti, 88 gravi, 99 minori) su 26 agenti. I bloccanti restano dodici come il 18 agosto, ma NON sono gli stessi: quelli di agosto erano stati chiusi il 21, questi sono nuovi o mai visti prima. I piu' cari sono sui soldi e sull'identita': un ordine si puo' marcare «gia' rimborsato» senza account, il codice di consegna si aggira mandando un valore vuoto, un rimborso con carta non riaddebita mai la quota del negozio, e il rilascio non applica le modifiche al database. Typecheck pulito, 943 test unitari verdi, 95 avvisi di accessibilita' dal controllo automatico. — 22/8/2026: chiusi tutti e 199. Prima i 12 bloccanti e gli 88 gravi (100), poi i 99 minori nello stesso giorno. Due dei 99 erano gia' stati chiusi dal lotto precedente e sono stati verificati, non riaperti. Dentro i minori ce n'era uno che minore non era: la copia notturna del database non partiva piu' da quando Supabase e' passato a PostgreSQL 17, perche' il programma che la fa era fermo alla 16 e si rifiuta di copiare un database piu' recente di lui. Alla fine: controllo dei tipi pulito, 1136 prove unitarie verdi, 17 file di prova SQL verdi, lint senza errori.",
   "meta": {
-    "findings": 410,
+    "findings": 414,
     "bloccanti": 14,
-    "gravi": 176,
-    "minori": 220,
+    "gravi": 179,
+    "minori": 221,
     "agenti": 26,
-    "nota_conteggio": "23/8: il conto dichiarato era 407 e l'elenco ne portava 410 — tre reperti aggiunti dal lotto del 23/8 (i tre magazzini con la malattia dormiente, l'elenco delle dipendenze fuori sincrono, e la copertura delle schede). L'ha trovato la prova del conto del sito, non io: chi aggiunge un reperto deve aggiornare anche il totale dichiarato, o il referto smette di poter sbilanciare."
+    "nota_conteggio": "23/8 sera: aggiunti 4 reperti dell'AREA VENDITORE (3 gravi + 1 minore), la prima volta che quell'area viene guardata. Totale e conti per gravita' aggiornati NELLO STESSO lavoro che aggiunge i reperti — e' l'errore che la CI ha trovato stamattina, quando il conto dichiarato diceva 407 e l'elenco ne portava 410."
   },
   "confronto_precedente": null,
   "dimensioni": [
@@ -5608,23 +5608,83 @@
       "fix": "Regola per il cantiere del design: una scheda che nomina una FRASE si chiude solo dopo una spazzata su app/, components/ e lib/ per quella frase, e la spazzata resta come prova (un invariante che conta i posti e non si fida dell'elenco). Le due della #240 sono gia' scritte cosi'. Da valutare: farlo diventare un controllo del lotto, non un promemoria.",
       "fonte": "lotto 23/8 sulle promesse — secondo giro, domanda «e altrove?»",
       "stato": "aperto"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Area venditore",
+      "titolo": "La pagina dei Guadagni dice «zero incassato» quando la lettura fallisce",
+      "severita": "grave",
+      "impatto_crescita": "diretto",
+      "stato": "aperto",
+      "file": "app/seller/earnings/page.tsx:89 · :174 · :291",
+      "descrizione": "MISURATO il 23/8/2026 leggendo il codice. La lettura degli ordini e' `const { data: orders = [], isLoading } = useQuery(...)` e la funzione LANCIA quando la query fallisce. React Query mette allora `isError`, che qui non legge nessuno, e lascia `data` a undefined: parte il default `= []`. Dopo un solo tentativo di ripetizione (retry: 1 nel provider globale, verificato in components/providers/QueryProvider.tsx) `isLoading` torna falso e la pagina si disegna con la lista vuota. Il negoziante vede la torre dei numeri a zero e la riga «Ancora nessun ordine pagato con carta nel periodo selezionato». La pagina intanto scrive di se': «Incassi reali dai tuoi ordini e stato dei bonifici» e «Stato reale del bonifico per ogni ordine carta». Afferma di essere reale su dati che non ha mai ricevuto. E' la stessa malattia dei sette gravi riparati il 23/8 sul lato cliente — l'assenza di dati disegnata come un dato — ma qui cade sui SOLDI di chi paga il canone, che e' il posto dove la fiducia si rompe per primo.",
+      "fix_proposto": "Tre stati invece di due, riusando la casa gia' costruita per il lato cliente: `lib/stato-vista.ts`, `statoDellaVista({letto, caricando, errore, quanti})`. La regola che serve qui e' quella che quel file gia' pretende: «vuoto» esce solo con `letto: true`. Su errore si mostra un riquadro che dice che la lettura non e' riuscita, con un pulsante per riprovare — mai un numero.",
+      "verifica": {
+        "tipo": "comando",
+        "nota": "prova da scrivere insieme al fix: una lettura che fallisce non deve poter produrre un totale a zero ne' la frase «nessun ordine»"
+      }
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Area venditore",
+      "titolo": "La bacheca del venditore resta uno scheletro per sempre se la lettura fallisce",
+      "severita": "grave",
+      "impatto_crescita": "diretto",
+      "stato": "aperto",
+      "file": "app/seller/dashboard/page.tsx:60 · :180",
+      "descrizione": "MISURATO il 23/8/2026. La riga e' `if (isLoading || !stats) return <LoadingState />;`. Quando la lettura fallisce `isLoading` torna falso ma `stats` resta undefined, quindi `!stats` e' vero e la pagina mostra lo scheletro di caricamento PER SEMPRE. E' la prima schermata che il negoziante apre. Non c'e' nessun modo di sapere che qualcosa e' andato storto e nessun modo di riprovare: si resta a guardare un'animazione che non finira' mai. E' la stessa radice del difetto dei Guadagni — due stati dove ce ne vogliono tre — con il sintomo opposto: la' il sito dice una cosa falsa, qui non dice niente.",
+      "fix_proposto": "Distinguere «sto ancora leggendo» da «la lettura e' fallita» con `statoDellaVista` di `lib/stato-vista.ts`, e sull'errore mostrare il riquadro con il pulsante per riprovare.",
+      "verifica": {
+        "tipo": "comando",
+        "nota": "prova da scrivere insieme al fix: con la lettura fallita la pagina non deve restare in stato di caricamento"
+      }
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Area venditore",
+      "titolo": "Nessuna delle undici pagine del venditore guarda se la lettura e' fallita",
+      "severita": "grave",
+      "impatto_crescita": "diretto",
+      "stato": "aperto",
+      "file": "app/seller/*/page.tsx (11 pagine, 29 letture)",
+      "descrizione": "CONTATO il 23/8/2026 su tutte le pagine dell'area venditore: analytics, customers, dashboard, earnings, orders, products, profile, promote, promotions, reviews, stories. Ventinove letture in tutto, e `isError` non compare nemmeno una volta. Otto di quelle pagine dichiarano un valore di ripiego (`data: X = []`), quindi una lettura fallita si disegna come «non c'e' niente»: nessun prodotto, nessun ordine, nessun cliente, nessuna recensione. Non e' una svista sparsa su qualche pagina: e' l'area intera costruita con due stati invece di tre. Il lato cliente aveva la stessa malattia e il 23/8 ne sono stati chiusi sette casi con una casa comune (`lib/stato-vista.ts`); l'area venditore non e' mai stata toccata. I due reperti qui sopra — Guadagni e bacheca — sono i due casi peggiori, questo e' il conto della famiglia.",
+      "fix_proposto": "Un lotto solo, con la casa che esiste gia': far passare tutte le letture dell'area venditore da `statoDellaVista`, e una prova che scorra le pagine dell'area e pretenda che nessuna decida sul solo `isLoading`. Il valore vero non e' l'undicesima pagina riparata: e' che la dodicesima nasca gia' con i tre stati.",
+      "verifica": {
+        "tipo": "comando",
+        "nota": "prova da scrivere insieme al fix: nessuna pagina dell'area venditore deve poter disegnare un risultato senza aver guardato se la lettura e' riuscita"
+      }
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Area venditore",
+      "titolo": "La pagina Andamento arriva all'errore schiantandosi, e funziona per caso",
+      "severita": "minore",
+      "impatto_crescita": "indiretto",
+      "stato": "aperto",
+      "file": "app/seller/analytics/page.tsx:223 · :228",
+      "descrizione": "MISURATO il 23/8/2026. Dopo `if (!userId || isLoading) return <LoadingState />;` la riga successiva legge `analytics.topProducts[0]`. Con la lettura fallita `analytics` e' undefined, quindi la pagina lancia un TypeError, il confine d'errore dell'area (app/seller/error.tsx) lo raccoglie e mostra un riquadro d'errore con il pulsante per riprovare. Il risultato finale e' quello giusto, ma ci si arriva per caso: nessuno ha deciso che dovesse succedere. Basta aggiungere una riga difensiva — un `?.` messo per fare pulizia — perche' la pagina smetta di schiantarsi e cominci a mostrare zeri come fa Guadagni, cioe' peggiori in silenzio proprio mentre sembra che la si stia migliorando. Un comportamento giusto che nessuno ha scelto non e' protetto da niente.",
+      "fix_proposto": "Stessa cura delle altre: `statoDellaVista`, e l'errore mostrato perche' e' stato deciso, non perche' il codice e' caduto.",
+      "verifica": {
+        "tipo": "comando",
+        "nota": "prova da scrivere insieme al fix"
+      }
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-23 17:33",
+    "aggiornato": "2026-08-23 17:49",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 200,
+    "findings_aperti": 204,
     "findings_chiusi": 210,
-    "findings_tot": 410,
+    "findings_tot": 414,
     "aperti_per_severita": {
       "bloccante": 0,
-      "grave": 81,
-      "minore": 119,
+      "grave": 84,
+      "minore": 120,
       "altre": 0
     },
-    "dichiarati_dal_referto": 410,
+    "dichiarati_dal_referto": 414,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-08-22",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."

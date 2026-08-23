@@ -4041,3 +4041,46 @@ con la radice deviata, che è esattamente il freno che stavo costruendo.
 **Cosa non ho verificato:** di `AR-568` resta aperta la clausola (d), il cancello che ferma una
 consegna che abbassa la copertura di un file di misura senza dirlo. E prima serve una decisione che
 è tua: **quali file di misura sono di proprietà del server e non sovrascrivibili da fuori.**
+
+---
+
+## 2026-08-23 18:00 — 🟢 La parte venditore, guardata per la prima volta
+
+**Cosa ho fatto.** Analisi in sola lettura dell'area venditore del marketplace: la quarta consegna
+che Nicola ha nominato il 22/8, e l'unica ancora a zero. Nessuna riga di codice toccata.
+
+**Il conto.** Undici pagine, ventinove letture, e la domanda *«la lettura è andata storta?»* non
+compare **mai**. Otto pagine dichiarano un valore di ripiego, quindi un fallimento si disegna come
+«non c'è niente».
+
+**Il caso peggiore cade sui soldi.** La pagina dei Guadagni, quando la lettura fallisce, mostra la
+torre dei numeri a zero e scrive «Ancora nessun ordine pagato con carta». In cima alla stessa pagina
+c'è scritto **«Incassi reali dai tuoi ordini»**: dichiara di essere reale su dati che non ha mai
+ricevuto. È la stessa malattia dei sette gravi riparati oggi sul lato cliente, ma qui cade sul
+portafoglio di chi paga il canone.
+
+**Ho verificato la configurazione prima di scriverlo.** Se il provider avesse avuto `throwOnError`,
+tutte quelle letture sarebbero salite al confine d'errore e il mio reperto sarebbe stato falso. Non
+ce l'ha, e ha `retry: 1`: dopo un tentativo la query smette e il valore di ripiego prende il posto
+del dato.
+
+**Il reperto che conta di più a lungo termine è il minore.** La pagina Andamento l'errore lo mostra —
+ma perché si schianta, non perché qualcuno l'ha deciso. Basta una riga difensiva aggiunta per fare
+pulizia e comincia a mostrare zeri come i Guadagni: **peggiora in silenzio proprio mentre sembra che
+la si stia sistemando.** Un comportamento giusto che nessuno ha scelto non è protetto da niente.
+
+**Avevo inventato una dimensione che esisteva già.** Avevo scritto i reperti sotto `stati-e-verita`;
+il referto ha `stati-ui`, «Stati dell'interfaccia», da sempre. L'ha trovato il guardiano del conto
+del sito, non io — e la regola è la stessa dell'owner unico: una casa sola per ogni cosa.
+
+**I conti li ho aggiornati nello stesso lavoro** che aggiunge i reperti: 414 totali, 14 bloccanti,
+179 gravi, 221 minori. È l'errore che la CI mi ha trovato stamattina, quando il totale dichiarato
+diceva 407 e l'elenco ne portava 410.
+
+**Cosa non ho verificato:** non ho aperto il sito con gli occhi, e ho guardato **una malattia sola**.
+Restano fuori layout, testi, immagini e flussi: questa è la prima passata, non il controllo completo.
+
+**E una domanda per Nicola, dichiarata invece di indovinata:** «design della parte venditore» me
+l'ha chiesto subito dopo il worker per le botteghe, quindi potrebbe intendere *come apparirà il
+worker dentro il pannello del negoziante*. Ho cominciato da quello che c'è adesso, perché il pannello
+è la stanza dove quel worker andrà comunque a stare.
