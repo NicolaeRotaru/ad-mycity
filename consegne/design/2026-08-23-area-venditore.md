@@ -1,9 +1,9 @@
 ---
-data: 2026-08-23 17:55
-titolo: La parte venditore, guardata per la prima volta
+data: 2026-08-23 18:20
+titolo: La parte venditore, guardata per la prima volta e riparata
 per: Nicola
-tipo: analisi in sola lettura
-colore: 🟢 nessuna riga di codice toccata
+tipo: analisi, poi riparazione
+colore: 🟡 il codice è in una richiesta di unione, la firma è tua
 ---
 
 # 🏪 La parte venditore, guardata per la prima volta
@@ -12,8 +12,8 @@ L'area venditore è il pannello che il negoziante apre per vedere i suoi ordini 
 
 ## In due righe
 
-Tutte e undici le pagine del venditore sono costruite con due stati invece di tre.
-Quando una lettura fallisce non lo dice: **la pagina dei Guadagni mostra zero incassato**.
+Tutte e undici le pagine del venditore erano costruite con due stati invece di tre.
+Quando una lettura falliva non lo diceva: **la pagina dei Guadagni mostrava zero incassato**. L'ho guardata, e poi riparata.
 
 ## In parole semplici
 
@@ -42,15 +42,17 @@ L'ultima riga è quella che mi preoccupa di più a lungo termine. Quella pagina 
 
 ## Cosa devi fare
 
-Niente adesso. Questo è solo lo sguardo: non ho toccato una riga di codice.
+Guardare la richiesta **#242**, perché nel frattempo l'ho riparato.
 
-Quando vorrai, la riparazione è **un lotto solo** e non dodici. La casa dei tre stati esiste già: l'ho costruita per il lato cliente nella #242. Va fatta attraversare da tutte le pagine del venditore.
+Quando una lettura fallisce, adesso il negoziante legge che la lettura è fallita, con un pulsante per riprovare. Non un numero che non è vero.
 
-Il valore vero non è l'undicesima pagina riparata. È che **la dodicesima nasca già con i tre stati**, perché la funzione non permette di dire «vuoto» senza aver prima guardato.
+Il valore vero non è l'undicesima pagina riparata. È che **la dodicesima nasca già con i tre stati**: c'è una prova che legge le pagine vere e diventa rossa se qualcuna torna alla forma vecchia.
 
 ## Cosa non ho verificato
 
-**Non ho aperto il sito con gli occhi.** Ho letto il codice e contato. Che a schermo si veda esattamente quello che ho descritto va guardato dal vivo, e per farlo serve un negozio vero che abbia ordini.
+**Non ho aperto il sito con gli occhi.** Ho letto il codice, contato, e fatto girare le prove. Che a schermo il riquadro d'errore si veda bene va guardato dal vivo, e per farlo serve un negozio vero che abbia ordini.
+
+**La riparazione l'ho provata rompendola.** Ho disfatto il fix cinque volte, in cinque punti diversi, e ogni volta le prove sono diventate rosse. Ma sono prove che eseguono le funzioni e leggono i file: non hanno aperto una pagina.
 
 **Ho guardato una malattia sola:** gli stati che mentono. Restano fuori il layout, i testi, le immagini e i flussi. Questa è la prima passata, non il controllo completo.
 
@@ -74,4 +76,10 @@ Il valore vero non è l'undicesima pagina riparata. È che **la dodicesima nasca
 
 **La cura esiste già:** `lib/stato-vista.ts` nel repo del marketplace, funzione `statoDellaVista({letto, caricando, errore, quanti})`. La regola che serve qui è quella che quel file già pretende: **«vuoto» esce solo con `letto: true`**, perché è un'affermazione sul mondo e non si può fare prima di aver guardato.
 
-**Reperti registrati** nel referto del sito (`radiografia-marketplace.json`), dimensione `stati-ui`: tre gravi e un minore. Il totale dichiarato e i conti per gravità sono aggiornati nello stesso lavoro — 414 reperti, 14 bloccanti, 179 gravi, 221 minori.
+**Reperti registrati** nel referto del sito (`radiografia-marketplace.json`), dimensione `stati-ui`: tre gravi e un minore, adesso `in-corso` e agganciati alla #242. Il totale dichiarato e i conti per gravità sono aggiornati nello stesso lavoro — 414 reperti, 14 bloccanti, 179 gravi, 221 minori.
+
+**La riparazione.** `lib/vista-query.ts`: si passa la lettura intera e si riceve il verdetto. Il punto che conta è la definizione di «letto», che qui vuol dire **«c'è un dato in mano»** e non «la lettura è finita» — è esattamente la differenza che il difetto sfruttava, perché con `isLoading` falso e `data` a `undefined` la pagina credeva di aver letto.
+
+**Avevo costruito anche un componente-riquadro, e non lo usava nessuno: l'ho tolto.** Un pezzo che nessuno attraversa è la stessa malattia che stavo curando.
+
+**L'invariante di struttura ha trovato due punti che mi erano sfuggiti** — i venduti nel catalogo e le campagne in promozione — più un falso rosso su un mio stesso commento, che citava la forma malata per spiegarla. Le prove: 15 casi, 5 mutazioni verificate rosse a mano.

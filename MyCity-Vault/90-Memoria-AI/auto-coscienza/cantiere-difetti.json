@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-23 17:27",
+  "aggiornato": "2026-08-23 18:31",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -17219,20 +17219,42 @@
         "tipo": "umano",
         "nota": "il turno e provato come funzione pura; che il WORKER lo usi non si puo provare da qui, perche il worker gira sul VPS e la tabella non ha ancora il campo. La prova vera si scrive insieme al fix, dopo AR-801."
       }
+    },
+    {
+      "id": "AR-805",
+      "titolo": "Il guardiano dell allocazione accusava il documento sbagliato: «Frutta» dentro «sfruttava»",
+      "dimensione": "trovato-riparando",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-23 18:35",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 57: il cancello del lotto e' diventato rosso su un referto di design che col negozio accusato non c'entrava niente",
+      "causa_radice": "cervello/allocazione-check.mjs sorveglia una cosa giusta (AR-006): che lo sforzo pesante non si accumuli su un negozio non ancora confermato. Per farlo deve capire a quale negozio e' intestato un documento, e contava le occorrenze del nome con `blob.split(alias).length - 1` — cioe' per SOTTOSTRINGA. `aliasDi` scompone «Peretti Frutta e Verdura» nelle sue parole, quindi genera l'alias «frutta». Due referti di design che quel negozio non lo nominano mai contenevano le parole **sfruttava** e **sfruttabile**, che parlano di codice: il guardiano li ha contati come asset pesanti di quel negozio, ha gridato al silo, e il cancello del lotto e' diventato rosso. Lo stesso confronto per sottostringa stava anche sul frontmatter `negozio:`. Un guardiano che accusa il documento sbagliato si impara a ignorare, ed e' la fine di un guardiano.",
+      "dove": "cervello/allocazione-check.mjs — entitaPrimaria, ramo ① frontmatter e ramo ② conteggio",
+      "fix_fatto": "Nuova funzione `occorrenzeIntere(blob, alias)`: conta solo le parole INTERE, con confini scritti come `\\p{L}`/`\\p{N}` e non `\\b`. In JavaScript `\\b` conosce solo l'ASCII, quindi dopo una lettera accentata non vede nessun confine — e i nomi accentati qui sono la norma. E' la stessa trappola gia' pagata in si-capisce.mjs con «cioe'» (AR-493). L'alias viene anche protetto prima di entrare nell'espressione, cosi' un negozio che si chiama «Da Gino (il vero)» non fa esplodere il guardiano.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/un-alias-dentro-un-altra-parola.test.mjs",
+        "nota": "7 casi costruiti: mordono anche col registro-realta' di oggi a posto. Fra questi il caso vero («sfruttava»), l'italiano accentato e un nome con le parentesi."
+      },
+      "chiuso_il": "2026-08-23 18:31",
+      "chiuso_come": "occorrenzeIntere conta solo le parole intere, con i confini scritti come \\p{L}/\\p{N} e non \\b — che in JavaScript conosce solo l'ASCII e su un nome accentato vedrebbe un confine dove non c'e'. L'alias viene protetto prima di entrare nell'espressione. Prova: 7 casi + 2 mutazioni rosse."
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 795,
+    "totale": 796,
     "aperti": 104,
     "in_corso": 0,
     "da_riverificare": 10,
-    "chiusi": 681,
+    "chiusi": 682,
     "altri": 0,
     "da_fare": 114,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 681,
+      "chiuso": 682,
       "aperto": 104,
       "da-riverificare": 10
     },

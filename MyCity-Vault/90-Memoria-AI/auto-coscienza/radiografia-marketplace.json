@@ -31,7 +31,7 @@
     "gravi": 179,
     "minori": 221,
     "agenti": 26,
-    "nota_conteggio": "23/8 sera: aggiunti 4 reperti dell'AREA VENDITORE (3 gravi + 1 minore), la prima volta che quell'area viene guardata. Totale e conti per gravita' aggiornati NELLO STESSO lavoro che aggiunge i reperti — e' l'errore che la CI ha trovato stamattina, quando il conto dichiarato diceva 407 e l'elenco ne portava 410."
+    "nota_conteggio": "23/8 sera: i 4 reperti dell'AREA VENDITORE, aggiunti nello stesso giorno in cui quell'area e' stata guardata per la prima volta, sono passati a `in-corso` — riparati nella richiesta #242 del marketplace, si chiudono col merge. Totale e conti per gravita' aggiornati NELLO STESSO lavoro."
   },
   "confronto_precedente": null,
   "dimensioni": [
@@ -5615,14 +5615,16 @@
       "titolo": "La pagina dei Guadagni dice «zero incassato» quando la lettura fallisce",
       "severita": "grave",
       "impatto_crescita": "diretto",
-      "stato": "aperto",
+      "stato": "in-corso",
       "file": "app/seller/earnings/page.tsx:89 · :174 · :291",
       "descrizione": "MISURATO il 23/8/2026 leggendo il codice. La lettura degli ordini e' `const { data: orders = [], isLoading } = useQuery(...)` e la funzione LANCIA quando la query fallisce. React Query mette allora `isError`, che qui non legge nessuno, e lascia `data` a undefined: parte il default `= []`. Dopo un solo tentativo di ripetizione (retry: 1 nel provider globale, verificato in components/providers/QueryProvider.tsx) `isLoading` torna falso e la pagina si disegna con la lista vuota. Il negoziante vede la torre dei numeri a zero e la riga «Ancora nessun ordine pagato con carta nel periodo selezionato». La pagina intanto scrive di se': «Incassi reali dai tuoi ordini e stato dei bonifici» e «Stato reale del bonifico per ogni ordine carta». Afferma di essere reale su dati che non ha mai ricevuto. E' la stessa malattia dei sette gravi riparati il 23/8 sul lato cliente — l'assenza di dati disegnata come un dato — ma qui cade sui SOLDI di chi paga il canone, che e' il posto dove la fiducia si rompe per primo.",
       "fix_proposto": "Tre stati invece di due, riusando la casa gia' costruita per il lato cliente: `lib/stato-vista.ts`, `statoDellaVista({letto, caricando, errore, quanti})`. La regola che serve qui e' quella che quel file gia' pretende: «vuoto» esce solo con `letto: true`. Su errore si mostra un riquadro che dice che la lettura non e' riuscita, con un pulsante per riprovare — mai un numero.",
       "verifica": {
         "tipo": "comando",
-        "nota": "prova da scrivere insieme al fix: una lettura che fallisce non deve poter produrre un totale a zero ne' la frase «nessun ordine»"
-      }
+        "comando": "npx vitest run tests/unit/la-lettura-fallita-non-e-un-negozio-vuoto.test.ts",
+        "nota": "15 casi: quelli sulla funzione (lib/vista-query.ts) piu' l'invariante di STRUTTURA che legge le pagine vere — nessuna si prende un ripiego dentro la lettura, nessuna e' cieca all'errore, nessuna ingoia il proprio. 5 mutazioni verificate rosse a mano."
+      },
+      "riparato_in": "NicolaeRotaru/mycity#242"
     },
     {
       "dimensione": "stati-ui",
@@ -5630,14 +5632,16 @@
       "titolo": "La bacheca del venditore resta uno scheletro per sempre se la lettura fallisce",
       "severita": "grave",
       "impatto_crescita": "diretto",
-      "stato": "aperto",
+      "stato": "in-corso",
       "file": "app/seller/dashboard/page.tsx:60 · :180",
       "descrizione": "MISURATO il 23/8/2026. La riga e' `if (isLoading || !stats) return <LoadingState />;`. Quando la lettura fallisce `isLoading` torna falso ma `stats` resta undefined, quindi `!stats` e' vero e la pagina mostra lo scheletro di caricamento PER SEMPRE. E' la prima schermata che il negoziante apre. Non c'e' nessun modo di sapere che qualcosa e' andato storto e nessun modo di riprovare: si resta a guardare un'animazione che non finira' mai. E' la stessa radice del difetto dei Guadagni — due stati dove ce ne vogliono tre — con il sintomo opposto: la' il sito dice una cosa falsa, qui non dice niente.",
       "fix_proposto": "Distinguere «sto ancora leggendo» da «la lettura e' fallita» con `statoDellaVista` di `lib/stato-vista.ts`, e sull'errore mostrare il riquadro con il pulsante per riprovare.",
       "verifica": {
         "tipo": "comando",
-        "nota": "prova da scrivere insieme al fix: con la lettura fallita la pagina non deve restare in stato di caricamento"
-      }
+        "comando": "npx vitest run tests/unit/la-lettura-fallita-non-e-un-negozio-vuoto.test.ts",
+        "nota": "15 casi: quelli sulla funzione (lib/vista-query.ts) piu' l'invariante di STRUTTURA che legge le pagine vere — nessuna si prende un ripiego dentro la lettura, nessuna e' cieca all'errore, nessuna ingoia il proprio. 5 mutazioni verificate rosse a mano."
+      },
+      "riparato_in": "NicolaeRotaru/mycity#242"
     },
     {
       "dimensione": "stati-ui",
@@ -5645,14 +5649,16 @@
       "titolo": "Nessuna delle undici pagine del venditore guarda se la lettura e' fallita",
       "severita": "grave",
       "impatto_crescita": "diretto",
-      "stato": "aperto",
+      "stato": "in-corso",
       "file": "app/seller/*/page.tsx (11 pagine, 29 letture)",
       "descrizione": "CONTATO il 23/8/2026 su tutte le pagine dell'area venditore: analytics, customers, dashboard, earnings, orders, products, profile, promote, promotions, reviews, stories. Ventinove letture in tutto, e `isError` non compare nemmeno una volta. Otto di quelle pagine dichiarano un valore di ripiego (`data: X = []`), quindi una lettura fallita si disegna come «non c'e' niente»: nessun prodotto, nessun ordine, nessun cliente, nessuna recensione. Non e' una svista sparsa su qualche pagina: e' l'area intera costruita con due stati invece di tre. Il lato cliente aveva la stessa malattia e il 23/8 ne sono stati chiusi sette casi con una casa comune (`lib/stato-vista.ts`); l'area venditore non e' mai stata toccata. I due reperti qui sopra — Guadagni e bacheca — sono i due casi peggiori, questo e' il conto della famiglia.",
       "fix_proposto": "Un lotto solo, con la casa che esiste gia': far passare tutte le letture dell'area venditore da `statoDellaVista`, e una prova che scorra le pagine dell'area e pretenda che nessuna decida sul solo `isLoading`. Il valore vero non e' l'undicesima pagina riparata: e' che la dodicesima nasca gia' con i tre stati.",
       "verifica": {
         "tipo": "comando",
-        "nota": "prova da scrivere insieme al fix: nessuna pagina dell'area venditore deve poter disegnare un risultato senza aver guardato se la lettura e' riuscita"
-      }
+        "comando": "npx vitest run tests/unit/la-lettura-fallita-non-e-un-negozio-vuoto.test.ts",
+        "nota": "15 casi: quelli sulla funzione (lib/vista-query.ts) piu' l'invariante di STRUTTURA che legge le pagine vere — nessuna si prende un ripiego dentro la lettura, nessuna e' cieca all'errore, nessuna ingoia il proprio. 5 mutazioni verificate rosse a mano."
+      },
+      "riparato_in": "NicolaeRotaru/mycity#242"
     },
     {
       "dimensione": "stati-ui",
@@ -5660,18 +5666,20 @@
       "titolo": "La pagina Andamento arriva all'errore schiantandosi, e funziona per caso",
       "severita": "minore",
       "impatto_crescita": "indiretto",
-      "stato": "aperto",
+      "stato": "in-corso",
       "file": "app/seller/analytics/page.tsx:223 · :228",
       "descrizione": "MISURATO il 23/8/2026. Dopo `if (!userId || isLoading) return <LoadingState />;` la riga successiva legge `analytics.topProducts[0]`. Con la lettura fallita `analytics` e' undefined, quindi la pagina lancia un TypeError, il confine d'errore dell'area (app/seller/error.tsx) lo raccoglie e mostra un riquadro d'errore con il pulsante per riprovare. Il risultato finale e' quello giusto, ma ci si arriva per caso: nessuno ha deciso che dovesse succedere. Basta aggiungere una riga difensiva — un `?.` messo per fare pulizia — perche' la pagina smetta di schiantarsi e cominci a mostrare zeri come fa Guadagni, cioe' peggiori in silenzio proprio mentre sembra che la si stia migliorando. Un comportamento giusto che nessuno ha scelto non e' protetto da niente.",
       "fix_proposto": "Stessa cura delle altre: `statoDellaVista`, e l'errore mostrato perche' e' stato deciso, non perche' il codice e' caduto.",
       "verifica": {
         "tipo": "comando",
-        "nota": "prova da scrivere insieme al fix"
-      }
+        "comando": "npx vitest run tests/unit/la-lettura-fallita-non-e-un-negozio-vuoto.test.ts",
+        "nota": "15 casi: quelli sulla funzione (lib/vista-query.ts) piu' l'invariante di STRUTTURA che legge le pagine vere — nessuna si prende un ripiego dentro la lettura, nessuna e' cieca all'errore, nessuna ingoia il proprio. 5 mutazioni verificate rosse a mano."
+      },
+      "riparato_in": "NicolaeRotaru/mycity#242"
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-23 17:49",
+    "aggiornato": "2026-08-23 18:32",
     "letto": true,
     "motivo": null,
     "forma": "elenco",

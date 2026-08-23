@@ -6600,6 +6600,24 @@
    "cerca": "      const frenato = guasto.startsWith(\"FRENO::\");",
    "sostituisci": "      const frenato = false;",
    "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+  },
+  {
+   "lotto": 57,
+   "difetto": "AR-805",
+   "nome": "il conteggio torna a contare per sottostringa, e «frutta» rientra dentro «sfruttava»",
+   "file": "cervello/allocazione-check.mjs",
+   "cerca": "      const occ = occorrenzeIntere(blob, a);",
+   "sostituisci": "      const occ = blob.split(a).length - 1;",
+   "test": "node --test cervello/test/un-alias-dentro-un-altra-parola.test.mjs"
+  },
+  {
+   "lotto": 57,
+   "difetto": "AR-805",
+   "nome": "i confini tornano ad essere `\\b`, che l'italiano accentato non lo sa leggere",
+   "file": "cervello/allocazione-check.mjs",
+   "cerca": "  const re = new RegExp(`(?<![\\\\p{L}\\\\p{N}])${scappato}(?![\\\\p{L}\\\\p{N}])`, \"giu\");",
+   "sostituisci": "  const re = new RegExp(`\\\\b${scappato}\\\\b`, \"gi\");",
+   "test": "node --test cervello/test/un-alias-dentro-un-altra-parola.test.mjs"
   }
  ]
 }

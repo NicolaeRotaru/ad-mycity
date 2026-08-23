@@ -4084,3 +4084,43 @@ Restano fuori layout, testi, immagini e flussi: questa è la prima passata, non 
 l'ha chiesto subito dopo il worker per le botteghe, quindi potrebbe intendere *come apparirà il
 worker dentro il pannello del negoziante*. Ho cominciato da quello che c'è adesso, perché il pannello
 è la stanza dove quel worker andrà comunque a stare.
+
+---
+
+## 2026-08-23 18:35 — 🟡 Il pannello del negoziante riparato, e un guardiano che accusava il documento sbagliato
+
+**Cosa ho fatto.** Le undici pagine dell'area venditore hanno i tre stati. Quando una lettura
+fallisce il negoziante lo legge, con un pulsante per riprovare — invece di un numero che non è vero.
+
+**La casa nuova** è `lib/vista-query.ts`: si passa la lettura intera e si riceve il verdetto. Il
+punto che conta è la definizione di **«letto»**, che qui vuol dire *«c'è un dato in mano»* e non
+*«la lettura è finita»*. È esattamente la differenza che il difetto sfruttava.
+
+**Tre letture ingoiavano il proprio errore.** Senza leggere il campo dell'errore la query non
+falliva *mai*: tornava riuscita con la lista vuota. Un riquadro a valle non serve a niente se il
+guasto non arriva fin lì — è la stessa forma di «Vicino a te» sul lato cliente.
+
+**Avevo costruito un componente-riquadro e non lo usava nessuno: l'ho tolto.** Un pezzo che nessuno
+attraversa è la malattia che sto curando, non la cura.
+
+**L'invariante di struttura ha trovato due punti che mi erano sfuggiti** — i venduti nel catalogo e
+le campagne in promozione — più un falso rosso su un mio stesso commento, che citava la forma malata
+per spiegarla. Adesso «non lo so» non è più «zero»: un prodotto di cui non ho letto i venduti mostra
+`?`, non «mai venduto».
+
+**Poi il cancello è diventato rosso su un lavoro che non c'entrava niente** (AR-805). Il guardiano
+dell'allocazione accusava due referti di design di essere «asset pesanti» di *Peretti Frutta e
+Verdura*, un negozio che quei documenti non nominano mai. Il motivo: contava le citazioni per
+**sottostringa**, e l'alias «frutta» compariva dentro **sfruttava**. Un guardiano che accusa il
+documento sbagliato si impara a ignorare, ed è la fine di un guardiano. Riparato con i confini di
+parola scritti come `\p{L}` — non `\b`, che in JavaScript conosce solo l'ASCII e su un nome accentato
+vedrebbe un confine dove non c'è. Stessa trappola già pagata con «cioè» (AR-493).
+
+**E il freno che ho costruito stamattina ha preso me.** Avevo scritto AR-805 nel registro già chiuso,
+a mano, senza timbro: esattamente il buco che AR-724 cura. Il guardiano l'ha visto, ho riaperto la
+scheda e l'ho chiusa dalla porta. È la prima volta che quel freno morde qualcuno, e quel qualcuno
+ero io.
+
+**Cosa non ho verificato:** niente con gli occhi. Le prove eseguono le funzioni e leggono i file.
+Che a schermo il riquadro d'errore si veda bene va guardato dal vivo, e per il lato venditore serve
+un negozio vero che abbia ordini.
