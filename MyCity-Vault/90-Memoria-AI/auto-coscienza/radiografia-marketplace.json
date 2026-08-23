@@ -26,11 +26,12 @@
   "fonti_non_lette": [],
   "sintesi": "Terza radiografia profonda del sito, 21 agosto: 13 dimensioni in sola lettura, ogni problema ricontrollato da un collega diverso da chi l'ha trovato. 199 problemi confermati (12 bloccanti, 88 gravi, 99 minori) su 26 agenti. I bloccanti restano dodici come il 18 agosto, ma NON sono gli stessi: quelli di agosto erano stati chiusi il 21, questi sono nuovi o mai visti prima. I piu' cari sono sui soldi e sull'identita': un ordine si puo' marcare «gia' rimborsato» senza account, il codice di consegna si aggira mandando un valore vuoto, un rimborso con carta non riaddebita mai la quota del negozio, e il rilascio non applica le modifiche al database. Typecheck pulito, 943 test unitari verdi, 95 avvisi di accessibilita' dal controllo automatico. — 22/8/2026: chiusi tutti e 199. Prima i 12 bloccanti e gli 88 gravi (100), poi i 99 minori nello stesso giorno. Due dei 99 erano gia' stati chiusi dal lotto precedente e sono stati verificati, non riaperti. Dentro i minori ce n'era uno che minore non era: la copia notturna del database non partiva piu' da quando Supabase e' passato a PostgreSQL 17, perche' il programma che la fa era fermo alla 16 e si rifiuta di copiare un database piu' recente di lui. Alla fine: controllo dei tipi pulito, 1136 prove unitarie verdi, 17 file di prova SQL verdi, lint senza errori.",
   "meta": {
-    "findings": 407,
+    "findings": 410,
     "bloccanti": 14,
-    "gravi": 174,
-    "minori": 219,
-    "agenti": 26
+    "gravi": 176,
+    "minori": 220,
+    "agenti": 26,
+    "nota_conteggio": "23/8: il conto dichiarato era 407 e l'elenco ne portava 410 — tre reperti aggiunti dal lotto del 23/8 (i tre magazzini con la malattia dormiente, l'elenco delle dipendenze fuori sincrono, e la copertura delle schede). L'ha trovato la prova del conto del sito, non io: chi aggiunge un reperto deve aggiornare anche il totale dichiarato, o il referto smette di poter sbilanciare."
   },
   "confronto_precedente": null,
   "dimensioni": [
@@ -5574,13 +5575,14 @@
       "dimensione": "architettura",
       "reparto": "Architettura",
       "titolo": "L'elenco delle dipendenze non e' in pari, e `npm ci` da solo si rifiuta di installare",
-      "severita": "medio",
+      "severita": "minore",
       "file": "package-lock.json contro package.json",
       "descrizione": "VERIFICATO il 23/8/2026 su main: `npm ci` esce con EUSAGE — «package.json and package-lock.json are not in sync», mancano dal lock `@testing-library/dom@10.4.1` e le sue nove dipendenze. Con `--legacy-peer-deps`, che e' quello che usa la CI in .github/workflows/ci.yml, l'installazione riesce. Quindi la CI non se ne accorge e chi apre il repo per la prima volta si.",
       "impatto": "Chi apre il progetto e segue l'istruzione ovvia (`npm ci`) si ferma su un errore che non riguarda il suo lavoro, e deve indovinare il flag. E' il primo minuto di chiunque arrivi.",
       "fix": "`npm install` per riallineare il lock, in una richiesta sua che non porta altro (il diff e' grosso e non va mescolato con del codice).",
       "fonte": "lotto 23/8 sui due bloccanti del design — trovato installando le dipendenze per far girare le prove",
-      "stato": "aperto"
+      "stato": "aperto",
+      "nota_severita": "23/8: nato «medio», che in QUESTO referto non e' una gravita': il vocabolario del sito ne ha tre (bloccante, grave, minore) mentre il cantiere della macchina ne ha quattro. Un valore fuori vocabolario finiva nel ramo «altre» del conto per gravita' — cioe' invisibile in ogni riga che qualcuno legge. Messo «minore», che e' quello che e': una scomodita' del primo minuto di chi apre il repo, non un difetto che ferma un ordine."
     },
     {
       "dimensione": "microcopy",
@@ -5597,20 +5599,20 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-23 12:49",
+    "aggiornato": "2026-08-23 13:33",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 208,
+    "findings_aperti": 211,
     "findings_chiusi": 199,
-    "findings_tot": 407,
+    "findings_tot": 410,
     "aperti_per_severita": {
       "bloccante": 2,
-      "grave": 86,
-      "minore": 120,
+      "grave": 88,
+      "minore": 121,
       "altre": 0
     },
-    "dichiarati_dal_referto": 407,
+    "dichiarati_dal_referto": 410,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-08-22",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
