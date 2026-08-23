@@ -58,9 +58,9 @@ Le venticinque regressioni non sono venticinque casi diversi. Sono quattro forme
 e **quattordici su venticinque** stanno tutte nella stessa dimensione: i guardiani, cioè i freni
 che costruisco per non ripetere gli errori.
 
-**① Il freno nuovo nasce rotto (5 casi, 3 bloccanti).** Aggiungo un controllo, in locale è verde,
-in CI non può essere verde nemmeno per sbaglio — o il contrario. Il cancello diventa rosso per
-tutti, per costruzione. Schede AR-506, AR-511, AR-514, AR-526, AR-534.
+**① Il freno nuovo nasce rotto (5 casi, 3 bloccanti).** Aggiungo un controllo e in locale è verde.
+In CI non può essere verde nemmeno per sbaglio. A volte succede il contrario. In tutti e due i casi
+il cancello diventa rosso per tutti, per costruzione. Schede AR-506, AR-511, AR-514, AR-526, AR-534.
 
 **② La porta a mano riparata, quella automatica lasciata aperta (3 casi, 1 bloccante).** Lo stesso
 difetto ha due strade: quella che passa da me e quella automatica. Riparo la prima, la seconda
