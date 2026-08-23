@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-23 18:31",
+  "aggiornato": "2026-08-23 18:50",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -17241,20 +17241,43 @@
       },
       "chiuso_il": "2026-08-23 18:31",
       "chiuso_come": "occorrenzeIntere conta solo le parole intere, con i confini scritti come \\p{L}/\\p{N} e non \\b — che in JavaScript conosce solo l'ASCII e su un nome accentato vedrebbe un confine dove non c'e'. L'alias viene protetto prima di entrare nell'espressione. Prova: 7 casi + 2 mutazioni rosse."
+    },
+    {
+      "id": "AR-806",
+      "titolo": "L elenco dei permessi che Nicola deve incollare era curato a mano, ed era indietro di 51 programmi",
+      "dimensione": "trovato-riparando",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-23 19:05",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 58: aprendo AR-206 per vedere cosa mancasse davvero",
+      "causa_radice": "AR-206 dice che i due permessi col jolly (`node cervello/*.mjs`, `bash cervello/*.sh`) vanno sostituiti con un elenco esplicito, e che a incollarlo dev'essere Nicola — la macchina e' negata in scrittura su `.claude/settings.json` apposta. L'elenco esiste dal 29/7 in `consegne/sicurezza/`, curato A MANO, e ritoccato una volta il 13/8 per cinque script nati dopo. Misurato il 23/8: era indietro di 51. Il giorno che Nicola lo applicava, 51 programmi che il giro lancia ogni giorno smettevano di partire — cioe' la cura rompeva il giro, e la volta dopo nessuno l'avrebbe applicata piu'. Un elenco che invecchia in silenzio e' peggio di nessun elenco, perche' sembra pronto. In piu' la card #42 chiedeva un gesto di copia PUNTANDO a un file invece di portare il materiale: e' AR-524, la card che rimanda altrove e non arriva mai.",
+      "dove": "consegne/sicurezza/2026-07-29-permessi-senza-jolly.md · AZIONI-IN-ATTESA card #42 · cervello/permessi-elenco.mjs",
+      "fix_fatto": "L'elenco non si tiene piu' a mano: `cervello/permessi-elenco.mjs` lo ricalcola da chi LANCIA davvero (giro, worker, cancello, suite, CI, timer del server, skill, CLAUDE.md, COMANDI.md), cercando la forma dell'esecuzione nelle cinque varianti che il repo usa — percorso assoluto del server compreso — e non il nome nudo. Due scelte prudenti: uno script nominato ma assente dal disco resta FUORI (un permesso per un file che non esiste e' il jolly scritto una riga alla volta), e una fonte illeggibile lascia l'elenco piu' STRETTO, mai piu' largo. Il documento e' generato dallo stesso file (`--consegna`), cosi' la prossima rigenerazione non si porta via la forma; e il materiale adesso sta DENTRO la card #42, non dietro un puntatore.",
+      "impatto": "Sbloccava male: applicare la consegna vecchia avrebbe spento 51 programmi del giro. Adesso AR-206 e' applicabile davvero, e resta una firma sola di Nicola.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs",
+        "nota": "11 casi, di cui uno SUL REPO VERO che diventa rosso quando la consegna resta indietro rispetto a chi lancia. Gli altri dieci sono costruiti e mordono anche col repo a posto."
+      },
+      "chiuso_il": "2026-08-23 18:50",
+      "chiuso_come": "L'elenco non si tiene piu' a mano: permessi-elenco.mjs lo ricalcola da chi lancia davvero, e genera anche il documento che Nicola legge (--consegna), cosi' la prossima rigenerazione non si porta via la forma. Il materiale sta DENTRO la card #42, non dietro un puntatore (AR-524). Era indietro di 51: adesso copre tutti i 128 script che qualcuno lancia. Prova: 11 casi, di cui uno sul repo vero che diventa rosso se la consegna torna indietro."
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 796,
+    "totale": 797,
     "aperti": 104,
     "in_corso": 0,
     "da_riverificare": 10,
-    "chiusi": 682,
+    "chiusi": 683,
     "altri": 0,
     "da_fare": 114,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 682,
+      "chiuso": 683,
       "aperto": 104,
       "da-riverificare": 10
     },

@@ -4124,3 +4124,39 @@ ero io.
 **Cosa non ho verificato:** niente con gli occhi. Le prove eseguono le funzioni e leggono i file.
 Che a schermo il riquadro d'errore si veda bene va guardato dal vivo, e per il lato venditore serve
 un negozio vero che abbia ordini.
+
+---
+
+## 2026-08-23 19:10 — 🟡 L'elenco dei permessi era pronto da un mese, e avrebbe rotto il giro
+
+**Cosa ho fatto.** Sono andato a vedere cosa mancasse davvero ai due bloccanti sui permessi (AR-142,
+AR-206). Risposta: non il codice. Il guardiano che li rileva esiste, funziona, e dice da solo che la
+correzione la deve fare Nicola — `.claude/settings.json` è negato in scrittura alla macchina apposta.
+
+**Quello che mancava era il materiale, ed era peggio di mancante: era sbagliato.** L'elenco esplicito
+che sostituisce il jolly è pronto dal 29 luglio, curato **a mano**, e già ritoccato una volta il 13
+agosto per cinque script nati dopo. Misurato oggi: **indietro di 51.**
+
+Il giorno che Nicola lo applicava, 51 programmi che il giro lancia ogni giorno smettevano di partire.
+La cura rompeva il giro — e la volta dopo nessuno l'avrebbe applicata più. **Un elenco che invecchia
+in silenzio è peggio di nessun elenco, perché sembra pronto.**
+
+**Adesso si ricalcola.** `cervello/permessi-elenco.mjs` legge chi *lancia* davvero — il giro, il
+worker, il cancello, la suite, la CI, i timer del server, le skill — cercando la forma
+dell'**esecuzione** e non il nome nudo: un file citato in una frase è una citazione, non un lancio.
+
+**Due scelte prudenti, e sono la parte che conta.** Uno script nominato ma assente dal disco resta
+**fuori**: un permesso per un file che non esiste è un permesso che aspetta qualcuno che lo crei,
+cioè il jolly scritto una riga alla volta. E una fonte illeggibile lascia l'elenco **più stretto**,
+mai più largo: un errore di lettura non deve poter allargare il perimetro.
+
+**Il documento lo genera lo stesso file.** Se il modello vivesse fuori, la prima rigenerazione se lo
+porterebbe via — la stessa malattia dell'elenco, un piano sopra.
+
+**E il materiale adesso sta dentro la card**, non dietro un puntatore. Era AR-524: «gli avevo
+consegnato una configurazione che solo lui può incollare, e il materiale, davanti a lui, non è mai
+arrivato». La card #42 chiedeva un gesto di copia e rimandava a un file. Adesso i due blocchi sono lì.
+
+**Cosa non ho verificato:** non ho provato ad applicarlo, e non posso. Che il giro continui a girare
+dopo la sostituzione si vede solo dopo. Restano fuori le altre due parti di AR-206 — il controllo di
+provenienza su ogni script, e le chiavi tenute fuori dall'ambiente del worker.

@@ -6618,6 +6618,42 @@
    "cerca": "  const re = new RegExp(`(?<![\\\\p{L}\\\\p{N}])${scappato}(?![\\\\p{L}\\\\p{N}])`, \"giu\");",
    "sostituisci": "  const re = new RegExp(`\\\\b${scappato}\\\\b`, \"gi\");",
    "test": "node --test cervello/test/un-alias-dentro-un-altra-parola.test.mjs"
+  },
+  {
+   "lotto": 58,
+   "difetto": "AR-806",
+   "nome": "uno script nominato ma assente dal disco torna a entrare nell elenco dei permessi",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "  const veri = [...nominati].filter((s) => ESEGUIBILI.test(s) && esiste(`cervello/${s}`)).sort();",
+   "sostituisci": "  const veri = [...nominati].filter((s) => ESEGUIBILI.test(s)).sort();",
+   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "lotto": 58,
+   "difetto": "AR-806",
+   "nome": "una fonte illeggibile smette di lasciare l elenco piu stretto",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "    } catch {\n      continue; // una fonte illeggibile non allarga l'elenco: al massimo lo lascia più stretto\n    }",
+   "sostituisci": "    } catch {\n      txt = readFileSync(join(AD_ROOT, 'cervello/giro.sh'), 'utf8');\n    }",
+   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "lotto": 58,
+   "difetto": "AR-806",
+   "nome": "il percorso assoluto del server torna a perdere la sua sottocartella",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "  const i = s.indexOf(\"cervello/\");",
+   "sostituisci": "  const i = s.lastIndexOf(\"cervello/\");",
+   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "lotto": 58,
+   "difetto": "AR-806",
+   "nome": "una consegna vuota torna a dire «nessun mancante»",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "export function mancantiNellaConsegna(elenco, testoConsegna) {",
+   "sostituisci": "export function mancantiNellaConsegna(elenco, testoConsegna) {\n  if (!testoConsegna) return [];",
+   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
   }
  ]
 }
