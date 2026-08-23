@@ -3815,3 +3815,29 @@ cominciano con niente. Riparato togliendo i blocchi per esteso.
 
 **Cosa non ho verificato:** niente su un browser. Le prove eseguono le funzioni e guardano cosa
 producono; che a schermo si veda quello che mi aspetto va provato dopo il merge.
+
+## 2026-08-23 14:15 · 🟢 Nove difetti del design chiusi, e la stessa cosa mi è successa tre volte
+
+**Cosa è successo.** La richiesta **#241** è stata unita. Nove difetti gravi del design sono chiusi
+per davvero: le promesse false — «carta o contanti alla consegna», il ritiro in negozio col 10%,
+«l'ordine parte alla riapertura», il reso gratuito, «niente commissioni nascoste» — e il carrello
+che diceva «Gratis» con 9,80 € nel totale.
+
+**Il conto del sito adesso:** 210 chiusi, 194 aperti, 6 in corso su 410.
+
+**E per la terza volta oggi il lotto successivo è arrivato tardi.** Avevo il lavoro sugli stati di
+caricamento già spinto sul ramo quando il merge è passato. È successo identico con la #240 e con la
+#241: Nicola firma in fretta — che è giusto — e io accumulavo due lotti sullo stesso ramo prima di
+aprire la richiesta. Ogni volta è costato lo stesso recupero: ripartire da `main`, rimettere sopra
+il commit non unito, aprire una richiesta nuova. Adesso è la **#242**.
+
+**La regola, scritta come lezione:** un lotto si spinge e si apre come richiesta appena il cancello
+è verde, *prima* di cominciare il successivo. Mai due lotti sullo stesso ramo in attesa della stessa
+firma.
+
+**Il freno non è scrivibile, e lo dico.** È una regola sul ritmo del lavoro, non sul codice: la cosa
+più vicina a un guardiano sarebbe «il ramo ha commit che non stanno in nessuna richiesta aperta», e
+non si misura da dentro la suite. Registrata come debito dichiarato, non spacciata per fatta.
+
+**Cosa non ho verificato:** che le nove riparazioni si vedano davvero in produzione. Le prove
+eseguono le funzioni; il browser non l'ho aperto.

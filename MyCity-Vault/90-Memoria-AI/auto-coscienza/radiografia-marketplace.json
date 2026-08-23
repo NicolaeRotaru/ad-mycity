@@ -3842,8 +3842,8 @@
       "fix": "Aggiungere una bandierina di montaggio (`const [letto, setLetto] = useState(false)`, messa a true nello stesso `useEffect` che chiama `getCart()`) e finché è false mostrare uno scheletro del carrello, non l'empty state — su /checkout spostando il controllo prima del blocco a riga 809. In alternativa leggere il carrello con `useSyncExternalStore`, così il primo render ha già il valore vero.",
       "fonte": "design",
       "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 14:25",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. Sette gravi, una malattia sola: l'assenza di dati disegnata come se fosse un dato. Gli stati sono TRE — carico, vuoto, rotto — e il sito ne usava due, quindi «non lo so ancora» e «lettura fallita» finivano tutt'e due in «non c'e' niente». La cura e' lib/stato-vista.ts, dove «vuoto» esce SOLO con letto:true: e' un'affermazione sul mondo e non si puo' fare prima di aver guardato. Si chiudono quando la #241 e' unita, non prima."
+      "in_corso_dal": "2026-08-23 14:10",
+      "in_corso_nota": "Riparato nella richiesta #242 del marketplace, aperta e non ancora unita. La #241 e' stata unita mentre il lotto sugli stati di caricamento era gia' sul ramo ma non nel commit unito — stessa cosa successa con la #240: Nicola unisce in fretta e il lotto dopo arriva un attimo tardi. Una richiesta unita e' finita e non porta lavoro nuovo, quindi il pezzo fuori riparte da main come richiesta sua. Si chiude quando la #242 e' unita, non prima."
     },
     {
       "dimensione": "stati-ui",
@@ -3880,8 +3880,8 @@
       "fix": "Distinguere i due casi con `isLoading`/`isError` (e togliere il `return null` sull'errore, così `isError` esiste davvero). Mentre carica: scheletro neutro della stessa forma e altezza (classe `.skeleton` già in globals.css:183), senza nomi né prezzi. Senza negozio o in errore: un riquadro onesto («Stiamo scegliendo il negozio in vetrina») o la CTA generica. Mai nomi e prezzi inventati.",
       "fonte": "design",
       "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 14:25",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. Sette gravi, una malattia sola: l'assenza di dati disegnata come se fosse un dato. Gli stati sono TRE — carico, vuoto, rotto — e il sito ne usava due, quindi «non lo so ancora» e «lettura fallita» finivano tutt'e due in «non c'e' niente». La cura e' lib/stato-vista.ts, dove «vuoto» esce SOLO con letto:true: e' un'affermazione sul mondo e non si puo' fare prima di aver guardato. Si chiudono quando la #241 e' unita, non prima."
+      "in_corso_dal": "2026-08-23 14:10",
+      "in_corso_nota": "Riparato nella richiesta #242 del marketplace, aperta e non ancora unita. La #241 e' stata unita mentre il lotto sugli stati di caricamento era gia' sul ramo ma non nel commit unito — stessa cosa successa con la #240: Nicola unisce in fretta e il lotto dopo arriva un attimo tardi. Una richiesta unita e' finita e non porta lavoro nuovo, quindi il pezzo fuori riparte da main come richiesta sua. Si chiude quando la #242 e' unita, non prima."
     },
     {
       "dimensione": "stati-ui",
@@ -3894,8 +3894,8 @@
       "fix": "In CategoryShowcase prendere `isLoading` e `isError`: mentre carica disegnare sei tessere-scheletro con la stessa `aspect-[4/3]`, in errore restituire `null`. E avvolgere il `case 'categories'` in `MaybeSection` come già fa dropOfDay.",
       "fonte": "design",
       "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 14:25",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. Sette gravi, una malattia sola: l'assenza di dati disegnata come se fosse un dato. Gli stati sono TRE — carico, vuoto, rotto — e il sito ne usava due, quindi «non lo so ancora» e «lettura fallita» finivano tutt'e due in «non c'e' niente». La cura e' lib/stato-vista.ts, dove «vuoto» esce SOLO con letto:true: e' un'affermazione sul mondo e non si puo' fare prima di aver guardato. Si chiudono quando la #241 e' unita, non prima."
+      "in_corso_dal": "2026-08-23 14:10",
+      "in_corso_nota": "Riparato nella richiesta #242 del marketplace, aperta e non ancora unita. La #241 e' stata unita mentre il lotto sugli stati di caricamento era gia' sul ramo ma non nel commit unito — stessa cosa successa con la #240: Nicola unisce in fretta e il lotto dopo arriva un attimo tardi. Una richiesta unita e' finita e non porta lavoro nuovo, quindi il pezzo fuori riparte da main come richiesta sua. Si chiude quando la #242 e' unita, non prima."
     },
     {
       "dimensione": "stati-ui",
@@ -3908,8 +3908,8 @@
       "fix": "Nella query lanciare un marcatore riconoscibile per il non-autenticato (`throw new Error('AUTH_REQUIRED')`) e nel render fare il redirect dentro un `useEffect` SOLO su quello; per tutto il resto mostrare `<ErrorState title=\"Non riusciamo a caricare le notifiche\" onRetry={() => refetch()} />`, come già fa /stores.",
       "fonte": "design",
       "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 14:25",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. Sette gravi, una malattia sola: l'assenza di dati disegnata come se fosse un dato. Gli stati sono TRE — carico, vuoto, rotto — e il sito ne usava due, quindi «non lo so ancora» e «lettura fallita» finivano tutt'e due in «non c'e' niente». La cura e' lib/stato-vista.ts, dove «vuoto» esce SOLO con letto:true: e' un'affermazione sul mondo e non si puo' fare prima di aver guardato. Si chiudono quando la #241 e' unita, non prima."
+      "in_corso_dal": "2026-08-23 14:10",
+      "in_corso_nota": "Riparato nella richiesta #242 del marketplace, aperta e non ancora unita. La #241 e' stata unita mentre il lotto sugli stati di caricamento era gia' sul ramo ma non nel commit unito — stessa cosa successa con la #240: Nicola unisce in fretta e il lotto dopo arriva un attimo tardi. Una richiesta unita e' finita e non porta lavoro nuovo, quindi il pezzo fuori riparte da main come richiesta sua. Si chiude quando la #242 e' unita, non prima."
     },
     {
       "dimensione": "stati-ui",
@@ -3922,8 +3922,8 @@
       "fix": "Il solo `isError` nella pagina NON basta, perché la query non fallisce mai: prima far emergere l'errore in `fetchNearData` (leggere `error` dal risultato e lanciarlo), poi prendere `isError`/`refetch` a riga 124 e mostrare `<ErrorState title=\"Non riusciamo a caricare i negozi\" onRetry={() => refetch()} />` prima del blocco «Nessun negozio» — lo stesso trattamento di app/stores/page.tsx:219-227.",
       "fonte": "design",
       "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 14:25",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. Sette gravi, una malattia sola: l'assenza di dati disegnata come se fosse un dato. Gli stati sono TRE — carico, vuoto, rotto — e il sito ne usava due, quindi «non lo so ancora» e «lettura fallita» finivano tutt'e due in «non c'e' niente». La cura e' lib/stato-vista.ts, dove «vuoto» esce SOLO con letto:true: e' un'affermazione sul mondo e non si puo' fare prima di aver guardato. Si chiudono quando la #241 e' unita, non prima."
+      "in_corso_dal": "2026-08-23 14:10",
+      "in_corso_nota": "Riparato nella richiesta #242 del marketplace, aperta e non ancora unita. La #241 e' stata unita mentre il lotto sugli stati di caricamento era gia' sul ramo ma non nel commit unito — stessa cosa successa con la #240: Nicola unisce in fretta e il lotto dopo arriva un attimo tardi. Una richiesta unita e' finita e non porta lavoro nuovo, quindi il pezzo fuori riparte da main come richiesta sua. Si chiude quando la #242 e' unita, non prima."
     },
     {
       "dimensione": "stati-ui",
@@ -4515,9 +4515,9 @@
       "impatto": "",
       "fix": "Calcolare `freeShipping` per gruppo come già fa `shippingCost`: «Gratis» solo se OGNI gruppo supera la soglia, altrimenti stampare formatPrice(shippingCost). Al checkout passare a FreeShippingProgress il subtotale del gruppo che non ha ancora raggiunto la soglia, o nasconderla nel multi-negozio.",
       "fonte": "design",
-      "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 13:50",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. La #240 e' stata unita mentre il lavoro sulle promesse era gia' sul ramo ma non nel commit unito: una richiesta unita e' finita e non puo' portare lavoro nuovo, quindi il pezzo rimasto fuori e' ripartito da main come richiesta sua. Si chiudono quando la #241 e' unita, non prima."
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-23 14:10",
+      "chiuso_da": "richiesta #241 del marketplace, unita su main il 2026-08-23 (commit b044eb2)"
     },
     {
       "dimensione": "flussi-conversione",
@@ -4542,9 +4542,9 @@
       "impatto": "",
       "fix": "Uniformare il claim al vero: «Paghi in contanti alla consegna, oppure con carta adesso». Correggere app/product/[id]/page.tsx:739 e app/cart/page.tsx:428.",
       "fonte": "design",
-      "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 13:50",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. La #240 e' stata unita mentre il lavoro sulle promesse era gia' sul ramo ma non nel commit unito: una richiesta unita e' finita e non puo' portare lavoro nuovo, quindi il pezzo rimasto fuori e' ripartito da main come richiesta sua. Si chiudono quando la #241 e' unita, non prima."
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-23 14:10",
+      "chiuso_da": "richiesta #241 del marketplace, unita su main il 2026-08-23 (commit b044eb2)"
     },
     {
       "dimensione": "flussi-conversione",
@@ -4582,8 +4582,8 @@
       "fix": "Terzo stato: `const [carrelloLetto, setCarrelloLetto] = useState(false)` messo a true nell'effetto; finché è false mostrare scheletro/LoadingState. Il ramo «vuoto» solo con carrelloLetto === true && items.length === 0.",
       "fonte": "design",
       "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 14:25",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. Sette gravi, una malattia sola: l'assenza di dati disegnata come se fosse un dato. Gli stati sono TRE — carico, vuoto, rotto — e il sito ne usava due, quindi «non lo so ancora» e «lettura fallita» finivano tutt'e due in «non c'e' niente». La cura e' lib/stato-vista.ts, dove «vuoto» esce SOLO con letto:true: e' un'affermazione sul mondo e non si puo' fare prima di aver guardato. Si chiudono quando la #241 e' unita, non prima."
+      "in_corso_dal": "2026-08-23 14:10",
+      "in_corso_nota": "Riparato nella richiesta #242 del marketplace, aperta e non ancora unita. La #241 e' stata unita mentre il lotto sugli stati di caricamento era gia' sul ramo ma non nel commit unito — stessa cosa successa con la #240: Nicola unisce in fretta e il lotto dopo arriva un attimo tardi. Una richiesta unita e' finita e non porta lavoro nuovo, quindi il pezzo fuori riparte da main come richiesta sua. Si chiude quando la #242 e' unita, non prima."
     },
     {
       "dimensione": "flussi-conversione",
@@ -4607,9 +4607,9 @@
       "impatto": "",
       "fix": "Allineare app/product/[id]/page.tsx:743 agli altri due passi: «Reso entro 14 giorni» con link a /returns. Per tenere «gratuito» va prima cambiata la politica, e i freschi restano comunque fuori.",
       "fonte": "design",
-      "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 13:50",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. La #240 e' stata unita mentre il lavoro sulle promesse era gia' sul ramo ma non nel commit unito: una richiesta unita e' finita e non puo' portare lavoro nuovo, quindi il pezzo rimasto fuori e' ripartito da main come richiesta sua. Si chiudono quando la #241 e' unita, non prima."
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-23 14:10",
+      "chiuso_da": "richiesta #241 del marketplace, unita su main il 2026-08-23 (commit b044eb2)"
     },
     {
       "dimensione": "flussi-conversione",
@@ -4777,9 +4777,9 @@
       "impatto": "",
       "fix": "Riscrivere su un vantaggio vero e verificabile («Ogni ordine va direttamente al negozio della tua città: preparano loro, consegna un rider di Piacenza») togliendo «niente commissioni nascoste», oppure dichiarare le due voci in una nota trasparente.",
       "fonte": "design",
-      "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 13:50",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. La #240 e' stata unita mentre il lavoro sulle promesse era gia' sul ramo ma non nel commit unito: una richiesta unita e' finita e non puo' portare lavoro nuovo, quindi il pezzo rimasto fuori e' ripartito da main come richiesta sua. Si chiudono quando la #241 e' unita, non prima."
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-23 14:10",
+      "chiuso_da": "richiesta #241 del marketplace, unita su main il 2026-08-23 (commit b044eb2)"
     },
     {
       "dimensione": "flussi-conversione",
@@ -4791,9 +4791,9 @@
       "impatto": "",
       "fix": "Da /admin/home, sezione hero, campo «Sottotitolo»: «Ordini dai negozi della tua città e paghi in contanti alla consegna — oppure con carta, subito. A casa in 30-60 minuti.» Poi allineare anche il ripiego in app/page.tsx alla prossima modifica di codice.",
       "fonte": "design",
-      "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 13:50",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. La #240 e' stata unita mentre il lavoro sulle promesse era gia' sul ramo ma non nel commit unito: una richiesta unita e' finita e non puo' portare lavoro nuovo, quindi il pezzo rimasto fuori e' ripartito da main come richiesta sua. Si chiudono quando la #241 e' unita, non prima."
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-23 14:10",
+      "chiuso_da": "richiesta #241 del marketplace, unita su main il 2026-08-23 (commit b044eb2)"
     },
     {
       "dimensione": "microcopy",
@@ -4805,9 +4805,9 @@
       "impatto": "",
       "fix": "Calcolare la parola sulla stessa base del numero: `shippingCost > 0` → mostrare l'importo, mai «Gratis»; «Gratis» solo se `shippingCost === 0`. Togliere l'asterisco orfano; se serve la nota, per esteso: «Gratis sopra i 30 € di spesa nello stesso negozio».",
       "fonte": "design",
-      "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 13:50",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. La #240 e' stata unita mentre il lavoro sulle promesse era gia' sul ramo ma non nel commit unito: una richiesta unita e' finita e non puo' portare lavoro nuovo, quindi il pezzo rimasto fuori e' ripartito da main come richiesta sua. Si chiudono quando la #241 e' unita, non prima."
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-23 14:10",
+      "chiuso_da": "richiesta #241 del marketplace, unita su main il 2026-08-23 (commit b044eb2)"
     },
     {
       "dimensione": "microcopy",
@@ -4819,9 +4819,9 @@
       "impatto": "",
       "fix": "Togliere il riquadro e il paragrafo da shipping/page.tsx e la domanda dalla FAQ finché la costante è false. Meglio: far leggere quei tre punti dalla stessa costante, così il testo si spegne insieme alla funzione.",
       "fonte": "design",
-      "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 13:50",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. La #240 e' stata unita mentre il lavoro sulle promesse era gia' sul ramo ma non nel commit unito: una richiesta unita e' finita e non puo' portare lavoro nuovo, quindi il pezzo rimasto fuori e' ripartito da main come richiesta sua. Si chiudono quando la #241 e' unita, non prima."
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-23 14:10",
+      "chiuso_da": "richiesta #241 del marketplace, unita su main il 2026-08-23 (commit b044eb2)"
     },
     {
       "dimensione": "microcopy",
@@ -4833,9 +4833,9 @@
       "impatto": "",
       "fix": "① Riscrivere le due frasi con quello che succede: «Se il negozio è chiuso non puoi ordinare adesso: torna negli orari di apertura». ② Spostare l'avviso a monte: banner sul carrello e sulla scheda prodotto quando il negozio è chiuso.",
       "fonte": "design",
-      "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 13:50",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. La #240 e' stata unita mentre il lavoro sulle promesse era gia' sul ramo ma non nel commit unito: una richiesta unita e' finita e non puo' portare lavoro nuovo, quindi il pezzo rimasto fuori e' ripartito da main come richiesta sua. Si chiudono quando la #241 e' unita, non prima."
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-23 14:10",
+      "chiuso_da": "richiesta #241 del marketplace, unita su main il 2026-08-23 (commit b044eb2)"
     },
     {
       "dimensione": "microcopy",
@@ -4943,9 +4943,9 @@
       "impatto": "",
       "fix": "«Ogni euro di questo carrello va ai commercianti di Piacenza. La nostra parte è solo la consegna, ed è scritta qui sopra: nessun costo a sorpresa.» Toglie la bugia e tiene la promessa.",
       "fonte": "design",
-      "stato": "in-corso",
-      "in_corso_dal": "2026-08-23 13:50",
-      "in_corso_nota": "Riparato nella richiesta #241 del marketplace, aperta e non ancora unita. La #240 e' stata unita mentre il lavoro sulle promesse era gia' sul ramo ma non nel commit unito: una richiesta unita e' finita e non puo' portare lavoro nuovo, quindi il pezzo rimasto fuori e' ripartito da main come richiesta sua. Si chiudono quando la #241 e' unita, non prima."
+      "stato": "chiuso",
+      "chiuso_il": "2026-08-23 14:10",
+      "chiuso_da": "richiesta #241 del marketplace, unita su main il 2026-08-23 (commit b044eb2)"
     },
     {
       "dimensione": "microcopy",
