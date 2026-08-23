@@ -1,7 +1,16 @@
 {
-  "data": "2026-08-21 14:45",
-  "sintesi": "Business invariato dal 24/6 (1 PQ, 0 pagati) — pausa concordata con Nicola fino al 24/8-1/9, non è churn. Novità 21/8: due delle tre falle sicurezza/soldi (#36/#37) erano già risolte dal lotto di riparazioni del 20-21/8, verificate sul database vero e chiuse — non servono più firme lì. Priorità aperte oggi: la pratica pagamenti di Pane Quotidiano (card #62, il vero blocco al primo incasso), i 3 punti residui della card #38, le 7 firme del lotto 20-21/8 (migrazione 124, deploy a controlli verdi, backup, ecc. — vedi [[CHECKLIST-NICOLA]]) e 7 PR croniche rosse sullo stesso controllo (card #109). Il Worker in abbonamento ai negozi (seconda fonte di reddito) resta NON in agenda: nessuna mossa prevista.",
+  "data": "2026-08-23 11:50",
+  "sintesi": "DATA ZERO: 29 AGOSTO 2026 — corretta da Nicola in chat il 23/8 (prima avevo registrato il 29 settembre), con «va finito tutto quello che ho detto»: nessuna delle quattro cose cade. Restano sei giorni piu' oggi per 311 difetti aperti (103 della macchina + 208 del design del sito) piu' due costruzioni da zero (worker per le botteghe, design della parte venditore). Fa 44 chiusure al giorno contro un ritmo misurato di 8,4. Prima di ogni lotto vengono tre firme: #168 (server fermo dal 18/8 alle 06:50), #154 (chiavi Vercel: senza una di quelle un pagamento riuscito non diventa un ordine), #155 (il dominio punta ancora al server vecchio). Piano dei sei giorni: MyCity-Vault/90-Memoria-AI/PIANO-29-AGOSTO.md. Business invariato dal 24/6 (1 negozio reale, Pane Quotidiano, 0 ordini pagati); la pausa concordata sui negozi arriva al 24/8-1/9. Il Worker in abbonamento ai negozi NON e' piu' fuori agenda: e' una delle quattro cose della data zero.",
   "prossime_mosse": [
+    {
+      "titolo": "Firma le tre cose che sbloccano il ritmo: server, chiavi Vercel, dominio",
+      "quando": "Oggi. Sono il moltiplicatore dei sei giorni che restano fino al 29 agosto",
+      "come": "Card #168 (riaccendere il server), #154 (mettere le chiavi mancanti su Vercel), #155 (spostare il dominio da Render a Vercel)",
+      "priorita": "alta",
+      "ad_prepara": "Diagnosi e comandi gia' scritti nelle tre card. Appena sono fatte parte il primo lotto sui bloccanti",
+      "senior": "@devops-sre",
+      "colore": "🔴"
+    },
     {
       "titolo": "Sblocca la pratica pagamenti di Pane Quotidiano",
       "quando": "Card #62, il vero blocco al primo incasso — aperta da settimane",
@@ -31,14 +40,32 @@
     }
   ],
   "primi_negozi": [
-    {"nome": "Pane Quotidiano", "perche": "Unico negozio reale, faro di MyCity", "stato": "in attesa concordata fino al 24/8-1/9, non è churn"}
+    {
+      "nome": "Pane Quotidiano",
+      "perche": "Unico negozio reale, faro di MyCity",
+      "stato": "in attesa concordata fino al 24/8-1/9, non è churn"
+    }
   ],
   "rischi": [
+    "La data zero e' il 29 agosto: 311 difetti aperti + due costruzioni in sei giorni valgono 44 chiusure al giorno, cinque volte il ritmo mai raggiunto (8,4). Detto a Nicola in chat il 23/8 con i numeri.",
     "3 punti residui della card #38 (doppia vendita dopo checkout scaduto, rider mai pagato su spedizione gratis, reclamo che blocca il negozio per sempre) non verificabili dal solo database — restano da controllare nel codice del sito.",
     "7 PR di manutenzione sul repo ad-mycity restano rosse sullo stesso controllo: debito che si accumula, ma non tocca il marketplace live (non deployate)."
   ],
   "serve_da_nicola": [
-    {"ambito": "codice", "cosa_manca": "Scelta su come procedere con le 3 PR croniche rosse", "domanda_per_nicola": "Preferisci una sessione dedicata a ripararle ora, o le congeliamo fino a dopo la pausa negozi del 24/8-1/9? (card #109)"},
-    {"ambito": "macchina", "cosa_manca": "Conferma sul livello RISPARMIO", "domanda_per_nicola": "Va bene restare in modalità RISPARMIO (meno contenuti/esperimenti, giri più radi) fino alla ripresa del lavoro operativo, o preferisci tornare a pieno regime prima? (card #113)"}
+    {
+      "ambito": "priorita",
+      "cosa_manca": "L'ordine fra le quattro cose, se il 29 agosto arriva e non c'e' tutto",
+      "domanda_per_nicola": "In che ordine vuoi vederle finite? Senza risposta seguo questo: prima i bloccanti di macchina e sito, poi le due costruzioni col worker davanti, poi i gravi, i minori per ultimi."
+    },
+    {
+      "ambito": "codice",
+      "cosa_manca": "Scelta su come procedere con le 3 PR croniche rosse",
+      "domanda_per_nicola": "Preferisci una sessione dedicata a ripararle ora, o le congeliamo fino a dopo la pausa negozi del 24/8-1/9? (card #109)"
+    },
+    {
+      "ambito": "macchina",
+      "cosa_manca": "Conferma sul livello RISPARMIO",
+      "domanda_per_nicola": "Va bene restare in modalità RISPARMIO (meno contenuti/esperimenti, giri più radi) fino alla ripresa del lavoro operativo, o preferisci tornare a pieno regime prima? (card #113)"
+    }
   ]
 }
