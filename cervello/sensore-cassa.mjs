@@ -248,6 +248,7 @@ async function main() {
   const esitoScrittura = scriviStatoSensore(OUT_PATH, doc, {
     ambienteConfigurato: Boolean(process.env.STRIPE_SECRET_KEY),
     motivo: "STRIPE_SECRET_KEY assente: questo ambiente non può misurare la cassa",
+    scrittoDa: "sensore-cassa.mjs",
   });
 
   const sintesi =

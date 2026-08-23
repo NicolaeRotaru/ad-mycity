@@ -3993,3 +3993,51 @@ e la prova vera si scriverà insieme al fix.
 **Cosa non ho verificato:** anche queste corsie **non le chiama ancora nessuno**. Il worker vero non
 può usarle finché la tabella dei lavori non ha il campo del negozio (`AR-801`). Le funzioni sono
 provate — 18 casi, 7 mutazioni rosse — il worker no.
+
+---
+
+## 2026-08-23 17:25 — 🟡 La porta era una, la penna era facoltativa
+
+**Cosa ho fatto.** Chiuso il residuo che `AR-568` si portava dietro dal 10 agosto, e con quello
+`AR-730` per intero.
+
+**Il difetto madre, per capire cosa proteggo.** Da una sessione cloud senza chiavi un comando di
+*diagnosi* riscrisse la memoria dei sensori con la propria cecità: i sensori che il server aveva
+misurato «ok» diventarono «non collegato», e un contatore passò da 26 misure a 2 — **col voto che
+migliorava, perché avevo misurato di meno**. Un numero che si abbassa restringendo il campione è una
+bugia che sembra un progresso.
+
+**Il residuo era vero, e l'ho verificato sul codice invece di crederci.** La scheda diceva che tre
+scrittori su quattro restavano scoperti. Erano **due**, non tre: `delta-gate` la penna buona la
+passava già. Ma sotto c'era un piano che la scheda non vedeva: **il freno si accende solo se il
+documento che c'è già dichiara la sua provenienza**, e quei file non l'hanno mai avuta —
+`cassa-runway.json` non ce l'ha tuttora. Quindi anche montandoci sopra la penna giusta sarebbero
+passati lo stesso. *Un freno che si spegne se non dichiari niente è un freno a richiesta.*
+
+**La cura è togliere la scelta.** La porta non accetta più nessuna penna: usa sempre quella col
+freno, e il timbro di provenienza lo mette lei. Da adesso un documento di stato-sensore non può
+esistere senza dire da dove viene. E non dichiarare quanto hai visto **non** è una scappatoia: la
+regola dice che una copertura ignota non sovrascrive una dichiarata — chi tace perde il confronto,
+invece di vincerlo.
+
+**Una bugia piccola che ho trovato mentre riscrivevo.** La porta rispondeva «scritto» anche quando il
+freno l'aveva fermata. Chi la chiamava credeva che il file fosse cambiato.
+
+**La seconda istanza, quella che la scheda aveva appeso in coda.** Il diario del sorvegliante si
+riscriveva con la penna cruda anche quando la corsa era in sola lettura. Adesso passa dal freno, e il
+messaggio distingue due cose che prima diceva uguali: **il freno che frena** non è **un guasto**.
+Chiamarlo guasto insegna a ignorare il messaggio proprio quando dice la verità.
+
+**Quattro prove della suite sono diventate rosse per colpa mia, e avevano ragione tutte e quattro.**
+Una era un difetto registrato che la mia modifica ha davvero riparato (`AR-730`): la sua prova a due
+versi l'ho girata invece di cancellarla, così il rilevatore resta se il difetto torna. Due erano
+misure diventate troppo strette (una contava una sola strada buona su due, una mutazione puntava a
+una riga che si era spostata). L'ultima l'ho riagganciata al posto nuovo.
+
+**E ho rifatto AR-799 di persona.** Per provare il diario ho lanciato il comando vero: ha archiviato
+una sessione a metà e ha buttato fuori la riga più vecchia. Ripristinato, e rifatto come si doveva —
+con la radice deviata, che è esattamente il freno che stavo costruendo.
+
+**Cosa non ho verificato:** di `AR-568` resta aperta la clausola (d), il cancello che ferma una
+consegna che abbassa la copertura di un file di misura senza dirlo. E prima serve una decisione che
+è tua: **quali file di misura sono di proprietà del server e non sovrascrivibili da fuori.**

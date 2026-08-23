@@ -4454,10 +4454,10 @@
   {
    "lotto": 44,
    "difetto": "AR-286",
-   "nome": "AR-286: il cuore del fix rimesso com'era col difetto",
-   "file": "cervello/verifica-sensori.mjs",
-   "cerca": "    scrittore: (p, d) => scriviJsonAtomico(p, d),",
-   "sostituisci": "",
+   "nome": "AR-286: la penna atomica tolta dalla porta dei sensori (il comportamento e' sceso li' il 23/8)",
+   "file": "cervello/stato-sensori.mjs",
+   "cerca": "  const scritto = scriviJsonAtomico(path, timbrato, env);",
+   "sostituisci": "  const scritto = (await import(\"node:fs\")).writeFileSync(path, JSON.stringify(timbrato, null, 2) + \"\\n\", \"utf8\") ?? path;",
    "test": "cervello/test/la-sola-lettura-che-scrive.test.mjs"
   },
   {
@@ -6555,6 +6555,51 @@
    "cerca": "  if (guasto.spegni) return { negozioId: id, puoLavorare: false, motivo: guasto.motivo, guasto };",
    "sostituisci": "  if (guasto.spegni && false) return { negozioId: id, puoLavorare: false, motivo: guasto.motivo, guasto };",
    "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 56,
+   "difetto": "AR-568",
+   "nome": "la porta torna a scrivere con la penna cruda, senza freno e senza atomicita",
+   "file": "cervello/stato-sensori.mjs",
+   "cerca": "  const scritto = scriviJsonAtomico(path, timbrato, env);",
+   "sostituisci": "  const scritto = (await import(\"node:fs\")).writeFileSync(path, JSON.stringify(timbrato, null, 2) + \"\\n\", \"utf8\") ?? path;",
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+  },
+  {
+   "lotto": 56,
+   "difetto": "AR-568",
+   "nome": "la porta smette di timbrare l origine, e il freno della copertura non si accende piu",
+   "file": "cervello/stato-sensori.mjs",
+   "cerca": "  const timbrato = timbraSeSiPuo(doc, { env, copertura, scrittoDa });",
+   "sostituisci": "  const timbrato = doc;",
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+  },
+  {
+   "lotto": 56,
+   "difetto": "AR-568",
+   "nome": "la porta torna a dire «scritto» anche quando il freno l ha fermata",
+   "file": "cervello/stato-sensori.mjs",
+   "cerca": "  if (scritto === null) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+  },
+  {
+   "lotto": 56,
+   "difetto": "AR-730",
+   "nome": "il diario versionato torna a scriversi con la penna cruda, anche in sola lettura",
+   "file": "cervello/memoria-guardia.mjs",
+   "cerca": "    if (!basename(abs).startsWith(\"_tmp_\")) {",
+   "sostituisci": "    if (false) {",
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+  },
+  {
+   "lotto": 56,
+   "difetto": "AR-730",
+   "nome": "il freno che frena torna a suonare come un guasto",
+   "file": "cervello/memoria-guardia.mjs",
+   "cerca": "      const frenato = guasto.startsWith(\"FRENO::\");",
+   "sostituisci": "      const frenato = false;",
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
   }
  ]
 }

@@ -47,7 +47,8 @@
 //    versionato e sta nella cartella della memoria AI — cioè casa mia (regola del vault).
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname, join } from "node:path";
+import { scriviJsonAtomico } from "./scrivi-json.mjs";
+import { basename, dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { BATTITO, gravi } from "./sorvegliante.mjs";
 import { INTENTO, CONSEGNA } from "./intento-turno.mjs";
@@ -164,6 +165,18 @@ function leggiJson(percorso) {
 function scrivi(percorso, dati, indenta = false) {
   try {
     const abs = join(REPO, percorso);
+    // AR-730, seconda istanza (chiusa il 23/8) — la memoria VERSIONATA passa dal freno, gli appunti
+    // no. La regola è nel percorso e non in un elenco di casi: un file `_tmp_` vive fuori da git e
+    // muore con la copia, quindi frenarlo non protegge niente; lo storico invece finisce in un
+    // commit, e prima di oggi una sessione in sola lettura lo riscriveva lo stesso — la penna cruda
+    // non passava da `casa-memoria`, che è proprio il posto dove «questa corsa non scrive» è scritto.
+    if (!basename(abs).startsWith("_tmp_")) {
+      const fatto = scriviJsonAtomico(abs, dati);
+      // `null` qui NON è un errore: è il freno che ha detto no (corsa deviata, o una misura più
+      // povera). Torna indietro come motivo, perché chi chiama esce 2 dicendo «non ho archiviato» —
+      // ed è la verità. Dire di sì sarebbe la bugia che questo file esiste per non raccontare.
+      return fatto ? null : `FRENO::${percorso}: la corsa è in sola lettura (o la misura era più povera di quella che c'è)`;
+    }
     mkdirSync(dirname(abs), { recursive: true });
     writeFileSync(abs, indenta ? `${JSON.stringify(dati, null, 2)}\n` : JSON.stringify(dati));
     return null;
@@ -194,7 +207,17 @@ function main() {
     if (guasto) {
       // Uscita 2, anche da hook: «non ho archiviato» non è «ho archiviato niente». A SessionEnd
       // nessuno legge il codice, ma un 0 qui sarebbe una bugia scritta apposta per fare bella figura.
-      console.error(`⚪ non ho potuto archiviare la sessione — ${guasto}. Lo storico resta quello di prima, con la faccia di uno aggiornato.`);
+      //
+      // DUE MOTIVI, e non vanno detti con la stessa frase. Un errore di scrittura lascia davvero lo
+      // storico «con la faccia di uno aggiornato», ed è un allarme. Il freno invece ha fatto il suo
+      // mestiere: in sola lettura la memoria vera non si tocca, ed è la cosa giusta — chiamarla un
+      // guasto insegna a ignorare il messaggio proprio quando dice la verità.
+      const frenato = guasto.startsWith("FRENO::");
+      console.error(
+        frenato
+          ? `⚪ sessione non archiviata — ${guasto.slice(7)}. È il freno che ha funzionato: la memoria vera resta di chi l'ha scritta.`
+          : `⚪ non ho potuto archiviare la sessione — ${guasto}. Lo storico resta quello di prima, con la faccia di uno aggiornato.`,
+      );
       process.exit(2);
     }
     if (!hook) console.log(`🧠 sessione archiviata: ${sessione.voci} voci, ${sessione.mai_risolte.length} rimaste aperte.`);

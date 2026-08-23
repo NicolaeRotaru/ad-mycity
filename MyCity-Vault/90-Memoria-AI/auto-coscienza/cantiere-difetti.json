@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-23 15:26",
+  "aggiornato": "2026-08-23 17:27",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -12178,7 +12178,7 @@
       },
       "nato_da": "AR-562 (la stessa famiglia: un verdetto scritto da chi non ha guardato la stessa cosa)",
       "nota": "Dove: cervello/verifica-sensori.mjs (scrive sensori-cecita.json) · cervello/conta-blocco-mancante.mjs (scrive blocco-mancante.json) · cervello/costo-ai.mjs · cervello/sensori-spenti-check.mjs (lo legge e va rosso) · Impatto: una diagnosi lanciata da fuori può spegnere i sensi della macchina nel Pannello e far scattare le sentinelle su un guasto che non esiste.",
-      "nota_fix": "Aggiunto in questo lotto: (1) la guardia della copertura è passata dal comando alla penna condivisa (cervello/scrivi-json.mjs, funzione coperturaAmmessa), e scatta solo per i documenti che portano il timbro `origine` — chi scrive registri o code non vede cambiare niente; (2) verifica-sensori passa a scriviStatoSensore la penna atomica, così la scrittura dei sensori attraversa il freno della memoria — prima la penna di default di stato-sensori.mjs era un writeFileSync crudo e il freno non la sfiorava; (3) sensori-spenti-check non infila più una card nella coda vera con un writeFileSync. Cosa NON ho verificato: la clausola (d); e la porta dei sensori resta scoperta per gli altri TRE scrittori (sensore-cassa, delta-gate, sentinella-fonti), che passano dalla penna cruda di stato-sensori.mjs — file di un'altra corsia, la patch è in patch_per_ad."
+      "nota_fix": "LOTTO PRECEDENTE: (1) la guardia della copertura e' passata dal comando alla penna condivisa (cervello/scrivi-json.mjs, coperturaAmmessa), e scatta per i documenti che portano il timbro `origine`; (2) verifica-sensori passa alla porta la penna atomica; (3) sensori-spenti-check non infila piu' una card nella coda vera con un writeFileSync. Restava dichiarato: «la porta dei sensori resta scoperta per gli altri TRE scrittori».\n\n23/8, LOTTO 56 — quel residuo e' chiuso, e verificato sul codice prima di crederci. Era vero per DUE dei tre (sensore-cassa e sentinella-fonti scrivevano con la penna cruda), non per delta-gate, che la penna atomica la passava gia'. E c'era un piano piu' sotto che la scheda non vedeva: il freno della copertura si accende solo se il documento che c'e' gia' dichiara `origine`, e quei file l'origine non l'hanno mai avuta (cassa-runway.json non ce l'ha tuttora) — quindi anche con la penna giusta sarebbero passati lo stesso. Un freno che si spegne se non dichiari niente e' un freno a richiesta.\n\nCura: la porta `scriviStatoSensore` non accetta piu' nessuna penna (il parametro `scrittore` non esiste), usa scriviJsonAtomico sempre, e TIMBRA lei l'origine sul documento. Da qui in avanti un documento di stato-sensore non puo' esistere senza `origine`, e non dichiarare la copertura non e' una scappatoia: la regola ⑤ di decidiScrittura dice che una copertura ignota non sovrascrive una dichiarata — chi tace perde il confronto invece di vincerlo. In piu' la porta non dice piu' «scritto» quando il freno l'ha fermata: prima lo diceva sempre, ed era una bugia al chiamante. Prova: cervello/test/la-penna-che-si-poteva-scegliere.test.mjs, 10 casi, 5 mutazioni rosse. Chiuso nello stesso lotto anche AR-730, che era la forma di classe dello stesso difetto.\n\nCOSA RESTA APERTO QUI, ed e' il motivo per cui questa scheda non si chiude: la clausola (d) — il cancello di pubblicazione che ferma una richiesta di unione che abbassa la copertura di un file di misura senza dirlo. E prima ancora serve la decisione che la verifica dichiara da sempre: quali file di misura sono di proprieta' del VPS e non sovrascrivibili da fuori. Quella la firma Nicola."
     },
     {
       "id": "AR-569",
@@ -15678,7 +15678,7 @@
     },
     {
       "id": "AR-730",
-      "stato": "aperto",
+      "stato": "chiuso",
       "dimensione": "trovato-riparando",
       "gravita": "grave",
       "titolo": "La porta unica delle scritture dei sensori ha una penna cruda, e tre scrittori su quattro la usano",
@@ -15694,7 +15694,9 @@
         "tipo": "comando",
         "comando": "node cervello/prove-difetti.mjs --ar-730"
       },
-      "nota_prova": "Nasce ROSSA, ed e il suo stato giusto: il difetto e aperto. Diventa verde quando qualcuno lo ripara davvero, non quando qualcuno scrive la parola giusta da qualche parte."
+      "nota_prova": "Nasce ROSSA, ed e il suo stato giusto: il difetto e aperto. Diventa verde quando qualcuno lo ripara davvero, non quando qualcuno scrive la parola giusta da qualche parte.",
+      "chiuso_il": "2026-08-23 17:27",
+      "chiuso_come": "La penna di default della porta dei sensori e' scriviJsonAtomico e non si passa piu' come parametro: tutti e quattro gli scrittori ereditano il freno senza doverselo ricordare. Seconda istanza chiusa nello stesso lotto: memoria-guardia scriveva il diario versionato con la penna cruda anche in sola lettura, adesso passa dal freno e distingue «frenato» da «guasto». Prova: 10 casi in la-penna-che-si-poteva-scegliere.test.mjs + la prova a due versi --ar-730 girata al contrario (parte dal riparato e rimette il difetto)."
     },
     {
       "id": "AR-731",
@@ -17221,22 +17223,22 @@
   ],
   "meta": {
     "letto": true,
-    "totale": 790,
-    "aperti": 100,
+    "totale": 795,
+    "aperti": 104,
     "in_corso": 0,
     "da_riverificare": 10,
-    "chiusi": 680,
+    "chiusi": 681,
     "altri": 0,
-    "da_fare": 110,
+    "da_fare": 114,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 680,
-      "aperto": 100,
+      "chiuso": 681,
+      "aperto": 104,
       "da-riverificare": 10
     },
     "stati_ignoti": [],
-    "senza_owner": 110,
-    "senza_scadenza": 110,
+    "senza_owner": 114,
+    "senza_scadenza": 114,
     "scaduti": 0,
     "derivato_dalla_lista": true,
     "somma_torna": true
