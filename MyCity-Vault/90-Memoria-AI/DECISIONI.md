@@ -3596,3 +3596,23 @@ Non l'ho dedotto apposta: vanno lette una per una da chi le ha scritte.
 > da `origin/main` aggiornato, non dalla copia che si ha in mano. Io l'avevo letto da main alle
 > 20:20 — ed era giusto in quel momento. Non basta: va riletto **al momento di consegnare**, perché
 > fra la lettura e la consegna qualcun altro può averlo usato.
+
+## 2026-08-23 09:40 · 🟡 Cinque chiusure applicate, e tre non erano lavoro mio
+
+**Cosa ho fatto.** Unito il lotto 50, ho applicato le chiusure: **cinque**. Due sono le mie
+riparazioni di ieri sera; le altre tre vengono dalla richiesta #831, unita in parallelo da un altro
+lavoro.
+
+**Le ho eseguite io, una per una, prima di applicare.** Il conto che lo strumento stampa non è una
+verifica: dice quante schede ha trovato soddisfatte, non che io abbia guardato. Ho lanciato le tre
+prove a mano — sono verdi tutte e tre. Applicare la chiusura di un lavoro altrui senza averne visto
+la prova sarebbe firmare per qualcuno che non c'è.
+
+**I tre dichiarati aperti sono rimasti aperti**, ed era il rischio vero: AR-791, AR-792 e AR-796
+hanno una verifica umana apposta, così nessuno strumento può richiuderli mentre non sono riparati.
+
+**Il cantiere adesso:** 108 da fare, 679 chiusi su 787.
+
+**Cosa non ho verificato:** il merito delle tre chiusure altrui, cioè se quelle riparazioni siano
+quelle giuste. Ho verificato che le loro prove esistono, girano e passano — non ho riletto il
+ragionamento di chi le ha scritte.
