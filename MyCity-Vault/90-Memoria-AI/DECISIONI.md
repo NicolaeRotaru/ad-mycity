@@ -3662,3 +3662,23 @@ agisce), AR-798 (la strada morta), AR-799 (gli strumenti deviabili a metà).
 **Cosa non ho verificato:** quanti altri strumenti della macchina scrivono in più di un registro
 senza essere deviabili del tutto. Ne ho contati due, e sono i due che ho toccato oggi; degli altri
 non ho guardato. Sta scritto in AR-799 come la domanda che resta aperta, non come una cosa fatta.
+---
+
+## 2026-08-23 11:50 — 🟡 La data zero è il 29 agosto 2026, non il 29 settembre
+
+**Cosa.** Nicola ha corretto in chat la data che avevo registrato ieri sera: «29 agosto», e subito
+dopo «va finito tutto quello che ho detto». Ho aggiornato il fatto `cantiere.scadenza-zero` nel
+registro dei fatti, aperto la caccia sul valore vecchio e riscritto i file vivi. Il guardiano
+`coerenza-fatti.mjs` passa (exit 0, 1310 file vivi scansionati): nessuna copia della data vecchia
+è rimasta viva. Le cacce bonificate sono chiuse.
+
+**Perché conta.** Il perimetro non cambia — restano tutte e quattro le cose — ma il tempo passa da
+trentotto giorni a sei più oggi. Il conto: 311 difetti aperti (103 macchina + 208 design del sito)
+fanno 44 chiusure al giorno contro un ritmo misurato di 8,4. Le due costruzioni (worker per le
+botteghe, design della parte venditore) non sono in quel conto. Gliel'ho detto in chat con i numeri,
+e ho lasciato il piano dei sei giorni in `PIANO-29-AGOSTO.md` con le tre firme che vengono prima di
+ogni lotto: #168 (server fermo dal 18/8), #154 (chiavi Vercel), #155 (dominio ancora su Render).
+
+**Cosa non ho verificato.** Non ho riaperto i difetti uno per uno: i conti vengono dai file del
+cantiere letti alle 09:05 di oggi. Non so se il server è ancora fermo adesso — l'ultima traccia
+di un processo automatico è del 22 agosto alle 20:41.

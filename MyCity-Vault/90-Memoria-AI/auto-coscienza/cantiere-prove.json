@@ -1,40 +1,40 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-23 12:49",
+  "aggiornato": "2026-08-23 11:55",
   "giorni_sospetto": 3,
-  "difetti_aperti": 111,
-  "difetti_da_fare": 111,
+  "difetti_aperti": 113,
+  "difetti_da_fare": 113,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 790,
-    "chiusi": 679,
-    "aperti": 101,
+    "totale": 787,
+    "chiusi": 674,
+    "aperti": 103,
     "in_corso": 0,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 111,
+    "da_fare": 113,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 679,
-      "aperto": 101,
+      "chiuso": 674,
+      "aperto": 103,
       "da-riverificare": 10
     },
     "stati_ignoti": []
   },
   "bilancio": {
     "torna": true,
-    "attese": 111,
-    "viste": 111,
+    "attese": 113,
+    "viste": 113,
     "fuori": 0,
-    "motivo": "bilancio a posto: 679 chiuse + 111 classificate = 790 schede, e ogni stato vivo è dentro (101 aperto · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 674 chiuse + 113 classificate = 787 schede, e ogni stato vivo è dentro (103 aperto · 10 da-riverificare)"
   },
   "per_classe": {
-    "prova-debole-su-grave": 18,
+    "prova-debole-su-grave": 19,
     "auto-sospetta": 10,
-    "umana": 72,
-    "auto-comando": 11
+    "umana": 70,
+    "auto-comando": 14
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
@@ -146,11 +146,17 @@
       "gravita": "bloccante",
       "impatto_crescita": "alto",
       "perche": "questo difetto è un BLOCCANTE e ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
+    },
+    {
+      "id": "AR-796",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
     }
   ],
   "chiuderebbe_lo_stesso": [],
-  "schede_non_giudicabili": 16,
-  "schede_campi_illeggibili": 16,
+  "schede_non_giudicabili": 18,
+  "schede_campi_illeggibili": 19,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -231,11 +237,23 @@
       "id": "AR-787",
       "gravita": "grave",
       "impatto_crescita": "indiretto ma sul metro: e la macchina che si misura da sola, e un banco che punisce chi cura rallenta ogni lotto da qui al 29 settembre"
+    },
+    {
+      "id": "AR-795",
+      "gravita": "bloccante",
+      "impatto_crescita": "diretto: due dei 208 problemi impediscono a QUALUNQUE negoziante di caricare la foto di copertina della vetrina, e dall'amministrazione quelle di Eventi e Negozio del mese. Finché il conto dice zero, quel blocco non compare da nessuna parte e nessuno lo lavora."
+    },
+    {
+      "id": "AR-793",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto ma caro: il numero dei difetti del sito sarebbe risalito da 0 a 199 senza che nessuno avesse rotto niente, e il lavoro di un giorno intero sparisce dalla memoria. Un conto che risale da solo insegna a non fidarsi del conto."
+    },
+    {
+      "id": "AR-794",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto e caro: un verdetto fatto del solo ⚪ esce 1 invece di 2, cioè boccia senza avere nessuna accusa dentro. Un rosso che non nasce da un'accusa è il rosso che si impara ad aggirare, e allora non frena più nemmeno quando ha ragione."
     }
   ],
-  "chiuse_su_prova_non_ammessa": 0,
-  "chiuse_su_prova_non_misurata": 0,
-  "chiuse_da_rileggere": [],
   "non_giudicabili": [
     {
       "id": "AR-576",
@@ -332,9 +350,21 @@
       "gravita": "grave",
       "impatto_crescita": "indiretto ma sul metro: e la macchina che si misura da sola, e un banco che punisce chi cura rallenta ogni lotto da qui al 29 settembre",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
+    },
+    {
+      "id": "AR-793",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto ma caro: il numero dei difetti del sito sarebbe risalito da 0 a 199 senza che nessuno avesse rotto niente, e il lavoro di un giorno intero sparisce dalla memoria. Un conto che risale da solo insegna a non fidarsi del conto.",
+      "perche": "prova eseguibile: node --test cervello/test/il-referto-che-nessuno-legge.test.mjs"
+    },
+    {
+      "id": "AR-794",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto e caro: un verdetto fatto del solo ⚪ esce 1 invece di 2, cioè boccia senza avere nessuna accusa dentro. Un rosso che non nasce da un'accusa è il rosso che si impara ad aggirare, e allora non frena più nemmeno quando ha ragione.",
+      "perche": "prova eseguibile: node --test cervello/test/cancello-stop.test.mjs"
     }
   ],
-  "non_auto_chiudibili": 100,
+  "non_auto_chiudibili": 99,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568"
@@ -3154,6 +3184,32 @@
       "auto_chiudibile": false
     },
     {
+      "id": "AR-789",
+      "gravita": "grave",
+      "eta_giorni": 1,
+      "impatto_crescita": "alto",
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Quaranta schede scrivono un paragrafo dove il cancello si aspetta una parola, e il cancello le salta in silenz",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/campo-illeggibile-non-e-un-no.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-790",
+      "gravita": "grave",
+      "eta_giorni": 1,
+      "impatto_crescita": "alto",
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "La gravita ha nove nomi diversi, e due di quelli che vogliono dire «gravissimo» non contano mai come tali",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/campo-illeggibile-non-e-un-no.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
       "id": "AR-791",
       "gravita": "grave",
       "eta_giorni": 1,
@@ -3180,55 +3236,58 @@
       "auto_chiudibile": false
     },
     {
+      "id": "AR-795",
+      "gravita": "bloccante",
+      "eta_giorni": 1,
+      "impatto_crescita": "diretto: due dei 208 problemi impediscono a QUALUNQUE negoziante di caricare la foto di copertina della vetrina, e dall'amministrazione quelle di Eventi e Negozio del mese. Finché il conto dice zero, quel blocco non compare da nessuna parte e nessuno lo lavora.",
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "La radiografia del design trova 208 problemi veri e la Cabina dice zero: quel referto non lo legge nessuno",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-referto-che-nessuno-legge.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-793",
+      "gravita": "grave",
+      "eta_giorni": 1,
+      "impatto_crescita": "indiretto ma caro: il numero dei difetti del sito sarebbe risalito da 0 a 199 senza che nessuno avesse rotto niente, e il lavoro di un giorno intero sparisce dalla memoria. Un conto che risale da solo insegna a non fidarsi del conto.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Rifare l'elenco dei difetti del sito cancellava le riparazioni già fatte, e il numero tornava su da solo",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-referto-che-nessuno-legge.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-794",
+      "gravita": "grave",
+      "eta_giorni": 1,
+      "impatto_crescita": "indiretto e caro: un verdetto fatto del solo ⚪ esce 1 invece di 2, cioè boccia senza avere nessuna accusa dentro. Un rosso che non nasce da un'accusa è il rosso che si impara ad aggirare, e allora non frena più nemmeno quando ha ragione.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Il cancello bocciava mostrando come unica ragione una riga che dice «non ho potuto guardare»",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cancello-stop.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
       "id": "AR-796",
       "gravita": "grave",
       "eta_giorni": 1,
       "impatto_crescita": "alto",
-      "prova_esegue": true,
+      "prova_esegue": false,
       "prova_obbligatoria": true,
       "non_giudicabile": false,
       "titolo": "Il programma che chiude i difetti non passa dal cancello che decide se possono chiudersi",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-797",
-      "gravita": "medio",
-      "eta_giorni": 0,
-      "impatto_crescita": "indiretto: e' il controllo che impedisce a un freno di nascere gia' scollegato, cioe' la ricaduta di AR-796",
-      "prova_esegue": false,
-      "prova_obbligatoria": false,
-      "non_giudicabile": false,
-      "titolo": "Nessuno controlla che un cancello nuovo sia collegato a chi agisce",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-798",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "impatto_crescita": "indiretto: e' il ponte fra i difetti del sito e il cantiere, e quando esplode l'allineamento intero non gira — cioe' i 208 difetti del marketplace restano fermi allo stato di ieri",
-      "prova_esegue": true,
-      "prova_obbligatoria": false,
-      "non_giudicabile": false,
-      "titolo": "Chi verifica i difetti del sito esplode alla prima prova che incontra, e nessuno lo sapeva",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-799",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "impatto_crescita": "indiretto: la serie della salute e' il grafico che Nicola guarda in Cabina, e una prova che ci scrive dentro gli fa vedere un crollo mai avvenuto",
-      "prova_esegue": false,
-      "prova_obbligatoria": false,
-      "non_giudicabile": false,
-      "titolo": "Chi prova la macchina scrive nella memoria vera, perche' si puo' deviare solo meta' dei registri",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "classe": "prova-debole-su-grave",
+      "prova_impossibile": false,
+      "prova_debole_su_grave": true,
+      "senza_controllo": false,
+      "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna.",
       "auto_chiudibile": false
     }
   ]
