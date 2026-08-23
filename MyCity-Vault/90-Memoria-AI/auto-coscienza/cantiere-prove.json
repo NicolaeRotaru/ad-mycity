@@ -1,37 +1,37 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-23 15:45",
+  "aggiornato": "2026-08-23 16:13",
   "giorni_sospetto": 3,
-  "difetti_aperti": 111,
-  "difetti_da_fare": 111,
+  "difetti_aperti": 113,
+  "difetti_da_fare": 113,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 791,
+    "totale": 793,
     "chiusi": 680,
-    "aperti": 101,
+    "aperti": 103,
     "in_corso": 0,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 111,
+    "da_fare": 113,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 680,
-      "aperto": 101,
+      "aperto": 103,
       "da-riverificare": 10
     },
     "stati_ignoti": []
   },
   "bilancio": {
     "torna": true,
-    "attese": 111,
-    "viste": 111,
+    "attese": 113,
+    "viste": 113,
     "fuori": 0,
-    "motivo": "bilancio a posto: 680 chiuse + 111 classificate = 791 schede, e ogni stato vivo è dentro (101 aperto · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 680 chiuse + 113 classificate = 793 schede, e ogni stato vivo è dentro (103 aperto · 10 da-riverificare)"
   },
   "per_classe": {
-    "prova-debole-su-grave": 18,
+    "prova-debole-su-grave": 20,
     "auto-sospetta": 10,
     "umana": 72,
     "auto-comando": 11
@@ -143,6 +143,18 @@
     },
     {
       "id": "AR-568",
+      "gravita": "bloccante",
+      "impatto_crescita": "alto",
+      "perche": "questo difetto è un BLOCCANTE e ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
+    },
+    {
+      "id": "AR-801",
+      "gravita": "bloccante",
+      "impatto_crescita": "alto",
+      "perche": "questo difetto è un BLOCCANTE e ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
+    },
+    {
+      "id": "AR-802",
       "gravita": "bloccante",
       "impatto_crescita": "alto",
       "perche": "questo difetto è un BLOCCANTE e ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
@@ -334,10 +346,12 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 100,
+  "non_auto_chiudibili": 102,
   "bloccanti_ciechi": [
     "AR-518",
-    "AR-568"
+    "AR-568",
+    "AR-801",
+    "AR-802"
   ],
   "schede_incomplete": [
     {
@@ -3189,6 +3203,38 @@
       "titolo": "Tre controlli del cancello sono ciechi in ogni sessione cloud, e la cura e un comando che nessuno esegue",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-801",
+      "gravita": "bloccante",
+      "eta_giorni": 0,
+      "impatto_crescita": "alto",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Il muro fra i negozi esiste nel codice e non nella tabella: la coda dei lavori non ha il campo del negozio",
+      "classe": "prova-debole-su-grave",
+      "prova_impossibile": false,
+      "prova_debole_su_grave": true,
+      "senza_controllo": false,
+      "perche": "questo difetto è un BLOCCANTE e ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna.",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-802",
+      "gravita": "bloccante",
+      "eta_giorni": 0,
+      "impatto_crescita": "alto",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Il muro dentro il database per le botteghe non esiste: oggi separa i dati solo il codice che fa la domanda",
+      "classe": "prova-debole-su-grave",
+      "prova_impossibile": false,
+      "prova_debole_su_grave": true,
+      "senza_controllo": false,
+      "perche": "questo difetto è un BLOCCANTE e ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna.",
       "auto_chiudibile": false
     }
   ]

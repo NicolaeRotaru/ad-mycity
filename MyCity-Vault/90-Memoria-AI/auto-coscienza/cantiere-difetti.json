@@ -17133,6 +17133,48 @@
         "tipo": "umano",
         "nota": "causa verificata sul campo il 23/8: `git rev-list --count HEAD` 69 → 599 col deepen → 7363 con --unshallow, e i tre controlli sono passati dal dichiararsi ciechi al misurare. Prova da scrivere col repo finto."
       }
+    },
+    {
+      "id": "AR-801",
+      "titolo": "Il muro fra i negozi esiste nel codice e non nella tabella: la coda dei lavori non ha il campo del negozio",
+      "dimensione": "capacita-mancanti",
+      "gravita": "bloccante",
+      "impatto_crescita": "alto",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-23 16:05",
+      "nato_come": "nuovo-lavoro",
+      "nato_da": "lotto 54: costruite le fondamenta della BOTTEGA lato codice (cervello/bottega/lavoro.mjs)",
+      "causa_radice": "ARCHITETTURA-TRE-MACCHINE.md, meccanismo ①: «negozio_id su ogni riga, ovunque. Nessuna tabella senza». Il lato codice adesso c'e ed e provato: nuovoLavoro non sa costruire un lavoro senza il negozio, il contesto scarta le righe altrui e le conta, il marchio non enumerabile impedisce di spostare un lavoro da un negozio all'altro con tre puntini. Ma la tabella `lavori` — quella che il worker legge davvero — non ha il campo. Letta dal vivo il 23/8 (progetto ad-mycity, 3.255 righe): id, created_at, updated_at, stato, tipo, richiesta, risultato, esperto, tentativi, riprova_dopo, gruppo_id, worker_owner. Nessun negozio. Finche e cosi il muro tiene solo finche ogni lavoro passa dal modulo nuovo, e il primo che scrive in coda con una query diretta lo aggira senza accorgersene.",
+      "dove": "tabella `lavori` (Supabase) · cervello/bottega/lavoro.mjs · cervello/sentinella-lavori.mjs",
+      "fix_proposto": "🟡 (a) migrazione: `negozio_id` NOT NULL sulla tabella dei lavori della BOTTEGA, con un default solo per le righe del CENTRO gia esistenti; (b) un guardiano che FALLISCE se una riga nasce senza. La migrazione la firma Nicola (tocca il database vero → 🔴 il giorno dell'esecuzione). Prova: inserire una riga senza negozio e pretendere che il database la rifiuti — non che la rifiuti il buon senso di chi scrive la query.",
+      "impatto": "E il primo dei due meccanismi che l'architettura chiama non rimandabili: «aggiungerli dopo, su dati gia mescolati, e il lavoro piu caro e pericoloso che esista».",
+      "origine": "costruzione delle fondamenta BOTTEGA, 23/8",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "il lato codice e provato da `node cervello/test/un-negozio-non-vede-l-altro.test.mjs` (20 casi, 6 mutazioni rosse). Le colonne della tabella sono lette dal vivo il 23/8 col Supabase MCP, non dedotte dal codice. Il lato tabella non si puo provare da qui: il database e in sola lettura per la macchina e la migrazione e una firma di Nicola."
+      }
+    },
+    {
+      "id": "AR-802",
+      "titolo": "Il muro dentro il database per le botteghe non esiste: oggi separa i dati solo il codice che fa la domanda",
+      "dimensione": "capacita-mancanti",
+      "gravita": "bloccante",
+      "impatto_crescita": "alto",
+      "colore": "🔴",
+      "stato": "aperto",
+      "nato": "2026-08-23 16:05",
+      "nato_come": "nuovo-lavoro",
+      "nato_da": "lotto 54: costruite le fondamenta della BOTTEGA lato codice",
+      "causa_radice": "Meccanismo ② dell'architettura: «Non e il buon senso dell'AI a tenere separati i dati: e il database che RIFIUTA di restituire le righe di un altro negozio. Anche se l'AI sbagliasse la query, non le arriva niente». Oggi la separazione la fa `soloDelNegozio`, che e codice: filtra cio che il database ha gia consegnato. Se una query sbaglia, le righe altrui arrivano fino al filtro — vengono scartate e contate, il che e meglio del silenzio, ma sono uscite dal database. Il marketplace usa gia questo meccanismo perche un venditore veda solo i suoi ordini: e da riusare, non da inventare. Nota misurata il 23/8: su ad-mycity `rls_enabled` e true su tutte le tabelle, quindi il meccanismo e acceso — quello che manca sono le policy PER NEGOZIO, che non si possono nemmeno scrivere finche la tabella non ha il campo (AR-801 viene prima).",
+      "dove": "policy RLS sulle tabelle della BOTTEGA (Supabase) · cervello/bottega/lavoro.mjs",
+      "fix_proposto": "🔴 Policy RLS per negozio sulle tabelle della BOTTEGA, sul modello di quelle che il marketplace ha gia per i venditori. Prova — ed e la prima delle sette del collaudo finale: un secondo negozio finto interroga con le sue credenziali e riceve ZERO righe del primo, non righe filtrate dopo. Colore rosso: tocca i permessi del database vero, quindi la scrive la macchina e la firma Nicola.",
+      "impatto": "E la prova numero 1 del collaudo finale dell'architettura. Senza, il pilota BOTTEGA non e dichiarabile finito nemmeno con un cliente solo.",
+      "origine": "costruzione delle fondamenta BOTTEGA, 23/8",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "non provabile da una sessione cloud: serve un secondo insieme di credenziali contro il database vero. La prova va scritta insieme alla policy, e girata dopo la firma."
+      }
     }
   ],
   "meta": {

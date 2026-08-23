@@ -6411,6 +6411,60 @@
    "cerca": "  if (dataSecca?.length && tettoSecco === null) {",
    "sostituisci": "  if (false) {",
    "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+  },
+  {
+   "lotto": 54,
+   "difetto": "BOTTEGA-fondamenta",
+   "nome": "il lavoro torna a nascere senza negozio",
+   "file": "cervello/bottega/lavoro.mjs",
+   "cerca": "  if (!idUsabile(negozioId)) {\n    throw new Error(\"nuovoLavoro: senza `negozioId` non si costruisce un lavoro — un lavoro appartiene a un negozio, sempre\");\n  }",
+   "sostituisci": "  if (false) {\n    throw new Error(\"mutante\");\n  }\n  negozioId = idUsabile(negozioId) ? negozioId : \"qualsiasi\";",
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+  },
+  {
+   "lotto": 54,
+   "difetto": "BOTTEGA-fondamenta",
+   "nome": "il contesto torna a prendere le righe di tutti i negozi",
+   "file": "cervello/bottega/lavoro.mjs",
+   "cerca": "    if (suo === mio) tenute.push(r);",
+   "sostituisci": "    if (true) tenute.push(r);",
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+  },
+  {
+   "lotto": 54,
+   "difetto": "BOTTEGA-fondamenta",
+   "nome": "una riga senza padrone torna a essere adottata dal negozio di turno",
+   "file": "cervello/bottega/lavoro.mjs",
+   "cerca": "    else scartate.push({ riga: r, negozio: suo, perche: suo === null ? \"la riga non dice a chi appartiene\" : \"è di un altro negozio\" });",
+   "sostituisci": "    else if (suo === null) tenute.push(r);\n    else scartate.push({ riga: r, negozio: suo, perche: \"è di un altro negozio\" });",
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+  },
+  {
+   "lotto": 54,
+   "difetto": "BOTTEGA-fondamenta",
+   "nome": "le chiavi di un negozio tornano a montarsi sul lavoro di un altro",
+   "file": "cervello/bottega/lavoro.mjs",
+   "cerca": "  if (!scheda || scheda.negozioId !== negozioId) {",
+   "sostituisci": "  if (!scheda) {",
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+  },
+  {
+   "lotto": 54,
+   "difetto": "BOTTEGA-fondamenta",
+   "nome": "il marchio torna enumerabile, e tre puntini spostano un lavoro da un negozio all'altro",
+   "file": "cervello/bottega/lavoro.mjs",
+   "cerca": "  Object.defineProperty(lavoro, MARCHIO, { value: true, enumerable: false });",
+   "sostituisci": "  Object.defineProperty(lavoro, MARCHIO, { value: true, enumerable: true });",
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+  },
+  {
+   "lotto": 54,
+   "difetto": "BOTTEGA-fondamenta",
+   "nome": "il materiale perde la recinzione e torna a somigliare a un'istruzione",
+   "file": "cervello/bottega/lavoro.mjs",
+   "cerca": "    parti.push(\"\", APERTURA_MATERIALE, ...lavoro.materiale, CHIUSURA_MATERIALE);",
+   "sostituisci": "    parti.push(\"\", ...lavoro.materiale);",
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
   }
  ]
 }

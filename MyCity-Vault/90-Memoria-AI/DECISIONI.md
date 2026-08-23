@@ -3927,3 +3927,36 @@ nessuno dei tre lo eseguiva.
 **Cosa non ho verificato:** le 24 date secche non le ho ricostruite. Sono di luglio e dei primi
 giorni d'agosto, la storia adesso le raggiungerebbe, ma è lavoro a parte e il tetto lo tiene fermo
 intanto.
+
+---
+
+## 2026-08-23 16:15 — 🟡 Le prime fondamenta della Bottega: un negozio non vede l'altro
+
+**Cosa ho fatto.** Costruito `cervello/bottega/lavoro.mjs`, il primo pezzo della linea di ricavo #2.
+Tre dei sei meccanismi del multi-negozio, quelli che si possono provare **senza avere un negozio
+vero**: il lavoro nasce già marchiato col suo negozio, il contesto contiene solo le sue righe, le
+chiavi non hanno una strada per entrare nel discorso.
+
+**Perché questi tre e non l'AI che parla col negoziante.** Il documento sull'architettura è netto:
+`negozio_id`, muro dei dati e corsie **dal primo giorno**, perché aggiungerli dopo su dati già
+mescolati «è il lavoro più caro e pericoloso che esista». La parte che parla col negoziante è quella
+che si vede, ed è anche la più veloce: si può fare dopo. Il muro no.
+
+**La forma: niente regole da ricordare.** Un lavoro si costruisce solo da una porta che senza negozio
+lancia. Il lavoro è congelato. La scheda del negozio arriva in due pezzi separati e quello con le
+chiavi il lavoro non lo riceve mai — così un segreto nel testo non è improbabile, è senza strada.
+
+**Due cose le ha trovate la prova, non il ragionamento.**
+1. Un oggetto fatto a mano con dentro `negozioId` passava il controllo e si schiantava tre righe
+   dopo. Adesso il lavoro porta un marchio che solo la porta sa mettere.
+2. Il marchio l'avevo fatto **enumerabile**, e `{ ...lavoro, negozioId: "un-altro" }` produceva un
+   lavoro valido col negozio scambiato e le righe del primo ancora dentro. Cioè la cosa che il file
+   esiste per impedire, ottenuta con tre puntini. Adesso il marchio non si copia.
+
+**Cosa non ho verificato, e va detto forte:** questo codice **non lo chiama ancora nessuno**. È una
+fondazione, non una macchina che gira. E il muro vero — quello dentro il database, che *rifiuta* di
+consegnare le righe di un altro negozio — non c'è: oggi separa il codice, che filtra dopo. Ho
+registrato i due pezzi mancanti come bloccanti (`AR-801` la tabella senza il campo del negozio,
+`AR-802` il muro nel database), tutt'e due con la firma di Nicola davanti. Le colonne della tabella
+le ho lette **dal vivo**, non dedotte dal codice: `lavori` ha 3.255 righe e nessun campo per il
+negozio.
