@@ -4160,3 +4160,39 @@ arrivato». La card #42 chiedeva un gesto di copia e rimandava a un file. Adesso
 **Cosa non ho verificato:** non ho provato ad applicarlo, e non posso. Che il giro continui a girare
 dopo la sostituzione si vede solo dopo. Restano fuori le altre due parti di AR-206 — il controllo di
 provenienza su ogni script, e le chiavi tenute fuori dall'ambiente del worker.
+
+---
+
+## 2026-08-23 19:35 — 🟡 Una gesto sola per tutt'e due i bloccanti sui permessi
+
+**Cosa ho fatto.** La card #42 adesso copre anche **AR-142**, non solo AR-206. Sono tre righe in più
+nello stesso foglio, e con quelle si chiudono tutt'e due i bloccanti con una sola incollata.
+
+**Il divieto di spingere sul ramo principale l'ho scelto mirato**, non generale. Vietare `git push`
+intero avrebbe chiuso anche la strada con cui apro le richieste a Nicola: il freno giusto è
+`git push origin main` e `git push --force`, non la spinta in sé.
+
+**Sullo strumento che scrive sul database ho controllato prima di consigliare.** `execute_sql`
+modifica lo stato, ed è fra quelli concessi senza chiedere. Ho cercato chi lo usa: **nessuno script
+della macchina**. Quindi il consiglio è toglierlo, e non è una rinuncia — per leggere ci sono gli
+altri strumenti, e la fonte di verità dei numeri è il canale REST.
+
+**Il sorvegliante mi ha contestato una riga, e la risposta giusta era dichiarare, non aggirare.**
+Il modello del documento contiene la stringa `git push --force`, perché è il divieto che Nicola deve
+incollare. Il guardiano la legge come un comando di scavalcamento — non può distinguere il divieto
+dall'atto. Potevo spezzare la stringa per far contento il metro: sarebbe stato scrivere per il
+guardiano invece che per il lettore, e il testo che lui incolla dev'essere identico. Esenzione
+dichiarata col perché.
+
+**Poi il cancello è uscito 2, e il buco è vero.** Un controllo non ha potuto leggere la coda intera:
+274.029 caratteri contro un tetto di 200.000. Il commento sopra quel tetto racconta la storia: il
+22/8 il tetto era stato alzato e poi rimesso a posto, perché *«una soglia che sale è la mossa che
+nasconde i problemi»*, e la cura vera fu spostare in archivio le carte chiuse. **In un mese è tornato
+dov'era**, con 37 carte chiuse ancora dentro.
+
+È la stessa forma dell'elenco dei permessi, trovata un'ora prima: **una cosa curata a mano che il
+tempo riporta indietro.** Registrata come AR-807.
+
+**Cosa non ho fatto, e lo dico come debito, non come lavoro finito:** il freno di AR-807 non l'ho
+scritto. Servirebbe un tetto dichiarato sulla dimensione della coda, che scende e non risale — la
+forma già usata altrove. Senza quello, spostare le 37 carte oggi vuol dire ritrovarsele fra un mese.

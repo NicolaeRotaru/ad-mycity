@@ -172,11 +172,56 @@ Poi lancia `node cervello/permessi-check.mjs`: quella segnalazione sparisce.
 Da lì in avanti, se serve un programma nuovo il permesso si aggiunge a mano. **Aggiungere una riga
 si vede. L'asterisco no.**
 
+## Le altre tre cose, nello stesso foglio
+
+Già che lo apri, ci sono altre tre righe che il guardiano segnala. Con queste si chiude anche
+**AR-142**, l'altro bloccante sui permessi: una gesto sola per tutt'e due.
+
+### ① Manca il divieto di spingere sul ramo principale
+
+Nel blocco `"deny"` non c'è nessuna riga che vieti `git push`. La regola di casa dice che da qui si
+lavora su un ramo e si apre una richiesta — mai spingere dritto sul ramo principale.
+
+Aggiungi al `"deny"` queste due righe:
+
+```json
+      "Bash(git push origin main:*)",
+      "Bash(git push --force:*)",
+```
+
+Ho scelto il divieto **mirato** e non `git push` intero: la macchina deve poter spingere sul suo
+ramo, altrimenti non può più aprirti una richiesta. Vietare tutto avrebbe chiuso anche quella strada.
+
+### ② Uno strumento che scrive, concesso senza chiedere
+
+Nel blocco `"allow"` c'è `mcp__Supabase__execute_sql`. È lo strumento che esegue SQL: **modifica** lo
+stato del database, e sta fra quelli concessi senza chiedere.
+
+**Consiglio di toglierlo.** Ho controllato: nessuno script della macchina lo usa. Per leggere ci sono
+gli altri strumenti, e la fonte di verità dei numeri è comunque l'altro canale. Un cambio di
+struttura del database è 🔴 in ogni caso, quindi passerebbe da te.
+
+### ③ Cinque righe che non fanno niente
+
+Cinque righe usano la forma `Write(...)` su file che vanno protetti. Quella forma il programma non
+la applica più: sono le righe che stampano l'avviso a ogni avvio. Riscrivile con `Edit(...)`. La protezione vera è già lì
+accanto: queste sono solo il doppione morto.
+
+```
+Write(./cervello/vps/.env)        →  Edit(./cervello/vps/.env)
+Write(**/.env)                    →  Edit(**/.env)
+Write(**/.env.*)                  →  Edit(**/.env.*)
+Write(./.claude/settings.json)    →  Edit(./.claude/settings.json)
+Write(./.claude/settings.local.json) → Edit(./.claude/settings.local.json)
+```
+
 ## Cosa devi fare
 
-Aprire quel foglio e incollare i due blocchi. È l'unica cosa che serve, e la può fare solo tu: quel
-file è negato in scrittura alla macchina *apposta*, perché non deve poter toccare i propri permessi
-né per allargarli né per restringerli.
+Aprire quel foglio e incollare. È l'unica cosa che serve, e la può fare solo tu: quel file è negato
+in scrittura alla macchina *apposta*, perché non deve poter toccare i propri permessi né per
+allargarli né per restringerli.
+
+Quando hai finito, `node cervello/permessi-check.mjs` deve dire zero violazioni.
 
 ## Cosa non ho verificato
 
@@ -187,6 +232,11 @@ continui a girare dopo la sostituzione si vede solo dopo.
 **Restano fuori due parti**, per un lotto a sé. La prima è il controllo di provenienza su ogni
 script: se il file su disco non corrisponde alla versione pubblicata, non parte. La seconda sono le
 chiavi, che vanno tenute fuori dall'ambiente del worker.
+
+**Sul divieto di spinta non ho potuto provare l'effetto.** So che il divieto mirato lascia passare la
+spinta sul ramo, perché è una forma diversa. Ma il programma applica quelle righe fuori da qui, e da
+una sessione non posso vederlo. Se dopo la modifica non riesco più ad aprirti una richiesta, è quella
+riga: toglila e dimmelo.
 
 ---
 

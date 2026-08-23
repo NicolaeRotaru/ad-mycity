@@ -17264,6 +17264,27 @@
       },
       "chiuso_il": "2026-08-23 18:50",
       "chiuso_come": "L'elenco non si tiene piu' a mano: permessi-elenco.mjs lo ricalcola da chi lancia davvero, e genera anche il documento che Nicola legge (--consegna), cosi' la prossima rigenerazione non si porta via la forma. Il materiale sta DENTRO la card #42, non dietro un puntatore (AR-524). Era indietro di 51: adesso copre tutti i 128 script che qualcuno lancia. Prova: 11 casi, di cui uno sul repo vero che diventa rosso se la consegna torna indietro."
+    },
+    {
+      "id": "AR-807",
+      "titolo": "La coda ha superato di nuovo il tetto che rende cieco un cancello, e la cura si fa a mano",
+      "dimensione": "trovato-riparando",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-23 19:30",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 58: il cancello e' uscito 2 (consegnabile coi buchi dichiarati) su un controllo che non ha potuto leggere la coda intera",
+      "causa_radice": "cancello-stop.mjs ha un tetto di 200.000 caratteri sul testo che legge, e il commento sopra quel tetto racconta la storia per intero: il 22/8 il tetto era stato ALZATO a 400.000 e poi rimesso a posto, perche' «una soglia che sale e' la mossa che nasconde i problemi». La cura vera fu un'altra: spostare in archivio le carte gia' chiuse, e il file torno' sotto misura. Misurato oggi: AZIONI-IN-ATTESA.md sta a 274.029 caratteri, cioe' il 37% sopra il tetto, con 37 carte chiuse ancora dentro. In un mese e' tornato dov'era. La cura ha funzionato ed e' stata fatta A MANO, quindi si e' disfatta da sola: non c'e' nessun freno che dica «la coda e' di nuovo troppo grossa», e il sintomo si vede solo di rimbalzo, quando un cancello dice ⚪ invece di misurare. E' la stessa forma di AR-806, trovata un'ora fa: una cosa curata a mano che il tempo riporta indietro senza che nessuno se ne accorga.",
+      "dove": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md · cervello/cancello-stop.mjs (TETTO_TESTO)",
+      "fix_proposto": "🟡 Due pezzi, e il secondo e' quello che conta. (a) Spostare in archivio le 37 carte chiuse, come il 22/8. (b) Un tetto DICHIARATO sulla dimensione della coda, che scende e non risale — la forma gia' usata per prova_debole e timbro_secco in tetti-lotto.json: si misura oggi, e ogni lotto che la fa crescere oltre diventa rosso. Cosi' la deriva diventa un numero visibile invece di una cecita' che si scopre di rimbalzo. Senza (b), (a) si disfa di nuovo fra un mese. Prova: una coda finta oltre il tetto dichiarato fa uscire rosso il guardiano; una sotto il tetto no.",
+      "impatto": "Un controllo del cancello legge la coda a meta' e dichiara ⚪ invece di misurare. Non e' un rosso mascherato da verde — quella parte e' onesta — ma e' un pezzo di sorveglianza spento, e si spegne da solo ogni volta che la coda ricresce.",
+      "origine": "lotto 58, secondo giro sul cancello uscito 2",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "DEBITO DICHIARATO, non lavoro finito: il freno (b) non l'ho scritto. Costruirlo adesso vuol dire toccare il cancello del lotto e rimisurare tutto, e la parte (a) e' un'operazione delicata sulla coda di Nicola — 37 carte da spostare in archivio senza perderne nessuna. La causa e' verificata sul campo: 274.029 caratteri contro un tetto di 200.000, letti oggi."
+      }
     }
   ],
   "meta": {
