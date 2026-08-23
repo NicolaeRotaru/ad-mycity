@@ -3721,3 +3721,33 @@ dormiente, non curata. E l'elenco delle dipendenze non è in pari: `npm ci` da s
 installare, e la CI non se ne accorge perché usa un flag che lo aggira.
 
 **I due bloccanti restano `in-corso`, non chiusi.** Si chiudono quando la #240 è unita, non prima.
+
+## 2026-08-23 14:40 · 🟡 Le schede trovavano un terzo dei posti, e questo cambia il conto dei sei giorni
+
+**Cosa ho fatto.** Portati nella richiesta #240 dieci difetti del design: i due bloccanti dei
+caricamenti e otto gravi sulle promesse. Due malattie sole, e sono la stessa forma — una regola vive
+in un posto, chi deve rispettarla se la riscrive a mano da un'altra parte.
+
+**Il numero che conta più dei dieci difetti.** Le schede della radiografia nominavano **due** posti
+per la frase «carta o contanti alla consegna». Curati quelli, una spazzata su tutto il codice ne ha
+trovati altri **cinque** che nessuna scheda citava: sottotitolo della home, «come funziona»,
+schermate di accesso, giro guidato, riquadro della home. Due su sette: **le schede coprivano il
+29%**. Lo stesso sui caricamenti — tre punti citati, un quarto trovato dall'invariante perché la
+chiamata era spezzata su tre righe.
+
+**Perché lo scrivo qui e non solo nel referto.** Con 208 difetti da chiudere in sei giorni, questo è
+il moltiplicatore che decide se il conto torna. Se ogni scheda che nomina una frase copre un terzo
+del suo difetto, il lavoro vero è il triplo di quello contato — e chi ripara fidandosi della scheda
+dichiara chiuso quello che ha lasciato aperto in quattro posti.
+
+**La cosa che ho quasi sbagliato di nuovo.** Il primo tentativo sui caricamenti era un modulo che
+*sa* la regola. Provato rimettendo la stringa sbagliata nel componente: le prove restavano verdi.
+È la lezione di stamattina, la terza volta in un giorno.
+
+**Due li avevo marcati riparati e non lo erano.** «Spedizione gratuita in vetrina ma 3 € di consegna»
+e «tre promesse di consegna nel checkout» sono vicini di casa, non lo stesso difetto: rimessi
+`aperto` nello stesso lavoro, con scritto cosa manca.
+
+**Cosa non ho verificato:** niente su un database vero né su un browser. Che il Postgres accetti i
+percorsi nuovi l'ho dedotto rileggendo la policy. Vanno provati a mano dopo il merge: caricare una
+copertina, e mettere nel carrello 20 € da un negozio e 15 € da un altro.

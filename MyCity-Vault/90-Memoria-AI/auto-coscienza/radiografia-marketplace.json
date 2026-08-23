@@ -4504,7 +4504,9 @@
       "impatto": "",
       "fix": "Calcolare `freeShipping` per gruppo come già fa `shippingCost`: «Gratis» solo se OGNI gruppo supera la soglia, altrimenti stampare formatPrice(shippingCost). Al checkout passare a FreeShippingProgress il subtotale del gruppo che non ha ancora raggiunto la soglia, o nasconderla nel multi-negozio.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:35",
+      "in_corso_nota": "Riparato nella richiesta #240 del marketplace, NON ancora unita. Otto gravi, una malattia sola: le promesse scritte a mano nell'interfaccia mentre la verita' sta nel codice che calcola prezzi, metodi e tempi. La cura e' lib/promesse-pubbliche.ts, dove le promesse NASCONO dagli stessi interruttori che le mantengono, piu' dettoDellaSpedizione() in lib/shipping.ts, dove la parola nasce dal numero. Si chiudono quando la #240 e' unita, non prima."
     },
     {
       "dimensione": "flussi-conversione",
@@ -4516,7 +4518,8 @@
       "impatto": "",
       "fix": "Una strada sola: (a) chiamare il costo col suo nome già su card e scheda prodotto («Spedizione gratis sopra 30 € · 3 € di consegna»), oppure (b) far rientrare i 3 € nella soglia e tenere il claim. In ogni caso mostrare la riga «Consegna MyCity 3,00 €» nel riquadro rassicurazione della scheda prodotto (page.tsx:734-745).",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "aperto",
+      "nota_lotto": "23/8: marcato in-corso per sbaglio e rimesso APERTO nello stesso lavoro. La #240 cura le promesse scritte a mano, non questo: qui manca ancora il lavoro vero — i 3 euro di «Consegna MyCity» non compaiono su card e scheda prodotto, e DeliverySlotPicker (righe 44 e 103) continua a scrivere «~30-45 min» a mano mentre la riga sotto dice altro. Vicini di casa, non lo stesso difetto."
     },
     {
       "dimensione": "flussi-conversione",
@@ -4528,7 +4531,9 @@
       "impatto": "",
       "fix": "Uniformare il claim al vero: «Paghi in contanti alla consegna, oppure con carta adesso». Correggere app/product/[id]/page.tsx:739 e app/cart/page.tsx:428.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:35",
+      "in_corso_nota": "Riparato nella richiesta #240 del marketplace, NON ancora unita. Otto gravi, una malattia sola: le promesse scritte a mano nell'interfaccia mentre la verita' sta nel codice che calcola prezzi, metodi e tempi. La cura e' lib/promesse-pubbliche.ts, dove le promesse NASCONO dagli stessi interruttori che le mantengono, piu' dettoDellaSpedizione() in lib/shipping.ts, dove la parola nasce dal numero. Si chiudono quando la #240 e' unita, non prima."
     },
     {
       "dimensione": "flussi-conversione",
@@ -4540,7 +4545,8 @@
       "impatto": "",
       "fix": "Fonte unica: usare EXPRESS_ETA_LABEL (lib/delivery.ts:13) anche in DeliverySlotPicker righe 44 e 103, e rendere la riga «Consegna a domicilio» dipendente dalla fascia scelta («Consegna {deliverySlot}») invece del testo fisso.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "aperto",
+      "nota_lotto": "23/8: marcato in-corso per sbaglio e rimesso APERTO nello stesso lavoro. La #240 cura le promesse scritte a mano, non questo: qui manca ancora il lavoro vero — i 3 euro di «Consegna MyCity» non compaiono su card e scheda prodotto, e DeliverySlotPicker (righe 44 e 103) continua a scrivere «~30-45 min» a mano mentre la riga sotto dice altro. Vicini di casa, non lo stesso difetto."
     },
     {
       "dimensione": "flussi-conversione",
@@ -4588,7 +4594,9 @@
       "impatto": "",
       "fix": "Allineare app/product/[id]/page.tsx:743 agli altri due passi: «Reso entro 14 giorni» con link a /returns. Per tenere «gratuito» va prima cambiata la politica, e i freschi restano comunque fuori.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:35",
+      "in_corso_nota": "Riparato nella richiesta #240 del marketplace, NON ancora unita. Otto gravi, una malattia sola: le promesse scritte a mano nell'interfaccia mentre la verita' sta nel codice che calcola prezzi, metodi e tempi. La cura e' lib/promesse-pubbliche.ts, dove le promesse NASCONO dagli stessi interruttori che le mantengono, piu' dettoDellaSpedizione() in lib/shipping.ts, dove la parola nasce dal numero. Si chiudono quando la #240 e' unita, non prima."
     },
     {
       "dimensione": "flussi-conversione",
@@ -4756,7 +4764,9 @@
       "impatto": "",
       "fix": "Riscrivere su un vantaggio vero e verificabile («Ogni ordine va direttamente al negozio della tua città: preparano loro, consegna un rider di Piacenza») togliendo «niente commissioni nascoste», oppure dichiarare le due voci in una nota trasparente.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:35",
+      "in_corso_nota": "Riparato nella richiesta #240 del marketplace, NON ancora unita. Otto gravi, una malattia sola: le promesse scritte a mano nell'interfaccia mentre la verita' sta nel codice che calcola prezzi, metodi e tempi. La cura e' lib/promesse-pubbliche.ts, dove le promesse NASCONO dagli stessi interruttori che le mantengono, piu' dettoDellaSpedizione() in lib/shipping.ts, dove la parola nasce dal numero. Si chiudono quando la #240 e' unita, non prima."
     },
     {
       "dimensione": "flussi-conversione",
@@ -4768,7 +4778,9 @@
       "impatto": "",
       "fix": "Da /admin/home, sezione hero, campo «Sottotitolo»: «Ordini dai negozi della tua città e paghi in contanti alla consegna — oppure con carta, subito. A casa in 30-60 minuti.» Poi allineare anche il ripiego in app/page.tsx alla prossima modifica di codice.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:35",
+      "in_corso_nota": "Riparato nella richiesta #240 del marketplace, NON ancora unita. Otto gravi, una malattia sola: le promesse scritte a mano nell'interfaccia mentre la verita' sta nel codice che calcola prezzi, metodi e tempi. La cura e' lib/promesse-pubbliche.ts, dove le promesse NASCONO dagli stessi interruttori che le mantengono, piu' dettoDellaSpedizione() in lib/shipping.ts, dove la parola nasce dal numero. Si chiudono quando la #240 e' unita, non prima."
     },
     {
       "dimensione": "microcopy",
@@ -4780,7 +4792,9 @@
       "impatto": "",
       "fix": "Calcolare la parola sulla stessa base del numero: `shippingCost > 0` → mostrare l'importo, mai «Gratis»; «Gratis» solo se `shippingCost === 0`. Togliere l'asterisco orfano; se serve la nota, per esteso: «Gratis sopra i 30 € di spesa nello stesso negozio».",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:35",
+      "in_corso_nota": "Riparato nella richiesta #240 del marketplace, NON ancora unita. Otto gravi, una malattia sola: le promesse scritte a mano nell'interfaccia mentre la verita' sta nel codice che calcola prezzi, metodi e tempi. La cura e' lib/promesse-pubbliche.ts, dove le promesse NASCONO dagli stessi interruttori che le mantengono, piu' dettoDellaSpedizione() in lib/shipping.ts, dove la parola nasce dal numero. Si chiudono quando la #240 e' unita, non prima."
     },
     {
       "dimensione": "microcopy",
@@ -4792,7 +4806,9 @@
       "impatto": "",
       "fix": "Togliere il riquadro e il paragrafo da shipping/page.tsx e la domanda dalla FAQ finché la costante è false. Meglio: far leggere quei tre punti dalla stessa costante, così il testo si spegne insieme alla funzione.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:35",
+      "in_corso_nota": "Riparato nella richiesta #240 del marketplace, NON ancora unita. Otto gravi, una malattia sola: le promesse scritte a mano nell'interfaccia mentre la verita' sta nel codice che calcola prezzi, metodi e tempi. La cura e' lib/promesse-pubbliche.ts, dove le promesse NASCONO dagli stessi interruttori che le mantengono, piu' dettoDellaSpedizione() in lib/shipping.ts, dove la parola nasce dal numero. Si chiudono quando la #240 e' unita, non prima."
     },
     {
       "dimensione": "microcopy",
@@ -4804,7 +4820,9 @@
       "impatto": "",
       "fix": "① Riscrivere le due frasi con quello che succede: «Se il negozio è chiuso non puoi ordinare adesso: torna negli orari di apertura». ② Spostare l'avviso a monte: banner sul carrello e sulla scheda prodotto quando il negozio è chiuso.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:35",
+      "in_corso_nota": "Riparato nella richiesta #240 del marketplace, NON ancora unita. Otto gravi, una malattia sola: le promesse scritte a mano nell'interfaccia mentre la verita' sta nel codice che calcola prezzi, metodi e tempi. La cura e' lib/promesse-pubbliche.ts, dove le promesse NASCONO dagli stessi interruttori che le mantengono, piu' dettoDellaSpedizione() in lib/shipping.ts, dove la parola nasce dal numero. Si chiudono quando la #240 e' unita, non prima."
     },
     {
       "dimensione": "microcopy",
@@ -4912,7 +4930,9 @@
       "impatto": "",
       "fix": "«Ogni euro di questo carrello va ai commercianti di Piacenza. La nostra parte è solo la consegna, ed è scritta qui sopra: nessun costo a sorpresa.» Toglie la bugia e tiene la promessa.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 14:35",
+      "in_corso_nota": "Riparato nella richiesta #240 del marketplace, NON ancora unita. Otto gravi, una malattia sola: le promesse scritte a mano nell'interfaccia mentre la verita' sta nel codice che calcola prezzi, metodi e tempi. La cura e' lib/promesse-pubbliche.ts, dove le promesse NASCONO dagli stessi interruttori che le mantengono, piu' dettoDellaSpedizione() in lib/shipping.ts, dove la parola nasce dal numero. Si chiudono quando la #240 e' unita, non prima."
     },
     {
       "dimensione": "microcopy",
@@ -5560,6 +5580,19 @@
       "impatto": "Chi apre il progetto e segue l'istruzione ovvia (`npm ci`) si ferma su un errore che non riguarda il suo lavoro, e deve indovinare il flag. E' il primo minuto di chiunque arrivi.",
       "fix": "`npm install` per riallineare il lock, in una richiesta sua che non porta altro (il diff e' grosso e non va mescolato con del codice).",
       "fonte": "lotto 23/8 sui due bloccanti del design — trovato installando le dipendenze per far girare le prove",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "microcopy",
+      "reparto": "Microcopy",
+      "titolo": "Le schede trovavano un terzo dei posti in cui una frase falsa e' scritta",
+      "severita": "grave",
+      "impatto_crescita": "diretto",
+      "file": "il metodo della radiografia, non un file",
+      "descrizione": "MISURATO il 23/8/2026 riparando il gruppo delle promesse. Le schede nominavano DUE posti per «carta o contanti alla consegna» (scheda prodotto e carrello). Curati quelli, una spazzata sulle cartelle app/, components/ e lib/ ne ha trovati altri CINQUE che nessuna scheda citava: il sottotitolo della home, la pagina «come funziona», la colonna delle schermate di accesso, il giro guidato del primo acquisto e il riquadro della home. Due su sette: le schede coprivano il 29%. Stessa cosa sui caricamenti: le schede citavano tre punti, l'invariante di struttura ne ha trovato un quarto che il grep aveva mancato perche' la chiamata era spezzata su tre righe.",
+      "impatto": "Chi ripara un difetto di testo fidandosi della scheda ne ripara un terzo e dichiara chiuso il resto. Con 208 difetti da chiudere in sei giorni, questo e' il moltiplicatore che decide se il conto torna: se ogni scheda copre un terzo del suo difetto, il lavoro vero e' il triplo di quello contato.",
+      "fix": "Regola per il cantiere del design: una scheda che nomina una FRASE si chiude solo dopo una spazzata su app/, components/ e lib/ per quella frase, e la spazzata resta come prova (un invariante che conta i posti e non si fida dell'elenco). Le due della #240 sono gia' scritte cosi'. Da valutare: farlo diventare un controllo del lotto, non un promemoria.",
+      "fonte": "lotto 23/8 sulle promesse — secondo giro, domanda «e altrove?»",
       "stato": "aperto"
     }
   ],
