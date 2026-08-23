@@ -3751,3 +3751,31 @@ e «tre promesse di consegna nel checkout» sono vicini di casa, non lo stesso d
 **Cosa non ho verificato:** niente su un database vero né su un browser. Che il Postgres accetti i
 percorsi nuovi l'ho dedotto rileggendo la policy. Vanno provati a mano dopo il merge: caricare una
 copertina, e mettere nel carrello 20 € da un negozio e 15 € da un altro.
+
+## 2026-08-23 13:55 · 🟢 I due bloccanti del sito sono chiusi, e una richiesta unita non porta lavoro nuovo
+
+**Cosa è successo.** La richiesta #240 sul marketplace è stata **unita**. I due difetti bloccanti del
+design sono chiusi per davvero: da adesso un negoziante può mettere la foto di copertina alla sua
+vetrina, cosa che non era mai riuscita a nessuno.
+
+**Il lavoro sulle promesse non era dentro.** L'avevo spinto sul ramo mentre la #240 era aperta, e il
+merge è arrivato prima di quel commit. Una richiesta unita è finita: non può tracciare lavoro nuovo.
+Quindi il pezzo rimasto fuori è ripartito da `main` ed è la **#241** — otto difetti gravi, sua
+richiesta, sua storia.
+
+**Ho corretto anche la descrizione della #240.** Mentre era aperta l'avevo aggiornata per raccontare
+tutt'e due i pezzi. Il merge ne ha portato uno solo, quindi quella descrizione prometteva più di
+quello che ha consegnato — e una descrizione che non corrisponde al merge è un pezzo di storia che
+mente. Rimessa a quello che è davvero unito, con scritto sopra perché.
+
+**Il conto del sito era sbilanciato per colpa mia.** Avevo aggiunto tre reperti al referto senza
+aggiornarne il totale dichiarato: l'elenco ne portava 410, il referto ne dichiarava 407. L'ha
+trovato la prova del conto, in CI, non io. È la difesa che fa il suo mestiere — un referto senza
+totale non può sbilanciarsi, quindi non può nemmeno denunciare tre righe comparse dal nulla.
+
+**Uno dei tre era nato con una gravità che in quel referto non esiste.** L'avevo scritto `medio`: il
+vocabolario del sito ne ha tre, quello della macchina quattro. Finiva nel ramo «altre» del conto per
+gravità, cioè invisibile in ogni riga che qualcuno legge.
+
+**Cosa non ho verificato:** che il caricamento funzioni davvero in produzione. Va provato a mano da
+Nicola: entrare come negoziante e caricare una copertina.
