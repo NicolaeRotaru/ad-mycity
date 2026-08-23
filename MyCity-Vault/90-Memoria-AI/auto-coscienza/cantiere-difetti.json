@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-22 22:22",
+  "aggiornato": "2026-08-23 09:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -6491,7 +6491,7 @@
       "colore": "🟡",
       "stato": "chiuso",
       "nato": "2026-07-29 13:05",
-      "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/sentinella-dati.mjs:634-641 (ramo soloAllerta) · cervello/sentinella-dati.mjs:572-581 (pingTelegram, `if (!tok || !chat) return;` alla riga 575) · cervello/sentinella-dati.mjs:303 (M1 worker morto, soloAllerta) e :417 (M7 REST cieco, soloAllerta) · cervello/sensori-motivi.json:6-11 (telegram «da-chiedere» dal 2026-07-28). Sintomo: VERIFICATO riga per riga. Le due sole regole 🔴 che sorvegliano la macchina stessa — M1 «worker morto» (riga 301-309) e M7 «REST cieco ORA» (riga 416-423) — sono `soloAllerta: true`. Il ramo che le gestisce (righe 634-641) fa esattamente due cose: `await pingTelegram(...)` e `state.regole[ev.chiave] = { …, ultimo_accodato: quando, … }`. Non accoda un lavoro, non scrive in `impostazioni`, non tocca AZIONI-IN-ATTESA: il Pannello non le vede. E `pingTelegram` (572) inizia con `if (!tok || !chat) return;` — ritorna in silenzio. Il token non c'è: `sensori-cecita.json` dà telegram_bot `non_configurato` e `cervello/sensori-motivi.json` scrive «Il bot Telegram è costruito e mai acceso… nessuno gliel'ha mai chiesto», card in coda dal 28/7. Percorso completo dell'unico allarme 🔴 sulla morte della macchina: condizione vera → funzione che ritorna subito → riga 637 che registra nello stato «allertato alle HH:MM», il che spegne pure il dedup e brucia la seconda occasione di accorgersene.",
+      "nota": "Radiografia completa del 2026-07-29 (worker+Pannello+AD+senior+guardiani, 8 aree, 18 agenti). Dove: cervello/sentinella-dati.mjs:634-641 (ramo soloAllerta) · cervello/sentinella-dati.mjs:572-581 (pingTelegram, `if (!tok || !chat) return;` alla riga 575) · cervello/sentinella-dati.mjs:303 (M1 worker morto, soloAllerta) e :417 (M7 REST cieco, soloAllerta) · cervello/sensori-motivi.json:6-11 (telegram «da-chiedere» dal 2026-07-28). Sintomo: VERIFICATO riga per riga. Le due sole regole 🔴 che sorvegliano la macchina stessa — M1 «worker morto» (riga 301-309) e M7 «REST cieco ORA» (riga 416-423) — sono `soloAllerta: true`. Il ramo che le gestisce (righe 634-641) fa esattamente due cose: `await pingTelegram(...)` e `state.regole[ev.chiave] = { …, ultimo_accodato: quando, … }`. Non accoda un lavoro, non scrive in `impostazioni`, non tocca AZIONI-IN-ATTESA: il Pannello non le vede. E `pingTelegram` (572) inizia con `if (!tok || !chat) return;` — ritorna in silenzio. Il token non c'è: `sensori-cecita.json` dà telegram_bot `non_configurato` e `cervello/sensori-motivi.json` scrive «Il bot Telegram è costruito e mai acceso… nessuno gliel'ha mai chiesto», card in coda dal 28/7. Percorso completo dell'unico allarme 🔴 sulla morte della macchina: condizione vera → funzione che ritorna subito → riga 637 che registra nello stato «allertato alle HH:MM», il che spegne pure il dedup e brucia la seconda occasione di accorgersene. 2026-08-22 20:45 — LA CURA È SCRITTA MA NON GIRA. Questa scheda è stata chiusa alle 19:35 del 22/8 con la sua stessa nota: «la cura vale quando il worker viene allineato: finché quel codice non gira lassù, il timbro nuovo non viene scritto da nessuno». Il conto è arrivato prima dell'allineamento. Il VPS ha smesso di alzare le cadenze il 18/8 alle 06:50; il worker ha continuato coi soli lavori della sentinella fino al 21/8 18:09, mettendo a verbale in git nove allarmi quel pomeriggio — quattro dicevano «battito fermo», il primo «6 cadenze su 6» — e poi si è fermato anche lui. Nicola l'ha scoperto da solo il 22/8 alle 19:39, 109 ore dopo il primo silenzio: nel luglio che ha fatto nascere questa scheda erano 36. La visita della salute segnava lo stesso rosso da 12 giri di fila. La verifica vera la fa il primo giro dopo che il server torna su (carta #168). Se quel giro non produce un avviso che arriva a Nicola, questa va riaperta.",
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/allerta-emessa-non-e-consegnata.test.mjs"
@@ -16939,7 +16939,61 @@
       }
     },
     {
+      "id": "AR-795",
+      "titolo": "La radiografia del design trova 208 problemi veri e la Cabina dice zero: quel referto non lo legge nessuno",
+      "dimensione": "integrita-memoria",
+      "gravita": "bloccante",
+      "stato": "aperto",
+      "nato": "2026-08-22",
+      "nato_come": "scoperta",
+      "impatto_crescita": "diretto: due dei 208 problemi impediscono a QUALUNQUE negoziante di caricare la foto di copertina della vetrina, e dall'amministrazione quelle di Eventi e Negozio del mese. Finché il conto dice zero, quel blocco non compare da nessuna parte e nessuno lo lavora.",
+      "causa_radice": "cervello/radiografia-marketplace-digest.mjs sceglieva i referti con un suffisso scritto dentro a un filter (`-radiografia-marketplace-raw.json`) su una cartella sola (`consegne/audit`). Il workflow audit-design scrive `consegne/design/AAAA-MM-GG-radiografia-design-raw.json`: cartella diversa, suffisso diverso. Cercato in tutto il repo il 22/8: NESSUNO leggeva quel file — né il digest, né i conti, né il Pannello, né il cantiere. E non leggere non è un errore che si vede: è uno zero. La casa del sito conteneva i 199 problemi del referto del 21/8, tutti chiusi il 22/8, quindi contoMarketplace rispondeva 0 aperti e 0 bloccanti — vero sul file che leggeva, falso sul sito. È la stessa malattia di `buco-letto-come-zero` in cervello/malattie.json, un piano sopra: lì un campo assente diventa zero, qui un REFERTO assente diventa zero.",
+      "fix_proposto": "Fatto in questo lotto. ① Le fonti diventano un elenco dichiarato in cervello/referti-sito.mjs (FONTI_SITO: radiografia del codice + radiografia del design), non un suffisso in un filter. ② Il digest legge l'ultimo referto di OGNI fonte e li fonde in una casa sola: 199 + 208 = 407 problemi, 208 aperti di cui 2 bloccanti. ③ Il freno sta sul DATO, non sul comando: un referto grezzo in consegne/ che non corrisponde a nessuna fonte finisce in `fonti_non_lette`, e finché quell'elenco non è vuoto `problemiDelReferto` (in tutte e due le case, cervello e Pannello) si rifiuta di dare un numero e torna ⚪ col nome del file. Così la PROSSIMA famiglia di audit che nasce fa diventare la Cabina ⚪, non verde. ④ I referti che stanno nelle stesse cartelle ma parlano di altro (l'auto-radiografia della macchina) sono dichiarati in REFERTI_DI_ALTRI col perché scritto, per non lasciare in piedi un allarme che si impara a ignorare.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-referto-che-nessuno-legge.test.mjs"
+      },
+      "nota_fix": "La prova esegue la selezione VECCHIA sulle cartelle vere e pretende che non trovi il referto del design (caso ②): è la misura viva del difetto, non un pattern. Il caso ⑤ gira sui referti veri e diventa rosso se domani nasce un audit del sito che nessuno legge.",
+      "origine": "correzione di Nicola (2026-08-22 19:39: «nel cantiere del marketplace ci sono 0 difetti quando non è vero»)"
+    },
+    {
       "id": "AR-793",
+      "titolo": "Rifare l'elenco dei difetti del sito cancellava le riparazioni già fatte, e il numero tornava su da solo",
+      "dimensione": "integrita-memoria",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-22",
+      "nato_come": "scoperta",
+      "impatto_crescita": "indiretto ma caro: il numero dei difetti del sito sarebbe risalito da 0 a 199 senza che nessuno avesse rotto niente, e il lavoro di un giorno intero sparisce dalla memoria. Un conto che risale da solo insegna a non fidarsi del conto.",
+      "causa_radice": "Il digest ricostruiva la casa da zero a ogni esecuzione e scriveva `stato: \"aperto\"` su ogni problema, senza mai guardare quello che c'era già in casa. Lo stato delle riparazioni non vive nel referto grezzo (che è una fotografia del giorno dell'audit): vive nella casa, dove i lotti lo scrivono. MISURATO eseguendolo il 22/8 su un albero pulito: `node cervello/radiografia-marketplace-digest.mjs` riportava i 199 problemi da `chiuso` ad `aperto`. Ed è il comando che il messaggio d'errore del Pannello stesso suggerisce di lanciare.",
+      "fix_proposto": "Fatto in questo lotto. `fondiConLaCasa` (cervello/referti-sito.mjs) fonde i problemi nuovi con quelli in casa per CHIAVE (dimensione + titolo normalizzati: 407 chiavi tutte diverse sui referti veri, zero collisioni). Il referto è la verità sul problema — titolo, gravità, descrizione, dove — e quella si riscrive; la casa è la verità sul lavoro fatto sopra — stato, note, chi e quando ha chiuso — e quella si conserva (CAMPI_DELLA_RIPARAZIONE). Un problema che sparisce dal referto non si butta: resta con `fuori_dal_referto: true`, perché sparire è l'altro modo di far calare un numero senza aver riparato niente. Conservato anche `sync_scan`, che in quella casa lo scrive il giro.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-referto-che-nessuno-legge.test.mjs"
+      },
+      "nota_fix": "Il caso ③ esegue la fusione VECCHIA sugli stessi dati veri e pretende che cancelli almeno una riparazione: finché è verde, il difetto è misurato e non solo raccontato.",
+      "origine": "trovato provando a riparare AR-795: senza questo, leggere la seconda fonte avrebbe cancellato 199 riparazioni"
+    },
+    {
+      "id": "AR-794",
+      "titolo": "Il cancello bocciava mostrando come unica ragione una riga che dice «non ho potuto guardare»",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "stato": "aperto",
+      "nato": "2026-08-22",
+      "nato_come": "scoperta",
+      "origine": "trovato indagando la CI rossa della PR #831 — che però era rossa per una card mia scritta male, non per questo",
+      "impatto_crescita": "indiretto e caro: un verdetto fatto del solo ⚪ esce 1 invece di 2, cioè boccia senza avere nessuna accusa dentro. Un rosso che non nasce da un'accusa è il rosso che si impara ad aggirare, e allora non frena più nemmeno quando ha ragione.",
+      "causa_radice": "`uscitaFuoriDallHook` decideva il codice d'uscita guardando la BANDIERA `cieco` invece delle righe: `if (cieco && sostanza.every(r => r.startsWith(\"⚪\"))) return 2`. Ma le «incerte» — fra cui il ⚪ nato il 22/8 per il file oltre il tetto — sono dichiarate NON cieche apposta: il commento accanto a `noteCieche` dice «si leggono, non bloccano, e NON contano come cieco». Quindi un verdetto fatto di quel solo ⚪ arrivava con `cieco: false`, cadeva nel `return 1` finale e bloccava. Il ramo ⚪ e la bandiera sono stati scritti da due mani in due momenti, e nessuno ha eseguito la combinazione: le prove di casa coprivano `cieco:true`+⚪ e `cieco:false`+❌, mai `cieco:false`+⚪. RIPRODOTTO eseguendo la funzione con la riga esatta uscita dalla CI: torna 1.",
+      "fix_proposto": "Fatto. La regola non ha bisogno della bandiera: se OGNI riga di sostanza comincia per ⚪, il verdetto è 2 — non ho visto tutto, e un giudizio su una parte non è un giudizio sul tutto. Basta una riga vera (❌ o 🛑) e si torna a 1. Tolto il `cieco &&`.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cancello-stop.test.mjs"
+      },
+      "nota_fix": "La prova porta il caso vero della CI e la sua controprova (una ❌ accanto al ⚪ deve tornare a bloccare), o sarebbe soddisfatta anche da un «torna sempre 2». Resta APERTO il debito che me l'ha fatto incontrare: AZIONI-IN-ATTESA.md sta sopra il tetto di 200.000 caratteri, quindi su quel file il cricchetto guarda solo i primi due terzi. Accorciarlo è la carta #163 e la decide Nicola: non l'ho toccato."
+    },
+    {
+      "id": "AR-796",
       "stato": "aperto",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
@@ -16955,22 +17009,23 @@
       "verifica": {
         "tipo": "umano",
         "nota": "Nessuna prova a comando finche il freno non e collegato. Una prova che punta al test del lotto 50 sarebbe VERDE oggi — e auto-fix chiuderebbe AR-793 al primo giro senza che nessuno abbia collegato niente, che e esattamente il difetto descritto qui dentro. La prova si scrive col fix: un difetto finto bloccante con prova a pattern che NON deve chiudersi passando da auto-fix."
-      }
+      },
+      "nota_fix": "RINUMERATO il 2026-08-23 09:05 da AR-793 a AR-796. Il lotto 50 e la PR #831 sono stati aperti nello stesso periodo e hanno preso lo stesso numero libero, ognuno dalla propria copia del registro: due difetti diversi con lo stesso id. La #831 e stata unita per prima, quindi il numero resta suo (il suo AR-793 parla dell'elenco dei difetti del sito). E il caso descritto nel mansionario del cantiere: prima di prendere un id nuovo va letto da origin/main aggiornato, non dalla copia che si ha in mano. Qui il numero era stato letto da main alle 20:20 del 22/8, e la #831 lo ha usato dopo."
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 783,
-    "aperti": 99,
+    "totale": 786,
+    "aperti": 102,
     "in_corso": 0,
     "da_riverificare": 10,
     "chiusi": 674,
     "altri": 0,
-    "da_fare": 109,
+    "da_fare": 112,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 674,
-      "aperto": 99,
+      "aperto": 102,
       "da-riverificare": 10
     },
     "stati_ignoti": [],

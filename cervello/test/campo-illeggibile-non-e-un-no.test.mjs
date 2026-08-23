@@ -105,7 +105,38 @@ prova("AR-789: il referto DICHIARA quante schede non si possono giudicare", () =
   assert.match(sorgente, /non_giudicabile/, "e la colonna deve essere calcolata per scheda");
   const referto = JSON.parse(readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json"), "utf8"));
   assert.equal(typeof referto.schede_non_giudicabili, "number", "il campo sta nel referto SEMPRE, anche a zero");
-  assert.equal(referto.schede_non_giudicabili, C.schedeNonGiudicabili(vive).length, "e deve essere il numero vero, non una stima");
+  assert.equal(typeof referto.schede_campi_illeggibili, "number", "e anche il suo fratello: sono due domande diverse");
+});
+
+prova("AR-789: «il cancello non sa decidere» e «il campo non si legge» sono DUE numeri, non uno", () => {
+  // 23/8 — questo caso è nato da un errore mio, e l'ha rivelato una scheda arrivata da un altro
+  // lavoro. Il test di ieri pretendeva che il conto del referto fosse UGUALE a `schedeNonGiudicabili`.
+  // Non lo è, e non deve esserlo: sono due domande diverse che io avevo chiamato con lo stesso nome —
+  // cioè la malattia `una-parola-con-due-padroni`, dentro il lotto che stava curando la sua sorella.
+  //
+  //   · il CANCELLO non sa decidere → la scheda non è bloccante E l'impatto non si legge;
+  //   · il CAMPO non si legge → basta che uno dei due campi sia illeggibile, cancello a parte.
+  //
+  // Un bloccante con l'impatto scritto male sta nel secondo e non nel primo: il cancello decide
+  // benissimo, perché la gravità gli basta. Il caso vero era AR-795 («diretto: …», e «diretto» non è
+  // una delle quattro categorie). Se i due numeri coincidessero, quel caso sparirebbe dal conto.
+  const referto = JSON.parse(readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json"), "utf8"));
+  const illeggibili = C.schedeNonGiudicabili(vive);
+  assert.equal(referto.schede_campi_illeggibili, illeggibili.length, "il conto della qualità del dato dev'essere quello vero");
+  assert.ok(
+    referto.schede_non_giudicabili <= referto.schede_campi_illeggibili,
+    `il cancello non può essere in dubbio su più schede di quante ne abbiano i campi rotti: ${referto.schede_non_giudicabili} > ${referto.schede_campi_illeggibili}`,
+  );
+  // e la differenza dev'essere spiegabile UNA PER UNA, non un residuo che nessuno guarda
+  const spiegate = illeggibili.filter((d) => !P.provaComportamentaleObbligatoria(d).indecidibile);
+  assert.equal(
+    referto.schede_campi_illeggibili - referto.schede_non_giudicabili,
+    spiegate.length,
+    "ogni scheda nella differenza dev'essere una che il cancello decide sulla sola gravità",
+  );
+  for (const d of spiegate) {
+    assert.equal(C.gravitaNormalizzata(d).valore, "bloccante", `${d.id}: sta nella differenza ma non è un bloccante — allora il conto non torna per un altro motivo`);
+  }
 });
 
 let falliti = 0;

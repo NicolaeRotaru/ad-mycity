@@ -1,40 +1,40 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-22 22:22",
+  "aggiornato": "2026-08-23 08:40",
   "giorni_sospetto": 3,
-  "difetti_aperti": 110,
-  "difetti_da_fare": 110,
+  "difetti_aperti": 113,
+  "difetti_da_fare": 113,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 784,
+    "totale": 787,
     "chiusi": 674,
-    "aperti": 100,
+    "aperti": 103,
     "in_corso": 0,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 110,
+    "da_fare": 113,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 674,
-      "aperto": 100,
+      "aperto": 103,
       "da-riverificare": 10
     },
     "stati_ignoti": []
   },
   "bilancio": {
     "torna": true,
-    "attese": 110,
-    "viste": 110,
+    "attese": 113,
+    "viste": 113,
     "fuori": 0,
-    "motivo": "bilancio a posto: 674 chiuse + 110 classificate = 784 schede, e ogni stato vivo è dentro (100 aperto · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 674 chiuse + 113 classificate = 787 schede, e ogni stato vivo è dentro (103 aperto · 10 da-riverificare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 19,
     "auto-sospetta": 10,
     "umana": 70,
-    "auto-comando": 11
+    "auto-comando": 14
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
@@ -148,14 +148,112 @@
       "perche": "questo difetto è un BLOCCANTE e ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
     },
     {
-      "id": "AR-793",
+      "id": "AR-796",
       "gravita": "grave",
       "impatto_crescita": "alto",
       "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
     }
   ],
   "chiuderebbe_lo_stesso": [],
-  "schede_non_giudicabili": 16,
+  "schede_non_giudicabili": 18,
+  "schede_campi_illeggibili": 19,
+  "campi_illeggibili": [
+    {
+      "id": "AR-576",
+      "gravita": null,
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-584",
+      "gravita": null,
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-588",
+      "gravita": null,
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-598",
+      "gravita": null,
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-601",
+      "gravita": null,
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-611",
+      "gravita": null,
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-618",
+      "gravita": null,
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-622",
+      "gravita": null,
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-640",
+      "gravita": null,
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-641",
+      "gravita": null,
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-659",
+      "gravita": null,
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-693",
+      "gravita": "grave",
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-695",
+      "gravita": "medio",
+      "impatto_crescita": null
+    },
+    {
+      "id": "AR-767",
+      "gravita": "minore",
+      "impatto_crescita": "tocca la porta che Nicola usa di piu: se il filo e lungo e ha girato per molti temi, le regole che gli arrivano possono essere quelle sbagliate"
+    },
+    {
+      "id": "AR-782",
+      "gravita": "medio",
+      "impatto_crescita": "Indiretto ma reale: il cancello che decide se un lotto si consegna puo' uscire rosso per un motivo che non c'entra, e manda a cercare il guasto nel posto sbagliato. Rallenta ogni consegna futura."
+    },
+    {
+      "id": "AR-787",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto ma sul metro: e la macchina che si misura da sola, e un banco che punisce chi cura rallenta ogni lotto da qui al 29 settembre"
+    },
+    {
+      "id": "AR-795",
+      "gravita": "bloccante",
+      "impatto_crescita": "diretto: due dei 208 problemi impediscono a QUALUNQUE negoziante di caricare la foto di copertina della vetrina, e dall'amministrazione quelle di Eventi e Negozio del mese. Finché il conto dice zero, quel blocco non compare da nessuna parte e nessuno lo lavora."
+    },
+    {
+      "id": "AR-793",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto ma caro: il numero dei difetti del sito sarebbe risalito da 0 a 199 senza che nessuno avesse rotto niente, e il lavoro di un giorno intero sparisce dalla memoria. Un conto che risale da solo insegna a non fidarsi del conto."
+    },
+    {
+      "id": "AR-794",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto e caro: un verdetto fatto del solo ⚪ esce 1 invece di 2, cioè boccia senza avere nessuna accusa dentro. Un rosso che non nasce da un'accusa è il rosso che si impara ad aggirare, e allora non frena più nemmeno quando ha ragione."
+    }
+  ],
   "non_giudicabili": [
     {
       "id": "AR-576",
@@ -252,6 +350,18 @@
       "gravita": "grave",
       "impatto_crescita": "indiretto ma sul metro: e la macchina che si misura da sola, e un banco che punisce chi cura rallenta ogni lotto da qui al 29 settembre",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
+    },
+    {
+      "id": "AR-793",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto ma caro: il numero dei difetti del sito sarebbe risalito da 0 a 199 senza che nessuno avesse rotto niente, e il lavoro di un giorno intero sparisce dalla memoria. Un conto che risale da solo insegna a non fidarsi del conto.",
+      "perche": "prova eseguibile: node --test cervello/test/il-referto-che-nessuno-legge.test.mjs"
+    },
+    {
+      "id": "AR-794",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto e caro: un verdetto fatto del solo ⚪ esce 1 invece di 2, cioè boccia senza avere nessuna accusa dentro. Un rosso che non nasce da un'accusa è il rosso che si impara ad aggirare, e allora non frena più nemmeno quando ha ragione.",
+      "perche": "prova eseguibile: node --test cervello/test/cancello-stop.test.mjs"
     }
   ],
   "non_auto_chiudibili": 99,
@@ -1657,7 +1767,7 @@
     {
       "id": "AR-119",
       "gravita": "grave",
-      "eta_giorni": 37,
+      "eta_giorni": 38,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -1673,20 +1783,20 @@
     {
       "id": "AR-128",
       "gravita": "grave",
-      "eta_giorni": 37,
+      "eta_giorni": 38,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Nessun sensore né sentinella per le contestazioni carta (dispute/chargeback) da Stripe: soldi con scadenza rig",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 37 giorni (cervello/sentinelle.md ~ /dispute|chargeback|contestazione carta/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 38 giorni (cervello/sentinelle.md ~ /dispute|chargeback|contestazione carta/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-132",
       "gravita": "grave",
-      "eta_giorni": 37,
+      "eta_giorni": 38,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -1699,20 +1809,20 @@
     {
       "id": "AR-133",
       "gravita": "grave",
-      "eta_giorni": 37,
+      "eta_giorni": 38,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Il Pannello — la superficie con cui Nicola vede tutto e firma i 🔴 — è fuori dalle 12 dimensioni della radiogr",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 37 giorni (cervello/giro.sh ~ /verify-marge/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 38 giorni (cervello/giro.sh ~ /verify-marge/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-142",
       "gravita": "bloccante",
-      "eta_giorni": 30,
+      "eta_giorni": 31,
       "impatto_crescita": "medio",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -1725,7 +1835,7 @@
     {
       "id": "AR-146",
       "gravita": "grave",
-      "eta_giorni": 30,
+      "eta_giorni": 31,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -1741,7 +1851,7 @@
     {
       "id": "AR-158",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "alto",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -1754,7 +1864,7 @@
     {
       "id": "AR-160",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -1770,7 +1880,7 @@
     {
       "id": "AR-161",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -1786,7 +1896,7 @@
     {
       "id": "AR-174",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -1802,7 +1912,7 @@
     {
       "id": "AR-175",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -1815,7 +1925,7 @@
     {
       "id": "AR-181",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -1828,20 +1938,20 @@
     {
       "id": "AR-184",
       "gravita": "minore",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Il vincolo che dovrebbe sbloccare l'apprendimento chiede di promuovere lezioni mature che non esistono più",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 26 giorni (cervello/giro.sh ~ /promuovi a .{1,2}principio.{1,2} 2-3 lezioni mature/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 27 giorni (cervello/giro.sh ~ /promuovi a .{1,2}principio.{1,2} 2-3 lezioni mature/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-189",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -1857,7 +1967,7 @@
     {
       "id": "AR-190",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -1873,7 +1983,7 @@
     {
       "id": "AR-192",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -1889,7 +1999,7 @@
     {
       "id": "AR-193",
       "gravita": "medio",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -1902,7 +2012,7 @@
     {
       "id": "AR-199",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "alto",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -1915,20 +2025,20 @@
     {
       "id": "AR-200",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "L'elenco dei 120 senior è incollato due volte in ogni singola chiamata al motore",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 26 giorni (cervello/agent-registry-check.mjs ~ /duplicazione_roster/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 27 giorni (cervello/agent-registry-check.mjs ~ /duplicazione_roster/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-206",
       "gravita": "bloccante",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "alto",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -1941,7 +2051,7 @@
     {
       "id": "AR-210",
       "gravita": "minore",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -1954,7 +2064,7 @@
     {
       "id": "AR-216",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -1967,46 +2077,46 @@
     {
       "id": "AR-274",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "All'avvio di ogni sessione la macchina si rilegge come regole obbligatorie un testo che ha scritto lei stessa,",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 26 giorni (.claude/settings.json ~ /contesto-lezioni\\.mjs --hook/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 27 giorni (.claude/settings.json ~ /contesto-lezioni\\.mjs --hook/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-283",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Quattro fonti su diciotto le diamo per vive senza controllarle mai, e una è quella dei bandi",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 26 giorni (cervello/sentinella-fonti.mjs ~ /if \\(skipCheck\\) return \\{ viva: true/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 27 giorni (cervello/sentinella-fonti.mjs ~ /if \\(skipCheck\\) return \\{ viva: true/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-289",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Nove kit del cluster banche e legale hanno la stessa identica galleria copiata, e il guardiano li promuove lo ",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 26 giorni (MyCity-Vault/07-Agenti/kit/mediatore-creditizio-KIT.md ~ /Ho applicato il kit su un caso reale MyCity/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 27 giorni (MyCity-Vault/07-Agenti/kit/mediatore-creditizio-KIT.md ~ /Ho applicato il kit su un caso reale MyCity/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-290",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2022,7 +2132,7 @@
     {
       "id": "AR-325",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2035,7 +2145,7 @@
     {
       "id": "AR-326",
       "gravita": "minore",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2048,7 +2158,7 @@
     {
       "id": "AR-329",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2061,7 +2171,7 @@
     {
       "id": "AR-331",
       "gravita": "grave",
-      "eta_giorni": 26,
+      "eta_giorni": 27,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2074,7 +2184,7 @@
     {
       "id": "AR-335",
       "gravita": "medio",
-      "eta_giorni": 25,
+      "eta_giorni": 26,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2087,7 +2197,7 @@
     {
       "id": "AR-346",
       "gravita": "grave",
-      "eta_giorni": 24,
+      "eta_giorni": 25,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2100,7 +2210,7 @@
     {
       "id": "AR-350",
       "gravita": "grave",
-      "eta_giorni": 24,
+      "eta_giorni": 25,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2116,33 +2226,33 @@
     {
       "id": "AR-351",
       "gravita": "minore",
-      "eta_giorni": 24,
+      "eta_giorni": 25,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Centouno difetti dello stampo sono stati dichiarati e da allora sono verdi: nessuno ha un proprietario ne una ",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 24 giorni (cervello/stampo-baseline.json ~ /rivedere_entro/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 25 giorni (cervello/stampo-baseline.json ~ /rivedere_entro/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-352",
       "gravita": "minore",
-      "eta_giorni": 24,
+      "eta_giorni": 25,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "AR-012 dichiarato chiuso ma vivo: la riga del comando «fai un giro» manda ancora a leggere i dati dall'MCP, tr",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 24 giorni (CLAUDE.md ~ /\\*\\*\"fai un giro\"\\*\\*[\\s\\S]{0,300}REST/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 25 giorni (CLAUDE.md ~ /\\*\\*\"fai un giro\"\\*\\*[\\s\\S]{0,300}REST/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-375",
       "gravita": "grave",
-      "eta_giorni": 24,
+      "eta_giorni": 25,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2158,20 +2268,20 @@
     {
       "id": "AR-386",
       "gravita": "minore",
-      "eta_giorni": 24,
+      "eta_giorni": 25,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "In prova a vuoto lo scheduler dei contenuti non mette in coda niente: le pubblicazioni da firmare spariscono i",
       "classe": "auto-sospetta",
-      "perche": "prova mai soddisfatta da 24 giorni (cervello/autopilot.mjs ~ /if \\(effettivo !== \"🟢\"\\)/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
+      "perche": "prova mai soddisfatta da 25 giorni (cervello/autopilot.mjs ~ /if \\(effettivo !== \"🟢\"\\)/): il puntatore potrebbe indicare il file sbagliato, o il fix è atterrato altrove",
       "auto_chiudibile": false
     },
     {
       "id": "AR-396",
       "gravita": "grave",
-      "eta_giorni": 24,
+      "eta_giorni": 25,
       "impatto_crescita": "medio",
       "prova_esegue": true,
       "prova_obbligatoria": false,
@@ -2184,7 +2294,7 @@
     {
       "id": "AR-398",
       "gravita": "minore",
-      "eta_giorni": 24,
+      "eta_giorni": 25,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2197,7 +2307,7 @@
     {
       "id": "AR-411",
       "gravita": "grave",
-      "eta_giorni": 24,
+      "eta_giorni": 25,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2213,7 +2323,7 @@
     {
       "id": "AR-418",
       "gravita": "grave",
-      "eta_giorni": 24,
+      "eta_giorni": 25,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2229,7 +2339,7 @@
     {
       "id": "AR-432",
       "gravita": "grave",
-      "eta_giorni": 24,
+      "eta_giorni": 25,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2245,7 +2355,7 @@
     {
       "id": "AR-045",
       "gravita": "minore",
-      "eta_giorni": 50,
+      "eta_giorni": 51,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2258,7 +2368,7 @@
     {
       "id": "AR-047",
       "gravita": "minore",
-      "eta_giorni": 50,
+      "eta_giorni": 51,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2271,7 +2381,7 @@
     {
       "id": "AR-048",
       "gravita": "minore",
-      "eta_giorni": 50,
+      "eta_giorni": 51,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2284,7 +2394,7 @@
     {
       "id": "AR-049",
       "gravita": "minore",
-      "eta_giorni": 50,
+      "eta_giorni": 51,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2297,7 +2407,7 @@
     {
       "id": "AR-070",
       "gravita": "grave",
-      "eta_giorni": 50,
+      "eta_giorni": 51,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2313,7 +2423,7 @@
     {
       "id": "AR-090",
       "gravita": "grave",
-      "eta_giorni": 50,
+      "eta_giorni": 51,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2329,7 +2439,7 @@
     {
       "id": "AR-100",
       "gravita": "minore",
-      "eta_giorni": 19,
+      "eta_giorni": 20,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2342,7 +2452,7 @@
     {
       "id": "AR-102",
       "gravita": "minore",
-      "eta_giorni": 19,
+      "eta_giorni": 20,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2355,7 +2465,7 @@
     {
       "id": "AR-103",
       "gravita": "minore",
-      "eta_giorni": 19,
+      "eta_giorni": 20,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2368,7 +2478,7 @@
     {
       "id": "AR-104",
       "gravita": "minore",
-      "eta_giorni": 19,
+      "eta_giorni": 20,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2381,7 +2491,7 @@
     {
       "id": "AR-518",
       "gravita": "bloccante",
-      "eta_giorni": 18,
+      "eta_giorni": 19,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2397,7 +2507,7 @@
     {
       "id": "AR-560",
       "gravita": "grave",
-      "eta_giorni": 12,
+      "eta_giorni": 13,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2410,7 +2520,7 @@
     {
       "id": "AR-561",
       "gravita": "grave",
-      "eta_giorni": 12,
+      "eta_giorni": 13,
       "impatto_crescita": "medio",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2423,7 +2533,7 @@
     {
       "id": "AR-568",
       "gravita": "bloccante",
-      "eta_giorni": 12,
+      "eta_giorni": 13,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,
@@ -2439,7 +2549,7 @@
     {
       "id": "AR-576",
       "gravita": "grave",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2452,7 +2562,7 @@
     {
       "id": "AR-584",
       "gravita": "grave",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2465,7 +2575,7 @@
     {
       "id": "AR-588",
       "gravita": "grave",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2478,7 +2588,7 @@
     {
       "id": "AR-598",
       "gravita": "grave",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2491,7 +2601,7 @@
     {
       "id": "AR-601",
       "gravita": "minore",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2504,7 +2614,7 @@
     {
       "id": "AR-611",
       "gravita": "grave",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2517,7 +2627,7 @@
     {
       "id": "AR-618",
       "gravita": "minore",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2530,7 +2640,7 @@
     {
       "id": "AR-622",
       "gravita": "grave",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2543,7 +2653,7 @@
     {
       "id": "AR-640",
       "gravita": "grave",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2556,7 +2666,7 @@
     {
       "id": "AR-641",
       "gravita": "grave",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2569,7 +2679,7 @@
     {
       "id": "AR-652",
       "gravita": "minore",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2582,7 +2692,7 @@
     {
       "id": "AR-659",
       "gravita": "minore",
-      "eta_giorni": 9,
+      "eta_giorni": 10,
       "impatto_crescita": null,
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2595,7 +2705,7 @@
     {
       "id": "AR-669",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2608,7 +2718,7 @@
     {
       "id": "AR-688",
       "gravita": "minore",
-      "eta_giorni": 8,
+      "eta_giorni": 9,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2647,7 +2757,7 @@
     {
       "id": "AR-712",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2660,7 +2770,7 @@
     {
       "id": "AR-720",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2673,7 +2783,7 @@
     {
       "id": "AR-721",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2686,7 +2796,7 @@
     {
       "id": "AR-722",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2699,7 +2809,7 @@
     {
       "id": "AR-724",
       "gravita": "medio",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "basso",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2712,7 +2822,7 @@
     {
       "id": "AR-726",
       "gravita": "medio",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2725,7 +2835,7 @@
     {
       "id": "AR-727",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2738,7 +2848,7 @@
     {
       "id": "AR-728",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2751,7 +2861,7 @@
     {
       "id": "AR-729",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2764,7 +2874,7 @@
     {
       "id": "AR-730",
       "gravita": "grave",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": true,
       "prova_obbligatoria": false,
@@ -2777,7 +2887,7 @@
     {
       "id": "AR-731",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2790,7 +2900,7 @@
     {
       "id": "AR-732",
       "gravita": "medio",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2803,7 +2913,7 @@
     {
       "id": "AR-733",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2816,7 +2926,7 @@
     {
       "id": "AR-734",
       "gravita": "medio",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2829,7 +2939,7 @@
     {
       "id": "AR-735",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2842,7 +2952,7 @@
     {
       "id": "AR-736",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2855,7 +2965,7 @@
     {
       "id": "AR-737",
       "gravita": "grave",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": true,
       "prova_obbligatoria": false,
@@ -2868,7 +2978,7 @@
     {
       "id": "AR-738",
       "gravita": "medio",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2881,7 +2991,7 @@
     {
       "id": "AR-739",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2894,7 +3004,7 @@
     {
       "id": "AR-740",
       "gravita": "medio",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2907,7 +3017,7 @@
     {
       "id": "AR-741",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2920,7 +3030,7 @@
     {
       "id": "AR-742",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2933,7 +3043,7 @@
     {
       "id": "AR-745",
       "gravita": "medio",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2946,7 +3056,7 @@
     {
       "id": "AR-746",
       "gravita": "medio",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2959,7 +3069,7 @@
     {
       "id": "AR-747",
       "gravita": "medio",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2972,7 +3082,7 @@
     {
       "id": "AR-748",
       "gravita": "minore",
-      "eta_giorni": 7,
+      "eta_giorni": 8,
       "impatto_crescita": "indiretto: è debito della macchina che si ripara da sola, non una leva diretta sul primo ordine pagato",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2985,7 +3095,7 @@
     {
       "id": "AR-750",
       "gravita": "medio",
-      "eta_giorni": 6,
+      "eta_giorni": 7,
       "impatto_crescita": "indiretto: e debito della macchina, ma mura una porta che serve a ogni sessione che non sia il server",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -2998,7 +3108,7 @@
     {
       "id": "AR-754",
       "gravita": "medio",
-      "eta_giorni": 6,
+      "eta_giorni": 7,
       "impatto_crescita": "indiretto, ma il costo lo paga Nicola: ogni volta deve accorgersene lui e chiedermelo, e intanto la richiesta non si può unire",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3011,7 +3121,7 @@
     {
       "id": "AR-767",
       "gravita": "minore",
-      "eta_giorni": 5,
+      "eta_giorni": 6,
       "impatto_crescita": "tocca la porta che Nicola usa di piu: se il filo e lungo e ha girato per molti temi, le regole che gli arrivano possono essere quelle sbagliate",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3024,7 +3134,7 @@
     {
       "id": "AR-780",
       "gravita": "bloccante",
-      "eta_giorni": 1,
+      "eta_giorni": 2,
       "impatto_crescita": "alto",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -3037,7 +3147,7 @@
     {
       "id": "AR-782",
       "gravita": "medio",
-      "eta_giorni": 0,
+      "eta_giorni": 1,
       "impatto_crescita": "Indiretto ma reale: il cancello che decide se un lotto si consegna puo' uscire rosso per un motivo che non c'entra, e manda a cercare il guasto nel posto sbagliato. Rallenta ogni consegna futura.",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3050,7 +3160,7 @@
     {
       "id": "AR-786",
       "gravita": "medio",
-      "eta_giorni": 0,
+      "eta_giorni": 1,
       "impatto_crescita": "indiretto: ogni accusa falsa insegna a scorrere l'elenco senza leggerlo, e allora il guardiano vero non lo vede piu' nessuno",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3063,7 +3173,7 @@
     {
       "id": "AR-787",
       "gravita": "grave",
-      "eta_giorni": 0,
+      "eta_giorni": 1,
       "impatto_crescita": "indiretto ma sul metro: e la macchina che si misura da sola, e un banco che punisce chi cura rallenta ogni lotto da qui al 29 settembre",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3076,7 +3186,7 @@
     {
       "id": "AR-789",
       "gravita": "grave",
-      "eta_giorni": 0,
+      "eta_giorni": 1,
       "impatto_crescita": "alto",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -3089,7 +3199,7 @@
     {
       "id": "AR-790",
       "gravita": "grave",
-      "eta_giorni": 0,
+      "eta_giorni": 1,
       "impatto_crescita": "alto",
       "prova_esegue": true,
       "prova_obbligatoria": true,
@@ -3102,7 +3212,7 @@
     {
       "id": "AR-791",
       "gravita": "grave",
-      "eta_giorni": 0,
+      "eta_giorni": 1,
       "impatto_crescita": "indiretto: il metro che decide se la memoria puo' essere pubblicata, e una delle due copie giudica cio' che vedono i clienti",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3115,7 +3225,7 @@
     {
       "id": "AR-792",
       "gravita": "medio",
-      "eta_giorni": 0,
+      "eta_giorni": 1,
       "impatto_crescita": "indiretto: e la difesa che impedisce a una sessione senza chiavi di sovrascrivere i numeri veri del server, cioe di far mentire il Pannello a Nicola",
       "prova_esegue": false,
       "prova_obbligatoria": false,
@@ -3126,9 +3236,48 @@
       "auto_chiudibile": false
     },
     {
+      "id": "AR-795",
+      "gravita": "bloccante",
+      "eta_giorni": 1,
+      "impatto_crescita": "diretto: due dei 208 problemi impediscono a QUALUNQUE negoziante di caricare la foto di copertina della vetrina, e dall'amministrazione quelle di Eventi e Negozio del mese. Finché il conto dice zero, quel blocco non compare da nessuna parte e nessuno lo lavora.",
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "La radiografia del design trova 208 problemi veri e la Cabina dice zero: quel referto non lo legge nessuno",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-referto-che-nessuno-legge.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
       "id": "AR-793",
       "gravita": "grave",
-      "eta_giorni": 0,
+      "eta_giorni": 1,
+      "impatto_crescita": "indiretto ma caro: il numero dei difetti del sito sarebbe risalito da 0 a 199 senza che nessuno avesse rotto niente, e il lavoro di un giorno intero sparisce dalla memoria. Un conto che risale da solo insegna a non fidarsi del conto.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Rifare l'elenco dei difetti del sito cancellava le riparazioni già fatte, e il numero tornava su da solo",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-referto-che-nessuno-legge.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-794",
+      "gravita": "grave",
+      "eta_giorni": 1,
+      "impatto_crescita": "indiretto e caro: un verdetto fatto del solo ⚪ esce 1 invece di 2, cioè boccia senza avere nessuna accusa dentro. Un rosso che non nasce da un'accusa è il rosso che si impara ad aggirare, e allora non frena più nemmeno quando ha ragione.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Il cancello bocciava mostrando come unica ragione una riga che dice «non ho potuto guardare»",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cancello-stop.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-796",
+      "gravita": "grave",
+      "eta_giorni": 1,
       "impatto_crescita": "alto",
       "prova_esegue": false,
       "prova_obbligatoria": true,

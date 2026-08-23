@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
  "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
- "aggiornato": "2026-08-14",
+ "aggiornato": "2026-08-22 19:55",
  "malattie": [
   {
    "id": "esito-in-una-pipe",
@@ -173,14 +173,9 @@
      "file": "cervello/marketplace.mjs",
      "quale": "riga 73, readdirSync(BACKUP_DIR).filter(… endsWith('.json'))",
      "perche": "Non è il perimetro di un CONTROLLO: è una cartella che questo script si è scritto da solo e rilegge. La malattia curata dal lotto 33 è «il recinto entro cui un guardiano cerca i difetti è dedotto invece che misurato»; qui non si cerca nessun difetto e non c'è nessun bene da proteggere che possa stare fuori dal recinto. Allargare la scansione non troverebbe niente di più, e contarla come istanza gonfierebbe il numero — un metro che accusa gli innocenti si impara a ignorare. Qui si elencano i backup per riga che marketplace.mjs stesso crea prima di ogni scrittura, per poterle annullare: la cartella è piatta perché la scrive lui."
-    },
-    {
-     "file": "cervello/radiografia-marketplace-digest.mjs",
-     "quale": "riga 21, readdirSync(AUDIT_DIR).filter(… endsWith('-radiografia-marketplace-raw.json'))",
-     "perche": "Non è il perimetro di un CONTROLLO: è una cartella che questo script si è scritto da solo e rilegge. La malattia curata dal lotto 33 è «il recinto entro cui un guardiano cerca i difetti è dedotto invece che misurato»; qui non si cerca nessun difetto e non c'è nessun bene da proteggere che possa stare fuori dal recinto. Allargare la scansione non troverebbe niente di più, e contarla come istanza gonfierebbe il numero — un metro che accusa gli innocenti si impara a ignorare. Qui si raccolgono i referti grezzi che la radiografia ha appena depositato in consegne/audit: cartella piatta, prodotta dallo stesso processo che la rilegge."
     }
    ],
-   "nota_baseline": "5 NETTE dal 2026-07-29 (lotto 33): 7 istanze trovate meno 2 dichiarate esenti col perche. Prima del lotto erano 8 nette — porte-check, uscite-check e firma-check leggevano una cartella sola. Il tetto scende e non si alza mai."
+   "nota_baseline": "5 NETTE dal 2026-07-29 (lotto 33): 7 istanze trovate meno 2 dichiarate esenti col perche. Prima del lotto erano 8 nette — porte-check, uscite-check e firma-check leggevano una cartella sola. Il tetto scende e non si alza mai. 2026-08-22 (lotto 49): tolta l'esenzione su radiografia-marketplace-digest.mjs perché la riga è stata CURATA — e perché il suo perché era falso. Diceva «allargare la scansione non troverebbe niente di più»: allargata il 22/8, ha trovato 208 problemi in più (la radiografia del design, in un'altra cartella con un altro suffisso), due dei quali impedivano a ogni negoziante di caricare la copertina della vetrina mentre la Cabina diceva 0. È il caso limite di questa malattia: qui il recinto non era di un guardiano ma di un CONTATORE, e un contatore che guarda in una cartella sola non nasce rosso — nasce a zero, che è peggio, perché lo zero rassicura. Se un'esenzione futura dice «allargare non troverebbe niente», la si allarga e si misura prima di scriverla."
   },
   {
    "id": "fonte-troncata-letta-per-intera",

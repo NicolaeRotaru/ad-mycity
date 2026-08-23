@@ -76,6 +76,7 @@ import {
   schedeSenzaProva,
   timbriStorti,
   verdettoProva,
+  schedeNonGiudicabili,
 } from "./contratto-scheda.mjs";
 
 // I chiamanti storici (e i loro test) importavano queste due da qui: continuano a funzionare, ma
@@ -385,6 +386,7 @@ const daAlzare = voci.filter((v) => v.prova_debole_su_grave === true);
 // combacia adesso. Finché il numero è 0 il buco è teorico; il giorno che sale, è una chiusura falsa
 // in arrivo — e si vede prima, non dopo.
 const nonGiudicabili = voci.filter((v) => v.non_giudicabile === true);
+const campiIlleggibili = schedeNonGiudicabili(aperti);
 const chiuderebbeLoStesso = daAlzare.filter((v) => {
   const d = aperti.find((x) => x.id === v.id);
   return formaProva(d?.verifica) === "pattern" && provaCombacia(d.verifica).combacia === true;
@@ -442,6 +444,16 @@ const report = {
   // AR-789/790 — il terzo debito contabile. Sta qui SEMPRE, anche a zero, per la stessa ragione
   // degli altri due: un numero che compare solo quando è brutto non si può guardare scendere.
   schede_non_giudicabili: nonGiudicabili.length,
+  // AR-789/790 — DUE numeri, e vanno tenuti diversi o diventano «una parola con due padroni».
+  //   · `schede_non_giudicabili` = quante il CANCELLO non sa decidere. Un bloccante con l'impatto
+  //     illeggibile non è qui dentro: il cancello decide lo stesso, perché la gravità gli basta.
+  //   · `schede_campi_illeggibili` = quante hanno un campo che non si legge, cancello a parte.
+  //     È la qualità del DATO, ed è sempre ≥ dell'altro.
+  // Il 23/8 la differenza era esattamente 1 (AR-795: bloccante con `impatto_crescita: "diretto: …"`,
+  // e «diretto» non è una delle quattro categorie). Farli coincidere in un numero solo nascondeva
+  // proprio quel caso — ed è la stessa malattia che il lotto 50 stava curando.
+  schede_campi_illeggibili: campiIlleggibili.length,
+  campi_illeggibili: campiIlleggibili.map((d) => ({ id: d.id, gravita: d.gravita ?? null, impatto_crescita: d.impatto_crescita ?? null })),
   non_giudicabili: nonGiudicabili.map((v) => ({ id: v.id, gravita: v.gravita, impatto_crescita: v.impatto_crescita, perche: v.perche })),
   non_auto_chiudibili: nonChiudibili.length,
   bloccanti_ciechi: bloccantiCiechiOra.map((v) => v.id),
