@@ -29,7 +29,7 @@
 // cercarne una parola in un file, che è la malattia stessa.
 
 import { classificaProva } from "./contratto-prova.mjs";
-import { formaProvaScheda, gravitaDi, verdettoProva } from "./contratto-scheda.mjs";
+import { formaProvaScheda, gravitaDi, gravitaNormalizzata, impattoDi, verdettoProva } from "./contratto-scheda.mjs";
 
 // ═══════════════════════════════════════════════════════════════════════════
 // ① I NOMI — le marche e le classi, dette una volta sola
@@ -53,6 +53,10 @@ export const CLASSE_DEBOLE_SU_GRAVE = "prova-debole-su-grave";
 
 /** Il nome storico della prova che punta al vuoto. Non si rinomina: vedi sopra. */
 export const CLASSE_IMPOSSIBILE = "prova-orfana";
+
+/** La marca di chi non si può giudicare: i campi su cui il cancello decide non sono leggibili. */
+export const MARCA_NON_GIUDICABILE = "⚪ non giudicabile";
+export const CLASSE_NON_GIUDICABILE = "campo-non-dichiarato";
 
 /** Le gravità che da sole obbligano alla prova comportamentale. */
 export const GRAVITA_CHE_OBBLIGANO = Object.freeze(["bloccante"]);
@@ -80,17 +84,43 @@ export const IMPATTO_CHE_OBBLIGA = "alto";
  * @returns {{obbligatoria: boolean, perche: string}}
  */
 export function provaComportamentaleObbligatoria(d) {
-  const gravita = String(gravitaDi(d) ?? "").trim();
-  const impatto = String(d?.impatto_crescita ?? "").trim();
-  const perGravita = GRAVITA_CHE_OBBLIGANO.includes(gravita);
-  const perImpatto = impatto === IMPATTO_CHE_OBBLIGA;
-  if (!perGravita && !perImpatto) {
-    return { obbligatoria: false, perche: `gravità «${gravita || "?"}» e impatto «${impatto || "?"}»: la prova a pattern resta ammessa` };
+  const g = gravitaNormalizzata(d);
+  const i = impattoDi(d);
+  const perGravita = g.dichiarato && GRAVITA_CHE_OBBLIGANO.includes(g.valore);
+  const perImpatto = i.dichiarato && i.valore === IMPATTO_CHE_OBBLIGA;
+
+  if (perGravita || perImpatto) {
+    const motivi = [];
+    if (perGravita) motivi.push("è un BLOCCANTE");
+    if (perImpatto) motivi.push("ha impatto di crescita ALTO");
+    return { obbligatoria: true, indecidibile: false, perche: `questo difetto ${motivi.join(" e ")}` };
   }
-  const motivi = [];
-  if (perGravita) motivi.push("è un BLOCCANTE");
-  if (perImpatto) motivi.push("ha impatto di crescita ALTO");
-  return { obbligatoria: true, perche: `questo difetto ${motivi.join(" e ")}` };
+
+  // AR-789/790 — IL TERZO ESITO, e è tutto il difetto. Prima questa funzione leggeva i due campi
+  // con un uguale esatto: un campo assente o scritto in prosa non corrispondeva, quindi cadeva nel
+  // ramo «no». Ma «questo difetto non pretende una prova che esegue» e «non so cosa pretende questo
+  // difetto» sono due frasi diverse, e la seconda non deve poter uscire dalla bocca di un cancello
+  // travestita da prima. Misurato il 22/8: 40 schede vive su 109 — il 37% — cadevano nel «no» per
+  // un campo malformato, e prendevano il permesso di chiudersi con una parola cercata in un file.
+  //
+  // Adesso escono di lato: `indecidibile` non concede il permesso e non lo nega, dice che quella
+  // scheda va guardata. Chi la riceve deve trattarla come un buco da riempire, non come un verde.
+  if (!g.dichiarato || !i.dichiarato) {
+    const mancanti = [];
+    if (!g.dichiarato) mancanti.push(`gravità (${g.perche})`);
+    if (!i.dichiarato) mancanti.push(`impatto di crescita (${i.perche})`);
+    return {
+      obbligatoria: false,
+      indecidibile: true,
+      perche: `non si può decidere: ${mancanti.join(" e ")} — finché non è dichiarato, questa scheda non la giudica nessun cancello`,
+    };
+  }
+
+  return {
+    obbligatoria: false,
+    indecidibile: false,
+    perche: `gravità «${g.valore}» e impatto «${i.valore}»: la prova a pattern resta ammessa`,
+  };
 }
 
 /**
@@ -175,6 +205,23 @@ export function ammissibilitaProva(d, { fileEsiste = () => false } = {}) {
       motivo:
         `${obbligo.perche}, e la sua prova è ${descriviProva(v)}. ` +
         "Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna.",
+    };
+  }
+
+  // (a-bis) AR-789/790 — la scheda che nessun cancello può giudicare non è una scheda a posto.
+  //
+  // Prima usciva da qui con `ammessa: true` e il motivo della sola forma della prova: il verdetto
+  // diceva «va bene» quando la verità era «non ho potuto guardare». È la stessa distinzione fra ❌ e
+  // ⚪ che vale in tutta la casa — un verde che non copre una parte non è un verde su quella parte.
+  // La prova resta ammessa (bloccare 16 schede vive per un campo mancante fermerebbe il cantiere),
+  // ma la marca esce e si conta: da un buco che nessuno vede a un numero che scende.
+  if (obbligo.indecidibile) {
+    return {
+      ammessa: true,
+      marca: MARCA_NON_GIUDICABILE,
+      classe: CLASSE_NON_GIUDICABILE,
+      senza_controllo: false,
+      motivo: `${obbligo.perche}. La prova resta ammessa, ma nessuno può dire se basta.`,
     };
   }
 

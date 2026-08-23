@@ -441,3 +441,82 @@ export function verdettoTettoDiscendente(conteggio, tetto) {
     tettoNuovo: conteggio < tetto ? conteggio : tetto,
   };
 }
+
+// ─────────────────── ③ i VALORI dei campi, non solo i loro nomi ───────────────────
+//
+// AR-789 + AR-790, misurati sul registro il 22/8 (lotto 50) — e la misura ha smentito le schede.
+//
+// Le schede dicevano «40 in prosa» e «nove valori di gravità, di cui `critica` e `alta` non contano
+// mai». La realtà è diversa e più stretta:
+//   · `gravita` porta DIECI valori distinti, ma tutti i 44 fuori elenco stanno su schede CHIUSE.
+//     Sulle vive non ce n'è nemmeno uno: quella parte è storia, non presente.
+//   · Il buco VIVO è un altro, e nessuno lo contava: 11 schede vive non hanno `gravita` AFFATTO,
+//     e 29 hanno `impatto_crescita` scritto in prosa. Sono 40 su 109 — il 37% del cantiere.
+//
+// Il danno è preciso: `provaComportamentaleObbligatoria` chiede «è bloccante O ha impatto alto?».
+// Con un campo assente o in prosa la risposta è «no», e la scheda passa con una prova debole. Ma
+// «no» e «non lo so» sono due cose diverse, e chiamarle con lo stesso nome è esattamente ciò che
+// rende un cancello incapace di dire di no.
+//
+// PERCHÉ NON SI INDOVINA. Delle 60 schede in prosa, 37 aprono con una categoria vera («indiretto:
+// è debito della macchina…»): quelle si leggono senza inventare niente. Le altre 23 descrivono
+// l'impatto a parole — «blocca ogni cadenza insieme», «falsifica la Cabina». Dedurne una categoria
+// sarebbe scrivere un valore che nessuno ha dichiarato, cioè la cosa che questo cantiere cura.
+// Restano «non dichiarato», ed è un esito che si vede.
+
+/** Le categorie di impatto che il contratto ammette. Un undicesimo nome non entra in silenzio. */
+export const IMPATTI_NOTI = Object.freeze(["alto", "medio", "basso", "indiretto"]);
+
+/** Le gravità che il contratto ammette. Gli alias storici stanno sotto, dichiarati. */
+export const GRAVITA_NOTE = Object.freeze(["bloccante", "grave", "medio", "minore"]);
+
+/**
+ * Gli alias storici della gravità, con la loro forma canonica.
+ *
+ * NON è una deduzione: sono le stesse parole con la desinenza diversa (`alta`→ maschile) o un
+ * sinonimo esplicito (`critica` = «gravissimo»). Vivono solo su schede chiuse, quindi questa mappa
+ * serve a LEGGERE la storia, non a riscriverla. `alto`/`basso` qui sono valori di impatto finiti
+ * nel campo sbagliato: si leggono come impatto, non come gravità, e per questo non sono mappati.
+ */
+export const ALIAS_GRAVITA = Object.freeze({ alta: "grave", media: "medio", critica: "bloccante", bassa: "minore" });
+
+/**
+ * L'impatto di crescita di una scheda, con la distinzione che mancava: DICHIARATO o no.
+ *
+ * Tre esiti, non due. `dichiarato: false` non vuol dire «impatto basso»: vuol dire che nessuno lo
+ * ha scritto in una forma leggibile, e chi decide deve saperlo invece di leggere un «no».
+ *
+ * @returns {{valore: string|null, dichiarato: boolean, prosa: string, perche: string}}
+ */
+export function impattoDi(d) {
+  const grezzo = String(d?.impatto_crescita ?? "").trim();
+  if (!grezzo) return { valore: null, dichiarato: false, prosa: "", perche: "il campo non c'è" };
+  const secco = grezzo.toLowerCase();
+  if (IMPATTI_NOTI.includes(secco)) return { valore: secco, dichiarato: true, prosa: "", perche: "valore secco" };
+  // La categoria in testa, staccata da due punti / virgola / trattino: si legge, non si indovina.
+  const testa = secco.match(/^(alto|medio|basso|indiretto)\s*[:,–—-]/);
+  if (testa) return { valore: testa[1], dichiarato: true, prosa: grezzo, perche: "categoria in testa, il resto è spiegazione" };
+  return { valore: null, dichiarato: false, prosa: grezzo, perche: "prosa senza categoria in testa: non si deduce, si dichiara" };
+}
+
+/**
+ * La gravità in forma canonica, o `null` se non è dichiarata o non è riconoscibile.
+ * Stessa regola dell'impatto: un valore che non si riconosce NON diventa «minore».
+ */
+export function gravitaNormalizzata(d) {
+  const g = String(gravitaDi(d) ?? "").trim().toLowerCase();
+  if (!g) return { valore: null, dichiarato: false, perche: "il campo non c'è" };
+  if (GRAVITA_NOTE.includes(g)) return { valore: g, dichiarato: true, perche: "valore canonico" };
+  if (g in ALIAS_GRAVITA) return { valore: ALIAS_GRAVITA[g], dichiarato: true, perche: `alias storico dichiarato: «${g}»` };
+  return { valore: null, dichiarato: false, perche: `valore fuori contratto: «${g}»` };
+}
+
+/**
+ * Le schede che nessun cancello può giudicare, perché i campi su cui decide non sono leggibili.
+ * È il numero che prima non esisteva: senza, un cancello che salta il 37% del cantiere stampa verde.
+ */
+export function schedeNonGiudicabili(difetti = []) {
+  return (Array.isArray(difetti) ? difetti : []).filter((d) => {
+    return !gravitaNormalizzata(d).dichiarato || !impattoDi(d).dichiarato;
+  });
+}

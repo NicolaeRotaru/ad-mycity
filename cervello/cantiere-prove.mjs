@@ -76,6 +76,7 @@ import {
   schedeSenzaProva,
   timbriStorti,
   verdettoProva,
+  schedeNonGiudicabili,
 } from "./contratto-scheda.mjs";
 
 // I chiamanti storici (e i loro test) importavano queste due da qui: continuano a funzionare, ma
@@ -207,6 +208,11 @@ export function classifica(d) {
     // pretende una? Senza, «prova debole» e «prova che gira» arrivavano a chi legge uguali.
     prova_esegue: provaCheEsegue(v),
     prova_obbligatoria: provaComportamentaleObbligatoria(d).obbligatoria,
+    // AR-789/790 — la terza colonna, che è quella che mancava: la scheda si può GIUDICARE?
+    // `prova_obbligatoria: false` da solo non distingue «non le serve una prova che esegue» da
+    // «i campi su cui lo deciderei non sono leggibili». Erano 40 schede vive su 109 a cadere nel
+    // secondo caso travestite da primo.
+    non_giudicabile: provaComportamentaleObbligatoria(d).indecidibile === true,
     titolo: (d.titolo || "").slice(0, 110) };
 
   // ── AR-354 — I DUE CANCELLI, PRIMA DI OGNI ALTRA COSA ────────────────────────────────────
@@ -379,6 +385,8 @@ const daAlzare = voci.filter((v) => v.prova_debole_su_grave === true);
 // qui sotto sono quelle che auto-fix chiuderebbe lo stesso, oggi, perché la loro prova a pattern
 // combacia adesso. Finché il numero è 0 il buco è teorico; il giorno che sale, è una chiusura falsa
 // in arrivo — e si vede prima, non dopo.
+const nonGiudicabili = voci.filter((v) => v.non_giudicabile === true);
+const campiIlleggibili = schedeNonGiudicabili(aperti);
 const chiuderebbeLoStesso = daAlzare.filter((v) => {
   const d = aperti.find((x) => x.id === v.id);
   return formaProva(d?.verifica) === "pattern" && provaCombacia(d.verifica).combacia === true;
@@ -433,6 +441,20 @@ const report = {
   prove_impossibili: proveImpossibili.map((v) => ({ id: v.id, gravita: v.gravita, perche: v.perche })),
   prove_da_alzare: daAlzare.map((v) => ({ id: v.id, gravita: v.gravita, impatto_crescita: v.impatto_crescita, perche: v.perche })),
   chiuderebbe_lo_stesso: chiuderebbeLoStesso.map((v) => v.id),
+  // AR-789/790 — il terzo debito contabile. Sta qui SEMPRE, anche a zero, per la stessa ragione
+  // degli altri due: un numero che compare solo quando è brutto non si può guardare scendere.
+  schede_non_giudicabili: nonGiudicabili.length,
+  // AR-789/790 — DUE numeri, e vanno tenuti diversi o diventano «una parola con due padroni».
+  //   · `schede_non_giudicabili` = quante il CANCELLO non sa decidere. Un bloccante con l'impatto
+  //     illeggibile non è qui dentro: il cancello decide lo stesso, perché la gravità gli basta.
+  //   · `schede_campi_illeggibili` = quante hanno un campo che non si legge, cancello a parte.
+  //     È la qualità del DATO, ed è sempre ≥ dell'altro.
+  // Il 23/8 la differenza era esattamente 1 (AR-795: bloccante con `impatto_crescita: "diretto: …"`,
+  // e «diretto» non è una delle quattro categorie). Farli coincidere in un numero solo nascondeva
+  // proprio quel caso — ed è la stessa malattia che il lotto 50 stava curando.
+  schede_campi_illeggibili: campiIlleggibili.length,
+  campi_illeggibili: campiIlleggibili.map((d) => ({ id: d.id, gravita: d.gravita ?? null, impatto_crescita: d.impatto_crescita ?? null })),
+  non_giudicabili: nonGiudicabili.map((v) => ({ id: v.id, gravita: v.gravita, impatto_crescita: v.impatto_crescita, perche: v.perche })),
   non_auto_chiudibili: nonChiudibili.length,
   bloccanti_ciechi: bloccantiCiechiOra.map((v) => v.id),
   // AR-582 — schede non-minori senza impatto_crescita e/o nato: fuori da ogni ordinamento per

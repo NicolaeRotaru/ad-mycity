@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-22 22:15",
+  "aggiornato": "2026-08-23 09:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -16874,9 +16874,10 @@
       "nato_come": "scoperta",
       "lotto_scoperta": 49,
       "verifica": {
-        "tipo": "umano",
-        "nota": "nato nel lotto 49 mentre si riparava un altro difetto: la causa e verificata sul codice, la prova eseguibile va scritta con il fix."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/campo-illeggibile-non-e-un-no.test.mjs"
+      },
+      "nota_fix": "Lotto 50 (22/8). LA SCHEDA DICEVA 40 SCHEDE IN PROSA: sono 60 in tutto il registro, di cui 29 vive. Ma il conto che conta e un altro, e nessuno lo aveva fatto: sommando anche le schede senza il campo, erano 40 schede VIVE su 109 — il 37% — che il cancello non poteva giudicare e leggeva come «no».\n\nLA CAUSA, in una riga: `provaComportamentaleObbligatoria` chiedeva «e bloccante O ha impatto alto?» con un uguale esatto. Un campo assente non corrisponde, una prosa non corrisponde: entrambi cadevano nel ramo «no», cioe prendevano il permesso di chiudersi con una parola cercata in un file. Il commento sopra quella riga lo diceva gia: «un confronto largo le tirerebbe dentro tutte». Chi l'ha scritta sapeva, e ha scelto il ramo stretto. Il punto e che nessuno dei due rami era giusto.\n\nLA CURA: un TERZO esito. `indecidibile` non concede il permesso e non lo nega — dice che la scheda va guardata. E la lettura di cio che e dichiarato senza inventare niente: `impattoDi` legge la categoria quando sta in testa alla prosa («indiretto: e debito della macchina…»), e si RIFIUTA di dedurla quando la prosa descrive l'impatto a parole («blocca ogni cadenza insieme»). Dedurla sarebbe scrivere un valore che nessuno ha dichiarato, cioe la cosa che questo cantiere cura.\n\nEFFETTO MISURATO: da 40 schede cieche a 16. Le 24 recuperate lo sono per LETTURA — il test pretende che ognuna porti davvero la categoria scritta nel proprio testo. Le 16 che restano sono nel referto, campo `schede_non_giudicabili`, che ci sta SEMPRE anche a zero: un numero che compare solo quando e brutto non si puo guardare scendere."
     },
     {
       "id": "AR-790",
@@ -16893,9 +16894,10 @@
       "nato_come": "scoperta",
       "lotto_scoperta": 49,
       "verifica": {
-        "tipo": "umano",
-        "nota": "nato nel lotto 49 mentre si riparava un altro difetto: la causa e verificata sul codice, la prova eseguibile va scritta con il fix."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/campo-illeggibile-non-e-un-no.test.mjs"
+      },
+      "nota_fix": "Lotto 50 (22/8). LA SCHEDA DESCRIVE IL PASSATO, e la misura lo dimostra. Diceva «`critica` (1) e `alta` (28) non contano mai come bloccanti»: veri i numeri, ma tutti i 44 valori fuori elenco — alta 28, media 9, alto 4, basso 2, critica 1 — stanno su schede CHIUSE. Sulle vive non ce n'e nemmeno uno. Quella parte e storia.\n\nIl buco VIVO era un altro e nessuno lo contava: 11 schede vive non hanno `gravita` AFFATTO. Un campo assente e peggio di un alias, perche un alias almeno si vede.\n\nFATTO: `gravitaNormalizzata` in contratto-scheda.mjs legge gli alias storici dichiarati in `ALIAS_GRAVITA` (sono desinenze diverse o sinonimi espliciti, non deduzioni) e RIFIUTA di normalizzare un valore mai visto — che resta `dichiarato: false` invece di diventare «minore» per comodita. Le 11 senza gravita entrano nel conto `schede_non_giudicabili` del referto insieme a quelle senza impatto.\n\nNON FATTO, e va detto: la migrazione delle 44 schede chiuse. Non l'ho fatta apposta — sono storia, e la mappa degli alias serve a LEGGERLA, non a riscriverla. Il guardiano che rifiuta un undicesimo nome sul nascere e la clausola (b) della scheda: non esiste ancora."
     },
     {
       "id": "AR-791",
@@ -16914,7 +16916,8 @@
       "verifica": {
         "tipo": "umano",
         "nota": "nato nel lotto 49 mentre si riparava un altro difetto: la causa e verificata sul codice, la prova eseguibile va scritta con il fix."
-      }
+      },
+      "nota_fix": "MISURATO nel lotto 50 (22/8) senza ripararlo, e la misura cambia il fix_proposto. La clausola (c) chiedeva di allargare il pattern della malattia perche trovi «una costante o una regexp con lo stesso nome definita in due file». Provata su 581 file di cervello/ e pannello/src: trova 137 costanti, e le prime sono rumore puro — JSON_MODE in 133 file, poi STATO, META, REPO, CANTIERE, ROOT, VAULT. Sono nomi locali normali, non decisioni duplicate. Un pattern cosi verrebbe esentato in massa, cioe produrrebbe esattamente il silenzio che questa malattia cura: NON si allarga cosi.\n\nIL SEGNALE GIUSTO E UN ALTRO, e la seconda misura lo mostra: non «lo stesso NOME», ma «la stessa DECISIONE scritta due volte». Cercando le regex-decisione identiche (>=12 caratteri, con alternative o classi) presenti in due o piu file: 59 riscontri, di cui la maggioranza ancora falsi (il rilevatore grezzo scambia le classi CSS dei .tsx per regex, e prende utilita banali come l'escape). Ma sotto ci sono i casi VERI, e sono questi:\n  · /^(\\d{4})-(\\d{2})-(\\d{2})(?:[ T](\\d{2}):(\\d{2}))?/ in SEI file, a cavallo fra cervello e Pannello (delta-gate, presa-in-carico, sonda-volano, tick-auto-coscienza-leggero, format.ts, verdetto-dato.ts): la lettura di una data e duplicata fra le due meta della macchina.\n  · /@([a-z0-9-]+)/ in TRE file (consenso-azione, notifica-approvazioni, azioni-attesa.ts): chi riconosce la menzione di un senior.\n  · /\\([^)]*→[^)]*\\)/ in TRE file (agent-registry-check, deferral-agenti, mandato-owner): chi legge un deferral.\n\nCOSA SERVE, ed e un lotto suo: un rilevatore che escluda i literal dentro JSX/className e le utilita banali, poi il triage a mano dei ~20 riscontri veri (per ognuno: e la stessa decisione o due decisioni che si somigliano?), e solo dopo il pattern nella malattia con il tetto. Fatto di fretta produce 137 esenzioni."
     },
     {
       "id": "AR-792",
@@ -16988,6 +16991,26 @@
         "comando": "node --test cervello/test/cancello-stop.test.mjs"
       },
       "nota_fix": "La prova porta il caso vero della CI e la sua controprova (una ❌ accanto al ⚪ deve tornare a bloccare), o sarebbe soddisfatta anche da un «torna sempre 2». Resta APERTO il debito che me l'ha fatto incontrare: AZIONI-IN-ATTESA.md sta sopra il tetto di 200.000 caratteri, quindi su quel file il cricchetto guarda solo i primi due terzi. Accorciarlo è la carta #163 e la decide Nicola: non l'ho toccato."
+    },
+    {
+      "id": "AR-796",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "titolo": "Il programma che chiude i difetti non passa dal cancello che decide se possono chiudersi",
+      "causa_radice": "① Perche un difetto con una prova debole si chiude lo stesso? Perche a chiudere e `auto-fix.mjs`, e `auto-fix.mjs` non chiama ne `ammissibilitaProva` ne `provaComportamentaleObbligatoria` — zero occorrenze, verificato col grep. ② Perche il cancello sta altrove? Perche e nato dentro `cantiere-prove.mjs`, che e il REFERTO: guarda e racconta, non ferma. Il file stesso lo dichiara: «QUESTO GUARDIANO NON CHIUDE NIENTE: chi chiude e auto-fix.mjs, e non passa ancora di qui». ③ Perche non e stato collegato subito? Perche il lotto 49 ha costruito il cancello e il lotto 50 gli ha aggiunto il terzo esito, ma tutti e due hanno lavorato sul lato che MISURA. ④ Quindi cosa vale oggi? Che i due cancelli sono consigli: il conto `prove_da_alzare` (20 schede) e `schede_non_giudicabili` (16) esce nel referto, e poi auto-fix chiude lo stesso. E la forma esatta di AR-172 — la porta a mano riparata e quella automatica lasciata aperta. ⑤ Perche non e stato registrato prima? La corsia A del lotto 49 lo aveva SEGNALATO nel suo rapporto, e l'AD ne ha registrati tre su cinque. Il difetto e rimasto in un rapporto invece che nel cantiere per un giorno.",
+      "fix_proposto": "🟡 (a) `auto-fix.mjs` chiama `ammissibilitaProva` prima di chiudere e RIFIUTA la chiusura quando la prova non e ammessa, con lo stesso motivo che il referto gia stampa. (b) Attenzione al numero: oggi 20 schede hanno una prova debole su un difetto pesante — collegare il freno cosi com'e le blocca tutte insieme, e un cancello che blocca 20 chiusure al primo giro viene aggirato al secondo. Serve la stessa forma di AR-394: il freno si accende, il debito di oggi si dichiara per nome, e il tetto scende. (c) Una prova che il freno FRENA: un difetto finto bloccante con prova a pattern non deve chiudersi passando da auto-fix.",
+      "nato": "2026-08-22 22:22",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 50,
+      "nato_da": "lotto 50, secondo giro: la domanda «ogni strada che arriva all'atto passa dal freno?» ha trovato che l'atto (la chiusura) non ci passa affatto. Segnalato dalla corsia A nel lotto 49 e non registrato allora.",
+      "dove": "cervello/auto-fix.mjs (chiude senza consultare cervello/prova-ammissibile.mjs)",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Nessuna prova a comando finche il freno non e collegato. Una prova che punta al test del lotto 50 sarebbe VERDE oggi — e auto-fix chiuderebbe AR-793 al primo giro senza che nessuno abbia collegato niente, che e esattamente il difetto descritto qui dentro. La prova si scrive col fix: un difetto finto bloccante con prova a pattern che NON deve chiudersi passando da auto-fix."
+      },
+      "nota_fix": "RINUMERATO il 2026-08-23 09:05 da AR-793 a AR-796. Il lotto 50 e la PR #831 sono stati aperti nello stesso periodo e hanno preso lo stesso numero libero, ognuno dalla propria copia del registro: due difetti diversi con lo stesso id. La #831 e stata unita per prima, quindi il numero resta suo (il suo AR-793 parla dell'elenco dei difetti del sito). E il caso descritto nel mansionario del cantiere: prima di prendere un id nuovo va letto da origin/main aggiornato, non dalla copia che si ha in mano. Qui il numero era stato letto da main alle 20:20 del 22/8, e la #831 lo ha usato dopo."
     }
   ],
   "meta": {

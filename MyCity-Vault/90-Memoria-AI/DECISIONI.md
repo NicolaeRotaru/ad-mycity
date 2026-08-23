@@ -3545,3 +3545,54 @@ data e di orario. Un numero lasciato in coda a una scheda invecchia senza avvisa
 
 **Cosa non ho verificato:** le 321 chiusure vecchie che il registro segnala come «senza
 corroborazione». Non sono accusate di niente, ma nessuno le ha mai riesaminate.
+
+## 2026-08-22 22:25 · 🟡 «Non lo so» usciva dal cancello travestito da «no»
+
+**Cosa ho fatto.** Il controllo che decide se un difetto può chiudersi con una parola cercata in un
+file leggeva due campi con un confronto esatto. Un campo scritto in prosa non corrisponde. Un campo
+assente non corrisponde. Tutti e due finivano nel ramo «no», cioè prendevano il permesso.
+
+**Il numero.** Erano **40 schede vive su 109** — il 37% del cantiere — che quel controllo non poteva
+giudicare e leggeva come se le avesse giudicate.
+
+**Il commento sopra quella riga lo diceva già:** «un confronto largo le tirerebbe dentro tutte». Chi
+l'ha scritta conosceva il problema e ha scelto il ramo stretto. Il punto è che nessuno dei due rami
+era giusto: la risposta non era né sì né no.
+
+**La cura è un terzo esito.** «Non decidibile» non concede il permesso e non lo nega: dice che quella
+scheda va guardata. E si legge quello che è dichiarato senza inventare: 37 schede aprono con la
+categoria vera («indiretto: è debito della macchina…») e si leggono; 23 descrivono l'impatto a parole
+e **restano non dichiarate**, perché dedurne una categoria sarebbe scrivere un valore che nessuno ha
+messo. Da 40 schede cieche a 16, e le 16 sono un numero nel referto che può scendere.
+
+**Le due schede erano sbagliate, e va detto.** Dicevano «40 in prosa» (sono 60) e «`critica` e `alta`
+non contano mai come gravi» — vero, ma tutti i 44 valori fuori elenco stanno su schede **chiuse**.
+Sulle vive non ce n'è nemmeno uno. Il buco vivo era un altro e nessuno lo contava: 11 schede senza
+gravità affatto.
+
+**Il secondo giro ha trovato il buco vero, di nuovo.** Alla domanda «ogni strada che arriva all'atto
+passa dal freno?» la risposta è **no**: il programma che chiude davvero i difetti non chiama quel
+controllo — zero volte. Il cancello che ho rinforzato sta nel referto, che guarda e racconta. È la
+stessa forma di ieri: la porta a mano riparata e quella automatica lasciata aperta. Registrato come
+AR-793, e non l'ho riparato qui perché collegarlo così com'è bloccherebbe venti chiusure in un colpo
+— un cancello che blocca venti cose al primo giro viene aggirato al secondo.
+
+**E una cosa che avevo sbagliato io, presa rileggendo.** Ad AR-793 avevo dato una prova che oggi è
+verde: si sarebbe chiuso da solo al primo giro, senza che nessuno collegasse niente — cioè il difetto
+descritto dentro la scheda. Sostituita con una verifica umana.
+
+**Cosa non ho verificato:** se le 23 schede che restano non dichiarate abbiano davvero impatto alto.
+Non l'ho dedotto apposta: vanno lette una per una da chi le ha scritte.
+
+> ⚠️ **Correzione al passaggio qui sopra (23/8 09:05).** Dove dice **AR-793**, leggi **AR-796**. Il
+> lotto 50 e la richiesta #831 erano aperti nello stesso periodo e hanno preso lo stesso numero
+> libero, ognuno leggendolo dalla propria copia del registro: due difetti diversi con lo stesso
+> nome. La #831 è stata unita per prima, quindi il numero resta suo — il suo AR-793 parla
+> dell'elenco dei difetti del sito, il mio del programma che chiude i difetti senza passare dal
+> cancello. Il testo sopra non lo riscrivo: è il verbale di ieri sera, ed era vero quando l'ho
+> scritto. Questa riga esiste perché chi lo rilegge non finisca sulla scheda sbagliata.
+>
+> **La lezione, che era già scritta e non ho seguito:** prima di prendere un numero nuovo va letto
+> da `origin/main` aggiornato, non dalla copia che si ha in mano. Io l'avevo letto da main alle
+> 20:20 — ed era giusto in quel momento. Non basta: va riletto **al momento di consegnare**, perché
+> fra la lettura e la consegna qualcun altro può averlo usato.
