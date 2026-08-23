@@ -3682,3 +3682,42 @@ ogni lotto: #168 (server fermo dal 18/8), #154 (chiavi Vercel), #155 (dominio an
 **Cosa non ho verificato.** Non ho riaperto i difetti uno per uno: i conti vengono dai file del
 cantiere letti alle 09:05 di oggi. Non so se il server è ancora fermo adesso — l'ultima traccia
 di un processo automatico è del 22 agosto alle 20:41.
+
+## 2026-08-23 14:00 · 🟡 Il negoziante non è mai riuscito a mettere la foto alla sua vetrina
+
+**Cosa ho fatto.** Aperta la corsia dei difetti del design del sito — 208, e fino a stamattina non
+li aveva mai guardati nessuno. Partito dai due bloccanti, che hanno la stessa radice. Richiesta
+**#240 sul marketplace**.
+
+**Il difetto, in una frase.** Il magazzino delle immagini accetta un file solo se la prima cartella
+del percorso è l'identificativo di chi carica. Quella regola sta scritta in SQL, in una migrazione,
+e nel codice non la possedeva nessuno: **dieci** punti se la riscrivevano a mano con una stringa, e
+tre la scrivevano in un modo che il database rifiuta. Uno dei tre è la copertina della vetrina:
+nessun negoziante ci è mai riuscito, per nessun negozio, mai.
+
+**Non è distrazione di chi li ha scritti.** Non c'era niente da chiamare. Con dieci copie a mano,
+che due o tre siano sbagliate è l'esito atteso, non la sfortuna.
+
+**La cosa che ho quasi sbagliato, e l'avevo scritta stamattina.** Il primo tentativo era un modulo
+che *sa* la regola, da chiamare dai dieci punti. Provato: rimettendo a mano la stringa sbagliata
+dentro il componente, le prove restavano **verdi**. Provavano che la regola sa giudicare, non che
+chi carica ci passi — la stessa distinzione di AR-796, la lezione che avevo scritto tre ore prima.
+Da lì la porta: riceve una *cartella* e non un percorso, quindi la prima cartella non passa più
+dalle mani dei chiamanti. Non è che sbagliarla diventa improbabile: diventa una cosa che non si può
+dire.
+
+**L'invariante ha lavorato prima di essere consegnato.** Il controllo «nessuno chiama il magazzino
+fuori dalla porta» ha trovato un decimo punto che il mio grep aveva mancato, perché la chiamata era
+spezzata su tre righe.
+
+**Cosa non ho verificato:** che il database vero accetti quei percorsi. Le prove eseguono la porta
+con un magazzino finto; che il Postgres li accetti l'ho **dedotto rileggendo la policy**, non
+provato eseguendola — da qui non ho un database a cui chiederlo. Va provato a mano dopo il merge:
+entrare come negoziante e caricare una copertina.
+
+**Reperti nuovi registrati nel referto del sito:** gli altri tre magazzini hanno la stessa forma di
+regola e i loro tre punti oggi sono corretti, ma costruiscono il percorso a mano — malattia
+dormiente, non curata. E l'elenco delle dipendenze non è in pari: `npm ci` da solo si rifiuta di
+installare, e la CI non se ne accorge perché usa un flag che lo aggira.
+
+**I due bloccanti restano `in-corso`, non chiusi.** Si chiudono quando la #240 è unita, non prima.

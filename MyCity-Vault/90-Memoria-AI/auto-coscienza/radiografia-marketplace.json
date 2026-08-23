@@ -4020,7 +4020,9 @@
       "impatto": "",
       "fix": "Cambiare il percorso in `${user.id}/store-media/${Date.now()}…`. Per il video: toglierlo dalla schermata oppure creare un secchio dedicato con i tipi video ammessi.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 13:55",
+      "in_corso_nota": "Riparato nella richiesta #240 del marketplace (ramo claude/cantiere-macchina-problemi-ko0bag), NON ancora unita. I due bloccanti avevano la stessa radice e non era una stringa sbagliata: la regola del percorso di caricamento vive in SQL (migrazione 114) e nel codice non la possedeva nessuno — dieci punti la riscrivevano a mano, tre in un modo che il database rifiuta. La cura e' una porta sola (lib/storage/carica-immagine.ts) che riceve una CARTELLA e non un percorso: la prima cartella, l'unica su cui il database decide, non passa piu' dalle mani dei chiamanti. Si chiude quando la #240 e' unita, non prima."
     },
     {
       "dimensione": "immagini-media",
@@ -4032,7 +4034,9 @@
       "impatto": "",
       "fix": "Usare `home/events/…` e `home/shop/…` (l'eccezione già esistente per gli admin), oppure `${user.id}/events/…`.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "in_corso_dal": "2026-08-23 13:55",
+      "in_corso_nota": "Riparato nella richiesta #240 del marketplace (ramo claude/cantiere-macchina-problemi-ko0bag), NON ancora unita. I due bloccanti avevano la stessa radice e non era una stringa sbagliata: la regola del percorso di caricamento vive in SQL (migrazione 114) e nel codice non la possedeva nessuno — dieci punti la riscrivevano a mano, tre in un modo che il database rifiuta. La cura e' una porta sola (lib/storage/carica-immagine.ts) che riceve una CARTELLA e non un percorso: la prima cartella, l'unica su cui il database decide, non passa piu' dalle mani dei chiamanti. Si chiude quando la #240 e' unita, non prima."
     },
     {
       "dimensione": "immagini-media",
@@ -5532,6 +5536,30 @@
       "impatto": "",
       "fix": "Sostituire l'indirizzo remoto con un segnaposto locale servito dal nostro dominio (un SVG in `public/`, che il service worker già mette in cache-first alla regola 3 di sw.js): zero richieste esterne, non può cadere, e si disegna on-brand. Il `preconnect` a placehold.co è solo una toppa.",
       "fonte": "design",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "titolo": "Gli altri tre magazzini hanno la stessa regola, e nessuno la possiede",
+      "severita": "grave",
+      "file": "components/PhotoReviewUpload.tsx:44 · components/rider/CashConfirmDialog.tsx:53 · app/seller/stories/page.tsx:74",
+      "descrizione": "VERIFICATO leggendoli uno per uno il 23/8/2026: tutti e tre mettono l'identificativo dell'utente come prima cartella, quindi OGGI funzionano. Ma costruiscono il percorso a mano con una stringa, esattamente come facevano i dieci del secchio `products` — e le policy di `reviews`, `cod-proof` e `stories` hanno la stessa forma di regola (migrazioni 070 e 119: `(storage.foldername(name))[1] = auth.uid()::text`). La malattia qui e' dormiente, non curata: il prossimo punto di caricamento che nasce su uno di questi secchi e' un'altra moneta lanciata in aria. L'invariante di struttura scritto nella #240 guarda solo il secchio `products`.",
+      "impatto": "Indiretto finche' nessuno tocca quei tre file. Diventa un bloccante il giorno in cui qualcuno aggiunge un caricamento su reviews o cod-proof e sbaglia la prima cartella — cioe' con la stessa probabilita' con cui e' successo su products, dove tre punti su dieci l'hanno sbagliata.",
+      "fix": "Estendere la porta `caricaImmagine` agli altri tre secchi (le regole differiscono: `stories` in scrittura non ha vincolo di cartella, `reviews` e `cod-proof` si') e allargare l'invariante di struttura a tutti e quattro. Prova: la stessa forma della #240 — la porta eseguita con un client finto, per secchio.",
+      "fonte": "lotto 23/8 sui due bloccanti del design — secondo giro, domanda «ogni strada che carica passa dalla porta?»",
+      "stato": "aperto"
+    },
+    {
+      "dimensione": "architettura",
+      "reparto": "Architettura",
+      "titolo": "L'elenco delle dipendenze non e' in pari, e `npm ci` da solo si rifiuta di installare",
+      "severita": "medio",
+      "file": "package-lock.json contro package.json",
+      "descrizione": "VERIFICATO il 23/8/2026 su main: `npm ci` esce con EUSAGE — «package.json and package-lock.json are not in sync», mancano dal lock `@testing-library/dom@10.4.1` e le sue nove dipendenze. Con `--legacy-peer-deps`, che e' quello che usa la CI in .github/workflows/ci.yml, l'installazione riesce. Quindi la CI non se ne accorge e chi apre il repo per la prima volta si.",
+      "impatto": "Chi apre il progetto e segue l'istruzione ovvia (`npm ci`) si ferma su un errore che non riguarda il suo lavoro, e deve indovinare il flag. E' il primo minuto di chiunque arrivi.",
+      "fix": "`npm install` per riallineare il lock, in una richiesta sua che non porta altro (il diff e' grosso e non va mescolato con del codice).",
+      "fonte": "lotto 23/8 sui due bloccanti del design — trovato installando le dipendenze per far girare le prove",
       "stato": "aperto"
     }
   ],
