@@ -3960,3 +3960,36 @@ registrato i due pezzi mancanti come bloccanti (`AR-801` la tabella senza il cam
 `AR-802` il muro nel database), tutt'e due con la firma di Nicola davanti. Le colonne della tabella
 le ho lette **dal vivo**, non dedotte dal codice: `lavori` ha 3.255 righe e nessun campo per il
 negozio.
+
+---
+
+## 2026-08-23 16:45 — 🟡 Le corsie della bottega: un negozio in loop non ferma gli altri quaranta
+
+**Cosa ho fatto.** `cervello/bottega/corsie.mjs`: i meccanismi ③ e ⑥ dell'architettura, che
+rispondono alla stessa domanda — *questo negozio può prendersi più di quello che gli spetta?* Il
+turno risponde sul tempo, il tetto risponde sui soldi.
+
+**La malattia non è ipotetica: sta scritta dentro il worker.** In cima al suo pezzo anti-veleno,
+`worker.sh` dichiara che «il loop prende SEMPRE il lavoro in attesa PIÙ VECCHIO», e che un lavoro
+avvelenato «restava in testa alla coda tenendo bloccati TUTTI i lavori dietro». Con un padrone solo
+il rimedio scelto basta: chi aspetta è sempre lo stesso che ha causato il problema. **Con quaranta
+negozi paganti non basta più**, perché il tempo perso è di qualcuno che non c'entra.
+
+**Il tetto ha tre stati, non due.** Tutto bene · oltre metà (si lavora, ma lo sai) · finito. Il
+terzo stato esiste perché un freno che passa da verde a bloccato senza avvisare è un freno che
+sorprende, e la sorpresa la paga chi si trova la macchina ferma. E **un tetto che non c'è non è un
+tetto infinito**: il negozio si ferma. Meglio fermo che con una bolletta senza fondo.
+
+**Due difetti sono nati da un mio controllo, non da una ricerca.** Stavo per scrivere nel commento
+«l'avviso a metà, come il freno costi del CENTRO». Sono andato a guardare: **il CENTRO quella metà
+non ce l'ha** — `costo-ai.mjs` ha due stati soli, sotto soglia e sopra. Ho corretto la frase e
+registrato `AR-803`. Poi ho letto il codice del worker invece di fidarmi, e ne è uscito `AR-804`.
+
+**Il cancello mi ha preso in fallo, e aveva ragione.** Ad AR-803 avevo messo una prova a comando che
+misura il pezzo nuovo e **non diventa rossa se il CENTRO resta a due stati**. Una prova che non può
+fallire nel modo in cui fallisce il difetto non è la sua prova: adesso è verifica umana dichiarata,
+e la prova vera si scriverà insieme al fix.
+
+**Cosa non ho verificato:** anche queste corsie **non le chiama ancora nessuno**. Il worker vero non
+può usarle finché la tabella dei lavori non ha il campo del negozio (`AR-801`). Le funzioni sono
+provate — 18 casi, 7 mutazioni rosse — il worker no.

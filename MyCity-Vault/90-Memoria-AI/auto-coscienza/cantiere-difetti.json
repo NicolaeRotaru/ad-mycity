@@ -17175,6 +17175,48 @@
         "tipo": "umano",
         "nota": "non provabile da una sessione cloud: serve un secondo insieme di credenziali contro il database vero. La prova va scritta insieme alla policy, e girata dopo la firma."
       }
+    },
+    {
+      "id": "AR-803",
+      "titolo": "Il freno sui costi ha due stati soli: si passa da «tutto bene» a «bloccato» senza nessun avviso",
+      "dimensione": "freni-sicurezza",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-23 16:40",
+      "nato_come": "nuovo-lavoro",
+      "nato_da": "lotto 55: costruendo il tetto di spesa per negozio della BOTTEGA ho controllato se il CENTRO lo faceva gia, e non lo fa",
+      "causa_radice": "cervello/costo-ai.mjs ha due stati: `superata ? \"warn\" : \"ok\"`. Sotto soglia tutto bene, sopra soglia bloccato. Non c'e nessun avviso a meta strada. ARCHITETTURA-TRE-MACCHINE.md lo chiede esplicitamente per la BOTTEGA — «tetto mensile per negozio, un avviso a meta strada e un blocco automatico» — e lo descrive come «il freno costi che il CENTRO ha gia, esteso a ogni negozio». Il CENTRO quella meta non ce l'ha. Un freno che passa da verde a bloccato senza avvisare e un freno che sorprende, e la sorpresa la paga chi si trova la macchina ferma senza aver visto arrivare niente. Il pezzo che manca esiste gia scritto: `statoSpesa` in cervello/bottega/corsie.mjs torna tre stati (ok · avviso · stop) ed e provato.",
+      "dove": "cervello/costo-ai.mjs · cervello/bottega/corsie.mjs (il pezzo gia scritto)",
+      "fix_proposto": "🟡 Portare `statoSpesa` — o la sua forma a tre stati — dentro costo-ai.mjs, cosi il CENTRO avvisa a meta soglia invece di bloccare di colpo. Prova: con speso a meta della soglia il segnale deve essere «avviso» e il lavoro deve continuare; con speso oltre la soglia deve fermarsi. Due casi, e il primo oggi non esiste.",
+      "impatto": "Nessuno vede arrivare lo stop del budget: si scopre a macchina ferma.",
+      "origine": "lotto 55, controllo di una mia stessa affermazione prima di consegnarla",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Avevo dichiarato una prova a comando e il cancello l'ha rifiutata, con ragione: quel comando misura il pezzo NUOVO (statoSpesa a tre stati, in cervello/bottega/corsie.mjs) e non diventa rosso se il CENTRO resta a due stati. Una prova che non puo fallire nel modo in cui fallisce il difetto non e la sua prova. La prova vera si scrive insieme al fix, dentro costo-ai.mjs: con speso a meta soglia il segnale dev'essere «avviso» e il lavoro continua; oltre soglia si ferma. Il primo caso oggi non esiste."
+      }
+    },
+    {
+      "id": "AR-804",
+      "titolo": "Il worker prende i lavori in ordine d arrivo: con quaranta negozi il piu lento li ferma tutti",
+      "dimensione": "capacita-mancanti",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-23 16:40",
+      "nato_come": "nuovo-lavoro",
+      "nato_da": "lotto 55: scritte le corsie della BOTTEGA, il worker vero non le conosce",
+      "causa_radice": "cervello/worker.sh lo dichiara da se, in cima al pezzo anti-veleno: «il loop prende SEMPRE il lavoro in_attesa PIU VECCHIO (FIFO stretto)», e un lavoro avvelenato «restava in testa alla coda… tenendo bloccati TUTTI i lavori dietro». Con un padrone solo il rimedio scelto — dead-letter dopo le soglie — basta: chi aspetta e sempre lo stesso che ha causato il problema. Con quaranta negozi paganti non basta piu, perche il tempo perso e di qualcuno che non c'entra. ARCHITETTURA-TRE-MACCHINE.md, meccanismo ③: «il worker prende i lavori A TURNO tra i negozi, non in ordine di arrivo. Ogni negozio ha la sua quota, il suo tetto di spesa e il suo interruttore». La funzione del turno adesso esiste ed e provata (`prossimoLavoro`), ma il worker non la chiama: non puo, perche la tabella `lavori` non ha il campo del negozio (AR-801).",
+      "dove": "cervello/worker.sh (loop di presa dei lavori) · cervello/bottega/corsie.mjs",
+      "fix_proposto": "🟡 Dopo AR-801, far scegliere al worker il prossimo lavoro con `prossimoLavoro` invece che con l ordine d arrivo. Prova — ed e la numero 3 delle sette del collaudo finale: un negozio mette in coda trenta lavori e uno che va in loop; il lavoro di un altro negozio parte comunque entro un turno. Oggi la funzione lo fa (18 casi, 7 mutazioni rosse); il worker no.",
+      "impatto": "E la prova numero 3 del collaudo finale. Finche il worker e FIFO, un negozio puo fermare tutti gli altri — cioe il canone di quaranta dipende dal comportamento di uno.",
+      "origine": "lotto 55, letto il codice del worker invece di fidarmi della scheda",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "il turno e provato come funzione pura; che il WORKER lo usi non si puo provare da qui, perche il worker gira sul VPS e la tabella non ha ancora il campo. La prova vera si scrive insieme al fix, dopo AR-801."
+      }
     }
   ],
   "meta": {

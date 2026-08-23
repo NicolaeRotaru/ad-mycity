@@ -6465,6 +6465,69 @@
    "cerca": "    parti.push(\"\", APERTURA_MATERIALE, ...lavoro.materiale, CHIUSURA_MATERIALE);",
    "sostituisci": "    parti.push(\"\", ...lavoro.materiale);",
    "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "il turno torna a essere un ordine d'arrivo: il negozio che riempie la coda ferma gli altri",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  const ordine = daDopoIlUltimo(corsie.map((c) => c.negozioId).filter(Boolean), ultimo);",
+   "sostituisci": "  const ordine = corsie.map((c) => c.negozioId).filter(Boolean);",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "un tetto che manca torna a valere come tetto infinito",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "    return { stato: \"stop\", puoLavorare: false, motivo: \"questo negozio non ha un tetto di spesa dichiarato\", frazione: null };",
+   "sostituisci": "    return { stato: \"ok\", puoLavorare: true, motivo: \"\", frazione: null };",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "l'avviso a meta tetto ferma il negozio invece di avvisarlo",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "    return { stato: \"avviso\", puoLavorare: true, motivo: `oltre metà del tetto: ${s} su ${tetto}`, frazione };",
+   "sostituisci": "    return { stato: \"avviso\", puoLavorare: false, motivo: `oltre metà del tetto: ${s} su ${tetto}`, frazione };",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "la quota per negozio smette di contare i lavori gia in corso",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  if (inCorso >= quota) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "l'interruttore spento non ferma piu la corsia",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  if (negozio.interruttore === \"spento\") {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "un lavoro orfano viene adottato dalla prima corsia libera",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "    const lavoro = coda.find((l) => negozioDiLavoro(l) === id);",
+   "sostituisci": "    const lavoro = coda.find((l) => negozioDiLavoro(l) === id || negozioDiLavoro(l) === null);",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "quando non parte niente il verdetto torna muto",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  return { lavoro: null, negozioId: null, fermi, motivo: motivoDelNulla(coda, corsie, fermi) };",
+   "sostituisci": "  return { lavoro: null, negozioId: null, fermi, motivo: \"\" };",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
   }
  ]
 }
