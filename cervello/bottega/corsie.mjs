@@ -11,11 +11,13 @@
 //
 // `ARCHITETTURA-TRE-MACCHINE.md`, meccanismo ③: «Il worker prende i lavori A TURNO tra i negozi,
 // non in ordine di arrivo. Ogni negozio ha la sua quota, il suo tetto di spesa e il suo
-// interruttore». E la prova numero 3 del collaudo finale: «un negozio che va in loop non rallenta
-// gli altri».
+// interruttore». E meccanismo ⑥, guasto confinato: «Timeout, tentativi finiti, negozio in loop: si
+// spegne quella corsia sola». Insieme sono la prova numero 3 del collaudo finale — «un negozio che
+// va in loop non rallenta gli altri».
 //
-// Qui ci sono ③ e ⑥ insieme, perché rispondono alla stessa domanda: *questo negozio può prendersi
-// più di quello che gli spetta?* Il turno risponde sul tempo, il tetto risponde sui soldi.
+// Qui ci sono ③ e ⑥ insieme perché rispondono alla stessa domanda da due lati: *questo negozio può
+// prendersi più di quello che gli spetta?* Il turno risponde sul tempo, il tetto sui soldi, il
+// guasto confinato sul danno — e quest'ultimo è quello che spegne una corsia sola invece di tutte.
 //
 // La malattia non è ipotetica: `worker.sh` la porta scritta in cima al suo pezzo anti-veleno.
 // «Il loop prende SEMPRE il lavoro in_attesa PIÙ VECCHIO (FIFO stretto)», e un lavoro avvelenato
@@ -75,6 +77,37 @@ export function statoSpesa({ speso = 0, tetto = null } = {}) {
 }
 
 /**
+ * ⑥ IL GUASTO CONFINATO — si spegne quella corsia sola, non la macchina.
+ *
+ * «Timeout, tentativi finiti, negozio in loop: si spegne quella corsia sola. Il worker di oggi ha
+ * già imparato a farlo sui lavori orfani — si riusa quella cura.»
+ *
+ * La cura del worker di oggi è il dead-letter: dopo N tentativi il lavoro esce dalla coda invece di
+ * essere ripescato all'infinito. Funziona su UN lavoro. Qui serve un piano sopra: quando i guasti
+ * sono di un NEGOZIO — non di un lavoro — è la sua corsia che va spenta, e solo la sua.
+ *
+ * Tre segnali, e ognuno spegne da solo:
+ *   · `falliti` di fila oltre la soglia   → qualcosa in quel negozio è rotto, non è sfortuna
+ *   · un lavoro `scaduto` (mai finito)    → è il caso del loop: consuma e non conclude
+ *   · `spentoAMano`                       → l'interruttore, che vale sempre e batte tutto
+ *
+ * Torna sempre il perché. Una corsia spenta senza motivo è la chiamata di assistenza del lunedì
+ * mattina, e «non lo so» costa più del freno.
+ */
+export const FALLITI_DI_FILA_PER_SPEGNERE = 3;
+
+export function guastoConfinato({ falliti = 0, scaduti = 0, spentoAMano = false } = {}) {
+  if (spentoAMano) return { spegni: true, motivo: "interruttore spento" };
+  if (scaduti > 0) {
+    return { spegni: true, motivo: `${scaduti} lavori scaduti senza finire: la corsia consuma e non conclude` };
+  }
+  if (falliti >= FALLITI_DI_FILA_PER_SPEGNERE) {
+    return { spegni: true, motivo: `${falliti} lavori falliti di fila (soglia ${FALLITI_DI_FILA_PER_SPEGNERE}): non è sfortuna` };
+  }
+  return { spegni: false, motivo: "" };
+}
+
+/**
  * LA CORSIA DI UN NEGOZIO: può prendere un lavoro adesso, e se no perché.
  *
  * Il perché torna sempre, anche quando la risposta è sì. Una corsia ferma senza motivo è la
@@ -83,9 +116,14 @@ export function statoSpesa({ speso = 0, tetto = null } = {}) {
 export function statoCorsia(negozio = {}, { inCorso = 0 } = {}) {
   const id = String(negozio.negozioId ?? "").trim();
   if (!id) return { negozioId: "", puoLavorare: false, motivo: "corsia senza negozio" };
-  if (negozio.interruttore === "spento") {
-    return { negozioId: id, puoLavorare: false, motivo: "interruttore spento" };
-  }
+  // Il guasto viene PRIMA di quota e tetto: se la corsia è rotta, dire «quota piena» sarebbe il
+  // motivo sbagliato — quello che manda a cercare nel posto sbagliato.
+  const guasto = guastoConfinato({
+    falliti: negozio.falliti,
+    scaduti: negozio.scaduti,
+    spentoAMano: negozio.interruttore === "spento",
+  });
+  if (guasto.spegni) return { negozioId: id, puoLavorare: false, motivo: guasto.motivo, guasto };
   const quota = Number.isFinite(negozio.quota) && negozio.quota > 0 ? negozio.quota : 1;
   if (inCorso >= quota) {
     return { negozioId: id, puoLavorare: false, motivo: `quota piena: ${inCorso} lavori in corso su ${quota}` };

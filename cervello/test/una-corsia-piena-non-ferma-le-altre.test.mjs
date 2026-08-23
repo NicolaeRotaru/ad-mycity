@@ -12,7 +12,15 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { FRAZIONE_AVVISO, daDopoIlUltimo, prossimoLavoro, statoCorsia, statoSpesa } from "../bottega/corsie.mjs";
+import {
+  FALLITI_DI_FILA_PER_SPEGNERE,
+  FRAZIONE_AVVISO,
+  daDopoIlUltimo,
+  guastoConfinato,
+  prossimoLavoro,
+  statoCorsia,
+  statoSpesa,
+} from "../bottega/corsie.mjs";
 
 const A = "forno-a";
 const B = "salumeria-b";
@@ -71,6 +79,47 @@ test("una corsia ferma dice sempre perché", () => {
     assert.equal(c.puoLavorare, false);
     assert.ok(c.motivo.length > 0, "una corsia ferma senza motivo è la chiamata di assistenza del lunedì mattina");
   }
+});
+
+// ─────────────────────────── ⑥ il guasto confinato ───────────────────────────
+
+test("qualche fallimento non spegne una corsia: la sfortuna esiste", () => {
+  assert.equal(guastoConfinato({ falliti: FALLITI_DI_FILA_PER_SPEGNERE - 1 }).spegni, false);
+});
+
+test("i fallimenti di fila oltre la soglia spengono la corsia, e dicono quanti", () => {
+  const g = guastoConfinato({ falliti: FALLITI_DI_FILA_PER_SPEGNERE });
+  assert.equal(g.spegni, true);
+  assert.match(g.motivo, /falliti di fila/);
+  assert.match(g.motivo, /non è sfortuna/);
+});
+
+test("UN lavoro scaduto basta: è il caso del loop, consuma e non conclude", () => {
+  const g = guastoConfinato({ scaduti: 1 });
+  assert.equal(g.spegni, true, "un lavoro che non finisce mai non ha bisogno di ripetersi tre volte per essere un guasto");
+  assert.match(g.motivo, /consuma e non conclude/);
+});
+
+test("l'interruttore a mano batte tutto e dà il motivo giusto", () => {
+  const g = guastoConfinato({ falliti: 99, scaduti: 99, spentoAMano: true });
+  assert.equal(g.motivo, "interruttore spento", "il motivo dev'essere quello vero, non il primo che si incontra dopo");
+});
+
+test("una corsia sana non ha nessun motivo da dare", () => {
+  assert.deepEqual(guastoConfinato({}), { spegni: false, motivo: "" });
+});
+
+test("IL CONFINAMENTO: la corsia rotta si spegne, quella accanto continua", () => {
+  const coda = [lav(A, 0), lav(B, 0)];
+  const negozi = [corsia(A, { scaduti: 1 }), corsia(B)];
+  const r = prossimoLavoro({ coda, negozi });
+  assert.equal(r.negozioId, B, "il lavoro del negozio sano parte comunque");
+  assert.ok(r.fermi.some((f) => f.negozioId === A && /consuma e non conclude/.test(f.motivo)));
+});
+
+test("il guasto viene prima della quota: il motivo manda a cercare nel posto giusto", () => {
+  const c = statoCorsia(corsia(A, { falliti: 5, quota: 1 }), { inCorso: 1 });
+  assert.match(c.motivo, /falliti di fila/, "dire «quota piena» su una corsia rotta manda a cercare nel posto sbagliato");
 });
 
 // ─────────────────────────── il turno ───────────────────────────

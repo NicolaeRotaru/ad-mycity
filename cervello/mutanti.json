@@ -6505,10 +6505,10 @@
   {
    "lotto": 55,
    "difetto": "BOTTEGA-corsie",
-   "nome": "l'interruttore spento non ferma piu la corsia",
+   "nome": "l'interruttore spento non ferma piu la corsia (adesso vive dentro il guasto confinato)",
    "file": "cervello/bottega/corsie.mjs",
-   "cerca": "  if (negozio.interruttore === \"spento\") {",
-   "sostituisci": "  if (false) {",
+   "cerca": "  if (spentoAMano) return { spegni: true, motivo: \"interruttore spento\" };",
+   "sostituisci": "  if (false) return { spegni: true, motivo: \"interruttore spento\" };",
    "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
   },
   {
@@ -6527,6 +6527,33 @@
    "file": "cervello/bottega/corsie.mjs",
    "cerca": "  return { lavoro: null, negozioId: null, fermi, motivo: motivoDelNulla(coda, corsie, fermi) };",
    "sostituisci": "  return { lavoro: null, negozioId: null, fermi, motivo: \"\" };",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "un lavoro che non finisce mai smette di spegnere la corsia: il loop torna libero",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  if (scaduti > 0) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "i fallimenti di fila non spengono piu niente",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  if (falliti >= FALLITI_DI_FILA_PER_SPEGNERE) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "il guasto smette di venire prima della quota, e il motivo manda a cercare nel posto sbagliato",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  if (guasto.spegni) return { negozioId: id, puoLavorare: false, motivo: guasto.motivo, guasto };",
+   "sostituisci": "  if (guasto.spegni && false) return { negozioId: id, puoLavorare: false, motivo: guasto.motivo, guasto };",
    "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
   }
  ]
