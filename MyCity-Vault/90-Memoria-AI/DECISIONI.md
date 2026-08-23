@@ -3882,3 +3882,48 @@ comunque mia: il workflow produce una proposta.
 di Nicola, non mia. Ho verificato che il motore li accetterebbe — le due regole che applica prima di
 partire, misurate sul testo vero — e che non nominano più niente che il motore non dia. Il primo che
 verrà lanciato dirà se basta.
+
+---
+
+## 2026-08-23 15:45 — 🟡 Dieci chiusure senza data, e il voto che la macchina si dà era contato su quei libri
+
+**Cosa ho fatto.** Riparato AR-724 e riparato il dato: 10 schede risultavano chiuse **senza nessuna
+data** (AR-768…AR-779). Una chiusura senza data non appartiene a nessun mese, quindi spariva dal
+conto «chiudo almeno quanto apro» — il numero che decide se il giro può aprire ricerche nuove. Il
+voto di agosto era 1,35 su libri bucati; adesso è **1,39 su libri interi**.
+
+**La data non l'ho inventata.** Viene da `git log` sul cantiere: il primo commit che pubblica ogni
+scheda come chiusa. È un limite superiore, non l'ora esatta, e ogni scheda lo dice nel campo
+`timbro_ricostruito` invece di far finta.
+
+**La scheda sbagliava, e la differenza è la parte che conta.** AR-724 accusava
+`round2-applica.mjs` di aver mandato in archivio due difetti senza i campi del contratto. Letto il
+codice: le righe assegnavano lo stato per conto loro, ma il timbro lo mettevano — AR-144 e AR-117
+sono completi. Il danno previsto non c'era. **Il danno vero era altrove e più grosso**, e soprattutto
+lo aveva fatto una mano in sessione scrivendo dentro al JSON, non una riga di codice: cioè la strada
+che il fix proposto dalla scheda (cercare l'atto nel codice) non avrebbe mai visto.
+
+**Da lì il fix vero: due occhi, non uno.** Al DATO (`timbriStorti`: c'è una scheda chiusa senza
+timbro?) e al CODICE (`attiFuoriDallaPorta`: c'è una riga che scrive «chiuso» fuori dalla porta?).
+Tutt'e due dentro `cantiere-integrita.mjs`, che il cancello del lotto **esegue già** a ogni giro —
+non un guardiano nuovo che nessuno chiama. Guardarne uno solo dice verde sull'altro.
+
+**Le 24 con la data secca** (data senza ora) non le ho bloccate: il loro mese ce l'hanno, non bucano
+i conti, e un cancello sempre rosso si impara ad aggirarlo. Stanno sotto un tetto misurato — 24 —
+che scende e non risale, come `prova_debole`.
+
+**Il cancello mi ha preso in fallo, e aveva ragione.** Toccando `round2-applica.mjs` mi sono
+ereditato un suo difetto vecchio: era tutto codice a filo di modulo e finiva con `process.exit(0)`,
+quindi chiunque lo importasse si portava dietro la migrazione e la morte del processo. Riparato:
+corpo dentro `main()`, guardia sull'avvio.
+
+**La cecità del cloud non era del posto: era una cosa non fatta.** Tre controlli del cancello
+dicevano «non ho potuto misurare» in ogni sessione cloud, per via del clone superficiale.
+`git fetch --unshallow origin` li ha accesi tutti e tre in pochi secondi — e ha fornito anche le 10
+date. Questo lotto è il primo della giornata a chiudere con **22 guardiani su 22 verdi e zero ⚪**.
+Registrato come AR-800: uno dei tre il comando lo stampava già nella sua riga, gli altri due no, e
+nessuno dei tre lo eseguiva.
+
+**Cosa non ho verificato:** le 24 date secche non le ho ricostruite. Sono di luglio e dei primi
+giorni d'agosto, la storia adesso le raggiungerebbe, ma è lavoro a parte e il tetto lo tiene fermo
+intanto.

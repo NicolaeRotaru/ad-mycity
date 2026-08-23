@@ -1,15 +1,15 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-23 14:57",
+  "aggiornato": "2026-08-23 15:45",
   "giorni_sospetto": 3,
   "difetti_aperti": 111,
   "difetti_da_fare": 111,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 790,
-    "chiusi": 679,
+    "totale": 791,
+    "chiusi": 680,
     "aperti": 101,
     "in_corso": 0,
     "da_riverificare": 10,
@@ -17,7 +17,7 @@
     "da_fare": 111,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 679,
+      "chiuso": 680,
       "aperto": 101,
       "da-riverificare": 10
     },
@@ -28,7 +28,7 @@
     "attese": 111,
     "viste": 111,
     "fuori": 0,
-    "motivo": "bilancio a posto: 679 chiuse + 111 classificate = 790 schede, e ogni stato vivo è dentro (101 aperto · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 680 chiuse + 111 classificate = 791 schede, e ogni stato vivo è dentro (101 aperto · 10 da-riverificare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 18,
@@ -1691,46 +1691,6 @@
     {
       "id": "AR-512",
       "chiuso_il": "2026-08-03"
-    },
-    {
-      "id": "AR-768",
-      "chiuso_il": null
-    },
-    {
-      "id": "AR-769",
-      "chiuso_il": null
-    },
-    {
-      "id": "AR-770",
-      "chiuso_il": null
-    },
-    {
-      "id": "AR-771",
-      "chiuso_il": null
-    },
-    {
-      "id": "AR-774",
-      "chiuso_il": null
-    },
-    {
-      "id": "AR-775",
-      "chiuso_il": null
-    },
-    {
-      "id": "AR-776",
-      "chiuso_il": null
-    },
-    {
-      "id": "AR-777",
-      "chiuso_il": null
-    },
-    {
-      "id": "AR-778",
-      "chiuso_il": null
-    },
-    {
-      "id": "AR-779",
-      "chiuso_il": null
     }
   ],
   "voci": [
@@ -2777,19 +2737,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-724",
-      "gravita": "medio",
-      "eta_giorni": 8,
-      "impatto_crescita": "basso",
-      "prova_esegue": false,
-      "prova_obbligatoria": false,
-      "non_giudicabile": false,
-      "titolo": "Uno script d archivio timbra «chiuso» su un difetto senza passare dalla porta che tutti gli altri devono usare",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-726",
       "gravita": "medio",
       "eta_giorni": 8,
@@ -3227,6 +3174,19 @@
       "prova_obbligatoria": false,
       "non_giudicabile": false,
       "titolo": "Chi prova la macchina scrive nella memoria vera, perche' si puo' deviare solo meta' dei registri",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-800",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "medio",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Tre controlli del cancello sono ciechi in ogni sessione cloud, e la cura e un comando che nessuno esegue",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false

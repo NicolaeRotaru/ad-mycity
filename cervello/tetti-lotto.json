@@ -16,5 +16,7 @@
  "_perche_prove_runtime_senza_mutazione": "Lotto 43 · AR-706. Una prova che guida il Pannello vero e non ha una mutazione dichiarata puo misurare il tema invece della cura e restare verde col fix disfatto. Tetto a ZERO: ogni prova a runtime nuova nasce con la sua mutazione, o il cancello si ferma.",
  "canali_allargati": 19,
  "_perche_canali_allargati": "Lotto 44 · AR-714. Una prova che si allarga il canale con cui osserva il comando sotto misura (maxBuffer oltre il megabyte di casa) senza scrivere perche: un difetto legato alla QUANTITA di uscita resta invisibile. Misurato ad albero fermo il 15/8: 19 istanze in 13 prove, tutte ereditate. Scende e non risale.",
- "conteggi_agenti_vecchi": 53
+ "conteggi_agenti_vecchi": 53,
+ "timbro_secco": 24,
+ "_perche_timbro_secco": "Lotto 53 · AR-724. Una scheda chiusa con la data secca («2026-07-02», senza l'ora) viola la regola dell'orario di CLAUDE.md ma il suo mese ce l'ha: entra nei conti, non li buca. Sono 24, tutte ereditate da luglio e dai primi giorni d'agosto, e un cancello sempre rosso si impara ad aggirarlo. Quindi si contano sotto un tetto che scende e non risale. Le chiusure senza NESSUNA data sono un'altra cosa e non hanno tetto: sparivano da ogni mese, erano 10 (AR-768…AR-779), e sono state timbrate con la data del commit che le ha pubblicate."
 }

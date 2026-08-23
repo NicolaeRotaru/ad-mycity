@@ -22,6 +22,10 @@
 import { existsSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
+// AR-724 — l'atto passa dalla porta. Prima queste due chiusure assegnavano `stato = "chiuso"` per
+// conto loro: i campi li mettevano tutti, ma una copia a mano del timbro è la strada con cui la
+// prossima riga ne dimentica uno. `contratto-scheda.mjs` si importa senza effetti collaterali.
+import { timbraChiusura } from "./contratto-scheda.mjs";
 
 const DRY = process.argv.includes("--dry");
 const ORA = "2026-07-25 01:15";
@@ -44,85 +48,99 @@ const BLOCCO_GIRO = `  # Round 2 programma intelligenza (2026-07-25). Due misure
 `;
 const ANCORA_GIRO = `  echo "[$(ts)] Guardiano allocazione sforzo (AR-006: pesante solo su entità confermata)..."`;
 
-const fatto = [];
-const saltato = [];
+/**
+ * Il corpo dentro una funzione, e non a filo di modulo (regola di casa: «nessun modulo parte da
+ * solo se lo importi»).
+ *
+ * Prima era tutto top-level e finiva con `process.exit(0)`: chiunque importasse questo file per
+ * leggerne una costante si portava dietro la migrazione E la morte del processo. Non era un
+ * rischio teorico — è il difetto che il cancello del lotto ha acceso il 23/8, appena il file è
+ * rientrato fra quelli toccati.
+ */
+function main() {
+  const fatto = [];
+  const saltato = [];
 
-// ─────────────── ① registro ───────────────
-if (!existsSync(CANTIERE)) {
-  console.error(`❌ cantiere non trovato: ${CANTIERE}`);
-  process.exit(1);
-}
-const cant = JSON.parse(readFileSync(CANTIERE, "utf8"));
-const trova = (id) => cant.difetti.find((d) => d.id === id);
-
-if (trova("AR-155")) {
-  saltato.push("registro: AR-155 già presente (round 2 già applicato)");
-} else {
-  const a = trova("AR-144");
-  const b = trova("AR-117");
-  if (!a || !b) {
-    console.error("❌ AR-144 o AR-117 non trovati nel cantiere: non applico nulla (registro inatteso).");
+  // ─────────────── ① registro ───────────────
+  if (!existsSync(CANTIERE)) {
+    console.error(`❌ cantiere non trovato: ${CANTIERE}`);
     process.exit(1);
   }
-  a.stato = "chiuso";
-  a.chiuso_il = ORA;
-  a.chiuso_come =
-    "Fix mergiato in main (PR #519, cervello/costo-ai.mjs): il gate ora usa max(token_totali, token_stimati). PROVATO end-to-end il 25/7: con 275.000 stimati e soglia 100.000 stampa SOGLIA SUPERATA; con 50.000 non scatta. Il contatore delle stime è vivo (275.000 registrati il 24/7).";
-  a.verifica = { ...PROVA_FRENO };
+  const cant = JSON.parse(readFileSync(CANTIERE, "utf8"));
+  const trova = (id) => cant.difetti.find((d) => d.id === id);
 
-  b.stato = "chiuso";
-  b.chiuso_il = ORA;
-  b.chiuso_come =
-    "DUPLICATO di AR-144 per la parte bloccante (stesso freno, stessa causa, stesso file costo-ai.mjs): chiuso dallo stesso fix, provato end-to-end. La sua prova puntava al file SBAGLIATO (cercava token_stimati in giro.sh, il fix è in costo-ai.mjs) — per questo non si è mai chiuso da solo. Il residuo NON bloccante (conteggio token reale da motore-ai.sh + test bats) resta tracciato in AR-155.";
-  b.verifica = { ...PROVA_FRENO };
-
-  cant.difetti.push({
-    id: "AR-155",
-    titolo:
-      "Il gate budget-token protegge con le STIME, non con il consumo reale: manca la cattura usage da motore-ai.sh e il test automatico",
-    dimensione: "freni-sicurezza",
-    gravita: "grave",
-    impatto_crescita: "medio",
-    causa_radice:
-      "PR #519 ha reso vivo il gate usando max(token_totali, token_stimati), ma token_totali resta sempre 0 perché nessuno registra il consumo reale: le stime hanno un margine di errore non misurato. Residuo dei punti (a) e (c) di AR-117.",
-    fix_proposto:
-      "🟡 (a) catturare usage reale dagli eventi result dello stream-json in un punto unico (motore-ai.sh) e registrarlo senza --stima; (c) test bats con un costo-ai.json fittizio oltre soglia che verifichi RUN_AI=0.",
-    colore: "🟡",
-    stato: "aperto",
-    nato: ORA,
-    origine: "round 2 programma intelligenza (2026-07-25): residuo scorporato da AR-117 alla sua chiusura",
-    verifica: { file: "cervello/motore-ai.sh", pattern: "token_reali|usage", presente: true },
-  });
-  cant.aggiornato = ORA;
-  if (!DRY) writeFileSync(CANTIERE, `${JSON.stringify(cant, null, 2)}\n`, "utf8");
-  fatto.push("registro: AR-144 e AR-117 chiusi (con prova), AR-155 aperto per il residuo");
-}
-
-// ─────────────── ② giro ───────────────
-if (!existsSync(GIRO)) {
-  saltato.push(`giro: ${GIRO} non trovato`);
-} else {
-  const giro = readFileSync(GIRO, "utf8");
-  if (giro.includes("cantiere-prove.mjs")) {
-    saltato.push("giro: guardiani già agganciati");
-  } else if (!giro.includes(ANCORA_GIRO)) {
-    saltato.push("giro: punto di innesto non trovato (giro.sh cambiato) — aggancio a mano necessario");
+  if (trova("AR-155")) {
+    saltato.push("registro: AR-155 già presente (round 2 già applicato)");
   } else {
-    const nuovo = giro.replace(ANCORA_GIRO, `${BLOCCO_GIRO}${ANCORA_GIRO}`);
-    if (!DRY) writeFileSync(GIRO, nuovo, "utf8");
-    fatto.push("giro: cantiere-prove + pagella-intelligenza agganciati (informativi)");
+    const a = trova("AR-144");
+    const b = trova("AR-117");
+    if (!a || !b) {
+      console.error("❌ AR-144 o AR-117 non trovati nel cantiere: non applico nulla (registro inatteso).");
+      process.exit(1);
+    }
+    timbraChiusura(a, {
+      quando: ORA,
+      come: "Fix mergiato in main (PR #519, cervello/costo-ai.mjs): il gate ora usa max(token_totali, token_stimati). PROVATO end-to-end il 25/7: con 275.000 stimati e soglia 100.000 stampa SOGLIA SUPERATA; con 50.000 non scatta. Il contatore delle stime è vivo (275.000 registrati il 24/7).",
+    });
+    a.verifica = { ...PROVA_FRENO };
+
+    timbraChiusura(b, {
+      quando: ORA,
+      come: "DUPLICATO di AR-144 per la parte bloccante (stesso freno, stessa causa, stesso file costo-ai.mjs): chiuso dallo stesso fix, provato end-to-end. La sua prova puntava al file SBAGLIATO (cercava token_stimati in giro.sh, il fix è in costo-ai.mjs) — per questo non si è mai chiuso da solo. Il residuo NON bloccante (conteggio token reale da motore-ai.sh + test bats) resta tracciato in AR-155.",
+    });
+    b.verifica = { ...PROVA_FRENO };
+
+    cant.difetti.push({
+      id: "AR-155",
+      titolo:
+        "Il gate budget-token protegge con le STIME, non con il consumo reale: manca la cattura usage da motore-ai.sh e il test automatico",
+      dimensione: "freni-sicurezza",
+      gravita: "grave",
+      impatto_crescita: "medio",
+      causa_radice:
+        "PR #519 ha reso vivo il gate usando max(token_totali, token_stimati), ma token_totali resta sempre 0 perché nessuno registra il consumo reale: le stime hanno un margine di errore non misurato. Residuo dei punti (a) e (c) di AR-117.",
+      fix_proposto:
+        "🟡 (a) catturare usage reale dagli eventi result dello stream-json in un punto unico (motore-ai.sh) e registrarlo senza --stima; (c) test bats con un costo-ai.json fittizio oltre soglia che verifichi RUN_AI=0.",
+      colore: "🟡",
+      stato: "aperto",
+      nato: ORA,
+      origine: "round 2 programma intelligenza (2026-07-25): residuo scorporato da AR-117 alla sua chiusura",
+      verifica: { file: "cervello/motore-ai.sh", pattern: "token_reali|usage", presente: true },
+    });
+    cant.aggiornato = ORA;
+    if (!DRY) writeFileSync(CANTIERE, `${JSON.stringify(cant, null, 2)}\n`, "utf8");
+    fatto.push("registro: AR-144 e AR-117 chiusi (con prova), AR-155 aperto per il residuo");
   }
+
+  // ─────────────── ② giro ───────────────
+  if (!existsSync(GIRO)) {
+    saltato.push(`giro: ${GIRO} non trovato`);
+  } else {
+    const giro = readFileSync(GIRO, "utf8");
+    if (giro.includes("cantiere-prove.mjs")) {
+      saltato.push("giro: guardiani già agganciati");
+    } else if (!giro.includes(ANCORA_GIRO)) {
+      saltato.push("giro: punto di innesto non trovato (giro.sh cambiato) — aggancio a mano necessario");
+    } else {
+      const nuovo = giro.replace(ANCORA_GIRO, `${BLOCCO_GIRO}${ANCORA_GIRO}`);
+      if (!DRY) writeFileSync(GIRO, nuovo, "utf8");
+      fatto.push("giro: cantiere-prove + pagella-intelligenza agganciati (informativi)");
+    }
+  }
+
+  // ─────────────── esito ───────────────
+  console.log(`\n🔧 ROUND 2 — ${DRY ? "PROVA A SECCO (niente scritto)" : "applicato"}\n`);
+  for (const f of fatto) console.log(`   ✅ ${f}`);
+  for (const s of saltato) console.log(`   ⏭️  ${s}`);
+  const bloccanti = cant.difetti.filter((d) => d.gravita === "bloccante" && d.stato !== "chiuso");
+  console.log(`\n   Bloccanti aperti: ${bloccanti.length} (${bloccanti.map((d) => d.id).join(", ")})`);
+  console.log(
+    fatto.length
+      ? "\n   Ora rimisura:  node cervello/pagella-intelligenza.mjs --gate\n"
+      : "\n   Nulla da fare: era già applicato.\n",
+  );
+  process.exit(0);
+
 }
 
-// ─────────────── esito ───────────────
-console.log(`\n🔧 ROUND 2 — ${DRY ? "PROVA A SECCO (niente scritto)" : "applicato"}\n`);
-for (const f of fatto) console.log(`   ✅ ${f}`);
-for (const s of saltato) console.log(`   ⏭️  ${s}`);
-const bloccanti = cant.difetti.filter((d) => d.gravita === "bloccante" && d.stato !== "chiuso");
-console.log(`\n   Bloccanti aperti: ${bloccanti.length} (${bloccanti.map((d) => d.id).join(", ")})`);
-console.log(
-  fatto.length
-    ? "\n   Ora rimisura:  node cervello/pagella-intelligenza.mjs --gate\n"
-    : "\n   Nulla da fare: era già applicato.\n",
-);
-process.exit(0);
+if (process.argv[1] && process.argv[1].endsWith("round2-applica.mjs")) main();

@@ -6366,6 +6366,51 @@
    "cerca": "if (!turno.length) {",
    "sostituisci": "if (false) {",
    "test": "node cervello/test/i-workflow-che-non-partono.test.mjs"
+  },
+  {
+   "lotto": 53,
+   "difetto": "AR-724",
+   "nome": "il timbro storto smette di vedere la scheda chiusa senza nessuna data",
+   "file": "cervello/contratto-scheda.mjs",
+   "cerca": ".filter((d) => d && d.stato === \"chiuso\" && !timbroValido(d.chiuso_il ?? d.chiuso))",
+   "sostituisci": ".filter((d) => d && d.stato === \"chiuso\" && d.chiuso_il !== undefined && !timbroValido(d.chiuso_il ?? d.chiuso))",
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+  },
+  {
+   "lotto": 53,
+   "difetto": "AR-724",
+   "nome": "l'occhio sul codice torna a leggere i commenti, e accusa una spiegazione",
+   "file": "cervello/contratto-scheda.mjs",
+   "cerca": "    const righe = senzaCommenti(txt).split(\"\\n\");",
+   "sostituisci": "    const righe = String(txt).split(\"\\n\");",
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+  },
+  {
+   "lotto": 53,
+   "difetto": "AR-724",
+   "nome": "l'esenzione smette di valere: chi dichiara il perché viene accusato lo stesso",
+   "file": "cervello/contratto-scheda.mjs",
+   "cerca": "      if (suQuesta || sopra) return;",
+   "sostituisci": "      void suQuesta; void sopra;",
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+  },
+  {
+   "lotto": 53,
+   "difetto": "AR-724",
+   "nome": "una chiusura senza data torna a non fermare il cancello del cantiere",
+   "file": "cervello/cantiere-integrita.mjs",
+   "cerca": "  const rotto = Boolean(spariti?.length || doppi?.length || citati?.length || senzaData?.length || seccheOltre || attiFuori?.length);",
+   "sostituisci": "  const rotto = Boolean(spariti?.length || doppi?.length || citati?.length);",
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+  },
+  {
+   "lotto": 53,
+   "difetto": "AR-724",
+   "nome": "il tetto che manca torna a essere un verde silenzioso invece di un «non ho giudicato»",
+   "file": "cervello/cantiere-integrita.mjs",
+   "cerca": "  if (dataSecca?.length && tettoSecco === null) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
   }
  ]
 }

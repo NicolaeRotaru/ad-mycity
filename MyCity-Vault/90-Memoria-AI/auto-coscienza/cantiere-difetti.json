@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-23 11:36",
+  "aggiornato": "2026-08-23 15:26",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -15579,16 +15579,20 @@
       "dimensione": "trovato-riparando",
       "gravita": "medio",
       "impatto_crescita": "basso",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-15 19:25",
       "nato_come": "scoperta",
       "causa_radice": "cervello/contratto-scheda.mjs:257 dichiara: «Ogni strada che scrive stato \"chiuso\" DEVE passare da qui — 74 schede sono finite in archivio senza il timbro». Ma cervello/round2-applica.mjs, righe 67 e 73, assegna lo stato \"chiuso\" direttamente sull oggetto della scheda, senza passare dalla porta: quei due difetti sono entrati in archivio senza i campi che il contratto pretende. E il guardiano non se n è accorto perché cerca il MODO in cui si chiude nei file che conosce, non l ATTO ovunque venga compiuto. È AR-172 nella sua forma pura: la porta a mano riparata, la porta laterale lasciata aperta. Lo script è uno-shot del 25/7 e ha già girato, quindi il danno è fatto ed è piccolo; il buco nel guardiano no.",
       "fix_proposto": "Il freno va sul DATO, non sui file noti: un guardiano che cerca  assegnato a  in TUTTO cervello/ (test esclusi) e pretende che ogni occorrenza fuori da contratto-scheda.mjs sia dichiarata esente col perche. Prova: aggiungere una riga che timbra chiuso in uno script qualsiasi e pretendere il rosso.",
       "origine": "lotto 43, secondo giro (domanda ①: ogni strada che arriva all atto passa dal freno?) — trovata cercando l ATTO con grep, non il fix",
       "verifica": {
-        "tipo": "umano",
-        "nota": "nato nel lotto 43 al secondo giro: causa verificata sul codice (round2-applica.mjs righe 67 e 73 vs contratto-scheda.mjs:257), prova da scrivere"
-      }
+        "tipo": "comando",
+        "comando": "node --test cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs",
+        "nota": "20 casi costruiti: mordono anche col cantiere vero a posto. 5 mutazioni nel lotto 53, tutte verificate rosse col fix disfatto."
+      },
+      "nota_fix": "DOVE LA SCHEDA SBAGLIAVA, e vale piu del fix: diceva che round2-applica.mjs aveva mandato in archivio due difetti «senza i campi che il contratto pretende». Letto il codice: le righe 67 e 73 assegnavano lo stato per conto loro, ma subito dopo mettevano chiuso_il e chiuso_come — AR-144 e AR-117 hanno il timbro completo (2026-07-25 01:15). Il danno previsto dalla scheda non c'era. IL DANNO VERO era altrove e piu grosso: 10 schede chiuse senza NESSUNA data (AR-768…AR-779), invisibili a ogni mese, e il voto della macchina («chiudo almeno quanto apro») calcolato su quei libri. Non le ha fatte una riga di codice: le ha fatte una mano in sessione, scrivendo dentro al JSON — cioe la strada che il fix proposto dalla scheda (grep dell'ATTO nel codice) non avrebbe mai visto. Percio le domande sono due e stanno insieme: al DATO (timbriStorti) e al CODICE (attiFuoriDallaPorta), tutt'e due dentro cantiere-integrita.mjs, che il cancello del lotto gia esegue a ogni giro. Le 24 chiusure con la data secca (data senza ora) restano sotto un tetto misurato che scende e non risale: bloccarle tutte avrebbe reso il cancello sempre rosso. round2-applica.mjs adesso passa da timbraChiusura, quindi gli atti fuori dalla porta sono 0.",
+      "chiuso_il": "2026-08-23 15:26",
+      "chiuso_come": "Due occhi sulla stessa domanda, dentro cantiere-integrita.mjs che il cancello del lotto esegue gia: al DATO (10 chiusure senza data trovate e timbrate con la data del commit che le ha pubblicate) e al CODICE (attiFuoriDallaPorta, che ignora i commenti e accetta un esente dichiarato). round2-applica.mjs passa dalla porta. Tetto timbro_secco = 24, scende e non risale. Prova: 20 casi + 5 mutazioni rosse."
     },
     {
       "id": "AR-725",
@@ -16430,7 +16434,9 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/misura-cieca.test.mjs"
-      }
+      },
+      "chiuso_il": "2026-08-18 07:39",
+      "timbro_ricostruito": "data del commit c258549f, il primo che pubblica questa scheda come chiusa: la chiusura è avvenuta al più tardi allora (AR-724, backfill del 23/8)"
     },
     {
       "id": "AR-769",
@@ -16449,7 +16455,9 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node cervello/test/porta-delle-lezioni.test.mjs"
-      }
+      },
+      "chiuso_il": "2026-08-18 08:55",
+      "timbro_ricostruito": "data del commit a42914c5, il primo che pubblica questa scheda come chiusa: la chiusura è avvenuta al più tardi allora (AR-724, backfill del 23/8)"
     },
     {
       "id": "AR-770",
@@ -16468,7 +16476,9 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node --test cervello/test/il-freno-che-scatta.test.mjs"
-      }
+      },
+      "chiuso_il": "2026-08-18 10:07",
+      "timbro_ricostruito": "data del commit c88a7d35, il primo che pubblica questa scheda come chiusa: la chiusura è avvenuta al più tardi allora (AR-724, backfill del 23/8)"
     },
     {
       "id": "AR-771",
@@ -16487,7 +16497,9 @@
       "verifica": {
         "tipo": "comando",
         "comando": "node cervello/test/archivi-senza-tetto.test.mjs"
-      }
+      },
+      "chiuso_il": "2026-08-18 12:22",
+      "timbro_ricostruito": "data del commit 3a84453f, il primo che pubblica questa scheda come chiusa: la chiusura è avvenuta al più tardi allora (AR-724, backfill del 23/8)"
     },
     {
       "id": "AR-772",
@@ -16560,7 +16572,9 @@
         "tipo": "comando",
         "comando": "node cervello/test/salute.test.mjs"
       },
-      "nota_prova": "Cinque casi con i numeri veri dell'incidente: il disco del 21/8 è rosso e il verdetto dice come svuotarlo · un disco con posto è verde e dice quanto ne resta · 500 MB su 100 GB sono rossi lo stesso (la percentuale, non solo la soglia fissa) · una misura fallita è ⚪ e mai verde · la misura vera risponde con numeri. Rotta apposta in tre modi: tolto il confronto con la soglia → 2 rossi; tolta la frazione e lasciata solo la soglia fissa → 1 rosso (proprio il caso del disco grande); fatta passare per buona una misura fallita → 1 rosso."
+      "nota_prova": "Cinque casi con i numeri veri dell'incidente: il disco del 21/8 è rosso e il verdetto dice come svuotarlo · un disco con posto è verde e dice quanto ne resta · 500 MB su 100 GB sono rossi lo stesso (la percentuale, non solo la soglia fissa) · una misura fallita è ⚪ e mai verde · la misura vera risponde con numeri. Rotta apposta in tre modi: tolto il confronto con la soglia → 2 rossi; tolta la frazione e lasciata solo la soglia fissa → 1 rosso (proprio il caso del disco grande); fatta passare per buona una misura fallita → 1 rosso.",
+      "chiuso_il": "2026-08-21 14:03",
+      "timbro_ricostruito": "data del commit b5f6ec1e, il primo che pubblica questa scheda come chiusa: la chiusura è avvenuta al più tardi allora (AR-724, backfill del 23/8)"
     },
     {
       "id": "AR-775",
@@ -16582,7 +16596,9 @@
         "tipo": "comando",
         "comando": "node cervello/test/spazza-temporanei.test.mjs"
       },
-      "nota_prova": "Cinque casi nuovi sui sette che c'erano: nomina chi occupa il posto e li ordina per peso · con niente di nostro da togliere non si ferma al verde (lanciato davvero a riga di comando, non chiamando la funzione) · il conto liberato è spazio vero e non voci di cartella · quando smetto di contare lo dico · il troncamento risale fino al referto. Rotte apposta in quattro modi, ognuno uccide esattamente i casi suoi: tolto il censimento delle sconosciute → 2 rossi; rimesso statSync(cartella).size → 1 rosso; tolta la marcatura del troncamento → 2 rossi; tolta la risalita al referto → 1 rosso."
+      "nota_prova": "Cinque casi nuovi sui sette che c'erano: nomina chi occupa il posto e li ordina per peso · con niente di nostro da togliere non si ferma al verde (lanciato davvero a riga di comando, non chiamando la funzione) · il conto liberato è spazio vero e non voci di cartella · quando smetto di contare lo dico · il troncamento risale fino al referto. Rotte apposta in quattro modi, ognuno uccide esattamente i casi suoi: tolto il censimento delle sconosciute → 2 rossi; rimesso statSync(cartella).size → 1 rosso; tolta la marcatura del troncamento → 2 rossi; tolta la risalita al referto → 1 rosso.",
+      "chiuso_il": "2026-08-21 14:03",
+      "timbro_ricostruito": "data del commit b5f6ec1e, il primo che pubblica questa scheda come chiusa: la chiusura è avvenuta al più tardi allora (AR-724, backfill del 23/8)"
     },
     {
       "id": "AR-776",
@@ -16604,7 +16620,9 @@
         "tipo": "comando",
         "comando": "node cervello/test/cancello-stop.test.mjs"
       },
-      "nota_prova": "Tre casi nuovi sui numeri veri del caso: un file oltre il tetto identico alla copia pubblicata non è lavoro mio · oltre il tetto i tre testi arrivano tagliati allo stesso modo e il taglio si dichiara · una differenza che vive oltre il tetto non la vedo e non fingo il contrario. Rotti apposta in due modi: rimesso il taglio su un solo lato → 2 rossi; spento il flag del troncamento → 1 rosso."
+      "nota_prova": "Tre casi nuovi sui numeri veri del caso: un file oltre il tetto identico alla copia pubblicata non è lavoro mio · oltre il tetto i tre testi arrivano tagliati allo stesso modo e il taglio si dichiara · una differenza che vive oltre il tetto non la vedo e non fingo il contrario. Rotti apposta in due modi: rimesso il taglio su un solo lato → 2 rossi; spento il flag del troncamento → 1 rosso.",
+      "chiuso_il": "2026-08-21 14:03",
+      "timbro_ricostruito": "data del commit b5f6ec1e, il primo che pubblica questa scheda come chiusa: la chiusura è avvenuta al più tardi allora (AR-724, backfill del 23/8)"
     },
     {
       "id": "AR-777",
@@ -16626,7 +16644,9 @@
         "tipo": "comando",
         "comando": "node cervello/test/spazza-temporanei.test.mjs"
       },
-      "nota_prova": "Quattro casi nuovi. Il primo porta i nomi veri letti sul server (porta-lezioni, due-versi, mut-mancante, cronicita-giro, coerenza, hook) e prima era rosso. Gli altri tre misurano il comportamento su una sabbiera: un prefisso scritto in una prova nuova è coperto lo stesso giorno (sia dal .mjs sia dallo .sh) · un prefisso sotto i 4 caratteri non entra · la roba viva è nell'elenco derivato e proprio per questo la protezione a parte deve reggere. Rotti apposta in quattro modi: tornato all'elenco a mano → 2 rossi; scanner cieco sugli .sh → 2 rossi; tolto il filtro sui nomi corti → 1 rosso; tolta la protezione della roba viva → 2 rossi."
+      "nota_prova": "Quattro casi nuovi. Il primo porta i nomi veri letti sul server (porta-lezioni, due-versi, mut-mancante, cronicita-giro, coerenza, hook) e prima era rosso. Gli altri tre misurano il comportamento su una sabbiera: un prefisso scritto in una prova nuova è coperto lo stesso giorno (sia dal .mjs sia dallo .sh) · un prefisso sotto i 4 caratteri non entra · la roba viva è nell'elenco derivato e proprio per questo la protezione a parte deve reggere. Rotti apposta in quattro modi: tornato all'elenco a mano → 2 rossi; scanner cieco sugli .sh → 2 rossi; tolto il filtro sui nomi corti → 1 rosso; tolta la protezione della roba viva → 2 rossi.",
+      "chiuso_il": "2026-08-21 14:59",
+      "timbro_ricostruito": "data del commit 2f6f61c6, il primo che pubblica questa scheda come chiusa: la chiusura è avvenuta al più tardi allora (AR-724, backfill del 23/8)"
     },
     {
       "id": "AR-778",
@@ -16648,7 +16668,9 @@
         "tipo": "comando",
         "comando": "node cervello/test/chi-va-in-turno.test.mjs"
       },
-      "nota_prova": "Due casi nuovi accanto a quello che era già rosso: «i passaggi pendenti non possono prendersi tutto il turno» e «i passaggi pendenti ruotano anche fra loro». Servono tutti e due perché il fix ha due metà e una sola prova le confondeva: rotti apposta, tolto il tetto → rosso il primo; tolta la rotazione fra i passaggi → rosso il secondo; nessuno dei due uccide l'altro."
+      "nota_prova": "Due casi nuovi accanto a quello che era già rosso: «i passaggi pendenti non possono prendersi tutto il turno» e «i passaggi pendenti ruotano anche fra loro». Servono tutti e due perché il fix ha due metà e una sola prova le confondeva: rotti apposta, tolto il tetto → rosso il primo; tolta la rotazione fra i passaggi → rosso il secondo; nessuno dei due uccide l'altro.",
+      "chiuso_il": "2026-08-21 16:30",
+      "timbro_ricostruito": "data del commit 9f800f40, il primo che pubblica questa scheda come chiusa: la chiusura è avvenuta al più tardi allora (AR-724, backfill del 23/8)"
     },
     {
       "id": "AR-779",
@@ -16670,7 +16692,9 @@
         "tipo": "comando",
         "comando": "node --test cervello/test/carte-numerate.test.mjs"
       },
-      "nota_prova": "Un caso nuovo (§5) che chiama rigaDaAccodare di git-pr.mjs con una coda finta dove la card-titolo (142) sta sopra ogni riga-tabella (125). Rimessa dentro la copia privata, la prova torna rossa dicendo il numero vero del guasto: «ha scelto 126». Mutazione dichiarata in cervello/mutanti.json e verificata con node cervello/non-vacuita.mjs."
+      "nota_prova": "Un caso nuovo (§5) che chiama rigaDaAccodare di git-pr.mjs con una coda finta dove la card-titolo (142) sta sopra ogni riga-tabella (125). Rimessa dentro la copia privata, la prova torna rossa dicendo il numero vero del guasto: «ha scelto 126». Mutazione dichiarata in cervello/mutanti.json e verificata con node cervello/non-vacuita.mjs.",
+      "chiuso_il": "2026-08-21 18:42",
+      "timbro_ricostruito": "data del commit fe0ca245, il primo che pubblica questa scheda come chiusa: la chiusura è avvenuta al più tardi allora (AR-724, backfill del 23/8)"
     },
     {
       "id": "AR-780",
@@ -17088,26 +17112,47 @@
         "tipo": "umano",
         "nota": "La meta' (a) e' riparata e la sua prova gira dentro il-freno-non-era-sulla-strada (le tre chiamate deviano anche lo storico). Ma il difetto e' il CONTO — quanti strumenti scrivono in piu' di un registro senza essere deviabili del tutto — e quel conto non l'ha fatto nessuno. Una prova a comando qui sarebbe verde senza che il conto esista: e' il caso che AR-787 descrive."
       }
+    },
+    {
+      "id": "AR-800",
+      "titolo": "Tre controlli del cancello sono ciechi in ogni sessione cloud, e la cura e un comando che nessuno esegue",
+      "dimensione": "trovato-riparando",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-23 15:30",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 53 (AR-724): il guardiano del cantiere diceva ⚪ su meta delle sue domande e la cecita si e sciolta con un comando",
+      "causa_radice": "Il repo arriva in una sessione cloud come clone superficiale. `storiaDelRepo` se ne accorge e i guardiani che confrontano col passato dichiarano ⚪ «non ho misurato» invece di dire verde — la parte giusta, ed e gia costata una lezione (AR-353). Manca il passo dopo: la cecita NON e una condizione del posto, si scioglie in un comando. Provato il 23/8: `git fetch --unshallow origin` ha portato la storia da 69 a 7363 commit in pochi secondi, e da li i tre controlli hanno potuto misurare davvero — oltre a fornire le 10 date di chiusura che mancavano ad AR-724. UNO dei tre («consegne senza esito») il comando lo stampa gia nella sua riga ⚪; gli altri due no, e nessuno dei tre lo esegue. Il risultato e che ogni lotto consegnato dal cloud porta tre ⚪ che sembrano il prezzo dell'ambiente e sono invece una cosa non fatta — fra cui il controllo che esiste perche il 4/7 una fusione cancello 52 difetti e nessuno se ne accorse per un mese.",
+      "dove": "cervello/storia-git.mjs · cervello/cantiere-integrita.mjs · cervello/cancello-lotto.mjs (passi «il cantiere non perde difetti», «le prove oneste», «le consegne senza esito»)",
+      "fix_proposto": "🟡 Due strade, e la seconda e il minimo. (a) Dove la storia serve, chiederla: `storiaDelRepo` torna gia il motivo, quindi chi la usa puo tentare UNA VOLTA `git fetch --unshallow` (o `--deepen=N`) e rimisurare, dichiarando ⚪ solo se anche quello fallisce — rete chiusa, permessi, repo senza remoto. (b) Se un fetch dentro un guardiano di sola lettura non si vuole, allora ogni riga ⚪ da clone superficiale deve PORTARE il comando, come fa gia «consegne senza esito»: oggi due su tre spiegano perche non hanno visto e non dicono come farsi vedere. Prova: un repo finto superficiale in cui il guardiano prima dice ⚪ e dopo il deepen misura, piu il caso in cui il fetch fallisce e il ⚪ resta (una cecita che non si puo curare va detta lo stesso).",
+      "impatto": "Tre controlli su ogni lotto consegnato dal cloud non guardano niente, fra cui quello che esiste perche il 4/7 una fusione cancello 52 difetti e nessuno se ne accorse per un mese.",
+      "origine": "lotto 53, secondo giro",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "causa verificata sul campo il 23/8: `git rev-list --count HEAD` 69 → 599 col deepen → 7363 con --unshallow, e i tre controlli sono passati dal dichiararsi ciechi al misurare. Prova da scrivere col repo finto."
+      }
     }
   ],
   "meta": {
     "letto": true,
-    "totale": 787,
-    "aperti": 98,
+    "totale": 790,
+    "aperti": 100,
     "in_corso": 0,
     "da_riverificare": 10,
-    "chiusi": 679,
+    "chiusi": 680,
     "altri": 0,
-    "da_fare": 108,
+    "da_fare": 110,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 679,
-      "aperto": 98,
+      "chiuso": 680,
+      "aperto": 100,
       "da-riverificare": 10
     },
     "stati_ignoti": [],
-    "senza_owner": 108,
-    "senza_scadenza": 108,
+    "senza_owner": 110,
+    "senza_scadenza": 110,
     "scaduti": 0,
     "derivato_dalla_lista": true,
     "somma_torna": true

@@ -33,6 +33,7 @@ import { readFileSync, existsSync, statSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { elencaFile } from "./perimetro.mjs";
+import { senzaCommenti } from "./contratto-scheda.mjs";
 
 const RADICE = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const CARTELLA = join(RADICE, ".claude", "workflows");
@@ -95,11 +96,15 @@ export const NOMI_CHE_NON_ESISTONO = Object.freeze({
   turnoDelGiro: "legge il repo: calcolalo fuori e passalo in `args`",
 });
 
-/** Il testo senza commenti né stringhe: un nome citato in una frase non è una chiamata. */
+/**
+ * Il testo senza commenti né stringhe: un nome citato in una frase non è una chiamata.
+ *
+ * I commenti li toglie la casa del contratto (`senzaCommenti`), che è la stessa regola usata per
+ * cercare l'ATTO di chiusura nel codice (AR-724). Erano due copie della stessa riga in due file, e
+ * due copie di una regola diventano due regole al primo che ne aggiusta una.
+ */
 function soloCodice(testo) {
-  return String(testo)
-    .replace(/\/\*[\s\S]*?\*\//g, " ")
-    .replace(/^\s*\/\/[^\n]*$/gm, " ")
+  return senzaCommenti(testo)
     .replace(/`(?:[^`\\]|\\.)*`/g, "``")
     .replace(/'(?:[^'\\\n]|\\.)*'/g, "''")
     .replace(/"(?:[^"\\\n]|\\.)*"/g, '""');

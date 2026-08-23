@@ -289,6 +289,68 @@ export function timbriStorti(difetti = []) {
     .map((d) => ({ id: d.id, chiuso_il: d.chiuso_il ?? d.chiuso ?? null }));
 }
 
+/**
+ * L'ATTO, NON LA PORTA — dove si scrive «chiuso» senza passare di qui (AR-724).
+ *
+ * `timbraChiusura` qui sopra è la porta, e la prosa dice da mesi che tutti devono passarci. Una
+ * dichiarazione non è un freno: il 23/8, con la porta al suo posto da settimane, il cantiere aveva
+ * ANCORA 10 schede chiuse senza nessuna data (AR-768…AR-779), e il voto mensile della macchina era
+ * calcolato su libri con quel buco dentro.
+ *
+ * Le due mani che possono fare il buco sono diverse, e servono due occhi diversi:
+ *   · una RIGA DI CODICE che assegna lo stato per conto suo → la guarda questa funzione;
+ *   · una MANO in sessione che scrive dentro al JSON → la guarda `timbriStorti`, sul dato.
+ * I 10 buchi veri li ha fatti la seconda. Un guardiano che avesse guardato solo il codice avrebbe
+ * detto verde su tutti e dieci — ed è per questo che le due domande vanno fatte insieme.
+ *
+ * Un file può dichiararsi esente scrivendo `timbro-esente:` col perché nella riga dell'atto o in
+ * quella sopra. L'esenzione non è una scappatoia: è ciò che impedisce che il guardiano sempre rosso
+ * venga aggirato invece che rispettato — e resta scritta, quindi si conta.
+ *
+ * Pura: riceve i file e il modo di leggerli, come `citatiNonRegistrati`.
+ */
+export const RE_ATTO_DI_CHIUSURA = /\bstato\s*[:=]\s*["']chiuso["']/;
+
+/** La marca con cui una riga dichiara di sapere quel che fa. */
+export const RE_TIMBRO_ESENTE = /timbro-esente\s*:/i;
+
+/**
+ * Il testo senza commenti, con le righe al loro posto.
+ *
+ * Serve perché questi file SPIEGANO nei commenti proprio l'atto che sorvegliano: `allinea-scan-cantiere.mjs`
+ * dice in cima «è il SECONDO che scrive `stato: "chiuso"`», e contarlo sarebbe un rosso su una
+ * spiegazione. I caratteri tolti diventano spazi invece di sparire, così il numero di riga
+ * dell'atto resta quello vero e l'esenzione si può cercare accanto.
+ */
+export function senzaCommenti(testo) {
+  return String(testo)
+    .replace(/\/\*[\s\S]*?\*\//g, (m) => m.replace(/[^\n]/g, " "))
+    .replace(/^([ \t]*)\/\/[^\n]*$/gm, (_m, sp) => sp);
+}
+
+export function attiFuoriDallaPorta(file, leggi, { casa = "cervello/contratto-scheda.mjs" } = {}) {
+  const fuori = [];
+  for (const f of file) {
+    if (f === casa) continue; // la porta stessa: qui l'atto è il mestiere
+    let txt;
+    try {
+      txt = leggi(f);
+    } catch {
+      continue; // un file illeggibile non è un atto: non lo conto come rosso
+    }
+    const righeVere = String(txt).split("\n");
+    const righe = senzaCommenti(txt).split("\n");
+    righe.forEach((riga, i) => {
+      if (!RE_ATTO_DI_CHIUSURA.test(riga)) return;
+      const suQuesta = RE_TIMBRO_ESENTE.test(righeVere[i] ?? "");
+      const sopra = RE_TIMBRO_ESENTE.test(righeVere[i - 1] ?? "");
+      if (suQuesta || sopra) return;
+      fuori.push({ file: f, riga: i + 1, testo: riga.trim().slice(0, 90) });
+    });
+  }
+  return fuori;
+}
+
 // ─────────────────────────── ⑤ le prove delle schede chiuse ───────────────────────────
 
 /** Il file che un comando di prova esegue (`node cervello/x.mjs --flag` → `cervello/x.mjs`). */

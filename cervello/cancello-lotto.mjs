@@ -32,6 +32,7 @@ import { verdettoConTetto, testDelLotto, idSospetti, testRossi, perimetroDichiar
 import { percorsiDaGit } from "./percorsi-git.mjs";
 // 📏 Il contratto della prova (contratto-prova.mjs): quanto vale una prova lo dice UN posto solo.
 import { debitoDiMutazione } from "./contratto-prova.mjs";
+import { timbriStorti } from "./contratto-scheda.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VELOCE = process.argv.includes("--veloce");
@@ -708,6 +709,9 @@ function main() {
     // «abbassa il tetto con --aggiorna-tetti» e quel comando quel tetto non lo toccava. Un guardiano
     // che suggerisce un rimedio che non funziona insegna a ignorare i suoi consigli.
     const debolliOra = contaProveDeboli(difetti).deboli;
+    // AR-724 — le chiusure con la data secca. Si misurano qui perché `timbriStorti` è una funzione
+    // pura sul cantiere già in mano: costa niente, e un tetto che nessuno abbassa smette di scendere.
+    const seccheOra = timbriStorti(difetti).filter((s) => s.chiuso_il).length;
     // AR-437 — i due tetti nuovi si dichiarano da qui, e ci vogliono i loro guardiani: il numero non
     // si indovina, si misura. Costa i secondi delle due corse, e si paga solo con `--aggiorna-tetti`.
     const onesteOra = idSospetti(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]).uscita).length;
@@ -720,6 +724,7 @@ function main() {
       prova_con_or: Math.min(conOr.length, tetti.prova_con_or ?? conOr.length),
       mutazione_mancante: Math.min(senzaMutazione.length, tetti.mutazione_mancante ?? senzaMutazione.length),
       prova_debole: Math.min(debolliOra, tetti.prova_debole ?? debolliOra),
+      timbro_secco: Math.min(seccheOra, tetti.timbro_secco ?? seccheOra),
       prove_oneste: Math.min(onesteOra, tetti.prove_oneste ?? onesteOra),
       test_cervello: Math.min(rossiOra.length, tetti.test_cervello ?? rossiOra.length),
     };
@@ -728,7 +733,9 @@ function main() {
     // lascia dietro un numero senza motivo — la cosa che questo cantiere cura.
     const { _mancante, _illeggibile, ...vecchio } = tetti;
     writeFileSync(TETTI, `${JSON.stringify({ ...vecchio, aggiornato: nowPiacenza(), ...nuovo }, null, 1)}\n`);
-    console.log(`🚧 tetti aggiornati: prova_con_or = ${nuovo.prova_con_or} · mutazione_mancante = ${nuovo.mutazione_mancante} · prova_debole = ${nuovo.prova_debole}`);
+    console.log(
+      `🚧 tetti aggiornati: prova_con_or = ${nuovo.prova_con_or} · mutazione_mancante = ${nuovo.mutazione_mancante} · prova_debole = ${nuovo.prova_debole} · timbro_secco = ${nuovo.timbro_secco}`,
+    );
     process.exit(0);
   }
 
