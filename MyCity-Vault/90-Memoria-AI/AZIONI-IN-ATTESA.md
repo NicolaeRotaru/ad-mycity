@@ -21,6 +21,46 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- write-vs-edit-settings-local -->
 
 ---
+### 🟡 #170 — La coda è troppo lunga e il guardiano che la sorveglia non riesce più a leggerla · ⏳ accodata 2026-08-24 12:50
+
+**In parole semplici.** Questo file — la coda delle cose da approvare — ha superato i **264.000
+caratteri**. Il controllo che verifica «ogni allarme scritto è arrivato a Nicola?» si ferma a
+200.000 e dichiara: «non ho potuto leggere il resto». Non dice che c'è un problema: dice che **non
+lo sa**. E in questi giorni quel «non lo so» ferma la consegna sul server, ogni volta.
+
+**Perché è successo.** Le card chiuse non escono dal file: vengono spostate in una sezione in fondo
+allo stesso file. Quindi la pulizia riordina, ma non accorcia: oggi 100 card aperte e 23 chiuse
+vivono insieme, e le 23 chiuse pesano da sole **97.000 caratteri**.
+
+**Cosa ho provato e perché mi sono fermato.** Ho spostato l'archivio in un file separato: la coda
+scendeva a 167.000 caratteri e il controllo tornava a leggerla tutta. Poi ho contato chi altro
+legge questo file: **più di venti programmi**, e almeno un controllo cercava proprio dentro le card
+chiuse — è diventato rosso subito. Cambiare il significato della parola «coda» tocca tutti quei
+venti, e non è un lavoro da fare di corsa a sei giorni dal 29 agosto. Ho rimesso tutto com'era.
+
+**Cosa cambia per te.** Finché resta così, ogni consegna porta un «non ho potuto misurare» che tu
+devi ignorare a mano. Un avviso che si impara a ignorare è un avviso spento.
+
+**Cosa devi fare.** Scegli quando farlo, non se:
+
+- **(a) Dopo il 29 agosto**, col collaudo vero: si sposta l'archivio in un file suo e si verifica
+  uno per uno che i venti lettori reggano. Mezza giornata di lavoro, fatta bene.
+- **(b) Adesso**, accettando il rischio di rompere qualcosa che leggeva le card chiuse.
+- **(c) Mai**, e allora il controllo va cambiato perché legga i file lunghi a pezzi.
+
+**Se va bene:** la mia raccomandazione è **(a)**. È la stessa forma di difetto che la macchina si è
+già fatta due volte — una cura frettolosa che rompe chi leggeva la roba di prima.
+
+**Cosa non ho verificato.** Non ho controllato tutti e venti i lettori: mi sono fermato al primo
+che è diventato rosso. Quindi non so quanti si romperebbero davvero — so solo che non è zero.
+
+**Dettagli tecnici.** Il guardiano è `cervello/cancello-stop.mjs`, la soglia sta in
+`si-capisce.mjs` (200.000 caratteri). Il motore della pulizia è `cervello/housekeeping-azioni.mjs`,
+che oggi riscrive la sezione `## 🗄️ Archivio` in fondo allo stesso file. Il test che si è rotto
+alla prima prova è `cervello/test/validazione-congelata.test.mjs`, che cerca un marcatore dentro
+una card chiusa. In questo lotto ho tenuto solo la guardia dell'entrypoint sul motore (AR-445).
+
+---
 ### 🟡 #169 — Centoquarantotto difetti sono chiusi con una prova che non può diventare rossa · ⏳ accodata 2026-08-24 11:45
 
 **In parole semplici.** Il collaudo di ieri ha misurato una cosa che nessuno aveva contato: **148
