@@ -17365,7 +17365,8 @@
       "verifica": {
         "tipo": "umano",
         "nota": "Nessuna prova a comando finche' il guardiano non esiste: qualunque comando scritto oggi girerebbe su un albero solo, cioe' proprio dentro il punto cieco che questa scheda descrive, e sarebbe verde mentre la collisione c'e'. Il modo di vederla a mano, e come e' stata trovata: `git show origin/<altro-ramo>:MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json` e confrontare gli id nati dopo il punto di stacco. Debito dichiarato, non lavoro finito."
-      }
+      },
+      "descrizione": " ═══ 24/8 15:30, LA COLLISIONE È SUCCEDUTA DAVVERO, e non era piu' una previsione. Unendo origin/main nel ramo del cantiere: le card #169, #170 e #171 di main sono tre azioni «Merge PR #840/#841/#842» chiuse dal worker, mentre nel ramo #169 e #170 erano due card mie ancora aperte («spedizione gratis che non e' gratis» e «tre controlli nuovi»). Nessun rosso, nessun errore: l'unione le avrebbe sovrascritte in silenzio, esattamente come scritto qui sopra. COME L'HO SCIOLTA: main e' gia' unito e pubblicato, il mio ramo no — quindi rinumero io. #169→#172 e #170→#173. E la stessa unione avrebbe fatto sparire tre chiusure del worker (le righe 169, 170, 171 dell'archivio in-linea che la mia cura sposta in Archivio/AZIONI-CHIUSE): le ho portate a mano nell'archivio separato prima di chiudere l'unione, e verificato che i numeri tornino (53 righe, da 53 a 171, nessuna persa). QUESTO NON RIPARA IL DIFETTO: e' la prova che esiste e che costa lavoro a mano ogni volta. Il freno — un controllo che veda i numeri gia' presi sugli ALTRI rami, non solo su main — resta da costruire."
     }
   ],
   "meta": {

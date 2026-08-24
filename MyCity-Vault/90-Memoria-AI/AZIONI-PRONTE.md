@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-20 11:33
+aggiornato: 2026-08-24 13:29
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -84,7 +84,7 @@ codice BENVENUTO10 al checkout (10% sul primo ordine, ~€1 in meno). 👉 Compl
 Se hai cambiato idea nessun problema, il carrello si svuota da solo — ma se la spesa la volevi davvero è a un clic.
 Nicola — MyCity.
 Codice: BENVENUTO10 (tabella `coupons`, `first_order_only=true`, costo max ~€1 — incentivo reale → firma Nicola).
-stato: BOZZE PRONTE — NESSUN INVIO. **Ri-verificato 23/7 11:45 (playbook worker, query dirette DB):** stesso carrello samir invariato (€10, ~875h/~36,5gg fermo) — unico recuperabile. Il carrello demo "Casa Linda" è sparito dalla tabella (pulizia dati, ora 3 record non 4). Profili totali corretti a 7 (il "23" del 20/7 era obsoleto) — 4 buyer confermati. 0 ordini `DELIVERED`, l'unico ordine resta quello CANCELED del 3/7 → gate PQ ancora CHIUSO. Dossier: `consegne/crm/2026-07-23-recupero-carrelli-pronte.md`. Per invio reale: firma Touch #1 🟡 dopo `#ordine-test-pq` + email da `/admin/users`.
+stato: BOZZE PRONTE — NESSUN INVIO. **Ri-verificato 23/7 11:45 (playbook worker, query dirette DB):** stesso carrello samir invariato (€10, ~875h/~36,5gg fermo) — unico recuperabile. Il carrello demo "Casa Linda" è sparito dalla tabella (pulizia dati, ora 3 record non 4). Profili totali corretti a 7 (il "23" del 20/7 era obsoleto) — 4 buyer confermati. 0 ordini `DELIVERED`, l'unico ordine resta quello CANCELED del 3/7 → gate PQ ancora CHIUSO. Dossier: `consegne/crm/2026-07-23-recupero-carrelli-pronte.md`. Per invio reale: firma Touch #1 🟡 dopo `#ordine-test-pq` + email da `/admin/users`. **Ri-verificato 24/8 13:25 (query dirette DB via MCP).** Ancora gli stessi 3 record in `abandoned_carts`, invariati dal 16/6. Samir (buyer, €10, pesto+2 kefir) resta l'unico reale. Seller-autotest PQ e admin-test restano SKIP, come sempre. Pane Quotidiano ha ancora `stripe_charges_enabled=false` e `stripe_payouts_enabled=false`. Gate ANCORA CHIUSO, nessun invio. Nessuna bozza nuova generata: nulla è cambiato dal 23/7.
 
 ## A4 · 💌 Messaggio post-consegna (grazie + recensione) — MODELLO NEUTRO RIUSABILE
 reparto: customer-success
@@ -573,7 +573,7 @@ se va bene: al primo ordine consegnato rigeneri il report con numeri veri e lo m
 gate (❌ oggi): ≥1 ordine `DELIVERED` su PQ · `#ordine-test-pq` chiuso
 testo (anteprima onesta — da inviare SOLO post-1° ordine · 🔴):
 Ciao [nome], ogni mese MyCity ti manda cosa vendi *online*, a che ora ordinano a domicilio e chi torna — dal banco non lo vedi. Questo mese: [TOP] · fascia [GIORNO/ORA] · [N] clienti di ritorno · €[Y] in carrelli recuperabili. Prossimo report tra 30 giorni. Nicola — MyCity.
-stato: STAMPO ✅ + mini-report pre-revenue ✅ — **zero consegne al titolare** finché North Star = 0 · coda canonica = **#50** [[AZIONI-IN-ATTESA]]
+stato: STAMPO ✅ + mini-report pre-revenue ✅ — **zero consegne al titolare** finché North Star = 0 · coda canonica = **#50** [[AZIONI-IN-ATTESA]]. **Ri-verificato 2026-08-24 13:29 (query SQL diretta live):** invariato — Pane Quotidiano resta unico negozio confermato, 1 ordine totale (24/6, CANCELED), 0 `DELIVERED`. 7ª verifica identica dal 6/7 senza movimento: nessun report nuovo generato (i dati non ci sono), nessuna consegna al titolare. Esito registrato nel quaderno `@account-negozi`.
 
 ## A35 · 📍 Kit capillarità Pane Quotidiano — asset pronti, stampa gated
 reparto: designer → vendite
@@ -635,7 +635,7 @@ canale: email istituzionale + restart.infocamere.it + kit WhatsApp negozi
 perche: PLAYBOOK Istituzioni worker 20/7 11:30. **AGGIORNATO 10/8: PI26/BT26/bando Piccole Imprese Territorio TUTTI CHIUSI** (sportello scaduto 30/7; PI26 anche non idoneo per MyCity, Nicola 29/7 00:10). Bando ER Regione chiuso da giugno (350 domande). Nessun bando comunale «rimborso materiali» (mai esistito). **Nessun bando locale aperto oggi da agganciare a una mail istituzionale.**
 preparato: 🏛️ relazioni-istituzionali — `consegne/relazioni-istituzionali/2026-07-20-playbook-bandi-mail-istituzioni.md` + kit `2026-07-20-kit-bandi-cciaa-negozi-1pagina.md`
 bandi_aperti_oggi:
-  · NESSUNO — verificato 9 volte (25/6, 6/7, 19/7, 20/7, 21/7, 27/7, 3/8, 10/8, 17/8)
+  · NESSUNO — verificato 10 volte (25/6, 6/7, 19/7, 20/7, 21/7, 27/7, 3/8, 10/8, 17/8, 24/8 13:53)
 bandi_chiusi_non_citare:
   · PI26 (chiuso 30/7, non idoneo) · BT26 (chiuso 30/7) · Bando Piccole Imprese Territorio CCIAA/Unione Commercianti (stessa finestra, chiuso 30/7) · Bando Commercio ER FESR (esaurito giugno) · «Vita in Centro 50% materiali» (inesistente)
 bandi_verificati_non_applicabili:

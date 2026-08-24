@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-23 19:43** — Automatico: **99 aperte · 23 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-24 12:46** — Automatico: **99 aperte · 23 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -23,7 +23,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 ---
 
 <!-- tre-controlli-nuovi-uno-solo-era-di-guardia -->
-### 🟡 #170 — Tre controlli nuovi erano rimasti in magazzino: uno l'ho messo di guardia · ⏳ accodata 2026-08-24 13:10
+### 🟡 #173 — Tre controlli nuovi erano rimasti in magazzino: uno l'ho messo di guardia · ⏳ accodata 2026-08-24 13:10
 
 **In parole semplici.** Il 23 agosto sono entrati nella macchina tre controlli nuovi. Un controllo
 serve a fermare un errore prima che esca. Ma serve a qualcosa solo se qualcuno lo fa partire. Se
@@ -62,7 +62,7 @@ di nove, e l'ho sistemata.
 ---
 
 <!-- spedizione-gratis-che-non-e-gratis -->
-### 🟡 #169 — Il sito scrive «spedizione gratis» e poi fa pagare 3 € di consegna · ⏳ accodata 2026-08-24 08:35
+### 🟡 #172 — Il sito scrive «spedizione gratis» e poi fa pagare 3 € di consegna · ⏳ accodata 2026-08-24 08:35
 
 **In parole semplici.** Su ogni prodotto sopra i 30 € il sito mette il bollino «Sped. gratis». Poi,
 al momento di pagare, aggiunge 3 € di «Consegna MyCity» su ogni ordine a domicilio. Sempre, anche
@@ -2546,8 +2546,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-21 20:26)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-21-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-24 12:46)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-24-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima

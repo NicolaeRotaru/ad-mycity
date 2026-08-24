@@ -809,9 +809,9 @@ Fonti: [Apple Developer Program](https://developer.apple.com/programs/whats-incl
 
 ---
 
-## 🛡️ I guardiani della macchina · 2026-08-21 20:26
+## 🛡️ I guardiani della macchina · 2026-08-24 12:47
 
-A ogni giro, prima che l'AI scriva una riga, girano **88 controlli automatici**. **46** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
+A ogni giro, prima che l'AI scriva una riga, girano **89 controlli automatici**. **47** hanno il potere di fermare il giro: se uno dice no, il lavoro non si chiude pulito e il motivo arriva scritto. Gli altri osservano, avvisano o frenano senza bloccare.
 
 Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato), **cieco** (non ha potuto misurare). Un guardiano cieco *non* vale come verde — è uno strumento rotto, e la macchina si ferma lo stesso: meglio memoria vecchia che memoria che mente.
 
@@ -866,6 +866,7 @@ Rispondono tutti con la stessa lingua: **verde** (passato), **rosso** (bocciato)
 | `macchina-del-tempo` | Ricostruisce la giornata della macchina in ordine: cosa è successo, quando, e perché è stato deciso. | ℹ️ scrive e basta |
 | `pota-apprendimento` | Tiene l'archivio delle lezioni sotto il tetto di lettura potando SOLO copie e morti, mai le lezioni vive: senza, il file supera il muro e la scheda Apprendimento smette di leggersi (successo l'11/8). | ℹ️ scrive e basta |
 | `sonda-volano` | Controlla che l'anello impara→correggi giri davvero, invece di sembrare che giri. | ⛔ ferma il giro |
+| `stash-dimenticate` | Quando la macchina mette da parte del lavoro per fare spazio a un aggiornamento, quel lavoro deve tornare indietro: qui si contano le volte in cui non è tornato. Il 21/8 erano 7.849, accumulate al ritmo di una al minuto senza che nessuno guardasse. | ⛔ ferma il giro |
 | `tasso-chiusura` | Il voto della macchina su sé stessa: quanti difetti chiude diviso quanti ne apre nel mese. Sotto 1 il giro smette di cercare e spende il turno a chiudere, perché ogni ricerca in più allungherebbe la lista invece di accorciarla. | ⛔ ferma il giro |
 | `tasso-lezioni` | Conta quante lezioni la macchina ha davvero applicato in questo giro, non quante ne ha in magazzino. | ⛔ ferma il giro |
 | `taste-file` | Registra i verdetti di Nicola — cosa gli è piaciuto e cosa no — perché il gusto non si reinventa ogni volta. | ℹ️ scrive e basta |

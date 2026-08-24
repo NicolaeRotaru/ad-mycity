@@ -1,7 +1,7 @@
 ---
 tipo: okr
 fonte: AD digitale
-aggiornato: 2026-08-16 10:26
+aggiornato: 2026-08-24 13:15
 ---
 
 # 🎯 OKR-Squadra — chi possiede quale numero
@@ -9,12 +9,12 @@ aggiornato: 2026-08-16 10:26
 > Ogni senior **possiede** un KPI, ha un target e un budget. Lo legge nella Carta del Dipendente (regola #3).
 > North Star dell'azienda: **ordini qualificati consegnati / settimana** (vedi [[Metriche & KPI]] e [[Piano d'Azione]] §7).
 > Fase attuale: **0→1 (primo passo)** — faro **Pane Quotidiano** (unico negozio reale, 5 prodotti). Budget spese reali = **🔴 sempre da firmare**; il "budget" qui è soprattutto tempo.
-> ⚠️ **North Star in stallo 58 giorni** (0 ordini pagati dal 24/6, misurato al 2026-08-21 14:29-14:31, query diretta MCP): non è abbandono — è la pausa che Nicola ha deciso fino al **24/8-1/9** (prima completa/perfeziona Pannello+AD+worker+marketplace, poi si concentra solo sul business — fatto `ripresa.lavoro-operativo`). Il gate azionabile resta `#ordine-test-dentro-o-fuori-dalla-pausa`: Nicola ha già risposto il 28/7 («resta dentro la pausa, collaudo a settembre» — card #35 chiusa il 13/8), nessuna scadenza nuova finché non riprende il lavoro operativo.
+> ⚠️ **North Star in stallo 61 giorni** (0 ordini pagati dal 24/6, riverificato dal vivo al 2026-08-24 ~13:05, query diretta MCP): non è abbandono — è la pausa che Nicola ha deciso fino al **24/8-1/9**, che scade oggi/domani (prima completa/perfeziona Pannello+AD+worker+marketplace, poi si concentra solo sul business — fatto `ripresa.lavoro-operativo`). Prima del collaudo restano da firmare 4 carte 🔴 che moltiplicano tutto: `#168` (server), `#154` (chiavi Vercel), `#155` (dominio), `#62` (pratica pagamenti Pane Quotidiano) — data zero fissata da Nicola il 23/8: **29 agosto**, 5 giorni residui da oggi.
 
 | Senior | KPI che possiede | Target (fase 1 — gate, non scadenza fissa) | Budget |
 |---|---|---|---|
 | 🧠 AD | North Star: ordini pagati/consegnati | 1° ordine reale — **gate: Nicola chiude `#ordine-test-dentro-o-fuori-dalla-pausa`** (nessuna data fissa: in pausa concordata fino al 24/8-1/9) | — |
-| 🧠 AD (su sé stessa) | **Tasso di chiusura**: difetti chiusi ÷ difetti aperti nel mese | **Guardrail permanente ≥ 1** (non una scadenza — sotto soglia il giro chiude invece di cercare). Misura viva: `node cervello/tasso-chiusura.mjs`. Storia: giu 0 · lug 0,54 · ago **1,04** al 2026-08-15 (229 chiusi ÷ 220 aperti) — ultimo dato verificato dal vivo; da riconfermare quando lo script torna eseguibile in sessione | — |
+| 🧠 AD (su sé stessa) | **Tasso di chiusura**: difetti chiusi ÷ difetti aperti nel mese | **Guardrail permanente ≥ 1** (non una scadenza — sotto soglia il giro chiude invece di cercare). Misura viva: `node cervello/tasso-chiusura.mjs`. Storia: giu 0 · lug 0,54 · ago **1,34** al 2026-08-24 (419 chiusi ÷ 312 aperti, dato del pre-check di giro.sh) — sopra soglia: il giro può ancora aprire lavoro nuovo quando il North-Star gate lo consente | — |
 | 🤝 vendite | Negozi LIVE nel cluster | +2 negozi LIVE | tempo · offerte 🔴 |
 | 📣 marketing | Iscritti lista d'attesa | 20 iscritti | €0 · ads 🔴 |
 | 🚀 growth-monetizzazione | € extra per esperimento | 1 esperimento partito | €0 · spesa 🔴 |
