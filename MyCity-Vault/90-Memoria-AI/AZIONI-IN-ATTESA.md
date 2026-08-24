@@ -22,6 +22,45 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- tre-controlli-nuovi-uno-solo-era-di-guardia -->
+### 🟡 #170 — Tre controlli nuovi erano rimasti in magazzino: uno l'ho messo di guardia · ⏳ accodata 2026-08-24 13:10
+
+**In parole semplici.** Il 23 agosto sono entrati nella macchina tre controlli nuovi. Un controllo
+serve a fermare un errore prima che esca. Ma serve a qualcosa solo se qualcuno lo fa partire. Se
+resta sullo scaffale è un file, non una difesa.
+
+Chi li aveva costruiti se n'era accorto e l'aveva scritto nel suo referto. Il motivo era uno solo:
+due schede di difetto che la macchina nominava dappertutto non esistevano nel registro. Finché
+mancavano, mettere di guardia quei controlli faceva diventare rosso tutto il resto.
+
+Unendo oggi il lavoro dei due rami quelle due schede sono arrivate. Il motivo che li teneva fermi è
+caduto da solo. Allora li ho provati tutti e tre sul repo vero.
+
+**Per esempio, cosa ha trovato quello che ho messo di guardia.** Si chiama «le porte gemelle dello
+stesso atto». Fa una domanda sola: un'operazione delicata da quante porte si può compiere, e ci
+passano tutte dal controllo? Lanciato, ha puntato il dito su una cosa mia. C'era un permesso
+speciale per un programma, scritto quando quel programma il controllo non lo faceva. La mia
+riparazione di questo mese glielo ha fatto fare davvero, e quel permesso è rimasto lì, morto. Un
+permesso morto non fa danni oggi: nasconde il prossimo caso vero. L'ho tolto.
+
+**Cosa cambia per te.** Da adesso quel controllo gira a ogni consegna, insieme agli altri. Gli altri
+due li ho lasciati dov'erano: partono già dal loro banco di prova, e quel banco guarda il repo vero.
+Quello delle porte gemelle no. Il suo banco dichiara di sé, alla riga 11, di girare «su un albero
+finto e mai sul repo vero». Chiamarlo «già di guardia» sarebbe stata una bugia.
+
+**Cosa devi fare.** Niente: è già dentro questa richiesta di unione. Se invece preferisci che i
+controlli nuovi restino fuori finché non li guardi tu, dimmelo e lo stacco.
+
+**Se va bene:** la macchina ha una difesa in più che gira da sola, e non tre file fermi in un
+cassetto.
+
+**Cosa non ho verificato.** I tre controlli non li ho scritti io e non li ho riletti riga per riga:
+li ho fatti girare e ho guardato cosa dicono. Il referto di chi li ha costruiti elenca altre due
+rifiniture. Una era già stata fatta prima che arrivasse a me. L'altra era un numero rimasto indietro
+di nove, e l'ho sistemata.
+
+---
+
 <!-- spedizione-gratis-che-non-e-gratis -->
 ### 🟡 #169 — Il sito scrive «spedizione gratis» e poi fa pagare 3 € di consegna · ⏳ accodata 2026-08-24 08:35
 

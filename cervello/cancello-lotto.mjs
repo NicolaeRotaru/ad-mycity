@@ -955,6 +955,15 @@ function main() {
     });
     passi.push(pOneste);
     passi.push(esegui("spazzata dei fratelli", "node", ["cervello/spazzata-fratelli.mjs"]));
+    // Il terzo freno del lotto 51, agganciato QUI e non lasciato sullo scaffale. Nasceva con la
+    // stessa malattia che cura: `guardiano-mai-messo-di-guardia` lo prendeva come «costruito e mai
+    // messo di guardia», e il suo banco lo dice di sé alla riga 11 — gira su un albero finto e MAI
+    // sul repo vero, quindi chiamarlo «cablato dal suo banco» sarebbe stato falso. L'unico
+    // bloccante che ne teneva fermo l'aggancio (le due schede citate dalla macchina e mai
+    // registrate nel cantiere) è caduto con la fusione: adesso ci sono. Sta accanto alla spazzata
+    // perché chiede la stessa cosa su una superficie in più: non «chi parte da solo», ma chi compie
+    // un atto sorvegliato passando da una porta su cui la guardia non c'è.
+    passi.push(esegui("le porte gemelle dello stesso atto", "node", ["cervello/porte-gemelle.mjs"]));
     // I due guardiani del lotto 40, cablati QUI e non lasciati sullo scaffale. Erano nati con la
     // stessa malattia che curano — costruiti e mai messi di guardia — e `guardiano-mai-messo-di-
     // guardia` li ha presi entrambi il giorno stesso: uno strumento che emette un verdetto e non lo
