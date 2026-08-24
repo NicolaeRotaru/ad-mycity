@@ -1,37 +1,37 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-24 12:51",
+  "aggiornato": "2026-08-24 13:10",
   "giorni_sospetto": 3,
-  "difetti_aperti": 117,
-  "difetti_da_fare": 117,
+  "difetti_aperti": 118,
+  "difetti_da_fare": 118,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 801,
+    "totale": 802,
     "chiusi": 684,
-    "aperti": 107,
+    "aperti": 108,
     "in_corso": 0,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 117,
+    "da_fare": 118,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 684,
       "da-riverificare": 10,
-      "aperto": 107
+      "aperto": 108
     },
     "stati_ignoti": []
   },
   "bilancio": {
     "torna": true,
-    "attese": 117,
-    "viste": 117,
+    "attese": 118,
+    "viste": 118,
     "fuori": 0,
-    "motivo": "bilancio a posto: 684 chiuse + 117 classificate = 801 schede, e ogni stato vivo è dentro (107 aperto · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 684 chiuse + 118 classificate = 802 schede, e ogni stato vivo è dentro (108 aperto · 10 da-riverificare)"
   },
   "per_classe": {
-    "umana": 73,
+    "umana": 74,
     "prova-debole-su-grave": 21,
     "auto-sospetta": 10,
     "auto-comando": 13
@@ -167,8 +167,8 @@
     }
   ],
   "chiuderebbe_lo_stesso": [],
-  "schede_non_giudicabili": 16,
-  "schede_campi_illeggibili": 16,
+  "schede_non_giudicabili": 17,
+  "schede_campi_illeggibili": 17,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -249,6 +249,11 @@
       "id": "AR-787",
       "gravita": "grave",
       "impatto_crescita": "indiretto ma sul metro: e la macchina che si misura da sola, e un banco che punisce chi cura rallenta ogni lotto da qui al 29 settembre"
+    },
+    {
+      "id": "AR-811",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto e caro: due sessioni che lavorano lo stesso repo si assegnano gli stessi numeri, e chi unisce per secondo o perde un difetto in silenzio o paga un giro di fusione. Il 24/8 e' costato un turno intero a una delle due."
     }
   ],
   "chiuse_su_prova_non_ammessa": 0,
@@ -350,9 +355,15 @@
       "gravita": "grave",
       "impatto_crescita": "indiretto ma sul metro: e la macchina che si misura da sola, e un banco che punisce chi cura rallenta ogni lotto da qui al 29 settembre",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
+    },
+    {
+      "id": "AR-811",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto e caro: due sessioni che lavorano lo stesso repo si assegnano gli stessi numeri, e chi unisce per secondo o perde un difetto in silenzio o paga un giro di fusione. Il 24/8 e' costato un turno intero a una delle due.",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 104,
+  "non_auto_chiudibili": 105,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -3297,6 +3308,19 @@
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
       "auto_chiudibile": true
+    },
+    {
+      "id": "AR-811",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "indiretto e caro: due sessioni che lavorano lo stesso repo si assegnano gli stessi numeri, e chi unisce per secondo o perde un difetto in silenzio o paga un giro di fusione. Il 24/8 e' costato un turno intero a una delle due.",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "I numeri di scheda e di card si assegnano guardando un ramo solo, quindi due rami danno lo stesso numero a cos",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
     }
   ]
 }
