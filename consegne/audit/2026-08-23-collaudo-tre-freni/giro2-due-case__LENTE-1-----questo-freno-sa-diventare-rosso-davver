@@ -1,0 +1,111 @@
+# ROTTO
+
+## prova
+Ho rigiocato ogni accusa del vecchio referto in alberi git veri (AD_REPO=…), poi ho cercato la scorciatoia. Repo vero mai toccato.
+
+=== 0) LA BASE, SUL REPO VERO ===
+$ node cervello/due-case.mjs
+  22 passi · nati 0 · riscritti 0 · rilanciati nella casa spoglia 0
+  ✅ 22 passi censiti…  exit=0   (0,156 s)
+$ node cervello/test/due-case.test.mjs → # pass 24 # fail 0  exit=0
+$ node -e 'import(".../due-case.mjs")…' → importato, niente eseguito (AR-445 ok)
+
+=== A) AR-514 RIGIOCATO — script che legge ~/.claude ed esce 2 ===
+$ node cervello/spia-chat.mjs                     → ✅ contate 2 trascrizioni · exit=0
+$ HOME=$(mktemp -d) CI=1 node cervello/spia-chat.mjs → ⚪ non ho le trascrizioni · exit=2
+$ AD_REPO=$PWD node …/due-case.mjs
+  ❌ contatore del blocco mancante — NASCE ROTTO (cervello/spia-chat.mjs)  exit=1
+  → ACCUSA CHIUSA. Nessuna carta da incollare: il rimedio stampato non è più una scappatoia.
+
+=== B) AR-506 RIGIOCATO — script che legge un file ignorato da git ===
+$ node cervello/spia-tmp.mjs → ✅ letto 3 record · exit=0
+$ AD_REPO=$PWD node …/due-case.mjs
+  ❌ spia del temporaneo — NASCE ROTTO … in casa 0, casa spoglia 2 (cieco)   exit=1
+  → ACCUSA CHIUSA.
+
+=== C) AR-511 RIGIOCATO — script che legge l'INDICE di git (verde che ha guardato zero) ===
+con una mutazione ONESTA (rompe ciò che il guardiano sorveglia):
+  ❌ spia dell indice — NASCE SENZA MORSO
+     · «la regola sorvegliata viene rotta» → il passo resta VERDE nella casa spoglia   exit=1
+  → sulla strada onesta l'accusa è chiusa. MA:
+
+=== ❌ SCORCIATOIA 1 — LA MUTAZIONE PUNTATA SUL GUARDIANO STESSO COMPRA IL VERDE ===
+Stesso albero, stesso script malato, ZERO byte cambiati in cervello/spia-indice.mjs (md5
+edc8b88…). Ho solo riscritto la voce in mutanti.json puntando `file` sul guardiano stesso:
+  { "file": "cervello/spia-indice.mjs",
+    "cerca": "if (rotti.length) { …process.exit(1); }", "sostituisci": "process.exit(1);",
+    "test": "cervello/spia-indice.mjs" }
+$ AD_REPO=$PWD node …/due-case.mjs
+  ✅ spia dell indice — verde in tutte e due le case, e sotto mutazione diventa rosso nella casa spoglia
+  ✅ 2 passi censiti, nessuno nasce rotto e nessuno nasce senza morso.   exit=0
+$ git reset -q; node cervello/spia-indice.mjs → ✅ 0 file nell'indice… exit=0  ← MALATTIA INTATTA
+
+VARIANTE ANCORA PIÙ ECONOMICA (nemmeno un exit: basta farlo ESPLODERE):
+  "cerca": "import { execFileSync } from \"node:child_process\";",
+  "sostituisci": "…; qui-non-e-javascript("      ← errore di sintassi, node esce 1
+$ AD_REPO=$PWD node …/due-case.mjs → ✅ …sotto mutazione diventa rosso…   exit=0
+
+SUL CASO VERO CHE L'AD HA IN MANO (copia del repo vero, i tre freni agganciati):
+$ timeout 400 node cervello/due-case.mjs
+  ❌ l altra porta lasciata aperta — NASCE SENZA MORSO (cervello/porte-gemelle.mjs)
+  ❌ puntatori scollegati — NASCE SENZA MORSO
+poi aggiunta UNA voce a mutanti.json: file=cervello/porte-gemelle.mjs · cerca="  process.exit(uscita);"
+· sostituisci="  process.exit(1);" · test=cervello/porte-gemelle.mjs
+$ timeout 400 node cervello/due-case.mjs
+  ✅ l altra porta lasciata aperta — verde in tutte e due le case, e sotto mutazione diventa rosso
+  ⛔ una cosa da sistemare  (resta solo l'altro freno)
+E la catena di casa la benedice:
+$ node cervello/non-vacuita.mjs --difetti AR-999 → ✅ tutte e 1 le mutazioni rendono rosso il loro test.
+$ nessun guardiano vieta file===test: in cervello/mutanti.json 7 voci su 727 ce l'hanno già.
+
+=== ❌ SCORCIATOIA 2 — IL «CRICCHETTO» SI ALZA CON UN COMANDO ===
+Passo nuovo con argomenti calcolati (mai provabile nella casa spoglia):
+1) $ AD_REPO=$PWD node …/due-case.mjs
+     ❌ tetto dei passi mai provabili — 1 contro un tetto di 0: il debito si è allargato   exit=1
+2) $ AD_REPO=$PWD node …/due-case.mjs --aggiorna-tetto
+     ✍️  tetto … scritto a 1 … «un cricchetto, non un lucchetto»   exit=0
+3) $ AD_REPO=$PWD node …/due-case.mjs   (zero byte cambiati nel cancello)
+     ✅ tetto dei passi mai provabili — 1 passi mai provabili, esattamente il tetto   exit=0
+Il tetto è SALITO. In `cancello-lotto.mjs` lo stesso gesto è `Math.min(nuovo, vecchio)` (righe 720-724):
+lì non può salire. Qui sì.
+
+=== ❌ SCORCIATOIA 3 (minore, dichiarata) — BASTA COMMITTARE ===
+Stesso albero di [A], stesso script malato:
+$ git commit -m "aggiungo il passo nuovo"
+$ AD_REPO=$PWD node …/due-case.mjs → nati 0 · ✅ 2 passi censiti…   exit=0
+$ HOME=$(mktemp -d) CI=1 node cervello/spia-chat.mjs → exit=2   ← malattia intatta
+
+=== D) IL VERDE HA GUARDATO QUALCOSA? ===
+$ cancello senza `esegui(…)` → ⚪ non ho riconosciuto nessun passo… exit=2   (contratto ok)
+Sul repo vero però: nati 0 · riscritti 0 · rilanciati 0 → il verde di oggi è il conto dei
+mai-provabili contro un numero che il freno stesso può riscrivere.
+
+=== E) IL BLOCCANTE DELLA LENTE 2 (ricorsione) ===
+copia del repo vero, riga incollata dopo la 908:
+$ timeout 120 node cervello/due-case.mjs
+  ⚪ le due case del passo nuovo — NON MI PROVO DA SOLA…  ✅ 23 passi censiti  exit=0  (0,162 s)
+$ ps -eo args | grep '[d]ue-case.mjs' → 0 processi appesi.   → CHIUSA.
+
+=== F) NON HO SPORCATO NIENTE ===
+$ cd /home/user/ad-mycity && git status --short → identico a prima (13 righe), zero residui.
+
+## dettaglio
+**In parole semplici.** La riparazione ha chiuso quasi tutto quello che i due referti contestavano: la domanda ⓐ («lo stesso verdetto nelle due case?») adesso ESEGUE davvero, e becca AR-506 e AR-514 rigiocati con un comportamento vero, non con una parola scritta. Ma la domanda ⓑ («sa diventare rosso — lì?») ha un ingresso solo: *un codice d'uscita diverso da zero dopo che qualcuno ha cambiato un file qualsiasi*. Nessuno controlla che quel file sia ciò che il guardiano sorveglia. Punto la mutazione sul guardiano stesso, e il verde si compra in sei righe di JSON senza toccare un byte dello script malato.
+
+**Il difetto vero passa, e l'ho fatto passare.** Ho costruito la malattia AR-511 — un guardiano che legge l'indice di git, cioè un verde che sul runner ha guardato zero. Sulla strada onesta il freno lo prende: «NASCE SENZA MORSO», exit 1, giusto. Poi ho fatto la cosa che chiunque farà quando ha fretta: invece di rompere ciò che il guardiano sorveglia, ho scritto una mutazione che rompe il guardiano. Risposta: «✅ verde in tutte e due le case, e **sotto mutazione diventa rosso nella casa spoglia**», exit 0. Lo script è identico al primo byte (md5 `edc8b88…`) e continua a uscire 0 con l'indice vuoto. La variante più economica non ha nemmeno bisogno di un `exit`: basta un errore di sintassi nella riga di `import`. Node esce 1, e `verdettoMutazione` chiama 1 «morde».
+
+**Non è un'ipotesi: è la mossa successiva dell'AD.** Il freno stesso, agganciato insieme agli altri due nuovi, dichiara «❌ l altra porta lasciata aperta — NASCE SENZA MORSO» e «❌ puntatori scollegati — NASCE SENZA MORSO», e stampa la bozza già intestata `"test": "cervello/porte-gemelle.mjs"`. Chi la riempie deve solo scegliere cosa mettere in `file`. La scelta giusta richiede di capire cosa quel guardiano sorveglia; la scelta sbagliata è la sua ultima riga, `process.exit(uscita)` → `process.exit(1)`. L'ho fatto sulla copia del repo vero: ✅. E la catena di casa non se ne accorge — `non-vacuita.mjs` risponde «✅ tutte e 1 le mutazioni rendono rosso il loro test», `mutazioni-orfane` trova l'àncora, e in `mutanti.json` ci sono già **7 voci su 727 con `file` uguale a `test`**: in revisione non stona nemmeno. **Il rimedio stampato non è più la scappatoia, ma indica la porta accanto — e quella è aperta.**
+
+**La seconda scorciatoia è la vecchia `--aggiorna`, con un altro nome.** Il file promette in due punti che il tetto «scende e non risale», e il JSON ha un campo che si chiama `_come_si_abbassa`. Misurato: aggiungo al cancello un passo che nessuno potrà mai rilanciare → rosso; `node cervello/due-case.mjs --aggiorna-tetto` → «✍️ tetto scritto a 1 … un cricchetto, non un lucchetto», exit 0; rilancio → verde, con zero byte cambiati nel cancello. Il tetto è **salito**. Nel cancello di casa lo stesso gesto passa da `Math.min(conOr.length, tetti.prova_con_or ?? …)`: lì il numero non può crescere, per costruzione. Qui manca proprio quel `Math.min`. È la forma esatta per cui la prima versione è stata buttata — «un comando, exit=0, verde» — e il banco non la copre: il caso 19 prova `verdettoTetto` (la funzione che confronta), non il comando che scrive.
+
+**Terza, minore e dichiarata: basta committare.** Il perimetro «nato o riscritto» degrada a `HEAD` quando la storia non è intera. Stesso albero di AR-514, `git commit`, rilancio: «nati 0», exit 0, malattia intatta. È la stessa regola che il cancello usa già (righe 448-451) e in CI c'è `fetch-depth: 0`, quindi lì regge; ma su questa macchina — clone superficiale — il freno non vedrà mai un lotto già committato. Lo stampa a ogni corsa, quindi la conto come debito dichiarato, non come inganno.
+
+**Cosa regge, e va detto, perché è molto.** La domanda ⓐ è vera: AR-506 e AR-514 li ho ricostruiti col comportamento vero (`exit=2` con HOME vuota, `exit=2` senza il file ignorato) e il freno li prende, exit 1, con il motivo giusto stampato. Il bloccante della lente 2 è chiuso davvero: agganciato al cancello torna in 0,162 s, stampa «NON MI PROVO DA SOLA» e lascia **zero** processi appesi — non 992. Il contratto d'uscita tiene: cancello senza passi riconoscibili → ⚪ exit 2, non un verde muto. Il banco passa davvero (24/24, 4,6 s), l'entrypoint è protetto, i campi dichiarativi sono spariti sul serio (`grep '"--aggiorna"'` non trova niente) e la casa spoglia è una copia usa-e-getta: il repo vero è rimasto identico riga per riga dopo una ventina di corse mie. Fra la prima e la seconda versione c'è la differenza fra una dichiarazione e una misura, e il salto è reale.
+
+**Perché ROTTO lo stesso.** La lente che sto tenendo chiede una cosa sola: se trovo la scorciatoia più ovvia per far passare il difetto sotto il naso del freno, è rotto. Ne ho trovate due, tutte e due misurate, tutte e due su malattie che il file dichiara di curare in testa a sé stesso — AR-511 fra i cinque casi fondatori, e il tetto che «non risale». E la più grave non è una svista di codice: è che il verdetto della domanda ⓑ ha per ingresso un numero che chiunque può produrre in sei righe, mentre la cosa che dovrebbe provare — *questo guardiano vede davvero ciò che dice di sorvegliare* — non è legata a niente di eseguibile. È la stessa forma di malattia della prima versione, salita di un piano: là si scriveva «da cosa leggo», qui si sceglie cosa rompere, e in tutti e due i casi lo sceglie la persona che ha fretta di consegnare.
+
+**Cosa servirebbe perché regga** (per l'AD, non per me da decidere): ① la mutazione della domanda ⓑ non deve poter toccare lo script del passo né i suoi import — se `file` sta dentro il perimetro del guardiano, è ⚪ «non ho misurato», non ✅; ② meglio ancora, pretendere due mutazioni con esito opposto (una che morde su ciò che sorveglia, una sul guardiano stesso che NON deve bastare), così il verde non si compra con una riga; ③ `--aggiorna-tetto` deve passare da `Math.min` come i tetti del cancello, e il banco deve avere un caso che ESEGUE quel comando su un tetto più alto e pretende che il numero non salga; ④ finché ① non c'è, agganciare la riga al cancello aggiunge un passo che sui difetti che dice di curare può essere spento da chi lo aggancia.
+
+**Cosa non ho verificato da qui.** Non ho lanciato niente su GitHub Actions: tutte le mie prove girano su questa macchina, su alberi git veri ma finti e su una copia del repo vero. Non ho misurato il costo quando il passo toccato è `cervello/test-cervello.mjs` (la casa spoglia rilancerebbe la suite intera). Non ho riletto i 700 righe riga per riga cercando altri buchi: mi sono fermato alla prima scorciatoia che regge, come chiede il mestiere. E non ho giudicato gli altri due freni nuovi — li ho solo usati come banco di prova per questo.
+
+**Dettagli tecnici.** File: `/home/user/ad-mycity/cervello/due-case.mjs` (700 righe; `verdettoMutazione` righe ~280-288 — l'ingresso è il solo `codice`; `misuraIlPasso` righe ~500-540 — nessun vincolo su `m.file`; il blocco `if (AGGIORNA_TETTO)` righe ~597-608 — `tetto_mai_provabili: maiProvabili.length` senza `Math.min`), `/home/user/ad-mycity/cervello/due-case.json`, `/home/user/ad-mycity/cervello/test/due-case.test.mjs` (488 righe, 24 casi; il caso 19 prova la funzione, non il comando). Confronto di casa: `cervello/cancello-lotto.mjs` righe 720-724 (`Math.min`) e 448-451 (la base). Alberi di prova in `/tmp/claude-0/-home-user/08541dc6-c549-54e8-a220-706eff039da9/scratchpad/adv/`: `t514`, `t506`, `t511`, `ttetto`, `tmuto`, `repo-cablato` (copia del repo vero coi tre freni agganciati). Nota di igiene, minore: il banco lascia dietro le sue cartelle temporanee — 1156 `/tmp/due-case-home-*` e 28 `/tmp/due-case-banco-*` vuote su questa macchina.

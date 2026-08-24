@@ -1,0 +1,43 @@
+# ROTTO
+
+## prova
+Tutto in una copia di lavoro (/tmp/.../scratchpad/L2), repo vero mai toccato: `git status --porcelain` finale identico a quello iniziale, `grep -c porte-gemelle cervello/cancello-lotto.mjs` → 0.
+
+① IL MONTAGGIO (punto 3 della lente), misurato, non ragionato. Ho ricostruito la casa della CI per davvero: `cp -a` dell'albero col lotto → `git commit` → `git clone --depth 1 file://…` (is-shallow: true, 1 commit). Poi ho incollato ESATTAMENTE la riga dichiarata e ho isolato il contributo del solo freno:
+  $ (montati solo due-case + puntatori)      node cervello/due-case.mjs → EXIT=1 · «⛔ una cosa da sistemare»
+  $ (aggiungo la riga di porte-gemelle)      node cervello/due-case.mjs → EXIT=1 · «⛔ 2 cose da sistemare»
+        ❌ le porte gemelle di ogni atto — NASCE SENZA MORSO (cervello/porte-gemelle.mjs)
+           nessuna mutazione in cervello/mutanti.json dichiara di far diventare rosso questo passo
+  La riga IN PIÙ è sua: senza, quella voce non c'è.
+  Causa: le 5 mutazioni AR-796 dichiarano tutte `test: "cervello/test/altra-porta-lasciata-aperta.test.mjs"`; quante dichiarano `test: "cervello/porte-gemelle.mjs"` (quello che il controllo del passo pretende) → 0.
+
+② LA PROVA DELLA CI CHE DICHIARA È IRRIPRODUCIBILE. Ho lanciato il comando com'è scritto:
+  $ git clone --depth 1 file:///home/user/ad-mycity clone
+  $ cd clone && node cervello/porte-gemelle.mjs
+    Error: Cannot find module '…/clone/cervello/porte-gemelle.mjs'
+  I file del lotto sono UNTRACKED: nel clone non ci sono (ls: no such file per porte-gemelle.mjs, atti-con-porte.json, il test, due-case.mjs, puntatori-scollegati.mjs). Il `diff out-clone.txt out-vero.txt` «identico carattere per carattere» e i «16 passati dentro il clone» non possono essere usciti da quel comando.
+
+③ LA BOMBA A OROLOGERIA DI ②, riprodotta. Ho chiuso AR-796 come lo chiuderebbe auto-fix.mjs (grave, `chiuso_il: "2026-08-23 14:30"`, dopo `acceso_il` 13:01, senza `altra_porta`):
+  $ node cervello/porte-gemelle.mjs
+    ❌ AR-796 — non dichiara l'altra porta — quale atto hai riparato, e chi altro lo compie?
+    EXIT=1
+  E chi scrive quel campo? `grep -rn altra_porta` su cervello/, pannello/src, auto-coscienza/ (esclusi i suoi due file) → nessuno. Zero scrittori, 51 schede bloccante/critica/grave ancora aperte, e auto-fix.mjs che chiude da solo.
+
+④ COSA REGGE (ricontrollato, non ripreso): sul clone superficiale FEDELE (lotto committato) EXIT=0 e `diff` con l'albero pieno VUOTO — il tetto 1 non nasce rosso, l'accusa specifica del punto 3 NON si riproduce · `env -i PATH=<solo node> HOME=/nonexistent node cervello/porte-gemelle.mjs` → EXIT=0, uscita identica (niente git, rete, HOME, node_modules) · md5 di registro e cantiere invariati dopo 2 corse, `git status` del clone pulito · `rm -rf pannello` → EXIT=2 e cancello-lotto:606 (`fallito: codice !== 0 && codice !== 2`) non blocca · 0 spawn/exec/fetch, guardia entrypoint alla riga 679 corretta, import silenzioso (16 export) → nessuna ricorsione · durata 204·213·209·216·224 ms su 5 corse, test 1.735 s.
+
+## dettaglio
+In parole semplici: il freno, da solo, gira bene. Ma la riga che il riparatore dichiara «agganciabile OGGI» l'ha letta e non l'ha mai incollata — e appena la incolli il cancello diventa rosso.
+
+Cosa cambia per te: se l'AD monta la riga così com'è, la consegna si ferma. Non per colpa del conto delle porte (quello regge davvero), ma perché il freno arriva al cancello senza la prova che morde: il controllo che sorveglia i passi nuovi chiede una mutazione che nomini `cervello/porte-gemelle.mjs`, e nel registro delle mutazioni non ce n'è nessuna — tutte e cinque puntano al file di test, non al passo. È la stessa malattia AR-506/511/514/526/534 che il riparatore dice di aver evitato: l'ha evitata sul conto delle porte e l'ha ripresa dalla porta accanto.
+
+Le tre cose che ho trovato, in ordine di gravità:
+
+1. IL MONTAGGIO FA ROSSO. Isolato con due corse: senza la sua riga il fratello `due-case.mjs` segnala 1 cosa, con la sua riga ne segnala 2, e la seconda è «le porte gemelle di ogni atto — NASCE SENZA MORSO». La riparazione non è nei suoi file: serve una voce in `cervello/mutanti.json` con `"test": "cervello/porte-gemelle.mjs"`. Finché non c'è, la riga non è agganciabile.
+
+2. LA PROVA DELLA CI È UNA PROMESSA, NON UNA MISURA. Il comando dichiarato non poteva funzionare: i file del lotto non sono committati, quindi il clone superficiale non li contiene — l'ho lanciato e dà «Cannot find module». Il paradosso è che la conclusione era giusta: quando ho costruito il clone come si deve (committare il lotto, poi clonare a profondità 1) il freno esce 0 con uscita identica all'albero pieno. Ma un verificatore non può accettare un risultato giusto ottenuto da un comando che non gira: è esattamente «una promessa al posto di una misura».
+
+3. LA PRIMA COSA CHE IL LOTTO FARÀ LO FA DIVENTARE ROSSO. Il controllo ② scatta sulle schede gravi chiuse dopo le 13:01 di oggi. La scheda che questo lotto chiude, AR-796, è grave e si chiude oggi. L'ho chiusa come la chiuderebbe `auto-fix.mjs` e il freno è uscito 1. E il campo che serve per farlo tacere, `altra_porta`, non lo scrive nessun programma della macchina: zero scrittori, mentre `auto-fix.mjs` chiude schede da solo e ce ne sono 51 gravi ancora aperte. È dichiarato come «forza» del freno, ma senza uno scrittore è un rosso a mano su ogni lotto futuro.
+
+Cosa non ho verificato: non ho lanciato `cervello/cancello-lotto.mjs` per intero (l'ho solo modificato nella copia di lavoro per misurare l'effetto del montaggio), quindi il rosso del cancello l'ho misurato sul passo che lo produce, non sul cancello completo. Non ho girato su un runner GitHub Actions vero: ho riprodotto la profondità del clone e l'assenza di git/HOME/rete, non il resto del runner. E non ho giudicato se `due-case.mjs` sia un metro giusto — è un file del lotto, anch'esso rosso su se stesso: se l'AD decidesse di non montarlo, il punto 1 non scatterebbe, ma restano il 2 e il 3.
+
+Dettagli tecnici — file letti: `/home/user/ad-mycity/cervello/porte-gemelle.mjs`, `/home/user/ad-mycity/cervello/atti-con-porte.json`, `/home/user/ad-mycity/cervello/mutanti.json`, `/home/user/ad-mycity/cervello/cancello-lotto.mjs:606`. Banco di prova: `/tmp/claude-0/-home-user/08541dc6-c549-54e8-a220-706eff039da9/scratchpad/L2/` (src = albero col lotto committato, ci = clone `--depth 1`). Repo vero intatto: `git status --porcelain` invariato, `cancello-lotto.mjs` con 0 occorrenze di `porte-gemelle`.

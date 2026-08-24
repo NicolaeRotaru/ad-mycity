@@ -67,6 +67,7 @@ _debug_*
 !.claude/skills/salute
 !.claude/skills/worker
 !.claude/skills/senior
+!.claude/skills/collaudo
 
 # Backup di lavoro (es. apprendimento.json.bak scritto da cristallizza-apprendimento.mjs prima di
 # riscrivere l'archivio). Servono al rollback immediato locale, ma NON vanno in git: il perimetro-

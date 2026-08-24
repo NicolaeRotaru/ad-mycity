@@ -1,0 +1,39 @@
+# altra-porta__LENTE-2-questo-freno-nasce-rot → REGGE
+
+## prova eseguita
+Ho provato a farlo cadere in sei modi, tutti eseguiti, nessuno letto.
+
+① CLONE SUPERFICIALE VERO — `git clone --depth 1 file:///home/user/ad-mycity <tmp>/clone` → `rev-parse --is-shallow-repository`=true, `rev-list --count HEAD`=**1 commit solo**. Ci ho copiato dentro i 4 file non committati e ho lanciato `node cervello/porte-gemelle.mjs` → **EXIT=1, output IDENTICO carattere per carattere** a quello sull'albero pieno (stesso atto, stesse 4 porte, stessa riga `auto-fix.mjs:402`). Nessuna finestra di cecità aperta dal `--depth`.
+   Contro-prova sulla causa: `grep -c "spawnSync|execSync|child_process" cervello/porte-gemelle.mjs` → **0**. L'unico `spawnSync("git", …)` della catena sta a `spazzata-fratelli.mjs:324`, dentro una funzione che il motore non chiama mai (importa solo `senzaCommenti`).
+   Da notare: la macchina locale è GIÀ superficiale (is-shallow=true, 53 commit) e il freno ci gira. E in CI vera il clone **non è** superficiale: `cancello-lotto.yml:58` e `test-cervello.yml:66` dichiarano entrambi `fetch-depth: 0`.
+
+② DIPENDENZE CHE SUL RUNNER NON CI SONO — il clone è senza `node_modules`, senza `npm ci`, senza rete, senza chiavi, senza Pannello costruito: gira lo stesso. `env -i PATH=…` (ambiente spogliato, niente HOME) → EXIT=1, stesso rapporto. Da un `cwd` diverso (`cd / && node <tmp>/clone/cervello/porte-gemelle.mjs`) → stesso rapporto: la radice la deriva da `import.meta.url`, non da dove lo lanci.
+   **Ho chiuso il buco che il collega dichiara al punto ②**: il ramo ⚪ lui l'ha provato su albero finto, io l'ho provato per davvero. `mv pannello /tmp/…` → «⚪ chiudere-un-difetto — non ho potuto misurare: la cartella dichiarata «pannello/src» non si legge da qui», **EXIT=2**. Corretto. `mv cervello/atti-con-porte.json …` → «⚪ … registro illeggibile … Cieco non è verde», **EXIT=2**. `mv cantiere-difetti.json …` → ⚪ sul controllo ② ma EXIT=1, perché l'atto misurato è rosso (comportamento dichiarato: «il rosso vince sul cieco»).
+
+③ QUANTO DURA — 6 corse: 215 · 195 · 190 · 198 · 200 · 208 ms. Il cancello ha 23 passi: **due decimi di secondo**, non si sente.
+
+④ NON SCRIVE NIENTE — `md5sum` di registro e cantiere prima/dopo 3 corse (compresa `--json` e `--aggiorna-tetti`): tutti OK, invariati. `--aggiorna-tetti` su un atto senza tetto → «tetti abbassati: 0», non si auto-assolve.
+
+⑤ CHI LO LANCIA — `git check-ignore` sui 4 file: **nessuno ignorato**, tutti committabili. Ma `grep -rn "porte-gemelle"` su tutto il repo (.mjs .sh .js .yml .json .md) → **zero punti di chiamata**. Solo la docstring del suo stesso registro, il suo test e `mutanti.json`. Non è in `cancello-lotto.mjs`, non in `giro.sh`, non in `salute.mjs`, non in nessun YAML.
+   Il test però il runner lo trova da solo: `node cervello/test-cervello.mjs --solo altra-porta` → ✅ 10 passati, EXIT=0. E gira anche dentro il clone superficiale: EXIT=0, 10 pass, 1,0 s.
+
+⑥ IL ROSSO È VERO O È UN FALSO POSITIVO? — verificato a mano: `auto-fix.mjs` chiama `timbraChiusura` alle righe **402 e 454**, e `grep "ammissibilitaProva|prova-ammissibile" cervello/auto-fix.mjs` → **nessuna riga**. `cantiere-prove.mjs:384` lo confessa già in prosa: «chi CHIUDE è auto-fix.mjs, che non passa da prova-ammissibile.mjs». Il rosso è un difetto vivo, non un artefatto.
+
+## dettaglio
+NON NASCE ROTTO, ed è il caso raro in cui il rosso è vero.
+
+La malattia di questa lente è un controllo che in CI non può MAI essere verde o che è cieco per costruzione. Ho provato a incastrarlo su tutti e due i fronti e non ci sono riuscito: non tocca git (0 chiamate), quindi il clone superficiale non gli apre nessuna finestra — la prova è che nel clone a 1 commit dà lo **stesso identico rapporto** dell'albero pieno; non ha bisogno di rete, chiavi, node_modules o Pannello installato; costa 200 millisecondi; non scrive niente; e quando una cartella dichiarata manca davvero risponde ⚪ con uscita 2, non un verde muto e non un rosso. Il verde è raggiungibile: gliel'ho fatto dare (vedi sotto). Su questa lente: **REGGE**.
+
+DUE COSE DA SAPERE PRIMA DI USARLO, però.
+
+**① La riga consegnata è una granata: oggi il cancello diventa rosso per tutti.** La riga è un `passi.push(esegui(…))` liscio, senza tetto e senza regola. In `cancello-lotto.mjs:610` `esegui` fa `fallito = codice !== 0 && codice !== 2`; uscita 1 → `fallito` → riga 1125 `passiRotti` non vuoto → riga 1169 `process.exit(1)`. Cioè: **su un albero pulito, senza che nessuno abbia toccato niente, ogni consegna si ferma**. È esattamente AR-506/511/514/526/534. Il collega lo dichiara, ma lo dichiara nella prosa dell'esito — nel campo `riga_per_il_cancello` la riga sta lì pronta da incollare. Chi la incolla senza leggere il resto spegne il cancello entro la settimana, che è la cosa scritta in cima al suo stesso file.
+
+**② Il rosso è una SCELTA, non una necessità — e la valvola ce l'aveva in mano.** Il motore ha `tetto_porte` proprio per questo: debito visibile che scende e non risale. L'ho provato senza toccare il repo, su una copia del registro passata da `PORTE_GEMELLE_REGISTRO`: aggiungendo `"tetto_porte": 1` all'unico atto registrato, **lo stesso motore sullo stesso albero esce 0 — VERDE**, con la porta scoperta ancora stampata e il numero congelato a 1. Quindi il freno poteva nascere agganciabile oggi, col debito dichiarato e in calo, e diventare rosso da solo alla porta numero 2. Il collega quel ragionamento l'ha applicato all'atto delle 69 porte (che infatti non ha registrato) e non l'ha applicato all'unico atto che ha registrato. Difendibile — AR-796 è vivo e un rosso lo merita — ma va detto per quello che è: una scelta che rende la consegna inutilizzabile finché AR-796 non si chiude, non un limite del freno.
+
+**③ Oggi non è una rete, è un file.** Zero punti di chiamata in tutto il repo. Il test invece è vivo e il runner lo scopre da solo (10 su 10, anche nel clone superficiale): quello sì che gira a ogni suite. Ma il motore, finché la riga non entra da qualche parte, non lo lancia nessuno.
+
+**④ Un verde sottile da tenere d'occhio.** Il controllo ② oggi ha visto **0 schede** (`acceso_il` è di oggi, 6 senza timbro fuori perimetro) e stampa comunque «✅ ogni scheda nuova ha nominato il suo atto». Lo zero è scritto accanto, quindi non è disonesto — ma se domani l'atto passasse col tetto, il freno sarebbe interamente verde avendo misurato 4 porte e zero schede. Non è un difetto oggi; è il posto dove diventerà un verde vuoto se `acceso_il` resta e nessuna scheda grave si chiude.
+
+**COSA NON HO POTUTO PROVARE IO.** Non ho lanciato `cancello-lotto.mjs` intero con la riga dentro (non devo toccarlo): il blocco l'ho dedotto leggendo `esegui`/`passiRotti`/`process.exit` e verificando che quelle righe sono quelle vere, non eseguendo il cancello. Non ho girato su un runner GitHub Actions: ho ricostruito il clone superficiale in locale, che riproduce la profondità ma non il resto del runner. E non ho verificato se `ammissibilitaProva` sia una guardia forte — se fosse debole, tutte le porte «passerebbero» e il verde sarebbe su una difesa che non difende (il collega lo dichiara al punto ④, e resta vero).
+
+**LA RACCOMANDAZIONE.** Non agganciare la riga così com'è. Due strade oneste: (a) si chiude AR-796 facendo passare `auto-fix.mjs` dalla guardia, e poi si aggancia — è la strada giusta ma è 🟡 e cambia il comportamento del cantiere, va provata; (b) si dichiara `"tetto_porte": 1` sull'atto, si aggancia subito, e il debito resta un numero in calo con la porta ancora stampata a ogni corsa. La (b) rende il freno una rete oggi; la (a) la rende una rete che non ha più niente da coprire.
