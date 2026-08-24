@@ -31,7 +31,7 @@
     "gravi": 181,
     "minori": 223,
     "agenti": 26,
-    "nota_conteggio": "24/8 mattina: tre gravi di `flussi-conversione` passano a `in-corso` (la vetrina che vende cio' che la cassa rifiuta: varianti, giacenza, e la sorgente SQL delle promozioni). Nasce un minore trovato riparando: l'invariante sugli errori ingoiati copre una cartella sola. ► Prima: il reperto delle foto ingrandite, i tre su scrittura e contatori, i 4 dell'area venditore, i 7 degli stati lato cliente. Totale e conti per gravita' aggiornati NELLO STESSO lavoro."
+    "nota_conteggio": "24/8: i due gravi della pagina ordine passano a `in-corso` (i conti che non tornavano, e il riquadro che diceva di pagare in contanti anche a chi aveva gia' pagato con la carta). Il primo era su DUE pagine, non una: anche quella del negoziante. ► Prima: i tre della vetrina, le foto ingrandite, i tre su scrittura e contatori, i 4 dell'area venditore, i 7 degli stati lato cliente. Totale e conti per gravita' aggiornati NELLO STESSO lavoro."
   },
   "confronto_precedente": null,
   "dimensioni": [
@@ -4662,7 +4662,9 @@
       "impatto": "",
       "fix": "Aggiungere al riepilogo le voci già presenti sulla riga d'ordine: «Consegna MyCity» (delivery_fee_cents), «Sconto codice» (discount_amount), «Credito MyCity» (wallet_applied_cents) — le stesse che mostra OrderSummary al checkout.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "dove_si_ripara": "richiesta #242 del marketplace",
+      "nota_misura": "24/8: la scheda nominava solo la pagina del CLIENTE. Lo stesso identico riepilogo — Subtotale, Spedizione, Totale, senza le tre voci che fanno il totale — sta anche in app/seller/orders/[id]/page.tsx, cioe' nella schermata che dice al negoziante quanto deve incassare. Curate tutt'e due con la stessa funzione. La cura aggiunge una cosa che la scheda non chiedeva: il riepilogo dichiara se le voci FANNO il totale, e quando non torna lo scrive invece di mostrare righe che si contraddicono."
     },
     {
       "dimensione": "flussi-conversione",
@@ -4674,7 +4676,8 @@
       "impatto": "",
       "fix": "Selezionare metodo e stato del pagamento e mostrare il riquadro solo per gli ordini in contanti non ancora pagati; per la carta scrivere «Già pagato con carta · {totale}».",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "dove_si_ripara": "richiesta #242 del marketplace"
     },
     {
       "dimensione": "flussi-conversione",
@@ -5731,7 +5734,7 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-24 11:02",
+    "aggiornato": "2026-08-24 11:21",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
