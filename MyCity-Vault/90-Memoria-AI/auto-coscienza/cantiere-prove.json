@@ -1,7 +1,7 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-24 17:44",
+  "aggiornato": "2026-08-24 18:13",
   "giorni_sospetto": 3,
   "difetti_aperti": 118,
   "difetti_da_fare": 118,
@@ -10,8 +10,8 @@
     "motivo": null,
     "totale": 802,
     "chiusi": 684,
-    "aperti": 108,
-    "in_corso": 0,
+    "aperti": 107,
+    "in_corso": 1,
     "da_riverificare": 10,
     "altri": 0,
     "da_fare": 118,
@@ -19,7 +19,8 @@
     "per_stato": {
       "chiuso": 684,
       "da-riverificare": 10,
-      "aperto": 108
+      "aperto": 107,
+      "in-corso": 1
     },
     "stati_ignoti": []
   },
@@ -28,7 +29,7 @@
     "attese": 118,
     "viste": 118,
     "fuori": 0,
-    "motivo": "bilancio a posto: 684 chiuse + 118 classificate = 802 schede, e ogni stato vivo è dentro (108 aperto · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 684 chiuse + 118 classificate = 802 schede, e ogni stato vivo è dentro (107 aperto · 1 in-corso · 10 da-riverificare)"
   },
   "per_classe": {
     "umana": 74,

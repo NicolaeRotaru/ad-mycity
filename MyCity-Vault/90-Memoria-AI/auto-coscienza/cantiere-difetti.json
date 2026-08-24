@@ -17143,7 +17143,7 @@
       "gravita": "bloccante",
       "impatto_crescita": "alto",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "in-corso",
       "nato": "2026-08-23 16:05",
       "nato_come": "nuovo-lavoro",
       "nato_da": "lotto 54: costruite le fondamenta della BOTTEGA lato codice (cervello/bottega/lavoro.mjs)",
@@ -17155,7 +17155,8 @@
       "verifica": {
         "tipo": "umano",
         "nota": "il lato codice e provato da `node cervello/test/un-negozio-non-vede-l-altro.test.mjs` (20 casi, 6 mutazioni rosse). Le colonne della tabella sono lette dal vivo il 23/8 col Supabase MCP, non dedotte dal codice. Il lato tabella non si puo provare da qui: il database e in sola lettura per la macchina e la migrazione e una firma di Nicola."
-      }
+      },
+      "descrizione": " ═══ 24/8 16:05, LOTTO 60 — meta' fatta, e la meta' che manca e' una firma tua, non altro codice. FATTO E PROVATO: il Pannello adesso scrive SEMPRE la corsia. Chi non dichiara un negozio sta chiedendo un lavoro del CENTRO e lo dice — nessuna riga nasce senza corsia. La decisione sta in pannello/src/lib/lavoro-negozio.ts, prova pannello/src/lib/lavoro-negozio.test.mts, 9 casi, 6 mutazioni verificate rosse. DUE POSTI DOVE IL NEGOZIO SPARIVA, trovati leggendo e non cercandoli, e sono la parte che vale: ① `bodyJsonLavoro` non passa il payload al database, lo RICOSTRUISCE campo per campo — mettere negozio_id in creaLavoroEsito e fermarsi li' sarebbe stato un fix che non fixa, il campo moriva una riga dopo senza che nessuno lo vedesse; ② `postLavoroUnaVolta`, se l'inserimento fallisce, riprova TOGLIENDO la colonna nuova. Per gruppo_id va bene, si perde un raggruppamento della chat. Sul negozio sarebbe stato il difetto reso automatico: «il database rifiuta la riga col negozio? scrivila senza», cioe' il lavoro di una bottega nel mucchio comune, in silenzio, a ogni inserimento, con la riga che risulta scritta bene. Adesso quel ripiego vale SOLO per il centro. PERCHE' IL CENTRO HA UN NOME E NON UN CAMPO VUOTO: un campo che puo' essere vuoto e' un campo che si puo' dimenticare, e poi il muro nel database (AR-802) dovrebbe decidere cosa fare del vuoto — «vuoto vede tutto» e «vuoto non vede niente» sono tutt'e due trappole. Col centro che ha un nome, la colonna puo' diventare obbligatoria. COSA MANCA, ED E' TUA: due file SQL pronti in pannello/sql/. Il passo 1 (lavori-negozio-id.sql) aggiunge la colonna, mette 'centro' sulle 3.255 righe che c'erano e crea l'indice: si puo' applicare quando vuoi, anche prima che il Pannello nuovo sia online. Il passo 2 (lavori-negozio-id-obbligatorio.sql) rende la colonna obbligatoria, ed e' QUELLO a chiudere il buco: da li' in poi un insert diretto che si dimentica il negozio NON RIESCE. ⚠️ Il passo 2 va DOPO che il Pannello nuovo e' online, altrimenti il codice di oggi — che il negozio non lo scrive — fallisce a ogni creazione di lavoro e la macchina si ferma. L'ordine e' scritto dentro il file. IL DIFETTO RESTA APERTO (in-corso) perche' la sua verifica e' umana e la tabella, da qui, non la posso toccare: il database e' in sola lettura per la macchina. Card #174 in coda."
     },
     {
       "id": "AR-802",

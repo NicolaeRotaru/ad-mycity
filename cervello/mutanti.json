@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-23 15:20",
+ "aggiornato": "2026-08-24 16:05",
  "mutanti": [
   {
    "lotto": 30,
@@ -7023,6 +7023,60 @@
    "cerca": "      if (String(e?.fino_al || \"\").trim()) {",
    "sostituisci": "      if (false) {",
    "test": "cervello/test/altra-porta-lasciata-aperta.test.mjs"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-801",
+   "nome": "il negozio dichiarato e vuoto torna a scivolare nel centro: chi credeva di avere una bottega finisce nel mucchio comune, in silenzio",
+   "file": "pannello/src/lib/lavoro-negozio.ts",
+   "cerca": "  if (!pulito) throw new Error(\"negozio-dichiarato-e-vuoto\");",
+   "sostituisci": "  if (!pulito) return CENTRO;",
+   "test": "pannello/src/lib/lavoro-negozio.test.mts"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-801",
+   "nome": "una bottega torna a potersi scrivere senza il suo negozio: il difetto stesso reso automatico a ogni inserimento",
+   "file": "pannello/src/lib/lavoro-negozio.ts",
+   "cerca": "export function siPuoRipiegareSenzaNegozio(negozioId: string): boolean {\n  return eDelCentro(negozioId);",
+   "sostituisci": "export function siPuoRipiegareSenzaNegozio(negozioId: string): boolean {\n  return true;",
+   "test": "pannello/src/lib/lavoro-negozio.test.mts"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-801",
+   "nome": "il centro perde il nome e torna a essere il campo vuoto, cioe un campo che si puo dimenticare",
+   "file": "pannello/src/lib/lavoro-negozio.ts",
+   "cerca": "export const CENTRO = \"centro\";",
+   "sostituisci": "export const CENTRO = \"\";",
+   "test": "pannello/src/lib/lavoro-negozio.test.mts"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-801",
+   "nome": "il corpo che parte verso il database smette di portare il negozio: bodyJsonLavoro lo ricostruisce da zero e il campo muore li",
+   "file": "pannello/src/lib/store.ts",
+   "cerca": "  if (payload.negozio_id) body.negozio_id = sanitizeDbText(payload.negozio_id);",
+   "sostituisci": "",
+   "test": "pannello/src/lib/lavoro-negozio.test.mts"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-801",
+   "nome": "chi crea il lavoro smette di mettere il negozio nel payload: la riga nasce senza corsia",
+   "file": "pannello/src/lib/store.ts",
+   "cerca": "    negozio_id: negozioPerLaCoda(negozioId),",
+   "sostituisci": "",
+   "test": "pannello/src/lib/lavoro-negozio.test.mts"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-801",
+   "nome": "il ripiego torna a spogliare la riga senza chiedere di chi e: il negozio sparisce quando il database fa i capricci",
+   "file": "pannello/src/lib/store.ts",
+   "cerca": "  const siPuoTogliereIlNegozio = siPuoRipiegareSenzaNegozio(negozio);",
+   "sostituisci": "  const siPuoTogliereIlNegozio = true;",
+   "test": "pannello/src/lib/lavoro-negozio.test.mts"
   }
  ]
 }

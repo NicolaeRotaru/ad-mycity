@@ -4,6 +4,7 @@
 // salvano, ma l'assistente gira comunque su richiesta).
 
 import { comeRitentareScrittura } from "./atto-unico";
+import { CENTRO, negozioPerLaCoda, siPuoRipiegareSenzaNegozio } from "@/lib/lavoro-negozio";
 
 const URL = process.env.SUPABASE_URL;
 const KEY = process.env.SUPABASE_SERVICE_KEY;
@@ -180,6 +181,9 @@ function bodyJsonLavoro(payload: Record<string, string>): string {
   const stato = payload.stato || "in_attesa";
   const body: Record<string, string> = { richiesta, tipo, stato };
   if (payload.gruppo_id) body.gruppo_id = sanitizeDbText(payload.gruppo_id);
+  // AR-801 — questa funzione RICOSTRUISCE il corpo campo per campo: un campo che non è qui non
+  // arriva al database, e chi l'ha messo nel payload non se ne accorge. Il negozio deve passare.
+  if (payload.negozio_id) body.negozio_id = sanitizeDbText(payload.negozio_id);
   const raw = JSON.stringify(body);
   if (!richiesta.trim() || !raw || raw.length < 10) {
     throw new Error("payload-lavoro-vuoto");
@@ -193,13 +197,23 @@ async function postLavoroUnaVolta(payload: Record<string, string>, gruppoId?: st
     headers: { ...headers(), Prefer: "return=representation" },
     body: bodyJsonLavoro(payload),
   }, 0, timeoutMs);
-  // Se la colonna gruppo_id non esiste sul DB, riprova SUBITO senza (non è un fallimento di rete).
-  if (!res.ok && gruppoId) {
-    const { gruppo_id: _g, ...senzaGruppo } = payload;
+  // Se una colonna nuova non esiste ancora sul DB, riprova SUBITO senza (non è un fallimento di rete).
+  //
+  // ⚠️ AR-801 — il negozio si toglie SOLO se il lavoro è del centro. Per una bottega questo ripiego
+  // sarebbe il difetto stesso reso automatico: «il database rifiuta la riga col negozio? scrivila
+  // senza», cioè il lavoro di un negozio nel mucchio comune, in silenzio, a ogni inserimento.
+  // Meglio un errore che si vede di una riga scritta male che nessuno guarderà mai.
+  const negozio = payload.negozio_id || CENTRO;
+  const siPuoTogliereIlNegozio = siPuoRipiegareSenzaNegozio(negozio);
+  if (!res.ok && (gruppoId || siPuoTogliereIlNegozio)) {
+    const { gruppo_id: _g, negozio_id: _n, ...spoglio } = payload;
+    const ripiego: Record<string, string> = siPuoTogliereIlNegozio
+      ? spoglio
+      : { ...spoglio, negozio_id: payload.negozio_id };
     res = await sbFetch(`${URL}/rest/v1/lavori`, {
       method: "POST",
       headers: { ...headers(), Prefer: "return=representation" },
-      body: bodyJsonLavoro(senzaGruppo),
+      body: bodyJsonLavoro(ripiego),
     }, 0, timeoutMs);
   }
   return res;
@@ -225,14 +239,17 @@ const LAVORO_TIMEOUT_MS = 4000;
 const LAVORO_TENTATIVI = 2;
 
 /** Crea un lavoro e dice ESATTAMENTE cosa è successo (per la chat/coda del Pannello). */
-export async function creaLavoroEsito(richiesta: string, tipo = "analisi", gruppoId?: string | null): Promise<EsitoLavoro> {
+export async function creaLavoroEsito(richiesta: string, tipo = "analisi", gruppoId?: string | null, negozioId?: string | null): Promise<EsitoLavoro> {
   if (!memoryConnected()) {
     return { ok: false, motivo: "config", dettaglio: "mancano SUPABASE_URL / SUPABASE_SERVICE_KEY negli env di Vercel" };
   }
+  // AR-801 — ogni riga della coda dichiara la sua corsia. Chi non passa un negozio sta chiedendo un
+  // lavoro del CENTRO, e lo dice: nessuna riga resta senza corsia.
   const payload: Record<string, string> = {
     richiesta: sanitizeDbText(richiesta),
     tipo: sanitizeDbText(tipo || "chat") || "chat",
     stato: "in_attesa",
+    negozio_id: negozioPerLaCoda(negozioId),
   };
   if (gruppoId) payload.gruppo_id = sanitizeDbText(gruppoId);
   let ultimo: { motivo: MotivoLavoro; status?: number; dettaglio: string } = {
