@@ -31,7 +31,7 @@
     "gravi": 181,
     "minori": 222,
     "agenti": 26,
-    "nota_conteggio": "24/8 mattina: tre reperti nuovi sulla stessa malattia degli stati, vista dal lato della SCRITTURA e dei CONTATORI (il cuore dei preferiti che dice «salvato» senza aver salvato; i preferiti e il «Segui» che spariscono su una lettura fallita; quattro contatori che trasformano un guasto in uno zero che non si ricontrolla). Nascono gia' `in-corso`: sono riparati nella richiesta #242 e si chiudono col merge. Totale e conti per gravita' aggiornati NELLO STESSO lavoro. ► 23/8 sera: i 4 reperti dell'AREA VENDITORE erano passati a `in-corso` nello stesso modo."
+    "nota_conteggio": "24/8: il reperto delle foto ingrandite passa a `in-corso` (riparato nella richiesta #242, si chiude col merge). ► 24/8 mattina: tre reperti nuovi sulla stessa malattia degli stati, vista dal lato della SCRITTURA e dei CONTATORI, nati gia' `in-corso`. ► 23/8 sera: i 4 reperti dell'AREA VENDITORE passati a `in-corso` nello stesso modo. Totale e conti per gravita' aggiornati NELLO STESSO lavoro."
   },
   "confronto_precedente": null,
   "dimensioni": [
@@ -4083,7 +4083,9 @@
       "impatto": "",
       "fix": "Togliere `unoptimized` e passare `loader={caricatoreFotoRemote}`, come già fa components/ProductCard.tsx:161. Next chiede la larghezza giusta e il ridimensionamento resta sul CDN di Supabase, senza costi in più.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "dove_si_ripara": "richiesta #242 del marketplace",
+      "nota_misura": "24/8: la scheda ne nominava tre (Ultimi visti, Completa con, sponsorizzati). Contandoli tutti sono SETTE i punti che chiedono una foto piu' piccola del riquadro — si aggiungono la galleria del sito venditore, i prodotti simili, il caricamento immagini del venditore e le foto da promuovere. Il rapporto vero e' fra 1,2 e 1,6 volte, non di piu': la prima misura diceva fino a 7,7 volte perche' leggevo `sizes` prendendo il numero piu' grande, e in «(min-width: 768px) 160px» il numero piu' grande e' la soglia dello schermo, non il riquadro. Con quella lettura sbagliata la cura avrebbe fatto scaricare foto quasi cinque volte piu' grandi del necessario. Restano fuori misura cinque punti che dichiarano il riquadro solo in percentuale di schermo."
     },
     {
       "dimensione": "immagini-media",
@@ -5715,7 +5717,7 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-24 09:56",
+    "aggiornato": "2026-08-24 10:17",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
