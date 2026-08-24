@@ -17309,7 +17309,8 @@
         "tipo": "comando",
         "comando": "node cervello/campo-visivo-memoria.mjs --zero",
         "nota": "Rosso finché il difetto c'è, verde solo quando ogni testo vivo sta dentro il campo visivo. `--zero` è un metro diverso da quello del cancello: quello chiede «il buco si è allargato?» e oggi risponde no (c'è un tetto e siamo sotto); questo chiede «il buco c'è?». Misurato alla nascita: 195.870 caratteri fuori campo su due file."
-      }
+      },
+      "descrizione": "24/8 lotto 60 — META' FATTA, e il difetto RESTA APERTO perche' la sua prova e' ancora rossa. SALA OPERATIVA e' rientrata: le voci dall'11 al 27 luglio sono in Archivio/SALA-OPERATIVA-archivio.md e il file vivo e' passato da 296.531 a 189.973 caratteri. Il punto cieco scende da 198.196 a 109.275 e il tetto scende con lui. La cura e' la stessa gia' usata su STATO.md il 22/8: un canale in ordine di tempo si taglia per data, il vecchio esce, il vivo resta. COSA HO CAPITO FACENDOLA, e non era scritto qui: il controllo legge i PRIMI 200.000 caratteri e poi taglia, quindi la parte che non guarda e' la CODA. Su un canale cronologico la coda sono le voci PIU' RECENTI — era cieco esattamente sul pezzo che qualcuno legge davvero, non sulla roba vecchia. COSA MANCA: RADIOGRAFIA-MACCHINA.md, 309.275 caratteri, +109.275 fuori campo. Li' il taglio per data non serve: e' un referto ordinato per gravita' (bloccanti, gravi, minori), non un diario. Vuole un taglio diverso — i reperti gia' chiusi fuori, gli aperti dentro — e per farlo bisogna incrociarlo col cantiere. Non l'ho fatto qui perche' e' un lavoro suo, non una riga di questo lotto."
     },
     {
       "id": "AR-809",
