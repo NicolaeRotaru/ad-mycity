@@ -4335,11 +4335,11 @@
       "titolo": "I campi di ricerca sono a 14px: iPhone ingrandisce la pagina da solo appena li tocchi",
       "severita": "grave",
       "file": "components/SearchBar.tsx:174 (`text-sm`, campo presente in tutte le pagine); components/checkout/CouponInput.tsx:63; components/StoreProductExplorer.tsx:75; app/stores/page.tsx:249; components/ProductQA.tsx:162; components/NewsletterForm.tsx:78; components/LocationPill.tsx:121",
-      "descrizione": "Verificato uno per uno: tutti e sette gli `<input>` citati hanno `text-sm` (14px). Safari su iPhone ingrandisce la pagina quando si mette a fuoco un campo sotto i 16px e non torna indietro da solo. Il progetto conosce già la regola: components/ui/Field.tsx:22 dichiara in commento «mobile: `text-base` (≥16px) per non innescare lo zoom automatico su iOS» e la riga 30 usa `text-base` — ma questi campi non passano dalla primitiva. Il più esposto è quello di SearchBar, montato nella barra in alto di ogni pagina (Navbar.tsx:207); il secondo è il campo coupon dentro il checkout.",
+      "descrizione": "Verificato uno per uno: tutti e sette gli `<input>` citati hanno `text-sm` (14px). Safari su iPhone ingrandisce la pagina quando si mette a fuoco un campo sotto i 16px e non torna indietro da solo. Il progetto conosce già la regola: components/ui/Field.tsx:22 dichiara in commento «mobile: `text-base` (≥16px) per non innescare lo zoom automatico su iOS» e la riga 30 usa `text-base` — ma questi campi non passano dalla primitiva. Il più esposto è quello di SearchBar, montato nella barra in alto di ogni pagina (Navbar.tsx:207); il secondo è il campo coupon dentro il checkout. ═══ 24/8, RIMISURATO E RIPARATO: NON SONO SETTE, SONO 63 SU 97. I sette elencati qui sopra erano un campione, e li ho verificati uno per uno: ci sono ancora tutti. Contandoli tutti col metro giusto — il tag JSX si chiude al `>` di livello ZERO, non al primo `>` che capita, perche dentro un attributo c'e la freccia di `onChange={(e) => ...}` molto prima di `className` — i campi di testo del sito sono 97 e 63 stanno sotto i 16px. Fra questi la ricerca in cima a ogni pagina, il codice sconto del checkout e venti campi dell'area venditore. LA CURA STA NEL CSS, NON IN 63 FILE: `app/globals.css` porta un pavimento a 16px per `input`/`textarea`/`select` con classe `text-xs` o `text-sm`, dentro `@media (pointer: coarse)`. Nomina le due classi piccole invece di prendere tutti i campi, cosi alza solo cio che e troppo piccolo e i campi scritti apposta grandi restano come sono; la specificita e 0,1,1 e vince sulla utility di Tailwind (0,1,0) senza `!important`. Vale sul DISPOSITIVO e non su una larghezza, perche un telefono in orizzontale supera i 767px e zooma lo stesso. IL FRENO: tests/unit/il-campo-che-fa-zoomare-il-telefono.test.ts (11 casi) pretende che nessun campo usi una classe piccola fuori da quelle nominate nel CSS, e la lista la LEGGE dal CSS invece di ricopiarla. Che leggerla serva e misurato con due mutazioni appaiate: con la lista ricopiata dentro la prova, togliere `input.text-sm` dal CSS passa VERDE; leggendola dal file, lo stesso buco diventa ROSSO. Sette mutazioni verificate rosse in tutto. EFFETTO VISIBILE DICHIARATO: su telefono quei 63 campi passano da 14 a 16 punti. E la regola che il progetto aveva gia scritto per se in components/ui/Field.tsx.",
       "impatto": "",
       "fix": "Portare questi campi a `text-base` (o `text-base sm:text-sm` per tenere il compatto sul desktop). Meglio: farli passare dalla primitiva `Input` di components/ui/Field.tsx, e aggiungere una regola di lint che vieti `text-sm`/`text-xs` su `<input>`, `<select>`, `<textarea>`.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso"
     },
     {
       "dimensione": "mobile-pwa",
@@ -5771,7 +5771,7 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-24 14:26",
+    "aggiornato": "2026-08-24 15:11",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
