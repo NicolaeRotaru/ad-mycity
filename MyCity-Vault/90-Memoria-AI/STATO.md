@@ -73,6 +73,20 @@ tre controlli usano per capire se l'attivita' e' ferma.
 > lotto ⑨ ha rifatto il metro sugli errori ingoiati: 53 chiamate al database nell'area venditore, 15
 > cieche, tutte riparate.
 >
+> 🔬 **24/8 12:05 — Tre freni costruiti, uno solo promosso: gli altri due li ha bocciati il collaudo.** Richiesta di Nicola: «parti con tutti e tre».
+>
+> **Cos'era il lavoro.** Tre freni contro le tre forme con cui il riparare crea difetti nuovi: il controllo che nasce già rotto, la porta a mano riparata mentre quella automatica resta aperta, il puntatore che resta indietro quando il codice si sposta.
+>
+> **Come è andata.** Quattro giri, trentun senior, e un collaudo affidato a chi non aveva costruito niente. **Tredici bocciature su quattordici collaudi**, e ogni costruttore aveva consegnato dicendo «fatto, tutto verde». Alla fine ne passa **uno**: le porte gemelle, promosso da due collaudatori indipendenti e agganciato al cancello. Montarlo toglie un rosso invece di aggiungerlo.
+>
+> **I due bocciati, col motivo.** Il freno delle due case ignora la cartella di lavoro che il cancello dichiara, quindi misura un comando diverso da quello vero: una riga compra il verde. Il freno dei puntatori funziona, ma quando ferma il cancello **non dice quale scheda l'ha rotto**. Stampa i primi quindici accusati, che sono i quarantasei vecchi. La scheda nuova resta in fondo e non si vede mai. Restano strumenti da lanciare a mano, dichiarati.
+>
+> **Cosa resta scritto.** Il metodo è nella skill `collaudo`, le venti scorciatoie misurate in `cervello/scorciatoie-note.md`, i referti interi in `consegne/audit/2026-08-23-collaudo-tre-freni/`. Il cantiere adesso prevede il collaudo indipendente al punto 7bis e le tre domande di Nicola al 7ter.
+>
+> **Cosa non ho verificato.** Niente di tutto questo l'ho visto girare sul server vero: le prove sono tutte su questa macchina e su copie usa-e-getta del progetto. E il metodo resta provato su un tipo solo di lavoro, i freni della macchina.
+>
+> **Dettagli tecnici.** Freno agganciato: `cervello/porte-gemelle.mjs`, riga dopo «spazzata dei fratelli» in `cancello-lotto.mjs`, con la voce tolta da `guardiani-motivi.json` (montato, sarebbe fantasma). Nel cantiere sono registrate tre schede: AR-796 per il promosso, AR-797 e AR-798 per i bocciati. In coda le card #172 e #173.
+
 > ⏰ **23/8 11:50 — La data zero è il 29 agosto, non il 29 settembre. Sei giorni, non trentotto.** Correzione di Nicola in chat: «29 agosto» e «va finito tutto quello che ho detto».
 >
 > **Cosa è cambiato.** Ieri sera avevo registrato il 29 settembre. Oggi Nicola ha corretto: la data è il **29 agosto 2026**. Restano **sei giorni più oggi**. Le quattro cose restano tutte e quattro: i difetti della macchina, i difetti del design del sito, il worker per le botteghe da costruire, il design della parte venditore mai lavorato.

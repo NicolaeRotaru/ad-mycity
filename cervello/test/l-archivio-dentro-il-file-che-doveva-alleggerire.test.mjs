@@ -71,7 +71,7 @@ test("la coda si accorcia davvero: è tutto il punto", () => {
 
 test("la coda dice dove sono finite: un archivio senza cartello somiglia a una cancellazione", () => {
   const r = pulisci(codaFinta(["### 🟡 #1 — aperta\n\nt", "### ✅ #2 — chiusa\n\nt"]));
-  assert.match(r.coda, /AZIONI-CHIUSE/, "chi scorre la coda fino in fondo deve poter arrivare all'archivio");
+  assert.match(r.coda, /AZIONI-archivio/, "chi scorre la coda fino in fondo deve poter arrivare all'archivio");
 });
 
 // ─────────────────── ② l'archivio già esistente non si perde ───────────────────

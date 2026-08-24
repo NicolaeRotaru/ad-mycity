@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-24 12:46** — Automatico: **99 aperte · 23 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-24 20:49** — Automatico: **103 aperte · 24 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -22,7 +22,75 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-<!-- muro-negozi-due-sql-in-ordine -->
+<!-- permesso-speciale-morto-tolto -->
+### 🟡 #176 — Ho tolto un permesso speciale rimasto in giro, morto · ⏳ accodata 2026-08-24 13:10
+
+**In parole semplici.** C'è un controllo che chiede: un'operazione delicata da quante porte si può
+fare, e ci passano tutte davanti alla guardia? Aveva un permesso speciale per un programma, scritto
+quando quel programma la guardia non ce l'aveva.
+
+La mia riparazione di questo mese gliel'ha fatta fare davvero. Quel permesso è rimasto lì, morto.
+
+**Cosa cambia per te.** Un permesso morto non fa danni oggi. Fa danni il giorno che serve davvero,
+perché nasconde il caso vero dietro un'eccezione che nessuno ricorda più perché c'è. L'ho tolto.
+
+**Cosa devi fare.** Niente: è già dentro la richiesta di unione della macchina.
+
+**Se va bene:** quel controllo torna a guardare tutte le porte, senza eccezioni.
+
+**Cosa non ho verificato.** Il controllo non l'ho scritto io e non l'ho riletto riga per riga: l'ho
+fatto girare e ho guardato cosa dice. Montarlo nel cancello l'ha fatto un altro ramo, non io — il
+mio lavoro qui è solo il permesso tolto.
+
+---
+
+### 🟡 #175 — Il sito scrive «spedizione gratis» e poi fa pagare 3 € di consegna · ⏳ accodata 2026-08-24 08:35
+
+**In parole semplici.** Su ogni prodotto sopra i 30 € il sito mette il bollino «Sped. gratis». Poi,
+al momento di pagare, aggiunge 3 € di «Consegna MyCity» su ogni ordine a domicilio. Sempre, anche
+sopra i 30 €.
+
+Per chi compra, «spedizione» e «consegna» sono la stessa cosa. Quindi il bollino promette una cosa e
+la cassa ne fa un'altra.
+
+**Per esempio:** una persona mette nel carrello un prodotto da 34 €. Sulla scheda legge «Spedizione
+gratuita». Arriva al carrello e trova 37 €. È il primo posto dove quei 3 € compaiono. Sulla scheda
+prodotto non ci sono da nessuna parte, ed è l'ultimo schermo prima di aggiungere al carrello.
+
+E c'è il dettaglio che fa più male. Al momento di pagare, il riepilogo scrive «Spedizione: Gratis».
+Subito sotto scrive «Consegna MyCity 3,00 €». E sotto ancora: «Pagamento sicuro. Niente costi
+nascosti».
+
+**Cosa cambia per te.** Oggi il sito fa una promessa sui soldi che non mantiene, su ogni prodotto
+sopra i 30 €. Non è un difetto tecnico. È quello che un cliente chiamerebbe una sorpresa alla cassa,
+ed è la cosa che fa abbandonare il carrello e non tornare più.
+
+**Cosa devi fare.** Scegliere fra due strade, perché una costa soldi e la decisione è tua.
+
+**(a) Dire come stanno le cose.** Il bollino diventa «Sped. gratis · 3 € di consegna», e i 3 €
+compaiono già sulla scheda prodotto. Non cambia un euro di quello che incassi. Cambia che chi compra
+lo sa prima. Costo: zero. Rischio: il bollino perde un po' di forza.
+
+**(b) Tenere la promessa.** Sopra i 30 € i 3 € non si pagano più: se li assorbe MyCity. Il bollino
+resta com'è ed è vero. Costo: 3 € su ogni ordine a domicilio sopra i 30 €, tolti dal tuo margine.
+
+**Io farei la (a)**, e non per prudenza. La (b) è una decisione sul prezzo, e le decisioni sul prezzo
+sono tue. La (a) invece non è una scelta. È smettere di dire una cosa non vera, e si può fare oggi.
+
+Rispondi «ok 169 a» o «ok 169 b». Lo faccio nel lotto dopo.
+
+**Cosa non ho verificato.** Non so quanti ordini a domicilio superino i 30 €, quindi non so quanto
+costerebbe la (b). Il sensore dei pagamenti non è collegato, e dal cloud non posso contarli. Se vuoi
+la cifra prima di decidere, serve collegare Stripe in sola lettura.
+
+**Cosa cambia:** il bollino «Sped. gratis» su ogni prodotto sopra i 30 € oggi promette una cosa che
+la cassa non mantiene, e i 3 € si vedono per la prima volta nel carrello.
+
+**Se va bene:** con la (a) riscrivo bollino, scheda prodotto e riepilogo perché dicano lo stesso
+numero, con la prova che li tiene allineati. Con la (b) tolgo i 3 € sopra la soglia.
+
+---
+
 ### 🟡 #174 — Due comandi per il database, e l'ordine conta · ⏳ accodata 2026-08-24 16:10
 
 **In parole semplici.** La macchina delle botteghe deve servire tanti negozi con un programma solo.
@@ -79,93 +147,48 @@ controllo diventava rosso ogni volta. Diventa rosso ogni volta.
 
 ---
 
-<!-- tre-controlli-nuovi-uno-solo-era-di-guardia -->
-### 🟡 #173 — Tre controlli nuovi erano rimasti in magazzino: uno l'ho messo di guardia · ⏳ accodata 2026-08-24 13:10
+### 🟡 #172 — Centoquarantotto difetti sono chiusi con una prova che non può diventare rossa · ⏳ accodata 2026-08-24 11:45
 
-**In parole semplici.** Il 23 agosto sono entrati nella macchina tre controlli nuovi. Un controllo
-serve a fermare un errore prima che esca. Ma serve a qualcosa solo se qualcuno lo fa partire. Se
-resta sullo scaffale è un file, non una difesa.
+**In parole semplici.** Il collaudo di ieri ha misurato una cosa che nessuno aveva contato: **148
+difetti risultano chiusi, ma la prova che dovrebbe sorvegliarli non può diventare rossa**. Settantotto
+non hanno nessun comando da eseguire, settanta hanno solo una parola cercata dentro un file. Se uno
+di quei 148 si riapre domani, non se ne accorge nessuno: nella Cabina resta scritto «chiuso».
 
-Chi li aveva costruiti se n'era accorto e l'aveva scritto nel suo referto. Il motivo era uno solo:
-due schede di difetto che la macchina nominava dappertutto non esistevano nel registro. Finché
-mancavano, mettere di guardia quei controlli faceva diventare rosso tutto il resto.
+In più il cancello conta **98 schede riparate la cui prova non è mai stata rotta apposta**. Nessuno ha
+mai visto quella prova diventare rossa, quindi nessuno sa se funziona.
 
-Unendo oggi il lavoro dei due rami quelle due schede sono arrivate. Il motivo che li teneva fermi è
-caduto da solo. Allora li ho provati tutti e tre sul repo vero.
+**Un esempio di cosa vuol dire.** Il 23 luglio un difetto chiuso a giugno si era riaperto e l'ha
+scoperto un collaudatore un mese dopo, per caso: è la scheda AR-142, i permessi della sessione più
+larghi del dovuto. La sua prova c'era ed era buona — solo che nessun processo la rilanciava.
 
-**Per esempio, cosa ha trovato quello che ho messo di guardia.** Si chiama «le porte gemelle dello
-stesso atto». Fa una domanda sola: un'operazione delicata da quante porte si può compiere, e ci
-passano tutte dal controllo? Lanciato, ha puntato il dito su una cosa mia. C'era un permesso
-speciale per un programma, scritto quando quel programma il controllo non lo faceva. La mia
-riparazione di questo mese glielo ha fatto fare davvero, e quel permesso è rimasto lì, morto. Un
-permesso morto non fa danni oggi: nasconde il prossimo caso vero. L'ho tolto.
+**Cosa cambia per te.** Il numero di difetti chiusi che vedi nella Cabina è più ottimista della
+realtà: dentro ci sono 148 chiusure che nessuno sta sorvegliando. Non vuol dire che siano tornate —
+vuol dire che se tornassero, lo scopriresti tu e non la macchina.
 
-**Cosa cambia per te.** Da adesso quel controllo gira a ogni consegna, insieme agli altri. Gli altri
-due li ho lasciati dov'erano: partono già dal loro banco di prova, e quel banco guarda il repo vero.
-Quello delle porte gemelle no. Il suo banco dichiara di sé, alla riga 11, di girare «su un albero
-finto e mai sul repo vero». Chiamarlo «già di guardia» sarebbe stata una bugia.
+**Cosa devi fare.** Scegliere quanto vale la pena spendere, perché sono lavoro a mano:
 
-**Cosa devi fare.** Niente: è già dentro questa richiesta di unione. Se invece preferisci che i
-controlli nuovi restino fuori finché non li guardi tu, dimmelo e lo stacco.
+- **(a) Tutte e 148**, riaperte e riprovate una per una. È il lavoro più lungo e non entra nei sei
+  giorni che restano al 29 agosto.
+- **(b) Solo le gravi e le bloccanti**, che sono quelle che se tornano fanno danno vero.
+- **(c) Nessuna adesso.** Da oggi però il cantiere non chiude più un difetto grave senza una prova
+  a comando. Così il numero smette di crescere mentre pensiamo al resto.
 
-**Se va bene:** la macchina ha una difesa in più che gira da sola, e non tre file fermi in un
-cassetto.
+**Se va bene:** la mia raccomandazione è **(c) subito e (b) dopo il 29**. Il tappo prima
+dell'asciugatura: la regola nuova è già scritta nel mansionario del cantiere, manca solo la tua parola
+per applicarla ai lotti di questi giorni.
 
-**Cosa non ho verificato.** I tre controlli non li ho scritti io e non li ho riletti riga per riga:
-li ho fatti girare e ho guardato cosa dicono. Il referto di chi li ha costruiti elenca altre due
-rifiniture. Una era già stata fatta prima che arrivasse a me. L'altra era un numero rimasto indietro
-di nove, e l'ho sistemata.
+**Cosa non ho verificato.** I 148 li ho contati leggendo il cantiere, non li ho riaperti uno per uno:
+alcuni potrebbero essere davvero risolti e non avere bisogno di niente. E il conteggio delle 98 mai
+rotte apposta viene dal cancello, che lo stampa a ogni consegna — non l'ho ricalcolato a mano.
 
----
-
-<!-- spedizione-gratis-che-non-e-gratis -->
-### 🟡 #172 — Il sito scrive «spedizione gratis» e poi fa pagare 3 € di consegna · ⏳ accodata 2026-08-24 08:35
-
-**In parole semplici.** Su ogni prodotto sopra i 30 € il sito mette il bollino «Sped. gratis». Poi,
-al momento di pagare, aggiunge 3 € di «Consegna MyCity» su ogni ordine a domicilio. Sempre, anche
-sopra i 30 €.
-
-Per chi compra, «spedizione» e «consegna» sono la stessa cosa. Quindi il bollino promette una cosa e
-la cassa ne fa un'altra.
-
-**Per esempio:** una persona mette nel carrello un prodotto da 34 €. Sulla scheda legge «Spedizione
-gratuita». Arriva al carrello e trova 37 €. È il primo posto dove quei 3 € compaiono. Sulla scheda
-prodotto non ci sono da nessuna parte, ed è l'ultimo schermo prima di aggiungere al carrello.
-
-E c'è il dettaglio che fa più male. Al momento di pagare, il riepilogo scrive «Spedizione: Gratis».
-Subito sotto scrive «Consegna MyCity 3,00 €». E sotto ancora: «Pagamento sicuro. Niente costi
-nascosti».
-
-**Cosa cambia per te.** Oggi il sito fa una promessa sui soldi che non mantiene, su ogni prodotto
-sopra i 30 €. Non è un difetto tecnico. È quello che un cliente chiamerebbe una sorpresa alla cassa,
-ed è la cosa che fa abbandonare il carrello e non tornare più.
-
-**Cosa devi fare.** Scegliere fra due strade, perché una costa soldi e la decisione è tua.
-
-**(a) Dire come stanno le cose.** Il bollino diventa «Sped. gratis · 3 € di consegna», e i 3 €
-compaiono già sulla scheda prodotto. Non cambia un euro di quello che incassi. Cambia che chi compra
-lo sa prima. Costo: zero. Rischio: il bollino perde un po' di forza.
-
-**(b) Tenere la promessa.** Sopra i 30 € i 3 € non si pagano più: se li assorbe MyCity. Il bollino
-resta com'è ed è vero. Costo: 3 € su ogni ordine a domicilio sopra i 30 €, tolti dal tuo margine.
-
-**Io farei la (a)**, e non per prudenza. La (b) è una decisione sul prezzo, e le decisioni sul prezzo
-sono tue. La (a) invece non è una scelta. È smettere di dire una cosa non vera, e si può fare oggi.
-
-Rispondi «ok 169 a» o «ok 169 b». Lo faccio nel lotto dopo.
-
-**Cosa non ho verificato.** Non so quanti ordini a domicilio superino i 30 €, quindi non so quanto
-costerebbe la (b). Il sensore dei pagamenti non è collegato, e dal cloud non posso contarli. Se vuoi
-la cifra prima di decidere, serve collegare Stripe in sola lettura.
-
-**Cosa cambia:** il bollino «Sped. gratis» su ogni prodotto sopra i 30 € oggi promette una cosa che
-la cassa non mantiene, e i 3 € si vedono per la prima volta nel carrello.
-
-**Se va bene:** con la (a) riscrivo bollino, scheda prodotto e riepilogo perché dicano lo stesso
-numero, con la prova che li tiene allineati. Con la (b) tolgo i 3 € sopra la soglia.
+**Dettagli tecnici.** Fonte: lettura di `cantiere-difetti.json` del 23/8 (578 chiusi con
+`verifica.comando`, di cui 561 dentro la suite che il cancello rilancia; 78 senza comando; 70 con
+`file+pattern`) e riga `mutazione-mancante` del cancello. Referti del collaudo:
+`consegne/audit/2026-08-23-collaudo-tre-freni/`. Regola nuova: `.claude/skills/cantiere/SKILL.md` ⑦ter.
 
 ---
 
+<!-- muro-negozi-due-sql-in-ordine -->
 ### 🔴 #168 — Il server che fa lavorare la macchina è fermo da quattro giorni · ⏳ accodata 2026-08-22 20:25
 
 **In parole semplici.** Il server non alza più le cadenze dal 18 agosto alle 06:50. Sono 109 ore.
@@ -2613,4 +2636,8 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse stanno in [[Archivio/AZIONI-CHIUSE]] — fuori da questo file, perché qui ci si legge solo quello che aspetta una tua firma.
+> 🗄️ Le card chiuse (23) stanno in [[AZIONI-archivio]] — `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
+
+---
+
+> 🗄️ Le card chiuse (24) stanno in [[AZIONI-archivio]] — `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

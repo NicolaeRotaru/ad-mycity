@@ -955,15 +955,21 @@ function main() {
     });
     passi.push(pOneste);
     passi.push(esegui("spazzata dei fratelli", "node", ["cervello/spazzata-fratelli.mjs"]));
-    // Il terzo freno del lotto 51, agganciato QUI e non lasciato sullo scaffale. Nasceva con la
-    // stessa malattia che cura: `guardiano-mai-messo-di-guardia` lo prendeva come «costruito e mai
-    // messo di guardia», e il suo banco lo dice di sé alla riga 11 — gira su un albero finto e MAI
-    // sul repo vero, quindi chiamarlo «cablato dal suo banco» sarebbe stato falso. L'unico
-    // bloccante che ne teneva fermo l'aggancio (le due schede citate dalla macchina e mai
-    // registrate nel cantiere) è caduto con la fusione: adesso ci sono. Sta accanto alla spazzata
-    // perché chiede la stessa cosa su una superficie in più: non «chi parte da solo», ma chi compie
-    // un atto sorvegliato passando da una porta su cui la guardia non c'è.
-    passi.push(esegui("le porte gemelle dello stesso atto", "node", ["cervello/porte-gemelle.mjs"]));
+    // AR-796 — l'atto che ha due strade: quella che passa da una persona e quella automatica. Si
+    // ripara la prima, la seconda resta aperta, e il difetto rientra dalla porta di servizio (è la
+    // forma di AR-558 e AR-172). Sta nel cancello perché il momento in cui una porta gemella nasce
+    // è la consegna: è lì che si aggiunge un secondo chiamante e non lo si dice a nessuno.
+    //
+    // PROMOSSO DAL COLLAUDO DEL 23-24/8, unico su tre. Due collaudatori indipendenti, quattro giri:
+    // otto righe innocue su otto (stringa, messaggio d'errore, import morto, commento, template,
+    // oggetto esportato) NON spengono l'accusa; la porta nuova scritta nelle sette forme vere di
+    // questa casa esce sempre 1 col nome del file e la riga; i numeri sono stati ricalcolati da
+    // fuori e tornano; non chiama git, quindi il clone superficiale non lo tocca; costa ~210 ms.
+    // Montarlo TOGLIE un rosso invece di aggiungerlo: senza questa riga `guardia-viva-check` esce 1
+    // («costruito e mai messo di guardia») e la prova `guardiano-mai-messo-di-guardia` cade 17/18.
+    // Per la stessa ragione in `guardiani-motivi.json` NON deve esserci la sua voce: montato, quella
+    // voce diventa fantasma e fa rosso la suite per tutti. Le due cose partono insieme o nessuna.
+    passi.push(esegui("le porte gemelle di ogni atto", "node", ["cervello/porte-gemelle.mjs"]));
     // I due guardiani del lotto 40, cablati QUI e non lasciati sullo scaffale. Erano nati con la
     // stessa malattia che curano — costruiti e mai messi di guardia — e `guardiano-mai-messo-di-
     // guardia` li ha presi entrambi il giorno stesso: uno strumento che emette un verdetto e non lo

@@ -2,7 +2,7 @@
 // 🗄️ LE DUE CASE DELLE CARD — dove vivono le carte della coda, adesso che sono due file. 🟢 Sola lettura.
 //
 // Dal 23/8 (AR-807, clausola a) le carte chiuse non stanno più in fondo a `AZIONI-IN-ATTESA.md`: la
-// pulizia le porta in `Archivio/AZIONI-CHIUSE.md`. La coda tiene solo quello che aspetta una firma,
+// pulizia le porta in `Archivio/AZIONI-archivio.md`. La coda tiene solo quello che aspetta una firma,
 // e torna dentro il campo visivo del controllo che la legge.
 //
 // PERCHÉ QUESTO FILE ESISTE, ed è la lezione del 22/8. Quel giorno ho spostato le carte chiuse e ho
@@ -21,7 +21,7 @@ import { join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
 
 export const CODA = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
-export const ARCHIVIO = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-CHIUSE.md");
+export const ARCHIVIO = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md");
 
 /** Le due case, in ordine: prima quello che aspetta, poi quello che ha già avuto risposta. */
 export const CASE = [CODA, ARCHIVIO];

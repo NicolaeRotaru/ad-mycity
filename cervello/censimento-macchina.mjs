@@ -122,7 +122,7 @@ export const DESCRIZIONI = {
     senior: "La squadra dei 120 a fondo: chi è vivo, chi dorme, chi si sovrappone, chi non consegna nel formato giusto.",
     cantiere: "La riparazione dei difetti che le radiografie hanno trovato: si sceglie per malattia, non per conteggio.",
     verify: "La prova sul campo: guida il Pannello vero con un browser e i test del worker, per dimostrare che un fix funziona.",
-    collaudo: "Il metodo che dice se una riparazione REGGE: chi ha costruito non collauda, e chi collauda ha il mandato di distruggere.",
+    collaudo: "Il collaudo di ciò che deve reggere: chi ha costruito non collauda, e chi collauda ha il mandato di distruggere.",
     // Qui si descrive solo ciò che sta in `.claude/skills/`: le skill di un pacchetto plugin
     // entrano quando il pacchetto le mette in quella cartella, non prima (il censimento segna
     // «fantasma» ogni riga rimasta per un pezzo assente — è successo con 67 skill di un pack rimosso).

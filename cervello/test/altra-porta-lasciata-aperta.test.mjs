@@ -60,6 +60,7 @@ import { spawnSync } from "node:child_process";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const MOTORE = join(QUI, "..", "porte-gemelle.mjs");
+const REPO = join(QUI, "..", "..");
 
 const CASA = "export function guardiaFinta(d) {\n  return { ok: Boolean(d) };\n}\n";
 const ATTO_COMPIUTO = "export function fai(d) {\n  chiudiTutto(d);\n}\n";
@@ -89,8 +90,18 @@ function albero({ atti, extra = {} } = {}) {
   return tmp;
 }
 
+// L'invocazione passa dal percorso RELATIVO alla radice del repo, con `cwd` sulla radice — non dal
+// percorso assoluto. Non è un vezzo: `cervello/guardia-viva.mjs` riconosce chi ESEGUE un guardiano
+// da un elenco di forme note, e `[MOTORE, …]` con MOTORE calcolato non è fra quelle. Con la forma
+// vecchia questo banco eseguiva il motore davvero e il censimento dei guardiani lo dichiarava
+// «costruito e mai messo di guardia»: la dichiarazione in `guardiani-motivi.json` risultava una
+// bugia, e la suite diventava rossa per tutti. Il difetto NON era la dichiarazione — era che
+// l'esecuzione vera fosse scritta in una forma che il metro non sa leggere. (Il metro stesso lo
+// dichiara in testa a sé: «un elenco di forme note sbaglia sempre sulla prima forma nuova»; questa
+// è la quarta volta che quel conto si alza.)
 function gira(tmp, ...argomenti) {
-  return spawnSync("node", [MOTORE, ...argomenti], {
+  return spawnSync("node", ["cervello/porte-gemelle.mjs", ...argomenti], {
+    cwd: REPO,
     encoding: "utf8",
     env: { ...process.env, PORTE_GEMELLE_REPO: tmp, PORTE_GEMELLE_REGISTRO: join(tmp, "atti-finti.json") },
   });
