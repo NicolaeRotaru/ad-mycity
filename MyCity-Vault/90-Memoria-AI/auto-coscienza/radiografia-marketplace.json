@@ -4596,11 +4596,11 @@
       "titolo": "Al muro dell'accesso si perdono codice sconto, metodo di pagamento e fascia: al ritorno il totale è più alto",
       "severita": "grave",
       "file": "app/checkout/page.tsx:797-800 (salva solo `form`), 369-384 (ripristino), 424 (paymentMethod torna al default), 492-512 (ri-verifica del coupon già esistente)",
-      "descrizione": "CONFERMATO. Alla riga 798 la bozza salvata è `JSON.stringify(form)` e basta: nome, indirizzo, città, CAP, telefono, note. `couponCode`/`appliedCoupon`, `paymentMethod` e slotDay/slotTodayTime/slotTomorrowTime non vengono salvati né ripristinati (l'effetto di ripristino fa solo `setForm`). Chi accede o si registra proprio nel momento di confermare torna con lo sconto sparito e il metodo riportato a 'card'. Un totale che sale dopo il login è la definizione del carrello abbandonato.",
+      "descrizione": "CONFERMATO. Alla riga 798 la bozza salvata è `JSON.stringify(form)` e basta: nome, indirizzo, città, CAP, telefono, note. `couponCode`/`appliedCoupon`, `paymentMethod` e slotDay/slotTodayTime/slotTomorrowTime non vengono salvati né ripristinati (l'effetto di ripristino fa solo `setForm`). Chi accede o si registra proprio nel momento di confermare torna con lo sconto sparito e il metodo riportato a 'card'. Un totale che sale dopo il login è la definizione del carrello abbandonato. ═══ 24/8, RIPARATO — e la cura non e' «salva anche quei campi». ① COSA TORNA ADESSO: il codice sconto, il metodo di pagamento e le tre variabili della fascia, oltre all'indirizzo che tornava gia'. ② DELLO SCONTO SI SALVA IL CODICE E MAI LA CIFRA, per due motivi che vanno nella stessa direzione. La bozza sta in localStorage, e nel browser ci scrive chiunque: se il ritorno rimettesse lo sconto salvato, bastarebbe aprire la memoria del browser e scriverci un numero per vedersi un carrello scontato. E il carrello puo' essere cambiato nel frattempo — il codice valeva sopra i 30 euro, la persona ha tolto un articolo in un'altra scheda, quello sconto non e' piu' suo. Un codice invece e' una stringa: passa dalla verifica come il primo giorno, e la ri-verifica nella pagina c'era gia' (righe 492-512, agganciata come diceva la scheda). ③ LA FASCIA HA UNA TRAPPOLA CHE LA SCHEDA NON NOMINAVA: accesso alle 19:55, ritorno alle 20:05. «Stasera · 18:00-20:00» era scelta ed era giusta, adesso non e' piu' proponibile. Rimetterla vorrebbe dire riportare la persona esattamente sull'ordine con l'appuntamento gia' passato, cioe' il difetto chiuso nel lotto prima. Torna solo se `fasceAncoraPossibili(ora)` la contiene ancora; se per oggi non resta niente, nemmeno il giorno «oggi» si rimette. ④ «CARTA» NON SI RIMETTE dove Stripe non e' disponibile: sarebbe riportare qualcuno su una strada che non porta da nessuna parte. ⑤ IL GREZZO NON ENTRA PIU' NEL FORM: `bozzaLetta` tiene solo i campi che sa leggere e scarta gli oggetti annidati — prima era `JSON.parse(raw) as Partial<typeof form>` spremuto dentro `setForm`, cioe' fiducia cieca in una cosa scritta nel browser. La logica sta in lib/bozza-checkout.ts. Freno: tests/unit/il-muro-dell-accesso-faceva-salire-il-totale.test.ts, 21 casi, 8 mutazioni verificate rosse. NON VERIFICATO con gli occhi, e non ho misurato quante persone si registrino proprio in quel punto: so che chi lo faceva perdeva lo sconto, non quanti siano.",
       "impatto": "",
       "fix": "Salvare nella stessa bozza couponCode, paymentMethod e le tre variabili della fascia; al ripristino ri-verificare il codice con validateCouponFromBrowser (la ri-verifica esiste già alle righe 492-512, basta agganciarla).",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso"
     },
     {
       "dimensione": "flussi-conversione",
@@ -5771,7 +5771,7 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-24 18:13",
+    "aggiornato": "2026-08-24 18:35",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
