@@ -98,6 +98,10 @@ export const ESENZIONI = {
   // preso dal web vale come voce finché non lo verifico, e se contraddice il registro-fatti vince
   // il registro. Le mosse che decido dopo averlo letto passano dalle guardie di sempre.
   WebFetch: "chiede una pagina e la legge: non scrive nel repo e non tocca il mondo. Quello che torna è testo di altri: vale come voce da verificare, mai come fatto, e le mosse che ne seguono le guardano le guardie di sempre",
+  // Trovato dal cancello dello Stop il 24/8, durante il playbook Istituzioni (verifica bandi via web).
+  // WebSearch è il gemello di WebFetch senza URL fissato: lancia una ricerca e legge i risultati. Non
+  // scrive nel repo e non tocca il mondo — la stessa esenzione di WebFetch vale parola per parola.
+  WebSearch: "lancia una ricerca sul web e legge i risultati: non scrive nel repo e non tocca il mondo. Quello che torna è testo di altri: vale come voce da verificare, mai come fatto, e le mosse che ne seguono le guardano le guardie di sempre",
   // Trovato dal cancello dello Stop il 21/8, poco dopo aver aperto la PR del plugin: la posta in
   // arrivo di GitHub. Leggerla non scrive nel repo e non tocca il mondo, e svuotare la coda non
   // cambia niente fuori dalla sessione. Ma vale la stessa cautela di WebFetch, anzi di più: chi
