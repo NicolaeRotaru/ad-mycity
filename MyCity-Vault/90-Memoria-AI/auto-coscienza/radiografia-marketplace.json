@@ -4557,11 +4557,11 @@
       "titolo": "Nel checkout convivono tre promesse di consegna diverse, e una resta scritta anche se scegli «Domani»",
       "severita": "grave",
       "file": "app/checkout/page.tsx:883; components/checkout/DeliverySlotPicker.tsx:44 (NOW_LABEL «~30–45 min»), 103 (subtitle «~30–45 min»), 33-36 (fasce di oggi); lib/delivery.ts:13 (EXPRESS_ETA_LABEL «30-60 min»)",
-      "descrizione": "CONFERMATO. Dentro l'unico riquadro «Quando vuoi riceverlo»: la mattonella «Adesso» dice «~30–45 min», la riga «Consegna a domicilio» sotto dice «In 30-60 minuti dalla conferma del negozio», la fascia preselezionata è «In giornata · 15:00–18:00» (slotDay parte da 'today', page.tsx:409). La riga dei 30-60 minuti è un testo FISSO: se la persona sceglie «Domani · 9:00–12:00» continua a dire «In 30-60 minuti». Tre risposte diverse alla stessa domanda nel momento della decisione, e una è falsa. Il commento del file stesso dichiara che la promessa deve essere una sola.",
+      "descrizione": "CONFERMATO. Dentro l'unico riquadro «Quando vuoi riceverlo»: la mattonella «Adesso» dice «~30–45 min», la riga «Consegna a domicilio» sotto dice «In 30-60 minuti dalla conferma del negozio», la fascia preselezionata è «In giornata · 15:00–18:00» (slotDay parte da 'today', page.tsx:409). La riga dei 30-60 minuti è un testo FISSO: se la persona sceglie «Domani · 9:00–12:00» continua a dire «In 30-60 minuti». Tre risposte diverse alla stessa domanda nel momento della decisione, e una è falsa. Il commento del file stesso dichiara che la promessa deve essere una sola. ═══ 24/8, RIPARATO insieme al reperto della fascia passata: e' lo stesso riquadro e la stessa radice — non esisteva un posto che rispondesse alla domanda «quando arriva». `ETICHETTA_ADESSO` e `SOTTOTITOLO_ADESSO` nascono da EXPRESS_ETA_LABEL invece di riscrivere «~30–45 min» a mano, quindi il checkout dice quello che dicono home, spedizioni e FAQ. ⚠️ EFFETTO VISIBILE DA DICHIARARE A NICOLA: al checkout adesso si legge «30-60 min» dove c'era «~30–45 min». Non e' una promessa nuova — e' quella gia' fatta ovunque — e ho allargato la finestra invece di stringerla, che e' la direzione sicura. La riga «Consegna a domicilio» passa da `rigaQuandoArriva(consegna)`: chi sceglie «Domani · 9:00–12:00» legge quello. Prova: stessa del reperto sulla fascia passata.",
       "impatto": "",
       "fix": "Fonte unica: usare EXPRESS_ETA_LABEL (lib/delivery.ts:13) anche in DeliverySlotPicker righe 44 e 103, e rendere la riga «Consegna a domicilio» dipendente dalla fascia scelta («Consegna {deliverySlot}») invece del testo fisso.",
       "fonte": "design",
-      "stato": "aperto",
+      "stato": "in-corso",
       "nota_lotto": "23/8: marcato in-corso per sbaglio e rimesso APERTO nello stesso lavoro. La #240 cura le promesse scritte a mano, non questo: qui manca ancora il lavoro vero — i 3 euro di «Consegna MyCity» non compaiono su card e scheda prodotto, e DeliverySlotPicker (righe 44 e 103) continua a scrivere «~30-45 min» a mano mentre la riga sotto dice altro. Vicini di casa, non lo stesso difetto."
     },
     {
@@ -4570,11 +4570,11 @@
       "titolo": "Dopo le 20:00 l'ordine parte con una fascia di consegna già passata",
       "severita": "grave",
       "file": "components/checkout/DeliverySlotPicker.tsx:47-50, 87-92, 225-231, 236-239 (SLOT_DEFAULTS); app/checkout/page.tsx:409-413 e 612",
-      "descrizione": "CONFERMATO riga per riga. `todayTimesAvailable()` tiene solo le fasce con endHour > ora corrente: le due fasce di oggi finiscono alle 18 e alle 20, quindi dalle 20:00 in poi la lista è vuota. L'effetto che riallinea la selezione esce subito (`if (todayTimes.length === 0) return`), il giorno resta 'today' (default), e `slotTodayTime` era stato inizializzato da `defaultTodayTime()` che, senza fasce future, ripiega su TODAY_SLOTS[0] = «In giornata · 15:00–18:00». `resolveSlotLabel` restituisce quella stringa, che finisce nel corpo della richiesta (page.tsx:612) e su orders.delivery_slot. La mattonella «Oggi» non è disabilitata (lo è solo «Adesso», fuori dalla finestra 8-21) e nulla blocca la conferma: l'ordine nasce con un appuntamento nel passato.",
+      "descrizione": "CONFERMATO riga per riga. `todayTimesAvailable()` tiene solo le fasce con endHour > ora corrente: le due fasce di oggi finiscono alle 18 e alle 20, quindi dalle 20:00 in poi la lista è vuota. L'effetto che riallinea la selezione esce subito (`if (todayTimes.length === 0) return`), il giorno resta 'today' (default), e `slotTodayTime` era stato inizializzato da `defaultTodayTime()` che, senza fasce future, ripiega su TODAY_SLOTS[0] = «In giornata · 15:00–18:00». `resolveSlotLabel` restituisce quella stringa, che finisce nel corpo della richiesta (page.tsx:612) e su orders.delivery_slot. La mattonella «Oggi» non è disabilitata (lo è solo «Adesso», fuori dalla finestra 8-21) e nulla blocca la conferma: l'ordine nasce con un appuntamento nel passato. ═══ 24/8, RIPARATO — ed era il piu' caro dei tre. Il difetto non era un testo sbagliato a video: era un APPUNTAMENTO NEL PASSATO scritto su un ordine vero, che il negoziante poi deve consegnare. Adesso la decisione sta tutta in lib/quando-arriva.ts, e le risposte sono TRE invece di due: «non serve» (ritiro in negozio) · «questa fascia» · «non valida». La terza non esisteva, e ripiegava sulla peggiore — tutt'e due finivano in un null, cioe' in un ordine spedito senza fascia, indistinguibile dal ritiro in negozio. Cambiato: `giornoDiPartenza(ora)` fa partire il checkout da domani quando per oggi non resta niente; `fasciaDiPartenzaOggi` torna null invece di ripiegare su TODAY_SLOTS[0]; la mattonella «Oggi» si spegne come gia' faceva «Adesso»; l'effetto passa a domani invece di uscire con un `return`; e i DUE pulsanti di conferma (barra del telefono e riepilogo del desktop) leggono `siPuoConfermare`. IN PIU', non chiesto dalla scheda e trovato rileggendo: il controllo si rifa' anche dentro handleSubmit sull'ora di ALLORA — chi apre il checkout alle 19:55 e preme «Ordina» alle 20:05 non ha ridisegnato niente, e senza quello l'ordine partirebbe lo stesso. NON COPERTO: il server non valida le fasce, le rifiuta solo il sito; e' un difetto suo e non l'ho aperto qui. Prova: tests/unit/l-ordine-con-un-appuntamento-gia-passato.test.ts, 29 casi, 19 mutazioni verificate rosse.",
       "impatto": "",
       "fix": "Quando todayTimes.length === 0: chiamare onDayChange('tomorrow') nell'effetto oppure disabilitare la mattonella «Oggi» come si fa con «Adesso», e bloccare la conferma finché non c'è una fascia valida.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso"
     },
     {
       "dimensione": "flussi-conversione",
@@ -5771,7 +5771,7 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-24 16:16",
+    "aggiornato": "2026-08-24 16:58",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
