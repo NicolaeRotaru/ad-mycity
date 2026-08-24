@@ -1,7 +1,7 @@
 ---
 tipo: azioni-pronte
 fonte: AD digitale
-aggiornato: 2026-07-20 11:33
+aggiornato: 2026-08-24 13:29
 nota: "La corsia operativa. Ogni blocco è una mossa pronta a partire. Formato: '## ID · Titolo', poi campi 'chiave: valore', poi 'testo:' e sotto l'anteprima fino al blocco successivo."
 ---
 
@@ -573,7 +573,7 @@ se va bene: al primo ordine consegnato rigeneri il report con numeri veri e lo m
 gate (❌ oggi): ≥1 ordine `DELIVERED` su PQ · `#ordine-test-pq` chiuso
 testo (anteprima onesta — da inviare SOLO post-1° ordine · 🔴):
 Ciao [nome], ogni mese MyCity ti manda cosa vendi *online*, a che ora ordinano a domicilio e chi torna — dal banco non lo vedi. Questo mese: [TOP] · fascia [GIORNO/ORA] · [N] clienti di ritorno · €[Y] in carrelli recuperabili. Prossimo report tra 30 giorni. Nicola — MyCity.
-stato: STAMPO ✅ + mini-report pre-revenue ✅ — **zero consegne al titolare** finché North Star = 0 · coda canonica = **#50** [[AZIONI-IN-ATTESA]]
+stato: STAMPO ✅ + mini-report pre-revenue ✅ — **zero consegne al titolare** finché North Star = 0 · coda canonica = **#50** [[AZIONI-IN-ATTESA]]. **Ri-verificato 2026-08-24 13:29 (query SQL diretta live):** invariato — Pane Quotidiano resta unico negozio confermato, 1 ordine totale (24/6, CANCELED), 0 `DELIVERED`. 7ª verifica identica dal 6/7 senza movimento: nessun report nuovo generato (i dati non ci sono), nessuna consegna al titolare. Esito registrato nel quaderno `@account-negozi`.
 
 ## A35 · 📍 Kit capillarità Pane Quotidiano — asset pronti, stampa gated
 reparto: designer → vendite
