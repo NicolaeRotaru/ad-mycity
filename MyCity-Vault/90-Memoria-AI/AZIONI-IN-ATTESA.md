@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-21 20:26** — Automatico: **86 aperte · 19 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-24 12:46** — Automatico: **99 aperte · 23 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -21,6 +21,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- write-vs-edit-settings-local -->
 
 ---
+
 ### 🔴 #168 — Il server che fa lavorare la macchina è fermo da quattro giorni · ⏳ accodata 2026-08-22 20:25
 
 **In parole semplici.** Il server non alza più le cadenze dal 18 agosto alle 06:50. Sono 109 ore.
@@ -79,6 +80,8 @@ ritmo-mattino 110h, ritmo-mezzogiorno 128h, monitora 109h, ritmo-settimana 364h.
 chiuso il 22/8 alle 19:35 ma non ancora in funzione: AR-365. La sua cura gira sul server, e il server
 è questo.
 
+---
+
 ### 🟡 #167 — Nessun negoziante riesce a mettere la foto di copertina alla sua vetrina · ⏳ accodata 2026-08-22 16:05
 
 **Cosa cambia:** il magazzino delle immagini accetta un file solo se la **prima cartella** del
@@ -102,6 +105,8 @@ quella già presa.
 
 **Se va bene:** correggo i tre percorsi in un ramo, apro la richiesta di unione e ti dico cosa
 controllare. Non tocco la regola del magazzino: quella è giusta, sono i tre percorsi a essere fuori.
+
+---
 
 ### 🔴 #166 — Dimmi quali delle otto richieste ferme in coda unisco e quali chiudo · ⏳ accodata 2026-08-22 12:05
 
@@ -150,6 +155,7 @@ altrimenti restano vuoti nel sito pubblicato anche se sono scritti nel pannello.
 l'informativa e i termini a schermo, e la pagina di salute torna verde.
 
 ---
+
 ### 🟡 #164 — Guarda cosa dice Supabase sulle copie di sicurezza: sono cinque minuti e chiudono quattro righe vuote · ⏳ accodata 2026-08-22 14:10
 
 **Cosa cambia:** il documento che spiega come si ripristinano i dati ha quattro righe che dicono
@@ -173,6 +179,7 @@ giornaliere conserva.
 passare al piano a pagamento oppure no.
 
 ---
+
 ### 🟡 #163 — La coda è diventata lunga tre ore, e un controllo ne guarda solo due terzi · ⏳ accodata 2026-08-22 13:20
 
 > **In due righe.** Questo file è cresciuto fino a tre ore di lettura. Un controllo che dovrebbe
@@ -208,7 +215,6 @@ almeno 3 di quelle servono ancora dov'è. Il conto vero lo faccio dopo il tuo ok
 
 **Se va bene:** la coda torna corta, e il controllo che ti protegge la leggibilità ricomincia a
 funzionare su di lei.
-
 
 ---
 
@@ -362,6 +368,7 @@ il DNS: Netsons l'ho preso dalla tabella dei fornitori nel runbook del sito, pot
 cambiato.
 
 ---
+
 ### 🔴 #154 — Metti le chiavi mancanti su Vercel: senza una di quelle il sito non registra un ordine · ⏳ accodata 2026-08-22 09:56
 
 **Cosa cambia:** il sito è passato su Vercel, ma le chiavi che aveva su Render non sono state
@@ -401,7 +408,6 @@ qui non ci arrivo. So che quelle due mancano perché il sito si comporta come se
 perché ho letto la lista. Potrebbero mancarne altre che non lasciano tracce così evidenti.
 
 ---
-
 
 ### 🟡 #153 — Il comando che ti avevo dato spegneva la riparazione mentre la lanciava · ⏳ accodata 2026-08-22 10:15 · riscritta 2026-08-22 12:15
 
@@ -480,80 +486,6 @@ programma, protetto, arriva in fondo. Togliendo la protezione la prova torna ros
 
 ---
 
-### ✅ #152 — Applica al database vero le riparazioni dei due buchi piu' grossi · ⏳ accodata 2026-08-21 20:11 · fatta 2026-08-21 21:20
-
-**Stato:** ✅ FATTO 2026-08-21 21:20 — col tuo «fai la 151 e la 152» in chat. Applicata al database
-di produzione in tre blocchi, controllando dopo ognuno, come avevo promesso qui sotto.
-
-Prima di toccare niente ho misurato, e i due buchi erano vivi davvero. Sei funzioni potenti erano
-chiamabili senza account, `accumula_rimborso` compresa. E tutte e tre le funzioni del codice di
-consegna usavano il confronto che con un valore vuoto non sa dire di no.
-
-Adesso: sei funzioni su sei chiuse a chi non ha l'accesso, il server continua a poterle usare, e la
-pagina dei numeri di vendita resta aperta a chi ha fatto l'accesso — com'era previsto. Tutte e tre le
-funzioni del codice fermano il valore vuoto per nome e usano il confronto che risponde sempre. E c'è
-la funzione nuova che disfa un rimborso se la banca lo rifiuta, usabile solo dal server.
-
-**Il conto finale: dieci controlli su dieci verdi**, misurati sul database vero dopo l'ultimo blocco.
-
-**In parole semplici:** ho riparato i quindici difetti che fermano qualcuno, e due di quelli
-vivono dentro il database, non nel codice del sito. Le riparazioni sono scritte in un file di
-modifiche, la 125, ma un file non fa niente finché non lo si applica. Finché non lo applichi,
-quei due buchi sul sito vero restano aperti.
-
-Il primo. Certe funzioni potenti del database erano chiamabili **senza avere un account**. Una di
-quelle decide quanto risulta già rimborsato di un ordine, cioè il numero che il sito sottrae dai
-guadagni del negozio.
-
-Il secondo, e l'ho provato dal vivo su una copia del database. Il codice di consegna a sei cifre
-si aggirava mandando un valore vuoto: la funzione rispondeva «va bene» e l'ordine risultava
-consegnato. La consegna sblocca due cose che sono soldi, il bonifico al negozio e la paga del
-fattorino.
-
-**Cosa cambia:** se applichi, quei due buchi si chiudono e nient'altro cambia per chi usa il sito.
-Se non applichi, restano aperti: il codice nuovo che ho scritto li chiude solo nella parte che sta
-nel sito, non nella parte che sta nel database.
-
-**Se va bene:** scrivi «ok 152» e applico il file `migrations/125_radiografia_21_agosto_bloccanti.sql`
-al database di produzione, un blocco per volta, controllando dopo ognuno. Poi ti dico quanti pezzi
-trovo applicati sui pezzi attesi. L'ho già fatto girare su un database ricostruito da zero: 126
-modifiche su 126 applicate, e tredici controlli verdi che senza la 125 erano nove rossi.
-
----
-
-### ✅ #151 — Dimmi se accendo la consegna veloce sul negozio, ora che la promessa è una sola · ⏳ accodata 2026-08-21 20:11 · fatta 2026-08-21 21:22
-
-**Stato:** ✅ FATTO 2026-08-21 21:22 — hai scelto di accenderlo, non di togliere l'interruttore.
-`offers_express` su Pane Quotidiano è passato da spento ad acceso: una riga sola, e ho controllato
-che i negozi con la consegna veloce accesa siano uno su uno. La vetrina pubblica lo vede.
-
-**Come si torna indietro:** il valore di prima era **spento**. Basta rimetterlo, ed è la stessa
-riga al contrario.
-
-Adesso quello che il sito promette e quello che il database registra dicono la stessa cosa.
-
-**In parole semplici:** hai deciso che la promessa di consegna è una sola, 30-60 minuti, e ho
-allineato tutto il sito. C'è però un interruttore nel database, per ogni negozio, che dice se quel
-negozio la consegna veloce la fa davvero. Su Pane Quotidiano — l'unico negozio esistente — è
-**spento**.
-
-Adesso quell'interruttore non cambia più nessuna scritta: il sito promette 30-60 minuti a tutti,
-perché così hai deciso. Resta però l'unico posto in cui è registrato se il negozio quella velocità
-la fa o no.
-
-**Cosa cambia:** accenderlo non modifica niente di quello che il cliente legge. Serve a far
-combaciare quello che promettiamo con quello che risulta scritto: oggi il sito dice un'ora e il
-database dice che quel negozio la consegna veloce non la offre.
-
-**Se va bene:** scrivi «ok 151» e accendo `offers_express` su Pane Quotidiano. È una riga sola sul
-database vero, reversibile: si spegne allo stesso modo.
-
-Se preferisci il contrario — cioè che l'interruttore sparisca del tutto, perché con una promessa
-sola non serve più — dimmelo e ti preparo quel lavoro invece: è più grande, tocca anche la pagina
-del negoziante dove quell'interruttore si vede ancora.
-
----
-
 ### 🟡 #150 — Il server tornerà a parlare con GitHub, e poi guardiamo cosa c'è nei 7.849 cassetti · ⏳ accodata 2026-08-21 20:05
 
 **In parole semplici:** questa carta parla del server, la macchina accesa che lavora quando tu non ci
@@ -613,75 +545,6 @@ crescono, uno, due, tre. Con la riparazione restano zero e il server pubblica.
 domani un guardiano suona da solo se i cassetti ricominciano ad accumularsi.
 
 *(La #144 e la #142 nel frattempo si sono chiuse per conto loro: le trovi segnate ✅ più sotto.)*
-
----
-
-### ✅ #148 — Dimmi se apro il cantiere sui quindici difetti che fermano qualcuno · ⏳ accodata 2026-08-21 16:20 · fatta 2026-08-21 20:25
-
-**Stato:** ✅ FATTO 2026-08-21 20:25 — col tuo «ok 148» in chat. Tredici dei quindici sono riparati,
-ognuno con una prova che ho visto diventare rossa prima e verde dopo. Il quattordicesimo sono i due
-buchi del database: il codice della riparazione è scritto, ma sul sito vero si chiudono solo quando
-applichi il file di modifiche — è la card **#152** qui sopra. Il quindicesimo, quello del rilascio
-automatico prima dei controlli, era già in coda da prima: è la card **#141**, e lì l'ordine dei passi
-conta (prima i segreti, poi si spegne l'automatismo), quindi non l'ho toccato.
-
-Il lavoro sta nel ramo `claude/marketplace-radiografia-design-9kj69c` del sito, richiesta di unione
-**#236**. Niente è andato in produzione.
-
-**In parole semplici:** oggi ho rifatto la visita completa al sito, codice e grafica insieme.
-Ho trovato 351 problemi veri. Veri vuol dire che un secondo collega è andato a ricontrollarli
-uno per uno nel codice, e quelli che non ha confermato sono stati buttati via.
-
-Di quei 351, **quindici fermano qualcuno o costano soldi**. Gli altri 336 fanno danno ma si
-aggirano. Questa card chiede il via solo sui quindici.
-
-I quattro che pesano di più. **Uno:** chiunque, anche senza un account sul sito, può marcare un
-ordine come «già rimborsato», e quel numero è quello che il sito sottrae dai guadagni del negozio.
-**Due:** il codice di consegna a sei cifre si aggira mandando un valore vuoto, e la consegna
-sblocca il bonifico al negozio. **Tre:** un rimborso con carta non riaddebita mai la quota del
-negozio, quindi la differenza la mette MyCity. **Quattro:** il pulsante SOS del fattorino è
-coperto in pieno da quello dell'assistenza, e sul telefono non si può premere.
-
-Un esempio di cosa vuol dire il primo. Maria ordina 30 euro da Pane Quotidiano. Qualcuno scrive
-nel database che quell'ordine è già stato rimborsato per 30 euro. Il negozio apre la sua pagina
-guadagni e vede zero. Nessuno ha toccato i soldi, ma il conto che il negozio legge è falso.
-
-**Cosa cambia:** se dici di sì, i quindici li riparo in un ramo separato del sito, con le prove
-che diventano rosse se il difetto torna. Non tocco la produzione: alla fine ti arriva una
-richiesta di unione da guardare. Se dici di no, restano lì: nessuno di questi si chiude da solo,
-e tre di essi riguardano soldi che escono o non rientrano.
-
-**Se va bene:** scrivi «ok 148» e parto dai primi quattro, che sono la mezza giornata che vale
-di più. Ti riporto il conto dopo ogni blocco, non alla fine.
-
-Referti. Il codice, 199 problemi: `consegne/audit/2026-08-21-radiografia.md`.
-La grafica e i percorsi, 152 problemi: `consegne/design/2026-08-21-radiografia-design.md`.
-
----
-### ✅ #147 — Dimmi quanto ci mettiamo davvero a consegnare, perché il sito dice due cose diverse · ⏳ accodata 2026-08-21 16:20 · fatta 2026-08-21 18:40
-
-**Stato:** ✅ FATTO 2026-08-21 18:40 — hai risposto «30-60 min», e hai scelto **una promessa sola**.
-Ho riscritto 36 frasi in 28 file del sito, tolto il riquadro che al momento di pagare mostrava due
-tempi diversi, e riscritto le pagine spedizioni e domande frequenti dicendo la verità: l'ora parte
-da quando il negozio conferma, dentro l'orario di apertura, e a negozio chiuso parte il giorno dopo.
-Un controllo automatico adesso diventa rosso se «24-48» ricompare da qualche parte.
-
-**In parole semplici:** il riquadro grosso in cima alla home promette la consegna in **30-60
-minuti**. Ogni altra pagina del sito promette **24-48 ore**. Sono la stessa promessa fatta due
-volte, con due numeri che non stanno insieme.
-
-La frase della home non è scritta nel codice: sta in un campo delle impostazioni del sito. Vuol
-dire che si cambia subito, senza pubblicare nulla e senza aspettare un rilascio.
-
-Non la cambio da sola perché non so quale delle due sia vera. È una promessa al cliente, e a
-sceglierla sei tu.
-
-**Cosa cambia:** oggi chi arriva sulla home legge un'ora e chi ordina scopre due giorni. È la
-prima cosa che una persona legge e l'ultima che verifica: la scopre quando ha già pagato. Finché
-restano due numeri diversi, uno dei due è una bugia, qualunque sia quello giusto.
-
-**Se va bene:** scrivi «ok 147» insieme al numero che vale. Per esempio: «ok 147, 24-48 ore».
-Allineo la home a quella promessa. È una modifica di configurazione, reversibile, e la vedi subito.
 
 ---
 
@@ -2454,8 +2317,8 @@ Se ti va di provare, link nel primo commento 👇
 ---
 
 <!-- SUPERVISIONE-NEGOZI:INIZIO -->
-## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-21 20:26)
-Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-21-supervisione.md]].
+## 🛡️ Supervisione negozi & prodotti — proposte di riempimento (aggiornato 2026-08-24 12:46)
+Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/supervisione/2026-08-24-supervisione.md]].
 
 > ⚠️ **Scritture al database: si approva un gruppo alla volta** (niente «ok a tutte»). Ogni gruppo
 > è un valore DEDOTTO dalla macchina, non fornito dal negozio; per prezzo/orari/descrizione serve prima
@@ -2466,7 +2329,151 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ## 🗄️ Archivio — card chiuse
 
-> Ultima pulizia: 2026-08-21 20:26 · 19 card totali
+> Ultima pulizia: 2026-08-24 12:46 · 23 card totali
+
+### ✅ #152 — Applica al database vero le riparazioni dei due buchi piu' grossi · ⏳ accodata 2026-08-21 20:11 · fatta 2026-08-21 21:20
+
+**Stato:** ✅ FATTO 2026-08-21 21:20 — col tuo «fai la 151 e la 152» in chat. Applicata al database
+di produzione in tre blocchi, controllando dopo ognuno, come avevo promesso qui sotto.
+
+Prima di toccare niente ho misurato, e i due buchi erano vivi davvero. Sei funzioni potenti erano
+chiamabili senza account, `accumula_rimborso` compresa. E tutte e tre le funzioni del codice di
+consegna usavano il confronto che con un valore vuoto non sa dire di no.
+
+Adesso: sei funzioni su sei chiuse a chi non ha l'accesso, il server continua a poterle usare, e la
+pagina dei numeri di vendita resta aperta a chi ha fatto l'accesso — com'era previsto. Tutte e tre le
+funzioni del codice fermano il valore vuoto per nome e usano il confronto che risponde sempre. E c'è
+la funzione nuova che disfa un rimborso se la banca lo rifiuta, usabile solo dal server.
+
+**Il conto finale: dieci controlli su dieci verdi**, misurati sul database vero dopo l'ultimo blocco.
+
+**In parole semplici:** ho riparato i quindici difetti che fermano qualcuno, e due di quelli
+vivono dentro il database, non nel codice del sito. Le riparazioni sono scritte in un file di
+modifiche, la 125, ma un file non fa niente finché non lo si applica. Finché non lo applichi,
+quei due buchi sul sito vero restano aperti.
+
+Il primo. Certe funzioni potenti del database erano chiamabili **senza avere un account**. Una di
+quelle decide quanto risulta già rimborsato di un ordine, cioè il numero che il sito sottrae dai
+guadagni del negozio.
+
+Il secondo, e l'ho provato dal vivo su una copia del database. Il codice di consegna a sei cifre
+si aggirava mandando un valore vuoto: la funzione rispondeva «va bene» e l'ordine risultava
+consegnato. La consegna sblocca due cose che sono soldi, il bonifico al negozio e la paga del
+fattorino.
+
+**Cosa cambia:** se applichi, quei due buchi si chiudono e nient'altro cambia per chi usa il sito.
+Se non applichi, restano aperti: il codice nuovo che ho scritto li chiude solo nella parte che sta
+nel sito, non nella parte che sta nel database.
+
+**Se va bene:** scrivi «ok 152» e applico il file `migrations/125_radiografia_21_agosto_bloccanti.sql`
+al database di produzione, un blocco per volta, controllando dopo ognuno. Poi ti dico quanti pezzi
+trovo applicati sui pezzi attesi. L'ho già fatto girare su un database ricostruito da zero: 126
+modifiche su 126 applicate, e tredici controlli verdi che senza la 125 erano nove rossi.
+
+---
+
+### ✅ #151 — Dimmi se accendo la consegna veloce sul negozio, ora che la promessa è una sola · ⏳ accodata 2026-08-21 20:11 · fatta 2026-08-21 21:22
+
+**Stato:** ✅ FATTO 2026-08-21 21:22 — hai scelto di accenderlo, non di togliere l'interruttore.
+`offers_express` su Pane Quotidiano è passato da spento ad acceso: una riga sola, e ho controllato
+che i negozi con la consegna veloce accesa siano uno su uno. La vetrina pubblica lo vede.
+
+**Come si torna indietro:** il valore di prima era **spento**. Basta rimetterlo, ed è la stessa
+riga al contrario.
+
+Adesso quello che il sito promette e quello che il database registra dicono la stessa cosa.
+
+**In parole semplici:** hai deciso che la promessa di consegna è una sola, 30-60 minuti, e ho
+allineato tutto il sito. C'è però un interruttore nel database, per ogni negozio, che dice se quel
+negozio la consegna veloce la fa davvero. Su Pane Quotidiano — l'unico negozio esistente — è
+**spento**.
+
+Adesso quell'interruttore non cambia più nessuna scritta: il sito promette 30-60 minuti a tutti,
+perché così hai deciso. Resta però l'unico posto in cui è registrato se il negozio quella velocità
+la fa o no.
+
+**Cosa cambia:** accenderlo non modifica niente di quello che il cliente legge. Serve a far
+combaciare quello che promettiamo con quello che risulta scritto: oggi il sito dice un'ora e il
+database dice che quel negozio la consegna veloce non la offre.
+
+**Se va bene:** scrivi «ok 151» e accendo `offers_express` su Pane Quotidiano. È una riga sola sul
+database vero, reversibile: si spegne allo stesso modo.
+
+Se preferisci il contrario — cioè che l'interruttore sparisca del tutto, perché con una promessa
+sola non serve più — dimmelo e ti preparo quel lavoro invece: è più grande, tocca anche la pagina
+del negoziante dove quell'interruttore si vede ancora.
+
+---
+
+### ✅ #148 — Dimmi se apro il cantiere sui quindici difetti che fermano qualcuno · ⏳ accodata 2026-08-21 16:20 · fatta 2026-08-21 20:25
+
+**Stato:** ✅ FATTO 2026-08-21 20:25 — col tuo «ok 148» in chat. Tredici dei quindici sono riparati,
+ognuno con una prova che ho visto diventare rossa prima e verde dopo. Il quattordicesimo sono i due
+buchi del database: il codice della riparazione è scritto, ma sul sito vero si chiudono solo quando
+applichi il file di modifiche — è la card **#152** qui sopra. Il quindicesimo, quello del rilascio
+automatico prima dei controlli, era già in coda da prima: è la card **#141**, e lì l'ordine dei passi
+conta (prima i segreti, poi si spegne l'automatismo), quindi non l'ho toccato.
+
+Il lavoro sta nel ramo `claude/marketplace-radiografia-design-9kj69c` del sito, richiesta di unione
+**#236**. Niente è andato in produzione.
+
+**In parole semplici:** oggi ho rifatto la visita completa al sito, codice e grafica insieme.
+Ho trovato 351 problemi veri. Veri vuol dire che un secondo collega è andato a ricontrollarli
+uno per uno nel codice, e quelli che non ha confermato sono stati buttati via.
+
+Di quei 351, **quindici fermano qualcuno o costano soldi**. Gli altri 336 fanno danno ma si
+aggirano. Questa card chiede il via solo sui quindici.
+
+I quattro che pesano di più. **Uno:** chiunque, anche senza un account sul sito, può marcare un
+ordine come «già rimborsato», e quel numero è quello che il sito sottrae dai guadagni del negozio.
+**Due:** il codice di consegna a sei cifre si aggira mandando un valore vuoto, e la consegna
+sblocca il bonifico al negozio. **Tre:** un rimborso con carta non riaddebita mai la quota del
+negozio, quindi la differenza la mette MyCity. **Quattro:** il pulsante SOS del fattorino è
+coperto in pieno da quello dell'assistenza, e sul telefono non si può premere.
+
+Un esempio di cosa vuol dire il primo. Maria ordina 30 euro da Pane Quotidiano. Qualcuno scrive
+nel database che quell'ordine è già stato rimborsato per 30 euro. Il negozio apre la sua pagina
+guadagni e vede zero. Nessuno ha toccato i soldi, ma il conto che il negozio legge è falso.
+
+**Cosa cambia:** se dici di sì, i quindici li riparo in un ramo separato del sito, con le prove
+che diventano rosse se il difetto torna. Non tocco la produzione: alla fine ti arriva una
+richiesta di unione da guardare. Se dici di no, restano lì: nessuno di questi si chiude da solo,
+e tre di essi riguardano soldi che escono o non rientrano.
+
+**Se va bene:** scrivi «ok 148» e parto dai primi quattro, che sono la mezza giornata che vale
+di più. Ti riporto il conto dopo ogni blocco, non alla fine.
+
+Referti. Il codice, 199 problemi: `consegne/audit/2026-08-21-radiografia.md`.
+La grafica e i percorsi, 152 problemi: `consegne/design/2026-08-21-radiografia-design.md`.
+
+---
+
+### ✅ #147 — Dimmi quanto ci mettiamo davvero a consegnare, perché il sito dice due cose diverse · ⏳ accodata 2026-08-21 16:20 · fatta 2026-08-21 18:40
+
+**Stato:** ✅ FATTO 2026-08-21 18:40 — hai risposto «30-60 min», e hai scelto **una promessa sola**.
+Ho riscritto 36 frasi in 28 file del sito, tolto il riquadro che al momento di pagare mostrava due
+tempi diversi, e riscritto le pagine spedizioni e domande frequenti dicendo la verità: l'ora parte
+da quando il negozio conferma, dentro l'orario di apertura, e a negozio chiuso parte il giorno dopo.
+Un controllo automatico adesso diventa rosso se «24-48» ricompare da qualche parte.
+
+**In parole semplici:** il riquadro grosso in cima alla home promette la consegna in **30-60
+minuti**. Ogni altra pagina del sito promette **24-48 ore**. Sono la stessa promessa fatta due
+volte, con due numeri che non stanno insieme.
+
+La frase della home non è scritta nel codice: sta in un campo delle impostazioni del sito. Vuol
+dire che si cambia subito, senza pubblicare nulla e senza aspettare un rilascio.
+
+Non la cambio da sola perché non so quale delle due sia vera. È una promessa al cliente, e a
+sceglierla sei tu.
+
+**Cosa cambia:** oggi chi arriva sulla home legge un'ora e chi ordina scopre due giorni. È la
+prima cosa che una persona legge e l'ultima che verifica: la scopre quando ha già pagato. Finché
+restano due numeri diversi, uno dei due è una bugia, qualunque sia quello giusto.
+
+**Se va bene:** scrivi «ok 147» insieme al numero che vale. Per esempio: «ok 147, 24-48 ore».
+Allineo la home a quella promessa. È una modifica di configurazione, reversibile, e la vedi subito.
+
+---
 
 ### ✅ #139 — Le prove sui permessi girano, e non costano niente · ⏳ accodata 2026-08-21 03:20 · fatta 2026-08-21 15:45
 

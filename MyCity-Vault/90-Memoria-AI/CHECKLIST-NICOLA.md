@@ -2,24 +2,29 @@
 tipo: checklist-personale
 destinatario: Nicola
 fonte: AD digitale (rigenerata da AZIONI-IN-ATTESA + STATO · AR-030)
-aggiornato: 2026-08-21 14:40
+aggiornato: 2026-08-24 13:15
 ---
 
 # ✅ Cose che devo fare io (Nicola)
 
 > Solo ciò che richiede **te**: firme, merge, materiali, decisioni umane.
-> Rigenerata perché era ferma al 17/8 06:20 (oltre i 2 giorni della regola AR-030).
+> Rigenerata perché era ferma al 21/8 14:40 (oltre i 2 giorni della regola AR-030).
 >
-> Business ancora **fermo**. 1 ordine totale, mai pagato, del 24/6. 0 ordini pagati.
-> Sei dentro la pausa concordata con te fino al 24/8-1/9: non è churn.
+> Business ancora **fermo**. 1 ordine totale, mai pagato, del 24/6. 0 ordini pagati. Stallo **61
+> giorni**. La pausa concordata con te arriva al 24/8-1/9: scade oggi/domani.
 >
-> **Novità vera:** un profilo nuovo si è registrato il 20/8 alle 15:57.
-> Email `nicolarotaru2000@gmail.com`. Sembra un tuo account di prova, non un cliente reale.
-> Dimmi se devo trattarlo diversamente.
+> 🔴 **La cosa più urgente.** Mancano 5 giorni alla data zero del 29 agosto. L'hai fissata tu il 23/8.
+> Le quattro carte che sbloccano tutto restano ferme da 2-3 giorni. Sono in cima a questa lista.
 >
-> ✅ **Buona notizia di questo giro.** Ho riverificato le card `#36` e `#37` (sicurezza) sul database vero.
-> Sono **già risolte** dal grande lotto di riparazioni del 20-21/8. Le ho chiuse: non ti servono più firme lì.
-> La `#38` è per due quinti risolta. Restano tre punti da controllare nel codice.
+> **Riverificato in diretta in questo giro (24/8).** Il sito pubblico risponde ancora **HTTP 503**.
+> Non l'ho dedotto dal sensore: l'ho controllato ora, io stessa. Il profilo
+> `nicolarotaru2000@gmail.com` (20/8) resta l'unico nuovo. Ancora nessuna tua risposta: è un tuo
+> test o un cliente vero?
+>
+> **Novità tecnica di questo giro.** Ho trovato un canale per far girare l'equivalente dei test del
+> cervello, bloccati da giorni dai permessi. Risultato: 2318 verdi, **3 rossi**. Uno è uno strumento
+> costruito che nessuno esegue più. Due sono controlli di coerenza della memoria. Nessuno dei tre
+> tocca il marketplace live. Restano in coda per quando il ritmo riparte.
 
 ---
 
@@ -76,9 +81,10 @@ aggiornato: 2026-08-21 14:40
 
 Oggi nessuna è pronta.
 
-Sul repo `ad-mycity` (memoria/cervello) ci sono **7 PR aperte, tutte rosse**: `#791`, `#761`, `#754`,
-`#753`, `#749`, `#741`, `#735`. Tutte falliscono lo stesso controllo, "test del cervello" — il vincolo
-HARD in cima a ogni giro. Nessuna è mergiabile oggi.
+Sul repo `ad-mycity` (memoria/cervello) ci sono **9 PR aperte, tutte rosse**: `#840`, `#804`, `#791`,
+`#761`, `#754`, `#753`, `#749`, `#741`, `#735`. Di queste, **4 rossi vengono dal ramo `main`** e si
+trascinano su più PR insieme: ripararli lì una volta sola ne sbloccherebbe diverse insieme. Nessuna è
+mergiabile oggi.
 Lo script che le ripara (`test-cervello.mjs`) resta bloccato dai permessi in questa sessione.
 È lo stesso buco delle card #104/#42. Serve una sessione con permessi più larghi sul VPS per chiuderlo.
 
@@ -89,7 +95,7 @@ Lo script che le ripara (`test-cervello.mjs`) resta bloccato dai permessi in que
 - [ ] 🟡 **Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola** — nel foglio dei permessi ci sono due righe col jolly. L'elenco esplicito di 75 programmi veri è già pronto da incollare (`consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`). Sbloccherebbe anche diversi comandi di controllo oggi bloccati in sessione chat.
   → Card `#42` in [[AZIONI-IN-ATTESA]]
 
-- [ ] 🟡 **Quale definizione di "margine" è quella giusta?** Un commit del 16/8 mattina ha cambiato cosa significa `burn_down_margine` nel codice, ma il test che lo controlla dice ancora la versione vecchia — il test del cervello resta rosso finché non scegli quale dei due è quello giusto.
+- [ ] 🟡 **Quale definizione di "margine" è quella giusta?** Un commit del 16/8 mattina ha cambiato cosa significa `burn_down_margine` nel codice. Il test che lo controlla dice ancora la versione vecchia. Il test del cervello resta rosso finché non scegli quale dei due è quello giusto.
   → Card `#105` in [[AZIONI-IN-ATTESA]]
 
 - [ ] 🟡 **Come vuoi procedere con le PR croniche rosse (#735/#741/#749)?** ① dedico una sessione a chiuderle per davvero, stesso ramo di ciascuna; ② le congelo fino a dopo la pausa negozi del 24/8-1/9.

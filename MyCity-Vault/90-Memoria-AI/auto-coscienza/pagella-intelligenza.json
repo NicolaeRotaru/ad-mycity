@@ -1,7 +1,7 @@
 {
   "_cosa_e": "🎓 PAGELLA DELL'INTELLIGENZA — i 5 numeri che dicono se la macchina è PRONTA a gestire il business. Soglie decise con Nicola il 2026-07-24: cambiarle è una decisione 🟡, non un dettaglio dentro un altro lavoro. La regola del ciclo: ogni giro chiude un difetto e poi RIMISURA — se il numero non si è mosso, il fix era finto. Scritta da cervello/pagella-intelligenza.mjs.",
   "_cosa_NON_prova": "Non prova che la macchina sappia fare il mestiere: misura cinque proprietà della macchina stessa (difetti chiusi, prove, sensori, loop), tutte interne. Nessuno di questi cinque numeri sale perché è arrivato un ordine o è entrato un negozio — la pagella può dirsi pronta con il business fermo, e il 28/7 è esattamente così.",
-  "aggiornato": "2026-08-21 20:20",
+  "aggiornato": "2026-08-24 12:40",
   "pronta": false,
   "voci_superate": 0,
   "voci_totali": 5,
@@ -25,23 +25,23 @@
       "fonte": "cervello/tasso-regole.mjs",
       "come_si_alza": "prendere una correzione di Nicola e chiuderla alla radice (principio + gate automatico): scrivere altre lezioni non aiuta, finiscono nel denominatore",
       "tasso_citazioni": 0.14,
-      "valore": 0.12,
-      "etichetta": "12% (4/34 correzioni)",
+      "valore": 0.04,
+      "etichetta": "4% (1/28 correzioni)",
       "ok": false,
       "cieco": false,
       "ricadute": {
-        "correzioni": 34,
-        "su_tema_cronico": 17,
-        "quota": 0.5,
-        "temi_cronici": 9,
-        "temi_totali": 92
+        "correzioni": 28,
+        "su_tema_cronico": 15,
+        "quota": 0.54,
+        "temi_cronici": 8,
+        "temi_totali": 66
       },
       "gate": {
-        "correzioni": 34,
-        "con_gate": 28,
-        "quota": 0.82
+        "correzioni": 28,
+        "con_gate": 26,
+        "quota": 0.93
       },
-      "precedente": 0.15,
+      "precedente": 0.12,
       "movimento": "peggiorata"
     },
     {
@@ -61,8 +61,8 @@
     {
       "id": "freni",
       "titolo": "Freni di sicurezza rotti",
-      "valore": 11,
-      "etichetta": "11 bloccanti aperti",
+      "valore": 6,
+      "etichetta": "6 bloccanti aperti",
       "soglia": "0",
       "ok": false,
       "cieco": false,
@@ -70,44 +70,39 @@
       "dettaglio": [
         "AR-142",
         "AR-206",
-        "AR-365",
-        "AR-366",
-        "AR-072",
         "AR-518",
-        "AR-521",
         "AR-568",
-        "AR-757",
-        "AR-761",
-        "AR-780"
+        "AR-780",
+        "AR-795"
       ],
       "fonte": "auto-coscienza/cantiere-difetti.json",
       "come_si_alza": "chiudere i bloccanti aperti: i fix sono già scritti, aspettano il merge di Nicola",
-      "precedente": 10,
-      "movimento": "peggiorata"
+      "precedente": 11,
+      "movimento": "migliorata"
     },
     {
       "id": "quaderni",
       "titolo": "Quaderni vivi (i senior imparano)",
-      "valore": 0.20491803278688525,
-      "etichetta": "25 su 122 (20%)",
+      "valore": 0.19672131147540983,
+      "etichetta": "24 su 122 (20%)",
       "soglia": "60% (74 su 122)",
       "ok": false,
       "cieco": false,
       "fonte": "auto-coscienza/chiusura-loop.json",
       "come_si_alza": "gate: non si chiude un lavoro 🟡/🔴 senza la riga ESITO nel quaderno (AR-154)",
-      "precedente": 0.16393442622950818,
-      "movimento": "migliorata"
+      "precedente": 0.20491803278688525,
+      "movimento": "peggiorata"
     },
     {
       "id": "salute",
       "titolo": "Voto salute che si dà da sola",
-      "valore": 4,
-      "etichetta": "4/100 (misurato 2026-08-21)",
       "soglia": "≥80/100",
-      "ok": false,
-      "cieco": false,
       "fonte": "auto-coscienza/storico-salute.json",
       "come_si_alza": "sale da solo quando salgono le altre 4 voci — non si tocca a mano",
+      "valore": 4,
+      "etichetta": "4/100 (misurato 2026-08-24)",
+      "ok": false,
+      "cieco": false,
       "precedente": 4,
       "movimento": "ferma"
     }
@@ -2486,6 +2481,18 @@
         "calibrazione": null,
         "freni": 11,
         "quaderni": 0.20491803278688525,
+        "salute": 4
+      }
+    },
+    {
+      "data": "2026-08-24 12:40",
+      "voci_superate": 0,
+      "pronta": false,
+      "valori": {
+        "lezioni": 0.04,
+        "calibrazione": null,
+        "freni": 6,
+        "quaderni": 0.19672131147540983,
         "salute": 4
       }
     }
