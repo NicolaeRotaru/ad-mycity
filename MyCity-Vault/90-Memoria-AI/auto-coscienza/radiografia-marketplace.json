@@ -4371,11 +4371,11 @@
       "titolo": "«Vicino a te» chiede la posizione a freddo, blocca la pagina con un caricamento e mostra l'errore del browser in inglese",
       "severita": "grave",
       "file": "app/near/page.tsx:112-123 (getCurrentPosition dentro useEffect al montaggio), 172-179 (schermata «Calcolo distanze…»), 119 e 209 (messaggio d'errore)",
-      "descrizione": "Verificato, tre difetti nello stesso punto. ① `navigator.geolocation.getCurrentPosition` parte dentro un `useEffect(..., [])` al montaggio (riga 117): il popup di sistema arriva prima di qualsiasi contenuto e senza una riga che spieghi perché — un permesso chiesto a freddo viene negato molto più spesso, e una volta negato il browser non lo richiede più. ② La guardia `if (isLoading || (!pos && !permError))` (riga 172) mostra SOLO «Calcolo distanze…» finché la persona non risponde al popup, fino ai 10 secondi di `timeout` dichiarati alla riga 121, anche se l'elenco dei negozi sarebbe già disponibile senza posizione (il codice alla riga 156 prevede già il caso «senza posizione mostriamo tutti»). ③ Il messaggio concatena `err.message` (riga 119), che il browser scrive in inglese: «Impossibile ottenere la posizione: User denied Geolocation».",
+      "descrizione": "Verificato, tre difetti nello stesso punto. ① `navigator.geolocation.getCurrentPosition` parte dentro un `useEffect(..., [])` al montaggio (riga 117): il popup di sistema arriva prima di qualsiasi contenuto e senza una riga che spieghi perché — un permesso chiesto a freddo viene negato molto più spesso, e una volta negato il browser non lo richiede più. ② La guardia `if (isLoading || (!pos && !permError))` (riga 172) mostra SOLO «Calcolo distanze…» finché la persona non risponde al popup, fino ai 10 secondi di `timeout` dichiarati alla riga 121, anche se l'elenco dei negozi sarebbe già disponibile senza posizione (il codice alla riga 156 prevede già il caso «senza posizione mostriamo tutti»). ③ Il messaggio concatena `err.message` (riga 119), che il browser scrive in inglese: «Impossibile ottenere la posizione: User denied Geolocation». ═══ 24/8, RIPARATO tutti e tre, e il secondo era il piu' caro. ① Il permesso non si chiede piu' al montaggio: parte da un gesto, dal pulsante «Usa la mia posizione», che sta sopra una riga che dice a cosa serve. Non e' galateo — su iPhone un permesso negato non lo richiede piu' nessuno, bisogna andare nelle impostazioni del telefono: un «no» dato in due secondi spegneva la funzione per sempre. ② La pagina non aspetta piu' la posizione. La condizione era `isLoading || (!pos && !permError)`: copriva tutto con «Calcolo distanze…» fino ai dieci secondi di tetto, o PER SEMPRE se la persona lasciava li' il riquadro di sistema senza rispondere — e i negozi erano gia' in mano, perche' la posizione serve a ORDINARLI, non a trovarli. Adesso decide `siAspetta({negoziInArrivo})`: si aspetta solo quello senza cui non c'e' niente da mostrare. ③ L'errore del browser non finisce piu' a video: `motivoPosizione` legge il `code` (1 negato, 2 non disponibile, 3 tempo scaduto) e `frasePosizione` scrive in italiano cosa e' successo E cosa resta — ogni frase dice che i negozi di Piacenza ci sono lo stesso, perche' «non e' riuscito» da solo lascia la persona ferma. Un codice sconosciuto diventa «non lo so», non uno dei tre a caso: dire «hai negato il permesso» a chi non l'ha negato e' peggio che non dire niente. E su «negato» NON si offre un «riprova», che sarebbe un clic a vuoto. La logica sta in lib/posizione.ts. Freno: tests/unit/il-permesso-chiesto-a-freddo.test.ts, 12 casi, 7 mutazioni verificate rosse. NON VERIFICATO con gli occhi su un telefono vero: le prove leggono la pagina come testo e provano le decisioni pure.",
       "impatto": "",
       "fix": "① Mostrare prima l'elenco e chiamare getCurrentPosition solo al tocco di un pulsante «Usa la mia posizione» che spiega a cosa serve. ② Togliere `!pos && !permError` dalla condizione di caricamento: la lista si mostra subito, la distanza si aggiunge quando arriva. ③ Tradurre l'errore per `err.code` (1 permesso negato, 2 posizione non disponibile, 3 tempo scaduto) invece di stampare `err.message`.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso"
     },
     {
       "dimensione": "mobile-pwa",
@@ -5771,7 +5771,7 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-24 15:41",
+    "aggiornato": "2026-08-24 16:16",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
