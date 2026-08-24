@@ -26,12 +26,12 @@
   "fonti_non_lette": [],
   "sintesi": "Terza radiografia profonda del sito, 21 agosto: 13 dimensioni in sola lettura, ogni problema ricontrollato da un collega diverso da chi l'ha trovato. 199 problemi confermati (12 bloccanti, 88 gravi, 99 minori) su 26 agenti. I bloccanti restano dodici come il 18 agosto, ma NON sono gli stessi: quelli di agosto erano stati chiusi il 21, questi sono nuovi o mai visti prima. I piu' cari sono sui soldi e sull'identita': un ordine si puo' marcare «gia' rimborsato» senza account, il codice di consegna si aggira mandando un valore vuoto, un rimborso con carta non riaddebita mai la quota del negozio, e il rilascio non applica le modifiche al database. Typecheck pulito, 943 test unitari verdi, 95 avvisi di accessibilita' dal controllo automatico. — 22/8/2026: chiusi tutti e 199. Prima i 12 bloccanti e gli 88 gravi (100), poi i 99 minori nello stesso giorno. Due dei 99 erano gia' stati chiusi dal lotto precedente e sono stati verificati, non riaperti. Dentro i minori ce n'era uno che minore non era: la copia notturna del database non partiva piu' da quando Supabase e' passato a PostgreSQL 17, perche' il programma che la fa era fermo alla 16 e si rifiuta di copiare un database piu' recente di lui. Alla fine: controllo dei tipi pulito, 1136 prove unitarie verdi, 17 file di prova SQL verdi, lint senza errori.",
   "meta": {
-    "findings": 414,
+    "findings": 417,
     "bloccanti": 14,
-    "gravi": 179,
-    "minori": 221,
+    "gravi": 181,
+    "minori": 222,
     "agenti": 26,
-    "nota_conteggio": "23/8 sera: i 4 reperti dell'AREA VENDITORE, aggiunti nello stesso giorno in cui quell'area e' stata guardata per la prima volta, sono passati a `in-corso` — riparati nella richiesta #242 del marketplace, si chiudono col merge. Totale e conti per gravita' aggiornati NELLO STESSO lavoro."
+    "nota_conteggio": "24/8 mattina: tre reperti nuovi sulla stessa malattia degli stati, vista dal lato della SCRITTURA e dei CONTATORI (il cuore dei preferiti che dice «salvato» senza aver salvato; i preferiti e il «Segui» che spariscono su una lettura fallita; quattro contatori che trasformano un guasto in uno zero che non si ricontrolla). Nascono gia' `in-corso`: sono riparati nella richiesta #242 e si chiudono col merge. Totale e conti per gravita' aggiornati NELLO STESSO lavoro. ► 23/8 sera: i 4 reperti dell'AREA VENDITORE erano passati a `in-corso` nello stesso modo."
   },
   "confronto_precedente": null,
   "dimensioni": [
@@ -5676,23 +5676,59 @@
         "nota": "15 casi: quelli sulla funzione (lib/vista-query.ts) piu' l'invariante di STRUTTURA che legge le pagine vere — nessuna si prende un ripiego dentro la lettura, nessuna e' cieca all'errore, nessuna ingoia il proprio. 5 mutazioni verificate rosse a mano."
       },
       "riparato_in": "NicolaeRotaru/mycity#242"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "Il cuore dei preferiti dice «salvato» quando il salvataggio non è riuscito",
+      "severita": "grave",
+      "file": "/home/user/mycity/components/hooks/useFavorites.ts:29-39 (insert e delete senza `error`)",
+      "descrizione": "VERIFICATO leggendo il file. Le due scritture erano `await supabase.from('favorites').insert({...})` e `.delete()...`, senza legare `error`. Una scrittura senza `error` non fallisce MAI: `mutationFn` va a buon fine, `onSuccess` invalida la lista, la lista si rilegge e il prodotto non c'è. Nel frattempo `handleFav` in ProductCard.tsx ha già lanciato l'animazione del cuore. Per chi guarda è un clic che non ha fatto niente, dopo un'animazione che diceva di sì, e senza nessun messaggio. È il difetto degli stati visto dal lato della scrittura: là il sito diceva «non c'è niente» senza aver guardato, qui dice «fatto» senza aver fatto. In più `trackFavoriteAdded` partiva prima di sapere se la riga era entrata, quindi il conteggio cresceva senza la riga.",
+      "impatto": "",
+      "fix": "Legare `error` su entrambe le scritture e lanciarlo; spostare `trackFavoriteAdded` dopo il controllo.",
+      "stato": "in-corso",
+      "dove_si_ripara": "richiesta #242 del marketplace"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "I preferiti spariscono tutti se la lettura non riesce, e il sito non ci riprova",
+      "severita": "grave",
+      "file": "/home/user/mycity/components/hooks/useFavorites.ts:19-23 · useFollowStore.ts:34-40",
+      "descrizione": "VERIFICATO. `const { data } = await supabase.from('favorites')...` senza `error`: la lettura torna «riuscita» con l'insieme vuoto, e chi ha trenta prodotti salvati vede trenta cuori grigi. Stessa forma in `useFollowStore`, dove `.maybeSingle()` senza `error` fa uscire «non lo segui» a chi il negozio lo segue già — e premendo «Segui» si tenta un inserimento doppio che il database rifiuta, quindi il bottone non fa niente. Il pezzo che pesa di più: la query risulta a buon fine, e react-query NON riprova una query riuscita. Un guasto di rete di un secondo resta a schermo finché non si ricarica la pagina.",
+      "impatto": "",
+      "fix": "Lanciare l'errore e dare a chi disegna il terzo stato («non lo so»), invece di farglielo dedurre.",
+      "stato": "in-corso",
+      "dove_si_ripara": "richiesta #242 del marketplace"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "Quattro contatori trasformano un guasto in uno zero che non si ricontrolla mai",
+      "severita": "minore",
+      "file": "/home/user/mycity/components/hooks/useNotificationsCount.ts:37 · useMessagesUnread.ts:52 · useProfile.ts:109 · useFollowStore.ts:50",
+      "descrizione": "VERIFICATO su tutti e quattro. La forma è `if (error) return 0` (o `return null`). A schermo cambia poco — chi legge ha già un valore di riserva — ma marca la lettura come RIUSCITA, e react-query non riprova una query riuscita. Quindi il pallino delle notifiche, il contatore dei messaggi non letti e il conteggio dei follower restano spenti fino al ricaricamento della pagina. Su `useProfile` è peggio: `return null` vuol dire «questo utente non ha un profilo», e chi è venditore si vede il sito da cliente finché non ricarica.",
+      "impatto": "",
+      "fix": "Lanciare l'errore: chi legge tiene il suo valore di riserva, ma react-query ci riprova.",
+      "stato": "in-corso",
+      "dove_si_ripara": "richiesta #242 del marketplace"
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-23 20:10",
+    "aggiornato": "2026-08-24 09:56",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 204,
+    "findings_aperti": 207,
     "findings_chiusi": 210,
-    "findings_tot": 414,
+    "findings_tot": 417,
     "aperti_per_severita": {
       "bloccante": 0,
-      "grave": 84,
-      "minore": 120,
+      "grave": 86,
+      "minore": 121,
       "altre": 0
     },
-    "dichiarati_dal_referto": 414,
+    "dichiarati_dal_referto": 417,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-08-22",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
