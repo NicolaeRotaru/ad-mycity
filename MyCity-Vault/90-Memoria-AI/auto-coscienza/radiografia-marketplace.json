@@ -31,7 +31,7 @@
     "gravi": 181,
     "minori": 223,
     "agenti": 26,
-    "nota_conteggio": "24/8: i due gravi della pagina ordine passano a `in-corso` (i conti che non tornavano, e il riquadro che diceva di pagare in contanti anche a chi aveva gia' pagato con la carta). Il primo era su DUE pagine, non una: anche quella del negoziante. ► Prima: i tre della vetrina, le foto ingrandite, i tre su scrittura e contatori, i 4 dell'area venditore, i 7 degli stati lato cliente. Totale e conti per gravita' aggiornati NELLO STESSO lavoro."
+    "nota_conteggio": "24/8: i tre reperti sugli scheletri che non hanno la forma di quello che arriva passano a `in-corso` — ed erano lo stesso difetto scritto sotto tre dimensioni diverse piu' un caso davvero separato. ► Prima: i due della pagina ordine, i tre della vetrina, le foto ingrandite, i tre su scrittura e contatori, i 4 dell'area venditore, i 7 degli stati lato cliente. Totale e conti per gravita' aggiornati NELLO STESSO lavoro."
   },
   "confronto_precedente": null,
   "dimensioni": [
@@ -3995,7 +3995,8 @@
       "impatto": "",
       "fix": "In SkeletonCard sostituire `w-full h-48` con `aspect-square` e portare il corpo a `p-2.5`; far accettare a `SkeletonGrid` le classi di colonne che ProductGrid calcola in `gridCols` e passargliele dalla riga 396, invece di riscriverle a mano.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "dove_si_ripara": "richiesta #242 del marketplace"
     },
     {
       "dimensione": "stati-ui",
@@ -4277,7 +4278,8 @@
       "impatto": "",
       "fix": "Allineare lo scheletro alla scheda: copertina `h-28`, stesso numero di elementi e stesse righe di contenuto. Per «Potrebbe piacerti» basta `aspect-square` più due righe di testo.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "dove_si_ripara": "richiesta #242 del marketplace"
     },
     {
       "dimensione": "mobile-pwa",
@@ -5433,7 +5435,9 @@
       "impatto": "",
       "fix": "Far riusare allo scheletro le stesse classi della scheda vera: sostituire `w-full h-48` con `aspect-square w-full`, e in `SkeletonGrid` usare la stessa stringa di colonne di `gridCols`, estratta in una costante condivisa in un file solo così non possono più divergere. Aggiungere un test che confronti l'altezza della griglia in caricamento e a caricamento finito e fallisca oltre pochi pixel di differenza.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "dove_si_ripara": "richiesta #242 del marketplace",
+      "nota_misura": "24/8. Tre correzioni alla scheda, tutte misurate. ① Le divergenze erano TRE e non due: oltre all'altezza fissa della foto e alle colonne, anche la distanza fra le schede era scritta due volte e diversa (gap-4 nello scheletro, gap-3 nella pagina promozioni). ② Lo STESSO difetto e' registrato TRE volte nel referto, sotto tre dimensioni diverse (performance-percepita grave, stati-ui minore, immagini-media minore): e' un doppione del registro, non tre difetti. ③ Il terzo — la fila «Potrebbe piacerti» — era davvero un altro scheletro, in un altro file, con un'altra forma ancora. Curati tutti. La cura non e' allineare i numeri: e' che ci sia UNA fonte e che scheletro e schede vere chiedano a quella."
     },
     {
       "dimensione": "performance-percepita",
@@ -5734,7 +5738,7 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-24 11:21",
+    "aggiornato": "2026-08-24 11:50",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
