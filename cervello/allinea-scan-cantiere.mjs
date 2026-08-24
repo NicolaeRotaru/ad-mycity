@@ -160,7 +160,7 @@ function verificaFinding(f) {
   const vuolePresente = v.presente !== false;
   return {
     esito: risolto ? "risolto" : "aperto",
-    // AR-798 — qui c'era `${trovato ? …}`, e `trovato` non esisteva: AR-743 aveva sostituito il
+    // AR-810 — qui c'era `${trovato ? …}`, e `trovato` non esisteva: AR-743 aveva sostituito il
     // confronto scritto a mano con `provaSoddisfatta` e portato via la variabile, lasciandone il
     // nome dentro la frase. Non era un refuso cosmetico: la riga sta nel `return`, quindi OGNI
     // finding con una prova faceva esplodere `verificaFinding` con un ReferenceError, e l'errore

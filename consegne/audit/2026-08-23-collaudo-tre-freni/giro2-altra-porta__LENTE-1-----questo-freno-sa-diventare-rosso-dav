@@ -1,0 +1,112 @@
+# ROTTO
+
+## prova
+Tutto eseguito, niente letto-e-riassunto. Il repo vero NON l'ho toccato: `git status --porcelain` a fine giro è identico a quello di partenza (5 M + 8 ??). Gli esperimenti girano su una COPIA (`cervello` + `pannello/src` + il cantiere vero) via `PORTE_GEMELLE_REPO` / `PORTE_GEMELLE_REGISTRO`.
+
+═══ A) LE ACCUSE DEL VECCHIO REFERTO: RIGIOCATE UNA PER UNA ═══
+
+① «una riga innocua spegne l'accusa» — CHIUSA DAVVERO (registro senza tetto, per confrontare mele con mele)
+$ printf '\nexport const stato = "chiuso";\n' >> COPIA/cervello/auto-fix.mjs
+$ PORTE_GEMELLE_REPO=COPIA PORTE_GEMELLE_REGISTRO=reg-senza-tetto.json node cervello/porte-gemelle.mjs
+  ❌ [porta-scoperta] cervello/auto-fix.mjs:402 · 1 scoperta/e · EXIT=1   (identico all'albero pulito)
+①bis `export const timbraChiusura = _t;` → EXIT=1. CHIUSA.
+casa dichiarata falsa (`casa: "cervello/auto-fix.mjs"`) → ❌ [casa-non-verificata] · EXIT=1. CHIUSA.
+
+③a registro con `atti: []` → «⚪ … E qui le porte esaminate sono ZERO» · EXIT=2. CHIUSA.
+③b rilevatore che non trova niente → «⚪ … Zero cose guardate non fanno un verde» · EXIT=2. CHIUSA.
+④ cartella cieca: `rm -rf COPIA/pannello` con un rosso vero dentro `cervello/` → ❌ [sopra-il-tetto] + ⚪ «MISURATO SOLO IN PARTE» · EXIT=1; senza rosso → EXIT=2, mai 0. CHIUSA.
+⑤ data secca: `verdettoSchede([{grave,chiuso,chiuso_il:"2026-08-23"}],"2026-08-23 13:01")` → `{"viste":0,"senzaTimbro":0,"timbroAmbiguo":1}`; giorno dopo `viste:1` accusata; giorno prima debito storico. RIDOTTA come dichiarato.
+Regge anche il resto: test 16/16 EXIT=0 · runner `--solo altra-porta` ✅ 16 EXIT=0 · `non-vacuita.mjs --difetti AR-796` ✅ 5 mutazioni su 5 EXIT=0.
+
+═══ B) L'ATTACCO CHE PASSA — UNA RIGA, E IL FRENO DIVENTA VERDE ═══
+La porta scoperta non sparisce più dall'elenco: adesso viene DICHIARATA SICURA. Basta che il file NOMINI la guardia, in qualunque forma.
+
+$ printf '\nexport const NOTA = "ammissibilitaProva";\n' >> COPIA/cervello/auto-fix.mjs
+$ PORTE_GEMELLE_REPO=COPIA PORTE_GEMELLE_REGISTRO=reg-senza-tetto.json node cervello/porte-gemelle.mjs
+  ✅ chiudere-un-difetto — 1 passa/no · 3 dichiarata/e · 0 scoperta/e
+        ✅ cervello/auto-fix.mjs:402
+  ✅ 4 porta/e esaminata/e: ognuna passa dalla guardia o è dichiarata…
+  EXIT=0        (da 1 a 0, con AR-796 vivo e intatto)
+
+Due varianti che nessuno scriverebbe apposta, stesso esito (EXIT=0, «✅ auto-fix.mjs:402»):
+$ ... throw new Error("prova non ammissibile: vedi ammissibilitaProva in prova-ammissibile.mjs");
+$ ... import { ammissibilitaProva as _g } from "./prova-ammissibile.mjs";   ← import mai usato
+
+═══ C) LO STESSO ATTACCO SU UNA PORTA NUOVA: IL ROSSO SPARISCE ═══
+Porta di servizio finta che compie l'atto senza guardia (COPIA/cervello/porta-di-servizio.mjs), col tetto vero 1:
+$ PORTE_GEMELLE_REPO=COPIA node cervello/porte-gemelle.mjs
+  ❌ [sopra-il-tetto] cervello/auto-fix.mjs:402, cervello/porta-di-servizio.mjs:3 — EXIT=1   ← giusto
+Poi aggiungo la riga-stringa in auto-fix.mjs (un ALTRO file, che non c'entra):
+  ✅ 1 passa/no · 1 scoperta/e · tetto 1
+     ✅ cervello/auto-fix.mjs:402 · 🕳️ cervello/porta-di-servizio.mjs:3
+  ✅ «…una porta in più fa rosso subito.»   EXIT=0
+La porta nuova è ancora lì, scoperta, e il freno è verde mentre stampa che una porta in più farebbe rosso.
+
+═══ D) E IL TETTO CROLLA A ZERO PER SEMPRE ═══
+$ (riga-stringa in auto-fix.mjs) node cervello/porte-gemelle.mjs --aggiorna-tetti
+  "tetto_porte": 1  →  "tetto_porte": 0
+AR-796 risulta curato, per iscritto, senza che una riga di codice sia cambiata.
+
+═══ E) LA CAUSA, DUE RIGHE DELLO STESSO FILE ═══
+$ grep -n 'reGuardia\|const pezzi = String(rilevatore)' cervello/porte-gemelle.mjs
+  188:  const pezzi = String(rilevatore).match(/…\\?\(/g)        ← la CASA: solo nomi CHIAMATI
+  258:  const reGuardia = new RegExp(`\\b${fuga(funzione)}\\b`)  ← la GUARDIA: parola nuda
+  272:  const passa = reGuardia.test(pulito)                     ← su tutto il file, stringhe comprese
+`senzaCommenti` (spazzata-fratelli.mjs:64-85) toglie i commenti, non le stringhe.
+
+═══ F) IL TEST NON LO COPRE ═══
+$ grep -n 'ammissibilitaProva' cervello/test/altra-porta-lasciata-aperta.test.mjs → una sola riga, e sta nel commento di testa (riga 5). Nessuno dei 16 casi tocca il lato «passa».
+
+## dettaglio
+## In parole semplici
+
+Il freno chiude le vecchie accuse — le ho rigiocate tutte e reggono davvero, non a parole. Ma la malattia che lo aveva bocciato è ancora viva, entrata da un'altra porta: **una riga che non ripara niente lo fa diventare verde**. Prima quella riga faceva sparire il file accusato dall'elenco; adesso gli mette accanto la spunta verde, che è peggio.
+
+## Il guasto
+
+Il freno decide che un file «passa dalla guardia» se **da qualche parte dentro c'è scritta la parola** `ammissibilitaProva`. Non se la chiama: se la nomina. Provato su tre righe, tutte innocue, tutte con lo stesso esito:
+
+    export const NOTA = "ammissibilitaProva";
+    throw new Error("prova non ammissibile: vedi ammissibilitaProva …");
+    import { ammissibilitaProva as _g } from "./prova-ammissibile.mjs";   // mai usato
+
+Con una qualsiasi delle tre in fondo a `auto-fix.mjs`, il conto passa da «1 scoperta» a «0 scoperta», `auto-fix.mjs:402` si prende la spunta ✅, e l'uscita va da 1 a 0. AR-796 non è cambiato di una virgola.
+
+La seconda riga non è un dispetto: è il messaggio d'errore che scriverebbe chiunque stia spiegando all'utente perché una prova è stata rifiutata. La terza è un import rimasto dopo un refactoring. **Il cancello si aggira per sbaglio**, che è la frase con cui il file stesso descrive il difetto che dice di aver chiuso.
+
+## Perché è grave, e non un limite già dichiarato
+
+**① Uccide il rosso su una porta NUOVA — cioè il mestiere del freno.** Ho messo in un albero finto una porta di servizio vera (`porta-di-servizio.mjs` chiama `timbraChiusura` e non passa da nessuna guardia). Col tetto a 1 il freno la becca: `❌ [sopra-il-tetto] … EXIT=1`. Poi ho aggiunto la riga-stringa a un **altro** file, `auto-fix.mjs`, che con la porta nuova non c'entra niente: il conto delle scoperte torna a 1, l'uscita torna 0, e il freno stampa «*una porta in più fa rosso subito*» mentre la porta in più è lì, scoperta, sotto la riga precedente. Il verde dice una cosa falsa, ed è la stessa colpa che il riparatore si è preso quando ha riscritto quella frase.
+
+**② Fa crollare il tetto a zero.** Con la riga dentro, `--aggiorna-tetti` porta `tetto_porte` da 1 a 0. Il tetto «scende e non risale»: da quel momento AR-796 risulta curato per iscritto, per sempre, senza che una riga di codice sia cambiata. La valvola che doveva rendere il freno agganciabile diventa la strada per chiudere il difetto senza ripararlo.
+
+**③ Non è il limite ② dichiarato.** Il limite ② dice: «*misuro la presenza, non il percorso: la chiamata può stare in un ramo morto*». Quello presuppone una **chiamata**. Qui non c'è nessuna chiamata: c'è una parola dentro una stringa. Fra «la guardia viene chiamata ma forse non su quel ramo» e «la guardia non viene chiamata affatto» c'è la stessa distanza che c'era fra le due versioni di questo freno.
+
+**④ La riparazione giusta il riparatore l'ha già scritta — dall'altra parte.** Per capire chi è «la casa dell'atto» ha smesso di pescare parole e ha preso **solo i nomi che vengono chiamati** (riga 188: il pezzo di espressione finisce con `\(`). Poi ha lasciato la guardia a `\bammissibilitaProva\b` su tutto il testo del file (righe 258 e 272). Due righe dello stesso file, la stessa domanda, due risposte diverse. E `senzaCommenti` toglie i commenti, non le stringhe.
+
+**⑤ Nessuno dei 16 casi lo copre.** Nel test la parola `ammissibilitaProva` compare una volta sola, nel commento di testa. I casi N1 e N1b provano il lato «casa» (`export const stato = "chiuso"`, `export const timbraChiusura = …`); il lato «passa» non è provato da niente. Anche le 5 mutazioni girano tutte sull'altro lato.
+
+## Cosa regge, e va detto
+
+Non è un lavoro sciatto: **ho provato a rompere ogni cosa che dichiara e non ci sono riuscito**. Le tre righe innocue del vecchio referto adesso lasciano il rosso al suo posto. La casa dichiarata e falsa fa rosso col nome. Il registro senza atti e il rilevatore che non trova niente escono ⚪ (2) col motivo stampato, mai 0. La cartella cieca non si mangia più il rosso provato accanto, e l'esenzione che ci abita non viene accusata di essere morta. Il timbro a data secca adesso si conta e si stampa. Il test gira 16 su 16, il runner lo scopre da solo, le 5 mutazioni rendono rosso il loro test. Il repo vero non l'ho trovato sporcato.
+
+Sono cinque accuse chiuse su cinque. Ma la lente non chiede quante ne ha chiuse: chiede se il freno sa diventare rosso quando il difetto c'è. **Con una riga, non lo sa più.**
+
+## Cosa serve perché regga
+
+Una riga sola, e la simmetria con quello che ha già fatto:
+
+1. **La guardia si CHIAMA, non si nomina.** Riga 258: `new RegExp("\\b" + fuga(funzione) + "\\s*\\(")` invece di `\\b…\\b`. È lo stesso criterio della riga 188.
+2. **Le stringhe non contano.** Togliere i letterali prima di cercare, come già si tolgono i commenti — altrimenti `"ammissibilitaProva("` dentro una stringa rientra dalla finestra.
+3. **Un caso nuovo nella prova** — «una porta che NOMINA la guardia senza chiamarla resta scoperta» — e la mutazione che lo rende rosso, altrimenti fra un mese ci ricasca chiunque.
+
+Finché non c'è, la riga per il cancello non va agganciata: aggancerebbe un freno che si spegne con un messaggio d'errore.
+
+## Dettagli tecnici
+
+- Motore: `/home/user/ad-mycity/cervello/porte-gemelle.mjs` — `porteDiUnAtto` 250-283 (`reGuardia` 258, `passa` 272), `primitiviDelRilevatore` 186-190, `eLaCasaDellAtto` 203-213, `verdettoCasa` 226-245, `verdettoSchede` 425-458.
+- `senzaCommenti`: `/home/user/ad-mycity/cervello/spazzata-fratelli.mjs:64-85` — righe di commento e ` // ` di coda; le stringhe restano.
+- Prova: `/home/user/ad-mycity/cervello/test/altra-porta-lasciata-aperta.test.mjs` — 16 casi, EXIT=0; `ammissibilitaProva` solo alla riga 5 (commento).
+- Registro: `/home/user/ad-mycity/cervello/atti-con-porte.json` — `tetto_porte: 1`, `acceso_il: "2026-08-23 13:01"`, 3 esenti `fino_al 2026-10-15`.
+- Alberi di prova: `/tmp/claude-0/-home-user/08541dc6-c549-54e8-a220-706eff039da9/scratchpad/L1/copia` (copia del repo) + `reg-senza-tetto.json`, `reg-vuoto.json`, `reg-nulla.json`, `reg-casa-falsa.json`, `reg-vero-copia.json`.
+- `git status --porcelain` a fine giro: identico a inizio giro (5 modificati, 8 non tracciati). Non ho committato né pushato, non ho toccato `cervello/cancello-lotto.mjs`.

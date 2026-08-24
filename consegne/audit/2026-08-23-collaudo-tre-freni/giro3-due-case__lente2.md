@@ -1,0 +1,41 @@
+# ROTTO
+
+## prova
+Costruito un albero git VERO da zero (nessuna misura ereditata dal riparatore): copia dell'albero di lavoro (2768 file), `git init -b main`, i 13 file del lotto tolti → commit `fc2da29` "pre-lotto", repo nudo `O` come origin, `git push`, `git fetch origin` → `origin/main` esiste. Poi ramo `lotto`, i 13 file rimessi, i TRE freni montati in `cervello/cancello-lotto.mjs` (25 passi), commit `e171c82`. Ogni corsa sotto `env -i PATH=$PATH HOME=$(mktemp -d) CI=1 GITHUB_ACTIONS=true` — zero rete, zero chiavi, e in questo repo `node_modules` NON ESISTE affatto.
+
+① CLONE SUPERFICIALE FATTO BENE — `git clone --depth 1 file://A -b lotto C` (lotto già committato), poi in C: `node cervello/due-case.mjs` → **EXIT 0 in 0,151 s**, «nati in questo lotto: 0 · riscritti: 0 · rilanciati nella casa spoglia: 0».
+② DIPENDENZE ASSENTI — tutte le corse con HOME vuota, CI=1, senza node_modules, senza rete: nessun fallimento imputabile all'ambiente.
+③ NASCE GIÀ ROSSO — tre freni montati, storia intera, `origin/main` = pre-lotto: `node cervello/due-case.mjs` → **EXIT 0 in 5,41 s**, `✅ l altra porta lasciata aperta` · `✅ puntatori scollegati`.
+③bis IL COLPO — nello STESSO albero aggiunta UNA riga di commento in fondo a `cervello/conta-verdetti-muti.mjs` (passo che nel cancello c'è già) + commit → **EXIT 1 in 11,38 s**: `❌ consegne senza esito (contatore) — NASCE ROTTO`.
+③ter L'ACCUSA È FALSA — stesso commit spinto su O, `git clone file://O` A PROFONDITÀ INTERA (la forma vera della CI: `fetch-depth: 0`, `.github/workflows/cancello-lotto.yml` riga 58), `git checkout lotto`, `env -i … node cervello/conta-verdetti-muti.mjs` → **exit 0**.
+③quater LA SCALA — `node cervello/due-case.mjs --tutti` → 20 rilanci, **EXIT 1 in 70,07 s**, QUATTRO `❌ NASCE ROTTO`: `forma-json.mjs`, `mutazioni-orfane.mjs`, `prossimo-ar.mjs`, `conta-verdetti-muti.mjs`. Tutti e quattro rilanciati sul clone a profondità intera → **exit 0, exit 0, exit 0, exit 0**.
+④ DIPENDENZE INCROCIATE — output di ③: «rilanciati nella casa spoglia: 2» = `l altra porta lasciata aperta` e `puntatori scollegati`, i due freni fratelli del lotto.
+⑤ COSTO — caso peggiore misurato: 70,07 s e 20 copie intere del repo (2768 file l'una). Caso ordinario col colpo: 11,38 s.
+Pulizia: repo vero `git status --short` = 13 righe identiche all'inizio, nessun commit, nessun push, `cancello-lotto.mjs` mai toccato, scratch (268 MB) cancellato.
+
+## dettaglio
+ROTTO su tre delle cinque domande. Il difetto capitale è ③: **la casa spoglia imita una casa che non esiste, e per quella bugia il freno accusa il falso e spegne il cancello a tutti.**
+
+**1) LA MALATTIA CHE IL FILE ESISTE PER CURARE, RIFATTA DAL MEDICO (AR-506/511/514/526/534).**
+`costruisciCasaSpoglia` (righe ~430-470) monta la copia con `git init` + un commit + `.git/shallow` scritto a mano, e **nessun remote**: `origin/main` non esiste, la storia è troncata. Il freno dichiara quest'asse come voluto (asse ③ dell'intestazione) e stampa sotto ogni accusa la frase «Sul runner la casa è quella spoglia». **Quella frase è falsa.** Il runner vero fa `actions/checkout` con `fetch-depth: 0` — storia INTERA e `origin/main` presente — ed è scritto in chiaro in `.github/workflows/cancello-lotto.yml` riga 58 col motivo accanto.
+Conseguenza misurata, non ragionata: quattro dei 21 passi rilanciabili del cancello di oggi escono 2 nella casa spoglia **solo** perché lì la storia è mozza, e il freno li marchia `❌ NASCE ROTTO`:
+· `cervello/forma-json.mjs` → «origin/main non raggiungibile (clone superficiale)»
+· `cervello/mutazioni-orfane.mjs` → «nessun origin/main da cui contare»
+· `cervello/prossimo-ar.mjs` → «non ho potuto leggere il cantiere su origin/main né su main»
+· `cervello/conta-verdetti-muti.mjs` → «CIECO: clone superficiale (--depth)»
+Gli stessi quattro script, stesso commit, sul clone a profondità intera con HOME vuota e CI=1: **exit 0 tutti e quattro**. L'accusa è falsa quattro volte su quattro.
+E il grilletto è banale: ho aggiunto **una riga di commento** in fondo a `conta-verdetti-muti.mjs` — un lotto qualunque, non un caso costruito — e il freno è passato da exit 0 a **exit 1**. Nel cancello exit 1 vuol dire `fallito: true` (`cancello-lotto.mjs` riga ~595: `fallito: codice !== 0 && codice !== 2`): rosso per tutti, con la motivazione sbagliata. Due dei quattro (`forma-json.mjs`, `mutazioni-orfane.mjs`) sono attrezzi di lotto che si toccano di continuo: sono mine armate, non ipotesi.
+L'ironia va detta perché è la diagnosi: il freno accusa quei quattro guardiani **proprio perché sono onesti** — dicono ⚪ quando la storia è mozza — mentre lui stesso, nella identica condizione, dice ✅ (punto 2 qui sotto). Il metro che applica agli altri non se lo applica.
+Nota di correttezza: il buco ④ del riparatore dichiara l'asse «storia troncata», ma lo dichiara come *imitazione del runner*, e il buco ③ promette «precisione in meno, **mai un rosso in più**». Qui il rosso in più c'è, misurato. La dichiarazione non copre il danno perché descrive il contrario di quello che succede.
+
+**2) IL CLONE SUPERFICIALE FATTO BENE DÀ UN VERDE MUTO, NON UN ⚪.**
+Lotto committato, `git clone --depth 1` → il freno esce **0** avendo rilanciato **zero** passi: il perimetro collassa su HEAD, il lotto è già dentro HEAD, quindi «niente è nuovo». La riga ⚠️ si stampa, ma il numero che il cancello legge è 0. Il contratto scritto in cima al file dice «2 = NON HO POTUTO MISURARE»: qui non ha potuto misurare l'unica cosa che sa misurare, e ha risposto 0. È fuori dalla convenzione di casa sua: nella stessa identica condizione `forma-json`, `prossimo-ar`, `mutazioni-orfane` e `conta-verdetti-muti` rispondono 2. Attenuante vera: in CI la storia c'è. Non-attenuante: **questa macchina è un clone superficiale** (`.git/shallow`, 2 innesti) — sul repo vero, adesso, il freno esce 0 senza guardare niente, ed è il verde su cui l'AD lavora tutti i giorni.
+
+**3) RILANCIA I DUE FRENI FRATELLI — la regola ferrea di questo giro.**
+Misurato, non dedotto: «rilanciati nella casa spoglia: 2» = `l altra porta lasciata aperta` e `puntatori scollegati`. Oggi escono verdi e il freno esce 0, quindi il caso «tutti e tre montati» regge (③ semplice: exit 0 in 5,4 s — su questo il riparatore ha ragione). Ma il meccanismo vietato c'è tutto: se domani uno dei due fratelli leggerà `origin/main` — come fanno già quattro passi su 21 — due-case lo accuserà di nascere rotto. La lente 4 non chiede «accusa oggi?», chiede «accusa o rilancia?»: rilancia, e il riparatore lo dichiara lui stesso nel buco ⑧.
+
+**4) COSTO, CASO PEGGIORE.** 70,07 s e 20 copie intere del repo (2768 file l'una) quando il lotto tocca tutti i passi rilanciabili. Il caso ordinario che ho innescato: 11,38 s. Rischio strutturale NON misurato (dedotto dal codice, lo dichiaro come tale): `TEMPO_MASSIMO` = 300.000 ms per passo (riga 198) è **lo stesso** budget che il cancello dà al freno intero (`opts.timeout || 300_000`, `cancello-lotto.mjs` riga 566) e la riga di montaggio proposta non dichiara nessun timeout — quindi un solo passo lento fa uccidere il freno dal cancello (`status === null` → codice 124 → `fallito: true`), rosso senza spiegazione.
+
+**COSA REGGE, e va detto.** L'amputazione della domanda ⓑ è fatta bene e in chiaro: `grep` non trova più `mutazioniDelPasso|verdettoMutazione|bozzaDiMutazione|senza-morso|MUTAZIONI_MAX` nel codice, il freno non legge `mutanti.json`, e il buco AR-511 è stampato sotto ogni verdetto. Le dipendenze d'ambiente (②) reggono: zero rete, zero chiavi, `node_modules` inesistente in questo repo e il freno gira lo stesso. Il montaggio dei tre freni da solo (③ semplice) esce 0 in 5,4 s come dichiarato. Il tetto è a 4 e il censimento torna a 4.
+
+**LA RIPARAZIONE MINIMA, se serve.** Non toccare l'amputazione: sistemare l'asse ③ della casa spoglia, che è l'unico pezzo bugiardo. O la casa spoglia riceve un `origin/main` vero (un secondo commit + un ref, così somiglia a `fetch-depth: 0`), oppure un passo che nella casa spoglia esce **2 lamentando la storia** va classificato **⚪ non misurato**, mai `nasce-rotto` — perché quel 2 è colpa della casa finta, non del passo. Fatto questo, il colpo di ③bis torna verde e le quattro mine si disinnescano.

@@ -3656,8 +3656,8 @@ un colpo e chiedeva un elenco di esenzioni per nome; il conto dice che il giorno
 oggi, e che un elenco di esenzioni sarebbe stato il modo di far chiudere su una parola i 19 difetti
 più pesanti del registro.
 
-**Difetti nuovi registrati:** AR-797 (nessuno controlla che un cancello nuovo sia collegato a chi
-agisce), AR-798 (la strada morta), AR-799 (gli strumenti deviabili a metà).
+**Difetti nuovi registrati:** AR-809 (nessuno controlla che un cancello nuovo sia collegato a chi
+agisce), AR-810 (la strada morta), AR-799 (gli strumenti deviabili a metà).
 
 **Cosa non ho verificato:** quanti altri strumenti della macchina scrivono in più di un registro
 senza essere deviabili del tutto. Ne ho contati due, e sono i due che ho toccato oggi; degli altri

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
-// 🧪 AR-796 · AR-798 — IL FRENO C'ERA, MA NON SULLA STRADA CHE PORTA ALL'ATTO.
+// 🧪 AR-796 · AR-810 — IL FRENO C'ERA, MA NON SULLA STRADA CHE PORTA ALL'ATTO.
 //
 // Due difetti, un file, e il caso di ciascuno sta scritto a parte: AR-796 nelle sezioni ①②③④,
-// AR-798 dentro la ④ — perché montare il freno sulla terza strada ha voluto dire percorrerla, e
+// AR-810 dentro la ④ — perché montare il freno sulla terza strada ha voluto dire percorrerla, e
 // percorrendola è esplosa. Sono lo stesso lavoro visto da due lati, non una prova sola prestata a
 // due schede.
 //
@@ -240,7 +240,7 @@ test("dalla porta a mano una scheda leggera chiude in silenzio: la dichiarazione
 // misurato il 23/8. Il cancello qui non toglie niente a nessuno — che è la ragione per montarlo
 // adesso invece di aspettare il giorno in cui costa.
 //
-// ── AR-798, trovato percorrendola ─────────────────────────────────────────────────────────────
+// ── AR-810, trovato percorrendola ─────────────────────────────────────────────────────────────
 // La strada non era dormiente: era MORTA. `verificaFinding` citava una variabile `trovato` che non
 // esiste — AR-743 aveva sostituito il confronto a mano con `provaSoddisfatta` e portato via la
 // variabile, lasciandone il nome dentro il `return`. Quindi ogni finding con una prova faceva
@@ -249,7 +249,7 @@ test("dalla porta a mano una scheda leggera chiude in silenzio: la dichiarazione
 // Il caso qui sotto copre tutt'e due — se `trovato` torna, il processo muore e nessuno dei due
 // findings cambia stato.
 
-test("AR-796 · AR-798 — l'allineatore non esplode, e non chiude un finding BLOCCANTE su una prova a pattern", () => {
+test("AR-796 · AR-810 — l'allineatore non esplode, e non chiude un finding BLOCCANTE su una prova a pattern", () => {
   const dir = mkdtempSync(join(tmpdir(), "allinea-finto-"));
   const rad = join(dir, "auto-radiografia.json");
   const cant = join(dir, "cantiere-difetti.json");

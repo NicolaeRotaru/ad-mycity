@@ -1,13 +1,18 @@
 {
   "_cosa_e": "📮 Quante volte ho consegnato un lavoro il cui esito non è arrivato dove Nicola legge (AR-474). Il tetto SCENDE e non risale: aggiungerne uno è un errore, portarne via è il lavoro.",
-  "misurato": "2026-08-24 11:49",
+  "misurato": "2026-08-24 12:09",
   "finestra_giorni": 30,
-  "commit_esaminati": 179,
+  "commit_esaminati": 180,
   "esclusi_worker": 30,
-  "consegne": 149,
-  "mute": 39,
-  "tasso": 26,
+  "consegne": 150,
+  "mute": 40,
+  "tasso": 27,
   "ultime_mute": [
+    {
+      "hash": "ed3370e4c",
+      "quando": "2026-08-24 11:27",
+      "titolo": "Il metodo di collaudo adesso è scritto: chi ha costruito non collauda "
+    },
     {
       "hash": "83124e53f",
       "quando": "2026-08-01 14:56",
@@ -42,11 +47,6 @@
       "hash": "f28272765",
       "quando": "2026-07-30 14:37",
       "titolo": "Sorvegliante del delta: la revisione gira mentre lavoro, non a fine co"
-    },
-    {
-      "hash": "72dffa662",
-      "quando": "2026-07-30 14:15",
-      "titolo": "Auto-radiografia profonda: tre difetti di natura e il cantiere (#636)"
     }
   ],
   "esclusi_non_scrivibili": 13,
@@ -57,7 +57,7 @@
   ],
   "cabina": {
     "stato_aggiornato": "2026-08-23 11:50",
-    "ultima_consegna": "2026-08-23 11:35",
+    "ultima_consegna": "2026-08-24 11:27",
     "giorni_indietro": 0
   },
   "tetti": {

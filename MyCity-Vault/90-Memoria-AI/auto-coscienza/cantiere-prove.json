@@ -1,44 +1,56 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-24 11:50",
+  "aggiornato": "2026-08-24 12:10",
   "giorni_sospetto": 3,
-  "difetti_aperti": 115,
-  "difetti_da_fare": 115,
+  "difetti_aperti": 117,
+  "difetti_da_fare": 117,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 799,
+    "totale": 801,
     "chiusi": 684,
-    "aperti": 105,
+    "aperti": 107,
     "in_corso": 0,
     "da_riverificare": 10,
     "altri": 0,
-    "da_fare": 115,
+    "da_fare": 117,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 684,
-      "aperto": 105,
-      "da-riverificare": 10
+      "da-riverificare": 10,
+      "aperto": 107
     },
     "stati_ignoti": []
   },
   "bilancio": {
     "torna": true,
-    "attese": 115,
-    "viste": 115,
+    "attese": 117,
+    "viste": 117,
     "fuori": 0,
-    "motivo": "bilancio a posto: 684 chiuse + 115 classificate = 799 schede, e ogni stato vivo è dentro (105 aperto · 10 da-riverificare)"
+    "motivo": "bilancio a posto: 684 chiuse + 117 classificate = 801 schede, e ogni stato vivo è dentro (107 aperto · 10 da-riverificare)"
   },
   "per_classe": {
+    "umana": 73,
     "prova-debole-su-grave": 21,
     "auto-sospetta": 10,
-    "umana": 73,
-    "auto-comando": 11
+    "auto-comando": 13
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
   "prove_da_alzare": [
+    {
+      "id": "AR-070",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
+    },
+    {
+      "id": "AR-090",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
+    },
     {
       "id": "AR-119",
       "gravita": "grave",
@@ -119,18 +131,6 @@
     },
     {
       "id": "AR-432",
-      "gravita": "grave",
-      "impatto_crescita": "alto",
-      "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
-    },
-    {
-      "id": "AR-070",
-      "gravita": "grave",
-      "impatto_crescita": "alto",
-      "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
-    },
-    {
-      "id": "AR-090",
       "gravita": "grave",
       "impatto_crescita": "alto",
       "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
@@ -583,6 +583,14 @@
       "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs cervello/test/cancello-stop.test.mjs\" (solo: node cervello/<script>.mjs [--flag])"
     },
     {
+      "id": "AR-544",
+      "stato": "chiuso",
+      "gravita": "grave",
+      "causa": "comando-non-eseguibile",
+      "comando": "node --import ./cervello/test/hook-ts.mjs --test pannello/src/lib/memoria-ferma.test.mts",
+      "motivo": "il motore non sa eseguire \"node --import ./cervello/test/hook-ts.mjs --test pannello/src/lib/memoria-ferma.test.mts\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
       "id": "AR-550",
       "stato": "chiuso",
       "gravita": "critica",
@@ -629,14 +637,6 @@
       "causa": "comando-non-eseguibile",
       "comando": "node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-555",
       "motivo": "il motore non sa eseguire \"node --test cervello/test/sorvegliante.test.mjs && node cervello/non-vacuita.mjs --difetti AR-555\" (solo: node cervello/<script>.mjs [--flag])"
-    },
-    {
-      "id": "AR-544",
-      "stato": "chiuso",
-      "gravita": "grave",
-      "causa": "comando-non-eseguibile",
-      "comando": "node --import ./cervello/test/hook-ts.mjs --test pannello/src/lib/memoria-ferma.test.mts",
-      "motivo": "il motore non sa eseguire \"node --import ./cervello/test/hook-ts.mjs --test pannello/src/lib/memoria-ferma.test.mts\" (solo: node cervello/<script>.mjs [--flag])"
     },
     {
       "id": "AR-564",
@@ -1617,18 +1617,6 @@
   ],
   "timbri_storti": [
     {
-      "id": "AR-004",
-      "chiuso_il": "2026-07-07"
-    },
-    {
-      "id": "AR-005",
-      "chiuso_il": "2026-07-02"
-    },
-    {
-      "id": "AR-006",
-      "chiuso_il": "2026-07-14"
-    },
-    {
       "id": "AR-001",
       "chiuso_il": "2026-07-02"
     },
@@ -1639,6 +1627,18 @@
     {
       "id": "AR-003",
       "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-004",
+      "chiuso_il": "2026-07-07"
+    },
+    {
+      "id": "AR-005",
+      "chiuso_il": "2026-07-02"
+    },
+    {
+      "id": "AR-006",
+      "chiuso_il": "2026-07-14"
     },
     {
       "id": "AR-007",
@@ -1714,6 +1714,142 @@
     }
   ],
   "voci": [
+    {
+      "id": "AR-045",
+      "gravita": "minore",
+      "eta_giorni": 52,
+      "impatto_crescita": "medio",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Report umano stantio: RADIOGRAFIA-MACCHINA.md era fermo al 28/6 (voto 72, '3 difetti aperti')",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-047",
+      "gravita": "minore",
+      "eta_giorni": 52,
+      "impatto_crescita": "medio",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "memoria-squadra split-brain: directory duplicata nel vault (consolidato in AR-034)",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-048",
+      "gravita": "minore",
+      "eta_giorni": 52,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "auto-radiografia.json: voto top-level divergente dalla sonda e verdetto fuori-enum",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-049",
+      "gravita": "minore",
+      "eta_giorni": 52,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "AZIONI-PRONTE.md: coda-azioni parallela, orfana e stantia che duplica AZIONI-IN-ATTESA",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-070",
+      "gravita": "grave",
+      "eta_giorni": 52,
+      "impatto_crescita": "alto",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Funnel e conversione al checkout senza sensore live: l'abbandono che brucia ordini è invisibile alla sentinell",
+      "classe": "prova-debole-su-grave",
+      "prova_impossibile": false,
+      "prova_debole_su_grave": true,
+      "senza_controllo": false,
+      "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna.",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-090",
+      "gravita": "grave",
+      "eta_giorni": 52,
+      "impatto_crescita": "alto",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Un solo token di GESTIONE Supabase (sbp_) sovra-privilegiato serve entrambi gli MCP — le chiavi di tutta l'org",
+      "classe": "prova-debole-su-grave",
+      "prova_impossibile": false,
+      "prova_debole_su_grave": true,
+      "senza_controllo": false,
+      "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna.",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-100",
+      "gravita": "minore",
+      "eta_giorni": 21,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "La pausa di Nicola doveva valere anche dentro l'esecutore, non solo nello script del giro",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-102",
+      "gravita": "minore",
+      "eta_giorni": 21,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "I fatti-chiave del business vivevano in copie sparse, e una copia vecchia è una bugia che il Pannello mostra",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-103",
+      "gravita": "minore",
+      "eta_giorni": 21,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Un prospect scelto con ragionamento finiva in un dossier ma non nel registro, e il Pannello mostrava una lista",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-104",
+      "gravita": "minore",
+      "eta_giorni": 21,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "La memoria fermata dal cancello passava come un successo silenzioso invece che come un avviso a Nicola",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
     {
       "id": "AR-119",
       "gravita": "grave",
@@ -2300,142 +2436,6 @@
       "prova_debole_su_grave": true,
       "senza_controllo": false,
       "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna.",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-045",
-      "gravita": "minore",
-      "eta_giorni": 52,
-      "impatto_crescita": "medio",
-      "prova_esegue": false,
-      "prova_obbligatoria": false,
-      "non_giudicabile": false,
-      "titolo": "Report umano stantio: RADIOGRAFIA-MACCHINA.md era fermo al 28/6 (voto 72, '3 difetti aperti')",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-047",
-      "gravita": "minore",
-      "eta_giorni": 52,
-      "impatto_crescita": "medio",
-      "prova_esegue": false,
-      "prova_obbligatoria": false,
-      "non_giudicabile": false,
-      "titolo": "memoria-squadra split-brain: directory duplicata nel vault (consolidato in AR-034)",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-048",
-      "gravita": "minore",
-      "eta_giorni": 52,
-      "impatto_crescita": "basso",
-      "prova_esegue": false,
-      "prova_obbligatoria": false,
-      "non_giudicabile": false,
-      "titolo": "auto-radiografia.json: voto top-level divergente dalla sonda e verdetto fuori-enum",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-049",
-      "gravita": "minore",
-      "eta_giorni": 52,
-      "impatto_crescita": "basso",
-      "prova_esegue": false,
-      "prova_obbligatoria": false,
-      "non_giudicabile": false,
-      "titolo": "AZIONI-PRONTE.md: coda-azioni parallela, orfana e stantia che duplica AZIONI-IN-ATTESA",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-070",
-      "gravita": "grave",
-      "eta_giorni": 52,
-      "impatto_crescita": "alto",
-      "prova_esegue": false,
-      "prova_obbligatoria": true,
-      "non_giudicabile": false,
-      "titolo": "Funnel e conversione al checkout senza sensore live: l'abbandono che brucia ordini è invisibile alla sentinell",
-      "classe": "prova-debole-su-grave",
-      "prova_impossibile": false,
-      "prova_debole_su_grave": true,
-      "senza_controllo": false,
-      "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna.",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-090",
-      "gravita": "grave",
-      "eta_giorni": 52,
-      "impatto_crescita": "alto",
-      "prova_esegue": false,
-      "prova_obbligatoria": true,
-      "non_giudicabile": false,
-      "titolo": "Un solo token di GESTIONE Supabase (sbp_) sovra-privilegiato serve entrambi gli MCP — le chiavi di tutta l'org",
-      "classe": "prova-debole-su-grave",
-      "prova_impossibile": false,
-      "prova_debole_su_grave": true,
-      "senza_controllo": false,
-      "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna.",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-100",
-      "gravita": "minore",
-      "eta_giorni": 21,
-      "impatto_crescita": "basso",
-      "prova_esegue": false,
-      "prova_obbligatoria": false,
-      "non_giudicabile": false,
-      "titolo": "La pausa di Nicola doveva valere anche dentro l'esecutore, non solo nello script del giro",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-102",
-      "gravita": "minore",
-      "eta_giorni": 21,
-      "impatto_crescita": "basso",
-      "prova_esegue": false,
-      "prova_obbligatoria": false,
-      "non_giudicabile": false,
-      "titolo": "I fatti-chiave del business vivevano in copie sparse, e una copia vecchia è una bugia che il Pannello mostra",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-103",
-      "gravita": "minore",
-      "eta_giorni": 21,
-      "impatto_crescita": "basso",
-      "prova_esegue": false,
-      "prova_obbligatoria": false,
-      "non_giudicabile": false,
-      "titolo": "Un prospect scelto con ragionamento finiva in un dossier ma non nel registro, e il Pannello mostrava una lista",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
-    },
-    {
-      "id": "AR-104",
-      "gravita": "minore",
-      "eta_giorni": 21,
-      "impatto_crescita": "basso",
-      "prova_esegue": false,
-      "prova_obbligatoria": false,
-      "non_giudicabile": false,
-      "titolo": "La memoria fermata dal cancello passava come un successo silenzioso invece che come un avviso a Nicola",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
     },
     {
@@ -3148,28 +3148,28 @@
     },
     {
       "id": "AR-797",
-      "gravita": "medio",
+      "gravita": "grave",
       "eta_giorni": 1,
-      "impatto_crescita": "indiretto: e' il controllo che impedisce a un freno di nascere gia' scollegato, cioe' la ricaduta di AR-796",
-      "prova_esegue": false,
-      "prova_obbligatoria": false,
+      "impatto_crescita": "alto",
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
       "non_giudicabile": false,
-      "titolo": "Nessuno controlla che un cancello nuovo sia collegato a chi agisce",
-      "classe": "umana",
-      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
-      "auto_chiudibile": false
+      "titolo": "Un controllo nuovo del cancello puo nascere gia rotto: verde sul computer di chi lo scrive, rosso per sempre s",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/due-case.test.mjs",
+      "auto_chiudibile": true
     },
     {
       "id": "AR-798",
-      "gravita": "grave",
+      "gravita": "medio",
       "eta_giorni": 1,
-      "impatto_crescita": "indiretto: e' il ponte fra i difetti del sito e il cantiere, e quando esplode l'allineamento intero non gira — cioe' i 208 difetti del marketplace restano fermi allo stato di ieri",
+      "impatto_crescita": "alto",
       "prova_esegue": true,
-      "prova_obbligatoria": false,
+      "prova_obbligatoria": true,
       "non_giudicabile": false,
-      "titolo": "Chi verifica i difetti del sito esplode alla prima prova che incontra, e nessuno lo sapeva",
+      "titolo": "Il codice si sposta e la prova continua a puntare al file vecchio: gira, e verde, e non guarda piu niente",
       "classe": "auto-comando",
-      "perche": "prova eseguibile: node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+      "perche": "prova eseguibile: node cervello/test/puntatori-scollegati.test.mjs",
       "auto_chiudibile": true
     },
     {
@@ -3270,6 +3270,32 @@
       "titolo": "Due file che Nicola legge sono piu' lunghi di quanto un controllo riesce a guardare",
       "classe": "auto-comando",
       "perche": "prova eseguibile: node cervello/campo-visivo-memoria.mjs --zero",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-809",
+      "gravita": "medio",
+      "eta_giorni": 1,
+      "impatto_crescita": "indiretto: e' il controllo che impedisce a un freno di nascere gia' scollegato, cioe' la ricaduta di AR-796",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Nessuno controlla che un cancello nuovo sia collegato a chi agisce",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-810",
+      "gravita": "grave",
+      "eta_giorni": 1,
+      "impatto_crescita": "indiretto: e' il ponte fra i difetti del sito e il cantiere, e quando esplode l'allineamento intero non gira — cioe' i 208 difetti del marketplace restano fermi allo stato di ieri",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Chi verifica i difetti del sito esplode alla prima prova che incontra, e nessuno lo sapeva",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
       "auto_chiudibile": true
     }
   ]

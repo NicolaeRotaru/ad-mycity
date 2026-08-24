@@ -1,0 +1,27 @@
+{
+  "_cosa_e": "Il TETTO di cervello/due-case.mjs: quanti passi del cancello non si potranno MAI rilanciare nella casa spoglia. Non è una carta e non dichiara niente sul comportamento degli script: è un numero solo, che scende e non risale. Chi lo alza sta aggiungendo al cancello un controllo che nessuno potrà mai vedere girare nella casa in cui girerà davvero.",
+  "_perche_un_tetto_e_non_un_divieto": "Quattro passi di oggi non sono rilanciabili nudi per come il cancello li chiama: due ricevono argomenti calcolati (--base, --difetti) e lanciarli senza misurerebbe un'altra cosa, uno non è nemmeno uno script del cervello (npx tsc), e uno — la suite del cervello — il cancello stesso lo paga 600 secondi invece dei suoi 300 di casa. Vietarli renderebbe il cancello rosso per sempre, e un cancello sempre rosso viene aggirato al secondo giro. Contarli, invece, tiene il debito in chiaro e gli impedisce di crescere in silenzio.",
+  "_perche_la_suite_del_cervello_e_entrata_nel_tetto": "Lotto 51 · terza consegna. Rilanciare cervello/test-cervello.mjs nella casa spoglia è stato MISURATO: 7 minuti e 35 secondi (186 s nella casa spoglia + 210 s in casa) su un lotto che aveva cambiato una riga di commento, per arrivare a un ROSSO FALSO. Dentro la casa spoglia ogni figlio porta DUE_CASE_DENTRO=1, la suite riesegue il banco di due-case, e il freno vedeva rossa una suite che aveva rotto lui. Il tetto sale da 3 a 4 A MANO, con questa riga: è debito dichiarato, non un verde. Scende quando il freno saprà rilanciare la suite senza rieseguire se stesso.",
+  "_come_si_abbassa": "node cervello/due-case.mjs --aggiorna-tetto — scrive il MINIMO fra la misura di adesso e il numero di prima (Math.min, come i tetti del cancello alle sue righe 720-724): quel comando non lo può alzare. E se la chiave tetto_mai_provabili qui sotto non c'è, non scrive affatto ed esce 1: toglierla e ridare lo stesso comando era il modo misurato di ALZARE il numero (0 -> 1, rosso -> verde) senza che il diff mostrasse altro che una chiave riscritta dallo strumento. Alzarlo resta una riga da scrivere a mano qui dentro, e si vede nel diff.",
+  "_l_elenco_qui_sotto_e_informativo": "il verdetto usa SOLO il numero e il censimento derivato dal codice di cancello-lotto.mjs. Riscrivere questo elenco a mano non sposta nessun verdetto: è la lezione per cui la prima versione di questo freno è stata buttata.",
+  "aggiornato": "2026-08-23 00:00",
+  "tetto_mai_provabili": 4,
+  "mai_provabili": [
+    {
+      "passo": "test del cervello",
+      "motivo": "il cancello stesso gli concede 600 s invece dei 300 di casa: rilanciarlo costa minuti (misurati 7m35s) e la sua corsa rieseguirebbe anche il freno dentro la casa spoglia, dove non misura niente"
+    },
+    {
+      "passo": "sorvegliante del delta",
+      "motivo": "il cancello gli passa argomenti calcolati (--base, --difetti): lanciarlo nudo misurerebbe un'altra cosa"
+    },
+    {
+      "passo": "prove non vacue (mutazioni del lotto)",
+      "motivo": "il cancello gli passa argomenti calcolati (--base, --difetti): lanciarlo nudo misurerebbe un'altra cosa"
+    },
+    {
+      "passo": "typecheck del Pannello",
+      "motivo": "non è uno script del cervello lanciato con `node` (comando: npx)"
+    }
+  ]
+}
