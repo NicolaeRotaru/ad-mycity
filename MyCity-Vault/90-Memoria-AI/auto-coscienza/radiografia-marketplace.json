@@ -5191,11 +5191,11 @@
       "titolo": "Nel piè di pagina l'icona WhatsApp porta a un numero segnaposto",
       "severita": "grave",
       "file": "components/Footer.tsx:74 (href 'https://wa.me/393000000000' scritto a mano) · Footer.tsx:164 (stesso canale via NEXT_PUBLIC_WHATSAPP_NUMBER) · .env.example:127 (variabile presente ma vuota)",
-      "descrizione": "CONFERMATO, con una correzione al ragionamento del collega. Alla riga 74 il link WhatsApp della fila social è scritto a mano con 393000000000, un numero finto: chi tocca l'icona verde apre WhatsApp su un contatto inesistente, e la fila social sta su ogni pagina. Il secondo punto va corretto: il link della colonna Aiuto non è alla riga 196 ma alla 164, e NON è «costruito correttamente» — ha come fallback lo stesso segnaposto (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '393000000000'), e in .env.example:127 la variabile è dichiarata vuota. Quindi finché la variabile non è configurata sono rotti entrambi i punti di contatto, non uno solo.",
+      "descrizione": "CONFERMATO, con una correzione al ragionamento del collega. Alla riga 74 il link WhatsApp della fila social è scritto a mano con 393000000000, un numero finto: chi tocca l'icona verde apre WhatsApp su un contatto inesistente, e la fila social sta su ogni pagina. Il secondo punto va corretto: il link della colonna Aiuto non è alla riga 196 ma alla 164, e NON è «costruito correttamente» — ha come fallback lo stesso segnaposto (process.env.NEXT_PUBLIC_WHATSAPP_NUMBER ?? '393000000000'), e in .env.example:127 la variabile è dichiarata vuota. Quindi finché la variabile non è configurata sono rotti entrambi i punti di contatto, non uno solo. ═══ 24/8, RIPARATO — E LA SCHEDA AVEVA CONTATO DUE PUNTI SU SEI. Il collega aveva gia' corretto il ragionamento del primo che l'aveva scritta (giustamente: la riga 164 NON era «costruita correttamente», aveva lo stesso segnaposto come ripiego). Ma il perimetro restava il piede di pagina. Cercando `wa.me/393000000000` in tutto app/ e components/ i punti sono SEI: Footer.tsx riga 74 (scritto a mano) e 164 (ripiego), piu' app/contact/page.tsx:93, app/help/page.tsx:106, app/seller/help/page.tsx:90, app/rider/help/page.tsx:143. I quattro in piu' stanno esattamente dove va chi ha un problema: contatti, centro assistenza, aiuto venditori, aiuto rider. E su /contact il numero finto non era solo un link: era STAMPATO A VIDEO come se fosse vero, «+39 300 000 0000», sotto la parola WhatsApp, su una pagina che si chiama «Contattaci». LA CURA C'ERA GIA' NELLO STESSO FILE, due schermate piu' in basso: i dati legali del titolare si stampano solo se esistono davvero, col commento che racconta perche' (prima c'erano sede, P.IVA di soli zeri e PEC inventati su ogni pagina). Stessa regola qui: un'icona in meno e' meglio di un'icona che porta nel vuoto. PERCHE' NON BASTAVA «SE LA VARIABILE E' VUOTA»: il valore di ripiego ERA il segnaposto, quindi chi riempie la variabile copiandoci dentro il valore d'esempio — il modo piu' naturale di sbagliare — faceva tornare il numero finto a video con il controllo che diceva verde. Adesso `numeroWhatsApp` scarta il segnaposto per nome E qualunque numero fatto di zeri dopo il prefisso, piu' quelli troppo corti per essere un telefono. La logica sta in lib/contatto-whatsapp.ts. Freno: tests/unit/il-numero-whatsapp-che-non-esiste.test.ts, 12 casi, 6 mutazioni verificate rosse. Una delle prove e' diventata rossa per colpa di un mio commento, che citava il numero vecchio per spiegare la riparazione: il commento e' giusto, la prova adesso toglie i commenti prima di guardare — stessa cura gia' applicata in un altro lotto. NON VERIFICATO: con gli occhi; e non ho cercato numeri finti fuori da WhatsApp — su /contact c'e' anche un `tel:+390523000000` che sembra un segnaposto, ma e' un reperto suo e non l'ho aperto qui.",
       "impatto": "",
       "fix": "Usare la variabile d'ambiente in tutti e due i punti e non mostrare né l'icona né la voce quando la variabile non è configurata, come già si fa per i dati legali del titolare (Footer, blocco dati legali).",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso"
     },
     {
       "dimensione": "navigazione-gerarchia",
@@ -5771,7 +5771,7 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-24 18:49",
+    "aggiornato": "2026-08-24 19:10",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
