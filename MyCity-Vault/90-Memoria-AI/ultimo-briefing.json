@@ -1,12 +1,12 @@
 {
-  "data": "2026-08-21 20:31",
-  "situazione": "Passaggio delle 20:31 (quinto di oggi): stato bit-per-bit identico al giro delle 16:27 (1 ordine mai pagato del 24/6, 0 pagati, 8 profili, 1 negozio con vetrina, 5 prodotti disponibili, Pane Quotidiano ancora senza pagamenti attivi), riverificato dal vivo con query SQL dirette. Dentro la pausa concordata fino al 24/8-1/9 — non è un allarme. Macchina in SOPRAVVIVENZA (salute 4, quota AI 191%, più alta di stamattina): passaggio lampo, solo auto-analisi + chiusura-loop, nessuna ricerca nuova. Blocco tecnico noto e invariato: script diagnostici del cervello ancora bloccati dai permessi di questa sessione (card #104).",
+  "data": "2026-08-24 13:15",
+  "situazione": "Business fermo dal 24/6, identico bit-per-bit al giro del 21/8 sera: 1 ordine (mai pagato), 0 incassi, 1 negozio vero (Pane Quotidiano), 5 prodotti. Il sito pubblico è di nuovo verificato giù (HTTP 503) in diretta. Restano ferme, senza firma, le quattro carte che bloccano tutto il resto: il server (#168), le chiavi Vercel (#154), il dominio (#155) e la pratica pagamenti di Pane Quotidiano (#62). Mancano 5 giorni alla data zero del 29 agosto fissata da Nicola il 23/8.",
   "opportunita": [
-    {"titolo": "Controllare a campione le card vecchie contro lo stato reale prima di richiedere ancora una firma", "motivo": "il 21/8 2 card su 3 vecchie di 3 settimane erano già risolte da un lotto successivo e nessuno l'aveva segnato", "impatto": "medio", "sforzo": "basso"}
+    {"titolo": "Controllare a campione le card vecchie contro lo stato reale prima di richiedere ancora una firma", "motivo": "il 21/8 due card su tre date per aperte da settimane erano già risolte da un lotto successivo e nessuno l'aveva segnato", "impatto": "medio", "sforzo": "basso"}
   ],
   "azioni": [
-    {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano: senza questo il primo incasso non può partire", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
-    {"titolo": "Ripara l'allowlist dei permessi che blocca gli script diagnostici del cervello", "motivo": "test-cervello.mjs, lezione-nuova.mjs, esperimenti-check.mjs e gate-veri.mjs restano bloccati in questa sessione (card #104): la macchina non può verificare da sola il proprio lavoro finché non si allarga", "livello": "giallo"},
-    {"titolo": "Verifica nel codice del sito i tre punti rimasti dove il marketplace rischia di perdere soldi", "motivo": "doppia vendita dopo checkout scaduto, rider mai pagato su spedizione gratis, reclamo che blocca il negozio per sempre — non verificabili dal solo database", "livello": "rosso"}
+    {"titolo": "Firma le carte che riaccendono il server, le chiavi Vercel e il dominio", "motivo": "senza queste tre firme la macchina non riparte da sola e il sito resta giù: sono il moltiplicatore dei 5 giorni rimasti alla data zero del 29 agosto", "livello": "rosso"},
+    {"titolo": "Completa la pratica dei pagamenti di Pane Quotidiano", "motivo": "è ancora l'unico vero blocco al primo ordine pagato: dati mai inviati, incassi e versamenti disattivati sul fascicolo Stripe del fornaio", "livello": "rosso"},
+    {"titolo": "Tieni la macchina in modalità risparmio fino alla ripresa concordata", "motivo": "salute macchina 4/100: questo giro si è tenuto volutamente snello, niente ricerche nuove né contenuti pesanti", "livello": "giallo"}
   ]
 }
