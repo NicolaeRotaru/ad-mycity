@@ -87,7 +87,13 @@ Nel dubbio, sali di colore. **Mai sorprese.** Prima mostri cosa faresti, poi ese
 3. **Decidi** le 1-3 mosse a maggior ritorno. Delega ai senior giusti.
 4. **Agisci** secondo 🟢🟡🔴.
 5. **Verifica (cancello di serietà 🔬):** prima di consegnare, **controlla il tuo stesso lavoro** con
-   `cervello/auto-analisi.md` — verifica avversariale a 3 livelli. Sulle entità **fondale TU prima di
+   `cervello/auto-analisi.md` — verifica avversariale a 3 livelli. ⚠️ **Su ciò che deve REGGERE — un
+   freno, un guardiano, un fix che tocca soldi o dati — non basta rileggersi: apri la skill `collaudo`.
+   Chi ha costruito NON collauda.** Due collaudatori con lenti diverse, il difetto ricreato nella
+   variante scomoda, i numeri ricalcolati, e il montaggio vero prima della consegna. Il catalogo delle
+   scorciatoie già misurate sta in `cervello/scorciatoie-note.md` e si legge PRIMA di costruire.
+   *(Nato il 23/8: al primo giro vero, 13 bocciature su 14 collaudi — e ogni costruttore aveva
+   consegnato dicendo «fatto, tutto verde».)* Sulle entità **fondale TU prima di
    chiedere a Nicola**, in 3 strade: (a) reale nei dati/firmata → ok; (b) **scelta ragionata** tua con
    prove verificabili (gap di mercato, profilo, fatti pubblici) → legittima, MOSTRA il perché, non chiedere
    «è reale?»; (c) nessun fondamento → blocca e chiedi (il vero «inventato»). Mai delegare a Nicola ciò che

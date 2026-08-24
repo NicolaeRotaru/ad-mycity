@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-23 09:05",
+  "aggiornato": "2026-08-24 11:30",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -17011,6 +17011,44 @@
         "nota": "Nessuna prova a comando finche il freno non e collegato. Una prova che punta al test del lotto 50 sarebbe VERDE oggi — e auto-fix chiuderebbe AR-793 al primo giro senza che nessuno abbia collegato niente, che e esattamente il difetto descritto qui dentro. La prova si scrive col fix: un difetto finto bloccante con prova a pattern che NON deve chiudersi passando da auto-fix."
       },
       "nota_fix": "RINUMERATO il 2026-08-23 09:05 da AR-793 a AR-796. Il lotto 50 e la PR #831 sono stati aperti nello stesso periodo e hanno preso lo stesso numero libero, ognuno dalla propria copia del registro: due difetti diversi con lo stesso id. La #831 e stata unita per prima, quindi il numero resta suo (il suo AR-793 parla dell'elenco dei difetti del sito). E il caso descritto nel mansionario del cantiere: prima di prendere un id nuovo va letto da origin/main aggiornato, non dalla copia che si ha in mano. Qui il numero era stato letto da main alle 20:20 del 22/8, e la #831 lo ha usato dopo."
+    },
+    {
+      "id": "AR-797",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-23 13:10",
+      "nato_come": "scoperta",
+      "lotto_scoperta": "51",
+      "gravita": "grave",
+      "titolo": "Un controllo nuovo del cancello puo nascere gia rotto: verde sul computer di chi lo scrive, rosso per sempre sul server",
+      "causa_radice": "Cinque schede raccontano la stessa storia (AR-506, AR-511, AR-514, AR-526, AR-534): si aggiunge un passo al cancello, in locale e verde, e sul runner non puo essere verde nemmeno per sbaglio — o il contrario. Il cancello diventa rosso per tutti, per costruzione, e tre di quei cinque erano bloccanti. Perche succede: nessuno esegue il passo NUOVO nelle condizioni del runner prima di consegnarlo. La differenza fra le due case (HOME vuota, CI=1, niente file non committati) non la guarda nessun processo, e chi scrive il passo la scopre solo quando la CI si spegne per tutti.",
+      "fix_proposto": "🟡 Un guardiano che, per ogni passo del cancello nato o riscritto nel lotto, lo esegue anche in una copia che imita il runner vero (storia intera e origin/main presente, come actions/checkout con fetch-depth: 0) e confronta i due verdetti. Verde in casa e rosso-per-sempre nella casa del runner = il passo nasce rotto, si ferma la consegna. Se la casa del runner non e imitabile per quel passo, ⚪ dichiarato sotto un tetto che scende e non risale, mai un verde. Lavoro in corso in cervello/due-case.mjs: bocciato tre volte dal collaudo (referti in consegne/audit/2026-08-23-collaudo-tre-freni/), NON agganciato al cancello.",
+      "dove": "cervello/cancello-lotto.mjs (i passi nuovi non vengono provati nelle condizioni del runner)",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/due-case.test.mjs",
+        "nota": "Il banco del guardiano in costruzione. Finche il guardiano non e agganciato al cancello la prova copre il motore, non il comportamento del cancello: e dichiarato."
+      }
+    },
+    {
+      "id": "AR-798",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "impatto_crescita": "alto",
+      "nato": "2026-08-23 13:10",
+      "nato_come": "scoperta",
+      "lotto_scoperta": "51",
+      "gravita": "medio",
+      "titolo": "Il codice si sposta e la prova continua a puntare al file vecchio: gira, e verde, e non guarda piu niente",
+      "causa_radice": "Tre schede (AR-669, AR-680, AR-689) hanno la stessa forma: una funzione viene estratta in un file nuovo e i puntatori delle prove restano sul file di prima. La prova gira, esce 0, e non esamina piu il codice che doveva sorvegliare. Nessun processo confronta i puntatori delle prove con i file che il lotto ha spostato, quindi il difetto si vede solo il giorno in cui qualcosa si rompe e la prova tace.",
+      "fix_proposto": "🟡 Un guardiano che, per ogni prova a comando delle schede del cantiere, verifica che il file eseguito nomini ancora il difetto che dimostra, con un tetto che scende e non risale. ATTENZIONE, misurato dal collaudo: l ancoraggio che poggia sul commento in cima al file NON e copertura, perche l intestazione all estrazione non si sposta — la cecita vera e circa l 81%, non il 40%. Lavoro in corso in cervello/puntatori-scollegati.mjs: bocciato dal collaudo, NON agganciato al cancello.",
+      "dove": "cervello/puntatori-scollegati.mjs (in costruzione) — la famiglia e AR-669, AR-680, AR-689",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/puntatori-scollegati.test.mjs",
+        "nota": "Il banco del guardiano in costruzione. Copre il motore, non ancora il comportamento del cancello: dichiarato."
+      }
     }
   ],
   "meta": {
