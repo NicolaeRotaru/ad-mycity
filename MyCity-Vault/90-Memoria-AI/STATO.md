@@ -45,7 +45,7 @@ tre controlli usano per capire se l'attivita' e' ferma.
 >
 > **Cosa non ho verificato.** Niente di tutto questo l'ho visto girare sul server vero: le prove sono tutte su questa macchina e su copie usa-e-getta del progetto. E il metodo resta provato su un tipo solo di lavoro, i freni della macchina.
 >
-> **Dettagli tecnici.** Freno agganciato: `cervello/porte-gemelle.mjs`, riga dopo «spazzata dei fratelli» in `cancello-lotto.mjs`, con la voce tolta da `guardiani-motivi.json` (montato, sarebbe fantasma). Nel cantiere sono registrate tre schede: AR-796 per il promosso, AR-797 e AR-798 per i bocciati. In coda le card #169 e #170.
+> **Dettagli tecnici.** Freno agganciato: `cervello/porte-gemelle.mjs`, riga dopo «spazzata dei fratelli» in `cancello-lotto.mjs`, con la voce tolta da `guardiani-motivi.json` (montato, sarebbe fantasma). Nel cantiere sono registrate tre schede: AR-796 per il promosso, AR-797 e AR-798 per i bocciati. In coda le card #172 e #173.
 
 > ⏰ **23/8 11:50 — La data zero è il 29 agosto, non il 29 settembre. Sei giorni, non trentotto.** Correzione di Nicola in chat: «29 agosto» e «va finito tutto quello che ho detto».
 >

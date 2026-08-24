@@ -21,7 +21,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- write-vs-edit-settings-local -->
 
 ---
-### 🟡 #170 — La coda è troppo lunga e il guardiano che la sorveglia non riesce più a leggerla · ⏳ accodata 2026-08-24 12:50
+### 🟡 #173 — La coda è troppo lunga e il guardiano che la sorveglia non riesce più a leggerla · ⏳ accodata 2026-08-24 12:50
 
 **In parole semplici.** Questo file — la coda delle cose da approvare — ha superato i **264.000
 caratteri**. Il controllo che verifica «ogni allarme scritto è arrivato a Nicola?» si ferma a
@@ -61,7 +61,7 @@ alla prima prova è `cervello/test/validazione-congelata.test.mjs`, che cerca un
 una card chiusa. In questo lotto ho tenuto solo la guardia dell'entrypoint sul motore (AR-445).
 
 ---
-### 🟡 #169 — Centoquarantotto difetti sono chiusi con una prova che non può diventare rossa · ⏳ accodata 2026-08-24 11:45
+### 🟡 #172 — Centoquarantotto difetti sono chiusi con una prova che non può diventare rossa · ⏳ accodata 2026-08-24 11:45
 
 **In parole semplici.** Il collaudo di ieri ha misurato una cosa che nessuno aveva contato: **148
 difetti risultano chiusi, ma la prova che dovrebbe sorvegliarli non può diventare rossa**. Settantotto
