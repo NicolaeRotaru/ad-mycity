@@ -26,7 +26,7 @@
   "fonti_non_lette": [],
   "sintesi": "Terza radiografia profonda del sito, 21 agosto: 13 dimensioni in sola lettura, ogni problema ricontrollato da un collega diverso da chi l'ha trovato. 199 problemi confermati (12 bloccanti, 88 gravi, 99 minori) su 26 agenti. I bloccanti restano dodici come il 18 agosto, ma NON sono gli stessi: quelli di agosto erano stati chiusi il 21, questi sono nuovi o mai visti prima. I piu' cari sono sui soldi e sull'identita': un ordine si puo' marcare «gia' rimborsato» senza account, il codice di consegna si aggira mandando un valore vuoto, un rimborso con carta non riaddebita mai la quota del negozio, e il rilascio non applica le modifiche al database. Typecheck pulito, 943 test unitari verdi, 95 avvisi di accessibilita' dal controllo automatico. — 22/8/2026: chiusi tutti e 199. Prima i 12 bloccanti e gli 88 gravi (100), poi i 99 minori nello stesso giorno. Due dei 99 erano gia' stati chiusi dal lotto precedente e sono stati verificati, non riaperti. Dentro i minori ce n'era uno che minore non era: la copia notturna del database non partiva piu' da quando Supabase e' passato a PostgreSQL 17, perche' il programma che la fa era fermo alla 16 e si rifiuta di copiare un database piu' recente di lui. Alla fine: controllo dei tipi pulito, 1136 prove unitarie verdi, 17 file di prova SQL verdi, lint senza errori.",
   "meta": {
-    "findings": 418,
+    "findings": 421,
     "bloccanti": 14,
     "gravi": 181,
     "minori": 223,
@@ -5731,27 +5731,60 @@
       "titolo": "Il controllo sugli errori ingoiati guarda una cartella sola, e la malattia vive anche fuori",
       "severita": "minore",
       "file": "/home/user/mycity/tests/unit/il-sito-diceva-fatto-senza-averlo-fatto.test.ts (perimetro: components/hooks/) · trovato in components/cart/CartUpsell.tsx:51",
-      "descrizione": "Trovato riparando, non cercando. L'invariante scritto il 24/8 pretende che nessuna lettura leghi i dati senza legare l'errore, ma guarda solo `components/hooks/`. Lavorando sulla striscia di suggerimenti del carrello ho trovato la stessa forma esatta fuori da quel perimetro: `const { data } = await supabase.from('products')...`, senza `error`. La lettura non falliva mai, la striscia spariva in silenzio. L'ho riparata nello stesso lotto, ma il punto resta: un invariante che copre una cartella sola dichiara meno di quanto sembra, e quanti altri punti abbiano quella forma NON e' misurato.",
+      "descrizione": "Trovato riparando, non cercando. L'invariante scritto il 24/8 pretende che nessuna lettura leghi i dati senza legare l'errore, ma guarda solo `components/hooks/`. Lavorando sulla striscia di suggerimenti del carrello ho trovato la stessa forma esatta fuori da quel perimetro: `const { data } = await supabase.from('products')...`, senza `error`. La lettura non falliva mai, la striscia spariva in silenzio. L'ho riparata nello stesso lotto, ma il punto resta: un invariante che copre una cartella sola dichiara meno di quanto sembra, e quanti altri punti abbiano quella forma NON e' misurato. ═══ 24/8, MISURATO E CHIUSO NEL RAMO: il perimetro nuovo e `app/seller` + `components/seller` + `components/hooks`, e il metro non e piu quello vecchio. Il vecchio cercava la forma ESATTA `const { data } = await supabase`: col campo rinominato (`const { data: orders } = ...`) non vedeva niente. Rimisurato con quello nuovo: 53 chiamate al database nell'area venditore, 15 cieche. Tutte riparate. Il freno sta in tests/unit/il-negoziante-giudicato-da-una-lettura-fallita.test.ts. Non c'e nessun tetto perche non serve: il debito e sceso a ZERO nello stesso lotto.",
       "impatto": "",
       "fix": "Allargare il perimetro dell'invariante a tutti i punti che chiamano supabase da componenti e pagine, misurare quanti sono oggi, e metterli sotto un tetto che scende e non risale — la forma gia' usata nella macchina per il debito ereditato.",
-      "stato": "aperto"
+      "stato": "in-corso"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "Cambiare il colore della vetrina cancella tutta la personalizzazione, se la lettura fallisce",
+      "severita": "grave",
+      "file": "components/seller/site/ThemePicker.tsx:53-58 (lettura) e :60-64 (scrittura)",
+      "descrizione": "E una lettura-modifica-scrittura, ed e il caso peggiore dell'area venditore. Il componente legge `store_customization`, ci sostituisce l'accento scelto e riscrive l'oggetto INTERO. La lettura non guardava `error`: fallita quella, `profile` resta undefined, `normalizeCustomization(undefined)` restituisce i valori di partenza, e la scrittura salva QUELLI. Copertina, sezioni, tema del negozio: sovrascritti coi valori di fabbrica per aver cambiato un colore. Non e una schermata che mostra un numero sbagliato: e un dato del negoziante cancellato, senza nessun messaggio.",
+      "impatto": "Il negoziante perde la vetrina che si e costruito e non sa perche. Non c'e annullamento.",
+      "fix": "L'errore della lettura deve fermare la scrittura: `if (erroreLettura) throw erroreLettura;` prima di comporre l'oggetto nuovo.",
+      "stato": "in-corso"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "La prima schermata dice a un negozio finito che non ha fatto niente, e a chi ha i pagamenti attivi di attivarli",
+      "severita": "grave",
+      "file": "components/seller/SellerOnboardingChecklist.tsx:44-60 · components/seller/SellerHealthScore.tsx:33-48 · components/seller/StripeConnectButton.tsx:29-38 · components/seller/StripeDashboardButton.tsx:26-32",
+      "descrizione": "Quattro componenti della bacheca danno un VERDETTO sul negozio e lo calcolano da letture che non guardavano l'errore. La lista d'avvio ricava tutte e sei le spunte da un'unica lettura del profilo: fallita quella, `p` resta undefined, ogni spunta diventa false, e la bacheca dice a un negozio completo che non ha fatto niente — compreso 'Attiva pagamenti' a chi li ha gia attivi. Il conto dei prodotti fa lo stesso: `(undefined ?? 0) >= 3` e falso, quindi 'pubblica almeno 3 prodotti' resta acceso a chi ne ha quaranta. Il punteggio di salute esce 0 con l'etichetta peggiore, in rosso. I due bottoni di Stripe leggono lo stato dei pagamenti dal profilo e travestono 'non ho letto' da 'non attivi': uno invita a rifare l'iscrizione a chi l'ha gia fatta, l'altro fa sparire la cassa a chi ce l'ha.",
+      "impatto": "E la prima schermata che il negoziante apre, ed e la sola che gli dice cosa gli manca. Un guasto di rete di un secondo le fa dire il contrario del vero, e React Query non riprova perche per lei la lettura e riuscita.",
+      "fix": "L'errore deve poter fallire (throw), e chi da un verdetto deve avere il terzo esito: 'non ho letto' non e 'non hai fatto niente'. Riquadro dichiarato + riprova, come sulle pagine del venditore.",
+      "stato": "in-corso"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "L'invariante sugli errori ingoiati non vedeva il campo rinominato, e dichiarava sane sei letture cieche",
+      "severita": "grave",
+      "file": "tests/unit/la-lettura-fallita-non-e-un-negozio-vuoto.test.ts:152 (l'espressione vecchia)",
+      "descrizione": "Il metro cercava la forma ESATTA `const { data } = await supabase`. Con il campo rinominato — `const { data: orders } = ...`, `const { count: n } = ...` — non vedeva niente, e sono le forme piu comuni. Effetto misurato: il corpo della richiesta di unione precedente dichiarava 'sulle pagine del venditore nessuna lettura ingoia il proprio errore', e sei letture cieche stavano proprio in quelle pagine. Un metro che sbaglia non e un metro debole: e un verde comprato. E ce n'erano altri due, trovati rompendo il fix apposta: legare l'errore e NON leggerlo passava per sano, e la parola dentro `toast.error(...)` bastava a dichiarare guardata una lettura che non lo era.",
+      "impatto": "Ogni claim costruito su quel metro andava riletto. Il piu caro e che la malattia sembrava curata quando non lo era.",
+      "fix": "Metro nuovo in tests/unit/il-negoziante-giudicato-da-una-lettura-fallita.test.ts: l'errore va legato CON QUALUNQUE NOME e quel nome va letto come identificatore (non come proprieta) prima della chiamata successiva. Provato con nove mutazioni, tutte rosse col fix disfatto.",
+      "stato": "in-corso"
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-24 13:09",
+    "aggiornato": "2026-08-24 13:42",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 208,
+    "findings_aperti": 211,
     "findings_chiusi": 210,
-    "findings_tot": 418,
+    "findings_tot": 421,
     "aperti_per_severita": {
       "bloccante": 0,
-      "grave": 86,
+      "grave": 89,
       "minore": 122,
       "altre": 0
     },
-    "dichiarati_dal_referto": 418,
+    "dichiarati_dal_referto": 421,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-08-22",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
