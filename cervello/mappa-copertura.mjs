@@ -136,13 +136,35 @@ export const ESENZIONI = {
  * data**. Passata quella, torna a essere quello che è — uno strumento che nessuno guarda. Un debito
  * senza scadenza non è un debito, è un buco con una scusa più lunga.
  */
-// 21/8 20:20 — VUOTO, e va tenuto vuoto finché non serve.
-// Ci stava `Monitor`: uno strumento che esegue una shell come Bash, scoperto perché la riga che lo
-// copre vive in `.claude/settings.json`, il file che la macchina non può scrivere apposta. La riga è
-// arrivata su `main` da una richiesta di unione firmata da Nicola, quindi il debito è ESTINTO e la
-// voce è stata tolta: una deroga che sopravvive alla sua causa smette di essere una dichiarazione
-// onesta e diventa un buco coperto da una scusa.
-export const IN_ATTESA = {};
+// 24/8 10:40 — tre voci vere.
+// `Agent`: il cancello dello Stop del 24/8 mattina (card #158) lo aveva già trovato scoperto e una
+// nota in SALA-OPERATIVA diceva "dichiarato in attesa qui, scadenza 2026-09-07" — ma il file non
+// risulta toccato da un commit dopo il 21/8 20:48: quella scrittura non è mai arrivata su disco
+// (sessione interrotta). La rifaccio ora, per davvero.
+// `TaskCreate`/`TaskUpdate`: usati per la prima volta in questo giro (24/8 10:2x) per tracciare i
+// passi del giro stesso — stessa famiglia di `Agent`/`Monitor`: leggono e scrivono uno stato di
+// sessione (l'elenco dei task), non toccano il repo né il mondo fuori, ma nessuna guardia li vede
+// perché non sono in POTERI né nel matcher di `.claude/settings.json`.
+// Tutte e tre restano scoperte finché Nicola non incolla la riga in `.claude/settings.json` (file
+// che questa sessione non può scrivere, righe 80-83 lo vietano apposta).
+export const IN_ATTESA = {
+  Agent: {
+    perche: "delega compiti a un collega (sub-agente) che apre/scrive file veri e lancia comandi per conto mio: stessa famiglia di Bash, nessuna guardia lo vede finché Nicola non incolla la riga in .claude/settings.json (card #158)",
+    scade: "2026-09-07",
+  },
+  TaskCreate: {
+    perche: "crea righe nella lista dei task di sessione (stato locale, non scrive nel repo né tocca il mondo fuori): nessuna guardia lo vede perché non è in POTERI né nel matcher del file dei freni",
+    scade: "2026-09-07",
+  },
+  TaskUpdate: {
+    perche: "aggiorna righe nella lista dei task di sessione (stato locale, non scrive nel repo né tocca il mondo fuori): nessuna guardia lo vede perché non è in POTERI né nel matcher del file dei freni",
+    scade: "2026-09-07",
+  },
+  CronList: {
+    perche: "legge l'elenco delle sveglie programmate in questa sessione (sola lettura, non scrive nel repo né tocca il mondo fuori): usato il 24/8 per cercare la fonte del trigger ricorrente del playbook anti-churn (card #160); nessuna guardia lo vede perché non è in POTERI né nel matcher del file dei freni",
+    scade: "2026-09-07",
+  },
+};
 
 /** Un'attesa vale finché ha una data ANCORA da venire, e un perché scritto. Pura. */
 export function attesaValida(strumento, oggi, attese = IN_ATTESA) {
