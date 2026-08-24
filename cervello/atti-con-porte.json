@@ -1,0 +1,66 @@
+{
+ "_cosa_e": "🚪🚪 GLI ATTI E LE LORO PORTE — per ogni atto ripetibile della macchina: la guardia da cui si deve passare, e SOLO le porte che oggi non ci passano, dichiarate una per una col perché e una data. Lo legge cervello/porte-gemelle.mjs. Il registro NON elenca chi passa: quello si MISURA sul codice vero. Un elenco a mano di «chi passa» sarebbe perimetro-letterale (AR-347) — il freno nascerebbe con la malattia che cura.",
+ "_come_si_usa": "Registri un atto quando vuoi che la macchina misuri chi lo compie: id, atto, perche_conta, guardia{file,funzione}, casa (verificata: deve DEFINIRE il primitivo, non importarlo), rilevatore, dove[], estensioni[], esenti[]. Poi: node cervello/porte-gemelle.mjs. ATTENZIONE, e sta scritto qui perche non si scopra leggendo il codice: questo registro NON cresce da solo. Il controllo che obbligava ogni scheda grave chiusa a dichiarare l'altra porta (campo `altra_porta`) e stato TOLTO il 23/8, perche nessun programma della macchina scrive quel campo — misurato: zero scrittori — e un campo che solo una persona puo riempire, su ogni scheda grave, per sempre, non e un freno: e una tassa, e le tasse si abrogano entro la settimana. Chi registra un atto nuovo qui dentro e una persona. E debito aperto, non copertura.",
+ "_perche_un_tetto_e_non_zero": "Misurato il 23/8 con QUESTO metro, non ripreso da un rapporto: l'atto «scrivere un JSON di memoria» (rilevatore `writeFileSync\\s*\\(`, dove cervello + pannello/src) ha 69 porte, di cui 67 non passano da `scriviJsonAtomico`. Lo studio che ha preceduto questo freno ne contava 45 con un rilevatore più stretto: il numero esatto dipende dal rilevatore, l'ordine di grandezza no. Un cancello che nasce rosso su 45 file viene spento entro la settimana, ed è la lezione già pagata dai tetti di cervello/tetti-lotto.json. Quindi: fino a `max_porte` (8) porte scoperte ognuna si nomina in `esenti`; oltre, l'atto DEVE dichiarare `tetto_porte` = la misura di oggi, che scende e non risale (`node cervello/porte-gemelle.mjs --aggiorna-tetti`), oppure va affidato a un guardiano dedicato — per «scrivere un JSON di memoria» quel guardiano esiste già ed è cervello/indentazione-guardia.mjs, per questo l'atto NON è qui. Il debito diventa un numero in calo invece di una scoperta che dorme in un rapporto.",
+ "acceso_il": "2026-08-23 13:01",
+ "aggiornato": "2026-08-23 21:30",
+ "max_porte": 8,
+ "atti": [
+  {
+   "id": "chiudere-un-difetto",
+   "atto": "scrivere che una scheda del cantiere è chiusa",
+   "perche_conta": "AR-796, vivo il 23/8/2026. La guardia che decide se una scheda PUÒ chiudersi (`ammissibilitaProva`) la importa un file solo — `cantiere-prove.mjs` — che è un referto e non chiude niente: lo dichiara di sé alla riga 228. Chi chiude davvero (auto-fix.mjs, allinea-scan-cantiere.mjs, round2-applica.mjs) non la nomina mai. Cioè la difesa più importante del cantiere sta su una porta da cui non passa nessuno.",
+   "guardia": {
+    "file": "cervello/prova-ammissibile.mjs",
+    "funzione": "ammissibilitaProva"
+   },
+   "casa": "cervello/contratto-scheda.mjs",
+   "_perche_casa": "Il posto dove l'atto e scritto una volta sola: `contratto-scheda.mjs` DEFINISCE `timbraChiusura` alla riga 269 e non lo importa da nessuno. Prima il freno lo INDOVINAVA, pescando dal rilevatore anche le parole `stato` e `chiuso`: bastava scrivere `export const stato = \"chiuso\";` in fondo ad auto-fix.mjs — una riga che non ripara niente — e l'accusa si spegneva, col file sparito perfino dall'elenco. Adesso si dichiara qui e si VERIFICA sul codice: chi IMPORTA il primitivo (auto-fix.mjs lo fa alla riga 39) non puo essere la casa, comunque scriva le sue righe. Togliere questo campo non apre un buco: rende il freno piu rosso, perche la casa ricompare fra le porte.",
+   "tetto_porte": 1,
+   "_perche_tetto": "1 e la misura di OGGI (23/8/2026), non un numero scelto: `auto-fix.mjs:402` compie l'atto e non chiama mai `ammissibilitaProva`. E AR-796, ed e vivo. Il tetto sta qui e non a zero per una ragione gia pagata cinque volte (AR-506, AR-511, AR-514, AR-526, AR-534): un freno che nasce rosso su un albero pulito ferma OGNI consegna di chiunque, e viene spento entro la settimana — a quel punto non ferma piu niente. Col tetto invece la porta resta stampata a ogni corsa, il numero scende con `--aggiorna-tetti` e non risale, e la SECONDA porta scoperta fa rosso subito. E dal 23/8 il tetto non puo piu crollare per una riga di testo: la guardia si misura come CHIAMATA, quindi nominarla in una stringa non abbassa niente, e `--aggiorna-tetti` si rifiuta di scendere se la misura del giorno e parziale. Quando AR-796 si chiude, il tetto va a 0 da solo.",
+   "rilevatore": "timbraChiusura\\s*\\(|\\bstato\\s*[:=]\\s*\"chiuso\"",
+   "dove": [
+    "cervello",
+    "pannello/src"
+   ],
+   "estensioni": [
+    ".mjs",
+    ".ts",
+    ".tsx"
+   ],
+   "esenti": [
+    {
+     "file": "cervello/allinea-scan-cantiere.mjs",
+     "perche": "Non giudica una prova: PROPAGA un giudizio già dato. Chiude i finding delle radiografie (auto-radiografia.json) copiando lo stato dalla scheda del cantiere che li ha già chiusi, e per farlo passa dal timbro unico timbraChiusura. Ammetterla alla guardia vorrebbe dire rigiudicare la stessa prova due volte, in due posti.",
+     "natura": "strutturale",
+     "perche_per_sempre": "Non e' un lavoro rimandato: e' la forma stessa di questo programma. Copia negli esiti delle radiografie lo stato di una scheda che la guardia ha GIA' giudicato, quindi la sola cosa che potrebbe farla passare da ammissibilitaProva sarebbe rigiudicare due volte la stessa prova, in due posti, con il rischio di due risposte diverse sullo stesso fatto. Nessun lavoro futuro cambia questa risposta: cambierebbe solo se sparisse la propagazione, e allora sparirebbe la porta insieme all'esenzione."
+    },
+    {
+     "file": "cervello/round2-applica.mjs",
+     "perche": "Uno-shot del 25/7 già applicato e idempotente: chiude AR-144 e AR-117 con una motivazione scritta a mano dopo una verifica end-to-end fatta da una persona. Rieseguirlo non chiude più niente (si ferma su «round 2 già applicato»). Va tolto dal repo, non fatto passare da una guardia.",
+     "fino_al": "2026-10-15",
+     "natura": "temporanea",
+     "si_toglie_quando": "quando `cervello/round2-applica.mjs` viene tolto dal repo. E' uno-shot del 25/7 gia' applicato e idempotente (si ferma su «round 2 gia' applicato»), quindi il fatto che chiude questa esenzione e' la cancellazione del file, non una riga di codice in piu'. Il giorno in cui non c'e' piu', l'esenzione muore da sola: non c'e' piu' nessuna porta li' dove punta."
+    },
+    {
+     "file": "pannello/src/lib/cantiere-snello.ts",
+     "perche": "Non chiude niente: costruisce la COPIA ridotta del cantiere che la Cabina mostra a Nicola, e riscrive `stato: \"chiuso\"` sulle schede già chiuse per non perdere il campo mentre le sfoltisce. È una proiezione in sola lettura del registro vero, non un atto di chiusura.",
+     "natura": "strutturale",
+     "perche_per_sempre": "Non chiude niente e non chiudera' mai niente: e' la proiezione ridotta del cantiere che la Cabina mostra a Nicola, e riscrive `stato: \"chiuso\"` solo per non perdere il campo mentre sfoltisce schede gia' chiuse altrove. Farla passare dalla guardia vorrebbe dire chiedere il permesso di chiudere a chi sta solo ricopiando: la risposta sarebbe sempre si', e un controllo la cui risposta e' nota non e' un controllo. Cambierebbe solo se la Cabina iniziasse a chiudere davvero le schede — e allora sarebbe una porta nuova, non questa."
+    }
+   ],
+   "tetto_strutturali": 2,
+   "_perche_tetto_strutturali": "2 e' la misura di OGGI (23/8/2026): allinea-scan-cantiere.mjs e pannello/src/lib/cantiere-snello.ts, le due esenzioni che non hanno una data perche' non hanno niente da aspettare. Il tetto sta qui perche' «strutturale» senza un numero sarebbe la parola con cui si spegne qualunque porta scrivendo due frasi. Scende con --aggiorna-tetti e non risale: la terza porta spenta per sempre fa rosso subito. Quello che il tetto NON fa e' dire se «strutturale» e' vero — si alza a mano dentro questo file, esattamente come tetto_porte, e nessun guardiano di questa casa sorveglia i tetti di atti-con-porte.json (misurato il 23/8: zero). Cio' che regge davvero sono i tre controlli sul codice vivo, che girano a ogni corsa anche sulle strutturali: il file deve esistere, deve compiere ancora l'atto, e non deve gia' chiamare la guardia."
+  }
+ ],
+ "_candidati": [
+  {
+   "id": "aprire-una-previsione",
+   "stato": "misurato, NON registrato — e il perché è un limite del freno, non una dimenticanza",
+   "cosa_ho_trovato": "AR-172 al rovescio, vivo il 23/8. In cervello/calibrazione.mjs la porta AUTOMATICA (`autoprevedi`, righe 757-760) dopo il fix rifiuta di aprire una previsione se non riesce a leggere una baseline vera; la porta A MANO (la riga di comando `--baseline`, righe 378-390) quando la baseline manca stampa un avviso e apre lo stesso. Si è riparata l'automatica e si è lasciata aperta quella a mano. Nessun guardiano di questa casa lo dice.",
+   "perche_non_e_qui": "La porta, per questo freno, è il FILE (limite ⑦ in cima a porte-gemelle.mjs). Le due porte gemelle stanno nello stesso file, e quel file la guardia la nomina: registrarlo qui darebbe un VERDE su un difetto vivo, che è peggio di non misurarlo. Due uscite vere: ① spostare la porta a mano sulla stessa guardia dell'automatica (e allora l'atto si registra e resta verde per un motivo vero); ② dare al freno la granularità di funzione. Finché nessuna delle due è fatta, questo resta debito DICHIARATO."
+  }
+ ],
+ "_acceso_il_e_solo_una_data": "Da quando il controllo sulle schede e stato tolto, `acceso_il` non governa piu niente: e la data in cui il registro e nato, e il rapporto la stampa perche chi legge sappia da quando questi numeri esistono. Non e una soglia, non filtra niente, e alzarla non nasconderebbe nessun rosso.",
+ "_le_due_nature": "Un'esenzione dichiara la sua `natura`. «temporanea» (ed e' cio' che vale se il campo manca: un campo dimenticato non puo' regalare il per-sempre) vuole `fino_al` non passata E `si_toglie_quando`, cioe' il fatto che la chiude. «strutturale» vuole NIENTE `fino_al` e un `perche_per_sempre` che dica perche' nessun lavoro futuro cambiera' la risposta, e conta contro `tetto_strutturali`. Il perche' di questa divisione, misurato: prima le tre esenzioni scadevano tutte il 15/10/2026, e il 16 il freno usciva 1 senza che nessuno avesse toccato una riga di codice — mentre due delle tre, quel giorno, non avrebbero avuto niente da riparare. Una miccia comune non e' un freno, e' una data da riscrivere."
+}
