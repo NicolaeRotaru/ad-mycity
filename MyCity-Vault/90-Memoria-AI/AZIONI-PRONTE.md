@@ -635,7 +635,7 @@ canale: email istituzionale + restart.infocamere.it + kit WhatsApp negozi
 perche: PLAYBOOK Istituzioni worker 20/7 11:30. **AGGIORNATO 10/8: PI26/BT26/bando Piccole Imprese Territorio TUTTI CHIUSI** (sportello scaduto 30/7; PI26 anche non idoneo per MyCity, Nicola 29/7 00:10). Bando ER Regione chiuso da giugno (350 domande). Nessun bando comunale «rimborso materiali» (mai esistito). **Nessun bando locale aperto oggi da agganciare a una mail istituzionale.**
 preparato: 🏛️ relazioni-istituzionali — `consegne/relazioni-istituzionali/2026-07-20-playbook-bandi-mail-istituzioni.md` + kit `2026-07-20-kit-bandi-cciaa-negozi-1pagina.md`
 bandi_aperti_oggi:
-  · NESSUNO — verificato 9 volte (25/6, 6/7, 19/7, 20/7, 21/7, 27/7, 3/8, 10/8, 17/8)
+  · NESSUNO — verificato 10 volte (25/6, 6/7, 19/7, 20/7, 21/7, 27/7, 3/8, 10/8, 17/8, 24/8 13:53)
 bandi_chiusi_non_citare:
   · PI26 (chiuso 30/7, non idoneo) · BT26 (chiuso 30/7) · Bando Piccole Imprese Territorio CCIAA/Unione Commercianti (stessa finestra, chiuso 30/7) · Bando Commercio ER FESR (esaurito giugno) · «Vita in Centro 50% materiali» (inesistente)
 bandi_verificati_non_applicabili:
