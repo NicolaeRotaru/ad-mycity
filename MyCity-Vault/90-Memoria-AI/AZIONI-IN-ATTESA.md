@@ -22,6 +22,54 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- spedizione-gratis-che-non-e-gratis -->
+### 🟡 #169 — Il sito scrive «spedizione gratis» e poi fa pagare 3 € di consegna · ⏳ accodata 2026-08-24 08:35
+
+**In parole semplici.** Su ogni prodotto sopra i 30 € il sito mette il bollino «Sped. gratis». Poi,
+al momento di pagare, aggiunge 3 € di «Consegna MyCity» su ogni ordine a domicilio. Sempre, anche
+sopra i 30 €.
+
+Per chi compra, «spedizione» e «consegna» sono la stessa cosa. Quindi il bollino promette una cosa e
+la cassa ne fa un'altra.
+
+**Per esempio:** una persona mette nel carrello un prodotto da 34 €. Sulla scheda legge «Spedizione
+gratuita». Arriva al carrello e trova 37 €. È il primo posto dove quei 3 € compaiono. Sulla scheda
+prodotto non ci sono da nessuna parte, ed è l'ultimo schermo prima di aggiungere al carrello.
+
+E c'è il dettaglio che fa più male. Al momento di pagare, il riepilogo scrive «Spedizione: Gratis».
+Subito sotto scrive «Consegna MyCity 3,00 €». E sotto ancora: «Pagamento sicuro. Niente costi
+nascosti».
+
+**Cosa cambia per te.** Oggi il sito fa una promessa sui soldi che non mantiene, su ogni prodotto
+sopra i 30 €. Non è un difetto tecnico. È quello che un cliente chiamerebbe una sorpresa alla cassa,
+ed è la cosa che fa abbandonare il carrello e non tornare più.
+
+**Cosa devi fare.** Scegliere fra due strade, perché una costa soldi e la decisione è tua.
+
+**(a) Dire come stanno le cose.** Il bollino diventa «Sped. gratis · 3 € di consegna», e i 3 €
+compaiono già sulla scheda prodotto. Non cambia un euro di quello che incassi. Cambia che chi compra
+lo sa prima. Costo: zero. Rischio: il bollino perde un po' di forza.
+
+**(b) Tenere la promessa.** Sopra i 30 € i 3 € non si pagano più: se li assorbe MyCity. Il bollino
+resta com'è ed è vero. Costo: 3 € su ogni ordine a domicilio sopra i 30 €, tolti dal tuo margine.
+
+**Io farei la (a)**, e non per prudenza. La (b) è una decisione sul prezzo, e le decisioni sul prezzo
+sono tue. La (a) invece non è una scelta. È smettere di dire una cosa non vera, e si può fare oggi.
+
+Rispondi «ok 169 a» o «ok 169 b». Lo faccio nel lotto dopo.
+
+**Cosa non ho verificato.** Non so quanti ordini a domicilio superino i 30 €, quindi non so quanto
+costerebbe la (b). Il sensore dei pagamenti non è collegato, e dal cloud non posso contarli. Se vuoi
+la cifra prima di decidere, serve collegare Stripe in sola lettura.
+
+**Cosa cambia:** il bollino «Sped. gratis» su ogni prodotto sopra i 30 € oggi promette una cosa che
+la cassa non mantiene, e i 3 € si vedono per la prima volta nel carrello.
+
+**Se va bene:** con la (a) riscrivo bollino, scheda prodotto e riepilogo perché dicano lo stesso
+numero, con la prova che li tiene allineati. Con la (b) tolgo i 3 € sopra la soglia.
+
+---
+
 ### 🔴 #168 — Il server che fa lavorare la macchina è fermo da quattro giorni · ⏳ accodata 2026-08-22 20:25
 
 **In parole semplici.** Il server non alza più le cadenze dal 18 agosto alle 06:50. Sono 109 ore.
