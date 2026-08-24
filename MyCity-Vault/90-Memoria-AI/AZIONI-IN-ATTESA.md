@@ -21,6 +21,46 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 <!-- write-vs-edit-settings-local -->
 
 ---
+### 🟡 #169 — Centoquarantotto difetti sono chiusi con una prova che non può diventare rossa · ⏳ accodata 2026-08-24 11:45
+
+**In parole semplici.** Il collaudo di ieri ha misurato una cosa che nessuno aveva contato: **148
+difetti risultano chiusi, ma la prova che dovrebbe sorvegliarli non può diventare rossa**. Settantotto
+non hanno nessun comando da eseguire, settanta hanno solo una parola cercata dentro un file. Se uno
+di quei 148 si riapre domani, non se ne accorge nessuno: nella Cabina resta scritto «chiuso».
+
+In più il cancello conta **98 schede riparate la cui prova non è mai stata rotta apposta**. Nessuno ha
+mai visto quella prova diventare rossa, quindi nessuno sa se funziona.
+
+**Un esempio di cosa vuol dire.** Il 23 luglio un difetto chiuso a giugno si era riaperto e l'ha
+scoperto un collaudatore un mese dopo, per caso: è la scheda AR-142, i permessi della sessione più
+larghi del dovuto. La sua prova c'era ed era buona — solo che nessun processo la rilanciava.
+
+**Cosa cambia per te.** Il numero di difetti chiusi che vedi nella Cabina è più ottimista della
+realtà: dentro ci sono 148 chiusure che nessuno sta sorvegliando. Non vuol dire che siano tornate —
+vuol dire che se tornassero, lo scopriresti tu e non la macchina.
+
+**Cosa devi fare.** Scegliere quanto vale la pena spendere, perché sono lavoro a mano:
+
+- **(a) Tutte e 148**, riaperte e riprovate una per una. È il lavoro più lungo e non entra nei sei
+  giorni che restano al 29 agosto.
+- **(b) Solo le gravi e le bloccanti**, che sono quelle che se tornano fanno danno vero.
+- **(c) Nessuna adesso**, ma da oggi il cantiere non chiude più un difetto grave senza una prova a
+  comando — così il numero smette di crescere mentre pensiamo al resto.
+
+**Se va bene:** la mia raccomandazione è **(c) subito e (b) dopo il 29**. Il tappo prima
+dell'asciugatura: la regola nuova è già scritta nel mansionario del cantiere, manca solo la tua parola
+per applicarla ai lotti di questi giorni.
+
+**Cosa non ho verificato.** I 148 li ho contati leggendo il cantiere, non li ho riaperti uno per uno:
+alcuni potrebbero essere davvero risolti e non avere bisogno di niente. E il conteggio delle 98 mai
+rotte apposta viene dal cancello, che lo stampa a ogni consegna — non l'ho ricalcolato a mano.
+
+**Dettagli tecnici.** Fonte: lettura di `cantiere-difetti.json` del 23/8 (578 chiusi con
+`verifica.comando`, di cui 561 dentro la suite che il cancello rilancia; 78 senza comando; 70 con
+`file+pattern`) e riga `mutazione-mancante` del cancello. Referti del collaudo:
+`consegne/audit/2026-08-23-collaudo-tre-freni/`. Regola nuova: `.claude/skills/cantiere/SKILL.md` ⑦ter.
+
+---
 ### 🔴 #168 — Il server che fa lavorare la macchina è fermo da quattro giorni · ⏳ accodata 2026-08-22 20:25
 
 **In parole semplici.** Il server non alza più le cadenze dal 18 agosto alle 06:50. Sono 109 ore.

@@ -171,20 +171,57 @@ Sul debito ereditato il cancello non blocca ma **misura**: i tetti in `cervello/
 scendono (`--aggiorna-tetti`) e non si alzano mai. Ciò che il lotto tocca **adesso** passa dal blocco
 duro, anche sotto il tetto — un cancello sempre rosso viene aggirato al secondo giro.
 
-## ⑦bis Il SECONDO GIRO — il cancello verde non è la fine
+## ⑦bis IL COLLAUDO — e non lo fa chi ha costruito
 
 > Nato il 30/7 da Nicola, dopo che una rilettura su sua richiesta ha trovato due buchi in un lotto
 > già consegnato col cancello a exit 0: *«devi ricontrollare tantissime volte il lavoro che hai
-> fatto.»*
+> fatto.»* **Riscritto il 23/8**, quando Nicola ha detto la cosa che mancava: *«ogni volta che tu
+> risolvi i problemi ne crei altri.»*
+
+> 🔬 **Il mansionario intero è la skill `collaudo`. Aprila: qui c'è solo come si innesta nel lotto.**
+
+**Perché è stato riscritto, col numero.** Fino al 23/8 questo secondo giro esisteva già, ed era buono
+— ma lo faceva **la stessa sessione che aveva costruito il fix**. Il 23/8 il collaudo è stato affidato
+per la prima volta a senior che NON avevano costruito niente: **tredici bocciature su quattordici
+collaudi**, e ogni singolo costruttore aveva consegnato dicendo «fatto, tutto verde». Non erano
+distratti: chi costruisce cerca conferme e mette in scena la variante del difetto che al suo lavoro
+conviene. *Il pezzo che mancava non era un passo in più — era cambiare le mani che tengono i passi
+che c'erano già.*
+
+**Come si innesta.** Quando il lotto gira a corsie (più agenti), il collaudo di una corsia lo fa
+**un'altra corsia**, mai la sua. Quando il lotto è una sessione sola, il collaudo si fa **in un
+agente separato**, con questo mandato: *dimostra che questo lavoro non funziona; nel dubbio,
+boccialo*. Due lenti diverse, mai due copie della stessa domanda:
+· **sa diventare rosso davvero?** — ricrea il difetto e guarda
+· **nasce rotto?** — montalo sul serio: blocca la macchina per tutti?
+
+**Prima di costruire, non dopo:** `cervello/scorciatoie-note.md` — le venti scorciatoie già misurate
+con cui un pezzo passa il controllo senza funzionare. Il costruttore che le conosce non le lascia
+aperte, e il collaudo scende da quattro giri a due.
+
+**La regola di arresto, dichiarata prima** (senza, il collaudo non finisce mai: chi cerca un buco lo
+trova sempre): si boccia solo per una scorciatoia che **capita da sola** nel lavoro normale; al terzo
+rosso il pezzo **non si aggancia** e resta strumento da lanciare a mano, dichiarato; quello che non si
+sa misurare **si toglie dal verdetto e si scrive come buco, col numero vero**.
 
 **Un metro che non misura una strada non la dichiara scoperta: dice verde.** Quella notte il cancello
 era verde mentre la porta a mano (`auto-fix chiudi --id=`) chiudeva difetti che la porta automatica
 rifiutava. Nessun guardiano copriva quella strada, quindi nessuno mentiva — semplicemente lì non
 guardava nessuno. **Il verde è l'inizio del secondo giro, non la fine del lavoro.**
 
-Il secondo giro si fa **ad albero fermo**, sul **diff intero** (`git diff origin/main...HEAD`), non
-sui file che ti ricordi di aver toccato — la memoria del lotto è la cosa meno affidabile che hai. E
-si fa con queste cinque domande, in quest'ordine. Sono le cinque che hanno trovato qualcosa.
+Il collaudo si fa **ad albero fermo**, sul **diff intero** (`git diff origin/main...HEAD`), non
+sui file che il costruttore si ricorda di aver toccato — la memoria del lotto è la cosa meno
+affidabile che c'è. E si fa con queste cinque domande, in quest'ordine. Sono le cinque che hanno
+trovato qualcosa. **Alle cinque, dal 23/8, se ne aggiungono due che il collaudo indipendente ha
+dimostrato di saper trovare e l'auto-rilettura no:**
+
+**0a. Ricrea il difetto nella variante SCOMODA.** Non quella che conviene al fix: quella che capita
+da sola facendo il lavoro normale di questa casa. È la domanda che ha trovato più difetti in
+assoluto — un freno era verde proprio nel caso che succede sempre, perché la prova metteva in scena
+l'altro.
+**0b. Ricalcola i numeri che il lavoro stampa.** In modo indipendente, non rileggendoli. Un numero
+gonfiato dalla parte comoda è peggio di un difetto: è una spunta verde sopra una malattia viva.
+Misurato il 23/8: un freno dichiarava «cieco sul 40%», era l'81%.
 
 1. **Ogni strada che arriva all'atto passa dal freno?** Non quella che hai riparato: *tutte*. Cerca
    l'atto, non il tuo fix — `grep -n 'stato = "chiuso"'`, e per ogni occorrenza chiediti se il freno
@@ -216,6 +253,37 @@ vale solo se qualcuno la legge. Ogni volta che una di queste cinque domande trov
 volte**, quella domanda ha smesso di essere una domanda e va promossa a guardiano con un tetto: è la
 differenza fra ricordarsi di controllare e non poter più sbagliare.
 
+## ⑦ter È RISOLTO PER SEMPRE? — la domanda che oggi ha una risposta parziale
+
+> Nicola, 23/8: *«ricontrolla che quel problema è stato risolto per sempre, che non ha creato altri
+> problemi, che non abbia fatto cavolate durante il lavoro.»* Tre domande. Ecco quanto la macchina
+> sa rispondere davvero, misurato — perché una risposta finta qui è peggio di nessuna risposta.
+
+**① «Risolto per sempre?» — coperta a metà, e il buco è misurato.** La prova del difetto vive nella
+suite, e la suite gira a ogni consegna: per la maggior parte dei difetti chiusi la riapertura si
+vedrebbe. **Ma 148 difetti sono stati chiusi con una prova che non può diventare rossa** — 78 senza
+nessun comando, 70 con una parola cercata dentro un file — e per quelli, se il difetto torna, non se
+ne accorge nessuno. In più il cancello conta **98 schede dichiarate riparate la cui prova non è mai
+stata rotta apposta**: nessuno ha mai visto quella prova diventare rossa, quindi nessuno sa se
+funziona. *Quando chiudi un difetto, guarda in che gruppo cade: se la sua prova non è a comando, o
+non è mai stata rotta apposta, quel «per sempre» non esiste ancora — e va scritto nella nota.*
+
+**② «Non ha creato altri problemi?» — c'è il sensore, e dice che il problema è reale.** Ogni difetto
+nuovo dichiara come è nato (`nascita-difetti.mjs`), e il conto al 23/8 è: su 787 schede, **99 le ha
+create il riparare** — 25 regressioni dichiarate più 74 trovate mentre si riparava lì accanto. Il
+`sorvegliante del delta` guarda solo le righe aggiunte dal lotto. *Il freno vero però è il collaudo
+di ⑦bis con la lente «nasce rotto»: montalo ed eseguilo, non ragionarci.*
+
+**③ «Non ha fatto cavolate durante il lavoro?» — è la parte più scoperta.** Non esiste nessun
+processo che guardi cosa il lotto ha toccato **fuori** dal suo mandato. La spazzata dei fratelli e il
+sorvegliante del delta coprono un pezzo; il resto è la domanda 4 di ⑦bis (il codice aggiunto è
+usato?) e la lettura del diff intero. *Finché non c'è un guardiano, il collaudatore legge il diff
+intero e dichiara cosa ha guardato — e cosa no.*
+
+**La regola che chiude il cerchio:** ogni volta che una di queste domande trova qualcosa **due
+volte**, smette di essere una domanda e diventa un guardiano con un tetto. È la differenza fra
+ricordarsi di controllare e non poter più sbagliare.
+
 ## ⑧ Come si consegna
 
 - Ogni auto-modifica è **🟡**: si prepara, si committa, **non si mergia**. Il merge è di Nicola.
@@ -243,10 +311,12 @@ differenza fra ricordarsi di controllare e non poter più sbagliare.
 ## Il giro completo, in ordine
 
 ```
-misura le malattie → scegli il gruppo (impatto sulla crescita) → verifica sul codice vero → estrai
-la logica in un modulo puro → applica nei punti → test per difetto → mutazione + ROMPI il fix →
-runtime con `verify` se tocca lo schermo → spazzata + tetto → rileggi le clausole → cancello-lotto →
-aggiorna verifica/nota_fix + DECISIONI + memoria → commit → ESITO nel quaderno
+leggi cervello/scorciatoie-note.md → misura le malattie → scegli il gruppo (impatto sulla
+crescita) → verifica sul codice vero → estrai la logica in un modulo puro → applica nei punti →
+test per difetto → mutazione + ROMPI il fix → runtime con `verify` se tocca lo schermo → spazzata +
+tetto → rileggi le clausole → cancello-lotto → **COLLAUDO da chi NON ha costruito (⑦bis, skill
+`collaudo`)** → **è risolto per sempre? (⑦ter)** → aggiorna verifica/nota_fix + DECISIONI + memoria
+→ commit → ESITO nel quaderno
 ```
 
 ## Se il lotto non entra in una sessione sola
