@@ -4347,11 +4347,11 @@
       "titolo": "Il banner dei cookie in modalità «Personalizza» torna a coprire il pulsante «Aggiungi al carrello»",
       "severita": "grave",
       "file": "components/CookieBanner.tsx:65-80 (effetto che misura l'altezza, dipendenze `[show]`), 106-128 (il pannello `mode === 'custom'` con quattro righe di consenso)",
-      "descrizione": "Verificato. L'effetto misura `contenitoreRef.current?.offsetHeight` e lo pubblica in `--altezza-banner-cookie` (riga 75), ma le sue dipendenze sono `[show]` (riga 80), non `[show, mode]`. Quando la persona tocca «Personalizza», il blocco `mode === 'custom'` aggiunge quattro righe dentro un riquadro `mt-4 … p-3` (righe 106-128) e il banner cresce, mentre la variabile resta ferma al valore compatto. Il banner è `z-[100]` (riga 93), StickyAddToCart è `z-30` e calcola il proprio `bottom` proprio da quella variabile (StickyAddToCart.tsx:53-57): la barra d'acquisto finisce sotto al banner e il pulsante che fa incassare torna non premibile — è il rientro dalla finestra della correzione #124, citata nei commenti di entrambi i file.",
+      "descrizione": "Verificato. L'effetto misura `contenitoreRef.current?.offsetHeight` e lo pubblica in `--altezza-banner-cookie` (riga 75), ma le sue dipendenze sono `[show]` (riga 80), non `[show, mode]`. Quando la persona tocca «Personalizza», il blocco `mode === 'custom'` aggiunge quattro righe dentro un riquadro `mt-4 … p-3` (righe 106-128) e il banner cresce, mentre la variabile resta ferma al valore compatto. Il banner è `z-[100]` (riga 93), StickyAddToCart è `z-30` e calcola il proprio `bottom` proprio da quella variabile (StickyAddToCart.tsx:53-57): la barra d'acquisto finisce sotto al banner e il pulsante che fa incassare torna non premibile — è il rientro dalla finestra della correzione #124, citata nei commenti di entrambi i file. ═══ 24/8, RIPARATO: l'altezza SEGUE l'elemento invece di dipendere da una lista. Aggiungere `mode` alle dipendenze curava oggi e non domani — un testo piu lungo, una riga che va a capo su uno schermo stretto, un carattere caricato in ritardo o una lingua con parole lunghe rifarebbero lo stesso danno, e ognuna vorrebbe una voce in piu in una lista che qualcuno deve ricordarsi di aggiornare. Adesso un ResizeObserver ripubblica la variabile a ogni cambio di dimensione, e chi la pubblica non deve sapere PERCHE e cambiata. La logica sta in lib/altezza-banner.ts: `altezzaDichiarata` («non l'ho misurato» e zero DICHIARATO, non un numero inventato), `paddingDiScorrimento`, e `seguiAltezza` che prende l'osservatore da fuori — cosi si prova senza browser e la prova puo far finta che l'elemento cresca. Se ResizeObserver non c'e, la misura resta quella d'apertura: e dichiarato nel file. Freno: tests/unit/il-banner-che-cresce-e-non-lo-dice.test.ts, 9 casi, 6 mutazioni verificate rosse. L'invariante pretende che il componente NON scriva piu la variabile a mano.",
       "impatto": "",
       "fix": "Aggiungere `mode` alle dipendenze dell'effetto e ri-misurare a ogni cambio di dimensione del contenitore (ResizeObserver), così `--altezza-banner-cookie` segue l'altezza reale.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso"
     },
     {
       "dimensione": "mobile-pwa",
@@ -4383,11 +4383,11 @@
       "titolo": "Su iPhone non esiste nessun modo per installare l'app: il banner non compare mai",
       "severita": "grave",
       "file": "components/PWAInstallBanner.tsx:48-59 (ascolto di `beforeinstallprompt`), 70-72 (`setShow(!!promptEvent && …)`), 87 (`if (!show) return null`)",
-      "descrizione": "Verificato. Il banner si mostra solo se `promptEvent` è valorizzato, e `promptEvent` si valorizza solo dentro il gestore di `beforeinstallprompt` (righe 52-57), evento che Safari su iOS non emette: su iPhone il banner non compare mai e nel file non c'è nessun ramo alternativo. Il grep su app/ e components/ per `apple-mobile-web-app`, `standalone` e per istruzioni d'installazione non trova nessuna spiegazione tipo «tocca Condividi → Aggiungi alla schermata Home» da nessuna parte (gli unici `standalone` sono i due controlli dentro questo stesso file e due commenti). Con la strategia «PWA invece di app native», su iOS l'installazione non è proprio offerta.",
+      "descrizione": "Verificato. Il banner si mostra solo se `promptEvent` è valorizzato, e `promptEvent` si valorizza solo dentro il gestore di `beforeinstallprompt` (righe 52-57), evento che Safari su iOS non emette: su iPhone il banner non compare mai e nel file non c'è nessun ramo alternativo. Il grep su app/ e components/ per `apple-mobile-web-app`, `standalone` e per istruzioni d'installazione non trova nessuna spiegazione tipo «tocca Condividi → Aggiungi alla schermata Home» da nessuna parte (gli unici `standalone` sono i due controlli dentro questo stesso file e due commenti). Con la strategia «PWA invece di app native», su iOS l'installazione non è proprio offerta. ═══ 24/8, RIPARATO: le risposte diventano TRE, non due. Su iOS un pulsante che installa non e possibile — il sistema non lo permette — e un pulsante «Installa» che non installa niente sarebbe peggio del silenzio. Quindi: `pulsante` dove il browser offre l'installazione, `istruzioni` su Apple (i due gesti veri: Condividi, poi «Aggiungi a Home»), `niente` altrimenti. La decisione sta in lib/installabile.ts come funzione pura, con l'ordine delle domande dichiarato: «e gia installata?» viene prima di tutto, perche proporre di installare a chi ce l'ha gia in Home e il modo piu veloce per far chiudere il banner per sempre. TRAPPOLA DENTRO LA TRAPPOLA, misurata: da iPadOS 13 l'iPad si dichiara «Macintosh» come un computer; cercando solo «iPad» si perdono tutti gli iPad, e su quelli il banner resterebbe muto esattamente come prima. Un Mac vero non ha punti di tocco, un iPad si. Freno: tests/unit/su-iphone-non-si-poteva-installare.test.ts, 16 casi con le stringhe che i browser dichiarano davvero, 7 mutazioni verificate rosse. NON MISURATO: quante persone arrivino da iPhone. So che il ramo mancava, non quanto vale.",
       "impatto": "",
       "fix": "Aggiungere un ramo iOS: riconoscere Safari su iPhone/iPad fuori da `display-mode: standalone` e mostrare lo stesso banner con le istruzioni Condividi → Aggiungi alla schermata Home, con la stessa regola delle 3 visite e lo stesso «Più tardi». Contare separatamente le due strade.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso"
     },
     {
       "dimensione": "mobile-pwa",
@@ -5771,7 +5771,7 @@
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-24 15:11",
+    "aggiornato": "2026-08-24 15:41",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
