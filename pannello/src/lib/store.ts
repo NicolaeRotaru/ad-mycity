@@ -4,7 +4,7 @@
 // salvano, ma l'assistente gira comunque su richiesta).
 
 import { comeRitentareScrittura } from "./atto-unico";
-import { CENTRO, negozioPerLaCoda, siPuoRipiegareSenzaNegozio } from "@/lib/lavoro-negozio";
+import { CENTRO, negozioPerLaCoda, siPuoRipiegareSenzaNegozio } from "./lavoro-negozio";
 
 const URL = process.env.SUPABASE_URL;
 const KEY = process.env.SUPABASE_SERVICE_KEY;

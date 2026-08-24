@@ -21,7 +21,8 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import {
   CENTRO,
   eDelCentro,
@@ -79,7 +80,13 @@ test("IL CASO: una bottega NON si scrive mai senza il suo negozio", () => {
 // ③ L'invariante sul codice vero: i tre punti dove il negozio poteva sparire.
 // ─────────────────────────────────────────────────────────────────────────────
 
-const store = readFileSync(join(process.cwd(), "src/lib/store.ts"), "utf8");
+// ⚠️ NON `process.cwd()`. Il guardiano dei test del Pannello (cervello/test-pannello.mjs) li lancia
+// con la cartella di lavoro sulla RADICE del repo, non su `pannello/`. Con cwd questo file trovava
+// store.ts solo se lanciato a mano da dentro `pannello/` — verde per me, rosso per chi lo esegue
+// davvero. È lo stesso difetto che questo lotto sta curando, un piano più in basso: una prova che
+// vale solo nel posto in cui l'ho scritta non è una prova. Qui il percorso parte da SE STESSO.
+const QUI = dirname(fileURLToPath(import.meta.url));
+const store = readFileSync(join(QUI, "store.ts"), "utf8");
 const senzaCommenti = store.replace(/\/\*[\s\S]*?\*\//g, " ").replace(/^\s*\/\/[^\n]*$/gm, " ");
 
 test("chi crea un lavoro scrive SEMPRE il negozio nel payload", () => {

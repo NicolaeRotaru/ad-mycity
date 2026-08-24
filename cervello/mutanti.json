@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-24 16:05",
+ "aggiornato": "2026-08-24 19:45",
  "mutanti": [
   {
    "lotto": 30,
@@ -7077,6 +7077,24 @@
    "cerca": "  const siPuoTogliereIlNegozio = siPuoRipiegareSenzaNegozio(negozio);",
    "sostituisci": "  const siPuoTogliereIlNegozio = true;",
    "test": "pannello/src/lib/lavoro-negozio.test.mts"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-812",
+   "nome": "il cancello smette di montare le prove del Pannello: si torna a consegnare col Pannello rotto e il verde in mano",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "          esegui(\"prove del Pannello\", process.execPath, [join(AD_ROOT, \"cervello/test-pannello.mjs\")], {",
+   "sostituisci": "          esegui(\"typecheck del Pannello\", \"npx\", [\"tsc\", \"--noEmit\"], {",
+   "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-812",
+   "nome": "le prove del Pannello girano con un «|| true»: il guardiano stampa e non puo' bocciare, come in giro.sh",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "          esegui(\"prove del Pannello\", process.execPath,",
+   "sostituisci": "          esegui(\"prove del Pannello\", process.execPath, // || true\n            ",
+   "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs"
   }
  ]
 }

@@ -1143,6 +1143,17 @@ function main() {
             timeout: 600_000,
           }),
         );
+        // AR-812 — il typecheck dice che i tipi tornano, non che il Pannello FUNZIONA. Le sue 13
+        // prove le lanciava solo `round3-verifica.mjs`, cioè il giro; negli altri due punti che lo
+        // nominano gira con `|| true`, quindi non può fallire. Il cancello che autorizza la
+        // consegna non le vedeva: il 24/8 ha detto «SI PUÒ CONSEGNARE» con una prova rossa e una
+        // seconda che passava da mesi e avevo appena rotto io. Il guardiano esisteva già ed era
+        // montato su una porta che nessuno usa per uscire — la malattia di casa, su sé stessa.
+        passi.push(
+          esegui("prove del Pannello", process.execPath, [join(AD_ROOT, "cervello/test-pannello.mjs")], {
+            timeout: 600_000,
+          }),
+        );
       } else {
         passi.push({
           nome: "typecheck del Pannello",
