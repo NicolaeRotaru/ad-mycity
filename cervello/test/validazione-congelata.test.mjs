@@ -15,7 +15,7 @@
 // Qui si esegue la regola su ingressi finti, e poi si guarda la coda vera.
 
 import { execFileSync } from "node:child_process";
-import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -26,6 +26,17 @@ const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
 const GUARDIANO = join(REPO, "cervello/pausa-check.mjs");
 const CODA = join(REPO, "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md");
+// 24/8 — LA CODA E IL SUO ARCHIVIO SONO LO STESSO REGISTRO, IN DUE FILE.
+// Le card chiuse sono state spostate fuori dalla coda perché il file superava i 200.000 caratteri e
+// `cancello-stop.mjs` si dichiarava cieco (in CI un ⚪ blocca la consegna: la CI restava rossa a ogni
+// push). Prima quelle card vivevano in fondo allo STESSO file, quindi chi leggeva la coda le vedeva
+// per caso. Questo caso è cascato lì: la domanda a Nicola su `ordine-test-pq` è stata posta, Nicola
+// ha risposto, la card si è chiusa ed è finita in archivio — e il test l'ha data per mai posta.
+// La garanzia non cambia: quello che va dimostrato è che la domanda ESISTA, non in quale dei due
+// file sia finita. Se non c'è né qui né là, questo test diventa rosso come prima.
+const ARCHIVIO = join(REPO, "MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md");
+const codaEArchivio = () =>
+  [CODA, ARCHIVIO].map((f) => (existsSync(f) ? readFileSync(f, "utf8") : "")).join("\n\n---\n\n");
 
 const casi = [];
 const prova = (nome, fn) => {
@@ -122,8 +133,8 @@ prova("nella coda vera l'ordine di prova è dichiarato «validazione», non «bu
   assert.equal(c.pausa?.classe, CLASSI.VALIDAZIONE, "è il collaudo della macchina, non una spinta commerciale");
 });
 
-prova("e la domanda a Nicola è in coda, con la decisione lasciata a lui", () => {
-  const testo = readFileSync(CODA, "utf8");
+prova("e la domanda a Nicola è in coda o nel suo archivio, con la decisione lasciata a lui", () => {
+  const testo = codaEArchivio();
   assert.match(testo, /\{congelamento-da-confermare: ordine-test-pq\}/, "il marcatore lega la domanda alla card congelata");
   const card = leggiCard(testo).find((x) => x.id === "ordine-test-dentro-o-fuori-dalla-pausa");
   assert.ok(card, "serve una card, non una riga di log");

@@ -8,7 +8,7 @@
 // Quando gira: chiamato da giro.sh ogni SOGLIA_CARD_CHIUSE card accumulate.
 // Non produce errori: se il file non esiste o è già pulito, esce in silenzio.
 
-import { readFileSync, writeFileSync } from 'fs';
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'fs';
 import { fileURLToPath, pathToFileURL } from 'url';
 import path from 'path';
 
@@ -21,6 +21,14 @@ function main() {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
   const VAULT = path.resolve(__dirname, '../MyCity-Vault/90-Memoria-AI');
   const FILE = path.join(VAULT, 'AZIONI-IN-ATTESA.md');
+  // L'archivio vive in un FILE SUO, non in fondo alla coda. Misurato il 24/8: tenendolo dentro, la
+  // coda arriva a 264.386 caratteri e `cancello-stop.mjs` — che la legge per sapere se un allarme è
+  // arrivato a Nicola — si ferma al suo tetto di 200.000 e si dichiara ⚪ CIECO. In CI un ⚪ blocca:
+  // la CI resta rossa a ogni consegna, e un rosso che non può diventare verde si impara ad aggirare.
+  // La cura NON è alzare il tetto (provato il 22/8 e rimesso indietro: una soglia che sale nasconde i
+  // problemi). La cura è il file: tolte le carte chiuse, la coda scende a ~167.000 e il guardiano la
+  // legge tutta. Chi ha bisogno delle carte chiuse legge ANCHE questo file — vedi CODA_E_ARCHIVIO.
+  const ARCHIVIO = path.join(VAULT, 'Archivio', 'AZIONI-archivio.md');
   const DRY_RUN = process.argv.includes('--dry-run');
   const SOGLIA_CARD_CHIUSE = 20; // sopra questa soglia il giro fa housekeeping in automatico
 
@@ -118,7 +126,15 @@ function main() {
 
   // Con le intestazioni-archivio scartate, le card già archiviate arrivano come blocchi chiusi
   // normali: il conteggio è unico, niente doppia contabilità.
-  const archivedAlready = 0;
+  // Le carte già archiviate NON stanno più nella coda: stanno nel file dell'archivio, e vanno rilette
+  // da lì. Senza questa lettura la pulizia successiva riscriverebbe l'archivio con le sole carte
+  // nuove, cancellando le precedenti — la pulizia diventerebbe una perdita di memoria.
+  const archivioVecchio = existsSync(ARCHIVIO) ? readFileSync(ARCHIVIO, 'utf8') : '';
+  const blocchiArchiviati = archivioVecchio
+    .split(/\n---\n/)
+    .map((b) => b.trim())
+    .filter((b) => /^###?\s/m.test(b) && !/^tipo:\s*archivio-azioni/m.test(b));
+  const archivedAlready = blocchiArchiviati.length;
 
   // Dry-run: stampa solo il sommario
   if (DRY_RUN) {
@@ -148,13 +164,23 @@ function main() {
   );
 
   // --- Ricostruisci la sezione archivio (tutte le card chiuse, sotto UNA intestazione) ---
-  const allClosedBlocks = [...closedBlocks];
+  const allClosedBlocks = [...blocchiArchiviati, ...closedBlocks];
   const archivedSection = [
-    '## 🗄️ Archivio — card chiuse',
+    '---',
+    'tipo: archivio-azioni',
+    `aggiornato: ${dateStr} ${timeStr}`,
+    'fonte: cervello/housekeeping-azioni.mjs',
+    '---',
     '',
-    `> Ultima pulizia: ${dateStr} ${timeStr} · ${allClosedBlocks.length} card totali`,
+    '# 🗄️ Archivio — le card già chiuse',
+    '',
+    '> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura',
+    '> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].',
+    `> Ultima pulizia: ${dateStr} ${timeStr} · ${allClosedBlocks.length} card totali.`,
+    '> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.',
     '',
     allClosedBlocks.join('\n\n---\n\n'),
+    '',
   ].join('\n');
 
   // --- Scrivi il file ---
@@ -165,10 +191,12 @@ function main() {
     '',
     '---',
     '',
-    archivedSection,
+    `> 🗄️ Le card chiuse (${allClosedBlocks.length}) stanno in [[AZIONI-archivio]] — \`MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md\`.`,
     '',
   ].join('\n');
 
+  mkdirSync(path.dirname(ARCHIVIO), { recursive: true });
+  writeFileSync(ARCHIVIO, archivedSection, 'utf8');
   writeFileSync(FILE, newContent, 'utf8');
   console.log(`✅ housekeeping-azioni: ${openBlocks.length} aperte · ${allClosedBlocks.length} archiviate (erano ${archivedAlready} + ${closedBlocks.length} nuove).`);
 
