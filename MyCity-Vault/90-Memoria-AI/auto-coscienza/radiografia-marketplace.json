@@ -26,12 +26,12 @@
   "fonti_non_lette": [],
   "sintesi": "Terza radiografia profonda del sito, 21 agosto: 13 dimensioni in sola lettura, ogni problema ricontrollato da un collega diverso da chi l'ha trovato. 199 problemi confermati (12 bloccanti, 88 gravi, 99 minori) su 26 agenti. I bloccanti restano dodici come il 18 agosto, ma NON sono gli stessi: quelli di agosto erano stati chiusi il 21, questi sono nuovi o mai visti prima. I piu' cari sono sui soldi e sull'identita': un ordine si puo' marcare «gia' rimborsato» senza account, il codice di consegna si aggira mandando un valore vuoto, un rimborso con carta non riaddebita mai la quota del negozio, e il rilascio non applica le modifiche al database. Typecheck pulito, 943 test unitari verdi, 95 avvisi di accessibilita' dal controllo automatico. — 22/8/2026: chiusi tutti e 199. Prima i 12 bloccanti e gli 88 gravi (100), poi i 99 minori nello stesso giorno. Due dei 99 erano gia' stati chiusi dal lotto precedente e sono stati verificati, non riaperti. Dentro i minori ce n'era uno che minore non era: la copia notturna del database non partiva piu' da quando Supabase e' passato a PostgreSQL 17, perche' il programma che la fa era fermo alla 16 e si rifiuta di copiare un database piu' recente di lui. Alla fine: controllo dei tipi pulito, 1136 prove unitarie verdi, 17 file di prova SQL verdi, lint senza errori.",
   "meta": {
-    "findings": 417,
+    "findings": 418,
     "bloccanti": 14,
     "gravi": 181,
-    "minori": 222,
+    "minori": 223,
     "agenti": 26,
-    "nota_conteggio": "24/8: il reperto delle foto ingrandite passa a `in-corso` (riparato nella richiesta #242, si chiude col merge). ► 24/8 mattina: tre reperti nuovi sulla stessa malattia degli stati, vista dal lato della SCRITTURA e dei CONTATORI, nati gia' `in-corso`. ► 23/8 sera: i 4 reperti dell'AREA VENDITORE passati a `in-corso` nello stesso modo. Totale e conti per gravita' aggiornati NELLO STESSO lavoro."
+    "nota_conteggio": "24/8 mattina: tre gravi di `flussi-conversione` passano a `in-corso` (la vetrina che vende cio' che la cassa rifiuta: varianti, giacenza, e la sorgente SQL delle promozioni). Nasce un minore trovato riparando: l'invariante sugli errori ingoiati copre una cartella sola. ► Prima: il reperto delle foto ingrandite, i tre su scrittura e contatori, i 4 dell'area venditore, i 7 degli stati lato cliente. Totale e conti per gravita' aggiornati NELLO STESSO lavoro."
   },
   "confronto_precedente": null,
   "dimensioni": [
@@ -4505,7 +4505,8 @@
       "impatto": "",
       "fix": "① Passare `hasVariants` (e `stock`) alla ProductCard nei cinque punti elencati. ② Aggiungere nel riquadro variantIssues i pulsanti «Apri il prodotto» e «Togli dal carrello» (stesso removeFromCart della riga 962). ③ Stesso pulsante nel riquadro stockIssues.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "dove_si_ripara": "richiesta #242 del marketplace"
     },
     {
       "dimensione": "flussi-conversione",
@@ -4635,7 +4636,8 @@
       "impatto": "",
       "fix": "Aggiungere `stock` alla select di CartUpsell e filtrare (`p.stock === null || p.stock > 0`), oppure disabilitare il pulsante e scrivere «Esaurito» come FrequentlyBoughtTogether.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "dove_si_ripara": "richiesta #242 del marketplace"
     },
     {
       "dimensione": "flussi-conversione",
@@ -4647,7 +4649,8 @@
       "impatto": "",
       "fix": "Nuova migrazione che aggiunge `p.stock` e `p.has_variants` alla RETURNS TABLE e alla SELECT di active_promo_products, e passarli alla ProductCard in PromoDeals.tsx e app/promozioni/page.tsx.",
       "fonte": "design",
-      "stato": "aperto"
+      "stato": "in-corso",
+      "dove_si_ripara": "richiesta #242 del marketplace"
     },
     {
       "dimensione": "flussi-conversione",
@@ -5714,23 +5717,34 @@
       "fix": "Lanciare l'errore: chi legge tiene il suo valore di riserva, ma react-query ci riprova.",
       "stato": "in-corso",
       "dove_si_ripara": "richiesta #242 del marketplace"
+    },
+    {
+      "dimensione": "stati-ui",
+      "reparto": "Stati dell'interfaccia",
+      "titolo": "Il controllo sugli errori ingoiati guarda una cartella sola, e la malattia vive anche fuori",
+      "severita": "minore",
+      "file": "/home/user/mycity/tests/unit/il-sito-diceva-fatto-senza-averlo-fatto.test.ts (perimetro: components/hooks/) · trovato in components/cart/CartUpsell.tsx:51",
+      "descrizione": "Trovato riparando, non cercando. L'invariante scritto il 24/8 pretende che nessuna lettura leghi i dati senza legare l'errore, ma guarda solo `components/hooks/`. Lavorando sulla striscia di suggerimenti del carrello ho trovato la stessa forma esatta fuori da quel perimetro: `const { data } = await supabase.from('products')...`, senza `error`. La lettura non falliva mai, la striscia spariva in silenzio. L'ho riparata nello stesso lotto, ma il punto resta: un invariante che copre una cartella sola dichiara meno di quanto sembra, e quanti altri punti abbiano quella forma NON e' misurato.",
+      "impatto": "",
+      "fix": "Allargare il perimetro dell'invariante a tutti i punti che chiamano supabase da componenti e pagine, misurare quanti sono oggi, e metterli sotto un tetto che scende e non risale — la forma gia' usata nella macchina per il debito ereditato.",
+      "stato": "aperto"
     }
   ],
   "sync_scan": {
-    "aggiornato": "2026-08-24 10:33",
+    "aggiornato": "2026-08-24 11:02",
     "letto": true,
     "motivo": null,
     "forma": "elenco",
-    "findings_aperti": 207,
+    "findings_aperti": 208,
     "findings_chiusi": 210,
-    "findings_tot": 417,
+    "findings_tot": 418,
     "aperti_per_severita": {
       "bloccante": 0,
       "grave": 86,
-      "minore": 121,
+      "minore": 122,
       "altre": 0
     },
-    "dichiarati_dal_referto": 417,
+    "dichiarati_dal_referto": 418,
     "divergenza_dal_dichiarato": 0,
     "data_scan": "2026-08-22",
     "nota": "Per trovare difetti NUOVI serve un nuovo audit marketplace; i fix sul codice non riaprono da soli la lista. Gli aperti qui sono quelli del referto in archivio, aggiornati dai lotti di riparazione."
