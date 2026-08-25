@@ -842,8 +842,6 @@ export function ciechiPerDiffNonCalcolabile({
   testiSoloDisco = false,
 } = {}) {
   const ciechi = [];
-  // AR-821: se il confronto HEAD/base non si è potuto fare, il verdetto lo deve sapere.
-  if (confrontoHead.cieco) ciechi.push(confrontoHead.cieco);
   if (!base) {
     ciechi.push(
       "non ho trovato un ramo con cui confrontarmi (né origin/main né main): il controllo sull'esito del lavoro consegnato NON ha misurato. Il verde qui sotto non copre quella parte.",
@@ -1354,6 +1352,10 @@ async function main() {
   const { testi: testiDelTurno, soloDisco: testiSoloDisco } = testiToccati(perimetro.da);
 
   const ciechi = [];
+  // AR-821: se il confronto HEAD/base non si è potuto fare, il verdetto lo deve sapere. Sta QUI, in
+  // `main()`, dove `confrontoHead` esiste: al primo giro l'avevo messo dentro la funzione pura dei
+  // ciechi, che non lo vede — cinque casi rossi con «confrontoHead is not defined», trovati dal banco.
+  if (confrontoHead.cieco) ciechi.push(confrontoHead.cieco);
   const note = [];
   // AR-642: la decisione su COSA dichiarare cieco quando un diff non è calcolabile è una funzione
   // pura esportata (`ciechiPerDiffNonCalcolabile`), così una prova la esegue coi `null` veri del

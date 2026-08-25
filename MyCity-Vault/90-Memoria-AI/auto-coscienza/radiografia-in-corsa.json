@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-08-25 20:48",
+  "aggiornato": "2026-08-25 20:55",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -81,6 +81,21 @@
       "nota": "Terza rilettura, dopo che la spazzata dei fratelli ha segnalato un fratello NUOVO della malattia «una fonte letta a meta produce un verdetto intero» dentro cancello-stop.mjs. Il confronto HEAD/base ingoiava l'errore di git e usciva come «sono diversi»: estratto in funzione pura, la cecita adesso entra nei ciechi del verdetto. Riletti anche i punti dove il nuovo valore viene usato: perimetro, collaudo, verdetto.",
       "file": {
         "cervello/cancello-stop.mjs": "fc97004c9b8e",
+        "cervello/collaudo.mjs": "42694dc5fc77"
+      }
+    },
+    {
+      "quando": "2026-08-25 20:55",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD (sessione cloud)",
+      "trovati": 0,
+      "schede": [],
+      "nota": "Quarta rilettura: il banco ha trovato che la riga del cieco era finita dentro la funzione pura dei ciechi invece che in main(), dove vive la variabile. Cinque casi rossi con «confrontoHead is not defined». Spostata nel punto giusto, riletti i due punti e i loro chiamanti. Nessun difetto nuovo oltre a quello, gia corretto.",
+      "file": {
+        "cervello/cancello-stop.mjs": "dc5c6964f270",
         "cervello/collaudo.mjs": "42694dc5fc77"
       }
     }
