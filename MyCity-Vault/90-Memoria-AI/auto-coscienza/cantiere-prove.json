@@ -1,51 +1,52 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-25 17:10",
+  "aggiornato": "2026-08-25 19:49",
   "giorni_sospetto": 3,
-  "difetti_aperti": 120,
-  "difetti_da_fare": 120,
+  "difetti_aperti": 121,
+  "difetti_da_fare": 121,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 804,
+    "totale": 805,
     "chiusi": 684,
     "aperti": 107,
     "in_corso": 1,
     "da_riverificare": 10,
-    "altri": 2,
-    "da_fare": 120,
+    "altri": 3,
+    "da_fare": 121,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 684,
       "aperto": 107,
       "da-riverificare": 10,
       "in-corso": 1,
-      "riparato": 2
+      "riparato": 3
     },
     "stati_ignoti": [
       {
         "stato": "riparato",
-        "quante": 2,
+        "quante": 3,
         "ids": [
           "AR-812",
-          "AR-813"
+          "AR-813",
+          "AR-814"
         ]
       }
     ]
   },
   "bilancio": {
     "torna": true,
-    "attese": 120,
-    "viste": 120,
+    "attese": 121,
+    "viste": 121,
     "fuori": 0,
-    "motivo": "bilancio a posto: 684 chiuse + 120 classificate = 804 schede, e ogni stato vivo è dentro (107 aperto · 1 in-corso · 10 da-riverificare · 2 in uno stato che non so nominare)"
+    "motivo": "bilancio a posto: 684 chiuse + 121 classificate = 805 schede, e ogni stato vivo è dentro (107 aperto · 1 in-corso · 10 da-riverificare · 3 in uno stato che non so nominare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 21,
     "auto-sospetta": 10,
     "umana": 74,
-    "auto-comando": 15
+    "auto-comando": 16
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
@@ -179,7 +180,7 @@
   ],
   "chiuderebbe_lo_stesso": [],
   "schede_non_giudicabili": 19,
-  "schede_campi_illeggibili": 19,
+  "schede_campi_illeggibili": 20,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -275,6 +276,11 @@
       "id": "AR-813",
       "gravita": "grave",
       "impatto_crescita": "diretto sulla capacita' di Nicola di valutare il lavoro. Il 24/8 la PR #835 gli e' arrivata con +22.008 e -15.245, di cui ~12.900 cancellazioni che non cancellavano niente: il lavoro vero era sepolto sotto il rumore e non era valutabile. L'ha visto lui, non la macchina, e la macchina aveva un guardiano apposta per questo."
+    },
+    {
+      "id": "AR-814",
+      "gravita": "bloccante",
+      "impatto_crescita": "diretto sulla macchina che gira. Il passo 2 della card #174 rende lavori.negozio_id obbligatorio: con i tre scrittori del VPS che non lo mettevano, da quel momento ogni ri-accodamento di cadenza, ogni recupero della sentinella e ogni metabolizzazione della chat sarebbe FALLITO. E' il worker per le botteghe, cioe' la seconda linea di ricavo, a dipendere da quel campo: senza questa riparazione la card non era eseguibile fino in fondo."
     }
   ],
   "chiuse_su_prova_non_ammessa": 0,
@@ -3379,6 +3385,19 @@
       "titolo": "Il guardiano dei file riscritti tutti guardava solo l'indentazione",
       "classe": "auto-comando",
       "perche": "prova eseguibile: node --test cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-814",
+      "gravita": "bloccante",
+      "eta_giorni": 0,
+      "impatto_crescita": "diretto sulla macchina che gira. Il passo 2 della card #174 rende lavori.negozio_id obbligatorio: con i tre scrittori del VPS che non lo mettevano, da quel momento ogni ri-accodamento di cadenza, ogni recupero della sentinella e ogni metabolizzazione della chat sarebbe FALLITO. E' il worker per le botteghe, cioe' la seconda linea di ricavo, a dipendere da quel campo: senza questa riparazione la card non era eseguibile fino in fondo.",
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "La coda dei lavori la scrivono in quattro punti, e la card ne guardava uno",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
       "auto_chiudibile": true
     }
   ]

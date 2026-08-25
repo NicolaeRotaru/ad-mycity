@@ -28,6 +28,7 @@ import { readFileSync } from "node:fs";
 import { join, relative } from "node:path";
 import { spawnSync } from "node:child_process";
 import { AD_ROOT } from "./git-github.mjs";
+import { percorsiDaGit } from "./percorsi-git.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 
@@ -39,10 +40,17 @@ export const CORSIA = "negozio_id";
 
 /** I punti che fanno POST sulla coda, trovati chiedendo a git quali file esistono davvero. */
 export function puntiCheScrivono(radice = RADICE) {
-  const r = spawnSync("git", ["ls-files"], { cwd: radice, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
-  if (r.status !== 0) return null; // non ho potuto chiedere: ⚪, non verde
+  // Gli elenchi a git si chiedono dalla porta di casa, non con uno spawn per conto proprio:
+  // `percorsi-git.mjs` e' l'unico posto che sa gestire i nomi con l'accento e i file cancellati.
+  // Me l'ha ricordato una prova che esisteva gia', al primo giro del cancello.
+  let elenco;
+  try {
+    elenco = percorsiDaGit(["ls-files"], { cwd: radice });
+  } catch {
+    return null; // non ho potuto chiedere: ⚪, non verde
+  }
   const fuori = [];
-  for (const f of r.stdout.split("\n").filter(Boolean)) {
+  for (const f of elenco) {
     if (!/\.(sh|mjs|js|ts|mts)$/.test(f)) continue;
     if (/(^|\/)(test|node_modules|marketplace)\//.test(f) || /\.test\./.test(f)) continue;
     let testo;
