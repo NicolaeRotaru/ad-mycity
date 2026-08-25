@@ -113,7 +113,10 @@ async function main() {
     if (f.endsWith(".sh")) {
       const filtri = filtriJq(testo);
       corpi = filtri.length ? filtri.map(corpoDaJq) : null;
-    } else if (COSTRUTTORI_JS[f]) {
+    } else if (COSTRUTTORI_JS[f] && RADICE === AD_ROOT) {
+      // Solo a casa propria. I costruttori si importano per percorso di modulo, cioe' dalla casa
+      // vera: con una radice sostituita direbbero la loro sul file SBAGLIATO, e un verdetto giusto
+      // sul file sbagliato e' una bugia. Fuori casa diventa ⚪, che e' la verita'.
       corpi = await COSTRUTTORI_JS[f]();
     }
 

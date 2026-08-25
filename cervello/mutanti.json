@@ -7262,6 +7262,16 @@
    "sostituisci": "void 0;",
    "test": "cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
    "lezione": "L-2026-0825-03"
+  },
+  {
+   "lotto": 62,
+   "difetto": "AR-820",
+   "nome": "fuori casa il costruttore JS torna a dare un verdetto sul file sbagliato invece di ⚪",
+   "file": "cervello/lavori-hanno-la-corsia.mjs",
+   "cerca": "} else if (COSTRUTTORI_JS[f] && RADICE === AD_ROOT) {",
+   "sostituisci": "} else if (COSTRUTTORI_JS[f]) {",
+   "test": "cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
+   "lezione": "L-2026-0825-03"
   }
  ]
 }

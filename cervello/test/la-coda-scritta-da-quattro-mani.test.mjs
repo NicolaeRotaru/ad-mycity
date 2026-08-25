@@ -138,3 +138,34 @@ test("un punto che scrive nella coda e non so costruire è ⚪, non verde", () =
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+// ── AR-820: un verdetto giusto sul file sbagliato è una bugia ───────────────
+//
+// Trovato riguardando questo stesso guardiano con la lente «rischio-sicurezza-se», come chiede il
+// passo della radiografia nel cancello. I costruttori JavaScript si importano per percorso di
+// MODULO, cioè dalla casa vera. Con la radice sostituita il guardiano avrebbe dato un verdetto
+// pescando il costruttore di casa mentre diceva di misurare un altro albero: verde o rosso, era
+// comunque una frase su un file che non aveva letto. Fuori casa adesso è ⚪, che è la verità.
+
+test("con la radice sostituita il costruttore JS non finge: ⚪, non un verdetto", () => {
+  const dir = mkdtempSync(join(tmpdir(), "corsia-"));
+  try {
+    const g = (...a) => execFileSync("git", a, { cwd: dir, encoding: "utf8", stdio: "pipe" });
+    g("init", "-q", "-b", "main");
+    // stesso PERCORSO di un file cablato in COSTRUTTORI_JS, ma è un altro file
+    execFileSync("mkdir", ["-p", join(dir, "cervello")]);
+    writeFileSync(join(dir, "cervello", "sentinella-motore.mjs"), `// -X POST\nfetch("/rest/v1/lavori");\n`);
+    g("add", "-A");
+
+    const r = spawnSync(process.execPath, [GUARDIANO, "--json"], {
+      env: { ...process.env, LAVORI_CORSIA_ROOT: dir },
+      encoding: "utf8",
+    });
+    assert.equal(r.status, 2, "fuori casa non posso costruire quel corpo: ⚪");
+    const v = JSON.parse(r.stdout);
+    assert.equal(v.non_misurati.length, 1);
+    assert.match(v.non_misurati[0], /sentinella-motore/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

@@ -17533,6 +17533,27 @@
       },
       "descrizione": "Nicola, 25/8/2026: «fai la card 174». Passo 1 eseguito sul database della memoria: colonna aggiunta, 3.276 righe su 3.276 messe nella corsia «centro», indice creato. Passo 2 NON eseguito: la sua precondizione era incompleta e questa scheda e' il motivo. Diventa eseguibile quando questa riparazione e' su main e il VPS l'ha presa.",
       "nato_da": "Nicola ha detto «fai la card 174»; eseguendo il passo 1 e controllando la precondizione del passo 2 ho cercato TUTTI gli scrittori della coda, non solo quello nominato nella card"
+    },
+    {
+      "id": "AR-820",
+      "stato": "riparato",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "minore",
+      "impatto_crescita": "indiretto ma sulla fiducia nei verdetti: un guardiano che parla di un file che non ha letto non e' un guardiano, e' una frase.",
+      "nato": "2026-08-25 20:40",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 62,
+      "titolo": "Con la radice sostituita il guardiano dava un verdetto sul file sbagliato",
+      "causa_radice": "`lavori-hanno-la-corsia.mjs` sceglie i file da misurare dentro RADICE (sostituibile con LAVORI_CORSIA_ROOT per poterlo provare), ma i costruttori JavaScript li importa per percorso di MODULO — cioe' dalla casa vera, sempre. Con una radice sostituita avrebbe letto l'elenco da un albero e il costruttore da un altro, e dichiarato un verdetto — verde o rosso — su un file che non aveva mai aperto. Non e' un buco di sicurezza sfruttabile: e' peggio nella forma che questa casa teme di piu', cioe' un verdetto che sembra misurato e non lo e'.",
+      "fix_proposto": "Il costruttore JavaScript si chiama solo quando RADICE coincide con la casa. Fuori casa quel punto diventa ⚪ «non ho saputo costruirne il corpo», che e' la verita' e blocca lo stesso (exit 2). Prova: un repo finto con un file allo STESSO percorso di uno cablato ma con dentro un altro contenuto — il guardiano deve dire ⚪ e nominarlo, non dare un verdetto.",
+      "dove": "cervello/lavori-hanno-la-corsia.mjs",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
+        "nota": "Il caso «con la radice sostituita il costruttore JS non finge»: repo finto con cervello/sentinella-motore.mjs diverso da quello di casa, il guardiano deve uscire 2 e nominarlo fra i non misurati. Trovato riguardando il perimetro con la lente rischio-sicurezza-se, non per caso."
+      },
+      "descrizione": "Nato dalla riguardata che il cancello impone da oggi sul perimetro toccato. Senza quel passo non l'avrei visto: avevo appena finito di scrivere quel guardiano e lo consideravo a posto.",
+      "nato_da": "la riguardata del perimetro toccato con la lente rischio-sicurezza-se, che il passo nuovo del cancello (#845) impone prima di consegnare"
     }
   ],
   "meta": {
