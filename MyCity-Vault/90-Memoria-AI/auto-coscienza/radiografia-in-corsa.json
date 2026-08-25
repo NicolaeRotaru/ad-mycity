@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-08-25 19:48",
+  "aggiornato": "2026-08-25 20:13",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -33,6 +33,21 @@
       "nota": "Lente cadenza-esecuzione sul nuovo passo 6bis del mansionario: puo essere saltato in silenzio? No, e cablato nel cancello. Rompe il giro? No: giro.sh non lancia cancello-lotto (verificato con grep). I comandi scritti nel testo li ho lanciati davvero: controllo, --da-fare, --repo ../mycity, registra. Nessun difetto trovato.",
       "file": {
         ".claude/skills/cantiere/SKILL.md": "fe73019ed3fe"
+      }
+    },
+    {
+      "quando": "2026-08-25 20:13",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD (sessione cloud)",
+      "trovati": 0,
+      "schede": [],
+      "nota": "Rilettura dopo l'unione col tronco: dall'ultima scansione e cambiata UNA riga di commento in cancello-lotto.mjs, il numero della scheda passato da AR-813 ad AR-818 per la collisione. Riguardata la riga e il passo che monta il freno: invariato il comando, invariato l'ordine dei passi, nessun argomento calcolato. Nessun difetto nuovo.",
+      "file": {
+        "cervello/cancello-lotto.mjs": "d9388757aa10",
+        "cervello/radiografia-in-corsa.mjs": "7a43d4442b56"
       }
     }
   ]
