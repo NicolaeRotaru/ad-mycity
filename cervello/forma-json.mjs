@@ -49,6 +49,11 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+
+// La radice su cui misurare. Di norma e' la casa; un banco di prova la sposta su un repo finto, ed e'
+// l'unico modo di vedere questo freno SCATTARE davvero invece di crederci sulla parola (la stessa
+// ragione per cui la pulizia della coda ha `CODA_FILE`).
+const RADICE = process.env.FORMA_JSON_ROOT || AD_ROOT;
 import { percorsiDaGit } from "./percorsi-git.mjs";
 import { verdettoCopertura, CIECO } from "./misura-o-cieco.mjs";
 
@@ -81,9 +86,91 @@ export function riformattati(coppie = []) {
   return fuori;
 }
 
+// ── AR-813 — E L'INDENTAZIONE ERA SOLO UNO DEI TRE MODI DI RISCRIVERE TUTTO ──
+//
+// Il 24/8 Nicola ha guardato la PR #835 e ha detto: «secondo me stai facendo delle cavolate perché
+// il diff è +22.000 e -15.000». Aveva ragione, e questo guardiano era VERDE mentre succedeva.
+//
+// Misurato: `apprendimento.json` +5.702/-5.359 con 519 voci su 535 identiche — stessi campi, stessi
+// valori, solo elencati in un altro ordine. `cantiere-difetti.json` +7.500/-7.160 con l'elenco
+// riordinato (main parte da AR-004, il ramo partiva da AR-001). `mutanti.json` lo stesso. In tutto
+// ~12.900 cancellazioni che non cancellavano niente.
+//
+// Perché il guardiano non l'ha visto: misura SOLO l'indentazione, e l'indentazione non era cambiata.
+// Ma i modi di riscrivere un file per intero sono tre — l'indentazione, l'ordine delle chiavi dentro
+// una voce, l'ordine delle voci dentro l'elenco — e questo ne guardava uno. È la lezione di AR-807
+// applicata a se stessa: un sintomo trovato per caso misura il caso, non il problema.
+
+/** Lo stesso contenuto a meno dell'ordine delle chiavi, a qualsiasi profondita'. */
+export function normalizza(v) {
+  if (Array.isArray(v)) return v.map(normalizza);
+  if (v && typeof v === "object") return Object.keys(v).sort().reduce((a, k) => ((a[k] = normalizza(v[k])), a), {});
+  return v;
+}
+
+/** L'elenco dentro un registro: l'array in cima, o il primo campo che ne contiene uno. */
+function elenco(dati) {
+  if (Array.isArray(dati)) return dati;
+  if (dati && typeof dati === "object") for (const k of Object.keys(dati)) if (Array.isArray(dati[k])) return dati[k];
+  return null;
+}
+
+const identita = (x) => (x && typeof x === "object" ? (x.id ?? x.chiave ?? null) : null);
+
+/** Le chiavi di `a` che anche `b` possiede, nell'ordine di `a`. */
+const ordineComune = (a, b) => {
+  const suoi = new Set(Object.keys(b));
+  return Object.keys(a).filter((k) => suoi.has(k));
+};
+
+/**
+ * I file RIMESCOLATI: stesso contenuto, righe tutte diverse perche' e' cambiato l'ordine.
+ *
+ * Pura. Conta due cose diverse, e ognuna basta a rendere illeggibile un diff:
+ *   · `chiaviRimescolate` — voci il cui contenuto e' IDENTICO a meno dell'ordine, ma con le chiavi
+ *     in fila diversa. Solo quelle identiche: se una voce e' cambiata davvero non e' rumore, ed e'
+ *     la riga che evita di trasformare questo freno in un divieto di modificare.
+ *   · `elencoRimescolato` — le voci gia' esistenti non sono piu' nell'ordine di prima. Aggiungerne
+ *     in coda non conta: cambia solo la posizione relativa di quelle che c'erano.
+ */
+export function rimescolati(coppie = []) {
+  const fuori = [];
+  for (const { file, prima, dopo } of coppie) {
+    let A, B;
+    try {
+      A = JSON.parse(prima);
+      B = JSON.parse(dopo);
+    } catch {
+      continue; // non e' un registro leggibile: qui non si dice niente
+    }
+    const a = elenco(A);
+    const b = elenco(B);
+    if (!a?.length || !b?.length) continue;
+    // Senza un'identita' per ogni voce non so dire chi e' chi, quindi non misuro invece di indovinare.
+    if (a.some((x) => identita(x) === null) || b.some((x) => identita(x) === null)) continue;
+
+    const vecchie = new Map(a.map((x) => [identita(x), x]));
+    let chiaviRimescolate = 0;
+    for (const v of b) {
+      const o = vecchie.get(identita(v));
+      if (!o) continue;
+      if (JSON.stringify(normalizza(o)) !== JSON.stringify(normalizza(v))) continue;
+      if (JSON.stringify(ordineComune(o, v)) !== JSON.stringify(ordineComune(v, o))) chiaviRimescolate++;
+    }
+
+    const restate = b.map(identita).filter((k) => vecchie.has(k));
+    const insieme = new Set(restate);
+    const attese = a.map(identita).filter((k) => insieme.has(k));
+    const elencoRimescolato = JSON.stringify(restate) !== JSON.stringify(attese);
+
+    if (chiaviRimescolate || elencoRimescolato) fuori.push({ file, chiaviRimescolate, elencoRimescolato });
+  }
+  return fuori;
+}
+
 /** Un riferimento git esiste davvero? Senza risposta a questa domanda ogni «file nuovo» è un forse. */
 function risolvibile(spec) {
-  return spawnSync("git", ["rev-parse", "--verify", "--quiet", `${spec}^{commit}`], { cwd: AD_ROOT, encoding: "utf8" }).status === 0;
+  return spawnSync("git", ["rev-parse", "--verify", "--quiet", `${spec}^{commit}`], { cwd: RADICE, encoding: "utf8" }).status === 0;
 }
 
 /**
@@ -100,7 +187,7 @@ function risolvibile(spec) {
 function riferimento() {
   if (STAGED) return { base: "HEAD", ramo: ["diff", "--cached", "--name-only"], workingTree: false, fuori: [] };
 
-  const mb = spawnSync("git", ["merge-base", "HEAD", "origin/main"], { cwd: AD_ROOT, encoding: "utf8" });
+  const mb = spawnSync("git", ["merge-base", "HEAD", "origin/main"], { cwd: RADICE, encoding: "utf8" });
   if (mb.status === 0 && mb.stdout.trim() && risolvibile("origin/main")) {
     return { base: "origin/main", ramo: ["diff", "--name-only", "origin/main...HEAD"], workingTree: true, fuori: [] };
   }
@@ -117,11 +204,11 @@ function main() {
   const fuori0 = [...rif.fuori];
   let toccati;
   try {
-    const dal = rif.ramo ? percorsiDaGit(rif.ramo, { cwd: AD_ROOT }) : [];
+    const dal = rif.ramo ? percorsiDaGit(rif.ramo, { cwd: RADICE }) : [];
     // Il working tree: modificati non committati + non tracciati. È la metà che mancava — quella che
     // hai sotto le mani mentre lanci il comando.
     const sporchi = rif.workingTree
-      ? [...percorsiDaGit(["diff", "--name-only"], { cwd: AD_ROOT }), ...percorsiDaGit(["ls-files", "--others", "--exclude-standard"], { cwd: AD_ROOT })]
+      ? [...percorsiDaGit(["diff", "--name-only"], { cwd: RADICE }), ...percorsiDaGit(["ls-files", "--others", "--exclude-standard"], { cwd: RADICE })]
       : [];
     toccati = [...new Set([...dal, ...sporchi])].filter((f) => f.endsWith(".json")).sort();
   } catch (e) {
@@ -144,7 +231,7 @@ function main() {
   const coppie = [];
   let nuovi = 0;
   for (const file of toccati) {
-    const r = spawnSync("git", ["show", `${rif.base}:${file}`], { cwd: AD_ROOT, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+    const r = spawnSync("git", ["show", `${rif.base}:${file}`], { cwd: RADICE, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
     if (r.status !== 0) {
       nuovi++;
       continue; // file nuovo: nessuna forma da conservare (e il riferimento c'è, quindi «nuovo» è vero)
@@ -154,10 +241,10 @@ function main() {
       // In staging il contenuto che conta è quello INDICIZZATO, non quello sul disco: sono due cose
       // diverse quando si fa `git add -p` o si modifica un file dopo averlo messo in staging.
       if (STAGED) {
-        const idx = spawnSync("git", ["show", `:${file}`], { cwd: AD_ROOT, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+        const idx = spawnSync("git", ["show", `:${file}`], { cwd: RADICE, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
         if (idx.status !== 0) continue;
         dopo = idx.stdout;
-      } else dopo = readFileSync(join(AD_ROOT, file), "utf8");
+      } else dopo = readFileSync(join(RADICE, file), "utf8");
     } catch {
       continue; // cancellato dal ramo: non è una riformattazione
     }
@@ -171,11 +258,23 @@ function main() {
   let fuori = riformattati(coppie);
   if (STAGED && fuori.length) {
     fuori = fuori.filter((f) => {
-      const r = spawnSync("git", ["show", `origin/main:${f.file}`], { cwd: AD_ROOT, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+      const r = spawnSync("git", ["show", `origin/main:${f.file}`], { cwd: RADICE, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
       if (r.status !== 0) return true; // nessuna forma di casa con cui confrontarsi: resta un rosso
       return indentazione(r.stdout) !== f.dopo;
     });
   }
+  // Lo stesso ragionamento del «ritorno a casa», per il rimescolamento: rimettere l'ordine di
+  // `origin/main` NON e' rimescolare, e' riparare. Senza questa riga il freno vieterebbe la cura.
+  let mescolati = rimescolati(coppie);
+  if (STAGED && mescolati.length) {
+    mescolati = mescolati.filter((f) => {
+      const r = spawnSync("git", ["show", `origin/main:${f.file}`], { cwd: RADICE, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+      if (r.status !== 0) return true;
+      const dopo = coppie.find((c) => c.file === f.file)?.dopo;
+      return rimescolati([{ file: f.file, prima: r.stdout, dopo }]).length > 0;
+    });
+  }
+
   // IL VERDETTO PASSA DAL METRO DELLA COPERTURA. `daMisurare` sono i file che una forma di prima ce
   // l'avevano: i nuovi non contano, perché su di loro non c'è niente da conservare e dichiararli
   // «non misurati» sarebbe un ⚪ finto. Se invece c'era qualcosa da confrontare e non ho confrontato
@@ -183,12 +282,12 @@ function main() {
   const v = verdettoCopertura({
     misurati: coppie.length,
     daMisurare: toccati.length - nuovi,
-    violazioni: fuori.length,
+    violazioni: fuori.length + mescolati.length,
     nonMisurati: fuori0,
   });
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ quando: nowPiacenza(), esito: v.esito, controllati: coppie.length, non_misurati: v.non_misurati, riformattati: fuori }, null, 2));
+    console.log(JSON.stringify({ quando: nowPiacenza(), esito: v.esito, controllati: coppie.length, non_misurati: v.non_misurati, riformattati: fuori, rimescolati: mescolati }, null, 2));
     process.exit(v.codice);
   }
 
@@ -199,12 +298,18 @@ function main() {
     console.log(`\n⚪ NON HO MISURATO: ${v.perche}. Il verde qui non coprirebbe niente.`);
     process.exit(2);
   }
-  if (!fuori.length) {
-    console.log(`\n✅ nessuno ha cambiato indentazione: i diff mostrano solo le righe cambiate davvero.`);
+  if (!fuori.length && !mescolati.length) {
+    console.log(`\n✅ nessuno ha cambiato indentazione ne' rimescolato l'ordine: i diff mostrano solo le righe cambiate davvero.`);
     process.exit(0);
   }
   for (const f of fuori) console.log(`  ❌ ${f.file}: era ${f.prima} spazi, ora ${f.dopo}`);
-  console.log(`\n❌ ${fuori.length} file riscritti tutti per cambiarne una parte.`);
+  for (const f of mescolati) {
+    const pezzi = [];
+    if (f.chiaviRimescolate) pezzi.push(`${f.chiaviRimescolate} voci con le stesse cose in ordine diverso`);
+    if (f.elencoRimescolato) pezzi.push(`l'elenco riordinato`);
+    console.log(`  ❌ ${f.file}: ${pezzi.join(" e ")}`);
+  }
+  console.log(`\n❌ ${fuori.length + mescolati.length} file riscritti tutti per cambiarne una parte.`);
   console.log(`   Il contenuto può essere giusto: è la forma che rende la PR illeggibile e il`);
   console.log(`   conflitto totale per chiunque altro tocchi quel file. Riscrivilo con`);
   console.log(`   l'indentazione di prima — JSON.stringify(dati, null, <spazi di origin/main>).`);

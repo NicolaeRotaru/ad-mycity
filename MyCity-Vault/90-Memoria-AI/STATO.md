@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-24 13:15
+aggiornato: 2026-08-25 16:31
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -202,6 +202,37 @@ tre controlli usano per capire se l'attivita' e' ferma.
 > **In coda per te:** **#148** (via libera al cantiere sui 15 bloccanti) · **#147** (quale promessa di consegna è vera, 30-60 minuti o 24-48 ore: oggi la home dice una cosa e il resto del sito un'altra).
 >
 > Referti: `consegne/audit/2026-08-21-radiografia.md` · `consegne/design/2026-08-21-radiografia-design.md`.
+
+> 🔧 **2026-08-25 16:31 — Lotto 61. Nicola ha guardato il diff e ha visto quello che il guardiano non vedeva.**
+>
+> **In parole semplici.** Nicola ha detto: «secondo me stai facendo delle cavolate perché il diff è
+> +22.000 e -15.000». Aveva ragione. Tre registri risultavano riscritti da cima a fondo con dentro le
+> stesse identiche cose: le chiavi di 519 voci su 535 solo messe in fila diversa, e l'elenco dei
+> difetti riordinato. Circa 12.900 cancellazioni che non cancellavano niente.
+>
+> **Cosa cambia per te.** La richiesta #835 era illeggibile, e leggerla è il motivo per cui te la
+> mando. Rimesso l'ordine, il ramo è passato da +21.002/-14.266 a +8.129/-1.393 senza perdere una
+> voce: 803 difetti, 535 lezioni, 805 mutazioni prima e dopo. L'hai unita il 25/8.
+>
+> Poi il pezzo che conta: **esisteva già un guardiano apposta per questa cosa, ed era verde.**
+> `forma-json.mjs` è nato il 30 luglio per i file riscritti tutti per cambiarne una riga.
+> Misurava solo l'indentazione. E l'indentazione non era cambiata.
+>
+> **Per esempio** una lezione qualsiasi del registro. Prima elencava «id, testo, tag». Dopo elencava
+> «reparto, fonte, gate». Stessi campi, stessi valori, nemmeno una parola diversa — eppure per git è
+> una riga cancellata e una riaggiunta. Moltiplicato per 519 voci su 535.
+>
+> I modi di riscrivere un file per intero sono tre: l'indentazione, l'ordine delle chiavi, l'ordine
+> delle voci. Ne guardava uno, quello del giorno in cui è nato. È AR-813, ed è la lezione di AR-807
+> applicata al guardiano scritto per curarla.
+>
+> **Cosa devi fare.** Guardare la nuova richiesta di unione e dirmi se va bene. Tutto il lavoro resta
+> dentro la macchina: non tocca il sito, non muove un euro, non scrive a nessuno.
+>
+> **Cosa non ho verificato.** Non ho letto il database in questo giro: i numeri qui sopra restano
+> quelli misurati il 24 agosto alle 13:05 e non sono una misura di adesso. E non so ancora **cosa**
+> abbia rimescolato quelle voci durante la fusione: ho tolto il sintomo e messo il freno che lo
+> intercetta, non ho trovato la mano che l'ha fatto.
 
 ## Passaggi precedenti
 
