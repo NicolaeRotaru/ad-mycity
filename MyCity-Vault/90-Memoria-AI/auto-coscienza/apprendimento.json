@@ -13214,7 +13214,7 @@
   },
   {
    "id": "L-2026-0825-03",
-   "testo": "**Una precondizione va scritta guardando tutti i posti da cui il danno puo' arrivare, non quello da cui e' arrivata la scoperta (AR-819).** La card #174 diceva: rendi il campo obbligatorio solo dopo che il Pannello nuovo e' online. Vero, e insufficiente: nella coda scrivono in quattro, e tre stanno sul VPS. Eseguirla come scritta avrebbe fermato cadenze, sentinelle e metabolizzazione — il danno che la card diceva di evitare. **Prima di rendere obbligatorio un campo, la domanda non e' «chi ho cambiato?» ma «chi scrive qui dentro?», e la risposta si cerca nel codice, non nella memoria.** Terza volta in tre giorni con questa forma: AR-807, AR-813, AR-819. Il freno generale: quando una condizione nomina UN attore, contarli tutti prima di fidarsi.",
+   "testo": "**Una precondizione va scritta guardando tutti i posti da cui il danno puo' arrivare, non quello da cui e' arrivata la scoperta (AR-822).** La card #174 diceva: rendi il campo obbligatorio solo dopo che il Pannello nuovo e' online. Vero, e insufficiente: nella coda scrivono in quattro, e tre stanno sul VPS. Eseguirla come scritta avrebbe fermato cadenze, sentinelle e metabolizzazione — il danno che la card diceva di evitare. **Prima di rendere obbligatorio un campo, la domanda non e' «chi ho cambiato?» ma «chi scrive qui dentro?», e la risposta si cerca nel codice, non nella memoria.** Terza volta in tre giorni con questa forma: AR-807, AR-813, AR-822. Il freno generale: quando una condizione nomina UN attore, contarli tutti prima di fidarsi.",
    "tag": [
     "precondizioni",
     "guardiani",
@@ -13223,7 +13223,7 @@
    "reparto": "tech",
    "confidenza": 0.95,
    "evidenze": 3,
-   "fonte": "AR-819, eseguendo la card #174 su ordine di Nicola: la precondizione del passo 2 nominava un solo scrittore su quattro.",
+   "fonte": "AR-822, eseguendo la card #174 su ordine di Nicola: la precondizione del passo 2 nominava un solo scrittore su quattro.",
    "caso_studio_nicola": true,
    "nato": "2026-08-25",
    "ultima_conferma": "2026-08-25 17:35",

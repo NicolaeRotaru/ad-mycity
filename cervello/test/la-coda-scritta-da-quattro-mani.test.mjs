@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🧪 AR-819 — la coda la scrivono in quattro, e la card ne guardava una.
+// 🧪 AR-822 — la coda la scrivono in quattro, e la card ne guardava una.
 //
 // Il 25/8 Nicola ha dato il via alla card #174. Il passo 2 rende `lavori.negozio_id` obbligatorio,
 // e la card poneva UNA condizione: «il Pannello nuovo dev'essere online». Quella condizione era
@@ -139,7 +139,7 @@ test("un punto che scrive nella coda e non so costruire è ⚪, non verde", () =
   }
 });
 
-// ── AR-820: un verdetto giusto sul file sbagliato è una bugia ───────────────
+// ── AR-823: un verdetto giusto sul file sbagliato è una bugia ───────────────
 //
 // Trovato riguardando questo stesso guardiano con la lente «rischio-sicurezza-se», come chiede il
 // passo della radiografia nel cancello. I costruttori JavaScript si importano per percorso di

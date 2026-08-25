@@ -1,7 +1,7 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-25 20:37",
+  "aggiornato": "2026-08-25 21:11",
   "giorni_sospetto": 3,
   "difetti_aperti": 127,
   "difetti_da_fare": 127,
@@ -34,8 +34,8 @@
           "AR-814",
           "AR-815",
           "AR-816",
-          "AR-819",
-          "AR-820"
+          "AR-822",
+          "AR-823"
         ]
       }
     ]
@@ -308,12 +308,12 @@
       "impatto_crescita": "rende la CI rossa a caso su lotti sani: è successo il 25/8 sulla PR #845, dove l'unico rosso era questa prova. Una CI che diventa rossa senza colpa è la cosa che insegna a ignorare il rosso — e a quattro giorni dalla data del 29/8 è il modo più veloce per far passare un difetto vero."
     },
     {
-      "id": "AR-819",
+      "id": "AR-822",
       "gravita": "bloccante",
       "impatto_crescita": "diretto sulla macchina che gira. Il passo 2 della card #174 rende lavori.negozio_id obbligatorio: con i tre scrittori del VPS che non lo mettevano, da quel momento ogni ri-accodamento di cadenza, ogni recupero della sentinella e ogni metabolizzazione della chat sarebbe FALLITO. E' il worker per le botteghe, cioe' la seconda linea di ricavo, a dipendere da quel campo: senza questa riparazione la card non era eseguibile fino in fondo."
     },
     {
-      "id": "AR-820",
+      "id": "AR-823",
       "gravita": "minore",
       "impatto_crescita": "indiretto ma sulla fiducia nei verdetti: un guardiano che parla di un file che non ha letto non e' un guardiano, e' una frase."
     }
@@ -467,7 +467,7 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     },
     {
-      "id": "AR-820",
+      "id": "AR-823",
       "gravita": "minore",
       "impatto_crescita": "indiretto ma sulla fiducia nei verdetti: un guardiano che parla di un file che non ha letto non e' un guardiano, e' una frase.",
       "perche": "prova eseguibile: node --test cervello/test/la-coda-scritta-da-quattro-mani.test.mjs"
@@ -3524,7 +3524,7 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-819",
+      "id": "AR-822",
       "gravita": "bloccante",
       "eta_giorni": 0,
       "impatto_crescita": "diretto sulla macchina che gira. Il passo 2 della card #174 rende lavori.negozio_id obbligatorio: con i tre scrittori del VPS che non lo mettevano, da quel momento ogni ri-accodamento di cadenza, ogni recupero della sentinella e ogni metabolizzazione della chat sarebbe FALLITO. E' il worker per le botteghe, cioe' la seconda linea di ricavo, a dipendere da quel campo: senza questa riparazione la card non era eseguibile fino in fondo.",
@@ -3537,7 +3537,7 @@
       "auto_chiudibile": true
     },
     {
-      "id": "AR-820",
+      "id": "AR-823",
       "gravita": "minore",
       "eta_giorni": 0,
       "impatto_crescita": "indiretto ma sulla fiducia nei verdetti: un guardiano che parla di un file che non ha letto non e' un guardiano, e' una frase.",

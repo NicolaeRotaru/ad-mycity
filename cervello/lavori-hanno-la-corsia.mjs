@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🏪 OGNI RIGA DELLA CODA DICE DI CHE NEGOZIO È (AR-801 / AR-819)
+// 🏪 OGNI RIGA DELLA CODA DICE DI CHE NEGOZIO È (AR-801 / AR-822)
 //
 // PERCHÉ ESISTE. Il 25/8 Nicola ha dato il via alla card #174: due comandi sul database, e il
 // secondo rende `lavori.negozio_id` obbligatorio. La card poneva UNA condizione — «il Pannello

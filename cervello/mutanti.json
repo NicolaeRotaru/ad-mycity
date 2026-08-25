@@ -7195,7 +7195,7 @@
   },
   {
    "lotto": 62,
-   "difetto": "AR-819",
+   "difetto": "AR-822",
    "nome": "le cadenze tornano a ri-accodarsi senza dire di che negozio sono",
    "file": "cervello/lib-cadenza.sh",
    "cerca": ", negozio_id:\"centro\"}')\"\n  if curl",
@@ -7205,7 +7205,7 @@
   },
   {
    "lotto": 62,
-   "difetto": "AR-819",
+   "difetto": "AR-822",
    "nome": "la metabolizzazione della chat nasce senza corsia",
    "file": "cervello/worker.sh",
    "cerca": ",negozio_id:\"centro\"}",
@@ -7215,7 +7215,7 @@
   },
   {
    "lotto": 62,
-   "difetto": "AR-819",
+   "difetto": "AR-822",
    "nome": "il recupero di una cadenza saltata nasce senza corsia",
    "file": "cervello/sentinella-motore.mjs",
    "cerca": "    negozio_id: \"centro\",",
@@ -7225,7 +7225,7 @@
   },
   {
    "lotto": 62,
-   "difetto": "AR-819",
+   "difetto": "AR-822",
    "nome": "il guardiano smette di guardare la corsia nei corpi che costruisce",
    "file": "cervello/lavori-hanno-la-corsia.mjs",
    "cerca": "if (!c[CORSIA]) senzaCorsia.push",
@@ -7235,7 +7235,7 @@
   },
   {
    "lotto": 62,
-   "difetto": "AR-819",
+   "difetto": "AR-822",
    "nome": "le MODIFICHE tornano a essere contate come creazioni: il guardiano accusa chi non ha colpa",
    "file": "cervello/lavori-hanno-la-corsia.mjs",
    "cerca": ".filter((f) => /\\btipo\\s*:/.test(f) && /\\brichiesta\\s*:/.test(f));",
@@ -7245,7 +7245,7 @@
   },
   {
    "lotto": 62,
-   "difetto": "AR-819",
+   "difetto": "AR-822",
    "nome": "il perimetro perde gli script di shell, cioe' tre dei quattro punti",
    "file": "cervello/lavori-hanno-la-corsia.mjs",
    "cerca": "if (!/\\.(sh|mjs|js|ts|mts)$/.test(f)) continue;",
@@ -7255,7 +7255,7 @@
   },
   {
    "lotto": 62,
-   "difetto": "AR-819",
+   "difetto": "AR-822",
    "nome": "un punto che scrive nella coda e non so costruire passa in silenzio invece di essere ⚪",
    "file": "cervello/lavori-hanno-la-corsia.mjs",
    "cerca": "nonMisurati.push(`${f}: scrive nella coda ma non ho saputo costruirne il corpo`);",
@@ -7265,7 +7265,7 @@
   },
   {
    "lotto": 62,
-   "difetto": "AR-820",
+   "difetto": "AR-823",
    "nome": "fuori casa il costruttore JS torna a dare un verdetto sul file sbagliato invece di ⚪",
    "file": "cervello/lavori-hanno-la-corsia.mjs",
    "cerca": "} else if (COSTRUTTORI_JS[f] && RADICE === AD_ROOT) {",
