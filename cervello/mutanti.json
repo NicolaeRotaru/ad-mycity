@@ -7155,6 +7155,76 @@
    "sostituisci": "  for (const f of []) {",
    "test": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
    "lezione": "L-2026-0825-01"
+  },
+  {
+   "lotto": 62,
+   "difetto": "AR-814",
+   "nome": "le cadenze tornano a ri-accodarsi senza dire di che negozio sono",
+   "file": "cervello/lib-cadenza.sh",
+   "cerca": ", negozio_id:\"centro\"}')\"\n  if curl",
+   "sostituisci": "}')\"\n  if curl",
+   "test": "cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
+   "lezione": "L-2026-0825-02"
+  },
+  {
+   "lotto": 62,
+   "difetto": "AR-814",
+   "nome": "la metabolizzazione della chat nasce senza corsia",
+   "file": "cervello/worker.sh",
+   "cerca": ",negozio_id:\"centro\"}",
+   "sostituisci": "}",
+   "test": "cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
+   "lezione": "L-2026-0825-02"
+  },
+  {
+   "lotto": 62,
+   "difetto": "AR-814",
+   "nome": "il recupero di una cadenza saltata nasce senza corsia",
+   "file": "cervello/sentinella-motore.mjs",
+   "cerca": "    negozio_id: \"centro\",",
+   "sostituisci": "",
+   "test": "cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
+   "lezione": "L-2026-0825-02"
+  },
+  {
+   "lotto": 62,
+   "difetto": "AR-814",
+   "nome": "il guardiano smette di guardare la corsia nei corpi che costruisce",
+   "file": "cervello/lavori-hanno-la-corsia.mjs",
+   "cerca": "if (!c[CORSIA]) senzaCorsia.push",
+   "sostituisci": "if (false) senzaCorsia.push",
+   "test": "cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
+   "lezione": "L-2026-0825-02"
+  },
+  {
+   "lotto": 62,
+   "difetto": "AR-814",
+   "nome": "le MODIFICHE tornano a essere contate come creazioni: il guardiano accusa chi non ha colpa",
+   "file": "cervello/lavori-hanno-la-corsia.mjs",
+   "cerca": ".filter((f) => /\\btipo\\s*:/.test(f) && /\\brichiesta\\s*:/.test(f));",
+   "sostituisci": ";",
+   "test": "cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
+   "lezione": "L-2026-0825-02"
+  },
+  {
+   "lotto": 62,
+   "difetto": "AR-814",
+   "nome": "il perimetro perde gli script di shell, cioe' tre dei quattro punti",
+   "file": "cervello/lavori-hanno-la-corsia.mjs",
+   "cerca": "if (!/\\.(sh|mjs|js|ts|mts)$/.test(f)) continue;",
+   "sostituisci": "if (!/\\.(mjs|js|ts|mts)$/.test(f)) continue;",
+   "test": "cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
+   "lezione": "L-2026-0825-02"
+  },
+  {
+   "lotto": 62,
+   "difetto": "AR-814",
+   "nome": "un punto che scrive nella coda e non so costruire passa in silenzio invece di essere ⚪",
+   "file": "cervello/lavori-hanno-la-corsia.mjs",
+   "cerca": "nonMisurati.push(`${f}: scrive nella coda ma non ho saputo costruirne il corpo`);",
+   "sostituisci": "void 0;",
+   "test": "cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
+   "lezione": "L-2026-0825-02"
   }
  ]
 }
