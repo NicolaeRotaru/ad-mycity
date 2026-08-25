@@ -17472,6 +17472,25 @@
         "nota": "Caso N15: un file la cui impronta è null finisce fra gli spariti, non fra i richiesti. Mutazione registrata: se `dividiSpariti` smette di dividere, il caso diventa rosso."
       },
       "descrizione": "Terzo difetto trovato dalla radiografia in corsa applicata a sé stessa, dopo AR-814 e AR-815, riguardando `cervello/radiografia-in-corsa.mjs` con la lente `rischio-sicurezza-se` prima di consegnare."
+    },
+    {
+      "id": "AR-817",
+      "stato": "aperto",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "rende la CI rossa a caso su lotti sani: è successo il 25/8 sulla PR #845, dove l'unico rosso era questa prova. Una CI che diventa rossa senza colpa è la cosa che insegna a ignorare il rosso — e a quattro giorni dalla data del 29/8 è il modo più veloce per far passare un difetto vero.",
+      "nato": "2026-08-25 20:10",
+      "nato_come": "scoperta",
+      "lotto_scoperta": "61",
+      "titolo": "Una prova legge due file vivi che un'altra prova riscrive: rossa in corsia, verde da sola",
+      "causa_radice": "`cervello/test/campo-illeggibile-non-e-un-no.test.mjs` legge `auto-coscienza/cantiere-difetti.json` all'import e `auto-coscienza/cantiere-prove.json` dentro i casi. Quei due file li riscrivono altri programmi che girano nella stessa suite, quindi la coppia letta può essere incoerente: il verdetto dipende da chi gira accanto. Il banco mette in fila da sola solo chi SCRIVE sul dato vivo (`scriveSulDatoVivo` in test-cervello.mjs, riga 646) o chi costa troppo; chi LEGGE due file vivi che devono combaciare non è riconosciuto da nessuna regola.",
+      "fix_proposto": "Due strade, da pesare: ① estendere `perchePartireDaSola` con un terzo motivo — «legge due file vivi che devono combaciare» — riconosciuto dal gesto (due o più `auto-coscienza/*.json` diversi letti nello stesso file). Misurato il 25/8: farebbe passare le prove in fila da 58 a 86 su 418, cioè la suite si allunga; ② far leggere alla prova UNA sola istantanea coerente (leggere i due file una volta, e se non combaciano rileggerli entrambi prima di giudicare). La ② è più stretta e non rallenta nessuno, la ① cura la forma per tutte le 28 prove che oggi leggono due file vivi.",
+      "dove": "cervello/test/campo-illeggibile-non-e-un-no.test.mjs · cervello/test-cervello.mjs (perchePartireDaSola, riga 692)",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si guarda lanciando `node cervello/test-cervello.mjs --json` e leggendo il campo `instabili`: finché questa prova ci compare, il difetto è vivo. È dichiarato «umano» e non «comando» perché la scheda è APERTA: non esiste ancora un fix da rompere, quindi nessuna mutazione può dimostrare niente. Quando si sceglierà una delle due cure, la verifica diventa un comando con la sua mutazione."
+      },
+      "descrizione": "Trovato il 25/8 mentre la CI della PR #845 usciva rossa con un solo rosso, questa prova, mentre `main` era verde. Sul container di lavoro la stessa suite dà l'altro rosso noto (`due-case.test.mjs`), che su `origin/main` è rosso identico: due instabilità diverse, stessa famiglia. NON riparato in questo lotto di proposito: la cura ① tocca il banco di tutte le 418 prove e allunga la suite, quindi è una scelta da fare a mente fredda e non dentro una PR che parla d'altro (regola del cantiere: i difetti trovati riparando si registrano subito, non si infilano nel lotto in corso)."
     }
   ],
   "meta": {
