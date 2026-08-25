@@ -7104,7 +7104,7 @@
    "cerca": "export function rimescolati(coppie = []) {",
    "sostituisci": "export function rimescolati(coppie = []) { return [];",
    "test": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
-   "lezione": "L-2026-0825-01"
+   "lezione": "L-2026-0825-02"
   },
   {
    "lotto": 61,
@@ -7114,7 +7114,7 @@
    "cerca": "    violazioni: fuori.length + mescolati.length,",
    "sostituisci": "    violazioni: fuori.length,",
    "test": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
-   "lezione": "L-2026-0825-01"
+   "lezione": "L-2026-0825-02"
   },
   {
    "lotto": 61,
@@ -7124,7 +7124,7 @@
    "cerca": "  if (!fuori.length && !mescolati.length) {",
    "sostituisci": "  if (!fuori.length) {",
    "test": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
-   "lezione": "L-2026-0825-01"
+   "lezione": "L-2026-0825-02"
   },
   {
    "lotto": 61,
@@ -7134,7 +7134,7 @@
    "cerca": "    const elencoRimescolato = JSON.stringify(restate) !== JSON.stringify(attese);",
    "sostituisci": "    const elencoRimescolato = false;",
    "test": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
-   "lezione": "L-2026-0825-01"
+   "lezione": "L-2026-0825-02"
   },
   {
    "lotto": 61,
@@ -7144,7 +7144,7 @@
    "cerca": "      if (JSON.stringify(normalizza(o)) !== JSON.stringify(normalizza(v))) continue;",
    "sostituisci": "      if (false) continue;",
    "test": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
-   "lezione": "L-2026-0825-01"
+   "lezione": "L-2026-0825-02"
   },
   {
    "lotto": 61,
@@ -7154,7 +7154,44 @@
    "cerca": "  for (const f of mescolati) {",
    "sostituisci": "  for (const f of []) {",
    "test": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
-   "lezione": "L-2026-0825-01"
+   "lezione": "L-2026-0825-02"
+  },
+  {
+   "lotto": 61,
+   "difetto": "AR-818",
+   "nome": "il cancello non esegue la radiografia del perimetro toccato: lo strumento resta sullo scaffale e il lotto consegna senza che nessuno abbia riguardato quello che ha toccato",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "    passi.push(esegui(\"la radiografia del perimetro toccato\", \"node\", [\"cervello/radiografia-in-corsa.mjs\"]));",
+   "sostituisci": "    // qui c'era: esegui(\"la radiografia del perimetro toccato\", ...) — nominato, non eseguito",
+   "test": "cervello/test/radiografia-mentre-riparo.test.mjs",
+   "lezione": "L-2026-0825-02"
+  },
+  {
+   "lotto": 61,
+   "difetto": "AR-814",
+   "nome": "il sottocomando «registra» torna a valere solo in seconda posizione: con un flag davanti la scansione non si scrive e nessuno lo dice",
+   "file": "cervello/radiografia-in-corsa.mjs",
+   "cerca": "  if (process.argv.slice(2).includes(\"registra\")) {",
+   "sostituisci": "  if (process.argv[2] === \"registra\") {",
+   "test": "cervello/test/radiografia-mentre-riparo.test.mjs"
+  },
+  {
+   "lotto": 61,
+   "difetto": "AR-815",
+   "nome": "il controllo dei percorsi storti torna a essere vuoto: un «..» esce dal repo e finisce nel registro",
+   "file": "cervello/radiografia-in-corsa.mjs",
+   "cerca": "    const storti = file.filter((f) => f.startsWith(\"/\") || f.split(\"/\").includes(\"..\") || f.includes(\"\\\\\"));",
+   "sostituisci": "    const storti = [];",
+   "test": "cervello/test/radiografia-mentre-riparo.test.mjs"
+  },
+  {
+   "lotto": 61,
+   "difetto": "AR-816",
+   "nome": "il freno torna a chiedere la radiografia di un file che il lotto ha cancellato: cancello insoddisfacibile",
+   "file": "cervello/radiografia-in-corsa.mjs",
+   "cerca": "    if (improntaDi(f) === null || improntaDi(f) === undefined) spariti.push(f);",
+   "sostituisci": "    if (false) spariti.push(f);",
+   "test": "cervello/test/radiografia-mentre-riparo.test.mjs"
   }
  ]
 }

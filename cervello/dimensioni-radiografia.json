@@ -1,0 +1,547 @@
+{
+  "_cosa_e": "La mappa che dice, per ogni file che un lotto può toccare, con quale LENTE di radiografia va riguardato prima di consegnare. La legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto. Le dimensioni non sono inventate qui: sono le stesse dei workflow di radiografia (`fonti`), e il guardiano fallisce se le due liste divergono — una copia che invecchia in silenzio è la malattia che questa casa ha già pagato due volte (AR-206, AR-807).",
+  "_come_si_aggiunge": "Una dimensione nuova nel workflow → aggiungila a `dimensioni` della sua casa e dàlle una regola, oppure dichiarala in `senza_perimetro` col perché: una lente senza perimetro e senza motivo è una lente che non guarda niente. Una cartella nuova nel repo → una regola nuova, oppure una voce in `fuori_perimetro` col perché scritto.",
+  "_lenti_consigliate": "`dimensione` è la lente OBBLIGATORIA per quel file (una sola: il costo del riguardare deve restare proporzionato al lotto). `consigliate` sono le altre lenti che su quel file vedono qualcosa: il cancello le stampa e non le impone — se una diventa quella che trova sempre, si promuove a obbligatoria.",
+  "aggiornato": "2026-08-25",
+  "case": {
+    "macchina": {
+      "cosa_copre": "il cervello della macchina: agenti, workflow, skill, script del giro e del worker",
+      "fonti": [
+        ".claude/workflows/auto-radiografia.js"
+      ],
+      "dimensioni": [
+        "coerenza-agenti",
+        "vettori-installati",
+        "salute-sensori-dati",
+        "integrita-memoria",
+        "chiusura-volano",
+        "cadenza-esecuzione",
+        "calibrazione-onesta",
+        "copertura-cieca",
+        "guardrail-semaforo",
+        "allineamento-northstar",
+        "efficienza-costo",
+        "rischio-sicurezza-se"
+      ]
+    },
+    "pannello": {
+      "cosa_copre": "la Cabina: il Pannello Next.js che Nicola guarda",
+      "fonti": [
+        ".claude/workflows/audit-pannello.js"
+      ],
+      "dimensioni": [
+        "navigazione-routing",
+        "stato-persistenza",
+        "freschezza-dati",
+        "stati-async",
+        "coerenza-azioni",
+        "robustezza-errori",
+        "accessibilita-mobile",
+        "performance-render"
+      ]
+    },
+    "marketplace": {
+      "cosa_copre": "il sito: codice e design del marketplace (repo NicolaeRotaru/mycity)",
+      "fonti": [
+        ".claude/workflows/radiografia.js",
+        ".claude/workflows/audit-design.js"
+      ],
+      "dimensioni": [
+        "architettura",
+        "sicurezza-auth",
+        "rls-database",
+        "pagamenti-stripe",
+        "privacy-legale",
+        "performance",
+        "frontend-ux",
+        "accessibilita",
+        "qa-flussi",
+        "api-backend",
+        "ai-endpoints",
+        "dati-analytics",
+        "deploy-sre",
+        "layout-responsive",
+        "coerenza-brand",
+        "tipografia",
+        "accessibilita-visiva",
+        "stati-ui",
+        "immagini-media",
+        "mobile-pwa",
+        "flussi-conversione",
+        "microcopy",
+        "navigazione-gerarchia",
+        "performance-percepita"
+      ]
+    }
+  },
+  "senza_perimetro": {
+    "macchina/vettori-installati": "guarda gli stessi file di coerenza-agenti (.claude/agents/) ma dal di dentro: la lente primaria su quella cartella è una sola, questa resta consigliata",
+    "macchina/salute-sensori-dati": "giudica se i sensori RISPONDONO, non un file: si misura lanciando verifica-sensori, non rileggendo codice",
+    "macchina/integrita-memoria": "il suo perimetro è MyCity-Vault/, che sta fuori perimetro apposta: la memoria ha già i suoi guardiani (coerenza-fatti, campo-visivo, forma-json)",
+    "macchina/chiusura-volano": "giudica i registri dell'apprendimento nel tempo, non i file di un lotto",
+    "macchina/calibrazione-onesta": "confronta previsto e reale nei registri: non è una lettura di codice",
+    "macchina/copertura-cieca": "è la lente META (cosa NON guardiamo): per definizione non ha un perimetro di file",
+    "macchina/guardrail-semaforo": "giudica il colore delle azioni 🟢🟡🔴 lungo tutta la macchina, non una cartella",
+    "macchina/allineamento-northstar": "giudica le mosse rispetto alla stella polare: si legge nei piani e nelle azioni, non nei file toccati",
+    "macchina/efficienza-costo": "misura token e modelli usati: si legge nei registri di costo",
+    "pannello/stato-persistenza": "stessa superficie di robustezza-errori (pannello/src/): resta consigliata sulle stesse pagine",
+    "pannello/freschezza-dati": "stessa superficie di robustezza-errori: resta consigliata",
+    "pannello/stati-async": "stessa superficie di robustezza-errori: resta consigliata",
+    "pannello/accessibilita-mobile": "stessa superficie di robustezza-errori: resta consigliata",
+    "pannello/performance-render": "stessa superficie di robustezza-errori: resta consigliata",
+    "marketplace/performance": "stessa superficie di architettura/frontend-ux: resta consigliata su lib/ e app/",
+    "marketplace/accessibilita": "stessa superficie di frontend-ux sulle pagine: resta consigliata",
+    "marketplace/layout-responsive": "lente di design sulle stesse pagine .tsx di frontend-ux: consigliata, non doppia obbligatoria",
+    "marketplace/coerenza-brand": "lente di design sulle stesse pagine: consigliata",
+    "marketplace/tipografia": "lente di design sulle stesse pagine: consigliata",
+    "marketplace/accessibilita-visiva": "lente di design sulle stesse pagine: consigliata",
+    "marketplace/stati-ui": "lente di design sulle stesse pagine: consigliata",
+    "marketplace/immagini-media": "lente di design sulle stesse pagine: consigliata",
+    "marketplace/mobile-pwa": "lente di design sulle stesse pagine: consigliata",
+    "marketplace/flussi-conversione": "lente di design sui flussi: consigliata sulle pagine di carrello e cassa",
+    "marketplace/microcopy": "lente di design sui testi delle stesse pagine: consigliata",
+    "marketplace/navigazione-gerarchia": "lente di design sulle stesse pagine: consigliata",
+    "marketplace/performance-percepita": "lente di design sulle stesse pagine: consigliata"
+  },
+  "fuori_perimetro": [
+    {
+      "repo": "ad",
+      "prefisso": "MyCity-Vault/",
+      "perche": "memoria: non è codice, e ha i suoi guardiani (coerenza-fatti, campo-visivo, forma-json)"
+    },
+    {
+      "repo": "ad",
+      "prefisso": "consegne/",
+      "perche": "referti e materiali consegnati: sono l'esito del lavoro, non la macchina"
+    },
+    {
+      "repo": "ad",
+      "prefisso": "creativi/",
+      "perche": "grafiche e materiali: li giudica il cancello creativo, non la radiografia"
+    },
+    {
+      "repo": "ad",
+      "prefisso": "memoria-squadra/",
+      "perche": "quaderni dei reparti: memoria, non codice"
+    },
+    {
+      "repo": "ad",
+      "prefisso": "docs/",
+      "perche": "documenti e ricerche"
+    },
+    {
+      "repo": "ad",
+      "prefisso": "marketplace/",
+      "perche": "la copia in sola lettura del sito: si radiografa nel suo repo, non qui"
+    },
+    {
+      "repo": "ad",
+      "prefisso": "cervello/test/",
+      "perche": "le prove hanno già i loro guardiani dedicati (prove-oneste, non-vacuita, prove-non-eseguite): la lente che conta è quella sul codice che difendono"
+    },
+    {
+      "repo": "ad",
+      "prefisso": "pannello/node_modules/",
+      "perche": "dipendenze"
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "tests/",
+      "perche": "le prove del sito: le guarda la CI del sito"
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "docs/",
+      "perche": "documenti"
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "node_modules/",
+      "perche": "dipendenze"
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "public/",
+      "perche": "file statici serviti così come sono"
+    }
+  ],
+  "regole": [
+    {
+      "repo": "ad",
+      "prefisso": ".claude/agents/",
+      "casa": "macchina",
+      "dimensione": "coerenza-agenti",
+      "consigliate": [
+        "vettori-installati"
+      ]
+    },
+    {
+      "repo": "ad",
+      "prefisso": ".claude/workflows/",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "consigliate": [
+        "copertura-cieca"
+      ]
+    },
+    {
+      "repo": "ad",
+      "prefisso": ".claude/skills/",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "consigliate": [
+        "chiusura-volano"
+      ]
+    },
+    {
+      "repo": "ad",
+      "prefisso": "cervello/sensore",
+      "casa": "macchina",
+      "dimensione": "salute-sensori-dati",
+      "consigliate": [
+        "rischio-sicurezza-se"
+      ]
+    },
+    {
+      "repo": "ad",
+      "prefisso": "cervello/verifica-sensori",
+      "casa": "macchina",
+      "dimensione": "salute-sensori-dati",
+      "consigliate": [
+        "rischio-sicurezza-se"
+      ]
+    },
+    {
+      "repo": "ad",
+      "prefisso": "cervello/",
+      "suffissi": [
+        ".sh"
+      ],
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "consigliate": [
+        "rischio-sicurezza-se",
+        "guardrail-semaforo"
+      ]
+    },
+    {
+      "repo": "ad",
+      "prefisso": "cervello/",
+      "suffissi": [
+        ".mjs",
+        ".js"
+      ],
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "consigliate": [
+        "guardrail-semaforo",
+        "cadenza-esecuzione"
+      ]
+    },
+    {
+      "repo": "ad",
+      "prefisso": "pannello/src/app/api/",
+      "casa": "pannello",
+      "dimensione": "coerenza-azioni",
+      "consigliate": [
+        "freschezza-dati",
+        "stati-async"
+      ]
+    },
+    {
+      "repo": "ad",
+      "prefisso": "pannello/src/lib/nav",
+      "casa": "pannello",
+      "dimensione": "navigazione-routing",
+      "consigliate": [
+        "stato-persistenza"
+      ]
+    },
+    {
+      "repo": "ad",
+      "prefisso": "pannello/src/",
+      "suffissi": [
+        ".ts",
+        ".tsx",
+        ".js",
+        ".jsx"
+      ],
+      "casa": "pannello",
+      "dimensione": "robustezza-errori",
+      "consigliate": [
+        "stato-persistenza",
+        "freschezza-dati",
+        "stati-async",
+        "accessibilita-mobile",
+        "performance-render"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/api/stripe/",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "consigliate": [
+        "sicurezza-auth",
+        "api-backend"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/api/ai/",
+      "casa": "marketplace",
+      "dimensione": "ai-endpoints",
+      "consigliate": [
+        "api-backend"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/api/vision/",
+      "casa": "marketplace",
+      "dimensione": "ai-endpoints",
+      "consigliate": [
+        "api-backend"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/api/kyc/",
+      "casa": "marketplace",
+      "dimensione": "privacy-legale",
+      "consigliate": [
+        "sicurezza-auth"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/api/consent/",
+      "casa": "marketplace",
+      "dimensione": "privacy-legale",
+      "consigliate": [
+        "api-backend"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/api/auth/",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "consigliate": [
+        "api-backend"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/api/admin/",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "consigliate": [
+        "api-backend"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/api/",
+      "casa": "marketplace",
+      "dimensione": "api-backend",
+      "consigliate": [
+        "sicurezza-auth",
+        "performance"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "supabase/",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "consigliate": [
+        "sicurezza-auth"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "migrations/",
+      "casa": "marketplace",
+      "dimensione": "rls-database",
+      "consigliate": [
+        "sicurezza-auth"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/checkout/",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "consigliate": [
+        "pagamenti-stripe",
+        "flussi-conversione",
+        "frontend-ux"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/cart/",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "consigliate": [
+        "flussi-conversione",
+        "frontend-ux"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/orders/",
+      "casa": "marketplace",
+      "dimensione": "qa-flussi",
+      "consigliate": [
+        "frontend-ux"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/privacy/",
+      "casa": "marketplace",
+      "dimensione": "privacy-legale",
+      "consigliate": [
+        "microcopy"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/cookies/",
+      "casa": "marketplace",
+      "dimensione": "privacy-legale",
+      "consigliate": [
+        "microcopy"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/accessibility/",
+      "casa": "marketplace",
+      "dimensione": "accessibilita",
+      "consigliate": [
+        "accessibilita-visiva"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/",
+      "suffissi": [
+        ".tsx"
+      ],
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "consigliate": [
+        "layout-responsive",
+        "accessibilita-visiva",
+        "stati-ui",
+        "microcopy",
+        "performance-percepita"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "app/",
+      "suffissi": [
+        ".ts",
+        ".css"
+      ],
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "consigliate": [
+        "performance",
+        "coerenza-brand"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "components/",
+      "casa": "marketplace",
+      "dimensione": "frontend-ux",
+      "consigliate": [
+        "layout-responsive",
+        "coerenza-brand",
+        "accessibilita-visiva",
+        "stati-ui"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "lib/analytics",
+      "casa": "marketplace",
+      "dimensione": "dati-analytics",
+      "consigliate": [
+        "privacy-legale"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "lib/cassa",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "consigliate": [
+        "qa-flussi"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "lib/stripe",
+      "casa": "marketplace",
+      "dimensione": "pagamenti-stripe",
+      "consigliate": [
+        "sicurezza-auth"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "lib/",
+      "casa": "marketplace",
+      "dimensione": "architettura",
+      "consigliate": [
+        "performance",
+        "sicurezza-auth"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "types/",
+      "casa": "marketplace",
+      "dimensione": "architettura"
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "middleware.ts",
+      "casa": "marketplace",
+      "dimensione": "sicurezza-auth",
+      "consigliate": [
+        "performance"
+      ]
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "scripts/",
+      "casa": "marketplace",
+      "dimensione": "deploy-sre"
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": ".github/workflows/",
+      "casa": "marketplace",
+      "dimensione": "deploy-sre"
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "next.config.js",
+      "casa": "marketplace",
+      "dimensione": "deploy-sre"
+    },
+    {
+      "repo": "marketplace",
+      "prefisso": "vercel.json",
+      "casa": "marketplace",
+      "dimensione": "deploy-sre"
+    }
+  ]
+}

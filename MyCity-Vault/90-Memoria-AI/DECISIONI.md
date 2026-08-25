@@ -4196,3 +4196,54 @@ tempo riporta indietro.** Registrata come AR-807.
 **Cosa non ho fatto, e lo dico come debito, non come lavoro finito:** il freno di AR-807 non l'ho
 scritto. Servirebbe un tetto dichiarato sulla dimensione della coda, che scende e non risale — la
 forma già usata altrove. Senza quello, spostare le 37 carte oggi vuol dire ritrovarsele fra un mese.
+
+## 2026-08-25 19:55 — 🟡 La radiografia entra dentro il lotto: quello che tocchi lo riguardi prima di consegnare
+
+**La richiesta.** Nicola, 25/8: *«entro il 29 agosto la macchina ed il marketplace devono essere
+pronti, non avere nessun difetto… aggiungi anche l'opzione di fare la radiografia mentre risolve i
+problemi, per assicurarsi che non ci sono altri problemi che usciranno fuori se faccio un'altra
+radiografia separata.»*
+
+**La domanda era giusta, e la macchina lo scriveva già da sé.** In `radiografia-marketplace.json`,
+campo `sync_scan.nota`: «per trovare difetti NUOVI serve un nuovo audit; i fix sul codice non
+riaprono da soli la lista». Più il conto di `nascita-difetti.mjs` del 23/8: **su 787 schede, 99 le
+ha create il riparare** (25 regressioni dichiarate + 74 trovate riparando lì accanto). Messi
+insieme: chiudere tutti i difetti aperti non vuol dire che una radiografia rifatta il 30 esca a
+zero — «zero aperti» era vero sulla lista e falso sul codice.
+
+**Cosa ho costruito.** `cervello/radiografia-in-corsa.mjs`, cablato dentro `cancello-lotto.mjs`
+(passo «la radiografia del perimetro toccato»). Prende i file che il lotto ha toccato — commit del
+ramo più quello che è ancora sul disco — li manda alla lente della loro dimensione secondo
+`cervello/dimensioni-radiografia.json`, e pretende per ognuno una scansione registrata **con
+l'impronta del file com'è adesso**. Tre esiti, che sono tre cose diverse: **coperto**, **stantio**
+(guardato prima e ritoccato dopo: la copertura scade da sola) e **scoperto**. Il cancello si ferma
+sugli ultimi due.
+
+**La mappa non può invecchiare, ed è la parte che ho curato di più.** Le dimensioni non sono
+riscritte a mano: si confrontano a ogni cancello con quelle dichiarate dentro i quattro workflow di
+radiografia, e se divergono il cancello è rosso. In più ogni lente deve avere un perimetro di file
+**o** un perché scritto: una dimensione senza file assegnati non è neutra, è un pezzo di perimetro
+che nessuno riguarderà mai. È la stessa malattia dell'elenco dei permessi (AR-206) e della coda
+cresciuta oltre il tetto (AR-807): una copia curata a mano che il tempo riporta indietro.
+
+**Alla prima esecuzione vera ha trovato due difetti dentro sé stesso.** Riguardando il proprio
+perimetro con la lente `rischio-sicurezza-se`, prima di consegnare: **AR-814** — `registra`
+funzionava solo se scritto in seconda posizione, quindi `--json registra …` non registrava niente e
+non lo diceva (chi lo lanciava credeva di aver coperto il perimetro); **AR-815** — un percorso con
+`..` usciva dal repo pur cominciando con un prefisso ammesso, e finiva nel registro come file di
+casa. Tutti e due riparati nello stesso lotto, con i loro casi di prova e le loro mutazioni.
+
+**Cosa NON prova, e lo dico prima che lo chieda:** prova che hai riguardato **dopo** aver toccato,
+non che hai guardato **bene**. Quello è il collaudo di ⑦bis (mani diverse, mandato opposto). Un
+freno che promettesse la qualità dello sguardo mentirebbe.
+
+**Buco dichiarato: il sito è coperto a metà.** Sul repo del marketplace il guardiano si lancia a
+mano (`--repo ../mycity`) perché il cancello del lotto gira nel repo dell'AD e la CI del sito non ha
+questa casa in mano. La lente e le regole ci sono (24 dimensioni fra codice e design, mappate su
+`app/`, `lib/`, `components/`, `supabase/`); quello che manca è il blocco automatico. Sta nella
+scheda AR-818 come limite scritto, non come cosa fatta.
+
+**Prove che girano:** 15 casi in `cervello/test/radiografia-mentre-riparo.test.mjs`, tre mutazioni
+verificate rosse (`non-vacuita.mjs --difetti AR-818,AR-814,AR-815,AR-816`), gate della lezione
+`L-2026-0825-02` vero (`gate-veri.mjs` exit 0). Schede: AR-818 (il difetto vero, nato AR-813 e rinumerato nell'unione), AR-814, AR-815 e AR-816
+(i due trovati riguardando). · Nicola (chat 25/8)

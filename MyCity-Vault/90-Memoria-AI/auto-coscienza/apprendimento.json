@@ -13198,6 +13198,19 @@
    "usi": 0,
    "gate": "node cervello/forma-json.mjs",
    "data": "2026-08-25 16:30"
+  },
+  {
+   "id": "L-2026-0825-02",
+   "data": "2026-08-25 19:45",
+   "nato": "2026-08-25",
+   "ultima_conferma": "2026-08-25 19:45",
+   "stato": "attiva",
+   "confidenza": 0.9,
+   "evidenze": 2,
+   "fonte": "Nicola, 25/8: «fai la radiografia mentre risolvi i problemi, per assicurarti che non ci sono altri problemi che usciranno fuori se faccio un'altra radiografia separata» — lotto 61, AR-818 · numero cambiato nell'unione: L-2026-0825-01 l'aveva già preso l'altro ramo",
+   "testo": "**Chi ripara guarda solo il punto che ripara: il perimetro toccato va riguardato PRIMA di consegnare, non alla radiografia di domani (AR-818).** Due numeri lo dicono: `nascita-difetti.mjs` conta 99 schede su 787 nate DAL riparare, e il registro del sito dichiara da sé che «i fix sul codice non riaprono da soli la lista». Finché l'unico occhio sul lavoro appena fatto è una radiografia lanciata giorni dopo, «zero difetti aperti» è vero sulla lista e falso sul codice — ed è esattamente la domanda che Nicola ha fatto prima della data del 29 agosto. La difesa non è un promemoria: è `cervello/radiografia-in-corsa.mjs` cablato dentro `cancello-lotto.mjs`, che pretende una scansione registrata con l'IMPRONTA del file com'è adesso. Una lettura fatta prima dell'ultima modifica non conta: scade da sola.",
+   "regola": "Prima del cancello, riguarda i file che il lotto ha toccato con la lente della loro dimensione di radiografia e registra cosa hai visto (anche «zero»): `node cervello/radiografia-in-corsa.mjs` → `registra --dimensione <chiave> --toccati --trovati <n>`. Sul sito, `--repo ../mycity`.",
+   "gate": "node --test cervello/test/radiografia-mentre-riparo.test.mjs"
   }
  ],
  "principi": [
