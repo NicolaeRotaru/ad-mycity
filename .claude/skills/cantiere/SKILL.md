@@ -130,6 +130,49 @@ domanda obbligatoria è: *«quali cancelli del canale principale eredita?»* Qua
 perché i cancelli stanno dentro il comando invece che sul dato. La cura non è aggiungerlo anche lì —
 è **spostarlo sul dato**, dove vale per chiunque scriva.
 
+## ⑥bis LA RADIOGRAFIA MENTRE RIPARI — quello che hai toccato lo riguarda qualcuno, adesso
+
+> Nicola, 25/8/2026: *«entro il 29 agosto la macchina ed il marketplace devono essere pronti, non
+> avere nessun difetto… aggiungi anche l'opzione di fare la radiografia mentre risolve i problemi,
+> per assicurarsi che non ci sono altri problemi che usciranno fuori se faccio un'altra radiografia
+> separata.»*
+
+**Il conto che gli dà ragione, e non è una sensazione.** `nascita-difetti.mjs`, misurato il 23/8:
+su 787 schede **99 le ha create il riparare** (25 regressioni dichiarate + 74 trovate riparando lì
+accanto). E il registro del sito lo scrive da sé in `sync_scan.nota`: *«per trovare difetti NUOVI
+serve un nuovo audit; i fix sul codice non riaprono da soli la lista.»* Cioè: il lotto che chiude
+difetti è anche il posto dove ne nascono, e finché l'unico occhio è una radiografia lanciata giorni
+dopo, **«zero aperti» è vero sulla lista e falso sul codice**.
+
+**Come si fa, in due comandi.**
+
+```bash
+node cervello/radiografia-in-corsa.mjs                 # cosa del mio perimetro non ha riguardato nessuno
+node cervello/radiografia-in-corsa.mjs --da-fare       # solo l'elenco, dimensione per dimensione
+# …poi riguardi DAVVERO quei file con la lente della dimensione (tu, o il senior che la possiede)…
+node cervello/radiografia-in-corsa.mjs registra --dimensione <chiave> --toccati --trovati 0
+node cervello/radiografia-in-corsa.mjs registra --dimensione <chiave> --toccati --trovati 2 --schede AR-…,AR-…
+```
+
+Sul repo del sito è lo stesso comando con `--repo ../mycity` (le lenti diventano quelle delle 24
+dimensioni di `radiografia` + `audit-design`, e le schede si nominano col loro titolo).
+
+**Le tre cose che questo freno sa dire**, e sono tre cose diverse per chi legge: **coperto** (l'ha
+riguardato qualcuno dopo l'ultima modifica) · **stantio** (guardato prima, ritoccato dopo: la
+copertura scade da sola, perché l'impronta del file non combacia più) · **scoperto** (nessuno l'ha
+mai guardato con quella lente). Il cancello si ferma sugli ultimi due.
+
+**Chi guarda cosa** sta in `cervello/dimensioni-radiografia.json`: un file → **una** lente
+obbligatoria (il costo del riguardare deve restare proporzionato al lotto) più le **consigliate**,
+che il comando stampa e non impone. La mappa non può invecchiare: le dimensioni si confrontano a
+ogni cancello con quelle dichiarate dentro i workflow, e una lente senza perimetro deve dichiarare
+il perché — o è un pezzo di perimetro che nessuno guarderà mai.
+
+⚠️ **Cosa NON prova, e va detto ogni volta:** prova che hai riguardato **dopo** aver toccato, non
+che hai guardato **bene**. Quello è il collaudo di ⑦bis, che ha mani diverse e mandato opposto. Un
+freno che promettesse la qualità dello sguardo mentirebbe: qui si misura solo ciò che si può
+misurare — la freschezza della copertura — e il resto si dichiara.
+
 ## ⑦ Il cancello di uscita — o è verde, o non si consegna
 
 ```bash
@@ -314,7 +357,7 @@ ricordarsi di controllare e non poter più sbagliare.
 leggi cervello/scorciatoie-note.md → misura le malattie → scegli il gruppo (impatto sulla
 crescita) → verifica sul codice vero → estrai la logica in un modulo puro → applica nei punti →
 test per difetto → mutazione + ROMPI il fix → runtime con `verify` se tocca lo schermo → spazzata +
-tetto → rileggi le clausole → cancello-lotto → **COLLAUDO da chi NON ha costruito (⑦bis, skill
+tetto → rileggi le clausole → **RADIOGRAFIA del perimetro toccato (⑥bis)** → cancello-lotto → **COLLAUDO da chi NON ha costruito (⑦bis, skill
 `collaudo`)** → **è risolto per sempre? (⑦ter)** → aggiorna verifica/nota_fix + DECISIONI + memoria
 → commit → ESITO nel quaderno
 ```

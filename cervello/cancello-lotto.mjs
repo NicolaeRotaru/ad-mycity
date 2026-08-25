@@ -1035,6 +1035,21 @@ function main() {
     // di quanti ne chiudono?») non ha una risposta numerica. Sta nel cancello e non in un comando a
     // parte perché il momento in cui si compila è la consegna del lotto, non il mattino dopo.
     passi.push(esegui("nascita dei difetti", "node", ["cervello/nascita-difetti.mjs"]));
+    // 🩻 AR-818 — …e l'altra metà della stessa domanda: «quello che ho toccato, l'ha RIGUARDATO
+    // qualcuno?». `nascita-difetti` conta i difetti nuovi che qualcuno ha già trovato; questo
+    // pretende che il perimetro del lotto passi sotto la lente della sua dimensione di radiografia
+    // PRIMA della consegna, con l'impronta del file com'è adesso (una lettura fatta prima
+    // dell'ultima modifica scade da sola). Senza, l'unica risposta alla domanda di Nicola — «se
+    // faccio un'altra radiografia separata, saltano fuori altri problemi?» — è quella che la
+    // macchina si scriveva da sé in `radiografia-marketplace.json`: sì, perché i fix sul codice non
+    // riaprono da soli la lista.
+    //
+    // SI LANCIA NUDO, e non è una svista: `--base` glielo passano gli altri passi perché il loro
+    // comando nudo confronta con HEAD e in CI misurerebbe zero. Questo l'antenato comune se lo
+    // calcola da sé, quindi passarglielo non aggiungerebbe niente e lo renderebbe uno dei passi che
+    // `due-case.mjs` non può più rilanciare nella casa spoglia — cioè farebbe salire il tetto dei
+    // «mai provabili», che scende e non sale.
+    passi.push(esegui("la radiografia del perimetro toccato", "node", ["cervello/radiografia-in-corsa.mjs"]));
     // AR-474 — le tre domande dello Stop valgono anche qui: un difetto chiuso senza prova, un
     // allarme scritto e non accodato, una lezione senza freno. Nel turno arrivano prima (hook Stop),
     // ma il cancello del lotto e il posto che gira in CI su OGNI PR: qui il freno esiste comunque.
