@@ -1,32 +1,32 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-25 20:28",
+  "aggiornato": "2026-08-25 20:37",
   "giorni_sospetto": 3,
-  "difetti_aperti": 126,
-  "difetti_da_fare": 126,
+  "difetti_aperti": 127,
+  "difetti_da_fare": 127,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 810,
+    "totale": 811,
     "chiusi": 684,
     "aperti": 108,
     "in_corso": 1,
     "da_riverificare": 10,
-    "altri": 7,
-    "da_fare": 126,
+    "altri": 8,
+    "da_fare": 127,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 684,
       "aperto": 108,
       "da-riverificare": 10,
       "in-corso": 1,
-      "riparato": 7
+      "riparato": 8
     },
     "stati_ignoti": [
       {
         "stato": "riparato",
-        "quante": 7,
+        "quante": 8,
         "ids": [
           "AR-812",
           "AR-813",
@@ -34,23 +34,24 @@
           "AR-814",
           "AR-815",
           "AR-816",
-          "AR-819"
+          "AR-819",
+          "AR-820"
         ]
       }
     ]
   },
   "bilancio": {
     "torna": true,
-    "attese": 126,
-    "viste": 126,
+    "attese": 127,
+    "viste": 127,
     "fuori": 0,
-    "motivo": "bilancio a posto: 684 chiuse + 126 classificate = 810 schede, e ogni stato vivo è dentro (108 aperto · 1 in-corso · 10 da-riverificare · 7 in uno stato che non so nominare)"
+    "motivo": "bilancio a posto: 684 chiuse + 127 classificate = 811 schede, e ogni stato vivo è dentro (108 aperto · 1 in-corso · 10 da-riverificare · 8 in uno stato che non so nominare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 21,
     "auto-sospetta": 10,
     "umana": 75,
-    "auto-comando": 20
+    "auto-comando": 21
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
@@ -183,8 +184,8 @@
     }
   ],
   "chiuderebbe_lo_stesso": [],
-  "schede_non_giudicabili": 24,
-  "schede_campi_illeggibili": 25,
+  "schede_non_giudicabili": 25,
+  "schede_campi_illeggibili": 26,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -310,6 +311,11 @@
       "id": "AR-819",
       "gravita": "bloccante",
       "impatto_crescita": "diretto sulla macchina che gira. Il passo 2 della card #174 rende lavori.negozio_id obbligatorio: con i tre scrittori del VPS che non lo mettevano, da quel momento ogni ri-accodamento di cadenza, ogni recupero della sentinella e ogni metabolizzazione della chat sarebbe FALLITO. E' il worker per le botteghe, cioe' la seconda linea di ricavo, a dipendere da quel campo: senza questa riparazione la card non era eseguibile fino in fondo."
+    },
+    {
+      "id": "AR-820",
+      "gravita": "minore",
+      "impatto_crescita": "indiretto ma sulla fiducia nei verdetti: un guardiano che parla di un file che non ha letto non e' un guardiano, e' una frase."
     }
   ],
   "chiuse_su_prova_non_ammessa": 0,
@@ -459,6 +465,12 @@
       "gravita": "grave",
       "impatto_crescita": "rende la CI rossa a caso su lotti sani: è successo il 25/8 sulla PR #845, dove l'unico rosso era questa prova. Una CI che diventa rossa senza colpa è la cosa che insegna a ignorare il rosso — e a quattro giorni dalla data del 29/8 è il modo più veloce per far passare un difetto vero.",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
+    },
+    {
+      "id": "AR-820",
+      "gravita": "minore",
+      "impatto_crescita": "indiretto ma sulla fiducia nei verdetti: un guardiano che parla di un file che non ha letto non e' un guardiano, e' una frase.",
+      "perche": "prova eseguibile: node --test cervello/test/la-coda-scritta-da-quattro-mani.test.mjs"
     }
   ],
   "non_auto_chiudibili": 106,
@@ -3520,6 +3532,19 @@
       "prova_obbligatoria": true,
       "non_giudicabile": false,
       "titolo": "La coda dei lavori la scrivono in quattro punti, e la card ne guardava uno",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-820",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "impatto_crescita": "indiretto ma sulla fiducia nei verdetti: un guardiano che parla di un file che non ha letto non e' un guardiano, e' una frase.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Con la radice sostituita il guardiano dava un verdetto sul file sbagliato",
       "classe": "auto-comando",
       "perche": "prova eseguibile: node --test cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
       "auto_chiudibile": true
