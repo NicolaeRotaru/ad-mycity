@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-08-25 20:13",
+  "aggiornato": "2026-08-25 20:48",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -48,6 +48,40 @@
       "file": {
         "cervello/cancello-lotto.mjs": "d9388757aa10",
         "cervello/radiografia-in-corsa.mjs": "7a43d4442b56"
+      }
+    },
+    {
+      "quando": "2026-08-25 20:39",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD (sessione cloud)",
+      "trovati": 1,
+      "schede": [
+        "AR-820"
+      ],
+      "nota": "Riletti cancello-stop.mjs e collaudo.mjs con la lente «la macchina puo farsi male da sola»: loop auto-amplificanti, freni che si spengono, scritture in memoria. Trovato AR-820: la condizione «HEAD pubblicato» spegneva il collaudo anche col lavoro non committato sul disco, cioe rendeva il freno piu debole nel turno che ne ha bisogno. Ristretta al solo registro vecchio. Trovato anche un pezzo di codice morto nella mia stessa riparazione (una seconda uscita esplicita gia coperta dalla riga precedente): tolto, dimostrato inutile dalla mutazione che restava verde.",
+      "file": {
+        "cervello/cancello-stop.mjs": "b4e9cd5435b8",
+        "cervello/collaudo.mjs": "42694dc5fc77"
+      }
+    },
+    {
+      "quando": "2026-08-25 20:48",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD (sessione cloud)",
+      "trovati": 1,
+      "schede": [
+        "AR-821"
+      ],
+      "nota": "Terza rilettura, dopo che la spazzata dei fratelli ha segnalato un fratello NUOVO della malattia «una fonte letta a meta produce un verdetto intero» dentro cancello-stop.mjs. Il confronto HEAD/base ingoiava l'errore di git e usciva come «sono diversi»: estratto in funzione pura, la cecita adesso entra nei ciechi del verdetto. Riletti anche i punti dove il nuovo valore viene usato: perimetro, collaudo, verdetto.",
+      "file": {
+        "cervello/cancello-stop.mjs": "fc97004c9b8e",
+        "cervello/collaudo.mjs": "42694dc5fc77"
       }
     }
   ]

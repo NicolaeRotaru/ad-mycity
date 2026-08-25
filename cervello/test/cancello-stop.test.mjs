@@ -28,6 +28,7 @@ import {
   testiAssistente,
   verdetto,
   scegliPerimetro,
+  confrontaHeadConBase,
   uscitaFuoriDallHook,
   siPiantaAncora,
   basiPerIlTesto,
@@ -75,6 +76,51 @@ test("senza nemmeno una base non invento un perimetro", () => {
   const p = scegliPerimetro({ ancora: null, ancoraUsabile: false, base: null });
   assert.equal(p.da, null);
   assert.equal(p.nota, null, "lo dichiara già il cieco del controllo ④: due volte sarebbe rumore");
+});
+
+// 🔁 IL CICLO CHE NON SI ROMPEVA MAI (AR-819 · 46 conferme in memoria, dal 10 al 16/8). L'ancora è
+// ancora un antenato di HEAD, quindi «usabile», ma HEAD è già identico a origin/main: non c'è niente
+// di non pubblicato da ricollaudare. Usando comunque l'ancora vecchia, il cancello trova sempre
+// lavoro che nessuna sessione ha aperto, l'ancora non si sposta mai (si pianta solo sui turni puliti
+// quando turno=true), e il giro dopo il diff è più grande. All'infinito.
+test("HEAD già uguale a origin/main vince sull'ancora vecchia: niente da ricollaudare", () => {
+  const p = scegliPerimetro({ ancora: "f2ea10bb7", ancoraUsabile: true, base: "origin/main", headUgualeABase: true });
+  assert.equal(p.da, "origin/main");
+  assert.equal(p.turno, false, "così l'ancora si ripianta comunque (regola ② di siPiantaAncora)");
+  assert.match(p.nota, /già uguale/, "va dichiarato, non taciuto: sennò sembra un perimetro largo per caso");
+});
+
+test("…e senza HEAD pubblicato l'ancora del turno resta quella buona: il freno non si allarga per sbaglio", () => {
+  const p = scegliPerimetro({ ancora: "f2ea10bb7", ancoraUsabile: true, base: "origin/main", headUgualeABase: false });
+  assert.equal(p.da, "f2ea10bb7", "senza questo caso il fix potrebbe buttare via l'ancora sempre, e nessuno se ne accorgerebbe");
+  assert.equal(p.turno, true);
+});
+
+test("HEAD già uguale a origin/main: siPiantaAncora ripianta anche con dei ❌ (è il gesto che rompe il ciclo)", () => {
+  assert.equal(siPiantaAncora(["🛑 …", "❌ collaudo del lavoro finito"], false), true);
+});
+
+// ⚠️ AR-821 — LA CECITÀ SI DICHIARA, NON SI INGOIA. Il primo giro di questa riparazione aveva
+// scritto `catch { return false; }`: se git non risponde il confronto risulta «diverso» e nessuno
+// sa che non è stato fatto. L'ha visto la spazzata dei fratelli, non io: è la malattia «una fonte
+// letta a metà produce un verdetto intero», e sarebbe entrata dentro il freno che stavo riparando.
+test("il confronto HEAD/base torna la risposta quando può, e il PERCHÉ quando non può", () => {
+  const uguali = confrontaHeadConBase("origin/main", () => "abc123\n");
+  assert.deepEqual(uguali, { uguale: true, cieco: null });
+
+  let n = 0;
+  const diversi = confrontaHeadConBase("origin/main", () => (n++ === 0 ? "abc123\n" : "def456\n"));
+  assert.equal(diversi.uguale, false);
+  assert.equal(diversi.cieco, null, "diversi è una RISPOSTA, non una cecità");
+
+  const cieco = confrontaHeadConBase("origin/main", () => { throw new Error("fatal: ref sconosciuto"); });
+  assert.equal(cieco.uguale, false, "nel dubbio si tiene l'ancora: è la scelta stretta");
+  assert.match(cieco.cieco, /non ho potuto confrontare/, "e chi legge deve poterlo distinguere da «sono diversi»");
+});
+
+test("una base che non esiste non è «uguale»: la stringa vuota non combacia con HEAD", () => {
+  const r = confrontaHeadConBase("origin/mai-esistito", (args) => (args.includes("HEAD") ? "abc\n" : ""));
+  assert.equal(r.uguale, false, "senza questo caso una base assente farebbe «uguale» due stringhe vuote");
 });
 
 // ── ① difetto chiuso senza prova ──────────────────────────────────────────────

@@ -33,6 +33,20 @@ tre controlli usano per capire se l'attivita' e' ferma.
 ---
 
 
+> 🔁 **25/8 21:00 — Il controllo di fine turno chiedeva di ricontrollare lavoro già pubblicato. Da nove giorni c'era la cura scritta e ferma.** Richiesta tua: «fai la 749».
+>
+> **In parole semplici.** Quando un turno finisce, la macchina si ferma e fa una domanda: stai lasciando indietro un lavoro? Per rispondere confronta il lavoro con un punto di partenza. Quel punto si sposta avanti solo quando un turno si chiude senza problemi. Ma se il lavoro è già stato pubblicato, il confronto trova comunque tutto quello che c'è nel tronco. Allora il turno risulta sporco, e il punto non si sposta. Il giro dopo la lista è più lunga. **È successo 46 volte in sei giorni.**
+>
+> **Cosa cambia per te.** Se non c'è niente di non pubblicato, adesso il punto di partenza si riporta avanti da solo. Così la domanda smette di ripetersi a vuoto. Il controllo continua a fare il suo lavoro quando c'è lavoro vero.
+>
+> **La cosa che non mi aspettavo.** La cura era già scritta dal 16 agosto, in una richiesta rimasta ferma. Riguardandola prima di consegnarla ho visto che **era troppo larga**: spegneva il controllo anche quando sul disco c'era lavoro non ancora salvato. Cioè lo avrebbe indebolito proprio nel turno in cui serve. L'ho ristretta e ho aggiunto le prove del caso contrario.
+>
+> **Cosa devi fare.** Una firma sulla richiesta nuova. La vecchia, la 749, si chiude da sé come superata.
+>
+> **Cosa non ho verificato.** Il comportamento dal vivo sul server: la prova è tutta sui banchi di questa macchina. E come sempre, quello che ho riguardato l'ho riguardato io: qui non c'è stato un collaudatore diverso da chi ha costruito.
+>
+> **Dettagli tecnici.** Tre schede: AR-819 è il ciclo, AR-820 è il fix troppo largo trovato dalla radiografia del perimetro, AR-821 è un errore di git ingoiato dentro la riparazione, trovato dalla spazzata dei fratelli. Toccati due programmi. In `cervello/cancello-stop.mjs`: `scegliPerimetro` e il punto che la chiama. In `cervello/collaudo.mjs`: `verdettoCollaudo`, `baseDelCollaudo`, `collaudoAlloStop`. Le prove: 125 casi su 125 verdi, 3 mutazioni su 3 che diventano rosse rompendo il fix apposta. Tolto anche un pezzo di codice morto, dimostrato inutile dalla mutazione che restava verde.
+
 > 🩻 **25/8 19:55 — Adesso la radiografia gira DENTRO le riparazioni, non solo prima e dopo.** Richiesta tua: «entro il 29 agosto la macchina e il sito devono essere pronti, senza difetti». E: «fai la radiografia mentre risolvi i problemi, così non saltano fuori altri problemi se ne faccio un'altra separata».
 >
 > **In parole semplici.** Finora l'esame completo era un evento a parte. Si lanciava, usciva una lista, e per giorni si riparava quella lista. Nel frattempo nessuno riguardava i pezzi appena toccati. Da adesso un lavoro non si consegna se i file che ha toccato non sono stati riletti con l'occhio giusto. E riletti **dopo** l'ultima modifica, non prima.

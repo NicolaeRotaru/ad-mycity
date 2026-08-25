@@ -7192,6 +7192,33 @@
    "cerca": "    if (improntaDi(f) === null || improntaDi(f) === undefined) spariti.push(f);",
    "sostituisci": "    if (false) spariti.push(f);",
    "test": "cervello/test/radiografia-mentre-riparo.test.mjs"
+  },
+  {
+   "lotto": 62,
+   "difetto": "AR-819",
+   "nome": "il perimetro torna a fidarsi dell'ancora vecchia anche con HEAD già pubblicato: il ciclo riparte",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "  if (headUgualeABase && base) {",
+   "sostituisci": "  if (false && base) {",
+   "test": "cervello/test/cancello-stop.test.mjs"
+  },
+  {
+   "lotto": 62,
+   "difetto": "AR-820",
+   "nome": "il registro «chiesto» di un turno morto torna a contare: il collaudo riparte dal giro vecchio invece che da capo",
+   "file": "cervello/collaudo.mjs",
+   "cerca": "  const pendente = registro?.esito === \"chiesto\" && !headUgualeABase;",
+   "sostituisci": "  const pendente = registro?.esito === \"chiesto\";",
+   "test": "cervello/test/collaudo.test.mjs"
+  },
+  {
+   "lotto": 62,
+   "difetto": "AR-821",
+   "nome": "il confronto HEAD/base torna a ingoiare l'errore: «non ho potuto guardare» esce come «sono diversi»",
+   "file": "cervello/cancello-stop.mjs",
+   "cerca": "      cieco: `non ho potuto confrontare HEAD con «${base}» (${motivo}): tengo l'ancora del turno, che è la scelta stretta — ma il confronto non l'ho fatto.`,",
+   "sostituisci": "      cieco: null,",
+   "test": "cervello/test/cancello-stop.test.mjs"
   }
  ]
 }

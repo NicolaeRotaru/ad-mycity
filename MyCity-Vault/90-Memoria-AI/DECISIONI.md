@@ -4247,3 +4247,48 @@ scheda AR-818 come limite scritto, non come cosa fatta.
 verificate rosse (`non-vacuita.mjs --difetti AR-818,AR-814,AR-815,AR-816`), gate della lezione
 `L-2026-0825-02` vero (`gate-veri.mjs` exit 0). Schede: AR-818 (il difetto vero, nato AR-813 e rinumerato nell'unione), AR-814, AR-815 e AR-816
 (i due trovati riguardando). · Nicola (chat 25/8)
+
+## 2026-08-25 21:00 — 🟡 Il ciclo che non si rompeva mai da solo: la riparazione ferma da nove giorni entra, e riguardandola ne è saltato fuori un altro
+
+**La richiesta.** Nicola, 25/8, dopo la pulizia delle richieste vecchie: *«fai la 749»*.
+
+**Cos'era ferma lì.** La PR #749, aperta il 16 agosto e mai unita, riparava il ciclo del cancello di
+fine turno: l'ancora del turno si sposta solo quando un turno si chiude pulito, ma se HEAD è già
+identico a `origin/main` il diff verso l'ancora vecchia contiene tutto il lavoro già pubblicato.
+Quindi il turno risulta sporco per costruzione, l'ancora non si sposta mai, e il giro dopo il diff è
+più grande. **46 conferme in memoria, dal 10 al 16 agosto**, sempre con `git status --short` che
+mostrava zero o quasi. Verificato oggi sul tronco: `headUgualeABase` non compare né in
+`cancello-stop.mjs` né in `collaudo.mjs`. Il difetto era ancora tutto lì.
+
+**Perché l'ho riscritta invece di aggiornare quel ramo.** Il ramo non è mio, e il mio mansionario
+vieta di spingere su un ramo altrui senza il via di Nicola. Ma soprattutto quella richiesta è più
+vecchia delle regole di oggi: nessuna scheda nel cantiere, nessuna mutazione, e ovviamente nessuna
+radiografia del perimetro. Riportata sul tronco di oggi, con le prove che mancavano.
+
+**E riguardandola è saltato fuori AR-820, che è il pezzo interessante.** Il fix arrivato dal 16/8
+diceva: «HEAD pubblicato → niente da ricollaudare», e basta. Ma HEAD può essere uguale a
+`origin/main` mentre sul disco c'è lavoro **non committato** — che è lavoro non pubblicato eccome.
+Con quella riga il collaudo si sarebbe spento **proprio nel turno che ne ha bisogno**: il freno
+sarebbe diventato più debole di prima, nel nome di ripararlo. Ristretto: quello che va ignorato su
+HEAD pubblicato è il registro vecchio, non il collaudo. Con lavoro sul disco si ricollauda dal giro 1.
+
+**Il codice morto l'ha trovato la mutazione, non l'occhio.** Avevo scritto anche una seconda uscita
+esplicita per il caso «HEAD pubblicato e disco pulito». Rompendola, il test restava verde: era già
+coperta dalla riga che c'era prima. Tolta. È la domanda ④ del collaudo — «il codice aggiunto è
+davvero usato?» — che stavolta ha risposto un guardiano invece di me.
+
+**Prove che girano:** 123 casi verdi fra `cancello-stop.test.mjs` e `collaudo.test.mjs`, sei dei
+quali nuovi e tre sono gli **opposti** (HEAD non pubblicato → l'ancora buona resta, il collaudo resta
+dovuto): senza quelli un fix che spegne il freno sempre sarebbe passato con la prova che diceva di
+sì. Due mutazioni verificate rosse, una per lato. Perimetro riguardato e registrato con la lente
+`rischio-sicurezza-se`, che è la lente che ha trovato AR-820.
+
+**E la spazzata ne ha trovato un terzo, AR-821.** Il confronto fra HEAD e la base l'avevo scritto
+`catch { return false; }`: se git non risponde, «non ho potuto guardare» usciva travestito da «sono
+diversi». È la malattia censita «una fonte letta a metà produce un verdetto intero», e stava
+entrando dentro il freno che stavo riparando. Non l'ho vista io: l'ha vista la spazzata dei
+fratelli, come fratello NUOVO, e tre prove della suite erano rosse per quella sola riga. Curata
+invece che dichiarata esente: dieci righe, e la decisione adesso è una funzione pura che una prova
+può eseguire.
+
+**Cosa resta a Nicola:** la firma sulla PR, e la #749 si chiude come superata. · Nicola (chat 25/8)
