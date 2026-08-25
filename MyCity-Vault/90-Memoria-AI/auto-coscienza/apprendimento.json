@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-24 22:08",
+ "aggiornato": "2026-08-25 16:45",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11370,6 +11370,10 @@
     {
      "quando": "2026-08-23 20:02",
      "ref": "freno rosso nel cancello: nascita dei difetti"
+    },
+    {
+     "quando": "2026-08-25 16:17",
+     "ref": "freno rosso nel cancello: nascita dei difetti"
     }
    ]
   },
@@ -11861,6 +11865,18 @@
     {
      "quando": "2026-08-24 22:08",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:32",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:39",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:45",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12283,6 +12299,18 @@
     {
      "quando": "2026-08-24 22:08",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:32",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:39",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:45",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12419,6 +12447,18 @@
     },
     {
      "quando": "2026-08-24 22:08",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:32",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:39",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:45",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -13071,6 +13111,18 @@
     {
      "quando": "2026-08-24 22:08",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:32",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:39",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:45",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -13126,6 +13178,26 @@
    "regola": "un lotto si SPINGE e si APRE come richiesta appena il cancello e' verde, prima di cominciare il successivo — mai due lotti sullo stesso ramo in attesa della stessa firma. E se il merge arriva lo stesso nel mezzo: non riusare la richiesta unita (e' finita), riparti da main, rimetti sopra il commit non unito e apri una richiesta nuova. Se la descrizione della richiesta unita nel frattempo prometteva anche il pezzo rimasto fuori, va corretta: una descrizione che non corrisponde al merge e' storia che mente.",
    "gate": "",
    "nota_gate": "Freno non scrivibile come prova automatica: e' una regola sul RITMO del lavoro, non sul codice. La cosa piu' vicina a un guardiano sarebbe «il ramo ha commit che non stanno in nessuna richiesta aperta», che si puo' misurare ma non da dentro la suite. Dichiarato come debito, non spacciato per fatto."
+  },
+  {
+   "id": "L-2026-0825-01",
+   "testo": "**Un guardiano nato da un caso misura il caso, non il problema (AR-813).** `forma-json.mjs` esiste dal 30/7 per i JSON riscritti tutti per cambiarne una riga, ed era VERDE il 24/8 mentre tre registri venivano riscritti da cima a fondo. Il motivo: misurava l'indentazione, e i modi di riscrivere un file per intero sono tre — indentazione, ordine delle chiavi dentro una voce, ordine delle voci dentro l'elenco. Ne guardava uno, quello del giorno in cui era nato. E' la stessa forma di AR-807, che diceva «un sintomo trovato per caso misura il caso»: qui la frase si applica al guardiano scritto per curarla. Quando si costruisce un freno, la domanda non e' «copre il caso che ho appena visto?» ma «in quanti modi puo' succedere questa cosa, e quanti ne guardo?» — e i modi non coperti si dichiarano, perche' un guardiano parziale che stampa ✅ e' peggio di nessun guardiano: toglie il sospetto.",
+   "tag": [
+    "guardiani",
+    "correzione-nicola",
+    "forma-dei-file"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.9,
+   "evidenze": 2,
+   "fonte": "Nicola, 24/8/2026, sulla PR #835: «secondo me stai facendo delle cavolate perche' il diff e' +22.000 e -15.000». Misurato: ~12.900 delle 14.266 cancellazioni non cancellavano niente.",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-25",
+   "ultima_conferma": "2026-08-25 16:30",
+   "stato": "attiva",
+   "usi": 0,
+   "gate": "node cervello/forma-json.mjs",
+   "data": "2026-08-25 16:30"
   }
  ],
  "principi": [

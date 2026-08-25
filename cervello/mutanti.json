@@ -7095,6 +7095,66 @@
    "cerca": "          esegui(\"prove del Pannello\", process.execPath,",
    "sostituisci": "          esegui(\"prove del Pannello\", process.execPath, // || true\n            ",
    "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs"
+  },
+  {
+   "lotto": 61,
+   "difetto": "AR-813",
+   "nome": "il controllo del rimescolamento torna sempre vuoto: il guardiano non guarda piu' niente",
+   "file": "cervello/forma-json.mjs",
+   "cerca": "export function rimescolati(coppie = []) {",
+   "sostituisci": "export function rimescolati(coppie = []) { return [];",
+   "test": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
+   "lezione": "L-2026-0825-01"
+  },
+  {
+   "lotto": 61,
+   "difetto": "AR-813",
+   "nome": "il verdetto di copertura non conta il rimescolamento fra le violazioni: rosso in JSON diventa verde",
+   "file": "cervello/forma-json.mjs",
+   "cerca": "    violazioni: fuori.length + mescolati.length,",
+   "sostituisci": "    violazioni: fuori.length,",
+   "test": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
+   "lezione": "L-2026-0825-01"
+  },
+  {
+   "lotto": 61,
+   "difetto": "AR-813",
+   "nome": "il verde stampato per un umano ignora il rimescolamento: stampa ✅ e esce 0",
+   "file": "cervello/forma-json.mjs",
+   "cerca": "  if (!fuori.length && !mescolati.length) {",
+   "sostituisci": "  if (!fuori.length) {",
+   "test": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
+   "lezione": "L-2026-0825-01"
+  },
+  {
+   "lotto": 61,
+   "difetto": "AR-813",
+   "nome": "l'ordine dell'elenco smette di essere guardato: resta solo quello delle chiavi",
+   "file": "cervello/forma-json.mjs",
+   "cerca": "    const elencoRimescolato = JSON.stringify(restate) !== JSON.stringify(attese);",
+   "sostituisci": "    const elencoRimescolato = false;",
+   "test": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
+   "lezione": "L-2026-0825-01"
+  },
+  {
+   "lotto": 61,
+   "difetto": "AR-813",
+   "nome": "salta la difesa dai falsi allarmi: anche una voce cambiata davvero viene contata come rumore",
+   "file": "cervello/forma-json.mjs",
+   "cerca": "      if (JSON.stringify(normalizza(o)) !== JSON.stringify(normalizza(v))) continue;",
+   "sostituisci": "      if (false) continue;",
+   "test": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
+   "lezione": "L-2026-0825-01"
+  },
+  {
+   "lotto": 61,
+   "difetto": "AR-813",
+   "nome": "il rosso non dice piu' quale file e' stato rimescolato ne' perche'",
+   "file": "cervello/forma-json.mjs",
+   "cerca": "  for (const f of mescolati) {",
+   "sostituisci": "  for (const f of []) {",
+   "test": "cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
+   "lezione": "L-2026-0825-01"
   }
  ]
 }
