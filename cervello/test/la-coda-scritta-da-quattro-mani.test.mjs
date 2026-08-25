@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🧪 AR-814 — la coda la scrivono in quattro, e la card ne guardava una.
+// 🧪 AR-819 — la coda la scrivono in quattro, e la card ne guardava una.
 //
 // Il 25/8 Nicola ha dato il via alla card #174. Il passo 2 rende `lavori.negozio_id` obbligatorio,
 // e la card poneva UNA condizione: «il Pannello nuovo dev'essere online». Quella condizione era

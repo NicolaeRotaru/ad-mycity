@@ -1,52 +1,56 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-25 20:11",
+  "aggiornato": "2026-08-25 20:27",
   "giorni_sospetto": 3,
-  "difetti_aperti": 121,
-  "difetti_da_fare": 121,
+  "difetti_aperti": 126,
+  "difetti_da_fare": 126,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 805,
+    "totale": 810,
     "chiusi": 684,
-    "aperti": 107,
+    "aperti": 108,
     "in_corso": 1,
     "da_riverificare": 10,
-    "altri": 3,
-    "da_fare": 121,
+    "altri": 7,
+    "da_fare": 126,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 684,
-      "aperto": 107,
+      "aperto": 108,
       "da-riverificare": 10,
       "in-corso": 1,
-      "riparato": 3
+      "riparato": 7
     },
     "stati_ignoti": [
       {
         "stato": "riparato",
-        "quante": 3,
+        "quante": 7,
         "ids": [
           "AR-812",
           "AR-813",
-          "AR-814"
+          "AR-818",
+          "AR-814",
+          "AR-815",
+          "AR-816",
+          "AR-819"
         ]
       }
     ]
   },
   "bilancio": {
     "torna": true,
-    "attese": 121,
-    "viste": 121,
+    "attese": 126,
+    "viste": 126,
     "fuori": 0,
-    "motivo": "bilancio a posto: 684 chiuse + 121 classificate = 805 schede, e ogni stato vivo è dentro (107 aperto · 1 in-corso · 10 da-riverificare · 3 in uno stato che non so nominare)"
+    "motivo": "bilancio a posto: 684 chiuse + 126 classificate = 810 schede, e ogni stato vivo è dentro (108 aperto · 1 in-corso · 10 da-riverificare · 7 in uno stato che non so nominare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 21,
     "auto-sospetta": 10,
-    "umana": 74,
-    "auto-comando": 16
+    "umana": 75,
+    "auto-comando": 20
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
@@ -179,8 +183,8 @@
     }
   ],
   "chiuderebbe_lo_stesso": [],
-  "schede_non_giudicabili": 19,
-  "schede_campi_illeggibili": 20,
+  "schede_non_giudicabili": 24,
+  "schede_campi_illeggibili": 25,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -278,7 +282,32 @@
       "impatto_crescita": "diretto sulla capacita' di Nicola di valutare il lavoro. Il 24/8 la PR #835 gli e' arrivata con +22.008 e -15.245, di cui ~12.900 cancellazioni che non cancellavano niente: il lavoro vero era sepolto sotto il rumore e non era valutabile. L'ha visto lui, non la macchina, e la macchina aveva un guardiano apposta per questo."
     },
     {
+      "id": "AR-818",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sulla data del 29 agosto. Nicola chiede macchina e sito «senza nessun difetto» entro il 29/8: senza questo, «zero aperti» è vero sulla lista e falso sul codice, perché una radiografia rifatta il 30 troverebbe i difetti nati durante le riparazioni del 25-29. La macchina lo dichiarava da sé in radiografia-marketplace.json (sync_scan.nota): «per trovare difetti NUOVI serve un nuovo audit; i fix sul codice non riaprono da soli la lista»."
+    },
+    {
       "id": "AR-814",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto ma sulla stessa data del 29/8: una registrazione che non avviene e non lo dice lascia il perimetro scoperto mentre chi l'ha lanciata crede di averlo coperto — cioè il freno nuovo (AR-818) sarebbe stato aggirabile per sbaglio, non per malafede."
+    },
+    {
+      "id": "AR-815",
+      "gravita": "minore",
+      "impatto_crescita": "nessun danno diretto: il registro non contiene contenuti, solo impronte. Ma un percorso che esce dal repo entra nel registro come se fosse un file di casa, e una copertura registrata su un file che non è del lotto è una copertura finta."
+    },
+    {
+      "id": "AR-816",
+      "gravita": "grave",
+      "impatto_crescita": "avrebbe reso il freno nuovo un cancello sempre rosso per una famiglia intera di lotti — quelli che cancellano un file, cioè quasi tutti i lotti di pulizia. Un cancello che non si può soddisfare si impara ad aggirare, ed è la malattia che questa casa ha già pagato col `2` raccontato come violazione (30/7)."
+    },
+    {
+      "id": "AR-817",
+      "gravita": "grave",
+      "impatto_crescita": "rende la CI rossa a caso su lotti sani: è successo il 25/8 sulla PR #845, dove l'unico rosso era questa prova. Una CI che diventa rossa senza colpa è la cosa che insegna a ignorare il rosso — e a quattro giorni dalla data del 29/8 è il modo più veloce per far passare un difetto vero."
+    },
+    {
+      "id": "AR-819",
       "gravita": "bloccante",
       "impatto_crescita": "diretto sulla macchina che gira. Il passo 2 della card #174 rende lavori.negozio_id obbligatorio: con i tre scrittori del VPS che non lo mettevano, da quel momento ogni ri-accodamento di cadenza, ogni recupero della sentinella e ogni metabolizzazione della chat sarebbe FALLITO. E' il worker per le botteghe, cioe' la seconda linea di ricavo, a dipendere da quel campo: senza questa riparazione la card non era eseguibile fino in fondo."
     }
@@ -400,9 +429,39 @@
       "gravita": "grave",
       "impatto_crescita": "diretto sulla capacita' di Nicola di valutare il lavoro. Il 24/8 la PR #835 gli e' arrivata con +22.008 e -15.245, di cui ~12.900 cancellazioni che non cancellavano niente: il lavoro vero era sepolto sotto il rumore e non era valutabile. L'ha visto lui, non la macchina, e la macchina aveva un guardiano apposta per questo.",
       "perche": "prova eseguibile: node --test cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs"
+    },
+    {
+      "id": "AR-818",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sulla data del 29 agosto. Nicola chiede macchina e sito «senza nessun difetto» entro il 29/8: senza questo, «zero aperti» è vero sulla lista e falso sul codice, perché una radiografia rifatta il 30 troverebbe i difetti nati durante le riparazioni del 25-29. La macchina lo dichiarava da sé in radiografia-marketplace.json (sync_scan.nota): «per trovare difetti NUOVI serve un nuovo audit; i fix sul codice non riaprono da soli la lista».",
+      "perche": "prova eseguibile: node --test cervello/test/radiografia-mentre-riparo.test.mjs"
+    },
+    {
+      "id": "AR-814",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto ma sulla stessa data del 29/8: una registrazione che non avviene e non lo dice lascia il perimetro scoperto mentre chi l'ha lanciata crede di averlo coperto — cioè il freno nuovo (AR-818) sarebbe stato aggirabile per sbaglio, non per malafede.",
+      "perche": "prova eseguibile: node --test cervello/test/radiografia-mentre-riparo.test.mjs"
+    },
+    {
+      "id": "AR-815",
+      "gravita": "minore",
+      "impatto_crescita": "nessun danno diretto: il registro non contiene contenuti, solo impronte. Ma un percorso che esce dal repo entra nel registro come se fosse un file di casa, e una copertura registrata su un file che non è del lotto è una copertura finta.",
+      "perche": "prova eseguibile: node --test cervello/test/radiografia-mentre-riparo.test.mjs"
+    },
+    {
+      "id": "AR-816",
+      "gravita": "grave",
+      "impatto_crescita": "avrebbe reso il freno nuovo un cancello sempre rosso per una famiglia intera di lotti — quelli che cancellano un file, cioè quasi tutti i lotti di pulizia. Un cancello che non si può soddisfare si impara ad aggirare, ed è la malattia che questa casa ha già pagato col `2` raccontato come violazione (30/7).",
+      "perche": "prova eseguibile: node --test cervello/test/radiografia-mentre-riparo.test.mjs"
+    },
+    {
+      "id": "AR-817",
+      "gravita": "grave",
+      "impatto_crescita": "rende la CI rossa a caso su lotti sani: è successo il 25/8 sulla PR #845, dove l'unico rosso era questa prova. Una CI che diventa rossa senza colpa è la cosa che insegna a ignorare il rosso — e a quattro giorni dalla data del 29/8 è il modo più veloce per far passare un difetto vero.",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     }
   ],
-  "non_auto_chiudibili": 105,
+  "non_auto_chiudibili": 106,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -3388,7 +3447,72 @@
       "auto_chiudibile": true
     },
     {
+      "id": "AR-818",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "diretto sulla data del 29 agosto. Nicola chiede macchina e sito «senza nessun difetto» entro il 29/8: senza questo, «zero aperti» è vero sulla lista e falso sul codice, perché una radiografia rifatta il 30 troverebbe i difetti nati durante le riparazioni del 25-29. La macchina lo dichiarava da sé in radiografia-marketplace.json (sync_scan.nota): «per trovare difetti NUOVI serve un nuovo audit; i fix sul codice non riaprono da soli la lista».",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Il lotto ripara e nessuno riguarda quello che ha toccato: i difetti nati riparando li trova solo la radiografi",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/radiografia-mentre-riparo.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
       "id": "AR-814",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "indiretto ma sulla stessa data del 29/8: una registrazione che non avviene e non lo dice lascia il perimetro scoperto mentre chi l'ha lanciata crede di averlo coperto — cioè il freno nuovo (AR-818) sarebbe stato aggirabile per sbaglio, non per malafede.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "«registra» riconosciuto solo in seconda posizione: con un flag prima, la scansione non veniva scritta e nessun",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/radiografia-mentre-riparo.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-815",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "impatto_crescita": "nessun danno diretto: il registro non contiene contenuti, solo impronte. Ma un percorso che esce dal repo entra nel registro come se fosse un file di casa, e una copertura registrata su un file che non è del lotto è una copertura finta.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Un percorso con «..» usciva dal repo pur cominciando con un prefisso ammesso, e finiva nel registro delle scan",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/radiografia-mentre-riparo.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-816",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "avrebbe reso il freno nuovo un cancello sempre rosso per una famiglia intera di lotti — quelli che cancellano un file, cioè quasi tutti i lotti di pulizia. Un cancello che non si può soddisfare si impara ad aggirare, ed è la malattia che questa casa ha già pagato col `2` raccontato come violazione (30/7).",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Un file CANCELLATO dal lotto veniva chiesto in radiografia: impossibile da soddisfare senza rimetterlo",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/radiografia-mentre-riparo.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-817",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "rende la CI rossa a caso su lotti sani: è successo il 25/8 sulla PR #845, dove l'unico rosso era questa prova. Una CI che diventa rossa senza colpa è la cosa che insegna a ignorare il rosso — e a quattro giorni dalla data del 29/8 è il modo più veloce per far passare un difetto vero.",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Una prova legge due file vivi che un'altra prova riscrive: rossa in corsia, verde da sola",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-819",
       "gravita": "bloccante",
       "eta_giorni": 0,
       "impatto_crescita": "diretto sulla macchina che gira. Il passo 2 della card #174 rende lavori.negozio_id obbligatorio: con i tre scrittori del VPS che non lo mettevano, da quel momento ogni ri-accodamento di cadenza, ogni recupero della sentinella e ogni metabolizzazione della chat sarebbe FALLITO. E' il worker per le botteghe, cioe' la seconda linea di ricavo, a dipendere da quel campo: senza questa riparazione la card non era eseguibile fino in fondo.",
