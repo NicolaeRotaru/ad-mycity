@@ -769,7 +769,6 @@ async function main() {
   // AR-568 (c): `--sola-lettura` chiude la porta prima della guardia d'ambiente, non dopo. Chi
   // diagnostica da fuori vede tutto il verdetto e non lascia impronte, anche là dove le chiavi ci sono.
   const esitoScrittura = scriviStatoSensore(CECITA_PATH, cecita, {
-    scrittore: (p, d) => scriviJsonAtomico(p, d),
     ambienteConfigurato: scriviStato && !SOLA_LETTURA,
     motivo: SOLA_LETTURA
       ? "--sola-lettura: guardo e non scrivo (AR-568)"

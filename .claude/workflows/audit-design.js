@@ -1,6 +1,14 @@
-import { existsSync } from 'node:fs'
-import { join } from 'node:path'
-import { promptSenior, radiceRepo } from '../../cervello/prompt-senior.mjs'
+// AR-780 — PERCHE' QUESTO FILE NON HA IMPORT.
+//
+// Fino al 23/8/2026 apriva con degli `import` e metteva `meta` piu' in basso. Il motore dei workflow
+// pretende che `export const meta` sia la PRIMA istruzione e non accetta nessun import, ne' statico
+// ne' dinamico: rifiutava lo script prima di eseguirne una riga. Tutti e sei i workflow erano cosi',
+// da due mesi, mentre CLAUDE.md li nomina per nome nei comandi rapidi.
+//
+// I mansionari dei senior NON si incollano piu' nel prompt: il motore li carica da se' con
+// `agentType`, che risolve dallo stesso registro del comando di delega. Il senior riceve il suo
+// mansionario come identita', non come testo dentro un messaggio — ed e' anche piu' corretto.
+
 
 export const meta = {
   name: 'audit-design',
@@ -10,6 +18,12 @@ export const meta = {
     { title: 'Verifica', detail: 'tieni solo i problemi reali' },
   ],
 }
+
+// Dove sta il codice del marketplace non lo calcola piu' questo script: qui non si legge ne' il
+// disco ne' l'ambiente. Lo trova l'agente, che gli strumenti ce li ha — e se non lo trova DEVE
+// dirlo e fermarsi invece di dedurre.
+const DOVE_E_IL_CODICE = `Il codice del marketplace sta in \`$MARKETPLACE_REPO\` se quella variabile d'ambiente c'e', altrimenti nella copia locale \`marketplace/\` dentro il repo dell'AD.
+Controllalo PRIMA di cominciare (\`ls\`). Se non c'e' ne' l'una ne' l'altra il codice NON e' collegato: dillo, restituisci lista vuota e FERMATI — non dedurre niente da un percorso che non esiste. Per collegarlo: \`node cervello/collega-marketplace.mjs\`.`
 
 const FINDINGS = {
   type: 'object',
@@ -39,16 +53,8 @@ const FINDINGS = {
 // `node cervello/collega-marketplace.mjs`.
 // Se non c'è nessuno dei due il codice non è collegato, e va detto: il vecchio fallback al percorso
 // Windows del PC di Nicola mandava i senior a guardare una cartella inesistente su ogni altra macchina.
-function resolveMarketplaceRepo() {
-  if (process.env.MARKETPLACE_REPO) return process.env.MARKETPLACE_REPO
-  const local = join(radiceRepo(), 'marketplace')
-  return existsSync(local) ? local : null
-}
-const REPO = resolveMarketplaceRepo()
 // `log` è una globale del motore dei workflow e qui siamo prima della prima fase: se non c'è, il
 // messaggio esce comunque invece di far cadere l'audit sulla riga di un avviso.
-const avvisa = (m) => (typeof log === 'function' ? log(m) : console.log(m))
-if (!REPO) avvisa('⚠️ marketplace non collegato: nessun MARKETPLACE_REPO e nessuna copia in marketplace/ — lancia prima `node cervello/collega-marketplace.mjs`')
 
 const DIMS = [
   { key: 'layout-responsive', senior: 'frontend-dev', focus: 'layout e responsive: elementi disallineati, overflow, spaziature incoerenti, griglie rotte, breakpoint mobile/tablet/desktop' },
@@ -68,25 +74,29 @@ phase('Design review')
 const reviewed = await pipeline(
   DIMS,
   (d) => agent(
-    promptSenior(d.senior, { radice: radiceRepo(), focus: `Audit del design del marketplace, dimensione "${d.key}": ${d.focus}`, compito:
-    `Analizza in SOLA LETTURA il marketplace MyCity nel repo \`${REPO}\` (Read/Grep/Glob su app/, components/, design-system/, tailwind.config.ts, app/globals.css; e i contenuti configurabili in site_settings via Supabase MCP sola lettura). Se quel percorso è vuoto o nullo, il codice NON è collegato: dillo e fermati.
+    `Audit del design del marketplace, dimensione "${d.key}": ${d.focus}
+
+${DOVE_E_IL_CODICE}
+
+Analizza in SOLA LETTURA (Read/Grep/Glob su app/, components/, design-system/, tailwind.config.ts, app/globals.css; e i contenuti configurabili in site_settings via Supabase MCP sola lettura).
 ⛔ NON modificare nulla.
 Trova con accuratezza MILLIMETRICA tutti i problemi REALI di grafica/UX della tua dimensione.
 Per ognuno: titolo · dove (file/componente o pagina) · severità (bloccante/grave/minore) · descrizione · fix consigliato · corsia ("config" se si risolve da site_settings/branding/home senza deploy, "codice" se serve modificare componenti/CSS).
-Solo problemi reali nel codice/configurazione, niente teoria. Se non trovi nulla, lista vuota.` }),
-    { label: `design:${d.key}`, phase: 'Design review', schema: FINDINGS }
+Solo problemi reali nel codice/configurazione, niente teoria. Se non trovi nulla, lista vuota.`,
+    { label: `design:${d.key}`, phase: 'Design review', schema: FINDINGS, agentType: d.senior }
   ),
   // Chi trova non conferma: il cancello tecnico finale è di qa-designer, col suo mansionario.
   (rev, d) => agent(
-    promptSenior('qa-designer', {
-      radice: radiceRepo(),
-      focus: `Verifica avversariale dei problemi di design che un collega dichiara di aver trovato, dimensione "${d.key}".`,
-      compito: `Problemi segnalati:
+    `Verifica avversariale dei problemi di design che un collega dichiara di aver trovato, dimensione "${d.key}".
+
+${DOVE_E_IL_CODICE}
+
+Problemi segnalati:
 ${JSON.stringify(rev?.findings || [], null, 2)}
-Ricontrolla ciascuno nel codice reale in \`${REPO}\` (sola lettura) e tieni SOLO quelli VERI (scarta i falsi positivi e ciò che non confermi). Correggi severità e corsia se sbagliate.
+
+Ricontrolla ciascuno nel codice reale (sola lettura) e tieni SOLO quelli VERI (scarta i falsi positivi e ciò che non confermi). Correggi severità e corsia se sbagliate.
 Restituisci {dimensione:"${d.key}", findings:[...confermati...]}. In caso di dubbio, scarta.`,
-    }),
-    { label: `verifica:${d.key}`, phase: 'Verifica', schema: FINDINGS }
+    { label: `verifica:${d.key}`, phase: 'Verifica', schema: FINDINGS, agentType: 'qa-designer' }
   )
 )
 

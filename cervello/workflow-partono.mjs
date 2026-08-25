@@ -33,6 +33,7 @@ import { readFileSync, existsSync, statSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { elencaFile } from "./perimetro.mjs";
+import { senzaCommenti } from "./contratto-scheda.mjs";
 
 const RADICE = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const CARTELLA = join(RADICE, ".claude", "workflows");
@@ -50,6 +51,88 @@ export function partirebbe(testo) {
   return senzaIntestazione.startsWith("export const meta");
 }
 
+// ═══════════════════════════════════════════════════════════════════════════════════════════
+// LA SECONDA REGOLA, e nasce da un errore mio del 23/8/2026.
+//
+// Riparando AR-780 ho tolto gli `import` dai sei script e ho rilanciato questo guardiano: verde,
+// sei su sei. Ma quattro di quegli script continuavano a CHIAMARE le funzioni che gli import
+// portavano — `promptSenior`, `radiceRepo`, `existsSync` — e a runtime sarebbero morti su un
+// ReferenceError alla prima riga utile. Il guardiano diceva «partono» di script che non partivano.
+//
+// È la stessa malattia che il guardiano stesso denuncia nel suo commento in cima: si certificava
+// l'INSTALLAZIONE e non l'ESECUZIONE. L'avevo appena curata un piano sopra e l'ho rifatta un piano
+// sotto, nella stessa ora.
+//
+// Quindi: oltre alla prima istruzione si guarda se lo script NOMINA qualcosa che il motore non gli
+// darà mai. Non è un'analisi del linguaggio — è un elenco di nomi che qui dentro non esistono, e
+// cresce quando qualcuno ne trova un altro.
+// ═══════════════════════════════════════════════════════════════════════════════════════════
+
+/**
+ * Quello che il motore dei workflow METTE a disposizione. Sta scritto qui perché chi legge un
+ * rosso deve sapere cosa può usare, non solo cosa non può.
+ */
+export const GLOBALI_DEL_MOTORE = Object.freeze([
+  "agent", "parallel", "pipeline", "phase", "log", "args", "budget", "workflow",
+]);
+
+/**
+ * I nomi che il motore NON dà, con la ragione. Il valore è il messaggio che esce a chi legge il
+ * rosso: un elenco senza motivo si scorre, uno con il motivo si legge.
+ */
+export const NOMI_CHE_NON_ESISTONO = Object.freeze({
+  require: "il motore non è Node: non c'è `require`",
+  process: "niente `process`: né `process.env` né `process.argv`",
+  __dirname: "niente percorsi del modulo",
+  __filename: "niente percorsi del modulo",
+  existsSync: "niente filesystem: `node:fs` non si può importare",
+  readFileSync: "niente filesystem: `node:fs` non si può importare",
+  writeFileSync: "niente filesystem: `node:fs` non si può importare",
+  spawnSync: "niente processi figli",
+  execSync: "niente processi figli",
+  promptSenior: "veniva da cervello/prompt-senior.mjs, che qui non si può importare: usa `agentType`",
+  radiceRepo: "veniva da cervello/prompt-senior.mjs: l'agente è già dentro il repo",
+  fattiVivi: "legge il repo: calcolalo fuori e passalo in `args`",
+  turnoDelGiro: "legge il repo: calcolalo fuori e passalo in `args`",
+});
+
+/**
+ * Il testo senza commenti né stringhe: un nome citato in una frase non è una chiamata.
+ *
+ * I commenti li toglie la casa del contratto (`senzaCommenti`), che è la stessa regola usata per
+ * cercare l'ATTO di chiusura nel codice (AR-724). Erano due copie della stessa riga in due file, e
+ * due copie di una regola diventano due regole al primo che ne aggiusta una.
+ */
+function soloCodice(testo) {
+  return senzaCommenti(testo)
+    .replace(/`(?:[^`\\]|\\.)*`/g, "``")
+    .replace(/'(?:[^'\\\n]|\\.)*'/g, "''")
+    .replace(/"(?:[^"\\\n]|\\.)*"/g, '""');
+}
+
+/**
+ * Lo script nomina qualcosa che il motore non gli darà? Torna l'elenco dei nomi con il perché.
+ *
+ * Guarda il CODICE, non i commenti né le stringhe: questi file spiegano nei commenti proprio quali
+ * nomi non si possono usare, e contarli sarebbe un rosso su una spiegazione.
+ */
+export function nomiAssenti(testo) {
+  const codice = soloCodice(testo);
+  const trovati = [];
+  for (const [nome, perche] of Object.entries(NOMI_CHE_NON_ESISTONO)) {
+    // Il nome usato DAVVERO: seguito da `(` o da `.`, e non preceduto da un punto (una proprietà
+    // che si chiama come lui — `x.process` — non è il globale).
+    const re = new RegExp(`(^|[^.\\w$])${nome}\\s*[(.]`, "m");
+    if (re.test(codice)) trovati.push({ nome, perche });
+  }
+  return trovati;
+}
+
+/** C'è un import? Il motore li rifiuta tutti, anche in fondo al file. */
+export function haImport(testo) {
+  return /^\s*import[\s{*]/m.test(soloCodice(testo));
+}
+
 /** Il verdetto sui sei script. Separato dalla stampa, così una prova lo può eseguire. */
 export function guarda() {
   if (!existsSync(CARTELLA)) return { misurato: false, motivo: `${CARTELLA} non esiste` };
@@ -61,8 +144,17 @@ export function guarda() {
     .filter((f) => !f.includes("/") && statSync(join(CARTELLA, f)).isFile())
     .sort();
   if (script.length === 0) return { misurato: false, motivo: "nessuno script in .claude/workflows/" };
-  const rotti = script.filter((f) => !partirebbe(readFileSync(join(CARTELLA, f), "utf8")));
-  return { misurato: true, script, rotti };
+  const guai = {};
+  for (const f of script) {
+    const testo = readFileSync(join(CARTELLA, f), "utf8");
+    const motivi = [];
+    if (!partirebbe(testo)) motivi.push("`export const meta` non è la prima istruzione");
+    if (haImport(testo)) motivi.push("c'è un `import`: il motore non ne accetta nessuno");
+    for (const { nome, perche } of nomiAssenti(testo)) motivi.push(`usa \`${nome}\` — ${perche}`);
+    if (motivi.length) guai[f] = motivi;
+  }
+  const rotti = Object.keys(guai);
+  return { misurato: true, script, rotti, guai };
 }
 
 // La parte da riga di comando gira SOLO se questo file è stato lanciato: importarlo da una prova
@@ -73,7 +165,10 @@ if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) 
     console.error(`⚪ non ho potuto misurare: ${esito.motivo}`);
     process.exit(2);
   }
-  for (const f of esito.script) console.log(`${esito.rotti.includes(f) ? "❌" : "✅"} ${f}`);
+  for (const f of esito.script) {
+    console.log(`${esito.rotti.includes(f) ? "❌" : "✅"} ${f}`);
+    for (const m of esito.guai?.[f] || []) console.log(`     · ${m}`);
+  }
   if (esito.rotti.length) {
     console.error(
       `\n❌ ${esito.rotti.length} workflow su ${esito.script.length} il motore li rifiuta: ${esito.rotti.join(", ")}` +

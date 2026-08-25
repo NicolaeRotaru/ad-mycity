@@ -387,7 +387,12 @@
    "file_noti": [],
    "curati": [],
    "nota_onesta": "Il pattern chiede il COMANDO, non la parola: `git commit … --no-verify` oppure `git push … --force`. E salta le righe che contengono una regex (RegExp, .test(, .match(), perche un guardiano che CERCA il bypass — come cervello/pre-scrittura.mjs, che lo vieta — non lo sta facendo. Trovato il 4/8 unendo main: il mio stesso pattern accusava il guardiano nuovo che vieta quella cosa, ed e la quinta comparsa in un giorno di «menzione non e istanza». Il worker aveva curato lo stesso falso positivo con un ESENZIONE su quel file; stringendo il pattern l esenzione non corrisponde piu a niente ed e stata tolta — un residuo lasciato li nasconde il prossimo caso vero.",
-   "esenti": [],
+   "esenti": [
+    {
+     "file": "cervello/permessi-elenco.mjs",
+     "perche": "Menzione, non istanza — la stessa forma che la nota onesta di questa malattia descrive gia'. La riga accusata sta dentro il modello del documento che questo file GENERA per Nicola, e propone di aggiungere `\"Bash(git push --force:*)\"` al blocco DENY del foglio dei permessi. E' l'esatto contrario di un bypass: e' il divieto di quel bypass, scritto perche' Nicola lo incolli. Il testo dev'essere identico a quello che lui incollera', quindi non si puo' spezzare per far contento il pattern: sarebbe scrivere per il metro invece che per il lettore. Il file non esegue nessun git."
+    }
+   ],
    "nota_baseline": "0 misurato il 2026-08-03 da spazzata-fratelli."
   },
   {

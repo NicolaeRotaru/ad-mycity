@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-24 17:02** — Automatico: **101 aperte · 23 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-24 20:49** — Automatico: **103 aperte · 24 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -22,34 +22,128 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
-### ✅ #173 — La coda era troppo lunga e il guardiano non riusciva a leggerla · ⏳ accodata 2026-08-24 12:50 · fatta 2026-08-24 15:10
+<!-- permesso-speciale-morto-tolto -->
+### 🟡 #176 — Ho tolto un permesso speciale rimasto in giro, morto · ⏳ accodata 2026-08-24 13:10
 
-**In parole semplici.** La coda delle cose da approvare aveva superato i **264.000 caratteri**, e il
-controllo che verifica «ogni allarme scritto è arrivato a Nicola?» si ferma a 200.000. Si dichiarava
-cieco, e sul server quel «non lo so» faceva fallire ogni consegna. **Adesso è verde.**
+**In parole semplici.** C'è un controllo che chiede: un'operazione delicata da quante porte si può
+fare, e ci passano tutte davanti alla guardia? Aveva un permesso speciale per un programma, scritto
+quando quel programma la guardia non ce l'aveva.
 
-**Cosa ho fatto.** Le card già chiuse sono uscite dalla coda e vivono in un file loro:
-`MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`. La coda viva è scesa a **173.000
-caratteri**, sotto il tetto, e il guardiano la legge di nuovo tutta.
+La mia riparazione di questo mese gliel'ha fatta fare davvero. Quel permesso è rimasto lì, morto.
 
-**Perché non ho alzato il tetto, che sarebbe stato più semplice.** Perché era già stato provato il
-22 agosto e rimesso indietro, con questa frase scritta dentro il guardiano: *una soglia che sale è
-la mossa che nasconde i problemi, e un lettore fra sei mesi non può distinguere la tua buona ragione
-da una scusa.* La cura vera non era il tetto: era il file.
+**Cosa cambia per te.** Un permesso morto non fa danni oggi. Fa danni il giorno che serve davvero,
+perché nasconde il caso vero dietro un'eccezione che nessuno ricorda più perché c'è. L'ho tolto.
 
-**Cosa cambia per te.** Niente in quello che vedi: la Cabina mostra solo le card in attesa e scarta
-già quelle chiuse. Se cerchi una card vecchia, adesso sta nell'archivio — non è buttata, è spostata.
+**Cosa devi fare.** Niente: è già dentro la richiesta di unione della macchina.
 
-**Cosa ho verificato.** Ho fatto girare tutta la suite dopo lo spostamento: **un solo lettore su 406
-file si è rotto**, il controllo sulle azioni congelate, che cercava una domanda finita in archivio.
-L'ho riparato perché legga coda e archivio insieme, e ho provato al contrario che diventi ancora
-rosso se quella domanda sparisce davvero. Il motore della pulizia adesso rilegge l'archivio vecchio
-prima di riscriverlo: due corse di fila non perdono niente. Cancello intero: il controllo che era
-cieco esce 0.
+**Se va bene:** quel controllo torna a guardare tutte le porte, senza eccezioni.
 
-**Cosa non ho verificato.** Gli script del server che leggono la coda (`giro.sh`,
-`riconcilia-memoria.sh`) li ho letti, non eseguiti: qui non c'è `bats`, quindi le prove in shell non
-girano. Li nominano solo nei commenti, ma la prova vera la darà il primo giro del worker.
+**Cosa non ho verificato.** Il controllo non l'ho scritto io e non l'ho riletto riga per riga: l'ho
+fatto girare e ho guardato cosa dice. Montarlo nel cancello l'ha fatto un altro ramo, non io — il
+mio lavoro qui è solo il permesso tolto.
+
+---
+
+### 🟡 #175 — Il sito scrive «spedizione gratis» e poi fa pagare 3 € di consegna · ⏳ accodata 2026-08-24 08:35
+
+**In parole semplici.** Su ogni prodotto sopra i 30 € il sito mette il bollino «Sped. gratis». Poi,
+al momento di pagare, aggiunge 3 € di «Consegna MyCity» su ogni ordine a domicilio. Sempre, anche
+sopra i 30 €.
+
+Per chi compra, «spedizione» e «consegna» sono la stessa cosa. Quindi il bollino promette una cosa e
+la cassa ne fa un'altra.
+
+**Per esempio:** una persona mette nel carrello un prodotto da 34 €. Sulla scheda legge «Spedizione
+gratuita». Arriva al carrello e trova 37 €. È il primo posto dove quei 3 € compaiono. Sulla scheda
+prodotto non ci sono da nessuna parte, ed è l'ultimo schermo prima di aggiungere al carrello.
+
+E c'è il dettaglio che fa più male. Al momento di pagare, il riepilogo scrive «Spedizione: Gratis».
+Subito sotto scrive «Consegna MyCity 3,00 €». E sotto ancora: «Pagamento sicuro. Niente costi
+nascosti».
+
+**Cosa cambia per te.** Oggi il sito fa una promessa sui soldi che non mantiene, su ogni prodotto
+sopra i 30 €. Non è un difetto tecnico. È quello che un cliente chiamerebbe una sorpresa alla cassa,
+ed è la cosa che fa abbandonare il carrello e non tornare più.
+
+**Cosa devi fare.** Scegliere fra due strade, perché una costa soldi e la decisione è tua.
+
+**(a) Dire come stanno le cose.** Il bollino diventa «Sped. gratis · 3 € di consegna», e i 3 €
+compaiono già sulla scheda prodotto. Non cambia un euro di quello che incassi. Cambia che chi compra
+lo sa prima. Costo: zero. Rischio: il bollino perde un po' di forza.
+
+**(b) Tenere la promessa.** Sopra i 30 € i 3 € non si pagano più: se li assorbe MyCity. Il bollino
+resta com'è ed è vero. Costo: 3 € su ogni ordine a domicilio sopra i 30 €, tolti dal tuo margine.
+
+**Io farei la (a)**, e non per prudenza. La (b) è una decisione sul prezzo, e le decisioni sul prezzo
+sono tue. La (a) invece non è una scelta. È smettere di dire una cosa non vera, e si può fare oggi.
+
+Rispondi «ok 169 a» o «ok 169 b». Lo faccio nel lotto dopo.
+
+**Cosa non ho verificato.** Non so quanti ordini a domicilio superino i 30 €, quindi non so quanto
+costerebbe la (b). Il sensore dei pagamenti non è collegato, e dal cloud non posso contarli. Se vuoi
+la cifra prima di decidere, serve collegare Stripe in sola lettura.
+
+**Cosa cambia:** il bollino «Sped. gratis» su ogni prodotto sopra i 30 € oggi promette una cosa che
+la cassa non mantiene, e i 3 € si vedono per la prima volta nel carrello.
+
+**Se va bene:** con la (a) riscrivo bollino, scheda prodotto e riepilogo perché dicano lo stesso
+numero, con la prova che li tiene allineati. Con la (b) tolgo i 3 € sopra la soglia.
+
+---
+
+### 🟡 #174 — Due comandi per il database, e l'ordine conta · ⏳ accodata 2026-08-24 16:10
+
+**In parole semplici.** La macchina delle botteghe deve servire tanti negozi con un programma solo.
+Perché funzioni, ogni lavoro nella coda deve dire a quale negozio appartiene. Oggi non lo dice: la
+tabella dei lavori quel campo non ce l'ha proprio. Sono 3.255 righe, nessuna con un negozio.
+
+Il codice il muro ce l'aveva già. La tabella no. E finché la tabella non ce l'ha, il muro tiene solo
+per chi passa dalla porta giusta: chi scrive nella coda in un altro modo lo scavalca senza
+accorgersene, e nessuno se ne accorge nemmeno dopo.
+
+**Cosa ho fatto io.** Il Pannello adesso scrive sempre il negozio. Chi non ne dichiara uno sta
+chiedendo un lavoro della macchina per sé. E lo dice con un nome, «centro», invece di lasciare il
+campo vuoto. Un campo vuoto si dimentica. Un nome no.
+
+**Cosa cambia per te.** Niente, finché non dai i due comandi qui sotto. Dopo il secondo, la coda dei
+lavori non accetta più una riga senza negozio. È il pezzo che mancava per far partire la macchina
+delle botteghe.
+
+**Per esempio, una cosa che ho trovato leggendo.** Quando il database rifiuta una riga, il Pannello
+riprovava a scriverla togliendo il campo che dava fastidio. Per il raggruppamento della chat va
+bene: si perde un dettaglio estetico. Sul negozio sarebbe stato il difetto stesso, automatizzato:
+«il database non vuole la riga col negozio? allora scrivila senza». Il lavoro di una bottega
+finirebbe nel mucchio comune, in silenzio, e la riga risulterebbe scritta bene. Adesso quel ripiego
+vale solo per i lavori della macchina.
+
+**Cosa devi fare.** Due comandi nel database della memoria, e l'ordine conta.
+
+Il primo lo puoi dare adesso, non rompe niente:
+
+`pannello/sql/lavori-negozio-id.sql`
+
+Aggiunge il campo, scrive «centro» sulle 3.255 righe che ci sono già, crea l'indice. Il Pannello di
+oggi ignora il campo nuovo e continua a funzionare come sempre.
+
+Il secondo **solo dopo** che questa richiesta di unione è andata online:
+
+`pannello/sql/lavori-negozio-id-obbligatorio.sql`
+
+**Cosa cambia:** è il secondo comando a chiudere il buco. Da lì in poi, chi prova a scrivere un
+lavoro senza dire di quale negozio è, non ci riesce. Prima ci riusciva.
+
+**Perché l'ordine conta, e non è pignoleria.** Il Pannello che è online adesso il negozio non lo
+scrive. Se dai il secondo comando prima che il Pannello nuovo sia pubblicato, ogni creazione di
+lavoro fallisce: chat, giri, report, sentinelle. La macchina si ferma. L'avvertenza è scritta anche
+dentro il file, in cima.
+
+**Se va bene:** il muro fra i negozi esiste anche nella tabella. Allora si può costruire il secondo
+pezzo: quello che fa rifiutare al database le righe di un altro negozio.
+
+**Cosa non ho verificato.** I due comandi non li ho eseguiti: il database è in sola lettura per me,
+e questa è una firma tua. Quindi non ho visto la colonna comparire né l'obbligo mordere. Quello che
+ho provato è il lato codice: 9 controlli, e ho rotto il fix in 6 modi diversi per vedere se il
+controllo diventava rosso ogni volta. Diventa rosso ogni volta.
 
 ---
 
@@ -76,8 +170,8 @@ vuol dire che se tornassero, lo scopriresti tu e non la macchina.
 - **(a) Tutte e 148**, riaperte e riprovate una per una. È il lavoro più lungo e non entra nei sei
   giorni che restano al 29 agosto.
 - **(b) Solo le gravi e le bloccanti**, che sono quelle che se tornano fanno danno vero.
-- **(c) Nessuna adesso**, ma da oggi il cantiere non chiude più un difetto grave senza una prova a
-  comando — così il numero smette di crescere mentre pensiamo al resto.
+- **(c) Nessuna adesso.** Da oggi però il cantiere non chiude più un difetto grave senza una prova
+  a comando. Così il numero smette di crescere mentre pensiamo al resto.
 
 **Se va bene:** la mia raccomandazione è **(c) subito e (b) dopo il 29**. Il tappo prima
 dell'asciugatura: la regola nuova è già scritta nel mansionario del cantiere, manca solo la tua parola
@@ -94,6 +188,7 @@ rotte apposta viene dal cancello, che lo stampa a ogni consegna — non l'ho ric
 
 ---
 
+<!-- muro-negozi-due-sql-in-ordine -->
 ### 🔴 #168 — Il server che fa lavorare la macchina è fermo da quattro giorni · ⏳ accodata 2026-08-22 20:25
 
 **In parole semplici.** Il server non alza più le cadenze dal 18 agosto alle 06:50. Sono 109 ore.
@@ -1518,11 +1613,153 @@ in scrittura alla macchina, ed è giusto così.
 
 ---
 
-### 🟡 #42 — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50 · aggiornata 2026-08-13 11:34
+### 🟡 #42 — Togli alla macchina il permesso di eseguire qualunque programma si scriva da sola · ⏳ accodata 2026-07-29 18:50 · aggiornata 2026-08-23 19:20
 
 **Cosa cambia:** nel foglio dei permessi (`.claude/settings.json`) ci sono due righe col jolly: `node cervello/*.mjs` e `bash cervello/*.sh`. Queste righe non dicono «può lanciare questi programmi». Dicono «può lanciare qualunque programma finisca in quella cartella» — e quella cartella la scrive la macchina stessa. I freni veri (la pausa, la tua firma, il controllo su chi riceve un messaggio) stanno dentro ai singoli programmi. Con il jolly si può arrivare a un programma senza passare dal freno che contiene. Non sto dicendo che sia già successo. Sto dicendo che oggi nessuno lo impedirebbe. **Novità 13/8:** il jolly non è solo un rischio — è anche il motivo per cui `test-cervello.mjs`, `gate-veri.mjs`, `pota-apprendimento.mjs` e altri restano bloccati da un'approvazione che in sessione chat non arriva mai (documentato ~16 volte in [[STATO]] dal 4/8). Applicare questa card li sblocca anche per questo.
-**Se va bene:** sostituisci le due righe con l'elenco esplicito che ti ho già preparato: 75 programmi (aggiornato oggi con 5 nati dopo il 29/7: `correzione-nicola-gate.mjs`, `domanda-riesame-check.mjs`, `gate-veri.mjs`, `mappa-macchina.mjs`, `pota-apprendimento.mjs`), ricavati guardando quali il giro e il worker lanciano davvero, più i 12 script di avvio. La lista è in `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md`, pronta da incollare. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, aggiungi il permesso a mano. Aggiungere una riga si vede. Il jolly no.
-**Nota tecnica:** difetto AR-206, parte (a). Il lotto 33 ha verificato la parte (b). È la regola `no-jolly-su-cartella-scrivibile` in `cervello/permessi-check.mjs`. Esiste già e funziona: segnala correttamente entrambe le forme. La parte (a) non l'ho fatta io di proposito. `.claude/settings.json` è negato in scrittura alla macchina apposta (regola `no-auto-permessi`). Scavalcare quel confine per chiudere un difetto sul confine sarebbe stato assurdo. Restano fuori due parti, infrastrutturali, per un lotto a sé: il controllo di provenienza su ogni script, e le chiavi tenute fuori dall'ambiente del worker.
+**Se va bene:** sostituisci le due righe col jolly con i due blocchi qui sotto. Poi lanci `node cervello/permessi-check.mjs` e quella segnalazione sparisce. Da lì in avanti, se serve un programma nuovo, aggiungi il permesso a mano. Aggiungere una riga si vede. Il jolly no.
+
+**⚠️ Aggiornato il 23/8: l'elenco che avevi in mano era indietro di 51 programmi.** Era curato a mano, ed era già stato ritoccato una volta il 13/8. Applicarlo com'era avrebbe spento 51 programmi che il giro lancia ogni giorno — cioè la cura rompeva il giro. Adesso l'elenco si ricalcola da chi lancia davvero, e una prova diventa rossa se torna indietro.
+
+Al posto di `"Bash(node cervello/*.mjs:*)"` — 112 righe:
+
+```json
+      "Bash(node cervello/adozione-medicine.mjs:*)",
+      "Bash(node cervello/agent-registry-check.mjs:*)",
+      "Bash(node cervello/allinea-scan-cantiere.mjs:*)",
+      "Bash(node cervello/allocazione-check.mjs:*)",
+      "Bash(node cervello/apprendimento-guardiano.mjs:*)",
+      "Bash(node cervello/auto-fix.mjs:*)",
+      "Bash(node cervello/avviso-telegram.mjs:*)",
+      "Bash(node cervello/banco-ai.mjs:*)",
+      "Bash(node cervello/battito-esterno.mjs:*)",
+      "Bash(node cervello/bilancio-vivo.mjs:*)",
+      "Bash(node cervello/c4-cancelli.mjs:*)",
+      "Bash(node cervello/calibrazione.mjs:*)",
+      "Bash(node cervello/cancello-lotto.mjs:*)",
+      "Bash(node cervello/cantiere-prove.mjs:*)",
+      "Bash(node cervello/capacita.mjs:*)",
+      "Bash(node cervello/chiusura-loop.mjs:*)",
+      "Bash(node cervello/ci-stato.mjs:*)",
+      "Bash(node cervello/coerenza-fatti.mjs:*)",
+      "Bash(node cervello/coerenza-rischi.mjs:*)",
+      "Bash(node cervello/collega-marketplace.mjs:*)",
+      "Bash(node cervello/conflitti-memoria.mjs:*)",
+      "Bash(node cervello/contesto-lezioni.mjs:*)",
+      "Bash(node cervello/correzione-nicola-gate.mjs:*)",
+      "Bash(node cervello/costo-ai.mjs:*)",
+      "Bash(node cervello/cristallizza-apprendimento.mjs:*)",
+      "Bash(node cervello/cronicita-allarmi.mjs:*)",
+      "Bash(node cervello/deferral-agenti.mjs:*)",
+      "Bash(node cervello/delta-gate.mjs:*)",
+      "Bash(node cervello/errore-motore.mjs:*)",
+      "Bash(node cervello/esegui-azione.mjs:*)",
+      "Bash(node cervello/esito-cadenza.mjs:*)",
+      "Bash(node cervello/esito-claim.mjs:*)",
+      "Bash(node cervello/esperimenti-check.mjs:*)",
+      "Bash(node cervello/firma-check.mjs:*)",
+      "Bash(node cervello/freno-costi.mjs:*)",
+      "Bash(node cervello/freschezza-cadenze.mjs:*)",
+      "Bash(node cervello/freschezza-checklist.mjs:*)",
+      "Bash(node cervello/freschezza-intelligence.mjs:*)",
+      "Bash(node cervello/freschezza-okr.mjs:*)",
+      "Bash(node cervello/freschezza-rischi.mjs:*)",
+      "Bash(node cervello/freschezza-segnali.mjs:*)",
+      "Bash(node cervello/gate-veri.mjs:*)",
+      "Bash(node cervello/git-merge.mjs:*)",
+      "Bash(node cervello/git-pr.mjs:*)",
+      "Bash(node cervello/guardiani-check.mjs:*)",
+      "Bash(node cervello/guardiano-capacita.mjs:*)",
+      "Bash(node cervello/guardiano-tempo.mjs:*)",
+      "Bash(node cervello/housekeeping-azioni.mjs:*)",
+      "Bash(node cervello/intelligence-agenda.mjs:*)",
+      "Bash(node cervello/keyword-owner-check.mjs:*)",
+      "Bash(node cervello/letargo.mjs:*)",
+      "Bash(node cervello/lezione-nuova.mjs:*)",
+      "Bash(node cervello/macchina-del-tempo.mjs:*)",
+      "Bash(node cervello/mappa-macchina.mjs:*)",
+      "Bash(node cervello/marketplace.mjs:*)",
+      "Bash(node cervello/metabolismo.mjs:*)",
+      "Bash(node cervello/midollo-spinale.mjs:*)",
+      "Bash(node cervello/no-path-cablati-check.mjs:*)",
+      "Bash(node cervello/non-vacuita.mjs:*)",
+      "Bash(node cervello/north-star-check.mjs:*)",
+      "Bash(node cervello/notifica-approvazioni.mjs:*)",
+      "Bash(node cervello/onesta-check.mjs:*)",
+      "Bash(node cervello/pagella-intelligenza.mjs:*)",
+      "Bash(node cervello/pausa-check.mjs:*)",
+      "Bash(node cervello/percorsi-git.mjs:*)",
+      "Bash(node cervello/peso-contesto.mjs:*)",
+      "Bash(node cervello/peso-file-cabina.mjs:*)",
+      "Bash(node cervello/piani-data.mjs:*)",
+      "Bash(node cervello/piani-verita.mjs:*)",
+      "Bash(node cervello/porte-check.mjs:*)",
+      "Bash(node cervello/pota-apprendimento.mjs:*)",
+      "Bash(node cervello/pota-memoria.mjs:*)",
+      "Bash(node cervello/prova-trigger.mjs:*)",
+      "Bash(node cervello/prove-oneste.mjs:*)",
+      "Bash(node cervello/registro-scelte-check.mjs:*)",
+      "Bash(node cervello/retry-policy.mjs:*)",
+      "Bash(node cervello/riconcilia-perimetro.mjs:*)",
+      "Bash(node cervello/rotte-scriventi-check.mjs:*)",
+      "Bash(node cervello/salute.mjs:*)",
+      "Bash(node cervello/sblocco-capacita.mjs:*)",
+      "Bash(node cervello/scadenzario-check.mjs:*)",
+      "Bash(node cervello/scan-segreti.mjs:*)",
+      "Bash(node cervello/scritture-a-rischio.mjs:*)",
+      "Bash(node cervello/senior-sola-lettura.mjs:*)",
+      "Bash(node cervello/sensore-cassa.mjs:*)",
+      "Bash(node cervello/sensori-spenti-check.mjs:*)",
+      "Bash(node cervello/sentinella-budget.mjs:*)",
+      "Bash(node cervello/sentinella-fonti.mjs:*)",
+      "Bash(node cervello/si-capisce.mjs:*)",
+      "Bash(node cervello/sincronizza-proposte.mjs:*)",
+      "Bash(node cervello/sistema-immunitario.mjs:*)",
+      "Bash(node cervello/sonda-volano.mjs:*)",
+      "Bash(node cervello/spazza-temporanei.mjs:*)",
+      "Bash(node cervello/spazzata-fratelli.mjs:*)",
+      "Bash(node cervello/stampo-check.mjs:*)",
+      "Bash(node cervello/stash-dimenticate.mjs:*)",
+      "Bash(node cervello/supervisione-negozi.mjs:*)",
+      "Bash(node cervello/sync-worker-plugins.mjs:*)",
+      "Bash(node cervello/tasso-chiusura.mjs:*)",
+      "Bash(node cervello/tasso-lezioni.mjs:*)",
+      "Bash(node cervello/taste-file.mjs:*)",
+      "Bash(node cervello/test-cervello.mjs:*)",
+      "Bash(node cervello/test-pannello.mjs:*)",
+      "Bash(node cervello/test/battito-esterno.test.mjs:*)",
+      "Bash(node cervello/test/lucchetto-per-corsia.test.mjs:*)",
+      "Bash(node cervello/test/pw-driver.mjs:*)",
+      "Bash(node cervello/uscite-check.mjs:*)",
+      "Bash(node cervello/utilizzo-senior.mjs:*)",
+      "Bash(node cervello/valida-contratti.mjs:*)",
+      "Bash(node cervello/vault-sanita.mjs:*)",
+      "Bash(node cervello/verifica-avversariale.mjs:*)",
+      "Bash(node cervello/verifica-sensori.mjs:*)",
+```
+
+Al posto di `"Bash(bash cervello/*.sh:*)"` — 16 righe:
+
+```json
+      "Bash(bash cervello/giro.sh:*)",
+      "Bash(bash cervello/installa-hooks.sh:*)",
+      "Bash(bash cervello/ritmo.sh:*)",
+      "Bash(bash cervello/vps/aggiorna-cervello.sh:*)",
+      "Bash(bash cervello/vps/collega-claude.sh:*)",
+      "Bash(bash cervello/vps/collega-cursor.sh:*)",
+      "Bash(bash cervello/vps/diagnostica-completa.sh:*)",
+      "Bash(bash cervello/vps/giro-ora.sh:*)",
+      "Bash(bash cervello/vps/install-ritmo-timers.sh:*)",
+      "Bash(bash cervello/vps/recupera-lavori-orfani.sh:*)",
+      "Bash(bash cervello/vps/riconcilia-memoria.sh:*)",
+      "Bash(bash cervello/vps/ritmo-ora.sh:*)",
+      "Bash(bash cervello/vps/setup.sh:*)",
+      "Bash(bash cervello/vps/test-agent.sh:*)",
+      "Bash(bash cervello/vps/test-giro-prompt.sh:*)",
+      "Bash(bash cervello/vps/watch-main.sh:*)",
+```
+**Aggiunto il 23/8: nello stesso foglio ci sono altre tre righe**, e con quelle si chiude anche **AR-142**, l'altro bloccante sui permessi. Una gesto sola per tutt'e due. ① Manca il divieto di spingere sul ramo principale: aggiungi al `deny` le righe `"Bash(git push origin main:*)"` e `"Bash(git push --force:*)"`. Ho scelto il divieto **mirato** e non `git push` intero, perché la macchina deve poter spingere sul suo ramo — altrimenti non può più aprirti una richiesta. ② Nell'`allow` c'è `mcp__Supabase__execute_sql`, che **modifica** il database: consiglio di toglierlo, ho controllato e nessuno script della macchina lo usa. ③ Cinque righe usano `Write(...)` dove il programma vuole `Edit(...)`: sono quelle che stampano l'avviso a ogni avvio, e la protezione vera è già lì accanto. Il dettaglio di tutt'e tre sta nel documento.
+
+**Nota tecnica:** difetti AR-206 parte (a) e AR-142. Il documento intero, con il perché, sta in `consegne/sicurezza/2026-07-29-permessi-senza-jolly.md` — ed è GENERATO da `cervello/permessi-elenco.mjs`, non più tenuto a mano. Il lotto 33 ha verificato la parte (b). È la regola `no-jolly-su-cartella-scrivibile` in `cervello/permessi-check.mjs`. Esiste già e funziona: segnala correttamente entrambe le forme. La parte (a) non l'ho fatta io di proposito. `.claude/settings.json` è negato in scrittura alla macchina apposta (regola `no-auto-permessi`). Scavalcare quel confine per chiudere un difetto sul confine sarebbe stato assurdo. Restano fuori due parti, infrastrutturali, per un lotto a sé: il controllo di provenienza su ogni script, e le chiavi tenute fuori dall'ambiente del worker.
 - **Colore:** 🟡 (restringe i permessi della macchina: non manda niente a nessuno, ma va provato che il giro continui a girare)
 - **Reparto:** security + devops-sre
 - **Origine:** `{origine:lotto-33-perimetri, difetto:AR-206}`
@@ -2400,3 +2637,7 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 ---
 
 > 🗄️ Le card chiuse (23) stanno in [[AZIONI-archivio]] — `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
+
+---
+
+> 🗄️ Le card chiuse (24) stanno in [[AZIONI-archivio]] — `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

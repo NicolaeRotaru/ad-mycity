@@ -401,12 +401,33 @@ export function violazioniPorta(file, ctx = {}) {
     const mette_al_lavoro = /\bagent\s*\(/.test(testo);
     const importa_la_porta = /from\s+['"][^'"]*prompt-senior\.mjs['"]/.test(testo);
     const usa_la_porta = /\bpromptSenior\s*\(/.test(testo);
+    // 23/8/2026 (AR-780) — LA SECONDA PORTA, e non è uno sconto sulla regola.
+    //
+    // Questa regola pretendeva un `import` di prompt-senior.mjs. Il motore dei workflow non accetta
+    // NESSUN import: `export const meta` dev'essere la prima istruzione e uno script con un import
+    // viene rifiutato prima di eseguire una riga. Le due regole erano incompatibili — un workflow
+    // poteva soddisfare AR-434 oppure partire, mai tutt'e due. Il conto: i sei workflow di
+    // `.claude/workflows/` non sono partiti per due mesi, mentre CLAUDE.md li nomina nei comandi.
+    //
+    // `agentType` fa la stessa cosa MEGLIO: il motore risolve il senior dallo stesso registro del
+    // comando di delega e gli dà il suo mansionario come identità, non come testo incollato dentro
+    // un messaggio d'utente. L'obiettivo di AR-434 — il mansionario arriva a chi lavora — è
+    // soddisfatto; il meccanismo che pretendeva è quello che non si può usare lì dentro.
+    //
+    // Non basta che `agentType` compaia una volta: DEVE esserci su OGNI chiamata ad `agent(`, o un
+    // agente resterebbe generico e nessuno se ne accorgerebbe.
+    const chiamate = (testo.match(/\bagent\s*\(/g) || []).length;
+    const conAgentType = (testo.match(/agentType\s*:/g) || []).length;
+    const passa_dal_registro = chiamate > 0 && conAgentType >= chiamate;
 
-    // ① PORTA UNICA (AR-434). Chi istanzia un agente costruisce un'identità: deve passare da qui,
-    //    altrimenti il mansionario non arriva a chi lavora e nessuno può accorgersene.
-    if (mette_al_lavoro && !(importa_la_porta && usa_la_porta)) {
+    // ① PORTA UNICA (AR-434). Chi istanzia un agente costruisce un'identità: deve passare da una
+    //    delle due porte — il mansionario composto qui, o il registro via `agentType` — altrimenti
+    //    il mansionario non arriva a chi lavora e nessuno può accorgersene.
+    if (mette_al_lavoro && !(importa_la_porta && usa_la_porta) && !passa_dal_registro) {
       accusa(nome, "porta-unica", "file",
-        "mette al lavoro un agente senza passare da cervello/prompt-senior.mjs: il mansionario non arriva a chi lavora");
+        chiamate > conAgentType
+          ? `mette al lavoro ${chiamate} agenti e solo ${conAgentType} dichiarano \`agentType\`: gli altri restano senza mestiere`
+          : "mette al lavoro un agente senza passare né da cervello/prompt-senior.mjs né da `agentType`: il mansionario non arriva a chi lavora");
     }
 
     // ② IDENTITÀ SCRITTA A MANO (AR-434). Un prompt letterale che si presenta come un senior è il

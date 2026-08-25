@@ -1,12 +1,19 @@
+// AR-780 — PERCHE' QUESTO FILE NON HA IMPORT.
+//
+// Fino al 23/8/2026 apriva con degli `import` e metteva `meta` piu' in basso. Il motore dei workflow
+// pretende che `export const meta` sia la PRIMA istruzione e non accetta nessun import: rifiutava lo
+// script prima di eseguirne una riga. Tutti e sei i workflow erano cosi', da due mesi.
+//
+// I mansionari NON si incollano piu' nel prompt: il motore li carica da se' con `agentType`. Il
+// percorso del repo e l'elenco dei difetti gia' trovati non si leggono piu' qui: nel motore il disco
+// non si legge, e l'agente ci gira dentro con gli strumenti in mano.
+
 // La radiografia profonda di tutti gli organi, in tre giri con angoli diversi.
 //
 // Cosa è cambiato qui (lotto corsia G — AR-434, AR-435): ogni mandato dichiara il senior che lo sa
 // fare e il prompt esce dal suo mansionario vero (`cervello/prompt-senior.mjs`); la radice del repo
 // e l'elenco dei difetti già trovati non sono più percorsi scritti a mano — uno era la cartella
 // della sessione cloud che l'ha scritta, e su qualunque altra macchina è un file che non esiste.
-import { existsSync } from 'node:fs'
-import { join } from 'node:path'
-import { promptSenior, radiceRepo } from '../../cervello/prompt-senior.mjs'
 
 export const meta = {
   name: 'radiografia-totale',
@@ -23,10 +30,10 @@ export const meta = {
 }
 
 // SOLA LETTURA. La macchina è QUESTO repo; il worker vive su un VPS che da qui NON si vede.
-const REPO = radiceRepo()
-// L'elenco dei difetti già trovati, se qualcuno l'ha lasciato: GIA_TROVATI dall'ambiente, oppure un
-// file nel repo. Se non c'è, resta il cantiere: meglio nessun elenco che un percorso inventato.
-const GIA = [process.env.GIA_TROVATI, join(REPO, 'auto-coscienza/gia-trovati.md')].find((p) => p && existsSync(p)) || null
+// L'elenco dei difetti già trovati non si cerca piu' qui — nel motore il disco non si legge: si dice
+// all'agente dove guardare, e se il file non c'e' lo scopre lui invece di ereditare un percorso
+// inventato. Resta comunque il cantiere, che e' la fonte vera.
+const GIA = "MyCity-Vault/90-Memoria-AI/auto-coscienza/gia-trovati.md (se esiste)"
 
 // ─────────────────────────────────────────────────────────────────────────────
 // 16 MANDATI su 6 organi. Ognuno raggruppa più aree affini: meno agenti, stesso
@@ -117,7 +124,7 @@ REGOLE NON NEGOZIABILI:
 - NIENTE INVENTATO. Ogni numero ha una fonte che hai verificato tu adesso.
 - Ciò che non hai potuto vedere va in zone_non_viste. Non è un verde.
 - Il titolo si legge a voce: niente sigle (AR-xxx), niente path nel titolo.
-- Il repo è ${REPO}. Il worker gira su un VPS che da qui NON si vede: dichiaralo, non fingere.
+- Sei dentro il repo dell'AD. Il worker gira su un VPS che da qui NON si vede: dichiaralo, non fingere.
 - NON ripetere difetti già noti: ${GIA ? `leggi ${GIA} e ` : ''}leggi
   MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json. Cerca il NUOVO.
 ${BUDGET}`
@@ -129,25 +136,22 @@ function promptFinder(d, giro, giaTrovati) {
     3: `Terzo giro: RESIDUO. Due colleghi hanno già setacciato. Quel che resta è nascosto per un motivo: interazioni fra due pezzi che presi da soli sembrano giusti, difetti che si vedono solo nel tempo (accumulo, crescita, drift), cose corrette oggi che si romperanno al prossimo cambio, e ciò che nessuno controlla perché tutti pensano lo controlli qualcun altro.\n\nGIÀ TROVATO NEI GIRI 1-2:\n${giaTrovati || '(niente)'}`,
   }[giro]
 
-  // Il mandato entra come focus, il resto come compito: l'identità la porta il mansionario.
-  return promptSenior(d.senior, {
-    radice: REPO,
-    focus: `Radiografia dell'organo "${d.organo}", mandato "${d.key}". CERCA QUI: ${d.focus}`,
-    compito: `Sei spietato: qui il mestiere serve a trovare quello che gli altri non hanno visto.
+  // Il mandato entra nel testo; l'identita' la porta `agentType`, che il motore risolve dal registro.
+  return `Radiografia dell'organo "${d.organo}", mandato "${d.key}". CERCA QUI: ${d.focus}
+
+Sei spietato: qui il mestiere serve a trovare quello che gli altri non hanno visto.
 
 ${angolo}
 
 ${REGOLE}
 
-Lavora con Read/Grep/Glob/Bash(sola lettura) dentro ${REPO}.`,
-  })
+Lavora con Read/Grep/Glob/Bash(sola lettura) dentro il repo dell'AD, dove gia' ti trovi.`
 }
 
 function promptVerifica(f) {
-  return promptSenior('internal-audit', {
-    radice: REPO,
-    focus: 'Verifica avversariale di un difetto segnalato da un collega: REFUTALO, non confermarlo.',
-    compito: `Parti dal presupposto che sia un falso allarme.
+  return `Verifica avversariale di un difetto segnalato da un collega: REFUTALO, non confermarlo.
+
+Parti dal presupposto che sia un falso allarme.
 
 DIFETTO: ${f.titolo}
 DOVE: ${f.dove}
@@ -155,13 +159,12 @@ DESCRIZIONE: ${f.descrizione}
 SEVERITÀ: ${f.severita}
 PROVA (${f.prova_tipo}): ${f.prova}
 
-Guarda il codice vero in ${REPO} ed esegui la prova se è un comando (con \`timeout 30\`).
+Guarda il codice vero nel repo dell'AD ed esegui la prova se è un comando (con \`timeout 30\`).
 Esiste davvero? la severità è gonfiata? la prova diventa DAVVERO rossa, o è un grep travestito?
 esiste già una protezione che lo copre? è un duplicato di qualcosa di noto?
 
 Nel dubbio: reale=false. Un falso allarme che passa costa più di un difetto perso.
-Massimo ~10 chiamate di strumento.`,
-  })
+Massimo ~10 chiamate di strumento.`
 }
 
 function riassumi(ds) {
@@ -175,6 +178,8 @@ async function giro(n, ctx) {
       label: `g${n}:${d.organo}/${d.key}`,
       phase: n === 1 ? 'Giro 1 — ampiezza' : n === 2 ? 'Giro 2 — angolo avversario' : 'Giro 3 — residuo',
       schema: SCHEMA_DIFETTI,
+      // L'identita' del senior la porta il registro, non un mansionario incollato nel prompt.
+      agentType: d.senior,
     }),
     (res, d) => {
       if (!res?.difetti?.length) return { dim: d, difetti: [], zone: res?.zone_non_viste || [] }
@@ -186,6 +191,7 @@ async function giro(n, ctx) {
           label: `v${n}:${String(f.titolo).slice(0, 30)}`,
           phase: `Verifica giro ${n}`,
           schema: SCHEMA_VERDETTO,
+          agentType: 'internal-audit',
         }).then(v => ({ ...f, organo: d.organo, verdetto: v, verificato: true }))
       )).then(vs => {
         const ok = vs.filter(Boolean).filter(x => x.verdetto?.reale)
@@ -225,10 +231,9 @@ const tutti = [...r1, ...r2, ...r3]
 const critici = await parallel(ORGANI.map(o => () => {
   const suoi = tutti.filter(r => r.dim.organo === o).flatMap(r => r.difetti)
   const zone = [...new Set(tutti.filter(r => r.dim.organo === o).flatMap(r => r.zone || []))]
-  return agent(promptSenior('internal-audit', {
-    radice: REPO,
-    focus: `Critico di completezza per l'organo "${o}": tre giri hanno guardato, tu cerchi quello che non ha guardato nessuno.`,
-    compito: `Repo ${REPO}.
+  return agent(`Critico di completezza per l'organo "${o}": tre giri hanno guardato, tu cerchi quello che non ha guardato nessuno.
+
+Sei dentro il repo dell'AD.
 
 Tre giri hanno prodotto questi ${suoi.length} difetti:
 ${riassumi(suoi) || '(nessuno)'}
@@ -241,8 +246,7 @@ nessuno ha aperto, un'affermazione dei tre giri che nessuno ha verificato, o un 
 esiste solo nell'incastro fra questo organo e un altro. Se trovi qualcosa, provalo adesso.
 Se davvero non manca niente, dillo e spiega su che base lo affermi.
 
-${REGOLE}`,
-  }), { label: `critico:${o}`, phase: 'Critico di completezza', schema: SCHEMA_DIFETTI })
+${REGOLE}`, { label: `critico:${o}`, phase: 'Critico di completezza', schema: SCHEMA_DIFETTI, agentType: 'internal-audit' })
 }))
 
 const daCritici = critici.filter(Boolean).flatMap((c, i) =>

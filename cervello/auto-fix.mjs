@@ -28,6 +28,10 @@ import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { chiusuraAmmessa, istanteNascita, patternTrovato } from "./prove-regole.mjs";
 import { chiusuraBloccata, formaProva, verdettoChiusura } from "./chiusura-dichiarata.mjs";
+// AR-796 — la porta A MANO consulta il cancello direttamente: `verdettoChiusura` serve la porta
+// automatica (che parte da un esito di prova), qui invece la decisione è già presa da una persona
+// e la domanda è solo «quella prova sarebbe stata ammessa?». Stessa funzione, due usi diversi.
+import { ammissibilitaProva } from "./prova-ammissibile.mjs";
 import { FORMA_COMANDO_PROVA, MOTIVO_COMANDO_NON_AMMESSO, comandoAmmesso } from "./forma-prova.mjs";
 // 📏 Quanto vale una prova lo dice UN posto solo (contratto-prova.mjs), non un lettore per file.
 import { classificaProva } from "./contratto-prova.mjs";
@@ -48,8 +52,21 @@ import { cambiatoDallaNascita, storiaDelRepo } from "./storia-git.mjs";
 import { metaCantiere } from "./stati-cantiere.mjs";
 
 const VAULT = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
-const CANTIERE = join(VAULT, "cantiere-difetti.json");
-const STORICO = join(VAULT, "storico-salute.json");
+// AR-796 — il registro si può puntare altrove, con la stessa chiave che usa già `salute-onesta.mjs`
+// (`CANTIERE_FILE`). Serve alla prova: il difetto è «chi CHIUDE non passa dal cancello», e l'unico
+// modo di provarlo è far girare questo file su una scheda finta e guardare se la chiude. Senza
+// questa maniglia la prova potrebbe solo esaminare la funzione pura — cioè provare che il cancello
+// funziona, non che il chiuditore ci passi: esattamente la distinzione che ha lasciato aperto il
+// difetto per due lotti. Fuori dai test nessuno la usa e il percorso resta quello di sempre.
+const CANTIERE = process.env.CANTIERE_FILE || join(VAULT, "cantiere-difetti.json");
+// AR-799 — anche lo storico si può puntare altrove, e NON è un dettaglio del test: questo file
+// scrive in DUE registri, e finché se ne poteva reindirizzare uno solo ogni prova che faceva girare
+// il chiuditore su un cantiere finto scriveva un punto vero nella storia della salute. È successo
+// il 23/8 con le prove di AR-796: quattro punti «chiuso AR-FINTO-MANO» nella serie che disegna il
+// grafico in Cabina, e il totale dei chiusi che crolla da 679 a 1. L'ha trovato la prova del volano,
+// non io. Una maniglia che apre metà porta è peggio di nessuna maniglia: fa credere di essere al
+// riparo.
+const STORICO = process.env.STORICO_FILE || join(VAULT, "storico-salute.json");
 const RAD = join(VAULT, "auto-radiografia.json");
 
 function arg(name, def = undefined) {
@@ -331,6 +348,11 @@ async function cmdVerifica(cantiere) {
   }
   const daChiudere = [];
   const rifiutate = [];
+  // AR-796 — le chiusure fermate dal cancello delle prove, tenute SEPARATE da quelle fermate dalla
+  // guardia AR-330 (file mai cambiato). Sono due rifiuti diversi e chi legge deve poterli
+  // distinguere: uno dice «questa prova non descrive una riparazione», l'altro «questa prova non
+  // basta per un difetto di questo peso». Un unico mucchio nasconde quale delle due cure serve.
+  const rifiutateDalCancello = [];
   const dichiaratiAperti = [];
   // AR-559 — le prove che il motore NON HA POTUTO ESEGUIRE. Prima finivano fra le «manuali» e
   // sparivano: un metro che non misura una strada non la dichiara scoperta, dice verde.
@@ -349,7 +371,12 @@ async function cmdVerifica(cantiere) {
     // caso che ha rotto: AR-396, dichiarato aperto in tre punti della PR #621 e richiuso lo stesso
     // dalla prova a pattern rimasta sulla scheda. Verdetto in chiusura-dichiarata.mjs, dove un test
     // lo può ESEGUIRE.
-    const vc = verdettoChiusura(d, r.esito);
+    // ④ IL CANCELLO DELLE PROVE (AR-796). Il verdetto adesso lo dà `verdettoChiusura`, che consulta
+    // `ammissibilitaProva`: una prova soddisfatta ma non ammessa (orfana, oppure a pattern su un
+    // difetto bloccante o ad alto impatto) NON chiude. Prima quei due cancelli li leggeva solo il
+    // referto, che guarda e racconta — questo file, che chiude davvero, non li chiamava affatto.
+    // Il mondo (l'unica domanda al disco) glielo passa il chiamante: la regola resta pura.
+    const vc = verdettoChiusura(d, r.esito, { fileEsiste: (f) => existsSync(join(AD_ROOT, f)) });
     const bloccato = r.esito === "risolto" && !g.ammessa;
     // AR-559 — la distinzione la fa il CODICE del contratto, non la parola `esito`: «manuale»
     // significava tanto «l'ho lasciato a un umano» quanto «non l'ho saputo eseguire», ed è la
@@ -357,11 +384,16 @@ async function cmdVerifica(cantiere) {
     const cieca = r.codice === NON_MISURABILE;
     const icona = vc.bloccata
       ? "🔒 dichiarato aperto"
-      : bloccato ? "🛑 rifiutata" : r.esito === "risolto" ? (vc.debole ? "✅ risolto (prova debole)" : "✅ risolto") : cieca ? "⚠️  NON MISURATO" : r.esito === "manuale" ? "🖐️  manuale" : "⏳ aperto";
+      : bloccato ? "🛑 rifiutata" : vc.inammissibile ? "⛔ prova non ammessa" : r.esito === "risolto" ? (vc.debole ? "✅ risolto (prova debole)" : "✅ risolto") : cieca ? "⚠️  NON MISURATO" : r.esito === "manuale" ? "🖐️  manuale" : "⏳ aperto";
     console.log(`${icona}  ${d.id} — ${d.titolo}`);
-    console.log(`        ${vc.bloccata ? vc.motivo : bloccato ? g.motivo : r.dettaglio}`);
+    console.log(`        ${vc.bloccata ? vc.motivo : bloccato ? g.motivo : vc.inammissibile ? vc.motivo : r.dettaglio}`);
+    // AR-796 — la chiusura la decide `vc.chiude`, non una condizione riscritta qui. Prima questa
+    // riga rifaceva il verdetto (`r.esito === "risolto" && g.ammessa`) e il `chiude` che la funzione
+    // pura tornava veniva buttato: un verdetto che il chiamante ricalcola non decide niente, e i
+    // cancelli aggiunti alla funzione non sarebbero mai arrivati fin qui.
     if (vc.bloccata) dichiaratiAperti.push({ d, motivo: vc.motivo });
-    else if (r.esito === "risolto" && g.ammessa) daChiudere.push({ d, come: r.dettaglio, debole: vc.debole });
+    else if (vc.inammissibile) rifiutateDalCancello.push({ d, motivo: vc.motivo, marca: vc.marca });
+    else if (vc.chiude && g.ammessa) daChiudere.push({ d, come: r.dettaglio, debole: vc.debole });
     else if (bloccato) rifiutate.push({ d, motivo: g.motivo });
     else if (cieca) nonMisurate.push({ d, motivo: r.dettaglio });
   }
@@ -377,6 +409,12 @@ async function cmdVerifica(cantiere) {
     console.log(
       `\n🔒 ${dichiaratiAperti.length} difetto/i NON chiusi perché dichiarati aperti da un umano: la prova risulta soddisfatta ma qualcuno ha guardato e deciso. Si sbloccano solo togliendo \`chiusura: "bloccata"\` dalla scheda — cioè con un'altra decisione umana.`,
     );
+  }
+  if (rifiutateDalCancello.length) {
+    console.log(
+      `\n⛔ ${rifiutateDalCancello.length} chiusura/e FERMATE dal cancello delle prove (AR-796): la prova risulta soddisfatta ma non è ammessa a chiudere un difetto di questo peso. Non è un difetto in più — è una chiusura che prima passava senza che nessuno guardasse. Si sbloccano dando alla scheda \`{"comando":"node cervello/test/<nome>.test.mjs"}\`, cioè una prova che diventa rossa se il difetto torna.`,
+    );
+    for (const x of rifiutateDalCancello) console.log(`   · ${x.d.id} — ${x.motivo}`);
   }
   if (rifiutate.length) {
     console.log(
@@ -448,7 +486,25 @@ function cmdChiudi(cantiere) {
   if (vp.codice === NON_MISURABILE) {
     d.prova_non_misurata = vp.motivo;
     console.error(`⚠️  ${id}: chiusa a mano su una prova che il motore NON sa eseguire — ${vp.motivo}`);
-    console.error(`   Resta scritto sulla scheda (\`prova_non_misurata\`) e nel conto di \`cantiere-prove.mjs --gate-prove\`: questa chiusura non è corroborata da nessuna esecuzione.`);
+    // 23/8 (AR-796) — questa frase prometteva «e nel conto di cantiere-prove» dal 13/8 e quel conto
+    // non esisteva: due sole occorrenze di `prova_non_misurata` in tutto il repo, tutt'e due qui.
+    // Adesso il conto c'è per davvero (`chiuse_su_prova_non_misurata`), quindi la frase è vera.
+    console.error(`   Resta scritto sulla scheda (\`prova_non_misurata\`) e nel conto \`chiuse_su_prova_non_misurata\` del referto di cantiere-prove: questa chiusura non è corroborata da nessuna esecuzione.`);
+  }
+  // ⛔ AR-796, LA PORTA A MANO. Trovata al secondo giro del lotto 51, ed è la malattia del lotto
+  // stesso ripetuta un centimetro più in là: avevo montato il cancello sulla porta automatica e
+  // stavo per consegnare lasciando aperta questa. È letteralmente AR-172 — «la porta a mano
+  // riparata e quella automatica lasciata aperta», qui col verso invertito.
+  //
+  // NON LA SBARRO, e il motivo è scritto quindici righe più su per AR-559: un cancello sempre rosso
+  // viene aggirato al secondo giro. Di là non c'è nessuno che guarda, quindi di là si RIFIUTA; qui
+  // c'è una persona che ha scritto l'id a mano, quindi qui si DICHIARA. La differenza fra le due
+  // porte non è la severità della regola: è chi c'è davanti.
+  const amm = ammissibilitaProva(d, { fileEsiste: (f) => existsSync(join(AD_ROOT, f)) });
+  if (!amm.ammessa) {
+    d.chiusa_su_prova_non_ammessa = amm.motivo;
+    console.error(`⛔ ${id}: chiusa a mano su una prova che il cancello NON ammette — ${amm.motivo}`);
+    console.error(`   Dalla porta automatica questa chiusura sarebbe stata rifiutata. Resta scritto sulla scheda (\`chiusa_su_prova_non_ammessa\`) e nel conto \`chiuse_su_prova_non_ammessa\` del referto di cantiere-prove: è un numero che si può guardare scendere, non un silenzio.`);
   }
   // AR-575 — anche la porta A MANO passa dal timbro unico (lezione AR-172: mai due copie del timbro).
   timbraChiusura(d, { come: blocco.bloccata ? `${come} [FORZATA su una dichiarazione umana: ${blocco.motivo}]` : come });

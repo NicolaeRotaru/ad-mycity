@@ -26,6 +26,12 @@
 // 🚧 «Quali schede sono ancora lavoro» non si decide qui: la casa è cervello/stati-cantiere.mjs.
 // Il conto del debito partiva da `stato === "aperto"` e saltava il terzo stato (AR-719).
 import { eDaFare } from "./stati-cantiere.mjs";
+// 🛑 IL CANCELLO CHE DECIDE SE UNA PROVA PUÒ CHIUDERE (AR-796). Stava in `prova-ammissibile.mjs`
+// e lo consultava solo il REFERTO — `cantiere-prove.mjs`, che guarda e racconta. Chi CHIUDE
+// davvero è `auto-fix.mjs`, e non passava di lì: zero occorrenze, verificato col grep il 23/8.
+// Due cancelli costruiti bene, montati sulla porta che non si apre. Adesso il freno sta sulla
+// strada dell\'atto, cioè dentro il verdetto che il chiuditore già chiamava.
+import { ammissibilitaProva } from "./prova-ammissibile.mjs";
 
 /** Le forme di prova che una scheda può portare. La forte è una sola: un comando che si esegue. */
 export function formaProva(verifica) {
@@ -66,20 +72,65 @@ export function chiusuraBloccata(dif) {
  * `esitoProva` è ciò che ha stabilito la prova: "risolto" | "aperto" | "manuale".
  * Torna sempre {chiude, debole, motivo} — mai un booleano nudo, così chi stampa non può
  * perdere per strada il fatto che quella chiusura era debole.
+ *
+ * ── AR-796 · IL FRENO NON ERA SULLA STRADA ────────────────────────────────────────────────
+ * I due cancelli di `prova-ammissibile.mjs` (prova orfana · prova debole su difetto pesante)
+ * esistevano da due lotti e nessuno che CHIUDE li chiamava. `auto-fix.mjs` chiamava già questa
+ * funzione, ma ne usava solo `bloccata` e `debole`: il campo `chiude` veniva calcolato e buttato
+ * via, e la decisione la rifaceva a mano con `r.esito === "risolto" && g.ammessa`. Un verdetto
+ * che il chiamante ricalcola è un verdetto che non decide niente.
+ *
+ * Adesso il cancello sta QUI, cioè sull\'unica strada che porta all\'atto, e `chiude` è la
+ * risposta — non un parere accanto alla risposta.
+ *
+ * COSA COSTA, misurato il 23/8/2026 sul cantiere vero (108 schede da fare): 19 sono pesanti con
+ * una prova che non esegue niente, quindi da oggi non si chiudono più da sole. Di quelle 19,
+ * **zero** avevano la prova soddisfatta in questo momento: accendere il freno oggi non toglie
+ * nessuna chiusura. La scheda temeva «bloccarle tutte insieme e farsi aggirare al secondo giro»
+ * — il conto dice che il giorno per accenderlo è oggi, perché non blocca niente e da domani
+ * nessuna delle 19 può chiudersi su una parola trovata in un file. Il loro numero lo tiene già
+ * `tetti-lotto.json` (`prova_debole`), sotto un tetto che scende: non serve un secondo registro.
+ *
+ * `fileEsiste` è l\'unica domanda al disco, iniettata perché questo file resta puro. Il default
+ * dice «il file c\'è»: un default che INVENTA una prova orfana sarebbe peggio di uno che se ne
+ * lascia sfuggire una — chi non inietta il mondo perde il cancello (b), non ne guadagna uno finto.
+ *
+ * @param {object} dif la scheda del cantiere
+ * @param {string} esitoProva "risolto" | "aperto" | "manuale"
+ * @param {{fileEsiste?: (percorso: string) => boolean}} mondo
  */
-export function verdettoChiusura(dif, esitoProva) {
+export function verdettoChiusura(dif, esitoProva, { fileEsiste = () => true } = {}) {
   const b = chiusuraBloccata(dif);
   if (b.bloccata) {
-    return { chiude: false, debole: false, bloccata: true, motivo: `dichiarato aperto da un umano — ${b.motivo}` };
+    return { chiude: false, debole: false, bloccata: true, inammissibile: false, marca: null, motivo: `dichiarato aperto da un umano — ${b.motivo}` };
   }
   if (esitoProva !== "risolto") {
-    return { chiude: false, debole: false, bloccata: false, motivo: `la prova non dice risolto (${esitoProva})` };
+    return { chiude: false, debole: false, bloccata: false, inammissibile: false, marca: null, motivo: `la prova non dice risolto (${esitoProva})` };
+  }
+  // ⛔ IL FRENO. Sta dopo la dichiarazione umana (che batte tutto) e prima della chiusura: una
+  // prova soddisfatta ma non ammessa NON chiude, e il motivo che esce è lo stesso che il referto
+  // stampa già — così chi legge il rifiuto e chi legge il conto leggono la stessa frase.
+  const amm = ammissibilitaProva(dif, { fileEsiste });
+  if (!amm.ammessa) {
+    return {
+      chiude: false,
+      debole: provaDebole(dif.verifica),
+      bloccata: false,
+      inammissibile: true,
+      marca: amm.marca,
+      motivo: `la prova risulta soddisfatta ma non è ammessa a chiudere — ${amm.motivo}`,
+    };
   }
   const debole = provaDebole(dif.verifica);
   return {
     chiude: true,
     debole,
     bloccata: false,
+    inammissibile: false,
+    // ⚪ La marca del terzo esito viaggia anche sulle chiusure che PASSANO (AR-789/790): una scheda
+    // coi campi non dichiarati resta chiudibile, ma chi la chiude deve sapere che nessun cancello
+    // ha potuto giudicarla. Un verde che non copre una parte non è un verde su quella parte.
+    marca: amm.marca,
     motivo: debole
       ? "chiusa da una prova a PATTERN: un pattern non frena, non legge, non decide — da rileggere"
       : "chiusa da una prova che si esegue",

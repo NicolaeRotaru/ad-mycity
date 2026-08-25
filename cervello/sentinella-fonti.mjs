@@ -133,6 +133,10 @@ async function main() {
   const esitoScrittura = scriviStatoSensore(OUT, out, {
     ambienteConfigurato: almenoUnaHaRisposto,
     motivo: `nessuna delle ${risultati.length} fonti ha risposto: rete assente in questo ambiente, non fonti morte`,
+    // La copertura è quante fonti hanno DAVVERO risposto, non quante ne ho provate: è il numero che
+    // il freno confronta, e contare i tentativi lo gonfierebbe proprio dove la rete è più povera.
+    copertura: risultati.filter((r) => r.status > 0 || r.skip_check).length,
+    scrittoDa: "sentinella-fonti.mjs",
   });
   if (!esitoScrittura.scritto) console.error(esitoScrittura.spiegazione);
 

@@ -1,8 +1,15 @@
 ---
 tipo: archivio-azioni
-aggiornato: 2026-08-24 17:02
+aggiornato: 2026-08-24 20:49
 fonte: cervello/housekeeping-azioni.mjs
 ---
+
+# 🗄️ Archivio — le card già chiuse
+
+> Le card approvate o annullate finiscono qui, per tenere la coda viva sotto il tetto di lettura
+> del cancello (200.000 caratteri). La coda viva è in [[AZIONI-IN-ATTESA]].
+> Ultima pulizia: 2026-08-24 20:49 · 24 card totali.
+> Le card non si buttano: si spostano. Chi cerca una card chiusa la cerca QUI.
 
 # 🗄️ Archivio — le card già chiuse
 
@@ -267,10 +274,6 @@ Il resto della macchina sta bene. Sensori, sincronizzazione con GitHub, coerenza
 - **Colore:** 🟡 — è la stessa riparazione a basso rischio già scritta nel codice per fare da sola; chiedo perché il file è protetto e non tocco un permesso che non è mio.
 - **Reparto:** devops-sre
 - **Origine:** `{origine:sessione-vps-2026-08-18-mattino, lucchetto:22:20-17-8, pid-morto:352205, ultima-riga-giro:22:33-17-8}`
-
----
-
-</details>
 
 ---
 
@@ -636,25 +639,6 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 
 ---
 
-<!-- prevenzione-a-monte -->
-| 53 | 2026-08-04 17:57 | @tech | Merge PR #677 ad-mycity → main — fix vero del cancello-di-stop (i falsi allarmi sul lavoro del worker, 3ª manifestazione worker-concorrente) | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/677 | github | ✅ CHIUSA 2026-08-10 17:20 — il fix vive su main, portato dalla PR #693. Il ramo vecchio era indietro di sei giorni. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 54 | 2026-08-04 18:00 | @tech | Merge PR #679 ad-mycity → main — porta online anche tutti i commit di memoria di questo turno (17:50-18:00), non solo il sync di routing.json: origin/main non accetta push diretto da questa sessione, la PR è il veicolo | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/679 · riepilogo `consegne/tech/pr-ad-mycity-679.md` | github | ✅ CHIUSA 2026-08-10 17:05 — non si poteva unire: avrebbe riportato indietro sette file di memoria. In cambio portava telemetria che il giro rifà da solo. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. Mergiare #677 PRIMA o dopo non importa, sono indipendenti. |
-| 57 | 2026-08-04 18:33 | @tech | Merge PR #680 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/680 · riepilogo `consegne/tech/pr-ad-mycity-680.md` | github | ✅ CHIUSA 2026-08-10 17:05 — era la memoria di un giro del 4 agosto, ormai superata dai giri dopo. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 58 | 2026-08-04 18:34 | @tech | Merge PR #681 ad-mycity → main — porta online la coda di PR #680 più una nota tecnica | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/681 | github | FATTO 2026-08-04 16:37 — mergiata da Nicola. Verificato dal vivo su GitHub il 2026-08-10 10:05: la richiesta risulta unita, 31 file. La riga chiedeva da sei giorni una cosa già fatta. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. Mergiare in ordine 677→679→680→681 evita conflitti, ma non è bloccante. |
-| 59 | 2026-08-04 20:15 | @tech | Merge PR #683 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/683 · riepilogo `consegne/tech/pr-ad-mycity-683.md` | github | ✅ CHIUSA 2026-08-10 17:20 — anche questo fix è su main, stessa PR #693. Niente da fare. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
-| 60 | 2026-08-10 10:05 | @tech | Unisci la richiesta 675 — il freno vero sulla lezione del file dei permessi | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/675 · riepilogo `consegne/tech/pr-ad-mycity-675.md` | github | FATTO 2026-08-10 11:28 — mergiata da Nicola. Verificato dal vivo su GitHub (merged_by NicolaeRotaru). | È aperta dal 4 agosto e non era mai finita in questa lista: nessuno te l'aveva messa davanti. Porta il freno che impedisce di riaprire da sola una porta che avevi chiuso. | Dopo il tuo ok: unione e messa online del Pannello. Il server si allinea al controllo successivo. |
-| 61 | 2026-08-10 10:05 | @tech | Unisci la richiesta 678 — rinforza la lezione sul lavoro fatto in due allo stesso momento | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/678 · riepilogo `consegne/tech/pr-ad-mycity-678.md` | github | ✅ CHIUSA 2026-08-10 17:05 — la lezione che portava è già su main, arrivata per altra strada. | Aperta dal 4 agosto, anche questa mai messa in lista. È la lezione che ho appena ripagato oggi: due che scrivono la stessa cosa insieme e si pestano. | Dopo il tuo ok: unione. Solo memoria, non tocca il sito. |
-| 62 | 2026-08-10 10:05 | @onboarding-negozi | Fai finire a Pane Quotidiano la pratica dei pagamenti: oggi il negozio non può incassare | 🔴 | Il negozio è approvato e ha la vetrina con 5 prodotti e gli orari, ma il fascicolo dei pagamenti non è mai stato completato. Nel sistema dei pagamenti risultano tre semafori rossi: dati mai inviati, incassi disattivati, versamenti disattivati. Vuol dire che se domani un cliente mette qualcosa nel carrello e va a pagare, il pagamento non parte. L'unico ordine mai arrivato, il 24 giugno, è rimasto «in attesa di pagamento» e poi è stato annullato. Serve che il fornaio completi la pratica di Stripe con i suoi dati (documento, azienda, conto per l'accredito): sono suoi e non li posso mettere io. | manuale | in attesa | Il primo negozio del marketplace passa da «bello da vedere» a «può prendere soldi». Finché resta così, ogni euro speso per portare clienti sul sito è buttato. | Dopo il tuo ok ti preparo il messaggio pronto da mandare al fornaio, con il link e i tre documenti da avere sottomano, e ti dico quando risulta a posto. |
-| 77 | 2026-08-13 09:45 | @devops-sre | Rimetti in moto le cadenze: il Piano del mattino manca dal 30 luglio e tutte e sei risultano fallite | 🔴 | Il worker ieri sera ha ripreso a pubblicare la memoria (commit delle 23:03), ma i lavori a orologio muoiono: tutte e sei le cadenze registrate risultano fallite, il giro di stanotte è morto a tempo scaduto, e l'ultimo Piano del mattino pubblicato è del 30 luglio. Lo stesso guasto era già successo a fine luglio ed era stato chiuso scrivendo «il server è tornato a pubblicare», senza montare un freno: alla ricaduta nessuna card ti ha avvisato. Da questa sessione cloud il server non si vede: serve una mano sul VPS — apri una sessione lì e dì «visita il worker», oppure riavvia tu il servizio. | manuale | in attesa | Senza cadenze la macchina non propone mosse, non aggiorna i numeri e non riempie la coda: il battito è fermo da quattordici giorni anche se il worker respira, e dalla Cabina non si vede. | Al primo battito tornano Piano del mattino, numeri freschi e card nuove; e monto il freno che alla prossima ricaduta ti mette una card in coda da solo. |
-| 78 | 2026-08-13 09:45 | @tech | Ripara il contatore delle chiusure: ti mostra 0,23 quando il conto vero è 0,92 | 🟡 | Il contatore conta una chiusura solo se ha la data, e 74 chiusure sono rimaste senza: la storia dei file prova che 71 sono di agosto. Fix in un ramo, piccolo e reversibile: data di chiusura obbligatoria quando uno stato passa a «chiuso», più il recupero delle 74 date dalla storia di git. | github | in attesa | Il freno «cerca o chiudi» decide oggi su un numero sbagliato di quattro volte: con il conto vero la macchina può tornare a cercare senza violare la regola che hai approvato. | Dopo il tuo ok apro la richiesta di unione col fix e le 74 date recuperate; il voto mensile torna a dire la verità. |
-| 79 | 2026-08-13 09:45 | @qa | Apri il sito dal telefono: il sensore lo vede spento dal 30 luglio | 🟡 | Il sensore di raggiungibilità segna «servizio non disponibile» su mycity-marketplace.com da 103 controlli consecutivi, ultimo verde il 30 luglio — la data coincide con la migrazione da Render a Vercel. Da questa sessione la rete non arriva al dominio, quindi non posso dirimere io: aprilo tu dal telefono, bastano dieci secondi. | manuale | in attesa | Se non si apre è l'incendio numero uno: marketplace giù da tredici giorni, zero ordini possibili. Se si apre, il sensore punta all'indirizzo vecchio e ti mostra un rosso falso da tredici giorni. | Nel primo caso spegniamo l'incendio con devops; nel secondo correggo il sensore e monto l'allarme che stavolta è mancato. |
-| 81 | 2026-08-13 18:59 | @tech | Merge PR #714 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/714 | github | ✅ CHIUSA 2026-08-17 01:38 — trovata già mergiata: il commit vive dentro `origin/main` (verificato `git log`), e `ci-stato.mjs` dal vivo conta solo 3 PR aperte oggi (#749/#741/#735), non questa. La riga era rimasta "in attesa" per errore di aggiornamento della coda, non perché mancasse davvero un merge. | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Nessuna azione: già online. |
-| 82 | 2026-08-13 21:05 | @devops-sre | Fai un push da un posto con le credenziali di GitHub: main è avanti di 4 commit e non si vedono online | 🟡 | Questa sessione chat non può parlare con GitHub. `git push origin main` fallisce sempre, nessuna credenziale. Ha pronti 4 commit di memoria sul `main` locale: recupero sensori/salute più mappa macchina. Ha anche un ramo pronto, `fix/recupero-sensori-mappa-macchina-13-8`, con un fix vero. Un guardiano vedeva `permessi-check.mjs` come fantasma, per colpa di cartelle di lavoro lasciate in giro. Serve solo un `git push origin main`, dal VPS o dal tuo terminale. Poi la PR del ramo si apre da sola al prossimo giro. | manuale | ✅ CHIUSA 2026-08-14 20:05 — superata dai fatti: il canale VPS pubblica su `main` da allora in continuazione (decine di commit automatici, verificato con `git log`), il ramo di fix è diventato la PR #722 (card #83, ancora aperta per il suo motivo proprio) e il tema "mappa-macchina" è stato mergiato dalla PR #721. Nessun push resta bloccato oggi. | Finché non parte il push, il Pannello resta indietro di mezza giornata di lavoro della macchina — legge solo `main` pubblicato. Il fix del guardiano non entra mai in vigore. | Dopo il push confermo che il Pannello si è allineato. Poi apro io la PR del ramo di fix. |
-
-<!-- prevenzione-a-monte -->
-
----
-
 ### ✅ #67 — ~~Accendi gli ultimi due freni: le lezioni giuste all'inizio del lavoro e la mano fermata sull'errore già noto~~ → FATTO 2026-08-04 17:26 · ⏳ accodata 2026-08-10 12:16
 
 **Esito:** Nicola ha incollato il blocco in `.claude/settings.json`. Due tentativi falliti prima del verde, entrambi diagnosticati e corretti nella stessa conversazione: ① comando di verifica lanciato dalla home (`~`) invece che da `/opt/mycity/ad-mycity` → "Cannot find module"; ② il JSON incollato a mano aveva il blocco `mano-fermata` annidato dentro l'array sbagliato + due virgole mancanti → `JSON.parse` falliva e `cablaggioPresente()` tornava tutto `false`. Alla terza prova, con il blocco `"hooks": {...}` sostituito per intero, `node cervello/mano-fermata.mjs --cablaggio` è uscito verde: «i due freni della prevenzione a monte sono cablati: mano-fermata (PreToolUse) e scheda su misura (UserPromptSubmit)». Prova indipendente nello stesso turno: l'hook `contesto-lezioni.mjs --richiesta` ha davvero iniettato 8 lezioni a tema in cima al prompt successivo di Nicola — non solo il comando di collaudo dice verde, il freno si è visto girare dal vivo. Difetto macchina AR-533 chiuso.
@@ -727,3 +711,34 @@ Se non lo incolli entro l'11 agosto il guardiano diventa rosso da solo. È volut
 | 169 | 2026-08-24 12:35 | @tech | Merge PR #840 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/840 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 170 | 2026-08-24 13:37 | @tech | Merge PR #841 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/841 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
 | 171 | 2026-08-24 13:57 | @tech | Merge PR #842 ad-mycity → main | 🔴 | https://github.com/NicolaeRotaru/ad-mycity/pull/842 | github | in attesa | Il codice in anteprima va online su Vercel (Pannello) dopo il merge. | Dopo Approva: merge automatico + deploy; VPS si allinea al prossimo watch-main. |
+
+---
+
+### ✅ #173 — La coda era troppo lunga e il guardiano non riusciva a leggerla · ⏳ accodata 2026-08-24 12:50 · fatta 2026-08-24 15:10
+
+**In parole semplici.** La coda delle cose da approvare aveva superato i **264.000 caratteri**, e il
+controllo che verifica «ogni allarme scritto è arrivato a Nicola?» si ferma a 200.000. Si dichiarava
+cieco, e sul server quel «non lo so» faceva fallire ogni consegna. **Adesso è verde.**
+
+**Cosa ho fatto.** Le card già chiuse sono uscite dalla coda e vivono in un file loro:
+`MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`. La coda viva è scesa a **173.000
+caratteri**, sotto il tetto, e il guardiano la legge di nuovo tutta.
+
+**Perché non ho alzato il tetto, che sarebbe stato più semplice.** Perché era già stato provato il
+22 agosto e rimesso indietro, con questa frase scritta dentro il guardiano: *una soglia che sale è
+la mossa che nasconde i problemi, e un lettore fra sei mesi non può distinguere la tua buona ragione
+da una scusa.* La cura vera non era il tetto: era il file.
+
+**Cosa cambia per te.** Niente in quello che vedi: la Cabina mostra solo le card in attesa e scarta
+già quelle chiuse. Se cerchi una card vecchia, adesso sta nell'archivio — non è buttata, è spostata.
+
+**Cosa ho verificato.** Ho fatto girare tutta la suite dopo lo spostamento: **un solo lettore su 406
+file si è rotto**, il controllo sulle azioni congelate, che cercava una domanda finita in archivio.
+L'ho riparato perché legga coda e archivio insieme, e ho provato al contrario che diventi ancora
+rosso se quella domanda sparisce davvero. Il motore della pulizia adesso rilegge l'archivio vecchio
+prima di riscriverlo: due corse di fila non perdono niente. Cancello intero: il controllo che era
+cieco esce 0.
+
+**Cosa non ho verificato.** Gli script del server che leggono la coda (`giro.sh`,
+`riconcilia-memoria.sh`) li ho letti, non eseguiti: qui non c'è `bats`, quindi le prove in shell non
+girano. Li nominano solo nei commenti, ma la prova vera la darà il primo giro del worker.

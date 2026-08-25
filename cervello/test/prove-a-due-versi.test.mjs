@@ -293,12 +293,17 @@ test("AR-365 — senza le chiavi della memoria la prova esce ⚪, e ⚪ non è n
 // altrimenti sarebbero quattro prove inchiodate su un verso solo, cioè quattro prove che non hanno
 // mai avuto occasione di sbagliarsi.
 
-test("AR-730 — la penna cruda nella porta dei sensori: rossa oggi, verde se la scrittura passa dal freno", () => {
-  siRibalta({
+test("AR-730 — la penna cruda nella porta dei sensori: RIPARATO, e la prova se ne accorge se la penna torna cruda", () => {
+  // ⟲ VERSO GIRATO (lotto 56). Il difetto è stato riparato per davvero il 23/8, chiudendo il residuo
+  // di AR-568: la penna non si passa più come parametro — la porta usa `scriviJsonAtomico` e basta.
+  // Il verso originale (parti dal rosso, applica il fix) non è più percorribile perché il codice di
+  // oggi è verde, e cancellare la prova vorrebbe dire perdere il rilevatore. Quindi si parte dal
+  // riparato e si RIMETTE la penna cruda: il rilevatore deve vederla tornare.
+  siRibaltaAlContrario({
     flag: "--ar-730",
     file: "cervello/stato-sensori.mjs",
-    cerca: '  else writeFileSync(path, JSON.stringify(doc, null, 2) + "\\n", "utf8");',
-    sostituisci: '  else scriviJsonAtomico(path, doc);',
+    cerca: "  const scritto = scriviJsonAtomico(path, timbrato, env);",
+    sostituisci: '  const scritto = writeFileSync(path, JSON.stringify(timbrato, null, 2) + "\\n", "utf8") ?? path;',
   });
 });
 

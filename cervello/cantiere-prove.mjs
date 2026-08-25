@@ -98,8 +98,14 @@ const GATE_PROVE = process.argv.includes("--gate-prove");
 const GIORNI_SOSPETTO = Number(process.env.CANTIERE_PROVE_GIORNI || 3);
 
 const AC = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza");
-const CANTIERE_PATH = join(AC, "cantiere-difetti.json");
-const OUT_PATH = join(AC, "cantiere-prove.json");
+// AR-799 — stessa chiave del resto della casa (`CANTIERE_FILE`, come salute-onesta.mjs e
+// auto-fix.mjs). Uno strumento deviabile a metà non è deviabile.
+const CANTIERE_PATH = process.env.CANTIERE_FILE || join(AC, "cantiere-difetti.json");
+// AR-799 — questo strumento scrive in un registro solo, e anche quello va deviabile: la prova del
+// conto deve poter leggere un referto suo invece di quello vero. È la seconda metà della lezione del
+// 23/8 — una maniglia che apre metà porta fa credere di essere al riparo, e il primo a caderci sono
+// stato io (quattro punti finti nella storia della salute, trovati da un'altra prova).
+const OUT_PATH = process.env.CANTIERE_PROVE_REPORT || join(AC, "cantiere-prove.json");
 
 /**
  * La lettura di un JSON che dice anche PERCHÉ non ha letto — AR-709.
@@ -225,8 +231,12 @@ export function classifica(d) {
   //   (b) prova che poggia su un file inesistente → `prova_impossibile`, difetto SENZA controllo;
   //   (a) bloccante o impatto ALTO con una prova che non esegue niente → non chiudibile.
   //
-  // ⚠️ QUESTO GUARDIANO NON CHIUDE NIENTE: chi chiude è `auto-fix.mjs`, e non passa ancora di qui.
-  // Il referto lo dichiara nel campo `chiuderebbe_lo_stesso` invece di lasciarlo intuire.
+  // QUESTO GUARDIANO NON CHIUDE NIENTE: chi chiude è `auto-fix.mjs`. Da AR-796 (23/8/2026) ci passa
+  // però davvero — `verdettoChiusura` consulta `ammissibilitaProva`, quindi una prova che qui esce
+  // non ammessa là non chiude. Fino a quel giorno il referto era un consiglio: contava le schede in
+  // `chiuderebbe_lo_stesso` e poi auto-fix le chiudeva lo stesso. Il campo resta perché la domanda
+  // resta buona («quante passerebbero se il freno saltasse?»), ma oggi la risposta è zero e se
+  // tornasse a essere diversa da zero vorrebbe dire che il freno si è smontato.
   const amm = ammissibilitaProva(d, { fileEsiste: (f) => existsSync(join(AD_ROOT, f)) });
   if (!amm.ammessa) {
     return {
@@ -387,6 +397,11 @@ const daAlzare = voci.filter((v) => v.prova_debole_su_grave === true);
 // in arrivo — e si vede prima, non dopo.
 const nonGiudicabili = voci.filter((v) => v.non_giudicabile === true);
 const campiIlleggibili = schedeNonGiudicabili(aperti);
+// AR-796 — le chiusure passate dalla porta A MANO lasciando una dichiarazione. Si leggono su TUTTE
+// le schede, non solo su quelle da fare: sono chiuse per definizione, ed è proprio perché sono già
+// chiuse che qualcuno deve poterle ritrovare.
+const chiuseForzate = cantiere.difetti.filter((d) => typeof d?.chiusa_su_prova_non_ammessa === "string" && d.chiusa_su_prova_non_ammessa.trim());
+const chiuseNonMisurate = cantiere.difetti.filter((d) => typeof d?.prova_non_misurata === "string" && d.prova_non_misurata.trim());
 const chiuderebbeLoStesso = daAlzare.filter((v) => {
   const d = aperti.find((x) => x.id === v.id);
   return formaProva(d?.verifica) === "pattern" && provaCombacia(d.verifica).combacia === true;
@@ -454,6 +469,23 @@ const report = {
   // proprio quel caso — ed è la stessa malattia che il lotto 50 stava curando.
   schede_campi_illeggibili: campiIlleggibili.length,
   campi_illeggibili: campiIlleggibili.map((d) => ({ id: d.id, gravita: d.gravita ?? null, impatto_crescita: d.impatto_crescita ?? null })),
+  // ── AR-796 — LE DICHIARAZIONI DELLA PORTA A MANO, finalmente contate ──────────────────────
+  //
+  // `auto-fix.mjs chiudi --id=…` non si sbarra (davanti c'è una persona che ha scritto l'id), ma
+  // quando chiude su una prova che il cancello non ammetterebbe lo SCRIVE sulla scheda. Fin qui la
+  // scelta è giusta; il buco era che quel campo non lo leggeva nessuno — e un campo che nessuno
+  // conta è un silenzio con un nome più bello.
+  //
+  // Vale anche per `prova_non_misurata`, che è di AR-559 (13/8) e porta lo stesso difetto da allora:
+  // il messaggio a schermo prometteva testualmente «e nel conto di `cantiere-prove.mjs --gate-prove`»
+  // e quel conto non è mai esistito — due sole occorrenze in tutto il repo, verificate col grep il
+  // 23/8, tutt'e due dentro auto-fix. Una promessa stampata a schermo non è un contatore.
+  //
+  // Ci sono SEMPRE, anche a zero, come gli altri debiti contabili: un numero che compare solo
+  // quando è brutto non si può guardare scendere.
+  chiuse_su_prova_non_ammessa: chiuseForzate.length,
+  chiuse_su_prova_non_misurata: chiuseNonMisurate.length,
+  chiuse_da_rileggere: [...new Set([...chiuseForzate, ...chiuseNonMisurate].map((d) => d.id))].sort(),
   non_giudicabili: nonGiudicabili.map((v) => ({ id: v.id, gravita: v.gravita, impatto_crescita: v.impatto_crescita, perche: v.perche })),
   non_auto_chiudibili: nonChiudibili.length,
   bloccanti_ciechi: bloccantiCiechiOra.map((v) => v.id),

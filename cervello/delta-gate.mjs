@@ -34,7 +34,6 @@
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
-import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { scriviStatoSensore } from "./stato-sensori.mjs";
 import { oreDaTimbro } from "./ora-piacenza.mjs";
@@ -57,13 +56,10 @@ function readJson(path, fallback = {}) {
   }
 }
 
-// AR-296 — la scrittura passa dal writer atomico condiviso: `writeFileSync` non è atomico, e un
-// processo che muore a metà (kill del servizio, riavvio del VPS) lascia sul disco un JSON troncato che
-// al giro dopo non si parsa più — «memoria bloccata da un file rotto». Questa funzione era
-// copiaincollata in cinque file; ora è una sola, in cervello/scrivi-json.mjs.
-function writeJson(path, data) {
-  scriviJsonAtomico(path, data);
-}
+// AR-568, residuo chiuso il 23/8 — qui c'era `writeJson`, che passava a `scriviStatoSensore` la
+// penna atomica come parametro. Adesso la penna la sceglie la porta e non si può più sbagliare,
+// quindi questo pezzo non serve: la scrittura resta atomica esattamente come prima, ma non perché
+// questo file se lo ricorda.
 
 /**
  * Da quante ore è stato scritto questo timbro di Piacenza. `Infinity` se non si legge.
@@ -219,7 +215,6 @@ async function main() {
     const esitoSegna = scriviStatoSensore(STATE_PATH, state, {
       ambienteConfigurato: Boolean(process.env.MARKETPLACE_SUPABASE_URL?.trim() && process.env.MARKETPLACE_SUPABASE_KEY?.trim()),
       motivo: "MARKETPLACE_SUPABASE_URL/KEY assenti: la firma da promuovere sarebbe calcolata su zero righe",
-      scrittore: writeJson,
     });
     if (JSON_MODE) console.log(JSON.stringify({ esito: esitoSegna.scritto ? "segnato-pieno" : "non-segnato", quando, motivo: esitoSegna.spiegazione }, null, 2));
     else console.log(esitoSegna.scritto ? `🚦 Delta-gate: giro PIENO registrato (${quando}).` : esitoSegna.spiegazione);
@@ -256,7 +251,6 @@ async function main() {
   const esitoScrittura = scriviStatoSensore(STATE_PATH, state, {
     ambienteConfigurato: Boolean(process.env.MARKETPLACE_SUPABASE_URL?.trim() && process.env.MARKETPLACE_SUPABASE_KEY?.trim()),
     motivo: "MARKETPLACE_SUPABASE_URL/KEY assenti: la firma sarebbe calcolata su zero righe",
-    scrittore: writeJson,
   });
   if (!esitoScrittura.scritto) console.error(esitoScrittura.spiegazione);
 

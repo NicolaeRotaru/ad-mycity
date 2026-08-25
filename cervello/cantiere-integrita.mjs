@@ -14,11 +14,19 @@
 // (AR-448), e una fusione che tiene un lato solo cancella righe senza che nessuno protesti. Tutti
 // i guardiani del cantiere contano quello che C'È — nessuno chiedeva cosa NON c'è più.
 //
-// Tre domande, tutte sul lato sottrazione:
+// Cinque domande, tutte sul lato sottrazione:
 //   ① un id che c'era nel ramo pubblicato è ancora qui?      (la perdita del 4/7)
 //   ② due difetti hanno lo stesso id?                        (AR-447: due sessioni, un numero solo)
 //   ③ un AR citato dalla macchina esiste nel cantiere?       (AR-451 e AR-503: riparati con tanto di
 //                                                             PR, mai entrati nel registro)
+//   ④ un difetto chiuso porta la data con l'ora?             (AR-724: 10 chiusure senza data, il 23/8,
+//                                                             invisibili a ogni mese — e il voto della
+//                                                             macchina era contato su quei libri)
+//   ⑤ qualcuno scrive «chiuso» fuori dalla porta del timbro? (AR-724: la riga di codice che si
+//                                                             riscrive il timbro per conto suo)
+//
+// ④ e ⑤ sono la stessa domanda fatta ai due estremi: al DATO, dove il buco l'ha fatto una mano in
+// sessione, e al CODICE, dove lo farebbe una riga. Guardarne uno solo dice verde sull'altro.
 //
 // 🟢 Sola lettura. Exit 0 = ok · 1 = qualcosa è sparito · 2 = non ho potuto misurare.
 //
@@ -29,6 +37,9 @@ import { spawnSync } from "node:child_process";
 import { join, relative } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { storiaDelRepo } from "./storia-git.mjs";
+// AR-724 — le due domande sul TIMBRO di chiusura vivono nella casa del contratto, insieme alla
+// porta che lo mette. Qui si fanno, perché è qui che il cancello del lotto guarda a ogni giro.
+import { timbriStorti, attiFuoriDallaPorta } from "./contratto-scheda.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const CANTIERE_REL = "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json";
@@ -175,7 +186,7 @@ export function citatiNonRegistrati(cantiere, file, leggi) {
  * `cieco` non è mai un verde. Se non ho potuto leggere il cantiere di prima, la risposta onesta è
  * «non ho misurato» (exit 2), non «niente è sparito» — è il vizio che AR-473 ha già pagato una volta.
  */
-export function verdetto({ spariti = null, doppi = null, citati = null, cecita = [], base = "" } = {}) {
+export function verdetto({ spariti = null, doppi = null, citati = null, senzaData = null, dataSecca = null, tettoSecco = null, attiFuori = null, cecita = [], base = "" } = {}) {
   const righe = [];
   if (cecita.length) {
     for (const c of cecita) righe.push(`⚪ ${c}`);
@@ -200,12 +211,75 @@ export function verdetto({ spariti = null, doppi = null, citati = null, cecita =
     if (citati.length > 10) righe.push(`   · … e altri ${citati.length - 10}`);
     righe.push("   Un difetto riparato ma mai registrato non ha nascita, non entra nei conteggi e non si può riaprire.");
   }
-  const rotto = Boolean(spariti?.length || doppi?.length || citati?.length);
+  // ④ Due famiglie, due conseguenze diverse — e la differenza è misurabile, non di comodo.
+  // Una chiusura SENZA data non appartiene a nessun mese: sparisce dai libri su cui è calcolato il
+  // voto che decide se la macchina può aprire ricerche nuove. Rosso, subito.
+  // Una chiusura con la DATA SECCA il suo mese ce l'ha: viola la regola dell'ora di CLAUDE.md, non
+  // buca i conti. Sono 24 ereditate, e un cancello sempre rosso si impara ad aggirarlo: quindi
+  // stanno sotto un tetto che scende e non risale, come `prova_debole`.
+  if (senzaData?.length) {
+    righe.push(`❌ ${senzaData.length} difetti CHIUSI senza nessuna data (AR-724): ${senzaData.map((s) => s.id).join(", ")}`);
+    righe.push(
+      "   Una chiusura senza data non appartiene a nessun mese: sparisce dal voto che decide se la macchina può aprire ricerche nuove. Timbrala con `timbraChiusura` — la data del commit che l'ha pubblicata è una fonte, non un'invenzione.",
+    );
+  }
+  if (dataSecca?.length && tettoSecco === null) {
+    righe.push(
+      `⚪ ${dataSecca.length} chiusure con la data secca, e non ho un tetto misurato con cui confrontarle: non ho giudicato (cervello/tetti-lotto.json → timbro_secco).`,
+    );
+  } else if (dataSecca?.length > (tettoSecco ?? 0)) {
+    righe.push(`❌ chiusure con la data secca: ${dataSecca.length}, oltre il tetto di ${tettoSecco} (AR-724).`);
+    for (const s of dataSecca.slice(0, 10)) righe.push(`   · ${s.id} — chiuso_il: ${s.chiuso_il}`);
+    if (dataSecca.length > 10) righe.push(`   · … e altre ${dataSecca.length - 10}`);
+    righe.push("   La regola dell'ora vale anche sul timbro: «AAAA-MM-GG HH:MM». Il tetto scende e non risale.");
+  } else if (dataSecca?.length) {
+    righe.push(`🟡 ${dataSecca.length} chiusure con la data secca, sotto il tetto di ${tettoSecco}: debito dichiarato, in calo.`);
+  }
+  if (attiFuori?.length) {
+    righe.push(`❌ ${attiFuori.length} righe scrivono «chiuso» fuori dalla porta del timbro (AR-724):`);
+    for (const a of attiFuori.slice(0, 10)) righe.push(`   · ${a.file}:${a.riga} — ${a.testo}`);
+    if (attiFuori.length > 10) righe.push(`   · … e altre ${attiFuori.length - 10}`);
+    righe.push(
+      "   Passa da `timbraChiusura` di cervello/contratto-scheda.mjs, oppure dichiara la riga esente scrivendoci accanto `timbro-esente: <perché>`.",
+    );
+  }
+  const seccheOltre = Boolean(dataSecca?.length && tettoSecco !== null && dataSecca.length > tettoSecco);
+  const rotto = Boolean(spariti?.length || doppi?.length || citati?.length || senzaData?.length || seccheOltre || attiFuori?.length);
   // Il cieco vale 2 solo se NON c'è già un rosso vero: un rosso misurato è più informativo di una
   // cecità parziale, e schiacciarlo a «non ho misurato» perderebbe l'unica cosa che so per certo.
   const esce = rotto ? 1 : cecita.length ? 2 : 0;
-  if (!righe.length) righe.push(`✅ nessun difetto sparito, nessun id doppio, nessun AR orfano (confronto: ${base || "—"})`);
-  return { esce, righe, spariti: spariti?.length ?? null, doppi: doppi?.length ?? 0, citati: citati?.length ?? 0 };
+  if (!righe.length) {
+    righe.push(
+      `✅ nessun difetto sparito, nessun id doppio, nessun AR orfano, ogni chiusura col suo timbro (confronto: ${base || "—"})`,
+    );
+  }
+  return {
+    esce,
+    righe,
+    spariti: spariti?.length ?? null,
+    doppi: doppi?.length ?? 0,
+    citati: citati?.length ?? 0,
+    senza_data: senzaData?.length ?? 0,
+    data_secca: dataSecca?.length ?? 0,
+    tetto_secco: tettoSecco,
+    atti_fuori: attiFuori?.length ?? 0,
+  };
+}
+
+/**
+ * Il tetto delle chiusure con la data secca, dal file che tiene tutti i tetti del cancello.
+ *
+ * `null` vuol dire «non l'ho misurato», e nel verdetto diventa un ⚪, non un verde: un tetto che
+ * manca non è un permesso. Chi lo abbassa è `cancello-lotto.mjs --aggiorna-tetti`, che scrive il
+ * minimo fra il tetto e la misura di adesso — così scende e non risale.
+ */
+function leggiTettoSecco() {
+  try {
+    const t = JSON.parse(readFileSync(join(AD_ROOT, "cervello/tetti-lotto.json"), "utf8"));
+    return Number.isInteger(t?.timbro_secco) ? t.timbro_secco : null;
+  } catch {
+    return null;
+  }
 }
 
 /** Il riferimento con cui confrontarsi: l'antenato comune col ramo pubblicato, o l'ultimo commit. */
@@ -255,12 +329,27 @@ function main() {
 
   const spariti = prima ? idsSpariti(prima, adesso) : null;
   const doppi = idsDoppi(adesso) ?? [];
-  const citati = citatiNonRegistrati(adesso, fileVivi(), (f) => readFileSync(join(AD_ROOT, f), "utf8")) ?? [];
+  const vivi = fileVivi();
+  const leggi = (f) => readFileSync(join(AD_ROOT, f), "utf8");
+  const citati = citatiNonRegistrati(adesso, vivi, leggi) ?? [];
+  const storti = timbriStorti(difettiDi(adesso) ?? []);
+  const senzaData = storti.filter((s) => !s.chiuso_il);
+  const dataSecca = storti.filter((s) => s.chiuso_il);
+  const tettoSecco = leggiTettoSecco();
+  // Solo il codice che ESEGUE: nei `.md` la frase sta in una spiegazione, e nel cantiere stesso
+  // `"stato": "chiuso"` compare a centinaia — sono dati, non atti.
+  const attiFuori = attiFuoriDallaPorta(vivi.filter((f) => /\.(mjs|js)$/.test(f)), leggi);
 
-  const v = verdetto({ spariti, doppi, citati, cecita, base: base.nota });
+  const v = verdetto({ spariti, doppi, citati, senzaData, dataSecca, tettoSecco, attiFuori, cecita, base: base.nota });
 
   if (JSON_MODE) {
-    console.log(JSON.stringify({ ok: v.esce === 0, ora: nowPiacenza(), base: base.nota, spariti, doppi, citati }, null, 2));
+    console.log(
+      JSON.stringify(
+        { ok: v.esce === 0, ora: nowPiacenza(), base: base.nota, spariti, doppi, citati, senza_data: senzaData, data_secca: dataSecca, tetto_secco: tettoSecco, atti_fuori: attiFuori },
+        null,
+        2,
+      ),
+    );
   } else {
     console.log(`\n🚧 Integrità del cantiere (lato sottrazione) — ${nowPiacenza()}`);
     for (const r of v.righe) console.log(`   ${r}`);

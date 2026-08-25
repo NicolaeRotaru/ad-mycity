@@ -3597,6 +3597,71 @@ Non l'ho dedotto apposta: vanno lette una per una da chi le ha scritte.
 > 20:20 — ed era giusto in quel momento. Non basta: va riletto **al momento di consegnare**, perché
 > fra la lettura e la consegna qualcun altro può averlo usato.
 
+## 2026-08-23 09:40 · 🟡 Cinque chiusure applicate, e tre non erano lavoro mio
+
+**Cosa ho fatto.** Unito il lotto 50, ho applicato le chiusure: **cinque**. Due sono le mie
+riparazioni di ieri sera; le altre tre vengono dalla richiesta #831, unita in parallelo da un altro
+lavoro.
+
+**Le ho eseguite io, una per una, prima di applicare.** Il conto che lo strumento stampa non è una
+verifica: dice quante schede ha trovato soddisfatte, non che io abbia guardato. Ho lanciato le tre
+prove a mano — sono verdi tutte e tre. Applicare la chiusura di un lavoro altrui senza averne visto
+la prova sarebbe firmare per qualcuno che non c'è.
+
+**I tre dichiarati aperti sono rimasti aperti**, ed era il rischio vero: AR-791, AR-792 e AR-796
+hanno una verifica umana apposta, così nessuno strumento può richiuderli mentre non sono riparati.
+
+**Il cantiere adesso:** 108 da fare, 679 chiusi su 787.
+
+**Cosa non ho verificato:** il merito delle tre chiusure altrui, cioè se quelle riparazioni siano
+quelle giuste. Ho verificato che le loro prove esistono, girano e passano — non ho riletto il
+ragionamento di chi le ha scritte.
+
+## 2026-08-23 13:45 · 🟡 Il freno c'era da due lotti, e non era su nessuna delle porte
+
+**Cosa ho fatto.** Il programma che chiude i difetti adesso chiede il permesso prima di chiudere.
+Fino a stamattina non lo chiedeva a nessuno.
+
+**Il difetto, in una frase.** Nei lotti 49 e 50 avevo costruito un cancello che decide se una prova
+basta a chiudere un difetto: un difetto grave non si chiude perché una parola compare dentro un
+file. Il cancello era scritto bene, provato, coi tre esiti. Lo chiamava una cosa sola — il referto,
+che guarda e racconta. **Chi chiude davvero non lo nominava affatto.** Il referto pubblicava perfino
+il conto delle schede che «si chiuderebbero lo stesso»: misurava la propria impotenza, e nessuno
+leggeva quel numero come un difetto.
+
+**La cosa che mi ha fatto perdere due lotti.** Il chiuditore chiamava già la funzione giusta, ma ne
+usava due campi su tre: il campo `chiude` — la risposta — veniva calcolato e buttato via, e la
+decisione la rifaceva a mano una riga sotto. Un verdetto che il chiamante ricalcola non decide
+niente, e ogni cancello aggiunto alla funzione moriva lì dentro.
+
+**Il secondo giro ha trovato altre due porte.** Avevo montato il freno su quella automatica e stavo
+per consegnare. Ce n'erano tre: la porta a mano (`chiudi --id=…`) e l'allineatore, che è il secondo
+file della macchina a scrivere «chiuso». Sulla porta a mano il freno **non sbarra** — davanti c'è
+una persona che ha scritto l'id — ma dichiara, e la dichiarazione adesso finisce in un conto.
+
+**Percorrendo la terza porta è esplosa.** `verificaFinding` citava una variabile che non esiste dal
+giorno di AR-743: ogni difetto del sito con una prova faceva morire l'allineamento intero. Non era
+dormiente, era morta — e nessuno l'aveva vista perché nessuno dei 208 difetti del sito porta una
+prova. La difesa era che quella strada fosse deserta.
+
+**Le mie prove hanno sporcato la memoria vera, e l'ha scoperto un'altra prova.** Facendo girare il
+chiuditore su un cantiere finto ho scritto quattro punti falsi nella storia della salute — quella
+che disegna il grafico in Cabina — perché lo strumento scrive in due registri e se ne poteva deviare
+uno solo. Rimesso a posto, e registrato: una maniglia che apre metà porta è peggio di nessuna
+maniglia, perché fa credere di essere al riparo.
+
+**Il conto.** Il freno oggi non toglie **nessuna** chiusura: 19 schede pesanti hanno una prova
+debole, e di quelle zero avevano la prova soddisfatta adesso. La scheda temeva di bloccarne venti in
+un colpo e chiedeva un elenco di esenzioni per nome; il conto dice che il giorno per accenderlo è
+oggi, e che un elenco di esenzioni sarebbe stato il modo di far chiudere su una parola i 19 difetti
+più pesanti del registro.
+
+**Difetti nuovi registrati:** AR-809 (nessuno controlla che un cancello nuovo sia collegato a chi
+agisce), AR-810 (la strada morta), AR-799 (gli strumenti deviabili a metà).
+
+**Cosa non ho verificato:** quanti altri strumenti della macchina scrivono in più di un registro
+senza essere deviabili del tutto. Ne ho contati due, e sono i due che ho toccato oggi; degli altri
+non ho guardato. Sta scritto in AR-799 come la domanda che resta aperta, non come una cosa fatta.
 ---
 
 ## 2026-08-23 11:50 — 🟡 La data zero è il 29 agosto 2026, non il 29 settembre
@@ -3617,3 +3682,517 @@ ogni lotto: #168 (server fermo dal 18/8), #154 (chiavi Vercel), #155 (dominio an
 **Cosa non ho verificato.** Non ho riaperto i difetti uno per uno: i conti vengono dai file del
 cantiere letti alle 09:05 di oggi. Non so se il server è ancora fermo adesso — l'ultima traccia
 di un processo automatico è del 22 agosto alle 20:41.
+
+## 2026-08-23 14:00 · 🟡 Il negoziante non è mai riuscito a mettere la foto alla sua vetrina
+
+**Cosa ho fatto.** Aperta la corsia dei difetti del design del sito — 208, e fino a stamattina non
+li aveva mai guardati nessuno. Partito dai due bloccanti, che hanno la stessa radice. Richiesta
+**#240 sul marketplace**.
+
+**Il difetto, in una frase.** Il magazzino delle immagini accetta un file solo se la prima cartella
+del percorso è l'identificativo di chi carica. Quella regola sta scritta in SQL, in una migrazione,
+e nel codice non la possedeva nessuno: **dieci** punti se la riscrivevano a mano con una stringa, e
+tre la scrivevano in un modo che il database rifiuta. Uno dei tre è la copertina della vetrina:
+nessun negoziante ci è mai riuscito, per nessun negozio, mai.
+
+**Non è distrazione di chi li ha scritti.** Non c'era niente da chiamare. Con dieci copie a mano,
+che due o tre siano sbagliate è l'esito atteso, non la sfortuna.
+
+**La cosa che ho quasi sbagliato, e l'avevo scritta stamattina.** Il primo tentativo era un modulo
+che *sa* la regola, da chiamare dai dieci punti. Provato: rimettendo a mano la stringa sbagliata
+dentro il componente, le prove restavano **verdi**. Provavano che la regola sa giudicare, non che
+chi carica ci passi — la stessa distinzione di AR-796, la lezione che avevo scritto tre ore prima.
+Da lì la porta: riceve una *cartella* e non un percorso, quindi la prima cartella non passa più
+dalle mani dei chiamanti. Non è che sbagliarla diventa improbabile: diventa una cosa che non si può
+dire.
+
+**L'invariante ha lavorato prima di essere consegnato.** Il controllo «nessuno chiama il magazzino
+fuori dalla porta» ha trovato un decimo punto che il mio grep aveva mancato, perché la chiamata era
+spezzata su tre righe.
+
+**Cosa non ho verificato:** che il database vero accetti quei percorsi. Le prove eseguono la porta
+con un magazzino finto; che il Postgres li accetti l'ho **dedotto rileggendo la policy**, non
+provato eseguendola — da qui non ho un database a cui chiederlo. Va provato a mano dopo il merge:
+entrare come negoziante e caricare una copertina.
+
+**Reperti nuovi registrati nel referto del sito:** gli altri tre magazzini hanno la stessa forma di
+regola e i loro tre punti oggi sono corretti, ma costruiscono il percorso a mano — malattia
+dormiente, non curata. E l'elenco delle dipendenze non è in pari: `npm ci` da solo si rifiuta di
+installare, e la CI non se ne accorge perché usa un flag che lo aggira.
+
+**I due bloccanti restano `in-corso`, non chiusi.** Si chiudono quando la #240 è unita, non prima.
+
+## 2026-08-23 14:40 · 🟡 Le schede trovavano un terzo dei posti, e questo cambia il conto dei sei giorni
+
+**Cosa ho fatto.** Portati nella richiesta #240 dieci difetti del design: i due bloccanti dei
+caricamenti e otto gravi sulle promesse. Due malattie sole, e sono la stessa forma — una regola vive
+in un posto, chi deve rispettarla se la riscrive a mano da un'altra parte.
+
+**Il numero che conta più dei dieci difetti.** Le schede della radiografia nominavano **due** posti
+per la frase «carta o contanti alla consegna». Curati quelli, una spazzata su tutto il codice ne ha
+trovati altri **cinque** che nessuna scheda citava: sottotitolo della home, «come funziona»,
+schermate di accesso, giro guidato, riquadro della home. Due su sette: **le schede coprivano il
+29%**. Lo stesso sui caricamenti — tre punti citati, un quarto trovato dall'invariante perché la
+chiamata era spezzata su tre righe.
+
+**Perché lo scrivo qui e non solo nel referto.** Con 208 difetti da chiudere in sei giorni, questo è
+il moltiplicatore che decide se il conto torna. Se ogni scheda che nomina una frase copre un terzo
+del suo difetto, il lavoro vero è il triplo di quello contato — e chi ripara fidandosi della scheda
+dichiara chiuso quello che ha lasciato aperto in quattro posti.
+
+**La cosa che ho quasi sbagliato di nuovo.** Il primo tentativo sui caricamenti era un modulo che
+*sa* la regola. Provato rimettendo la stringa sbagliata nel componente: le prove restavano verdi.
+È la lezione di stamattina, la terza volta in un giorno.
+
+**Due li avevo marcati riparati e non lo erano.** «Spedizione gratuita in vetrina ma 3 € di consegna»
+e «tre promesse di consegna nel checkout» sono vicini di casa, non lo stesso difetto: rimessi
+`aperto` nello stesso lavoro, con scritto cosa manca.
+
+**Cosa non ho verificato:** niente su un database vero né su un browser. Che il Postgres accetti i
+percorsi nuovi l'ho dedotto rileggendo la policy. Vanno provati a mano dopo il merge: caricare una
+copertina, e mettere nel carrello 20 € da un negozio e 15 € da un altro.
+
+## 2026-08-23 13:55 · 🟢 I due bloccanti del sito sono chiusi, e una richiesta unita non porta lavoro nuovo
+
+**Cosa è successo.** La richiesta #240 sul marketplace è stata **unita**. I due difetti bloccanti del
+design sono chiusi per davvero: da adesso un negoziante può mettere la foto di copertina alla sua
+vetrina, cosa che non era mai riuscita a nessuno.
+
+**Il lavoro sulle promesse non era dentro.** L'avevo spinto sul ramo mentre la #240 era aperta, e il
+merge è arrivato prima di quel commit. Una richiesta unita è finita: non può tracciare lavoro nuovo.
+Quindi il pezzo rimasto fuori è ripartito da `main` ed è la **#241** — otto difetti gravi, sua
+richiesta, sua storia.
+
+**Ho corretto anche la descrizione della #240.** Mentre era aperta l'avevo aggiornata per raccontare
+tutt'e due i pezzi. Il merge ne ha portato uno solo, quindi quella descrizione prometteva più di
+quello che ha consegnato — e una descrizione che non corrisponde al merge è un pezzo di storia che
+mente. Rimessa a quello che è davvero unito, con scritto sopra perché.
+
+**Il conto del sito era sbilanciato per colpa mia.** Avevo aggiunto tre reperti al referto senza
+aggiornarne il totale dichiarato: l'elenco ne portava 410, il referto ne dichiarava 407. L'ha
+trovato la prova del conto, in CI, non io. È la difesa che fa il suo mestiere — un referto senza
+totale non può sbilanciarsi, quindi non può nemmeno denunciare tre righe comparse dal nulla.
+
+**Uno dei tre era nato con una gravità che in quel referto non esiste.** L'avevo scritto `medio`: il
+vocabolario del sito ne ha tre, quello della macchina quattro. Finiva nel ramo «altre» del conto per
+gravità, cioè invisibile in ogni riga che qualcuno legge.
+
+**Cosa non ho verificato:** che il caricamento funzioni davvero in produzione. Va provato a mano da
+Nicola: entrare come negoziante e caricare una copertina.
+
+## 2026-08-23 14:30 · 🟡 Il carrello diceva «sei vuoto» a chi ce l'aveva pieno
+
+**Cosa ho fatto.** Secondo lotto sul design del sito, dentro la richiesta **#241**: sette difetti
+gravi, una malattia sola. L'assenza di dati veniva disegnata come se fosse un dato.
+
+**Gli stati sono tre, il sito ne usava due.** Carico, vuoto, rotto. Con due soli stati «non lo so
+ancora» e «la lettura è fallita» finiscono tutt'e due dentro «non c'è niente» — e il sito afferma
+cose che nessuno ha potuto guardare.
+
+**Il peggiore, coi numeri.** Lo stato del carrello parte da una lista vuota perché deve partire da
+qualcosa; il carrello vero si legge dopo il primo disegno; e il primo controllo del render era «se
+la lista è vuota». Quindi **l'HTML che parte dal server dice «Il tuo carrello è vuoto»** a chi ce
+l'ha pieno, col pulsante «Esplora i prodotti». Al checkout quel ramo veniva perfino prima del
+controllo di caricamento.
+
+**La home mostrava un negozio inventato.** «Salumeria del Borgo», «Via Calzolai», sei prodotti con
+prezzi scritti a mano, «Aperto ora», «Consegna oggi entro le 18:00». Primo schermo del sito, numeri
+che non vengono da nessuna parte — è la regola di casa violata nel posto più visibile.
+
+**La cura.** `lib/stato-vista.ts`: «vuoto» esce **solo** con `letto: true`. È un'affermazione sul
+mondo — *ho guardato e non c'è niente* — e non si può fare prima di aver guardato. Non è che
+sbagliare diventa improbabile: è irraggiungibile, perché la funzione lo pretende.
+
+**Ho fatto diversamente da una scheda, e il motivo è misurato.** Per le categorie proponeva
+`MaybeSection`. Non funziona: quel componente decide guardando se c'è del testo, e il titolo scritto
+dal renderer *è* testo — la sezione risulterebbe piena anche con zero categorie sotto. L'ho
+verificato leggendolo, non dedotto. Il titolo è passato al figlio, che è l'unico che sa se c'è
+qualcosa.
+
+**Un falso rosso me lo sono dato da solo.** Il filtro dei commenti nella mia prova toglieva le righe
+che *cominciano* con un marcatore: un commento JSX su più righe ha le righe di mezzo che non
+cominciano con niente. Riparato togliendo i blocchi per esteso.
+
+**Cosa non ho verificato:** niente su un browser. Le prove eseguono le funzioni e guardano cosa
+producono; che a schermo si veda quello che mi aspetto va provato dopo il merge.
+
+## 2026-08-23 14:15 · 🟢 Nove difetti del design chiusi, e la stessa cosa mi è successa tre volte
+
+**Cosa è successo.** La richiesta **#241** è stata unita. Nove difetti gravi del design sono chiusi
+per davvero: le promesse false — «carta o contanti alla consegna», il ritiro in negozio col 10%,
+«l'ordine parte alla riapertura», il reso gratuito, «niente commissioni nascoste» — e il carrello
+che diceva «Gratis» con 9,80 € nel totale.
+
+**Il conto del sito adesso:** 210 chiusi, 194 aperti, 6 in corso su 410.
+
+**E per la terza volta oggi il lotto successivo è arrivato tardi.** Avevo il lavoro sugli stati di
+caricamento già spinto sul ramo quando il merge è passato. È successo identico con la #240 e con la
+#241: Nicola firma in fretta — che è giusto — e io accumulavo due lotti sullo stesso ramo prima di
+aprire la richiesta. Ogni volta è costato lo stesso recupero: ripartire da `main`, rimettere sopra
+il commit non unito, aprire una richiesta nuova. Adesso è la **#242**.
+
+**La regola, scritta come lezione:** un lotto si spinge e si apre come richiesta appena il cancello
+è verde, *prima* di cominciare il successivo. Mai due lotti sullo stesso ramo in attesa della stessa
+firma.
+
+**Il freno non è scrivibile, e lo dico.** È una regola sul ritmo del lavoro, non sul codice: la cosa
+più vicina a un guardiano sarebbe «il ramo ha commit che non stanno in nessuna richiesta aperta», e
+non si misura da dentro la suite. Registrata come debito dichiarato, non spacciata per fatta.
+
+**Cosa non ho verificato:** che le nove riparazioni si vedano davvero in produzione. Le prove
+eseguono le funzioni; il browser non l'ho aperto.
+
+## 2026-08-23 15:35 · 🟡 Le sei capacità grosse della macchina non partivano. Tutte e sei, da due mesi
+
+**Cosa ho fatto.** Riparato **AR-780**, un bloccante. `radiografia`, `audit-design`,
+`auto-radiografia`, `audit-pannello`, `giro-operativo`, `radiografia-totale`: CLAUDE.md le nomina
+per nome nei comandi rapidi, e il motore le rifiutava tutte prima di eseguirne una riga.
+
+**La causa non era una riga sbagliata: erano due regole di casa che si contraddicono.** La porta dei
+senior (AR-434) *pretende* che chi mette al lavoro un agente importi `cervello/prompt-senior.mjs`. Il
+motore dei workflow non accetta **nessun** import, e vuole `export const meta` come prima istruzione.
+Un workflow poteva soddisfare la porta **oppure** partire. Mai tutt'e due. La cura di un difetto ne
+causava un altro, e nessuno dei due guardiani poteva vederlo perché ognuno guardava metà del
+problema.
+
+**La seconda porta.** `agentType` fa la stessa cosa meglio: il motore risolve il senior dallo stesso
+registro del comando di delega e gli dà il mansionario come **identità**, non come testo incollato
+dentro un messaggio d'utente. Ho insegnato alla porta dei senior a riconoscerla — pretendendo che
+`agentType` ci sia su **ogni** chiamata, non su una qualsiasi.
+
+**Ho fatto diversamente da quello che proponeva la scheda, e il conto lo spiega.** Chiedeva uno
+script di build che generasse i workflow coi prompt dei senior già dentro. Un prompt di senior è
+**21 KB**, e `auto-radiografia` ne usa quattro: file da centinaia di kilobyte, più una disciplina
+nuova sui file generati e un guardiano per farla rispettare. Con `agentType` non nasce nessun file
+generato.
+
+**E l'ho rifatta io, un piano sotto, nella stessa ora.** Tolti gli import, ho rilanciato il
+guardiano: verde, sei su sei. Ma quattro di quegli script **chiamavano ancora** `promptSenior`, e a
+runtime sarebbero morti su un ReferenceError. Il guardiano diceva «partono» di script che non
+partivano — che è esattamente la malattia che AR-780 denuncia: *certificare l'installazione invece
+dell'esecuzione*. Adesso guarda tre cose: la prima istruzione, gli import ovunque nel file, e i nomi
+che il motore non fornisce, ognuno col suo perché.
+
+**Un passo non era più dell'AD.** `giro-operativo` diceva a un sotto-agente «Sei l'AD digitale, il
+tuo manuale è CLAUDE.md»: ma un sotto-agente CLAUDE.md non ce l'ha. Era un generico a cui si chiedeva
+di recitare l'AD. Quel mestiere ha un senior vero — `@chief-of-staff` — e la decisione finale resta
+comunque mia: il workflow produce una proposta.
+
+**Cosa non ho verificato:** non ho lanciato nessuno dei sei workflow. Non posso: farlo è una scelta
+di Nicola, non mia. Ho verificato che il motore li accetterebbe — le due regole che applica prima di
+partire, misurate sul testo vero — e che non nominano più niente che il motore non dia. Il primo che
+verrà lanciato dirà se basta.
+
+---
+
+## 2026-08-23 15:45 — 🟡 Dieci chiusure senza data, e il voto che la macchina si dà era contato su quei libri
+
+**Cosa ho fatto.** Riparato AR-724 e riparato il dato: 10 schede risultavano chiuse **senza nessuna
+data** (AR-768…AR-779). Una chiusura senza data non appartiene a nessun mese, quindi spariva dal
+conto «chiudo almeno quanto apro» — il numero che decide se il giro può aprire ricerche nuove. Il
+voto di agosto era 1,35 su libri bucati; adesso è **1,39 su libri interi**.
+
+**La data non l'ho inventata.** Viene da `git log` sul cantiere: il primo commit che pubblica ogni
+scheda come chiusa. È un limite superiore, non l'ora esatta, e ogni scheda lo dice nel campo
+`timbro_ricostruito` invece di far finta.
+
+**La scheda sbagliava, e la differenza è la parte che conta.** AR-724 accusava
+`round2-applica.mjs` di aver mandato in archivio due difetti senza i campi del contratto. Letto il
+codice: le righe assegnavano lo stato per conto loro, ma il timbro lo mettevano — AR-144 e AR-117
+sono completi. Il danno previsto non c'era. **Il danno vero era altrove e più grosso**, e soprattutto
+lo aveva fatto una mano in sessione scrivendo dentro al JSON, non una riga di codice: cioè la strada
+che il fix proposto dalla scheda (cercare l'atto nel codice) non avrebbe mai visto.
+
+**Da lì il fix vero: due occhi, non uno.** Al DATO (`timbriStorti`: c'è una scheda chiusa senza
+timbro?) e al CODICE (`attiFuoriDallaPorta`: c'è una riga che scrive «chiuso» fuori dalla porta?).
+Tutt'e due dentro `cantiere-integrita.mjs`, che il cancello del lotto **esegue già** a ogni giro —
+non un guardiano nuovo che nessuno chiama. Guardarne uno solo dice verde sull'altro.
+
+**Le 24 con la data secca** (data senza ora) non le ho bloccate: il loro mese ce l'hanno, non bucano
+i conti, e un cancello sempre rosso si impara ad aggirarlo. Stanno sotto un tetto misurato — 24 —
+che scende e non risale, come `prova_debole`.
+
+**Il cancello mi ha preso in fallo, e aveva ragione.** Toccando `round2-applica.mjs` mi sono
+ereditato un suo difetto vecchio: era tutto codice a filo di modulo e finiva con `process.exit(0)`,
+quindi chiunque lo importasse si portava dietro la migrazione e la morte del processo. Riparato:
+corpo dentro `main()`, guardia sull'avvio.
+
+**La cecità del cloud non era del posto: era una cosa non fatta.** Tre controlli del cancello
+dicevano «non ho potuto misurare» in ogni sessione cloud, per via del clone superficiale.
+`git fetch --unshallow origin` li ha accesi tutti e tre in pochi secondi — e ha fornito anche le 10
+date. Questo lotto è il primo della giornata a chiudere con **22 guardiani su 22 verdi e zero ⚪**.
+Registrato come AR-800: uno dei tre il comando lo stampava già nella sua riga, gli altri due no, e
+nessuno dei tre lo eseguiva.
+
+**Cosa non ho verificato:** le 24 date secche non le ho ricostruite. Sono di luglio e dei primi
+giorni d'agosto, la storia adesso le raggiungerebbe, ma è lavoro a parte e il tetto lo tiene fermo
+intanto.
+
+---
+
+## 2026-08-23 16:15 — 🟡 Le prime fondamenta della Bottega: un negozio non vede l'altro
+
+**Cosa ho fatto.** Costruito `cervello/bottega/lavoro.mjs`, il primo pezzo della linea di ricavo #2.
+Tre dei sei meccanismi del multi-negozio, quelli che si possono provare **senza avere un negozio
+vero**: il lavoro nasce già marchiato col suo negozio, il contesto contiene solo le sue righe, le
+chiavi non hanno una strada per entrare nel discorso.
+
+**Perché questi tre e non l'AI che parla col negoziante.** Il documento sull'architettura è netto:
+`negozio_id`, muro dei dati e corsie **dal primo giorno**, perché aggiungerli dopo su dati già
+mescolati «è il lavoro più caro e pericoloso che esista». La parte che parla col negoziante è quella
+che si vede, ed è anche la più veloce: si può fare dopo. Il muro no.
+
+**La forma: niente regole da ricordare.** Un lavoro si costruisce solo da una porta che senza negozio
+lancia. Il lavoro è congelato. La scheda del negozio arriva in due pezzi separati e quello con le
+chiavi il lavoro non lo riceve mai — così un segreto nel testo non è improbabile, è senza strada.
+
+**Due cose le ha trovate la prova, non il ragionamento.**
+1. Un oggetto fatto a mano con dentro `negozioId` passava il controllo e si schiantava tre righe
+   dopo. Adesso il lavoro porta un marchio che solo la porta sa mettere.
+2. Il marchio l'avevo fatto **enumerabile**, e `{ ...lavoro, negozioId: "un-altro" }` produceva un
+   lavoro valido col negozio scambiato e le righe del primo ancora dentro. Cioè la cosa che il file
+   esiste per impedire, ottenuta con tre puntini. Adesso il marchio non si copia.
+
+**Cosa non ho verificato, e va detto forte:** questo codice **non lo chiama ancora nessuno**. È una
+fondazione, non una macchina che gira. E il muro vero — quello dentro il database, che *rifiuta* di
+consegnare le righe di un altro negozio — non c'è: oggi separa il codice, che filtra dopo. Ho
+registrato i due pezzi mancanti come bloccanti (`AR-801` la tabella senza il campo del negozio,
+`AR-802` il muro nel database), tutt'e due con la firma di Nicola davanti. Le colonne della tabella
+le ho lette **dal vivo**, non dedotte dal codice: `lavori` ha 3.255 righe e nessun campo per il
+negozio.
+
+---
+
+## 2026-08-23 16:45 — 🟡 Le corsie della bottega: un negozio in loop non ferma gli altri quaranta
+
+**Cosa ho fatto.** `cervello/bottega/corsie.mjs`: i meccanismi ③ e ⑥ dell'architettura, che
+rispondono alla stessa domanda — *questo negozio può prendersi più di quello che gli spetta?* Il
+turno risponde sul tempo, il tetto risponde sui soldi.
+
+**La malattia non è ipotetica: sta scritta dentro il worker.** In cima al suo pezzo anti-veleno,
+`worker.sh` dichiara che «il loop prende SEMPRE il lavoro in attesa PIÙ VECCHIO», e che un lavoro
+avvelenato «restava in testa alla coda tenendo bloccati TUTTI i lavori dietro». Con un padrone solo
+il rimedio scelto basta: chi aspetta è sempre lo stesso che ha causato il problema. **Con quaranta
+negozi paganti non basta più**, perché il tempo perso è di qualcuno che non c'entra.
+
+**Il tetto ha tre stati, non due.** Tutto bene · oltre metà (si lavora, ma lo sai) · finito. Il
+terzo stato esiste perché un freno che passa da verde a bloccato senza avvisare è un freno che
+sorprende, e la sorpresa la paga chi si trova la macchina ferma. E **un tetto che non c'è non è un
+tetto infinito**: il negozio si ferma. Meglio fermo che con una bolletta senza fondo.
+
+**Due difetti sono nati da un mio controllo, non da una ricerca.** Stavo per scrivere nel commento
+«l'avviso a metà, come il freno costi del CENTRO». Sono andato a guardare: **il CENTRO quella metà
+non ce l'ha** — `costo-ai.mjs` ha due stati soli, sotto soglia e sopra. Ho corretto la frase e
+registrato `AR-803`. Poi ho letto il codice del worker invece di fidarmi, e ne è uscito `AR-804`.
+
+**Il cancello mi ha preso in fallo, e aveva ragione.** Ad AR-803 avevo messo una prova a comando che
+misura il pezzo nuovo e **non diventa rossa se il CENTRO resta a due stati**. Una prova che non può
+fallire nel modo in cui fallisce il difetto non è la sua prova: adesso è verifica umana dichiarata,
+e la prova vera si scriverà insieme al fix.
+
+**Cosa non ho verificato:** anche queste corsie **non le chiama ancora nessuno**. Il worker vero non
+può usarle finché la tabella dei lavori non ha il campo del negozio (`AR-801`). Le funzioni sono
+provate — 18 casi, 7 mutazioni rosse — il worker no.
+
+---
+
+## 2026-08-23 17:25 — 🟡 La porta era una, la penna era facoltativa
+
+**Cosa ho fatto.** Chiuso il residuo che `AR-568` si portava dietro dal 10 agosto, e con quello
+`AR-730` per intero.
+
+**Il difetto madre, per capire cosa proteggo.** Da una sessione cloud senza chiavi un comando di
+*diagnosi* riscrisse la memoria dei sensori con la propria cecità: i sensori che il server aveva
+misurato «ok» diventarono «non collegato», e un contatore passò da 26 misure a 2 — **col voto che
+migliorava, perché avevo misurato di meno**. Un numero che si abbassa restringendo il campione è una
+bugia che sembra un progresso.
+
+**Il residuo era vero, e l'ho verificato sul codice invece di crederci.** La scheda diceva che tre
+scrittori su quattro restavano scoperti. Erano **due**, non tre: `delta-gate` la penna buona la
+passava già. Ma sotto c'era un piano che la scheda non vedeva: **il freno si accende solo se il
+documento che c'è già dichiara la sua provenienza**, e quei file non l'hanno mai avuta —
+`cassa-runway.json` non ce l'ha tuttora. Quindi anche montandoci sopra la penna giusta sarebbero
+passati lo stesso. *Un freno che si spegne se non dichiari niente è un freno a richiesta.*
+
+**La cura è togliere la scelta.** La porta non accetta più nessuna penna: usa sempre quella col
+freno, e il timbro di provenienza lo mette lei. Da adesso un documento di stato-sensore non può
+esistere senza dire da dove viene. E non dichiarare quanto hai visto **non** è una scappatoia: la
+regola dice che una copertura ignota non sovrascrive una dichiarata — chi tace perde il confronto,
+invece di vincerlo.
+
+**Una bugia piccola che ho trovato mentre riscrivevo.** La porta rispondeva «scritto» anche quando il
+freno l'aveva fermata. Chi la chiamava credeva che il file fosse cambiato.
+
+**La seconda istanza, quella che la scheda aveva appeso in coda.** Il diario del sorvegliante si
+riscriveva con la penna cruda anche quando la corsa era in sola lettura. Adesso passa dal freno, e il
+messaggio distingue due cose che prima diceva uguali: **il freno che frena** non è **un guasto**.
+Chiamarlo guasto insegna a ignorare il messaggio proprio quando dice la verità.
+
+**Quattro prove della suite sono diventate rosse per colpa mia, e avevano ragione tutte e quattro.**
+Una era un difetto registrato che la mia modifica ha davvero riparato (`AR-730`): la sua prova a due
+versi l'ho girata invece di cancellarla, così il rilevatore resta se il difetto torna. Due erano
+misure diventate troppo strette (una contava una sola strada buona su due, una mutazione puntava a
+una riga che si era spostata). L'ultima l'ho riagganciata al posto nuovo.
+
+**E ho rifatto AR-799 di persona.** Per provare il diario ho lanciato il comando vero: ha archiviato
+una sessione a metà e ha buttato fuori la riga più vecchia. Ripristinato, e rifatto come si doveva —
+con la radice deviata, che è esattamente il freno che stavo costruendo.
+
+**Cosa non ho verificato:** di `AR-568` resta aperta la clausola (d), il cancello che ferma una
+consegna che abbassa la copertura di un file di misura senza dirlo. E prima serve una decisione che
+è tua: **quali file di misura sono di proprietà del server e non sovrascrivibili da fuori.**
+
+---
+
+## 2026-08-23 18:00 — 🟢 La parte venditore, guardata per la prima volta
+
+**Cosa ho fatto.** Analisi in sola lettura dell'area venditore del marketplace: la quarta consegna
+che Nicola ha nominato il 22/8, e l'unica ancora a zero. Nessuna riga di codice toccata.
+
+**Il conto.** Undici pagine, ventinove letture, e la domanda *«la lettura è andata storta?»* non
+compare **mai**. Otto pagine dichiarano un valore di ripiego, quindi un fallimento si disegna come
+«non c'è niente».
+
+**Il caso peggiore cade sui soldi.** La pagina dei Guadagni, quando la lettura fallisce, mostra la
+torre dei numeri a zero e scrive «Ancora nessun ordine pagato con carta». In cima alla stessa pagina
+c'è scritto **«Incassi reali dai tuoi ordini»**: dichiara di essere reale su dati che non ha mai
+ricevuto. È la stessa malattia dei sette gravi riparati oggi sul lato cliente, ma qui cade sul
+portafoglio di chi paga il canone.
+
+**Ho verificato la configurazione prima di scriverlo.** Se il provider avesse avuto `throwOnError`,
+tutte quelle letture sarebbero salite al confine d'errore e il mio reperto sarebbe stato falso. Non
+ce l'ha, e ha `retry: 1`: dopo un tentativo la query smette e il valore di ripiego prende il posto
+del dato.
+
+**Il reperto che conta di più a lungo termine è il minore.** La pagina Andamento l'errore lo mostra —
+ma perché si schianta, non perché qualcuno l'ha deciso. Basta una riga difensiva aggiunta per fare
+pulizia e comincia a mostrare zeri come i Guadagni: **peggiora in silenzio proprio mentre sembra che
+la si stia sistemando.** Un comportamento giusto che nessuno ha scelto non è protetto da niente.
+
+**Avevo inventato una dimensione che esisteva già.** Avevo scritto i reperti sotto `stati-e-verita`;
+il referto ha `stati-ui`, «Stati dell'interfaccia», da sempre. L'ha trovato il guardiano del conto
+del sito, non io — e la regola è la stessa dell'owner unico: una casa sola per ogni cosa.
+
+**I conti li ho aggiornati nello stesso lavoro** che aggiunge i reperti: 414 totali, 14 bloccanti,
+179 gravi, 221 minori. È l'errore che la CI mi ha trovato stamattina, quando il totale dichiarato
+diceva 407 e l'elenco ne portava 410.
+
+**Cosa non ho verificato:** non ho aperto il sito con gli occhi, e ho guardato **una malattia sola**.
+Restano fuori layout, testi, immagini e flussi: questa è la prima passata, non il controllo completo.
+
+**E una domanda per Nicola, dichiarata invece di indovinata:** «design della parte venditore» me
+l'ha chiesto subito dopo il worker per le botteghe, quindi potrebbe intendere *come apparirà il
+worker dentro il pannello del negoziante*. Ho cominciato da quello che c'è adesso, perché il pannello
+è la stanza dove quel worker andrà comunque a stare.
+
+---
+
+## 2026-08-23 18:35 — 🟡 Il pannello del negoziante riparato, e un guardiano che accusava il documento sbagliato
+
+**Cosa ho fatto.** Le undici pagine dell'area venditore hanno i tre stati. Quando una lettura
+fallisce il negoziante lo legge, con un pulsante per riprovare — invece di un numero che non è vero.
+
+**La casa nuova** è `lib/vista-query.ts`: si passa la lettura intera e si riceve il verdetto. Il
+punto che conta è la definizione di **«letto»**, che qui vuol dire *«c'è un dato in mano»* e non
+*«la lettura è finita»*. È esattamente la differenza che il difetto sfruttava.
+
+**Tre letture ingoiavano il proprio errore.** Senza leggere il campo dell'errore la query non
+falliva *mai*: tornava riuscita con la lista vuota. Un riquadro a valle non serve a niente se il
+guasto non arriva fin lì — è la stessa forma di «Vicino a te» sul lato cliente.
+
+**Avevo costruito un componente-riquadro e non lo usava nessuno: l'ho tolto.** Un pezzo che nessuno
+attraversa è la malattia che sto curando, non la cura.
+
+**L'invariante di struttura ha trovato due punti che mi erano sfuggiti** — i venduti nel catalogo e
+le campagne in promozione — più un falso rosso su un mio stesso commento, che citava la forma malata
+per spiegarla. Adesso «non lo so» non è più «zero»: un prodotto di cui non ho letto i venduti mostra
+`?`, non «mai venduto».
+
+**Poi il cancello è diventato rosso su un lavoro che non c'entrava niente** (AR-805). Il guardiano
+dell'allocazione accusava due referti di design di essere «asset pesanti» di *Peretti Frutta e
+Verdura*, un negozio che quei documenti non nominano mai. Il motivo: contava le citazioni per
+**sottostringa**, e l'alias «frutta» compariva dentro **sfruttava**. Un guardiano che accusa il
+documento sbagliato si impara a ignorare, ed è la fine di un guardiano. Riparato con i confini di
+parola scritti come `\p{L}` — non `\b`, che in JavaScript conosce solo l'ASCII e su un nome accentato
+vedrebbe un confine dove non c'è. Stessa trappola già pagata con «cioè» (AR-493).
+
+**E il freno che ho costruito stamattina ha preso me.** Avevo scritto AR-805 nel registro già chiuso,
+a mano, senza timbro: esattamente il buco che AR-724 cura. Il guardiano l'ha visto, ho riaperto la
+scheda e l'ho chiusa dalla porta. È la prima volta che quel freno morde qualcuno, e quel qualcuno
+ero io.
+
+**Cosa non ho verificato:** niente con gli occhi. Le prove eseguono le funzioni e leggono i file.
+Che a schermo il riquadro d'errore si veda bene va guardato dal vivo, e per il lato venditore serve
+un negozio vero che abbia ordini.
+
+---
+
+## 2026-08-23 19:10 — 🟡 L'elenco dei permessi era pronto da un mese, e avrebbe rotto il giro
+
+**Cosa ho fatto.** Sono andato a vedere cosa mancasse davvero ai due bloccanti sui permessi (AR-142,
+AR-206). Risposta: non il codice. Il guardiano che li rileva esiste, funziona, e dice da solo che la
+correzione la deve fare Nicola — `.claude/settings.json` è negato in scrittura alla macchina apposta.
+
+**Quello che mancava era il materiale, ed era peggio di mancante: era sbagliato.** L'elenco esplicito
+che sostituisce il jolly è pronto dal 29 luglio, curato **a mano**, e già ritoccato una volta il 13
+agosto per cinque script nati dopo. Misurato oggi: **indietro di 51.**
+
+Il giorno che Nicola lo applicava, 51 programmi che il giro lancia ogni giorno smettevano di partire.
+La cura rompeva il giro — e la volta dopo nessuno l'avrebbe applicata più. **Un elenco che invecchia
+in silenzio è peggio di nessun elenco, perché sembra pronto.**
+
+**Adesso si ricalcola.** `cervello/permessi-elenco.mjs` legge chi *lancia* davvero — il giro, il
+worker, il cancello, la suite, la CI, i timer del server, le skill — cercando la forma
+dell'**esecuzione** e non il nome nudo: un file citato in una frase è una citazione, non un lancio.
+
+**Due scelte prudenti, e sono la parte che conta.** Uno script nominato ma assente dal disco resta
+**fuori**: un permesso per un file che non esiste è un permesso che aspetta qualcuno che lo crei,
+cioè il jolly scritto una riga alla volta. E una fonte illeggibile lascia l'elenco **più stretto**,
+mai più largo: un errore di lettura non deve poter allargare il perimetro.
+
+**Il documento lo genera lo stesso file.** Se il modello vivesse fuori, la prima rigenerazione se lo
+porterebbe via — la stessa malattia dell'elenco, un piano sopra.
+
+**E il materiale adesso sta dentro la card**, non dietro un puntatore. Era AR-524: «gli avevo
+consegnato una configurazione che solo lui può incollare, e il materiale, davanti a lui, non è mai
+arrivato». La card #42 chiedeva un gesto di copia e rimandava a un file. Adesso i due blocchi sono lì.
+
+**Cosa non ho verificato:** non ho provato ad applicarlo, e non posso. Che il giro continui a girare
+dopo la sostituzione si vede solo dopo. Restano fuori le altre due parti di AR-206 — il controllo di
+provenienza su ogni script, e le chiavi tenute fuori dall'ambiente del worker.
+
+---
+
+## 2026-08-23 19:35 — 🟡 Una gesto sola per tutt'e due i bloccanti sui permessi
+
+**Cosa ho fatto.** La card #42 adesso copre anche **AR-142**, non solo AR-206. Sono tre righe in più
+nello stesso foglio, e con quelle si chiudono tutt'e due i bloccanti con una sola incollata.
+
+**Il divieto di spingere sul ramo principale l'ho scelto mirato**, non generale. Vietare `git push`
+intero avrebbe chiuso anche la strada con cui apro le richieste a Nicola: il freno giusto è
+`git push origin main` e `git push --force`, non la spinta in sé.
+
+**Sullo strumento che scrive sul database ho controllato prima di consigliare.** `execute_sql`
+modifica lo stato, ed è fra quelli concessi senza chiedere. Ho cercato chi lo usa: **nessuno script
+della macchina**. Quindi il consiglio è toglierlo, e non è una rinuncia — per leggere ci sono gli
+altri strumenti, e la fonte di verità dei numeri è il canale REST.
+
+**Il sorvegliante mi ha contestato una riga, e la risposta giusta era dichiarare, non aggirare.**
+Il modello del documento contiene la stringa `git push --force`, perché è il divieto che Nicola deve
+incollare. Il guardiano la legge come un comando di scavalcamento — non può distinguere il divieto
+dall'atto. Potevo spezzare la stringa per far contento il metro: sarebbe stato scrivere per il
+guardiano invece che per il lettore, e il testo che lui incolla dev'essere identico. Esenzione
+dichiarata col perché.
+
+**Poi il cancello è uscito 2, e il buco è vero.** Un controllo non ha potuto leggere la coda intera:
+274.029 caratteri contro un tetto di 200.000. Il commento sopra quel tetto racconta la storia: il
+22/8 il tetto era stato alzato e poi rimesso a posto, perché *«una soglia che sale è la mossa che
+nasconde i problemi»*, e la cura vera fu spostare in archivio le carte chiuse. **In un mese è tornato
+dov'era**, con 37 carte chiuse ancora dentro.
+
+È la stessa forma dell'elenco dei permessi, trovata un'ora prima: **una cosa curata a mano che il
+tempo riporta indietro.** Registrata come AR-807.
+
+**Cosa non ho fatto, e lo dico come debito, non come lavoro finito:** il freno di AR-807 non l'ho
+scritto. Servirebbe un tetto dichiarato sulla dimensione della coda, che scende e non risale — la
+forma già usata altrove. Senza quello, spostare le 37 carte oggi vuol dire ritrovarsele fra un mese.

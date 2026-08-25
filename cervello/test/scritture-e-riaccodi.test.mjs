@@ -114,10 +114,17 @@ test("vale anche per il testo, non solo per il JSON", () =>
 test("i cinque writeJson copiaincollati ora passano tutti da qui", async () => {
   // Era la stessa funzione scritta cinque volte, e nessuna delle cinque era sicura. Se una torna a
   // scrivere per conto suo, il bug riappare dal file che nessuno ha guardato.
+  //
+  // 23/8 — le strade buone sono DUE, e contarne una sola dava un rosso su un file a posto.
+  // `delta-gate` non nomina più `scriviJsonAtomico` perché scrive attraverso `scriviStatoSensore`,
+  // che la penna atomica ce l'ha dentro e non la fa più scegliere a nessuno (residuo di AR-568).
+  // Passare dalla porta dei sensori vale quanto usare la penna: quella porta è coperta dalla sua
+  // prova — `un-negozio...` no, `la-penna-che-si-poteva-scegliere.test.mjs` — che diventa rossa se
+  // la penna là dentro torna cruda. Senza quella prova questa riga sarebbe una scappatoia.
   const nudi = [];
   for (const f of ["auto-fix.mjs", "chiusura-loop.mjs", "delta-gate.mjs", "sentinella-dati.mjs", "allinea-scan-cantiere.mjs"]) {
     const src = readFileSync(join(QUI, "..", f), "utf8");
-    if (!/scriviJsonAtomico/.test(src)) nudi.push(f);
+    if (!/scriviJsonAtomico|scriviStatoSensore/.test(src)) nudi.push(f);
     assert.doesNotMatch(src, /function writeJson\([^)]*\)\s*\{\s*mkdirSync[\s\S]{0,80}writeFileSync/, `${f}: scrive ancora per conto suo`);
   }
   assert.deepEqual(nudi, [], "questi scrivono la memoria senza il writer atomico");

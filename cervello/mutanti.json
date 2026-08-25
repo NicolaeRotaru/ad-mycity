@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-23 21:30",
+ "aggiornato": "2026-08-24 21:05",
  "mutanti": [
   {
    "lotto": 30,
@@ -631,9 +631,10 @@
    "difetto": "AR-444",
    "nome": "un difetto dichiarato aperto da un umano torna a richiudersi da solo",
    "file": "cervello/chiusura-dichiarata.mjs",
-   "cerca": "  if (b.bloccata) {\n    return { chiude: false, debole: false, bloccata: true, motivo: `dichiarato aperto da un umano — ${b.motivo}` };\n  }",
-   "sostituisci": "  if (false) {\n    return { chiude: false, debole: false, bloccata: true, motivo: `dichiarato aperto da un umano — ${b.motivo}` };\n  }",
-   "test": "cervello/test/dichiarato-aperto-si-richiude.test.mjs"
+   "cerca": "  if (b.bloccata) {\n    return { chiude: false, debole: false, bloccata: true, inammissibile: false, marca: null, motivo: `dichiarato aperto da un umano — ${b.motivo}` };\n  }",
+   "sostituisci": "  if (false) {\n    return { chiude: false, debole: false, bloccata: true, inammissibile: false, marca: null, motivo: `dichiarato aperto da un umano — ${b.motivo}` };\n  }",
+   "test": "cervello/test/dichiarato-aperto-si-richiude.test.mjs",
+   "nota_riaggancio": "23/8, lotto 51: il pezzo cercato non combaciava piu'. Il ramo della dichiarazione umana e' lo stesso, ma il verdetto adesso porta due campi in piu' (`inammissibile`, `marca`) perche' `verdettoChiusura` ha un terzo modo di dire no. La mutazione non cambia significato: spegne sempre il ramo che fa vincere chi ha guardato la scheda."
   },
   {
    "lotto": 36,
@@ -2990,19 +2991,21 @@
    "lotto": 40,
    "difetto": "AR-435",
    "nome": "La scheda dice TRE workflow: il codice ne diceva QUATTRO con `/home/user/ad-mycity` (giro-operativo, auto-radi",
-   "file": ".claude/workflows/giro-operativo.js",
-   "cerca": "const REPO = radiceRepo()",
-   "sostituisci": "const REPO = '/home/user/ad-mycity'",
-   "test": "node cervello/test/porta-dei-senior.test.mjs"
+   "file": "cervello/prepara-giro.mjs",
+   "cerca": "export function bagaglioDelGiro({ radice = radiceRepo() } = {}) {",
+   "sostituisci": "export function bagaglioDelGiro({ radice = '/home/user/ad-mycity' } = {}) {",
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs",
+   "nota_riaggancio": "23/8, lotto 52 (AR-780): il pezzo cercato non esiste piu' in giro-operativo.js. Il motore dei workflow non accetta import, quindi il calcolo che questa mutazione sorvegliava e' stato SPOSTATO — non tolto — in cervello/prepara-giro.mjs, che gira dove il disco si legge e passa il risultato al workflow come `args`. La mutazione segue la protezione nella sua casa nuova: spegne sempre la stessa cosa, cioe' il valore preso dal vero invece che scritto a mano."
   },
   {
    "lotto": 40,
    "difetto": "AR-126",
    "nome": "Verificato prima nei fatti-chiave, in sola lettura: `negozio.faro` = «Pane Quotidiano (unico negozio reale; la",
-   "file": ".claude/workflows/giro-operativo.js",
-   "cerca": "const FATTI = fattiVivi(FATTI_DEL_GIRO, REPO)",
-   "sostituisci": "const FATTI = [{ id: 'negozio.faro', nome: 'Negozio faro', valore: 'Casa Linda payout-ready', aggiornato: '' }]",
-   "test": "node cervello/test/porta-dei-senior.test.mjs"
+   "file": "cervello/prepara-giro.mjs",
+   "cerca": "    fatti = fattiVivi(FATTI_DEL_GIRO, radice);",
+   "sostituisci": "    fatti = [{ id: 'negozio.faro', valore: 'Casa Linda payout-ready' }];",
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs",
+   "nota_riaggancio": "23/8, lotto 52 (AR-780): il pezzo cercato non esiste piu' in giro-operativo.js. Il motore dei workflow non accetta import, quindi il calcolo che questa mutazione sorvegliava e' stato SPOSTATO — non tolto — in cervello/prepara-giro.mjs, che gira dove il disco si legge e passa il risultato al workflow come `args`. La mutazione segue la protezione nella sua casa nuova: spegne sempre la stessa cosa, cioe' il valore preso dal vero invece che scritto a mano."
   },
   {
    "lotto": 40,
@@ -4451,10 +4454,10 @@
   {
    "lotto": 44,
    "difetto": "AR-286",
-   "nome": "AR-286: il cuore del fix rimesso com'era col difetto",
-   "file": "cervello/verifica-sensori.mjs",
-   "cerca": "    scrittore: (p, d) => scriviJsonAtomico(p, d),",
-   "sostituisci": "",
+   "nome": "AR-286: la penna atomica tolta dalla porta dei sensori (il comportamento e' sceso li' il 23/8)",
+   "file": "cervello/stato-sensori.mjs",
+   "cerca": "  const scritto = scriviJsonAtomico(path, timbrato, env);",
+   "sostituisci": "  const scritto = (await import(\"node:fs\")).writeFileSync(path, JSON.stringify(timbrato, null, 2) + \"\\n\", \"utf8\") ?? path;",
    "test": "cervello/test/la-sola-lettura-che-scrive.test.mjs"
   },
   {
@@ -6353,6 +6356,56 @@
   {
    "lotto": 51,
    "difetto": "AR-796",
+   "nome": "il cancello delle prove torna a non essere consultato dal verdetto di chiusura",
+   "file": "cervello/chiusura-dichiarata.mjs",
+   "cerca": "  const amm = ammissibilitaProva(dif, { fileEsiste });\n  if (!amm.ammessa) {",
+   "sostituisci": "  const amm = ammissibilitaProva(dif, { fileEsiste });\n  if (false) {",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "lezione": "L-2026-0823-01"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
+   "nome": "chi chiude torna a rifare la decisione a mano invece di leggere il verdetto",
+   "file": "cervello/auto-fix.mjs",
+   "cerca": "else if (vc.chiude && g.ammessa) daChiudere.push",
+   "sostituisci": "else if (r.esito === \"risolto\" && g.ammessa) daChiudere.push",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "lezione": "L-2026-0823-01"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
+   "nome": "la porta A MANO torna a chiudere senza dire che il cancello non l'ammetteva",
+   "file": "cervello/auto-fix.mjs",
+   "cerca": "    d.chiusa_su_prova_non_ammessa = amm.motivo;",
+   "sostituisci": "    void amm;",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "lezione": "L-2026-0823-01"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
+   "nome": "la TERZA strada (l'allineatore) torna a chiudere un finding bloccante senza chiedere al cancello",
+   "file": "cervello/allinea-scan-cantiere.mjs",
+   "cerca": "        if (r.esito === \"risolto\" && !amm.ammessa) {",
+   "sostituisci": "        if (false) {",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "lezione": "L-2026-0823-01"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
+   "nome": "la dichiarazione della porta a mano torna a non finire in nessun conto",
+   "file": "cervello/cantiere-prove.mjs",
+   "cerca": "  chiuse_su_prova_non_ammessa: chiuseForzate.length,",
+   "sostituisci": "  chiuse_su_prova_non_ammessa: 0,",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs",
+   "lezione": "L-2026-0823-01"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
    "nome": "la porta scoperta torna a essere una porta come le altre: chi compie l'atto senza chiamare la guardia non viene piu accusato",
    "file": "cervello/porte-gemelle.mjs",
    "cerca": "    const chiamata = chiamaLaGuardia(String(testo ?? \"\"), funzione);",
@@ -6366,51 +6419,6 @@
    "file": "cervello/porte-gemelle.mjs",
    "cerca": "    if (new RegExp(`(?:^|[^A-Za-z0-9_$])${fuga(n)}\\\\s*(?:\\\\?\\\\.\\\\s*)?\\\\(`).test(codice)) {",
    "sostituisci": "    if (new RegExp(`\\\\b${fuga(n)}\\\\b`).test(String(testo))) {",
-   "test": "cervello/test/altra-porta-lasciata-aperta.test.mjs"
-  },
-  {
-   "lotto": 51,
-   "difetto": "AR-796",
-   "nome": "le stringhe, i commenti e i template tornano a contare come codice: il lettore che li spegne viene aggirato e una parola scritta dentro un messaggio ridiventa una chiamata",
-   "file": "cervello/porte-gemelle.mjs",
-   "cerca": "  const codice = soloCodice(testo);",
-   "sostituisci": "  const codice = String(testo);",
-   "test": "cervello/test/altra-porta-lasciata-aperta.test.mjs"
-  },
-  {
-   "lotto": 51,
-   "difetto": "AR-796",
-   "nome": "la casa dell'atto torna a indovinarsi da una riga esportata: basta scrivere `export const stato = \"chiuso\"` in fondo alla porta scoperta e l'accusa si spegne, col file sparito perfino dall'elenco delle porte",
-   "file": "cervello/porte-gemelle.mjs",
-   "cerca": "    if (fuoriGioco.has(rel) || eUnTest(rel)) continue;",
-   "sostituisci": "    if (fuoriGioco.has(rel) || eUnTest(rel)) continue;\n    if (/export\\s+(?:const|let|var|function)\\s+(?:stato|chiuso|chiudiTutto)\\b/.test(String(testo))) continue;",
-   "test": "cervello/test/altra-porta-lasciata-aperta.test.mjs"
-  },
-  {
-   "lotto": 51,
-   "difetto": "AR-796",
-   "nome": "il verde perde il pavimento: un atto in cui il rilevatore non trova nessuna porta torna a uscire verde invece che ⚪, e il freno dice «tutto a posto» dopo aver guardato zero cose",
-   "file": "cervello/porte-gemelle.mjs",
-   "cerca": "    if (!porte.length) {",
-   "sostituisci": "    if (false) {",
-   "test": "cervello/test/altra-porta-lasciata-aperta.test.mjs"
-  },
-  {
-   "lotto": 51,
-   "difetto": "AR-796",
-   "nome": "il cieco torna a mangiarsi il rosso: una sola cartella illeggibile butta via l'atto intero, e il rosso gia provato nella cartella che si leggeva sparisce dietro un ⚪",
-   "file": "cervello/porte-gemelle.mjs",
-   "cerca": "  if (cieche.length === dove.length) return { files: null, cieche, motivo: cieche.map((c) => c.motivo).join(\" · \") };",
-   "sostituisci": "  if (cieche.length) return { files: null, cieche, motivo: cieche.map((c) => c.motivo).join(\" · \") };",
-   "test": "cervello/test/altra-porta-lasciata-aperta.test.mjs"
-  },
-  {
-   "lotto": 51,
-   "difetto": "AR-796",
-   "nome": "il tetto torna a scendere da mezza misura: con una cartella cieca --aggiorna-tetti lo abbassa lo stesso, e un tetto sceso non risale piu",
-   "file": "cervello/porte-gemelle.mjs",
-   "cerca": "    if (ciechi.length) {",
-   "sostituisci": "    if (false) {",
    "test": "cervello/test/altra-porta-lasciata-aperta.test.mjs"
   },
   {
@@ -6479,6 +6487,501 @@
   {
    "lotto": 51,
    "difetto": "AR-796",
+   "nome": "le stringhe, i commenti e i template tornano a contare come codice: il lettore che li spegne viene aggirato e una parola scritta dentro un messaggio ridiventa una chiamata",
+   "file": "cervello/porte-gemelle.mjs",
+   "cerca": "  const codice = soloCodice(testo);",
+   "sostituisci": "  const codice = String(testo);",
+   "test": "cervello/test/altra-porta-lasciata-aperta.test.mjs"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
+   "nome": "la casa dell'atto torna a indovinarsi da una riga esportata: basta scrivere `export const stato = \"chiuso\"` in fondo alla porta scoperta e l'accusa si spegne, col file sparito perfino dall'elenco delle porte",
+   "file": "cervello/porte-gemelle.mjs",
+   "cerca": "    if (fuoriGioco.has(rel) || eUnTest(rel)) continue;",
+   "sostituisci": "    if (fuoriGioco.has(rel) || eUnTest(rel)) continue;\n    if (/export\\s+(?:const|let|var|function)\\s+(?:stato|chiuso|chiudiTutto)\\b/.test(String(testo))) continue;",
+   "test": "cervello/test/altra-porta-lasciata-aperta.test.mjs"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
+   "nome": "il verde perde il pavimento: un atto in cui il rilevatore non trova nessuna porta torna a uscire verde invece che ⚪, e il freno dice «tutto a posto» dopo aver guardato zero cose",
+   "file": "cervello/porte-gemelle.mjs",
+   "cerca": "    if (!porte.length) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/altra-porta-lasciata-aperta.test.mjs"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
+   "nome": "il cieco torna a mangiarsi il rosso: una sola cartella illeggibile butta via l'atto intero, e il rosso gia provato nella cartella che si leggeva sparisce dietro un ⚪",
+   "file": "cervello/porte-gemelle.mjs",
+   "cerca": "  if (cieche.length === dove.length) return { files: null, cieche, motivo: cieche.map((c) => c.motivo).join(\" · \") };",
+   "sostituisci": "  if (cieche.length) return { files: null, cieche, motivo: cieche.map((c) => c.motivo).join(\" · \") };",
+   "test": "cervello/test/altra-porta-lasciata-aperta.test.mjs"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
+   "nome": "il tetto torna a scendere da mezza misura: con una cartella cieca --aggiorna-tetti lo abbassa lo stesso, e un tetto sceso non risale piu",
+   "file": "cervello/porte-gemelle.mjs",
+   "cerca": "    if (ciechi.length) {",
+   "sostituisci": "    if (false) {",
+   "test": "cervello/test/altra-porta-lasciata-aperta.test.mjs"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-810",
+   "nome": "torna la variabile che non esiste dentro il return: chi verifica i findings del sito riesplode",
+   "file": "cervello/allinea-scan-cantiere.mjs",
+   "cerca": "${risolto ? \"combacia\" : \"non combacia\"}`,",
+   "sostituisci": "${trovato ? \"trovato\" : \"assente\"}`,",
+   "test": "node cervello/test/il-freno-non-era-sulla-strada.test.mjs"
+  },
+  {
+   "lotto": 52,
+   "difetto": "AR-780",
+   "nome": "torna un import sopra `meta`: il motore rifiuta lo script come faceva da due mesi",
+   "file": ".claude/workflows/radiografia.js",
+   "cerca": "export const meta = {\n  name: 'radiografia',",
+   "sostituisci": "import { existsSync } from 'node:fs'\n\nexport const meta = {\n  name: 'radiografia',",
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs"
+  },
+  {
+   "lotto": 52,
+   "difetto": "AR-780",
+   "nome": "il guardiano torna a guardare solo la prima istruzione, e dice «parte» di uno script che muore a runtime",
+   "file": "cervello/workflow-partono.mjs",
+   "cerca": "    for (const { nome, perche } of nomiAssenti(testo)) motivi.push(`usa \\`${nome}\\` — ${perche}`);",
+   "sostituisci": "    void nomiAssenti;",
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs"
+  },
+  {
+   "lotto": 52,
+   "difetto": "AR-780",
+   "nome": "il giro torna a indovinare il turno invece di fermarsi quando `args` non lo porta",
+   "file": ".claude/workflows/giro-operativo.js",
+   "cerca": "if (!turno.length) {",
+   "sostituisci": "if (false) {",
+   "test": "node cervello/test/i-workflow-che-non-partono.test.mjs"
+  },
+  {
+   "lotto": 53,
+   "difetto": "AR-724",
+   "nome": "il timbro storto smette di vedere la scheda chiusa senza nessuna data",
+   "file": "cervello/contratto-scheda.mjs",
+   "cerca": ".filter((d) => d && d.stato === \"chiuso\" && !timbroValido(d.chiuso_il ?? d.chiuso))",
+   "sostituisci": ".filter((d) => d && d.stato === \"chiuso\" && d.chiuso_il !== undefined && !timbroValido(d.chiuso_il ?? d.chiuso))",
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+  },
+  {
+   "lotto": 53,
+   "difetto": "AR-724",
+   "nome": "l'occhio sul codice torna a leggere i commenti, e accusa una spiegazione",
+   "file": "cervello/contratto-scheda.mjs",
+   "cerca": "    const righe = senzaCommenti(txt).split(\"\\n\");",
+   "sostituisci": "    const righe = String(txt).split(\"\\n\");",
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+  },
+  {
+   "lotto": 53,
+   "difetto": "AR-724",
+   "nome": "l'esenzione smette di valere: chi dichiara il perché viene accusato lo stesso",
+   "file": "cervello/contratto-scheda.mjs",
+   "cerca": "      if (suQuesta || sopra) return;",
+   "sostituisci": "      void suQuesta; void sopra;",
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+  },
+  {
+   "lotto": 53,
+   "difetto": "AR-724",
+   "nome": "una chiusura senza data torna a non fermare il cancello del cantiere",
+   "file": "cervello/cantiere-integrita.mjs",
+   "cerca": "  const rotto = Boolean(spariti?.length || doppi?.length || citati?.length || senzaData?.length || seccheOltre || attiFuori?.length);",
+   "sostituisci": "  const rotto = Boolean(spariti?.length || doppi?.length || citati?.length);",
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+  },
+  {
+   "lotto": 53,
+   "difetto": "AR-724",
+   "nome": "il tetto che manca torna a essere un verde silenzioso invece di un «non ho giudicato»",
+   "file": "cervello/cantiere-integrita.mjs",
+   "cerca": "  if (dataSecca?.length && tettoSecco === null) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/una-chiusura-senza-data-sparisce-da-ogni-mese.test.mjs"
+  },
+  {
+   "lotto": 54,
+   "difetto": "BOTTEGA-fondamenta",
+   "nome": "il lavoro torna a nascere senza negozio",
+   "file": "cervello/bottega/lavoro.mjs",
+   "cerca": "  if (!idUsabile(negozioId)) {\n    throw new Error(\"nuovoLavoro: senza `negozioId` non si costruisce un lavoro — un lavoro appartiene a un negozio, sempre\");\n  }",
+   "sostituisci": "  if (false) {\n    throw new Error(\"mutante\");\n  }\n  negozioId = idUsabile(negozioId) ? negozioId : \"qualsiasi\";",
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+  },
+  {
+   "lotto": 54,
+   "difetto": "BOTTEGA-fondamenta",
+   "nome": "il contesto torna a prendere le righe di tutti i negozi",
+   "file": "cervello/bottega/lavoro.mjs",
+   "cerca": "    if (suo === mio) tenute.push(r);",
+   "sostituisci": "    if (true) tenute.push(r);",
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+  },
+  {
+   "lotto": 54,
+   "difetto": "BOTTEGA-fondamenta",
+   "nome": "una riga senza padrone torna a essere adottata dal negozio di turno",
+   "file": "cervello/bottega/lavoro.mjs",
+   "cerca": "    else scartate.push({ riga: r, negozio: suo, perche: suo === null ? \"la riga non dice a chi appartiene\" : \"è di un altro negozio\" });",
+   "sostituisci": "    else if (suo === null) tenute.push(r);\n    else scartate.push({ riga: r, negozio: suo, perche: \"è di un altro negozio\" });",
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+  },
+  {
+   "lotto": 54,
+   "difetto": "BOTTEGA-fondamenta",
+   "nome": "le chiavi di un negozio tornano a montarsi sul lavoro di un altro",
+   "file": "cervello/bottega/lavoro.mjs",
+   "cerca": "  if (!scheda || scheda.negozioId !== negozioId) {",
+   "sostituisci": "  if (!scheda) {",
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+  },
+  {
+   "lotto": 54,
+   "difetto": "BOTTEGA-fondamenta",
+   "nome": "il marchio torna enumerabile, e tre puntini spostano un lavoro da un negozio all'altro",
+   "file": "cervello/bottega/lavoro.mjs",
+   "cerca": "  Object.defineProperty(lavoro, MARCHIO, { value: true, enumerable: false });",
+   "sostituisci": "  Object.defineProperty(lavoro, MARCHIO, { value: true, enumerable: true });",
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+  },
+  {
+   "lotto": 54,
+   "difetto": "BOTTEGA-fondamenta",
+   "nome": "il materiale perde la recinzione e torna a somigliare a un'istruzione",
+   "file": "cervello/bottega/lavoro.mjs",
+   "cerca": "    parti.push(\"\", APERTURA_MATERIALE, ...lavoro.materiale, CHIUSURA_MATERIALE);",
+   "sostituisci": "    parti.push(\"\", ...lavoro.materiale);",
+   "test": "node cervello/test/un-negozio-non-vede-l-altro.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "il turno torna a essere un ordine d'arrivo: il negozio che riempie la coda ferma gli altri",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  const ordine = daDopoIlUltimo(corsie.map((c) => c.negozioId).filter(Boolean), ultimo);",
+   "sostituisci": "  const ordine = corsie.map((c) => c.negozioId).filter(Boolean);",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "un tetto che manca torna a valere come tetto infinito",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "    return { stato: \"stop\", puoLavorare: false, motivo: \"questo negozio non ha un tetto di spesa dichiarato\", frazione: null };",
+   "sostituisci": "    return { stato: \"ok\", puoLavorare: true, motivo: \"\", frazione: null };",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "l'avviso a meta tetto ferma il negozio invece di avvisarlo",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "    return { stato: \"avviso\", puoLavorare: true, motivo: `oltre metà del tetto: ${s} su ${tetto}`, frazione };",
+   "sostituisci": "    return { stato: \"avviso\", puoLavorare: false, motivo: `oltre metà del tetto: ${s} su ${tetto}`, frazione };",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "la quota per negozio smette di contare i lavori gia in corso",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  if (inCorso >= quota) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "l'interruttore spento non ferma piu la corsia (adesso vive dentro il guasto confinato)",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  if (spentoAMano) return { spegni: true, motivo: \"interruttore spento\" };",
+   "sostituisci": "  if (false) return { spegni: true, motivo: \"interruttore spento\" };",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "un lavoro orfano viene adottato dalla prima corsia libera",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "    const lavoro = coda.find((l) => negozioDiLavoro(l) === id);",
+   "sostituisci": "    const lavoro = coda.find((l) => negozioDiLavoro(l) === id || negozioDiLavoro(l) === null);",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "quando non parte niente il verdetto torna muto",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  return { lavoro: null, negozioId: null, fermi, motivo: motivoDelNulla(coda, corsie, fermi) };",
+   "sostituisci": "  return { lavoro: null, negozioId: null, fermi, motivo: \"\" };",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "un lavoro che non finisce mai smette di spegnere la corsia: il loop torna libero",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  if (scaduti > 0) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "i fallimenti di fila non spengono piu niente",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  if (falliti >= FALLITI_DI_FILA_PER_SPEGNERE) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 55,
+   "difetto": "BOTTEGA-corsie",
+   "nome": "il guasto smette di venire prima della quota, e il motivo manda a cercare nel posto sbagliato",
+   "file": "cervello/bottega/corsie.mjs",
+   "cerca": "  if (guasto.spegni) return { negozioId: id, puoLavorare: false, motivo: guasto.motivo, guasto };",
+   "sostituisci": "  if (guasto.spegni && false) return { negozioId: id, puoLavorare: false, motivo: guasto.motivo, guasto };",
+   "test": "node cervello/test/una-corsia-piena-non-ferma-le-altre.test.mjs"
+  },
+  {
+   "lotto": 56,
+   "difetto": "AR-568",
+   "nome": "la porta torna a scrivere con la penna cruda, senza freno e senza atomicita",
+   "file": "cervello/stato-sensori.mjs",
+   "cerca": "  const scritto = scriviJsonAtomico(path, timbrato, env);",
+   "sostituisci": "  const scritto = (await import(\"node:fs\")).writeFileSync(path, JSON.stringify(timbrato, null, 2) + \"\\n\", \"utf8\") ?? path;",
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+  },
+  {
+   "lotto": 56,
+   "difetto": "AR-568",
+   "nome": "la porta smette di timbrare l origine, e il freno della copertura non si accende piu",
+   "file": "cervello/stato-sensori.mjs",
+   "cerca": "  const timbrato = timbraSeSiPuo(doc, { env, copertura, scrittoDa });",
+   "sostituisci": "  const timbrato = doc;",
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+  },
+  {
+   "lotto": 56,
+   "difetto": "AR-568",
+   "nome": "la porta torna a dire «scritto» anche quando il freno l ha fermata",
+   "file": "cervello/stato-sensori.mjs",
+   "cerca": "  if (scritto === null) {",
+   "sostituisci": "  if (false) {",
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+  },
+  {
+   "lotto": 56,
+   "difetto": "AR-730",
+   "nome": "il diario versionato torna a scriversi con la penna cruda, anche in sola lettura",
+   "file": "cervello/memoria-guardia.mjs",
+   "cerca": "    if (!basename(abs).startsWith(\"_tmp_\")) {",
+   "sostituisci": "    if (false) {",
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+  },
+  {
+   "lotto": 56,
+   "difetto": "AR-730",
+   "nome": "il freno che frena torna a suonare come un guasto",
+   "file": "cervello/memoria-guardia.mjs",
+   "cerca": "      const frenato = guasto.startsWith(\"FRENO::\");",
+   "sostituisci": "      const frenato = false;",
+   "test": "node cervello/test/la-penna-che-si-poteva-scegliere.test.mjs"
+  },
+  {
+   "lotto": 57,
+   "difetto": "AR-805",
+   "nome": "il conteggio torna a contare per sottostringa, e «frutta» rientra dentro «sfruttava»",
+   "file": "cervello/allocazione-check.mjs",
+   "cerca": "      const occ = occorrenzeIntere(blob, a);",
+   "sostituisci": "      const occ = blob.split(a).length - 1;",
+   "test": "node --test cervello/test/un-alias-dentro-un-altra-parola.test.mjs"
+  },
+  {
+   "lotto": 57,
+   "difetto": "AR-805",
+   "nome": "i confini tornano ad essere `\\b`, che l'italiano accentato non lo sa leggere",
+   "file": "cervello/allocazione-check.mjs",
+   "cerca": "  const re = new RegExp(`(?<![\\\\p{L}\\\\p{N}])${scappato}(?![\\\\p{L}\\\\p{N}])`, \"giu\");",
+   "sostituisci": "  const re = new RegExp(`\\\\b${scappato}\\\\b`, \"gi\");",
+   "test": "node --test cervello/test/un-alias-dentro-un-altra-parola.test.mjs"
+  },
+  {
+   "lotto": 58,
+   "difetto": "AR-806",
+   "nome": "uno script nominato ma assente dal disco torna a entrare nell elenco dei permessi",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "  const veri = [...nominati].filter((s) => ESEGUIBILI.test(s) && esiste(`cervello/${s}`)).sort();",
+   "sostituisci": "  const veri = [...nominati].filter((s) => ESEGUIBILI.test(s)).sort();",
+   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "lotto": 58,
+   "difetto": "AR-806",
+   "nome": "una fonte illeggibile smette di lasciare l elenco piu stretto",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "    } catch {\n      continue; // una fonte illeggibile non allarga l'elenco: al massimo lo lascia più stretto\n    }",
+   "sostituisci": "    } catch {\n      txt = readFileSync(join(AD_ROOT, 'cervello/giro.sh'), 'utf8');\n    }",
+   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "lotto": 58,
+   "difetto": "AR-806",
+   "nome": "il percorso assoluto del server torna a perdere la sua sottocartella",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "  const i = s.indexOf(\"cervello/\");",
+   "sostituisci": "  const i = s.lastIndexOf(\"cervello/\");",
+   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "lotto": 58,
+   "difetto": "AR-806",
+   "nome": "una consegna vuota torna a dire «nessun mancante»",
+   "file": "cervello/permessi-elenco.mjs",
+   "cerca": "export function mancantiNellaConsegna(elenco, testoConsegna) {",
+   "sostituisci": "export function mancantiNellaConsegna(elenco, testoConsegna) {\n  if (!testoConsegna) return [];",
+   "test": "node --test cervello/test/l-elenco-dei-permessi-che-invecchia.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il punto cieco torna a contarsi in file invece che in caratteri",
+   "file": "cervello/campo-visivo-memoria.mjs",
+   "cerca": "    fuoriCampo += eccesso;",
+   "sostituisci": "    fuoriCampo += 1;",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il file esente sparisce invece di restare dichiarato",
+   "file": "cervello/campo-visivo-memoria.mjs",
+   "cerca": "      esentati.push({ nome, caratteri, eccesso });",
+   "sostituisci": "      // esentati.push({ nome, caratteri, eccesso });",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "crescere oltre il tetto torna a essere un avviso invece di un rosso",
+   "file": "cervello/campo-visivo-memoria.mjs",
+   "cerca": "  if (fuoriCampo > tetto) {",
+   "sostituisci": "  if (false && fuoriCampo > tetto) {",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "una cartella illeggibile torna a valere «nessun testo fuori campo»",
+   "file": "cervello/campo-visivo-memoria.mjs",
+   "cerca": "    return null; // «non ho potuto guardare» non diventa «non c'è niente»",
+   "sostituisci": "    return [];",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il campo visivo torna a essere un numero riscritto a mano",
+   "file": "cervello/campo-visivo-memoria.mjs",
+   "cerca": "import { TETTO_TESTO } from \"./cancello-stop.mjs\";",
+   "sostituisci": "const TETTO_TESTO = 200000;",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il cancello del lotto smette di lanciare il guardiano",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "    passi.push(esegui(\"memoria fuori dal campo visivo (tetto)\", \"node\", [\"cervello/campo-visivo-memoria.mjs\"]));",
+   "sostituisci": "    // passi.push(esegui(\"memoria fuori dal campo visivo (tetto)\", \"node\", [\"cervello/campo-visivo-memoria.mjs\"]));",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il tetto smette di scendere: la voce sparisce dal ratchet",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "      memoria_fuori_campo: Math.min(fuoriCampoOra, tetti.memoria_fuori_campo ?? fuoriCampoOra),",
+   "sostituisci": "      // memoria_fuori_campo: tolta",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "l'archivio torna a essere una sezione della coda invece di un file suo",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "writeFileSync(ARCHIVIO, archivedSection, 'utf8');",
+   "sostituisci": "// niente scrittura dell'archivio",
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "la coda smette di dire dove sono finite le carte chiuse",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "    `> 🗄️ Le card chiuse (${allClosedBlocks.length}) stanno in [[AZIONI-archivio]] — \\`MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md\\`.`,\n",
+   "sostituisci": "    '',\n",
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il cartello vecchio non si toglie e la pulizia allunga il file che pulisce",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "l.startsWith('> 🧹 **Housekeeping') ? newBanner : l",
+   "sostituisci": "l",
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "le carte gia' archiviate non si rileggono e spariscono alla pulizia dopo",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "  const archivedAlready = blocchiArchiviati.length;",
+   "sostituisci": "  const archivedAlready = 0;",
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "un archivio senza card torna a valere «archivio vuoto» invece di fermare tutto",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "  if (testoArchivio && archivedAlready === 0) {",
+   "sostituisci": "  if (false) {",
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-807",
+   "nome": "il freno sull'archivio illeggibile avvisa invece di fermarsi",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "    console.error('⛔ housekeeping-azioni: NON scrivo.');",
+   "sostituisci": "    console.log('proseguo lo stesso');",
+   "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
+  },
+  {
+   "lotto": 59,
+   "difetto": "AR-808",
+   "nome": "il metro della scheda aperta torna a essere quello del cancello, e la scheda si chiude da sola",
+   "file": "cervello/campo-visivo-memoria.mjs",
+   "cerca": "  if (ZERO_MODE) process.exit(c.fuoriCampo === 0 ? 0 : 1);",
+   "sostituisci": "  if (ZERO_MODE) process.exit(v.esito === \"violazione\" ? 1 : 0);",
+   "test": "node --test cervello/test/un-punto-cieco-che-si-scopre-di-rimbalzo.test.mjs"
+  },
+  {
+   "lotto": 51,
+   "difetto": "AR-796",
    "nome": "il contratto d'uscita torna sotto la riga 80: il censimento dei guardiani smette di riconoscere questo freno, e il verde su «costruito e mai messo di guardia» torna a essere comprato dall'essere illeggibile invece che guadagnato",
    "file": "cervello/porte-gemelle.mjs",
    "cerca": "// Uscita (contratto guardiani, AR-322): 0 = ho esaminato almeno una porta E ognuna chiama la guardia",
@@ -6520,6 +7023,78 @@
    "cerca": "      if (String(e?.fino_al || \"\").trim()) {",
    "sostituisci": "      if (false) {",
    "test": "cervello/test/altra-porta-lasciata-aperta.test.mjs"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-801",
+   "nome": "il negozio dichiarato e vuoto torna a scivolare nel centro: chi credeva di avere una bottega finisce nel mucchio comune, in silenzio",
+   "file": "pannello/src/lib/lavoro-negozio.ts",
+   "cerca": "  if (!pulito) throw new Error(\"negozio-dichiarato-e-vuoto\");",
+   "sostituisci": "  if (!pulito) return CENTRO;",
+   "test": "pannello/src/lib/lavoro-negozio.test.mts"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-801",
+   "nome": "una bottega torna a potersi scrivere senza il suo negozio: il difetto stesso reso automatico a ogni inserimento",
+   "file": "pannello/src/lib/lavoro-negozio.ts",
+   "cerca": "export function siPuoRipiegareSenzaNegozio(negozioId: string): boolean {\n  return eDelCentro(negozioId);",
+   "sostituisci": "export function siPuoRipiegareSenzaNegozio(negozioId: string): boolean {\n  return true;",
+   "test": "pannello/src/lib/lavoro-negozio.test.mts"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-801",
+   "nome": "il centro perde il nome e torna a essere il campo vuoto, cioe un campo che si puo dimenticare",
+   "file": "pannello/src/lib/lavoro-negozio.ts",
+   "cerca": "export const CENTRO = \"centro\";",
+   "sostituisci": "export const CENTRO = \"\";",
+   "test": "pannello/src/lib/lavoro-negozio.test.mts"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-801",
+   "nome": "il corpo che parte verso il database smette di portare il negozio: bodyJsonLavoro lo ricostruisce da zero e il campo muore li",
+   "file": "pannello/src/lib/store.ts",
+   "cerca": "  if (payload.negozio_id) body.negozio_id = sanitizeDbText(payload.negozio_id);",
+   "sostituisci": "",
+   "test": "pannello/src/lib/lavoro-negozio.test.mts"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-801",
+   "nome": "chi crea il lavoro smette di mettere il negozio nel payload: la riga nasce senza corsia",
+   "file": "pannello/src/lib/store.ts",
+   "cerca": "    negozio_id: negozioPerLaCoda(negozioId),",
+   "sostituisci": "",
+   "test": "pannello/src/lib/lavoro-negozio.test.mts"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-801",
+   "nome": "il ripiego torna a spogliare la riga senza chiedere di chi e: il negozio sparisce quando il database fa i capricci",
+   "file": "pannello/src/lib/store.ts",
+   "cerca": "  const siPuoTogliereIlNegozio = siPuoRipiegareSenzaNegozio(negozio);",
+   "sostituisci": "  const siPuoTogliereIlNegozio = true;",
+   "test": "pannello/src/lib/lavoro-negozio.test.mts"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-812",
+   "nome": "il cancello smette di montare le prove del Pannello: si torna a consegnare col Pannello rotto e il verde in mano",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "          esegui(\"prove del Pannello\", process.execPath, [join(AD_ROOT, \"cervello/test-pannello.mjs\")], {",
+   "sostituisci": "          esegui(\"typecheck del Pannello\", \"npx\", [\"tsc\", \"--noEmit\"], {",
+   "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs"
+  },
+  {
+   "lotto": 60,
+   "difetto": "AR-812",
+   "nome": "le prove del Pannello girano con un «|| true»: il guardiano stampa e non puo' bocciare, come in giro.sh",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "          esegui(\"prove del Pannello\", process.execPath,",
+   "sostituisci": "          esegui(\"prove del Pannello\", process.execPath, // || true\n            ",
+   "test": "cervello/test/il-cancello-non-guardava-il-pannello.test.mjs"
   }
  ]
 }

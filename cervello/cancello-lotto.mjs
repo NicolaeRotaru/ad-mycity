@@ -32,6 +32,7 @@ import { verdettoConTetto, testDelLotto, idSospetti, testRossi, perimetroDichiar
 import { percorsiDaGit } from "./percorsi-git.mjs";
 // 📏 Il contratto della prova (contratto-prova.mjs): quanto vale una prova lo dice UN posto solo.
 import { debitoDiMutazione } from "./contratto-prova.mjs";
+import { timbriStorti } from "./contratto-scheda.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const VELOCE = process.argv.includes("--veloce");
@@ -708,6 +709,9 @@ function main() {
     // «abbassa il tetto con --aggiorna-tetti» e quel comando quel tetto non lo toccava. Un guardiano
     // che suggerisce un rimedio che non funziona insegna a ignorare i suoi consigli.
     const debolliOra = contaProveDeboli(difetti).deboli;
+    // AR-724 — le chiusure con la data secca. Si misurano qui perché `timbriStorti` è una funzione
+    // pura sul cantiere già in mano: costa niente, e un tetto che nessuno abbassa smette di scendere.
+    const seccheOra = timbriStorti(difetti).filter((s) => s.chiuso_il).length;
     // AR-437 — i due tetti nuovi si dichiarano da qui, e ci vogliono i loro guardiani: il numero non
     // si indovina, si misura. Costa i secondi delle due corse, e si paga solo con `--aggiorna-tetti`.
     const onesteOra = idSospetti(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]).uscita).length;
@@ -716,19 +720,36 @@ function main() {
       console.error("cancello-lotto: non ho saputo leggere l'esito della suite → non dichiaro un tetto che non ho misurato");
       process.exit(2);
     }
+    // AR-807 — il punto cieco della memoria viva. Si chiede al suo guardiano invece di ricontarlo qui:
+    // due conti dello stesso numero sono due numeri che si allontanano.
+    const pCampo = esegui("campo visivo", "node", ["cervello/campo-visivo-memoria.mjs", "--json"]);
+    let fuoriCampoOra = null;
+    try {
+      fuoriCampoOra = Number(JSON.parse(pCampo.uscita).fuori_campo);
+    } catch {
+      fuoriCampoOra = null;
+    }
+    if (pCampo.cieco || !Number.isFinite(fuoriCampoOra)) {
+      console.error("cancello-lotto: non ho saputo misurare la memoria fuori campo → non abbasso un tetto che non ho misurato");
+      process.exit(2);
+    }
     const nuovo = {
       prova_con_or: Math.min(conOr.length, tetti.prova_con_or ?? conOr.length),
       mutazione_mancante: Math.min(senzaMutazione.length, tetti.mutazione_mancante ?? senzaMutazione.length),
       prova_debole: Math.min(debolliOra, tetti.prova_debole ?? debolliOra),
+      timbro_secco: Math.min(seccheOra, tetti.timbro_secco ?? seccheOra),
       prove_oneste: Math.min(onesteOra, tetti.prove_oneste ?? onesteOra),
       test_cervello: Math.min(rossiOra.length, tetti.test_cervello ?? rossiOra.length),
+      memoria_fuori_campo: Math.min(fuoriCampoOra, tetti.memoria_fuori_campo ?? fuoriCampoOra),
     };
     // Si FONDE con quello che c'è già: la prima versione riscriveva il file da zero e cancellava
     // le note (fra cui il perché il tetto non è zero). Un guardiano che perde le sue spiegazioni
     // lascia dietro un numero senza motivo — la cosa che questo cantiere cura.
     const { _mancante, _illeggibile, ...vecchio } = tetti;
     writeFileSync(TETTI, `${JSON.stringify({ ...vecchio, aggiornato: nowPiacenza(), ...nuovo }, null, 1)}\n`);
-    console.log(`🚧 tetti aggiornati: prova_con_or = ${nuovo.prova_con_or} · mutazione_mancante = ${nuovo.mutazione_mancante} · prova_debole = ${nuovo.prova_debole}`);
+    console.log(
+      `🚧 tetti aggiornati: prova_con_or = ${nuovo.prova_con_or} · mutazione_mancante = ${nuovo.mutazione_mancante} · prova_debole = ${nuovo.prova_debole} · timbro_secco = ${nuovo.timbro_secco} · memoria_fuori_campo = ${nuovo.memoria_fuori_campo}`,
+    );
     process.exit(0);
   }
 
@@ -967,6 +988,11 @@ function main() {
     // invece della cura, e nessuno se ne accorge — è successo, ed è stato scoperto solo applicando
     // la mutazione davvero.
     passi.push(esegui("prove a runtime mai rotte apposta (tetto)", "node", ["cervello/prove-runtime-senza-mutazione.mjs"]));
+    // AR-807 ② — e quanta memoria viva sta OLTRE quello che il controllo dei testi peggiorati riesce
+    // a leggere. Quel controllo taglia a 200.000 caratteri e sul tagliato dice ⚪, che è la cosa
+    // giusta; ma il ⚪ esce solo quando qualcuno tocca quel file, a lotto finito. Qui il punto cieco
+    // è un numero letto a ogni lotto, con un tetto che scende e non risale.
+    passi.push(esegui("memoria fuori dal campo visivo (tetto)", "node", ["cervello/campo-visivo-memoria.mjs"]));
     // La spazzata chiede «questa malattia si è allargata?». Questo chiede l'altra metà: «la forma che
     // è appena tornata ce l'ha, un nome?» — senza, il registro invecchia da fermo (AR-499).
     passi.push(esegui("le malattie che mancano", "node", ["cervello/malattie-mancanti.mjs"]));
@@ -1120,6 +1146,17 @@ function main() {
         passi.push(
           esegui("typecheck del Pannello", "npx", ["tsc", "--noEmit"], {
             cwd: join(AD_ROOT, "pannello"),
+            timeout: 600_000,
+          }),
+        );
+        // AR-812 — il typecheck dice che i tipi tornano, non che il Pannello FUNZIONA. Le sue 13
+        // prove le lanciava solo `round3-verifica.mjs`, cioè il giro; negli altri due punti che lo
+        // nominano gira con `|| true`, quindi non può fallire. Il cancello che autorizza la
+        // consegna non le vedeva: il 24/8 ha detto «SI PUÒ CONSEGNARE» con una prova rossa e una
+        // seconda che passava da mesi e avevo appena rotto io. Il guardiano esisteva già ed era
+        // montato su una porta che nessuno usa per uscire — la malattia di casa, su sé stessa.
+        passi.push(
+          esegui("prove del Pannello", process.execPath, [join(AD_ROOT, "cervello/test-pannello.mjs")], {
             timeout: 600_000,
           }),
         );

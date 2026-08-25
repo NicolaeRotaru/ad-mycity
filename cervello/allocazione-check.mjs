@@ -400,6 +400,25 @@ function fileRicorsivi(relDir) {
  * occorrenze (il nome intero pesa di più della singola parola); a parità → il negozio confermato.
  * Torna il nome dell'entità, o null se nessuna la intesta davvero.
  */
+/**
+ * Quante volte questo alias compare come PAROLA INTERA.
+ *
+ * Prima si contava con `blob.split(alias).length - 1`, cioè per sottostringa, e il 23/8 il conto ha
+ * accusato due referti di design di essere «asset pesanti» di *Peretti Frutta e Verdura*. Il motivo:
+ * l'alias «frutta» compariva dentro **sfruttava** e **sfruttabile**. Due parole che parlano di
+ * codice, in due documenti che quel negozio non lo nominano nemmeno una volta — e il cancello del
+ * lotto diventava rosso su un lavoro che non c'entrava niente.
+ *
+ * I confini li scrive `\p{L}` e non `\b`: in JavaScript `\b` conosce solo l'alfabeto ASCII, quindi
+ * un nome con l'accento — che qui è la norma, non l'eccezione — avrebbe un confine dove non c'è.
+ * È la stessa trappola già pagata in `si-capisce.mjs` con «cioè» (AR-493).
+ */
+export function occorrenzeIntere(blob, alias) {
+  const scappato = String(alias).replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const re = new RegExp(`(?<![\\p{L}\\p{N}])${scappato}(?![\\p{L}\\p{N}])`, "giu");
+  return (String(blob).match(re) || []).length;
+}
+
 export function entitaPrimaria(blob, entitaNegozi) {
   const aliasCache = entitaNegozi.map((ent) => ({ ent, aliases: aliasDi(ent.nome).map((a) => a.toLowerCase()) }));
 
@@ -410,7 +429,7 @@ export function entitaPrimaria(blob, entitaNegozi) {
     let best = null, bestLen = 0;
     for (const { ent, aliases } of aliasCache) {
       for (const a of aliases) {
-        if (val.includes(a) && a.length > bestLen) { best = ent; bestLen = a.length; }
+        if (occorrenzeIntere(val, a) > 0 && a.length > bestLen) { best = ent; bestLen = a.length; }
       }
     }
     if (best) return best.nome;
@@ -421,7 +440,7 @@ export function entitaPrimaria(blob, entitaNegozi) {
   for (const { ent, aliases } of aliasCache) {
     let score = 0;
     for (const a of aliases) {
-      const occ = blob.split(a).length - 1;
+      const occ = occorrenzeIntere(blob, a);
       score += occ * (a.includes(" ") ? 3 : 1);
     }
     if (score > bestScore) { best = ent; bestScore = score; }

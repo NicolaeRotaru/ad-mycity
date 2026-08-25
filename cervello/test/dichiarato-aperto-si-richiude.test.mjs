@@ -79,10 +79,19 @@ test("il tetto delle prove deboli scende e non risale", () => {
 
 // Il collegamento: non basta che il modulo sia giusto, deve essere CHIAMATO dal punto malato.
 // (E' l'errore gia' pagato: riparare la porta a mano e lasciare aperta quella automatica.)
+//
+// ⚠️ 23/8, lotto 51 — QUESTA E' UNA PROVA A PAROLE, e va detto. Cerca una chiamata dentro un testo:
+// non puo' fallire nel modo in cui fallisce la realta'. L'ha dimostrato AR-796, che e' vissuto due
+// lotti proprio qui accanto — `auto-fix` chiamava `verdettoChiusura` (quindi questa riga era verde)
+// e poi ne buttava via il campo `chiude` rifacendo la decisione a mano, cioe' la porta era aperta
+// lo stesso. La prova che MORDE su quel punto adesso c'e' e fa girare il chiuditore vero:
+// cervello/test/il-freno-non-era-sulla-strada.test.mjs. Questa resta per la sola cosa che quella
+// non guarda — l'ORDINE fra il verdetto e l'accodamento — e cerca il nome della chiamata senza gli
+// argomenti, perche' quelli cambiano quando al verdetto si aggiunge un cancello.
 test("auto-fix chiama davvero il verdetto, e PRIMA di mettere in coda la chiusura", () => {
   const src = readFileSync(join(REPO, "cervello/auto-fix.mjs"), "utf8");
   assert.match(src, /import \{[^}]*verdettoChiusura[^}]*\} from "\.\/chiusura-dichiarata\.mjs"/);
-  const usoVerdetto = src.indexOf("verdettoChiusura(d, r.esito)");
+  const usoVerdetto = src.indexOf("verdettoChiusura(d, r.esito");
   const usoCoda = src.indexOf("daChiudere.push(");
   assert.ok(usoVerdetto > 0, "auto-fix deve chiamare verdettoChiusura");
   assert.ok(usoCoda > usoVerdetto, "il verdetto va calcolato PRIMA di accodare la chiusura, non dopo");

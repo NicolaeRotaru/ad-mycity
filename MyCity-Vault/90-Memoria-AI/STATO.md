@@ -33,6 +33,46 @@ tre controlli usano per capire se l'attivita' e' ferma.
 ---
 
 
+> ⏰ **24/8 12:30 — Due rami avevano dato lo stesso numero a difetti diversi.**
+>
+> **In parole semplici.** I conflitti che avevi visto erano cinque. Tutti su registri che tengono
+> il conto delle cose. Le due parti li avevano allungati ognuna per conto suo, quindi non c'era un
+> lato da scegliere: li ho tenuti tutti e due, voce per voce.
+>
+> Unendo è saltata fuori una cosa peggiore. **Due numeri erano stati dati due volte.** Il ramo
+> entrato nel tronco chiamava «797» e «798» due suoi difetti. Il mio ne chiamava così altri due,
+> diversi. Unire per numero li avrebbe fatti sparire in silenzio.
+>
+> **Per esempio**, uno dei due miei è quello che spiega perché un programma esplodeva alla prima
+> prova che incontrava. Con l'unione fatta a occhio, quella scheda oggi non ci sarebbe più: nessun
+> errore, nessun avviso, solo una riga in meno.
+>
+> **Cosa cambia per te.** Le due richieste di unione sono aperte, verdi e senza conflitti: la
+> macchina e il sito. Sulla macchina il cancello passa con ventiquattro controlli su ventiquattro.
+> Sul sito passano tutti e undici.
+>
+> C'è anche una cosa buona uscita per caso. Il lavoro entrato nel tronco portava tre controlli
+> nuovi, lasciati fermi di proposito perché mancavano due schede nel registro. Erano proprio quelle
+> che la fusione ha portato. Ne ho messo di guardia uno, e alla prima corsa ha trovato un permesso
+> morto lasciato dal mio stesso lavoro.
+>
+> **Cosa devi fare.** Una scelta sola, la stessa di ieri: sulle botteghe, prima strada o seconda.
+> Se resti zitto prendo la prima. Poi c'è la card numero 169, sulla spedizione scritta gratis e poi
+> fatta pagare: lì l'altra strada è una decisione di prezzo, quindi tua.
+>
+> **Cosa non ho verificato.** I tre controlli arrivati dall'altro ramo non li ho scritti io e non li
+> ho riletti riga per riga: li ho fatti girare e ho guardato cosa dicono. E i numeri delle card non
+> li ho rinumerati: nessuno dei due rami è ancora unito, quindi nessuno dei due è la verità. Chi
+> unisce per secondo rinumera.
+>
+> **Dettagli tecnici.** Teste: ad-mycity `13414e0f6`, mycity `d5f77b8`. Cantiere 118 da fare su 802;
+> sito 421 reperti, 185 aperti, 26 in corso. I miei due difetti rinumerati AR-809 e AR-810, riscritti
+> in scheda, mutazione, file di prova, commento nel codice, DECISIONI e quaderno di reparto. La
+> collisione dei numeri è registrata come AR-811, grave: il 3 agosto era già successa due volte in un
+> giorno e nessuno l'aveva registrata. Il freno agganciato è `cervello/porte-gemelle.mjs`. Sul sito il
+> lotto ⑨ ha rifatto il metro sugli errori ingoiati: 53 chiamate al database nell'area venditore, 15
+> cieche, tutte riparate.
+>
 > 🔬 **24/8 12:05 — Tre freni costruiti, uno solo promosso: gli altri due li ha bocciati il collaudo.** Richiesta di Nicola: «parti con tutti e tre».
 >
 > **Cos'era il lavoro.** Tre freni contro le tre forme con cui il riparare crea difetti nuovi: il controllo che nasce già rotto, la porta a mano riparata mentre quella automatica resta aperta, il puntatore che resta indietro quando il codice si sposta.

@@ -20,7 +20,11 @@ import path from 'path';
 function main() {
   const __dirname = path.dirname(fileURLToPath(import.meta.url));
   const VAULT = path.resolve(__dirname, '../MyCity-Vault/90-Memoria-AI');
-  const FILE = path.join(VAULT, 'AZIONI-IN-ATTESA.md');
+  // Le due case si possono spostare da fuori SOLO per poterle provare. Senza, il freno sulla perdita
+  // resta una promessa scritta in un commento: l'unico modo di vederlo scattare sarebbe perdere
+  // delle carte vere di Nicola. Una prova che non si può eseguire non è una prova — ed è la regola
+  // che questa casa fa rispettare a ogni lotto. I valori di partenza non cambiano.
+  const FILE = process.env.CODA_FILE || path.join(VAULT, 'AZIONI-IN-ATTESA.md');
   // L'archivio vive in un FILE SUO, non in fondo alla coda. Misurato il 24/8: tenendolo dentro, la
   // coda arriva a 264.386 caratteri e `cancello-stop.mjs` — che la legge per sapere se un allarme è
   // arrivato a Nicola — si ferma al suo tetto di 200.000 e si dichiara ⚪ CIECO. In CI un ⚪ blocca:
@@ -28,7 +32,7 @@ function main() {
   // La cura NON è alzare il tetto (provato il 22/8 e rimesso indietro: una soglia che sale nasconde i
   // problemi). La cura è il file: tolte le carte chiuse, la coda scende a ~167.000 e il guardiano la
   // legge tutta. Chi ha bisogno delle carte chiuse legge ANCHE questo file — vedi CODA_E_ARCHIVIO.
-  const ARCHIVIO = path.join(VAULT, 'Archivio', 'AZIONI-archivio.md');
+  const ARCHIVIO = process.env.CODA_ARCHIVIO || path.join(VAULT, 'Archivio', 'AZIONI-archivio.md');
   const DRY_RUN = process.argv.includes('--dry-run');
   const SOGLIA_CARD_CHIUSE = 20; // sopra questa soglia il giro fa housekeeping in automatico
 
@@ -135,6 +139,26 @@ function main() {
     .map((b) => b.trim())
     .filter((b) => /^###?\s/m.test(b) && !/^tipo:\s*archivio-azioni/m.test(b));
   const archivedAlready = blocchiArchiviati.length;
+
+  // ⛔ IL FRENO SULLA PERDITA. L'archivio si RISCRIVE da zero, ricomponendolo dai blocchi appena
+  // letti. Se il divisore non ne riconosce nemmeno uno — un file rovinato da una fusione, un
+  // formato cambiato, un divisore che non c'è più — riscriverlo vuol dire cancellarlo per intero,
+  // e in silenzio. Qui non si scrive: si dice cosa sarebbe sparito e si esce con un errore.
+  //
+  // Non è teoria: questo freno ha fermato una perdita vera mentre lo scrivevo. La prima versione
+  // dava al divisore anche l'intestazione dell'archivio, e alla SECONDA pulizia quella testa
+  // sarebbe sparita senza che nessuno se ne accorgesse. Il freno ha detto «332 caratteri
+  // sparirebbero» e non ha scritto.
+  //
+  // Vale anche nel dry-run, e non è un dettaglio: un'anteprima che mostra tutto verde e poi si
+  // ferma davvero è peggio di nessuna anteprima — l'anteprima si guarda proprio per decidere.
+  const testoArchivio = archivioVecchio.replace(/^---[\s\S]*?^---$/m, '').trim();
+  if (testoArchivio && archivedAlready === 0) {
+    console.error('⛔ housekeeping-azioni: NON scrivo.');
+    console.error(`   L'archivio ha ${testoArchivio.length} caratteri ma non ci riconosco nessuna card.`);
+    console.error(`   Riscriverlo vorrebbe dire cancellarli tutti. File: ${ARCHIVIO}`);
+    process.exit(1);
+  }
 
   // Dry-run: stampa solo il sommario
   if (DRY_RUN) {

@@ -1,7 +1,7 @@
 {
   "_istruzioni": "FONTE UNICA DELLA VERITÀ (AR-102). Ogni fatto-chiave del business (date concordate con Nicola, negozio faro, soglie/prezzi decisi, target) vive QUI e solo qui: gli altri file lo CITANO. Quando un fatto cambia — specialmente da una risposta/correzione di Nicola — si aggiorna con `node cervello/coerenza-fatti.mjs registra <id> \"<valore>\" --caccia \"<frase col valore vecchio>\"`: il valore vecchio entra in caccia e il guardiano (a ogni giro) FALLISCE finché una copia vecchia resta in un file vivo. I log storici (DECISIONI, Briefing, SALA-OPERATIVA, quaderni, auto-coscienza) sono esenti: la storia non si riscrive. Il registro si popola SOLO con fatti fondati (dati reali o decisione firmata di Nicola), ognuno con `fonte`. Struttura di un fatto: { id, nome, valore, fonte, aggiornato, storia: [{valore, fino_a}], caccia: [{pattern, dal, chiusa?}], esenzioni: [] }.",
   "versione": 1,
-  "aggiornato": "2026-08-23 11:45",
+  "aggiornato": "2026-08-23 15:05",
   "fatti": [
     {
       "id": "architettura.tre-macchine",
@@ -884,11 +884,27 @@
     {
       "id": "worker-negozi.stato",
       "nome": "Stato della linea Worker per i negozi",
-      "valore": "Linea di ricavo #2 DEFINITA ma NON COSTRUITA. Nicola 2026-07-29 00:30: si crea in sessioni dedicate future. Nessuna azione accodata, nessun pitch, nessun asset pesante, nessun contatto su questa linea finche' non e' Nicola ad aprirla. Dettaglio: consegne/strategia/2026-07-29-listino-worker-negozi.md",
-      "fonte": "Nicola — chat Pannello 2026-07-29 00:30",
-      "aggiornato": "2026-07-29 01:19",
-      "storia": [],
-      "caccia": [],
+      "valore": "Linea di ricavo #2 APERTA DA NICOLA il 2026-08-22: «non ho ancora creato il worker per le botteghe» e «voglio riuscire a fare tutto questo entro il 29», poi corretto in 29 AGOSTO. Supera la consegna del 29/7 00:30 («si crea in sessioni dedicate future… nessun pitch, nessun asset pesante, nessun contatto finche' non e' Nicola ad aprirla»): quella condizione e' avverata, la linea e' una delle quattro cose da finire entro la data zero (cantiere.scadenza-zero). Resta vero il resto: niente contatti né asset pesanti intestati ai 3 pilot, che non risultano nei dati del marketplace (pilot.worker-negozi). Il come costruirla e' la Fase 3 di ARCHITETTURA-TRE-MACCHINE.md, che il documento stesso stima in SETTIMANE — conflitto con la data zero, dichiarato a Nicola.",
+      "fonte": "Nicola in chat il 2026-08-22 (le quattro consegne) + correzione della data il 23/8",
+      "aggiornato": "2026-08-23 15:05",
+      "storia": [
+        {
+          "valore": "Linea di ricavo #2 DEFINITA ma NON COSTRUITA. Nicola 2026-07-29 00:30: si crea in sessioni dedicate future. Nessuna azione accodata, nessun pitch, nessun asset pesante, nessun contatto su questa linea finche' non e' Nicola ad aprirla. Dettaglio: consegne/strategia/2026-07-29-listino-worker-negozi.md",
+          "fino_a": "2026-08-23 15:05"
+        }
+      ],
+      "caccia": [
+        {
+          "pattern": "Nessuna azione accodata, nessun pitch, nessun asset pesante, nessun contatto su questa linea finche' non e' Nicola ad aprirla",
+          "dal": "2026-08-23 15:05",
+          "chiusa": "2026-08-23 15:05"
+        },
+        {
+          "pattern": "Linea di ricavo #2 DEFINITA ma NON COSTRUITA. Nicola 2026-07-29 00:30: si crea in sessioni dedicate future. Nessuna azione accodata, nessun pitch, nessun asset pesante, nessun contatto su questa linea finche' non e' Nicola ad aprirla. Dettaglio: consegne/strategia/2026-07-29-listino-worker-negozi.md",
+          "dal": "2026-08-23 15:05",
+          "chiusa": "2026-08-23 15:05"
+        }
+      ],
       "esenzioni": []
     }
   ]

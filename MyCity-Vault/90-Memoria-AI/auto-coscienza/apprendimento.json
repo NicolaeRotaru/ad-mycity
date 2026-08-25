@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-24 13:54",
+ "aggiornato": "2026-08-24 22:08",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11298,7 +11298,27 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
+     "quando": "2026-08-23 11:53",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 14:42",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 19:03",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
      "quando": "2026-08-24 13:54",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 20:49",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11341,6 +11361,14 @@
     },
     {
      "quando": "2026-08-22 14:10",
+     "ref": "freno rosso nel cancello: nascita dei difetti"
+    },
+    {
+     "quando": "2026-08-23 16:01",
+     "ref": "freno rosso nel cancello: nascita dei difetti"
+    },
+    {
+     "quando": "2026-08-23 20:02",
      "ref": "freno rosso nel cancello: nascita dei difetti"
     }
    ]
@@ -11431,7 +11459,27 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
+     "quando": "2026-08-23 11:53",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 14:42",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 19:03",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
      "quando": "2026-08-24 13:54",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 20:49",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11567,7 +11615,27 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
+     "quando": "2026-08-23 11:53",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 14:42",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 19:03",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
      "quando": "2026-08-24 13:54",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 20:49",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11631,7 +11699,27 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
+     "quando": "2026-08-23 11:53",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 14:42",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 19:03",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
      "quando": "2026-08-24 13:54",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 20:49",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11740,6 +11828,38 @@
     },
     {
      "quando": "2026-08-22 20:15",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-23 20:02",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 12:07",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 12:09",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 12:36",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 14:17",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 20:49",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 21:04",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 22:08",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -11891,7 +12011,27 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
+     "quando": "2026-08-23 11:53",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 14:42",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 19:03",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
      "quando": "2026-08-24 13:54",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 20:49",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11981,7 +12121,27 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
+     "quando": "2026-08-23 11:53",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 14:42",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 19:03",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
      "quando": "2026-08-24 13:54",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 20:49",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12091,6 +12251,38 @@
     {
      "quando": "2026-08-22 20:15",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-23 20:02",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 12:07",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 12:09",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 12:36",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 14:17",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 20:49",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 21:04",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 22:08",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12196,6 +12388,38 @@
     {
      "quando": "2026-08-22 20:15",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-23 20:02",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 12:07",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 12:09",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 12:36",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 14:17",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 20:49",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 21:04",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 22:08",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12255,7 +12479,27 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
+     "quando": "2026-08-23 11:53",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 14:42",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 19:03",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
      "quando": "2026-08-24 13:54",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 20:49",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12316,7 +12560,27 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
+     "quando": "2026-08-23 11:53",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 14:42",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 19:03",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
      "quando": "2026-08-24 13:54",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 20:49",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12495,7 +12759,27 @@
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     },
     {
+     "quando": "2026-08-23 11:53",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 14:42",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-23 19:03",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
      "quando": "2026-08-24 13:54",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 20:49",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12755,6 +13039,38 @@
     {
      "quando": "2026-08-22 20:15",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-23 20:02",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 12:07",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 12:09",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 12:36",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 14:17",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 20:49",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 21:04",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-24 22:08",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12783,6 +13099,33 @@
    "testo": "**Chi risalva un archivio intero cancella quello che un altro ci ha messo mentre lui lavorava (AR-296 metà ②).** `scrivi-json.mjs` lo dichiarava aperto in cima a sé stesso da luglio, come seconda metà di un difetto di cui era stata chiusa solo la prima. Misurato il 21/8 su TUTTE le 1.489 revisioni di `apprendimento.json` da fine giugno: il conto delle lezioni è sceso **sei volte, per undici lezioni** — 4/7 cutover (−2), 6/7 riconcilia (−1), 13/7 chore (−2), 16/7 una risposta del worker (−1), 13/8 giro (−3), 21/8 riconcilia (−2). Nessuno di quei sei lavori era il potatore, e nessuno voleva togliere niente: ognuno aveva in mano una copia vecchia e l'ha risalvata intera. Cercare CHI scrive era la domanda sbagliata — sono sei processi diversi, e domani un settimo.",
    "regola": "un archivio tenuto a id non si difende cercando il colpevole ma al punto unico di scrittura: prima di salvare si confronta con ciò che c'è sul disco ADESSO, e le voci che sparirebbero senza essere dichiarate si rimettono e si gridano — rimettere invece di rifiutare, perché un rifiuto fermerebbe il server per un difetto che non è suo e verrebbe aggirato",
    "gate": "node --test cervello/test/il-lavoro-dell-altro-cancellato.test.mjs"
+  },
+  {
+   "id": "L-2026-0823-01",
+   "data": "2026-08-23 12:20",
+   "nato": "2026-08-23",
+   "ultima_conferma": "2026-08-23 12:20",
+   "stato": "attiva",
+   "confidenza": 0.8,
+   "evidenze": 1,
+   "fonte": "lotto 51, AR-796: il secondo giro del lotto 50 ha chiesto «ogni strada che arriva all'atto passa dal freno?» e la risposta era no",
+   "testo": "**Un cancello si giudica da chi lo attraversa, non da come e' scritto (AR-796).** I due cancelli sulle prove — prova orfana, prova debole su difetto pesante — sono nati nel lotto 49 e si sono raffinati nel lotto 50: funzioni pure, ben provate, con i tre esiti. Per due lotti li ha chiamati una cosa sola, `cantiere-prove.mjs`, che e' il REFERTO: guarda e racconta. Chi CHIUDE davvero e' `auto-fix.mjs`, e non li nominava affatto — zero occorrenze col grep. Il referto pubblicava perfino il conto `chiuderebbe_lo_stesso`, cioe' misurava la propria impotenza, e nessuno leggeva quel numero come un difetto. Peggio: `auto-fix` chiamava gia' `verdettoChiusura`, la funzione pura giusta, ma ne usava solo due campi su tre e la decisione la rifaceva a mano — quindi ogni cancello aggiunto alla funzione pura moriva dentro un `chiude` calcolato e buttato via. Due lotti di lavoro corretto, montati sulla porta che non si apre.",
+   "regola": "quando aggiungi un freno, la prova non e' che il freno sappia giudicare — e' che CHI AGISCE ci passi: si scrive facendo girare l'attore vero (auto-fix, il worker, il publisher) su un caso costruito, e pretendendo che l'atto NON avvenga. E un verdetto che il chiamante ricalcola non decide niente: se una funzione pura torna `chiude`, chi la chiama deve dispacciare su quel campo, non su una condizione riscritta accanto",
+   "gate": "node --test cervello/test/il-freno-non-era-sulla-strada.test.mjs"
+  },
+  {
+   "id": "L-2026-0823-02",
+   "data": "2026-08-23 14:15",
+   "nato": "2026-08-23",
+   "ultima_conferma": "2026-08-23 14:15",
+   "stato": "attiva",
+   "confidenza": 0.9,
+   "evidenze": 3,
+   "fonte": "23/8: successo TRE volte di fila sulle richieste #240, #241 e #242 del marketplace",
+   "testo": "**Nicola unisce in fretta, e il lotto dopo arriva sempre un attimo tardi (tre volte in un giorno).** Il 23/8 ho lavorato due lotti di fila sullo stesso ramo prima di aprire la richiesta. Ogni volta il merge e' arrivato mentre il secondo lotto era gia' spinto sul ramo ma non nel commit unito: la #240 ha portato solo i caricamenti (le promesse erano fuori), la #241 solo le promesse (gli stati di caricamento erano fuori). Ogni volta e' costato lo stesso lavoro di recupero — ripartire da main, rimettere il commit sopra, aprire una richiesta nuova — e una volta ho anche lasciato per un'ora una descrizione che prometteva piu' di quello che il merge aveva portato. Non e' un incidente: e' il ritmo normale quando chi firma e' veloce e chi lavora accumula.",
+   "regola": "un lotto si SPINGE e si APRE come richiesta appena il cancello e' verde, prima di cominciare il successivo — mai due lotti sullo stesso ramo in attesa della stessa firma. E se il merge arriva lo stesso nel mezzo: non riusare la richiesta unita (e' finita), riparti da main, rimetti sopra il commit non unito e apri una richiesta nuova. Se la descrizione della richiesta unita nel frattempo prometteva anche il pezzo rimasto fuori, va corretta: una descrizione che non corrisponde al merge e' storia che mente.",
+   "gate": "",
+   "nota_gate": "Freno non scrivibile come prova automatica: e' una regola sul RITMO del lavoro, non sul codice. La cosa piu' vicina a un guardiano sarebbe «il ramo ha commit che non stanno in nessuna richiesta aperta», che si puo' misurare ma non da dentro la suite. Dichiarato come debito, non spacciato per fatto."
   }
  ],
  "principi": [
@@ -14438,19 +14781,19 @@
   "**Fiducia = funzione della densità di errori visibili nella stessa giornata, non della loro gravità singola (chat 23/7 ~23:40):** «perché mi sembra che non sei intelligente, hai fatto tanti errori, non ti ricordi tante cose» — arriva dopo una sera con 7 PR in fila e 2 incidenti minori ripetuti (file sporchi in `git-pr.mjs`, pattern-match sbagliato su una richiesta), nessuno grave da solo ma ravvicinati. Si aspetta: (1) quando il ritmo di lavoro è alto, l'AD rallenta le verifiche di routine invece di correre a chiudere il prossimo fix; (2) sui limiti strutturali (memoria che non attraversa le chat, permessi che bloccano un comando) la spiegazione arriva PRIMA che diventi un problema di fiducia, non solo quando richiesta esplicitamente; (3) un segnale generico/emotivo («non sei intelligente») va preso sul serio e scomposto in causa concreta con onestà, non minimizzato come «solo dettagli tecnici». Vedi L-2026-0723-456."
  ],
  "meta": {
-  "lezioni_attive": 512,
+  "lezioni_attive": 508,
   "promosse_a_principio": 89,
   "decadute": 0,
   "tasso_applicazione": 0.14,
-  "tasso_calcolato_il": "2026-08-24 13:08",
+  "tasso_calcolato_il": "2026-08-21 20:36",
   "tasso_finestra_giorni": 30,
   "tick_leggero_il": "2026-08-21 20:36",
   "usi_marcati_il": "2026-07-17 07:00",
   "usi_marcati_nota": "5 lezioni marcate manualmente con usi verificabili (giro-17-07 diagnosi volano)",
-  "cristallizzazione_ultima": "2026-08-24 12:47",
-  "lezioni_totali": 533,
+  "cristallizzazione_ultima": "2026-08-21 20:26",
+  "lezioni_totali": 529,
   "lezioni_per_stato": {
-   "attiva": 407,
+   "attiva": 403,
    "principio": 89,
    "in-prova": 5,
    "decaduta": 0,

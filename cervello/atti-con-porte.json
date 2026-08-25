@@ -3,7 +3,7 @@
  "_come_si_usa": "Registri un atto quando vuoi che la macchina misuri chi lo compie: id, atto, perche_conta, guardia{file,funzione}, casa (verificata: deve DEFINIRE il primitivo, non importarlo), rilevatore, dove[], estensioni[], esenti[]. Poi: node cervello/porte-gemelle.mjs. ATTENZIONE, e sta scritto qui perche non si scopra leggendo il codice: questo registro NON cresce da solo. Il controllo che obbligava ogni scheda grave chiusa a dichiarare l'altra porta (campo `altra_porta`) e stato TOLTO il 23/8, perche nessun programma della macchina scrive quel campo — misurato: zero scrittori — e un campo che solo una persona puo riempire, su ogni scheda grave, per sempre, non e un freno: e una tassa, e le tasse si abrogano entro la settimana. Chi registra un atto nuovo qui dentro e una persona. E debito aperto, non copertura.",
  "_perche_un_tetto_e_non_zero": "Misurato il 23/8 con QUESTO metro, non ripreso da un rapporto: l'atto «scrivere un JSON di memoria» (rilevatore `writeFileSync\\s*\\(`, dove cervello + pannello/src) ha 69 porte, di cui 67 non passano da `scriviJsonAtomico`. Lo studio che ha preceduto questo freno ne contava 45 con un rilevatore più stretto: il numero esatto dipende dal rilevatore, l'ordine di grandezza no. Un cancello che nasce rosso su 45 file viene spento entro la settimana, ed è la lezione già pagata dai tetti di cervello/tetti-lotto.json. Quindi: fino a `max_porte` (8) porte scoperte ognuna si nomina in `esenti`; oltre, l'atto DEVE dichiarare `tetto_porte` = la misura di oggi, che scende e non risale (`node cervello/porte-gemelle.mjs --aggiorna-tetti`), oppure va affidato a un guardiano dedicato — per «scrivere un JSON di memoria» quel guardiano esiste già ed è cervello/indentazione-guardia.mjs, per questo l'atto NON è qui. Il debito diventa un numero in calo invece di una scoperta che dorme in un rapporto.",
  "acceso_il": "2026-08-23 13:01",
- "aggiornato": "2026-08-23 21:30",
+ "aggiornato": "2026-08-24 12:55",
  "max_porte": 8,
  "atti": [
   {
@@ -29,12 +29,6 @@
     ".tsx"
    ],
    "esenti": [
-    {
-     "file": "cervello/allinea-scan-cantiere.mjs",
-     "perche": "Non giudica una prova: PROPAGA un giudizio già dato. Chiude i finding delle radiografie (auto-radiografia.json) copiando lo stato dalla scheda del cantiere che li ha già chiusi, e per farlo passa dal timbro unico timbraChiusura. Ammetterla alla guardia vorrebbe dire rigiudicare la stessa prova due volte, in due posti.",
-     "natura": "strutturale",
-     "perche_per_sempre": "Non e' un lavoro rimandato: e' la forma stessa di questo programma. Copia negli esiti delle radiografie lo stato di una scheda che la guardia ha GIA' giudicato, quindi la sola cosa che potrebbe farla passare da ammissibilitaProva sarebbe rigiudicare due volte la stessa prova, in due posti, con il rischio di due risposte diverse sullo stesso fatto. Nessun lavoro futuro cambia questa risposta: cambierebbe solo se sparisse la propagazione, e allora sparirebbe la porta insieme all'esenzione."
-    },
     {
      "file": "cervello/round2-applica.mjs",
      "perche": "Uno-shot del 25/7 già applicato e idempotente: chiude AR-144 e AR-117 con una motivazione scritta a mano dopo una verifica end-to-end fatta da una persona. Rieseguirlo non chiude più niente (si ferma su «round 2 già applicato»). Va tolto dal repo, non fatto passare da una guardia.",
