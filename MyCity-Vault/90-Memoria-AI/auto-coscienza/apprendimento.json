@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-25 19:49",
+ "aggiornato": "2026-08-25 16:45",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11372,7 +11372,7 @@
      "ref": "freno rosso nel cancello: nascita dei difetti"
     },
     {
-     "quando": "2026-08-25 19:38",
+     "quando": "2026-08-25 16:17",
      "ref": "freno rosso nel cancello: nascita dei difetti"
     }
    ]
@@ -11867,7 +11867,15 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-25 19:49",
+     "quando": "2026-08-25 16:32",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:39",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:45",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -11930,14 +11938,6 @@
     },
     {
      "quando": "2026-08-20 18:24",
-     "ref": "freno rosso nel cancello: le malattie che mancano"
-    },
-    {
-     "quando": "2026-08-25 19:38",
-     "ref": "freno rosso nel cancello: le malattie che mancano"
-    },
-    {
-     "quando": "2026-08-25 19:49",
      "ref": "freno rosso nel cancello: le malattie che mancano"
     }
    ]
@@ -12301,7 +12301,15 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-25 19:49",
+     "quando": "2026-08-25 16:32",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:39",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:45",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -12442,7 +12450,15 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-25 19:49",
+     "quando": "2026-08-25 16:32",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:39",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:45",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -13097,7 +13113,15 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-25 19:49",
+     "quando": "2026-08-25 16:32",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:39",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 16:45",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -13157,14 +13181,34 @@
   },
   {
    "id": "L-2026-0825-01",
+   "testo": "**Un guardiano nato da un caso misura il caso, non il problema (AR-813).** `forma-json.mjs` esiste dal 30/7 per i JSON riscritti tutti per cambiarne una riga, ed era VERDE il 24/8 mentre tre registri venivano riscritti da cima a fondo. Il motivo: misurava l'indentazione, e i modi di riscrivere un file per intero sono tre — indentazione, ordine delle chiavi dentro una voce, ordine delle voci dentro l'elenco. Ne guardava uno, quello del giorno in cui era nato. E' la stessa forma di AR-807, che diceva «un sintomo trovato per caso misura il caso»: qui la frase si applica al guardiano scritto per curarla. Quando si costruisce un freno, la domanda non e' «copre il caso che ho appena visto?» ma «in quanti modi puo' succedere questa cosa, e quanti ne guardo?» — e i modi non coperti si dichiarano, perche' un guardiano parziale che stampa ✅ e' peggio di nessun guardiano: toglie il sospetto.",
+   "tag": [
+    "guardiani",
+    "correzione-nicola",
+    "forma-dei-file"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.9,
+   "evidenze": 2,
+   "fonte": "Nicola, 24/8/2026, sulla PR #835: «secondo me stai facendo delle cavolate perche' il diff e' +22.000 e -15.000». Misurato: ~12.900 delle 14.266 cancellazioni non cancellavano niente.",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-25",
+   "ultima_conferma": "2026-08-25 16:30",
+   "stato": "attiva",
+   "usi": 0,
+   "gate": "node cervello/forma-json.mjs",
+   "data": "2026-08-25 16:30"
+  },
+  {
+   "id": "L-2026-0825-02",
    "data": "2026-08-25 19:45",
    "nato": "2026-08-25",
    "ultima_conferma": "2026-08-25 19:45",
    "stato": "attiva",
    "confidenza": 0.9,
    "evidenze": 2,
-   "fonte": "Nicola, 25/8: «fai la radiografia mentre risolvi i problemi, per assicurarti che non ci sono altri problemi che usciranno fuori se faccio un'altra radiografia separata» — lotto 61, AR-813",
-   "testo": "**Chi ripara guarda solo il punto che ripara: il perimetro toccato va riguardato PRIMA di consegnare, non alla radiografia di domani (AR-813).** Due numeri lo dicono: `nascita-difetti.mjs` conta 99 schede su 787 nate DAL riparare, e il registro del sito dichiara da sé che «i fix sul codice non riaprono da soli la lista». Finché l'unico occhio sul lavoro appena fatto è una radiografia lanciata giorni dopo, «zero difetti aperti» è vero sulla lista e falso sul codice — ed è esattamente la domanda che Nicola ha fatto prima della data del 29 agosto. La difesa non è un promemoria: è `cervello/radiografia-in-corsa.mjs` cablato dentro `cancello-lotto.mjs`, che pretende una scansione registrata con l'IMPRONTA del file com'è adesso. Una lettura fatta prima dell'ultima modifica non conta: scade da sola.",
+   "fonte": "Nicola, 25/8: «fai la radiografia mentre risolvi i problemi, per assicurarti che non ci sono altri problemi che usciranno fuori se faccio un'altra radiografia separata» — lotto 61, AR-818 · numero cambiato nell'unione: L-2026-0825-01 l'aveva già preso l'altro ramo",
+   "testo": "**Chi ripara guarda solo il punto che ripara: il perimetro toccato va riguardato PRIMA di consegnare, non alla radiografia di domani (AR-818).** Due numeri lo dicono: `nascita-difetti.mjs` conta 99 schede su 787 nate DAL riparare, e il registro del sito dichiara da sé che «i fix sul codice non riaprono da soli la lista». Finché l'unico occhio sul lavoro appena fatto è una radiografia lanciata giorni dopo, «zero difetti aperti» è vero sulla lista e falso sul codice — ed è esattamente la domanda che Nicola ha fatto prima della data del 29 agosto. La difesa non è un promemoria: è `cervello/radiografia-in-corsa.mjs` cablato dentro `cancello-lotto.mjs`, che pretende una scansione registrata con l'IMPRONTA del file com'è adesso. Una lettura fatta prima dell'ultima modifica non conta: scade da sola.",
    "regola": "Prima del cancello, riguarda i file che il lotto ha toccato con la lente della loro dimensione di radiografia e registra cosa hai visto (anche «zero»): `node cervello/radiografia-in-corsa.mjs` → `registra --dimensione <chiave> --toccati --trovati <n>`. Sul sito, `--repo ../mycity`.",
    "gate": "node --test cervello/test/radiografia-mentre-riparo.test.mjs"
   }

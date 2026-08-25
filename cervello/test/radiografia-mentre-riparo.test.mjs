@@ -14,7 +14,7 @@
 // applicate a lui, e ognuna DEVE restare rossa.
 //
 // La prova di non-vacuità sta in cervello/mutanti.json: si toglie la riga che lo mette di guardia
-// dentro cancello-lotto.mjs, e il caso N8 diventa rosso. Il difetto è AR-813; i due nati riparandolo
+// dentro cancello-lotto.mjs, e il caso N8 diventa rosso. Il difetto è AR-818 (nato come AR-813: il numero l'aveva già preso l'altro ramo, e chi unisce per secondo rinumera); i due nati riparandolo
 // sono AR-814 e AR-815.
 
 import { test } from "node:test";

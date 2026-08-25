@@ -1031,7 +1031,7 @@ function main() {
     // di quanti ne chiudono?») non ha una risposta numerica. Sta nel cancello e non in un comando a
     // parte perché il momento in cui si compila è la consegna del lotto, non il mattino dopo.
     passi.push(esegui("nascita dei difetti", "node", ["cervello/nascita-difetti.mjs"]));
-    // 🩻 AR-813 — …e l'altra metà della stessa domanda: «quello che ho toccato, l'ha RIGUARDATO
+    // 🩻 AR-818 — …e l'altra metà della stessa domanda: «quello che ho toccato, l'ha RIGUARDATO
     // qualcuno?». `nascita-difetti` conta i difetti nuovi che qualcuno ha già trovato; questo
     // pretende che il perimetro del lotto passi sotto la lente della sua dimensione di radiografia
     // PRIMA della consegna, con l'impronta del file com'è adesso (una lettura fatta prima

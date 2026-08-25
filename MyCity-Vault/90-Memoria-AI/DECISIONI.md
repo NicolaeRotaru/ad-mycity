@@ -4241,9 +4241,9 @@ freno che promettesse la qualità dello sguardo mentirebbe.
 mano (`--repo ../mycity`) perché il cancello del lotto gira nel repo dell'AD e la CI del sito non ha
 questa casa in mano. La lente e le regole ci sono (24 dimensioni fra codice e design, mappate su
 `app/`, `lib/`, `components/`, `supabase/`); quello che manca è il blocco automatico. Sta nella
-scheda AR-813 come limite scritto, non come cosa fatta.
+scheda AR-818 come limite scritto, non come cosa fatta.
 
 **Prove che girano:** 15 casi in `cervello/test/radiografia-mentre-riparo.test.mjs`, tre mutazioni
-verificate rosse (`non-vacuita.mjs --difetti AR-813,AR-814,AR-815`), gate della lezione
-`L-2026-0825-01` vero (`gate-veri.mjs` exit 0). Schede: AR-813 (il difetto vero), AR-814 e AR-815
+verificate rosse (`non-vacuita.mjs --difetti AR-818,AR-814,AR-815,AR-816`), gate della lezione
+`L-2026-0825-02` vero (`gate-veri.mjs` exit 0). Schede: AR-818 (il difetto vero, nato AR-813 e rinumerato nell'unione), AR-814, AR-815 e AR-816
 (i due trovati riguardando). · Nicola (chat 25/8)

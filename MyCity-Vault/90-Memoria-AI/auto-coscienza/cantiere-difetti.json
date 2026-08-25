@@ -17395,6 +17395,27 @@
       "stato": "riparato",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
+      "impatto_crescita": "diretto sulla capacita' di Nicola di valutare il lavoro. Il 24/8 la PR #835 gli e' arrivata con +22.008 e -15.245, di cui ~12.900 cancellazioni che non cancellavano niente: il lavoro vero era sepolto sotto il rumore e non era valutabile. L'ha visto lui, non la macchina, e la macchina aveva un guardiano apposta per questo.",
+      "nato": "2026-08-24 23:50",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 61,
+      "titolo": "Il guardiano dei file riscritti tutti guardava solo l'indentazione",
+      "causa_radice": "I modi di riscrivere per intero un JSON sono tre — l'indentazione, l'ordine delle chiavi dentro una voce, l'ordine delle voci dentro l'elenco — e `forma-json.mjs` ne misurava uno solo. Era nato il 30/7 da un caso di indentazione (apprendimento.json +12.147/-12.124) e aveva preso la forma di quel caso invece della forma del problema. Il 24/8 il difetto e' tornato dagli altri due lati: apprendimento.json +5.702/-5.359 con 519 voci su 535 identiche a meno dell'ordine delle chiavi, cantiere-difetti.json +7.500/-7.160 con l'elenco riordinato (main parte da AR-004, il ramo partiva da AR-001), mutanti.json lo stesso. Il guardiano era VERDE mentre succedeva, perche' l'indentazione non era cambiata. E' la lezione di AR-807 applicata a se stessa: un sintomo trovato per caso misura il caso, non il problema.",
+      "fix_proposto": "Aggiunta a `forma-json.mjs` la funzione pura `rimescolati()`, che accanto a `riformattati()` conta due cose: le voci con contenuto IDENTICO a meno dell'ordine ma con le chiavi in fila diversa, e l'ordine relativo delle voci gia' esistenti. Cablata nel verdetto di copertura, nell'uscita --json e in quella stampata. Ha il «ritorno a casa» come il controllo dell'indentazione: rimettere l'ordine di origin/main non e' rimescolare, e' riparare — senza, il freno vieterebbe la cura e si finirebbe a scriverlo con --no-verify. Non accusa quando non puo' identificare le voci: ⚪ invece di indovinare.",
+      "dove": "cervello/forma-json.mjs",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-guardiano-della-forma-guardava-solo-l-indentazione.test.mjs",
+        "nota": "Dieci casi su un repo finto con origin/main risolvibile (radice sostituibile con FORMA_JSON_ROOT, come CODA_FILE per la pulizia della coda): il freno si vede SCATTARE, non si crede sulla parola. Quattro casi sono falsi allarmi che renderebbero il freno inservibile — aggiungere voci in coda, aggiungere un campo, una voce cambiata davvero, voci senza identita'. Un caso e' nato da un buco della prova stessa: in --json il codice d'uscita arriva dal verdetto di copertura e il ramo del verde stampato non viene percorso, quindi si poteva togliere il rimescolamento dal messaggio umano e la prova restava verde. Sei mutazioni verificate rosse."
+      },
+      "descrizione": "Nicola, 24/8/2026: «secondo me stai facendo delle cavolate perche' il diff e' +22.000 e -15.000». Aveva ragione. Il raddrizzamento ha portato il ramo da +21.002/-14.266 a +8.129/-1.393, con zero voci perse (803 difetti, 535 lezioni, 805 mutazioni prima e dopo). Questa scheda e' il freno che impedisce che ricapiti: la correzione si chiude con un guardiano che puo' fallire, non con una frase.",
+      "nato_da": "Nicola guardando il diff della PR #835: «secondo me stai facendo delle cavolate perche' il diff e' +22.000 e -15.000»"
+    },
+    {
+      "id": "AR-818",
+      "stato": "riparato",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
       "impatto_crescita": "diretto sulla data del 29 agosto. Nicola chiede macchina e sito «senza nessun difetto» entro il 29/8: senza questo, «zero aperti» è vero sulla lista e falso sul codice, perché una radiografia rifatta il 30 troverebbe i difetti nati durante le riparazioni del 25-29. La macchina lo dichiarava da sé in radiografia-marketplace.json (sync_scan.nota): «per trovare difetti NUOVI serve un nuovo audit; i fix sul codice non riaprono da soli la lista».",
       "nato": "2026-08-25 17:05",
       "nato_come": "scoperta",
@@ -17408,15 +17429,15 @@
         "comando": "node --test cervello/test/radiografia-mentre-riparo.test.mjs",
         "nota": "Undici casi. R1 è il difetto vero (file toccato e mai riguardato → il cancello si ferma). N1 è il cuore: guardato PRIMA e ritoccato DOPO non conta, e con l'impronta di adesso torna verde — senza il secondo ramo il freno sarebbe rosso sempre, cioè il cancello che si impara ad aggirare. N2: registrare sotto la lente sbagliata non compra il verde. N3: perimetro vuoto è ⚪ dichiarato, mai una spunta. N4/N5/N10: la mappa che diverge dai workflow, il workflow illeggibile, la lente senza file e senza motivo. N8 è il MONTAGGIO — il cancello deve eseguirlo davvero, non nominarlo in un commento — ed è la mutazione registrata in mutanti.json."
       },
-      "descrizione": "Nato da Nicola il 25/8/2026: «entro il 29 agosto la macchina ed il marketplace devono essere pronti… aggiungi anche l'opzione di fare la radiografia mentre risolve i problemi, per assicurarsi che non ci sono altri problemi che usciranno fuori se faccio un'altra radiografia separata». COSA IL FRENO NON PROVA, e va detto: prova che hai riguardato DOPO aver toccato, non che hai guardato bene — quello è il collaudo (⑦bis del cantiere, skill `collaudo`, mani diverse e mandato opposto). Un controllo che promettesse la qualità dello sguardo mentirebbe; qui si misura solo ciò che si può misurare, la freschezza della copertura. BUCO DICHIARATO: sul repo del sito il guardiano si lancia a mano (`--repo ../mycity`) perché il cancello del lotto gira nel repo dell'AD e la CI del sito non ha questa casa in mano; il referto va nella PR del sito."
+      "descrizione": "Nato da Nicola il 25/8/2026: «entro il 29 agosto la macchina ed il marketplace devono essere pronti… aggiungi anche l'opzione di fare la radiografia mentre risolve i problemi, per assicurarsi che non ci sono altri problemi che usciranno fuori se faccio un'altra radiografia separata». COSA IL FRENO NON PROVA, e va detto: prova che hai riguardato DOPO aver toccato, non che hai guardato bene — quello è il collaudo (⑦bis del cantiere, skill `collaudo`, mani diverse e mandato opposto). Un controllo che promettesse la qualità dello sguardo mentirebbe; qui si misura solo ciò che si può misurare, la freschezza della copertura. BUCO DICHIARATO: sul repo del sito il guardiano si lancia a mano (`--repo ../mycity`) perché il cancello del lotto gira nel repo dell'AD e la CI del sito non ha questa casa in mano; il referto va nella PR del sito. NUMERO CAMBIATO NELL'UNIONE: nasceva AR-818, ma il ramo entrato nel tronco prima di questo aveva già dato quel numero a un altro difetto (il guardiano dei file riscritti). Chi unisce per secondo rinumera — è la regola scritta il 24/8 dopo AR-811, la volta che due numeri uguali stavano per far sparire due schede in silenzio."
     },
     {
       "id": "AR-814",
       "stato": "riparato",
-      "nato_da": "AR-813",
+      "nato_da": "AR-818",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
-      "impatto_crescita": "indiretto ma sulla stessa data del 29/8: una registrazione che non avviene e non lo dice lascia il perimetro scoperto mentre chi l'ha lanciata crede di averlo coperto — cioè il freno nuovo (AR-813) sarebbe stato aggirabile per sbaglio, non per malafede.",
+      "impatto_crescita": "indiretto ma sulla stessa data del 29/8: una registrazione che non avviene e non lo dice lascia il perimetro scoperto mentre chi l'ha lanciata crede di averlo coperto — cioè il freno nuovo (AR-818) sarebbe stato aggirabile per sbaglio, non per malafede.",
       "nato": "2026-08-25 19:50",
       "nato_come": "nuovo-lavoro",
       "lotto_scoperta": "61",
@@ -17434,7 +17455,7 @@
     {
       "id": "AR-815",
       "stato": "riparato",
-      "nato_da": "AR-813",
+      "nato_da": "AR-818",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "minore",
       "impatto_crescita": "nessun danno diretto: il registro non contiene contenuti, solo impronte. Ma un percorso che esce dal repo entra nel registro come se fosse un file di casa, e una copertura registrata su un file che non è del lotto è una copertura finta.",
@@ -17455,7 +17476,7 @@
     {
       "id": "AR-816",
       "stato": "riparato",
-      "nato_da": "AR-813",
+      "nato_da": "AR-818",
       "dimensione": "guardiani-e-guardrail",
       "gravita": "grave",
       "impatto_crescita": "avrebbe reso il freno nuovo un cancello sempre rosso per una famiglia intera di lotti — quelli che cancellano un file, cioè quasi tutti i lotti di pulizia. Un cancello che non si può soddisfare si impara ad aggirare, ed è la malattia che questa casa ha già pagato col `2` raccontato come violazione (30/7).",
