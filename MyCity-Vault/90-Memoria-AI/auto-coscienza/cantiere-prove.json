@@ -1,53 +1,54 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-25 19:39",
+  "aggiornato": "2026-08-25 19:50",
   "giorni_sospetto": 3,
-  "difetti_aperti": 122,
-  "difetti_da_fare": 122,
+  "difetti_aperti": 123,
+  "difetti_da_fare": 123,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 806,
+    "totale": 807,
     "chiusi": 684,
     "aperti": 107,
     "in_corso": 1,
     "da_riverificare": 10,
-    "altri": 4,
-    "da_fare": 122,
+    "altri": 5,
+    "da_fare": 123,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 684,
       "aperto": 107,
       "da-riverificare": 10,
       "in-corso": 1,
-      "riparato": 4
+      "riparato": 5
     },
     "stati_ignoti": [
       {
         "stato": "riparato",
-        "quante": 4,
+        "quante": 5,
         "ids": [
           "AR-812",
           "AR-813",
           "AR-814",
-          "AR-815"
+          "AR-815",
+          "AR-816"
         ]
       }
     ]
   },
   "bilancio": {
     "torna": true,
-    "attese": 122,
-    "viste": 122,
+    "attese": 123,
+    "viste": 123,
     "fuori": 0,
-    "motivo": "bilancio a posto: 684 chiuse + 122 classificate = 806 schede, e ogni stato vivo è dentro (107 aperto · 1 in-corso · 10 da-riverificare · 4 in uno stato che non so nominare)"
+    "motivo": "bilancio a posto: 684 chiuse + 123 classificate = 807 schede, e ogni stato vivo è dentro (107 aperto · 1 in-corso · 10 da-riverificare · 5 in uno stato che non so nominare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 21,
     "auto-sospetta": 10,
     "umana": 74,
-    "auto-comando": 17
+    "auto-comando": 18
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
@@ -180,8 +181,8 @@
     }
   ],
   "chiuderebbe_lo_stesso": [],
-  "schede_non_giudicabili": 21,
-  "schede_campi_illeggibili": 21,
+  "schede_non_giudicabili": 22,
+  "schede_campi_illeggibili": 22,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -287,6 +288,11 @@
       "id": "AR-815",
       "gravita": "minore",
       "impatto_crescita": "nessun danno diretto: il registro non contiene contenuti, solo impronte. Ma un percorso che esce dal repo entra nel registro come se fosse un file di casa, e una copertura registrata su un file che non è del lotto è una copertura finta."
+    },
+    {
+      "id": "AR-816",
+      "gravita": "grave",
+      "impatto_crescita": "avrebbe reso il freno nuovo un cancello sempre rosso per una famiglia intera di lotti — quelli che cancellano un file, cioè quasi tutti i lotti di pulizia. Un cancello che non si può soddisfare si impara ad aggirare, ed è la malattia che questa casa ha già pagato col `2` raccontato come violazione (30/7)."
     }
   ],
   "chiuse_su_prova_non_ammessa": 0,
@@ -417,6 +423,12 @@
       "id": "AR-815",
       "gravita": "minore",
       "impatto_crescita": "nessun danno diretto: il registro non contiene contenuti, solo impronte. Ma un percorso che esce dal repo entra nel registro come se fosse un file di casa, e una copertura registrata su un file che non è del lotto è una copertura finta.",
+      "perche": "prova eseguibile: node --test cervello/test/radiografia-mentre-riparo.test.mjs"
+    },
+    {
+      "id": "AR-816",
+      "gravita": "grave",
+      "impatto_crescita": "avrebbe reso il freno nuovo un cancello sempre rosso per una famiglia intera di lotti — quelli che cancellano un file, cioè quasi tutti i lotti di pulizia. Un cancello che non si può soddisfare si impara ad aggirare, ed è la malattia che questa casa ha già pagato col `2` raccontato come violazione (30/7).",
       "perche": "prova eseguibile: node --test cervello/test/radiografia-mentre-riparo.test.mjs"
     }
   ],
@@ -3427,6 +3439,19 @@
       "prova_obbligatoria": false,
       "non_giudicabile": true,
       "titolo": "Un percorso con «..» usciva dal repo pur cominciando con un prefisso ammesso, e finiva nel registro delle scan",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/radiografia-mentre-riparo.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-816",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "avrebbe reso il freno nuovo un cancello sempre rosso per una famiglia intera di lotti — quelli che cancellano un file, cioè quasi tutti i lotti di pulizia. Un cancello che non si può soddisfare si impara ad aggirare, ed è la malattia che questa casa ha già pagato col `2` raccontato come violazione (30/7).",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Un file CANCELLATO dal lotto veniva chiesto in radiografia: impossibile da soddisfare senza rimetterlo",
       "classe": "auto-comando",
       "perche": "prova eseguibile: node --test cervello/test/radiografia-mentre-riparo.test.mjs",
       "auto_chiudibile": true

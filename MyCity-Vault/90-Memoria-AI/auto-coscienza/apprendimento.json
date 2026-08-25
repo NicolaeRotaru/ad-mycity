@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-25 19:38",
+ "aggiornato": "2026-08-25 19:49",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -11865,6 +11865,10 @@
     {
      "quando": "2026-08-24 22:08",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 19:49",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -11930,6 +11934,10 @@
     },
     {
      "quando": "2026-08-25 19:38",
+     "ref": "freno rosso nel cancello: le malattie che mancano"
+    },
+    {
+     "quando": "2026-08-25 19:49",
      "ref": "freno rosso nel cancello: le malattie che mancano"
     }
    ]
@@ -12291,6 +12299,10 @@
     {
      "quando": "2026-08-24 22:08",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 19:49",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12427,6 +12439,10 @@
     },
     {
      "quando": "2026-08-24 22:08",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 19:49",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -13078,6 +13094,10 @@
     },
     {
      "quando": "2026-08-24 22:08",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-25 19:49",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
