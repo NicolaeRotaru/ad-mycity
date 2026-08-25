@@ -33,6 +33,20 @@ tre controlli usano per capire se l'attivita' e' ferma.
 ---
 
 
+> 🩻 **25/8 19:55 — Adesso la radiografia gira DENTRO le riparazioni, non solo prima e dopo.** Richiesta tua: «entro il 29 agosto la macchina e il sito devono essere pronti, senza difetti — fai la radiografia mentre risolvi i problemi, così non saltano fuori altri problemi se ne faccio un'altra separata».
+>
+> **In parole semplici.** Finora l'esame completo era un evento a parte: si lanciava, usciva una lista, e per giorni si riparava quella lista. Nel frattempo nessuno riguardava i pezzi appena toccati. Da adesso, prima che un lavoro possa essere consegnato, i file che quel lavoro ha toccato devono essere stati riletti con l'occhio giusto — e riletti **dopo** l'ultima modifica, non prima.
+>
+> **Perché serviva davvero, coi numeri.** La macchina lo aveva già scritto da sé in un suo registro: «per trovare problemi nuovi serve un esame nuovo; le riparazioni non riaprono da sole la lista». E il conto delle nascite, misurato il 23 agosto: **su 787 schede, 99 le ha create il riparare**. Cioè il posto dove nascono più difetti era l'unico senza nessuno che guardasse.
+>
+> **Cosa cambia per te.** «Zero difetti aperti» comincia a voler dire quello che sembra. Prima era vero sulla lista e falso sul codice: un esame rifatto il giorno dopo avrebbe trovato roba nata durante le riparazioni. Ed è successo subito, alla prima prova vera: **riguardando sé stesso, il controllo nuovo ha trovato due difetti dentro di sé** — un comando che diceva di aver registrato e non registrava, e un percorso che usciva dalla cartella del progetto. Riparati tutti e due prima della consegna.
+>
+> **Cosa devi fare.** Una firma sola: la richiesta di unione di questo lavoro. Da lì in poi il controllo parte da solo a ogni lavoro.
+>
+> **Cosa non ho verificato.** Sul **sito** il controllo esiste ma si lancia a mano: il cancello automatico vive nella casa della macchina e la fabbrica del sito non ce l'ha in mano. Quindi sul marketplace, fino al 29, la rilettura del perimetro dipende da me che la lancio, non da un blocco. L'ho scritto come limite dentro la scheda, non come cosa fatta. E niente di tutto questo l'ho visto girare sul server vero: le prove sono su questa macchina.
+>
+> **Dettagli tecnici.** `cervello/radiografia-in-corsa.mjs` cablato in `cancello-lotto.mjs` (passo «la radiografia del perimetro toccato»), mappa in `cervello/dimensioni-radiografia.json` (44 lenti su tre case, confrontate a ogni cancello con i 4 workflow di radiografia: se divergono, rosso), registro in `auto-coscienza/radiografia-in-corsa.json` con l'impronta dei file. Schede AR-813 · AR-814 · AR-815, lezione `L-2026-0825-01` col suo gate, 15 casi di prova, 3 mutazioni rosse. Passo ⑥bis della skill `cantiere`.
+
 > ⏰ **24/8 12:30 — Due rami avevano dato lo stesso numero a difetti diversi.**
 >
 > **In parole semplici.** I conflitti che avevi visto erano cinque. Tutti su registri che tengono
