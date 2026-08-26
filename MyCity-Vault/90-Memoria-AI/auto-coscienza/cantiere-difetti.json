@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-26 21:29",
+  "aggiornato": "2026-08-26 20:50",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -17932,6 +17932,27 @@
       },
       "chiuso_il": "2026-08-26 20:45",
       "chiuso_come": "Il contatore c'e'. `ai_registra_costo` scrive di chi e' la spesa (dal campo `AI_NEGOZIO`, che il worker mette dal lavoro preso e l'igiene per-lavoro spegne subito dopo: una spesa che eredita il negozio di quello di prima ferma la corsia sbagliata, che e' peggio di un tetto che non c'e'). `spesaPerNegozio` somma dentro la finestra che scorre, `spesoDaFrenare` tiene solo cio' che e' stato MISURATO, e la presa passa quel numero a chi sceglie il turno. Tre scelte, tutte e tre con una prova: ① LA MISURA E' IN TOKEN, non in euro, perche' in casa non esiste nessun listino che li converta — inventarlo sarebbe un numero senza fonte, e la conversione resta un pezzo suo che vuole un prezzo per modello. ② Le stime NON entrano nel numero su cui si frena: restano visibili accanto. Un negozio fermato da un conto che nessuno ha misurato e' un freno appoggiato su un pavimento. ③ Uno ZERO misurato non esce dal contatore. Un negozio che compare con sole stime ha misurato zero: vero, e non dice niente. Se quello zero uscisse andrebbe a coprire un `speso` dichiarato a mano, cioe' una conoscenza che il registro non ha — per esempio la spesa di prima della finestra. L'ha trovato una prova che avevo scritto aspettandomi l'altro risultato. Resta vero il limite dichiarato in AR-746: il tetto vive dentro una finestra di sei ore, quindi e' un freno sul ritmo di spesa, non un canone mensile."
+    },
+    {
+      "id": "AR-839",
+      "titolo": "Il contesto isolato e le chiavi fuori dal discorso sono scritti, provati, e non li chiama nessuno",
+      "dimensione": "capacita-mancanti",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-26 20:50",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 60: chiudendo AR-804 e AR-838 ho controllato se gli ALTRI meccanismi della bottega avessero lo stesso difetto. Ce l'hanno.",
+      "causa_radice": "I meccanismi ④ (contesto isolato: il testo di un lavoro non contiene mai una riga di un altro negozio) e ⑥ (le chiavi del negoziante mai dentro il discorso che legge l'AI) vivono in `cervello/bottega/lavoro.mjs` dal 23/8: `soloDelNegozio`, `testoPerAI`, `montaSegreti`, `segretiNelTesto`, `schedaNegozio`. Sono scritti bene e hanno le loro prove. MISURATO il 26/8: fuori dal file stesso e dai suoi test, non li chiama NESSUNO — `grep -rn \"soloDelNegozio|testoPerAI|montaSegreti|segretiNelTesto|schedaNegozio\" cervello/ pannello/src/` torna vuoto. Il worker il prompt se lo costruisce per conto suo, a mano, in `worker.sh` («costruisci il prompt», riga ~1479): `prompt=\"Sei l'AD digitale di MyCity... $richiesta\"`. E' la stessa malattia di AR-804 — un cancello costruito bene e montato su una porta che nessuno usa — trovata guardando se i fratelli ce l'avessero, invece di aspettare che si vedesse.",
+      "dove": "cervello/bottega/lavoro.mjs (soloDelNegozio, testoPerAI, montaSegreti, segretiNelTesto, schedaNegozio) · cervello/worker.sh (~1479, dove il prompt si costruisce a mano)",
+      "fix_proposto": "🟡 Il testo che l'AI legge per un lavoro di bottega si costruisce SOLO passando da `testoPerAI`, e il worker smette di comporlo a mano per quei lavori. Due prove che ESEGUONO, una per clausola: (a) si danno al costruttore le righe di due negozi e si pretende che nel testo che esce non compaia niente del secondo; (b) si mette una chiave finta nella cassaforte di un negozio finto e si pretende che nel testo non compaia mai. Poi una mutazione per ciascuna. Attenzione al perimetro: il testo scritto dai clienti entra come MATERIALE fra i due marcatori, mai come istruzione — e quella regola sta nel codice, non nel prompt.",
+      "impatto": "Sono i due meccanismi che tengono separati i dati fra i negozi dal lato del testo. Finche' non li chiama nessuno, il muro esiste solo nelle prove: il primo lavoro di bottega vero passerebbe dal prompt costruito a mano, che non sa niente di negozi ne' di segreti. Con AR-802 (il muro nel database) ancora aperto, questo e' il secondo dei due lati scoperti.",
+      "origine": "lotto 60, controllando i fratelli del difetto appena curato",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Oggi non c'e' niente da provare verde: le funzioni passano le loro prove, ed e' proprio questo che inganna. La prova nasce col fix e deve guardare il TESTO CHE ESCE dal costruttore del worker, non le funzioni prese da sole."
+      }
     }
   ],
   "meta": {
