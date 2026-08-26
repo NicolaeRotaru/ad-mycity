@@ -217,7 +217,10 @@ export function usiDiUnaLezione(l) {
 }
 
 /** Gli stati che una lezione può avere. Dichiarati qui perché la partizione sia completa per costruzione. */
-export const STATI_LEZIONE = ["attiva", "principio", "in-prova", "decaduta", "senza-stato"];
+// `ritirata` è entrata il 20/8 con `rivedi-lezione.mjs` e non era in questo elenco: le 15 lezioni in
+// quello stato finivano in «altro», cioè invisibili a chi legge la partizione. Un valore che una
+// parte del sistema scrive e un'altra non conosce non è un caso limite: è una parola con due padroni.
+export const STATI_LEZIONE = ["attiva", "principio", "in-prova", "decaduta", "ritirata", "senza-stato"];
 
 /**
  * UNA definizione di «lezione viva», e la partizione completa accanto.
@@ -234,6 +237,26 @@ export const STATI_LEZIONE = ["attiva", "principio", "in-prova", "decaduta", "se
  * @returns {{vive:number, lista:any[], totale:number, per_stato:Record<string,number>,
  *   con_usi:number, tasso_usi:number, quadra:boolean}}
  */
+/**
+ * Le lezioni SPENTE — quelle che non si applicano più e si possono togliere dall'archivio servito.
+ *
+ * PERCHÉ ESISTE, e perché sono tre categorie e non due. `lezioniVive` divide in viva / non-viva, e
+ * per contare va benissimo. Ma per POTARE quella divisione è sbagliata, perché mette nello stesso
+ * mucchio due cose opposte:
+ *   · `decaduta` (si è spenta da sola) e `ritirata` (qualcuno l'ha ritirata di proposito) → **non più**;
+ *   · `in-prova` → **non ancora**, e potarla vorrebbe dire buttare una lezione appena nata.
+ * `risolta` resta fuori apposta: l'unica che c'è è una regola in vigore, scritta con una parola
+ * infelice. Toglierla sarebbe potare il vivo.
+ *
+ * Il conto che l'ha resa necessaria (26/8): `pota-apprendimento.mjs` si era scritto il filtro da sé
+ * — `stato !== "decaduta"` — quindi le 15 `ritirata` le contava VIVE. Venti chilobyte che nessun
+ * potatore poteva più prendere, e l'archivio è entrato nel muro del megabyte con cui viene servito.
+ */
+export function lezioniSpente(dati) {
+  const tutte = Array.isArray(dati?.lezioni) ? dati.lezioni : [];
+  return tutte.filter((l) => ["decaduta", "ritirata"].includes(String(l?.stato ?? "").trim()));
+}
+
 export function lezioniVive(dati) {
   const tutte = Array.isArray(dati?.lezioni) ? dati.lezioni : [];
   const stato = (l) => {
@@ -340,10 +363,24 @@ export function conteggiPrivatiDelleLezioni(files = [], esenti = []) {
     if (!/apprendimento\.json|["']apprendimento["']/.test(src)) continue;
     if (/lezioniVive\s*\(/.test(src)) continue; // usa la porta: a norma
     for (const m of src.matchAll(/\.lezioni\s*\.filter\s*\(|\blezioni\s*\.filter\s*\(/g)) {
+      // 26/8 — il metro contava OGNI `lezioni.filter(`, e la prima volta che l'ho fatto girare sul
+      // repo vero ne ha trovati sei: quattro erano `.filter(Boolean)`, cioè «scarta i buchi», che
+      // con la definizione di lezione viva non c'entra niente. Un metro che chiede sei riscritture
+      // di codice giusto non lo monta nessuno — ed è, con ogni probabilità, il motivo per cui dal
+      // lotto 35 questo è rimasto una funzione che eseguiva solo la sua prova, su dati finti.
+      //
+      // Si definisce «lezione viva» chi guarda lo `stato`. Il resto sono filtri, non definizioni.
+      // Cosa conta come «definizione», e perché è l'ESCLUSIONE. Le tre divergenze storiche
+      // (476/471/381) e quella di oggi hanno tutte la stessa forma: `stato !== "<qualcosa>"`, cioè
+      // «viva è tutto tranne X». È il modo di dirlo che si rompe da solo, perché il giorno che nasce
+      // una parola nuova — `ritirata`, il 20/8 — quel filtro la accoglie fra le vive senza sapere
+      // cos'è. Un `stato === "principio"` non è questo: sceglie un mucchio, non definisce l'insieme.
+      const corpo = src.slice(m.index, m.index + 160);
+      if (!/\bstato\b[^)]{0,40}!==/.test(corpo)) continue;
       fuori.push({
         file: nome,
         riga: src.slice(0, m.index).split("\n").length,
-        motivo: "conta le lezioni con un filtro suo: tre definizioni davano 476/471/381 sullo stesso file. Usa lezioniVive().",
+        motivo: "decide da sé quali lezioni contano guardando lo stato: tre definizioni davano 476/471/381 sullo stesso file. Usa lezioniVive() o lezioniSpente().",
       });
     }
   }

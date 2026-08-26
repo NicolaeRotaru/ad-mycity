@@ -520,7 +520,7 @@
    "estensioni": [
     ".mjs"
    ],
-   "baseline": 17,
+   "baseline": 16,
    "file_noti": [
     "cervello/cancello-senior.mjs",
     "cervello/cancello-stop.mjs",
@@ -534,14 +534,14 @@
     "cervello/piani-data.mjs",
     "cervello/porte-pubblicazione.mjs",
     "cervello/pre-scrittura.mjs",
-    "cervello/prossimo-ar.mjs",
     "cervello/sistema-immunitario.mjs",
     "cervello/sorvegliante.mjs",
     "cervello/storia-git.mjs"
    ],
    "curati": [
     "cervello/git-github.mjs",
-    "cervello/git-pr.mjs"
+    "cervello/git-pr.mjs",
+    "cervello/prossimo-ar.mjs"
    ],
    "esenti": [
     {
@@ -551,7 +551,7 @@
     }
    ],
    "nota_onesta": "Il pattern conta OGNI esecuzione diretta di git, compresa quella dentro gitEsegui: è voluto, perché l'esecutore unico è una riga sola e tutto il resto è una porta laterale. Il tetto scende quando un chiamante passa all'esecutore unico, e non risale: è l'unica cosa che impedisce all'ottava porta di nascere in silenzio.",
-   "nota_baseline": "18 istanze nette (19 trovate − 1 esente) in 14 file, misurate il 2026-08-14 da spazzata-fratelli sul repo vero. La scheda di AR-327 ne nominava DUE: era nove volte più stretta del vero, ed è il motivo per cui la regola dice che comanda il codice e non la scheda. I file elencati in file_noti sono la LINEA DI PARTENZA, non un'assoluzione: portarli tutti all'esecutore unico è il lavoro di un lotto suo (registrato come difetto nuovo), e finché non è fatto il tetto tiene fermo il numero. Lotto 44: scesa a 17 — una istanza curata dal lotto. Il tetto scende e non risale."
+   "nota_baseline": "18 istanze nette (19 trovate − 1 esente) in 14 file, misurate il 2026-08-14 da spazzata-fratelli sul repo vero. La scheda di AR-327 ne nominava DUE: era nove volte più stretta del vero, ed è il motivo per cui la regola dice che comanda il codice e non la scheda. I file elencati in file_noti sono la LINEA DI PARTENZA, non un'assoluzione: portarli tutti all'esecutore unico è il lavoro di un lotto suo (registrato come difetto nuovo), e finché non è fatto il tetto tiene fermo il numero. Lotto 44: scesa a 17 — una istanza curata dal lotto. Il tetto scende e non risale. Lotto 63: scesa a 16. `prossimo-ar.mjs` passa tutto dall'esecutore unico — due porte laterali le avevo appena aperte io leggendo i rami, la terza (`daGit`) era ereditata e l'ho curata mentre ero li'. Il tetto scende e non risale."
   },
   {
    "id": "codice-uscita-che-compra-il-verde",

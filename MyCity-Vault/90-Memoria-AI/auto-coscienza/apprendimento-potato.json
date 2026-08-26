@@ -1,6 +1,77 @@
 {
   "potature": [
     {
+      "quando": "2026-08-26 08:26",
+      "byte_prima": 1053706,
+      "byte_dopo": 1032499,
+      "tolte": {
+        "chiavi": [],
+        "lezioni": [
+          {
+            "id": "L-2026-0702-43",
+            "testo": "**Canale Render Pannello ≠ token API (Nicola 2/7 08:16 — casella #19):** «come collego il "
+          },
+          {
+            "id": "L-2026-0702-42",
+            "testo": "**Carrelli «operativi» — terminologia (Nicola 2/7, domanda informativa):** nel playbook CR"
+          },
+          {
+            "id": "L-2026-0701-40",
+            "testo": "**Finestra slot scaduta senza #16 (1/7 20:18):** alle 18:18 l'AD segnalava «ultima chance "
+          },
+          {
+            "id": "L-2026-0701-39",
+            "testo": "**Nicola chiede «cosa sono #14 e #15 e dove li trovo?» (1/7 20:02):** i numeri **#N** = ri"
+          },
+          {
+            "id": "L-2026-0701-37",
+            "testo": "**Casella benchmark AI ops (Nicola 1/7 17:05):** «Aggiungi dati reali — cosa ti serve?» → "
+          },
+          {
+            "id": "L-2026-0701-28",
+            "testo": "**Ok timer ritmo (Nicola 1/7 09:43 — casella cadenza-esecuzione):** dopo rettifica classif"
+          },
+          {
+            "id": "L-2026-0701-21",
+            "testo": "Quando Nicola chiede «quali connessioni MCP ti mancano?» (casella **salute-sensori-dati**)"
+          },
+          {
+            "id": "L-2026-0701-20",
+            "testo": "Quando `168h - stallo < 8h`, il briefing deve **escalare il linguaggio** (countdown critic"
+          },
+          {
+            "id": "L-2026-0701-19",
+            "testo": "Dopo decisioni Nicola nella stessa notte (foglio-firma 01:02, VP rimandato 01:00, radiogra"
+          },
+          {
+            "id": "L-2026-0701-17",
+            "testo": "Comando «radiografia» (Nicola): eseguire workflow `.claude/workflows/radiografia.js` (13 d"
+          },
+          {
+            "id": "L-2026-0701-14",
+            "testo": "Quando Nicola chiede «fai giro web a tutti i senior / dimmi cosa hanno imparato», eseguire"
+          },
+          {
+            "id": "L-2026-0701-13",
+            "testo": "Quando Nicola chiede «ci sono siti a cui WebFetch non aderisce?», rispondere in **due bina"
+          },
+          {
+            "id": "L-2026-0701-11",
+            "testo": "Quando Nicola chiede «come faccio PR su main?» per fix **codice** (es. WebFetch in `settin"
+          },
+          {
+            "id": "L-2026-0701-06",
+            "testo": "**Foglio-firma lancio (Nicola 1/7 01:02):** risponde con imperativi operativi, non con le "
+          },
+          {
+            "id": "L-2026-0701-05",
+            "testo": "**Caso-studio Nicola:** Rimanda presidio VP 3/7 (kit QR + contenuti #7/#8/#11) perché «ini"
+          }
+        ],
+        "copie_di_principi": 0
+      }
+    },
+    {
       "quando": "2026-08-24 12:47",
       "byte_prima": 1133965,
       "byte_dopo": 1028441,

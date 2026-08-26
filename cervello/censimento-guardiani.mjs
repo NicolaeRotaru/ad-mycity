@@ -136,6 +136,7 @@ export const DESCRIZIONI = {
   "scan-segreti": { famiglia: "sicurezza", cosa: "Cerca chiavi e password nei file che stanno per essere pubblicati, e blocca tutto se ne trova una." },
   "vault-sanita": { famiglia: "sicurezza", cosa: "Ultima visita alla memoria prima che finisca online: file troncati, link rotti, roba che non deve uscire." },
   "porte-check": { famiglia: "sicurezza", cosa: "Trova i punti che pubblicano scavalcando il cancello: una porta scoperta non si vede, pubblica e basta." },
+  "entrate-senza-cancello": { famiglia: "sicurezza", cosa: "Conta i lavori entrati nel codice buono senza il via libera del controllo automatico: quello sopra trova chi lo scavalca, questo trova chi ci passa, si sente dire no ed entra lo stesso." },
   "uscite-check": { famiglia: "sicurezza", cosa: "Elenca ogni punto in cui la macchina tocca il mondo — email, messaggi, pagamenti — e pretende che ognuno abbia un controllo." },
   "firma-check": { famiglia: "sicurezza", cosa: "Nessuno script può scriversi da solo la firma di Nicola: chi esegue non firma sé stesso." },
   "rotte-scriventi-check": { famiglia: "sicurezza", cosa: "Trova le pagine del Pannello che cambiano qualcosa mentre fingono di leggere: se una tocca lo stato, deve chiedere il permesso come le altre." },

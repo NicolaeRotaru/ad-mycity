@@ -1,32 +1,32 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-26 07:47",
+  "aggiornato": "2026-08-26 09:26",
   "giorni_sospetto": 3,
-  "difetti_aperti": 131,
-  "difetti_da_fare": 131,
+  "difetti_aperti": 138,
+  "difetti_da_fare": 138,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 815,
+    "totale": 822,
     "chiusi": 684,
-    "aperti": 109,
+    "aperti": 111,
     "in_corso": 1,
     "da_riverificare": 10,
-    "altri": 11,
-    "da_fare": 131,
+    "altri": 16,
+    "da_fare": 138,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 684,
-      "aperto": 109,
+      "aperto": 111,
       "da-riverificare": 10,
       "in-corso": 1,
-      "riparato": 11
+      "riparato": 16
     },
     "stati_ignoti": [
       {
         "stato": "riparato",
-        "quante": 11,
+        "quante": 16,
         "ids": [
           "AR-812",
           "AR-813",
@@ -44,16 +44,16 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 131,
-    "viste": 131,
+    "attese": 138,
+    "viste": 138,
     "fuori": 0,
-    "motivo": "bilancio a posto: 684 chiuse + 131 classificate = 815 schede, e ogni stato vivo è dentro (109 aperto · 1 in-corso · 10 da-riverificare · 11 in uno stato che non so nominare)"
+    "motivo": "bilancio a posto: 684 chiuse + 138 classificate = 822 schede, e ogni stato vivo è dentro (111 aperto · 1 in-corso · 10 da-riverificare · 16 in uno stato che non so nominare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 21,
     "auto-sospetta": 10,
-    "umana": 76,
-    "auto-comando": 24
+    "umana": 78,
+    "auto-comando": 29
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
@@ -186,8 +186,8 @@
     }
   ],
   "chiuderebbe_lo_stesso": [],
-  "schede_non_giudicabili": 29,
-  "schede_campi_illeggibili": 30,
+  "schede_non_giudicabili": 35,
+  "schede_campi_illeggibili": 36,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -338,6 +338,36 @@
       "id": "AR-824",
       "gravita": "grave",
       "impatto_crescita": "l'archivio delle lezioni è la memoria di quello che la macchina ha imparato: oltre il tetto la Cabina smette di mostrarlo e lo dichiara «troppo-grande». Oggi il margine è 84 byte su 1.048.576, cioè meno di una riga: la prossima lezione che qualcuno scrive lo sfonda, e in quel momento Nicola apre il Pannello e non trova più niente lì dentro."
+    },
+    {
+      "id": "AR-825",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sulla fiducia in ogni verdetto: il cancello e' il freno che protegge tutto il resto del lavoro. Se il suo «no» non ferma niente, ogni altro guardiano montato li' dentro vale quanto il piu' distratto di chi unisce."
+    },
+    {
+      "id": "AR-826",
+      "gravita": "grave",
+      "impatto_crescita": "diretto: la chiave di GitHub da' accesso in scrittura a tutto il codice dell'azienda. Regalarla a chiunque abbia una shell sul VPS non e' un rischio teorico — il VPS non esegue solo questo comando."
+    },
+    {
+      "id": "AR-827",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sulla memoria: l'archivio delle lezioni ha sfondato il megabyte con cui viene servito, quindi la scheda Apprendimento smette di leggersi. E una lezione ritirata di proposito continuava a essere data alla macchina come regola in vigore."
+    },
+    {
+      "id": "AR-828",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sul battito della macchina: il giro e' quello che tiene viva l'azienda. Se si pianta, non esce nessuna cadenza, nessun briefing, nessuna sentinella — e non si pianta con un errore, si pianta stando li' fermo, che e' il modo peggiore."
+    },
+    {
+      "id": "AR-829",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto ma sulla vita dei freni: il sorvegliante accusa «hai spento una difesa» ogni volta che il potatore fa il suo mestiere. Un allarme che suona quando non c'e' niente e' l'allarme che si impara a saltare, e allora smette di proteggere anche quando ha ragione."
+    },
+    {
+      "id": "AR-830",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sulla memoria del cantiere: una scheda che sparisce in una fusione porta via il difetto che descriveva, e quel difetto torna a mordere mesi dopo senza che nessuno sappia che era gia' stato trovato. E' successo due volte in un giorno solo."
     }
   ],
   "chiuse_su_prova_non_ammessa": 0,
@@ -517,9 +547,45 @@
       "gravita": "grave",
       "impatto_crescita": "l'archivio delle lezioni è la memoria di quello che la macchina ha imparato: oltre il tetto la Cabina smette di mostrarlo e lo dichiara «troppo-grande». Oggi il margine è 84 byte su 1.048.576, cioè meno di una riga: la prossima lezione che qualcuno scrive lo sfonda, e in quel momento Nicola apre il Pannello e non trova più niente lì dentro.",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
+    },
+    {
+      "id": "AR-825",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sulla fiducia in ogni verdetto: il cancello e' il freno che protegge tutto il resto del lavoro. Se il suo «no» non ferma niente, ogni altro guardiano montato li' dentro vale quanto il piu' distratto di chi unisce.",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
+    },
+    {
+      "id": "AR-826",
+      "gravita": "grave",
+      "impatto_crescita": "diretto: la chiave di GitHub da' accesso in scrittura a tutto il codice dell'azienda. Regalarla a chiunque abbia una shell sul VPS non e' un rischio teorico — il VPS non esegue solo questo comando.",
+      "perche": "prova eseguibile: node --test cervello/test/entrate-senza-cancello.test.mjs"
+    },
+    {
+      "id": "AR-827",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sulla memoria: l'archivio delle lezioni ha sfondato il megabyte con cui viene servito, quindi la scheda Apprendimento smette di leggersi. E una lezione ritirata di proposito continuava a essere data alla macchina come regola in vigore.",
+      "perche": "prova eseguibile: node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+    },
+    {
+      "id": "AR-828",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sul battito della macchina: il giro e' quello che tiene viva l'azienda. Se si pianta, non esce nessuna cadenza, nessun briefing, nessuna sentinella — e non si pianta con un errore, si pianta stando li' fermo, che e' il modo peggiore.",
+      "perche": "prova eseguibile: node --test cervello/test/entrate-senza-cancello.test.mjs"
+    },
+    {
+      "id": "AR-829",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto ma sulla vita dei freni: il sorvegliante accusa «hai spento una difesa» ogni volta che il potatore fa il suo mestiere. Un allarme che suona quando non c'e' niente e' l'allarme che si impara a saltare, e allora smette di proteggere anche quando ha ragione.",
+      "perche": "prova eseguibile: node --test cervello/test/sorvegliante.test.mjs"
+    },
+    {
+      "id": "AR-830",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sulla memoria del cantiere: una scheda che sparisce in una fusione porta via il difetto che descriveva, e quel difetto torna a mordere mesi dopo senza che nessuno sappia che era gia' stato trovato. E' successo due volte in un giorno solo.",
+      "perche": "prova eseguibile: node --test cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs"
     }
   ],
-  "non_auto_chiudibili": 107,
+  "non_auto_chiudibili": 109,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -3643,6 +3709,97 @@
       "prova_obbligatoria": false,
       "non_giudicabile": true,
       "titolo": "L'archivio delle lezioni è pieno e il potatore non ha più leve: tutte e 538 sono vive",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-825",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "diretto sulla fiducia in ogni verdetto: il cancello e' il freno che protegge tutto il resto del lavoro. Se il suo «no» non ferma niente, ogni altro guardiano montato li' dentro vale quanto il piu' distratto di chi unisce.",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Il cancello parla, ma non chiude: dieci lavori su centoquarantuno sono entrati senza un verde",
+      "classe": "umana",
+      "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-826",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "diretto: la chiave di GitHub da' accesso in scrittura a tutto il codice dell'azienda. Regalarla a chiunque abbia una shell sul VPS non e' un rischio teorico — il VPS non esegue solo questo comando.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "La chiave di GitHub finiva sulla riga di comando, dove la legge chiunque",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/entrate-senza-cancello.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-827",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "diretto sulla memoria: l'archivio delle lezioni ha sfondato il megabyte con cui viene servito, quindi la scheda Apprendimento smette di leggersi. E una lezione ritirata di proposito continuava a essere data alla macchina come regola in vigore.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Una parola che una parte scriveva e nessun'altra conosceva: quindici lezioni ritirate contate ancora vive",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-828",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "diretto sul battito della macchina: il giro e' quello che tiene viva l'azienda. Se si pianta, non esce nessuna cadenza, nessun briefing, nessuna sentinella — e non si pianta con un errore, si pianta stando li' fermo, che e' il modo peggiore.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Ho messo una chiamata a internet dentro il battito della macchina, senza tetto di tempo",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/entrate-senza-cancello.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-829",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "indiretto ma sulla vita dei freni: il sorvegliante accusa «hai spento una difesa» ogni volta che il potatore fa il suo mestiere. Un allarme che suona quando non c'e' niente e' l'allarme che si impara a saltare, e allora smette di proteggere anche quando ha ragione.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Il sorvegliante leggeva il racconto di una lezione come se fosse una chiamata",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/sorvegliante.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-830",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "diretto sulla memoria del cantiere: una scheda che sparisce in una fusione porta via il difetto che descriveva, e quel difetto torna a mordere mesi dopo senza che nessuno sappia che era gia' stato trovato. E' successo due volte in un giorno solo.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Il comando che da' il numero libero non guardava dove lo scontro e' ancora evitabile",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-831",
+      "gravita": "medio",
+      "eta_giorni": 0,
+      "impatto_crescita": "indiretto: ogni scontro costa un'unione da rifare a mano e mette a rischio una scheda. Tre volte in due giorni, con due sessioni che lavorano la stessa casa.",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Il numero si legge e si scrive in due momenti diversi, e nel mezzo un'altra sessione puo' prenderlo",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false

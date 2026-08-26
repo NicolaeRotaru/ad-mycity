@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-08-25 21:19",
+  "aggiornato": "2026-08-26 08:51",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -148,6 +148,77 @@
         "cervello/cancello-lotto.mjs": "79cf0ad41f56",
         "cervello/lavori-hanno-la-corsia.mjs": "a2cd7921f4b2",
         "cervello/sentinella-motore.mjs": "337e2507786f"
+      }
+    },
+    {
+      "quando": "2026-08-26 07:56",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-826"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/entrate-senza-cancello.mjs": "818e51c076e0",
+        "cervello/prossimo-ar.mjs": "99da0627bbe8"
+      }
+    },
+    {
+      "quando": "2026-08-26 08:34",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-828"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/giro.sh": "67e1a2903444"
+      }
+    },
+    {
+      "quando": "2026-08-26 08:34",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/entrate-senza-cancello.mjs": "013ca53a57ae",
+        "cervello/misura-parziale.mjs": "117d96d07616",
+        "cervello/pota-apprendimento.mjs": "2efe3841808b",
+        "cervello/prossimo-ar.mjs": "049d78082b83",
+        "cervello/tasso-regole.mjs": "d7590497dc44"
+      }
+    },
+    {
+      "quando": "2026-08-26 08:51",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/censimento-guardiani.mjs": "58a382d13290",
+        "cervello/entrate-senza-cancello.mjs": "013ca53a57ae",
+        "cervello/misura-parziale.mjs": "117d96d07616",
+        "cervello/pota-apprendimento.mjs": "4be5db23604e",
+        "cervello/prossimo-ar.mjs": "f4c45d259916",
+        "cervello/sorvegliante.mjs": "93a702f634ef",
+        "cervello/tasso-regole.mjs": "d7590497dc44"
       }
     }
   ]
