@@ -448,6 +448,25 @@ export function destinatarioAmmesso(canale, dest) {
 // Cancello unico usato dagli esecutori. Ritorna { live, motivo }.
 //  live=true  → l'invio reale è autorizzato (pausa off + azione firmata + destinatario sbloccato).
 //  live=false → NON inviare: degrada a DRY-RUN, stampando `motivo`.
+/**
+ * L'AZIONE_ID è utilizzabile? — cioè: l'invio è agganciato a una casella firmata?
+ *
+ * Estratta perché una prova possa ESEGUIRE questa domanda da sola. Dentro `consensoInvio` non si
+ * riesce ad arrivarci senza credenziali: il primo cancello è la PAUSA, che è fail-closed, quindi in
+ * una sessione senza chiavi la risposta è già «no» prima ancora di guardare la firma. Il caso che
+ * credevamo provasse questa regola provava quella — e la mutazione che apre QUESTO cancello restava
+ * verde. Misurato, non supposto (AR-840).
+ *
+ * I tre segnaposti (`non collegato`, `non impostato`, e qualsiasi cosa fra parentesi) sono quelli che
+ * gli script scrivono quando un id non c'è: valgono come assenza, non come identificativo.
+ */
+export function azioneIdUsabile(azioneId) {
+  const id = String(azioneId || "").trim();
+  if (!id) return false;
+  if (/non collegat|non impostat|^\(/.test(id)) return false;
+  return true;
+}
+
 export async function consensoInvio({ azioneId, canale, destinatario }) {
   // 1) PAUSA (kill-switch) — fail-closed.
   const p = await pausaAttiva();
@@ -455,7 +474,7 @@ export async function consensoInvio({ azioneId, canale, destinatario }) {
 
   // 2) AZIONE_ID valido + APPROVATO in coda.
   const id = String(azioneId || "").trim();
-  if (!id || /non collegat|non impostat|^\(/.test(id)) {
+  if (!azioneIdUsabile(azioneId)) {
     return { live: false, motivo: "nessun AZIONE_ID: l'invio non è agganciato a una casella firmata (AZIONE_ID mancante)" };
   }
   // AR-443: la ricerca torna TRE esiti, non due — trovata · cercata e assente · non cercabile.

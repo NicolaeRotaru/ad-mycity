@@ -34,7 +34,7 @@ const AUTOPILOT = join(REPO, "cervello/autopilot.mjs");
 const { coloreEffettivo } = await import(join(REPO, "cervello/autopilot.mjs"));
 // `coloreMinimoPer` vive coi publisher, ed è giusto: il rischio è una proprietà del CANALE.
 const { coloreMinimoPer } = await import(join(REPO, "cervello/publishers/index.mjs"));
-const { consensoInvio } = await import(join(REPO, "cervello/consenso-azione.mjs"));
+const { consensoInvio, azioneIdUsabile } = await import(join(REPO, "cervello/consenso-azione.mjs"));
 
 function giroLive(voci) {
   const dir = mkdtempSync(join(tmpdir(), "semaforo-"));
@@ -165,8 +165,29 @@ test("AR-078 · chi esegue una mano deve citare l'azione firmata e scrivere in D
 
   // IL COMPORTAMENTO, non la forma: si esegue il cancello vero. Senza un'azione firmata e senza
   // PAUSA verificabile (niente credenziali) deve NEGARE — fail-closed, non «nel dubbio vai».
+  // ⚠️ Questo caso prova il PRIMO cancello, non il secondo: senza credenziali la PAUSA non è
+  // verificabile e nega prima ancora di guardare la firma. È fail-closed, ed è giusto — ma per anni
+  // ha fatto sembrare provata anche la regola sulla firma, che non lo era: la mutazione che apriva
+  // QUEL cancello restava verde. Misurato il 26/8 (AR-840).
   return consensoInvio({ azioneId: "", canale: "email", destinatario: "cliente@reale.it" }).then((g) => {
     assert.equal(g.live, false, "senza azione firmata il cancello nega");
     assert.ok(String(g.motivo || "").length > 0, "e dice perché: un no muto non si diagnostica");
   });
+});
+
+test("AR-078 · un invio senza azione firmata NON è agganciato a niente, e si vede da solo", () => {
+  // La regola isolata da chi la usa, perché dentro `consensoInvio` non ci si arriva senza chiavi.
+  // Vuoto, spazi, niente: tutti «non agganciato».
+  for (const v of ["", "   ", null, undefined]) {
+    assert.equal(azioneIdUsabile(v), false, `«${String(v)}» è passato per una firma`);
+  }
+  // E i segnaposti che gli script scrivono quando un id non c'è valgono come assenza, non come id:
+  // è la strada per cui un invio finirebbe agganciato alla parola «non impostato».
+  for (const v of ["(non collegato)", "non impostato", "(vuoto)"]) {
+    assert.equal(azioneIdUsabile(v), false, `il segnaposto «${v}» è passato per una firma`);
+  }
+  // Un id vero invece passa, o il cancello sarebbe chiuso e basta — che non è un cancello.
+  for (const v of ["#178", "AZ-12"]) {
+    assert.equal(azioneIdUsabile(v), true, `«${v}» è un id vero e non è passato`);
+  }
 });
