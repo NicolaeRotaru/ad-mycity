@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-26 21:15
+aggiornato: 2026-08-27 00:45
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -35,6 +35,21 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 
 
+
+
+> 🧹 **27/8 00:45 — Cominciato a pagare il debito delle prove finte: 42 sbloccate, un terzo non guardava niente.**
+>
+> **In parole semplici.** Due giri di bonifica sulle prove che risultavano verificate senza esserlo. Ne ho sbloccate 42 e fatte girare per davvero: 28 mordono, **14 no**. Di quelle 14 ne ho riparate cinque. Il tetto è sceso da 435 a 393, e scende soltanto.
+>
+> **Per esempio**, la più importante. C'era una regola che dice: un invio senza la tua firma non parte. La sua prova sembrava perfetta — chiamava il controllo vero con una firma vuota e pretendeva un no. Il no arrivava, ma da un altro controllo: il primo cancello è l'interruttore di emergenza, che senza credenziali blocca tutto prima ancora di guardare la firma. Quindi la regola sulla firma non la provava nessuno.
+>
+> **Cosa cambia per te.** Quella regola adesso ha una prova vera. E ho imparato una cosa che vale oltre il caso singolo: **un controllo che blocca tutto a monte può far sembrare provata una regola a valle che non lo è.** Il verde è vero, la ragione è un'altra.
+>
+> **Cosa devi fare.** Niente. Le due scelte in coda restano la #177 e la #178.
+>
+> **Cosa non ho verificato.** Restano nove schede scoperte, tutte con un nome. Quattro vogliono il server: parlano di orologi e configurazioni che da qui non posso far girare. Le altre cinque le ho lasciate per stanchezza, non per impossibilità.
+>
+> **Dettagli tecnici.** Lotti su AR-023..AR-087. Riparate AR-050, AR-051, AR-062, AR-067, AR-078 — quest'ultima estraendo `azioneIdUsabile` in una funzione pura. Restano AR-054, AR-056, AR-057, AR-059 (server), AR-071, AR-075, AR-077, AR-081, AR-082. Tetto `mutazioni_senza_esecutore` a 393.
 
 > 🧪 **26/8 21:15 — Metà delle prove che dovevano dimostrare che le prove servono, non servivano.** La cosa più importante che ho trovato oggi.
 >
