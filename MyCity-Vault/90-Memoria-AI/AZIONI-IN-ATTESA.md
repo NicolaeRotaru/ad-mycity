@@ -22,6 +22,52 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- parte-venditore-strada -->
+
+### 🟡 #178 — Il pannello del negoziante ha quattordici voci di menù, e il tuo paletto dice «nessuna app nuova»: scegli quale delle due vale · ⏳ accodata 2026-08-26 21:40
+
+**In parole semplici.** Il negoziante, per lavorare, apre un pannello con quattordici voci di menù.
+È un gestionale, e un gestionale è una cosa da imparare.
+
+Nel documento sul perché esiste MyCity c'è un paletto scritto da te. Dice che il negoziante non
+deve avere nessuna app nuova da imparare, e che si lavora su WhatsApp con l'anteprima da approvare.
+La parte che conta è «con l'anteprima da approvare»: lui guarda e dice sì, non compila.
+
+Le due cose non stanno insieme. Nessuno le aveva mai messe una accanto all'altra.
+
+**Per esempio**, il fornaio alle sette di sera vuole sapere quanto ha incassato e cosa sta finendo.
+Col paletto gli arriva un messaggio, risponde «ordina» e ha chiuso. Col pannello di oggi apre il
+sito, sceglie fra quattordici voci, e cerca in due pagine diverse.
+
+**Cosa cambia per te.** Finché non scegli, ogni pezzo nuovo del pannello allarga la distanza fra
+quello che hai scritto e quello che c'è. Tre strade, e ti consiglio la seconda:
+
+**(A) Il paletto è cambiato.** Il pannello resta il posto dove si lavora. Legittimo, ma allora il
+paletto va riscritto davvero nel documento, o continuiamo a misurarci con una regola che non
+seguiamo.
+
+**(B) WhatsApp è la porta, il pannello è la casa.** ⭐ Le cose di tutti i giorni arrivano su
+WhatsApp e si rispondono con una parola. Il pannello resta per le cose rare: prezzi, conti,
+catalogo. Il negoziante non impara niente per lavorare.
+
+**(C) Tutto su WhatsApp.** Il pannello sparisce. Coerente col paletto, ma butta via 5.520 righe che
+funzionano, e un catalogo da trecento prodotti dentro una chat non si carica.
+
+**Se va bene:** con la (B) preparo il disegno di quali messaggi arrivano e con quale anteprima, e
+conto cosa serve per mandarli davvero. Non mando niente a nessuno finché non firmi quello.
+
+**Cosa non ho verificato.** Non ho aperto nessuna di quelle diciannove pagine: la rete di questa
+macchina non arriva all'anteprima del sito, quindi ho contato leggendo il codice. E non ho parlato
+con un negoziante: se quella distanza dia fastidio a chi sta dietro un bancone lo sa solo chi ci sta.
+
+**Dettagli tecnici.** Il foglio intero sta in `consegne/design/2026-08-26-parte-venditore-seconda-passata.md`.
+Misurato oggi: 19 pagine, 5.520 righe, 30 componenti, 14 voci di menù. WhatsApp esiste in tre forme
+(link dall'Aiuto del venditore verso di noi, numero del negozio verso i suoi clienti, canale di
+condivisione) e in nessuna delle tre MyCity scrive al negoziante di sua iniziativa. Oggi gli parla
+per email, con un modello solo: «è arrivato un ordine».
+
+---
+
 <!-- serratura-cancello -->
 
 ### 🔴 #177 — Il controllo che protegge il codice avvisa ma non ferma: decidi tu se dargli la serratura · ⏳ accodata 2026-08-26 08:05
