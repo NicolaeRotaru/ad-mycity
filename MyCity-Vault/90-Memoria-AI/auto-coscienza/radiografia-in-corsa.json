@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-08-26 10:37",
+  "aggiornato": "2026-08-26 11:07",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -180,6 +180,53 @@
     },
     {
       "quando": "2026-08-26 10:37",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-693"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/installa-bats.sh": "586827d00482",
+        "cervello/titolo-commit.sh": "74dbfcd9278d",
+        "cervello/vps/setup.sh": "64472e3323b2",
+        "cervello/worker.sh": "f04f20409008"
+      }
+    },
+    {
+      "quando": "2026-08-26 11:07",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-693"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/allocazione-check.mjs": "8c4d1db6de57",
+        "cervello/auto-fix.mjs": "49f9b4ed1925",
+        "cervello/cancello-lotto.mjs": "6e5c6c75869d",
+        "cervello/cantiere-integrita.mjs": "2e0c225ce48d",
+        "cervello/cecita-curabile.mjs": "9949901c734e",
+        "cervello/debito-prove-bash.mjs": "cf896cf29dc5",
+        "cervello/due-case.mjs": "c46d4bba1585",
+        "cervello/git-github.mjs": "c07eb0ac9083",
+        "cervello/piani-data.mjs": "9657e198daed",
+        "cervello/prove-oneste.mjs": "9e49472a23b7",
+        "cervello/storia-git.mjs": "29c1aa408dbc",
+        "cervello/test-cervello.mjs": "9fd39b8662af",
+        "cervello/tetto-guardiano.mjs": "2f3c0ebd46c0"
+      }
+    },
+    {
+      "quando": "2026-08-26 11:07",
       "casa": "macchina",
       "dimensione": "cadenza-esecuzione",
       "repo": "ad",

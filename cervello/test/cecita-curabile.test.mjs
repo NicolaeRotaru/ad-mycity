@@ -32,7 +32,7 @@ import { CURE, curaPer, curaUnaVolta, verdettoCecita } from "../cecita-curabile.
 import { esecutoreDichiarato, senzaPermessi, verdettoDebitoBash } from "../debito-prove-bash.mjs";
 import { storiaDelRepoCurata } from "../storia-git.mjs";
 import { passaDallaPortaDellaStoria, verdettoDueCase } from "../due-case.mjs";
-import { verdetto, verdettoBats, leggiTapBats, motivoDelloSkip, dipendenzaDelPannello } from "../test-cervello.mjs";
+import { verdetto, verdettoBats, leggiTapBats, motivoDelloSkip, dipendenzaDelPannello, tettoBash } from "../test-cervello.mjs";
 import { testRossi, testRossiBash, verdettoConTetto } from "../tetto-guardiano.mjs";
 
 const REPO = join(dirname(fileURLToPath(import.meta.url)), "..", "..");
@@ -448,6 +448,92 @@ test("AR-832: se non ho potuto leggere lo script, tengo l'accusa e lo DICO", () 
   const v = verdettoDueCase({ casa: 0, spoglia: 2, chiedeIlPassato: null });
   assert.equal(v.esito, "nasce-rotto", "il lato prudente è tenere l'accusa, non lasciarla cadere");
   assert.match(v.motivo, /Non ho potuto leggere lo script/, "ma un dubbio taciuto è un verdetto inventato");
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// ④quinquies AR-693 — TOGLIERE LA BENDA NON DEVE SPEGNERE LA DIFESA
+//
+// Trovato in CI il 26/8, da questo stesso lotto: dichiarato l'esecutore, le prove in bash girano e
+// ne escono sette rosse ereditate. L'uscita secca 1 le faceva pesare su due strade che non
+// c'entrano — il workflow che guarda i push su main, e il vincolo hard di giro.sh riga 474 — cioè
+// avrebbe reso rosso per sempre un cancello che nessuno poteva far tornare verde. Il tetto è lo
+// STESSO file del cancello: una lettura sola, nessuna seconda copia della decisione.
+// ─────────────────────────────────────────────────────────────────────────────
+
+test("AR-693: il tetto del debito in bash si legge dalla casa unica dei tetti", () => {
+  const vero = tettoBash();
+  assert.equal(vero.letto, true, "cervello/tetti-lotto.json deve dichiarare `test_bash`");
+  assert.equal(Number.isInteger(vero.tetto), true);
+});
+
+test("SUL CAMPO: sette rossi ereditati in bash e nessuno in Node NON fermano chi passa di qui", () => {
+  const dir = mkdtempSync(join(tmpdir(), "banco-bash-"));
+  const tetti = join(dir, "tetti.json");
+  const finto = join(dir, "bats-finto.sh");
+  try {
+    writeFileSync(join(dir, "verde.test.mjs"), 'import { test } from "node:test";\ntest("passa", () => {});\n');
+    writeFileSync(join(dir, "eredita.bats"), '@test "cade" {\n  false\n}\n');
+    writeFileSync(finto, "#!/bin/sh\necho '1..1'\necho 'not ok 1 cade'\nexit 1\n", { mode: 0o755 });
+    const corri = () =>
+      spawnSync(process.execPath, ["cervello/test-cervello.mjs"], {
+        cwd: REPO,
+        encoding: "utf8",
+        env: { ...process.env, TEST_CERVELLO_DIR: dir, BATS_BIN: finto, TETTI_FILE: tetti },
+      });
+
+    // ① un rosso in bash, tetto 1: è debito dichiarato → non blocca, e lo dice.
+    writeFileSync(tetti, JSON.stringify({ test_bash: 1 }));
+    const sotto = corri();
+    assert.equal(sotto.status, 0, "un cancello che non può diventare verde si impara a saltare");
+    assert.match(sotto.stdout, /debito ereditato sotto il tetto dichiarato/);
+
+    // ② lo stesso rosso con tetto 0: il debito si è allargato → blocca.
+    writeFileSync(tetti, JSON.stringify({ test_bash: 0 }));
+    assert.equal(corri().status, 1, "un rosso in bash sopra il tetto è una regressione, e blocca");
+
+    // ③ tetto illeggibile: non assolvo ciò che non ho potuto misurare.
+    writeFileSync(tetti, "{ non è json");
+    const cieco = corri();
+    assert.equal(cieco.status, 1, "senza il numero non sto misurando, e «non ho misurato» non è «va bene»");
+    assert.match(cieco.stdout, /non assolvo ciò che non ho potuto distinguere/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("SUL CAMPO: un rosso in NODE blocca sempre, qualunque cosa dica il tetto dei bash", () => {
+  const dir = mkdtempSync(join(tmpdir(), "banco-node-"));
+  const tetti = join(dir, "tetti.json");
+  const finto = join(dir, "bats-finto.sh");
+  try {
+    writeFileSync(join(dir, "rossa.test.mjs"), 'import assert from "node:assert/strict";\nimport { test } from "node:test";\ntest("cade", () => assert.equal(1, 2));\n');
+    writeFileSync(join(dir, "eredita.bats"), '@test "cade" {\n  false\n}\n');
+    writeFileSync(finto, "#!/bin/sh\necho '1..1'\necho 'not ok 1 cade'\nexit 1\n", { mode: 0o755 });
+    writeFileSync(tetti, JSON.stringify({ test_bash: 99 }));
+    const r = spawnSync(process.execPath, ["cervello/test-cervello.mjs"], {
+      cwd: REPO,
+      encoding: "utf8",
+      env: { ...process.env, TEST_CERVELLO_DIR: dir, BATS_BIN: finto, TETTI_FILE: tetti },
+    });
+    assert.equal(r.status, 1, "i rossi in Node sono il lavoro di adesso: nessun tetto li assolve");
+    assert.ok(!/debito ereditato sotto il tetto/.test(r.stdout), "e la riga che assolve non deve nemmeno comparire");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("AR-693: un tetto che non ho LETTO non assolve nessuno — tre valori, non due", () => {
+  for (const [come, leggi] of [
+    ["file illeggibile", () => { throw new Error("boom"); }],
+    ["JSON rotto", () => "{ non è json"],
+    ["chiave assente", () => JSON.stringify({ prova_debole: 3 })],
+    ["numero impossibile", () => JSON.stringify({ test_bash: -1 })],
+  ]) {
+    const t = tettoBash(leggi);
+    assert.equal(t.letto, false, `${come}: senza il numero non sto misurando`);
+    assert.equal(t.tetto, null, `${come}: e non invento uno zero di ripiego`);
+    assert.ok(t.motivo.length > 10, `${come}: e dico perché`);
+  }
 });
 
 // ─────────────────────────────────────────────────────────────────────────────

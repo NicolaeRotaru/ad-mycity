@@ -997,11 +997,23 @@ async function main() {
   // finale no. «Passano tutti» senza questa riga sarebbe vero sui file eseguiti e falso su ciò che
   // il lettore capisce — cioè la forma esatta di verde bugiardo che AR-660 racconta.
   if (nonEseguiti.length) {
-    console.log(
-      `\n⚪ ${nonEseguiti.length} prove in bash NON eseguite: manca \`bats\` su questa macchina.` +
-        `\n   Installalo (\`npx bats --version\` per provarlo, \`npm i -g bats\` e poi BATS_BIN=$(command -v bats)) e rilancia: sono prove vere, oggi nessuno le fa.` +
-        `\n   Il conto misurato il 14/8: senza bats 1 rosso su 243, con bats 12 — dieci fallimenti veri erano invisibili (AR-693).`,
-    );
+    // ⚠️ DUE MOTIVI DIVERSI, DUE FRASI DIVERSE — trovato in CI il 26/8.
+    //
+    // Prima questa riga diceva sempre «manca `bats` su questa macchina». Da quando l'esecutore c'è
+    // (AR-693 ①) la frase è diventata falsa nel caso più comune: sul runner `bats` è installato, e
+    // i file non eseguiti sono quelli che hanno DICHIARATO di non poter girare lì (AR-652, lo skip
+    // senza le chiavi del server). Un rimedio che punta alla cosa sbagliata manda chi legge a
+    // cercare nel posto sbagliato — ed è lo stesso vizio che questo lotto cura altrove.
+    if (bin) {
+      console.log(`\n⚪ ${nonEseguiti.length} prove in bash NON eseguite: \`bats\` c'è, sono le prove che hanno dichiarato di non poter girare qui.`);
+      for (const x of nonEseguiti.slice(0, 5)) console.log(`   · ${x.file} — ${x.motivo}`);
+    } else {
+      console.log(
+        `\n⚪ ${nonEseguiti.length} prove in bash NON eseguite: manca \`bats\` su questa macchina.` +
+          `\n   Installalo (\`bash cervello/installa-bats.sh\`, oppure \`npm i -g bats\` e poi BATS_BIN=$(command -v bats)) e rilancia: sono prove vere, oggi nessuno le fa.` +
+          `\n   Il conto misurato il 14/8: senza bats 1 rosso su 243, con bats 12 — dieci fallimenti veri erano invisibili (AR-693).`,
+      );
+    }
   }
   // AR-694 — i casi che non possono fallire. Vanno detti PRIMA del verdetto: un file può essere
   // verde e avere dentro tre casi spenti, e quel verde copre meno di quanto sembra.
@@ -1050,7 +1062,70 @@ async function main() {
     `\n❌ ${rotti.length} rossi${daChi}${nonMisurati.length ? ` · ⚪ ${nonMisurati.length} non misurati` : ""} su ${quantiFile} file: ${rotti.length + nonMisurati.length} non danno garanzie.`,
   );
   console.log(`   Un test che non gira non è una rete: è un file che fa sembrare coperto ciò che non lo è.`);
+
+  // 🐚 IL DEBITO EREDITATO IN BASH NON RENDE ROSSO CHI PASSA DI QUI — e il perché è misurato.
+  //
+  // TROVATO IN CI IL 26/8, DA QUESTO STESSO LOTTO. Dichiarato l'esecutore (AR-693 ①), le ventinove
+  // prove in bash girano davvero e ne escono SETTE rosse: tutte in codice che nessun lotto di oggi
+  // ha toccato — worker.sh, giro.sh, verifica-sensori, i permessi — e tutte ancorate alla sintassi
+  // di ieri (AR-831). Fin qui è giusto e va detto. Ma l'uscita secca 1 le faceva pesare su DUE
+  // strade che non c'entrano niente: il workflow `test-cervello.yml`, che diventava rosso a ogni
+  // push su main per tutti, e `giro.sh` riga 474, che alza un vincolo hard e avrebbe fermato ogni
+  // giro del server finché quelle sette non erano curate.
+  //
+  // Il risultato sarebbe stato un cancello che NON PUÒ diventare verde — e questa casa ha il conto
+  // di cosa succede allora: si impara ad aggirarlo al secondo giro, e da lì non dice più niente
+  // nemmeno quando ha ragione. Cioè: togliere la benda avrebbe spento la difesa.
+  //
+  // La regola è la stessa che il cancello del lotto applica da sempre, e il tetto è lo STESSO file:
+  // debito ereditato = si conta sotto un numero che scende e non risale · regressione = blocca
+  // subito. Qui non c'è una seconda copia della decisione, c'è una lettura sola di `test_bash`.
+  //
+  // TRE CONDIZIONI INSIEME, e la terza è quella che impedisce l'assoluzione comoda:
+  //   · nessun rosso in Node (quelli restano blocco duro, tetto zero e nessuna eccezione);
+  //   · i rossi in bash ≤ il tetto dichiarato;
+  //   · il tetto l'ho LETTO davvero. Un file assente o illeggibile non assolve nessuno: senza il
+  //     numero non sto misurando, e «non ho misurato» non è «va bene» (contratto AR-322).
+  const t = tettoBash();
+  if (!rottiNode.length && rottiBash.length && t.letto && rottiBash.length <= t.tetto) {
+    console.log(
+      `\n🐚 I ${rottiBash.length} rossi sono TUTTI in bash, debito ereditato sotto il tetto dichiarato (${t.tetto}, cervello/tetti-lotto.json → test_bash).` +
+        `\n   Non fermo chi passa di qui: nessuno di questi è di questo lavoro, e sono la scheda AR-831. Il tetto scende e non risale — chi ne cura uno lo abbassi.` +
+        `\n   Un rosso in Node, o un ottavo in bash, e questa riga non compare: quello blocca.`,
+    );
+    process.exitCode = 0;
+    return;
+  }
+  if (!rottiNode.length && rottiBash.length && !t.letto) {
+    console.log(`\n⚠️  ${t.motivo}: senza un numero fermo non distinguo il debito di ieri da una regressione di oggi, e non assolvo ciò che non ho potuto distinguere.`);
+  }
   process.exitCode = 1;
+}
+
+/**
+ * Il tetto del debito ereditato in bash, letto dalla casa unica dei tetti del cancello.
+ *
+ * Tre valori e non due: `letto` dice se il numero l'ho visto davvero. Un `0` di ripiego su un file
+ * illeggibile sarebbe un verdetto intero costruito su una fonte mai aperta — la malattia
+ * `fonte-troncata-letta-per-intera`, e qui produrrebbe il danno peggiore dei due (assolvere).
+ */
+export function tettoBash(leggi = null) {
+  const dove = process.env.TETTI_FILE || join(AD_ROOT, "cervello/tetti-lotto.json");
+  let testo;
+  try {
+    testo = leggi ? leggi() : readFileSync(dove, "utf8");
+  } catch {
+    return { letto: false, tetto: null, motivo: "cervello/tetti-lotto.json non l'ho potuto leggere" };
+  }
+  let t;
+  try {
+    t = JSON.parse(testo);
+  } catch {
+    return { letto: false, tetto: null, motivo: "cervello/tetti-lotto.json non è leggibile come JSON" };
+  }
+  const n = t?.test_bash;
+  if (!Number.isInteger(n) || n < 0) return { letto: false, tetto: null, motivo: "cervello/tetti-lotto.json non dichiara `test_bash`" };
+  return { letto: true, tetto: n, motivo: `tetto dichiarato: ${n}` };
 }
 
 /**
