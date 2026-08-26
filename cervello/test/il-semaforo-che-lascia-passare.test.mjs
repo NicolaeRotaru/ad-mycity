@@ -143,6 +143,26 @@ test("AR-075 · un numero inventato viene FERMATO dal controllo di onestà", () 
   assert.equal(ok.status, 0, `un testo senza numeri inventati deve passare (uscito ${ok.status}: ${ok.stdout || ""}${ok.stderr || ""})`);
 });
 
+test("AR-075 · è la FONTE a far passare un numero, non il numero in sé", () => {
+  // Il caso qui sopra non provava questa regola: quella frase la ferma un'altra regola, e il
+  // riconoscitore di fonte si poteva aprire del tutto senza che nessuno se ne accorgesse. Misurato
+  // il 26/8 (AR-840). Qui la frase è scelta perché tripla SOLO la regola dei numeri senza fonte:
+  // cambia una cosa sola fra i tre casi, la fonte.
+  const giudica = (testo) =>
+    spawnSync(process.execPath, [join(REPO, "cervello/onesta-check.mjs"), "--testo", testo], { encoding: "utf8" }).status;
+
+  assert.notEqual(giudica("Il catalogo conta 500 prodotti."), 0, "un numero senza fonte deve essere fermato");
+  assert.equal(giudica("Il catalogo conta 500 prodotti (fonte: Supabase)."), 0, "lo stesso numero con la fonte deve passare");
+
+  // Il guardrail: un marcatore STRUTTURATO, non la parola «fonte» usata in una frase. Senza questo
+  // basterebbe scrivere «da fonte affidabile» accanto a un numero inventato per farlo passare.
+  assert.notEqual(
+    giudica("Il catalogo conta 500 prodotti, da una fonte affidabile."),
+    0,
+    "la parola «fonte» in mezzo a una frase non è una fonte: sarebbe la scorciatoia per far passare tutto",
+  );
+});
+
 // ── AR-077 · lo STOP di budget è un motore che gira, non una frase nel mansionario ───────────────
 
 test("AR-077 · la sentinella del budget ESISTE, gira e dice reparto per reparto quanto si è speso", () => {
