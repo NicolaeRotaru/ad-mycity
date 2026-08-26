@@ -141,6 +141,27 @@ function sonda() {
  * cadenza da recuperare» anche quando in realtà non sono riuscita a guardare. È la stessa malattia
  * che questa macchina insegue col nome di «fonte troncata letta per intera»: ⚪ non è mai ✅.
  */
+/**
+ * Il corpo della riga che rimette in coda una cadenza saltata.
+ *
+ * Esportata apposta: e' l'unico modo di vedere COSA finisce nel database senza chiamare il
+ * database. Il guardiano `lavori-hanno-la-corsia.mjs` la esegue davvero e guarda il risultato,
+ * invece di cercare una parola nel file.
+ *
+ * AR-801: ogni riga della coda dichiara la sua corsia. Questo e' un lavoro che la macchina fa
+ * per se', quindi e' del CENTRO — e lo DICE, invece di lasciare il campo vuoto. Un campo vuoto
+ * si dimentica; un nome no.
+ */
+export function corpoRecupero({ tipo, descrizione }) {
+  return {
+    stato: "in_attesa",
+    tipo,
+    richiesta: `Recupero automatico di «${descrizione}»: il motore AI era in limite ed è appena tornato disponibile. Riesegui e pubblica la memoria sul ramo unico main.`,
+    esperto: "cadenza",
+    negozio_id: "centro",
+  };
+}
+
 function accoda({ tipo, descrizione }) {
   const url = process.env.SUPABASE_URL?.trim();
   const key = process.env.SUPABASE_SERVICE_KEY?.trim();
@@ -164,12 +185,7 @@ function accoda({ tipo, descrizione }) {
     return { fatto: false, motivo: "risposta-illeggibile" };
   }
 
-  const body = JSON.stringify({
-    stato: "in_attesa",
-    tipo,
-    richiesta: `Recupero automatico di «${descrizione}»: il motore AI era in limite ed è appena tornato disponibile. Riesegui e pubblica la memoria sul ramo unico main.`,
-    esperto: "cadenza",
-  });
+  const body = JSON.stringify(corpoRecupero({ tipo, descrizione }));
   try {
     execFileSync("curl", [
       "-fsS", "-X", "POST", `${url}/rest/v1/lavori`,

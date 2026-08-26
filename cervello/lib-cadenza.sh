@@ -374,12 +374,12 @@ cadenza_recupero() {
   local richiesta="Recupero automatico di «$descrizione», saltata perché il motore AI era in $classe. Rieseguila e pubblica la memoria sul ramo unico main."
   local body
   body="$(jq -n --arg t "$tipo" --arg r "$richiesta" --arg q "$quando" \
-    --arg e "$esperto" '{stato:"in_attesa", tipo:$t, richiesta:$r, esperto:$e, tentativi:1, riprova_dopo:$q}')"
+    --arg e "$esperto" '{stato:"in_attesa", tipo:$t, richiesta:$r, esperto:$e, tentativi:1, riprova_dopo:$q, negozio_id:"centro"}')"
   if curl -fsS -X POST "$SUPABASE_URL/rest/v1/lavori" "${A[@]}" -d "$body" >/dev/null 2>&1; then
     echo "[$(ts)] «$tipo» ri-accodata: ritento dopo $quando ($classe) — il worker la riprende da sola."
     CADENZA_RIACCODATA=1
   else
-    body="$(jq -n --arg t "$tipo" --arg r "$richiesta" --arg e "$esperto" '{stato:"in_attesa", tipo:$t, richiesta:$r, esperto:$e}')"
+    body="$(jq -n --arg t "$tipo" --arg r "$richiesta" --arg e "$esperto" '{stato:"in_attesa", tipo:$t, richiesta:$r, esperto:$e, negozio_id:"centro"}')"
     curl -fsS -X POST "$SUPABASE_URL/rest/v1/lavori" "${A[@]}" -d "$body" >/dev/null 2>&1 \
       && { echo "[$(ts)] «$tipo» ri-accodata (senza riprova_dopo — DB non migrato)."; CADENZA_RIACCODATA=1; } \
       || echo "[$(ts)] «$tipo»: ri-accodamento fallito (riprovo al prossimo timer)." >&2

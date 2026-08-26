@@ -934,6 +934,10 @@ function main() {
     // guarda a monte, il CODICE che lo riscriverà: ogni `writeFileSync(X, JSON.stringify(…, null, N))`
     // dove N non è l'indentazione che X ha sul disco. Misurato: 12.953 righe di diff contro 3.
     passi.push(esegui("nessuno impone la forma ai JSON", "node", ["cervello/indentazione-guardia.mjs"]));
+    // AR-822. Montato subito, e non «quando serve»: il campo `lavori.negozio_id` sta per diventare
+    // obbligatorio, e da quel momento una riga costruita senza corsia non e' un difetto di stile —
+    // e' un insert che fallisce, cioe' una cadenza che non riparte.
+    passi.push(esegui("la corsia su ogni riga della coda", "node", ["cervello/lavori-hanno-la-corsia.mjs"]));
     // AR-437 — `prove-oneste` passa dal TETTO come `prova-con-or`: il debito ereditato si conta e
     // scende, ciò che il lotto tocca adesso non entra comunque. Prima il cancello ne propagava
     // l'uscita secca, quindi un lotto sano restava bloccato dalle prove disoneste di radiografie
