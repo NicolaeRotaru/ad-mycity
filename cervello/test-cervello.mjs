@@ -1068,7 +1068,7 @@ async function main() {
   // TROVATO IN CI IL 26/8, DA QUESTO STESSO LOTTO. Dichiarato l'esecutore (AR-693 ①), le ventinove
   // prove in bash girano davvero e ne escono SETTE rosse: tutte in codice che nessun lotto di oggi
   // ha toccato — worker.sh, giro.sh, verifica-sensori, i permessi — e tutte ancorate alla sintassi
-  // di ieri (AR-831). Fin qui è giusto e va detto. Ma l'uscita secca 1 le faceva pesare su DUE
+  // di ieri (AR-834). Fin qui è giusto e va detto. Ma l'uscita secca 1 le faceva pesare su DUE
   // strade che non c'entrano niente: il workflow `test-cervello.yml`, che diventava rosso a ogni
   // push su main per tutti, e `giro.sh` riga 474, che alza un vincolo hard e avrebbe fermato ogni
   // giro del server finché quelle sette non erano curate.
@@ -1090,7 +1090,7 @@ async function main() {
   if (!rottiNode.length && rottiBash.length && t.letto && rottiBash.length <= t.tetto) {
     console.log(
       `\n🐚 I ${rottiBash.length} rossi sono TUTTI in bash, debito ereditato sotto il tetto dichiarato (${t.tetto}, cervello/tetti-lotto.json → test_bash).` +
-        `\n   Non fermo chi passa di qui: nessuno di questi è di questo lavoro, e sono la scheda AR-831. Il tetto scende e non risale — chi ne cura uno lo abbassi.` +
+        `\n   Non fermo chi passa di qui: nessuno di questi è di questo lavoro, e sono la scheda AR-834. Il tetto scende e non risale — chi ne cura uno lo abbassi.` +
         `\n   Un rosso in Node, o un ottavo in bash, e questa riga non compare: quello blocca.`,
     );
     process.exitCode = 0;

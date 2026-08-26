@@ -15,9 +15,13 @@
 // ferma al momento in cui è partita, mentre `main` cammina. Chiedere «qual è l'ultimo?» al proprio
 // cantiere è come guardare l'orologio fermo — dà sempre una risposta, ed è sempre plausibile.
 //
-// COSA FA. Legge il cantiere su `origin/main` E quello locale, e torna il primo numero libero in
-// TUTTI E DUE. Se main non è raggiungibile lo DICHIARA e non inventa: un numero preso al buio è
-// esattamente il difetto che questo file esiste per chiudere.
+// COSA FA. Legge il cantiere in TRE posti — quello locale, `origin/main`, e ogni ramo aperto che
+// porta commit non ancora dentro main — e torna il primo numero libero in tutti e tre. Se una delle
+// fonti non è raggiungibile lo DICHIARA e non inventa: un numero preso al buio è esattamente il
+// difetto che questo file esiste per chiudere.
+//
+// La terza fonte è arrivata dopo, e per la ragione peggiore: mancava. Vedi `ramiRemoti` più sotto —
+// due collisioni in un giorno solo, con due sessioni che lavoravano la stessa casa senza vedersi.
 //
 // Uso:
 //   node cervello/prossimo-ar.mjs           # il prossimo libero
@@ -31,12 +35,14 @@
 // 🟢 Sola lettura: non scrive niente, non tocca git se non per leggere.
 
 import { readFileSync } from "node:fs";
-import { execFileSync } from "node:child_process";
+import { gitEsegui, gitLetto } from "./git-github.mjs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
-const REPO = dirname(QUI);
+// La radice è sostituibile SOLO per poter provare questo file su un repo finto: un guardiano che
+// non è mai stato visto fallire non si distingue da uno che non guarda. In esercizio resta la casa.
+const REPO = process.env.PROSSIMO_AR_ROOT || dirname(QUI);
 export const CANTIERE = "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json";
 
 /** I numeri usati in un elenco di schede. Pura: la provano su dati finti, non sul cantiere vero. */
@@ -112,14 +118,61 @@ export function sovrascritte(locali = [], suMain = []) {
   return perse;
 }
 
+/**
+ * I rami remoti che possono già contenere schede appena scritte — ogni ramo tranne main.
+ *
+ * PERCHÉ (Nicola non l'ha chiesto: l'ho scontrato). Il 25/8 la stessa collisione è capitata DUE
+ * volte in un giorno. La prima l'ho scoperta contando male una fusione: 536+1+1 doveva fare 538 e
+ * faceva 537, e la scheda mancante era la mia AR-814, perché main ne aveva già una con quel numero.
+ * La seconda l'ho evitata per fortuna, leggendo il lavoro di un'altra sessione PRIMA di scrivere:
+ * teneva tre numeri su un ramo aperto, e io stavo per dare esattamente quei tre. (I numeri non li
+ * scrivo qui apposta: sono schede di un altro lavoro, e citarle da qui le farebbe risultare mie.)
+ *
+ * LA RADICE, che è il punto: questo comando è nato per non leggere il numero libero nella propria
+ * copia — e poi lo cercava in due posti soli, `main` e qui. Ma un numero preso da un'altra sessione
+ * non è ancora su main: vive per ore su un ramo aperto, invisibile a entrambe le fonti. Cioè la
+ * finestra in cui la collisione è POSSIBILE è esattamente la finestra che il comando non guardava.
+ * L'orologio non era più fermo, ma continuava a mancare un fuso.
+ */
+export function ramiRemoti(repo = REPO) {
+  // `--no-merged origin/main` non è un'ottimizzazione: è la definizione giusta dell'insieme. Un ramo
+  // già dentro main non può nascondere un numero, perché i suoi numeri SONO quelli di main — e main
+  // lo leggo comunque. Restano i rami che portano commit che main non ha: lì, e solo lì, può vivere
+  // una scheda che nessuna delle altre due fonti conosce. (Detto in fretta: 528 rami → 207, e il
+  // comando da 15 secondi torna a 2. Ma la ragione per cui è giusto viene prima del tempo.)
+  // Passa dall'esecutore unico (`gitEsegui`): è la riga che porta il tetto sullo stdout, e un
+  // `for-each-ref` su un repo con centinaia di rami è esattamente il caso in cui il tetto di 1 MB
+  // che Node mette di suo si fa sentire. Ogni altra chiamata diretta a git è una porta laterale, e
+  // qui la porta laterale l'avevo appena aperta io: me l'ha contata `spazzata-fratelli`.
+  const out = gitEsegui(
+    ["for-each-ref", "--format=%(refname)", "--no-merged", "origin/main", "refs/remotes/origin"],
+    repo,
+  );
+  return out
+    .split("\n")
+    .map((r) => r.trim())
+    .filter(Boolean)
+    .filter((r) => !/\/(HEAD|main)$/.test(r));
+}
+
+/**
+ * Il cantiere su un ramo, distinguendo i due «non c'è» che NON sono la stessa cosa:
+ *  - il ramo non ha quel file (vecchio, o di un altro mestiere) → `null`, non c'è niente da confrontare;
+ *  - il file c'è e non si legge → si propaga, perché lì sto diventando cieco senza accorgermene.
+ */
+export function cantiereDiRamo(rif, repo = REPO) {
+  // `gitLetto` torna null quando git fallisce — cioè quando quel ramo non porta il file, e allora
+  // non c'è nessun numero che possa scontrarsi col mio. Il JSON rotto invece esce da JSON.parse e
+  // si propaga: è lì che diventerei cieco senza accorgermene.
+  const grezzo = gitLetto(["show", `${rif}:${CANTIERE}`], repo);
+  if (grezzo === null) return null;
+  return JSON.parse(grezzo).difetti || [];
+}
+
 function daGit(rif) {
-  const out = execFileSync("git", ["show", `${rif}:${CANTIERE}`], {
-    cwd: REPO,
-    encoding: "utf8",
-    maxBuffer: 128 * 1024 * 1024,
-    stdio: ["ignore", "pipe", "pipe"],
-  });
-  return JSON.parse(out).difetti || [];
+  // Anche questa era una porta laterale, ereditata e dentro il tetto di partenza. Curarla mentre ero
+  // già qui fa SCENDERE il numero invece di lasciarlo fermo, ed è l'unico verso in cui può muoversi.
+  return JSON.parse(gitEsegui(["show", `${rif}:${CANTIERE}`], REPO)).difetti || [];
 }
 
 function main() {
@@ -173,14 +226,40 @@ function main() {
     process.exit(1);
   }
 
-  const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain)], quanti);
+  // I rami aperti sono la terza fonte, e sono la sola in cui la collisione è ancora EVITABILE:
+  // quando il numero è arrivato su main lo scontro è già successo. Qui la severità è voluta —
+  // rifiutarsi di rispondere costa un `git fetch`, un numero sbagliato costa una scheda persa.
+  let rami;
+  try {
+    rami = ramiRemoti();
+  } catch (e) {
+    console.error(`⚪ non ho potuto elencare i rami aperti (${e.message.split("\n")[0]}): un altro lavoro potrebbe avere già preso questo numero e io non lo saprei. Non rispondo. Rimedio: git fetch origin.`);
+    process.exit(2);
+  }
+  const daRami = [];
+  const nonLetti = [];
+  for (const r of rami) {
+    try {
+      const d = cantiereDiRamo(r);
+      if (d) daRami.push(numeriUsati(d));
+    } catch (e) {
+      nonLetti.push(`${r.replace("refs/remotes/", "")} (${e.message.split("\n")[0]})`);
+    }
+  }
+  if (nonLetti.length) {
+    console.error(`⚪ ${nonLetti.length} ramo/i porta/no il cantiere ma non l'ho saputo leggere: ${nonLetti.join(", ")}`);
+    console.error(`   Un numero dato senza averli letti è un numero preso al buio, ed è il difetto che questo comando esiste per chiudere.`);
+    process.exit(2);
+  }
+
+  const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain), ...daRami], quanti);
   const id = liberi.map((n) => `AR-${n}`);
   if (json) {
-    console.log(JSON.stringify({ id, locali: locali.length, suMain: suMain.length }, null, 2));
+    console.log(JSON.stringify({ id, locali: locali.length, suMain: suMain.length, rami: daRami.length }, null, 2));
     process.exit(0);
   }
   console.log(id.join(" "));
-  console.error(`   (libero sia qui — ${locali.length} schede — sia su main — ${suMain.length})`);
+  console.error(`   (libero qui — ${locali.length} schede — su main — ${suMain.length} — e su ${daRami.length} ramo/i aperto/i con un cantiere)`);
   process.exit(0);
 }
 

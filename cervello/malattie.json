@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
  "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
- "aggiornato": "2026-08-26 10:30",
+ "aggiornato": "2026-08-26 13:10",
  "malattie": [
   {
    "id": "esito-in-una-pipe",
@@ -534,14 +534,14 @@
     "cervello/piani-data.mjs",
     "cervello/porte-pubblicazione.mjs",
     "cervello/pre-scrittura.mjs",
-    "cervello/prossimo-ar.mjs",
     "cervello/sistema-immunitario.mjs",
     "cervello/sorvegliante.mjs",
     "cervello/storia-git.mjs"
    ],
    "curati": [
     "cervello/git-github.mjs",
-    "cervello/git-pr.mjs"
+    "cervello/git-pr.mjs",
+    "cervello/prossimo-ar.mjs"
    ],
    "esenti": [
     {

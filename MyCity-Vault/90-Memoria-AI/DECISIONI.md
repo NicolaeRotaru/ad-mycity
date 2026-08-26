@@ -4325,7 +4325,11 @@ memoria, va scelta a mente fredda e non dentro una richiesta che parla del cance
 ## 2026-08-26 10:50 — 🟡 Lotto 63: bats installato dove il banco gira davvero, e la cecità curabile smette di essere un prezzo
 
 **Cosa.** Aperta la richiesta di unione #849 sul ramo `claude/cantiere-difetti-vvh0su`.
-Riparati AR-693 (clausole ① e ②), AR-800 e AR-652; registrati AR-830, AR-831, AR-832.
+Riparati AR-693 (clausole ① e ②), AR-800 e AR-652; registrati AR-833, AR-834, AR-832.
+(Nati come AR-830 e AR-831 e rinumerati alle 13:10 dello stesso giorno: la richiesta #848 aveva
+speso quei due numeri per difetti diversi mentre questo lotto era aperto. È AR-811 successo
+davvero — e la #848 stava riparando proprio quello. Unire per numero avrebbe fatto sparire due
+difetti in silenzio: nessun errore, nessun conflitto, due schede in meno.)
 
 **Perché.** Ventinove prove scritte in bash non le eseguiva nessuno: né la CI, né il VPS,
 né l'avvio di sessione. In tutto il repo l'unica traccia di `bats` era un permesso — cioè
@@ -4341,7 +4345,7 @@ fermava lì.
 ⚪ dichiarato (`typecheck del Pannello`, serve `npm ci --prefix pannello`).
 
 **Cosa serve da Nicola.** ① la firma sul merge; ② la scelta sulla forma del divieto di
-pubblicazione diretta (AR-830): il 27/7, col commit `1b5d0d1c8` intitolato «Update
+pubblicazione diretta (AR-833, nata AR-830): il 27/7, col commit `1b5d0d1c8` intitolato «Update
 settings.json», `Bash(git push:*)` è uscito dal blocco deny e per trenta giorni non se
 n'è accorto nessuno. Non l'ho rimesso io: nella forma larga bloccava anche il lavoro
 legittimo, ed è il file dei permessi.

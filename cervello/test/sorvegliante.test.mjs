@@ -1529,3 +1529,44 @@ test("AR-557 · IL CONTROLLO: se lo tolgo e non lo rimetto da nessuna parte, l'a
     "senza questo caso i due sopra proverebbero solo che la guardia tace sempre",
   );
 });
+
+// ── AR-829 — «menzione ≠ chiamata», la quinta volta, dentro i registri JSON ───────────────────────
+//
+// Il 26/8 il potatore ha tolto 15 lezioni ritirate dall'archivio. Due di loro NOMINAVANO uno script
+// dentro il proprio racconto — «il comando sta in COMANDI.md», «ok timer ritmo» — e questa guardia
+// ha detto «hai tolto la riga che chiamava install-ritmo-timers.sh». Non era una chiamata: era un
+// ricordo. Le mutazioni di quelle due difese le ho rieseguite, e mordono ancora tutte e due.
+//
+// La riga giusta la sa già questo file, e l'ha scritta quattro volte: nei commenti (⑥b), nella prosa
+// (AR-503), nel proprio diario (AR-543). Un registro JSON è il quinto posto — con la differenza che
+// lì dentro le difese ci vivono DAVVERO, quindi non si esenta il file: si esentano i campi che
+// raccontano, e solo quelli.
+
+import { eCampoDiProsa, CAMPI_PROSA } from "../sorvegliante.mjs";
+
+test("AR-829: un nome di script dentro un campo che RACCONTA è una menzione", () => {
+  assert.equal(eCampoDiProsa('   "testo": "…il comando sta in COMANDI.md…",', "appr.json"), true);
+  assert.equal(eCampoDiProsa('     "perche": "Definiva il comando radiografia…",', "appr.json"), true);
+  assert.equal(eCampoDiProsa('  "causa_radice": "cervello/x.mjs non guardava…",', "cantiere.json"), true);
+});
+
+test("AR-829: un campo che DICHIARA resta guardato — è lì che le difese vivono", () => {
+  assert.equal(eCampoDiProsa('  "gate": "node cervello/x.mjs",', "appr.json"), false);
+  assert.equal(eCampoDiProsa('  "comando": "node --test cervello/test/x.test.mjs",', "cantiere.json"), false);
+  assert.equal(eCampoDiProsa('  "test": "node --test cervello/test/x.test.mjs",', "mutanti.json"), false);
+  assert.equal(eCampoDiProsa('  "file": "cervello/x.mjs",', "mutanti.json"), false);
+});
+
+test("AR-829: una chiave che nessuno ha classificato resta GUARDATA, non esentata", () => {
+  assert.equal(
+    eCampoDiProsa('  "campo_inventato_domani": "cervello/x.mjs",', "appr.json"),
+    false,
+    "l'elenco è dei campi di prosa e non di quelli di dichiarazione apposta: sbagliare per allarme si ripara con una riga, sbagliare per silenzio non lo vede nessuno",
+  );
+  assert.ok(!CAMPI_PROSA.includes("gate") && !CAMPI_PROSA.includes("comando"));
+});
+
+test("AR-829: fuori da un JSON la regola non si applica — lì decidono i filtri di prima", () => {
+  assert.equal(eCampoDiProsa('  "testo": "cervello/x.mjs",', "cervello/qualcosa.mjs"), false);
+  assert.equal(eCampoDiProsa("una riga qualunque", "appr.json"), false);
+});
