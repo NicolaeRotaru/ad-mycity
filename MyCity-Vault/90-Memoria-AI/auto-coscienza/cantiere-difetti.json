@@ -17842,6 +17842,48 @@
       },
       "origine": "lotto 63 · trovato collaudando la cura di AR-800",
       "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-835",
+      "stato": "riparato",
+      "dimensione": "integrita-memoria",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sulla fiducia nella Cabina: la coda che serve a far sapere a Nicola lo stato gli diceva TRE numeri diversi sulla stessa cosa (23, 24, 25), e solo l'ultimo era vero. Un file di stato che contiene tre stati non e' un file di stato.",
+      "nato": "2026-08-26 18:10",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 64,
+      "titolo": "Lo strumento che alleggerisce la coda le lasciava dentro un rimando morto a ogni passata",
+      "causa_radice": "`housekeeping-azioni.mjs` spezza la coda in blocchi usando come confini l'inizio di una card (`### emoji`) e l'inizio di una sezione (`## `). Il rimando all'archivio in fondo non e' ne' l'uno ne' l'altro, quindi veniva assorbito nella CODA del blocco precedente e riemesso insieme a quella card — mentre sotto se ne scriveva uno nuovo. Uno in piu' a ogni passata, in silenzio. La cosa che rende questo difetto istruttivo: la cura era GIA' scritta nel file, due righe sopra, per l'intestazione dell'archivio, che si accumulava allo stesso identico modo (101 copie identiche contate il 13/8). Chi l'ha curata ha aggiunto `## ` fra i confini e il `continue` per l'intestazione, e ha lasciato fuori il rimando. Non e' un difetto tornato: e' un difetto che non se n'era mai andato per intero.",
+      "fix_proposto": "Il rimando si stacca dalla CODA del testo prima che i blocchi vengano letti (`senzaRimandoFinale`), quindi si rigenera invece di conservarsi. La forma sta in UNA costante invece che in due copie che possono divergere. Ripulito anche il file vero: da tre rimandi (23, 24, 25) a uno solo, e i punti difficili della coda scendono da 204 a 202. Sistemata nel passaggio anche la forma della riga, che impilava due incisi — numero fra parentesi piu' percorso dopo il trattino — e valeva un punto difficile a ogni passata. La prima stesura del fix faceva del rimando un CONFINE di blocco: vedi AR-836, il buco che apriva.",
+      "dove": "cervello/housekeeping-azioni.mjs",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs",
+        "nota": "Il caso che conta gira su una coda finta e fa DUE passate di seguito: dopo la seconda il rimando dev'essere uno solo. Prima del fix ne restavano due. Piu' il controllo sul file vero, che ne pretende uno."
+      },
+      "descrizione": "Trovato perche' mi ha bloccato la consegna, e solo dopo aver refutato la mia prima spiegazione. Il cancello diceva che la coda aveva guadagnato un punto difficile; credevo fosse perche' archiviare una card avvicina testi prima lontani. Misurato: falso, togliere la card e basta lascia il conto identico. Era la riga che lo strumento stesso scriveva.",
+      "nato_da": "il cancello del lotto, sulla chiusura della card 174: «verdetti senza lettore» ha visto la coda peggiorare di un punto"
+    },
+    {
+      "id": "AR-836",
+      "stato": "riparato",
+      "dimensione": "trovato-riparando",
+      "gravita": "grave",
+      "impatto_crescita": "diretto: avrebbe cancellato in silenzio la coda di qualunque card che cita la riga del rimando — e la prima che la cita e' proprio quella che racconta questa riparazione. Perdita di dati nella coda che Nicola legge, senza nessun segnale.",
+      "nato": "2026-08-26 18:20",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 64,
+      "titolo": "La mia prima cura al rimando ne faceva un confine di blocco, e cosi' mangiava il corpo delle card che lo citano",
+      "causa_radice": "Per impedire al rimando finale di accumularsi (AR-835) l'avevo reso un confine di blocco, come `## `. Sul caso vero funzionava e le prove erano verdi. Ma un confine vale OVUNQUE, non solo in fondo: la stessa riga dentro il corpo di una card avrebbe spezzato quella card, e tutto cio' che veniva dopo sarebbe stato classificato come rimando e scartato in silenzio. Ho ragionato sul posto da cui il difetto era arrivato — la coda del file — invece che su tutti i posti in cui la regola nuova avrebbe agito. Stessa forma di AR-822 e AR-807.",
+      "fix_proposto": "`senzaRimandoFinale(testo)` stacca il rimando SOLO dalla fine del testo, dove sta per costruzione, prima che i blocchi vengano letti. Un corpo di card non viene toccato nemmeno se contiene quelle parole. Prova: una coda finta con una card che cita la riga vecchia nel corpo — la card deve restare intera e aperta.",
+      "dove": "cervello/housekeeping-azioni.mjs",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs",
+        "nota": "Il caso «una card che CITA il rimando non viene tagliata a meta'». Mutazione provata: tornare al confine di blocco — la prova diventa rossa."
+      },
+      "descrizione": "Trovato dalla riguardata del perimetro con la lente rischio-sicurezza-se, dopo che avevo gia' dichiarato finito il fix e con tutte le prove verdi. Non e' mai arrivato a Nicola: e' vissuto dentro questo lotto.",
+      "nato_da": "la riguardata del perimetro toccato, imposta dal cancello prima della consegna"
     }
   ],
   "meta": {

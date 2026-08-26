@@ -5,7 +5,7 @@ fonte: senior dell'AD
 
 # ⏳ AZIONI IN ATTESA — pronte a partire, aspettano il via di Nicola
 
-> 🧹 **Housekeeping 2026-08-24 20:49** — Automatico: **103 aperte · 24 chiuse in archivio**.
+> 🧹 **Housekeeping 2026-08-26 17:51** — Automatico: **103 aperte · 25 chiuse in archivio**.
 >
 > *Nota AD 11:15: questo banner era ripetuto 4 volte identiche, residuo di un giro interrotto. Unificato in uno solo.*
 
@@ -23,6 +23,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 ---
 
 <!-- serratura-cancello -->
+
 ### 🔴 #177 — Il controllo che protegge il codice avvisa ma non ferma: decidi tu se dargli la serratura · ⏳ accodata 2026-08-26 08:05
 
 **In parole semplici.** Prima che una mia modifica entri nel codice buono, gira un controllo
@@ -147,62 +148,6 @@ la cassa non mantiene, e i 3 € si vedono per la prima volta nel carrello.
 
 **Se va bene:** con la (a) riscrivo bollino, scheda prodotto e riepilogo perché dicano lo stesso
 numero, con la prova che li tiene allineati. Con la (b) tolgo i 3 € sopra la soglia.
-
----
-
-### 🟡 #174 — Due comandi per il database, e l'ordine conta · ⏳ accodata 2026-08-24 16:10
-
-**In parole semplici.** La macchina delle botteghe deve servire tanti negozi con un programma solo.
-Perché funzioni, ogni lavoro nella coda deve dire a quale negozio appartiene. Oggi non lo dice: la
-tabella dei lavori quel campo non ce l'ha proprio. Sono 3.255 righe, nessuna con un negozio.
-
-Il codice il muro ce l'aveva già. La tabella no. E finché la tabella non ce l'ha, il muro tiene solo
-per chi passa dalla porta giusta: chi scrive nella coda in un altro modo lo scavalca senza
-accorgersene, e nessuno se ne accorge nemmeno dopo.
-
-**Cosa ho fatto io.** Il Pannello adesso scrive sempre il negozio. Chi non ne dichiara uno sta
-chiedendo un lavoro della macchina per sé. E lo dice con un nome, «centro», invece di lasciare il
-campo vuoto. Un campo vuoto si dimentica. Un nome no.
-
-**Cosa cambia per te.** Niente, finché non dai i due comandi qui sotto. Dopo il secondo, la coda dei
-lavori non accetta più una riga senza negozio. È il pezzo che mancava per far partire la macchina
-delle botteghe.
-
-**Per esempio, una cosa che ho trovato leggendo.** Quando il database rifiuta una riga, il Pannello
-riprovava a scriverla togliendo il campo che dava fastidio. Per il raggruppamento della chat va
-bene: si perde un dettaglio estetico. Sul negozio sarebbe stato il difetto stesso, automatizzato:
-«il database non vuole la riga col negozio? allora scrivila senza». Il lavoro di una bottega
-finirebbe nel mucchio comune, in silenzio, e la riga risulterebbe scritta bene. Adesso quel ripiego
-vale solo per i lavori della macchina.
-
-**Cosa devi fare.** Due comandi nel database della memoria, e l'ordine conta.
-
-Il primo lo puoi dare adesso, non rompe niente:
-
-`pannello/sql/lavori-negozio-id.sql`
-
-Aggiunge il campo, scrive «centro» sulle 3.255 righe che ci sono già, crea l'indice. Il Pannello di
-oggi ignora il campo nuovo e continua a funzionare come sempre.
-
-Il secondo **solo dopo** che questa richiesta di unione è andata online:
-
-`pannello/sql/lavori-negozio-id-obbligatorio.sql`
-
-**Cosa cambia:** è il secondo comando a chiudere il buco. Da lì in poi, chi prova a scrivere un
-lavoro senza dire di quale negozio è, non ci riesce. Prima ci riusciva.
-
-**Perché l'ordine conta, e non è pignoleria.** Il Pannello che è online adesso il negozio non lo
-scrive. Se dai il secondo comando prima che il Pannello nuovo sia pubblicato, ogni creazione di
-lavoro fallisce: chat, giri, report, sentinelle. La macchina si ferma. L'avvertenza è scritta anche
-dentro il file, in cima.
-
-**Se va bene:** il muro fra i negozi esiste anche nella tabella. Allora si può costruire il secondo
-pezzo: quello che fa rifiutare al database le righe di un altro negozio.
-
-**Cosa non ho verificato.** I due comandi non li ho eseguiti: il database è in sola lettura per me,
-e questa è una firma tua. Quindi non ho visto la colonna comparire né l'obbligo mordere. Quello che
-ho provato è il lato codice: 9 controlli, e ho rotto il fix in 6 modi diversi per vedere se il
-controllo diventava rosso ogni volta. Diventa rosso ogni volta.
 
 ---
 
@@ -2695,8 +2640,5 @@ Nessuna proposta di riempimento automatico in questo giro. Report: [[consegne/su
 
 ---
 
-> 🗄️ Le card chiuse (23) stanno in [[AZIONI-archivio]] — `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
-
----
-
-> 🗄️ Le card chiuse (24) stanno in [[AZIONI-archivio]] — `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.
+> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 25.
+> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.

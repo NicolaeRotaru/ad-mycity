@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-26 08:25
+aggiornato: 2026-08-26 17:41
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -114,6 +114,24 @@ tre controlli usano per capire se l'attivita' e' ferma.
 > **Cosa non ho verificato.** Niente di tutto questo l'ho visto girare sul server vero: le prove sono tutte su questa macchina e su copie usa-e-getta del progetto. E il metodo resta provato su un tipo solo di lavoro, i freni della macchina.
 >
 > **Dettagli tecnici.** Freno agganciato: `cervello/porte-gemelle.mjs`, riga dopo «spazzata dei fratelli» in `cancello-lotto.mjs`, con la voce tolta da `guardiani-motivi.json` (montato, sarebbe fantasma). Nel cantiere sono registrate tre schede: AR-796 per il promosso, AR-797 e AR-798 per i bocciati. In coda le card #172 e #173.
+
+> ✅ **26/8 17:41 — La card 174 è finita. Il campo del negozio è diventato obbligatorio.**
+>
+> **In parole semplici.** La macchina delle botteghe dovrà servire tanti negozi con un programma solo. Perché funzioni, ogni lavoro nella coda deve dire a quale negozio appartiene. Da oggi è obbligatorio: una riga che non lo dice viene respinta dal database.
+>
+> **Cosa cambia per te.** Niente che tu debba fare. La coda ha 3.281 righe e nessuna è senza il negozio. Il primo comando era già dato il 25 agosto. Oggi ho dato il secondo, quello che avevo fermato apposta.
+>
+> **Cosa devi fare.** Niente su questa. La card **#174** è chiusa nella coda.
+>
+> **Cosa non ho verificato.** Ho provato il vincolo scrivendo io nel database, non guardando la macchina lavorare davvero. Il prossimo giro vero del server è la conferma che manca, e arriva da sola domani mattina. Se qualcosa si rompe lì, si torna indietro con una riga sola.
+>
+> **Perché l'avevo fermato, e cosa l'ha sbloccato.** La condizione che avevo scritto io nominava un posto solo, il Pannello. Ma nella coda scrivono in quattro punti, e tre stanno sul server. Darlo in quel momento avrebbe fatto fallire ogni ri-accodamento: chat, giri, report, sentinelle. Cioè il danno che la card diceva di voler evitare, causato dalla card stessa.
+>
+> A sbloccarlo non è stata una supposizione. La macchina scrive nella coda una volta al giorno verso le 11. Stamattina ha scritto cinque righe alle 11:01, e tutte e cinque portano il campo nuovo. Il server sta girando col codice giusto, e quello lo dicono i dati.
+>
+> **La prova.** Una riga scritta senza il negozio viene respinta. Una scritta col negozio passa. La riga di prova l'ho tolta subito e il conto è tornato identico, 3.281.
+>
+> **Dettagli tecnici.** Migrazione `lavori_negozio_id_obbligatorio` sul progetto `xjljcsorpbqwttrejqte` (la memoria, non il marketplace): `update ... where negozio_id is null` poi `alter column negozio_id set not null`. Dopo: 3.281 righe · 0 nulle · `is_nullable='NO'` · indice `lavori_negozio_id_idx` presente. Prova comportamentale in un blocco `do $$` che fallisce rumorosamente se il vincolo non morde. Ritorno indietro: `alter table public.lavori alter column negozio_id drop not null;`
 
 > 🚪 **26/8 08:25 — Il controllo che protegge il codice avvisa ma non ferma: dieci lavori su 141 sono entrati senza un verde.**
 >

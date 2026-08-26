@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-26 13:40",
+ "aggiornato": "2026-08-26 18:40",
  "mutanti": [
   {
    "lotto": 30,
@@ -6930,7 +6930,7 @@
    "difetto": "AR-807",
    "nome": "la coda smette di dire dove sono finite le carte chiuse",
    "file": "cervello/housekeeping-azioni.mjs",
-   "cerca": "    `> 🗄️ Le card chiuse (${allClosedBlocks.length}) stanno in [[AZIONI-archivio]] — \\`MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md\\`.`,\n",
+   "cerca": "    `> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono ${allClosedBlocks.length}.`,\n    \"> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.\",\n",
    "sostituisci": "    '',\n",
    "test": "node --test cervello/test/l-archivio-dentro-il-file-che-doveva-alleggerire.test.mjs"
   },
@@ -7542,6 +7542,42 @@
    "cerca": "  if (!rottiNode.length && rottiBash.length && t.letto && rottiBash.length <= t.tetto) {",
    "sostituisci": "  if (rottiBash.length && t.letto && rottiBash.length <= t.tetto) {",
    "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "difetto": "AR-835",
+   "lezione": "L-2026-0826-01",
+   "nome": "lo strumento torna a scrivere numero-fra-parentesi PIU' percorso-dopo-trattino: un punto difficile a ogni passata",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "    `> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono ${allClosedBlocks.length}.`,\n    \"> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.\",",
+   "sostituisci": "    `> 🗄️ Le card chiuse (${allClosedBlocks.length}) stanno in [[AZIONI-archivio]] — \\`MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md\\`.`,",
+   "test": "node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
+  },
+  {
+   "difetto": "AR-835",
+   "lezione": "L-2026-0826-01",
+   "nome": "la riga di riepilogo nella coda torna alla forma con due incisi",
+   "file": "MyCity-Vault/90-Memoria-AI/AZIONI-IN-ATTESA.md",
+   "cerca": "> 🗄️ Le card chiuse stanno in [[AZIONI-archivio]]. Adesso sono 25.\n> Il file è `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.",
+   "sostituisci": "> 🗄️ Le card chiuse (25) stanno in [[AZIONI-archivio]] — `MyCity-Vault/90-Memoria-AI/Archivio/AZIONI-archivio.md`.",
+   "test": "node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
+  },
+  {
+   "difetto": "AR-836",
+   "lezione": "L-2026-0826-01",
+   "nome": "il rimando torna a essere un confine di blocco: mangia il corpo delle card che lo citano",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "  const lines = senzaRimandoFinale(content).split('\\n');",
+   "sostituisci": "  const lines = content.split('\\n');",
+   "test": "node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
+  },
+  {
+   "difetto": "AR-836",
+   "lezione": "L-2026-0826-01",
+   "nome": "il separatore finale si mangia anche quando il rimando non c'e': erosione silenziosa dell'ultima card",
+   "file": "cervello/housekeeping-azioni.mjs",
+   "cerca": "  if (trovato) {\n    while (righe.length && (vuota(righe[righe.length - 1]) || righe[righe.length - 1].trim() === \"---\")) righe.pop();\n  }",
+   "sostituisci": "  while (righe.length && (vuota(righe[righe.length - 1]) || righe[righe.length - 1].trim() === \"---\")) righe.pop();",
+   "test": "node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
   }
  ]
 }
