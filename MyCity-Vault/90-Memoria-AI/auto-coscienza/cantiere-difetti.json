@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-26 20:50",
+  "aggiornato": "2026-08-26 21:05",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -17935,7 +17935,7 @@
     },
     {
       "id": "AR-839",
-      "titolo": "Il contesto isolato e le chiavi fuori dal discorso sono scritti, provati, e non li chiama nessuno",
+      "titolo": "Il muro fra i negozi dal lato del testo aspetta un consumatore che non esiste, e niente obblighera' chi lo costruira' a passarci",
       "dimensione": "capacita-mancanti",
       "gravita": "grave",
       "impatto_crescita": "alto",
@@ -17944,14 +17944,36 @@
       "nato": "2026-08-26 20:50",
       "nato_come": "scoperta",
       "nato_da": "lotto 60: chiudendo AR-804 e AR-838 ho controllato se gli ALTRI meccanismi della bottega avessero lo stesso difetto. Ce l'hanno.",
-      "causa_radice": "I meccanismi ④ (contesto isolato: il testo di un lavoro non contiene mai una riga di un altro negozio) e ⑥ (le chiavi del negoziante mai dentro il discorso che legge l'AI) vivono in `cervello/bottega/lavoro.mjs` dal 23/8: `soloDelNegozio`, `testoPerAI`, `montaSegreti`, `segretiNelTesto`, `schedaNegozio`. Sono scritti bene e hanno le loro prove. MISURATO il 26/8: fuori dal file stesso e dai suoi test, non li chiama NESSUNO — `grep -rn \"soloDelNegozio|testoPerAI|montaSegreti|segretiNelTesto|schedaNegozio\" cervello/ pannello/src/` torna vuoto. Il worker il prompt se lo costruisce per conto suo, a mano, in `worker.sh` («costruisci il prompt», riga ~1479): `prompt=\"Sei l'AD digitale di MyCity... $richiesta\"`. E' la stessa malattia di AR-804 — un cancello costruito bene e montato su una porta che nessuno usa — trovata guardando se i fratelli ce l'avessero, invece di aspettare che si vedesse.",
+      "causa_radice": "I meccanismi ④ (contesto isolato) e ⑥ (chiavi mai nel discorso) vivono in `cervello/bottega/lavoro.mjs` dal 23/8 — `soloDelNegozio`, `testoPerAI`, `montaSegreti`, `segretiNelTesto`, `schedaNegozio` — scritti bene e con le loro prove. Fuori dal file e dai suoi test non li chiama nessuno: il grep torna vuoto. MA la prima diagnosi che avevo scritto era SBAGLIATA, e la correggo invece di lasciarla: dicevo che il worker «se li salta» costruendo il prompt a mano. Non e' cosi'. I tipi di lavoro che il worker sa fare sono `esegui-azione`, `metabolizza`, `giro`, `chat` e il caso generico: sono TUTTI lavori del centro, e un lavoro del centro non ha nessun negozio da tenere separato. Il prompt costruito a mano per loro e' corretto. Il difetto vero e' un altro, ed e' piu' sottile: **il consumatore non esiste ancora**. Non c'e' nessun tipo di lavoro «bottega». Quindi quei due meccanismi non sono aggirati, sono in attesa — e il giorno che qualcuno costruira' il percorso di un lavoro di bottega, NIENTE lo obblighera' a passare di li'. La porta stretta di `nuovoLavoro` (che senza negozio lancia) non ha un fratello sul lato del testo: `testoPerAI` si puo' semplicemente non chiamare.",
       "dove": "cervello/bottega/lavoro.mjs (soloDelNegozio, testoPerAI, montaSegreti, segretiNelTesto, schedaNegozio) · cervello/worker.sh (~1479, dove il prompt si costruisce a mano)",
-      "fix_proposto": "🟡 Il testo che l'AI legge per un lavoro di bottega si costruisce SOLO passando da `testoPerAI`, e il worker smette di comporlo a mano per quei lavori. Due prove che ESEGUONO, una per clausola: (a) si danno al costruttore le righe di due negozi e si pretende che nel testo che esce non compaia niente del secondo; (b) si mette una chiave finta nella cassaforte di un negozio finto e si pretende che nel testo non compaia mai. Poi una mutazione per ciascuna. Attenzione al perimetro: il testo scritto dai clienti entra come MATERIALE fra i due marcatori, mai come istruzione — e quella regola sta nel codice, non nel prompt.",
-      "impatto": "Sono i due meccanismi che tengono separati i dati fra i negozi dal lato del testo. Finche' non li chiama nessuno, il muro esiste solo nelle prove: il primo lavoro di bottega vero passerebbe dal prompt costruito a mano, che non sa niente di negozi ne' di segreti. Con AR-802 (il muro nel database) ancora aperto, questo e' il secondo dei due lati scoperti.",
-      "origine": "lotto 60, controllando i fratelli del difetto appena curato",
+      "fix_proposto": "🟡 Due pezzi, e il secondo e' quello che conta. (a) Costruire il percorso di un lavoro di bottega che passa da `testoPerAI` — cioe' dare un consumatore ai due meccanismi. (b) Il FRENO che rende impossibile aggirarlo, perche' senza quello (a) e' una convenzione e la prima fretta la rompe: un lavoro il cui negozio non e' il centro non puo' arrivare al motore AI con un testo che non e' uscito da `testoPerAI`. Prova che ESEGUE: si costruisce un lavoro di un negozio finto e si pretende che il testo consegnato al motore (i) non contenga nessuna riga di un secondo negozio e (ii) non contenga la chiave finta messa nella sua cassaforte. Poi una mutazione per ciascuna delle due.",
+      "impatto": "Oggi il danno e' ZERO: non esistono lavori di bottega, e i lavori del centro non hanno niente da separare. Il danno arriva tutto insieme il giorno del primo lavoro di bottega vero, ed e' il genere di cosa che si scopre dopo — quando i dati di due negozi si sono gia' incontrati. `ARCHITETTURA-TRE-MACCHINE.md` lo dice: aggiungere il muro dopo, su dati gia' mescolati, e' «il lavoro piu' caro e pericoloso che esista». Con AR-802 (il muro nel database) ancora aperto, questo e' il secondo dei due lati scoperti.",
+      "origine": "lotto 60, controllando i fratelli del difetto appena curato — e poi correggendo la mia prima diagnosi, che era piu' grossa del vero",
       "verifica": {
         "tipo": "umano",
-        "nota": "Oggi non c'e' niente da provare verde: le funzioni passano le loro prove, ed e' proprio questo che inganna. La prova nasce col fix e deve guardare il TESTO CHE ESCE dal costruttore del worker, non le funzioni prese da sole."
+        "nota": "Oggi non c'e' niente da provare verde, ed e' proprio questo che inganna: le funzioni passano le loro prove. La prova nasce col fix e deve guardare il TESTO CHE ARRIVA AL MOTORE, non le funzioni prese da sole."
+      }
+    },
+    {
+      "id": "AR-840",
+      "titolo": "Meta' delle mutazioni risultano verificate senza esserlo: il metro della copertura si da' buono da solo",
+      "dimensione": "trovato-riparando",
+      "gravita": "bloccante",
+      "impatto_crescita": "alto",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-26 21:05",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 60: cinque mutazioni MIE risultavano verificate e non mordevano. Le ho scoperte applicandole a mano, non fidandomi del verde.",
+      "causa_radice": "`non-vacuita.mjs` lancia la prova di una mutazione con `spawnSync(\"node\", [m.test])` — quindi `m.test` dev'essere un PERCORSO. In 435 voci su 872 c'e' invece una riga di comando (`\"node cervello/test/x.test.mjs\"`, `\"node --test ...\"`): gira `node \"node cervello/test/x.test.mjs\"`, che non trova nessun file ed esce ≠ 0. E un'uscita ≠ 0 e' ESATTAMENTE il segnale con cui `non-vacuita` riconosce «la prova e' diventata rossa». Quindi quelle voci risultano verificate QUALUNQUE COSA faccia la mutazione — anche quando il fix non e' coperto da niente. Non e' una svista di forma: e' il guardiano che tiene in piedi tutti gli altri («difetto chiuso» vuol dire «la prova diventa rossa se il fix si rompe») che si compra il verde da solo. Provato eseguendo: `node \"node cervello/test/x.test.mjs\"` esce MODULE_NOT_FOUND.",
+      "dove": "cervello/non-vacuita.mjs (riga ~362, spawnSync) · cervello/mutanti.json (435 voci su 872)",
+      "fix_proposto": "🟡 Fatta in questo lotto la meta' che ferma il peggioramento: `cervello/mutazioni-senza-esecutore.mjs` conta le voci non eseguibili, il tetto sta in `tetti-lotto.json` a 435, e il cancello del lotto lo esegue: da adesso il numero puo' solo scendere. Le 15 voci di questo lotto sono state corrette e RI-verificate: cinque non mordevano e sono state ri-puntate. RESTA DA FARE la bonifica dei 435 ereditati, e NON e' meccanica: togliere `node ` dal campo fa girare la prova per davvero, e allora si scopre quali mutazioni non mordono. Vanno fatte a lotti, perche' ogni voce che si sblocca puo' rivelare un fix scoperto — che e' il vero debito. Vale anche la cura alla radice: far accettare a `non-vacuita` una riga di comando, spezzandola, invece di richiedere un percorso. Meglio ancora tutte e due — il campo resta un percorso, e chi sbaglia se lo sente dire dal guardiano invece che da un falso verde.",
+      "impatto": "E' l'asticella dell'intero cantiere. 435 schede su 872 dichiarano una copertura che nessuno ha mai visto scattare: la frase «difetto chiuso con prova comportamentale e mutazione verificata rossa» per meta' del registro vuol dire soltanto «qualcuno ha scritto una voce». Il conto che la rende concreta: in questo solo lotto, 5 mutazioni su 15 non mordevano — e tutte e cinque risultavano verificate.",
+      "origine": "lotto 60, misurando invece di fidarmi di un ✅",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs",
+        "nota": "11 casi. Il primo ESEGUE il comando che `non-vacuita` costruisce e guarda che esca ≠ 0 con MODULE_NOT_FOUND: se un giorno node imparasse a spezzare quell'argomento, il caso diventerebbe rosso ed e' giusto, perche' il difetto non ci sarebbe piu'. Il tetto copre solo la clausola «non peggiora»: la scheda resta APERTA finche' i 435 ereditati non sono bonificati."
       }
     }
   ],

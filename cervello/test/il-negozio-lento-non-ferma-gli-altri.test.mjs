@@ -60,7 +60,15 @@ case "$url" in
   *negozio_id=eq.*)
     n="\${url##*negozio_id=eq.}"; n="\${n%%&*}"
     jq -c --arg n "$n" '[.[]|select(.negozio_id==$n)][0:1]' '${codaFile}';;
-  *select=negozio_id*)   ${finestraRotta ? `printf '%s' 'NON-JSON'` : `jq -c '[.[]|{negozio_id}]' '${codaFile}'`};;
+  *select=negozio_id*)
+    ${finestraRotta ? `printf '%s' 'NON-JSON'` : `
+    # Il banco RISPETTA \`limit\`, se c'e': senza, una finestra rimessa sulla coda non avrebbe
+    # nessun effetto qui e la mutazione che la rimette risulterebbe innocua. Un banco che ignora
+    # il parametro che conta rende verde la prova per finta.
+    lim=""
+    case "$url" in *limit=*) lim="\${url##*limit=}"; lim="\${lim%%&*}";; esac
+    if [ -n "$lim" ]; then jq -c --argjson n "$lim" '[.[]|{negozio_id}][0:$n]' '${codaFile}'
+    else jq -c '[.[]|{negozio_id}]' '${codaFile}'; fi`};;
   *stato=eq.in_attesa*)  jq -c '.[0:1]' '${codaFile}';;
   *)                     printf '%s' '[]';;
 esac

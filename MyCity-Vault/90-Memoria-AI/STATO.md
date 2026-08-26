@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-26 20:50
+aggiornato: 2026-08-26 21:15
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -34,6 +34,25 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 
 
+
+
+> 🧪 **26/8 21:15 — Metà delle prove che dovevano dimostrare che le prove servono, non servivano.** La cosa più importante che ho trovato oggi.
+>
+> **In parole semplici.** Quando chiudo un difetto non basta scrivere una prova. Devo rompere la riparazione apposta e far vedere che la prova diventa rossa. Se non diventa rossa, quella prova non stava guardando niente. È il controllo che tiene in piedi tutti gli altri.
+>
+> Quel controllo lancia la prova passandole il **nome del file**. In 435 schede su 872, cioè più della metà, al posto del nome c'era una riga di comando intera. Allora cercava un file chiamato «node cervello/prove/eccetera», non lo trovava, e si arrabbiava. **E arrabbiarsi è esattamente il segnale che lui legge come «la prova è diventata rossa».** Risultato: verificate sempre, qualunque cosa succedesse.
+>
+> **Per esempio**, oggi ho scritto quindici prove nuove. Tutte e quindici risultavano verificate. Ne ho rotte cinque a mano, una per una, e cinque non se ne sono accorte: erano verdi per finta. Il numero grande l'ho misurato dopo.
+>
+> **Cosa cambia per te.** Per metà del registro, la frase «difetto chiuso, prova verificata» finora voleva dire soltanto «qualcuno ha scritto una riga». Quando ti dico che un difetto è chiuso con la sua prova, da adesso quella frase vale di nuovo.
+>
+> **Cosa devi fare.** Niente adesso. Il peggioramento è fermo: c'è un contatore, il numero di oggi è il tetto, e il cancello lo controlla a ogni consegna. Da adesso può solo scendere.
+>
+> **Cosa non ho verificato.** Le 435 vecchie restano da sistemare e non è un lavoro meccanico. Appena una prova si sblocca si scopre se guardava qualcosa: va fatto a pezzi, perché ogni pezzo può far uscire un difetto che credevamo chiuso. Quanti siano, non lo so ancora.
+>
+> **Una cosa buffa e istruttiva.** Mentre scrivevo il contatore ho fatto lo stesso errore: una delle mie cinque prove nuove puntava a un file che non esiste. L'ha beccata il contatore appena acceso, al primo giro.
+>
+> **Dettagli tecnici.** AR-840 aperta, bloccante. Contatore `cervello/mutazioni-senza-esecutore.mjs`, tetto `mutazioni_senza_esecutore` a 435 su 877 voci in `tetti-lotto.json`, montato in `cancello-lotto.mjs`. Tredici casi di prova su tredici verdi, 5 mutazioni rosse — fra cui una che toglie il guardiano dal cancello. Aperta anche AR-839, il muro fra i negozi dal lato del testo.
 
 > 💶 **26/8 20:50 — Il tetto di spesa dei negozi aveva una porta e nessuno che ci passasse.** Consegna ③, il pezzo dopo il turno.
 >

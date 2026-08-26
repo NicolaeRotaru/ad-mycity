@@ -991,6 +991,10 @@ function main() {
     // bats dove il banco gira davvero; sale mai. Aggiungere una prova in bash mentre nessuno esegue
     // le altre è una violazione, non un contributo.
     passi.push(esegui("prove in bash senza esecutore (tetto)", "node", ["cervello/debito-prove-bash.mjs"]));
+    // AR-840 — le mutazioni il cui `test` non e' un percorso risultano SEMPRE verificate, perche'
+    // `non-vacuita` legge l'uscita ≠ 0 di `node "node x.mjs"` come «la prova e' diventata rossa».
+    // E' il metro della copertura che si da' buono da solo: va contato, e non deve crescere.
+    passi.push(esegui("mutazioni che nessuno puo' eseguire (tetto)", "node", ["cervello/mutazioni-senza-esecutore.mjs"]));
     // AR-706 — e la stessa domanda sulle prove che guidano una superficie VIVA: quante non è mai
     // stata rotta apposta? Una prova a runtime non provata col fix disfatto può misurare il tema
     // invece della cura, e nessuno se ne accorge — è successo, ed è stato scoperto solo applicando

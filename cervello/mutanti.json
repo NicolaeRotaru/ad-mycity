@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-26 20:40",
+ "aggiornato": "2026-08-26 21:10",
  "mutanti": [
   {
    "lotto": 30,
@@ -7581,11 +7581,11 @@
   },
   {
    "difetto": "AR-804",
-   "nome": "il lavoro si prende in ordine d'arrivo invece che dalla corsia di turno (il difetto originale)",
+   "nome": "il turno ignora i freni delle corsie e prende sempre il primo negozio: il piu' lento torna a fermare gli altri",
    "file": "cervello/bottega/scelta-worker.mjs",
-   "cerca": "    const riga = coda.find((l) => negozioDellaRiga(l) === id);",
-   "sostituisci": "    const riga = coda[0];",
-   "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
+   "cerca": "  for (const id of ordine) {\n    if (corsie.find((c) => c.negozioId === id)?.puoLavorare) {\n      return { negozioId: id, fermi, motivo: \"\" };\n    }\n  }",
+   "sostituisci": "  for (const id of ordine) {\n    return { negozioId: id, fermi, motivo: \"\" };\n  }",
+   "test": "cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
   },
   {
    "difetto": "AR-804",
@@ -7593,7 +7593,7 @@
    "file": "cervello/bottega/scelta-worker.mjs",
    "cerca": "  const ordine = daDopoIlUltimo(corsie.map((c) => c.negozioId).filter(Boolean), ultimo);\n  for (const id of ordine) {\n    if (corsie.find((c) => c.negozioId === id)?.puoLavorare) {\n      return { negozioId: id, fermi, motivo: \"\" };",
    "sostituisci": "  const ordine = corsie.map((c) => c.negozioId).filter(Boolean);\n  for (const id of ordine) {\n    if (corsie.find((c) => c.negozioId === id)?.puoLavorare) {\n      return { negozioId: id, fermi, motivo: \"\" };",
-   "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
+   "test": "cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
   },
   {
    "difetto": "AR-804",
@@ -7601,7 +7601,7 @@
    "file": "cervello/bottega/scelta-worker.mjs",
    "cerca": "  const fermoSoloPerTettoMancante = Boolean(base.spesa) && base.spesa.frazione === null && !base.guasto;",
    "sostituisci": "  const fermoSoloPerTettoMancante = true;",
-   "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
+   "test": "cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
   },
   {
    "difetto": "AR-804",
@@ -7609,7 +7609,7 @@
    "file": "cervello/bottega/scelta-worker.mjs",
    "cerca": "  if (!eDelCentro(base.negozioId)) return base;",
    "sostituisci": "  return base;",
-   "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
+   "test": "cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
   },
   {
    "difetto": "AR-804",
@@ -7617,15 +7617,15 @@
    "file": "cervello/bottega/scelta-worker.mjs",
    "cerca": "    } catch {\n      out[id] = { illeggibile: true };\n    }",
    "sostituisci": "    } catch {\n      out[id] = {};\n    }",
-   "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
+   "test": "cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
   },
   {
    "difetto": "AR-804",
-   "nome": "la presa torna dentro una sottoshell: il turno non gira piu' e nessuno se ne accorge",
-   "file": "cervello/worker.sh",
-   "cerca": "  coda_prossima_riga          # senza $(...): il turno tiene lo stato fra un giro e l'altro\n  riga=\"$CODA_RIGA\"",
-   "sostituisci": "  riga=\"$(coda_prossima_riga)\"",
-   "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
+   "nome": "la presa gira dentro una sottoshell: lo stato del turno muore li' e il giro non gira piu'",
+   "file": "cervello/worker-coda.sh",
+   "cerca": "  _coda_a_turno\n}",
+   "sostituisci": "  ( _coda_a_turno )\n}",
+   "test": "cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
   },
   {
    "difetto": "AR-804",
@@ -7633,7 +7633,7 @@
    "file": "cervello/worker-coda.sh",
    "cerca": "    CODA_RIPIEGATA=1\n    echo \"[$(ts)] ⚠️  AR-804: la coda a corsie non e' leggibile",
    "sostituisci": "    CODA_RIPIEGATA=0\n    echo \"[$(ts)] ⚠️  AR-804: la coda a corsie non e' leggibile",
-   "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
+   "test": "cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
   },
   {
    "difetto": "AR-804",
@@ -7641,7 +7641,7 @@
    "file": "cervello/worker-coda.sh",
    "cerca": "  negozi=\"$(curl -fsS \"$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&select=negozio_id&order=created_at.asc\" \"${AUTH[@]}\" 2>/dev/null || true)\"",
    "sostituisci": "  negozi=\"$(curl -fsS \"$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&order=created_at.asc&limit=200&select=negozio_id\" \"${AUTH[@]}\" 2>/dev/null || true)\"",
-   "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
+   "test": "cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
   },
   {
    "difetto": "AR-804",
@@ -7649,7 +7649,7 @@
    "file": "cervello/worker-coda.sh",
    "cerca": "  CODA_RIGA=\"$(curl -fsS \"$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&negozio_id=eq.$negozio&order=created_at.asc&limit=1&select=id,tipo,richiesta,negozio_id,created_at\" \"${AUTH[@]}\" 2>/dev/null || true)\"",
    "sostituisci": "  CODA_RIGA=\"$(curl -fsS \"$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&order=created_at.asc&limit=1&select=id,tipo,richiesta,negozio_id,created_at\" \"${AUTH[@]}\" 2>/dev/null || true)\"",
-   "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
+   "test": "cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
   },
   {
    "difetto": "AR-838",
@@ -7657,7 +7657,7 @@
    "file": "cervello/costo-ai.mjs",
    "cerca": "    const negozio = String(getFlag(\"negozio\") || \"\").trim() || CENTRO;",
    "sostituisci": "    const negozio = CENTRO;",
-   "test": "node cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
+   "test": "cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
   },
   {
    "difetto": "AR-838",
@@ -7665,7 +7665,7 @@
    "file": "cervello/costo-ai.mjs",
    "cerca": "    if (v?.stima_grezza) out[id].stimato += t;\n    else out[id].misurato += t;",
    "sostituisci": "    out[id].misurato += t;",
-   "test": "node cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
+   "test": "cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
   },
   {
    "difetto": "AR-838",
@@ -7673,7 +7673,7 @@
    "file": "cervello/costo-ai.mjs",
    "cerca": "    const m = Number(v?.misurato) || 0;\n    if (m > 0) out[id] = m;",
    "sostituisci": "    out[id] = Number(v?.misurato) || 0;",
-   "test": "node cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
+   "test": "cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
   },
   {
    "difetto": "AR-838",
@@ -7681,7 +7681,7 @@
    "file": "cervello/bottega/scelta-worker.mjs",
    "cerca": "      speso: Number.isFinite(contato) ? contato : Number.isFinite(conf.speso) ? conf.speso : 0,",
    "sostituisci": "      speso: Number.isFinite(conf.speso) ? conf.speso : Number.isFinite(contato) ? contato : 0,",
-   "test": "node cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
+   "test": "cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
   },
   {
    "difetto": "AR-838",
@@ -7689,7 +7689,7 @@
    "file": "cervello/worker-coda.sh",
    "cerca": "--argjson impostazioni \"$impost\" --argjson speso \"$spesa\"",
    "sostituisci": "--argjson impostazioni \"$impost\" --argjson speso '{}'",
-   "test": "node cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
+   "test": "cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
   },
   {
    "difetto": "AR-838",
@@ -7697,7 +7697,47 @@
    "file": "cervello/c4-cancelli.mjs",
    "cerca": "  \"AI_NEGOZIO\",",
    "sostituisci": "",
-   "test": "node cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
+   "test": "cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
+  },
+  {
+   "difetto": "AR-840",
+   "nome": "una riga di comando torna a contare come percorso: il metro smette di vedere il difetto",
+   "file": "cervello/mutazioni-senza-esecutore.mjs",
+   "cerca": "  if (/\\s/.test(t)) {\n    return { ok: false, perche: `è una riga di comando, non un percorso: «${t}»` };\n  }",
+   "sostituisci": "",
+   "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs"
+  },
+  {
+   "difetto": "AR-840",
+   "nome": "il tetto non blocca piu' la crescita: una mutazione cieca in piu' passa",
+   "file": "cervello/mutazioni-senza-esecutore.mjs",
+   "cerca": "  if (quante > t) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs"
+  },
+  {
+   "difetto": "AR-840",
+   "nome": "senza tetto il verdetto diventa verde invece di ⚪: un confronto mai fatto passa per riuscito",
+   "file": "cervello/mutazioni-senza-esecutore.mjs",
+   "cerca": "    return { esito: \"cieco\", motivo: `${quante} mutazioni su ${totale} non si possono eseguire (nessun tetto fissato)` };",
+   "sostituisci": "    return { esito: \"ok\", motivo: \"\" };",
+   "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs"
+  },
+  {
+   "difetto": "AR-840",
+   "nome": "un test assente conta come buono",
+   "file": "cervello/mutazioni-senza-esecutore.mjs",
+   "cerca": "  if (typeof test !== \"string\" || !test.trim()) {\n    return { ok: false, perche: \"nessun test dichiarato\" };\n  }",
+   "sostituisci": "  if (typeof test !== \"string\" || !test.trim()) {\n    return { ok: true, perche: \"\" };\n  }",
+   "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs"
+  },
+  {
+   "difetto": "AR-840",
+   "nome": "il guardiano esce dal cancello del lotto: conta e non ferma nessuno",
+   "file": "cervello/cancello-lotto.mjs",
+   "cerca": "    passi.push(esegui(\"mutazioni che nessuno puo' eseguire (tetto)\", \"node\", [\"cervello/mutazioni-senza-esecutore.mjs\"]));",
+   "sostituisci": "",
+   "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs"
   }
  ]
 }

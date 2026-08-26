@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-26 22:51",
+  "aggiornato": "2026-08-26 23:22",
   "giorni_sospetto": 3,
-  "difetti_aperti": 144,
-  "difetti_da_fare": 144,
+  "difetti_aperti": 145,
+  "difetti_da_fare": 145,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 830,
+    "totale": 831,
     "chiusi": 686,
-    "aperti": 115,
+    "aperti": 116,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 18,
-    "da_fare": 144,
+    "da_fare": 145,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 686,
-      "aperto": 115,
+      "aperto": 116,
       "da-riverificare": 10,
       "in-corso": 1,
       "riparato": 18
@@ -44,16 +44,16 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 144,
-    "viste": 144,
+    "attese": 145,
+    "viste": 145,
     "fuori": 0,
-    "motivo": "bilancio a posto: 686 chiuse + 144 classificate = 830 schede, e ogni stato vivo è dentro (115 aperto · 1 in-corso · 10 da-riverificare · 18 in uno stato che non so nominare)"
+    "motivo": "bilancio a posto: 686 chiuse + 145 classificate = 831 schede, e ogni stato vivo è dentro (116 aperto · 1 in-corso · 10 da-riverificare · 18 in uno stato che non so nominare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 21,
     "auto-sospetta": 10,
     "umana": 79,
-    "auto-comando": 34
+    "auto-comando": 35
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
@@ -3896,13 +3896,26 @@
       "prova_esegue": false,
       "prova_obbligatoria": true,
       "non_giudicabile": false,
-      "titolo": "Il contesto isolato e le chiavi fuori dal discorso sono scritti, provati, e non li chiama nessuno",
+      "titolo": "Il muro fra i negozi dal lato del testo aspetta un consumatore che non esiste, e niente obblighera' chi lo cos",
       "classe": "prova-debole-su-grave",
       "prova_impossibile": false,
       "prova_debole_su_grave": true,
       "senza_controllo": false,
       "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna.",
       "auto_chiudibile": false
+    },
+    {
+      "id": "AR-840",
+      "gravita": "bloccante",
+      "eta_giorni": 0,
+      "impatto_crescita": "alto",
+      "prova_esegue": true,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Meta' delle mutazioni risultano verificate senza esserlo: il metro della copertura si da' buono da solo",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs",
+      "auto_chiudibile": true
     }
   ]
 }
