@@ -17616,6 +17616,26 @@
       },
       "descrizione": "Nato dalla riguardata che il cancello impone da oggi sul perimetro toccato. Senza quel passo non l'avrei visto: avevo appena finito di scrivere quel guardiano e lo consideravo a posto.",
       "nato_da": "la riguardata del perimetro toccato con la lente rischio-sicurezza-se, che il passo nuovo del cancello (#845) impone prima di consegnare"
+    },
+    {
+      "id": "AR-824",
+      "stato": "aperto",
+      "dimensione": "memoria-e-apprendimento",
+      "gravita": "grave",
+      "impatto_crescita": "l'archivio delle lezioni è la memoria di quello che la macchina ha imparato: oltre il tetto la Cabina smette di mostrarlo e lo dichiara «troppo-grande». Oggi il margine è 84 byte su 1.048.576, cioè meno di una riga: la prossima lezione che qualcuno scrive lo sfonda, e in quel momento Nicola apre il Pannello e non trova più niente lì dentro.",
+      "nato": "2026-08-26 07:40",
+      "nato_come": "scoperta",
+      "lotto_scoperta": "62",
+      "titolo": "L'archivio delle lezioni è pieno e il potatore non ha più leve: tutte e 538 sono vive",
+      "causa_radice": "`cervello/pota-apprendimento.mjs` ha due mosse sole: togliere le lezioni DECADUTE e deduplicare le copie dei principi. Oggi le decadute sono 0 su 538 — il decadimento rallenta e si ferma su ogni lezione che ha un freno vivo (`gate:`), e negli ultimi mesi quasi ogni lezione nuova nasce con un freno — e i principi deduplicabili sono 0. Quindi il potatore, davanti a un archivio oltre il tetto, non può liberare un byte: dice no ed esce 1, che è la risposta giusta (le lezioni vive non si potano mai) ma lascia il file fuori dal tetto. Manca una terza mossa: mandare in un archivio storico separato le lezioni vecchie e vive, tenendo nel file caldo solo il loro rimando.",
+      "fix_proposto": "Due strade, da pesare a mente fredda. ① Archivio a due piani: `apprendimento.json` tiene le lezioni degli ultimi N mesi per intero, le più vecchie scendono in `apprendimento-storico.json` lasciando id + titolo + gate. Il tetto della Cabina resta sul file caldo, la conoscenza non si perde e resta consultabile — è lo stesso principio già scritto per la potatura («ciò che è stato tolto resta consultabile»). ② Tetto per campo invece che per file: `testo` e `fonte` sopra una certa lunghezza vengono troncati nel file caldo con il pieno che vive nello storico. La ① è più pulita, la ② più veloce da fare.",
+      "dove": "cervello/pota-apprendimento.mjs · MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si guarda lanciando `node cervello/pota-apprendimento.mjs --json` e leggendo tre campi: `residuo` (quanti byte mancano per rientrare), `lezioni_decadute` e `principi_deduplicati`. Finché le ultime due sono 0 e il margine sul tetto è di poche centinaia di byte, il difetto è vivo. È dichiarato «umano» e non «comando» perché la scheda è APERTA: oggi quel comando esce 0 — l'ho fatto rientrare accorciando il testo di una lezione mia — quindi nessun comando diventerebbe rosso, e una prova che non può fallire non prova niente. Quando si sceglierà una delle due cure, la verifica diventa un comando con la sua mutazione."
+      },
+      "descrizione": "Trovato il 26/8 unendo il tronco nella PR #847: le due lezioni nuove dei due lotti insieme hanno portato l'archivio a 186 byte oltre il tetto, e `archivi-senza-tetto.test.mjs` è diventata rossa. Il potatore ha fatto la cosa giusta rifiutandosi. Per sbloccare l'unione ho accorciato il testo della MIA lezione (L-2026-0825-02, scritta in questo lotto): 264 byte in meno, nessuna parola di altri toccata. Ma quello è un cerotto da 84 byte, non una cura: la capienza dell'archivio è finita. NON riparato qui di proposito — la cura tocca il formato della memoria e va scelta a mente fredda, non dentro una PR che parla del cancello di fine turno (regola del cantiere: i difetti trovati riparando si registrano subito, non si infilano nel lotto in corso).",
+      "nato_da": "l'unione del tronco dentro la PR #847, dopo che la #846 è entrata: due lezioni nate lo stesso giorno su due rami diversi hanno sommato i loro byte"
     }
   ],
   "meta": {

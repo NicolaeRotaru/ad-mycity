@@ -4292,3 +4292,32 @@ invece che dichiarata esente: dieci righe, e la decisione adesso è una funzione
 può eseguire.
 
 **Cosa resta a Nicola:** la firma sulla PR, e la #749 si chiude come superata. · Nicola (chat 25/8)
+
+---
+
+## 2026-08-26 07:45 — 🟡 L'unione del tronco ha mostrato che l'archivio delle lezioni è pieno (AR-824)
+
+**Cosa è successo.** La #846 è entrata nel tronco alle 05:29 e la mia #847 è diventata in conflitto.
+Sette registri, tutti file che crescono in fondo: due lotti avevano scritto nello stesso posto.
+Risolti tenendo **tutte e due** le scritture — nessuna riga di nessuno buttata via — e rigenerando
+i tre registri che sono conti derivati (`cantiere-prove`, `chiusura-loop`, `tasso-chiusura`), perché
+i miei numeri erano di prima che entrasse l'altro lotto.
+
+**Il difetto vero l'ha fatto uscire l'unione.** Le due lezioni nuove — la mia e quella dell'altro
+ramo, nate lo stesso giorno — insieme hanno portato `apprendimento.json` a 186 byte oltre il tetto
+di 1 MiB, e la prova degli archivi è diventata rossa. Il potatore si è rifiutato di liberare spazio,
+e ha fatto bene: le sue uniche mosse sono togliere le lezioni decadute e deduplicare i principi, e
+oggi le decadute sono **0 su 538**. Ogni lezione che ha un freno vivo non invecchia, e ormai quasi
+tutte ne hanno uno.
+
+**Cosa ho fatto per sbloccare, e cosa NON ho fatto.** Ho accorciato il testo della lezione **mia**,
+scritta in questo lotto: 264 byte in meno, nessuna parola di altri toccata. Adesso l'archivio
+rientra con 84 byte di margine. Ottantaquattro byte: meno di una riga. La prossima lezione che
+qualcuno scrive lo sfonda di nuovo, e da quel momento la Cabina smette di mostrare l'archivio e
+dice solo «troppo-grande».
+
+Per questo il cerotto non è la cura, e la cura non l'ho messa qui: la scheda **AR-824** è aperta nel
+cantiere con due strade pesate (archivio a due piani, oppure tetto per campo). Tocca il formato della
+memoria, va scelta a mente fredda e non dentro una richiesta che parla del cancello di fine turno.
+
+**Cosa resta a Nicola:** la firma sulla #847, che adesso è di nuovo unibile. · Nicola (chat 26/8)

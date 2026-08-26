@@ -1,15 +1,15 @@
 {
   "_cosa_e": "Quanti difetti la macchina chiude, diviso quanti ne apre. Obiettivo: almeno 1. Sotto 1 il giro chiude invece di cercare.",
-  "misurato": "2026-08-25 20:50",
+  "misurato": "2026-08-26 07:41",
   "origine": "cloud",
-  "copertura": 812,
+  "copertura": 815,
   "scritto_da": "tasso-chiusura.mjs",
   "mese": "2026-08",
-  "nati": 335,
+  "nati": 338,
   "chiusi": 439,
-  "tasso": 1.31,
+  "tasso": 1.3,
   "esito": "ok",
-  "detto": "chiudo 439 e ne apro 335: sto pari o meglio (1.31)",
+  "detto": "chiudo 439 e ne apro 338: sto pari o meglio (1.3)",
   "obiettivo": 1,
   "minimo_campione": 5,
   "registri_bucati": {
@@ -32,9 +32,9 @@
     },
     {
       "mese": "2026-08",
-      "nati": 335,
+      "nati": 338,
       "chiusi": 439,
-      "tasso": 1.31
+      "tasso": 1.3
     }
   ]
 }
