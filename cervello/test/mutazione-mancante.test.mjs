@@ -83,9 +83,25 @@ function repoFinto({ verificaPrima, verificaOra, mutanti, tetti, cerca = "if (sc
   // prossimo import arriva qui da solo.
   copiaDipendenze(dir, "cervello/cancello-lotto.mjs");
   // Il cancello prende la radice da git-github.mjs: qui la si punta al repo finto.
+  //
+  // ⚠️ QUESTO STUB È UN PERIMETRO DEDOTTO, ed è la stessa forma dell'elenco a mano curato qui sopra:
+  // ogni volta che un modulo del cancello comincia a usare un export NUOVO di git-github.mjs, qui
+  // manca — e un export mancante non dà un errore parlante, il processo muore all'import ed esce 1,
+  // cioè indistinguibile da «il cancello ha detto no». Successo il 26/8 con `gitLetto`, che
+  // storia-git.mjs ha cominciato a usare per non darsi un esecutore git proprio (malattia
+  // `git-letto-senza-tetto`): dieci casi su dodici sono diventati rossi tutti insieme.
+  // `gitLetto` qui è VERO, non finto: il repo finto è un repo git a tutti gli effetti.
   writeFileSync(
     join(dir, "cervello/git-github.mjs"),
-    `export const AD_ROOT = ${JSON.stringify(dir)};\nexport const nowPiacenza = () => "2026-07-29 00:00";\n`,
+    `import { execFileSync } from "node:child_process";\n` +
+      `export const AD_ROOT = ${JSON.stringify(dir)};\n` +
+      `export const nowPiacenza = () => "2026-07-29 00:00";\n` +
+      `export function gitEsegui(args, cwd, env = {}, { timeout = 0 } = {}) {\n` +
+      `  return execFileSync("git", args, { cwd, encoding: "utf8", maxBuffer: 32 * 1024 * 1024, env: { ...process.env, ...env }, ...(timeout ? { timeout } : {}) }).trim();\n` +
+      `}\n` +
+      `export function gitLetto(args, cwd, { timeout = 0 } = {}) {\n` +
+      `  try { return gitEsegui(args, cwd, {}, { timeout }); } catch { return null; }\n` +
+      `}\n`,
   );
   writeFileSync(join(dir, "finto/modulo.mjs"), `export function guardia(scaduto) {\n  ${cerca}\n  return true;\n}\n`);
   writeFileSync(join(dir, "cervello/test-finto.test.mjs"), "// AR-900 AR-901\nprocess.exit(0);\n");

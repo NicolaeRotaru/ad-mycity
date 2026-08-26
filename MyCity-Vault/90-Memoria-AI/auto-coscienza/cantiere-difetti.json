@@ -14084,12 +14084,14 @@
       "fix_proposto": "Skip esplicito quando MARKETPLACE_SUPABASE_URL è assente.",
       "origine": "corsia A1 del lotto 37 (13/8)",
       "verifica": {
-        "tipo": "umano",
-        "nota": "alla riparazione: eseguire il bats senza chiavi e vederlo skippare, con chiavi finte e vederlo girare"
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cecita-curabile.test.mjs",
+        "nota": "Quattro casi sul verdetto del banco (tutti saltati → ⚪ col perché · misto → verde coi saltati contati a parte · un rosso in mezzo ai saltati resta rosso) più il ponte che pretende lo skip dichiarato dentro n8n-placeholder.bats. Due mutazioni registrate."
       },
       "stato": "aperto",
       "nato": "2026-08-13 18:14",
-      "nato_come": "scoperta"
+      "nato_come": "scoperta",
+      "nota_fix": "LOTTO 63 (26/8). Skip esplicito quando manca MARKETPLACE_SUPABASE_URL, come chiedeva il fix_proposto — provato nei due versi che la scheda chiedeva: senza chiavi salta, con una chiave finta gira davvero. MA LO SKIP DA SOLO AVREBBE CREATO UN VERDE PEGGIORE DEL ROSSO: bats stampa `ok N # skip …`, e il banco lo contava fra i passati — cioè un file dove non si prova NIENTE usciva ✅. Quindi nello stesso gesto leggiTapBats/verdettoBats contano i saltati a parte, e un file tutto saltato esce «non-eseguito» col motivo dello skip: ⚪, mai verde."
     },
     {
       "id": "AR-653",
@@ -14946,10 +14948,11 @@
       "prova_partenza": "worktree su 54f2fb4, senza bats: 1 rosso su 243. Stesso commit, con bats: 11 rossi.",
       "verifica": {
         "tipo": "comando",
-        "comando": "node cervello/test/prova-che-non-puo-fallire.test.mjs"
+        "comando": "node --test cervello/test/cecita-curabile.test.mjs",
+        "nota": "Ventisette casi. La clausola ① si prova sul repo VERO («il repo dichiara qualcuno che esegue le prove in bash, e non è l'attrezzo stesso»). Il freno del codice d'uscita si prova facendo girare il banco VERO su una cartella di prove finta con un tetto finto: un rosso in bash sotto il tetto esce 0, sopra il tetto esce 1, con un tetto illeggibile esce 1, e un rosso in Node esce 1 qualunque cosa dica il tetto. Cinque mutazioni registrate."
       },
       "nato_come": "scoperta",
-      "nota_fix": "Tre clausole, due fatte e una no — e la terza non è dimenticata, è fuori territorio. ② IL BUCO È UN NUMERO CON UN TETTO: `cervello/debito-prove-bash.mjs` conta le prove in bash e chiede al REPO (non al PATH di questa macchina) se qualcuno le esegue — un passo di CI che installa o lancia bats, una dipendenza in un package.json, uno script d'avvio. Misurato adesso: 29 prove, 36 posti guardati, esecutore NESSUNO. Il permesso `Bash(npx bats:*)` in .claude/settings.json è escluso apposta ed è il cuore del difetto: è un'autorizzazione, non un esecutore. Il tetto va a 29 e scende quando qualcuno installa bats; una trentesima prova in bash mentre nessuno esegue le altre 29 è una violazione. Il guardiano gira nel cancello del lotto. I posti dove cercare l'esecutore si DERIVANO dal repo (tutti i workflow, tutti i hook, tutti gli script .sh del cervello, tutti i package.json del primo livello): un elenco scritto a mano sarebbe la malattia `perimetro-dedotto-non-misurato`, e infatti il sorvegliante me l'ha fermata due volte mentre scrivevo questo file. ③ I ROSSI IN BASH SI CONTANO A PARTE: `test-cervello.mjs` adesso tiene `rossi_node` e `rossi_bash` separati nel JSON, e la riga finale dice «N rossi (X in Node · Y in bash, debito ereditato AR-693)». Sommarli produceva «12 rossi», che manda chi legge a cercare nel cervello mentre i nove fallimenti stanno in worker.sh, giro.sh, watch-main.sh e nei permessi. ① NON FATTA, e resta il motivo per cui il difetto è aperto: installare bats dove il banco gira davvero significa toccare .github/workflows/test-cervello.yml, .github/workflows/cancello-lotto.yml e l'avvio del VPS — nessuno dei tre è nel territorio di questa corsia. Da qui `npx --yes bats --version` risponde «Bats 1.13.0», quindi la strada è aperta: serve un passo `npm i -g bats` + `BATS_BIN=$(command -v bats)` nei due workflow prima di `node cervello/test-cervello.mjs`. Attenzione all'effetto: appena bats gira in CI compaiono 9 file rossi veri (19 casi), che sono debito ereditato e vanno dichiarati, non subiti.\nRESTA APERTO: Manca la clausola ①: installare bats dove il banco gira davvero (CI del cervello, CI del cancello, avvio del VPS). I file sono .github/workflows/** e cervello/vps/**, fuori dal territorio della corsia C. Finché non c'è, le 29 prove restano ⚪ e i 9 rossi ereditati restano invisibili sulla macchina di chi lavora — adesso però il numero è dichiarato e sotto un tetto, invece di essere un ⚪ in fondo a un elenco lungo.",
+      "nota_fix": "LOTTO 63 (26/8). ① ESECUTORE DICHIARATO: cervello/installa-bats.sh, una casa sola chiamata da quattro posti — i due workflow, il gancio SessionStart e il setup del VPS. Installare bats costa 937 ms e ha fatto uscire DIECI file rossi / DICIANNOVE casi, invisibili da mesi. ② IL BUCO È UN NUMERO: il tetto test_bash separa il debito ereditato in bash (scende e non risale) dai rossi in Node (blocco duro a zero). Senza quella separazione installare bats avrebbe reso il cancello rosso per sempre proprio nel momento in cui si è smesso di essere ciechi: si sarebbe punito chi ha tolto la benda. ③ era già fatto (rossi_node e rossi_bash contati a parte). PAGATO SUBITO: 10 file rossi → 7, cioè 19 casi → 10. worker-titolo-commit da 6 casi rossi a 0 (la decisione del titolo estratta in cervello/titolo-commit.sh, che la prova ESEGUE invece di ritagliarla da worker.sh con un awk); estrai-stream curato da un `return 0` che mancava; n8n-placeholder che adesso dichiara lo skip. ④ TOGLIERE LA BENDA STAVA SPEGNENDO LA DIFESA, e l'ha detto la CI il 26/8. Dichiarato l'esecutore, il banco esce onestamente 1 per i sette rossi ereditati in bash — e quell'1 pesava su due strade che non c'entrano niente: il workflow `test-cervello.yml`, che guarda i push diretti su main e sarebbe stato rosso per tutti a ogni push, e `giro.sh` riga 474, che alza un vincolo hard e avrebbe fermato ogni giro del server. Un cancello che NON PUÒ diventare verde si impara ad aggirare al secondo giro: la cura avrebbe prodotto il danno che il difetto non faceva. Curato dentro il banco, con la stessa regola del cancello e leggendo lo STESSO file (tetti-lotto.json → test_bash), non una seconda copia della decisione: l'uscita è 0 solo se ① nessun rosso in Node ② i rossi in bash ≤ il tetto ③ il tetto l'ho letto davvero — un file assente o illeggibile non assolve nessuno. Il referto stampa comunque il ❌ con i sette nomi: non è una sparizione, è un debito dichiarato che non blocca chi passa. Tre mutazioni lo rendono rosso. Nello stesso gesto la riga del ⚪ dei bats non dice più «manca bats su questa macchina» quando bats c'è: sul runner quel rimedio puntava alla cosa sbagliata. IL GUARDIANO È STATO STRETTO NELLO STESSO GESTO, o la cura avrebbe creato il difetto: l'attrezzo non conta come proprio esecutore (altrimenti installa-bats.sh basterebbe a sé stesso il giorno in cui nessuno lo chiama più), e .claude/settings.json non si salta più per intero — dentro c'è il gancio, che è un esecutore vero; fuori restano i permessi, che non lo sono.",
       "corroborata": true,
       "chiusura": "bloccata",
       "chiusura_motivo": "Dichiarato APERTO dalla corsia C del lotto 43 e richiuso da solo dopo il merge. Delle tre clausole ne sono state fatte due: il buco è dichiarato come tetto che scende (29 prove in bash non misurate) e i rossi ereditati sono contati a parte. La PRIMA clausola — installare `bats` dove il banco gira davvero, cioè in CI e sul VPS — non è stata fatta: tocca .github/workflows e cervello/vps, fuori dal territorio della corsia. Finché non c'è, quelle 29 prove esistono e non le esegue nessuno. La prova sulla scheda passa perché misura il tetto, non l'installazione."
@@ -17132,9 +17135,11 @@
       "impatto": "Tre controlli su ogni lotto consegnato dal cloud non guardano niente, fra cui quello che esiste perche il 4/7 una fusione cancello 52 difetti e nessuno se ne accorse per un mese.",
       "origine": "lotto 53, secondo giro",
       "verifica": {
-        "tipo": "umano",
-        "nota": "causa verificata sul campo il 23/8: `git rev-list --count HEAD` 69 → 599 col deepen → 7363 con --unshallow, e i tre controlli sono passati dal dichiararsi ciechi al misurare. Prova da scrivere col repo finto."
-      }
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cecita-curabile.test.mjs",
+        "nota": "Tre casi su un repo git finto: storia intera → il comando non si dà nemmeno; troncata + cura riuscita → intera e stato «curata»; troncata + cura fallita → cieco DICHIARATO, col perché e col comando. La cura si inietta, quindi la prova non ha bisogno di una rete. Due mutazioni registrate."
+      },
+      "nota_fix": "LOTTO 63 (26/8). Nuova porta storiaDelRepoCurata() in cervello/storia-git.mjs: se la storia è troncata dà UNA volta `git fetch --unshallow origin`, rimisura, e dichiara ⚪ solo se anche la cura fallisce — clausola (a) della scheda. I sei consumatori (cancello-lotto, prove-oneste, auto-fix, allocazione-check, cantiere-integrita, piani-data) passano da lì. Una volta sola per processo, e dopo il primo il repo è intero su disco: il costo per l'intero cancello è un fetch solo. Clausola (b) coperta dallo stesso modulo condiviso cervello/cecita-curabile.mjs: il ⚪ porta sempre il comando che lo toglie, e un comando mai dato esce ⛔ e non ⚪. Misurato qui il 26/8: `git rev-list --count HEAD` da 50 a 7.383 in pochi secondi. NOTA SU UN EFFETTO COLLATERALE CHE HO DOVUTO CURARE NELLO STESSO GESTO: il metro chiamateSenzaStato cercava `storiaDelRepo(` esatto, quindi avrebbe accusato i sei file che usano la porta migliore — un guardiano che punisce chi cura si spegne entro la settimana. Adesso accetta storiaDelRepo\\w*. due-case.mjs resta sulla porta grezza apposta: costruisce ambienti finti superficiali, e curarli falserebbe la sua misura."
     },
     {
       "id": "AR-801",
@@ -17782,6 +17787,61 @@
       },
       "descrizione": "Nato dallo scontro che ha bocciato la consegna di questo stesso lotto, un'ora dopo che avevo riparato l'altra meta' del problema. La riparazione ha funzionato — quando ho chiesto il numero, gli altri rami li ha guardati davvero — e non poteva bastare.",
       "nato_da": "la bocciatura del cancello in CI sulla richiesta di unione #848: AR-824 raccontava due difetti diversi qui e su main"
+    },
+    {
+      "id": "AR-833",
+      "titolo": "Il divieto di spingere codice a mano è uscito dal file il 27 luglio, e per un mese non se n'è accorto nessuno",
+      "dimensione": "rischio-sicurezza-se",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① La prova cervello/test/permessi-guardrail.bats, caso «deny: push grezzo bloccato», pretende che .claude/settings.json vieti Bash(git push:*). Oggi quel divieto non c'è. ② Chi l'ha tolto: il commit 1b5d0d1c8 del 27/7/2026 («Update settings.json»), che leva la riga dal blocco deny. Prima era stato ALLARGATO da Bash(git push*main*) — un divieto stretto, solo verso main — a Bash(git push:*), cioè tutti i push. Un divieto totale blocca anche il push del proprio ramo di lavoro, che è il gesto su cui poggia la regola «ogni modifica finisce in una PR»: la rimozione ha una ragione vera. ③ Perché resta un difetto: l'invariante che il divieto STRETTO proteggeva — niente codice non revisionato spinto a mano su main — è rimasto senza nessuna difesa, e la prova che l'avrebbe detto non la eseguiva nessuno perché bats non era installato (AR-693). Trenta giorni di scoperto, visti solo il 26/8 installandolo.",
+      "fix_proposto": "🟡 Non rimettere Bash(git push:*): ha bloccato il lavoro legittimo, ed è per quello che è stato tolto. Rimettere la forma STRETTA — un divieto sul push verso main (la vecchia Bash(git push*main*), o la forma che la sintassi dei permessi supporta oggi) — così il ramo di lavoro si spinge e main no. E riscrivere il caso della prova sull'INVARIANTE («esiste un divieto che impedisce di spingere su main») invece che sulla stringa esatta, altrimenti il prossimo ritocco alla sintassi lo azzera di nuovo: è AR-375 in un'altra stanza. ⚠️ È il file dei permessi, e l'ha modificato Nicola di persona: la forma del divieto la sceglie lui, non io.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-26 09:35",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "La prova esiste già ed è rossa: `bats cervello/test/permessi-guardrail.bats`, caso 1. Non le do un comando finché la forma del divieto non è scelta — una prova scritta adesso fisserebbe la sintassi, che è già stata la causa del problema."
+      },
+      "origine": "lotto 63 · trovato installando bats (AR-693)",
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-834",
+      "titolo": "Dieci prove in bash controllano che il codice sia scritto com'era ieri, non che faccia quello che deve",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "impatto_crescita": "indiretto: sono dieci accuse false in un elenco che la CI e Nicola leggono. Un rosso che non appartiene a chi lo vede insegna a scorrere l'elenco senza leggerlo, ed è allora che il rosso vero non lo vede più nessuno.",
+      "causa_radice": "Installato bats (AR-693), dieci casi in sei file escono rossi. Verificati tutti e dieci sul codice vero il 26/8: in NESSUNO la protezione manca — cercano la sintassi di ieri. `timeout \"$_gt\" git fetch` è diventato `timeout \"$_gt\" git \"${C4_GIT_OPZ[@]}\" fetch`; le due sonde colonne non si accendono più su un array REST ma su un HTTP 200 esplicito, cioè in modo PIÙ severo; il marcatore PAUSA_FAIL_CLOSED è diventato la testa condivisa pausa_verdetto di AR-390 (e `_pausa_rc=$?` c'è ancora); il ramo «solo rc=1 converte un esegui-azione in errore» è emigrato nel modulo puro esitoSync di AR-399 — provato qui: rc=1 dà stato «errore», rc=2 e rc=3 no; `contesto_macchina_chat 2>/dev/null` adesso passa un argomento; `if (scriviStato)` è diventato `if (scriviStato && …)`; le tre PATCH con &stato=eq.in_corso vanno a capo. In tutti i casi il codice è uguale o migliore di quello che la prova pretende. È la malattia di AR-375 vista in bash: il metro scritto sulla sintassi invece che sull'invariante. (Il decimo caso, permessi-guardrail, è l'eccezione ed è un difetto vero: AR-833.)",
+      "fix_proposto": "🟡 Un file per volta, e la cura NON è ripuntare il grep alla stringa nuova: quello è cambiare nome al tubo e non al vizio, e fra un mese si ripete. Per ognuno: se un caso comportamentale nello stesso file copre già l'invariante, la «guardia anti-drift» si TOGLIE — è successo in worker-titolo-commit, dove il grep su `head -c 60` era già coperto dal caso della lettera accentata a cavallo del limite. Se non lo copre, si porta la decisione in una funzione che la prova ESEGUE, come cervello/titolo-commit.sh. I sei file che restano: gate-coerenza-vault-pre-push (1 caso), irrobustimenti (3), sensori-non-clobber (1), sessione-chat (1), worker-claim-pausa (1), worker-doppio-invio (2).",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-26 09:35",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Il numero si legge dal tetto: `node cervello/cancello-lotto.mjs` → riga test-in-bash, oppure `for f in cervello/test/*.bats; do bats --tap $f; done`. Il tetto test_bash scende e non risale: finché è sopra zero questa scheda è viva. Nessun comando adesso, perché il fix non è scritto — una prova scritta oggi non avrebbe niente da rompere."
+      },
+      "origine": "lotto 63 · trovato installando bats (AR-693)",
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-832",
+      "titolo": "La casa che imita il server è nata ieri, e accusa chi fa domande sul mese scorso",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "impatto_crescita": "indiretto: è il freno che impedisce a un controllo nuovo del cancello di nascere già rotto sul server. Se comincia ad accusare innocenti, si impara a scorrere il suo elenco — e allora l'accusa vera, quella che il freno esiste per dare, non la legge più nessuno.",
+      "causa_radice": "① `cervello/due-case.mjs` rilancia i passi nuovi del cancello in una «casa spoglia» che imita il runner. Il punto ⑤ in testa al file la descrive come «storia intera con origin/main al pre-lotto». ② «Storia intera» lì vuol dire soltanto «non è un clone superficiale»: la casa la costruisce `costruisciCasaSpoglia` con un `git init` seguito da DUE commit — il pre-lotto e il lotto. ③ Il runner vero invece la storia ce l'ha davvero: i due workflow fanno checkout con `fetch-depth: 0`, e la riga che lo spiega è scritta dentro tutt'e due. Quindi su questo asse la casa NON somiglia al runner: somiglia a un repo nato ieri. ④ Un passo che chiede a git com'era un file alla data di nascita di un difetto — luglio, per la maggior parte — in quella casa non trova niente ed esce ⚪. Il freno legge «verde in casa, non-verde nella casa spoglia» e scrive NASCE ROTTO. ⑤ PROVATO IL 26/8, e il verso dell'errore è quello che fa danno: bastava aggiungere una riga di commento a `cervello/prove-oneste.mjs` sul ramo di partenza — senza toccarne il comportamento — per far comparire l'accusa. Il freno accusa chi non ha fatto niente, che è la forma di AR-786.",
+      "fix_proposto": "🟡 Far portare alla casa spoglia la storia VERA, che è quello che il runner ha. La strada più corta è agganciare il commit pre-lotto al commit di base vero (fetch degli oggetti dal repo + `commit-tree -p <base>`), così `origin/main` resta al punto di partenza ma il passato esiste. Da misurare prima: quanto costa in tempo e in disco rispetto al `git init` di adesso — la casa spoglia oggi si costruisce in 2,5 secondi, ed è quel prezzo basso a rendere il freno accettabile a ogni lotto. TAMPONE DI OGGI (lotto 63), e la prima versione era sbagliata: avevo messo i due passi fra i «mai provabili», cioè avevo ALZATO il tetto da 4 a 6. Il sorvegliante del delta l'ha respinto, con ragione — «un tetto che sale è il rosso che diventa verde senza che niente sia migliorato». Il tampone giusto non tocca nessuna soglia: `verdettoDueCase` distingue il **2** (cieco) dal **1** (violazione) per i soli passi che passano dalla porta della storia, e in quel caso dichiara ⚪ invece di accusare. Tre condizioni insieme, strette apposta: solo il 2, solo per chi chiede del passato, e riconosciuto dal codice invece che da un elenco di nomi. Un passo che esce 1 nella casa spoglia resta rosso: AR-506 e AR-514 non si toccano.",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-26 11:00",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cecita-curabile.test.mjs",
+        "nota": "Quattro casi: il 2 di chi chiede del passato è ⚪ · il 2 di chi non lo chiede resta «nasce rotto» · l'1 resta rosso per tutti · e il riconoscimento si deriva dal codice. ⚠️ La scheda resta APERTA lo stesso: questo è il tampone, non la cura. La cura è la casa spoglia che si porta la storia vera, e finché non c'è quei due passi nella casa del runner non li vede nessuno."
+      },
+      "origine": "lotto 63 · trovato collaudando la cura di AR-800",
+      "nato_come": "scoperta"
     }
   ],
   "meta": {

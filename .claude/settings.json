@@ -100,7 +100,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash cervello/installa-hooks.sh >/dev/null 2>&1; node cervello/contesto-lezioni.mjs --hook"
+            "command": "bash cervello/installa-hooks.sh >/dev/null 2>&1; bash cervello/installa-bats.sh >/dev/null 2>&1; node cervello/contesto-lezioni.mjs --hook"
           },
           {
             "type": "command",

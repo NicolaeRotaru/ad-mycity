@@ -19,7 +19,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { percorsiDaGit } from "./percorsi-git.mjs";
-import { storiaDelRepo } from "./storia-git.mjs";
+import { storiaDelRepoCurata } from "./storia-git.mjs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza, stampSegnale } from "./git-github.mjs";
 import { FINESTRA, ritmoVsMagazzino } from "./finestra-misura.mjs";
@@ -31,7 +31,7 @@ const JSON_MODE = process.argv.includes("--json");
  * file toccati negli ultimi 7 giorni: se la storia è troncata quella finestra non esiste, e il
  * numero che ne uscirebbe descriverebbe il magazzino invece della settimana.
  */
-const STORIA = storiaDelRepo(AD_ROOT);
+const STORIA = storiaDelRepoCurata(AD_ROOT);
 
 // Cartelle dove vivono gli ASSET PESANTI intestabili a un'entità (post, grafiche, QR, kit, pagine SEO…).
 // NON includiamo consegne/audit, consegne/decisioni, consegne/finanza ecc.: non sono "sforzo di reparto

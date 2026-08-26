@@ -50,6 +50,33 @@ import { spawn, spawnSync } from "node:child_process";
 import { cpus, tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { verdettoCecita } from "./cecita-curabile.mjs";
+
+/** La chiave con cui «manca un pacchetto del Pannello» è registrata fra le cecità curabili. */
+export const CHIAVE_PANNELLO = "dipendenze-del-pannello";
+
+/**
+ * Quel pacchetto è una dipendenza dichiarata del Pannello? Si legge dal suo package.json, non da un
+ * elenco scritto qui: un elenco a mano resterebbe indietro alla prima dipendenza nuova.
+ */
+export function dipendenzaDelPannello(nome, leggi = null) {
+  const radice = String(nome || "").split("/").slice(0, String(nome).startsWith("@") ? 2 : 1).join("/");
+  if (!radice) return false;
+  let p;
+  try {
+    p = JSON.parse(leggi ? leggi() : readFileSync(join(AD_ROOT, "pannello/package.json"), "utf8"));
+  } catch {
+    // ⚪ TRE VALORI, NON DUE — malattia `fonte-troncata-letta-per-intera`.
+    // Un `return false` qui direbbe «non è del Pannello» a partire da una fonte che non ho letto:
+    // stessa faccia di un verdetto vero, e chi legge non saprebbe che la domanda è rimasta senza
+    // risposta. `null` = non lo so, e chi chiama lo dice invece di dedurre.
+    return null;
+  }
+  return Boolean(p?.dependencies?.[radice] || p?.devDependencies?.[radice]);
+}
+
+/** La chiave con cui «manca bats» è registrata fra le cecità curabili. */
+export const CHIAVE_BATS = "prove-bash-senza-esecutore";
 // 📏 Il contratto della prova, in un posto solo (contratto-prova.mjs). Qui si CHIAMA, non si
 // riscrive: le due domande che questo banco è l'unico a poter fare — «questo caso può fallire?» e
 // «questo rosso è la prova di una scheda dichiarata chiusa?» — hanno una risposta sola per tutti.
@@ -212,6 +239,7 @@ export function leggiTapBats(out = "") {
   let passati = 0;
   let falliti = 0;
   let piano = false;
+  let saltati = 0;
   for (const r of String(out).split("\n")) {
     const t = r.trimEnd();
     if (/^\d+\.\.\d+\s*$/.test(t.trim())) {
@@ -219,10 +247,18 @@ export function leggiTapBats(out = "") {
       continue;
     }
     if (/^not ok\b/.test(t)) falliti++;
+    // ⏭️ UN CASO SALTATO NON È UN CASO PASSATO — AR-652.
+    //
+    // bats stampa `ok 3 nome # skip <perché>` quando una prova dichiara di non poter girare (le
+    // chiavi non ci sono, il servizio non risponde). Contarlo fra i `passati` fa uscire ✅ da un file
+    // dove non è stato provato NIENTE: è la forma di verde bugiardo che questa casa passa il tempo a
+    // togliere, e qui la produceva il metro stesso. Si contano a parte, e se sono TUTTI il file esce
+    // ⚪, non verde.
+    else if (/^ok\b.*#\s*skip\b/i.test(t)) saltati++;
     else if (/^ok\b/.test(t)) passati++;
   }
-  if (!piano && !passati && !falliti) return { passati: null, falliti: null };
-  return { passati, falliti };
+  if (!piano && !passati && !falliti && !saltati) return { passati: null, falliti: null, saltati: 0 };
+  return { passati, falliti, saltati };
 }
 
 /** QUALE caso bats è caduto, col suo perché — l'equivalente di `righeRosse` per il TAP di bats. */
@@ -250,12 +286,26 @@ export function righeRosseBats(out = "", max = 8) {
 
 /** Verdetto su un file `.bats`, con la stessa grammatica usata per i `.test.mjs`. */
 export function verdettoBats(status, out) {
-  const { passati, falliti } = leggiTapBats(out);
+  const { passati, falliti, saltati = 0 } = leggiTapBats(out);
   if (passati === null) {
-    return { esito: "ineseguibile", motivo: "nessun TAP da bats: il file non è nemmeno partito", passati, falliti };
+    return { esito: "ineseguibile", motivo: "nessun TAP da bats: il file non è nemmeno partito", passati, falliti, saltati };
   }
-  if (status === 0 && !falliti) return { esito: "ok", motivo: "", passati, falliti };
-  return { esito: "rosso", motivo: `${falliti || "?"} casi falliti`, passati, falliti, rosse: righeRosseBats(out) };
+  // Tutti saltati e nessun fallito: la prova ha dichiarato di non poter girare qui. È un ⚪ — sta
+  // fra le non misurate, con il perché — e non un ✅: nessuno l'ha fatta.
+  if (!falliti && !passati && saltati) {
+    return { esito: "non-eseguito", motivo: `${saltati} casi saltati: ${motivoDelloSkip(out) || "la prova ha dichiarato di non poter girare qui"}`, passati, falliti, saltati };
+  }
+  if (status === 0 && !falliti) return { esito: "ok", motivo: saltati ? `${saltati} casi saltati` : "", passati, falliti, saltati };
+  return { esito: "rosso", motivo: `${falliti || "?"} casi falliti`, passati, falliti, saltati, rosse: righeRosseBats(out) };
+}
+
+/** Il perché del primo `# skip`, così il ⚪ non è muto. */
+export function motivoDelloSkip(out = "") {
+  for (const r of String(out).split("\n")) {
+    const m = /^ok\b.*#\s*skip\s*(.*)$/i.exec(r.trimEnd());
+    if (m) return m[1].trim();
+  }
+  return "";
 }
 
 /**
@@ -446,11 +496,19 @@ export function verdetto(status, out) {
     const nome = mod?.[1] || "";
     const eNostro = nome.startsWith(".") || nome.startsWith("/");
     if (nome && !eNostro) {
-      return {
-        esito: "non-eseguito",
-        motivo: `manca il pacchetto «${nome}» su questa macchina: la prova esiste e nessuno l'ha fatta girare`,
-        passati, falliti,
-      };
+      // Anche questo ⚪ porta il comando che lo toglie, quando esiste (AR-800, stessa casa del clone
+      // superficiale e di bats). Un pacchetto del Pannello si cura con `npm ci --prefix pannello`;
+      // per uno che non è del Pannello non conosco una cura, e allora il ⚪ resta e lo dice — è la
+      // differenza fra «non si può» e «nessuno l'ha fatto», che sulla pagina hanno lo stesso aspetto.
+      const curabile = dipendenzaDelPannello(nome);
+      const detto = `manca il pacchetto «${nome}» su questa macchina: la prova esiste e nessuno l'ha fatta girare`;
+      const motivo =
+        curabile === true
+          ? verdettoCecita({ chiave: CHIAVE_PANNELLO, cieco: true, motivo: detto }).riga
+          : curabile === null
+            ? `${detto} — e non ho potuto leggere pannello/package.json per sapere se si cura con \`npm ci --prefix pannello\``
+            : detto;
+      return { esito: "non-eseguito", motivo, passati, falliti };
     }
     return { esito: "ineseguibile", motivo: `import non risolvibile${nome ? `: ${nome}` : ""}`, passati, falliti };
   }
@@ -836,7 +894,16 @@ async function main() {
       : bats.map((f) => ({
           file: `${CARTELLA}/${f}`,
           esito: "non-eseguito",
-          motivo: "bats non è installato su questa macchina: la prova esiste e nessuno l'ha fatta girare",
+          // AR-800/AR-693 — IL ⚪ PORTA IL COMANDO CHE LO TOGLIE. Un cerchio bianco che nessuno può
+          // togliere è il prezzo dell'ambiente; uno che si toglie in novecento millisecondi è lavoro
+          // non fatto travestito da prezzo dell'ambiente, e sulla pagina i due hanno lo stesso
+          // aspetto. La frase la costruisce cervello/cecita-curabile.mjs, la stessa casa che risponde
+          // per il clone superficiale: due copie della stessa decisione si allontanano.
+          motivo: verdettoCecita({
+            chiave: CHIAVE_BATS,
+            cieco: true,
+            motivo: "bats non è installato su questa macchina: la prova esiste e nessuno l'ha fatta girare",
+          }).riga,
           passati: null,
           falliti: null,
         }))
@@ -930,11 +997,23 @@ async function main() {
   // finale no. «Passano tutti» senza questa riga sarebbe vero sui file eseguiti e falso su ciò che
   // il lettore capisce — cioè la forma esatta di verde bugiardo che AR-660 racconta.
   if (nonEseguiti.length) {
-    console.log(
-      `\n⚪ ${nonEseguiti.length} prove in bash NON eseguite: manca \`bats\` su questa macchina.` +
-        `\n   Installalo (\`npx bats --version\` per provarlo, \`npm i -g bats\` e poi BATS_BIN=$(command -v bats)) e rilancia: sono prove vere, oggi nessuno le fa.` +
-        `\n   Il conto misurato il 14/8: senza bats 1 rosso su 243, con bats 12 — dieci fallimenti veri erano invisibili (AR-693).`,
-    );
+    // ⚠️ DUE MOTIVI DIVERSI, DUE FRASI DIVERSE — trovato in CI il 26/8.
+    //
+    // Prima questa riga diceva sempre «manca `bats` su questa macchina». Da quando l'esecutore c'è
+    // (AR-693 ①) la frase è diventata falsa nel caso più comune: sul runner `bats` è installato, e
+    // i file non eseguiti sono quelli che hanno DICHIARATO di non poter girare lì (AR-652, lo skip
+    // senza le chiavi del server). Un rimedio che punta alla cosa sbagliata manda chi legge a
+    // cercare nel posto sbagliato — ed è lo stesso vizio che questo lotto cura altrove.
+    if (bin) {
+      console.log(`\n⚪ ${nonEseguiti.length} prove in bash NON eseguite: \`bats\` c'è, sono le prove che hanno dichiarato di non poter girare qui.`);
+      for (const x of nonEseguiti.slice(0, 5)) console.log(`   · ${x.file} — ${x.motivo}`);
+    } else {
+      console.log(
+        `\n⚪ ${nonEseguiti.length} prove in bash NON eseguite: manca \`bats\` su questa macchina.` +
+          `\n   Installalo (\`bash cervello/installa-bats.sh\`, oppure \`npm i -g bats\` e poi BATS_BIN=$(command -v bats)) e rilancia: sono prove vere, oggi nessuno le fa.` +
+          `\n   Il conto misurato il 14/8: senza bats 1 rosso su 243, con bats 12 — dieci fallimenti veri erano invisibili (AR-693).`,
+      );
+    }
   }
   // AR-694 — i casi che non possono fallire. Vanno detti PRIMA del verdetto: un file può essere
   // verde e avere dentro tre casi spenti, e quel verde copre meno di quanto sembra.
@@ -983,7 +1062,70 @@ async function main() {
     `\n❌ ${rotti.length} rossi${daChi}${nonMisurati.length ? ` · ⚪ ${nonMisurati.length} non misurati` : ""} su ${quantiFile} file: ${rotti.length + nonMisurati.length} non danno garanzie.`,
   );
   console.log(`   Un test che non gira non è una rete: è un file che fa sembrare coperto ciò che non lo è.`);
+
+  // 🐚 IL DEBITO EREDITATO IN BASH NON RENDE ROSSO CHI PASSA DI QUI — e il perché è misurato.
+  //
+  // TROVATO IN CI IL 26/8, DA QUESTO STESSO LOTTO. Dichiarato l'esecutore (AR-693 ①), le ventinove
+  // prove in bash girano davvero e ne escono SETTE rosse: tutte in codice che nessun lotto di oggi
+  // ha toccato — worker.sh, giro.sh, verifica-sensori, i permessi — e tutte ancorate alla sintassi
+  // di ieri (AR-834). Fin qui è giusto e va detto. Ma l'uscita secca 1 le faceva pesare su DUE
+  // strade che non c'entrano niente: il workflow `test-cervello.yml`, che diventava rosso a ogni
+  // push su main per tutti, e `giro.sh` riga 474, che alza un vincolo hard e avrebbe fermato ogni
+  // giro del server finché quelle sette non erano curate.
+  //
+  // Il risultato sarebbe stato un cancello che NON PUÒ diventare verde — e questa casa ha il conto
+  // di cosa succede allora: si impara ad aggirarlo al secondo giro, e da lì non dice più niente
+  // nemmeno quando ha ragione. Cioè: togliere la benda avrebbe spento la difesa.
+  //
+  // La regola è la stessa che il cancello del lotto applica da sempre, e il tetto è lo STESSO file:
+  // debito ereditato = si conta sotto un numero che scende e non risale · regressione = blocca
+  // subito. Qui non c'è una seconda copia della decisione, c'è una lettura sola di `test_bash`.
+  //
+  // TRE CONDIZIONI INSIEME, e la terza è quella che impedisce l'assoluzione comoda:
+  //   · nessun rosso in Node (quelli restano blocco duro, tetto zero e nessuna eccezione);
+  //   · i rossi in bash ≤ il tetto dichiarato;
+  //   · il tetto l'ho LETTO davvero. Un file assente o illeggibile non assolve nessuno: senza il
+  //     numero non sto misurando, e «non ho misurato» non è «va bene» (contratto AR-322).
+  const t = tettoBash();
+  if (!rottiNode.length && rottiBash.length && t.letto && rottiBash.length <= t.tetto) {
+    console.log(
+      `\n🐚 I ${rottiBash.length} rossi sono TUTTI in bash, debito ereditato sotto il tetto dichiarato (${t.tetto}, cervello/tetti-lotto.json → test_bash).` +
+        `\n   Non fermo chi passa di qui: nessuno di questi è di questo lavoro, e sono la scheda AR-834. Il tetto scende e non risale — chi ne cura uno lo abbassi.` +
+        `\n   Un rosso in Node, o un ottavo in bash, e questa riga non compare: quello blocca.`,
+    );
+    process.exitCode = 0;
+    return;
+  }
+  if (!rottiNode.length && rottiBash.length && !t.letto) {
+    console.log(`\n⚠️  ${t.motivo}: senza un numero fermo non distinguo il debito di ieri da una regressione di oggi, e non assolvo ciò che non ho potuto distinguere.`);
+  }
   process.exitCode = 1;
+}
+
+/**
+ * Il tetto del debito ereditato in bash, letto dalla casa unica dei tetti del cancello.
+ *
+ * Tre valori e non due: `letto` dice se il numero l'ho visto davvero. Un `0` di ripiego su un file
+ * illeggibile sarebbe un verdetto intero costruito su una fonte mai aperta — la malattia
+ * `fonte-troncata-letta-per-intera`, e qui produrrebbe il danno peggiore dei due (assolvere).
+ */
+export function tettoBash(leggi = null) {
+  const dove = process.env.TETTI_FILE || join(AD_ROOT, "cervello/tetti-lotto.json");
+  let testo;
+  try {
+    testo = leggi ? leggi() : readFileSync(dove, "utf8");
+  } catch {
+    return { letto: false, tetto: null, motivo: "cervello/tetti-lotto.json non l'ho potuto leggere" };
+  }
+  let t;
+  try {
+    t = JSON.parse(testo);
+  } catch {
+    return { letto: false, tetto: null, motivo: "cervello/tetti-lotto.json non è leggibile come JSON" };
+  }
+  const n = t?.test_bash;
+  if (!Number.isInteger(n) || n < 0) return { letto: false, tetto: null, motivo: "cervello/tetti-lotto.json non dichiara `test_bash`" };
+  return { letto: true, tetto: n, motivo: `tetto dichiarato: ${n}` };
 }
 
 /**

@@ -37,7 +37,7 @@ import { execFileSync } from "node:child_process";
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
-import { storiaDelRepo } from "./storia-git.mjs";
+import { storiaDelRepoCurata } from "./storia-git.mjs";
 import { msDaTimbro } from "./ora-piacenza.mjs";
 
 const CARTELLA = "MyCity-Vault/06-Piani";
@@ -294,7 +294,7 @@ function misura() {
 // ── Il comando ──────────────────────────────────────────────────────────────
 
 function main() {
-  const storia = storiaDelRepo(AD_ROOT);
+  const storia = storiaDelRepoCurata(AD_ROOT);
   if (!storia.intera) {
     const msg = `la data dell'ultimo aggiornamento non si può misurare — ${storia.motivo}`;
     if (JSON_MODE) console.log(JSON.stringify({ esito: "cieco", motivo: msg }, null, 2));

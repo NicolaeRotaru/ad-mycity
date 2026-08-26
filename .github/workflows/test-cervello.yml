@@ -94,6 +94,14 @@ jobs:
       # che le serve — e il cancello del lotto, che le dipendenze le installa per primo, restava
       # verde sulla stessa riga di codice. Due workflow con lo stesso compito e due verdetti opposti:
       # il rosso non stava nel codice, stava nell'ordine dei passi.
+      # 🐚 CHI ESEGUE LE PROVE IN BASH — AR-693 ①. Ventinove prove esistevano e non le lanciava
+      # nessuno: senza `bats` il banco le dichiara ⚪ e il verde di fianco vale meno di quanto sembra.
+      # Una casa sola per tutti gli esecutori (CI, VPS, avvio di sessione): cervello/installa-bats.sh.
+      # Sta PRIMA delle dipendenze del Pannello e non in mezzo: AR-697 pretende che quel passo e
+      # «Test del cervello» restino adiacenti, e la sua mutazione li cerca attaccati.
+      - name: Chi esegue le prove in bash
+        run: bash cervello/installa-bats.sh
+
       - name: Dipendenze del Pannello
         run: npm --prefix pannello ci
 

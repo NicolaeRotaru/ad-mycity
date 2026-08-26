@@ -36,7 +36,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
 import { spawnSync } from "node:child_process";
 import { join, relative } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
-import { storiaDelRepo } from "./storia-git.mjs";
+import { storiaDelRepoCurata } from "./storia-git.mjs";
 // AR-724 — le due domande sul TIMBRO di chiusura vivono nella casa del contratto, insieme alla
 // porta che lo mette. Qui si fanno, perché è qui che il cancello del lotto guarda a ogni giro.
 import { timbriStorti, attiFuoriDallaPorta } from "./contratto-scheda.mjs";
@@ -284,7 +284,7 @@ function leggiTettoSecco() {
 
 /** Il riferimento con cui confrontarsi: l'antenato comune col ramo pubblicato, o l'ultimo commit. */
 function basePerConfronto() {
-  const storia = storiaDelRepo(AD_ROOT);
+  const storia = storiaDelRepoCurata(AD_ROOT);
   if (storia.intera) {
     const mb = spawnSync("git", ["merge-base", "HEAD", "origin/main"], { cwd: AD_ROOT, encoding: "utf8" });
     if (mb.status === 0 && mb.stdout.trim()) {

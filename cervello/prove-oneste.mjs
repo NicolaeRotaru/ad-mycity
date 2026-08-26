@@ -22,7 +22,7 @@ import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { AD_ROOT } from "./git-github.mjs";
 import { istanteNascita, nataGiaSoddisfatta, provaControllabile } from "./prove-regole.mjs";
-import { storiaDelRepo } from "./storia-git.mjs";
+import { storiaDelRepoCurata } from "./storia-git.mjs";
 import { verdettoCopertura } from "./misura-parziale.mjs";
 
 const CANTIERE = join(AD_ROOT, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-difetti.json");
@@ -47,7 +47,7 @@ function git(args) {
  * dice, che è tutta la differenza fra essere ciechi e saperlo.
  */
 export function testoAllaNascita(file, nato, run = git, storia = null) {
-  const s = storia || storiaDelRepo(AD_ROOT);
+  const s = storia || storiaDelRepoCurata(AD_ROOT);
   if (!s.intera) return null;
   const istante = istanteNascita(nato);
   if (!file || !istante) return null;
@@ -73,7 +73,7 @@ function main() {
 
   // Una volta sola per esecuzione: la risposta non cambia dentro un giro, e chiederla per ognuno
   // dei ~200 difetti significherebbe lanciare git 200 volte per sapere la stessa cosa.
-  const storia = storiaDelRepo(AD_ROOT);
+  const storia = storiaDelRepoCurata(AD_ROOT);
 
   const aperti = (cantiere.difetti || []).filter((d) => d && d.stato !== "chiuso");
   const sospette = [];

@@ -26,9 +26,9 @@ import { spawnSync } from "node:child_process";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
 import { comandoAmmesso, MOTIVO_COMANDO_NON_AMMESSO } from "./forma-prova.mjs";
-import { storiaDelRepo } from "./storia-git.mjs";
+import { storiaDelRepoCurata } from "./storia-git.mjs";
 import { contaProveDeboli } from "./chiusura-dichiarata.mjs";
-import { verdettoConTetto, testDelLotto, idSospetti, testRossi, perimetroDichiarato } from "./tetto-guardiano.mjs";
+import { verdettoConTetto, testDelLotto, idSospetti, testRossi, testRossiBash, perimetroDichiarato } from "./tetto-guardiano.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
 // 📏 Il contratto della prova (contratto-prova.mjs): quanto vale una prova lo dice UN posto solo.
 import { debitoDiMutazione } from "./contratto-prova.mjs";
@@ -446,7 +446,7 @@ function basePerConfronto() {
   // si scriveva «repo shallow» come spiegazione più probabile. Quasi sempre giusta, ma è comunque
   // un motivo indovinato — e un guardiano che indovina il perché della propria cecità non sta
   // misurando, sta raccontando. Ora la storia si chiede alla porta e il motivo è quello vero.
-  const storia = storiaDelRepo(AD_ROOT);
+  const storia = storiaDelRepoCurata(AD_ROOT);
   if (storia.intera) {
     const mb = spawnSync("git", ["merge-base", "HEAD", "origin/main"], { cwd: AD_ROOT, encoding: "utf8" });
     if (mb.status === 0 && mb.stdout.trim()) return { spec: mb.stdout.trim(), nota: "antenato comune con origin/main" };
@@ -715,8 +715,11 @@ function main() {
     // AR-437 — i due tetti nuovi si dichiarano da qui, e ci vogliono i loro guardiani: il numero non
     // si indovina, si misura. Costa i secondi delle due corse, e si paga solo con `--aggiorna-tetti`.
     const onesteOra = idSospetti(esegui("prove oneste", "node", ["cervello/prove-oneste.mjs"]).uscita).length;
-    const rossiOra = testRossi(esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: 600_000 }).uscita);
-    if (rossiOra === null) {
+    const uscitaSuite = esegui("test del cervello", "node", ["cervello/test-cervello.mjs", "--json"], { timeout: 600_000 }).uscita;
+    const rossiOra = testRossi(uscitaSuite);
+    // AR-693 — il debito ereditato in bash ha il suo numero, misurato dalla stessa corsa.
+    const rossiBashOra = testRossiBash(uscitaSuite);
+    if (rossiOra === null || rossiBashOra === null) {
       console.error("cancello-lotto: non ho saputo leggere l'esito della suite → non dichiaro un tetto che non ho misurato");
       process.exit(2);
     }
@@ -740,6 +743,7 @@ function main() {
       timbro_secco: Math.min(seccheOra, tetti.timbro_secco ?? seccheOra),
       prove_oneste: Math.min(onesteOra, tetti.prove_oneste ?? onesteOra),
       test_cervello: Math.min(rossiOra.length, tetti.test_cervello ?? rossiOra.length),
+      test_bash: Math.min(rossiBashOra.length, tetti.test_bash ?? rossiBashOra.length),
       memoria_fuori_campo: Math.min(fuoriCampoOra, tetti.memoria_fuori_campo ?? fuoriCampoOra),
     };
     // Si FONDE con quello che c'è già: la prima versione riscriveva il file da zero e cancellava
@@ -748,7 +752,7 @@ function main() {
     const { _mancante, _illeggibile, ...vecchio } = tetti;
     writeFileSync(TETTI, `${JSON.stringify({ ...vecchio, aggiornato: nowPiacenza(), ...nuovo }, null, 1)}\n`);
     console.log(
-      `🚧 tetti aggiornati: prova_con_or = ${nuovo.prova_con_or} · mutazione_mancante = ${nuovo.mutazione_mancante} · prova_debole = ${nuovo.prova_debole} · timbro_secco = ${nuovo.timbro_secco} · memoria_fuori_campo = ${nuovo.memoria_fuori_campo}`,
+      `🚧 tetti aggiornati: prova_con_or = ${nuovo.prova_con_or} · mutazione_mancante = ${nuovo.mutazione_mancante} · prova_debole = ${nuovo.prova_debole} · timbro_secco = ${nuovo.timbro_secco} · test_bash = ${nuovo.test_bash} · memoria_fuori_campo = ${nuovo.memoria_fuori_campo}`,
     );
     process.exit(0);
   }
@@ -1107,14 +1111,41 @@ function main() {
       // toccato IO»: chi dichiara il proprio perimetro (LOTTO_PERIMETRO) viene giudicato su quello.
       perimetroDichiarato(process.env.LOTTO_PERIMETRO),
     );
-    applicaTetto(pTest, {
-      regola: "test-del-cervello",
-      quanti: rossi ? rossi.length : null,
-      delLotto: rossi ? rossi.filter((f) => miei.includes(f)) : null,
-      tetto: tetti.test_cervello ?? null,
-      avvisi,
-      violazioni: violazioniProve,
-    });
+    const rossiBash = testRossiBash(pTest.uscita);
+    // Una famiglia senza nessun rosso non produce un avviso: «0 rossi ereditati» è rumore, e un
+    // referto che si allunga di righe vuote è un referto che si impara a scorrere. Il `null` invece
+    // si dichiara sempre — non aver saputo contare non è aver contato zero.
+    const daPesare = (elenco) => elenco === null || elenco.length > 0;
+    if (daPesare(rossi)) {
+      applicaTetto(pTest, {
+        regola: "test-del-cervello",
+        quanti: rossi ? rossi.length : null,
+        delLotto: rossi ? rossi.filter((f) => miei.includes(f)) : null,
+        tetto: tetti.test_cervello ?? null,
+        avvisi,
+        violazioni: violazioniProve,
+      });
+    }
+    // 🐚 AR-693 — IL DEBITO EREDITATO IN BASH, CONTATO A PARTE.
+    //
+    // Dal 26/8 `bats` lo installa qualcuno (cervello/installa-bats.sh, chiamato da CI, VPS e avvio
+    // di sessione), quindi ventinove prove che non girava nessuno girano. Ne sono uscite dieci rosse
+    // — tutte in codice che nessun lotto di oggi ha toccato. Metterle nel tetto dei test in Node
+    // (che è zero, e resta zero) farebbe diventare il cancello rosso per sempre proprio nel momento
+    // in cui si è smesso di essere ciechi: si punirebbe chi ha tolto la benda, e un cancello che non
+    // può diventare verde si impara a saltare. Quindi tetto proprio, che scende e non risale — e il
+    // blocco duro resta identico su ciò che QUESTO lotto ha toccato.
+    if (daPesare(rossiBash)) {
+      applicaTetto(pTest, {
+        regola: "test-in-bash",
+        quanti: rossiBash ? rossiBash.length : null,
+        delLotto: rossiBash ? rossiBash.filter((f) => miei.includes(f)) : null,
+        tetto: tetti.test_bash ?? null,
+        avvisi,
+        violazioni: violazioniProve,
+      });
+    }
+    if (rossiBash?.length) pTest.coda = [...pTest.coda, ...rossiBash.slice(0, 10).map((f) => `🐚 ${f} (debito ereditato, tetto test_bash)`)];
     // Con `--json` il report leggibile sparisce: i nomi dei rossi vanno rimessi a mano, altrimenti si
     // curerebbe il verde bugiardo creando un rosso indiagnosticabile (AR-450, di nuovo).
     if (rossi?.length) pTest.coda = [...pTest.coda, ...rossi.slice(0, 8).map((f) => `❌ ${f}`)];

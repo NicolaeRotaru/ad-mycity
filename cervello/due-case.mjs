@@ -482,9 +482,47 @@ export function piano(passiOra = [], passiPrima = [], { seStesso = null, leggiOr
  * cancello lancia comunque quel passo e lo dice da sé, e accusare due volte la stessa cosa insegna
  * a leggere solo il primo rigo.
  */
-export function verdettoDueCase({ casa, spoglia }) {
+export function verdettoDueCase({ casa, spoglia, chiedeIlPassato = false }) {
   if (!Number.isInteger(spoglia)) return { esito: "non-misurato", motivo: "la casa spoglia non ha restituito un codice d'uscita leggibile" };
   if (spoglia === 0) return { esito: "ok", motivo: "verde anche nella casa spoglia" };
+  // 🕰️ LA CASA È NATA IERI, E UN PASSO CHE CHIEDE DEL MESE SCORSO NON SI PUÒ GIUDICARE QUI — AR-832.
+  //
+  // La casa spoglia è un `git init` con DUE commit: il punto ⑤ in testa la chiama «storia intera»,
+  // e nel senso stretto è vero (non è un clone superficiale). Ma un passo che chiede a git com'era
+  // un file alla data di NASCITA di un difetto — luglio, per la maggior parte — lì non trova niente
+  // e si dichiara cieco. Il runner vero invece la storia ce l'ha: `fetch-depth: 0` in tutt'e due i
+  // workflow. Quindi quel 2 racconta la mia casa finta, non il runner.
+  //
+  // PROVATO IL 26/8, e il verso dell'errore è quello che fa danno: bastava aggiungere una riga di
+  // commento a `cervello/prove-oneste.mjs` sul ramo di partenza — senza toccarne il comportamento —
+  // per farmi scrivere «NASCE ROTTO». Un freno che accusa chi non ha fatto niente si impara a
+  // scorrere (AR-786), e allora l'accusa vera non la legge più nessuno.
+  //
+  // Stretto apposta, e sono tre condizioni insieme: solo il **2** (cieco: il contratto dei guardiani
+  // distingue 1 «violazione» da 2 «non ho potuto misurare», AR-322), solo per un passo che passa
+  // dalla **porta della storia**, e senza toccare nessun tetto — non è un'assoluzione, è un ⚪ che
+  // resta contato fra ciò che non copro. Un passo che esce **1** nella casa spoglia resta rosso
+  // com'era: quelli sono AR-506 e AR-514, e su di loro non cambia niente.
+  if (spoglia === 2 && chiedeIlPassato === null) {
+    // Non ho potuto leggere lo script, quindi non so se chiede del passato. Si tiene il lato
+    // prudente — l'accusa resta — ma si dice, invece di far passare un «no» che non ho misurato.
+    return {
+      esito: "nasce-rotto",
+      motivo:
+        "in casa esce 0, nella casa spoglia esce 2 (cieco). ⚠️ Non ho potuto leggere lo script per " +
+        "sapere se chiede a git com'era il passato: se lo chiede, questo ⚪ potrebbe essere della mia " +
+        "casa finta e non del runner (AR-832). Tengo l'accusa e lo dichiaro.",
+    };
+  }
+  if (spoglia === 2 && chiedeIlPassato === true) {
+    return {
+      esito: "non-misurato",
+      motivo:
+        "si dichiara cieco nella casa spoglia, e quella casa è un `git init` con due commit: chiede " +
+        "a git com'era un file mesi fa e lì il passato non c'è. Sul runner vero la storia c'è " +
+        "(fetch-depth: 0), quindi questo ⚪ racconta la mia casa finta e non il runner (AR-832)",
+    };
+  }
   if (!Number.isInteger(casa)) return { esito: "non-misurato", motivo: "la casa spoglia dice ≠ 0 ma non ho potuto rilanciarlo qui per confronto" };
   if (casa !== 0) return { esito: "gia-rosso-in-casa", motivo: `esce ${casa} anche in casa: non è la casa a farlo cadere, e il cancello lo dice già da sé` };
   return {
@@ -800,6 +838,31 @@ function leggiOppureNull(percorso) {
 }
 
 /**
+ * Questo script fa domande sul passato? Si legge dal codice, non da un elenco (AR-832).
+ *
+ * TRE VALORI, non due — malattia `fonte-troncata-letta-per-intera`. `false` vorrebbe dire «l'ho
+ * letto e non chiede del passato»; se la lettura non è riuscita quella frase è un verdetto intero
+ * costruito su una fonte mai aperta, e ha la stessa faccia di uno vero. `null` = non lo so, e chi
+ * decide sceglie il lato prudente DICENDOLO, invece di dedurlo in silenzio.
+ *
+ * @returns {boolean|null}
+ */
+export function passaDallaPortaDellaStoria(root, script, leggi = null) {
+  if (!script) return false; // nessuno script da leggere: la risposta è no, e la so
+  // Il percorso arriva dal sorgente del cancello e non da fuori, ma un `..` qui leggerebbe un file
+  // fuori dal repo: si rifiuta invece di fidarsi. Costa una riga e toglie una domanda a chi rilegge.
+  if (String(script).split("/").includes("..")) return false;
+  let testo = null;
+  try {
+    testo = leggi ? leggi(script) : readFileSync(join(root, script), "utf8");
+  } catch {
+    testo = null;
+  }
+  if (testo === null || testo === undefined) return null; // non l'ho letto: non ho una risposta
+  return /storiaDelRepo\w*\s*\(|statoStoria\s*\(/.test(String(testo));
+}
+
+/**
  * La misura vera di UN passo: lo si rilancia intatto nella casa spoglia e si confrontano le uscite.
  *
  * La copia è per passo e non per corsa: un passo che scrive lascerebbe la casa sporca per il
@@ -830,7 +893,15 @@ function misuraIlPasso(root, voce, spec = "HEAD", quantoTempo = TEMPO_MASSIMO) {
       const qui = esegui(root, passo, process.env, quantoTempo);
       inCasa = qui.ucciso ? null : qui.codice;
     }
-    const a = verdettoDueCase({ casa: intatto.codice === 0 ? 0 : inCasa, spoglia: intatto.codice });
+    // Il riconoscimento è DERIVATO dal codice, mai da un elenco di nomi: si guarda se lo script passa
+    // dalla porta della storia (`storiaDelRepo`, `storiaDelRepoCurata`, `statoStoria`) — la stessa che
+    // cervello/storia-git.mjs impone a chiunque faccia una domanda sulla finestra passata. Misurato il
+    // 26/8: 2 passi su 25 del cancello.
+    const a = verdettoDueCase({
+      casa: intatto.codice === 0 ? 0 : inCasa,
+      spoglia: intatto.codice,
+      chiedeIlPassato: passaDallaPortaDellaStoria(root, passo.script),
+    });
     if (a.esito === "ok") return { passo: passo.nome, script: passo.script, stato, esito: "ok", motivo: a.motivo, rilanciatoQui };
     if (a.esito === "nasce-rotto") return { passo: passo.nome, script: passo.script, stato, esito: "nasce-rotto", motivo: a.motivo, uscita: intatto.uscita, rilanciatoQui };
     return { passo: passo.nome, script: passo.script, stato, esito: a.esito === "gia-rosso-in-casa" ? "gia-rosso-in-casa" : "non-misurato", motivo: a.motivo, uscita: intatto.uscita, rilanciatoQui };

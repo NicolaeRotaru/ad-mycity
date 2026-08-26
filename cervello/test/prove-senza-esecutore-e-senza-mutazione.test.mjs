@@ -65,8 +65,30 @@ test("i posti dove cercare un esecutore si DERIVANO dal repo, non si elencano a 
   assert.ok(fonti.some((f) => f.endsWith(".sh")), "gli script di avvio devono essere nel perimetro");
 });
 
-test("SUL CAMPO: oggi nessuno esegue le prove in bash di questo repo, e il numero è 29", () => {
+// ⚠️ QUESTO CASO È STATO RISCRITTO IL 26/8, ED È IL SUO INSEGNAMENTO PRINCIPALE (AR-787).
+//
+// Com'era: pretendeva `e.installato === false`, cioè asseriva che il difetto AR-693 ① fosse ANCORA
+// lì. Una prova così può essere verde soltanto finché il difetto c'è: il giorno in cui qualcuno lo
+// cura diventa rossa, e il banco punisce chi ha riparato. È successo esattamente il 26/8, quando
+// l'esecutore è stato dichiarato — e il messaggio d'errore lo diceva già da solo («allora AR-693 ①
+// è chiusa e questo caso va aggiornato»), il che vuol dire che chi l'ha scritta lo sapeva.
+//
+// Com'è adesso: misura la CAPACITÀ DI ACCORGERSENE, non lo stato del mondo. La capacità resta vera
+// prima e dopo la cura, e diventa falsa solo se qualcuno rompe il metro — che è l'unica cosa che una
+// prova deve sorvegliare.
+test("SUL CAMPO: il metro sa distinguere un permesso da un esecutore, prima e dopo la cura", () => {
   const bats = readdirSync(join(REPO, "cervello/test")).filter((f) => f.endsWith(".bats") && !f.startsWith("_"));
+  assert.ok(bats.length >= 20, `prove in bash trovate: ${bats.length}`);
+
+  // ① Il mondo com'era: solo un permesso in giro, e nessuno che le lanci → nessun esecutore.
+  const comeEraPrima = esecutoreDichiarato([
+    { nome: ".claude/settings.json", testo: JSON.stringify({ permissions: { allow: ["Bash(npx bats:*)"] } }) },
+    { nome: ".github/workflows/test-cervello.yml", testo: "steps:\n  - run: node cervello/test-cervello.mjs\n" },
+  ]);
+  assert.equal(comeEraPrima.installato, false, "un'autorizzazione a lanciarlo non è qualcuno che lo lancia");
+
+  // ② Il mondo di adesso: il repo VERO dichiara chi le esegue. Se questo torna false, la cura di
+  //    AR-693 ① è stata disfatta e ventinove prove sono tornate decorative.
   const fonti = fontiPossibili(REPO).map((rel) => {
     try {
       return { nome: rel, testo: readFileSync(join(REPO, rel), "utf8") };
@@ -74,9 +96,8 @@ test("SUL CAMPO: oggi nessuno esegue le prove in bash di questo repo, e il numer
       return { nome: rel, testo: "" };
     }
   });
-  const e = esecutoreDichiarato(fonti);
-  assert.equal(e.installato, false, `qualcuno adesso le esegue (${e.dove.join(", ")}): allora AR-693 ① è chiusa e questo caso va aggiornato`);
-  assert.ok(bats.length >= 20, `prove in bash trovate: ${bats.length}`);
+  const oggi = esecutoreDichiarato(fonti);
+  assert.equal(oggi.installato, true, "AR-693 ①: CI, VPS e avvio di sessione chiamano cervello/installa-bats.sh");
 });
 
 // ── AR-693 ③ — i rossi in bash contati a parte da quelli in Node ────────────

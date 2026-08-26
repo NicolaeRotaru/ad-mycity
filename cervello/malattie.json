@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧹 REGISTRO DELLE MALATTIE — non i singoli difetti, ma le FORME di difetto che si ripetono. Lo legge cervello/spazzata-fratelli.mjs a ogni giro: se una malattia si allarga (più istanze della linea di partenza, o un file nuovo che si ammala) il guardiano fallisce. Serve a rispondere alla domanda di Nicola del 28/7: «non solo l'hai risolto, ma l'hai migliorato?». Un test dimostra che UN punto guarisce; questo registro dimostra che la malattia non si sposta altrove.",
  "_come_si_usa": "Quando curi un punto, ABBASSA la baseline al numero misurato dopo il fix (node cervello/spazzata-fratelli.mjs --aggiorna). La baseline è un tetto che scende: non si alza mai per far passare un giro. Se una istanza resta apposta, mettila in `esenti` con il PERCHÉ scritto — un'esenzione senza motivo è un silenzio, ed è la cosa che stiamo curando.",
- "aggiornato": "2026-08-22 19:55",
+ "aggiornato": "2026-08-26 13:10",
  "malattie": [
   {
    "id": "esito-in-una-pipe",
@@ -520,7 +520,7 @@
    "estensioni": [
     ".mjs"
    ],
-   "baseline": 16,
+   "baseline": 14,
    "file_noti": [
     "cervello/cancello-senior.mjs",
     "cervello/cancello-stop.mjs",
@@ -551,7 +551,7 @@
     }
    ],
    "nota_onesta": "Il pattern conta OGNI esecuzione diretta di git, compresa quella dentro gitEsegui: è voluto, perché l'esecutore unico è una riga sola e tutto il resto è una porta laterale. Il tetto scende quando un chiamante passa all'esecutore unico, e non risale: è l'unica cosa che impedisce all'ottava porta di nascere in silenzio.",
-   "nota_baseline": "18 istanze nette (19 trovate − 1 esente) in 14 file, misurate il 2026-08-14 da spazzata-fratelli sul repo vero. La scheda di AR-327 ne nominava DUE: era nove volte più stretta del vero, ed è il motivo per cui la regola dice che comanda il codice e non la scheda. I file elencati in file_noti sono la LINEA DI PARTENZA, non un'assoluzione: portarli tutti all'esecutore unico è il lavoro di un lotto suo (registrato come difetto nuovo), e finché non è fatto il tetto tiene fermo il numero. Lotto 44: scesa a 17 — una istanza curata dal lotto. Il tetto scende e non risale. Lotto 63: scesa a 16. `prossimo-ar.mjs` passa tutto dall'esecutore unico — due porte laterali le avevo appena aperte io leggendo i rami, la terza (`daGit`) era ereditata e l'ho curata mentre ero li'. Il tetto scende e non risale."
+   "nota_baseline": "18 istanze nette (19 trovate − 1 esente) in 14 file, misurate il 2026-08-14 da spazzata-fratelli sul repo vero. La scheda di AR-327 ne nominava DUE: era nove volte più stretta del vero, ed è il motivo per cui la regola dice che comanda il codice e non la scheda. I file elencati in file_noti sono la LINEA DI PARTENZA, non un'assoluzione: portarli tutti all'esecutore unico è il lavoro di un lotto suo (registrato come difetto nuovo), e finché non è fatto il tetto tiene fermo il numero. Lotto 44: scesa a 17 — una istanza curata dal lotto. Il tetto scende e non risale. Lotto 63: scesa a 16. `prossimo-ar.mjs` passa tutto dall'esecutore unico — due porte laterali le avevo appena aperte io leggendo i rami, la terza (`daGit`) era ereditata e l'ho curata mentre ero li'. Il tetto scende e non risale. Lotto 63 (l'altro ramo, unito qui): scesa ancora perche' storia-git.mjs aveva DUE esecutori suoi e la cura di AR-800 (il fetch che si cura da solo) ne avrebbe aggiunti tre; adesso ne ha ZERO, passano tutte da gitLetto(). Per farci stare il fetch, a gitEsegui/gitLetto e' stato aggiunto un `timeout` opzionale — un fetch senza tetto di tempo dentro un guardiano resta appeso quanto vuole la rete — e per chi non lo chiede non cambia niente. FUSIONE DEL 26/8: le due cure sono indipendenti e si sommano, quindi il numero vero misurato sull'albero fuso e' 14 — non il minimo dei due tetti dichiarati (15 e 16), che sarebbe stato un tetto gonfiato di uno. Il tetto scende e non risale."
   },
   {
    "id": "codice-uscita-che-compra-il-verde",

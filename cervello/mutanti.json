@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-26 09:30",
+ "aggiornato": "2026-08-26 13:40",
  "mutanti": [
   {
    "lotto": 30,
@@ -7416,6 +7416,132 @@
    "cerca": "  return [\"-sS\", \"--fail-with-body\", \"--connect-timeout\", \"10\", \"--max-time\", \"15\", \"-K\", \"-\", url];",
    "sostituisci": "  return [\"-sS\", \"--fail-with-body\", \"-K\", \"-\", url];",
    "test": "node --test cervello/test/entrate-senza-cancello.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-800",
+   "nome": "la porta torna a dichiararsi cieca senza nemmeno provare a curarsi",
+   "file": "cervello/storia-git.mjs",
+   "cerca": "  const esito = curaUnaVolta({",
+   "sostituisci": "  const esito = { tentata: false, riuscita: null, stato: prima, gia: false }; const _spento = ({",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-800",
+   "nome": "un comando mai dato torna a valere come un ⚪ legittimo",
+   "file": "cervello/cecita-curabile.mjs",
+   "cerca": "  if (!tentata) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-693",
+   "nome": "l attrezzo torna a contare come il proprio esecutore: il guardiano è verde con nessuno che lo chiama",
+   "file": "cervello/debito-prove-bash.mjs",
+   "cerca": "    if (/(^|\\/)installa-bats\\.(sh|bash)$/.test(nome)) continue;",
+   "sostituisci": "    if (false) continue;",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-693",
+   "nome": "le impostazioni tornano a essere saltate per intero: il gancio di avvio non lo vede nessuno",
+   "file": "cervello/debito-prove-bash.mjs",
+   "cerca": "    if (/\\.claude\\/settings(\\.local)?\\.[a-z]+$/.test(nome)) testo = senzaPermessi(testo);",
+   "sostituisci": "    if (/\\.claude\\/settings(\\.local)?\\.[a-z]+$/.test(nome)) continue;",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-652",
+   "nome": "un caso saltato torna a contare come un caso passato: il file esce verde senza aver provato niente",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "    else if (/^ok\\b.*#\\s*skip\\b/i.test(t)) saltati++;",
+   "sostituisci": "    else if (false) saltati++;",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-652",
+   "nome": "un file tutto saltato torna a dirsi ✅ invece che ⚪",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "  if (!falliti && !passati && saltati) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-800",
+   "nome": "il fetch dentro il guardiano torna senza freni: dieci processi sbattono sullo stesso muro di rete",
+   "file": "cervello/storia-git.mjs",
+   "cerca": "  if (!haOrigin) return false;",
+   "sostituisci": "  if (false) return false;",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-693",
+   "nome": "l'installatore torna senza timeout: un npm appeso blocca l'avvio di ogni sessione",
+   "file": "cervello/installa-bats.sh",
+   "cerca": "if _con_timeout npm i -g bats >/dev/null 2>&1; then",
+   "sostituisci": "if npm i -g bats >/dev/null 2>&1; then",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-800",
+   "nome": "il ⚪ del pacchetto mancante torna muto: dice che manca e non dice come toglierlo",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "      const curabile = dipendenzaDelPannello(nome);",
+   "sostituisci": "      const curabile = false;",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-832",
+   "nome": "la casa nata ieri torna ad accusare chi chiede del mese scorso",
+   "file": "cervello/due-case.mjs",
+   "cerca": "  if (spoglia === 2 && chiedeIlPassato === true) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-832",
+   "nome": "la porta si allarga: anche un ROSSO nella casa spoglia diventa un ⚪",
+   "file": "cervello/due-case.mjs",
+   "cerca": "  if (spoglia === 2 && chiedeIlPassato === true) {",
+   "sostituisci": "  if (spoglia !== 0 && chiedeIlPassato === true) {",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-693",
+   "nome": "il debito ereditato in bash torna a rendere rosso chi passa di qui: il workflow di main e il giro non possono più diventare verdi",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "  if (!rottiNode.length && rottiBash.length && t.letto && rottiBash.length <= t.tetto) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-693",
+   "nome": "il tetto assolve anche quando non l'ho letto: un file illeggibile diventa un via libera",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "  if (!rottiNode.length && rottiBash.length && t.letto && rottiBash.length <= t.tetto) {",
+   "sostituisci": "  if (!rottiNode.length && rottiBash.length && (!t.letto || rottiBash.length <= t.tetto)) {",
+   "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 63,
+   "difetto": "AR-693",
+   "nome": "il tetto assolve anche i rossi in Node: il blocco duro sparisce",
+   "file": "cervello/test-cervello.mjs",
+   "cerca": "  if (!rottiNode.length && rottiBash.length && t.letto && rottiBash.length <= t.tetto) {",
+   "sostituisci": "  if (rottiBash.length && t.letto && rottiBash.length <= t.tetto) {",
+   "test": "cervello/test/cecita-curabile.test.mjs"
   }
  ]
 }
