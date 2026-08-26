@@ -4295,6 +4295,43 @@ può eseguire.
 
 ---
 
+## 2026-08-26 20:05 — Le chiusure dopo il merge del lotto 63 (🟡)
+
+Unita la richiesta #849, applicate le chiusure con `auto-fix.mjs verifica --applica`.
+**22 difetti chiusi**, il cantiere passa da 141 a 119 da fare (706 chiusi su 825).
+
+Tre erano di questo lotto: AR-693 (le prove in bash che nessuno eseguiva), AR-800 (la
+cecità del clone superficiale) e AR-652 (la prova che pretendeva le chiavi del server
+senza dirlo). Le altre diciannove erano **debito arretrato**: schede riparate e unite nei
+lotti precedenti (le richieste #844, #845, #846, #847 e #848) su cui nessuno aveva più
+applicato le chiusure. Il passo post-merge esisteva e non lo faceva nessuno.
+
+**QUATTRO NON SI SONO CHIUSE, ed è la parte che conta.** La loro prova PASSA, ma la scheda
+dice — scritta — che il lavoro non è finito. Senza il campo `chiusura: "bloccata"` si
+sarebbero chiuse da sole, smentendo quello che c'è scritto: è AR-444 alla lettera, e quel
+campo esiste apposta. Verificate una per una prima di applicare:
+
+- **AR-797** — la prova misura il motore del guardiano, e la sua nota lo dichiara: «finché
+  il guardiano non è agganciato al cancello la prova copre il motore». Controllato il 26/8:
+  `due-case` compare in `cancello-lotto.mjs` solo dentro un commento, non come passo.
+- **AR-798** — stesso caso, e il `fix_proposto` è ancora più esplicito: «bocciato dal
+  collaudo, NON agganciato al cancello». Zero occorrenze nel cancello.
+- **AR-832** — la prova misura il tampone, non la cura, e la nota lo dice: «la scheda resta
+  APERTA lo stesso».
+- **AR-396** — era già bloccata da prima.
+
+**E UNA È STATA SBLOCCATA: AR-693.** Il suo blocco portava scritto un motivo solo — «la
+PRIMA clausola, installare bats dove il banco gira davvero, cioè in CI e sul VPS, non è
+stata fatta». Adesso è fatta, e la CI l'ha provato eseguendo davvero le 29 prove sul runner.
+Il blocco non si toglie perché la prova passa (passava anche prima): si toglie perché la
+condizione scritta lì dentro è stata verificata sul campo.
+
+Restano aperti da questo lotto, e sono per Nicola: **AR-833** (il divieto di pubblicazione
+diretta uscito dal file il 27 luglio — la forma del divieto la sceglie lui, è il file dei
+permessi) e **AR-834** (le sette prove in bash ancorate alla sintassi di ieri, sotto il
+tetto `test_bash` che scende e non risale).
+
+
 ## 2026-08-26 07:45 — 🟡 L'unione del tronco ha mostrato che l'archivio delle lezioni è pieno (AR-824)
 
 **Cosa è successo.** La #846 è entrata nel tronco alle 05:29 e la mia #847 è diventata in conflitto.
