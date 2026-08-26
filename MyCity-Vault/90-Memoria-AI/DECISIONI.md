@@ -4321,3 +4321,31 @@ cantiere con due strade pesate (archivio a due piani, oppure tetto per campo). T
 memoria, va scelta a mente fredda e non dentro una richiesta che parla del cancello di fine turno.
 
 **Cosa resta a Nicola:** la firma sulla #847, che adesso è di nuovo unibile. · Nicola (chat 26/8)
+
+## 2026-08-26 10:50 — 🟡 Lotto 63: bats installato dove il banco gira davvero, e la cecità curabile smette di essere un prezzo
+
+**Cosa.** Aperta la richiesta di unione #849 sul ramo `claude/cantiere-difetti-vvh0su`.
+Riparati AR-693 (clausole ① e ②), AR-800 e AR-652; registrati AR-830, AR-831, AR-832.
+
+**Perché.** Ventinove prove scritte in bash non le eseguiva nessuno: né la CI, né il VPS,
+né l'avvio di sessione. In tutto il repo l'unica traccia di `bats` era un permesso — cioè
+l'autorizzazione a lanciarlo, che non è qualcuno che lo lancia. Installarlo costa 937 ms e
+ha fatto uscire dieci file rossi per diciannove casi, invisibili da mesi. La stessa forma
+in un'altra stanza: in ogni sessione cloud tre controlli del cancello si dichiarano ciechi
+per il clone superficiale, e `git fetch --unshallow origin` toglie quella cecità in pochi
+secondi (misurato: da 50 commit a 7.383). Il difetto non era il ⚪ — era che il ⚪ si
+fermava lì.
+
+**Numeri.** File rossi in bash 10 → 7 (19 casi → 10). Malattia `git-letto-senza-tetto`
+17 → 15. Mutazioni del lotto che diventano rosse: 12 su 12. Cancello: exit 2, con l'unico
+⚪ dichiarato (`typecheck del Pannello`, serve `npm ci --prefix pannello`).
+
+**Cosa serve da Nicola.** ① la firma sul merge; ② la scelta sulla forma del divieto di
+pubblicazione diretta (AR-830): il 27/7, col commit `1b5d0d1c8` intitolato «Update
+settings.json», `Bash(git push:*)` è uscito dal blocco deny e per trenta giorni non se
+n'è accorto nessuno. Non l'ho rimesso io: nella forma larga bloccava anche il lavoro
+legittimo, ed è il file dei permessi.
+
+**Limite dichiarato.** Il collaudo l'ha fatto la stessa sessione che ha costruito — la
+regola di casa dice il contrario. Ha trovato quattro cose e sono state riparate, fra cui
+una soglia che stavo alzando e che il sorvegliante del delta ha respinto con ragione.
