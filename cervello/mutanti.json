@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-24 21:05",
+ "aggiornato": "2026-08-26 09:30",
  "mutanti": [
   {
    "lotto": 30,
@@ -1910,7 +1910,7 @@
    "lezione": "L-2026-0804-553",
    "nome": "il numero torna a leggersi dalla sola copia locale: la collisione col worker ricompare",
    "file": "cervello/prossimo-ar.mjs",
-   "cerca": "  const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain)], quanti);",
+   "cerca": "  const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain), ...daRami], quanti);",
    "sostituisci": "  const liberi = prossimiLiberi([numeriUsati(locali)], quanti);",
    "test": "node --test cervello/test/prossimo-ar.test.mjs"
   },
@@ -7272,6 +7272,123 @@
    "sostituisci": "} else if (COSTRUTTORI_JS[f]) {",
    "test": "cervello/test/la-coda-scritta-da-quattro-mani.test.mjs",
    "lezione": "L-2026-0825-03"
+  },
+  {
+   "difetto": "AR-824",
+   "lezione": "L-2026-0826-02",
+   "nome": "il numero torna a cercarsi solo qui e su main: la finestra in cui la collisione e' evitabile ridiventa cieca",
+   "file": "cervello/prossimo-ar.mjs",
+   "cerca": "  const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain), ...daRami], quanti);",
+   "sostituisci": "  const liberi = prossimiLiberi([numeriUsati(locali), numeriUsati(suMain)], quanti);",
+   "test": "node --test cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs"
+  },
+  {
+   "difetto": "AR-824",
+   "lezione": "L-2026-0826-02",
+   "nome": "torna a contare anche i rami gia' fusi: l'insieme sbagliato, lento e senza il fatto che serve",
+   "file": "cervello/prossimo-ar.mjs",
+   "cerca": "[\"for-each-ref\", \"--format=%(refname)\", \"--no-merged\", \"origin/main\", \"refs/remotes/origin\"],",
+   "sostituisci": "[\"for-each-ref\", \"--format=%(refname)\", \"refs/remotes/origin\"],",
+   "test": "node --test cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs"
+  },
+  {
+   "difetto": "AR-824",
+   "lezione": "L-2026-0826-02",
+   "nome": "un cantiere illeggibile su un ramo viene ingoiato e il numero esce lo stesso: ⚪ spacciato per verde",
+   "file": "cervello/prossimo-ar.mjs",
+   "cerca": "      nonLetti.push(`${r.replace(\"refs/remotes/\", \"\")} (${e.message.split(\"\\n\")[0]})`);",
+   "sostituisci": "      void e;",
+   "test": "node --test cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs"
+  },
+  {
+   "difetto": "AR-825",
+   "lezione": "L-2026-0826-01",
+   "nome": "senza chiave GitHub lo strumento risponde lo stesso con zero: il conto che non c'e' diventa un verde",
+   "file": "cervello/entrate-senza-cancello.mjs",
+   "cerca": "    console.error(\"   Non è un guasto — è uno strumento non collegato qui. Sul VPS e in CI la chiave c'è.\");\n    process.exit(2);",
+   "sostituisci": "    console.error(\"   Non è un guasto — è uno strumento non collegato qui. Sul VPS e in CI la chiave c'è.\");\n    process.exit(0);",
+   "test": "node --test cervello/test/entrate-senza-cancello.test.mjs"
+  },
+  {
+   "difetto": "AR-825",
+   "lezione": "L-2026-0826-01",
+   "nome": "«mai vista dal cancello» e «vista e rossa» tornano a essere la stessa cosa: due guasti diversi con un nome solo",
+   "file": "cervello/entrate-senza-cancello.mjs",
+   "cerca": "come: \"mai_misurata\"",
+   "sostituisci": "come: \"rossa\"",
+   "test": "node --test cervello/test/entrate-senza-cancello.test.mjs"
+  },
+  {
+   "difetto": "AR-825",
+   "lezione": "L-2026-0826-01",
+   "nome": "accusa anche le PR fuori dalla finestra misurabile: gonfia il numero con quello che non poteva sapere",
+   "file": "cervello/entrate-senza-cancello.mjs",
+   "cerca": "    if (da && p.merged_at < da) continue;",
+   "sostituisci": "",
+   "test": "node --test cervello/test/entrate-senza-cancello.test.mjs"
+  },
+  {
+   "difetto": "AR-826",
+   "lezione": "L-2026-0826-01",
+   "nome": "la chiave torna sulla riga di comando, dove la legge chiunque abbia un ps sulla stessa macchina",
+   "file": "cervello/entrate-senza-cancello.mjs",
+   "cerca": "  return [\"-sS\", \"--fail-with-body\", \"--connect-timeout\", \"10\", \"--max-time\", \"15\", \"-K\", \"-\", url];",
+   "sostituisci": "  return [\"-sS\", \"--fail-with-body\", \"--connect-timeout\", \"10\", \"--max-time\", \"15\", \"-H\", `Authorization: Bearer ${CHIAVE}`, url];",
+   "test": "node --test cervello/test/entrate-senza-cancello.test.mjs"
+  },
+  {
+   "difetto": "AR-827",
+   "lezione": "L-2026-0826-02",
+   "nome": "il potatore torna a scriversi il filtro da se': le ritirate ricontano vive e l'archivio non rientra piu'",
+   "file": "cervello/pota-apprendimento.mjs",
+   "cerca": "  const spente = new Set(lezioniSpente(j).filter((l) => !l?.gate));\n  const decadute = [...spente];",
+   "sostituisci": "  const spente = new Set(lezioni.filter((l) => l.stato === \"decaduta\"));\n  const decadute = [...spente];",
+   "test": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+  },
+  {
+   "difetto": "AR-827",
+   "lezione": "L-2026-0826-02",
+   "nome": "`ritirata` esce dagli stati noti: le lezioni ritirate tornano invisibili dentro «altro»",
+   "file": "cervello/misura-parziale.mjs",
+   "cerca": "export const STATI_LEZIONE = [\"attiva\", \"principio\", \"in-prova\", \"decaduta\", \"ritirata\", \"senza-stato\"];",
+   "sostituisci": "export const STATI_LEZIONE = [\"attiva\", \"principio\", \"in-prova\", \"decaduta\", \"senza-stato\"];",
+   "test": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+  },
+  {
+   "difetto": "AR-827",
+   "lezione": "L-2026-0826-02",
+   "nome": "«spenta» ingoia anche in-prova: si poterebbe una lezione appena nata",
+   "file": "cervello/misura-parziale.mjs",
+   "cerca": "  return tutte.filter((l) => [\"decaduta\", \"ritirata\"].includes(String(l?.stato ?? \"\").trim()));",
+   "sostituisci": "  return tutte.filter((l) => ![\"attiva\", \"principio\"].includes(String(l?.stato ?? \"\").trim()));",
+   "test": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+  },
+  {
+   "difetto": "AR-827",
+   "lezione": "L-2026-0826-02",
+   "nome": "il potatore torna a potare anche le lezioni che portano un freno: la difesa esce dal registro senza che nessuno tocchi il codice",
+   "file": "cervello/pota-apprendimento.mjs",
+   "cerca": "  const spente = new Set(lezioniSpente(j).filter((l) => !l?.gate));",
+   "sostituisci": "  const spente = new Set(lezioniSpente(j));",
+   "test": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
+  },
+  {
+   "difetto": "AR-829",
+   "lezione": "L-2026-0826-01",
+   "nome": "anche `gate` diventa prosa: si puo' cancellare un freno dal registro senza che nessuno lo dica",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "  \"nato_da\", \"lezione_appresa\", \"_cosa_e\", \"_come_si_aggiunge\",",
+   "sostituisci": "  \"nato_da\", \"lezione_appresa\", \"_cosa_e\", \"_come_si_aggiunge\", \"gate\", \"comando\",",
+   "test": "node --test cervello/test/sorvegliante.test.mjs"
+  },
+  {
+   "difetto": "AR-828",
+   "lezione": "L-2026-0826-01",
+   "nome": "la chiamata a GitHub torna senza tetto di tempo: con GitHub lento il giro non fallisce, resta fermo li'",
+   "file": "cervello/entrate-senza-cancello.mjs",
+   "cerca": "  return [\"-sS\", \"--fail-with-body\", \"--connect-timeout\", \"10\", \"--max-time\", \"15\", \"-K\", \"-\", url];",
+   "sostituisci": "  return [\"-sS\", \"--fail-with-body\", \"-K\", \"-\", url];",
+   "test": "node --test cervello/test/entrate-senza-cancello.test.mjs"
   }
  ]
 }

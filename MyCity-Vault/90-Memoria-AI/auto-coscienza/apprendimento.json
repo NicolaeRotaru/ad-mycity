@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-25 16:45",
+ "aggiornato": "2026-08-26 08:41",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -9694,36 +9694,6 @@
    ]
   },
   {
-   "id": "L-2026-0702-43",
-   "testo": "**Canale Render Pannello ≠ token API (Nicola 2/7 08:16 — casella #19):** «come collego il canale Render?» — card #19 etichetta canale «Render (marketplace)» + UI «canale non ancora collegato». **5 perché confusione:** (1) Pannello mostra Render come canale ma `pannello/lib/mani.ts` supporta solo **email (Resend)** — pulsante Approva **non** esegue deploy; (2) Render marketplace è già agganciato a **GitHub** su `NicolaeRotaru/mycity` — merge `main` = auto-deploy (~2–5 min, es. Sprint 1 ~10:31); (3) **non esiste** (ancora) API Render che l'AD chiami direttamente; (4) sblocco operativo #19 = **#14+#15 PAT GitHub** (PR+merge) + chat **`ok merge fix ruoli-acquisto`** — pattern L-31/L-38, **non** token Render; (5) alternativa = Nicola mergia PR su GitHub → Render fa il resto. **Risposta obbligatoria:** tabella «Render già ok via GitHub · PAT non token Render · via chat ok merge · ignorare Approva su canale Render».",
-   "tag": [
-    "render",
-    "deploy",
-    "pannello",
-    "mani",
-    "nicola",
-    "devops",
-    "github"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.43999999999999995,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-02 08:17",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 10:22",
-   "ritirata_il": "2026-08-20T08:26:09.498Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:26:09.498Z",
-     "verbo": "ritira",
-     "perche": "Distingueva il canale Render dal permesso delle sue API: Render e' in dismissione e il marketplace e' passato a Vercel, quindi il canale di cui parla non esiste piu'"
-    }
-   ]
-  },
-  {
    "id": "L-2026-0702-41",
    "testo": "**Caso-studio Nicola (2/7 07:35 — briefing 1/7):** «l'assistenza(admin) non devono poter comprare» + «i retailer devono poter comprare in modo diverso — pulsante marketplace, per nessun altro motivo/errore il venditore deve accedere al catalogo». **5 perché gap:** (1) UI admin nascondeva carrello ma `addToCart` + API checkout/COD **aperte** → carrello test €7,95 (#2 dei «4 operativi»); (2) seller navigava `/` e prodotti come buyer → carrelli demo #3–#4; (3) briefing «4 carrelli reali operativi» = **record DB con items**, non buyer reali — **solo 1** (samir) per CRM; (4) recovery cron oggi = 0 righe (flag già settati) ma carrelli test inquinavano analisi; (5) fix obbligatorio **triplo:** UI blocco + **403 server** su checkout/COD per `role=admin` + middleware seller redirect `/seller/dashboard` senza cookie modalità acquisto (`/?shop=1`, 8h, banner «Torna al negozio»). Branch `fix/ruoli-acquisto-admin-seller-2026-07-02` · deploy 🔴 #19. **Pattern:** separazione ruoli acquisto = regola product non negoziabile; implementare sempre UI **e** server; seller buyer-mode solo opt-in esplicito.",
    "tag": [
@@ -9747,91 +9717,6 @@
    "decaduto_step_il": "2026-08-21 14:28"
   },
   {
-   "id": "L-2026-0702-42",
-   "testo": "**Carrelli «operativi» — terminologia (Nicola 2/7, domanda informativa):** nel playbook CRM «4 reali operativi» = 4 record `user_carts` con items >4h (esclusi 2 seed Verde Casa). **Distinzione obbligatoria in briefing/chat:** tabella con colonna «cliente reale?» — **1 solo buyer** (samir €10, UUID `57494b3e…`, 0 ordini, `/checkout` iPhone); #2 admin test · #3–#4 seller/demo = **SKIP** recovery (A10–A11). Non contare i 4 come lead CRM; mossa recovery = A8 solo su samir, dopo #16 + ok legale consenso.",
-   "tag": [
-    "crm",
-    "carrelli",
-    "terminologia",
-    "recovery",
-    "nicola"
-   ],
-   "reparto": "@crm-lifecycle",
-   "confidenza": 0.41999999999999993,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-02",
-   "ultima_conferma": "2026-07-02 07:35",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 10:22",
-   "ritirata_il": "2026-08-20T08:26:09.580Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:26:09.580Z",
-     "verbo": "ritira",
-     "perche": "Definiva «carrelli operativi» su quattro record di luglio e due dati di prova che oggi non ci sono piu': la definizione dei termini vive nel glossario dei KPI, che e' la casa giusta"
-    }
-   ]
-  },
-  {
-   "id": "L-2026-0701-40",
-   "testo": "**Finestra slot scaduta senza #16 (1/7 20:18):** alle 18:18 l'AD segnalava «ultima chance entro 20:00» — confermato: giornata chiusa a zero. **Pattern:** (1) ogni giro serale confrontare **orologio reale** vs `delivery_slot` DB; (2) se finestra chiusa → **subito** ripiano con data/ora + messaggio WhatsApp adattato (`ripiano-consegna-*.md`), non ripetere «ORA entro 20:00»; (3) escalation post-168h incrementa versione (v11) con nuova urgenza «2/7 mattina»; (4) calibrazione: previsione «alta probabilità zero oggi» se ok 16 non arriva entro T-30min finestra.",
-   "tag": [
-    "operations",
-    "slot",
-    "calibrazione",
-    "stallo",
-    "ordine-zombie"
-   ],
-   "reparto": "@operations",
-   "confidenza": 0.3699999999999999,
-   "evidenze": 1,
-   "fonte": "giro",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 20:18",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 08:00",
-   "ritirata_il": "2026-08-20T08:25:11.349Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:25:11.349Z",
-     "verbo": "ritira",
-     "perche": "Parla della finestra di consegna del 1 luglio e del messaggio di ripiano: il lavoro operativo e' fermo fino al 24 agosto, e quando riprende il ripiano si riscrive sui negozi veri"
-    }
-   ]
-  },
-  {
-   "id": "L-2026-0701-39",
-   "testo": "**Nicola chiede «cosa sono #14 e #15 e dove li trovo?» (1/7 20:02):** i numeri **#N** = righe in `AZIONI-IN-ATTESA.md` / tab Proposte Pannello — **non** PR GitHub. **Risposta obbligatoria in 3 blocchi:** (1) tabella # → cosa sblocca (#14 `MARKETPLACE_GIT_TOKEN` PR su mycity · #15 `GITHUB_MERGE_TOKEN` merge API post-«ok merge»); (2) **dove crearli:** GitHub → Settings → Developer settings → Fine-grained tokens → repo `ad-mycity`+`mycity` · Contents+Pull requests R/W; (3) **dove incollare:** `cervello/vps/.env` + `systemctl restart mycity-worker` — **un solo PAT** copre #14+#15+push memoria. Non rimandare solo «vedi AZIONI» senza path pratico.",
-   "tag": [
-    "nicola",
-    "coda",
-    "token",
-    "github",
-    "comunicazione",
-    "devops"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.42999999999999994,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 20:05",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 08:00",
-   "ritirata_il": "2026-08-20T08:25:11.442Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:25:11.442Z",
-     "verbo": "ritira",
-     "perche": "Spiegava dove trovare i numeri 14 e 15, che erano i due permessi GitHub: da allora apro le richieste di unione direttamente e quei due sono chiusi"
-    }
-   ]
-  },
-  {
    "id": "L-2026-0701-38",
    "testo": "**Target loop completo senza cmd (Nicola 1/7 19:56 → 20:02):** «modifiche ad-mycity + marketplace senza che io faccia niente oltre merge GitHub, sempre chiedendo consenso» + «aggiornamenti VPS senza cmd?». **Risposta canonica:** tabella **3 tubi** (memoria→`memoria-ad` zero Nicola · Pannello→`main` ok chat merge ✅ · marketplace→`mycity` PR+merge con ok 🔴/🟡) + **3 sblocchi una tantum:** (1) #14 token write `mycity` · (2) #15 `GITHUB_MERGE_TOKEN` merge API · (3) sudo NOPASSWD + hook post-merge (**ESEGUITO in repo** 20:02 dopo «ok configura sync VPS» → #17 install 1× root). **Regola:** mai merge/push/deploy senza ok esplicito; dopo sblocchi Nicola approva solo in chat/Pannello, AD chiude loop fino a Vercel/Render/VPS. Restano 🔴 separati: deploy prod marketplace, SQL Supabase, messaggi reali, ads, payout.",
    "tag": [
@@ -9852,35 +9737,6 @@
    "ultima_conferma": "2026-07-01 20:05",
    "stato": "attiva",
    "decaduto_step_il": "2026-08-21 14:28"
-  },
-  {
-   "id": "L-2026-0701-37",
-   "testo": "**Casella benchmark AI ops (Nicola 1/7 17:05):** «Aggiungi dati reali — cosa ti serve?» → popolare `auto-radiografia.json` `benchmark_vs_migliori` con riferimenti verificabili (LangSmith, Devin, Sidekick) + snapshot `nostro_oggi` a **4 fasi** (Osserva/Agisci/Misura/Impara) con semafori e numeri live. **Regola:** caselle auto-coscienza con placeholder → dati reali al primo ciclo + tabella gap vs best + inventario sblocchi tier (sensori 🟡 → 1° ordine 🔴 #16 → mani LIVE 🟡/🔴). **Distinzione obbligatoria:** loop **architettura** (impara + audit di sé: tasso 0,70 · voto 76) vs loop **business** (agire→misura esito: 0 consegnati · calibrazione solo @AD). Pattern = L-21 (MCP) + L-0630-06 (mani): lista concreta priorità, non teoria.",
-   "tag": [
-    "benchmark",
-    "auto-coscienza",
-    "volano",
-    "nicola",
-    "pannello",
-    "loop"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.4099999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": false,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 17:06",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 08:00",
-   "ritirata_il": "2026-08-20T08:25:11.528Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:25:11.528Z",
-     "verbo": "ritira",
-     "perche": "Chiedeva di sostituire i segnaposto della radiografia con dati veri: fatto da un pezzo, la radiografia di agosto ha solo numeri misurati"
-    }
-   ]
   },
   {
    "id": "L-2026-0701-36",
@@ -10062,35 +9918,6 @@
    "decaduto_step_il": "2026-08-21 14:28"
   },
   {
-   "id": "L-2026-0701-28",
-   "testo": "**Ok timer ritmo (Nicola 1/7 09:43 — casella cadenza-esecuzione):** dopo rettifica classificazione (L-27) AD propone AR-005 opzionale 🟡 — Nicola «ok timer ritmo» (3 parole). Si aspetta: (1) implementazione **completa in repo** (`ritmo-run.sh`, prompt `ritmo-*.md`, unit `mycity-ritmo-*.timer`, `install-ritmo-timers.sh`, doc); (2) AR-005 chiuso in cantiere + dimensione Pannello → ok; (3) **un solo comando root** VPS (`sudo bash cervello/vps/install-ritmo-timers.sh`), stile `aggiorna-cervello.sh`; (4) kill-switch pausa Pannello rispettato nel runner. Orari: mattino 08:00 · sera 20:00 · ven 18:00 Europe/Rome. Pattern: approva infra 🟡 da casella con imperativo breve «ok [nome]» quando la proposta è chiara — come «ok Sprint 1» / «apri la pr».",
-   "tag": [
-    "ritmo",
-    "systemd",
-    "vps",
-    "nicola",
-    "cadenza",
-    "devops",
-    "approvazioni"
-   ],
-   "reparto": "@devops-sre",
-   "confidenza": 0.41999999999999993,
-   "evidenze": 1,
-   "fonte": "chat",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 09:43",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 08:00",
-   "ritirata_il": "2026-08-20T08:25:11.628Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:25:11.628Z",
-     "verbo": "ritira",
-     "perche": "Riguardava la messa in opera dei timer del ritmo, che sono installati sul server e girano da luglio"
-    }
-   ]
-  },
-  {
    "id": "L-2026-0701-27",
    "testo": "**Caso-studio Nicola (1/7 09:39 — casella cadenza-esecuzione):** «mycity-live non c'entra niente, toglila ovunque». Il finding `radiografia.js`/path Windows marketplace era **classificato nella dimensione sbagliata** — `cadenza-esecuzione` = schedulazione ritmo AD (mattino/sera/settimana), NON audit del sito. **5 perché:** (1) prima auto-radiografia ha mescolato path repo marketplace con tema cadenze; (2) `radiografia.js`/`MARKETPLACE_REPO` = dimensione `copertura-cieca` (audit marketplace); (3) il vero gap cadenza = `ritmo.md` documenta solo Windows (`schtasks`/`.ps1`) mentre il battito gira su VPS Linux; (4) Pannello = una casella per dimensione — contenuto misto confonde; (5) fix: AR-002 spostato → `copertura-cieca`; riscritto finding cadenza; `ritmo.md` + sezione VPS; AR-005 (timer systemd opzionale). **Pattern:** separare audit codice marketplace da ritmo operativo AD; quando Nicola dice «non c'entra» → ripulire **tutti** i file collegati (auto-radiografia.json, cantiere-difetti, RADIOGRAFIA-MACCHINA), non solo la casella Pannello. **RICADUTA + ESCALATION (4/7):** lo stesso path Windows era ancora cablato (`marketplace-repo.mjs` come fallback + `radiografia.js:46`/`audit-design.js:46`) → Nicola rialza il tono: «togli il cablato su windows **una volta per sempre**, **impedisci che riaccada** questo errore». **Lezione-radice (5° perché finale):** pulire i file a mano NON basta — l'errore rientra da una porta laterale. La chiusura vera di un anti-pattern ricorrente = **parametrizzare la fonte-di-verità** (resolver cross-platform in `marketplace-repo.mjs`: `MARKETPLACE_REPO` env o `<ad-repo>/marketplace`, mai una cartella di un PC) **+ un guardiano generativo** (`no-path-cablati-check.mjs` agganciato a `giro.sh`) che a ogni giro FALLISCE se un path di macchina (`C:\\…`, `/Users/<nome>`) rientra nel codice. Regola: quando Nicola dice «impedisci che riaccada» → non basta il fix, serve la **forcing-function** che rende l'errore impossibile in silenzio.",
    "tag": [
@@ -10234,119 +10061,6 @@
    "decaduto_step_il": "2026-08-21 14:28"
   },
   {
-   "id": "L-2026-0701-21",
-   "testo": "Quando Nicola chiede «quali connessioni MCP ti mancano?» (casella **salute-sensori-dati**), rispondere con **inventario verificato live** — tabella: sensore | in `.mcp.json`? | stato adesso | cosa blocca. **Tre tier priorità:** ① Supabase marketplace+memoria (config ✅, ciechi: `SUPABASE_ACCESS_TOKEN` assente in `vps/.env` + click Autorizza MCP in Cursor) 🟡 · ② Stripe MCP (mai cablato — chiave `sk_test_…` + server in `.mcp.json` proposta 🟡, utile prima payout-test 03/7) · ③ PostHog MCP 🟢 opzionale a 0 ordini pagati. **Non confondere con «DB giù»:** REST marketplace HTTP 200 ✅; WebFetch globale ✅ (worker post-merge 1/7). Cursor Cloud spesso cieco finché Nicola non autorizza — worker legge via REST (L-2026-0630-03). Pattern = stesso di «quali mani ti servono?» (L-2026-0630-06): tier concreti + cosa sblocca, non teoria.",
-   "tag": [
-    "mcp",
-    "sensori",
-    "supabase",
-    "stripe",
-    "nicola",
-    "inventario",
-    "devops"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.4099999999999999,
-   "evidenze": 2,
-   "fonte": "chat",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 17:06",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 08:00",
-   "ritirata_il": "2026-08-20T08:25:11.717Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:25:11.717Z",
-     "verbo": "ritira",
-     "perche": "Fotografava lo stato dei sensori del 1 luglio: oggi Supabase legge e Stripe non e' autorizzato, quindi l'inventario che descrive non esiste piu'"
-    }
-   ]
-  },
-  {
-   "id": "L-2026-0701-20",
-   "testo": "Quando `168h - stallo < 8h`, il briefing deve **escalare il linguaggio** (countdown critico, «decidi ORA», ore esatte) e produrre nota escalation 🟢 aggiornata (v3, non ripetere v2). Mossa n.1 resta ordine zombie PQ finché non c'è transazione — non spostare focus su marketing/VP. Se i numeri = al giro precedente, il valore del giro è **urgenza decisionale + delta secondari** (es. carrelli 4 vs 6), non ripetere 11 sezioni identiche senza evidenziare il countdown.",
-   "tag": [
-    "stallo",
-    "168h",
-    "escalation",
-    "briefing",
-    "urgenza"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.3999999999999999,
-   "evidenze": 2,
-   "fonte": "auto-analisi",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 08:00",
-   "ritirata_il": "2026-08-20T08:25:11.811Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:25:11.811Z",
-     "verbo": "ritira",
-     "perche": "Descriveva come alzare il tono durante lo stallo di luglio, contando le ore da un ordine fermo che non esiste piu'"
-    }
-   ]
-  },
-  {
-   "id": "L-2026-0701-19",
-   "testo": "Dopo decisioni Nicola nella stessa notte (foglio-firma 01:02, VP rimandato 01:00, radiografia 01:57), il giro successivo **non** ripete le stesse domande 🔴 né propone mosse obsolete (Casa Linda transazione, foglio-firma, presidio VP 3/7). Leggere STATO/DECISIONI/chat prima del briefing. Aggiornare intenzioni-nicola e sezione «Serve da Nicola» con stato FATTO/RIMANDATO. Mossa n.1 deve riflettere il **nuovo** collo di bottiglia (ordine zombie PQ + Sprint 1 + batch 6/7). **Estensione 1/7 11:25:** vale anche per **piano del mattino/ritmo** — onboarding 6/7 già ritirato dalle Proposte alle 01:03 (L-07) non va in `ultimo-briefing.json` azioni; recidiva = stessa frizione Approva/Ignora.",
-   "tag": [
-    "giro",
-    "nicola",
-    "briefing",
-    "coerenza",
-    "decisioni",
-    "piano-mattino"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.42999999999999994,
-   "evidenze": 2,
-   "fonte": "auto-analisi",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 11:26",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 08:00",
-   "ritirata_il": "2026-08-20T08:25:11.909Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:25:11.909Z",
-     "verbo": "ritira",
-     "perche": "Diceva di non ripetere le domande dopo una notte di decisioni: e' rimasta vera ma come caso singolo di luglio, ed e' assorbita dalla regola generale di leggere STATO e DECISIONI prima di scrivere"
-    }
-   ]
-  },
-  {
-   "id": "L-2026-0701-17",
-   "testo": "Comando «radiografia» (Nicola): eseguire workflow `.claude/workflows/radiografia.js` (13 dimensioni, sola lettura + verifica avversariale), report in `consegne/audit/AAAA-MM-GG-radiografia.md`, sintesi chat con conteggio **bloccanti/gravi/minori** e i 4 bloccanti nominali. **1/7 esito verificato:** 46 confermati (4·24·18) — (1) webhook Stripe marca checkout COMPLETED anche se insert ordine fallisce; (2) fee **€3/consegna/negozio** addebitata server-side ma assente in UI (peggio multi-negozio); (3) RLS `profiles` espone riga intera venditori (IBAN/KYC/Stripe/wallet); (4) COD lascia ordine fantasma se fallisce `order_items`. Proporre Sprint 1 🟡 (webhook+fee UI+rollback COD+varianti) e chiedere ok prima del branch; deploy produzione sempre 🔴. Non confondere con audit-design (11 dim visive) — radiografia = codice+pagamenti+RLS.",
-   "tag": [
-    "radiografia",
-    "audit",
-    "marketplace",
-    "bloccanti",
-    "checkout",
-    "rls",
-    "stripe"
-   ],
-   "reparto": "@tech",
-   "confidenza": 0.42999999999999994,
-   "evidenze": 1,
-   "fonte": "chat",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 08:00",
-   "ritirata_il": "2026-08-20T08:25:11.997Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:25:11.997Z",
-     "verbo": "ritira",
-     "perche": "Definiva il comando radiografia e portava dentro i 46 problemi del 1 luglio: il comando sta in COMANDI.md, e quei problemi sono superati dal referto del 18 agosto"
-    }
-   ]
-  },
-  {
    "id": "L-2026-0701-16",
    "testo": "**Ciclo WebFetch chiuso (Nicola 1/7 01:37):** merge PR `fix/webfetch-globale` su `main` + `sudo bash cervello/vps/aggiorna-cervello.sh` → VPS con `\"WebFetch\"` globale (no whitelist), worker/giro automatico navigano in sola lettura. Pattern Nicola confermato: (1) link compare GitHub + merge browser; (2) **stesso** script sync (non git manuale memoria-ad); (3) messaggio combinato «ho fatto merge ed eseguito i comandi» + richiesta prossimo passo («apri la pr quaderni»). 5 perché chiusura: L-0701-10/12 tracciavano gap; Nicola ha eseguito entrambi i passi; verifica = grep senza `domain:`; giro web 42 senior ora replicabile anche su worker; quaderni = PR separata su main (L-0701-15). **Mai** dire «web attivo sul worker» prima di merge+sync confermati da Nicola.",
    "tag": [
@@ -10387,62 +10101,6 @@
    "decaduto_step_il": "2026-08-21 14:28"
   },
   {
-   "id": "L-2026-0701-14",
-   "testo": "Quando Nicola chiede «fai giro web a tutti i senior / dimmi cosa hanno imparato», eseguire **42/42** con policy WEB-APPRENDIMENTO-SENIOR (1 ricerca mirata + 1 riga ESITO per quaderno con URL+data) e consegnare: (1) **sintesi top-10** azionabile per MyCity in chat; (2) report raggruppato in `consegne/ad/AAAA-MM-GG-giro-web-senior.md`; (3) handoff cross-reparto in Sala Operativa. **Non** dumpare 42 log grezzi. Dichiarare ambiente al momento del giro; **post-merge WebFetch (L-2026-0701-16)** worker = Cursor per navigazione. Scoperte critiche da web 1/7: FESR Commercio ER **chiuso 23/6** → aggiornare kit #12; fee consegna #1 abbandono checkout; marketplace = titolare GDPR (CGUE 2/12/2025).",
-   "tag": [
-    "web",
-    "apprendimento",
-    "senior",
-    "nicola",
-    "sintesi",
-    "giro"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.41999999999999993,
-   "evidenze": 2,
-   "fonte": "chat",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 08:00",
-   "ritirata_il": "2026-08-20T08:25:12.097Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:25:12.097Z",
-     "verbo": "ritira",
-     "perche": "Parla di un giro web su 42 senior: i senior oggi sono 120, quindi il numero e il metodo che descrive sono sbagliati"
-    }
-   ]
-  },
-  {
-   "id": "L-2026-0701-13",
-   "testo": "Quando Nicola chiede «ci sono siti a cui WebFetch non aderisce?», rispondere in **due binari distinti** (non confonderli): (1) **whitelist nostra** — **superata** 1/7 01:37 (merge `fix/webfetch-globale` + sync VPS, L-2026-0701-16); prima del merge passavano solo 11 domini; (2) **resistenza lato sito** — resta anche dopo WebFetch globale: login-wall (IG/TikTok/FB), paywall (testo pieno Libertà/testate), anti-bot/JS (Idealista timeout), 403 intermittenti (portali locali). Test Cursor 1/7: Comune ✅ · Libertà ✅ · PiacenzaSera ✅ · developers.google.com ✅ · Idealista ❌ · Instagram ⚠️ solo titolo. Ripiego policy: WebFetch → WebSearch + URL → dichiara limite in Sala Operativa/`memoria-squadra/`. Citare anche blocchi **non-WebFetch**: Supabase/Stripe MCP, Auto-review Cursor.",
-   "tag": [
-    "web",
-    "webfetch",
-    "limiti",
-    "nicola",
-    "worker",
-    "intelligence"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.43999999999999995,
-   "evidenze": 2,
-   "fonte": "chat",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01 01:38",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 08:00",
-   "ritirata_il": "2026-08-20T08:25:12.190Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:25:12.190Z",
-     "verbo": "ritira",
-     "perche": "Rispondeva a una domanda sui siti che WebFetch non raggiungeva, risolta il 1 luglio stesso col permesso globale"
-    }
-   ]
-  },
-  {
    "id": "L-2026-0701-12",
    "testo": "Dopo «apri la pr su main» (Nicola delega): AD crea branch da `main`, modifica **solo** `.claude/settings.json`, push. **Limite VPS:** token GitHub del worker **pusha** ma **non crea PR** via `gh`/API — consegnare link compare diretto + istruzioni 3 click (Create PR → base `main` → Merge). Nicola merge browser; poi **stesso** `aggiorna-cervello.sh` (non nuovo comando). Non dire «PR aperta» se solo push — dire «branch pronto, merge 1 click». Se chiede «rimandami la PR / non ho mergiato» → **re-inviare lo stesso link compare** + post-merge script; **non** assumere merge fatto. **Confermato 1/7 01:37:** Nicola merge `fix/webfetch-globale` + sync → worker OK (L-2026-0701-16).",
    "tag": [
@@ -10463,34 +10121,6 @@
    "stato": "principio",
    "promosso_il": "2026-07-25 08:20",
    "cristallizzato_in": "memoria-persistente"
-  },
-  {
-   "id": "L-2026-0701-11",
-   "testo": "Quando Nicola chiede «come faccio PR su main?» per fix **codice** (es. WebFetch in `settings.json`), rispondere con **due percorsi chiari** — mai git locale sul VPS: (A) **delegato** — «scrivi apri la PR su main» e l'AD prepara branch da `main`, 1 file, base `main`; (B) **GitHub UI** — New branch da main → edit file → Compare & PR → merge. Regole: fix codice → **`main`**, policy/memoria → **`memoria-ad`** (già fatto); dopo merge Nicola rifà solo `aggiorna-cervello.sh`. Non confondere con pull memoria-ad (L-2026-0701-09).",
-   "tag": [
-    "git",
-    "main",
-    "pr",
-    "nicola",
-    "devops",
-    "comunicazione"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.4099999999999999,
-   "evidenze": 2,
-   "fonte": "chat",
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 08:00",
-   "ritirata_il": "2026-08-20T08:25:12.274Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:25:12.274Z",
-     "verbo": "ritira",
-     "perche": "Spiegava come aprire una richiesta di unione mandando la memoria sul ramo memoria-ad: quel ramo e' andato in pensione, oggi la memoria si pubblica su main"
-    }
-   ]
   },
   {
    "id": "L-2026-0701-10",
@@ -10582,63 +10212,6 @@
    "stato": "principio",
    "promosso_il": "2026-07-26 11:00",
    "cristallizzato_in": "memoria-persistente"
-  },
-  {
-   "id": "L-2026-0701-06",
-   "testo": "**Foglio-firma lancio (Nicola 1/7 01:02):** risponde con imperativi operativi, non con le lettere A/B/C del foglio — «crea il contratto» (#1), «lo faccio 03/7 mattina» (#2), «è sandbox» (#3). 5 perché: (1) vuole artefatti e date, non checkbox astratti; (2) il payout-test lo esegue lui in calendario, non delegato all'AD; (3) Stripe sandbox è stato fattuale confermato, non scelta futura LIVE; (4) COD-first è implicito (sandbox + ordine zombie già COD); (5) fix: mappare le sue frasi alle 3 decisioni, registrare forma esatta in DECISIONI, creare subito bozza contratto per Pane Quotidiano — unico negozio reale.",
-   "tag": [
-    "foglio-firma",
-    "nicola",
-    "stripe",
-    "contratto",
-    "payout",
-    "comunicazione"
-   ],
-   "reparto": "@AD",
-   "confidenza": 0.4099999999999999,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 08:00",
-   "ritirata_il": "2026-08-20T08:25:12.364Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:25:12.364Z",
-     "verbo": "ritira",
-     "perche": "Riguardava il foglio-firma del lancio e le date del 3 luglio, tutte passate"
-    }
-   ]
-  },
-  {
-   "id": "L-2026-0701-05",
-   "testo": "**Caso-studio Nicola:** Rimanda presidio VP 3/7 (kit QR + contenuti #7/#8/#11) perché «inizierò ad inserire i negozi del 6 luglio». 5 perché: (1) bandwidth umana finita — ops batte marketing; (2) senza link lista il presidio converte 0 comunque; (3) ho spinto VP per finestra temporale ignorando che Nicola aveva lavoro concreto; (4) proposta Pannello non distingueva prerequisito ops vs urgenza evento; (5) fix: quando Nicola annuncia batch operativo (onboarding negozi), congelare leve evento/time-bound e preparare checklist/supporto ops — prossima finestra VP 10/17 lug solo se link lista pronto post-batch.",
-   "tag": [
-    "priorita",
-    "onboarding",
-    "eventi",
-    "nicola",
-    "bandwidth"
-   ],
-   "reparto": "@onboarding-negozi",
-   "confidenza": 0.42999999999999994,
-   "evidenze": 1,
-   "fonte": "chat",
-   "caso_studio_nicola": true,
-   "nato": "2026-07-01",
-   "ultima_conferma": "2026-07-01",
-   "stato": "ritirata",
-   "decaduto_step_il": "2026-08-13 08:00",
-   "ritirata_il": "2026-08-20T08:25:12.446Z",
-   "revisioni": [
-    {
-     "quando": "2026-08-20T08:25:12.446Z",
-     "verbo": "ritira",
-     "perche": "Registrava perche' hai rimandato il presidio dei Venerdi Piacentini del 3 luglio: evento passato, e la lezione generale sul dare priorita' alle operazioni e' gia' in altre due"
-    }
-   ]
   },
   {
    "id": "L-2026-0701-04",
@@ -11320,6 +10893,18 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 07:58",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:08",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:41",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11485,6 +11070,18 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 07:58",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:08",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:41",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11641,6 +11238,18 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 07:58",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:08",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:41",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11724,6 +11333,18 @@
     },
     {
      "quando": "2026-08-24 21:46",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 07:58",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:08",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:41",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11876,6 +11497,18 @@
     },
     {
      "quando": "2026-08-25 16:45",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 07:58",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 08:08",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 08:41",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -12049,6 +11682,18 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 07:58",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:08",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:41",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -12158,6 +11803,18 @@
     },
     {
      "quando": "2026-08-24 21:46",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 07:58",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:08",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:41",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12311,6 +11968,18 @@
     {
      "quando": "2026-08-25 16:45",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 07:58",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 08:08",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 08:41",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12460,6 +12129,18 @@
     {
      "quando": "2026-08-25 16:45",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 07:58",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 08:08",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 08:41",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -12541,6 +12222,18 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 07:58",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:08",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:41",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -12621,6 +12314,18 @@
     },
     {
      "quando": "2026-08-24 21:46",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 07:58",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:08",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:41",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12820,6 +12525,18 @@
     },
     {
      "quando": "2026-08-24 21:46",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 07:58",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:08",
+     "ref": "freno rosso nel cancello: sorvegliante del delta"
+    },
+    {
+     "quando": "2026-08-26 08:41",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -13123,6 +12840,18 @@
     {
      "quando": "2026-08-25 16:45",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 07:58",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 08:08",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
+    },
+    {
+     "quando": "2026-08-26 08:41",
+     "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
   },
@@ -13231,6 +12960,46 @@
    "usi": 0,
    "gate": "node cervello/lavori-hanno-la-corsia.mjs",
    "data": "2026-08-25 17:35"
+  },
+  {
+   "id": "L-2026-0826-01",
+   "testo": "**Un difetto che credo gia' di conoscere va MISURATO prima di ripararlo — piu' di uno che non conosco, non meno (AR-825).** Ero partito convinto: «il cancello non scatta sulle pull request aperte via API, lo aggancio anche al push». Plausibile, con un meccanismo vero dietro, e l'avrei costruito in venti minuti. Ho contato prima: **140 PR su 141 il cancello le aveva viste eccome**. Il difetto non c'era, e il guardiano che stavo per aggiungere avrebbe protetto da niente — lasciando in giro l'impressione che quel fianco fosse coperto. Nello stesso conto ne e' saltato fuori un altro, che non stavo cercando: dieci PR entrate senza un verde, nove col cancello rosso sulla testa. **Il freno generale: prima di scrivere il guardiano, scrivi il conto che dimostra che il difetto esiste — e mettilo in condizione di darti torto.** Un'ipotesi che nessuna misura puo' refutare non e' una diagnosi, e' un'intenzione.",
+   "tag": [
+    "misura-prima",
+    "guardiani",
+    "ipotesi-refutata"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.9,
+   "evidenze": 1,
+   "fonte": "AR-825, 26/8: il conto su 141 PR unite ha refutato l'ipotesi di partenza e ne ha consegnato un'altra, piu' grave, che non stavo cercando.",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-26",
+   "ultima_conferma": "2026-08-26 07:55",
+   "stato": "attiva",
+   "usi": 0,
+   "gate": "node cervello/entrate-senza-cancello.mjs --tetto 10",
+   "data": "2026-08-26 07:55"
+  },
+  {
+   "id": "L-2026-0826-02",
+   "testo": "**Quando due lavori girano insieme senza vedersi, la fonte che conta non e' dove il conflitto si VEDE ma dove e' ancora EVITABILE (AR-824).** `prossimo-ar.mjs` era nato apposta contro le collisioni di numero: non cercare il numero libero nella propria copia, «come guardare l'orologio fermo». Poi pero' lo cercava in due posti soli, qui e su main. E un numero preso da un'altra sessione **non e' ancora su main**: vive per ore su un ramo aperto. **Quando arriva su main lo scontro e' gia' successo** — main e' il posto dove lo scopri, non dove lo eviti. Cioe' la finestra in cui la collisione e' possibile era esattamente quella che il comando non guardava. **Il freno generale: per un guardiano che previene, chiediti dove sta il fatto MENTRE e' ancora reversibile, non dove diventa visibile.** Costo di non averlo fatto: due collisioni il 25/8, una scoperta solo perche' un conto non tornava (536+1+1 dava 537).",
+   "tag": [
+    "collisioni",
+    "sessioni-parallele",
+    "guardiani"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "evidenze": 2,
+   "fonte": "AR-824, 26/8: le due collisioni del 25/8, andando a cercare perche' il comando nato per evitarle non le avesse evitate.",
+   "caso_studio_nicola": false,
+   "nato": "2026-08-26",
+   "ultima_conferma": "2026-08-26 07:55",
+   "stato": "attiva",
+   "usi": 0,
+   "gate": "node cervello/prossimo-ar.mjs",
+   "data": "2026-08-26 07:55"
   }
  ],
  "principi": [

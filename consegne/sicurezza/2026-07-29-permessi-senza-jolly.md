@@ -60,6 +60,7 @@ Nel foglio `.claude/settings.json`, sostituisci la riga `"Bash(node cervello/*.m
       "Bash(node cervello/cronicita-allarmi.mjs:*)",
       "Bash(node cervello/deferral-agenti.mjs:*)",
       "Bash(node cervello/delta-gate.mjs:*)",
+      "Bash(node cervello/entrate-senza-cancello.mjs:*)",
       "Bash(node cervello/errore-motore.mjs:*)",
       "Bash(node cervello/esegui-azione.mjs:*)",
       "Bash(node cervello/esito-cadenza.mjs:*)",

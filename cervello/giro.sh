@@ -253,6 +253,7 @@ SCADENZE_VINCOLO=""      # AR-147/214: scadenza entro 72h, o countdown trascritt
 PAUSE_VINCOLO=""         # AR-159/157: una card in pausa che nessun orologio sveglierà, o una data ricopiata
 SENSORI_SPENTI_VINCOLO="" # AR-105/108: un sensore spento senza un perché dichiarato è un buco, non uno stato
 PORTE_VINCOLO=""         # AR-127: un push verso main che non passa dal cancello condiviso
+SERRATURA_VINCOLO=""     # AR-825: lavori entrati su main senza un verde del cancello
 FIRMA_VINCOLO=""         # AR-119: uno script del cervello che può scriversi la firma di Nicola
 PORTA_GIT_VINCOLO=""     # AR-339: uno script che chiede elenchi a git senza -z (nomi con l'accento riscritti)
 CABLATI_VINCOLO=""       # 21/8: un percorso di UNA macchina sola rientrato nel codice (correzione Nicola 4/7)
@@ -738,6 +739,20 @@ Fai quello che ti dice QUI SOPRA: se dice che ce ne sono da MISURARE, misura que
   if ! guardiano porte-check.mjs; then
     PORTE_VINCOLO="$(vincolo_da_rc "porte-check" "$GUARDIANO_RC" "⛔ PORTA SCOPERTA (porte-check.mjs rc=$GUARDIANO_RC, AR-127): c'è un punto che pubblica su main senza passare da gate_pubblicazione — cioè senza controllo del ramo, del perimetro e dei guardiani di verità. Fallo passare dal cancello condiviso, o dichiara il PERCHÉ nelle ESENZIONI di porte-check.mjs. Elenco: node cervello/porte-check.mjs")"
     echo "[$(ts)] ⚠️  AR-127: porte-check rc=$GUARDIANO_RC → vincolo hard al motore." >&2
+  fi
+  # AR-825 — IL CANCELLO PARLA, MA NON CHIUDE.
+  # `porte-check` qui sopra conta chi pubblica SENZA passare dal cancello. Questo conta il caso
+  # gemello e più insidioso: chi dal cancello ci passa, si sente dire di no, ed entra lo stesso.
+  # Il conto del 26/8: 141 lavori uniti su main dal 4 agosto, DIECI senza un verde — nove col
+  # cancello rosso sulla testa, uno che il cancello non ha mai visto. La radice non è nel cancello,
+  # che funziona: su GitHub un controllo ferma un merge solo se è dichiarato obbligatorio sul ramo,
+  # e questo non lo è. Quella scelta è di Nicola e costa (card #177), quindi qui non si blocca
+  # niente: si tiene il numero sotto un tetto che scende e non risale.
+  # Il tetto sta qui e non dentro lo strumento apposta — chi lo alza lo fa con un commit visibile.
+  echo "[$(ts)] 🚪 Lavori entrati su main senza un verde del cancello (AR-825)..."
+  if ! guardiano entrate-senza-cancello.mjs --tetto 10; then
+    SERRATURA_VINCOLO="$(vincolo_da_rc "entrate-senza-cancello" "$GUARDIANO_RC" "⛔ IL NUMERO È CRESCIUTO (entrate-senza-cancello.mjs rc=$GUARDIANO_RC, AR-825): un altro lavoro è entrato su main senza un verde del cancello. Erano dieci il 26/8 e quel dieci è il tetto. Guarda QUALE e perché prima di qualunque altra cosa: node cervello/entrate-senza-cancello.mjs. Se lo scavalco era giusto, dillo abbassando o alzando il tetto con un commit che si vede — non lasciandolo salire in silenzio.")"
+    echo "[$(ts)] ⚠️  AR-825: entrate-senza-cancello rc=$GUARDIANO_RC → vincolo hard al motore." >&2
   fi
   echo "[$(ts)] 🔐 Rotte del Pannello che scrivono da una GET (AR-409)..."
   if ! guardiano rotte-scriventi-check.mjs; then
@@ -1330,6 +1345,12 @@ if [ -n "${PORTE_VINCOLO:-}" ]; then
 
 ## Vincolo porte di pubblicazione (HARD — AR-127: il cancello al confine, non dentro ogni esecutore)
 $PORTE_VINCOLO"
+fi
+if [ -n "${SERRATURA_VINCOLO:-}" ]; then
+  PROMPT="$PROMPT
+
+## Vincolo serratura del cancello (HARD — AR-825: un verdetto che non ferma non è un freno)
+$SERRATURA_VINCOLO"
 fi
 if [ -n "${TASSO_VINCOLO:-}" ]; then
   PROMPT="$PROMPT

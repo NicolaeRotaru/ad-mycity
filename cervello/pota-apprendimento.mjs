@@ -38,6 +38,7 @@ import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { scriviJsonAtomico } from "./scrivi-json.mjs";
 import { timbroOra } from "./ora-piacenza.mjs";
+import { lezioniSpente } from "./misura-parziale.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..");
@@ -116,9 +117,26 @@ export function pianoPotatura(dati, tetto = TETTO, indent = 2) {
   const j = dati && typeof dati === "object" ? dati : {};
   const lezioni = Array.isArray(j.lezioni) ? j.lezioni.filter(Boolean) : [];
   const chiaviServizio = Object.keys(j).filter((k) => k.startsWith("_") && k !== "_cosa_e");
-  // Le decadute hanno già smesso di contare: restano nel file solo perché nessuno le toglie.
-  const decadute = lezioni.filter((l) => l.stato === "decaduta");
-  const vive = lezioni.filter((l) => l.stato !== "decaduta");
+  // Chi si è spento ha già smesso di contare: resta nel file solo perché nessuno lo toglie.
+  //
+  // 26/8 — qui c'era un filtro scritto a mano (`stato !== "decaduta"`), e la porta condivisa esisteva
+  // già. Il costo esatto: `rivedi-lezione.mjs` scrive `ritirata` per «l'ho ritirata di proposito», e
+  // questo filtro non conosceva quella parola. Quindici lezioni ritirate contate VIVE, venti
+  // chilobyte che nessuna potatura poteva più prendere, e l'archivio dentro il muro del megabyte con
+  // cui viene servito — con il potatore che diceva «0 decadute, non posso fare niente».
+  //
+  // `lezioniSpente` toglie SOLO chi non si applica più. `in-prova` è «non ancora» e resta.
+  // UNA LEZIONE CHE PORTA UN FRENO NON SI POTA MAI, in nessuno stato.
+  //
+  // Oggi sarebbe stato sicuro lo stesso — delle 15 tolte, zero avevano un `gate:` — ma «oggi è
+  // sicuro» non è un freno, è una coincidenza. Il campo `gate:` è il comando che prova che quella
+  // lezione ha costruito una difesa vera, e `gate-veri.mjs` conta i freni proprio da qui: togliere
+  // la riga toglierebbe il freno dal registro senza toccare una riga di codice, cioè esattamente
+  // la forma di guasto che il sorvegliante chiama «difesa rimossa». Meglio un archivio che non
+  // rientra e lo dice, che un archivio che rientra perché ha buttato una difesa.
+  const spente = new Set(lezioniSpente(j).filter((l) => !l?.gate));
+  const decadute = [...spente];
+  const vive = lezioni.filter((l) => !spente.has(l));
   const prima = Buffer.byteLength(JSON.stringify(j, null, indent));
   const copie = principiSenzaCopia(j.principi, vive);
   const dopoObj = { ...j, lezioni: vive };

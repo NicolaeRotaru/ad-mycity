@@ -206,6 +206,37 @@ export const BUDGET_PATTERN_MS = 2000;
 const ePROSA = (file) => PROSA.some((e) => file.endsWith(e));
 
 /**
+ * I CAMPI DI PROSA DENTRO I REGISTRI JSON — «menzione ≠ chiamata», quinta volta (AR-829).
+ *
+ * `apprendimento.json`, `cantiere-difetti.json`, `mutanti.json` e `malattie.json` NON sono referti:
+ * le difese ci vivono davvero (`MAI_REFERTO`), e va tenuto così. Ma dentro quei file convivono due
+ * cose diverse: i campi che DICHIARANO — `gate`, `comando`, `test`, `file` — e i campi che
+ * RACCONTANO — `testo`, `perche`, `nota`, `causa_radice`. Nei secondi il nome di uno script è una
+ * menzione, esattamente come in un `.md`, e questa guardia la prosa la esenta già da AR-503.
+ *
+ * Il caso che l'ha resa necessaria (26/8): il potatore ha tolto 15 lezioni ritirate, e due di loro
+ * NOMINAVANO uno script dentro il proprio racconto. La guardia ha detto «hai tolto la riga che
+ * chiamava install-ritmo-timers.sh». Non era una chiamata, era un ricordo — e le mutazioni di quelle
+ * due difese le ho rieseguite: mordono ancora tutte e due.
+ *
+ * L'elenco è dei campi DI PROSA, non dei campi di dichiarazione, apposta: una chiave nuova che
+ * nessuno ha ancora classificato resta GUARDATA. Sbagliare per eccesso di allarme si ripara con una
+ * riga; sbagliare per silenzio non si ripara, perché non lo vede nessuno.
+ */
+export const CAMPI_PROSA = [
+  "testo", "perche", "perche_e_grave", "nota", "note", "nota_onesta", "nota_baseline", "nota_fix",
+  "descrizione", "titolo", "nome", "motivo", "causa_radice", "impatto_crescita", "fix_proposto",
+  "nato_da", "lezione_appresa", "_cosa_e", "_come_si_aggiunge",
+];
+
+/** Vero se la riga è il valore di un campo che racconta, dentro un registro JSON. */
+export function eCampoDiProsa(riga = "", file = "") {
+  if (!String(file).endsWith(".json")) return false;
+  const m = String(riga).match(/^\s*"([A-Za-z_][A-Za-z0-9_]*)"\s*:/);
+  return !!m && CAMPI_PROSA.includes(m[1]);
+}
+
+/**
  * I REFERTI: quello che la macchina SCRIVE su sé stessa dopo aver misurato. (AR-543.)
  *
  * Sono log, non dichiarazioni: dentro c'è scritto «ho accusato la rimozione di X», e quel nome è la
@@ -1082,6 +1113,10 @@ export function sorveglia({
       for (const riga of rimosse) {
         const pulita = senzaCommenti(riga.testo, file);
         if (!pulita.trim()) continue;
+        // AR-829 — in un registro JSON il nome di uno script dentro un campo che RACCONTA è una
+        // menzione, non una chiamata. Stessa regola già applicata ai commenti (⑥b) e alla prosa
+        // (AR-503): qui è la quinta volta, e di nuovo dentro il controllo che quella regola la sa.
+        if (eCampoDiProsa(pulita, file)) continue;
         for (const [p, perche] of difese) {
           if (!pulita.includes(p)) continue;
           if (testoAggiunto.includes(p)) continue;

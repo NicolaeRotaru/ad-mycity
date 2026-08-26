@@ -22,6 +22,65 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- serratura-cancello -->
+### 🔴 #177 — Il controllo che protegge il codice avvisa ma non ferma: decidi tu se dargli la serratura · ⏳ accodata 2026-08-26 08:05
+
+**In parole semplici.** Prima che una mia modifica entri nel codice buono, gira un controllo
+automatico. Ricontrolla tutto: le prove, i conti, i guardiani. Quel controllo funziona bene. Legge,
+misura, e dice sì o no.
+
+Il problema è che il suo «no» non ferma niente. È come un cartello «lavori in corso» senza
+transenna. Ti avvisa, e poi sta a te se passarci sopra.
+
+**Cosa cambia per te.** Sono andato a contare. Dal 4 agosto a oggi sono entrate 141 modifiche nel
+codice buono. Dieci sono passate senza il via libera. In nove casi il controllo aveva detto no. Nel
+decimo non l'aveva proprio vista.
+
+Dieci su 141 fa il 7%. Cioè circa una ogni due settimane.
+
+Un esempio vero, il più recente. Il 24 agosto è entrata la modifica numero 840. Il controllo era
+rosso su quella modifica. Il titolo dice che serviva proprio a rimettere a posto un guardiano che
+si lamentava. Quindi probabilmente unirla era la cosa giusta da fare.
+
+Ed è esattamente il punto. Non ti sto dicendo che quelle dieci fossero sbagliate. Ti sto dicendo che
+oggi nessuno le distingue. Non resta traccia di quando è stato uno scavalco giusto e quando una
+distrazione.
+
+**Cosa devi fare.** Dirmi quale delle tre strade qui sotto vuoi. Nessuna è gratis: ognuna ti costa qualcosa di diverso.
+
+**Strada A — lasciamo com'è, e teniamo il numero d'occhio.** Ho preparato il comando che lo conta.
+Oggi sono dieci. Da adesso quel dieci diventa un tetto. Se sale, qualcosa suona. Tu continui a unire
+come hai sempre fatto, senza niente che ti freni. *Costo: se un giorno passa una modifica rotta, lo
+scopriamo dopo.*
+
+**Strada B — obbligatorio, ma tu puoi scavalcarlo.** Il pulsante si blocca per tutti. A te, che sei
+il proprietario, resta il modo di forzare quando serve davvero. *È quella che consiglio: ferma le
+distrazioni e non ti toglie l'ultima parola.*
+
+**Strada C — obbligatorio e basta, nessuna deroga.** *Attenzione a un caso che capita davvero. Se un
+giorno il codice buono è rosso per conto suo, il pulsante è bloccato per tutti. Bloccato anche per
+la correzione che lo rimetterebbe verde. Per uscirne bisogna rientrare qui a mano e togliere
+l'obbligo.*
+
+Scrivimi la lettera che scegli e basta: A, B o C.
+
+La B e la C le devi fare tu con le tue mani. È un'impostazione del tuo account su GitHub. Da qui non
+ho il permesso di toccarla: ci ho provato, e GitHub mi ha risposto di no. Ed è giusto così.
+
+**Se va bene:** con la B o la C ti scrivo i passaggi esatti. Sono tre clic dentro le impostazioni
+del progetto. Con la A non devi fare niente. Il conto parte da solo, e ti avviso solo se quel dieci
+sale.
+
+**Cosa non ho verificato.** L'impostazione com'è messa adesso non l'ho potuta leggere. GitHub non me
+la fa vedere da qui. Quindi il «non è obbligatorio» lo deduco dal comportamento, non dall'averlo
+letto: nove modifiche col controllo rosso sono entrate lo stesso, e se fosse obbligatorio non
+avrebbero potuto.
+
+E non sono andato a vedere una per una se quelle dieci fossero giuste o sbagliate. I registri di
+quelle giornate GitHub li ha già cancellati. Quella domanda oggi non ha più risposta.
+
+---
+
 <!-- permesso-speciale-morto-tolto -->
 ### 🟡 #176 — Ho tolto un permesso speciale rimasto in giro, morto · ⏳ accodata 2026-08-24 13:10
 

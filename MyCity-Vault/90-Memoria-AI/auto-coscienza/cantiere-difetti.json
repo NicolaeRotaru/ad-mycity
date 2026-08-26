@@ -17554,6 +17554,131 @@
       },
       "descrizione": "Nato dalla riguardata che il cancello impone da oggi sul perimetro toccato. Senza quel passo non l'avrei visto: avevo appena finito di scrivere quel guardiano e lo consideravo a posto.",
       "nato_da": "la riguardata del perimetro toccato con la lente rischio-sicurezza-se, che il passo nuovo del cancello (#845) impone prima di consegnare"
+    },
+    {
+      "id": "AR-824",
+      "stato": "riparato",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sulla memoria del cantiere: una scheda che sparisce in una fusione porta via il difetto che descriveva, e quel difetto torna a mordere mesi dopo senza che nessuno sappia che era gia' stato trovato. E' successo due volte in un giorno solo.",
+      "nato": "2026-08-26 07:20",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 63,
+      "titolo": "Il comando che da' il numero libero non guardava dove lo scontro e' ancora evitabile",
+      "causa_radice": "`prossimo-ar.mjs` e' nato apposta per non cercare il numero libero nella propria copia — «come guardare l'orologio fermo». Ma poi lo cercava in due fonti sole: qui e su `origin/main`. Un numero preso da un'altra sessione NON e' ancora su main: vive per ore su un ramo aperto, invisibile a entrambe. Cioe' la finestra in cui la collisione e' POSSIBILE era esattamente la finestra che il comando non guardava. L'orologio non era piu' fermo, ma mancava ancora un fuso.",
+      "fix_proposto": "Terza fonte: ogni ramo remoto NON ancora fuso dentro main (`for-each-ref --no-merged origin/main`). Non e' un'ottimizzazione ma la definizione giusta dell'insieme — un ramo gia' fuso ha i numeri di main, e main lo leggo comunque; restano i rami che portano commit che main non ha, e li' e' l'unico posto dove una scheda puo' vivere invisibile alle altre due fonti. Un cantiere illeggibile su un ramo e' ⚪ (uscita 2) col nome del ramo, non un numero dato al buio.",
+      "dove": "cervello/prossimo-ar.mjs",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs",
+        "nota": "Repository finti con un origin vero, radice sostituita da PROSSIMO_AR_ROOT. Il caso che ricrea il difetto: main a AR-100/101 e un ramo aperto a AR-102/103 — il comando deve dire AR-104. Tre mutazioni provate: togliere i rami dal calcolo (3 prove rosse), contare anche i rami gia' fusi (1), ingoiare un cantiere illeggibile (1)."
+      },
+      "descrizione": "Due collisioni il 25/8. La prima scoperta contando male una fusione: 536+1+1 doveva fare 538 e faceva 537, e la scheda mancante era la mia AR-814 perche' main ne aveva gia' una con quel numero. La seconda evitata per fortuna, leggendo il lavoro di un'altra sessione prima di scrivere: teneva AR-819, AR-820 e AR-821 su un ramo aperto e io stavo per dare gli stessi numeri.",
+      "nato_da": "le due collisioni del 25/8, andando a cercare perche' un comando nato apposta per evitarle non le avesse evitate"
+    },
+    {
+      "id": "AR-825",
+      "stato": "aperto",
+      "dimensione": "freni-sicurezza",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sulla fiducia in ogni verdetto: il cancello e' il freno che protegge tutto il resto del lavoro. Se il suo «no» non ferma niente, ogni altro guardiano montato li' dentro vale quanto il piu' distratto di chi unisce.",
+      "nato": "2026-08-26 07:40",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 63,
+      "titolo": "Il cancello parla, ma non chiude: dieci lavori su centoquarantuno sono entrati senza un verde",
+      "causa_radice": "Su GitHub un controllo ferma un merge SOLO se e' dichiarato obbligatorio sul ramo. «Cancello del lotto» non lo e': gira, misura, dice si' o no — e chi unisce decide se ascoltarlo. E' la malattia ricorrente di questa casa (un cancello costruito bene e montato su una porta che nessuno usa) capitata stavolta al cancello che le altre le trova tutte: la porta c'e' e la si usa, ma non ha la serratura.",
+      "fix_proposto": "La scelta e' di Nicola e ha un costo vero, per questo non la prendo io: se il controllo diventa obbligatorio e main e' rosso per conto suo, nessuno puo' piu' unire nemmeno la correzione che lo rimetterebbe verde — il repo si incastra. Le tre strade, dalla piu' leggera: (a) lasciare com'e' e tenere il numero sotto un tetto che non sale, con `node cervello/entrate-senza-cancello.mjs --tetto 10`; (b) obbligatorio con la deroga di chi amministra, cosi' Nicola puo' comunque forzare quando main e' rosso; (c) obbligatorio e basta. Io ho preparato lo strumento che misura, non la serratura: quella e' in Impostazioni del repo e da qui ricevo 403.",
+      "dove": ".github/workflows/cancello-lotto.yml + impostazioni del ramo main su GitHub",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Nicola apre github.com/NicolaeRotaru/ad-mycity → Settings → Branches (o Rules) → main, e guarda se «Cancello del lotto» compare fra i controlli richiesti prima di unire. Se non c'e', il difetto e' ancora aperto. La misura di oggi la rifa' chiunque con `node cervello/entrate-senza-cancello.mjs`: 141 unite, 10 senza verde (9 rosse, 1 mai vista) nella finestra dal 4/8."
+      },
+      "descrizione": "Trovato cercando tutt'altro. Credevo di sapere il difetto — «il cancello non scatta sulle PR aperte via API» — e l'ho misurato prima di ripararlo: la misura mi ha dato torto, 140 su 141 il cancello le aveva viste. Nello stesso conto e' saltato fuori questo, che non stavo cercando.",
+      "nato_da": "la misura che ha refutato l'ipotesi con cui ero partito: contando le PR che il cancello aveva visto, sono saltate fuori quelle che aveva visto e a cui aveva detto no"
+    },
+    {
+      "id": "AR-826",
+      "stato": "riparato",
+      "dimensione": "trovato-riparando",
+      "gravita": "grave",
+      "impatto_crescita": "diretto: la chiave di GitHub da' accesso in scrittura a tutto il codice dell'azienda. Regalarla a chiunque abbia una shell sul VPS non e' un rischio teorico — il VPS non esegue solo questo comando.",
+      "nato": "2026-08-26 08:20",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 63,
+      "titolo": "La chiave di GitHub finiva sulla riga di comando, dove la legge chiunque",
+      "causa_radice": "`entrate-senza-cancello.mjs` chiamava curl passando `-H \"Authorization: Bearer <chiave>\"` come argomento. Il ragionamento sbagliato e' stato: uso execFileSync con un array, niente shell, quindi niente iniezione — vero, ma la minaccia era un'altra. Gli argomenti di un processo NON sono privati: chiunque sulla stessa macchina li legge con `ps` o aprendo /proc/<pid>/cmdline. Sul VPS, dove questo comando gira davvero e non e' l'unica cosa in esecuzione, quella e' la chiave di scrittura sull'intero codice regalata a chi passa.",
+      "fix_proposto": "La chiave scende nella configurazione che curl legge dal proprio standard input (`-K -`), che non compare da nessuna parte. Gli argomenti restano `-sS --fail-with-body -K - <url>`, e l'url non e' un segreto. Prova: `argomentiCurl()` esce come funzione a se' e la prova controlla che fra gli argomenti non ci sia nessun «Bearer» e niente che somigli a una chiave.",
+      "dove": "cervello/entrate-senza-cancello.mjs",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/entrate-senza-cancello.test.mjs",
+        "nota": "Il caso «la chiave NON compare fra gli argomenti del processo». Mutazione provata: rimettere la chiave come `-H Authorization: Bearer` fra gli argomenti — la prova diventa rossa."
+      },
+      "descrizione": "Nato dalla riguardata che il cancello impone sul perimetro toccato, con la lente rischio-sicurezza-se. Il file l'avevo appena scritto e lo consideravo finito: le prove erano verdi, lo strumento dava il numero giusto. Stessa forma di AR-823 — quello che manca a un lavoro appena finito non lo trova chi l'ha fatto, a meno che non si obblighi a riguardarlo con una lente diversa da quella con cui l'ha scritto.",
+      "nato_da": "la riguardata del perimetro toccato con la lente rischio-sicurezza-se, imposta dal cancello prima della consegna"
+    },
+    {
+      "id": "AR-827",
+      "stato": "riparato",
+      "dimensione": "integrita-memoria",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sulla memoria: l'archivio delle lezioni ha sfondato il megabyte con cui viene servito, quindi la scheda Apprendimento smette di leggersi. E una lezione ritirata di proposito continuava a essere data alla macchina come regola in vigore.",
+      "nato": "2026-08-26 08:35",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 63,
+      "titolo": "Una parola che una parte scriveva e nessun'altra conosceva: quindici lezioni ritirate contate ancora vive",
+      "causa_radice": "Il 20/8 `rivedi-lezione.mjs` ha introdotto lo stato `ritirata` per distinguere due cose diverse — dimenticare per inerzia (`decaduta`) e ritirare per decisione. Giusto, ma la parola nuova non l'ha imparata nessuno: `STATI_LEZIONE` non la elencava (finiva in «altro», invisibile nella partizione) e `pota-apprendimento.mjs` si era scritto il filtro per conto suo, `stato !== \"decaduta\"`, quindi contava VIVE le 15 ritirate. Venti chilobyte che nessuna potatura poteva prendere. Il metro che avrebbe visto la cosa — `conteggiPrivatiDelleLezioni`, nato nel lotto 35 apposta per «chi si reinventa lezione viva» — esisteva e non lo eseguiva nessuno fuori dalla sua prova, su dati finti. La malattia ricorrente di questa casa, stavolta sul guardiano che serviva a impedirla.",
+      "fix_proposto": "① `lezioniSpente()` accanto a `lezioniVive()` in misura-parziale.mjs: tre categorie e non due, perche' `in-prova` e' «non ancora» e potarla vorrebbe dire buttare una lezione appena nata. ② `ritirata` entra in STATI_LEZIONE. ③ il potatore e `tasso-regole.mjs` passano dalla porta. ④ il metro montato su una prova che gira sul repo VERO, non piu' solo su dati finti — e affilato prima: contava ogni `lezioni.filter(`, quindi anche quattro `.filter(Boolean)` che con la definizione di lezione viva non c'entrano niente. Un metro che chiede sei riscritture di codice giusto non lo monta nessuno, ed e' con ogni probabilita' il motivo per cui e' rimasto scollegato un mese. Adesso guarda l'ESCLUSIONE (`stato !== ...`), che e' la forma di tutte e quattro le divergenze storiche.",
+      "dove": "cervello/misura-parziale.mjs + cervello/pota-apprendimento.mjs + cervello/tasso-regole.mjs",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs",
+        "nota": "Tre casi nuovi: una ritirata non e' viva ed e' contata col suo nome; spenta = decaduta+ritirata e NON in-prova ne' risolta; e il metro che gira sul repo VERO e deve trovare zero. Prima del fix: 15 ritirate contate vive, archivio a 1.053.706 byte contro un tetto di 1.048.576, e il potatore che diceva «0 decadute, non posso fare niente»."
+      },
+      "descrizione": "Trovato perche' mi ha bloccato: le due lezioni di questo lotto hanno spinto l'archivio oltre il tetto, il potatore ha detto che non poteva fare niente, e sono andato a vedere perche'. L'archivio su main stava a 702 byte dal muro.",
+      "nato_da": "il cancello del lotto: `archivi-senza-tetto` e' diventato rosso quando ho aggiunto le due lezioni di questo lotto"
+    },
+    {
+      "id": "AR-828",
+      "stato": "riparato",
+      "dimensione": "trovato-riparando",
+      "gravita": "grave",
+      "impatto_crescita": "diretto sul battito della macchina: il giro e' quello che tiene viva l'azienda. Se si pianta, non esce nessuna cadenza, nessun briefing, nessuna sentinella — e non si pianta con un errore, si pianta stando li' fermo, che e' il modo peggiore.",
+      "nato": "2026-08-26 08:50",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 63,
+      "titolo": "Ho messo una chiamata a internet dentro il battito della macchina, senza tetto di tempo",
+      "causa_radice": "Montando `entrate-senza-cancello.mjs` dentro `giro.sh` ho guardato se il posto era giusto (lo e') e non COSA porta dentro. Quel comando interroga GitHub, e `guardiano()` in giro-esito.sh esegue `node <script>` senza nessun tetto di tempo — e' scritto per guardiani che leggono file, dove il caso non si pone. Con GitHub lento o irraggiungibile la richiesta puo' non tornare mai, e il giro resta fermo li'. Non fallisce: aspetta. La forma esatta di AR-822, un mese dopo: guardo il posto da cui e' arrivata la scoperta e non tutti i posti da cui il danno puo' arrivare.",
+      "fix_proposto": "Il tetto sta nello strumento, non nell'esecutore condiviso: `--connect-timeout 10 --max-time 15` su ogni chiamata. Toccare `guardiano()` avrebbe cambiato il comportamento di una ventina di guardiani per curarne uno — e chi porta il rischio deve portarsi il tetto. Peggio possibile adesso: 10 chiamate x 15s = 150s, poi ⚪ dichiarato, che e' il verdetto giusto.",
+      "dove": "cervello/entrate-senza-cancello.mjs (montato in cervello/giro.sh)",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/entrate-senza-cancello.test.mjs",
+        "nota": "Il caso «la chiave NON compare fra gli argomenti del processo» controlla la lista completa degli argomenti di curl, e quella lista adesso porta i due tetti. DICHIARATO: NON ho ricreato il caso con GitHub lento — questo l'ho trovato riguardando il perimetro, non provandolo. La prova protegge la forma degli argomenti, non il comportamento sotto rete lenta."
+      },
+      "descrizione": "Trovato dalla riguardata del perimetro con la lente cadenza-esecuzione, sul file che avevo appena modificato io. Secondo difetto di questo lotto nato dal riguardare il mio stesso lavoro, dopo AR-826.",
+      "nato_da": "la riguardata del perimetro toccato con la lente cadenza-esecuzione, imposta dal cancello prima della consegna"
+    },
+    {
+      "id": "AR-829",
+      "stato": "riparato",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "indiretto ma sulla vita dei freni: il sorvegliante accusa «hai spento una difesa» ogni volta che il potatore fa il suo mestiere. Un allarme che suona quando non c'e' niente e' l'allarme che si impara a saltare, e allora smette di proteggere anche quando ha ragione.",
+      "nato": "2026-08-26 09:15",
+      "nato_come": "scoperta",
+      "lotto_scoperta": 63,
+      "titolo": "Il sorvegliante leggeva il racconto di una lezione come se fosse una chiamata",
+      "causa_radice": "La regola «menzione ≠ chiamata» questo file la conosce e l'ha gia' scritta quattro volte: sui commenti (⑥b), sulla prosa dei .md (AR-503), sul proprio diario (AR-543). Ma i registri JSON restano guardati riga per riga — giustamente, perche' li' le difese ci vivono davvero (`MAI_REFERTO`). Dentro quei file pero' convivono due cose diverse: i campi che DICHIARANO (`gate`, `comando`, `test`, `file`) e quelli che RACCONTANO (`testo`, `perche`, `causa_radice`). Nei secondi il nome di uno script e' una menzione. Il potatore ha tolto 15 lezioni ritirate, due nominavano uno script nel proprio racconto, e la guardia ha detto «hai tolto la riga che chiamava install-ritmo-timers.sh». Verificato: le mutazioni di quelle due difese (AR-057, AR-682) mordono ancora tutte e due.",
+      "fix_proposto": "`eCampoDiProsa(riga, file)`: dentro un .json, una riga il cui campo e' fra quelli che raccontano non conta come chiamata. L'elenco e' dei campi DI PROSA e non di quelli di dichiarazione, apposta — una chiave nuova che nessuno ha ancora classificato resta guardata. Sbagliare per eccesso di allarme si ripara con una riga; sbagliare per silenzio non si ripara, perche' non lo vede nessuno.",
+      "dove": "cervello/sorvegliante.mjs",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/sorvegliante.test.mjs",
+        "nota": "Quattro casi: prosa riconosciuta, campi di dichiarazione ancora guardati, chiave sconosciuta guardata (non esentata), e la regola che non esce dai .json. Mutazione: esentare anche `gate` — la prova diventa rossa."
+      },
+      "descrizione": "Trovato perche' mi ha bloccato la consegna: il cancello e' diventato rosso sul sorvegliante dopo che il potatore aveva fatto esattamente il suo mestiere.",
+      "nato_da": "il cancello del lotto, dopo la potatura resa possibile da AR-827"
     }
   ],
   "meta": {

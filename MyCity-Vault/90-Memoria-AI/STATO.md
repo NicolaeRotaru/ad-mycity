@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-25 16:31
+aggiornato: 2026-08-26 08:25
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -100,6 +100,32 @@ tre controlli usano per capire se l'attivita' e' ferma.
 > **Cosa non ho verificato.** Niente di tutto questo l'ho visto girare sul server vero: le prove sono tutte su questa macchina e su copie usa-e-getta del progetto. E il metodo resta provato su un tipo solo di lavoro, i freni della macchina.
 >
 > **Dettagli tecnici.** Freno agganciato: `cervello/porte-gemelle.mjs`, riga dopo «spazzata dei fratelli» in `cancello-lotto.mjs`, con la voce tolta da `guardiani-motivi.json` (montato, sarebbe fantasma). Nel cantiere sono registrate tre schede: AR-796 per il promosso, AR-797 e AR-798 per i bocciati. In coda le card #172 e #173.
+
+> 🚪 **26/8 08:25 — Il controllo che protegge il codice avvisa ma non ferma: dieci lavori su 141 sono entrati senza un verde.**
+>
+> **In due righe.** Il controllo automatico che protegge il codice funziona, ma il suo «no» non ferma nessuno: dieci modifiche su 141 sono entrate senza il suo via libera. Ho riparato quattro cose. Tre delle quattro me le ero fatte da solo. La quinta è la serratura, e quella è una scelta che tocca a te: card #177.
+>
+> **In parole semplici.** Prima che una modifica entri nel codice buono gira un controllo automatico. Ricontrolla tutto: le prove, i conti, i guardiani. Quel controllo funziona bene. Il problema è che il suo «no» non ferma niente. È come un cartello «lavori in corso» senza transenna.
+>
+> **Cosa cambia per te.** Sono andato a contare. Dal 4 agosto a oggi sono entrate 141 modifiche nel codice buono, e dieci sono passate senza il via libera. In nove casi il controllo aveva detto no. Nel decimo non l'aveva proprio vista. Dieci su 141 fa il 7%, cioè circa una ogni due settimane. Non ti sto dicendo che quelle dieci fossero sbagliate. Ti sto dicendo che oggi nessuno le distingue.
+>
+> **Cosa devi fare.** Scegliere se dare la serratura a quel controllo. Card **#177** in coda, con tre strade e quella che consiglio. Non l'ho scelta io perché costa: se il controllo diventa obbligatorio e il codice buono è rosso per conto suo, non si può unire nemmeno la correzione che lo rimetterebbe verde.
+>
+> **Cosa non ho verificato.** L'impostazione com'è messa adesso non l'ho letta. GitHub non me la fa vedere da qui, mi risponde di no. Il «non è obbligatorio» lo deduco dal comportamento, non dall'averlo visto scritto: nove unioni sono passate col controllo rosso, e se fosse obbligatorio non avrebbero potuto. E non so se quelle dieci fossero giuste o sbagliate una per una, perché i registri di quelle giornate GitHub li ha già cancellati. Del tetto di tempo che ho messo sulla chiamata a GitHub ho controllato la forma, non il comportamento: non ho ricreato il caso con GitHub lento.
+>
+> **Come ci sono arrivato.** Ero partito convinto di sapere il difetto: «il controllo non parte quando la richiesta di unione la apre la macchina». L'ho misurato prima di ripararlo, e la misura mi ha dato torto. 140 richieste su 141 il controllo le aveva viste eccome. Il difetto non c'era, e il guardiano che stavo per costruire avrebbe protetto da niente. Quest'altro è saltato fuori dallo stesso conto, e non lo cercavo.
+>
+> **Le altre due cose riparate.** La prima è il comando che dà i numeri alle schede dei difetti. Cercava il numero libero in due posti: qui e nel codice buono. Ma un numero preso da un'altra sessione non è ancora nel codice buono. Vive per ore su un ramo aperto, invisibile a tutti e due. Cioè non guardava proprio la finestra in cui lo scontro si può ancora evitare. Sono due le collisioni del 25 agosto, e la prima l'ho scoperta solo perché un conto non tornava.
+>
+> La seconda è una fuga di chiave che avevo creato io stesso poche ore prima. L'ho trovata riguardando il mio lavoro con la lente «cosa succede se». Passavo la chiave di GitHub come argomento di un comando. Gli argomenti di un comando li legge chiunque abbia accesso alla stessa macchina.
+>
+> **Poi il cancello mi ha fermato, e ha fatto bene.** Le due lezioni di oggi hanno spinto l'archivio della memoria oltre il megabyte con cui viene servito. Il potatore ha detto che non poteva fare niente, e sono andato a vedere perché.
+>
+> Il 20 agosto è nata una parola nuova. Serve a dire «questa lezione l'ho ritirata di proposito». Non l'ha imparata nessuno: il potatore contava quelle quindici lezioni come ancora vive. Venti chilobyte che nessuno poteva più togliere. L'archivio stava a 702 byte dal muro già prima che arrivassi io. C'era anche uno strumento nato apposta per accorgersene, un mese fa, e non lo eseguiva nessuno.
+>
+> **E l'ultima me la sono fatta da solo mezz'ora fa.** Ho montato il conto delle unioni dentro il giro. Così facendo ho messo una chiamata a internet dentro il battito della macchina, senza tetto di tempo. Con GitHub lento il giro non fallisce: resta fermo lì. L'ho trovata riguardando quello che avevo appena scritto.
+>
+> **Dettagli tecnici.** Cinque schede. AR-824: i rami aperti diventano la terza fonte in `prossimo-ar.mjs`. AR-825: il cancello non è un controllo richiesto su main. AR-826: la chiave sulla riga di comando. AR-827: `ritirata` era una parola con un solo scrittore e nessun lettore. Cura: una funzione `lezioniSpente` accanto a quella che diceva chi è vivo. E il metro `conteggiPrivatiDelleLezioni` affilato e montato su una prova che gira sul repo vero. AR-828: i due tetti di tempo su curl. Strumento nuovo `node cervello/entrate-senza-cancello.mjs [--tetto 10]`, sola lettura, ⚪ dichiarato quando la chiave non c'è. Lezioni L-2026-0826-01 e L-2026-0826-02. Sette mutazioni, tutte provate rosse con `non-vacuita.mjs`. Radiografia del perimetro registrata su `rischio-sicurezza-se`: 2 file, 1 trovato.
 
 > ⏰ **23/8 11:50 — La data zero è il 29 agosto, non il 29 settembre. Sei giorni, non trentotto.** Correzione di Nicola in chat: «29 agosto» e «va finito tutto quello che ho detto».
 >

@@ -45,6 +45,7 @@
 import { existsSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { lezioniSpente } from "./misura-parziale.mjs";
 
 const JSON_MODE = process.argv.includes("--json");
 const GIORNI = Number(process.env.TASSO_REGOLE_GIORNI || 30);
@@ -69,11 +70,17 @@ export function diventataRegola(lez) {
   return Boolean(lez.promosso_il || lez.cristallizzato_in || lez.stato === "principio");
 }
 
-/** Le lezioni che contano: nate da una correzione di Nicola, vive, dentro la finestra. */
+/**
+ * Le lezioni che contano: nate da una correzione di Nicola, vive, dentro la finestra.
+ *
+ * 26/8 — «viva» qui era scritto a mano come `stato !== "decaduta"`, e dal 20/8 esiste anche
+ * `ritirata`, che vuol dire «l'ho ritirata di proposito». Cioè una lezione nata da una correzione di
+ * Nicola e poi ritirata continuava a contare nel tasso che dice quanto la macchina applica le sue
+ * correzioni: il numero saliva su una regola che qualcuno aveva tolto. Adesso passa dalla porta.
+ */
 export function correzioniDiNicola(lezioni = [], giorni = GIORNI, adesso = Date.now()) {
-  return lezioni.filter(
-    (l) => l && l.caso_studio_nicola && l.stato !== "decaduta" && giorniFa(l.nato, adesso) <= giorni,
-  );
+  const spente = new Set(lezioniSpente({ lezioni }));
+  return lezioni.filter((l) => l && l.caso_studio_nicola && !spente.has(l) && giorniFa(l.nato, adesso) <= giorni);
 }
 
 /** Il conto. Puro: il test lo prova senza toccare il disco. */
