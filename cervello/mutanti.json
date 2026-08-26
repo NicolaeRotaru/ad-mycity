@@ -5655,7 +5655,7 @@
   {
    "difetto": "AR-082",
    "nome": "il worker smette di interrogare il router costo: ogni compito torna al motore piu caro",
-   "file": "cervello/worker.sh",
+   "file": "cervello/worker-router.sh",
    "cerca": "import { scegliModello } from \"./cervello/banco-ai.mjs\";",
    "sostituisci": "// import { scegliModello } from \"./cervello/banco-ai.mjs\";",
    "test": "cervello/test/i-freni-di-spesa-scollegati.test.mjs"

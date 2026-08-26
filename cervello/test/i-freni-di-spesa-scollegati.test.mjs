@@ -21,6 +21,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -44,9 +45,21 @@ test("AR-082 · il router SCEGLIE, e sceglie diverso per compiti diversi", () =>
 });
 
 test("AR-082 · e il worker lo CHIAMA: un router che nessuno interroga resta codice morto", () => {
+  // Prima questo caso cercava la parola `scegliModello` nel testo di worker.sh. Lì dentro compariva
+  // due volte — l'import e la chiamata — quindi commentare l'import lasciava il caso verde mentre il
+  // router smetteva di rispondere: ogni compito sarebbe tornato al motore più caro, in silenzio.
+  // Adesso la chiamata vive in `worker-router.sh` e si ESEGUE.
+  const r = spawnSync("bash", ["-c", 'SCRIPT_DIR=cervello; . cervello/worker-router.sh; router_scegli_modello "testi-volume"'], {
+    cwd: REPO,
+    encoding: "utf8",
+  });
+  const fuori = (r.stdout || "").trim();
+  assert.notEqual(fuori, "", `il router non ha risposto: il worker resterebbe sul motore premium per ogni compito (${r.stderr || ""})`);
+  assert.match(fuori, /^[^|]+\|[^|]+\|[01]$/, `la risposta dev'essere «modello|tier|collegato»: «${fuori}»`);
+
+  // E il worker deve passarci davvero: la chiamata, non il nome.
   const worker = leggi("cervello/worker.sh");
-  assert.match(worker, /scegliModello/, "il punto che spende deve interrogare il router");
-  assert.match(worker, /banco-ai\.mjs/, "e importarlo davvero, non riscriversi la scelta in casa");
+  assert.match(worker, /router_scegli_modello/, "il punto che spende deve interrogare il router");
 });
 
 // ── AR-085 · i rilanci non sono più ciechi ───────────────────────────────────────────────────────

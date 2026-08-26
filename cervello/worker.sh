@@ -119,13 +119,11 @@ ts() { date '+%H:%M:%S'; }
 # AR-089: router costo — instrada un compito col router scegliModello (cervello/banco-ai.mjs) invece di
 # usare sempre il motore premium. Stampa "modello|tier|collegato(1/0)". Se node/router falliscono torna
 # vuoto → il chiamante resta sul premium (nessuna rottura). NON esegue AI: DECIDE soltanto.
-router_scegli_modello() {
-  ROUTER_COMPITO="$1" node --input-type=module 2>/dev/null <<'NODE' || true
-import { scegliModello } from "./cervello/banco-ai.mjs";
-const s = scegliModello(process.env.ROUTER_COMPITO || "");
-process.stdout.write([s.modello, s.tier, s.collegato ? "1" : "0"].join("|"));
-NODE
-}
+# 🧭 AR-082 — la chiamata al router costo sta in un file suo, perche' una prova possa ESEGUIRLA.
+# Prima era qui dentro e il suo caso di prova cercava la parola `scegliModello` nel testo di
+# worker.sh: quella parola compare due volte (l'import e la chiamata), quindi commentare l'import
+# lasciava la prova verde mentre il router smetteva di rispondere. Misurato il 26/8 (AR-840).
+. "$SCRIPT_DIR/worker-router.sh"
 
 # (La vecchia «corsia veloce chat» — classificatore chat_e_complesso + CHAT_MODELLO_VELOCE — è
 # stata RIMOSSA: la chat gira sempre sul modello premium (Strada A) e quel codice non era più
