@@ -105,5 +105,11 @@ jobs:
           # in NODE_PATH, e la radice globale è dove npm l'ha appena messo.
           echo "NODE_PATH=$(npm root -g)" >> "$GITHUB_ENV"
 
+      # 🐚 CHI ESEGUE LE PROVE IN BASH — AR-693 ①. Ventinove prove esistevano e non le lanciava
+      # nessuno: senza `bats` il banco le dichiara ⚪ e il verde di fianco vale meno di quanto sembra.
+      # Una casa sola per tutti gli esecutori (CI, VPS, avvio di sessione): cervello/installa-bats.sh.
+      - name: Chi esegue le prove in bash
+        run: bash cervello/installa-bats.sh
+
       - name: Cancello di uscita
         run: node cervello/cancello-lotto.mjs

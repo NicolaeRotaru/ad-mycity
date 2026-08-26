@@ -313,21 +313,13 @@ sync_vault() {
     return 0
   fi
   # Titolo umano nel commit: la richiesta del lavoro (una riga, max ~60), non il solo UUID.
-  # Taglio a 60 BYTE + iconv -c (scarta una eventuale lettera accentata spezzata in coda):
-  # indipendente dal locale del servizio — `cut -c`/`${var:0:60}` in locale C spezzano l'UTF-8.
-  local titolo_breve scrub_utf8 titolo_grezzo
-  # La chat del Pannello incapsula la richiesta («## Conversazione finora / Nicola: … / AD: …»):
-  # il titolo utile è l'ULTIMO messaggio di Nicola, non l'intestazione tecnica della busta.
-  titolo_grezzo="${richiesta:-}"
-  [ "${titolo_grezzo#*Nicola:}" != "$titolo_grezzo" ] && titolo_grezzo="${titolo_grezzo##*Nicola:}"
-  titolo_breve="$(printf '%s' "$titolo_grezzo" | tr '\n' ' ' \
-    | sed 's/^[[:space:]]*//; s/^##[[:space:]]*//; s/^Nuovo messaggio di Nicola[[:space:]]*//; s/^Conversazione finora[[:space:]]*//; s/[[:space:]]*$//' \
-    | head -c 60)"
-  # NB: iconv (glibc) con -c stampa il prefisso valido ma esce ≠0 sul byte spezzato in coda:
-  # niente `||` sullo stesso stdout (duplicherebbe il testo) — si prende l'output se non vuoto.
-  scrub_utf8="$(printf '%s' "$titolo_breve" | iconv -f UTF-8 -t UTF-8 -c 2>/dev/null || true)"
-  [ -n "$scrub_utf8" ] && titolo_breve="$scrub_utf8"
-  [ -z "$titolo_breve" ] && titolo_breve="lavoro ${id:-?}"
+  # La decisione vive in cervello/titolo-commit.sh — in un file suo apposta, perché la sua prova la
+  # ESEGUE invece di ritagliarla da qui con un awk. Finché stava in mezzo a questa funzione l'unico
+  # modo di provarla era il ritaglio, e il giorno in cui AR-314 ha messo il cancello dentro il tratto
+  # ritagliato sei casi su otto sono diventati rossi senza che nessuno se ne accorgesse.
+  local titolo_breve
+  . "$SCRIPT_DIR/titolo-commit.sh"
+  titolo_breve="$(titolo_commit "${richiesta:-}" "${id:-}")"
   # AR-314 — il cancello prima del commit. Il worker è la porta PIÙ USATA verso main (pubblica a ogni
   # lavoro, ~ogni 12 minuti) e finora era anche quella senza nessuno dei quattro controlli di verità:
   # la guardia ramo ce l'aveva già (è nata qui), il resto no. Additivo: il push resta com'è.
@@ -597,6 +589,13 @@ _estrai_stream() {
   t="$(jq -Rrn '[inputs | fromjson? // empty | objects | select(.type=="result") | .result // empty] | last // empty' \
     "$f" 2>/dev/null)"
   [ -n "$t" ] && _dedup_risposta_chat "$t"
+  # 🔚 NIENTE DA ESTRARRE NON È UN ERRORE. Senza questo `return 0` l'ultimo comando della funzione è
+  # il test `[ -n "$t" ]`, che su uno stream ancora vuoto è falso: la funzione usciva 1 e diceva
+  # «sono andata male» dove doveva dire «non c'è ancora niente». Le due cose portano a due decisioni
+  # diverse per chi chiama — ripiegare sul run senza streaming, oppure trattarlo come un guasto — e
+  # il worker legge questo stato ogni secondo e mezzo mentre l'AD scrive. Rosso da mesi in
+  # estrai-stream.bats caso 5, invisibile perché `bats` non lo eseguiva nessuno (AR-693).
+  return 0
 }
 
 # Rimuove risposte chat duplicate: segmenti identici consecutivi (dopo tool-use) o intero testo

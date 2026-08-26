@@ -46,6 +46,32 @@ const CARTELLA = process.env.PROVE_BASH_DIR || join(AD_ROOT, "cervello/test");
 const TETTI = process.env.TETTI_FILE || join(AD_ROOT, "cervello/tetti-lotto.json");
 
 /**
+ * Il testo delle impostazioni SENZA il blocco dei permessi.
+ *
+ * `"permissions": { … }` elenca ciò che una sessione è AUTORIZZATA a lanciare; `"hooks": { … }`
+ * elenca ciò che parte da solo. Sono due cose diverse e finché il file veniva saltato per intero
+ * erano la stessa: il gancio di avvio, che è un esecutore vero, non lo vedeva nessuno.
+ *
+ * Taglio a graffe bilanciate invece che con un'espressione: un blocco annidato (e `permissions` lo è,
+ * dentro ci sta `allow: […]`) fa fermare una regex golosa al primo `}` sbagliato.
+ */
+export function senzaPermessi(testo = "") {
+  const s = String(testo);
+  const i = s.search(/"permissions"\s*:\s*\{/);
+  if (i < 0) return s;
+  const apertura = s.indexOf("{", i);
+  let livello = 0;
+  for (let k = apertura; k < s.length; k++) {
+    if (s[k] === "{") livello++;
+    else if (s[k] === "}") {
+      livello--;
+      if (livello === 0) return s.slice(0, i) + s.slice(k + 1);
+    }
+  }
+  return s.slice(0, i); // graffe sbilanciate: meglio tagliare troppo che contare un permesso
+}
+
+/**
  * Il repo dichiara qualcuno che ESEGUE le prove in bash?
  *
  * Le forme che valgono, e sono tutte «qualcuno lo installa o lo lancia», mai «qualcuno è
@@ -66,10 +92,22 @@ const TETTI = process.env.TETTI_FILE || join(AD_ROOT, "cervello/tetti-lotto.json
 export function esecutoreDichiarato(fonti = []) {
   const dove = [];
   for (const f of fonti || []) {
-    const testo = String(f?.testo || "");
+    let testo = String(f?.testo || "");
     const nome = String(f?.nome || "");
-    if (/\.claude\/settings(\.local)?\.[a-z]+$/.test(nome)) continue; // un permesso non è un esecutore
+    // 🔧 L'ATTREZZO NON È IL SUO PROPRIO ESECUTORE — stessa regola del permesso, altra faccia.
+    //
+    // `cervello/installa-bats.sh` installa bats: se contasse come esecutore di sé stesso, il
+    // guardiano direbbe «qualcuno le esegue» anche il giorno in cui nessuno lo chiama più — cioè
+    // esattamente il difetto che questo file esiste per misurare, riprodotto dalla sua stessa cura
+    // (è AR-809: un cancello nuovo che nasce scollegato da chi agisce). Vale l'esecutore che lo
+    // CHIAMA, mai il file che lo contiene.
+    if (/(^|\/)installa-bats\.(sh|bash)$/.test(nome)) continue;
+    // Le impostazioni non si saltano più per intero: dentro convivono i PERMESSI (che non sono un
+    // esecutore, ed è il cuore del difetto) e i GANCI, che invece eseguono davvero un comando a
+    // ogni avvio di sessione. Si toglie il blocco dei permessi e si guarda il resto.
+    if (/\.claude\/settings(\.local)?\.[a-z]+$/.test(nome)) testo = senzaPermessi(testo);
     if (/bats-core\/bats-action/.test(testo)) dove.push(`${nome}: usa l'azione bats-core/bats-action`);
+    else if (/installa-bats\.(sh|bash)/.test(testo)) dove.push(`${nome}: chiama cervello/installa-bats.sh`);
     else if (/(npm|yarn|pnpm)\s+(i|install|add)\s+(-g\s+|--global\s+)?[^\n]*\bbats\b/.test(testo)) dove.push(`${nome}: installa bats`);
     else if (/\bapt(-get)?\s+install[^\n]*\bbats\b/.test(testo)) dove.push(`${nome}: installa bats col gestore di pacchetti`);
     else if (/"(dev)?[Dd]ependencies"[\s\S]*?"bats"\s*:/.test(testo)) dove.push(`${nome}: bats fra le dipendenze`);
@@ -140,6 +178,11 @@ export function fontiPossibili(radice, { ceE = existsSync, elenca = readdirSync,
   };
   dentro(".github/workflows");
   dentro(".claude/hooks");
+  // Le impostazioni: dentro ci sono i GANCI di avvio di sessione, che eseguono un comando davvero.
+  // Si guardano col blocco dei permessi tolto (senzaPermessi) — un'autorizzazione non è un esecutore.
+  for (const f of [".claude/settings.json", ".claude/settings.local.json"]) {
+    if (ceE(join(radice, f))) fuori.push(f);
+  }
   // Gli script di shell del cervello e del VPS: è lì che vive l'avvio di sessione e il giro.
   const eShell = (v) => /\.(sh|bash|zsh)$/.test(v);
   dentro("cervello", eShell);

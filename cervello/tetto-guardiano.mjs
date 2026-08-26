@@ -171,13 +171,40 @@ export function idSospetti(uscita = "") {
   return [...ids];
 }
 
-/** I file di test che `test-cervello --json` ha dichiarato rossi o ineseguibili. */
-export function testRossi(jsonUscita = "") {
+/**
+ * I file rossi o ineseguibili dichiarati da `test-cervello --json`, letti da UNA famiglia.
+ *
+ * 🐚 DUE FAMIGLIE, DUE NUMERI — AR-693, e non è cosmetica del referto.
+ *
+ * Fino al 26/8 questa funzione sommava i `.test.mjs` e i `.bats` in un elenco solo, e la somma
+ * funzionava per un motivo che stava per sparire: **i `.bats` non li eseguiva nessuno**, quindi
+ * uscivano tutti `non-eseguito` e non arrivavano mai nel conto. Dichiarato un esecutore
+ * (`cervello/installa-bats.sh`), quelle ventinove prove hanno cominciato a girare per davvero e ne
+ * sono uscite **dieci rosse, diciannove casi caduti** — invisibili da mesi, e tutte in codice che
+ * nessun lotto di oggi ha toccato: worker.sh, giro.sh, i permessi.
+ *
+ * Sommarle al tetto dei test in Node (che è ZERO, e deve restare zero) renderebbe il cancello rosso
+ * per sempre il giorno stesso in cui si smette di essere ciechi — cioè punirebbe chi ha tolto la
+ * benda. Questa casa ha già il conto di cosa succede a un cancello che non può diventare verde: si
+ * impara a saltarlo al secondo giro. Quindi il debito ereditato in bash si CONTA sotto un tetto che
+ * scende e non risale (`test_bash` in tetti-lotto.json), mentre i rossi in Node restano blocco duro.
+ *
+ * Il ⚪ non è un rosso in nessuna delle due: una prova che nessuno ha fatto girare non è una prova
+ * che fallisce, ed è dichiarata a parte.
+ *
+ * @param quale "node" (i .test.mjs) | "bash" (i .bats) | "tutte"
+ */
+export function testRossi(jsonUscita = "", quale = "node") {
   try {
     const j = JSON.parse(jsonUscita);
-    const righe = [...(j.test || []), ...(j.bats || [])];
+    const righe = quale === "bash" ? j.bats || [] : quale === "tutte" ? [...(j.test || []), ...(j.bats || [])] : j.test || [];
     return righe.filter((x) => x && x.esito !== "ok" && x.esito !== "non-eseguito").map((x) => x.file);
   } catch {
     return null; // non ho saputo contare → chi chiama non deve assolvere
   }
+}
+
+/** I file `.bats` rossi — il debito ereditato, quello con un tetto che scende. */
+export function testRossiBash(jsonUscita = "") {
+  return testRossi(jsonUscita, "bash");
 }

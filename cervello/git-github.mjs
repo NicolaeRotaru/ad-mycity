@@ -180,20 +180,28 @@ export const MAX_BUFFER_GIT = 64 * 1024 * 1024;
  *
  * Alza l'eccezione: chi la vuole tollerante usa `gitLetto`.
  */
-export function gitEsegui(args, cwd, env = {}) {
+export function gitEsegui(args, cwd, env = {}, { timeout = 0 } = {}) {
+  // ⏱️ IL TIMEOUT È OPZIONALE E NON CAMBIA NIENTE PER CHI NON LO CHIEDE (26/8, AR-800).
+  //
+  // Serviva a `storia-git.mjs`, che da oggi può dare `git fetch --unshallow` per curarsi la cecità
+  // del clone superficiale: un fetch senza tetto di tempo dentro un guardiano resta appeso quanto
+  // vuole la rete. La strada comoda era darsi lì il proprio `execFileSync` — e sarebbe stata la
+  // porta laterale numero otto della malattia `git-letto-senza-tetto`, che dice a chiare lettere che
+  // la cura è avere UN esecutore solo. Quindi l'esecutore si estende, non si duplica.
   return execFileSync("git", args, {
     cwd,
     encoding: "utf8",
     maxBuffer: MAX_BUFFER_GIT,
     stdio: ["ignore", "pipe", "pipe"],
     env: { ...process.env, ...env },
+    ...(timeout ? { timeout } : {}),
   }).trim();
 }
 
 /** Legge da git senza il tetto di 1 MB. `null` se il comando fallisce (non si indovina un valore). */
-export function gitLetto(args, cwd) {
+export function gitLetto(args, cwd, { timeout = 0 } = {}) {
   try {
-    return gitEsegui(args, cwd);
+    return gitEsegui(args, cwd, {}, { timeout });
   } catch {
     return null;
   }

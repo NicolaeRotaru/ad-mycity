@@ -129,6 +129,11 @@ else
   echo "   WARN: collegamento del marketplace fallito (riprova: node cervello/collega-marketplace.mjs)." >&2
 fi
 
+# 🐚 Chi esegue le prove scritte in bash — AR-693 ①. Il VPS è una delle tre macchine dove il banco
+# gira davvero: senza `bats` ventinove prove esistono e non le lancia nessuno. Non fallisce mai:
+# se la rete non c'è, il setup prosegue e il buco resta dichiarato dal banco.
+bash "$APP_DIR/cervello/installa-bats.sh" || true
+
 echo "== 8) Unit systemd =="
 for unit in mycity-giro.service mycity-giro.timer mycity-worker.service mycity-monitora.service mycity-monitora.timer; do
   cp "$ENV_DIR/$unit" "/etc/systemd/system/$unit"

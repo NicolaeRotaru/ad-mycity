@@ -205,15 +205,20 @@ test("trovaBats(): prende i .bats, ordinati, e salta la roba di servizio", () =>
 test("leggiTapBats(): il TAP di bats non è quello di node, e non si legge col metro sbagliato", () => {
   // bats non stampa nessun `# pass N`. Leggerlo con `leggiTap` darebbe «ineseguibile» su ogni file:
   // 26 rossi inventati, che è il modo peggiore di agganciare una famiglia nuova.
-  assert.deepEqual(leggiTapBats("1..3\nok 1 uno\nok 2 due\nnot ok 3 tre"), { passati: 2, falliti: 1 });
-  assert.deepEqual(leggiTapBats("1..0"), { passati: 0, falliti: 0 }, "un file senza casi è vuoto, non ineseguibile");
-  assert.deepEqual(leggiTapBats("bash: bats: command not found"), { passati: null, falliti: null }, "niente TAP = non è partito");
-  assert.deepEqual(leggiTapBats(""), { passati: null, falliti: null });
+  // AR-652 ha aggiunto un terzo contatore, `saltati`: un caso `# skip` non è un caso passato.
+  assert.deepEqual(leggiTapBats("1..3\nok 1 uno\nok 2 due\nnot ok 3 tre"), { passati: 2, falliti: 1, saltati: 0 });
+  assert.deepEqual(leggiTapBats("1..0"), { passati: 0, falliti: 0, saltati: 0 }, "un file senza casi è vuoto, non ineseguibile");
+  assert.deepEqual(
+    leggiTapBats("bash: bats: command not found"),
+    { passati: null, falliti: null, saltati: 0 },
+    "niente TAP = non è partito",
+  );
+  assert.deepEqual(leggiTapBats(""), { passati: null, falliti: null, saltati: 0 });
 });
 
 test("leggiTapBats(): «not ok» non si conta anche come «ok»", () => {
   const solo = leggiTapBats("1..2\nnot ok 1 primo\nnot ok 2 secondo");
-  assert.deepEqual(solo, { passati: 0, falliti: 2 }, "un prefisso letto male trasformerebbe due rossi in due verdi");
+  assert.deepEqual(solo, { passati: 0, falliti: 2, saltati: 0 }, "un prefisso letto male trasformerebbe due rossi in due verdi");
 });
 
 test("righeRosseBats(): un file verde non produce righe rosse inventate", () => {

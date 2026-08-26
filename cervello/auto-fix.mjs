@@ -45,7 +45,7 @@ import { NON_MISURABILE, coperturaChiusi, timbraChiusura, verdettoProva } from "
 // funzionare. La definizione però è una sola — riesportare è come si sposta una regola senza
 // rompere chi la usa; lasciarne una copia sarebbe la malattia che stiamo curando.
 export { timbraChiusura };
-import { cambiatoDallaNascita, storiaDelRepo } from "./storia-git.mjs";
+import { cambiatoDallaNascita, storiaDelRepoCurata } from "./storia-git.mjs";
 // 🚧 GLI STATI DEL CANTIERE — «quanti difetti ci sono» ha UNA casa (cervello/stati-cantiere.mjs).
 // Qui il conto era scritto a mano su tre stati e le schede `da-riverificare` non entravano in
 // nessun ramo: 632 contro 716, dentro il registro stesso (AR-684 · AR-717).
@@ -180,7 +180,7 @@ export function eseguiProvaComando(comando, run = spawnSync) {
  * sola rende possibile stamparla in fondo al rapporto — una cecità che non si vede è una cecità che
  * non è stata misurata.
  */
-const STORIA = storiaDelRepo(AD_ROOT);
+const STORIA = storiaDelRepoCurata(AD_ROOT);
 
 /**
  * Il file citato dalla prova è cambiato fra la nascita del difetto e adesso? (AR-330, guardia ②)

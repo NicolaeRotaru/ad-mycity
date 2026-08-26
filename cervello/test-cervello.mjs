@@ -50,6 +50,33 @@ import { spawn, spawnSync } from "node:child_process";
 import { cpus, tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
 import { AD_ROOT, nowPiacenza } from "./git-github.mjs";
+import { verdettoCecita } from "./cecita-curabile.mjs";
+
+/** La chiave con cui «manca un pacchetto del Pannello» è registrata fra le cecità curabili. */
+export const CHIAVE_PANNELLO = "dipendenze-del-pannello";
+
+/**
+ * Quel pacchetto è una dipendenza dichiarata del Pannello? Si legge dal suo package.json, non da un
+ * elenco scritto qui: un elenco a mano resterebbe indietro alla prima dipendenza nuova.
+ */
+export function dipendenzaDelPannello(nome, leggi = null) {
+  const radice = String(nome || "").split("/").slice(0, String(nome).startsWith("@") ? 2 : 1).join("/");
+  if (!radice) return false;
+  let p;
+  try {
+    p = JSON.parse(leggi ? leggi() : readFileSync(join(AD_ROOT, "pannello/package.json"), "utf8"));
+  } catch {
+    // ⚪ TRE VALORI, NON DUE — malattia `fonte-troncata-letta-per-intera`.
+    // Un `return false` qui direbbe «non è del Pannello» a partire da una fonte che non ho letto:
+    // stessa faccia di un verdetto vero, e chi legge non saprebbe che la domanda è rimasta senza
+    // risposta. `null` = non lo so, e chi chiama lo dice invece di dedurre.
+    return null;
+  }
+  return Boolean(p?.dependencies?.[radice] || p?.devDependencies?.[radice]);
+}
+
+/** La chiave con cui «manca bats» è registrata fra le cecità curabili. */
+export const CHIAVE_BATS = "prove-bash-senza-esecutore";
 // 📏 Il contratto della prova, in un posto solo (contratto-prova.mjs). Qui si CHIAMA, non si
 // riscrive: le due domande che questo banco è l'unico a poter fare — «questo caso può fallire?» e
 // «questo rosso è la prova di una scheda dichiarata chiusa?» — hanno una risposta sola per tutti.
@@ -212,6 +239,7 @@ export function leggiTapBats(out = "") {
   let passati = 0;
   let falliti = 0;
   let piano = false;
+  let saltati = 0;
   for (const r of String(out).split("\n")) {
     const t = r.trimEnd();
     if (/^\d+\.\.\d+\s*$/.test(t.trim())) {
@@ -219,10 +247,18 @@ export function leggiTapBats(out = "") {
       continue;
     }
     if (/^not ok\b/.test(t)) falliti++;
+    // ⏭️ UN CASO SALTATO NON È UN CASO PASSATO — AR-652.
+    //
+    // bats stampa `ok 3 nome # skip <perché>` quando una prova dichiara di non poter girare (le
+    // chiavi non ci sono, il servizio non risponde). Contarlo fra i `passati` fa uscire ✅ da un file
+    // dove non è stato provato NIENTE: è la forma di verde bugiardo che questa casa passa il tempo a
+    // togliere, e qui la produceva il metro stesso. Si contano a parte, e se sono TUTTI il file esce
+    // ⚪, non verde.
+    else if (/^ok\b.*#\s*skip\b/i.test(t)) saltati++;
     else if (/^ok\b/.test(t)) passati++;
   }
-  if (!piano && !passati && !falliti) return { passati: null, falliti: null };
-  return { passati, falliti };
+  if (!piano && !passati && !falliti && !saltati) return { passati: null, falliti: null, saltati: 0 };
+  return { passati, falliti, saltati };
 }
 
 /** QUALE caso bats è caduto, col suo perché — l'equivalente di `righeRosse` per il TAP di bats. */
@@ -250,12 +286,26 @@ export function righeRosseBats(out = "", max = 8) {
 
 /** Verdetto su un file `.bats`, con la stessa grammatica usata per i `.test.mjs`. */
 export function verdettoBats(status, out) {
-  const { passati, falliti } = leggiTapBats(out);
+  const { passati, falliti, saltati = 0 } = leggiTapBats(out);
   if (passati === null) {
-    return { esito: "ineseguibile", motivo: "nessun TAP da bats: il file non è nemmeno partito", passati, falliti };
+    return { esito: "ineseguibile", motivo: "nessun TAP da bats: il file non è nemmeno partito", passati, falliti, saltati };
   }
-  if (status === 0 && !falliti) return { esito: "ok", motivo: "", passati, falliti };
-  return { esito: "rosso", motivo: `${falliti || "?"} casi falliti`, passati, falliti, rosse: righeRosseBats(out) };
+  // Tutti saltati e nessun fallito: la prova ha dichiarato di non poter girare qui. È un ⚪ — sta
+  // fra le non misurate, con il perché — e non un ✅: nessuno l'ha fatta.
+  if (!falliti && !passati && saltati) {
+    return { esito: "non-eseguito", motivo: `${saltati} casi saltati: ${motivoDelloSkip(out) || "la prova ha dichiarato di non poter girare qui"}`, passati, falliti, saltati };
+  }
+  if (status === 0 && !falliti) return { esito: "ok", motivo: saltati ? `${saltati} casi saltati` : "", passati, falliti, saltati };
+  return { esito: "rosso", motivo: `${falliti || "?"} casi falliti`, passati, falliti, saltati, rosse: righeRosseBats(out) };
+}
+
+/** Il perché del primo `# skip`, così il ⚪ non è muto. */
+export function motivoDelloSkip(out = "") {
+  for (const r of String(out).split("\n")) {
+    const m = /^ok\b.*#\s*skip\s*(.*)$/i.exec(r.trimEnd());
+    if (m) return m[1].trim();
+  }
+  return "";
 }
 
 /**
@@ -446,11 +496,19 @@ export function verdetto(status, out) {
     const nome = mod?.[1] || "";
     const eNostro = nome.startsWith(".") || nome.startsWith("/");
     if (nome && !eNostro) {
-      return {
-        esito: "non-eseguito",
-        motivo: `manca il pacchetto «${nome}» su questa macchina: la prova esiste e nessuno l'ha fatta girare`,
-        passati, falliti,
-      };
+      // Anche questo ⚪ porta il comando che lo toglie, quando esiste (AR-800, stessa casa del clone
+      // superficiale e di bats). Un pacchetto del Pannello si cura con `npm ci --prefix pannello`;
+      // per uno che non è del Pannello non conosco una cura, e allora il ⚪ resta e lo dice — è la
+      // differenza fra «non si può» e «nessuno l'ha fatto», che sulla pagina hanno lo stesso aspetto.
+      const curabile = dipendenzaDelPannello(nome);
+      const detto = `manca il pacchetto «${nome}» su questa macchina: la prova esiste e nessuno l'ha fatta girare`;
+      const motivo =
+        curabile === true
+          ? verdettoCecita({ chiave: CHIAVE_PANNELLO, cieco: true, motivo: detto }).riga
+          : curabile === null
+            ? `${detto} — e non ho potuto leggere pannello/package.json per sapere se si cura con \`npm ci --prefix pannello\``
+            : detto;
+      return { esito: "non-eseguito", motivo, passati, falliti };
     }
     return { esito: "ineseguibile", motivo: `import non risolvibile${nome ? `: ${nome}` : ""}`, passati, falliti };
   }
@@ -836,7 +894,16 @@ async function main() {
       : bats.map((f) => ({
           file: `${CARTELLA}/${f}`,
           esito: "non-eseguito",
-          motivo: "bats non è installato su questa macchina: la prova esiste e nessuno l'ha fatta girare",
+          // AR-800/AR-693 — IL ⚪ PORTA IL COMANDO CHE LO TOGLIE. Un cerchio bianco che nessuno può
+          // togliere è il prezzo dell'ambiente; uno che si toglie in novecento millisecondi è lavoro
+          // non fatto travestito da prezzo dell'ambiente, e sulla pagina i due hanno lo stesso
+          // aspetto. La frase la costruisce cervello/cecita-curabile.mjs, la stessa casa che risponde
+          // per il clone superficiale: due copie della stessa decisione si allontanano.
+          motivo: verdettoCecita({
+            chiave: CHIAVE_BATS,
+            cieco: true,
+            motivo: "bats non è installato su questa macchina: la prova esiste e nessuno l'ha fatta girare",
+          }).riga,
           passati: null,
           falliti: null,
         }))
