@@ -4353,3 +4353,13 @@ legittimo, ed è il file dei permessi.
 **Limite dichiarato.** Il collaudo l'ha fatto la stessa sessione che ha costruito — la
 regola di casa dice il contrario. Ha trovato quattro cose e sono state riparate, fra cui
 una soglia che stavo alzando e che il sorvegliante del delta ha respinto con ragione.
+
+## 2026-08-26 20:15 — 🟡 Il turno fra i negozi collegato al worker (AR-804), e la finestra tolta
+
+**Cosa.** La presa dei lavori del worker esce da `worker.sh` e va in `cervello/worker-coda.sh`, che sceglie a turno fra i negozi invece che in ordine d'arrivo. La chat resta davanti a tutto.
+
+**Perche'.** Il turno era scritto e provato dal 23/8 e non lo chiamava nessuno: la scheda diceva che mancava il campo del negozio sulla coda, arrivato con la card 174. Un cancello costruito bene su una porta che nessuno usa non e' un cancello.
+
+**Due scelte mie, dichiarate.** (a) Il centro e' esente da UN freno solo e in UN caso solo — il tetto non dichiarato — perche' il suo freno di spesa vive gia' in `costo-ai.mjs`; resta soggetto a quota, interruttore e tetto dichiarato e finito. Senza questa esenzione la coda di oggi, tutta del centro, non sarebbe partita affatto. (b) Niente finestra sulla coda: si chiede prima quali negozi hanno lavori, poi il lavoro del negozio scelto. La finestra da 200 righe che avevo messo per prima rimetteva dentro la fame che la scheda esiste per togliere.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. La firma sul merge resta di Nicola (PR #850).

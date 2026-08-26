@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-26 17:41
+aggiornato: 2026-08-26 20:15
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -32,6 +32,21 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 ---
 
+
+
+> 🛣️ **26/8 20:15 — Il turno fra i negozi c'era da tre giorni e non lo chiamava nessuno.** Consegna ③, la macchina delle botteghe.
+>
+> **In parole semplici.** La parte che decide «a quale negozio tocca adesso» era scritta e provata dal 23 agosto. Il worker vero, però, continuava a prendere il lavoro più vecchio della coda. Con un negozio solo va bene. Con quaranta che pagano il canone, il più lento li ferma tutti — e il tempo perso è di qualcuno che non c'entra. Adesso è collegata davvero.
+>
+> **Cosa cambia.** La consegna ③ non è più intatta: il meccanismo del turno è dentro e provato eseguendo il codice vero, non rileggendolo. Restano fuori il muro dentro il database (AR-802, 🔴, non provabile da qui) e il contatore della spesa per negozio (AR-838, il prossimo pezzo).
+>
+> **Quattro difetti veri li hanno trovati le prove, non la riletta.** ① La prima versione **avrebbe fermato la macchina intera** al primo giro: la coda di oggi è tutta del centro, che non ha un tetto di spesa dichiarato, e il freno delle botteghe l'avrebbe bloccata. ② La presa chiamata dentro una sottoshell perdeva la memoria del turno: sempre lo stesso negozio, in silenzio. ③ Un `|| true` seppelliva l'esito «ingresso illeggibile» — un worker che dorme con la coda piena; quel solo pezzo teneva rosse quattro prove di casa. ④ La finestra di 200 righe che avevo messo sulla coda **rimetteva dentro la fame che stavo togliendo**: un negozio con 200 lavori in attesa la riempie tutta e il lavoro di un altro diventa invisibile. L'ha trovata il controllo del perimetro, non io.
+>
+> **La cosa da ricordare.** Tre volte su tre, oggi, la mia prima spiegazione di un rosso era falsa. A smentirla è stata sempre una misura, mai una riletta.
+>
+> **Cosa non ho verificato.** Il turno l'ho provato con un database finto: che il worker VERO lo usi si vede al primo giro del server, che è fermo.
+>
+> **Dettagli tecnici.** AR-804 chiusa con prova a comando — `cervello/bottega/scelta-worker.mjs`, `cervello/worker-coda.sh`, `cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs`. 12 casi, 9 mutazioni verificate rosse, cancello del lotto verde su 27 guardiani. PR #850. Aperte AR-837 e AR-838. Sul sito: ottavo difetto del design chiuso (l'assistenza non aveva nessuna maniglia per chi compra), PR #243, 11 controlli verdi.
 
 > 🔁 **25/8 21:00 — Il controllo di fine turno chiedeva di ricontrollare lavoro già pubblicato. Da nove giorni c'era la cura scritta e ferma.** Richiesta tua: «fai la 749».
 >
