@@ -1,32 +1,32 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-26 09:00",
+  "aggiornato": "2026-08-26 07:47",
   "giorni_sospetto": 3,
-  "difetti_aperti": 133,
-  "difetti_da_fare": 133,
+  "difetti_aperti": 131,
+  "difetti_da_fare": 131,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 817,
+    "totale": 815,
     "chiusi": 684,
     "aperti": 109,
     "in_corso": 1,
     "da_riverificare": 10,
-    "altri": 13,
-    "da_fare": 133,
+    "altri": 11,
+    "da_fare": 131,
     "senza_data_nascita": 17,
     "per_stato": {
       "chiuso": 684,
       "aperto": 109,
       "da-riverificare": 10,
       "in-corso": 1,
-      "riparato": 13
+      "riparato": 11
     },
     "stati_ignoti": [
       {
         "stato": "riparato",
-        "quante": 13,
+        "quante": 11,
         "ids": [
           "AR-812",
           "AR-813",
@@ -34,26 +34,26 @@
           "AR-814",
           "AR-815",
           "AR-816",
-          "AR-822",
-          "AR-823",
-          "AR-824",
-          "AR-826"
+          "AR-819",
+          "AR-820",
+          "AR-821",
+          "AR-822"
         ]
       }
     ]
   },
   "bilancio": {
     "torna": true,
-    "attese": 133,
-    "viste": 133,
+    "attese": 131,
+    "viste": 131,
     "fuori": 0,
-    "motivo": "bilancio a posto: 684 chiuse + 133 classificate = 817 schede, e ogni stato vivo è dentro (109 aperto · 1 in-corso · 10 da-riverificare · 13 in uno stato che non so nominare)"
+    "motivo": "bilancio a posto: 684 chiuse + 131 classificate = 815 schede, e ogni stato vivo è dentro (109 aperto · 1 in-corso · 10 da-riverificare · 11 in uno stato che non so nominare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 21,
     "auto-sospetta": 10,
     "umana": 76,
-    "auto-comando": 26
+    "auto-comando": 24
   },
   "difetti_senza_controllo": 0,
   "prove_impossibili": [],
@@ -186,8 +186,8 @@
     }
   ],
   "chiuderebbe_lo_stesso": [],
-  "schede_non_giudicabili": 31,
-  "schede_campi_illeggibili": 32,
+  "schede_non_giudicabili": 29,
+  "schede_campi_illeggibili": 30,
   "campi_illeggibili": [
     {
       "id": "AR-576",
@@ -310,6 +310,21 @@
       "impatto_crescita": "rende la CI rossa a caso su lotti sani: è successo il 25/8 sulla PR #845, dove l'unico rosso era questa prova. Una CI che diventa rossa senza colpa è la cosa che insegna a ignorare il rosso — e a quattro giorni dalla data del 29/8 è il modo più veloce per far passare un difetto vero."
     },
     {
+      "id": "AR-819",
+      "gravita": "grave",
+      "impatto_crescita": "il cancello di fine turno chiedeva di ricontrollare lavoro già pubblicato, all'infinito: 46 conferme in memoria dal 10 al 16 agosto, sempre con `git status --short` che mostrava zero o quasi. Un freno che accusa sempre è un freno che si impara a scavalcare, e questo sta sulla porta da cui esce ogni turno."
+    },
+    {
+      "id": "AR-820",
+      "gravita": "grave",
+      "impatto_crescita": "il fix di AR-819, così com'era arrivato dalla PR del 16/8, spegneva il collaudo del lavoro finito anche quando sul disco c'era lavoro non committato. Cioè avrebbe reso il freno più debole di prima proprio nel turno che ne ha bisogno, nel nome di ripararlo."
+    },
+    {
+      "id": "AR-821",
+      "gravita": "grave",
+      "impatto_crescita": "la malattia stava entrando DENTRO il freno di fine turno, cioè nel punto che decide se un lavoro può considerarsi finito. Un confronto non fatto che si presenta come «fatto, e sono diversi» è il modo in cui un cancello diventa un teatro."
+    },
+    {
       "id": "AR-822",
       "gravita": "bloccante",
       "impatto_crescita": "diretto sulla macchina che gira. Il passo 2 della card #174 rende lavori.negozio_id obbligatorio: con i tre scrittori del VPS che non lo mettevano, da quel momento ogni ri-accodamento di cadenza, ogni recupero della sentinella e ogni metabolizzazione della chat sarebbe FALLITO. E' il worker per le botteghe, cioe' la seconda linea di ricavo, a dipendere da quel campo: senza questa riparazione la card non era eseguibile fino in fondo."
@@ -322,32 +337,7 @@
     {
       "id": "AR-824",
       "gravita": "grave",
-      "impatto_crescita": "diretto sulla memoria del cantiere: una scheda che sparisce in una fusione porta via il difetto che descriveva, e quel difetto torna a mordere mesi dopo senza che nessuno sappia che era gia' stato trovato. E' successo due volte in un giorno solo."
-    },
-    {
-      "id": "AR-825",
-      "gravita": "grave",
-      "impatto_crescita": "diretto sulla fiducia in ogni verdetto: il cancello e' il freno che protegge tutto il resto del lavoro. Se il suo «no» non ferma niente, ogni altro guardiano montato li' dentro vale quanto il piu' distratto di chi unisce."
-    },
-    {
-      "id": "AR-826",
-      "gravita": "grave",
-      "impatto_crescita": "diretto: la chiave di GitHub da' accesso in scrittura a tutto il codice dell'azienda. Regalarla a chiunque abbia una shell sul VPS non e' un rischio teorico — il VPS non esegue solo questo comando."
-    },
-    {
-      "id": "AR-827",
-      "gravita": "grave",
-      "impatto_crescita": "diretto sulla memoria: l'archivio delle lezioni ha sfondato il megabyte con cui viene servito, quindi la scheda Apprendimento smette di leggersi. E una lezione ritirata di proposito continuava a essere data alla macchina come regola in vigore."
-    },
-    {
-      "id": "AR-828",
-      "gravita": "grave",
-      "impatto_crescita": "diretto sul battito della macchina: il giro e' quello che tiene viva l'azienda. Se si pianta, non esce nessuna cadenza, nessun briefing, nessuna sentinella — e non si pianta con un errore, si pianta stando li' fermo, che e' il modo peggiore."
-    },
-    {
-      "id": "AR-829",
-      "gravita": "grave",
-      "impatto_crescita": "indiretto ma sulla vita dei freni: il sorvegliante accusa «hai spento una difesa» ogni volta che il potatore fa il suo mestiere. Un allarme che suona quando non c'e' niente e' l'allarme che si impara a saltare, e allora smette di proteggere anche quando ha ragione."
+      "impatto_crescita": "l'archivio delle lezioni è la memoria di quello che la macchina ha imparato: oltre il tetto la Cabina smette di mostrarlo e lo dichiara «troppo-grande». Oggi il margine è 84 byte su 1.048.576, cioè meno di una riga: la prossima lezione che qualcuno scrive lo sfonda, e in quel momento Nicola apre il Pannello e non trova più niente lì dentro."
     }
   ],
   "chiuse_su_prova_non_ammessa": 0,
@@ -499,6 +489,24 @@
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
     },
     {
+      "id": "AR-819",
+      "gravita": "grave",
+      "impatto_crescita": "il cancello di fine turno chiedeva di ricontrollare lavoro già pubblicato, all'infinito: 46 conferme in memoria dal 10 al 16 agosto, sempre con `git status --short` che mostrava zero o quasi. Un freno che accusa sempre è un freno che si impara a scavalcare, e questo sta sulla porta da cui esce ogni turno.",
+      "perche": "prova eseguibile: node --test cervello/test/cancello-stop.test.mjs"
+    },
+    {
+      "id": "AR-820",
+      "gravita": "grave",
+      "impatto_crescita": "il fix di AR-819, così com'era arrivato dalla PR del 16/8, spegneva il collaudo del lavoro finito anche quando sul disco c'era lavoro non committato. Cioè avrebbe reso il freno più debole di prima proprio nel turno che ne ha bisogno, nel nome di ripararlo.",
+      "perche": "prova eseguibile: node --test cervello/test/collaudo.test.mjs"
+    },
+    {
+      "id": "AR-821",
+      "gravita": "grave",
+      "impatto_crescita": "la malattia stava entrando DENTRO il freno di fine turno, cioè nel punto che decide se un lavoro può considerarsi finito. Un confronto non fatto che si presenta come «fatto, e sono diversi» è il modo in cui un cancello diventa un teatro.",
+      "perche": "prova eseguibile: node --test cervello/test/cancello-stop.test.mjs"
+    },
+    {
       "id": "AR-823",
       "gravita": "minore",
       "impatto_crescita": "indiretto ma sulla fiducia nei verdetti: un guardiano che parla di un file che non ha letto non e' un guardiano, e' una frase.",
@@ -507,38 +515,8 @@
     {
       "id": "AR-824",
       "gravita": "grave",
-      "impatto_crescita": "diretto sulla memoria del cantiere: una scheda che sparisce in una fusione porta via il difetto che descriveva, e quel difetto torna a mordere mesi dopo senza che nessuno sappia che era gia' stato trovato. E' successo due volte in un giorno solo.",
-      "perche": "prova eseguibile: node --test cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs"
-    },
-    {
-      "id": "AR-825",
-      "gravita": "grave",
-      "impatto_crescita": "diretto sulla fiducia in ogni verdetto: il cancello e' il freno che protegge tutto il resto del lavoro. Se il suo «no» non ferma niente, ogni altro guardiano montato li' dentro vale quanto il piu' distratto di chi unisce.",
+      "impatto_crescita": "l'archivio delle lezioni è la memoria di quello che la macchina ha imparato: oltre il tetto la Cabina smette di mostrarlo e lo dichiara «troppo-grande». Oggi il margine è 84 byte su 1.048.576, cioè meno di una riga: la prossima lezione che qualcuno scrive lo sfonda, e in quel momento Nicola apre il Pannello e non trova più niente lì dentro.",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo"
-    },
-    {
-      "id": "AR-826",
-      "gravita": "grave",
-      "impatto_crescita": "diretto: la chiave di GitHub da' accesso in scrittura a tutto il codice dell'azienda. Regalarla a chiunque abbia una shell sul VPS non e' un rischio teorico — il VPS non esegue solo questo comando.",
-      "perche": "prova eseguibile: node --test cervello/test/entrate-senza-cancello.test.mjs"
-    },
-    {
-      "id": "AR-827",
-      "gravita": "grave",
-      "impatto_crescita": "diretto sulla memoria: l'archivio delle lezioni ha sfondato il megabyte con cui viene servito, quindi la scheda Apprendimento smette di leggersi. E una lezione ritirata di proposito continuava a essere data alla macchina come regola in vigore.",
-      "perche": "prova eseguibile: node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs"
-    },
-    {
-      "id": "AR-828",
-      "gravita": "grave",
-      "impatto_crescita": "diretto sul battito della macchina: il giro e' quello che tiene viva l'azienda. Se si pianta, non esce nessuna cadenza, nessun briefing, nessuna sentinella — e non si pianta con un errore, si pianta stando li' fermo, che e' il modo peggiore.",
-      "perche": "prova eseguibile: node --test cervello/test/entrate-senza-cancello.test.mjs"
-    },
-    {
-      "id": "AR-829",
-      "gravita": "grave",
-      "impatto_crescita": "indiretto ma sulla vita dei freni: il sorvegliante accusa «hai spento una difesa» ogni volta che il potatore fa il suo mestiere. Un allarme che suona quando non c'e' niente e' l'allarme che si impara a saltare, e allora smette di proteggere anche quando ha ragione.",
-      "perche": "prova eseguibile: node --test cervello/test/sorvegliante.test.mjs"
     }
   ],
   "non_auto_chiudibili": 107,
@@ -3592,6 +3570,45 @@
       "auto_chiudibile": false
     },
     {
+      "id": "AR-819",
+      "gravita": "grave",
+      "eta_giorni": 1,
+      "impatto_crescita": "il cancello di fine turno chiedeva di ricontrollare lavoro già pubblicato, all'infinito: 46 conferme in memoria dal 10 al 16 agosto, sempre con `git status --short` che mostrava zero o quasi. Un freno che accusa sempre è un freno che si impara a scavalcare, e questo sta sulla porta da cui esce ogni turno.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "L'ancora del turno non si sposta più quando HEAD è già pubblicato: il collaudo torna dovuto per sempre",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cancello-stop.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-820",
+      "gravita": "grave",
+      "eta_giorni": 1,
+      "impatto_crescita": "il fix di AR-819, così com'era arrivato dalla PR del 16/8, spegneva il collaudo del lavoro finito anche quando sul disco c'era lavoro non committato. Cioè avrebbe reso il freno più debole di prima proprio nel turno che ne ha bisogno, nel nome di ripararlo.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "Il fix del ciclo era troppo largo: «HEAD pubblicato» spegneva il collaudo anche col lavoro non committato sul ",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/collaudo.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
+      "id": "AR-821",
+      "gravita": "grave",
+      "eta_giorni": 1,
+      "impatto_crescita": "la malattia stava entrando DENTRO il freno di fine turno, cioè nel punto che decide se un lavoro può considerarsi finito. Un confronto non fatto che si presenta come «fatto, e sono diversi» è il modo in cui un cancello diventa un teatro.",
+      "prova_esegue": true,
+      "prova_obbligatoria": false,
+      "non_giudicabile": true,
+      "titolo": "La riparazione del ciclo ingoiava l'errore di git: «non ho potuto confrontare» usciva travestito da «sono dive",
+      "classe": "auto-comando",
+      "perche": "prova eseguibile: node --test cervello/test/cancello-stop.test.mjs",
+      "auto_chiudibile": true
+    },
+    {
       "id": "AR-822",
       "gravita": "bloccante",
       "eta_giorni": 1,
@@ -3621,79 +3638,14 @@
       "id": "AR-824",
       "gravita": "grave",
       "eta_giorni": 0,
-      "impatto_crescita": "diretto sulla memoria del cantiere: una scheda che sparisce in una fusione porta via il difetto che descriveva, e quel difetto torna a mordere mesi dopo senza che nessuno sappia che era gia' stato trovato. E' successo due volte in un giorno solo.",
-      "prova_esegue": true,
-      "prova_obbligatoria": false,
-      "non_giudicabile": true,
-      "titolo": "Il comando che da' il numero libero non guardava dove lo scontro e' ancora evitabile",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/il-numero-libero-non-guardava-gli-altri-rami.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-825",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "impatto_crescita": "diretto sulla fiducia in ogni verdetto: il cancello e' il freno che protegge tutto il resto del lavoro. Se il suo «no» non ferma niente, ogni altro guardiano montato li' dentro vale quanto il piu' distratto di chi unisce.",
+      "impatto_crescita": "l'archivio delle lezioni è la memoria di quello che la macchina ha imparato: oltre il tetto la Cabina smette di mostrarlo e lo dichiara «troppo-grande». Oggi il margine è 84 byte su 1.048.576, cioè meno di una riga: la prossima lezione che qualcuno scrive lo sfonda, e in quel momento Nicola apre il Pannello e non trova più niente lì dentro.",
       "prova_esegue": false,
       "prova_obbligatoria": false,
       "non_giudicabile": true,
-      "titolo": "Il cancello parla, ma non chiude: dieci lavori su centoquarantuno sono entrati senza un verde",
+      "titolo": "L'archivio delle lezioni è pieno e il potatore non ha più leve: tutte e 538 sono vive",
       "classe": "umana",
       "perche": "nessuna prova automatica (verifica umana): nessun guardiano potrà mai chiuderlo",
       "auto_chiudibile": false
-    },
-    {
-      "id": "AR-826",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "impatto_crescita": "diretto: la chiave di GitHub da' accesso in scrittura a tutto il codice dell'azienda. Regalarla a chiunque abbia una shell sul VPS non e' un rischio teorico — il VPS non esegue solo questo comando.",
-      "prova_esegue": true,
-      "prova_obbligatoria": false,
-      "non_giudicabile": true,
-      "titolo": "La chiave di GitHub finiva sulla riga di comando, dove la legge chiunque",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/entrate-senza-cancello.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-827",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "impatto_crescita": "diretto sulla memoria: l'archivio delle lezioni ha sfondato il megabyte con cui viene servito, quindi la scheda Apprendimento smette di leggersi. E una lezione ritirata di proposito continuava a essere data alla macchina come regola in vigore.",
-      "prova_esegue": true,
-      "prova_obbligatoria": false,
-      "non_giudicabile": true,
-      "titolo": "Una parola che una parte scriveva e nessun'altra conosceva: quindici lezioni ritirate contate ancora vive",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/lezioni-contate-in-tre-modi.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-828",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "impatto_crescita": "diretto sul battito della macchina: il giro e' quello che tiene viva l'azienda. Se si pianta, non esce nessuna cadenza, nessun briefing, nessuna sentinella — e non si pianta con un errore, si pianta stando li' fermo, che e' il modo peggiore.",
-      "prova_esegue": true,
-      "prova_obbligatoria": false,
-      "non_giudicabile": true,
-      "titolo": "Ho messo una chiamata a internet dentro il battito della macchina, senza tetto di tempo",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/entrate-senza-cancello.test.mjs",
-      "auto_chiudibile": true
-    },
-    {
-      "id": "AR-829",
-      "gravita": "grave",
-      "eta_giorni": 0,
-      "impatto_crescita": "indiretto ma sulla vita dei freni: il sorvegliante accusa «hai spento una difesa» ogni volta che il potatore fa il suo mestiere. Un allarme che suona quando non c'e' niente e' l'allarme che si impara a saltare, e allora smette di proteggere anche quando ha ragione.",
-      "prova_esegue": true,
-      "prova_obbligatoria": false,
-      "non_giudicabile": true,
-      "titolo": "Il sorvegliante leggeva il racconto di una lezione come se fosse una chiamata",
-      "classe": "auto-comando",
-      "perche": "prova eseguibile: node --test cervello/test/sorvegliante.test.mjs",
-      "auto_chiudibile": true
     }
   ]
 }

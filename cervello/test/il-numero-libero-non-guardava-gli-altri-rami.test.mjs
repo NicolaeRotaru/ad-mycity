@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 🧪 AR-824 — il comando che dà il numero libero non guardava dove la collisione è ancora evitabile.
+// 🧪 AR-830 — il comando che dà il numero libero non guardava dove la collisione è ancora evitabile.
 //
 // Il 25/8, in un giorno solo, la stessa collisione due volte.
 //

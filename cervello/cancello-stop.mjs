@@ -302,7 +302,55 @@ export const ANCORA = "cervello/_tmp_stop-ancora.json";
  * Da dove guardo. Pura: prende ciò che l'I/O ha già accertato e torna il perimetro + cosa dichiarare.
  * @returns {{da:string|null, turno:boolean, nota:string|null}}
  */
-export function scegliPerimetro({ ancora = null, ancoraUsabile = false, base = null } = {}) {
+/**
+ * HEAD è lo stesso commit della base? Torna la risposta E la cecità, mai solo la risposta.
+ *
+ * ⚠️ AR-821 — QUI IL PRIMO GIRO AVEVA INGOIATO L'ERRORE. Era `catch { return false; }`: se git non
+ * rispondeva, il confronto risultava «diverso» e nessuno sapeva che non era stato fatto. È la
+ * malattia «una fonte letta a metà produce un verdetto intero», e l'ha vista la spazzata dei
+ * fratelli, non io. Il `false` va bene come scelta — tenere l'ancora è la strada stretta — ma va
+ * DICHIARATO: chi legge il verdetto deve poter distinguere «ho guardato e sono diversi» da «non ho
+ * potuto guardare».
+ *
+ * Pura rispetto a git: `leggi` è la porta, così una prova la esegue senza un repo vero.
+ * @returns {{uguale: boolean, cieco: string|null}}
+ */
+export function confrontaHeadConBase(base, leggi) {
+  try {
+    const dellaBase = String(leggi(["rev-parse", "--verify", "--quiet", base]) ?? "").trim();
+    const diHead = String(leggi(["rev-parse", "HEAD"]) ?? "").trim();
+    return { uguale: Boolean(dellaBase) && dellaBase === diHead, cieco: null };
+  } catch (e) {
+    const motivo = String(e?.message || "git non ha detto perché").split("\n")[0];
+    return {
+      uguale: false,
+      cieco: `non ho potuto confrontare HEAD con «${base}» (${motivo}): tengo l'ancora del turno, che è la scelta stretta — ma il confronto non l'ho fatto.`,
+    };
+  }
+}
+
+export function scegliPerimetro({ ancora = null, ancoraUsabile = false, base = null, headUgualeABase = false } = {}) {
+  // 🔁 IL CICLO CHE NON SI ROMPEVA MAI DA SOLO (AR-819 · 46 conferme in memoria, dal 10 al 16/8).
+  //
+  // L'ancora si sposta solo sui turni che si chiudono PULITI (regola ① di `siPiantaAncora`), ed è
+  // giusto: spostarla su un turno bloccato farebbe sparire dal perimetro proprio ciò per cui ho
+  // bloccato. Ma se HEAD è già identico a `base` (origin/main), non esiste NIENTE di non
+  // pubblicato: tutto ciò che il diff ancora-vecchia…HEAD contiene è già sul ramo principale.
+  // Allora il cancello trova sempre «lavoro» che nessuna sessione ha aperto, il turno risulta
+  // sporco per costruzione, l'ancora non si sposta mai, e il giro dopo vede un diff ancora più
+  // grande. All'infinito: 46 volte in sei giorni, con `git status --short` che intanto mostrava
+  // zero o quasi.
+  //
+  // Qui, PRIMA di fidarsi dell'ancora, si chiede se serva ancora: HEAD pubblicato = niente da
+  // lasciare indietro. Il perimetro riparte da lì e `turno: false` fa ripiantare l'ancora
+  // (regola ② di `siPiantaAncora`), che è il gesto che rompe il ciclo invece di raccontarlo.
+  if (headUgualeABase && base) {
+    return {
+      da: base,
+      turno: false,
+      nota: `HEAD è già uguale a «${base}»: nessun commit da pubblicare, quindi riparto da qui invece che da un'ancora rimasta indietro. Il lavoro non ancora committato, se c'è, resta dentro questo perimetro.`,
+    };
+  }
   if (ancora && ancoraUsabile) return { da: ancora, turno: true, nota: null };
   if (!base) return { da: null, turno: false, nota: null };
   return {
@@ -1279,9 +1327,14 @@ async function main() {
   const committati = base ? fileCommittatiSulRamo(base) : null;
   const righeQuaderni = base ? righeAggiunteNelle(base, "memoria-squadra") : null;
 
+  // HEAD già pubblicato = nessun commit da pubblicare, qualunque cosa dica l'ancora vecchia
+  // (AR-819, il perché sta dentro `scegliPerimetro`).
+  const confrontoHead = base ? confrontaHeadConBase(base, git) : { uguale: false, cieco: null };
+  const headUgualeABase = confrontoHead.uguale;
+
   // L'allarme è una domanda sul TURNO («stavo per lasciarlo indietro adesso»), l'esito è una domanda
   // sulla CONSEGNA (il ramo verso main). Due perimetri diversi perché sono due domande diverse.
-  const perimetro = scegliPerimetro({ ...ancoraDelTurno(), base });
+  const perimetro = scegliPerimetro({ ...ancoraDelTurno(), base, headUgualeABase });
   const consegneModificate = perimetro.da ? righeAggiunteNelle(perimetro.da, "consegne") : null;
 
   // IL BUCO TROVATO IL 4/8: `codaToccata` (sopra, da `fileDelLavoro`) guarda SOLO `git status
@@ -1299,6 +1352,10 @@ async function main() {
   const { testi: testiDelTurno, soloDisco: testiSoloDisco } = testiToccati(perimetro.da);
 
   const ciechi = [];
+  // AR-821: se il confronto HEAD/base non si è potuto fare, il verdetto lo deve sapere. Sta QUI, in
+  // `main()`, dove `confrontoHead` esiste: al primo giro l'avevo messo dentro la funzione pura dei
+  // ciechi, che non lo vede — cinque casi rossi con «confrontoHead is not defined», trovati dal banco.
+  if (confrontoHead.cieco) ciechi.push(confrontoHead.cieco);
   const note = [];
   // AR-642: la decisione su COSA dichiarare cieco quando un diff non è calcolabile è una funzione
   // pura esportata (`ciechiPerDiffNonCalcolabile`), così una prova la esegue coi `null` veri del
@@ -1327,7 +1384,7 @@ async function main() {
   let collaudo = { righe: [], note: [], ciechi: [] };
   if (hook) {
     try {
-      collaudo = collaudoAlloStop({ da: perimetro.da, turno: perimetro.turno, giaBloccato });
+      collaudo = collaudoAlloStop({ da: perimetro.da, turno: perimetro.turno, giaBloccato, headUgualeABase });
     } catch {
       collaudo = { righe: [], note: [], ciechi: ["il collaudo del lavoro finito non ha girato: non so se questo lavoro sia stato ricontrollato."] };
     }

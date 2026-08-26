@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-26 08:41",
+ "aggiornato": "2026-08-25 20:55",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -10893,18 +10893,6 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 07:58",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:08",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:41",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11070,18 +11058,6 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 07:58",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:08",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:41",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11238,18 +11214,6 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 07:58",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:08",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:41",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11333,18 +11297,6 @@
     },
     {
      "quando": "2026-08-24 21:46",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 07:58",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:08",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:41",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11500,15 +11452,11 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-26 07:58",
+     "quando": "2026-08-25 20:48",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-26 08:08",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 08:41",
+     "quando": "2026-08-25 20:55",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -11682,18 +11630,6 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 07:58",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:08",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:41",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -11803,18 +11739,6 @@
     },
     {
      "quando": "2026-08-24 21:46",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 07:58",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:08",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:41",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -11970,15 +11894,11 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-26 07:58",
+     "quando": "2026-08-25 20:48",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-26 08:08",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 08:41",
+     "quando": "2026-08-25 20:55",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -12131,15 +12051,11 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-26 07:58",
+     "quando": "2026-08-25 20:48",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-26 08:08",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 08:41",
+     "quando": "2026-08-25 20:55",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -12222,18 +12138,6 @@
     {
      "quando": "2026-08-24 21:46",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 07:58",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:08",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:41",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
   },
@@ -12314,18 +12218,6 @@
     },
     {
      "quando": "2026-08-24 21:46",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 07:58",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:08",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:41",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12525,18 +12417,6 @@
     },
     {
      "quando": "2026-08-24 21:46",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 07:58",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:08",
-     "ref": "freno rosso nel cancello: sorvegliante del delta"
-    },
-    {
-     "quando": "2026-08-26 08:41",
      "ref": "freno rosso nel cancello: sorvegliante del delta"
     }
    ]
@@ -12842,15 +12722,11 @@
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-26 07:58",
+     "quando": "2026-08-25 20:48",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     },
     {
-     "quando": "2026-08-26 08:08",
-     "ref": "freno rosso nel cancello: verdetti senza lettore"
-    },
-    {
-     "quando": "2026-08-26 08:41",
+     "quando": "2026-08-25 20:55",
      "ref": "freno rosso nel cancello: verdetti senza lettore"
     }
    ]
@@ -12936,8 +12812,8 @@
    "stato": "attiva",
    "confidenza": 0.9,
    "evidenze": 2,
-   "fonte": "Nicola, 25/8: «fai la radiografia mentre risolvi i problemi, per assicurarti che non ci sono altri problemi che usciranno fuori se faccio un'altra radiografia separata» — lotto 61, AR-818 · numero cambiato nell'unione: L-2026-0825-01 l'aveva già preso l'altro ramo",
-   "testo": "**Chi ripara guarda solo il punto che ripara: il perimetro toccato va riguardato PRIMA di consegnare, non alla radiografia di domani (AR-818).** Due numeri lo dicono: `nascita-difetti.mjs` conta 99 schede su 787 nate DAL riparare, e il registro del sito dichiara da sé che «i fix sul codice non riaprono da soli la lista». Finché l'unico occhio sul lavoro appena fatto è una radiografia lanciata giorni dopo, «zero difetti aperti» è vero sulla lista e falso sul codice — ed è esattamente la domanda che Nicola ha fatto prima della data del 29 agosto. La difesa non è un promemoria: è `cervello/radiografia-in-corsa.mjs` cablato dentro `cancello-lotto.mjs`, che pretende una scansione registrata con l'IMPRONTA del file com'è adesso. Una lettura fatta prima dell'ultima modifica non conta: scade da sola.",
+   "fonte": "Nicola, 25/8: «fai la radiografia mentre risolvi i problemi, per assicurarti che non ci sono altri problemi che usciranno fuori se faccio un'altra radiografia separata» — lotto 61, AR-818",
+   "testo": "**Chi ripara guarda solo il punto che ripara: il perimetro toccato va riguardato PRIMA di consegnare, non alla radiografia di domani (AR-818).** Il conto: `nascita-difetti.mjs` dice che 99 schede su 787 sono nate dal riparare. Finché l'unico occhio sul lavoro appena fatto è una radiografia lanciata giorni dopo, «zero difetti aperti» è vero sulla lista e falso sul codice. La difesa non è un promemoria: è `cervello/radiografia-in-corsa.mjs` cablato dentro `cancello-lotto.mjs`, che pretende una scansione registrata con l'impronta del file com'è adesso — una lettura fatta prima dell'ultima modifica scade da sola.",
    "regola": "Prima del cancello, riguarda i file che il lotto ha toccato con la lente della loro dimensione di radiografia e registra cosa hai visto (anche «zero»): `node cervello/radiografia-in-corsa.mjs` → `registra --dimensione <chiave> --toccati --trovati <n>`. Sul sito, `--repo ../mycity`.",
    "gate": "node --test cervello/test/radiografia-mentre-riparo.test.mjs"
   },
@@ -12983,7 +12859,7 @@
   },
   {
    "id": "L-2026-0826-02",
-   "testo": "**Quando due lavori girano insieme senza vedersi, la fonte che conta non e' dove il conflitto si VEDE ma dove e' ancora EVITABILE (AR-824).** `prossimo-ar.mjs` era nato apposta contro le collisioni di numero: non cercare il numero libero nella propria copia, «come guardare l'orologio fermo». Poi pero' lo cercava in due posti soli, qui e su main. E un numero preso da un'altra sessione **non e' ancora su main**: vive per ore su un ramo aperto. **Quando arriva su main lo scontro e' gia' successo** — main e' il posto dove lo scopri, non dove lo eviti. Cioe' la finestra in cui la collisione e' possibile era esattamente quella che il comando non guardava. **Il freno generale: per un guardiano che previene, chiediti dove sta il fatto MENTRE e' ancora reversibile, non dove diventa visibile.** Costo di non averlo fatto: due collisioni il 25/8, una scoperta solo perche' un conto non tornava (536+1+1 dava 537).",
+   "testo": "**Quando due lavori girano insieme senza vedersi, la fonte che conta non e' dove il conflitto si VEDE ma dove e' ancora EVITABILE (AR-830).** `prossimo-ar.mjs` era nato apposta contro le collisioni di numero: non cercare il numero libero nella propria copia, «come guardare l'orologio fermo». Poi pero' lo cercava in due posti soli, qui e su main. E un numero preso da un'altra sessione **non e' ancora su main**: vive per ore su un ramo aperto. **Quando arriva su main lo scontro e' gia' successo** — main e' il posto dove lo scopri, non dove lo eviti. Cioe' la finestra in cui la collisione e' possibile era esattamente quella che il comando non guardava. **Il freno generale: per un guardiano che previene, chiediti dove sta il fatto MENTRE e' ancora reversibile, non dove diventa visibile.** Costo di non averlo fatto: due collisioni il 25/8, una scoperta solo perche' un conto non tornava (536+1+1 dava 537).",
    "tag": [
     "collisioni",
     "sessioni-parallele",
@@ -12992,7 +12868,7 @@
    "reparto": "tech",
    "confidenza": 0.95,
    "evidenze": 2,
-   "fonte": "AR-824, 26/8: le due collisioni del 25/8, andando a cercare perche' il comando nato per evitarle non le avesse evitate.",
+   "fonte": "AR-830, 26/8: le due collisioni del 25/8, andando a cercare perche' il comando nato per evitarle non le avesse evitate.",
    "caso_studio_nicola": false,
    "nato": "2026-08-26",
    "ultima_conferma": "2026-08-26 07:55",
