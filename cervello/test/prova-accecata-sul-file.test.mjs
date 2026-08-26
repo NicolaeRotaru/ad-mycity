@@ -15,7 +15,7 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { accecate, fileSottoMisura, letturaPerAccecate, sorveglia } from "../sorvegliante.mjs";
+import { accecate, fileSottoMisura, fileSottoMisuraDaCartella, letturaPerAccecate, sorveglia } from "../sorvegliante.mjs";
 
 const MU = { file: "cervello/x.mjs", difetto: "AR-1", nome: "il cuore del fix", cerca: "const cuore = vero;" };
 
@@ -130,8 +130,48 @@ test("senza un modo di leggere non si inventa un verdetto", () => {
 test("il nome del foglietto è lo stesso che scrive lo strumento di misura", async () => {
   const nv = await import("../non-vacuita.mjs");
   const { FOGLIETTO_MISURA } = await import("../sorvegliante.mjs");
+  // AR-837 — dal 26/8 il nome porta il pid di chi lo scrive (due corse in parallelo si
+  // sovrascrivevano il segnalibro), quindi il patto fra i due file non è più «stesso nome» ma
+  // «stesso INIZIO di nome»: la guardia cerca per prefisso, lo strumento scrive col prefisso più
+  // il suo pid. Se un domani uno dei due cambia forma, questo caso diventa rosso — ed è l'unica
+  // cosa che tiene insieme due costanti che vivono in due file (il sorvegliante non può importare
+  // `non-vacuita.mjs`: quel modulo, all'import, aggancia i gestori di segnale).
+  const nome = String(nv.FOGLIETTO).split("/").pop();
   assert.ok(
-    String(nv.FOGLIETTO).endsWith(FOGLIETTO_MISURA),
-    `i due nomi devono combaciare, altrimenti la guardia cerca un foglietto che nessuno scrive: ${nv.FOGLIETTO} vs ${FOGLIETTO_MISURA}`,
+    nome.startsWith(FOGLIETTO_MISURA),
+    `il nome scritto deve cominciare col prefisso cercato, o la guardia cerca un foglietto che nessuno scrive: ${nv.FOGLIETTO} vs ${FOGLIETTO_MISURA}`,
   );
+  assert.match(nome, new RegExp(`^${FOGLIETTO_MISURA}-\\d+\\.json$`), "e deve portare il pid, o due corse in parallelo tornano a sovrascriversi");
+  assert.equal(nv.PREFISSO_FOGLIETTO, FOGLIETTO_MISURA, "le due costanti dicono la stessa cosa: se divergono, la guardia guarda altrove");
+});
+
+// ── AR-837: i foglietti sono tanti quante le corse, e si sommano ─────────────
+
+test("AR-837: la guardia somma TUTTI i foglietti, non ne cerca uno col nome di ieri", () => {
+  // Il difetto che questo caso ferma: cercare `_tmp_non-vacuita-in-corso.json` esatto. Da AR-837
+  // ogni corsa ci mette il proprio pid nel nome, quindi quel nome non lo scrive più nessuno — e la
+  // guardia tornerebbe ad accusare proprio i file che uno strumento sta tenendo rotti apposta.
+  const carta = (f) => JSON.stringify({ file: f, originale: "…", quando: "ora", pid: 1 });
+  const cartella = ["README.md", "_tmp_non-vacuita-in-corso-11.json", "_tmp_non-vacuita-in-corso-22.json", "_tmp_altro-11.json"];
+  const testi = { "_tmp_non-vacuita-in-corso-11.json": carta("cervello/uno.mjs"), "_tmp_non-vacuita-in-corso-22.json": carta("cervello/due.mjs") };
+  const r = fileSottoMisuraDaCartella(cartella, (n) => testi[n] ?? null);
+  assert.deepEqual([...r.file].sort(), ["cervello/due.mjs", "cervello/uno.mjs"], "due corse in parallelo tengono rotti due file: vanno protetti tutti e due");
+  assert.deepEqual(r.motivi, [], "foglietti sani non producono rumore");
+});
+
+test("AR-837: un foglietto rotto in mezzo agli altri non zittisce né fa perdere i sani", () => {
+  const cartella = ["_tmp_non-vacuita-in-corso-11.json", "_tmp_non-vacuita-in-corso-22.json"];
+  const testi = {
+    "_tmp_non-vacuita-in-corso-11.json": "{ questo non è json",
+    "_tmp_non-vacuita-in-corso-22.json": JSON.stringify({ file: "cervello/due.mjs", originale: "…", quando: "ora", pid: 2 }),
+  };
+  const r = fileSottoMisuraDaCartella(cartella, (n) => testi[n]);
+  assert.deepEqual([...r.file], ["cervello/due.mjs"], "il foglietto illeggibile non deve far perdere quello buono");
+  assert.equal(r.motivi.length, 1, "e il dubbio si dichiara, non si ingoia");
+});
+
+test("AR-837: una cartella senza foglietti è il caso normale e non dice niente", () => {
+  const r = fileSottoMisuraDaCartella(["README.md", "cervello"], () => null);
+  assert.equal(r.file.size, 0);
+  assert.deepEqual(r.motivi, []);
 });

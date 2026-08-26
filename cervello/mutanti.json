@@ -7542,6 +7542,96 @@
    "cerca": "  if (!rottiNode.length && rottiBash.length && t.letto && rottiBash.length <= t.tetto) {",
    "sostituisci": "  if (rottiBash.length && t.letto && rottiBash.length <= t.tetto) {",
    "test": "cervello/test/cecita-curabile.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-835",
+   "nome": "il perimetro torna a seguire le schede invece del codice",
+   "file": "cervello/perimetro-mutazioni.mjs",
+   "cerca": "    if (suoFile || suaProva) {",
+   "sostituisci": "    if (true) {",
+   "test": "cervello/test/perimetro-mutazioni.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-835",
+   "nome": "al buio il perimetro STRINGE invece di allargarsi: la cura diventa un'asticella abbassata",
+   "file": "cervello/perimetro-mutazioni.mjs",
+   "cerca": "  if (fileCambiati === null) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/perimetro-mutazioni.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-835",
+   "nome": "il taglio non si dichiara più: le saltate spariscono in silenzio",
+   "file": "cervello/perimetro-mutazioni.mjs",
+   "cerca": "  if (!saltate.length) return null;",
+   "sostituisci": "  if (saltate.length >= 0) return null;",
+   "test": "cervello/test/perimetro-mutazioni.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-835",
+   "nome": "la prova riscritta non porta più dentro la sua mutazione",
+   "file": "cervello/perimetro-mutazioni.mjs",
+   "cerca": "    const suaProva = ids.some((id) => proveSue.has(id));",
+   "sostituisci": "    const suaProva = false;",
+   "test": "cervello/test/perimetro-mutazioni.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-835",
+   "nome": "una lista di file PARZIALE viene creduta completa: si restringe al buio",
+   "file": "cervello/perimetro-mutazioni.mjs",
+   "cerca": "  const fileCambiati = daGit && !daGit.ciechi?.length ? daGit.file : null;",
+   "sostituisci": "  const fileCambiati = daGit ? daGit.file : null;",
+   "test": "cervello/test/perimetro-mutazioni.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-836",
+   "nome": "il referto misurato viene falsato: la prova non se ne accorge",
+   "file": "cervello/test/campo-illeggibile-non-e-un-no.test.mjs",
+   "cerca": "  const referto = JSON.parse(dry.stdout);",
+   "sostituisci": "  const referto = { ...JSON.parse(dry.stdout), schede_campi_illeggibili: 0 };",
+   "test": "cervello/test/campo-illeggibile-non-e-un-no.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-837",
+   "nome": "il segnalibro di una corsa viva torna a essere trattato come il resto di un incidente",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "  if (nota.pid !== process.pid && vivo(nota.pid)) {",
+   "sostituisci": "  if (false) {",
+   "test": "cervello/test/non-vacuita-foglietto.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-837",
+   "nome": "il foglietto torna a un nome solo per tutto il repo: due corse si sovrascrivono",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "join(AD_ROOT, `${PREFISSO_FOGLIETTO}-${process.pid}.json`)",
+   "sostituisci": "join(AD_ROOT, `${PREFISSO_FOGLIETTO}.json`)",
+   "test": "cervello/test/non-vacuita-foglietto.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-837",
+   "nome": "«permesso negato» torna a valere «non c'è»: un processo vivo passa per morto",
+   "file": "cervello/non-vacuita.mjs",
+   "cerca": "    return e?.code === \"EPERM\";",
+   "sostituisci": "    return false;",
+   "test": "cervello/test/non-vacuita-foglietto.test.mjs"
+  },
+  {
+   "lotto": 64,
+   "difetto": "AR-837",
+   "nome": "la guardia torna a cercare un nome intero: non trova piu' nessun file sotto misura",
+   "file": "cervello/sorvegliante.mjs",
+   "cerca": "    if (!String(nome).startsWith(FOGLIETTO_MISURA) || !String(nome).endsWith(\".json\")) continue;",
+   "sostituisci": "    if (String(nome) !== `${FOGLIETTO_MISURA}.json`) continue;",
+   "test": "cervello/test/prova-accecata-sul-file.test.mjs"
   }
  ]
 }

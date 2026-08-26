@@ -17912,6 +17912,60 @@
       "nato_come": "scoperta",
       "chiusura": "bloccata",
       "chiusura_motivo": "La prova passa perché misura il TAMPONE, e la sua stessa nota lo dichiara: «La scheda resta APERTA lo stesso: questo è il tampone, non la cura». Il tampone impedisce al freno di accusare due passi innocenti; la cura è far portare alla casa spoglia la storia vera, e finché non c'è quei due passi nella casa del runner non li guarda nessuno."
+    },
+    {
+      "id": "AR-835",
+      "titolo": "Il cancello rompe il codice delle schede che il lotto chiude, non di quello che ha toccato: 25 minuti e nessun verde possibile",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "diretto: il cancello del lotto è la porta fra il lavoro fatto e Nicola che lo può leggere. Bloccato lì, ogni riparazione resta ferma su un ramo. E il freno colpiva proprio il comportamento che la macchina ha l'ordine di massimizzare — chiudere almeno quanto si apre: più schede chiudi, più lungo diventa il cancello, finché non ce la fa più.",
+      "causa_radice": "Il banco delle mutazioni (`non-vacuita.mjs`) gira «solo sulle mutazioni del lotto», e il lotto lo si riconosceva dalle SCHEDE toccate invece che dal CODICE toccato. Il caso più comune qui dentro è il lotto che chiude le schede riparate dal lotto prima: il 26/8 il lotto 63 ha cambiato quattro file, tutti di memoria, zero righe di codice — e il cancello ha preso le sue 25 schede chiuse, ne ha trovato le 85 mutazioni sparse su 29 file di codice mai sfiorati, e le ha rotte una per una. A 15 minuti il passo ha sbattuto contro il suo tetto di tempo ed è uscito rosso; il runner ha chiuso ammazzando ~500 processi node orfani. Corsa: 25,2 minuti contro gli 8,1 della stessa mattina sullo stesso ramo. Il commento accanto a quella riga diceva già la cosa giusta («rompere quelle di trenta lotti a ogni consegna costerebbe minuti, e un controllo che si impara a saltare è già spento»): sbagliato era il metro, non l'intenzione.",
+      "fix_proposto": "🟡 Fatto in questo lotto. Il perimetro segue il codice: `cervello/perimetro-mutazioni.mjs` — una mutazione gira se questo lotto ha cambiato il file che rompe, oppure se ne ha scritto o cambiato la prova. Non è un'asticella abbassata per due motivi che vanno letti insieme: ① entra anche la mutazione di un file toccato la cui scheda nessuno ha aperto, e quella il metro vecchio la PERDEVA; ② se git non sa dire quali file sono cambiati, il perimetro si ALLARGA al comportamento di prima, non si stringe — un cieco allarga. E ciò che resta fuori si dichiara negli avvisi del cancello: un taglio silenzioso si legge come «ho guardato tutto».",
+      "colore": "🟡",
+      "stato": "riparato",
+      "nato": "2026-08-26 21:30",
+      "verifica": {
+        "comando": "node --test cervello/test/perimetro-mutazioni.test.mjs"
+      },
+      "nota_fix": "Perimetro spostato dalle schede al codice (`perimetro-mutazioni.mjs`, 9 casi provati). `idDellaMutazione` traslocata lì dentro con la decisione che la usa, e ri-esportata da cancello-lotto.mjs: una casa sola. Cinque mutazioni registrate, fra cui quella che fa STRINGERE il perimetro al buio — se un domani qualcuno la scrive così, la prova diventa rossa. Misura sul lotto stesso: 89 mutazioni prima, 27 adesso, 82 dichiarate fuori con il motivo; corsa del cancello da 25 minuti a 5.",
+      "origine": "lotto 64 · trovato mentre la richiesta di unione 851 non tornava verde",
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-836",
+      "titolo": "Una prova confrontava il referto di ieri col cantiere di oggi: diventava rossa per chi apriva una scheda",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "medio",
+      "impatto_crescita": "indiretto: è il rosso che ha tenuto ferma la richiesta di unione 851 insieme al perimetro. Un'accusa che colpisce chi apre una scheda insegna a scorrere l'elenco dei rossi, ed è allora che quello vero non lo vede più nessuno.",
+      "causa_radice": "`cervello/test/campo-illeggibile-non-e-un-no.test.mjs` leggeva `cantiere-prove.json` dal vault — una fotografia scritta l'ultima volta che è girato `cantiere-prove.mjs` — e la confrontava con `cantiere-difetti.json` letto in quel momento. Sono due istanti diversi: basta aprire una scheda perché il conto non torni. Misurato il 26/8: aggiunta AR-835, il caso passa a «20 contro 19» e diventa rosso; dentro la suite in parallelo lo stesso caso usciva «instabile» — rosso con gli altri, verde da solo — che è la firma di una misura che dipende da QUANDO la guardi e non da COSA guarda. Sei altri casi interrogano lo stesso motore con `--dry --json`, cioè lo calcolano: questo era l'unico che leggeva la copia sul disco.",
+      "fix_proposto": "🟡 Fatto in questo lotto: il referto si chiede al motore con `--dry --json`, che lo calcola sul cantiere di adesso senza scrivere niente. Due misure dello stesso istante: non possono più invecchiare. Restano lette dal file solo le domande sulla FORMA (i due campi ci sono e sono numeri), che non invecchiano.",
+      "colore": "🟡",
+      "stato": "riparato",
+      "nato": "2026-08-26 22:20",
+      "verifica": {
+        "comando": "node --test cervello/test/campo-illeggibile-non-e-un-no.test.mjs"
+      },
+      "nota_fix": "Sostituita la lettura del file col calcolo (`--dry --json`), come già facevano gli altri sei casi. La mutazione registrata rimette la lettura dal disco: con una scheda nuova nel cantiere la prova torna rossa.",
+      "origine": "lotto 64 · trovato scavando il rosso della richiesta di unione 851",
+      "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-837",
+      "titolo": "Due corse del banco si rimettevano a posto i file a vicenda, e il referto accusava una prova sana",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "diretto: è il banco delle mutazioni, l'unico controllo che misura se gli altri servono a qualcosa. Se accusa a caso, la sua accusa non vale più niente — e il rosso che ha tenuto ferma la richiesta di unione 851 era proprio uno di questi, a carico di una prova che funziona.",
+      "causa_radice": "Il foglietto di AR-708 — la traccia su disco che dice «sto tenendo rotto questo file» — era UNO SOLO, a nome fisso, per tutto il repo. `cervello/test/mutazioni-provate-dal-cancello.test.mjs` lancia `non-vacuita.mjs` come sottoprocesso per provarlo su un banco finto: il figlio parte, trova il foglietto del padre, lo scambia per il resto di una corsa morta a metà e RIMETTE A POSTO `cancello-lotto.mjs` mentre il padre lo teneva rotto apposta. Il padre misura un fix che in quel momento non è più rotto, vede il test verde e scrive «⛔ la prova non dimostra il suo fix». Cronometrato con una sonda: il file cambiava di mano in 124 millisecondi in mezzo alla corsa; la stessa mutazione applicata a mano rende il test rosso subito. La cura di AR-708 arrivava dentro casa d'altri.",
+      "fix_proposto": "🟡 Fatto in questo lotto, in due pezzi che servono tutt'e due: ① il nome del foglietto porta il pid di chi l'ha scritto, così due corse non si sovrascrivono il segnalibro; ② all'avvio si guardano TUTTI i foglietti trovati, e quello di un processo ancora vivo non si tocca e non si cancella — non è un incidente, è qualcuno che sta ancora misurando. La cura di AR-708 resta intera: il foglietto di una corsa morta si riprende e si dichiara come prima. Aggiornato di conseguenza il sorvegliante, che cercava quel nome per non accusare i file sotto misura: adesso cerca per prefisso e li somma tutti.",
+      "colore": "🟡",
+      "stato": "riparato",
+      "nato": "2026-08-26 22:45",
+      "verifica": {
+        "comando": "node --test cervello/test/non-vacuita-foglietto.test.mjs"
+      },
+      "nota_fix": "`processoVivo` (kill(pid,0), e EPERM conta come vivo), `foglietti()` per l'elenco, `riprendiDaTraccia` con l'esito nuovo «in-corso-altrove». Prova del guasto vero: AR-393 passava da ❌ «prova vacua» a ✅ appena il figlio smette di rimettere a posto il file del padre. ⚠️ Limite dichiarato, non nascosto: «vivo?» si chiede al sistema operativo, e un numero di processo può essere RIUSATO da un programma che non c'entra niente. In quel caso raro il file mutato non lo rimette a posto nessuno — resta rotto e si vede subito (git status lo mostra, e il sorvegliante lo dichiara sotto misura). Il verso dell'errore è quello giusto: si sbaglia lasciando una traccia visibile, non cancellando la misura di qualcun altro in silenzio. L'altra metà — la guardia che adesso cerca per prefisso e somma tutti i foglietti — ha la sua prova in `cervello/test/prova-accecata-sul-file.test.mjs`, con la sua mutazione registrata: il banco la rompe comunque a ogni giro.",
+      "origine": "lotto 64 · trovato scavando l'ultimo rosso della richiesta di unione 851",
+      "nato_come": "scoperta"
     }
   ],
   "meta": {

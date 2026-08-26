@@ -715,8 +715,41 @@ export function motiviMarketplace({ presente = false, sporchi = 0, leggibile = t
 // lento.
 // ─────────────────────────────────────────────────────────────────────────────
 
-/** Il nome del foglietto che `non-vacuita.mjs` lascia mentre tiene un file rotto apposta. */
-export const FOGLIETTO_MISURA = "_tmp_non-vacuita-in-corso.json";
+/**
+ * L'inizio del nome dei foglietti che `non-vacuita.mjs` lascia mentre tiene un file rotto apposta.
+ *
+ * ⚠️ È un PREFISSO e non un nome intero da AR-837: dal 26/8 ogni corsa scrive il suo, col proprio
+ * pid nel nome, perché due corse in parallelo si sovrascrivevano il segnalibro e finivano per
+ * rimettersi a posto i file l'una all'altra a metà misura. Qui la conseguenza è diretta: cercarne
+ * uno solo, col nome di ieri, vorrebbe dire non trovarne nessuno — e allora questa guardia
+ * tornerebbe ad accusare proprio i file che uno strumento sta tenendo rotti apposta in questo
+ * momento, cioè il falso allarme che AR-713 aveva chiuso.
+ *
+ * Che questo prefisso combaci con quello vero lo tiene fermo una prova:
+ * `cervello/test/prova-accecata-sul-file.test.mjs`.
+ */
+export const FOGLIETTO_MISURA = "_tmp_non-vacuita-in-corso";
+
+/**
+ * Tutti i foglietti di una cartella, sommati. Pura: entrano i nomi e un modo di leggere.
+ *
+ * Sta qui, e non dentro `main`, per la regola che questo repo si è dato dopo averla imparata a
+ * proprie spese: una decisione che vive dentro un `main` non la può eseguire nessuna prova — la si
+ * può solo cercare con un grep, ed è il tipo di verifica che ha lasciato vivere i difetti per mesi.
+ * Da AR-837 le corse in giro sono più d'una e ognuna scrive il suo foglietto: sommarli è la
+ * decisione, e va provata.
+ */
+export function fileSottoMisuraDaCartella(nomi = [], leggi = () => null) {
+  const file = new Set();
+  const motivi = [];
+  for (const nome of nomi) {
+    if (!String(nome).startsWith(FOGLIETTO_MISURA) || !String(nome).endsWith(".json")) continue;
+    const uno = fileSottoMisura(leggi(nome));
+    if (uno.motivo) motivi.push(uno.motivo);
+    for (const f of uno.file) file.add(f);
+  }
+  return { file, motivi };
+}
 
 /**
  * Quali file uno strumento di misura sta tenendo rotti ADESSO. Pura: entra il testo del foglietto
@@ -2041,15 +2074,18 @@ export function verdettoDelDelta({ soloStaged = false, da = null, senzaRaggio = 
 
   // AR-713 — chi è sotto misura adesso. Il foglietto lo lascia `non-vacuita.mjs` mentre tiene un
   // file rotto apposta: senza questa lettura la guardia accusa lo strumento che sta misurando.
-  let foglietto = null;
+  // AR-837 — i foglietti sono tanti quante le corse in giro: si leggono tutti e si sommano.
+  let misura = { file: new Set(), motivo: null };
   try {
-    const via = join(REPO, FOGLIETTO_MISURA);
-    foglietto = existsSync(via) ? readFileSync(via, "utf8") : null;
+    const somma = fileSottoMisuraDaCartella(readdirSync(REPO), (nome) => {
+      const via = join(REPO, nome);
+      return existsSync(via) ? readFileSync(via, "utf8") : null;
+    });
+    misura = { file: somma.file, motivo: null };
+    motiviIO.push(...somma.motivi);
   } catch (e) {
-    motiviIO.push(`non ho potuto leggere ${FOGLIETTO_MISURA} (${e.message}): se una misura è in corso, potrei accusarla a torto`);
+    motiviIO.push(`non ho potuto leggere i foglietti ${FOGLIETTO_MISURA}* (${e.message}): se una misura è in corso, potrei accusarla a torto`);
   }
-  const misura = fileSottoMisura(foglietto);
-  if (misura.motivo) motiviIO.push(misura.motivo);
 
   const esito = sorveglia({
     toccati,

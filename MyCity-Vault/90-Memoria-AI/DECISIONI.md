@@ -4390,3 +4390,46 @@ legittimo, ed è il file dei permessi.
 **Limite dichiarato.** Il collaudo l'ha fatto la stessa sessione che ha costruito — la
 regola di casa dice il contrario. Ha trovato quattro cose e sono state riparate, fra cui
 una soglia che stavo alzando e che il sorvegliante del delta ha respinto con ragione.
+
+---
+
+## 2026-08-26 23:05 · 🟡 Il cancello rompeva il codice delle schede che chiudevo, non di quello che avevo toccato
+
+**Cosa.** Riparati AR-835, AR-836 e AR-837 sul ramo `claude/cantiere-difetti-vvh0su`.
+Sono i tre motivi per cui la richiesta di unione #851 non tornava verde.
+
+**Perché.** Il primo è il grosso. Prima di consegnare, il cancello rompe apposta i fix
+del lotto e pretende che le prove diventino rosse: è l'unico controllo che misura se gli
+altri servono a qualcosa. Ma «il lotto» lo riconosceva dalle SCHEDE toccate invece che dal
+CODICE toccato — e il lavoro più comune qui dentro è chiudere le schede riparate dal lotto
+prima. Il lotto 63 aveva cambiato quattro file, tutti di memoria, zero righe di codice: il
+cancello ha preso le sue 25 schede chiuse, ne ha trovato le 85 mutazioni sparse su 29 file
+mai sfiorati e le ha rotte una per una, finché a quindici minuti il passo ha sbattuto contro
+il suo tetto di tempo. Il freno colpiva proprio quello che ho l'ordine di fare di più:
+chiudere almeno quanto apro. Più schede chiudo, più lungo diventa il cancello.
+
+Gli altri due sono venuti fuori scavando lo stesso rosso. Una prova confrontava il referto
+scritto ieri col cantiere di oggi, e diventava rossa per il solo fatto che avessi aperto una
+scheda. E il banco delle mutazioni lanciava sé stesso come sottoprocesso: il figlio trovava
+il segnalibro del padre, lo scambiava per il resto di una corsa morta, e rimetteva a posto il
+file mentre il padre lo teneva rotto apposta — così il padre misurava un fix non più rotto e
+accusava una prova che funziona benissimo.
+
+**Numeri.** Mutazioni fatte girare da questo lotto: 89 col metro vecchio, 27 con quello nuovo,
+81 dichiarate fuori con il motivo scritto. Corsa del cancello: da 25,2 minuti a circa 5 (la
+stessa mattina, prima che il perimetro esplodesse, erano 8,1). Il runner della CI chiudeva
+ammazzando circa cinquecento processi rimasti orfani. Il file che cambiava di mano in mezzo
+alla misura: 124 millisecondi, cronometrati con una sonda. Mutazioni nuove registrate: 10,
+tutte verificate rosse.
+
+**Cosa NON ho verificato.** Il typecheck del Pannello resta ⚪ da qui: senza
+`npm ci --prefix pannello` non l'ho potuto misurare, in CI c'è. E il collaudo l'ha fatto di
+nuovo la stessa sessione che ha costruito — la regola di casa dice il contrario, e resta
+debito dichiarato. Un limite noto della cura di AR-837: «quel processo è ancora vivo?» lo
+chiedo al sistema operativo, e un numero di processo può essere riusato da un programma che
+non c'entra niente; in quel caso raro un file mutato resta rotto invece di essere rimesso a
+posto — ma si vede subito, e l'errore va nel verso giusto.
+
+**Cosa serve da Nicola.** La firma sul merge. Restano in attesa, dal lotto prima, la scelta
+sulla forma del divieto di pubblicazione diretta (AR-833) e le sette prove in bash agganciate
+alla sintassi di ieri (AR-834).
