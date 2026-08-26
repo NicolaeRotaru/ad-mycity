@@ -109,25 +109,28 @@ export function impostazioniDaRighe(righe = []) {
  * parte da chi ha accodato prima, e non dall'alfabeto: un ordine di lista travestito da turno
  * darebbe sempre il primo posto allo stesso negozio.
  */
-export function corsieDallaCoda(coda = [], impostazioni = {}) {
+export function corsieDallaCoda(coda = [], impostazioni = {}, speso = {}) {
   const visti = [];
   for (const riga of Array.isArray(coda) ? coda : []) {
     const id = negozioDellaRiga(riga);
     if (id && !visti.includes(id)) visti.push(id);
   }
-  return corsieDaIdentita(visti, impostazioni);
+  return corsieDaIdentita(visti, impostazioni, speso);
 }
 
 /** La forma di una corsia, da un id e dalle impostazioni. Una casa sola: la usano tutte e due le porte. */
-export function corsieDaIdentita(ids = [], impostazioni = {}) {
+export function corsieDaIdentita(ids = [], impostazioni = {}, speso = {}) {
   return ids.map((negozioId) => {
     const conf = impostazioni?.[negozioId] ?? {};
+    // AR-838 — la spesa CONTATA batte quella dichiarata a mano nelle impostazioni. Un numero
+    // scritto a mano e' una dichiarazione; questo e' una misura, e fra le due vince la misura.
+    const contato = Number(speso?.[negozioId]);
     const quota = Number.isFinite(conf.quota) && conf.quota > 0 ? conf.quota : QUOTA_PREDEFINITA;
     return {
       negozioId,
       quota,
       tetto: Number.isFinite(conf.tetto) ? conf.tetto : null,
-      speso: Number.isFinite(conf.speso) ? conf.speso : 0,
+      speso: Number.isFinite(contato) ? contato : Number.isFinite(conf.speso) ? conf.speso : 0,
       interruttore: conf.interruttore === "spento" ? "spento" : "acceso",
       falliti: Number.isFinite(conf.falliti) ? conf.falliti : 0,
       scaduti: Number.isFinite(conf.scaduti) ? conf.scaduti : 0,
@@ -158,13 +161,13 @@ export function inCorsoPerNegozio(righe = []) {
  * Adesso il turno si decide sui soli id dei negozi (righe corte, tutte, nessun tetto), e il lavoro
  * lo si chiede DOPO, al negozio scelto: due richieste, nessuna finestra, nessuna fame.
  */
-export function scegliNegozio({ negoziInAttesa = [], impostazioni = {}, inCorso = {}, ultimo = null } = {}) {
+export function scegliNegozio({ negoziInAttesa = [], impostazioni = {}, inCorso = {}, ultimo = null, speso = {} } = {}) {
   const visti = [];
   for (const g of Array.isArray(negoziInAttesa) ? negoziInAttesa : []) {
     const id = typeof g === "string" ? g.trim() : negozioDellaRiga(g);
     if (id && !visti.includes(id)) visti.push(id);
   }
-  const negozi = corsieDaIdentita(visti, impostazioni);
+  const negozi = corsieDaIdentita(visti, impostazioni, speso);
   const corsie = negozi.map((n) => statoCorsiaBottega(n, { inCorso: Number(inCorso[n.negozioId]) || 0 }));
   const fermi = corsie.filter((c) => !c.puoLavorare).map((c) => ({ negozioId: c.negozioId, motivo: c.motivo }));
   const ordine = daDopoIlUltimo(corsie.map((c) => c.negozioId).filter(Boolean), ultimo);
@@ -182,8 +185,8 @@ export function scegliNegozio({ negoziInAttesa = [], impostazioni = {}, inCorso 
  * Torna sempre il perché, anche quando non prende niente — «la coda ha lavori e non parte nessuno»
  * senza motivo è la telefonata del lunedì mattina.
  */
-export function scegli({ coda = [], impostazioni = {}, inCorso = {}, ultimo = null } = {}) {
-  const negozi = corsieDallaCoda(coda, impostazioni);
+export function scegli({ coda = [], impostazioni = {}, inCorso = {}, ultimo = null, speso = {} } = {}) {
+  const negozi = corsieDallaCoda(coda, impostazioni, speso);
   const corsie = negozi.map((n) => statoCorsiaBottega(n, { inCorso: Number(inCorso[n.negozioId]) || 0 }));
   // Le corsie ferme non entrano nel turno: `prossimoLavoro` rifarebbe il conto del tetto senza
   // sapere del centro. Qui gli si passano solo quelle che possono lavorare, e i motivi degli altri
@@ -241,6 +244,7 @@ export async function main() {
     impostazioni: impostazioniDaRighe(dentro.impostazioni),
     inCorso: inCorsoPerNegozio(dentro.inCorso),
     ultimo: dentro.ultimo ?? null,
+    speso: dentro.speso && typeof dentro.speso === "object" ? dentro.speso : {},
   };
   // Due modi di chiedere. `negoziInAttesa` e' quello che usa il worker: decide il TURNO senza
   // leggere nessuna riga di lavoro, quindi nessuna finestra e nessuna fame. `coda` resta per chi

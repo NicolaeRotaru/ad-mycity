@@ -474,6 +474,12 @@ ai_freno_verdetto() {
 ai_registra_costo() {
   local corsia="$1" start="$2" prompt="$3" output="$4" stream="${5:-${AI_USAGE_STREAM:-}}"
   local dir tok misurato=0
+  # AR-838 — DI CHI E' QUESTA SPESA. Arriva da `AI_NEGOZIO`, che il worker mette dal lavoro che sta
+  # facendo, e non da un argomento in piu': la firma la usano anche altri, e allungarla avrebbe
+  # voluto dire toccarli tutti per una cosa che riguarda un chiamante solo. Se nessuno lo dichiara,
+  # `costo-ai.mjs` scrive `centro` — la macchina stessa — invece di lasciare la voce senza padrone.
+  local _neg=()
+  [ -n "${AI_NEGOZIO:-}" ] && _neg=(--negozio="$AI_NEGOZIO")
   dir="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
   command -v node >/dev/null 2>&1 || return 0
 
@@ -495,11 +501,11 @@ ai_registra_costo() {
   # ramo si sceglie sul DATO (l'usage c'era o no), mai sul chiamante.
   if [ "$misurato" = 0 ]; then
     tok="$(ai_stima_token "$start" "$prompt" "$output")"
-    node "$dir/costo-ai.mjs" --tipo="$corsia" \
+    node "$dir/costo-ai.mjs" --tipo="$corsia" "${_neg[@]}" \
       --durata-sec="$(( $(date +%s) - start ))" --token="$tok" --stima \
       --modello="$(ai_engine)" >/dev/null 2>&1 || true
   else
-    node "$dir/costo-ai.mjs" --tipo="$corsia" \
+    node "$dir/costo-ai.mjs" --tipo="$corsia" "${_neg[@]}" \
       --durata-sec="$(( $(date +%s) - start ))" --token="$tok" \
       --modello="$(ai_engine)" >/dev/null 2>&1 || true
   fi

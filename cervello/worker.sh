@@ -1363,6 +1363,11 @@ while true; do
   fi
 
   tipo="$(printf '%s' "$riga" | jq -r '.[0].tipo // "analisi"')"
+  # AR-838 — di chi e' la spesa di questo lavoro. Sta fra le VARIABILI_PER_LAVORO (c4-cancelli.mjs),
+  # quindi l'igiene qui sotto la spegne prima del prossimo: una spesa che eredita il negozio di
+  # quello di prima e' peggio di una spesa senza padrone.
+  AI_NEGOZIO="$(printf '%s' "$riga" | jq -r '.[0].negozio_id // "centro"')"
+  export AI_NEGOZIO
   richiesta="$(printf '%s' "$riga" | jq -r '.[0].richiesta // ""')"
   echo "[$(ts)] Lavoro $id ($tipo): $richiesta"
 

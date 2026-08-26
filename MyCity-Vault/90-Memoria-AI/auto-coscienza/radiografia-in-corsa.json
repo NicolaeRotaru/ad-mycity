@@ -1,6 +1,6 @@
 {
   "_cosa_e": "Le scansioni di radiografia fatte DENTRO un lotto di riparazione, sul perimetro che il lotto ha toccato. Ogni voce porta l'impronta dei file com'erano quando sono stati riguardati: se il file cambia dopo, la copertura scade da sola. Lo legge cervello/radiografia-in-corsa.mjs, che è cablato nel cancello del lotto.",
-  "aggiornato": "2026-08-26 21:54",
+  "aggiornato": "2026-08-26 22:40",
   "scansioni": [
     {
       "quando": "2026-08-25 19:48",
@@ -404,6 +404,58 @@
       "file": {
         "cervello/worker-coda.sh": "27776c86c9da",
         "cervello/worker.sh": "6242d8e8d8cb"
+      }
+    },
+    {
+      "quando": "2026-08-26 22:26",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/bottega/scelta-worker.mjs": "6d90444eadbe",
+        "cervello/c4-cancelli.mjs": "6925a1b81881",
+        "cervello/costo-ai.mjs": "242dcb278835",
+        "cervello/housekeeping-azioni.mjs": "5a9d8c2c2e3a"
+      }
+    },
+    {
+      "quando": "2026-08-26 22:26",
+      "casa": "macchina",
+      "dimensione": "cadenza-esecuzione",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 1,
+      "schede": [
+        "AR-838"
+      ],
+      "nota": "",
+      "file": {
+        "cervello/motore-ai.sh": "330091f350fe",
+        "cervello/worker-coda.sh": "3a9caa4b54a9",
+        "cervello/worker.sh": "1e17c102f615"
+      }
+    },
+    {
+      "quando": "2026-08-26 22:40",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD",
+      "trovati": 0,
+      "schede": [],
+      "nota": "",
+      "file": {
+        "cervello/bottega/scelta-worker.mjs": "6d90444eadbe",
+        "cervello/c4-cancelli.mjs": "6925a1b81881",
+        "cervello/costo-ai.mjs": "6c9b6b375cc0",
+        "cervello/housekeeping-azioni.mjs": "5a9d8c2c2e3a"
       }
     }
   ]

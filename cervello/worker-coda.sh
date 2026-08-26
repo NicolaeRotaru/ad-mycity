@@ -60,7 +60,7 @@ _coda_chat() {
 # Il lavoro di fondo scelto a turno fra i negozi. Se qualcosa non si puo' leggere si ripiega
 # sull'ordine d'arrivo, ma AD ALTA VOCE (la regola di AR-295: un ripiego muto e' una bugia).
 _coda_a_turno() {
-  local negozi incorso impost scelta negozio ingresso rc=0
+  local negozi incorso impost spesa scelta negozio ingresso rc=0
   CODA_RIPIEGATA=0
   MOTIVO_CODA=""
 
@@ -75,6 +75,15 @@ _coda_a_turno() {
     return 0
   fi
 
+  # Coda vuota: si esce SUBITO. Sotto ci sono due richieste in rete e due processi node, e su una
+  # coda vuota non servono a niente — ma girerebbero a ogni battito del worker, per sempre. Il
+  # worker interroga la coda ogni pochi secondi: e' il posto dove uno spreco piccolo diventa grosso.
+  if [ "$(printf '%s' "$negozi" | jq -r 'length' 2>/dev/null || echo 0)" = 0 ]; then
+    MOTIVO_CODA=""
+    CODA_RIGA="[]"
+    return 0
+  fi
+
   incorso="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_corso&select=negozio_id" "${AUTH[@]}" 2>/dev/null || true)"
   printf '%s' "$incorso" | jq -e 'type=="array"' >/dev/null 2>&1 || incorso="[]"
   impost="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?chiave=like.bottega:negozio:*&select=chiave,valore" "${AUTH[@]}" 2>/dev/null || true)"
@@ -84,8 +93,14 @@ _coda_a_turno() {
   #    codice che conta e' quello dell'ultimo comando, e chi sceglie esce 2 quando l'ingresso e'
   #    illeggibile — con l'esito buttato via quel caso diventava «niente da fare», cioe' un worker
   #    che dorme in silenzio con la coda piena.
-  ingresso="$(jq -n --argjson negozi "$negozi" --argjson inCorso "$incorso" --argjson impostazioni "$impost" --arg ultimo "$ULTIMO_NEGOZIO" \
-    '{negoziInAttesa:$negozi, inCorso:$inCorso, impostazioni:$impostazioni, ultimo:(if $ultimo=="" then null else $ultimo end)}' 2>/dev/null || true)"
+  # AR-838 — quanto ha gia' speso ogni negozio, CONTATO (non dichiarato a mano). Se il conto non si
+  # legge si va avanti con le impostazioni: un tetto che non si sa misurare non deve fermare la coda,
+  # ma non deve nemmeno fingere di essere a zero — chi frena legge il numero, e se manca lo dice.
+  spesa="$(node "$SCRIPT_DIR/costo-ai.mjs" --spesa-negozi 2>/dev/null)" || spesa=""
+  printf '%s' "$spesa" | jq -e 'type=="object"' >/dev/null 2>&1 || spesa="{}"
+
+  ingresso="$(jq -n --argjson negozi "$negozi" --argjson inCorso "$incorso" --argjson impostazioni "$impost" --argjson speso "$spesa" --arg ultimo "$ULTIMO_NEGOZIO" \
+    '{negoziInAttesa:$negozi, inCorso:$inCorso, impostazioni:$impostazioni, speso:$speso, ultimo:(if $ultimo=="" then null else $ultimo end)}' 2>/dev/null || true)"
   scelta="$(printf '%s' "$ingresso" | node "$SCRIPT_DIR/bottega/scelta-worker.mjs" 2>/dev/null)" || rc=$?
 
   negozio="$(printf '%s' "$scelta" | jq -r '.negozioId // empty' 2>/dev/null || true)"

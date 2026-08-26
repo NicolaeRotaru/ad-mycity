@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-26 20:05",
+ "aggiornato": "2026-08-26 20:40",
  "mutanti": [
   {
    "lotto": 30,
@@ -7650,6 +7650,54 @@
    "cerca": "  CODA_RIGA=\"$(curl -fsS \"$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&negozio_id=eq.$negozio&order=created_at.asc&limit=1&select=id,tipo,richiesta,negozio_id,created_at\" \"${AUTH[@]}\" 2>/dev/null || true)\"",
    "sostituisci": "  CODA_RIGA=\"$(curl -fsS \"$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&order=created_at.asc&limit=1&select=id,tipo,richiesta,negozio_id,created_at\" \"${AUTH[@]}\" 2>/dev/null || true)\"",
    "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
+  },
+  {
+   "difetto": "AR-838",
+   "nome": "la voce di costo non dice piu' di chi e': tutto torna al centro e il tetto di un negozio non scatta mai",
+   "file": "cervello/costo-ai.mjs",
+   "cerca": "    const negozio = String(getFlag(\"negozio\") || \"\").trim() || CENTRO;",
+   "sostituisci": "    const negozio = CENTRO;",
+   "test": "node cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
+  },
+  {
+   "difetto": "AR-838",
+   "nome": "le stime entrano nel numero su cui si frena: un negozio fermato da un conto che nessuno ha misurato",
+   "file": "cervello/costo-ai.mjs",
+   "cerca": "    if (v?.stima_grezza) out[id].stimato += t;\n    else out[id].misurato += t;",
+   "sostituisci": "    out[id].misurato += t;",
+   "test": "node cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
+  },
+  {
+   "difetto": "AR-838",
+   "nome": "uno zero misurato esce dal contatore e copre la spesa dichiarata a mano",
+   "file": "cervello/costo-ai.mjs",
+   "cerca": "    const m = Number(v?.misurato) || 0;\n    if (m > 0) out[id] = m;",
+   "sostituisci": "    out[id] = Number(v?.misurato) || 0;",
+   "test": "node cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
+  },
+  {
+   "difetto": "AR-838",
+   "nome": "la dichiarazione a mano scavalca la spesa contata",
+   "file": "cervello/bottega/scelta-worker.mjs",
+   "cerca": "      speso: Number.isFinite(contato) ? contato : Number.isFinite(conf.speso) ? conf.speso : 0,",
+   "sostituisci": "      speso: Number.isFinite(conf.speso) ? conf.speso : Number.isFinite(contato) ? contato : 0,",
+   "test": "node cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
+  },
+  {
+   "difetto": "AR-838",
+   "nome": "la presa non passa piu' la spesa contata a chi sceglie: il tetto torna a non avere chi lo alimenta",
+   "file": "cervello/worker-coda.sh",
+   "cerca": "--argjson impostazioni \"$impost\" --argjson speso \"$spesa\"",
+   "sostituisci": "--argjson impostazioni \"$impost\" --argjson speso '{}'",
+   "test": "node cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
+  },
+  {
+   "difetto": "AR-838",
+   "nome": "il negozio sopravvive al lavoro: la spesa del prossimo la paga il negozio di quello di prima",
+   "file": "cervello/c4-cancelli.mjs",
+   "cerca": "  \"AI_NEGOZIO\",",
+   "sostituisci": "",
+   "test": "node cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs"
   }
  ]
 }

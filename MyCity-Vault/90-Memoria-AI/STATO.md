@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-26 20:15
+aggiornato: 2026-08-26 20:50
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -33,6 +33,21 @@ tre controlli usano per capire se l'attivita' e' ferma.
 ---
 
 
+
+
+> 💶 **26/8 20:50 — Il tetto di spesa dei negozi aveva una porta e nessuno che ci passasse.** Consegna ③, il pezzo dopo il turno.
+>
+> **In parole semplici.** La macchina sapeva già fermare un negozio che ha finito il suo budget. Ma il numero di quanto aveva speso non lo contava nessuno: restava zero per sempre. Un tetto che nessuno alimenta non è un freno, è un cartello. Adesso ogni lavoro che la macchina fa viene addebitato al negozio giusto, e il conto lo legge chi decide se far partire il lavoro dopo.
+>
+> **Cosa cambia.** Un negozio che consuma troppo si ferma da solo. Si ferma lui, non gli altri.
+>
+> **Tre scelte, e le dico tutte e tre.** ① La misura è in gettoni di lavoro, non in euro. In casa non esiste nessun listino che li converta, e inventarlo sarebbe un numero senza fonte. ② Le stime non fanno scattare il tetto. Fermare un negozio con un conto che nessuno ha misurato è un freno appoggiato sul niente. ③ Uno zero misurato non esce dal contatore. Un negozio con sole stime ha misurato zero: è vero e non dice niente. Se quello zero uscisse coprirebbe un numero scritto a mano, cioè una cosa che il registro non sa.
+>
+> **La terza l'ha trovata una prova.** L'avevo scritta aspettandomi il risultato opposto.
+>
+> **Cosa non ho verificato.** Il tetto guarda una finestra di sei ore. È un freno sul ritmo di spesa, non un canone mensile: quello è un pezzo ancora da fare.
+>
+> **Dettagli tecnici.** AR-838 chiusa con prova a comando — `cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs`, 9 casi, 6 mutazioni rosse. Il negozio arriva da `AI_NEGOZIO`, che sta fra le variabili spente a ogni lavoro. Trovato riguardando il perimetro: la richiesta della spesa girava a ogni battito anche a coda vuota.
 
 > 🛣️ **26/8 20:15 — Il turno fra i negozi c'era da tre giorni e non lo chiamava nessuno.** Consegna ③, la macchina delle botteghe.
 >

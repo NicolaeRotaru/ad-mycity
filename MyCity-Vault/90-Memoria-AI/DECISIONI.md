@@ -4363,3 +4363,12 @@ una soglia che stavo alzando e che il sorvegliante del delta ha respinto con rag
 **Due scelte mie, dichiarate.** (a) Il centro e' esente da UN freno solo e in UN caso solo — il tetto non dichiarato — perche' il suo freno di spesa vive gia' in `costo-ai.mjs`; resta soggetto a quota, interruttore e tetto dichiarato e finito. Senza questa esenzione la coda di oggi, tutta del centro, non sarebbe partita affatto. (b) Niente finestra sulla coda: si chiede prima quali negozi hanno lavori, poi il lavoro del negozio scelto. La finestra da 200 righe che avevo messo per prima rimetteva dentro la fame che la scheda esiste per togliere.
 
 **Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. La firma sul merge resta di Nicola (PR #850).
+
+## 2026-08-26 20:50 — 🟡 Il contatore della spesa per negozio (AR-838)
+
+**Cosa.** Ogni voce di costo porta il negozio a cui appartiene; la presa legge la somma e la passa a chi sceglie il turno, cosi' il tetto per negozio ha finalmente chi lo alimenta.
+
+**Tre scelte mie, dichiarate.** (a) La misura e' in token e non in euro: in casa non esiste un listino che li converta, e inventarlo sarebbe un numero senza fonte. La conversione e' un pezzo suo. (b) Le stime non entrano nel numero su cui si frena — restano visibili accanto. (c) Uno zero misurato non esce dal contatore, per non coprire un valore dichiarato a mano che il registro non conosce.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+

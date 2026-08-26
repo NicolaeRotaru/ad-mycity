@@ -17916,7 +17916,7 @@
       "gravita": "grave",
       "impatto_crescita": "alto",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-26 21:29",
       "nato_come": "nuovo-lavoro",
       "nato_da": "lotto 60 (AR-804): collegando il turno al worker, il tetto di spesa ha trovato la sua porta e nessuno che ci passi",
@@ -17926,9 +17926,12 @@
       "impatto": "E' il meccanismo ⑤ dell'architettura, il freno sui soldi. Finche' non c'e', un negozio che va in loop non ferma piu' gli altri (quello e' chiuso) ma puo' ancora spendere quanto vuole: il danno cambia forma, da tempo a bolletta.",
       "origine": "lotto 60, scritto mentre collegavo il turno",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Non ancora scrivibile come comando: il pezzo che dovrebbe scrivere il numero non esiste. La prova nasce col fix."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/il-tetto-di-spesa-ha-chi-lo-alimenta.test.mjs",
+        "nota": "Nove casi. La prova ESEGUE il comando vero (`costo-ai.mjs`) su un registro suo — l'override `COSTO_AI_FILE` esiste per questo, come CANTIERE_FILE altrove — e poi fa girare la presa vera (`worker-coda.sh`) con un curl finto, guardando se il lavoro parte. Sei mutazioni verificate rosse."
+      },
+      "chiuso_il": "2026-08-26 20:45",
+      "chiuso_come": "Il contatore c'e'. `ai_registra_costo` scrive di chi e' la spesa (dal campo `AI_NEGOZIO`, che il worker mette dal lavoro preso e l'igiene per-lavoro spegne subito dopo: una spesa che eredita il negozio di quello di prima ferma la corsia sbagliata, che e' peggio di un tetto che non c'e'). `spesaPerNegozio` somma dentro la finestra che scorre, `spesoDaFrenare` tiene solo cio' che e' stato MISURATO, e la presa passa quel numero a chi sceglie il turno. Tre scelte, tutte e tre con una prova: ① LA MISURA E' IN TOKEN, non in euro, perche' in casa non esiste nessun listino che li converta — inventarlo sarebbe un numero senza fonte, e la conversione resta un pezzo suo che vuole un prezzo per modello. ② Le stime NON entrano nel numero su cui si frena: restano visibili accanto. Un negozio fermato da un conto che nessuno ha misurato e' un freno appoggiato su un pavimento. ③ Uno ZERO misurato non esce dal contatore. Un negozio che compare con sole stime ha misurato zero: vero, e non dice niente. Se quello zero uscisse andrebbe a coprire un `speso` dichiarato a mano, cioe' una conoscenza che il registro non ha — per esempio la spesa di prima della finestra. L'ha trovato una prova che avevo scritto aspettandomi l'altro risultato. Resta vero il limite dichiarato in AR-746: il tetto vive dentro una finestra di sei ore, quindi e' un freno sul ritmo di spesa, non un canone mensile."
     }
   ],
   "meta": {
