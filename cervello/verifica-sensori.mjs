@@ -87,8 +87,15 @@ const CECITA_PATH = fileMemoriaDaLeggere(CECITA_NOMINALE, { env: process.env, es
 // misura che nessuno stava per perdere — ed è il rosso comparso il 16/8.
 const CECITA_DESTINAZIONE = decidiDestinazione(CECITA_NOMINALE, { env: process.env }).percorso;
 
-/** Classe sensore per max_giri_ciechi_dati (sentinella M2) vs infrastruttura/mani. */
-const SENSOR_CLASSE = {
+/**
+ * Classe sensore per max_giri_ciechi_dati (sentinella M2) vs infrastruttura/mani.
+ *
+ * Esportata perche' una prova possa LEGGERLA invece di cercare una parola nel file (AR-840): il
+ * nome `sito_uptime` compare cinque volte qui dentro, quindi togliere la riga che lo dichiara
+ * lasciava verde un `assert.match` sul testo. Una parola cercata in un file non puo' fallire nel
+ * modo in cui fallisce la realta'.
+ */
+export const SENSOR_CLASSE = {
   supabase_rest: "dati",
   stripe_api: "dati",
   resend_api: "dati",

@@ -5552,8 +5552,8 @@
    "difetto": "AR-062",
    "nome": "un esito senza fonte torna a coniare autonomia: chi produce il numero e chi ne beneficia coincidono",
    "file": "cervello/previsione-verificabile.mjs",
-   "cerca": "  if (banale(voce)) motivi.push(ESCLUSA.BANALE);",
-   "sostituisci": "  if (banale(voce)) motivi.push(ESCLUSA.BANALE); // fonte non piu richiesta",
+   "cerca": "  if (voce.sensore_stato !== \"ok\" && voce.sensore_stato !== \"n/d\") motivi.push(ESCLUSA.SENSORE_CIECO);",
+   "sostituisci": "",
    "test": "cervello/test/voto-che-se-lo-da-da-sola.test.mjs"
   },
   {
@@ -5824,16 +5824,16 @@
    "difetto": "AR-050",
    "nome": "«attive» e «vive» tornano a essere lo stesso numero: un campo con due significati",
    "file": "cervello/misura-parziale.mjs",
-   "cerca": "export function lezioniVive(dati) {",
-   "sostituisci": "export function lezioniVive(dati) {\n  if (globalThis.__mut050) return { vive: 0, totale: 0, per_stato: {}, quadra: false };",
+   "cerca": "  const viveLista = tutte.filter((l) => [\"attiva\", \"principio\", \"senza-stato\"].includes(stato(l)));",
+   "sostituisci": "  const viveLista = tutte.filter((l) => [\"attiva\"].includes(stato(l)));",
    "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {
    "difetto": "AR-051",
-   "nome": "il tasso di applicazione perde l istante in cui e stato calcolato: torna un opinione",
+   "nome": "il tasso di applicazione perde l'istante in cui e' stato calcolato: torna un'opinione",
    "file": "cervello/tasso-lezioni.mjs",
-   "cerca": "tasso_applicazione",
-   "sostituisci": "tasso_applicazione_disattivato",
+   "cerca": "    tasso_calcolato_il: nowPiacenza(),",
+   "sostituisci": "",
    "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {

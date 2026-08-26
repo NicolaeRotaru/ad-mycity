@@ -28,7 +28,8 @@
 
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, mkdtempSync, mkdirSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -116,9 +117,26 @@ test("AR-050 · «attive» e «vive» non sono più sinonimi a caso, e il conto 
 });
 
 test("AR-051 · il tasso di applicazione è CALCOLATO, non scritto a mano", () => {
-  const src = leggi("cervello/tasso-lezioni.mjs");
-  assert.match(src, /tasso_applicazione/, "deve esistere chi lo calcola");
-  const dati = json("MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json");
+  // Prima questo caso leggeva il file GIÀ SCRITTO e cercava una parola nel sorgente. Nessuna delle
+  // due cose poteva fallire: togliendo dal codice la riga che scrive l'istante, il file su disco lo
+  // conteneva lo stesso — restava il numero di ieri. Adesso il comando VERO gira su una copia sua
+  // (`TASSO_LEZIONI_VAULT`, lo stesso idioma di COSTO_AI_FILE) e si guarda cosa ha scritto lui.
+  const dir = mkdtempSync(join(tmpdir(), "tasso-lezioni-"));
+  mkdirSync(join(dir, "auto-coscienza"), { recursive: true });
+  // La copia parte SENZA i tre campi: se restassero, il caso resterebbe verde anche con il
+  // produttore rotto — leggerebbe il valore di ieri invece di quello appena calcolato. È il motivo
+  // per cui prima non mordeva.
+  const partenza = JSON.parse(
+    readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json"), "utf8"),
+  );
+  for (const k of ["tasso_applicazione", "tasso_calcolato_il", "tasso_finestra_giorni"]) delete partenza.meta?.[k];
+  writeFileSync(join(dir, "auto-coscienza/apprendimento.json"), JSON.stringify(partenza), "utf8");
+  spawnSync("node", ["cervello/tasso-lezioni.mjs"], {
+    cwd: REPO,
+    env: { ...process.env, TASSO_LEZIONI_VAULT: dir },
+    encoding: "utf8",
+  });
+  const dati = JSON.parse(readFileSync(join(dir, "auto-coscienza/apprendimento.json"), "utf8"));
   assert.ok(Number.isFinite(dati.meta.tasso_applicazione), "il numero dev'esserci…");
   assert.ok(dati.meta.tasso_calcolato_il, "…con l'istante in cui è stato calcolato, o è di nuovo un'opinione");
   assert.ok(Number.isFinite(dati.meta.tasso_finestra_giorni), "e con la finestra su cui è stato misurato");
@@ -150,9 +168,14 @@ test("AR-055 · le proposte di auto-riscrittura hanno uno stato, quindi possono 
 
 // ── I SENSORI ────────────────────────────────────────────────────────────────────────────────────
 
-test("AR-067 · esiste un sensore che dice se il sito è irraggiungibile", () => {
+test("AR-067 · esiste un sensore che dice se il sito è irraggiungibile", async () => {
+  // Prima questo caso cercava la parola `sito_uptime` nel testo del file. Non poteva fallire: quel
+  // nome lì dentro compare cinque volte, quindi togliere la riga che DICHIARA il sensore lo lasciava
+  // verde. Adesso la mappa si importa e si guarda: se il sensore non è dichiarato, non c'è.
+  const { SENSOR_CLASSE } = await import(join(REPO, "cervello/verifica-sensori.mjs"));
+  assert.ok(Object.hasOwn(SENSOR_CLASSE, "sito_uptime"), "era il buco: se il marketplace è giù, la macchina è cieca sugli ordini");
+  assert.equal(SENSOR_CLASSE.sito_uptime, "uptime", "dichiarato con la classe sbagliata: finirebbe fra i sensori di dati");
   const src = leggi("cervello/verifica-sensori.mjs");
-  assert.match(src, /sito_uptime/, "era il buco: se il marketplace è giù, la macchina è cieca sugli ordini");
   assert.match(src, /MARKETPLACE_SITE_URL/, "e deve bussare a un indirizzo vero, non a una costante");
 });
 
