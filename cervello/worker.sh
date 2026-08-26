@@ -113,6 +113,9 @@ ts() { date '+%H:%M:%S'; }
   exit 1
 }
 
+# 🛣️ AR-804 — la presa dei lavori sta in un file suo, perche' una prova possa ESEGUIRLA.
+. "$SCRIPT_DIR/worker-coda.sh"
+
 # AR-089: router costo — instrada un compito col router scegliModello (cervello/banco-ai.mjs) invece di
 # usare sempre il motore premium. Stampa "modello|tier|collegato(1/0)". Se node/router falliscono torna
 # vuoto → il chiamante resta sul premium (nessuna rottura). NON esegue AI: DECIDE soltanto.
@@ -1346,23 +1349,16 @@ while true; do
   # applica SEMPRE; se il database lo rifiuta si ripiega, ma AD ALTA VOCE — non in silenzio.
   now_z="$(date -u +%Y-%m-%dT%H:%M:%SZ)"
   _rtry="&or=(riprova_dopo.is.null,riprova_dopo.lte.$now_z)"
-  _coda_rc=0
-  riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&tipo=eq.chat${_rtry}&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null)" || _coda_rc=$?
-  if [ "$_coda_rc" -ne 0 ]; then
-    _rtry=""
-    riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa&tipo=eq.chat&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
-    echo "[$(ts)] ⚠️  AR-295: la coda NON sta rispettando l'ora di ritentativo (la query col filtro è stata rifiutata, rc=$_coda_rc): i lavori in attesa del reset verranno ripresi subito. Manca la migration lavori-retry.sql?" >&2
-  fi
-  if [ -z "$(printf '%s' "$riga" | jq -r '.[0].id // empty' 2>/dev/null)" ]; then
-    if [ "$WORKER_LANE" = chat ]; then
-      # Worker dedicato solo-chat: nessuna chat in attesa → non prende altri tipi, aspetta.
-      sleep "$INTERVALLO"; continue
-    fi
-    riga="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
-  fi
+  # La scelta sta in `worker-coda.sh`: la chat passa davanti, i lavori di fondo vanno A TURNO fra i
+  # negozi. Prima era qui, in ordine d'arrivo, e con quaranta botteghe il piu' lento li ferma tutti.
+  coda_prossima_riga          # senza $(...): il turno tiene lo stato fra un giro e l'altro
+  riga="$CODA_RIGA"
   id="$(printf '%s' "$riga" | jq -r '.[0].id // empty' 2>/dev/null || true)"
 
   if [ -z "$id" ]; then
+    # Una coda con lavori dentro e nessuno che parte non e' «niente da fare»: e' una domanda. Il
+    # motivo lo porta la scelta stessa (corsia guasta, quota piena, tetto finito).
+    [ -n "$MOTIVO_CODA" ] && echo "[$(ts)] Coda ferma: $MOTIVO_CODA" >&2
     sleep "$INTERVALLO"; continue
   fi
 

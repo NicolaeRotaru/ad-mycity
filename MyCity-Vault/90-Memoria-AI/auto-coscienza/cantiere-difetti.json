@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-23 19:54",
+  "aggiornato": "2026-08-26 21:29",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -17212,7 +17212,7 @@
       "gravita": "grave",
       "impatto_crescita": "alto",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-23 16:40",
       "nato_come": "nuovo-lavoro",
       "nato_da": "lotto 55: scritte le corsie della BOTTEGA, il worker vero non le conosce",
@@ -17222,9 +17222,12 @@
       "impatto": "E la prova numero 3 del collaudo finale. Finche il worker e FIFO, un negozio puo fermare tutti gli altri — cioe il canone di quaranta dipende dal comportamento di uno.",
       "origine": "lotto 55, letto il codice del worker invece di fidarmi della scheda",
       "verifica": {
-        "tipo": "umano",
-        "nota": "il turno e provato come funzione pura; che il WORKER lo usi non si puo provare da qui, perche il worker gira sul VPS e la tabella non ha ancora il campo. La prova vera si scrive insieme al fix, dopo AR-801."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs",
+        "nota": "La nota di prima diceva che l'uso da parte del WORKER non si poteva provare da qui, perche' il worker gira sul VPS e la tabella non aveva il campo del negozio. Le due cose sono cadute: il campo c'e' dal 26/8 (NOT NULL, 3.281 righe) e la presa dei lavori sta ora in un file suo, `cervello/worker-coda.sh`, che la prova ESEGUE dentro un bash con un curl finto. Undici casi, sette mutazioni verificate rosse: fra queste il ritorno al FIFO, il giro che non riparte da dopo l'ultimo servito, e la presa richiamata dentro una sottoshell."
+      },
+      "chiuso_il": "2026-08-26 21:29",
+      "chiuso_come": "Il turno era gia' scritto e provato dal 23/8 e non lo chiamava nessuno: worker.sh prendeva `order=created_at.asc&limit=1`. Tre pezzi. ① `cervello/bottega/scelta-worker.mjs` e' il ponte fra le righe grezze della coda e le corsie: deduce una corsia per ogni negozio che ha lavori in attesa, nell'ordine di prima apparizione (non alfabetico), legge quota/tetto/interruttore dalle impostazioni `bottega:negozio:<id>`, e sceglie a turno riusando `daDopoIlUltimo`. ② `cervello/worker-coda.sh` e' la presa vera, tolta da dentro il ciclo di worker.sh e messa in un file suo perche' una prova possa ESEGUIRLA — la precedenza della chat resta intatta e prima di tutto. ③ la prova esegue quel bash con un curl finto e guarda quale lavoro esce. Due difetti veri trovati dalle prove mentre le scrivevo, e nessuno dei due si vedeva rileggendo il codice: (a) `prossimoLavoro` ricalcola `statoCorsia` sulle corsie che riceve, quindi buttava via l'esenzione del centro e la coda di OGGI — tutte e 3.281 le righe, che sono del centro e non hanno un tetto dichiarato — non sarebbe partita affatto: la macchina intera ferma al primo giro; (b) chiamando la presa con `$(...)` lo stato del turno moriva nella sottoshell, quindi il giro non girava mai e serviva sempre lo stesso negozio, in silenzio. Il centro e' esente da un freno solo e in un caso solo — il tetto NON dichiarato, perche' il suo freno di spesa vive gia' in costo-ai.mjs — e resta soggetto a quota, interruttore e a un tetto dichiarato e finito. Se qualcosa non e' leggibile si ripiega sull'ordine d'arrivo, ma ad alta voce. Resta fuori il contatore della spesa per negozio: il tetto e' collegato, chi lo alimenta no (AR-838)."
     },
     {
       "id": "AR-805",
@@ -17884,6 +17887,48 @@
       },
       "descrizione": "Trovato dalla riguardata del perimetro con la lente rischio-sicurezza-se, dopo che avevo gia' dichiarato finito il fix e con tutte le prove verdi. Non e' mai arrivato a Nicola: e' vissuto dentro questo lotto.",
       "nato_da": "la riguardata del perimetro toccato, imposta dal cancello prima della consegna"
+    },
+    {
+      "id": "AR-837",
+      "titolo": "Il nome del negozio della macchina e' scritto in due case che non si parlano",
+      "dimensione": "trovato-riparando",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-26 21:29",
+      "nato_come": "trovato-riparando",
+      "nato_da": "AR-804: collegando il turno al worker serviva `centro` anche lato cervello",
+      "causa_radice": "`CENTRO = \"centro\"` esiste in `pannello/src/lib/lavoro-negozio.ts` (TypeScript, letto dal Pannello) e da oggi anche in `cervello/bottega/scelta-worker.mjs` (mjs, letto dal worker). Il Pannello non importa dal cervello e le due lingue non si incontrano da nessuna parte, quindi la costante e' stata ricopiata invece che riusata. Due copie di una regola non sono una regola: il giorno che il negozio della macchina cambia nome, una delle due resta indietro e il turno smette di esentare chi doveva esentare — cioe' la coda si ferma, e nel log non c'e' una riga che lo dica.",
+      "dove": "pannello/src/lib/lavoro-negozio.ts (CENTRO) · cervello/bottega/scelta-worker.mjs (CENTRO)",
+      "fix_proposto": "🟡 Una casa sola leggibile da tutti e due: il valore in `registro-fatti.json` (o un .json accanto al modulo) e i due file che lo leggono invece di dichiararlo. Prova: cambiare il valore nella casa unica e vedere che il turno del worker E il Pannello cambiano insieme — oggi cambierebbe uno solo.",
+      "impatto": "Basso finche' il nome non cambia. Il giorno che cambia, si ferma la coda intera senza un motivo scritto.",
+      "origine": "lotto 60, scritto mentre collegavo il turno",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "La prova nasce col fix, come per ogni scheda aperta: oggi non c'e' niente da provare verde. Quando la costante avra' una casa sola, la prova cambia il valore in quella casa e pretende che il turno del worker E il Pannello cambino insieme — oggi ne cambierebbe uno solo. Il conto di adesso e' 2 dichiarazioni: `grep -c 'CENTRO = \"centro\"' pannello/src/lib/lavoro-negozio.ts cervello/bottega/scelta-worker.mjs`."
+      }
+    },
+    {
+      "id": "AR-838",
+      "titolo": "Il tetto di spesa per negozio e' collegato, ma non lo alimenta nessun contatore",
+      "dimensione": "capacita-mancanti",
+      "gravita": "grave",
+      "impatto_crescita": "alto",
+      "colore": "🟡",
+      "stato": "aperto",
+      "nato": "2026-08-26 21:29",
+      "nato_come": "trovato-riparando",
+      "nato_da": "AR-804: collegando le corsie al worker, il tetto ha una porta e nessuno che ci passi",
+      "causa_radice": "`statoSpesa` sa fermare una corsia che ha finito il tetto, e da oggi il worker la interroga davvero. Ma `speso` arriva solo se qualcuno lo scrive nelle impostazioni `bottega:negozio:<id>`, e nessuno lo scrive: la spesa AI per negozio non la conta nessun pezzo della macchina. `costo-ai.mjs` conta la spesa del CENTRO, in totale, non per negozio. Quindi un tetto dichiarato oggi protegge da un superamento solo se il numero glielo passa una mano umana — cioe' non protegge.",
+      "dove": "cervello/bottega/corsie.mjs (statoSpesa) · cervello/bottega/scelta-worker.mjs (speso) · cervello/costo-ai.mjs",
+      "fix_proposto": "🟡 A fine lavoro il worker somma il costo di quel lavoro sulla riga del suo negozio, e la scelta lo rilegge al giro dopo. Prova che ESEGUE: due lavori dello stesso negozio con un costo che supera il tetto, e il terzo non parte — con il motivo giusto, non «quota piena».",
+      "impatto": "E' il meccanismo ⑤ dell'architettura, il freno sui soldi. Finche' non c'e', un negozio che va in loop non ferma piu' gli altri (quello e' chiuso) ma puo' ancora spendere quanto vuole: il danno cambia forma, da tempo a bolletta.",
+      "origine": "lotto 60, scritto mentre collegavo il turno",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Non ancora scrivibile come comando: il pezzo che dovrebbe scrivere il numero non esiste. La prova nasce col fix."
+      }
     }
   ],
   "meta": {

@@ -331,6 +331,15 @@ export const DIFESE_WORKER = [
     ps1: /worker_owner/,
   },
   {
+    // AR-804. La difesa vive in `worker-coda.sh`, che worker.sh sorgente: qui si cerca la CHIAMATA,
+    // perche' e' quella a dire che il worker la usa davvero — ed e' esattamente la cosa che mancava
+    // quando il turno era scritto, provato e chiamato da nessuno.
+    nome: "turno fra i negozi",
+    cosa: "prende i lavori di fondo a turno fra i negozi invece che in ordine d'arrivo: con quaranta botteghe la piu' lenta non ferma le altre",
+    sh: /coda_prossima_riga/,
+    ps1: /coda_prossima_riga/,
+  },
+  {
     nome: "recupero orfani",
     cosa: "rimette in coda gli in_corso rimasti appesi invece di lasciarli morti",
     sh: /stato=eq\.in_corso/,

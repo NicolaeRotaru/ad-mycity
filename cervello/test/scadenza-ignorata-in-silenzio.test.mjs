@@ -112,6 +112,13 @@ function indirizziChiesti({ hasRetryCols = 0, filtroRifiutato = false } = {}) {
       "}",
       "jq() { printf ''; }",
       "sleep() { :; }",
+      // AR-804 — la presa dei lavori e' uscita da worker.sh e vive in `worker-coda.sh`, che il
+      // worker sorgente. Il tratto ritagliato la CHIAMA, quindi il banco deve sorgentarla come fa
+      // il worker vero: senza, il frammento non compila e un frammento che non compila e' ⚪, non
+      // rosso. La proprieta' di AR-295 non cambia — il filtro sull'ora e il ripiego dichiarato ora
+      // stanno li' dentro, ed e' li' che questo caso li va a guardare.
+      `SCRIPT_DIR='${join(REPO, "cervello")}'`,
+      `. '${join(REPO, "cervello", "worker-coda.sh")}'`,
       "for _giro in 1; do",
       trattoDellaCoda(),
       "done",

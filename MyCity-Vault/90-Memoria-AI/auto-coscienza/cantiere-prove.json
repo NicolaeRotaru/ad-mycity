@@ -1,24 +1,24 @@
 {
   "_cosa_e": "🔎 GUARDIANO DELLE PROVE — classifica la prova di ogni difetto non chiuso del cantiere e smaschera quelli che nessun guardiano potrà mai chiudere (prova umana, o puntatore che indica il file sbagliato). Nasce dal caso AR-144/AR-117 del 2026-07-25: fix mergiato e provato, ma il cantiere continuava a contarlo aperto. Scritto da cervello/cantiere-prove.mjs.",
   "_cosa_NON_prova": "Non prova che le prove siano BUONE: classifica la loro FORMA (comando eseguibile / pattern nel codice / verifica umana) e se il puntatore esiste. Una prova comportamentale che passa anche col fix rotto — una prova vacua — qui risulta sana: quello lo scopre solo chi rompe il fix apposta e guarda se diventa rossa.",
-  "aggiornato": "2026-08-26 18:37",
+  "aggiornato": "2026-08-26 21:30",
   "giorni_sospetto": 3,
-  "difetti_aperti": 143,
-  "difetti_da_fare": 143,
+  "difetti_aperti": 144,
+  "difetti_da_fare": 144,
   "conto": {
     "letto": true,
     "motivo": null,
-    "totale": 827,
-    "chiusi": 684,
-    "aperti": 114,
+    "totale": 829,
+    "chiusi": 685,
+    "aperti": 115,
     "in_corso": 1,
     "da_riverificare": 10,
     "altri": 18,
-    "da_fare": 143,
+    "da_fare": 144,
     "senza_data_nascita": 17,
     "per_stato": {
-      "chiuso": 684,
-      "aperto": 114,
+      "chiuso": 685,
+      "aperto": 115,
       "da-riverificare": 10,
       "in-corso": 1,
       "riparato": 18
@@ -44,14 +44,14 @@
   },
   "bilancio": {
     "torna": true,
-    "attese": 143,
-    "viste": 143,
+    "attese": 144,
+    "viste": 144,
     "fuori": 0,
-    "motivo": "bilancio a posto: 684 chiuse + 143 classificate = 827 schede, e ogni stato vivo è dentro (114 aperto · 1 in-corso · 10 da-riverificare · 18 in uno stato che non so nominare)"
+    "motivo": "bilancio a posto: 685 chiuse + 144 classificate = 829 schede, e ogni stato vivo è dentro (115 aperto · 1 in-corso · 10 da-riverificare · 18 in uno stato che non so nominare)"
   },
   "per_classe": {
     "prova-debole-su-grave": 21,
-    "auto-sospetta": 10,
+    "auto-sospetta": 11,
     "umana": 78,
     "auto-comando": 34
   },
@@ -179,7 +179,7 @@
       "perche": "questo difetto è un BLOCCANTE e ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
     },
     {
-      "id": "AR-804",
+      "id": "AR-838",
       "gravita": "grave",
       "impatto_crescita": "alto",
       "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna."
@@ -607,7 +607,7 @@
       "perche": "prova eseguibile: node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs"
     }
   ],
-  "non_auto_chiudibili": 109,
+  "non_auto_chiudibili": 110,
   "bloccanti_ciechi": [
     "AR-518",
     "AR-568",
@@ -932,6 +932,14 @@
       "causa": "comando-non-eseguibile",
       "comando": "node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata",
       "motivo": "il motore non sa eseguire \"node cervello/test-cervello.mjs --solo prova-misurata-non-dichiarata\" (solo: node cervello/<script>.mjs [--flag])"
+    },
+    {
+      "id": "AR-837",
+      "stato": "aperto",
+      "gravita": "minore",
+      "causa": "comando-non-eseguibile",
+      "comando": "grep -c 'CENTRO = \"centro\"' pannello/src/lib/lavoro-negozio.ts cervello/bottega/scelta-worker.mjs",
+      "motivo": "il motore non sa eseguire \"grep -c 'CENTRO = \"centro\"' pannello/src/lib/lavoro-negozio.ts cervello/bottega/scelta-worker.mjs\" (solo: node cervello/<script>.mjs [--flag])"
     }
   ],
   "prove_da_riverificare": [
@@ -3499,22 +3507,6 @@
       "auto_chiudibile": false
     },
     {
-      "id": "AR-804",
-      "gravita": "grave",
-      "eta_giorni": 3,
-      "impatto_crescita": "alto",
-      "prova_esegue": false,
-      "prova_obbligatoria": true,
-      "non_giudicabile": false,
-      "titolo": "Il worker prende i lavori in ordine d arrivo: con quaranta negozi il piu lento li ferma tutti",
-      "classe": "prova-debole-su-grave",
-      "prova_impossibile": false,
-      "prova_debole_su_grave": true,
-      "senza_controllo": false,
-      "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna.",
-      "auto_chiudibile": false
-    },
-    {
       "id": "AR-808",
       "gravita": "grave",
       "eta_giorni": 3,
@@ -3890,6 +3882,36 @@
       "classe": "auto-comando",
       "perche": "prova eseguibile: node --test cervello/test/lo-strumento-che-alleggerisce-appesantiva.test.mjs",
       "auto_chiudibile": true
+    },
+    {
+      "id": "AR-837",
+      "gravita": "minore",
+      "eta_giorni": 0,
+      "impatto_crescita": "basso",
+      "prova_esegue": false,
+      "prova_obbligatoria": false,
+      "non_giudicabile": false,
+      "titolo": "Il nome del negozio della macchina e' scritto in due case che non si parlano",
+      "classe": "auto-sospetta",
+      "codice": 2,
+      "perche": "comando di prova non ammesso: grep -c 'CENTRO = \"centro\"' pannello/src/lib/lavoro-negozio.ts cervello/bottega/scelta-worker.mjs — solo: node cervello/<script>.mjs [--flag]",
+      "auto_chiudibile": false
+    },
+    {
+      "id": "AR-838",
+      "gravita": "grave",
+      "eta_giorni": 0,
+      "impatto_crescita": "alto",
+      "prova_esegue": false,
+      "prova_obbligatoria": true,
+      "non_giudicabile": false,
+      "titolo": "Il tetto di spesa per negozio e' collegato, ma non lo alimenta nessun contatore",
+      "classe": "prova-debole-su-grave",
+      "prova_impossibile": false,
+      "prova_debole_su_grave": true,
+      "senza_controllo": false,
+      "perche": "questo difetto ha impatto di crescita ALTO, e la sua prova è una verifica dichiarata umana: nessun guardiano potrà mai chiuderla. Un difetto così non si chiude su una parola cercata in un file: serve `{comando: \"node cervello/test/<nome>.test.mjs\"}`, cioè una prova che diventa rossa se il difetto torna.",
+      "auto_chiudibile": false
     }
   ]
 }
