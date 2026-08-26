@@ -130,17 +130,35 @@ function indirizziChiesti({ hasRetryCols = 0, filtroRifiutato = false } = {}) {
   return { chiamate: readFileSync(chiamate, "utf8").split("\n").filter(Boolean), testo: `${r.stdout || ""}${r.stderr || ""}` };
 }
 
+/**
+ * Le richieste che LEGGONO LA CODA DI CHI ASPETTA — le uniche a cui la regola di AR-295 si applica.
+ *
+ * Da quando la presa va a turno fra i negozi (AR-804) il blocco fa anche altre richieste: quanti
+ * lavori sono IN CORSO per negozio, e le impostazioni delle corsie. Su quelle il filtro sull'ora di
+ * ritentativo non vuol dire niente — non sono lavori in attesa — e pretenderlo lì trasformerebbe
+ * questo caso in un allarme che suona per il motivo sbagliato.
+ *
+ * Il filtro resta obbligatorio, con la stessa durezza, esattamente dove conta.
+ */
+const chiamateDellaCoda = (chiamate) => chiamate.filter((u) => /lavori\?[^"]*stato=eq\.in_attesa/.test(u));
+
 prova("① IL CASO CHE HA ROTTO: auto-recovery spento, e la coda chiede COMUNQUE il filtro sull'ora", () => {
   const r = indirizziChiesti({ hasRetryCols: 0 });
   assert.ok(r.chiamate.length > 0, `nessuna richiesta partita: il ritaglio non ha funzionato — ${r.testo.slice(-300)}`);
-  for (const url of r.chiamate) {
+  const dellaCoda = chiamateDellaCoda(r.chiamate);
+  // Il guardrail del restringimento: se un giorno nessuna richiesta legge più la coda di chi
+  // aspetta, questo caso non deve diventare verde a vuoto — deve dirlo.
+  assert.ok(dellaCoda.length > 0, `nessuna richiesta legge la coda dei lavori in attesa: il caso sarebbe verde per niente\n      ${r.chiamate.join("\n      ")}`);
+  for (const url of dellaCoda) {
     assert.match(url, /riprova_dopo\.lte/, `una richiesta alla coda senza il filtro: le scadenze già scritte vengono ignorate\n      ${url}`);
   }
 });
 
 prova("① con l'auto-recovery acceso non cambia niente (il filtro c'era già)", () => {
   const r = indirizziChiesti({ hasRetryCols: 1 });
-  for (const url of r.chiamate) assert.match(url, /riprova_dopo\.lte/);
+  const dellaCoda = chiamateDellaCoda(r.chiamate);
+  assert.ok(dellaCoda.length > 0, "nessuna richiesta legge la coda dei lavori in attesa");
+  for (const url of dellaCoda) assert.match(url, /riprova_dopo\.lte/);
 });
 
 prova("② se il database rifiuta il filtro si ripiega — ma lo DICE, non in silenzio", () => {

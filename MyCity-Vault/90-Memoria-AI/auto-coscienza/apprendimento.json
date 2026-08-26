@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-26 18:20",
+ "aggiornato": "2026-08-26 21:43",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -10950,6 +10950,10 @@
     },
     {
      "quando": "2026-08-25 16:17",
+     "ref": "freno rosso nel cancello: nascita dei difetti"
+    },
+    {
+     "quando": "2026-08-26 21:43",
      "ref": "freno rosso nel cancello: nascita dei difetti"
     }
    ]

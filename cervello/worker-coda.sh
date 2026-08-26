@@ -19,10 +19,12 @@
 #
 # Prova: node --test cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs
 
-# Quanti lavori in attesa si guardano per decidere il turno. Non serve tutta la coda: serve che
-# dentro la finestra ci sia almeno un lavoro per ogni negozio che ne ha. Duecento e' largo per
-# quaranta botteghe, e resta una richiesta sola.
-FINESTRA_CODA="${WORKER_FINESTRA_CODA:-200}"
+# NESSUNA FINESTRA, e il motivo e' misurato. La prima versione leggeva le 200 righe piu' vecchie e
+# da quelle deduceva le corsie: un negozio con 200 lavori in attesa riempiva la finestra intera e il
+# lavoro appena accodato da un altro diventava invisibile — «tutte le corsie sono ferme» con la coda
+# piena. La fame che questo file esiste per togliere, rimessa dentro dal tetto della finestra.
+# Adesso: prima si chiede QUALI negozi hanno lavori in attesa (una colonna sola, righe corte, tutte),
+# si decide il turno, e solo dopo si chiede il lavoro piu' vecchio del negozio scelto.
 
 # L'ultimo negozio servito: il turno riparte da DOPO di lui. Vive quanto il processo; se il worker
 # riparte il giro ricomincia dal primo, che non e' un danno — e' solo un turno che riparte.
@@ -58,14 +60,14 @@ _coda_chat() {
 # Il lavoro di fondo scelto a turno fra i negozi. Se qualcosa non si puo' leggere si ripiega
 # sull'ordine d'arrivo, ma AD ALTA VOCE (la regola di AR-295: un ripiego muto e' una bugia).
 _coda_a_turno() {
-  local sel="id,tipo,richiesta,negozio_id,created_at"
-  local finestra incorso impost scelta id
+  local negozi incorso impost scelta negozio ingresso rc=0
   CODA_RIPIEGATA=0
   MOTIVO_CODA=""
 
-  finestra="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&order=created_at.asc&limit=$FINESTRA_CODA&select=$sel" "${AUTH[@]}" 2>/dev/null || true)"
-  if [ -z "$(printf '%s' "$finestra" | jq -r 'if type=="array" then "si" else empty end' 2>/dev/null)" ]; then
-    # Il campo del negozio non c'e' (database non migrato) o la risposta e' illeggibile: si ripiega.
+  # ① Chi ha lavori in attesa. Una colonna sola: sono righe da poche decine di byte, si possono
+  #    prendere tutte senza tetto — ed e' esattamente il tetto che creava la fame.
+  negozi="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&select=negozio_id&order=created_at.asc" "${AUTH[@]}" 2>/dev/null || true)"
+  if ! printf '%s' "$negozi" | jq -e 'type=="array"' >/dev/null 2>&1; then
     CODA_RIPIEGATA=1
     echo "[$(ts)] ⚠️  AR-804: la coda a corsie non e' leggibile (manca negozio_id sulla tabella lavori?) — si riprende in ORDINE D'ARRIVO: un negozio lento puo' fermare gli altri." >&2
     CODA_RIGA="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
@@ -78,21 +80,17 @@ _coda_a_turno() {
   impost="$(curl -fsS "$SUPABASE_URL/rest/v1/impostazioni?chiave=like.bottega:negozio:*&select=chiave,valore" "${AUTH[@]}" 2>/dev/null || true)"
   printf '%s' "$impost" | jq -e 'type=="array"' >/dev/null 2>&1 || impost="[]"
 
-  local ingresso rc=0
-  ingresso="$(jq -n --argjson coda "$finestra" --argjson inCorso "$incorso" --argjson impostazioni "$impost" --arg ultimo "$ULTIMO_NEGOZIO" \
-    '{coda:$coda, inCorso:$inCorso, impostazioni:$impostazioni, ultimo:(if $ultimo=="" then null else $ultimo end)}' 2>/dev/null || true)"
-
-  # L'esito di chi sceglie NON finisce in una pipe e non si compra con un `|| true`: in una pipe il
-  # codice che conta e' quello dell'ultimo comando, e un `|| true` seppellisce quel che resta. Qui
-  # servirebbe due volte, perche' `scelta-worker.mjs` esce 2 quando l'ingresso e' illeggibile — e con
-  # l'esito buttato via quel caso diventava «niente da fare», cioe' un worker che dorme in silenzio
-  # per sempre con la coda piena. Adesso e' un ripiego dichiarato, come tutti gli altri.
+  # ② A chi tocca. L'esito NON finisce in una pipe e non si compra con un `|| true`: in una pipe il
+  #    codice che conta e' quello dell'ultimo comando, e chi sceglie esce 2 quando l'ingresso e'
+  #    illeggibile — con l'esito buttato via quel caso diventava «niente da fare», cioe' un worker
+  #    che dorme in silenzio con la coda piena.
+  ingresso="$(jq -n --argjson negozi "$negozi" --argjson inCorso "$incorso" --argjson impostazioni "$impost" --arg ultimo "$ULTIMO_NEGOZIO" \
+    '{negoziInAttesa:$negozi, inCorso:$inCorso, impostazioni:$impostazioni, ultimo:(if $ultimo=="" then null else $ultimo end)}' 2>/dev/null || true)"
   scelta="$(printf '%s' "$ingresso" | node "$SCRIPT_DIR/bottega/scelta-worker.mjs" 2>/dev/null)" || rc=$?
 
-  id="$(printf '%s' "$scelta" | jq -r '.id // empty' 2>/dev/null || true)"
-  if [ -z "$id" ]; then
+  negozio="$(printf '%s' "$scelta" | jq -r '.negozioId // empty' 2>/dev/null || true)"
+  if [ -z "$negozio" ]; then
     if [ "$rc" -ne 0 ] || [ -z "$scelta" ]; then
-      # Il giudice non ha risposto: non e' «coda vuota», e' «non lo so». Si ripiega, ad alta voce.
       CODA_RIPIEGATA=1
       echo "[$(ts)] ⚠️  AR-804: chi sceglie il turno non ha risposto (uscita $rc) — si riprende in ORDINE D'ARRIVO." >&2
       CODA_RIGA="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&order=created_at.asc&limit=1" "${AUTH[@]}" 2>/dev/null || true)"
@@ -104,9 +102,16 @@ _coda_a_turno() {
     return 0
   fi
 
-  ULTIMO_NEGOZIO="$(printf '%s' "$scelta" | jq -r '.negozioId // ""' 2>/dev/null || true)"
-  CODA_RIGA="$(printf '%s' "$scelta" | jq -c '[.riga]' 2>/dev/null || true)"
-  [ -n "$CODA_RIGA" ] || CODA_RIGA="[]"
+  # ③ Il lavoro piu' vecchio DI QUEL NEGOZIO. Dentro la corsia vale l'ordine d'arrivo: il turno e'
+  #    fra i negozi, non dentro.
+  CODA_RIGA="$(curl -fsS "$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&negozio_id=eq.$negozio&order=created_at.asc&limit=1&select=id,tipo,richiesta,negozio_id,created_at" "${AUTH[@]}" 2>/dev/null || true)"
+  if [ -z "$(printf '%s' "$CODA_RIGA" | jq -r '.[0].id // empty' 2>/dev/null)" ]; then
+    # Il lavoro c'era un attimo fa e adesso no: un altro worker l'ha preso. Non e' un guasto.
+    MOTIVO_CODA="il lavoro di $negozio e' stato preso da un altro worker fra le due richieste"
+    CODA_RIGA="[]"
+    return 0
+  fi
+  ULTIMO_NEGOZIO="$negozio"
 }
 
 # LA PORTA: mette in `CODA_RIGA` la riga del prossimo lavoro (array JSON di 0 o 1 elemento).

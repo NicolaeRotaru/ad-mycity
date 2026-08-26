@@ -41,7 +41,12 @@ function banco({ chat = [], coda = [], inCorso = [], impostazioni = [], finestra
   const dir = mkdtempSync(join(tmpdir(), "coda-worker-"));
   mkdirSync(join(dir, "bin"), { recursive: true });
   const log = join(dir, "curl.log");
+  const codaFile = join(dir, "coda.json");
+  writeFileSync(codaFile, JSON.stringify(coda));
   const j = (x) => JSON.stringify(x).replace(/'/g, "'\\''");
+  // Il curl finto parla il protocollo VERO in due passi: prima «quali negozi hanno lavori», poi
+  // «il piu' vecchio di QUESTO negozio». L'ordine dei casi conta: la richiesta per negozio porta
+  // dentro anche `stato=eq.in_attesa` e `limit=1`, quindi va riconosciuta per prima.
   writeFileSync(
     join(dir, "bin/curl"),
     `#!/usr/bin/env bash
@@ -49,12 +54,15 @@ url=""
 for a in "$@"; do case "$a" in http*) url="$a";; esac; done
 echo "$url" >> '${log}'
 case "$url" in
-  *tipo=eq.chat*)              printf '%s' '${j(chat)}';;
-  *stato=eq.in_corso*)         printf '%s' '${j(inCorso)}';;
-  *impostazioni*)              printf '%s' '${j(impostazioni)}';;
-  *stato=eq.in_attesa*limit=1*) printf '%s' '${j(coda.slice(0, 1))}';;
-  *stato=eq.in_attesa*)        ${finestraRotta ? `printf '%s' 'NON-JSON'` : `printf '%s' '${j(coda)}'`};;
-  *)                           printf '%s' '[]';;
+  *tipo=eq.chat*)        printf '%s' '${j(chat)}';;
+  *stato=eq.in_corso*)   printf '%s' '${j(inCorso)}';;
+  *impostazioni*)        printf '%s' '${j(impostazioni)}';;
+  *negozio_id=eq.*)
+    n="\${url##*negozio_id=eq.}"; n="\${n%%&*}"
+    jq -c --arg n "$n" '[.[]|select(.negozio_id==$n)][0:1]' '${codaFile}';;
+  *select=negozio_id*)   ${finestraRotta ? `printf '%s' 'NON-JSON'` : `jq -c '[.[]|{negozio_id}]' '${codaFile}'`};;
+  *stato=eq.in_attesa*)  jq -c '.[0:1]' '${codaFile}';;
+  *)                     printf '%s' '[]';;
 esac
 exit 0
 `,
@@ -127,6 +135,23 @@ prova("trenta lavori di un negozio non spostano il turno dell'altro", () => {
   const r = prendi({ coda, impostazioni: [conTetto("forno-a"), conTetto("enoteca-b")], giri: 2 });
   assert.equal(r.scelti[0], "a0");
   assert.equal(r.scelti[1], "b1", "al secondo giro doveva toccare all'altro negozio: il turno non gira");
+});
+
+prova("duecento lavori di un negozio non nascondono il lavoro appena accodato da un altro", () => {
+  // LA BOCCIATURA DEL PERIMETRO. La prima versione leggeva una FINESTRA delle 200 righe piu'
+  // vecchie e da quella deduceva le corsie: un negozio con 200 lavori in attesa la riempiva tutta,
+  // e il lavoro di un altro negozio diventava INVISIBILE — «tutte le corsie sono ferme» con la coda
+  // piena. Cioe' la fame che questo file esiste per togliere, rimessa dentro dal tetto.
+  const coda = [
+    ...Array.from({ length: 200 }, (_, i) => ({ id: `a${i}`, negozio_id: "forno-a" })),
+    { id: "b1", negozio_id: "enoteca-b" },
+  ];
+  const r = prendi({
+    coda,
+    inCorso: [{ negozio_id: "forno-a" }],
+    impostazioni: [conTetto("forno-a"), conTetto("enoteca-b")],
+  });
+  assert.equal(r.id, "b1", "il lavoro dell'altro negozio e' rimasto fuori dalla finestra: la fame e' tornata");
 });
 
 // ─────────────────────────────────────────────────────────────────────────────

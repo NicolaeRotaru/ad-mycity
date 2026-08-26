@@ -115,7 +115,12 @@ export function corsieDallaCoda(coda = [], impostazioni = {}) {
     const id = negozioDellaRiga(riga);
     if (id && !visti.includes(id)) visti.push(id);
   }
-  return visti.map((negozioId) => {
+  return corsieDaIdentita(visti, impostazioni);
+}
+
+/** La forma di una corsia, da un id e dalle impostazioni. Una casa sola: la usano tutte e due le porte. */
+export function corsieDaIdentita(ids = [], impostazioni = {}) {
+  return ids.map((negozioId) => {
     const conf = impostazioni?.[negozioId] ?? {};
     const quota = Number.isFinite(conf.quota) && conf.quota > 0 ? conf.quota : QUOTA_PREDEFINITA;
     return {
@@ -139,6 +144,36 @@ export function inCorsoPerNegozio(righe = []) {
     out[id] = (out[id] || 0) + 1;
   }
   return out;
+}
+
+/**
+ * LA SCELTA DEL NEGOZIO — a chi tocca, sapendo solo QUALI negozi hanno lavori in attesa.
+ *
+ * Esiste perche' la prima versione leggeva una FINESTRA della coda (le 200 righe piu' vecchie) e da
+ * quella dedeuceva le corsie. Misurato: un negozio con 200 lavori in attesa riempie la finestra
+ * intera, e il lavoro appena accodato da un altro negozio diventa INVISIBILE — il worker risponde
+ * «tutte le corsie sono ferme» con la coda piena. Cioe' la fame che AR-804 esiste per togliere,
+ * rimessa dentro dal tetto della finestra, e proprio alla scala in cui serve.
+ *
+ * Adesso il turno si decide sui soli id dei negozi (righe corte, tutte, nessun tetto), e il lavoro
+ * lo si chiede DOPO, al negozio scelto: due richieste, nessuna finestra, nessuna fame.
+ */
+export function scegliNegozio({ negoziInAttesa = [], impostazioni = {}, inCorso = {}, ultimo = null } = {}) {
+  const visti = [];
+  for (const g of Array.isArray(negoziInAttesa) ? negoziInAttesa : []) {
+    const id = typeof g === "string" ? g.trim() : negozioDellaRiga(g);
+    if (id && !visti.includes(id)) visti.push(id);
+  }
+  const negozi = corsieDaIdentita(visti, impostazioni);
+  const corsie = negozi.map((n) => statoCorsiaBottega(n, { inCorso: Number(inCorso[n.negozioId]) || 0 }));
+  const fermi = corsie.filter((c) => !c.puoLavorare).map((c) => ({ negozioId: c.negozioId, motivo: c.motivo }));
+  const ordine = daDopoIlUltimo(corsie.map((c) => c.negozioId).filter(Boolean), ultimo);
+  for (const id of ordine) {
+    if (corsie.find((c) => c.negozioId === id)?.puoLavorare) {
+      return { negozioId: id, fermi, motivo: "" };
+    }
+  }
+  return { negozioId: "", fermi, motivo: motivoDelNulla(visti, corsie, fermi) };
 }
 
 /**
@@ -202,12 +237,17 @@ export async function main() {
     process.exitCode = 2;
     return;
   }
-  const esito = scegli({
-    coda: dentro.coda,
+  const comune = {
     impostazioni: impostazioniDaRighe(dentro.impostazioni),
     inCorso: inCorsoPerNegozio(dentro.inCorso),
     ultimo: dentro.ultimo ?? null,
-  });
+  };
+  // Due modi di chiedere. `negoziInAttesa` e' quello che usa il worker: decide il TURNO senza
+  // leggere nessuna riga di lavoro, quindi nessuna finestra e nessuna fame. `coda` resta per chi
+  // ha gia' le righe in mano.
+  const esito = Array.isArray(dentro.negoziInAttesa)
+    ? scegliNegozio({ negoziInAttesa: dentro.negoziInAttesa, ...comune })
+    : scegli({ coda: dentro.coda, ...comune });
   process.stdout.write(JSON.stringify(esito) + "\n");
 }
 

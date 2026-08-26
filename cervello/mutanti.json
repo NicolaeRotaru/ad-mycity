@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-26 21:30",
+ "aggiornato": "2026-08-26 20:05",
  "mutanti": [
   {
    "lotto": 30,
@@ -7589,10 +7589,10 @@
   },
   {
    "difetto": "AR-804",
-   "nome": "il giro non riparte da dopo l'ultimo servito: il primo negozio prende sempre",
+   "nome": "il giro non riparte da dopo l'ultimo servito nella porta che il worker usa: il primo negozio prende sempre",
    "file": "cervello/bottega/scelta-worker.mjs",
-   "cerca": "  const ordine = daDopoIlUltimo(corsie.map((c) => c.negozioId).filter(Boolean), ultimo);",
-   "sostituisci": "  const ordine = corsie.map((c) => c.negozioId).filter(Boolean);",
+   "cerca": "  const ordine = daDopoIlUltimo(corsie.map((c) => c.negozioId).filter(Boolean), ultimo);\n  for (const id of ordine) {\n    if (corsie.find((c) => c.negozioId === id)?.puoLavorare) {\n      return { negozioId: id, fermi, motivo: \"\" };",
+   "sostituisci": "  const ordine = corsie.map((c) => c.negozioId).filter(Boolean);\n  for (const id of ordine) {\n    if (corsie.find((c) => c.negozioId === id)?.puoLavorare) {\n      return { negozioId: id, fermi, motivo: \"\" };",
    "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
   },
   {
@@ -7633,6 +7633,22 @@
    "file": "cervello/worker-coda.sh",
    "cerca": "    CODA_RIPIEGATA=1\n    echo \"[$(ts)] ⚠️  AR-804: la coda a corsie non e' leggibile",
    "sostituisci": "    CODA_RIPIEGATA=0\n    echo \"[$(ts)] ⚠️  AR-804: la coda a corsie non e' leggibile",
+   "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
+  },
+  {
+   "difetto": "AR-804",
+   "nome": "torna la finestra sulla coda: duecento lavori di un negozio nascondono quelli degli altri",
+   "file": "cervello/worker-coda.sh",
+   "cerca": "  negozi=\"$(curl -fsS \"$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&select=negozio_id&order=created_at.asc\" \"${AUTH[@]}\" 2>/dev/null || true)\"",
+   "sostituisci": "  negozi=\"$(curl -fsS \"$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&order=created_at.asc&limit=200&select=negozio_id\" \"${AUTH[@]}\" 2>/dev/null || true)\"",
+   "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
+  },
+  {
+   "difetto": "AR-804",
+   "nome": "la seconda richiesta ignora il negozio scelto e ripiglia il piu' vecchio in assoluto",
+   "file": "cervello/worker-coda.sh",
+   "cerca": "  CODA_RIGA=\"$(curl -fsS \"$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&negozio_id=eq.$negozio&order=created_at.asc&limit=1&select=id,tipo,richiesta,negozio_id,created_at\" \"${AUTH[@]}\" 2>/dev/null || true)\"",
+   "sostituisci": "  CODA_RIGA=\"$(curl -fsS \"$SUPABASE_URL/rest/v1/lavori?stato=eq.in_attesa${_rtry}&order=created_at.asc&limit=1&select=id,tipo,richiesta,negozio_id,created_at\" \"${AUTH[@]}\" 2>/dev/null || true)\"",
    "test": "node cervello/test/il-negozio-lento-non-ferma-gli-altri.test.mjs"
   }
  ]
