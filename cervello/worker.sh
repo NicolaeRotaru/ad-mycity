@@ -1872,7 +1872,7 @@ $_sync_nota"
       meta_body="$(jq -n \
         --arg richiesta "$(jq -n --arg c "$richiesta" --arg r "$out" \
           '{conversazione:$c, risposta_ad:$r}')" \
-        '{stato:"in_attesa",tipo:"metabolizza",richiesta:$richiesta,esperto:"metabolizzazione"}')"
+        '{stato:"in_attesa",tipo:"metabolizza",richiesta:$richiesta,esperto:"metabolizzazione",negozio_id:"centro"}')"
       curl -fsS -X POST "$SUPABASE_URL/rest/v1/lavori" "${AUTH[@]}" \
         -d "$meta_body" >/dev/null 2>&1 \
         && echo "[$(ts)] Metabolizzazione accodata per lavoro $id." \

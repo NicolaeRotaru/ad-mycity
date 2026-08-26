@@ -13211,6 +13211,26 @@
    "testo": "**Chi ripara guarda solo il punto che ripara: il perimetro toccato va riguardato PRIMA di consegnare, non alla radiografia di domani (AR-818).** Due numeri lo dicono: `nascita-difetti.mjs` conta 99 schede su 787 nate DAL riparare, e il registro del sito dichiara da sé che «i fix sul codice non riaprono da soli la lista». Finché l'unico occhio sul lavoro appena fatto è una radiografia lanciata giorni dopo, «zero difetti aperti» è vero sulla lista e falso sul codice — ed è esattamente la domanda che Nicola ha fatto prima della data del 29 agosto. La difesa non è un promemoria: è `cervello/radiografia-in-corsa.mjs` cablato dentro `cancello-lotto.mjs`, che pretende una scansione registrata con l'IMPRONTA del file com'è adesso. Una lettura fatta prima dell'ultima modifica non conta: scade da sola.",
    "regola": "Prima del cancello, riguarda i file che il lotto ha toccato con la lente della loro dimensione di radiografia e registra cosa hai visto (anche «zero»): `node cervello/radiografia-in-corsa.mjs` → `registra --dimensione <chiave> --toccati --trovati <n>`. Sul sito, `--repo ../mycity`.",
    "gate": "node --test cervello/test/radiografia-mentre-riparo.test.mjs"
+  },
+  {
+   "id": "L-2026-0825-03",
+   "testo": "**Una precondizione va scritta guardando tutti i posti da cui il danno puo' arrivare, non quello da cui e' arrivata la scoperta (AR-822).** La card #174 diceva: rendi il campo obbligatorio solo dopo che il Pannello nuovo e' online. Vero, e insufficiente: nella coda scrivono in quattro, e tre stanno sul VPS. Eseguirla come scritta avrebbe fermato cadenze, sentinelle e metabolizzazione — il danno che la card diceva di evitare. **Prima di rendere obbligatorio un campo, la domanda non e' «chi ho cambiato?» ma «chi scrive qui dentro?», e la risposta si cerca nel codice, non nella memoria.** Terza volta in tre giorni con questa forma: AR-807, AR-813, AR-822. Il freno generale: quando una condizione nomina UN attore, contarli tutti prima di fidarsi.",
+   "tag": [
+    "precondizioni",
+    "guardiani",
+    "botteghe"
+   ],
+   "reparto": "tech",
+   "confidenza": 0.95,
+   "evidenze": 3,
+   "fonte": "AR-822, eseguendo la card #174 su ordine di Nicola: la precondizione del passo 2 nominava un solo scrittore su quattro.",
+   "caso_studio_nicola": true,
+   "nato": "2026-08-25",
+   "ultima_conferma": "2026-08-25 17:35",
+   "stato": "attiva",
+   "usi": 0,
+   "gate": "node cervello/lavori-hanno-la-corsia.mjs",
+   "data": "2026-08-25 17:35"
   }
  ],
  "principi": [
