@@ -17514,6 +17514,68 @@
       "descrizione": "Trovato il 25/8 mentre la CI della PR #845 usciva rossa con un solo rosso, questa prova, mentre `main` era verde. Sul container di lavoro la stessa suite dà l'altro rosso noto (`due-case.test.mjs`), che su `origin/main` è rosso identico: due instabilità diverse, stessa famiglia. NON riparato in questo lotto di proposito: la cura ① tocca il banco di tutte le 418 prove e allunga la suite, quindi è una scelta da fare a mente fredda e non dentro una PR che parla d'altro (regola del cantiere: i difetti trovati riparando si registrano subito, non si infilano nel lotto in corso)."
     },
     {
+      "id": "AR-819",
+      "stato": "riparato",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "il cancello di fine turno chiedeva di ricontrollare lavoro già pubblicato, all'infinito: 46 conferme in memoria dal 10 al 16 agosto, sempre con `git status --short` che mostrava zero o quasi. Un freno che accusa sempre è un freno che si impara a scavalcare, e questo sta sulla porta da cui esce ogni turno.",
+      "nato": "2026-08-25 20:45",
+      "nato_come": "scoperta",
+      "lotto_scoperta": "62",
+      "titolo": "L'ancora del turno non si sposta più quando HEAD è già pubblicato: il collaudo torna dovuto per sempre",
+      "causa_radice": "`scegliPerimetro` (cervello/cancello-stop.mjs) si fida dell'ancora del turno finché è un antenato di HEAD. L'ancora però si sposta SOLO sui turni che si chiudono puliti (`siPiantaAncora`, regola ①). Se HEAD è già identico a `origin/main` non esiste niente di non pubblicato, ma il diff ancora-vecchia…HEAD contiene comunque tutto il lavoro già entrato nel tronco: il cancello lo elenca, il turno risulta sporco, l'ancora non si sposta, e il giro dopo il diff è più grande. Il gemello sta in `cervello/collaudo.mjs`: un registro rimasto «chiesto» ha un `da` che resta antenato di ogni HEAD futuro — è storia — quindi `baseDelCollaudo` lo ripesca in eterno.",
+      "fix_proposto": "Una domanda in più, prima di fidarsi dell'ancora: HEAD è già uguale alla base? Se sì il perimetro riparte da lì con `turno: false`, così l'ancora si ripianta (regola ②) e il ciclo si rompe. Stessa cosa dall'altra parte: `verdettoCollaudo` risponde «niente» e `baseDelCollaudo` torna HEAD, e il registro avvelenato viene riscritto «pulito» invece che solo scavalcato.",
+      "dove": "cervello/cancello-stop.mjs (scegliPerimetro + main) · cervello/collaudo.mjs (verdettoCollaudo, baseDelCollaudo, collaudoAlloStop)",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cancello-stop.test.mjs",
+        "nota": "Il comando ne lancia uno solo perché la porta che riapre i difetti accetta un file per volta; l'altra metà delle prove sta in `cervello/test/collaudo.test.mjs` e la gira la suite a ogni consegna. Sei casi nuovi, tre per lato. Due ricostruiscono il ciclo (ancora usabile ma HEAD pubblicato → il perimetro riparte dalla base; registro «chiesto» vecchio → niente da ricollaudare). Due sono i loro opposti — HEAD NON pubblicato → l'ancora buona resta, il collaudo resta dovuto — senza i quali un fix che spegne il freno sempre passerebbe lo stesso. Uno controlla che l'ancora si ripianti anche con dei ❌ aperti, che è il gesto che rompe davvero il ciclo. Due mutazioni verificate rosse, una per lato."
+      },
+      "descrizione": "Riparazione portata avanti dalla PR #749, aperta il 16/8 e mai unita: il ramo era vecchio di nove giorni e la richiesta precedeva le regole di oggi (scheda nel cantiere, mutazione, radiografia del perimetro). Riscritta sul tronco di oggi il 25/8 su richiesta di Nicola («fai la 749»), con le prove opposte in più e la #749 chiusa come superata."
+    },
+    {
+      "id": "AR-820",
+      "stato": "riparato",
+      "nato_da": "AR-819",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "il fix di AR-819, così com'era arrivato dalla PR del 16/8, spegneva il collaudo del lavoro finito anche quando sul disco c'era lavoro non committato. Cioè avrebbe reso il freno più debole di prima proprio nel turno che ne ha bisogno, nel nome di ripararlo.",
+      "nato": "2026-08-25 20:55",
+      "nato_come": "nuovo-lavoro",
+      "lotto_scoperta": "62",
+      "titolo": "Il fix del ciclo era troppo largo: «HEAD pubblicato» spegneva il collaudo anche col lavoro non committato sul disco",
+      "causa_radice": "`verdettoCollaudo` apriva con `if (headUgualeABase) return { azione: \"niente\" }`. Ma HEAD può essere uguale a `origin/main` mentre l'albero di lavoro è sporco: quel lavoro non è pubblicato eccome, e `statoDelLavoro` lo vede (`lavoro: true`). La condizione confondeva «non ho commit da pubblicare» con «non ho lavoro da ricontrollare».",
+      "fix_proposto": "Restringere: quello che va ignorato su HEAD pubblicato è il REGISTRO vecchio (`pendente`), non il collaudo. Con `lavoro: false` la risposta resta «niente» e il ciclo si rompe; con `lavoro: true` il collaudo si chiede da capo, dal giro 1.",
+      "dove": "cervello/collaudo.mjs (verdettoCollaudo)",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/collaudo.test.mjs",
+        "nota": "Due casi: HEAD pubblicato + lavoro sul disco → «chiedi» al giro 1 (non «niente»); HEAD pubblicato + disco pulito → «niente». La mutazione rimette il registro vecchio in gioco e il primo caso diventa rosso."
+      },
+      "descrizione": "TROVATO DALLA RADIOGRAFIA IN CORSA (AR-818) su questo stesso lotto: riguardando `cervello/collaudo.mjs` con la lente `rischio-sicurezza-se` prima di consegnare, cercando i modi in cui la macchina può farsi male da sola. Il difetto stava dentro una riparazione, non nel codice vecchio — che è il caso per cui quel passo esiste."
+    },
+    {
+      "id": "AR-821",
+      "stato": "riparato",
+      "nato_da": "AR-819",
+      "dimensione": "guardiani-e-guardrail",
+      "gravita": "grave",
+      "impatto_crescita": "la malattia stava entrando DENTRO il freno di fine turno, cioè nel punto che decide se un lavoro può considerarsi finito. Un confronto non fatto che si presenta come «fatto, e sono diversi» è il modo in cui un cancello diventa un teatro.",
+      "nato": "2026-08-25 21:20",
+      "nato_come": "nuovo-lavoro",
+      "lotto_scoperta": "62",
+      "titolo": "La riparazione del ciclo ingoiava l'errore di git: «non ho potuto confrontare» usciva travestito da «sono diversi»",
+      "causa_radice": "Il confronto fra HEAD e la base era scritto come `catch { return false; }` dentro `main()` di cervello/cancello-stop.mjs. Due difetti in una riga: l'errore spariva senza lasciare traccia nel verdetto, e la decisione stava dentro `main()`, dove nessuna prova la può eseguire. È la malattia censita `fonte-troncata-letta-per-intera`, e l'ha trovata la spazzata dei fratelli come fratello NUOVO, non un occhio umano.",
+      "fix_proposto": "Estrarre `confrontaHeadConBase(base, leggi)`: funzione pura rispetto a git, che torna `{uguale, cieco}`. Il `false` resta la scelta stretta quando git non risponde, ma il motivo entra nei ciechi del verdetto, dove chi legge lo vede.",
+      "dove": "cervello/cancello-stop.mjs (confrontaHeadConBase + main)",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node --test cervello/test/cancello-stop.test.mjs",
+        "nota": "Quattro rami in due casi: uguali, diversi (risposta, non cecità), git che esplode (cecità dichiarata col perché), base inesistente (due stringhe vuote non sono «uguali»). La mutazione rimette il `catch` che ingoia e il caso della cecità diventa rosso."
+      },
+      "descrizione": "Trovato dalla spazzata dei fratelli mentre consegnavo AR-819: `❌ 1 FRATELLO/I NUOVO/I, mai curato né dichiarato: cervello/cancello-stop.mjs`. Tre prove della suite erano rosse per questa sola riga. Non l'ho dichiarata esente: curarla costava dieci righe e ha reso la decisione eseguibile da una prova, che prima non lo era."
+    },
+    {
       "id": "AR-822",
       "stato": "riparato",
       "dimensione": "guardiani-e-guardrail",
@@ -17554,6 +17616,26 @@
       },
       "descrizione": "Nato dalla riguardata che il cancello impone da oggi sul perimetro toccato. Senza quel passo non l'avrei visto: avevo appena finito di scrivere quel guardiano e lo consideravo a posto.",
       "nato_da": "la riguardata del perimetro toccato con la lente rischio-sicurezza-se, che il passo nuovo del cancello (#845) impone prima di consegnare"
+    },
+    {
+      "id": "AR-824",
+      "stato": "aperto",
+      "dimensione": "memoria-e-apprendimento",
+      "gravita": "grave",
+      "impatto_crescita": "l'archivio delle lezioni è la memoria di quello che la macchina ha imparato: oltre il tetto la Cabina smette di mostrarlo e lo dichiara «troppo-grande». Oggi il margine è 84 byte su 1.048.576, cioè meno di una riga: la prossima lezione che qualcuno scrive lo sfonda, e in quel momento Nicola apre il Pannello e non trova più niente lì dentro.",
+      "nato": "2026-08-26 07:40",
+      "nato_come": "scoperta",
+      "lotto_scoperta": "62",
+      "titolo": "L'archivio delle lezioni è pieno e il potatore non ha più leve: tutte e 538 sono vive",
+      "causa_radice": "`cervello/pota-apprendimento.mjs` ha due mosse sole: togliere le lezioni DECADUTE e deduplicare le copie dei principi. Oggi le decadute sono 0 su 538 — il decadimento rallenta e si ferma su ogni lezione che ha un freno vivo (`gate:`), e negli ultimi mesi quasi ogni lezione nuova nasce con un freno — e i principi deduplicabili sono 0. Quindi il potatore, davanti a un archivio oltre il tetto, non può liberare un byte: dice no ed esce 1, che è la risposta giusta (le lezioni vive non si potano mai) ma lascia il file fuori dal tetto. Manca una terza mossa: mandare in un archivio storico separato le lezioni vecchie e vive, tenendo nel file caldo solo il loro rimando.",
+      "fix_proposto": "Due strade, da pesare a mente fredda. ① Archivio a due piani: `apprendimento.json` tiene le lezioni degli ultimi N mesi per intero, le più vecchie scendono in `apprendimento-storico.json` lasciando id + titolo + gate. Il tetto della Cabina resta sul file caldo, la conoscenza non si perde e resta consultabile — è lo stesso principio già scritto per la potatura («ciò che è stato tolto resta consultabile»). ② Tetto per campo invece che per file: `testo` e `fonte` sopra una certa lunghezza vengono troncati nel file caldo con il pieno che vive nello storico. La ① è più pulita, la ② più veloce da fare.",
+      "dove": "cervello/pota-apprendimento.mjs · MyCity-Vault/90-Memoria-AI/auto-coscienza/apprendimento.json",
+      "verifica": {
+        "tipo": "umano",
+        "nota": "Si guarda lanciando `node cervello/pota-apprendimento.mjs --json` e leggendo tre campi: `residuo` (quanti byte mancano per rientrare), `lezioni_decadute` e `principi_deduplicati`. Finché le ultime due sono 0 e il margine sul tetto è di poche centinaia di byte, il difetto è vivo. È dichiarato «umano» e non «comando» perché la scheda è APERTA: oggi quel comando esce 0 — l'ho fatto rientrare accorciando il testo di una lezione mia — quindi nessun comando diventerebbe rosso, e una prova che non può fallire non prova niente. Quando si sceglierà una delle due cure, la verifica diventa un comando con la sua mutazione."
+      },
+      "descrizione": "Trovato il 26/8 unendo il tronco nella PR #847: le due lezioni nuove dei due lotti insieme hanno portato l'archivio a 186 byte oltre il tetto, e `archivi-senza-tetto.test.mjs` è diventata rossa. Il potatore ha fatto la cosa giusta rifiutandosi. Per sbloccare l'unione ho accorciato il testo della MIA lezione (L-2026-0825-02, scritta in questo lotto): 264 byte in meno, nessuna parola di altri toccata. Ma quello è un cerotto da 84 byte, non una cura: la capienza dell'archivio è finita. NON riparato qui di proposito — la cura tocca il formato della memoria e va scelta a mente fredda, non dentro una PR che parla del cancello di fine turno (regola del cantiere: i difetti trovati riparando si registrano subito, non si infilano nel lotto in corso).",
+      "nato_da": "l'unione del tronco dentro la PR #847, dopo che la #846 è entrata: due lezioni nate lo stesso giorno su due rami diversi hanno sommato i loro byte"
     }
   ],
   "meta": {

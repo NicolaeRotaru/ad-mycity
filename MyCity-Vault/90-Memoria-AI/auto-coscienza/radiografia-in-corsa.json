@@ -86,6 +86,55 @@
       }
     },
     {
+      "quando": "2026-08-25 20:39",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD (sessione cloud)",
+      "trovati": 1,
+      "schede": [
+        "AR-820"
+      ],
+      "nota": "Riletti cancello-stop.mjs e collaudo.mjs con la lente «la macchina puo farsi male da sola»: loop auto-amplificanti, freni che si spengono, scritture in memoria. Trovato AR-820: la condizione «HEAD pubblicato» spegneva il collaudo anche col lavoro non committato sul disco, cioe rendeva il freno piu debole nel turno che ne ha bisogno. Ristretta al solo registro vecchio. Trovato anche un pezzo di codice morto nella mia stessa riparazione (una seconda uscita esplicita gia coperta dalla riga precedente): tolto, dimostrato inutile dalla mutazione che restava verde.",
+      "file": {
+        "cervello/cancello-stop.mjs": "b4e9cd5435b8",
+        "cervello/collaudo.mjs": "42694dc5fc77"
+      }
+    },
+    {
+      "quando": "2026-08-25 20:48",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD (sessione cloud)",
+      "trovati": 1,
+      "schede": [
+        "AR-821"
+      ],
+      "nota": "Terza rilettura, dopo che la spazzata dei fratelli ha segnalato un fratello NUOVO della malattia «una fonte letta a meta produce un verdetto intero» dentro cancello-stop.mjs. Il confronto HEAD/base ingoiava l'errore di git e usciva come «sono diversi»: estratto in funzione pura, la cecita adesso entra nei ciechi del verdetto. Riletti anche i punti dove il nuovo valore viene usato: perimetro, collaudo, verdetto.",
+      "file": {
+        "cervello/cancello-stop.mjs": "fc97004c9b8e",
+        "cervello/collaudo.mjs": "42694dc5fc77"
+      }
+    },
+    {
+      "quando": "2026-08-25 20:55",
+      "casa": "macchina",
+      "dimensione": "rischio-sicurezza-se",
+      "repo": "ad",
+      "modo": "ad",
+      "chi": "AD (sessione cloud)",
+      "trovati": 0,
+      "schede": [],
+      "nota": "Quarta rilettura: il banco ha trovato che la riga del cieco era finita dentro la funzione pura dei ciechi invece che in main(), dove vive la variabile. Cinque casi rossi con «confrontoHead is not defined». Spostata nel punto giusto, riletti i due punti e i loro chiamanti. Nessun difetto nuovo oltre a quello, gia corretto.",
+      "file": {
+        "cervello/cancello-stop.mjs": "dc5c6964f270",
+        "cervello/collaudo.mjs": "42694dc5fc77"
+      }
+    },
+    {
       "quando": "2026-08-25 21:19",
       "casa": "macchina",
       "dimensione": "rischio-sicurezza-se",

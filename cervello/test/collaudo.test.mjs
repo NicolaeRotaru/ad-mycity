@@ -131,3 +131,42 @@ test("con la valvola anti-cappio il collaudo si legge ma non riblocca il turno",
 test("un verdetto senza collaudo e senza altri guai resta pulito: il cancello parte verde", () => {
   assert.equal(verdetto({}).blocca, false);
 });
+
+// 🔁 IL GEMELLO DEL CICLO DI cancello-stop.mjs (AR-819): un registro «chiesto» scritto da una
+// sessione passata non muore mai da solo — il suo `da` resta antenato di ogni HEAD futuro, perché è
+// storia. Senza il bypass, il collaudo torna dovuto in eterno su lavoro che nel frattempo è finito
+// su origin/main e che nessuna sessione nuova ha mai aperto.
+test("HEAD già pubblicato: il registro «chiesto» del turno morto non conta più", () => {
+  const registro = { impronta: "i1", esito: "chiesto", giro: 5 };
+  // Niente lavoro sul disco: è il caso del ciclo, e qui il collaudo tace davvero.
+  assert.equal(verdettoCollaudo({ lavoro: false, impronta: "i1", registro, headUgualeABase: true }).azione, "niente");
+  // Con lavoro sul disco il registro vecchio resta ignorato, ma il collaudo si chiede da capo.
+  assert.deepEqual(verdettoCollaudo({ lavoro: true, impronta: "i1", registro, headUgualeABase: true }), { azione: "chiedi", giro: 1 });
+});
+
+test("HEAD già pubblicato e turno già bloccato: si rimanda al prossimo «fatto», non si promuove un giro mai fatto", () => {
+  const registro = { impronta: "vecchia", esito: "chiesto", giro: 1 };
+  const v = verdettoCollaudo({ lavoro: true, impronta: "nuova", registro, giaBloccato: true, headUgualeABase: true });
+  assert.equal(v.azione, "rimanda", "promuovere userebbe il giro di un turno che non esiste più: sarebbe un collaudo mai fatto dichiarato superato");
+});
+
+test("…e con HEAD NON pubblicato il collaudo resta dovuto: il bypass non spegne il freno di sempre", () => {
+  const registro = { impronta: "i1", esito: "chiesto", giro: 5 };
+  const v = verdettoCollaudo({ lavoro: true, impronta: "i1", registro, headUgualeABase: false });
+  assert.equal(v.azione, "chiedi", "senza questo caso il fix potrebbe spegnere il collaudo sempre, e la prova direbbe di sì");
+});
+
+// ⚠️ AR-820 — IL PRIMO FIX DI AR-819 ERA TROPPO LARGO, e questo caso è la sua prova. HEAD può essere
+// uguale a origin/main mentre sul disco c'è lavoro non committato: lì il collaudo SERVE, e spegnerlo
+// avrebbe reso il freno più debole di prima proprio nel turno che ne ha bisogno.
+test("HEAD pubblicato ma lavoro sul disco: il collaudo si chiede lo stesso, dal giro 1", () => {
+  const registro = { impronta: "vecchia", esito: "chiesto", giro: 7, da: "commit-di-giorni-fa" };
+  const v = verdettoCollaudo({ lavoro: true, impronta: "nuova", registro, headUgualeABase: true });
+  assert.equal(v.azione, "chiedi", "il lavoro non committato è lavoro non pubblicato: si ricollauda");
+  assert.equal(v.giro, 1, "e riparte da capo: il registro del turno morto non conta più");
+});
+
+test("HEAD pubblicato e disco pulito: niente da ricollaudare (è il ciclo che si rompe)", () => {
+  const registro = { impronta: "vecchia", esito: "chiesto", giro: 7, da: "commit-di-giorni-fa" };
+  assert.equal(verdettoCollaudo({ lavoro: false, impronta: "x", registro, headUgualeABase: true }).azione, "niente");
+});

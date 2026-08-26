@@ -109,8 +109,29 @@ export function improntaLavoro({ testa = "", diff = "", nuovi = [] } = {}) {
  * correzioni e l'ancora dello Stop si sposta, il diff del turno dopo è vuoto — ma il registro
  * «chiesto» ricorda che quel lavoro non è mai uscito pulito, e il ricontrollo resta dovuto.
  */
-export function verdettoCollaudo({ lavoro = false, impronta = "", registro = null, giaBloccato = false } = {}) {
-  const pendente = registro?.esito === "chiesto";
+export function verdettoCollaudo({ lavoro = false, impronta = "", registro = null, giaBloccato = false, headUgualeABase = false } = {}) {
+  // 🔁 IL GEMELLO DEL CICLO DI `scegliPerimetro` (AR-819), sull'altra metà del sistema.
+  //
+  // Un registro rimasto «chiesto» sul disco da una sessione passata non muore da solo: il suo `da`
+  // resta un antenato di ogni HEAD futuro — è storia vera — quindi `baseDelCollaudo` lo ripesca
+  // ogni volta e il collaudo torna dovuto su lavoro che nessuna sessione nuova ha mai aperto.
+  // Quel registro esiste per portare il collaudo attraverso più «fatto» dello STESSO turno, non
+  // per sopravvivere al turno che l'ha scritto.
+  //
+  // ⚠️ AR-820 — E QUI IL PRIMO FIX ERA TROPPO LARGO, trovato riguardando questo file prima di
+  // consegnare. Diceva: «HEAD pubblicato → niente da ricollaudare», e basta. Ma HEAD può essere
+  // uguale a origin/main mentre sul disco c'è lavoro NON committato — cioè lavoro non pubblicato
+  // eccome. Con quella riga il collaudo si sarebbe spento proprio nel turno che ne ha bisogno, e
+  // il freno sarebbe diventato più debole di prima nel nome di ripararlo.
+  //
+  // Quello che va spento è solo il REGISTRO VECCHIO: se HEAD è pubblicato, un «chiesto» rimasto
+  // sul disco è di un turno che non esiste più. Il lavoro vero, se c'è, si ricollauda dal giro 1.
+  //
+  // E la riga basta da sola: con `pendente` spento, il caso «HEAD pubblicato e disco pulito» cade
+  // nel `!lavoro && !pendente` della riga dopo, che c'era già. Una seconda uscita esplicita sarebbe
+  // stata codice morto — l'ho scritta, la mutazione l'ha dimostrata inutile (restava verde
+  // rompendola) e l'ho tolta: è la domanda ④ del collaudo, «il codice aggiunto è davvero usato?».
+  const pendente = registro?.esito === "chiesto" && !headUgualeABase;
   if (!lavoro && !pendente) return { azione: "niente" };
   const stessa = Boolean(registro) && registro.impronta === impronta;
   if (stessa && registro.esito === "pulito") return { azione: "niente" };
@@ -225,7 +246,17 @@ function scriviRegistro(voce) {
  * correzioni che il giro di collaudo committa. Limite dichiarato: ciò che un turno senza ancora ha
  * committato PRIMA del suo primo «fatto» resta fuori dal primo giro.
  */
-function baseDelCollaudo(registro, da, turno) {
+function baseDelCollaudo(registro, da, turno, headUgualeABase = false) {
+  // HEAD già pubblicato: il punto di partenza è HEAD stesso, non un `da` memorizzato giorni fa
+  // (AR-819). Senza questa riga il verdetto sarebbe giusto e la base no, e le istruzioni del
+  // collaudo mostrerebbero comunque il diff sbagliato.
+  if (headUgualeABase) {
+    try {
+      return git(["rev-parse", "HEAD"]).trim();
+    } catch {
+      return da;
+    }
+  }
   const memorizzata = registro?.esito === "chiesto" ? registro.da : null;
   if (memorizzata) {
     try {
@@ -247,14 +278,20 @@ function baseDelCollaudo(registro, da, turno) {
  * L'ingresso che usa il cancello dello Stop. Torna righe (bloccano), note (si leggono) e ciechi
  * (⚪, «non ho potuto misurare»), già nelle tre forme che il verdetto dello Stop conosce.
  */
-export function collaudoAlloStop({ da = null, turno = false, giaBloccato = false } = {}) {
+export function collaudoAlloStop({ da = null, turno = false, giaBloccato = false, headUgualeABase = false } = {}) {
   const registro = leggiRegistro();
-  const base = baseDelCollaudo(registro, da, turno);
+  const base = baseDelCollaudo(registro, da, turno, headUgualeABase);
   const stato = statoDelLavoro(base);
   if (!stato) {
     return { righe: [], note: [], ciechi: ["il collaudo non ha potuto leggere git: non so se il lavoro finito sia stato ricontrollato."] };
   }
-  const v = verdettoCollaudo({ lavoro: stato.lavoro, impronta: stato.impronta, registro, giaBloccato });
+  const v = verdettoCollaudo({ lavoro: stato.lavoro, impronta: stato.impronta, registro, giaBloccato, headUgualeABase });
+  // Il registro avvelenato si PULISCE, non si scavalca soltanto (AR-819): senza questa riga il
+  // prossimo turno che trova il ramo davvero sporco leggerebbe ancora un `registro.da` vecchio di
+  // giorni, e il ciclo ripartirebbe dal primo turno con del lavoro vero.
+  if (v.azione === "niente" && headUgualeABase && registro?.esito === "chiesto") {
+    scriviRegistro({ impronta: stato.impronta, esito: "pulito", giro: registro.giro || 0 });
+  }
   if (v.azione === "promuovi") {
     scriviRegistro({ impronta: stato.impronta, esito: "pulito", giro: v.giro });
     return { righe: [], note: [`collaudo superato al giro ${v.giro}: lavoro ricontrollato per intero, niente da cambiare — confermato.`], ciechi: [] };
