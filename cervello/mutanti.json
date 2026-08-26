@@ -5878,10 +5878,10 @@
   },
   {
    "difetto": "AR-071",
-   "nome": "sparisce la puntualita delle consegne: la promessa del modello torna senza sensore",
-   "file": "cervello/sentinella-dati.mjs",
-   "cerca": "ordini_slot_scaduto",
-   "sostituisci": "ordini_slot_scaduto_spento",
+   "nome": "sparisce la puntualita delle consegne: il sensore smette di chiedere se la consegna e' avvenuta",
+   "file": "cervello/ordini-in-ritardo.mjs",
+   "cerca": "  return `orders?expected_delivery=lt.${istante}&delivered_at=is.null`;",
+   "sostituisci": "  return `orders?expected_delivery=lt.${istante}`;",
    "test": "cervello/test/il-volano-i-sensori-e-la-stella.test.mjs"
   },
   {

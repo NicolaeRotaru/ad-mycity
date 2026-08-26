@@ -205,11 +205,29 @@ test("uno spento si legge come SPENTO, mai come verde (il buco di AR-070 resta a
     "se un giorno arriva davvero, questa riga cade e AR-070 va richiuso con la sua prova vera");
 });
 
-test("AR-071 · la puntualità delle consegne ha il suo sensore, ed è la promessa del modello", () => {
+test("AR-071 · la puntualità delle consegne ha il suo sensore, ed è la promessa del modello", async () => {
+  // Prima questo caso cercava tre parole nel sorgente di `sentinella-dati.mjs`. Lì dentro il nome
+  // del sensore compare sette volte, quindi la mutazione che lo spegneva ne cambiava una e il caso
+  // restava verde. Adesso la domanda al database la COSTRUISCE una funzione pura, e qui si esegue.
+  const { queryOrdiniInRitardo, SENSORE_RITARDO } = await import(join(REPO, "cervello/ordini-in-ritardo.mjs"));
+  const q = queryOrdiniInRitardo("2026-08-26T23:00:00.000Z");
+
+  // Servono TUTTE E DUE le condizioni: solo la prima conterebbe anche gli ordini consegnati in
+  // tempo ieri, solo la seconda quelli che devono ancora arrivare e sono in orario.
+  assert.match(q, /expected_delivery=lt\.2026-08-26T23:00:00\.000Z/, "lo slot dev'essere già passato");
+  assert.match(q, /delivered_at=is\.null/, "e la consegna non ancora avvenuta");
+  assert.match(q, /^orders\?/, "si guardano gli ordini, non un'altra tabella");
+  assert.equal(SENSORE_RITARDO, "ordini_slot_scaduto", "il nome del sensore ha una casa sola");
+
+  // Un istante storto NON entra in una query: una `&` aggiungerebbe un parametro alla domanda, e il
+  // sensore conterebbe un'altra cosa credendo di contare i ritardi.
+  for (const storto of ["", "   ", "ieri", "2026-08-26", "2026-08-26T23:00:00.000Z&limit=1"]) {
+    assert.throws(() => queryOrdiniInRitardo(storto), `«${storto}» è finito dentro la query`);
+  }
+
+  // E il sensore la usa davvero: la chiamata, non il nome.
   const src = leggi("cervello/sentinella-dati.mjs");
-  assert.match(src, /ordini_slot_scaduto/, "un ordine oltre lo slot promesso dev'essere un numero");
-  assert.match(src, /expected_delivery=lt\./, "misurato sul dato vero: slot passato e consegna non avvenuta");
-  assert.match(src, /delivered_at=is\.null/);
+  assert.match(src, /queryOrdiniInRitardo\(/, "il sensore deve chiedere la domanda a chi la sa costruire");
 });
 
 test("AR-068 · ogni rischio di compliance ha un owner, e vive in una casa sola", () => {

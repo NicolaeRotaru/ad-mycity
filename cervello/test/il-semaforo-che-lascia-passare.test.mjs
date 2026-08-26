@@ -170,9 +170,22 @@ test("AR-077 · la sentinella del budget ESISTE, gira e dice reparto per reparto
   const out = `${r.stdout || ""}${r.stderr || ""}`;
   assert.match(out, /budget/i, "deve produrre un referto, non silenzio");
   assert.match(out, /ads-performance|marketing/, "e nominare i reparti che hanno un budget");
-  // Il punto della scheda: la soglia di STOP dev'essere un numero leggibile, non prosa.
-  const src = readFileSync(join(REPO, "cervello/sentinella-budget.mjs"), "utf8");
-  assert.match(src, /soglia_stop/, "la soglia è un dato configurabile");
+  // Il punto della scheda: la soglia di STOP dev'essere un NUMERO CONFIGURABILE, non prosa.
+  // Prima qui c'era `assert.match(src, /soglia_stop/)` — una parola cercata nel sorgente. Non
+  // poteva fallire: la mutazione che smette di leggere la soglia lascia la parola nel commento che
+  // spiega perché non la legge più. Misurato il 26/8 (AR-840).
+  //
+  // Adesso si guarda il COMPORTAMENTO: stessa spesa, stesso budget, due soglie diverse → due
+  // verdetti diversi. Se la soglia smette di essere letta, i due verdetti diventano uguali.
+  const dir = mkdtempSync(join(tmpdir(), "budget-soglia-"));
+  const conSoglia = (soglia) => {
+    const f = join(dir, `b-${soglia}.json`);
+    writeFileSync(f, JSON.stringify({ soglia_stop: soglia, reparti: { "ads-performance": { budget: 100, speso: 50 } } }));
+    const x = spawnSync(process.execPath, [join(REPO, "cervello/sentinella-budget.mjs"), "--dry", "--file", f], { encoding: "utf8" });
+    return `${x.stdout || ""}${x.stderr || ""}`;
+  };
+  assert.match(conSoglia(0.4), /STOP/, "speso metà del budget con la soglia al 40%: lo STOP deve scattare");
+  assert.doesNotMatch(conSoglia(0.9), /STOP/, "la stessa spesa con la soglia al 90% non deve fermare nessuno");
 });
 
 // ── AR-078 · la mano grezza lascia traccia e cita l'azione approvata ─────────────────────────────

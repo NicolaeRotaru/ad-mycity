@@ -45,6 +45,7 @@
 //      opz TELEGRAM_BOT_TOKEN + TELEGRAM_CHAT_ID · tuning SENTINELLA_DATI_* (vedi sotto).
 
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { queryOrdiniInRitardo } from "./ordini-in-ritardo.mjs";
 import { execFileSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { scriviJsonAtomico, scriviTestoAtomico } from "./scrivi-json.mjs";
@@ -278,10 +279,7 @@ export async function leggiStatoReale(state) {
     // AR-071 — Puntualità consegne (promessa core del modello Glovo): ordini con lo slot promesso
     // già scaduto (expected_delivery superato) ma non ancora consegnati (delivered_at nullo). È lo
     // stato OPERATIVO/temporale dell'ordine, non quello contabile: prima invisibile ai sensori.
-    s.ordini_slot_scaduto = await conta(
-      MK_URL, MK_KEY,
-      `orders?expected_delivery=lt.${new Date().toISOString()}&delivered_at=is.null`
-    );
+    s.ordini_slot_scaduto = await conta(MK_URL, MK_KEY, queryOrdiniInRitardo(new Date().toISOString()));
   }
 
   // ===== MACCHINA (auto-coscienza: sola lettura di ciò che il cervello già scrive) =====
