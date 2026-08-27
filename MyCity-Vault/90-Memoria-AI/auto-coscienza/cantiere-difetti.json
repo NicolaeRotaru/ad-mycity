@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-27 13:35",
+  "aggiornato": "2026-08-27 14:10",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18362,6 +18362,29 @@
         "nota": "Sei casi nuovi. Uno pretende che l'elenco porti tutt'e tre le fonti; uno ricrea il difetto vero invece di descriverlo (con main dentro esce 10, senza esce 2 — e AR-2 su main esiste gia'); uno che un ramo aperto conta quanto main; uno sul verso opposto (mondo vuoto = elenco vuoto, non un numero inventato); uno che una fonte storta FERMI tutto invece di diventare una lista vuota, provato su cinque forme e su tutt'e tre le fonti; uno che il montaggio sia VIVO, scartando le righe commentate. Tre mutazioni su questa scheda, tutte verificate rosse a mano."
       },
       "chiuso_il": "2026-08-27 13:35"
+    },
+    {
+      "id": "AR-854",
+      "titolo": "Il misuratore dei testi accusava quando non aveva misurato: senza glossario ogni parola della macchina diventava un problema",
+      "dimensione": "sensori-verita",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 13:50",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 68: usando lo strumento per misurare il corpo della richiesta, mi ha bocciato due parole che nel glossario ci sono da agosto",
+      "causa_radice": "In `si-capisce.mjs`, il controllo ① sulle parole della macchina leggeva `noteAGlossario?.has(parola)`. Quel `?.` fa sparire la differenza fra «non e' nel glossario» e «il glossario non l'ho potuto leggere»: senza elenco l'espressione vale `undefined`, cioe' falso, e OGNI parola sorvegliata diventava un problema. La radice del repo la decide `process.env.RADICE_REPO || \".\"`, cioe' la cartella da cui si lancia — quindi bastava lanciarlo da un'altra cartella. Il fratello a dieci righe di distanza (`if (testoGlossario != null)`) la domanda la faceva giusta: stesso file, due controlli, due comportamenti.",
+      "dove": "cervello/si-capisce.mjs (misura ①, e il comando che stampa il referto)",
+      "fix_fatto": "🟡 Senza glossario il controllo NON gira e non accusa: la cecita' esce come campo del referto (`glossarioCieco`), e a dichiararla e' il comando — che e' l'unico che sa di aver PROVATO a leggerlo e fallito. Dentro `misura`, che e' pura e la chiamano decine di prove senza glossario, la cecita' non diventa un avviso: «non me l'hai passato» non e' «non l'ho trovato». ⑵ SECONDA COSA, nello stesso file: il caso di prova «senza glossario lo strumento non inventa ne' un verde ne' un rosso» aveva il TITOLO giusto e il CORPO opposto — pretendeva DUE accuse, cioe' esattamente il rosso inventato che il nome promette di impedire. Nessuno se n'era accorto perche' il nome si legge e il corpo no.",
+      "impatto": "E' lo strumento che il manuale impone di lanciare PRIMA di ogni consegna, su ogni testo che esce dagli occhi di Nicola. Misurato il 27/8 sullo stesso identico testo: dalla radice del repo «✅ si capisce», da un'altra cartella «❌ 2 punti che costringono Nicola a rileggere». Il costo l'ho pagato subito: ho riscritto due volte un corpo di richiesta che andava gia' bene. Un misuratore che accusa quando non ha misurato si impara a ignorarlo, ed e' cosi' che muore un freno.",
+      "origine": "lotto 68, scoperto usando lo strumento",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/si-capisce.test.mjs",
+        "nota": "Quattro casi nuovi piu' uno riparato. Due sulla funzione pura (cieco non accusa e lo segna; col glossario in mano il controllo torna a mordere, o la cura sarebbe «non accusare mai»). Due che LANCIANO il comando con una radice finta — uno senza glossario, uno con — perche' la riga che stampa la cecita' non la provava nessuno: verificato spegnendola, restava tutto verde. Due mutazioni verificate rosse a mano; la prima puntava al `?.` e non mordeva, ed e' stata ri-puntata sulla riga che decide davvero."
+      },
+      "chiuso_il": "2026-08-27 14:10"
     }
   ],
   "meta": {
