@@ -2,28 +2,6 @@
   "_cosa_e": "La memoria lunga del sorvegliante: una riga per sessione archiviata, con le voci che sono rimaste aperte. Il battito vive fuori da git e muore con la copia; questo no.",
   "sessioni": [
     {
-      "quando": "2026-08-14T18:06:44.375Z",
-      "scatti": 7602,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
-      "quando": "2026-08-14T18:20:34.967Z",
-      "scatti": 7651,
-      "voci": 32,
-      "per_classe": {
-        "soglia-allentata": 3,
-        "difesa-rimossa": 27,
-        "prova-accecata": 2
-      },
-      "mai_risolte": []
-    },
-    {
       "quando": "2026-08-14T18:26:34.917Z",
       "scatti": 7668,
       "voci": 32,
@@ -2325,7 +2303,40 @@
         "difesa-rimossa": 3
       },
       "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T17:33:35.684Z",
+      "scatti": 399,
+      "voci": 25,
+      "per_classe": {
+        "prova-accecata": 17,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": []
+    },
+    {
+      "quando": "2026-08-27T17:50:52.896Z",
+      "scatti": 401,
+      "voci": 26,
+      "per_classe": {
+        "prova-accecata": 18,
+        "perimetro-letterale": 1,
+        "malattia-nuova": 3,
+        "esenzione-aggiunta": 1,
+        "difesa-rimossa": 3
+      },
+      "mai_risolte": [
+        {
+          "classe": "prova-accecata",
+          "file": "cervello/worker-coda.sh",
+          "cosa": "la mutazione di AR-838 («la presa non passa piu' la spesa contata a chi sceglie: il tetto torna a non avere chi lo alimenta») non trova più il suo pezzo in questo file",
+          "ripetuta": 2
+        }
+      ]
     }
   ],
-  "aggiornato": "2026-08-27T17:10:40.830Z"
+  "aggiornato": "2026-08-27T17:50:52.897Z"
 }
