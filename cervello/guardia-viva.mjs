@@ -101,6 +101,12 @@ const RE_INVOCAZIONE = [
   /node\s+"?\$\{?(?:SCRIPT_DIR|dir|QUI|REPO|AD_REPO|CERVELLO|ROOT)(?::-[^}\s"]*)?\}?\/(?:cervello\/)?([a-z0-9._-]+)\.mjs/g,
   // shell: l'helper del giro — guardiano "x.mjs" (AR-165)
   /\bguardiano\s+"?([a-z0-9._-]+)\.mjs/g,
+  // shell: l'altro helper del giro — sensore "x.mjs" N (AR-859). E' la QUARTA forma nuova che
+  // scopre questo elenco, e il commento qui sopra l'aveva predetta parola per parola: «un elenco di
+  // forme note sbaglia sempre sulla prima forma nuova». Il conto adesso e' 4 su 4. Il giorno in cui
+  // e' nata `sensore`, cinque strumenti perfettamente cablati sono risultati «costruiti e mai messi
+  // di guardia» — un'accusa falsa, che e' il modo in cui questo rilevatore si rompe.
+  /\bsensore\s+"?([a-z0-9._-]+)\.mjs/g,
   // node: spawnSync/esegui con l'argomento in un array — ["cervello/x.mjs"] o ["node","cervello/x.mjs"]
   /\[[^\]\n]*"cervello\/([a-z0-9._-]+)\.mjs"/g,
   // GitHub Actions: run: node cervello/x.mjs
