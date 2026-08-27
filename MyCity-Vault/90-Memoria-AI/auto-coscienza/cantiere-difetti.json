@@ -18499,6 +18499,27 @@
         "esito": "7 casi su 7. Cinque puri sul riconoscitore. Uno LANCIA gli otto curati in una copia dell albero senza il loro file e pretende uscita 2 — e questo caso mi ha corretto: sentinella-fonti usciva 0 perche il file che legge vive dentro cervello/, quindi la copia se lo portava dietro e il ramo non si apriva; adesso lo toglie. L ultimo e il tetto: 13 lordi meno 5 esenti dichiarati = 8, e rifiuta un esenzione che non copre piu niente."
       },
       "nato_come": "scoperta"
+    },
+    {
+      "id": "AR-860",
+      "titolo": "Se il sensore delle fonti web resta cieco, il cruscotto è identico a quello di un mondo in cui va tutto bene",
+      "dimensione": "sensori-e-misure",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "causa_radice": "① Perché nessuno si accorge che il sensore è cieco? Perché il controllo M8 guarda `Array.isArray(s.fonti_allerta_critico) && length > 0`, e nel file cieco quel campo non c'è. ② Perché non c'è? Perché sentinella-fonti, quando non trova il radar, scrive {ok:false, errore} — una forma DIVERSA dal referto normale. ③ Perché la forma diversa non rompe niente di visibile? Perché `Array.isArray(undefined)` è false, cioè esattamente lo stesso valore che dà «ho guardato tutte le fonti e stanno bene». ④ Perché nessuno ha notato che i due casi collassano? Perché il campo `ok` del referto non lo leggeva nessuno: il consumatore prendeva solo la lista, e una lista assente e una lista vuota si comportano uguale. ⑤ RADICE: il referto porta il suo stato di cecità in un campo che nessun consumatore guarda. È la stessa malattia di AR-859 (⚪ indistinguibile da ❌) un piano più in basso — dentro il FILE invece che nel codice d'uscita — e la cura esisteva già in casa per un altro sensore (M6b, cassa cieca, AR-039) senza che nessuno l'avesse replicata qui.",
+      "fix_proposto": "🟡 Fatto. Il consumatore adesso legge anche `ok:false` e lo mette in un campo suo (`fonti_cieco`, col motivo), e un controllo nuovo M8b alza l'evento — stessa forma di M6b per la cassa, firma stabile «cieco» per non riaccodare la diagnosi a ogni giro (la lezione di AR-114: 76 riaccodamenti in 9 giorni). M8 resta com'era: una fonte morta vera continua ad allarmare.",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 18:55",
+      "chiuso_il": "2026-08-27 19:10",
+      "chiuso_da": "riparato e provato nello stesso lotto",
+      "nota": "Trovato riguardando il perimetro di AR-859 con la lente «come si rompe», non cercandolo. Non produce un falso allarme — produce SILENZIO, che è peggio: un falso allarme lo si va a guardare, il silenzio no. Il giorno in cui radar-fonti.json sparisce, nessuno sa più se le fonti web sono vive, e il Pannello mostra la stessa faccia di quando è tutto a posto. Vale la pena notare che la cura non andava inventata: per il sensore della cassa esisteva già dal 2026 (M6b), con perfino la lezione sulla firma stabile — mancava solo che qualcuno la replicasse sul secondo sensore. ⚠️ UN DIFETTO ME LO SONO FATTO DENTRO LA CURA, e l ha trovato il riguardo del perimetro. La prima versione leggeva `fonti.ok === false` e basta. Ma nel referto `ok` vale `morteCritiche.length === 0`: diventa false ANCHE quando il sensore ha contato tutte le fonti e ne ha trovate di morte. Cioe il mio ⚪ si sarebbe acceso su un ❌ vero, suonando insieme a M8 per la stessa identica cosa — che e la faccia opposta dello stesso difetto che stavo riparando. Il discriminante giusto non e «hai trovato un problema?» ma «HAI MISURATO?»: il campo fonti_totali esiste solo se le fonti le ha contate davvero. C e un caso di prova apposta, che scrive un referto con 12 fonti contate e una morta e pretende che il ⚪ resti spento e M8 suoni.",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/sensore-fonti-cieco-non-e-silenzio.test.mjs",
+        "esito": "8 casi su 8. Sei sulla regola con uno stato costruito, fra cui quello che inchioda il difetto (cieco e sano non devono piu dare lo stesso elenco di eventi). Due lanciano il COLLEGAMENTO per davvero, scrivendo il referto in una copia dell albero e chiamando leggiStatoReale: uno col referto cieco (il campo deve accendersi e l evento partire), uno col referto di un sensore che ha contato 12 fonti e ne ha trovata una morta (il ⚪ deve restare spento e M8 suonare). Le due meta della cura hanno una mutazione ciascuna, provate rosse separatamente."
+      },
+      "nato_come": "scoperta"
     }
   ],
   "meta": {
