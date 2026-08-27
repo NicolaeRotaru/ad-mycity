@@ -1157,7 +1157,8 @@
    "file": "pannello/src/lib/salute-organi.ts",
    "cerca": "  if (v.esito === \"ok\") return \"verde\";",
    "sostituisci": "  if (v.esito === \"ok\" || v.esito === \"nonvisto\") return \"verde\";",
-   "test": "node --import ./cervello/test/hook-ts.mjs --test cervello/test/salute-per-organo.test.mjs"
+   "test": "cervello/test/salute-per-organo.test.mjs",
+   "nota_caricatore": "27/8 · sbloccando questa difesa il campo `test` e' passato da `node --import ./cervello/test/hook-ts.mjs --test cervello/test/salute-per-organo.test.mjs` al percorso nudo, e cosi' e' sparito il CARICATORE. Il guardiano delle difese rimosse l'ha visto e ha fermato il commit: giusto, perche' e' il difetto del lotto 33 — il caricatore scambiato per il test. Qui e' SICURO, e non per ragionamento: misurato lanciando il file nei due modi, 8 casi su 8 verdi con e senza `--import`. Quel test non importa piu' TypeScript. CHI SBLOCCA UN'ALTRA DIFESA COL `--import` DENTRO IL COMANDO LO PROVI ALLO STESSO MODO prima di togliere il caricatore: su un file che importa .ts davvero, senza caricatore il test non parte, e un test che non parte esce rosso — cioe' la mutazione sembrerebbe mordere per il motivo sbagliato."
   },
   {
    "difetto": "AR-477",
@@ -1648,7 +1649,7 @@
    "file": "cervello/memoria-guardia.mjs",
    "cerca": "    if (Number(v.scatto) === scatto && v.gravita === \"grave\") {",
    "sostituisci": "    if (v.gravita === \"grave\") {",
-   "test": "node --test cervello/test/memoria-guardia.test.mjs"
+   "test": "cervello/test/memoria-guardia.test.mjs"
   },
   {
    "difetto": "AR-522",
@@ -1680,7 +1681,7 @@
    "file": "cervello/non-vacuita.mjs",
    "cerca": "    scrivi(stato.file, stato.originale);",
    "sostituisci": "    void stato;",
-   "test": "node --test cervello/test/non-vacuita-ripristino.test.mjs"
+   "test": "cervello/test/non-vacuita-ripristino.test.mjs"
   },
   {
    "difetto": "AR-522",
@@ -1960,7 +1961,7 @@
    "file": "cervello/tick-auto-coscienza-leggero.mjs",
    "cerca": "scriviJsonAtomico(APPR_PATH, appr);",
    "sostituisci": "writeFileSync(APPR_PATH, JSON.stringify(appr, null, 2) + \"\\n\", \"utf8\");",
-   "test": "node --test cervello/test/porta-automatica-indentazione.test.mjs"
+   "test": "cervello/test/porta-automatica-indentazione.test.mjs"
   },
   {
    "difetto": "CI-lettura",
@@ -1992,7 +1993,7 @@
    "file": "cervello/conta-verdetti-muti.mjs",
    "cerca": "    if (!percorso || /[*?[\\]]/.test(percorso)) continue;\n    fuori.add(percorso.replace(/^\\.\\//, \"\"));",
    "sostituisci": "    if (!percorso || /[*?[\\]]/.test(percorso)) continue;\n    continue;",
-   "test": "node --test cervello/test/conta-verdetti-muti.test.mjs"
+   "test": "cervello/test/conta-verdetti-muti.test.mjs"
   },
   {
    "difetto": "sorvegliante · cecità dopo il rebase",
@@ -2043,7 +2044,7 @@
    "file": "pannello/src/app/api/intelligence/route.ts",
    "cerca": "const fresca = freschezza(testo, soglia, oggiPiacenza());",
    "sostituisci": "const fresca = undefined;",
-   "test": "node cervello/test/freschezza-intelligence.test.mjs"
+   "test": "cervello/test/freschezza-intelligence.test.mjs"
   },
   {
    "difetto": "settings-json-non-piu-negato",
@@ -2052,7 +2053,7 @@
    "file": "cervello/permessi-check.mjs",
    "cerca": "deve_negare: /\\.claude\\/settings\\.json/,",
    "sostituisci": "deve_negare: /NESSUNA_CORRISPONDENZA_MAI_XYZ/,",
-   "test": "node cervello/test/permessi-check.test.mjs"
+   "test": "cervello/test/permessi-check.test.mjs"
   },
   {
    "lezione": "L-2026-0810-03",
@@ -2097,7 +2098,7 @@
    "file": "cervello/sonda-volano.mjs",
    "cerca": "  if (!v.file || !v.pattern) return false; // niente da misurare → niente da accreditare",
    "sostituisci": "  return v.presente === true; // MUTANTE: torna a leggere la dichiarazione invece di misurare",
-   "test": "node cervello/test/prova-misurata-non-dichiarata.test.mjs"
+   "test": "cervello/test/prova-misurata-non-dichiarata.test.mjs"
   },
   {
    "difetto": "asticella-spenta",
@@ -2106,7 +2107,7 @@
    "file": "cervello/cancello-lotto.mjs",
    "cerca": "      if (typeof v.comando === \"string\" && v.comando.trim()) return false; // gira: passa",
    "sostituisci": "      return false; // MUTANTE: qualunque prova passa, l'asticella non ferma piu' niente",
-   "test": "node cervello/test/asticella-prova-che-gira.test.mjs"
+   "test": "cervello/test/asticella-prova-che-gira.test.mjs"
   },
   {
    "difetto": "tasso-chiusura-che-non-puo-bocciare",
@@ -2115,7 +2116,7 @@
    "file": "cervello/tasso-chiusura.mjs",
    "cerca": "  return { esito: \"sotto\", tasso, detto: `chiudo ${chiusi} e ne apro ${nati}: ne apro più di quanti ne chiudo (${tasso}, obiettivo ${OBIETTIVO})` };",
    "sostituisci": "  return { esito: \"ok\", tasso, detto: \"MUTANTE: va sempre bene\" };",
-   "test": "node cervello/test/tasso-di-chiusura.test.mjs"
+   "test": "cervello/test/tasso-di-chiusura.test.mjs"
   },
   {
    "difetto": "AR-206 prova-cieca",
@@ -2368,7 +2369,7 @@
    "file": "cervello/contratto-scheda.mjs",
    "cerca": "  d.chiuso_il = q;",
    "sostituisci": "  d.chiuso_il = \"\";",
-   "test": "node cervello/test/contabilita-chiusure.test.mjs"
+   "test": "cervello/test/contabilita-chiusure.test.mjs"
   },
   {
    "lotto": 37,
@@ -2485,7 +2486,7 @@
    "file": "cervello/test-cervello.mjs",
    "cerca": "  return elenco.filter((f) => f.endsWith(\".test.mjs\") && !f.startsWith(\"_\")).sort();",
    "sostituisci": "  return elenco.filter((f) => f.endsWith(\".test.mjs\")).sort();",
-   "test": "node cervello/test/test-cervello.test.mjs"
+   "test": "cervello/test/test-cervello.test.mjs"
   },
   {
    "lotto": 39,
@@ -2629,7 +2630,7 @@
    "file": "cervello/verifica-automazione.mjs",
    "cerca": "  process.exit(v.codice);",
    "sostituisci": "  process.exit(fails.length > 0 ? 1 : 0);",
-   "test": "node cervello/test/automazione-verde-senza-guardare.test.mjs"
+   "test": "cervello/test/automazione-verde-senza-guardare.test.mjs"
   },
   {
    "lotto": 38,
@@ -2638,7 +2639,7 @@
    "file": "cervello/cantiere-prove.mjs",
    "cerca": "  const base = { id: d.id, gravita: gravitaDi(d), eta_giorni: eta,",
    "sostituisci": "  const base = { id: d.id, gravita: d.gravita, eta_giorni: eta,",
-   "test": "node cervello/test/conto-che-guarda-il-campo-sbagliato.test.mjs"
+   "test": "cervello/test/conto-che-guarda-il-campo-sbagliato.test.mjs"
   },
   {
    "lotto": 38,
@@ -2647,7 +2648,7 @@
    "file": "pannello/src/lib/badge-coerenza.ts",
    "cerca": "  return (NOTI as string[]).includes(v) ? (v as StatoCoerenza) : \"sconosciuto\";",
    "sostituisci": "  return v === \"incoerenze\" ? \"incoerenze\" : \"ok\";",
-   "test": "node cervello/test/badge-che-compra-il-verde.test.mjs"
+   "test": "cervello/test/badge-che-compra-il-verde.test.mjs"
   },
   {
    "lotto": 38,
@@ -2692,7 +2693,7 @@
    "file": "cervello/misura-o-cieco.mjs",
    "cerca": "  return Object.hasOwn(mappa || {}, k) ? mappa[k] : seNonSo;",
    "sostituisci": "  return Object.hasOwn(mappa || {}, k) ? mappa[k] : \"ok\";",
-   "test": "node cervello/test/misura-o-cieco.test.mjs"
+   "test": "cervello/test/misura-o-cieco.test.mjs"
   },
   {
    "lotto": 40,
@@ -3700,7 +3701,7 @@
    "file": "cervello/censimento-macchina.mjs",
    "cerca": "    verify: \"La prova sul campo: guida il Pannello vero con un browser e i test del worker, per dimostrare che un fix funziona.\",",
    "sostituisci": "    // MUTANTE: la riga della skill «verify» tolta dal censimento",
-   "test": "node --test cervello/test/mappa-in-bacheca.test.mjs"
+   "test": "cervello/test/mappa-in-bacheca.test.mjs"
   },
   {
    "difetto": "worktree-contato-come-repo",
@@ -3738,7 +3739,7 @@
    "file": "cervello/contratto-prova.mjs",
    "cerca": "      violazioni.push({ regola: \"gate-mai-rotto\", lezione: l.id,",
    "sostituisci": "      violazioni.push({ regola: \"gate-mai-rotto-disattivato\", lezione: l.id,",
-   "test": "node cervello/test/gate-che-non-puo-scattare.test.mjs",
+   "test": "cervello/test/gate-che-non-puo-scattare.test.mjs",
    "nota_riaggancio": "AR-565 ha spostato la definizione unica dei freni in contratto-prova.mjs: la regola vive li (lotto 42)."
   },
   {
