@@ -1,6 +1,6 @@
 {
  "data": "2026-07-03 06:28",
- "aggiornato": "2026-08-27 11:45",
+ "aggiornato": "2026-08-27 12:09",
  "lezioni": [
   {
    "id": "L-2026-0814-002",
@@ -125,7 +125,12 @@
    "nato": "2026-08-13",
    "ultima_conferma": "2026-08-13 10:22",
    "stato": "attiva",
-   "usi": []
+   "usi": [
+    {
+     "quando": "2026-08-27 12:09",
+     "ref": "freno rosso nel cancello: gate delle lezioni"
+    }
+   ]
   },
   {
    "id": "L-2026-0813-01",

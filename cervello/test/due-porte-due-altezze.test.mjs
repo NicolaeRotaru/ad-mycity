@@ -99,7 +99,7 @@ prova("`umanaDichiarata` legge dal contratto, quindi conosce tutt'e due le scrit
   assert.equal(umanaDichiarata(undefined), false);
 });
 
-prova("…e proprio perché passa, NESSUNA macchina la chiude al posto dell'umano", () => {
+prova("AR-849 · …e proprio perché passa, NESSUNA macchina la chiude al posto dell'umano", () => {
   // Il rovescio della medaglia di sopra, trovato con la lente della sicurezza sul perimetro di
   // questo stesso lotto. Ammettere la verifica umana al cancello delle prove è giusto — quello che
   // NON deve seguirne è una chiusura automatica: «umana» vuol dire «nessun guardiano potrà
@@ -112,7 +112,7 @@ prova("…e proprio perché passa, NESSUNA macchina la chiude al posto dell'uman
   }
 });
 
-prova("una prova che ESEGUE chiude ancora: il freno di sopra non è un muro", () => {
+prova("AR-849 · una prova che ESEGUE chiude ancora: il freno di sopra non è un muro", () => {
   const v = verdettoChiusura(
     { id: "AR-OK", gravita: "grave", impatto_crescita: "medio", verifica: { comando: "node cervello/test/due-porte-due-altezze.test.mjs" } },
     "risolto",
