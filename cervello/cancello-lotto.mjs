@@ -30,6 +30,8 @@ import { storiaDelRepoCurata } from "./storia-git.mjs";
 import { contaProveDeboli } from "./chiusura-dichiarata.mjs";
 import { verdettoConTetto, testDelLotto, idSospetti, testRossi, testRossiBash, perimetroDichiarato } from "./tetto-guardiano.mjs";
 import { percorsiDaGit } from "./percorsi-git.mjs";
+import { idDellaMutazione, perimetroDalGit, rigaDelleSaltate } from "./perimetro-mutazioni.mjs";
+import { fileToccatiDaGit } from "./mutazioni-orfane.mjs";
 // 📏 Il contratto della prova (contratto-prova.mjs): quanto vale una prova lo dice UN posto solo.
 import { debitoDiMutazione } from "./contratto-prova.mjs";
 import { timbriStorti } from "./contratto-scheda.mjs";
@@ -339,10 +341,10 @@ export function fileDelComando(comando) {
   return null;
 }
 
-/** Gli id nominati da una voce di `mutanti.json`: il campo `difetto` può accorparne più d'uno («AR-239+AR-264»). */
-export function idDellaMutazione(m) {
-  return String(m?.difetto || "").match(/AR-\d+/g) || [];
-}
+// `idDellaMutazione` viveva qui. È traslocata in `cervello/perimetro-mutazioni.mjs` insieme alla
+// decisione che la usa — quali mutazioni far girare — e da lì si ri-esporta: chi la importava da
+// questo file continua a trovarla, ma la casa è una sola (AR-835).
+export { idDellaMutazione };
 
 /**
  * Difetti con una prova che ESEGUE ma senza una mutazione che quella prova la rompa.
@@ -1163,23 +1165,39 @@ function main() {
     // a ogni consegna costerebbe minuti, e un controllo che si impara a saltare è già spento.
     // Se il lotto non tocca difetti con una mutazione, il passo non si finge fatto: resta fuori, e
     // il buco lo copre già la regola `mutazione-mancante` qui sopra.
-    const mieMutazioni = mutanti && toccati ? mutanti.filter((m) => idDellaMutazione(m).some((id) => toccati.includes(id))) : [];
+    //
+    // AR-835 — E IL PERIMETRO SEGUE IL CODICE, NON LE SCHEDE.
+    // Il metro di prima era «le schede che questo lotto tocca», e su un lotto di sole CHIUSURE
+    // quel metro tirava dentro le mutazioni di venticinque schede riparate da altri: ottantacinque
+    // rotture su ventinove file mai sfiorati, quindici minuti, tetto di tempo sbattuto, cancello
+    // rosso che non poteva tornare verde. Il perché per esteso sta in `perimetro-mutazioni.mjs`.
+    // La traduzione «git non ha risposto del tutto → allarga, non stringere» sta dentro
+    // `perimetroDalGit`, dove una prova la può eseguire e una mutazione la può rovesciare.
+    const gitQui = (args) => spawnSync("git", args, { cwd: AD_ROOT, encoding: "utf8" });
+    const perimetro = perimetroDalGit({ mutanti, toccati, proveCambiate: proveDelLotto, daGit: fileToccatiDaGit(gitQui) });
+    const mieMutazioni = perimetro.girare;
     if (mieMutazioni.length) {
       passi.push(
-        esegui("prove non vacue (mutazioni del lotto)", "node", ["cervello/non-vacuita.mjs", "--difetti", toccati.join(",")], {
+        esegui("prove non vacue (mutazioni del lotto)", "node", ["cervello/non-vacuita.mjs", "--difetti", perimetro.difetti.join(",")], {
           timeout: 900_000,
         }),
       );
-    } else if (toccati && toccati.length) {
+    } else if (toccati && toccati.length && !perimetro.saltate.length) {
       avvisi.push("nessuna mutazione per i difetti di questo lotto: la prova che le prove provino non ha misurato niente");
     }
+    // Ciò che resta fuori si dichiara: un taglio silenzioso si legge come «ho guardato tutto».
+    const rigaSaltate = rigaDelleSaltate(perimetro.saltate);
+    if (rigaSaltate) avvisi.push(rigaSaltate);
+    if (perimetro.motivo) avvisi.push(perimetro.motivo);
     // AR-473 ② — e se il passo NON è girato per cecità (niente confronto, oppure il cantiere è
     // cambiato ma il confronto non lo vede), lo si dichiara: sparire in silenzio dall'elenco è il
     // modo in cui il controllo più prezioso diventava facoltativo senza che nessuno lo decidesse.
     const muto = mutazioniNonGirate({
       mutantiLetti: Boolean(mutanti),
       toccati,
-      quanteMutazioni: mieMutazioni.length,
+      // Le saltate contano come «girate» per questa domanda: il passo non è sparito per cecità, è
+      // stato ristretto apposta e il motivo è già negli avvisi qui sopra.
+      quanteMutazioni: mieMutazioni.length + perimetro.saltate.length,
       cantiereCambiato: primaTxt !== null && primaTxt !== readFileSync(CANTIERE, "utf8"),
     });
     if (muto) ciechiProve.push(muto);

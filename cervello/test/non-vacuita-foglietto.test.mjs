@@ -24,7 +24,7 @@ import { spawn, spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
-import { lasciaTraccia, togliTraccia, riprendiDaTraccia } from "../non-vacuita.mjs";
+import { lasciaTraccia, togliTraccia, riprendiDaTraccia, processoVivo, foglietti, PREFISSO_FOGLIETTO, FOGLIETTO } from "../non-vacuita.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const BANCO = join(QUI, "..", "non-vacuita.mjs");
@@ -158,4 +158,72 @@ test("SUL CAMPO: ammazzato con SIGKILL a metà mutazione, il rilancio rimette il
   } finally {
     rmSync(dir, { recursive: true, force: true });
   }
+});
+
+// ── AR-837 — il segnalibro di chi sta ancora misurando non si tocca ──────────
+//
+// Il difetto vero, misurato il 26/8: il banco lancia sé stesso come sottoprocesso per provarsi su
+// un banco finto. Il figlio partiva, trovava il foglietto del PADRE (nome fisso, uno per repo),
+// lo scambiava per il resto di una corsa morta e rimetteva a posto `cancello-lotto.mjs` mentre il
+// padre lo teneva rotto apposta. Il padre misurava un fix non più rotto, vedeva verde, e scriveva
+// «⛔ la prova non dimostra il suo fix» a carico di una prova sana. Cronometrato: il file cambiava
+// di mano in 124 millisecondi in mezzo alla corsa.
+
+test("AR-837: il foglietto di una corsa ANCORA VIVA non si tocca e non si cancella", () => {
+  const dir = mkdtempSync(join(tmpdir(), "foglietto-vivo-"));
+  try {
+    const bersaglio = join(dir, "sotto-misura.mjs");
+    const via = join(dir, `${PREFISSO_FOGLIETTO}-424242.json`);
+    writeFileSync(bersaglio, "ROTTO APPOSTA");
+    writeFileSync(via, JSON.stringify({ file: bersaglio, originale: "com'era prima", quando: "ora", pid: 424242 }));
+
+    const r = riprendiDaTraccia(
+      {
+        ceE: (f) => existsSync(f),
+        leggi: (f) => readFileSync(f, "utf8"),
+        scrivi: (f, t) => writeFileSync(f, t),
+        cancella: (f) => rmSync(f, { force: true }),
+        vivo: () => true, // quella corsa sta ancora misurando
+      },
+      via,
+    );
+    assert.equal(r.esito, "in-corso-altrove", "un processo vivo non è un incidente");
+    assert.equal(readFileSync(bersaglio, "utf8"), "ROTTO APPOSTA", "rimetterglielo a posto gli falsa la misura: è il difetto di AR-837");
+    assert.equal(existsSync(via), true, "e nemmeno gli si toglie il segnalibro di sotto");
+
+    // Morta quella corsa, lo stesso foglietto torna a essere ciò che AR-708 cura.
+    const dopo = riprendiDaTraccia(
+      {
+        ceE: (f) => existsSync(f),
+        leggi: (f) => readFileSync(f, "utf8"),
+        scrivi: (f, t) => writeFileSync(f, t),
+        cancella: (f) => rmSync(f, { force: true }),
+        vivo: () => false,
+      },
+      via,
+    );
+    assert.equal(dopo.esito, "rimesso", "la cura di AR-708 deve restare intera: un morto si ripulisce ancora");
+    assert.equal(readFileSync(bersaglio, "utf8"), "com'era prima");
+    assert.equal(existsSync(via), false);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("AR-837: ogni corsa scrive il SUO foglietto, e all'avvio si guardano tutti", () => {
+  assert.match(String(FOGLIETTO).split("/").pop(), new RegExp(`^${PREFISSO_FOGLIETTO}-\\d+\\.json$`), "il pid nel nome è ciò che impedisce a due corse di sovrascriversi");
+  const trovati = foglietti(["altro.json", `${PREFISSO_FOGLIETTO}-7.json`, `${PREFISSO_FOGLIETTO}-9.json`, `${PREFISSO_FOGLIETTO}-9.txt`], "/casa");
+  assert.deepEqual(trovati, ["/casa/" + PREFISSO_FOGLIETTO + "-7.json", "/casa/" + PREFISSO_FOGLIETTO + "-9.json"], "cercarne uno solo vorrebbe dire non trovare mai quello di chi è morto");
+});
+
+test("AR-837: «vivo?» si chiede senza ammazzare nessuno, e un permesso negato è comunque un vivo", () => {
+  assert.equal(processoVivo(process.pid), true, "io sono vivo");
+  assert.equal(processoVivo(0), false, "un pid che non è un pid non è vivo");
+  assert.equal(processoVivo(-3), false);
+  assert.equal(processoVivo("ciao"), false);
+  let segnale = null;
+  assert.equal(processoVivo(1234, (p, s) => { segnale = s; }), true);
+  assert.equal(segnale, 0, "il segnale 0 non ammazza: chiede soltanto");
+  assert.equal(processoVivo(1234, () => { const e = new Error("x"); e.code = "ESRCH"; throw e; }), false, "ESRCH = non c'è più");
+  assert.equal(processoVivo(1234, () => { const e = new Error("x"); e.code = "EPERM"; throw e; }), true, "EPERM = c'è, ma non è mio: c'è, ed è quello che conta");
 });

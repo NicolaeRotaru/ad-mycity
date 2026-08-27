@@ -20,6 +20,7 @@
 
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
+import { spawnSync } from "node:child_process";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -120,7 +121,29 @@ prova("AR-789: «il cancello non sa decidere» e «il campo non si legge» sono 
   // Un bloccante con l'impatto scritto male sta nel secondo e non nel primo: il cancello decide
   // benissimo, perché la gravità gli basta. Il caso vero era AR-795 («diretto: …», e «diretto» non è
   // una delle quattro categorie). Se i due numeri coincidessero, quel caso sparirebbe dal conto.
-  const referto = JSON.parse(readFileSync(join(REPO, "MyCity-Vault/90-Memoria-AI/auto-coscienza/cantiere-prove.json"), "utf8"));
+  // ⚠️ IL REFERTO SI CALCOLA, NON SI LEGGE DAL DISCO — AR-836.
+  //
+  // Fino al 26/8 queste due righe erano: leggi `cantiere-prove.json` dal vault, confrontalo con il
+  // cantiere di ADESSO. Sono due istanti diversi. Il file lo riscrive `cantiere-prove.mjs` quando
+  // gira; il cantiere lo cambia chiunque apra una scheda. Fra i due momenti il conto non torna, e
+  // questo caso diventava rosso — non per il difetto che sorveglia, ma perché la copia sul disco
+  // era di ieri. Misurato: aggiunta una scheda sola (AR-835), «20 contro 19», rosso pieno; e nella
+  // suite in parallelo lo stesso caso usciva «instabile», cioè rosso insieme agli altri e verde da
+  // solo — la firma esatta di una misura che dipende da QUANDO la guardi invece che da COSA guarda.
+  // Un rosso che accusa chi ha aperto una scheda si impara a scorrere, e allora quello vero non lo
+  // legge più nessuno (AR-786).
+  //
+  // Adesso il referto lo si chiede al motore con `--dry --json`, che lo calcola sul cantiere di
+  // adesso senza scrivere niente — come già fanno gli altri sei casi che lo interrogano. Confronto
+  // fra due misure dello stesso istante: non può più invecchiare.
+  const dry = spawnSync(process.execPath, [join(CERVELLO, "cantiere-prove.mjs"), "--dry", "--json"], {
+    cwd: REPO,
+    encoding: "utf8",
+    timeout: 300_000,
+    maxBuffer: 32 * 1024 * 1024,
+  });
+  assert.equal(dry.status, 0, `il motore del referto deve tornare 0 con --dry --json:\n${dry.stderr || ""}`);
+  const referto = JSON.parse(dry.stdout);
   const illeggibili = C.schedeNonGiudicabili(vive);
   assert.equal(referto.schede_campi_illeggibili, illeggibili.length, "il conto della qualità del dato dev'essere quello vero");
   assert.ok(
