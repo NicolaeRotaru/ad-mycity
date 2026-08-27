@@ -4576,3 +4576,45 @@ passa da `scriviTestoAtomico`, e dichiara il mezzo lavoro con uscita 2). Il fogl
 rigenerato perché era indietro di uno script.
 
 **Colore.** 🟡 — codice della macchina su ramo, nessun deploy. PR #850.
+---
+
+## 2026-08-27 23:53 — 🟢 Quarta radiografia del marketplace: 194 problemi confermati, 4 bloccanti
+
+**Cosa.** Su richiesta di Nicola («fai la radiografia del marketplace») ho eseguito il workflow
+`radiografia`: 13 dimensioni in sola lettura sul codice di `NicolaeRotaru/mycity` al commit
+`637de93` (allineato a `main`, 598 file TypeScript, collegato come `marketplace/`), ogni dimensione
+affidata a un senior diverso e ogni problema ricontrollato da un collaudatore `qa` che non l'aveva
+trovato. 26 agenti, 0 errori, 1.643 letture, 2 ore e 6 minuti.
+
+**Perché ora.** Il freno del tasso di chiusura era verde: agosto a 1,31 (461 difetti chiusi contro
+351 aperti), quindi la ricerca nuova era ammessa. Sotto 1 non l'avrei aperta.
+
+**Risultato.** 194 problemi confermati: 4 bloccanti, 74 gravi, 116 minori. Contro le tre visite
+precedenti — 262 (29/7), 245 (18/8), 199 (21/8) — i bloccanti scendono da 12 a 4 per la prima
+volta, i gravi calano di 14, i minori risalgono di 17.
+
+**I quattro bloccanti.** ① Il catalogo è invisibile a chi non ha fatto l'accesso: prodotti,
+recensioni e ricerca tornano zero a un visitatore, perché la regola di visibilità interroga la
+tabella dei negozi con i permessi di chi guarda e quella tabella è stata chiusa al pubblico dalle
+migrazioni 110 e 112. Misurato ricostruendo il database dalle 129 migrazioni del repo, non dedotto.
+② Il rifiuto del negozio su un ordine pagato con carta non emette nessun rimborso, mentre al cliente
+il sistema scrive «Niente addebiti». ③ Email e campanella al venditore partono dopo la risposta a
+Stripe, senza `after()`/`waitUntil`: su serverless possono non partire mai. ④ Vercel pubblica a ogni
+unione su `main` senza aspettare la CI, e il workflow-cancello è inerte perché gli mancano tre
+segreti.
+
+**Colore.** 🟢 l'analisi (sola lettura, nessuna modifica al marketplace). 🟡/🔴 tutte le
+riparazioni, non ancora scritte.
+
+**Accodato.** Card #179 (prova in finestra anonima — serve Nicola, io non raggiungo il sito
+pubblicato) e #180 (le tre chiavi Vercel nei segreti GitHub — sono segreti suoi).
+
+**Cosa NON ho verificato.** Il sito pubblicato, in nessun punto. Nessun ordine vero, nessuna carta
+addebitata, nessun rimborso chiesto: i due bloccanti sui pagamenti sono letti fino in fondo nel
+codice e il collaudatore si è fermato a 95% di certezza dichiarando il perché. I 116 minori sono
+contati, non pesati uno per uno. E non ho misurato quanti dei 199 problemi del 21 agosto siano
+ancora aperti: so quanti ne vedo oggi, non quali sono gli stessi.
+
+**Dove.** `consegne/audit/2026-08-27-radiografia.md` (referto) ·
+`consegne/audit/2026-08-27-radiografia-marketplace-raw.json` (dati grezzi, scheda intera di ogni
+problema).

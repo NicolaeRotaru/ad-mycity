@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-27 18:20
+aggiornato: 2026-08-28 00:10
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -31,6 +31,22 @@ tre controlli usano per capire se l'attivita' e' ferma.
 | **Sito pubblico** | **HTTP 503** | = | 200 | riverificato in diretta con WebFetch il 24/8 ~13:05: ancora giù, dominio non ancora spostato da Render a Vercel (card #155) |
 
 ---
+
+> 🩻 **27/8 23:53 — Quarta radiografia del sito: 194 problemi veri, e il primo spegne il catalogo.** Richiesta tua: «fai la radiografia del marketplace».
+>
+> **In due righe.** Tredici esperti hanno riletto il sito in sola lettura, e un collaudatore diverso ha ricontrollato ogni problema nel codice vero. Restano 194 problemi confermati: 4 bloccanti, 74 gravi, 116 minori.
+>
+> **Il conto delle quattro visite.** Bloccanti: 21 (29/7) → 12 (18/8) → 12 (21/8) → **4** oggi. Totale: 262 → 245 → 199 → **194**. I bloccanti si muovono davvero per la prima volta. Non ho verificato quali dei dodici siano stati chiusi: so solo quanti ne vedo oggi.
+>
+> **Il primo bloccante è nuovo ed è il più caro.** Chi arriva sul sito senza aver fatto l'accesso legge zero prodotti, zero recensioni, zero risultati di ricerca. I negozi in home si vedono lo stesso, e questo nasconde il guasto. Misurato ricostruendo il database dalle 129 istruzioni del progetto e leggendolo con i permessi di un visitatore: zero ovunque, mentre da proprietario le righe ci sono tutte. Causa: la regola che mostra un prodotto chiede «il negozio è approvato?» con i permessi di chi guarda, e a un visitatore la tabella dei negozi è stata chiusa a luglio.
+>
+> **Gli altri tre toccano i soldi.** ① Il negozio rifiuta un ordine pagato con carta e il rimborso non parte mai, mentre al cliente scriviamo «Niente addebiti». ② Su un ordine pagato con carta l'avviso al negozio può non partire (email e campanella lanciate dopo la risposta a Stripe; sul contrassegno lo stesso codice è scritto nell'ordine giusto). ③ Ogni unione pubblica il sito senza aspettare i controlli: il cancello esiste ma è spento perché gli mancano tre chiavi, e si dichiara «non pronto» restando verde.
+>
+> **Cosa devi fare.** Card #179: apri il sito in finestra anonima, clicca un prodotto, dimmi cosa vedi — è la prova che decide se il primo bloccante è vivo in produzione. Card #180: metti le tre chiavi Vercel nei segreti di GitHub.
+>
+> **Cosa NON ho verificato.** Il sito pubblicato, in nessun punto: tutto è misurato sul codice al commit `637de93` e sul database ricostruito dalle migrazioni. Nessun ordine vero, nessuna carta addebitata, nessun rimborso chiesto. I 116 minori li ho contati, non pesati uno per uno.
+>
+> Referto: `consegne/audit/2026-08-27-radiografia.md` · dati grezzi: `consegne/audit/2026-08-27-radiografia-marketplace-raw.json`
 
 
 

@@ -22,6 +22,69 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 
 ---
 
+<!-- catalogo-invisibile-anon -->
+### 🔴 #179 — Apri il sito in finestra anonima e dimmi se vedi un prodotto · ⏳ accodata 2026-08-28 00:05
+
+**In parole semplici.** La radiografia di stasera ha trovato un difetto che, se è vero anche sul
+sito pubblicato, spegne il negozio intero. Chi arriva senza aver fatto l'accesso non vede nessun
+prodotto. Non vede recensioni. La ricerca gli torna vuota. I negozi in home invece si vedono, e
+questo è l'inganno: la prima pagina si riempie, e sembra che il sito funzioni.
+
+Il collega che l'ha trovato non l'ha dedotto. Ha ricostruito il database da zero, con tutte e 129
+le istruzioni salvate nel progetto. Ci ha messo dentro un negozio approvato e un prodotto
+disponibile. Poi ha letto le stesse cose che legge il sito, con gli occhi di un visitatore. Ha
+contato zero ovunque. Le stesse righe, lette da proprietario, ci sono tutte.
+
+**Cosa cambia per te.** Facciamo un caso vero. Pane Quotidiano mette in vetrina la focaccia. Una
+cliente vede il post, apre il sito dal telefono, non ha un account perché è la prima volta. Vede il
+negozio, clicca sulla focaccia, legge «Prodotto non trovato» e chiude. Per lei MyCity è un sito
+rotto, e non torna. Se il difetto è vivo in produzione, oggi il sito non può incassare un euro.
+
+**Cosa devi fare.** Un minuto, e lo puoi fare adesso dal telefono. Apri il sito in una finestra
+anonima del browser, senza fare l'accesso. Clicca un prodotto qualunque. Dimmi cosa vedi.
+
+**Se va bene:** se il prodotto lo vedi, l'incendio non c'è. Resta però una cosa da riparare: vuol
+dire che il sito pubblicato e il codice non dicono la stessa cosa. La prossima pubblicazione può
+spegnerlo davvero. Se invece leggi «Prodotto non trovato», ti preparo la riparazione stanotte con
+il collaudo vero. La firmi tu prima che tocchi il sito.
+
+**Cosa non ho verificato.** Il sito pubblicato, in nessun punto. Da qui non lo raggiungo: tutto
+quello che so è misurato sul codice e sul database ricostruito dalle istruzioni del progetto. È
+esattamente per questo che la prova la devi fare tu, e vale più di qualsiasi altra cosa scritta
+stasera.
+
+---
+
+<!-- tre-chiavi-cancello-pubblicazione -->
+### 🔴 #180 — Metti tre chiavi su GitHub: il cancello che dovrebbe fermare una pubblicazione rotta oggi è finto · ⏳ accodata 2026-08-28 00:05
+
+**In due righe.** Il sito viene pubblicato senza aspettare i controlli, perché il guardiano che
+dovrebbe fermarlo è spento. Per accenderlo servono tre chiavi che solo tu puoi mettere.
+
+**In parole semplici.** Quando un lavoro entra nel codice buono, il sito viene pubblicato subito.
+Esiste un guardiano che dovrebbe bloccare la pubblicazione se i controlli sono rossi — lo chiamo
+cancello, cioè la sbarra che sta prima della strada. Quel cancello è spento, e si spegne da solo in
+silenzio. Gli mancano tre chiavi: al primo passo si accorge di non averle, si dichiara «non pronto»
+e salta tutto il resto, restando verde.
+
+**Cosa cambia per te.** Un errore che i controlli avrebbero preso arriva ai clienti. Facciamo un
+caso vero: entra una modifica che rompe il pulsante «Paga», i controlli lo vedono, ma il sito è già
+stato pubblicato dieci minuti prima. Chi prova a comprare in quei minuti non ci riesce e se ne va.
+Lo scopriamo da lui, non da noi. È uno dei quattro problemi più gravi di stasera.
+
+**Cosa devi fare.** Le tre chiavi le devi mettere tu, perché sono segreti del tuo account e da qui
+non ho il permesso di scriverli. Vai su GitHub, nel progetto del sito, e apri Settings → Secrets and
+variables → Actions. Aggiungi i tre valori che trovi nel tuo account Vercel: il gettone personale,
+l'identificativo dell'organizzazione e quello del progetto. Poi dimmelo.
+
+**Se va bene:** appena ci sono, provo la pubblicazione dal cancello su una modifica innocua. Se
+funziona ti propongo l'ultimo passo: togliere a Vercel il permesso di pubblicare da solo. Da lì in
+poi nessuna modifica rossa può più arrivare al sito. Quel passo lo firmi tu.
+
+**Cosa non ho verificato.** Non ho provato la pubblicazione dal cancello, perché senza le chiavi
+non parte. So che oggi non ferma niente. Non so ancora se, acceso, funziona al primo colpo. C'è un
+secondo guasto sulla stessa strada: il rilascio riapplica tutte le istruzioni del database, e la
+prima non è riapplicabile. Va sistemato prima della prova.
 <!-- parte-venditore-strada -->
 
 ### 🟡 #178 — Il pannello del negoziante ha quattordici voci di menù, e il tuo paletto dice «nessuna app nuova»: scegli quale delle due vale · ⏳ accodata 2026-08-26 21:40
