@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-27 00:45
+aggiornato: 2026-08-27 06:40
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -36,6 +36,20 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 
 
+
+> 🏪 **27/8 06:40 — La macchina sa fare il primo lavoro che appartiene a un negozio.**
+>
+> **In parole semplici.** Fino a stamattina la macchina sapeva fare solo lavori suoi. Adesso sa fare un lavoro che appartiene a un negozio, e quel lavoro passa da una strada sola. Su quella strada le righe di un altro negozio vengono buttate via e contate, e le chiavi del negoziante non hanno un buco da cui entrare nel testo.
+>
+> **Per esempio.** Ho dato al costruttore due righe insieme, una del forno e una del fioraio. Nel testo che ne è uscito del fioraio non c'era niente: né il dato, né il nome. Poi ho finto che il fornaio incollasse la sua password dentro un messaggio: il testo non è partito affatto. Non è partito ripulito — non è partito.
+>
+> **Cosa cambia per te.** Il pezzo che tiene separati i negozi era scritto e provato da quattro giorni, e non lo usava nessuno. Adesso lo usa qualcuno, e chi verrà dopo non può girargli intorno: un lavoro di un negozio che la macchina non sa trattare si ferma da solo, con scritto perché.
+>
+> **Cosa devi fare.** Niente. Le scelte in coda restano tre: la #177, la #178 e la #175.
+>
+> **Cosa non ho verificato.** La separazione la fa il codice, non il database. Se una richiesta al database è scritta male, le righe di un altro negozio arrivano fino al filtro: vengono buttate e il numero si vede nel registro, ma sono uscite. Il muro dentro il database resta il buco aperto, e da qui non lo posso né provare né chiudere. E niente di tutto questo l'ho visto girare su un negozio vero: non esiste ancora un lavoro di bottega in coda.
+>
+> **Dettagli tecnici.** AR-839 chiusa. Porta in `cervello/bottega/testo-lavoro.mjs`, muro all'esecuzione in `cervello/worker-bottega.sh` (`bottega_muro`) chiamato da `worker.sh` prima del tetto di spesa. `TIPI_DI_BOTTEGA` ha il suo primo nome. 36 verifiche verdi, 8 mutazioni rosse, la prova ritaglia ed esegue i tratti veri di `worker.sh`. Aperta e chiusa nello stesso lotto AR-841 (ripiego se `mktemp` tace), trovata dalla radiografia in corsa. Lezione L-2026-0827-01. Difetti aperti 115.
 
 > 🧹 **27/8 00:45 — Cominciato a pagare il debito delle prove finte: 42 sbloccate, un terzo non guardava niente.**
 >

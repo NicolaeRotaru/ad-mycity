@@ -1,7 +1,7 @@
 {
   "_cosa_e": "🔁 CHIUSURA-LOOP (AR-009): stato di copertura e freschezza dei quaderni memoria-squadra (roster da .claude/agents/). La sonda flagga mancanti/fermi/vuoti così il loop di apprendimento non resta decorativo. Scritto da cervello/chiusura-loop.mjs.",
   "_cosa_NON_prova": "Non prova che un ESITO sia VERO. Conta righe e date: se un reparto scrive «atteso 10 → reale 12» senza aver misurato niente, qui risulta vivo e puntuale. La verità del numero la giudica la calibrazione (che pretende una fonte esterna al quaderno), non questo conteggio.",
-  "aggiornato": "2026-08-27 01:24",
+  "aggiornato": "2026-08-27 06:51",
   "soglia_giorni": 7,
   "totale": 122,
   "mancanti": 0,
@@ -181,7 +181,7 @@
       "mancante": false,
       "righe_esito": 47,
       "ultimo_esito": "2026-08-24 13:29",
-      "giorni_fa": 2,
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
@@ -225,7 +225,7 @@
       "mancante": false,
       "righe_esito": 2,
       "ultimo_esito": "2026-08-21 14:20",
-      "giorni_fa": 5,
+      "giorni_fa": 6,
       "vuoto": false,
       "fermo": false
     },
@@ -489,7 +489,7 @@
       "mancante": false,
       "righe_esito": 29,
       "ultimo_esito": "2026-08-24 13:43",
-      "giorni_fa": 2,
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
@@ -533,7 +533,7 @@
       "mancante": false,
       "righe_esito": 35,
       "ultimo_esito": "2026-08-24 14:17",
-      "giorni_fa": 2,
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
@@ -555,7 +555,7 @@
       "mancante": false,
       "righe_esito": 20,
       "ultimo_esito": "2026-08-24 13:46",
-      "giorni_fa": 2,
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
@@ -753,7 +753,7 @@
       "mancante": false,
       "righe_esito": 182,
       "ultimo_esito": "2026-08-23 14:23",
-      "giorni_fa": 3,
+      "giorni_fa": 4,
       "vuoto": false,
       "fermo": false
     },
@@ -995,7 +995,7 @@
       "mancante": false,
       "righe_esito": 1,
       "ultimo_esito": "2026-08-21 15:19",
-      "giorni_fa": 5,
+      "giorni_fa": 6,
       "vuoto": false,
       "fermo": false
     },
@@ -1050,7 +1050,7 @@
       "mancante": false,
       "righe_esito": 13,
       "ultimo_esito": "2026-07-20 18:32",
-      "giorni_fa": 37,
+      "giorni_fa": 38,
       "vuoto": false,
       "fermo": true
     },
@@ -1072,7 +1072,7 @@
       "mancante": false,
       "righe_esito": 5,
       "ultimo_esito": "2026-08-21 15:26",
-      "giorni_fa": 5,
+      "giorni_fa": 6,
       "vuoto": false,
       "fermo": false
     },
@@ -1105,7 +1105,7 @@
       "mancante": false,
       "righe_esito": 7,
       "ultimo_esito": "2026-08-24 13:50",
-      "giorni_fa": 2,
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
@@ -1193,7 +1193,7 @@
       "mancante": false,
       "righe_esito": 14,
       "ultimo_esito": "2026-08-21 14:40",
-      "giorni_fa": 5,
+      "giorni_fa": 6,
       "vuoto": false,
       "fermo": false
     },
@@ -1237,7 +1237,7 @@
       "mancante": false,
       "righe_esito": 8,
       "ultimo_esito": "2026-08-24 13:53",
-      "giorni_fa": 2,
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },
@@ -1369,7 +1369,7 @@
       "mancante": false,
       "righe_esito": 15,
       "ultimo_esito": "2026-08-21 14:32",
-      "giorni_fa": 5,
+      "giorni_fa": 6,
       "vuoto": false,
       "fermo": false
     },
@@ -1444,8 +1444,8 @@
       "deroga": false,
       "esiste": true,
       "mancante": false,
-      "righe_esito": 192,
-      "ultimo_esito": "2026-08-27 00:18",
+      "righe_esito": 193,
+      "ultimo_esito": "2026-08-27 06:49",
       "giorni_fa": 0,
       "vuoto": false,
       "fermo": false
@@ -1457,7 +1457,7 @@
       "mancante": false,
       "righe_esito": 8,
       "ultimo_esito": "2026-08-24 14:02",
-      "giorni_fa": 2,
+      "giorni_fa": 3,
       "vuoto": false,
       "fermo": false
     },

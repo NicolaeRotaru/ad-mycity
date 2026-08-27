@@ -1,7 +1,7 @@
 {
  "_cosa_e": "🧨 LE MUTAZIONI — i modi in cui ogni fix del cantiere si può rompere apposta, con il test che DEVE diventare rosso. Le esegue cervello/non-vacuita.mjs. Nascono dal passo ④.2 della skill `cantiere`: un test verde dimostra che il codice gira, non che la prova serva a qualcosa. Se rompendo il fix il test resta verde, quella prova non dimostra niente — ed è già successo quattro volte in due giorni.",
  "_come_si_aggiunge": "Una voce per FIX (non per file): { lotto, difetto, nome, file, cerca (il pezzo esatto che rende vero il fix), sostituisci (come sarebbe senza), test }. `cerca` deve essere il cuore del fix: se peschi una riga qualsiasi, misuri la compilazione, non la difesa.",
- "aggiornato": "2026-08-27 00:35",
+ "aggiornato": "2026-08-27",
  "mutanti": [
   {
    "lotto": 30,
@@ -7738,6 +7738,71 @@
    "cerca": "    passi.push(esegui(\"mutazioni che nessuno puo' eseguire (tetto)\", \"node\", [\"cervello/mutazioni-senza-esecutore.mjs\"]));",
    "sostituisci": "",
    "test": "cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs"
+  },
+  {
+   "difetto": "AR-839",
+   "nome": "il muro esce dal worker: un lavoro di un negozio finisce nel percorso del centro",
+   "file": "cervello/worker.sh",
+   "cerca": "  _muro_rc=0; bottega_muro \"$AI_NEGOZIO\" \"$tipo\" || _muro_rc=$?",
+   "sostituisci": "  _muro_rc=0",
+   "test": "cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs"
+  },
+  {
+   "difetto": "AR-839",
+   "nome": "il muro cieco lascia passare anche un negozio",
+   "file": "cervello/worker-bottega.sh",
+   "cerca": "  BOTTEGA_MOTIVO=\"il muro fra i negozi non ha risposto (uscita $rc) e questo lavoro e' del negozio «$negozio»: non lo eseguo. Un negozio che non si puo' controllare non passa.\"\n  return 1",
+   "sostituisci": "  BOTTEGA_MOTIVO=\"il muro fra i negozi non ha risposto (uscita $rc)\"\n  return 2",
+   "test": "cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs"
+  },
+  {
+   "difetto": "AR-839",
+   "nome": "il ramo di bottega si scrive il prompt da solo invece di passare dal costruttore isolato",
+   "file": "cervello/worker.sh",
+   "cerca": "    prompt=\"Sei l'impiegato digitale di UN SOLO negozio di MyCity. Lavori per lui e per nessun altro.",
+   "sostituisci": "    prompt=\"$richiesta\n$(printf '%s' \"$riga\" | jq -r '.[0].righe // [] | tostring')\nSei l'impiegato digitale di UN SOLO negozio di MyCity. Lavori per lui e per nessun altro.",
+   "test": "cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs"
+  },
+  {
+   "difetto": "AR-839",
+   "nome": "il costruttore consegna il testo anche quando dentro c'e' una chiave del negozio",
+   "file": "cervello/bottega/testo-lavoro.mjs",
+   "cerca": "  if (trovati.length) {\n    return {\n      ok: false,",
+   "sostituisci": "  if (false && trovati.length) {\n    return {\n      ok: false,",
+   "test": "cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs"
+  },
+  {
+   "difetto": "AR-839",
+   "nome": "il tipo di bottega e' cablato dentro il muro invece di stare nell'elenco",
+   "file": "cervello/bottega/guardia-esecuzione.mjs",
+   "cerca": "  if (TIPI_DI_BOTTEGA.includes(t)) return { si: true, motivo: \"\" };",
+   "sostituisci": "  if (t === \"bottega\") return { si: true, motivo: \"\" };",
+   "test": "cervello/test/il-muro-arriva-prima-della-porta.test.mjs",
+   "lezione": "L-2026-0827-01"
+  },
+  {
+   "difetto": "AR-839",
+   "nome": "il testo di un negozio si porta dentro la memoria della macchina",
+   "file": "cervello/worker.sh",
+   "cerca": "- Rispondi in italiano, in parole semplici, come lo diresti a voce al negoziante.\n\n$BOTTEGA_TESTO\"",
+   "sostituisci": "- Rispondi in italiano, in parole semplici, come lo diresti a voce al negoziante.\n\n$(contesto_macchina_chat \"$richiesta\" 2>/dev/null || true)\n\n$BOTTEGA_TESTO\"",
+   "test": "cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs"
+  },
+  {
+   "difetto": "AR-839",
+   "nome": "un lavoro di bottega prende le mani armate della macchina",
+   "file": "cervello/worker.sh",
+   "cerca": "    case \"$tipo\" in chat|bottega) export AI_ALLOW_ACTIONS=0 ;; *) export AI_ALLOW_ACTIONS=1 ;; esac",
+   "sostituisci": "    case \"$tipo\" in chat) export AI_ALLOW_ACTIONS=0 ;; *) export AI_ALLOW_ACTIONS=1 ;; esac",
+   "test": "cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs"
+  },
+  {
+   "difetto": "AR-841",
+   "nome": "senza mktemp il lavoro di bottega muore su un redirect vuoto",
+   "file": "cervello/worker-bottega.sh",
+   "cerca": "  err=\"$(mktemp 2>/dev/null)\" || err=\"\"\n  [ -n \"$err\" ] || err=\"${TMPDIR:-/tmp}/bottega-prompt-$$.err\"",
+   "sostituisci": "  err=\"$(mktemp)\"",
+   "test": "cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs"
   }
  ]
 }

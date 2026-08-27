@@ -17940,7 +17940,7 @@
       "gravita": "grave",
       "impatto_crescita": "alto",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-26 20:50",
       "nato_come": "scoperta",
       "nato_da": "lotto 60: chiudendo AR-804 e AR-838 ho controllato se gli ALTRI meccanismi della bottega avessero lo stesso difetto. Ce l'hanno.",
@@ -17950,9 +17950,12 @@
       "impatto": "Oggi il danno e' ZERO: non esistono lavori di bottega, e i lavori del centro non hanno niente da separare. Il danno arriva tutto insieme il giorno del primo lavoro di bottega vero, ed e' il genere di cosa che si scopre dopo — quando i dati di due negozi si sono gia' incontrati. `ARCHITETTURA-TRE-MACCHINE.md` lo dice: aggiungere il muro dopo, su dati gia' mescolati, e' «il lavoro piu' caro e pericoloso che esista». Con AR-802 (il muro nel database) ancora aperto, questo e' il secondo dei due lati scoperti.",
       "origine": "lotto 60, controllando i fratelli del difetto appena curato — e poi correggendo la mia prima diagnosi, che era piu' grossa del vero",
       "verifica": {
-        "tipo": "umano",
-        "nota": "Oggi non c'e' niente da provare verde, ed e' proprio questo che inganna: le funzioni passano le loro prove. La prova nasce col fix e deve guardare il TESTO CHE ARRIVA AL MOTORE, non le funzioni prese da sole."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs",
+        "nota": "34 verifiche. La prova non guarda nessun sorgente: RITAGLIA dal `worker.sh` vero i tratti che contano — il muro all'esecuzione, il ramo che compone il testo di bottega, la riga che assegna le mani — e li ESEGUE. Le due prove chieste dalla scheda ci sono e sono quelle: (i) al costruttore si danno le righe di DUE negozi e nel testo che esce non c'e' niente del secondo, nemmeno il nome; (ii) una chiave finta nella cassaforte di un negozio finto non compare mai nel testo, e se il negoziante la incolla nel materiale il testo NON parte affatto (non parte ripulito: non parte). In piu': il muro ferma un lavoro di negozio prima del tetto di spesa, col centro dichiara di essere cieco invece di fingere un verde, e l'impiegato di una bottega non vede la memoria della macchina ne' ha le sue mani. Sette mutazioni verificate rosse."
+      },
+      "chiuso_il": "2026-08-27 06:40",
+      "fix_fatto": "🟡 (a) LA PORTA: `cervello/bottega/testo-lavoro.mjs` — l'unico posto da cui esce il testo di un lavoro di negozio. Tre porte chiuse in fila: il muro (`puoEseguire`) prima di comporre qualsiasi cosa, la porta stretta (`nuovoLavoro`, che filtra le righe altrui e le CONTA), l'ultima riga (`segretiNelTesto`, che se una chiave e' finita nel testo non lo consegna). (b) IL FRENO: `bottega_muro` in `cervello/worker-bottega.sh`, chiamato in `worker.sh` sul lavoro gia' preso e PRIMA del tetto di spesa — l'unico punto da cui passano tutte le corsie. Fail-closed: un lavoro di un negozio di un tipo che non sappiamo trattare non si esegue, e se il muro non puo' rispondere «non lo so» vale «no» (per il centro passa, ma dicendo nel log che e' cieco). Il muro sta all'ESECUZIONE e non alla presa dei lavori: misurato il 26/8, li' rendeva cieche cinque mutazioni del turno. (c) `TIPI_DI_BOTTEGA` ha il suo primo nome, `bottega`, e con lui il conto che il muro aveva scritto: la prova prende OGNI tipo dell'elenco e ne collauda la porta eseguendola."
     },
     {
       "id": "AR-840",
@@ -17975,6 +17978,29 @@
         "comando": "node cervello/test/una-mutazione-che-nessuno-puo-eseguire.test.mjs",
         "nota": "11 casi. Il primo ESEGUE il comando che `non-vacuita` costruisce e guarda che esca ≠ 0 con MODULE_NOT_FOUND: se un giorno node imparasse a spezzare quell'argomento, il caso diventerebbe rosso ed e' giusto, perche' il difetto non ci sarebbe piu'. Il tetto copre solo la clausola «non peggiora»: la scheda resta APERTA finche' i 435 ereditati non sono bonificati."
       }
+    },
+    {
+      "id": "AR-841",
+      "titolo": "Il lavoro di una bottega moriva se il sistema non dava un file temporaneo",
+      "dimensione": "cadenza-esecuzione",
+      "gravita": "minore",
+      "impatto_crescita": "basso",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 06:20",
+      "nato_come": "nuovo-lavoro",
+      "nato_da": "lotto 61 (AR-839): la radiografia in corsa sul perimetro, lente cadenza-esecuzione, mentre montavo la porta di bottega",
+      "causa_radice": "In `bottega_prompt` lo stderr del costruttore va su un file aperto con `mktemp`. Scritto `err=\"$(mktemp)\"`, se `mktemp` non risponde la variabile resta VUOTA e la riga dopo diventa `2>\"\"`: non e' un redirect su un file senza nome, e' un errore di reindirizzamento. Il lavoro di quella bottega sarebbe morto per un motivo che non c'entra niente con la bottega, e nel log sarebbe comparso un errore di shell invece del vero problema (il disco pieno, o /tmp non scrivibile). E' il difetto piccolo che si nota solo il giorno in cui il sistema e' gia' in difficolta' — cioe' il giorno peggiore.",
+      "dove": "cervello/worker-bottega.sh (bottega_prompt)",
+      "fix_fatto": "🟡 `err=\"$(mktemp 2>/dev/null)\" || err=\"\"` e poi un ripiego esplicito su `${TMPDIR:-/tmp}/bottega-prompt-$$.err`. Il nome col PID non si scontra fra due worker sulla stessa macchina.",
+      "impatto": "Nessuno finche' /tmp risponde. Il giorno che non risponde, i lavori delle botteghe si fermano con un messaggio che manda a cercare nel posto sbagliato.",
+      "origine": "lotto 61, trovato dalla lente della sua dimensione sul perimetro toccato — non da una radiografia separata di domani",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/il-testo-di-bottega-non-porta-l-altro-negozio.test.mjs",
+        "nota": "Il caso «AR-841 — se il sistema non da' un file temporaneo, il lavoro parte lo stesso» mette un `mktemp` finto che esce 1 davanti al PATH ed ESEGUE il ramo vero di worker.sh: il testo deve uscire lo stesso e restare separato. Una mutazione che rimette `err=\"$(mktemp)\"` lo fa diventare rosso, verificata."
+      },
+      "chiuso_il": "2026-08-27 06:45"
     }
   ],
   "meta": {

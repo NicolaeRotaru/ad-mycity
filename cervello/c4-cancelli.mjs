@@ -344,6 +344,15 @@ export const DIFESE_WORKER = [
     ps1: /coda_prossima_riga/,
   },
   {
+    // AR-839. Come il turno, vive in un file sorgibile (`worker-bottega.sh`) e qui si cerca la
+    // CHIAMATA: e' quella a dire che il worker la usa davvero. Un muro scritto e mai montato e'
+    // il difetto stesso, non la difesa — e' cosi' che AR-839 e' nato.
+    nome: "muro fra i negozi",
+    cosa: "un lavoro di un negozio di un tipo senza percorso isolato NON si esegue: sul percorso del centro i dati di due botteghe si incontrerebbero senza che nessuno se ne accorga",
+    sh: /bottega_muro/,
+    ps1: /bottega_muro/,
+  },
+  {
     nome: "recupero orfani",
     cosa: "rimette in coda gli in_corso rimasti appesi invece di lasciarli morti",
     sh: /stato=eq\.in_corso/,

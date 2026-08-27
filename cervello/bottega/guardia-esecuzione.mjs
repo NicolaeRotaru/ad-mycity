@@ -15,8 +15,12 @@
 //
 // `ARCHITETTURA-TRE-MACCHINE.md` e' esplicito sull'ordine: «il muro non e' una rifinitura da mettere
 // dopo il pilota. E' la prima cosa, o non si parte», perche' aggiungerlo su dati gia' mescolati e'
-// «il lavoro piu' caro e pericoloso che esista». Quindi il muro si costruisce ORA, prima della
-// porta che dovra' sorvegliare — e finche' la porta non c'e', non fa passare niente.
+// «il lavoro piu' caro e pericoloso che esista». Quindi il muro si e' costruito PRIMA della porta
+// che doveva sorvegliare, e finche' la porta non c'e' stata non ha fatto passare niente.
+//
+// Il 27/8 la porta e' arrivata: il tipo di lavoro `bottega`, dietro `bottega/testo-lavoro.mjs`, che
+// e' l'unico posto da cui esce il testo di un lavoro di negozio. Il muro adesso ha qualcosa da
+// sorvegliare, e il suo mestiere non e' cambiato: chi non e' nell'elenco non passa.
 //
 // ─────────────────────────────────────────────────────────────────────────────
 // FAIL-CLOSED: un lavoro di un negozio che il worker non sa trattare NON si esegue
@@ -35,13 +39,16 @@ export const CENTRO = "centro";
 
 /**
  * I tipi di lavoro che sanno trattare un negozio, cioe' quelli il cui testo per l'AI esce da
- * `testoPerAI`. Oggi e' VUOTO ed e' giusto che lo sia: il percorso di bottega non e' costruito.
+ * `testoPerAI` e non dal prompt generico del centro.
  *
- * Chi lo costruira' deve aggiungere qui il suo tipo, e a quel punto la prova di questo file gli
- * chiede di dimostrare che il testo passa davvero dal costruttore isolato. Un elenco vuoto non e'
- * un buco: e' il muro che non fa passare nessuno finche' non c'e' una porta.
+ * Aggiungere un nome qui e' l'atto che APRE il muro, e non e' gratis: la prova di questo file
+ * prende ogni nome dell'elenco, gli manda le righe di DUE negozi e guarda il testo che esce
+ * davvero. Se di quel tipo non esiste il percorso isolato, il caso diventa rosso — quindi il tipo
+ * e il suo percorso nascono nello stesso lavoro, o non nascono.
+ *
+ * `bottega` (27/8) e' il primo, e la sua porta e' `bottega/testo-lavoro.mjs`.
  */
-export const TIPI_DI_BOTTEGA = [];
+export const TIPI_DI_BOTTEGA = ["bottega"];
 
 /**
  * Questo lavoro si puo' eseguire?

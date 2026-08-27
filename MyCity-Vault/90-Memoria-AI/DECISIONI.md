@@ -4372,3 +4372,15 @@ una soglia che stavo alzando e che il sorvegliante del delta ha respinto con rag
 
 **Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
 
+
+## 2026-08-27 06:40 — 🟡 La porta di bottega: il lavoro di un negozio adesso ha una strada sua (AR-839)
+
+**Cosa.** Il worker sa fare un tipo di lavoro nuovo, `bottega`. Il testo che l'AI legge non lo scrive piu' il worker: esce da un costruttore solo, quello che scarta le righe degli altri negozi e non ha nessun campo da cui possano entrare le chiavi del negoziante.
+
+**Perche' adesso.** I due meccanismi che tengono separati i negozi erano scritti e provati dal 23/8, e non li chiamava nessuno. La mia prima diagnosi era sbagliata e l'ho corretta: non erano aggirati, erano in ATTESA — tutti i tipi di lavoro erano del centro, e un lavoro del centro non ha nessun negozio da tenere separato. Il difetto era che il giorno del primo lavoro di bottega niente avrebbe obbligato chi lo costruiva a passare di li'.
+
+**Tre scelte mie, dichiarate.** (a) Il muro sta all'ESECUZIONE, non nella presa dei lavori: nella presa rendeva cieche cinque prove del turno, misurato ieri. Un freno che spegne le prove di un altro freno e' un cattivo affare. (b) Fail-closed con una lista: si entra nella lista pagando, perche' la prova prende ogni nome dichiarato e ne collauda la porta eseguendola. Il conto non lo paga chi costruisce il muro, lo paga chi apre la porta. (c) L'impiegato di una bottega non vede la memoria della macchina e non ha le sue mani: niente repo, niente PR, niente invii.
+
+**Cosa NON copre.** La separazione la fa il codice, sopra quello che il database ha gia' consegnato: se una query sbaglia, le righe altrui arrivano fino al filtro, vengono scartate e contate ad alta voce, ma sono uscite. Il muro dentro il database resta aperto (AR-802) ed e' rosso: non lo posso provare da qui.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
