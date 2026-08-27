@@ -8,6 +8,7 @@ reparto: tech
 > Formato: AAAA-MM-GG · contesto · cosa ha funzionato o no · numero · lezione · #tag
 
 ## Esiti
+- 2026-08-27 09:30 · AR-840: altri 55 sblocchi, tetto 284→229, sei collegamenti mai provati riparati · V5 C5 A5 K4 I3 M4 E5 (media 4.43) · atteso le sei saranno rami irraggiungibili → reale no: tre collegamenti mai provati, due parole che la rottura si porta dietro, e un rilevatore coperto solo dal suo gemello nel test · #prove-vacue #collegamenti
 - 2026-08-27 09:07 · AR-840: altri 56 sblocchi, tetto 340→284, e quattro fix scoperti dentro · V5 C5 A5 K4 I3 M5 E5 (media 4.57) · atteso le quattro che non mordono saranno rami irraggiungibili come stamattina → reale no: tre erano collegamenti mai provati e una era una mia espressione regolare che leggeva solo il prefisso · #prove-vacue #collegamenti
 - 2026-08-27 08:43 · AR-840: sbloccate 57 mutazioni cieche in quattro grappoli, tetto 393→340 · V5 C5 A4 K4 I3 M5 E5 (media 4.43) · atteso un terzo non mordera', come nel primo lotto → reale solo 3 su 57 — e tutte e tre per la STESSA ragione nuova: il ramo difeso l'ambiente non lo prende mai · #prove-vacue #rami-irraggiungibili
 - 2026-08-27 08:17 · AR-843: i sei vincoli del giro che non sapevano dire «non ho potuto misurare», contati e riparati · V5 C5 A5 K4 I4 M5 E4 (media 4.57) · atteso contarli e lasciare un tetto da smaltire → reale erano sei, non ventisette: contati bene si potevano chiudere tutti oggi, e il tetto nasce a zero · #guardrail #contratto-guardiani

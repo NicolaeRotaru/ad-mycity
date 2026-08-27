@@ -47,6 +47,12 @@ test("AR-757 · una mutazione che SOSTITUISCE viene riconosciuta come quella che
 
 test("AR-757 · un file non toccato non e' vagante: il freno non da' fastidio a chi non ha fatto niente", () => {
   assert.equal(eVagante(ARCHIVIO, ARCHIVIO, CANCELLA), false);
+  // 27/8, AR-840 — il caso qui sopra passava anche SENZA la guardia `archivio === albero`, perche'
+  // con un `cerca` che c'e' davvero il testo mutato non somiglia a quello fermo. La guardia serve
+  // per il mutante che non cambia NIENTE — `cerca` vuoto — dove il testo «rotto» torna identico
+  // all'originale e un file che nessuno ha toccato risulta vagante. Il freno bloccherebbe chi non
+  // ha fatto niente, e un freno che da' fastidio a chi non c'entra viene staccato al secondo giro.
+  assert.equal(eVagante(ARCHIVIO, ARCHIVIO, { nome: "non cambia niente", cerca: "", sostituisci: "" }), false, "un file fermo e' stato dichiarato vagante");
 });
 
 test("AR-757 · chi ha SPOSTATO il codice non viene bloccato: quella e' un'altra domanda", () => {
@@ -85,8 +91,12 @@ test("AR-757 · il referto dice COSA FARE, non solo che c'e' un problema", () =>
 // e' esattamente com'era il 22/8, quando la domanda si faceva solo all'ultima porta.
 test("AR-757 · il gancio del commit chiama il freno, e lo fa PRIMA del cancello del ramo", () => {
   const hook = readFileSync(new URL("../../.githooks/pre-commit", import.meta.url), "utf8");
-  const dovePrende = hook.indexOf("cervello/mutazione-vagante.mjs");
-  assert.notEqual(dovePrende, -1, "il gancio del commit non chiama il freno: nessun commit verrebbe fermato");
+  // 27/8, AR-840 — cercare il PERCORSO non bastava: nel gancio compare due volte, una nel test
+  // `[ -f … ]` e una nella chiamata vera. Spegnendo la chiamata (`if false; then`) il percorso
+  // restava li' sopra e questo caso non se ne accorgeva. E' la parola che la rottura si porta
+  // dietro — la stessa forma di AR-077 — e qui si cerca la CHIAMATA, non il nome.
+  const dovePrende = hook.search(/node\s+"\$ROOT\/cervello\/mutazione-vagante\.mjs"/);
+  assert.notEqual(dovePrende, -1, "il gancio del commit non ESEGUE il freno: nessun commit verrebbe fermato");
   const doveEsce = hook.indexOf("node \"$CANCELLI\" segna");
   assert.ok(dovePrende < doveEsce, "il freno deve stare prima del punto in cui il commit si dichiara passato");
 });

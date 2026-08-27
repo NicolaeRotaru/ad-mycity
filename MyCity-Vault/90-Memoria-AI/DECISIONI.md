@@ -4434,3 +4434,15 @@ una soglia che stavo alzando e che il sorvegliante del delta ha respinto con rag
 **E una forma che ho ritrovato in casa mia.** Il controllo «il guardiano e' montato nel cancello» cercava una riga che una riga COMMENTATA contiene ancora, lettera per lettera. Ne avevo scritti due oggi con lo stesso difetto: irrobustiti tutti e tre, e verificato commentando la riga a mano.
 
 **Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).
+
+## 2026-08-27 10:15 — 🟡 Altri 55 sblocchi: sei collegamenti che nessuno aveva mai provato (AR-840)
+
+**Cosa.** Undici grappoli sbloccati: 49 mordono, 6 no. Tetto da 284 a **229**. Tutti e sei riparati.
+
+**Tre erano collegamenti.** Il guardiano dei workflow applicava tre regole: le prime due provate da dodici casi, la terza — quella che dice «questo script parte e poi muore alla prima riga» — collegata e mai provata. Si poteva togliere e restava tutto verde. Il rilevatore delle copie di una decisione era coperto solo dal suo gemello scritto dentro il test: il rilevatore VERO, quello che gira nella macchina, da nessuno.
+
+**Due erano la parola che la rottura si porta dietro.** Il gancio del commit nomina il freno due volte: una per chiedere se il file esiste, una per eseguirlo. Spegnendo l'esecuzione la parola restava, e il controllo non se ne accorgeva. È la terza volta oggi che incontro questa forma.
+
+**E una era la mia macchina che si dà ragione da sola.** Una radice scritta a mano — `/home/user/ad-mycity` — su questa macchina È quella giusta. Da qui nessun comportamento le distingue. L'ho dichiarato invece di fingere: metà del caso guarda il comportamento (il bagaglio segue la radice che gli si dà), metà guarda il sorgente, e il perché è scritto lì.
+
+**Colore.** 🟡 — codice della macchina in un ramo, nessun deploy. Il merge resta a Nicola (PR #850).

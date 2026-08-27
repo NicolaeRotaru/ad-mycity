@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-27 09:35
+aggiornato: 2026-08-27 10:15
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -36,6 +36,24 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 
 
+
+> 🧵 **27/8 10:15 — Un controllo con tre regole ne applicava due.**
+>
+> **In parole semplici.** Altri 55 controlli finti sbloccati: 49 mordono, 6 no. Tutti e sei riparati. Il numero scende da 284 a 229.
+>
+> **Per esempio.** C'e' un guardiano che controlla se i programmi grossi della macchina possono partire. Ha tre regole. Le prime due erano provate da dodici casi. La terza dice una cosa sola: questo programma parte e poi muore subito dopo. Quella regola era collegata e non la provava nessuno. Si poteva togliere e restava tutto verde.
+>
+> **Cosa cambia per te.** Sei controlli veri adesso sono collegati per davvero. Il numero dei controlli finti e' sceso di 164 in una giornata: era 393 stamattina.
+>
+> **Cosa devi fare.** Niente: e' lavoro sulla macchina.
+>
+> **Cosa non ho verificato.** Restano 229 controlli. E ne dichiaro uno che da qui non posso provare fino in fondo: un pezzo di codice aveva l'indirizzo di casa scritto a mano, e su questa macchina quell'indirizzo e' quello giusto. Il danno si vedrebbe solo altrove — sul server. Meta' di quel controllo guarda il comportamento, meta' guarda il testo, ed e' scritto perche'.
+>
+> **Dettagli tecnici.** Undici grappoli. I sei riparati, per forma:
+> · AR-780 e AR-743 — rilevatori collegati e mai provati.
+> · AR-757, due volte — il percorso del freno compare due volte nel gancio del commit, e la ricerca trovava sempre l'altra.
+> · AR-126 e AR-435 — in `prepara-giro`: i fatti letti dal registro, e la radice calcolata invece che scritta.
+> Parametrizzata `guarda(cartella)` per poterla eseguire su un mondo finto. Tetto `mutazioni_senza_esecutore` 284 → 229.
 
 > 🔗 **27/8 09:35 — Quattro regole scritte bene che non chiamava nessuno.**
 >

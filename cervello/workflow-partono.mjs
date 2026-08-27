@@ -134,19 +134,22 @@ export function haImport(testo) {
 }
 
 /** Il verdetto sui sei script. Separato dalla stampa, così una prova lo può eseguire. */
-export function guarda() {
-  if (!existsSync(CARTELLA)) return { misurato: false, motivo: `${CARTELLA} non esiste` };
+// La cartella arriva da fuori (con la vera come default) perche' una prova possa dargliene una
+// finta: le tre regole erano provate una per una e il loro COLLEGAMENTO qui dentro da nessuno —
+// si poteva togliere la terza e restava tutto verde (27/8, AR-840).
+export function guarda(cartella = CARTELLA) {
+  if (!existsSync(cartella)) return { misurato: false, motivo: `${cartella} non esiste` };
   // Il perimetro NON si deduce dagli esempi di oggi (AR-379..387: un recinto scritto a mano nasce
   // verde e resta verde, perché fuori dal recinto non cerca niente). Qui dentro OGNI file è uno
   // script di workflow: si guardano tutti, e chi va tenuto fuori si dichiara per nome qui sotto,
   // col perché. Oggi non c'è niente da tenere fuori.
-  const script = elencaFile(CARTELLA, { escludi: FUORI_PERIMETRO })
-    .filter((f) => !f.includes("/") && statSync(join(CARTELLA, f)).isFile())
+  const script = elencaFile(cartella, { escludi: FUORI_PERIMETRO })
+    .filter((f) => !f.includes("/") && statSync(join(cartella, f)).isFile())
     .sort();
   if (script.length === 0) return { misurato: false, motivo: "nessuno script in .claude/workflows/" };
   const guai = {};
   for (const f of script) {
-    const testo = readFileSync(join(CARTELLA, f), "utf8");
+    const testo = readFileSync(join(cartella, f), "utf8");
     const motivi = [];
     if (!partirebbe(testo)) motivi.push("`export const meta` non è la prima istruzione");
     if (haImport(testo)) motivi.push("c'è un `import`: il motore non ne accetta nessuno");
