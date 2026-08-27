@@ -88,25 +88,8 @@ fi
 # AR-307 — mostra l'ESITO di un guardiano senza perdere la riga che conta.
 # Prima si usava `| tail -N`: i guardiani stampano il verdetto in TESTA e node mette lo stack in
 # MEZZO, così nel log del giro restava la coda decorativa e l'errore vero spariva. Chi leggeva il log
-# vedeva un guardiano «passato» che in realtà era esploso alla prima riga.
-# Questo filtro tiene: la PRIMA riga (il verdetto), fino a 2 righe di errore ovunque siano, e la coda.
-# Uso: <comando> 2>&1 | esito_righe 4
-esito_righe() {
-  local n="${1:-4}"
-  awk -v n="$n" '
-    { L[NR] = $0 }
-    END {
-      if (NR == 0) exit
-      if (NR <= n) { for (i = 1; i <= NR; i++) print L[i]; exit }
-      print L[1]
-      err = 0
-      for (i = 2; i <= NR - n + 1 && err < 2; i++) {
-        if (L[i] ~ /(Error|ERRORE|Errore|Traceback|⛔|❌)/) { print L[i]; err++ }
-      }
-      print "   …"
-      for (i = NR - n + 2; i <= NR; i++) print L[i]
-    }'
-}
+# `esito_righe` vive in cervello/giro-esito.sh (caricato piu' sotto): la usano sia le righe di
+# questo file sia la funzione `sensore`, e una regola sola non deve avere due copie.
 
 # AR-293/AR-317: le mani condivise delle tre cadenze (lucchetto d'esecuzione, marcatore di scrittura,
 # motore col timeout derivato, registro degli esiti). Vedi cervello/lib-cadenza.sh.
@@ -310,7 +293,7 @@ if command -v node >/dev/null 2>&1; then
   echo "[$(ts)] Sensore cassa/runway (AR-016)..."
   node "$SCRIPT_DIR/sensore-cassa.mjs" --json 2>&1 | esito_righe 4 || true
   echo "[$(ts)] Sentinella fonti web (AR-036)..."
-  node "$SCRIPT_DIR/sentinella-fonti.mjs" 2>&1 | esito_righe 4 || true
+  sensore "sentinella-fonti.mjs" 4 || true   # AR-859: il suo ⚪ non finisce piu' nella pipe
   echo "[$(ts)] Agenda intelligence (fonti dovute oggi)..."
   node "$SCRIPT_DIR/intelligence-agenda.mjs" 2>&1 | esito_righe 3 || true
   # AR-617 — i 114 senior che promettono di lavorare in sola lettura adesso hanno il limite scritto
@@ -932,15 +915,15 @@ $_chius_out"
   # oggi esce 1 dicendo «sei tu il vincolo, la macchina ha già fatto la sua parte». Un cancello che
   # ferma la macchina perché un umano non ha ancora firmato punisce la parte sbagliata. AR-291.
   echo "[$(ts)] ⏱️  #38 Guardiano del Tuo Tempo (carico firme)..."
-  node "$SCRIPT_DIR/guardiano-tempo.mjs" 2>&1 | esito_righe 3 || true
+  sensore "guardiano-tempo.mjs" 3 || true    # AR-859
   echo "[$(ts)] 🪙 #30 Metabolismo (costo AI per organo)..."
-  node "$SCRIPT_DIR/metabolismo.mjs" 2>&1 | esito_righe 3 || true
+  sensore "metabolismo.mjs" 3 || true        # AR-859
   echo "[$(ts)] 💶 #13 Bilancio Vivo (margine per ordine)..."
-  node "$SCRIPT_DIR/bilancio-vivo.mjs" 2>&1 | esito_righe 3 || true
+  sensore "bilancio-vivo.mjs" 3 || true      # AR-859
   echo "[$(ts)] 🦠 #12 Sistema Immunitario (red team sicurezza)..."
   node "$SCRIPT_DIR/sistema-immunitario.mjs" 2>&1 | esito_righe 4 || true
   echo "[$(ts)] ⚡ #23 Midollo Spinale (riflessi proposti)..."
-  node "$SCRIPT_DIR/midollo-spinale.mjs" 2>&1 | esito_righe 3 || true
+  sensore "midollo-spinale.mjs" 3 || true    # AR-859
   echo "[$(ts)] 🛌 #37 Letargo (livello di degradazione)..."
   # AR-392 — «chi deve spegnere il superfluo quando finisce la benzina parla e nessuno lo ascolta».
   # La riga era `node letargo.mjs 2>&1 | esito_righe 3 || true`: in bash il codice d'uscita di una
