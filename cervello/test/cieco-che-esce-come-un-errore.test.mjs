@@ -77,7 +77,7 @@ prova("un sorgente vuoto non e' malato, ed e' il ⚪ che non deve diventare un �
   assert.equal(confondeCiecoEdErrore().confonde, false);
 });
 
-prova("SUL SERIO: i cinque curati, senza il loro file sotto, escono 2 e non 1", () => {
+prova("SUL SERIO: gli otto curati, senza il loro file sotto, escono 2 e non 1", () => {
   // Questa e' la prova che GIRA, e serve proprio qui. La cura tocca un ramo che in casa non si
   // apre mai — il vault c'e' sempre — cioe' la forma di prova vuota numero ①: scritta bene, sul
   // ramo giusto, e quella riga qui non la esegue nessuno.
@@ -89,9 +89,23 @@ prova("SUL SERIO: i cinque curati, senza il loro file sotto, escono 2 e non 1", 
   const dir = mkdtempSync(join(tmpdir(), "cieco-"));
   try {
     cpSync(CERVELLO, join(dir, "cervello"), { recursive: true });
-    for (const t of ["bilancio-vivo", "metabolismo", "midollo-spinale", "keyword-owner-check", "freschezza-okr"]) {
-      const r = spawnSync(process.execPath, [join(dir, "cervello", `${t}.mjs`), "--json"], { encoding: "utf8" });
-      assert.equal(r.status, 2, `${t} senza il suo file deve uscire 2 (non ho potuto misurare), non ${r.status}`);
+    // Ogni attrezzo ha il SUO file. Per quasi tutti sta nel vault, che nella copia non c'e'; uno pero'
+    // legge un file che vive dentro cervello/, quindi la copia se lo porta dietro e va tolto a mano —
+    // se ne accorge questa prova, non io: lanciandolo usciva 0, cioe' il ramo non si era aperto.
+    const CURATI = [
+      { nome: "bilancio-vivo" },
+      { nome: "metabolismo" },
+      { nome: "midollo-spinale" },
+      { nome: "keyword-owner-check" },
+      { nome: "freschezza-okr" },
+      { nome: "guardiano-tempo" },
+      { nome: "chiusure-audit" },
+      { nome: "sentinella-fonti", togli: "cervello/radar-fonti.json" },
+    ];
+    for (const { nome, togli } of CURATI) {
+      if (togli) rmSync(join(dir, togli), { force: true });
+      const r = spawnSync(process.execPath, [join(dir, "cervello", `${nome}.mjs`), "--json"], { encoding: "utf8" });
+      assert.equal(r.status, 2, `${nome} senza il suo file deve uscire 2 (non ho potuto misurare), non ${r.status}`);
     }
   } finally {
     rmSync(dir, { recursive: true, force: true });
@@ -99,18 +113,40 @@ prova("SUL SERIO: i cinque curati, senza il loro file sotto, escono 2 e non 1", 
 });
 
 prova("IL TETTO: quanti programmi confondono ancora «non ho misurato» con «ho trovato un problema»", () => {
-  // Misurato il 2026-08-27 sul codice vero: erano 21, tre curati in questo lotto (bilancio-vivo,
-  // metabolismo, midollo-spinale) piu' due che il giro LEGGE davvero (keyword-owner-check,
-  // freschezza-okr): li' il cieco non restava zitto, si travestiva da diagnosi e il giro la girava al
-  // motore come se qualcuno l'avesse fatta. Il tetto scende con loro. Scende quando qualcuno converte il ramo
-  // a `process.exit(2)`, e non risale. Se diventa rosso in su, qualcuno ne ha aggiunto uno nuovo.
-  const TETTO = 16;
+  // ESENTI — guardati uno per uno, e NON sono questa malattia. Il riconoscitore li pesca perche' nel
+  // contesto compare una parola del cieco, ma li' l'assenza del file e' il REPERTO, non una cecita'.
+  // Un tetto che conta anche questi non si puo' portare a zero, e un numero che non arriva a zero si
+  // impara a ignorarlo: e' esattamente il difetto che AR-375 racconta.
+  const ESENTI = {
+    "freschezza-checklist.mjs":
+      "Se CHECKLIST-NICOLA.md non esiste, l'assenza E' il reperto: il messaggio dice «creala in questo giro». Non e' «non ho potuto guardare», e' «ho guardato e manca».",
+    "traccia-decisione.mjs":
+      "Ha gia' il suo process.exit(2) per il caso cieco vero (registro dell'autopilota assente). L'uscita 1 e' un'altra cosa: se il registro delle DECISIONI non esiste, allora ogni atto reale e' senza traccia — che e' il reperto che questo strumento esiste per dare.",
+    "collega-marketplace.mjs":
+      "E' un ramo di catch: il collegamento del repo e' FALLITO (rete, token, repo inesistente). Questo attrezzo non misura, agisce — e un'azione fallita esce 1, giustamente.",
+    "programma-correzione-ar114.mjs":
+      "«il documento non e' quello che mi aspettavo, non scrivo niente» e' un reperto e una scelta: meglio un file vecchio che un file mezzo corretto. Non e' cecita'.",
+    "rivedi-lezione.mjs":
+      "«questa lezione non esiste» e' la risposta a una domanda, non l'impossibilita' di rispondere. Come grep che non trova: 1 e' il codice giusto.",
+  };
+
+  // Misurato il 2026-08-27 sul codice vero: 21 lordi. Otto curati in questo lotto, cinque dichiarati
+  // esenti qui sopra col perche'. Restano 8 di debito. Scende quando qualcuno converte il ramo del
+  // cieco a process.exit(2) — e se lo strumento e' letto dal giro, anche il blocco di giro.sh deve
+  // passare da vincolo_da_rc. Non risale mai.
+  const TETTO = 8;
   const malati = readdirSync(CERVELLO)
     .filter((f) => f.endsWith(".mjs"))
     .filter((f) => confondeCiecoEdErrore(readFileSync(join(CERVELLO, f), "utf8")).confonde);
+
+  // Un'esenzione che non copre piu' niente e' un residuo che nasconde il prossimo caso vero.
+  const orfane = Object.keys(ESENTI).filter((f) => !malati.includes(f));
+  assert.deepEqual(orfane, [], `esenzioni che non corrispondono piu' a niente: toglile — ${orfane.join(", ")}`);
+
+  const debito = malati.filter((f) => !ESENTI[f]);
   assert.ok(
-    malati.length <= TETTO,
-    `programmi che confondono ⚪ e ❌: ${malati.length} > tetto ${TETTO}. Sono: ${malati.join(", ")}`,
+    debito.length <= TETTO,
+    `programmi che confondono ⚪ e ❌: ${debito.length} > tetto ${TETTO}. Sono: ${debito.join(", ")}`,
   );
 });
 

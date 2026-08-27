@@ -93,8 +93,10 @@ async function main() {
 
   if (!existsSync(CODA)) {
     const out = { ok: false, quando: quandoStr, errore: "AZIONI-IN-ATTESA.md non trovato" };
-    console.log(JSON_MODE ? JSON.stringify(out) : "❌ AZIONI-IN-ATTESA.md non trovato");
-    process.exit(1);
+    console.log(JSON_MODE ? JSON.stringify(out) : "⚪ AZIONI-IN-ATTESA.md non trovato: non ho potuto misurare la coda");
+    // AR-859 — 2 = NON HO POTUTO MISURARE. Uscire 1 qui diceva «la coda e' in stallo», che senza il
+    // file non lo sa nessuno: la coda potrebbe essere vuota e perfetta.
+    process.exit(2);
   }
 
   // --- La coda si legge COME LA LEGGE LA CABINA (AR-569) ---

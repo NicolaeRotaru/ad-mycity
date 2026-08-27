@@ -78,9 +78,11 @@ async function main() {
   const { file, fonti, errore } = caricaRadar();
   if (!file || !fonti.length) {
     const out = { ok: false, quando, errore: errore || "radar-fonti.json non trovato o vuoto" };
-    console.log(JSON_MODE ? JSON.stringify(out) : "❌ radar-fonti.json non trovato");
+    console.log(JSON_MODE ? JSON.stringify(out) : "⚪ radar-fonti.json non trovato: non ho potuto guardare nessuna fonte");
     writeFileSync(OUT, JSON.stringify(out, null, 2));
-    process.exit(1);
+    // AR-859 — 2 = NON HO POTUTO MISURARE: senza l'elenco delle fonti non ne ho controllata nessuna,
+    // che e' un'altra cosa dall'averle controllate e trovate morte.
+    process.exit(2);
   }
 
   const prima = caricaStoricoPrecedente();

@@ -87,8 +87,9 @@ function main() {
   const quando = nowPiacenza();
   const p = join(AD_ROOT, CANTIERE);
   if (!existsSync(p)) {
-    console.error(`❌ cantiere non trovato: ${CANTIERE}`);
-    process.exit(1);
+    console.error(`⚪ cantiere non trovato: ${CANTIERE} — non ho potuto controllare nessuna chiusura`);
+    // AR-859 — 2 = NON HO POTUTO MISURARE, non «ho trovato chiusure sbagliate».
+    process.exit(2);
   }
   const cant = JSON.parse(readFileSync(p, "utf8"));
   const chiusi = (cant.difetti || []).filter((d) => d.stato === "chiuso");
