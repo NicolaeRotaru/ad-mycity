@@ -25,7 +25,7 @@
 const RE_DIRETTA = /node\s+"?\$\{?SCRIPT_DIR\}?\/([a-z0-9-]+)\.mjs/g;
 const RE_HELPER = /\bguardiano\s+"?([a-z0-9-]+)\.mjs/g;
 /**
- * L'altro helper del giro: `sensore "x.mjs" N` (AR-859). Serve agli attrezzi che NON sono cancelli —
+ * L'altro helper del giro: `sensore <nome>.mjs N` (AR-859). Serve agli attrezzi che NON sono cancelli —
  * escono 1 tutti i giorni per ragioni legittime — ma che sanno dire 2 quando non hanno potuto
  * misurare. Come `guardiano`, cattura l'esito prima di stampare: quindi non lo perde. A differenza
  * di `guardiano` non ferma il giro, e infatti qui NON conta come bloccante.
