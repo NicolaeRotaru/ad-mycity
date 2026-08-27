@@ -512,6 +512,20 @@ if command -v node >/dev/null 2>&1; then
   node "$SCRIPT_DIR/supervisione-negozi.mjs" --accoda 2>&1 | esito_righe 6 || true
   echo "[$(ts)] Housekeeping coda azioni (sposta ✅/❌ in archivio se >20)..."
   node "$SCRIPT_DIR/housekeeping-azioni.mjs" 2>&1 | esito_righe 2 || true
+  # AR-847 — STATO.md cresce di una voce a ogni lotto e supera il campo visivo del controllo di
+  # leggibilita' ogni pochi giorni (misurato: 22/8 a 345.000 caratteri, 27/8 a 200.864). Prima se ne
+  # accorgeva solo il cancello, a lavoro finito. Adesso lo spostamento e' qui, all'80% del campo:
+  # si sposta PRIMA di sforare, non dopo. Le voci si spostano, non si cancellano.
+  echo "[$(ts)] Housekeeping STATO.md (sposta le voci vecchie in archivio se sopra l'80% del campo)..."
+  # L'ESITO NON FINISCE IN UNA PIPE, e il guardiano delle malattie ha avuto ragione a fermarmi:
+  # avevo copiato la riga di housekeeping-azioni, dove `| esito_righe 2 || true` seppellisce il
+  # codice d'uscita due volte. Su questo attrezzo l'uscita 2 vuol dire una cosa precisa — «non
+  # riconosco la forma di STATO.md, non l'ho toccato» — cioe' esattamente il ⚪ che non deve poter
+  # passare per un verde. Se la struttura del file cambia e lo spostamento diventa cieco, il giro lo
+  # dice invece di andare avanti in silenzio: e' la stessa lezione di AR-842, un piano piu' in la'.
+  _hks_out="$(node "$SCRIPT_DIR/housekeeping-stato.mjs" 2>&1)"; _hks_rc=$?
+  printf '%s\n' "$_hks_out" | esito_righe 2
+  [ "$_hks_rc" -eq 2 ] && echo "[$(ts)] ⚠️  AR-847: lo spostamento di STATO.md non ha riconosciuto la forma del file (rc=2) — il file cresce e nessuno lo alleggerisce piu'." >&2
   echo "[$(ts)] Sonda chiusura-loop quaderni (AR-009)..."
   node "$SCRIPT_DIR/chiusura-loop.mjs" --sonda 2>&1 | esito_righe 4 || true
   # PZ-008 (piano "chiudi i loop"): GATE chiusura-loop — chi ha scritto FATTO in Sala OGGI deve avere

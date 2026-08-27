@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-27 15:00",
+  "aggiornato": "2026-08-27 15:40",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18280,7 +18280,7 @@
       "gravita": "medio",
       "impatto_crescita": "basso",
       "colore": "🟡",
-      "stato": "aperto",
+      "stato": "chiuso",
       "nato": "2026-08-27 11:50",
       "nato_come": "scoperta",
       "nato_da": "lotto 68: il cancello mi ha bocciato la consegna perche' STATO.md era passato da 200.000 caratteri con le voci che ci avevo scritto io oggi",
@@ -18290,9 +18290,12 @@
       "impatto": "Nessun dato perso: le voci si spostano, non si cancellano. Il costo e' che per un periodo sconosciuto — fra il superamento e il primo cancello rosso — quello che Nicola legge non lo controlla nessuno. E ogni spostamento e' un lavoro a mano su un file di memoria, che e' il posto in cui sbagliare costa di piu'.",
       "origine": "lotto 68, bocciato dal cancello",
       "verifica": {
-        "tipo": "umano",
-        "nota": "La prova nasce col fix, come per ogni scheda aperta: oggi non c'e' niente da provare verde. Il conto di adesso, misurato: STATO.md a 168.224 caratteri dopo lo spostamento di oggi (era 200.864), archivio a 221.321. Due spostamenti a mano in cinque giorni."
-      }
+        "tipo": "comando",
+        "comando": "node cervello/test/stato-che-cresce-in-silenzio.test.mjs",
+        "nota": "Dodici casi, tutti su file COSTRUITI. Il piu' importante e' quello che la scheda chiedeva: lo strumento gira su un file di 400 voci e si contano le voci PRIMA e DOPO sui due file — nessuna persa, e il vivo torna sotto soglia. Poi: le spostate sono le piu' vecchie e non le prime che capitano; due passate di fila non spostano due volte e non perdono niente (deve essere innocuo quando non serve); `--dry-run` non scrive; una forma sconosciuta esce ⚪; il file VERO si riconosce ancora, e quel caso scade da solo il giorno che qualcuno cambia la struttura di STATO.md senza dirlo allo strumento — che e' il momento in cui uno spostamento automatico diventa pericoloso. E uno che pretende che il giro lo LANCI: un attrezzo che sposta da solo serve solo se qualcuno lo lancia da solo. Quattro mutazioni verificate rosse."
+      },
+      "fix_fatto": "🟡 Scelta la strada (b) del fix proposto, cioe' lo spostamento automatico: `cervello/housekeeping-stato.mjs`, sul modello di `housekeeping-azioni.mjs` che gia' fa la stessa cosa per la coda. Gira nel giro, subito dopo quello della coda. Tre scelte, ognuna col suo caso di prova: ① si sposta all'80% del campo, non al 100% — arrivare al tetto e poi spostare e' il comportamento di prima, cioe' accorgersene tardi; ② si sposta quanto BASTA a tornare a meta' campo, non un numero fisso: un numero fisso o sposta troppo poco (al lotto dopo si e' di nuovo sopra) o troppo, e su un file di memoria «troppo» vuol dire togliere dagli occhi di Nicola qualcosa che gli serviva ieri; ③ si lascia SEMPRE almeno una voce — un file di stato senza nessun passaggio recente non e' pulito, e' un file che ha perso il suo contenuto. La testa (frontmatter + «I numeri chiave») non si tocca mai: quel blocco sta in cima apposta, e archiviarlo porterebbe via il numero che tre controlli usano per capire se l'attivita' e' ferma. Su una forma di file che non riconosce, lo strumento esce ⚪ e non tocca niente. ⑵ E IL GUARDIANO DELLE MALATTIE MI HA FERMATO SU QUESTO STESSO COMMIT: avevo copiato dalla riga gemella (`housekeeping-azioni`) la forma `| esito_righe 2 || true`, che seppellisce il codice d'uscita due volte — in una pipe conta l'uscita dell'ULTIMO comando, sempre 0. Su questo attrezzo l'uscita 2 vuol dire una cosa precisa, «non riconosco la forma di STATO.md e non l'ho toccato»: e' il ⚪ che non deve poter passare per un verde, la stessa lezione di AR-842 un piano piu' in la'. Adesso l'esito si raccoglie e il giro lo dice. Il caso di prova lo pretende in tutt'e due i versi: che il giro lanci lo strumento, e che NON lo lanci dentro una pipe.",
+      "chiuso_il": "2026-08-27 15:40"
     },
     {
       "id": "AR-848",
