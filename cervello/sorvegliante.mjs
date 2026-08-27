@@ -851,6 +851,18 @@ export function sorveglia({
   oggi = "",
   leggi = null,
   inMisura = new Set(),
+  // ⏱️ 27/8 · AR-858 — IL BUDGET ARRIVA DA FUORI, e prima era una costante letta qui dentro.
+  //
+  // Il freno del budget (AR-542) aveva la sua mutazione registrata e NON mordeva: nessun caso lo
+  // esercitava, perché per esercitarlo serviva una regex che consumasse davvero due secondi — cioè
+  // una prova da venticinque secondi, e per giunta legata all'orologio della macchina che la lancia.
+  // Misurato il 27/8: la stessa regex catastrofica costa 24.231 ms al primo giro e 439 ms al quarto.
+  // Una difesa che si può provare solo con una prova lenta e ballerina è una difesa che non si prova.
+  //
+  // Con il budget iniettabile il caso diventa immediato e deterministico: budget a zero, due righe,
+  // e il freno deve scattare sulla seconda dichiarando il motivo. In produzione nessuno lo passa e
+  // resta `BUDGET_PATTERN_MS`, che è il valore vero.
+  budgetMs = BUDGET_PATTERN_MS,
 } = {}) {
   const voci = [];
   const motivi = [];
@@ -868,7 +880,7 @@ export function sorveglia({
   // potuto cercare non è una malattia assente.
   const speso = new Map();
   const troppoLenta = (id) => {
-    if ((speso.get(id) || 0) <= BUDGET_PATTERN_MS) return false;
+    if ((speso.get(id) || 0) <= budgetMs) return false;
     if (!speso.get(`detto:${id}`)) {
       speso.set(`detto:${id}`, 1);
       motivi.push(`malattia ${id}: il suo pattern ha già consumato ${speso.get(id)} ms, l'ho lasciata indietro su questo file — non è un verde, è una misura che non ho finito`);

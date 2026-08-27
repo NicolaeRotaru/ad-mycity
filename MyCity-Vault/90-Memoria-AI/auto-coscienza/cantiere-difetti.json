@@ -1,6 +1,6 @@
 {
   "_cosa_e": "🚧 CANTIERE DEI DIFETTI — il backlog vivo dei difetti che la macchina trova su sé stessa, portato a ZERO nel tempo. La macchina ne chiude qualcuno a ogni giro (fix 🟡 da firmare), partendo da quelli a maggior impatto sulla crescita. Schema in cervello/auto-coscienza.md. Aggiornato dalla radiografia completa del 2026-07-02: chiuso AR-002, evoluti AR-001/AR-003, aggiunti i 3 bloccanti + i difetti gravi a impatto-crescita alto. I ~30 difetti medio/basso restanti stanno in auto-radiografia.json.",
-  "aggiornato": "2026-08-27 13:45",
+  "aggiornato": "2026-08-27 15:00",
   "_radiografia_23_07_22_20": "Auto-radiografia completa (14 senior in parallelo, sola lettura) su richiesta Nicola. Aggiunti AR-138..AR-151 (nuovi, aperti) + AR-152/AR-153 (chiusi nello stesso turno, solo memoria). Dettaglio: MyCity-Vault/90-Memoria-AI/RADIOGRAFIA-MACCHINA.md.",
   "_review_settimanale_03_07": "Review settimanale 3/7 15:00: cantiere riesaminato, invariato — 20 chiusi in codice · 2 in-corso umani (AR-004 revoca PAT, AR-006 materiale PQ) · 2 aperti (AR-024, AR-025). Radiografia completa NON ri-lanciata (ultima 07-02 12:09 <27h, architettura statica, gate AR-019/AR-025). Le 2 auto-riscritture della settimana chiudono AR-024 e AR-025.",
   "difetti": [
@@ -18431,6 +18431,52 @@
         "nota": "Quattro casi nuovi su mondo finto, piu' la mutazione di AR-569 ri-puntata dentro la funzione pura: adesso morde, prima no. Un caso di prova ha corretto me — 57 diviso 4 fa 14,25, che arrotondato e' 14,3 e non 14,2."
       },
       "chiuso_il": "2026-08-27 13:45"
+    },
+    {
+      "id": "AR-857",
+      "titolo": "La difesa sul testo tagliato si e' spenta da sola quando ho accorciato la coda: girava solo finche' il problema c'era",
+      "dimensione": "processi-cancelli",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 14:45",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 68: sbloccando 75 difese cieche, due non mordevano — questa e' la prima",
+      "causa_radice": "Il caso «finche' la coda sfora il tetto, viene marcata tagliata» apre con `if (testo.length < TETTO_TESTO) return;` sulla coda VERA. Stamattina, in questo stesso lotto, ho archiviato le carte chiuse e la coda e' scesa a 184.688 caratteri contro un tetto di 200.000: da quel momento il caso esce subito e la protezione non la esercita piu' nessuno. E' la forma ① del catalogo — il ramo che l'ambiente non prende mai — con una torsione che vale la pena scrivere: qui il ramo si e' chiuso perche' qualcosa e' MIGLIORATO. Una difesa che vive solo finche' il problema c'e' sparisce insieme al problema, e il giorno in cui smette di servire e' anche quello in cui nessuno se ne accorge.",
+      "dove": "cervello/test/cancello-che-accusa-di-cose-non-tue.test.mjs",
+      "fix_fatto": "🟡 Due casi nuovi su un testo COSTRUITO invece che sperato: uno oltre il tetto (deve risultare tagliato), uno sotto (non deve, o il ⚪ diventerebbe eterno). Il caso sulla coda vera resta dov'e': quando la coda tornera' lunga misurera' di nuovo il mondo, e intanto la protezione ha una difesa che gira sempre.",
+      "impatto": "La protezione dice: un testo letto a meta' produce un ⚪, mai un'accusa. Senza di lei il cancello puo' bocciare Nicola per righe che non ha nemmeno potuto leggere. Era senza difesa viva dal momento in cui la coda si e' accorciata.",
+      "origine": "lotto 68, scoperto sbloccando le difese cieche",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/cancello-che-accusa-di-cose-non-tue.test.mjs",
+        "nota": "Due casi su testo costruito, piu' la mutazione di AR-783 ri-puntata su quello che gira sempre: prima non mordeva, adesso si."
+      },
+      "chiuso_il": "2026-08-27 15:00"
+    },
+    {
+      "id": "AR-858",
+      "titolo": "Il freno che impedisce a una regex scritta male di uccidere la guardia non lo provava nessuno: per provarlo serviva una prova da venticinque secondi",
+      "dimensione": "processi-cancelli",
+      "gravita": "grave",
+      "impatto_crescita": "medio",
+      "colore": "🟡",
+      "stato": "chiuso",
+      "nato": "2026-08-27 14:50",
+      "nato_come": "scoperta",
+      "nato_da": "lotto 68: sbloccando 75 difese cieche, due non mordevano — questa e' la seconda",
+      "causa_radice": "Il freno di AR-542 misura quanto costa ogni pattern e lo lascia indietro quando supera i 2 secondi, dichiarandolo. La sua mutazione era registrata da settimane e non mordeva, perche' nessun caso lo esercitava — e il motivo e' strutturale: il budget era una costante letta dentro `sorveglia`, quindi per superarlo serviva una regex che consumasse DAVVERO due secondi. Cioe' una prova lenta e legata all'orologio della macchina che la lancia. Misurato il 27/8: la stessa regex catastrofica costa 24.231 ms al primo giro e 439 ms al quarto. Una difesa che si prova solo con una prova lenta e ballerina e' una difesa che non si prova.",
+      "dove": "cervello/sorvegliante.mjs (sorveglia, parametro budgetMs)",
+      "fix_fatto": "🟡 Il budget si passa da fuori (`budgetMs`, con la costante vera come valore di scorta): due righe, un budget minuscolo, e il freno scatta sulla seconda dichiarando il motivo. Tre casi: che scatti e dica «non e' un verde», che lo dica UNA volta sola (un freno che si ripete a ogni riga e' rumore, e il rumore spegne i freni), e il verso opposto — col budget normale una malattia veloce non viene lasciata indietro, o la guardia smetterebbe di cercare. Il pattern e' davvero catastrofico, ma su una riga corta: il caso costa meno di un secondo e mezzo.",
+      "impatto": "Il freno esiste perche' una regex maldestra in `malattie.json` puo' tenere occupata la guardia 19.883 ms su UNA riga, mentre l'hook ne ha 15 di tetto: cioe' non la rallenta, la uccide. Restava senza difesa provata.",
+      "origine": "lotto 68, scoperto sbloccando le difese cieche",
+      "verifica": {
+        "tipo": "comando",
+        "comando": "node cervello/test/freni-senza-fonte.test.mjs",
+        "nota": "Tre casi, piu' la mutazione di AR-542 che adesso morde e una nuova sul controllo del budget. Verificate rosse a mano."
+      },
+      "chiuso_il": "2026-08-27 15:00"
     }
   ],
   "meta": {

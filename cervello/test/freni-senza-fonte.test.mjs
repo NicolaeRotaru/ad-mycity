@@ -38,6 +38,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import assert from "node:assert/strict";
 import { ESCLUSA, contaNelPunteggio } from "../previsione-verificabile.mjs";
+import { sorveglia } from "../sorvegliante.mjs";
 
 const QUI = dirname(fileURLToPath(import.meta.url));
 const REPO = join(QUI, "..", "..");
@@ -463,6 +464,60 @@ prova("ogni script toccato resta sintatticamente valido", () => {
     execFileSync("bash", ["-n", join(REPO, f)], { stdio: "pipe" });
   }
 });
+
+// ── ⏱️ IL BUDGET PER PATTERN — AR-858 ────────────────────────────────────────
+//
+// Il freno di AR-542 (una regex scritta male non deve poter uccidere la guardia) aveva la sua
+// mutazione registrata da settimane e NON mordeva: nessun caso lo esercitava. Il motivo è
+// strutturale — per esercitarlo serviva una regex che consumasse davvero due secondi, cioè una
+// prova lenta e legata all'orologio della macchina. Misurato il 27/8: la stessa regex catastrofica
+// costa 24.231 ms al primo giro e 439 ms al quarto. Una difesa che si prova solo con una prova
+// lenta e ballerina è una difesa che non si prova.
+//
+// Adesso il budget si passa da fuori: due righe, un budget minuscolo, e il freno deve scattare
+// sulla seconda DICHIARANDO il motivo. Il pattern è davvero catastrofico — è il difetto vero, non
+// una finzione — ma su una riga corta, così il caso costa meno di un secondo e mezzo.
+
+prova("AR-858: una regex che mangia il budget viene lasciata indietro, e il motivo si dichiara", () => {
+  const lenta = { id: "lenta-per-la-prova", nome: "regex catastrofica", pattern: "(a+)+$", estensioni: [".mjs"] };
+  const riga = "a".repeat(24) + "!";
+  const r = sorveglia({
+    toccati: [{ file: "cervello/finto.mjs", aggiunte: [{ n: 1, testo: riga }, { n: 2, testo: riga }], contenuto: null }],
+    malattie: [lenta],
+    budgetMs: 50,
+  });
+  const detto = r.motivi.filter((x) => /lenta-per-la-prova/.test(x));
+  assert.equal(detto.length, 1, `il freno non ha lasciato indietro la malattia lenta: motivi = ${JSON.stringify(r.motivi)}`);
+  assert.match(detto[0], /non è un verde/, "si ferma ma non dice che la misura non è finita: un cieco muto");
+  assert.match(detto[0], /ha già consumato \d+ ms/, "non dice quanto ha speso: il motivo non si può verificare");
+});
+
+prova("AR-858: e il motivo si dice UNA volta sola, non a ogni riga", () => {
+  // Un freno che ripete se stesso a ogni riga è rumore, e il rumore spegne i freni: è la lezione
+  // dei quattordici allarmi di fila scritta poche righe più su in sorvegliante.mjs.
+  const lenta = { id: "lenta-ripetuta", nome: "regex catastrofica", pattern: "(a+)+$", estensioni: [".mjs"] };
+  const riga = "a".repeat(24) + "!";
+  const aggiunte = [1, 2, 3, 4, 5].map((n) => ({ n, testo: riga }));
+  const r = sorveglia({
+    toccati: [{ file: "cervello/finto.mjs", aggiunte, contenuto: null }],
+    malattie: [lenta],
+    budgetMs: 50,
+  });
+  assert.equal(r.motivi.filter((x) => /lenta-ripetuta/.test(x)).length, 1);
+});
+
+prova("AR-858: col budget normale una malattia veloce NON viene lasciata indietro", () => {
+  // Il verso opposto: se il freno scattasse sempre, la guardia non cercherebbe più niente e il
+  // referto sarebbe pieno di «non ho finito» — un ⚪ che nessuno legge più.
+  const svelta = { id: "svelta-per-la-prova", nome: "normale", pattern: "vietato", estensioni: [".mjs"] };
+  const r = sorveglia({
+    toccati: [{ file: "cervello/finto.mjs", aggiunte: [{ n: 1, testo: "riga vietato qui" }], contenuto: null }],
+    malattie: [svelta],
+  });
+  assert.deepEqual(r.motivi.filter((x) => /svelta-per-la-prova/.test(x)), [], "il freno scatta su una malattia veloce");
+  assert.equal(r.voci.filter((v) => v.classe === "malattia-nuova").length, 1, "e la malattia veloce va comunque trovata");
+});
+
 
 let falliti = 0;
 for (const c of casi) {
