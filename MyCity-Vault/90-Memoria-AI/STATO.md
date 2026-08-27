@@ -1,6 +1,6 @@
 ---
 tipo: stato
-aggiornato: 2026-08-27 11:40
+aggiornato: 2026-08-27 18:20
 fonte: AD digitale (giro, cervello/giro.md)
 ---
 
@@ -36,6 +36,40 @@ tre controlli usano per capire se l'attivita' e' ferma.
 
 
 
+
+> 🧮 **27/8 18:20 — Il conto fermo dal 29 luglio, e il mio metro che ripeteva il difetto che stavo curando.**
+>
+> **In parole semplici.** C'e' un allarme che dice: «un controllo ha parlato dentro un tubo e
+> nessuno l'ha sentito». Il suo numero era fermo a 49 da due settimane, e il registro stesso
+> scriveva che il lavoro vero non era stato fatto: decidere una per una quali sono difetti e quali
+> sono rapporti che giustamente non fermano niente.
+>
+> **Per esempio.** Delle 49, ventidue seppelliscono un «non ho misurato»: l'attrezzo esce male
+> apposta per dire che il file che gli serve non c'e', e il giro lo legge come un via libera.
+> Diciassette seppelliscono un giudizio. Dieci sono rapporti veri, e stanno negli esenti col
+> perche' scritto. Tetto da 49 a 39, che e' il debito vero.
+>
+> **La cosa da ricordare.** Il conto l'ho sbagliato la prima volta nello stesso identico modo del
+> difetto che stavo riparando: il mio classificatore cercava `process.exit(1)` scritto cosi', e non
+> vedeva `process.exit(out.ok ? 0 : 1)` — la forma con cui otto attrezzi dicono il loro giudizio.
+> Avrebbe dichiarato innocue 23 istanze invece di 10. Un metro tarato sulla scrittura di ieri invece
+> che sul comportamento: parola per parola il difetto per cui quella scheda esiste. L'ho preso solo
+> perche' un nome stonava — fra i «rapporti informativi» c'era delta-gate, che ha cancello nel nome.
+>
+> **Poi il cancello mi ha fermato tre volte di fila, sempre su roba mia**, tutta nata col programma
+> di ieri che sposta le voci vecchie di questo file in archivio. Il foglio dei permessi era indietro
+> di uno script, e applicarlo avrebbe spento il programma appena nato. Scriveva nel vault senza
+> passare dal freno (50 scrittori grezzi contro un tetto di 49). E il caso peggiore — archivio
+> scritto, file vivo no, voci doppie — si dichiarava riuscito.
+>
+> **Due lezioni sul come, non sul cosa.** La prova che controlla l'ordine delle due scritture, quando
+> le ho spostate, non e' passata: ha detto CIECO. Un «non lo so» non e' mai un si'. E la prova nuova
+> me l'ha corretta il mondo: l'avevo montata su percorsi veri, passava, poi questo file e' sceso
+> sotto la soglia e lo stesso caso e' diventato rosso senza che il codice fosse cambiato. Riscritta
+> come funzione pura che riceve da fuori la risposta del mondo.
+>
+> **Non verificato da qui.** Niente ha girato in un giro vero: il server e' fermo. AR-375 resta
+> aperta apposta — la sua verifica e' dichiarata umana, e la parte nuova l'ho costruita io.
 
 > 🔬 **27/8 11:40 — Il metro di una prova diceva zero quando non aveva misurato.**
 >

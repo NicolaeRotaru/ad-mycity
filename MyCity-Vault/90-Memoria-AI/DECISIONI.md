@@ -4551,3 +4551,28 @@ posto — ma si vede subito, e l'errore va nel verso giusto.
 **Cosa serve da Nicola.** La firma sul merge. Restano in attesa, dal lotto prima, la scelta
 sulla forma del divieto di pubblicazione diretta (AR-833) e le sette prove in bash agganciate
 alla sintassi di ieri (AR-834).
+
+## 2026-08-27 18:20 — 🟡 Il triage di «esito-in-una-pipe»: 49 classificate, tetto a 39
+
+**Cosa.** Fatto il triage voce per voce che AR-375 chiedeva dal 29 luglio. Le 49 istanze
+dell'allarme «l'esito di un guardiano finisce in una pipe» sono classificate guardando cosa
+significa l'uscita di ogni attrezzo: 22 seppelliscono un ⚪ («non ho misurato»), 17 seppelliscono
+un verdetto, 10 sono rapporti informativi e stanno in `esenti` col perché scritto. Tetto 49 → 39,
+più il campo `controprova` che tiene onesto il metro.
+
+**Perché.** Finché il triage non c'era, 49 non voleva dire niente: dentro stavano sia gli allarmi
+zittiti sia i rapporti che giustamente non fermano nessuno. Un numero che nessuno può portare a
+zero si impara a ignorarlo.
+
+**Da ricordare.** Il conto l'ho sbagliato la prima volta nello stesso modo del difetto che stavo
+curando — classificatore tarato su `process.exit(1)` letterale, cieco su `process.exit(out.ok ? 0 : 1)`.
+Avrebbe dichiarato innocue 23 istanze invece di 10.
+
+**AR-375 resta APERTA**, ed è voluto: la sua verifica è dichiarata umana (AR-849), e la parte nuova
+l'ho costruita io — chi ha costruito non collauda.
+
+**Nello stesso lotto:** AR-847 chiusa (lo spostamento delle voci vecchie di STATO.md lo fa il giro,
+passa da `scriviTestoAtomico`, e dichiara il mezzo lavoro con uscita 2). Il foglio dei permessi
+rigenerato perché era indietro di uno script.
+
+**Colore.** 🟡 — codice della macchina su ramo, nessun deploy. PR #850.
