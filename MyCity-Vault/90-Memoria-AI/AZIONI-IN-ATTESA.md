@@ -23,7 +23,7 @@ Le card più nuove stanno in alto. Ogni card porta la data di nascita accanto al
 ---
 
 <!-- catalogo-invisibile-anon -->
-### 🔴 #179 — Apri il sito in finestra anonima e dimmi se vedi un prodotto · ⏳ accodata 2026-08-28 00:05
+### 🔴 #180 — Apri il sito in finestra anonima e dimmi se vedi un prodotto · ⏳ accodata 2026-08-28 00:05
 
 **In parole semplici.** La radiografia di stasera ha trovato un difetto che, se è vero anche sul
 sito pubblicato, spegne il negozio intero. Chi arriva senza aver fatto l'accesso non vede nessun
@@ -56,7 +56,7 @@ stasera.
 ---
 
 <!-- tre-chiavi-cancello-pubblicazione -->
-### 🔴 #180 — Metti tre chiavi su GitHub: il cancello che dovrebbe fermare una pubblicazione rotta oggi è finto · ⏳ accodata 2026-08-28 00:05
+### 🔴 #179 — Metti tre chiavi su GitHub: il cancello che dovrebbe fermare una pubblicazione rotta oggi è finto · ⏳ accodata 2026-08-28 00:05
 
 **In due righe.** Il sito viene pubblicato senza aspettare i controlli, perché il guardiano che
 dovrebbe fermarlo è spento. Per accenderlo servono tre chiavi che solo tu puoi mettere.

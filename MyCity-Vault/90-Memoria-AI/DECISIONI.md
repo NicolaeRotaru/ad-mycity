@@ -4606,8 +4606,8 @@ segreti.
 **Colore.** 🟢 l'analisi (sola lettura, nessuna modifica al marketplace). 🟡/🔴 tutte le
 riparazioni, non ancora scritte.
 
-**Accodato.** Card #179 (prova in finestra anonima — serve Nicola, io non raggiungo il sito
-pubblicato) e #180 (le tre chiavi Vercel nei segreti GitHub — sono segreti suoi).
+**Accodato.** Card #180 (prova in finestra anonima — serve Nicola, io non raggiungo il sito
+pubblicato) e #179 (le tre chiavi Vercel nei segreti GitHub — sono segreti suoi).
 
 **Cosa NON ho verificato.** Il sito pubblicato, in nessun punto. Nessun ordine vero, nessuna carta
 addebitata, nessun rimborso chiesto: i due bloccanti sui pagamenti sono letti fino in fondo nel
