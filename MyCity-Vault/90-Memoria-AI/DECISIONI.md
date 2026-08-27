@@ -4606,8 +4606,11 @@ segreti.
 **Colore.** 🟢 l'analisi (sola lettura, nessuna modifica al marketplace). 🟡/🔴 tutte le
 riparazioni, non ancora scritte.
 
-**Accodato.** Card #180 (prova in finestra anonima — serve Nicola, io non raggiungo il sito
-pubblicato) e #179 (le tre chiavi Vercel nei segreti GitHub — sono segreti suoi).
+**Accodato.** Una sola card: #180, la prova in finestra anonima (serve Nicola, io non raggiungo il
+sito pubblicato). Ne avevo scritta una seconda per le tre chiavi Vercel, e l'ho tolta: era un
+doppione della card #161 del 22 agosto, che chiede le stesse tre chiavi con gli stessi passi. L'ha
+trovato il guardiano della leggibilita', che conta le idee ripetute nei file che legge Nicola.
+Il bloccante della pubblicazione resta quindi appeso a una card ferma da cinque giorni.
 
 **Cosa NON ho verificato.** Il sito pubblicato, in nessun punto. Nessun ordine vero, nessuna carta
 addebitata, nessun rimborso chiesto: i due bloccanti sui pagamenti sono letti fino in fondo nel

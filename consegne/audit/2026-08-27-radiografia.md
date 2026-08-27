@@ -132,6 +132,9 @@ mia parola.
 **Le tre chiavi della pubblicazione le devi mettere tu**, perché sono segreti e
 stanno sul tuo GitHub: sono i permessi che fanno pubblicare il sito al cancello
 invece che a Vercel da solo. Senza quelle, il cancello resta finto per sempre.
+Non ti ho accodato una card nuova per questo: te le chiede già la card #161,
+ferma dal 22 agosto. Il bloccante era quindi già noto e già in attesa di firma —
+la radiografia lo conferma, non lo scopre.
 
 ## Cosa non ho verificato
 

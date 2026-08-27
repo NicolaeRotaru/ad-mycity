@@ -55,36 +55,6 @@ stasera.
 
 ---
 
-<!-- tre-chiavi-cancello-pubblicazione -->
-### 🔴 #179 — Metti tre chiavi su GitHub: il cancello che dovrebbe fermare una pubblicazione rotta oggi è finto · ⏳ accodata 2026-08-28 00:05
-
-**In due righe.** Il sito viene pubblicato senza aspettare i controlli, perché il guardiano che
-dovrebbe fermarlo è spento. Per accenderlo servono tre chiavi che solo tu puoi mettere.
-
-**In parole semplici.** Quando un lavoro entra nel codice buono, il sito viene pubblicato subito.
-Esiste un guardiano che dovrebbe bloccare la pubblicazione se i controlli sono rossi — lo chiamo
-cancello, cioè la sbarra che sta prima della strada. Quel cancello è spento, e si spegne da solo in
-silenzio. Gli mancano tre chiavi: al primo passo si accorge di non averle, si dichiara «non pronto»
-e salta tutto il resto, restando verde.
-
-**Cosa cambia per te.** Un errore che i controlli avrebbero preso arriva ai clienti. Facciamo un
-caso vero: entra una modifica che rompe il pulsante «Paga», i controlli lo vedono, ma il sito è già
-stato pubblicato dieci minuti prima. Chi prova a comprare in quei minuti non ci riesce e se ne va.
-Lo scopriamo da lui, non da noi. È uno dei quattro problemi più gravi di stasera.
-
-**Cosa devi fare.** Le tre chiavi le devi mettere tu, perché sono segreti del tuo account e da qui
-non ho il permesso di scriverli. Vai su GitHub, nel progetto del sito, e apri Settings → Secrets and
-variables → Actions. Aggiungi i tre valori che trovi nel tuo account Vercel: il gettone personale,
-l'identificativo dell'organizzazione e quello del progetto. Poi dimmelo.
-
-**Se va bene:** appena ci sono, provo la pubblicazione dal cancello su una modifica innocua. Se
-funziona ti propongo l'ultimo passo: togliere a Vercel il permesso di pubblicare da solo. Da lì in
-poi nessuna modifica rossa può più arrivare al sito. Quel passo lo firmi tu.
-
-**Cosa non ho verificato.** Non ho provato la pubblicazione dal cancello, perché senza le chiavi
-non parte. So che oggi non ferma niente. Non so ancora se, acceso, funziona al primo colpo. C'è un
-secondo guasto sulla stessa strada: il rilascio riapplica tutte le istruzioni del database, e la
-prima non è riapplicabile. Va sistemato prima della prova.
 <!-- parte-venditore-strada -->
 
 ### 🟡 #178 — Il pannello del negoziante ha quattordici voci di menù, e il tuo paletto dice «nessuna app nuova»: scegli quale delle due vale · ⏳ accodata 2026-08-26 21:40
